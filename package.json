@@ -1,0 +1,59 @@
+{
+  "name": "dream-wallet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "postinstall": "cd node_modules/sjcl || cd ../sjcl && ./configure --with-sha1 && make",
+    "start": "babel-node src/index.js",
+    "watch": "node_modules/.bin/npm-watch",
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile"
+  },
+  "watch": {
+    "compile": "src/**/*.js"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
+    ]
+  },
+  "author": "",
+  "license": "Unlicense",
+  "standard": {
+    "global": [
+      "fetch"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "npm-watch": "~0.1.8",
+    "standard": "~8.6.0"
+  },
+  "dependencies": {
+    "assert": "^1.4.1",
+    "bip39": "^2.2.0",
+    "bitcoinjs-lib": "^2.3.0",
+    "crypto": "0.0.3",
+    "data.either": "^1.5.0",
+    "data.maybe": "^1.2.2",
+    "data.task": "^3.1.1",
+    "futurize": "^1.2.0",
+    "immutable": "^3.8.1",
+    "immutable-ext": "git@github.com:pernas/immutable-ext.git",
+    "isomorphic-fetch": "^2.2.1",
+    "pretty-immutable": "^1.0.1",
+    "ramda": "^0.23.0",
+    "ramda-lens": "git@github.com:ramda/ramda-lens.git",
+    "redux": "^3.6.0",
+    "redux-actions": "^1.2.1",
+    "redux-immutable": "^3.1.0",
+    "redux-logger": "^2.8.1",
+    "redux-saga": "^0.14.3",
+    "sjcl": "1.0.3"
+  }
+}
