@@ -1,12 +1,4 @@
 
-# DreamWallet
+# dream-wallet
 
-Pure Blockchain Wallet API.
-
-## Immutable
-
-Immutable data structures API.
-
-```
-import { Wallet, Address, ... } from 'dream-wallet/lib/immutable'
-```
+Redux tools for handling a blockchain.info wallet
