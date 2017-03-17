@@ -7,7 +7,7 @@
     "postinstall": "cd node_modules/sjcl || cd ../sjcl && ./configure --with-sha1 && make",
     "start": "babel-node src/index.js",
     "watch": "node_modules/.bin/npm-watch",
-    "compile": "babel -d lib/ src/",
+    "compile": "babel --presets es2015,stage-2 -d lib/ src/",
     "prepublish": "npm run compile"
   },
   "watch": {
