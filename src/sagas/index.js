@@ -12,8 +12,9 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
     try {
       const context = action.payload
       // we can handle api errors here
-      const data = yield call(api.fetchBlockchainData, context, { n: 0 })
+      const data = yield call(api.fetchBlockchainData, context, { n: 50 })
       yield put(A.loadWalletData(data))
+      yield put(A.loadContextTxs(data))
     } catch (error) {
       // probably there is no context (blank wallet)
     }
