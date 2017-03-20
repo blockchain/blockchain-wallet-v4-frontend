@@ -51,7 +51,11 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   const saveWalletTask = (state) =>
     promiseToTask(ApiPromise.saveWallet)(WCrypto.encryptState(state))
 
+  const createWalletTask = email => state =>
+    promiseToTask(ApiPromise.createWallet)(assoc('email', email, WCrypto.encryptState(state)))
+
   const saveWallet = compose(taskToPromise, saveWalletTask)
+  const createWallet = email => state => compose(taskToPromise, createWalletTask(email))(state)
 
   // ////////////////////////////////////////////////////////////////
   // export const get = compose(taskToPromise, getTask)
@@ -63,7 +67,8 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
     getWallet: future(getWallet),
     fetchWallet: future(fetchWallet),
     downloadWallet: future(downloadWallet),
-    saveWallet: future(saveWallet)
+    saveWallet: future(saveWallet),
+    createWallet: future(createWallet)
   }
 }
 export default createWalletApi

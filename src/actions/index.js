@@ -16,6 +16,8 @@ export const CONTEXT_TXS_CLEAR = '@v3.CONTEXT_TXS_CLEAR'
 export const SYNC_START = '@v3.SYNC_START'
 export const SYNC_SUCCESS = '@v3.SYNC_SUCCESS'
 export const SYNC_ERROR = '@v3.SYNC_ERROR'
+export const WALLET_NEW = '@v3.WALLET_NEW'
+export const WALLET_NEW_SET = '@v3.WALLET_NEW_SET'
 
 export const addAddress = (address, secondPassword) =>
   ({ type: ADDRESS_ADD, payload: {address, secondPassword} })
@@ -49,3 +51,7 @@ export const syncSuccess = (checksum) =>
   ({ type: SYNC_SUCCESS, payload: checksum })
 export const syncError = (error) =>
   ({ type: SYNC_ERROR, payload: error, error: true })
+export const newWallet = (payload) => // {password, email}
+  ({ type: WALLET_NEW, payload: payload})
+export const setNewWallet = (payload) =>  // {guid, sharedKey, password, mnemonic, email}
+  ({ type: WALLET_NEW_SET, payload: payload})

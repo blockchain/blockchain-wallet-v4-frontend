@@ -82,9 +82,16 @@ const createApi = ({
     var data = { format: 'json', resend_code: null };
     return request('GET', 'wallet/' + guid, data, headers)
   }
-  // saveWallet :: () -> Promise JSON
+  // saveWallet :: (data) -> Promise JSON
   const saveWallet = (data) => {
     const config = { method: 'update', format: 'plain' }
+    return request('POST', 'wallet', merge(config, data))
+      .then(() => data.checksum)
+  }
+  // createWallet :: (data) -> Promise JSON
+  // TODO :: merge save and createWallet (method must be a parameter)
+  const createWallet = (data) => {
+    const config = { method: 'insert', format: 'plain' }
     return request('POST', 'wallet', merge(config, data))
       .then(() => data.checksum)
   }
@@ -120,14 +127,27 @@ const createApi = ({
     return request('GET', 'wallet/poll-for-session-guid', data, headers)
   }
 
+  const generateUUIDs = (count) => {
+    var data = { format: 'json', n: count };
+    var extractUUIDs = function (data) {
+      if (!data.uuids || data.uuids.length !== count) {
+        return Promise.reject('Could not generate uuids');
+      }
+      return data.uuids;
+    };
+    return request('GET', 'uuid-generator', data).then(extractUUIDs);
+  }
+
   return {
     fetchWalletWithSharedKey: future(fetchWalletWithSharedKey),
     saveWallet: future(saveWallet),
+    createWallet: future(createWallet),
     fetchBlockchainData: future(fetchBlockchainData),
     obtainSessionToken: future(obtainSessionToken),
     establishSession: future(establishSession),
     pollForSessioGUID: future(pollForSessioGUID),
-    fetchWalletWithSession: future(fetchWalletWithSession)
+    fetchWalletWithSession: future(fetchWalletWithSession),
+    generateUUIDs: future(generateUUIDs)
   }
 }
 

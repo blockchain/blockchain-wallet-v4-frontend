@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "assert": "^1.4.1",
-    "bip39": "^2.2.0",
+    "bip39": "^2.3.0",
     "bitcoinjs-lib": "^2.3.0",
     "crypto": "0.0.3",
     "data.either": "^1.5.0",

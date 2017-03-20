@@ -2,6 +2,7 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 import { getTransactions } from '../selectors'
 import * as A from '../actions'
+import BIP39 from 'bip39'
 
 
 // api should be promified api (no task for saga)
@@ -27,11 +28,20 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
     // we can handle api errors here
     const data = yield call(api.fetchBlockchainData, context, { n: 50, offset: currentTxs.size })
     yield put(A.loadContextTxs(data))
-
   }
+
+  const walletSignupSaga = function* (action) {
+    const { password, email } = action.payload
+    // TODO :: control this api failure
+    const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+    const mnemonic = BIP39.generateMnemonic();
+    yield put(A.setNewWallet({guid, sharedKey, mnemonic, password, email}))
+  }
+
 
   return function* () {
     yield takeEvery(A.WALLET_DATA_REQUEST, walletDataLoadSaga)
     yield takeEvery(A.TXS_LOAD_REQUEST, txsLoadRequestSaga)
+    yield takeEvery(A.WALLET_NEW, walletSignupSaga)
   }
 }

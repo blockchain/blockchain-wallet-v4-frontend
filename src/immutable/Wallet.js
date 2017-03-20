@@ -98,7 +98,7 @@ export const isValidSecondPwd = curry((password, wallet) => {
     return storedHash === computedHash
   } else {
     // there is no second password active
-    return false
+    return true
   }
 })
 

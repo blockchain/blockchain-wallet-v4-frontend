@@ -5,7 +5,8 @@ import { Wallet, WalletUtils } from '../immutable'
 import { encryptSecPass } from '../WalletCrypto'
 import { Map } from 'immutable-ext'
 import { combineReducers } from 'redux-immutable'
-
+import BIP39 from 'bip39'
+import Bitcoin from 'bitcoinjs-lib'
 
 const emptyWallet = {
   "tx_notes": {},
@@ -69,6 +70,37 @@ export const walletImmutable = (state = WALLET_INITIAL_STATE, action) => {
       if(!view(myAddressLens, state)) { return state }
       return set(compose(myAddressLens, Lens.label), label ,state)
     }
+    case A.WALLET_NEW_SET: { // wallet-signup
+      // TODO :: all the derivations must be abstracted
+      // data
+      const {guid, sharedKey, mnemonic, password} = action.payload
+      const defaultName = 'My Bitcoin Wallet'
+      const entropy = BIP39.mnemonicToEntropy(mnemonic)
+      const seed = BIP39.mnemonicToSeed(mnemonic)
+      BIP39.entropyToMnemonic
+      // TODO :: consider NETWORK (testnet, mainnet)
+      const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed)
+      const index = 0;
+      const accNode = masterNode.deriveHardened(44).deriveHardened(0).deriveHardened(index)
+      const xpriv = accNode.toBase58()
+      const xpub = accNode.neutered().toBase58()
+      const receiveNode = accNode.derive(0)
+      const changeNode = accNode.derive(1)
+      const receivexpub = receiveNode.neutered().toBase58()
+      const changexpub = changeNode.neutered().toBase58()
+      // setters
+      const accLens = compose(Lens.hdwallets, Lens.first, Lens.accounts, Lens.first)
+      const setReceive = set(compose(accLens, Lens.cache, Lens.receiveAccount), receivexpub)
+      const setChange = set(compose(accLens, Lens.cache, Lens.changeAccount), changexpub)
+      const setxpriv = set(compose(accLens, Lens.xpriv), xpriv)
+      const setxpub = set(compose(accLens, Lens.xpub), xpub)
+      const setName = set(compose(accLens, Lens.label), defaultName)
+      const setSeed = set(compose(Lens.hdwallets, Lens.first, Lens.seedHex), entropy)
+      const setGuid = set(Lens.guid, guid)
+      const setSharedKey = set(Lens.sharedKey, sharedKey)
+      const setAll = compose(setReceive, setChange, setxpriv, setxpub, setName, setSeed, setSharedKey, setGuid)
+      return setAll(WALLET_INITIAL_STATE)
+    }
     default:
       return state
   }
@@ -83,6 +115,9 @@ export const pbkdf2_iterations = (state = 5000, action) => {
     }
     case A.WALLET_LOAD: {
       return action.payload.get('pbkdf2_iterations')
+    }
+    case A.WALLET_NEW_SET: {
+      return 5000 // intiial-iterations for new wallets
     }
     default:
       return state
@@ -101,6 +136,10 @@ export const password = (state = '', action) => {
     case A.MAIN_PASSWORD_CHANGE: {
       return action.payload
     }
+    case A.WALLET_NEW_SET: {
+      const { password } = action.payload
+      return password
+    }
     default:
       return state
   }
@@ -114,6 +153,9 @@ export const version = (state = 3, action) => {
     }
     case A.WALLET_LOAD: {
       return action.payload.get('version')
+    }
+    case A.WALLET_NEW_SET: {
+      return 3
     }
     default:
       return state
@@ -132,6 +174,9 @@ export const payload_checksum = (state = '', action) => {
     case A.PAYLOAD_CHECKSUM_CHANGE: {
       return action.payload
     }
+    case A.WALLET_NEW_SET: {
+      return ''
+    }
     default:
       return state
   }
@@ -145,6 +190,10 @@ export const language = (state = 'en', action) => {
     }
     case A.WALLET_LOAD: {
       return action.payload.get('language')
+    }
+    case A.WALLET_NEW_SET: {
+      const { language } = action.payload
+      return language ? language : 'en'
     }
     default:
       return state
@@ -161,6 +210,9 @@ export const sync_pubkeys = (state = false, action) => {
     case A.WALLET_LOAD: {
       return action.payload.get('sync_pubkeys')
     }
+    case A.WALLET_NEW_SET: {
+      return false
+    }
     default:
       return state
   }
@@ -174,6 +226,9 @@ export const war_checksum = (state = '', action) => {
     }
     case A.WALLET_LOAD: {
       return action.payload.get('war_checksum')
+    }
+    case A.WALLET_NEW_SET: {
+      return ''
     }
     default:
       return state
@@ -189,6 +244,9 @@ export const auth_type = (state = 0, action) => {
     case A.WALLET_LOAD: {
       return action.payload.get('auth_type') || 0
     }
+    case A.WALLET_NEW_SET: {
+      return 0
+    }
     default:
       return state
   }
@@ -202,6 +260,9 @@ export const real_auth_type = (state = 0, action) => {
     }
     case A.WALLET_LOAD: {
       return action.payload.get('real_auth_type') || 0
+    }
+    case A.WALLET_NEW_SET: {
+      return 0
     }
     default:
       return state
