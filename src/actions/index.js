@@ -17,6 +17,8 @@ export const SYNC_START = '@v3.SYNC_START'
 export const SYNC_SUCCESS = '@v3.SYNC_SUCCESS'
 export const SYNC_ERROR = '@v3.SYNC_ERROR'
 export const WALLET_NEW = '@v3.WALLET_NEW'
+export const WALLET_NEW_FAILURE = '@v3.WALLET_NEW_FAILURE'
+export const WALLET_NEW_SUCCESS = '@v3.WALLET_NEW_SUCCESS'
 export const WALLET_NEW_SET = '@v3.WALLET_NEW_SET'
 
 export const addAddress = (address, secondPassword) =>
@@ -55,3 +57,7 @@ export const newWallet = (payload) => // {password, email}
   ({ type: WALLET_NEW, payload: payload})
 export const setNewWallet = (payload) =>  // {guid, sharedKey, password, mnemonic, email}
   ({ type: WALLET_NEW_SET, payload: payload})
+export const newWalletSuccess = () =>
+  ({ type: WALLET_NEW_SUCCESS})
+export const newWalletFailure = (error) =>
+  ({ type: WALLET_NEW_FAILURE, payload: error})

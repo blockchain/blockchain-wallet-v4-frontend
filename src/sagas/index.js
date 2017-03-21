@@ -36,6 +36,7 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const mnemonic = BIP39.generateMnemonic();
     yield put(A.setNewWallet({guid, sharedKey, mnemonic, password, email}))
+    yield put(A.newWalletSuccess())
   }
 
 
