@@ -138,6 +138,18 @@ const createApi = ({
     return request('GET', 'uuid-generator', data).then(extractUUIDs);
   }
 
+  // createPinEntry :: HEXString(32Bytes) -> HEXString(32Bytes) -> String -> Promise Response
+  const createPinEntry = (key, value, pin) => {
+    const data = { format: 'json', method: 'put', value, pin, key }
+    return request('POST', 'pin-store', data)
+  }
+
+  // getPinValue :: HEXString(32Bytes) -> String -> Promise Response
+  const getPinValue = (key, pin) => {
+    const data = { format: 'json', method: 'get', pin, key }
+    return request('GET', 'pin-store', data)
+  }
+
   return {
     fetchWalletWithSharedKey: future(fetchWalletWithSharedKey),
     saveWallet: future(saveWallet),
@@ -147,7 +159,9 @@ const createApi = ({
     establishSession: future(establishSession),
     pollForSessioGUID: future(pollForSessioGUID),
     fetchWalletWithSession: future(fetchWalletWithSession),
-    generateUUIDs: future(generateUUIDs)
+    generateUUIDs: future(generateUUIDs),
+    createPinEntry: future(createPinEntry),
+    getPinValue: future(getPinValue)
   }
 }
 
