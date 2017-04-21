@@ -8,6 +8,7 @@ const { expect } = chai
 import * as WalletUtil from '../../src/immutable/Wallet'
 import Address, * as AddressUtil from '../../src/immutable/Address'
 import * as crypto from '../../src/WalletCrypto'
+import * as util from '../../src/util'
 
 const walletFixture = require('../_fixtures/wallet.v3')
 const walletFixtureSecpass = require('../_fixtures/wallet.v3-secpass')
@@ -40,31 +41,31 @@ describe('Wallet', () => {
     })
 
     it('should select addresses', () => {
-      expect(WalletUtil.selectAddresses(wallet)).to.deep.equal(walletFixture.keys)
+      let selectAddressesJS = R.compose(util.iToJS, R.map(AddressUtil.toJS), WalletUtil.selectAddresses)
+      expect(selectAddressesJS(wallet)).to.deep.equal(walletFixture.keys)
     })
 
     it('should select if is double encrypted', () => {
-      let doubleEnc = WalletUtil.fromJS({ double_encryption: true })
       expect(WalletUtil.isDoubleEncrypted(wallet)).to.equal(false)
-      expect(WalletUtil.isDoubleEncrypted(doubleEnc)).to.equal(true)
+      expect(WalletUtil.isDoubleEncrypted(walletSecpass)).to.equal(true)
     })
   })
 
   describe('addAddress', () => {
     it('should add an unencrypted address', () => {
-      let address = { priv: '5abc' }
+      let address = new Address({ priv: '5abc' })
       let withNewAddress = WalletUtil.addAddress(wallet, address, null)
       let addresses = WalletUtil.selectAddresses(withNewAddress)
-      expect(addresses.length).to.equal(walletFixture.keys.length + 1)
-      expect(R.last(addresses)).to.deep.equal(address)
+      expect(addresses.size).to.equal(walletFixture.keys.length + 1)
+      expect(AddressUtil.toJS(addresses.last())).to.deep.equal(AddressUtil.toJS(address))
     })
 
     it('should add a double encrypted address', () => {
-      let address = new Address({ priv: '5abc' })
+      let address = new Address({ priv: '5abc', addr: '1asdf' })
       let withNewAddress = WalletUtil.addAddress(walletSecpass, address, 'secret')
       let as = WalletUtil.selectAddresses(withNewAddress)
-      expect(as.length).to.equal(walletFixture.keys.length + 1)
-      expect(AddressUtil.selectPriv(R.last(as))).to.equal('enc<5abc>')
+      expect(as.size).to.equal(walletFixture.keys.length + 1)
+      expect(AddressUtil.selectPriv(as.last())).to.equal('enc<5abc>')
     })
   })
 
@@ -86,10 +87,13 @@ describe('Wallet', () => {
     })
   })
 
-  describe.skip('encrypt', () => {
+  describe('encrypt', () => {
     it('should encrypt', () => {
       let encrypted = WalletUtil.encrypt('secret', wallet).value
-      expect(WalletUtil.toJS(encrypted)).to.deep.equal(walletFixtureSecpass)
+      let [before, after] = [wallet, encrypted].map(R.compose(util.iToJS, WalletUtil.selectAddresses))
+      let enc = crypto.encryptSecPass(null, null, null)
+      let success = R.zip(before, after).every(([b, a]) => enc(AddressUtil.selectPriv(b)) === AddressUtil.selectPriv(a))
+      expect(success).to.equal(true)
     })
   })
 })

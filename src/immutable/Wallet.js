@@ -1,12 +1,12 @@
-import { Map, fromJS as iFromJS } from 'immutable'
-// import Either from 'data.either'
+import { Map, fromJS as iFromJS } from 'immutable-ext'
+import Either from 'data.either'
 import * as R from 'ramda'
 const { compose, over, view, curry } = R
-// import { traversed, traverseOf } from 'ramda-lens'
-import * as Lens from '../lens'
+import { traversed, traverseOf } from 'ramda-lens'
+import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
-import * as AddressUtil from './Address'
-import { error, typeGuard, iRename, iToJS } from '../util'
+import Address, * as AddressUtil from './Address'
+import { typeLens, typeError, iRename } from '../util'
 
 /* Wallet :: {
   guid :: String
@@ -17,7 +17,7 @@ import { error, typeGuard, iRename, iToJS } from '../util'
   address_book :: [{ [addr]: String }]
   tx_notes :: [{ tx: String, note: String }]
   tx_names :: ???
-  addresses :: [Address]
+  addresses :: {Address}
   hd_wallets :: [HDWallet]
 } */
 
@@ -25,39 +25,43 @@ function Wallet (x) {
   this.__internal = Map(x)
 }
 
+export const lens = typeLens(Wallet)
+
+export const guid = compose(lens, iLensProp('guid'))
+export const sharedKey = compose(lens, iLensProp('sharedKey'))
+export const doubleEncryption = compose(lens, iLensProp('double_encryption'))
+export const options = compose(lens, iLensProp('options'))
+export const pbkdf2Iterations = compose(options, iLensProp('pbkdf2_iterations'))
+export const addresses = compose(lens, iLensProp('addresses'))
+export const dpasswordhash = compose(lens, iLensProp('dpasswordhash'))
+
+export const selectGuid = view(guid)
+export const selectIterations = view(pbkdf2Iterations)
+export const selectAddresses = compose((as) => as.toList(), view(addresses))
+export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
+
 export const fromJS = (x) => {
-  return new Wallet(iRename('keys', 'addresses', iFromJS(x)))
+  let addressesMapCons = over(addresses, (as) => Map(as.map(a => [a.get('addr'), new Address(a)])))
+  return addressesMapCons(new Wallet(iRename('keys', 'addresses', iFromJS(x))))
 }
 
 export const toJS = (wallet) => {
   if (R.is(Wallet, wallet)) {
-    return iRename('addresses', 'keys', wallet.__internal).toJS()
+    let selectAddressesJS = compose(R.map(AddressUtil.toJS), selectAddresses)
+    let destructAddressses = R.set(addresses, selectAddressesJS(wallet))
+    return iRename('addresses', 'keys', destructAddressses(wallet).__internal).toJS()
   } else {
-    error(new TypeError('Expected Wallet'))
+    throw typeError(Wallet, wallet)
   }
 }
-
-export const select = typeGuard(Wallet,
-  (lens, wallet) => view(lens, wallet.__internal))
-
-export const map = typeGuard(Wallet,
-  (f, wallet) => new Wallet(f(wallet.__internal)))
-
-export const guid = Lens.iLensProp('guid')
-export const addresses = Lens.iLensProp('addresses')
-
-export const selectGuid = select(guid)
-export const selectIterations = select(compose(Lens.options, Lens.pbkdf2Iterations))
-export const selectAddresses = compose(iToJS, select(addresses))
-export const isDoubleEncrypted = compose(Boolean, select(Lens.doubleEncryption))
 
 // isValidSecondPwd :: String -> Wallet -> Bool
 export const isValidSecondPwd = curry((password, wallet) => {
   if (isDoubleEncrypted(wallet)) {
-    const iterations = selectIterations(wallet)
-    const sharedKey = select(Lens.sharedKey, wallet)
-    const storedHash = select(Lens.dpasswordhash, wallet)
-    const computedHash = crypto.hashNTimes(iterations, R.concat(sharedKey, password)).toString('hex')
+    let iter = selectIterations(wallet)
+    let sk = view(sharedKey, wallet)
+    let storedHash = view(dpasswordhash, wallet)
+    let computedHash = crypto.hashNTimes(iter, R.concat(sk, password)).toString('hex')
     return storedHash === computedHash
   } else {
     return true
@@ -67,8 +71,9 @@ export const isValidSecondPwd = curry((password, wallet) => {
 // addAddress :: Wallet -> Address -> String -> Wallet
 export const addAddress = curry((wallet, address, password) => {
   let it = selectIterations(wallet)
-  let sk = select(Lens.sharedKey, wallet)
-  let append = (w, a) => map(over(Lens.addresses, R.flip(R.concat)(a)), w)
+  let sk = view(sharedKey, wallet)
+  let set = curry((a, as) => as.set(AddressUtil.selectAddr(a), a))
+  let append = (w, a) => over(addresses, set(a), w)
   if (!isDoubleEncrypted(wallet)) {
     return append(wallet, address)
   } else if (isValidSecondPwd(password, wallet)) {
@@ -78,37 +83,30 @@ export const addAddress = curry((wallet, address, password) => {
   }
 })
 
-// /////////////////////////////////////////////////////////////////////////////
-// second password support
-// /////////////////////////////////////////////////////////////////////////////
-
-// check that example to understand traverse:
-// https://github.com/ramda/ramda-lens/commit/adb3ef830ef65d3b252e8c9b86b9659e9698cdba#diff-c1129c8b045390789fa8ff62f2c6b4a9R88
-// cipher :: (str => str) -> Wallet -> Either error Wallet
-// export const cipher = curry((f, wallet) => {
-//   const trAddr = traverseOf(compose(R.lensProp('addresses'), traversed, R.lensProp('priv')), Either.of, f)
-//   // const traSeed = traverseOf(compose(Lens.hdwallets, traversed, Lens.seedHex), Either.of, f)
-//   // const traXpriv = traverseOf(compose(Lens.hdwallets, traversed, Lens.accounts, traversed, Lens.xpriv), Either.of, f)
-//   return Either.Right(wallet.__internal.toJS()).chain(trAddr).map(x => new Wallet(x))
-//   // return Either.Right(wallet).chain(trAddr).chain(traSeed).chain(traXpriv)
-// })
+// cipher :: (String -> String) -> Wallet -> Either error Wallet
+export const cipher = curry((f, wallet) => {
+  const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), Either.of, f)
+  // const traSeed = traverseOf(compose(Lens.hdwallets, traversed, Lens.seedHex), Either.of, f)
+  // const traXpriv = traverseOf(compose(Lens.hdwallets, traversed, Lens.accounts, traversed, Lens.xpriv), Either.of, f)
+  return Either.Right(wallet).chain(trAddr) // .chain(traSeed).chain(traXpriv)
+})
 
 // encrypt :: String -> Wallet -> Either error Wallet
-// export const encrypt = curry((password, wallet) => {
-//   if (isDoubleEncrypted(wallet)) {
-//     return Either.Right(wallet)
-//   } else {
-//     let iterations = selectIterations(wallet)
-//     let sharedKey = select(Lens.sharedKey, wallet)
-//     let enc = Either.try(crypto.encryptSecPass(iterations, sharedKey, password))
-//     let hash = crypto.hashNTimes(iterations, R.concat(sharedKey, password)).toString('hex')
-//
-//     let setFlag = map(over(Lens.doubleEncryption, () => true))
-//     let setHash = map(over(Lens.dpasswordhash, () => hash))
-//
-//     return cipher(enc, wallet).map(compose(setHash, setFlag))
-//   }
-// })
+export const encrypt = curry((password, wallet) => {
+  if (isDoubleEncrypted(wallet)) {
+    return Either.Right(wallet)
+  } else {
+    let iter = selectIterations(wallet)
+    let sk = view(sharedKey, wallet)
+    let enc = Either.try(crypto.encryptSecPass(iter, sk, password))
+    let hash = crypto.hashNTimes(iter, R.concat(sk, password)).toString('hex')
+
+    let setFlag = over(doubleEncryption, () => true)
+    let setHash = over(dpasswordhash, () => hash)
+
+    return cipher(enc, wallet).map(compose(setHash, setFlag))
+  }
+})
 
 // const checkFailure = str => str === '' ? Either.Left('DECRYPT_FAILURE') : Either.Right(str)
 
