@@ -18,7 +18,7 @@ describe('Wallet', () => {
   const wallet = WalletUtil.fromJS(walletFixture)
   const walletSecpass = WalletUtil.fromJS(walletFixtureSecpass)
 
-  crypto.encryptSecPass = R.curry((a, b, c, s) => `enc<${s}>`)
+  crypto.encryptSecPass = R.curry((sk, iter, pw, str) => `enc<${str}>`)
 
   describe('toJS', () => {
     it('should return the correct object', () => {
@@ -94,6 +94,19 @@ describe('Wallet', () => {
       let enc = crypto.encryptSecPass(null, null, null)
       let success = R.zip(before, after).every(([b, a]) => enc(AddressUtil.selectPriv(b)) === AddressUtil.selectPriv(a))
       expect(success).to.equal(true)
+    })
+  })
+
+  describe('decrypt', () => {
+    it('should decrypt', () => {
+      let decrypted = WalletUtil.decrypt('secret', walletSecpass).value
+      expect(WalletUtil.toJS(decrypted)).to.deep.equal(walletFixture)
+    })
+
+    it('should fail when given an incorrect password', () => {
+      let decrypted = WalletUtil.decrypt('wrong', walletSecpass).value
+      expect(R.is(Error, decrypted)).to.equal(true)
+      expect(decrypted.message).to.equal('INVALID_SECOND_PASSWORD')
     })
   })
 })

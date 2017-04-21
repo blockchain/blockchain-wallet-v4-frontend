@@ -26,14 +26,21 @@ function Wallet (x) {
 }
 
 export const lens = typeLens(Wallet)
+const defProp = (prop) => compose(lens, iLensProp(prop))
 
-export const guid = compose(lens, iLensProp('guid'))
-export const sharedKey = compose(lens, iLensProp('sharedKey'))
-export const doubleEncryption = compose(lens, iLensProp('double_encryption'))
-export const options = compose(lens, iLensProp('options'))
+export const guid = defProp('guid')
+export const sharedKey = defProp('sharedKey')
+export const doubleEncryption = defProp('double_encryption')
+export const options = defProp('options')
 export const pbkdf2Iterations = compose(options, iLensProp('pbkdf2_iterations'))
-export const addresses = compose(lens, iLensProp('addresses'))
-export const dpasswordhash = compose(lens, iLensProp('dpasswordhash'))
+export const addresses = defProp('addresses')
+export const dpasswordhash = defProp('dpasswordhash')
+
+// HDWallet
+export const hdWallets = defProp('hd_wallets')
+export const seedHex = iLensProp('seed_hex')
+export const accounts = iLensProp('accounts')
+export const xpriv = iLensProp('xpriv')
 
 export const selectGuid = view(guid)
 export const selectIterations = view(pbkdf2Iterations)
@@ -86,9 +93,9 @@ export const addAddress = curry((wallet, address, password) => {
 // cipher :: (String -> String) -> Wallet -> Either error Wallet
 export const cipher = curry((f, wallet) => {
   const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), Either.of, f)
-  // const traSeed = traverseOf(compose(Lens.hdwallets, traversed, Lens.seedHex), Either.of, f)
-  // const traXpriv = traverseOf(compose(Lens.hdwallets, traversed, Lens.accounts, traversed, Lens.xpriv), Either.of, f)
-  return Either.Right(wallet).chain(trAddr) // .chain(traSeed).chain(traXpriv)
+  const trSeed = traverseOf(compose(hdWallets, traversed, seedHex), Either.of, f)
+  const trXpriv = traverseOf(compose(hdWallets, traversed, accounts, traversed, xpriv), Either.of, f)
+  return Either.Right(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
 })
 
 // encrypt :: String -> Wallet -> Either error Wallet
@@ -108,26 +115,30 @@ export const encrypt = curry((password, wallet) => {
   }
 })
 
-// const checkFailure = str => str === '' ? Either.Left('DECRYPT_FAILURE') : Either.Right(str)
+// decrypt :: String -> Wallet -> Either error Wallet
+export const decrypt = curry((password, wallet) => {
+  if (isDoubleEncrypted(wallet)) {
+    let invalidError = new Error('INVALID_SECOND_PASSWORD')
+    let decryptError = new Error('DECRYPT_FAILURE')
 
-// decrypt :: str -> Wallet -> Either error Wallet
-// export const decrypt = curry((password, wallet) => {
-//   if (view(Lens.doubleEncryption, wallet)) {
-//     // this is not supposed to be used for error handling.
-//     // But we should notify the action dispatcher that he did something wrong
-//     if (!isValidSecondPwd(password, wallet)) {
-//       throw new Error('INVALID_SECOND_PASSWORD')
-//     }
-//     const iterations = view(compose(Lens.options, Lens.pbkdf2Iterations), wallet)
-//     const sharedKey = view(Lens.sharedKey, wallet)
-//     const tryDec = Either.try(decryptSecPass(sharedKey, iterations, password))
-//     const dec = msg => tryDec(msg).chain(checkFailure)
-//     const setFlag = over(Lens.doubleEncryption, () => false)
-//     const setHash = over(Lens.dpasswordhash, () => null)
-//     return cipher(dec, wallet).map(compose(setHash, setFlag))
-//   } else {
-//     return Either.Right(wallet)
-//   }
-// })
+    if (!isValidSecondPwd(password, wallet)) {
+      return Either.Left(invalidError)
+    }
+
+    let iter = selectIterations(wallet)
+    let sk = view(sharedKey, wallet)
+
+    let tryDec = Either.try(crypto.decryptSecPass(sk, iter, password))
+    let checkFailure = (str) => str === '' ? Either.Left(decryptError) : Either.Right(str)
+    let dec = (msg) => tryDec(msg).chain(checkFailure)
+
+    let setFlag = over(doubleEncryption, () => false)
+    let setHash = over(dpasswordhash, () => null)
+
+    return cipher(dec, wallet).map(compose(setHash, setFlag))
+  } else {
+    return Either.Right(wallet)
+  }
+})
 
 export default Wallet
