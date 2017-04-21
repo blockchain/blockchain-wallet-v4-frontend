@@ -20,6 +20,10 @@ export const addr = define('addr')
 export const selectPriv = R.view(priv)
 export const selectAddr = R.view(addr)
 
+export const fromJS = (x) => {
+  return new Address(x)
+}
+
 export const toJS = R.pipe(guard, (address) => {
   return address.__internal.toJS()
 })

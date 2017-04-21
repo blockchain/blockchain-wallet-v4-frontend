@@ -5,8 +5,8 @@ const { compose, over, view, curry } = R
 import { traversed, traverseOf } from 'ramda-lens'
 import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
-import Address, * as AddressUtil from './Address'
-import HDWallet, * as HDWalletUtil from './HDWallet'
+import * as AddressUtil from './Address'
+import * as HDWalletUtil from './HDWallet'
 import { typeDef, iRename } from '../util'
 
 /* Wallet :: {
@@ -45,7 +45,7 @@ export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
 export const fromJS = (x) => {
-  let addressesMapCons = over(addresses, (as) => Map(as.map(a => [a.get('addr'), new Address(a)])))
+  let addressesMapCons = over(addresses, (as) => Map(as.map(a => [a.get('addr'), AddressUtil.fromJS(a)])))
   let hdWalletListCons = over(hdWallets, (xs) => List(xs.map(HDWalletUtil.fromJS)))
   let walletCons = compose(hdWalletListCons, addressesMapCons)
   return walletCons(new Wallet(iRename('keys', 'addresses', iFromJS(x))))
