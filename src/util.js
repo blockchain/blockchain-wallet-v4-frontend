@@ -1,4 +1,5 @@
 import { is, curry, compose, prop, lens } from 'ramda'
+import { iLensProp } from './lens'
 
 export const error = (e) => { throw e }
 
@@ -15,6 +16,8 @@ export const typeLens = (Type) => lens(
   compose(prop('__internal'), typeGuard(Type)),
   (val) => new Type(val)
 )
+
+export const defineLensProps = curry((lens, prop) => compose(lens, iLensProp(prop)))
 
 export const iRename = (from, to, i) => i.set(to, i.get(from)).delete(from)
 

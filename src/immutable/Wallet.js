@@ -1,4 +1,4 @@
-import { Map, fromJS as iFromJS } from 'immutable-ext'
+import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import Either from 'data.either'
 import * as R from 'ramda'
 const { compose, over, view, curry } = R
@@ -6,7 +6,8 @@ import { traversed, traverseOf } from 'ramda-lens'
 import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
 import Address, * as AddressUtil from './Address'
-import { typeLens, typeError, iRename } from '../util'
+import HDWallet, * as HDWalletUtil from './HDWallet'
+import { typeLens, typeGuard, defineLensProps, iRename } from '../util'
 
 /* Wallet :: {
   guid :: String
@@ -25,42 +26,43 @@ function Wallet (x) {
   this.__internal = Map(x)
 }
 
-export const lens = typeLens(Wallet)
-const defProp = (prop) => compose(lens, iLensProp(prop))
+const lens = typeLens(Wallet)
+const guard = typeGuard(Wallet)
+const define = defineLensProps(lens)
 
-export const guid = defProp('guid')
-export const sharedKey = defProp('sharedKey')
-export const doubleEncryption = defProp('double_encryption')
-export const options = defProp('options')
+export const guid = define('guid')
+export const sharedKey = define('sharedKey')
+export const doubleEncryption = define('double_encryption')
+export const options = define('options')
 export const pbkdf2Iterations = compose(options, iLensProp('pbkdf2_iterations'))
-export const addresses = defProp('addresses')
-export const dpasswordhash = defProp('dpasswordhash')
-
-// HDWallet
-export const hdWallets = defProp('hd_wallets')
-export const seedHex = iLensProp('seed_hex')
-export const accounts = iLensProp('accounts')
-export const xpriv = iLensProp('xpriv')
+export const addresses = define('addresses')
+export const dpasswordhash = define('dpasswordhash')
+export const hdWallets = define('hd_wallets')
 
 export const selectGuid = view(guid)
 export const selectIterations = view(pbkdf2Iterations)
 export const selectAddresses = compose((as) => as.toList(), view(addresses))
+export const selectHdWallets = view(hdWallets)
+export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
 export const fromJS = (x) => {
   let addressesMapCons = over(addresses, (as) => Map(as.map(a => [a.get('addr'), new Address(a)])))
-  return addressesMapCons(new Wallet(iRename('keys', 'addresses', iFromJS(x))))
+  let hdWalletListCons = over(hdWallets, (xs) => List(xs.map(x => new HDWallet(x))))
+  let walletCons = compose(hdWalletListCons, addressesMapCons)
+  return walletCons(new Wallet(iRename('keys', 'addresses', iFromJS(x))))
 }
 
-export const toJS = (wallet) => {
-  if (R.is(Wallet, wallet)) {
-    let selectAddressesJS = compose(R.map(AddressUtil.toJS), selectAddresses)
-    let destructAddressses = R.set(addresses, selectAddressesJS(wallet))
-    return iRename('addresses', 'keys', destructAddressses(wallet).__internal).toJS()
-  } else {
-    throw typeError(Wallet, wallet)
-  }
-}
+export const toJS = R.pipe(guard, (wallet) => {
+  let selectAddressesJS = compose(R.map(AddressUtil.toJS), selectAddresses)
+  let destructAddressses = R.set(addresses, selectAddressesJS(wallet))
+
+  let selectHdWalletsJS = compose(R.map(HDWalletUtil.toJS), selectHdWallets)
+  let destructHdWallets = R.set(hdWallets, selectHdWalletsJS(wallet))
+
+  let destructWallet = compose(destructHdWallets, destructAddressses)
+  return iRename('addresses', 'keys', destructWallet(wallet).__internal).toJS()
+})
 
 // isValidSecondPwd :: String -> Wallet -> Bool
 export const isValidSecondPwd = curry((password, wallet) => {
@@ -93,8 +95,8 @@ export const addAddress = curry((wallet, address, password) => {
 // cipher :: (String -> String) -> Wallet -> Either error Wallet
 export const cipher = curry((f, wallet) => {
   const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), Either.of, f)
-  const trSeed = traverseOf(compose(hdWallets, traversed, seedHex), Either.of, f)
-  const trXpriv = traverseOf(compose(hdWallets, traversed, accounts, traversed, xpriv), Either.of, f)
+  const trSeed = traverseOf(compose(hdWallets, traversed, HDWalletUtil.seedHex), Either.of, f)
+  const trXpriv = traverseOf(compose(hdWallets, traversed, HDWalletUtil.accounts, traversed, HDWalletUtil.xpriv), Either.of, f)
   return Either.Right(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
 })
 
