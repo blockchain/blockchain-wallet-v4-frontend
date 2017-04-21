@@ -46,7 +46,7 @@ export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
 export const fromJS = (x) => {
   let addressesMapCons = over(addresses, (as) => Map(as.map(a => [a.get('addr'), new Address(a)])))
-  let hdWalletListCons = over(hdWallets, (xs) => List(xs.map(x => new HDWallet(x))))
+  let hdWalletListCons = over(hdWallets, (xs) => List(xs.map(HDWalletUtil.fromJS)))
   let walletCons = compose(hdWalletListCons, addressesMapCons)
   return walletCons(new Wallet(iRename('keys', 'addresses', iFromJS(x))))
 }

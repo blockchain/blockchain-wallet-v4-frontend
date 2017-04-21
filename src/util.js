@@ -35,6 +35,6 @@ export const typeDef = (Type) => {
   return { lens, guard, define }
 }
 
-export const iRename = (from, to, i) => i.set(to, i.get(from)).delete(from)
+export const iRename = curry((from, to, i) => i.set(to, i.get(from)).delete(from))
 
 export const iToJS = (i) => i.toJS()
