@@ -33,6 +33,7 @@ describe('Wallet', () => {
     })
 
     it('should select guid', () => {
+      expect(wallet.guid).to.equal(walletFixture.guid)
       expect(WalletUtil.selectGuid(wallet)).to.equal(walletFixture.guid)
     })
 

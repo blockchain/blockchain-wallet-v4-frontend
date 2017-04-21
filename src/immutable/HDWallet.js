@@ -1,7 +1,7 @@
 import { Map } from 'immutable-ext'
 import * as R from 'ramda'
 import { iLensProp } from '../lens'
-import { typeGuard, typeLens, defineLensProps } from '../util'
+import { typeDef } from '../util'
 
 /* HDWallet :: {
   seed_hex :: String
@@ -12,9 +12,7 @@ function HDWallet (x) {
   this.__internal = Map(x)
 }
 
-const lens = typeLens(HDWallet)
-const guard = typeGuard(HDWallet)
-const define = defineLensProps(lens)
+const { guard, define } = typeDef(HDWallet)
 
 export const seedHex = define('seed_hex')
 export const accounts = define('accounts')

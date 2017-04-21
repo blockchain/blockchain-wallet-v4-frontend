@@ -7,7 +7,7 @@ import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
 import Address, * as AddressUtil from './Address'
 import HDWallet, * as HDWalletUtil from './HDWallet'
-import { typeLens, typeGuard, defineLensProps, iRename } from '../util'
+import { typeDef, iRename } from '../util'
 
 /* Wallet :: {
   guid :: String
@@ -26,9 +26,7 @@ function Wallet (x) {
   this.__internal = Map(x)
 }
 
-const lens = typeLens(Wallet)
-const guard = typeGuard(Wallet)
-const define = defineLensProps(lens)
+const { guard, define } = typeDef(Wallet)
 
 export const guid = define('guid')
 export const sharedKey = define('sharedKey')

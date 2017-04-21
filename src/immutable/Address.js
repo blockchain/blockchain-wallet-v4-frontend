@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 import * as crypto from '../WalletCrypto'
 import { Map } from 'immutable'
-import { typeGuard, typeLens, defineLensProps } from '../util'
+import { typeDef } from '../util'
 
 /* Address :: {
   priv :: String
@@ -12,9 +12,7 @@ function Address (x) {
   this.__internal = Map(x)
 }
 
-const lens = typeLens(Address)
-const guard = typeGuard(Address)
-const define = defineLensProps(lens)
+const { guard, define } = typeDef(Address)
 
 export const priv = define('priv')
 export const addr = define('addr')
