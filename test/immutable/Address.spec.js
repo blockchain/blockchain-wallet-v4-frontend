@@ -16,20 +16,20 @@ describe('Address', () => {
     })
   })
 
-  describe('selectors', () => {
-    it('should select priv', () => {
-      expect(AddressUtil.selectPriv(address)).to.equal(addressFixture.priv)
+  describe('properties', () => {
+    it('should have priv', () => {
+      expect(address.priv).to.equal(addressFixture.priv)
     })
 
-    it('should select addr', () => {
-      expect(AddressUtil.selectAddr(address)).to.equal(addressFixture.addr)
+    it('should have addr', () => {
+      expect(address.addr).to.equal(addressFixture.addr)
     })
   })
 
   describe('encrypt', () => {
     it('should return an encrypted Address', () => {
       let encrypted = AddressUtil.encrypt(1, null, 'secret', address)
-      expect(AddressUtil.selectPriv(encrypted)).to.equal('enc<5priv>')
+      expect(encrypted.priv).to.equal('enc<5priv>')
     })
   })
 })

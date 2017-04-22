@@ -66,7 +66,7 @@ describe('Wallet', () => {
       let withNewAddress = WalletUtil.addAddress(walletSecpass, address, 'secret')
       let as = WalletUtil.selectAddresses(withNewAddress)
       expect(as.size).to.equal(walletFixture.keys.length + 1)
-      expect(AddressUtil.selectPriv(as.last())).to.equal('enc<5abc>')
+      expect(as.last().priv).to.equal('enc<5abc>')
     })
   })
 
@@ -93,7 +93,7 @@ describe('Wallet', () => {
       let encrypted = WalletUtil.encrypt('secret', wallet).value
       let [before, after] = [wallet, encrypted].map(R.compose(util.iToJS, WalletUtil.selectAddresses))
       let enc = crypto.encryptSecPass(null, null, null)
-      let success = R.zip(before, after).every(([b, a]) => enc(AddressUtil.selectPriv(b)) === AddressUtil.selectPriv(a))
+      let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
       expect(success).to.equal(true)
     })
   })

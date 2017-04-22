@@ -47,9 +47,14 @@ export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
 export const fromJS = (x) => {
-  let addressesMapCons = over(addresses, (as) => Map(as.map(a => [a.get('addr'), AddressUtil.fromJS(a)])))
-  let hdWalletListCons = over(hdWallets, (xs) => List(xs.map(HDWalletUtil.fromJS)))
-  let walletCons = compose(hdWalletListCons, addressesMapCons)
+  let addressesMapCons = compose(Map, R.indexBy(R.prop('addr')), R.map(AddressUtil.fromJS))
+  let hdWalletListCons = compose(List, R.map(HDWalletUtil.fromJS))
+
+  let walletCons = compose(
+    over(hdWallets, hdWalletListCons),
+    over(addresses, addressesMapCons)
+  )
+
   return walletCons(new Wallet(shiftWallet(iFromJS(x)).forward()))
 }
 
@@ -81,7 +86,7 @@ export const isValidSecondPwd = curry((password, wallet) => {
 export const addAddress = curry((wallet, address, password) => {
   let it = selectIterations(wallet)
   let sk = view(sharedKey, wallet)
-  let set = curry((a, as) => as.set(AddressUtil.selectAddr(a), a))
+  let set = curry((a, as) => as.set(a.addr, a))
   let append = (w, a) => over(addresses, set(a), w)
   if (!isDoubleEncrypted(wallet)) {
     return append(wallet, address)
@@ -106,9 +111,8 @@ export const encrypt = curry((password, wallet) => {
     return Either.Right(wallet)
   } else {
     let iter = selectIterations(wallet)
-    let sk = view(sharedKey, wallet)
-    let enc = Either.try(crypto.encryptSecPass(iter, sk, password))
-    let hash = crypto.hashNTimes(iter, R.concat(sk, password)).toString('hex')
+    let enc = Either.try(crypto.encryptSecPass(iter, wallet.sharedKey, password))
+    let hash = crypto.hashNTimes(iter, R.concat(wallet.sharedKey, password)).toString('hex')
 
     let setFlag = over(doubleEncryption, () => true)
     let setHash = over(dpasswordhash, () => hash)
@@ -128,9 +132,7 @@ export const decrypt = curry((password, wallet) => {
     }
 
     let iter = selectIterations(wallet)
-    let sk = view(sharedKey, wallet)
-
-    let tryDec = Either.try(crypto.decryptSecPass(sk, iter, password))
+    let tryDec = Either.try(crypto.decryptSecPass(wallet.sharedKey, iter, password))
     let checkFailure = (str) => str === '' ? Either.Left(decryptError) : Either.Right(str)
     let dec = (msg) => tryDec(msg).chain(checkFailure)
 
