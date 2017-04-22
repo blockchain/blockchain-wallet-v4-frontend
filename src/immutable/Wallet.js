@@ -7,7 +7,7 @@ import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
 import * as AddressUtil from './Address'
 import * as HDWalletUtil from './HDWallet'
-import { typeDef, iRename } from '../util'
+import { typeDef, shift, shiftIProp } from '../util'
 
 /* Wallet :: {
   guid :: String
@@ -44,11 +44,13 @@ export const selectHdWallets = view(hdWallets)
 export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
+const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
+
 export const fromJS = (x) => {
   let addressesMapCons = over(addresses, (as) => Map(as.map(a => [a.get('addr'), AddressUtil.fromJS(a)])))
   let hdWalletListCons = over(hdWallets, (xs) => List(xs.map(HDWalletUtil.fromJS)))
   let walletCons = compose(hdWalletListCons, addressesMapCons)
-  return walletCons(new Wallet(iRename('keys', 'addresses', iFromJS(x))))
+  return walletCons(new Wallet(shiftWallet(iFromJS(x)).forward()))
 }
 
 export const toJS = R.pipe(guard, (wallet) => {
@@ -59,7 +61,7 @@ export const toJS = R.pipe(guard, (wallet) => {
   let destructHdWallets = R.set(hdWallets, selectHdWalletsJS(wallet))
 
   let destructWallet = compose(destructHdWallets, destructAddressses)
-  return iRename('addresses', 'keys', destructWallet(wallet).__internal).toJS()
+  return shiftWallet(destructWallet(wallet).__internal).back().toJS()
 })
 
 // isValidSecondPwd :: String -> Wallet -> Bool

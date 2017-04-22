@@ -1,7 +1,7 @@
 import { Map, fromJS as iFromJS } from 'immutable-ext'
 import * as R from 'ramda'
 import { iLensProp } from '../lens'
-import { typeDef, iRename } from '../util'
+import { typeDef, shift, shiftIProp } from '../util'
 
 /* HDWallet :: {
   seed_hex :: String
@@ -18,14 +18,14 @@ export const seedHex = define('seedHex')
 export const accounts = define('accounts')
 export const xpriv = iLensProp('xpriv')
 
+const shiftHDWallet = R.compose(shiftIProp('seed_hex', 'seedHex'), shift)
+
 export const fromJS = (x) => {
-  let renameProps = iRename('seed_hex', 'seedHex')
-  return new HDWallet(renameProps(iFromJS(x)))
+  return new HDWallet(shiftHDWallet(iFromJS(x)).forward())
 }
 
 export const toJS = R.pipe(guard, (hd) => {
-  let renameProps = iRename('seedHex', 'seed_hex')
-  return renameProps(hd.__internal).toJS()
+  return shiftHDWallet(hd.__internal).back().toJS()
 })
 
 export default HDWallet

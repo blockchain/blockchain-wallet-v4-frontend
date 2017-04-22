@@ -1,4 +1,4 @@
-import { is, curry, compose, prop, lens, view } from 'ramda'
+import { is, curry, compose, prop, lens, view, assoc, dissoc } from 'ramda'
 import { iLensProp } from './lens'
 
 export const error = (e) => { throw e }
@@ -36,5 +36,15 @@ export const typeDef = (Type) => {
 }
 
 export const iRename = curry((from, to, i) => i.set(to, i.get(from)).delete(from))
+
+export const shift = (x) => ({
+  forward: () => x,
+  back: () => x
+})
+
+export const shiftIProp = curry((from, to, s) => ({
+  forward: () => iRename(from, to, s.forward()),
+  back: () => iRename(to, from, s.back())
+}))
 
 export const iToJS = (i) => i.toJS()
