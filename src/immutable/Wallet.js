@@ -39,7 +39,7 @@ export const hdWallets = define('hd_wallets')
 
 export const selectGuid = view(guid)
 export const selectIterations = view(pbkdf2Iterations)
-export const selectAddresses = compose((as) => as.toList(), view(addresses))
+export const selectAddresses = compose((as) => as.toArray(), view(addresses))
 export const selectHdWallets = view(hdWallets)
 export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))

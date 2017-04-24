@@ -8,7 +8,6 @@ const { expect } = chai
 import * as WalletUtil from '../../src/immutable/Wallet'
 import Address, * as AddressUtil from '../../src/immutable/Address'
 import * as crypto from '../../src/WalletCrypto'
-import * as util from '../../src/util'
 
 const walletFixture = require('../_fixtures/wallet.v3')
 const walletFixtureSecpass = require('../_fixtures/wallet.v3-secpass')
@@ -42,7 +41,7 @@ describe('Wallet', () => {
     })
 
     it('should select addresses', () => {
-      let selectAddressesJS = R.compose(util.iToJS, R.map(AddressUtil.toJS), WalletUtil.selectAddresses)
+      let selectAddressesJS = R.compose(R.map(AddressUtil.toJS), WalletUtil.selectAddresses)
       expect(selectAddressesJS(wallet)).to.deep.equal(walletFixture.keys)
     })
 
@@ -57,16 +56,16 @@ describe('Wallet', () => {
       let address = new Address({ priv: '5abc' })
       let withNewAddress = WalletUtil.addAddress(wallet, address, null)
       let addresses = WalletUtil.selectAddresses(withNewAddress)
-      expect(addresses.size).to.equal(walletFixture.keys.length + 1)
-      expect(AddressUtil.toJS(addresses.last())).to.deep.equal(AddressUtil.toJS(address))
+      expect(addresses.length).to.equal(walletFixture.keys.length + 1)
+      expect(AddressUtil.toJS(R.last(addresses))).to.deep.equal(AddressUtil.toJS(address))
     })
 
     it('should add a double encrypted address', () => {
       let address = new Address({ priv: '5abc', addr: '1asdf' })
       let withNewAddress = WalletUtil.addAddress(walletSecpass, address, 'secret')
       let as = WalletUtil.selectAddresses(withNewAddress)
-      expect(as.size).to.equal(walletFixture.keys.length + 1)
-      expect(as.last().priv).to.equal('enc<5abc>')
+      expect(as.length).to.equal(walletFixture.keys.length + 1)
+      expect(R.last(as).priv).to.equal('enc<5abc>')
     })
   })
 
@@ -91,7 +90,7 @@ describe('Wallet', () => {
   describe('encrypt', () => {
     it('should encrypt', () => {
       let encrypted = WalletUtil.encrypt('secret', wallet).value
-      let [before, after] = [wallet, encrypted].map(R.compose(util.iToJS, WalletUtil.selectAddresses))
+      let [before, after] = [wallet, encrypted].map(WalletUtil.selectAddresses)
       let enc = crypto.encryptSecPass(null, null, null)
       let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
       expect(success).to.equal(true)
