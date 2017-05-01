@@ -26,7 +26,7 @@ function Wallet (x) {
   this.__internal = Map(x)
 }
 
-const { guard, define } = typeDef(Wallet)
+const { lens, guard, define } = typeDef(Wallet)
 
 export const guid = define('guid')
 export const sharedKey = define('sharedKey')
@@ -137,7 +137,7 @@ export const decrypt = curry((password, wallet) => {
     let dec = (msg) => tryDec(msg).chain(checkFailure)
 
     let setFlag = over(doubleEncryption, () => false)
-    let setHash = over(dpasswordhash, () => null)
+    let setHash = over(lens, (x) => x.delete('dpasswordhash'))
 
     return cipher(dec, wallet).map(compose(setHash, setFlag))
   } else {
