@@ -97,6 +97,12 @@ export const addAddress = curry((wallet, address, password) => {
   }
 })
 
+// setAddressLabel :: String -> String -> Wallet -> Wallet
+export const setAddressLabel = curry((address, label, wallet) => {
+  let addressLens = compose(addresses, iLensProp(address))
+  return R.over(addressLens, AddressUtil.setLabel(label), wallet)
+})
+
 // cipher :: (String -> String) -> Wallet -> Either error Wallet
 export const cipher = curry((f, wallet) => {
   const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), Either.of, f)

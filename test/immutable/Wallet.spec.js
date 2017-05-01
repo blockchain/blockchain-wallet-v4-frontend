@@ -69,6 +69,15 @@ describe('Wallet', () => {
     })
   })
 
+  describe('setAddressLabel', () => {
+    it('should set a new address label', () => {
+      let addr = '14mQxLtEagsS8gYsdWJbzthFFuPDqDgtxQ'
+      let withNewLabel = WalletUtil.setAddressLabel(addr, 'new_label', wallet)
+      expect(wallet.addresses.get(addr).label).to.equal('labeled_imported')
+      expect(withNewLabel.addresses.get(addr).label).to.equal('new_label')
+    })
+  })
+
   describe('isValidSecondPwd', () => {
     it('should be valid for an unencrypted wallet', () => {
       let isValid = WalletUtil.isValidSecondPwd(null, wallet)

@@ -16,6 +16,7 @@ const { guard, define } = typeDef(Address)
 
 export const priv = define('priv')
 export const addr = define('addr')
+export const label = define('label')
 
 export const selectPriv = R.view(priv)
 export const selectAddr = R.view(addr)
@@ -26,6 +27,11 @@ export const fromJS = (x) => {
 
 export const toJS = R.pipe(guard, (address) => {
   return address.__internal.toJS()
+})
+
+// setLabel :: String -> Address -> Address
+export const setLabel = R.curry((l, address) => {
+  return R.set(label, l, address)
 })
 
 // encrypt :: Number -> String -> String -> Address -> Address

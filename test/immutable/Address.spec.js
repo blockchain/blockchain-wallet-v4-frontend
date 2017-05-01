@@ -26,6 +26,14 @@ describe('Address', () => {
     })
   })
 
+  describe('setLabel', () => {
+    it('should set the label of an address object', () => {
+      let withNewLabel = AddressUtil.setLabel('new_label', address)
+      expect(address.label).to.equal(void 0)
+      expect(withNewLabel.label).to.equal('new_label')
+    })
+  })
+
   describe('encrypt', () => {
     it('should return an encrypted Address', () => {
       let encrypted = AddressUtil.encrypt(1, null, 'secret', address)
