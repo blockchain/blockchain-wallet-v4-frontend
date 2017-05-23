@@ -19,5 +19,5 @@ import App from './containers/app.js';
 
 render(
   <App />,
-  document.getElementById("app")
+  document.getElementById('app')
 );
