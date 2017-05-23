@@ -1,13 +1,13 @@
-import React from 'react';
-import './style.scss';
+import React from 'react'
+import './style.scss'
 
 const HomePage = () => {
+  return (
+    <section className='home-page'>
+      <h1>Home</h1>
+      <span className='glyphicon glyphicon-asterisk'>Test</span>
+    </section>
+  )
+}
 
-    return (
-      <section className="home-page">
-        <h1>Home</h1>
-      </section>
-      );
-    };
-
-export default HomePage;
+export default HomePage

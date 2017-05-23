@@ -1,45 +1,45 @@
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const PATHS = {
-    dist: `${__dirname}/dist`,
-    build: `${__dirname}/build`,
-    src: `${__dirname}/src`
-};
+  dist: `${__dirname}/dist`,
+  build: `${__dirname}/build`,
+  src: `${__dirname}/src`
+}
 
 module.exports = {
   entry: [
-      PATHS.src + '/index.js'
+    PATHS.src + '/index.js'
   ],
   output: {
-      path: PATHS.dist,
-      filename: 'bundle.js',
-      publicPath: '/'
+    path: PATHS.dist,
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   resolve: {
     alias: {
       'npm': `${__dirname}/../node_modules`,
       'bower': `${__dirname}/../bower_components`,
-      'assets': `${__dirname}/src/assets`,
+      'sass': `${__dirname}/src/assets/sass`,
       'components': `${__dirname}/src/components`,
       'containers': `${__dirname}/src/containers`
     }
   },
   module: {
     rules: [
-      {
-        enforce: 'pre',
-        test: /\.js$/,
-        exclude: ['npm', 'bower'],
-        use: [{
-          loader: 'eslint-loader',
-          options: {
-            failOnWarning: false,
-            failOnError: true
-          }
-        }]
-      },
+      // {
+      //   enforce: 'pre',
+      //   test: /\.js$/,
+      //   exclude: ['npm', 'bower'],
+      //   use: [{
+      //     loader: 'eslint-loader',
+      //     options: {
+      //       failOnWarning: false,
+      //       failOnError: true
+      //     }
+      //   }]
+      // },
       {
         test: /\.js$/,
         exclude: [/node_modules/],
@@ -52,15 +52,13 @@ module.exports = {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           use: [
+            'css-loader',
+            'sass-loader',
             {
-              loader: 'css-loader',
+              loader: 'sass-resources-loader',
               options: {
-                sourceMap: true
+                resources: `${__dirname}/src/assets/sass/**/*.scss`
               }
-            },
-            {
-              loader: 'sass-loader',
-              options: { }
             }
           ],
           fallback: 'style-loader'
@@ -99,4 +97,4 @@ module.exports = {
     port: 3000,
     historyApiFallback: true
   }
-};
+}

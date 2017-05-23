@@ -25,7 +25,8 @@
   settings: {
     "import/parser": "babel-eslint",
     "import/resolver": {
-      "webpack": { "config": "webpack.config.dev.js" }
+      "webpack": { "config": "webpack.config.dev.js" },
+      "node": { paths: ['src']}
     }
   },
   "rules": {

@@ -1,18 +1,13 @@
-/*eslint-disable import/default */
-
 // Polyfill
-import 'babel-polyfill';
+import 'babel-polyfill'
 
-// Style
-import './style.scss';
-
-// Libraries
-import 'bootstrap/dist/css/bootstrap.css';
+// Internal resources
+// import 'sass/blockchain-css.scss'
 
 // Import React & JS
-import React from 'react';
-import { render } from 'react-dom';
-import App from './containers/app.js';
+import React from 'react'
+import { render } from 'react-dom'
+import App from './containers/app.js'
 // Import Redux
 //
 //
@@ -20,4 +15,4 @@ import App from './containers/app.js';
 render(
   <App />,
   document.getElementById('app')
-);
+)
