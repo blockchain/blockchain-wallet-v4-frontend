@@ -4,8 +4,8 @@
   "description": "Wallet user interface",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.dev.js",
-    "start": "webpack-dev-server --config webpack.config.dev.js --devtool eval --progress --colors"
+    "build": "./node_modules/.bin/webpack --config webpack.config.dev.js",
+    "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --devtool eval --progress --colors"
   },
   "repository": {
     "type": "git",
