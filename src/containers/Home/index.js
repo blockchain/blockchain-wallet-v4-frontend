@@ -1,10 +1,10 @@
 import React from 'react'
-import HomePage from 'components/HomePage'
+import Home from 'components/Home'
 
 class HomeContainer extends React.Component {
   render () {
     return (
-      <HomePage />
+      <Home />
     )
   }
 }

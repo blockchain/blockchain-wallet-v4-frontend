@@ -1,10 +1,10 @@
 import React from 'react'
-import TransactionsPage from 'components/TransactionsPage'
+import Transactions from 'components/Transactions'
 
 class TransactionsContainer extends React.Component {
   render () {
     return (
-      <TransactionsPage />
+      <Transactions />
     )
   }
 }
