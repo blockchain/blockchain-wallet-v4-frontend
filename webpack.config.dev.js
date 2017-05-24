@@ -94,7 +94,7 @@ module.exports = {
   ],
   devServer: {
     contentBase: PATHS.build,
-    port: 3000,
+    port: 8080,
     historyApiFallback: true
   }
 }
