@@ -6,13 +6,13 @@ import 'babel-polyfill'
 
 // Import React & JS
 import React from 'react'
-import { render } from 'react-dom'
+import ReactDOM from 'react-dom'
 import App from './containers/app.js'
-// Import Redux
-//
-//
+import configureStore from './store/configureStore.dev'
 
-render(
-  <App />,
+const store = configureStore()
+
+ReactDOM.render(
+  <App store={store} />,
   document.getElementById('app')
 )
