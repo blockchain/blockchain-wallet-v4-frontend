@@ -10,6 +10,7 @@ import Address, * as AddressUtil from '../../src/immutable/Address'
 import * as crypto from '../../src/WalletCrypto'
 
 const walletFixture = require('../_fixtures/wallet.v3')
+const walletNewFixture = require('../_fixtures/wallet-new.v3')
 const walletFixtureSecpass = require('../_fixtures/wallet.v3-secpass')
 const secpass = 'secret'
 
@@ -116,6 +117,16 @@ describe('Wallet', () => {
       let decrypted = WalletUtil.decrypt('wrong', walletSecpass).value
       expect(R.is(Error, decrypted)).to.equal(true)
       expect(decrypted.message).to.equal('INVALID_SECOND_PASSWORD')
+    })
+  })
+
+  describe('createNew', () => {
+    const { mnemonic } = walletNewFixture
+
+    it('should create a new wallet', () => {
+      let { guid, sharedKey } = walletNewFixture.wallet
+      let wallet = WalletUtil.createNew(guid, sharedKey, mnemonic)
+      expect(WalletUtil.toJS(wallet)).to.deep.equal(walletNewFixture.wallet)
     })
   })
 })

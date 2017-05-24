@@ -151,4 +151,25 @@ export const decrypt = curry((password, wallet) => {
   }
 })
 
+export const createNew = curry((guid, sharedKey, mnemonic) => {
+  let hd = HDWalletUtil.createNew(mnemonic)
+
+  return fromJS({
+    guid,
+    sharedKey,
+    options: {
+      pbkdf2_iterations: 5000,
+      fee_per_kb: 10000,
+      html5_notifications: false,
+      logout_time: 600000
+    },
+    tx_notes: {},
+    tx_names: [],
+    double_encryption: false,
+    address_book: [],
+    keys: [],
+    hd_wallets: [HDWalletUtil.toJS(hd)]
+  })
+})
+
 export default Wallet

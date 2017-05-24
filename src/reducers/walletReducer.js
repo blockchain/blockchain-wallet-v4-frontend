@@ -64,8 +64,8 @@ export const walletImmutable = (state = WALLET_INITIAL_STATE, action) => {
       return WalletUtil.setAddressLabel(address, label, state)
     }
     case A.WALLET_NEW_SET: {
-      // Should add this to immutable/Wallet
-      throw new Error('Not Implemented: WALLET_NEW_SET')
+      let { guid, sharedKey, mnemonic } = action.payload
+      return WalletUtil.createNew(guid, sharedKey, mnemonic)
     }
     default:
       return state
