@@ -12,34 +12,35 @@ import Promise from 'es6-promise'
 Promise.polyfill()
 
 const delay = ms => {
-    return new Promise(resolve => {
-        setTimeout(() => resolve(true), ms)
-    });
+  return new Promise(resolve => {
+    setTimeout(() => resolve(true), ms)
+  })
 }
 
 // api should be promified api (no task for saga)
 export const rootSaga = ({ dpath, wpath, api } = {}) => {
-  const pollingSaga = function* (session) {
+  const pollingSaga = function * (session) {
     let rounds = 50
-    while(true) {
+    while (true) {
       rounds--
       try {
-          yield call(delay, 2000);
-          let response = yield call(api.pollForSessioGUID, session);
-          let guid = prop('guid', response)
-          if (guid) { //authorized
-            return true
-          }
+        yield call(delay, 2000)
+        let response = yield call(api.pollForSessioGUID, session)
+        let guid = prop('guid', response)
+        if (guid) {
+          // authorized
+          return true
+        }
       } catch (error) {
-          // cancellation error -- can handle this if you wish
-          return false;
+        // cancellation error -- can handle this if you wish
+        return false
       }
     }
     // rounds exhausted without authorization
-    return false;
+    return false
   }
 
-  const fetchWalletSaga = function* (guid, sharedKey, session, password) {
+  const fetchWalletSaga = function * (guid, sharedKey, session, password) {
     try {
       let wallet = yield call(api.downloadWallet, guid, sharedKey, session, password)
       yield put(walletActions.loadWallet(wallet))
@@ -47,9 +48,9 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
       yield put(actions.loginSuccess())
     } catch (error) {
       if (prop('authorization_required', error)) {
-        let authorized = yield call(pollingSaga, session);
+        let authorized = yield call(pollingSaga, session)
         if (authorized) {
-          yield call(fetchWalletSaga, guid, undefined, session, password);
+          yield call(fetchWalletSaga, guid, undefined, session, password)
         }
       } else {
         yield put(actions.loginError(error))
@@ -57,25 +58,25 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
     }
   }
 
-  const loginSaga = function* (action) {
+  const loginSaga = function * (action) {
     const credentials = action.payload
     // login with shared key
     if (credentials.sharedKey) {
-      yield call(fetchWalletSaga, credentials.guid, credentials.sharedKey, undefined, credentials.password);
+      yield call(fetchWalletSaga, credentials.guid, credentials.sharedKey, undefined, credentials.password)
     } else {
       // if no shared key check for session
       let session = yield select(getSession(credentials.guid))
       session = yield call(api.establishSession, session)  // establishSession logic should not receive existent session as parameter
       yield put(actions.saveSession(assoc(credentials.guid, session, {})))
-      yield call(fetchWalletSaga, credentials.guid, undefined, session, credentials.password);
+      yield call(fetchWalletSaga, credentials.guid, undefined, session, credentials.password)
     }
   }
 
-  return function* () {
+  return function * () {
     yield [
       // here you can put an array of sagas in forks
       fork(WalletSagas.rootSaga({api, dpath, wpath}))
-    ];
+    ]
     yield takeEvery(actionTypes.LOGIN_START, loginSaga)
   }
 }
