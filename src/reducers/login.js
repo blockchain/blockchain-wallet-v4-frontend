@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   error: null
 }
 
-const loginReducer = (state = INITIAL_STATE, action) => {
+const login = (state = INITIAL_STATE, action) => {
   let { type } = action
   switch (type) {
     case LOGIN_START: {
@@ -27,4 +27,4 @@ const loginReducer = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default loginReducer
+export default login
