@@ -57,7 +57,9 @@ module.exports = {
             {
               loader: 'sass-resources-loader',
               options: {
-                resources: `${__dirname}/src/assets/sass/**/*.scss`
+                resources: [
+                  'node_modules/blockchain-css/sass/utilities/_colors.scss'
+                ]
               }
             }
           ],
@@ -73,11 +75,20 @@ module.exports = {
         })
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg)$/,
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
         use: {
           loader: 'file-loader',
           options: {
-            name: '[name].[ext]'
+            name: 'fonts/[name].[ext]'
+          }
+        }
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'img/[name].[ext]'
           }
         }
       }

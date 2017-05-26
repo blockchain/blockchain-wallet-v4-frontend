@@ -2,7 +2,7 @@
 import 'babel-polyfill'
 
 // Internal resources
-// import 'sass/blockchain-css.scss'
+import './index.scss'
 
 // Import React & JS
 import React from 'react'
