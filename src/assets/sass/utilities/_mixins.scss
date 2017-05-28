@@ -61,3 +61,29 @@
   -webkit-animation: $args;
           animation: $args;
 }
+
+/* FLEX */
+@mixin flex-direction($args...) {
+  -webkit-flex-direction: $args;
+      -ms-flex-direction: $args;
+          flex-direction: $args;
+}
+
+@mixin flex-grow($args...) {
+  -webkit-flex-grow: $args;
+          flex-grow: $args;
+}
+
+@mixin flex-shrink($args...) {
+  -webkit-flex-shrink: $args;
+          flex-shrink: $args;
+}
+
+@mixin flex-basis($args...) {
+  -webkit-flex-basis: $args;
+          flex-basis: $args;
+}
+
+@mixin flex($args...) {
+  flex: $args;
+}

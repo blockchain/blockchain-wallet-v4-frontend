@@ -4,7 +4,7 @@ import './style.scss'
 const MenuTop = () => {
   return (
     <div className='menu-top'>
-      Menu Top
+      <span>Be your own bank.</span>
     </div>
   )
 }

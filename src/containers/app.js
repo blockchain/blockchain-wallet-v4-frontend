@@ -1,49 +1,30 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 
-import HeaderContainer from './Header'
-import HomeContainer from './Home'
-import TransactionsContainer from './Transactions'
-import MenuLeft from 'components/Shared/MenuLeft'
-import MenuTop from 'components/Shared/MenuTop'
+import WalletContainer from 'containers/Wallet'
+import LandingContainer from 'containers/Landing'
+import LoginContainer from 'containers/Login'
+import RegisterContainer from 'containers/Register'
+
 import { Provider } from 'react-redux'
 
-
 class App extends React.Component {
-
   render () {
-
     return (
       <Provider store={this.props.store}>
         <Router>
-          <div className='app'>
-            <div className='container'>
-              <div className='row'>
-                <HeaderContainer />
-              </div>
-              <div className='row'>
-                <div className='col-md-2'>
-                  <MenuLeft />
-                </div>
-                <div className='col-md-10'>
-                  <div className='row'>
-                    <MenuTop />
-                  </div>
-                  <div className='row'>
-                    <Switch>
-                      <Route exact path='/' component={HomeContainer} />
-                      <Route exact path='/transactions' component={TransactionsContainer} />
-                    </Switch>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <ul>
-              <li><Link to='/'>Home</Link></li>
-              <li><Link to='/transactions'>Transactions</Link></li>
-            </ul>
-          </div>
+          <Switch>
+            <Route exact path='/' component={WalletContainer} />
+            <Route exact path='/landing' component={LandingContainer} />
+            <Route exact path='/login' component={LoginContainer} />
+            <Route exact path='/register' component={RegisterContainer} />
+          </Switch>
+          {/*<ul>*/}
+            {/*<li><Link to='/'>Wallet</Link></li>*/}
+            {/*<li><Link to='/landing'>Landing</Link></li>*/}
+            {/*<li><Link to='/login'>Login</Link></li>*/}
+            {/*<li><Link to='/register'>Register</Link></li>*/}
+          {/*</ul>*/}
         </Router>
       </Provider>
     )

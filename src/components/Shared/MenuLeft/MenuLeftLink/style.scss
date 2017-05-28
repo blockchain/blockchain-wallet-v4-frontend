@@ -1,0 +1,29 @@
+
+.menu-left-link {
+  font-size: 1em;
+  font-weight: 400;
+  margin: 0 0 10px 0;
+  position: relative;
+  text-transform: uppercase;
+
+  & > a {
+    text-decoration: none;
+    color: $basic-grey;
+
+    &.active {
+      color: $iris;
+    }
+  }
+
+  & i {
+    font-size: 20px;
+    margin-right: 5px;
+    line-height: 0;
+    width: 20px;
+  }
+
+  & span {
+    font-size: 13px;
+    outline: none !important;
+  }
+}

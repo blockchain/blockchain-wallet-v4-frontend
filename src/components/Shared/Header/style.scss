@@ -1,6 +1,45 @@
 
-.header {
-  display: block;
-  background-color: $rosebud;
-  width: 100%;
+.navbar.navbar-default {
+  flex: 0 0 60px;
+  padding: 0 30px;
+  border: 0;
+  margin-bottom: 0;
+  @include border-radius(0);
+  background-color: $bc-blue;
+
+  & .navbar-header {
+
+    & .navbar-brand {
+
+      & img {
+        height: 20px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  & .nav.navbar-nav.navbar-right {
+    vertical-align: middle;
+
+    & > li {
+      height: 60px;
+      margin-top: 5px;
+
+      & > a {
+
+        & span {
+          font-size: 14px;
+          font-weight: 500;
+          color: white;
+        }
+        & i {
+          color: white;
+        }
+      }
+    }
+
+    & .dropdown.open  > a {
+          background-color: $iris;
+      }
+  }
 }

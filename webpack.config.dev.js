@@ -1,6 +1,6 @@
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+let ExtractTextPlugin = require('extract-text-webpack-plugin')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const PATHS = {
   dist: `${__dirname}/dist`,
@@ -22,8 +22,10 @@ module.exports = {
       'npm': `${__dirname}/../node_modules`,
       'bower': `${__dirname}/../bower_components`,
       'sass': `${__dirname}/src/assets/sass`,
+      'img': `${__dirname}/src/assets/img`,
       'components': `${__dirname}/src/components`,
-      'containers': `${__dirname}/src/containers`
+      'containers': `${__dirname}/src/containers`,
+      'data': `${__dirname}/src/data`
     }
   },
   module: {
@@ -58,7 +60,9 @@ module.exports = {
               loader: 'sass-resources-loader',
               options: {
                 resources: [
-                  'node_modules/blockchain-css/sass/utilities/_colors.scss'
+                  'node_modules/blockchain-css/sass/utilities/_colors.scss',
+                  'src/assets/sass/utilities/_mixins.scss',
+                  'src/assets/sass/utilities/_colors.scss'
                 ]
               }
             }
