@@ -21,7 +21,7 @@ class App extends React.Component {
       <Provider store={this.props.store}>
         <Router>
           <Switch>
-            <WalletLayout path='/home' component={HomeContainer} />
+            <WalletLayout exact path='/' component={HomeContainer} />
             <WalletLayout path='/transactions' component={TransactionsContainer} />
             <WalletLayout path='/buy-sell' component={BuyContainer} />
             <WalletLayout path='/security-center' component={SecurityContainer} />
