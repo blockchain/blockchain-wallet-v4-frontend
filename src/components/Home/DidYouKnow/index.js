@@ -3,7 +3,9 @@ import './style.scss'
 
 const DidYouKnow = () => {
   return (
-    <div className='did-you-know'>Did you know ?</div>
+    <div className='did-you-know'>
+      <h5>Did You Know?</h5>
+    </div>
   )
 }
 

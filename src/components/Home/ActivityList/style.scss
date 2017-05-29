@@ -1,6 +1,11 @@
 
 .activity-list {
   display: block;
-  background-color: green;
   width: 100%;
+  padding: 15px 25px;
+
+  & h5 {
+    font-weight: 400;
+    font-size: 1.2em;
+  }
 }

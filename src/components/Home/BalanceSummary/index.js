@@ -3,7 +3,9 @@ import './style.scss'
 
 const BalanceSummary = () => {
   return (
-    <div className='balance-summary'>Balance Summary</div>
+    <div className='balance-summary'>
+      <h5>Balances</h5>
+    </div>
   )
 }
 

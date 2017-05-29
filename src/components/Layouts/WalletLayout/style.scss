@@ -4,6 +4,7 @@
   @include flex-direction(column);
   @include align-content(stretch);
   height: 100%;
+  overflow: hidden;
 
   & .wallet-header {
     @include flex(0 0 60px);

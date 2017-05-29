@@ -8,7 +8,6 @@ import DidYouKnow from './DidYouKnow'
 const Home = () => {
   return (
     <section className='home'>
-      <h1>Home</h1>
       <div className='row'>
         <div className='col-md-6'>
           <ActivityList />
