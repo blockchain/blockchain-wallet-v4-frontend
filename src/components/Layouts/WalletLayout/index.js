@@ -10,16 +10,18 @@ const WalletLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <div className='wallet'>
-        <HeaderContainer />
-        <div className='row'>
-          <div className='col-md-2'>
+        <div className='wallet-header'>
+          <HeaderContainer />
+        </div>
+        <div className='wallet-content'>
+          <div className='wallet-left'>
             <MenuLeftContainer />
           </div>
-          <div className='col-md-10'>
-            <div className='row'>
+          <div className='wallet-right'>
+            <div className='wallet-top'>
               <MenuTopContainer />
             </div>
-            <div className='row'>
+            <div className='wallet-page'>
               <Component {...matchProps} />
             </div>
           </div>

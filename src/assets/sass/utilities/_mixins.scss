@@ -63,6 +63,11 @@
 }
 
 /* FLEX */
+@mixin display-flex() {
+  display: -webkit-flex;
+  display: flex;
+}
+
 @mixin flex-direction($args...) {
   -webkit-flex-direction: $args;
       -ms-flex-direction: $args;
@@ -85,5 +90,11 @@
 }
 
 @mixin flex($args...) {
-  flex: $args;
+  -webkit-flex: $args;
+          flex: $args;
+}
+
+@mixin align-content($args...) {
+  -webkit-align-content: $args;
+          align-content: $args;
 }

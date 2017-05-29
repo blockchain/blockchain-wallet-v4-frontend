@@ -1,0 +1,38 @@
+
+.wallet {
+  @include display-flex();
+  @include flex-direction(column);
+  @include align-content(stretch);
+  height: 100%;
+
+  & .wallet-header {
+    @include flex(0 0 60px);
+  }
+
+  & .wallet-content {
+    @include display-flex();
+    @include flex-direction(row);
+    @include align-content(stretch);
+    height: 100%;
+
+    & .wallet-left {
+      width: 270px;
+    }
+
+    & .wallet-right {
+      @include display-flex();
+      @include flex-direction(column);
+      @include align-content(stretch);
+      height: 100%;
+      width: 100%;
+
+      & .wallet-top {
+        @include flex(0 0 115px);
+      }
+
+      & .wallet-page {
+        height: 100%;
+      }
+    }
+  }
+}

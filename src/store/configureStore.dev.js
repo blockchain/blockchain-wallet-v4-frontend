@@ -12,8 +12,7 @@ import persistState from 'redux-localstorage'
 
 const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware()
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(
-    { serialize: { immutable: Immutable } }) || compose
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ serialize: { immutable: Immutable } }) : compose
   const api = createWalletApi(
     { rootUrl: C.ROOT_URL,
       apiUrl: C.API_BLOCKCHAIN_INFO,
