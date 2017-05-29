@@ -9,6 +9,7 @@ import { getWalletContext } from 'dream-wallet/lib/selectors'
 // import * as Lens from 'dream-wallet/lib/lens'
 import { prop, assoc } from 'ramda'
 import Promise from 'es6-promise'
+
 Promise.polyfill()
 
 const delay = ms => {

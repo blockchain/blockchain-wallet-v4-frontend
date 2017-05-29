@@ -1,9 +1,16 @@
 import React from 'react'
 import './style.scss'
 
-const ActivityListItem = () => {
+const ActivityListItem = (props) => {
+  console.log(props)
   return (
-    <div className='activity-list-item'>Activity ListItem</div>
+    <li className='activity-list-item'>
+      <div className='box'>
+        <h5>{props.activity.title}</h5>
+        <span>{props.activity.time}</span>
+        <span>{props.activity.description}</span>
+      </div>
+    </li>
   )
 }
 

@@ -5,12 +5,12 @@ import ActivityList from './ActivityList'
 import BalanceSummary from './BalanceSummary'
 import DidYouKnow from './DidYouKnow'
 
-const Home = () => {
+const Home = (props) => {
   return (
     <section className='home'>
       <div className='row'>
         <div className='col-md-6'>
-          <ActivityList />
+          <ActivityList activities={props.activities} />
         </div>
         <div className='col-md-6'>
           <div className='row'>

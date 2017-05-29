@@ -1,6 +1,14 @@
 
 .activity-list-item {
   display: block;
-  background-color: pink;
   width: 100%;
+
+  border-left: 1px solid $border-grey;
+
+  & .box {
+    margin-bottom: 30px;
+    margin-left: 30px;
+    padding: 10px;
+    border: 1px solid $border-grey;
+  }
 }

@@ -2,10 +2,13 @@
 .activity-list {
   display: block;
   width: 100%;
-  padding: 15px 25px;
+  padding: 5px 25px;
 
   & h5 {
     font-weight: 400;
-    font-size: 1.2em;
+  }
+
+  & ul {
+    padding: 20px;
   }
 }

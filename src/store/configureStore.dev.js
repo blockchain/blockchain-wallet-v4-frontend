@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import { rootSaga } from '../sagas'
+import rootSaga2 from '../data/rootSaga.js'
 import reducers from '../reducers'
 import * as C from '../config'
 import Immutable from 'immutable-ext'
@@ -34,6 +35,8 @@ const configureStore = () => {
     { api: api,
       wpath: C.WALLET_IMMUTABLE_PATH,
       dpath: C.BLOCKCHAIN_DATA_PATH}))
+
+  sagaMiddleware.run(rootSaga2)
 
   return {
     ...store
