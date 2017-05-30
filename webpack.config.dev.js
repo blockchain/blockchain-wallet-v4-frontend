@@ -25,7 +25,9 @@ module.exports = {
       'img': `${__dirname}/src/assets/img`,
       'components': `${__dirname}/src/components`,
       'containers': `${__dirname}/src/containers`,
-      'data': `${__dirname}/src/data`
+      'data': `${__dirname}/src/data`,
+      'config': `${__dirname}/src/config`,
+      'services': `${__dirname}/src/services`
     }
   },
   module: {

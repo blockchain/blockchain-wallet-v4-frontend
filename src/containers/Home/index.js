@@ -20,7 +20,7 @@ class HomeContainer extends React.Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    activities: state.activityState.activities
+    activities: state.applicationState.activities
   }
 }
 

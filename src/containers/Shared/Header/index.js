@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import Header from 'components/Shared/Header'
-import * as headerActions from 'data/Header/actions.js'
+import * as uiActions from 'data/UI/actions.js'
 
 class HeaderContainer extends React.Component {
   constructor (props) {
@@ -24,13 +24,13 @@ class HeaderContainer extends React.Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    exploreMenuDisplayed: state.headerState.exploreMenuDisplayed
+    exploreMenuDisplayed: state.applicationState.ui.exploreMenuDisplayed
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(headerActions, dispatch)
+    actions: bindActionCreators(uiActions, dispatch)
   }
 }
 

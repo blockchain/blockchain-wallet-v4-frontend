@@ -1,5 +1,5 @@
-
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR } from '../actions/actionTypes'
+import { LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR, SAVE_SESSION } from '../actionTypes'
+import { merge } from 'ramda'
 
 let assign = (state, next) => Object.assign({}, state, next)
 
@@ -27,4 +27,17 @@ const login = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default login
+const session = (state = {}, action) => {
+  let { type } = action
+  switch (type) {
+    case SAVE_SESSION: {
+      return merge(state, action.payload)
+    }
+    default:
+      return state
+  }
+}
+
+export default {
+  login, session
+}

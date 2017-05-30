@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import logo from 'img/blockchain-vector.svg'
 import './style.scss'
 
-import Ticker from './Ticker'
-import WhatsNew from './WhatsNew'
+// import Ticker from './Ticker'
+// import WhatsNew from './WhatsNew'
 
 const Header = (props) => {
   return (
@@ -38,8 +38,6 @@ const Header = (props) => {
           </li>
           <li><a href='#'><span>Sign out</span></a></li>
         </ul>
-        {/*<Ticker />*/}
-        {/*<WhatsNew />*/}
       </div>
     </nav>
   )

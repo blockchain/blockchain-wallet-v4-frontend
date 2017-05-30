@@ -1,7 +1,7 @@
 import { FETCH_ACTIVITIES_SUCCESSFUL } from '../actionTypes'
 import { call, put } from 'redux-saga/effects'
 
-function* fetchActivities () {
+function * fetchActivities () {
   const response = yield call(function () {
     return [
       { type: 'settings', time: '', title: 'Settings', description: 'Created wallet!' },
@@ -14,5 +14,5 @@ function* fetchActivities () {
 }
 
 export default {
-  fetchActivities: fetchActivities
+  fetchActivities
 }

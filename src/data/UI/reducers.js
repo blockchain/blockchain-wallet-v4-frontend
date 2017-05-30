@@ -1,10 +1,10 @@
-
 import { HEADER_SHOW_EXPLORE, HEADER_HIDE_EXPLORE, HEADER_TOGGLE_EXPLORE } from '../actionTypes'
 
 let assign = (state, next) => Object.assign({}, state, next)
 
 const INITIAL_STATE = {
-  exploreMenuDisplayed: false
+  exploreMenuDisplayed: false,
+  navigationDisplayed: false
 }
 
 const header = (state = INITIAL_STATE, action) => {

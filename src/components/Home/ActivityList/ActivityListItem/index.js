@@ -2,7 +2,6 @@ import React from 'react'
 import './style.scss'
 
 const ActivityListItem = (props) => {
-  console.log(props)
   return (
     <li className='activity-list-item'>
       <div className='box'>

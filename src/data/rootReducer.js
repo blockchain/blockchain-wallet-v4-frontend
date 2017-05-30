@@ -1,10 +1,20 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux'
+import settings from 'config'
+import { walletReducer, blockchainDataReducer } from 'dream-wallet/lib/reducers'
 import activityReducer from './Activity/reducers.js'
-import headerReducer from './Header/reducers.js'
+import authReducer from './Auth/reducers.js'
+import uiReducer from './UI/reducers.js'
 
 const rootReducer = combineReducers({
-  activityState: activityReducer,
-  headerState: headerReducer
+  applicationState: combineReducers({
+    activities: activityReducer,
+    auth: authReducer.login,
+    ui: uiReducer
+    // whatsNew: whatsNewReducer
+  }),
+  session: authReducer.session,
+  [settings.BLOCKCHAIN_DATA_PATH]: blockchainDataReducer,
+  [settings.WALLET_IMMUTABLE_PATH]: walletReducer
 })
 
 export default rootReducer
