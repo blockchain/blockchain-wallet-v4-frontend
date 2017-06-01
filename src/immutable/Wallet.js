@@ -103,53 +103,66 @@ export const setAddressLabel = curry((address, label, wallet) => {
   return R.over(addressLens, AddressUtil.setLabel(label), wallet)
 })
 
-// cipher :: (String -> String) -> Wallet -> Either error Wallet
-export const cipher = curry((f, wallet) => {
-  const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), Either.of, f)
-  const trSeed = traverseOf(compose(hdWallets, traversed, HDWalletUtil.seedHex), Either.of, f)
-  const trXpriv = traverseOf(compose(hdWallets, traversed, HDWalletUtil.accounts, traversed, HDWalletUtil.xpriv), Either.of, f)
-  return Either.Right(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
+// traversePrivValues :: Monad m => m -> (String -> m String) -> Wallet -> m Wallet
+export const traverseKeyValues = curry((M, f, wallet) => {
+  const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), M.of, f)
+  const trSeed = traverseOf(compose(hdWallets, traversed, HDWalletUtil.seedHex), M.of, f)
+  const trXpriv = traverseOf(compose(hdWallets, traversed, HDWalletUtil.accounts, traversed, HDWalletUtil.xpriv), M.of, f)
+  return M.of(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
 })
 
-// encrypt :: String -> Wallet -> Either error Wallet
-export const encrypt = curry((password, wallet) => {
+// encryptMonadic :: Monad m => m -> (String -> m String) -> String -> Wallet -> m Wallet
+export const encryptMonadic = curry((M, cipher, password, wallet) => {
   if (isDoubleEncrypted(wallet)) {
-    return Either.Right(wallet)
+    return M.of(wallet)
   } else {
     let iter = selectIterations(wallet)
-    let enc = Either.try(crypto.encryptSecPass(iter, wallet.sharedKey, password))
+    let enc = cipher(wallet.sharedKey, iter, password)
     let hash = crypto.hashNTimes(iter, R.concat(wallet.sharedKey, password)).toString('hex')
 
     let setFlag = over(doubleEncryption, () => true)
     let setHash = over(dpasswordhash, () => hash)
 
-    return cipher(enc, wallet).map(compose(setHash, setFlag))
+    return traverseKeyValues(M, enc, wallet).map(compose(setHash, setFlag))
   }
 })
 
-// decrypt :: String -> Wallet -> Either error Wallet
-export const decrypt = curry((password, wallet) => {
+// encrypt :: String -> Wallet -> Either error Wallet
+export const encrypt = encryptMonadic(
+  Either,
+  curry((sk, iter, pw, value) => {
+    return Either.try(crypto.encryptSecPass(sk, iter, pw))(value)
+  })
+)
+
+// decryptMonadic :: Monad m => m -> (String -> m String) -> (String -> m Wallet) -> String -> Wallet -> m Wallet
+export const decryptMonadic = curry((M, cipher, verify, password, wallet) => {
   if (isDoubleEncrypted(wallet)) {
-    let invalidError = new Error('INVALID_SECOND_PASSWORD')
-    let decryptError = new Error('DECRYPT_FAILURE')
-
-    if (!isValidSecondPwd(password, wallet)) {
-      return Either.Left(invalidError)
-    }
-
     let iter = selectIterations(wallet)
-    let tryDec = Either.try(crypto.decryptSecPass(wallet.sharedKey, iter, password))
-    let checkFailure = (str) => str === '' ? Either.Left(decryptError) : Either.Right(str)
-    let dec = (msg) => tryDec(msg).chain(checkFailure)
+    let dec = cipher(wallet.sharedKey, iter, password)
 
     let setFlag = over(doubleEncryption, () => false)
     let setHash = over(lens, (x) => x.delete('dpasswordhash'))
 
-    return cipher(dec, wallet).map(compose(setHash, setFlag))
+    return verify(password, wallet).chain(traverseKeyValues(M, dec)).map(compose(setHash, setFlag))
   } else {
-    return Either.Right(wallet)
+    return M.of(wallet)
   }
 })
+
+// decrypt :: (String -> String) -> String -> Wallet -> Either error Wallet
+export const decrypt = decryptMonadic(
+  Either,
+  curry((sk, iter, pw, value) => {
+    let decryptError = new Error('DECRYPT_FAILURE')
+    let checkFailure = (str) => str === '' ? Either.Left(decryptError) : Either.Right(str)
+    return Either.try(crypto.decryptSecPass(sk, iter, pw))(value).chain(checkFailure)
+  }),
+  curry((password, wallet) => {
+    let invalidError = new Error('INVALID_SECOND_PASSWORD')
+    return isValidSecondPwd(password, wallet) ? Either.Right(wallet) : Either.Left(invalidError)
+  })
+)
 
 export const createNew = curry((guid, sharedKey, mnemonic) => {
   let hd = HDWalletUtil.createNew(mnemonic)
