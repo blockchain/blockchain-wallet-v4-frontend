@@ -1,5 +1,3 @@
-import { mapObjIndexed } from 'ramda'
-
 export const ADDRESS_ADD = '@v3.ADDRESS_ADD'
 export const ADDRESS_LABEL = '@v3.ADDRESS_LABEL'
 export const WALLET_LOAD = '@v3.WALLET_LOAD'
@@ -53,11 +51,11 @@ export const syncSuccess = (checksum) =>
   ({ type: SYNC_SUCCESS, payload: checksum })
 export const syncError = (error) =>
   ({ type: SYNC_ERROR, payload: error, error: true })
-export const newWallet = (payload) => // {password, email}
-  ({ type: WALLET_NEW, payload: payload})
-export const setNewWallet = (payload) =>  // {guid, sharedKey, password, mnemonic, email}
-  ({ type: WALLET_NEW_SET, payload: payload})
+export const newWallet = (password, email) =>
+  ({ type: WALLET_NEW, payload: { password, email } })
+export const setNewWallet = (guid, sharedKey, mnemonic) =>
+  ({ type: WALLET_NEW_SET, payload: { guid, sharedKey, mnemonic } })
 export const newWalletSuccess = () =>
-  ({ type: WALLET_NEW_SUCCESS})
+  ({ type: WALLET_NEW_SUCCESS })
 export const newWalletFailure = (error) =>
-  ({ type: WALLET_NEW_FAILURE, payload: error})
+  ({ type: WALLET_NEW_FAILURE, payload: error })

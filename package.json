@@ -4,8 +4,9 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "postinstall": "cd node_modules/sjcl || cd ../sjcl && ./configure --with-sha1 && make",
     "start": "babel-node src/index.js",
+    "test": "node_modules/.bin/mocha --compilers js:babel-core/register --watch test/**/*.spec.js",
+    "coverage": "node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- test/**/*.spec.js",
     "watch": "node_modules/.bin/npm-watch",
     "compile": "babel --presets es2015,stage-2 -d lib/ src/",
     "prepublish": "npm run compile"
@@ -23,14 +24,20 @@
   "license": "Unlicense",
   "standard": {
     "global": [
-      "fetch"
+      "fetch",
+      "describe",
+      "it"
     ]
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
+    "babel-istanbul": "~0.12.2",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-2": "^6.22.0",
+    "chai": "~3.5.0",
+    "chai-spies": "~0.7.1",
+    "mocha": "~3.2.0",
     "npm-watch": "~0.1.8",
     "standard": "~8.6.0"
   },
@@ -47,6 +54,7 @@
     "immutable": "^3.8.1",
     "immutable-ext": "https://github.com/pernas/immutable-ext.git",
     "isomorphic-fetch": "^2.2.1",
+    "pbkdf2": "~3.0.12",
     "pretty-immutable": "^1.0.1",
     "ramda": "^0.23.0",
     "ramda-lens": "https://github.com/ramda/ramda-lens.git",
