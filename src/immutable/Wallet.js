@@ -92,7 +92,7 @@ export const addAddress = curry((wallet, address, password) => {
   if (!isDoubleEncrypted(wallet)) {
     return Either.of(append(wallet, address))
   } else if (isValidSecondPwd(password, wallet)) {
-    return AddressUtil.encrypt(it, sk, password, address).map(append(wallet))
+    return AddressUtil.encryptSync(it, sk, password, address).map(append(wallet))
   } else {
     return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
   }
@@ -128,16 +128,16 @@ export const encryptMonadic = curry((M, cipher, password, wallet) => {
   }
 })
 
-// encrypt :: String -> Wallet -> Either Error Wallet
+// encrypt :: String -> Wallet -> Task Error Wallet
 export const encrypt = encryptMonadic(
-  Either,
+  Task,
   crypto.encryptSecPass
 )
 
-// encryptAsync :: String -> Wallet -> Task Error Wallet
-export const encryptAsync = encryptMonadic(
-  Task,
-  crypto.encryptSecPassAsync
+// encryptSync :: String -> Wallet -> Either Error Wallet
+export const encryptSync = encryptMonadic(
+  Either,
+  crypto.encryptSecPassSync
 )
 
 // decryptMonadic :: Monad m => m -> (String -> m String) -> (String -> m Wallet) -> String -> Wallet -> m Wallet
@@ -155,23 +155,23 @@ export const decryptMonadic = curry((M, cipher, verify, password, wallet) => {
   }
 })
 
-// validateSecondPwd -> (a -> m a) -> (a -> m Error) -> String -> Wallet
+// validateSecondPwd -> (a -> m a) -> (a -> m b) -> String -> Wallet
 const validateSecondPwd = curry((pass, fail, password, wallet) =>
   isValidSecondPwd(password, wallet) ? pass(wallet) : fail(new Error('INVALID_SECOND_PASSWORD'))
 )
 
-// decrypt :: String -> Wallet -> Either Error Wallet
+// decrypt :: String -> Wallet -> Task Error Wallet
 export const decrypt = decryptMonadic(
-  Either,
+  Task,
   crypto.decryptSecPass,
-  validateSecondPwd(Either.of, Either.Left)
+  validateSecondPwd(Task.of, Task.rejected)
 )
 
-// decryptAsync :: String -> Wallet -> Task Error Wallet
-export const decryptAsync = decryptMonadic(
-  Task,
-  crypto.decryptSecPassAsync,
-  validateSecondPwd(Task.of, Task.rejected)
+// decryptSync :: String -> Wallet -> Either Error Wallet
+export const decryptSync = decryptMonadic(
+  Either,
+  crypto.decryptSecPassSync,
+  validateSecondPwd(Either.of, Either.Left)
 )
 
 export const createNew = curry((guid, sharedKey, mnemonic) => {

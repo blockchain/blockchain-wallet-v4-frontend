@@ -36,9 +36,9 @@ export const setLabel = R.curry((l, address) => {
   return R.set(label, l, address)
 })
 
-// encrypt :: Number -> String -> String -> Address -> Either Error Address
-export const encrypt = R.curry((iterations, sharedKey, password, address) => {
-  const cipher = crypto.encryptSecPass(sharedKey, iterations, password)
+// encryptSync :: Number -> String -> String -> Address -> Either Error Address
+export const encryptSync = R.curry((iterations, sharedKey, password, address) => {
+  const cipher = crypto.encryptSecPassSync(sharedKey, iterations, password)
   return traverseOf(priv, Either.of, cipher, address)
 })
 

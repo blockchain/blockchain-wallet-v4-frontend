@@ -33,9 +33,9 @@ describe('Address', () => {
     })
   })
 
-  describe('encrypt', () => {
+  describe('encryptSync', () => {
     it('should return an encrypted Address', () => {
-      let encrypted = AddressUtil.encrypt(1, null, 'secret', address)
+      let encrypted = AddressUtil.encryptSync(1, null, 'secret', address)
       expect(encrypted.isRight).to.equal(true)
       expect(encrypted.value.priv).to.equal('enc<5priv>')
     })

@@ -56,20 +56,8 @@ export const encryptWallet = curry((data, password, pbkdf2Iterations, version) =
   })
 })
 
-// stretchPassword :: password -> salt -> iterations -> keylen -> Buffer
+// stretchPassword :: password -> salt -> iterations -> keylen -> Task Error Buffer
 function stretchPassword (password, salt, iterations, keyLenBits) {
-  assert(salt, 'salt missing')
-  assert(password && typeof password === 'string', 'password string required')
-  assert(typeof iterations === 'number' && iterations > 0, 'positive iterations number required')
-  assert(keyLenBits == null || keyLenBits % 8 === 0, 'key length must be evenly divisible into bytes')
-
-  var saltBuffer = new Buffer(salt, 'hex')
-  var keyLenBytes = (keyLenBits || 256) / 8
-  return pbkdf2Sync(password, saltBuffer, iterations, keyLenBytes, 'sha1')
-}
-
-// stretchPasswordAsync :: password -> salt -> iterations -> keylen -> Task Error Buffer
-function stretchPasswordAsync (password, salt, iterations, keyLenBits) {
   assert(salt, 'salt missing')
   assert(password && typeof password === 'string', 'password string required')
   assert(typeof iterations === 'number' && iterations > 0, 'positive iterations number required')
@@ -86,8 +74,34 @@ function stretchPasswordAsync (password, salt, iterations, keyLenBits) {
   })
 }
 
-// decryptDataWithPassword :: data -> password -> iterations -> options -> Buffer
+// stretchPasswordSync :: password -> salt -> iterations -> keylen -> Buffer
+function stretchPasswordSync (password, salt, iterations, keyLenBits) {
+  assert(salt, 'salt missing')
+  assert(password && typeof password === 'string', 'password string required')
+  assert(typeof iterations === 'number' && iterations > 0, 'positive iterations number required')
+  assert(keyLenBits == null || keyLenBits % 8 === 0, 'key length must be evenly divisible into bytes')
+
+  var saltBuffer = new Buffer(salt, 'hex')
+  var keyLenBytes = (keyLenBits || 256) / 8
+  return pbkdf2Sync(password, saltBuffer, iterations, keyLenBytes, 'sha1')
+}
+
+// decryptDataWithPassword :: data -> password -> iterations -> options -> Task Error Buffer
 function decryptDataWithPassword (data, password, iterations, options) {
+  if (!data) return Task.of(data)
+  assert(password, 'password missing')
+  assert(iterations, 'iterations missing')
+  var dataHex = new Buffer(data, 'base64')
+  var iv = dataHex.slice(0, U.SALT_BYTES)
+  var payload = dataHex.slice(U.SALT_BYTES)
+  var salt = iv
+  return stretchPassword(password, salt, iterations, U.KEY_BIT_LEN).map((key) => {
+    return decryptBufferWithKey(payload, iv, key, options)
+  })
+}
+
+// decryptDataWithPasswordSync :: data -> password -> iterations -> options -> Buffer
+function decryptDataWithPasswordSync (data, password, iterations, options) {
   if (!data) { return data }
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')
@@ -98,23 +112,8 @@ function decryptDataWithPassword (data, password, iterations, options) {
   //  AES initialization vector is also used as the salt in password stretching
   var salt = iv
   // Expose stretchPassword for iOS to override
-  var key = stretchPassword(password, salt, iterations, U.KEY_BIT_LEN)
-  var res = decryptBufferWithKey(payload, iv, key, options)
-  return res
-}
-
-// decryptDataWithPasswordAsync :: data -> password -> iterations -> options -> Task Error Buffer
-function decryptDataWithPasswordAsync (data, password, iterations, options) {
-  if (!data) return Task.of(data)
-  assert(password, 'password missing')
-  assert(iterations, 'iterations missing')
-  var dataHex = new Buffer(data, 'base64')
-  var iv = dataHex.slice(0, U.SALT_BYTES)
-  var payload = dataHex.slice(U.SALT_BYTES)
-  var salt = iv
-  return stretchPasswordAsync(password, salt, iterations, U.KEY_BIT_LEN).map((key) => {
-    return decryptBufferWithKey(payload, iv, key, options)
-  })
+  var key = stretchPasswordSync(password, salt, iterations, U.KEY_BIT_LEN)
+  return decryptBufferWithKey(payload, iv, key, options)
 }
 
 // payload: (Buffer)
@@ -131,23 +130,23 @@ function decryptBufferWithKey (payload, iv, key, options) {
 }
 
 function encryptDataWithPassword (data, password, iterations) {
+  if (!data) return Task.of(data)
+  assert(password, 'password missing')
+  assert(iterations, 'iterations missing')
+  var salt = crypto.randomBytes(U.SALT_BYTES)
+  return stretchPassword(password, salt, iterations, U.KEY_BIT_LEN).map((key) => {
+    return exports.encryptDataWithKey(data, key, salt)
+  })
+}
+
+function encryptDataWithPasswordSync (data, password, iterations) {
   if (!data) { return data }
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')
 
   var salt = crypto.randomBytes(U.SALT_BYTES)
-  var key = stretchPassword(password, salt, iterations, U.KEY_BIT_LEN)
+  var key = stretchPasswordSync(password, salt, iterations, U.KEY_BIT_LEN)
   return exports.encryptDataWithKey(data, key, salt)
-}
-
-function encryptDataWithPasswordAsync (data, password, iterations) {
-  if (!data) return Task.of(data)
-  assert(password, 'password missing')
-  assert(iterations, 'iterations missing')
-  var salt = crypto.randomBytes(U.SALT_BYTES)
-  return stretchPasswordAsync(password, salt, iterations, U.KEY_BIT_LEN).map((key) => {
-    return exports.encryptDataWithKey(data, key, salt)
-  })
 }
 
 // data: e.g. JSON.stringify({...})
@@ -166,18 +165,18 @@ export function encryptDataWithKey (data, key, iv) {
 const checkFailure = curry((pass, fail, str) => str === '' ? fail(new Error('DECRYPT_FAILURE')) : pass(str))
 
 export const encryptSecPass = curry((sharedKey, pbkdf2Iterations, password, message) =>
-  Either.try(() => encryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations))())
+  encryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations))
 
-export const encryptSecPassAsync = curry((sharedKey, pbkdf2Iterations, password, message) =>
-  encryptDataWithPasswordAsync(message, sharedKey + password, pbkdf2Iterations))
+export const encryptSecPassSync = curry((sharedKey, pbkdf2Iterations, password, message) =>
+  Either.try(() => encryptDataWithPasswordSync(message, sharedKey + password, pbkdf2Iterations))())
 
 export const decryptSecPass = curry((sharedKey, pbkdf2Iterations, password, message) =>
-  Either.try(() => decryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations))()
-    .chain(checkFailure(Either.of, Either.Left)))
-
-export const decryptSecPassAsync = curry((sharedKey, pbkdf2Iterations, password, message) =>
-  decryptDataWithPasswordAsync(message, sharedKey + password, pbkdf2Iterations)
+  decryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations)
     .chain(checkFailure(Task.of, Task.rejected)))
+
+export const decryptSecPassSync = curry((sharedKey, pbkdf2Iterations, password, message) =>
+  Either.try(() => decryptDataWithPasswordSync(message, sharedKey + password, pbkdf2Iterations))()
+    .chain(checkFailure(Either.of, Either.Left)))
 
 export const hashNTimes = curry((iterations, data) => {
   assert(iterations > 0, '`iterations` must be a number greater than 0')
