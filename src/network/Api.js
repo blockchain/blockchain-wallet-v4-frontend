@@ -42,7 +42,7 @@ const createApi = ({
   }
 
   // checkStatus :: Response -> Promise Response
-  const checkStatus = (r) => r.ok ? Promise.resolve(r) : r.json().then(j => Promise.reject(j))
+  const checkStatus = (r) => r.ok ? Promise.resolve(r) : r.text().then(j => Promise.reject(j))
 
   // extractData :: Response -> Promise (JSON | BLOB | TEXT)
   const extractData = (r) => {
