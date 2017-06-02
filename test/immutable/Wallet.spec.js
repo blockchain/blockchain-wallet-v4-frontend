@@ -1,7 +1,6 @@
 import chai from 'chai'
 import spies from 'chai-spies'
 import * as R from 'ramda'
-import Task from 'data.task'
 
 chai.use(spies)
 const { expect } = chai
@@ -19,8 +18,7 @@ describe('Wallet', () => {
   const wallet = WalletUtil.fromJS(walletFixture)
   const walletSecpass = WalletUtil.fromJS(walletFixtureSecpass)
 
-  crypto.encryptSecPass = R.curry((sk, iter, pw, str) => `enc<${str}>`)
-  crypto.encryptSecPassAsync = R.curry((sk, iter, pw, str) => Task.of(`enc<${str}>`))
+  crypto.encryptDataWithKey = (data, key, iv) => data ? `enc<${data}>` : null
 
   describe('toJS', () => {
     it('should return the correct object', () => {
@@ -58,7 +56,8 @@ describe('Wallet', () => {
     it('should add an unencrypted address', () => {
       let address = new Address({ priv: '5abc' })
       let withNewAddress = WalletUtil.addAddress(wallet, address, null)
-      let addresses = WalletUtil.selectAddresses(withNewAddress)
+      expect(withNewAddress.isRight).to.equal(true)
+      let addresses = WalletUtil.selectAddresses(withNewAddress.value)
       expect(addresses.length).to.equal(walletFixture.keys.length + 1)
       expect(AddressUtil.toJS(R.last(addresses))).to.deep.equal(AddressUtil.toJS(address))
     })
@@ -66,7 +65,8 @@ describe('Wallet', () => {
     it('should add a double encrypted address', () => {
       let address = new Address({ priv: '5abc', addr: '1asdf' })
       let withNewAddress = WalletUtil.addAddress(walletSecpass, address, 'secret')
-      let as = WalletUtil.selectAddresses(withNewAddress)
+      expect(withNewAddress.isRight).to.equal(true)
+      let as = WalletUtil.selectAddresses(withNewAddress.value)
       expect(as.length).to.equal(walletFixture.keys.length + 1)
       expect(R.last(as).priv).to.equal('enc<5abc>')
     })
@@ -103,7 +103,7 @@ describe('Wallet', () => {
     it('should encrypt', () => {
       let encrypted = WalletUtil.encrypt('secret', wallet).value
       let [before, after] = [wallet, encrypted].map(WalletUtil.selectAddresses)
-      let enc = crypto.encryptSecPass(null, null, null)
+      let enc = crypto.encryptDataWithKey
       let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
       expect(success).to.equal(true)
     })
@@ -113,7 +113,7 @@ describe('Wallet', () => {
     it('should encrypt', (done) => {
       WalletUtil.encryptAsync('secret', wallet).fork(done, (encrypted) => {
         let [before, after] = [wallet, encrypted].map(WalletUtil.selectAddresses)
-        let enc = crypto.encryptSecPass(null, null, null)
+        let enc = crypto.encryptDataWithKey
         let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
         expect(success).to.equal(true)
         done()

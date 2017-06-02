@@ -6,8 +6,6 @@ import * as U from './utils'
 import { curry, compose, lensProp, assoc, dissoc, view } from 'ramda'
 import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
-import { WalletUtils } from '../immutable'
-import * as Lens from '../lens'
 
 export const parseDecrypted = (json) => (
   Either.try(JSON.parse)(json).leftMap(() => new Error('WRONG_PASSWORD'))
@@ -43,24 +41,6 @@ export const decryptPayload = password => payload => {
          .map(o => assoc('walletImmutable', o.payload, o))
          .map(o => dissoc('payload', o))
          .map(o => assoc('password', password, o))
-}
-
-// encryptState :: State -> JSON
-export const encryptState = state => {
-  const json = WalletUtils.toJS(state.get('walletImmutable'))
-  const serialized = JSON.stringify(json)
-  const iterations = view(Lens.pbkdf2Iterations, state)
-  const password = view(Lens.password, state)
-  const encrypted = encryptWallet(serialized, password, iterations, 3.0)
-  return ({
-    guid: json.guid,
-    sharedKey: json.sharedKey,
-    length: encrypted.length,
-    payload: encrypted,
-    checksum: sha256(encrypted).toString('hex'),
-    old_checksum: view(Lens.payloadChecksum, state),
-    language: view(Lens.language, state)
-  })
 }
 
 export const encryptWallet = curry((data, password, pbkdf2Iterations, version) => {
@@ -156,10 +136,8 @@ function encryptDataWithPassword (data, password, iterations) {
   assert(iterations, 'iterations missing')
 
   var salt = crypto.randomBytes(U.SALT_BYTES)
-  // Expose stretchPassword for iOS to override
   var key = stretchPassword(password, salt, iterations, U.KEY_BIT_LEN)
-
-  return encryptDataWithKey(data, key, salt)
+  return exports.encryptDataWithKey(data, key, salt)
 }
 
 function encryptDataWithPasswordAsync (data, password, iterations) {
@@ -168,7 +146,7 @@ function encryptDataWithPasswordAsync (data, password, iterations) {
   assert(iterations, 'iterations missing')
   var salt = crypto.randomBytes(U.SALT_BYTES)
   return stretchPasswordAsync(password, salt, iterations, U.KEY_BIT_LEN).map((key) => {
-    return encryptDataWithKey(data, key, salt)
+    return exports.encryptDataWithKey(data, key, salt)
   })
 }
 
@@ -176,7 +154,7 @@ function encryptDataWithPasswordAsync (data, password, iterations) {
 // key: AES key (256 bit Buffer)
 // iv: optional initialization vector
 // returns: concatenated and Base64 encoded iv + payload
-function encryptDataWithKey (data, key, iv) {
+export function encryptDataWithKey (data, key, iv) {
   iv = iv || crypto.randomBytes(U.SALT_BYTES)
   var dataBytes = new Buffer(data, 'utf8')
   var options = { mode: U.AES.CBC, padding: U.Iso10126 }
@@ -185,17 +163,21 @@ function encryptDataWithKey (data, key, iv) {
   return payload.toString('base64')
 }
 
+const checkFailure = curry((pass, fail, str) => str === '' ? fail(new Error('DECRYPT_FAILURE')) : pass(str))
+
 export const encryptSecPass = curry((sharedKey, pbkdf2Iterations, password, message) =>
-  encryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations))
+  Either.try(() => encryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations))())
 
 export const encryptSecPassAsync = curry((sharedKey, pbkdf2Iterations, password, message) =>
   encryptDataWithPasswordAsync(message, sharedKey + password, pbkdf2Iterations))
 
 export const decryptSecPass = curry((sharedKey, pbkdf2Iterations, password, message) =>
-  decryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations))
+  Either.try(() => decryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations))()
+    .chain(checkFailure(Either.of, Either.Left)))
 
 export const decryptSecPassAsync = curry((sharedKey, pbkdf2Iterations, password, message) =>
-  decryptDataWithPasswordAsync(message, sharedKey + password, pbkdf2Iterations))
+  decryptDataWithPasswordAsync(message, sharedKey + password, pbkdf2Iterations)
+    .chain(checkFailure(Task.of, Task.rejected)))
 
 export const hashNTimes = curry((iterations, data) => {
   assert(iterations > 0, '`iterations` must be a number greater than 0')

@@ -57,7 +57,9 @@ export const walletImmutable = (state = WALLET_INITIAL_STATE, action) => {
     }
     case A.ADDRESS_ADD: {
       const { address, secondPassword } = action.payload
-      return WalletUtil.addAddress(state, AddressUtil.fromJS(address), secondPassword)
+      let withNewAddress = WalletUtil.addAddress(state, AddressUtil.fromJS(address), secondPassword)
+      if (withNewAddress.isRight) return withNewAddress.value
+      return state
     }
     case A.ADDRESS_LABEL: {
       const { address, label } = action.payload
