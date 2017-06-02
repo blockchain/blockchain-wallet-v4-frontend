@@ -39,7 +39,7 @@
     "chai-spies": "~0.7.1",
     "mocha": "~3.2.0",
     "npm-watch": "~0.1.8",
-    "standard": "~8.6.0"
+    "standard": "^10.0.2"
   },
   "dependencies": {
     "bip39": "^2.3.0",
