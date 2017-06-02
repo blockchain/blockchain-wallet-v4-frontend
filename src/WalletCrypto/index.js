@@ -63,7 +63,7 @@ function stretchPassword (password, salt, iterations, keyLenBits) {
   assert(typeof iterations === 'number' && iterations > 0, 'positive iterations number required')
   assert(keyLenBits == null || keyLenBits % 8 === 0, 'key length must be evenly divisible into bytes')
 
-  var saltBuffer = new Buffer(salt, 'hex')
+  var saltBuffer = Buffer.from(salt, 'hex')
   var keyLenBytes = (keyLenBits || 256) / 8
 
   return new Task((reject, resolve) => {
@@ -81,7 +81,7 @@ function stretchPasswordSync (password, salt, iterations, keyLenBits) {
   assert(typeof iterations === 'number' && iterations > 0, 'positive iterations number required')
   assert(keyLenBits == null || keyLenBits % 8 === 0, 'key length must be evenly divisible into bytes')
 
-  var saltBuffer = new Buffer(salt, 'hex')
+  var saltBuffer = Buffer.from(salt, 'hex')
   var keyLenBytes = (keyLenBits || 256) / 8
   return pbkdf2Sync(password, saltBuffer, iterations, keyLenBytes, 'sha1')
 }
@@ -91,7 +91,7 @@ function decryptDataWithPassword (data, password, iterations, options) {
   if (!data) return Task.of(data)
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')
-  var dataHex = new Buffer(data, 'base64')
+  var dataHex = Buffer.from(data, 'base64')
   var iv = dataHex.slice(0, U.SALT_BYTES)
   var payload = dataHex.slice(U.SALT_BYTES)
   var salt = iv
@@ -106,7 +106,7 @@ function decryptDataWithPasswordSync (data, password, iterations, options) {
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')
 
-  var dataHex = new Buffer(data, 'base64')
+  var dataHex = Buffer.from(data, 'base64')
   var iv = dataHex.slice(0, U.SALT_BYTES)
   var payload = dataHex.slice(U.SALT_BYTES)
   //  AES initialization vector is also used as the salt in password stretching
@@ -155,7 +155,7 @@ function encryptDataWithPasswordSync (data, password, iterations) {
 // returns: concatenated and Base64 encoded iv + payload
 export function encryptDataWithKey (data, key, iv) {
   iv = iv || crypto.randomBytes(U.SALT_BYTES)
-  var dataBytes = new Buffer(data, 'utf8')
+  var dataBytes = Buffer.from(data, 'utf8')
   var options = { mode: U.AES.CBC, padding: U.Iso10126 }
   var encryptedBytes = U.AES.encrypt(dataBytes, key, iv, options)
   var payload = Buffer.concat([ iv, encryptedBytes ])

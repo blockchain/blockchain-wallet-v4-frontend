@@ -1,4 +1,4 @@
-import { Map, List, OrderedMap, fromJS } from 'immutable-ext'
+import { Map, List, fromJS } from 'immutable-ext'
 import { set, over, map, assoc } from 'ramda'
 import { iLensPath } from '../lens'
 import { WALLET_CLEAR, WALLET_DATA_LOAD, CONTEXT_TXS_LOAD, CONTEXT_TXS_CLEAR } from '../actions'
@@ -19,7 +19,7 @@ const blockchainDataReducer = (state = INITIAL_STATE, action) => {
       let { payload } = action
       const object = {
         info: { latest_block: payload.info.latest_block },
-        walletInfo: payload.wallet,
+        walletInfo: payload.wallet
       }
       const io = fromJS(object)
       const am = Map(map(a => [a.address, fromJS(assoc('transactions', [], a))], payload.addresses))

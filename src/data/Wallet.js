@@ -2,13 +2,13 @@ import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import Either from 'data.either'
 import Task from 'data.task'
 import * as R from 'ramda'
-const { compose, over, view, curry } = R
 import { traversed, traverseOf } from 'ramda-lens'
 import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
 import * as AddressUtil from './Address'
 import * as HDWalletUtil from './HDWallet'
 import { typeDef, shift, shiftIProp } from '../util'
+const { compose, over, view, curry } = R
 
 /* Wallet :: {
   guid :: String

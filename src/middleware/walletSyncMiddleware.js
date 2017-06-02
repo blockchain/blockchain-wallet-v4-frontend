@@ -1,5 +1,3 @@
-// import createWalletApi from './walletApi'
-import { createWalletApi } from '../network'
 import { WALLET_INITIAL_STATE } from '../reducers'
 import * as A from '../actions'
 
@@ -10,12 +8,12 @@ const walletSyncMiddleware = ({ wpath, api } = {}) => (store) => (next) => (acti
   // Easily know when to sync, because of ✨immutable✨ data
   // the initial_state check could be done against full payload state
 
-  // TODO :: refactor/simplify this middleware 
-  if (action.type !== A.PAYLOAD_CHECKSUM_CHANGE
-      && prevWallet.get('password') !== ''
-      && nextWallet.get('password') !== '' // we need a logged in control here
-      && prevWallet.get('walletImmutable') !== WALLET_INITIAL_STATE
-      && prevWallet !== nextWallet) {
+  // TODO :: refactor/simplify this middleware
+  if (action.type !== A.PAYLOAD_CHECKSUM_CHANGE &&
+      prevWallet.get('password') !== '' &&
+      nextWallet.get('password') !== '' && // we need a logged in control here
+      prevWallet.get('walletImmutable') !== WALLET_INITIAL_STATE &&
+      prevWallet !== nextWallet) {
     api.saveWallet(nextWallet).then(checksum => {
       store.dispatch(A.syncStart())
       store.dispatch(A.changePayloadChecksum(checksum))
@@ -42,6 +40,5 @@ const walletSyncMiddleware = ({ wpath, api } = {}) => (store) => (next) => (acti
 
   return result
 }
-
 
 export default walletSyncMiddleware

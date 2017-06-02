@@ -37,7 +37,7 @@ const createApi = ({
         options.body = body
         return fetch(urlPOST, options).then(checkStatus).then(extractData)
       default:
-        return Promise.reject({error: 'HTTP_ACTION_NOT_SUPPORTED'})
+        return Promise.reject(new Error('HTTP_ACTION_NOT_SUPPORTED'))
     }
   }
 
@@ -79,7 +79,7 @@ const createApi = ({
   // fetchWallet :: (String) -> Promise JSON
   const fetchWalletWithSession = (guid, sessionToken) => {
     var headers = { sessionToken }
-    var data = { format: 'json', resend_code: null };
+    var data = { format: 'json', resend_code: null }
     return request('GET', 'wallet/' + guid, data, headers)
   }
   // saveWallet :: (data) -> Promise JSON
@@ -106,18 +106,18 @@ const createApi = ({
   const obtainSessionToken = () => {
     var processResult = function (data) {
       if (!data.token || !data.token.length) {
-        return Promise.reject('INVALID_SESSION_TOKEN');
+        return Promise.reject(new Error('INVALID_SESSION_TOKEN'))
       }
-      return data.token;
-    };
-    return request('POST', 'wallet/sessions').then(processResult);
+      return data.token
+    }
+    return request('POST', 'wallet/sessions').then(processResult)
   }
 
   const establishSession = token => {
     if (token) {
-      return Promise.resolve(token);
+      return Promise.resolve(token)
     } else {
-      return obtainSessionToken();
+      return obtainSessionToken()
     }
   }
 
@@ -128,14 +128,14 @@ const createApi = ({
   }
 
   const generateUUIDs = (count) => {
-    var data = { format: 'json', n: count };
+    var data = { format: 'json', n: count }
     var extractUUIDs = function (data) {
       if (!data.uuids || data.uuids.length !== count) {
-        return Promise.reject('Could not generate uuids');
+        return Promise.reject(new Error('Could not generate uuids'))
       }
-      return data.uuids;
-    };
-    return request('GET', 'uuid-generator', data).then(extractUUIDs);
+      return data.uuids
+    }
+    return request('GET', 'uuid-generator', data).then(extractUUIDs)
   }
 
   // createPinEntry :: HEXString(32Bytes) -> HEXString(32Bytes) -> String -> Promise Response

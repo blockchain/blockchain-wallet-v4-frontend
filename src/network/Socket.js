@@ -1,6 +1,6 @@
 
-const WebSocket = global.WebSocket || global.MozWebSocket
 import { compose, concat } from 'ramda'
+const WebSocket = global.WebSocket || global.MozWebSocket
 
 function WS (uri, protocols, opts) {
   return protocols ? new WebSocket(uri, protocols) : new WebSocket(uri)
@@ -34,7 +34,6 @@ class Socket {
     } = options
     this.wsUrl = wsUrl
     this.headers = { 'Origin': 'https://blockchain.info' }
-    this.socket
     this.reconnect = null
     this.pingInterval = 15000
     this.pingIntervalPID = null

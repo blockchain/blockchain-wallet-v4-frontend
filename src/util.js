@@ -1,4 +1,4 @@
-import { is, curry, compose, prop, lens, view, assoc, dissoc } from 'ramda'
+import { is, curry, compose, prop, lens, view } from 'ramda'
 import { iLensProp } from './lens'
 
 export const error = (e) => { throw e }

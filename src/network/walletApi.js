@@ -4,10 +4,10 @@ import { assoc, dissoc, lensProp, over, compose, map, identity } from 'ramda'
 import * as WCrypto from '../WalletCrypto'
 import Promise from 'es6-promise'
 import { Wallet } from '../immutable'
-Promise.polyfill()
 import { futurizeP } from 'futurize'
 import createApi from './Api'
 import { Map } from 'immutable-ext'
+Promise.polyfill()
 
 const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   const ApiPromise = createApi({rootUrl, apiUrl, apiCode});
@@ -45,7 +45,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
     if (session) {
       return fetchWallet(guid, session, password)
     }
-    return Promise.reject('MISSING_CREDENTIALS')
+    return Promise.reject(new Error('MISSING_CREDENTIALS'))
   }
 
   const saveWalletTask = (state) =>
