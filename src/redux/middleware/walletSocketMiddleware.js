@@ -1,6 +1,6 @@
 
 import { compose, prop } from 'ramda'
-import { Socket } from '../network'
+import { Socket } from '../../network'
 import { ADDRESS_ADD } from '../actions'
 
 // NOTE: move these actions and action creators to src/actions?

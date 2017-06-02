@@ -1,6 +1,6 @@
 import * as A from '../actions'
-import * as WalletUtil from '../data/Wallet'
-import * as AddressUtil from '../data/Address'
+import * as WalletUtil from '../../data/Wallet'
+import * as AddressUtil from '../../data/Address'
 import { combineReducers } from 'redux-immutable'
 
 const emptyWallet = {

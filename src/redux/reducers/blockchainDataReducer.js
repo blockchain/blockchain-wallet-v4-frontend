@@ -1,6 +1,6 @@
 import { Map, List, fromJS } from 'immutable-ext'
 import { set, over, map, assoc } from 'ramda'
-import { iLensPath } from '../lens'
+import { iLensPath } from '../../lens'
 import { WALLET_CLEAR, WALLET_DATA_LOAD, CONTEXT_TXS_LOAD, CONTEXT_TXS_CLEAR } from '../actions'
 
 const INITIAL_OBJECT = {

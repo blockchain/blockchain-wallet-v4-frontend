@@ -1,7 +1,7 @@
 
 import { view, compose } from 'ramda'
 import { mapped } from 'ramda-lens'
-import * as Lens from '../lens'
+import * as Lens from '../../lens'
 import { List } from 'immutable-ext'
 
 // _xpubs :: [account] -> [xpub]

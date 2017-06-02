@@ -1,8 +1,8 @@
 import { expect } from 'chai'
 import { Map } from 'immutable-ext'
 import * as WalletUtil from '../../src/data/Wallet'
-import * as Actions from '../../src/actions'
-import { walletImmutable } from '../../src/reducers/walletReducer'
+import * as Actions from '../../src/redux/actions'
+import { walletImmutable } from '../../src/redux/reducers/walletReducer'
 
 const walletFixture = require('../_fixtures/wallet.v3')
 const walletNewFixture = require('../_fixtures/wallet-new.v3')

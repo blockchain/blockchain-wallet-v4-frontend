@@ -1,7 +1,7 @@
 
 import { takeEvery, call, put, select } from 'redux-saga/effects'
-import { getTransactions } from '../selectors'
-import * as A from '../actions'
+import { getTransactions } from './selectors'
+import * as A from './actions'
 import BIP39 from 'bip39'
 
 // api should be promified api (no task for saga)
