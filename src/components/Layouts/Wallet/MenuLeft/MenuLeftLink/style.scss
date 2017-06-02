@@ -1,0 +1,29 @@
+
+.menu-left-link {
+  text-transform: uppercase;
+}
+
+.link {
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(flex-start);
+  @include align-items(center);
+  @include box-sizing(border-box);
+  padding: 10px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1em;
+  font-weight: 400;
+  color: $basic-grey;
+}
+
+.linkActive {
+  color: $iris;
+}
+
+.icon {
+  display: block;
+  vertical-align: middle;
+  font-size: 20px;
+  width: 40px;
+}

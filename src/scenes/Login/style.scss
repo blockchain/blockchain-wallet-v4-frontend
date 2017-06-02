@@ -1,0 +1,30 @@
+
+.login {
+  @include display-flex();
+  @include flex-direction(column);
+  @include align-content(center);
+  @include box-sizing(border-box);
+  padding: 35px 40px 30px 40px;
+  width: 550px;
+  max-height: 600px;
+  @include box-shadow(0 0 20px -8px black);
+  background-color: #FFFFFF;
+}
+
+.header {
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(space-between);
+}
+
+.separator {
+  border-bottom: 1px solid #F0ECEC;
+  margin: 10px 0 20px 0;
+}
+
+.footer {
+  padding: 10px 0;
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(flex-end);
+}

@@ -1,7 +1,8 @@
+export const RECORD_LOG = 'RECORD_LOG'
+
 export const LOGIN_START = 'LOGIN_START'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
-
 export const SAVE_SESSION = 'SAVE_SESSION'
 
 export const SECOND_PASSWORD_ERROR = 'SECOND_PASSWORD_ERROR'

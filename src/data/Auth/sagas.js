@@ -1,54 +1,32 @@
+import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
-import Promise from 'es6-promise'
 import { prop, assoc } from 'ramda'
+
 import * as walletActions from 'dream-wallet/lib/actions'
 import { getWalletContext } from 'dream-wallet/lib/selectors'
 
 import * as actions from './actions.js'
+import * as authActions from '../Log/actions.js'
 import { getSession } from './selectors'
 import { api } from 'services/walletApi.js'
 
-Promise.polyfill()
-
-const delay = ms => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(true), ms)
-  })
-}
-
-const pollingSaga = function * (session) {
-  let rounds = 50
-  while (rounds > 0) {
-    rounds--
-    try {
-      yield call(delay, 2000)
-      let response = yield call(api.pollForSessioGUID, session)
-      let guid = prop('guid', response)
-      if (guid) {
-        // authorized
-        return true
-      }
-    } catch (error) {
-      // cancellation error -- can handle this if you wish
-      return false
-    }
+const pollingSaga = function * (session, n = 50) {
+  if (n === 0) { return false }
+  try {
+    yield call(delay, 2000)
+    let response = yield call(api.pollForSessioGUID, session)
+    if (prop('guid', response)) { return true }
+  } catch (error) {
+    return false
   }
-  // rounds exhausted without authorization
-  return false
+  return yield call(pollingSaga, session, n - 1)
 }
-
-console.log(api)
 
 const fetchWalletSaga = function * (guid, sharedKey, session, password) {
   try {
-    console.log('0')
     let wallet = yield call(api.downloadWallet, guid, sharedKey, session, password)
-    console.log('1')
     yield put(walletActions.loadWallet(wallet))
-    console.log('2')
-
     yield put(walletActions.requestWalletData(getWalletContext(wallet).toJS()))
-    console.log('3')
     yield put(actions.loginSuccess())
   } catch (error) {
     if (prop('authorization_required', error)) {
@@ -57,7 +35,7 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
         yield call(fetchWalletSaga, guid, undefined, session, password)
       }
     } else {
-      yield put(actions.loginError(error))
+      yield put(authActions.recordLog({ type: 'ERROR', message: 'Could not establish the session.' }))
     }
   }
 }
@@ -68,10 +46,14 @@ const login = function * (action) {
   if (credentials.sharedKey) {
     yield call(fetchWalletSaga, credentials.guid, credentials.sharedKey, undefined, credentials.password)
   } else {
-    // if no shared key check for session
     let session = yield select(getSession(credentials.guid))
-    session = yield call(api.establishSession, session)  // establishSession logic should not receive existent session as parameter
-    yield put(actions.saveSession(assoc(credentials.guid, session, {})))
+    try {
+      // if no shared key check for session
+      session = yield call(api.establishSession, session)  // establishSession logic should not receive existent session as parameter
+      yield put(actions.saveSession(assoc(credentials.guid, session, {})))
+    } catch (error) {
+      yield put(authActions.recordLog({ type: 'ERROR', message: 'Could not establish the session.' }))
+    }
     yield call(fetchWalletSaga, credentials.guid, undefined, session, credentials.password)
   }
 }

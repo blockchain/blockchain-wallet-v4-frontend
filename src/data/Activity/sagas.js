@@ -1,4 +1,4 @@
-import { FETCH_ACTIVITIES_SUCCESSFUL } from '../actionTypes'
+import { FETCH_ACTIVITIES_SUCCESSFUL } from 'data/actionTypes'
 import { call, put } from 'redux-saga/effects'
 
 function * fetchActivities () {

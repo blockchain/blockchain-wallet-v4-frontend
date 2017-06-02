@@ -1,0 +1,47 @@
+
+/* FLEX */
+@mixin display-flex() {
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex-direction($args...) {
+  -webkit-flex-direction: $args;
+  -ms-flex-direction: $args;
+  flex-direction: $args;
+}
+
+@mixin flex-grow($args...) {
+  -webkit-flex-grow: $args;
+  flex-grow: $args;
+}
+
+@mixin flex-shrink($args...) {
+  -webkit-flex-shrink: $args;
+  flex-shrink: $args;
+}
+
+@mixin flex-basis($args...) {
+  -webkit-flex-basis: $args;
+  flex-basis: $args;
+}
+
+@mixin flex($args...) {
+  -webkit-flex: $args;
+  flex: $args;
+}
+
+@mixin align-content($args...) {
+  -webkit-align-content: $args;
+  align-content: $args;
+}
+
+@mixin align-items($args...) {
+  -webkit-align-items: $args;
+  align-items: $args;
+}
+
+@mixin justify-content($args...) {
+  -webkit-justify-content: $args;
+  justify-content: $args;
+}

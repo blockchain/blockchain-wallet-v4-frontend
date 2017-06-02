@@ -1,0 +1,24 @@
+
+.link {
+  @include display-flex();
+  @include align-items(center);
+}
+
+.dropdown {
+  display: inline-block;
+}
+
+.dropdown-opened {
+  background-color: $iris;
+}
+
+.dropdown-closed { }
+
+.menu-opened {
+  position: absolute;
+  display: block;
+}
+
+.menu-closed {
+  display: none;
+}

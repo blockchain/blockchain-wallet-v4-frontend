@@ -1,0 +1,24 @@
+
+.primary {
+    height: 40px;
+    margin-bottom: 0;
+    padding: 10px 15px;
+    margin: 10px 0;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+    letter-spacing: normal;
+    @include transition(all 0.2s ease-in-out);
+    @include border-radius(3px);
+    cursor: pointer;
+    border: none;
+    background-color: #10ADE4;
+    color: white;
+    max-width: none;
+
+    &:hover {
+      background-color: #0d89b4;
+      color: #FFFFFF;
+    }
+}

@@ -1,0 +1,137 @@
+
+
+.h5 {
+  font-size: 14px;
+  margin: 4px;
+  font-family: 'GillSans', 'Helvetica', sans-serif !important;
+  font-weight: 300;
+}
+
+.h4 {
+  font-size: 16px;
+  margin: 4px;
+  font-family: 'GillSans', 'Helvetica', sans-serif !important;
+  font-weight: 300;
+}
+
+.h3 {
+  font-size: 24px;
+  margin: 4px;
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-weight: 300;
+}
+
+.h3 {
+  font-size: 32px;
+  margin: 4px;
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-weight: 300;
+}
+
+.label {
+  font-size: 28px;
+  margin: 4px;
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-weight: 500;
+}
+
+
+
+
+
+
+
+
+
+
+.type-xs { font-size: .75em; }
+.type-sm { font-size: .9em; }
+.type-h5 { font-size: 1.2em; }
+.type-md { font-size: 1.3em; }
+.type-h4 { font-size: 1.5em; }
+.type-lbl { font-size: 1.1em; }
+.type-lrg { font-size: 2em; }
+.type-med { font-size: 2.2em; }
+.title { font-size: 3.5em; }
+.type-yuge { font-size: 5em; }
+
+.f-48 { font-size: 48px; }
+.f-36 { font-size: 36px; }
+.f-28 { font-size: 28px; }
+.f-24 { font-size: 24px; }
+.f-20 { font-size: 20px; }
+.f-18 { font-size: 18px; }
+.f-16 { font-size: 16px; }
+.f-14 { font-size: 14px; }
+.f-12 { font-size: 12px; }
+.f-10 { font-size: 10px; }
+.f-8 { font-size: 8px; }
+
+.main-font { font-family: 'Montserrat', 'Helvetica', sans-serif !important; }
+.alt-font { font-family: 'GillSans', 'Helvetica', sans-serif !important; }
+
+.underline { text-decoration: underline; &:hover { text-decoration: underline; } }
+.underline-blue { border-bottom: 2px solid $blue; }
+.pointer { cursor: pointer; }
+.right-align { text-align: right; }
+.left-align { text-align: left; }
+.center-align { text-align: center; }
+.center { text-align: center; }
+.shadow { text-shadow: 0 1px 1px #ccc; }
+.no-select { user-select: none; }
+.break-word { word-break: break-word; }
+.long-input { overflow-wrap: break-word; }
+.text { font-size: 14px; } //use pixels to normalize with Bootstrap instead of em's
+.colon:after { content: ':'; }
+.period:after { content: '.';}
+.exclaim:after { content: '!';}
+.upper { text-transform: uppercase; }
+.capitalize { text-transform: capitalize; }
+.italic { font-style: italic; }
+.parens { &:before { content: '('; } &:after { content: ')'; } }
+.ellipsis:after { content: '...'; }
+.flip { transform: rotateY(180deg); }
+
+.text-overflow-hidden, .ui-select-match-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: calc(100% - 10px);
+  font-weight: 300;
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .left-align-mobile { text-align: left; }
+  .center-mobile { text-align: center; }
+}
+
+@media (max-width: 991px) {
+  .left-align-tablet { text-align: left; }
+  .center-tablet { text-align: center; }
+}
+
+$multiplier: 100;
+
+@for $i from 1 through 9 {
+  .em-#{$i}00 {
+    font-weight: $i * $multiplier;
+    &:before {
+      font-weight: $i * $multiplier !important;
+    }
+  }
+}
+
+@for $i from 1 through 5 {
+  .font-#{$i} {
+    font-size: #{$i}em;
+  }
+}
+
+@for $i from 1 through 5 {
+  @media (max-width: 767px) {
+    .font-#{$i}-mobile {
+      font-size: #{$i}em;
+    }
+  }
+}
