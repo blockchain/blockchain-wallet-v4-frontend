@@ -42,12 +42,9 @@
     "standard": "~8.6.0"
   },
   "dependencies": {
-    "assert": "^1.4.1",
     "bip39": "^2.3.0",
     "bitcoinjs-lib": "^2.3.0",
-    "crypto": "0.0.3",
     "data.either": "^1.5.0",
-    "data.maybe": "^1.2.2",
     "data.task": "^3.1.1",
     "es6-promise": "^4.1.0",
     "futurize": "^1.2.0",
@@ -55,14 +52,10 @@
     "immutable-ext": "https://github.com/pernas/immutable-ext.git",
     "isomorphic-fetch": "^2.2.1",
     "pbkdf2": "~3.0.12",
-    "pretty-immutable": "^1.0.1",
     "ramda": "^0.23.0",
     "ramda-lens": "https://github.com/ramda/ramda-lens.git",
     "redux": "^3.6.0",
-    "redux-actions": "^1.2.1",
     "redux-immutable": "^3.1.0",
-    "redux-logger": "^2.8.1",
-    "redux-saga": "^0.14.3",
-    "sjcl": "1.0.3"
+    "redux-saga": "^0.14.3"
   }
 }
