@@ -6,7 +6,6 @@
     margin: 10px 0;
     text-align: center;
     text-decoration: none;
-    text-transform: uppercase;
     vertical-align: middle;
     letter-spacing: normal;
     @include transition(all 0.2s ease-in-out);
@@ -15,7 +14,9 @@
     border: none;
     background-color: #10ADE4;
     color: white;
-    max-width: none;
+    font-weight: 300;
+    font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+    font-size: 14px;
 
     &:hover {
       background-color: #0d89b4;

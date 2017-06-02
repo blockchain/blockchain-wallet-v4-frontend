@@ -2,12 +2,12 @@ import React from 'react'
 
 import style from './style.scss'
 
-const Security = () => {
+const SecurityCenter = () => {
   return (
-    <section className={style.security}>
+    <section className={style.securityCenter}>
       <span>Security center page</span>
     </section>
   )
 }
 
-export default Security
+export default SecurityCenter

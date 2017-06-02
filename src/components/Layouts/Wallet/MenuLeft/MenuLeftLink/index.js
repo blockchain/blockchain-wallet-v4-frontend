@@ -18,7 +18,7 @@ function renderIcon (title) {
 const MenuLeftLink = (props) => {
   return (
     <li className={style.menuLeftLink}>
-      <NavLink className={style.link} to={props.route} activeClassName={style.linkActive}>
+      <NavLink className={style.link} to={props.route} activeClassName={style.linkActive} isActive={props.isActive}>
         {renderIcon(props.title)}
         <span>{props.title}</span>
       </NavLink>
