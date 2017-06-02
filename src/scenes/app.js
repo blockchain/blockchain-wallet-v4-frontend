@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom'
 
 import LandingLayout from 'components/Layouts/Landing'
 import PublicLayout from 'components/Layouts/Public'
@@ -33,6 +33,7 @@ class App extends React.Component {
             <WalletLayout path='/transactions' component={TransactionsContainer} />
             <WalletLayout path='/buy-sell' component={BuyContainer} />
             <WalletLayout path='/security-center' component={SecurityCenterContainer} />
+            <Redirect from='/settings' to='/settings/info' exact />
             <WalletLayout path='/settings/info' component={InfoContainer} />
             <WalletLayout path='/settings/preferences' component={PreferencesContainer} />
             <WalletLayout path='/settings/security' component={SecuritySettingsContainer} />
