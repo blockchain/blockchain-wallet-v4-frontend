@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { Map } from 'immutable-ext'
-import * as WalletUtil from '../../src/immutable/Wallet'
+import * as WalletUtil from '../../src/data/Wallet'
 import * as Actions from '../../src/actions'
 import { walletImmutable } from '../../src/reducers/walletReducer'
 

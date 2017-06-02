@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import Address, * as AddressUtil from '../../src/immutable/Address'
+import Address, * as AddressUtil from '../../src/data/Address'
 import * as crypto from '../../src/WalletCrypto'
 
 describe('Address', () => {
