@@ -13,3 +13,5 @@ Functional library for handling Blockchain.info wallets
 `yarn run compile` - Compile
 
 `yarn run watch` - Compile and watch for changes
+
+`yarn run lint` - Check for code style errors

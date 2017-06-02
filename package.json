@@ -5,10 +5,11 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "babel-node src/index.js",
-    "test": "node_modules/.bin/mocha --compilers js:babel-core/register --watch test/**/*.spec.js",
-    "coverage": "node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- test/**/*.spec.js",
-    "watch": "node_modules/.bin/npm-watch",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --watch test/**/*.spec.js",
+    "coverage": "./node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- test/**/*.spec.js",
+    "watch": "./node_modules/.bin/npm-watch",
     "compile": "babel --presets es2015,stage-2 -d lib/ src/",
+    "lint": "./node_modules/.bin/standard",
     "prepublish": "npm run compile"
   },
   "watch": {
