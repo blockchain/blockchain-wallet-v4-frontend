@@ -1,5 +1,6 @@
 import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import Either from 'data.either'
+import Task from 'data.task'
 import * as R from 'ramda'
 const { compose, over, view, curry } = R
 import { traversed, traverseOf } from 'ramda-lens'
@@ -82,18 +83,18 @@ export const isValidSecondPwd = curry((password, wallet) => {
   }
 })
 
-// addAddress :: Wallet -> Address -> String -> Wallet
+// addAddress :: Wallet -> Address -> String -> Either Error Wallet
 export const addAddress = curry((wallet, address, password) => {
   let it = selectIterations(wallet)
   let sk = view(sharedKey, wallet)
   let set = curry((a, as) => as.set(a.addr, a))
-  let append = (w, a) => over(addresses, set(a), w)
+  let append = curry((w, a) => over(addresses, set(a), w))
   if (!isDoubleEncrypted(wallet)) {
-    return append(wallet, address)
+    return Either.of(append(wallet, address))
   } else if (isValidSecondPwd(password, wallet)) {
-    return append(wallet, AddressUtil.encrypt(it, sk, password, address))
+    return AddressUtil.encryptSync(it, sk, password, address).map(append(wallet))
   } else {
-    throw new Error('INVALID_SECOND_PASSWORD')
+    return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
   }
 })
 
@@ -103,53 +104,75 @@ export const setAddressLabel = curry((address, label, wallet) => {
   return R.over(addressLens, AddressUtil.setLabel(label), wallet)
 })
 
-// cipher :: (String -> String) -> Wallet -> Either error Wallet
-export const cipher = curry((f, wallet) => {
-  const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), Either.of, f)
-  const trSeed = traverseOf(compose(hdWallets, traversed, HDWalletUtil.seedHex), Either.of, f)
-  const trXpriv = traverseOf(compose(hdWallets, traversed, HDWalletUtil.accounts, traversed, HDWalletUtil.xpriv), Either.of, f)
-  return Either.Right(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
+// traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
+export const traverseKeyValues = curry((of, f, wallet) => {
+  const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), of, f)
+  const trSeed = traverseOf(compose(hdWallets, traversed, HDWalletUtil.seedHex), of, f)
+  const trXpriv = traverseOf(compose(hdWallets, traversed, HDWalletUtil.accounts, traversed, HDWalletUtil.xpriv), of, f)
+  return of(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
 })
 
-// encrypt :: String -> Wallet -> Either error Wallet
-export const encrypt = curry((password, wallet) => {
+// encryptMonadic :: Monad m => (a -> m a) -> (String -> m String) -> String -> Wallet -> m Wallet
+export const encryptMonadic = curry((of, cipher, password, wallet) => {
   if (isDoubleEncrypted(wallet)) {
-    return Either.Right(wallet)
+    return of(wallet)
   } else {
     let iter = selectIterations(wallet)
-    let enc = Either.try(crypto.encryptSecPass(iter, wallet.sharedKey, password))
+    let enc = cipher(wallet.sharedKey, iter, password)
     let hash = crypto.hashNTimes(iter, R.concat(wallet.sharedKey, password)).toString('hex')
 
     let setFlag = over(doubleEncryption, () => true)
     let setHash = over(dpasswordhash, () => hash)
 
-    return cipher(enc, wallet).map(compose(setHash, setFlag))
+    return traverseKeyValues(of, enc, wallet).map(compose(setHash, setFlag))
   }
 })
 
-// decrypt :: String -> Wallet -> Either error Wallet
-export const decrypt = curry((password, wallet) => {
+// encrypt :: String -> Wallet -> Task Error Wallet
+export const encrypt = encryptMonadic(
+  Task.of,
+  crypto.encryptSecPass
+)
+
+// encryptSync :: String -> Wallet -> Either Error Wallet
+export const encryptSync = encryptMonadic(
+  Either.of,
+  crypto.encryptSecPassSync
+)
+
+// decryptMonadic :: Monad m => (a -> m a) -> (String -> m String) -> (String -> m Wallet) -> String -> Wallet -> m Wallet
+export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
   if (isDoubleEncrypted(wallet)) {
-    let invalidError = new Error('INVALID_SECOND_PASSWORD')
-    let decryptError = new Error('DECRYPT_FAILURE')
-
-    if (!isValidSecondPwd(password, wallet)) {
-      return Either.Left(invalidError)
-    }
-
     let iter = selectIterations(wallet)
-    let tryDec = Either.try(crypto.decryptSecPass(wallet.sharedKey, iter, password))
-    let checkFailure = (str) => str === '' ? Either.Left(decryptError) : Either.Right(str)
-    let dec = (msg) => tryDec(msg).chain(checkFailure)
+    let dec = cipher(wallet.sharedKey, iter, password)
 
     let setFlag = over(doubleEncryption, () => false)
     let setHash = over(lens, (x) => x.delete('dpasswordhash'))
 
-    return cipher(dec, wallet).map(compose(setHash, setFlag))
+    return verify(password, wallet).chain(traverseKeyValues(of, dec)).map(compose(setHash, setFlag))
   } else {
-    return Either.Right(wallet)
+    return of(wallet)
   }
 })
+
+// validateSecondPwd -> (a -> m a) -> (a -> m b) -> String -> Wallet
+const validateSecondPwd = curry((pass, fail, password, wallet) =>
+  isValidSecondPwd(password, wallet) ? pass(wallet) : fail(new Error('INVALID_SECOND_PASSWORD'))
+)
+
+// decrypt :: String -> Wallet -> Task Error Wallet
+export const decrypt = decryptMonadic(
+  Task.of,
+  crypto.decryptSecPass,
+  validateSecondPwd(Task.of, Task.rejected)
+)
+
+// decryptSync :: String -> Wallet -> Either Error Wallet
+export const decryptSync = decryptMonadic(
+  Either.of,
+  crypto.decryptSecPassSync,
+  validateSecondPwd(Either.of, Either.Left)
+)
 
 export const createNew = curry((guid, sharedKey, mnemonic) => {
   let hd = HDWalletUtil.createNew(mnemonic)

@@ -1,6 +1,8 @@
 import * as R from 'ramda'
 import * as crypto from '../WalletCrypto'
 import { Map } from 'immutable'
+import { traverseOf } from 'ramda-lens'
+import Either from 'data.either'
 import { typeDef } from '../util'
 
 /* Address :: {
@@ -34,10 +36,10 @@ export const setLabel = R.curry((l, address) => {
   return R.set(label, l, address)
 })
 
-// encrypt :: Number -> String -> String -> Address -> Address
-export const encrypt = R.curry((iterations, sharedKey, password, address) => {
-  const cipher = crypto.encryptSecPass(sharedKey, iterations, password)
-  return R.over(priv, cipher, address)
+// encryptSync :: Number -> String -> String -> Address -> Either Error Address
+export const encryptSync = R.curry((iterations, sharedKey, password, address) => {
+  const cipher = crypto.encryptSecPassSync(sharedKey, iterations, password)
+  return traverseOf(priv, Either.of, cipher, address)
 })
 
 export default Address

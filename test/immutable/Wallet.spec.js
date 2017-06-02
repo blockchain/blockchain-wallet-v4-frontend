@@ -18,7 +18,7 @@ describe('Wallet', () => {
   const wallet = WalletUtil.fromJS(walletFixture)
   const walletSecpass = WalletUtil.fromJS(walletFixtureSecpass)
 
-  crypto.encryptSecPass = R.curry((sk, iter, pw, str) => `enc<${str}>`)
+  crypto.encryptDataWithKey = (data, key, iv) => data ? `enc<${data}>` : null
 
   describe('toJS', () => {
     it('should return the correct object', () => {
@@ -56,7 +56,8 @@ describe('Wallet', () => {
     it('should add an unencrypted address', () => {
       let address = new Address({ priv: '5abc' })
       let withNewAddress = WalletUtil.addAddress(wallet, address, null)
-      let addresses = WalletUtil.selectAddresses(withNewAddress)
+      expect(withNewAddress.isRight).to.equal(true)
+      let addresses = WalletUtil.selectAddresses(withNewAddress.value)
       expect(addresses.length).to.equal(walletFixture.keys.length + 1)
       expect(AddressUtil.toJS(R.last(addresses))).to.deep.equal(AddressUtil.toJS(address))
     })
@@ -64,7 +65,8 @@ describe('Wallet', () => {
     it('should add a double encrypted address', () => {
       let address = new Address({ priv: '5abc', addr: '1asdf' })
       let withNewAddress = WalletUtil.addAddress(walletSecpass, address, 'secret')
-      let as = WalletUtil.selectAddresses(withNewAddress)
+      expect(withNewAddress.isRight).to.equal(true)
+      let as = WalletUtil.selectAddresses(withNewAddress.value)
       expect(as.length).to.equal(walletFixture.keys.length + 1)
       expect(R.last(as).priv).to.equal('enc<5abc>')
     })
@@ -98,23 +100,52 @@ describe('Wallet', () => {
   })
 
   describe('encrypt', () => {
+    it('should encrypt', (done) => {
+      WalletUtil.encrypt('secret', wallet).fork(done, (encrypted) => {
+        let [before, after] = [wallet, encrypted].map(WalletUtil.selectAddresses)
+        let enc = crypto.encryptDataWithKey
+        let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
+        expect(success).to.equal(true)
+        done()
+      })
+    })
+  })
+
+  describe('encryptSync', () => {
     it('should encrypt', () => {
-      let encrypted = WalletUtil.encrypt('secret', wallet).value
+      let encrypted = WalletUtil.encryptSync('secret', wallet).value
       let [before, after] = [wallet, encrypted].map(WalletUtil.selectAddresses)
-      let enc = crypto.encryptSecPass(null, null, null)
+      let enc = crypto.encryptDataWithKey
       let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
       expect(success).to.equal(true)
     })
   })
 
   describe('decrypt', () => {
+    it('should decrypt', (done) => {
+      WalletUtil.decrypt('secret', walletSecpass).fork(done, (decrypted) => {
+        expect(WalletUtil.toJS(decrypted)).to.deep.equal(walletFixture)
+        done()
+      })
+    })
+
+    it('should fail when given an incorrect password', (done) => {
+      WalletUtil.decrypt('wrong', walletSecpass).fork((error) => {
+        expect(R.is(Error, error)).to.equal(true)
+        expect(error.message).to.equal('INVALID_SECOND_PASSWORD')
+        done()
+      }, done)
+    })
+  })
+
+  describe('decryptSync', () => {
     it('should decrypt', () => {
-      let decrypted = WalletUtil.decrypt('secret', walletSecpass).value
+      let decrypted = WalletUtil.decryptSync('secret', walletSecpass).value
       expect(WalletUtil.toJS(decrypted)).to.deep.equal(walletFixture)
     })
 
     it('should fail when given an incorrect password', () => {
-      let decrypted = WalletUtil.decrypt('wrong', walletSecpass).value
+      let decrypted = WalletUtil.decryptSync('wrong', walletSecpass).value
       expect(R.is(Error, decrypted)).to.equal(true)
       expect(decrypted.message).to.equal('INVALID_SECOND_PASSWORD')
     })

@@ -4,7 +4,6 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "postinstall": "cd node_modules/sjcl || cd ../sjcl && ./configure --with-sha1 && make",
     "start": "babel-node src/index.js",
     "test": "node_modules/.bin/mocha --compilers js:babel-core/register --watch test/**/*.spec.js",
     "coverage": "node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- test/**/*.spec.js",
@@ -55,6 +54,7 @@
     "immutable": "^3.8.1",
     "immutable-ext": "git@github.com:pernas/immutable-ext.git",
     "isomorphic-fetch": "^2.2.1",
+    "pbkdf2": "~3.0.12",
     "pretty-immutable": "^1.0.1",
     "ramda": "^0.23.0",
     "ramda-lens": "git@github.com:ramda/ramda-lens.git",
