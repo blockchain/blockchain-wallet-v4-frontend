@@ -70,6 +70,28 @@ export const toJS = R.pipe(guard, (wallet) => {
   return shiftWallet(destructWallet(wallet).__internal).back().toJS()
 })
 
+// fromEncryptedPayload :: String -> String -> Either Error Wallet
+export const fromEncryptedPayload = R.curry((password, payload) => {
+  let decryptWallet = R.compose(
+    R.map(fromJS),
+    crypto.decryptWallet(password),
+    JSON.parse
+  )
+  return Either.of(payload).chain(decryptWallet)
+})
+
+// toEncryptedPayload :: String -> Wallet -> Either Error String
+export const toEncryptedPayload = R.curry((password, wallet) => {
+  guard(wallet)
+  let iters = selectIterations(wallet)
+  let encryptWallet = R.compose(
+    Either.try(crypto.encryptWallet(R.__, password, iters, 3.0)),
+    JSON.stringify,
+    toJS
+  )
+  return Either.of(wallet).chain(encryptWallet)
+})
+
 // isValidSecondPwd :: String -> Wallet -> Bool
 export const isValidSecondPwd = curry((password, wallet) => {
   if (isDoubleEncrypted(wallet)) {

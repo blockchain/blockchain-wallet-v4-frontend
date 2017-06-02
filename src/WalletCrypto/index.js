@@ -17,15 +17,9 @@ export const sha256 = (data) => crypto.createHash('sha256').update(data).digest(
 export const decryptWallet = curry(
   (password, data) => decryptWrapper(password, data).chain(parseDecrypted))
 
-// decruptWrapper :: Password -> JSON -> Either Error String
-const decryptWrapper = curry(
-  function (password, wrapper) {
-    try {
-      return Either.Right(decryptDataWithPassword(wrapper.payload, password, wrapper.pbkdf2_iterations))
-    } catch (e) {
-      return Either.Left(e)
-    }
-  }
+// decryptWrapper :: Password -> JSON -> Either Error String
+const decryptWrapper = curry((password, wrapper) =>
+  Either.try(() => decryptDataWithPasswordSync(wrapper.payload, password, wrapper.pbkdf2_iterations))()
 )
 
 // decryptPayload :: String -> ServerPayload -> Either error DecryptedPayload
@@ -52,7 +46,7 @@ export const encryptWallet = curry((data, password, pbkdf2Iterations, version) =
   return JSON.stringify({
     pbkdf2_iterations: pbkdf2Iterations,
     version: version,
-    payload: encryptDataWithPassword(data, password, pbkdf2Iterations)
+    payload: encryptDataWithPasswordSync(data, password, pbkdf2Iterations)
   })
 })
 
