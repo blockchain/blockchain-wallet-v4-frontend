@@ -104,18 +104,18 @@ export const setAddressLabel = curry((address, label, wallet) => {
   return R.over(addressLens, AddressUtil.setLabel(label), wallet)
 })
 
-// traversePrivValues :: Monad m => m -> (String -> m String) -> Wallet -> m Wallet
-export const traverseKeyValues = curry((M, f, wallet) => {
-  const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), M.of, f)
-  const trSeed = traverseOf(compose(hdWallets, traversed, HDWalletUtil.seedHex), M.of, f)
-  const trXpriv = traverseOf(compose(hdWallets, traversed, HDWalletUtil.accounts, traversed, HDWalletUtil.xpriv), M.of, f)
-  return M.of(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
+// traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
+export const traverseKeyValues = curry((of, f, wallet) => {
+  const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), of, f)
+  const trSeed = traverseOf(compose(hdWallets, traversed, HDWalletUtil.seedHex), of, f)
+  const trXpriv = traverseOf(compose(hdWallets, traversed, HDWalletUtil.accounts, traversed, HDWalletUtil.xpriv), of, f)
+  return of(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
 })
 
-// encryptMonadic :: Monad m => m -> (String -> m String) -> String -> Wallet -> m Wallet
-export const encryptMonadic = curry((M, cipher, password, wallet) => {
+// encryptMonadic :: Monad m => (a -> m a) -> (String -> m String) -> String -> Wallet -> m Wallet
+export const encryptMonadic = curry((of, cipher, password, wallet) => {
   if (isDoubleEncrypted(wallet)) {
-    return M.of(wallet)
+    return of(wallet)
   } else {
     let iter = selectIterations(wallet)
     let enc = cipher(wallet.sharedKey, iter, password)
@@ -124,24 +124,24 @@ export const encryptMonadic = curry((M, cipher, password, wallet) => {
     let setFlag = over(doubleEncryption, () => true)
     let setHash = over(dpasswordhash, () => hash)
 
-    return traverseKeyValues(M, enc, wallet).map(compose(setHash, setFlag))
+    return traverseKeyValues(of, enc, wallet).map(compose(setHash, setFlag))
   }
 })
 
 // encrypt :: String -> Wallet -> Task Error Wallet
 export const encrypt = encryptMonadic(
-  Task,
+  Task.of,
   crypto.encryptSecPass
 )
 
 // encryptSync :: String -> Wallet -> Either Error Wallet
 export const encryptSync = encryptMonadic(
-  Either,
+  Either.of,
   crypto.encryptSecPassSync
 )
 
-// decryptMonadic :: Monad m => m -> (String -> m String) -> (String -> m Wallet) -> String -> Wallet -> m Wallet
-export const decryptMonadic = curry((M, cipher, verify, password, wallet) => {
+// decryptMonadic :: Monad m => (a -> m a) -> (String -> m String) -> (String -> m Wallet) -> String -> Wallet -> m Wallet
+export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
   if (isDoubleEncrypted(wallet)) {
     let iter = selectIterations(wallet)
     let dec = cipher(wallet.sharedKey, iter, password)
@@ -149,9 +149,9 @@ export const decryptMonadic = curry((M, cipher, verify, password, wallet) => {
     let setFlag = over(doubleEncryption, () => false)
     let setHash = over(lens, (x) => x.delete('dpasswordhash'))
 
-    return verify(password, wallet).chain(traverseKeyValues(M, dec)).map(compose(setHash, setFlag))
+    return verify(password, wallet).chain(traverseKeyValues(of, dec)).map(compose(setHash, setFlag))
   } else {
-    return M.of(wallet)
+    return of(wallet)
   }
 })
 
@@ -162,14 +162,14 @@ const validateSecondPwd = curry((pass, fail, password, wallet) =>
 
 // decrypt :: String -> Wallet -> Task Error Wallet
 export const decrypt = decryptMonadic(
-  Task,
+  Task.of,
   crypto.decryptSecPass,
   validateSecondPwd(Task.of, Task.rejected)
 )
 
 // decryptSync :: String -> Wallet -> Either Error Wallet
 export const decryptSync = decryptMonadic(
-  Either,
+  Either.of,
   crypto.decryptSecPassSync,
   validateSecondPwd(Either.of, Either.Left)
 )
