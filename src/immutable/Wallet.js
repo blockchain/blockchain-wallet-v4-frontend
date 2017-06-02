@@ -1,5 +1,6 @@
 import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import Either from 'data.either'
+import Task from 'data.task'
 import * as R from 'ramda'
 const { compose, over, view, curry } = R
 import { traversed, traverseOf } from 'ramda-lens'
@@ -127,12 +128,18 @@ export const encryptMonadic = curry((M, cipher, password, wallet) => {
   }
 })
 
-// encrypt :: String -> Wallet -> Either error Wallet
+// encrypt :: String -> Wallet -> Either Error Wallet
 export const encrypt = encryptMonadic(
   Either,
   curry((sk, iter, pw, value) => {
     return Either.try(crypto.encryptSecPass(sk, iter, pw))(value)
   })
+)
+
+// encrypt :: String -> Wallet -> Task Error Wallet
+export const encryptAsync = encryptMonadic(
+  Task,
+  curry((sk, iter, pw, value) => crypto.encryptSecPassAsync(sk, iter, pw, value))
 )
 
 // decryptMonadic :: Monad m => m -> (String -> m String) -> (String -> m Wallet) -> String -> Wallet -> m Wallet
@@ -150,17 +157,29 @@ export const decryptMonadic = curry((M, cipher, verify, password, wallet) => {
   }
 })
 
-// decrypt :: (String -> String) -> String -> Wallet -> Either error Wallet
+// decrypt :: String -> Wallet -> Either Error Wallet
 export const decrypt = decryptMonadic(
   Either,
   curry((sk, iter, pw, value) => {
-    let decryptError = new Error('DECRYPT_FAILURE')
-    let checkFailure = (str) => str === '' ? Either.Left(decryptError) : Either.Right(str)
+    let checkFailure = (str) => str === '' ? Either.Left(new Error('DECRYPT_FAILURE')) : Either.Right(str)
     return Either.try(crypto.decryptSecPass(sk, iter, pw))(value).chain(checkFailure)
   }),
   curry((password, wallet) => {
     let invalidError = new Error('INVALID_SECOND_PASSWORD')
     return isValidSecondPwd(password, wallet) ? Either.Right(wallet) : Either.Left(invalidError)
+  })
+)
+
+// decryptAsync :: String -> Wallet -> Task Error Wallet
+export const decryptAsync = decryptMonadic(
+  Task,
+  curry((sk, iter, pw, value) => {
+    let checkFailure = (str) => str === '' ? Task.rejected(new Error('DECRYPT_FAILURE')) : Task.of(str)
+    return crypto.decryptSecPassAsync(sk, iter, pw, value).chain(checkFailure)
+  }),
+  curry((password, wallet) => {
+    let invalidError = new Error('INVALID_SECOND_PASSWORD')
+    return isValidSecondPwd(password, wallet) ? Task.of(wallet) : Task.rejected(invalidError)
   })
 )
 
