@@ -1,6 +1,7 @@
 import chai from 'chai'
 import spies from 'chai-spies'
 import * as R from 'ramda'
+import Task from 'data.task'
 
 chai.use(spies)
 const { expect } = chai
@@ -19,6 +20,7 @@ describe('Wallet', () => {
   const walletSecpass = WalletUtil.fromJS(walletFixtureSecpass)
 
   crypto.encryptSecPass = R.curry((sk, iter, pw, str) => `enc<${str}>`)
+  crypto.encryptSecPassAsync = R.curry((sk, iter, pw, str) => Task.of(`enc<${str}>`))
 
   describe('toJS', () => {
     it('should return the correct object', () => {
@@ -107,6 +109,18 @@ describe('Wallet', () => {
     })
   })
 
+  describe('encryptAsync', () => {
+    it('should encrypt', (done) => {
+      WalletUtil.encryptAsync('secret', wallet).fork(done, (encrypted) => {
+        let [before, after] = [wallet, encrypted].map(WalletUtil.selectAddresses)
+        let enc = crypto.encryptSecPass(null, null, null)
+        let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
+        expect(success).to.equal(true)
+        done()
+      })
+    })
+  })
+
   describe('decrypt', () => {
     it('should decrypt', () => {
       let decrypted = WalletUtil.decrypt('secret', walletSecpass).value
@@ -117,6 +131,23 @@ describe('Wallet', () => {
       let decrypted = WalletUtil.decrypt('wrong', walletSecpass).value
       expect(R.is(Error, decrypted)).to.equal(true)
       expect(decrypted.message).to.equal('INVALID_SECOND_PASSWORD')
+    })
+  })
+
+  describe('decryptAsync', () => {
+    it('should decrypt', (done) => {
+      WalletUtil.decryptAsync('secret', walletSecpass).fork(done, (decrypted) => {
+        expect(WalletUtil.toJS(decrypted)).to.deep.equal(walletFixture)
+        done()
+      })
+    })
+
+    it('should fail when given an incorrect password', (done) => {
+      WalletUtil.decryptAsync('wrong', walletSecpass).fork((error) => {
+        expect(R.is(Error, error)).to.equal(true)
+        expect(error.message).to.equal('INVALID_SECOND_PASSWORD')
+        done()
+      }, done)
     })
   })
 
