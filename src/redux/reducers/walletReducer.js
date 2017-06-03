@@ -48,6 +48,7 @@ export const walletImmutable = (state = WALLET_INITIAL_STATE, action) => {
     case A.WALLET_LOAD: {
       return action.payload.get('walletImmutable')
     }
+    case A.WALLET_REPLACE:
     case A.SECOND_PASSWORD_ON:
     case A.SECOND_PASSWORD_OFF: {
       return action.payload

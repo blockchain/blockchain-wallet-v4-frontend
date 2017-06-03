@@ -18,6 +18,7 @@ export const WALLET_NEW = '@v3.WALLET_NEW'
 export const WALLET_NEW_FAILURE = '@v3.WALLET_NEW_FAILURE'
 export const WALLET_NEW_SUCCESS = '@v3.WALLET_NEW_SUCCESS'
 export const WALLET_NEW_SET = '@v3.WALLET_NEW_SET'
+export const WALLET_REPLACE = '@v3.WALLET_REPLACE'
 
 export const addAddress = (address, secondPassword) =>
   ({ type: ADDRESS_ADD, payload: {address, secondPassword} })
@@ -59,3 +60,7 @@ export const newWalletSuccess = () =>
   ({ type: WALLET_NEW_SUCCESS })
 export const newWalletFailure = (error) =>
   ({ type: WALLET_NEW_FAILURE, payload: error })
+
+export const replaceWallet = (wallet) => ({
+  type: WALLET_REPLACE, payload: wallet
+})
