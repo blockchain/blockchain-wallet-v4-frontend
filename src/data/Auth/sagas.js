@@ -3,7 +3,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import { prop, assoc } from 'ramda'
 
-import { walletActions } from 'dream-wallet/lib'
+import * as walletActions from 'dream-wallet/lib/redux/actions'
 import { getWalletContext } from 'dream-wallet/lib/redux/selectors'
 
 import * as actions from './actions.js'
@@ -27,7 +27,8 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
   try {
     let wallet = yield call(api.downloadWallet, guid, sharedKey, session, password)
     yield put(walletActions.loadWallet(wallet))
-    yield put(walletActions.requestWalletData(getWalletContext(wallet).toJS()))
+    // TODO :: dream-wallet selector need to be fixed
+    // yield put(walletActions.requestWalletData(getWalletContext(wallet).toJS()))
     yield put(actions.loginSuccess())
     yield put(push('/wallet'))
   } catch (error) {
@@ -38,7 +39,7 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
         yield call(fetchWalletSaga, guid, undefined, session, password)
       }
     } else {
-      yield put(authActions.recordLog({ type: 'ERROR', message: 'Could not establish the session.' }))
+      yield put(authActions.recordLog({ type: 'ERROR', message: error.message }))
     }
   }
 }
@@ -50,13 +51,8 @@ const login = function * (action) {
     yield call(fetchWalletSaga, credentials.guid, credentials.sharedKey, undefined, credentials.password)
   } else {
     let session = yield select(getSession(credentials.guid))
-    try {
-      // if no shared key check for session
-      session = yield call(api.establishSession, session)  // establishSession logic should not receive existent session as parameter
-      yield put(actions.saveSession(assoc(credentials.guid, session, {})))
-    } catch (error) {
-      yield put(authActions.recordLog({ type: 'ERROR', message: 'Could not establish the session.' }))
-    }
+    session = yield call(api.establishSession, session)  // establishSession logic should not receive existent session as parameter
+    yield put(actions.saveSession(assoc(credentials.guid, session, {})))
     yield call(fetchWalletSaga, credentials.guid, undefined, session, credentials.password)
   }
 }
