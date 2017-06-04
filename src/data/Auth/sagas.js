@@ -26,8 +26,7 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
   try {
     let wallet = yield call(api.downloadWallet, guid, sharedKey, session, password)
     yield put(walletActions.loadWallet(wallet))
-    // TODO :: dream-wallet selector need to be fixed
-    // yield put(walletActions.requestWalletData(getWalletContext(wallet).toJS()))
+    yield put(walletActions.requestWalletData(getWalletContext(wallet).toJS()))
     yield put(actions.loginSuccess())
   } catch (error) {
     if (prop('authorization_required', error)) {
