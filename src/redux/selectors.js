@@ -1,9 +1,10 @@
 
-import { view, compose } from 'ramda'
+import { view, compose, map } from 'ramda'
 import { mapped } from 'ramda-lens'
-import * as Lens from '../../lens'
+import * as Lens from '../lens'
 import { List } from 'immutable-ext'
-
+import { selectAddresses, addresses } from '../data/Wallet'
+import { selectAddr, addr } from '../data/Address'
 // _xpubs :: [account] -> [xpub]
 const _xpubs = as => view(compose(mapped, Lens.xpub), as)
 // _accounts :: [hdwallet] -> [account]
