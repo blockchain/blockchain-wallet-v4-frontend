@@ -3,7 +3,7 @@ import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import persistState from 'redux-localstorage'
 import Immutable from 'immutable-ext'
-import { walletSyncMiddleware, walletSocketMiddleware } from 'dream-wallet/lib/middleware'
+import { walletSyncMiddleware, walletSocketMiddleware } from 'dream-wallet/lib/redux/middleware'
 import authMiddleware from '../middleware/authMiddleware.js'
 import rootSaga from '../data/rootSaga.js'
 import rootReducer from '../data/rootReducer.js'
@@ -22,7 +22,7 @@ const configureStore = () => {
     composeEnhancers(
       persistState('session'),
       applyMiddleware(
-        authMiddleware,
+        // authMiddleware,
         walletSyncMiddleware({api, wpath}),
         // walletSocketMiddleware({ socket }),
         sagaMiddleware,

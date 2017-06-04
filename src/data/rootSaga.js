@@ -5,7 +5,7 @@ import * as types from './actionTypes'
 import settings from 'config'
 import { api } from 'services/walletApi.js'
 
-import * as WalletSagas from 'dream-wallet/lib/sagas'
+import * as WalletSagas from 'dream-wallet/lib/redux/sagas'
 import authSagas from './Auth/sagas.js'
 import activitySagas from './Activity/sagas.js'
 
