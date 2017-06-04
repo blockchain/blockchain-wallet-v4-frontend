@@ -34,7 +34,18 @@
   color: $security-red;
 }
 
-
+@for $i from 1 through 5 {
+  .margin-#{$i} { margin: #{$i*5}px; }
+  .margin-top-#{$i} { margin-top: #{$i*5}px; }
+  .margin-bottom-#{$i} { margin-bottom: #{$i*5}px; }
+  .margin-left-#{$i} { margin-left: #{$i*5}px; }
+  .margin-right-#{$i} { margin-right: #{$i*5}px; }
+  .padding-#{$i} { padding: #{$i*5}px; }
+  .padding-top-#{$i} { padding-top: #{$i*5}px; }
+  .padding-bottom-#{$i} { padding-bottom: #{$i*5}px; }
+  .padding-left-#{$i} { padding-left: #{$i*5}px; }
+  .padding-right-#{$i} { padding-right: #{$i*5}px; }
+}
 
 
 

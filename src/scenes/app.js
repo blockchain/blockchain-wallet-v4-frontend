@@ -1,5 +1,6 @@
 import React from 'react'
-import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom'
+import { Redirect, Switch } from 'react-router-dom'
+import { ConnectedRouter } from 'connected-react-router'
 
 import LandingLayout from 'components/Layouts/Landing'
 import PublicLayout from 'components/Layouts/Public'
@@ -22,9 +23,10 @@ import { Provider } from 'react-redux'
 
 class App extends React.Component {
   render () {
+    console.log(this.props)
     return (
       <Provider store={this.props.store}>
-        <Router>
+        <ConnectedRouter history={this.props.history}>
           <Switch>
             <LandingLayout exact path='/' component={LandingContainer} />
             <PublicLayout path='/login' component={LoginContainer} />
@@ -40,7 +42,7 @@ class App extends React.Component {
             <WalletLayout path='/settings/addresses' component={AddressesContainer} />
             <WalletLayout path='/faq' component={FaqContainer} />
           </Switch>
-        </Router>
+        </ConnectedRouter>
       </Provider>
     )
   }

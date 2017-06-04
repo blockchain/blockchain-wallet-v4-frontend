@@ -51,6 +51,7 @@
     "babel-polyfill": "^6.23.0",
     "blockchain-css": "^1.0.23",
     "bootstrap": "^3.3.7",
+    "connected-react-router": "^4.2.1",
     "dream-wallet": "git+https://git@github.com/pernas/dream-wallet.git",
     "es6-promise": "^4.1.0",
     "immutable-ext": "^1.0.8",

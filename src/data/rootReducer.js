@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import settings from 'config'
-import { walletReducer, blockchainDataReducer } from 'dream-wallet/lib/reducers'
+import { walletReducer, blockchainDataReducer } from 'dream-wallet/lib/redux/reducers'
 import activityReducer from './Activity/reducers.js'
 import authReducer from './Auth/reducers.js'
 import uiReducer from './UI/reducers.js'

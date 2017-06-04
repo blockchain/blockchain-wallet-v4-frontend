@@ -1,9 +1,10 @@
 import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
+import { push } from 'connected-react-router'
 import { prop, assoc } from 'ramda'
 
-import * as walletActions from 'dream-wallet/lib/actions'
-import { getWalletContext } from 'dream-wallet/lib/selectors'
+import { walletActions } from 'dream-wallet/lib'
+import { getWalletContext } from 'dream-wallet/lib/redux/selectors'
 
 import * as actions from './actions.js'
 import * as authActions from '../Log/actions.js'
@@ -28,7 +29,9 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
     yield put(walletActions.loadWallet(wallet))
     yield put(walletActions.requestWalletData(getWalletContext(wallet).toJS()))
     yield put(actions.loginSuccess())
+    yield put(push('/wallet'))
   } catch (error) {
+    console.log(error)
     if (prop('authorization_required', error)) {
       let authorized = yield call(pollingSaga, session)
       if (authorized) {
