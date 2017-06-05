@@ -1,5 +1,7 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import { Route, Redirect } from 'react-router-dom'
 
 import Header from './Header'
 import MenuLeft from './MenuLeft'
@@ -10,6 +12,8 @@ import style from './style.scss'
 const WalletLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
+    rest.isAuthenticated
+    ? (
       <div className={style.wallet}>
         <div className={style.header}>
           <Header />
@@ -28,8 +32,18 @@ const WalletLayout = ({component: Component, ...rest}) => {
           </div>
         </div>
       </div>
+      )
+      : (
+        <Redirect to={{ pathname: '/login', state: { from: matchProps.location } }} />
+      )
     )} />
   )
 }
 
-export default WalletLayout
+function mapStateToProps (state) {
+  return {
+    isAuthenticated: state.applicationState.auth.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps)(WalletLayout)

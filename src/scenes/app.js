@@ -23,7 +23,6 @@ import { Provider } from 'react-redux'
 
 class App extends React.Component {
   render () {
-    console.log(this.props)
     return (
       <Provider store={this.props.store}>
         <ConnectedRouter history={this.props.history}>
