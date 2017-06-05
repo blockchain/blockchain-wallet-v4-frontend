@@ -9,7 +9,7 @@
 }
 
 .header {
-  @include flex(0 0 80px);
+  @include display-flex();
 }
 
 .content {
@@ -18,5 +18,5 @@
 }
 
 .footer {
-  @include flex(0 0 80px);
+  @include display-flex();
 }

@@ -8,14 +8,14 @@ import logo from 'img/blockchain-vector.svg'
 const Header = () => {
   return (
     <header className={style.header}>
-      <NavLink className={`${link.navigation} ${style.link}`} to='/'>
+      <NavLink className={`${link.navigationUppercase} ${style.link}`} to='/'>
         <img src={logo} className={style.logo} />
       </NavLink>
-      <NavLink className={`${link.navigation} ${style.link}`} to='/wallet'>Wallet</NavLink>
-      <a className={`${link.navigation} ${style.link}`} href='https://blockchain.info/charts'>Charts</a>
-      <a className={`${link.navigation} ${style.link}`} href='https://blockchain.info/stats'>Stats</a>
-      <a className={`${link.navigation} ${style.link}`} href='https://blockchain.info/markets'>Markets</a>
-      <a className={`${link.navigation} ${style.link}`} href='https://blockchain.info/api'>API</a>
+      <NavLink className={`${link.navigationUppercase} ${style.link}`} to='/wallet'>Wallet</NavLink>
+      <a className={`${link.navigationUppercase} ${style.link}`} href='https://blockchain.info/charts'>Charts</a>
+      <a className={`${link.navigationUppercase} ${style.link}`} href='https://blockchain.info/stats'>Stats</a>
+      <a className={`${link.navigationUppercase} ${style.link}`} href='https://blockchain.info/markets'>Markets</a>
+      <a className={`${link.navigationUppercase} ${style.link}`} href='https://blockchain.info/api'>API</a>
     </header>
   )
 }

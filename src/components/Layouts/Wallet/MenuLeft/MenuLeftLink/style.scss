@@ -7,9 +7,9 @@
   @include display-flex();
   @include flex-direction(row);
   @include justify-content(flex-start);
-  @include align-content(center);
+  @include align-items(center);
   @include box-sizing(border-box);
-  padding: 10px;
+  padding: 8px 12px;
   text-decoration: none;
   text-align: center;
   font-size: 1em;

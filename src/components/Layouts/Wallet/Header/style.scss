@@ -15,6 +15,9 @@
   height: 20px;
 }
 
-.link {
-
+.right {
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(center);
+  @include align-items(center);
 }

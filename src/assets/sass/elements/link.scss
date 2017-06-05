@@ -5,10 +5,29 @@
 }
 
 .navigation {
+  @include display-flex();
+  @include flex-direction(row);
+  @include align-items(center);
+  height: 60px;
+  padding: 0 15px;
+  @include box-sizing(border-box);
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Montserrat', 'Helvetica', sans-serif;
+  cursor: pointer;
+}
+
+.navigation-uppercase {
+  @include flex(1 1 auto);
+  padding: 0 15px;
+  @include box-sizing(border-box);
   text-decoration: none;
   text-transform: uppercase;
   color: #FFFFFF;
   font-size: 14px;
   font-weight: 500;
   font-family: 'Montserrat', 'Helvetica', sans-serif;
+  cursor: pointer;
 }

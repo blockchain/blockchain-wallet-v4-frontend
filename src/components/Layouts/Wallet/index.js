@@ -12,8 +12,8 @@ import style from './style.scss'
 const WalletLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
-    rest.isAuthenticated
-    ? (
+    // rest.isAuthenticated
+    // ? (
       <div className={style.wallet}>
         <div className={style.header}>
           <Header />
@@ -32,10 +32,10 @@ const WalletLayout = ({component: Component, ...rest}) => {
           </div>
         </div>
       </div>
-      )
-      : (
-        <Redirect to={{ pathname: '/login', state: { from: matchProps.location } }} />
-      )
+      // )
+      // : (
+      //   <Redirect to={{ pathname: '/login', state: { from: matchProps.location } }} />
+      // )
     )} />
   )
 }

@@ -1,22 +1,16 @@
 
-.link {
-  @include display-flex();
-  @include align-content(center);
-}
-
-.dropdown {
-  display: inline-block;
-}
-
 .dropdown-opened {
   background-color: $iris;
 }
 
-.dropdown-closed { }
+.dropdown-closed {
+}
 
 .menu-opened {
   position: absolute;
   display: block;
+  background-color: #FFFFFF;
+  border: 1px solid black;
 }
 
 .menu-closed {
