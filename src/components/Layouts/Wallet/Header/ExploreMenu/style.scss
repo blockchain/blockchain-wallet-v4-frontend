@@ -1,7 +1,7 @@
 
 .link {
   @include display-flex();
-  @include align-items(center);
+  @include align-content(center);
 }
 
 .dropdown {

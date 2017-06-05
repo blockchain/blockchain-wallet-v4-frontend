@@ -1,4 +1,42 @@
 
 .main {
+  @include display-flex();
+  @include flex-direction(column);
+  @include justify-content(space-around);
+  @include box-sizing(border-box);
+  height: 100%;
+  background-image: url('img/landing-page-banner.jpg');
+  background-repeat: 'no-repeat';
+  background-position: 100% 60%;
+  @include background-size(cover);
+  font-weight: 800;
+  color: white;
+}
 
+.row-horizontal {
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(center);
+  @include align-items(center);
+}
+
+.row-vertical {
+  @include display-flex();
+  @include flex-direction(column);
+  @include justify-content(center);
+  @include align-items(center);
+}
+
+.column {
+  @include display-flex();
+  @include flex-direction(column);
+  @include justify-content(center);
+  @include align-items(center);
+  padding: 20px;
+}
+
+.button {
+  font-size: 18px!important;
+  text-transform: uppercase;
+  width: 20%;
 }

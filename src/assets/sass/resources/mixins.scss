@@ -68,3 +68,11 @@
   -webkit-animation: $args;
           animation: $args;
 }
+
+/* CROSS BROWSER - BACKGROUND */
+@mixin background-size($args...) {
+  -webkit-background-size: $args;
+     -moz-background-size: $args;
+       -o-background-size: $args;
+          background-size: $args;
+}

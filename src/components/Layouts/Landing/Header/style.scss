@@ -1,4 +1,19 @@
 
 .header {
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(flex-start);
+  @include align-items(center);
+  @include box-sizing(border-box);
+  @include container-centered();
+  height: 90px;
+  background-color: $bc-blue;
+}
 
+.logo {
+  height: 20px;
+}
+
+.link {
+  padding: 10px 15px;
 }

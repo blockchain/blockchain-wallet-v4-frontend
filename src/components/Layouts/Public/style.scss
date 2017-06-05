@@ -2,8 +2,8 @@
 .public-layout {
   @include display-flex();
   @include flex-direction(column);
-  @include align-content(stretch);
   @include justify-content(space-between);
+  @include align-content(stretch);
   height: 100%;
   background-color: $bc-blue;
 }

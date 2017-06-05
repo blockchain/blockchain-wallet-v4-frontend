@@ -2,6 +2,7 @@
 .wallet {
   @include display-flex();
   @include flex-direction(column);
+  @include justify-content(space-between);
   @include align-content(stretch);
   height: 100%;
   overflow: hidden;

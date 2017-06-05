@@ -1,4 +1,23 @@
 
-.landing {
+.landing-layout {
+  @include display-flex();
+  @include flex-direction(column);
+  @include justify-content(space-between);
+  @include align-content(stretch);
+  height: 100%;
+  background-color: $bc-blue;
+}
 
+.header {
+  @include flex(0 0 90px);
+}
+
+.content {
+  @include display-flex();
+  @include justify-content(center);
+  height: 100%;
+}
+
+.footer {
+  @include flex(0 0 80px);
 }

@@ -9,12 +9,12 @@ import style from './style.scss'
 
 const Landing = () => {
   return (
-    <section className={style.landing}>
+    <div className={style.landing}>
       <Main />
-      <NewToBitcoin />
+      {/*<NewToBitcoin />
       <Reviews />
-      <WhyUseBlockchain />
-    </section>
+      <WhyUseBlockchain />*/}
+    </div>
   )
 }
 

@@ -9,7 +9,7 @@ import style from './style.scss'
 const LandingLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
-      <div className={style.landing}>
+      <div className={style.landingLayout}>
         <div className={style.header}>
           <Header />
         </div>
