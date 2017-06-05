@@ -33,12 +33,14 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
     yield put(push('/wallet'))
   } catch (error) {
     console.log(error)
-    if (prop('authorization_required', error)) {
+    if (prop('authorization_required', JSON.parse(error))) {
+      console.log('1')
       let authorized = yield call(pollingSaga, session)
       if (authorized) {
         yield call(fetchWalletSaga, guid, undefined, session, password)
       }
     } else {
+      console.log('2')
       yield put(authActions.recordLog({ type: 'ERROR', message: error.message }))
     }
   }

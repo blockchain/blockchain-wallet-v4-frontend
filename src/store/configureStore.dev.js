@@ -6,7 +6,7 @@ import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import Immutable from 'immutable-ext'
 import { walletSyncMiddleware, walletSocketMiddleware } from 'dream-wallet/lib/redux/middleware'
-import authMiddleware from '../middleware/authMiddleware.js'
+import autoDisconnectionMiddleware from '../middleware/autoDisconnectionMiddleware.js'
 import rootSaga from '../data/rootSaga.js'
 import rootReducer from '../data/rootReducer.js'
 import settings from '../config'
@@ -26,7 +26,7 @@ const configureStore = () => {
       persistState('session'),
       applyMiddleware(
         routerMiddleware(history),
-        authMiddleware,
+        autoDisconnectionMiddleware,
         walletSyncMiddleware({api, wpath}),
         // walletSocketMiddleware({ socket }),
         sagaMiddleware,
