@@ -10,7 +10,6 @@ const INITIAL_STATE = {
 }
 
 const login = (state = INITIAL_STATE, action) => {
-  console.log(state, action)
   let { type } = action
   switch (type) {
     case LOGIN_START: {

@@ -1,19 +1,19 @@
 .setting-row {
   @include display-flex();
   @include flex-direction(row);
-  @include justify-content(space-between)
-
-  padding: 18px 0px;
+  @include justify-content(space-between);
+  padding: 18px 0;
   border-bottom: 1px solid #ddd;
 }
 
 .description {
-  @include flex-grow(1)
+  @include flex-grow(1);
   width: 100%;
+  padding: 0 10px;
 }
 
 .settings {
-  @include flex-grow(1)
+  @include flex-grow(1);
   width: 100%;
   text-align: right;
 }

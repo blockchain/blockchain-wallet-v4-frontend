@@ -55,9 +55,9 @@ import ReactDOM from 'react-dom'
 import App from './scenes/app.js'
 import configureStore from './store/configureStore.dev'
 
-const store = configureStore()
+const { store, history } = configureStore()
 
 ReactDOM.render(
-  <App store={store} />,
+  <App store={store} history={history} />,
   document.getElementById('app')
 )
