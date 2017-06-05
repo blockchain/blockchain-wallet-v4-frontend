@@ -1,10 +1,11 @@
 import React from 'react'
 
 import style from './style.scss'
+import link from 'sass/elements/link.scss'
 
 const Ticker = () => {
   return (
-    <div className={style.ticker}>Ticker</div>
+    <a href='https://markets.blockchain.info' className={link.navigation}>1 BTC = £2,071.37</a>
   )
 }
 

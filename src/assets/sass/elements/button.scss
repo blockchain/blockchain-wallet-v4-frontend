@@ -1,7 +1,6 @@
 
 .primary {
     height: 40px;
-    margin-bottom: 0;
     padding: 10px 15px;
     margin: 10px 0;
     text-align: center;
@@ -27,7 +26,6 @@
 
 .secondary {
   height: 40px;
-  margin-bottom: 0;
   padding: 10px 15px;
   margin: 10px 0;
   text-align: center;
@@ -48,5 +46,29 @@
   &:hover {
     background-color: darken($mariner, 10%);
     color: #FFFFFF;
+  }
+}
+
+.blank {
+  height: 35px;
+  min-width: 100px;
+  padding: 5px;
+  margin: 0 5px;
+  border: 1px solid #e0e0e0;
+  background: white;
+  color: #4B4D4E;
+  cursor: pointer;
+  @include border-radius(3px);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  letter-spacing: normal;
+  @include transition(all .2s ease-in-out);
+  font-weight: 300;
+  font-size: 14px;
+
+  &:hover {
+    background: #f2f2f2;
+    color: #4B4D4E;
   }
 }

@@ -3,6 +3,7 @@
   @include display-flex();
   @include flex-direction(row);
   @include justify-content(flex-start);
+  @include align-content(flex-start);
   @include align-items(center);
   @include box-sizing(border-box);
   @include container-centered();

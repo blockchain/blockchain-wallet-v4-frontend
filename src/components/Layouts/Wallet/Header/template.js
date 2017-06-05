@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
+import Ticker from './Ticker'
 import ExploreMenu from './ExploreMenu'
 import Logout from './Logout'
 
@@ -14,6 +15,7 @@ const Header = () => {
         <img src={logo} className={style.logo} />
       </NavLink>
       <div className={style.right}>
+        <Ticker />
         <ExploreMenu />
         <Logout />
       </div>
