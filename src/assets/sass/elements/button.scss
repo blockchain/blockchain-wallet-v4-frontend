@@ -14,9 +14,9 @@
     border: none;
     background-color: $iris;
     color: #FFFFFF;
-    font-weight: 300;
     font-family: 'Montserrat', 'Helvetica', sans-serif !important;
     font-size: 14px;
+    font-weight: 300;
 
     &:hover {
       background-color: darken($iris, 10%);
@@ -39,9 +39,9 @@
   border: none;
   background-color: $mariner;
   color: #FFFFFF;
-  font-weight: 300;
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-size: 14px;
+  font-weight: 300;
 
   &:hover {
     background-color: darken($mariner, 10%);

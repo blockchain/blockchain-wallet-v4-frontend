@@ -2,6 +2,7 @@
 .default {
   text-decoration: none;
   color: $iris;
+  cursor: pointer;
 }
 
 .navigation {
@@ -15,7 +16,6 @@
   color: #FFFFFF;
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Montserrat', 'Helvetica', sans-serif;
   cursor: pointer;
 }
 
@@ -31,6 +31,21 @@
   color: #FFFFFF;
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Montserrat', 'Helvetica', sans-serif;
   cursor: pointer;
+}
+
+.navigation-sub {
+  display: block;
+  padding: 3px 20px;
+  text-decoration: none;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  @include box-sizing(border-box);
+  
+  &:hover {
+    background-color: #EBEBEB;
+  }
 }

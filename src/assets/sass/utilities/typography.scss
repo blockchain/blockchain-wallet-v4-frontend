@@ -1,57 +1,47 @@
 
-
-.h5 {
-  font-size: 14px;
-  font-family: 'GillSans', 'Helvetica', sans-serif !important;
+.default {
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-size: 13px;
   font-weight: 300;
 }
 
-.h4 {
-  font-size: 16px;
-  font-family: 'GillSans', 'Helvetica', sans-serif !important;
-  font-weight: 300;
-}
-
-.h3 {
+.title {
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-size: 24px;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-weight: 300;
 }
 
-.h3 {
-  font-size: 32px;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-weight: 300;
-}
-
-.h2 {
-  font-size: 54px;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-weight: 300;
-}
-
-.label {
+.subtitle {
+  font-family: 'GillSans', 'Helvetica', sans-serif !important;
   font-size: 16px;
+  font-weight: 300;
+}
+
+.label-textbox {
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-size: 14px;
   font-weight: 500;
 }
 
-.alert {
-  color: $security-red;
+.description-textbox {
+  font-family: 'GillSans', 'Helvetica', sans-serif !important;
+  font-size: 14px;
+  font-weight: 300;
 }
 
 @for $i from 1 through 5 {
-  .margin-#{$i} { margin: #{$i*5}px; }
-  .margin-top-#{$i} { margin-top: #{$i*5}px; }
-  .margin-bottom-#{$i} { margin-bottom: #{$i*5}px; }
-  .margin-left-#{$i} { margin-left: #{$i*5}px; }
-  .margin-right-#{$i} { margin-right: #{$i*5}px; }
-  .padding-#{$i} { padding: #{$i*5}px; }
-  .padding-top-#{$i} { padding-top: #{$i*5}px; }
-  .padding-bottom-#{$i} { padding-bottom: #{$i*5}px; }
-  .padding-left-#{$i} { padding-left: #{$i*5}px; }
-  .padding-right-#{$i} { padding-right: #{$i*5}px; }
+  .margin-#{$i*5} { margin: #{$i*5}px; }
+  .margin-top-#{$i*5} { margin-top: #{$i*5}px; }
+  .margin-bottom-#{$i*5} { margin-bottom: #{$i*5}px; }
+  .margin-left-#{$i*5} { margin-left: #{$i*5}px; }
+  .margin-right-#{$i*5} { margin-right: #{$i*5}px; }
+  .padding-#{$i*5} { padding: #{$i*5}px; }
+  .padding-top-#{$i*5} { padding-top: #{$i*5}px; }
+  .padding-bottom-#{$i*5} { padding-bottom: #{$i*5}px; }
+  .padding-left-#{$i*5} { padding-left: #{$i*5}px; }
+  .padding-right-#{$i*5} { padding-right: #{$i*5}px; }
 }
+
 
 
 
@@ -66,11 +56,13 @@
 .type-lbl { font-size: 1.1em; }
 .type-lrg { font-size: 2em; }
 .type-med { font-size: 2.2em; }
-.title { font-size: 3.5em; }
+// .title { font-size: 3.5em; }
 .type-yuge { font-size: 5em; }
 
+.f-52 { font-size: 52px; }
 .f-48 { font-size: 48px; }
 .f-36 { font-size: 36px; }
+.f-32 { font-size: 32px; }
 .f-28 { font-size: 28px; }
 .f-24 { font-size: 24px; }
 .f-20 { font-size: 20px; }
