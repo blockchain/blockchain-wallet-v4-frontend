@@ -8,6 +8,7 @@ import * as crypto from '../WalletCrypto'
 import * as HDWalletUtil from './HDWallet'
 import { typeDef, shift, shiftIProp } from '../util'
 import * as Address from './Address'
+import * as HDWallet from './HDWallet'
 const { compose, over, view, curry } = R
 
 /* Wallet :: {
@@ -39,20 +40,25 @@ export const addresses = define('addresses')
 export const dpasswordhash = define('dpasswordhash')
 export const hdWallets = define('hd_wallets')
 
+// selectGuid :: Wallet -> String
 export const selectGuid = view(guid)
+export const selectSharedKey = view(sharedKey)
 export const selectIterations = view(pbkdf2Iterations)
 export const selectmetadataHDNode = view(metadataHDNode)
 
-export const selectAddresses = compose((as) => as.toArray(), view(addresses))
+export const selectAddresses = compose(as => as.toList(), view(addresses))
 export const selectHdWallets = view(hdWallets)
 export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
-export const selectAddrContext = w => R.view(compose(mapped, Address.addr), selectAddresses(w))
+export const selectAddrContext = R.compose(R.map(Address.selectAddr), selectAddresses)
+export const selectXpubsContext = R.compose(x => x.join(), R.map(HDWallet.selectXpubs), selectHdWallets)
+export const selectContext = w => List([selectAddrContext(w), selectXpubsContext(w)]).join()
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
 export const fromJS = (x) => {
+  if (x instanceof Wallet) { return x }
   let addressesMapCons = compose(Map, R.indexBy(R.prop('addr')), R.map(Address.fromJS))
   let hdWalletListCons = compose(List, R.map(HDWalletUtil.fromJS))
 
@@ -201,6 +207,7 @@ export const decryptSync = decryptMonadic(
   validateSecondPwd(Either.of, Either.Left)
 )
 
+// createNew :: String -> String -> String -> Wallet
 export const createNew = curry((guid, sharedKey, mnemonic) => {
   let hd = HDWalletUtil.createNew(mnemonic)
 

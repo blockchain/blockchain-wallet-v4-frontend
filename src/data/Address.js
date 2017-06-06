@@ -38,6 +38,7 @@ export const selectCreatedDeviceName = R.view(createdDeviceName)
 export const selectCreatedDeviceVersion = R.view(createdDeviceVersion)
 
 export const fromJS = (x) => {
+  if (x instanceof Address) { return x }
   return new Address(x)
 }
 

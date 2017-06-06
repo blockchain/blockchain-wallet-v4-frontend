@@ -22,21 +22,6 @@ const decryptWrapper = curry((password, wrapper) =>
   Either.try(() => decryptDataWithPasswordSync(wrapper.payload, password, wrapper.pbkdf2_iterations))()
 )
 
-// decryptPayload :: String -> ServerPayload -> Either error DecryptedPayload
-export const decryptPayload = password => payload => {
-  const plens = lensProp('payload')
-  const ilens = lensProp('pbkdf2_iterations')
-  const vlens = lensProp('version')
-  const iter = view(compose(plens, ilens), payload)
-  const ver = view(compose(plens, vlens), payload)
-  return traverseOf(plens, Either.of, decryptWallet(password), payload)
-         .map(o => assoc('version', ver, o))
-         .map(o => assoc('pbkdf2_iterations', iter, o))
-         .map(o => assoc('walletImmutable', o.payload, o))
-         .map(o => dissoc('payload', o))
-         .map(o => assoc('password', password, o))
-}
-
 export const encryptWallet = curry((data, password, pbkdf2Iterations, version) => {
   assert(data, 'data missing')
   assert(password, 'password missing')

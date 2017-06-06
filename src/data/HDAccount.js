@@ -1,9 +1,7 @@
 import { Map, fromJS as iFromJS } from 'immutable-ext'
 import * as R from 'ramda'
-// import { iLensProp } from '../lens'
 import { typeDef, shift, shiftIProp } from '../util'
 // import Bitcoin from 'bitcoinjs-lib'
-// import BIP39 from 'bip39'
 
 /* HDAccount :: {
   label :: String
@@ -20,11 +18,20 @@ const { guard, define } = typeDef(HDAccount)
 export const label = define('label')
 export const archived = define('archived')
 export const xpriv = define('xpriv')
+export const xpub = define('xpub')
 
-export const fromJS = (x) => new HDAccount(iFromJS(x))
+export const selectLabel = R.view(label)
+export const selectArchived = R.view(archived)
+export const selectXpriv = R.view(xpriv)
+export const selectXpub = R.view(xpub)
 
+export const fromJS = (x) => {
+  if (x instanceof HDAccount) { return x }
+  return new HDAccount(iFromJS(x))
+}
 export const toJS = R.pipe(guard, (acc) => acc.__internal.toJS())
 
+// TODO :: maybe define address_labels and cache as it is own type
 export const createNew = R.curry((accountNode, { label = DEFAULT_LABEL } = {}) => {
   return fromJS({
     label,

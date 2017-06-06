@@ -1,14 +1,13 @@
 /* eslint-disable semi */
 import Task from 'data.task'
-import { assoc, dissoc, lensProp, over, compose, map, identity } from 'ramda'
+import { assoc, compose, map, identity } from 'ramda'
 import * as WCrypto from '../WalletCrypto'
 import Promise from 'es6-promise'
-import { Wallet } from '../data'
-import * as WalletUtil from '../data/Wallet'
+import { Wrapper } from '../data'
 import { futurizeP } from 'futurize'
 import createApi from './Api'
-import { Map } from 'immutable-ext'
-Promise.polyfill()
+// import { Map } from 'immutable-ext'
+// Promise.polyfill()
 
 const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   const ApiPromise = createApi({rootUrl, apiUrl, apiCode});
@@ -18,42 +17,35 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   const promiseToTask = futurizeP(Task)
   const future = returnType ? futurizeP(returnType) : identity
 
-  const decrypt = (password) => (response) => response
-    .map(over(lensProp('payload'), JSON.parse))
-    .map(WCrypto.decryptPayload(password))
-    .chain(eitherToTask)
-    .map(over(lensProp('walletImmutable'), WalletUtil.fromJS))
-    .map(dissoc('extra_seed'))
-    .map(dissoc('symbol_btc'))
-    .map(dissoc('symbol_local'))
-    .map(dissoc('guid'))
-    .map(Map)
+  const getWalletWithSharedKeyTask = (guid, sharedKey, password) =>
+    promiseToTask(ApiPromise.fetchWalletWithSharedKey)(guid, sharedKey)
+      .map(Wrapper.fromEncJSON(password))
+      .chain(eitherToTask)
 
-  const getWalletTask = (guid, sharedKey, password) =>
-    decrypt(password)(promiseToTask(ApiPromise.fetchWalletWithSharedKey)(guid, sharedKey))
+  const getWalletWithSharedKey = compose(taskToPromise, getWalletWithSharedKeyTask)
 
-  const getWallet = compose(taskToPromise, getWalletTask)
+  const getWalletWithSessionTask = (guid, session, password) =>
+    promiseToTask(ApiPromise.fetchWalletWithSession)(guid, session)
+      .map(Wrapper.fromEncJSON(password))
+      .chain(eitherToTask)
 
-  const fetchWalletTask = (guid, session, password) =>
-    decrypt(password)(promiseToTask(ApiPromise.fetchWalletWithSession)(guid, session))
+  const getWalletWithSession = compose(taskToPromise, getWalletWithSessionTask)
 
-  const fetchWallet = compose(taskToPromise, fetchWalletTask)
-
-  const downloadWallet = (guid, sharedKey, session, password) => {
+  const getWallet = (guid, sharedKey, session, password) => {
     if (sharedKey) {
-      return getWallet(guid, sharedKey, password)
+      return getWalletWithSharedKey(guid, sharedKey, password)
     }
     if (session) {
-      return fetchWallet(guid, session, password)
+      return getWalletWithSession(guid, session, password)
     }
     return Promise.reject(new Error('MISSING_CREDENTIALS'))
   }
 
-  const saveWalletTask = (state) =>
-    promiseToTask(ApiPromise.saveWallet)(WCrypto.encryptState(state))
+  const saveWalletTask = (wrapper) =>
+    promiseToTask(ApiPromise.saveWallet)(Wrapper.toEncJSON(wrapper))
 
-  const createWalletTask = email => state =>
-    promiseToTask(ApiPromise.createWallet)(assoc('email', email, WCrypto.encryptState(state)))
+  const createWalletTask = email => wrapper =>
+    promiseToTask(ApiPromise.createWallet)(assoc('email', email, Wrapper.toEncJSON(wrapper)))
 
   const saveWallet = compose(taskToPromise, saveWalletTask)
   const createWallet = email => state => compose(taskToPromise, createWalletTask(email))(state)
@@ -62,12 +54,11 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   // export const get = compose(taskToPromise, getTask)
   const Api = map(future, ApiPromise)
 
-  // TODO :: we should rename or unify get,fetch,download functions
   return {
     ...Api,
+    getWalletWithSharedKey: future(getWalletWithSharedKey),
+    getWalletWithSession: future(getWalletWithSession),
     getWallet: future(getWallet),
-    fetchWallet: future(fetchWallet),
-    downloadWallet: future(downloadWallet),
     saveWallet: future(saveWallet),
     createWallet: future(createWallet)
   }

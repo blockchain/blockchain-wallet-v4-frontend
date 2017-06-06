@@ -31,9 +31,12 @@ export const selectAccount = R.curry((index, hdwallet) =>
 export const selectDefaultAccount = (hdwallet) =>
   selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
 
+export const selectXpubs = R.compose(R.map(HDAccount.selectXpub), selectAccounts)
+
 const shiftHDWallet = R.compose(shiftIProp('seed_hex', 'seedHex'), shift)
 
 export const fromJS = (x) => {
+  if (x instanceof HDWallet) { return x }
   let hdAccountListCons = R.compose(List, R.map(HDAccount.fromJS))
   let HDWalletCons = R.compose(
     R.over(accounts, hdAccountListCons)

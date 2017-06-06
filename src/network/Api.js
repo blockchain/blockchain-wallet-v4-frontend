@@ -2,7 +2,7 @@ import 'isomorphic-fetch'
 import Promise from 'es6-promise'
 import { merge, identity } from 'ramda'
 import { futurizeP } from 'futurize'
-Promise.polyfill()
+// Promise.polyfill()
 
 export const BLOCKCHAIN_INFO = 'https://blockchain.info/'
 export const API_BLOCKCHAIN_INFO = 'https://api.blockchain.info/'
