@@ -1,15 +1,11 @@
-/* eslint-disable semi */
-
-import { walletReducer } from './reducers'
+import { walletReducer } from './redux/reducers'
 // import { walletSyncMiddleware } from './walletSyncMiddleware'
-import * as walletActions from './actions'
-import * as Immutable from './immutable'
+import * as walletActions from './redux/actions'
 import * as Network from './network'
 
 export {
   walletReducer,
   // walletSyncMiddleware,
   walletActions,
-  Immutable,
   Network
 }

@@ -1,11 +1,10 @@
-import { Map, fromJS as iFromJS } from 'immutable-ext'
+import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import * as R from 'ramda'
 import { iLensProp } from '../lens'
 import { typeDef, shift, shiftIProp } from '../util'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
-
-const DEFAULT_LABEL = 'My Bitcoin Wallet'
+import * as HDAccount from './HDAccount'
 
 /* HDWallet :: {
   seed_hex :: String
@@ -20,44 +19,47 @@ const { guard, define } = typeDef(HDWallet)
 
 export const seedHex = define('seedHex')
 export const accounts = define('accounts')
-export const xpriv = iLensProp('xpriv')
+export const defaultAccountIdx = define('default_account_idx')
+
+export const selectSeedHex = R.view(seedHex)
+export const selectAccounts = R.view(accounts)
+export const selectDefaultAccountIdx = R.view(defaultAccountIdx)
+
+export const selectAccount = R.curry((index, hdwallet) =>
+  selectAccounts(hdwallet).get(index))
+
+export const selectDefaultAccount = (hdwallet) =>
+  selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
 
 const shiftHDWallet = R.compose(shiftIProp('seed_hex', 'seedHex'), shift)
 
 export const fromJS = (x) => {
-  return new HDWallet(shiftHDWallet(iFromJS(x)).forward())
+  let hdAccountListCons = R.compose(List, R.map(HDAccount.fromJS))
+  let HDWalletCons = R.compose(
+    R.over(accounts, hdAccountListCons)
+  )
+  return HDWalletCons(new HDWallet(shiftHDWallet(iFromJS(x)).forward()))
 }
 
 export const toJS = R.pipe(guard, (hd) => {
-  return shiftHDWallet(hd.__internal).back().toJS()
+  let selectAccountsJS = R.compose(R.map(HDAccount.toJS), selectAccounts)
+  let destructAccounts = R.set(accounts, selectAccountsJS(hd))
+  let destructHDWallet = R.compose(destructAccounts)
+  return shiftHDWallet(destructHDWallet(hd).__internal).back().toJS()
 })
 
-export const createNew = R.curry((mnemonic, { label = DEFAULT_LABEL } = {}) => {
+export const createNew = R.curry((mnemonic, { label } = {}) => {
   let seed = BIP39.mnemonicToSeed(mnemonic)
   let entropy = BIP39.mnemonicToEntropy(mnemonic)
   let masterNode = Bitcoin.HDNode.fromSeedBuffer(seed)
   let accountNode = masterNode.deriveHardened(44).deriveHardened(0).deriveHardened(0)
-
-  // TODO: move to own data type
-  let account = {
-    label,
-    archived: false,
-    xpriv: accountNode.toBase58(),
-    xpub: accountNode.neutered().toBase58(),
-    address_labels: [],
-    cache: {
-      receiveAccount: accountNode.derive(0).neutered().toBase58(),
-      changeAccount: accountNode.derive(1).neutered().toBase58()
-    }
-  }
+  let account = HDAccount.createNew(accountNode, { label })
 
   return fromJS({
     seed_hex: entropy,
     passphrase: '',
     mnemonic_verified: false,
     default_account_idx: 0,
-    accounts: [account]
+    accounts: [HDAccount.toJS(account)]
   })
 })
-
-export default HDWallet

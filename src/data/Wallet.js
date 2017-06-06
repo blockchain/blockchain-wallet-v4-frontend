@@ -2,12 +2,12 @@ import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import Either from 'data.either'
 import Task from 'data.task'
 import * as R from 'ramda'
-import { traversed, traverseOf } from 'ramda-lens'
+import { traversed, traverseOf, mapped } from 'ramda-lens'
 import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
-import * as AddressUtil from './Address'
 import * as HDWalletUtil from './HDWallet'
 import { typeDef, shift, shiftIProp } from '../util'
+import * as Address from './Address'
 const { compose, over, view, curry } = R
 
 /* Wallet :: {
@@ -32,6 +32,7 @@ const { lens, guard, define } = typeDef(Wallet)
 export const guid = define('guid')
 export const sharedKey = define('sharedKey')
 export const doubleEncryption = define('double_encryption')
+export const metadataHDNode = define('metadataHDNode')
 export const options = define('options')
 export const pbkdf2Iterations = compose(options, iLensProp('pbkdf2_iterations'))
 export const addresses = define('addresses')
@@ -40,15 +41,19 @@ export const hdWallets = define('hd_wallets')
 
 export const selectGuid = view(guid)
 export const selectIterations = view(pbkdf2Iterations)
+export const selectmetadataHDNode = view(metadataHDNode)
+
 export const selectAddresses = compose((as) => as.toArray(), view(addresses))
 export const selectHdWallets = view(hdWallets)
 export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
+export const selectAddrContext = w => R.view(compose(mapped, Address.addr), selectAddresses(w))
+
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
 export const fromJS = (x) => {
-  let addressesMapCons = compose(Map, R.indexBy(R.prop('addr')), R.map(AddressUtil.fromJS))
+  let addressesMapCons = compose(Map, R.indexBy(R.prop('addr')), R.map(Address.fromJS))
   let hdWalletListCons = compose(List, R.map(HDWalletUtil.fromJS))
 
   let walletCons = compose(
@@ -60,7 +65,7 @@ export const fromJS = (x) => {
 }
 
 export const toJS = R.pipe(guard, (wallet) => {
-  let selectAddressesJS = compose(R.map(AddressUtil.toJS), selectAddresses)
+  let selectAddressesJS = compose(R.map(Address.toJS), selectAddresses)
   let destructAddressses = R.set(addresses, selectAddressesJS(wallet))
 
   let selectHdWalletsJS = compose(R.map(HDWalletUtil.toJS), selectHdWallets)
@@ -114,7 +119,7 @@ export const addAddress = curry((wallet, address, password) => {
   if (!isDoubleEncrypted(wallet)) {
     return Either.of(append(wallet, address))
   } else if (isValidSecondPwd(password, wallet)) {
-    return AddressUtil.encryptSync(it, sk, password, address).map(append(wallet))
+    return Address.encryptSync(it, sk, password, address).map(append(wallet))
   } else {
     return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
   }
@@ -123,12 +128,12 @@ export const addAddress = curry((wallet, address, password) => {
 // setAddressLabel :: String -> String -> Wallet -> Wallet
 export const setAddressLabel = curry((address, label, wallet) => {
   let addressLens = compose(addresses, iLensProp(address))
-  return R.over(addressLens, AddressUtil.setLabel(label), wallet)
+  return R.over(addressLens, Address.setLabel(label), wallet)
 })
 
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
 export const traverseKeyValues = curry((of, f, wallet) => {
-  const trAddr = traverseOf(compose(addresses, traversed, AddressUtil.priv), of, f)
+  const trAddr = traverseOf(compose(addresses, traversed, Address.priv), of, f)
   const trSeed = traverseOf(compose(hdWallets, traversed, HDWalletUtil.seedHex), of, f)
   const trXpriv = traverseOf(compose(hdWallets, traversed, HDWalletUtil.accounts, traversed, HDWalletUtil.xpriv), of, f)
   return of(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
@@ -217,4 +222,4 @@ export const createNew = curry((guid, sharedKey, mnemonic) => {
   })
 })
 
-export default Wallet
+// export default Wallet
