@@ -26,6 +26,11 @@
   flex-basis: $args;
 }
 
+@mixin flex-wrap($args...) {
+  -webkit-flex-wrap: $args;
+  flex-wrap: $args;
+}
+
 @mixin flex($args...) {
   -webkit-flex: $args;
   flex: $args;

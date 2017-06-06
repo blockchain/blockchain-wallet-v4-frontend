@@ -20,9 +20,6 @@
 }
 
 .navigation-uppercase {
-  @include display-flex();
-  @include flex-direction(row);
-  @include align-items(center);
   height: 60px;
   padding: 0 15px;
   @include box-sizing(border-box);
@@ -44,7 +41,7 @@
   cursor: pointer;
   width: 100%;
   @include box-sizing(border-box);
-  
+
   &:hover {
     background-color: #EBEBEB;
   }

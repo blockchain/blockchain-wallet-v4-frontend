@@ -14,7 +14,6 @@
 
 .content {
   @include display-flex();
-  @include justify-content(center);
 }
 
 .footer {

@@ -1,9 +1,5 @@
 
 .landing {
-  @include display-flex();
-  @include flex-direction(column);
-  @include box-sizing(border-box);
   background-color: green;
   width: 100%;
-  height: auto;
 }

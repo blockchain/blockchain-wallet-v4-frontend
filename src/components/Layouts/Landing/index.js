@@ -5,18 +5,21 @@ import Header from './Header'
 import Footer from './Footer'
 
 import style from './style.scss'
+import grid from 'sass/elements/grid.scss'
 
 const LandingLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
-      <div className={style.landingLayout}>
-        <div className={style.header}>
+      <div className={grid.containerFluid}>
+        <div className={grid.row}>
           <Header />
         </div>
-        <div className={style.content}>
-          <Component {...matchProps} />
+        <div className={grid.row}>
+          <div className={grid.colMd12}>
+            <Component {...matchProps} />
+          </div>
         </div>
-        <div className={style.footer}>
+        <div className={grid.row}>
           <Footer />
         </div>
       </div>

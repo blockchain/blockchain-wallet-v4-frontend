@@ -84,7 +84,6 @@ module.exports = {
               loader: 'sass-resources-loader',
               options: {
                 resources: [
-                  'node_modules/blockchain-css/sass/utilities/_colors.scss',
                   'src/assets/sass/resources/**/*.scss'
                 ]
               }
