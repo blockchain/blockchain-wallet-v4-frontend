@@ -1,23 +1,4 @@
 
-.landing-layout {
-  @include display-flex();
-  @include flex-direction(column);
-  @include justify-content(space-between);
-  @include align-content(stretch);
-  height: 100%;
+.landing {
 
-}
-
-.header {
-  @include display-flex();
-}
-
-.content {
-  @include display-flex();
-  @include justify-content(center);
-  height: 100%;
-}
-
-.footer {
-  @include display-flex();
 }

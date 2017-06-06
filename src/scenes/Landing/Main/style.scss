@@ -1,47 +1,7 @@
 
 .main {
-  @include display-flex();
-  @include flex-direction(column);
-  @include justify-content(center);
-  @include box-sizing(border-box);
-  height: 100%;
-  background-image: url('img/landing-page-banner.jpg');
-  background-repeat: 'no-repeat';
-  background-position: 100% 60%;
-  @include background-size(cover);
-  text-align: center;
+  @include responsive-background-image('img/landing-page-banner.jpg');
   font-weight: 400;
   color: white;
-}
-
-.row-horizontal {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(center);
-  @include align-items(center);
-  margin-top: 60px;
-}
-
-.row-vertical {
-  @include display-flex();
-  @include flex-direction(column);
-  @include justify-content(center);
-  @include align-items(center);
-  margin-top: 60px;
-}
-
-.column {
-  @include display-flex();
-  @include flex-direction(column);
-  @include justify-content(center);
-  @include align-items(center);
-  width: 20%;
-
-}
-
-.button {
-  font-size: 18px!important;
-  text-transform: uppercase;
-  width: 20%;
-  min-width: 250px;
+  height: 1000px;
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 
 import Main from './Main'
 import NewToBitcoin from './NewToBitcoin'
@@ -6,14 +7,15 @@ import Reviews from './Reviews'
 import WhyUseBlockchain from './WhyUseBlockchain'
 
 import style from './style.scss'
+import grid from 'sass/elements/grid.scss'
 
 const Landing = () => {
   return (
     <div className={style.landing}>
       <Main />
       {/*<NewToBitcoin />
-      <Reviews />
-      <WhyUseBlockchain />*/}
+       <Reviews />
+       <WhyUseBlockchain />*/}
     </div>
   )
 }

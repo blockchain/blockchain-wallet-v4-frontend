@@ -1,7 +1,10 @@
 
 .header {
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(flex-start);
   height: 60px;
-  background-color: $bc-blue;
+  width: 100%;
 }
 
 .logo {

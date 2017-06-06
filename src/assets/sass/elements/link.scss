@@ -7,8 +7,8 @@
 
 .navigation {
   @include display-flex();
-  @include flex-direction(row);
-  @include align-items(center);
+  @include flex-direction(column);
+  @include justify-content(center);
   height: 60px;
   padding: 0 15px;
   @include box-sizing(border-box);
@@ -20,6 +20,9 @@
 }
 
 .navigation-uppercase {
+  @include display-flex();
+  @include flex-direction(column);
+  @include justify-content(center);
   height: 60px;
   padding: 0 15px;
   @include box-sizing(border-box);

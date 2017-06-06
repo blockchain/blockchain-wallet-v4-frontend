@@ -2,11 +2,6 @@
 // Settings
 $grid_cols: 12;
 
-$grid_breakpoint_sm: 576;
-$grid_breakpoint_md: 768;
-$grid_breakpoint_lg: 992;
-$grid_breakpoint_xl: 1200;
-
 $map_grid_containers: (
   '540px': $grid_breakpoint_sm,
   '720px': $grid_breakpoint_md,
@@ -22,27 +17,10 @@ $map_grid_columns: (
   'xl': $grid_breakpoint_xl
 );
 
-
-@mixin create-media-query($breakpoint) {
-  @if($breakpoint == 0) {
-    @content;
-  } @else {
-    @media screen and (min-width: $breakpoint * 1px) {
-      @content;
-    }
-  }
-}
-
 @mixin create-container-classes($max_width, $breakpoint) {
   @include create-media-query($breakpoint) {
     .container {
-      @include display-flex();
-      @include flex-direction(column);
-      @include justify-content(flex-start);
-      @include align-items(center);
       width: #{$max_width};
-      height: 100%;
-      margin: 0 auto;
     }
   }
 }
@@ -54,10 +32,7 @@ $map_grid_columns: (
     }
     @for $i from 1 through $grid-cols {
       .col-#{$modifier}-#{$i} {
-        @include flex-basis(#{(100 / ($grid-cols / $i) ) * 1%)});
-        @include flex-direction(column);
-        @include justify-content(flex-start);
-        @include align-items(center);
+        @include flex-basis(#{(100 / ($grid-cols / $i) * 1%)});
       }
       .col-#{$modifier}-offset-#{$i} {
         margin-left: (100 / ($grid-cols / $i) ) * 1%;
@@ -67,11 +42,6 @@ $map_grid_columns: (
 }
 
 .container-fluid {
-  @include display-flex();
-  @include flex-direction(column);
-  @include justify-content(flex-start);
-  @include align-items(center);
-  width: 100%;
   height: 100%;
   margin: 0;
 }
@@ -88,12 +58,38 @@ $map_grid_columns: (
 
 .row {
   @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(flex-start);
-  @include align-items(center);
+  @include flex-wrap(wrap);
   width: 100%;
-  height: 100%;
 }
+
+.align-center {
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(center);
+  @include align-items(center);
+}
+
+.valign-center {
+  @include display-flex();
+  @include flex-direction(column);
+  @include justify-content(center);
+  @include align-items(center);
+}
+
+.justify-content-center { @include justify-content(center); }
+.justify-content-start { @include justify-content(flex-start); }
+.justify-content-end { @include justify-content(flex-end); }
+.justify-content-around { @include justify-content(space-around); }
+.justify-content-between { @include justify-content(space-between); }
+
+.align-items-center { @include align-items(center); }
+.align-items-start { @include align-items(flex-start); }
+.align-items-end { @include align-items(flex-end); }
+
+
+
+
+
 
 @each $modifier, $breakpoint in $map_grid_columns {
   @include create-col-classes($modifier, $grid_cols, $breakpoint);

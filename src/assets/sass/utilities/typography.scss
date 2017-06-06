@@ -29,21 +29,43 @@
   font-weight: 300;
 }
 
+.light {
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-size: 20px;
+  font-weight: 300;
+}
+
 .medium {
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-size: 24px;
   font-weight: 300;
-  text-transform: uppercase;
 }
 
-.big {
+.large {
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-size: 28px;
   font-weight: 500;
-  text-transform: uppercase;
 }
 
-@for $i from 1 through 5 {
+.x-large {
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.xx-large {
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.xxx-large {
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-size: 52px;
+  font-weight: 500;
+}
+
+@for $i from 1 through 50 {
   .margin-#{$i*5} { margin: #{$i*5}px; }
   .margin-top-#{$i*5} { margin-top: #{$i*5}px; }
   .margin-bottom-#{$i*5} { margin-bottom: #{$i*5}px; }
@@ -54,7 +76,10 @@
   .padding-bottom-#{$i*5} { padding-bottom: #{$i*5}px; }
   .padding-left-#{$i*5} { padding-left: #{$i*5}px; }
   .padding-right-#{$i*5} { padding-right: #{$i*5}px; }
+  .padding-horizontal-#{$i*5} { padding: 0 #{$i*5}px; }
+  .padding-vertical-#{$i*5} { padding: #{$i*5}px 0; }
 }
+
 
 
 
