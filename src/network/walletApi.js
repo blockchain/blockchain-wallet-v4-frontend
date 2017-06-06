@@ -1,7 +1,5 @@
-/* eslint-disable semi */
 import Task from 'data.task'
 import { assoc, compose, map, identity } from 'ramda'
-import * as WCrypto from '../WalletCrypto'
 import Promise from 'es6-promise'
 import { Wrapper } from '../data'
 import { futurizeP } from 'futurize'
@@ -10,7 +8,7 @@ import createApi from './Api'
 // Promise.polyfill()
 
 const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
-  const ApiPromise = createApi({rootUrl, apiUrl, apiCode});
+  const ApiPromise = createApi({rootUrl, apiUrl, apiCode})
   // helpers
   const eitherToTask = e => e.fold(Task.rejected, Task.of)
   const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))

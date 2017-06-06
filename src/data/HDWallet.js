@@ -1,6 +1,5 @@
 import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import * as R from 'ramda'
-import { iLensProp } from '../lens'
 import { typeDef, shift, shiftIProp } from '../util'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'

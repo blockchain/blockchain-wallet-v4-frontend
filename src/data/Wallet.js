@@ -228,5 +228,3 @@ export const createNew = curry((guid, sharedKey, mnemonic) => {
     hd_wallets: [HDWalletUtil.toJS(hd)]
   })
 })
-
-// export default Wallet
