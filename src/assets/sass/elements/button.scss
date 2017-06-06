@@ -54,7 +54,7 @@
   min-width: 100px;
   padding: 5px;
   margin: 0 5px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #E0E0E0;
   background: white;
   color: #4B4D4E;
   cursor: pointer;
@@ -68,7 +68,54 @@
   font-size: 14px;
 
   &:hover {
-    background: #f2f2f2;
+    background: #F2F2F2;
+    color: #4B4D4E;
+  }
+}
+
+.blank-left {
+  height: 35px;
+  min-width: 100px;
+  padding: 5px;
+  border: 1px solid #E0E0E0;
+  background: white;
+  color: #4B4D4E;
+  cursor: pointer;
+  @include border-radius(3px 0 0 3px);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  letter-spacing: normal;
+  @include transition(all .2s ease-in-out);
+  font-weight: 300;
+  font-size: 14px;
+
+  &:hover {
+    background: #F2F2F2;
+    color: #4B4D4E;
+  }
+}
+
+.blank-right {
+  height: 35px;
+  min-width: 35px;
+  padding: 5px;
+  border: 1px solid #E0E0E0;
+  border-left: 0;
+  background: white;
+  color: #4B4D4E;
+  cursor: pointer;
+  @include border-radius( 0 3px 3px 0);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  letter-spacing: normal;
+  @include transition(all .2s ease-in-out);
+  font-weight: 300;
+  font-size: 14px;
+
+  &:hover {
+    background: #F2F2F2;
     color: #4B4D4E;
   }
 }

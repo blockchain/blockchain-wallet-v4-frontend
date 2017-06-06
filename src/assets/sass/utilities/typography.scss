@@ -29,6 +29,20 @@
   font-weight: 300;
 }
 
+.medium {
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.big {
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-size: 28px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
 @for $i from 1 through 5 {
   .margin-#{$i*5} { margin: #{$i*5}px; }
   .margin-top-#{$i*5} { margin-top: #{$i*5}px; }

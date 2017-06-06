@@ -1,10 +1,14 @@
 import React from 'react'
-import './style.scss'
+
+import MenuTop from './MenuTop'
+
+import style from './style.scss'
 
 const TransactionList = () => {
   return (
-    <section className='transaction-list'>
-      Transaction List
+    <section className={style.transactionList}>
+      <MenuTop />
+      <div className={style.transactions} />
     </section>
   )
 }
