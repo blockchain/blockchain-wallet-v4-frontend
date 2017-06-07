@@ -10,7 +10,7 @@ import style from './style.scss'
 
 const Landing = () => {
   return (
-    <div styleName='landing'>
+    <div>
       <Main />
       {/*<NewToBitcoin />
        <Reviews />
