@@ -1,17 +1,18 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import CSSModules from 'react-css-modules'
 
-import logo from 'img/blockchain-vector.svg'
 import style from './style.scss'
+import logo from 'img/blockchain-vector.svg'
 
 const Header = () => {
   return (
-    <header className={style.header}>
+    <header styleName='header'>
       <NavLink to='/'>
-        <img src={logo} className={style.logo} />
+        <img src={logo} className='logo' />
       </NavLink>
     </header>
   )
 }
 
-export default Header
+export default CSSModules(Header, style)

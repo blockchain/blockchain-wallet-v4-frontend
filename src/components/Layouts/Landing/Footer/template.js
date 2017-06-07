@@ -1,13 +1,14 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
 const Footer = () => {
   return (
-    <footer className={style.footer}>
+    <footer className='footer'>
       Landing footer
     </footer>
   )
 }
 
-export default Footer
+export default CSSModules(Footer, style)

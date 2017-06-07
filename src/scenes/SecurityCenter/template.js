@@ -1,13 +1,14 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
 const SecurityCenter = () => {
   return (
-    <section className={style.securityCenter}>
+    <section styleName='security-center'>
       <span>Security center page</span>
     </section>
   )
 }
 
-export default SecurityCenter
+export default CSSModules(SecurityCenter, style)

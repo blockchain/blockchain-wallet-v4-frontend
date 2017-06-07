@@ -1,13 +1,14 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
 const Register = () => {
   return (
-    <section className={style.register}>
+    <section styleName='register'>
       Register page
     </section>
   )
 }
 
-export default Register
+export default CSSModules(Register, style)

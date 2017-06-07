@@ -1,13 +1,14 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
 const Faq = () => {
   return (
-    <section className={style.faq}>
-      <span>FAQ page</span>
+    <section styleName='faq'>
+      FAQ page
     </section>
   )
 }
 
-export default Faq
+export default CSSModules(Faq, style)

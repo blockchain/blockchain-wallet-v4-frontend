@@ -1,12 +1,14 @@
 import React from 'react'
-import './style.scss'
+import CSSModules from 'react-css-modules'
+
+import style from './style.scss'
 
 const TransactionListItem = () => {
   return (
-    <div className='transaction-list-item'>
+    <div styleName='transaction-list-item'>
       Transaction List Item
     </div>
   )
 }
 
-export default TransactionListItem
+export default CSSModules(TransactionListItem, style)

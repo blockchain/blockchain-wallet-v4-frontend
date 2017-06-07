@@ -1,4 +1,5 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import InfoWell from 'components/Shared/InfoWell'
 import SettingRow from 'components/Shared/SettingRow'
@@ -16,7 +17,7 @@ import Themes from './Themes'
 
 const Preferences = () => {
   return (
-    <section className={style.preferences}>
+    <section styleName='preferences'>
       <InfoWell>Customize your wallet experience.</InfoWell>
       <SettingRow component={EmailAddress} />
       <SettingRow component={MobileNumber} />
@@ -31,4 +32,4 @@ const Preferences = () => {
   )
 }
 
-export default Preferences
+export default CSSModules(Preferences, style)

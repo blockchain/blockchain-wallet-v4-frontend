@@ -1,4 +1,5 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import MenuTop from './MenuTop'
 
@@ -6,9 +7,8 @@ import style from './style.scss'
 
 const TransactionList = () => {
   return (
-    <section className={style.transactionList}>
+    <section styleName='transactions-list'>
       <MenuTop />
-      <div className={style.transactions} />
     </section>
   )
 }

@@ -1,12 +1,12 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
-import link from 'sass/elements/link.scss'
 
 const Logout = () => {
   return (
-    <a className={link.navigation}>Sign out</a>
+    <a className='navigation'>Sign out</a>
   )
 }
 
-export default Logout
+export default CSSModules(Logout, style)

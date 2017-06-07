@@ -1,12 +1,12 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
-import link from 'sass/elements/link.scss'
 
 const Ticker = () => {
   return (
-    <a href='https://markets.blockchain.info' className={link.navigation}>1 BTC = £2,071.37</a>
+    <a href='https://markets.blockchain.info' className='navigation'>1 BTC = £2,071.37</a>
   )
 }
 
-export default Ticker
+export default CSSModules(Ticker, style)

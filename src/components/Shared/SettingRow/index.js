@@ -1,20 +1,20 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
-import typography from 'sass/utilities/typography.scss'
 
 const SettingRow = (props) => (
-  <div className={style.settingRow}>
-    <div className={style.description}>
-      <label className={typography.label}>{props.component.title}</label>
+  <div styleName='setting-row'>
+    <div styleName='description'>
+      <label className='label'>{props.component.title}</label>
       <div>
         {props.component.description}
       </div>
     </div>
-    <div className={style.settings}>
+    <div styleName='settings'>
       {props.component.settings}
     </div>
   </div>
 )
 
-export default SettingRow
+export default CSSModules(SettingRow, style)

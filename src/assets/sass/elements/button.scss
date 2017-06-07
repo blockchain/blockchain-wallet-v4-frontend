@@ -1,5 +1,33 @@
 
-.primary {
+button {
+
+  &.primary {
+      height: 40px;
+      width: 100%;
+      padding: 10px 15px;
+      margin: 10px 0;
+      text-align: center;
+      text-decoration: none;
+      vertical-align: middle;
+      letter-spacing: normal;
+      @include transition(all 0.2s ease-in-out);
+      @include border-radius(3px);
+      @include box-sizing(border-box);
+      cursor: pointer;
+      border: none;
+      background-color: $iris;
+      color: #FFFFFF;
+      font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+      font-size: 14px;
+      font-weight: 300;
+
+      &:hover {
+        background-color: darken($iris, 10%);
+        color: #FFFFFF;
+      }
+  }
+
+  &.secondary {
     height: 40px;
     width: 100%;
     padding: 10px 15px;
@@ -13,111 +41,86 @@
     @include box-sizing(border-box);
     cursor: pointer;
     border: none;
-    background-color: $iris;
+    background-color: $mariner;
     color: #FFFFFF;
     font-family: 'Montserrat', 'Helvetica', sans-serif !important;
     font-size: 14px;
     font-weight: 300;
 
     &:hover {
-      background-color: darken($iris, 10%);
+      background-color: darken($mariner, 10%);
       color: #FFFFFF;
     }
-}
-
-.secondary {
-  height: 40px;
-  width: 100%;
-  padding: 10px 15px;
-  margin: 10px 0;
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
-  letter-spacing: normal;
-  @include transition(all 0.2s ease-in-out);
-  @include border-radius(3px);
-  @include box-sizing(border-box);
-  cursor: pointer;
-  border: none;
-  background-color: $mariner;
-  color: #FFFFFF;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 14px;
-  font-weight: 300;
-
-  &:hover {
-    background-color: darken($mariner, 10%);
-    color: #FFFFFF;
   }
-}
 
-.blank {
-  height: 35px;
-  min-width: 100px;
-  padding: 5px;
-  margin: 0 5px;
-  border: 1px solid #E0E0E0;
-  background: white;
-  color: #4B4D4E;
-  cursor: pointer;
-  @include border-radius(3px);
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
-  letter-spacing: normal;
-  @include transition(all .2s ease-in-out);
-  font-weight: 300;
-  font-size: 14px;
-
-  &:hover {
-    background: #F2F2F2;
+  &.blank {
+    height: 35px;
+    min-width: 100px;
+    padding: 5px;
+    margin: 0 5px;
+    border: 1px solid #E0E0E0;
+    background: white;
     color: #4B4D4E;
+    cursor: pointer;
+    @include border-radius(3px);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    letter-spacing: normal;
+    @include transition(all .2s ease-in-out);
+    font-weight: 300;
+    font-size: 14px;
+
+    &:hover {
+      background: #F2F2F2;
+      color: #4B4D4E;
+    }
   }
-}
 
-.blank-left {
-  height: 35px;
-  min-width: 100px;
-  padding: 5px;
-  border: 1px solid #E0E0E0;
-  background: white;
-  color: #4B4D4E;
-  cursor: pointer;
-  @include border-radius(3px 0 0 3px);
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
-  letter-spacing: normal;
-  @include transition(all .2s ease-in-out);
-  font-weight: 300;
-  font-size: 14px;
-
-  &:hover {
-    background: #F2F2F2;
+  &.blank-left {
+    height: 35px;
+    min-width: 100px;
+    padding: 5px;
+    border: 1px solid #E0E0E0;
+    background: white;
     color: #4B4D4E;
+    cursor: pointer;
+    @include border-radius(3px 0 0 3px);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    letter-spacing: normal;
+    @include transition(all .2s ease-in-out);
+    font-weight: 300;
+    font-size: 14px;
+
+    &:hover {
+      background: #F2F2F2;
+      color: #4B4D4E;
+    }
   }
-}
 
-.blank-right {
-  height: 35px;
-  min-width: 35px;
-  padding: 5px;
-  border: 1px solid #E0E0E0;
-  border-left: 0;
-  background: white;
-  color: #4B4D4E;
-  cursor: pointer;
-  @include border-radius( 0 3px 3px 0);
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
-  letter-spacing: normal;
-  @include transition(all .2s ease-in-out);
-  font-weight: 300;
-  font-size: 14px;
-
-  &:hover {
-    background: #F2F2F2;
+  &.blank-right {
+    height: 35px;
+    min-width: 35px;
+    padding: 5px;
+    border: 1px solid #E0E0E0;
+    border-left: 0;
+    background: white;
     color: #4B4D4E;
+    cursor: pointer;
+    @include border-radius( 0 3px 3px 0);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    letter-spacing: normal;
+    @include transition(all .2s ease-in-out);
+    font-weight: 300;
+    font-size: 14px;
+
+    &:hover {
+      background: #F2F2F2;
+      color: #4B4D4E;
+    }
   }
 }

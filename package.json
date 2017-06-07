@@ -60,6 +60,7 @@
     "prop-types": "^15.5.10",
     "ramda": "^0.23.0",
     "react": "^15.5.4",
+    "react-css-modules": "^4.3.0",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",

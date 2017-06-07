@@ -1,23 +1,21 @@
 import React from 'react'
 
 import style from './style.scss'
-import typography from 'sass/utilities/typography.scss'
-import button from 'sass/elements/button.scss'
 
 const title = 'Auto Logout'
 
 const description = (
-  <span className={typography.h4}>
+  <span>
     After a certain period of inactivity, you will be automatically logged out of your wallet.
   </span>
 )
 
 const settings = (
   <div>
-    <span className={typography.label}>
+    <span>
       10min
     </span>
-    <button className={button.primary}>Change</button>
+    <button className='primary'>Change</button>
   </div>
 )
 

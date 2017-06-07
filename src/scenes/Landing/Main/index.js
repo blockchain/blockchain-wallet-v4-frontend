@@ -1,38 +1,39 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import classNames from 'classnames'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
-import button from 'sass/elements/button.scss'
-import grid from 'sass/elements/grid.scss'
-import typography from 'sass/utilities/typography.scss'
 
 const Main = () => {
   return (
-    <section className={style.main}>
-      <div className={classNames(grid.container, grid.valignCenter)}>
-        <div className={classNames(grid.row, grid.alignCenter, typography.padding25)}>
-          <span className={typography.f52}>The World's Most Popular Bitcoin Wallet</span>
+    <section styleName='main'>
+      <div className='container valign-center'>
+        <div className='row align-center padding-25'>
+          <span className='f-52'>The World's Most Popular Bitcoin Wallet</span>
         </div>
-        <div className={classNames(grid.row, typography.padding25)}>
-          <div className={classNames(grid.colMd4, grid.valignCenter)}>
-            <span className={typography.xLarge}>100 Million+</span>
-            <span className={typography.light}>Transactions</span>
+        <div className='row padding-25'>
+          <div className='col-md-4 valign-center'>
+            <span className='x-large'>100 Million+</span>
+            <span className='light'>Transactions</span>
           </div>
-          <div className={classNames(grid.colMd4, grid.valignCenter)}>
-            <span className={typography.xLarge}>13 Million+</span>
-            <span className={typography.light}>Wallets</span>
+          <div className='col-md-4 valign-center'>
+            <span className='x-large'>13 Million+</span>
+            <span className='light'>Wallets</span>
           </div>
-          <div className={classNames(grid.colMd4, grid.valignCenter)}>
-            <span className={typography.xLarge}>140+</span>
-            <span className={typography.light}>Countries Served</span>
+          <div className='col-md-4 valign-center'>
+            <span className='x-large'>140+</span>
+            <span className='light'>Countries Served</span>
           </div>
         </div>
-        <div className={classNames(grid.row, typography.padding25)}>
-          <div className={classNames(grid.colMd4, grid.colMdOffset4, grid.valignCenter)}>
-            <NavLink className={classNames(button.primary, style.button)} to='/register'>Create your wallet</NavLink>
+        <div className='row padding-25'>
+          <div className='col-md-4 col-md-offset-4 valign-center'>
+            <NavLink className='primary' to='/register'>
+              <button className='primary'>Create your wallet</button>
+            </NavLink>
             <span>or</span>
-            <NavLink className={classNames(button.secondary, style.button)} to='/login'>Login</NavLink>
+            <NavLink to='/login'>
+              <button className='secondary'>Login</button>
+            </NavLink>
           </div>
         </div>
       </div>
@@ -40,4 +41,4 @@ const Main = () => {
   )
 }
 
-export default Main
+export default CSSModules(Main, style)

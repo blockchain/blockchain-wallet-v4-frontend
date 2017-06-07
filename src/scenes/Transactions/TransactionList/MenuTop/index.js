@@ -1,12 +1,14 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
+
 import style from './style.scss'
 
 const MenuTop = () => {
   return (
-    <div className={style.menuTop}>
+    <div styleName='menuTop'>
 
     </div>
   )
 }
 
-export default MenuTop
+export default CSSModules(MenuTop, style)

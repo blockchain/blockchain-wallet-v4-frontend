@@ -1,16 +1,14 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
-import button from 'sass/elements/button.scss'
-import fonts from 'sass/utilities/fonts.scss'
-import typography from 'sass/utilities/typography.scss'
 
 const ClipboardNextAddress = () => {
   return (
-    <button className={button.blankRight}>
-      <i className={fonts.tiClipboard} />
+    <button className='blank-right'>
+      <i className='ti-clipboard' />
     </button>
   )
 }
 
-export default ClipboardNextAddress
+export default CSSModules(ClipboardNextAddress, style)

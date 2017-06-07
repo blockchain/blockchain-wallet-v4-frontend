@@ -1,18 +1,15 @@
 import React from 'react'
-import classNames from 'classnames'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
-import button from 'sass/elements/button.scss'
-import fonts from 'sass/utilities/fonts.scss'
-import typography from 'sass/utilities/typography.scss'
 
 const RequestBitcoin = () => {
   return (
-    <button className={button.blankLeft}>
-      <i className={classNames(fonts.iconReceive, typography.marginRight5)} />
+    <button className='blank-left'>
+      <i className='icon-receive margin-right-5' />
       Receive
     </button>
   )
 }
 
-export default RequestBitcoin
+export default CSSModules(RequestBitcoin, style)

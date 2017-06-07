@@ -1,13 +1,14 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
 const Footer = () => {
   return (
-    <footer className={style.footer}>
-      <span>Public footer</span>
+    <footer styleName='footer'>
+      Public footer
     </footer>
   )
 }
 
-export default Footer
+export default CSSModules(Footer, style)

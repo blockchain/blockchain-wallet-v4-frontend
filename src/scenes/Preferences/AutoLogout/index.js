@@ -1,12 +1,11 @@
 import React from 'react'
 
 import style from './style.scss'
-import typography from 'sass/utilities/typography.scss'
 
 const title = 'Themes'
 
 const description = (
-  <span className={typography.h4}>
+  <span>
     Try out different themes for the wallet.
   </span>
 )

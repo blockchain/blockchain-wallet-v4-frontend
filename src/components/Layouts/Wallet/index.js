@@ -7,26 +7,26 @@ import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 
-import style from './style.scss'
-
 const WalletLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
     // rest.isAuthenticated
     // ? (
-      <div className={style.wallet}>
-        <div className={style.header}>
-          <Header />
+      <div className='container-fluid'>
+        <div className='row'>
+          <div className='col-md-12'>
+            <Header />
+          </div>
         </div>
-        <div className={style.content}>
-          <div className={style.left}>
+        <div className='row'>
+          <div className='col-md-2'>
             <MenuLeft />
           </div>
-          <div className={style.right}>
-            <div className={style.top}>
+          <div className='col-md-10'>
+            <div className='row'>
               <MenuTop />
             </div>
-            <div className={style.page}>
+            <div className='row'>
               <Component {...matchProps} />
             </div>
           </div>

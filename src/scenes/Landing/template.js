@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
+import CSSModules from 'react-css-modules'
 
 import Main from './Main'
 import NewToBitcoin from './NewToBitcoin'
@@ -7,11 +7,10 @@ import Reviews from './Reviews'
 import WhyUseBlockchain from './WhyUseBlockchain'
 
 import style from './style.scss'
-import grid from 'sass/elements/grid.scss'
 
 const Landing = () => {
   return (
-    <div className={style.landing}>
+    <div styleName='landing'>
       <Main />
       {/*<NewToBitcoin />
        <Reviews />
@@ -20,4 +19,4 @@ const Landing = () => {
   )
 }
 
-export default Landing
+export default CSSModules(Landing, style)

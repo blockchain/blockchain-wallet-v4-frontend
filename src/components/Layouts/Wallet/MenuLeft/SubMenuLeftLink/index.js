@@ -1,17 +1,17 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 import { NavLink } from 'react-router-dom'
 
 import style from './style.scss'
-import fonts from 'sass/utilities/fonts.scss'
 
 const SubMenuLeftLink = (props) => {
   return (
-    <li className={style.subMenuLeftLink}>
-      <NavLink className={style.link} to={props.route} activeClassName={style.linkActive}>
+    <li styleName='sub-menu-left-link'>
+      <NavLink styleName='link' to={props.route} activeClassName='link-active'>
         <span>{props.title}</span>
       </NavLink>
     </li>
   )
 }
 
-export default SubMenuLeftLink
+export default CSSModules(SubMenuLeftLink, style)

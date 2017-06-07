@@ -1,24 +1,24 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
-import fonts from 'sass/utilities/fonts.scss'
 
 function renderIcon (title) {
   switch (title) {
-    case 'Home': return <i className={`${fonts.iconHome} ${style.icon}`} />
-    case 'Transactions': return <i className={`${fonts.iconTx} ${style.icon}`} />
-    case 'Buy bitcoin': return <i className={`${fonts.iconBitcoin} ${style.icon}`} />
-    case 'Security center': return <i className={`${fonts.iconLock} ${style.icon}`} />
-    case 'Settings': return <i className={`${fonts.iconSettings} ${style.icon}`} />
-    case 'Faq': return <i className={`${fonts.iconHelp} ${style.icon}`} />
+    case 'Home': return <i className='icon-home' styleName='icon' />
+    case 'Transactions': return <i className='icon-tx' styleName='icon' />
+    case 'Buy bitcoin': return <i className='icon-bitcoin' styleName='icon' />
+    case 'Security center': return <i className='icon-lock' styleName='icon' />
+    case 'Settings': return <i className='icon-settings' styleName='icon' />
+    case 'Faq': return <i className='icon-help' styleName='icon' />
   }
 }
 
 const MenuLeftLink = (props) => {
   return (
-    <li className={style.menuLeftLink}>
-      <NavLink className={style.link} to={props.route} activeClassName={style.linkActive}>
+    <li styleName='menu-left-link'>
+      <NavLink styleName='link' to={props.route} activeClassName='link-active'>
         {renderIcon(props.title)}
         <span>{props.title}</span>
       </NavLink>
@@ -26,4 +26,4 @@ const MenuLeftLink = (props) => {
   )
 }
 
-export default MenuLeftLink
+export default CSSModules(MenuLeftLink, style)
