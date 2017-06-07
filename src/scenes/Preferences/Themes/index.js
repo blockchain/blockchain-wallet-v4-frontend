@@ -2,20 +2,17 @@ import React from 'react'
 
 import style from './style.scss'
 
-const title = 'Auto Logout'
+const title = 'Themes'
 
 const description = (
   <span>
-    After a certain period of inactivity, you will be automatically logged out of your wallet.
+    Try out different themes for the wallet.
   </span>
 )
 
 const settings = (
   <div>
-    <span>
-      10min
-    </span>
-    <button className='primary'>Change</button>
+    [Themes Dropdown]
   </div>
 )
 

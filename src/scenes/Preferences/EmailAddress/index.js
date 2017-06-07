@@ -14,7 +14,7 @@ const description = (
 const settings = (
   <div>
     <span>test@example.com</span>
-    <button className='primary'>Change</button>
+    <button className='button-primary'>Change</button>
   </div>
 )
 

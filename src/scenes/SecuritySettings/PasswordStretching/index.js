@@ -13,7 +13,7 @@ const description = (
 const settings = (
   <div>
     <span> 5000 </span>
-    <button className='primary'>Change</button>
+    <button className='button-primary'>Change</button>
   </div>
 )
 

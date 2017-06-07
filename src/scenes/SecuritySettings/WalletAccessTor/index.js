@@ -13,7 +13,7 @@ const description = (
 
 const settings = (
   <div>
-    <button className='primary'>Block</button>
+    <button className='button-primary'>Block</button>
   </div>
 )
 

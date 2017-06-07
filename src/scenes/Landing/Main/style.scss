@@ -1,26 +1,5 @@
 
 .main {
   @include responsive-background-image('img/landing-page-banner.jpg');
-  height: 1000px;
-}
-
-.large {
-  font-size: 52px;
-  font-weight: 400;
-  color: white;
-  letter-spacing: 1px;
-}
-
-.medium {
-  font-size: 32px;
-  font-weight: 400;
-  color: white;
-  letter-spacing: 1px;
-}
-
-.small {
-  font-size: 20px;
-  font-weight: 300;
-  color: white;
-  letter-spacing: 1px;
+  width: 100%;
 }

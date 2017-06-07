@@ -13,7 +13,7 @@ const description = (
 
 const settings = (
   <div>
-    <button className='primary'>Set Second Password</button>
+    <button className='button-primary'>Set Second Password</button>
   </div>
 )
 

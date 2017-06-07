@@ -13,7 +13,7 @@ const description = (
 )
 
 const settings = (
-  <button className='primary'>Show Pairing Code</button>
+  <button className='button-primary'>Show Pairing Code</button>
 )
 
 export default {

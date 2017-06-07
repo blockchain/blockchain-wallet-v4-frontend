@@ -27,7 +27,7 @@ const WalletLayout = ({component: Component, ...rest}) => {
               <MenuTop />
             </div>
             <div className='row bg-white'>
-              <div className='col-md-10'>
+              <div className='col-md-12'>
                 <Component {...matchProps} />
               </div>
             </div>
