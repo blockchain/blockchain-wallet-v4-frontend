@@ -10,3 +10,18 @@
 .logo {
   height: 20px;
 }
+
+.link {
+  @include display-flex();
+  @include flex-direction(column);
+  @include justify-content(center);
+  height: 60px;
+  padding: 0 15px;
+  @include box-sizing(border-box);
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}

@@ -2,7 +2,7 @@
 import 'babel-polyfill'
 
 // Internal resources
-import './index.scss'
+import './assets/sass/global.scss'
 
 // Import fonts
 import 'fonts/montserrat/Montserrat-Thin.eot'

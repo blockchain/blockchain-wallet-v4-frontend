@@ -1,11 +1,10 @@
+@import 'elements/button.scss';
+@import 'elements/grid.scss';
+@import 'elements/link.scss';
+@import 'elements/textbox.scss';
 
-@import 'assets/sass/elements/button.scss';
-@import 'assets/sass/elements/grid.scss';
-@import 'assets/sass/elements/link.scss';
-@import 'assets/sass/elements/textbox.scss';
-
-@import 'assets/sass/utilities/fonts.scss';
-@import 'assets/sass/utilities/typography.scss';
+@import 'utilities/fonts.scss';
+@import 'utilities/typography.scss';
 
 
 html, body {

@@ -10,12 +10,12 @@ const Header = () => {
     <div className='container'>
       <div className='row'>
         <header styleName='header'>
-          <NavLink className='navigation-uppercase' to='/'><img src={logo} className={style.logo} /></NavLink>
-          <NavLink className='navigation-uppercase' to='/wallet'>Wallet</NavLink>
-          <a className='navigation-uppercase' href='https://blockchain.info/charts'>Charts</a>
-          <a className='navigation-uppercase' href='https://blockchain.info/stats'>Stats</a>
-          <a className='navigation-uppercase' href='https://blockchain.info/markets'>Markets</a>
-          <a className='navigation-uppercase' href='https://blockchain.info/api'>API</a>
+          <NavLink styleName='link' to='/'><img src={logo} className={style.logo} /></NavLink>
+          <NavLink styleName='link' to='/wallet'>Wallet</NavLink>
+          <a styleName='link' href='https://blockchain.info/charts'>Charts</a>
+          <a styleName='link' href='https://blockchain.info/stats'>Stats</a>
+          <a styleName='link' href='https://blockchain.info/markets'>Markets</a>
+          <a styleName='link' href='https://blockchain.info/api'>API</a>
         </header>
       </div>
     </div>

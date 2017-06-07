@@ -5,7 +5,8 @@ let HtmlWebpackPlugin = require('html-webpack-plugin')
 const PATHS = {
   dist: `${__dirname}/dist`,
   build: `${__dirname}/build`,
-  src: `${__dirname}/src`
+  src: `${__dirname}/src`,
+  sass: `${__dirname}/src/sass`
 }
 
 module.exports = {
@@ -54,7 +55,35 @@ module.exports = {
         }]
       },
       {
-        test: /\.scss$/,
+        test: /assets.*\.scss$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 2
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-resources-loader',
+              options: {
+                resources: [
+                  'src/assets/sass/resources/**/*.scss'
+                ]
+              }
+            }
+          ],
+          fallback: 'style-loader'
+        })
+      },
+      {
+        test: /(components|scenes).*\.scss$/,
         use: ExtractTextPlugin.extract({
           use: [
             {
@@ -62,17 +91,9 @@ module.exports = {
               options: {
                 modules: true,
                 localIdentName: '[local]___[hash:base64:5]',
-                importLoaders: 1
+                importLoaders: 2
               }
             },
-            // {
-            //   loader: 'resolve-url-loader',
-            //   options: {
-            //     debug: true,
-            //     sourceMap: true,
-            //     root: 'src/assets/fonts'
-            //   }
-            // },
             {
               loader: 'sass-loader',
               options: {
