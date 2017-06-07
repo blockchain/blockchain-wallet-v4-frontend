@@ -5,9 +5,9 @@
   @include justify-content(flex-start);
   @include align-items(center);
   @include box-sizing(border-box);
-  @include container-centered();
   height: 60px;
   background-color: $bc-blue;
+
 }
 
 .logo {

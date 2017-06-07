@@ -1,21 +1,4 @@
 
 .menu-left {
   @include display-flex();
-  @include flex-direction(column);
-  @include justify-content(space-between);
-  @include align-items(left);
-  @include box-sizing(border-box);
-  width: 270px;
-  min-height: 100%;
-  background-color: $grey;
-  border-right: 1px solid $border-grey;
-}
-
-.navigation {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sub-menu-left {
-  padding-left: 50px;
 }

@@ -1,0 +1,216 @@
+/* spacing helpers
+ *p,m = padding,margin
+ *a,t,r,b,l,h,v = all,top,right,bottom,left,horizontal,vertical
+ *s,m,l,n,a = small(.3125em),medium(.625em),large(1.25em),none(0),auto
+ */
+
+ @for $i from 1 through 50 {
+  .margin-#{$i*5} { margin: #{$i*5}px; }
+  .margin-top-#{$i*5} { margin-top: #{$i*5}px; }
+  .margin-bottom-#{$i*5} { margin-bottom: #{$i*5}px; }
+  .margin-left-#{$i*5} { margin-left: #{$i*5}px; }
+  .margin-right-#{$i*5} { margin-right: #{$i*5}px; }
+  .margin-horizontal-#{$i*5} { margin: 0 #{$i*5}px; }
+  .margin-vertical-#{$i*5} { margin: #{$i*5}px 0; }
+  .padding-#{$i*5} { padding: #{$i*5}px; }
+  .padding-top-#{$i*5} { padding-top: #{$i*5}px; }
+  .padding-bottom-#{$i*5} { padding-bottom: #{$i*5}px; }
+  .padding-left-#{$i*5} { padding-left: #{$i*5}px; }
+  .padding-right-#{$i*5} { padding-right: #{$i*5}px; }
+  .padding-horizontal-#{$i*5} { padding: 0 #{$i*5}px; }
+  .padding-vertical-#{$i*5} { padding: #{$i*5}px 0; }
+}
+
+.ptn, .pvn, .pan { padding-top: 0; }
+
+.pts, .pvs, .pas { padding-top: 0.3125em; }
+
+.ptm, .pvm, .pam { padding-top: 0.625em; }
+
+.ptl, .pvl, .pal { padding-top: 1.25em; }
+
+.ptml, .pvml, .paml { padding-top: 1.3125em; }
+
+.ptvl, .pvvl, .pavl { padding-top: 3em; }
+
+.prn, .phn, .pan { padding-right: 0; }
+
+.prs, .phs, .pas { padding-right: 0.3125em; }
+
+.prm, .phm, .pam { padding-right: 0.625em; }
+
+.prml, .phml, .paml { padding-right: 1.3125em; }
+
+.prvl, .phvl, .pavl { padding-right: 3em; }
+
+.prl, .phl, .pal { padding-right: 1.25em; }
+
+.pbn, .pvn, .pan { padding-bottom: 0; }
+
+.pbs, .pvs, .pas { padding-bottom: 0.3125em; }
+
+.pbm, .pvm, .pam { padding-bottom: 0.625em; }
+
+.pbml, .pvml, .paml { padding-bottom: 1.3125em; }
+
+.pbvl, .pvvl, .pavl { padding-bottom: 3em; }
+
+.pbl, .pvl, .pal { padding-bottom: 1.25em; }
+
+.pln, .phn, .pan { padding-left: 0; }
+
+.pls, .phs, .pas { padding-left: 0.3125em; }
+
+.plm, .phm, .pam { padding-left: 0.625em; }
+
+.plml, .phml, .paml { padding-left: 1.3125em; }
+
+.plvl, .phvl, .pavl { padding-left: 3em; }
+
+.pll, .phl, .pal { padding-left: 1.25em; }
+
+.pxs { padding: 1px; }
+
+.mtn, .mvn, .man { margin-top: 0; }
+
+.mts, .mvs, .mas { margin-top: 0.3125em; }
+
+.mtm, .mvm, .mam { margin-top: 0.625em; }
+
+.mtml, .mvml, .maml { margin-top: 1.3125em; }
+
+.mtvl, .mvvl, .mavl { margin-top: 3em; }
+
+.mtl, .mvl, .mal { margin-top: 1.25em; }
+
+.mrn, .mhn, .man { margin-right: 0; }
+
+.mrs, .mhs, .mas { margin-right: 0.3125em; }
+
+.mrm, .mhm, .mam { margin-right: 0.625em; }
+
+.mrml, .mhml, .maml { margin-right: 1.3125em; }
+
+.mrvl, .mhvl, .mavl { margin-right: 3em; }
+
+.mrl, .mhl, .mal { margin-right: 1.25em; }
+
+.mbn, .mvn, .man { margin-bottom: 0; }
+
+.mbs, .mvs, .mas { margin-bottom: 0.3125em; }
+
+.mbm, .mvm, .mam { margin-bottom: 0.625em; }
+
+.mbml, .mvml, .maml { margin-bottom: 1.3125em; }
+
+.mbvl, .mvvl, .mavl { margin-bottom: 3em; }
+
+.mbl, .mvl, .mal { margin-bottom: 1.25em; }
+
+.mln, .mhn, .man { margin-left: 0; }
+
+.mls, .mhs, .mas { margin-left: 0.3125em; }
+
+.mlm, .mhm, .mam { margin-left: 0.625em; }
+
+.mlml, .mhml, .maml { margin-left: 1.3125em; }
+
+.mlvl, .mhvl, .mavl { margin-left: 3em; }
+
+.mll, .mhl, .mal { margin-left: 1.25em; }
+
+$multiplier: 5;
+
+// Padding in multiples of 5
+@for $i from 1 through 20 {
+  .pt-#{$i * $multiplier} {
+    padding-top: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .pr-#{$i * $multiplier} {
+    padding-right: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .pb-#{$i * $multiplier} {
+    padding-bottom: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .pl-#{$i * $multiplier} {
+    padding-left: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .ph-#{$i * $multiplier} {
+    padding-left: #{$i * $multiplier}px;
+    padding-right: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .pv-#{$i * $multiplier} {
+    padding-top: #{$i * $multiplier}px;
+    padding-bottom: #{$i * $multiplier}px;
+  }
+}
+
+// Margin in multiples of 5
+
+@for $i from 1 through 20 {
+  .mt-#{$i * $multiplier} {
+    margin-top: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .mr-#{$i * $multiplier} {
+    margin-right: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .mb-#{$i * $multiplier} {
+    margin-bottom: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .ml-#{$i * $multiplier} {
+    margin-left: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .mh-#{$i * $multiplier} {
+    margin-left: #{$i * $multiplier}px;
+    margin-right: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 20 {
+  .mv-#{$i * $multiplier} {
+    margin-top: #{$i * $multiplier}px;
+    margin-bottom: #{$i * $multiplier}px;
+  }
+}
+
+@for $i from 1 through 10 {
+  @media (max-width: 767px) {
+    .ph-#{$i * $multiplier}-mobile {
+      padding-left: #{$i * $multiplier}px;
+      padding-right: #{$i * $multiplier}px;
+    }
+  }
+}
+
+.no-padding-mobile {
+  @media (max-width: 767px) {
+    padding: 0px;
+  }
+}

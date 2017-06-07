@@ -1,4 +1,5 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import InfoWell from 'components/Shared/InfoWell'
 import SettingRow from 'components/Shared/SettingRow'
@@ -10,7 +11,7 @@ import style from './style.scss'
 
 const Info = () => {
   return (
-    <section className={style.information}>
+    <section styleName='information'>
       <InfoWell>Use your Wallet ID to log in using our web client, or simply scan the code below (click on 'Show Pairing Code') with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices.</InfoWell>
       <SettingRow component={WalletId} />
       <SettingRow component={PairingCode} />
@@ -18,4 +19,4 @@ const Info = () => {
   )
 }
 
-export default Info
+export default CSSModules(Info, style)

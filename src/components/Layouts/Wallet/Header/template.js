@@ -1,25 +1,27 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import CSSModules from 'react-css-modules'
 
+import Ticker from './Ticker'
 import ExploreMenu from './ExploreMenu'
+import Logout from './Logout'
 
 import logo from 'img/blockchain-vector.svg'
 import style from './style.scss'
 
 const Header = () => {
   return (
-    <header className={style.header}>
-      <div className={style.left}>
-        <NavLink to='/'>
-          <img src={logo} className={style.logo} />
-        </NavLink>
-      </div>
-      <div className={style.right}>
+    <header styleName='header'>
+      <NavLink to='/'>
+        <img src={logo} styleName='logo' />
+      </NavLink>
+      <div styleName='right'>
+        <Ticker />
         <ExploreMenu />
-        <a className={style.link}>Sign out</a>
+        <Logout />
       </div>
     </header>
   )
 }
 
-export default Header
+export default CSSModules(Header, style)

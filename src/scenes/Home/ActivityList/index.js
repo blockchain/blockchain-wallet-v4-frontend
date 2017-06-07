@@ -1,4 +1,5 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import ActivityListItem from './ActivityListItem'
 
@@ -6,7 +7,7 @@ import style from './style.scss'
 
 const ActivityList = (props) => {
   return (
-    <div className={style.activityList}>
+    <div styleName='activity-list'>
       Most Recent Activity
       <ul>
         {props.activities.map(function (activity, key) {
@@ -17,4 +18,4 @@ const ActivityList = (props) => {
   )
 }
 
-export default ActivityList
+export default CSSModules(ActivityList, style)

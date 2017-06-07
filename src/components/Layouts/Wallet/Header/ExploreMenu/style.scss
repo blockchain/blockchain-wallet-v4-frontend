@@ -1,22 +1,26 @@
 
-.link {
-  @include display-flex();
-  @include align-items(center);
-}
-
-.dropdown {
-  display: inline-block;
-}
-
 .dropdown-opened {
+  width: 100px;
   background-color: $iris;
 }
 
-.dropdown-closed { }
+.dropdown-closed {
+  width: 100px;
+}
 
 .menu-opened {
+  @include display-flex();
+  @include flex-direction(column);
+  @include justify-content(flex-start);
+  @include align-items(flex-start);
+  @include box-sizing(border-box);
   position: absolute;
-  display: block;
+  width: 160px;
+  margin-left: -60px;
+  margin-top: 3px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.15);;
+  @include border-radius(0 0 5px 5px)
 }
 
 .menu-closed {

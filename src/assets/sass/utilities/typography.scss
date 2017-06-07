@@ -1,56 +1,14 @@
 
-
-.h5 {
+label {
+  display: inline-block;
+  margin-bottom: 5px;
   font-size: 14px;
-  font-family: 'GillSans', 'Helvetica', sans-serif !important;
-  font-weight: 300;
-}
-
-.h4 {
-  font-size: 16px;
-  font-family: 'GillSans', 'Helvetica', sans-serif !important;
-  font-weight: 300;
-}
-
-.h3 {
-  font-size: 24px;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-weight: 300;
-}
-
-.h3 {
-  font-size: 32px;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-weight: 300;
-}
-
-.label {
-  font-size: 16px;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-weight: 500;
 }
 
-.alert {
-  color: $security-red;
+ul {
+  list-style-type: none;
 }
-
-@for $i from 1 through 5 {
-  .margin-#{$i} { margin: #{$i*5}px; }
-  .margin-top-#{$i} { margin-top: #{$i*5}px; }
-  .margin-bottom-#{$i} { margin-bottom: #{$i*5}px; }
-  .margin-left-#{$i} { margin-left: #{$i*5}px; }
-  .margin-right-#{$i} { margin-right: #{$i*5}px; }
-  .padding-#{$i} { padding: #{$i*5}px; }
-  .padding-top-#{$i} { padding-top: #{$i*5}px; }
-  .padding-bottom-#{$i} { padding-bottom: #{$i*5}px; }
-  .padding-left-#{$i} { padding-left: #{$i*5}px; }
-  .padding-right-#{$i} { padding-right: #{$i*5}px; }
-}
-
-
-
-
-
 
 .type-xs { font-size: .75em; }
 .type-sm { font-size: .9em; }
@@ -63,8 +21,10 @@
 .title { font-size: 3.5em; }
 .type-yuge { font-size: 5em; }
 
+.f-52 { font-size: 52px; }
 .f-48 { font-size: 48px; }
 .f-36 { font-size: 36px; }
+.f-32 { font-size: 32px; }
 .f-28 { font-size: 28px; }
 .f-24 { font-size: 24px; }
 .f-20 { font-size: 20px; }
@@ -99,6 +59,9 @@
 .parens { &:before { content: '('; } &:after { content: ')'; } }
 .ellipsis:after { content: '...'; }
 .flip { transform: rotateY(180deg); }
+
+.half-strong { font-weight: 500; }
+.strong { font-weight: 800; }
 
 .text-overflow-hidden, .ui-select-match-text {
   text-overflow: ellipsis;

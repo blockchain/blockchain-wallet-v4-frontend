@@ -1,4 +1,5 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import Main from './Main'
 import NewToBitcoin from './NewToBitcoin'
@@ -9,13 +10,13 @@ import style from './style.scss'
 
 const Landing = () => {
   return (
-    <section className={style.landing}>
+    <div>
       <Main />
-      <NewToBitcoin />
-      <Reviews />
-      <WhyUseBlockchain />
-    </section>
+      {/*<NewToBitcoin />
+       <Reviews />
+       <WhyUseBlockchain />*/}
+    </div>
   )
 }
 
-export default Landing
+export default CSSModules(Landing, style)

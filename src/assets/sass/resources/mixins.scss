@@ -19,12 +19,34 @@
 }
 
 /* CROSS BROWSER - BORDER-RADIUS */
+
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-      -ms-border-radius: $radius;
-          border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
 }
+
+@mixin border-bottom-left-radius($radius) {
+  -webkit-border-bottom-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin border-bottom-right-radius($radius) {
+  -webkit-border-bottom-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin border-top-left-radius($radius) {
+  -webkit-border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+}
+
+@mixin border-top-right-radius($radius) {
+  -webkit-border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
 
 /* CROSS BROWSER - BOX SIZING */
 @mixin box-sizing($args...) {
@@ -67,4 +89,12 @@
 @mixin animate($args...) {
   -webkit-animation: $args;
           animation: $args;
+}
+
+/* CROSS BROWSER - BACKGROUND */
+@mixin background-size($args...) {
+  -webkit-background-size: $args;
+     -moz-background-size: $args;
+       -o-background-size: $args;
+          background-size: $args;
 }

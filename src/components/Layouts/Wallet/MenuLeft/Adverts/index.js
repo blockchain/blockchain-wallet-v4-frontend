@@ -1,11 +1,12 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
 const Adverts = () => {
   return (
-    <div className={style.adverts}>Adverts</div>
+    <div styleName='adverts'>Adverts</div>
   )
 }
 
-export default Adverts
+export default CSSModules(Adverts, style)

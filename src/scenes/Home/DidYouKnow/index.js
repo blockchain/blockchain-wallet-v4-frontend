@@ -1,13 +1,14 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
 const DidYouKnow = () => {
   return (
-    <div className={style.didYouKnow}>
+    <div styleName='did-you-know'>
       Did You Know?
     </div>
   )
 }
 
-export default DidYouKnow
+export default CSSModules(DidYouKnow, style)

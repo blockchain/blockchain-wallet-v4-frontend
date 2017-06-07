@@ -7,35 +7,37 @@ import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 
-import style from './style.scss'
-
 const WalletLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
-    rest.isAuthenticated
-    ? (
-      <div className={style.wallet}>
-        <div className={style.header}>
-          <Header />
+    // rest.isAuthenticated
+    // ? (
+      <div className='container-fluid height-100'>
+        <div className='row'>
+          <div className='col-md-12'>
+            <Header />
+          </div>
         </div>
-        <div className={style.content}>
-          <div className={style.left}>
+        <div className='row height-100'>
+          <div className='col-md-2 bg-grey border-right'>
             <MenuLeft />
           </div>
-          <div className={style.right}>
-            <div className={style.top}>
+          <div className='col-md-10'>
+            <div className='row bg-white border-bottom'>
               <MenuTop />
             </div>
-            <div className={style.page}>
-              <Component {...matchProps} />
+            <div className='row bg-white'>
+              <div className='col-md-12'>
+                <Component {...matchProps} />
+              </div>
             </div>
           </div>
         </div>
       </div>
-      )
-      : (
-        <Redirect to={{ pathname: '/login', state: { from: matchProps.location } }} />
-      )
+      // )
+      // : (
+      //   <Redirect to={{ pathname: '/login', state: { from: matchProps.location } }} />
+      // )
     )} />
   )
 }

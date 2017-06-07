@@ -1,13 +1,26 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
+import logo from 'img/blockchain-vector.svg'
 
 const Header = () => {
   return (
-    <header className={style.header}>
-      Landing header
-    </header>
+    <div className='container'>
+      <div className='row'>
+        <header styleName='header'>
+          <NavLink className='navigation upper' to='/'><img src={logo} className={style.logo} /></NavLink>
+          <NavLink className='navigation upper' to='/wallet'>Wallet</NavLink>
+          <a className='navigation upper' href='https://blockchain.info/charts'>Charts</a>
+          <a className='navigation upper' href='https://blockchain.info/stats'>Stats</a>
+          <a className='navigation upper' href='https://blockchain.info/markets'>Markets</a>
+          <a className='navigation upper' href='https://blockchain.info/api'>API</a>
+        </header>
+      </div>
+    </div>
+
   )
 }
 
-export default Header
+export default CSSModules(Header, style)

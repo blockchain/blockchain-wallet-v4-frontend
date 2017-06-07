@@ -13,18 +13,12 @@
   }
 }
 
-@for $i from 1 through 9 {
-  .opacity-#{$i} {
-    opacity: #{$i/10};
-  }
-}
-
 // Primary
 $iris: #10ADE4;
 $mariner: #3558A8;
 $bali-hai: #799EB2;
 $regal-blue: #153A62;
-$bc-blue: #004a7c;
+$bc-blue: #004A7C;
 $light-blue: #B2D5E5;
 $lighter-blue: #e3eff5;
 $blue: $bc-blue;

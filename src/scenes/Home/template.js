@@ -1,4 +1,5 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
@@ -8,7 +9,7 @@ import DidYouKnow from './DidYouKnow'
 
 const Home = (props) => {
   return (
-    <section className={style.home}>
+    <section>
       <ActivityList activities={props.activities} />
       <BalanceSummary />
       <DidYouKnow />
@@ -16,4 +17,4 @@ const Home = (props) => {
   )
 }
 
-export default Home
+export default CSSModules(Home, style)

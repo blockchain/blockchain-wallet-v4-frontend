@@ -1,13 +1,14 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
 const WhyUseBlockchain = () => {
   return (
-    <section className={style.whyUseBlockchain}>
+    <section styleName='why-use-blockchain'>
       Main section
     </section>
   )
 }
 
-export default WhyUseBlockchain
+export default CSSModules(WhyUseBlockchain, style)

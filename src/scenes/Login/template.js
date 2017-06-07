@@ -1,42 +1,55 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import CSSModules from 'react-css-modules'
 
-import button from 'sass/elements/button.scss'
-import link from 'sass/elements/link.scss'
-import textbox from 'sass/elements/textbox.scss'
-import typography from 'sass/utilities/typography.scss'
 import style from './style.scss'
 
 const Login = (props) => {
   return (
-    <section className={style.login}>
-      <div className={style.header}>
-        <span className={typography.h3}>Welcome Back!</span>
-        <div>
-          <span className={typography.h5}>or</span>
-          <NavLink className={link.default} to='/register'>Sign Up</NavLink>
+    <section styleName='login'>
+      <div className='row padding-vertical-10'>
+        <div className='col-md-6 left-align'>
+          <span className='f-24 capitalize'>Welcome back!</span>
+        </div>
+        <div className='col-md-6 right-align'>
+          <span className='margin-right-5'>or</span>
+          <NavLink to='/register'>Sign Up</NavLink>
         </div>
       </div>
-      <span className={typography.h4}>Sign in to your wallet below</span>
-      <div className={style.separator} />
-      <span className={typography.label}>Wallet ID</span>
-      <input className={textbox.default} type='text' name='guid' onChange={props.onChange} />
-      <span className={typography.h5}>
-        Find the login link in your email, e.g.
-        <i>blockchain.info/wallet/1111-222-333...</i>
-        The series of numbers and dashes at the end of the link is your Wallet ID.
-      </span>
-      <span className={typography.label}>Password</span>
-      <input className={textbox.default} type='password' name='password' onChange={props.onChange} />
-      <button className={button.primary} name='submit' onClick={props.onClick}>LOG IN</button>
-      <div className={style.footer}>
-        <div>
-          <span className={typography.h4}>Having some trouble?</span>
-          <NavLink className={link.default} to='/login-help'>View Options</NavLink>
+      <div className='row margin-bottom-20 border-bottom'>
+        <span className='f-16 alt-font padding-vertical-10'>Sign in to your wallet below</span>
+      </div>
+      <div className='row'>
+        <label>Wallet ID</label>
+      </div>
+      <div className='row padding-vertical-10'>
+        <input type='text' name='guid' onChange={props.onChange} />
+      </div>
+      <div className='row'>
+        <span className='alt-font margin-top-5'>
+          Find the login link in your email, e.g.<i>blockchain.info/wallet/1111-222-333...</i>
+          The series of numbers and dashes at the end of the link is your Wallet ID.
+        </span>
+      </div>
+      <div className='row padding-vertical-10'>
+        <label>Password</label>
+      </div>
+      <div className='row'>
+        <input type='password' name='password' onChange={props.onChange} />
+      </div>
+      <div className='row padding-vertical-10'>
+        <div className='col-md-12'>
+          <button className='button-primary full-width' name='submit' onClick={props.onClick}>LOG IN</button>
+        </div>
+      </div>
+      <div className='row padding-vertical-10'>
+        <div className='col-md-12 right-align'>
+          <span className='f-16 alt-font margin-right-5'>Having some trouble?</span>
+          <NavLink to='/login-help'>View Options</NavLink>
         </div>
       </div>
     </section>
   )
 }
 
-export default Login
+export default CSSModules(Login, style)

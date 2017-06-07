@@ -1,13 +1,15 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
 
 const SendBitcoin = () => {
   return (
-    <div className={style.sendBitcoin}>
-      Send Bitcoin
-    </div>
+    <button className='button-empty'>
+      <i className='icon-send margin-right-5' />
+      Send
+    </button>
   )
 }
 
-export default SendBitcoin
+export default CSSModules(SendBitcoin, style)

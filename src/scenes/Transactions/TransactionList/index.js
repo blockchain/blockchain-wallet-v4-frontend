@@ -1,12 +1,16 @@
 import React from 'react'
-import './style.scss'
+import CSSModules from 'react-css-modules'
+
+import MenuTop from './MenuTop'
+
+import style from './style.scss'
 
 const TransactionList = () => {
   return (
-    <section className='transaction-list'>
-      Transaction List
+    <section styleName='transactions-list'>
+      <MenuTop />
     </section>
   )
 }
 
-export default TransactionList
+export default CSSModules(TransactionList, style)

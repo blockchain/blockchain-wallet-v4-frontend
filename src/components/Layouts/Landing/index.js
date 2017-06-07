@@ -4,20 +4,24 @@ import { Route } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 
-import style from './style.scss'
-
 const LandingLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
-      <div className={style.landing}>
-        <div className={style.header}>
-          <Header />
+      <div className='container-fluid bg-blue height-100'>
+        <div className='row'>
+          <div className='col-md-12'>
+            <Header />
+          </div>
         </div>
-        <div className={style.content}>
-          <Component {...matchProps} />
+        <div className='row'>
+          <div className='col-md-12'>
+            <Component {...matchProps} />
+          </div>
         </div>
-        <div className={style.footer}>
-          <Footer />
+        <div className='row'>
+          <div className='col-md-12'>
+            <Footer />
+          </div>
         </div>
       </div>
     )} />
