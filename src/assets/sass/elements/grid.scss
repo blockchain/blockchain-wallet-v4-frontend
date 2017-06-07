@@ -60,8 +60,8 @@ $map_grid_columns: (
 }
 
 .row {
+  @include flex-wrap(nowrap);
   @include display-flex();
-  @include flex-wrap(wrap);
   width: 100%;
 }
 

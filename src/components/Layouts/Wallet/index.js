@@ -18,11 +18,11 @@ const WalletLayout = ({component: Component, ...rest}) => {
             <Header />
           </div>
         </div>
-        <div className='row'>
-          <div className='col-md-2'>
+        <div className='row height-100'>
+          <div className='col-md-2 bg-grey'>
             <MenuLeft />
           </div>
-          <div className='col-md-10'>
+          <div className='col-md-10 bg-grey'>
             <div className='row'>
               <div className='col-md-12'>
                 <MenuTop />
