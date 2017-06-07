@@ -5,10 +5,11 @@ import * as R from 'ramda'
 import { traversed, traverseOf, mapped } from 'ramda-lens'
 import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
-import * as HDWalletUtil from './HDWallet'
 import { typeDef, shift, shiftIProp } from '../util'
-import * as Address from './Address'
 import * as HDWallet from './HDWallet'
+import * as HDAccount from './HDAccount'
+import * as Address from './Address'
+
 const { compose, over, view, curry } = R
 
 /* Wallet :: {
@@ -60,7 +61,7 @@ const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 export const fromJS = (x) => {
   if (x instanceof Wallet) { return x }
   let addressesMapCons = compose(Map, R.indexBy(R.prop('addr')), R.map(Address.fromJS))
-  let hdWalletListCons = compose(List, R.map(HDWalletUtil.fromJS))
+  let hdWalletListCons = compose(List, R.map(HDWallet.fromJS))
 
   let walletCons = compose(
     over(hdWallets, hdWalletListCons),
@@ -74,7 +75,7 @@ export const toJS = R.pipe(guard, (wallet) => {
   let selectAddressesJS = compose(R.map(Address.toJS), selectAddresses)
   let destructAddressses = R.set(addresses, selectAddressesJS(wallet))
 
-  let selectHdWalletsJS = compose(R.map(HDWalletUtil.toJS), selectHdWallets)
+  let selectHdWalletsJS = compose(R.map(HDWallet.toJS), selectHdWallets)
   let destructHdWallets = R.set(hdWallets, selectHdWalletsJS(wallet))
 
   let destructWallet = compose(destructHdWallets, destructAddressses)
@@ -140,8 +141,8 @@ export const setAddressLabel = curry((address, label, wallet) => {
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
 export const traverseKeyValues = curry((of, f, wallet) => {
   const trAddr = traverseOf(compose(addresses, traversed, Address.priv), of, f)
-  const trSeed = traverseOf(compose(hdWallets, traversed, HDWalletUtil.seedHex), of, f)
-  const trXpriv = traverseOf(compose(hdWallets, traversed, HDWalletUtil.accounts, traversed, HDWalletUtil.xpriv), of, f)
+  const trSeed = traverseOf(compose(hdWallets, traversed, HDWallet.seedHex), of, f)
+  const trXpriv = traverseOf(compose(hdWallets, traversed, HDWallet.accounts, traversed, HDAccount.xpriv), of, f)
   return of(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
 })
 
@@ -153,7 +154,6 @@ export const encryptMonadic = curry((of, cipher, password, wallet) => {
     let iter = selectIterations(wallet)
     let enc = cipher(wallet.sharedKey, iter, password)
     let hash = crypto.hashNTimes(iter, R.concat(wallet.sharedKey, password)).toString('hex')
-
     let setFlag = over(doubleEncryption, () => true)
     let setHash = over(dpasswordhash, () => hash)
 
@@ -188,7 +188,7 @@ export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
   }
 })
 
-// validateSecondPwd -> (a -> m a) -> (a -> m b) -> String -> Wallet
+// validateSecondPwd :: (a -> m a) -> (a -> m b) -> String -> Wallet
 const validateSecondPwd = curry((pass, fail, password, wallet) =>
   isValidSecondPwd(password, wallet) ? pass(wallet) : fail(new Error('INVALID_SECOND_PASSWORD'))
 )
@@ -209,7 +209,7 @@ export const decryptSync = decryptMonadic(
 
 // createNew :: String -> String -> String -> Wallet
 export const createNew = curry((guid, sharedKey, mnemonic) => {
-  let hd = HDWalletUtil.createNew(mnemonic)
+  let hd = HDWallet.createNew(mnemonic)
 
   return fromJS({
     guid,
@@ -225,6 +225,6 @@ export const createNew = curry((guid, sharedKey, mnemonic) => {
     double_encryption: false,
     address_book: [],
     keys: [],
-    hd_wallets: [HDWalletUtil.toJS(hd)]
+    hd_wallets: [HDWallet.toJS(hd)]
   })
 })

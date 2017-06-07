@@ -2,7 +2,7 @@ import 'isomorphic-fetch'
 import Promise from 'es6-promise'
 import { merge, identity } from 'ramda'
 import { futurizeP } from 'futurize'
-// Promise.polyfill()
+Promise.polyfill()
 
 export const BLOCKCHAIN_INFO = 'https://blockchain.info/'
 export const API_BLOCKCHAIN_INFO = 'https://api.blockchain.info/'
@@ -63,34 +63,33 @@ const createApi = ({
   // encodeFormData :: Object -> String
   const encodeFormData = (data) => {
     return data
-
       ? Object.keys(data)
         .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
         .join('&')
       : ''
   }
 
-  // fetchWalletWithSharedKey :: (String, String) -> Promise JSON
-  const fetchWalletWithSharedKey = (guid, sharedKey) => {
+  // fetchPayloadWithSharedKey :: (String, String) -> Promise JSON
+  const fetchPayloadWithSharedKey = (guid, sharedKey) => {
     var data = { guid, sharedKey, method: 'wallet.aes.json', format: 'json' }
     return request('POST', 'wallet', data)
   }
 
-  // fetchWallet :: (String) -> Promise JSON
-  const fetchWalletWithSession = (guid, sessionToken) => {
+  // fetchPayloadWithSession :: (String) -> Promise JSON
+  const fetchPayloadWithSession = (guid, sessionToken) => {
     var headers = { sessionToken }
     var data = { format: 'json', resend_code: null }
     return request('GET', 'wallet/' + guid, data, headers)
   }
-  // saveWallet :: (data) -> Promise JSON
-  const saveWallet = (data) => {
+  // savePayload :: (data) -> Promise JSON
+  const savePayload = (data) => {
     const config = { method: 'update', format: 'plain' }
     return request('POST', 'wallet', merge(config, data))
       .then(() => data.checksum)
   }
-  // createWallet :: (data) -> Promise JSON
-  // TODO :: merge save and createWallet (method must be a parameter)
-  const createWallet = (data) => {
+  // createPayload :: (data) -> Promise JSON
+  // TODO :: merge save and createPayload (method must be a parameter)
+  const createPayload = (data) => {
     const config = { method: 'insert', format: 'plain' }
     return request('POST', 'wallet', merge(config, data))
       .then(() => data.checksum)
@@ -151,14 +150,14 @@ const createApi = ({
   }
 
   return {
-    fetchWalletWithSharedKey: future(fetchWalletWithSharedKey),
-    saveWallet: future(saveWallet),
-    createWallet: future(createWallet),
+    fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
+    savePayload: future(savePayload),
+    createPayload: future(createPayload),
     fetchBlockchainData: future(fetchBlockchainData),
     obtainSessionToken: future(obtainSessionToken),
     establishSession: future(establishSession),
     pollForSessioGUID: future(pollForSessioGUID),
-    fetchWalletWithSession: future(fetchWalletWithSession),
+    fetchWalletWithSession: future(fetchPayloadWithSession),
     generateUUIDs: future(generateUUIDs),
     createPinEntry: future(createPinEntry),
     getPinValue: future(getPinValue)

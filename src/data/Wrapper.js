@@ -47,6 +47,11 @@ export const selectAuthType = R.view(authType)
 export const selectRealAuthType = R.view(realAuthType)
 export const selectWallet = R.view(wallet)
 
+// traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper
+export const traverseWallet = R.curry(
+  (of, f, wrapper) => of(wrapper).chain(traverseOf(wallet, of, f))
+)
+
 // fromJS :: JSON -> wrapper
 export const fromJS = (js) => {
   if (js instanceof Wrapper) { return js }
