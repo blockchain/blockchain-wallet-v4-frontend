@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const RequestBitcoin = () => {
   return (
-    <button className='blank-left'>
+    <button className='button-empty left'>
       <i className='icon-receive margin-right-5' />
       Receive
     </button>

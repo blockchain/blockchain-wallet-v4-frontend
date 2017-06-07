@@ -13,4 +13,4 @@ const TransactionList = () => {
   )
 }
 
-export default TransactionList
+export default CSSModules(TransactionList, style)

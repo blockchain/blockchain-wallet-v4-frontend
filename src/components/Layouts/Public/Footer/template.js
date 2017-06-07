@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const Footer = () => {
   return (
-    <footer styleName='footer'>
+    <footer>
       Public footer
     </footer>
   )

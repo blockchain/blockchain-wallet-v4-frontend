@@ -19,17 +19,15 @@ const WalletLayout = ({component: Component, ...rest}) => {
           </div>
         </div>
         <div className='row height-100'>
-          <div className='col-md-2 bg-grey'>
+          <div className='col-md-2 bg-grey border-right'>
             <MenuLeft />
           </div>
-          <div className='col-md-10 bg-grey'>
-            <div className='row'>
-              <div className='col-md-12'>
-                <MenuTop />
-              </div>
+          <div className='col-md-10'>
+            <div className='row bg-white border-bottom'>
+              <MenuTop />
             </div>
-            <div className='row'>
-              <div className='col-md-12'>
+            <div className='row bg-white'>
+              <div className='col-md-10'>
                 <Component {...matchProps} />
               </div>
             </div>

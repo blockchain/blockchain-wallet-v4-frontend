@@ -6,6 +6,10 @@ label {
   font-weight: 500;
 }
 
+ul {
+  list-style-type: none;
+}
+
 .type-xs { font-size: .75em; }
 .type-sm { font-size: .9em; }
 .type-h5 { font-size: 1.2em; }
@@ -53,6 +57,9 @@ label {
 .parens { &:before { content: '('; } &:after { content: ')'; } }
 .ellipsis:after { content: '...'; }
 .flip { transform: rotateY(180deg); }
+
+.half-strong { font-weight: 500; }
+.strong { font-weight: 800; }
 
 .text-overflow-hidden, .ui-select-match-text {
   text-overflow: ellipsis;

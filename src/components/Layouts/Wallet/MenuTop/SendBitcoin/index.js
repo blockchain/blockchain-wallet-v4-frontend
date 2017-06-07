@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const SendBitcoin = () => {
   return (
-    <button className='blank'>
+    <button className='button-empty'>
       <i className='icon-send margin-right-5' />
       Send
     </button>

@@ -3,7 +3,8 @@
   height: 40px;
   padding: 10px 15px;
   margin: 0;
-  font-size: 1.4em;
+  font-family: 'Montserrat', 'Helvetica', sans-serif;
+  font-size: 18px;
   font-weight: 300;
   cursor: pointer;
   border: none;
@@ -64,5 +65,34 @@
     }
   }
 }
+
+
 @include button('primary', $primary, white);
 @include button('purple', $mariner, white);
+
+
+.button-empty {
+  @extend %button-base;
+  height: 35px;
+  padding: 0 15px;
+  font-size: 14px;
+  background: #FFFFFF;
+  color: #000000;
+  border: 1px solid #E0E0E0;
+
+  &.left {
+    @include border-top-right-radius(0);
+    @include border-bottom-right-radius(0);
+  }
+
+  &.right {
+    border-left: 0;
+    @include border-top-left-radius(0);
+    @include border-bottom-left-radius(0);
+  }
+
+  &:hover {
+    background: darken(#FFFFFF, 5%);
+    color: #000000;
+  }
+}

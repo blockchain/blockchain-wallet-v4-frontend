@@ -7,7 +7,7 @@ import Footer from './Footer'
 const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
-      <div className='container'>
+      <div className='container-fluid bg-blue'>
         <div className='row'>
           <div className='col-md-12'>
             <Header />

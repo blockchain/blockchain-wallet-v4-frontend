@@ -6,8 +6,8 @@ import style from './style.scss'
 
 const SubMenuLeftLink = (props) => {
   return (
-    <li styleName='sub-menu-left-link'>
-      <NavLink styleName='link' to={props.route} activeClassName='link-active'>
+    <li className='menu-sub-item'>
+      <NavLink className='menu-sub' to={props.route} activeClassName='menu-sub-active'>
         <span>{props.title}</span>
       </NavLink>
     </li>

@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const Buy = () => {
   return (
-    <section styleName='buy'>
+    <section>
       <span>Buy bitcoin page</span>
     </section>
   )

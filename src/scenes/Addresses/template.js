@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const Addresses = () => {
   return (
-    <section styleName='addresses'>
+    <section>
       Addresses page
     </section>
   )

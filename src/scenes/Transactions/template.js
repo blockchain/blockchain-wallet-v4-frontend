@@ -7,7 +7,7 @@ import style from './style.scss'
 
 const Transactions = () => {
   return (
-    <section styleName='transactions'>
+    <section>
       <TransactionList />
     </section>
   )

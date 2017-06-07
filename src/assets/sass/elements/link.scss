@@ -7,45 +7,80 @@ a {
 
 .navigation {
   @include display-flex();
-  @include flex-direction(column);
+  @include flex-direction(row);
   @include justify-content(center);
+  @include align-items(center);
   height: 60px;
   padding: 0 15px;
   @include box-sizing(border-box);
   text-decoration: none;
-  color: #FFFFFF;
   font-size: 14px;
   font-weight: 500;
+  color: #FFFFFF;
   cursor: pointer;
 }
 
-.navigation-uppercase {
-  @include display-flex();
-  @include flex-direction(column);
-  @include justify-content(center);
-  height: 60px;
-  padding: 0 15px;
-  @include box-sizing(border-box);
-  text-decoration: none;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-}
 
 .navigation-sub {
   display: block;
+  width: 100%;
   padding: 3px 20px;
   text-decoration: none;
-  color: #000000;
   font-size: 14px;
   font-weight: 500;
+  color: #000000;
   cursor: pointer;
-  width: 100%;
   @include box-sizing(border-box);
 
   &:hover {
     background-color: #EBEBEB;
+  }
+}
+
+.menu {
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(flex-start);
+  @include align-items(center);
+  @include box-sizing(border-box);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 400;
+  color: $basic-grey;
+
+  &-item {
+    padding: 5px 12px;
+  }
+
+  &-active {
+    color: $iris;
+  }
+
+  & .icon {
+    display: block;
+    vertical-align: middle;
+    font-size: 20px;
+    width: 40px;
+  }
+}
+
+.menu-sub {
+  @include display-flex();
+  @include flex-direction(row);
+  @include justify-content(flex-start);
+  @include align-items(center);
+  @include box-sizing(border-box);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 400;
+  color: $basic-grey;
+
+  &-item {
+    padding: 5px 12px;
+  }
+
+  &-active {
+    color: $iris;
   }
 }

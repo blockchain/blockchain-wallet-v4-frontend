@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const ClipboardNextAddress = () => {
   return (
-    <button className='blank-right'>
+    <button className='button-empty right'>
       <i className='ti-clipboard' />
     </button>
   )

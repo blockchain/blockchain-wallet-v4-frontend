@@ -9,7 +9,7 @@ import DidYouKnow from './DidYouKnow'
 
 const Home = (props) => {
   return (
-    <section styleName='home'>
+    <section>
       <ActivityList activities={props.activities} />
       <BalanceSummary />
       <DidYouKnow />

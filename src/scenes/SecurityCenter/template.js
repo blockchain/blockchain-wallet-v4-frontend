@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const SecurityCenter = () => {
   return (
-    <section styleName='security-center'>
+    <section>
       <span>Security center page</span>
     </section>
   )

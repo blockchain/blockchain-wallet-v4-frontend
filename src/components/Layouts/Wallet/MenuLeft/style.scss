@@ -1,16 +1,4 @@
 
 .menu-left {
   @include display-flex();
-  background-color: $grey;
-  border-right: 1px solid $border-grey;
-}
-
-.navigation {
-  list-style-type: none;
-  width: 100%;
-  padding: 0;
-}
-
-.sub-menu-left {
-  padding-left: 50px;
 }

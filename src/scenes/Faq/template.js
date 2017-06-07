@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const Faq = () => {
   return (
-    <section styleName='faq'>
+    <section>
       FAQ page
     </section>
   )

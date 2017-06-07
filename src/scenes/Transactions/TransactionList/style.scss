@@ -1,5 +1,5 @@
 
-.transaction-list {
+.transactions-list {
   @include display-flex();
   @include flex-direction(column);
   @include justify-content(flex-start);
