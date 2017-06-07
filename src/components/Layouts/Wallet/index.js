@@ -12,7 +12,7 @@ const WalletLayout = ({component: Component, ...rest}) => {
     <Route {...rest} render={matchProps => (
     // rest.isAuthenticated
     // ? (
-      <div className='container-fluid'>
+      <div className='container-fluid height-100'>
         <div className='row'>
           <div className='col-md-12'>
             <Header />
@@ -24,10 +24,14 @@ const WalletLayout = ({component: Component, ...rest}) => {
           </div>
           <div className='col-md-10'>
             <div className='row'>
-              <MenuTop />
+              <div className='col-md-12'>
+                <MenuTop />
+              </div>
             </div>
             <div className='row'>
-              <Component {...matchProps} />
+              <div className='col-md-12'>
+                <Component {...matchProps} />
+              </div>
             </div>
           </div>
         </div>

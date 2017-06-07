@@ -1,3 +1,18 @@
+//Color Mixin
+@mixin color($name, $color) {
+  .#{$name} {
+    color: $color;
+    &:hover { color: $color; }
+  }
+}
+
+//Background Mixin
+@mixin bg-color($name, $color) {
+  .bg-#{$name} {
+    background: $color;
+  }
+}
+
 // Primary
 $iris: #10ADE4;
 $mariner: #3558A8;
@@ -44,37 +59,37 @@ $security-green: $jade;
 $security-yellow: $dandelion;
 $bright-green:  $jade !important; //override Security Center nested css selectors
 
-// @include color('blue', $blue);
-// @include color('white', white);
-// @include color('black', $black);
-// @include color('grey', $grey);
-// @include color('mid-grey', $mid-grey);
-// @include color('basic-grey', $basic-grey);
-// @include color('border-grey', $border-grey);
-// @include color('security-red', $security-red);
-// @include color('security-yellow', $security-yellow);
-// @include color('security-green', $security-green);
-// @include color('bright-green', $jade);
-// @include color('success', $jade);
-// @include color('text-color', $text);
-// @include color('state-danger-text', $security-red);
-// @include color('medium-blue', $bali-hai);
-// @include color('transferred', $bali-hai);
-// @include color('received', $iris-green);
-// @include color('transfer', $bali-hai);
-// @include color('primary', $primary);
-// @include color('sent', $bittersweet);
-//
-// @include bg-color('transferred', $bali-hai);
-// @include bg-color('received', $iris-green);
-// @include bg-color('sent', $bittersweet);
-// @include bg-color('primary', $primary);
-// @include bg-color('red', $mahogany);
-// @include bg-color('grey', $grey);
-// @include bg-color('blue', $blue);
-// @include bg-color('black', $black);
-// @include bg-color('white', white);
-// @include bg-color('light-blue', $light-blue);
-// @include bg-color('ultralight-blue', $lighter-blue);
-// @include bg-color('mid-grey', $mid-grey);
-// @include bg-color('success', $jade);
+@include color('blue', $blue);
+@include color('white', white);
+@include color('black', $black);
+@include color('grey', $grey);
+@include color('mid-grey', $mid-grey);
+@include color('basic-grey', $basic-grey);
+@include color('border-grey', $border-grey);
+@include color('security-red', $security-red);
+@include color('security-yellow', $security-yellow);
+@include color('security-green', $security-green);
+@include color('bright-green', $jade);
+@include color('success', $jade);
+@include color('text-color', $text);
+@include color('state-danger-text', $security-red);
+@include color('medium-blue', $bali-hai);
+@include color('transferred', $bali-hai);
+@include color('received', $iris-green);
+@include color('transfer', $bali-hai);
+@include color('primary', $primary);
+@include color('sent', $bittersweet);
+
+@include bg-color('transferred', $bali-hai);
+@include bg-color('received', $iris-green);
+@include bg-color('sent', $bittersweet);
+@include bg-color('primary', $primary);
+@include bg-color('red', $mahogany);
+@include bg-color('grey', $grey);
+@include bg-color('blue', $blue);
+@include bg-color('black', $black);
+@include bg-color('white', white);
+@include bg-color('light-blue', $light-blue);
+@include bg-color('ultralight-blue', $lighter-blue);
+@include bg-color('mid-grey', $mid-grey);
+@include bg-color('success', $jade);

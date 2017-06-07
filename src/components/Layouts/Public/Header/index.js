@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <header styleName='header'>
       <NavLink to='/'>
-        <img src={logo} className='logo' />
+        <img src={logo} styleName='logo' />
       </NavLink>
     </header>
   )

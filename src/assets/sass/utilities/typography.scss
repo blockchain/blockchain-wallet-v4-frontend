@@ -1,91 +1,10 @@
 
-.default {
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 13px;
-  font-weight: 300;
-}
-
-.title {
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 24px;
-  font-weight: 300;
-}
-
-.subtitle {
-  font-family: 'GillSans', 'Helvetica', sans-serif !important;
-  font-size: 16px;
-  font-weight: 300;
-}
-
-.label-textbox {
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+label {
+  display: inline-block;
+  margin-bottom: 5px;
   font-size: 14px;
   font-weight: 500;
 }
-
-.description-textbox {
-  font-family: 'GillSans', 'Helvetica', sans-serif !important;
-  font-size: 14px;
-  font-weight: 300;
-}
-
-.light {
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 20px;
-  font-weight: 300;
-}
-
-.medium {
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 24px;
-  font-weight: 300;
-}
-
-.large {
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 28px;
-  font-weight: 500;
-}
-
-.x-large {
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 32px;
-  font-weight: 500;
-}
-
-.xx-large {
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 40px;
-  font-weight: 500;
-}
-
-.xxx-large {
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 52px;
-  font-weight: 500;
-}
-
-@for $i from 1 through 50 {
-  .margin-#{$i*5} { margin: #{$i*5}px; }
-  .margin-top-#{$i*5} { margin-top: #{$i*5}px; }
-  .margin-bottom-#{$i*5} { margin-bottom: #{$i*5}px; }
-  .margin-left-#{$i*5} { margin-left: #{$i*5}px; }
-  .margin-right-#{$i*5} { margin-right: #{$i*5}px; }
-  .padding-#{$i*5} { padding: #{$i*5}px; }
-  .padding-top-#{$i*5} { padding-top: #{$i*5}px; }
-  .padding-bottom-#{$i*5} { padding-bottom: #{$i*5}px; }
-  .padding-left-#{$i*5} { padding-left: #{$i*5}px; }
-  .padding-right-#{$i*5} { padding-right: #{$i*5}px; }
-  .padding-horizontal-#{$i*5} { padding: 0 #{$i*5}px; }
-  .padding-vertical-#{$i*5} { padding: #{$i*5}px 0; }
-}
-
-
-
-
-
-
-
 
 .type-xs { font-size: .75em; }
 .type-sm { font-size: .9em; }
@@ -95,13 +14,11 @@
 .type-lbl { font-size: 1.1em; }
 .type-lrg { font-size: 2em; }
 .type-med { font-size: 2.2em; }
-// .title { font-size: 3.5em; }
+.title { font-size: 3.5em; }
 .type-yuge { font-size: 5em; }
 
-.f-52 { font-size: 52px; }
 .f-48 { font-size: 48px; }
 .f-36 { font-size: 36px; }
-.f-32 { font-size: 32px; }
 .f-28 { font-size: 28px; }
 .f-24 { font-size: 24px; }
 .f-20 { font-size: 20px; }

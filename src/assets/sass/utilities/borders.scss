@@ -1,0 +1,58 @@
+.border-bottom { border-bottom: 1px solid $border-grey; }
+.border-bottom-light { border-bottom: 1px solid $border-grey; }
+.border-bottom-thick { border-bottom: 2px solid $border-grey; }
+.border-right { border-right: 1px solid $border-grey; }
+.border-left { border-left: 1px solid $border-grey; }
+.border-top { border-top: 1px solid $border-grey; }
+.border-top-light { border-top: 1px solid $border-grey; }
+.border { border: 1px solid $border-grey; }
+.border-thick { border: 2px solid $border-grey; }
+.border-desktop {
+  @media (min-width: 768px) {
+    border: 1px solid $border-grey;
+  }
+}
+.ui-select-border-red {
+  .ui-select-container .ui-select-match > span {
+    border: 1px solid state-danger-text !important;
+  }
+}
+
+.or {
+  position: relative;
+  text-transform: uppercase;
+  &:before, &:after {
+    left: 50%;
+    width: 1px;
+    content: '';
+    height: 40%;
+    position: absolute;
+    background-color: $border-grey;
+  }
+  &:before {
+    top: 0;
+  }
+  &:after {
+    bottom: 0;
+  }
+}
+
+.or-horizontal {
+  @extend .or;
+  width: 100%;
+  display: block;
+  text-align: center;
+  &:before, &:after {
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    left: initial;
+    right: initial;
+  }
+  &:before {
+    left: 0;
+  }
+  &:after {
+    right: 0;
+  }
+}

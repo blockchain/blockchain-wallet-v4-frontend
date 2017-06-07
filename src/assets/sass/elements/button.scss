@@ -1,126 +1,68 @@
 
-button {
+%button-base {
+  height: 40px;
+  padding: 10px 15px;
+  margin: 0;
+  font-size: 1.4em;
+  font-weight: 300;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  letter-spacing: normal;
+  @include border-radius(3px);
+  @include transition(all .2s ease-in-out);
+  @include box-sizing(border-box);
 
-  &.primary {
-      height: 40px;
-      width: 100%;
-      padding: 10px 15px;
-      margin: 10px 0;
-      text-align: center;
-      text-decoration: none;
-      vertical-align: middle;
-      letter-spacing: normal;
-      @include transition(all 0.2s ease-in-out);
-      @include border-radius(3px);
-      @include box-sizing(border-box);
-      cursor: pointer;
-      border: none;
-      background-color: $iris;
-      color: #FFFFFF;
-      font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-      font-size: 14px;
-      font-weight: 300;
-
-      &:hover {
-        background-color: darken($iris, 10%);
-        color: #FFFFFF;
-      }
+  &:focus {
+    outline: none;
+    text-decoration: none;
   }
 
-  &.secondary {
-    height: 40px;
+  &.full-width {
     width: 100%;
-    padding: 10px 15px;
-    margin: 10px 0;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    letter-spacing: normal;
-    @include transition(all 0.2s ease-in-out);
-    @include border-radius(3px);
-    @include box-sizing(border-box);
-    cursor: pointer;
-    border: none;
-    background-color: $mariner;
-    color: #FFFFFF;
-    font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-    font-size: 14px;
-    font-weight: 300;
-
-    &:hover {
-      background-color: darken($mariner, 10%);
-      color: #FFFFFF;
-    }
   }
 
-  &.blank {
-    height: 35px;
-    min-width: 100px;
-    padding: 5px;
-    margin: 0 5px;
-    border: 1px solid #E0E0E0;
-    background: white;
-    color: #4B4D4E;
-    cursor: pointer;
-    @include border-radius(3px);
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    letter-spacing: normal;
-    @include transition(all .2s ease-in-out);
-    font-weight: 300;
-    font-size: 14px;
-
-    &:hover {
-      background: #F2F2F2;
-      color: #4B4D4E;
-    }
+  &.heavy {
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
+}
 
-  &.blank-left {
-    height: 35px;
-    min-width: 100px;
-    padding: 5px;
-    border: 1px solid #E0E0E0;
-    background: white;
-    color: #4B4D4E;
-    cursor: pointer;
-    @include border-radius(3px 0 0 3px);
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    letter-spacing: normal;
-    @include transition(all .2s ease-in-out);
-    font-weight: 300;
-    font-size: 14px;
+@mixin button($name, $background:white, $color:white) {
+
+  .button-#{$name} {
+    @extend %button-base;
+    background: $background;
+    color: $color;
 
     &:hover {
-      background: #F2F2F2;
-      color: #4B4D4E;
+      background: darken($background, 5%);
+      color: $color;
     }
-  }
 
-  &.blank-right {
-    height: 35px;
-    min-width: 35px;
-    padding: 5px;
-    border: 1px solid #E0E0E0;
-    border-left: 0;
-    background: white;
-    color: #4B4D4E;
-    cursor: pointer;
-    @include border-radius( 0 3px 3px 0);
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    letter-spacing: normal;
-    @include transition(all .2s ease-in-out);
-    font-weight: 300;
-    font-size: 14px;
+    &:visited {
+      color: $color;
+    }
 
-    &:hover {
-      background: #F2F2F2;
-      color: #4B4D4E;
+    &:disabled {
+      &:hover {
+        background: $background;
+        opacity: .6;
+      }
+    }
+
+    &:focus {
+      color: $color;
+    }
+
+    &.active {
+      background: darken($background, 5%);
+      box-shadow: inset 0 2px 4px 0 darken($background, 10%);
     }
   }
 }
+@include button('primary', $primary, white);
+@include button('purple', $mariner, white);

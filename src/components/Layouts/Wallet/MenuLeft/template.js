@@ -1,6 +1,8 @@
 import React from 'react'
 import CSSModules from 'react-css-modules'
 
+import Adverts from './Adverts'
+import Footer from './Footer'
 import MenuLeftLink from './MenuLeftLink'
 import SubMenuLeftLink from './SubMenuLeftLink'
 
@@ -23,6 +25,8 @@ const MenuLeft = () => {
         </div>
         <MenuLeftLink route='/faq' title='Faq' />
       </ul>
+      <Adverts />
+      <Footer />
     </nav>
   )
 }
