@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, location } from 'react-router-dom'
 
 import Header from './Header'
 import MenuLeft from './MenuLeft'
@@ -20,7 +20,7 @@ const WalletLayout = ({component: Component, ...rest}) => {
         </div>
         <div className='row height-100'>
           <div className='col-md-2 bg-grey border-right'>
-            <MenuLeft />
+            <MenuLeft location={rest.location} />
           </div>
           <div className='col-md-10'>
             <div className='row bg-white border-bottom'>

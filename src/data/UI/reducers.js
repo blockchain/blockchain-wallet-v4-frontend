@@ -1,22 +1,32 @@
-import { HEADER_SHOW_EXPLORE, HEADER_HIDE_EXPLORE, HEADER_TOGGLE_EXPLORE } from 'data/actionTypes'
+import * as AT from 'data/actionTypes'
 
 let assign = (state, next) => Object.assign({}, state, next)
 
 const INITIAL_STATE = {
   exploreMenuDisplayed: false,
+  securityCenterMenuDisplayed: false,
   navigationDisplayed: false
 }
 
 const header = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case HEADER_SHOW_EXPLORE: {
+    case AT.HEADER_SHOW_EXPLORE: {
       return assign(INITIAL_STATE, { exploreMenuDisplayed: true })
     }
-    case HEADER_HIDE_EXPLORE: {
+    case AT.HEADER_HIDE_EXPLORE: {
       return assign(INITIAL_STATE, { exploreMenuDisplayed: false })
     }
-    case HEADER_TOGGLE_EXPLORE: {
+    case AT.HEADER_TOGGLE_EXPLORE: {
       return assign(INITIAL_STATE, { exploreMenuDisplayed: !state.exploreMenuDisplayed })
+    }
+    case AT.MENU_LEFT_SHOW_SECURITY_CENTER: {
+      return assign(INITIAL_STATE, { securityCenterMenuDisplayed: true })
+    }
+    case AT.MENU_LEFT_HIDE_SECURITY_CENTER: {
+      return assign(INITIAL_STATE, { securityCenterMenuDisplayed: false })
+    }
+    case AT.MENU_LEFT_TOGGLE_SECURITY_CENTER: {
+      return assign(INITIAL_STATE, { securityCenterMenuDisplayed: !state.securityCenterMenuDisplayed })
     }
     default:
       return state

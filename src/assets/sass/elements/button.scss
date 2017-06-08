@@ -68,6 +68,7 @@
 
 @include button('primary', $primary, white);
 @include button('purple', $mariner, white);
+@include button('received', $iris-green, white);
 
 
 .button-empty {

@@ -37,11 +37,12 @@ a {
   }
 }
 
-.menu {
+.menu-item {
   @include display-flex();
   @include flex-direction(row);
   @include justify-content(flex-start);
   @include align-items(center);
+  padding: 5px 12px;
   @include box-sizing(border-box);
   text-decoration: none;
   text-transform: uppercase;
@@ -49,11 +50,11 @@ a {
   font-weight: 400;
   color: $basic-grey;
 
-  &-item {
-    padding: 5px 12px;
+  &.sub {
+    text-transform: capitalize;
   }
 
-  &-active {
+  &.active {
     color: $iris;
   }
 
@@ -62,25 +63,5 @@ a {
     vertical-align: middle;
     font-size: 20px;
     width: 40px;
-  }
-}
-
-.menu-sub {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(flex-start);
-  @include align-items(center);
-  @include box-sizing(border-box);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 400;
-  color: $basic-grey;
-
-  &-item {
-    padding: 5px 12px;
-  }
-
-  &-active {
-    color: $iris;
   }
 }
