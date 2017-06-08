@@ -9,11 +9,11 @@ const TransactionListItem = (props) => {
       <div className='row'>
         <div className='col-md-2'>
           <div className='row'>
-            <div className='col-md-2'>
+            <div className={'col-md-2 flex-center flex-justify f-10'} styleName={(!props.detailsDisplayed ? 'rotated' : '')}>
               <i className='icon-down_arrow pointer' onClick={props.clickDetails} />
             </div>
             <div className='col-md-10 flex-column'>
-              <span className='f-16 upper em-500 received pointer' onClick={props.clickDetails}>{props.transaction.type}</span>
+              <span className={'f-16 upper em-500 pointer ' + (props.transaction.type === 'Sent' ? 'sent' : 'received')} onClick={props.clickDetails}>{props.transaction.type}</span>
               <span className='f-14 italic'>{props.transaction.time}</span>
             </div>
           </div>
@@ -23,7 +23,10 @@ const TransactionListItem = (props) => {
           <span className='f-14'>From: {props.transaction.from}</span>
         </div>
         <div className='col-md-4'>
-          <span className='f-14'>{props.transaction.description}</span>
+          {props.transaction.description
+            ? <span className='f-14'>{props.transaction.description} <i className='ti-pencil primary pointer pl-5' /></span>
+            : <span className='mid-grey pointer'>Add a description</span>
+          }
         </div>
         <div className='col-md-2'>
           <button className='button-received'>{props.transaction.amount}</button>
