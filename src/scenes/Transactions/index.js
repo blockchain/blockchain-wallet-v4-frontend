@@ -23,6 +23,16 @@ class TransactionsContainer extends React.Component {
       from: 'My Bitcoin Wallet',
       description: 'some sort of test',
       initial_value: '£1.22'
+    },{
+      id: '3',
+      type: 'Sent',
+      status: 'confirmed',
+      time: 'April 31 @ 02:15 PM',
+      amount: '0.00023132BTC',
+      to: '193k4Up8wmNRTZ9qipcQB3rJM4pwrqV7wP',
+      from: 'My Bitcoin Wallet',
+      description: '',
+      initial_value: '£1.22'
     }]
 
     return (
