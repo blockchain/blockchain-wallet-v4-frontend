@@ -1,4 +1,5 @@
 
 .home {
-
+  padding: 20px;
+  @include box-sizing(border-box);
 }

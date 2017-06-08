@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const ActivityListItem = (props) => {
   return (
-    <div className='container-fluid padding-bottom-15 border-left' styleName='activity-item'>
+    <div className='container-fluid padding-bottom-30 border-left' styleName='activity-item'>
       <div className='row flex-row'>
         <div styleName='marker'>
           <i className='icon-tx' />

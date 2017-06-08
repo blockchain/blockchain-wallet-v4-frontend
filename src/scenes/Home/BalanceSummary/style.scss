@@ -1,5 +1,5 @@
 
 .balance-summary {
-  display: block;
-  width: 100%;
+  padding: 20px;
+  @include box-sizing(border-box);
 }
