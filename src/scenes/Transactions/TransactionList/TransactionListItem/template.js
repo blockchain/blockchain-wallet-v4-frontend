@@ -1,6 +1,8 @@
 import React from 'react'
 import CSSModules from 'react-css-modules'
 
+import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
+
 import style from './style.scss'
 
 const TransactionListItem = (props) => {
@@ -29,7 +31,7 @@ const TransactionListItem = (props) => {
           }
         </div>
         <div className='col-md-2'>
-          <button className='button-received'>{props.transaction.amount}</button>
+          <BitcoinDisplay className='button-received' amount={props.transaction.amount} />
         </div>
       </div>
       <div className={'row padding-top-30' + (!props.detailsDisplayed ? ' hidden' : '')}>
