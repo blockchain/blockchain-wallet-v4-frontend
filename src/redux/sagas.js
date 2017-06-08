@@ -11,36 +11,38 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
   const walletDataLoadSaga = function * (action) {
     try {
       const context = action.payload
-      // we can handle api errors here
+      // we must handle api errors here
       const data = yield call(api.fetchBlockchainData, context, { n: 50 })
-      yield put(A.loadWalletData(data))
-      yield put(A.loadContextTxs(data))
+      yield put(A.loadWalletData(data.wallet))
+      yield put(A.loadLatestBlockData(data.info.latest_block))
+      yield put(A.loadaddressesData(data.addresses))
+      yield put(A.loadContextTxs(data.txs))
     } catch (error) {
       // probably there is no context (blank wallet)
     }
   }
 
-  const txsLoadRequestSaga = function * (action) {
-    // NOTE: context must be a single address, for now
-    const context = Array.isArray(action.payload) ? action.payload[0] : action.payload
-    const currentTxs = yield select(getTransactions(dpath)(context))
-    // we can handle api errors here
-    const data = yield call(api.fetchBlockchainData, context, { n: 50, offset: currentTxs.size })
-    yield put(A.loadContextTxs(data))
-  }
+  // const txsLoadRequestSaga = function * (action) {
+  //   // NOTE: context must be a single address, for now
+  //   const context = Array.isArray(action.payload) ? action.payload[0] : action.payload
+  //   const currentTxs = yield select(getTransactions(dpath)(context))
+  //   // we can handle api errors here
+  //   const data = yield call(api.fetchBlockchainData, context, { n: 50, offset: currentTxs.size })
+  //   yield put(A.loadContextTxs(data))
+  // }
 
-  const walletSignupSaga = function * (action) {
-    const { password, email } = action.payload
-    // TODO :: control this api failure
-    const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-    const mnemonic = BIP39.generateMnemonic()
-    yield put(A.setNewWallet({guid, sharedKey, mnemonic, password, email}))
-    yield put(A.newWalletSuccess())
-  }
+  // const walletSignupSaga = function * (action) {
+  //   const { password, email } = action.payload
+  //   // TODO :: control this api failure
+  //   const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+  //   const mnemonic = BIP39.generateMnemonic()
+  //   yield put(A.setNewWallet({guid, sharedKey, mnemonic, password, email}))
+  //   yield put(A.newWalletSuccess())
+  // }
 
   return function * () {
     yield takeEvery(A.WALLET_DATA_REQUEST, walletDataLoadSaga)
-    yield takeEvery(A.TXS_LOAD_REQUEST, txsLoadRequestSaga)
-    yield takeEvery(A.WALLET_NEW, walletSignupSaga)
+    // yield takeEvery(A.TXS_LOAD_REQUEST, txsLoadRequestSaga)
+    // yield takeEvery(A.WALLET_NEW, walletSignupSaga)
   }
 }
