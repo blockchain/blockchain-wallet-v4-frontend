@@ -1,15 +1,17 @@
 import React from 'react'
 import CSSModules from 'react-css-modules'
 
-import MenuTop from './MenuTop'
+import TransactionListItemContainer from './TransactionListItem'
 
 import style from './style.scss'
 
-const TransactionList = () => {
+const TransactionList = (props) => {
   return (
-    <section styleName='transactions-list'>
-      <MenuTop />
-    </section>
+    <div styleName='transactions-list'>
+      {props.transactions.map(function (transaction, index) {
+        return <TransactionListItemContainer key={index} transaction={transaction} />
+      })}
+    </div>
   )
 }
 

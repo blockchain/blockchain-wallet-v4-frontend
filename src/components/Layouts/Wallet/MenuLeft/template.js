@@ -1,30 +1,49 @@
 import React from 'react'
 import CSSModules from 'react-css-modules'
+import { NavLink } from 'react-router-dom'
 
 import Adverts from './Adverts'
 import Footer from './Footer'
-import MenuLeftLink from './MenuLeftLink'
-import SubMenuLeftLink from './SubMenuLeftLink'
 
 import style from './style.scss'
 
-const MenuLeft = () => {
+const MenuLeft = (props) => {
   return (
     <nav styleName='menu-left'>
-      <ul>
-        <MenuLeftLink route='/wallet' title='Home' />
-        <MenuLeftLink route='/transactions' title='Transactions' />
-        <MenuLeftLink route='/buy-sell' title='Buy bitcoin' />
-        <MenuLeftLink route='/security-center' title='Security center' />
-        <MenuLeftLink route='/settings' title='Settings' />
-        <ul>
-          <SubMenuLeftLink route='/settings/info' title='Wallet Information' />
-          <SubMenuLeftLink route='/settings/preferences' title='Preferences' />
-          <SubMenuLeftLink route='/settings/security' title='Security' />
-          <SubMenuLeftLink route='/settings/addresses' title='Addresses' />
-        </ul>
-        <MenuLeftLink route='/faq' title='Faq' />
-      </ul>
+      <div styleName='main-menu'>
+        <NavLink className='menu-item' to='/wallet' activeClassName='active' onClick={props.clickOthers}>
+          <i className='icon-home icon' /><span>Home</span>
+        </NavLink>
+        <NavLink className='menu-item' to='/transactions' activeClassName='active' onClick={props.clickOthers}>
+          <i className='icon-tx icon' /><span>Transactions</span>
+        </NavLink>
+        <NavLink className='menu-item' to='/buy-sell' activeClassName='active' onClick={props.clickOthers}>
+          <i className='icon-bitcoin icon' /><span>Buy bitcoin</span>
+        </NavLink>
+        <NavLink className='menu-item' to='/security-center' activeClassName='active' onClick={props.clickOthers}>
+          <i className='icon-lock icon' /><span>Security center</span>
+        </NavLink>
+        <NavLink className='menu-item' to='/settings' activeClassName='active' onClick={props.clickSecurityCenter}>
+          <i className='icon-settings icon' /><span>Settings</span>
+        </NavLink>
+        <div styleName='sub-menu' className={(props.securityCenterMenuDisplayed ? 'visible' : 'hidden')}>
+          <NavLink className='menu-item sub' to='/settings/info' activeClassName='active'>
+            <span>Wallet Information</span>
+          </NavLink>
+          <NavLink className='menu-item sub' to='/settings/preferences' activeClassName='active'>
+            <span>Preferences</span>
+          </NavLink>
+          <NavLink className='menu-item sub' to='/settings/security' activeClassName='active'>
+            <span>Security</span>
+          </NavLink>
+          <NavLink className='menu-item sub' to='/settings/addresses' activeClassName='active'>
+            <span>Addresses</span>
+          </NavLink>
+        </div>
+        <NavLink className='menu-item' to='/faq' activeClassName='active' onClick={props.clickOthers}>
+          <i className='icon-help icon' /><span>Faq</span>
+        </NavLink>
+      </div>
       <Adverts />
       <Footer />
     </nav>

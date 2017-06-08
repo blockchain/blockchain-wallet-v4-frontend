@@ -1,8 +1,16 @@
 
 /* FLEX */
 @mixin display-flex() {
-  display: -webkit-flex;
-  display: flex;
+  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+}
+
+@mixin display-inline-flex() {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
 }
 
 @mixin flex-direction($args...) {
@@ -28,6 +36,7 @@
 
 @mixin flex-wrap($args...) {
   -webkit-flex-wrap: $args;
+  -ms-flex-wrap: $args;
   flex-wrap: $args;
 }
 
@@ -36,17 +45,23 @@
   flex: $args;
 }
 
+@mixin justify-content($args...) {
+  -webkit-justify-content: $args;
+  justify-content: $args;
+}
+
 @mixin align-content($args...) {
   -webkit-align-content: $args;
   align-content: $args;
 }
 
 @mixin align-items($args...) {
+  -ms-grid-row-align: $args;
   -webkit-align-items: $args;
   align-items: $args;
 }
 
-@mixin justify-content($args...) {
-  -webkit-justify-content: $args;
-  justify-content: $args;
+@mixin align-self($args...) {
+  -webkit-align-self: $args;
+  align-self: $args;
 }

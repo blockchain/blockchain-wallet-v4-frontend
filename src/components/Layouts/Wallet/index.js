@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, location } from 'react-router-dom'
 
 import Header from './Header'
 import MenuLeft from './MenuLeft'
@@ -12,7 +12,7 @@ const WalletLayout = ({component: Component, ...rest}) => {
     <Route {...rest} render={matchProps => (
     // rest.isAuthenticated
     // ? (
-      <div className='container-fluid height-100'>
+      <div className='container-fluid flex-column height-100'>
         <div className='row'>
           <div className='col-md-12'>
             <Header />
@@ -20,14 +20,14 @@ const WalletLayout = ({component: Component, ...rest}) => {
         </div>
         <div className='row height-100'>
           <div className='col-md-2 bg-grey border-right'>
-            <MenuLeft />
+            <MenuLeft location={rest.location} />
           </div>
           <div className='col-md-10'>
             <div className='row bg-white border-bottom'>
               <MenuTop />
             </div>
             <div className='row bg-white'>
-              <div className='col-md-12'>
+              <div className='col-md-12 flex-column height-100'>
                 <Component {...matchProps} />
               </div>
             </div>

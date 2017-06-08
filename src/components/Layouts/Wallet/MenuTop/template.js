@@ -17,7 +17,6 @@ const MenuTop = () => {
           </div>
           <div className='col-md-6 right-align'>
             <span className='f-28 half-strong'>0.00199132 BTC</span>
-
           </div>
         </div>
         <div className='row'>
