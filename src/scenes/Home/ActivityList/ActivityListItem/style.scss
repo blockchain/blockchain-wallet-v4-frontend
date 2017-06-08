@@ -1,13 +1,29 @@
 
-.activity-list-item {
-  display: block;
+.activity-item {
   width: 100%;
-  border-left: 1px solid $border-grey;
 }
 
-.box {
-  margin-bottom: 30px;
-  margin-left: 30px;
-  padding: 10px;
-  border: 1px solid $border-grey;
+.marker {
+  display: block;
+  width: 30px;
+  height: 30px;
+  color: #FFFFFF;
+  border-left: black;
+
+  i {
+    position: relative;
+    left: -15px;
+    top: 2px;
+    width: 30px;
+    height: 30px;
+    background-color: $blue;
+    @include display-flex();
+    @include flex-direction(column);
+    @include justify-content(center);
+    @include align-items(center);
+    @include border-radius(100%);
+  }
+  &:after {
+    content: '';
+  }
 }

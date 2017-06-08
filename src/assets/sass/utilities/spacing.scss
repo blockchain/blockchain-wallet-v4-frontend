@@ -21,6 +21,10 @@
   .padding-vertical-#{$i*5} { padding: #{$i*5}px 0; }
 }
 
+.border-box {
+  @include box-sizing(border-box);
+}
+
 .ptn, .pvn, .pan { padding-top: 0; }
 
 .pts, .pvs, .pas { padding-top: 0.3125em; }

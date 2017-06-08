@@ -1,21 +1,32 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
-import ActivityListItem from './ActivityListItem'
+import ActivityList from './template.js'
+import * as activityActions from 'data/Activity/actions.js'
 
-import style from './style.scss'
+class ActivityContainer extends React.Component {
+  componentWillMount () {
+    this.props.actions.fetchActivities()
+  }
 
-const ActivityList = (props) => {
-  return (
-    <div styleName='activity-list'>
-      Most Recent Activity
-      <ul>
-        {props.activities.map(function (activity, key) {
-          return <ActivityListItem activity={activity} key={key} />
-        })}
-      </ul>
-    </div>
-  )
+  render () {
+    return (
+      <ActivityList activities={this.props.activities} />
+    )
+  }
 }
 
-export default CSSModules(ActivityList, style)
+function mapStateToProps (state, ownProps) {
+  return {
+    activities: state.applicationState.activities
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: bindActionCreators(activityActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityContainer)

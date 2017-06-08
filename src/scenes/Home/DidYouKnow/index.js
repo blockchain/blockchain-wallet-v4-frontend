@@ -1,14 +1,31 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
-import style from './style.scss'
+import DidYouKnow from './template.js'
 
-const DidYouKnow = () => {
-  return (
-    <div styleName='did-you-know'>
-      Did You Know?
-    </div>
-  )
+class DidYouKnowContainer extends React.Component {
+  render () {
+    let info = {
+      icon: 'ti-id-badge',
+      category: {
+        name: 'Educational',
+        color: 'success'
+      },
+      title: 'Your wallet ID cannot be used to send/receive bitcoin',
+      description: 'Your wallet ID is like a username, you use it to login to your wallet. To send/receive bitcoin you need a bitcoin address. To generate a new bitcoin address click Receive.'
+    }
+
+    return (
+      <DidYouKnow info={info} />
+    )
+  }
 }
 
-export default CSSModules(DidYouKnow, style)
+function mapStateToProps (state, ownProps) {
+  return {
+    info: null
+  }
+}
+
+export default connect(mapStateToProps)(DidYouKnowContainer)

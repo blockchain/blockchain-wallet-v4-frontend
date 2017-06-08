@@ -9,10 +9,16 @@ import DidYouKnow from './DidYouKnow'
 
 const Home = (props) => {
   return (
-    <section>
-      <ActivityList activities={props.activities} />
-      <BalanceSummary />
-      <DidYouKnow />
+    <section className='container-fluid'>
+      <div className='row'>
+        <div className='col-md-6'>
+          <ActivityList activities={props.activities} />
+        </div>
+        <div className='col-md-6 flex-column flex-start'>
+          <BalanceSummary />
+          <DidYouKnow />
+        </div>
+      </div>
     </section>
   )
 }
