@@ -27,7 +27,7 @@ const configureStore = () => {
       applyMiddleware(
         routerMiddleware(history),
         autoDisconnectionMiddleware,
-        walletSyncMiddleware({api, wpath}),
+        // walletSyncMiddleware({api, wpath}),
         // walletSocketMiddleware({ socket }),
         sagaMiddleware,
         logger

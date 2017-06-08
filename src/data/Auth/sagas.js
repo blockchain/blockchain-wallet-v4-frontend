@@ -25,9 +25,9 @@ const pollingSaga = function * (session, n = 50) {
 
 const fetchWalletSaga = function * (guid, sharedKey, session, password) {
   try {
-    let wallet = yield call(api.downloadWallet, guid, sharedKey, session, password)
-    yield put(walletActions.loadWallet(wallet))
-    yield put(walletActions.requestWalletData(getWalletContext(wallet).toJS()))
+    let wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password)
+    yield put(walletActions.replaceWallet(wrapper))
+    yield put(walletActions.requestWalletData(getWalletContext(wrapper)))
     yield put(actions.loginSuccess())
     yield put(push('/wallet'))
   } catch (error) {
