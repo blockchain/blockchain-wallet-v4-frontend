@@ -9,7 +9,7 @@ const TransactionListItem = (props) => {
       <div className='row'>
         <div className='col-md-2'>
           <div className='row'>
-            <div className='col-md-2'>
+            <div className={'col-md-2 flex-center flex-justify'} styleName={(!props.detailsDisplayed ? 'rotated' : '')}>
               <i className='icon-down_arrow pointer' onClick={props.clickDetails} />
             </div>
             <div className='col-md-10 flex-column'>
