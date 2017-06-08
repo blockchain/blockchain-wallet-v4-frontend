@@ -1,4 +1,3 @@
-
 import { view, compose, map } from 'ramda'
 import { mapped } from 'ramda-lens'
 import * as Lens from '../lens'

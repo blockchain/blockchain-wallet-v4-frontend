@@ -1,4 +1,3 @@
-// I might to differenciate between immutable and regular js lens
 import { lens, compose, identity, reduceRight } from 'ramda'
 
 export const iLensProp = (key) => lens(
