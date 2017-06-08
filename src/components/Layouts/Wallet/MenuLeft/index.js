@@ -9,6 +9,11 @@ class MenuLeftContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClickSecurityCenter = this.handleClickSecurityCenter.bind(this)
+    this.handleClickOthers = this.handleClickOthers.bind(this)
+  }
+
+  handleClickOthers () {
+    this.props.actions.hideSecurityCenterMenu()
   }
 
   handleClickSecurityCenter () {
@@ -17,7 +22,10 @@ class MenuLeftContainer extends React.Component {
 
   render () {
     return (
-      <MenuLeft securityCenterMenuDisplayed={this.props.securityCenterMenuDisplayed} clickSecurityCenter={this.handleClickSecurityCenter} />
+      <MenuLeft
+        securityCenterMenuDisplayed={this.props.securityCenterMenuDisplayed}
+        clickSecurityCenter={this.handleClickSecurityCenter}
+        clickOthers={this.handleClickOthers} />
     )
   }
 }

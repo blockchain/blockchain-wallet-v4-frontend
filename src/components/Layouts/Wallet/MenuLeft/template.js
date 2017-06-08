@@ -10,23 +10,23 @@ import style from './style.scss'
 const MenuLeft = (props) => {
   return (
     <nav styleName='menu-left'>
-      <div>
-        <NavLink className='menu-item' to='/wallet' activeClassName='active'>
+      <div styleName='main-menu'>
+        <NavLink className='menu-item' to='/wallet' activeClassName='active' onClick={props.clickOthers}>
           <i className='icon-home icon' /><span>Home</span>
         </NavLink>
-        <NavLink className='menu-item' to='/transactions' activeClassName='active'>
+        <NavLink className='menu-item' to='/transactions' activeClassName='active' onClick={props.clickOthers}>
           <i className='icon-tx icon' /><span>Transactions</span>
         </NavLink>
-        <NavLink className='menu-item' to='/buy-sell' activeClassName='active'>
+        <NavLink className='menu-item' to='/buy-sell' activeClassName='active' onClick={props.clickOthers}>
           <i className='icon-bitcoin icon' /><span>Buy bitcoin</span>
         </NavLink>
-        <NavLink className='menu-item' to='/security-center' activeClassName='active'>
+        <NavLink className='menu-item' to='/security-center' activeClassName='active' onClick={props.clickOthers}>
           <i className='icon-lock icon' /><span>Security center</span>
         </NavLink>
-        <NavLink className='menu-item' to='/settings/info' activeClassName='active' onClick={props.clickSecurityCenter}>
+        <NavLink className='menu-item' to='/settings' activeClassName='active' onClick={props.clickSecurityCenter}>
           <i className='icon-settings icon' /><span>Settings</span>
         </NavLink>
-        <div className={(props.securityCenterMenuDisplayed ? 'visible' : 'hidden')}>
+        <div styleName='sub-menu' className={(props.securityCenterMenuDisplayed ? 'visible' : 'hidden')}>
           <NavLink className='menu-item sub' to='/settings/info' activeClassName='active'>
             <span>Wallet Information</span>
           </NavLink>
@@ -40,7 +40,7 @@ const MenuLeft = (props) => {
             <span>Addresses</span>
           </NavLink>
         </div>
-        <NavLink className='menu-item' to='/faq' activeClassName='active'>
+        <NavLink className='menu-item' to='/faq' activeClassName='active' onClick={props.clickOthers}>
           <i className='icon-help icon' /><span>Faq</span>
         </NavLink>
       </div>
