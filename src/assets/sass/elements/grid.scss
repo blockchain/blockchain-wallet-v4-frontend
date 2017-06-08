@@ -42,16 +42,14 @@ $map_grid_columns: (
 }
 
 .container-fluid {
-  @include flex-grow(1);
-  width: 100%;
   height: 100%;
+  width: 100%;
   margin: 0;
 }
 
 .container {
-  @include flex-grow(1);
-  width: 100%;
   height: 100%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -60,7 +58,6 @@ $map_grid_columns: (
 }
 
 .row {
-  @include flex-wrap(nowrap);
   @include display-flex();
   width: 100%;
 }
