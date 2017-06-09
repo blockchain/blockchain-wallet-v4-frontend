@@ -3,12 +3,12 @@ import { takeEvery, call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import { prop, compose } from 'ramda'
 import Task from 'data.task'
-
 // import { getTransactions } from './selectors'
 import * as A from './actions'
 import { Wrapper, Wallet } from '../types'
 
-// api should be promified api (no task for saga)
+const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
+
 export const rootSaga = ({ dpath, wpath, api } = {}) => {
   // this should return an object with all the sagas and the api in the clojure
   // so you can decide which sagas you want to run
@@ -27,19 +27,13 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
     }
   }
 
-  // const dispatchSaga = (actionCreator) => {
-  //   console.log('dispatchSagaCreator')
-  //   const saga = function * (data) {
-  //     console.log('saga dispatcher')
-  //     yield put(actionCreator(data))
-  //   }
-  //   console.log(saga)
-  //   return saga
-  // }
-
-  const dispatchSaga = actionCreator => data => {
-    console.log('dispatching action: ')
-    console.log(actionCreator(data))
+  const runTask = function * (task, failureAction, successAction) {
+    try {
+      let result = yield call(compose(taskToPromise, () => task))
+      yield put(successAction(result))
+    } catch (error) {
+      yield put(failureAction(error.message))
+    }
   }
 
   const secondPasswordSaga = function * (action) {
@@ -47,11 +41,11 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
     const wrapper = yield select(prop(wpath))
     const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(wpath)))
     if (isEncrypted) {
-      Wrapper.traverseWallet(Task.of, Wallet.decrypt(password), wrapper)
-             .fork(dispatchSaga(A.common.error), dispatchSaga(A.wallet.secondPasswordOff))
+      const t = Wrapper.traverseWallet(Task.of, Wallet.decrypt(password), wrapper)
+      yield call(runTask, t, A.common.error, A.wallet.secondPasswordOff)
     } else {
-      Wrapper.traverseWallet(Task.of, Wallet.encrypt(password), wrapper)
-             .fork(dispatchSaga(A.common.error), dispatchSaga(A.wallet.secondPasswordOn))
+      const t = Wrapper.traverseWallet(Task.of, Wallet.encrypt(password), wrapper)
+      yield call (runTask, t, A.common.error, A.wallet.secondPasswordOn)
     }
   }
 
