@@ -72,11 +72,18 @@ export const fromEncJSON = R.curry((password, json) => {
   const plens = R.lensProp('payload')
   const ilens = R.lensProp('pbkdf2_iterations')
   const vlens = R.lensProp('version')
-  const iter = R.view(R.compose(plens, ilens), json)
-  const ver = R.view(R.compose(plens, vlens), json)
+  const EitherPayload = Either.try(JSON.parse)(R.view(R.compose(plens), json))
+  const EitherIter = EitherPayload.map(R.view(ilens))
+  const EitherVer = EitherPayload.map(R.view(vlens))
+  // assocIterations :: Number => Either Error Wrapper
+  const assocIterations = wrapper =>
+    EitherIter.map(it => R.assoc('pbkdf2_iterations', it, wrapper))
+  // assocVersion :: Number => Either Error Wrapper
+  const assocVersion = wrapper =>
+    EitherVer.map(it => R.assoc('version', it, wrapper))
   return traverseOf(plens, Either.of, Wallet.fromEncryptedPayload(password), json)
-         .map(R.assoc('version', ver))
-         .map(R.assoc('pbkdf2_iterations', iter))
+         .chain(assocVersion)
+         .chain(assocIterations)
          .map(o => R.assoc('wallet', o.payload, o))
          .map(R.dissoc('payload'))
          .map(R.assoc('password', password))

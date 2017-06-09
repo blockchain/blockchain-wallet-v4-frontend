@@ -2,7 +2,7 @@ import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import Either from 'data.either'
 import Task from 'data.task'
 import * as R from 'ramda'
-import { traversed, traverseOf, mapped } from 'ramda-lens'
+import { traversed, traverseOf } from 'ramda-lens'
 import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
 import { typeDef, shift, shiftIProp } from '../util'
@@ -53,8 +53,8 @@ export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
 export const selectAddrContext = R.compose(R.map(Address.selectAddr), selectAddresses)
-export const selectXpubsContext = R.compose(x => x.join(), R.map(HDWallet.selectXpubs), selectHdWallets)
-export const selectContext = w => List([selectAddrContext(w), selectXpubsContext(w)]).join()
+export const selectXpubsContext = w => selectHdWallets(w).flatMap(HDWallet.selectXpubs)
+export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 

@@ -1,37 +1,19 @@
-import { view, compose, map } from 'ramda'
-import { mapped } from 'ramda-lens'
-import * as Lens from '../lens'
-import { List } from 'immutable-ext'
-import { selectAddresses, addresses, selectHdWallets } from '../data/Wallet'
-import { selectAddr, addr } from '../data/Address'
-import { accounts } from '../data/HDWallet'
+import { compose } from 'ramda'
+import { Wallet, Wrapper } from '../data'
 
-// getXpubs :: WalletImmutable -> List [String]
-export const getXpubs = compose(
-  view(compose(mapped, Lens.xpub)),
-  hs => view(compose(mapped, accounts), hs).fold(),
-  selectHdWallets,
-  view(Lens.walletImmutable)
-)
+const ImtoJS = i => i.toJS()
+export const getWalletContext = compose(ImtoJS, Wallet.selectContext, Wrapper.selectWallet)
+export const getAddressContext = compose(ImtoJS, Wallet.selectAddrContext, Wrapper.selectWallet)
+export const getXpubsContext = compose(ImtoJS, Wallet.selectXpubsContext, Wrapper.selectWallet)
 
-// getAddresses :: WalletImmutableWrapper -> List [String]
-export const getAddresses = compose(
-  List,
-  view(compose(mapped, addr)),
-  selectAddresses,
-  view(Lens.walletImmutable))
+// // context is a single address/xpub for now
+// export const getAddrInfo = dpath => context => state =>
+//   state[dpath].get('addressesInfo').get(context)
 
-export const getWalletContext = w => List([getXpubs(w), getAddresses(w)]).fold()
+// // context is a single address/xpub for now
+// export const getTransactions = dpath => context => state => {
+//   const info = getAddrInfo(dpath)(context)(state)
+//   return info ? info.get('transactions') : List([])
+// }
 
-// export const getWallet = payload => payload.get('walletImmutable')
-// export const isDoubleEncrypted = wallet => wallet.get('double_encryption')
-
-// context is a single address/xpub for now
-export const getAddrInfo = dpath => context => state =>
-  state[dpath].get('addressesInfo').get(context)
-
-// context is a single address/xpub for now
-export const getTransactions = dpath => context => state => {
-  const info = getAddrInfo(dpath)(context)(state)
-  return info ? info.get('transactions') : List([])
-}
+export const getBalance = bd => bd.wallet.final_balance
