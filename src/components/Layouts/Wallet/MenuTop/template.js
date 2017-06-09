@@ -7,13 +7,13 @@ import ClipboardNextAddress from './ClipboardNextAddress'
 
 import style from './style.scss'
 
-const MenuTop = () => {
+const MenuTop = (props) => {
   return (
     <div styleName='menu-top'>
       <div className='container-fluid height-100'>
         <div className='row flex-row flex-between flex-center padding-5'>
           <span className='f-28 upper half-strong'>Be your own bank.</span>
-          <span className='f-28 half-strong'>0.00199132 BTC</span>
+          <span className='f-28 half-strong'>{props.balance}</span>
         </div>
         <div className='row flex-row flex-between flex-center padding-5'>
           <div className='row flex-row flex-between flex-center' styleName='button-container'>
