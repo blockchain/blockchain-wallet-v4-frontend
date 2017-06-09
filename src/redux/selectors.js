@@ -1,19 +1,20 @@
-import { compose } from 'ramda'
-import { Wallet, Wrapper } from '../data'
+import * as addresses from './data/Addresses/selectors.js'
+import * as adverts from './data/Adverts/selectors.js'
+import * as latestBlock from './data/LatestBlock/selectors.js'
+import * as logs from './data/Logs/selectors.js'
+import * as rates from './data/Rates/selectors.js'
+import * as transactions from './data/Transactions/selectors.js'
+import * as info from './data/Info/selectors.js'
 
-const ImtoJS = i => i.toJS()
-export const getWalletContext = compose(ImtoJS, Wallet.selectContext, Wrapper.selectWallet)
-export const getAddressContext = compose(ImtoJS, Wallet.selectAddrContext, Wrapper.selectWallet)
-export const getXpubsContext = compose(ImtoJS, Wallet.selectXpubsContext, Wrapper.selectWallet)
+import * as wallet from './wallet/selectors.js'
 
-// // context is a single address/xpub for now
-// export const getAddrInfo = dpath => context => state =>
-//   state[dpath].get('addressesInfo').get(context)
-
-// // context is a single address/xpub for now
-// export const getTransactions = dpath => context => state => {
-//   const info = getAddrInfo(dpath)(context)(state)
-//   return info ? info.get('transactions') : List([])
-// }
-
-export const getBalance = bd => bd.wallet.final_balance
+export {
+  addresses,
+  adverts,
+  latestBlock,
+  logs,
+  rates,
+  transactions,
+  wallet,
+  info
+}

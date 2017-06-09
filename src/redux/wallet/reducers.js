@@ -1,5 +1,5 @@
-import * as A from '../actions'
-import { Wrapper, Wallet, Address, InitialState } from '../../data/'
+import * as A from './actions.js'
+import { Wrapper, Wallet, Address, InitialState } from '../../types'
 // import { combineReducers } from 'redux-immutable'
 import Either from 'data.either'
 import { over } from 'ramda'

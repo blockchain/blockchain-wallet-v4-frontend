@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { Address } from '../../src/data'
+import { Address } from '../../src/types'
 import * as crypto from '../../src/WalletCrypto'
 
 describe('Address', () => {

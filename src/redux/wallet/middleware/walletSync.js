@@ -1,7 +1,7 @@
 import { WALLET_INITIAL_STATE } from '../reducers'
 import * as A from '../actions'
 
-const walletSyncMiddleware = ({ wpath, api } = {}) => (store) => (next) => (action) => {
+const walletSync = ({ wpath, api } = {}) => (store) => (next) => (action) => {
   let prevWallet = store.getState()[wpath]
   let result = next(action)
   let nextWallet = store.getState()[wpath]
@@ -41,4 +41,4 @@ const walletSyncMiddleware = ({ wpath, api } = {}) => (store) => (next) => (acti
   return result
 }
 
-export default walletSyncMiddleware
+export default walletSync

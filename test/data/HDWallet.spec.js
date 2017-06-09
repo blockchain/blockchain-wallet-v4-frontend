@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import * as R from 'ramda'
-import { HDWallet } from '../../src/data'
+import { HDWallet } from '../../src/types'
 
 const walletFixture = require('../_fixtures/wallet.v3')
 const walletNewFixture = require('../_fixtures/wallet-new.v3')
