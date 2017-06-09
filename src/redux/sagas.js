@@ -14,10 +14,11 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
   // so you can decide which sagas you want to run
   const walletDataLoadSaga = function * (action) {
     try {
+      console.log(A)
       const context = action.payload
       // we must handle api errors here
       const data = yield call(api.fetchBlockchainData, context, { n: 50 })
-      yield put(A.wallet.loadWalletData(data.wallet))
+      yield put(A.info.loadInfoData(data.wallet))
       yield put(A.latestBlock.loadLatestBlockData(data.info.latest_block))
       yield put(A.addresses.loadAddressesData(data.addresses))
       yield put(A.transactions.loadContextTxs(data.txs))

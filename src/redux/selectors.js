@@ -4,7 +4,7 @@ import * as latestBlock from './data/LatestBlock/selectors.js'
 import * as logs from './data/Logs/selectors.js'
 import * as rates from './data/Rates/selectors.js'
 import * as transactions from './data/Transactions/selectors.js'
-import * as walletInfo from './data/Wallet/selectors.js'
+import * as info from './data/Info/selectors.js'
 
 import * as wallet from './wallet/selectors.js'
 
@@ -16,5 +16,5 @@ export {
   rates,
   transactions,
   wallet,
-  walletInfo
+  info
 }
