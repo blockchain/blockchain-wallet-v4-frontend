@@ -23,6 +23,14 @@ export const WALLET_NEW_FAILURE = '@v3.WALLET_NEW_FAILURE'
 export const WALLET_NEW_SUCCESS = '@v3.WALLET_NEW_SUCCESS'
 export const WALLET_NEW_SET = '@v3.WALLET_NEW_SET'
 
+export const REQUEST_SECOND_PASSWORD_TOGGLE = '@v3.REQUEST_SECOND_PASSWORD_TOGGLE'
+
+export const ERROR = '@v3.ERROR'
+
+
+export const error = (error) =>
+  ({ type: ERROR, payload: error, error: true })
+
 export const addAddress = (address, secondPassword) =>
   ({ type: ADDRESS_ADD, payload: {address, secondPassword} })
 export const addLabel = (address, label) =>
@@ -31,6 +39,10 @@ export const replaceWallet = (payload) =>
   ({ type: WALLET_REPLACE, payload: payload })
 export const clearWallet = () =>
   ({ type: WALLET_CLEAR })
+
+export const secondPasswordToggleRequest = (password) =>
+  ({ type: REQUEST_SECOND_PASSWORD_TOGGLE, payload: password })
+
 export const secondPasswordOn = (newWallet) =>
   ({ type: SECOND_PASSWORD_ON, payload: newWallet })
 export const secondPasswordOff = (newWallet) =>

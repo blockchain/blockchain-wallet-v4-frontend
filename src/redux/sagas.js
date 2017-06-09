@@ -1,8 +1,12 @@
 
 import { takeEvery, call, put, select } from 'redux-saga/effects'
+import BIP39 from 'bip39'
+import { prop, compose } from 'ramda'
+import Task from 'data.task'
+
 import { getTransactions } from './selectors'
 import * as A from './actions'
-import BIP39 from 'bip39'
+import { Wrapper, Wallet } from '../data'
 
 // api should be promified api (no task for saga)
 export const rootSaga = ({ dpath, wpath, api } = {}) => {
@@ -19,6 +23,34 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
       yield put(A.loadContextTxs(data.txs))
     } catch (error) {
       // probably there is no context (blank wallet)
+    }
+  }
+
+  // const dispatchSaga = (actionCreator) => {
+  //   console.log('dispatchSagaCreator')
+  //   const saga = function * (data) {
+  //     console.log('saga dispatcher')
+  //     yield put(actionCreator(data))
+  //   }
+  //   console.log(saga)
+  //   return saga
+  // }
+
+  const dispatchSaga = actionCreator => data => {
+    console.log('dispatching action: ')
+    console.log(actionCreator(data))
+  }
+
+  const secondPasswordSaga = function * (action) {
+    const password = action.payload
+    const wrapper = yield select(prop(wpath))
+    const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(wpath)))
+    if (isEncrypted) {
+      Wrapper.traverseWallet(Task.of, Wallet.decrypt(password), wrapper)
+             .fork(dispatchSaga(A.error), dispatchSaga(A.secondPasswordOff))
+    } else {
+      Wrapper.traverseWallet(Task.of, Wallet.encrypt(password), wrapper)
+             .fork(dispatchSaga(A.error), dispatchSaga(A.secondPasswordOn))
     }
   }
 
@@ -42,6 +74,7 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
 
   return function * () {
     yield takeEvery(A.WALLET_DATA_REQUEST, walletDataLoadSaga)
+    yield takeEvery(A.REQUEST_SECOND_PASSWORD_TOGGLE, secondPasswordSaga)
     // yield takeEvery(A.TXS_LOAD_REQUEST, txsLoadRequestSaga)
     // yield takeEvery(A.WALLET_NEW, walletSignupSaga)
   }
