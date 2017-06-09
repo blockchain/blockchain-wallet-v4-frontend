@@ -15,3 +15,5 @@ export const getXpubsContext = compose(ImtoJS, Wallet.selectXpubsContext, Wrappe
 //   const info = getAddrInfo(dpath)(context)(state)
 //   return info ? info.get('transactions') : List([])
 // }
+
+export const getBalance = bd => bd.wallet.final_balance

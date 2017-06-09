@@ -1,17 +1,37 @@
 import * as A from '../actions'
-import { Wrapper, InitialState } from '../../data/'
-import { combineReducers } from 'redux-immutable'
+import { Wrapper, Wallet, Address, InitialState } from '../../data/'
+// import { combineReducers } from 'redux-immutable'
+import Either from 'data.either'
+import { over } from 'ramda'
 
 export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(InitialState.Wrapper)
 
 export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
   const { type } = action
   switch (type) {
-    // case A.SECOND_PASSWORD_ON:
-    // case A.SECOND_PASSWORD_OFF:
+    case A.SECOND_PASSWORD_ON:
+    case A.SECOND_PASSWORD_OFF:
     case A.WALLET_REPLACE: {
       return action.payload
     }
+    case A.ADDRESS_ADD: {
+      const { address, secondPassword } = action.payload
+      const a = Address.fromJS(address)
+      const addMyAddress = w => Wallet.addAddress(w, a, secondPassword)
+      // this should be handled on a saga. No eithers in reducers
+      const eitherWrapper = Wrapper.traverseWallet(Either.of, addMyAddress, state)
+      if (eitherWrapper.isRight) return eitherWrapper.value
+      return state
+    }
+    case A.ADDRESS_LABEL: {
+      const { address, label } = action.payload
+      return over(Wrapper.wallet, Wallet.setAddressLabel(address, label), state)
+    }
+    // TODO :: wallet creation need review
+    // case A.WALLET_NEW_SET: {
+    //   let { guid, sharedKey, mnemonic } = action.payload
+    //   return Wallet.createNew(guid, sharedKey, mnemonic)
+    // }
     case A.WALLET_CLEAR: {
       return WRAPPER_INITIAL_STATE
     }
@@ -19,36 +39,6 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       return state
   }
 }
-
-// export const walletImmutable = (state = WALLET_INITIAL_STATE, action) => {
-//   const { type } = action
-//   switch (type) {
-//     case A.WALLET_LOAD:
-//     case A.SECOND_PASSWORD_ON:
-//     case A.SECOND_PASSWORD_OFF: {
-//       return action.payload
-//     }
-//     case A.WALLET_CLEAR: {
-//       return WALLET_INITIAL_STATE
-//     }
-//     case A.ADDRESS_ADD: {
-//       const { address, secondPassword } = action.payload
-//       let withNewAddress = WalletUtil.addAddress(state, AddressUtil.fromJS(address), secondPassword)
-//       if (withNewAddress.isRight) return withNewAddress.value
-//       return state
-//     }
-//     case A.ADDRESS_LABEL: {
-//       const { address, label } = action.payload
-//       return WalletUtil.setAddressLabel(address, label, state)
-//     }
-//     case A.WALLET_NEW_SET: {
-//       let { guid, sharedKey, mnemonic } = action.payload
-//       return WalletUtil.createNew(guid, sharedKey, mnemonic)
-//     }
-//     default:
-//       return state
-//   }
-// }
 
 // // ///////////////////////////////////////////////////////////////////////////
 // export const pbkdf2Iterations = (state = 5000, action) => {
