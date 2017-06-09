@@ -4,9 +4,9 @@ import BIP39 from 'bip39'
 import { prop, compose } from 'ramda'
 import Task from 'data.task'
 
-import { getTransactions } from './selectors'
+// import { getTransactions } from './selectors'
 import * as A from './actions'
-import { Wrapper, Wallet } from '../data'
+import { Wrapper, Wallet } from '../types'
 
 // api should be promified api (no task for saga)
 export const rootSaga = ({ dpath, wpath, api } = {}) => {
@@ -17,10 +17,10 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
       const context = action.payload
       // we must handle api errors here
       const data = yield call(api.fetchBlockchainData, context, { n: 50 })
-      yield put(A.loadWalletData(data.wallet))
-      yield put(A.loadLatestBlockData(data.info.latest_block))
-      yield put(A.loadaddressesData(data.addresses))
-      yield put(A.loadContextTxs(data.txs))
+      yield put(A.wallet.loadWalletData(data.wallet))
+      yield put(A.latestBlock.loadLatestBlockData(data.info.latest_block))
+      yield put(A.addresses.loadAddressesData(data.addresses))
+      yield put(A.transactions.loadContextTxs(data.txs))
     } catch (error) {
       // probably there is no context (blank wallet)
     }
@@ -47,10 +47,10 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
     const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(wpath)))
     if (isEncrypted) {
       Wrapper.traverseWallet(Task.of, Wallet.decrypt(password), wrapper)
-             .fork(dispatchSaga(A.error), dispatchSaga(A.secondPasswordOff))
+             .fork(dispatchSaga(A.common.error), dispatchSaga(A.wallet.secondPasswordOff))
     } else {
       Wrapper.traverseWallet(Task.of, Wallet.encrypt(password), wrapper)
-             .fork(dispatchSaga(A.error), dispatchSaga(A.secondPasswordOn))
+             .fork(dispatchSaga(A.common.error), dispatchSaga(A.wallet.secondPasswordOn))
     }
   }
 
@@ -73,8 +73,8 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
   // }
 
   return function * () {
-    yield takeEvery(A.WALLET_DATA_REQUEST, walletDataLoadSaga)
-    yield takeEvery(A.REQUEST_SECOND_PASSWORD_TOGGLE, secondPasswordSaga)
+    yield takeEvery(A.common.WALLET_DATA_REQUEST, walletDataLoadSaga)
+    yield takeEvery(A.wallet.REQUEST_SECOND_PASSWORD_TOGGLE, secondPasswordSaga)
     // yield takeEvery(A.TXS_LOAD_REQUEST, txsLoadRequestSaga)
     // yield takeEvery(A.WALLET_NEW, walletSignupSaga)
   }

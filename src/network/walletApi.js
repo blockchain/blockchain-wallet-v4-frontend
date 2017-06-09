@@ -1,7 +1,7 @@
 import Task from 'data.task'
 import { assoc, compose, map, identity } from 'ramda'
 import Promise from 'es6-promise'
-import { Wrapper } from '../data'
+import { Wrapper } from '../types'
 import { futurizeP } from 'futurize'
 import createApi from './Api'
 Promise.polyfill()
