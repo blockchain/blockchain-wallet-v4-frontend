@@ -5,8 +5,11 @@ import { coreSelectors } from 'dream-wallet/lib'
 import activitySelectors from 'data/Activity/selectors'
 
 const extendSelectors = cs => compose(cs, prop(settings.BLOCKCHAIN_DATA_PATH))
+const core = map(map(extendSelectors), coreSelectors)
 
-export default {
-  core: map(extendSelectors, coreSelectors),
-  activity: activitySelectors
+const activity = activitySelectors
+
+export {
+  core,
+  activity
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import MenuTop from './template.js'
 import { connect } from 'react-redux'
-import selectors from 'data/rootSelectors.js'
+import { core } from 'data/rootSelectors'
 
 class MenuTopContainer extends React.Component {
   render () {
@@ -12,8 +12,9 @@ class MenuTopContainer extends React.Component {
 }
 
 function mapStateToProps (state, ownProps) {
+
   return {
-    balance: selectors.core.getBalance(state)
+    balance: core.info.getBalance(state)
   }
 }
 
