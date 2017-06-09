@@ -1,7 +1,7 @@
 import chai from 'chai'
 import spies from 'chai-spies'
 import * as R from 'ramda'
-import { Address, Wallet } from '../../src/data'
+import { Address, Wallet } from '../../src/types'
 import * as crypto from '../../src/WalletCrypto'
 
 chai.use(spies)

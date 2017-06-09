@@ -1,11 +1,9 @@
 import { expect } from 'chai'
 import { compose } from 'ramda'
-import { Wrapper, Wallet } from '../../src/data'
-import * as Actions from '../../src/redux/actions'
-import walletReducer from '../../src/redux/reducers/walletReducer'
-
+import { Wrapper, Wallet } from '../../src/types'
+import walletReducer from '../../src/redux/wallet/reducers.js'
+import * as Actions from '../../src/redux/wallet/actions.js'
 const walletFixture = require('../_fixtures/wallet.v3')
-// const walletNewFixture = require('../_fixtures/wallet-new.v3')
 
 const wrap = wallet => ({
   sync_pubkeys: false,
