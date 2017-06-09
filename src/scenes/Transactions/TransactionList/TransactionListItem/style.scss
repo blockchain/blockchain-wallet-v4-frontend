@@ -4,7 +4,8 @@
   &:hover {
     background-color: $grey;
   }
-  .rotated {
-    transform: rotate(-90deg);
-  }
+}
+
+.rotated {
+  transform: rotate(-90deg);
 }
