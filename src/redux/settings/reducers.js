@@ -1,11 +1,11 @@
-import * as A from './actions.js'
+import * as A from './actions'
 
 const INITIAL_STATE = {}
 
-const ratesReducer = (state = INITIAL_STATE, action) => {
+const settingsReducer = (state = INITIAL_STATE, action) => {
   let { type } = action
   switch (type) {
-    case A.RATES_DATA_LOAD: {
+    case A.SETTINGS_DATA_LOAD: {
       let { payload } = action
       return payload
     }
@@ -14,4 +14,4 @@ const ratesReducer = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default ratesReducer
+export default settingsReducer

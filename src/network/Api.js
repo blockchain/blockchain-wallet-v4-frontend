@@ -149,6 +149,17 @@ const createApi = ({
     return request('GET', 'pin-store', data)
   }
 
+  // getTicker :: -> Promise Response
+  const getTicker = () => {
+    const data = { format: 'json' }
+    return request('GET', 'ticker', data)
+  }
+
+  const getSettings = (guid, sharedKey) => {
+    const data = { format: 'json', method: 'get-info', guid, sharedKey }
+    return request('POST', 'wallet', data)
+  }
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -160,7 +171,9 @@ const createApi = ({
     fetchWalletWithSession: future(fetchPayloadWithSession),
     generateUUIDs: future(generateUUIDs),
     createPinEntry: future(createPinEntry),
-    getPinValue: future(getPinValue)
+    getPinValue: future(getPinValue),
+    getTicker: future(getTicker),
+    getSettings: future(getSettings)
   }
 }
 
