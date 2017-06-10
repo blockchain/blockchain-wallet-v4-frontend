@@ -14,7 +14,9 @@ class MenuLeftContainer extends React.Component {
   }
 
   handleClickOthers () {
-    this.props.actions.hideSecurityCenterMenu()
+    if (this.props.securityCenterMenuDisplayed) {
+      this.props.actions.hideSecurityCenterMenu()
+    }
   }
 
   handleClickSecurityCenter () {

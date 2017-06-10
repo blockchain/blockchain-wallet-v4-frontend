@@ -2,10 +2,12 @@ import React from 'react'
 import CSSModules from 'react-css-modules'
 
 import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
+import CurrencyDisplay from 'components/Shared/CurrencyDisplay'
 
 import style from './style.scss'
 
 const TransactionListItem = (props) => {
+  console.log(props)
   return (
     <div className='container-fluid padding-30 bg-white border-bottom' styleName='transaction-list-item'>
       <div className='row'>
@@ -30,8 +32,12 @@ const TransactionListItem = (props) => {
             : <span className='mid-grey pointer'>Add a description</span>
           }
         </div>
-        <div className='col-md-2'>
-          <BitcoinDisplay className='button-received' amount={props.transaction.amount} />
+        <div className='col-md-2' onClick={props.clickBitcoinDisplay}>
+          {props.bitcoinDisplayed ? (
+            <BitcoinDisplay className='button-received' amount={props.transaction.amount} />
+          ) : (
+            <CurrencyDisplay className='button-received' amount={props.transaction.amount} />
+          )}
         </div>
       </div>
       <div className={`row padding-top-30 ${(!props.detailsDisplayed ? ' hidden' : '')}`}>
