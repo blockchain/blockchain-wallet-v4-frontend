@@ -18,7 +18,7 @@ const BitcoinDisplay = ({amount, ...rest}) => {
     }
     result = `${convertedAmount} ${rest.unit}`
   } else {
-    var ratio = prop(rest.currency, rest.rates).last
+    let ratio = prop(rest.currency, rest.rates).last
     convertedAmount = parseFloat((amount * ratio).toFixed(2))
     result = `${convertedAmount} ${rest.currency}`
   }

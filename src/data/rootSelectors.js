@@ -1,13 +1,13 @@
-import { compose, prop, map } from 'ramda'
 import settings from 'config'
-
-import { coreSelectors } from 'dream-wallet/lib'
+import { coreSelectorsFactory } from 'dream-wallet/lib'
 import activitySelectors from 'data/Activity/selectors'
 
-const extendSelectors = cs => compose(cs, prop(settings.BLOCKCHAIN_DATA_PATH))
-const core = map(map(extendSelectors), coreSelectors)
-
 const activity = activitySelectors
+const core = coreSelectorsFactory({
+  dataPath: settings.BLOCKCHAIN_DATA_PATH,
+  settingsPath: settings.SETTINGS_PATH,
+  walletPath: settings.WALLET_IMMUTABLE_PATH
+})
 
 export {
   core,

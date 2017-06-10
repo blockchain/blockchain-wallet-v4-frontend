@@ -3,7 +3,8 @@ import { call, put, select } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import { prop, assoc } from 'ramda'
 
-import { coreActions, coreSelectors } from 'dream-wallet/lib'
+import { coreActions } from 'dream-wallet/lib'
+import * as rootSelectors from 'data/rootSelectors.js'
 
 import * as actions from './actions.js'
 import * as authActions from '../Log/actions.js'
@@ -26,19 +27,20 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
   try {
     let wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password)
     yield put(coreActions.wallet.replaceWallet(wrapper))
-    yield put(coreActions.common.requestWalletData(coreSelectors.wallet.getWalletContext(wrapper)))
+    const context = yield select(rootSelectors.core.wallet.getWalletContext)
+    yield put(coreActions.common.requestWalletData(context))
+    const sk = yield select(rootSelectors.core.wallet.getSharedKey)
+    yield put(coreActions.settings.requestSettingsData({guid, sharedKey: sk}))
     yield put(actions.loginSuccess())
     yield put(push('/wallet'))
   } catch (error) {
     console.log(error)
     if (prop('authorization_required', JSON.parse(error))) {
-      console.log('1')
       let authorized = yield call(pollingSaga, session)
       if (authorized) {
         yield call(fetchWalletSaga, guid, undefined, session, password)
       }
     } else {
-      console.log('2')
       yield put(authActions.recordLog({ type: 'ERROR', message: error.message }))
     }
   }
