@@ -8,8 +8,10 @@ import * as transactions from './data/Transactions/selectors.js'
 import * as info from './data/Info/selectors.js'
 import * as settings from './settings/selectors.js'
 import * as wallet from './wallet/selectors.js'
+import { commonSelectorsFactory } from './common/selectors.js'
 
 export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
+  const common = commonSelectorsFactory({walletPath, dataPath, settingsPath})
   const extend = path => s => compose(s, prop(path))
   return ({
     addresses: map(extend(dataPath), addresses),
@@ -20,6 +22,7 @@ export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
     transactions: map(extend(dataPath), transactions),
     info: map(extend(dataPath), info),
     settings: map(extend(settingsPath), settings),
-    wallet: map(extend(walletPath), wallet)
+    wallet: map(extend(walletPath), wallet),
+    common: common
   })
 }
