@@ -54,6 +54,7 @@ export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
 export const selectAddrContext = R.compose(R.map(Address.selectAddr), selectAddresses)
 export const selectXpubsContext = w => selectHdWallets(w).flatMap(HDWallet.selectXpubs)
+export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
 export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
