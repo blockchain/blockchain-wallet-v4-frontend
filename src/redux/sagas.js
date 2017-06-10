@@ -1,5 +1,4 @@
-
-import { takeEvery, call, put, select } from 'redux-saga/effects'
+import { takeEvery, call, put, select, fork } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import { prop, compose } from 'ramda'
 import Task from 'data.task'
@@ -7,14 +6,16 @@ import Task from 'data.task'
 import * as A from './actions'
 import { Wrapper, Wallet } from '../types'
 
+import { ratesSaga } from './data/Rates/sagas.js'
+import { settingsSaga } from './settings/sagas.js'
+
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const rootSaga = ({ dpath, wpath, api } = {}) => {
+export const rootSaga = ({ api, dataPath, walletPath, settingsPath } = {}) => {
   // this should return an object with all the sagas and the api in the clojure
   // so you can decide which sagas you want to run
   const walletDataLoadSaga = function * (action) {
     try {
-      console.log(A)
       const context = action.payload
       // we must handle api errors here
       const data = yield call(api.fetchBlockchainData, context, { n: 50 })
@@ -38,21 +39,21 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
 
   const secondPasswordSaga = function * (action) {
     const password = action.payload
-    const wrapper = yield select(prop(wpath))
-    const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(wpath)))
+    const wrapper = yield select(prop(walletPath))
+    const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
     if (isEncrypted) {
       const t = Wrapper.traverseWallet(Task.of, Wallet.decrypt(password), wrapper)
       yield call(runTask, t, A.common.error, A.wallet.secondPasswordOff)
     } else {
       const t = Wrapper.traverseWallet(Task.of, Wallet.encrypt(password), wrapper)
-      yield call (runTask, t, A.common.error, A.wallet.secondPasswordOn)
+      yield call(runTask, t, A.common.error, A.wallet.secondPasswordOn)
     }
   }
 
   // const txsLoadRequestSaga = function * (action) {
   //   // NOTE: context must be a single address, for now
   //   const context = Array.isArray(action.payload) ? action.payload[0] : action.payload
-  //   const currentTxs = yield select(getTransactions(dpath)(context))
+  //   const currentTxs = yield select(getTransactions(dataPath)(context))
   //   // we can handle api errors here
   //   const data = yield call(api.fetchBlockchainData, context, { n: 50, offset: currentTxs.size })
   //   yield put(A.loadContextTxs(data))
@@ -68,8 +69,14 @@ export const rootSaga = ({ dpath, wpath, api } = {}) => {
   // }
 
   return function * () {
+    yield [
+      // here you can put an array of sagas in forks
+      fork(ratesSaga({api})),
+      fork(settingsSaga({api}))
+    ]
     yield takeEvery(A.common.WALLET_DATA_REQUEST, walletDataLoadSaga)
     yield takeEvery(A.wallet.REQUEST_SECOND_PASSWORD_TOGGLE, secondPasswordSaga)
+
     // yield takeEvery(A.TXS_LOAD_REQUEST, txsLoadRequestSaga)
     // yield takeEvery(A.WALLET_NEW, walletSignupSaga)
   }

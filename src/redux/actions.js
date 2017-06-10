@@ -10,6 +10,8 @@ import * as info from './data/Info/actions.js'
 
 import * as wallet from './wallet/actions.js'
 
+import * as settings from './settings/actions.js'
+
 export {
   addresses,
   adverts,
@@ -19,5 +21,6 @@ export {
   rates,
   transactions,
   wallet,
-  info
+  info,
+  settings
 }
