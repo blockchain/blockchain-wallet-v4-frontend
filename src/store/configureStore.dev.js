@@ -11,7 +11,7 @@ import { coreMiddleware } from 'dream-wallet/lib'
 import autoDisconnectionMiddleware from '../middleware/autoDisconnectionMiddleware.js'
 import rootSaga from '../data/rootSaga.js'
 import rootReducer from '../data/rootReducer.js'
-import settings from '../config'
+import settings from 'config'
 import { api } from 'services/walletApi.js'
 // import { Socket } from 'dream-wallet/lib/network'
 
@@ -19,7 +19,7 @@ const configureStore = () => {
   const history = createBrowserHistory()
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ serialize: { immutable: Immutable } }) : compose
-  const wpath = settings.WALLET_IMMUTABLE_PATH
+  // const walletPath = settings.WALLET_IMMUTABLE_PATH
 
   const store = createStore(
     connectRouter(history)(rootReducer),
@@ -28,7 +28,7 @@ const configureStore = () => {
       applyMiddleware(
         routerMiddleware(history),
         autoDisconnectionMiddleware,
-        // coreMiddleware.walletSync({api, wpath}),
+        // coreMiddleware.walletSync({api, walletPath}),
         // coreMiddleware.socket({ socket }),
         sagaMiddleware,
         logger

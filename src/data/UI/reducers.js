@@ -3,6 +3,7 @@ import * as AT from 'data/actionTypes'
 let assign = (state, next) => Object.assign({}, state, next)
 
 const INITIAL_STATE = {
+  bitcoinDisplayed: true,
   exploreMenuDisplayed: false,
   securityCenterMenuDisplayed: false,
   navigationDisplayed: false
@@ -27,6 +28,9 @@ const header = (state = INITIAL_STATE, action) => {
     }
     case AT.MENU_LEFT_TOGGLE_SECURITY_CENTER: {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: !state.securityCenterMenuDisplayed })
+    }
+    case AT.TOGGLE_CURRENCY_DISPLAY: {
+      return assign(INITIAL_STATE, { bitcoinDisplayed: !state.bitcoinDisplayed })
     }
     default:
       return state

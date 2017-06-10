@@ -16,7 +16,8 @@ const rootReducer = combineReducers({
   }),
   session: authReducer.session,
   [settings.BLOCKCHAIN_DATA_PATH]: coreReducers.data,
-  [settings.WALLET_IMMUTABLE_PATH]: coreReducers.wallet
+  [settings.WALLET_IMMUTABLE_PATH]: coreReducers.wallet,
+  [settings.SETTINGS_PATH]: coreReducers.settings
 })
 
 export default rootReducer
