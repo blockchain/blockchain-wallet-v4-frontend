@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import { ui } from 'data/rootSelectors'
 
 import ExploreMenu from './template.js'
 import * as uiActions from 'data/UI/actions.js'
@@ -24,7 +25,7 @@ class ExploreMenuContainer extends React.Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    exploreMenuDisplayed: state.applicationState.ui.exploreMenuDisplayed
+    exploreMenuDisplayed: ui.getExploreMenuDisplayed(state)
   }
 }
 
