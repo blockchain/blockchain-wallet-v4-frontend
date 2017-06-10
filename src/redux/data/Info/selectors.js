@@ -1,1 +1,3 @@
-export const getBalance = bd => bd.info.final_balance
+import { path } from 'ramda'
+
+export const getBalance = path(['info', 'final_balance'])
