@@ -11,11 +11,11 @@ const TransactionListItem = (props) => {
       <div className='row'>
         <div className='col-md-2'>
           <div className='row'>
-            <div className={'col-md-2 flex-center flex-justify f-10'} styleName={(!props.detailsDisplayed ? 'rotated' : '')}>
+            <div className='col-md-2 flex-center flex-justify f-10' styleName={(!props.detailsDisplayed ? 'rotated' : '')}>
               <i className='icon-down_arrow pointer' onClick={props.clickDetails} />
             </div>
             <div className='col-md-10 flex-column'>
-              <span className={'f-16 upper em-500 pointer ' + (props.transaction.type === 'Sent' ? 'sent' : 'received')} onClick={props.clickDetails}>{props.transaction.type}</span>
+              <span className={`f-16 upper em-500 pointer ${(props.transaction.type === 'Sent' ? 'sent' : 'received')}`} onClick={props.clickDetails}>{props.transaction.type}</span>
               <span className='f-14 italic'>{props.transaction.time}</span>
             </div>
           </div>
@@ -34,7 +34,7 @@ const TransactionListItem = (props) => {
           <BitcoinDisplay className='button-received' amount={props.transaction.amount} />
         </div>
       </div>
-      <div className={'row padding-top-30' + (!props.detailsDisplayed ? ' hidden' : '')}>
+      <div className={`row padding-top-30 ${(!props.detailsDisplayed ? ' hidden' : '')}`}>
         <div className='col-md-2'>
           <span className='f-14'>{props.transaction.status}</span>
         </div>

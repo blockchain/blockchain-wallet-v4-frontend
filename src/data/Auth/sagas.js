@@ -3,8 +3,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import { prop, assoc } from 'ramda'
 
-import * as walletActions from 'dream-wallet/lib/redux/actions'
-import { getWalletContext } from 'dream-wallet/lib/redux/selectors'
+import { coreActions, coreSelectors } from 'dream-wallet/lib'
 
 import * as actions from './actions.js'
 import * as authActions from '../Log/actions.js'
@@ -26,8 +25,8 @@ const pollingSaga = function * (session, n = 50) {
 const fetchWalletSaga = function * (guid, sharedKey, session, password) {
   try {
     let wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password)
-    yield put(walletActions.replaceWallet(wrapper))
-    yield put(walletActions.requestWalletData(getWalletContext(wrapper)))
+    yield put(coreActions.wallet.replaceWallet(wrapper))
+    yield put(coreActions.common.requestWalletData(coreSelectors.wallet.getWalletContext(wrapper)))
     yield put(actions.loginSuccess())
     yield put(push('/wallet'))
   } catch (error) {

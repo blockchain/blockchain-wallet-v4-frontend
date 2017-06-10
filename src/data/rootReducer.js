@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import settings from 'config'
-import { walletReducer, blockchainDataReducer } from 'dream-wallet/lib/redux/reducers'
+import { coreReducers } from 'dream-wallet/lib'
 import activityReducer from './Activity/reducers.js'
 import authReducer from './Auth/reducers.js'
 import uiReducer from './UI/reducers.js'
@@ -15,8 +15,8 @@ const rootReducer = combineReducers({
     // whatsNew: whatsNewReducer
   }),
   session: authReducer.session,
-  [settings.BLOCKCHAIN_DATA_PATH]: blockchainDataReducer,
-  [settings.WALLET_IMMUTABLE_PATH]: walletReducer
+  [settings.BLOCKCHAIN_DATA_PATH]: coreReducers.data,
+  [settings.WALLET_IMMUTABLE_PATH]: coreReducers.wallet
 })
 
 export default rootReducer

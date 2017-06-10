@@ -5,7 +5,7 @@ import * as types from './actionTypes'
 import settings from 'config'
 import { api } from 'services/walletApi.js'
 
-import * as WalletSagas from 'dream-wallet/lib/redux/sagas'
+import { coreSagas } from 'dream-wallet/lib'
 import authSagas from './Auth/sagas.js'
 import activitySagas from './Activity/sagas.js'
 
@@ -15,7 +15,7 @@ const wpath = settings.WALLET_IMMUTABLE_PATH
 function * sagas () {
   yield [
     // here you can put an array of sagas in forks
-    fork(WalletSagas.rootSaga({api, dpath, wpath}))
+    fork(coreSagas.rootSaga({api, dpath, wpath}))
   ]
   yield takeEvery(types.LOGIN_START, authSagas.login)
   yield takeLatest(types.FETCH_ACTIVITIES, activitySagas.fetchActivities)

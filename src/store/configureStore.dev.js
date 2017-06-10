@@ -5,13 +5,14 @@ import persistState from 'redux-localstorage'
 import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import Immutable from 'immutable-ext'
-import { walletSyncMiddleware, walletSocketMiddleware } from 'dream-wallet/lib/redux/middleware'
+
+import { coreMiddleware } from 'dream-wallet/lib'
+
 import autoDisconnectionMiddleware from '../middleware/autoDisconnectionMiddleware.js'
 import rootSaga from '../data/rootSaga.js'
 import rootReducer from '../data/rootReducer.js'
 import settings from '../config'
 import { api } from 'services/walletApi.js'
-
 // import { Socket } from 'dream-wallet/lib/network'
 
 const configureStore = () => {
@@ -27,8 +28,8 @@ const configureStore = () => {
       applyMiddleware(
         routerMiddleware(history),
         autoDisconnectionMiddleware,
-        // walletSyncMiddleware({api, wpath}),
-        // walletSocketMiddleware({ socket }),
+        // coreMiddleware.walletSync({api, wpath}),
+        // coreMiddleware.socket({ socket }),
         sagaMiddleware,
         logger
       )
