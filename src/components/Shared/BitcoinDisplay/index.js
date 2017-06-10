@@ -18,7 +18,7 @@ const BitcoinDisplay = (props) => {
       case 'MBC': // TODO: µBTC
         convertedAmount = parseFloat((props.amount * 1000).toFixed(5))
         break
-      case 'bits':
+      case 'UBC':
         convertedAmount = parseFloat((props.amount * 1000000).toFixed(2))
         break
       default: convertedAmount = props.amount
