@@ -65,10 +65,11 @@
   }
 }
 
-
 @include button('primary', $primary, white);
 @include button('purple', $mariner, white);
 @include button('received', $iris-green, white);
+@include button('sent', $bittersweet, white);
+@include button('transferred', $bali-hai, white);
 
 
 .button-empty {

@@ -7,7 +7,6 @@ import CurrencyDisplay from 'components/Shared/CurrencyDisplay'
 import style from './style.scss'
 
 const TransactionListItem = (props) => {
-  console.log(props)
   return (
     <div className='container-fluid padding-30 bg-white border-bottom' styleName='transaction-list-item'>
       <div className='row'>
@@ -34,9 +33,9 @@ const TransactionListItem = (props) => {
         </div>
         <div className='col-md-2' onClick={props.clickBitcoinDisplay}>
           {props.bitcoinDisplayed ? (
-            <BitcoinDisplay className='button-received' amount={props.transaction.amount} />
+            <BitcoinDisplay className={`button-${(props.transaction.type.toLowerCase())}`} amount={props.transaction.amount} />
           ) : (
-            <CurrencyDisplay className='button-received' amount={props.transaction.amount} />
+            <CurrencyDisplay className={`button-${(props.transaction.type.toLowerCase())}`} amount={props.transaction.amount} />
           )}
         </div>
       </div>
