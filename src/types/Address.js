@@ -37,6 +37,9 @@ export const selectCreatedTime = R.view(createdTime)
 export const selectCreatedDeviceName = R.view(createdDeviceName)
 export const selectCreatedDeviceVersion = R.view(createdDeviceVersion)
 
+export const isArchived = R.compose(Boolean, R.equals(2), R.view(tag))
+export const isActive = R.compose(R.not, isArchived)
+
 export const fromJS = (x) => {
   if (x instanceof Address) { return x }
   return new Address(x)

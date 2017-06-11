@@ -25,6 +25,9 @@ export const selectArchived = R.view(archived)
 export const selectXpriv = R.view(xpriv)
 export const selectXpub = R.view(xpub)
 
+export const isArchived = R.compose(Boolean, R.view(archived))
+export const isActive = R.compose(R.not, isArchived)
+
 export const fromJS = (x) => {
   if (x instanceof HDAccount) { return x }
   return new HDAccount(iFromJS(x))
