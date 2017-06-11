@@ -1,3 +1,5 @@
+import { prop } from 'ramda'
+
 // // context is a single address/xpub for now
 // export const getAddrInfo = dpath => context => state =>
 //   state[dpath].get('addressesInfo').get(context)
@@ -7,3 +9,5 @@
 //   const info = getAddrInfo(dpath)(context)(state)
 //   return info ? info.get('transactions') : List([])
 // }
+
+export const getTransactions = prop('txs')
