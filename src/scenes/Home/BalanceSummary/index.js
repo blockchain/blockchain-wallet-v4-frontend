@@ -30,7 +30,7 @@ function mapStateToProps (state, ownProps) {
   const legacyAddresses = core.wallet.getAddresses(state)
   const hdAccounts = core.wallet.getHDAccounts(state)
   const addresses = core.addresses.getBalances(state)
-  console.log(core.common.wallet(state))
+  // console.log(core.common.wallet(state))
   // console.log(map(myfun, addresses))
   // let balances = []
   // for(let i =0; i< addresses; i++) {

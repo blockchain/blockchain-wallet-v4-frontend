@@ -5,18 +5,17 @@ import { core } from 'data/rootSelectors'
 const BitcoinDisplay = (props) => {
   let convertedAmount = 0
   let unitDisplay = ''
-
   switch (props.unit) {
-    case 'MBC': // TODO: µBTC
-      convertedAmount = parseFloat(props.amount.toFixed(2))
+    case 'UBC':
+      convertedAmount = parseFloat((props.amount / 100).toFixed(2))
+      unitDisplay = 'bits'
+      break
+    case 'MBC':
+      convertedAmount = parseFloat((props.amount / 100000).toFixed(5))
       unitDisplay = 'mBTC'
       break
-    case 'UBC':
-      convertedAmount = parseFloat((props.amount / 1000).toFixed(2))
-      unitDisplay = 'µBTC'
-      break
     case 'BTC':
-      convertedAmount = parseFloat((props.amount / 1000000).toFixed(8))
+      convertedAmount = parseFloat((props.amount / 100000000).toFixed(8))
       unitDisplay = 'BTC'
       break
   }

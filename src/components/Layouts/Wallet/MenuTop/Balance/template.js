@@ -7,7 +7,6 @@ import CurrencyDisplay from 'components/Shared/CurrencyDisplay'
 import style from './style.scss'
 
 const Balance = (props) => {
-  console.log(props.bitcoinDisplayed)
   return (
     props.bitcoinDisplayed ? (
       <div className='flex-column flex-justify flex-align-end pointer' onClick={props.clickBitcoinDisplay}>
