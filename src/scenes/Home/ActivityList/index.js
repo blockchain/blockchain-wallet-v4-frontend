@@ -6,10 +6,6 @@ import ActivityList from './template.js'
 import * as activityActions from 'data/Activity/actions.js'
 
 class ActivityContainer extends React.Component {
-  componentWillMount () {
-    this.props.actions.fetchActivities()
-  }
-
   render () {
     return (
       <ActivityList activities={this.props.activities} />
