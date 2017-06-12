@@ -1,12 +1,54 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import {connect} from 'react-redux'
+import { path } from 'ramda'
 
-import style from './style.scss'
+import { core } from 'data/rootSelectors'
 
-const Ticker = () => {
-  return (
-    <a href='https://markets.blockchain.info' className='navigation'>1 BTC = £2,071.37</a>
-  )
+import Ticker from './template.js'
+
+class TickerContainer extends React.Component {
+  render () {
+    let bitcoin = 100000000
+    let bitcoinAmount = 0
+    let currencyAmount = 0
+    let bitcoinUnit = this.props.unit
+    let currencyUnit = this.props.currency
+    let rates = this.props.rates
+
+    switch (bitcoinUnit) {
+      case 'UBC':
+        bitcoinAmount = parseFloat((bitcoin / 100).toFixed(2))
+        bitcoinUnit = 'bits'
+        break
+      case 'MBC':
+        bitcoinAmount = parseFloat((bitcoin / 100000).toFixed(5))
+        bitcoinUnit = 'mBTC'
+        break
+      case 'BTC':
+        bitcoinAmount = parseFloat((bitcoin / 100000000).toFixed(8))
+        bitcoinUnit = 'BTC'
+        break
+    }
+
+    let ratio = path([currencyUnit, 'last'], rates)
+    currencyAmount = parseFloat((bitcoin * ratio / 100000000).toFixed(2))
+
+    return (
+      <Ticker
+        bitcoinAmount={bitcoinAmount}
+        bitcoinUnit={bitcoinUnit}
+        currencyAmount={currencyAmount}
+        currencyUnit={currencyUnit} />
+    )
+  }
 }
 
-export default CSSModules(Ticker, style)
+function mapStateToProps (state) {
+  return {
+    unit: core.settings.getBtcCurrency(state),
+    currency: core.settings.getCurrency(state),
+    rates: core.rates.getRates(state)
+  }
+}
+
+export default connect(mapStateToProps)(TickerContainer)
