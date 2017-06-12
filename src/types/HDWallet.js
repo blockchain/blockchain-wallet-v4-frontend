@@ -10,7 +10,7 @@ import * as HDAccount from './HDAccount'
   accounts :: [Account]
 } */
 
-function HDWallet (x) {
+export function HDWallet (x) {
   this.__internal = Map(x)
 }
 

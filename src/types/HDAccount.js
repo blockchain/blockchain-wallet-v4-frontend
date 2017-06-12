@@ -9,7 +9,7 @@ import { typeDef, shift, shiftIProp } from '../util'
 } */
 const DEFAULT_LABEL = 'My Bitcoin Wallet'
 
-function HDAccount (x) {
+export function HDAccount (x) {
   this.__internal = Map(x)
 }
 

@@ -20,7 +20,7 @@ import * as Wallet from './Wallet'
      version            :: String
 } */
 
-function Wrapper (x) {
+export function Wrapper (x) {
   this.__internal = Map(x)
 }
 

@@ -97,8 +97,20 @@ const createApi = ({
 
   const fetchBlockchainData = (context, { n = 50, offset = 0 } = {}) => {
     context = Array.isArray(context) ? context : [context]
-    let url = `${rootUrl}multiaddr?active=${context.join('|')}&cors=true&n=${n}&offset=${offset}`
-    return fetch(url).then(res => res.json())
+    const clientTime = (new Date()).getTime()
+    const data = {
+      active: context.join('|'),
+      format: 'json',
+      offset: offset,
+      no_compact: true,
+      ct: clientTime,
+      n: n,
+      language: 'en',
+      no_buttons: true
+    }
+    // let url = `${rootUrl}multiaddr?active=${context.join('|')}&cors=true&n=${n}&offset=${offset}`
+    // return fetch(url).then(res => res.json())
+    return request('POST', 'multiaddr', data)
   }
 
   // TODO :: obtain and establish might be done better and one function alone

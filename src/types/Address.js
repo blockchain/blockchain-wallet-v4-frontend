@@ -15,7 +15,7 @@ import { typeDef } from '../util'
   created_device_version :: String
 } */
 
-function Address (x) {
+export function Address (x) {
   this.__internal = Map(x)
 }
 
