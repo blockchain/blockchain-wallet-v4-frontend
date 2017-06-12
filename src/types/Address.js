@@ -1,9 +1,8 @@
 import * as R from 'ramda'
 import * as crypto from '../WalletCrypto'
-import { Map } from 'immutable-ext'
 import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
-import { typeDef } from '../util'
+import Type from './Type'
 
 /* Address :: {
   priv :: String
@@ -15,19 +14,15 @@ import { typeDef } from '../util'
   created_device_version :: String
 } */
 
-export function Address (x) {
-  this.__internal = Map(x)
-}
+export class Address extends Type {}
 
-const { guard, define } = typeDef(Address)
-
-export const priv = define('priv')
-export const addr = define('addr')
-export const label = define('label')
-export const tag = define('tag')
-export const createdTime = define('created_time')
-export const createdDeviceName = define('created_device_name')
-export const createdDeviceVersion = define('created_device_version')
+export const priv = Address.define('priv')
+export const addr = Address.define('addr')
+export const label = Address.define('label')
+export const tag = Address.define('tag')
+export const createdTime = Address.define('created_time')
+export const createdDeviceName = Address.define('created_device_name')
+export const createdDeviceVersion = Address.define('created_device_version')
 
 export const selectPriv = R.view(priv)
 export const selectAddr = R.view(addr)
@@ -45,7 +40,7 @@ export const fromJS = (x) => {
   return new Address(x)
 }
 
-export const toJS = R.pipe(guard, (address) => {
+export const toJS = R.pipe(Address.guard, (address) => {
   return address.__internal.toJS()
 })
 

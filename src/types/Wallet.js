@@ -5,7 +5,8 @@ import * as R from 'ramda'
 import { traversed, traverseOf } from 'ramda-lens'
 import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
-import { typeDef, shift, shiftIProp } from '../util'
+import { shift, shiftIProp } from '../util'
+import Type from './Type'
 import * as HDWallet from './HDWallet'
 import * as HDAccount from './HDAccount'
 import * as Address from './Address'
@@ -25,21 +26,17 @@ const { compose, over, view, curry } = R
   hd_wallets :: [HDWallet]
 } */
 
-export function Wallet (x) {
-  this.__internal = Map(x)
-}
+export class Wallet extends Type {}
 
-const { lens, guard, define } = typeDef(Wallet)
-
-export const guid = define('guid')
-export const sharedKey = define('sharedKey')
-export const doubleEncryption = define('double_encryption')
-export const metadataHDNode = define('metadataHDNode')
-export const options = define('options')
+export const guid = Wallet.define('guid')
+export const sharedKey = Wallet.define('sharedKey')
+export const doubleEncryption = Wallet.define('double_encryption')
+export const metadataHDNode = Wallet.define('metadataHDNode')
+export const options = Wallet.define('options')
 export const pbkdf2Iterations = compose(options, iLensProp('pbkdf2_iterations'))
-export const addresses = define('addresses')
-export const dpasswordhash = define('dpasswordhash')
-export const hdWallets = define('hd_wallets')
+export const addresses = Wallet.define('addresses')
+export const dpasswordhash = Wallet.define('dpasswordhash')
+export const hdWallets = Wallet.define('hd_wallets')
 
 // selectGuid :: Wallet -> String
 export const selectGuid = view(guid)
@@ -72,7 +69,7 @@ export const fromJS = (x) => {
   return walletCons(new Wallet(shiftWallet(iFromJS(x)).forward()))
 }
 
-export const toJS = R.pipe(guard, (wallet) => {
+export const toJS = R.pipe(Wallet.guard, (wallet) => {
   let selectAddressesJS = compose(R.map(Address.toJS), selectAddresses)
   let destructAddressses = R.set(addresses, selectAddressesJS(wallet))
 
@@ -95,7 +92,7 @@ export const fromEncryptedPayload = R.curry((password, payload) => {
 
 // toEncryptedPayload :: String -> Wallet -> Either Error String
 export const toEncryptedPayload = R.curry((password, wallet) => {
-  guard(wallet)
+  Wallet.guard(wallet)
   let iters = selectIterations(wallet)
   let encryptWallet = R.compose(
     Either.try(crypto.encryptWallet(R.__, password, iters, 3.0)),
@@ -181,7 +178,7 @@ export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
     let dec = cipher(wallet.sharedKey, iter, password)
 
     let setFlag = over(doubleEncryption, () => false)
-    let setHash = over(lens, (x) => x.delete('dpasswordhash'))
+    let setHash = over(Wallet.lens, (x) => x.delete('dpasswordhash'))
 
     return verify(password, wallet).chain(traverseKeyValues(of, dec)).map(compose(setHash, setFlag))
   } else {
