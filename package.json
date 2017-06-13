@@ -9,19 +9,27 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pernas/dream-wallet-frontend.git"
+    "url": "git+https://github.com/blockchain/dream-wallet-frontend.git"
   },
   "keywords": [
     "react",
     "wallet",
     "blockchain"
   ],
-  "author": "Dream Team",
+  "author": {
+    "name": "(Dream Team) Blockchain.info",
+    "url": "https://blockchain.info"
+  },
+  "contributors": [
+    "Justin Tormey",
+    "Jaume Pernas",
+    "Guillaume Marquilly"
+  ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pernas/dream-wallet-frontend/issues"
+    "url": "https://github.com/blockchain/dream-wallet-frontend/issues"
   },
-  "homepage": "https://github.com/pernas/dream-wallet-frontend#readme",
+  "homepage": "https://github.com/blockchain/dream-wallet-frontend#readme",
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -52,9 +60,9 @@
     "blockchain-css": "^1.0.23",
     "bootstrap": "^3.3.7",
     "connected-react-router": "^4.2.1",
-    "dream-wallet": "git+https://git@github.com/pernas/dream-wallet.git",
+    "dream-wallet": "https://github.com/blockchain/dream-wallet.git",
     "es6-promise": "^4.1.0",
-    "immutable-ext": "^1.0.8",
+    "immutable-ext": "^1.1.0",
     "node-sass": "^4.5.3",
     "prop-types": "^15.5.10",
     "ramda": "^0.23.0",

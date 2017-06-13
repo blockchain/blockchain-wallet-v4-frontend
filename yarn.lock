@@ -182,7 +182,7 @@ assert-plus@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/assert-plus/-/assert-plus-0.2.0.tgz#d74e1b87e7affc0db8aadb7021f3fe48101ab234"
 
-assert@^1.1.1, assert@^1.4.1:
+assert@^1.1.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/assert/-/assert-1.4.1.tgz#99912d591836b5a6f5b345c0f07eefc08fc65d91"
   dependencies:
@@ -1542,10 +1542,6 @@ crypto-browserify@^3.11.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
 
-crypto@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/crypto/-/crypto-0.0.3.tgz#470a81b86be4c5ee17acc8207a1f5315ae20dbb0"
-
 css-color-names@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
@@ -1659,10 +1655,6 @@ data.either@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/data.either/-/data.either-1.5.0.tgz#b838ff92b65206c58baf48d48cc23a07f3859ce2"
 
-data.maybe@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/data.maybe/-/data.maybe-1.2.2.tgz#f955e4b5572b2eb5047eab93d8bb3a1cc76a2dc3"
-
 data.task@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/data.task/-/data.task-3.1.1.tgz#e985f5bedadd926b2d63c1a5d2076cff917a52ad"
@@ -1696,10 +1688,6 @@ debug@^2.1.1, debug@^2.2.0, debug@^2.6.3, debug@^2.6.8:
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
-
-deep-diff@0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.4.tgz#aac5c39952236abe5f037a2349060ba01b00ae48"
 
 deep-diff@^0.3.5:
   version "0.3.8"
@@ -1842,31 +1830,24 @@ domutils@1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dream-wallet@git+https://git@github.com/pernas/dream-wallet.git":
+"dream-wallet@https://github.com/blockchain/dream-wallet.git":
   version "1.0.0"
-  resolved "git+https://git@github.com/pernas/dream-wallet.git#f9703bf97c3d602cdf4de1a9c63e6040458ec2eb"
+  resolved "https://github.com/blockchain/dream-wallet.git#d466960bbe275f93fc50acaa9c836397d7baf7bf"
   dependencies:
-    assert "^1.4.1"
     bip39 "^2.3.0"
     bitcoinjs-lib "^2.3.0"
-    crypto "0.0.3"
     data.either "^1.5.0"
-    data.maybe "^1.2.2"
     data.task "^3.1.1"
     es6-promise "^4.1.0"
     futurize "^1.2.0"
     immutable "^3.8.1"
-    immutable-ext "git@github.com:pernas/immutable-ext.git"
     isomorphic-fetch "^2.2.1"
-    pretty-immutable "^1.0.1"
+    pbkdf2 "~3.0.12"
     ramda "^0.23.0"
-    ramda-lens "git@github.com:ramda/ramda-lens.git"
+    ramda-lens "https://github.com/ramda/ramda-lens.git"
     redux "^3.6.0"
-    redux-actions "^1.2.1"
     redux-immutable "^3.1.0"
-    redux-logger "^2.8.1"
-    redux-saga "^0.14.3"
-    sjcl "1.0.3"
+    redux-saga "^0.15.3"
 
 ecc-jsbn@~0.1.1:
   version "0.1.1"
@@ -2865,9 +2846,9 @@ ignore@^3.0.11, ignore@^3.0.9, ignore@^3.2.0:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.3.tgz#432352e57accd87ab3110e82d3fea0e47812156d"
 
-immutable-ext@^1.0.8, "immutable-ext@git@github.com:pernas/immutable-ext.git":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/immutable-ext/-/immutable-ext-1.0.8.tgz#be49852c009b9c06cbceaf166c873a1d109a4ddc"
+immutable-ext@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/immutable-ext/-/immutable-ext-1.1.0.tgz#ea5a785c9d110aa110db0266a240d87305fa860d"
 
 immutable@^3.8.1:
   version "3.8.1"
@@ -3229,10 +3210,6 @@ json-stable-stringify@^1.0.0, json-stable-stringify@^1.0.1:
   dependencies:
     jsonify "~0.0.0"
 
-json-stringify-pretty-compact@^1.0.1:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/json-stringify-pretty-compact/-/json-stringify-pretty-compact-1.0.4.tgz#d5161131be27fd9748391360597fcca250c6c5ce"
-
 json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
@@ -3430,7 +3407,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.16.6, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
+lodash@^4.0.0, lodash@^4.14.0, lodash@^4.16.6, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4019,7 +3996,7 @@ path-type@^1.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-pbkdf2@^3.0.3, pbkdf2@^3.0.9:
+pbkdf2@^3.0.3, pbkdf2@^3.0.9, pbkdf2@~3.0.12:
   version "3.0.12"
   resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.12.tgz#be36785c5067ea48d806ff923288c5f750b6b8a2"
   dependencies:
@@ -4351,13 +4328,6 @@ pretty-error@^2.0.2:
     renderkid "^2.0.1"
     utila "~0.4"
 
-pretty-immutable@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/pretty-immutable/-/pretty-immutable-1.0.1.tgz#0a41d508fea2a6099c330f5d998e65722b3580a0"
-  dependencies:
-    json-stringify-pretty-compact "^1.0.1"
-    repeat-string "^1.5.4"
-
 private@^0.1.6:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.7.tgz#68ce5e8a1ef0a23bb570cc28537b5332aba63ef1"
@@ -4451,9 +4421,9 @@ querystringify@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-1.0.0.tgz#6286242112c5b712fa654e526652bf6a13ff05cb"
 
-"ramda-lens@git@github.com:ramda/ramda-lens.git":
+"ramda-lens@https://github.com/ramda/ramda-lens.git":
   version "0.1.1"
-  resolved "https://registry.yarnpkg.com/ramda-lens/-/ramda-lens-0.1.1.tgz#c03585180b5d822d1a04950847e19cde4ffbafd0"
+  resolved "https://github.com/ramda/ramda-lens.git#f6342180afb089ca7c00da9f21fafd9b5fa01beb"
   dependencies:
     ramda "^0.19.1"
 
@@ -4632,18 +4602,6 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-reduce-reducers@^0.1.0:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/reduce-reducers/-/reduce-reducers-0.1.2.tgz#fa1b4718bc5292a71ddd1e5d839c9bea9770f14b"
-
-redux-actions@^1.2.1:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/redux-actions/-/redux-actions-1.2.2.tgz#31f15ba494fe130f05c4a9f486c99cc8725f80cd"
-  dependencies:
-    invariant "^2.2.1"
-    lodash "^4.13.1"
-    reduce-reducers "^0.1.0"
-
 redux-immutable@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/redux-immutable/-/redux-immutable-3.1.0.tgz#cafbd686e0711261119b9c28960935dc47a49d0a"
@@ -4654,21 +4612,11 @@ redux-localstorage@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/redux-localstorage/-/redux-localstorage-0.4.1.tgz#faf6d719c581397294d811473ffcedee065c933c"
 
-redux-logger@^2.8.1:
-  version "2.10.2"
-  resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-2.10.2.tgz#3c5a5f0a6f32577c1deadf6655f257f82c6c3937"
-  dependencies:
-    deep-diff "0.3.4"
-
 redux-logger@^3.0.6:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-3.0.6.tgz#f7555966f3098f3c88604c449cf0baf5778274bf"
   dependencies:
     deep-diff "^0.3.5"
-
-redux-saga@^0.14.3:
-  version "0.14.8"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.14.8.tgz#ad01afabe02ec41a17df54e2e09aa236b30a7732"
 
 redux-saga@^0.15.3:
   version "0.15.3"
@@ -4754,7 +4702,7 @@ repeat-element@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/repeat-element/-/repeat-element-1.1.2.tgz#ef089a178d1483baae4d93eb98b4f9e4e11d990a"
 
-repeat-string@^1.5.2, repeat-string@^1.5.4:
+repeat-string@^1.5.2:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
 
@@ -5006,10 +4954,6 @@ shelljs@^0.7.5:
 signal-exit@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
-
-sjcl@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/sjcl/-/sjcl-1.0.3.tgz#4ed486498ed6b742b5d4a21902268116f054a709"
 
 slash@^1.0.0:
   version "1.0.0"

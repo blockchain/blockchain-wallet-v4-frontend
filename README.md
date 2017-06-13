@@ -11,10 +11,6 @@
 
 # Development mode
 
-Since `dream-wallet` is not published as an npm package yet, when you install the frontend the dream-wallet transpiled files are not build properly.
-
-For now, the only way to make it work is cloning `dream-wallet` locally too.
-
-1. `cd dream-wallet && npm link`
-2. `cd dream-wallet-frontend && npm link dream-wallet`
-3. `cd dream-wallet && npm run watch`
+1. `cd dream-wallet && yarn link`
+2. `cd dream-wallet-frontend && yarn link dream-wallet`
+3. `cd dream-wallet && yarn run watch`
