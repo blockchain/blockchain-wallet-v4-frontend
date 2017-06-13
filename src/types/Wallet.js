@@ -25,7 +25,7 @@ const { compose, over, view, curry } = R
   hd_wallets :: [HDWallet]
 } */
 
-function Wallet (x) {
+export function Wallet (x) {
   this.__internal = Map(x)
 }
 
