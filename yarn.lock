@@ -1826,9 +1826,9 @@ ignore@^3.0.11, ignore@^3.0.9, ignore@^3.2.0:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.3.tgz#432352e57accd87ab3110e82d3fea0e47812156d"
 
-"immutable-ext@https://github.com/pernas/immutable-ext.git":
-  version "1.0.8"
-  resolved "https://github.com/pernas/immutable-ext.git#19ee7b970a1344016feeddd51887e45b0b7dfd8a"
+immutable-ext@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/immutable-ext/-/immutable-ext-1.1.0.tgz#ea5a785c9d110aa110db0266a240d87305fa860d"
 
 immutable@^3.8.1:
   version "3.8.1"

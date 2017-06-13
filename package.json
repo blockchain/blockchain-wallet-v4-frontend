@@ -21,8 +21,16 @@
       "stage-2"
     ]
   },
-  "author": "",
-  "license": "Unlicense",
+  "author": {
+    "name": "(Dream Team) Blockchain.info",
+    "url": "https://blockchain.info"
+  },
+  "contributors": [
+    "Justin Tormey",
+    "Jaume Pernas",
+    "Guillaume Marquilly"
+  ],
+  "license": "ISC",
   "standard": {
     "global": [
       "fetch",
@@ -50,7 +58,7 @@
     "es6-promise": "^4.1.0",
     "futurize": "^1.2.0",
     "immutable": "^3.8.1",
-    "immutable-ext": "https://github.com/pernas/immutable-ext.git",
+    "immutable-ext": "^1.1.0",
     "isomorphic-fetch": "^2.2.1",
     "pbkdf2": "~3.0.12",
     "ramda": "^0.23.0",
