@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 import settings from 'config'
 import { coreReducers } from 'dream-wallet/lib'
 import activityReducer from './Activity/reducers.js'
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   session: authReducer.session,
   [settings.BLOCKCHAIN_DATA_PATH]: coreReducers.data,
   [settings.WALLET_IMMUTABLE_PATH]: coreReducers.wallet,
-  [settings.SETTINGS_PATH]: coreReducers.settings
+  [settings.SETTINGS_PATH]: coreReducers.settings,
+  routing: routerReducer
 })
 
 export default rootReducer

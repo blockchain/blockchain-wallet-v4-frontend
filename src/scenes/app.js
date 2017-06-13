@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect, Switch } from 'react-router-dom'
-import { ConnectedRouter } from 'connected-react-router'
+import { ConnectedRouter } from 'react-router-redux'
 
 import LandingLayout from 'components/Layouts/Landing'
 import PublicLayout from 'components/Layouts/Public'
