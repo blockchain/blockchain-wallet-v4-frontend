@@ -21,15 +21,15 @@ module.exports = {
   resolve: {
     alias: {
       'npm': `${__dirname}/../node_modules`,
-      'bower': `${__dirname}/../bower_components`,
       'sass': `${__dirname}/src/assets/sass`,
       'img': `${__dirname}/src/assets/img`,
       'fonts': `${__dirname}/src/assets/fonts`,
       'components': `${__dirname}/src/components`,
-      'scenes': `${__dirname}/src/scenes`,
       'data': `${__dirname}/src/data`,
-      'config': `${__dirname}/src/config`,
-      'services': `${__dirname}/src/services`
+      'middleware': `${__dirname}/src/middleware`,
+      'scenes': `${__dirname}/src/scenes`,
+      'services': `${__dirname}/src/services`,
+      'config': `${__dirname}/src/config.js`
     }
   },
   module: {

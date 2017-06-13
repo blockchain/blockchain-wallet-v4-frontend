@@ -1,10 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { ui } from 'data/rootSelectors'
 
 import ExploreMenu from './template.js'
-import * as uiActions from 'data/UI/actions.js'
+import { actions, selectors } from 'data'
 
 class ExploreMenuContainer extends React.Component {
   constructor (props) {
@@ -25,13 +24,13 @@ class ExploreMenuContainer extends React.Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    exploreMenuDisplayed: ui.getExploreMenuDisplayed(state)
+    exploreMenuDisplayed: selectors.ui.getExploreMenuDisplayed(state)
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(uiActions, dispatch)
+    actions: bindActionCreators(actions.ui, dispatch)
   }
 }
 

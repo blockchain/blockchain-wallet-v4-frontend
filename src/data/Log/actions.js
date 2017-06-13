@@ -1,3 +1,2 @@
-import { RECORD_LOG } from 'data/actionTypes'
-
+export const RECORD_LOG = 'RECORD_LOG'
 export const recordLog = (log) => ({ type: RECORD_LOG, payload: log })

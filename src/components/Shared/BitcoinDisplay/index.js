@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { core } from 'data/rootSelectors'
+
+import { selectors } from 'data'
 
 const BitcoinDisplay = (props) => {
   let convertedAmount = 0
@@ -26,7 +27,7 @@ const BitcoinDisplay = (props) => {
 
 function mapStateToProps (state) {
   return {
-    unit: core.settings.getBtcCurrency(state)
+    unit: selectors.core.settings.getBtcCurrency(state)
   }
 }
 

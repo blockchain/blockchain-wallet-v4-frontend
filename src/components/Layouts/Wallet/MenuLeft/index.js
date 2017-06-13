@@ -1,9 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { ui } from 'data/rootSelectors'
 
-import * as uiActions from 'data/UI/actions.js'
+import { actions, selectors } from 'data'
 import MenuLeft from './template.js'
 
 class MenuLeftContainer extends React.Component {
@@ -34,13 +33,13 @@ class MenuLeftContainer extends React.Component {
 }
 function mapStateToProps (state, ownProps) {
   return {
-    securityCenterMenuDisplayed: ui.getSecurityCenterMenuDisplayed(state)
+    securityCenterMenuDisplayed: selectors.ui.getSecurityCenterMenuDisplayed(state)
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(uiActions, dispatch)
+    actions: bindActionCreators(actions.ui, dispatch)
   }
 }
 

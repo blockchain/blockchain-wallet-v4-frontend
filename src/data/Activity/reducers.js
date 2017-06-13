@@ -1,4 +1,4 @@
-import { FETCH_ACTIVITIES, FETCH_ACTIVITIES_SUCCESSFUL, FETCH_ACTIVITIES_FAILED } from 'data/actionTypes'
+import * as actions from './actions'
 
 const INITIAL_STATE = [
       { type: 'settings', time: '', title: 'Settings', description: 'Created wallet!' },
@@ -9,13 +9,13 @@ const INITIAL_STATE = [
 
 const activity = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case FETCH_ACTIVITIES: {
+    case actions.FETCH_ACTIVITIES: {
       return state
     }
-    case FETCH_ACTIVITIES_SUCCESSFUL: {
+    case actions.FETCH_ACTIVITIES_SUCCESSFUL: {
       return Array.from(action.activities)
     }
-    case FETCH_ACTIVITIES_FAILED: {
+    case actions.FETCH_ACTIVITIES_FAILED: {
       return state
     }
     default:

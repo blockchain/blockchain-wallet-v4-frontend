@@ -4,17 +4,16 @@ import createSagaMiddleware from 'redux-saga'
 import persistState from 'redux-localstorage'
 import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
-import Immutable from 'immutable-ext'
-import { is } from 'ramda'
-import { coreMiddleware } from 'dream-wallet/lib'
+// import Immutable from 'immutable-ext'
+// import { is } from 'ramda'
+// import { coreMiddleware } from 'dream-wallet/lib'
 
-import autoDisconnectionMiddleware from '../middleware/autoDisconnectionMiddleware.js'
-import rootSaga from '../data/rootSaga.js'
-import rootReducer from '../data/rootReducer.js'
-import settings from 'config'
-import { api } from 'services/walletApi.js'
+import autoDisconnection from 'middleware/autoDisconnection.js'
+import { rootSaga, rootReducer } from 'data'
+// import settings from 'config'
+// import { api } from 'services/walletApi.js'
 // import { Socket } from 'dream-wallet/lib/network'
-import { auth } from 'data/rootSelectors.js'
+// import { auth } from 'data/rootSelectors.js'
 import { serializer } from 'dream-wallet/lib/types'
 
 const configureStore = () => {
@@ -22,7 +21,7 @@ const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware()
   // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ serialize: { immutable: Immutable } }) : compose
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(serializer) : compose
-  const walletPath = settings.WALLET_IMMUTABLE_PATH
+  // const walletPath = settings.WALLET_IMMUTABLE_PATH
 
   const store = createStore(
     connectRouter(history)(rootReducer),
@@ -30,7 +29,7 @@ const configureStore = () => {
       persistState('session'),
       applyMiddleware(
         routerMiddleware(history),
-        autoDisconnectionMiddleware,
+        autoDisconnection,
         // coreMiddleware.walletSync({isAuthenticated: auth.isAuthenticated, api, walletPath}),
         // coreMiddleware.socket({ socket }),
         sagaMiddleware,

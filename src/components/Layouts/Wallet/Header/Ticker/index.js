@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { path } from 'ramda'
 
-import { core } from 'data/rootSelectors'
+import { selectors } from 'data'
 
 import Ticker from './template.js'
 
@@ -45,9 +45,9 @@ class TickerContainer extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    unit: core.settings.getBtcCurrency(state),
-    currency: core.settings.getCurrency(state),
-    rates: core.rates.getRates(state)
+    unit: selectors.core.settings.getBtcCurrency(state),
+    currency: selectors.core.settings.getCurrency(state),
+    rates: selectors.core.rates.getRates(state)
   }
 }
 

@@ -1,4 +1,4 @@
-import * as AT from 'data/actionTypes'
+import * as actions from './actions'
 
 let assign = (state, next) => Object.assign({}, state, next)
 
@@ -11,25 +11,25 @@ const INITIAL_STATE = {
 
 const header = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case AT.HEADER_SHOW_EXPLORE: {
+    case actions.HEADER_SHOW_EXPLORE: {
       return assign(INITIAL_STATE, { exploreMenuDisplayed: true })
     }
-    case AT.HEADER_HIDE_EXPLORE: {
+    case actions.HEADER_HIDE_EXPLORE: {
       return assign(INITIAL_STATE, { exploreMenuDisplayed: false })
     }
-    case AT.HEADER_TOGGLE_EXPLORE: {
+    case actions.HEADER_TOGGLE_EXPLORE: {
       return assign(INITIAL_STATE, { exploreMenuDisplayed: !state.exploreMenuDisplayed })
     }
-    case AT.MENU_LEFT_SHOW_SECURITY_CENTER: {
+    case actions.MENU_LEFT_SHOW_SECURITY_CENTER: {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: true })
     }
-    case AT.MENU_LEFT_HIDE_SECURITY_CENTER: {
+    case actions.MENU_LEFT_HIDE_SECURITY_CENTER: {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: false })
     }
-    case AT.MENU_LEFT_TOGGLE_SECURITY_CENTER: {
+    case actions.MENU_LEFT_TOGGLE_SECURITY_CENTER: {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: !state.securityCenterMenuDisplayed })
     }
-    case AT.TOGGLE_CURRENCY_DISPLAY: {
+    case actions.TOGGLE_CURRENCY_DISPLAY: {
       return assign(INITIAL_STATE, { bitcoinDisplayed: !state.bitcoinDisplayed })
     }
     default:

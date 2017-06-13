@@ -1,7 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { path } from 'ramda'
-import { core } from 'data/rootSelectors'
+
+import { selectors } from 'data'
 
 const CurrencyDisplay = (props) => {
   let ratio = path([props.currency, 'last'], props.rates)
@@ -13,8 +14,8 @@ const CurrencyDisplay = (props) => {
 
 function mapStateToProps (state) {
   return {
-    currency: core.settings.getCurrency(state),
-    rates: core.rates.getRates(state)
+    currency: selectors.core.settings.getCurrency(state),
+    rates: selectors.core.rates.getRates(state)
   }
 }
 

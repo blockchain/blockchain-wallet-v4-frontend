@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import ActivityList from './template.js'
-import * as activityActions from 'data/Activity/actions.js'
+import { actions } from 'data'
 
 class ActivityContainer extends React.Component {
   render () {
@@ -21,7 +21,7 @@ function mapStateToProps (state, ownProps) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(activityActions, dispatch)
+    actions: bindActionCreators(actions.activity, dispatch)
   }
 }
 
