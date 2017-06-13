@@ -1,9 +1,8 @@
 import * as R from 'ramda'
 import * as crypto from '../WalletCrypto'
-import { Map } from 'immutable-ext'
 import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
-import { typeDef } from '../util'
+import Type from './Type'
 import * as Wallet from './Wallet'
 
 /* Wrapper :: {
@@ -20,22 +19,18 @@ import * as Wallet from './Wallet'
      version            :: String
 } */
 
-export function Wrapper (x) {
-  this.__internal = Map(x)
-}
+export class Wrapper extends Type {}
 
-const { guard, define } = typeDef(Wrapper)
-
-export const pbkdf2Iterations = define('pbkdf2_iterations')
-export const password = define('password')
-export const version = define('version')
-export const payloadChecksum = define('payload_checksum')
-export const language = define('language')
-export const syncPubkeys = define('sync_pubkeys')
-export const warChecksum = define('war_checksum')
-export const authType = define('auth_type')
-export const realAuthType = define('real_auth_type')
-export const wallet = define('wallet')
+export const pbkdf2Iterations = Wrapper.define('pbkdf2_iterations')
+export const password = Wrapper.define('password')
+export const version = Wrapper.define('version')
+export const payloadChecksum = Wrapper.define('payload_checksum')
+export const language = Wrapper.define('language')
+export const syncPubkeys = Wrapper.define('sync_pubkeys')
+export const warChecksum = Wrapper.define('war_checksum')
+export const authType = Wrapper.define('auth_type')
+export const realAuthType = Wrapper.define('real_auth_type')
+export const wallet = Wrapper.define('wallet')
 
 export const selectPbkdf2Iterations = R.view(pbkdf2Iterations)
 export const selectPassword = R.view(password)
@@ -60,7 +55,7 @@ export const fromJS = (js) => {
 }
 
 // toJS :: wrapper -> JSON
-export const toJS = R.pipe(guard, (wrapper) => {
+export const toJS = R.pipe(Wrapper.guard, (wrapper) => {
   const selectWalletJS = R.compose(Wallet.toJS, selectWallet)
   const destructWallet = R.set(wallet, selectWalletJS(wrapper))
   const destructWrapper = R.compose(destructWallet)

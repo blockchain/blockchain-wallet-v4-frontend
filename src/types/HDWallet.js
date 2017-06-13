@@ -1,8 +1,9 @@
-import { Map, List, fromJS as iFromJS } from 'immutable-ext'
+import { List, fromJS as iFromJS } from 'immutable-ext'
 import * as R from 'ramda'
-import { typeDef, shift, shiftIProp } from '../util'
+import { shift, shiftIProp } from '../util'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
+import Type from './Type'
 import * as HDAccount from './HDAccount'
 
 /* HDWallet :: {
@@ -10,15 +11,11 @@ import * as HDAccount from './HDAccount'
   accounts :: [Account]
 } */
 
-export function HDWallet (x) {
-  this.__internal = Map(x)
-}
+export class HDWallet extends Type {}
 
-const { guard, define } = typeDef(HDWallet)
-
-export const seedHex = define('seedHex')
-export const accounts = define('accounts')
-export const defaultAccountIdx = define('default_account_idx')
+export const seedHex = HDWallet.define('seedHex')
+export const accounts = HDWallet.define('accounts')
+export const defaultAccountIdx = HDWallet.define('default_account_idx')
 
 export const selectSeedHex = R.view(seedHex)
 export const selectAccounts = R.view(accounts)
@@ -43,7 +40,7 @@ export const fromJS = (x) => {
   return HDWalletCons(new HDWallet(shiftHDWallet(iFromJS(x)).forward()))
 }
 
-export const toJS = R.pipe(guard, (hd) => {
+export const toJS = R.pipe(HDWallet.guard, (hd) => {
   let selectAccountsJS = R.compose(R.map(HDAccount.toJS), selectAccounts)
   let destructAccounts = R.set(accounts, selectAccountsJS(hd))
   let destructHDWallet = R.compose(destructAccounts)
