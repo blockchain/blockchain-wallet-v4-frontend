@@ -39,6 +39,8 @@
   },
   "standard": {
     "globals": [
+      "jest",
+      "test",
       "describe",
       "context",
       "before",
@@ -48,12 +50,13 @@
       "it",
       "expect"
     ]
-  }
+  },
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-loader": "^7.0.0",
+    "babel-plugin-module-resolver": "^2.7.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
@@ -73,6 +76,7 @@
     "jest-css-modules": "^1.1.0",
     "node-sass": "^4.5.3",
     "react-test-renderer": "^15.5.4",
+    "redux-mock-store": "^1.2.3",
     "sass-loader": "^6.0.5",
     "sass-resources-loader": "^1.2.1",
     "standard": "^10.0.2",

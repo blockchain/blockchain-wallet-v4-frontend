@@ -4,6 +4,6 @@ exports[`Displays an info well 1`] = `
 <div
   className="info-well"
 >
-  Hello
+  Hello2
 </div>
 `;
