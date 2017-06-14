@@ -11,22 +11,22 @@ const INITIAL_STATE = {
 
 const header = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case actions.HEADER_SHOW_EXPLORE: {
+    case actions.SHOW_EXPLORE_MENU: {
       return assign(INITIAL_STATE, { exploreMenuDisplayed: true })
     }
-    case actions.HEADER_HIDE_EXPLORE: {
+    case actions.HIDE_EXPLORE_MENU: {
       return assign(INITIAL_STATE, { exploreMenuDisplayed: false })
     }
-    case actions.HEADER_TOGGLE_EXPLORE: {
+    case actions.TOGGLE_EXPLORE_MENU: {
       return assign(INITIAL_STATE, { exploreMenuDisplayed: !state.exploreMenuDisplayed })
     }
-    case actions.MENU_LEFT_SHOW_SECURITY_CENTER: {
+    case actions.SHOW_SECURITY_CENTER_MENU: {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: true })
     }
-    case actions.MENU_LEFT_HIDE_SECURITY_CENTER: {
+    case actions.HIDE_SECURITY_CENTER_MENU: {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: false })
     }
-    case actions.MENU_LEFT_TOGGLE_SECURITY_CENTER: {
+    case actions.TOGGLE_SECURITY_CENTER_MENU: {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: !state.securityCenterMenuDisplayed })
     }
     case actions.TOGGLE_CURRENCY_DISPLAY: {

@@ -20,7 +20,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'npm': `${__dirname}/../node_modules`,
+      'npm': `${__dirname}/node_modules`,
       'sass': `${__dirname}/src/assets/sass`,
       'img': `${__dirname}/src/assets/img`,
       'fonts': `${__dirname}/src/assets/fonts`,

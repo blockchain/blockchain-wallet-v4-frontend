@@ -1,6 +1,6 @@
 import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
-import { push } from 'connected-react-router'
+import { push } from 'react-router-redux'
 import { prop, assoc } from 'ramda'
 
 import { actions, selectors } from 'data'

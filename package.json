@@ -86,8 +86,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "blockchain-css": "^1.0.23",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "4.0.0-alpha.6",
     "dream-wallet": "https://github.com/blockchain/dream-wallet.git",
     "es6-promise": "^4.1.0",
     "immutable-ext": "^1.1.0",

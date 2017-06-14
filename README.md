@@ -17,6 +17,6 @@
 
 ## Guidelines
 
-1. [Development](../blob/master/help/Development)
-1. [Style](../blob/master/help/Style)
-1. [Tests](../blob/master/help/TestsStyle)
+1. [Development](../master/help/Development)
+1. [Style](../master/help/Style)
+1. [Tests](../master/help/TestsStyle)
