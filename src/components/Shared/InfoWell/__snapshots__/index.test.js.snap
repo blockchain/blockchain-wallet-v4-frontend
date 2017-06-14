@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Displays an info well 1`] = `
+<div
+  className="info-well"
+>
+  Hello
+</div>
+`;

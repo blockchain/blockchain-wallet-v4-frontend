@@ -2,6 +2,7 @@
 {
   "extends": [
     "eslint:recommended",
+    "standard",
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
@@ -19,14 +20,13 @@
     "es6": true,
     "browser": true,
     "node": true,
-    "jquery": true,
-    "mocha": true
+    "jest": true
   },
-  settings: {
+  "settings": {
     "import/parser": "babel-eslint",
     "import/resolver": {
       "webpack": { "config": "webpack.config.dev.js" },
-      "node": { paths: ['src']}
+      "node": { "paths": ["src"]}
     }
   },
   "rules": {

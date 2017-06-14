@@ -34,18 +34,6 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   enforce: 'pre',
-      //   test: /\.js$/,
-      //   exclude: ['npm', 'bower'],
-      //   use: [{
-      //     loader: 'eslint-loader',
-      //     options: {
-      //       failOnWarning: false,
-      //       failOnError: true
-      //     }
-      //   }]
-      // },
       {
         test: /\.js$/,
         exclude: [/node_modules/],
