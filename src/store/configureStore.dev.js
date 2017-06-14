@@ -7,7 +7,6 @@ import { connectRouter, routerMiddleware } from 'connected-react-router'
 // import Immutable from 'immutable-ext'
 // import { is } from 'ramda'
 // import { coreMiddleware } from 'dream-wallet/lib'
-
 import autoDisconnection from 'middleware/autoDisconnection.js'
 import { rootSaga, rootReducer } from 'data'
 // import settings from 'config'
@@ -24,7 +23,7 @@ const configureStore = () => {
   // const walletPath = settings.WALLET_IMMUTABLE_PATH
 
   const store = createStore(
-    connectRouter(history)(rootReducer),
+    rootReducer,
     composeEnhancers(
       persistState('session'),
       applyMiddleware(

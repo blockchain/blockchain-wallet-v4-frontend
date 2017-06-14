@@ -1,7 +1,5 @@
 import { contains } from 'ramda'
-
 import { actions } from 'data'
-
 
 let autoDisconnectionDefaultValue = 720
 let autoDisconnectionNotificationDefaultValue = 120
