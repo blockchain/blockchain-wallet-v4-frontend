@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { core } from 'data/rootSelectors'
+import { selectors } from 'data'
 import Transactions from './template.js'
 
 // this should be part of processTransaction selector
@@ -43,7 +43,7 @@ class TransactionsContainer extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    transactions: core.transactions.getTransactions(state)
+    transactions: selectors.core.transactions.getTransactions(state)
   }
 }
 

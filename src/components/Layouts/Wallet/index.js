@@ -1,7 +1,9 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { Route, Redirect, location } from 'react-router-dom'
+
+import { selectors } from 'data'
 
 import Header from './Header'
 import MenuLeft from './MenuLeft'
@@ -44,7 +46,7 @@ const WalletLayout = ({component: Component, ...rest}) => {
 
 function mapStateToProps (state) {
   return {
-    isAuthenticated: state.applicationState.auth.isAuthenticated
+    isAuthenticated: selectors.auth.getIsAuthenticated
   }
 }
 

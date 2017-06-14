@@ -1,4 +1,4 @@
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR, SAVE_SESSION } from 'data/actionTypes'
+import * as actions from './actions'
 import { merge } from 'ramda'
 
 let assign = (state, next) => Object.assign({}, state, next)
@@ -12,13 +12,13 @@ const INITIAL_STATE = {
 const login = (state = INITIAL_STATE, action) => {
   let { type } = action
   switch (type) {
-    case LOGIN_START: {
+    case actions.LOGIN_START: {
       return assign(INITIAL_STATE, { isLoggingIn: true })
     }
-    case LOGIN_SUCCESS: {
+    case actions.LOGIN_SUCCESS: {
       return assign(INITIAL_STATE, { isAuthenticated: true })
     }
-    case LOGIN_ERROR: {
+    case actions.LOGIN_ERROR: {
       let { payload } = action
       return assign(INITIAL_STATE, { error: payload })
     }
@@ -30,7 +30,7 @@ const login = (state = INITIAL_STATE, action) => {
 const session = (state = {}, action) => {
   let { type } = action
   switch (type) {
-    case SAVE_SESSION: {
+    case actions.SAVE_SESSION: {
       return merge(state, action.payload)
     }
     default:

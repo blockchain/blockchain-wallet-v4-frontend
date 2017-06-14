@@ -1,21 +1,28 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import { path } from 'ramda'
-import { core } from 'data/rootSelectors'
 
-const CurrencyDisplay = (props) => {
-  let ratio = path([props.currency, 'last'], props.rates)
-  let convertedAmount = parseFloat((props.amount * ratio / 100000000).toFixed(2))
+import { convertToCurrency } from 'services/conversionService'
+import { selectors } from 'data'
+import CurrencyDisplay from './template.js'
+
+const CurrencyDisplayContainer = (props) => {
+  let conversion = convertToCurrency(props.amount, props.currency, props.rates)
+
   return (
-    <span className={props.className}>{`${convertedAmount} ${props.currency}`}</span>
+    <CurrencyDisplay className={props.className} value={conversion.success ? conversion.value : 'N/A'} />
   )
+}
+
+CurrencyDisplayContainer.propTypes = {
+  amount: PropTypes.number.isRequired
 }
 
 function mapStateToProps (state) {
   return {
-    currency: core.settings.getCurrency(state),
-    rates: core.rates.getRates(state)
+    currency: selectors.core.settings.getCurrency(state),
+    rates: selectors.core.rates.getRates(state)
   }
 }
 
-export default connect(mapStateToProps)(CurrencyDisplay)
+export default connect(mapStateToProps)(CurrencyDisplayContainer)

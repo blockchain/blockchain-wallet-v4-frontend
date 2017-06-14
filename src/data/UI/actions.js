@@ -1,11 +1,20 @@
-import * as AT from 'data/actionTypes'
+export const SHOW_EXPLORE_MENU = 'SHOW_EXPLORE_MENU'
+export const showExploreMenu = () => ({ type: SHOW_EXPLORE_MENU })
 
-export const showExploreMenu = () => ({ type: AT.HEADER_SHOW_EXPLORE })
-export const hideExploreMenu = () => ({ type: AT.HEADER_HIDE_EXPLORE })
-export const toggleExploreMenu = () => ({ type: AT.HEADER_TOGGLE_EXPLORE })
+export const HIDE_EXPLORE_MENU = 'HIDE_EXPLORE_MENU'
+export const hideExploreMenu = () => ({ type: HIDE_EXPLORE_MENU })
 
-export const showSecurityCenterMenu = () => ({ type: AT.MENU_LEFT_SHOW_SECURITY_CENTER })
-export const hideSecurityCenterMenu = () => ({ type: AT.MENU_LEFT_HIDE_SECURITY_CENTER })
-export const toggleSecurityCenterMenu = () => ({ type: AT.MENU_LEFT_TOGGLE_SECURITY_CENTER })
+export const TOGGLE_EXPLORE_MENU = 'TOGGLE_EXPLORE_MENU'
+export const toggleExploreMenu = () => ({ type: TOGGLE_EXPLORE_MENU })
 
-export const toggleCurrencyDisplay = () => ({ type: AT.TOGGLE_CURRENCY_DISPLAY })
+export const SHOW_SECURITY_CENTER_MENU = 'SHOW_SECURITY_CENTER_MENU'
+export const showSecurityCenterMenu = () => ({ type: SHOW_SECURITY_CENTER_MENU })
+
+export const HIDE_SECURITY_CENTER_MENU = 'HIDE_SECURITY_CENTER_MENU'
+export const hideSecurityCenterMenu = () => ({ type: HIDE_SECURITY_CENTER_MENU })
+
+export const TOGGLE_SECURITY_CENTER_MENU = 'TOGGLE_SECURITY_CENTER_MENU'
+export const toggleSecurityCenterMenu = () => ({ type: TOGGLE_SECURITY_CENTER_MENU })
+
+export const TOGGLE_CURRENCY_DISPLAY = 'TOGGLE_CURRENCY_DISPLAY'
+export const toggleCurrencyDisplay = () => ({ type: TOGGLE_CURRENCY_DISPLAY })

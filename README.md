@@ -14,3 +14,9 @@
 1. `cd dream-wallet && yarn link`
 2. `cd dream-wallet-frontend && yarn link dream-wallet`
 3. `cd dream-wallet && yarn run watch`
+
+## Guidelines
+
+1. [Development](./help/Development)
+1. [Style](./help/Style)
+1. [Tests](./help/TestsStyle)

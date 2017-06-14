@@ -1,33 +1,27 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import { core } from 'data/rootSelectors'
 
-const BitcoinDisplay = (props) => {
-  let convertedAmount = 0
-  let unitDisplay = ''
-  switch (props.unit) {
-    case 'UBC':
-      convertedAmount = parseFloat((props.amount / 100).toFixed(2))
-      unitDisplay = 'bits'
-      break
-    case 'MBC':
-      convertedAmount = parseFloat((props.amount / 100000).toFixed(5))
-      unitDisplay = 'mBTC'
-      break
-    case 'BTC':
-      convertedAmount = parseFloat((props.amount / 100000000).toFixed(8))
-      unitDisplay = 'BTC'
-      break
-  }
+import { convertToBitcoin } from 'services/conversionService'
+import { selectors } from 'data'
+import BitcoinDisplay from './template.js'
+
+const BitcoinDisplayContainer = (props) => {
+  let conversion = convertToBitcoin(props.amount, props.unit)
+
   return (
-    <span className={props.className}>{`${convertedAmount} ${unitDisplay}`}</span>
+    <BitcoinDisplay className={props.className} value={conversion.success ? conversion.value : 'N/A'} />
   )
+}
+
+BitcoinDisplayContainer.propTypes = {
+  amount: PropTypes.number.isRequired
 }
 
 function mapStateToProps (state) {
   return {
-    unit: core.settings.getBtcCurrency(state)
+    unit: selectors.core.settings.getBtcCurrency(state)
   }
 }
 
-export default connect(mapStateToProps)(BitcoinDisplay)
+export default connect(mapStateToProps)(BitcoinDisplayContainer)

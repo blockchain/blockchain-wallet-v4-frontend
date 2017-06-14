@@ -1,4 +1,4 @@
-import { FETCH_ACTIVITIES_SUCCESSFUL } from 'data/actionTypes'
+import * as actions from './actions'
 import { call, put } from 'redux-saga/effects'
 
 function * fetchActivities () {
@@ -10,7 +10,7 @@ function * fetchActivities () {
       { type: 'transaction', time: '', title: 'Transaction', description: 'Received' }
     ]
   })
-  yield put({type: FETCH_ACTIVITIES_SUCCESSFUL, activities: response})
+  yield put({type: actions.FETCH_ACTIVITIES_SUCCESSFUL, activities: response})
 }
 
 export default {

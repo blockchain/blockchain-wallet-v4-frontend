@@ -1,3 +1,25 @@
 {
-  "presets": ["es2015", "react", "stage-0"]
+  "presets": ["es2015", "react", "stage-0"],
+   "env": {
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  },
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "npm": "./node_modules",
+        "sass": "./src/assets/sass",
+        "img": "./src/assets/img",
+        "fonts": "./src/assets/fonts",
+        "components": "./src/components",
+        "data": "./src/data",
+        "middleware": "./src/middleware",
+        "scenes": "./src/scenes",
+        "services": "./src/services",
+        "config": "./src/config.js"
+      }
+    }]
+  ]
 }

@@ -2,9 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-import { core, ui } from 'data/rootSelectors'
-import * as uiActions from 'data/UI/actions.js'
-
+import { selectors, actions } from 'data'
 import TransactionList from './template.js'
 
 class TransactionListContainer extends React.Component {
@@ -38,14 +36,14 @@ class TransactionListContainer extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    bitcoinDisplayed: ui.getBitcoinDisplayed(state),
-    balance: core.info.getBalance(state)
+    bitcoinDisplayed: selectors.ui.getBitcoinDisplayed(state),
+    balance: selectors.core.info.getBalance(state)
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(uiActions, dispatch)
+    actions: bindActionCreators(actions.ui, dispatch)
   }
 }
 

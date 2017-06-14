@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrencyDisplay Displays 100000000 satoshis as local currency 1`] = `
+<span
+  className="button"
+>
+  2000 £
+</span>
+`;

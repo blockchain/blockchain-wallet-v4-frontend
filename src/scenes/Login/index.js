@@ -1,9 +1,9 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import Login from './template.js'
-import * as authActions from 'data/Auth/actions.js'
+import { actions } from 'data'
 
 class LoginContainer extends React.Component {
   constructor () {
@@ -53,7 +53,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(authActions, dispatch)
+    actions: bindActionCreators(actions.auth, dispatch)
   }
 }
 

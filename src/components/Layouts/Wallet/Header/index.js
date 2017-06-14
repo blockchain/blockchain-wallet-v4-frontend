@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import Header from './template.js'
-import * as uiActions from 'data/UI/actions.js'
+import { actions } from 'data'
 
 class HeaderContainer extends React.Component {
   constructor (props) {
@@ -30,7 +30,7 @@ function mapStateToProps (state, ownProps) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(uiActions, dispatch)
+    actions: bindActionCreators(actions.ui, dispatch)
   }
 }
 
