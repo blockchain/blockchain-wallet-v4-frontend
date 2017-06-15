@@ -1,4 +1,3 @@
-
 a {
   font-size: 14px;
   text-decoration: none;
@@ -12,6 +11,10 @@ a {
 
 
 .menu-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
   padding: 5px 12px;
   @include box-sizing(border-box);
   text-decoration: none;
@@ -20,8 +23,17 @@ a {
   font-weight: 400;
   color: $basic-grey;
 
+  &:focus {
+    text-decoration: none;
+  }
+
   &.sub {
     text-transform: capitalize;
+    padding-left: 50px;
+
+    &:focus {
+      text-decoration: none;
+    }
   }
 
   &.active {
@@ -30,7 +42,6 @@ a {
 
   & .icon {
     display: block;
-    vertical-align: middle;
     font-size: 20px;
     width: 40px;
   }

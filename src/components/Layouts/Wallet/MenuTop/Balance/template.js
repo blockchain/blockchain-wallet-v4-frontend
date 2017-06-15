@@ -9,14 +9,30 @@ import style from './style.scss'
 const Balance = (props) => {
   return (
     props.bitcoinDisplayed ? (
-      <div className='flex-column flex-justify flex-align-end pointer' onClick={props.clickBitcoinDisplay}>
-        <BitcoinDisplay className='f-28 half-strong' amount={props.balance} />
-        <CurrencyDisplay className='f-24 padding-bottom-10' amount={props.balance} />
+      <div className='container-fluid'>
+        <div className='row' onClick={props.clickBitcoinDisplay}>
+          <div className='col'>
+            <BitcoinDisplay className='f-28' amount={props.balance} />
+          </div>
+        </div>
+        <div className='row' onClick={props.clickBitcoinDisplay}>
+          <div className='col'>
+            <CurrencyDisplay className='f-24' amount={props.balance} />
+          </div>
+        </div>
       </div>
     ) : (
-      <div className='flex-column flex-justify flex-align-end pointer' onClick={props.clickBitcoinDisplay}>
-        <CurrencyDisplay className='f-28 half-strong' amount={props.balance} />
-        <BitcoinDisplay className='f-24 padding-bottom-10' amount={props.balance} />
+      <div className='container-fluid'>
+        <div className='row' onClick={props.clickBitcoinDisplay}>
+          <div className='col'>
+            <CurrencyDisplay className='f-28' amount={props.balance} />
+          </div>
+        </div>
+        <div className='row' onClick={props.clickBitcoinDisplay}>
+          <div className='col'>
+            <BitcoinDisplay className='f-24' amount={props.balance} />
+          </div>
+        </div>
       </div>
     )
   )

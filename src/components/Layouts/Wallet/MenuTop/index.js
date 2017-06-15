@@ -12,22 +12,22 @@ const MenuTop = () => {
   return (
     <div styleName='menu-top'>
       <div className='container-fluid height-100'>
-        <div className='row flex-row flex-between flex-center padding-5'>
-          <div className='col-md-6 flex-column flex-justify flex-center'>
+        <div className='row justify-content-between'>
+          <div className='col-4'>
             <div className='row'>
               <span className='f-28 upper half-strong'>Be your own bank.</span>
             </div>
-            <div className='row flex-row flex-start flex-center padding-top-10'>
+            <div className='row'>
               <div className='padding-right-10'>
                 <SendBitcoin />
               </div>
-              <div styleName='button-container'>
+              <div>
                 <RequestBitcoin />
                 <ClipboardNextAddress />
               </div>
             </div>
           </div>
-          <div className='col-md-6'>
+          <div className='col-4 right-align'>
             <Balance />
           </div>
         </div>
