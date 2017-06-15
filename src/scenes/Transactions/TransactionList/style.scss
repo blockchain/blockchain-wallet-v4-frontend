@@ -1,9 +1,5 @@
 
 .transactions-list {
-  @include display-flex();
-  @include flex-direction(column);
-  @include justify-content(flex-start);
-  @include align-content(flex-start);
   @include box-sizing(border-box);
   width: 100%;
 }

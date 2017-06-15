@@ -1,9 +1,5 @@
 
 .header {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(space-between);
-  @include align-items(center);
   @include box-sizing(border-box);
   width: 100%;
   height: 60px;
@@ -16,8 +12,5 @@
 }
 
 .right {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(center);
-  @include align-items(center);
+  background-color: $bc-blue;
 }

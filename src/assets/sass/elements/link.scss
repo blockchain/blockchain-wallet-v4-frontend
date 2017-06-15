@@ -6,10 +6,6 @@ a {
 }
 
 .navigation {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(center);
-  @include align-items(center);
   height: 60px;
   padding: 0 15px;
   @include box-sizing(border-box);
@@ -38,10 +34,6 @@ a {
 }
 
 .menu-item {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(flex-start);
-  @include align-items(center);
   padding: 5px 12px;
   @include box-sizing(border-box);
   text-decoration: none;

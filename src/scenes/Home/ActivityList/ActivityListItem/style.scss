@@ -17,10 +17,6 @@
     width: 30px;
     height: 30px;
     background-color: $blue;
-    @include display-flex();
-    @include flex-direction(column);
-    @include justify-content(center);
-    @include align-items(center);
     @include border-radius(100%);
   }
   &:after {

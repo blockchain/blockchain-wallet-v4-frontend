@@ -7,10 +7,10 @@ import { selectors } from 'data'
 import CurrencyDisplay from './template.js'
 
 const CurrencyDisplayContainer = (props) => {
-  let conversion = convertToCurrency(props.amount, props.currency, props.rates)
+  let conversion = convertToCurrency(props.amount, props.currency, props.rates).getOrElse('N/A')
 
   return (
-    <CurrencyDisplay className={props.className} value={conversion.success ? conversion.value : 'N/A'} />
+    <CurrencyDisplay className={props.className} value={conversion} />
   )
 }
 

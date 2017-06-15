@@ -1,5 +1,8 @@
+// Bootstrap
+@import 'bootstrap/custom.scss';
+@import '~bootstrap/scss/bootstrap.scss';
+
 @import 'utilities/borders.scss';
-@import 'utilities/flex.scss';
 @import 'utilities/fonts.scss';
 @import 'utilities/general.scss';
 @import 'utilities/layout.scss';
@@ -8,7 +11,6 @@
 @import 'utilities/typography.scss';
 
 @import 'elements/button.scss';
-@import 'elements/grid.scss';
 @import 'elements/link.scss';
 @import 'elements/textbox.scss';
 

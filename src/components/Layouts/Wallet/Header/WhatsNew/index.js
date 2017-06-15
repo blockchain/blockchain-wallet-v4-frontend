@@ -9,4 +9,4 @@ const WhatsNew = () => {
   )
 }
 
-export default WhatsNew
+export default CSSModules(WhatsNew, style)

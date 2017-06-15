@@ -1,9 +1,5 @@
 
 .header {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(flex-start);
-  @include align-items(center);
   @include box-sizing(border-box);
   height: 60px;
   background-color: $bc-blue;

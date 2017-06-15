@@ -8,7 +8,12 @@ const BitcoinDisplay = (props) => {
 }
 
 BitcoinDisplay.propTypes = {
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
+  className: PropTypes.string
+}
+
+BitcoinDisplay.defaultProps = {
+  value: 'N/A'
 }
 
 export default BitcoinDisplay
