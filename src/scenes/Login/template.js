@@ -18,7 +18,7 @@ const Login = (props) => {
       </div>
       <div className='row padding-vertical-10 border-bottom'>
         <div className='col-12'>
-          <span className='f-16 alt-font padding-vertical-10'>Sign in to your wallet below</span>
+          <span className='f-16 alt-font'>Sign in to your wallet below</span>
         </div>
       </div>
       <div className='row padding-top-10'>

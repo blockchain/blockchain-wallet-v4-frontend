@@ -13,8 +13,8 @@ const Main = () => {
             <span className='f-52 white'>The World's Most Popular Bitcoin Wallet</span>
           </div>
         </div>
-        <div className='row h-25 justify-content-around align-items-center hidden-sm-down'>
-          <div className='col-12 col-md-3'>
+        <div className='row justify-content-around align-items-center hidden-sm-down'>
+          <div className='col-12 padding-vertical-100 col-md-3'>
             <div className='row justify-content-center'>
               <div className='col center-align'>
                 <span className='f-32 white'>100 Million+</span>
@@ -51,7 +51,7 @@ const Main = () => {
             </div>
           </div>
         </div>
-        <div className='row h-25 justify-content-center align-items-center'>
+        <div className='row justify-content-center align-items-center'>
           <div className='col-12'>
             <div className='row justify-content-center'>
               <div className='col-12 col-sm-8 col-md-6 col-lg-4 col-xl-3 center-align'>
