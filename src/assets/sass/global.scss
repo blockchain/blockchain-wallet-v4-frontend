@@ -36,7 +36,12 @@ html, body {
   margin: 0;
 }
 
-div#app {
+#app {
   height: 100%;
   width: 100%;
+
+  & > div {
+    height: 100%;
+    width: 100%;
+  }
 }

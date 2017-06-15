@@ -14,28 +14,30 @@ const WalletLayout = ({component: Component, ...rest}) => {
     <Route {...rest} render={matchProps => (
     // rest.isAuthenticated
     // ? (
-      <div className='container-fluid flex-column height-100'>
-        <div className='row'>
-          <div className='col-md-12'>
-            <Header />
-          </div>
-        </div>
-        <div className='row height-100'>
-          <div className='col-md-2 bg-grey border-right'>
-            <MenuLeft location={rest.location} />
-          </div>
-          <div className='col-md-10'>
-            <div className='row bg-white border-bottom'>
-              <MenuTop />
+        <div className='container-fluid h-100'>
+          <div className='row fixed-top'>
+            <div className='col'>
+               <Header />
             </div>
-            <div className='row bg-white'>
-              <div className='col-md-12 flex-column height-100'>
-                <Component {...matchProps} />
+          </div>
+          <div className='row h-100 padding-top-60'>
+            <div className='col-md-2 bg-grey border-right hidden-md-down'>
+              <MenuLeft location={rest.location} />
+            </div>
+            <div className='col-md-10'>
+              <div className='row bg-white border-bottom'>
+                <div className='col'>
+                  <MenuTop />
+                </div>
+              </div>
+              <div className='row bg-white'>
+                <div className='col'>
+                  <Component {...matchProps} />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       // )
       // : (
       //   <Redirect to={{ pathname: '/login', state: { from: matchProps.location } }} />
