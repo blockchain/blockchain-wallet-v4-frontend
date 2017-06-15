@@ -18,3 +18,6 @@ export const toggleSecurityCenterMenu = () => ({ type: TOGGLE_SECURITY_CENTER_ME
 
 export const TOGGLE_CURRENCY_DISPLAY = 'TOGGLE_CURRENCY_DISPLAY'
 export const toggleCurrencyDisplay = () => ({ type: TOGGLE_CURRENCY_DISPLAY })
+
+export const TOGGLE_HEADER_MENU = 'TOGGLE_HEADER_MENU'
+export const toggleHeaderMenu = () => ({ type: TOGGLE_HEADER_MENU })

@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   bitcoinDisplayed: true,
   exploreMenuDisplayed: false,
   securityCenterMenuDisplayed: false,
-  navigationDisplayed: false
+  navigationDisplayed: false,
+  headerMenuDisplayed: false
 }
 
 const header = (state = INITIAL_STATE, action) => {
@@ -31,6 +32,9 @@ const header = (state = INITIAL_STATE, action) => {
     }
     case actions.TOGGLE_CURRENCY_DISPLAY: {
       return assign(INITIAL_STATE, { bitcoinDisplayed: !state.bitcoinDisplayed })
+    }
+    case actions.TOGGLE_HEADER_MENU: {
+      return assign(INITIAL_STATE, { headerMenuDisplayed: !state.headerMenuDisplayed })
     }
     default:
       return state

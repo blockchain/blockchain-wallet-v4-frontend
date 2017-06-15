@@ -1,5 +1,5 @@
-
 .main {
-  //@include responsive-background-image('img/landing-page-banner.jpg');
+  @include responsive-background-image('img/landing-page-banner.jpg');
   width: 100%;
+  min-height: 800px;
 }

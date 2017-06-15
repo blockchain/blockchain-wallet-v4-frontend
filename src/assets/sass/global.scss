@@ -1,24 +1,32 @@
 // Bootstrap
-@import 'bootstrap/custom.scss';
 @import '~bootstrap/scss/bootstrap.scss';
 
+// Resources
+@import 'resources/bootstrap-settings.scss';
+@import 'resources/colors.scss';
+@import 'resources/image.scss';
+@import 'resources/mixins.scss';
+
+// Utilities
 @import 'utilities/borders.scss';
 @import 'utilities/fonts.scss';
 @import 'utilities/general.scss';
-@import 'utilities/layout.scss';
 @import 'utilities/opacity.scss';
 @import 'utilities/spacing.scss';
 @import 'utilities/typography.scss';
 
+// Elements override
 @import 'elements/button.scss';
+@import 'elements/label.scss';
 @import 'elements/link.scss';
 @import 'elements/textbox.scss';
 
+// Components override
+@import 'components/navbar.scss';
 
 html, body {
   position: relative;
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 13px;
   font-weight: 300;
   color: #5F5F5F;
   min-height: 100%;
@@ -32,4 +40,9 @@ div#app {
   min-height: 100%;
   height: 100%;
   width: 100%;
+}
+
+.container, .container-fluid {
+  padding: 0;
+  min-height: 100%;
 }

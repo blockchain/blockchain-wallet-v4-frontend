@@ -92,7 +92,8 @@ module.exports = {
               loader: 'sass-resources-loader',
               options: {
                 resources: [
-                  'src/assets/sass/resources/**/*.scss'
+                  'src/assets/sass/resources/**/*.scss',
+                  'node_modules/bootstrap/scss/mixins/**/*.scss'
                 ]
               }
             }

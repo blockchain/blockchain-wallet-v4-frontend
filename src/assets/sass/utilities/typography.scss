@@ -1,15 +1,4 @@
 
-label {
-  display: inline-block;
-  margin-bottom: 5px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-ul {
-  list-style-type: none;
-}
-
 .type-xs { font-size: .75em; }
 .type-sm { font-size: .9em; }
 .type-h5 { font-size: 1.2em; }
@@ -37,19 +26,14 @@ ul {
 
 .main-font { font-family: 'Montserrat', 'Helvetica', sans-serif !important; }
 .alt-font { font-family: 'GillSans', 'Helvetica', sans-serif !important; }
-
 .underline { text-decoration: underline; &:hover { text-decoration: underline; } }
-.underline-blue { border-bottom: 2px solid $blue; }
-.pointer { cursor: pointer; }
 .right-align { text-align: right; }
 .left-align { text-align: left; }
 .center-align { text-align: center; }
-.center { text-align: center; }
 .shadow { text-shadow: 0 1px 1px #ccc; }
 .no-select { user-select: none; }
 .break-word { word-break: break-word; }
 .long-input { overflow-wrap: break-word; }
-.text { font-size: 14px; } //use pixels to normalize with Bootstrap instead of em's
 .colon:after { content: ':'; }
 .period:after { content: '.';}
 .exclaim:after { content: '!';}
@@ -59,50 +43,3 @@ ul {
 .parens { &:before { content: '('; } &:after { content: ')'; } }
 .ellipsis:after { content: '...'; }
 .flip { transform: rotateY(180deg); }
-
-.half-strong { font-weight: 500; }
-.strong { font-weight: 800; }
-
-.text-overflow-hidden, .ui-select-match-text {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  width: calc(100% - 10px);
-  font-weight: 300;
-  display: block;
-}
-
-@media (max-width: 767px) {
-  .left-align-mobile { text-align: left; }
-  .center-mobile { text-align: center; }
-}
-
-@media (max-width: 991px) {
-  .left-align-tablet { text-align: left; }
-  .center-tablet { text-align: center; }
-}
-
-$multiplier: 100;
-
-@for $i from 1 through 9 {
-  .em-#{$i}00 {
-    font-weight: $i * $multiplier;
-    &:before {
-      font-weight: $i * $multiplier !important;
-    }
-  }
-}
-
-@for $i from 1 through 5 {
-  .font-#{$i} {
-    font-size: #{$i}em;
-  }
-}
-
-@for $i from 1 through 5 {
-  @media (max-width: 767px) {
-    .font-#{$i}-mobile {
-      font-size: #{$i}em;
-    }
-  }
-}

@@ -3,6 +3,12 @@
 ## Prerequisites
 * Java SDK
 
+## Guidelines
+
+1. [Development](../master/help/Development.md)
+1. [Style](../master/help/Style.md)
+1. [Tests](../master/help/Tests.md)
+
 ## Commands
 
 1. `yarn install --ignore-engines`: restore the npm dependencies
@@ -14,9 +20,3 @@
 1. `cd dream-wallet && yarn link`
 2. `cd dream-wallet-frontend && yarn link dream-wallet`
 3. `cd dream-wallet && yarn run watch`
-
-## Guidelines
-
-1. [Development](../master/help/Development)
-1. [Style](../master/help/Style)
-1. [Tests](../master/help/TestsStyle)
