@@ -1,6 +1,15 @@
 
 .navbar {
+  font-size: 0.8em;
   & .nav-link {
     color: $white;
+  }
+
+  & .nav-item {
+    color: $white;
+
+    &.show {
+      background-color: $iris;
+    }
   }
 }

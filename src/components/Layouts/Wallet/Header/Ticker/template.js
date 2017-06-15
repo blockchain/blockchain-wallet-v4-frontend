@@ -6,7 +6,9 @@ import style from './style.scss'
 
 const Ticker = (props) => {
   return (
-    <a href='https://markets.blockchain.info' className='navigation'>{`${props.bitcoinValue} - ${props.currencyValue}`}</a>
+    <li className='nav-item active'>
+      <a className='nav-link' href='https://markets.blockchain.info'>{`${props.bitcoinValue} - ${props.currencyValue}`}</a>
+    </li>
   )
 }
 

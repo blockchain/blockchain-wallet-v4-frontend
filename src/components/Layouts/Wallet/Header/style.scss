@@ -1,16 +1,3 @@
-
-.header {
-  @include box-sizing(border-box);
-  width: 100%;
-  height: 60px;
-  padding: 0 30px;
-  background-color: $bc-blue;
-}
-
 .logo {
   height: 20px;
-}
-
-.right {
-  background-color: $bc-blue;
 }
