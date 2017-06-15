@@ -17,6 +17,7 @@
 
 // Elements override
 @import 'elements/button.scss';
+@import 'elements/grid.scss';
 @import 'elements/label.scss';
 @import 'elements/link.scss';
 @import 'elements/textbox.scss';
@@ -29,7 +30,6 @@ html, body {
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-weight: 300;
   color: #5F5F5F;
-  min-height: 100%;
   height: 100%;
   width: 100%;
   padding: 0;
@@ -37,12 +37,6 @@ html, body {
 }
 
 div#app {
-  min-height: 100%;
   height: 100%;
   width: 100%;
-}
-
-.container, .container-fluid {
-  padding: 0;
-  min-height: 100%;
 }

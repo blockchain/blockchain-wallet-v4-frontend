@@ -1,12 +1,9 @@
 
 %button-base {
   height: 40px;
-  padding: 10px 15px;
   font-family: 'Montserrat', 'Helvetica', sans-serif;
   font-size: 18px;
   font-weight: 300;
-  cursor: pointer;
-  border: none;
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
@@ -14,6 +11,8 @@
   @include border-radius(3px);
   @include transition(all .2s ease-in-out);
   @include box-sizing(border-box);
+  border: none;
+  cursor: pointer;
 
   &:focus {
     outline: none;

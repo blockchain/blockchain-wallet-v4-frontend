@@ -9,20 +9,20 @@ const LandingLayout = ({component: Component, ...rest}) => {
     <Route {...rest} render={matchProps => (
       <div className='container-fluid bg-blue'>
         <div className='row'>
-          <div className='col-md-12'>
-            <Header />
+          <div className='col'>
+            <Header />  
           </div>
-        </div>
-        <div className='row'>
-          <div className='col-md-12'>
+        </div>  
+        <div className='row h-100 justify-content-center align-items-center'>
+          <div className='col'>
             <Component {...matchProps} />
           </div>
         </div>
-        <div className='row'>
-          <div className='col-md-12'>
+        <div className='row align-items-end'>
+          <div className='col'>
             <Footer />
           </div>
-        </div>
+        </div>  
       </div>
     )} />
   )

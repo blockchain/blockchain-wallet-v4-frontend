@@ -1,37 +1,18 @@
 @import "~bootstrap/scss/mixins/breakpoints";
 
 .login {
-  @include box-shadow(0 0 20px -8px black);
+  padding: 40px;
+  @include box-sizing(border-box);
   background-color: #FFFFFF;
 }
 
 
-@include media-breakpoint-up(xs) { 
-  .login {
-  background-color: red;
-  }
-}
-@include media-breakpoint-up(sm) { 
-  .login {
-  background-color: green;
-  }
- }
+@include media-breakpoint-up(xs) { }
+@include media-breakpoint-up(sm) { }
 @include media-breakpoint-up(md) { 
   .login {
     width: 550px;
-    height: 500px;
-    @include box-sizing(border-box);
-    padding: 35px 40px 30px 40px;
-    background-color: orange;
   }
 }
-@include media-breakpoint-up(lg) { 
-  .login {
-  background-color: purple;
-  }
-}
-@include media-breakpoint-up(xl) { 
-  .login {
-  background-color: pink;
-  }
-}
+@include media-breakpoint-up(lg) { }
+@include media-breakpoint-up(xl) { }
