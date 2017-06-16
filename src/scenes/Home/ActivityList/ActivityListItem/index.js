@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
@@ -24,6 +25,14 @@ const ActivityListItem = (props) => {
       </div>
     </div>
   )
+}
+
+ActivityListItem.propTypes = {
+  activity: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired
+  })
 }
 
 export default CSSModules(ActivityListItem, style)

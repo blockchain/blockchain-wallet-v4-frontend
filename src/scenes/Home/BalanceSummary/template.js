@@ -1,7 +1,5 @@
-/**
- * Created by Lyncee on 08/06/2017.
- */
 import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 
 import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
@@ -52,6 +50,16 @@ const BalanceSummary = (props) => {
       </div>
     </div>
   )
+}
+
+BalanceSummary.propTypes = {
+  balances: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      amount: PropTypes.number.isRequired
+    })
+  ),
+  total: PropTypes.number.isRequired
 }
 
 export default CSSModules(BalanceSummary, style)

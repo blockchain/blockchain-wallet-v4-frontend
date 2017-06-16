@@ -9,15 +9,10 @@ class HeaderContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClickHeaderMenu = this.handleClickHeaderMenu.bind(this)
-    this.handleClickExploreMenu = this.handleClickExploreMenu.bind(this)
   }
 
   handleClickHeaderMenu () {
     this.props.actions.toggleHeaderMenu()
-  }
-
-  handleClickExploreMenu () {
-    this.props.actions.toggleExploreMenu()
   }
 
   render () {
@@ -25,8 +20,6 @@ class HeaderContainer extends React.Component {
       <Header
         headerMenuDisplayed={this.props.headerMenuDisplayed}
         clickHeaderMenu={this.handleClickHeaderMenu}
-        exploreMenuDisplayed={this.props.exploreMenuDisplayed}
-        clickExploreMenu={this.handleClickExploreMenu}
       />
     )
   }
@@ -34,8 +27,7 @@ class HeaderContainer extends React.Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    headerMenuDisplayed: selectors.ui.getHeaderMenuDisplayed(state),
-    exploreMenuDisplayed: selectors.ui.getExploreMenuDisplayed(state)
+    headerMenuDisplayed: selectors.ui.getHeaderMenuDisplayed(state)
   }
 }
 

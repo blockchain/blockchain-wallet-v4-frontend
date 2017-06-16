@@ -1,5 +1,6 @@
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 
 import style from './style.scss'
@@ -34,6 +35,18 @@ const DidYouKnow = (props) => {
       </div>
     </div>
   )
+}
+
+DidYouKnow.propTypes = {
+  info: PropTypes.shape({
+    icon: PropTypes.string.isRequired,
+    category: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired
+    }),
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
+  })
 }
 
 export default CSSModules(DidYouKnow, style)

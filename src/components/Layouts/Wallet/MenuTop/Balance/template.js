@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 
 import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
@@ -11,12 +12,12 @@ const Balance = (props) => {
     props.bitcoinDisplayed ? (
       <div styleName='balance'>
         <div className='row justify-content-start justify-content-md-end' onClick={props.clickBitcoinDisplay}>
-          <div className='col-12 col-md-4'>
+          <div className='col-auto'>
             <BitcoinDisplay className='f-28' amount={props.balance} />
           </div>
         </div>
         <div className='row justify-content-start justify-content-md-end' onClick={props.clickBitcoinDisplay}>
-          <div className='col-12 col-md-4'>
+          <div className='col-auto'>
             <CurrencyDisplay className='f-24' amount={props.balance} />
           </div>
         </div>
@@ -24,18 +25,23 @@ const Balance = (props) => {
     ) : (
       <div styleName='balance'>
         <div className='row justify-content-start justify-content-md-end' onClick={props.clickBitcoinDisplay}>
-          <div className='col-12 col-md-4'>
+          <div className='col-auto'>
             <CurrencyDisplay className='f-28' amount={props.balance} />
           </div>
         </div>
         <div className='row justify-content-start justify-content-md-end' onClick={props.clickBitcoinDisplay}>
-          <div className='col-12 col-md-4'>
+          <div className='col-auto'>
             <BitcoinDisplay className='f-24' amount={props.balance} />
           </div>
         </div>
       </div>
     )
   )
+}
+
+Balance.propTypes = {
+  balance: PropTypes.number.isRequired,
+  clickBitcoinDisplay: PropTypes.func.isRequired
 }
 
 export default CSSModules(Balance, style)

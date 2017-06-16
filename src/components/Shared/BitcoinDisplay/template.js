@@ -12,8 +12,4 @@ BitcoinDisplay.propTypes = {
   className: PropTypes.string
 }
 
-BitcoinDisplay.defaultProps = {
-  value: 'N/A'
-}
-
 export default BitcoinDisplay

@@ -19,17 +19,17 @@ const WalletLayout = ({component: Component, ...rest}) => {
             <Header />
           </div>
         </div>
-        <div className='row h-100 padding-top-55'>
+        <div className='row no-gutters h-100 padding-top-55'>
           <div className='col-xl-2 bg-grey border-right hidden-lg-down'>
             <MenuLeft location={rest.location} />
           </div>
           <div className='col-12 col-xl-10'>
-            <div className='row bg-white border-bottom'>
+            <div className='row no-gutters bg-white border-bottom'>
               <div className='col-12'>
                 <MenuTop />
               </div>
             </div>
-            <div className='row bg-white'>
+            <div className='row no-gutters bg-white'>
               <div className='col'>
                 <Component {...matchProps} />
               </div>

@@ -12,7 +12,7 @@ const Home = (props) => {
     <section className='container-fluid'>
       <div className='row padding-20'>
         <div className='col-12 col-lg-6'>
-          <ActivityList activities={props.activities} />
+          <ActivityList />
         </div>
         <div className='col-12 col-lg-6'>
           <BalanceSummary />
