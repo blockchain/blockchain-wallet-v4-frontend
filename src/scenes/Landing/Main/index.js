@@ -20,7 +20,7 @@ const Main = () => {
                 <span className='f-32 white'>100 Million+</span>
               </div>
             </div>
-             <div className='row justify-content-center'>
+            <div className='row justify-content-center'>
               <div className='col-12 center-align'>
                 <span className='f-20 white'>Transactions</span>
               </div>
@@ -32,9 +32,9 @@ const Main = () => {
                 <span className='f-32 white'>13 Million+</span>
               </div>
             </div>
-             <div className='row justify-content-center'>
+            <div className='row justify-content-center'>
               <div className='col-12 center-align'>
-               <span className='f-20 white'>Wallets</span>
+                <span className='f-20 white'>Wallets</span>
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@ const Main = () => {
                 <span className='f-32 white'>140+</span>
               </div>
             </div>
-             <div className='row justify-content-center'>
+            <div className='row justify-content-center'>
               <div className='col-12 center-align'>
                 <span className='f-20 white'>Countries Served</span>
               </div>
@@ -54,7 +54,7 @@ const Main = () => {
         <div className='row justify-content-center align-items-center'>
           <div className='col-12'>
             <div className='row justify-content-center'>
-              <div className='col-12 col-sm-8 col-md-6 col-lg-4 col-xl-3 center-align'>
+              <div className='col-12 col-sm-8 col-md-6 col-lg-4 center-align'>
                 <NavLink to='/register'>
                   <button className='button-primary full-width heavy'>Create your wallet</button>
                 </NavLink>
@@ -66,7 +66,7 @@ const Main = () => {
               </div>
             </div>
             <div className='row justify-content-center'>
-              <div className='col-12 col-sm-8 col-md-6 col-lg-4 col-xl-3 center-align'>
+              <div className='col-12 col-sm-8 col-md-6 col-lg-4 center-align'>
                 <NavLink to='/login'>
                   <button className='button-purple full-width heavy'>Login</button>
                 </NavLink>
@@ -74,7 +74,7 @@ const Main = () => {
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </section>
   )
 }

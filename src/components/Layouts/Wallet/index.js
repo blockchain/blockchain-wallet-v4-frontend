@@ -13,8 +13,8 @@ const WalletLayout = ({component: Component, ...rest}) => {
     <Route {...rest} render={matchProps => (
     // rest.isAuthenticated
     // ? (
-      <div className='container-fluid h-100'>
-        <div className='row fixed-top'>
+      <div className='container-fluid no-padding h-100'>
+        <div className='row no-gutters fixed-top'>
           <div className='col'>
             <Header />
           </div>

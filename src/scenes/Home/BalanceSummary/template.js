@@ -56,7 +56,7 @@ BalanceSummary.propTypes = {
   balances: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
-      amount: PropTypes.number.isRequired
+      amount: PropTypes.number
     })
   ),
   total: PropTypes.number.isRequired

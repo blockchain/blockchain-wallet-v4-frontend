@@ -39,6 +39,10 @@ const Balance = (props) => {
   )
 }
 
+Balance.defaultProps = {
+  balance: 0
+}
+
 Balance.propTypes = {
   balance: PropTypes.number.isRequired,
   clickBitcoinDisplay: PropTypes.func.isRequired
