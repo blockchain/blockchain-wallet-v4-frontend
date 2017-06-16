@@ -12,9 +12,9 @@ const MenuTop = () => {
   return (
     <div styleName='menu-top'>
       <div className='container-fluid height-100'>
-        <div className='row justify-content-between'>
-          <div className='col-4'>
-            <div className='row'>
+        <div className='row'>
+          <div className='col-12 col-md-8'>
+            <div className='row hidden-md-down'>
               <span className='f-28 text-uppercase'>Be your own bank.</span>
             </div>
             <div className='row'>
@@ -27,7 +27,7 @@ const MenuTop = () => {
               </div>
             </div>
           </div>
-          <div className='col-4 right-align'>
+          <div className='col-12 col-md-4'>
             <Balance />
           </div>
         </div>

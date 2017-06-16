@@ -20,12 +20,12 @@ const WalletLayout = ({component: Component, ...rest}) => {
           </div>
         </div>
         <div className='row h-100 padding-top-55'>
-          <div className='col-lg-2 bg-grey border-right hidden-lg-down'>
+          <div className='col-xl-2 bg-grey border-right hidden-lg-down'>
             <MenuLeft location={rest.location} />
           </div>
-          <div className='col-lg-10'>
+          <div className='col-12 col-xl-10'>
             <div className='row bg-white border-bottom'>
-              <div className='col'>
+              <div className='col-12'>
                 <MenuTop />
               </div>
             </div>
