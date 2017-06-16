@@ -6,18 +6,30 @@ import style from './style.scss'
 
 const DidYouKnow = (props) => {
   return (
-    <div className='container-fluid padding-20 border-box'>
-      <div className='row flex-row flex-between flex-center padding-bottom-20'>
-        <span className='f-16 em-400 capitalize'>Did you know?</span>
-        <span className={'f-13 em-400 upper ' + props.info.category.color}>{props.info.category.name}</span>
-      </div>
-      <div className='row flex-column flex-start flex-center padding-15 border-box border'>
-        <div className='row flex-row flex-start flex-center padding-vertical-10'>
-          <i className={props.info.icon + ' padding-right-15'} styleName='icon' />
-          <span className='f-24 em-300 blue'>{props.info.title}</span>
+    <div className='container-fluid margin-top-20'>
+      <div className='row justify-content-between'>
+        <div className='col-6'>
+          <span className='text-capitalize'>Did you know?</span>
         </div>
-        <div className='row'>
-          <span className='f-16 em-300 alt-font'>{props.info.description}</span>
+        <div className='col-6 right-align'>
+          <span className={'f-13 text-uppercase ' + props.info.category.color}>{props.info.category.name}</span>
+        </div>
+      </div>
+      <div className='row padding-top-20'>
+        <div className='col border'>
+          <div className='row justify-content-between align-items-center'>
+            <div className='col-2 col-md-2 col-xl-1'>
+              <i className={props.info.icon} styleName='icon' />
+            </div>
+            <div className='col col-md-10 col-xl-11'>
+              <span className='f-24 blue'>{props.info.title}</span>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col margin-bottom-20'>
+              <span className='f-16 alt-font'>{props.info.description}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -5,14 +5,20 @@ import style from './style.scss'
 
 const ActivityListItem = (props) => {
   return (
-    <div className='container-fluid padding-bottom-30 border-left' styleName='activity-item'>
-      <div className='row flex-row'>
-        <div styleName='marker'>
-          <i className='icon-tx' />
-        </div>
-        <div className='container-fluid flex-row flex-between border padding-10'>
+    <div className='container-fluid margin-bottom-40 border'>
+      <div className='row'>
+        <div className='col-4'>
+          <div styleName='marker' className='border-left'>
+            <div styleName='marker-circle'>
+              <i styleName='icon' className='icon-tx' />
+            </div>
+          </div>
           <span className='em-400 capitalize'>{props.activity.title}</span>
+        </div>
+        <div className='col-3'>
           <span>{props.activity.time}</span>
+        </div>
+        <div className='col-5'>
           <span>{props.activity.description}</span>
         </div>
       </div>

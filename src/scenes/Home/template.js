@@ -10,11 +10,11 @@ import DidYouKnow from './DidYouKnow'
 const Home = (props) => {
   return (
     <section className='container-fluid'>
-      <div className='row'>
-        <div className='col-md-6'>
+      <div className='row padding-20'>
+        <div className='col-12 col-lg-6'>
           <ActivityList activities={props.activities} />
         </div>
-        <div className='col-md-6 flex-column flex-start'>
+        <div className='col-12 col-lg-6'>
           <BalanceSummary />
           <DidYouKnow />
         </div>

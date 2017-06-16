@@ -9,7 +9,7 @@ import style from './style.scss'
 const Balance = (props) => {
   return (
     props.bitcoinDisplayed ? (
-      <div className='container-fluid'>
+      <div>
         <div className='row' onClick={props.clickBitcoinDisplay}>
           <div className='col'>
             <BitcoinDisplay className='f-28' amount={props.balance} />
@@ -22,7 +22,7 @@ const Balance = (props) => {
         </div>
       </div>
     ) : (
-      <div className='container-fluid'>
+      <div>
         <div className='row' onClick={props.clickBitcoinDisplay}>
           <div className='col'>
             <CurrencyDisplay className='f-28' amount={props.balance} />

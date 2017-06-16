@@ -11,31 +11,44 @@ import style from './style.scss'
 
 const BalanceSummary = (props) => {
   return (
-    <div className='container-fluid padding-20 border-box'>
-      <div className='row padding-bottom-20'>
-        <span className='f-16 em-400 capitalize'>Balances</span>
+    <div className='container-fluid'>
+      <div className='row'>
+        <div className='col'>
+          <span className='text-capitalize'>Balances</span>
+        </div>
       </div>
-      <div className='row flex-column flex-start flex-center padding-15 border-box border'>
-        {props.balances.map(function (balance, index) {
-          return (
-            <div className='row flex-row flex-between border-bottom padding-vertical-10' key={index}>
-              <span className='f-14'>{balance.title}</span>
+      <div className='row padding-top-20'>
+        <div className='col padding-20 border'>
+          {props.balances.map(function (balance, index) {
+            return (
+              <div className='row justify-content-between padding-vertical-10 border-bottom' key={index}>
+                <div className='col-6'>
+                  <span className='f-14'>{balance.title}</span>
+                </div>
+                <div className='col-6 right-align'>
+                  {props.bitcoinDisplayed ? (
+                    <BitcoinDisplay className='f-14' amount={balance.amount} />
+                  ) : (
+                    <CurrencyDisplay className='f-14' amount={balance.amount} />
+                  )}
+                </div>
+              </div>
+            )
+          })}
+          <div className='row justify-content-between padding-vertical-10'>
+            <div className='col-6'>
+              <span className='f-14 text-capitalize'>Total</span>
+            </div>
+            <div className='col-6 right-align'>
               {props.bitcoinDisplayed ? (
-                <BitcoinDisplay className='f-14' amount={balance.amount} />
+                <BitcoinDisplay className='f-14' amount={props.total} />
               ) : (
-                <CurrencyDisplay className='f-14' amount={balance.amount} />
+                <CurrencyDisplay className='f-14' amount={props.total} />
               )}
             </div>
-          )
-        })}
-        <div className='row flex-row flex-between padding-vertical-10'>
-          <span className='f-14 em-500 capitalize'>Total</span>
-          {props.bitcoinDisplayed ? (
-            <BitcoinDisplay className='f-14 em-500 capitalize' amount={props.total} />
-          ) : (
-            <CurrencyDisplay className='f-14 em-500 capitalize' amount={props.total} />
-          )}
+          </div>
         </div>
+
       </div>
     </div>
   )

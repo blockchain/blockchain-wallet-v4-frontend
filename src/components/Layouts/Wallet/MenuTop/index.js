@@ -15,7 +15,7 @@ const MenuTop = () => {
         <div className='row justify-content-between'>
           <div className='col-4'>
             <div className='row'>
-              <span className='f-28 upper half-strong'>Be your own bank.</span>
+              <span className='f-28 text-uppercase'>Be your own bank.</span>
             </div>
             <div className='row'>
               <div className='padding-right-10'>
