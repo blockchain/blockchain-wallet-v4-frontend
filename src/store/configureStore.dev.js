@@ -3,7 +3,8 @@ import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import persistState from 'redux-localstorage'
 import { createBrowserHistory } from 'history'
-import { routerMiddleware } from 'react-router-redux'
+// import { routerMiddleware } from 'react-router-redux'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
 // import Immutable from 'immutable-ext'
 // import { is } from 'ramda'
 // import { coreMiddleware } from 'dream-wallet/lib'
@@ -39,7 +40,8 @@ const configureStore = () => {
   // const walletPath = settings.WALLET_IMMUTABLE_PATH
 
   const store = createStore(
-    rootReducer,
+    // rootReducer,
+    connectRouter(history)(rootReducer),
     composeEnhancers(
       persistState('session'),
       applyMiddleware(

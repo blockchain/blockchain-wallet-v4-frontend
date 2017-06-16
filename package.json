@@ -87,6 +87,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "bootstrap": "4.0.0-alpha.6",
+    "connected-react-router": "^4.2.1",
     "dream-wallet": "blockchain/dream-wallet",
     "es6-promise": "^4.1.0",
     "immutable-ext": "^1.1.0",
