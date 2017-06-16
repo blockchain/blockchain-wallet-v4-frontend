@@ -5,13 +5,13 @@ import * as R from 'ramda'
 import { traversed, traverseOf } from 'ramda-lens'
 import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
-import { shift, shiftIProp } from '../util'
+import { shift, shiftIProp, JSToI } from '../util'
 import Type from './Type'
 import * as HDWallet from './HDWallet'
 import * as HDAccount from './HDAccount'
 import * as Address from './Address'
 
-const { compose, over, view, curry } = R
+const { compose, over, view, curry, map } = R
 
 /* Wallet :: {
   guid :: String
@@ -50,6 +50,7 @@ export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
 export const selectAddrContext = R.compose(R.map(Address.selectAddr), selectAddresses)
+export const selectPrivKeys = R.compose(R.map(Address.selectPriv), selectAddresses)
 export const selectXpubsContext = w => selectHdWallets(w).flatMap(HDWallet.selectXpubs)
 export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
 export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
@@ -78,6 +79,24 @@ export const toJS = R.pipe(Wallet.guard, (wallet) => {
 
   let destructWallet = compose(destructHdWallets, destructAddressses)
   return shiftWallet(destructWallet(wallet).__internal).back().toJS()
+})
+
+export const fromJSON = (x) => {
+  // console.log(x)
+  // const JSONtoOpt = over(R.lensProp('options'), Map)
+  // const JSONtoAdd = over(R.lensProp('addresses'), Map)
+  // const JSONtoHD = over(R.lensProp('hd_wallets'), List)
+  // const t = compose(JSONtoOpt, JSONtoAdd, JSONtoHD)
+  return new Wallet(JSToI(x))
+}
+
+export const toJSON = R.pipe(Wallet.guard, (wallet) => {
+  const iToJS = x => x.toJS()
+  const optToJSON = over(options, iToJS)
+  const addToJSON = over(addresses, iToJS)
+  const hdToJSON = over(hdWallets, iToJS)
+  const t = compose(hdToJSON, addToJSON, optToJSON)
+  return iToJS(t(wallet).__internal)
 })
 
 // fromEncryptedPayload :: String -> String -> Either Error Wallet

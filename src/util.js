@@ -1,4 +1,7 @@
-import { is, curry, compose, prop, lens } from 'ramda'
+import { Map, List } from 'immutable-ext'
+import { is, curry, compose, prop, lens, map, has } from 'ramda'
+
+export const hasInternal = has('__internal')
 
 export const error = (e) => { throw e }
 
@@ -29,3 +32,24 @@ export const shiftIProp = curry((from, to, s) => ({
 }))
 
 export const iToJS = (i) => i.toJS()
+
+export const toMapOrList = (x) => {
+  if (Array.isArray(x)) {
+    return List(x)
+  } else if ((typeof x === 'object') && (x !== null) && (!Array.isArray(x))) {
+    return Map(x)
+  } else {
+    return x
+  }
+}
+
+export const JSToI = object => {
+  const f = (value) => {
+    if (hasInternal(value)) {
+      return value
+    } else {
+      return toMapOrList(value)
+    }
+  }
+  return map(f, object)
+}

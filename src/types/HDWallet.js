@@ -1,6 +1,6 @@
 import { List, fromJS as iFromJS } from 'immutable-ext'
 import * as R from 'ramda'
-import { shift, shiftIProp } from '../util'
+import { shift, shiftIProp, JSToI } from '../util'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 import Type from './Type'
@@ -45,6 +45,18 @@ export const toJS = R.pipe(HDWallet.guard, (hd) => {
   let destructAccounts = R.set(accounts, selectAccountsJS(hd))
   let destructHDWallet = R.compose(destructAccounts)
   return shiftHDWallet(destructHDWallet(hd).__internal).back().toJS()
+})
+
+export const fromJSON = (x) => {
+  // const JSONtoAccs = R.over(R.lensProp('accounts'), List)
+  // return new HDWallet(JSONtoAccs(x))
+  return new HDWallet(JSToI(x))
+}
+
+export const toJSON = R.pipe(HDWallet.guard, (hd) => {
+  const iToJS = x => x.toJS()
+  const accsToJSON = R.over(accounts, iToJS)
+  return iToJS(accsToJSON(hd).__internal)
 })
 
 export const createNew = R.curry((mnemonic, { label } = {}) => {

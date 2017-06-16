@@ -44,6 +44,14 @@ export const toJS = R.pipe(Address.guard, (address) => {
   return address.__internal.toJS()
 })
 
+export const toJSON = R.pipe(Address.guard, (address) => {
+  return address.__internal.toJS()
+})
+
+export const fromJSON = (jsObject) => {
+  return new Address(jsObject)
+}
+
 // setLabel :: String -> Address -> Address
 export const setLabel = R.set(label)
 

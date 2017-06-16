@@ -3,7 +3,7 @@ import { compose } from 'ramda'
 import { Wrapper, Wallet } from '../../src/types'
 import walletReducer from '../../src/redux/wallet/reducers.js'
 import * as Actions from '../../src/redux/wallet/actions.js'
-const walletFixture = require('../_fixtures/wallet.v3')
+const walletFixture = require('../_fixtures/Wallet/wallet.v3')
 
 const wrap = wallet => ({
   sync_pubkeys: false,

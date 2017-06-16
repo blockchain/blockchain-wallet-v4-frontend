@@ -3,6 +3,7 @@ import * as crypto from '../WalletCrypto'
 import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
 import Type from './Type'
+import { JSToI } from '../util'
 import * as Wallet from './Wallet'
 
 /* Wrapper :: {
@@ -60,6 +61,15 @@ export const toJS = R.pipe(Wrapper.guard, (wrapper) => {
   const destructWallet = R.set(wallet, selectWalletJS(wrapper))
   const destructWrapper = R.compose(destructWallet)
   return destructWrapper(wrapper).__internal.toJS()
+})
+
+// fromJSON :: JSON -> wrapper
+export const fromJSON = (js) => {
+  return new Wrapper(JSToI(js))
+}
+
+export const toJSON = R.pipe(Wrapper.guard, (wrapper) => {
+  return wrapper.__internal.toJS()
 })
 
 // fromEncJSON :: String -> JSON -> Either Error Wrapper

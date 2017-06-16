@@ -53,6 +53,7 @@
   "dependencies": {
     "bip39": "^2.3.0",
     "bitcoinjs-lib": "^2.3.0",
+    "chai-immutable": "^1.6.0",
     "data.either": "^1.5.0",
     "data.task": "^3.1.1",
     "es6-promise": "^4.1.0",

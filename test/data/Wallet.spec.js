@@ -1,15 +1,15 @@
 import chai from 'chai'
 import spies from 'chai-spies'
 import * as R from 'ramda'
-import { Address, Wallet } from '../../src/types'
+import { Address, Wallet, HDWallet, HDAccount } from '../../src/types'
 import * as crypto from '../../src/WalletCrypto'
 
 chai.use(spies)
 const { expect } = chai
 
-const walletFixture = require('../_fixtures/wallet.v3')
-const walletNewFixture = require('../_fixtures/wallet-new.v3')
-const walletFixtureSecpass = require('../_fixtures/wallet.v3-secpass')
+const walletFixture = require('../_fixtures/Wallet/wallet.v3')
+const walletNewFixture = require('../_fixtures/Wallet/wallet-new.v3')
+const walletFixtureSecpass = require('../_fixtures/Wallet/wallet.v3-secpass')
 const secpass = 'secret'
 
 describe('Wallet', () => {
