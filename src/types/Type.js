@@ -1,19 +1,20 @@
 import { compose, view } from 'ramda'
-import { Map } from 'immutable-ext'
+// import { Map } from 'immutable-ext'
 import { iLensProp } from '../lens'
 import { typeGuard, typeLens } from '../util'
+import * as eImmutable from 'extendable-immutable'
 
-export default class Type {
-  constructor (x) {
-    this.__internal = Map(x)
-  }
-
+export default class Type extends eImmutable.Map {
   static get guard () {
     return typeGuard(this)
   }
 
   static get lens () {
     return typeLens(this)
+  }
+
+  toJSON () {
+    return { data: this.toObject(), __serializedType__: this.constructor.name }
   }
 
   static define (prop) {

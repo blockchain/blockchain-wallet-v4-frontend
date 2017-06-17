@@ -10,6 +10,11 @@ import * as Cache from './Cache'
 
 const serializer = {
   replacer: (key, value) => {
+    console.log('hola')
+    console.log(key)
+    console.log('2')
+    console.log(value)
+    console.log('3')
     switch (true) {
       case is(Wallet.Wallet, value):
         return { data: Wallet.toJSON(value), __serializedType__: 'Wallet' }

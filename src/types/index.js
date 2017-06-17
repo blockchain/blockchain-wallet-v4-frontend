@@ -6,6 +6,7 @@ import * as HDAccount from './HDAccount'
 import * as Wrapper from './Wrapper'
 import * as InitialState from './initialState'
 import * as Cache from './Cache'
+import * as AddressMap from './AddressMap'
 import serializer from './Serializer'
 
 export {
@@ -17,5 +18,6 @@ export {
   Wrapper,
   Cache,
   InitialState,
-  serializer
+  serializer,
+  AddressMap
 }
