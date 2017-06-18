@@ -36,21 +36,13 @@ export const selectCreatedDeviceVersion = view(createdDeviceVersion)
 export const isArchived = compose(Boolean, equals(2), view(tag))
 export const isActive = compose(not, isArchived)
 
-export const fromJS = (x) => {
-  if (is(Address, x)) {
-    return x
-  } else {
-    return new Address(x)
-  }
-}
+export const fromJS = (x) => is(Address, x) ? x : new Address(x)
 
 export const toJS = pipe(Address.guard, iToJS)
 
-export const toJSON = pipe(Address.guard, iToJS)
-
-export const fromJSON = (jsObject) => {
-  return new Address(jsObject)
-}
+// export const reviver = (jsObject) => {
+//   return new Address(jsObject)
+// }
 
 // setLabel :: String -> Address -> Address
 export const setLabel = set(label)

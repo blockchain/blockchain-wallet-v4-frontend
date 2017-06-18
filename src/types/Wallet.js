@@ -1,17 +1,18 @@
-import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import Either from 'data.either'
 import Task from 'data.task'
-import * as R from 'ramda'
+import { Map, List } from 'immutable-ext'
+import { compose, over, view, curry, map, is, pipe, lensProp, __, concat } from 'ramda'
 import { traversed, traverseOf } from 'ramda-lens'
 import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
-import { shift, shiftIProp, JSToI } from '../util'
+import { shift, shiftIProp } from '../util'
 import Type from './Type'
 import * as HDWallet from './HDWallet'
 import * as HDAccount from './HDAccount'
 import * as Address from './Address'
-
-const { compose, over, view, curry, map } = R
+import * as AddressMap from './AddressMap'
+import * as HDWalletList from './HDWalletList'
+import * as AddressBook from './AddressBook'
 
 /* Wallet :: {
   guid :: String
@@ -37,89 +38,91 @@ export const pbkdf2Iterations = compose(options, iLensProp('pbkdf2_iterations'))
 export const addresses = Wallet.define('addresses')
 export const dpasswordhash = Wallet.define('dpasswordhash')
 export const hdWallets = Wallet.define('hd_wallets')
+export const txNotes = Wallet.define('tx_notes')
+export const txNames = Wallet.define('tx_names')
+export const addressBook = Wallet.define('address_book')
 
 // selectGuid :: Wallet -> String
 export const selectGuid = view(guid)
 export const selectSharedKey = view(sharedKey)
 export const selectIterations = view(pbkdf2Iterations)
 export const selectmetadataHDNode = view(metadataHDNode)
+export const selectTxNotes = view(txNotes)
+export const selectTxNames = view(txNames)
+export const selectAddressBook = view(addressBook)
 
-export const selectAddresses = compose(as => as.toList(), view(addresses))
+export const selectAddresses = view(addresses)
 export const selectHdWallets = view(hdWallets)
 export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
-export const selectAddrContext = R.compose(R.map(Address.selectAddr), selectAddresses)
-export const selectPrivKeys = R.compose(R.map(Address.selectPriv), selectAddresses)
-export const selectXpubsContext = w => selectHdWallets(w).flatMap(HDWallet.selectXpubs)
-export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
-export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
+// export const selectAddrContext = compose(map(Address.selectAddr), selectAddresses)
+// export const selectPrivKeys = compose(map(Address.selectPriv), selectAddresses)
+// export const selectXpubsContext = w => selectHdWallets(w).flatMap(HDWallet.selectXpubs)
+// export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
+// export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
+// need to define options type? and handle tx_notes, tx_names, address_book
 export const fromJS = (x) => {
-  if (x instanceof Wallet) { return x }
-  let addressesMapCons = compose(Map, R.indexBy(R.prop('addr')), R.map(Address.fromJS))
-  let hdWalletListCons = compose(List, R.map(HDWallet.fromJS))
-
-  let walletCons = compose(
-    over(hdWallets, hdWalletListCons),
-    over(addresses, addressesMapCons)
+  if (is(Wallet, x)) { return x }
+  const walletCons = compose(
+    over(hdWallets, HDWalletList.fromJS),
+    over(addresses, AddressMap.fromJS),
+    over(options, Map),
+    over(txNames, List),
+    over(txNotes, Map),
+    over(addressBook, AddressBook.fromJS),
+    w => shiftWallet(w).forward()
   )
-
-  return walletCons(new Wallet(shiftWallet(iFromJS(x)).forward()))
+  return walletCons(new Wallet(x))
 }
 
-export const toJS = R.pipe(Wallet.guard, (wallet) => {
-  let selectAddressesJS = compose(R.map(Address.toJS), selectAddresses)
-  let destructAddressses = R.set(addresses, selectAddressesJS(wallet))
-
-  let selectHdWalletsJS = compose(R.map(HDWallet.toJS), selectHdWallets)
-  let destructHdWallets = R.set(hdWallets, selectHdWalletsJS(wallet))
-
-  let destructWallet = compose(destructHdWallets, destructAddressses)
-  return shiftWallet(destructWallet(wallet).__internal).back().toJS()
-})
-
-export const fromJSON = (x) => {
-  // console.log(x)
-  // const JSONtoOpt = over(R.lensProp('options'), Map)
-  // const JSONtoAdd = over(R.lensProp('addresses'), Map)
-  // const JSONtoHD = over(R.lensProp('hd_wallets'), List)
-  // const t = compose(JSONtoOpt, JSONtoAdd, JSONtoHD)
-  return new Wallet(JSToI(x))
-}
-
-export const toJSON = R.pipe(Wallet.guard, (wallet) => {
-  const iToJS = x => x.toJS()
-  const optToJSON = over(options, iToJS)
-  const addToJSON = over(addresses, iToJS)
-  const hdToJSON = over(hdWallets, iToJS)
-  const t = compose(hdToJSON, addToJSON, optToJSON)
-  return iToJS(t(wallet).__internal)
-})
-
-// fromEncryptedPayload :: String -> String -> Either Error Wallet
-export const fromEncryptedPayload = R.curry((password, payload) => {
-  let decryptWallet = R.compose(
-    R.map(fromJS),
-    crypto.decryptWallet(password),
-    JSON.parse
+// need to define options type? and handle tx_notes, tx_names, address_book
+export const toJS = pipe(Wallet.guard, (wallet) => {
+  const walletDecons = compose(
+    w => shiftWallet(w).back(),
+    over(options, o => o.toObject()),
+    over(txNotes, o => o.toObject()),
+    over(txNames, o => o.toArray()),
+    over(hdWallets, HDWalletList.toJS),
+    over(addresses, AddressMap.toJS),
+    over(addressBook, AddressBook.toJS)
   )
-  return Either.of(payload).chain(decryptWallet)
+  return walletDecons(wallet).toJS()
 })
 
-// toEncryptedPayload :: String -> Wallet -> Either Error String
-export const toEncryptedPayload = R.curry((password, wallet) => {
-  Wallet.guard(wallet)
-  let iters = selectIterations(wallet)
-  let encryptWallet = R.compose(
-    Either.try(crypto.encryptWallet(R.__, password, iters, 3.0)),
-    JSON.stringify,
-    toJS
-  )
-  return Either.of(wallet).chain(encryptWallet)
-})
+// export const reviver = (x) => {
+//   // console.log(x)
+//   // const JSONtoOpt = over(lensProp('options'), Map)
+//   // const JSONtoAdd = over(lensProp('addresses'), Map)
+//   // const JSONtoHD = over(lensProp('hd_wallets'), List)
+//   // const t = compose(JSONtoOpt, JSONtoAdd, JSONtoHD)
+//   return new Wallet(JSToI(x))
+// }
+
+// // fromEncryptedPayload :: String -> String -> Either Error Wallet
+// export const fromEncryptedPayload = curry((password, payload) => {
+//   let decryptWallet = compose(
+//     map(fromJS),
+//     crypto.decryptWallet(password),
+//     JSON.parse
+//   )
+//   return Either.of(payload).chain(decryptWallet)
+// })
+
+// // toEncryptedPayload :: String -> Wallet -> Either Error String
+// export const toEncryptedPayload = curry((password, wallet) => {
+//   Wallet.guard(wallet)
+//   let iters = selectIterations(wallet)
+//   let encryptWallet = compose(
+//     Either.try(crypto.encryptWallet(__, password, iters, 3.0)),
+//     JSON.stringify,
+//     toJS
+//   )
+//   return Either.of(wallet).chain(encryptWallet)
+// })
 
 // isValidSecondPwd :: String -> Wallet -> Bool
 export const isValidSecondPwd = curry((password, wallet) => {
@@ -127,33 +130,33 @@ export const isValidSecondPwd = curry((password, wallet) => {
     let iter = selectIterations(wallet)
     let sk = view(sharedKey, wallet)
     let storedHash = view(dpasswordhash, wallet)
-    let computedHash = crypto.hashNTimes(iter, R.concat(sk, password)).toString('hex')
+    let computedHash = crypto.hashNTimes(iter, concat(sk, password)).toString('hex')
     return storedHash === computedHash
   } else {
     return true
   }
 })
 
-// addAddress :: Wallet -> Address -> String -> Either Error Wallet
-export const addAddress = curry((wallet, address, password) => {
-  let it = selectIterations(wallet)
-  let sk = view(sharedKey, wallet)
-  let set = curry((a, as) => as.set(a.addr, a))
-  let append = curry((w, a) => over(addresses, set(a), w))
-  if (!isDoubleEncrypted(wallet)) {
-    return Either.of(append(wallet, address))
-  } else if (isValidSecondPwd(password, wallet)) {
-    return Address.encryptSync(it, sk, password, address).map(append(wallet))
-  } else {
-    return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
-  }
-})
+// // addAddress :: Wallet -> Address -> String -> Either Error Wallet
+// export const addAddress = curry((wallet, address, password) => {
+//   let it = selectIterations(wallet)
+//   let sk = view(sharedKey, wallet)
+//   let set = curry((a, as) => as.set(a.addr, a))
+//   let append = curry((w, a) => over(addresses, set(a), w))
+//   if (!isDoubleEncrypted(wallet)) {
+//     return Either.of(append(wallet, address))
+//   } else if (isValidSecondPwd(password, wallet)) {
+//     return Address.encryptSync(it, sk, password, address).map(append(wallet))
+//   } else {
+//     return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
+//   }
+// })
 
-// setAddressLabel :: String -> String -> Wallet -> Wallet
-export const setAddressLabel = curry((address, label, wallet) => {
-  let addressLens = compose(addresses, iLensProp(address))
-  return R.over(addressLens, Address.setLabel(label), wallet)
-})
+// // setAddressLabel :: String -> String -> Wallet -> Wallet
+// export const setAddressLabel = curry((address, label, wallet) => {
+//   let addressLens = compose(addresses, iLensProp(address))
+//   return over(addressLens, Address.setLabel(label), wallet)
+// })
 
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
 export const traverseKeyValues = curry((of, f, wallet) => {
@@ -170,10 +173,9 @@ export const encryptMonadic = curry((of, cipher, password, wallet) => {
   } else {
     let iter = selectIterations(wallet)
     let enc = cipher(wallet.sharedKey, iter, password)
-    let hash = crypto.hashNTimes(iter, R.concat(wallet.sharedKey, password)).toString('hex')
+    let hash = crypto.hashNTimes(iter, concat(wallet.sharedKey, password)).toString('hex')
     let setFlag = over(doubleEncryption, () => true)
     let setHash = over(dpasswordhash, () => hash)
-
     return traverseKeyValues(of, enc, wallet).map(compose(setHash, setFlag))
   }
 })
@@ -224,24 +226,24 @@ export const decryptSync = decryptMonadic(
   validateSecondPwd(Either.of, Either.Left)
 )
 
-// createNew :: String -> String -> String -> Wallet
-export const createNew = curry((guid, sharedKey, mnemonic) => {
-  let hd = HDWallet.createNew(mnemonic)
+// // createNew :: String -> String -> String -> Wallet
+// export const createNew = curry((guid, sharedKey, mnemonic) => {
+//   let hd = HDWallet.createNew(mnemonic)
 
-  return fromJS({
-    guid,
-    sharedKey,
-    options: {
-      pbkdf2_iterations: 5000,
-      fee_per_kb: 10000,
-      html5_notifications: false,
-      logout_time: 600000
-    },
-    tx_notes: {},
-    tx_names: [],
-    double_encryption: false,
-    address_book: [],
-    keys: [],
-    hd_wallets: [HDWallet.toJS(hd)]
-  })
-})
+//   return fromJS({
+//     guid,
+//     sharedKey,
+//     options: {
+//       pbkdf2_iterations: 5000,
+//       fee_per_kb: 10000,
+//       html5_notifications: false,
+//       logout_time: 600000
+//     },
+//     tx_notes: {},
+//     tx_names: [],
+//     double_encryption: false,
+//     address_book: [],
+//     keys: [],
+//     hd_wallets: [HDWallet.toJS(hd)]
+//   })
+// })

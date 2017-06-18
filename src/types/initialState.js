@@ -1,9 +1,23 @@
 // This is meant to define inital state for each type
+export const AddressBookEntry = {
+  'addr': '1myfriendAddress',
+  'label': 'this is edu'
+}
+
+export const Cache = {
+  'receiveAccount': '',
+  'changeAccount': ''
+}
+
+export const AddressLabel = {
+  'index': 0,
+  'label': 'my label'
+}
 
 export const Address = {
   'addr': '1address',
-  'priv': null,
-  'label': '',
+  'priv': 'my-address-key',
+  'label': 'my-address-label',
   'tag': 0,
   'created_time': 0,
   'created_device_name': 'DREAM_WALLET',
@@ -11,19 +25,16 @@ export const Address = {
 }
 
 export const HDAccount = {
-  'label': '',
+  'label': 'my-hd-account',
   'archived': false,
-  'xpriv': '',
-  'xpub': '',
-  'address_labels': [],
-  'cache': {
-    'receiveAccount': '',
-    'changeAccount': ''
-  }
+  'xpriv': 'my-xpriv',
+  'xpub': 'my-xpub',
+  'address_labels': [AddressLabel],
+  'cache': Cache
 }
 
 export const HDWallet = {
-  'seed_hex': '',
+  'seed_hex': 'my-seed-hex',
   'passphrase': '',
   'mnemonic_verified': false,
   'default_account_idx': 0,
@@ -32,13 +43,13 @@ export const HDWallet = {
 
 export const Wallet = {
   'tx_notes': {},
-  'guid': '',
+  'guid': 'my-guid',
   'tx_names': [],
   'double_encryption': false,
-  'address_book': [],
+  'address_book': [AddressBookEntry],
   'keys': [Address],
   'hd_wallets': [HDWallet],
-  'sharedKey': '',
+  'sharedKey': 'my-shared-key',
   'options': {
     'pbkdf2_iterations': 5000,
     'fee_per_kb': 10000,

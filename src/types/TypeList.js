@@ -3,7 +3,7 @@ import { iLensProp } from '../lens'
 import { typeGuard, typeLens } from '../util'
 import * as eImmutable from 'extendable-immutable'
 
-export default class Type extends eImmutable.Map {
+export default class TypeList extends eImmutable.List {
   static get guard () {
     return typeGuard(this)
   }
@@ -13,7 +13,7 @@ export default class Type extends eImmutable.Map {
   }
 
   toJSON () {
-    return { data: this.toObject(), __serializedType__: this.constructor.name }
+    return { data: this.toArray(), __serializedType__: this.constructor.name }
   }
 
   static define (prop) {

@@ -7,6 +7,11 @@ import * as Wrapper from './Wrapper'
 import * as InitialState from './initialState'
 import * as Cache from './Cache'
 import * as AddressMap from './AddressMap'
+import * as AddressLabelMap from './AddressLabelMap'
+import * as HDAccountList from './HDAccountList'
+import * as HDWalletList from './HDWalletList'
+import * as AddressBook from './AddressBook'
+import * as AddressBookEntry from './AddressBookEntry'
 import serializer from './Serializer'
 
 export {
@@ -19,5 +24,10 @@ export {
   Cache,
   InitialState,
   serializer,
-  AddressMap
+  AddressMap,
+  AddressLabelMap,
+  HDWalletList,
+  HDAccountList,
+  AddressBookEntry,
+  AddressBook
 }
