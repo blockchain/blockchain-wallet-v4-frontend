@@ -12,7 +12,7 @@ import style from './style.scss'
 
 const Header = (props) => {
   return (
-    <nav className='navbar navbar-toggleable-md'>
+    <nav className='navbar navbar-toggleable-md bg-primary'>
       <button className={`navbar-toggler navbar-toggler-right navbar-light ${props.headerMenuDisplayed ? 'collapsed' : ''}`} onClick={props.clickHeaderMenu}>
         <span className='navbar-toggler-icon' />
       </button>
