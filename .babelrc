@@ -10,9 +10,12 @@
       "root": ["./src"],
       "alias": {
         "npm": "./node_modules",
-        "sass": "./src/assets/sass",
-        "img": "./src/assets/img",
+        
+        
         "fonts": "./src/assets/fonts",
+        "img": "./src/assets/img",
+        "locales": "./src/assets/locales",
+        "sass": "./src/assets/sass",
         "components": "./src/components",
         "data": "./src/data",
         "middleware": "./src/middleware",

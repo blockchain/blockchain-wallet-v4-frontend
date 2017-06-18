@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 
+import Translate from 'components/Shared/Translate'
 import style from './style.scss'
 
 const Login = (props) => {
@@ -9,7 +10,7 @@ const Login = (props) => {
     <section styleName='login'>
       <div className='row padding-vertical-10'>
         <div className='col-md-6 left-align'>
-          <span className='f-24 capitalize'>Welcome back!</span>
+          <Translate className='f-24 text-capitalize' translate='WELCOME_BACK' />
         </div>
         <div className='col-md-6 right-align'>
           <span className='margin-right-5'>or</span>

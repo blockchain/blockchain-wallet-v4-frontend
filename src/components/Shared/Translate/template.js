@@ -1,0 +1,14 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+
+const Translate = (props) => {
+  return (
+    <span className={props.className}>{props.value}</span>
+  )
+}
+
+Translate.propTypes = {
+  value: PropTypes.string.isRequired
+}
+
+export default Translate
