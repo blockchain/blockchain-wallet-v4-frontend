@@ -7,7 +7,7 @@ import DidYouKnow from './template.js'
 class DidYouKnowContainer extends React.Component {
   render () {
     let info = {
-      icon: 'ti-id-badge',
+      icon: 'icon-id',
       category: {
         name: 'Educational',
         color: 'brand-success'

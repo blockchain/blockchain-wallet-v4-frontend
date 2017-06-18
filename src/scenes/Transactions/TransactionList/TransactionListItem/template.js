@@ -46,7 +46,7 @@ const TransactionListItem = (props) => {
         </div>
         <div className='col-3'>
           {props.transaction.description
-            ? <span className='f-14'>{props.transaction.description} <i className='ti-pencil primary pointer pl-5' /></span>
+            ? <span className='f-14'>{props.transaction.description} <i className='primary pointer pl-5' /></span>
             : <span className='pointer'>Add a description</span>
           }
         </div>
