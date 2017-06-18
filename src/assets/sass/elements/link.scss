@@ -1,12 +1,12 @@
 a {
   font-size: 14px;
   text-decoration: none;
-  color: $iris;
+  color: $brand-info;
   cursor: pointer;
 
   &:hover{
     text-decoration: none;
-    color: $iris;
+    color: $brand-info;
   }
 }
 
@@ -22,7 +22,7 @@ a {
   text-transform: uppercase;
   font-size: 13px;
   font-weight: 400;
-  color: $basic-grey;
+  color: $gray-light;
 
   &:focus {
     text-decoration: none;
@@ -38,7 +38,7 @@ a {
   }
 
   &.active {
-    color: $iris;
+    color: $brand-info;
   }
 
   & .icon {

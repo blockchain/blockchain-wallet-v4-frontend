@@ -68,7 +68,7 @@ const Main = () => {
             <div className='row justify-content-center'>
               <div className='col-12 col-sm-8 col-md-6 col-lg-4 center-align'>
                 <NavLink to='/login'>
-                  <button className='button-purple full-width heavy'>Login</button>
+                  <button className='button-primary full-width heavy'>Login</button>
                 </NavLink>
               </div>
             </div>

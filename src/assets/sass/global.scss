@@ -3,7 +3,6 @@
 
 // Resources
 @import 'resources/bootstrap-settings.scss';
-@import 'resources/colors.scss';
 @import 'resources/image.scss';
 @import 'resources/mixins.scss';
 
@@ -29,7 +28,7 @@ html, body {
   position: relative;
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-weight: 300;
-  color: #5F5F5F;
+  color: $text;
   height: 100%;
   width: 100%;
   padding: 0;

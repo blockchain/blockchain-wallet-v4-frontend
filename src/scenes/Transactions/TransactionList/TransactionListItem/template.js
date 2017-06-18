@@ -47,7 +47,7 @@ const TransactionListItem = (props) => {
         <div className='col-3'>
           {props.transaction.description
             ? <span className='f-14'>{props.transaction.description} <i className='ti-pencil primary pointer pl-5' /></span>
-            : <span className='mid-grey pointer'>Add a description</span>
+            : <span className='pointer'>Add a description</span>
           }
         </div>
         <div className='col-2' onClick={props.clickBitcoinDisplay}>

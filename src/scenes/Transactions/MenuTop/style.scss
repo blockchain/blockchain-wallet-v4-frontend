@@ -1,8 +1,8 @@
 
 .menuTop {
-  @include box-sizing(border-box);
   width: 100%;
   height: 55px;
-  background-color: $grey;
-  border-bottom: 1px solid $border-grey;
+  @include box-sizing(border-box);
+  background-color: $gray-lightest;
+  border-bottom: 1px solid $gray-lighter;
 }

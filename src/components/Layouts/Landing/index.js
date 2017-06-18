@@ -7,8 +7,8 @@ import Footer from './Footer'
 const LandingLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
-      <div className='bg-blue'>
-        <Header />  
+      <div>
+        <Header />
         <Component {...matchProps} />
         <Footer />
       </div>

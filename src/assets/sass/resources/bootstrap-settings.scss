@@ -95,13 +95,19 @@ $orange: #f0ad4e !default;
 $yellow: #ffd500 !default;
 $green:  #00A76F !default;
 $blue:   #004A7C !default;
-$teal:   #5bc0de !default;
+$teal:   #10ADE4 !default;
 $pink:   #ff5b77 !default;
 $purple: #613d7c !default;
+
+$red-alt:    #F26C57;
+$blue-alt:   #799EB2;
+$green-alt:  #00BABC;
+
 
 // Create grayscale
 $gray-dark:                 #292b2c !default;
 $gray:                      #464a4c !default;
+$text:                      #5F5F5F !default;
 $gray-light:                #636c72 !default;
 $gray-lighter:              #eceeef !default;
 $gray-lightest:             #f7f7f9 !default;
@@ -113,6 +119,10 @@ $brand-info:                $teal !default;
 $brand-warning:             $orange !default;
 $brand-danger:              $red !default;
 $brand-inverse:             $gray-dark !default;
+
+$brand-red-alt:   $red-alt;
+$brand-blue-alt:  $blue-alt;
+$brand-green-alt: $green-alt;
 
 
 // Options

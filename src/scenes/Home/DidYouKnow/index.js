@@ -10,7 +10,7 @@ class DidYouKnowContainer extends React.Component {
       icon: 'ti-id-badge',
       category: {
         name: 'Educational',
-        color: 'success'
+        color: 'brand-success'
       },
       title: 'Your wallet ID cannot be used to send/receive bitcoin',
       description: 'Your wallet ID is like a username, you use it to login to your wallet. To send/receive bitcoin you need a bitcoin address. To generate a new bitcoin address click Receive.'
