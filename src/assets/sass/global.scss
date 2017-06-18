@@ -25,8 +25,8 @@
 @import 'components/navbar.scss';
 
 html, body {
+  @extend .main-font;
   position: relative;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-weight: 300;
   color: $text;
   height: 100%;
