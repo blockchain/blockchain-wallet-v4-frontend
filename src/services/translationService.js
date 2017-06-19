@@ -37,6 +37,7 @@ function translate (translationKey, cultureCode, data) {
   let translation = path(translationKey.split('.'), require('locales/' + cultureCode + '.json'))
 
   //if (isNil(translation)) return Maybe.Nothing()
+  // Fallback english if the translation does not exist
   if (isNil(translation)) translation = path(translationKey.split('.'), require('locales/en-GB.json'))
 
   forEachObjIndexed((value, key) => { translation = translation.replace(key, value) }, data)

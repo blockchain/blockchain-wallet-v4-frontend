@@ -28,7 +28,7 @@ TranslateContainer.propTypes = {
 function mapStateToProps (state) {
   // Default settings
   let language = selectors.core.settings.getLanguage(state)
-  let cultureCode = (!isNil(language) && language.length == 2) ? convertLanguageToCultureCode(language) : language
+  let cultureCode = (!isNil(language) && language.length == 2) ? convertLanguageToCultureCode(language).getOrElse('en-GB') : language
 
   // Fallback to preferences
   if (isNil(cultureCode)) {
