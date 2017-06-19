@@ -1956,9 +1956,9 @@ domutils@1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dream-wallet@https://github.com/blockchain/dream-wallet.git":
+dream-wallet@blockchain/dream-wallet:
   version "1.0.0"
-  resolved "https://github.com/blockchain/dream-wallet.git#d466960bbe275f93fc50acaa9c836397d7baf7bf"
+  resolved "git+ssh://git@github.com/blockchain/dream-wallet.git#183dc0c619299587d44e9ed70aa3ae2c36a186f2"
   dependencies:
     bip39 "^2.3.0"
     bitcoinjs-lib "^2.3.0"
@@ -1967,7 +1967,7 @@ domutils@1.5.1:
     es6-promise "^4.1.0"
     futurize "^1.2.0"
     immutable "^3.8.1"
-    immutable-ext "https://github.com/pernas/immutable-ext.git"
+    immutable-ext "^1.1.0"
     isomorphic-fetch "^2.2.1"
     pbkdf2 "~3.0.12"
     ramda "^0.23.0"
@@ -3057,10 +3057,6 @@ ignore@^3.0.11, ignore@^3.0.9, ignore@^3.2.0:
 immutable-ext@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/immutable-ext/-/immutable-ext-1.1.0.tgz#ea5a785c9d110aa110db0266a240d87305fa860d"
-
-"immutable-ext@https://github.com/pernas/immutable-ext.git":
-  version "1.0.8"
-  resolved "https://github.com/pernas/immutable-ext.git#19ee7b970a1344016feeddd51887e45b0b7dfd8a"
 
 immutable@^3.8.1:
   version "3.8.1"
