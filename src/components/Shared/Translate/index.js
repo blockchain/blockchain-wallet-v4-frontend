@@ -8,7 +8,7 @@ import { selectors } from 'data'
 import Translate from './template.js'
 
 const TranslateContainer = (props) => {
-  let translation = translate(props.translate, props.language).getOrElse('???')
+  let translation = translate(props.translate, props.language, props.data).getOrElse('???')
 
   return (
     <Translate className={props.className} styleName={props.styleName} value={translation} />
@@ -23,17 +23,25 @@ TranslateContainer.propTypes = {
 }
 
 function mapStateToProps (state) {
-  let preferredLanguage = selectors.core.settings.getLanguage(state)
-  // Fallback
-  if (isNil(preferredLanguage)) {
+  let language = selectors.core.settings.getLanguage(state)
+  // Fallback to preferences
+  if (isNil(language)) {
+    language = selectors.preferences.getCulture(state)
+  }
+  // Fallback to browser default
+  if (isNil(language)) {
     // We chec
-    preferredLanguage = (navigator.languages && navigator.languages[0]) || // Chrome / Firefox
+    language = (navigator.languages && navigator.languages[0]) || // Chrome / Firefox
                         navigator.language ||   // All browsers
                         navigator.userLanguage // IE <= 10
   }
+  // Fallback to english
+  if (isNil(language)) {
+    language = 'en-GB'
+  }
 
   return {
-    language: preferredLanguage
+    language: language
   }
 }
 

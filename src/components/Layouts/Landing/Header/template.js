@@ -8,7 +8,7 @@ import logo from 'img/blockchain-vector.svg'
 
 const Header = (props) => {
   return (
-    <div className='container'>
+    <div className='container' styleName='header'>
       <nav className='navbar navbar-toggleable-md'>
         <button className={`navbar-toggler navbar-toggler-right navbar-light ${props.headerMenuDisplayed ? 'collapsed' : ''}`} onClick={props.clickHeaderMenu}>
           <span className='navbar-toggler-icon' />

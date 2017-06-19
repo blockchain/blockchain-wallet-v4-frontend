@@ -6,7 +6,7 @@ import style from './style.scss'
 
 const DropdownLanguageItem = (props) => {
   return (
-    <a className='dropdown-item' onClick={() => props.clickItem(props.cultureCode)}>{props.name}</a>
+    <a className='dropdown-item' styleName='item' onClick={() => props.clickItem(props.cultureCode)}>{props.name}</a>
   )
 }
 

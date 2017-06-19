@@ -1,26 +1,33 @@
 
 .footer {
-  background-color: #E3EFF5;
+  background-color: $gray-lighter;
 
   & .logo {
     height: 20px;
   }
 
-  & a {
+  & .link {
     width: 100%;
-    padding: 8px 0;
+    padding-bottom: 20px;
     display: inline-block;
-    color: #799EB2;
+    color: $teal;
 
     &:hover {
-      color: white;
+      color: $white;
     }
   }
 
   & .category {
     width: 100%;
-    padding: 8px 0;
+    padding-bottom: 20px;
     display: inline-block;
-    color: #10ADE4;
+    color: $teal;
+  }
+
+  & .dropdown {
+    & > a {
+      color: $teal;
+      text-transform: uppercase;
+    }
   }
 }

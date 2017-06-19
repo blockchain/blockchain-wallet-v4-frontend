@@ -5,9 +5,6 @@
 
 1. Don't write any CSS classes in `assets/sass/resources`
     * **REASON**: The sass-loader will write this CSS in each processed SASS file, resulting in a bigger output.
-2. Don't nest classes in local CSS files with `&`
-    * **REASON 1**: I need to double check if it is still possible or not with react-css-modules
-    * **REASON 2**: We should not have complicated classes, just few specificities
 
 ## Fonts
 

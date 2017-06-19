@@ -8,11 +8,11 @@ import style from './style.scss'
 const Login = (props) => {
   return (
     <section styleName='login'>
-      <div className='row padding-vertical-10'>
-        <div className='col-md-6 left-align'>
+      <div className='row padding-vertical-10 justify-content-between'>
+        <div className='col-auto'>
           <Translate className='f-24 text-capitalize' translate='WELCOME_BACK' />
         </div>
-        <div className='col-4'>
+        <div className='col-auto'>
           <span className='margin-right-5'>or</span>
           <NavLink to='/register'>Sign Up</NavLink>
         </div>
@@ -52,11 +52,11 @@ const Login = (props) => {
       </div>
       <div className='row padding-vertical-10'>
         <div className='col-12'>
-          <button className='button-primary full-width' name='submit' onClick={props.onClick}>LOG IN</button>
+          <button className='button-secondary full-width' name='submit' onClick={props.onClick}>LOG IN</button>
         </div>
       </div>
       <div className='row padding-vertical-10 justify-content-end'>
-        <div className='col-10 col-md-7'>
+        <div className='col-auto'>
           <span className='f-16 alt-font margin-right-5'>Having some trouble?</span>
           <NavLink to='/login-help'>View Options</NavLink>
         </div>

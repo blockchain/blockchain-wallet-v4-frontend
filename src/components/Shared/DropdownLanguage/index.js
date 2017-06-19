@@ -20,12 +20,13 @@ class DropdownLanguageContainer extends React.Component {
 
   handleClickItem (cultureCode) {
     this.props.preferencesActions.setCulture(cultureCode)
+    this.props.uiActions.toggleDropdownLanguage()
   }
 
   render () {
     let culture = translationService.getLanguageName(this.props.culture).getOrElse('en-GB')
     let languages = translationService.languagesSortedByName
-
+    console.log(this.props.styleName)
     return (
       <DropdownLanguage
         culture={culture}
@@ -33,13 +34,13 @@ class DropdownLanguageContainer extends React.Component {
         dropdownLanguageDisplayed={this.props.dropdownLanguageDisplayed}
         clickDropdownLanguage={this.handleClickDropdownLanguage}
         clickItem={this.handleClickItem}
+        className={this.props.className}
       />
     )
   }
 }
 
 function mapStateToProps (state, ownProps) {
-  console.log(selectors.preferences)
   return {
     dropdownLanguageDisplayed: selectors.ui.getDropdownLanguageDisplayed(state),
     culture: selectors.preferences.getCulture(state)

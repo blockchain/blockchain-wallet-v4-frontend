@@ -8,8 +8,8 @@ import style from './style.scss'
 
 const DropdownLanguage = (props) => {
   return (
-    <div className='dropdown show'>
-      <a className='btn btn-secondary dropdown-toggle' id='dropdownLanguage' data-toggle='dropdown' aria-haspopup='true'
+    <div className={`dropdown ${props.dropdownLanguageDisplayed ? 'show' : ''} ${props.className}`}>
+      <a className='dropdown-toggle' id='dropdownLanguage' data-toggle='dropdown' aria-haspopup={props.dropdownLanguageDisplayed}
         aria-expanded={props.dropdownLanguageDisplayed} onClick={props.clickDropdownLanguage}>
         {props.culture}
       </a>
@@ -37,7 +37,8 @@ DropdownLanguage.propTypes = {
   })),
   dropdownLanguageDisplayed: PropTypes.bool.isRequired,
   clickDropdownLanguage: PropTypes.func.isRequired,
-  clickItem: PropTypes.func.isRequired
+  clickItem: PropTypes.func.isRequired,
+  className: PropTypes.string
 }
 
 export default CSSModules(DropdownLanguage, style)
