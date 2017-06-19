@@ -28,7 +28,6 @@ a {
   }
 
   &.sub {
-    text-transform: capitalize;
     padding-left: 50px;
 
     &:focus {
@@ -40,7 +39,7 @@ a {
     color: $brand-info;
   }
 
-  & .icon {
+  & i {
     display: block;
     font-size: 20px;
     width: 40px;

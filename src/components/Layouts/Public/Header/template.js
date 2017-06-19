@@ -7,13 +7,15 @@ import logo from 'img/blockchain-vector.svg'
 
 const Header = (props) => {
   return (
-    <div className='container'>
-      <nav className='navbar'>
-        <NavLink className='navbar-brand' to='/'>
-          <img src={logo} className={style.logo} />
-        </NavLink>
-      </nav>
-    </div>
+    <header>
+      <div className='container'>
+        <nav className='navbar'>
+          <NavLink className='navbar-brand' to='/'>
+            <img src={logo} className={style.logo} />
+          </NavLink>
+        </nav>
+      </div>
+    </header>
   )
 }
 

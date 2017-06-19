@@ -36,7 +36,8 @@ const languagesSortedByName = sortBy(prop('name'))(languages)
 function translate (translationKey, cultureCode, data) {
   let translation = path(translationKey.split('.'), require('locales/' + cultureCode + '.json'))
 
-  if (isNil(translation)) return Maybe.Nothing()
+  //if (isNil(translation)) return Maybe.Nothing()
+  if (isNil(translation)) translation = path(translationKey.split('.'), require('locales/en-GB.json'))
 
   forEachObjIndexed((value, key) => { translation = translation.replace(key, value) }, data)
 

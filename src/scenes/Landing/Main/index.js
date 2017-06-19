@@ -61,7 +61,9 @@ const Main = (props) => {
             <div className='row justify-content-center'>
               <div className='col-12 col-sm-8 col-md-6 col-lg-4'>
                 <NavLink to='/register'>
-                  <button className='button-primary full-width heavy'>Create your wallet</button>
+                  <button className='button-primary full-width heavy'>
+                    <Translate translate='CREATE_YOUR_WALLET' />
+                  </button>
                 </NavLink>
               </div>
             </div>
@@ -73,7 +75,9 @@ const Main = (props) => {
             <div className='row justify-content-center'>
               <div className='col-12 col-sm-8 col-md-6 col-lg-4'>
                 <NavLink to='/login'>
-                  <button className='button-secondary full-width heavy'>Login</button>
+                  <button className='button-secondary full-width heavy'>
+                    <Translate translate='LOGIN_NOW' />
+                  </button>
                 </NavLink>
               </div>
             </div>
@@ -82,11 +86,6 @@ const Main = (props) => {
       </div>
     </section>
   )
-}
-
-Main.propTypes = {
-  amount_transaction: PropTypes.number.isRequired,
-  amount_wallets: PropTypes.number.isRequired
 }
 
 export default CSSModules(Main, style)

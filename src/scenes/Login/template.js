@@ -8,23 +8,25 @@ import style from './style.scss'
 const Login = (props) => {
   return (
     <section styleName='login'>
-      <div className='row padding-vertical-10 justify-content-between'>
-        <div className='col-auto'>
-          <Translate className='f-24 text-capitalize' translate='WELCOME_BACK' />
+      <div className='row padding-vertical-10 justify-content-between align-items-center'>
+        <div className='col-8'>
+          <Translate className='h4' translate='WELCOME_BACK' />
         </div>
         <div className='col-auto'>
-          <span className='margin-right-5'>or</span>
-          <NavLink to='/register'>Sign Up</NavLink>
+          <Translate className='margin-right-5' translate='OR' />
+          <NavLink to='/register'>
+            <Translate translate='SIGN_UP' />
+          </NavLink>         
         </div>
       </div>
       <div className='row padding-vertical-10 border-bottom'>
-        <div className='col-12'>
-          <span className='f-16 alt-font'>Sign in to your wallet below</span>
+        <div className='col-12'>     
+          <Translate className='h6 margin-right-5' translate='LOGIN_BELOW' />
         </div>
       </div>
       <div className='row padding-top-10'>
         <div className='col-12'>
-          <label>Wallet ID</label>
+          <Translate element='label' translate='UID' />
         </div>
       </div>
       <div className='row padding-bottom-10'>
@@ -34,15 +36,12 @@ const Login = (props) => {
       </div>
       <div className='row padding-vertical-5'>
         <div className='col-12'>
-          <span className='alt-font'>
-            Find the login link in your email, e.g.<i>blockchain.info/wallet/1111-222-333...</i>
-            The series of numbers and dashes at the end of the link is your Wallet ID.
-          </span>
+          <Translate styleName='small-size' translate='FIND_GUID_EXPLAIN' />
         </div>
       </div>
       <div className='row'>
-        <div className='col-12'>
-          <label>Password</label>
+        <div className='col-12'>  
+          <Translate element='label' translate='PASSWORD' />
         </div>
       </div>
       <div className='row padding-bottom-10'>
@@ -52,13 +51,17 @@ const Login = (props) => {
       </div>
       <div className='row padding-vertical-10'>
         <div className='col-12'>
-          <button className='button-secondary full-width' name='submit' onClick={props.onClick}>LOG IN</button>
+          <button className='button-secondary full-width' name='submit' onClick={props.onClick}>
+            <Translate element='label' translate='LOG_IN' />
+          </button>
         </div>
       </div>
       <div className='row padding-vertical-10 justify-content-end'>
         <div className='col-auto'>
-          <span className='f-16 alt-font margin-right-5'>Having some trouble?</span>
-          <NavLink to='/login-help'>View Options</NavLink>
+          <Translate className='margin-right-5' translate='HAVING_TROUBLE' />
+          <NavLink to='/login-help'>
+            <Translate translate='VIEW_OPTIONS' />
+          </NavLink>
         </div>
       </div>
     </section>

@@ -3,45 +3,51 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import { isNil } from 'ramda'
 
-import { translate } from 'services/translationService'
+import { translate, convertLanguageToCultureCode } from 'services/translationService'
 import { selectors } from 'data'
 import Translate from './template.js'
 
 const TranslateContainer = (props) => {
-  let translation = translate(props.translate, props.language, props.data).getOrElse('???')
+  let translation = translate(props.translate, props.cultureCode, props.data).getOrElse('???')
 
   return (
-    <Translate className={props.className} styleName={props.styleName} value={translation} />
+    <Translate
+      element={props.element}
+      className={props.className}
+      value={translation} />
   )
 }
 
 TranslateContainer.propTypes = {
   translate: PropTypes.string.isRequired,
+  data: PropTypes.object,
   className: PropTypes.string,
-  styleName: PropTypes.string,
-  data: PropTypes.object
+  element: PropTypes.string
 }
 
 function mapStateToProps (state) {
+  // Default settings
   let language = selectors.core.settings.getLanguage(state)
+  let cultureCode = (!isNil(language) && language.length == 2) ? convertLanguageToCultureCode(language) : language
+
   // Fallback to preferences
-  if (isNil(language)) {
-    language = selectors.preferences.getCulture(state)
+  if (isNil(cultureCode)) {
+    cultureCode = selectors.preferences.getCulture(state)
   }
   // Fallback to browser default
-  if (isNil(language)) {
+  if (isNil(cultureCode)) {
     // We chec
-    language = (navigator.languages && navigator.languages[0]) || // Chrome / Firefox
-                        navigator.language ||   // All browsers
-                        navigator.userLanguage // IE <= 10
+    cultureCode = (navigator.languages && navigator.languages[0]) // Chrome / Firefox
+                || navigator.language // All browsers
+                || navigator.userLanguage // IE <= 10
   }
   // Fallback to english
-  if (isNil(language)) {
-    language = 'en-GB'
+  if (isNil(cultureCode)) {
+    cultureCode = 'en-GB'
   }
 
   return {
-    language: language
+    cultureCode
   }
 }
 
