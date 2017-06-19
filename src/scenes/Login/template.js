@@ -52,7 +52,7 @@ const Login = (props) => {
       <div className='row padding-vertical-10'>
         <div className='col-12'>
           <button className='button-secondary full-width' name='submit' onClick={props.onClick}>
-            <Translate element='label' translate='LOG_IN' />
+            <Translate translate='LOG_IN' />
           </button>
         </div>
       </div>
