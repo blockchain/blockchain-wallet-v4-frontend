@@ -12,10 +12,13 @@ export default class Type extends eImmutable.Map {
     return typeLens(this)
   }
 
+  get empty () {
+    return new this.constructor({})
+  }
+
   toJSON () {
     return { data: this.toObject(), __serializedType__: this.constructor.name }
   }
-
   static define (prop) {
     let defineProp = (prop) => compose(this.lens, iLensProp(prop))
     let propLens = defineProp(prop)

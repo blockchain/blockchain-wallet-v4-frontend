@@ -12,6 +12,10 @@ export default class TypeList extends eImmutable.List {
     return typeLens(this)
   }
 
+  get empty () {
+    return new this.constructor([])
+  }
+
   toJSON () {
     return { data: this.toArray(), __serializedType__: this.constructor.name }
   }
