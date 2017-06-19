@@ -1,4 +1,26 @@
 
 .footer {
+  background-color: #E3EFF5;
 
+  & .logo {
+    height: 20px;
+  }
+
+  & a {
+    width: 100%;
+    padding: 8px 0;
+    display: inline-block;
+    color: #799EB2;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  & .category {
+    width: 100%;
+    padding: 8px 0;
+    display: inline-block;
+    color: $iris;
+  }
 }

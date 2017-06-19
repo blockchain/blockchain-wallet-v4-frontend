@@ -25,7 +25,7 @@ const configureStore = () => {
   const store = createStore(
     rootReducer,
     composeEnhancers(
-      persistState('session'),
+      persistState(['session', 'preferences']),
       applyMiddleware(
         routerMiddleware(history),
         autoDisconnection,

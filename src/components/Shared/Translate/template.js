@@ -8,7 +8,9 @@ const Translate = (props) => {
 }
 
 Translate.propTypes = {
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  styleName: PropTypes.string
 }
 
 export default Translate

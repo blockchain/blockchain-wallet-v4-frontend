@@ -11,13 +11,14 @@ const TranslateContainer = (props) => {
   let translation = translate(props.translate, props.language).getOrElse('???')
 
   return (
-    <Translate className={props.className} value={translation} />
+    <Translate className={props.className} styleName={props.styleName} value={translation} />
   )
 }
 
 TranslateContainer.propTypes = {
-  key: PropTypes.string,
+  translate: PropTypes.string.isRequired,
   className: PropTypes.string,
+  styleName: PropTypes.string,
   data: PropTypes.object
 }
 
@@ -25,10 +26,10 @@ function mapStateToProps (state) {
   let preferredLanguage = selectors.core.settings.getLanguage(state)
   // Fallback
   if (isNil(preferredLanguage)) {
-    preferredLanguage = navigator.languages && navigator.languages[0] || // Chrome / Firefox
+    // We chec
+    preferredLanguage = (navigator.languages && navigator.languages[0]) || // Chrome / Firefox
                         navigator.language ||   // All browsers
-                        navigator.userLanguage; // IE <= 10
-    preferredLanguage = preferredLanguage.substring(0, 2)
+                        navigator.userLanguage // IE <= 10
   }
 
   return {

@@ -4,8 +4,9 @@ import settings from 'config'
 import { coreReducers } from 'dream-wallet/lib'
 import activityReducer from './Activity/reducers.js'
 import authReducer from './Auth/reducers.js'
-import uiReducer from './UI/reducers.js'
 import logReducer from './Log/reducers.js'
+import preferencesReducer from './Preferences/reducers.js'
+import uiReducer from './UI/reducers.js'
 
 const rootReducer = combineReducers({
   applicationState: combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     log: logReducer
     // whatsNew: whatsNewReducer
   }),
+  preferences: preferencesReducer,
   session: authReducer.session,
   [settings.BLOCKCHAIN_DATA_PATH]: coreReducers.data,
   [settings.WALLET_IMMUTABLE_PATH]: coreReducers.wallet,
