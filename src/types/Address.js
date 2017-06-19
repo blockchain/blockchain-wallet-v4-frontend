@@ -17,6 +17,8 @@ import { iToJS } from './util'
 
 export class Address extends Type {}
 
+export const isAddress = is(Address)
+
 export const priv = Address.define('priv')
 export const addr = Address.define('addr')
 export const label = Address.define('label')
@@ -40,9 +42,9 @@ export const fromJS = (x) => is(Address, x) ? x : new Address(x)
 
 export const toJS = pipe(Address.guard, iToJS)
 
-// export const reviver = (jsObject) => {
-//   return new Address(jsObject)
-// }
+export const reviver = (jsObject) => {
+  return new Address(jsObject)
+}
 
 // setLabel :: String -> Address -> Address
 export const setLabel = set(label)

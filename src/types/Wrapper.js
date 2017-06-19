@@ -1,9 +1,8 @@
-import * as R from 'ramda'
+import { is, view, curry, over, lensProp, pipe, set, compose, assoc, dissoc } from 'ramda'
 import * as crypto from '../WalletCrypto'
 import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
 import Type from './Type'
-import { JSToI } from './util'
 import * as Wallet from './Wallet'
 
 /* Wrapper :: {
@@ -22,6 +21,8 @@ import * as Wallet from './Wallet'
 
 export class Wrapper extends Type {}
 
+export const isWrapper = is(Wrapper)
+
 export const pbkdf2Iterations = Wrapper.define('pbkdf2_iterations')
 export const password = Wrapper.define('password')
 export const version = Wrapper.define('version')
@@ -33,79 +34,74 @@ export const authType = Wrapper.define('auth_type')
 export const realAuthType = Wrapper.define('real_auth_type')
 export const wallet = Wrapper.define('wallet')
 
-export const selectPbkdf2Iterations = R.view(pbkdf2Iterations)
-export const selectPassword = R.view(password)
-export const selectVersion = R.view(version)
-export const selectPayloadChecksum = R.view(payloadChecksum)
-export const selectLanguage = R.view(language)
-export const selectSyncWarChecksum = R.view(warChecksum)
-export const selectAuthType = R.view(authType)
-export const selectRealAuthType = R.view(realAuthType)
-export const selectWallet = R.view(wallet)
+export const selectPbkdf2Iterations = view(pbkdf2Iterations)
+export const selectPassword = view(password)
+export const selectVersion = view(version)
+export const selectPayloadChecksum = view(payloadChecksum)
+export const selectLanguage = view(language)
+export const selectSyncWarChecksum = view(warChecksum)
+export const selectAuthType = view(authType)
+export const selectRealAuthType = view(realAuthType)
+export const selectWallet = view(wallet)
 
 // traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper
-export const traverseWallet = R.curry(
+export const traverseWallet = curry(
   (of, f, wrapper) => of(wrapper).chain(traverseOf(wallet, of, f))
 )
 
 // fromJS :: JSON -> wrapper
-export const fromJS = (js) => {
-  if (js instanceof Wrapper) { return js }
-  const walletCons = R.over(R.lensProp('wallet'), Wallet.fromJS)
-  return new Wrapper(walletCons(js))
+export const fromJS = (x) => {
+  if (isWrapper(x)) { return x }
+  const wrapperCons = compose(
+    over(wallet, Wallet.fromJS)
+  )
+  return wrapperCons(new Wrapper(x))
 }
 
 // toJS :: wrapper -> JSON
-export const toJS = R.pipe(Wrapper.guard, (wrapper) => {
-  const selectWalletJS = R.compose(Wallet.toJS, selectWallet)
-  const destructWallet = R.set(wallet, selectWalletJS(wrapper))
-  const destructWrapper = R.compose(destructWallet)
-  return destructWrapper(wrapper).__internal.toJS()
+export const toJS = pipe(Wrapper.guard, (wrapper) => {
+  const wrapperDecons = over(wallet, Wallet.toJS)
+  return wrapperDecons(wrapper).toJS()
 })
 
-// fromJSON :: JSON -> wrapper
-export const fromJSON = (js) => {
-  return new Wrapper(JSToI(js))
+export const reviver = (jsObject) => {
+  return new Wrapper(jsObject)
 }
 
-export const toJSON = R.pipe(Wrapper.guard, (wrapper) => {
-  return wrapper.__internal.toJS()
-})
-
 // fromEncJSON :: String -> JSON -> Either Error Wrapper
-export const fromEncJSON = R.curry((password, json) => {
-  const plens = R.lensProp('payload')
-  const ilens = R.lensProp('pbkdf2_iterations')
-  const vlens = R.lensProp('version')
-  const EitherPayload = Either.try(JSON.parse)(R.view(R.compose(plens), json))
-  const EitherIter = EitherPayload.map(R.view(ilens))
-  const EitherVer = EitherPayload.map(R.view(vlens))
+export const fromEncJSON = curry((password, json) => {
+  const plens = lensProp('payload')
+  const ilens = lensProp('pbkdf2_iterations')
+  const vlens = lensProp('version')
+  const EitherPayload = Either.try(JSON.parse)(view(compose(plens), json))
+  const EitherIter = EitherPayload.map(view(ilens))
+  const EitherVer = EitherPayload.map(view(vlens))
   // assocIterations :: Number => Either Error Wrapper
   const assocIterations = wrapper =>
-    EitherIter.map(it => R.assoc('pbkdf2_iterations', it, wrapper))
+    EitherIter.map(it => assoc('pbkdf2_iterations', it, wrapper))
   // assocVersion :: Number => Either Error Wrapper
   const assocVersion = wrapper =>
-    EitherVer.map(it => R.assoc('version', it, wrapper))
+    EitherVer.map(it => assoc('version', it, wrapper))
   return traverseOf(plens, Either.of, Wallet.fromEncryptedPayload(password), json)
          .chain(assocVersion)
          .chain(assocIterations)
-         .map(o => R.assoc('wallet', o.payload, o))
-         .map(R.dissoc('payload'))
-         .map(R.assoc('password', password))
-         .map(R.dissoc('extra_seed'))
-         .map(R.dissoc('symbol_btc'))
-         .map(R.dissoc('symbol_local'))
-         .map(R.dissoc('guid'))
-         .map(R.dissoc('initial_success'))
+         .map(o => assoc('wallet', o.payload, o))
+         .map(dissoc('payload'))
+         .map(assoc('password', password))
+         .map(dissoc('extra_seed'))
+         .map(dissoc('symbol_btc'))
+         .map(dissoc('symbol_local'))
+         .map(dissoc('guid'))
+         .map(dissoc('initial_success'))
          .map(fromJS)
 })
 
 // toEncJSON :: Wrapper -> Either Error JSON
 export const toEncJSON = wrapper => {
-  const plens = R.lensProp('payload')
+  const plens = lensProp('payload')
   const response = {
-    guid: R.compose(Wallet.selectGuid, selectWallet)(wrapper),
-    sharedKey: R.compose(Wallet.selectSharedKey, selectWallet)(wrapper),
+    guid: compose(Wallet.selectGuid, selectWallet)(wrapper),
+    sharedKey: compose(Wallet.selectSharedKey, selectWallet)(wrapper),
     payload: selectWallet(wrapper),
     old_checksum: selectPayloadChecksum(wrapper),
     language: selectLanguage(wrapper)
@@ -113,6 +109,6 @@ export const toEncJSON = wrapper => {
   const encrypt = Wallet.toEncryptedPayload(selectPassword(wrapper))
   const hash = (x) => crypto.sha256(x).toString('hex')
   return traverseOf(plens, Either.of, encrypt, response)
-         .map((r) => R.assoc('length', R.view(plens, r).length, r))
-         .map((r) => R.assoc('checksum', hash(R.view(plens, r)), r))
+         .map((r) => assoc('length', view(plens, r).length, r))
+         .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }

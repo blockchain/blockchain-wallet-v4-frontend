@@ -15,6 +15,8 @@ const DEFAULT_LABEL = 'My Bitcoin Wallet'
 
 export class HDAccount extends Type {}
 
+export const isHDAccount = is(HDAccount)
+
 export const label = HDAccount.define('label')
 export const archived = HDAccount.define('archived')
 export const xpriv = HDAccount.define('xpriv')
@@ -49,13 +51,9 @@ export const toJS = pipe(HDAccount.guard, (acc) => {
   return accountDecons(acc).toJS()
 })
 
-// export const reviver = (x) => {
-//   // const JSONToLabels = R.over(R.lensProp('address_labels'), List)
-//   // const JSONtoCache = R.over(R.lensProp('cache'), Map)
-//   // const t = R.compose(JSONToLabels, JSONtoCache)
-//   // return new HDAccount(t(x))
-//   return new HDAccount(JSToI(x))
-// }
+export const reviver = (jsObject) => {
+  return new HDAccount(jsObject)
+}
 
 // TODO :: maybe define address_labels and cache as it is own type
 // export const createNew = R.curry((accountNode, { label = DEFAULT_LABEL } = {}) => {

@@ -14,6 +14,8 @@ import * as HDAccount from './HDAccount'
 
 export class HDWallet extends Type {}
 
+export const isHDWallet = is(HDWallet)
+
 export const seedHex = HDWallet.define('seedHex')
 export const accounts = HDWallet.define('accounts')
 export const defaultAccountIdx = HDWallet.define('default_account_idx')
@@ -28,7 +30,7 @@ export const selectAccount = curry((index, hdwallet) =>
 export const selectDefaultAccount = (hdwallet) =>
   selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
 
-export const selectXpubs = compose(map(HDAccount.selectXpub), selectAccounts)
+export const selectContext = compose(HDAccountList.selectContext, selectAccounts)
 
 const shiftHDWallet = compose(shiftIProp('seed_hex', 'seedHex'), shift)
 
@@ -50,11 +52,9 @@ export const toJS = pipe(HDWallet.guard, (hd) => {
   return hdwalletDecons(hd).toJS()
 })
 
-// export const reviver = (x) => {
-//   // const JSONtoAccs = R.over(R.lensProp('accounts'), List)
-//   // return new HDWallet(JSONtoAccs(x))
-//   return new HDWallet(JSToI(x))
-// }
+export const reviver = (jsObject) => {
+  return new HDWallet(jsObject)
+}
 
 // export const createNew = R.curry((mnemonic, { label } = {}) => {
 //   let seed = BIP39.mnemonicToSeed(mnemonic)

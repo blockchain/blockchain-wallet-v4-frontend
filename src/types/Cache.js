@@ -9,6 +9,8 @@ import { iToJS } from './util'
 
 export class Cache extends Type {}
 
+export const isCache = is(Cache)
+
 export const receiveAccount = Cache.define('receiveAccount')
 export const changeAccount = Cache.define('changeAccount')
 
@@ -19,6 +21,6 @@ export const fromJS = (x) => is(Cache, x) ? x : new Cache(x)
 
 export const toJS = pipe(Cache.guard, iToJS)
 
-// export const reviver = (jsObject) => {
-//   return new Cache(jsObject)
-// }
+export const reviver = (jsObject) => {
+  return new Cache(jsObject)
+}

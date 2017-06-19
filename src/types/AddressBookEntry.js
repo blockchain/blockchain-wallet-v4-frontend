@@ -9,6 +9,8 @@ import { iToJS } from './util'
 
 export class AddressBookEntry extends Type {}
 
+export const isAddressBookEntry = is(AddressBookEntry)
+
 export const addr = AddressBookEntry.define('addr')
 export const label = AddressBookEntry.define('label')
 
@@ -19,9 +21,9 @@ export const fromJS = (x) => is(AddressBookEntry, x) ? x : new AddressBookEntry(
 
 export const toJS = pipe(AddressBookEntry.guard, iToJS)
 
-// export const reviver = (jsObject) => {
-//   return new AddressBookEntry(jsObject)
-// }
+export const reviver = (jsObject) => {
+  return new AddressBookEntry(jsObject)
+}
 
 // setLabel :: String -> AddressBookEntry -> AddressBookEntry
 export const setLabel = set(label)

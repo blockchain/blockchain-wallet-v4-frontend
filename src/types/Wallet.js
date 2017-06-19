@@ -28,6 +28,8 @@ import * as AddressBook from './AddressBook'
 
 export class Wallet extends Type {}
 
+export const isWallet = is(Wallet)
+
 export const guid = Wallet.define('guid')
 export const sharedKey = Wallet.define('sharedKey')
 export const doubleEncryption = Wallet.define('double_encryption')
@@ -52,14 +54,13 @@ export const selectAddressBook = view(addressBook)
 
 export const selectAddresses = view(addresses)
 export const selectHdWallets = view(hdWallets)
-export const selectHdWallet = compose((xs) => xs.last(), selectHdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
-// export const selectAddrContext = compose(map(Address.selectAddr), selectAddresses)
+export const selectAddrContext = compose(AddressMap.selectContext, selectAddresses)
 // export const selectPrivKeys = compose(map(Address.selectPriv), selectAddresses)
-// export const selectXpubsContext = w => selectHdWallets(w).flatMap(HDWallet.selectXpubs)
-// export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
-// export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
+export const selectXpubsContext = compose(HDWallet.selectContext, HDWalletList.selectHDWallet, selectHdWallets)
+export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
+export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
@@ -100,6 +101,10 @@ export const toJS = pipe(Wallet.guard, (wallet) => {
 //   // const t = compose(JSONtoOpt, JSONtoAdd, JSONtoHD)
 //   return new Wallet(JSToI(x))
 // }
+
+export const reviver = (jsObject) => {
+  return new Wallet(jsObject)
+}
 
 // fromEncryptedPayload :: String -> String -> Either Error Wallet
 export const fromEncryptedPayload = curry((password, payload) => {

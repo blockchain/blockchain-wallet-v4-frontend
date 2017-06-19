@@ -4,6 +4,8 @@ import * as AddressBookEntry from './AddressBookEntry'
 
 export class AddressBook extends Type {}
 
+export const isAddressBook = is(AddressBook)
+
 export const addressLabel = addr => AddressBook.define(addr)
 
 export const selectAddressLabel = curry((addr, as) => view(addressLabel(addr), as))
@@ -22,4 +24,6 @@ export const fromJS = (labels) => {
   }
 }
 
-//missing reviver
+export const reviver = (jsObject) => {
+  return new AddressBook(jsObject)
+}
