@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { Route, Redirect, location } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 import { selectors } from 'data'
 
@@ -14,22 +13,24 @@ const WalletLayout = ({component: Component, ...rest}) => {
     <Route {...rest} render={matchProps => (
     // rest.isAuthenticated
     // ? (
-      <div className='container-fluid flex-column height-100'>
-        <div className='row'>
-          <div className='col-md-12'>
+      <div className='container-fluid no-padding h-100'>
+        <div className='row no-gutters fixed-top'>
+          <div className='col'>
             <Header />
           </div>
         </div>
-        <div className='row height-100'>
-          <div className='col-md-2 bg-grey border-right'>
+        <div className='row no-gutters h-100 padding-top-55'>
+          <div className='col-xl-2 bg-grey border-right hidden-lg-down'>
             <MenuLeft location={rest.location} />
           </div>
-          <div className='col-md-10'>
-            <div className='row bg-white border-bottom'>
-              <MenuTop />
+          <div className='col-12 col-xl-10'>
+            <div className='row no-gutters bg-white border-bottom'>
+              <div className='col-12'>
+                <MenuTop />
+              </div>
             </div>
-            <div className='row bg-white'>
-              <div className='col-md-12 flex-column height-100'>
+            <div className='row no-gutters bg-white'>
+              <div className='col'>
                 <Component {...matchProps} />
               </div>
             </div>

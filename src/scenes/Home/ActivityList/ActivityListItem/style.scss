@@ -1,29 +1,31 @@
 
-.activity-item {
-  width: 100%;
-}
-
 .marker {
-  display: block;
+  position: absolute;
+  left: -30px;
+  top: -5px;
   width: 30px;
-  height: 30px;
+  height: 70px;
   color: #FFFFFF;
-  border-left: black;
 
-  i {
+  &-circle {
+    display: inline-block;
     position: relative;
     left: -15px;
-    top: 2px;
+    top: 5px;
     width: 30px;
     height: 30px;
     background-color: $blue;
-    @include display-flex();
-    @include flex-direction(column);
-    @include justify-content(center);
-    @include align-items(center);
     @include border-radius(100%);
-  }
-  &:after {
-    content: '';
+    text-align: center;
+
+    & .icon {
+      position: relative;
+      top: 2px;
+      font-size: 16px;
+    }
+
+    &:after {
+      content: '';
+    }
   }
 }

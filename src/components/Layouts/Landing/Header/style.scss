@@ -1,8 +1,5 @@
 
 .header {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(flex-start);
   height: 60px;
   width: 100%;
 }

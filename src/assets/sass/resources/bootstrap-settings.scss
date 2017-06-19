@@ -1,11 +1,7 @@
-// Variables
-//
-// Copy settings from this file into the provided `_custom.scss` to override
-// the Bootstrap defaults without modifying key, versioned files.
-
 
 // Table of Contents
 //
+// IMPORTS
 // Colors
 // Options
 // Spacing
@@ -94,18 +90,24 @@
 // Start with assigning color names to specific hex values.
 $white:  #fff !default;
 $black:  #000 !default;
-$red:    #d9534f !default;
+$red:    #CA3A3C !default;
 $orange: #f0ad4e !default;
 $yellow: #ffd500 !default;
-$green:  #5cb85c !default;
-$blue:   #0275d8 !default;
-$teal:   #5bc0de !default;
+$green:  #00A76F !default;
+$blue:   #004A7C !default;
+$teal:   #10ADE4 !default;
 $pink:   #ff5b77 !default;
 $purple: #613d7c !default;
+
+$red-alt:    #F26C57;
+$blue-alt:   #799EB2;
+$green-alt:  #00BABC;
+
 
 // Create grayscale
 $gray-dark:                 #292b2c !default;
 $gray:                      #464a4c !default;
+$text:                      #5F5F5F !default;
 $gray-light:                #636c72 !default;
 $gray-lighter:              #eceeef !default;
 $gray-lightest:             #f7f7f9 !default;
@@ -117,6 +119,10 @@ $brand-info:                $teal !default;
 $brand-warning:             $orange !default;
 $brand-danger:              $red !default;
 $brand-inverse:             $gray-dark !default;
+
+$brand-red-alt:   $red-alt;
+$brand-blue-alt:  $blue-alt;
+$brand-green-alt: $green-alt;
 
 
 // Options

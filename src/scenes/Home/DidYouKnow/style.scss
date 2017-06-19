@@ -1,6 +1,5 @@
 
 .icon {
-  @include display-flex();
-  color: $basic-grey;
+  color: $gray-light;
   font-size: 46px;
 }

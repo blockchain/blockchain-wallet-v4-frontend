@@ -17,7 +17,7 @@ const FaqRow = (props) => {
         </div>
       </div>
       <div className='col-md-1 flex-center'>
-        <i className='f-16 ti-angle-down pointer' styleName={(!props.detailsDisplayed ? 'rotated' : '')} onClick={props.clickDetails} />
+        <i className='f-16 icon-down_arrow pointer' styleName={(!props.detailsDisplayed ? 'rotated' : '')} onClick={props.clickDetails} />
       </div>
     </div>
   )

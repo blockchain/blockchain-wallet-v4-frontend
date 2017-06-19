@@ -8,18 +8,10 @@ import style from './style.scss'
 
 const Transactions = (props) => {
   return (
-    <section className='container-fluid'>
-      <div className='row'>
-        <div className='col-md-12'>
-          <MenuTop />
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col-md-12'>
-          <TransactionList transactions={props.transactions} />
-        </div>
-      </div>
-    </section>
+    <div>
+      <MenuTop />
+      <TransactionList />
+    </div>
   )
 }
 

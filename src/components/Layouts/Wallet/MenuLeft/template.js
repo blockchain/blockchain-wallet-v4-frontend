@@ -10,7 +10,7 @@ import style from './style.scss'
 const MenuLeft = (props) => {
   return (
     <nav styleName='menu-left'>
-      <div styleName='main-menu'>
+      <div className='container'>
         <NavLink className='menu-item' to='/wallet' activeClassName='active' onClick={props.clickOthers}>
           <i className='icon-home icon' /><span>Home</span>
         </NavLink>
@@ -26,20 +26,18 @@ const MenuLeft = (props) => {
         <NavLink className='menu-item' to='/settings' activeClassName='active' onClick={props.clickSecurityCenter}>
           <i className='icon-settings icon' /><span>Settings</span>
         </NavLink>
-        <div styleName='sub-menu' className={(props.securityCenterMenuDisplayed ? 'visible' : 'hidden')}>
-          <NavLink className='menu-item sub' to='/settings/info' activeClassName='active'>
-            <span>Wallet Information</span>
-          </NavLink>
-          <NavLink className='menu-item sub' to='/settings/preferences' activeClassName='active'>
-            <span>Preferences</span>
-          </NavLink>
-          <NavLink className='menu-item sub' to='/settings/security' activeClassName='active'>
-            <span>Security</span>
-          </NavLink>
-          <NavLink className='menu-item sub' to='/settings/addresses' activeClassName='active'>
-            <span>Addresses</span>
-          </NavLink>
-        </div>
+        <NavLink className={`menu-item sub ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`} to='/settings/info' activeClassName='active'>
+          <span>Wallet Information</span>
+        </NavLink>
+        <NavLink className={`menu-item sub ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`} to='/settings/preferences' activeClassName='active'>
+          <span>Preferences</span>
+        </NavLink>
+        <NavLink className={`menu-item sub ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`} to='/settings/security' activeClassName='active'>
+          <span>Security</span>
+        </NavLink>
+        <NavLink className={`menu-item sub ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`} to='/settings/addresses' activeClassName='active'>
+          <span>Addresses</span>
+        </NavLink>
         <NavLink className='menu-item' to='/faq' activeClassName='active' onClick={props.clickOthers}>
           <i className='icon-help icon' /><span>Faq</span>
         </NavLink>

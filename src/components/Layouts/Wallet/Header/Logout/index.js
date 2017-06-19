@@ -5,7 +5,9 @@ import style from './style.scss'
 
 const Logout = () => {
   return (
-    <a className='navigation'>Sign out</a>
+    <li className='nav-item active'>
+      <a className='nav-link' href='#'>Sign out</a>
+    </li>
   )
 }
 
