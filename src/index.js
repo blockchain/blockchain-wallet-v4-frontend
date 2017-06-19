@@ -42,12 +42,6 @@ import 'fonts/gillsans/GillSans-SemiBold.eot'
 import 'fonts/gillsans/GillSans-SemiBold.ttf'
 import 'fonts/gillsans/GillSans-UltraBold.eot'
 import 'fonts/gillsans/GillSans-UltraBold.ttf'
-import 'fonts/icomoon/icomoon.eot'
-import 'fonts/icomoon/icomoon.ttf'
-import 'fonts/icomoon/icomoon.woff'
-import 'fonts/themify/themify.eot'
-import 'fonts/themify/themify.ttf'
-import 'fonts/themify/themify.woff'
 
 // Import React & JS
 import React from 'react'

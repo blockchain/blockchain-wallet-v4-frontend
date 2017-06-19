@@ -6,19 +6,18 @@ import style from './style.scss'
 
 const ExploreMenu = (props) => {
   return (
-    <nav styleName={(props.exploreMenuDisplayed ? 'dropdown-opened' : 'dropdown-closed')}>
-      <a onClick={props.clickExploreMenu} className='navigation'>
+    <li className={`nav-item dropdown ${props.exploreMenuDisplayed ? 'show' : ''}`}>
+      <a className='nav-link dropdown-toggle' id='navbarDropdownMenuLink' onClick={props.clickExploreMenu}>
         Explore
-        <i className='ti-angle-down margin-left-5' />
       </a>
-      <div styleName={(props.exploreMenuDisplayed ? 'menu-opened' : 'menu-closed')}>
-        <a className='navigation-sub' href='https://blockchain.info/'>Home</a>
-        <a className='navigation-sub' href='https://blockchain.info/charts'>Charts</a>
-        <a className='navigation-sub' href='https://blockchain.info/stats'>Stats</a>
-        <a className='navigation-sub' href='https://blockchain.info/markets'>Markets</a>
-        <a className='navigation-sub' href='https://blockchain.info/api'>API</a>
+      <div className='dropdown-menu' aria-labelledby='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded={(props.exploreMenuDisplayed ? 'true' : 'false')}>
+        <a className='dropdown-item' href='https://blockchain.info/'>Home</a>
+        <a className='dropdown-item' href='https://blockchain.info/charts'>Charts</a>
+        <a className='dropdown-item' href='https://blockchain.info/stats'>Stats</a>
+        <a className='dropdown-item' href='https://blockchain.info/markets'>Markets</a>
+        <a className='dropdown-item' href='https://blockchain.info/api'>API</a>
       </div>
-    </nav>
+    </li>
   )
 }
 

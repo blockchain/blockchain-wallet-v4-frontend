@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   bitcoinDisplayed: true,
   dropdownLanguageDisplayed: false,
   exploreMenuDisplayed: false,
+  headerMenuDisplayed: false,
   navigationDisplayed: false,
   securityCenterMenuDisplayed: false
 }
@@ -33,9 +34,13 @@ const ui = (state = INITIAL_STATE, action) => {
     case actions.TOGGLE_CURRENCY_DISPLAY: {
       return assign(INITIAL_STATE, { bitcoinDisplayed: !state.bitcoinDisplayed })
     }
+    case actions.TOGGLE_HEADER_MENU: {
+      return assign(INITIAL_STATE, { headerMenuDisplayed: !state.headerMenuDisplayed })
+    }
     case actions.TOGGLE_DROPDOWN_LANGUAGE: {
       return assign(INITIAL_STATE, { dropdownLanguageDisplayed: !state.dropdownLanguageDisplayed })
     }
+
     default:
       return state
   }

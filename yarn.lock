@@ -1767,6 +1767,10 @@ data.either@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/data.either/-/data.either-1.5.0.tgz#b838ff92b65206c58baf48d48cc23a07f3859ce2"
 
+data.maybe@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/data.maybe/-/data.maybe-1.2.2.tgz#f955e4b5572b2eb5047eab93d8bb3a1cc76a2dc3"
+
 data.task@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/data.task/-/data.task-3.1.1.tgz#e985f5bedadd926b2d63c1a5d2076cff917a52ad"

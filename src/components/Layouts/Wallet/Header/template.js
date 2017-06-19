@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 
@@ -9,19 +10,29 @@ import Logout from './Logout'
 import logo from 'img/blockchain-vector.svg'
 import style from './style.scss'
 
-const Header = () => {
+const Header = (props) => {
   return (
-    <header styleName='header'>
-      <NavLink to='/'>
-        <img src={logo} styleName='logo' />
+    <nav className='navbar navbar-toggleable-md bg-primary'>
+      <button className={`navbar-toggler navbar-toggler-right navbar-light ${props.headerMenuDisplayed ? 'collapsed' : ''}`} onClick={props.clickHeaderMenu}>
+        <span className='navbar-toggler-icon' />
+      </button>
+      <NavLink className='navbar-brand' to='/'>
+        <img src={logo} className={style.logo} />
       </NavLink>
-      <div styleName='right'>
-        <Ticker />
-        <ExploreMenu />
-        <Logout />
+      <div className={`collapse navbar-collapse ${props.headerMenuDisplayed ? 'show' : ''}`} id='navbarNav'>
+        <ul className='navbar-nav ml-auto'>
+          <Ticker />
+          <ExploreMenu />
+          <Logout />
+        </ul>
       </div>
-    </header>
+    </nav>
   )
+}
+
+Header.propTypes = {
+  clickHeaderMenu: PropTypes.func.isRequired,
+  headerMenuDisplayed: PropTypes.bool.isRequired
 }
 
 export default CSSModules(Header, style)

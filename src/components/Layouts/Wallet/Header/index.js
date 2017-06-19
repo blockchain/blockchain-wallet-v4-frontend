@@ -3,28 +3,31 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import Header from './template.js'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 class HeaderContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleClickExploreMenu = this.handleClickExploreMenu.bind(this)
+    this.handleClickHeaderMenu = this.handleClickHeaderMenu.bind(this)
   }
 
-  handleClickExploreMenu () {
-    this.props.actions.toggleExploreMenu()
+  handleClickHeaderMenu () {
+    this.props.actions.toggleHeaderMenu()
   }
 
   render () {
     return (
-      <Header exploreMenuDisplayed={this.props.exploreMenuDisplayed} clickExploreMenu={this.handleClickExploreMenu} />
+      <Header
+        headerMenuDisplayed={this.props.headerMenuDisplayed}
+        clickHeaderMenu={this.handleClickHeaderMenu}
+      />
     )
   }
 }
 
 function mapStateToProps (state, ownProps) {
   return {
-    exploreMenuDisplayed: state.applicationState.ui.exploreMenuDisplayed
+    headerMenuDisplayed: selectors.ui.getHeaderMenuDisplayed(state)
   }
 }
 

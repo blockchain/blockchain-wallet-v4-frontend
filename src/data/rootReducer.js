@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
   [settings.BLOCKCHAIN_DATA_PATH]: coreReducers.data,
   [settings.WALLET_IMMUTABLE_PATH]: coreReducers.wallet,
   [settings.SETTINGS_PATH]: coreReducers.settings,
-  routing: routerReducer
+  router: routerReducer
 })
 
 export default rootReducer

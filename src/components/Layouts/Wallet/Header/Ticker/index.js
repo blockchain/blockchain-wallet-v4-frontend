@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { path } from 'ramda'
 
 import { convertToBitcoin, convertToCurrency } from 'services/conversionService'
 import { selectors } from 'data'
@@ -10,13 +9,13 @@ import Ticker from './template.js'
 class TickerContainer extends React.Component {
   render () {
     let satoshiAmount = 100000000
-    let conversionBitcoin = convertToBitcoin(satoshiAmount, this.props.unit)
-    let conversionCurrency = convertToCurrency(satoshiAmount, this.props.currency, this.props.rates)
+    let conversionBitcoin = convertToBitcoin(satoshiAmount, this.props.unit).getOrElse('N/A')
+    let conversionCurrency = convertToCurrency(satoshiAmount, this.props.currency, this.props.rates).getOrElse('N/A')
 
     return (
       <Ticker
-        bitcoinValue={conversionBitcoin.success ? conversionBitcoin.value : 'N/A'}
-        currencyValue={conversionCurrency.success ? conversionCurrency.value : 'N/A'}
+        bitcoinValue={conversionBitcoin}
+        currencyValue={conversionCurrency}
       />
     )
   }

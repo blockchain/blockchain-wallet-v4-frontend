@@ -5,3 +5,4 @@ export const getDropdownLanguageDisplayed = path(['applicationState', 'ui', 'dro
 export const getExploreMenuDisplayed = path(['applicationState', 'ui', 'exploreMenuDisplayed'])
 export const getNavigationDisplayed = path(['applicationState', 'ui', 'navigationDisplayed'])
 export const getSecurityCenterMenuDisplayed = path(['applicationState', 'ui', 'securityCenterMenuDisplayed'])
+export const getHeaderMenuDisplayed = path(['applicationState', 'ui', 'headerMenuDisplayed'])
