@@ -1,5 +1,5 @@
 import { List, fromJS as iFromJS } from 'immutable-ext'
-import { shift, shiftIProp, JSToI } from '../util'
+import { shift, shiftIProp, JSToI } from './util'
 import { view, prop, pipe, compose, set, over, map, curry, is } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'

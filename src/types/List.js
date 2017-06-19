@@ -1,9 +1,8 @@
 import { compose, view } from 'ramda'
-import { iLensProp } from '../lens'
-import { typeGuard, typeLens } from '../util'
+import { typeGuard, typeLens, iLensProp } from './util'
 import * as eImmutable from 'extendable-immutable'
 
-export default class TypeList extends eImmutable.List {
+export default class List extends eImmutable.List {
   static get guard () {
     return typeGuard(this)
   }

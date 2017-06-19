@@ -3,7 +3,7 @@ import * as crypto from '../WalletCrypto'
 import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
 import Type from './Type'
-import { JSToI } from '../util'
+import { JSToI } from './util'
 import * as Wallet from './Wallet'
 
 /* Wrapper :: {

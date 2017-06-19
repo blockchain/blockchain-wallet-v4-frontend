@@ -1,5 +1,5 @@
 import { view, is, pipe, set } from 'ramda'
-import { iToJS } from '../util'
+import { iToJS } from './util'
 import Type from './Type'
 
 /* AddressLabel :: {

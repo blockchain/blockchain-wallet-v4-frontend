@@ -1,8 +1,8 @@
 import { map, prop, view, compose, is, pipe, curry } from 'ramda'
-import TypeList from './TypeList'
+import List from './List'
 import * as HDAccount from './HDAccount'
 
-export class HDAccountList extends TypeList {}
+export class HDAccountList extends List {}
 
 export const account = index => HDAccountList.define(index)
 

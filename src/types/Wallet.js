@@ -3,9 +3,8 @@ import Task from 'data.task'
 import { Map, List } from 'immutable-ext'
 import { compose, over, view, curry, map, is, pipe, lensProp, __, concat } from 'ramda'
 import { traversed, traverseOf } from 'ramda-lens'
-import { iLensProp } from '../lens'
 import * as crypto from '../WalletCrypto'
-import { shift, shiftIProp } from '../util'
+import { shift, shiftIProp, iLensProp } from './util'
 import Type from './Type'
 import * as HDWallet from './HDWallet'
 import * as HDAccount from './HDAccount'
@@ -102,27 +101,27 @@ export const toJS = pipe(Wallet.guard, (wallet) => {
 //   return new Wallet(JSToI(x))
 // }
 
-// // fromEncryptedPayload :: String -> String -> Either Error Wallet
-// export const fromEncryptedPayload = curry((password, payload) => {
-//   let decryptWallet = compose(
-//     map(fromJS),
-//     crypto.decryptWallet(password),
-//     JSON.parse
-//   )
-//   return Either.of(payload).chain(decryptWallet)
-// })
+// fromEncryptedPayload :: String -> String -> Either Error Wallet
+export const fromEncryptedPayload = curry((password, payload) => {
+  let decryptWallet = compose(
+    map(fromJS),
+    crypto.decryptWallet(password),
+    JSON.parse
+  )
+  return Either.of(payload).chain(decryptWallet)
+})
 
-// // toEncryptedPayload :: String -> Wallet -> Either Error String
-// export const toEncryptedPayload = curry((password, wallet) => {
-//   Wallet.guard(wallet)
-//   let iters = selectIterations(wallet)
-//   let encryptWallet = compose(
-//     Either.try(crypto.encryptWallet(__, password, iters, 3.0)),
-//     JSON.stringify,
-//     toJS
-//   )
-//   return Either.of(wallet).chain(encryptWallet)
-// })
+// toEncryptedPayload :: String -> Wallet -> Either Error String
+export const toEncryptedPayload = curry((password, wallet) => {
+  Wallet.guard(wallet)
+  let iters = selectIterations(wallet)
+  let encryptWallet = compose(
+    Either.try(crypto.encryptWallet(__, password, iters, 3.0)),
+    JSON.stringify,
+    toJS
+  )
+  return Either.of(wallet).chain(encryptWallet)
+})
 
 // isValidSecondPwd :: String -> Wallet -> Bool
 export const isValidSecondPwd = curry((password, wallet) => {
@@ -137,26 +136,26 @@ export const isValidSecondPwd = curry((password, wallet) => {
   }
 })
 
-// // addAddress :: Wallet -> Address -> String -> Either Error Wallet
-// export const addAddress = curry((wallet, address, password) => {
-//   let it = selectIterations(wallet)
-//   let sk = view(sharedKey, wallet)
-//   let set = curry((a, as) => as.set(a.addr, a))
-//   let append = curry((w, a) => over(addresses, set(a), w))
-//   if (!isDoubleEncrypted(wallet)) {
-//     return Either.of(append(wallet, address))
-//   } else if (isValidSecondPwd(password, wallet)) {
-//     return Address.encryptSync(it, sk, password, address).map(append(wallet))
-//   } else {
-//     return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
-//   }
-// })
+// addAddress :: Wallet -> Address -> String -> Either Error Wallet
+export const addAddress = curry((wallet, address, password) => {
+  let it = selectIterations(wallet)
+  let sk = view(sharedKey, wallet)
+  let set = curry((a, as) => as.set(a.addr, a))
+  let append = curry((w, a) => over(addresses, set(a), w))
+  if (!isDoubleEncrypted(wallet)) {
+    return Either.of(append(wallet, address))
+  } else if (isValidSecondPwd(password, wallet)) {
+    return Address.encryptSync(it, sk, password, address).map(append(wallet))
+  } else {
+    return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
+  }
+})
 
-// // setAddressLabel :: String -> String -> Wallet -> Wallet
-// export const setAddressLabel = curry((address, label, wallet) => {
-//   let addressLens = compose(addresses, iLensProp(address))
-//   return over(addressLens, Address.setLabel(label), wallet)
-// })
+// setAddressLabel :: String -> String -> Wallet -> Wallet
+export const setAddressLabel = curry((address, label, wallet) => {
+  let addressLens = compose(addresses, iLensProp(address))
+  return over(addressLens, Address.setLabel(label), wallet)
+})
 
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
 export const traverseKeyValues = curry((of, f, wallet) => {

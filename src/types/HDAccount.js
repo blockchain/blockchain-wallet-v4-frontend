@@ -1,7 +1,7 @@
 import { Map, List, fromJS as iFromJS } from 'immutable-ext'
 import { view, pipe, over, curry, compose, not, is } from 'ramda'
 import Type from './Type'
-import { JSToI } from '../util'
+import { JSToI } from './util'
 // import * as AddressLabel from './AddressLabel'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as Cache from './Cache'

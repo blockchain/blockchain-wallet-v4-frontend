@@ -3,7 +3,7 @@ import * as crypto from '../WalletCrypto'
 import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
 import Type from './Type'
-import { iToJS } from '../util'
+import { iToJS } from './util'
 
 /* Address :: {
   priv :: String

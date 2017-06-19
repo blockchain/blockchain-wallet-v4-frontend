@@ -1,8 +1,8 @@
 import { map, view, is, pipe } from 'ramda'
-import TypeList from './TypeList'
+import List from './List'
 import * as HDWallet from './HDWallet'
 
-export class HDWalletList extends TypeList {}
+export class HDWalletList extends List {}
 
 // we never add multiple hdwallets
 // select always by default hdwallet 0

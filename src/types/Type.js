@@ -1,6 +1,5 @@
 import { compose, view } from 'ramda'
-import { iLensProp } from '../lens'
-import { typeGuard, typeLens } from '../util'
+import { typeGuard, typeLens, iLensProp } from './util'
 import * as eImmutable from 'extendable-immutable'
 
 export default class Type extends eImmutable.Map {
@@ -19,6 +18,7 @@ export default class Type extends eImmutable.Map {
   toJSON () {
     return { data: this.toObject(), __serializedType__: this.constructor.name }
   }
+
   static define (prop) {
     let defineProp = (prop) => compose(this.lens, iLensProp(prop))
     let propLens = defineProp(prop)
