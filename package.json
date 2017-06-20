@@ -73,6 +73,7 @@
     "file-loader": "^0.11.1",
     "html-webpack-plugin": "^2.28.0",
     "identity-obj-proxy": "^3.0.0",
+    "intl-webpack-plugin": "^0.1.2",
     "jest": "^20.0.4",
     "jest-css-modules": "^1.1.0",
     "node-sass": "^4.5.3",
@@ -83,7 +84,8 @@
     "standard": "^10.0.2",
     "style-loader": "^0.18.0",
     "webpack": "^2.5.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.4.5",
+    "yaml-loader": "^0.4.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
@@ -98,6 +100,7 @@
     "react": "^15.5.4",
     "react-css-modules": "^4.3.0",
     "react-dom": "^15.5.4",
+    "react-intl": "^2.3.0",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "next",

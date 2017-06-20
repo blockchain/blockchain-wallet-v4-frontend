@@ -10,8 +10,6 @@
       "root": ["./src"],
       "alias": {
         "npm": "./node_modules",
-        
-        
         "fonts": "./src/assets/fonts",
         "img": "./src/assets/img",
         "locales": "./src/assets/locales",

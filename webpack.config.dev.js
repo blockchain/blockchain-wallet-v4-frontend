@@ -1,6 +1,7 @@
 
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
+let IntlPlugin = require("intl-webpack-plugin");
 
 const PATHS = {
   dist: `${__dirname}/dist`,
@@ -119,6 +120,12 @@ module.exports = {
             name: 'img/[name].[ext]'
           }
         }
+      },
+      { test: /\.(intl)$/i,
+        use: [
+          IntlPlugin.loader(),
+          'yaml-loader'
+        ]
       }
     ]
   },
@@ -129,6 +136,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
+    }),
+    new IntlPlugin({
+      search: [PATHS.src + '/**/*.intl']
     })
   ],
   devServer: {

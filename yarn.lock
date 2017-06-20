@@ -1324,6 +1324,10 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
+chai-immutable@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/chai-immutable/-/chai-immutable-1.6.0.tgz#9ec00bdd67948b13b20fcbb89cbf4af2ce6f9247"
+
 chalk@^1.0.0, chalk@^1.1.0, chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
@@ -1966,13 +1970,15 @@ domutils@1.5.1:
 
 dream-wallet@blockchain/dream-wallet:
   version "1.0.0"
-  resolved "git+ssh://git@github.com/blockchain/dream-wallet.git#183dc0c619299587d44e9ed70aa3ae2c36a186f2"
+  resolved "git+ssh://git@github.com/blockchain/dream-wallet.git#ffb59aaaac5230be9ddc14ac24177001e1de6c94"
   dependencies:
     bip39 "^2.3.0"
     bitcoinjs-lib "^2.3.0"
+    chai-immutable "^1.6.0"
     data.either "^1.5.0"
     data.task "^3.1.1"
     es6-promise "^4.1.0"
+    extendable-immutable "^1.3.3"
     futurize "^1.2.0"
     immutable "^3.8.1"
     immutable-ext "^1.1.0"
@@ -2455,6 +2461,12 @@ extend@~3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
 
+extendable-immutable@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/extendable-immutable/-/extendable-immutable-1.3.3.tgz#95ae9096644a1724faedefa693a78b5cf1ac4d0e"
+  dependencies:
+    invariant "^2.2.1"
+
 extglob@^0.3.1:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/extglob/-/extglob-0.3.2.tgz#2e18ff3d2f49ab2765cec9023f011daa8d8349a1"
@@ -2615,6 +2627,12 @@ flat-cache@^1.2.1:
     del "^2.0.2"
     graceful-fs "^4.1.2"
     write "^0.2.1"
+
+flat@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/flat/-/flat-2.0.1.tgz#70e29188a74be0c3c89409eed1fa9577907ae32f"
+  dependencies:
+    is-buffer "~1.1.2"
 
 flatten@^1.0.2:
   version "1.0.2"
@@ -3133,7 +3151,35 @@ interpret@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.3.tgz#cbc35c62eeee73f19ab7b10a801511401afc0f90"
 
-invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
+intl-format-cache@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/intl-format-cache/-/intl-format-cache-2.0.5.tgz#b484cefcb9353f374f25de389a3ceea1af18d7c9"
+
+intl-messageformat-parser@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.2.0.tgz#5906b7f953ab7470e0dc8549097b648b991892ff"
+
+intl-messageformat@1.3.0, intl-messageformat@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-1.3.0.tgz#f7d926aded7a3ab19b2dc601efd54e99a4bd4eae"
+  dependencies:
+    intl-messageformat-parser "1.2.0"
+
+intl-relativeformat@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/intl-relativeformat/-/intl-relativeformat-1.3.0.tgz#893dc7076fccd380cf091a2300c380fa57ace45b"
+  dependencies:
+    intl-messageformat "1.3.0"
+
+intl-webpack-plugin@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/intl-webpack-plugin/-/intl-webpack-plugin-0.1.2.tgz#244de3586329c14423f214eec8822a842dd6637e"
+  dependencies:
+    flat "^2.0.1"
+    join-webpack-plugin "^0.1.2"
+    merge "^1.2.0"
+
+invariant@^2.0.0, invariant@^2.1.1, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -3168,7 +3214,7 @@ is-binary-path@^1.0.0:
   dependencies:
     binary-extensions "^1.0.0"
 
-is-buffer@^1.0.2, is-buffer@^1.1.5:
+is-buffer@^1.0.2, is-buffer@^1.1.5, is-buffer@~1.1.2:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.5.tgz#1f3b26ef613b214b88cbca23cc6c01d87961eecc"
 
@@ -3664,6 +3710,15 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
+join-webpack-plugin@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/join-webpack-plugin/-/join-webpack-plugin-0.1.2.tgz#5f8ba581298f35462c95e4666e0248d8b8731346"
+  dependencies:
+    async "^2.1.5"
+    glob "^7.1.1"
+    loader-utils "^0.2.16"
+    webpack-sources "^0.1.5"
+
 jquery@>=1.9.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
@@ -3676,7 +3731,7 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-js-yaml@^3.5.1, js-yaml@^3.7.0:
+js-yaml@^3.5.1, js-yaml@^3.5.2, js-yaml@^3.7.0:
   version "3.8.4"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.4.tgz#520b4564f86573ba96662af85a8cafa7b4b5a6f6"
   dependencies:
@@ -4025,7 +4080,7 @@ merge-descriptors@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
 
-merge@^1.1.3:
+merge@^1.1.3, merge@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/merge/-/merge-1.2.0.tgz#7531e39d4949c281a66b8c5a6e0265e8b05894da"
 
@@ -5054,6 +5109,15 @@ react-dom@^15.5.4:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "~15.5.7"
+
+react-intl@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-2.3.0.tgz#e1df6af5667fdf01cbe4aab20e137251e2ae5142"
+  dependencies:
+    intl-format-cache "^2.0.5"
+    intl-messageformat "^1.3.0"
+    intl-relativeformat "^1.3.0"
+    invariant "^2.1.1"
 
 react-redux@^5.0.5:
   version "5.0.5"
@@ -6226,7 +6290,7 @@ webpack-dev-server@^2.4.5:
     webpack-dev-middleware "^1.10.2"
     yargs "^6.0.0"
 
-webpack-sources@^0.1.0:
+webpack-sources@^0.1.0, webpack-sources@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-0.1.5.tgz#aa1f3abf0f0d74db7111c40e500b84f966640750"
   dependencies:
@@ -6374,6 +6438,12 @@ y18n@^3.2.1:
 yallist@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
+
+yaml-loader@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/yaml-loader/-/yaml-loader-0.4.0.tgz#4aae447d13c1aa73a989d8a2a5309b0b1a3ca353"
+  dependencies:
+    js-yaml "^3.5.2"
 
 yargs-parser@^4.2.0:
   version "4.2.1"
