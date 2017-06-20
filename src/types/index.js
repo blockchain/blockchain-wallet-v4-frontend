@@ -12,6 +12,9 @@ import * as HDAccountList from './HDAccountList'
 import * as HDWalletList from './HDWalletList'
 import * as AddressBook from './AddressBook'
 import * as AddressBookEntry from './AddressBookEntry'
+import * as TXNotes from './TXNotes'
+import * as TXNames from './TXNames'
+import * as Options from './Options'
 import serializer from './Serializer'
 
 export {
@@ -29,5 +32,8 @@ export {
   HDWalletList,
   HDAccountList,
   AddressBookEntry,
-  AddressBook
+  AddressBook,
+  TXNotes,
+  TXNames,
+  Options
 }

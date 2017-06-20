@@ -60,7 +60,7 @@ describe('Wallet', () => {
       let addresses = Wallet.selectAddresses(withNewAddress.value)
       expect(addresses.size).to.equal(n + 1)
       const newAddr = R.compose(AddressMap.selectAddress('address'), Wallet.selectAddresses)(withNewAddress.value)
-      // expect(newAddr).to.equal(address) // todo:: review AddressMap.selectAddress
+      expect(newAddr).to.equal(address)
     })
 
     it('should add a double encrypted address', () => {
@@ -70,7 +70,8 @@ describe('Wallet', () => {
       expect(withNewAddress.isRight).to.equal(true)
       let as = Wallet.selectAddresses(withNewAddress.value)
       expect(as.size).to.equal(n + 1)
-      // expect(as.get(n).priv).to.equal('enc<5abc>')
+      const encPriv = R.compose(Address.selectPriv, AddressMap.selectAddress('1asdf'), Wallet.selectAddresses)(withNewAddress.value)
+      expect(encPriv).to.equal('enc<5abc>')
     })
   })
 
@@ -150,6 +151,20 @@ describe('Wallet', () => {
       let decrypted = Wallet.decryptSync('wrong', walletSecpass).value
       expect(R.is(Error, decrypted)).to.equal(true)
       expect(decrypted.message).to.equal('INVALID_SECOND_PASSWORD')
+    })
+  })
+
+  describe('serializer', () => {
+    it('compose(reviver, replacer) should be identity', () => {
+      const string = JSON.stringify(wallet)
+      const newWallet = JSON.parse(string, serializer.reviver)
+      expect(newWallet).to.deep.equal(wallet)
+    })
+    it('compose(replacer, reviver) should be identity', () => {
+      const string = JSON.stringify(wallet)
+      const newWallet = JSON.parse(string, serializer.reviver)
+      const string2 = JSON.stringify(newWallet)
+      expect(string2).to.equal(string)
     })
   })
 

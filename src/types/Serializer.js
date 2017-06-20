@@ -11,6 +11,9 @@ import * as AddressBook from './AddressBook'
 import * as AddressBookEntry from './AddressBookEntry'
 import * as HDAccountList from './HDAccountList'
 import * as HDWalletList from './HDWalletList'
+import * as TXNotes from './TXNotes'
+import * as TXNames from './TXNames'
+import * as Options from './Options'
 
 const serializer = {
   reviver: function (key, value) {
@@ -30,6 +33,9 @@ const serializer = {
         case 'AddressBook': return AddressBook.reviver(data)
         case 'HDAccountList': return HDAccountList.reviver(data)
         case 'HDWalletList': return HDWalletList.reviver(data)
+        case 'TXNotes': return TXNotes.reviver(data)
+        case 'TXNames': return TXNames.reviver(data)
+        case 'Options': return Options.reviver(data)
         default: return data
       }
     }

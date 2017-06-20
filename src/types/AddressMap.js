@@ -6,7 +6,7 @@ export class AddressMap extends Type {}
 
 export const isAddressMap = is(AddressMap)
 
-export const address = string => AddressMap.define(address)
+export const address = string => AddressMap.define(string)
 
 export const selectAddress = curry((string, as) => view(address(string), as))
 

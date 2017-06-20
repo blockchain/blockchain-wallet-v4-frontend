@@ -1,7 +1,6 @@
 import Either from 'data.either'
 import Task from 'data.task'
-import { Map, List } from 'immutable-ext'
-import { compose, over, view, curry, map, is, pipe, lensProp, __, concat } from 'ramda'
+import { compose, over, view, curry, map, is, pipe, __, concat } from 'ramda'
 import { traversed, traverseOf } from 'ramda-lens'
 import * as crypto from '../WalletCrypto'
 import { shift, shiftIProp, iLensProp } from './util'
@@ -12,6 +11,9 @@ import * as Address from './Address'
 import * as AddressMap from './AddressMap'
 import * as HDWalletList from './HDWalletList'
 import * as AddressBook from './AddressBook'
+import * as TXNames from './TXNames'
+import * as TXNotes from './TXNotes'
+import * as Options from './Options'
 
 /* Wallet :: {
   guid :: String
@@ -20,8 +22,8 @@ import * as AddressBook from './AddressBook'
   metadataHDNode :: String
   options :: Options
   address_book :: [{ [addr]: String }]
-  tx_notes :: [{ tx: String, note: String }]
-  tx_names :: ???
+  tx_notes :: [{ txhash: String }]
+  tx_names :: []
   addresses :: {Address}
   hd_wallets :: [HDWallet]
 } */
@@ -35,7 +37,6 @@ export const sharedKey = Wallet.define('sharedKey')
 export const doubleEncryption = Wallet.define('double_encryption')
 export const metadataHDNode = Wallet.define('metadataHDNode')
 export const options = Wallet.define('options')
-export const pbkdf2Iterations = compose(options, iLensProp('pbkdf2_iterations'))
 export const addresses = Wallet.define('addresses')
 export const dpasswordhash = Wallet.define('dpasswordhash')
 export const hdWallets = Wallet.define('hd_wallets')
@@ -46,61 +47,50 @@ export const addressBook = Wallet.define('address_book')
 // selectGuid :: Wallet -> String
 export const selectGuid = view(guid)
 export const selectSharedKey = view(sharedKey)
-export const selectIterations = view(pbkdf2Iterations)
+export const selectOptions = view(options)
 export const selectmetadataHDNode = view(metadataHDNode)
 export const selectTxNotes = view(txNotes)
 export const selectTxNames = view(txNames)
 export const selectAddressBook = view(addressBook)
+export const selectIterations = compose(Options.selectPbkdf2Iterations, selectOptions)
 
 export const selectAddresses = view(addresses)
 export const selectHdWallets = view(hdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
 export const selectAddrContext = compose(AddressMap.selectContext, selectAddresses)
-// export const selectPrivKeys = compose(map(Address.selectPriv), selectAddresses)
 export const selectXpubsContext = compose(HDWallet.selectContext, HDWalletList.selectHDWallet, selectHdWallets)
 export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
 export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
-// need to define options type? and handle tx_notes, tx_names, address_book
 export const fromJS = (x) => {
   if (is(Wallet, x)) { return x }
   const walletCons = compose(
     over(hdWallets, HDWalletList.fromJS),
     over(addresses, AddressMap.fromJS),
-    over(options, Map),
-    over(txNames, List),
-    over(txNotes, Map),
+    over(options, Options.fromJS),
+    over(txNames, TXNames.fromJS),
+    over(txNotes, TXNotes.fromJS),
     over(addressBook, AddressBook.fromJS),
     w => shiftWallet(w).forward()
   )
   return walletCons(new Wallet(x))
 }
 
-// need to define options type? and handle tx_notes, tx_names, address_book
 export const toJS = pipe(Wallet.guard, (wallet) => {
   const walletDecons = compose(
     w => shiftWallet(w).back(),
-    over(options, o => o.toObject()),
-    over(txNotes, o => o.toObject()),
-    over(txNames, o => o.toArray()),
+    over(options, Options.toJS),
+    over(txNotes, TXNotes.toJS),
+    over(txNames, TXNames.toJS),
     over(hdWallets, HDWalletList.toJS),
     over(addresses, AddressMap.toJS),
     over(addressBook, AddressBook.toJS)
   )
   return walletDecons(wallet).toJS()
 })
-
-// export const reviver = (x) => {
-//   // console.log(x)
-//   // const JSONtoOpt = over(lensProp('options'), Map)
-//   // const JSONtoAdd = over(lensProp('addresses'), Map)
-//   // const JSONtoHD = over(lensProp('hd_wallets'), List)
-//   // const t = compose(JSONtoOpt, JSONtoAdd, JSONtoHD)
-//   return new Wallet(JSToI(x))
-// }
 
 export const reviver = (jsObject) => {
   return new Wallet(jsObject)
