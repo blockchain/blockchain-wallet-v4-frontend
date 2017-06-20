@@ -2,10 +2,16 @@
 .transaction-list-item {
 
   &:hover {
-    background-color: $grey;
+    background-color: $gray-lightest;
   }
 }
 
 .rotated {
   transform: rotate(-90deg);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }

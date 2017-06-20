@@ -1,66 +1,48 @@
-
 a {
-  text-decoration: none;
-  color: $iris;
-  cursor: pointer;
-}
-
-.navigation {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(center);
-  @include align-items(center);
-  height: 60px;
-  padding: 0 15px;
-  @include box-sizing(border-box);
-  text-decoration: none;
   font-size: 14px;
-  font-weight: 500;
-  color: #FFFFFF;
-  cursor: pointer;
-}
-
-
-.navigation-sub {
-  display: block;
-  width: 100%;
-  padding: 3px 20px;
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  color: #000000;
+  color: $brand-info;
   cursor: pointer;
-  @include box-sizing(border-box);
 
-  &:hover {
-    background-color: #EBEBEB;
+  &:hover{
+    text-decoration: none;
+    color: $brand-info;
   }
 }
 
+
 .menu-item {
-  @include display-flex();
-  @include flex-direction(row);
-  @include justify-content(flex-start);
-  @include align-items(center);
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
   padding: 5px 12px;
   @include box-sizing(border-box);
   text-decoration: none;
   text-transform: uppercase;
   font-size: 13px;
   font-weight: 400;
-  color: $basic-grey;
+  color: $gray-light;
+
+  &:focus {
+    text-decoration: none;
+  }
 
   &.sub {
     text-transform: capitalize;
+    padding-left: 50px;
+
+    &:focus {
+      text-decoration: none;
+    }
   }
 
   &.active {
-    color: $iris;
+    color: $brand-info;
   }
 
   & .icon {
     display: block;
-    vertical-align: middle;
     font-size: 20px;
     width: 40px;
   }

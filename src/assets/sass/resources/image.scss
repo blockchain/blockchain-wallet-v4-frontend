@@ -1,23 +1,19 @@
-
  @mixin responsive-background-image($url...) {
    background-image: url($url);
    background-repeat: no-repeat;
-   background-position: 10% 100%;
+   background-position: 50% 50%;
    @include background-size(cover);
-   height: 550px;
-   width: 100%;
 
-   @media only screen and (min-width: $grid_breakpoint_sm * 1px) {
-     background-position: 100% 60%;
-   }
-   @media only screen and (min-width: $grid_breakpoint_md * 1px) {
-     height: 600px;
-   }
-   @media only screen and (min-width: $grid_breakpoint_lg * 1px) {
-     height: 800px;
-   }
-   @media only screen and (min-width: $grid_breakpoint_xl * 1px) {
-     background-position: 100% 100%;
-     height: 1000px;
-   }
+    @include media-breakpoint-up(sm) { 
+      background-position: 40% 40%;
+    }
+    @include media-breakpoint-up(md) { 
+      background-position: 60% 60%; 
+    }
+    @include media-breakpoint-up(lg) {
+      background-position: 80% 80%;
+    }
+    @include media-breakpoint-up(xl) {
+      background-position: 80% 80%;
+    }
 }

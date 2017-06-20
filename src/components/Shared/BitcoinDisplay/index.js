@@ -7,15 +7,19 @@ import { selectors } from 'data'
 import BitcoinDisplay from './template.js'
 
 const BitcoinDisplayContainer = (props) => {
-  let conversion = convertToBitcoin(props.amount, props.unit)
+  let conversion = convertToBitcoin(props.amount, props.unit).getOrElse('N/A')
 
   return (
-    <BitcoinDisplay className={props.className} value={conversion.success ? conversion.value : 'N/A'} />
+    <BitcoinDisplay className={props.className} value={conversion} />
   )
 }
 
 BitcoinDisplayContainer.propTypes = {
   amount: PropTypes.number.isRequired
+}
+
+BitcoinDisplayContainer.defaultProps = {
+  amount: 0
 }
 
 function mapStateToProps (state) {
