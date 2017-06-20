@@ -2,10 +2,8 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import persistState from 'redux-localstorage'
-import createHistory from 'history/createBrowserHistory'
-import { routerMiddleware } from 'react-router-redux'
-// import Immutable from 'immutable-ext'
-// import { is } from 'ramda'
+import { createBrowserHistory } from 'history'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
 // import { coreMiddleware } from 'dream-wallet/lib'
 import autoDisconnection from 'middleware/autoDisconnection.js'
 import { rootSaga, rootReducer } from 'data'
@@ -15,16 +13,17 @@ import { rootSaga, rootReducer } from 'data'
 // import { auth } from 'data/rootSelectors.js'
 import { serializer } from 'dream-wallet/lib/types'
 
+const devToolsConfig = { serialize: serializer }
+
 const configureStore = () => {
-  const history = createHistory()
+  const history = createBrowserHistory()
   const sagaMiddleware = createSagaMiddleware()
-  // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ serialize: { immutable: Immutable } }) : compose
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(serializer) : compose
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig) : compose
   // const walletPath = settings.WALLET_IMMUTABLE_PATH
   const reduxRouterMiddleware = routerMiddleware(history)
 
   const store = createStore(
-    rootReducer,
+    connectRouter(history)(rootReducer),
     composeEnhancers(
       persistState('session'),
       applyMiddleware(

@@ -29,7 +29,6 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
     yield put(actions.auth.loginSuccess())
     yield put(push('/wallet'))
   } catch (error) {
-    console.log(error)
     if (prop('authorization_required', JSON.parse(error))) {
       let authorized = yield call(pollingSaga, session)
       if (authorized) {
