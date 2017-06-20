@@ -3,6 +3,7 @@ import * as actions from './actions'
 let assign = (state, next) => Object.assign({}, state, next)
 
 const INITIAL_STATE = {
+  advancedSecurityDisplayed: false,
   bitcoinDisplayed: true,
   dropdownLanguageDisplayed: false,
   exploreMenuDisplayed: false,
@@ -40,7 +41,9 @@ const ui = (state = INITIAL_STATE, action) => {
     case actions.TOGGLE_DROPDOWN_LANGUAGE: {
       return assign(INITIAL_STATE, { dropdownLanguageDisplayed: !state.dropdownLanguageDisplayed })
     }
-
+    case actions.TOGGLE_ADVANCED_SECURITY: {
+      return assign(INITIAL_STATE, { advancedSecurityDisplayed: !state.advancedSecurityDisplayed })
+    }
     default:
       return state
   }

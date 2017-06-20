@@ -1,19 +1,18 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'API Access'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Use our API to interact with your wallet programmatically. Follow the steps <a href='#'>here</a> to get started.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='API_ACCESS' />
+    <Translate className='d-flex' translate='API_ACCESS_SUPPORT' />
+  </div>
 )
 
 const settings = (
-  <div />
+  <div className='d-flex flex-column justify-item-start align-items-end' />
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

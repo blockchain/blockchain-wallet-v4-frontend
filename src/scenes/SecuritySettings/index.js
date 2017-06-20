@@ -1,20 +1,40 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
 import SecuritySettings from './template.js'
+import { actions, selectors } from 'data'
 
 class SecuritySettingsContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { advanced: false }
+    this.handleClickAdvancedSecurity = this.handleClickAdvancedSecurity.bind(this)
+  }
+
+  handleClickAdvancedSecurity () {
+    this.props.actions.toggleAdvancedSecurity()
   }
 
   render () {
-    let { advanced } = this.state
-    let toggleAdvanced = () => this.setState({ advanced: !advanced })
     return (
-      <SecuritySettings advanced={advanced} toggleAdvanced={toggleAdvanced} />
+      <SecuritySettings
+        advancedSecurityDisplayed={this.props.advancedSecurityDisplayed}
+        clickAdvancedSecurity={this.handleClickAdvancedSecurity}
+      />
     )
   }
 }
 
-export default SecuritySettingsContainer
+function mapStateToProps (state, ownProps) {
+  return {
+    advancedSecurityDisplayed: selectors.ui.getAdvancedSecurityDisplayed(state)
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: bindActionCreators(actions.ui, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SecuritySettingsContainer)

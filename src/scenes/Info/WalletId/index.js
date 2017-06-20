@@ -1,21 +1,21 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Wallet ID'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>Wallet ID is your unique identifier.
-    It is completely individual to you, and it is what you will use to log in and access your wallet.
-    It is <b>not</b> a bitcoin address for sending or receiving.
-    <span>Do not share your Wallet ID with others.</span>
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6' translate='UID' />
+    <Translate className='d-flex' translate='UID_EXPLAIN' />
+    <Translate className='d-flex text-danger' translate='UID_EXPLAIN_WARN' />
+  </div>
 )
 
 const settings = (
-  <label>29f92cab-4dba-90d5-8a68-ab9cd22c3582</label>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <label className='d-flex h6'>29f92cab-4dba-90d5-8a68-ab9cd22c3582</label>
+  </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

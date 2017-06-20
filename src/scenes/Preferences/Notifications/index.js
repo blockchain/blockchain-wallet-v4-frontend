@@ -1,21 +1,20 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Notifications'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Get notified when you receive bitcoin.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='NOTIFICATIONS' />
+    <Translate className='d-flex' translate='NOTIFICATIONS_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    [Notifications configuration]
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    [Notification Configuration]
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

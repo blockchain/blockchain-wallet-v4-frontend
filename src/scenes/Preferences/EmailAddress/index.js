@@ -1,23 +1,24 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Email Address'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Your verified email address is used to send login codes when suspicious or unusual activity is detected,
-    to remind you of your wallet login ID, and to send bitcoin payment alerts when you receive funds.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6' translate='EMAIL_ADDRESS' />
+    <Translate className='d-flex' translate='EMAIL_ADDRESS_EXPLAIN' />
+    <Translate className='d-flex text-danger' translate='CHANGE_EMAIL_NOT_EXCHANGE' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <span>test@example.com</span>
-    <button className='button-primary'>Change</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <span className='d-flex h6'>test@example.com</span>
+    <button className='d-flex button-secondary'>
+      <Translate translate='CHANGE' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

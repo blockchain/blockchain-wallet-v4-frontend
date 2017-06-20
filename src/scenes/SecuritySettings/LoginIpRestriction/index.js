@@ -1,22 +1,22 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Login IP Restriction'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Only allow login from IP address in the whitelist. If you do not have a static IP address, this may lock you out of your wallet.
-    If you have verified your email address, you will be notified of any suspicious login attempts.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='IP_WHITELIST_RESTRICT' />
+    <Translate className='d-flex' translate='IP_WHITELIST_RESTRICT_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <button className='button-primary'>Enable</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='ENABLE' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

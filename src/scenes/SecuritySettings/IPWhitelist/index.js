@@ -1,21 +1,22 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'IP Whitelist'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Allow login without email authentication from the following list of comma-separated IP addresses. Use % as a wildcard.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='IP_WHITELIST' />
+    <Translate className='d-flex' translate='IP_WHITELIST_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <button className='button-primary'>Change</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='CHANGE' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

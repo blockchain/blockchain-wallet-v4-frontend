@@ -28,6 +28,7 @@ a {
   }
 
   &.sub {
+    text-transform: none;
     padding-left: 50px;
 
     &:focus {

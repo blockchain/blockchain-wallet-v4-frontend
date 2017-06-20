@@ -1,22 +1,22 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Wallet Access via Tor'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Enable the following option to prevent IP addresses that are known to be part of the Tor anonymizing network from accessing your wallet.
-    The Tor network is frequently used by hackers attempting to access Blockchain users wallets.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='BLOCK_TOR' />
+    <Translate className='d-flex' translate='BLOCK_TOR_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <button className='button-primary'>Block</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='ALLOWED' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

@@ -1,5 +1,6 @@
 import { path } from 'ramda'
 
+export const getAdvancedSecurityDisplayed = path(['applicationState', 'ui', 'advancedSecurityDisplayed'])
 export const getBitcoinDisplayed = path(['applicationState', 'ui', 'bitcoinDisplayed'])
 export const getDropdownLanguageDisplayed = path(['applicationState', 'ui', 'dropdownLanguageDisplayed'])
 export const getExploreMenuDisplayed = path(['applicationState', 'ui', 'exploreMenuDisplayed'])

@@ -3,6 +3,8 @@ import CSSModules from 'react-css-modules'
 
 import InfoWell from 'components/Shared/InfoWell'
 import SettingRow from 'components/Shared/SettingRow'
+import Translate from 'components/Shared/Translate'
+
 import EmailAddress from './EmailAddress'
 import MobileNumber from './MobileNumber'
 import WalletLanguage from './WalletLanguage'
@@ -18,7 +20,9 @@ import style from './style.scss'
 const Preferences = () => {
   return (
     <section styleName='preferences'>
-      <InfoWell>Customize your wallet experience.</InfoWell>
+      <InfoWell>
+        <Translate translate='PREFERENCES_EXPLAIN' />
+      </InfoWell>
       <SettingRow component={EmailAddress} />
       <SettingRow component={MobileNumber} />
       <SettingRow component={WalletLanguage} />
