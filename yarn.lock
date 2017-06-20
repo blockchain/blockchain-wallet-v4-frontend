@@ -882,6 +882,10 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
+chai-immutable@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/chai-immutable/-/chai-immutable-1.6.0.tgz#9ec00bdd67948b13b20fcbb89cbf4af2ce6f9247"
+
 chai-spies@~0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/chai-spies/-/chai-spies-0.7.1.tgz#343d99f51244212e8b17e64b93996ff7b2c2a9b1"
@@ -1481,6 +1485,12 @@ extend@~3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
 
+extendable-immutable@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/extendable-immutable/-/extendable-immutable-1.3.3.tgz#95ae9096644a1724faedefa693a78b5cf1ac4d0e"
+  dependencies:
+    invariant "^2.2.1"
+
 extglob@^0.3.1:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/extglob/-/extglob-0.3.2.tgz#2e18ff3d2f49ab2765cec9023f011daa8d8349a1"
@@ -1879,7 +1889,7 @@ interpret@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.3.tgz#cbc35c62eeee73f19ab7b10a801511401afc0f90"
 
-invariant@^2.2.0:
+invariant@^2.2.0, invariant@^2.2.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:

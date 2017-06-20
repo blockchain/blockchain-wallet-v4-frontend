@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 import { compose } from 'ramda'
-import { Wrapper, Wallet } from '../../src/types'
+import { Wrapper, Wallet, AddressMap } from '../../src/types'
 import walletReducer from '../../src/redux/wallet/reducers.js'
 import * as Actions from '../../src/redux/wallet/actions.js'
-const walletFixture = require('../_fixtures/wallet.v3')
+const walletFixture = require('../_fixtures/Wallet/wallet.v3')
 
 const wrap = wallet => ({
   sync_pubkeys: false,
@@ -43,14 +43,14 @@ describe('reducers', () => {
       let action = Actions.addAddress(walletFixture.keys[0], null)
       let next = walletReducer(void 0, action)
       const sa = compose(Wallet.selectAddresses, Wrapper.selectWallet)
-      expect(sa(next).size).to.equal(2)
+      expect(sa(next).size).to.equal(1)
     })
 
     it('should handle ADDRESS_LABEL', () => {
       let label = 'my new label'
       let action = Actions.addLabel('19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF', label)
       let next = walletReducer(wrapped, action)
-      const sa = compose(as => as.get(0), Wallet.selectAddresses, Wrapper.selectWallet)
+      const sa = compose(AddressMap.selectAddress('19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF'), Wallet.selectAddresses, Wrapper.selectWallet)
       expect(sa(next).label).to.equal(label)
     })
 

@@ -2,7 +2,7 @@ import { compose, view } from 'ramda'
 import { typeGuard, typeLens, iLensProp } from './util'
 import * as eImmutable from 'extendable-immutable'
 
-export default class Type extends eImmutable.Map {
+export default class List extends eImmutable.List {
   static get guard () {
     return typeGuard(this)
   }
@@ -12,11 +12,11 @@ export default class Type extends eImmutable.Map {
   }
 
   get empty () {
-    return new this.constructor({})
+    return new this.constructor([])
   }
 
   toJSON () {
-    return { data: this.toObject(), __serializedType__: this.constructor.name }
+    return { data: this.toArray(), __serializedType__: this.constructor.name }
   }
 
   static define (prop) {
