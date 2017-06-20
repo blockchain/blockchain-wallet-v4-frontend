@@ -20,8 +20,11 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const addMyAddress = w => Wallet.addAddress(w, a, secondPassword)
       // this should be handled on a saga. No eithers in reducers
       const eitherWrapper = Wrapper.traverseWallet(Either.of, addMyAddress, state)
-      if (eitherWrapper.isRight) return eitherWrapper.value
-      return state
+      if (eitherWrapper.isRight) {
+        return eitherWrapper.value
+      } else {
+        return state
+      }
     }
     case A.ADDRESS_LABEL: {
       const { address, label } = action.payload
