@@ -1,9 +1,10 @@
 import chai from 'chai'
+import chaiImmutable from 'chai-immutable'
 import spies from 'chai-spies'
 import * as R from 'ramda'
-import { Address, Wallet, HDWallet, HDAccount } from '../../src/types'
+import { Address, Wallet, HDWallet, HDAccount, AddressMap, serializer } from '../../src/types'
 import * as crypto from '../../src/WalletCrypto'
-
+chai.use(chaiImmutable)
 chai.use(spies)
 const { expect } = chai
 
@@ -40,8 +41,8 @@ describe('Wallet', () => {
     })
 
     it('should select addresses', () => {
-      let selectAddressesJS = R.compose(xs => xs.toJS(), R.map(Address.toJS), Wallet.selectAddresses)
-      expect(selectAddressesJS(wallet)).to.deep.equal(walletFixture.keys)
+      let addressesJS = R.compose(AddressMap.toJS, Wallet.selectAddresses)(wallet)
+      expect(addressesJS).to.deep.equal(walletFixture.keys)
     })
 
     it('should select if is double encrypted', () => {
@@ -53,12 +54,13 @@ describe('Wallet', () => {
   describe('addAddress', () => {
     it('should add an unencrypted address', () => {
       let n = walletFixture.keys.length
-      let address = Address.fromJS({ priv: '5abc' })
+      let address = Address.fromJS({ addr: 'address', priv: '5abc' })
       let withNewAddress = Wallet.addAddress(wallet, address, null)
       expect(withNewAddress.isRight).to.equal(true)
       let addresses = Wallet.selectAddresses(withNewAddress.value)
       expect(addresses.size).to.equal(n + 1)
-      expect(Address.toJS(addresses.get(n))).to.deep.equal(Address.toJS(address))
+      const newAddr = R.compose(AddressMap.selectAddress('address'), Wallet.selectAddresses)(withNewAddress.value)
+      expect(newAddr).to.equal(address)
     })
 
     it('should add a double encrypted address', () => {
@@ -68,7 +70,8 @@ describe('Wallet', () => {
       expect(withNewAddress.isRight).to.equal(true)
       let as = Wallet.selectAddresses(withNewAddress.value)
       expect(as.size).to.equal(n + 1)
-      expect(as.get(n).priv).to.equal('enc<5abc>')
+      const encPriv = R.compose(Address.selectPriv, AddressMap.selectAddress('1asdf'), Wallet.selectAddresses)(withNewAddress.value)
+      expect(encPriv).to.equal('enc<5abc>')
     })
   })
 
@@ -151,13 +154,27 @@ describe('Wallet', () => {
     })
   })
 
-  describe('createNew', () => {
-    const { mnemonic } = walletNewFixture
-
-    it('should create a new wallet', () => {
-      let { guid, sharedKey } = walletNewFixture.wallet
-      let wallet = Wallet.createNew(guid, sharedKey, mnemonic)
-      expect(Wallet.toJS(wallet)).to.deep.equal(walletNewFixture.wallet)
+  describe('serializer', () => {
+    it('compose(reviver, replacer) should be identity', () => {
+      const string = JSON.stringify(wallet)
+      const newWallet = JSON.parse(string, serializer.reviver)
+      expect(newWallet).to.deep.equal(wallet)
+    })
+    it('compose(replacer, reviver) should be identity', () => {
+      const string = JSON.stringify(wallet)
+      const newWallet = JSON.parse(string, serializer.reviver)
+      const string2 = JSON.stringify(newWallet)
+      expect(string2).to.equal(string)
     })
   })
+
+  // describe('createNew', () => {
+  //   const { mnemonic } = walletNewFixture
+
+  //   it('should create a new wallet', () => {
+  //     let { guid, sharedKey } = walletNewFixture.wallet
+  //     let wallet = Wallet.createNew(guid, sharedKey, mnemonic)
+  //     expect(Wallet.toJS(wallet)).to.deep.equal(walletNewFixture.wallet)
+  //   })
+  // })
 })

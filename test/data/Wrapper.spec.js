@@ -1,13 +1,8 @@
 import chai from 'chai'
-import chaiImmutable from 'chai-immutable'
 import * as R from 'ramda'
+import chaiImmutable from 'chai-immutable'
 import { Wrapper, serializer } from '../../src/types'
-// var prettyI = require("pretty-immutable")
-import { List } from 'immutable-ext'
-
 chai.use(chaiImmutable)
-
-// const print = R.compose(console.log, prettyI)
 const { expect } = chai
 
 const wrapperFixture = require('../_fixtures/Wrapper/wrapper.v3')
@@ -17,13 +12,17 @@ const wrapperFixture = require('../_fixtures/Wrapper/wrapper.v3')
 
 describe('Wrapper', () => {
   const myWrapper = Wrapper.fromJS(wrapperFixture)
-
-  describe('revivers', () => {
-    // it('should return the correct object', () => {
-    //   const ser1 = JSON.stringify(myWrapper, serializer.replacer, 2)
-    //   const un1 = JSON.parse(ser1, serializer.reviver)
-    //   const ser2 = JSON.stringify(un1, serializer.replacer, 2)
-    //   expect(myWrapper).to.equal(un1)
-    // })
+  describe('serializer', () => {
+    it('compose(reviver, replacer) should be identity', () => {
+      const string = JSON.stringify(myWrapper)
+      const newWrapper = JSON.parse(string, serializer.reviver)
+      expect(newWrapper).to.deep.equal(myWrapper)
+    })
+    it('compose(replacer, reviver) should be identity', () => {
+      const string = JSON.stringify(myWrapper)
+      const newWrapper = JSON.parse(string, serializer.reviver)
+      const string2 = JSON.stringify(newWrapper)
+      expect(string2).to.equal(string)
+    })
   })
 })

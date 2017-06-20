@@ -1,5 +1,5 @@
-import * as R from 'ramda'
-import { Map } from 'immutable-ext'
+import { view, is, pipe, set } from 'ramda'
+import { iToJS } from './util'
 import Type from './Type'
 
 /* AddressLabel :: {
@@ -9,28 +9,21 @@ import Type from './Type'
 
 export class AddressLabel extends Type {}
 
+export const isAddressLabel = is(AddressLabel)
+
 export const index = AddressLabel.define('index')
 export const label = AddressLabel.define('label')
 
-export const selectIndex = R.view(index)
-export const selectLabel = R.view(label)
+export const selectIndex = view(index)
+export const selectLabel = view(label)
 
-export const fromJS = (x) => {
-  if (x instanceof AddressLabel) { return x }
-  return new AddressLabel(x)
-}
+export const fromJS = (x) => is(AddressLabel, x) ? x : new AddressLabel(x)
 
-export const toJS = R.pipe(AddressLabel.guard, (addressLabel) => {
-  return addressLabel.__internal.toJS()
-})
+export const toJS = pipe(AddressLabel.guard, iToJS)
 
-export const toJSON = R.pipe(AddressLabel.guard, (addressLabel) => {
-  return addressLabel.__internal.toJS()
-})
-
-export const fromJSON = (jsObject) => {
+export const reviver = (jsObject) => {
   return new AddressLabel(jsObject)
 }
 
 // setLabel :: String -> AddressLabel -> AddressLabel
-export const setLabel = R.set(label)
+export const setLabel = set(label)

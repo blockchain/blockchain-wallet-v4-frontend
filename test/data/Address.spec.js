@@ -1,16 +1,13 @@
 import chai from 'chai'
 import chaiImmutable from 'chai-immutable'
-
 import { Address, serializer } from '../../src/types'
 import * as crypto from '../../src/WalletCrypto'
 const { expect } = chai
 chai.use(chaiImmutable)
-import { Map, List } from 'immutable-ext'
 
 describe('Address', () => {
   const addressFixture = { priv: '5priv', addr: '1addr' }
   const address = Address.fromJS(addressFixture)
-
   crypto.encryptDataWithKey = (data, key, iv) => `enc<${data}>`
 
   describe('toJS', () => {
@@ -44,17 +41,17 @@ describe('Address', () => {
       expect(encrypted.value.priv).to.equal('enc<5priv>')
     })
   })
-  describe('serializer: ', () => {
+  describe('serializer', () => {
     it('compose(reviver, replacer) should be identity', () => {
-      const ser = JSON.stringify(address, serializer.replacer)
-      const unser = JSON.parse(ser, serializer.reviver)
-      expect(unser).to.deep.equal(address)
+      const string = JSON.stringify(address)
+      const newAddress = JSON.parse(string, serializer.reviver)
+      expect(newAddress).to.equal(address)
     })
     it('compose(replacer, reviver) should be identity', () => {
-      const ser = JSON.stringify(address, serializer.replacer)
-      const unser = JSON.parse(ser, serializer.reviver)
-      const ser2 = JSON.stringify(unser, serializer.replacer)
-      expect(ser).to.equal(ser2)
+      const string = JSON.stringify(address)
+      const newAddress = JSON.parse(string, serializer.reviver)
+      const string2 = JSON.stringify(newAddress)
+      expect(string).to.equal(string2)
     })
   })
 })

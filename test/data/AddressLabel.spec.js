@@ -3,7 +3,6 @@ import chaiImmutable from 'chai-immutable'
 import { AddressLabel, serializer } from '../../src/types'
 const { expect } = chai
 chai.use(chaiImmutable)
-// import { Map, List } from 'immutable-ext'
 
 describe('AddressLabel', () => {
   const addressLabelFixture = require('../_fixtures/AddressLabel/address-label')
@@ -32,17 +31,17 @@ describe('AddressLabel', () => {
     })
   })
 
-  describe('serializer: ', () => {
+  describe('serializer', () => {
     it('compose(reviver, replacer) should be identity', () => {
-      const ser = JSON.stringify(addressLabel, serializer.replacer)
-      const unser = JSON.parse(ser, serializer.reviver)
-      expect(unser).to.deep.equal(addressLabel)
+      const string = JSON.stringify(addressLabel)
+      const newAddrLabel = JSON.parse(string, serializer.reviver)
+      expect(newAddrLabel).to.equal(addressLabel)
     })
     it('compose(replacer, reviver) should be identity', () => {
-      const ser = JSON.stringify(addressLabel, serializer.replacer)
-      const unser = JSON.parse(ser, serializer.reviver)
-      const ser2 = JSON.stringify(unser, serializer.replacer)
-      expect(ser).to.equal(ser2)
+      const string = JSON.stringify(addressLabel)
+      const newAddrLabel = JSON.parse(string, serializer.reviver)
+      const string2 = JSON.stringify(newAddrLabel)
+      expect(string2).to.equal(string)
     })
   })
 })

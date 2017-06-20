@@ -1,8 +1,9 @@
-import * as R from 'ramda'
+import { view, compose, is, equals, not, pipe, set, curry } from 'ramda'
 import * as crypto from '../WalletCrypto'
 import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
 import Type from './Type'
+import { iToJS } from './util'
 
 /* Address :: {
   priv :: String
@@ -16,6 +17,8 @@ import Type from './Type'
 
 export class Address extends Type {}
 
+export const isAddress = is(Address)
+
 export const priv = Address.define('priv')
 export const addr = Address.define('addr')
 export const label = Address.define('label')
@@ -24,51 +27,42 @@ export const createdTime = Address.define('created_time')
 export const createdDeviceName = Address.define('created_device_name')
 export const createdDeviceVersion = Address.define('created_device_version')
 
-export const selectPriv = R.view(priv)
-export const selectAddr = R.view(addr)
-export const selectLabel = R.view(label)
-export const selectTag = R.view(tag)
-export const selectCreatedTime = R.view(createdTime)
-export const selectCreatedDeviceName = R.view(createdDeviceName)
-export const selectCreatedDeviceVersion = R.view(createdDeviceVersion)
+export const selectPriv = view(priv)
+export const selectAddr = view(addr)
+export const selectLabel = view(label)
+export const selectTag = view(tag)
+export const selectCreatedTime = view(createdTime)
+export const selectCreatedDeviceName = view(createdDeviceName)
+export const selectCreatedDeviceVersion = view(createdDeviceVersion)
 
-export const isArchived = R.compose(Boolean, R.equals(2), R.view(tag))
-export const isActive = R.compose(R.not, isArchived)
+export const isArchived = compose(Boolean, equals(2), view(tag))
+export const isActive = compose(not, isArchived)
 
-export const fromJS = (x) => {
-  if (x instanceof Address) { return x }
-  return new Address(x)
-}
+export const fromJS = (x) => is(Address, x) ? x : new Address(x)
 
-export const toJS = R.pipe(Address.guard, (address) => {
-  return address.__internal.toJS()
-})
+export const toJS = pipe(Address.guard, iToJS)
 
-export const toJSON = R.pipe(Address.guard, (address) => {
-  return address.__internal.toJS()
-})
-
-export const fromJSON = (jsObject) => {
+export const reviver = (jsObject) => {
   return new Address(jsObject)
 }
 
 // setLabel :: String -> Address -> Address
-export const setLabel = R.set(label)
+export const setLabel = set(label)
 
 // archive :: Address -> Address
-export const archive = R.set(tag, 2)
+export const archive = set(tag, 2)
 
 // unArchive :: Address -> Address
-export const unArchive = R.set(tag, 0)
+export const unArchive = set(tag, 0)
 
 // encryptSync :: Number -> String -> String -> Address -> Either Error Address
-export const encryptSync = R.curry((iterations, sharedKey, password, address) => {
+export const encryptSync = curry((iterations, sharedKey, password, address) => {
   const cipher = crypto.encryptSecPassSync(sharedKey, iterations, password)
   return traverseOf(priv, Either.of, cipher, address)
 })
 
 // decryptSync :: Number -> String -> String -> Address -> Either Error Address
-export const decryptSync = R.curry((iterations, sharedKey, password, address) => {
+export const decryptSync = curry((iterations, sharedKey, password, address) => {
   const cipher = crypto.decryptSecPassSync(sharedKey, iterations, password)
   return traverseOf(priv, Either.of, cipher, address)
 })

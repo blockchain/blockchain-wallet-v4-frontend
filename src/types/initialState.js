@@ -1,13 +1,27 @@
 // This is meant to define inital state for each type
+export const AddressBookEntry = {
+  'addr': '',
+  'label': ''
+}
+
+export const Cache = {
+  'receiveAccount': '',
+  'changeAccount': ''
+}
+
+export const AddressLabel = {
+  'index': 0,
+  'label': ''
+}
 
 export const Address = {
-  'addr': '1address',
-  'priv': null,
+  'addr': '',
+  'priv': '',
   'label': '',
   'tag': 0,
   'created_time': 0,
-  'created_device_name': 'DREAM_WALLET',
-  'created_device_version': '1.0'
+  'created_device_name': '',
+  'created_device_version': ''
 }
 
 export const HDAccount = {
@@ -16,10 +30,7 @@ export const HDAccount = {
   'xpriv': '',
   'xpub': '',
   'address_labels': [],
-  'cache': {
-    'receiveAccount': '',
-    'changeAccount': ''
-  }
+  'cache': Cache
 }
 
 export const HDWallet = {
@@ -27,18 +38,18 @@ export const HDWallet = {
   'passphrase': '',
   'mnemonic_verified': false,
   'default_account_idx': 0,
-  'accounts': [HDAccount]
+  'accounts': []
 }
 
 export const Wallet = {
   'tx_notes': {},
-  'guid': '',
+  'guid': 'my-guid',
   'tx_names': [],
   'double_encryption': false,
   'address_book': [],
-  'keys': [Address],
+  'keys': [],
   'hd_wallets': [HDWallet],
-  'sharedKey': '',
+  'sharedKey': 'my-shared-key',
   'options': {
     'pbkdf2_iterations': 5000,
     'fee_per_kb': 10000,

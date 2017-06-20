@@ -1,10 +1,8 @@
 import chai from 'chai'
 import chaiImmutable from 'chai-immutable'
-chai.use(chaiImmutable)
 import { HDAccount, serializer } from '../../src/types'
+chai.use(chaiImmutable)
 const expect = chai.expect
-import * as R from 'ramda'
-import { List, Map } from 'immutable-ext'
 
 const accFixture = require('../_fixtures/HDAccount/hdaccount')
 
@@ -17,18 +15,17 @@ describe('HDAccount', () => {
     })
   })
 
-  describe('serializer: ', () => {
-    // it('compose(reviver, replacer) should be identity', () => {
-    //   const ser = JSON.stringify(account, serializer.replacer)
-    //   const unser = JSON.parse(ser, serializer.reviver)
-    //   // when we have a type Immutable(js(Imutabable())) this comparison does not work
-    //   expect(account).to.eql(unser)
-    // })
+  describe('serializer', () => {
+    it('compose(reviver, replacer) should be identity', () => {
+      const string = JSON.stringify(account)
+      const newAccount = JSON.parse(string, serializer.reviver)
+      expect(newAccount).to.equal(account)
+    })
     it('compose(replacer, reviver) should be identity', () => {
-      const ser = JSON.stringify(account, serializer.replacer)
-      const unser = JSON.parse(ser, serializer.reviver)
-      const ser2 = JSON.stringify(unser, serializer.replacer)
-      expect(ser).to.equal(ser2)
+      const string = JSON.stringify(account)
+      const newAccount = JSON.parse(string, serializer.reviver)
+      const string2 = JSON.stringify(newAccount)
+      expect(string2).to.equal(string)
     })
   })
 })
