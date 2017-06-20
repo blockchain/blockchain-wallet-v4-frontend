@@ -4,15 +4,14 @@ import CSSModules from 'react-css-modules'
 import style from './style.scss'
 
 const SettingRow = (props) => (
-  <div styleName='setting-row'>
-    <div styleName='description'>
-      <label className='label'>{props.component.title}</label>
-      <div>
+  <div className='container-fluid' styleName='setting-row'>
+    <div className='row justify-content-between'>
+      <div className='col-12 col-md-6 padding-bottom-10'>
         {props.component.description}
       </div>
-    </div>
-    <div styleName='settings'>
-      {props.component.settings}
+      <div className='col-12 col-md-6 right-align'>
+        {props.component.settings}
+      </div>
     </div>
   </div>
 )

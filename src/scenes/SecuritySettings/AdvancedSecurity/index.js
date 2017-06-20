@@ -2,6 +2,7 @@ import React from 'react'
 
 import InfoWell from 'components/Shared/InfoWell'
 import SettingRow from 'components/Shared/SettingRow'
+import Translate from 'components/Shared/Translate'
 
 import ActivityLogging from '../ActivityLogging'
 import APIAccess from '../APIAccess'
@@ -13,9 +14,7 @@ import WalletAccessTor from '../WalletAccessTor'
 const AdvancedSecurity = () => (
   <div>
     <InfoWell>
-      Advanced security: Further customize your security settings for more
-      granular access control and tracking. Do not modify these settings unless
-      you know what you are doing.
+      <Translate translate='SECURITY_ADVANCED_EXPLAIN' />
     </InfoWell>
     <SettingRow component={ActivityLogging} />
     <SettingRow component={LoginIpRestriction} />

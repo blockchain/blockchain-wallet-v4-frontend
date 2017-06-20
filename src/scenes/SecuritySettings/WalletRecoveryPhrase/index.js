@@ -1,21 +1,22 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Wallet Recovery Phrase'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Your recovery phrase can be used to restore all your funds in the case of a lost password or a loss of service at Blockchain.
-    Note, that the recovery phrase never changes and recovers all of your existing bitcoins as well as newly received funds in this wallet.
-    Please note that imported addresses are not backed up by the wallet recovery phrase. We strongly recommend to transfer funds from imported addresses into this wallet.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='WALLET_RECOVERY_PHRASE' />
+    <Translate className='d-flex' translate='RECOVERY_PHRASE_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <button className='button-primary'>Block</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='CONFIRM_RECOVERY_PHRASE' />
+    </button>
+  </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

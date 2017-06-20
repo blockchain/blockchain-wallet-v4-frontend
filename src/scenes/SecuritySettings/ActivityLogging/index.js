@@ -1,21 +1,22 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Activity Logging'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Record wallet activity and display it in your activity feed.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='LOGGING' />
+    <Translate className='d-flex' translate='LOGGING_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <button className='button-primary'>Enable</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='ENABLE' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

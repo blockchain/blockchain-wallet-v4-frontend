@@ -21,3 +21,9 @@ export const toggleCurrencyDisplay = () => ({ type: TOGGLE_CURRENCY_DISPLAY })
 
 export const TOGGLE_HEADER_MENU = 'TOGGLE_HEADER_MENU'
 export const toggleHeaderMenu = () => ({ type: TOGGLE_HEADER_MENU })
+
+export const TOGGLE_DROPDOWN_LANGUAGE = 'TOGGLE_DROPDOWN_LANGUAGE'
+export const toggleDropdownLanguage = () => ({ type: TOGGLE_DROPDOWN_LANGUAGE })
+
+export const TOGGLE_ADVANCED_SECURITY = 'TOGGLE_ADVANCED_SECURITY'
+export const toggleAdvancedSecurity = () => ({ type: TOGGLE_ADVANCED_SECURITY })

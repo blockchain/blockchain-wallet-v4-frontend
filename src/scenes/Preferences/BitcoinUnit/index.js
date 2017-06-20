@@ -1,21 +1,20 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Bitcoin Unit'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Adjust the precision you would prefer bitcoin values to be displayed in.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='BITCOIN_CURRENCY' />
+    <Translate className='d-flex' translate='BITCOIN_CURRENCY_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    [Bitcoin Unit]
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    [BitcoinUnit Dropdown]
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

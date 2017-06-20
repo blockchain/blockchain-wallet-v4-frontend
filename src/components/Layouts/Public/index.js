@@ -10,11 +10,11 @@ const PublicLayout = ({component: Component, ...rest}) => {
       <div className='container-fluid h-100 bg-primary'>
         <div className='row h-25 align-items-start'>
           <div className='col'>
-            <Header />  
+            <Header />
           </div>
-        </div>  
+        </div>
         <div className='row h-50 justify-content-center align-items-center'>
-          <div className='col-12'>
+          <div className='col-12 col-md-4'>
             <Component {...matchProps} />
           </div>
         </div>
@@ -22,7 +22,7 @@ const PublicLayout = ({component: Component, ...rest}) => {
           <div className='col'>
             <Footer />
           </div>
-        </div>  
+        </div>
       </div>
     )} />
   )

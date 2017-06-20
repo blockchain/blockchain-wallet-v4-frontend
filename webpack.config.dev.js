@@ -21,9 +21,10 @@ module.exports = {
   resolve: {
     alias: {
       'npm': `${__dirname}/node_modules`,
-      'sass': `${__dirname}/src/assets/sass`,
-      'img': `${__dirname}/src/assets/img`,
       'fonts': `${__dirname}/src/assets/fonts`,
+      'img': `${__dirname}/src/assets/img`,
+      'locales': `${__dirname}/src/assets/locales`,
+      'sass': `${__dirname}/src/assets/sass`,   
       'components': `${__dirname}/src/components`,
       'data': `${__dirname}/src/data`,
       'middleware': `${__dirname}/src/middleware`,

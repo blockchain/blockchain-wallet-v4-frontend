@@ -1,22 +1,23 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Bitcoin Links Handling'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Enable this to allow your Blockchain Wallet to handle bitcoin payment links in the web browser.
-    This will make your experience more convenient when transacting online.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='HANDLE_BITCOIN_LINKS' />
+    <Translate className='d-flex' translate='HANDLE_BITCOIN_LINKS_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <button className='button-primary'>Change</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='CHANGE' />
+    </button>
+    <Translate className='d-flex' translate='HANDLE_BITCOIN_LINKS_STATUS_UNKNOWN' />
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

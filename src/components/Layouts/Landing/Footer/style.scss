@@ -1,4 +1,33 @@
 
 .footer {
+  background-color: $gray-lighter;
 
+  & .logo {
+    height: 20px;
+  }
+
+  & .link {
+    width: 100%;
+    padding-bottom: 20px;
+    display: inline-block;
+    color: $teal;
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  & .category {
+    width: 100%;
+    padding-bottom: 20px;
+    display: inline-block;
+    color: $teal;
+  }
+
+  & .dropdown {
+    & > a {
+      color: $teal;
+      text-transform: uppercase;
+    }
+  }
 }

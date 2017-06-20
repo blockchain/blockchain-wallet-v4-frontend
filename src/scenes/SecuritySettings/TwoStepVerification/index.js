@@ -1,22 +1,22 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = '2-step Verification'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Protect your wallet from unauthorized access by enabling 2-Step Verification.
-    You can choose to use a free app or your mobile phone number to secure your wallet.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='TWO_STEP_VERIFICATION' />
+    <Translate className='d-flex' translate='TWO_STEP_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <button className='button-primary'>Enable</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='CONFIGURE_2FA' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

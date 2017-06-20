@@ -80,7 +80,7 @@ TransactionListItem.propTypes = {
     time: PropTypes.string.isRequired,
     to: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
     status: PropTypes.string.isRequired,
     initial_value: PropTypes.string.isRequired
   })

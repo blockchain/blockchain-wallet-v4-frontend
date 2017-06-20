@@ -5,6 +5,9 @@ import 'babel-polyfill'
 import './assets/sass/global.scss'
 
 // Import fonts
+import 'fonts/icomoon/icomoon.eot'
+import 'fonts/icomoon/icomoon.ttf'
+import 'fonts/icomoon/icomoon.woff'
 import 'fonts/montserrat/Montserrat-Thin.eot'
 import 'fonts/montserrat/Montserrat-Thin.otf'
 import 'fonts/montserrat/Montserrat-Thin.ttf'

@@ -1,5 +1,4 @@
 a {
-  font-size: 14px;
   text-decoration: none;
   color: $brand-info;
   cursor: pointer;
@@ -29,7 +28,7 @@ a {
   }
 
   &.sub {
-    text-transform: capitalize;
+    text-transform: none;
     padding-left: 50px;
 
     &:focus {
@@ -41,7 +40,7 @@ a {
     color: $brand-info;
   }
 
-  & .icon {
+  & i {
     display: block;
     font-size: 20px;
     width: 40px;

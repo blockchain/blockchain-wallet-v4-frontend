@@ -10,7 +10,7 @@ import DidYouKnow from './DidYouKnow'
 const Home = (props) => {
   return (
     <section className='container-fluid'>
-      <div className='row padding-20'>
+      <div className='row padding-top-20'>
         <div className='col-12 col-lg-6'>
           <ActivityList />
         </div>

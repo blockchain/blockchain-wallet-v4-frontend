@@ -16,3 +16,7 @@
 }
 @include media-breakpoint-up(lg) { }
 @include media-breakpoint-up(xl) { }
+
+.small-size {
+  font-size: 12px;
+}

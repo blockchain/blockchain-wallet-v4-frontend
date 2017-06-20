@@ -1,22 +1,22 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Password Stretching (PBKDF2)'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    This increases the difficulty of discovering your password using a brute-force attack but slows down loading and saving your wallet.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='PBKDF2_ITERATIONS' />
+    <Translate className='d-flex' translate='PBKDF2_ITERATIONS_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <span> 5000 </span>
-    <button className='button-primary'>Change</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='CHANGE' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

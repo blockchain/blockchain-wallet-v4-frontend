@@ -1,23 +1,23 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Mobile Number'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Your mobile phone can be used to enable two-factor authentication,
-    helping to secure your wallet from unauthorized access, and to send bitcoin payment alerts when you receive funds.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='MOBILE_NUMBER' />
+    <Translate className='d-flex' translate='MOBILE_NUMBER_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <span>+447824704553</span>
-    <button className='button-primary'>Change</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <span className='d-flex h6'>+447800000000</span>
+    <button className='d-flex button-secondary'>
+      <Translate translate='CHANGE' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

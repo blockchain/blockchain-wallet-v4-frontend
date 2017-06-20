@@ -1,22 +1,22 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Second Password Wallet'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    For additional security, you can choose a second password that is asked whenever you want to spend bitcoins.
-    Beware that there is no password reset functionality.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='WALLET_SECOND_PASSWORD' />
+    <Translate className='d-flex' translate='WALLET_SECOND_PASSWORD_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <button className='button-primary'>Set Second Password</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='SET_SECOND_PASSWORD' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }

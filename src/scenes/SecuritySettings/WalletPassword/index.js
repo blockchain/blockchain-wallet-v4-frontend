@@ -1,22 +1,22 @@
 import React from 'react'
 
-import style from './style.scss'
-
-const title = 'Wallet Password'
+import Translate from 'components/Shared/Translate'
 
 const description = (
-  <span>
-    Your password is never shared with our servers, which means we cannot help reset your password if you forget it.
-    Make sure you write down your recovery phrase which can restore access to your wallet in the event of a lost password.
-  </span>
+  <div className='d-flex flex-column justify-item-start'>
+    <Translate className='d-flex h6 padding-bottom-10' translate='WALLET_PASSWORD' />
+    <Translate className='d-flex' translate='WALLET_PASSWORD_EXPLAIN' />
+  </div>
 )
 
 const settings = (
-  <div>
-    <button className='button-primary'>Change</button>
+  <div className='d-flex flex-column justify-item-start align-items-end'>
+    <button className='d-flex button-secondary'>
+      <Translate translate='CHANGE' />
+    </button>
   </div>
 )
 
 export default {
-  title, description, settings
+  description, settings
 }
