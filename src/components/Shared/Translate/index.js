@@ -28,7 +28,7 @@ TranslateContainer.propTypes = {
 function mapStateToProps (state) {
   // Default settings
   let language = selectors.core.settings.getLanguage(state)
-  let cultureCode = (!isNil(language) && language.length == 2) ? convertLanguageToCultureCode(language).getOrElse('en-GB') : language
+  let cultureCode = (!isNil(language) && language.length === 2) ? convertLanguageToCultureCode(language).getOrElse('en-GB') : language
 
   // Fallback to preferences
   if (isNil(cultureCode)) {
@@ -37,9 +37,9 @@ function mapStateToProps (state) {
   // Fallback to browser default
   if (isNil(cultureCode)) {
     // We chec
-    cultureCode = (navigator.languages && navigator.languages[0]) // Chrome / Firefox
-                || navigator.language // All browsers
-                || navigator.userLanguage // IE <= 10
+    cultureCode = (navigator.languages && navigator.languages[0]) ||  // Chrome / Firefox
+                   navigator.language || // All browsers
+                   navigator.userLanguage // IE <= 10
   }
   // Fallback to english
   if (isNil(cultureCode)) {
