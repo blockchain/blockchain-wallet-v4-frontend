@@ -1,40 +1,39 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 
+import Translate from 'components/Shared/Translate'
 import FaqRow from './FaqRow'
-import Entry1 from './Entry1'
-import Entry2 from './Entry2'
-import Entry3 from './Entry3'
-import Entry4 from './Entry4'
-import Entry5 from './Entry5'
-import Entry6 from './Entry6'
-import Entry7 from './Entry7'
-import Entry8 from './Entry8'
-
 import style from './style.scss'
 
 const Faq = (props) => {
   return (
-    <section className='container-fluid padding-20 border-box'>
+    <section className='container-fluid padding-20'>
       <div className='row'>
-        <span className='f-20 em-300'>Frequently Asked Questions</span>
+        <div className='col-12'>
+          <Translate className='h5' translate='FAQ_FULL' />
+        </div>
       </div>
-      <FaqRow component={Entry1} {...props} />
-      <FaqRow component={Entry2} {...props} />
-      <FaqRow component={Entry3} {...props} />
-      <FaqRow component={Entry4} {...props} />
-      <FaqRow component={Entry5} {...props} />
-      <FaqRow component={Entry6} {...props} />
-      <FaqRow component={Entry7} {...props} />
-      <FaqRow component={Entry8} {...props} />
-      <div className='row padding-vertical-40'>
-        <div className='col-md-3 col-md-offset-4 flex-column flex-justify flex-center'>
-          <span className='f-16 em-500'>Can't find what you're looking for?</span>
-          <a className='button-primary full-width capitalize margin-top-10' href='https://blockchain.zendesk.com' target='_blank'>Support center</a>
+      { props.items.map(function (value, index) {
+        return (<FaqRow key={index} title={value.title} description={value.description} />)
+      })}
+      <div className='row justify-content-center padding-vertical-40'>
+        <div className='col-auto d-flex flex-column justify-content-center'>
+          <Translate className='d-flex font-weight-bold' translate='NEED_MORE_HELP' />
+          <a className='d-flex justify-content-center button-secondary full-width margin-top-10' href='https://blockchain.zendesk.com' target='_blank'>
+            <Translate translate='VISIT_SUPPORT' />
+          </a>
         </div>
       </div>
     </section>
   )
+}
+
+Faq.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
+  }))
 }
 
 export default CSSModules(Faq, style)
