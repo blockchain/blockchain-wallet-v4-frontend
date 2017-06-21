@@ -7,6 +7,7 @@ import { api } from 'services/walletApi.js'
 import { coreSagas } from 'dream-wallet/lib'
 import authSagas from './Auth/sagas.js'
 import activitySagas from './Activity/sagas.js'
+import { handleTimer } from './Alerts/sagas.js'
 import { actions } from 'data'
 
 const dataPath = settings.BLOCKCHAIN_DATA_PATH
@@ -20,6 +21,7 @@ function * sagas () {
   ]
   yield takeEvery(actions.auth.LOGIN_START, authSagas.login)
   yield takeLatest(actions.activity.FETCH_ACTIVITIES, activitySagas.fetchActivities)
+  yield takeEvery(actions.alerts.ALERTS_SHOW, handleTimer)
 }
 
 export default sagas

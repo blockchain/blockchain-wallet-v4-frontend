@@ -3,6 +3,7 @@ import * as auth from './Auth/actions'
 import * as log from './Log/actions'
 import * as preferences from './Preferences/actions'
 import * as ui from './UI/actions'
+import * as alerts from './Alerts/actions'
 import { coreActions as core } from 'dream-wallet/lib'
 
 export {
@@ -11,5 +12,6 @@ export {
   auth,
   log,
   preferences,
-  ui
+  ui,
+  alerts
 }

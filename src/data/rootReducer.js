@@ -7,12 +7,14 @@ import authReducer from './Auth/reducers.js'
 import logReducer from './Log/reducers.js'
 import preferencesReducer from './Preferences/reducers.js'
 import uiReducer from './UI/reducers.js'
+import alertsReducer from './Alerts/reducers'
 
 const rootReducer = combineReducers({
   applicationState: combineReducers({
     activities: activityReducer,
     auth: authReducer.login,
     ui: uiReducer,
+    alerts: alertsReducer,
     log: logReducer
     // whatsNew: whatsNewReducer
   }),

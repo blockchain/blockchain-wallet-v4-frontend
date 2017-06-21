@@ -1,0 +1,30 @@
+.alerts {
+  top: 2px;
+  right: 12px;
+  z-index: 1051;
+  position: fixed;
+  min-width: 300px;
+  overflow: initial !important;
+  max-height: initial !important;
+  min-height: initial !important;
+}
+
+.alert {
+  position: relative;
+  margin-top: 1vw;
+  border-radius: 0px;
+  animation: fade-in-down .5s;
+  -webkit-animation: fade-in-down .5s;
+  &.ng-leave-active {
+    animation: fade-out-up .5s;
+    -webkit-animation: fade-out-up .5s;
+  }
+}
+
+.close {
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  color: inherit;
+  position: absolute;
+}

@@ -3,11 +3,13 @@ import { Route } from 'react-router-dom'
 
 import Header from './Header'
 import Footer from './Footer'
+import Alerts from 'components/Shared/Alerts'
 
 const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <div className='container-fluid h-100 bg-primary'>
+        <Alerts />
         <div className='row h-25 align-items-start'>
           <div className='col'>
             <Header />

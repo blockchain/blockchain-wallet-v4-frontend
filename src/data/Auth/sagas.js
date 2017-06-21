@@ -2,9 +2,12 @@ import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 import { prop, assoc } from 'ramda'
+import Either from 'data.either'
 
 import { actions, selectors } from 'data'
 import { api } from 'services/walletApi.js'
+
+let safeParse = Either.try(JSON.parse)
 
 const pollingSaga = function * (session, n = 50) {
   if (n === 0) { return false }
@@ -28,13 +31,21 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
     yield put(actions.core.settings.requestSettingsData({guid, sharedKey: sk}))
     yield put(actions.auth.loginSuccess())
     yield put(push('/wallet'))
+    yield put(actions.alerts.displaySuccess('Logged in successfully'))
   } catch (error) {
-    if (prop('authorization_required', JSON.parse(error))) {
+    let initialError = safeParse(error).map(prop('initial_error'))
+    let authRequired = safeParse(error).map(prop('authorization_required'))
+
+    if (authRequired.isRight && authRequired.value) {
+      yield put(actions.alerts.displayInfo('Authorization required, check your inbox'))
       let authorized = yield call(pollingSaga, session)
       if (authorized) {
         yield call(fetchWalletSaga, guid, undefined, session, password)
       }
+    } else if (initialError.isRight && initialError.value) {
+      yield put(actions.alerts.displayError(initialError.value))
     } else {
+      yield put(actions.alerts.displayError(error.message || 'Error logging into your wallet'))
       yield put(actions.log.recordLog({ type: 'ERROR', message: error.message }))
     }
   }
