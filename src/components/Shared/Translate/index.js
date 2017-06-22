@@ -8,8 +8,8 @@ import { selectors } from 'data'
 import Translate from './template.js'
 
 const TranslateContainer = (props) => {
-  let translation = translate(props.translate, props.cultureCode, props.data).getOrElse('???')
-
+  // let translation = translate(props.translate, props.cultureCode, props.data).getOrElse('???')
+  let translation = 'TEST'
   return (
     <Translate
       element={props.element}

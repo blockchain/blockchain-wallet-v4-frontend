@@ -1,17 +1,8 @@
 {
-  "components.layouts.landing.header.wallets": {
-    "defaultMessage": "Portefeuille"
-  },
-  "components.layouts.landing.header.charts": {
-    "defaultMessage": "Graphiques"
-  },
-  "components.layouts.landing.header.stats": {
-    "defaultMessage": "Statistiques"
-  },
-  "components.layouts.landing.header.markets": {
-    "defaultMessage": "Marches"
-  },
-  "components.layouts.landing.header.api": {
-    "defaultMessage": "Api"
-  }
+  "components.layouts.landing.footer.products": "Produits",
+  "components.layouts.landing.header.wallets": "Portefeuilles",
+  "components.layouts.landing.header.charts": "Graphiques",
+  "components.layouts.landing.header.stats": "Statistiques",
+  "components.layouts.landing.header.markets": "Marches",
+  "components.layouts.landing.header.api": "Api"
 }

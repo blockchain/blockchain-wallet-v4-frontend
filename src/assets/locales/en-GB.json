@@ -1,17 +1,20 @@
-{
-  "components.layouts.landing.header.wallets": {
-    "defaultMessage": "Wallets"
+[
+  {
+    "components.layouts.landing.footer.products": "Products"
   },
-  "components.layouts.landing.header.charts": {
-    "defaultMessage": "Charts"
+  {
+    "components.layouts.landing.header.wallets": "Wallets"
   },
-  "components.layouts.landing.header.stats": {
-    "defaultMessage": "Stats"
+  {
+    "components.layouts.landing.header.charts": "Charts"
   },
-  "components.layouts.landing.header.markets": {
-    "defaultMessage": "Markets"
+  {
+    "components.layouts.landing.header.stats": "Stats"
   },
-  "components.layouts.landing.header.api": {
-    "defaultMessage": "Api"
+  {
+    "components.layouts.landing.header.markets": "Markets"
+  },
+  {
+    "components.layouts.landing.header.api": "Api"
   }
-}
+]

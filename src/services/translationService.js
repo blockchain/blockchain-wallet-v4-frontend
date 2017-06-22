@@ -1,5 +1,5 @@
 import Maybe from 'data.maybe'
-import { path, isNil, forEachObjIndexed, find, propEq, sortBy, prop, map } from 'ramda'
+import { path, isNil, forEachObjIndexed, find, propEq, sortBy, prop } from 'ramda'
 
 const languages = [
   { cultureCode: 'bg-BG', language: 'bg', name: 'Bulgarian' },
@@ -34,15 +34,15 @@ const languages = [
 const languagesSortedByName = sortBy(prop('name'))(languages)
 
 function translate (translationKey, cultureCode, data) {
-  let translation = path(translationKey.split('.'), require('locales/' + cultureCode + '.json'))
+  // let translation = path(translationKey.split('.'), require('locales/' + cultureCode + '.json'))
 
-  // if (isNil(translation)) return Maybe.Nothing()
-  // Fallback english if the translation does not exist
-  if (isNil(translation)) translation = path(translationKey.split('.'), require('locales/en-GB.json'))
+  // // if (isNil(translation)) return Maybe.Nothing()
+  // // Fallback english if the translation does not exist
+  // if (isNil(translation)) translation = path(translationKey.split('.'), require('locales/en-GB.json'))
 
-  forEachObjIndexed((value, key) => { translation = translation.replace(key, value) }, data)
+  // forEachObjIndexed((value, key) => { translation = translation.replace(key, value) }, data)
 
-  return Maybe.Just(translation)
+  // return Maybe.Just(translation)
 }
 
 function getLanguageName (cultureCode) {

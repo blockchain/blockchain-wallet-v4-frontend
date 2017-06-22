@@ -1,20 +1,8 @@
-[
-  {
-    "components.layouts.landing.footer.products": "Produits"
-  },
-  {
-    "components.layouts.landing.header.wallets": "Portefeuilles"
-  },
-  {
-    "components.layouts.landing.header.charts": "Graphiques"
-  },
-  {
-    "components.layouts.landing.header.stats": "Statistiques"
-  },
-  {
-    "components.layouts.landing.header.markets": "Marches"
-  },
-  {
-    "components.layouts.landing.header.api": "Api"
-  }
-]
+{
+  "components.layouts.landing.footer.products": "Produits",
+  "components.layouts.landing.header.wallets": "Portefeuilles",
+  "components.layouts.landing.header.charts": "Graphiques",
+  "components.layouts.landing.header.stats": "Statistiques",
+  "components.layouts.landing.header.markets": "Marches",
+  "components.layouts.landing.header.api": "Api"
+}
