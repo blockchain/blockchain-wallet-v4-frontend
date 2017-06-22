@@ -20,21 +20,21 @@ var R = require('ramda')
 const rootPath = path.resolve(`${__dirname}/../src`)
 const outputPath = rootPath + '/assets/locales'
 const outputFilename = 'en.json'
+const regexIntlImport = new RegExp(/.+from['" ]+react-intl['" ]+/)
+const regexIntlComponent = new RegExp(/(<FormattedMessage[^>]+\/>|<FormattedHtmlMessage[^>]+\/>)/, 'gm')
+const regexIntlId = new RegExp(/id='([^']+)'/)
+const regexIntlMessage = new RegExp(/defaultMessage='([^']+)'/)
+const result = {}
 
 glob(rootPath + '/**/*.js', null, function (error, files) {
   if (error) {
     console.log('Error :' + error)
   } else {
     R.map(extractIntlComponent, files)
+    outputFile()
   }
 })
 
-var regexIntlImport = new RegExp(/.+from['" ]+react-intl['" ]+/)
-var regexIntlComponent = new RegExp(/(<FormattedMessage[^>]+\/>|<FormattedHtmlMessage[^>]+\/>)/, 'gm')
-var regexIntlId = new RegExp(/id='([^']+)'/)
-var regexIntlMessage = new RegExp(/defaultMessage='([^']+)'/)
-
-let result = []
 const extractIntlComponent = (file) => {
   fs.readFile(file, 'utf8', (err, data) => {
     if (err) {
@@ -50,10 +50,14 @@ const extractIntlComponent = (file) => {
           let id = element.match(regexIntlId)
           let message = element.match(regexIntlMessage)
           if (R.isNil(id) | R.isNil(message)) console.log('Could not add the key.')
-          result.push({ [id[1]]: message[1] })
+          R.assoc(id[1], message[1], result)
         }, elements)
       }
     }
-    fs.writeFile(outputPath + '/' + outputFilename, JSON.stringify(result, null, 2))
   })
+}
+
+const outputFile = () => {
+  fs.writeFile(outputPath + '/' + outputFilename, JSON.stringify(result, null, 2))
+  console.log(outputPath + '/' + outputFilename + ' generated !')
 }

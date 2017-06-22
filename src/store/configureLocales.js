@@ -56,7 +56,7 @@ import fr from 'locales/fr-FR.json'
 // import zh from 'locales/zh-CN.json'
 
 function configureLocales () {
-  addLocaleData([localeDataEn, localeDataFr])
+  addLocaleData([...localeDataEn, ...localeDataFr])
 
   let messages = {
     en: en,
