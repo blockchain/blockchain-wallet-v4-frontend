@@ -1,5 +1,5 @@
 import Maybe from 'data.maybe'
-import { path, isNil, forEachObjIndexed, find, propEq, sortBy, prop } from 'ramda'
+import { path, isNil, forEachObjIndexed, find, propEq, sortBy, prop, map } from 'ramda'
 
 const languages = [
   { cultureCode: 'bg-BG', language: 'bg', name: 'Bulgarian' },
@@ -36,7 +36,7 @@ const languagesSortedByName = sortBy(prop('name'))(languages)
 function translate (translationKey, cultureCode, data) {
   let translation = path(translationKey.split('.'), require('locales/' + cultureCode + '.json'))
 
-  //if (isNil(translation)) return Maybe.Nothing()
+  // if (isNil(translation)) return Maybe.Nothing()
   // Fallback english if the translation does not exist
   if (isNil(translation)) translation = path(translationKey.split('.'), require('locales/en-GB.json'))
 

@@ -5,9 +5,8 @@ let HtmlWebpackPlugin = require('html-webpack-plugin')
 let ReactIntlAggregatePlugin = require('react-intl-aggregate-webpack-plugin')
 
 const PATHS = {
+  dist: `${__dirname}/dist`,
   build: `${__dirname}/build`,
-  i18n: `${__dirname}/i18n`,
-  npm: `${__dirname}/node_modules`,
   src: `${__dirname}/src`
 }
 
@@ -16,69 +15,36 @@ module.exports = {
     PATHS.src + '/index.js'
   ],
   output: {
-    path: PATHS.build,
-    filename: 'bundle.js',
+    path: PATHS.dist,
+    filename: 'bundle.[hash].js',
     publicPath: '/'
   },
   resolve: {
     alias: {
-      'npm': PATHS.npm,
-      'fonts': PATHS.src + '/assets/fonts',
-      'img': PATHS.src + '/assets/img',
-      'locales': PATHS.src + '/assets/locales',
-      'sass': PATHS.src + '/assets/sass',
-      'components': PATHS.src + '/components',
-      'data': PATHS.src + '/data',
-      'middleware': PATHS.src + '/middleware',
-      'scenes': PATHS.src + '/scenes',
-      'services': PATHS.src + '/services',
-      'config': PATHS.src + '/config.js'
+      'npm': `${__dirname}/node_modules`,
+      'fonts': `${__dirname}/src/assets/fonts`,
+      'img': `${__dirname}/src/assets/img`,
+      'locales': `${__dirname}/src/assets/locales`,
+      'sass': `${__dirname}/src/assets/sass`,
+      'components': `${__dirname}/src/components`,
+      'data': `${__dirname}/src/data`,
+      'middleware': `${__dirname}/src/middleware`,
+      'scenes': `${__dirname}/src/scenes`,
+      'services': `${__dirname}/src/services`,
+      'config': `${__dirname}/src/config.js`
     },
     symlinks: false
   },
   module: {
     rules: [
       {
-        enforce: 'pre',
         test: /\.js$/,
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
           options: {
-            'plugins': [
-              ['react-intl', {
-                'messagesDir': PATHS.i18n + '/messages/'
-                // "extractSourceLocation": false,
-                // "enforceDescriptions": false
-              }]
-            ]
-          }
-        }]
-      },
-      {
-        test: /\.js$/,
-        exclude: [/node_modules/],
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            'plugins': [
-              ['module-resolver', {
-                'root': [PATHS.src],
-                'alias': {
-                  'npm': PATHS.npm,
-                  'fonts': PATHS.src + '/assets/fonts',
-                  'img': PATHS.src + '/assets/img',
-                  'locales': PATHS.src + '/assets/locales',
-                  'sass': PATHS.src + '/assets/sass',
-                  'components': PATHS.src + '/components',
-                  'data': PATHS.src + '/data',
-                  'middleware': PATHS.src + '/middleware',
-                  'scenes': PATHS.src + '/scenes',
-                  'services': PATHS.src + '/services',
-                  'config': PATHS.src + '/config.js'
-                }
-              }]
-            ]
+            // 'cacheDirectory': false,
+            // 'metadataSubscribers': [ReactIntlPlugin.metadataContextFunctionName]
           }
         }]
       },
@@ -102,7 +68,7 @@ module.exports = {
               loader: 'sass-resources-loader',
               options: {
                 resources: [
-                  PATHS.src + '/assets/sass/resources/**/*.scss'
+                  'src/assets/sass/resources/**/*.scss'
                 ]
               }
             }
@@ -132,8 +98,8 @@ module.exports = {
               loader: 'sass-resources-loader',
               options: {
                 resources: [
-                  PATHS.src + '/assets/sass/resources/**/*.scss',
-                  PATHS.npm + '/bootstrap/scss/mixins/**/*.scss'
+                  'src/assets/sass/resources/**/*.scss',
+                  'node_modules/bootstrap/scss/mixins/**/*.scss'
                 ]
               }
             }
@@ -146,7 +112,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: 'fonts/[name].[ext]'
+            name: 'fonts/[name].[hash].[ext]'
           }
         }
       },
@@ -155,7 +121,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: 'img/[name].[ext]'
+            name: 'img/[name].[hash].[ext]'
           }
         }
       }
@@ -163,16 +129,16 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: 'style.css'
+      filename: 'style.[hash].css'
     }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
     }),
+    // new ReactIntlPlugin()
     new ReactIntlAggregatePlugin({
-      messagesPattern: PATHS.i18n + '/messages/**/*.json',
-      aggregateOutputDir: PATHS.i18n + '/aggregate/',
-      aggregateFilename: 'en'
+      aggregatePattern: PATHS.src + '/../i18n/**/*.json',
+      aggregateOutputDir: PATHS.src + '/../i18n/messages'
     })
   ],
   devServer: {

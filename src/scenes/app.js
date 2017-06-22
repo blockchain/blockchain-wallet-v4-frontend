@@ -25,10 +25,9 @@ import { Provider } from 'react-redux'
 
 class App extends React.Component {
   render () {
-    let locale = 'en'
     return (
       <Provider store={this.props.store}>
-        <IntlProvider locale={locale}>
+        <IntlProvider locale={this.props.currentLanguage} messages={this.props.messages}>
           <ConnectedRouter history={this.props.history}>
             <Switch>
               <LandingLayout exact path='/' component={LandingContainer} />

@@ -1,5 +1,6 @@
 import React from 'react'
 import CSSModules from 'react-css-modules'
+import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import Translate from 'components/Shared/Translate'
 import DropdownLanguage from 'components/Shared/DropdownLanguage'
@@ -16,7 +17,8 @@ const Footer = () => {
             <img src={logo} styleName='logo' />
           </div>
           <div className='col-md-2'>
-            <Translate className='text-uppercase' styleName='category' translate='PRODUCTS' />
+            {/*<Translate className='text-uppercase' styleName='category' translate='PRODUCTS' />*/}
+            <FormattedMessage id='components.layouts.landing.footer.products' defaultMessage='Products' />
             <NavLink to='/wallet'><Translate className='text-uppercase' translate='WALLET' styleName='link' /></NavLink>
             <a href='https://blockchain.com/enterprise'><Translate className='text-uppercase' styleName='link' translate='BUSINESS' /></a>
             <a href='https://blockchain.com/research'><Translate className='text-uppercase' styleName='link' translate='RESEARCH' /></a>

@@ -16,11 +16,11 @@ const Login = (props) => {
           <Translate className='margin-right-5' translate='OR' />
           <NavLink to='/register'>
             <Translate translate='SIGN_UP' />
-          </NavLink>         
+          </NavLink>
         </div>
       </div>
       <div className='row padding-vertical-10 border-bottom'>
-        <div className='col-12'>     
+        <div className='col-12'>
           <Translate className='h6 margin-right-5' translate='LOGIN_BELOW' />
         </div>
       </div>
@@ -40,7 +40,7 @@ const Login = (props) => {
         </div>
       </div>
       <div className='row'>
-        <div className='col-12'>  
+        <div className='col-12'>
           <Translate element='label' translate='PASSWORD' />
         </div>
       </div>
