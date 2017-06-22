@@ -5,14 +5,12 @@ import CSSModules from 'react-css-modules'
 import Translate from 'components/Shared/Translate'
 import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
 import CurrencyDisplay from 'components/Shared/CurrencyDisplay'
-import Alerts from 'components/Shared/Alerts'
 
 import style from './style.scss'
 
 const BalanceSummary = (props) => {
   return (
     <div className='container-fluid padding-bottom-30' styleName='balance-summary'>
-      <Alerts />
       <div className='row padding-bottom-20'>
         <div className='col-auto'>
           <Translate className='h6 text-capitalize' translate='BALANCES' />
