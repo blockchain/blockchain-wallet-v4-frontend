@@ -6,7 +6,7 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.config.dev.js --verbose",
     "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --devtool eval --progress --colors",
-    "generate": "babel-node ./tools/generateDefaultLocale.js",
+    "generate": "./node_modules/.bin/babel-node ./tools/generateDefaultLocale.js",
     "test": "jest --watch"
   },
   "repository": {
