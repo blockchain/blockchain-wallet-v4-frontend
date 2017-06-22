@@ -2027,9 +2027,9 @@ domutils@1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-dream-wallet@blockchain/dream-wallet:
+"dream-wallet@git+https://github.com/blockchain/dream-wallet.git":
   version "1.0.0"
-  resolved "git+ssh://git@github.com/blockchain/dream-wallet.git#ffb59aaaac5230be9ddc14ac24177001e1de6c94"
+  resolved "git+https://github.com/blockchain/dream-wallet.git#ffb59aaaac5230be9ddc14ac24177001e1de6c94"
   dependencies:
     bip39 "^2.3.0"
     bitcoinjs-lib "^2.3.0"
