@@ -1,5 +1,6 @@
 import { view, is, pipe, curry } from 'ramda'
 import Type from './Type'
+import { iLensProp } from './util'
 
 export class TXNotes extends Type {}
 
@@ -7,7 +8,7 @@ export const isTXNotes = is(TXNotes)
 
 export const note = txhash => TXNotes.define(txhash)
 
-export const selectNote = curry((txhash, txnotes) => view(note(txhash), txnotes))
+export const selectNote = curry((txhash, txnotes) => pipe(TXNotes.guard, view(iLensProp(txhash)))(txnotes))
 
 export const toJS = pipe(TXNotes.guard, (txnotes) => {
   return txnotes.toObject()

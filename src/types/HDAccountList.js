@@ -1,14 +1,17 @@
-import { filter, map, prop, view, compose, is, pipe, curry } from 'ramda'
+import { filter, map, addIndex, prop, view, compose, is, pipe, curry } from 'ramda'
 import List from './List'
 import * as HDAccount from './HDAccount'
+import { iLensProp } from './util'
+
+const mapIndexed = addIndex(map)
 
 export class HDAccountList extends List {}
 
 export const isHDAccountList = is(HDAccountList)
 
-export const account = index => HDAccountList.define(index)
+export const selectAccount = curry((index, as) => pipe(HDAccountList.guard, view(iLensProp(index)))(as))
 
-export const selectAccount = curry((index, as) => view(account(index), as))
+export const selectByXpub = curry((xpub, as) => pipe(HDAccountList.guard, xs => xs.find(HDAccount.isXpub(xpub)))(as))
 
 export const selectContext = pipe(HDAccountList.guard, (accList) => {
   return map(HDAccount.selectXpub, accList)
@@ -24,7 +27,7 @@ export const fromJS = (accounts) => {
   if (is(HDAccountList, accounts)) {
     return accounts
   } else {
-    return new HDAccountList(map(HDAccount.fromJS, accounts))
+    return new HDAccountList(mapIndexed(HDAccount.fromJS, accounts))
   }
 }
 

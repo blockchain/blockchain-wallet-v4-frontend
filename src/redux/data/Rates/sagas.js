@@ -7,9 +7,12 @@ export const ratesSaga = ({ api } = {}) => {
 
   const refreshRates = function * () {
     while (true) {
-      let response = yield call(api.getTicker)
-      // dispatch to reducers
-      yield put(A.loadRatesData(response))
+      try {
+        let response = yield call(api.getTicker)
+        yield put(A.loadRatesData(response))
+      } catch (e) {
+        console.log('ERROR : fetch rates failed')
+      }
       yield call(delay, refreshRatesDelay)
     }
   }

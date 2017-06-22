@@ -1,14 +1,13 @@
 import { indexBy, map, prop, view, compose, is, pipe, curry, filter } from 'ramda'
 import Type from './Type'
 import * as Address from './Address'
+import { iLensProp } from './util'
 
 export class AddressMap extends Type {}
 
 export const isAddressMap = is(AddressMap)
 
-export const address = string => AddressMap.define(string)
-
-export const selectAddress = curry((string, as) => view(address(string), as))
+export const selectAddress = curry((string, as) => pipe(AddressMap.guard, view(iLensProp(string)))(as))
 
 export const selectContext = pipe(AddressMap.guard, (addressMap) => {
   return addressMap.keySeq()
