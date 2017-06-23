@@ -1,8 +1,6 @@
 
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
-// let ReactIntlPlugin = require('react-intl-webpack-plugin')
-let ReactIntlAggregatePlugin = require('react-intl-aggregate-webpack-plugin')
 
 const PATHS = {
   dist: `${__dirname}/dist`,
@@ -42,10 +40,7 @@ module.exports = {
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
-          options: {
-            // 'cacheDirectory': false,
-            // 'metadataSubscribers': [ReactIntlPlugin.metadataContextFunctionName]
-          }
+          options: { }
         }]
       },
       {
@@ -134,11 +129,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
-    }),
-    // new ReactIntlPlugin()
-    new ReactIntlAggregatePlugin({
-      aggregatePattern: PATHS.src + '/../i18n/**/*.json',
-      aggregateOutputDir: PATHS.src + '/../i18n/messages'
     })
   ],
   devServer: {

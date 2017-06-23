@@ -25,7 +25,6 @@ import { Provider } from 'react-redux'
 
 class App extends React.Component {
   render () {
-    console.log(this.props.language, this.props.messages)
     return (
       <Provider store={this.props.store}>
         <IntlProvider locale={this.props.language} messages={this.props.messages}>

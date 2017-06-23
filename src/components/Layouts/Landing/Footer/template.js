@@ -2,7 +2,6 @@ import React from 'react'
 import CSSModules from 'react-css-modules'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import Translate from 'components/Shared/Translate'
 import DropdownLanguage from 'components/Shared/DropdownLanguage'
 
 import logo from 'img/blockchain-blue.svg'
@@ -17,26 +16,53 @@ const Footer = () => {
             <img src={logo} styleName='logo' />
           </div>
           <div className='col-md-2'>
-            {/*<Translate className='text-uppercase' styleName='category' translate='PRODUCTS' />*/}
-            <FormattedMessage id='components.layouts.landing.footer.products' defaultMessage='Products' />
-            <NavLink to='/wallet'><Translate className='text-uppercase' translate='WALLET' styleName='link' /></NavLink>
-            <a href='https://blockchain.com/enterprise'><Translate className='text-uppercase' styleName='link' translate='BUSINESS' /></a>
-            <a href='https://blockchain.com/research'><Translate className='text-uppercase' styleName='link' translate='RESEARCH' /></a>
-            <a href='https://blockchain.info'><span className='text-uppercase' styleName='link'>.Info Explorer</span></a>
-            <a href='https://support.blockchain.com'><Translate className='text-uppercase' styleName='link' translate='SUPPORT' /></a>
+            <div styleName='category'>
+              <FormattedMessage id='components.layouts.landing.footer.products' defaultMessage='Products' />
+            </div>
+            <NavLink styleName='link' to='/wallet'>
+              <FormattedMessage id='components.layouts.landing.footer.wallet' defaultMessage='Wallet' />
+            </NavLink>
+            <a styleName='link' href='https://blockchain.com/enterprise'>
+              <FormattedMessage id='components.layouts.landing.footer.business' defaultMessage='Business' />
+            </a>
+            <a styleName='link' href='https://blockchain.com/research'>
+              <FormattedMessage id='components.layouts.landing.footer.research' defaultMessage='Research' />
+            </a>
+            <a styleName='link' href='https://blockchain.info'>.Info Explorer</a>
+            <a styleName='link' href='https://support.blockchain.com'>
+              <FormattedMessage id='components.layouts.landing.footer.support' defaultMessage='Support' />
+            </a>
           </div>
           <div className='col-md-2'>
-            <span className='text-uppercase' styleName='category'>Company</span>
-            <a href='https://blockchain.com/about'><Translate className='text-uppercase' styleName='link' translate='ABOUT' /></a>
-            <a href='https://blockchain.com/team'><Translate className='text-uppercase' styleName='link' translate='TEAM' /></a>
-            <a href='https://blockchain.com/careers'><Translate className='text-uppercase' styleName='link' translate='CAREERS' /></a>
-            <a href='https://blockchain.com/interview'><Translate className='text-uppercase' styleName='link' translate='INTERVIEWING' /></a>
-            <a href='https://blockchain.com/faq'><span className='text-uppercase' styleName='link'>Faq</span></a>
+            <div styleName='category'>
+              <FormattedMessage id='components.layouts.landing.footer.company' defaultMessage='Company' />
+            </div>
+            <a styleName='link' href='https://blockchain.com/about'>
+              <FormattedMessage id='components.layouts.landing.footer.about' defaultMessage='About' />
+            </a>
+            <a styleName='link' href='https://blockchain.com/team'>
+              <FormattedMessage id='components.layouts.landing.footer.team' defaultMessage='Team' />
+            </a>
+            <a styleName='link' href='https://blockchain.com/careers'>
+              <FormattedMessage id='components.layouts.landing.footer.careers' defaultMessage='Careers' />
+            </a>
+            <a styleName='link' href='https://blockchain.com/interview'>
+              <FormattedMessage id='components.layouts.landing.footer.interviewing' defaultMessage='Interviewing' />
+            </a>
+            <a styleName='link' href='https://blockchain.com/faq'>
+              <FormattedMessage id='components.layouts.landing.footer.faq' defaultMessage='Faq' />
+            </a>
           </div>
           <div className='col-md-2'>
-            <span className='text-uppercase' styleName='category'>News</span>
-            <a href='https://blockchain.com/press'><Translate className='text-uppercase' styleName='link' translate='PRESS' /></a>
-            <a href='https://blog.blockchain.com'><Translate className='text-uppercase' styleName='link' translate='BLOG' /></a>
+            <div styleName='category'>
+              <FormattedMessage id='components.layouts.landing.footer.news' defaultMessage='News' />
+            </div>
+            <a styleName='link' href='https://blockchain.com/press'>
+              <FormattedMessage id='components.layouts.landing.footer.press' defaultMessage='Press' />
+            </a>
+            <a styleName='link' href='https://blog.blockchain.com'>
+              <FormattedMessage id='components.layouts.landing.footer.blog' defaultMessage='Blog' />
+            </a>
           </div>
           <div className='col-md-3'>
             <DropdownLanguage styleName='dropdown' />
@@ -46,8 +72,7 @@ const Footer = () => {
           <div className='col-md-10'>
             <h6>2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.</h6>
           </div>
-          <div className='col-md-2'>
-          </div>
+          <div className='col-md-2' />
         </div>
       </div>
     </footer>

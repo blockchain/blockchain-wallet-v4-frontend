@@ -58,7 +58,7 @@ const { store, history } = configureStore()
 
 // Preferred language
 let allMessages = configureLocales()
-let language = 'fr'
+let language = 'en'
 
 // Localized messages
 let messages = allMessages[language]

@@ -1,1 +1,21 @@
-{}
+{
+  "components.layouts.landing.footer.products": "Products",
+  "components.layouts.landing.footer.wallet": "Wallet",
+  "components.layouts.landing.footer.business": "Business",
+  "components.layouts.landing.footer.research": "Research",
+  "components.layouts.landing.footer.support": "Support",
+  "components.layouts.landing.footer.company": "Company",
+  "components.layouts.landing.footer.about": "About",
+  "components.layouts.landing.footer.team": "Team",
+  "components.layouts.landing.footer.careers": "Careers",
+  "components.layouts.landing.footer.interviewing": "Interviewing",
+  "components.layouts.landing.footer.faq": "Faq",
+  "components.layouts.landing.footer.news": "News",
+  "components.layouts.landing.footer.press": "Press",
+  "components.layouts.landing.footer.blog": "Blog",
+  "components.layouts.landing.header.wallets": "Wallets",
+  "components.layouts.landing.header.charts": "Charts",
+  "components.layouts.landing.header.stats": "Stats",
+  "components.layouts.landing.header.markets": "Markets",
+  "components.layouts.landing.header.api": "Api"
+}

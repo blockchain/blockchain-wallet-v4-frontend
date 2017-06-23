@@ -24,7 +24,7 @@ const regexIntlImport = new RegExp(/.+from['" ]+react-intl['" ]+/)
 const regexIntlComponent = new RegExp(/(<FormattedMessage[^>]+\/>|<FormattedHtmlMessage[^>]+\/>)/, 'gm')
 const regexIntlId = new RegExp(/id='([^']+)'/)
 const regexIntlMessage = new RegExp(/defaultMessage='([^']+)'/)
-const result = {}
+var result = {}
 
 glob(rootPath + '/**/*.js', null, function (error, files) {
   if (error) {
@@ -50,7 +50,9 @@ const extractIntlComponent = (file) => {
           let id = element.match(regexIntlId)
           let message = element.match(regexIntlMessage)
           if (R.isNil(id) | R.isNil(message)) console.log('Could not add the key.')
-          R.assoc(id[1], message[1], result)
+          console.log(id[1], message[1])
+          result = R.assoc(id[1], message[1], result)
+          outputFile()
         }, elements)
       }
     }
@@ -58,6 +60,7 @@ const extractIntlComponent = (file) => {
 }
 
 const outputFile = () => {
+  console.log('RESULT', result)
   fs.writeFile(outputPath + '/' + outputFilename, JSON.stringify(result, null, 2))
   console.log(outputPath + '/' + outputFilename + ' generated !')
 }
