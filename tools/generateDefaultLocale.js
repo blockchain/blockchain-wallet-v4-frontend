@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import glob from 'glob'
-import { curry, mergeAll, flatten, filter, not, isNil, compose, traverse, map } from 'ramda'
+import { reduce, merge, curry, flatten, filter, not, isNil, compose, traverse, map } from 'ramda'
 import Task from 'data.task'
 
 const rootPath = path.resolve(`${__dirname}/../src`)
@@ -58,14 +58,15 @@ const toKeyValue = element => {
 
 const toString = object => JSON.stringify(object, null, 2)
 
+const mapReducer = curry((acc, string) => merge(acc, toKeyValue(string)))
+
 // script
 filenames(rootPath + '/**/*.js')
   .chain(readFiles)
   .map(map(elements))
   .map(filter(isNotNil))
   .map(flatten)
-  .map(map(toKeyValue))
-  .map(mergeAll)
+  .map(reduce(mapReducer, {}))
   .map(toString)
   .chain(writeFile(outputPath + '/' + outputFilename))
   .fork(console.warn, console.log)
