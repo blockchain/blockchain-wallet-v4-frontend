@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import CSSModules from 'react-css-modules'
 
@@ -15,7 +14,7 @@ import Question8 from './Question8'
 
 import style from './style.scss'
 
-const Faq = (props) => {
+const Faq = () => {
   return (
     <section className='container-fluid padding-20'>
       <div className='row'>

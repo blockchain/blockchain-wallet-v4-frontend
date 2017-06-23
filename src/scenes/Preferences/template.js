@@ -1,9 +1,9 @@
 import React from 'react'
+import { FormattedText } from 'react-intl'
 import CSSModules from 'react-css-modules'
 
 import InfoWell from 'components/Shared/InfoWell'
 import SettingRow from 'components/Shared/SettingRow'
-import Translate from 'components/Shared/Translate'
 
 import EmailAddress from './EmailAddress'
 import MobileNumber from './MobileNumber'
@@ -21,7 +21,7 @@ const Preferences = () => {
   return (
     <section styleName='preferences'>
       <InfoWell>
-        <Translate translate='PREFERENCES_EXPLAIN' />
+        <FormattedText id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
       </InfoWell>
       <SettingRow component={EmailAddress} />
       <SettingRow component={MobileNumber} />

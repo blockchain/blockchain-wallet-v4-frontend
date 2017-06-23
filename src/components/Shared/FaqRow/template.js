@@ -5,7 +5,6 @@ import CSSModules from 'react-css-modules'
 import style from './style.scss'
 
 const FaqRow = (props) => {
-  console.log(props)
   return (
     <div className='row justify-content-between border-bottom' styleName='faq-row'>
       <div className='col-12'>

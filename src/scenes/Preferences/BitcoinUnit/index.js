@@ -1,11 +1,14 @@
 import React from 'react'
-
-import Translate from 'components/Shared/Translate'
+import { FormattedText } from 'react-intl'
 
 const description = (
   <div className='d-flex flex-column justify-item-start'>
-    <Translate className='d-flex h6 padding-bottom-10' translate='BITCOIN_CURRENCY' />
-    <Translate className='d-flex' translate='BITCOIN_CURRENCY_EXPLAIN' />
+    <div className='d-flex h6 padding-bottom-10 text-capitalize'>
+      <FormattedText id='scenes.preferences.bitcoinunit.title' defaultMessage='Bitcoin Unit' />
+    </div>
+    <div className='d-flex'>
+      <FormattedText id='scenes.preferences.bitcoinunit.description' defaultMessage='Adjust the precision you would prefer bitcoin values to be displayed in.' />
+    </div>
   </div>
 )
 

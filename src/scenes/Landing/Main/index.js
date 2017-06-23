@@ -10,44 +10,58 @@ const Main = (props) => {
     <section styleName='main'>
       <div className='container h-100'>
         <div className='row h-25 justify-content-center align-items-center'>
-          <div className='col-auto' styleName='title'>
-            <FormattedMessage id='scenes.landing.main.mostpopular' defaultMessage="The world's most popular bitcoin wallet" />
+          <div className='col-auto'>
+            <div styleName='title'>
+              <FormattedMessage id='scenes.landing.main.mostpopular' defaultMessage="The world's most popular bitcoin wallet" />
+            </div>
           </div>
         </div>
         <div className='row h-25 justify-content-around align-items-center hidden-sm-down'>
           <div className='col-12 col-md-3'>
             <div className='row h-50 justify-content-around'>
-              <div className='col-auto' styleName='statistic'>
-                <FormattedMessage id='scenes.landing.main.transactionsamount' defaultMessage='{nbTransactions} Million+' values={{nbTransactions: 100}} />
+              <div className='col-auto'>
+                <div styleName='statistic'>
+                  <FormattedMessage id='scenes.landing.main.transactionsamount' defaultMessage='{nbTransactions} Million+' values={{nbTransactions: 100}} />
+                </div>
               </div>
             </div>
             <div className='row h-50 justify-content-center'>
-              <div className='col-auto' styleName='statistic-info'>
-                <FormattedMessage id='scenes.landing.main.transactions' defaultMessage='Transactions' />
+              <div className='col-auto'>
+                <div styleName='statistic-info'>
+                  <FormattedMessage id='scenes.landing.main.transactions' defaultMessage='Transactions' />
+                </div>
               </div>
             </div>
           </div>
           <div className='col col-md-3'>
             <div className='row h-50 justify-content-center'>
-              <div className='col-auto' styleName='statistic'>
-                <FormattedMessage id='scenes.landing.main.walletsamount' defaultMessage='{nbWallets} Million+' values={{nbWallets: 14}} />
+              <div className='col-auto'>
+                <div styleName='statistic'>
+                  <FormattedMessage id='scenes.landing.main.walletsamount' defaultMessage='{nbWallets} Million+' values={{nbWallets: 14}} />
+                </div>
               </div>
             </div>
             <div className='row justify-content-center'>
               <div className='col-auto' styleName='statistic-info'>
-                <FormattedMessage id='scenes.landing.main.wallets' defaultMessage='Wallets' />
+                <div styleName='statistic-info'>
+                  <FormattedMessage id='scenes.landing.main.wallets' defaultMessage='Wallets' />
+                </div>
               </div>
             </div>
           </div>
           <div className='col-12 col-md-3'>
             <div className='row h-50 justify-content-center'>
-              <div className='col-auto' styleName='statistic'>
-                <FormattedMessage id='scenes.landing.main.countriesamount' defaultMessage='{nbCountries}+' values={{nbCountries: 140}} />
+              <div className='col-auto'>
+                <div styleName='statistic'>
+                  <FormattedMessage id='scenes.landing.main.countriesamount' defaultMessage='{nbCountries}+' values={{nbCountries: 140}} />
+                </div>
               </div>
             </div>
             <div className='row h-50 justify-content-center'>
-              <div className='col-auto' styleName='statistic-info'>
-                <FormattedMessage id='scenes.landing.main.countries' defaultMessage='Countries served' />
+              <div className='col-auto'>
+                <div styleName='statistic-info'>
+                  <FormattedMessage id='scenes.landing.main.countries' defaultMessage='Countries served' />
+                </div>
               </div>
             </div>
           </div>

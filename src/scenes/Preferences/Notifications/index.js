@@ -1,11 +1,14 @@
 import React from 'react'
-
-import Translate from 'components/Shared/Translate'
+import { FormattedText } from 'react-intl'
 
 const description = (
   <div className='d-flex flex-column justify-item-start'>
-    <Translate className='d-flex h6 padding-bottom-10' translate='NOTIFICATIONS' />
-    <Translate className='d-flex' translate='NOTIFICATIONS_EXPLAIN' />
+    <div className='d-flex h6 padding-bottom-10 text-capitalize'>
+      <FormattedText id='scenes.preferences.notifications.title' defaultMessage='Notifications' />
+    </div>
+    <div className='d-flex'>
+      <FormattedText id='scenes.preferences.notifications.description' defaultMessage='Get notified when you receive bitcoin.' />
+    </div>
   </div>
 )
 
