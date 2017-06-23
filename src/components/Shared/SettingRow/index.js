@@ -9,7 +9,7 @@ const SettingRow = (props) => (
       <div className='col-12 col-md-6 padding-bottom-10'>
         {props.component.description}
       </div>
-      <div className='col-12 col-md-6 right-align'>
+      <div className='col-12 col-md-6 d-flex justify-content-end'>
         {props.component.settings}
       </div>
     </div>

@@ -1,8 +1,8 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 
-import Translate from 'components/Shared/Translate'
 import style from './style.scss'
 
 const Login = (props) => {
@@ -10,23 +10,31 @@ const Login = (props) => {
     <section styleName='login'>
       <div className='row padding-vertical-10 justify-content-between align-items-center'>
         <div className='col-8'>
-          <Translate className='h4' translate='WELCOME_BACK' />
+          <div className='h4 text-capitalize'>
+            <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back !' />
+          </div>
         </div>
-        <div className='col-auto'>
-          <Translate className='margin-right-5' translate='OR' />
-          <NavLink to='/register'>
-            <Translate translate='SIGN_UP' />
+        <div className='col-auto flex-row justify-content-start align-items-center'>
+          <div className='d-inline-flex margin-right-5'>
+            <FormattedMessage id='scenes.login.or' defaultMessage='or' />
+          </div>
+          <NavLink className='d-inline-flex' to='/register'>
+            <FormattedMessage id='scenes.login.register' defaultMessage='Sign Up' />
           </NavLink>
         </div>
       </div>
       <div className='row padding-vertical-10 border-bottom'>
         <div className='col-12'>
-          <Translate className='h6 margin-right-5' translate='LOGIN_BELOW' />
+          <div className='h6 margin-right-5'>
+            <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
+          </div>
         </div>
       </div>
       <div className='row padding-top-10'>
         <div className='col-12'>
-          <Translate element='label' translate='UID' />
+          <div className='h6'>
+            <FormattedMessage id='scenes.login.uid' defaultMessage='Wallet ID' />
+          </div>
         </div>
       </div>
       <div className='row padding-bottom-10'>
@@ -36,12 +44,18 @@ const Login = (props) => {
       </div>
       <div className='row padding-vertical-5'>
         <div className='col-12'>
-          <Translate styleName='small-size' translate='FIND_GUID_EXPLAIN' />
+          <div styleName='small-size'>
+            <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,
+            e.g. blockchain.info/wallet/1111-222-333... The series of numbers and dashes at the end of the link is your Wallet ID.' />
+          </div>
+          
         </div>
       </div>
       <div className='row'>
         <div className='col-12'>
-          <Translate element='label' translate='PASSWORD' />
+          <div className='h6'>
+            <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
+          </div>
         </div>
       </div>
       <div className='row padding-bottom-10'>
@@ -51,16 +65,18 @@ const Login = (props) => {
       </div>
       <div className='row padding-vertical-10'>
         <div className='col-12'>
-          <button className='button-secondary full-width' name='submit' onClick={props.onClick}>
-            <Translate translate='LOG_IN' />
+          <button className='button-secondary full-width text-uppercase' name='submit' onClick={props.onClick}>
+            <FormattedMessage id='scenes.login.signin' defaultMessage='Log in' />
           </button>
         </div>
       </div>
       <div className='row padding-vertical-10 justify-content-end'>
         <div className='col-auto'>
-          <Translate className='margin-right-5' translate='HAVING_TROUBLE' />
-          <NavLink to='/login-help'>
-            <Translate translate='VIEW_OPTIONS' />
+          <div className='d-inline-flex margin-right-5'>
+            <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some troubles?' />
+          </div>
+          <NavLink className='d-inline-flex' to='/login-help'>
+            <FormattedMessage id='scenes.login.options' defaultMessage='View options' />
           </NavLink>
         </div>
       </div>

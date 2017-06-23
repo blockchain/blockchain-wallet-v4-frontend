@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import CSSModules from 'react-css-modules'
 
-import Translate from 'components/Shared/Translate'
 import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
 import CurrencyDisplay from 'components/Shared/CurrencyDisplay'
 
@@ -12,8 +12,8 @@ const BalanceSummary = (props) => {
   return (
     <div className='container-fluid padding-bottom-30' styleName='balance-summary'>
       <div className='row padding-bottom-20'>
-        <div className='col-auto'>
-          <Translate className='h6 text-capitalize' translate='BALANCES' />
+        <div className='col-auto h6 text-capitalize'>
+          <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Balance summary' />
         </div>
       </div>
       <div className='row'>
