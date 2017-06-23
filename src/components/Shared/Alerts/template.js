@@ -4,9 +4,9 @@ import CSSModules from 'react-css-modules'
 import style from './style.scss'
 
 const alertFactory = ({ onDismiss }) => ({ type, message, id }) => (
-  <div key={id} styleName='alert' className={`alert alert-${type} alert-dismissable`}>
-    <button styleName='close' className='close' onClick={() => onDismiss(id)}>
-      <span>x</span>
+  <div key={id} className={`alert alert-${type} alert-dismissable`}>
+    <button type='button' className='close' onClick={() => onDismiss(id)}>
+      <span>&times;</span>
     </button>
     <div key={id}><span>{message}</span></div>
   </div>
