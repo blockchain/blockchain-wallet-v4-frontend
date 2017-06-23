@@ -1,63 +1,71 @@
-var fs = require('fs')
-var path = require('path')
-var glob = require('glob')
-var R = require('ramda')
-
-// const rootPath = path.resolve(`${__dirname}/../i18n/messages`)
-// const outputPath = path.resolve(`${__dirname}/../i18n/aggregate`)
-// const outputFilename = 'en.json'
-
-// glob(rootPath + '/**/*.json', null, function (error, files) {
-//   if (error) {
-//     console.log('Error :' + error)
-//   } else {
-//     const f = o => ({[o.id]: o.defaultMessage})
-//     const r = R.map(f, R.flatten(R.map(require, files)))
-//     fs.writeFile(outputPath + '/' + outputFilename, JSON.stringify(r, null, 2))
-//   }
-// })
+import fs from 'fs'
+import path from 'path'
+import glob from 'glob'
+import { curry, mergeAll, flatten, filter, not, isNil, compose, traverse, map } from 'ramda'
+import Task from 'data.task'
 
 const rootPath = path.resolve(`${__dirname}/../src`)
 const outputPath = rootPath + '/assets/locales'
 const outputFilename = 'en.json'
-const regexIntlImport = new RegExp(/.+from['" ]+react-intl['" ]+/)
+// const regexIntlImport = new RegExp(/.+from['" ]+react-intl['" ]+/)
 const regexIntlComponent = new RegExp(/(<FormattedMessage[^>]+\/>|<FormattedHtmlMessage[^>]+\/>)/, 'gm')
 const regexIntlId = new RegExp(/id='([^']+)'/)
 const regexIntlMessage = new RegExp(/defaultMessage='([^']+)'/)
-const result = {}
+const isNotNil = compose(not, isNil)
 
-glob(rootPath + '/**/*.js', null, function (error, files) {
-  if (error) {
-    console.log('Error :' + error)
+// filenames :: String -> Task(Error, [String])
+const filenames = pattern =>
+  new Task((reject, resolve) =>
+    glob(pattern, null, (error, files) =>
+      error ? reject(error) : resolve(files)
+    )
+  )
+
+// reaFile :: String -> Task(Error, data)
+const readFile = filename =>
+  new Task((reject, resolve) =>
+    fs.readFile(filename, 'utf8', (error, files) =>
+      error ? reject(error) : resolve(files)
+    )
+  )
+
+// writeFile :: filename -> content -> Task(Error, Success)
+const writeFile = curry((filename, content) =>
+  new Task((reject, resolve) =>
+    fs.writeFile(filename, content, (error) =>
+      error ? reject(error) : resolve('File generated: ' + filename)
+    )
+  )
+)
+
+// readFiles :: [String] => Task(Error, [String])
+const readFiles = traverse(Task.of, readFile)
+
+const elements = data => data.match(regexIntlComponent)
+// const hasImport = data => not(isNil(data.match(regexIntlImport)))
+
+// toKeyValue :: String -> {key: value}
+const toKeyValue = element => {
+  const id = element.match(regexIntlId)
+  const message = element.match(regexIntlMessage)
+  if (isNotNil(id) && isNotNil(message)) {
+    return {[id[1]]: message[1]}
   } else {
-    R.map(extractIntlComponent, files)
-    outputFile()
+    console.warn('FAILED TO ADD KEY: ', id, message)
+    return {}
   }
-})
-
-const extractIntlComponent = (file) => {
-  fs.readFile(file, 'utf8', (err, data) => {
-    if (err) {
-      console.log('ERROR: ' + err)
-      return
-    }
-    let importSearchResults = data.match(regexIntlImport)
-    if (!R.isNil(importSearchResults)) {
-      let componentSearchResults = data.match(regexIntlComponent)
-      if (!R.isNil(componentSearchResults)) {
-        let elements = R.take(componentSearchResults.length, componentSearchResults)
-        R.map(element => {
-          let id = element.match(regexIntlId)
-          let message = element.match(regexIntlMessage)
-          if (R.isNil(id) | R.isNil(message)) console.log('Could not add the key.')
-          R.assoc(id[1], message[1], result)
-        }, elements)
-      }
-    }
-  })
 }
 
-const outputFile = () => {
-  fs.writeFile(outputPath + '/' + outputFilename, JSON.stringify(result, null, 2))
-  console.log(outputPath + '/' + outputFilename + ' generated !')
-}
+const toString = object => JSON.stringify(object, null, 2)
+
+// script
+filenames(rootPath + '/**/*.js')
+  .chain(readFiles)
+  .map(map(elements))
+  .map(filter(isNotNil))
+  .map(flatten)
+  .map(map(toKeyValue))
+  .map(mergeAll)
+  .map(toString)
+  .chain(writeFile(outputPath + '/' + outputFilename))
+  .fork(console.warn, console.log)
