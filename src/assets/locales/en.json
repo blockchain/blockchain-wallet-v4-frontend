@@ -1,1 +1,8 @@
-{}
+{
+  "components.layouts.landing.footer.products": "Products",
+  "components.layouts.landing.header.wallets": "Wallets",
+  "components.layouts.landing.header.charts": "Charts",
+  "components.layouts.landing.header.stats": "Stats",
+  "components.layouts.landing.header.markets": "Markets",
+  "components.layouts.landing.header.api": "Api"
+}

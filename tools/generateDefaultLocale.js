@@ -39,13 +39,13 @@ const writeFile = curry((filename, content) =>
 )
 
 // readFiles :: [String] => Task(Error, [String])
-const readFiles = traverse(Task.of, readFile)
+export const readFiles = traverse(Task.of, readFile)
 
-const elements = data => data.match(regexIntlComponent)
+export const elements = data => data.match(regexIntlComponent)
 // const hasImport = data => not(isNil(data.match(regexIntlImport)))
 
 // toKeyValue :: String -> {key: value}
-const toKeyValue = element => {
+export const toKeyValue = element => {
   const id = element.match(regexIntlId)
   const message = element.match(regexIntlMessage)
   if (isNotNil(id) && isNotNil(message)) {
@@ -56,9 +56,9 @@ const toKeyValue = element => {
   }
 }
 
-const toString = object => JSON.stringify(object, null, 2)
+export const toString = object => JSON.stringify(object, null, 2)
 
-const mapReducer = curry((acc, string) => merge(acc, toKeyValue(string)))
+export const mapReducer = curry((acc, string) => merge(acc, toKeyValue(string)))
 
 // script
 filenames(rootPath + '/**/*.js')
