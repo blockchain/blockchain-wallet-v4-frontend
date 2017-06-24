@@ -9,10 +9,10 @@ const title = (
 
 const description = (
   <div>
-    <FormattedMessage id='scenes.faq.item3.answer' defaultMessage='A wallet ID is like a username, and it contains numbers, letters, and dashes.
-    It is only used to log into your wallet and should be kept private.
-    Your wallet ID can be found in the welcome email we sent you when you created your wallet or under Wallet Information in Settings.
-    A bitcoin address is what you share with others when you want to receive funds. To generate a new bitcoin address click on Receive.' />
+    <FormattedMessage id='scenes.faq.item3.answer' defaultMessage='A wallet ID is like a username, and it contains numbers, letters, and dashes.' />
+    <FormattedMessage id='scenes.faq.item3.answer2' defaultMessage='It is only used to log into your wallet and should be kept private.' />
+    <FormattedMessage id='scenes.faq.item3.answer3' defaultMessage='Your wallet ID can be found in the welcome email we sent you when you created your wallet or under Wallet Information in Settings.' />
+    <FormattedMessage id='scenes.faq.item3.answer4' defaultMessage='A bitcoin address is what you share with others when you want to receive funds. To generate a new bitcoin address click on Receive.' />
   </div>
 )
 

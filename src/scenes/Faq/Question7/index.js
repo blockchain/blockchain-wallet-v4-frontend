@@ -9,9 +9,9 @@ const title = (
 
 const description = (
   <div>
-    <FormattedMessage id='scenes.faq.item7.answer' defaultMessage='We are a noncustodial wallet and do not have access to your bitcoins.
-    This means we cannot view your total balance, make payments on your behalf, or prevent you from accessing your wallet.
-    With a Blockchain wallet, you retain complete ownership of your bitcoin.' />
+    <FormattedMessage id='scenes.faq.item7.answer' defaultMessage='We are a noncustodial wallet and do not have access to your bitcoins.' />
+    <FormattedMessage id='scenes.faq.item7.answer2' defaultMessage='This means we cannot view your total balance, make payments on your behalf, or prevent you from accessing your wallet.' />
+    <FormattedMessage id='scenes.faq.item7.answer3' defaultMessage='With a Blockchain wallet, you retain complete ownership of your bitcoin.' />
   </div>
 )
 
