@@ -55,6 +55,7 @@ import configureStore from './store/configureStore.dev'
 
 // Register store
 const { store, history } = configureStore()
+
 // Register locales
 const { messages } = configureLocales(store)
 
