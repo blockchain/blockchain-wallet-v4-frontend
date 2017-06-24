@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedText } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import CSSModules from 'react-css-modules'
 
 import InfoWell from 'components/Shared/InfoWell'
@@ -17,11 +17,11 @@ import Themes from './Themes'
 
 import style from './style.scss'
 
-const Preferences = () => {
+const Preferences = (props) => {
   return (
     <section styleName='preferences'>
       <InfoWell>
-        <FormattedText id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
+        <FormattedMessage id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
       </InfoWell>
       <SettingRow component={EmailAddress} />
       <SettingRow component={MobileNumber} />

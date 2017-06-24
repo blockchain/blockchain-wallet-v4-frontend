@@ -1,18 +1,24 @@
 import React from 'react'
-
-import Translate from 'components/Shared/Translate'
+import { FormattedMessage } from 'react-intl'
 
 const description = (
   <div className='d-flex flex-column justify-item-start'>
-    <Translate className='d-flex h6 padding-bottom-10' translate='WALLET_RECOVERY_PHRASE' />
-    <Translate className='d-flex' translate='RECOVERY_PHRASE_EXPLAIN' />
+    <div className='d-flex h6 padding-bottom-10 text-capitalize'>
+      <FormattedMessage id='scenes.settings.recoveryphrase.title' defaultMessage='Wallet Recovery Phrase' />
+    </div>
+    <div className='d-flex'>
+      <FormattedMessage id='scenes.settings.recoveryphrase.description' defaultMessage='Your recovery phrase can be used to restore all your funds in the case of a lost password
+       or a loss of service at Blockchain. Note, that the recovery phrase never changes and recovers all of your existing bitcoins as well
+        as newly received funds in this wallet. Please note that imported addresses are not backed up by the wallet recovery phrase. 
+      We strongly recommend to transfer funds from imported addresses into this wallet.' />
+    </div>
   </div>
 )
 
 const settings = (
   <div className='d-flex flex-column justify-item-start align-items-end'>
     <button className='d-flex button-secondary'>
-      <Translate translate='CONFIRM_RECOVERY_PHRASE' />
+      <FormattedMessage id='scenes.settings.recoveryphrase.backup' defaultMessage='Backup phrase' />
     </button>
   </div>
 )
