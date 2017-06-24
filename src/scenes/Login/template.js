@@ -45,10 +45,10 @@ const Login = (props) => {
       <div className='row padding-vertical-5'>
         <div className='col-12'>
           <div styleName='small-size'>
-            <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,
-            e.g. blockchain.info/wallet/1111-222-333... The series of numbers and dashes at the end of the link is your Wallet ID.' />
+            <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email, ' />
+            <i><FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' /></i>
+            <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
           </div>
-          
         </div>
       </div>
       <div className='row'>
