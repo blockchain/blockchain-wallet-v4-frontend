@@ -49,9 +49,13 @@ const extractIntlComponent = (file) => {
         R.map(element => {
           let id = element.match(regexIntlId)
           let message = element.match(regexIntlMessage)
-          if (R.isNil(id) | R.isNil(message)) console.log('Could not add the key.')
-          console.log(id[1], message[1])
-          result = R.assoc(id[1], message[1], result)
+          if (R.isNil(id) | R.isNil(message)) {
+            console.log(`Could not add the key: ${id[1]}.`)
+          }
+          else {
+            console.log(id[1], message[1])
+            result = R.assoc(id[1], message[1], result)
+          }
           outputFile()
         }, elements)
       }
