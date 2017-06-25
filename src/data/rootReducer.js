@@ -14,7 +14,6 @@ const rootReducer = combineReducers({
     auth: authReducer.login,
     ui: uiReducer,
     log: logReducer
-    // whatsNew: whatsNewReducer
   }),
   preferences: preferencesReducer,
   session: authReducer.session,

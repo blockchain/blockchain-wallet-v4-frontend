@@ -877,12 +877,6 @@ babel-plugin-transform-regenerator@^6.24.1:
   dependencies:
     regenerator-transform "0.9.11"
 
-babel-plugin-transform-runtime@^6.23.0:
-  version "6.23.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.23.0.tgz#88490d446502ea9b8e7efb0fe09ec4d99479b1ee"
-  dependencies:
-    babel-runtime "^6.22.0"
-
 babel-plugin-transform-strict-mode@^6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-strict-mode/-/babel-plugin-transform-strict-mode-6.24.1.tgz#d5faf7aa578a65bbe591cf5edae04a0c67020758"
@@ -1003,7 +997,7 @@ babel-register@^6.24.1:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0:
+babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0:
   version "6.23.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.23.0.tgz#0a9489f144de70efb3ce4300accdb329e2fc543b"
   dependencies:
@@ -5008,7 +5002,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@~15.5.7:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.9, prop-types@~15.5.7:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -5134,11 +5128,12 @@ react-dom@^15.5.4:
     object-assign "^4.1.0"
     prop-types "~15.5.7"
 
-react-intl-aggregate-webpack-plugin@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/react-intl-aggregate-webpack-plugin/-/react-intl-aggregate-webpack-plugin-0.0.1.tgz#c29958860d7bcdfa6f460dec79f55ae0220488c6"
+react-intl-redux@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-intl-redux/-/react-intl-redux-0.5.0.tgz#d25b4960d829a1a7af866787da04fe280fc8a4fc"
   dependencies:
-    mkdirp "^0.5.1"
+    prop-types "^15.5.9"
+    warning "^3.0.0"
 
 react-intl@^2.3.0:
   version "2.3.0"
@@ -5205,10 +5200,6 @@ react@^15.5.4:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.7"
-
-reactIntlJson-loader@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/reactIntlJson-loader/-/reactIntlJson-loader-0.0.4.tgz#c3c07245398d0073a6eea91791c8d51e0180724f"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"

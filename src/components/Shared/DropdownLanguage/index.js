@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-import * as translationService from 'services/translationService.js'
+import * as languageService from 'services/languageService.js'
 
 import DropdownLanguage from './template.js'
 import { actions, selectors } from 'data'
@@ -18,19 +18,17 @@ class DropdownLanguageContainer extends React.Component {
     this.props.uiActions.toggleDropdownLanguage()
   }
 
-  handleClickItem (cultureCode) {
-    this.props.preferencesActions.setCulture(cultureCode)
+  handleClickItem (culture) {
+    this.props.preferencesActions.setCulture(culture)
     this.props.uiActions.toggleDropdownLanguage()
   }
 
   render () {
-    let culture = translationService.getLanguageName(this.props.culture).getOrElse('en-GB')
-    let languages = translationService.languagesSortedByName
-    console.log(this.props.styleName)
+    let currentLanguageName = languageService.getLanguageName(this.props.culture).getOrElse('en-GB')
     return (
       <DropdownLanguage
-        culture={culture}
-        languages={languages}
+        currentLanguageName={currentLanguageName}
+        languages={this.props.languages}
         dropdownLanguageDisplayed={this.props.dropdownLanguageDisplayed}
         clickDropdownLanguage={this.handleClickDropdownLanguage}
         clickItem={this.handleClickItem}
@@ -42,8 +40,9 @@ class DropdownLanguageContainer extends React.Component {
 
 function mapStateToProps (state, ownProps) {
   return {
+    culture: selectors.preferences.getCulture(state),
     dropdownLanguageDisplayed: selectors.ui.getDropdownLanguageDisplayed(state),
-    culture: selectors.preferences.getCulture(state)
+    languages: languageService.languagesSortedByName
   }
 }
 

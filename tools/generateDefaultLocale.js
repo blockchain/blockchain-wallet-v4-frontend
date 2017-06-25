@@ -11,6 +11,7 @@ const outputFilename = 'en.json'
 const regexIntlComponent = new RegExp(/(<FormattedMessage[^>]+\/>|<FormattedHtmlMessage[^>]+\/>)/, 'gm')
 const regexIntlId = new RegExp(/id='([^']+)'/)
 const regexIntlMessage = new RegExp(/defaultMessage='([^']+)'/)
+
 const isNotNil = compose(not, isNil)
 
 // filenames :: String -> Task(Error, [String])

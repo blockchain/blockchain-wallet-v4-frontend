@@ -56,14 +56,10 @@ import configureStore from './store/configureStore.dev'
 // Register store
 const { store, history } = configureStore()
 
-// Preferred language
-let allMessages = configureLocales()
-let language = 'fr'
-
-// Localized messages
-let messages = allMessages[language]
+// Register locales
+const { messages } = configureLocales(store)
 
 ReactDOM.render(
-  <App store={store} history={history} language={language} messages={messages} />,
+  <App store={store} history={history} messages={messages} />,
   document.getElementById('app')
 )

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Redirect, Switch } from 'react-router-dom'
-// import { ConnectedRouter } from 'react-router-redux'
+import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { IntlProvider } from 'react-intl'
 
 import LandingLayout from 'components/Layouts/Landing'
 import PublicLayout from 'components/Layouts/Public'
 import WalletLayout from 'components/Layouts/Wallet'
+import ConnectedIntlProvider from 'components/Shared/ConnectedIntlProvider'
 
 import LandingContainer from './Landing'
 import LoginContainer from './Login'
@@ -21,14 +21,11 @@ import SecuritySettingsContainer from './SecuritySettings'
 import AddressesContainer from './Addresses'
 import FaqContainer from './Faq'
 
-import { Provider } from 'react-redux'
-
 class App extends React.Component {
   render () {
-    console.log(this.props.language, this.props.messages)
     return (
       <Provider store={this.props.store}>
-        <IntlProvider locale={this.props.language} messages={this.props.messages}>
+        <ConnectedIntlProvider messages={this.props.messages}>
           <ConnectedRouter history={this.props.history}>
             <Switch>
               <LandingLayout exact path='/' component={LandingContainer} />
@@ -46,7 +43,7 @@ class App extends React.Component {
               <WalletLayout path='/faq' component={FaqContainer} />
             </Switch>
           </ConnectedRouter>
-        </IntlProvider>
+        </ConnectedIntlProvider>
       </Provider>
     )
   }

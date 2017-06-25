@@ -1,8 +1,8 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import InfoWell from 'components/Shared/InfoWell'
 import SettingRow from 'components/Shared/SettingRow'
-import Translate from 'components/Shared/Translate'
 
 import ActivityLogging from '../ActivityLogging'
 import APIAccess from '../APIAccess'
@@ -14,7 +14,8 @@ import WalletAccessTor from '../WalletAccessTor'
 const AdvancedSecurity = () => (
   <div>
     <InfoWell>
-      <Translate translate='SECURITY_ADVANCED_EXPLAIN' />
+      <FormattedMessage id='scenes.settings.advancedsecurity.explain' defaultMessage='Advanced security: Further customize your security settings for more granular access control and tracking.' />
+      <FormattedMessage id='scenes.settings.advancedsecurity.explain2' defaultMessage='Do not modify these settings unless you know what you are doing.' />
     </InfoWell>
     <SettingRow component={ActivityLogging} />
     <SettingRow component={LoginIpRestriction} />
