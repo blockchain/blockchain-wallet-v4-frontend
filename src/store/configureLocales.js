@@ -10,7 +10,6 @@ const importTranslation = (language) => require(`locales/${language}`)
 
 function configureLocales (store) {
   // We add the locale data for each language
-  console.log(flatten(map(x => importLocaleData(x.language), languageService.languages)))
   addLocaleData(flatten(map(x => importLocaleData(x.language), languageService.languages)))
 
   // We get all the messages

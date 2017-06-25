@@ -1,4 +1,4 @@
-import * as actions from './actions'
+import * as AT from './actionTypes'
 
 let assign = (state, next) => Object.assign({}, state, next)
 
@@ -10,10 +10,10 @@ const INITIAL_STATE = {
 const preferences = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
-    case actions.SET_CULTURE: {
+    case AT.SET_CULTURE: {
       return assign(INITIAL_STATE, { culture: payload })
     }
-    case actions.SET_LANGUAGE: {
+    case AT.SET_LANGUAGE: {
       return assign(INITIAL_STATE, { language: payload })
     }
     default:
