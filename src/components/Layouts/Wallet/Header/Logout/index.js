@@ -1,7 +1,6 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import CSSModules from 'react-css-modules'
-
-import Translate from 'components/Shared/Translate'
 
 import style from './style.scss'
 
@@ -9,7 +8,7 @@ const Logout = () => {
   return (
     <li className='nav-item active'>
       <a className='nav-link' href='#'>
-        <Translate translate='SIGNOUT' />
+        <FormattedMessage id='components.layouts.wallet.header.logout.signout' defaultMessage='Sign out' />
       </a>
     </li>
   )

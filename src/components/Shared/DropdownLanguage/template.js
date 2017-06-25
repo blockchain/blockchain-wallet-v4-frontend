@@ -11,7 +11,7 @@ const DropdownLanguage = (props) => {
     <div className={`dropdown ${props.dropdownLanguageDisplayed ? 'show' : ''} ${props.className}`}>
       <a className='dropdown-toggle' id='dropdownLanguage' data-toggle='dropdown' aria-haspopup={props.dropdownLanguageDisplayed}
         aria-expanded={props.dropdownLanguageDisplayed} onClick={props.clickDropdownLanguage}>
-        {props.culture}
+        {props.currentLanguageName}
       </a>
       <div className='dropdown-menu' aria-labelledby='dropdownLanguage'>
         { props.languages.map((language, index) => {
@@ -19,7 +19,7 @@ const DropdownLanguage = (props) => {
             <DropdownLanguageItem
               key={index}
               name={language.name}
-              cultureCode={language.cultureCode}
+              culture={language.cultureCode}
               clickItem={props.clickItem}
             />
           )
@@ -30,7 +30,7 @@ const DropdownLanguage = (props) => {
 }
 
 DropdownLanguage.propTypes = {
-  culture: PropTypes.string.isRequired,
+  currentLanguageName: PropTypes.string.isRequired,
   languages: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     cultureCode: PropTypes.string.isRequired

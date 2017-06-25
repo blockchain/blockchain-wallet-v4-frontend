@@ -1,8 +1,8 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
+import CSSModules from 'react-css-modules'
 
-import Translate from 'components/Shared/Translate'
 import Adverts from './Adverts'
 import Footer from './Footer'
 
@@ -16,7 +16,7 @@ const MenuLeft = (props) => {
           <div className='col-12 align-items-center'>
             <NavLink className='menu-item' to='/wallet' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-home' />
-              <Translate translate='HOME' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.home' defaultMessage='Home' />
             </NavLink>
           </div>
         </div>
@@ -24,7 +24,7 @@ const MenuLeft = (props) => {
           <div className='col-12'>
             <NavLink className='menu-item' to='/transactions' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-tx' />
-              <Translate translate='MY_TRANSACTIONS' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.transactions' defaultMessage='Transactions' />
             </NavLink>
           </div>
         </div>
@@ -32,7 +32,7 @@ const MenuLeft = (props) => {
           <div className='col-12'>
             <NavLink className='menu-item' to='/buy-sell' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-bitcoin' />
-              <Translate translate='BUY_BITCOIN' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.buybitcoin' defaultMessage='Buy bitcoin' />
             </NavLink>
           </div>
         </div>
@@ -40,7 +40,7 @@ const MenuLeft = (props) => {
           <div className='col-12'>
             <NavLink className='menu-item' to='/security-center' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-lock' />
-              <Translate translate='SECURITY_CENTER' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.securitycenter' defaultMessage='Security center' />
             </NavLink>
           </div>
         </div>
@@ -48,35 +48,35 @@ const MenuLeft = (props) => {
           <div className='col-12'>
             <NavLink className='menu-item' to='/settings' activeClassName='active' onClick={props.clickSecurityCenter}>
               <i className='icon-settings' />
-              <Translate translate='SETTINGS' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.settings' defaultMessage='Settings' />
             </NavLink>
           </div>
         </div>
         <div className={`row ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`}>
           <div className='col-12'>
             <NavLink className='menu-item sub' to='/settings/info' activeClassName='active'>
-              <Translate translate='WALLET_INFO' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.walletinfo' defaultMessage='Wallet information' />
             </NavLink>
           </div>
         </div>
         <div className={`row ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`}>
           <div className='col-12'>
             <NavLink className='menu-item sub' to='/settings/preferences' activeClassName='active'>
-              <Translate translate='PREFERENCES' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.preferences' defaultMessage='Preferences' />
             </NavLink>
           </div>
         </div>
         <div className={`row ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`}>
           <div className='col-12'>
             <NavLink className='menu-item sub' to='/settings/security' activeClassName='active'>
-              <Translate translate='SECURITY' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.security' defaultMessage='Security' />
             </NavLink>
           </div>
         </div>
         <div className={`row ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`}>
           <div className='col-12'>
             <NavLink className='menu-item sub' to='/settings/addresses' activeClassName='active'>
-              <Translate translate='MENU_ACCOUNTS_AND_ADDRESSES' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.addresses' defaultMessage='Addresses' />
             </NavLink>
           </div>
         </div>
@@ -84,7 +84,7 @@ const MenuLeft = (props) => {
           <div className='col-12'>
             <NavLink className='menu-item' to='/faq' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-help' />
-              <Translate translate='FAQ' />
+              <FormattedMessage id='components.layouts.wallet.menuleft.faq' defaultMessage='Faq' />
             </NavLink>
           </div>
         </div>

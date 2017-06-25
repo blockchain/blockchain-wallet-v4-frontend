@@ -1,11 +1,14 @@
 import React from 'react'
-
-import Translate from 'components/Shared/Translate'
+import { FormattedMessage } from 'react-intl'
 
 const description = (
   <div className='d-flex flex-column justify-item-start'>
-    <Translate className='d-flex h6 padding-bottom-10' translate='CURRENCY' />
-    <Translate className='d-flex' translate='CURRENCY_EXPLAIN' />
+    <div className='h6'>
+      <FormattedMessage id='scenes.preferences.currency.title' defaultMessage='Local currency' />
+    </div>
+    <div>
+      <FormattedMessage id='scenes.preferences.currency.description' defaultMessage='Select your local currency.' />
+    </div>
   </div>
 )
 

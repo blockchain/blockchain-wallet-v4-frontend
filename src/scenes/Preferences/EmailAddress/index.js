@@ -1,20 +1,27 @@
 import React from 'react'
-
-import Translate from 'components/Shared/Translate'
+import { FormattedMessage } from 'react-intl'
 
 const description = (
   <div className='d-flex flex-column justify-item-start'>
-    <Translate className='d-flex h6' translate='EMAIL_ADDRESS' />
-    <Translate className='d-flex' translate='EMAIL_ADDRESS_EXPLAIN' />
-    <Translate className='d-flex text-danger' translate='CHANGE_EMAIL_NOT_EXCHANGE' />
+    <div className='h6'>
+      <FormattedMessage id='scenes.preferences.email.title' defaultMessage='Email address' />
+    </div>
+    <div>
+      <FormattedMessage id='scenes.preferences.email.description' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected, ' />
+      <FormattedMessage id='scenes.preferences.email.description2' defaultMessage='to remind you of your wallet login ID, ' />
+      <FormattedMessage id='scenes.preferences.email.description3' defaultMessage='and to send bitcoin payment alerts when you receive funds.' />
+    </div>
+    <div className='text-danger'>
+      <FormattedMessage id='scenes.preferences.email.warning' defaultMessage="This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same." />
+    </div>
   </div>
 )
 
 const settings = (
   <div className='d-flex flex-column justify-item-start align-items-end'>
-    <span className='d-flex h6'>test@example.com</span>
-    <button className='d-flex button-secondary'>
-      <Translate translate='CHANGE' />
+    <span className='h6'>test@example.com</span>
+    <button className='button-secondary'>
+      <FormattedMessage id='scenes.preferences.email.change' defaultMessage='Change' />
     </button>
   </div>
 )
