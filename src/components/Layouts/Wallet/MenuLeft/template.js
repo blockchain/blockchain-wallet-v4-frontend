@@ -44,7 +44,7 @@ const MenuLeft = (props) => {
             </NavLink>
           </div>
         </div>
-         <div className='row'>
+        <div className='row'>
           <div className='col-12'>
             <NavLink className='menu-item' to='/settings' activeClassName='active' onClick={props.clickSecurityCenter}>
               <i className='icon-settings' />

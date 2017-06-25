@@ -1,14 +1,12 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import MenuTop from './template.js'
 
-import style from './style.scss'
-
-const MenuTop = () => {
-  return (
-    <div styleName='menuTop'>
-
-    </div>
-  )
+class MenuTopContainer extends React.Component {
+  render () {
+    return (
+      <MenuTop />
+    )
+  }
 }
 
-export default CSSModules(MenuTop, style)
+export default MenuTopContainer

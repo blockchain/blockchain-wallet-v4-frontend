@@ -6,8 +6,10 @@ input[type='text'], input[type='password'] {
   padding: 6px 12px;
   @include box-sizing(border-box);
   line-height: 1.4;
-  font-size: 14px;
-  color: #555555;
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: $text;
   background-color: #FFFFFF;
   border: 1px solid #CCCCCC;
   border-radius: 4px;
