@@ -1,4 +1,4 @@
-import * as actions from './actions'
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = [
       { type: 'settings', time: '', title: 'Settings', description: 'Created wallet!' },
@@ -9,13 +9,13 @@ const INITIAL_STATE = [
 
 const activity = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case actions.FETCH_ACTIVITIES: {
+    case AT.FETCH_ACTIVITIES: {
       return state
     }
-    case actions.FETCH_ACTIVITIES_SUCCESSFUL: {
+    case AT.FETCH_ACTIVITIES_SUCCESSFUL: {
       return Array.from(action.activities)
     }
-    case actions.FETCH_ACTIVITIES_FAILED: {
+    case AT.FETCH_ACTIVITIES_FAILED: {
       return state
     }
     default:

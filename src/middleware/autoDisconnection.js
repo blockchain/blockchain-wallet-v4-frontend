@@ -1,5 +1,5 @@
 import { contains } from 'ramda'
-import { actions } from 'data'
+import { actions, actionTypes } from 'data'
 
 let autoDisconnectionDefaultValue = 720
 let autoDisconnectionNotificationDefaultValue = 120
@@ -10,7 +10,7 @@ let blackListedActivityTypes = []
 
 const AuthMiddleware = store => next => action => {
   // Once we login successfully, we start the autodisconnection timer
-  if (action.type === actions.auth.LOGIN_SUCCESS) {
+  if (action.type === actionTypes.auth.LOGIN_SUCCESS) {
     if (autoDisconnectionInterval) { clearInterval(autoDisconnectionInterval) }
     autoDisconnectionInterval = setInterval(refreshCounter(store), 1000)
   }
