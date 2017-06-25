@@ -5002,7 +5002,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.9, prop-types@~15.5.7:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@~15.5.7:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -5127,13 +5127,6 @@ react-dom@^15.5.4:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "~15.5.7"
-
-react-intl-redux@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/react-intl-redux/-/react-intl-redux-0.5.0.tgz#d25b4960d829a1a7af866787da04fe280fc8a4fc"
-  dependencies:
-    prop-types "^15.5.9"
-    warning "^3.0.0"
 
 react-intl@^2.3.0:
   version "2.3.0"
