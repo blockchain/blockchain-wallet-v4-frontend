@@ -1,0 +1,23 @@
+.filter-status {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+
+  & .default {
+    color: lighten($gray-light, 20%);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: normal;
+    cursor: pointer;
+  }
+
+  & .selected {
+    color: $gray-dark;
+    text-decoration: underline;
+    text-transform: uppercase;
+    font-weight: normal;
+    cursor: pointer;
+  }
+}

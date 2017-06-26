@@ -14,7 +14,7 @@ const MenuLeft = (props) => {
       <div className='container'>
         <div className='row'>
           <div className='col-12 align-items-center'>
-            <NavLink className='menu-item' to='/wallet' activeClassName='active' onClick={props.clickOthers}>
+            <NavLink styleName='menu-item' to='/wallet' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-home' />
               <FormattedMessage id='components.layouts.wallet.menuleft.home' defaultMessage='Home' />
             </NavLink>
@@ -22,7 +22,7 @@ const MenuLeft = (props) => {
         </div>
         <div className='row'>
           <div className='col-12'>
-            <NavLink className='menu-item' to='/transactions' activeClassName='active' onClick={props.clickOthers}>
+            <NavLink styleName='menu-item' to='/transactions' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-tx' />
               <FormattedMessage id='components.layouts.wallet.menuleft.transactions' defaultMessage='Transactions' />
             </NavLink>
@@ -30,7 +30,7 @@ const MenuLeft = (props) => {
         </div>
         <div className='row'>
           <div className='col-12'>
-            <NavLink className='menu-item' to='/buy-sell' activeClassName='active' onClick={props.clickOthers}>
+            <NavLink styleName='menu-item' to='/buy-sell' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-bitcoin' />
               <FormattedMessage id='components.layouts.wallet.menuleft.buybitcoin' defaultMessage='Buy bitcoin' />
             </NavLink>
@@ -38,7 +38,7 @@ const MenuLeft = (props) => {
         </div>
         <div className='row'>
           <div className='col-12'>
-            <NavLink className='menu-item' to='/security-center' activeClassName='active' onClick={props.clickOthers}>
+            <NavLink styleName='menu-item' to='/security-center' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-lock' />
               <FormattedMessage id='components.layouts.wallet.menuleft.securitycenter' defaultMessage='Security center' />
             </NavLink>
@@ -46,7 +46,7 @@ const MenuLeft = (props) => {
         </div>
         <div className='row'>
           <div className='col-12'>
-            <NavLink className='menu-item' to='/settings' activeClassName='active' onClick={props.clickSecurityCenter}>
+            <NavLink styleName='menu-item' to='/settings' activeClassName='active' onClick={props.clickSecurityCenter}>
               <i className='icon-settings' />
               <FormattedMessage id='components.layouts.wallet.menuleft.settings' defaultMessage='Settings' />
             </NavLink>
@@ -54,35 +54,35 @@ const MenuLeft = (props) => {
         </div>
         <div className={`row ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`}>
           <div className='col-12'>
-            <NavLink className='menu-item sub' to='/settings/info' activeClassName='active'>
+            <NavLink styleName='menu-item-sub' to='/settings/info' activeClassName='active'>
               <FormattedMessage id='components.layouts.wallet.menuleft.walletinfo' defaultMessage='Wallet information' />
             </NavLink>
           </div>
         </div>
         <div className={`row ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`}>
           <div className='col-12'>
-            <NavLink className='menu-item sub' to='/settings/preferences' activeClassName='active'>
+            <NavLink styleName='menu-item-sub' to='/settings/preferences' activeClassName='active'>
               <FormattedMessage id='components.layouts.wallet.menuleft.preferences' defaultMessage='Preferences' />
             </NavLink>
           </div>
         </div>
         <div className={`row ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`}>
           <div className='col-12'>
-            <NavLink className='menu-item sub' to='/settings/security' activeClassName='active'>
+            <NavLink styleName='menu-item-sub' to='/settings/security' activeClassName='active'>
               <FormattedMessage id='components.layouts.wallet.menuleft.security' defaultMessage='Security' />
             </NavLink>
           </div>
         </div>
         <div className={`row ${props.securityCenterMenuDisplayed ? 'visible' : 'hidden'}`}>
           <div className='col-12'>
-            <NavLink className='menu-item sub' to='/settings/addresses' activeClassName='active'>
+            <NavLink styleName='menu-item-sub' to='/settings/addresses' activeClassName='active'>
               <FormattedMessage id='components.layouts.wallet.menuleft.addresses' defaultMessage='Addresses' />
             </NavLink>
           </div>
         </div>
         <div className='row'>
           <div className='col-12'>
-            <NavLink className='menu-item' to='/faq' activeClassName='active' onClick={props.clickOthers}>
+            <NavLink styleName='menu-item' to='/faq' activeClassName='active' onClick={props.clickOthers}>
               <i className='icon-help' />
               <FormattedMessage id='components.layouts.wallet.menuleft.faq' defaultMessage='Faq' />
             </NavLink>

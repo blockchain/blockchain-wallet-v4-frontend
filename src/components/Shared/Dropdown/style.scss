@@ -57,9 +57,7 @@
     overflow-x: hidden;
     margin-top: -1px;
     background: white;
-    border-bottom: 1px solid $gray-lighter;
-    border-left: 1px solid $gray-lighter;
-    border-right: 1px solid $gray-lighter;
+    border: 1px solid $gray-lighter;
 
     &-closed {
       display: none;
