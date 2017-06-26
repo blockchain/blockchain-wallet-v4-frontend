@@ -83,27 +83,27 @@ DropdownContainer.propTypes = {
   className: PropTypes.string
 }
 
-// DropdownContainer.defaultProps = {
-//   searchEnabled: true,
-//   selected: '',
-//   className: ''
-// }
-
 DropdownContainer.defaultProps = {
-  selected: '',
-  items: [
-    { text: 'text1', value: 'value1' },
-    { text: 'text2', value: 'value2' },
-    { text: 'text3', value: 'value3', group: 'group1' },
-    { text: 'text4', value: 'value4', group: 'group1' },
-    { text: 'text5', value: 'value5', group: 'group2' },
-    { text: 'text6', value: 'value6', group: 'group2' }
-  ],
-  callback: value => {
-    console.log(`callback ${value} !`)
-  },
   searchEnabled: true,
+  selected: '',
   className: ''
 }
+
+// DropdownContainer.defaultProps = {
+//   selected: '',
+//   items: [
+//     { text: 'text1', value: 'value1' },
+//     { text: 'text2', value: 'value2' },
+//     { text: 'text3', value: 'value3', group: 'group1' },
+//     { text: 'text4', value: 'value4', group: 'group1' },
+//     { text: 'text5', value: 'value5', group: 'group2' },
+//     { text: 'text6', value: 'value6', group: 'group2' }
+//   ],
+//   callback: value => {
+//     console.log(`callback ${value} !`)
+//   },
+//   searchEnabled: true,
+//   className: ''
+// }
 
 export default DropdownContainer

@@ -9,7 +9,7 @@ import style from './style.scss'
 const Transactions = (props) => {
   return (
     <div>
-      <MenuTop />
+      <MenuTop {...props} />
       <TransactionList />
     </div>
   )

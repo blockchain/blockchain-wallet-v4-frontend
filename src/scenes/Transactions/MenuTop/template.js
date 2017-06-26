@@ -6,12 +6,13 @@ import FilterStatus from './FilterStatus'
 import Search from './Search'
 import style from './style.scss'
 
-const MenuTop = () => {
+const MenuTop = (props) => {
+  console.log(props)
   return (
     <div className='container-fluid' styleName='menuTop'>
       <div className='row'>
         <div className='col-md-4'>
-          <Dropdown />
+          <Dropdown items={props.addresses} callback={props.changeAddress} selected={props.selectedAddress} />
         </div>
         <div className='col-md-4'>
           <FilterStatus />
