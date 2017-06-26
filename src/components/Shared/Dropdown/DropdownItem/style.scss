@@ -4,9 +4,10 @@
   flex-direction: row;
   align-items: center;
   width: 100%;
-  padding: 0.5rem 1rem;  
+  padding: 0.5rem 1rem; 
+  font-weight: 300;
 
   &:hover {
-    background-color: $gray-lighter;
+    background-color: $gray-lightest;
   }
 }

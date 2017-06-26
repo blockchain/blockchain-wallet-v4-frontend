@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 
+import DropdownHeader from './DropdownHeader'
 import DropdownItem from './DropdownItem'
 
 import style from './style.scss'
 
 const Dropdown = (props) => {
-  console.log(props)
   return (
     <div styleName='dropdown' className={props.className}>
       { (!props.opened | !props.searchEnabled) ? (
@@ -16,11 +16,13 @@ const Dropdown = (props) => {
         <input type='text' styleName='search' onChange={props.change} autoFocus />
       )}
       <div styleName={`${props.opened ? 'dropdown-list' : 'dropdown-list-closed'}`} >
-        { props.items.map((item, index) => {
-          return (
+        { props.items.map((item, index) =>
+          (item.value == null) ? (
+            <DropdownHeader key={index} text={item.text} />
+          ) : (
             <DropdownItem key={index} text={item.text} value={item.value} click={props.click} />
-          )
-        })}
+          ))
+        }
       </div>
     </div>
   )
@@ -29,7 +31,7 @@ const Dropdown = (props) => {
 Dropdown.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     group: PropTypes.string
   })),
   display: PropTypes.string.isRequired,

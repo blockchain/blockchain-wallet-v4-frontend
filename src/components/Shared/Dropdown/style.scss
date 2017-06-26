@@ -1,11 +1,6 @@
 
 .dropdown {
   max-width: 400px;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
-  font-size: 0.9rem;
-  font-weight: normal;
-  color: $text;
-  text-transform: capitalize;
 
   & .btn {
     display: flex;
@@ -21,7 +16,7 @@
     border: 1px solid $gray-lighter;
     font-family: 'Montserrat', 'Helvetica', sans-serif !important;
     font-size: 0.9rem;
-    font-weight: normal;
+    font-weight: 300;
     color: $text;
     text-transform: capitalize;
     cursor: pointer;
