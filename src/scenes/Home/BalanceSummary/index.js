@@ -16,8 +16,10 @@ class BalanceSummaryContainer extends React.Component {
 }
 
 function mapStateToProps (state, ownProps) {
+  let accountsBalances = selectors.core.common.getAccountsBalances(state)
+  let aggregatedLegacyAddressesBalances = selectors.core.common.getAggregatedAddressesBalances(state)
   return {
-    balances: selectors.core.common.getLabelBalances(state),
+    balances: [...accountsBalances, aggregatedLegacyAddressesBalances],
     bitcoinDisplayed: selectors.ui.getBitcoinDisplayed(state)
   }
 }

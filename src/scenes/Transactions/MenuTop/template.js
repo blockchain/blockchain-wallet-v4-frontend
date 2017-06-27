@@ -7,12 +7,11 @@ import Search from './Search'
 import style from './style.scss'
 
 const MenuTop = (props) => {
-  console.log(props)
   return (
     <div className='container-fluid' styleName='menuTop'>
       <div className='row'>
         <div className='col-md-4'>
-          <Dropdown items={props.addresses} callback={props.changeAddress} selected={props.selectedAddress} />
+          <Dropdown items={props.addresses} callback={props.changeAddress} selected={props.onlyShow} />
         </div>
         <div className='col-md-4'>
           <FilterStatus />

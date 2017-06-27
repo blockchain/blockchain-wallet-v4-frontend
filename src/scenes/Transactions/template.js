@@ -9,8 +9,12 @@ import style from './style.scss'
 const Transactions = (props) => {
   return (
     <div styleName='transactions'>
-      <MenuTop {...props} />
-      <TransactionList {...props} />
+      <MenuTop
+        onlyShow={props.onlyShow}
+        changeAddress={props.changeAddress}
+        addresses={props.addresses}
+      />
+      <TransactionList />
     </div>
   )
 }
