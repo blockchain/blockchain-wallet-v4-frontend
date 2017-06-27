@@ -5,7 +5,7 @@ import style from './style.scss'
 
 const WhatsNew = () => {
   return (
-    <div styleName='whats-new'>Whats New</div>
+    <div styleName='whats-new' />
   )
 }
 

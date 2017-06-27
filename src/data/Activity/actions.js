@@ -1,8 +1,7 @@
-export const FETCH_ACTIVITIES = 'FETCH_ACTIVITIES'
-export const fetchActivities = () => ({ type: FETCH_ACTIVITIES })
+import * as AT from './actionTypes'
 
-export const FETCH_ACTIVITIES_SUCCESSFUL = 'FETCH_ACTIVITIES_SUCCESSFUL'
-export const fetchActivitiesSuccessful = (activities) => ({ type: FETCH_ACTIVITIES_SUCCESSFUL, activities })
+export const fetchActivities = () => ({ type: AT.FETCH_ACTIVITIES })
 
-export const FETCH_ACTIVITIES_FAILED = 'FETCH_ACTIVITIES_FAILED'
-export const fetchActivitiesFailed = (error) => ({ type: FETCH_ACTIVITIES_FAILED, error })
+export const fetchActivitiesSuccessful = (activities) => ({ type: AT.FETCH_ACTIVITIES_SUCCESSFUL, activities })
+
+export const fetchActivitiesFailed = (error) => ({ type: AT.FETCH_ACTIVITIES_FAILED, error })

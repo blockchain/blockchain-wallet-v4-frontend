@@ -1,2 +1,5 @@
-export const SET_CULTURE = 'SET_CULTURE'
-export const setCulture = (payload) => ({ type: SET_CULTURE, payload })
+import * as AT from './actionTypes'
+
+export const setCulture = (payload) => ({ type: AT.SET_CULTURE, payload })
+
+export const setLanguage = (payload) => ({ type: AT.SET_LANGUAGE, payload })

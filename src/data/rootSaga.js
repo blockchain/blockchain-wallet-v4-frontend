@@ -8,7 +8,7 @@ import { coreSagas } from 'dream-wallet/lib'
 import authSagas from './Auth/sagas.js'
 import activitySagas from './Activity/sagas.js'
 import { handleTimer } from './Alerts/sagas.js'
-import { actions } from 'data'
+import { actionTypes } from 'data'
 
 const dataPath = settings.BLOCKCHAIN_DATA_PATH
 const settingsPath = settings.SETTINGS_PATH
@@ -19,9 +19,9 @@ function * sagas () {
     // here you can put an array of sagas in forks
     fork(coreSagas.rootSaga({api, dataPath, walletPath, settingsPath}))
   ]
-  yield takeEvery(actions.auth.LOGIN_START, authSagas.login)
-  yield takeLatest(actions.activity.FETCH_ACTIVITIES, activitySagas.fetchActivities)
-  yield takeEvery(actions.alerts.ALERTS_SHOW, handleTimer)
+  yield takeEvery(actionTypes.auth.LOGIN_START, authSagas.login)
+  yield takeLatest(actionTypes.activity.FETCH_ACTIVITIES, activitySagas.fetchActivities)
+  yield takeEvery(actionTypes.alerts.ALERTS_SHOW, handleTimer)
 }
 
 export default sagas

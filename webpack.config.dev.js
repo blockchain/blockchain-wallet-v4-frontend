@@ -3,10 +3,9 @@ let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const PATHS = {
-  dist: `${__dirname}/dist`,
   build: `${__dirname}/build`,
-  src: `${__dirname}/src`,
-  sass: `${__dirname}/src/sass`
+  npm: `${__dirname}/node_modules`,
+  src: `${__dirname}/src`
 }
 
 module.exports = {
@@ -14,24 +13,25 @@ module.exports = {
     PATHS.src + '/index.js'
   ],
   output: {
-    path: PATHS.dist,
+    path: PATHS.build,
     filename: 'bundle.js',
     publicPath: '/'
   },
   resolve: {
     alias: {
-      'npm': `${__dirname}/node_modules`,
-      'fonts': `${__dirname}/src/assets/fonts`,
-      'img': `${__dirname}/src/assets/img`,
-      'locales': `${__dirname}/src/assets/locales`,
-      'sass': `${__dirname}/src/assets/sass`,   
-      'components': `${__dirname}/src/components`,
-      'data': `${__dirname}/src/data`,
-      'middleware': `${__dirname}/src/middleware`,
-      'scenes': `${__dirname}/src/scenes`,
-      'services': `${__dirname}/src/services`,
-      'config': `${__dirname}/src/config.js`
-    }
+      'npm': PATHS.npm,
+      'fonts': PATHS.src + '/assets/fonts',
+      'img': PATHS.src + '/assets/img',
+      'locales': PATHS.src + '/assets/locales',
+      'sass': PATHS.src + '/assets/sass',
+      'components': PATHS.src + '/components',
+      'data': PATHS.src + '/data',
+      'middleware': PATHS.src + '/middleware',
+      'scenes': PATHS.src + '/scenes',
+      'services': PATHS.src + '/services',
+      'config': PATHS.src + '/config.js'
+    },
+    symlinks: false
   },
   module: {
     rules: [
@@ -40,7 +40,26 @@ module.exports = {
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
-          options: { }
+          options: {
+            'plugins': [
+              ['module-resolver', {
+                'root': [PATHS.src],
+                'alias': {
+                  'npm': PATHS.npm,
+                  'fonts': PATHS.src + '/assets/fonts',
+                  'img': PATHS.src + '/assets/img',
+                  'locales': PATHS.src + '/assets/locales',
+                  'sass': PATHS.src + '/assets/sass',
+                  'components': PATHS.src + '/components',
+                  'data': PATHS.src + '/data',
+                  'middleware': PATHS.src + '/middleware',
+                  'scenes': PATHS.src + '/scenes',
+                  'services': PATHS.src + '/services',
+                  'config': PATHS.src + '/config.js'
+                }
+              }]
+            ]
+          }
         }]
       },
       {
@@ -63,7 +82,7 @@ module.exports = {
               loader: 'sass-resources-loader',
               options: {
                 resources: [
-                  'src/assets/sass/resources/**/*.scss'
+                  PATHS.src + '/assets/sass/resources/**/*.scss'
                 ]
               }
             }
@@ -93,8 +112,8 @@ module.exports = {
               loader: 'sass-resources-loader',
               options: {
                 resources: [
-                  'src/assets/sass/resources/**/*.scss',
-                  'node_modules/bootstrap/scss/mixins/**/*.scss'
+                  PATHS.src + '/assets/sass/resources/**/*.scss',
+                  PATHS.npm + '/bootstrap/scss/mixins/**/*.scss'
                 ]
               }
             }

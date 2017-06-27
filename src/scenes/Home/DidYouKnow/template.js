@@ -1,17 +1,17 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import CSSModules from 'react-css-modules'
 
-import Translate from 'components/Shared/Translate'
 import style from './style.scss'
 
 const DidYouKnow = (props) => {
   return (
     <div className='container-fluid' styleName='did-you-know'>
       <div className='row padding-bottom-20 justify-content-between'>
-        <div className='col-auto'>
-          <Translate className='h6 text-capitalize' translate='DYK' />
+        <div className='col-auto h6 text-capitalize'>
+          <FormattedMessage id='scenes.home.didyouknow.title' defaultMessage='Did you know?' />
         </div>
         <div className='col-auto'>
           <span className={'h6 text-uppercase ' + props.info.category.color}>{props.info.category.name}</span>

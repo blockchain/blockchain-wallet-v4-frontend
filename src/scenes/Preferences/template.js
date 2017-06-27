@@ -1,9 +1,9 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import CSSModules from 'react-css-modules'
 
 import InfoWell from 'components/Shared/InfoWell'
 import SettingRow from 'components/Shared/SettingRow'
-import Translate from 'components/Shared/Translate'
 
 import EmailAddress from './EmailAddress'
 import MobileNumber from './MobileNumber'
@@ -17,11 +17,11 @@ import Themes from './Themes'
 
 import style from './style.scss'
 
-const Preferences = () => {
+const Preferences = (props) => {
   return (
     <section styleName='preferences'>
       <InfoWell>
-        <Translate translate='PREFERENCES_EXPLAIN' />
+        <FormattedMessage id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
       </InfoWell>
       <SettingRow component={EmailAddress} />
       <SettingRow component={MobileNumber} />
