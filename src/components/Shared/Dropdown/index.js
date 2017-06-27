@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { filter, prop, startsWith, compose, groupBy, mapObjIndexed, values, keys, zipWith, prepend, flatten } from 'ramda'
+import { toUpper, filter, prop, startsWith, compose, groupBy, mapObjIndexed, values, keys, zipWith, prepend, flatten } from 'ramda'
 
 import Dropdown from './template.js'
 
@@ -26,7 +26,7 @@ class DropdownContainer extends React.Component {
   }
 
   filterItems (value) {
-    return filter(x => startsWith(value, x.text), this.props.items)
+    return filter(x => startsWith(toUpper(value), toUpper(x.text)), this.props.items)
   }
 
   transformItems (items) {

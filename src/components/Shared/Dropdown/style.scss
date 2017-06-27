@@ -1,7 +1,10 @@
 
 .dropdown {
-  max-width: 400px;
-
+  position: relative;
+  display: block;
+  width: 100%;
+  z-index: 1;
+  
   & .btn {
     display: flex;
     flex-direction: row;
@@ -47,17 +50,20 @@
   }
 
   & .dropdown-list {
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: left;
+    order: 1;
     width: 100%;
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
     margin-top: -1px;
-    background: white;
+    background-color: white;
     border: 1px solid $gray-lighter;
+    z-index:100;
 
     &-closed {
       display: none;

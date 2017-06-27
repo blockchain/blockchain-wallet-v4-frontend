@@ -1,11 +1,9 @@
 
 .dropdown-list-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   width: 100%;
   padding: 0.5rem 1rem; 
   font-weight: 300;
+  cursor: pointer;
 
   &:hover {
     background-color: $gray-lightest;
