@@ -32,7 +32,7 @@ const TransactionListItem = (props) => {
           <FormattedMessage id='scenes.transactions.transactionlist.transactionlistitem.to' defaultMessage='From : {from}' values={{ from: props.transaction.from }} />
         </div>
         <div className='col-3'>
-          {props.transaction.description
+          {props.transaction.description !== ''
             ? <span>{props.transaction.description}<i className='primary pointer pl-5' /></span>
             : <span className='pointer'>Add a description</span>
           }
