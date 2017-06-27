@@ -10,9 +10,14 @@ const Transactions = (props) => {
   return (
     <div styleName='transactions'>
       <MenuTop
-        onlyShow={props.onlyShow}
-        changeAddress={props.changeAddress}
+        addressFilter={props.addressFilter}
+        selectAddress={props.selectAddress}
         addresses={props.addresses}
+        typeFilter={props.typeFilter}
+        selectType={props.selectType}
+        types={props.types}
+        searchFilter={props.searchFilter}
+        selectSearch={props.selectSearch}
       />
       <TransactionList />
     </div>

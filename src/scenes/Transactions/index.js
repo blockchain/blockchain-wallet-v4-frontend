@@ -11,23 +11,49 @@ const renameKeys = curry((keysMap, obj) => reduce((acc, key) => assoc(keysMap[ke
 class TransactionsContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.changeAddress = this.changeAddress.bind(this)
+    this.selectAddress = this.selectAddress.bind(this)
     this.addresses = [
       { text: 'All Wallets', value: '' },
       ...map(renameKeys({title: 'text', address: 'value'}))(this.props.balances)
     ]
+    this.selectType = this.selectType.bind(this)
+    this.types = [
+      { text: 'All', value: '' },
+      { text: 'Received', value: 'received' },
+      { text: 'Sent', value: 'sent' },
+      { text: 'Transferred', value: 'transferred' }
+    ]
+    this.selectSearch = this.selectSearch.bind(this)
   }
 
-  changeAddress (value) {
-    this.props.tActions.setOnlyShow({onlyShow: value})
+  selectAddress (value) {
+    if (this.props.addressFilter !== value) {
+      // only dispatch if the filter changed
+      this.props.tActions.setAddressFilter(value)
+    }
+  }
+
+  selectType (value) {
+    this.props.tActions.setTypeFilter(value)
+  }
+
+  selectSearch (value) {
+    this.props.tActions.setSearchFilter(value)
   }
 
   render () {
     return (
       <Transactions
-        onlyShow={this.props.OnlyShow}
-        changeAddress={this.changeAddress}
+        addressFilter={this.props.addressFilter}
+        selectAddress={this.selectAddress}
         addresses={this.addresses}
+
+        typeFilter={this.props.typeFilter}
+        selectType={this.selectType}
+        types={this.types}
+
+        searchFilter={this.props.searchFilter}
+        selectSearch={this.selectSearch}
       />
     )
   }
@@ -38,7 +64,9 @@ const mapStateToProps = (state, ownProps) => {
   const legacyAddressesBalances = map(assoc('group', 'Imported Addresses'), selectors.core.common.getAddressesBalances(state))
   return {
     balances: [...accountsBalances, ...legacyAddressesBalances],
-    onlyShow: selectors.core.transactions.getOnlyShow(state)
+    addressFilter: selectors.core.transactions.getAddressFilter(state),
+    typeFilter: selectors.core.transactions.getTypeFilter(state),
+    searchFilter: selectors.core.transactions.getSearchFilter(state)
   }
 }
 

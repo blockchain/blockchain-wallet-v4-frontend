@@ -23,7 +23,6 @@ class NavigationContainer extends React.Component {
   }
 
   render () {
-    console.log(this.props.location)
     return (
       <Navigation
         location={this.props.location}

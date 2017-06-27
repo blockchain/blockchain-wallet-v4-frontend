@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+// import { isEmpty, filter, propSatisfies, toUpper } from 'ramda'
 import { isEmpty } from 'ramda'
 import { selectors, actions } from 'data'
 import TransactionList from './template.js'
@@ -12,12 +13,12 @@ class TransactionListContainer extends React.Component {
 
   componentWillMount () {
     if (isEmpty(this.props.transactions)) {
-      this.props.tActions.requestTxs({onlyShow: this.props.onlyShow, n: txsPerPage})
+      this.props.tActions.requestTxs(this.props.addressFilter, txsPerPage)
     }
   }
   componentWillUpdate (nextProps) {
-    if (this.props.onlyShow !== nextProps.onlyShow) {
-      this.props.tActions.requestTxs({onlyShow: nextProps.onlyShow, n: txsPerPage})
+    if (this.props.addressFilter !== nextProps.addressFilter) {
+      this.props.tActions.requestTxs(nextProps.addressFilter, txsPerPage)
     }
   }
 
@@ -31,7 +32,7 @@ class TransactionListContainer extends React.Component {
 function mapStateToProps (state) {
   return {
     transactions: selectors.core.common.getWalletTransactions(state),
-    onlyShow: selectors.core.transactions.getOnlyShow(state)
+    addressFilter: selectors.core.transactions.getAddressFilter(state)
   }
 }
 

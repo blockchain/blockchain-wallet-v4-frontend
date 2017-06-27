@@ -11,13 +11,13 @@ const MenuTop = (props) => {
     <div className='container-fluid' styleName='menuTop'>
       <div className='row'>
         <div className='col-md-4'>
-          <Dropdown items={props.addresses} callback={props.changeAddress} selected={props.onlyShow} />
+          <Dropdown items={props.addresses} callback={props.selectAddress} selected={props.addressFilter} />
         </div>
         <div className='col-md-4'>
-          <FilterStatus />
+          <FilterStatus items={props.types} selected={props.typeFilter} callback={props.selectType} />
         </div>
         <div className='col-md-4'>
-          <Search />
+          <Search selected={props.searchFilter} callback={props.selectSearch} />
         </div>
       </div>
     </div>

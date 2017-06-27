@@ -6,7 +6,6 @@ import { selectors } from 'data'
 import WalletLayout from './template.js'
 
 const WalletLayoutContainer = ({component: Component, ...rest}) => {
-  console.log(rest)
   return (
     <Route {...rest} render={props => (
     // rest.isAuthenticated
