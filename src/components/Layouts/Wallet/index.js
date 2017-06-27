@@ -4,6 +4,8 @@ import { Route } from 'react-router-dom'
 
 import { selectors } from 'data'
 
+import Alerts from 'components/Shared/Alerts'
+
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
@@ -14,6 +16,7 @@ const WalletLayout = ({component: Component, ...rest}) => {
     // rest.isAuthenticated
     // ? (
       <div className='container-fluid no-padding h-100'>
+        <Alerts />
         <div className='row no-gutters fixed-top'>
           <div className='col'>
             <Header />
