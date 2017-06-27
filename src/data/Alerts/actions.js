@@ -1,6 +1,4 @@
-export const ALERTS_CLEAR = 'ALERTS_CLEAR'
-export const ALERTS_DISMISS = 'ALERTS_DISMISS'
-export const ALERTS_SHOW = 'ALERTS_SHOW'
+import { ALERTS_CLEAR, ALERTS_DISMISS, ALERTS_SHOW } from './actionTypes'
 
 const DISMISS_AFTER = 7000
 

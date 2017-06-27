@@ -1,5 +1,5 @@
 import { prepend, filter } from 'ramda'
-import { ALERTS_CLEAR, ALERTS_SHOW, ALERTS_DISMISS } from './actions'
+import { ALERTS_CLEAR, ALERTS_SHOW, ALERTS_DISMISS } from './actionTypes'
 
 const INITIAL_STATE = []
 
