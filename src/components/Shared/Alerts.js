@@ -1,7 +1,18 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
-import style from './style.scss'
+import styled from 'styled-components'
+import { selectAlerts } from 'data/Alerts/selectors'
+import * as actions from 'data/Alerts/actions'
+
+const AlertsList = styled.div`
+  top: 16px;
+  right: 16px;
+  z-index: 1051;
+  position: fixed;
+  min-width: 300px;
+`
 
 const alertFactory = ({ onDismiss }) => ({ type, message, id }) => (
   <div key={id} className={`alert alert-${type} alert-dismissable`}>
@@ -12,12 +23,12 @@ const alertFactory = ({ onDismiss }) => ({ type, message, id }) => (
   </div>
 )
 
-const Alerts = ({ alerts, dismissAlert }) => {
+export const Alerts = ({ alerts, dismissAlert }) => {
   let createAlert = alertFactory({ onDismiss: dismissAlert })
   return (
-    <div styleName='alerts'>
+    <AlertsList>
       {alerts.filter(a => !a.dismissed).map(createAlert)}
-    </div>
+    </AlertsList>
   )
 }
 
@@ -28,4 +39,7 @@ Alerts.propTypes = {
   }))
 }
 
-export default CSSModules(Alerts, style)
+let mapStateToProps = (state) => ({ alerts: selectAlerts(state) })
+let mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Alerts)
