@@ -1,11 +1,11 @@
-import * as A from './actions.js'
+import * as T from './actionTypes.js'
 
 const INITIAL_STATE = {}
 
 const ratesReducer = (state = INITIAL_STATE, action) => {
   let { type } = action
   switch (type) {
-    case A.RATES_DATA_LOAD: {
+    case T.RATES_DATA_LOAD: {
       let { payload } = action
       return payload
     }

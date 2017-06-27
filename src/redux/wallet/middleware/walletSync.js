@@ -1,4 +1,5 @@
 import * as A from '../actions'
+import * as T from '../actionTypes'
 
 const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (next) => (action) => {
   const prevWallet = store.getState()[walletPath]
@@ -11,17 +12,17 @@ const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (ne
   // the initial_state check could be done against full payload state
 
   if ((wasAuth && isAuth) &&
-      // action.type !== A.PAYLOAD_CHECKSUM_CHANGE &&
-      prevWallet !== nextWallet) {
-      api.saveWallet(nextWallet).then(checksum => {
-        store.dispatch(A.syncStart())
-        // store.dispatch(A.changePayloadChecksum(checksum))
-        return checksum
-      }).then(
-        (cs) => store.dispatch(A.syncSuccess(cs))
-      ).catch(
-        (error) => store.dispatch(A.syncError(error))
-      )
+    // action.type !== A.PAYLOAD_CHECKSUM_CHANGE &&
+    prevWallet !== nextWallet) {
+    api.saveWallet(nextWallet).then(checksum => {
+      store.dispatch(A.syncStart())
+      // store.dispatch(A.changePayloadChecksum(checksum))
+      return checksum
+    }).then(
+      (cs) => store.dispatch(A.syncSuccess(cs))
+    ).catch(
+      (error) => store.dispatch(A.syncError(error))
+    )
   }
 
   // if (action.type === A.WALLET_NEW_SET && prevWallet !== nextWallet) { // wallet signup

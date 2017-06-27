@@ -1,0 +1,1 @@
+export const ADDRESSES_DATA_LOAD = '@v3.ADDRESSES_DATA_LOAD'

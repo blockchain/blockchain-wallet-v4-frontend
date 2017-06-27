@@ -1,15 +1,15 @@
 import { combineReducers } from 'redux'
 
-import * as A from './actions.js'
+import * as T from './actionTypes.js'
 
 const list = (state = [], action) => {
   const { type } = action
   switch (type) {
-    case A.CONTEXT_TXS_LOAD: {
+    case T.CONTEXT_TXS_LOAD: {
       const { payload } = action
       return state.concat(payload.txs)
     }
-    case A.SET_ADDRESS_FILTER: {
+    case T.SET_ADDRESS_FILTER: {
       return []
     }
     default:
@@ -20,7 +20,7 @@ const list = (state = [], action) => {
 const addressFilter = (state = '', action) => {
   const { type } = action
   switch (type) {
-    case A.SET_ADDRESS_FILTER: {
+    case T.SET_ADDRESS_FILTER: {
       const { payload } = action
       return payload.addressFilter
     }
@@ -32,7 +32,7 @@ const addressFilter = (state = '', action) => {
 const typeFilter = (state = '', action) => {
   const { type } = action
   switch (type) {
-    case A.SET_TYPE_FILTER: {
+    case T.SET_TYPE_FILTER: {
       const { payload } = action
       return payload.typeFilter
     }
@@ -44,7 +44,7 @@ const typeFilter = (state = '', action) => {
 const searchFilter = (state = '', action) => {
   const { type } = action
   switch (type) {
-    case A.SET_SEARCH_FILTER: {
+    case T.SET_SEARCH_FILTER: {
       const { payload } = action
       return payload.searchFilter
     }

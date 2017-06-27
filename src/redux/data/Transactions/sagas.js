@@ -2,6 +2,7 @@ import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { prop, compose } from 'ramda'
 
 import * as A from './actions'
+import * as T from './actionTypes'
 import { Wrapper, Wallet } from '../../../types'
 import { getTransactions } from './selectors'
 
@@ -20,6 +21,6 @@ export const transactionsSaga = ({ api, walletPath, dataPath } = {}) => {
   }
 
   return function * () {
-    yield takeEvery(A.TXS_LOAD_REQUEST, loadTransactions)
+    yield takeEvery(T.TXS_LOAD_REQUEST, loadTransactions)
   }
 }

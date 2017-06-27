@@ -1,11 +1,11 @@
-import * as A from './actions'
+import * as T from './actionTypes'
 
 const INITIAL_STATE = {}
 
 const settingsReducer = (state = INITIAL_STATE, action) => {
   let { type } = action
   switch (type) {
-    case A.SETTINGS_DATA_LOAD: {
+    case T.SETTINGS_DATA_LOAD: {
       let { payload } = action
       return payload
     }

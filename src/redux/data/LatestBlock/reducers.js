@@ -1,12 +1,12 @@
-import * as A from './actions.js'
+import * as T from './actionTypes.js'
 
 const INITIAL_STATE = {}
 
 const latestBlockReducer = (state = INITIAL_STATE, action) => {
-  let { type } = action
+  const { type } = action
   switch (type) {
-    case A.LATEST_BLOCK_DATA_LOAD: {
-      let { payload } = action
+    case T.LATEST_BLOCK_DATA_LOAD: {
+      const { payload } = action
       return payload
     }
     default:
