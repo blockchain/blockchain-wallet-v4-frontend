@@ -39,3 +39,8 @@ html, body {
   height: 100%;
   width: 100%;
 }
+
+.scrollable {
+  background-color: yellow;
+  overflow-y: scroll;
+}

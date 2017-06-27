@@ -8,7 +8,7 @@ import style from './style.scss'
 
 const Transactions = (props) => {
   return (
-    <div>
+    <div styleName='transactions'>
       <MenuTop {...props} />
       <TransactionList {...props} />
     </div>
