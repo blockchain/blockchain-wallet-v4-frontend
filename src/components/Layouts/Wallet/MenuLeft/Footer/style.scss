@@ -1,4 +1,16 @@
 
 .footer {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 10px;
+}
+
+.circle {
+  width: 5px;
+  height:5px;
+  border: 1px solid $gray-light;
+  @include border-radius(50%);
 }

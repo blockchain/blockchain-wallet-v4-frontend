@@ -1,39 +1,8 @@
 
 .menu-left {
-  padding-top: 30px;
-  width: 300px;
-}
-
-.menu-item {
   display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  padding: 5px 12px;
-  @include box-sizing(border-box);
-  text-decoration: none;
-  text-transform: uppercase;
-  font-size: 13px;
-  font-weight: 400;
-  color: $gray-light;
-  
-  &:focus {
-    text-decoration: none;
-  }
-
-  &:hover {
-    text-decoration: none;
-  }
-
-  & i {
-    display: block;
-    font-size: 20px;
-    width: 40px;
-  }
-}
-
-.menu-item-sub {
-  @extend .menu-item;
-  text-transform: none;
-  padding-left: 50px;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  background-color: $gray-lightest;
 }

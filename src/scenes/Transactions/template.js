@@ -10,7 +10,7 @@ const Transactions = (props) => {
   return (
     <div>
       <MenuTop {...props} />
-      <TransactionList />
+      <TransactionList {...props} />
     </div>
   )
 }
