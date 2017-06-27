@@ -109,8 +109,6 @@ const createApi = ({
       language: 'en',
       no_buttons: true
     }
-    // let url = `${rootUrl}multiaddr?active=${context.join('|')}&cors=true&n=${n}&offset=${offset}`
-    // return fetch(url).then(res => res.json())
     return request('POST', 'multiaddr', data)
   }
 

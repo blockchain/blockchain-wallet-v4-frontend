@@ -9,7 +9,7 @@ const list = (state = [], action) => {
       const { payload } = action
       return state.concat(payload.txs)
     }
-    case A.SET_ONLY_SHOW: {
+    case A.SET_ADDRESS_FILTER: {
       return []
     }
     default:
@@ -17,12 +17,36 @@ const list = (state = [], action) => {
   }
 }
 
-const onlyShow = (state = '', action) => {
+const addressFilter = (state = '', action) => {
   const { type } = action
   switch (type) {
-    case A.SET_ONLY_SHOW: {
+    case A.SET_ADDRESS_FILTER: {
       const { payload } = action
-      return payload.onlyShow
+      return payload.addressFilter
+    }
+    default:
+      return state
+  }
+}
+
+const typeFilter = (state = '', action) => {
+  const { type } = action
+  switch (type) {
+    case A.SET_TYPE_FILTER: {
+      const { payload } = action
+      return payload.typeFilter
+    }
+    default:
+      return state
+  }
+}
+
+const searchFilter = (state = '', action) => {
+  const { type } = action
+  switch (type) {
+    case A.SET_SEARCH_FILTER: {
+      const { payload } = action
+      return payload.searchFilter
     }
     default:
       return state
@@ -31,7 +55,9 @@ const onlyShow = (state = '', action) => {
 
 const txsReducer = combineReducers({
   list,
-  onlyShow
+  addressFilter,
+  typeFilter,
+  searchFilter
 })
 
 export default txsReducer

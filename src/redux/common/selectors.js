@@ -1,7 +1,7 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap } from '../../types'
-import { prop, compose, assoc, map, path, reduce } from 'ramda'
+import { allPass, anyPass, contains, prop, compose, assoc, map, path, reduce, propSatisfies, toUpper, curry, filter } from 'ramda'
 import { getBalances } from '../data/Addresses/selectors.js'
-import { getTransactions } from '../data/Transactions/selectors.js'
+import { getTransactions, getTypeFilter, getSearchFilter } from '../data/Transactions/selectors.js'
 import { getHeight } from '../data/LatestBlock/selectors.js'
 import { transformTx } from '../services/transactions.js'
 // ---------------------------------------------------------------------------------------------
@@ -34,10 +34,26 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
     return assoc('title', 'Imported Addresses', reduce(adder, {amount: 0}, ls))
   }
 
+  // search :: String -> Object -> Boolean
+  const isOfType = curry((filter, tx) =>
+    propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
+  // search :: String -> String -> Object -> Boolean
+  const search = curry((text, property, tx) =>
+    compose(contains(toUpper(text)), toUpper, prop(property))(tx))
+
+  // getWalletTransactions :: state -> [Tx]
   const getWalletTransactions = state => {
     const wallet = compose(Wrapper.selectWallet, prop(walletPath))(state)
     const currentBlockHeight = compose(getHeight, prop(dataPath))(state)
-    return compose(map(transformTx(wallet, currentBlockHeight)), getTransactions, prop(dataPath))(state)
+    const typeFilter = compose(getTypeFilter, prop(dataPath))(state)
+    const searchFilter = compose(getSearchFilter, prop(dataPath))(state)
+    const searchPredicate = anyPass(map(search(searchFilter), ['description', 'from', 'to']))
+    const fullPredicate = allPass([isOfType(typeFilter), searchPredicate])
+
+    return compose(filter(fullPredicate),
+                   map(transformTx(wallet, currentBlockHeight)),
+                   getTransactions,
+                   prop(dataPath))(state)
   }
   return {
     getActiveHDAccounts: getActiveHDAccounts,

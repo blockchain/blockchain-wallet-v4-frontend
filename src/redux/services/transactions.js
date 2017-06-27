@@ -1,7 +1,7 @@
 import { Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap,
          TXNotes, Address, HDAccount, AddressBook, AddressBookEntry } from '../../types'
-import { prop, compose, curry, mapAccum, isNil, not,
-         propSatisfies, ifElse, always, propEq, propOr, find } from 'ramda'
+import { prop, compose, curry, mapAccum, isNil, not, length, findIndex, view,
+         propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex } from 'ramda'
 
 // ---------------------------------------------------------------------------------------------
 const unpackInput = prop('prev_out')
@@ -14,14 +14,15 @@ const receiveIndex = coin => {
   if (!coin.xpub.path.split('/').length === 3) return
   return parseInt(coin.xpub.path.substr(1).split('/')[2])
 }
-
 // const isCoinBase = (input) => (input == null || input.prev_out == null || input.prev_out.addr == null)
+const isCoinBase = (inputs) => (inputs.length === 1 && inputs[0].prev_out == null)
+
 // function unpackInput (input) {
 //   if (isCoinBase(input)) {
-//     var totalOut = this.out.reduce(function (sum, out) { return sum + out.value; }, 0);
-//     return {addr: 'Coinbase', value: totalOut};
+//     var totalOut = this.out.reduce(function (sum, out) { return sum + out.value }, 0)
+//     return {addr: 'Coinbase', value: totalOut}
 //   } else {
-//     return input.prev_out;
+//     return input.prev_out
 //   }
 // }
 
@@ -135,6 +136,19 @@ const selectFromAndto = (inputs, outputs) => {
   }
 }
 
+const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
+  if (inputs && inputs[0].coinType === 'legacy' && inputData.internal === inputData.total) {
+    const address = inputs[0].address
+    const index = findIndex(propEq('address', address))(outputs)
+    if (index < 0) return [outputData, outputs] // no change
+    const newOutputs = over(compose(lensIndex(index), lensProp('change')), not, outputs)
+    const change = view(compose(lensIndex(index), lensProp('amount')), outputs)
+    const newOutputData = over(lensProp('change'), c => c + change, outputData)
+    return [newOutputData, newOutputs]
+  } else {
+    return [outputData, outputs]
+  }
+}
 // ---------------------------------------------------------------------------------------------
 export const transformTx = curry((wallet, currentBlockHeight, tx) => {
   const txNotes = Wallet.selectTxNotes(wallet)
@@ -143,15 +157,22 @@ export const transformTx = curry((wallet, currentBlockHeight, tx) => {
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(tagCoin(wallet), unpackInput)
   const outputTagger = tagCoin(wallet)
+  const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
+  // if (isCoinBase(prop('inputs', tx))) {
+  // [inputData, inputs] = ifElse(
+  //   compose(isCoinBase, prop('inputs')),
+  //   always([{ total: oData.total, internal: 0, isWatchOnly: false, change: 0 }, [{ address: 'coinbase', amount: oData.total, change: false, coinType: 'external', label: 'coinbase', isWatchOnly: false }]]),
+  //   t => mapAccum(appender(inputTagger), init, prop('inputs', t))
+  // )(tx)
   const [inputData, inputs] = mapAccum(appender(inputTagger), init, prop('inputs', tx))
-  const [outputData, outputs] = mapAccum(appender(outputTagger), init, prop('out', tx))
+  const [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)
   const { from, to } = selectFromAndto(inputs, outputs)
   return ({
     double_spend: tx.double_spend,
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
     type: type,
-    description: TXNotes.selectNote(tx.hash, txNotes),
+    description: TXNotes.selectNote(tx.hash, txNotes) || '',
     time: tx.time,
     fee: tx.fee,
     confirmations: confirmations,
