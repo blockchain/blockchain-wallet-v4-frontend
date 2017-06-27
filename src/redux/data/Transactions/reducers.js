@@ -1,20 +1,37 @@
+import { combineReducers } from 'redux'
+
 import * as A from './actions.js'
 
-const INITIAL_STATE = []
-
-const txsReducer = (state = INITIAL_STATE, action) => {
-  let { type } = action
+const list = (state = [], action) => {
+  const { type } = action
   switch (type) {
     case A.CONTEXT_TXS_LOAD: {
-      let { payload } = action
-      return payload
+      const { payload } = action
+      return state.concat(payload.txs)
     }
-    case A.CONTEXT_TXS_CLEAR: {
-      return INITIAL_STATE
+    case A.SET_ONLY_SHOW: {
+      return []
     }
     default:
       return state
   }
 }
+
+const onlyShow = (state = '', action) => {
+  const { type } = action
+  switch (type) {
+    case A.SET_ONLY_SHOW: {
+      const { payload } = action
+      return payload.onlyShow
+    }
+    default:
+      return state
+  }
+}
+
+const txsReducer = combineReducers({
+  list,
+  onlyShow
+})
 
 export default txsReducer

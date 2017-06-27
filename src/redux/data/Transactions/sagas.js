@@ -1,20 +1,25 @@
-// import { call, put } from 'redux-saga/effects'
-// import * as A from './actions'
+import { call, put, takeEvery, select } from 'redux-saga/effects'
+import { prop, compose } from 'ramda'
 
-// export const ratesSaga = ({ api } = {}) => {
+import * as A from './actions'
+import { Wrapper, Wallet } from '../../../types'
+import { getTransactions } from './selectors'
 
-//   const loadTransactions = function * (action) {
-//     try {
-//       const context = action.payload
-//       const data = yield call(api.fetchBlockchainData, context, { n: 50 })
-//       yield put(A.addresses.loadAddressesData(data.addresses))
-//       yield put(A.info.loadInfoData(data.wallet))
-//       yield put(A.latestBlock.loadLatestBlockData(data.info.latest_block))
-//       yield put(A.transactions.loadContextTxs(data.txs))
-//     } catch (error) {
-//       // probably there is no context (blank wallet)
-//     }
-//   }
+export const transactionsSaga = ({ api, walletPath, dataPath } = {}) => {
+  const loadTransactions = function * (action) {
+    try {
+      const { onlyShow, n } = action.payload
+      const context = yield select(compose(Wallet.selectContext, Wrapper.selectWallet, prop(walletPath)))
+      const currentTxs = yield select(compose(getTransactions, prop(dataPath)))
+      const offset = currentTxs.length
+      const data = yield call(api.fetchBlockchainData, context.toJS(), {n, onlyShow, offset})
+      yield put(A.loadContextTxs({onlyShow: onlyShow, txs: data.txs}))
+    } catch (error) {
+      // probably there is no context (blank wallet)
+    }
+  }
 
-//   return loadTransactions
-// }
+  return function * () {
+    yield takeEvery(A.TXS_LOAD_REQUEST, loadTransactions)
+  }
+}

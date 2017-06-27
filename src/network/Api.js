@@ -95,11 +95,12 @@ const createApi = ({
       .then(() => data.checksum)
   }
 
-  const fetchBlockchainData = (context, { n = 50, offset = 0 } = {}) => {
+  const fetchBlockchainData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => {
     context = Array.isArray(context) ? context : [context]
     const clientTime = (new Date()).getTime()
     const data = {
       active: context.join('|'),
+      onlyShow: onlyShow,
       format: 'json',
       offset: offset,
       no_compact: true,

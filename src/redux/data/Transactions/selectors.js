@@ -1,3 +1,4 @@
-import { prop } from 'ramda'
+import { path } from 'ramda'
 
-export const getTransactions = prop('txs')
+export const getTransactions = path(['txs', 'list'])
+export const getOnlyShow = path(['txs', 'onlyShow'])

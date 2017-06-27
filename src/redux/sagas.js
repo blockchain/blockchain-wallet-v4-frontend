@@ -8,6 +8,7 @@ import { Wrapper, Wallet } from '../types'
 
 import { ratesSaga } from './data/Rates/sagas.js'
 import { settingsSaga } from './settings/sagas.js'
+import { transactionsSaga } from './data/Transactions/sagas.js'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -18,11 +19,11 @@ export const rootSaga = ({ api, dataPath, walletPath, settingsPath } = {}) => {
     try {
       const context = action.payload
       // we must handle api errors here
-      const data = yield call(api.fetchBlockchainData, context, { n: 50 })
+      const data = yield call(api.fetchBlockchainData, context, { n: 1 })
       yield put(A.addresses.loadAddressesData(data.addresses))
       yield put(A.info.loadInfoData(data.wallet))
       yield put(A.latestBlock.loadLatestBlockData(data.info.latest_block))
-      yield put(A.transactions.loadContextTxs(data.txs))
+      // yield put(A.transactions.loadContextTxs(data.txs))
     } catch (error) {
       // probably there is no context (blank wallet)
     }
@@ -72,7 +73,8 @@ export const rootSaga = ({ api, dataPath, walletPath, settingsPath } = {}) => {
     yield [
       // here you can put an array of sagas in forks
       fork(ratesSaga({api})),
-      fork(settingsSaga({api}))
+      fork(settingsSaga({api})),
+      fork(transactionsSaga({api, walletPath, dataPath}))
     ]
     yield takeEvery(A.common.WALLET_DATA_REQUEST, walletDataLoadSaga)
     yield takeEvery(A.wallet.REQUEST_SECOND_PASSWORD_TOGGLE, secondPasswordSaga)
