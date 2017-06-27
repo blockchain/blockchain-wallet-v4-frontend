@@ -42,7 +42,7 @@ export const fromJS = (x, i) => {
   if (is(HDAccount, x)) { return x }
   const accountCons = compose(
     over(addressLabels, AddressLabelMap.fromJS),
-    over(cache, Cache.fromJS),
+    over(cache, Cache.fromJS)
   )
   return accountCons(new HDAccount(assoc('index', i, x)))
 }

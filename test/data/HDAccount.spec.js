@@ -7,7 +7,7 @@ const expect = chai.expect
 const accFixture = require('../_fixtures/HDAccount/hdaccount')
 
 describe('HDAccount', () => {
-  const account = HDAccount.fromJS(accFixture)
+  const account = HDAccount.fromJS(accFixture, 1)
 
   describe('toJS', () => {
     it('should return the correct object', () => {
