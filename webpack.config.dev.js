@@ -160,7 +160,11 @@ module.exports = {
         "style-src 'self'",
         'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
         'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
-        "script-src 'self' sha256-mWmlKhaAh2dtuiY9mzVa//G1T55bjyDCGxCXVg5uPX0= 'unsafe-eval'",
+        // 'unsafe-eval' is only used by webpack for development. It should not
+        // be present on production!
+        "script-src 'self' 'unsafe-eval'",
+        // 'ws://localhost:8080' is only used by webpack for development and
+        // should not be present on production.
         "connect-src 'self' ws://localhost:8080 https://blockchain.info wss://ws.blockchain.info https://api.blockchain.info https://app-api.coinify.com https://api.sfox.com https://quotes.sfox.com https://sfox-kyc.s3.amazonaws.com",
         "object-src 'none';",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
