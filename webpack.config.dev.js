@@ -157,7 +157,7 @@ module.exports = {
     headers: {
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
-        "style-src 'self'",
+        "style-src 'self' 'unsafe-inline'",
         'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
         'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
         // 'unsafe-eval' is only used by webpack for development. It should not
