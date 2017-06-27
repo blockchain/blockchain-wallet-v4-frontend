@@ -4,6 +4,8 @@ import CSSModules from 'react-css-modules'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
+import Alerts from 'components/Shared/Alerts'
+// TODO :: PUT ALERTS ON THE LAYOUT
 
 import style from './style.scss'
 
