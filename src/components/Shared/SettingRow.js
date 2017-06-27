@@ -1,11 +1,15 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import styled from 'styled-components'
 
-import style from './style.scss'
+const Row = styled.div`
+  padding: 18px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.9rem;
+`
 
 const SettingRow = (props) => {
   return (
-    <div className='container-fluid' styleName='setting-row'>
+    <Row className='container-fluid'>
       <div className='row justify-content-between'>
         <div className='col-12 col-md-6 padding-bottom-10'>
           {props.component.description}
@@ -14,8 +18,8 @@ const SettingRow = (props) => {
           {props.component.settings}
         </div>
       </div>
-    </div>
+    </Row>
   )
 }
 
-export default CSSModules(SettingRow, style)
+export default SettingRow
