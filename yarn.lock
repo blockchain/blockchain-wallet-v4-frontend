@@ -5702,6 +5702,16 @@ sane@~1.6.0:
     walker "~1.0.5"
     watch "~0.10.0"
 
+sass-extract-loader@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/sass-extract-loader/-/sass-extract-loader-0.3.4.tgz#229bc1351f1d0ed72d3a0ab5290203911cdc486b"
+
+sass-extract@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/sass-extract/-/sass-extract-0.4.0.tgz#9d08a365b28e5df6fb60a161f94fdb42ebedc9b5"
+  dependencies:
+    bluebird "^3.4.7"
+
 sass-graph@^2.1.1:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/sass-graph/-/sass-graph-2.2.4.tgz#13fbd63cd1caf0908b9fd93476ad43a51d1e0b49"

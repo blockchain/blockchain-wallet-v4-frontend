@@ -1,8 +1,5 @@
 import styled from 'styled-components'
 
-const textColor = '#5F5F5F'
-const grayLighter = '#eceeef'
-
 const DropdownButton = styled.button.attrs({ type: 'button' })`
   display: flex;
   flex-direction: row;
@@ -14,11 +11,11 @@ const DropdownButton = styled.button.attrs({ type: 'button' })`
   padding: 0.5rem 1rem;
   transition: all 0.2s ease-in-out;
   background: white;
-  border: 1px solid ${grayLighter};
+  border: 1px solid ${props => props.theme.grayLighter};
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-size: 0.9rem;
   font-weight: 300;
-  color: ${textColor};
+  color: ${props => props.theme.text};
   text-transform: capitalize;
   cursor: pointer;
 
