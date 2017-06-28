@@ -1,42 +1,15 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
-
 import { actions, selectors } from 'data'
-import Balance from './template.js'
+import Balance from './Balance.js'
 
-class BalanceContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClickBitcoinDisplay = this.handleClickBitcoinDisplay.bind(this)
-  }
+let mapStateToProps = (state) => ({
+  bitcoinDisplayed: selectors.ui.getBitcoinDisplayed(state),
+  balance: selectors.core.info.getBalance(state)
+})
 
-  handleClickBitcoinDisplay () {
-    this.props.actions.toggleCurrencyDisplay()
-  }
+let mapDispatchToProps = (dispatch) => (
+  bindActionCreators(actions.ui, dispatch)
+)
 
-  render () {
-    return (
-      <Balance
-        bitcoinDisplayed={this.props.bitcoinDisplayed}
-        balance={this.props.balance}
-        clickBitcoinDisplay={this.handleClickBitcoinDisplay}
-      />
-    )
-  }
-}
-
-function mapStateToProps (state) {
-  return {
-    bitcoinDisplayed: selectors.ui.getBitcoinDisplayed(state),
-    balance: selectors.core.info.getBalance(state)
-  }
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    actions: bindActionCreators(actions.ui, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BalanceContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(Balance)
