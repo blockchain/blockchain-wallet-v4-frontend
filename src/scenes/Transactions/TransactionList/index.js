@@ -1,49 +1,43 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { selectors } from 'data'
+// import { isEmpty, filter, propSatisfies, toUpper } from 'ramda'
+import { isEmpty } from 'ramda'
+import { selectors, actions } from 'data'
 import TransactionList from './template.js'
 
-// this should be part of processTransaction selector
-const type = (number) => {
-  switch (true) {
-    case number > 0:
-      return 'Received'
-    case number === 0:
-      return 'Transferred'
-    case number < 0:
-      return 'Sent'
-    default:
-      return 'Unknown'
-  }
-}
-
-// simple version of process transaction
-const transformTx = (tx) => ({
-  double_spend: tx.double_spend,
-  hash: tx.hash,
-  amount: tx.result,
-  type: type(tx.result),
-  description: null,
-  from: tx.inputs[0].prev_out.addr,
-  to: tx.out[0].addr,
-  initial_value: '£1.01',
-  time: (new Date(tx.time * 1000)).toString(),
-  status: 'confirmed'
-})
+const txsPerPage = 50
 
 class TransactionListContainer extends React.Component {
+
+  componentWillMount () {
+    if (isEmpty(this.props.transactions)) {
+      this.props.tActions.requestTxs(this.props.addressFilter, txsPerPage)
+    }
+  }
+  componentWillUpdate (nextProps) {
+    if (this.props.addressFilter !== nextProps.addressFilter) {
+      this.props.tActions.requestTxs(nextProps.addressFilter, txsPerPage)
+    }
+  }
+
   render () {
     return (
-      <TransactionList transactions={this.props.transactions.map(transformTx)} />
+      <TransactionList transactions={this.props.transactions} />
     )
   }
 }
 
 function mapStateToProps (state) {
   return {
-    transactions: selectors.core.transactions.getTransactions(state)
+    transactions: selectors.core.common.getWalletTransactions(state),
+    addressFilter: selectors.core.transactions.getAddressFilter(state)
   }
 }
 
-export default connect(mapStateToProps)(TransactionListContainer)
+const mapDispatchToProps = (dispatch) => ({
+  tActions: bindActionCreators(actions.core.transactions, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionListContainer)

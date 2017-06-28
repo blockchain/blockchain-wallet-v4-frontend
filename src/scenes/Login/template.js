@@ -18,7 +18,7 @@ const Login = (props) => {
           <div className='d-inline-flex margin-right-5'>
             <FormattedMessage id='scenes.login.or' defaultMessage='or' />
           </div>
-          <NavLink className='d-inline-flex' to='/register'>
+          <NavLink className='d-inline-flex default' to='/register'>
             <FormattedMessage id='scenes.login.register' defaultMessage='Sign Up' />
           </NavLink>
         </div>
@@ -75,7 +75,7 @@ const Login = (props) => {
           <div className='d-inline-flex margin-right-5'>
             <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some troubles?' />
           </div>
-          <NavLink className='d-inline-flex' to='/login-help'>
+          <NavLink className='d-inline-flex default' to='/login-help'>
             <FormattedMessage id='scenes.login.options' defaultMessage='View options' />
           </NavLink>
         </div>

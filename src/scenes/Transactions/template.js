@@ -8,8 +8,17 @@ import style from './style.scss'
 
 const Transactions = (props) => {
   return (
-    <div>
-      <MenuTop />
+    <div styleName='transactions'>
+      <MenuTop
+        addressFilter={props.addressFilter}
+        selectAddress={props.selectAddress}
+        addresses={props.addresses}
+        typeFilter={props.typeFilter}
+        selectType={props.selectType}
+        types={props.types}
+        searchFilter={props.searchFilter}
+        selectSearch={props.selectSearch}
+      />
       <TransactionList />
     </div>
   )

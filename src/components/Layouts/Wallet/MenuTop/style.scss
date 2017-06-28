@@ -1,9 +1,19 @@
-
 .menu-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  widtH: 100%;
+  height: 115px;
   padding: 20px 30px;
   @include box-sizing(border-box);
-}
+  border-bottom: 1px solid $gray-lighter;
 
-.button-container {
-  width: 250px;
+  & .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    padding-top: 10px;
+  }
 }

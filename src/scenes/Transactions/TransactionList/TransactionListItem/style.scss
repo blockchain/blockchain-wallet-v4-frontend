@@ -1,17 +1,26 @@
 
 .transaction-list-item {
+  padding: 30px;
+  background-color: white;
+  border-bottom: 1px solid $gray-lighter;
+  font-size: 0.9rem;
 
   &:hover {
     background-color: $gray-lightest;
   }
+
+
+  & .icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  & .icon-rotated {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transform: rotate(-90deg);
+  }
 }
 
-.rotated {
-  transform: rotate(-90deg);
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}

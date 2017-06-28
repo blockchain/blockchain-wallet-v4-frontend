@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, FormattedDate } from 'react-intl'
 import CSSModules from 'react-css-modules'
 
 import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
@@ -9,62 +10,49 @@ import style from './style.scss'
 
 const TransactionListItem = (props) => {
   return (
-    <div className='container-fluid padding-30 bg-white border-bottom' styleName='transaction-list-item'>
+    <div className='container-fluid' styleName='transaction-list-item'>
       <div className='row'>
         <div className='col-3'>
           <div className='row'>
             <div className='col-2'>
-              <div className='icon' styleName={(!props.detailsDisplayed ? 'rotated' : '')}>
+              <div styleName={(props.detailsDisplayed ? 'icon' : 'icon-rotated')}>
                 <i className='icon-down_arrow' onClick={props.clickDetails} />
               </div>
             </div>
-            <div className='col-10 flex-column'>
-              <div className='row'>
-                <div className='col'>
-                  <span className={`text-uppercase ${(props.transaction.type === 'Sent' ? 'sent' : 'received')}`} onClick={props.clickDetails}>{props.transaction.type}</span>
-                </div>
-              </div>
-              <div className='row'>
-                <div className='col'>
-                  <span className='f-14 text-italic'>{props.transaction.time}</span>
-                </div>
+            <div className='col-10 d-flex flex-column justify-content-center align-items-start'>
+              <span className={`h5 text-uppercase ${(props.transaction.type === 'Sent' ? 'sent' : 'received')}`} onClick={props.clickDetails}>{props.transaction.type}</span>
+              <div className='italic'>
+                <FormattedDate value={new Date(props.transaction.time * 1000)} />
               </div>
             </div>
           </div>
         </div>
-        <div className='col-4 flex-column'>
-          <div className='row'>
-            <div className='col'>
-              <span className='f-14'>To: {props.transaction.to}</span>
-            </div>
-          </div>
-          <div className='row'>
-            <div className='col'>
-              <span className='f-14'>From: {props.transaction.from}</span>
-            </div>
-          </div>
+        <div className='col-4 d-flex flex-column justify-content-center align-items-start'>
+          <FormattedMessage id='scenes.transactions.transactionlist.transactionlistitem.to' defaultMessage='To : {to}' values={{ to: props.transaction.to }} />
+          <FormattedMessage id='scenes.transactions.transactionlist.transactionlistitem.to' defaultMessage='From : {from}' values={{ from: props.transaction.from }} />
         </div>
         <div className='col-3'>
-          {props.transaction.description
-            ? <span className='f-14'>{props.transaction.description} <i className='primary pointer pl-5' /></span>
+          {props.transaction.description !== ''
+            ? <span>{props.transaction.description}<i className='primary pointer pl-5' /></span>
             : <span className='pointer'>Add a description</span>
           }
         </div>
         <div className='col-2' onClick={props.clickBitcoinDisplay}>
-          {props.bitcoinDisplayed ? (
-            <BitcoinDisplay className={`button-${(props.transaction.type.toLowerCase())}`} amount={props.transaction.amount} />
-          ) : (
-            <CurrencyDisplay className={`button-${(props.transaction.type.toLowerCase())}`} amount={props.transaction.amount} />
-          )}
+          <button className={`button-${(props.transaction.type.toLowerCase())}`}>
+            { props.bitcoinDisplayed ? (
+              <BitcoinDisplay amount={props.transaction.amount} />
+            ) : (
+              <CurrencyDisplay amount={props.transaction.amount} />
+            )}
+          </button>
         </div>
       </div>
       <div className={`row padding-top-30 ${(!props.detailsDisplayed ? ' hidden' : '')}`}>
         <div className='col-2'>
-          <span className='f-14'>{props.transaction.status}</span>
+          <span>{props.transaction.status}</span>
         </div>
         <div className='col-2 offset-8'>
-          <span className='f-12'>Value when received: </span>
-          <span className='f-12'>{props.transaction.initial_value}</span>
+          <FormattedMessage id='scenes.transactions.transactionlist.transactionlistitem.initial' defaultMessage='Value when received: {value}' values={{ value: props.transaction.initial_value }} />
         </div>
       </div>
     </div>
@@ -77,12 +65,12 @@ TransactionListItem.propTypes = {
   transaction: PropTypes.shape({
     type: PropTypes.string.isRequired,
     amount: PropTypes.number.isRequired,
-    time: PropTypes.string.isRequired,
+    time: PropTypes.number.isRequired,
     to: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
     description: PropTypes.string,
-    status: PropTypes.string.isRequired,
-    initial_value: PropTypes.string.isRequired
+    status: PropTypes.string,
+    initial_value: PropTypes.string
   })
 }
 

@@ -1,5 +1,10 @@
 
 .menu-left {
-  padding-top: 30px;
-  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  background-color: $gray-lightest;
+  border-right: 1px solid $gray-lighter;
 }
