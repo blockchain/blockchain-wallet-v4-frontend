@@ -16,7 +16,7 @@ import style from './style.scss'
 
 const Faq = () => {
   return (
-    <section className='container-fluid padding-20'>
+    <section className='container-fluid col-12 padding-20'>
       <div className='row'>
         <div className='col-12 h5 text-capitalize'>
           <FormattedMessage id='scenes.faq.title' defaultMessage='Frequented asked questions' />
