@@ -4,8 +4,6 @@ import styled from 'styled-components'
 import IconButton from './IconButton'
 import Balance from './Balance'
 
-const grayLighter = '#eceeef'
-
 const Menu = styled.div`
   display: flex;
   flex-direction: row;
@@ -15,7 +13,7 @@ const Menu = styled.div`
   height: 115px;
   padding: 20px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${grayLighter};
+  border-bottom: 1px solid ${props => props.theme.grayLighter};
 `
 
 const Actions = styled.div`
