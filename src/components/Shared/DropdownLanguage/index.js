@@ -14,12 +14,9 @@ export const DropdownLanguage = (props) => (
     </a>
     <div className='dropdown-menu' aria-labelledby='dropdownLanguage'>
       {props.languages.map((language, index) => (
-        <DropdownLanguageItem
-          key={index}
-          name={language.name}
-          culture={language.cultureCode}
-          clickItem={props.clickItem}
-        />
+        <DropdownLanguageItem key={index} culture={language.cultureCode} onClick={props.clickItem}>
+          {language.name}
+        </DropdownLanguageItem>
       ))}
     </div>
   </div>
