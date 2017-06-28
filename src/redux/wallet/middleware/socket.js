@@ -1,6 +1,7 @@
 import { compose, prop } from 'ramda'
 import { Socket } from '../../../network'
 import * as A from '../actions'
+import * as T from '../actionTypes'
 
 const socket = (options) => (store) => {
   let { socket } = options
@@ -13,7 +14,7 @@ const socket = (options) => (store) => {
   )
 
   let whitelist = {
-    [A.ADDRESS_ADD]: compose(send, Socket.addrSubMessage, prop('address'))
+    [T.ADDRESS_ADD]: compose(send, Socket.addrSubMessage, prop('address'))
   }
 
   return (next) => (action) => {

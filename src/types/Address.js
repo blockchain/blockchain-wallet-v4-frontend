@@ -1,4 +1,4 @@
-import { view, compose, is, equals, not, pipe, set, curry } from 'ramda'
+import { view, compose, is, equals, not, pipe, set, curry, isNil } from 'ramda'
 import * as crypto from '../WalletCrypto'
 import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
@@ -35,8 +35,9 @@ export const selectCreatedTime = view(createdTime)
 export const selectCreatedDeviceName = view(createdDeviceName)
 export const selectCreatedDeviceVersion = view(createdDeviceVersion)
 
-export const isArchived = compose(Boolean, equals(2), view(tag))
+export const isArchived = compose(equals(2), view(tag))
 export const isActive = compose(not, isArchived)
+export const isWatchOnly = compose(isNil, view(priv))
 
 export const fromJS = (x) => is(Address, x) ? x : new Address(x)
 

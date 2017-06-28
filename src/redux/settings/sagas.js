@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
 import * as A from './actions'
+import * as T from './actionTypes'
 
 export const settingsSaga = ({ api } = {}) => {
   const fetchSettings = function * (action) {
@@ -9,6 +10,6 @@ export const settingsSaga = ({ api } = {}) => {
   }
 
   return function * () {
-    yield takeEvery(A.SETTINGS_DATA_REQUEST, fetchSettings)
+    yield takeEvery(T.SETTINGS_DATA_REQUEST, fetchSettings)
   }
 }

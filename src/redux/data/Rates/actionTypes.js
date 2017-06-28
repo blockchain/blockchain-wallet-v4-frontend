@@ -1,0 +1,1 @@
+export const RATES_DATA_LOAD = '@v3.RATES_DATA_LOAD'

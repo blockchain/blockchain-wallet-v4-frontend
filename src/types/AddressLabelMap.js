@@ -1,14 +1,13 @@
 import { indexBy, map, prop, view, compose, is, pipe, curry } from 'ramda'
 import Type from './Type'
 import * as AddressLabel from './AddressLabel'
+import { iLensProp } from './util'
 
 export class AddressLabelMap extends Type {}
 
 export const isAddressLabelMap = is(AddressLabelMap)
 
-export const addressLabel = index => AddressLabelMap.define(index)
-
-export const selectAddressLabel = curry((index, as) => view(addressLabel(index.toString()), as))
+export const selectAddressLabel = curry((index, as) => pipe(AddressLabelMap.guard, view(iLensProp(index.toString())))(as))
 
 export const toJS = pipe(AddressLabelMap.guard, (addressLabelMap) => {
   const addressLabelList = addressLabelMap.toList()

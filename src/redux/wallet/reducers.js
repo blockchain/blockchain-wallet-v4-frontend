@@ -1,4 +1,4 @@
-import * as A from './actions.js'
+import * as T from './actionTypes.js'
 import { Wrapper, Wallet, Address, InitialState } from '../../types'
 // import { combineReducers } from 'redux-immutable'
 import Either from 'data.either'
@@ -9,12 +9,12 @@ export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(InitialState.Wrapper)
 export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
   const { type } = action
   switch (type) {
-    case A.SECOND_PASSWORD_ON:
-    case A.SECOND_PASSWORD_OFF:
-    case A.WALLET_REPLACE: {
+    case T.SECOND_PASSWORD_ON:
+    case T.SECOND_PASSWORD_OFF:
+    case T.WALLET_REPLACE: {
       return action.payload
     }
-    case A.ADDRESS_ADD: {
+    case T.ADDRESS_ADD: {
       const { address, secondPassword } = action.payload
       const a = Address.fromJS(address)
       const addMyAddress = w => Wallet.addAddress(w, a, secondPassword)
@@ -26,7 +26,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
         return state
       }
     }
-    case A.ADDRESS_LABEL: {
+    case T.ADDRESS_LABEL: {
       const { address, label } = action.payload
       return over(Wrapper.wallet, Wallet.setAddressLabel(address, label), state)
     }
@@ -35,7 +35,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     //   let { guid, sharedKey, mnemonic } = action.payload
     //   return Wallet.createNew(guid, sharedKey, mnemonic)
     // }
-    case A.WALLET_CLEAR: {
+    case T.WALLET_CLEAR: {
       return WRAPPER_INITIAL_STATE
     }
     default:

@@ -1,20 +1,63 @@
-import * as A from './actions.js'
+import { combineReducers } from 'redux'
 
-const INITIAL_STATE = []
+import * as T from './actionTypes.js'
 
-const txsReducer = (state = INITIAL_STATE, action) => {
-  let { type } = action
+const list = (state = [], action) => {
+  const { type } = action
   switch (type) {
-    case A.CONTEXT_TXS_LOAD: {
-      let { payload } = action
-      return payload
+    case T.CONTEXT_TXS_LOAD: {
+      const { payload } = action
+      return state.concat(payload.txs)
     }
-    case A.CONTEXT_TXS_CLEAR: {
-      return INITIAL_STATE
+    case T.SET_ADDRESS_FILTER: {
+      return []
     }
     default:
       return state
   }
 }
+
+const addressFilter = (state = '', action) => {
+  const { type } = action
+  switch (type) {
+    case T.SET_ADDRESS_FILTER: {
+      const { payload } = action
+      return payload.addressFilter
+    }
+    default:
+      return state
+  }
+}
+
+const typeFilter = (state = '', action) => {
+  const { type } = action
+  switch (type) {
+    case T.SET_TYPE_FILTER: {
+      const { payload } = action
+      return payload.typeFilter
+    }
+    default:
+      return state
+  }
+}
+
+const searchFilter = (state = '', action) => {
+  const { type } = action
+  switch (type) {
+    case T.SET_SEARCH_FILTER: {
+      const { payload } = action
+      return payload.searchFilter
+    }
+    default:
+      return state
+  }
+}
+
+const txsReducer = combineReducers({
+  list,
+  addressFilter,
+  typeFilter,
+  searchFilter
+})
 
 export default txsReducer

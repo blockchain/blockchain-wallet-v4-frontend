@@ -1,5 +1,5 @@
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete that wallet test fail - idk why
-import { view, pipe, over, curry, compose, not, is } from 'ramda'
+import { view, pipe, over, curry, compose, not, is, equals, assoc, dissoc, isNil } from 'ramda'
 import Type from './Type'
 import { JSToI } from './util'
 import * as AddressLabelMap from './AddressLabelMap'
@@ -22,6 +22,7 @@ export const xpriv = HDAccount.define('xpriv')
 export const xpub = HDAccount.define('xpub')
 export const addressLabels = HDAccount.define('address_labels')
 export const cache = HDAccount.define('cache')
+export const index = HDAccount.define('index')
 
 export const selectLabel = view(label)
 export const selectCache = view(cache)
@@ -29,17 +30,21 @@ export const selectArchived = view(archived)
 export const selectXpriv = view(xpriv)
 export const selectXpub = view(xpub)
 export const selectAddressLabels = view(addressLabels)
+export const selectIndex = view(index)
 
 export const isArchived = compose(Boolean, view(archived))
 export const isActive = compose(not, isArchived)
+export const isWatchOnly = compose(isNil, view(xpriv))
 
-export const fromJS = (x) => {
+export const isXpub = curry((myxpub, account) => compose(equals(myxpub), view(xpub))(account))
+
+export const fromJS = (x, i) => {
   if (is(HDAccount, x)) { return x }
   const accountCons = compose(
     over(addressLabels, AddressLabelMap.fromJS),
     over(cache, Cache.fromJS)
   )
-  return accountCons(new HDAccount(x))
+  return accountCons(new HDAccount(assoc('index', i, x)))
 }
 
 export const toJS = pipe(HDAccount.guard, (acc) => {
@@ -47,7 +52,7 @@ export const toJS = pipe(HDAccount.guard, (acc) => {
     over(addressLabels, AddressLabelMap.toJS),
     over(cache, Cache.toJS)
   )
-  return accountDecons(acc).toJS()
+  return dissoc('index', accountDecons(acc).toJS())
 })
 
 export const reviver = (jsObject) => {

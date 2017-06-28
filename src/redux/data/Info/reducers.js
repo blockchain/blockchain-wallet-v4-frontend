@@ -1,11 +1,11 @@
-import * as A from './actions'
+import * as T from './actionTypes.js'
 
 const INITIAL_STATE = {}
 
 const infoReducer = (state = INITIAL_STATE, action) => {
   let { type } = action
   switch (type) {
-    case A.INFO_DATA_LOAD: {
+    case T.INFO_DATA_LOAD: {
       let { payload } = action
       return payload
     }

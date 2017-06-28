@@ -1,14 +1,13 @@
 import { indexBy, map, prop, view, compose, is, pipe, curry } from 'ramda'
 import Type from './Type'
 import * as AddressBookEntry from './AddressBookEntry'
+import { iLensProp } from './util'
 
 export class AddressBook extends Type {}
 
 export const isAddressBook = is(AddressBook)
 
-export const addressLabel = addr => AddressBook.define(addr)
-
-export const selectAddressLabel = curry((addr, as) => view(addressLabel(addr), as))
+export const selectAddressLabel = curry((addr, as) => pipe(AddressBook.guard, view(iLensProp(addr)))(as))
 
 export const toJS = pipe(AddressBook.guard, (addressBook) => {
   const addressBookList = addressBook.toList()

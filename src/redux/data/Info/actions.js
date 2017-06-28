@@ -1,4 +1,4 @@
-export const INFO_DATA_LOAD = '@v3.INFO_DATA_LOAD'
+import * as T from './actionTypes'
 
 export const loadInfoData = (data) =>
-  ({ type: INFO_DATA_LOAD, payload: data })
+  ({ type: T.INFO_DATA_LOAD, payload: data })

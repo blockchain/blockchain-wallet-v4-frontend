@@ -1,4 +1,4 @@
-export const ADDRESSES_DATA_LOAD = '@v3.ADDRESSES_DATA_LOAD'
+import * as T from './actionTypes'
 
 export const loadAddressesData = (data) =>
-  ({ type: ADDRESSES_DATA_LOAD, payload: data })
+  ({ type: T.ADDRESSES_DATA_LOAD, payload: data })
