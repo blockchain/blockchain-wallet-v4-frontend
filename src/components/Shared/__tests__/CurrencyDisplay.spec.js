@@ -2,7 +2,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import configureStore from 'redux-mock-store'
 
-import CurrencyDisplay from './index.js'
+import CurrencyDisplay from '../CurrencyDisplay'
 
 describe('CurrencyDisplay', () => {
   const mockStore = configureStore()
@@ -17,7 +17,6 @@ describe('CurrencyDisplay', () => {
       }
     }
 
-    console.log(initialState)
     let store = mockStore(initialState)
     let component = renderer.create(
       <CurrencyDisplay store={store} className='button' amount={100000000} />
