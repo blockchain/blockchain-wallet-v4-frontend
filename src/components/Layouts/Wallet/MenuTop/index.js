@@ -17,7 +17,7 @@ const Menu = styled.div`
   height: 115px;
   padding: 20px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme.colors.gray.lighter};
+  border-bottom: 1px solid ${props => props.theme.grayLighter};
 `
 
 const Actions = styled.div`
