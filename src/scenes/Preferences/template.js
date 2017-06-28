@@ -5,7 +5,7 @@ import CSSModules from 'react-css-modules'
 import InfoWell from 'components/Shared/InfoWell'
 import SettingRow from 'components/Shared/SettingRow'
 
-import EmailAddress from './EmailAddress'
+import EmailAddress from './EmailAddress.js'
 import MobileNumber from './MobileNumber'
 import WalletLanguage from './WalletLanguage'
 import LocalCurrency from './LocalCurrency'
@@ -17,13 +17,18 @@ import Themes from './Themes'
 
 import style from './style.scss'
 
+const PreferencesInfoWell = InfoWell.extend`
+  margin-bottom: 30px;
+  border-left: 5px solid #FFCF62;
+`
+
 const Preferences = (props) => {
   return (
     <section styleName='preferences'>
-      <InfoWell>
+      <PreferencesInfoWell>
         <FormattedMessage id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
-      </InfoWell>
-      <SettingRow component={EmailAddress} />
+      </PreferencesInfoWell>
+      <EmailAddress />
       <SettingRow component={MobileNumber} />
       <SettingRow component={WalletLanguage} />
       <SettingRow component={LocalCurrency} />
