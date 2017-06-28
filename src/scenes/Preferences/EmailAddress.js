@@ -38,7 +38,7 @@ class EmailAddress extends React.Component {
   renderAlert () {
     if (this.state.changingEmail) {
       return (
-        <ChangeWarning>This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same.</ChangeWarning>
+        <ChangeWarning>This will change your wallet&#39;s email address, but the email address you signed up to Buy Bitcoin with will remain the same.</ChangeWarning>
       )
     }
   }
