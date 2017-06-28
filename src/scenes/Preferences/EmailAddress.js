@@ -1,5 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { selectors, actions } from 'data'
+
+function mapStateToProps (state) {
+  return {
+    email: selectors.preferences.getEmail(state),
+    changingEmail: selectors.preferences.isChangingEmail(state)
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    setEmail: (email) => dispatch(actions.preferences.setEmail(email)),
+    toggleChangingEmail: () => dispatch(actions.preferences.toggleChangingEmail())
+  }
+}
 
 const PreferencesRow = styled.div`
   border-bottom: 1px solid #ddd;
@@ -24,9 +40,7 @@ class EmailAddress extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      renderAlert: false,
-      changingEmail: false,
-      email: 'blockchainuser@gmail.com'
+      renderAlert: false
     }
 
     this.renderAlert = this.renderAlert.bind(this)
@@ -36,7 +50,7 @@ class EmailAddress extends React.Component {
   }
 
   renderAlert () {
-    if (this.state.changingEmail) {
+    if (this.props.changingEmail) {
       return (
         <ChangeWarning>This will change your wallet&#39;s email address, but the email address you signed up to Buy Bitcoin with will remain the same.</ChangeWarning>
       )
@@ -44,28 +58,28 @@ class EmailAddress extends React.Component {
   }
 
   renderEmailOrInput () {
-    if (this.state.changingEmail) {
+    if (this.props.changingEmail) {
       return (
         <EmailInputContainer className='align-items-start flex-column'>
           <label>Email Address</label>
           <div className='input-group'>
-            <input id='email-input' className='margin-bottom-20' type='text' value={this.state.email} autoFocus />
+            <input id='email-input' className='margin-bottom-20' type='text' onChange={this.handleEmailChange} value={this.props.email} autoFocus />
           </div>
         </EmailInputContainer>
       )
     } else {
       return (
-        <p>{this.state.email}</p>
+        <p>{this.props.email}</p>
       )
     }
   }
 
   toggleEmailInput () {
-    this.setState({changingEmail: !this.state.changingEmail})
+    this.props.toggleChangingEmail()
   }
 
-  handleEmailChange () {
-    // use magic to change the email
+  handleEmailChange (e) {
+    this.props.setEmail(e.target.value)
   }
 
   render () {
@@ -79,8 +93,8 @@ class EmailAddress extends React.Component {
           </div>
           <div className='offset-md-2 col-md-4 right-align'>
             {this.renderEmailOrInput()}
-            {this.state.changingEmail ? <Cancel className='f-14 margin-right-5' onClick={() => this.toggleEmailInput()}>Cancel</Cancel> : ''}
-            <a className='button-secondary' onClick={this.state.changingEmail ? () => this.handleEmailChange() : () => this.toggleEmailInput()}>Change</a>
+            {this.props.changingEmail ? <Cancel className='f-14 margin-right-5' onClick={() => this.toggleEmailInput()}>Cancel</Cancel> : ''}
+            <a className='button-secondary' onClick={this.props.changingEmail ? () => this.handleEmailChange() : () => this.toggleEmailInput()}>Change</a>
           </div>
         </RowContainer>
       </PreferencesRow>
@@ -88,4 +102,4 @@ class EmailAddress extends React.Component {
   }
 }
 
-export default EmailAddress
+export default connect(mapStateToProps, mapDispatchToProps)(EmailAddress)
