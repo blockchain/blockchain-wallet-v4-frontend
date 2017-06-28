@@ -1,11 +1,11 @@
 import { Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap,
          TXNotes, Address, HDAccount, AddressBook, AddressBookEntry } from '../../types'
-import { prop, compose, curry, mapAccum, isNil, not, length, findIndex, view,
+import { prop, compose, curry, mapAccum, isNil, not, findIndex, view,
          propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex } from 'ramda'
 
 // ---------------------------------------------------------------------------------------------
 const unpackInput = prop('prev_out')
-const isLegacy = (wallet, coin) => compose(not, isNil, AddressMap.selectAddress(coin.addr), Wallet.selectAddresses)(wallet)
+const isLegacy = (wallet, coin) => compose(not, isNil, AddressMap.selectAddress(prop('addr', coin)), Wallet.selectAddresses)(wallet)
 const isAccount = coin => !!coin.xpub
 const isAccountChange = x => isAccount(x) && x.xpub.path.split('/')[1] === '1'
 const accountPath = (index, coin) => index + coin.xpub.path.substr(1)
@@ -14,17 +14,7 @@ const receiveIndex = coin => {
   if (!coin.xpub.path.split('/').length === 3) return
   return parseInt(coin.xpub.path.substr(1).split('/')[2])
 }
-// const isCoinBase = (input) => (input == null || input.prev_out == null || input.prev_out.addr == null)
 const isCoinBase = (inputs) => (inputs.length === 1 && inputs[0].prev_out == null)
-
-// function unpackInput (input) {
-//   if (isCoinBase(input)) {
-//     var totalOut = this.out.reduce(function (sum, out) { return sum + out.value }, 0)
-//     return {addr: 'Coinbase', value: totalOut}
-//   } else {
-//     return input.prev_out
-//   }
-// }
 
 const tagCoin = curry((wallet, coin) => {
   switch (true) {
@@ -88,7 +78,9 @@ const computeAmount = (type, inputData, outputData) => {
     case 'Transferred':
       return propOr(0, 'internal', outputData) - propOr(0, 'change', outputData)
     case 'Sent':
+      return -propOr(0, 'internal', outputData) + propOr(0, 'internal', inputData)
     case 'Received':
+      return propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
     default:
       return propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
   }
@@ -129,7 +121,9 @@ var appender = curry((tagger, acc, coin) => {
 })
 
 const selectFromAndto = (inputs, outputs) => {
-  const myOutput = find(propEq('change', false))(outputs) || outputs[0]
+  const myOutput = find(
+    propEq('change', false) && compose(not, propEq('coinType', 'external'))
+  )(outputs) || outputs[0]
   return {
     from: inputs[0].label || inputs[0].address,
     to: myOutput.label || myOutput.address
@@ -149,7 +143,22 @@ const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
     return [outputData, outputs]
   }
 }
-// ---------------------------------------------------------------------------------------------
+
+const CoinbaseCoin = total => ({
+  address: 'Coinbase',
+  amount: total,
+  change: false,
+  coinType: 'external',
+  label: 'Coinbase',
+  isWatchOnly: false })
+
+const CoinBaseData = total => ({
+  total: total,
+  internal: 0,
+  isWatchOnly: false,
+  change: 0
+})
+
 export const transformTx = curry((wallet, currentBlockHeight, tx) => {
   const txNotes = Wallet.selectTxNotes(wallet)
   const conf = currentBlockHeight - tx.block_height + 1
@@ -158,13 +167,11 @@ export const transformTx = curry((wallet, currentBlockHeight, tx) => {
   const inputTagger = compose(tagCoin(wallet), unpackInput)
   const outputTagger = tagCoin(wallet)
   const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
-  // if (isCoinBase(prop('inputs', tx))) {
-  // [inputData, inputs] = ifElse(
-  //   compose(isCoinBase, prop('inputs')),
-  //   always([{ total: oData.total, internal: 0, isWatchOnly: false, change: 0 }, [{ address: 'coinbase', amount: oData.total, change: false, coinType: 'external', label: 'coinbase', isWatchOnly: false }]]),
-  //   t => mapAccum(appender(inputTagger), init, prop('inputs', t))
-  // )(tx)
-  const [inputData, inputs] = mapAccum(appender(inputTagger), init, prop('inputs', tx))
+  const [inputData, inputs] = ifElse(
+    compose(isCoinBase, prop('inputs')),
+    always([CoinBaseData(oData.total), [CoinbaseCoin(oData.total)]]),
+    t => mapAccum(appender(inputTagger), init, prop('inputs', t))
+  )(tx)
   const [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)
   const { from, to } = selectFromAndto(inputs, outputs)
   return ({
