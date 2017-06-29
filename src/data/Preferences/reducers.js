@@ -4,17 +4,25 @@ let assign = (state, next) => Object.assign({}, state, next)
 
 const INITIAL_STATE = {
   culture: 'en-GB',
-  language: 'en'
+  language: 'en',
+  email: 'blockchainuser@gmail.com',
+  changingEmail: false
 }
 
 const preferences = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
     case AT.SET_CULTURE: {
-      return assign(INITIAL_STATE, { culture: payload })
+      return assign(state, { culture: payload })
     }
     case AT.SET_LANGUAGE: {
-      return assign(INITIAL_STATE, { language: payload })
+      return assign(state, { language: payload })
+    }
+    case AT.SET_EMAIL: {
+      return assign(state, { email: payload })
+    }
+    case AT.CHANGING_EMAIL: {
+      return assign(state, { changingEmail: !state.changingEmail })
     }
     default:
       return state
