@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { contains, toUpper, filter, prop, compose, groupBy, mapObjIndexed, values, keys, zipWith, prepend, flatten } from 'ramda'
-
-import Dropdown from './template.js'
+import Dropdown from './Dropdown'
 
 class DropdownContainer extends React.Component {
   constructor (props) {
@@ -88,22 +87,5 @@ DropdownContainer.defaultProps = {
   selected: '',
   className: ''
 }
-
-// DropdownContainer.defaultProps = {
-//   selected: '',
-//   items: [
-//     { text: 'text1', value: 'value1' },
-//     { text: 'text2', value: 'value2' },
-//     { text: 'text3', value: 'value3', group: 'group1' },
-//     { text: 'text4', value: 'value4', group: 'group1' },
-//     { text: 'text5', value: 'value5', group: 'group2' },
-//     { text: 'text6', value: 'value6', group: 'group2' }
-//   ],
-//   callback: value => {
-//     console.log(`callback ${value} !`)
-//   },
-//   searchEnabled: true,
-//   className: ''
-// }
 
 export default DropdownContainer

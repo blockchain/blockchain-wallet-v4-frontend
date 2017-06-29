@@ -1,0 +1,13 @@
+import styled from 'styled-components'
+
+const InfoWell = styled.div`
+  margin: 5px 0px 10px 0px;
+  padding: 15px;
+  background-color: #FFE6B4;
+  border-left: 5px solid FFCF62;
+  line-height: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+`
+
+export default InfoWell

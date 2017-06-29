@@ -4,5 +4,23 @@
     "test": {
       "plugins": ["transform-es2015-modules-commonjs"]
     }
-  }
+  },
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "npm": "./node_modules",
+        "fonts": "./src/assets/fonts",
+        "img": "./src/assets/img",
+        "locales": "./src/assets/locales",
+        "sass": "./src/assets/sass",
+        "components": "./src/components",
+        "data": "./src/data",
+        "middleware": "./src/middleware",
+        "scenes": "./src/scenes",
+        "services": "./src/services",
+        "config": "./src/config.js"
+      }
+    }]
+  ]
 }

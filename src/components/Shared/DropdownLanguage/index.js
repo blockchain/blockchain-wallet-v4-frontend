@@ -1,11 +1,38 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-
 import * as languageService from 'services/languageService.js'
-
-import DropdownLanguage from './template.js'
 import { actions, selectors } from 'data'
+import DropdownLanguageItem from './DropdownLanguageItem'
+
+export const DropdownLanguage = (props) => (
+  <div className={`dropdown ${props.dropdownLanguageDisplayed && 'show'} ${props.className}`}>
+    <a className='dropdown-toggle' id='dropdownLanguage' data-toggle='dropdown' aria-haspopup={props.dropdownLanguageDisplayed}
+      aria-expanded={props.dropdownLanguageDisplayed} onClick={props.clickDropdownLanguage}>
+      {props.currentLanguageName}
+    </a>
+    <div className='dropdown-menu' aria-labelledby='dropdownLanguage'>
+      {props.languages.map((language, index) => (
+        <DropdownLanguageItem key={index} culture={language.cultureCode} onClick={props.clickItem}>
+          {language.name}
+        </DropdownLanguageItem>
+      ))}
+    </div>
+  </div>
+)
+
+DropdownLanguage.propTypes = {
+  currentLanguageName: PropTypes.string.isRequired,
+  languages: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    cultureCode: PropTypes.string.isRequired
+  })),
+  dropdownLanguageDisplayed: PropTypes.bool.isRequired,
+  clickDropdownLanguage: PropTypes.func.isRequired,
+  clickItem: PropTypes.func.isRequired,
+  className: PropTypes.string
+}
 
 class DropdownLanguageContainer extends React.Component {
   constructor (props) {
@@ -38,19 +65,15 @@ class DropdownLanguageContainer extends React.Component {
   }
 }
 
-function mapStateToProps (state, ownProps) {
-  return {
-    culture: selectors.preferences.getCulture(state),
-    dropdownLanguageDisplayed: selectors.ui.getDropdownLanguageDisplayed(state),
-    languages: languageService.languagesSortedByName
-  }
-}
+let mapStateToProps = (state, ownProps) => ({
+  culture: selectors.preferences.getCulture(state),
+  dropdownLanguageDisplayed: selectors.ui.getDropdownLanguageDisplayed(state),
+  languages: languageService.languagesSortedByName
+})
 
-function mapDispatchToProps (dispatch) {
-  return {
-    uiActions: bindActionCreators(actions.ui, dispatch),
-    preferencesActions: bindActionCreators(actions.preferences, dispatch)
-  }
-}
+let mapDispatchToProps = (dispatch) => ({
+  uiActions: bindActionCreators(actions.ui, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropdownLanguageContainer)
