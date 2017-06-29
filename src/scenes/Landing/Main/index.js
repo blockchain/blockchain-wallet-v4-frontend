@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 
+import { Button } from 'components/Shared/Button'
 import style from './style.scss'
 
 const Main = (props) => {
@@ -70,10 +71,10 @@ const Main = (props) => {
           <div className='col-12'>
             <div className='row justify-content-center'>
               <div className='col-12 col-sm-8 col-md-6 col-lg-4'>
-                <NavLink to='/register'>
-                  <button className='button-primary full-width heavy'>
+                <NavLink to='/login'>
+                  <Button type='primary' weight={1000} transform='uppercase' fullwidth>
                     <FormattedMessage id='scenes.landing.main.register' defaultMessage='Create your wallet' />
-                  </button>
+                  </Button>
                 </NavLink>
               </div>
             </div>
@@ -85,9 +86,9 @@ const Main = (props) => {
             <div className='row justify-content-center'>
               <div className='col-12 col-sm-8 col-md-6 col-lg-4'>
                 <NavLink to='/login'>
-                  <button className='button-secondary full-width heavy'>
+                  <Button type='secondary' weight={1000} transform='uppercase' fullwidth>
                     <FormattedMessage id='scenes.landing.main.login' defaultMessage='Login now' />
-                  </button>
+                  </Button>
                 </NavLink>
               </div>
             </div>

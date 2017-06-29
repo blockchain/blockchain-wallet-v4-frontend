@@ -5,6 +5,7 @@ let assign = (state, next) => Object.assign({}, state, next)
 const INITIAL_STATE = {
   culture: 'en-GB',
   language: 'en',
+  theme: 'default',
   email: 'blockchainuser@gmail.com',
   changingEmail: false
 }
@@ -17,6 +18,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_LANGUAGE: {
       return assign(state, { language: payload })
+    }
+    case AT.SET_THEME: {
+      return assign(state, { theme: payload })
     }
     case AT.SET_EMAIL: {
       return assign(state, { email: payload })

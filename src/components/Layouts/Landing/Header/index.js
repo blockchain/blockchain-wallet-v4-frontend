@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-import Header from './template.js'
+import Header from './Header'
 import { actions, selectors } from 'data'
 
 class HeaderContainer extends React.Component {
