@@ -24,6 +24,7 @@ module.exports = {
       'img': PATHS.src + '/assets/img',
       'locales': PATHS.src + '/assets/locales',
       'sass': PATHS.src + '/assets/sass',
+      'themes': PATHS.src + '/assets/themes',
       'components': PATHS.src + '/components',
       'data': PATHS.src + '/data',
       'middleware': PATHS.src + '/middleware',

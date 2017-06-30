@@ -5,6 +5,7 @@ import { coreReducers } from 'dream-wallet/lib'
 import activityReducer from './Activity/reducers.js'
 import authReducer from './Auth/reducers.js'
 import logReducer from './Log/reducers.js'
+import modalsReducer from './Modals/reducers.js'
 import preferencesReducer from './Preferences/reducers.js'
 import uiReducer from './UI/reducers.js'
 import alertsReducer from './Alerts/reducers'
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     auth: authReducer.login,
     ui: uiReducer,
     alerts: alertsReducer,
-    log: logReducer
+    log: logReducer,
+    modals: modalsReducer
   }),
   preferences: preferencesReducer,
   session: authReducer.session,

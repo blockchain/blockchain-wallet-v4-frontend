@@ -29,16 +29,16 @@ class TransactionsContainer extends React.Component {
   selectAddress (value) {
     if (this.props.addressFilter !== value) {
       // only dispatch if the filter changed
-      this.props.tActions.setAddressFilter(value)
+      this.props.actions.setAddressFilter(value)
     }
   }
 
   selectType (value) {
-    this.props.tActions.setTypeFilter(value)
+    this.props.actions.setTypeFilter(value)
   }
 
   selectSearch (value) {
-    this.props.tActions.setSearchFilter(value)
+    this.props.actions.setSearchFilter(value)
   }
 
   render () {
@@ -71,7 +71,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  tActions: bindActionCreators(actions.core.transactions, dispatch)
+  actions: bindActionCreators(actions.core.transactions, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransactionsContainer)
