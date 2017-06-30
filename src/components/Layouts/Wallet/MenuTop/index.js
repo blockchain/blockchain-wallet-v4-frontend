@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { actions } from 'data'
 
-import IconButton from './IconButton'
+import { IconButton } from 'components/Shared/Button'
 import Balance from './Balance'
 
 const Menu = styled.div`
@@ -50,7 +50,7 @@ class MenuTop extends React.Component {
         <div>
           <span className='h5 text-uppercase'>Be your own bank.</span>
           <Actions>
-            <IconButton icon='icon-send' className='margin-right-10' click={this.openSendBitcoin}>
+            <IconButton icon='icon-send' className='margin-right-10' onClick={this.openSendBitcoin}>
               <FormattedMessage id='components.layouts.wallet.menutop.sendbitcoin.send' defaultMessage='Send' />
             </IconButton>
             <IconButton icon='icon-receive' className='left' onClick={this.openRequestBitcoin}>
