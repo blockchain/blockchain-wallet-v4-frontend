@@ -12,6 +12,7 @@ const Landing = () => {
   return (
     <div>
       <Main />
+      
       {/*<NewToBitcoin />
        <Reviews />
        <WhyUseBlockchain />*/}
