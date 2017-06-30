@@ -5,8 +5,7 @@ const NavbarLinkContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 20px;
-
+  padding-right: 20px;
 `
 
 export default NavbarLinkContainer

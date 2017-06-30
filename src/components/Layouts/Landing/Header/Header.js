@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
 import { CircleButton } from 'components/Shared/Button'
-import Wrapper from './Wrapper'
+import NavbarWrapper from './NavbarWrapper'
 import NavbarContainer from './NavbarContainer'
 import NavbarLogo from './NavbarLogo'
 import NavbarMenu from './NavbarMenu'
@@ -11,16 +12,18 @@ import NavbarLink from './NavbarLink'
 import NavbarLinkContainer from './NavbarLinkContainer'
 import NavbarLinkRouter from './NavbarLinkRouter'
 import NavbarButtonContainer from './NavbarButtonContainer'
+import NavbarButtonMenu from './NavbarButtonMenu'
+import NavbarButtonMenuBar from './NavbarButtonMenuBar'
 
 const Header = (props) => {
   return (
-    <Wrapper>
+    <NavbarWrapper>
       <NavbarContainer>
         <NavbarLinkContainer>
           <NavbarLinkRouter to='/'>
             <NavbarLogo />
           </NavbarLinkRouter>
-          <NavbarMenu>
+          <NavbarMenu mobileDisplay={props.headerMenuDisplayed}>
             <NavbarLinkRouter to='/wallet'>
               <NavbarMenuItem>
                 <FormattedMessage id='components.layouts.landing.header.wallets' defaultMessage='Wallets' />
@@ -60,9 +63,19 @@ const Header = (props) => {
             </NavbarLinkRouter>
           </CircleButton>
         </NavbarButtonContainer>
+        <NavbarButtonMenu mobileDisplay={props.headerMenuDisplayed} onClick={props.clickHeaderMenu}>
+          <NavbarButtonMenuBar />
+          <NavbarButtonMenuBar />
+          <NavbarButtonMenuBar />
+        </NavbarButtonMenu>
       </NavbarContainer>
-    </Wrapper>
+    </NavbarWrapper>
   )
+}
+
+Header.propTypes = {
+  clickHeaderMenu: PropTypes.func.isRequired,
+  headerMenuDisplayed: PropTypes.bool.isRequired
 }
 
 export default Header
