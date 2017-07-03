@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { actions } from 'data'
 
+import RequestBitcoin from 'modals/RequestBitcoin'
 import { IconButton } from 'components/Shared/Button'
 import Balance from './Balance'
 
@@ -13,11 +14,11 @@ const Menu = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  widtH: 100%;
+  width: 100%;
   height: 115px;
   padding: 20px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme.colors.gray.lighter};
+  border-bottom: 1px solid gray;
 `
 
 const Actions = styled.div`
@@ -36,7 +37,6 @@ class MenuTop extends React.Component {
   }
 
   openSendBitcoin () {
-    console.log('click')
     this.props.actions.toggleModal({ modalType: 'sendBitcoin' })
   }
 
@@ -51,10 +51,11 @@ class MenuTop extends React.Component {
           <span className='h5 text-uppercase'>Be your own bank.</span>
           <Actions>
             <IconButton icon='icon-send' className='margin-right-10' onClick={this.openSendBitcoin}>
-              <FormattedMessage id='components.layouts.wallet.menutop.sendbitcoin.send' defaultMessage='Send' />
+              <FormattedMessage id='components.layouts.wallet.menutop.send' defaultMessage='Send' />
             </IconButton>
+            <RequestBitcoin />
             <IconButton icon='icon-receive' className='left' onClick={this.openRequestBitcoin}>
-              <FormattedMessage id='components.layouts.wallet.menutop.requestbitcoin.request' defaultMessage='Request' />
+              <FormattedMessage id='components.layouts.wallet.menutop.request' defaultMessage='Request' />
             </IconButton>
             <IconButton icon='icon-success' className='right' />
           </Actions>

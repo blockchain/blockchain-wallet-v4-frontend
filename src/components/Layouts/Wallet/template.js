@@ -6,7 +6,6 @@ import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import Alerts from 'components/Shared/Alerts'
 
-import Modal from 'components/Shared/Modal'
 import style from './style.scss'
 
 const WalletLayout = (props) => (
@@ -28,7 +27,6 @@ const WalletLayout = (props) => (
         </div>
       </div>
     </div>
-    <Modal />
   </div>
 )
 

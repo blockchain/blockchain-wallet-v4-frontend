@@ -1,44 +1,12 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import { bindActionCreators } from 'redux'
+import * as Reactstrap from 'reactstrap'
 
-import Modal from './Modal'
-import RequestBitcoin from 'components/Shared/RequestBitcoin'
-import { actions, selectors } from 'data'
+const Modal = (props) => (<Reactstrap.Modal {...props} />)
 
-class ModalContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.close = this.close.bind(this)
-  }
+const ModalHeader = (props) => (<Reactstrap.ModalHeader {...props} />)
 
-  close () {
-    this.props.actions.toggleModal()
-  }
+const ModalBody = (props) => (<Reactstrap.ModalBody {...props} />)
 
-  render () {
-    let component
-    switch (this.props.type) {
-      case 'requestBitcoin':
-        component = RequestBitcoin
-        break
-      default:
-        component = RequestBitcoin
-    }
+const ModalFooter = (props) => (<Reactstrap.ModalFooter {...props} />)
 
-    return (
-      <Modal displayed={this.props.displayed} component={component} close={this.close} />
-    )
-  }
-}
-
-const mapStateToProps = (state) => ({
-  displayed: selectors.modals.getDisplayed(state),
-  type: selectors.modals.getType(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modals, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ModalContainer)
+export { Modal, ModalHeader, ModalBody, ModalFooter }

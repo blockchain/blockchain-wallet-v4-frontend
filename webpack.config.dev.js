@@ -54,6 +54,7 @@ module.exports = {
                   'components': PATHS.src + '/components',
                   'data': PATHS.src + '/data',
                   'middleware': PATHS.src + '/middleware',
+                  'modals': PATHS.src + '/modals',
                   'scenes': PATHS.src + '/scenes',
                   'services': PATHS.src + '/services',
                   'config': PATHS.src + '/config.js'
