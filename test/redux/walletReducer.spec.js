@@ -54,6 +54,21 @@ describe('reducers', () => {
       expect(sa(next).label).to.equal(label)
     })
 
+    it('should handle HD_ADDRESS_LABEL_SET', () => {
+      let label = 'changed_label'
+      let action = Actions.setHdAddressLabel(0, 0, label)
+      let next = walletReducer(wrapped, action)
+      let select = compose(Wallet.toJS, Wrapper.selectWallet)
+      expect(select(next).hd_wallets[0].accounts[0].address_labels[0].label).to.equal(label)
+    })
+
+    it('should handle HD_ADDRESS_LABEL_REMOVE', () => {
+      let action = Actions.removeHdAddressLabel(0, 0)
+      let next = walletReducer(wrapped, action)
+      let select = compose(Wallet.toJS, Wrapper.selectWallet)
+      expect(select(next).hd_wallets[0].accounts[0].address_labels).to.have.length.of(0)
+    })
+
     // TODO :: wallet creation need review
     // it('should handle WALLET_NEW_SET', () => {
     //   let { wallet, mnemonic } = walletNewFixture

@@ -1,7 +1,8 @@
 import * as T from './actionTypes.js'
-import { Wrapper, Wallet, Address, InitialState } from '../../types'
+import { Wrapper, Wallet, Address, InitialState, HDWallet, HDAccount } from '../../types'
+import { iLensProp } from '../../types/util'
 import Either from 'data.either'
-import { over, set } from 'ramda'
+import { over, compose, set } from 'ramda'
 
 export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(InitialState.Wrapper)
 
@@ -36,6 +37,20 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     case T.WALLET_NEW_SET: {
       let { guid, sharedKey, mnemonic, label, password } = action.payload
       return Wrapper.createNew(guid, password, sharedKey, mnemonic, label)
+    }
+    case T.HD_ADDRESS_LABEL_SET: {
+      let { accountIdx, addressIdx, label } = action.payload
+      let accountLens = compose(Wallet.hdWallets, iLensProp('0'), HDWallet.accounts, iLensProp(accountIdx.toString()))
+      let setLabel = (wallet) => Either.of(over(accountLens, HDAccount.setAddressLabel(addressIdx, label), wallet))
+      let eitherWrapper = Wrapper.traverseWallet(Either.of, setLabel, state)
+      return eitherWrapper.isRight ? eitherWrapper.value : state
+    }
+    case T.HD_ADDRESS_LABEL_REMOVE: {
+      let { accountIdx, addressIdx } = action.payload
+      let accountLens = compose(Wallet.hdWallets, iLensProp('0'), HDWallet.accounts, iLensProp(accountIdx.toString()))
+      let setLabel = (wallet) => Either.of(over(accountLens, HDAccount.removeAddressLabel(addressIdx), wallet))
+      let eitherWrapper = Wrapper.traverseWallet(Either.of, setLabel, state)
+      return eitherWrapper.isRight ? eitherWrapper.value : state
     }
     case T.WALLET_CLEAR: {
       return WRAPPER_INITIAL_STATE
