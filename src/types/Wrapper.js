@@ -4,6 +4,8 @@ import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
 import Type from './Type'
 import * as Wallet from './Wallet'
+import Bitcoin from 'bitcoinjs-lib'
+import BIP39 from 'bip39'
 
 /* Wrapper :: {
      wallet             :: Wallet
@@ -112,3 +114,63 @@ export const toEncJSON = wrapper => {
          .map((r) => assoc('length', view(plens, r).length, r))
          .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }
+
+// createNew :: String -> String -> String -> Wallet
+export const createNew = curry((guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet') => {
+  const seed = BIP39.mnemonicToSeed(mnemonic)
+  const entropy = BIP39.mnemonicToEntropy(mnemonic)
+  const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed)
+  const accountNode = masterNode.deriveHardened(44).deriveHardened(0).deriveHardened(0)
+
+  const newCache = {
+    receiveAccount: accountNode.derive(0).neutered().toBase58(),
+    changeAccount: accountNode.derive(1).neutered().toBase58()
+  }
+
+  const newHDAccount = {
+    label: firstAccountName,
+    archived: false,
+    xpriv: accountNode.toBase58(),
+    xpub: accountNode.neutered().toBase58(),
+    address_labels: [],
+    cache: newCache
+  }
+
+  const newHDWallet = {
+    seed_hex: entropy,
+    passphrase: '',
+    mnemonic_verified: false,
+    default_account_idx: 0,
+    accounts: [newHDAccount]
+  }
+
+  const newWallet = {
+    guid: guid,
+    sharedKey: sharedKey,
+    tx_names: [],
+    tx_notes: {},
+    double_encryption: false,
+    address_book: [],
+    keys: [],
+    hd_wallets: [newHDWallet],
+    options: {
+      pbkdf2_iterations: 5000,
+      html5_notifications: false,
+      logout_time: 600000
+    }
+  }
+
+  const newWrapper = {
+    sync_pubkeys: false,
+    payload_checksum: '',
+    storage_token: '',
+    version: 3,
+    language: 'en',
+    wallet: newWallet,
+    war_checksum: '',
+    password: password,
+    pbkdf2_iterations: 5000
+  }
+
+  return fromJS(newWrapper)
+})

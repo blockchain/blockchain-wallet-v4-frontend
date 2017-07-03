@@ -12,11 +12,11 @@ const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (ne
   // the initial_state check could be done against full payload state
 
   if ((wasAuth && isAuth) &&
-    // action.type !== A.PAYLOAD_CHECKSUM_CHANGE &&
+    action.type !== T.SET_PAYLOAD_CHECKSUM &&
     prevWallet !== nextWallet) {
+    store.dispatch(A.syncStart())
     api.saveWallet(nextWallet).then(checksum => {
-      store.dispatch(A.syncStart())
-      // store.dispatch(A.changePayloadChecksum(checksum))
+      store.dispatch(A.setPayloadChecksum(checksum))
       return checksum
     }).then(
       (cs) => store.dispatch(A.syncSuccess(cs))
@@ -25,18 +25,18 @@ const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (ne
     )
   }
 
-  // if (action.type === A.WALLET_NEW_SET && prevWallet !== nextWallet) { // wallet signup
-  //   const { email } = action.payload
-  //   api.createWallet(email)(nextWallet).then(checksum => {
-  //     store.dispatch(A.syncStart())
-  //     store.dispatch(A.changePayloadChecksum(checksum))
-  //     return checksum
-  //   }).then(
-  //     (cs) => store.dispatch(A.syncSuccess(cs))
-  //   ).catch(
-  //     (error) => store.dispatch(A.syncError(error))
-  //   )
-  // }
+  if (action.type === T.WALLET_NEW_SUCCESS) {
+    const email = action.payload
+    store.dispatch(A.syncStart())
+    api.createWallet(email)(nextWallet).then(checksum => {
+      store.dispatch(A.setPayloadChecksum(checksum))
+      return checksum
+    }).then(
+      (cs) => store.dispatch(A.syncSuccess(cs))
+    ).catch(
+      (error) => store.dispatch(A.syncError(error))
+    )
+  }
 
   return result
 }

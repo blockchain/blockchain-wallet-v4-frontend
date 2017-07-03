@@ -52,14 +52,14 @@ export const rootSaga = ({ api, dataPath, walletPath, settingsPath } = {}) => {
     }
   }
 
-  // const walletSignupSaga = function * (action) {
-  //   const { password, email } = action.payload
-  //   // TODO :: control this api failure
-  //   const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-  //   const mnemonic = BIP39.generateMnemonic()
-  //   yield put(A.setNewWallet({guid, sharedKey, mnemonic, password, email}))
-  //   yield put(A.newWalletSuccess())
-  // }
+  const walletSignupSaga = function * (action) {
+    const label = undefined
+    const { password, email } = action.payload
+    const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+    const mnemonic = BIP39.generateMnemonic()
+    yield put(A.wallet.setNewWallet(guid, password, sharedKey, mnemonic, label))
+    yield put(A.wallet.newWalletSuccess(email))
+  }
 
   return function * () {
     yield [
@@ -70,6 +70,6 @@ export const rootSaga = ({ api, dataPath, walletPath, settingsPath } = {}) => {
     ]
     yield takeEvery(T.common.WALLET_DATA_REQUEST, walletDataLoadSaga)
     yield takeEvery(T.wallet.REQUEST_SECOND_PASSWORD_TOGGLE, secondPasswordSaga)
-    // yield takeEvery(T.WALLET_NEW, walletSignupSaga)
+    yield takeEvery(T.wallet.WALLET_NEW, walletSignupSaga)
   }
 }

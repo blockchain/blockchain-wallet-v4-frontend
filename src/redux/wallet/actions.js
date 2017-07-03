@@ -16,14 +16,14 @@ export const secondPasswordOff = (newWallet) =>
   ({ type: T.SECOND_PASSWORD_OFF, payload: newWallet })
 export const changeMainPassword = (password) =>
   ({ type: T.MAIN_PASSWORD_CHANGE, payload: password })
-export const changePayloadChecksum = (checksum) =>
-  ({ type: T.PAYLOAD_CHECKSUM_CHANGE, payload: checksum })
+export const setPayloadChecksum = (checksum) =>
+  ({ type: T.SET_PAYLOAD_CHECKSUM, payload: checksum })
 export const newWallet = (password, email) =>
   ({ type: T.WALLET_NEW, payload: { password, email } })
-export const setNewWallet = (guid, sharedKey, mnemonic) =>
-  ({ type: T.WALLET_NEW_SET, payload: { guid, sharedKey, mnemonic } })
-export const newWalletSuccess = () =>
-  ({ type: T.WALLET_NEW_SUCCESS })
+export const setNewWallet = (guid, password, sharedKey, mnemonic, label) =>
+  ({ type: T.WALLET_NEW_SET, payload: { guid, password, sharedKey, mnemonic, label } })
+export const newWalletSuccess = (email) =>
+  ({ type: T.WALLET_NEW_SUCCESS, payload: email})
 export const newWalletFailure = (error) =>
   ({ type: T.WALLET_NEW_FAILURE, payload: error })
 
