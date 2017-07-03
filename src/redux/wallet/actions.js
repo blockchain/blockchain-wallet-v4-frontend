@@ -26,6 +26,10 @@ export const newWalletSuccess = (email) =>
   ({ type: T.WALLET_NEW_SUCCESS, payload: email})
 export const newWalletFailure = (error) =>
   ({ type: T.WALLET_NEW_FAILURE, payload: error })
+export const setHdAddressLabel = (accountIdx, addressIdx, label) =>
+  ({ type: T.HD_ADDRESS_LABEL_SET, payload: { accountIdx, addressIdx, label } })
+export const removeHdAddressLabel = (accountIdx, addressIdx) =>
+  ({ type: T.HD_ADDRESS_LABEL_REMOVE, payload: { accountIdx, addressIdx } })
 
 export const onOpenAction = () => ({ type: T.SOCKET_OPEN })
 export const onMessageAction = (data) => ({ type: T.SOCKET_MESSAGE, data })

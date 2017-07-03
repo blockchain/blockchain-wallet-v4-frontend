@@ -1,8 +1,9 @@
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete that wallet test fail - idk why
-import { view, pipe, over, curry, compose, not, is, equals, assoc, dissoc, isNil } from 'ramda'
+import { view, pipe, over, curry, compose, not, is, equals, assoc, dissoc, isNil, set } from 'ramda'
 import Type from './Type'
-import { JSToI } from './util'
+import { JSToI, iLensProp } from './util'
 import * as AddressLabelMap from './AddressLabelMap'
+import * as AddressLabel from './AddressLabel'
 import * as Cache from './Cache'
 
 /* HDAccount :: {
@@ -53,6 +54,16 @@ export const toJS = pipe(HDAccount.guard, (acc) => {
     over(cache, Cache.toJS)
   )
   return dissoc('index', accountDecons(acc).toJS())
+})
+
+export const setAddressLabel = curry((index, label, hdAccount) => {
+  let addressLabel = AddressLabel.fromJS({ index, label })
+  let addressLabelLens = compose(addressLabels, iLensProp(index.toString()))
+  return set(addressLabelLens, addressLabel, hdAccount)
+})
+
+export const removeAddressLabel = curry((index, hdAccount) => {
+  return over(addressLabels, (l) => l.remove(index.toString()), hdAccount)
 })
 
 export const reviver = (jsObject) => {
