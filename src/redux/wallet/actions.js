@@ -1,43 +1,60 @@
 import * as T from './actionTypes'
 
-export const addAddress = (address, secondPassword) =>
-  ({ type: T.ADDRESS_ADD, payload: {address, secondPassword} })
-export const addLabel = (address, label) =>
-  ({ type: T.ADDRESS_LABEL, payload: {address, label} })
-export const replaceWallet = (payload) =>
-  ({ type: T.WALLET_REPLACE, payload: payload })
-export const clearWallet = () =>
-  ({ type: T.WALLET_CLEAR })
-export const secondPasswordToggleRequest = (password) =>
-  ({ type: T.REQUEST_SECOND_PASSWORD_TOGGLE, payload: password })
-export const secondPasswordOn = (newWallet) =>
-  ({ type: T.SECOND_PASSWORD_ON, payload: newWallet })
-export const secondPasswordOff = (newWallet) =>
-  ({ type: T.SECOND_PASSWORD_OFF, payload: newWallet })
-export const changeMainPassword = (password) =>
-  ({ type: T.MAIN_PASSWORD_CHANGE, payload: password })
+// wallet signup
+export const createWallet = (password, email) =>
+  ({ type: T.CREATE_WALLET, payload: { password, email } })
+export const createWalletSuccess = (guid, password, sharedKey, mnemonic, label, email) =>
+  ({ type: T.CREATE_WALLET_SUCCESS, payload: { guid, password, sharedKey, mnemonic, label, email } })
+export const createWalletError = (errorKey) =>
+  ({ type: T.CREATE_WALLET_ERROR, payload: errorKey, error: true })
+
+// second Password
+export const toggleSecondPassword = (password) =>
+  ({ type: T.TOGGLE_SECOND_PASSWORD, payload: password })
+export const toggleSecondPasswordSuccess = (wallet) =>
+  ({ type: T.TOGGLE_SECOND_PASSWORD_SUCCESS, payload: { wallet } })
+export const toggleSecondPasswordError = (errorKey) =>
+  ({ type: T.TOGGLE_SECOND_PASSWORD_ERROR, payload: errorKey, error: true })
+
+// legacy address Addition
+export const createAddress = (address, secondPassword) =>
+  ({ type: T.CREATE_ADDRESS, payload: {address, secondPassword} })
+export const createAddressSuccess = (wallet) =>
+  ({ type: T.CREATE_ADDRESS_SUCCESS, payload: { wallet } })
+export const createAddressError = (errorKey) =>
+  ({ type: T.CREATE_ADDRESS_ERROR, payload: errorKey, error: true })
+
+// wrapper
+export const setWrapper = (payload) =>
+  ({ type: T.SET_WRAPPER, payload: payload })
+export const deleteWRapper = () =>
+  ({ type: T.DELETE_WRAPPER })
+
+// socket middleware
+export const openSocket = () =>
+  ({ type: T.OPEN_SOCKET })
+export const messageSocket = (data) =>
+  ({ type: T.MESSAGE_SOCKET, data })
+export const closeSocket = () =>
+  ({ type: T.CLOSE_SOCKET })
+
+// walletSync middleware
+export const sync = () =>
+  ({ type: T.SYNC })
+export const syncSuccess = (checksum) =>
+  ({ type: T.SYNC_SUCCESS, payload: checksum })
+export const errorSync = (error) =>
+  ({ type: T.SYNC_ERROR, payload: error, error: true })
+
+// setters
+export const setMainPassword = (password) =>
+  ({ type: T.SET_MAIN_PASSWORD, payload: password })
 export const setPayloadChecksum = (checksum) =>
   ({ type: T.SET_PAYLOAD_CHECKSUM, payload: checksum })
-export const newWallet = (password, email) =>
-  ({ type: T.WALLET_NEW, payload: { password, email } })
-export const setNewWallet = (guid, password, sharedKey, mnemonic, label) =>
-  ({ type: T.WALLET_NEW_SET, payload: { guid, password, sharedKey, mnemonic, label } })
-export const newWalletSuccess = (email) =>
-  ({ type: T.WALLET_NEW_SUCCESS, payload: email})
-export const newWalletFailure = (error) =>
-  ({ type: T.WALLET_NEW_FAILURE, payload: error })
+export const setLegacyAddressLabel = (address, label) =>
+  ({ type: T.SET_LEGACY_ADDRESS_LABEL, payload: {address, label} })
+
 export const setHdAddressLabel = (accountIdx, addressIdx, label) =>
   ({ type: T.HD_ADDRESS_LABEL_SET, payload: { accountIdx, addressIdx, label } })
 export const removeHdAddressLabel = (accountIdx, addressIdx) =>
   ({ type: T.HD_ADDRESS_LABEL_REMOVE, payload: { accountIdx, addressIdx } })
-
-export const onOpenAction = () => ({ type: T.SOCKET_OPEN })
-export const onMessageAction = (data) => ({ type: T.SOCKET_MESSAGE, data })
-export const onCloseAction = () => ({ type: T.SOCKET_CLOSE })
-
-export const syncStart = () =>
-  ({ type: T.SYNC_START })
-export const syncSuccess = (checksum) =>
-  ({ type: T.SYNC_SUCCESS, payload: checksum })
-export const syncError = (error) =>
-  ({ type: T.SYNC_ERROR, payload: error, error: true })

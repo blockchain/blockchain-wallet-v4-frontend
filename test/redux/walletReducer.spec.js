@@ -39,7 +39,7 @@ describe('reducers', () => {
       expect(next).to.equal(wrapped)
     })
 
-    it('should handle ADDRESS_ADD', () => {
+    it('should handle CREATE_ADDRESS', () => {
       let action = Actions.addAddress(walletFixture.keys[0], null)
       let next = walletReducer(void 0, action)
       const sa = compose(Wallet.selectAddresses, Wrapper.selectWallet)

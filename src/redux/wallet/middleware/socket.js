@@ -8,13 +8,13 @@ const socket = (options) => (store) => {
   let send = socket.send.bind(socket)
 
   socket.connect(
-    compose(store.dispatch, A.onOpenAction),
-    compose(store.dispatch, A.onMessageAction, JSON.parse, prop('data')),
-    compose(store.dispatch, A.onCloseAction)
+    compose(store.dispatch, A.openSocket),
+    compose(store.dispatch, A.messageSocket, JSON.parse, prop('data')),
+    compose(store.dispatch, A.closeSocket)
   )
 
   let whitelist = {
-    [T.ADDRESS_ADD]: compose(send, Socket.addrSubMessage, prop('address'))
+    [T.CREATE_ADDRESS]: compose(send, Socket.addrSubMessage, prop('address'))
   }
 
   return (next) => (action) => {

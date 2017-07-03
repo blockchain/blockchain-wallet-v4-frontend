@@ -9,9 +9,9 @@ export const ratesSaga = ({ api } = {}) => {
     while (true) {
       try {
         let response = yield call(api.getTicker)
-        yield put(A.loadRatesData(response))
-      } catch (e) {
-        console.log('ERROR : fetch rates failed')
+        yield put(A.fetchRatesSuccess(response))
+      } catch (error) {
+        yield put(A.fetchRatesError(error))
       }
       yield call(delay, refreshRatesDelay)
     }

@@ -1,7 +1,8 @@
 import * as T from './actionTypes'
 
-export const requestSettingsData = (data) =>
-  ({ type: T.SETTINGS_DATA_REQUEST, payload: data })
-
-export const loadSettingsData = (data) =>
-  ({ type: T.SETTINGS_DATA_LOAD, payload: data })
+export const fetchSettings = (data) =>
+  ({ type: T.FETCH_SETTINGS, payload: data })
+export const fetchSettingsSuccess = (data) =>
+  ({ type: T.FETCH_SETTINGS_SUCCESS, payload: data })
+export const fetchSettingsError = (errorKey) =>
+  ({ type: T.FETCH_SETTINGS_ERROR, payload: errorKey, error: true })
