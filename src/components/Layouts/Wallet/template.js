@@ -1,33 +1,68 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import styled from 'styled-components'
 
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import Alerts from 'components/Shared/Alerts'
 
-import style from './style.scss'
+const WalletLayoutWrapper = styled.div`
+  flex-grow: 1;
+  height: 100%;
+`
+const WalletLayoutHeader = styled.div`
+  display: flex;
+  width: 100%;
+  height: 55px;
+`
+const WalletLayoutContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 55px);
+`
+const WalletLayoutLeft = styled.div`
+  display: flex;
+  width: 270px;
+  height: 100%;
+`
+const WalletLayoutContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`
+const WalletLayoutTop = styled.div`
+  display: flex;
+  width: 100%;
+  height: 115px;
+`
+const WalletLayoutPage = styled.div`
+  display: flex;
+  width: 100%;
+  height: calc(100% - 115px);
+  overflow-y: scroll;
+`
 
 const WalletLayout = (props) => (
-  <div styleName='wallet-layout'>
+  <WalletLayoutWrapper>
     <Alerts />
-    <div styleName='header'>
+    <WalletLayoutHeader>
       <Header />
-    </div>
-    <div styleName='main'>
-      <div styleName='menu-left'>
+    </WalletLayoutHeader>
+    <WalletLayoutContainer>
+      <WalletLayoutLeft>
         <MenuLeft location={props.location} />
-      </div>
-      <div styleName='content'>
-        <div styleName='menu-top'>
+      </WalletLayoutLeft>
+      <WalletLayoutContent>
+        <WalletLayoutTop>
           <MenuTop />
-        </div>
-        <div styleName='page'>
+        </WalletLayoutTop>
+        <WalletLayoutPage>
           {props.children}
-        </div>
-      </div>
-    </div>
-  </div>
+        </WalletLayoutPage>
+      </WalletLayoutContent>
+    </WalletLayoutContainer>
+  </WalletLayoutWrapper>
 )
 
-export default CSSModules(WalletLayout, style)
+export default WalletLayout

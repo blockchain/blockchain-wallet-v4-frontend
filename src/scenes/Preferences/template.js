@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import CSSModules from 'react-css-modules'
 
 import InfoWell from 'components/Shared/InfoWell'
 import SettingRow from 'components/Shared/SettingRow'
@@ -15,8 +14,6 @@ import BitcoinLinkHandling from './BitcoinLinkHandling'
 import AutoLogout from './AutoLogout'
 import Themes from './Themes'
 
-import style from './style.scss'
-
 const PreferencesInfoWell = InfoWell.extend`
   margin-bottom: 30px;
   border-left: 5px solid #FFCF62;
@@ -24,7 +21,7 @@ const PreferencesInfoWell = InfoWell.extend`
 
 const Preferences = (props) => {
   return (
-    <section styleName='preferences'>
+    <section>
       <PreferencesInfoWell>
         <FormattedMessage id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
       </PreferencesInfoWell>
@@ -41,4 +38,4 @@ const Preferences = (props) => {
   )
 }
 
-export default CSSModules(Preferences, style)
+export default Preferences

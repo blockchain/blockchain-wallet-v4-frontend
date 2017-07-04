@@ -1,15 +1,12 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
 
 import Adverts from './Adverts'
 import Footer from './Footer'
 import Navigation from './Navigation'
 
-import style from './style.scss'
-
 const MenuLeft = (props) => {
   return (
-    <div styleName='menu-left'>
+    <div>
       <Navigation location={props.location} />
       <Adverts />
       <Footer />
@@ -17,4 +14,4 @@ const MenuLeft = (props) => {
   )
 }
 
-export default CSSModules(MenuLeft, style)
+export default MenuLeft

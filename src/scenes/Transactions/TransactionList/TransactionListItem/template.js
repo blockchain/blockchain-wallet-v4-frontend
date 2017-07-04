@@ -1,21 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedDate } from 'react-intl'
-import CSSModules from 'react-css-modules'
 
 import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
 import CurrencyDisplay from 'components/Shared/CurrencyDisplay'
 
-import style from './style.scss'
-
 const TransactionListItem = (props) => {
   return (
-    <div className='container-fluid' styleName='transaction-list-item'>
+    <div className='container-fluid'>
       <div className='row'>
         <div className='col-3'>
           <div className='row'>
             <div className='col-2'>
-              <div styleName={(props.detailsDisplayed ? 'icon' : 'icon-rotated')}>
+              <div className={(props.detailsDisplayed ? 'icon' : 'icon-rotated')}>
                 <i className='icon-down_arrow' onClick={props.clickDetails} />
               </div>
             </div>
@@ -74,4 +71,4 @@ TransactionListItem.propTypes = {
   })
 }
 
-export default CSSModules(TransactionListItem, style)
+export default TransactionListItem

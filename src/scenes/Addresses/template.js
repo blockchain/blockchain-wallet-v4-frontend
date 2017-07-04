@@ -1,7 +1,4 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const Addresses = () => {
   return (
@@ -11,4 +8,4 @@ const Addresses = () => {
   )
 }
 
-export default CSSModules(Addresses, style)
+export default Addresses

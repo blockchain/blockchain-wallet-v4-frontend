@@ -1,8 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const Ticker = (props) => {
   return (
@@ -17,4 +14,4 @@ Ticker.propTypes = {
   currencyValue: PropTypes.string.isRequired
 }
 
-export default CSSModules(Ticker, style)
+export default Ticker

@@ -79,45 +79,6 @@ module.exports = {
               options: {
                 sourceMap: true
               }
-            },
-            {
-              loader: 'sass-resources-loader',
-              options: {
-                resources: [
-                  PATHS.src + '/assets/sass/resources/**/*.scss'
-                ]
-              }
-            }
-          ],
-          fallback: 'style-loader'
-        })
-      },
-      {
-        test: /(components|scenes).*\.scss$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[local]___[hash:base64:5]',
-                importLoaders: 2
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'sass-resources-loader',
-              options: {
-                resources: [
-                  PATHS.src + '/assets/sass/resources/**/*.scss',
-                  PATHS.npm + '/bootstrap/scss/mixins/**/*.scss'
-                ]
-              }
             }
           ],
           fallback: 'style-loader'

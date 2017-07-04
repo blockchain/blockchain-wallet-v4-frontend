@@ -81,7 +81,6 @@
     "react-test-renderer": "^15.5.4",
     "redux-mock-store": "^1.2.3",
     "sass-loader": "^6.0.5",
-    "sass-resources-loader": "^1.2.1",
     "standard": "^10.0.2",
     "style-loader": "^0.18.0",
     "webpack": "^2.5.1",
@@ -89,6 +88,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "blockchain-css": "^1.1.25",
     "bootstrap": "4.0.0-alpha.6",
     "color": "^2.0.0",
     "connected-react-router": "^4.2.1",
@@ -101,7 +101,6 @@
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.6.0",
     "react-addons-transition-group": "^15.6.0",
-    "react-css-modules": "^4.3.0",
     "react-dom": "^15.5.4",
     "react-intl": "^2.3.0",
     "react-redux": "^5.0.5",

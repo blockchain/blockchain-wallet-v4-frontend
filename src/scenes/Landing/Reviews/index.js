@@ -1,14 +1,11 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const Reviews = () => {
   return (
-    <section styleName='reviews'>
+    <section>
       Reviews section
     </section>
   )
 }
 
-export default CSSModules(Reviews, style)
+export default Reviews

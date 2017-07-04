@@ -2,13 +2,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const DidYouKnow = (props) => {
   return (
-    <div className='container-fluid' styleName='did-you-know'>
+    <div className='container-fluid'>
       <div className='row padding-bottom-20 justify-content-between'>
         <div className='col-auto h6 text-capitalize'>
           <FormattedMessage id='scenes.home.didyouknow.title' defaultMessage='Did you know?' />
@@ -21,7 +18,7 @@ const DidYouKnow = (props) => {
         <div className='col-12 padding-20 border'>
           <div className='row padding-bottom-10'>
             <div className='col-12'>
-              <i className={`h3 padding-right-10 ${props.info.icon}`} styleName='icon' />
+              <i className={`h3 padding-right-10 ${props.info.icon}`} />
               <span className='h6'>{props.info.title}</span>
             </div>
           </div>
@@ -48,4 +45,4 @@ DidYouKnow.propTypes = {
   })
 }
 
-export default CSSModules(DidYouKnow, style)
+export default DidYouKnow
