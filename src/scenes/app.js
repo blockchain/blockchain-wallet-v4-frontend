@@ -2,7 +2,7 @@ import React from 'react'
 import { Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 
 import LandingLayout from 'components/Layouts/Landing'
 import PublicLayout from 'components/Layouts/Public'
@@ -24,29 +24,35 @@ import AddressesContainer from './Addresses'
 import FaqContainer from './Faq'
 import theme from './theme'
 
+const RootStyle = styled.div`
+  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+`
+
 class App extends React.Component {
   render () {
     return (
       <Provider store={this.props.store}>
         <ConnectedIntlProvider messages={this.props.messages}>
           <ThemeProvider theme={theme}>
-            <ConnectedRouter history={this.props.history}>
-              <Switch>
-                <LandingLayout exact path='/' component={LandingContainer} />
-                <PublicLayout path='/login' component={LoginContainer} />
-                <PublicLayout path='/register' component={RegisterContainer} />
-                <WalletLayout path='/wallet' component={HomeContainer} />
-                <WalletLayout path='/transactions' component={TransactionsContainer} />
-                <WalletLayout path='/buy-sell' component={BuyContainer} />
-                <WalletLayout path='/security-center' component={SecurityCenterContainer} />
-                <Redirect from='/settings' to='/settings/info' exact />
-                <WalletLayout path='/settings/info' component={InfoContainer} />
-                <WalletLayout path='/settings/preferences' component={PreferencesContainer} />
-                <WalletLayout path='/settings/security' component={SecuritySettingsContainer} />
-                <WalletLayout path='/settings/addresses' component={AddressesContainer} />
-                <WalletLayout path='/faq' component={FaqContainer} />
-              </Switch>
-            </ConnectedRouter>
+            <RootStyle>
+              <ConnectedRouter history={this.props.history}>
+                <Switch>
+                  <LandingLayout exact path='/' component={LandingContainer} />
+                  <PublicLayout path='/login' component={LoginContainer} />
+                  <PublicLayout path='/register' component={RegisterContainer} />
+                  <WalletLayout path='/wallet' component={HomeContainer} />
+                  <WalletLayout path='/transactions' component={TransactionsContainer} />
+                  <WalletLayout path='/buy-sell' component={BuyContainer} />
+                  <WalletLayout path='/security-center' component={SecurityCenterContainer} />
+                  <Redirect from='/settings' to='/settings/info' exact />
+                  <WalletLayout path='/settings/info' component={InfoContainer} />
+                  <WalletLayout path='/settings/preferences' component={PreferencesContainer} />
+                  <WalletLayout path='/settings/security' component={SecuritySettingsContainer} />
+                  <WalletLayout path='/settings/addresses' component={AddressesContainer} />
+                  <WalletLayout path='/faq' component={FaqContainer} />
+                </Switch>
+              </ConnectedRouter>
+            </RootStyle>
           </ThemeProvider>
         </ConnectedIntlProvider>
       </Provider>
