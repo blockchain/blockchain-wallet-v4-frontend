@@ -13,12 +13,12 @@ class TransactionListContainer extends React.Component {
 
   componentWillMount () {
     if (isEmpty(this.props.transactions)) {
-      this.props.tActions.requestTxs(this.props.addressFilter, txsPerPage)
+      this.props.tActions.fetchTransactions(this.props.addressFilter, txsPerPage)
     }
   }
   componentWillUpdate (nextProps) {
     if (this.props.addressFilter !== nextProps.addressFilter) {
-      this.props.tActions.requestTxs(nextProps.addressFilter, txsPerPage)
+      this.props.tActions.fetchTransactions(nextProps.addressFilter, txsPerPage)
     }
   }
 
