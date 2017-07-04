@@ -78,7 +78,7 @@ describe('Wallet', () => {
   describe('setAddressLabel', () => {
     it('should set a new address label', () => {
       let addr = '14mQxLtEagsS8gYsdWJbzthFFuPDqDgtxQ'
-      let withNewLabel = Wallet.setAddressLabel(addr, 'new_label', wallet)
+      let withNewLabel = Wallet.setLegacyAddressLabel(addr, 'new_label', wallet)
       expect(wallet.addresses.get(addr).label).to.equal('labeled_imported')
       expect(withNewLabel.addresses.get(addr).label).to.equal('new_label')
     })

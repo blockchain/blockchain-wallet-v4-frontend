@@ -1,4 +1,5 @@
-import { indexBy, map, prop, view, compose, is, pipe, curry } from 'ramda'
+import { indexBy, map, prop, compose, is, pipe, curry } from 'ramda'
+import { view } from 'ramda-lens'
 import Type from './Type'
 import * as AddressBookEntry from './AddressBookEntry'
 import { iLensProp } from './util'

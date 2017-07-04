@@ -5,7 +5,7 @@ import * as T from './actionTypes.js'
 const list = (state = [], action) => {
   const { type } = action
   switch (type) {
-    case T.CONTEXT_TXS_LOAD: {
+    case T.FETCH_TRANSACTIONS_SUCCESS: {
       const { payload } = action
       return state.concat(payload.txs)
     }

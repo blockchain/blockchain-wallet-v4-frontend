@@ -1,6 +1,6 @@
-import { is, view, curry, over, lensProp, pipe, set, compose, assoc, dissoc } from 'ramda'
+import { is, curry, lensProp, pipe, compose, assoc, dissoc } from 'ramda'
 import * as crypto from '../WalletCrypto'
-import { traverseOf } from 'ramda-lens'
+import { traverseOf, view, over, set } from 'ramda-lens'
 import Either from 'data.either'
 import Type from './Type'
 import * as Wallet from './Wallet'

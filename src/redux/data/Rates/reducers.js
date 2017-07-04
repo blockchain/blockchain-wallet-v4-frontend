@@ -5,7 +5,7 @@ const INITIAL_STATE = {}
 const ratesReducer = (state = INITIAL_STATE, action) => {
   let { type } = action
   switch (type) {
-    case T.RATES_DATA_LOAD: {
+    case T.FETCH_RATES_SUCCESS: {
       let { payload } = action
       return payload
     }

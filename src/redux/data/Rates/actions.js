@@ -1,4 +1,6 @@
 import * as T from './actionTypes'
 
-export const loadRatesData = (data) =>
-  ({ type: T.RATES_DATA_LOAD, payload: data })
+export const fetchRatesSuccess = (data) =>
+  ({ type: T.FETCH_RATES_SUCCESS, payload: data })
+export const fetchRatesError = (data) =>
+  ({ type: T.FETCH_RATES_SUCCESS, payload: data })

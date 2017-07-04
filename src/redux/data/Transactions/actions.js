@@ -1,9 +1,12 @@
 import * as T from './actionTypes'
 
-export const loadContextTxs = (payload) =>
-  ({ type: T.CONTEXT_TXS_LOAD, payload })
-export const requestTxs = (addressFilter, txPerPage) =>
-  ({ type: T.TXS_LOAD_REQUEST, payload: {addressFilter, txPerPage} })
+export const fetchTransactions = (addressFilter, txPerPage) =>
+  ({ type: T.FETCH_TRANSACTIONS, payload: {addressFilter, txPerPage} })
+export const fetchTransactionsSuccess = (payload) =>
+  ({ type: T.FETCH_TRANSACTIONS_SUCCESS, payload })
+export const fetchTransactionsError = (errorKey) =>
+  ({ type: T.FETCH_TRANSACTIONS_ERROR, payload: errorKey, error: true })
+
 export const setAddressFilter = (addressFilter) =>
   ({ type: T.SET_ADDRESS_FILTER, payload: {addressFilter} })
 export const setTypeFilter = (typeFilter) =>

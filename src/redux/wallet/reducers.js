@@ -1,59 +1,50 @@
 import * as T from './actionTypes.js'
-import { Wrapper, Wallet, Address, InitialState, HDWallet, HDAccount } from '../../types'
-import { iLensProp } from '../../types/util'
-import Either from 'data.either'
-import { over, compose, set } from 'ramda'
+import { Wrapper, Wallet, InitialState } from '../../types'
+import { over, set } from 'ramda-lens'
 
 export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(InitialState.Wrapper)
 
 export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
   const { type } = action
   switch (type) {
-    case T.SECOND_PASSWORD_ON:
-    case T.SECOND_PASSWORD_OFF:
-    case T.WALLET_REPLACE: {
-      return action.payload
-    }
-    case T.ADDRESS_ADD: {
-      const { address, secondPassword } = action.payload
-      const a = Address.fromJS(address)
-      const addMyAddress = w => Wallet.addAddress(w, a, secondPassword)
-      // this should be handled on a saga. No eithers in reducers
-      const eitherWrapper = Wrapper.traverseWallet(Either.of, addMyAddress, state)
-      if (eitherWrapper.isRight) {
-        return eitherWrapper.value
-      } else {
-        return state
-      }
-    }
-    case T.ADDRESS_LABEL: {
-      const { address, label } = action.payload
-      return over(Wrapper.wallet, Wallet.setAddressLabel(address, label), state)
-    }
     case T.SET_PAYLOAD_CHECKSUM: {
       const checksum = action.payload
       return set(Wrapper.payloadChecksum, checksum, state)
     }
-    case T.WALLET_NEW_SET: {
+    case T.SET_WRAPPER: {
+      return action.payload
+    }
+    case T.DELETE_WRAPPER: {
+      return WRAPPER_INITIAL_STATE
+    }
+    case T.CREATE_WALLET_SUCCESS: {
       let { guid, sharedKey, mnemonic, label, password } = action.payload
       return Wrapper.createNew(guid, password, sharedKey, mnemonic, label)
     }
-    case T.HD_ADDRESS_LABEL_SET: {
+    case T.TOGGLE_SECOND_PASSWORD_SUCCESS:
+    case T.CREATE_LEGACY_ADDRESS_SUCCESS: {
+      const { wallet } = action.payload
+      return wallet
+    }
+    case T.SET_LEGACY_ADDRESS_LABEL: {
+      const { address, label } = action.payload
+      return over(Wrapper.wallet, Wallet.setLegacyAddressLabel(address, label), state)
+    }
+    case T.DELETE_LEGACY_ADDRESS: {
+      const address = action.payload
+      return over(Wrapper.wallet, Wallet.deleteLegacyAddress(address), state)
+    }
+    case T.SET_MAIN_PASSWORD: {
+      const { password } = action.payload
+      return set(Wrapper.password, password, state)
+    }
+    case T.SET_HD_ADDRESS_LABEL: {
       let { accountIdx, addressIdx, label } = action.payload
-      let accountLens = compose(Wallet.hdWallets, iLensProp('0'), HDWallet.accounts, iLensProp(accountIdx.toString()))
-      let setLabel = (wallet) => Either.of(over(accountLens, HDAccount.setAddressLabel(addressIdx, label), wallet))
-      let eitherWrapper = Wrapper.traverseWallet(Either.of, setLabel, state)
-      return eitherWrapper.isRight ? eitherWrapper.value : state
+      return over(Wrapper.wallet, Wallet.setHdAddressLabel(accountIdx, addressIdx, label), state)
     }
-    case T.HD_ADDRESS_LABEL_REMOVE: {
-      let { accountIdx, addressIdx } = action.payload
-      let accountLens = compose(Wallet.hdWallets, iLensProp('0'), HDWallet.accounts, iLensProp(accountIdx.toString()))
-      let setLabel = (wallet) => Either.of(over(accountLens, HDAccount.removeAddressLabel(addressIdx), wallet))
-      let eitherWrapper = Wrapper.traverseWallet(Either.of, setLabel, state)
-      return eitherWrapper.isRight ? eitherWrapper.value : state
-    }
-    case T.WALLET_CLEAR: {
-      return WRAPPER_INITIAL_STATE
+    case T.DELETE_HD_ADDRESS_LABEL: {
+      const { accountIdx, addressIdx } = action.payload
+      return over(Wrapper.wallet, Wallet.deleteHdAddressLabel(accountIdx, addressIdx), state)
     }
     default:
       return state

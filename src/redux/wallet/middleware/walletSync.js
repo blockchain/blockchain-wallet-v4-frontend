@@ -14,7 +14,7 @@ const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (ne
   if ((wasAuth && isAuth) &&
     action.type !== T.SET_PAYLOAD_CHECKSUM &&
     prevWallet !== nextWallet) {
-    store.dispatch(A.syncStart())
+    store.dispatch(A.sync())
     api.saveWallet(nextWallet).then(checksum => {
       store.dispatch(A.setPayloadChecksum(checksum))
       return checksum
@@ -25,9 +25,9 @@ const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (ne
     )
   }
 
-  if (action.type === T.WALLET_NEW_SUCCESS) {
-    const email = action.payload
-    store.dispatch(A.syncStart())
+  if (action.type === T.CREATE_WALLET_SUCCESS) {
+    const { email } = action.payload
+    store.dispatch(A.sync())
     api.createWallet(email)(nextWallet).then(checksum => {
       store.dispatch(A.setPayloadChecksum(checksum))
       return checksum

@@ -1,4 +1,5 @@
-import { map, view, is, pipe } from 'ramda'
+import { map, is, pipe } from 'ramda'
+import { view } from 'ramda-lens'
 import List from './List'
 import * as HDWallet from './HDWallet'
 
