@@ -2,13 +2,13 @@ import React from 'react'
 import { Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
+import { ThemeProvider } from 'styled-components'
 
 import LandingLayout from 'components/Layouts/Landing'
 import PublicLayout from 'components/Layouts/Public'
 import WalletLayout from 'components/Layouts/Wallet'
 
 import ConnectedIntlProvider from 'components/Providers/ConnectedIntlProvider'
-import ConnectedThemeProvider from 'components/Providers/ConnectedThemeProvider'
 
 import LandingContainer from './Landing'
 import LoginContainer from './Login'
@@ -22,13 +22,14 @@ import PreferencesContainer from './Preferences'
 import SecuritySettingsContainer from './SecuritySettings'
 import AddressesContainer from './Addresses'
 import FaqContainer from './Faq'
+import theme from './theme'
 
 class App extends React.Component {
   render () {
     return (
       <Provider store={this.props.store}>
         <ConnectedIntlProvider messages={this.props.messages}>
-          <ConnectedThemeProvider>
+          <ThemeProvider theme={theme}>
             <ConnectedRouter history={this.props.history}>
               <Switch>
                 <LandingLayout exact path='/' component={LandingContainer} />
@@ -46,7 +47,7 @@ class App extends React.Component {
                 <WalletLayout path='/faq' component={FaqContainer} />
               </Switch>
             </ConnectedRouter>
-          </ConnectedThemeProvider>
+          </ThemeProvider>
         </ConnectedIntlProvider>
       </Provider>
     )

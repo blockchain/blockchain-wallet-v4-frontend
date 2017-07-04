@@ -17,7 +17,7 @@ const RequestBitcoinHeader = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid ${props => props.theme.colors.gray.lighter};
+  border-bottom: 1px solid ${props => props.theme.grayLighter};
 `
 const RequestBitcoinContent = styled.div`
   padding: 20px;

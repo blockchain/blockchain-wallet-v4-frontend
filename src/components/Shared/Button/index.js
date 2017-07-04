@@ -7,7 +7,6 @@ const BaseButton = styled.button`
   padding: 5px 30px;
   text-align: center;
   cursor: pointer;
-  font-family: ${props => props.theme.fonts.primary};
   font-weight: ${props => props.weight ? props.weight : '300'};
   font-size: ${props => props.size ? props.size : '1rem'};
   text-transform: ${props => props.transform ? props.transform : 'none'};
@@ -20,22 +19,22 @@ BaseButton.defaultProps = {
 
 const Button = BaseButton.extend`
   border: 0;
-  color: ${props => props.theme.button[props.type].color};
-  background-color: ${props => props.theme.button[props.type].background};
+  color: ${props => props.theme.white};
+  background-color: ${props => props.theme.brandPrimary};
 
   &:hover {
-    background-color: ${props => Color(props.theme.button[props.type].background).darken(0.2).string()};
+    background-color: ${props => Color(props.theme.brandPrimary).darken(0.2).string()};
   }
 `
 
 const CircleButton = BaseButton.extend`
   border-radius: 20px;
-  color: ${props => props.theme.button[props.type].color};
-  background-color: ${props => props.theme.button[props.type].background};
-  border: 2px solid ${props => props.theme.button[props.type].border};
+  color: ${props => props.theme.white};
+  background-color: ${props => props.theme.brandPrimary};
+  border: 2px solid ${props => props.theme.grayLighter};
 
   &:hover {
-    background-color: ${props => Color(props.theme.button[props.type].background).darken(0.2).string()};
+    background-color: ${props => Color(props.theme.brandPrimary).darken(0.2).string()};
   }
 `
 export { Button, CircleButton }

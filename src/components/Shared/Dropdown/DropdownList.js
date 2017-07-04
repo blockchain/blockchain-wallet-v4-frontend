@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-const grayLighter = '#eceeef'
-
 const DropdownList = styled.div`
   position: absolute;
   display: ${props => props.opened ? 'flex' : 'none'};
@@ -15,7 +13,7 @@ const DropdownList = styled.div`
   overflow-x: hidden;
   margin-top: -1px;
   background-color: white;
-  border: 1px solid ${grayLighter};
+  border: 1px solid ${props => props.theme.grayLighter};
   z-index: 100;
 `
 
