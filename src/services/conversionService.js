@@ -2,6 +2,8 @@ import { contains, path } from 'ramda'
 import Maybe from 'data.maybe'
 import { isNumeric } from './validationHelper'
 
+const numberFormat = new Intl.NumberFormat()
+
 // convertToBitcoin :: Integer -> String -> Maybe (String)
 function convertToBitcoin (satoshiAmount, unit) {
   const value = (amount, unit) => `${amount} ${unit}`
@@ -23,17 +25,17 @@ function convertToBitcoin (satoshiAmount, unit) {
 }
 
 function convertToCurrency (satoshiAmount, currency, rates) {
-  const value = (amount, currency) => `${amount} ${currency}`
+  const value = (amount, currency) => `${currency}${numberFormat.format(amount)}`
   const convert = (amount, ratio) => parseFloat((amount * ratio / 100000000).toFixed(2))
 
-  if (!isNumeric(satoshiAmount)) { return Maybe.Nothing() }
+  if (!isNumeric(satoshiAmount)) return Maybe.Nothing()
 
   let record = path([currency], rates)
   let ratio = path(['last'], record)
-  if (!ratio | !isNumeric(ratio)) { return Maybe.Nothing() }
+  if (!ratio || !isNumeric(ratio)) return Maybe.Nothing()
 
   let currencySymbol = path(['symbol'], record)
-  if (!currencySymbol) { return Maybe.Nothing() }
+  if (!currencySymbol) return Maybe.Nothing()
 
   return Maybe.Just(value(convert(satoshiAmount, ratio), currencySymbol))
 }

@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom'
 
 import Ticker from './Ticker'
 import ExploreMenu from './ExploreMenu'
+import WhatsNew from './WhatsNew'
+import Refresh from './Refresh'
 import Logout from './Logout'
 
 import logo from 'img/blockchain-vector.svg'
@@ -24,6 +26,8 @@ const Header = (props) => (
           <ul className='nav navbar-nav navbar-right'>
             <Ticker />
             <ExploreMenu />
+            <WhatsNew />
+            <Refresh />
             <Logout />
           </ul>
         </div>
