@@ -1,27 +1,37 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import styled from 'styled-components'
 
 import Dropdown from 'components/Shared/Dropdown'
 import FilterStatus from './FilterStatus'
 import Search from './Search'
-import style from './style.scss'
+
+const MenuTopWrapper = styled.div`
+  width: 100%;
+  height: 55px;
+  padding: 8px 30px;
+  @include box-sizing(border-box);
+  background-color: $gray-lightest;
+  border-bottom: 1px solid $gray-lighter;
+`
 
 const MenuTop = (props) => {
   return (
-    <div className='container-fluid' styleName='menuTop'>
-      <div className='row'>
-        <div className='col-md-4'>
-          <Dropdown items={props.addresses} callback={props.selectAddress} selected={props.addressFilter} />
-        </div>
-        <div className='col-md-4'>
-          <FilterStatus items={props.types} selected={props.typeFilter} callback={props.selectType} />
-        </div>
-        <div className='col-md-4'>
-          <Search selected={props.searchFilter} callback={props.selectSearch} />
+    <MenuTopWrapper>
+      <div className='container-fluid'>
+        <div className='row'>
+          <div className='col-md-4'>
+            <Dropdown items={props.addresses} callback={props.selectAddress} selected={props.addressFilter} />
+          </div>
+          <div className='col-md-4'>
+            <FilterStatus items={props.types} selected={props.typeFilter} callback={props.selectType} />
+          </div>
+          <div className='col-md-4'>
+            <Search selected={props.searchFilter} callback={props.selectSearch} />
+          </div>
         </div>
       </div>
-    </div>
+    </MenuTopWrapper>
   )
 }
 
-export default CSSModules(MenuTop, style)
+export default MenuTop

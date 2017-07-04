@@ -1,14 +1,11 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const GenerateReport = () => {
   return (
-    <div styleName='generate-report'>
+    <div>
       Generate Report
     </div>
   )
 }
 
-export default CSSModules(GenerateReport, style)
+export default GenerateReport

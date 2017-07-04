@@ -1,7 +1,4 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 import ActivityList from './ActivityList'
 import BalanceSummary from './BalanceSummary'
@@ -23,4 +20,4 @@ const Home = (props) => {
   )
 }
 
-export default CSSModules(Home, style)
+export default Home

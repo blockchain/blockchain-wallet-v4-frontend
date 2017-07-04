@@ -1,14 +1,11 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
 
 import MenuTop from './MenuTop'
 import TransactionList from './TransactionList'
 
-import style from './style.scss'
-
 const Transactions = (props) => {
   return (
-    <div styleName='transactions'>
+    <div>
       <MenuTop
         addressFilter={props.addressFilter}
         selectAddress={props.selectAddress}
@@ -24,4 +21,4 @@ const Transactions = (props) => {
   )
 }
 
-export default CSSModules(Transactions, style)
+export default Transactions

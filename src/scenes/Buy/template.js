@@ -1,7 +1,4 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const Buy = () => {
   return (
@@ -11,4 +8,4 @@ const Buy = () => {
   )
 }
 
-export default CSSModules(Buy, style)
+export default Buy

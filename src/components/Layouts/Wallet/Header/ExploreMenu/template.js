@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const ExploreMenu = (props) => {
   return (
@@ -37,4 +34,4 @@ ExploreMenu.propTypes = {
   clickExploreMenu: PropTypes.func.isRequired
 }
 
-export default CSSModules(ExploreMenu, style)
+export default ExploreMenu

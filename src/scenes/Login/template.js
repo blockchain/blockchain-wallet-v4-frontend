@@ -1,13 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const Login = (props) => {
   return (
-    <section styleName='login'>
+    <section>
       <div className='row padding-vertical-10 justify-content-between align-items-center'>
         <div className='col-8'>
           <div className='h4 text-capitalize'>
@@ -84,4 +81,4 @@ const Login = (props) => {
   )
 }
 
-export default CSSModules(Login, style)
+export default Login

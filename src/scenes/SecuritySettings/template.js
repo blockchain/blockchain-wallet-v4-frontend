@@ -1,16 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import CSSModules from 'react-css-modules'
 
 import BasicSecurity from './BasicSecurity'
 import AdvancedSecurity from './AdvancedSecurity'
 
-import style from './style.scss'
-
 const SecuritySettings = (props) => {
   return (
-    <section styleName='settings'>
+    <section>
       <BasicSecurity />
       <button className='button-empty margin-vertical-10' onClick={props.clickAdvancedSecurity}>
         <FormattedMessage id='scenes.settings.advancedsettings' defaultMessage='Advanced settings' />
@@ -29,4 +26,4 @@ SecuritySettings.propTypes = {
   clickAdvancedSecurity: PropTypes.func.isRequired
 }
 
-export default CSSModules(SecuritySettings, style)
+export default SecuritySettings

@@ -1,16 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import CSSModules from 'react-css-modules'
 
 import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
 import CurrencyDisplay from 'components/Shared/CurrencyDisplay'
 
-import style from './style.scss'
-
 const BalanceSummary = (props) => {
   return (
-    <div className='container-fluid padding-bottom-30' styleName='balance-summary'>
+    <div className='container-fluid padding-bottom-30'>
       <div className='row padding-bottom-20'>
         <div className='col-auto h6 text-capitalize'>
           <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Balance summary' />
@@ -63,4 +60,4 @@ BalanceSummary.propTypes = {
   total: PropTypes.number.isRequired
 }
 
-export default CSSModules(BalanceSummary, style)
+export default BalanceSummary

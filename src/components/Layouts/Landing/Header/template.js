@@ -4,8 +4,6 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
-import { CircleButton } from 'components/Shared/Button'
-
 const NavbarButtonContainer = styled.div`
   display: none;
   flex-direction: row;
@@ -153,16 +151,12 @@ const Header = (props) => {
           </NavbarMenu>
         </NavbarLinkContainer>
         <NavbarButtonContainer>
-          <CircleButton type='primary'>
-            <NavbarLinkRouter to='/login'>
-              <FormattedMessage id='components.layouts.landing.header.login' defaultMessage='Log in' />
-            </NavbarLinkRouter>
-          </CircleButton>
-          <CircleButton type='secondary'>
-            <NavbarLinkRouter to='/register'>
-              <FormattedMessage id='components.layouts.landing.header.signup' defaultMessage='Sign up' />
-            </NavbarLinkRouter>
-          </CircleButton>
+          <NavbarLinkRouter to='/login'>
+            <FormattedMessage id='components.layouts.landing.header.login' defaultMessage='Log in' />
+          </NavbarLinkRouter>
+          <NavbarLinkRouter to='/register'>
+            <FormattedMessage id='components.layouts.landing.header.signup' defaultMessage='Sign up' />
+          </NavbarLinkRouter>
         </NavbarButtonContainer>
         <NavbarButtonMenu mobileDisplay={props.headerMenuDisplayed} onClick={props.clickHeaderMenu}>
           <NavbarButtonMenuBar />

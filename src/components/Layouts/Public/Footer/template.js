@@ -1,7 +1,4 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const Footer = () => {
   return (
@@ -11,4 +8,4 @@ const Footer = () => {
   )
 }
 
-export default CSSModules(Footer, style)
+export default Footer
