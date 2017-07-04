@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const grayLightest = '#f7f7f9'
-
 const DropdownItem = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
@@ -10,7 +8,7 @@ const DropdownItem = styled.a`
   cursor: pointer;
 
   &:hover {
-    background-color: ${grayLightest};
+    background-color: ${props => props.theme.grayLightest};
   }
 `
 

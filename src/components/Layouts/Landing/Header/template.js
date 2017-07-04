@@ -25,7 +25,7 @@ const NavbarButtonMenu = styled.div`
   padding: 5px;
   border-box: box-sizing;
   cursor: pointer;
-  background-color: ${props => props.mobileDisplay ? props.theme.colors.blue.secondary : 'transparent'};
+  background-color: ${props => props.mobileDisplay ? props.theme.brandInfo : 'transparent'};
 
   @media (min-width: 768px) { display: none; }
 `
@@ -34,7 +34,7 @@ const NavbarButtonMenuBar = styled.div`
   width: 30px;
   height: 2px;
   border-radius: 1px;
-  background-color: ${props => props.theme.colors.white}
+  background-color: ${props => props.theme.white}
 `
 const NavbarContainer = styled.nav`
   display: flex;
@@ -43,7 +43,7 @@ const NavbarContainer = styled.nav`
   align-items: center;
   height: 100%;
   width: 100%;
-  
+
   @media (min-width: 544px) { width: 540px; margin: 0 auto; }
   @media (min-width: 768px) { width: 720px; }
   @media (min-width: 992px) { width: 960px; }
@@ -51,18 +51,18 @@ const NavbarContainer = styled.nav`
 `
 const NavbarLink = styled.a`
   padding: 0 10px;
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.white};
   text-decoration: none;
   text-transform: uppercase;
   font-weight: 500;
 
   &:hover {
-    color: ${props => props.theme.colors.white};
+    color: ${props => props.theme.white};
     text-decoration: none;
   }
-  
+
   &:focus {
-    color: ${props => props.theme.colors.white};
+    color: ${props => props.theme.white};
     text-decoration: none;
   }
 `
@@ -75,18 +75,18 @@ const NavbarLinkContainer = styled.div`
 `
 const NavbarLinkRouter = styled(NavLink)`
   padding: 0 10px;
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.white};
   text-decoration: none;
   text-transform: uppercase;
   font-weight: 500;
 
   &:hover {
-    color: ${props => props.theme.colors.white};
+    color: ${props => props.theme.white};
     text-decoration: none;
   }
 
   &:focus {
-    color: ${props => props.theme.colors.white};
+    color: ${props => props.theme.white};
     text-decoration: none;
   }
 `
@@ -94,8 +94,8 @@ const NavbarLogo = styled.div`
   display: inline-flex;
   height: 22px;
   width: 200px;
-  background-image: url("./img/${props => props.theme.images.logo}");
-  background-color: ${props => props.theme.colors.blue.primary};
+  background-image: url("./img/blockchain-vector.svg");
+  background-color: ${props => props.theme.brandPrimary};
   background-size: cover;
   border: none;
 `
@@ -105,13 +105,13 @@ const NavbarMenu = styled.div`
   @media (min-width: 768px) { display: flex; }
 `
 const NavbarMenuItem = styled.div`
-  color: ${props => props.theme.colors.white}
+  color: ${props => props.theme.white}
   cursor: pointer;
 `
 const NavbarWrapper = styled.header`
   width: 100%;
   height: 90px;
-  background-color: ${props => props.theme.colors.blue.primary}
+  background-color: ${props => props.theme.brandPrimary}
 `
 
 const Header = (props) => {
