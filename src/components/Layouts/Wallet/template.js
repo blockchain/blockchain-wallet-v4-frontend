@@ -10,11 +10,6 @@ const WalletLayoutWrapper = styled.div`
   flex-grow: 1;
   height: 100%;
 `
-const WalletLayoutHeader = styled.div`
-  display: flex;
-  width: 100%;
-  height: 55px;
-`
 const WalletLayoutContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -46,9 +41,7 @@ const WalletLayoutPage = styled.div`
 const WalletLayout = (props) => (
   <WalletLayoutWrapper>
     <Alerts />
-    <WalletLayoutHeader>
-      <Header />
-    </WalletLayoutHeader>
+    <Header />
     <WalletLayoutContainer>
       <WalletLayoutLeft>
         <MenuLeft location={props.location} />

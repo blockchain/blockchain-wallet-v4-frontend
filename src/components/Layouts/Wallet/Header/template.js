@@ -8,25 +8,29 @@ import Logout from './Logout'
 
 import logo from 'img/blockchain-vector.svg'
 
-const Header = (props) => {
-  return (
-    <nav className='navbar navbar-toggleable-md'>
-      <button className={`navbar-toggler navbar-toggler-right navbar-light ${props.headerMenuDisplayed ? 'collapsed' : ''}`} onClick={props.clickHeaderMenu}>
-        <span className='navbar-toggler-icon' />
-      </button>
-      <NavLink className='navbar-brand' to='/'>
-        <img src={logo} />
-      </NavLink>
-      <div className={`collapse navbar-collapse ${props.headerMenuDisplayed ? 'show' : ''}`} id='navbarNav'>
-        <ul className='navbar-nav ml-auto'>
-          <Ticker />
-          <ExploreMenu />
-          <Logout />
-        </ul>
+const Header = (props) => (
+  <div className='wallet-top-navigation navbar navbar-inverse mbn'>
+    <div className='bc-header'>
+      <div className='container-fluid'>
+        <div className='navbar-header flex-between flex-center'>
+          <button className={`navbar-toggle ${props.headerMenuDisplayed ? 'collapsed' : ''}`} onClick={props.clickHeaderMenu}>
+            <span className='ti-menu white' />
+          </button>
+          <NavLink className='navbar-brand' to='/'>
+            <img id='logo' src={logo} />
+          </NavLink>
+        </div>
+        <div className={`navbar-collapse collapse ${props.headerMenuDisplayed ? 'show' : ''}`} id='navbarNav'>
+          <ul className='nav navbar-nav navbar-right'>
+            <Ticker />
+            <ExploreMenu />
+            <Logout />
+          </ul>
+        </div>
       </div>
-    </nav>
-  )
-}
+    </div>
+  </div>
+)
 
 Header.propTypes = {
   clickHeaderMenu: PropTypes.func.isRequired,
