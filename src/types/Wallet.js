@@ -1,15 +1,18 @@
 import Either from 'data.either'
 import Task from 'data.task'
-import { compose, over, view, curry, map, is, pipe, __, concat } from 'ramda'
-import { traversed, traverseOf } from 'ramda-lens'
+import { compose, curry, map, is, pipe, __, concat } from 'ramda'
+import { traversed, traverseOf, over, view, set } from 'ramda-lens'
 import * as crypto from '../WalletCrypto'
-import { shift, shiftIProp, iLensProp } from './util'
+import { shift, shiftIProp } from './util'
 import Type from './Type'
 import * as HDWallet from './HDWallet'
 import * as HDAccount from './HDAccount'
 import * as Address from './Address'
 import * as AddressMap from './AddressMap'
+import * as AddressLabel from './AddressLabel'
+import * as AddressLabelMap from './AddressLabelMap'
 import * as HDWalletList from './HDWalletList'
+import * as HDAccountList from './HDAccountList'
 import * as AddressBook from './AddressBook'
 import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
@@ -146,10 +149,38 @@ export const addAddress = curry((wallet, address, password) => {
   }
 })
 
-// setAddressLabel :: String -> String -> Wallet -> Wallet
-export const setAddressLabel = curry((address, label, wallet) => {
-  let addressLens = compose(addresses, iLensProp(address))
-  return over(addressLens, Address.setLabel(label), wallet)
+// setLegacyAddressLabel :: String -> String -> Wallet -> Wallet
+export const setLegacyAddressLabel = curry((address, label, wallet) => {
+  const addressLens = compose(addresses, AddressMap.address(address))
+  const eitherW = Either.try(over(addressLens, Address.setLabel(label)))(wallet)
+  return eitherW.getOrElse(wallet)
+})
+
+// deleteLegacyAddress :: String -> Wallet -> Wallet
+export const deleteLegacyAddress = curry((address, wallet) => {
+  return over(addresses, AddressMap.deleteAddress(address), wallet)
+})
+
+// setHdAddressLabel :: Number -> Number -> Wallet -> Wallet
+export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
+  const lens = compose(hdWallets,
+                       HDWalletList.hdwallet,
+                       HDWallet.accounts,
+                       HDAccountList.account(accountIdx),
+                       HDAccount.addressLabels)
+  const eitherW = Either.try(over(lens, AddressLabelMap.deleteLabel(addressIdx)))(wallet)
+  return eitherW.getOrElse(wallet)
+})
+
+// setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
+export const setHdAddressLabel = curry((accountIdx, addressIdx, label, wallet) => {
+  const lens = compose(hdWallets,
+                       HDWalletList.hdwallet,
+                       HDWallet.accounts,
+                       HDAccountList.account(accountIdx),
+                       HDAccount.addressLabels)
+  const eitherW = Either.try(over(lens, AddressLabelMap.setLabel(addressIdx, label)))(wallet)
+  return eitherW.getOrElse(wallet)
 })
 
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet

@@ -1,4 +1,5 @@
-import { view, is, pipe, curry } from 'ramda'
+import { is, pipe, curry } from 'ramda'
+import { view } from 'ramda-lens'
 import Type from './Type'
 import { iLensProp } from './util'
 

@@ -1,4 +1,5 @@
-import { view, is, pipe, set } from 'ramda'
+import { is, pipe } from 'ramda'
+import { view, set } from 'ramda-lens'
 import { iToJS } from './util'
 import Type from './Type'
 

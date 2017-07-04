@@ -15,27 +15,6 @@ describe('HDAccount', () => {
     })
   })
 
-  describe('setAddressLabel', () => {
-    it('should change an existing address label', () => {
-      let label = 'changed_label'
-      let newAccount = HDAccount.setAddressLabel(0, label, account)
-      expect(HDAccount.toJS(newAccount).address_labels[0].label).to.equal(label)
-    })
-
-    it('should add a new address label', () => {
-      let label = 'new_label'
-      let newAccount = HDAccount.setAddressLabel(1, label, account)
-      expect(HDAccount.toJS(newAccount).address_labels[1].label).to.equal(label)
-    })
-  })
-
-  describe('removeAddressLabel', () => {
-    it('should remove an address label', () => {
-      let newAccount = HDAccount.removeAddressLabel(0, account)
-      expect(HDAccount.toJS(newAccount).address_labels).to.have.length.of(0)
-    })
-  })
-
   describe('serializer', () => {
     it('compose(reviver, replacer) should be identity', () => {
       const string = JSON.stringify(account)

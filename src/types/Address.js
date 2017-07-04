@@ -1,6 +1,6 @@
-import { view, compose, is, equals, not, pipe, set, curry, isNil } from 'ramda'
+import { compose, is, equals, not, pipe, curry, isNil } from 'ramda'
+import { view, set, traverseOf } from 'ramda-lens'
 import * as crypto from '../WalletCrypto'
-import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
 import Type from './Type'
 import { iToJS } from './util'

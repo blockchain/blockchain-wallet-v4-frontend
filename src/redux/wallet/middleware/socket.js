@@ -14,7 +14,7 @@ const socket = (options) => (store) => {
   )
 
   let whitelist = {
-    [T.CREATE_ADDRESS]: compose(send, Socket.addrSubMessage, prop('address'))
+    [T.CREATE_LEGACY_ADDRESS]: compose(send, Socket.addrSubMessage, prop('address'))
   }
 
   return (next) => (action) => {

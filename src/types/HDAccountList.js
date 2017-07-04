@@ -1,4 +1,5 @@
-import { filter, map, addIndex, prop, view, compose, is, pipe, curry } from 'ramda'
+import { filter, map, addIndex, is, pipe, curry } from 'ramda'
+import { view } from 'ramda-lens'
 import List from './List'
 import * as HDAccount from './HDAccount'
 import { iLensProp } from './util'
@@ -8,6 +9,8 @@ const mapIndexed = addIndex(map)
 export class HDAccountList extends List {}
 
 export const isHDAccountList = is(HDAccountList)
+
+export const account = iLensProp
 
 export const selectAccount = curry((index, as) => pipe(HDAccountList.guard, view(iLensProp(index)))(as))
 

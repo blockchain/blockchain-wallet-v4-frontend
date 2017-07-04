@@ -18,17 +18,11 @@ export const toggleSecondPasswordError = (errorKey) =>
 
 // legacy address Addition
 export const createAddress = (address, secondPassword) =>
-  ({ type: T.CREATE_ADDRESS, payload: {address, secondPassword} })
+  ({ type: T.CREATE_LEGACY_ADDRESS, payload: {address, secondPassword} })
 export const createAddressSuccess = (wallet) =>
-  ({ type: T.CREATE_ADDRESS_SUCCESS, payload: { wallet } })
+  ({ type: T.CREATE_LEGACY_ADDRESS_SUCCESS, payload: { wallet } })
 export const createAddressError = (errorKey) =>
-  ({ type: T.CREATE_ADDRESS_ERROR, payload: errorKey, error: true })
-
-// wrapper
-export const setWrapper = (payload) =>
-  ({ type: T.SET_WRAPPER, payload: payload })
-export const deleteWRapper = () =>
-  ({ type: T.DELETE_WRAPPER })
+  ({ type: T.CREATE_LEGACY_ADDRESS_ERROR, payload: errorKey, error: true })
 
 // socket middleware
 export const openSocket = () =>
@@ -47,14 +41,21 @@ export const errorSync = (error) =>
   ({ type: T.SYNC_ERROR, payload: error, error: true })
 
 // setters
+export const setWrapper = (payload) =>
+  ({ type: T.SET_WRAPPER, payload: payload })
 export const setMainPassword = (password) =>
   ({ type: T.SET_MAIN_PASSWORD, payload: password })
 export const setPayloadChecksum = (checksum) =>
   ({ type: T.SET_PAYLOAD_CHECKSUM, payload: checksum })
 export const setLegacyAddressLabel = (address, label) =>
   ({ type: T.SET_LEGACY_ADDRESS_LABEL, payload: {address, label} })
-
 export const setHdAddressLabel = (accountIdx, addressIdx, label) =>
-  ({ type: T.HD_ADDRESS_LABEL_SET, payload: { accountIdx, addressIdx, label } })
-export const removeHdAddressLabel = (accountIdx, addressIdx) =>
-  ({ type: T.HD_ADDRESS_LABEL_REMOVE, payload: { accountIdx, addressIdx } })
+  ({ type: T.SET_HD_ADDRESS_LABEL, payload: { accountIdx, addressIdx, label } })
+
+// deletes
+export const deleteWrapper = () =>
+  ({ type: T.DELETE_WRAPPER })
+export const deleteLegacyAddress = (address) =>
+  ({ type: T.DELETE_LEGACY_ADDRESS, payload: address })
+export const deleteHdAddressLabel = (accountIdx, addressIdx) =>
+  ({ type: T.DELETE_HD_ADDRESS_LABEL, payload: { accountIdx, addressIdx } })

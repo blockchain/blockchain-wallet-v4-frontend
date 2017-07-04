@@ -60,6 +60,6 @@ export const walletSaga = ({ api, walletPath } = {}) => {
   return function * () {
     yield takeEvery(T.TOGGLE_SECOND_PASSWORD, secondPasswordSaga)
     yield takeEvery(T.CREATE_WALLET, walletSignupSaga)
-    yield takeEvery(T.CREATE_ADDRESS, createAddressSaga)
+    yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
   }
 }
