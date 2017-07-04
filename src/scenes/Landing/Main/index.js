@@ -1,99 +1,73 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
 
-import { Button } from 'components/Shared/Button'
+import { Text } from 'components/Shared/Text'
+import { Container } from 'components/Shared/Grid'
+import banner from 'img/landing-page-banner-overlay.jpg'
+
+const MainContainer = styled.div``
+const BannerWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 480px;
+  background: url(${banner});
+  background-size: cover;
+`
+const BannerContainer = styled(Container)`
+
+`
+const BlockContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media(min-width: 768px) { flex-direction: row; }
+`
+const Block = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  flex-grow: 1;
+`
+const Block1 = Block.extend`
+  background-color: #3558A8;
+`
+const Block2 = Block.extend`
+  background-color: #004A7C;
+`
+const Block3 = Block.extend`
+  background-color: #10ADE4;
+`
 
 const Main = (props) => {
   return (
-    <section>
-      <div className='container h-100'>
-        <div className='row h-25 justify-content-center align-items-center'>
-          <div className='col-auto'>
-            <div>
-              <FormattedMessage id='scenes.landing.main.mostpopular' defaultMessage="The world's most popular bitcoin wallet" />
-            </div>
-          </div>
-        </div>
-        <div className='row h-25 justify-content-around align-items-center hidden-sm-down'>
-          <div className='col-12 col-md-3'>
-            <div className='row h-50 justify-content-around'>
-              <div className='col-auto'>
-                <div>
-                  <FormattedMessage id='scenes.landing.main.transactionsamount' defaultMessage='{nbTransactions} Million+' values={{nbTransactions: 100}} />
-                </div>
-              </div>
-            </div>
-            <div className='row h-50 justify-content-center'>
-              <div className='col-auto'>
-                <div>
-                  <FormattedMessage id='scenes.landing.main.transactions' defaultMessage='Transactions' />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='col col-md-3'>
-            <div className='row h-50 justify-content-center'>
-              <div className='col-auto'>
-                <div>
-                  <FormattedMessage id='scenes.landing.main.walletsamount' defaultMessage='{nbWallets} Million+' values={{nbWallets: 14}} />
-                </div>
-              </div>
-            </div>
-            <div className='row justify-content-center'>
-              <div className='col-auto'>
-                <div>
-                  <FormattedMessage id='scenes.landing.main.wallets' defaultMessage='Wallets' />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='col-12 col-md-3'>
-            <div className='row h-50 justify-content-center'>
-              <div className='col-auto'>
-                <div>
-                  <FormattedMessage id='scenes.landing.main.countriesamount' defaultMessage='{nbCountries}+' values={{nbCountries: 140}} />
-                </div>
-              </div>
-            </div>
-            <div className='row h-50 justify-content-center'>
-              <div className='col-auto'>
-                <div>
-                  <FormattedMessage id='scenes.landing.main.countries' defaultMessage='Countries served' />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className='row h-25 justify-content-center align-items-center'>
-          <div className='col-12'>
-            <div className='row justify-content-center'>
-              <div className='col-12 col-sm-8 col-md-6 col-lg-4'>
-                <NavLink to='/login'>
-                  <Button type='primary' weight={1000} transform='uppercase' fullwidth>
-                    <FormattedMessage id='scenes.landing.main.register' defaultMessage='Create your wallet' />
-                  </Button>
-                </NavLink>
-              </div>
-            </div>
-            <div className='row justify-content-center center-align'>
-              <div className='col-12 col-sm-8 col-md-6 col-lg-4'>
-                <FormattedMessage id='scenes.landing.main.or' defaultMessage='or' />
-              </div>
-            </div>
-            <div className='row justify-content-center'>
-              <div className='col-12 col-sm-8 col-md-6 col-lg-4'>
-                <NavLink to='/login'>
-                  <Button type='secondary' weight={1000} transform='uppercase' fullwidth>
-                    <FormattedMessage id='scenes.landing.main.login' defaultMessage='Login now' />
-                  </Button>
-                </NavLink>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <MainContainer>
+      <BannerWrapper>
+        <BannerContainer>
+          <Text id='scenes.landing.main.simple' text='Simple. Seamless. Secure.' gianter lighter white />
+          <Text id='scenes.landing.main.popular' text="Blockchain is the world's most popular bitcoin wallet." light white />
+          <Text id='scenes.landing.main.mission' text='We are on a mission to build a more open, accessible, and fair financial future, one piece of software at a time.' light white />
+          <Text id='scenes.landing.main.getstarted' text='Get started now' cyan />
+        </BannerContainer>
+      </BannerWrapper>
+      <BlockContainer>
+        <Block1>
+          <Text id='scenes.landing.main.bitcoin' text='#1 Bitcoin wallet' biggest light white uppercase />
+        </Block1>
+        <Block2>
+          <Text id='scenes.landing.main.transactions' text='{nbTransactions} million+ transactions' values={{nbTransactions: '100'}} biggest light white uppercase />
+        </Block2>
+        <Block3>
+          <Text id='scenes.landing.main.wallets' text='{nbWallets} million+ wallets' values={{nbWallets: '14'}} biggest light white uppercase />
+        </Block3>
+      </BlockContainer>
+    </MainContainer>
   )
 }
 
