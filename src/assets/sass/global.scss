@@ -1,9 +1,7 @@
-@import './fonts.scss';
-
 //import global blockchain CSS
 @import '~blockchain-css/sass/bootstrap-blockchain';
 @import '~blockchain-css/sass/variables';
-// @import '~blockchain-css/sass/fonts';
+@import '~blockchain-css/sass/fonts';
 
 //import global utilities
 @import '~blockchain-css/sass/utilities/general';

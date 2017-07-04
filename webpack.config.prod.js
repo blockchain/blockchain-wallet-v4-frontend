@@ -20,7 +20,6 @@ module.exports = {
   resolve: {
     alias: {
       'npm': `${__dirname}/node_modules`,
-      'fonts': `${__dirname}/src/assets/fonts`,
       'img': `${__dirname}/src/assets/img`,
       'locales': `${__dirname}/src/assets/locales`,
       'sass': `${__dirname}/src/assets/sass`,
@@ -105,10 +104,7 @@ module.exports = {
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
-          loader: 'file-loader',
-          options: {
-            name: 'fonts/[name].[hash].[ext]'
-          }
+          loader: 'file-loader'
         }
       },
       {

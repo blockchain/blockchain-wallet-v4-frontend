@@ -20,7 +20,6 @@ module.exports = {
   resolve: {
     alias: {
       'npm': PATHS.npm,
-      'fonts': PATHS.src + '/assets/fonts',
       'img': PATHS.src + '/assets/img',
       'locales': PATHS.src + '/assets/locales',
       'sass': PATHS.src + '/assets/sass',
@@ -47,7 +46,6 @@ module.exports = {
                 'root': [PATHS.src],
                 'alias': {
                   'npm': PATHS.npm,
-                  'fonts': PATHS.src + '/assets/fonts',
                   'img': PATHS.src + '/assets/img',
                   'locales': PATHS.src + '/assets/locales',
                   'sass': PATHS.src + '/assets/sass',
@@ -87,10 +85,7 @@ module.exports = {
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
-          loader: 'file-loader',
-          options: {
-            name: 'fonts/[name].[ext]'
-          }
+          loader: 'file-loader'
         }
       },
       {
