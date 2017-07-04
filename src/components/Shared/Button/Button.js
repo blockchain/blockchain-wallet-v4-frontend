@@ -8,7 +8,7 @@ const Button = ({ type, fullwidth, className, children, ...props }) => (
 )
 
 Button.propTypes = {
-  type: PropTypes.oneOf(['primary', 'secondary', 'received', 'sent', 'transferred', 'empty']),
+  type: PropTypes.oneOf(['primary', 'secondary', 'received', 'sent', 'transferred', 'default']),
   fullwidth: PropTypes.bool
 }
 

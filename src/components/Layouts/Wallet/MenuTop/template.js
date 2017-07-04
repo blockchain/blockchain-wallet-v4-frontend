@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { ButtonGroup } from 'reactstrap'
 
 import RequestBitcoin from 'modals/RequestBitcoin'
 import { IconButton } from 'components/Shared/Button'
@@ -32,14 +33,16 @@ const MenuTop = (props) => (
     <div>
       <span className='h5 text-uppercase'>Be your own bank.</span>
       <Actions>
-        <IconButton icon='icon-send' className='margin-right-10' onClick={props.openSendBitcoin}>
+        <IconButton icon='icon-send' className='mr-10' onClick={props.openSendBitcoin}>
           <FormattedMessage id='components.layouts.wallet.menutop.send' defaultMessage='Send' />
         </IconButton>
-        <RequestBitcoin />
-        <IconButton icon='icon-receive' className='left' onClick={props.openRequestBitcoin}>
-          <FormattedMessage id='components.layouts.wallet.menutop.request' defaultMessage='Request' />
-        </IconButton>
-        <IconButton icon='icon-success' className='right' />
+        <ButtonGroup>
+          <RequestBitcoin />
+          <IconButton icon='icon-receive' onClick={props.openRequestBitcoin}>
+            <FormattedMessage id='components.layouts.wallet.menutop.request' defaultMessage='Request' />
+          </IconButton>
+          <IconButton icon='ti-clipboard' />
+        </ButtonGroup>
       </Actions>
     </div>
     <div>
