@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import sass from 'sass-extract-loader!sass/resources/bootstrap-settings.scss'
+import sass from 'sass-extract-loader!blockchain-css/sass/utilities/_colors.scss'
 
 const toCamelCase = R.compose(
   R.join(''),
