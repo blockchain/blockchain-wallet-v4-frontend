@@ -34,6 +34,7 @@ const Block = styled.div`
   height: 100px;
   width: 100%;
   flex-grow: 1;
+  text-align: center;
 `
 const Block1 = Block.extend`
   background-color: #3558A8;
