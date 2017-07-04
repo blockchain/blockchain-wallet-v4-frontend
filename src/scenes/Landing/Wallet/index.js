@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
 
+import { NavLink } from 'components/Shared/Link'
 import { Text } from 'components/Shared/Text'
 
 const WalletWrapper = styled.div`
@@ -35,9 +35,7 @@ const NewToBitcoin = (props) => {
         {/*<Button type='primary' />*/}
         <LoginContainer>
           <Text id='scenes.landing.wallet.or' text='or' lighter uppercase />
-          <NavLink to='/login'>
-            <Text id='scenes.landing.wallet.login' text='Login' lighter uppercase cyan />
-          </NavLink>
+          <NavLink to='/login' id='scenes.landing.wallet.login' text='Login' lighter uppercase cyan />
         </LoginContainer>
       </WalletContainer>
     </WalletWrapper>

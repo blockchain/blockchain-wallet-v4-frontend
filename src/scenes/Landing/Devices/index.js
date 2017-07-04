@@ -46,8 +46,12 @@ const Devices = (props) => {
           <Text id='scenes.landing.devices.bitcoin' text='Bitcoin on All Your Devices' giant lighter white />
           <Text id='scenes.landing.devices.wallet' text='Access your bitcoin wallet securely anywhere you go.' light white />
           <DownloadContainer>
-            <AppleStoreDownload />
-            <GooglePlayDownload />
+            <a href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309' target='_blank'>
+              <AppleStoreDownload />
+            </a>
+            <a href='https://play.google.com/store/apps/details?id=piuk.blockchain.android' target='_blank'>
+              <GooglePlayDownload />
+            </a>
           </DownloadContainer>
         </BannerContainer>
       </BannerWrapper>
