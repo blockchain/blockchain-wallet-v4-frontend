@@ -71,12 +71,8 @@ const WhyBlockchain = (props) => {
       </BlockchainContainer>
       <BlockchainCarousel>
         <BlockchainCarouselContent>
-          <BlockchainCarouselSlide active={props.slide1}>
-            <Page1 />
-          </BlockchainCarouselSlide>
-          <BlockchainCarouselSlide active={props.slide2}>
-            <Page2 />
-          </BlockchainCarouselSlide>
+          <BlockchainCarouselSlide active={props.slide1}><Page1 /></BlockchainCarouselSlide>
+          <BlockchainCarouselSlide active={props.slide2}><Page2 /></BlockchainCarouselSlide>
         </BlockchainCarouselContent>
         <BlockchainCarouselControls>
           <BlockchainCarouselControl active={props.slide1} onClick={props.clickPage1} />

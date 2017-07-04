@@ -88,7 +88,6 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "blockchain-css": "^1.1.25",
     "bootstrap": "4.0.0-alpha.6",
     "color": "^2.0.0",
     "connected-react-router": "^4.2.1",
@@ -96,6 +95,7 @@
     "dream-wallet": "git+https://github.com/blockchain/dream-wallet.git",
     "es6-promise": "^4.1.0",
     "immutable-ext": "^1.1.0",
+    "postcss-loader": "^2.0.6",
     "prop-types": "^15.5.10",
     "ramda": "^0.24.1",
     "react": "^15.5.4",

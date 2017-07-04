@@ -65,13 +65,20 @@ module.exports = {
         }]
       },
       {
-        test: /assets.*\.scss$/,
+        test: /assets.*\.scss|css$/,
         use: ExtractTextPlugin.extract({
           use: [
             {
               loader: 'css-loader',
               options: {
                 importLoaders: 1
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [ require('autoprefixer')({ browsers: 'last 2 versions' }) ],
+                sourceMap: true
               }
             },
             {

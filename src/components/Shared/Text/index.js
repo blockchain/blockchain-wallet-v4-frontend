@@ -36,10 +36,10 @@ const BaseText = styled.div`
 `
 
 const Text = (props) => {
-  console.log(props.text)
+  const { id, text, values, ...rest } = props
   return (
-    <BaseText {...props}>
-      <FormattedMessage id={props.id} defaultMessage={props.text} values={props.values} />
+    <BaseText {...rest}>
+      <FormattedMessage id={id} defaultMessage={text} values={values} />
     </BaseText>
   )
 }

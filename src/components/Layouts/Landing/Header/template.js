@@ -1,169 +1,60 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
-import { FormattedMessage } from 'react-intl'
 
-const NavbarButtonContainer = styled.div`
-  display: none;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 350px;
-  white-space: nowrap;
+import logo from 'img/blockchain-vector.svg'
+import { Container } from 'components/Shared/Grid'
+import { NavLink, Link } from 'components/Shared/Link'
+import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem } from 'components/Shared/Navbar'
 
-  @media (min-width: 992px) { display: flex; }
+const NavbarWrapper = styled.div`
+  background-color: #004A7C;
 `
-const NavbarButtonMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 30px;
-  width: 40px;
-  border-radius: 2px;
-  padding: 5px;
-  border-box: box-sizing;
-  cursor: pointer;
-  background-color: ${props => props.mobileDisplay ? props.theme.brandInfo : 'transparent'};
-
-  @media (min-width: 768px) { display: none; }
-`
-const NavbarButtonMenuBar = styled.div`
-  display: inline-flex;
-  width: 30px;
-  height: 2px;
-  border-radius: 1px;
-  background-color: ${props => props.theme.white}
-`
-const NavbarContainer = styled.nav`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-
-  @media (min-width: 544px) { width: 540px; margin: 0 auto; }
-  @media (min-width: 768px) { width: 720px; }
-  @media (min-width: 992px) { width: 960px; }
-  @media (min-width: 1200px) { width: 1140px; }
-`
-const NavbarLink = styled.a`
-  padding: 0 10px;
-  color: ${props => props.theme.white};
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: 500;
-
-  &:hover {
-    color: ${props => props.theme.white};
-    text-decoration: none;
-  }
-
-  &:focus {
-    color: ${props => props.theme.white};
-    text-decoration: none;
-  }
-`
-const NavbarLinkContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding-right: 20px;
-`
-const NavbarLinkRouter = styled(NavLink)`
-  padding: 0 10px;
-  color: ${props => props.theme.white};
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: 500;
-
-  &:hover {
-    color: ${props => props.theme.white};
-    text-decoration: none;
-  }
-
-  &:focus {
-    color: ${props => props.theme.white};
-    text-decoration: none;
-  }
-`
-const NavbarLogo = styled.div`
-  display: inline-flex;
+const NavbarLogo = styled.img.attrs({
+  src: logo
+})`
   height: 22px;
-  width: 200px;
-  background-image: url("./img/blockchain-vector.svg");
-  background-color: ${props => props.theme.brandPrimary};
-  background-size: cover;
+  margin-bottom 3px;
   border: none;
 `
-const NavbarMenu = styled.div`
-  display: none;
-
-  @media (min-width: 768px) { display: flex; }
+const NavbarItem = styled(NavItem)`
+  padding: 0 10px;
 `
-const NavbarMenuItem = styled.div`
-  color: ${props => props.theme.white}
+const NavbarToggleButton = styled(NavbarToggler)`
+  background-color: #FFFFFF;
   cursor: pointer;
-`
-const NavbarWrapper = styled.header`
-  width: 100%;
-  height: 90px;
-  background-color: ${props => props.theme.brandPrimary}
 `
 
 const Header = (props) => {
   return (
     <NavbarWrapper>
-      <NavbarContainer>
-        <NavbarLinkContainer>
-          <NavbarLinkRouter to='/'>
+      <Container>
+        <Navbar light toggleable>
+          <NavbarBrand href='/'>
             <NavbarLogo />
-          </NavbarLinkRouter>
-          <NavbarMenu mobileDisplay={props.headerMenuDisplayed}>
-            <NavbarLinkRouter to='/wallet'>
-              <NavbarMenuItem>
-                <FormattedMessage id='components.layouts.landing.header.wallets' defaultMessage='Wallets' />
-              </NavbarMenuItem>
-            </NavbarLinkRouter>
-            <NavbarLink href='https://blockchain.info/charts'>
-              <NavbarMenuItem>
-                <FormattedMessage id='components.layouts.landing.header.charts' defaultMessage='Charts' />
-              </NavbarMenuItem>
-            </NavbarLink>
-            <NavbarLink href='https://blockchain.info/stats'>
-              <NavbarMenuItem>
-                <FormattedMessage id='components.layouts.landing.header.stats' defaultMessage='Stats' />
-              </NavbarMenuItem>
-            </NavbarLink>
-            <NavbarLink href='https://blockchain.info/markets'>
-              <NavbarMenuItem>
-                <FormattedMessage id='components.layouts.landing.header.markets' defaultMessage='Markets' />
-              </NavbarMenuItem>
-            </NavbarLink>
-            <NavbarLink href='https://blockchain.info/api'>
-              <NavbarMenuItem>
-                <FormattedMessage id='components.layouts.landing.header.api' defaultMessage='Api' />
-              </NavbarMenuItem>
-            </NavbarLink>
-          </NavbarMenu>
-        </NavbarLinkContainer>
-        <NavbarButtonContainer>
-          <NavbarLinkRouter to='/login'>
-            <FormattedMessage id='components.layouts.landing.header.login' defaultMessage='Log in' />
-          </NavbarLinkRouter>
-          <NavbarLinkRouter to='/register'>
-            <FormattedMessage id='components.layouts.landing.header.signup' defaultMessage='Sign up' />
-          </NavbarLinkRouter>
-        </NavbarButtonContainer>
-        <NavbarButtonMenu mobileDisplay={props.headerMenuDisplayed} onClick={props.clickHeaderMenu}>
-          <NavbarButtonMenuBar />
-          <NavbarButtonMenuBar />
-          <NavbarButtonMenuBar />
-        </NavbarButtonMenu>
-      </NavbarContainer>
+          </NavbarBrand>
+          <Collapse navbar isOpen={props.headerMenuDisplayed}>
+            <Nav navbar>
+              <NavbarItem>
+                <NavLink to='/wallet' id='components.layouts.landing.header.wallets' text='Wallets' white uppercase />
+              </NavbarItem>
+              <NavbarItem>
+                <Link href='https://blockchain.info/charts' target='_blank' id='components.layouts.landing.header.charts' text='Charts' white uppercase />
+              </NavbarItem>
+              <NavbarItem>
+                <Link href='https://blockchain.info/stats' target='_blank' id='components.layouts.landing.header.stats' text='Stats' white uppercase />
+              </NavbarItem>
+              <NavbarItem>
+                <Link href='https://blockchain.info/markets' target='_blank' id='components.layouts.landing.header.markets' text='Markets' white uppercase />
+              </NavbarItem>
+              <NavbarItem>
+                <Link href='https://blockchain.info/api' target='_blank' id='components.layouts.landing.header.api' text='Api' white uppercase />
+              </NavbarItem>
+            </Nav>
+          </Collapse>
+          <NavbarToggleButton right onClick={props.clickHeaderMenu} />
+        </Navbar>
+      </Container>
     </NavbarWrapper>
   )
 }
