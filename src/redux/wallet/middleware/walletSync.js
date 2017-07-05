@@ -25,7 +25,8 @@ const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (ne
     )
   }
 
-  if (action.type === T.CREATE_WALLET_SUCCESS) {
+  if (action.type === T.CREATE_WALLET_SUCCESS ||
+      action.type === T.RESTORE_WALLET_SUCCESS) {
     const { email } = action.payload
     store.dispatch(A.sync())
     api.createWallet(email)(nextWallet).then(checksum => {

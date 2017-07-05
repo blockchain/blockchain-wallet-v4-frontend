@@ -3,10 +3,18 @@ import * as T from './actionTypes'
 // wallet signup
 export const createWallet = (password, email) =>
   ({ type: T.CREATE_WALLET, payload: { password, email } })
-export const createWalletSuccess = (guid, password, sharedKey, mnemonic, label, email) =>
-  ({ type: T.CREATE_WALLET_SUCCESS, payload: { guid, password, sharedKey, mnemonic, label, email } })
+export const createWalletSuccess = (guid, password, sharedKey, mnemonic, label, email, nAccounts) =>
+  ({ type: T.CREATE_WALLET_SUCCESS, payload: { guid, password, sharedKey, mnemonic, label, email, nAccounts } })
 export const createWalletError = (errorKey) =>
   ({ type: T.CREATE_WALLET_ERROR, payload: errorKey, error: true })
+
+// wallet from Mnemonic
+export const restoreWallet = (mnemonic, password, email) =>
+  ({ type: T.RESTORE_WALLET, payload: { password, email } })
+export const restoreWalletSuccess = (guid, password, sharedKey, mnemonic, label, email, nAccounts) =>
+  ({ type: T.RESTORE_WALLET_SUCCESS, payload: { guid, password, sharedKey, mnemonic, label, email, nAccounts } })
+export const restoreWalletError = (errorKey) =>
+  ({ type: T.RESTORE_WALLET_ERROR, payload: errorKey, error: true })
 
 // second Password
 export const toggleSecondPassword = (password) =>
