@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Grid } from 'components/Shared/Grid'
-import { Link, RouterLink } from 'components/Shared/Link'
-import { Text } from 'components/Shared/Text'
-import DropdownLanguage from './DropdownLanguage'
+import { Grid } from 'components/generic/Grid'
+import { Link, RouterLink } from 'components/generic/Link'
+import { Text } from 'components/generic/Text'
+import DropdownLanguage from 'components/shared/DropdownLanguage'
 
 import logo from 'img/blockchain-blue.svg'
 
@@ -49,18 +49,21 @@ const FooterLinkContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+
+  & > a { padding: 5px 0; }
 `
 const FooterDropdown = styled.div`
   display: flex;
   margin-top: 20px;
-  cursor: pointer;
 
-  & > div > a {
-    font-family: 'Montserrat', Helvetica, sans-serif;
+  & .btn-primary {
     font-weight: 400;
     font-size: 0.9rem;
     text-transform: uppercase;
+    background-color: transparent!important;
     color: #10ADE4!important;
+    border: none!important;
+    padding: 0;
   }
 
   @media(min-width: 768px) {

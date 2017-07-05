@@ -5,8 +5,8 @@ import Header from './Header'
 import Footer from './Footer'
 import styled from 'styled-components'
 
-import Alerts from 'components/Shared/Alerts'
-import { Grid } from 'components/Shared/Grid'
+import Alerts from 'components/shared/Alerts'
+import { Grid } from 'components/generic/Grid'
 
 const PublicLayoutWrapper = styled.div`
   background-color: #004A7C;

@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 import logo from 'img/blue-logo.svg'
-import { Grid } from 'components/Shared/Grid'
-import { Link } from 'components/Shared/Link'
-import DropdownLanguage from './DropdownLanguage'
+import { Grid } from 'components/generic/Grid'
+import { Link } from 'components/generic/Link'
+import DropdownLanguage from 'components/shared/DropdownLanguage'
 
 const FooterWrapper = styled.footer`
   background-color: #004A7C;

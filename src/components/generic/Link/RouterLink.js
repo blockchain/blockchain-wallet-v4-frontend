@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { Text } from 'components/Shared/Text'
+import { Text } from 'components/generic/Text'
 
 const BaseRouterLink = styled(NavLink)`
   text-decoration: none;

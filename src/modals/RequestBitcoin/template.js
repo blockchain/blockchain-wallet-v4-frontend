@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
-import { Modal, ModalHeader, ModalBody } from 'components/Shared/Modal'
-import { Button } from 'components/Shared/Button'
-import TextArea from 'components/Shared/TextArea'
-import DropdownSearch from 'components/Shared/DropdownSearch'
-import Text from 'components/Shared/Text'
+import { Modal, ModalHeader, ModalBody } from 'components/generic/Modal'
+import { Button } from 'components/legacy/Button'
+import TextArea from 'components/generic/TextArea'
+import DropdownSearch from 'components/shared/DropdownSearch'
+import Text from 'components/generic/Text'
 
 const RequestBitcoin = (props) => {
   return (

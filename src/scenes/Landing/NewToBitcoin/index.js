@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'components/Shared/Text'
-import { Grid } from 'components/Shared/Grid'
+import { Text } from 'components/generic/Text'
+import { Grid } from 'components/generic/Grid'
 import bitcoinNetwork from 'img/bitcoin-network.svg'
 
 const NewToBitcoinWrapper = styled.div`
-  background-color: '#FFFFFF'
-  height: 300px;
+  background-color: #FFFFFF;
   padding: 50px 0;
 `
 

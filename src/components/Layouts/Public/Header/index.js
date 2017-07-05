@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Grid } from 'components/Shared/Grid'
+import { Grid } from 'components/generic/Grid'
 import logo from 'img/blockchain-vector.svg'
 
 const HeaderWrapper = styled.div`

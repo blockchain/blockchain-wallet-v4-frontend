@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
-import CurrencyDisplay from 'components/Shared/CurrencyDisplay'
+import BitcoinDisplay from 'components/shared/BitcoinDisplay'
+import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 
 const BalanceWrapper = styled.div`
   cursor: pointer;

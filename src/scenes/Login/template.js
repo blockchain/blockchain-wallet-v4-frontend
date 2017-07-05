@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Link, NavLink } from 'components/Shared/Link'
-import { Text } from 'components/Shared/Text'
-import { Separator } from 'components/Shared/Separator'
+import { Link, NavLink } from 'components/generic/Link'
+import { Text } from 'components/generic/Text'
+import { Separator } from 'components/generic/Separator'
 
 const LoginContainer = styled.div`
   width: 100%;

@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 
-import BitcoinDisplay from 'components/Shared/BitcoinDisplay'
-import CurrencyDisplay from 'components/Shared/CurrencyDisplay'
+import BitcoinDisplay from 'components/shared/BitcoinDisplay'
+import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 
 const TransactionListItem = (props) => {
   return (

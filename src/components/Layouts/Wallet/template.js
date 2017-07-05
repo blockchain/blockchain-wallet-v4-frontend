@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
-import Alerts from 'components/Shared/Alerts'
+import Alerts from 'components/shared/Alerts'
 
 const WalletLayoutWrapper = styled.div`
   flex-grow: 1;

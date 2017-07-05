@@ -2,10 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button } from 'components/Shared/Button'
-import TextArea from 'components/Shared/TextArea'
-import Dropdown from 'components/Shared/Dropdown'
-import Text from 'components/Shared/Text'
+import { Button } from 'components/legacy/Button'
+import TextArea from 'components/generic/TextArea'
+import Dropdown from 'components/generic/Dropdown'
+import Text from 'components/generic/Text'
 
 const RequestBitcoinContainer = styled.div`
   height: 100%;

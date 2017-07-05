@@ -4,11 +4,10 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import styled, { ThemeProvider } from 'styled-components'
 
-import LandingLayout from 'components/Layouts/Landing'
-import PublicLayout from 'components/Layouts/Public'
-import WalletLayout from 'components/Layouts/Wallet'
-
-import ConnectedIntlProvider from 'components/Providers/ConnectedIntlProvider'
+import LandingLayout from 'components/layouts/Landing'
+import PublicLayout from 'components/layouts/Public'
+import WalletLayout from 'components/layouts/Wallet'
+import ConnectedIntlProvider from 'components/providers/ConnectedIntlProvider'
 
 import LandingContainer from './Landing'
 import LoginContainer from './Login'

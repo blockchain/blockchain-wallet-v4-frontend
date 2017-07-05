@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'components/Shared/Text'
-import { Grid } from 'components/Shared/Grid'
+import { Text } from 'components/generic/Text'
+import { Grid } from 'components/generic/Grid'
 import banner from 'img/landing-page-banner-sm-overlay.jpg'
 import appleStoreBadge from 'img/app-store-badge.svg'
 import googlePlayBadge from 'img/google-play-badge.png'

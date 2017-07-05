@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { RouterLink } from 'components/Shared/Link'
-import { Text } from 'components/Shared/Text'
+import { RouterLink } from 'components/generic/Link'
+import { Text } from 'components/generic/Text'
 
 const WalletWrapper = styled.div`
   display: flex;
