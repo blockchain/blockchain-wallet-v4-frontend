@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import DropdownLanguage from 'components/Shared/DropdownLanguage'
-import { Container, Row, Col } from 'components/Shared/Grid'
+import { Container } from 'components/Shared/Grid'
 import { Link, NavLink } from 'components/Shared/Link'
 import { Text } from 'components/Shared/Text'
+import DropdownLanguage from './DropdownLanguage'
 
 import logo from 'img/blockchain-blue.svg'
 
@@ -50,9 +50,30 @@ const FooterLinkContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 `
-const FooterDropdown = styled(DropdownLanguage)`
+const FooterDropdown = styled.div`
   display: flex;
   margin-top: 20px;
+  cursor: pointer;
+  
+  & button {
+    border: none!important;
+    background-color: transparent!important;
+    color: #10ADE4!important;
+    font-family: 'Montserrat', Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+
+    &:focus, :active, :active {
+      border: none!important;
+      background-color: transparent!important;
+      color: #10ADE4!important;
+    }
+  }
+
+  @media(min-width: 768px) {
+    margin: 0;
+  }
 `
 const FooterCopyright = styled.div`
   text-align: center;
@@ -91,7 +112,9 @@ const Footer = () => {
             <Link id='components.layouts.landing.footer.press' text='Press' href='https://blockchain.com/press' small uppercase />
             <Link id='components.layouts.landing.footer.blog' text='Blog' href='https://blog.blockchain.com' small uppercase />
           </FooterLinkContainer>
-          <FooterDropdown />
+          <FooterDropdown>
+            <DropdownLanguage />
+          </FooterDropdown>
         </FooterTop>
         <FooterBottom>
           <FooterCopyright>

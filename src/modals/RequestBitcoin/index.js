@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { curry, reduce, assoc, keys, map } from 'ramda'
 
 import { actions, selectors } from 'data'
-import RequestBitcoin from './RequestBitcoin.js'
+import RequestBitcoin from './template.js'
 
 const renameKeys = curry((keysMap, obj) => reduce((acc, key) => assoc(keysMap[key] || key, obj[key], acc), {}, keys(obj)))
 

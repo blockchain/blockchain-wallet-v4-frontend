@@ -1,91 +1,92 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { contains, toUpper, filter, prop, compose, groupBy, mapObjIndexed, values, keys, zipWith, prepend, flatten } from 'ramda'
-import Dropdown from './Dropdown'
+import * as Reactstrap from 'reactstrap'
 
-class DropdownContainer extends React.Component {
-  constructor (props) {
-    super(props)
+const Dropdown = (props) => (<Reactstrap.Dropdown {...props} />)
 
-    this.change = this.change.bind(this)
-    this.click = this.click.bind(this)
-    this.toggle = this.toggle.bind(this)
+const DropdownToggle = (props) => (<Reactstrap.DropdownToggle {...props} />)
 
-    this.state = {
-      items: this.transformItems(this.props.items),
-      opened: false,
-      display: this.getText(props.selected),
-      search: ''
-    }
-  }
+const DropdownMenu = (props) => (<Reactstrap.DropdownMenu {...props} />)
 
-  getText (value) {
-    let selectedItems = filter(x => x.value === value, this.props.items)
-    return selectedItems.length === 1 ? prop('text', selectedItems[0]) : '-'
-  }
+const DropdownItem = (props) => (<Reactstrap.DropdownItem {...props} />)
 
-  filterItems (value) {
-    return filter(x => contains(toUpper(value), toUpper(x.text)), this.props.items)
-  }
+export { Dropdown, DropdownToggle, DropdownMenu, DropdownItem }
 
-  transformItems (items) {
-    const group = groupBy(x => x.group ? x.group : '')
-    const transform = (num, key) => ({group: key, items: num})
-    const is = compose(mapObjIndexed(transform), group)(items)
-    const elements = values(is)
-    const groups = keys(is)
-    const zipper = (group, items) => prepend({text: group}, items.items)
-    return flatten(zipWith(zipper, groups, elements)).filter(x => x.text !== '')
-  }
+// import React from 'react'
+// import PropTypes from 'prop-types'
+// import {connect} from 'react-redux'
+// import {bindActionCreators} from 'redux'
+// import * as languageService from 'services/languageService.js'
+// import { actions, selectors } from 'data'
+// import DropdownLanguageItem from './DropdownLanguageItem'
 
-  toggle () {
-    this.setState({ opened: !this.state.opened, items: this.transformItems(this.props.items) })
-  }
+// export const DropdownLanguage = (props) => (
+//   <div className={`dropdown ${props.dropdownLanguageDisplayed && 'show'} ${props.className}`}>
+//     <a className='dropdown-toggle' id='dropdownLanguage' data-toggle='dropdown' aria-haspopup={props.dropdownLanguageDisplayed}
+//       aria-expanded={props.dropdownLanguageDisplayed} onClick={props.clickDropdownLanguage}>
+//       {props.currentLanguageName}
+//     </a>
+//     <div className='dropdown-menu' aria-labelledby='dropdownLanguage'>
+//       {props.languages.map((language, index) => (
+//         <DropdownLanguageItem key={index} culture={language.cultureCode} onClick={props.clickItem}>
+//           {language.name}
+//         </DropdownLanguageItem>
+//       ))}
+//     </div>
+//   </div>
+// )
 
-  click (value) {
-    // Execute callback
-    if (this.props.callback) this.props.callback(value)
-    // Close dropdown and display new value
-    this.setState({ opened: false, display: this.getText(value) })
-  }
+// DropdownLanguage.propTypes = {
+//   currentLanguageName: PropTypes.string.isRequired,
+//   languages: PropTypes.arrayOf(PropTypes.shape({
+//     name: PropTypes.string.isRequired,
+//     cultureCode: PropTypes.string.isRequired
+//   })),
+//   dropdownLanguageDisplayed: PropTypes.bool.isRequired,
+//   clickDropdownLanguage: PropTypes.func.isRequired,
+//   clickItem: PropTypes.func.isRequired,
+//   className: PropTypes.string
+// }
 
-  change (event) {
-    // We filter the items
-    this.setState({ items: this.transformItems(this.filterItems(event.target.value)) })
-  }
+// class DropdownLanguageContainer extends React.Component {
+//   constructor (props) {
+//     super(props)
+//     this.handleClickDropdownLanguage = this.handleClickDropdownLanguage.bind(this)
+//     this.handleClickItem = this.handleClickItem.bind(this)
+//   }
 
-  render () {
-    return (
-      <Dropdown
-        items={this.state.items}
-        display={this.state.display}
-        opened={this.state.opened}
-        searchEnabled={this.props.searchEnabled}
-        change={this.change}
-        click={this.click}
-        toggle={this.toggle}
-        className={this.props.className}
-      />
-    )
-  }
-}
+//   handleClickDropdownLanguage () {
+//     this.props.uiActions.toggleDropdownLanguage()
+//   }
 
-DropdownContainer.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    group: PropTypes.string
-  })),
-  callback: PropTypes.func.isRequired,
-  searchEnabled: PropTypes.bool,
-  selected: PropTypes.string,
-  className: PropTypes.string
-}
+//   handleClickItem (culture) {
+//     this.props.preferencesActions.setCulture(culture)
+//     this.props.uiActions.toggleDropdownLanguage()
+//   }
 
-DropdownContainer.defaultProps = {
-  searchEnabled: true,
-  selected: '',
-  className: ''
-}
+//   render () {
+//     let currentLanguageName = languageService.getLanguageName(this.props.culture).getOrElse('en-GB')
+//     return (
+//       <DropdownLanguage
+//         currentLanguageName={currentLanguageName}
+//         languages={this.props.languages}
+//         dropdownLanguageDisplayed={this.props.dropdownLanguageDisplayed}
+//         clickDropdownLanguage={this.handleClickDropdownLanguage}
+//         clickItem={this.handleClickItem}
+//         className={this.props.className}
+//       />
+//     )
+//   }
+// }
 
-export default DropdownContainer
+// let mapStateToProps = (state, ownProps) => ({
+//   culture: selectors.preferences.getCulture(state),
+//   dropdownLanguageDisplayed: selectors.ui.getDropdownLanguageDisplayed(state),
+//   languages: languageService.languagesSortedByName
+// })
+
+// let mapDispatchToProps = (dispatch) => ({
+//   uiActions: bindActionCreators(actions.ui, dispatch),
+//   preferencesActions: bindActionCreators(actions.preferences, dispatch)
+// })
+
+// export default connect(mapStateToProps, mapDispatchToProps)(DropdownLanguageContainer)

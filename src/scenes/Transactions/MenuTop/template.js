@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Dropdown from 'components/Shared/Dropdown'
+import DropdownSearch from 'components/Shared/DropdownSearch'
 import FilterStatus from './FilterStatus'
 import Search from './Search'
 
@@ -20,7 +20,7 @@ const MenuTop = (props) => {
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-md-4'>
-            <Dropdown items={props.addresses} callback={props.selectAddress} selected={props.addressFilter} />
+            <DropdownSearch items={props.addresses} callback={props.selectAddress} selected={props.addressFilter} />
           </div>
           <div className='col-md-4'>
             <FilterStatus items={props.types} selected={props.typeFilter} callback={props.selectType} />
