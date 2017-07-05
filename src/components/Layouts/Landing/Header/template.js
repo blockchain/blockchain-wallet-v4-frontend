@@ -22,7 +22,7 @@ const NavbarLogo = styled.img.attrs({
 const Header = (props) => {
   return (
     <NavbarWrapper>
-      <Navbar inverse expanded={props.headerMenuDisplayed} onToggle>
+      <Navbar inverse expanded={props.headerMenuDisplayed}>
         <NavbarHeader>
           <NavbarBrand>
             <NavLink to='/'><NavbarLogo /></NavLink>

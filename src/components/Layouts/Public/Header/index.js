@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 
 import { Grid } from 'components/generic/Grid'
 import logo from 'img/blockchain-vector.svg'
@@ -23,9 +24,9 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <HeaderContainer>
-        <a href='/'>
+        <NavLink to='/'>
           <HeaderLogo />
-        </a>
+        </NavLink>
       </HeaderContainer>
     </HeaderWrapper>
   )
