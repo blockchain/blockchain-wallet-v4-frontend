@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'components/Shared/Text'
-import { Container } from 'components/Shared/Grid'
+import { Grid } from 'components/Shared/Grid'
 import banner from 'img/landing-page-banner-sm-overlay.jpg'
 import appleStoreBadge from 'img/app-store-badge.svg'
 import googlePlayBadge from 'img/google-play-badge.png'
@@ -18,7 +18,7 @@ const BannerWrapper = styled.div`
   background-size: cover;
   background-position: 70% 100%;
 `
-const BannerContainer = styled(Container)``
+const BannerContainer = styled(Grid)``
 const DownloadContainer = styled.div`
   display: flex;
   flex-direction: row;

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'components/Shared/Text'
-import { Container } from 'components/Shared/Grid'
+import { Grid } from 'components/Shared/Grid'
 import bitcoinNetwork from 'img/bitcoin-network.svg'
 
 const NewToBitcoinWrapper = styled.div`
@@ -11,7 +11,7 @@ const NewToBitcoinWrapper = styled.div`
   padding: 50px 0;
 `
 
-const NewToBitcoinContainer = styled(Container)`
+const NewToBitcoinContainer = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -28,11 +28,11 @@ const BaseText = styled.div`
   text-transform: ${props =>
     props.uppercase ? 'uppercase'
     : props.capitalize ? 'capitalize' : 'none'};
+  font-style: ${props => props.italic ? 'italic' : 'normal'};
   color: ${props =>
     props.white ? '#FFFFFF'
     : props.cyan ? '#10ADE4'
     : '#5F5F5F'};
-  padding: 5px 0;
 `
 
 const Text = (props) => {

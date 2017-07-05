@@ -1,20 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'components/Shared/Dropdown'
+import { DropdownButton, MenuItem } from 'components/Shared/Dropdown'
 
 const DropdownLanguage = (props) => {
   return (
-    <Dropdown isOpen={props.dropdownOpen} toggle={props.toggle} dropup>
-      <DropdownToggle tag='a' caret>
-        {props.display}
-      </DropdownToggle>
-      <DropdownMenu>
-        { props.items.map(function (item, index) {
-          return (<DropdownItem tag='a' key={index} onClick={() => props.callback(item.value)}>{item.text}</DropdownItem>)
-        })}
-      </DropdownMenu>
-    </Dropdown>
+    <DropdownButton bsStyle='primary' title={props.display} isOpen={props.dropdownOpen} toggle={props.toggle} dropup>
+      { props.items.map(function (item, index) {
+        return (<MenuItem tag='a' key={index} onClick={() => props.callback(item.value)}>{item.text}</MenuItem>)
+      })}
+    </DropdownButton>
   )
 }
 

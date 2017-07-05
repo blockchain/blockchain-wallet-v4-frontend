@@ -1,4 +1,4 @@
 import Link from './Link'
-import NavLink from './NavLink'
+import RouterLink from './RouterLink'
 
-export { Link, NavLink }
+export { Link, RouterLink }

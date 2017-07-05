@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'components/Shared/Text'
-import { Container } from 'components/Shared/Grid'
+import { Grid } from 'components/Shared/Grid'
 import banner from 'img/landing-page-banner-overlay.jpg'
 
 const MainContainer = styled.div``
@@ -15,7 +15,7 @@ const BannerWrapper = styled.div`
   background: url(${banner});
   background-size: cover;
 `
-const BannerContainer = styled(Container)``
+const BannerContainer = styled(Grid)``
 const BlockContainer = styled.div`
   display: flex;
   flex-direction: column;

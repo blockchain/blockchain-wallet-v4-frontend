@@ -2,7 +2,6 @@
 import 'babel-polyfill'
 
 // Internal resources
-import 'bootstrap/scss/bootstrap.scss'
 import './assets/sass/global.scss'
 
 // Import fonts

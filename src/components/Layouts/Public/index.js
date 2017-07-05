@@ -6,13 +6,13 @@ import Footer from './Footer'
 import styled from 'styled-components'
 
 import Alerts from 'components/Shared/Alerts'
-import { Container } from 'components/Shared/Grid'
+import { Grid } from 'components/Shared/Grid'
 
 const PublicLayoutWrapper = styled.div`
   background-color: #004A7C;
   height: 100%;
 `
-const PublicLayoutContainer = styled(Container)`
+const PublicLayoutContainer = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

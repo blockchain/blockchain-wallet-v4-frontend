@@ -1,12 +1,10 @@
 import React from 'react'
-import * as Reactstrap from 'reactstrap'
+import * as ReactBootstrap from 'react-bootstrap'
 
-const Dropdown = (props) => (<Reactstrap.Dropdown {...props} />)
+const DropdownButton = (props) => (<ReactBootstrap.DropdownButton {...props} />)
 
-const DropdownToggle = (props) => (<Reactstrap.DropdownToggle {...props} />)
+const SplitButton = (props) => (<ReactBootstrap.SplitButton {...props} />)
 
-const DropdownMenu = (props) => (<Reactstrap.DropdownMenu {...props} />)
+const MenuItem = (props) => (<ReactBootstrap.MenuItem {...props} />)
 
-const DropdownItem = (props) => (<Reactstrap.DropdownItem {...props} />)
-
-export { Dropdown, DropdownToggle, DropdownMenu, DropdownItem }
+export { DropdownButton, SplitButton, MenuItem }

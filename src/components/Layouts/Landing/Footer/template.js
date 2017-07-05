@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Container } from 'components/Shared/Grid'
-import { Link, NavLink } from 'components/Shared/Link'
+import { Grid } from 'components/Shared/Grid'
+import { Link, RouterLink } from 'components/Shared/Link'
 import { Text } from 'components/Shared/Text'
 import DropdownLanguage from './DropdownLanguage'
 
@@ -12,7 +12,7 @@ const FooterWrapper = styled.div`
   background-color: #E3EFF5;
   padding: 40px;
 `
-const FooterContainer = styled(Container)`
+const FooterContainer = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -84,7 +84,7 @@ const Footer = () => {
           <FooterLogo />
           <FooterLinkContainer>
             <Text id='components.layouts.landing.footer.products' text='Products' small uppercase cyan />
-            <NavLink id='components.layouts.landing.footer.wallet' text='Wallet' to='/wallet' />
+            <RouterLink id='components.layouts.landing.footer.wallet' text='Wallet' to='/wallet' />
             <Link id='components.layouts.landing.footer.business' text='Business' href='https://blockchain.com/enterprise' small uppercase />
             <Link id='components.layouts.landing.footer.research' text='Research' href='https://blockchain.com/research' small uppercase />
             <Link id='components.layouts.landing.footer.explorer' text='.Info Explorer' href='https://blockchain.info' small uppercase />

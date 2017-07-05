@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Container } from 'components/Shared/Grid'
+import { Grid } from 'components/Shared/Grid'
 import { Text } from 'components/Shared/Text'
 import Page1 from './Page1'
 import Page2 from './Page2'
@@ -10,7 +10,7 @@ const BlockchainWrapper = styled.div`
   padding: 70px 0;
   background-color: #FFFFFF;
 `
-const BlockchainContainer = styled(Container)`
+const BlockchainContainer = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,7 +23,7 @@ const TextContainer = styled.div`
   align-items: center;
   width: 470px;
 `
-const BlockchainCarousel = styled(Container)`
+const BlockchainCarousel = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

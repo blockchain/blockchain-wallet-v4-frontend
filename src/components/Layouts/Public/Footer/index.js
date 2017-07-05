@@ -2,14 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 
 import logo from 'img/blue-logo.svg'
-import { Container } from 'components/Shared/Grid'
+import { Grid } from 'components/Shared/Grid'
 import { Link } from 'components/Shared/Link'
 import DropdownLanguage from './DropdownLanguage'
 
 const FooterWrapper = styled.footer`
   background-color: #004A7C;
+  padding: 15px 0;
 `
-const FooterContainer = styled(Container)`
+const FooterContainer = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

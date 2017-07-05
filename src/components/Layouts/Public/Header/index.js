@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Container } from 'components/Shared/Grid'
+import { Grid } from 'components/Shared/Grid'
 import logo from 'img/blockchain-vector.svg'
 
 const HeaderWrapper = styled.div`
   background-color: #004A7C;
   height: 60px;
 `
-const HeaderContainer = styled(Container)`
+const HeaderContainer = styled(Grid)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

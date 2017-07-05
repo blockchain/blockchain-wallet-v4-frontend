@@ -1,10 +1,12 @@
 import React from 'react'
-import * as Reactstrap from 'reactstrap'
+import * as ReactBootstrap from 'react-bootstrap'
 
-const Container = (props) => (<Reactstrap.Container {...props} />)
+const Grid = (props) => (<ReactBootstrap.Grid {...props} />)
 
-const Row = (props) => (<Reactstrap.Row {...props} />)
+const Row = (props) => (<ReactBootstrap.Row {...props} />)
 
-const Col = (props) => (<Reactstrap.Col {...props} />)
+const Col = (props) => (<ReactBootstrap.Col {...props} />)
 
-export { Container, Row, Col }
+const Clearfix = (props) => (<ReactBootstrap.Clearfix {...props} />)
+
+export { Grid, Row, Col, Clearfix }

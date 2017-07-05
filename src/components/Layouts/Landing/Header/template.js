@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import * as ReactRouterDom from 'react-router-dom'
 
 import logo from 'img/blockchain-vector.svg'
-import { CircleButton } from 'components/Shared/Button'
-import { Container } from 'components/Shared/Grid'
-import { NavLink, Link } from 'components/Shared/Link'
-import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem } from 'components/Shared/Navbar'
-import { Text } from 'components/Shared/Text'
+import { Grid } from 'components/Shared/Grid'
+import { Link, RouterLink } from 'components/Shared/Link'
+import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav, NavItem } from 'components/Shared/Navbar'
 
 const NavbarWrapper = styled.div`
   background-color: #004A7C;
@@ -23,7 +20,7 @@ const NavbarLogo = styled.img.attrs({
 const NavbarItem = styled(NavItem)`
   padding: 0 10px;
 `
-const NavbarToggleButton = styled(NavbarToggler)`
+const NavbarToggleButton = styled(NavbarToggle)`
   background-color: #FFFFFF;
   cursor: pointer;
 `
@@ -31,15 +28,19 @@ const NavbarToggleButton = styled(NavbarToggler)`
 const Header = (props) => {
   return (
     <NavbarWrapper>
-      <Container>
-        <Navbar light toggleable>
-          <NavbarBrand href='/'>
-            <NavbarLogo />
-          </NavbarBrand>
-          <Collapse navbar isOpen={props.headerMenuDisplayed}>
-            <Nav navbar>
+      <Grid>
+        <Navbar>
+          <NavbarHeader>
+            <NavbarBrand href='/'>
+              <NavbarLogo />
+            </NavbarBrand>
+            <NavbarToggleButton onClick={props.clickHeaderMenu} />
+          </NavbarHeader>
+          {/*<NavbarCollapse isOpen={props.headerMenuDisplayed}>*/}
+          <NavbarCollapse>
+            <Nav>
               <NavbarItem>
-                <NavLink to='/wallet' id='components.layouts.landing.header.wallets' text='Wallets' white uppercase />
+                <RouterLink to='/wallet' id='components.layouts.landing.header.wallets' text='Wallets' white uppercase />
               </NavbarItem>
               <NavbarItem>
                 <Link href='https://blockchain.info/charts' target='_blank' id='components.layouts.landing.header.charts' text='Charts' white uppercase />
@@ -54,20 +55,10 @@ const Header = (props) => {
                 <Link href='https://blockchain.info/api' target='_blank' id='components.layouts.landing.header.api' text='Api' white uppercase />
               </NavbarItem>
             </Nav>
-          </Collapse>
-          <ReactRouterDom.NavLink to='/login'>
-            <CircleButton type='primary'>
-              <Text id='components.layouts.landing.header.login' text='Login' />
-            </CircleButton>
-          </ReactRouterDom.NavLink>
-          <ReactRouterDom.NavLink to='/register'>
-            <CircleButton type='primary'>
-              <Text id='components.layouts.landing.header.signup' text='Sign up' />
-            </CircleButton>
-          </ReactRouterDom.NavLink>
-          <NavbarToggleButton right onClick={props.clickHeaderMenu} />
+            <Nav pullRight />
+          </NavbarCollapse>
         </Navbar>
-      </Container>
+      </Grid>
     </NavbarWrapper>
   )
 }

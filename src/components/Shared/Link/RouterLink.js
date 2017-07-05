@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import * as ReactRouterDom from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { Text } from 'components/Shared/Text'
 
-const BaseNavLink = styled(ReactRouterDom.NavLink)`
+const BaseRouterLink = styled(NavLink)`
   text-decoration: none;
 
   &:hover {
@@ -16,19 +16,19 @@ const BaseNavLink = styled(ReactRouterDom.NavLink)`
   }
 `
 
-const NavLink = (props) => {
+const RouterLink = (props) => {
   const { to, ...rest } = props
   return (
-    <BaseNavLink to={to}>
+    <BaseRouterLink to={to}>
       <Text {...rest} />
-    </BaseNavLink>
+    </BaseRouterLink>
   )
 }
 
-NavLink.propTypes = {
+RouterLink.propTypes = {
   id: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   values: PropTypes.object
 }
 
-export default NavLink
+export default RouterLink

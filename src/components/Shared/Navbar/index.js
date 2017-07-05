@@ -1,16 +1,18 @@
 import React from 'react'
-import * as Reactstrap from 'reactstrap'
+import * as ReactBootstrap from 'react-bootstrap'
 
-const Navbar = (props) => (<Reactstrap.Navbar {...props} />)
+const Navbar = (props) => (<ReactBootstrap.Navbar {...props} />)
 
-const NavbarBrand = (props) => (<Reactstrap.NavbarBrand {...props} />)
+const NavbarHeader = (props) => (<ReactBootstrap.Navbar.Header {...props} />)
 
-const NavbarToggler = (props) => (<Reactstrap.NavbarToggler {...props} />)
+const NavbarBrand = (props) => (<ReactBootstrap.Navbar.Brand {...props} />)
 
-const Collapse = (props) => (<Reactstrap.Collapse {...props} />)
+const NavbarToggle = (props) => (<ReactBootstrap.Navbar.Toggle {...props} />)
 
-const Nav = (props) => (<Reactstrap.Nav {...props} />)
+const NavbarCollapse = (props) => (<ReactBootstrap.Navbar.Collapse {...props} />)
 
-const NavItem = (props) => (<Reactstrap.NavItem {...props} />)
+const Nav = (props) => (<ReactBootstrap.Nav {...props} />)
 
-export { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem }
+const NavItem = (props) => (<ReactBootstrap.NavItem {...props} />)
+
+export { Navbar, NavbarHeader, NavbarBrand, NavbarToggle, NavbarCollapse, Nav, NavItem }
