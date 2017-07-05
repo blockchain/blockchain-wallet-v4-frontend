@@ -3,29 +3,34 @@ import { Route } from 'react-router-dom'
 
 import Header from './Header'
 import Footer from './Footer'
+import styled from 'styled-components'
+
 import Alerts from 'components/Shared/Alerts'
+import { Grid } from 'components/Shared/Grid'
+
+const PublicLayoutWrapper = styled.div`
+  background-color: #004A7C;
+  height: 100%;
+`
+const PublicLayoutContainer = styled(Grid)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+`
 
 const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
-      <div className='container-fluid h-100 bg-primary'>
-        <Alerts />
-        <div className='row h-25 align-items-start'>
-          <div className='col'>
-            <Header />
-          </div>
-        </div>
-        <div className='row h-50 justify-content-center align-items-center'>
-          <div className='col-12 col-md-4'>
-            <Component {...matchProps} />
-          </div>
-        </div>
-        <div className='row h-25 align-items-end'>
-          <div className='col'>
-            <Footer />
-          </div>
-        </div>
-      </div>
+      <PublicLayoutWrapper>
+        <PublicLayoutContainer>
+          <Alerts />
+          <Header />
+          <Component {...matchProps} />
+          <Footer />
+        </PublicLayoutContainer>
+      </PublicLayoutWrapper>
     )} />
   )
 }

@@ -1,4 +1,4 @@
-import { getLanguageName, convertCultureCodeToLanguage, convertLanguageToCultureCode } from './languageService.js'
+import { getLanguageName, convertCultureCodeToLanguage, convertLanguageToCultureCode } from './index.js'
 import Maybe from 'data.maybe'
 
 describe('getLanguageName', () => {

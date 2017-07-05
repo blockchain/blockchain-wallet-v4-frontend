@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { ButtonGroup } from 'reactstrap'
+import { ButtonGroup } from 'react-bootstrap'
 
 import RequestBitcoin from 'modals/RequestBitcoin'
 import { IconButton } from 'components/Shared/Button'

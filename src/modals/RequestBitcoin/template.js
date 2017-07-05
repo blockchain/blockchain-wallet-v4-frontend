@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Modal, ModalHeader, ModalBody } from 'components/Shared/Modal'
 import { Button } from 'components/Shared/Button'
 import TextArea from 'components/Shared/TextArea'
-import Dropdown from 'components/Shared/Dropdown'
+import DropdownSearch from 'components/Shared/DropdownSearch'
 import Text from 'components/Shared/Text'
 
 const RequestBitcoin = (props) => {
@@ -27,7 +27,7 @@ const RequestBitcoin = (props) => {
         <Text size='0.9rem' weight={500} transform='capitalize'>
           <FormattedMessage id='components.shared.requestbitcoin.to' defaultMessage='Receive to:' />
         </Text>
-        <Dropdown items={props.addresses} callback={props.selectAddress} />
+        <DropdownSearch items={props.addresses} callback={props.selectAddress} />
         <Text size='0.9rem' weight={500} transform='capitalize'>
           <FormattedMessage id='components.shared.requestbitcoin.description' defaultMessage='Description:' />
         </Text>

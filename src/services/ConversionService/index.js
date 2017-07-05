@@ -1,6 +1,6 @@
 import { contains, path } from 'ramda'
 import Maybe from 'data.maybe'
-import { isNumeric } from './validationHelper'
+import { isNumeric } from 'services/ValidationHelper'
 
 const numberFormat = new Intl.NumberFormat()
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import { convertToBitcoin, convertToCurrency } from 'services/conversionService'
+import { convertToBitcoin, convertToCurrency } from 'services/ConversionService'
 import { selectors } from 'data'
 
 import Ticker from './template.js'

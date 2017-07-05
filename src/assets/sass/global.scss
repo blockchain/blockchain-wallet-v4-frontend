@@ -24,3 +24,20 @@
 
 //import global components
 @import '~blockchain-css/sass/components/modals';
+
+html {
+  padding:0;
+  margin:0;
+  font-size: 16px !important;
+  height: 100%;
+}
+
+body {
+  padding:0;
+  margin:0;
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}

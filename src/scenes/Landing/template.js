@@ -1,17 +1,19 @@
 import React from 'react'
 
 import Main from './Main'
+import WhyBlockchain from './WhyBlockchain'
+import Devices from './Devices'
 import NewToBitcoin from './NewToBitcoin'
-import Reviews from './Reviews'
-import WhyUseBlockchain from './WhyUseBlockchain'
+import Wallet from './Wallet'
 
 const Landing = () => {
   return (
     <div>
-      <Main />   
-      {/*<NewToBitcoin />
-       <Reviews />
-       <WhyUseBlockchain />*/}
+      <Main />
+      <WhyBlockchain />
+      <Devices />
+      <NewToBitcoin />
+      <Wallet />
     </div>
   )
 }
