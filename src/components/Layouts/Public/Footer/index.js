@@ -4,28 +4,55 @@ import styled from 'styled-components'
 import logo from 'img/blue-logo.svg'
 import { Container } from 'components/Shared/Grid'
 import { Link } from 'components/Shared/Link'
+import DropdownLanguage from './DropdownLanguage'
 
 const FooterWrapper = styled.footer`
   background-color: #004A7C;
-  height: 100%;
 `
 const FooterContainer = styled(Container)`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
+
+  @media(min-width: 768px) { 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 `
 const LinkContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 
   & > * { padding: 0 10px; }
+
+  @media(min-width: 768px) { 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 `
 const Logo = styled.img.attrs({ src: logo })`
   height: 40px;
+`
+const FooterDropdown = styled.div`
+  display: flex;
+  margin-top: 20px;
+  cursor: pointer;
+
+  & > div > a {
+    font-family: 'Montserrat', Helvetica, sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #FFFFFF!important;
+  }
+
+  @media(min-width: 768px) {
+    margin: 0;
+  }
 `
 
 const Footer = () => {
@@ -39,6 +66,9 @@ const Footer = () => {
           <Link id='components.layouts.public.footer.blog' text='Blog' href='https://blog.blockchain.com' light uppercase white />
           <Link id='components.layouts.public.footer.support' text='Support' href='https://support.blockchain.com' light uppercase white />
         </LinkContainer>
+        <FooterDropdown>
+          <DropdownLanguage />
+        </FooterDropdown>
       </FooterContainer>
     </FooterWrapper>
   )

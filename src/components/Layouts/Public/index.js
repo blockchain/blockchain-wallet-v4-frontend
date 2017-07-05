@@ -12,30 +12,24 @@ const PublicLayoutWrapper = styled.div`
   background-color: #004A7C;
   height: 100%;
 `
-const HeaderContainer = styled(Container)`
-  height: 60px;
-`
-const ContentContainer = styled(Container)`
-  height: calc(100% - 120px);
-`
-const FooterContainer = styled(Container)`
-  height: 60px;
+const PublicLayoutContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
 `
 
 const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <PublicLayoutWrapper>
-        <HeaderContainer>
+        <PublicLayoutContainer>
           <Alerts />
           <Header />
-        </HeaderContainer>
-        <ContentContainer>
           <Component {...matchProps} />
-        </ContentContainer>
-        <FooterContainer>
           <Footer />
-        </FooterContainer>
+        </PublicLayoutContainer>
       </PublicLayoutWrapper>
     )} />
   )

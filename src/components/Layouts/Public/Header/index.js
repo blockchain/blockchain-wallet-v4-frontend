@@ -6,7 +6,7 @@ import logo from 'img/blockchain-vector.svg'
 
 const HeaderWrapper = styled.div`
   background-color: #004A7C;
-  height: 100%;
+  height: 60px;
 `
 const HeaderContainer = styled(Container)`
   display: flex;
