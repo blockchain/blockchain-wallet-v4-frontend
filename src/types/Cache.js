@@ -25,3 +25,9 @@ export const toJS = pipe(Cache.guard, iToJS)
 export const reviver = (jsObject) => {
   return new Cache(jsObject)
 }
+
+export const js = (node) => {
+  const receiveAccount = node ? node.derive(0).neutered().toBase58() : ''
+  const changeAccount = node ? node.derive(1).neutered().toBase58() : ''
+  return { receiveAccount, changeAccount }
+}

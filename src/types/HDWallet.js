@@ -1,12 +1,12 @@
 import { shift, shiftIProp } from './util'
 import { pipe, compose, curry, is } from 'ramda'
 import { view, over } from 'ramda-lens'
+import Bitcoin from 'bitcoinjs-lib'
+import BIP39 from 'bip39'
 
-// import Bitcoin from 'bitcoinjs-lib'
-// import BIP39 from 'bip39'
 import Type from './Type'
 import * as HDAccountList from './HDAccountList'
-// import * as HDAccount from './HDAccount'
+import * as HDAccount from './HDAccount'
 
 /* HDWallet :: {
   seed_hex :: String
@@ -57,18 +57,16 @@ export const reviver = (jsObject) => {
   return new HDWallet(jsObject)
 }
 
-// export const createNew = R.curry((mnemonic, { label } = {}) => {
-//   let seed = BIP39.mnemonicToSeed(mnemonic)
-//   let entropy = BIP39.mnemonicToEntropy(mnemonic)
-//   let masterNode = Bitcoin.HDNode.fromSeedBuffer(seed)
-//   let accountNode = masterNode.deriveHardened(44).deriveHardened(0).deriveHardened(0)
-//   let account = HDAccount.createNew(accountNode, { label })
-
-//   return fromJS({
-//     seed_hex: entropy,
-//     passphrase: '',
-//     mnemonic_verified: false,
-//     default_account_idx: 0,
-//     accounts: [HDAccount.toJS(account)]
-//   })
-// })
+export const js = (label, mnemonic, xpub) => {
+  const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
+  const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
+  const masterNode = mnemonic ? Bitcoin.HDNode.fromSeedBuffer(seed) : undefined
+  const node = mnemonic ? masterNode.deriveHardened(44).deriveHardened(0).deriveHardened(0) : undefined
+  return {
+    seed_hex: seedHex,
+    passphrase: '',
+    mnemonic_verified: false,
+    default_account_idx: 0,
+    accounts: [HDAccount.js(label, node, xpub)]
+  }
+}

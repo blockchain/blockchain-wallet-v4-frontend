@@ -251,24 +251,14 @@ export const decryptSync = decryptMonadic(
   validateSecondPwd(Either.of, Either.Left)
 )
 
-// // createNew :: String -> String -> String -> Wallet
-// export const createNew = curry((guid, sharedKey, mnemonic) => {
-//   let hd = HDWallet.createNew(mnemonic)
-
-//   return fromJS({
-//     guid,
-//     sharedKey,
-//     options: {
-//       pbkdf2_iterations: 5000,
-//       fee_per_kb: 10000,
-//       html5_notifications: false,
-//       logout_time: 600000
-//     },
-//     tx_notes: {},
-//     tx_names: [],
-//     double_encryption: false,
-//     address_book: [],
-//     keys: [],
-//     hd_wallets: [HDWallet.toJS(hd)]
-//   })
-// })
+export const js = (guid, sharedKey, label, mnemonic, xpub) => ({
+  guid: guid,
+  sharedKey: sharedKey,
+  tx_names: [],
+  tx_notes: {},
+  double_encryption: false,
+  address_book: [],
+  keys: [],
+  hd_wallets: [HDWallet.js(label, mnemonic, xpub)],
+  options: Options.js()
+})

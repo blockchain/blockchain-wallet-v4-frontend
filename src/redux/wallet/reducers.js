@@ -1,8 +1,8 @@
 import * as T from './actionTypes.js'
-import { Wrapper, Wallet, InitialState } from '../../types'
+import { Wrapper, Wallet } from '../../types'
 import { over, set } from 'ramda-lens'
 
-export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(InitialState.Wrapper)
+export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(Wrapper.createNewReadOnly('', ''))
 
 export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
   const { type } = action
@@ -11,6 +11,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const checksum = action.payload
       return set(Wrapper.payloadChecksum, checksum, state)
     }
+    case T.CREATE_TREZOR_WALLET_SUCCESS:
     case T.SET_WRAPPER: {
       return action.payload
     }

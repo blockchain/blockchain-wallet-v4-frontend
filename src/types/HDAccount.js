@@ -2,17 +2,13 @@ import { fromJS as iFromJS } from 'immutable-ext' // if we delete that wallet te
 import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil } from 'ramda'
 import { view, over, set } from 'ramda-lens'
 import Type from './Type'
-import { iLensProp } from './util'
 import * as AddressLabelMap from './AddressLabelMap'
-import * as AddressLabel from './AddressLabel'
 import * as Cache from './Cache'
 
 /* HDAccount :: {
   label :: String
   ...
 } */
-
-const DEFAULT_LABEL = 'My Bitcoin Wallet'
 
 export class HDAccount extends Type {}
 
@@ -61,17 +57,11 @@ export const reviver = (jsObject) => {
   return new HDAccount(jsObject)
 }
 
-// TODO :: maybe define address_labels and cache as it is own type
-// export const createNew = R.curry((accountNode, { label = DEFAULT_LABEL } = {}) => {
-//   return fromJS({
-//     label,
-//     archived: false,
-//     xpriv: accountNode.toBase58(),
-//     xpub: accountNode.neutered().toBase58(),
-//     address_labels: [],
-//     cache: {
-//       receiveAccount: accountNode.derive(0).neutered().toBase58(),
-//       changeAccount: accountNode.derive(1).neutered().toBase58()
-//     }
-//   })
-// })
+export const js = (label, node, xpub) => ({
+  label: label,
+  archived: false,
+  xpriv: node ? node.toBase58() : '',
+  xpub: node ? node.neutered().toBase58() : xpub,
+  address_labels: [],
+  cache: Cache.js(node)
+})

@@ -1,6 +1,6 @@
 import { Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap,
          TXNotes, Address, HDAccount, AddressBook, AddressBookEntry } from '../../types'
-import { prop, compose, curry, mapAccum, isNil, not, findIndex, view,
+import { prop, compose, curry, mapAccum, isNil, not, findIndex, view, allPass,
          propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex } from 'ramda'
 
 // ---------------------------------------------------------------------------------------------
@@ -120,9 +120,12 @@ var appender = curry((tagger, acc, coin) => {
   return [reduceCoins(acc, taggedCoin), taggedCoin]
 })
 
-const selectFromAndto = (inputs, outputs) => {
+const selectFromAndto = (inputs, outputs, type) => {
+  const preceived = compose(not, propEq('coinType', 'external'))
+  const psent = compose(not, propEq('address', inputs[0].address))
+  const predicate = type === 'Sent' ? psent : preceived
   const myOutput = find(
-    propEq('change', false) && compose(not, propEq('coinType', 'external'))
+    allPass([propEq('change', false), predicate])
   )(outputs) || outputs[0]
   return {
     from: inputs[0].label || inputs[0].address,
@@ -173,7 +176,7 @@ export const transformTx = curry((wallet, currentBlockHeight, tx) => {
     t => mapAccum(appender(inputTagger), init, prop('inputs', t))
   )(tx)
   const [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)
-  const { from, to } = selectFromAndto(inputs, outputs)
+  const { from, to } = selectFromAndto(inputs, outputs, type)
   return ({
     double_spend: tx.double_spend,
     hash: tx.hash,
