@@ -76,7 +76,6 @@ const FooterCopyright = styled.div`
     padding: 0 10px;
   }
 `
-
 const Footer = () => {
   return (
     <FooterWrapper>

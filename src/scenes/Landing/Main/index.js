@@ -15,9 +15,7 @@ const BannerWrapper = styled.div`
   background: url(${banner});
   background-size: cover;
 `
-const BannerContainer = styled(Container)`
-
-`
+const BannerContainer = styled(Container)``
 const BlockContainer = styled.div`
   display: flex;
   flex-direction: column;

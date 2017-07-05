@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import * as ReactRouterDom from 'react-router-dom'
 
 import logo from 'img/blockchain-vector.svg'
+import { CircleButton } from 'components/Shared/Button'
 import { Container } from 'components/Shared/Grid'
 import { NavLink, Link } from 'components/Shared/Link'
 import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem } from 'components/Shared/Navbar'
+import { Text } from 'components/Shared/Text'
 
 const NavbarWrapper = styled.div`
   background-color: #004A7C;
@@ -52,6 +55,16 @@ const Header = (props) => {
               </NavbarItem>
             </Nav>
           </Collapse>
+          <ReactRouterDom.NavLink to='/login'>
+            <CircleButton type='primary'>
+              <Text id='components.layouts.landing.header.login' text='Login' />
+            </CircleButton>
+          </ReactRouterDom.NavLink>
+          <ReactRouterDom.NavLink to='/register'>
+            <CircleButton type='primary'>
+              <Text id='components.layouts.landing.header.signup' text='Sign up' />
+            </CircleButton>
+          </ReactRouterDom.NavLink>
           <NavbarToggleButton right onClick={props.clickHeaderMenu} />
         </Navbar>
       </Container>
