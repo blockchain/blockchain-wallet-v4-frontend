@@ -1,11 +1,13 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
-import { prop, compose } from 'ramda'
+import Bitcoin from 'bitcoinjs-lib'
+import { prop, compose, sequence } from 'ramda'
 import Task from 'data.task'
 import Either from 'data.either'
 import * as A from './actions'
 import * as T from './actionTypes'
 import { Wrapper, Wallet, Address } from '../../types'
+import * as Trezor from '../../Trezor'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -57,9 +59,22 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
+  const trezorSignupSaga = function * (action) {
+    const accountIndex = action.payload || 0
+    try {
+      const task = Trezor.getXPub(`m/44'/0'/${accountIndex}'`)
+      const xpub = yield call(compose(taskToPromise, () => task))
+      const wrapper = Wrapper.createNewReadOnly(xpub)
+      yield put(A.createTrezorWalletSuccess(wrapper))
+    } catch (e) {
+      yield put(A.createTrezorWalletError('UNABLE_TO_CONNECT'))
+    }
+  }
+
   return function * () {
     yield takeEvery(T.TOGGLE_SECOND_PASSWORD, secondPasswordSaga)
     yield takeEvery(T.CREATE_WALLET, walletSignupSaga)
+    yield takeEvery(T.CREATE_TREZOR_WALLET, trezorSignupSaga)
     yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
   }
 }

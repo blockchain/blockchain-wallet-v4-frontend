@@ -1,6 +1,11 @@
 import * as T from './actionTypes'
 
-const INITIAL_STATE = {}
+const INITIAL_STATE = {
+  btc_currency: 'BTC',
+  language: 'en',
+  currency: 'USD',
+  country_code: 'US'
+}
 
 const settingsReducer = (state = INITIAL_STATE, action) => {
   let { type } = action
