@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import { curry, reduce, assoc, keys, map } from 'ramda'
 
-import * as languageService from 'services/languageService.js'
+import * as languageService from 'services/LanguageService'
 import { actions, selectors } from 'data'
 import DropdownLanguage from './template.js'
 

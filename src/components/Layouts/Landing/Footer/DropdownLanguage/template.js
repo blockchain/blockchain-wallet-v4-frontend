@@ -6,7 +6,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'components
 const DropdownLanguage = (props) => {
   return (
     <Dropdown isOpen={props.dropdownOpen} toggle={props.toggle} dropup>
-      <DropdownToggle caret>
+      <DropdownToggle tag='a' caret>
         {props.display}
       </DropdownToggle>
       <DropdownMenu>

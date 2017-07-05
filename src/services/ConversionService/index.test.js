@@ -1,4 +1,4 @@
-import { convertToBitcoin, convertToCurrency } from './conversionService'
+import { convertToBitcoin, convertToCurrency } from 'index.js'
 import Maybe from 'data.maybe'
 
 var testCases = [

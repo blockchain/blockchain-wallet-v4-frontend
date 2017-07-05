@@ -1,5 +1,6 @@
 import React from 'react'
 import * as Reactstrap from 'reactstrap'
+import styled from 'styled-components'
 
 const Dropdown = (props) => (<Reactstrap.Dropdown {...props} />)
 

@@ -54,21 +54,13 @@ const FooterDropdown = styled.div`
   display: flex;
   margin-top: 20px;
   cursor: pointer;
-  
-  & button {
-    border: none!important;
-    background-color: transparent!important;
-    color: #10ADE4!important;
+
+  & > div > a {
     font-family: 'Montserrat', Helvetica, sans-serif;
     font-weight: 400;
     font-size: 0.9rem;
     text-transform: uppercase;
-
-    &:focus, :active, :active {
-      border: none!important;
-      background-color: transparent!important;
-      color: #10ADE4!important;
-    }
+    color: #10ADE4!important;
   }
 
   @media(min-width: 768px) {

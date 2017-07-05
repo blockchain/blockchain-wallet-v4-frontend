@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
-import { convertToCurrency } from 'services/conversionService'
+import { convertToCurrency } from 'services/ConversionService'
 import { selectors } from 'data'
 
 const CurrencyDisplay = (props) => {
