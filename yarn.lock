@@ -1116,6 +1116,12 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
+blockchain-css@blockchain/brand-assets#abs-paths:
+  version "1.1.26"
+  resolved "git+ssh://git@github.com/blockchain/brand-assets.git#07c7f9dc7693615e9f9f081a1198aeabed08718d"
+  dependencies:
+    bootstrap-sass "^3.3.7"
+
 bluebird@^2.10.2:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
@@ -1148,6 +1154,10 @@ boom@2.x.x:
   resolved "https://registry.yarnpkg.com/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
   dependencies:
     hoek "2.x.x"
+
+bootstrap-sass@^3.3.7:
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.3.7.tgz#6596c7ab40f6637393323ab0bc80d064fc630498"
 
 brace-expansion@^1.1.7:
   version "1.1.8"
