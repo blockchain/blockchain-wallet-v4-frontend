@@ -2,7 +2,7 @@ import { takeEvery, call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import { prop, compose, endsWith, repeat, range, map, propSatisfies,
-         dropLastWhile, not, length, concat } from 'ramda'
+         dropLastWhile, not, length, concat, propEq, find } from 'ramda'
 import Task from 'data.task'
 import Either from 'data.either'
 import * as A from './actions'
@@ -62,15 +62,18 @@ export const walletSaga = ({ api, walletPath } = {}) => {
 
   const findUsedAccounts = function * (batch, node, usedAccounts) {
     if (endsWith(repeat(false, 5), usedAccounts)) {
-      return length(dropLastWhile(not, usedAccounts))
+      const n = length(dropLastWhile(not, usedAccounts))
+      return n < 1 ? 1 : n
     } else {
       const l = length(usedAccounts)
       const getxpub = i => node.deriveHardened(i).neutered().toBase58()
       const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
       const xpubs = map(getxpub, range(l, l + batch))
       const result = yield call(api.fetchBlockchainData, xpubs, {n: 1, offset: 0, onlyShow: ''})
-      const accounts = map(isUsed, prop('addresses', result))
-      return yield call(findUsedAccounts, batch, node, concat(usedAccounts, accounts))
+      const search = xpub => find(propEq('address', xpub))
+      const accounts = map(xpub => search(xpub)(prop('addresses', result)), xpubs)
+      const flags = map(isUsed, accounts)
+      return yield call(findUsedAccounts, batch, node, concat(usedAccounts, flags))
     }
   }
 
