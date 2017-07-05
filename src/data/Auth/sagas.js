@@ -64,6 +64,20 @@ const login = function * (action) {
   }
 }
 
+const trezor = function * (action) {
+  const context = yield select(selectors.core.wallet.getWalletContext)
+  yield put(actions.core.common.fetchBlockchainData(context))
+  yield put(actions.auth.loginSuccess())
+  yield put(push('/wallet'))
+  yield put(actions.alerts.displaySuccess('Logged in successfully'))
+}
+
+const trezorFailed = function * (action) {
+  yield put(actions.alerts.displayError('Trezor connection failed'))
+}
+
 export default {
-  login: login
+  login: login,
+  trezor: trezor,
+  trezorFailed: trezorFailed
 }

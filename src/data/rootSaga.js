@@ -20,6 +20,8 @@ function * sagas () {
     fork(coreSagas.rootSaga({api, dataPath, walletPath, settingsPath}))
   ]
   yield takeEvery(actionTypes.auth.LOGIN_START, authSagas.login)
+  yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_SUCCESS, authSagas.trezor)
+  yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_ERROR, authSagas.trezorFailed)
   yield takeLatest(actionTypes.activity.FETCH_ACTIVITIES, activitySagas.fetchActivities)
   yield takeEvery(actionTypes.alerts.ALERTS_SHOW, handleTimer)
 }

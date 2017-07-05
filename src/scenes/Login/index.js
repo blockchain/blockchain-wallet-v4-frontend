@@ -12,11 +12,13 @@ class LoginContainer extends React.Component {
       credentials: {
         guid: '',
         password: ''
-      }
+      },
+      accountIndex: '0'
     }
 
     this.onChange = this.onChange.bind(this)
     this.onClick = this.onClick.bind(this)
+    this.onTrezor = this.onTrezor.bind(this)
   }
 
   onChange (event) {
@@ -38,9 +40,13 @@ class LoginContainer extends React.Component {
     this.props.actions.loginStart(this.state.credentials)
   }
 
+  onTrezor () {
+    this.props.coreActions.createTrezorWallet(this.state.accountIndex)
+  }
+
   render () {
     return (
-      <Login onChange={this.onChange} onClick={this.onClick} />
+      <Login onChange={this.onChange} onClick={this.onClick} onTrezor={this.onTrezor} />
     )
   }
 }
@@ -53,7 +59,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(actions.auth, dispatch)
+    actions: bindActionCreators(actions.auth, dispatch),
+    coreActions: bindActionCreators(actions.core.wallet, dispatch)
   }
 }
 

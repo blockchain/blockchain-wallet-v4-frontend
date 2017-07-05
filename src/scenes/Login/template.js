@@ -70,6 +70,13 @@ const Login = (props) => {
           </button>
         </div>
       </div>
+      <div className='row padding-vertical-10'>
+        <div className='col-12'>
+          <button className='button-secondary full-width text-uppercase' name='submit' onClick={props.onTrezor}>
+            <FormattedMessage id='scenes.login.trezor' defaultMessage='trezor' />
+          </button>
+        </div>
+      </div>
       <div className='row padding-vertical-10 justify-content-end'>
         <div className='col-auto'>
           <div className='d-inline-flex margin-right-5'>
