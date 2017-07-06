@@ -59,7 +59,8 @@ const Login = (props) => {
           <Text id='scenes.login.password' text='Password' small medium />
           <PasswordBox name='password' value={props.values.password} onChange={props.onChange} />
         </FormGroup>
-        <SecondaryButton id='scenes.login.sumbit' text='Log in' small medium uppercase white onClick={props.onClick} />
+        <SecondaryButton id='scenes.login.submit' text='Log in' small medium uppercase white onClick={props.onClick} />
+        <SecondaryButton id='scenes.login.trezor' text='Trezor' small medium uppercase white onClick={props.onTrezor} />
       </Form>
       <Footer>
         <Link><Text id='scenes.login.loginmobile' text='Login via mobile' small light cyan /></Link>

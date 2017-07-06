@@ -15,6 +15,7 @@ class LoginContainer extends React.Component {
 
     this.onChange = this.onChange.bind(this)
     this.onClick = this.onClick.bind(this)
+    this.onTrezor = this.onTrezor.bind(this)
   }
 
   onChange (event) {
@@ -56,6 +57,10 @@ class LoginContainer extends React.Component {
     this.props.authActions.loginStart(this.state.values)
   }
 
+  onTrezor () {
+    this.props.coreActions.createTrezorWallet(0)
+  }
+
   render () {
     return (
       <Login
@@ -64,6 +69,7 @@ class LoginContainer extends React.Component {
         disabled={this.state.disabled}
         onChange={this.onChange}
         onClick={this.onClick}
+        onTrezor={this.onTrezor}
       />
     )
   }
@@ -73,6 +79,7 @@ function mapDispatchToProps (dispatch) {
   return {
     authActions: bindActionCreators(actions.auth, dispatch),
     alertActions: bindActionCreators(actions.alerts, dispatch)
+    coreActions: bindActionCreators(actions.core.wallet, dispatch)
   }
 }
 

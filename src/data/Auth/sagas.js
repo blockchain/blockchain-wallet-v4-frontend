@@ -24,11 +24,11 @@ const pollingSaga = function * (session, n = 50) {
 const fetchWalletSaga = function * (guid, sharedKey, session, password) {
   try {
     let wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password)
-    yield put(actions.core.wallet.replaceWallet(wrapper))
+    yield put(actions.core.wallet.setWrapper(wrapper))
     const context = yield select(selectors.core.wallet.getWalletContext)
-    yield put(actions.core.common.requestWalletData(context))
+    yield put(actions.core.common.fetchBlockchainData(context))
     const sk = yield select(selectors.core.wallet.getSharedKey)
-    yield put(actions.core.settings.requestSettingsData({guid, sharedKey: sk}))
+    yield put(actions.core.settings.fetchSettings({guid, sharedKey: sk}))
     yield put(actions.auth.loginSuccess())
     yield put(push('/wallet'))
     yield put(actions.alerts.displaySuccess('Logged in successfully'))
@@ -64,6 +64,20 @@ const login = function * (action) {
   }
 }
 
+const trezor = function * (action) {
+  const context = yield select(selectors.core.wallet.getWalletContext)
+  yield put(actions.core.common.fetchBlockchainData(context))
+  yield put(actions.auth.loginSuccess())
+  yield put(push('/wallet'))
+  yield put(actions.alerts.displaySuccess('Logged in successfully'))
+}
+
+const trezorFailed = function * (action) {
+  yield put(actions.alerts.displayError('Trezor connection failed'))
+}
+
 export default {
-  login: login
+  login: login,
+  trezor: trezor,
+  trezorFailed: trezorFailed
 }
