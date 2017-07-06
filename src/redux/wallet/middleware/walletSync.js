@@ -1,5 +1,6 @@
 import * as A from '../actions'
 import * as T from '../actionTypes'
+import { Wrapper } from '../../../types'
 
 const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (next) => (action) => {
   const prevWallet = store.getState()[walletPath]
@@ -11,32 +12,37 @@ const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (ne
   // Easily know when to sync, because of ✨immutable✨ data
   // the initial_state check could be done against full payload state
 
-  if ((wasAuth && isAuth) &&
-    action.type !== T.SET_PAYLOAD_CHECKSUM &&
-    prevWallet !== nextWallet) {
+  const sync = (apiCall) => {
     store.dispatch(A.sync())
-    api.saveWallet(nextWallet).then(checksum => {
-      store.dispatch(A.setPayloadChecksum(checksum))
-      return checksum
-    }).then(
-      (cs) => store.dispatch(A.syncSuccess(cs))
-    ).catch(
-      (error) => store.dispatch(A.syncError(error))
-    )
+    if (Wrapper.isWrapper(nextWallet)) {
+      apiCall(nextWallet).then(checksum => {
+        store.dispatch(A.setPayloadChecksum(checksum))
+        return checksum
+      }).then(
+        (cs) => store.dispatch(A.syncSuccess(cs))
+      ).catch(
+        (error) => store.dispatch(A.syncError(error))
+      )
+    } else {
+      store.dispatch(A.syncError('SYNC_ERROR_NOT_A_WRAPPER'))
+    }
   }
 
-  if (action.type === T.CREATE_WALLET_SUCCESS ||
-      action.type === T.RESTORE_WALLET_SUCCESS) {
-    const { email } = action.payload
-    store.dispatch(A.sync())
-    api.createWallet(email)(nextWallet).then(checksum => {
-      store.dispatch(A.setPayloadChecksum(checksum))
-      return checksum
-    }).then(
-      (cs) => store.dispatch(A.syncSuccess(cs))
-    ).catch(
-      (error) => store.dispatch(A.syncError(error))
-    )
+  switch (true) {
+    // wallet sync
+    case ((wasAuth && isAuth) &&
+         action.type !== T.SET_PAYLOAD_CHECKSUM &&
+         prevWallet !== nextWallet):
+      sync(api.saveWallet)
+      break
+    // wallet creation
+    case (action.type === T.CREATE_WALLET_SUCCESS ||
+          action.type === T.RESTORE_WALLET_SUCCESS):
+      const { email } = action.payload
+      sync(api.createWallet(email))
+      break
+    default:
+      break
   }
 
   return result

@@ -11,7 +11,11 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const checksum = action.payload
       return set(Wrapper.payloadChecksum, checksum, state)
     }
+    case T.CHANGE_SECOND_PASSWORD_SUCCESS:
+    case T.CREATE_LEGACY_ADDRESS_SUCCESS:
+    case T.TOGGLE_SECOND_PASSWORD_SUCCESS:
     case T.CREATE_TREZOR_WALLET_SUCCESS:
+    case T.SET_PBKDF2_ITERATIONS_SUCCESS:
     case T.SET_WRAPPER: {
       return action.payload
     }
@@ -22,11 +26,6 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     case T.CREATE_WALLET_SUCCESS: {
       let { guid, sharedKey, mnemonic, label, password, nAccounts } = action.payload
       return Wrapper.createNew(guid, password, sharedKey, mnemonic, label, nAccounts)
-    }
-    case T.TOGGLE_SECOND_PASSWORD_SUCCESS:
-    case T.CREATE_LEGACY_ADDRESS_SUCCESS: {
-      const { wallet } = action.payload
-      return wallet
     }
     case T.SET_LEGACY_ADDRESS_LABEL: {
       const { address, label } = action.payload
