@@ -6,7 +6,7 @@ import Alert from './Alert'
 const Alerts = ({ alerts, dismissAlert }) => (
   <AlertsList>
     {alerts.filter(a => !a.dismissed).map(alert =>
-      <Alert {...alert} onDismiss={dismissAlert} />
+      <Alert key={alert.id} {...alert} onDismiss={dismissAlert} />
     )}
   </AlertsList>
 )
