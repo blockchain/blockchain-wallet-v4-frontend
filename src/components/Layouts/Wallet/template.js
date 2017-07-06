@@ -7,35 +7,33 @@ import MenuTop from './MenuTop'
 import Alerts from 'components/Shared/Alerts'
 
 const WalletLayoutWrapper = styled.div`
-  flex-grow: 1;
   height: 100%;
-`
-const WalletLayoutContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: calc(100% - 55px);
-`
-const WalletLayoutLeft = styled.div`
-  display: flex;
-  width: 270px;
-  height: 100%;
-`
-const WalletLayoutContent = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+const WalletLayoutContainer = styled.div`
   width: 100%;
   height: 100%;
+  flex-grow: 1;
+  display: flex;
+  min-height: 0;
 `
+
+const WalletLayoutLeft = styled.div`
+  flex: 0 0 270px;
+  padding: 15px;
+  background: #F5F7F9;
+  border-right: 1px solid #DDD;
+`
+
+const WalletLayoutContent = styled.div`
+`
+
 const WalletLayoutTop = styled.div`
-  display: flex;
-  width: 100%;
-  height: 115px;
 `
+
 const WalletLayoutPage = styled.div`
-  display: flex;
-  width: 100%;
-  height: calc(100% - 115px);
-  overflow-y: scroll;
 `
 
 const WalletLayout = (props) => (
@@ -43,7 +41,7 @@ const WalletLayout = (props) => (
     <Alerts />
     <Header />
     <WalletLayoutContainer>
-      <WalletLayoutLeft>
+      <WalletLayoutLeft className='layout-left'>
         <MenuLeft location={props.location} />
       </WalletLayoutLeft>
       <WalletLayoutContent>

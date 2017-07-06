@@ -26,6 +26,7 @@ import theme from './theme'
 
 const RootStyle = styled.div`
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  height: 100%;
 `
 
 class App extends React.Component {

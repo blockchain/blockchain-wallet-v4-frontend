@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
 
 import Ticker from './Ticker'
 import ExploreMenu from './ExploreMenu'
@@ -10,8 +11,12 @@ import Logout from './Logout'
 
 import logo from 'img/blockchain-vector.svg'
 
+const Wrapper = styled.div`
+  flex: 0 0 60px;
+`
+
 const Header = (props) => (
-  <div className='wallet-top-navigation navbar navbar-inverse mbn'>
+  <Wrapper className='wallet-top-navigation navbar navbar-inverse mbn'>
     <div className='bc-header'>
       <div className='container-fluid'>
         <div className='navbar-header flex-between flex-center'>
@@ -33,7 +38,7 @@ const Header = (props) => (
         </div>
       </div>
     </div>
-  </div>
+  </Wrapper>
 )
 
 Header.propTypes = {
