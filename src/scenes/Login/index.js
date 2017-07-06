@@ -78,7 +78,7 @@ class LoginContainer extends React.Component {
 function mapDispatchToProps (dispatch) {
   return {
     authActions: bindActionCreators(actions.auth, dispatch),
-    alertActions: bindActionCreators(actions.alerts, dispatch)
+    alertActions: bindActionCreators(actions.alerts, dispatch),
     coreActions: bindActionCreators(actions.core.wallet, dispatch)
   }
 }
