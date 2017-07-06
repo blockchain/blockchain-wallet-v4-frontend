@@ -1,23 +1,21 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
 
 import Main from './Main'
+import WhyBlockchain from './WhyBlockchain'
+import Devices from './Devices'
 import NewToBitcoin from './NewToBitcoin'
-import Reviews from './Reviews'
-import WhyUseBlockchain from './WhyUseBlockchain'
-
-import style from './style.scss'
+import Wallet from './Wallet'
 
 const Landing = () => {
   return (
     <div>
       <Main />
-      
-      {/*<NewToBitcoin />
-       <Reviews />
-       <WhyUseBlockchain />*/}
+      <WhyBlockchain />
+      <Devices />
+      <NewToBitcoin />
+      <Wallet />
     </div>
   )
 }
 
-export default CSSModules(Landing, style)
+export default Landing

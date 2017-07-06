@@ -1,16 +1,40 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import styled from 'styled-components'
 
-import style from './style.scss'
+const FilterStatusContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+`
+const FilterStatusItem = styled.span`
+  color: lighten(gray, 20%);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: normal;
+  cursor: pointer;
+`
+const FilterStatusItemSelected = styled.span`
+  color: black;
+  text-decoration: underline;
+  text-transform: uppercase;
+  font-weight: normal;
+  cursor: pointer;
+`
 
 const FilterStatus = (props) => {
   return (
-    <div styleName='filter-status'>
+    <FilterStatusContainer>
       { props.items.map(function (item, index) {
-        return <span key={index} styleName={`${item.value === props.selected ? 'selected' : 'default'}`} onClick={() => props.callback(item.value)}>{item.text}</span>
+        if (item.value === props.selected) {
+          return <FilterStatusItemSelected key={index} onClick={() => props.callback(item.value)}>{item.text}</FilterStatusItemSelected>
+        } else {
+          return <FilterStatusItem key={index} onClick={() => props.callback(item.value)}>{item.text}</FilterStatusItem>
+        }
       })}
-    </div>
+    </FilterStatusContainer>
   )
 }
 
-export default CSSModules(FilterStatus, style)
+export default FilterStatus

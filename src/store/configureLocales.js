@@ -1,6 +1,6 @@
 import { addLocaleData } from 'react-intl'
 import { map, assoc, flatten, forEach } from 'ramda'
-import * as languageService from 'services/languageService'
+import * as languageService from 'services/LanguageService'
 
 const importLocaleData = (language) => require(`react-intl/locale-data/${language}`)
 

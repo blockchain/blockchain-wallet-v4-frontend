@@ -20,7 +20,6 @@ module.exports = {
   resolve: {
     alias: {
       'npm': PATHS.npm,
-      'fonts': PATHS.src + '/assets/fonts',
       'img': PATHS.src + '/assets/img',
       'locales': PATHS.src + '/assets/locales',
       'sass': PATHS.src + '/assets/sass',
@@ -47,13 +46,13 @@ module.exports = {
                 'root': [PATHS.src],
                 'alias': {
                   'npm': PATHS.npm,
-                  'fonts': PATHS.src + '/assets/fonts',
                   'img': PATHS.src + '/assets/img',
                   'locales': PATHS.src + '/assets/locales',
                   'sass': PATHS.src + '/assets/sass',
                   'components': PATHS.src + '/components',
                   'data': PATHS.src + '/data',
                   'middleware': PATHS.src + '/middleware',
+                  'modals': PATHS.src + '/modals',
                   'scenes': PATHS.src + '/scenes',
                   'services': PATHS.src + '/services',
                   'config': PATHS.src + '/config.js'
@@ -64,58 +63,26 @@ module.exports = {
         }]
       },
       {
-        test: /assets.*\.scss$/,
+        test: /assets.*\.scss|css$/,
         use: ExtractTextPlugin.extract({
           use: [
             {
               loader: 'css-loader',
               options: {
-                importLoaders: 2
+                importLoaders: 1
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [ require('autoprefixer')({ browsers: 'last 2 versions' }) ],
+                sourceMap: true
               }
             },
             {
               loader: 'sass-loader',
               options: {
                 sourceMap: true
-              }
-            },
-            {
-              loader: 'sass-resources-loader',
-              options: {
-                resources: [
-                  PATHS.src + '/assets/sass/resources/**/*.scss'
-                ]
-              }
-            }
-          ],
-          fallback: 'style-loader'
-        })
-      },
-      {
-        test: /(components|scenes).*\.scss$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[local]___[hash:base64:5]',
-                importLoaders: 2
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'sass-resources-loader',
-              options: {
-                resources: [
-                  PATHS.src + '/assets/sass/resources/**/*.scss',
-                  PATHS.npm + '/bootstrap/scss/mixins/**/*.scss'
-                ]
               }
             }
           ],
@@ -125,10 +92,7 @@ module.exports = {
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
-          loader: 'file-loader',
-          options: {
-            name: 'fonts/[name].[ext]'
-          }
+          loader: 'file-loader'
         }
       },
       {

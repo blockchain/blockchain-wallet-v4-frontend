@@ -1,7 +1,4 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const SecurityCenter = () => {
   return (
@@ -11,4 +8,4 @@ const SecurityCenter = () => {
   )
 }
 
-export default CSSModules(SecurityCenter, style)
+export default SecurityCenter

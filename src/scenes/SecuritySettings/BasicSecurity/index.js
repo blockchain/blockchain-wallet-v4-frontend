@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import InfoWell from 'components/Shared/InfoWell'
-import SettingRow from 'components/Shared/SettingRow'
+import InfoWell from 'components/shared/InfoWell'
+import SettingRow from 'components/shared/SettingRow'
 
 import PasswordHint from '../PasswordHint'
 import SecondPasswordWallet from '../SecondPasswordWallet'

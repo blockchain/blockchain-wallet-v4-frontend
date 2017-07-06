@@ -1,12 +1,9 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
 
-import style from './style.scss'
+const WhatsNew = () => (
+  <li className='item'>
+    <a><i className='ti-gift' /></a>
+  </li>
+)
 
-const WhatsNew = () => {
-  return (
-    <div styleName='whats-new' />
-  )
-}
-
-export default CSSModules(WhatsNew, style)
+export default WhatsNew

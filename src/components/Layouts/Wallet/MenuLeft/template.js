@@ -1,20 +1,23 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
+import styled from 'styled-components'
 
 import Adverts from './Adverts'
 import Footer from './Footer'
 import Navigation from './Navigation'
 
-import style from './style.scss'
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+`
 
-const MenuLeft = (props) => {
-  return (
-    <div styleName='menu-left'>
-      <Navigation location={props.location} />
-      <Adverts />
-      <Footer />
-    </div>
-  )
-}
+const MenuLeft = (props) => (
+  <Wrapper>
+    <Navigation location={props.location} />
+    <Adverts />
+    <Footer />
+  </Wrapper>
+)
 
-export default CSSModules(MenuLeft, style)
+export default MenuLeft

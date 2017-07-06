@@ -1,18 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import CSSModules from 'react-css-modules'
 
-import InfoWell from 'components/Shared/InfoWell'
-import SettingRow from 'components/Shared/SettingRow'
+import InfoWell from 'components/shared/InfoWell'
+import SettingRow from 'components/shared/SettingRow'
 
 import WalletId from './WalletId'
 import PairingCode from './PairingCode'
 
-import style from './style.scss'
-
 const Info = () => {
   return (
-    <section styleName='information'>
+    <section>
       <InfoWell>
         <FormattedMessage id='scenes.info.explain' defaultMessage='Use your Wallet ID to log in using our web client,' />
         <FormattedMessage id='scenes.info.explain2' defaultMessage='or simply scan the code below (click on `Show Pairing Code`) with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices.' />
@@ -23,4 +20,4 @@ const Info = () => {
   )
 }
 
-export default CSSModules(Info, style)
+export default Info

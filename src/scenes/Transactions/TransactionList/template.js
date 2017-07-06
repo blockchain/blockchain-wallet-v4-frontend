@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 
 import TransactionListItem from './TransactionListItem'
 
-import style from './style.scss'
-
 const TransactionList = (props) => {
   return (
-    <div styleName='transactions-list'>
+    <div>
       {props.transactions.map(function (transaction, index) {
         return <TransactionListItem key={index} transaction={transaction} />
       })}
@@ -29,4 +26,4 @@ TransactionList.propTypes = {
   }))
 }
 
-export default CSSModules(TransactionList, style)
+export default TransactionList

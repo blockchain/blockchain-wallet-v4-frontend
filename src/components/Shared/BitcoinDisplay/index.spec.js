@@ -2,7 +2,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import configureStore from 'redux-mock-store'
 
-import BitcoinDisplay from '../BitcoinDisplay'
+import BitcoinDisplay from './index.js'
 
 describe('BitcoinDisplay', () => {
   const mockStore = configureStore()

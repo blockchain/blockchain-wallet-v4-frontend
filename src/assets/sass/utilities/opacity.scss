@@ -1,6 +1,0 @@
-
-@for $i from 1 through 9 {
-  .opacity-#{$i} {
-    opacity: #{$i/10};
-  }
-}

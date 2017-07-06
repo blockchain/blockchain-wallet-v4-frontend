@@ -1,82 +1,126 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
-import { FormattedMessage } from 'react-intl'
-import { NavLink } from 'react-router-dom'
-import DropdownLanguage from 'components/Shared/DropdownLanguage'
+import styled from 'styled-components'
+
+import { Grid } from 'components/generic/Grid'
+import { Link, RouterLink } from 'components/generic/Link'
+import { Text } from 'components/generic/Text'
+import DropdownLanguage from 'components/shared/DropdownLanguage'
 
 import logo from 'img/blockchain-blue.svg'
-import style from './style.scss'
 
+const FooterWrapper = styled.div`
+  background-color: #E3EFF5;
+  padding: 40px;
+`
+const FooterContainer = styled(Grid)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`
+const FooterTop = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+
+  @media(min-width: 768px) { 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+`
+const FooterBottom = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`
+const FooterLogo = styled.img.attrs({
+  src: logo
+})`
+  display: flex;
+  height: 20px;
+  margin-bottom: 20px;
+`
+const FooterLinkContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  & > a { padding: 5px 0; }
+`
+const FooterDropdown = styled.div`
+  display: flex;
+  margin-top: 20px;
+
+  & .btn-primary {
+    font-weight: 400;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    background-color: transparent!important;
+    color: #10ADE4!important;
+    border: none!important;
+    padding: 0;
+  }
+
+  @media(min-width: 768px) {
+    margin: 0;
+  }
+`
+const FooterCopyright = styled.div`
+  text-align: center;
+  padding: 30px 0;
+
+  & > div, a {
+    display: inline-block;
+    padding: 0 10px;
+  }
+`
 const Footer = () => {
   return (
-    <footer className='padding-vertical-40 padding-horizontal-10' styleName='footer'>
-      <div className='container'>
-        <div className='row'>
-          <div className='col-md-3'>
-            <img src={logo} styleName='logo' />
-          </div>
-          <div className='col-md-2'>
-            <div styleName='category'>
-              <FormattedMessage id='components.layouts.landing.footer.products' defaultMessage='Products' />
-            </div>
-            <NavLink styleName='link' to='/wallet'>
-              <FormattedMessage id='components.layouts.landing.footer.wallet' defaultMessage='Wallet' />
-            </NavLink>
-            <a styleName='link' href='https://blockchain.com/enterprise'>
-              <FormattedMessage id='components.layouts.landing.footer.business' defaultMessage='Business' />
-            </a>
-            <a styleName='link' href='https://blockchain.com/research'>
-              <FormattedMessage id='components.layouts.landing.footer.research' defaultMessage='Research' />
-            </a>
-            <a styleName='link' href='https://blockchain.info'>.Info Explorer</a>
-            <a styleName='link' href='https://support.blockchain.com'>
-              <FormattedMessage id='components.layouts.landing.footer.support' defaultMessage='Support' />
-            </a>
-          </div>
-          <div className='col-md-2'>
-            <div styleName='category'>
-              <FormattedMessage id='components.layouts.landing.footer.company' defaultMessage='Company' />
-            </div>
-            <a styleName='link' href='https://blockchain.com/about'>
-              <FormattedMessage id='components.layouts.landing.footer.about' defaultMessage='About' />
-            </a>
-            <a styleName='link' href='https://blockchain.com/team'>
-              <FormattedMessage id='components.layouts.landing.footer.team' defaultMessage='Team' />
-            </a>
-            <a styleName='link' href='https://blockchain.com/careers'>
-              <FormattedMessage id='components.layouts.landing.footer.careers' defaultMessage='Careers' />
-            </a>
-            <a styleName='link' href='https://blockchain.com/interview'>
-              <FormattedMessage id='components.layouts.landing.footer.interviewing' defaultMessage='Interviewing' />
-            </a>
-            <a styleName='link' href='https://blockchain.com/faq'>
-              <FormattedMessage id='components.layouts.landing.footer.faq' defaultMessage='Faq' />
-            </a>
-          </div>
-          <div className='col-md-2'>
-            <div styleName='category'>
-              <FormattedMessage id='components.layouts.landing.footer.news' defaultMessage='News' />
-            </div>
-            <a styleName='link' href='https://blockchain.com/press'>
-              <FormattedMessage id='components.layouts.landing.footer.press' defaultMessage='Press' />
-            </a>
-            <a styleName='link' href='https://blog.blockchain.com'>
-              <FormattedMessage id='components.layouts.landing.footer.blog' defaultMessage='Blog' />
-            </a>
-          </div>
-          <div className='col-md-3'>
-            <DropdownLanguage styleName='dropdown' />
-          </div>
-        </div>
-        <div className='row padding-top-20'>
-          <div className='col-md-10'>
-            <h6>2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.</h6>
-          </div>
-          <div className='col-md-2' />
-        </div>
-      </div>
-    </footer>
+    <FooterWrapper>
+      <FooterContainer>
+        <FooterTop>
+          <FooterLogo />
+          <FooterLinkContainer>
+            <Text id='components.layouts.landing.footer.products' text='Products' small uppercase cyan />
+            <RouterLink to='/wallet'><Text id='components.layouts.landing.footer.wallet' text='Wallet' small uppercase /></RouterLink>
+            <Link href='https://blockchain.com/enterprise'><Text id='components.layouts.landing.footer.business' text='Business' small uppercase /></Link>
+            <Link href='https://blockchain.com/research'><Text id='components.layouts.landing.footer.research' text='Research' small uppercase /></Link>
+            <Link href='https://blockchain.info'><Text id='components.layouts.landing.footer.explorer' text='.Info Explorer' small uppercase /></Link>
+            <Link href='https://support.blockchain.com'><Text id='components.layouts.landing.footer.support' text='Support' small uppercase /></Link>
+          </FooterLinkContainer>
+          <FooterLinkContainer>
+            <Text id='components.layouts.landing.footer.company' text='Company' small uppercase cyan />
+            <Link href='https://blockchain.com/about'><Text id='components.layouts.landing.footer.about' text='About' small uppercase /></Link>  
+            <Link href='https://blockchain.com/team'><Text id='components.layouts.landing.footer.team' text='Team' small uppercase /></Link>
+            <Link href='https://blockchain.com/careers'><Text id='components.layouts.landing.footer.careers' text='Careers'small uppercase /></Link>
+            <Link href='https://blockchain.com/interview'><Text id='components.layouts.landing.footer.interviewing' text='Interviewing' small uppercase /></Link>
+            <Link href='https://blockchain.com/faq'><Text id='components.layouts.landing.footer.faq' text='Faq' small uppercase /></Link>
+          </FooterLinkContainer>
+          <FooterLinkContainer>
+            <Text id='components.layouts.landing.footer.news' text='News' small uppercase cyan />
+            <Link href='https://blockchain.com/press'><Text id='components.layouts.landing.footer.press' text='Press'small uppercase /></Link>
+            <Link href='https://blog.blockchain.com'><Text id='components.layouts.landing.footer.blog' text='Blog' small uppercase /></Link>
+          </FooterLinkContainer>
+          <FooterDropdown>
+            <DropdownLanguage />
+          </FooterDropdown>
+        </FooterTop>
+        <FooterBottom>
+          <FooterCopyright>
+            <Text id='components.layouts.landing.footer.copyright' text='2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.' smaller uppercase />
+            <Link href='https://blockchain.com/privacy' target='_blank'><Text id='components.layouts.landing.footer.privacy' text='Privacy' smaller uppercase /></Link>
+            <Link href='https://blockchain.com/terms' target='_blank'><Text id='components.layouts.landing.footer.terms' text='Terms' smaller uppercase /></Link>
+            <Link href='https://blockchain.com/legal' target='_blank'><Text id='components.layouts.landing.footer.enforcement' text='Law enforcement guide' smaller uppercase /></Link>
+          </FooterCopyright>
+        </FooterBottom>
+      </FooterContainer>
+    </FooterWrapper>
   )
 }
 
-export default CSSModules(Footer, style)
+export default Footer

@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import CSSModules from 'react-css-modules'
 
-import FaqRow from 'components/Shared/FaqRow'
+import FaqRow from 'components/shared/FaqRow'
 import Question1 from './Question1'
 import Question2 from './Question2'
 import Question3 from './Question3'
@@ -11,8 +10,6 @@ import Question5 from './Question5'
 import Question6 from './Question6'
 import Question7 from './Question7'
 import Question8 from './Question8'
-
-import style from './style.scss'
 
 const Faq = () => {
   return (
@@ -44,4 +41,4 @@ const Faq = () => {
   )
 }
 
-export default CSSModules(Faq, style)
+export default Faq

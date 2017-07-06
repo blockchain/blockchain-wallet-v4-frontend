@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 import { actions, selectors } from 'data'
-import Balance from './Balance.js'
+import Balance from './template.js'
 
 let mapStateToProps = (state) => ({
   bitcoinDisplayed: selectors.ui.getBitcoinDisplayed(state),

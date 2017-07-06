@@ -1,8 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import CSSModules from 'react-css-modules'
-
-import style from './style.scss'
 
 const Logout = () => {
   return (
@@ -14,4 +11,4 @@ const Logout = () => {
   )
 }
 
-export default CSSModules(Logout, style)
+export default Logout

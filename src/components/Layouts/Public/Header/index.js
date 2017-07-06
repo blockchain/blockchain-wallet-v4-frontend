@@ -1,11 +1,30 @@
 import React from 'react'
+import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 
-import Header from './template.js'
+import logo from 'img/blockchain-vector.svg'
 
-const HeaderContainer = () => {
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #004A7C;
+  width: 100%;
+  height: 60px;
+`
+const HeaderLogo = styled.img.attrs({ src: logo })`
+  height: 20px;
+`
+
+const Header = () => {
   return (
-    <Header />
+    <HeaderWrapper>
+      <NavLink to='/'>
+        <HeaderLogo />
+      </NavLink>
+    </HeaderWrapper>
   )
 }
 
-export default HeaderContainer
+export default Header
