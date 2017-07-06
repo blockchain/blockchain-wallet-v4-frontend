@@ -114,20 +114,20 @@ export const toEncJSON = wrapper => {
          .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }
 
-export const js = (password, guid, sharedKey, label, mnemonic, xpub) => ({
+export const js = (password, guid, sharedKey, label, mnemonic, xpub, nAccounts = 1) => ({
   sync_pubkeys: false,
   payload_checksum: '',
   storage_token: '',
   version: 3,
   language: 'en',
-  wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub),
+  wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts),
   war_checksum: '',
   password: password,
   pbkdf2_iterations: 5000
 })
 
-export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet') =>
-  fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic))
+export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
+  fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic, undefined, nAccounts))
 
 export const createNewReadOnly = (xpub, firstAccountName = 'My Trezor Wallet') =>
-  fromJS(js('', '', '', firstAccountName, undefined, xpub))
+  fromJS(js('', '', '', firstAccountName, undefined, xpub, 1))

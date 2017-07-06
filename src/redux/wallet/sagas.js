@@ -1,7 +1,8 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
-import { prop, compose, sequence } from 'ramda'
+import { prop, compose, endsWith, repeat, range, map, propSatisfies,
+         dropLastWhile, not, length, concat, propEq, find } from 'ramda'
 import Task from 'data.task'
 import Either from 'data.either'
 import * as A from './actions'
@@ -45,7 +46,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield call(runTask, task, A.createAddressError, A.createAddressSuccess)
   }
 
-  const walletSignupSaga = function * (action) {
+  const createWalletSaga = function * (action) {
     const label = undefined
     const { password, email } = action.payload
     const mnemonic = BIP39.generateMnemonic()
@@ -59,7 +60,44 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
-  const trezorSignupSaga = function * (action) {
+  const findUsedAccounts = function * (batch, node, usedAccounts) {
+    if (endsWith(repeat(false, 5), usedAccounts)) {
+      const n = length(dropLastWhile(not, usedAccounts))
+      return n < 1 ? 1 : n
+    } else {
+      const l = length(usedAccounts)
+      const getxpub = i => node.deriveHardened(i).neutered().toBase58()
+      const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
+      const xpubs = map(getxpub, range(l, l + batch))
+      const result = yield call(api.fetchBlockchainData, xpubs, {n: 1, offset: 0, onlyShow: ''})
+      const search = xpub => find(propEq('address', xpub))
+      const accounts = map(xpub => search(xpub)(prop('addresses', result)), xpubs)
+      const flags = map(isUsed, accounts)
+      return yield call(findUsedAccounts, batch, node, concat(usedAccounts, flags))
+    }
+  }
+
+  const restoreWalletSaga = function * (action) {
+    const { mnemonic, email, password } = action.payload
+    if (!BIP39.validateMnemonic(mnemonic)) {
+      yield put(A.restoreWalletError('INVALID_MNEMONIC'))
+    } else {
+      // we might want to make that coin generic
+      const seed = BIP39.mnemonicToSeed(mnemonic)
+      const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed)
+      const node = masterNode.deriveHardened(44).deriveHardened(0)
+      try {
+        const nAccounts = yield call(findUsedAccounts, 10, node, [])
+        const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+        const label = undefined
+        yield put(A.restoreWalletSuccess(guid, password, sharedKey, mnemonic, label, email, nAccounts))
+      } catch (e) {
+        yield put(A.restoreWalletError('ERROR_DISCOVERING_ACCOUNTS'))
+      }
+    }
+  }
+
+  const createTrezorWalletSaga = function * (action) {
     const accountIndex = action.payload || 0
     try {
       const task = Trezor.getXPub(`m/44'/0'/${accountIndex}'`)
@@ -73,8 +111,9 @@ export const walletSaga = ({ api, walletPath } = {}) => {
 
   return function * () {
     yield takeEvery(T.TOGGLE_SECOND_PASSWORD, secondPasswordSaga)
-    yield takeEvery(T.CREATE_WALLET, walletSignupSaga)
-    yield takeEvery(T.CREATE_TREZOR_WALLET, trezorSignupSaga)
+    yield takeEvery(T.CREATE_WALLET, createWalletSaga)
+    yield takeEvery(T.RESTORE_WALLET, restoreWalletSaga)
+    yield takeEvery(T.CREATE_TREZOR_WALLET, createTrezorWalletSaga)
     yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
   }
 }

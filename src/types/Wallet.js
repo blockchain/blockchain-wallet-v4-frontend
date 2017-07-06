@@ -251,7 +251,7 @@ export const decryptSync = decryptMonadic(
   validateSecondPwd(Either.of, Either.Left)
 )
 
-export const js = (guid, sharedKey, label, mnemonic, xpub) => ({
+export const js = (guid, sharedKey, label, mnemonic, xpub, nAccounts) => ({
   guid: guid,
   sharedKey: sharedKey,
   tx_names: [],
@@ -259,6 +259,6 @@ export const js = (guid, sharedKey, label, mnemonic, xpub) => ({
   double_encryption: false,
   address_book: [],
   keys: [],
-  hd_wallets: [HDWallet.js(label, mnemonic, xpub)],
+  hd_wallets: [HDWallet.js(label, mnemonic, xpub, nAccounts)],
   options: Options.js()
 })
