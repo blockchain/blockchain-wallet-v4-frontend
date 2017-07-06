@@ -5,6 +5,7 @@ import Either from 'data.either'
 import * as crypto from '../WalletCrypto'
 import Type from './Type'
 import * as Wallet from './Wallet'
+import * as Options from './Options'
 
 /* Wrapper :: {
      wallet             :: Wallet
@@ -125,6 +126,11 @@ export const js = (password, guid, sharedKey, label, mnemonic, xpub, nAccounts =
   password: password,
   pbkdf2_iterations: 5000
 })
+
+export const setBothPbkdf2Iterations = curry((iterations, wrapper) => compose(
+  set(compose(wallet, Wallet.options, Options.pbkdf2Iterations), iterations),
+  set(pbkdf2Iterations, iterations)
+)(wrapper))
 
 export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
   fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic, undefined, nAccounts))

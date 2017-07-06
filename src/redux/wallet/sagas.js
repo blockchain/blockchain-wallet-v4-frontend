@@ -2,7 +2,7 @@ import { takeEvery, call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import { prop, compose, endsWith, repeat, range, map, propSatisfies,
-         dropLastWhile, not, length, concat, propEq, find } from 'ramda'
+         dropLastWhile, not, length, concat, propEq, is, find } from 'ramda'
 import Task from 'data.task'
 import Either from 'data.either'
 import * as A from './actions'
@@ -24,7 +24,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
-  const secondPasswordSaga = function * (action) {
+  const toggleSecondPasswordSaga = function * (action) {
     const password = action.payload
     const wrapper = yield select(prop(walletPath))
     const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
@@ -109,11 +109,47 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
+  const setPbkdf2IterationsSaga = function * (action) {
+    const { iterations, password } = action.payload
+    if (not(is(Number, iterations))) {
+      yield put(A.setPbkdf2IterationsError('PBKDF2_ITERATIONS_NOT_A_NUMBER'))
+    } else {
+      const wrapper = yield select(prop(walletPath))
+      const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
+      if (isEncrypted) {
+        const task = Task.of(wrapper)
+                    .chain(Wrapper.traverseWallet(Task.of, Wallet.decrypt(password)))
+                    .map(Wrapper.setBothPbkdf2Iterations(iterations))
+                    .chain(Wrapper.traverseWallet(Task.of, Wallet.encrypt(password)))
+        yield call(runTask, task, A.setPbkdf2IterationsError, A.setPbkdf2IterationsSuccess)
+      } else {
+        const newWrapper = Wrapper.setBothPbkdf2Iterations(iterations, wrapper)
+        yield put(A.setPbkdf2IterationsSuccess(newWrapper))
+      }
+    }
+  }
+  const changeSecondPasswordSaga = function * (action) {
+    const { oldPassword, newPassword } = action.payload
+    const wrapper = yield select(prop(walletPath))
+    const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
+    if (isEncrypted) {
+      const task = Task.of(wrapper)
+                  .chain(Wrapper.traverseWallet(Task.of, Wallet.decrypt(oldPassword)))
+                  .chain(Wrapper.traverseWallet(Task.of, Wallet.encrypt(newPassword)))
+      yield call(runTask, task, A.changeSecondPasswordError, A.changeSecondPasswordSuccess)
+    } else {
+      yield put(A.changeSecondPasswordError('SECOND_PASSWORD_WAS_NOT_ACTIVE'))
+    }
+  }
+
   return function * () {
-    yield takeEvery(T.TOGGLE_SECOND_PASSWORD, secondPasswordSaga)
+    yield takeEvery(T.TOGGLE_SECOND_PASSWORD, toggleSecondPasswordSaga)
+    yield takeEvery(T.CHANGE_SECOND_PASSWORD, changeSecondPasswordSaga)
     yield takeEvery(T.CREATE_WALLET, createWalletSaga)
     yield takeEvery(T.RESTORE_WALLET, restoreWalletSaga)
     yield takeEvery(T.CREATE_TREZOR_WALLET, createTrezorWalletSaga)
     yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
+    yield takeEvery(T.SET_PBKDF2_ITERATIONS, setPbkdf2IterationsSaga)
   }
 }
+
