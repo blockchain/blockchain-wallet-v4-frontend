@@ -9,10 +9,8 @@ class LoginContainer extends React.Component {
   constructor () {
     super()
     this.state = {
-      credentials: {
-        guid: '',
-        password: ''
-      }
+      credentials: { guid: '', password: '' },
+      validation: { guid: null, password: null }
     }
 
     this.onChange = this.onChange.bind(this)
@@ -21,40 +19,61 @@ class LoginContainer extends React.Component {
 
   onChange (event) {
     const credentials = this.state.credentials
+    const validation = this.state.validation
+    const name = event.target.name
+    const value = event.target.value
 
-    switch (event.target.name) {
+    switch (name) {
       case 'guid':
-        credentials.guid = event.target.value
+        credentials.guid = value
+        validation.guid = value !== '' ? 'success' : 'error'
         break
       case 'password':
-        credentials.password = event.target.value
+        credentials.password = value
+        validation.password = value !== '' ? 'success' : 'error'
         break
     }
 
-    this.setState({ credentials: credentials })
+    this.setState({ credentials: credentials, validation: validation })
   }
 
-  onClick () {
-    this.props.actions.loginStart(this.state.credentials)
+  validate () {
+    const validation = this.state.validation
+
+    if (this.state.credentials.guid === '') { validation.guid = 'error' }
+    if (this.state.credentials.password === '') { validation.password = 'error' }
+
+    this.setState({ validation: validation })
+
+    return validation.guid !== 'error' && validation.password !== 'error'
+  }
+
+  onClick (event) {
+    if (!this.validate()) {
+      this.props.alertActions.displayError('Login failed.')
+      return
+    }
+    this.props.authActions.loginStart(this.state.credentials)
   }
 
   render () {
     return (
-      <Login onChange={this.onChange} onClick={this.onClick} />
+      <Login
+        credentials={this.state.credentials}
+        validation={this.state.validation}
+        disabled={this.state.disabled}
+        onChange={this.onChange}
+        onClick={this.onClick}
+      />
     )
-  }
-}
-
-function mapStateToProps (state) {
-  return {
-    credentials: state.credentials
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(actions.auth, dispatch)
+    authActions: bindActionCreators(actions.auth, dispatch),
+    alertActions: bindActionCreators(actions.alerts, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
+export default connect(undefined, mapDispatchToProps)(LoginContainer)

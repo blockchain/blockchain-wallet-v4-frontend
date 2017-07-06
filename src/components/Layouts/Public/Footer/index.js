@@ -2,19 +2,18 @@ import React from 'react'
 import styled from 'styled-components'
 
 import logo from 'img/blue-logo.svg'
-import { Grid } from 'components/generic/Grid'
 import { Link } from 'components/generic/Link'
+import { Text } from 'components/generic/Text'
 import DropdownLanguage from 'components/shared/DropdownLanguage'
 
 const FooterWrapper = styled.footer`
-  background-color: #004A7C;
-  padding: 15px 0;
-`
-const FooterContainer = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  min-height: 60px;
+  background-color: #004A7C;
 
   @media(min-width: 768px) { 
     flex-direction: row;
@@ -28,7 +27,7 @@ const LinkContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  & > * { padding: 0 10px; }
+  & > a { padding: 10px; }
 
   @media(min-width: 768px) { 
     flex-direction: row;
@@ -38,17 +37,19 @@ const LinkContainer = styled.div`
 `
 const Logo = styled.img.attrs({ src: logo })`
   height: 40px;
+  width: 40px;
 `
-const FooterDropdown = styled.div`
-  display: flex;
-  margin-top: 20px;
-  cursor: pointer;
+const DropdownContainer = styled.div`
+  margin: 20px 0;
 
-  & > div > a {
-    font-family: 'Montserrat', Helvetica, sans-serif;
+  & .btn-primary {
     font-weight: 300;
+    font-size: 0.9rem;
     text-transform: uppercase;
+    background-color: transparent!important;
     color: #FFFFFF!important;
+    border: none!important;
+    padding: 0;
   }
 
   @media(min-width: 768px) {
@@ -59,18 +60,16 @@ const FooterDropdown = styled.div`
 const Footer = () => {
   return (
     <FooterWrapper>
-      <FooterContainer>
-        <LinkContainer>
-          <Logo />
-          <Link id='components.layouts.public.footer.explorer' text='.Info Explorer' href='https://blockchain.info' light uppercase white />
-          <Link id='components.layouts.public.footer.about' text='About' href='https://blockchain.com/about' light uppercase white />
-          <Link id='components.layouts.public.footer.blog' text='Blog' href='https://blog.blockchain.com' light uppercase white />
-          <Link id='components.layouts.public.footer.support' text='Support' href='https://support.blockchain.com' light uppercase white />
-        </LinkContainer>
-        <FooterDropdown>
-          <DropdownLanguage />
-        </FooterDropdown>
-      </FooterContainer>
+      <LinkContainer>
+        <Logo />
+        <Link href='https://blockchain.info'><Text id='components.layouts.public.footer.explorer' text='.Info Explorer' small light uppercase white /></Link>
+        <Link href='https://blockchain.com/about'><Text id='components.layouts.public.footer.about' text='About' small light uppercase white /></Link>
+        <Link href='https://blog.blockchain.com'><Text id='components.layouts.public.footer.blog' text='Blog' small light uppercase white /></Link>
+        <Link href='https://support.blockchain.com'><Text id='components.layouts.public.footer.support' text='Support' small light uppercase white /></Link>
+      </LinkContainer>
+      <DropdownContainer>
+        <DropdownLanguage />
+      </DropdownContainer>
     </FooterWrapper>
   )
 }

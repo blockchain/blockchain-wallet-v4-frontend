@@ -1,34 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
-import { Text } from 'components/generic/Text'
+import { LinkContainer } from 'react-router-bootstrap'
 
-const BaseRouterLink = styled(NavLink)`
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: none;
-  }
-  
-  &:focus {
-    text-decoration: none;
-  }
-`
-
-const RouterLink = (props) => {
-  const { to, ...rest } = props
+const BaseRouterLink = ({ children, ...props }) => {
   return (
-    <BaseRouterLink to={to}>
-      <Text {...rest} />
-    </BaseRouterLink>
+    <LinkContainer {...props}>
+      {children}
+    </LinkContainer>
   )
 }
 
-RouterLink.propTypes = {
-  id: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  values: PropTypes.object
-}
+const RouterLink = styled(BaseRouterLink)`
+  cursor: pointer;
+`
 
 export default RouterLink

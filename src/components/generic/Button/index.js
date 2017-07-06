@@ -3,51 +3,25 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-const BaseButton = styled.button`
-  display: inline-block;
-  margin-bottom: 0;
-  font-weight: 400;
-  text-align: center;
-  vertical-align: middle;
-  touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  white-space: nowrap;
-  padding: 8px 25px;
-  line-height: 1.42857143;
-  user-select: none;
-  border-radius: ${props => props.rounded ? '20px' : 'none'};
+import { Typography } from 'components/generic/Typography'
+
+const BaseButton = styled(Typography)`
+  display: block;
+  padding: 10px 15px;
+  box-sizing: border-box;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
-  font-family: ${props => props.altFont ? "'GillSans', Helvetica, sans-serif" : "'Montserrat', Helvetica, sans-serif"};
-  font-weight: ${props =>
-    props.lightest ? '100'
-    : props.lighter ? '200'
-    : props.light ? '300'
-    : props.regular ? '400'
-    : props.medium ? '500'
-    : props.bold ? '600'
-    : props.bolder ? '700'
-    : props.boldest ? '800'
-    : props.black ? '900' : '400'};
-  font-size: ${props =>
-    props.smallest ? '0.5rem'
-    : props.smaller ? '0.7rem'
-    : props.small ? '0.9rem'
-    : props.big ? '1.1rem'
-    : props.bigger ? '1.3rem'
-    : props.biggest ? '1.5rem'
-    : props.giant ? '2rem'
-    : props.gianter ? '2.2rem'
-    : props.giantest ? '2.5rem' : '1rem'};
-  text-transform: ${props =>
-    props.uppercase ? 'uppercase'
-    : props.capitalize ? 'capitalize' : 'none'};
-  font-style: ${props => props.italic ? 'italic' : 'normal'};
-  color: ${props =>
-    props.white ? '#FFFFFF'
-    : props.cyan ? '#10ADE4'
-    : '#5F5F5F'};
-`
+  min-width: 130px;
+  height: 40px;
+  margin-bottom: 0;
+  user-select: none;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  letter-spacing: normal;
+  transition: all .2s ease-in-out;
+  cursor: pointer;
+  border-radius: ${props => props.rounded ? '20px' : 'none'};
+ `
 
 const Button = (props) => {
   const { id, text, values, ...rest } = props
@@ -74,6 +48,8 @@ const SecondaryButton = styled(Button)`
   color: #FFFFFF;
   background-color: #10ADE4;
   border: ${props => props.bordered ? '2px solid #FFFFFF' : '2px solid #10ADE4'};
+
+  &:hover { background-color: #0E9BCC; }
 `
 
 export { PrimaryButton, SecondaryButton }

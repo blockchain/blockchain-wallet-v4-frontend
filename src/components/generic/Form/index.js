@@ -1,10 +1,16 @@
+import React from 'react'
 import * as ReactBootstrap from 'react-bootstrap'
 
-const Button = (props) => (<ReactBootstrap.Button {...props} />)
-const Form = (props) => (<ReactBootstrap.Form {...props} />)
-const FormGroup = (props) => (<ReactBootstrap.FormGroup {...props} />)
-const Label = (props) => (<ReactBootstrap.Label {...props} />)
-const Input = (props) => (<ReactBootstrap.Input {...props} />)
-const FormText = (props) => (<ReactBootstrap.FormText {...props} />)
+import HelpBlock from './HelpBlock'
+import PasswordBox from './PasswordBox'
+import TextBox from './TextBox'
 
-export { Button, Form, FormGroup, Label, Input, FormText }
+const Form = (props) => (<ReactBootstrap.Form {...props} />)
+
+const FormGroup = (props) => (<ReactBootstrap.FormGroup {...props} />)
+
+const ControlLabel = (props) => (<ReactBootstrap.ControlLabel {...props} />)
+
+const FormControl = (props) => (<ReactBootstrap.FormControl {...props} />)
+
+export { Form, FormGroup, ControlLabel, FormControl, HelpBlock, TextBox, PasswordBox }

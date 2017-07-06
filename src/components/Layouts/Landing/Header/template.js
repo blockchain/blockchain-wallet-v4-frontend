@@ -1,16 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
 
 import logo from 'img/blockchain-vector.svg'
 import { PrimaryButton, SecondaryButton } from 'components/generic/Button'
+import { RouterLink } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav, NavItem } from 'components/generic/Navbar'
 
 const NavbarWrapper = styled.div`
-  & .navbar-header { height: 50px; }
-  & li { margin-top: 2px; }
+  padding-top: 17px;
+  
+  & .navbar-header {  height: 50px; }
+
+  & .navbar-right {
+
+    & > li { padding-top:0; }
+
+    @media (min-width: 768px) and (max-width: 1200px) { display: none; } 
+  }
 `
 const NavbarLogo = styled.img.attrs({
   src: logo
@@ -22,20 +30,20 @@ const NavbarLogo = styled.img.attrs({
 const Header = (props) => {
   return (
     <NavbarWrapper>
-      <Navbar inverse expanded={props.headerMenuDisplayed}>
+      <Navbar inverse defaultExpanded={props.headerMenuDisplayed}>
         <NavbarHeader>
           <NavbarBrand>
-            <NavLink to='/'><NavbarLogo /></NavLink>
+            <RouterLink to='/'><NavbarLogo /></RouterLink>
           </NavbarBrand>
           <NavbarToggle onClick={props.clickHeaderMenu} />
         </NavbarHeader>
         <NavbarCollapse>
           <Nav>
-            <li>
-              <NavLink to='/wallet'>
+            <RouterLink to='/wallet'>
+              <NavItem>
                 <Text id='components.layouts.landing.header.wallets' text='Wallets' white uppercase />
-              </NavLink>
-            </li>
+              </NavItem>
+            </RouterLink>
             <NavItem href='https://blockchain.info/charts' target='_blank'>
               <Text id='components.layouts.landing.header.charts' text='Charts' white uppercase />
             </NavItem>
@@ -45,21 +53,21 @@ const Header = (props) => {
             <NavItem href='https://blockchain.info/markets' target='_blank'>
               <Text id='components.layouts.landing.header.markets' text='Markets' white uppercase />
             </NavItem>
-            <NavItem href='https://blockchain.info/api'target='_blank'>
+            <NavItem href='https://blockchain.info/api' target='_blank'>
               <Text id='components.layouts.landing.header.api' text='Api' white uppercase />
             </NavItem>
           </Nav>
           <Nav pullRight>
-            <li>
-              <NavLink to='/login'>
+            <NavItem>
+              <RouterLink to='/login'>
                 <PrimaryButton id='components.layouts.landing.header.login' text='Log in' light uppercase bordered rounded />
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to='/register'>
+              </RouterLink>
+            </NavItem>
+            <NavItem>
+              <RouterLink to='/register'>
                 <SecondaryButton id='components.layouts.landing.header.signup' text='Sign up' light uppercase rounded />
-              </NavLink>
-            </li>
+              </RouterLink>
+            </NavItem>
           </Nav>
         </NavbarCollapse>
       </Navbar>

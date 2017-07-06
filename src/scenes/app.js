@@ -29,7 +29,6 @@ const RootStyle = styled.div`
 
 class App extends React.Component {
   render () {
-    console.log(theme)
     return (
       <Provider store={this.props.store}>
         <ConnectedIntlProvider messages={this.props.messages}>
