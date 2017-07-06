@@ -12,14 +12,14 @@ const BaseButton = styled(Typography)`
   width: ${props => props.fullwidth ? '100%' : 'auto'};
   min-width: 130px;
   height: 40px;
-  margin-bottom: 0;
+  margin: 5px 0;
   user-select: none;
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
   letter-spacing: normal;
   transition: all .2s ease-in-out;
-  cursor: pointer;
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   border-radius: ${props => props.rounded ? '20px' : 'none'};
  `
 
@@ -42,6 +42,8 @@ const PrimaryButton = styled(Button)`
   color: #FFFFFF;
   background-color: #004A7C;
   border: ${props => props.bordered ? '2px solid #FFFFFF' : '2px solid #004A7C'};
+
+  &:hover { background-color: #153A62; } 
 `
 
 const SecondaryButton = styled(Button)`

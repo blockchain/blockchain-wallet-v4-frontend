@@ -8,17 +8,8 @@ const isValidEmail = value => emailRegex.test(value)
 
 const passwordStrongness = value => value.length
 
-const required = value => isNil(value) ? undefined : 'Required'
-
-const validPassword = value => passwordStrongness(value) > 5 ? undefined : 'Not strong enough'
-
-const validEmail = value => isValidEmail(value) ? undefined : 'Invalid'
-
 export {
   isNumeric,
   isValidEmail,
-  passwordStrongness,
-  required,
-  validPassword,
-  validEmail
+  passwordStrongness
 }

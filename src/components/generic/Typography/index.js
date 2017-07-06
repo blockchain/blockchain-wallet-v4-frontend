@@ -31,6 +31,7 @@ const BaseTypography = styled.div`
     props.white ? '#FFFFFF'
     : props.cyan ? '#10ADE4'
     : '#5F5F5F'};
+  margin-right: 5px;
 `
 
 const Typography = ({ ...props, children }) => {
