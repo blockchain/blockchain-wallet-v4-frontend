@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { isEmail, passwordStrongness } from 'services/ValidationHelper'
+import { isValidEmail, passwordStrongness } from 'services/ValidationHelper'
 import Register from './template.js'
 import { actions } from 'data'
 
@@ -57,7 +57,7 @@ class RegisterContainer extends React.Component {
     const errors = this.state.errors
 
     errors.email.empty = email === ''
-    errors.email.invalid = !isEmail(email)
+    errors.email.invalid = !isValidEmail(email)
     validation.email = errors.email.empty || errors.email.invalid ? 'error' : 'success'
 
     this.setState({ validation, errors })

@@ -3,8 +3,8 @@ let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const PATHS = {
-  dist: `${__dirname}/dist`,
   build: `${__dirname}/build`,
+  npm: `${__dirname}/node_modules`,
   src: `${__dirname}/src`
 }
 
@@ -13,22 +13,23 @@ module.exports = {
     PATHS.src + '/index.js'
   ],
   output: {
-    path: PATHS.dist,
-    filename: 'bundle.[hash].js',
+    path: PATHS.build,
+    filename: 'bundle.js',
     publicPath: '/'
   },
   resolve: {
     alias: {
-      'npm': `${__dirname}/node_modules`,
-      'img': `${__dirname}/src/assets/img`,
-      'locales': `${__dirname}/src/assets/locales`,
-      'sass': `${__dirname}/src/assets/sass`,
-      'components': `${__dirname}/src/components`,
-      'data': `${__dirname}/src/data`,
-      'middleware': `${__dirname}/src/middleware`,
-      'scenes': `${__dirname}/src/scenes`,
-      'services': `${__dirname}/src/services`,
-      'config': `${__dirname}/src/config.js`
+      'npm': PATHS.npm,
+      'img': PATHS.src + '/assets/img',
+      'locales': PATHS.src + '/assets/locales',
+      'sass': PATHS.src + '/assets/sass',
+      'themes': PATHS.src + '/assets/themes',
+      'components': PATHS.src + '/components',
+      'data': PATHS.src + '/data',
+      'middleware': PATHS.src + '/middleware',
+      'scenes': PATHS.src + '/scenes',
+      'services': PATHS.src + '/services',
+      'config': PATHS.src + '/config.js'
     },
     symlinks: false
   },
@@ -39,62 +40,49 @@ module.exports = {
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
-          options: { }
+          options: {
+            'plugins': [
+              ['module-resolver', {
+                'root': [PATHS.src],
+                'alias': {
+                  'npm': PATHS.npm,
+                  'img': PATHS.src + '/assets/img',
+                  'locales': PATHS.src + '/assets/locales',
+                  'sass': PATHS.src + '/assets/sass',
+                  'components': PATHS.src + '/components',
+                  'data': PATHS.src + '/data',
+                  'middleware': PATHS.src + '/middleware',
+                  'modals': PATHS.src + '/modals',
+                  'scenes': PATHS.src + '/scenes',
+                  'services': PATHS.src + '/services',
+                  'config': PATHS.src + '/config.js'
+                }
+              }]
+            ]
+          }
         }]
       },
       {
-        test: /assets.*\.scss$/,
+        test: /assets.*\.scss|css$/,
         use: ExtractTextPlugin.extract({
           use: [
             {
               loader: 'css-loader',
               options: {
-                importLoaders: 2
+                importLoaders: 1
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [ require('autoprefixer')({ browsers: 'last 2 versions' }) ],
+                sourceMap: true
               }
             },
             {
               loader: 'sass-loader',
               options: {
                 sourceMap: true
-              }
-            },
-            {
-              loader: 'sass-resources-loader',
-              options: {
-                resources: [
-                  'src/assets/sass/resources/**/*.scss'
-                ]
-              }
-            }
-          ],
-          fallback: 'style-loader'
-        })
-      },
-      {
-        test: /(components|scenes).*\.scss$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[local]___[hash:base64:5]',
-                importLoaders: 2
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'sass-resources-loader',
-              options: {
-                resources: [
-                  'src/assets/sass/resources/**/*.scss',
-                  'node_modules/bootstrap/scss/mixins/**/*.scss'
-                ]
               }
             }
           ],
@@ -112,7 +100,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: 'img/[name].[hash].[ext]'
+            name: 'img/[name].[ext]'
           }
         }
       }
@@ -120,7 +108,7 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: 'style.[hash].css'
+      filename: 'style.css'
     }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
@@ -130,6 +118,23 @@ module.exports = {
   devServer: {
     contentBase: PATHS.build,
     port: 8080,
-    historyApiFallback: true
+    historyApiFallback: true,
+    headers: {
+      'Content-Security-Policy': [
+        "img-src 'self' data: blob:",
+        "style-src 'self' 'unsafe-inline'",
+        'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
+        'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
+        // 'unsafe-eval' is only used by webpack for development. It should not
+        // be present on production!
+        "script-src 'self' 'unsafe-eval'",
+        // 'ws://localhost:8080' is only used by webpack for development and
+        // should not be present on production.
+        "connect-src 'self' ws://localhost:8080 https://blockchain.info wss://ws.blockchain.info https://api.blockchain.info https://app-api.coinify.com https://api.sfox.com https://quotes.sfox.com https://sfox-kyc.s3.amazonaws.com",
+        "object-src 'none';",
+        "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
+        "font-src 'self';"
+      ].join('; ')
+    }
   }
 }
