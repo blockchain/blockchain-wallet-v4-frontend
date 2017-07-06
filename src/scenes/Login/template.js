@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { PrimaryButton } from 'components/generic/Button'
 import { Link, RouterLink } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import { Separator } from 'components/generic/Separator'
@@ -44,7 +45,8 @@ const Login = (props) => {
       </Header>
       <Text id='scenes.login.explain' text='Sign in to your wallet below' small light altFont />
       <Separator />
-      <LoginForm />
+      <LoginForm onSubmit={props.onSubmit} />
+      <PrimaryButton id='scenes.login.loginform.trezor' text='Trezor' onClick={props.onTrezor} fullwidth uppercase />
       <Footer>
         <Link><Text id='scenes.login.loginmobile' text='Login via mobile' small light cyan /></Link>
         <Aligned>

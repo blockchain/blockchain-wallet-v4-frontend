@@ -12,17 +12,17 @@ class RegisterContainer extends React.Component {
     this.submitFailed = this.submitFailed.bind(this)
   }
 
-  submit (event) {
+  submit () {
     this.props.alertActions.displaySuccess('Registration completed!')
   }
 
-  submitFailed (event) {
+  submitFailed () {
     this.props.alertActions.displayError('Registration failed!')
   }
 
   render () {
     return (
-      <Register submitCallback={this.submit} submitFailed={this.submitFailed} />
+      <Register submit={this.submit} submitFailed={this.submitFailed} />
     )
   }
 }

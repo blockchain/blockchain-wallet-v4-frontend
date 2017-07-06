@@ -3,16 +3,21 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Typography } from 'components/generic/Typography'
-
-const BaseButton = styled(Typography)`
-  display: block;
+const BaseButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   padding: 10px 15px;
   box-sizing: border-box;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
   min-width: 130px;
   height: 40px;
   margin: 5px 0;
+  font-weight: ${props => props.strong ? '600' : '300'};
+  font-size: 1rem;
+  text-transform: ${props => props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
+  font-style: ${props => props.italic ? 'italic' : 'normal'};
   user-select: none;
   text-align: center;
   text-decoration: none;

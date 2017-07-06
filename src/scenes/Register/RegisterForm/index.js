@@ -13,7 +13,6 @@ const TermsLabelContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  
 `
 
 const TermsLabel = (
@@ -26,11 +25,11 @@ const TermsLabel = (
 )
 
 const RegisterForm = (props) => {
-  const { submitCallback, errorCallback, submitting } = props
+  const { submit, submitFailed, submitting } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
-    <Form onSubmit={submitCallback} onSubmitFailed={errorCallback}>
+    <Form onSubmit={submit} onSubmitFailed={submitFailed}>
       <Text id='scenes.register.email' text='Email' small medium />
       <Field name='email' validate={[required, validEmail]} component={TextBox} />
       <Text id='scenes.register.password' text='Password' small medium />
@@ -38,7 +37,7 @@ const RegisterForm = (props) => {
       <Text id='scenes.register.confirmationPassword' text='Confirm Password' small medium />
       <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
       <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: TermsLabel}} fullwidth />
-      <SecondaryButton id='scenes.register.registerform.submit' text='Continue' type='submit' disabled={submitting} small medium uppercase white />
+      <SecondaryButton id='scenes.register.registerform.submit' text='Continue' disabled={submitting} fullwidth uppercase />
     </Form>
   )
 }
