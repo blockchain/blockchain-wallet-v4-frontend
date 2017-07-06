@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Grid } from 'components/Shared/Grid'
-import { Text } from 'components/Shared/Text'
+import { Grid } from 'components/generic/Grid'
+import { Text } from 'components/generic/Text'
 import Page1 from './Page1'
 import Page2 from './Page2'
 

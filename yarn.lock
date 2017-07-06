@@ -1116,9 +1116,9 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-blockchain-css@blockchain/brand-assets#abs-paths:
+"blockchain-css@git+https://github.com/blockchain/brand-assets#abs-paths":
   version "1.1.26"
-  resolved "git+ssh://git@github.com/blockchain/brand-assets.git#07c7f9dc7693615e9f9f081a1198aeabed08718d"
+  resolved "git+https://github.com/blockchain/brand-assets#07c7f9dc7693615e9f9f081a1198aeabed08718d"
   dependencies:
     bootstrap-sass "^3.3.7"
 
@@ -5434,6 +5434,12 @@ react-redux@^5.0.5:
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
+
+react-router-bootstrap@^0.24.2:
+  version "0.24.2"
+  resolved "https://registry.yarnpkg.com/react-router-bootstrap/-/react-router-bootstrap-0.24.2.tgz#b99f5fcca812989d703eacbf400bed0529d040ab"
+  dependencies:
+    prop-types "^15.5.8"
 
 react-router-dom@^4.1.1:
   version "4.1.1"

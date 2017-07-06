@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import FaqRow from 'components/Shared/FaqRow'
+import FaqRow from 'components/shared/FaqRow'
 import Question1 from './Question1'
 import Question2 from './Question2'
 import Question3 from './Question3'

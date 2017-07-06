@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { ButtonGroup } from 'react-bootstrap'
 
 import RequestBitcoin from 'modals/RequestBitcoin'
-import { IconButton } from 'components/Shared/Button'
+import { IconButton } from 'components/legacy/Button'
 import Balance from './Balance'
 
 const Menu = styled.div`

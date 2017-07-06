@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import DropdownSearch from 'components/Shared/DropdownSearch'
+import DropdownSearch from 'components/shared/DropdownSearch'
 import FilterStatus from './FilterStatus'
 import Search from './Search'
 

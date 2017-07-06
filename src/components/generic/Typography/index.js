@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 
-const BaseText = styled.div`
+const BaseTypography = styled.div`
   font-family: ${props => props.altFont ? "'GillSans', Helvetica, sans-serif" : "'Montserrat', Helvetica, sans-serif"};
   font-weight: ${props =>
     props.lightest ? '100'
@@ -35,18 +33,12 @@ const BaseText = styled.div`
     : '#5F5F5F'};
 `
 
-const Text = (props) => {
-  const { id, text, values, ...rest } = props
+const Typography = ({ ...props, children }) => {
   return (
-    <BaseText {...rest}>
-      <FormattedMessage id={id} defaultMessage={text} values={values} />
-    </BaseText>
+    <BaseTypography {...props}>
+      {children}
+    </BaseTypography>
   )
 }
 
-Text.propTypes = {
-  id: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired
-}
-
-export { Text }
+export { Typography }
