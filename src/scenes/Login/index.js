@@ -9,7 +9,7 @@ class LoginContainer extends React.Component {
   constructor () {
     super()
     this.state = {
-      credentials: { guid: '', password: '' },
+      values: { guid: '', password: '' },
       validation: { guid: null, password: null }
     }
 
@@ -18,30 +18,30 @@ class LoginContainer extends React.Component {
   }
 
   onChange (event) {
-    const credentials = this.state.credentials
+    const values = this.state.values
     const validation = this.state.validation
     const name = event.target.name
     const value = event.target.value
 
     switch (name) {
       case 'guid':
-        credentials.guid = value
+        values.guid = value
         validation.guid = value !== '' ? 'success' : 'error'
         break
       case 'password':
-        credentials.password = value
+        values.password = value
         validation.password = value !== '' ? 'success' : 'error'
         break
     }
 
-    this.setState({ credentials: credentials, validation: validation })
+    this.setState({ values: values, validation: validation })
   }
 
   validate () {
     const validation = this.state.validation
 
-    if (this.state.credentials.guid === '') { validation.guid = 'error' }
-    if (this.state.credentials.password === '') { validation.password = 'error' }
+    if (this.state.values.guid === '') { validation.guid = 'error' }
+    if (this.state.values.password === '') { validation.password = 'error' }
 
     this.setState({ validation: validation })
 
@@ -53,13 +53,13 @@ class LoginContainer extends React.Component {
       this.props.alertActions.displayError('Login failed.')
       return
     }
-    this.props.authActions.loginStart(this.state.credentials)
+    this.props.authActions.loginStart(this.state.values)
   }
 
   render () {
     return (
       <Login
-        credentials={this.state.credentials}
+        values={this.state.values}
         validation={this.state.validation}
         disabled={this.state.disabled}
         onChange={this.onChange}

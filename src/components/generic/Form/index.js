@@ -1,7 +1,9 @@
 import React from 'react'
 import * as ReactBootstrap from 'react-bootstrap'
 
+import CheckBox from './CheckBox'
 import HelpBlock from './HelpBlock'
+import LabelError from './LabelError'
 import PasswordBox from './PasswordBox'
 import TextBox from './TextBox'
 
@@ -13,4 +15,4 @@ const ControlLabel = (props) => (<ReactBootstrap.ControlLabel {...props} />)
 
 const FormControl = (props) => (<ReactBootstrap.FormControl {...props} />)
 
-export { Form, FormGroup, ControlLabel, FormControl, HelpBlock, TextBox, PasswordBox }
+export { CheckBox, ControlLabel, Form, FormGroup, FormControl, HelpBlock, LabelError, TextBox, PasswordBox }
