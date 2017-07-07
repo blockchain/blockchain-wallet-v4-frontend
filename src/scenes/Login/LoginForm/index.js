@@ -10,14 +10,14 @@ const LoginForm = (props) => {
 
   return (
     <Form>
-      <Text id='scenes.login.guid' text='Wallet ID' small medium />
+      <Text id='scenes.login.loginform.guid' text='Wallet ID' small medium />
       <Field name='guid' validate={[required]} component={TextBox} />
       <HelpBlock>
-        <Text id='scenes.login.info' text='Find the login link in your email, ' small altFont />
-        <Text id='scenes.login.info2' text='e.g. blockchain.info/wallet/1111-222-333...' small altFont italic />
-        <Text id='scenes.login.info3' text='The series of numbers and dashes at the end of the link is your Wallet ID.' small altFont />
+        <Text id='scenes.login.loginform.info' text='Find the login link in your email, ' small altFont />
+        <Text id='scenes.login.loginform.info2' text='e.g. blockchain.info/wallet/1111-222-333...' small altFont italic />
+        <Text id='scenes.login.loginform.info3' text='The series of numbers and dashes at the end of the link is your Wallet ID.' small altFont />
       </HelpBlock>
-      <Text id='scenes.login.password' text='Password' small medium />
+      <Text id='scenes.login.loginform.password' text='Password' small medium />
       <Field name='password' validate={[required]} component={PasswordBox} />
       <SecondaryButton id='scenes.login.loginform.submit' text='Log in' disabled={submitting || invalid} onClick={handleClick} fullwidth uppercase />
       <PrimaryButton id='scenes.login.loginform.trezor' text='Trezor' onClick={handleTrezor} fullwidth uppercase />

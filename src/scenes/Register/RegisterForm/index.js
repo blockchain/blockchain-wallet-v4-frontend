@@ -17,9 +17,9 @@ const TermsLabelContainer = styled.div`
 
 const TermsLabel = (
   <TermsLabelContainer>
-    <Text id='scenes.register.read' text='I have read and agree to the' small light />
+    <Text id='scenes.register.registerform.read' text='I have read and agree to the' small light />
     <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank'>
-      <Text id='scenes.register.terms' text='Terms of Service' small light cyan />
+      <Text id='scenes.register.registerform.terms' text='Terms of Service' small light cyan />
     </Link>
   </TermsLabelContainer>
 )
@@ -30,11 +30,11 @@ const RegisterForm = (props) => {
 
   return (
     <Form>
-      <Text id='scenes.register.email' text='Email' small medium />
+      <Text id='scenes.register.registerform.email' text='Email' small medium />
       <Field name='email' validate={[required, validEmail]} component={TextBox} />
-      <Text id='scenes.register.password' text='Password' small medium />
+      <Text id='scenes.register.registerform.password' text='Password' small medium />
       <Field name='password' validate={[required, validPassword]} component={PasswordBox} />
-      <Text id='scenes.register.confirmationPassword' text='Confirm Password' small medium />
+      <Text id='scenes.register.registerform.confirmationPassword' text='Confirm Password' small medium />
       <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
       <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: TermsLabel}} fullwidth />
       <SecondaryButton id='scenes.register.registerform.submit' text='Continue' disabled={submitting || invalid} onClick={handleClick} fullwidth uppercase />

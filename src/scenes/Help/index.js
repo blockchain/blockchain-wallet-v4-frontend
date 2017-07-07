@@ -38,6 +38,7 @@ const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 5px 0;
 `
 
 const Help = (props) => {
@@ -52,7 +53,9 @@ const Help = (props) => {
           <Text id='scenes.help.guid_explain' text='Email me a reminder with my Wallet ID to my email address' smaller light />
         </Left>
         <Right>
-          <EmptyButton id='scenes.help.remind' text='Remind me' capitalize />
+          <RouterLink to='/reminder'>
+            <EmptyButton id='scenes.help.remind' text='Remind me' capitalize />
+          </RouterLink>
         </Right>
       </Row>
       <Separator />

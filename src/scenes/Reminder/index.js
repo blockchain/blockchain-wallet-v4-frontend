@@ -3,38 +3,31 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import Login from './template.js'
+import Reminder from './template.js'
 import { actions } from 'data'
 
-class LoginContainer extends React.Component {
+class ReminderContainer extends React.Component {
   constructor () {
     super()
     this.handleClick = this.handleClick.bind(this)
-    this.handleTrezor = this.handleTrezor.bind(this)
   }
 
   handleClick (event) {
     event.preventDefault()
-    this.props.authActions.loginStart({ guid: this.props.guid, password: this.props.password })
-  }
-
-  handleTrezor (event) {
-    event.preventDefault()
-    this.props.coreActions.createTrezorWallet(0)
+    // this.props.authActions.loginStart({ guid: this.props.guid, password: this.props.password })
   }
 
   render () {
     return (
-      <Login handleClick={this.handleClick} handleTrezor={this.handleTrezor} />
+      <Reminder handleClick={this.handleClick} />
     )
   }
 }
 
 function matchStateToProps (state) {
-  const selector = formValueSelector('loginForm')
+  const selector = formValueSelector('reminderForm')
   return {
-    guid: selector(state, 'guid'),
-    password: selector(state, 'password')
+    email: selector(state, 'email')
   }
 }
 
@@ -46,4 +39,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(matchStateToProps, mapDispatchToProps)(LoginContainer)
+export default connect(matchStateToProps, mapDispatchToProps)(ReminderContainer)

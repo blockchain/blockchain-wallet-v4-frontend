@@ -24,6 +24,7 @@ const Footer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  padding: 5px 0;
 
   @media(min-width: 768px) {
     flex-direction: row;

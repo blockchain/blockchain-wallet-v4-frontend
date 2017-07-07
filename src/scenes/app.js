@@ -12,6 +12,7 @@ import ConnectedIntlProvider from 'components/providers/ConnectedIntlProvider'
 import LandingContainer from './Landing'
 import LoginContainer from './Login'
 import HelpContainer from './Help'
+import ReminderContainer from './Reminder'
 import RegisterContainer from './Register'
 import HomeContainer from './Home'
 import TransactionsContainer from './Transactions'
@@ -41,6 +42,7 @@ class App extends React.Component {
                   <LandingLayout exact path='/' component={LandingContainer} />
                   <PublicLayout path='/login' component={LoginContainer} />
                   <PublicLayout path='/help' component={HelpContainer} />
+                  <PublicLayout path='/reminder' component={ReminderContainer} />
                   <PublicLayout path='/register' component={RegisterContainer} />
                   <WalletLayout path='/wallet' component={HomeContainer} />
                   <WalletLayout path='/transactions' component={TransactionsContainer} />

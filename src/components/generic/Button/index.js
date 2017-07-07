@@ -30,7 +30,6 @@ const BaseButton = styled.button`
   background-color: ${props => props.disabled ? '#CDCDCD!important' : '#CDCDCD'};
   color: ${props => props.disabled ? '#FFFFFF!important' : '#FFFFFF'};
   border-radius: ${props => props.rounded ? '20px' : '3px'};
-
  `
 
 const Button = (props) => {
