@@ -14,8 +14,8 @@ const BaseTypography = styled.div`
     : props.boldest ? '800'
     : props.black ? '900' : '400'};
   font-size: ${props =>
-    props.smallest ? '0.5rem'
-    : props.smaller ? '0.7rem'
+    props.smallest ? '0.6rem'
+    : props.smaller ? '0.8rem'
     : props.small ? '0.9rem'
     : props.big ? '1.1rem'
     : props.bigger ? '1.3rem'

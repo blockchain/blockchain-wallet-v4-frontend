@@ -12,19 +12,15 @@ const Wrapper = styled.div`
   box-sigin: border-box;
   background-color: #FFFFFF;
 
-  & > * { padding-bottom: 10px; }
-
-  @media(min-width: 768px) { width: 600px; }
+  @media(min-width: 768px) { width: 550px; }
 `
 const Header = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `
 const Footer = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `
@@ -49,7 +45,7 @@ const Login = (props) => {
         <Link><Text id='scenes.login.loginmobile' text='Login via mobile' small light cyan /></Link>
         <Aligned>
           <Text id='scenes.login.troubles' text='Having some troubles?' small light />
-          <RouterLink to='/'><Text id='scenes.login.options' text='View options' small light cyan /></RouterLink>
+          <RouterLink to='/help'><Text id='scenes.login.options' text='View options' small light cyan /></RouterLink>
         </Aligned>
       </Footer>
     </Wrapper>

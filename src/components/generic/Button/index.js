@@ -63,4 +63,12 @@ const SecondaryButton = styled(Button)`
   &:hover { background-color: #0E9BCC; }
 `
 
-export { PrimaryButton, SecondaryButton }
+const EmptyButton = styled(Button)`
+  color: #5F5F5F;
+  background-color: #FFFFFF;
+  border: 1px solid #E0E0E0;
+
+  &:hover { background-color: #F2F2F2; }
+`
+
+export { EmptyButton, PrimaryButton, SecondaryButton }

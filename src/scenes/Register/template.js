@@ -12,13 +12,10 @@ const Wrapper = styled.div`
   box-sigin: border-box;
   background-color: #FFFFFF;
 
-  & > * { padding-bottom: 10px; }
-
-  @media(min-width: 768px) { width: 600px; }
+  @media(min-width: 768px) { width: 550px; }
 `
 const Header = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `
