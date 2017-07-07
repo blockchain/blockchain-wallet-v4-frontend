@@ -1,13 +1,12 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-
 import { required } from 'services/FormHelper'
-import { SecondaryButton } from 'components/generic/Button'
+import { PrimaryButton, SecondaryButton } from 'components/generic/Button'
 import { Form, PasswordBox, TextBox, HelpBlock } from 'components/generic/Form'
 import { Text } from 'components/generic/Text'
 
 const LoginForm = (props) => {
-  const { onSubmit, submitting } = props
+  const { handleClick, handleTrezor, submitting } = props
 
   return (
     <Form>
@@ -20,7 +19,8 @@ const LoginForm = (props) => {
       </HelpBlock>
       <Text id='scenes.login.password' text='Password' small medium />
       <Field name='password' validate={[required]} component={PasswordBox} />
-      <SecondaryButton id='scenes.login.loginform.submit' text='Login' disabled={submitting} onClick={onSubmit} fullwidth uppercase />
+      <SecondaryButton id='scenes.login.loginform.submit' text='Login' disabled={submitting} onClick={handleClick} fullwidth uppercase />
+      <PrimaryButton id='scenes.login.loginform.trezor' text='Trezor' onClick={handleTrezor} fullwidth uppercase />
     </Form>
   )
 }
