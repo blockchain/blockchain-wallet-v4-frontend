@@ -171,6 +171,17 @@ const createApi = ({
     return request('POST', 'wallet', data)
   }
 
+  const getCaptchaImage = (timestamp) => {
+    const data = { timestamp }
+    return request('GET', 'kaptcha.jpg', data)
+  }
+
+  const recoverWallet = (email, captcha) => {
+    const timestamp = new Date().getTime()
+    const data = { method: 'recover-wallet', email, captcha, ct: timestamp }
+    return request('POST', 'wallet', data)
+  }
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -184,7 +195,9 @@ const createApi = ({
     createPinEntry: future(createPinEntry),
     getPinValue: future(getPinValue),
     getTicker: future(getTicker),
-    getSettings: future(getSettings)
+    getSettings: future(getSettings),
+    getCaptchaImage: future(getCaptchaImage),
+    recoverWallet: future(recoverWallet)
   }
 }
 
