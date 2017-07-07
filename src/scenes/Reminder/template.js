@@ -24,7 +24,7 @@ const Login = (props) => {
       <Text id='scenes.reminder.remind' text='Remind me' biggest light capitalize />
       <Text id='scenes.reminder.explain' text="Lost your Wallet Identifier? We'll send it to you via your email." small light altFont />
       <Separator />
-      <ReminderForm handleClick={props.handleClick} />
+      <ReminderForm handleClick={props.handleClick} timestamp={props.timestamp} />
       <Footer>
         <RouterLink to='/help'><Text id='scenes.reminder.back' text='Go back' small light cyan /></RouterLink>
       </Footer>

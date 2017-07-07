@@ -13,6 +13,7 @@ class RegisterContainer extends React.Component {
 
   handleClick (event) {
     event.preventDefault()
+     // TODO: Handle multilanguages
     this.props.alertActions.displaySuccess('Registration completed!')
   }
 

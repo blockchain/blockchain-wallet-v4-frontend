@@ -5,7 +5,7 @@ import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import { actions, selectors } from 'data'
-import { api } from 'services/walletApi.js'
+import { api } from 'services/ApiService'
 
 let safeParse = Either.try(JSON.parse)
 

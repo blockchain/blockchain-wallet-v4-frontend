@@ -7,13 +7,11 @@ const CaptchaBoxContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: ${props => props.fullWidth ? '100%' : 'auto'};
-  height: 80px;
+  height: 130px;
 `
-const CaptchaImage = styled.img.attrs({
-  src: props => props.captchaUrl
-})`
-  height: 25px;
-  padding: 10px 0;
+const CaptchaImage = styled.img`
+  height: 60px;
+  margin: 5px 0;
 `
 const CaptchaBoxInput = styled.input.attrs({
   type: 'text'
@@ -43,7 +41,7 @@ const CaptchaBox = (field) => {
   let errorState = !field.meta.touched ? 'initial' : (field.meta.invalid ? 'invalid' : 'valid')
   return (
     <CaptchaBoxContainer>
-      <CaptchaImage />
+      <CaptchaImage src={field.captchaUrl} />
       <CaptchaBoxInput {...field.input} errorState={errorState} />
       {field.meta.touched && field.meta.error && <CaptchaBoxError>{field.meta.error}</CaptchaBoxError>}
     </CaptchaBoxContainer>
