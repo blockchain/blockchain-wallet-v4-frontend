@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getFormValues } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 
 import Login from './template.js'
 import { actions } from 'data'
@@ -16,11 +16,11 @@ class LoginContainer extends React.Component {
 
   handleClick (event) {
     event.preventDefault()
-    // this.props.alertActions.displayError('Login failed.')
     this.props.authActions.loginStart({ guid: this.props.guid, password: this.props.password })
   }
 
-  handleTrezor () {
+  handleTrezor (event) {
+    event.preventDefault()
     this.props.coreActions.createTrezorWallet(0)
   }
 
@@ -32,10 +32,10 @@ class LoginContainer extends React.Component {
 }
 
 function matchStateToProps (state) {
-  console.log(getFormValues('loginForm')(state))
+  const selector = formValueSelector('loginForm')
   return {
-    guid: getFormValues('loginForm')(state).guid,
-    password: getFormValues('loginForm')(state).password
+    guid: selector(state, 'guid'),
+    password: selector(state, 'password')
   }
 }
 

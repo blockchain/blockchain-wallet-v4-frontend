@@ -38,7 +38,7 @@ const Register = (props) => {
       </Header>
       <Text id='scenes.register.explain' text='Sign up for a free wallet below' small light altFont />
       <Separator />
-      <RegisterForm submit={props.submit} submitFailed={props.submitFailed} />
+      <RegisterForm handleClick={props.handleClick} />
     </Wrapper>
   )
 }

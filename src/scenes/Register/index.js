@@ -8,21 +8,17 @@ import { actions } from 'data'
 class RegisterContainer extends React.Component {
   constructor () {
     super()
-    this.submit = this.submit.bind(this)
-    this.submitFailed = this.submitFailed.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  submit () {
+  handleClick (event) {
+    event.preventDefault()
     this.props.alertActions.displaySuccess('Registration completed!')
-  }
-
-  submitFailed () {
-    this.props.alertActions.displayError('Registration failed!')
   }
 
   render () {
     return (
-      <Register submit={this.submit} submitFailed={this.submitFailed} />
+      <Register handleClick={this.handleClick} />
     )
   }
 }
