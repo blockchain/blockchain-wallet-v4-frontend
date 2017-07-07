@@ -19,7 +19,7 @@ const LoginForm = (props) => {
       </HelpBlock>
       <Text id='scenes.login.password' text='Password' small medium />
       <Field name='password' validate={[required]} component={PasswordBox} />
-      <SecondaryButton id='scenes.login.loginform.submit' text='Login' disabled={submitting || invalid} onClick={handleClick} fullwidth uppercase />
+      <SecondaryButton id='scenes.login.loginform.submit' text='Log in' disabled={submitting || invalid} onClick={handleClick} fullwidth uppercase />
       <PrimaryButton id='scenes.login.loginform.trezor' text='Trezor' onClick={handleTrezor} fullwidth uppercase />
     </Form>
   )

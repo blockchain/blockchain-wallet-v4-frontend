@@ -21,8 +21,15 @@ const Header = styled.div`
 `
 const Footer = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  @media(min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 `
 const Aligned = styled.div`
   & > * { display: inline-block; margin-right: 5px; }

@@ -15,7 +15,7 @@ const BaseButton = styled.button`
   height: 40px;
   margin: 5px 0;
   font-weight: ${props => props.strong ? '600' : '300'};
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-transform: ${props => props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => props.italic ? 'italic' : 'normal'};
   user-select: none;
@@ -24,11 +24,12 @@ const BaseButton = styled.button`
   vertical-align: middle;
   letter-spacing: normal;
   transition: all .2s ease-in-out;
+  white-space: nowrap;
   cursor: ${props => props.disabled ? 'not-allowed!important' : 'pointer'};
   border: 1px solid #CDCDCD${props => props.disabled ? '!important' : ''};
   background-color: ${props => props.disabled ? '#CDCDCD!important' : '#CDCDCD'};
   color: ${props => props.disabled ? '#FFFFFF!important' : '#FFFFFF'};
-  border-radius: ${props => props.rounded ? '20px' : 'none'};
+  border-radius: ${props => props.rounded ? '20px' : '3px'};
 
  `
 
