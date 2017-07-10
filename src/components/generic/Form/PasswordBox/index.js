@@ -1,5 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import PasswordScore from './PasswordScore'
 
 const PasswordBoxContainer = styled.div`
   display: flex;
@@ -7,7 +10,7 @@ const PasswordBoxContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: ${props => props.fullWidth ? '100%' : 'auto'};
-  height: 60px;
+  min-height: 60px;
 `
 const PasswordBoxInput = styled.input.attrs({
   type: 'password'
@@ -35,12 +38,22 @@ const PasswordBoxError = styled.label`
 
 const PasswordBox = (field) => {
   let errorState = !field.meta.touched ? 'initial' : (field.meta.invalid ? 'invalid' : 'valid')
+  let scoreVisible = field.score ? field.input.value.length > 0 : false
   return (
     <PasswordBoxContainer>
       <PasswordBoxInput {...field.input} errorState={errorState} />
+      { scoreVisible ? <PasswordScore value={field.input.value} /> : <div /> }
       {field.meta.touched && field.meta.error && <PasswordBoxError>{field.meta.error}</PasswordBoxError>}
     </PasswordBoxContainer>
   )
+}
+
+PasswordBox.defaultProps = {
+  score: false
+}
+
+PasswordBox.PropTypes = {
+  score: PropTypes.number
 }
 
 export default PasswordBox

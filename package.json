@@ -116,6 +116,7 @@
     "redux-saga": "^0.15.3",
     "sass-extract": "^0.4.0",
     "sass-extract-loader": "^0.3.4",
-    "styled-components": "^2.1.0"
+    "styled-components": "^2.1.0",
+    "zxcvbn": "^4.4.2"
   }
 }

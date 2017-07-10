@@ -59,7 +59,7 @@ const Register = (props) => {
         <Text id='scenes.register.email' text='Email' small medium />
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
         <Text id='scenes.register.password' text='Password' small medium />
-        <Field name='password' validate={[required, validPassword]} component={PasswordBox} />
+        <Field name='password' validate={[required, validPassword]} component={PasswordBox} score />
         <Text id='scenes.register.confirmationPassword' text='Confirm Password' small medium />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: TermsLabel}} fullwidth />

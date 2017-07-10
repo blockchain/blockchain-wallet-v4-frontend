@@ -32,8 +32,8 @@ const configureStore = () => {
         autoDisconnection,
         // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
         // coreMiddleware.socket({ socket }),
-        sagaMiddleware,
-        logger
+        sagaMiddleware
+        // logger
       )
     )
   )
