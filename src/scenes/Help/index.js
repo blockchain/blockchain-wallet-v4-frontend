@@ -65,7 +65,9 @@ const Help = (props) => {
           <Text id='scenes.help.password_explain' text='Recover your funds with your 12 word recovery passphrase' smaller light />
         </Left>
         <Right>
-          <EmptyButton id='scenes.help.recover' text='Recover funds' capitalize />
+          <RouterLink to='/recover'>
+            <EmptyButton id='scenes.help.recover' text='Recover funds' capitalize />
+          </RouterLink>
         </Right>
       </Row>
       <Separator />
