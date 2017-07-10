@@ -7,7 +7,7 @@ const BaseLink = styled.a`
   &:focus { text-decoration: none; }
 `
 
-const Link = ({props, children}) => {
+const Link = ({...props, children}) => {
   return (
     <BaseLink {...props}>
       {children}

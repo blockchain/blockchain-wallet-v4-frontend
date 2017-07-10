@@ -10,28 +10,65 @@ import { Grid } from 'components/generic/Grid'
 
 const Wrapper = styled.div`
   background-color: #004A7C;
-  height: 100%;
+  height: auto;
+  width: 100%;
+
+  @media(min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
 `
-const Container = styled(Grid)`
+const HeaderContainer = styled.div`
+  position: relative;
+  width: 100%;
+
+  @media(min-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+`
+const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   height: 100%;
+  overflow-y: auto;
+`
+const FooterContainer = styled.div`
+  position: relative;
+  width: 100%;
+  padding: 20px 0;
 
-  &:before, :after { display: none; }
+  @media(min-width: 768px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
 `
 
 const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <Wrapper>
-        <Container>
-          <Alerts />
-          <Header />
+        <HeaderContainer>
+          <Grid>
+            <Alerts />
+            <Header />
+          </Grid>
+        </HeaderContainer>
+        <ContentContainer>
           <Component {...matchProps} />
-          <Footer />
-        </Container>
+        </ContentContainer>
+        <FooterContainer>
+          <Grid>
+            <Footer />
+          </Grid>
+        </FooterContainer>
       </Wrapper>
     )} />
   )

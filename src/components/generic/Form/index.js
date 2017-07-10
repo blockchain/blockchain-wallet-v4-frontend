@@ -1,18 +1,9 @@
-import React from 'react'
-import * as ReactBootstrap from 'react-bootstrap'
-
+import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
+import Form from './Form'
 import HelpBlock from './HelpBlock'
-import LabelError from './LabelError'
 import PasswordBox from './PasswordBox'
+import TextArea from './TextArea'
 import TextBox from './TextBox'
 
-const Form = (props) => (<ReactBootstrap.Form {...props} />)
-
-const FormGroup = (props) => (<ReactBootstrap.FormGroup {...props} />)
-
-const ControlLabel = (props) => (<ReactBootstrap.ControlLabel {...props} />)
-
-const FormControl = (props) => (<ReactBootstrap.FormControl {...props} />)
-
-export { CheckBox, ControlLabel, Form, FormGroup, FormControl, HelpBlock, LabelError, TextBox, PasswordBox }
+export { CaptchaBox, CheckBox, Form, HelpBlock, TextArea, TextBox, PasswordBox }

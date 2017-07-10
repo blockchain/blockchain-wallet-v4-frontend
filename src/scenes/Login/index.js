@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import Login from './template.js'
 import { actions } from 'data'
@@ -8,70 +9,32 @@ import { actions } from 'data'
 class LoginContainer extends React.Component {
   constructor () {
     super()
-    this.state = {
-      values: { guid: '', password: '' },
-      validation: { guid: null, password: null }
-    }
-
-    this.onChange = this.onChange.bind(this)
-    this.onClick = this.onClick.bind(this)
-    this.onTrezor = this.onTrezor.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleTrezor = this.handleTrezor.bind(this)
   }
 
-  onChange (event) {
-    const values = this.state.values
-    const validation = this.state.validation
-    const name = event.target.name
-    const value = event.target.value
-
-    switch (name) {
-      case 'guid':
-        values.guid = value
-        validation.guid = value !== '' ? 'success' : 'error'
-        break
-      case 'password':
-        values.password = value
-        validation.password = value !== '' ? 'success' : 'error'
-        break
-    }
-
-    this.setState({ values: values, validation: validation })
+  handleClick (event) {
+    event.preventDefault()
+    this.props.authActions.loginStart({ guid: this.props.guid, password: this.props.password })
   }
 
-  validate () {
-    const validation = this.state.validation
-
-    if (this.state.values.guid === '') { validation.guid = 'error' }
-    if (this.state.values.password === '') { validation.password = 'error' }
-
-    this.setState({ validation: validation })
-
-    return validation.guid !== 'error' && validation.password !== 'error'
-  }
-
-  onClick (event) {
-    if (!this.validate()) {
-      this.props.alertActions.displayError('Login failed.')
-      return
-    }
-    this.props.authActions.loginStart(this.state.values)
-  }
-
-  onTrezor () {
+  handleTrezor (event) {
+    event.preventDefault()
     this.props.coreActions.createTrezorWallet(0)
   }
 
   render () {
     return (
-      <Login
-        values={this.state.values}
-        validation={this.state.validation}
-        disabled={this.state.disabled}
-        onChange={this.onChange}
-        onClick={this.onClick}
-        onTrezor={this.onTrezor}
-      />
+      <Login handleClick={this.handleClick} handleTrezor={this.handleTrezor} />
     )
+  }
+}
+
+function matchStateToProps (state) {
+  const selector = formValueSelector('loginForm')
+  return {
+    guid: selector(state, 'guid'),
+    password: selector(state, 'password')
   }
 }
 
@@ -83,4 +46,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(undefined, mapDispatchToProps)(LoginContainer)
+export default connect(matchStateToProps, mapDispatchToProps)(LoginContainer)

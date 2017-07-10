@@ -2,7 +2,7 @@ import {takeEvery, takeLatest} from 'redux-saga'
 import { fork } from 'redux-saga/effects'
 
 import settings from 'config'
-import { api } from 'services/walletApi.js'
+import { api } from 'services/ApiService'
 
 import { coreSagas } from 'dream-wallet/lib'
 import authSagas from './Auth/sagas.js'

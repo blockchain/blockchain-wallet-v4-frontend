@@ -88,6 +88,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "bip39": "^2.3.1",
     "blockchain-css": "git+https://github.com/blockchain/brand-assets#abs-paths",
     "color": "^2.0.0",
     "connected-react-router": "^4.2.1",
@@ -109,11 +110,13 @@
     "react-router-dom": "^4.1.1",
     "react-router-redux": "next",
     "redux": "^3.6.0",
+    "redux-form": "^6.8.0",
     "redux-localstorage": "^0.4.1",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.15.3",
     "sass-extract": "^0.4.0",
     "sass-extract-loader": "^0.3.4",
-    "styled-components": "^2.1.0"
+    "styled-components": "^2.1.0",
+    "zxcvbn": "^4.4.2"
   }
 }
