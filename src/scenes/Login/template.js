@@ -63,8 +63,12 @@ const Login = (props) => {
         </HelpBlock>
         <Text id='scenes.login.password' text='Password' small medium />
         <Field name='password' validate={[required]} component={PasswordBox} />
-        <SecondaryButton id='scenes.login.submit' text='Log in' disabled={submitting || invalid} onClick={handleClick} fullwidth uppercase />
-        <PrimaryButton id='scenes.login.trezor' text='Trezor' onClick={handleTrezor} fullwidth uppercase />
+        <SecondaryButton fullwidth disabled={submitting || invalid} onClick={handleClick}>
+          <Text id='scenes.login.submit' text='Log in' uppercase white />
+        </SecondaryButton>
+        <PrimaryButton fullwidth onClick={handleTrezor}>
+          <Text id='scenes.login.trezor' text='Trezor' uppercase white />
+        </PrimaryButton>
       </Form>
       <Footer>
         <Link><Text id='scenes.login.loginmobile' text='Login via mobile' small light cyan /></Link>

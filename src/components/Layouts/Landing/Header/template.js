@@ -60,12 +60,16 @@ const Header = (props) => {
           <Nav pullRight>
             <RouterLink to='/login'>
               <NavItem>
-                <PrimaryButton id='components.layouts.landing.header.login' text='Log in' light uppercase bordered rounded />
+                <PrimaryButton rounded bordered>
+                  <Text id='components.layouts.landing.header.login' text='Log in' light uppercase white />
+                </PrimaryButton>
               </NavItem>
             </RouterLink>
             <RouterLink to='/register'>
               <NavItem>
-                <SecondaryButton id='components.layouts.landing.header.signup' text='Sign up' light uppercase rounded />
+                <SecondaryButton rounded>
+                  <Text id='components.layouts.landing.header.signup' text='Sign up' light uppercase white />
+                </SecondaryButton>
               </NavItem>
             </RouterLink>
           </Nav>

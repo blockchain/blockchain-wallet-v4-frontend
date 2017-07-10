@@ -60,7 +60,9 @@ const SecondStep = (props) => {
         <Text id='scenes.recover.secondstep.confirmationPassword' text='Confirm Password' small medium />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: TermsLabel}} fullwidth />
-        <SecondaryButton id='scenes.recover.secondstep.recover' text='Recover funds' disabled={submitting || invalid} onClick={handleClickStep2} fullwidth uppercase />
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep2} fullwidth>
+          <Text id='scenes.recover.secondstep.recover' text='Recover funds' uppercase white />
+        </SecondaryButton>
       </Form>
       <Footer>
         <Link onClick={props.handleGoBackStep2}><Text id='scenes.recover.secondstep.back' text='Go back' small light cyan /></Link>

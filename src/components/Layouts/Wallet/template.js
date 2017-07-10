@@ -28,12 +28,23 @@ const WalletLayoutLeft = styled.div`
 `
 
 const WalletLayoutContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+  width: calc(100% - 270px);
 `
 
 const WalletLayoutTop = styled.div`
+  flex: 0 0 115px;
+  width: 100%;
 `
 
 const WalletLayoutPage = styled.div`
+  height: calc(100% - 115px);
+  width: 100%;
+  overflow-y: auto;
 `
 
 const WalletLayout = (props) => (
@@ -41,7 +52,7 @@ const WalletLayout = (props) => (
     <Alerts />
     <Header />
     <WalletLayoutContainer>
-      <WalletLayoutLeft className='layout-left'>
+      <WalletLayoutLeft>
         <MenuLeft location={props.location} />
       </WalletLayoutLeft>
       <WalletLayoutContent>

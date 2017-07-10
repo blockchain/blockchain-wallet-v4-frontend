@@ -45,7 +45,9 @@ const ThirdStep = (props) => {
         </HelpBlock>
         <Text id='scenes.reset2fa.thirdstep.captcha' text='Captcha' small medium capitalize />
         <Field name='captcha' validate={[required]} component={CaptchaBox} />
-        <SecondaryButton id='scenes.reset2fa.thirdstep.reset' text='Reset' disabled={submitting || invalid} onClick={handleClickStep3} fullwidth uppercase />
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep3} fullwidth>
+          <Text id='scenes.reset2fa.thirdstep.reset' text='Reset'uppercase white />
+        </SecondaryButton>
       </Form>
       <Footer>
         <Link onClick={props.handleGoBackStep3}><Text id='scenes.reset2fa.thirdstep.back' text='Go back' small light cyan /></Link>

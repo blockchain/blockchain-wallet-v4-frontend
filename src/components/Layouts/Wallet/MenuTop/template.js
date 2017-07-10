@@ -1,25 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 import { ButtonGroup } from 'react-bootstrap'
 
 import RequestBitcoin from 'modals/RequestBitcoin'
 import { IconButton } from 'components/legacy/Button'
+import { Text } from 'components/generic/Text'
 import Balance from './Balance'
 
-const Menu = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 115px;
+  height: 100%;
   padding: 20px 30px;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme.grayLighter};
 `
-
 const Actions = styled.div`
   display: flex;
   flex-direction: row;
@@ -29,17 +28,17 @@ const Actions = styled.div`
 `
 
 const MenuTop = (props) => (
-  <Menu>
+  <Wrapper>
     <div>
-      <span className='h5 text-uppercase'>Be your own bank.</span>
+      <Text id='components.layouts.wallet.menutop.bank' text='Be your own bank.' biggest />
       <Actions>
-        <IconButton icon='icon-send' className='mr-10' onClick={props.openSendBitcoin}>
-          <FormattedMessage id='components.layouts.wallet.menutop.send' defaultMessage='Send' />
+        <IconButton icon='icon-send' onClick={props.openSendBitcoin}>
+          <Text id='components.layouts.wallet.menutop.send' text='Send' smaller light />
         </IconButton>
         <ButtonGroup>
           <RequestBitcoin />
           <IconButton icon='icon-receive' onClick={props.openRequestBitcoin}>
-            <FormattedMessage id='components.layouts.wallet.menutop.request' defaultMessage='Request' />
+            <Text id='components.layouts.wallet.menutop.request' text='Request' smaller light />
           </IconButton>
           <IconButton icon='ti-clipboard' />
         </ButtonGroup>
@@ -48,7 +47,7 @@ const MenuTop = (props) => (
     <div>
       <Balance />
     </div>
-  </Menu>
+  </Wrapper>
 )
 
 MenuTop.propTypes = {

@@ -34,7 +34,9 @@ const Reminder = (props) => {
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
         <Text id='scenes.reminder.captcha' text='Captcha' small medium />
         <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: props.timestamp }} />
-        <SecondaryButton id='scenes.reminder.continue' text='Continue' disabled={submitting || invalid} onClick={handleClick} fullwidth uppercase />
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
+          <Text id='scenes.reminder.continue' text='Continue' uppercase white />
+        </SecondaryButton>
       </Form>
       <Footer>
         <RouterLink to='/help'><Text id='scenes.reminder.back' text='Go back' small light cyan /></RouterLink>

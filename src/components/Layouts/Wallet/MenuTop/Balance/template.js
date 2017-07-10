@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import BitcoinDisplay from 'components/shared/BitcoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 
-const BalanceWrapper = styled.div`
+const Wrapper = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: column${props => props.flip ? '-reverse' : ''}
@@ -17,14 +17,14 @@ const Currency = styled.div.attrs({
 })``
 
 const Balance = ({ balance, bitcoinDisplayed, toggleCurrencyDisplay }) => (
-  <BalanceWrapper flip={!bitcoinDisplayed}>
+  <Wrapper flip={!bitcoinDisplayed}>
     <Currency onClick={toggleCurrencyDisplay} large={bitcoinDisplayed}>
       <BitcoinDisplay amount={balance} />
     </Currency>
     <Currency onClick={toggleCurrencyDisplay} large={!bitcoinDisplayed}>
       <CurrencyDisplay amount={balance} />
     </Currency>
-  </BalanceWrapper>
+  </Wrapper>
 )
 
 Balance.defaultProps = {
