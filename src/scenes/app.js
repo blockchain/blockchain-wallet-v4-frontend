@@ -14,6 +14,7 @@ import LoginContainer from './Login'
 import HelpContainer from './Help'
 import RecoverContainer from './Recover'
 import ReminderContainer from './Reminder'
+import Reset2FAContainer from './Reset2FA'
 import RegisterContainer from './Register'
 import HomeContainer from './Home'
 import TransactionsContainer from './Transactions'
@@ -45,6 +46,7 @@ class App extends React.Component {
                   <PublicLayout path='/help' component={HelpContainer} />
                   <PublicLayout path='/recover' component={RecoverContainer} />
                   <PublicLayout path='/reminder' component={ReminderContainer} />
+                  <PublicLayout path='/reset2fa' component={Reset2FAContainer} />
                   <PublicLayout path='/register' component={RegisterContainer} />
                   <WalletLayout path='/wallet' component={HomeContainer} />
                   <WalletLayout path='/transactions' component={TransactionsContainer} />

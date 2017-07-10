@@ -77,7 +77,9 @@ const Help = (props) => {
           <Text id='scenes.help.2fa_explain' text='Reset two step verification to regain access to your wallet' smaller light />
         </Left>
         <Right>
-          <EmptyButton id='scenes.help.reset' text='Reset 2FA' capitalize />
+          <RouterLink to='/reset2fa'>
+            <EmptyButton id='scenes.help.reset' text='Reset 2FA' capitalize />
+          </RouterLink>
         </Right>
       </Row>
       <Separator />

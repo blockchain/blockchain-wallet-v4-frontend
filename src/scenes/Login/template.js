@@ -1,10 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
 
+import { required } from 'services/FormHelper'
+import { PrimaryButton, SecondaryButton } from 'components/generic/Button'
+import { Form, PasswordBox, TextBox, HelpBlock } from 'components/generic/Form'
 import { Link, RouterLink } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import { Separator } from 'components/generic/Separator'
-import LoginForm from './LoginForm'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -37,6 +40,8 @@ const Aligned = styled.div`
 `
 
 const Login = (props) => {
+  const { handleClick, handleTrezor, submitting, invalid } = props
+
   return (
     <Wrapper>
       <Header>
@@ -48,7 +53,19 @@ const Login = (props) => {
       </Header>
       <Text id='scenes.login.explain' text='Sign in to your wallet below' small light altFont />
       <Separator />
-      <LoginForm handleClick={props.handleClick} handleTrezor={props.handleTrezor} />
+      <Form>
+        <Text id='scenes.login.guid' text='Wallet ID' small medium />
+        <Field name='guid' validate={[required]} component={TextBox} />
+        <HelpBlock>
+          <Text id='scenes.login.info' text='Find the login link in your email, ' small altFont />
+          <Text id='scenes.login.info2' text='e.g. blockchain.info/wallet/1111-222-333...' small altFont italic />
+          <Text id='scenes.login.info3' text='The series of numbers and dashes at the end of the link is your Wallet ID.' small altFont />
+        </HelpBlock>
+        <Text id='scenes.login.password' text='Password' small medium />
+        <Field name='password' validate={[required]} component={PasswordBox} />
+        <SecondaryButton id='scenes.login.submit' text='Log in' disabled={submitting || invalid} onClick={handleClick} fullwidth uppercase />
+        <PrimaryButton id='scenes.login.trezor' text='Trezor' onClick={handleTrezor} fullwidth uppercase />
+      </Form>
       <Footer>
         <Link><Text id='scenes.login.loginmobile' text='Login via mobile' small light cyan /></Link>
         <Aligned>
@@ -60,4 +77,4 @@ const Login = (props) => {
   )
 }
 
-export default Login
+export default reduxForm({ form: 'loginForm' })(Login)

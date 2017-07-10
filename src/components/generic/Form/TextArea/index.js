@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const TextBoxContainer = styled.div`
+const TextAreaContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -9,12 +10,10 @@ const TextBoxContainer = styled.div`
   width: ${props => props.fullWidth ? '100%' : 'auto'};
   height: 55px;
 `
-const TextBoxInput = styled.input.attrs({
-  type: 'text'
-})`
+const TextAreaInput = styled.textarea`
+  &::-webkit-input-placeholder { color: ${props => props.theme.grayLighter} }
   display: block;
   width: 100%;
-  height: 40px;
   min-height: 40px;
   padding: 6px 12px;
   box-sizing: border-box;
@@ -25,23 +24,33 @@ const TextBoxInput = styled.input.attrs({
   background-image: none;
   outline-width: 0;
   user-select: text;
+  resize: none;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
 `
-const TextBoxError = styled.label`
+const TextAreaError = styled.label`
   display: block;
   font-size: 13px;
   font-weight: 300;
   color: #FF0000;
 `
 
-const TextBox = (field) => {
+const TextArea = (field) => {
   let errorState = !field.meta.touched ? 'initial' : (field.meta.invalid ? 'invalid' : 'valid')
   return (
-    <TextBoxContainer>
-      <TextBoxInput {...field.input} errorState={errorState} placeholder={field.placeholder} />
-      {field.meta.touched && field.meta.error && <TextBoxError>{field.meta.error}</TextBoxError>}
-    </TextBoxContainer>
+    <TextAreaContainer>
+      <TextAreaInput {...field.input} errorState={errorState} placeholder={field.placeholder} rows={field.rows} />
+      {field.meta.touched && field.meta.error && <TextAreaError>{field.meta.error}</TextAreaError>}
+    </TextAreaContainer>
   )
 }
 
-export default TextBox
+TextArea.defaultProps = {
+  rows: 2
+}
+
+TextArea.propTypes = {
+  rows: PropTypes.number,
+  placeholder: PropTypes.string
+}
+
+export default TextArea

@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import Recover from './template.js'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
 import { actions } from 'data'
 
 class ReminderContainer extends React.Component {
@@ -30,19 +31,15 @@ class ReminderContainer extends React.Component {
   }
 
   render () {
-    return (
-      <Recover
-        step={this.state.step}
-        handleClickStep1={this.handleClickStep1}
-        handleClickStep2={this.handleClickStep2}
-        handleGoBackStep2={this.handleGoBackStep2}
-      />
-    )
+    switch (this.state.step) {
+      case 2: return <SecondStep handleClickStep2={this.handleClickStep2} handleGoBackStep2={this.handleGoBackStep2} />
+      default: return <FirstStep handleClickStep1={this.handleClickStep1} />
+    }
   }
 }
 
 function matchStateToProps (state) {
-  const selector = formValueSelector('walletForm')
+  const selector = formValueSelector('recoverForm2')
   return {
     email: selector(state, 'email'),
     password: selector(state, 'password'),
