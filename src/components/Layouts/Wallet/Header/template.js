@@ -20,8 +20,8 @@ const Logo = styled.img.attrs({
   src: logo
 })`
   display: block;
-  height: 22px;
-  margin: 15px;
+  height: 20px;
+  margin-top: 18px;
 `
 const MenuToggle = styled.div`
 

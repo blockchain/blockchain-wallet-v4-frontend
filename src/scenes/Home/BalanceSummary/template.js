@@ -1,52 +1,73 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
 import BitcoinDisplay from 'components/shared/BitcoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 
+import { Text } from 'components/generic/Text'
+import { Typography } from 'components/generic/Typography'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+`
+const Header = styled.div`
+  width: 100%;
+  padding: 10px 0;
+`
+const Content = styled.div`
+  width: 100%;
+  border: 1px solid #D2CED0;
+  padding: 10px;
+  box-sizing: border-box;
+`
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #D2CED0;
+  padding: 10px 0;
+`
+const LastRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+`
+
 const BalanceSummary = (props) => {
   return (
-    <div className='container-fluid padding-bottom-30'>
-      <div className='row padding-bottom-20'>
-        <div className='col-auto h6 text-capitalize'>
-          <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Balance summary' />
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col-12 border'>
-          {props.balances.map(function (balance, index) {
-            return (
-              <div className='row justify-content-between margin-0 padding-vertical-10 border-bottom' key={index}>
-                <div className='col-auto'>
-                  <span>{balance.title}</span>
-                </div>
-                <div className='col-auto'>
-                  {props.bitcoinDisplayed ? (
-                    <BitcoinDisplay amount={balance.amount} />
-                  ) : (
-                    <CurrencyDisplay amount={balance.amount} />
-                  )}
-                </div>
-              </div>
-            )
-          })}
-          <div className='row justify-content-between margin-0 padding-vertical-10'>
-            <div className='col-auto'>
-              <span className='font-weight-bold text-capitalize'>Total</span>
-            </div>
-            <div className='col-auto'>
-              {props.bitcoinDisplayed ? (
-                <BitcoinDisplay className='font-weight-bold' amount={props.total} />
-              ) : (
-                <CurrencyDisplay className='font-weight-bold' amount={props.total} />
-              )}
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <Wrapper>
+      <Header>
+        <Text id='scenes.home.balancesummary.title' text='Balance summary' capitalize />
+      </Header>
+      <Content>
+        { props.balances.map(function (balance, index) {
+          return (
+            <Row key={index}>
+              <Typography small light>{balance.title}</Typography>
+              { props.bitcoinDisplayed
+                ? <BitcoinDisplay amount={balance.amount} small light />
+                : <CurrencyDisplay amount={balance.amount} small light />
+              }
+            </Row>
+          )
+        })}
+        <LastRow>
+          <Text id='scenes.home.balancesummary.total' text='Total' small />
+          { props.bitcoinDisplayed
+            ? <BitcoinDisplay amount={props.total} small />
+            : <CurrencyDisplay amount={props.total} small />
+          }
+        </LastRow>
+      </Content>
+    </Wrapper>
   )
 }
 

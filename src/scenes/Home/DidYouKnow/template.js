@@ -1,35 +1,66 @@
-
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
+import { Icon } from 'components/generic/Icon'
+import { Text } from 'components/generic/Text'
+import { Typography } from 'components/generic/Typography'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+`
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+`
+const Content = styled.div`
+  width: 100%;
+  border: 1px solid #D2CED0;
+  padding: 10px;
+  box-sizing: border-box;
+`
+const TopRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
+const BottomRow = styled.div`
+  text-align: justify;
+`
+const PaddedIcon = styled(Icon)`
+  padding: 5px;
+`
 
 const DidYouKnow = (props) => {
+  // TODO: Localization => be careful with dybamic keys here
+  // TODO: add the different colors in the typography component
   return (
-    <div className='container-fluid'>
-      <div className='row padding-bottom-20 justify-content-between'>
-        <div className='col-auto h6 text-capitalize'>
-          <FormattedMessage id='scenes.home.didyouknow.title' defaultMessage='Did you know?' />
-        </div>
-        <div className='col-auto'>
-          <span className={'h6 text-uppercase ' + props.info.category.color}>{props.info.category.name}</span>
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col-12 padding-20 border'>
-          <div className='row padding-bottom-10'>
-            <div className='col-12'>
-              <i className={`h3 padding-right-10 ${props.info.icon}`} />
-              <span className='h6'>{props.info.title}</span>
-            </div>
-          </div>
-          <div className='row'>
-            <div className='col-12'>
-              <span>{props.info.description}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Wrapper>
+      <Header>
+        <Text id='scenes.home.didyouknow.title' text='Did you know?' capitalize />
+        <Text id={'scenes.home.didyouknow.' + props.info.category.name} text={props.info.category.name} uppercase />
+      </Header>
+      <Content>
+        <TopRow>
+          <PaddedIcon name={props.info.icon} giant />
+          <Text id={'scenes.home.didyouknow.' + props.info.title} text={props.info.title} color={props.info.color} small />
+        </TopRow>
+        <BottomRow>
+          <Typography small light>{props.info.description}</Typography>
+        </BottomRow>
+      </Content>
+    </Wrapper>
   )
 }
 

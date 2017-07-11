@@ -7,16 +7,14 @@ import MenuTop from './MenuTop'
 import Alerts from 'components/shared/Alerts'
 
 const Wrapper = styled.div`
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
 `
 const Container = styled.div`
+  display: flex;
   width: 100%;
   height: 100%;
-  flex-grow: 1;
-  display: flex;
-  min-height: 0;
 `
 const Nav = styled.div`
   flex: 0 0 60px;
@@ -25,6 +23,7 @@ const Nav = styled.div`
 const Left = styled.div`
   flex: 0 0 270px;
   padding: 15px;
+  box-sizing: border-box;
   background: #F5F7F9;
   border-right: 1px solid #DDD;
 `
@@ -33,7 +32,6 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 100%;
   width: calc(100% - 270px);
 `
 const Top = styled.div`

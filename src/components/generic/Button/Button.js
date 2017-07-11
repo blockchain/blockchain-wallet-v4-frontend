@@ -7,6 +7,7 @@ const BaseButtonDisabled = styled.button`
   box-sizing: border-box;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
   height: 40px;
+  margin-bottom: 5px;
   user-select: none;
   text-align: center;
   text-decoration: none;
@@ -20,7 +21,7 @@ const BaseButtonDisabled = styled.button`
   color: #FFFFFF${props => props.disabled ? '!important' : '!default'};
   border-radius: ${props => props.rounded ? '20px' : '3px'};
 
-  & > * { display: inline-flex; }
+  & > * { display: inline-flex; margin: 0 5px; }
   &:hover { background-color: #F2F2F2; }
   &:focus { outline:0; }
  `

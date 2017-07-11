@@ -16,9 +16,9 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 20px 30px;
+  padding: 15px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme.grayLighter};
+  border-bottom: 1px solid #EFEFEF;
 `
 const Container = styled.div``
 const Actions = styled.div`

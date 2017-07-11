@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column${props => props.flip ? '-reverse' : ''};
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 `
 
 const Balance = ({ balance, bitcoinDisplayed, toggleCurrencyDisplay }) => (

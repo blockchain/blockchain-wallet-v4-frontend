@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { Typography } from 'components/generic/Typography'
+
+const IconImage = styled.i``
 
 const Icon = (props) => {
   const { name, ...rest } = props
 
   return (
     <Typography {...rest}>
-      <i className={name} />
+      <IconImage className={name} />
     </Typography>
   )
 }
