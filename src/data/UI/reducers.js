@@ -6,7 +6,6 @@ const INITIAL_STATE = {
   advancedSecurityDisplayed: false,
   bitcoinDisplayed: true,
   dropdownLanguageDisplayed: false,
-  exploreMenuDisplayed: false,
   headerMenuDisplayed: false,
   navigationDisplayed: false,
   securityCenterMenuDisplayed: false
@@ -14,15 +13,6 @@ const INITIAL_STATE = {
 
 const ui = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case AT.SHOW_EXPLORE_MENU: {
-      return assign(INITIAL_STATE, { exploreMenuDisplayed: true })
-    }
-    case AT.HIDE_EXPLORE_MENU: {
-      return assign(INITIAL_STATE, { exploreMenuDisplayed: false })
-    }
-    case AT.TOGGLE_EXPLORE_MENU: {
-      return assign(INITIAL_STATE, { exploreMenuDisplayed: !state.exploreMenuDisplayed })
-    }
     case AT.SHOW_SECURITY_CENTER_MENU: {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: true })
     }

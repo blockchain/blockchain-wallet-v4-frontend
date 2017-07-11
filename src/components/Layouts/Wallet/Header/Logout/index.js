@@ -1,13 +1,12 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { NavItem } from 'components/generic/Navbar'
+import { Text } from 'components/generic/Text'
 
 const Logout = () => {
   return (
-    <li className='nav-item active'>
-      <a className='nav-link' href='#'>
-        <FormattedMessage id='components.layouts.wallet.header.logout.signout' defaultMessage='Sign out' />
-      </a>
-    </li>
+    <NavItem>
+      <Text id='components.layouts.wallet.header.logout.signout' text='Sign out' small light white />
+    </NavItem>
   )
 }
 

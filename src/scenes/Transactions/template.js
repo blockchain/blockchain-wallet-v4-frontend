@@ -1,11 +1,16 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import MenuTop from './MenuTop'
-import TransactionList from './TransactionList'
+import List from './List'
+
+const Wrapper = styled.div`
+  width: 100%;
+`
 
 const Transactions = (props) => {
   return (
-    <div>
+    <Wrapper>
       <MenuTop
         addressFilter={props.addressFilter}
         selectAddress={props.selectAddress}
@@ -16,8 +21,8 @@ const Transactions = (props) => {
         searchFilter={props.searchFilter}
         selectSearch={props.selectSearch}
       />
-      <TransactionList />
-    </div>
+      <List />
+    </Wrapper>
   )
 }
 

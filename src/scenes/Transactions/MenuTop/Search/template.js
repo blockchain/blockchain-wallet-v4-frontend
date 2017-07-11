@@ -1,29 +1,42 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Icon } from 'components/generic/Icon'
+
 const SearchContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-const SearchBox = styled.div.attrs({
-  type: 'text'
-})`
+  position: relative;
   width: 100%;
 `
-const SearchIcon = styled.i.attrs({
-  className: 'icon-search'
+const SearchBox = styled.input.attrs({
+  type: 'text'
 })`
+
+  display: block;
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 1.42;
+  color: #555555;
+  background-color: #FFFFFF;
+  background-image: none;
+  outline-width: 0;
+  user-select: text;
+  border: 1px solid #CCCCCC;
+`
+const SearchIcon = styled(Icon)`
   position: absolute;
-  font-size: 24px;
-  right: 30px;
+  top: 10px;
+  right: 10px;
 `
 
 const Search = (props) => {
   return (
     <SearchContainer>
       <SearchBox value={props.search} onChange={props.change} />
-      <SearchIcon />
+      <SearchIcon name='icon-search' big />
     </SearchContainer>
   )
 }

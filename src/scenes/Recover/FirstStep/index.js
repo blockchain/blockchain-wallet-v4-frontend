@@ -49,7 +49,9 @@ const SecondStep = (props) => {
         <HelpBlock>
           <Text id='scenes.recover.firststep.passphrase_explain' text='Enter your 12 recovery words with spaces to recover your funds & transactions' small light altFont />
         </HelpBlock>
-        <SecondaryButton id='scenes.recover.firststep.continue' text='Continue' disabled={submitting || invalid} onClick={handleClickStep1} fullwidth uppercase />
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep1} fullwidth>
+          <Text id='scenes.recover.firststep.continue' text='Continue' uppercase white />
+        </SecondaryButton>
       </Form>
       <Footer>
         <RouterLink to='/help'><Text id='scenes.recover.firststep.back' text='Go back' small light cyan /></RouterLink>

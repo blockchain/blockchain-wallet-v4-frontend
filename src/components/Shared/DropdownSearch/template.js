@@ -19,41 +19,36 @@ const DropdownButton = styled.button.attrs({ type: 'button' })`
   padding: 0.5rem 1rem;
   transition: all 0.2s ease-in-out;
   background: white;
-  border: 1px solid ${props => props.theme.grayLighter};
+  border: 1px solid #CCCCCC;
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-size: 0.9rem;
   font-weight: 300;
-  color: ${props => props.theme.text};
   text-transform: capitalize;
   cursor: pointer;
-
-  &:after {
-    width: 0;
-    height: 0;
-    margin-left: 0.3em;
-    vertical-align: middle;
-    content: "";
-    border-top: 0.3em solid;
-    border-right: 0.3em solid transparent;
-    border-left: 0.3em solid transparent;
-  }
 `
 const DropdownHeader = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
-  background-color: ${props => props.theme.grayLighter};
-  font-weight: normal;
+  color: #5F5F5F;
+  background-color: #CCCCCC;
   cursor: not-allowed;
+
+  &:hover { color: #5F5F5F; }
 `
-const DropdownSearch = styled.input.attrs({ type: 'text', autoFocus: true })`
-  border: 1px solid ${props => props.theme.grayLighter};
+const DropdownSearch = styled.input.attrs({
+  type: 'text',
+  autoFocus: true
+})`
+  border: 1px solid #CCCCCC;
   font-size: 0.9rem;
   font-weight: normal;
   box-shadow: none;
+  width: 100%;
+  height: 40px;
 
   &:focus {
     border-radius: none;
-    border: 1px solid ${props => props.theme.grayLighter};
+    border: 1px solid #CCCCCC;
     outline: none;
   }
 `
@@ -61,10 +56,12 @@ const DropdownItem = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
   font-weight: 300;
+  color: #5F5F5F;
   cursor: pointer;
 
   &:hover {
-    background-color: ${props => props.theme.grayLightest};
+    color: #5F5F5F;
+    background-color: #F5F5F5;
   }
 `
 const DropdownList = styled.div`
@@ -78,9 +75,8 @@ const DropdownList = styled.div`
   height: auto;
   max-height: 200px;
   overflow-x: hidden;
-  margin-top: -1px;
-  background-color: white;
-  border: 1px solid ${props => props.theme.grayLighter};
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
   z-index: 100;
 `
 const Dropdown = (props) => (
@@ -89,8 +85,7 @@ const Dropdown = (props) => (
       ? (<DropdownButton onClick={props.toggle}>{props.display}</DropdownButton>)
       : (<DropdownSearch onChange={props.change} />)}
     <DropdownList opened={props.opened}>
-      {props.items.map((item, index) =>
-        item.value == null
+      {props.items.map((item, index) => item.value == null
           ? (<DropdownHeader key={index}>{item.text}</DropdownHeader>)
           : (<DropdownItem key={index} onClick={() => props.click(item.value)}>{item.text}</DropdownItem>))}
     </DropdownList>

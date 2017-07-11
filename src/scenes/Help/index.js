@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { EmptyButton } from 'components/generic/Button'
+import { Button } from 'components/generic/Button'
 import { Link, RouterLink } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import { Separator } from 'components/generic/Separator'
@@ -54,7 +54,9 @@ const Help = (props) => {
         </Left>
         <Right>
           <RouterLink to='/reminder'>
-            <EmptyButton id='scenes.help.remind' text='Remind me' capitalize />
+            <Button>
+              <Text id='scenes.help.remind' text='Remind me' small capitalize />
+            </Button>
           </RouterLink>
         </Right>
       </Row>
@@ -66,7 +68,9 @@ const Help = (props) => {
         </Left>
         <Right>
           <RouterLink to='/recover'>
-            <EmptyButton id='scenes.help.recover' text='Recover funds' capitalize />
+            <Button>
+              <Text id='scenes.help.recover' text='Recover funds' small capitalize />
+            </Button>
           </RouterLink>
         </Right>
       </Row>
@@ -78,7 +82,9 @@ const Help = (props) => {
         </Left>
         <Right>
           <RouterLink to='/reset2fa'>
-            <EmptyButton id='scenes.help.reset' text='Reset 2FA' capitalize />
+            <Button>
+              <Text id='scenes.help.reset' text='Reset 2FA' small capitalize />
+            </Button>
           </RouterLink>
         </Right>
       </Row>

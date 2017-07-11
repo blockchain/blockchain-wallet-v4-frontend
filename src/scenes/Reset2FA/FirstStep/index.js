@@ -53,7 +53,9 @@ const FirstStep = (props) => {
           <Text id='scenes.reset2fa.firststep.firststepform.email_explain' text='Enter the email associated with your wallet.' small light altFont />
           <Text id='scenes.reset2fa.firststep.firststepform.email_explain2' text='If you lost access to this email, please enter it regardless.' small light altFont />
         </HelpBlock>
-        <SecondaryButton id='scenes.reset2fa.firststep.firststepform.continue' text='Continue' disabled={submitting || invalid} onClick={handleClickStep1} fullwidth uppercase />
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep1} fullwidth>
+          <Text id='scenes.reset2fa.firststep.firststepform.continue' text='Continue' uppercase white />
+        </SecondaryButton>
       </Form>
       <Footer>
         <RouterLink to='/help'><Text id='scenes.reset2fa.firststep.back' text='Go back' small light cyan /></RouterLink>

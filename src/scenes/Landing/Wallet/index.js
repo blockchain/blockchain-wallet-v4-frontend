@@ -36,7 +36,9 @@ const NewToBitcoin = (props) => {
       <WalletContainer>
         <Text id='scenes.landing.wallet.get' text="Get the world's most popular bitcoin wallet" biggest lighter uppercase />
         <NavLink to='/register'>
-          <SecondaryButton id='scenes.landing.wallet.getstarted' text='Get started now' lighter uppercase rounded />
+          <SecondaryButton rounded>
+            <Text id='scenes.landing.wallet.getstarted' text='Get started now' lighter uppercase white />
+          </SecondaryButton>
         </NavLink>
         <LoginContainer>
           <Text id='scenes.landing.wallet.or' text='or' lighter uppercase />

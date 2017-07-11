@@ -6,54 +6,64 @@ import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import Alerts from 'components/shared/Alerts'
 
-const WalletLayoutWrapper = styled.div`
-  height: 100%;
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `
-
-const WalletLayoutContainer = styled.div`
+const Container = styled.div`
+  display: flex;
   width: 100%;
   height: 100%;
-  flex-grow: 1;
-  display: flex;
-  min-height: 0;
 `
-
-const WalletLayoutLeft = styled.div`
+const Nav = styled.div`
+  flex: 0 0 60px;
+  background-color: #004A7C;
+`
+const Left = styled.div`
   flex: 0 0 270px;
   padding: 15px;
+  box-sizing: border-box;
   background: #F5F7F9;
-  border-right: 1px solid #DDD;
+  border-right: 1px solid #DDDDDD;
 `
-
-const WalletLayoutContent = styled.div`
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: calc(100% - 270px);
 `
-
-const WalletLayoutTop = styled.div`
+const Top = styled.div`
+  flex: 0 0 115px;
+  width: 100%;
 `
-
-const WalletLayoutPage = styled.div`
+const Page = styled.div`
+  height: calc(100% - 115px);
+  width: 100%;
+  overflow-y: auto;
 `
 
 const WalletLayout = (props) => (
-  <WalletLayoutWrapper>
+  <Wrapper>
     <Alerts />
-    <Header />
-    <WalletLayoutContainer>
-      <WalletLayoutLeft className='layout-left'>
+    <Nav>
+      <Header />
+    </Nav>
+    <Container>
+      <Left>
         <MenuLeft location={props.location} />
-      </WalletLayoutLeft>
-      <WalletLayoutContent>
-        <WalletLayoutTop>
+      </Left>
+      <Content>
+        <Top>
           <MenuTop />
-        </WalletLayoutTop>
-        <WalletLayoutPage>
+        </Top>
+        <Page>
           {props.children}
-        </WalletLayoutPage>
-      </WalletLayoutContent>
-    </WalletLayoutContainer>
-  </WalletLayoutWrapper>
+        </Page>
+      </Content>
+    </Container>
+  </Wrapper>
 )
 
 export default WalletLayout

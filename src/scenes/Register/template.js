@@ -63,7 +63,9 @@ const Register = (props) => {
         <Text id='scenes.register.confirmationPassword' text='Confirm Password' small medium />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: TermsLabel}} fullwidth />
-        <SecondaryButton id='scenes.register.submit' text='Continue' disabled={submitting || invalid} onClick={handleClick} fullwidth uppercase />
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
+          <Text id='scenes.register.submit' text='Continue'uppercase white />
+        </SecondaryButton>
       </Form>
     </Wrapper>
   )

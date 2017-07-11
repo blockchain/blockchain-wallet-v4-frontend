@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 import { convertToCurrency } from 'services/ConversionService'
 import { selectors } from 'data'
+import { Typography } from 'components/generic/Typography'
 
 const CurrencyDisplay = (props) => {
   let conversion = convertToCurrency(props.amount, props.currency, props.rates).getOrElse('N/A')
-  return (<span className={props.className}>{conversion}</span>)
+
+  return (
+    <Typography {...props}>{conversion}</Typography>)
 }
 
 CurrencyDisplay.propTypes = {

@@ -50,7 +50,9 @@ const SecondStep = (props) => {
           <Text id='scenes.reset2fa.secondstep.secretPhrase_explain2' text='If the Secret Phrase is correct, your request will be approved much quicker.' small light altFont />
           <Text id='scenes.reset2fa.secondstep.secretPhrase_explain3' text="If you don't know what this is, leave it blank." small light altFont />
         </HelpBlock>
-        <SecondaryButton id='scenes.reset2fa.secondstep.continue' text='Continue' disabled={submitting || invalid} onClick={handleClickStep2} fullwidth uppercase />
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep2} fullwidth>
+          <Text id='scenes.reset2fa.secondstep.continue' text='Continue'uppercase white />
+        </SecondaryButton>
       </Form>
       <Footer>
         <Link onClick={props.handleGoBackStep2}><Text id='scenes.reset2fa.secondstep.back' text='Go back' small light cyan /></Link>

@@ -1,25 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { ButtonGroup } from 'react-bootstrap'
+
+import { Button, ButtonGroup } from 'components/generic/Button'
+import { Icon } from 'components/generic/Icon'
+import { Text } from 'components/generic/Text'
 
 import RequestBitcoin from 'modals/RequestBitcoin'
-import { IconButton } from 'components/legacy/Button'
 import Balance from './Balance'
 
-const Menu = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 115px;
-  padding: 20px 30px;
+  height: 100%;
+  padding: 15px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme.grayLighter};
+  border-bottom: 1px solid #EFEFEF;
 `
-
+const Container = styled.div``
 const Actions = styled.div`
   display: flex;
   flex-direction: row;
@@ -29,26 +30,30 @@ const Actions = styled.div`
 `
 
 const MenuTop = (props) => (
-  <Menu>
-    <div>
-      <span className='h5 text-uppercase'>Be your own bank.</span>
+  <Wrapper>
+    <RequestBitcoin />
+    <Container>
+      <Text id='components.layouts.wallet.menutop.bank' text='Be your own bank.' biggest />
       <Actions>
-        <IconButton icon='icon-send' className='mr-10' onClick={props.openSendBitcoin}>
-          <FormattedMessage id='components.layouts.wallet.menutop.send' defaultMessage='Send' />
-        </IconButton>
+        <Button onClick={props.openSendBitcoin}>
+          <Icon name='icon-send' small />
+          <Text id='components.layouts.wallet.menutop.send' text='Send' small light />
+        </Button>
         <ButtonGroup>
-          <RequestBitcoin />
-          <IconButton icon='icon-receive' onClick={props.openRequestBitcoin}>
-            <FormattedMessage id='components.layouts.wallet.menutop.request' defaultMessage='Request' />
-          </IconButton>
-          <IconButton icon='ti-clipboard' />
+          <Button onClick={props.openRequestBitcoin}>
+            <Icon name='icon-receive' small />
+            <Text id='components.layouts.wallet.menutop.request' text='Request' small light />
+          </Button>
+          <Button>
+            <Icon name='ti-clipboard' small />
+          </Button>
         </ButtonGroup>
       </Actions>
-    </div>
-    <div>
+    </Container>
+    <Container>
       <Balance />
-    </div>
-  </Menu>
+    </Container>
+  </Wrapper>
 )
 
 MenuTop.propTypes = {

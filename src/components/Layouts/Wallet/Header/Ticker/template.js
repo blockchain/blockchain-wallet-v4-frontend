@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { NavItem } from 'components/generic/Navbar'
+import { Typography } from 'components/generic/Typography'
+
 const Ticker = (props) => {
   return (
-    <li className='nav-item active'>
-      <a className='nav-link' href='https://markets.blockchain.info'>{`${props.bitcoinValue} = ${props.currencyValue}`}</a>
-    </li>
+    <NavItem href='https://markets.blockchain.info'>
+      <Typography small light white>{`${props.bitcoinValue} = ${props.currencyValue}`}</Typography>
+    </NavItem>
   )
 }
 

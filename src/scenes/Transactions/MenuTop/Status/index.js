@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FilterStatus from './template.js'
+import Status from './template.js'
 
-class FilterStatusContainer extends React.Component {
+class StatusContainer extends React.Component {
   constructor (props) {
     super(props)
     this.click = this.click.bind(this)
@@ -14,12 +14,12 @@ class FilterStatusContainer extends React.Component {
 
   render () {
     return (
-      <FilterStatus items={this.props.items} selected={this.props.selected} callback={this.click} />
+      <Status items={this.props.items} selected={this.props.selected} callback={this.click} />
     )
   }
 }
 
-FilterStatusContainer.propTypes = {
+StatusContainer.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired
@@ -28,8 +28,8 @@ FilterStatusContainer.propTypes = {
   selected: PropTypes.string
 }
 
-FilterStatusContainer.defaultProps = {
+StatusContainer.defaultProps = {
   callback: function (value) { console.log(value) }
 }
 
-export default FilterStatusContainer
+export default StatusContainer
