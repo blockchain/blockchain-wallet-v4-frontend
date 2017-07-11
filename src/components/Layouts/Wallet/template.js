@@ -25,7 +25,7 @@ const Left = styled.div`
   padding: 15px;
   box-sizing: border-box;
   background: #F5F7F9;
-  border-right: 1px solid #DDD;
+  border-right: 1px solid #DDDDDD;
 `
 const Content = styled.div`
   display: flex;

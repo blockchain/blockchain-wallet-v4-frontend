@@ -10,13 +10,9 @@ import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav, N
 
 const Wrapper = styled.div`
   padding-top: 17px;
-  
   & .navbar-header {  height: 50px; }
-
   & .navbar-right {
-
     & > li { padding-top:0; }
-
     @media (min-width: 768px) and (max-width: 1200px) { display: none; } 
   }
 `
