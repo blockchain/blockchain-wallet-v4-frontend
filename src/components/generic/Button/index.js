@@ -1,5 +1,6 @@
 import Button from './Button'
+import ButtonGroup from './ButtonGroup'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
 
-export { Button, PrimaryButton, SecondaryButton }
+export { Button, ButtonGroup, PrimaryButton, SecondaryButton }

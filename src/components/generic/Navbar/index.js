@@ -15,4 +15,8 @@ const Nav = (props) => (<ReactBootstrap.Nav {...props} />)
 
 const NavItem = (props) => (<ReactBootstrap.NavItem {...props} />)
 
-export { Navbar, NavbarHeader, NavbarBrand, NavbarToggle, NavbarCollapse, Nav, NavItem }
+const NavDropdown = (props) => (<ReactBootstrap.NavDropdown {...props} />)
+
+const MenuItem = (props) => (<ReactBootstrap.MenuItem {...props} />)
+
+export { Navbar, NavbarHeader, NavbarBrand, NavbarToggle, NavbarCollapse, Nav, NavItem, NavDropdown, MenuItem }

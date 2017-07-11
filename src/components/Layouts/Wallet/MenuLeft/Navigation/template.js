@@ -17,25 +17,22 @@ const NavList = styled.ul`
 `
 const SubNavList = styled.ul`
   list-style: none;
-  font-size: 1em;
   text-transform: none;
   padding-left: 38px;
   margin-top: 0.3125em;
 `
 const NavHeader = styled.li`
-  font-size: 13px;
-  font-weight: 400;
   margin: 0 0 10px 0;
   position: relative;
-  text-transform: uppercase;
-
   display: flex;
   align-items: center;
   color: ${props => props.theme.basicGrey};
-  padding: .4em .8em;
+  padding: 0.4em 0.8em;
 
   &.active {
-    color: ${props => props.theme.iris};
+    & > * {
+      color: ${props => props.theme.iris};
+    }
   }
 `
 const SubNavHeader = NavHeader.extend`
@@ -57,61 +54,61 @@ const Navigation = (props) => (
       <RouterLink to='/wallet' activeClassName='active' onClick={props.clickOthers}>
         <NavHeader>
           <NavIcon className='icon-home' />
-          <Text id='components.layouts.wallet.menuleft.navigation.home' text='Home' />
+          <Text id='components.layouts.wallet.menuleft.navigation.home' text='Home' smaller uppercase />
         </NavHeader>
       </RouterLink>
       <RouterLink to='/transactions' activeClassName='active' onClick={props.clickOthers}>
         <NavHeader>
           <NavIcon className='icon-tx' />
-          <Text id='components.layouts.wallet.menuleft.navigation.transactions' text='Transactions' />
+          <Text id='components.layouts.wallet.menuleft.navigation.transactions' text='Transactions' smaller uppercase />
         </NavHeader>
       </RouterLink>
       <RouterLink to='/buy-sell' activeClassName='active' onClick={props.clickOthers}>
         <NavHeader>
           <NavIcon className='icon-bitcoin' />
-          <Text id='components.layouts.wallet.menuleft.navigation.buybitcoin' text='Buy bitcoin' />
+          <Text id='components.layouts.wallet.menuleft.navigation.buybitcoin' text='Buy bitcoin' smaller uppercase />
         </NavHeader>
       </RouterLink>
       <RouterLink to='/security-center' activeClassName='active' onClick={props.clickOthers}>
         <NavHeader>
           <NavIcon className='icon-lock' />
-          <Text id='components.layouts.wallet.menuleft.navigation.securitycenter' text='Security center' />
+          <Text id='components.layouts.wallet.menuleft.navigation.securitycenter' text='Security center' smaller uppercase />
         </NavHeader>
       </RouterLink>
       <RouterLink to='/settings' activeClassName='active' onClick={props.clickSecurityCenter}>
         <NavHeader>
           <NavIcon className='icon-settings' />
-          <Text id='components.layouts.wallet.menuleft.navigation.settings' text='Settings' />
+          <Text id='components.layouts.wallet.menuleft.navigation.settings' text='Settings' smaller uppercase />
         </NavHeader>
       </RouterLink>
       {props.securityCenterMenuDisplayed && (
         <SubNavList>
-          <SubNavHeader>
-            <RouterLink to='/settings/info' activeClassName='active'>
-              <Text id='components.layouts.wallet.menuleft.navigation.walletinfo' text='Wallet information' />
-            </RouterLink>
-          </SubNavHeader>
-          <SubNavHeader>
-            <RouterLink to='/settings/preferences' activeClassName='active'>
-              <Text id='components.layouts.wallet.menuleft.navigation.preferences' text='Preferences' />
-            </RouterLink>
-          </SubNavHeader>
-          <SubNavHeader>
-            <RouterLink to='/settings/security' activeClassName='active'>
-              <Text id='components.layouts.wallet.menuleft.navigation.security' text='Security' />
-            </RouterLink>
-          </SubNavHeader>
-          <SubNavHeader>
-            <RouterLink to='/settings/addresses' activeClassName='active'>
-              <Text id='components.layouts.wallet.menuleft.navigation.addresses' text='Addresses' />
-            </RouterLink>
-          </SubNavHeader>
+          <RouterLink to='/settings/info' activeClassName='active'>
+            <SubNavHeader>
+              <Text id='components.layouts.wallet.menuleft.navigation.walletinfo' text='Wallet information' smaller />
+            </SubNavHeader>
+          </RouterLink>
+          <RouterLink to='/settings/preferences' activeClassName='active'>
+            <SubNavHeader>
+              <Text id='components.layouts.wallet.menuleft.navigation.preferences' text='Preferences' smaller />
+            </SubNavHeader>
+          </RouterLink>
+          <RouterLink to='/settings/security' activeClassName='active'>
+            <SubNavHeader>
+              <Text id='components.layouts.wallet.menuleft.navigation.security' text='Security' smaller />
+            </SubNavHeader>
+          </RouterLink>
+          <RouterLink to='/settings/addresses' activeClassName='active'>
+            <SubNavHeader>
+              <Text id='components.layouts.wallet.menuleft.navigation.addresses' text='Addresses' smaller />
+            </SubNavHeader>
+          </RouterLink>
         </SubNavList>
       )}
       <RouterLink to='/faq' activeClassName='active' onClick={props.clickOthers}>
         <NavHeader>
           <NavIcon className='icon-help' />
-          <Text id='components.layouts.wallet.menuleft.navigation.faq' text='Faq' />
+          <Text id='components.layouts.wallet.menuleft.navigation.faq' text='Faq' smaller uppercase />
         </NavHeader>
       </RouterLink>
     </NavList>

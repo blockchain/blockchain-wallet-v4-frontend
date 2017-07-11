@@ -3,16 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const BaseButtonDisabled = styled.button`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   padding: 10px 15px;
   box-sizing: border-box;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
-  min-width: 130px;
   height: 40px;
-  margin: 5px 0;
   user-select: none;
   text-align: center;
   text-decoration: none;
@@ -26,13 +20,15 @@ const BaseButtonDisabled = styled.button`
   color: #FFFFFF${props => props.disabled ? '!important' : '!default'};
   border-radius: ${props => props.rounded ? '20px' : '3px'};
 
+  & > * { display: inline-flex; }
   &:hover { background-color: #F2F2F2; }
+  &:focus { outline:0; }
  `
 const BaseButton = styled(BaseButtonDisabled)`
-  border: 1px solid #CDCDCD;
+  border: 1px solid #E0E0E0;
   background-color: #FFFFFF;
 
-  &:hover { background-color: #CDCDCD; }
+  &:hover { background-color: #F5F7F9; }
 `
 
 const Button = ({ ...props, children }) => {

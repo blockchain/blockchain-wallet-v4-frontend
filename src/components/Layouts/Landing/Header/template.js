@@ -8,7 +8,7 @@ import { RouterLink } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav, NavItem } from 'components/generic/Navbar'
 
-const NavbarWrapper = styled.div`
+const Wrapper = styled.div`
   padding-top: 17px;
   
   & .navbar-header {  height: 50px; }
@@ -20,7 +20,7 @@ const NavbarWrapper = styled.div`
     @media (min-width: 768px) and (max-width: 1200px) { display: none; } 
   }
 `
-const NavbarLogo = styled.img.attrs({
+const Logo = styled.img.attrs({
   src: logo
 })`
   display: block;
@@ -29,11 +29,11 @@ const NavbarLogo = styled.img.attrs({
 `
 const Header = (props) => {
   return (
-    <NavbarWrapper>
+    <Wrapper>
       <Navbar inverse defaultExpanded={props.headerMenuDisplayed}>
         <NavbarHeader>
           <NavbarBrand>
-            <RouterLink to='/'><NavbarLogo /></RouterLink>
+            <RouterLink to='/'><Logo /></RouterLink>
           </NavbarBrand>
           <NavbarToggle onClick={props.clickHeaderMenu} />
         </NavbarHeader>
@@ -75,7 +75,7 @@ const Header = (props) => {
           </Nav>
         </NavbarCollapse>
       </Navbar>
-    </NavbarWrapper>
+    </Wrapper>
   )
 }
 

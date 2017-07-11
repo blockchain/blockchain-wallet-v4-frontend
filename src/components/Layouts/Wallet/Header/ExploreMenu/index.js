@@ -1,37 +1,36 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import styled from 'styled-components'
 
-import ExploreMenu from './template.js'
-import { actions, selectors } from 'data'
+import { NavDropdown, MenuItem } from 'components/generic/Navbar'
+import { Text } from 'components/generic/Text'
 
-class ExploreMenuContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClickExploreMenu = this.handleClickExploreMenu.bind(this)
+const NavItemDropdown = styled(NavDropdown)`
+  & > a {
+    font-size: 0.9rem;
+    font-weight: 300;
   }
+`
 
-  handleClickExploreMenu () {
-    this.props.actions.toggleExploreMenu()
-  }
-
-  render () {
-    return (
-      <ExploreMenu exploreMenuDisplayed={this.props.exploreMenuDisplayed} clickExploreMenu={this.handleClickExploreMenu} />
-    )
-  }
+const ExploreMenu = (props) => {
+  return (
+    <NavItemDropdown id='explore_menu' title='Explore'>
+      <MenuItem href='https://blockchain.info'>
+        <Text id='components.layouts.wallet.header.exploremenu.home' text='Home' />
+      </MenuItem>
+      <MenuItem href='https://blockchain.info/charts'>
+        <Text id='components.layouts.wallet.header.exploremenu.charts' text='Charts' />
+      </MenuItem>
+      <MenuItem href='https://blockchain.info/stats'>
+        <Text id='components.layouts.wallet.header.exploremenu.stats' text='Stats' />
+      </MenuItem>
+      <MenuItem href='https://blockchain.info/markets'>
+        <Text id='components.layouts.wallet.header.exploremenu.markets' text='Markets' />
+      </MenuItem>
+      <MenuItem href='https://blockchain.info/api'>
+        <Text id='components.layouts.wallet.header.exploremenu.api' text='Api' />
+      </MenuItem>
+    </NavItemDropdown>
+  )
 }
 
-function mapStateToProps (state, ownProps) {
-  return {
-    exploreMenuDisplayed: selectors.ui.getExploreMenuDisplayed(state)
-  }
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    actions: bindActionCreators(actions.ui, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExploreMenuContainer)
+export default ExploreMenu

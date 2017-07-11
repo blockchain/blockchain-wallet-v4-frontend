@@ -4,10 +4,12 @@ import {connect} from 'react-redux'
 
 import { convertToBitcoin } from 'services/ConversionService'
 import { selectors } from 'data'
+import { Typography } from 'components/generic/Typography'
 
 const BitcoinDisplay = (props) => {
   let conversion = convertToBitcoin(props.amount, props.unit).getOrElse('N/A')
-  return (<span className={props.className}>{conversion}</span>)
+
+  return <Typography {...props}>{conversion}</Typography>
 }
 
 BitcoinDisplay.propTypes = {

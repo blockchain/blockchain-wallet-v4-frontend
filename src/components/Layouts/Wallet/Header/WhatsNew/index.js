@@ -1,9 +1,12 @@
 import React from 'react'
 
+import { Icon } from 'components/generic/Icon'
+import { NavItem } from 'components/generic/Navbar'
+
 const WhatsNew = () => (
-  <li className='item'>
-    <a><i className='ti-gift' /></a>
-  </li>
+  <NavItem>
+    <Icon name='ti-gift' white />
+  </NavItem>
 )
 
 export default WhatsNew

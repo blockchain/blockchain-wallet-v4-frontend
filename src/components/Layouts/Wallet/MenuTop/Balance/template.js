@@ -7,23 +7,15 @@ import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 const Wrapper = styled.div`
   cursor: pointer;
   display: flex;
-  flex-direction: column${props => props.flip ? '-reverse' : ''}
+  flex-direction: column${props => props.flip ? '-reverse' : ''};
+  justify-content: center;
+  align-items: center;
 `
 
-const Currency = styled.div.attrs({
-  className: (props) => (
-    `row justify-content-start justify-content-md-end ${props.large ? 'f-28' : 'f-24'}`
-  )
-})``
-
 const Balance = ({ balance, bitcoinDisplayed, toggleCurrencyDisplay }) => (
-  <Wrapper flip={!bitcoinDisplayed}>
-    <Currency onClick={toggleCurrencyDisplay} large={bitcoinDisplayed}>
-      <BitcoinDisplay amount={balance} />
-    </Currency>
-    <Currency onClick={toggleCurrencyDisplay} large={!bitcoinDisplayed}>
-      <CurrencyDisplay amount={balance} />
-    </Currency>
+  <Wrapper flip={!bitcoinDisplayed} onClick={toggleCurrencyDisplay}>
+    <BitcoinDisplay amount={balance} biggest={bitcoinDisplayed} big={!bitcoinDisplayed} />
+    <CurrencyDisplay amount={balance} biggest={!bitcoinDisplayed} big={bitcoinDisplayed} />
   </Wrapper>
 )
 

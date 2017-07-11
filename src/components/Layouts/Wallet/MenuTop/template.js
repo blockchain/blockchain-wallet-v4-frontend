@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { ButtonGroup } from 'react-bootstrap'
+
+import { Button, ButtonGroup } from 'components/generic/Button'
+import { Icon } from 'components/generic/Icon'
+import { Text } from 'components/generic/Text'
 
 import RequestBitcoin from 'modals/RequestBitcoin'
-import { IconButton } from 'components/legacy/Button'
-import { Text } from 'components/generic/Text'
 import Balance from './Balance'
 
 const Wrapper = styled.div`
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme.grayLighter};
 `
+const Container = styled.div``
 const Actions = styled.div`
   display: flex;
   flex-direction: row;
@@ -29,24 +31,28 @@ const Actions = styled.div`
 
 const MenuTop = (props) => (
   <Wrapper>
-    <div>
+    <RequestBitcoin />
+    <Container>
       <Text id='components.layouts.wallet.menutop.bank' text='Be your own bank.' biggest />
       <Actions>
-        <IconButton icon='icon-send' onClick={props.openSendBitcoin}>
-          <Text id='components.layouts.wallet.menutop.send' text='Send' smaller light />
-        </IconButton>
+        <Button onClick={props.openSendBitcoin}>
+          <Icon name='icon-send' small />
+          <Text id='components.layouts.wallet.menutop.send' text='Send' small light />
+        </Button>
         <ButtonGroup>
-          <RequestBitcoin />
-          <IconButton icon='icon-receive' onClick={props.openRequestBitcoin}>
-            <Text id='components.layouts.wallet.menutop.request' text='Request' smaller light />
-          </IconButton>
-          <IconButton icon='ti-clipboard' />
+          <Button onClick={props.openRequestBitcoin}>
+            <Icon name='icon-receive' small />
+            <Text id='components.layouts.wallet.menutop.request' text='Request' small light />
+          </Button>
+          <Button>
+            <Icon name='ti-clipboard' small />
+          </Button>
         </ButtonGroup>
       </Actions>
-    </div>
-    <div>
+    </Container>
+    <Container>
       <Balance />
-    </div>
+    </Container>
   </Wrapper>
 )
 
