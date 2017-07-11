@@ -103,6 +103,7 @@
     "react-addons-css-transition-group": "^15.6.0",
     "react-addons-transition-group": "^15.6.0",
     "react-bootstrap": "^0.31.0",
+    "react-copy-to-clipboard": "^5.0.0",
     "react-dom": "^15.5.4",
     "react-intl": "^2.3.0",
     "react-redux": "^5.0.5",

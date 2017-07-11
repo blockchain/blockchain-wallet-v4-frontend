@@ -1,4 +1,5 @@
 import { path } from 'ramda'
 
-export const getDisplayed = path(['applicationState', 'modals', 'displayed'])
-export const getType = path(['applicationState', 'modals', 'modalType'])
+export const getShow = path(['applicationState', 'modals', 'show'])
+export const getAnimation = path(['applicationState', 'modals', 'animation'])
+export const getType = path(['applicationState', 'modals', 'type'])

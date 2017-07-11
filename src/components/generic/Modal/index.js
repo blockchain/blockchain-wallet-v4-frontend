@@ -1,12 +1,29 @@
 import React from 'react'
-import * as ReactBootstrap from 'react-bootstrap'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-const Modal = (props) => (<ReactBootstrap.Modal {...props} />)
+import { actions } from 'data'
+import Modal from './template.js'
 
-const ModalHeader = (props) => (<ReactBootstrap.ModalHeader {...props} />)
+class ModalContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.closeCallback = this.closeCallback.bind(this)
+  }
 
-const ModalBody = (props) => (<ReactBootstrap.ModalBody {...props} />)
+  closeCallback () {
+    this.props.actions.closeModal()
+  }
 
-const ModalFooter = (props) => (<ReactBootstrap.ModalFooter {...props} />)
+  render () {
+    return (
+      <Modal {...this.props} closeCallback={this.closeCallback} />
+    )
+  }
+}
 
-export { Modal, ModalHeader, ModalBody, ModalFooter }
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions.modals, dispatch)
+})
+
+export default connect(undefined, mapDispatchToProps)(ModalContainer)
