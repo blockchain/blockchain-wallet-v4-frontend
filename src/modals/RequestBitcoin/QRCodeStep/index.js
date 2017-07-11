@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import SecondStep from './template.js'
+import QRCode from './template.js'
 
-class SecondStepContainer extends React.Component {
+class QRCodeContainer extends React.Component {
   render () {
-    return <SecondStep show={this.props.show} />
+    return <QRCode
+      show={this.props.show}
+      address={this.props.address} />
   }
 }
 
@@ -15,4 +17,4 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(SecondStepContainer)
+export default connect(undefined, mapDispatchToProps)(QRCodeContainer)

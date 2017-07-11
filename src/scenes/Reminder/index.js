@@ -16,7 +16,6 @@ class ReminderContainer extends React.Component {
 
   success (data) {
     const { message } = data
-    console.log(message)
     // TODO: Handle multilanguages
     switch (message) {
       case 'Confirmation Email Sent':

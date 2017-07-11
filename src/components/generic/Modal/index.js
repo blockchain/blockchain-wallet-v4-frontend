@@ -8,16 +8,16 @@ import Modal from './template.js'
 class ModalContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.closeCallback = this.closeCallback.bind(this)
+    this.close = this.close.bind(this)
   }
 
-  closeCallback () {
+  close () {
     this.props.actions.closeModal()
   }
 
   render () {
     return (
-      <Modal {...this.props} closeCallback={this.closeCallback} />
+      <Modal {...this.props} close={this.close} />
     )
   }
 }

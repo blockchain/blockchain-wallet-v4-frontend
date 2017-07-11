@@ -1,77 +1,60 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { assoc, map } from 'ramda'
 
-import Modal from 'components/generic/Modal'
-import { SecondaryButton } from 'components/generic/Button'
-import { Icon } from 'components/generic/Icon'
-import { Form, TextArea } from 'components/generic/Form'
-import { Text } from 'components/generic/Text'
-import DropdownSearch from 'components/shared/DropdownSearch'
+import { actions, selectors } from 'data'
+import { renameKeys } from 'services/RamdaCookingBook'
+import FirstStep from './template.js'
 
-const Separator = styled.div`
-  flex-grow: 10;
-  height: 1px;
-  width: 100%;
-  background-color: #EFEFEF;
-`
-const SeparatorContainer = styled.div`
-  display: flex;
-  justify-content: stretch;
-  align-items: center;
-  & :first-child { margin-right: 5px; }
-  & :last-child { margin-left: 5px; }
-`
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
+class RequestBitcoinContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleClickCode = this.handleClickCode.bind(this)
+    this.selectAddress = this.selectAddress.bind(this)
+  }
 
-const Title = props => (
-  <div>
-    <Icon name='icon-send' bigger />
-    <Text id='modals.requestbitcoin.firststep.request' text='Request' bigger light />
-  </div>
-)
+  handleClick (event) {
+    event.preventDefault()
+    this.props.modalActions.showModalRequestBitcoinStep2()
+  }
 
-const FirstStep = props => {
-  const { handleClickStep1, handleClickQRCode, selectAddress, addresses } = props
+  handleClickCode (event) {
+    event.preventDefault()
+    this.props.modalActions.showModalRequestBitcoinQRCode()
+  }
 
-  return (
-    <Modal title={Title} show={props.show}>
-      <SeparatorContainer>
-        <Separator />
-        <Text id='modals.requestbitcoin.firststep.or' text='Or' small light uppercase />
-        <Separator />
-      </SeparatorContainer>
-      <Form>
-        <Row>
-          <Text id='modals.requestbitcoin.firststep.share' text='Copy & share address:' small medium />
-          <Text id='modals.requestbitcoin.firststep.view' text='View QR Code' small light cyan onClick={handleClickQRCode} />
-        </Row>
-        <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
-        <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
-        <DropdownSearch items={addresses} callback={selectAddress} />
-        <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />
-        <Field name='info' component={TextArea} placeholder="What's this transaction for?" fullwidth />
-        <SecondaryButton fullwidth onClick={handleClickStep1}>
-          <Text id='modals.requestbitcoin.firststep.next' text='Next' small medium uppercase white />
-        </SecondaryButton>
-      </Form>
-    </Modal>
-  )
+  selectAddress (value) {
+    if (this.props.addressFilter !== value) { this.props.transactionActions.setAddressFilter(value) }
+  }
+
+  render () {
+    return <FirstStep
+      show={this.props.show}
+      nextAddress={this.props.nextAddress}
+      handleClick={this.handleClick}
+      handleClickCode={this.handleClickCode}
+      addresses={this.props.addresses}
+      selectAddress={this.selectAddress}
+    />
+  }
 }
 
-FirstStep.defaultProps = {
-  show: false,
-  animation: true
+const mapStateToProps = (state, ownProps) => {
+  const accountsBalances = selectors.core.common.getAccountsBalances(state)
+  const legacyAddressesBalances = map(assoc('group', 'Imported Addresses'), selectors.core.common.getAddressesBalances(state))
+  const allBalances = [...accountsBalances, ...legacyAddressesBalances]
+  const addresses = [...map(renameKeys({title: 'text', address: 'value'}))(allBalances)]
+
+  return {
+    addresses: addresses
+  }
 }
 
-FirstStep.propTypes = {
-  show: PropTypes.bool.isRequired,
-  animation: PropTypes.bool
-}
+const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  transactionActions: bindActionCreators(actions.core.transactions, dispatch)
+})
 
-export default reduxForm({ form: 'requestBitcoinForm' })(FirstStep)
+export default connect(mapStateToProps, mapDispatchToProps)(RequestBitcoinContainer)

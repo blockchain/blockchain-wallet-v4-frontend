@@ -24,7 +24,6 @@ const ScoreBar = styled.div`
 `
 const PasswordScore = (props) => {
   let score = zxcvbn(props.value).score + 1
-  console.log(score)
   return (
     <ScoreContainer>
       { score > 0 ? <ScoreBar score={score} /> : <ScoreBar score={0} /> }

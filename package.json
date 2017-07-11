@@ -98,6 +98,7 @@
     "immutable-ext": "^1.1.0",
     "postcss-loader": "^2.0.6",
     "prop-types": "^15.5.10",
+    "qrcode-react": "^0.1.14",
     "ramda": "^0.24.1",
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.6.0",
