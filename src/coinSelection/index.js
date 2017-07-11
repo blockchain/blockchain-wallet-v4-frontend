@@ -97,6 +97,10 @@ export const singleRandomDraw = (targets, feePerByte, coins, seed) => {
 export const descentDraw = (targets, feePerByte, coins) => findTarget(targets, feePerByte, sort((a, b) => a.lte(b), coins))
 // ascentDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
 export const ascentDraw = (targets, feePerByte, coins) => findTarget(targets, feePerByte, sort((a, b) => b.lte(a), coins))
+
+// branchAndBound implementation of the coin selection algorithm
+// from http://murch.one/wp-content/uploads/2016/11/erhardt2016coinselection.pdf
+// presented by Mark Erhardt
 // branchAndBound :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
 const bnb = (targets, feePerByte, coins, seed) => {
   const rng = is(String, seed) ? seedrandom(seed) : undefined
@@ -116,7 +120,7 @@ const bnb = (targets, feePerByte, coins, seed) => {
       return []
     } else if (depth >= length(sortedCoins)) { // end of branch
       return []
-    } else if ((rng && rng()) || Math.random() > 0.5) { // secret sauce
+    } else if ((rng && rng()) || Math.random() > 0.5) { // explore include or exclude randomly
       const include = _branchAndBound(depth + 1, currentSelection.concat(sortedCoins[depth]), effValue + effectiveValue(feePerByte, sortedCoins[depth]))
       if (!isEmpty(include)) {
         return include
