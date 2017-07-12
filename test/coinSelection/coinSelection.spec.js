@@ -152,7 +152,7 @@ describe('Coin Selection', () => {
     it('should return the right selection', () => {
       const inputs = map(cs.Coin, [1, 20000, 0, 0, 300000, 50000, 30000])
       const targets = map(cs.Coin, [100000])
-      const selection = cs.descentDraw(targets, 55, inputs)
+      const selection = cs.descentDraw(targets, 55, inputs, 'change-address')
       expect(selection.fee).to.equal(10505)
       expect(selection.inputs.map(x => x.value)).to.deep.equal([300000])
       expect(selection.outputs.map(x => x.value)).to.deep.equal([100000, 189495])
@@ -162,7 +162,7 @@ describe('Coin Selection', () => {
     it('should return the right selection', () => {
       const inputs = map(cs.Coin, [1, 20000, 0, 0, 300000, 50000, 30000])
       const targets = map(cs.Coin, [100000])
-      const selection = cs.ascentDraw(targets, 55, inputs)
+      const selection = cs.ascentDraw(targets, 55, inputs, 'change-address')
       expect(selection.fee).to.equal(34760)
       expect(selection.inputs.map(x => x.value)).to.deep.equal([20000, 30000, 50000, 300000])
       expect(selection.outputs.map(x => x.value)).to.deep.equal([100000, 265240])
@@ -173,7 +173,7 @@ describe('Coin Selection', () => {
       const seed = 'test-seed'
       const inputs = map(cs.Coin, [1, 20000, 0, 0, 300000, 50000, 30000])
       const targets = map(cs.Coin, [60000])
-      const selection = cs.singleRandomDraw(targets, 55, inputs, seed)
+      const selection = cs.singleRandomDraw(targets, 55, inputs, 'change-address', seed)
       expect(selection.fee).to.equal(20000)
       expect(selection.inputs.map(x => x.value)).to.deep.equal([30000, 50000])
       expect(selection.outputs.map(x => x.value)).to.deep.equal([60000])
@@ -184,7 +184,7 @@ describe('Coin Selection', () => {
       const seed = 'test-seed'
       const inputs = map(cs.Coin, [1, 20000, 0, 0, 300000, 50000, 30000, 15000, 45000])
       const targets = map(cs.Coin, [60000, 20000])
-      const selection = cs.branchAndBound(targets, 55, inputs, seed)
+      const selection = cs.branchAndBound(targets, 55, inputs, 'change-address', seed)
       expect(selection.fee).to.equal(35000)
       expect(selection.inputs.map(x => x.value)).to.deep.equal([50000, 45000, 20000])
       expect(selection.outputs.map(x => x.value)).to.deep.equal([60000, 20000])
@@ -193,7 +193,7 @@ describe('Coin Selection', () => {
       const seed = 'test-seed'
       const inputs = map(cs.Coin, [1, 20000, 0, 0, 300000, 50000, 30000, 15000, 45000])
       const targets = map(cs.Coin, [150000])
-      const selection = cs.branchAndBound(targets, 55, inputs, seed)
+      const selection = cs.branchAndBound(targets, 55, inputs, 'change-address', seed)
       expect(selection.fee).to.equal(10505)
       expect(selection.inputs.map(x => x.value)).to.deep.equal([300000])
       expect(selection.outputs.map(x => x.value)).to.deep.equal([150000, 139495])

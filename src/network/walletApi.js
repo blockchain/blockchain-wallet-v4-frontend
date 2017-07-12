@@ -1,9 +1,12 @@
 import Task from 'data.task'
-import { assoc, compose, map, identity } from 'ramda'
+import Either from 'data.either'
+import { assoc, compose, map, identity, prop, over, lensProp, is } from 'ramda'
+import { mapped } from 'ramda-lens'
 import Promise from 'es6-promise'
-import { Wrapper } from '../types'
+import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from '../types'
 import { futurizeP } from 'futurize'
 import createApi from './Api'
+import { Coin } from '../coinSelection'
 Promise.polyfill()
 
 const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
@@ -50,6 +53,27 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
       .chain(promiseToTask(ApiPromise.createPayload))
 
   const createWallet = email => wrapper => compose(taskToPromise, createWalletTask(email))(wrapper)
+
+  // source is an account index or a legacy address
+  const getWalletUnspentsTask = (wrapper, source, confirmations = -1) => {
+    if (is(Number, source)) {
+      const selectXpub = Either.try(
+        compose(HDAccount.selectXpub, HDWallet.selectAccount(source),
+                HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet))
+      return eitherToTask(selectXpub(wrapper))
+            .chain(xpub => promiseToTask(ApiPromise.getUnspents)([xpub], confirmations))
+            .map(prop('unspent_outputs'))
+            .map(over(compose(mapped, lensProp('xpub')), assoc('index', source)))
+            .map(map(Coin.fromUTXO))
+    } else { // legacy address
+      return promiseToTask(ApiPromise.getUnspents)([source], confirmations)
+            .map(prop('unspent_outputs'))
+            .map(over(mapped, assoc('address', source)))
+            .map(map(Coin.fromUTXO))
+    }
+  }
+  const getWalletUnspents = compose(taskToPromise, getWalletUnspentsTask)
+
   // ////////////////////////////////////////////////////////////////
   const Api = map(future, ApiPromise)
 
@@ -59,7 +83,8 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
     fetchWalletWithSession: future(fetchWalletWithSession),
     fetchWallet: future(fetchWallet),
     saveWallet: future(saveWallet),
-    createWallet: future(createWallet)
+    createWallet: future(createWallet),
+    getWalletUnspents: future(getWalletUnspents)
   }
 }
 export default createWalletApi

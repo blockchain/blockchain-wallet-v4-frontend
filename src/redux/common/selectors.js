@@ -1,6 +1,6 @@
-import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap } from '../../types'
-import { allPass, anyPass, contains, prop, compose, assoc, map, path, reduce, propSatisfies, toUpper, curry, filter } from 'ramda'
-import { getBalances } from '../data/Addresses/selectors.js'
+import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
+import { allPass, anyPass, contains, prop, compose, assoc, map, path, reduce, propSatisfies, toUpper, curry, filter, split } from 'ramda'
+import { getBalances, getChangeIndex, getReceiveIndex } from '../data/Addresses/selectors.js'
 import { getTransactions, getTypeFilter, getSearchFilter } from '../data/Transactions/selectors.js'
 import { getHeight } from '../data/LatestBlock/selectors.js'
 import { transformTx } from '../services/transactions.js'
@@ -55,12 +55,43 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
                    getTransactions,
                    prop(dataPath))(state)
   }
+
+  // path is: accountIndex/chainIndex/addressIndex
+  const getAddress = curry((network, path, state) => {
+    const [a, c, i] = split('/', path)
+    const accId = parseInt(a)
+    const chain = parseInt(c)
+    const index = parseInt(i)
+    const account = compose(HDWallet.selectAccount(accId), HDWalletList.selectHDWallet,
+                            Wallet.selectHdWallets, Wrapper.selectWallet, prop(walletPath))(state)
+    return HDAccount.getAddress(account, `M/${chain}/${index}`, network)
+  })
+
+  const getFreeChangeAddress = curry((network, accountIndex, state) => {
+    const account = compose(HDWallet.selectAccount(accountIndex), HDWalletList.selectHDWallet,
+                            Wallet.selectHdWallets, Wrapper.selectWallet, prop(walletPath))(state)
+    const xpub = HDAccount.selectXpub(account)
+    const index = compose(getChangeIndex(xpub), prop(dataPath))(state)
+    return getAddress(network, `${accountIndex}/${1}/${index}`, state)
+  })
+
+  const getFreeReceiveAddress = curry((network, accountIndex, state) => {
+    const account = compose(HDWallet.selectAccount(accountIndex), HDWalletList.selectHDWallet,
+                            Wallet.selectHdWallets, Wrapper.selectWallet, prop(walletPath))(state)
+    const xpub = HDAccount.selectXpub(account)
+    const index = compose(getReceiveIndex(xpub), prop(dataPath))(state)
+    return getAddress(network, `${accountIndex}/${0}/${index}`, state)
+  })
+
   return {
     getActiveHDAccounts: getActiveHDAccounts,
     getActiveAddresses: getActiveAddresses,
     getAccountsBalances: getAccountsBalances,
     getAddressesBalances: getAddressesBalances,
     getAggregatedAddressesBalances: getAggregatedAddressesBalances,
-    getWalletTransactions: getWalletTransactions
+    getWalletTransactions: getWalletTransactions,
+    getFreeChangeAddress: getFreeChangeAddress,
+    getFreeReceiveAddress: getFreeReceiveAddress,
+    getAddress: getAddress
   }
 }

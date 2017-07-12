@@ -1,6 +1,6 @@
 import 'isomorphic-fetch'
 import Promise from 'es6-promise'
-import { merge, identity } from 'ramda'
+import { merge, identity, gt } from 'ramda'
 import { futurizeP } from 'futurize'
 Promise.polyfill()
 
@@ -171,6 +171,15 @@ const createApi = ({
     return request('POST', 'wallet', data)
   }
 
+  const getUnspents = function (fromAddresses, confirmations) {
+    const data = {
+      active: fromAddresses.join('|'),
+      confirmations: gt(confirmations, -1) ? confirmations : -1,
+      format: 'json'
+    }
+    return request('POST', 'unspent', data)
+  }
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -184,7 +193,8 @@ const createApi = ({
     createPinEntry: future(createPinEntry),
     getPinValue: future(getPinValue),
     getTicker: future(getTicker),
-    getSettings: future(getSettings)
+    getSettings: future(getSettings),
+    getUnspents: future(getUnspents)
   }
 }
 

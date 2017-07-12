@@ -1,3 +1,5 @@
+import Bitcoin from 'bitcoinjs-lib'
+import memoize from 'fast-memoize'
 import { is, pipe } from 'ramda'
 import { view } from 'ramda-lens'
 import Type from './Type'
@@ -15,8 +17,17 @@ export const isCache = is(Cache)
 export const receiveAccount = Cache.define('receiveAccount')
 export const changeAccount = Cache.define('changeAccount')
 
-export const selectIndex = view(receiveAccount)
-export const selectLabel = view(changeAccount)
+export const selectReceiveAccount = view(receiveAccount)
+export const selectChangeAccount = view(changeAccount)
+
+const _getAddress = (cache, chain, index, network) => {
+  const derive = c => {
+    const xpub = chain === 1 ? selectChangeAccount(c) : selectReceiveAccount(c)
+    return Bitcoin.HDNode.fromBase58(xpub, network).derive(index).getAddress()
+  }
+  return pipe(Cache.guard, derive)(cache)
+}
+export const getAddress = memoize(_getAddress)
 
 export const fromJS = (x) => is(Cache, x) ? x : new Cache(x)
 
