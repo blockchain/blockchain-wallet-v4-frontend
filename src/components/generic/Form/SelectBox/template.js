@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const DropdownWrapper = styled.div`
+const SelectBoxContainer = styled.div`
   position: relative;
   display: block;
   width: 100%;
   z-index: 1;
 `
-const DropdownButton = styled.button.attrs({ type: 'button' })`
+const Button = styled.button.attrs({ type: 'button' })`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -26,7 +26,7 @@ const DropdownButton = styled.button.attrs({ type: 'button' })`
   text-transform: capitalize;
   cursor: pointer;
 `
-const DropdownHeader = styled.a`
+const Header = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
   color: #5F5F5F;
@@ -35,7 +35,7 @@ const DropdownHeader = styled.a`
 
   &:hover { color: #5F5F5F; }
 `
-const DropdownSearch = styled.input.attrs({
+const Search = styled.input.attrs({
   type: 'text',
   autoFocus: true
 })`
@@ -52,7 +52,7 @@ const DropdownSearch = styled.input.attrs({
     outline: none;
   }
 `
-const DropdownItem = styled.a`
+const ListItem = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
   font-weight: 300;
@@ -64,7 +64,7 @@ const DropdownItem = styled.a`
     background-color: #F5F5F5;
   }
 `
-const DropdownList = styled.div`
+const List = styled.div`
   position: absolute;
   display: ${props => props.opened ? 'flex' : 'none'};
   flex-direction: column;
@@ -79,20 +79,24 @@ const DropdownList = styled.div`
   border: 1px solid #CCCCCC;
   z-index: 100;
 `
-const Dropdown = (props) => (
-  <DropdownWrapper className={props.className}>
-    {!props.opened || !props.searchEnabled
-      ? (<DropdownButton onClick={props.toggle}>{props.display}</DropdownButton>)
-      : (<DropdownSearch onChange={props.change} />)}
-    <DropdownList opened={props.opened}>
-      {props.items.map((item, index) => item.value == null
-          ? (<DropdownHeader key={index}>{item.text}</DropdownHeader>)
-          : (<DropdownItem key={index} onClick={() => props.click(item.value)}>{item.text}</DropdownItem>))}
-    </DropdownList>
-  </DropdownWrapper>
-)
+const SelectBox = (props) => {
+  const { items, display, opened, searchEnabled, handleChange, handleClick, handleToggle } = props
 
-Dropdown.propTypes = {
+  return (
+    <SelectBoxContainer>
+      { !opened || !searchEnabled
+      ? (<Button onClick={handleToggle}>{display}</Button>)
+      : (<Search onChange={handleChange} />)}
+      <List opened={opened}>
+        { items.map((item, index) => item.value == null
+        ? (<Header key={index}>{item.text}</Header>)
+        : (<ListItem key={index} onClick={() => handleClick(item.value)}>{item.text}</ListItem>))}
+      </List>
+    </SelectBoxContainer>
+  )
+}
+
+SelectBox.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
     value: PropTypes.string,
@@ -101,10 +105,9 @@ Dropdown.propTypes = {
   display: PropTypes.string.isRequired,
   opened: PropTypes.bool.isRequired,
   searchEnabled: PropTypes.bool.isRequired,
-  change: PropTypes.func.isRequired,
-  click: PropTypes.func.isRequired,
-  toggle: PropTypes.func.isRequired,
-  className: PropTypes.string
+  handleChange: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  handleToggle: PropTypes.func.isRequired
 }
 
-export default Dropdown
+export default SelectBox

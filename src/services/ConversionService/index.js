@@ -40,7 +40,27 @@ function convertToCurrency (satoshiAmount, currency, rates) {
   return Maybe.Just(value(convert(satoshiAmount, ratio), currencySymbol))
 }
 
+const convertCoinToCurrency = (amount, currency, rates) => {
+  const convert = (amount, ratio) => parseFloat((parseFloat(amount) * ratio / 100000000).toFixed(2))
+
+  let ratio = path([[currency], 'last'], rates)
+  if (!ratio) return Maybe.Nothing()
+
+  return Maybe.Just(convert(amount, ratio))
+}
+
+const convertCurrencyToCoin = (amount, currency, rates) => {
+  const convert = (amount, ratio) => parseFloat((parseFloat(amount) / ratio * 100000000).toFixed(2))
+
+  let ratio = path([[currency], 'last'], rates)
+  if (!ratio) return Maybe.Nothing()
+
+  return Maybe.Just(convert(amount, ratio))
+}
+
 export {
   convertToBitcoin,
-  convertToCurrency
+  convertToCurrency,
+  convertCoinToCurrency,
+  convertCurrencyToCoin
 }

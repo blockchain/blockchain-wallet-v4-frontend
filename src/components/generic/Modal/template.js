@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 const Container = styled.div`
   position: relative;
   width: 100%;
-  padding: 40px;
   background-color: #FFFFFF;
 
   @media(min-width: 768px) {
@@ -35,8 +34,8 @@ const Header = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  height: 40px;
   width: 100%;
+  padding: 30px;
   border-bottom: 1px solid #EFEFEF;
 `
 const HeaderIcon = styled(Icon)`
@@ -46,19 +45,21 @@ const HeaderIcon = styled(Icon)`
   margin-right: 10px;
 `
 const HeaderTitle = styled.span`
-  display: inline-flex;
+
   font-size: 1.8em;
   font-weight: 300;
 `
 const ButtonClose = styled(Icon)`
   position: absolute;
+  top: 30px;
+  right: 20px;
+  height: 20px;
   font-size: 20px;
   cursor: pointer;
-  right: 0;
-  top: 0;
 `
 const Content = styled.div`
-  padding: 10px 0;
+  padding: 30px;
+  box-sizing: border-box;
 `
 
 const Modal = ({ ...props, children }) => {

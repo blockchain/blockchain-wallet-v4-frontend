@@ -2,22 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { contains, toUpper, filter, prop, compose, groupBy, mapObjIndexed, values, keys, zipWith, prepend, flatten } from 'ramda'
 
-import DropdownSearch from './template.js'
+import SelectBox from './template.js'
 
-class DropdownSearchContainer extends React.Component {
+class SelectBoxContainer extends React.Component {
   constructor (props) {
     super(props)
-
-    this.change = this.change.bind(this)
-    this.click = this.click.bind(this)
-    this.toggle = this.toggle.bind(this)
-
     this.state = {
       items: this.transformItems(this.props.items),
       opened: false,
-      display: this.getText(props.selected),
+      display: this.getText(props.input.value),
       search: ''
     }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
   }
 
   getText (value) {
@@ -39,54 +37,52 @@ class DropdownSearchContainer extends React.Component {
     return flatten(zipWith(zipper, groups, elements)).filter(x => x.text !== '')
   }
 
-  toggle () {
+  handleToggle () {
     this.setState({ opened: !this.state.opened, items: this.transformItems(this.props.items) })
   }
 
-  click (value) {
+  handleClick (value) {
     // Execute callback
-    if (this.props.callback) this.props.callback(value)
+    this.props.input.onChange(value)
     // Close dropdown and display new value
     this.setState({ opened: false, display: this.getText(value) })
   }
 
-  change (event) {
+  handleChange (event) {
     // We filter the items
     this.setState({ items: this.transformItems(this.filterItems(event.target.value)) })
   }
 
   render () {
     return (
-      <DropdownSearch
+      <SelectBox
         items={this.state.items}
         display={this.state.display}
         opened={this.state.opened}
         searchEnabled={this.props.searchEnabled}
-        change={this.change}
-        click={this.click}
-        toggle={this.toggle}
-        className={this.props.className}
+        handleChange={this.handleChange}
+        handleClick={this.handleClick}
+        handleToggle={this.handleToggle}
       />
     )
   }
 }
 
-DropdownSearchContainer.propTypes = {
+SelectBoxContainer.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
     value: PropTypes.string,
     group: PropTypes.string
   })),
-  callback: PropTypes.func.isRequired,
-  searchEnabled: PropTypes.bool,
-  selected: PropTypes.string,
-  className: PropTypes.string
+  input: PropTypes.shape({
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
+  }),
+  searchEnabled: PropTypes.bool
 }
 
-DropdownSearchContainer.defaultProps = {
-  searchEnabled: true,
-  selected: '',
-  className: ''
+SelectBoxContainer.defaultProps = {
+  searchEnabled: true
 }
 
-export default DropdownSearchContainer
+export default SelectBoxContainer

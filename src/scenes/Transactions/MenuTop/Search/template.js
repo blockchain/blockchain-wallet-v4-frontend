@@ -10,7 +10,6 @@ const SearchContainer = styled.div`
 const SearchBox = styled.input.attrs({
   type: 'text'
 })`
-
   display: block;
   width: 100%;
   height: 40px;

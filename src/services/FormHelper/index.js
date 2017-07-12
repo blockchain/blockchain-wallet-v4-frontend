@@ -1,7 +1,9 @@
 import bip39 from 'bip39'
-import { passwordStrongness, isEmail, isGuid } from 'services/ValidationHelper'
+import { passwordStrongness, isNumeric, isEmail, isGuid } from 'services/ValidationHelper'
 
 const required = value => value ? undefined : 'Required'
+
+const validNumber = value => isNumeric(value) ? undefined : 'Invalid number'
 
 const validPassword = value => passwordStrongness(value) > 5 ? undefined : 'Not strong enough'
 
@@ -11,4 +13,4 @@ const validMmemonic = value => bip39.validateMnemonic(value) ? undefined : 'Inva
 
 const validWalletId = value => isGuid(value) ? undefined : 'Invalid wallet identifier'
 
-export { required, validPassword, validEmail, validMmemonic, validWalletId }
+export { required, validNumber, validPassword, validEmail, validMmemonic, validWalletId }

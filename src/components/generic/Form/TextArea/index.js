@@ -8,10 +8,9 @@ const TextAreaContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: ${props => props.fullWidth ? '100%' : 'auto'};
-  height: 55px;
+  min-height: 100px;
 `
 const TextAreaInput = styled.textarea`
-  &::-webkit-input-placeholder { color: ${props => props.theme.grayLighter} }
   display: block;
   width: 100%;
   min-height: 40px;
@@ -26,6 +25,8 @@ const TextAreaInput = styled.textarea`
   user-select: text;
   resize: none;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
+  
+  &::-webkit-input-placeholder { color: #A8A8A8; }
 `
 const TextAreaError = styled.label`
   display: block;
@@ -45,7 +46,7 @@ const TextArea = (field) => {
 }
 
 TextArea.defaultProps = {
-  rows: 2
+  rows: 3
 }
 
 TextArea.propTypes = {

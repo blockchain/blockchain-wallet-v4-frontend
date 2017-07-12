@@ -4,10 +4,11 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required, validEmail } from 'services/FormHelper'
 import { SecondaryButton } from 'components/generic/Button'
-import { Form, TextBox, CaptchaBox } from 'components/generic/Form'
+import { Form, TextBox } from 'components/generic/Form'
 import { RouterLink } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import { Separator } from 'components/generic/Separator'
+import { CaptchaBox } from 'components/shared/Form'
 
 const Wrapper = styled.div`
   width: 100%;

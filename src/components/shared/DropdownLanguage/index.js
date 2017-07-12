@@ -5,7 +5,7 @@ import { curry, reduce, assoc, keys, map } from 'ramda'
 
 import * as languageService from 'services/LanguageService'
 import { actions, selectors } from 'data'
-import DropdownLanguage from './template.js'
+import { SimpleDropdown } from 'components/generic/Dropdown'
 
 const renameKeys = curry((keysMap, obj) => reduce((acc, key) => assoc(keysMap[key] || key, obj[key], acc), {}, keys(obj)))
 
@@ -29,7 +29,8 @@ class DropdownLanguageContainer extends React.Component {
     let items = [...map(renameKeys({name: 'text', cultureCode: 'value'}))(this.props.languages)]
 
     return (
-      <DropdownLanguage
+      <SimpleDropdown
+        id='language'
         display={display}
         items={items}
         dropdownOpen={this.props.dropdownLanguageDisplayed}
