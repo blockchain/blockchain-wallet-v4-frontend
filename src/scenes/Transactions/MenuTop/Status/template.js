@@ -14,6 +14,7 @@ const Item = styled.span`
   font-weight: normal;
   cursor: pointer;
   color: #CDCDCD;
+  text-align: center;
 `
 const ItemSelected = styled.span`
   padding: 10px;
@@ -22,6 +23,7 @@ const ItemSelected = styled.span`
   text-transform: uppercase;
   font-weight: normal;
   cursor: pointer;
+  text-align: center;
 `
 
 const Status = (props) => {

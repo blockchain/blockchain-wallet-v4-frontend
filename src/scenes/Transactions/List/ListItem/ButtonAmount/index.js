@@ -9,13 +9,25 @@ const ButtonAmount = (props) => {
   let Component
   switch (props.transaction.type) {
     case 'Sent':
-      Component = styled(Button)`background-color: #F26C57; &:hover { background-color : #F0573F; }`
+      Component = styled(Button)`
+        width: 200px;
+        background-color: #F26C57;
+        &:hover { background-color : #F0573F; }
+      `
       break
     case 'Transferred':
-      Component = styled(Button)`background-color: #799EB2; &:hover { background-color : #6992A9; }`
+      Component = styled(Button)`
+        width: 200px;
+        background-color: #799EB2;
+        &:hover { background-color : #6992A9; }
+      `
       break
     default:
-      Component = styled(Button)`background-color: #00BABC; &:hover { background-color : #00A1A3; }`
+      Component = styled(Button)`
+        width: 200px;
+        background-color: #00BABC;
+        &:hover { background-color : #00A1A3; }
+      `
   }
 
   return props.bitcoinDisplayed

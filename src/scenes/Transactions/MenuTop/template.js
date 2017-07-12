@@ -15,27 +15,43 @@ const Wrapper = styled.div`
   background-color: #F5F7F9;
   border-bottom: 1px solid #DDDDDD;
 
-  @media(min-width: 1200px) { flex-direction: row; }
+  @media(min-width: 992px) { flex-direction: row; }
 `
 const Filter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-
-  @media(min-width: 960px) { width: 50%; }
-  @media(min-width: 1200px) { width: 33%; }
+  margin-bottom: 5px;
+`
+const FilterAddresses = styled(Filter)`
+  flex-grow: 1;
+  order: 2; 
+  @media(min-width: 992px) { order: 1; } 
+`
+const FilterStatuses = styled(Filter)`
+  flex-grow: 2;
+  order: 1; 
+  @media(min-width: 992px) { order: 2; } 
+`
+const FilterSearch = styled(Filter)`
+  flex-grow: 1;
+  order: 3;
+  @media(min-width: 992px) { order: 3; } 
 `
 
 const MenuTop = (props) => {
   return (
     <Wrapper>
-      <Filter>
+      <FilterAddresses>
         <DropdownSearch items={props.addresses} callback={props.selectAddress} selected={props.addressFilter} />
-      </Filter>
-      <Filter>
+      </FilterAddresses>
+      <FilterStatuses>
         <Status items={props.types} selected={props.typeFilter} callback={props.selectType} />
-      </Filter>
-      <Filter>
+      </FilterStatuses>
+      <FilterSearch>
         <Search selected={props.searchFilter} callback={props.selectSearch} />
-      </Filter>
+      </FilterSearch>
     </Wrapper>
   )
 }

@@ -41,7 +41,7 @@ class RequestBitcoinContainer extends React.Component {
       case 'requestBitcoinStep2':
         return <SecondStep show={this.props.show} />
       case 'requestBitcoinQRCode':
-        return <QRCodeStep show={this.props.show} />
+        return <QRCodeStep show={this.props.show} address={this.props.nextAddress} />
       default:
         return <FirstStep show={this.props.show} nextAddress={this.props.nextAddress} />
     }
