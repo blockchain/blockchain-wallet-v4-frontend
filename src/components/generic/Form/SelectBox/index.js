@@ -54,6 +54,7 @@ class SelectBoxContainer extends React.Component {
   }
 
   render () {
+    console.log(this.props.input)
     return (
       <SelectBox
         items={this.state.items}

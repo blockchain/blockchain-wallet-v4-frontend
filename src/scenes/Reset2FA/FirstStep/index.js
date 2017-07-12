@@ -27,7 +27,7 @@ const Footer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { handleClickStep1, submitting, invalid } = props
+  const { handleClick, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -53,7 +53,7 @@ const FirstStep = (props) => {
           <Text id='scenes.reset2fa.firststep.firststepform.email_explain' text='Enter the email associated with your wallet.' small light altFont />
           <Text id='scenes.reset2fa.firststep.firststepform.email_explain2' text='If you lost access to this email, please enter it regardless.' small light altFont />
         </HelpBlock>
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep1} fullwidth>
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
           <Text id='scenes.reset2fa.firststep.firststepform.continue' text='Continue' uppercase white />
         </SecondaryButton>
       </Form>
@@ -64,4 +64,4 @@ const FirstStep = (props) => {
   )
 }
 
-export default reduxForm({ form: 'reset2FAForm1' })(FirstStep)
+export default FirstStep

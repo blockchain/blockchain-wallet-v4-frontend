@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import { required, validMmemonic } from 'services/FormHelper'
 import { SecondaryButton } from 'components/generic/Button'
 import { Form, TextBox, HelpBlock } from 'components/generic/Form'
@@ -29,8 +29,8 @@ const Red = styled.div`
   & > * { color: #CA3A3C!important; }
 `
 
-const SecondStep = (props) => {
-  const { handleClickStep1, submitting, invalid } = props
+const FirstStep = (props) => {
+  const { handleClick, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -49,7 +49,7 @@ const SecondStep = (props) => {
         <HelpBlock>
           <Text id='scenes.recover.firststep.passphrase_explain' text='Enter your 12 recovery words with spaces to recover your funds & transactions' small light altFont />
         </HelpBlock>
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep1} fullwidth>
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
           <Text id='scenes.recover.firststep.continue' text='Continue' uppercase white />
         </SecondaryButton>
       </Form>
@@ -61,4 +61,4 @@ const SecondStep = (props) => {
   )
 }
 
-export default reduxForm({ form: 'recoverForm1' })(SecondStep)
+export default FirstStep

@@ -27,7 +27,7 @@ const Footer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { handleClickStep3, submitting, invalid } = props
+  const { handleClick, handleGoBack, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -45,12 +45,12 @@ const ThirdStep = (props) => {
         </HelpBlock>
         <Text id='scenes.reset2fa.thirdstep.captcha' text='Captcha' small medium capitalize />
         <Field name='captcha' validate={[required]} component={CaptchaBox} />
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep3} fullwidth>
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
           <Text id='scenes.reset2fa.thirdstep.reset' text='Reset'uppercase white />
         </SecondaryButton>
       </Form>
       <Footer>
-        <Link onClick={props.handleGoBackStep3}><Text id='scenes.reset2fa.thirdstep.back' text='Go back' small light cyan /></Link>
+        <Link onClick={handleGoBack}><Text id='scenes.reset2fa.thirdstep.back' text='Go back' small light cyan /></Link>
       </Footer>
     </Wrapper>
   )

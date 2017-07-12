@@ -42,7 +42,7 @@ const FirstStep = props => {
         <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
         <Field name='amount' component={CoinConvertor} />
         <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
-        <Field name='address' component={DropdownAddresses} props={{ includeAll: false }} />
+        <Field name='address' component={DropdownAddresses} includeAll={true} />
         <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />
         <Field name='info' component={TextArea} placeholder="What's this transaction for?" fullwidth />
         <SecondaryButton fullwidth onClick={handleClick}>

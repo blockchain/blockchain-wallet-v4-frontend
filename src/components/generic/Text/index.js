@@ -5,6 +5,7 @@ import { Typography } from 'components/generic/Typography'
 
 const Text = (props) => {
   const { id, text, values, ...rest } = props
+  if (id == null) console.warn('Component used without translation!')
   return (
     <Typography {...rest}>
       <FormattedMessage id={id} defaultMessage={text} values={values} />

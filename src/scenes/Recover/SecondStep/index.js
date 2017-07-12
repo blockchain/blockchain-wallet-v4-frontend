@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 
 import { required, validEmail, validPassword } from 'services/FormHelper'
 import { SecondaryButton } from 'components/generic/Button'
@@ -41,7 +41,7 @@ const TermsLabel = (
 )
 
 const SecondStep = (props) => {
-  const { handleClickStep2, submitting, invalid } = props
+  const { handleClick, handleGoBack, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
@@ -60,15 +60,15 @@ const SecondStep = (props) => {
         <Text id='scenes.recover.secondstep.confirmationPassword' text='Confirm Password' small medium />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: TermsLabel}} fullwidth />
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep2} fullwidth>
+        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
           <Text id='scenes.recover.secondstep.recover' text='Recover funds' uppercase white />
         </SecondaryButton>
       </Form>
       <Footer>
-        <Link onClick={props.handleGoBackStep2}><Text id='scenes.recover.secondstep.back' text='Go back' small light cyan /></Link>
+        <Link onClick={handleGoBack}><Text id='scenes.recover.secondstep.back' text='Go back' small light cyan /></Link>
       </Footer>
     </Wrapper>
   )
 }
 
-export default reduxForm({ form: 'recoverForm2' })(SecondStep)
+export default SecondStep
