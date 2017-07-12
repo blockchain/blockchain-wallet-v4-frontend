@@ -27,13 +27,15 @@ const ItemSelected = styled.span`
 `
 
 const Status = (props) => {
+  const { value, handleChange, items } = props
+
   return (
     <Container>
-      { props.items.map(function (item, index) {
-        if (item.value === props.selected) {
-          return <ItemSelected key={index} onClick={() => props.callback(item.value)}>{item.text}</ItemSelected>
+      { items.map(function (item, index) {
+        if (item.value === value) {
+          return <ItemSelected key={index} onClick={() => handleChange(item.value)}>{item.text}</ItemSelected>
         } else {
-          return <Item key={index} onClick={() => props.callback(item.value)}>{item.text}</Item>
+          return <Item key={index} onClick={() => handleChange(item.value)}>{item.text}</Item>
         }
       })}
     </Container>

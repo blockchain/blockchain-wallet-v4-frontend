@@ -1,57 +1,51 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions, selectors } from 'data'
+import { wizardForm } from 'components/providers/FormProvider'
+import { actions } from 'data'
+import Modal from 'components/generic/Modal'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
-import QRCodeStep from './QRCodeStep'
 
 class RequestBitcoinContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleClickStep1 = this.handleClickStep1.bind(this)
-    this.handleClickQrCode = this.handleClickQrCode.bind(this)
-    this.handleClickStep2 = this.handleClickStep2.bind(this)
-    this.selectAddress = this.selectAddress.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleClickStep1 (event) {
-    event.preventDefault()
-    this.props.modalActions.showModalRequestBitcoinStep2()
-  }
-
-  handleClickStep2 (event) {
-    this.props.modalActions.closeModal()
-  }
-
-  handleClickQrCode (event) {
-    event.preventDefault()
-    this.props.modalActions.showModalRequestBitcoinQRCode()
-  }
-
-  selectAddress (value) {
-    if (this.props.addressFilter !== value) {
-      this.props.transactionActions.setAddressFilter(value)
-    }
+  handleSubmit () {
+    console.log('submit')
   }
 
   render () {
-    switch (this.props.type) {
-      case 'requestBitcoinStep2':
-        return <SecondStep show={this.props.show} />
-      case 'requestBitcoinQRCode':
-        return <QRCodeStep show={this.props.show} address={this.props.nextAddress} />
+    const { step, show, ...rest } = this.props
+
+    switch (step) {
+      case 1:
+        return (
+          <Modal icon='icon-receive' title='Request created' size='large' show={show}>
+            <SecondStep {...rest} />
+          </Modal>
+        )
       default:
-        return <FirstStep show={this.props.show} nextAddress={this.props.nextAddress} />
+        return (
+          <Modal icon='icon-receive' title='Request' size='large' show={show}>
+            <FirstStep {...rest} />
+          </Modal>
+        )
     }
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const selector = formValueSelector('requestBitcoin')
+
   return {
-    show: selectors.modals.getShow(state),
-    type: selectors.modals.getType(state),
+    address: selector(state, 'address'),
+    amount: selector(state, 'amount'),
+    info: selector(state, 'info'),
     nextAddress: '1BxGpZ4JDmfncucQkKi4gB77hXcq7aFhve'
   }
 }
@@ -61,4 +55,9 @@ const mapDispatchToProps = (dispatch) => ({
   transactionActions: bindActionCreators(actions.core.transactions, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RequestBitcoinContainer)
+const enhance = compose(
+  wizardForm('requestBitcoin', 2),
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(RequestBitcoinContainer)

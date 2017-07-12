@@ -32,13 +32,13 @@ class NavigationContainer extends React.Component {
     )
   }
 }
-function mapStateToProps (state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     securityCenterMenuDisplayed: selectors.ui.getSecurityCenterMenuDisplayed(state)
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(actions.ui, dispatch)
   }

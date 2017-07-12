@@ -73,7 +73,6 @@ const BalanceContainer = styled.div`
 
 const MenuTop = (props) => (
   <Wrapper>
-    <RequestBitcoin />
     <LeftContainer>
       <TextContainer>
         <Text id='components.layouts.wallet.menutop.bank' text='Be your own bank.' biggest />

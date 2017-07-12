@@ -51,7 +51,7 @@ class ReminderContainer extends React.Component {
   }
 }
 
-function matchStateToProps (state) {
+const mapStateToProps = (state) => {
   const selector = formValueSelector('reminderForm')
   return {
     email: selector(state, 'email'),
@@ -59,7 +59,7 @@ function matchStateToProps (state) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(actions.auth, dispatch),
     alertActions: bindActionCreators(actions.alerts, dispatch),
@@ -67,4 +67,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(matchStateToProps, mapDispatchToProps)(ReminderContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ReminderContainer)

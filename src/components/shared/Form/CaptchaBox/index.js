@@ -41,7 +41,7 @@ CaptchaBoxContainer.propTypes = {
   timestamp: PropTypes.number.isRequired
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     alertActions: bindActionCreators(actions.alerts, dispatch)
   }

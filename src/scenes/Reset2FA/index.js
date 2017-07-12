@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import withWizard from 'components/providers/WizardForm'
+import { wizardForm } from 'components/providers/FormProvider'
 
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
@@ -31,7 +31,7 @@ class Reset2FAContainer extends React.Component {
   }
 }
 
-function matchStateToProps (state) {
+const mapStateToProps = (state) => {
   const selector = formValueSelector('reset2FAForm')
   return {
     guid: selector(state, 'guid'),
@@ -43,7 +43,7 @@ function matchStateToProps (state) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(actions.auth, dispatch),
     alertActions: bindActionCreators(actions.alerts, dispatch),
@@ -52,8 +52,8 @@ function mapDispatchToProps (dispatch) {
 }
 
 const enhance = compose(
-  withWizard({ totalSteps: 3, formName: 'reset2FAForm' }),
-  connect(matchStateToProps, mapDispatchToProps)
+  wizardForm('reset2FAForm', 3),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(Reset2FAContainer)

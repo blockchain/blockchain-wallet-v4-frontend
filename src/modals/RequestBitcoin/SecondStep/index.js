@@ -7,7 +7,7 @@ import SecondStep from './template.js'
 
 class SecondStepContainer extends React.Component {
   render () {
-    return <SecondStep show={this.props.show} />
+    return <SecondStep {...this.props} />
   }
 }
 

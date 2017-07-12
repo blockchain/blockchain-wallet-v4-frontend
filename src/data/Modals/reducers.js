@@ -1,28 +1,22 @@
 import * as AT from './actionTypes'
-
-let assign = (state, next) => Object.assign({}, state, next)
+import { assign } from 'services/RamdaCookingBook'
 
 const INITIAL_STATE = {
   show: false,
-  animation: true,
   type: '',
-  sendBitcoin: {}
+  data: {}
 }
 
 const modals = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
+  const { type, payload } = action
+
+  switch (type) {
     case AT.CLOSE_MODAL:
       return assign(INITIAL_STATE, { show: false })
-
-    case AT.SHOW_MODAL_REQUEST_BITCOIN_STEP1:
-      return assign(INITIAL_STATE, { show: true, animation: true, type: 'requestBitcoinStep1' })
-
-    case AT.SHOW_MODAL_REQUEST_BITCOIN_STEP2:
-      return assign(INITIAL_STATE, { show: true, animation: false, type: 'requestBitcoinStep2' })
-
-    case AT.SHOW_MODAL_REQUEST_BITCOIN_QRCODE:
-      return assign(INITIAL_STATE, { show: true, animation: false, type: 'requestBitcoinQRCode' })
-
+    case AT.SHOW_MODAL_REQUEST_BITCOIN:
+      return assign(INITIAL_STATE, { show: true, type: 'RequestBitcoin' })
+    case AT.SHOW_MODAL_QR_CODE:
+      return assign(INITIAL_STATE, { show: true, type: 'QRCode', payload })
     default:
       return state
   }

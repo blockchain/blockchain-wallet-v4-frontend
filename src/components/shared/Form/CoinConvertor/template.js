@@ -36,6 +36,7 @@ const TextBox = styled.input.attrs({
   background-image: none;
   outline-width: 0;
   user-select: text;
+  border: 1px solid #CCCCCC;
 
   &::-webkit-input-placeholder { color: #A8A8A8; }
 `
@@ -54,7 +55,6 @@ const IconArrow = styled(Icon).attrs({
 `
 
 const CoinConvertor = (props) => {
-  console.log(props)
   const { coinValue, currencyValue, coinUnit, currencyUnit, handleCoinChange, handleCurrencyChange } = props
 
   return (

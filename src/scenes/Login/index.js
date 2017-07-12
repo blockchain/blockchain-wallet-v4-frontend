@@ -30,7 +30,7 @@ class LoginContainer extends React.Component {
   }
 }
 
-function matchStateToProps (state) {
+const mapStateToProps = (state) => {
   const selector = formValueSelector('loginForm')
   return {
     guid: selector(state, 'guid'),
@@ -38,7 +38,7 @@ function matchStateToProps (state) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(actions.auth, dispatch),
     alertActions: bindActionCreators(actions.alerts, dispatch),
@@ -46,4 +46,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(matchStateToProps, mapDispatchToProps)(LoginContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)

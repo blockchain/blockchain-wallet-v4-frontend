@@ -21,7 +21,7 @@ class TickerContainer extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
+const mapStateToProps = (state) => {
   return {
     unit: selectors.core.settings.getBtcCurrency(state),
     currency: selectors.core.settings.getCurrency(state),

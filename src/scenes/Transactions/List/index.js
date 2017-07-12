@@ -1,24 +1,32 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-// import { isEmpty, filter, propSatisfies, toUpper } from 'ramda'
-import { isEmpty } from 'ramda'
 import { selectors, actions } from 'data'
 import TransactionList from './template.js'
 
 const txsPerPage = 50
 
 class TransactionListContainer extends React.Component {
+  componentWillReceiveProps (nextProps) {
+    let shouldRefresh = false
 
-  componentWillMount () {
-    if (isEmpty(this.props.transactions)) {
-      this.props.tActions.fetchTransactions(this.props.addressFilter, txsPerPage)
+    if (this.props.address !== nextProps.address) {
+      this.props.actions.setAddressFilter(nextProps.address)
+      shouldRefresh = true
     }
-  }
-  componentWillUpdate (nextProps) {
-    if (this.props.addressFilter !== nextProps.addressFilter) {
-      this.props.tActions.fetchTransactions(nextProps.addressFilter, txsPerPage)
+    if (this.props.status !== nextProps.status) {
+      this.props.actions.setTypeFilter(nextProps.status)
+      shouldRefresh = true
+    }
+    if (this.props.search !== nextProps.search) {
+      this.props.actions.setSearchFilter(nextProps.search)
+      shouldRefresh = true
+    }
+
+    if (shouldRefresh) {
+      this.props.actions.fetchTransactions(this.props.address, txsPerPage)
     }
   }
 
@@ -29,15 +37,18 @@ class TransactionListContainer extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
+const mapStateToProps = (state) => {
+  const selector = formValueSelector('transactionForm')
   return {
-    transactions: selectors.core.common.getWalletTransactions(state),
-    addressFilter: selectors.core.transactions.getAddressFilter(state)
+    address: selector(state, 'address'),
+    status: selector(state, 'status'),
+    search: selector(state, 'search'),
+    transactions: selectors.core.common.getWalletTransactions(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  tActions: bindActionCreators(actions.core.transactions, dispatch)
+  actions: bindActionCreators(actions.core.transactions, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransactionListContainer)

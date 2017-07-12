@@ -1,7 +1,6 @@
 import * as AT from './actionTypes'
 import { merge } from 'ramda'
-
-let assign = (state, next) => Object.assign({}, state, next)
+import { assign } from 'services/RamdaCookingBook'
 
 const INITIAL_STATE = {
   isLoggingIn: false,

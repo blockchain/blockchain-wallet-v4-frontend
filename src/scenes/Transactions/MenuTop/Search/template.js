@@ -32,9 +32,10 @@ const SearchIcon = styled(Icon)`
 `
 
 const Search = (props) => {
+  const { value, handleChange } = props
   return (
     <SearchContainer>
-      <SearchBox value={props.search} onChange={props.change} />
+      <SearchBox value={value} onChange={handleChange} />
       <SearchIcon name='icon-search' big />
     </SearchContainer>
   )

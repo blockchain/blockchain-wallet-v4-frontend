@@ -1,6 +1,5 @@
 import * as AT from './actionTypes'
-
-let assign = (state, next) => Object.assign({}, state, next)
+import { assign } from 'services/RamdaCookingBook'
 
 const INITIAL_STATE = {
   advancedSecurityDisplayed: false,

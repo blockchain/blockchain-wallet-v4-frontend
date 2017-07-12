@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import Modals from 'modals'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
@@ -52,6 +53,7 @@ const Page = styled.div`
 const WalletLayout = (props) => (
   <Wrapper>
     <Alerts />
+    <Modals />
     <Nav>
       <Header />
     </Nav>
