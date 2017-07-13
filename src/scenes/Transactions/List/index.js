@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { equals } from 'ramda'
 
 import { selectors, actions } from 'data'
 import TransactionList from './template.js'
@@ -21,7 +20,7 @@ class TransactionListContainer extends React.Component {
     if (this.props.address !== nextProps.address) {
       const address = nextProps.address ? nextProps.address : ''
       this.props.actions.setAddressFilter(address)
-      this.props.actions.fetchTransactions(this.props.address, txsPerPage)
+      this.props.actions.fetchTransactions(nextProps.address, txsPerPage)
     }
     if (this.props.status !== nextProps.status) {
       const status = nextProps.status ? nextProps.status : ''
