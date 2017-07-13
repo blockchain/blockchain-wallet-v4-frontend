@@ -26,7 +26,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { handleClick, handleGoBack, submitting, invalid } = props
+  const { previous, next, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -50,12 +50,12 @@ const SecondStep = (props) => {
           <Text id='scenes.reset2fa.secondstep.secretPhrase_explain2' text='If the Secret Phrase is correct, your request will be approved much quicker.' small light altFont />
           <Text id='scenes.reset2fa.secondstep.secretPhrase_explain3' text="If you don't know what this is, leave it blank." small light altFont />
         </HelpBlock>
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
+        <SecondaryButton disabled={submitting || invalid} onClick={next} fullwidth>
           <Text id='scenes.reset2fa.secondstep.continue' text='Continue'uppercase white />
         </SecondaryButton>
       </Form>
       <Footer>
-        <Link onClick={handleGoBack}><Text id='scenes.reset2fa.secondstep.back' text='Go back' small light cyan /></Link>
+        <Link onClick={previous}><Text id='scenes.reset2fa.secondstep.back' text='Go back' small light cyan /></Link>
       </Footer>
     </Wrapper>
   )

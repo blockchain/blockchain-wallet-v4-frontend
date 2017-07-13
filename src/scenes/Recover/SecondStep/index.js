@@ -41,7 +41,7 @@ const TermsLabel = (
 )
 
 const SecondStep = (props) => {
-  const { handleClick, previous, submitting, invalid } = props
+  const { handleSubmit, previous, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
@@ -60,7 +60,7 @@ const SecondStep = (props) => {
         <Text id='scenes.recover.secondstep.confirmationPassword' text='Confirm Password' small medium />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: TermsLabel}} fullwidth />
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
+        <SecondaryButton disabled={submitting || invalid} onClick={handleSubmit} fullwidth>
           <Text id='scenes.recover.secondstep.recover' text='Recover funds' uppercase white />
         </SecondaryButton>
       </Form>

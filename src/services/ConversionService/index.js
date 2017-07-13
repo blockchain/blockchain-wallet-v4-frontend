@@ -1,22 +1,25 @@
 import { path, sequence, map } from 'ramda'
 import Maybe from 'data.maybe'
 
-// convert :: Number -> Number -> Number -> Maybe (Number)
-const toUnit = (amount, ratio, decimals) => parseFloat((amount * ratio).toFixed(decimals))
+// toUnit :: Number -> Number -> Number -> Maybe (Number)
+const toUnit = (amount, ratio, decimals) => parseFloat((amount / ratio).toFixed(decimals))
 
-// convert :: Number -> String -> Maybe (Number)
+// fromUnit :: Number -> Number -> Number -> Maybe (Number)
+const fromUnit = (amount, ratio) => parseFloat(amount * ratio)
+
+// toCoin :: Number -> Number -> Number -> Maybe (Number)
+const toCoin = (amount, scale, ratio) => parseFloat(amount * scale / ratio)
+
+// fromCoin :: Number -> Number -> Number -> Maybe (Number)
+const fromCoin = (amount, scale, ratio) => parseFloat(amount / scale * ratio).toFixed(2)
+
+// convertBitcoinToUnit :: Number -> String -> Maybe (Number)
 const convertBitcoinToUnit = (amount, unit) => {
   switch (unit) {
-    case 'UBC': return Maybe.Just({ amount: toUnit(amount, 0.01, 2), symbol: unit })
-    case 'MBC': return Maybe.Just({ amount: toUnit(amount, 0.00001, 2), symbol: unit })
-    case 'BTC': return Maybe.Just({ amount: toUnit(amount, 0.00000001, 2), symbol: unit })
+    case 'UBC': return Maybe.Just({ amount: toUnit(amount, 100, 3), symbol: unit })
+    case 'MBC': return Maybe.Just({ amount: toUnit(amount, 100000, 5), symbol: unit })
+    case 'BTC': return Maybe.Just({ amount: toUnit(amount, 100000000, 8), symbol: unit })
     default: return Maybe.Just(amount)
-  }
-}
-
-const convertEthereumToUnit = (amount, unit) => {
-  switch (unit) {
-    default: return Maybe.Nothing()
   }
 }
 
@@ -24,25 +27,35 @@ const convertEthereumToUnit = (amount, unit) => {
 const convertToUnit = (coin, amount, unit) => {
   switch (coin) {
     case 'bitcoin': return convertBitcoinToUnit(amount, unit)
-    case 'ethereum': return convertEthereumToUnit(amount, unit)
     default: return Maybe.Nothing()
   }
 }
 
-const coinScale = coin => {
-  switch (coin) {
-    case 'bitcoin':
-      return 100000000
-    case 'ethereum':
-      return 100000000
-    default:
-      return undefined
+// convert :: Number -> String -> Maybe (Number)
+const convertBitcoinFromUnit = (amount, unit) => {
+  switch (unit) {
+    case 'UBC': return Maybe.Just({ amount: fromUnit(amount, 100), symbol: unit })
+    case 'MBC': return Maybe.Just({ amount: fromUnit(amount, 100000), symbol: unit })
+    case 'BTC': return Maybe.Just({ amount: fromUnit(amount, 100000000), symbol: unit })
+    default: return Maybe.Just(amount)
   }
 }
 
-const toCoin = (amount, scale, ratio) => amount * scale / ratio
+// convertFromUnit :: String -> Number -> String -> Maybe (Number)
+const convertFromUnit = (coin, amount, unit) => {
+  switch (coin) {
+    case 'bitcoin': return convertBitcoinFromUnit(amount, unit)
+    default: return Maybe.Nothing()
+  }
+}
 
-const fromCoin = (amount, scale, ratio) => amount * ratio / scale
+// convertFromUnit :: String -> Number
+const coinScale = coin => {
+  switch (coin) {
+    case 'bitcoin': return 100000000
+    default: return undefined
+  }
+}
 
 // convertToCurrency :: String -> Number -> String -> Array -> Maybe({value: Number, symbol:'$'})
 const convertCoinToFiat = (coin, amount, currency, rates) => {
@@ -69,5 +82,6 @@ export {
   convertCoinToFiat,
   convertFiatToCoin,
   convertToUnit,
+  convertFromUnit,
   coinScale
 }

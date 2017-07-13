@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectors } from 'data'
 
-import { convertCoinToFiat, convertFiatToCoin } from 'services/ConversionService'
+import { convertCoinToFiat, convertFiatToCoin, convertToUnit, convertFromUnit } from 'services/ConversionService'
 import CoinConvertor from './template.js'
 
 class CoinConvertorContainer extends React.Component {
@@ -11,32 +11,34 @@ class CoinConvertorContainer extends React.Component {
     super(props)
     this.state = { coinAmount: 0, fiatAmount: 0 }
     this.handleCoinChange = this.handleCoinChange.bind(this)
-    this.handleCurrencyChange = this.handleCurrencyChange.bind(this)
+    this.handleFiatChange = this.handleFiatChange.bind(this)
   }
 
   handleCoinChange (event) {
-    var newCoinValue = event.target.value
-    var newFiatValue = convertCoinToFiat(newCoinValue, this.props.currency, this.props.rates).getOrElse({ amount: 0 })
+    var newCoinValue = parseFloat(event.target.value)
+    var newCoinValueTransformed = convertFromUnit(this.props.coin, newCoinValue, this.props.unit).getOrElse({ amount: 0 })
+    var newFiatValue = convertCoinToFiat(this.props.coin, newCoinValueTransformed.amount, this.props.currency, this.props.rates).getOrElse({ amount: 0 })
     this.setState({ coinAmount: newCoinValue, fiatAmount: newFiatValue.amount })
     if (this.props.input.onChange) { this.props.input.onChange(newCoinValue) }
   }
 
-  handleCurrencyChange (event) {
-    var newFiatValue = event.target.value
-    var newCoinValue = convertFiatToCoin(newFiatValue, this.props.currency, this.props.rates).getOrElse({ amount: 0 })
-    this.setState({ coinAmount: newCoinValue.amount, fiatAmount: newFiatValue })
+  handleFiatChange (event) {
+    var newFiatValue = parseFloat(event.target.value)
+    var newCoinValue = convertFiatToCoin(this.props.coin, newFiatValue, this.props.currency, this.props.rates).getOrElse({ amount: 0 })
+    var newCoinValueTransformed = convertToUnit(this.props.coin, newCoinValue.amount, this.props.unit).getOrElse({ amount: 0 })
+    this.setState({ coinAmount: newCoinValueTransformed.amount, fiatAmount: newFiatValue })
   }
 
   render () {
     const { unit, currency } = this.props
-    console.log(this.props.input)
+
     return <CoinConvertor
       coinValue={this.state.coinAmount}
-      currencyValue={this.state.currencyAmount}
+      fiatValue={this.state.fiatAmount}
       coinUnit={unit}
-      currencyUnit={currency}
+      fiatUnit={currency}
       handleCoinChange={this.handleCoinChange}
-      handleCurrencyChange={this.handleCurrencyChange}
+      handleFiatChange={this.handleFiatChange}
     />
   }
 }
@@ -50,11 +52,8 @@ CoinConvertorContainer.propTypes = {
   })
 }
 
-CoinConvertorContainer.defaultProps = {
-
-}
-
 const mapStateToProps = (state) => ({
+  coin: 'bitcoin',
   unit: selectors.core.settings.getBtcCurrency(state),
   currency: selectors.core.settings.getCurrency(state),
   rates: selectors.core.rates.getRates(state)

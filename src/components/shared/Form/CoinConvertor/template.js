@@ -55,7 +55,7 @@ const IconArrow = styled(Icon).attrs({
 `
 
 const CoinConvertor = (props) => {
-  const { coinValue, currencyValue, coinUnit, currencyUnit, handleCoinChange, handleCurrencyChange } = props
+  const { coinValue, fiatValue, coinUnit, fiatUnit, handleCoinChange, handleFiatChange } = props
 
   return (
     <Wrapper>
@@ -65,8 +65,8 @@ const CoinConvertor = (props) => {
       </TextBoxContainer>
       <IconArrow />
       <TextBoxContainer>
-        <TextBox onChange={handleCurrencyChange} value={currencyValue} />
-        <TextBoxUnit>{currencyUnit}</TextBoxUnit>
+        <TextBox onChange={handleFiatChange} value={fiatValue} />
+        <TextBoxUnit>{fiatUnit}</TextBoxUnit>
       </TextBoxContainer>
     </Wrapper>
   )
@@ -74,11 +74,11 @@ const CoinConvertor = (props) => {
 
 CoinConvertor.propTypes = {
   coinValue: PropTypes.number,
-  currencyValue: PropTypes.number,
+  fiatValue: PropTypes.number,
   coinUnit: PropTypes.string.isRequired,
-  currencyUnit: PropTypes.string.isRequired,
+  fiatUnit: PropTypes.string.isRequired,
   handleCoinChange: PropTypes.func.isRequired,
-  handleCurrencyChange: PropTypes.func.isRequired
+  handleFiatChange: PropTypes.func.isRequired
 }
 
 export default CoinConvertor

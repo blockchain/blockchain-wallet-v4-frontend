@@ -9,12 +9,21 @@ import SecondStep from './SecondStep'
 import { actions } from 'data'
 
 class ReminderContainer extends React.Component {
+  constructor () {
+    super()
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit () {
+    this.props.alertActions.displaySuccess('Success !')
+  }
+
   render () {
     const { step, ...rest } = this.props
 
     switch (step) {
       case 0: return <FirstStep {...rest} />
-      case 1: return <SecondStep {...rest} />
+      case 1: return <SecondStep {...rest} handleSubmit={this.handleSubmit} />
       default: return <FirstStep {...rest} />
     }
   }

@@ -13,20 +13,20 @@ class Reset2FAContainer extends React.Component {
   constructor () {
     super()
     this.state = { timestamp: new Date().getTime() }
-    this.submit = this.submit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  submit () {
-    this.props.alertActions.showSuccess('Success !')
+  handleSubmit () {
+    this.props.alertActions.displaySuccess('Success !')
   }
 
   render () {
-    const { step, next, previous } = this.props
+    const { step, ...rest } = this.props
 
     switch (step) {
-      case 2: return <SecondStep handleClick={this.submit} handleGoBack={previous} />
-      case 3: return <ThirdStep handleClick={next} handleGoBackStep3={previous} />
-      default: return <FirstStep handleClick={next} />
+      case 2: return <SecondStep {...rest} />
+      case 3: return <ThirdStep {...rest} handleSubmit={this.handleSubmit} />
+      default: return <FirstStep {...rest} />
     }
   }
 }
