@@ -27,12 +27,15 @@ class MenuTopContainer extends React.Component {
 
   render () {
     return <MenuTop
-      bitcoinDisplayed={this.props.bitcoinDisplayed}
+      {...this.props}
       toggleCurrencyDisplay={this.toggleCurrencyDisplay}
-      balance={this.props.balance}
       openSendBitcoin={this.openSendBitcoin}
       openRequestBitcoin={this.openRequestBitcoin} />
   }
+}
+
+MenuTopContainer.defaultProps = {
+  balance: 0
 }
 
 const mapStateToProps = (state) => ({

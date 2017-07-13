@@ -1,4 +1,4 @@
-import { isNumeric } from './validationHelper.js'
+import { isNumeric } from './index.js'
 
 var testCases = [
   { input: '', output: false },

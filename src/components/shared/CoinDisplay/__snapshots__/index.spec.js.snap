@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CoinDisplay Displays 100000000 satoshis as bitcoin (BTC) 1`] = `
-<span
-  className={undefined}
+<div
+  className="sc-bdVaJa kwhmts"
 >
   N/A
-</span>
+</div>
 `;
