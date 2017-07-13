@@ -32,7 +32,7 @@ const wizardForm = (formName, totalSteps) => Component => {
 
   const mapStateToProps = (state) => {
     return {
-      step: path(['form', formName, 'step'], state)
+      step: path(['form', formName, 'step'], state) || 0
     }
   }
 

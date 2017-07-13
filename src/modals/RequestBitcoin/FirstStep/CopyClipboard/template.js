@@ -58,14 +58,14 @@ const QRCodeButton = styled.div`
 `
 
 const CopyClipboard = (props) => {
-  const { active, nextAddress, handleClick, handleClickCode } = props
+  const { active, address, handleClick, handleClickCode } = props
   return (
     <Wrapper>
       <AddressBox>
-        {nextAddress}
+        {address}
       </AddressBox>
       <ButtonContainer>
-        <CopyToClipBoard text={nextAddress} onCopy={handleClick}>
+        <CopyToClipBoard text={address} onCopy={handleClick}>
           <CopyButton active={active}>
             { active
               ? <Text id='modals.requestbitcoin.firststep.copyclipboard.copied' text='Copied!' small light white uppercase />

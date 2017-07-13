@@ -5,7 +5,6 @@ import { formValueSelector } from 'redux-form'
 
 import { wizardForm } from 'components/providers/FormProvider'
 import { actions } from 'data'
-import Modal from 'components/generic/Modal'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
@@ -20,21 +19,13 @@ class RequestBitcoinContainer extends React.Component {
   }
 
   render () {
-    const { step, show, ...rest } = this.props
-
+    const { step, ...rest } = this.props
+    console.log(step, rest)
     switch (step) {
       case 1:
-        return (
-          <Modal icon='icon-receive' title='Request created' size='large' show={show}>
-            <SecondStep {...rest} />
-          </Modal>
-        )
+        return <SecondStep {...rest} />
       default:
-        return (
-          <Modal icon='icon-receive' title='Request' size='large' show={show}>
-            <FirstStep {...rest} />
-          </Modal>
-        )
+        return <FirstStep {...rest} />
     }
   }
 }
@@ -45,7 +36,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     address: selector(state, 'address'),
     amount: selector(state, 'amount'),
-    info: selector(state, 'info'),
+    message: selector(state, 'message'),
     nextAddress: '1BxGpZ4JDmfncucQkKi4gB77hXcq7aFhve'
   }
 }

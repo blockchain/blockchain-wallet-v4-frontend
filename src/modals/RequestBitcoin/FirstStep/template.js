@@ -1,8 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
+import Modal from 'components/generic/Modal'
 import { SecondaryButton } from 'components/generic/Button'
 import { Form, TextArea } from 'components/generic/Form'
 import { Text } from 'components/generic/Text'
@@ -25,27 +25,29 @@ const SeparatorContainer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { nextAddress, next, handleClickCode } = props
+  const { show, nextAddress, next, handleClickCode } = props
 
   return (
-    <Form>
-      <Text id='modals.requestbitcoin.firststep.share' text='Copy & share address:' small medium />
-      <CopyClipboard handleClickCode={handleClickCode} address={nextAddress} />
-      <SeparatorContainer>
-        <Separator />
-        <Text id='modals.requestbitcoin.firststep.or' text='Or' small light uppercase />
-        <Separator />
-      </SeparatorContainer>
-      <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
-      <Field name='amount' component={CoinConvertor} />
-      <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
-      <Field name='address' component={DropdownAddresses} includeAll={false} />
-      <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />
-      <Field name='info' component={TextArea} placeholder="What's this transaction for?" fullwidth />
-      <SecondaryButton fullwidth onClick={next}>
-        <Text id='modals.requestbitcoin.firststep.next' text='Next' small medium uppercase white />
-      </SecondaryButton>
-    </Form>
+    <Modal icon='icon-receive' title='Request' size='large' show={show}>
+      <Form>
+        <Text id='modals.requestbitcoin.firststep.share' text='Copy & share address:' small medium />
+        <CopyClipboard handleClickCode={handleClickCode} address={nextAddress} />
+        <SeparatorContainer>
+          <Separator />
+          <Text id='modals.requestbitcoin.firststep.or' text='Or' small light uppercase />
+          <Separator />
+        </SeparatorContainer>
+        <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
+        <Field name='amount' component={CoinConvertor} />
+        <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
+        <Field name='address' component={DropdownAddresses} includeAll={false} />
+        <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />
+        <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
+        <SecondaryButton fullwidth onClick={next}>
+          <Text id='modals.requestbitcoin.firststep.next' text='Next' small medium uppercase white />
+        </SecondaryButton>
+      </Form>
+    </Modal>
   )
 }
 
