@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
+import { equals } from 'ramda'
 
 import { selectors, actions } from 'data'
 import TransactionList from './template.js'
@@ -9,24 +10,26 @@ import TransactionList from './template.js'
 const txsPerPage = 50
 
 class TransactionListContainer extends React.Component {
-  componentWillReceiveProps (nextProps) {
-    let shouldRefresh = false
+  constructor (props) {
+    super(props)
+    if (!props.transactions || props.transactions.length === 0) {
+      props.actions.fetchTransactions(props.address, txsPerPage)
+    }
+  }
 
+  componentWillReceiveProps (nextProps) {
     if (this.props.address !== nextProps.address) {
-      this.props.actions.setAddressFilter(nextProps.address)
-      shouldRefresh = true
+      const address = nextProps.address ? nextProps.address : ''
+      this.props.actions.setAddressFilter(address)
+      this.props.actions.fetchTransactions(this.props.address, txsPerPage)
     }
     if (this.props.status !== nextProps.status) {
-      this.props.actions.setTypeFilter(nextProps.status)
-      shouldRefresh = true
+      const status = nextProps.status ? nextProps.status : ''
+      this.props.actions.setTypeFilter(status)
     }
     if (this.props.search !== nextProps.search) {
-      this.props.actions.setSearchFilter(nextProps.search)
-      shouldRefresh = true
-    }
-
-    if (shouldRefresh) {
-      this.props.actions.fetchTransactions(this.props.address, txsPerPage)
+      const search = nextProps.search ? nextProps.search : ''
+      this.props.actions.setSearchFilter(search)
     }
   }
 

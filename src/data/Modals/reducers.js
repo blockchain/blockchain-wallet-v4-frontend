@@ -4,7 +4,7 @@ import { assign } from 'services/RamdaCookingBook'
 const INITIAL_STATE = {
   show: false,
   type: '',
-  data: {}
+  payload: {}
 }
 
 const modals = (state = INITIAL_STATE, action) => {

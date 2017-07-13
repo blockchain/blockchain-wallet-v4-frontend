@@ -25,8 +25,8 @@ const configureStore = () => {
   const store = createStore(
     connectRouter(history)(rootReducer),
     composeEnhancers(
-      // persistState(['session', 'preferences']),
-      persistState(undefined, {deserialize: string => JSON.parse(string, serializer.reviver)}),
+      persistState(['session', 'preferences']),
+      //persistState(undefined, {deserialize: string => JSON.parse(string, serializer.reviver)}),
       applyMiddleware(
         reduxRouterMiddleware,
         autoDisconnection,
