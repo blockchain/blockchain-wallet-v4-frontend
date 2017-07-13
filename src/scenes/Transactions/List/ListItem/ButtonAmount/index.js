@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Button } from 'components/generic/Button'
-import BitcoinDisplay from 'components/shared/BitcoinDisplay'
+import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 
 const ButtonAmount = (props) => {
@@ -31,8 +31,12 @@ const ButtonAmount = (props) => {
   }
 
   return props.bitcoinDisplayed
-    ? <Component onClick={props.clickBitcoinDisplay} fullwidth><BitcoinDisplay amount={props.transaction.amount} light white /></Component>
-    : <Component onClick={props.clickBitcoinDisplay} fullwidth><CurrencyDisplay amount={props.transaction.amount} light white /></Component>
+    ? <Component onClick={props.clickBitcoinDisplay} fullwidth>
+      <CoinDisplay light white>{props.transaction.amount}</CoinDisplay>
+    </Component>
+    : <Component onClick={props.clickBitcoinDisplay} fullwidth>
+      <CurrencyDisplay light white>{props.transaction.amount}</CurrencyDisplay>
+    </Component>
 }
 
 export default ButtonAmount

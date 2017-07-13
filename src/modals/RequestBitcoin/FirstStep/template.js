@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
+import { required } from 'services/FormHelper'
 import Modal from 'components/generic/Modal'
 import { SecondaryButton } from 'components/generic/Button'
 import { Form, TextArea } from 'components/generic/Form'
@@ -25,7 +26,7 @@ const SeparatorContainer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { show, nextAddress, next, handleClickCode } = props
+  const { show, nextAddress, next, handleClickCode, submitting, invalid } = props
 
   return (
     <Modal icon='icon-receive' title='Request' size='large' show={show}>
@@ -38,12 +39,12 @@ const FirstStep = (props) => {
           <Separator />
         </SeparatorContainer>
         <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
-        <Field name='amount' component={CoinConvertor} />
+        <Field name='amount' component={CoinConvertor} validate={[required]} />
         <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
-        <Field name='address' component={DropdownAddresses} includeAll={false} />
+        <Field name='address' component={DropdownAddresses} validate={[required]} includeAll={false} />
         <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />
-        <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
-        <SecondaryButton fullwidth onClick={next}>
+        <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" fullwidth />
+        <SecondaryButton fullwidth onClick={next} disabled={submitting || invalid}>
           <Text id='modals.requestbitcoin.firststep.next' text='Next' small medium uppercase white />
         </SecondaryButton>
       </Form>

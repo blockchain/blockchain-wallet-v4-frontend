@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import BitcoinDisplay from 'components/shared/BitcoinDisplay'
+import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 
 import { Text } from 'components/generic/Text'
@@ -53,8 +53,8 @@ const BalanceSummary = (props) => {
             <Row key={index}>
               <Typography small light>{balance.title}</Typography>
               { props.bitcoinDisplayed
-                ? <BitcoinDisplay amount={balance.amount} small light />
-                : <CurrencyDisplay amount={balance.amount} small light />
+                ? <CoinDisplay small light>{balance.amount}</CoinDisplay>
+                : <CurrencyDisplay small light>{balance.amount}</CurrencyDisplay>
               }
             </Row>
           )
@@ -62,8 +62,8 @@ const BalanceSummary = (props) => {
         <LastRow>
           <Text id='scenes.home.balancesummary.total' text='Total' small />
           { props.bitcoinDisplayed
-            ? <BitcoinDisplay amount={props.total} small />
-            : <CurrencyDisplay amount={props.total} small />
+            ? <CoinDisplay small>{props.total}</CoinDisplay>
+            : <CurrencyDisplay small>{props.total}</CurrencyDisplay>
           }
         </LastRow>
       </Content>

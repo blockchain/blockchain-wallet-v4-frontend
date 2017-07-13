@@ -9,7 +9,7 @@ import { Link } from 'components/generic/Link'
 import { Form } from 'components/generic/Form'
 import { Text } from 'components/generic/Text'
 import { Typography } from 'components/generic/Typography'
-import BitcoinDisplay from 'components/shared/BitcoinDisplay'
+import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 
 const CopyButton = styled(SecondaryButton)`
@@ -51,8 +51,8 @@ const SecondStep = (props) => {
         <Text id='modals.requestbitcoin.secondstep.payment' text='Payment request:' small medium />
         <PaymentRequestContainer>
           <PaymentRequestContent>
-            <BitcoinDisplay amount={amount} biggest cyan />
-            <CurrencyDisplay amount={amount} big light cyan />
+            <CoinDisplay biggest cyan>{amount}</CoinDisplay>
+            <CurrencyDisplay big light cyan>{amount}</CurrencyDisplay>
             <Typography big light>{message}</Typography>
           </PaymentRequestContent>
           <PaymentRequestFooter>

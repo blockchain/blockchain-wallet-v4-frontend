@@ -30,7 +30,7 @@ const Red = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { handleClick, submitting, invalid } = props
+  const { next, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -49,7 +49,7 @@ const FirstStep = (props) => {
         <HelpBlock>
           <Text id='scenes.recover.firststep.passphrase_explain' text='Enter your 12 recovery words with spaces to recover your funds & transactions' small light altFont />
         </HelpBlock>
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
+        <SecondaryButton disabled={submitting || invalid} onClick={next} fullwidth>
           <Text id='scenes.recover.firststep.continue' text='Continue' uppercase white />
         </SecondaryButton>
       </Form>

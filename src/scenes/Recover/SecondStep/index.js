@@ -41,7 +41,7 @@ const TermsLabel = (
 )
 
 const SecondStep = (props) => {
-  const { handleClick, handleGoBack, submitting, invalid } = props
+  const { handleClick, previous, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
@@ -65,7 +65,7 @@ const SecondStep = (props) => {
         </SecondaryButton>
       </Form>
       <Footer>
-        <Link onClick={handleGoBack}><Text id='scenes.recover.secondstep.back' text='Go back' small light cyan /></Link>
+        <Link onClick={previous}><Text id='scenes.recover.secondstep.back' text='Go back' small light cyan /></Link>
       </Footer>
     </Wrapper>
   )

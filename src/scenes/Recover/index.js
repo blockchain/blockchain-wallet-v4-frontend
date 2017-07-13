@@ -10,12 +10,12 @@ import { actions } from 'data'
 
 class ReminderContainer extends React.Component {
   render () {
-    const { step, next, previous } = this.props
+    const { step, ...rest } = this.props
 
     switch (step) {
-      case 0: return <FirstStep handleClick={next} />
-      case 1: return <SecondStep handleClick={next} handleGoBack={previous} />
-      default: return <FirstStep handleClick={next} />
+      case 0: return <FirstStep {...rest} />
+      case 1: return <SecondStep {...rest} />
+      default: return <FirstStep {...rest} />
     }
   }
 }

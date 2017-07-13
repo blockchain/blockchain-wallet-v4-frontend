@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Button, ButtonGroup } from 'components/generic/Button'
 import { Icon } from 'components/generic/Icon'
 import { Text } from 'components/generic/Text'
-import BitcoinDisplay from 'components/shared/BitcoinDisplay'
+import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 
 const Wrapper = styled.div`
@@ -94,12 +94,12 @@ const MenuTop = (props) => {
       <RightContainer>
         { bitcoinDisplayed
           ? <BalanceContainer onClick={toggleCurrencyDisplay}>
-            <BitcoinDisplay amount={balance} biggest />
-            <CurrencyDisplay amount={balance} big />
+            <CoinDisplay biggest>{balance}</CoinDisplay>
+            <CurrencyDisplay big>{balance}</CurrencyDisplay>
           </BalanceContainer>
           : <BalanceContainer onClick={toggleCurrencyDisplay}>
-            <CurrencyDisplay amount={balance} biggest />
-            <BitcoinDisplay amount={balance} big />
+            <CurrencyDisplay biggest>{balance}</CurrencyDisplay>
+            <CoinDisplay big>{balance}</CoinDisplay>
           </BalanceContainer>
         }
       </RightContainer>

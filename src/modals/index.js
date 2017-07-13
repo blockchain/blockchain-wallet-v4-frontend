@@ -10,7 +10,7 @@ import SendBitcoin from './SendBitcoin'
 class Modals extends React.Component {
   render () {
     const { type, ...rest } = this.props
-    console.log(rest)
+
     switch (type) {
       case 'RequestBitcoin':
         return <RequestBitcoin {...rest} />

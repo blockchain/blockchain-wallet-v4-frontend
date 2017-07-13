@@ -9,18 +9,9 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
 class RequestBitcoinContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleSubmit () {
-    console.log('submit')
-  }
-
   render () {
     const { step, ...rest } = this.props
-    console.log(step, rest)
+
     switch (step) {
       case 1:
         return <SecondStep {...rest} />
