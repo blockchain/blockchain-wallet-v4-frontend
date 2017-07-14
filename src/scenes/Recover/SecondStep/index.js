@@ -30,6 +30,7 @@ const TermsLabelContainer = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  & > * { margin-right: 5px; }
 `
 const TermsLabel = (
   <TermsLabelContainer>

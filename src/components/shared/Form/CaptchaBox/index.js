@@ -11,11 +11,11 @@ class CaptchaBoxContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = { captchaUrl: '' }
+    this.refreshUrl(props.timestamp)
   }
 
-  componentWillUpdate (nextProps) {
-    // If the timestamp has changed, then we refresh the captcha
-    if ((this.state.captchaUrl === '') || (this.props.timestamp !== nextProps.timestamp)) {
+  componentWillReceiveProps (nextProps) {
+    if (this.state.captchaUrl === '' || this.props.timestamp !== nextProps.timestamp) {
       this.refreshUrl(nextProps.timestamp)
     }
   }
@@ -39,6 +39,10 @@ class CaptchaBoxContainer extends React.Component {
 
 CaptchaBoxContainer.propTypes = {
   timestamp: PropTypes.number.isRequired
+}
+
+CaptchaBoxContainer.defaultProps = {
+  timestamp: new Date().getTime()
 }
 
 const mapDispatchToProps = (dispatch) => {

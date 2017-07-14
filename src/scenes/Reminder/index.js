@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { api } from 'services/ApiService'
+import { singleForm } from 'components/providers/FormProvider'
 
-import Reminder from './template.js'
+import { api } from 'services/ApiService'
 import { actions } from 'data'
+import Reminder from './template.js'
 
 class ReminderContainer extends React.Component {
   constructor () {
@@ -67,4 +68,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReminderContainer)
+const enhance = compose(
+  singleForm('reminderForm'),
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(ReminderContainer)

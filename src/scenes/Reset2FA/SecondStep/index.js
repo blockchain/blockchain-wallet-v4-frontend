@@ -61,4 +61,4 @@ const SecondStep = (props) => {
   )
 }
 
-export default reduxForm({ form: 'reset2FAForm2' })(SecondStep)
+export default SecondStep
