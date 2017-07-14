@@ -9,10 +9,8 @@ import CoinConvertor from './template.js'
 class CoinConvertorContainer extends React.Component {
   constructor (props) {
     super(props)
-    const { input } = props
-    const { value } = input
-
-    this.state = { coinAmount: value }
+    const initialCoinValue = props.input.value ? parseFloat(props.input.value) : undefined
+    this.state = { coinAmount: initialCoinValue }
     this.handleCoinChange = this.handleCoinChange.bind(this)
     this.handleFiatChange = this.handleFiatChange.bind(this)
   }
@@ -24,8 +22,13 @@ class CoinConvertorContainer extends React.Component {
     const newCoinValue = parseFloat(event.target.value)
     const newCoinValueTransformed = convertFromUnit(coin, newCoinValue, unit).getOrElse({ amount: 0 })
     const newFiatValue = convertCoinToFiat(coin, newCoinValueTransformed.amount, currency, rates).getOrElse({ amount: 0 })
-    this.setState({ coinAmount: newCoinValue, fiatAmount: newFiatValue.amount })
-    if (onChange) { onChange(newCoinValue) }
+
+    const newCoinString = newCoinValue ? newCoinValue.toString() : undefined
+    const newFiatString = newFiatValue.amount ? newFiatValue.amount.toString() : undefined
+    // console.log(newCoinString, newFiatString)
+    this.setState({ coinAmount: newCoinString, fiatAmount: newFiatString })
+
+    if (onChange) { onChange(newCoinString) }
   }
 
   handleFiatChange (event) {
@@ -34,7 +37,11 @@ class CoinConvertorContainer extends React.Component {
     const newFiatValue = parseFloat(event.target.value)
     const newCoinValue = convertFiatToCoin(coin, newFiatValue, currency, rates).getOrElse({ amount: 0 })
     const newCoinValueTransformed = convertToUnit(coin, newCoinValue.amount, unit).getOrElse({ amount: 0 })
-    this.setState({ coinAmount: newCoinValueTransformed.amount, fiatAmount: newFiatValue })
+
+    const newCoinString = newCoinValueTransformed.amount ? newCoinValueTransformed.amount.toString() : undefined
+    const newFiatString = newFiatValue ? newFiatValue.toString() : undefined
+    // console.log(newCoinString, newFiatString)
+    this.setState({ coinAmount: newCoinString, fiatAmount: newFiatString })
   }
 
   render () {

@@ -92,8 +92,8 @@ const CoinConvertor = (props) => {
 }
 
 CoinConvertor.propTypes = {
-  coinValue: PropTypes.number,
-  fiatValue: PropTypes.number,
+  coinValue: PropTypes.string,
+  fiatValue: PropTypes.string,
   coinUnit: PropTypes.string.isRequired,
   fiatUnit: PropTypes.string.isRequired,
   handleCoinChange: PropTypes.func.isRequired,

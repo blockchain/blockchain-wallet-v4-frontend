@@ -11,7 +11,7 @@ const fromUnit = (amount, ratio) => parseFloat(amount * ratio)
 const toCoin = (amount, scale, ratio) => parseFloat(amount * scale / ratio)
 
 // fromCoin :: Number -> Number -> Number -> Maybe (Number)
-const fromCoin = (amount, scale, ratio) => parseFloat(amount / scale * ratio).toFixed(2)
+const fromCoin = (amount, scale, ratio) => parseFloat((amount / scale * ratio).toFixed(2))
 
 // convertBitcoinToUnit :: Number -> String -> Maybe (Number)
 const convertBitcoinToUnit = (amount, unit) => {
