@@ -17,7 +17,7 @@ class Reset2FAContainer extends React.Component {
   }
 
   handleSubmit () {
-    this.setState({ timestamp: new Date().getTime() })
+    // this.setState({ timestamp: new Date().getTime() })
     this.props.alertActions.displaySuccess('Success !')
   }
 
