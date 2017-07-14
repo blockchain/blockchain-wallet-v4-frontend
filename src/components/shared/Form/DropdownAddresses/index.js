@@ -10,12 +10,14 @@ import { SelectBox } from 'components/generic/Form'
 
 class DropdownAddressesContainer extends React.Component {
   render () {
-    const items = this.props.includeAll
-      ? [{ text: 'All Wallets', value: '' }, ...this.props.addresses]
-      : this.props.addresses
-    const { addresses, ...rest } = this.props
+    const { accounts, legacyAddresses, includeAll, ...rest } = this.props
+    const allWallets = { text: 'All Wallets', value: '' }
+    const elements = [
+      { group: '', items: includeAll ? [allWallets, ...accounts] : accounts },
+      { group: 'Imported addresses', items: legacyAddresses }
+    ]
 
-    return <SelectBox items={items} {...rest} />
+    return <SelectBox elements={elements} {...rest} />
   }
 }
 
@@ -28,12 +30,14 @@ DropdownAddressesContainer.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const accounts = selectors.core.common.getAccountsBalances(state)
-  const legacyAddresses = map(assoc('group', 'Imported Addresses'), selectors.core.common.getAddressesBalances(state))
-  const addresses = [...map(renameKeys({title: 'text', address: 'value'}))([...accounts, ...legacyAddresses])]
+  const rawAccounts = selectors.core.common.getAccountsBalances(state)
+  const accounts = [...map(renameKeys({title: 'text', address: 'value'}))([...rawAccounts])]
+  const rawLegacyAddresses = map(assoc('group', 'Imported Addresses'), selectors.core.common.getAddressesBalances(state))
+  const legacyAddresses = [...map(renameKeys({title: 'text', address: 'value'}))([...rawLegacyAddresses])]
 
   return {
-    addresses: addresses
+    accounts,
+    legacyAddresses
   }
 }
 

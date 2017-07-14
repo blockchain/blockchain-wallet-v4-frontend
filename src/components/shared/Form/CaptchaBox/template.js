@@ -38,12 +38,14 @@ const CaptchaBoxError = styled.label`
 `
 
 const CaptchaBox = (field) => {
-  let errorState = !field.meta.touched ? 'initial' : (field.meta.invalid ? 'invalid' : 'valid')
+  const { touched, invalid, error } = field.meta
+  const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
+
   return (
     <CaptchaBoxContainer>
       <CaptchaImage src={field.captchaUrl} />
       <CaptchaBoxInput {...field.input} errorState={errorState} />
-      {field.meta.touched && field.meta.error && <CaptchaBoxError>{field.meta.error}</CaptchaBoxError>}
+      {touched && error && <CaptchaBoxError>{error}</CaptchaBoxError>}
     </CaptchaBoxContainer>
   )
 }

@@ -9,10 +9,15 @@ class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClickCode = this.handleClickCode.bind(this)
+    this.handleQRCodeClickBack = this.handleQRCodeClickBack.bind(this)
+  }
+
+  handleQRCodeClickBack () {
+    this.props.actions.showModalRequestBitcoin()
   }
 
   handleClickCode () {
-    this.props.actions.showModalQRCode()
+    this.props.actions.showModalQRCode(this.props.nextAddress, this.handleQRCodeClickBack)
   }
 
   render () {

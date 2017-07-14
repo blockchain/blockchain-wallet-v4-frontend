@@ -24,7 +24,6 @@ class CopyClipboardContainer extends React.Component {
         active={this.state.active}
         address={this.props.address}
         handleClick={this.handleClick}
-        handleClickCode={this.props.handleClickCode}
       />
     )
   }

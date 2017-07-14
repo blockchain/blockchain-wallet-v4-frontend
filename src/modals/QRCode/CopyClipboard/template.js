@@ -32,33 +32,20 @@ const ButtonContainer = styled.div`
   width: 100%;
   height: 40px;
 
-  @media(min-width:768px) { width: 180px; }
+  @media(min-width:768px) { width: 80px; }
 `
 const CopyButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50%;
+  width: 100%;
   height: 100%;
   cursor: pointer;
   background-color: ${props => props.active ? '#006600' : '#10ADE4'};
-
-  @media(min-width:768px) { width: 80px; }
-`
-const QRCodeButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  height: 100%;
-  cursor: pointer;
-  background-color: #004A7C;
-
-  @media(min-width:768px) { width: 100px; }
 `
 
 const CopyClipboard = (props) => {
-  const { active, address, handleClick, handleClickCode } = props
+  const { active, address, handleClick } = props
   return (
     <Wrapper>
       <AddressBox>
@@ -68,14 +55,11 @@ const CopyClipboard = (props) => {
         <CopyToClipBoard text={address} onCopy={handleClick}>
           <CopyButton active={active}>
             { active
-              ? <Text id='modals.requestbitcoin.firststep.copyclipboard.copied' text='Copied!' small light white uppercase />
-              : <Text id='modals.requestbitcoin.firststep.copyclipboard.copy' text='Copy' small light white uppercase />
+              ? <Text id='modals.qrcode.copyclipboard.copied' text='Copied!' small light white uppercase />
+              : <Text id='modals.qrcode.copyclipboard.copy' text='Copy' small light white uppercase />
             }
           </CopyButton>
         </CopyToClipBoard>
-        <QRCodeButton onClick={handleClickCode}>
-          <Text id='modals.requestbitcoin.firststep.copyclipboard.qrcode' text='QR Code' small light white />
-        </QRCodeButton>
       </ButtonContainer>
     </Wrapper>
   )

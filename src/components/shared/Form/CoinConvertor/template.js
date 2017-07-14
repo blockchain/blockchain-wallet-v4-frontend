@@ -4,16 +4,23 @@ import styled from 'styled-components'
 
 import { Icon } from 'components/generic/Icon'
 
-const Wrapper = styled.div`
+const CoinConvertorWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+`
+const CoinConvertorInput = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 40px;
 `
 const TextBoxContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 40px;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -36,7 +43,7 @@ const TextBox = styled.input.attrs({
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border: 1px solid #CCCCCC;
+  border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
 
   &::-webkit-input-placeholder { color: #A8A8A8; }
 `
@@ -53,22 +60,34 @@ const IconArrow = styled(Icon).attrs({
   width: 20px;
   margin: 0 5px;
 `
+const CoinConvertorError = styled.label`
+  display: block;
+  font-size: 13px;
+  font-weight: 300;
+  color: #FF0000;
+`
 
 const CoinConvertor = (props) => {
-  const { coinValue, fiatValue, coinUnit, fiatUnit, handleCoinChange, handleFiatChange } = props
+  const { coinValue, fiatValue, coinUnit, fiatUnit, handleCoinChange, handleFiatChange, ...rest } = props
+  const { onBlur, onFocus } = rest.input
+  const { touched, invalid, error } = rest.meta
+  const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
 
   return (
-    <Wrapper>
-      <TextBoxContainer>
-        <TextBox onChange={handleCoinChange} value={coinValue} />
-        <TextBoxUnit>{coinUnit}</TextBoxUnit>
-      </TextBoxContainer>
-      <IconArrow />
-      <TextBoxContainer>
-        <TextBox onChange={handleFiatChange} value={fiatValue} />
-        <TextBoxUnit>{fiatUnit}</TextBoxUnit>
-      </TextBoxContainer>
-    </Wrapper>
+    <CoinConvertorWrapper>
+      <CoinConvertorInput>
+        <TextBoxContainer>
+          <TextBox onChange={handleCoinChange} value={coinValue} errorState={errorState} onBlur={onBlur} onFocus={onFocus} />
+          <TextBoxUnit>{coinUnit}</TextBoxUnit>
+        </TextBoxContainer>
+        <IconArrow />
+        <TextBoxContainer>
+          <TextBox onChange={handleFiatChange} value={fiatValue} errorState={errorState} />
+          <TextBoxUnit>{fiatUnit}</TextBoxUnit>
+        </TextBoxContainer>
+      </CoinConvertorInput>
+      {touched && error && <CoinConvertorError>{error}</CoinConvertorError>}
+    </CoinConvertorWrapper>
   )
 }
 

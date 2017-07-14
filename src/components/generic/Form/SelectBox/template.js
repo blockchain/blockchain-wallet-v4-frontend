@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const SelectBoxContainer = styled.div`
+  height: auto;
+`
+
+const SelectBoxInput = styled.div`
   position: relative;
   display: block;
   width: 100%;
@@ -19,12 +23,11 @@ const Button = styled.button.attrs({ type: 'button' })`
   padding: 0.5rem 1rem;
   transition: all 0.2s ease-in-out;
   background: white;
-  border: 1px solid #CCCCCC;
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   font-size: 0.9rem;
   font-weight: 300;
-  text-transform: capitalize;
   cursor: pointer;
+  border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
 `
 const Header = styled.a`
   width: 100%;
@@ -79,19 +82,33 @@ const List = styled.div`
   border: 1px solid #CCCCCC;
   z-index: 100;
 `
+const SelectBoxError = styled.label`
+  display: block;
+  font-size: 13px;
+  font-weight: 300;
+  color: #FF0000;
+`
+
 const SelectBox = (props) => {
-  const { items, display, opened, searchEnabled, handleChange, handleClick, handleToggle } = props
+  const { items, display, opened, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, meta } = props
+  const { touched, invalid, error } = meta
+  const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
 
   return (
     <SelectBoxContainer>
-      { !opened || !searchEnabled
-      ? (<Button onClick={handleToggle}>{display}</Button>)
-      : (<Search onChange={handleChange} />)}
-      <List opened={opened}>
-        { items.map((item, index) => item.value == null
-        ? (<Header key={index}>{item.text}</Header>)
-        : (<ListItem key={index} onClick={() => handleClick(item.value)}>{item.text}</ListItem>))}
-      </List>
+      <SelectBoxInput onBlur={handleBlur} onFocus={handleFocus}>
+        { !opened || !searchEnabled
+          ? (<Button errorState={errorState}>{display}</Button>)
+          : (<Search onChange={handleChange} />)
+        }
+        <List opened={opened}>
+          { items.map((item, index) => item.value == null
+            ? (<Header key={index}>{item.text}</Header>)
+            : (<ListItem key={index} onMouseDown={() => handleClick(item.value)}>{item.text}</ListItem>))
+          }
+        </List>
+      </SelectBoxInput>
+      {touched && error && <SelectBoxError>{error}</SelectBoxError>}
     </SelectBoxContainer>
   )
 }
@@ -99,15 +116,15 @@ const SelectBox = (props) => {
 SelectBox.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    group: PropTypes.string
-  })),
+    value: PropTypes.string
+  })).isRequired,
   display: PropTypes.string.isRequired,
   opened: PropTypes.bool.isRequired,
   searchEnabled: PropTypes.bool.isRequired,
+  handleBlur: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
-  handleToggle: PropTypes.func.isRequired
+  handleFocus: PropTypes.func.isRequired
 }
 
 export default SelectBox
