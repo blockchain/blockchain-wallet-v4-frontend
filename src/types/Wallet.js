@@ -1,6 +1,10 @@
+import Bigi from 'bigi'
+import Base58 from 'bs58'
 import Either from 'data.either'
 import Task from 'data.task'
-import { compose, curry, map, is, pipe, __, concat } from 'ramda'
+import Bitcoin from 'bitcoinjs-lib'
+import memoize from 'fast-memoize'
+import { compose, curry, map, is, pipe, __, concat, split, isNil } from 'ramda'
 import { traversed, traverseOf, over, view, set } from 'ramda-lens'
 import * as crypto from '../WalletCrypto'
 import { shift, shiftIProp } from './util'
@@ -124,6 +128,7 @@ export const toEncryptedPayload = curry((password, wallet) => {
 // isValidSecondPwd :: String -> Wallet -> Bool
 export const isValidSecondPwd = curry((password, wallet) => {
   if (isDoubleEncrypted(wallet)) {
+    if (!is(String, password)) { return false }
     let iter = selectIterations(wallet)
     let sk = view(sharedKey, wallet)
     let storedHash = view(dpasswordhash, wallet)
@@ -250,6 +255,44 @@ export const decryptSync = decryptMonadic(
   crypto.decryptSecPassSync,
   validateSecondPwd(Either.of, Either.Left)
 )
+
+const _derivePrivateKey = (network, xpriv, chain, index) => {
+  return Bitcoin.HDNode.fromBase58(xpriv, network).derive(chain).derive(index)
+}
+export const derivePrivateKey = memoize(_derivePrivateKey)
+
+export const getHDPrivateKey = curry((keypath, secondPassword, network, wallet) => {
+  let [accId, chain, index] = map(parseInt, split('/', keypath))
+  if (isNil(accId) || isNil(chain) || isNil(index)) { return Task.rejected('WRONG_PATH_KEY') }
+  let xpriv = compose(HDAccount.selectXpriv,
+                      HDWallet.selectAccount(accId),
+                      HDWalletList.selectHDWallet,
+                      selectHdWallets)(wallet)
+  if (isDoubleEncrypted(wallet)) {
+    return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
+           .chain(() => crypto.decryptSecPass(selectSharedKey(wallet),
+                        selectIterations(wallet), secondPassword, xpriv))
+           .map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
+  } else {
+    return Task.of(xpriv).map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
+  }
+})
+
+// TODO :: find a proper place for that
+const fromBase58toKey = (string, network) =>
+  new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, { network })
+
+export const getLegacyPrivateKey = curry((address, secondPassword, network, wallet) => {
+  let priv = compose(Address.selectPriv, AddressMap.selectAddress(address), selectAddresses)(wallet)
+  if (isDoubleEncrypted(wallet)) {
+    return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
+           .chain(() => crypto.decryptSecPass(selectSharedKey(wallet),
+                        selectIterations(wallet), secondPassword, priv))
+           .map(pk => fromBase58toKey(pk, network))
+  } else {
+    return Task.of(priv).map(pk => fromBase58toKey(pk, network))
+  }
+})
 
 export const js = (guid, sharedKey, label, mnemonic, xpub, nAccounts) => ({
   guid: guid,

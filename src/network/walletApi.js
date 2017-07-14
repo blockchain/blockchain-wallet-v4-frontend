@@ -6,7 +6,7 @@ import Promise from 'es6-promise'
 import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from '../types'
 import { futurizeP } from 'futurize'
 import createApi from './Api'
-import { Coin } from '../coinSelection'
+import * as Coin from '../coinSelection/coin.js'
 Promise.polyfill()
 
 const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
@@ -64,12 +64,12 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
             .chain(xpub => promiseToTask(ApiPromise.getUnspents)([xpub], confirmations))
             .map(prop('unspent_outputs'))
             .map(over(compose(mapped, lensProp('xpub')), assoc('index', source)))
-            .map(map(Coin.fromUTXO))
+            .map(map(Coin.fromJS))
     } else { // legacy address
       return promiseToTask(ApiPromise.getUnspents)([source], confirmations)
             .map(prop('unspent_outputs'))
-            .map(over(mapped, assoc('address', source)))
-            .map(map(Coin.fromUTXO))
+            .map(over(mapped, assoc('priv', source)))
+            .map(map(Coin.fromJS))
     }
   }
   const getWalletUnspents = compose(taskToPromise, getWalletUnspentsTask)
