@@ -9,7 +9,7 @@ import * as Coin from '../coinSelection/coin.js'
 // import { List } from 'immutable-ext'
 // import seedrandom from 'seedrandom'
 
-const signSelection = selection => {
+export const signSelection = selection => {
   const tx = new Bitcoin.TransactionBuilder()
   const addInput = coin => tx.addInput(coin.txHash, coin.index)
   const addOutput = coin => tx.addOutput(coin.address, coin.value)
@@ -41,5 +41,5 @@ export const signFromLegacyAddress = curry((network, secondPassword, wrapper, se
 //   return map(signSelection, selectionWithKeys)
 // })
 
-
-// export const signFromTrezor
+// export const signFromTrezor = curry((network, ) => {
+// })

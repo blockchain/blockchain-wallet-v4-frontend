@@ -9,9 +9,9 @@ export const TX_OUTPUT_BASE = 8 + 1
 export const TX_OUTPUT_PUBKEYHASH = 25
 
 export class Coin extends Type {
-  // toString () {
-  //   return `Coin(${this.value})`
-  // }
+  toString () {
+    return `Coin(${this.value})`
+  }
   concat (coin) {
     return new Coin({value: this.value + coin.value})
   }

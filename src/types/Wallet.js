@@ -264,14 +264,10 @@ export const derivePrivateKey = memoize(_derivePrivateKey)
 export const getHDPrivateKey = curry((keypath, secondPassword, network, wallet) => {
   let [accId, chain, index] = map(parseInt, split('/', keypath))
   if (isNil(accId) || isNil(chain) || isNil(index)) { return Task.rejected('WRONG_PATH_KEY') }
-  let xpriv = compose(HDAccount.selectXpriv,
-                      HDWallet.selectAccount(accId),
-                      HDWalletList.selectHDWallet,
-                      selectHdWallets)(wallet)
+  let xpriv = compose(HDAccount.selectXpriv, HDWallet.selectAccount(accId), HDWalletList.selectHDWallet, selectHdWallets)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
-           .chain(() => crypto.decryptSecPass(selectSharedKey(wallet),
-                        selectIterations(wallet), secondPassword, xpriv))
+           .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, xpriv))
            .map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
   } else {
     return Task.of(xpriv).map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
@@ -286,8 +282,7 @@ export const getLegacyPrivateKey = curry((address, secondPassword, network, wall
   let priv = compose(Address.selectPriv, AddressMap.selectAddress(address), selectAddresses)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
-           .chain(() => crypto.decryptSecPass(selectSharedKey(wallet),
-                        selectIterations(wallet), secondPassword, priv))
+           .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, priv))
            .map(pk => fromBase58toKey(pk, network))
   } else {
     return Task.of(priv).map(pk => fromBase58toKey(pk, network))
