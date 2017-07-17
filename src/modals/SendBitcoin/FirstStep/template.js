@@ -41,7 +41,7 @@ const ColRight = styled.div`
 
 const FirstStep = (props) => {
   const { show, next, submitting, invalid, editDisplayed, handleClickEdit, fee } = props
-  console.log(requiredNumber)
+
   return (
     <Modal icon='icon-send' title='Send' size='large' show={show}>
       <Form>

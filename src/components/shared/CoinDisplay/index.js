@@ -10,7 +10,7 @@ const CoinDisplay = ({ ...props, children }) => {
   const { network, unit, ...rest } = props
   const crypto = convertToUnit(network, children, unit).getOrElse({ amount: 'N/A', symbol: '' })
 
-  return <Typography {...rest}>{`${crypto.amount} ${crypto.symbol}`}</Typography>
+  return <Typography {...rest}>{`${crypto.amount.toFixed(8)} ${crypto.symbol}`}</Typography>
 }
 
 CoinDisplay.propTypes = {

@@ -11,7 +11,7 @@ const CoinDisplay = ({ ...props, children }) => {
   const fiat = convertCoinToFiat(network, children, currency, rates).getOrElse({ amount: 'N/A' })
   const crypto = convertToUnit(network, children, unit).getOrElse({ amount: 'N/A', symbol: '' })
 
-  return <Typography {...rest}>{`${crypto.amount} ${crypto.symbol} (${fiat.symbol} ${fiat.amount})`}</Typography>
+  return <Typography {...rest}>{`${crypto.amount.toFixed(8)} ${crypto.symbol} (${fiat.symbol} ${fiat.amount.toFixed(2)})`}</Typography>
 }
 
 CoinDisplay.propTypes = {

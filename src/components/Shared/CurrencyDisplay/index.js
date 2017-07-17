@@ -11,7 +11,7 @@ const CurrencyDisplay = ({ ...props, children }) => {
   const fiat = convertCoinToFiat(network, children, currency, rates).getOrElse({ amount: 'N/A' })
 
   return (
-    <Typography {...rest}>{`${fiat.symbol} ${fiat.amount}`}</Typography>)
+    <Typography {...rest}>{`${fiat.symbol} ${fiat.amount.toFixed(2)}`}</Typography>)
 }
 
 CurrencyDisplay.propTypes = {
