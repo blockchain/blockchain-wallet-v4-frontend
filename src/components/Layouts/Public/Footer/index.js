@@ -6,7 +6,7 @@ import { Link } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import DropdownLanguage from 'components/shared/DropdownLanguage'
 
-const FooterWrapper = styled.footer`
+const Wrapper = styled.footer`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -21,6 +21,10 @@ const FooterWrapper = styled.footer`
     align-items: center;
   }
 `
+const Logo = styled.img.attrs({ src: logo })`
+  height: 40px;
+  width: 40px;
+`
 const LinkContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,10 +38,6 @@ const LinkContainer = styled.div`
     justify-content: space-between;
     align-items: center;
   }
-`
-const Logo = styled.img.attrs({ src: logo })`
-  height: 40px;
-  width: 40px;
 `
 const DropdownContainer = styled.div`
   margin: 20px 0;
@@ -59,7 +59,7 @@ const DropdownContainer = styled.div`
 
 const Footer = () => {
   return (
-    <FooterWrapper>
+    <Wrapper>
       <LinkContainer>
         <Logo />
         <Link href='https://blockchain.info'><Text id='components.layouts.public.footer.explorer' text='.Info Explorer' small light uppercase white /></Link>
@@ -70,7 +70,7 @@ const Footer = () => {
       <DropdownContainer>
         <DropdownLanguage />
       </DropdownContainer>
-    </FooterWrapper>
+    </Wrapper>
   )
 }
 

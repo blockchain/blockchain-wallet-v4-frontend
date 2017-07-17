@@ -1,24 +1,34 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-// import { isEmpty, filter, propSatisfies, toUpper } from 'ramda'
-import { isEmpty } from 'ramda'
 import { selectors, actions } from 'data'
 import TransactionList from './template.js'
 
 const txsPerPage = 50
 
 class TransactionListContainer extends React.Component {
-
-  componentWillMount () {
-    if (isEmpty(this.props.transactions)) {
-      this.props.tActions.fetchTransactions(this.props.addressFilter, txsPerPage)
+  constructor (props) {
+    super(props)
+    if (!props.transactions || props.transactions.length === 0) {
+      props.actions.fetchTransactions(props.address, txsPerPage)
     }
   }
-  componentWillUpdate (nextProps) {
-    if (this.props.addressFilter !== nextProps.addressFilter) {
-      this.props.tActions.fetchTransactions(nextProps.addressFilter, txsPerPage)
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.address !== nextProps.address) {
+      const address = nextProps.address ? nextProps.address : ''
+      this.props.actions.setAddressFilter(address)
+      this.props.actions.fetchTransactions(nextProps.address, txsPerPage)
+    }
+    if (this.props.status !== nextProps.status) {
+      const status = nextProps.status ? nextProps.status : ''
+      this.props.actions.setTypeFilter(status)
+    }
+    if (this.props.search !== nextProps.search) {
+      const search = nextProps.search ? nextProps.search : ''
+      this.props.actions.setSearchFilter(search)
     }
   }
 
@@ -29,15 +39,18 @@ class TransactionListContainer extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
+const mapStateToProps = (state) => {
+  const selector = formValueSelector('transactionForm')
   return {
-    transactions: selectors.core.common.getWalletTransactions(state),
-    addressFilter: selectors.core.transactions.getAddressFilter(state)
+    address: selector(state, 'address'),
+    status: selector(state, 'status'),
+    search: selector(state, 'search'),
+    transactions: selectors.core.common.getWalletTransactions(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  tActions: bindActionCreators(actions.core.transactions, dispatch)
+  actions: bindActionCreators(actions.core.transactions, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransactionListContainer)

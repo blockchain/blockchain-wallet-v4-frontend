@@ -24,7 +24,7 @@ class RegisterContainer extends React.Component {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(actions.auth, dispatch),
     alertActions: bindActionCreators(actions.alerts, dispatch)

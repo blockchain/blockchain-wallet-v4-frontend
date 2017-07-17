@@ -10,7 +10,6 @@ const SearchContainer = styled.div`
 const SearchBox = styled.input.attrs({
   type: 'text'
 })`
-
   display: block;
   width: 100%;
   height: 40px;
@@ -33,9 +32,10 @@ const SearchIcon = styled(Icon)`
 `
 
 const Search = (props) => {
+  const { value, handleChange } = props
   return (
     <SearchContainer>
-      <SearchBox value={props.search} onChange={props.change} />
+      <SearchBox value={value} onChange={handleChange} />
       <SearchIcon name='icon-search' big />
     </SearchContainer>
   )

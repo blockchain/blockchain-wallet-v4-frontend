@@ -5,16 +5,22 @@ import Status from './template.js'
 class StatusContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.click = this.click.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.types = [
+      { text: 'All', value: '' },
+      { text: 'Received', value: 'received' },
+      { text: 'Sent', value: 'sent' },
+      { text: 'Transferred', value: 'transferred' }
+    ]
   }
 
-  click (value) {
-    this.props.callback && this.props.callback(value)
+  handleChange (value) {
+    this.props.input.onChange(value)
   }
 
   render () {
     return (
-      <Status items={this.props.items} selected={this.props.selected} callback={this.click} />
+      <Status items={this.types} value={this.props.input.value} handleChange={this.handleChange} />
     )
   }
 }
@@ -24,12 +30,10 @@ StatusContainer.propTypes = {
     text: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired
   })),
-  callback: PropTypes.func.isRequired,
-  selected: PropTypes.string
-}
-
-StatusContainer.defaultProps = {
-  callback: function (value) { console.log(value) }
+  input: PropTypes.shape({
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
+  })
 }
 
 export default StatusContainer

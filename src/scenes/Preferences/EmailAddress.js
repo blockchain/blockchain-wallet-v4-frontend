@@ -3,19 +3,6 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { selectors, actions } from 'data'
 
-function mapStateToProps (state) {
-  return {
-    email: selectors.preferences.getEmail(state),
-    changingEmail: selectors.preferences.isChangingEmail(state)
-  }
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    setEmail: (email) => dispatch(actions.preferences.setEmail(email)),
-    toggleChangingEmail: () => dispatch(actions.preferences.toggleChangingEmail())
-  }
-}
 
 const PreferencesRow = styled.div`
   border-bottom: 1px solid #ddd;
@@ -99,6 +86,20 @@ class EmailAddress extends React.Component {
         </RowContainer>
       </PreferencesRow>
     )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    email: selectors.preferences.getEmail(state),
+    changingEmail: selectors.preferences.isChangingEmail(state)
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setEmail: (email) => dispatch(actions.preferences.setEmail(email)),
+    toggleChangingEmail: () => dispatch(actions.preferences.toggleChangingEmail())
   }
 }
 

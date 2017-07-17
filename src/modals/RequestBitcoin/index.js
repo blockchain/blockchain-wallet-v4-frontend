@@ -1,48 +1,45 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { curry, reduce, assoc, keys, map } from 'ramda'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions, selectors } from 'data'
-import RequestBitcoin from './template.js'
-
-const renameKeys = curry((keysMap, obj) => reduce((acc, key) => assoc(keysMap[key] || key, obj[key], acc), {}, keys(obj)))
+import { wizardForm } from 'components/providers/FormProvider'
+import { actions } from 'data'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
 
 class RequestBitcoinContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.selectAddress = this.selectAddress.bind(this)
-  }
-
-  selectAddress (value) {
-    if (this.props.addressFilter !== value) {
-      // only dispatch if the filter changed
-      this.props.actions.setAddressFilter(value)
-    }
-  }
-
   render () {
-    let isOpen = this.props.displayed && this.props.type === 'requestBitcoin'
-    return (
-      <RequestBitcoin isOpen={isOpen} addresses={this.props.addresses} selectAddress={this.selectAddress} />
-    )
+    const { step, ...rest } = this.props
+
+    switch (step) {
+      case 1:
+        return <SecondStep {...rest} />
+      default:
+        return <FirstStep {...rest} />
+    }
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const accountsBalances = selectors.core.common.getAccountsBalances(state)
-  const legacyAddressesBalances = map(assoc('group', 'Imported Addresses'), selectors.core.common.getAddressesBalances(state))
-  const allBalances = [...accountsBalances, ...legacyAddressesBalances]
-  const addresses = [...map(renameKeys({title: 'text', address: 'value'}))(allBalances)]
+  const selector = formValueSelector('requestBitcoin')
+
   return {
-    displayed: selectors.modals.getDisplayed(state),
-    type: selectors.modals.getType(state),
-    addresses: addresses
+    address: selector(state, 'address'),
+    amount: selector(state, 'amount'),
+    message: selector(state, 'message'),
+    nextAddress: '1BxGpZ4JDmfncucQkKi4gB77hXcq7aFhve'
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.core.transactions, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  transactionActions: bindActionCreators(actions.core.transactions, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RequestBitcoinContainer)
+const enhance = compose(
+  wizardForm('requestBitcoin', 2),
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(RequestBitcoinContainer)

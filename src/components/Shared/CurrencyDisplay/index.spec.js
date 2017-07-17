@@ -19,7 +19,7 @@ describe('CurrencyDisplay', () => {
 
     let store = mockStore(initialState)
     let component = renderer.create(
-      <CurrencyDisplay store={store} className='button' amount={100000000} />
+      <CurrencyDisplay store={store} className='button'>{100000000}</CurrencyDisplay>
     )
 
     expect(component.toJSON()).toMatchSnapshot()

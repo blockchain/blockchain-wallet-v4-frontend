@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { api } from 'services/ApiService'
+import { singleForm } from 'components/providers/FormProvider'
 
-import Reminder from './template.js'
+import { api } from 'services/ApiService'
 import { actions } from 'data'
+import Reminder from './template.js'
 
 class ReminderContainer extends React.Component {
   constructor () {
@@ -16,7 +17,6 @@ class ReminderContainer extends React.Component {
 
   success (data) {
     const { message } = data
-    console.log(message)
     // TODO: Handle multilanguages
     switch (message) {
       case 'Confirmation Email Sent':
@@ -52,7 +52,7 @@ class ReminderContainer extends React.Component {
   }
 }
 
-function matchStateToProps (state) {
+const mapStateToProps = (state) => {
   const selector = formValueSelector('reminderForm')
   return {
     email: selector(state, 'email'),
@@ -60,7 +60,7 @@ function matchStateToProps (state) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(actions.auth, dispatch),
     alertActions: bindActionCreators(actions.alerts, dispatch),
@@ -68,4 +68,9 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(matchStateToProps, mapDispatchToProps)(ReminderContainer)
+const enhance = compose(
+  singleForm('reminderForm'),
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(ReminderContainer)

@@ -26,6 +26,8 @@ const TextBoxInput = styled.input.attrs({
   outline-width: 0;
   user-select: text;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
+
+  &::-webkit-input-placeholder { color: #A8A8A8; }
 `
 const TextBoxError = styled.label`
   display: block;

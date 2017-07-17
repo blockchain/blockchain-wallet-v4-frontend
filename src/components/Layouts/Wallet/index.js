@@ -21,7 +21,7 @@ const WalletLayoutContainer = ({component: Component, ...rest}) => {
   )
 }
 
-function mapStateToProps (state) {
+const mapStateToProps = (state) => {
   return {
     isAuthenticated: selectors.auth.getIsAuthenticated
   }

@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { SecondaryButton } from 'components/generic/Button'
-import { Form, TextArea, CaptchaBox, HelpBlock } from 'components/generic/Form'
+import { Form, TextArea, HelpBlock } from 'components/generic/Form'
+import { CaptchaBox } from 'components/shared/Form'
 import { Link } from 'components/generic/Link'
 import { Separator } from 'components/generic/Separator'
 import { Text } from 'components/generic/Text'
@@ -27,7 +28,7 @@ const Footer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { handleClickStep3, submitting, invalid } = props
+  const { handleSubmit, timestamp, previous, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -44,16 +45,16 @@ const ThirdStep = (props) => {
           <Text id='scenes.reset2fa.thirdstep.message_explain' text='Enter a message for Blockchain.info admins to review.' small light altFont />
         </HelpBlock>
         <Text id='scenes.reset2fa.thirdstep.captcha' text='Captcha' small medium capitalize />
-        <Field name='captcha' validate={[required]} component={CaptchaBox} />
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClickStep3} fullwidth>
+        <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
+        <SecondaryButton disabled={submitting || invalid} onClick={handleSubmit} fullwidth>
           <Text id='scenes.reset2fa.thirdstep.reset' text='Reset'uppercase white />
         </SecondaryButton>
       </Form>
       <Footer>
-        <Link onClick={props.handleGoBackStep3}><Text id='scenes.reset2fa.thirdstep.back' text='Go back' small light cyan /></Link>
+        <Link onClick={previous}><Text id='scenes.reset2fa.thirdstep.back' text='Go back' small light cyan /></Link>
       </Footer>
     </Wrapper>
   )
 }
 
-export default reduxForm({ form: 'reset2FAForm3' })(ThirdStep)
+export default ThirdStep

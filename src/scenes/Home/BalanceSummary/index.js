@@ -15,7 +15,7 @@ class BalanceSummaryContainer extends React.Component {
   }
 }
 
-function mapStateToProps (state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   let accountsBalances = selectors.core.common.getAccountsBalances(state)
   let aggregatedLegacyAddressesBalances = selectors.core.common.getAggregatedAddressesBalances(state)
   return {

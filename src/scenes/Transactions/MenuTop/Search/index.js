@@ -5,33 +5,27 @@ import Search from './template.js'
 class SearchContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.change = this.change.bind(this)
-    this.state = {search: this.props.selected}
     this.timeout = undefined
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  change (event) {
-    let value = event.target.value
-    // Display new value
-    this.setState({search: value})
-    // Execute callback
+  handleChange (value) {
     clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => { this.props.callback(value) }, 1000)
+    this.timeout = setTimeout(this.props.input.onChange(value), 1000)
   }
 
   render () {
     return (
-      <Search search={this.state.search} change={this.change} />
+      <Search value={this.props.input.value} handleChange={this.handleChange} />
     )
   }
 }
 
-SearchContainer.defaultProps = {
-  callback: search => console.log(search)
-}
-
 SearchContainer.propTypes = {
-  callback: PropTypes.func.isRequired
+  input: PropTypes.shape({
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
+  })
 }
 
 export default SearchContainer

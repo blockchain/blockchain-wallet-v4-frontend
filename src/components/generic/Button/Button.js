@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const BaseButtonDisabled = styled.button`
+const BaseButtonDisabled = styled.button.attrs({ type: 'button' })`
   padding: 10px 15px;
   box-sizing: border-box;
   width: ${props => props.fullwidth ? '100%' : 'auto'};

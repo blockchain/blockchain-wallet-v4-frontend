@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import MenuTop from './template.js'
 
 class MenuTopContainer extends React.Component {
@@ -10,23 +10,42 @@ class MenuTopContainer extends React.Component {
     super(props)
     this.openSendBitcoin = this.openSendBitcoin.bind(this)
     this.openRequestBitcoin = this.openRequestBitcoin.bind(this)
+    this.toggleCurrencyDisplay = this.toggleCurrencyDisplay.bind(this)
+  }
+
+  toggleCurrencyDisplay () {
+    this.props.uiActions.toggleCurrencyDisplay()
   }
 
   openSendBitcoin () {
-    this.props.actions.toggleModal({ modalType: 'sendBitcoin' })
+    // this.props.actions.showModalSendBitcoinStep1()
   }
 
   openRequestBitcoin () {
-    this.props.actions.toggleModal({ modalType: 'requestBitcoin' })
+    this.props.modalActions.showModalRequestBitcoin()
   }
 
   render () {
-    return <MenuTop openSendBitcoin={this.openSendBitcoin} openRequestBitcoin={this.openRequestBitcoin} />
+    return <MenuTop
+      {...this.props}
+      toggleCurrencyDisplay={this.toggleCurrencyDisplay}
+      openSendBitcoin={this.openSendBitcoin}
+      openRequestBitcoin={this.openRequestBitcoin} />
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modals, dispatch)
+MenuTopContainer.defaultProps = {
+  balance: 0
+}
+
+const mapStateToProps = (state) => ({
+  bitcoinDisplayed: selectors.ui.getBitcoinDisplayed(state),
+  balance: selectors.core.info.getBalance(state)
 })
 
-export default connect(undefined, mapDispatchToProps)(MenuTopContainer)
+const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  uiActions: bindActionCreators(actions.ui, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuTopContainer)

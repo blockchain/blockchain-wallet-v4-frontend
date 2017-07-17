@@ -21,7 +21,7 @@ class DidYouKnowContainer extends React.Component {
   }
 }
 
-function mapStateToProps (state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     info: null
   }

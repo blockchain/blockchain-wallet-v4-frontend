@@ -1,28 +1,30 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import { convertToBitcoin, convertToCurrency } from 'services/ConversionService'
+import { convertToUnit, convertCoinToFiat, coinScale } from 'services/ConversionService'
 import { selectors } from 'data'
 
 import Ticker from './template.js'
 
 class TickerContainer extends React.Component {
   render () {
-    let satoshiAmount = 100000000
-    let conversionBitcoin = convertToBitcoin(satoshiAmount, this.props.unit).getOrElse('N/A')
-    let conversionCurrency = convertToCurrency(satoshiAmount, this.props.currency, this.props.rates).getOrElse('N/A')
+    const { coin, unit, currency, rates } = this.props
+    const amount = coinScale(coin)
+    const crypto = convertToUnit(coin, amount, unit).getOrElse({ amount: 'N/A', symbol: '' })
+    const fiat = convertCoinToFiat(coin, amount, currency, rates).getOrElse({ amount: 'N/A', symbol: '' })
 
     return (
       <Ticker
-        bitcoinValue={conversionBitcoin}
-        currencyValue={conversionCurrency}
+        bitcoinValue={`${crypto.amount} ${crypto.symbol}`}
+        currencyValue={`${fiat.symbol} ${fiat.amount}`}
       />
     )
   }
 }
 
-function mapStateToProps (state) {
+const mapStateToProps = (state) => {
   return {
+    coin: 'bitcoin',
     unit: selectors.core.settings.getBtcCurrency(state),
     currency: selectors.core.settings.getCurrency(state),
     rates: selectors.core.rates.getRates(state)

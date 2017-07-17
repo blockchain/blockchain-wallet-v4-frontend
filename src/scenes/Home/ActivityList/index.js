@@ -13,13 +13,13 @@ class ActivityContainer extends React.Component {
   }
 }
 
-function mapStateToProps (state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     activities: state.applicationState.activities
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(actions.activity, dispatch)
   }

@@ -25,13 +25,13 @@ class SecuritySettingsContainer extends React.Component {
   }
 }
 
-function mapStateToProps (state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     advancedSecurityDisplayed: selectors.ui.getAdvancedSecurityDisplayed(state)
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(actions.ui, dispatch)
   }

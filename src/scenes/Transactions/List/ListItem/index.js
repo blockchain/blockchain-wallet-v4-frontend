@@ -34,14 +34,14 @@ class TransactionListContainer extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
+const mapStateToProps = (state) => {
   return {
     bitcoinDisplayed: selectors.ui.getBitcoinDisplayed(state),
     balance: selectors.core.info.getBalance(state)
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(actions.ui, dispatch)
   }

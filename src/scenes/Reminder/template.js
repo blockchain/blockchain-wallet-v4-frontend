@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 
 import { required, validEmail } from 'services/FormHelper'
 import { SecondaryButton } from 'components/generic/Button'
-import { Form, TextBox, CaptchaBox } from 'components/generic/Form'
+import { Form, TextBox } from 'components/generic/Form'
 import { RouterLink } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import { Separator } from 'components/generic/Separator'
+import { CaptchaBox } from 'components/shared/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -22,7 +23,7 @@ const Footer = styled.div`
 `
 
 const Reminder = (props) => {
-  const { handleClick, submitting, invalid } = props
+  const { handleClick, timestamp, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -33,7 +34,7 @@ const Reminder = (props) => {
         <Text id='scenes.reminder.email' text='Email' small medium />
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
         <Text id='scenes.reminder.captcha' text='Captcha' small medium />
-        <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: props.timestamp }} />
+        <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
         <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
           <Text id='scenes.reminder.continue' text='Continue' uppercase white />
         </SecondaryButton>
@@ -45,4 +46,4 @@ const Reminder = (props) => {
   )
 }
 
-export default reduxForm({ form: 'reminderForm' })(Reminder)
+export default Reminder

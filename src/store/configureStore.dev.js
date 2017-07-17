@@ -26,14 +26,14 @@ const configureStore = () => {
     connectRouter(history)(rootReducer),
     composeEnhancers(
       // persistState(['session', 'preferences']),
-      persistState(undefined, {deserialize: string => JSON.parse(string, serializer.reviver)}),
+      // persistState(undefined, {deserialize: string => JSON.parse(string, serializer.reviver)}),
       applyMiddleware(
         reduxRouterMiddleware,
         autoDisconnection,
         // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
         // coreMiddleware.socket({ socket }),
-        sagaMiddleware,
-        logger
+        sagaMiddleware// ,
+        // logger
       )
     )
   )
