@@ -4,13 +4,13 @@ import styled from 'styled-components'
 
 const SelectBoxContainer = styled.div`
   height: auto;
+  width: 100%;
 `
 
 const SelectBoxInput = styled.div`
   position: relative;
   display: block;
   width: 100%;
-  z-index: 1;
 `
 const Button = styled.button.attrs({ type: 'button' })`
   display: flex;
@@ -29,15 +29,7 @@ const Button = styled.button.attrs({ type: 'button' })`
   cursor: pointer;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
 `
-const Header = styled.a`
-  width: 100%;
-  padding: 0.5rem 1rem;
-  color: #5F5F5F;
-  background-color: #CCCCCC;
-  cursor: not-allowed;
 
-  &:hover { color: #5F5F5F; }
-`
 const Search = styled.input.attrs({
   type: 'text',
   autoFocus: true
@@ -55,6 +47,22 @@ const Search = styled.input.attrs({
     outline: none;
   }
 `
+const List = styled.div`
+  position: absolute;
+  display: ${props => props.opened ? 'flex' : 'none'};
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  order: 1;
+  width: 100%;
+  height: auto;
+  max-height: 140px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  z-index: 100;
+`
 const ListItem = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
@@ -67,20 +75,14 @@ const ListItem = styled.a`
     background-color: #F5F5F5;
   }
 `
-const List = styled.div`
-  position: absolute;
-  display: ${props => props.opened ? 'flex' : 'none'};
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: left;
-  order: 1;
+const Header = styled.a`
   width: 100%;
-  height: auto;
-  max-height: 200px;
-  overflow-x: hidden;
-  background-color: #FFFFFF;
-  border: 1px solid #CCCCCC;
-  z-index: 100;
+  padding: 0.5rem 1rem;
+  color: #5F5F5F;
+  background-color: #CCCCCC;
+  cursor: not-allowed;
+
+  &:hover { color: #5F5F5F; }
 `
 const SelectBoxError = styled.label`
   display: block;

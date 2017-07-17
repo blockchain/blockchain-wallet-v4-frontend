@@ -18,7 +18,7 @@ class MenuTopContainer extends React.Component {
   }
 
   openSendBitcoin () {
-    // this.props.actions.showModalSendBitcoinStep1()
+    this.props.modalActions.showModalSendBitcoin()
   }
 
   openRequestBitcoin () {

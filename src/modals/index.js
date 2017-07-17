@@ -11,10 +11,12 @@ class Modals extends React.Component {
   render () {
     const { type, ...rest } = this.props
     switch (type) {
-      case 'RequestBitcoin':
-        return <RequestBitcoin {...rest} />
       case 'QRCode':
         return <QRCode {...rest} />
+      case 'RequestBitcoin':
+        return <RequestBitcoin {...rest} />
+      case 'SendBitcoin':
+        return <SendBitcoin {...rest} />
       default:
         return <RequestBitcoin {...rest} />
     }
