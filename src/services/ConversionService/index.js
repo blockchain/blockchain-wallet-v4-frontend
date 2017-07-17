@@ -34,9 +34,9 @@ const convertToUnit = (network, amount, unit) => {
 // convert :: Number -> String -> Maybe (Number)
 const convertBitcoinFromUnit = (amount, unit) => {
   switch (unit) {
-    case 'UBC': return Maybe.Just({ amount: fromUnit(amount, 100), symbol: unit })
-    case 'MBC': return Maybe.Just({ amount: fromUnit(amount, 100000), symbol: unit })
-    case 'BTC': return Maybe.Just({ amount: fromUnit(amount, 100000000), symbol: unit })
+    case 'UBC': return Maybe.Just({ amount: fromUnit(amount, 100), symbol: 'satoshis' })
+    case 'MBC': return Maybe.Just({ amount: fromUnit(amount, 100000), symbol: 'satoshis' })
+    case 'BTC': return Maybe.Just({ amount: fromUnit(amount, 100000000), symbol: 'satoshis' })
     default: return Maybe.Just(amount)
   }
 }

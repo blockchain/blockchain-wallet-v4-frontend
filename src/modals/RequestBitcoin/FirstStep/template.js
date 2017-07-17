@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
-import { required } from 'services/FormHelper'
+import { required, requiredNumber } from 'services/FormHelper'
 import Modal from 'components/generic/Modal'
 import { SecondaryButton } from 'components/generic/Button'
 import { Form, TextArea } from 'components/generic/Form'
@@ -50,7 +50,7 @@ const FirstStep = (props) => {
           <Separator />
         </SeparatorContainer>
         <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
-        <Field name='amount' component={CoinConvertor} validate={[required]} />
+        <Field name='amount' component={CoinConvertor} validate={[requiredNumber]} />
         <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
         <Field name='address' component={SelectBoxAddresses} validate={[required]} includeAll={false} />
         <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />

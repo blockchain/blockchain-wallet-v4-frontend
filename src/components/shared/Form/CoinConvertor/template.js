@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Icon } from 'components/generic/Icon'
 
 const CoinConvertorWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,7 +29,7 @@ const TextBoxContainer = styled.div`
 `
 const TextBox = styled.input.attrs({
   placeholder: '0',
-  type: 'text'
+  type: 'number'
 })`
   display: block;
   width: 100%;
@@ -61,28 +62,31 @@ const IconArrow = styled(Icon).attrs({
   margin: 0 5px;
 `
 const CoinConvertorError = styled.label`
+  position: absolute;
+  top: -15px;
+  right: 0;
   display: block;
+  height: 15px;
   font-size: 13px;
   font-weight: 300;
   color: #FF0000;
 `
 
 const CoinConvertor = (props) => {
-  const { coinValue, fiatValue, coinUnit, fiatUnit, handleCoinChange, handleFiatChange, ...rest } = props
-  const { onBlur, onFocus } = rest.input
-  const { touched, invalid, error } = rest.meta
+  const { coinValue, fiatValue, coinUnit, fiatUnit, handleBlur, handleChange, handleFiatChange, handleFocus, meta } = props
+  const { touched, invalid, error } = meta
   const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
 
   return (
     <CoinConvertorWrapper>
       <CoinConvertorInput>
         <TextBoxContainer>
-          <TextBox onChange={handleCoinChange} value={coinValue} errorState={errorState} onBlur={onBlur} onFocus={onFocus} />
+          <TextBox onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState}  />
           <TextBoxUnit>{coinUnit}</TextBoxUnit>
         </TextBoxContainer>
         <IconArrow />
         <TextBoxContainer>
-          <TextBox onChange={handleFiatChange} value={fiatValue} errorState={errorState} />
+          <TextBox onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
           <TextBoxUnit>{fiatUnit}</TextBoxUnit>
         </TextBoxContainer>
       </CoinConvertorInput>
@@ -92,12 +96,14 @@ const CoinConvertor = (props) => {
 }
 
 CoinConvertor.propTypes = {
-  coinValue: PropTypes.string,
-  fiatValue: PropTypes.string,
+  coinValue: PropTypes.number,
+  fiatValue: PropTypes.number,
   coinUnit: PropTypes.string.isRequired,
   fiatUnit: PropTypes.string.isRequired,
-  handleCoinChange: PropTypes.func.isRequired,
-  handleFiatChange: PropTypes.func.isRequired
+  handleBlur: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleFiatChange: PropTypes.func.isRequired,
+  handleFocus: PropTypes.func.isRequired
 }
 
 export default CoinConvertor

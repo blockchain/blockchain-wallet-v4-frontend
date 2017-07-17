@@ -25,7 +25,8 @@ const mapStateToProps = (state, ownProps) => {
     from: selector(state, 'from'),
     to: selector(state, 'to'),
     amount: selector(state, 'amount'),
-    message: selector(state, 'message')
+    message: selector(state, 'message'),
+    fee: selector(state, 'fee')
   }
 }
 

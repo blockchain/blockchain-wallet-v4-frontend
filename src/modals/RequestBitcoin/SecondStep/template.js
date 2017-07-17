@@ -82,6 +82,12 @@ SecondStep.defaultProps = {
 }
 
 SecondStep.propTypes = {
+  active: PropTypes.bool.isRequired,
+  amount: PropTypes.number.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  link: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  previous: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired
 }
 

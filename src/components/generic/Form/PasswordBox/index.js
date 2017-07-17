@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import PasswordScore from './PasswordScore'
 
 const PasswordBoxContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -30,7 +31,11 @@ const PasswordBoxInput = styled.input.attrs({
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
 `
 const PasswordBoxError = styled.label`
+  position: absolute;
+  top: -15px;
+  right: 0;
   display: block;
+  height: 15px;
   font-size: 13px;
   font-weight: 300;
   color: #FF0000;

@@ -26,7 +26,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     address: selector(state, 'address'),
-    amount: selector(state, 'amount'),
+    amount: parseFloat(selector(state, 'amount')),
     message: selector(state, 'message'),
     nextAddress: '1BxGpZ4JDmfncucQkKi4gB77hXcq7aFhve'
   }

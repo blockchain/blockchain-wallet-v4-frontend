@@ -1,19 +1,22 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const TextAreaContainer = styled.div`
+const NumberContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: ${props => props.fullWidth ? '100%' : 'auto'};
+  width: 100%;
   height: auto;
 `
-const TextAreaInput = styled.textarea`
+const NumberInput = styled.input.attrs({
+  type: 'number'
+})`
   display: block;
   width: 100%;
+  height: 40px;
+  min-height: 40px;
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
@@ -23,12 +26,11 @@ const TextAreaInput = styled.textarea`
   background-image: none;
   outline-width: 0;
   user-select: text;
-  resize: none;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
 
   &::-webkit-input-placeholder { color: #A8A8A8; }
 `
-const TextAreaError = styled.label`
+const NumberError = styled.label`
   position: absolute;
   top: -15px;
   right: 0;
@@ -39,23 +41,14 @@ const TextAreaError = styled.label`
   color: #FF0000;
 `
 
-const TextArea = (field) => {
+const NumberBox = (field) => {
   let errorState = !field.meta.touched ? 'initial' : (field.meta.invalid ? 'invalid' : 'valid')
   return (
-    <TextAreaContainer>
-      <TextAreaInput {...field.input} errorState={errorState} placeholder={field.placeholder} rows={field.rows} />
-      {field.meta.touched && field.meta.error && <TextAreaError>{field.meta.error}</TextAreaError>}
-    </TextAreaContainer>
+    <NumberContainer>
+      <NumberInput {...field.input} errorState={errorState} placeholder={field.placeholder} />
+      {field.meta.touched && field.meta.error && <NumberError>{field.meta.error}</NumberError>}
+    </NumberContainer>
   )
 }
 
-TextArea.defaultProps = {
-  rows: 3
-}
-
-TextArea.propTypes = {
-  rows: PropTypes.number,
-  placeholder: PropTypes.string
-}
-
-export default TextArea
+export default NumberBox

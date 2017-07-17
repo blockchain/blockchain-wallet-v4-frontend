@@ -9,51 +9,70 @@ import CoinConvertor from './template.js'
 class CoinConvertorContainer extends React.Component {
   constructor (props) {
     super(props)
-    const initialCoinValue = props.input.value ? parseFloat(props.input.value) : undefined
-    this.state = { coinAmount: initialCoinValue }
-    this.handleCoinChange = this.handleCoinChange.bind(this)
+    const { network, unit, currency, rates, input } = props
+    const { value } = input
+
+    const initialCoinValue = value ? parseFloat(value) : 0
+    const initialCoinValueTransformed = convertFromUnit(network, initialCoinValue, unit).getOrElse({ amount: 0 })
+    const initialFiatValue = convertCoinToFiat(network, initialCoinValueTransformed.amount, currency, rates).getOrElse({ amount: 0 })
+
+    this.state = { value: initialCoinValueTransformed.amount, coin: initialCoinValue, fiat: initialFiatValue.amount }
+
+    this.handleBlur = this.handleBlur.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     this.handleFiatChange = this.handleFiatChange.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
   }
 
-  handleCoinChange (event) {
+  handleChange (event) {
     const { network, unit, currency, rates, input } = this.props
     const { onChange } = input
 
     const newCoinValue = parseFloat(event.target.value)
     const newCoinValueTransformed = convertFromUnit(network, newCoinValue, unit).getOrElse({ amount: 0 })
     const newFiatValue = convertCoinToFiat(network, newCoinValueTransformed.amount, currency, rates).getOrElse({ amount: 0 })
+    this.setState({ value: newCoinValueTransformed.amount, coin: newCoinValue, fiat: newFiatValue.amount })
 
-    const newCoinString = newCoinValue ? newCoinValue.toString() : undefined
-    const newFiatString = newFiatValue.amount ? newFiatValue.amount.toString() : undefined
-    // console.log(newCoinString, newFiatString)
-    this.setState({ coinAmount: newCoinString, fiatAmount: newFiatString })
-
-    if (onChange) { onChange(newCoinString) }
+    if (onChange) { onChange(newCoinValueTransformed.amount) }
   }
 
   handleFiatChange (event) {
-    const { network, unit, currency, rates } = this.props
+    const { network, unit, currency, rates, input } = this.props
+    const { onChange } = input
 
     const newFiatValue = parseFloat(event.target.value)
     const newCoinValue = convertFiatToCoin(network, newFiatValue, currency, rates).getOrElse({ amount: 0 })
     const newCoinValueTransformed = convertToUnit(network, newCoinValue.amount, unit).getOrElse({ amount: 0 })
 
-    const newCoinString = newCoinValueTransformed.amount ? newCoinValueTransformed.amount.toString() : undefined
-    const newFiatString = newFiatValue ? newFiatValue.toString() : undefined
-    // console.log(newCoinString, newFiatString)
-    this.setState({ coinAmount: newCoinString, fiatAmount: newFiatString })
+    this.setState({ value: newCoinValue.amount, coin: newCoinValueTransformed.amount, fiat: newFiatValue })
+
+    if (onChange) { onChange(newCoinValue.amount) }
+  }
+
+  handleBlur () {
+    const { input } = this.props
+    const { onBlur } = input
+    if (onBlur) { onBlur(this.state.value) }
+  }
+
+  handleFocus () {
+    const { input } = this.props
+    const { onFocus } = input
+    if (onFocus) { onFocus() }
   }
 
   render () {
     const { unit, currency, ...rest } = this.props
 
     return <CoinConvertor
-      coinValue={this.state.coinAmount}
-      fiatValue={this.state.fiatAmount}
+      coinValue={this.state.coin}
+      fiatValue={this.state.fiat}
       coinUnit={unit}
       fiatUnit={currency}
-      handleCoinChange={this.handleCoinChange}
+      handleBlur={this.handleBlur}
+      handleChange={this.handleChange}
       handleFiatChange={this.handleFiatChange}
+      handleFocus={this.handleFocus}
       {...rest}
     />
   }

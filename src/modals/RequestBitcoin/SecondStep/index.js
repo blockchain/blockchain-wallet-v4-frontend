@@ -18,6 +18,7 @@ class SecondStepContainer extends React.Component {
   }
 
   render () {
+    console.log(this.props)
     const link = `https://blockchain.info/payment_request?address=${this.props.address}&amount=${this.props.amount}&message=${this.props.message}`
 
     return <SecondStep {...this.props} link={link} active={this.state.active} handleClick={this.handleClick} />

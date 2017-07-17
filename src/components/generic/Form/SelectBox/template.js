@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const SelectBoxContainer = styled.div`
-  height: auto;
+  position: relative;
   width: 100%;
+  height: auto;
 `
 const SelectBoxInput = styled.div`
   position: relative;
@@ -88,7 +89,11 @@ const Header = styled.a`
   &:hover { color: #5F5F5F; }
 `
 const SelectBoxError = styled.label`
+  position: absolute;
+  top: -15px;
+  right: 0;
   display: block;
+  height: 15px;
   font-size: 13px;
   font-weight: 300;
   color: #FF0000;
