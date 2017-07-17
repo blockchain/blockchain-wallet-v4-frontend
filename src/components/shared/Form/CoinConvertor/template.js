@@ -28,7 +28,7 @@ const TextBoxContainer = styled.div`
 `
 const TextBox = styled.input.attrs({
   placeholder: '0',
-  type: 'number'
+  type: 'text'
 })`
   display: block;
   width: 100%;

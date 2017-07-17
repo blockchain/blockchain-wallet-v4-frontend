@@ -7,6 +7,7 @@ import Modal from 'components/generic/Modal'
 import { SecondaryButton } from 'components/generic/Button'
 import { Form, TextArea } from 'components/generic/Form'
 import { Text } from 'components/generic/Text'
+import { Tooltip } from 'components/generic/Tooltip'
 import { CoinConvertor, DropdownAddresses } from 'components/shared/Form'
 import CopyClipboard from './CopyClipboard'
 
@@ -24,6 +25,9 @@ const SeparatorContainer = styled.div`
   & :first-child { margin-right: 5px; }
   & :last-child { margin-left: 5px; }
 `
+const Aligned = styled.div`
+  & > * { display: inline-block; margin-right: 5px; }
+`
 
 const FirstStep = (props) => {
   const { show, nextAddress, next, handleClickCode, submitting, invalid } = props
@@ -31,7 +35,14 @@ const FirstStep = (props) => {
   return (
     <Modal icon='icon-receive' title='Request' size='large' show={show}>
       <Form>
-        <Text id='modals.requestbitcoin.firststep.share' text='Copy & share address:' small medium />
+        <Aligned>
+          <Text id='modals.requestbitcoin.firststep.share' text='Copy & share address:' small medium />
+          <Tooltip>
+            <Text id='modals.requestbitcoin.firststep.share_tooltip1' text='Share this address with others, and they can send you BTC directly to your wallet.' smaller light />
+            <Text id='modals.requestbitcoin.firststep.share_tooltip2' text='Your address changes with every payment.' smaller light />
+            <Text id='modals.requestbitcoin.firststep.share_tooltip3' text='You can also create a request by attaching an amount below.' smaller light />
+          </Tooltip>
+        </Aligned>
         <CopyClipboard handleClickCode={handleClickCode} address={nextAddress} />
         <SeparatorContainer>
           <Separator />
