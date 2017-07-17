@@ -6,13 +6,14 @@ const SelectBoxContainer = styled.div`
   height: auto;
   width: 100%;
 `
-
 const SelectBoxInput = styled.div`
   position: relative;
   display: block;
   width: 100%;
 `
-const Button = styled.button.attrs({ type: 'button' })`
+const Button = styled.button.attrs({
+  type: 'button'
+})`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -28,11 +29,13 @@ const Button = styled.button.attrs({ type: 'button' })`
   font-weight: 300;
   cursor: pointer;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
+  
+  &:focus {
+    outline: none;
+  }
 `
-
 const Search = styled.input.attrs({
-  type: 'text',
-  autoFocus: true
+  type: 'text'
 })`
   border: 1px solid #CCCCCC;
   font-size: 0.9rem;
@@ -101,7 +104,7 @@ const SelectBox = (props) => {
       <SelectBoxInput onBlur={handleBlur} onFocus={handleFocus}>
         { !opened || !searchEnabled
           ? (<Button errorState={errorState}>{display}</Button>)
-          : (<Search onChange={handleChange} />)
+          : (<Search autoFocus={opened} onChange={handleChange} />)
         }
         <List opened={opened}>
           { items.map((item, index) => item.value == null
@@ -118,7 +121,7 @@ const SelectBox = (props) => {
 SelectBox.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
-    value: PropTypes.string
+    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
   })).isRequired,
   display: PropTypes.string.isRequired,
   opened: PropTypes.bool.isRequired,

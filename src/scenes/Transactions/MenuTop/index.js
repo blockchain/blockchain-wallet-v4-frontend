@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 
 import { singleForm } from 'components/providers/FormProvider'
 import { Form } from 'components/generic/Form'
-import { DropdownAddresses } from 'components/shared/Form'
+import { SelectBoxAddresses } from 'components/shared/Form'
 import Status from './Status'
 import Search from './Search'
 
@@ -50,7 +50,7 @@ const MenuTop = (props) => {
     <Wrapper>
       <HorizontalForm>
         <FilterAddresses>
-          <Field name='address' component={DropdownAddresses} />
+          <Field name='address' component={SelectBoxAddresses} />
         </FilterAddresses>
         <FilterStatuses>
           <Field name='status' component={Status} />

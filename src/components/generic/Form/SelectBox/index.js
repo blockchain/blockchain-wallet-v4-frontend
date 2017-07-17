@@ -9,12 +9,9 @@ class SelectBoxContainer extends React.Component {
     super(props)
     const { elements, input } = props
     const { value } = input
-
     const initialItems = this.transform(elements, undefined)
-    const initialValue = value
-    const initialText = this.getText(initialValue, initialItems)
 
-    this.state = { display: initialText, items: initialItems, opened: false, search: '' }
+    this.state = { value: value, items: initialItems, opened: false, search: '' }
     this.handleBlur = this.handleBlur.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -22,22 +19,23 @@ class SelectBoxContainer extends React.Component {
   }
 
   handleClick (value) {
+    this.setState({ opened: false, value: value })
     this.props.input.onChange(value)
-    this.setState({ opened: false, display: this.getText(value, this.state.items) })
+    this.props.input.onBlur(value)
   }
 
   handleChange (event) {
     this.setState({ items: this.transform(this.props.elements, event.target.value) })
   }
 
-  handleBlur (event) {
-    this.props.input.onBlur(event)
-    this.setState({ opened: false, items: this.transform(this.props.elements, this.state.search) })
+  handleBlur () {
+    this.setState({ opened: false })
+    this.props.input.onBlur(this.state.value)
   }
 
-  handleFocus (event) {
-    this.props.input.onFocus(event)
-    this.setState({ opened: true, items: this.transform(this.props.elements, this.state.search) })
+  handleFocus () {
+    this.setState({ opened: true })
+    this.props.input.onFocus(this.state.value)
   }
 
   transform (elements, value) {
@@ -62,11 +60,12 @@ class SelectBoxContainer extends React.Component {
 
   render () {
     const { searchEnabled, ...rest } = this.props
+    const display = this.getText(this.state.value, this.state.items)
 
     return (
       <SelectBox
         items={this.state.items}
-        display={this.state.display}
+        display={display}
         opened={this.state.opened}
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
@@ -84,14 +83,14 @@ SelectBoxContainer.propTypes = {
     group: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
       text: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
+      value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
     })).isRequired
   })).isRequired,
   input: PropTypes.shape({
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
   }).isRequired,
   label: PropTypes.string,
   searchEnabled: PropTypes.bool

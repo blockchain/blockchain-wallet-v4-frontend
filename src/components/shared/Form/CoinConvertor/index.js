@@ -16,12 +16,12 @@ class CoinConvertorContainer extends React.Component {
   }
 
   handleCoinChange (event) {
-    const { coin, unit, currency, rates, input } = this.props
+    const { network, unit, currency, rates, input } = this.props
     const { onChange } = input
 
     const newCoinValue = parseFloat(event.target.value)
-    const newCoinValueTransformed = convertFromUnit(coin, newCoinValue, unit).getOrElse({ amount: 0 })
-    const newFiatValue = convertCoinToFiat(coin, newCoinValueTransformed.amount, currency, rates).getOrElse({ amount: 0 })
+    const newCoinValueTransformed = convertFromUnit(network, newCoinValue, unit).getOrElse({ amount: 0 })
+    const newFiatValue = convertCoinToFiat(network, newCoinValueTransformed.amount, currency, rates).getOrElse({ amount: 0 })
 
     const newCoinString = newCoinValue ? newCoinValue.toString() : undefined
     const newFiatString = newFiatValue.amount ? newFiatValue.amount.toString() : undefined
@@ -32,11 +32,11 @@ class CoinConvertorContainer extends React.Component {
   }
 
   handleFiatChange (event) {
-    const { coin, unit, currency, rates } = this.props
+    const { network, unit, currency, rates } = this.props
 
     const newFiatValue = parseFloat(event.target.value)
-    const newCoinValue = convertFiatToCoin(coin, newFiatValue, currency, rates).getOrElse({ amount: 0 })
-    const newCoinValueTransformed = convertToUnit(coin, newCoinValue.amount, unit).getOrElse({ amount: 0 })
+    const newCoinValue = convertFiatToCoin(network, newFiatValue, currency, rates).getOrElse({ amount: 0 })
+    const newCoinValueTransformed = convertToUnit(network, newCoinValue.amount, unit).getOrElse({ amount: 0 })
 
     const newCoinString = newCoinValueTransformed.amount ? newCoinValueTransformed.amount.toString() : undefined
     const newFiatString = newFiatValue ? newFiatValue.toString() : undefined
@@ -64,12 +64,12 @@ CoinConvertorContainer.propTypes = {
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
   }).isRequired
 }
 
 const mapStateToProps = (state) => ({
-  coin: 'bitcoin',
+  network: 'bitcoin',
   unit: selectors.core.settings.getBtcCurrency(state),
   currency: selectors.core.settings.getCurrency(state),
   rates: selectors.core.rates.getRates(state)

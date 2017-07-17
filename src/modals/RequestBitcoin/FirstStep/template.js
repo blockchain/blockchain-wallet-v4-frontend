@@ -8,7 +8,7 @@ import { SecondaryButton } from 'components/generic/Button'
 import { Form, TextArea } from 'components/generic/Form'
 import { Text } from 'components/generic/Text'
 import { Tooltip } from 'components/generic/Tooltip'
-import { CoinConvertor, DropdownAddresses } from 'components/shared/Form'
+import { CoinConvertor, SelectBoxAddresses } from 'components/shared/Form'
 import CopyClipboard from './CopyClipboard'
 
 const Separator = styled.div`
@@ -52,7 +52,7 @@ const FirstStep = (props) => {
         <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
         <Field name='amount' component={CoinConvertor} validate={[required]} />
         <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
-        <Field name='address' component={DropdownAddresses} validate={[required]} includeAll={false} />
+        <Field name='address' component={SelectBoxAddresses} validate={[required]} includeAll={false} />
         <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />
         <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" fullwidth />
         <SecondaryButton fullwidth onClick={next} disabled={submitting || invalid}>

@@ -7,8 +7,8 @@ import { selectors } from 'data'
 import { Typography } from 'components/generic/Typography'
 
 const CurrencyDisplay = ({ ...props, children }) => {
-  const { coin, currency, rates, ...rest } = props
-  const fiat = convertCoinToFiat(coin, children, currency, rates).getOrElse({ amount: 'N/A' })
+  const { network, currency, rates, ...rest } = props
+  const fiat = convertCoinToFiat(network, children, currency, rates).getOrElse({ amount: 'N/A' })
 
   return (
     <Typography {...rest}>{`${fiat.symbol} ${fiat.amount}`}</Typography>)
@@ -23,7 +23,7 @@ CurrencyDisplay.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-  coin: 'bitcoin',
+  network: 'bitcoin',
   currency: selectors.core.settings.getCurrency(state),
   rates: selectors.core.rates.getRates(state)
 })

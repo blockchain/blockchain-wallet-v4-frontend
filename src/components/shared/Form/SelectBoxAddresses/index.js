@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import { renameKeys } from 'services/RamdaCookingBook'
 import { SelectBox } from 'components/generic/Form'
 
-class DropdownAddressesContainer extends React.Component {
+class SelectBoxAddressesContainer extends React.Component {
   render () {
     const { accounts, legacyAddresses, includeAll, ...rest } = this.props
     const allWallets = { text: 'All Wallets', value: '' }
@@ -21,11 +21,11 @@ class DropdownAddressesContainer extends React.Component {
   }
 }
 
-DropdownAddressesContainer.propTypes = {
+SelectBoxAddressesContainer.propTypes = {
   includeAll: PropTypes.bool
 }
 
-DropdownAddressesContainer.defaultProps = {
+SelectBoxAddressesContainer.defaultProps = {
   includeAll: true
 }
 
@@ -46,4 +46,4 @@ const mapDispatchToProps = (dispatch) => ({
   transactionActions: bindActionCreators(actions.core.transactions, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DropdownAddressesContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectBoxAddressesContainer)

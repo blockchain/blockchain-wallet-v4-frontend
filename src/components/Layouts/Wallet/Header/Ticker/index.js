@@ -8,10 +8,10 @@ import Ticker from './template.js'
 
 class TickerContainer extends React.Component {
   render () {
-    const { coin, unit, currency, rates } = this.props
-    const amount = coinScale(coin)
-    const crypto = convertToUnit(coin, amount, unit).getOrElse({ amount: 'N/A', symbol: '' })
-    const fiat = convertCoinToFiat(coin, amount, currency, rates).getOrElse({ amount: 'N/A', symbol: '' })
+    const { network, unit, currency, rates } = this.props
+    const amount = coinScale(network)
+    const crypto = convertToUnit(network, amount, unit).getOrElse({ amount: 'N/A', symbol: '' })
+    const fiat = convertCoinToFiat(network, amount, currency, rates).getOrElse({ amount: 'N/A', symbol: '' })
 
     return (
       <Ticker
@@ -24,7 +24,7 @@ class TickerContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    coin: 'bitcoin',
+    network: 'bitcoin',
     unit: selectors.core.settings.getBtcCurrency(state),
     currency: selectors.core.settings.getCurrency(state),
     rates: selectors.core.rates.getRates(state)

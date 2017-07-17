@@ -24,8 +24,8 @@ const convertBitcoinToUnit = (amount, unit) => {
 }
 
 // convert :: String -> Number -> String -> Maybe (Number)
-const convertToUnit = (coin, amount, unit) => {
-  switch (coin) {
+const convertToUnit = (network, amount, unit) => {
+  switch (network) {
     case 'bitcoin': return convertBitcoinToUnit(amount, unit)
     default: return Maybe.Nothing()
   }
@@ -42,24 +42,24 @@ const convertBitcoinFromUnit = (amount, unit) => {
 }
 
 // convertFromUnit :: String -> Number -> String -> Maybe (Number)
-const convertFromUnit = (coin, amount, unit) => {
-  switch (coin) {
+const convertFromUnit = (network, amount, unit) => {
+  switch (network) {
     case 'bitcoin': return convertBitcoinFromUnit(amount, unit)
     default: return Maybe.Nothing()
   }
 }
 
 // convertFromUnit :: String -> Number
-const coinScale = coin => {
-  switch (coin) {
+const coinScale = network => {
+  switch (network) {
     case 'bitcoin': return 100000000
     default: return undefined
   }
 }
 
 // convertToCurrency :: String -> Number -> String -> Array -> Maybe({value: Number, symbol:'$'})
-const convertCoinToFiat = (coin, amount, currency, rates) => {
-  const scaleM = Maybe.fromNullable(coinScale(coin))
+const convertCoinToFiat = (network, amount, currency, rates) => {
+  const scaleM = Maybe.fromNullable(coinScale(network))
   const dataM = map(x => Maybe.fromNullable(path([currency, x], rates)), ['last', 'symbol'])
   return sequence(Maybe.of, dataM.concat(scaleM))
          .map(([ratio, symbol, scale]) => ({
@@ -69,8 +69,8 @@ const convertCoinToFiat = (coin, amount, currency, rates) => {
 }
 
 // convertToCoin :: String -> Number -> String -> Array -> Maybe({value: Number)
-const convertFiatToCoin = (coin, amount, currency, rates) => {
-  const scaleM = Maybe.fromNullable(coinScale(coin))
+const convertFiatToCoin = (network, amount, currency, rates) => {
+  const scaleM = Maybe.fromNullable(coinScale(network))
   const ratioM = Maybe.fromNullable(path([currency, 'last'], rates))
   return sequence(Maybe.of, [ratioM, scaleM])
          .map(([ratio, scale]) => ({
