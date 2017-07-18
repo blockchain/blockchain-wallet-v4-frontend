@@ -1,4 +1,4 @@
-import { path, sequence, map } from 'ramda'
+import { path, sequence, map, type } from 'ramda'
 import Maybe from 'data.maybe'
 
 // toUnit :: Number -> Number -> Number -> Maybe (Number)
@@ -49,11 +49,29 @@ const convertFromUnit = (network, amount, unit) => {
   }
 }
 
+const displayCoin = (network, amount, unit) => {
+  const decimals = path([network, unit, 'decimals'], scale)
+  return (type(amount) === 'Number' && decimals && unit) ? Maybe.fromNullable(`${amount.toFixed(decimals)} ${unit}`) : Maybe.Nothing()
+}
+
+const displayFiat = (amount, currency) => {
+  return (type(amount) === 'Number' && currency) ? Maybe.Just(`${amount.toFixed(2)} ${currency}`) : Maybe.Nothing()
+}
+
 // convertFromUnit :: String -> Number
 const coinScale = network => {
   switch (network) {
     case 'bitcoin': return 100000000
     default: return undefined
+  }
+}
+
+const scale = {
+  bitcoin: {
+    BTC: { name: 'bitcoin', ratio: 1, decimals: 8 },
+    MBC: { name: 'milli-bitcoin', ratio: 1000, decimals: 5 },
+    UBC: { name: 'micro-bitcoin', ratio: 1000000, decimals: 2 },
+    base: { name: 'satoshi', ratio: 100000000, decimals: 0 }
   }
 }
 
@@ -83,5 +101,7 @@ export {
   convertFiatToCoin,
   convertToUnit,
   convertFromUnit,
+  displayCoin,
+  displayFiat,
   coinScale
 }
