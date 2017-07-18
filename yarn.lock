@@ -2715,8 +2715,8 @@ qs@~6.4.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
 
 "ramda-lens@https://github.com/ramda/ramda-lens.git":
-  version "0.1.1"
-  resolved "https://github.com/ramda/ramda-lens.git#f6342180afb089ca7c00da9f21fafd9b5fa01beb"
+  version "0.1.2"
+  resolved "https://github.com/ramda/ramda-lens.git#04a5eca249680d739211f489f0ac2bf397565c8d"
   dependencies:
     ramda "^0.19.1"
 
