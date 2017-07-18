@@ -33,7 +33,7 @@ const CaptchaBoxInput = styled.input.attrs({
 `
 const CaptchaBoxError = styled.label`
   position: absolute;
-  top: -15px;
+  top: -18px;
   right: 0;
   display: block;
   height: 15px;

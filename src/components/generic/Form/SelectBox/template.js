@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import { Icon } from 'components/generic/Icon'
+
 const SelectBoxContainer = styled.div`
   position: relative;
   width: 100%;
@@ -30,7 +32,7 @@ const Button = styled.button.attrs({
   font-weight: 300;
   cursor: pointer;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
-  
+
   &:focus {
     outline: none;
   }
@@ -53,7 +55,7 @@ const Search = styled.input.attrs({
 `
 const List = styled.div`
   position: absolute;
-  display: ${props => props.opened ? 'flex' : 'none'};
+  display: ${props => props.expanded ? 'flex' : 'none'};
   flex-direction: column;
   justify-content: flex-start;
   align-items: left;
@@ -90,7 +92,7 @@ const Header = styled.a`
 `
 const SelectBoxError = styled.label`
   position: absolute;
-  top: -15px;
+  top: -18px;
   right: 0;
   display: block;
   height: 15px;
@@ -98,20 +100,29 @@ const SelectBoxError = styled.label`
   font-weight: 300;
   color: #FF0000;
 `
+const Arrow = styled(Icon).attrs({
+  name: 'icon-down_arrow'
+})`
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 0.6rem;
+`
 
 const SelectBox = (props) => {
-  const { items, display, opened, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, meta } = props
+  const { items, display, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, meta } = props
   const { touched, invalid, error } = meta
   const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
 
   return (
     <SelectBoxContainer>
       <SelectBoxInput onBlur={handleBlur} onFocus={handleFocus}>
-        { !opened || !searchEnabled
+        { !expanded || !searchEnabled
           ? (<Button errorState={errorState}>{display}</Button>)
-          : (<Search autoFocus={opened} onChange={handleChange} />)
+          : (<Search autoFocus={expanded} onChange={handleChange} />)
         }
-        <List opened={opened}>
+        <Arrow />
+        <List expanded={expanded}>
           { items.map((item, index) => item.value == null
             ? (<Header key={index}>{item.text}</Header>)
             : (<ListItem key={index} onMouseDown={() => handleClick(item.value)}>{item.text}</ListItem>))
@@ -129,7 +140,7 @@ SelectBox.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
   })).isRequired,
   display: PropTypes.string.isRequired,
-  opened: PropTypes.bool.isRequired,
+  expanded: PropTypes.bool.isRequired,
   searchEnabled: PropTypes.bool.isRequired,
   handleBlur: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 import QRCode from './QRCode'
+import QRCodeCapture from './QRCodeCapture'
 import RequestBitcoin from './RequestBitcoin'
 import SendBitcoin from './SendBitcoin'
 
@@ -13,6 +14,8 @@ class Modals extends React.Component {
     switch (type) {
       case 'QRCode':
         return <QRCode {...rest} />
+      case 'QRCodeCapture':
+        return <QRCodeCapture {...rest} />
       case 'RequestBitcoin':
         return <RequestBitcoin {...rest} />
       case 'SendBitcoin':

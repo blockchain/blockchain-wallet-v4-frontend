@@ -32,7 +32,7 @@ const TextBoxInput = styled.input.attrs({
 `
 const TextBoxError = styled.label`
   position: absolute;
-  top: -15px;
+  top: -18px;
   right: 0;
   display: block;
   height: 15px;

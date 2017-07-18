@@ -30,6 +30,7 @@ const TooltipBox = styled(TextGroup)`
   border: 1px solid #E0E0E0;
   border-radius: 5px;
   padding: 5px;
+  cursor: pointer;
 
   &:before {
     content: '';

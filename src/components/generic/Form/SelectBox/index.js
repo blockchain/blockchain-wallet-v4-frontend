@@ -7,11 +7,11 @@ import SelectBox from './template.js'
 class SelectBoxContainer extends React.Component {
   constructor (props) {
     super(props)
-    const { elements, input } = props
+    const { elements, input, opened } = props
     const { value } = input
     const initialItems = this.transform(elements, undefined)
 
-    this.state = { value: value, items: initialItems, opened: false, search: '' }
+    this.state = { value: value, items: initialItems, expanded: opened, search: '' }
     this.handleBlur = this.handleBlur.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -22,6 +22,7 @@ class SelectBoxContainer extends React.Component {
     this.setState({ opened: false, value: value })
     this.props.input.onChange(value)
     this.props.input.onBlur(value)
+    if (this.props.callback) { this.props.callback(value) }
   }
 
   handleChange (event) {
@@ -29,13 +30,13 @@ class SelectBoxContainer extends React.Component {
   }
 
   handleBlur () {
-    this.setState({ opened: false })
-    this.props.input.onBlur(this.state.value)
+    // this.props.input.onBlur(this.state.value)
+    this.setState({ expanded: false })
   }
 
   handleFocus () {
-    this.setState({ opened: true })
-    this.props.input.onFocus(this.state.value)
+    // this.props.input.onFocus(this.state.value)
+    this.setState({ expanded: true })
   }
 
   transform (elements, value) {
@@ -66,7 +67,7 @@ class SelectBoxContainer extends React.Component {
       <SelectBox
         items={this.state.items}
         display={display}
-        opened={this.state.opened}
+        expanded={this.state.expanded}
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleClick={this.handleClick}
@@ -93,12 +94,15 @@ SelectBoxContainer.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
   }).isRequired,
   label: PropTypes.string,
-  searchEnabled: PropTypes.bool
+  searchEnabled: PropTypes.bool,
+  opened: PropTypes.bool,
+  callback: PropTypes.func
 }
 
 SelectBoxContainer.defaultProps = {
   label: 'Select a value',
-  searchEnabled: true
+  searchEnabled: true,
+  opened: false
 }
 
 export default SelectBoxContainer

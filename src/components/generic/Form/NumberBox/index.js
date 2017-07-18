@@ -32,7 +32,7 @@ const NumberInput = styled.input.attrs({
 `
 const NumberError = styled.label`
   position: absolute;
-  top: -15px;
+  top: -18px;
   right: 0;
   display: block;
   height: 15px;

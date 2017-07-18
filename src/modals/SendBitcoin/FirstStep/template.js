@@ -4,14 +4,16 @@ import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
 import Modal from 'components/generic/Modal'
-import { SecondaryButton } from 'components/generic/Button'
+import { Button, ButtonGroup, SecondaryButton } from 'components/generic/Button'
 import { Form, TextBox, TextArea } from 'components/generic/Form'
+import { Icon } from 'components/generic/Icon'
 import { Link } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import { Tooltip } from 'components/generic/Tooltip'
 import { CoinConvertor, SelectBoxAddresses } from 'components/shared/Form'
 import ComboDisplay from 'components/shared/ComboDisplay'
 import SelectBoxFee from './SelectBoxFee'
+import qrCode from 'img/qr-code.png'
 
 const Aligned = styled.div`
   & > * { display: inline-block; margin-right: 5px; }
@@ -25,30 +27,57 @@ const Row = styled.div`
   height: auto;
 `
 const ColLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 60%;
+  width: 50%;
 `
 const ColRight = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  width: 40%;
+  width: 50%;
+`
+const AddressesToContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+const QrCodeCaptureToggle = styled.img.attrs({ src: qrCode })`height: 18px;`
+const AddressesSelectToggle = styled(Icon).attrs({ name: 'icon-down_arrow' })`font-size: 0.6rem;`
+const AddressesToButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #E0E0E0;
+  background-color: #FFFFFF;
+  color: #5F5F5F;
+  cursor: pointer;
+
+  &:hover { background-color: #F5F7F9; }
 `
 
 const FirstStep = (props) => {
-  const { show, next, submitting, invalid, editDisplayed, handleClickEdit, fee } = props
+  const { show, next, submitting, invalid, fee, addressesSelectDisplayed, feeEditDisplayed,
+    handleClickAddressesSelect, handleToggleAddressesSelect, handleToggleFeeEdit, handleToggleQrCodeCapture } = props
 
   return (
     <Modal icon='icon-send' title='Send' size='large' show={show}>
       <Form>
         <Text id='modals.sendbitcoin.firststep.from' text='From:' small medium />
-        <Field name='from' component={SelectBoxAddresses} validate={[required]} includeAll={false} />
+        <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
         <Text id='modals.sendbitcoin.firststep.to' text='To:' small medium />
-        <Field name='to' component={SelectBoxAddresses} validate={[required]} includeAll={false} />
+        { addressesSelectDisplayed
+          ? <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ callback: handleClickAddressesSelect, opened: true, includeAll: false }} />
+          : (
+            <AddressesToContainer>
+              <Field name='to' component={TextBox} validate={[required]} />
+              <AddressesToButton onClick={handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleToggleAddressesSelect}><AddressesSelectToggle /></AddressesToButton>
+            </AddressesToContainer>
+            )
+        }
         <Text id='modals.sendbitcoin.firststep.amount' text='Enter amount:' small medium />
         <Field name='amount' component={CoinConvertor} validate={[requiredNumber]} />
         <Aligned>
@@ -67,15 +96,15 @@ const FirstStep = (props) => {
         </Aligned>
         <Row>
           <ColLeft>
-            { editDisplayed
+            { feeEditDisplayed
               ? <Field name='fee' component={TextBox} validate={[required]} />
               : <Field name='fee' component={SelectBoxFee} validate={[required]} />
             }
           </ColLeft>
           <ColRight>
             <ComboDisplay small light>{fee}</ComboDisplay>
-            <Link fullWidth onClick={handleClickEdit}>
-              { editDisplayed
+            <Link fullWidth onClick={handleToggleFeeEdit}>
+              { feeEditDisplayed
                 ? <Text id='modals.sendbitcoin.firststep.cancel' text='Cancel' smaller light cyan capitalize />
                 : <Text id='modals.sendbitcoin.firststep.edit' text='Customize fee' smaller light cyan capitalize />
               }

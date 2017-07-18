@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import QRCodeReact from 'qrcode-react'
+import QrReader from 'react-qr-reader'
 
 import { Link } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import Modal from 'components/generic/Modal'
-import CopyClipboard from './CopyClipboard'
 
 const QRCodeContainer = styled.div`
   display: flex;
@@ -18,23 +17,29 @@ const QRCodeContainer = styled.div`
 const Footer = styled.div`
   padding: 5px 0;
 `
+const QrCodeReader = styled(QrReader)`
+  width: 100%;
+  height: 100%;
 
-const QRCode = (props) => {
+  & > * { width: 100%; }
+`
+
+const QRCodeCapture = (props) => {
   const { show, payload } = props
-  const { address, handleBack } = payload
-  const bitcoinAddress = `bitcoin:${address}`
+  const { handleScan, handleError, handleBack } = payload
+  const delay = 100
+  console.log(props)
 
   return (
-    <Modal icon='icon-receive' title='Payment address' size='large' show={show}>
-      <Text id='modals.qrcode.scan' text='Scan QR Code' small light />
+    <Modal icon='icon-send' title='Payment address' size='large' show={show}>
+      <Text id='modals.qrcodecapture.scan' text='Capture QR Code' small light />
       <QRCodeContainer>
-        <QRCodeReact value={bitcoinAddress} size={256} />
+        <QrCodeReader delay={delay} onScan={handleScan} onError={handleError} />
       </QRCodeContainer>
-      <CopyClipboard address={bitcoinAddress} />
       { handleBack &&
       <Footer>
         <Link onClick={handleBack}>
-          <Text id='modals.qrcode.back' text='Go back' small light cyan />
+          <Text id='modals.qrcodecapture.back' text='Go back' small light cyan />
         </Link>
       </Footer>
       }
@@ -42,16 +47,17 @@ const QRCode = (props) => {
   )
 }
 
-QRCode.defaultProps = {
+QRCodeCapture.defaultProps = {
   show: false
 }
 
-QRCode.propTypes = {
+QRCodeCapture.propTypes = {
   show: PropTypes.bool.isRequired,
   payload: PropTypes.shape({
-    address: PropTypes.string.isRequired,
+    handleScan: PropTypes.func.isRequired,
+    handleError: PropTypes.func,
     handleBack: PropTypes.func
   })
 }
 
-export default QRCode
+export default QRCodeCapture

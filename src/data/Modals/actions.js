@@ -6,4 +6,6 @@ export const showModalRequestBitcoin = () => ({ type: AT.SHOW_MODAL_REQUEST_BITC
 
 export const showModalSendBitcoin = () => ({ type: AT.SHOW_MODAL_SEND_BITCOIN })
 
-export const showModalQRCode = (address, back) => ({ type: AT.SHOW_MODAL_QR_CODE, payload: { address, back } })
+export const showModalQRCode = (address, handleBack) => ({ type: AT.SHOW_MODAL_QR_CODE, payload: { address, handleBack } })
+
+export const showModalQRCodeCapture = (handleScan, handleError, handleBack) => ({ type: AT.SHOW_MODAL_QR_CODE_CAPTURE, payload: { handleScan, handleError, handleBack } })
