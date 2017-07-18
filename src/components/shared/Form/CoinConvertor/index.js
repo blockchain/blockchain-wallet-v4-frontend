@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectors } from 'data'
 
-import { convertCoinToFiat, convertFiatToCoin, convertToUnit, convertFromUnit } from 'services/ConversionService'
+import { convertCoinToFiat, convertFiatToCoin, convertToUnit, convertFromUnit, getDecimals } from 'services/ConversionService'
 import CoinConvertor from './template.js'
 
 class CoinConvertorContainer extends React.Component {
@@ -25,26 +25,33 @@ class CoinConvertorContainer extends React.Component {
   }
 
   handleChange (event) {
-    const { network, unit, currency, rates, input } = this.props
+    const { network, unit, currency, rates, decimals, input } = this.props
     const { onChange } = input
+
+    const split = event.target.value.split('.')
+    if (split.length > 1 && split[1].length > decimals) return
 
     const newCoinValue = parseFloat(event.target.value)
     const newCoinValueTransformed = convertFromUnit(network, newCoinValue, unit).getOrElse({ amount: 0 })
     const newFiatValue = convertCoinToFiat(network, newCoinValueTransformed.amount, currency, rates).getOrElse({ amount: 0 })
-    this.setState({ value: newCoinValueTransformed.amount, coin: newCoinValue, fiat: newFiatValue.amount })
+    const newFiatValueFormatted = parseFloat(newFiatValue.amount.toFixed(2))
+    this.setState({ value: newCoinValueTransformed.amount, coin: newCoinValue, fiat: newFiatValueFormatted })
 
     if (onChange) { onChange(newCoinValueTransformed.amount) }
   }
 
   handleFiatChange (event) {
-    const { network, unit, currency, rates, input } = this.props
+    const { network, unit, currency, rates, decimals, input } = this.props
     const { onChange } = input
+
+    const split = event.target.value.split('.')
+    if (split.length > 1 && split[1].length > 2) return
 
     const newFiatValue = parseFloat(event.target.value)
     const newCoinValue = convertFiatToCoin(network, newFiatValue, currency, rates).getOrElse({ amount: 0 })
     const newCoinValueTransformed = convertToUnit(network, newCoinValue.amount, unit).getOrElse({ amount: 0 })
-
-    this.setState({ value: newCoinValue.amount, coin: newCoinValueTransformed.amount, fiat: newFiatValue })
+    const newCoinValueFormatted = parseFloat(newCoinValueTransformed.amount.toFixed(decimals))
+    this.setState({ value: newCoinValue.amount, coin: newCoinValueFormatted, fiat: newFiatValue })
 
     if (onChange) { onChange(newCoinValue.amount) }
   }
@@ -91,7 +98,8 @@ const mapStateToProps = (state) => ({
   network: 'bitcoin',
   unit: selectors.core.settings.getBtcCurrency(state),
   currency: selectors.core.settings.getCurrency(state),
-  rates: selectors.core.rates.getRates(state)
+  rates: selectors.core.rates.getRates(state),
+  decimals: getDecimals('bitcoin', selectors.core.settings.getBtcCurrency(state))
 })
 
 export default connect(mapStateToProps)(CoinConvertorContainer)

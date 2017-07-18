@@ -2,19 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { convertToUnit, convertCoinToFiat, displayCoin, displayFiat } from 'services/ConversionService'
+import { displayCoin, displayFiat } from 'services/ConversionService'
 import { selectors } from 'data'
 import { Typography } from 'components/generic/Typography'
 
 const CoinDisplay = ({ ...props, children }) => {
   const { network, unit, currency, rates, ...rest } = props
-  const fiat = convertCoinToFiat(network, children, currency, rates).getOrElse({})
-  const coin = convertToUnit(network, children, unit).getOrElse({})
+  const coin = displayCoin(network, children, unit).getOrElse('N/A')
+  const fiat = displayFiat(network, children, currency, rates).getOrElse('N/A')
 
-  const coinAmount = displayCoin(network, coin.amount, coin.symbol).getOrElse('N/A')
-  const fiatAmount = displayFiat(fiat.amount, fiat.symbol).getOrElse('N/A')
-
-  return <Typography {...rest}>{`${coinAmount} (${fiatAmount})`}</Typography>
+  return <Typography {...rest}>{`${coin} (${fiat})`}</Typography>
 }
 
 CoinDisplay.propTypes = {

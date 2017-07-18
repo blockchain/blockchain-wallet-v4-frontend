@@ -28,7 +28,6 @@ const QRCodeCapture = (props) => {
   const { show, payload } = props
   const { handleScan, handleError, handleBack } = payload
   const delay = 100
-  console.log(props)
 
   return (
     <Modal icon='icon-send' title='Payment address' size='large' show={show}>

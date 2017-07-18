@@ -1,61 +1,42 @@
-import { path, sequence, map, type } from 'ramda'
+import { path, sequence, map } from 'ramda'
 import Maybe from 'data.maybe'
 
 // toUnit :: Number -> Number -> Number -> Maybe (Number)
-const toUnit = (amount, ratio, decimals) => parseFloat((amount / ratio).toFixed(decimals))
+const toUnit = (amount, ratio) => parseFloat(amount * ratio)
 
 // fromUnit :: Number -> Number -> Number -> Maybe (Number)
-const fromUnit = (amount, ratio) => parseFloat(amount * ratio)
+const fromUnit = (amount, ratio) => parseFloat(amount / ratio)
 
 // toCoin :: Number -> Number -> Number -> Maybe (Number)
 const toCoin = (amount, scale, ratio) => parseFloat(amount * scale / ratio)
 
 // fromCoin :: Number -> Number -> Number -> Maybe (Number)
-const fromCoin = (amount, scale, ratio) => parseFloat((amount / scale * ratio).toFixed(2))
-
-// convertBitcoinToUnit :: Number -> String -> Maybe (Number)
-const convertBitcoinToUnit = (amount, unit) => {
-  switch (unit) {
-    case 'UBC': return Maybe.Just({ amount: toUnit(amount, 100, 3), symbol: unit })
-    case 'MBC': return Maybe.Just({ amount: toUnit(amount, 100000, 5), symbol: unit })
-    case 'BTC': return Maybe.Just({ amount: toUnit(amount, 100000000, 8), symbol: unit })
-    default: return Maybe.Just(amount)
-  }
-}
+const fromCoin = (amount, scale, ratio) => parseFloat(amount / scale * ratio)
 
 // convert :: String -> Number -> String -> Maybe (Number)
 const convertToUnit = (network, amount, unit) => {
-  switch (network) {
-    case 'bitcoin': return convertBitcoinToUnit(amount, unit)
-    default: return Maybe.Nothing()
-  }
-}
-
-// convert :: Number -> String -> Maybe (Number)
-const convertBitcoinFromUnit = (amount, unit) => {
-  switch (unit) {
-    case 'UBC': return Maybe.Just({ amount: fromUnit(amount, 100), symbol: 'satoshis' })
-    case 'MBC': return Maybe.Just({ amount: fromUnit(amount, 100000), symbol: 'satoshis' })
-    case 'BTC': return Maybe.Just({ amount: fromUnit(amount, 100000000), symbol: 'satoshis' })
-    default: return Maybe.Just(amount)
-  }
+  const ratio = getRatio(network, unit)
+  return ratio ? Maybe.Just({ amount: toUnit(amount, ratio), symbol: unit }) : Maybe.Nothing()
 }
 
 // convertFromUnit :: String -> Number -> String -> Maybe (Number)
 const convertFromUnit = (network, amount, unit) => {
-  switch (network) {
-    case 'bitcoin': return convertBitcoinFromUnit(amount, unit)
-    default: return Maybe.Nothing()
-  }
+  const ratio = getRatio(network, unit)
+  const baseUnit = getSymbol(network, 'base')
+  return ratio ? Maybe.Just({ amount: fromUnit(amount, ratio), symbol: baseUnit }) : Maybe.Nothing()
 }
 
+// Display a coin :: String -> Number -> String -> Maybe (Number)
 const displayCoin = (network, amount, unit) => {
   const decimals = path([network, unit, 'decimals'], scale)
-  return (type(amount) === 'Number' && decimals && unit) ? Maybe.fromNullable(`${amount.toFixed(decimals)} ${unit}`) : Maybe.Nothing()
+  const coin = convertToUnit(network, amount, unit).getOrElse('')
+  return coin ? Maybe.fromNullable(`${coin.amount.toFixed(decimals)} ${coin.symbol}`) : Maybe.Nothing()
 }
 
-const displayFiat = (amount, currency) => {
-  return (type(amount) === 'Number' && currency) ? Maybe.Just(`${amount.toFixed(2)} ${currency}`) : Maybe.Nothing()
+// Display a coin :: String -> Number -> Object -> Maybe (Number)
+const displayFiat = (network, amount, currency, rates) => {
+  const fiat = convertCoinToFiat(network, amount, currency, rates).getOrElse('')
+  return fiat ? Maybe.fromNullable(`${fiat.amount.toFixed(2)} ${fiat.symbol}`) : Maybe.Nothing()
 }
 
 // convertFromUnit :: String -> Number
@@ -66,16 +47,7 @@ const coinScale = network => {
   }
 }
 
-const scale = {
-  bitcoin: {
-    BTC: { name: 'bitcoin', ratio: 1, decimals: 8 },
-    MBC: { name: 'milli-bitcoin', ratio: 1000, decimals: 5 },
-    UBC: { name: 'micro-bitcoin', ratio: 1000000, decimals: 2 },
-    base: { name: 'satoshi', ratio: 100000000, decimals: 0 }
-  }
-}
-
-// convertToCurrency :: String -> Number -> String -> Array -> Maybe({value: Number, symbol:'$'})
+// convertToCurrency :: String -> Number -> String -> Object -> Maybe({value: Number, symbol:'$'})
 const convertCoinToFiat = (network, amount, currency, rates) => {
   const scaleM = Maybe.fromNullable(coinScale(network))
   const dataM = map(x => Maybe.fromNullable(path([currency, x], rates)), ['last', 'symbol'])
@@ -86,7 +58,7 @@ const convertCoinToFiat = (network, amount, currency, rates) => {
          }))
 }
 
-// convertToCoin :: String -> Number -> String -> Array -> Maybe({value: Number)
+// convertToCoin :: String -> Number -> String -> Object -> Maybe({value: Number)
 const convertFiatToCoin = (network, amount, currency, rates) => {
   const scaleM = Maybe.fromNullable(coinScale(network))
   const ratioM = Maybe.fromNullable(path([currency, 'last'], rates))
@@ -96,6 +68,24 @@ const convertFiatToCoin = (network, amount, currency, rates) => {
          }))
 }
 
+const scale = {
+  bitcoin: {
+    BTC: { name: 'bitcoin', symbol: 'BTC', ratio: 0.00000001, decimals: 8 },
+    MBC: { name: 'milli-bitcoin', symbol: 'mBTC', ratio: 0.00001, decimals: 5 },
+    UBC: { name: 'micro-bitcoin', symbol: 'μBTC', ratio: 0.01, decimals: 2 },
+    base: { name: 'satoshi', symbol: 'SAT', ratio: 1, decimals: 0 }
+  }
+}
+
+// getRatio :: Number -> Number -> Maybe (Number)
+const getRatio = (network, unit) => path([network, unit, 'ratio'], scale)
+
+// getDecimals :: Number -> Number -> Maybe (Number)
+const getDecimals = (network, unit) => path([network, unit, 'decimals'], scale)
+
+// getDecimals :: Number -> Number -> Maybe (Number)
+const getSymbol = (network, unit) => path([network, unit, 'symbol'], scale)
+
 export {
   convertCoinToFiat,
   convertFiatToCoin,
@@ -103,5 +93,7 @@ export {
   convertFromUnit,
   displayCoin,
   displayFiat,
-  coinScale
+  getRatio,
+  getDecimals,
+  getSymbol
 }

@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { assoc, map } from 'ramda'
+import { map } from 'ramda'
 
 import { actions, selectors } from 'data'
-import { renameKeys } from 'services/RamdaCookingBook'
+import { displayCoin, displayFiat } from 'services/ConversionService'
 import { SelectBox } from 'components/generic/Form'
 
 class SelectBoxAddressesContainer extends React.Component {
@@ -30,14 +30,26 @@ SelectBoxAddressesContainer.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const rawAccounts = selectors.core.common.getAccountsBalances(state)
-  const accounts = [...map(renameKeys({title: 'text', address: 'value'}))([...rawAccounts])]
-  const rawLegacyAddresses = map(assoc('group', 'Imported Addresses'), selectors.core.common.getAddressesBalances(state))
-  const legacyAddresses = [...map(renameKeys({title: 'text', address: 'value'}))([...rawLegacyAddresses])]
+  const network = 'bitcoin'
+  const coinDisplayed = selectors.ui.getCoinDisplayed(state)
+  const unit = selectors.core.settings.getBtcCurrency(state)
+  const currency = selectors.core.settings.getCurrency(state)
+
+  const transformAddresses = items => map(item => {
+    const amount = coinDisplayed ? displayCoin(network, item.amount, unit).getOrElse('N/A') : displayFiat(item.amount, currency).getOrElse('N/A')
+    return { text: `${item.title} (${amount})`, value: item.address }
+  }, items)
+
+  const accounts = transformAddresses(selectors.core.common.getAccountsBalances(state))
+  const legacyAddresses = transformAddresses(selectors.core.common.getAddressesBalances(state))
 
   return {
     accounts,
-    legacyAddresses
+    legacyAddresses,
+    network,
+    unit,
+    currency,
+    coinDisplayed
   }
 }
 

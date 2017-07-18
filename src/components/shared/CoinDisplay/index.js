@@ -2,16 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { convertToUnit, displayCoin } from 'services/ConversionService'
+import { displayCoin } from 'services/ConversionService'
 import { selectors } from 'data'
 import { Typography } from 'components/generic/Typography'
 
 const CoinDisplay = ({ ...props, children }) => {
   const { network, unit, ...rest } = props
-  const coin = convertToUnit(network, children, unit).getOrElse({})
-  const amount = displayCoin(network, coin.amount, coin.symbol).getOrElse('N/A')
+  console.log(network, children, unit)
+  const coin = displayCoin(network, children, unit).getOrElse('N/A')
+  console.log(coin)
 
-  return <Typography {...rest}>{amount}</Typography>
+  return <Typography {...rest}>{coin}</Typography>
 }
 
 CoinDisplay.propTypes = {
