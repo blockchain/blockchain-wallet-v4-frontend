@@ -14,6 +14,8 @@ class FirstStepContainer extends React.Component {
       feeEditDisplayed: false,
       addressesSelectDisplayed: false
     }
+
+    this.handleSelectFrom = this.handleSelectFrom.bind(this)
     this.handleClickAddressesSelect = this.handleClickAddressesSelect.bind(this)
     this.handleToggleAddressesSelect = this.handleToggleAddressesSelect.bind(this)
     this.handleToggleFeeEdit = this.handleToggleFeeEdit.bind(this)
@@ -22,6 +24,10 @@ class FirstStepContainer extends React.Component {
     this.handleQrCodeScan = this.handleQrCodeScan.bind(this)
     this.handleQrCodeError = this.handleQrCodeError.bind(this)
     this.handleQrCodeBack = this.handleQrCodeBack.bind(this)
+  }
+
+  handleSelectFrom (value) {
+    this.props.paymentActions.getUnspents(value)
   }
 
   handleClickAddressesSelect () {
@@ -57,7 +63,8 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    return <FirstStep
+    return (<FirstStep
+      onSelectFrom={this.handleSelectFrom}
       addressesSelectDisplayed={this.state.addressesSelectDisplayed}
       feeEditDisplayed={this.state.feeEditDisplayed}
       handleClickAddressesSelect={this.handleClickAddressesSelect}
@@ -65,11 +72,12 @@ class FirstStepContainer extends React.Component {
       handleToggleFeeEdit={this.handleToggleFeeEdit}
       handleToggleQrCodeCapture={this.handleToggleQrCodeCapture}
       {...this.props}
-    />
+    />)
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  paymentActions: bindActionCreators(actions.core.payment, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
