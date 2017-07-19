@@ -1,22 +1,16 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { NavLink } from 'react-router-dom'
+import { RouterLink } from 'components/generic/Link'
+import { Text, TextGroup } from 'components/generic/Text'
 
-const title = (
-  <div>
-    <FormattedMessage id='scenes.faq.item1.question' defaultMessage='How do I buy bitcoin?' />
-  </div>
-)
+const title = <Text id='scenes.faq.item1.question' text='How do I buy bitcoin?' />
 
 const description = (
-  <div>
-    <FormattedMessage id='scenes.faq.item1.answer' defaultMessage='It’s simple, secure and seamless.' />
-    <NavLink to='/buy-sell'>
-      <FormattedMessage id='scenes.faq.item1.clickhere' defaultMessage='Click here to get started' />
-    </NavLink>
-  </div>
+  <TextGroup>
+    <Text id='scenes.faq.item1.answer' text='It’s simple, secure and seamless.' altFont light />
+    <RouterLink to='/buy-sell'>
+      <Text id='scenes.faq.item1.clickhere' text='Click here to get started' altFont light cyan />
+    </RouterLink>
+  </TextGroup>
 )
 
-export default {
-  title, description
-}
+export default { title, description }

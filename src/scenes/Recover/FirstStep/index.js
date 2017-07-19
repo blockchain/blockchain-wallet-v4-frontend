@@ -24,9 +24,6 @@ const Header = styled.div`
 const Footer = styled.div`
   padding: 5px 0;
 `
-const TextGroupRed = styled(TextGroup)`
-  & > * { color: #CA3A3C; }
-`
 
 const FirstStep = (props) => {
   const { next, submitting, invalid } = props
@@ -40,10 +37,10 @@ const FirstStep = (props) => {
       <Text id='scenes.recover.firststep.explain' text='Recover bitcoins from your lost wallet' small light altFont />
       <Separator />
       <Form>
-        <TextGroupRed>
-          <Text id='scenes.recover.firststep.warning' text='You should always pair or login if you have access to your Wallet ID and password.' smaller medium />
-          <Text id='scenes.recover.firststep.warning2' text='Recovering your funds will create a new Wallet ID.' smaller medium />
-        </TextGroupRed>
+        <TextGroup>
+          <Text id='scenes.recover.firststep.warning' text='You should always pair or login if you have access to your Wallet ID and password.' smaller medium red />
+          <Text id='scenes.recover.firststep.warning2' text='Recovering your funds will create a new Wallet ID.' smaller medium red />
+        </TextGroup>
         <Text id='scenes.recover.firststep.passphrase' text='Your recovery phrase' small medium />
         <Field name='passphrase' validate={[required, validMmemonic]} component={TextBox} />
         <HelpBlock>

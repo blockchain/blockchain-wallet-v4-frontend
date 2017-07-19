@@ -1,23 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
+import { Button } from 'components/generic/Button'
+import { Text } from 'components/generic/Text'
 import BasicSecurity from './BasicSecurity'
 import AdvancedSecurity from './AdvancedSecurity'
 
+const Wrapper = styled.section`
+  padding: 30px;
+  box-sizing: border-box;
+`
+const ButtonContainer = styled.div`
+  padding: 10px 0;
+`
+
 const SecuritySettings = (props) => {
   return (
-    <section>
+    <Wrapper>
       <BasicSecurity />
-      <button className='button-empty margin-vertical-10' onClick={props.clickAdvancedSecurity}>
-        <FormattedMessage id='scenes.settings.advancedsettings' defaultMessage='Advanced settings' />
-      </button>
-      { props.advancedSecurityDisplayed ? (
-        <AdvancedSecurity />
-      ) : (
-        <div />
-      )}
-    </section>
+      <ButtonContainer>
+        <Button onClick={props.clickAdvancedSecurity}>
+          <Text id='scenes.settings.advancedsettings' text='Advanced settings' small light />
+        </Button>
+      </ButtonContainer>
+      { props.advancedSecurityDisplayed ? <AdvancedSecurity /> : <div /> }
+    </Wrapper>
   )
 }
 

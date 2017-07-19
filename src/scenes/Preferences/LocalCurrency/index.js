@@ -1,23 +1,24 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 
-const description = (
-  <div className='d-flex flex-column justify-item-start'>
-    <div className='h6'>
-      <FormattedMessage id='scenes.preferences.currency.title' defaultMessage='Local currency' />
-    </div>
-    <div>
-      <FormattedMessage id='scenes.preferences.currency.description' defaultMessage='Select your local currency.' />
-    </div>
-  </div>
-)
+import { Text } from 'components/generic/Text'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
-const settings = (
-  <div className='d-flex flex-column justify-item-start align-items-end'>
-    [Currency Dropdown]
-  </div>
-)
-
-export default {
-  description, settings
+const LocalCurrency = (props) => {
+  return (
+    <SettingContainer>
+      <SettingSummary>
+        <SettingHeader>
+          <Text id='scenes.preferences.currency.title' text='Local currency' capitalize />
+        </SettingHeader>
+        <SettingDescription>
+          <Text id='scenes.preferences.currency.description' text='Select your local currency.' altFont light />
+        </SettingDescription>
+      </SettingSummary>
+      <SettingComponent>
+        [Local Currency Dropdown]
+      </SettingComponent>
+    </SettingContainer>
+  )
 }
+
+export default LocalCurrency

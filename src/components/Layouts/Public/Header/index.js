@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 
 import logo from 'img/blockchain-vector.svg'
 
-const HeaderWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -13,17 +13,17 @@ const HeaderWrapper = styled.div`
   width: 100%;
   height: 60px;
 `
-const HeaderLogo = styled.img.attrs({ src: logo })`
+const Logo = styled.img.attrs({ src: logo })`
   height: 20px;
 `
 
 const Header = () => {
   return (
-    <HeaderWrapper>
+    <Wrapper>
       <NavLink to='/'>
-        <HeaderLogo />
+        <Logo />
       </NavLink>
-    </HeaderWrapper>
+    </Wrapper>
   )
 }
 

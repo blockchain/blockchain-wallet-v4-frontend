@@ -1,28 +1,31 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 
-const description = (
-  <div className='d-flex flex-column justify-item-start'>
-    <div className='h6'>
-      <FormattedMessage id='scenes.preferences.mobile.title' defaultMessage='Mobile number' />
-    </div>
-    <div className='flex-row'>
-      <FormattedMessage id='scenes.preferences.mobile.description' defaultMessage='Your mobile phone can be used to enable two-factor authentication, ' />
-      <FormattedMessage id='scenes.preferences.mobile.description' defaultMessage='helping to secure your wallet from unauthorized access, ' />
-      <FormattedMessage id='scenes.preferences.mobile.description' defaultMessage='and to send bitcoin payment alerts when you receive funds.' />
-    </div>
-  </div>
-)
+import { SecondaryButton } from 'components/generic/Button'
+import { Text } from 'components/generic/Text'
+import { Typography } from 'components/generic/Typography'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
-const settings = (
-  <div className='d-flex flex-column justify-item-start align-items-end'>
-    <span className='h6'>+447800000000</span>
-    <button className='button-secondary'>
-      <FormattedMessage id='scenes.preferences.mobile.change' defaultMessage='Change' />
-    </button>
-  </div>
-)
-
-export default {
-  description, settings
+const MobileNumber = (props) => {
+  return (
+    <SettingContainer>
+      <SettingSummary>
+        <SettingHeader>
+          <Text id='scenes.preferences.mobile.title' text='Mobile number' capitalize />
+        </SettingHeader>
+        <SettingDescription>
+          <Text id='scenes.preferences.mobile.description' text='Your mobile phone can be used to enable two-factor authentication,' altFont light/>
+          <Text id='scenes.preferences.mobile.description' text='helping to secure your wallet from unauthorized access,' altFont light/>
+          <Text id='scenes.preferences.mobile.description' text='and to send bitcoin payment alerts when you receive funds.' altFont light/>
+        </SettingDescription>
+      </SettingSummary>
+      <SettingComponent>
+        <Typography>+447800000000</Typography>
+        <SecondaryButton>
+          <Text id='scenes.preferences.mobile.change' text='Change' small light white />
+        </SecondaryButton>
+      </SettingComponent>
+    </SettingContainer>
+  )
 }
+
+export default MobileNumber

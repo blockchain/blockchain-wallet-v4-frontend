@@ -1,23 +1,24 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 
-const description = (
-  <div className='d-flex flex-column justify-item-start'>
-    <div className='h6'>
-      <FormattedMessage id='scenes.preferences.themes.title' defaultMessage='Themes' />
-    </div>
-    <div>
-      <FormattedMessage id='scenes.preferences.themes.description' defaultMessage='Try out different themes for the wallet.' />
-    </div>
-  </div>
-)
+import { Text } from 'components/generic/Text'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
-const settings = (
-  <div className='d-flex flex-column justify-item-start align-items-end'>
-    [Themes Dropdown]
-  </div>
-)
-
-export default {
-  description, settings
+const Themes = (props) => {
+  return (
+    <SettingContainer>
+      <SettingSummary>
+        <SettingHeader>
+          <Text id='scenes.preferences.themes.title' text='Themes' capitalize />
+        </SettingHeader>
+        <SettingDescription>
+          <Text id='scenes.preferences.themes.description' text='Try out different themes for the wallet.' altFont light />
+        </SettingDescription>
+      </SettingSummary>
+      <SettingComponent>
+        [Themes Dropdown]
+      </SettingComponent>
+    </SettingContainer>
+  )
 }
+
+export default Themes

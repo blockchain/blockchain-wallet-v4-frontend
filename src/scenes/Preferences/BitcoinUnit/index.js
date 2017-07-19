@@ -1,23 +1,24 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 
-const description = (
-  <div className='d-flex flex-column justify-item-start'>
-    <div className='h6'>
-      <FormattedMessage id='scenes.preferences.bitcoinunit.title' defaultMessage='Bitcoin Unit' />
-    </div>
-    <div>
-      <FormattedMessage id='scenes.preferences.bitcoinunit.description' defaultMessage='Adjust the precision you would prefer bitcoin values to be displayed in.' />
-    </div>
-  </div>
-)
+import { Text } from 'components/generic/Text'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
-const settings = (
-  <div className='d-flex flex-column justify-item-start align-items-end'>
-    [BitcoinUnit Dropdown]
-  </div>
-)
-
-export default {
-  description, settings
+const BitcoinUnit = (props) => {
+  return (
+    <SettingContainer>
+      <SettingSummary>
+        <SettingHeader>
+          <Text id='scenes.preferences.unit.title' text='Bitcoin unit' capitalize />
+        </SettingHeader>
+        <SettingDescription>
+          <Text id='scenes.preferences.unit.description' text='Adjust the precision you would prefer bitcoin values to be displayed in.' altFont light />
+        </SettingDescription>
+      </SettingSummary>
+      <SettingComponent>
+        [Bitcoin Unit Dropdown]
+      </SettingComponent>
+    </SettingContainer>
+  )
 }
+
+export default BitcoinUnit
