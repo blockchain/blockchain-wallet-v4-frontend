@@ -8,9 +8,7 @@ import { Typography } from 'components/generic/Typography'
 
 const CoinDisplay = ({ ...props, children }) => {
   const { network, unit, ...rest } = props
-  console.log(network, children, unit)
   const coin = displayCoin(network, children, unit).getOrElse('N/A')
-  console.log(coin)
 
   return <Typography {...rest}>{coin}</Typography>
 }

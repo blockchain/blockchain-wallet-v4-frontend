@@ -2,6 +2,8 @@ import * as AT from './actionTypes'
 
 export const closeModal = () => ({ type: AT.CLOSE_MODAL })
 
+export const showModalAutoDisconnection = (duration) => ({ type: AT.SHOW_MODAL_AUTO_DISCONNECTION, payload: { duration } })
+
 export const showModalRequestBitcoin = () => ({ type: AT.SHOW_MODAL_REQUEST_BITCOIN })
 
 export const showModalSendBitcoin = () => ({ type: AT.SHOW_MODAL_SEND_BITCOIN })
