@@ -30,11 +30,11 @@ const ButtonAmount = (props) => {
       `
   }
 
-  return props.bitcoinDisplayed
-    ? <Component onClick={props.clickBitcoinDisplay} fullwidth>
+  return props.coinDisplayed
+    ? <Component onClick={props.clickCoinDisplay} fullwidth>
       <CoinDisplay light white>{props.transaction.amount}</CoinDisplay>
     </Component>
-    : <Component onClick={props.clickBitcoinDisplay} fullwidth>
+    : <Component onClick={props.clickCoinDisplay} fullwidth>
       <CurrencyDisplay light white>{props.transaction.amount}</CurrencyDisplay>
     </Component>
 }

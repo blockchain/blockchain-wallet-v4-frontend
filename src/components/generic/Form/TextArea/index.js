@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const TextAreaContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: ${props => props.fullWidth ? '100%' : 'auto'};
-  min-height: 100px;
+  height: auto;
 `
 const TextAreaInput = styled.textarea`
   display: block;
   width: 100%;
-  min-height: 40px;
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
@@ -25,11 +25,15 @@ const TextAreaInput = styled.textarea`
   user-select: text;
   resize: none;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
-  
+
   &::-webkit-input-placeholder { color: #A8A8A8; }
 `
 const TextAreaError = styled.label`
+  position: absolute;
+  top: -18px;
+  right: 0;
   display: block;
+  height: 15px;
   font-size: 13px;
   font-weight: 300;
   color: #FF0000;

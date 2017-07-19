@@ -1,11 +1,43 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-class RequestBitcoinContainer extends React.Component {
+import { wizardForm } from 'components/providers/FormProvider'
+import { actions } from 'data'
+import FirstStep from './FirstStep'
+
+class SendBitcoinContainer extends React.Component {
   render () {
-    return (
-      <div />
-    )
+    const { step, ...rest } = this.props
+
+    switch (step) {
+      default:
+        return <FirstStep {...rest} />
+    }
   }
 }
 
-export default RequestBitcoinContainer
+const mapStateToProps = (state, ownProps) => {
+  const selector = formValueSelector('sendBitcoin')
+
+  return {
+    from: selector(state, 'from'),
+    to: selector(state, 'to'),
+    amount: selector(state, 'amount'),
+    message: selector(state, 'message'),
+    fee: selector(state, 'fee')
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  transactionActions: bindActionCreators(actions.core.transactions, dispatch)
+})
+
+const enhance = compose(
+  wizardForm('sendBitcoin', 2),
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(SendBitcoinContainer)

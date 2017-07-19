@@ -3,14 +3,14 @@ import Maybe from 'data.maybe'
 
 const testCases = [
   {
-    coin: 'bitcoin',
+    network: 'bitcoin',
     amount: 100000000,
     currency: 'EUR',
     rates: { 'GBP': {'last': 2158.18} },
     value: Maybe.Nothing()
   },
   {
-    coin: 'bitcoin',
+    network: 'bitcoin',
     amount: 100000000,
     currency: 'GBP',
     rates: { 'GBP': {'last': 2158.18} },
@@ -20,6 +20,6 @@ const testCases = [
 
 testCases.forEach(function (testCase) {
   test('Converts correct currency amount', function () {
-    expect(convertToCurrency(testCase.coin, testCase.amount, testCase.currency, testCase.rates)).toEqual(testCase.value)
+    expect(convertToCurrency(testCase.network, testCase.amount, testCase.currency, testCase.rates)).toEqual(testCase.value)
   })
 })

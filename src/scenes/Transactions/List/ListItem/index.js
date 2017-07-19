@@ -10,14 +10,14 @@ class TransactionListContainer extends React.Component {
     super(props)
     this.state = { detailsDisplayed: false }
     this.handleClickDetail = this.handleClickDetail.bind(this)
-    this.handleClickBitcoinDisplay = this.handleClickBitcoinDisplay.bind(this)
+    this.handleClickCoinDisplay = this.handleClickCoinDisplay.bind(this)
   }
 
   handleClickDetail () {
     this.setState({ detailsDisplayed: !this.state.detailsDisplayed })
   }
 
-  handleClickBitcoinDisplay () {
+  handleClickCoinDisplay () {
     this.props.actions.toggleCurrencyDisplay()
   }
 
@@ -27,8 +27,8 @@ class TransactionListContainer extends React.Component {
         transaction={this.props.transaction}
         detailsDisplayed={this.state.detailsDisplayed}
         clickDetails={this.handleClickDetail}
-        bitcoinDisplayed={this.props.bitcoinDisplayed}
-        clickBitcoinDisplay={this.handleClickBitcoinDisplay}
+        coinDisplayed={this.props.coinDisplayed}
+        clickCoinDisplay={this.handleClickCoinDisplay}
       />
     )
   }
@@ -36,7 +36,7 @@ class TransactionListContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    bitcoinDisplayed: selectors.ui.getBitcoinDisplayed(state),
+    coinDisplayed: selectors.ui.getCoinDisplayed(state),
     balance: selectors.core.info.getBalance(state)
   }
 }

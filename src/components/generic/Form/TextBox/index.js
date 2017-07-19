@@ -2,12 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 
 const TextBoxContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: ${props => props.fullWidth ? '100%' : 'auto'};
-  height: 55px;
+  width: 100%;
+  height: auto;
 `
 const TextBoxInput = styled.input.attrs({
   type: 'text'
@@ -30,7 +31,11 @@ const TextBoxInput = styled.input.attrs({
   &::-webkit-input-placeholder { color: #A8A8A8; }
 `
 const TextBoxError = styled.label`
+  position: absolute;
+  top: -18px;
+  right: 0;
   display: block;
+  height: 15px;
   font-size: 13px;
   font-weight: 300;
   color: #FF0000;

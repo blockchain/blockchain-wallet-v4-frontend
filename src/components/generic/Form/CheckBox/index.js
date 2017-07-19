@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const CheckBoxContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -30,7 +31,11 @@ const CheckBoxLabelContainer = styled.div`
   align-items: center;
 `
 const CheckBoxError = styled.label`
+  position: absolute;
+  top: -18px;
+  right: 0;
   display: block;
+  height: 15px;
   font-size: 13px;
   font-weight: 300;
   color: #FF0000;

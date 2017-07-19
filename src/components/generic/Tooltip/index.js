@@ -22,20 +22,21 @@ const TooltipIcon = styled.div`
 const TooltipBox = styled(TextGroup)`
   position: absolute;
   bottom: 150%;
-  left: -140px;
-  width: 300px;
+  left: -115px;
+  width: 250px;
   display: ${props => props.displayed ? 'block' : 'none'};
   background-color: #F5F7F9;
   color: #E0E0E0;
   border: 1px solid #E0E0E0;
   border-radius: 5px;
   padding: 5px;
+  cursor: pointer;
 
   &:before {
     content: '';
     display: block;  
     position: absolute;
-    left: 140px;
+    left: 115px;
     top: 100%;
     width: 0;
     height: 0;
@@ -47,7 +48,7 @@ const TooltipBox = styled(TextGroup)`
     content: '';
     display: block;  
     position: absolute;
-    left: 141px;
+    left: 116px;
     top: 100%;
     width: 0;
     height: 0;
@@ -72,7 +73,7 @@ class Tooltip extends React.Component {
     return (
       <TooltipWrapper>
         <TooltipIcon displayed={this.state.displayed} onClick={this.handleClick}>{icon}</TooltipIcon>
-        <TooltipBox displayed={this.state.displayed}>{this.props.children}</TooltipBox>
+        <TooltipBox displayed={this.state.displayed} onClick={this.handleClick}>{this.props.children}</TooltipBox>
       </TooltipWrapper>
     )
   }

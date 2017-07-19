@@ -1,29 +1,30 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
+import { Text } from 'components/generic/Text'
 import InfoWell from 'components/shared/InfoWell'
-import SettingRow from 'components/shared/SettingRow'
+import ActivityLogging from './ActivityLogging'
+import APIAccess from './APIAccess'
+import IPWhitelist from './IPWhitelist'
+import LoginIpRestriction from './LoginIpRestriction'
+import PasswordStretching from './PasswordStretching'
+import WalletAccessTor from './WalletAccessTor'
 
-import ActivityLogging from '../ActivityLogging'
-import APIAccess from '../APIAccess'
-import IPWhitelist from '../IPWhitelist'
-import LoginIpRestriction from '../LoginIpRestriction'
-import PasswordStretching from '../PasswordStretching'
-import WalletAccessTor from '../WalletAccessTor'
+const Wrapper = styled.div``
 
 const AdvancedSecurity = () => (
-  <div>
+  <Wrapper>
     <InfoWell>
-      <FormattedMessage id='scenes.settings.advancedsecurity.explain' defaultMessage='Advanced security: Further customize your security settings for more granular access control and tracking.' />
-      <FormattedMessage id='scenes.settings.advancedsecurity.explain2' defaultMessage='Do not modify these settings unless you know what you are doing.' />
+      <Text id='scenes.settings.advancedsecurity.explain' text='Advanced security: Further customize your security settings for more granular access control and tracking.' small />
+      <Text id='scenes.settings.advancedsecurity.explain2' text='Do not modify these settings unless you know what you are doing.' small />
     </InfoWell>
-    <SettingRow component={ActivityLogging} />
-    <SettingRow component={LoginIpRestriction} />
-    <SettingRow component={IPWhitelist} />
-    <SettingRow component={WalletAccessTor} />
-    <SettingRow component={PasswordStretching} />
-    <SettingRow component={APIAccess} />
-  </div>
+    <ActivityLogging />
+    <LoginIpRestriction />
+    <IPWhitelist />
+    <WalletAccessTor />
+    <PasswordStretching />
+    <APIAccess />
+  </Wrapper>
 )
 
 export default AdvancedSecurity

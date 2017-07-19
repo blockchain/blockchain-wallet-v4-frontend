@@ -5,6 +5,8 @@ const required = value => value ? undefined : 'Required'
 
 const validNumber = value => isNumeric(value) ? undefined : 'Invalid number'
 
+const requiredNumber = value => isNumeric(value) && value > 0 ? undefined : 'Invalid number'
+
 const validPassword = value => passwordStrongness(value) > 5 ? undefined : 'Not strong enough'
 
 const validEmail = value => isEmail(value) ? undefined : 'Invalid email address'
@@ -13,4 +15,4 @@ const validMmemonic = value => bip39.validateMnemonic(value) ? undefined : 'Inva
 
 const validWalletId = value => isGuid(value) ? undefined : 'Invalid wallet identifier'
 
-export { required, validNumber, validPassword, validEmail, validMmemonic, validWalletId }
+export { required, requiredNumber, validNumber, validPassword, validEmail, validMmemonic, validWalletId }

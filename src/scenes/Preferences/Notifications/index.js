@@ -1,23 +1,24 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 
-const description = (
-  <div className='d-flex flex-column justify-item-start'>
-    <div className='h6'>
-      <FormattedMessage id='scenes.preferences.notifications.title' defaultMessage='Notifications' />
-    </div>
-    <div>
-      <FormattedMessage id='scenes.preferences.notifications.description' defaultMessage='Get notified when you receive bitcoin.' />
-    </div>
-  </div>
-)
+import { Text } from 'components/generic/Text'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
-const settings = (
-  <div className='d-flex flex-column justify-item-start align-items-end'>
-    [Notification Configuration]
-  </div>
-)
-
-export default {
-  description, settings
+const Notifications = (props) => {
+  return (
+    <SettingContainer>
+      <SettingSummary>
+        <SettingHeader>
+          <Text id='scenes.preferences.notifications.title' text='Notifications' capitalize />
+        </SettingHeader>
+        <SettingDescription>
+          <Text id='scenes.preferences.notifications.description' text='Get notified when you receive bitcoin.' altFont light />
+        </SettingDescription>
+      </SettingSummary>
+      <SettingComponent>
+        [Notifications Checkboxes]
+      </SettingComponent>
+    </SettingContainer>
+  )
 }
+
+export default Notifications

@@ -3,7 +3,7 @@ import { assign } from 'services/RamdaCookingBook'
 
 const INITIAL_STATE = {
   advancedSecurityDisplayed: false,
-  bitcoinDisplayed: true,
+  coinDisplayed: true,
   dropdownLanguageDisplayed: false,
   headerMenuDisplayed: false,
   navigationDisplayed: false,
@@ -22,7 +22,7 @@ const ui = (state = INITIAL_STATE, action) => {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: !state.securityCenterMenuDisplayed })
     }
     case AT.TOGGLE_CURRENCY_DISPLAY: {
-      return assign(INITIAL_STATE, { bitcoinDisplayed: !state.bitcoinDisplayed })
+      return assign(INITIAL_STATE, { coinDisplayed: !state.coinDisplayed })
     }
     case AT.TOGGLE_HEADER_MENU: {
       return assign(INITIAL_STATE, { headerMenuDisplayed: !state.headerMenuDisplayed })

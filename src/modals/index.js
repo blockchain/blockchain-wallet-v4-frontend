@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+import AutoDisconnection from './AutoDisconnection'
 import QRCode from './QRCode'
+import QRCodeCapture from './QRCodeCapture'
 import RequestBitcoin from './RequestBitcoin'
 import SendBitcoin from './SendBitcoin'
 
@@ -11,10 +13,16 @@ class Modals extends React.Component {
   render () {
     const { type, ...rest } = this.props
     switch (type) {
-      case 'RequestBitcoin':
-        return <RequestBitcoin {...rest} />
+      case 'AutoDisconnection':
+        return <AutoDisconnection {...rest} />
       case 'QRCode':
         return <QRCode {...rest} />
+      case 'QRCodeCapture':
+        return <QRCodeCapture {...rest} />
+      case 'RequestBitcoin':
+        return <RequestBitcoin {...rest} />
+      case 'SendBitcoin':
+        return <SendBitcoin {...rest} />
       default:
         return <RequestBitcoin {...rest} />
     }

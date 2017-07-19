@@ -21,7 +21,7 @@ const Footer = styled.div`
 
 const QRCode = (props) => {
   const { show, payload } = props
-  const { address, back } = payload
+  const { address, handleBack } = payload
   const bitcoinAddress = `bitcoin:${address}`
 
   return (
@@ -31,9 +31,9 @@ const QRCode = (props) => {
         <QRCodeReact value={bitcoinAddress} size={256} />
       </QRCodeContainer>
       <CopyClipboard address={bitcoinAddress} />
-      { back &&
+      { handleBack &&
       <Footer>
-        <Link onClick={back}>
+        <Link onClick={handleBack}>
           <Text id='modals.qrcode.back' text='Go back' small light cyan />
         </Link>
       </Footer>
@@ -50,7 +50,7 @@ QRCode.propTypes = {
   show: PropTypes.bool.isRequired,
   payload: PropTypes.shape({
     address: PropTypes.string.isRequired,
-    back: PropTypes.func
+    handleBack: PropTypes.func
   })
 }
 

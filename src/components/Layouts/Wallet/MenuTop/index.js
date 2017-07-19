@@ -18,7 +18,7 @@ class MenuTopContainer extends React.Component {
   }
 
   openSendBitcoin () {
-    // this.props.actions.showModalSendBitcoinStep1()
+    this.props.modalActions.showModalSendBitcoin()
   }
 
   openRequestBitcoin () {
@@ -39,7 +39,7 @@ MenuTopContainer.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-  bitcoinDisplayed: selectors.ui.getBitcoinDisplayed(state),
+  coinDisplayed: selectors.ui.getCoinDisplayed(state),
   balance: selectors.core.info.getBalance(state)
 })
 

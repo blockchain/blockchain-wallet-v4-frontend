@@ -1,36 +1,43 @@
 import { contains } from 'ramda'
-import { actions, actionTypes } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 
-let autoDisconnectionDefaultValue = 720
-let autoDisconnectionNotificationDefaultValue = 120
-let autoDisconnectionCounter = autoDisconnectionDefaultValue
-let autoDisconnectionInterval
+let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
 let blackListedActivityTypes = []
 
 const AuthMiddleware = store => next => action => {
-  // Once we login successfully, we start the autodisconnection timer
-  if (action.type === actionTypes.auth.LOGIN_SUCCESS) {
-    if (autoDisconnectionInterval) { clearInterval(autoDisconnectionInterval) }
-    autoDisconnectionInterval = setInterval(refreshCounter(store), 1000)
+  // We start the timer
+  if (action.type === actionTypes.auth.LOGOUT_START_TIMER) {
+    counter = timer = 5
+    startTimer(store)
   }
-  // We don't refresh the disconnection timer if the action is in the blacklist
-  if (!contains(action.type, blackListedActivityTypes)) {
-    autoDisconnectionCounter = autoDisconnectionDefaultValue
-  }
+  // We reset the timer
+  if (action.type === actionTypes.auth.LOGOUT_RESET_TIMER) { resetTimer() }
+  // We reset the timer if the action is not in the blacklist
+  if (!contains(action.type, blackListedActivityTypes)) { resetTimer() }
 
   return next(action)
 }
 
-const refreshCounter = (store) => () => {
-  if (autoDisconnectionCounter === autoDisconnectionNotificationDefaultValue) {
-    store.dispatch(actions.auth.autoLogoutStart())
+const startTimer = (store) => {
+  if (interval) { clearInterval(interval) }
+  interval = setInterval(refreshTimer(store), 1000)
+}
+
+const resetTimer = () => {
+  counter = timer
+}
+
+const stopTimer = () => {
+  if (interval) { clearInterval(interval) }
+}
+
+const refreshTimer = store => () => {
+  if (counter === 0) {
+    store.dispatch(actions.modals.showModalAutoDisconnection(timer))
+    stopTimer()
   }
-  if (autoDisconnectionCounter === 0) {
-    store.dispatch(actions.auth.logoutStart())
-    clearInterval(autoDisconnectionInterval)
-  }
-  autoDisconnectionCounter--
+  counter--
 }
 
 export default AuthMiddleware

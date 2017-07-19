@@ -1,31 +1,41 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
-const description = (
-  <div className='d-flex flex-column justify-item-start'>
-    <div className='h6'>
-      <FormattedMessage id='scenes.info.pairingcode.title' defaultMessage='Pairing code' />
-    </div>
-    <div>
-      <FormattedMessage id='scenes.info.pairingcode.description' defaultMessage='Scan the code (click on `Show Pairing Code`) with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet.' />
-      <FormattedMessage id='scenes.info.pairingcode.description2' defaultMessage='Download our mobiles applications below' />
-    </div>
-    <div>
-      <a href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309'>iOS</a>
-      <a href='https://play.google.com/store/apps/details?id=piuk.blockchain.android'>Android</a>
-    </div>
-    <div className='text-danger'>
-      <FormattedMessage id='scenes.info.pairingcode.warning' defaultMessage='Do not share your Pairing Code with others.' />
-    </div>
-  </div>
-)
+import { SecondaryButton } from 'components/generic/Button'
+import { Text } from 'components/generic/Text'
+import { AppleStore, GooglePlay } from 'components/shared/Badges'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
-const settings = (
-  <button className='d-flex button-secondary'>
-    <FormattedMessage id='scenes.info.pairingcode.show' defaultMessage='Show pairing code' />
-  </button>
-)
+const BadgesContainer = styled.div`
+  display: block;
+  padding: 10px 0;
+  & > * { display:inline; margin-right: 5px; }
+`
 
-export default {
-  description, settings
+const PairingCode = (props) => {
+  return (
+    <SettingContainer>
+      <SettingSummary>
+        <SettingHeader>
+          <Text id='scenes.info.pairingcode.title' text='Mobile app pairing code' capitalize />
+        </SettingHeader>
+        <SettingDescription>
+          <Text id='scenes.info.pairingcode.description' text="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet." altFont light />
+          <Text id='scenes.info.pairingcode.description2' text='Download our mobiles applications below' altFont light />
+          <Text id='scenes.info.pairingcode.warning' text='Do not share your Pairing Code with others.' altFont light red />
+          <BadgesContainer>
+            <AppleStore />
+            <GooglePlay />
+          </BadgesContainer>
+        </SettingDescription>
+      </SettingSummary>
+      <SettingComponent>
+        <SecondaryButton>
+          <Text id='scenes.info.pairingcode.show' text='Show pairing code' small light white />
+        </SecondaryButton>
+      </SettingComponent>
+    </SettingContainer>
+  )
 }
+
+export default PairingCode

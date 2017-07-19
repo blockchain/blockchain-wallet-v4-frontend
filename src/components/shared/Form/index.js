@@ -1,5 +1,5 @@
 import CaptchaBox from './CaptchaBox'
 import CoinConvertor from './CoinConvertor'
-import DropdownAddresses from './DropdownAddresses'
+import SelectBoxAddresses from './SelectBoxAddresses'
 
-export { CoinConvertor, CaptchaBox, DropdownAddresses }
+export { CoinConvertor, CaptchaBox, SelectBoxAddresses }

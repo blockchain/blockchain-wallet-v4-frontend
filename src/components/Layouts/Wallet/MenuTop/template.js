@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 15px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid #EFEFEF;
+  border-bottom: 1px solid #DDDDDD;
 
   @media(min-width: 768px) { 
     flex-direction: row;
@@ -67,7 +67,7 @@ const BalanceContainer = styled.div`
 `
 
 const MenuTop = (props) => {
-  const { openSendBitcoin, openRequestBitcoin, bitcoinDisplayed, toggleCurrencyDisplay, balance } = props
+  const { openSendBitcoin, openRequestBitcoin, coinDisplayed, toggleCurrencyDisplay, balance } = props
 
   return (
     <Wrapper>
@@ -92,7 +92,7 @@ const MenuTop = (props) => {
         </ButtonContainer>
       </LeftContainer>
       <RightContainer>
-        { bitcoinDisplayed
+        { coinDisplayed
           ? <BalanceContainer onClick={toggleCurrencyDisplay}>
             <CoinDisplay biggest>{balance}</CoinDisplay>
             <CurrencyDisplay big>{balance}</CurrencyDisplay>

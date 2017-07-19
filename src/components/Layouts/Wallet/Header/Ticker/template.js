@@ -5,17 +5,18 @@ import { NavItem } from 'components/generic/Navbar'
 import { Typography } from 'components/generic/Typography'
 
 const Ticker = (props) => {
-  console.log(props)
+  const { coin, fiat } = props
+
   return (
     <NavItem href='https://markets.blockchain.info'>
-      <Typography small light white>{`${props.bitcoinValue} = ${props.currencyValue}`}</Typography>
+      <Typography small light white>{`${coin} = ${fiat}`}</Typography>
     </NavItem>
   )
 }
 
 Ticker.propTypes = {
-  bitcoinValue: PropTypes.string.isRequired,
-  currencyValue: PropTypes.string.isRequired
+  coin: PropTypes.string.isRequired,
+  fiat: PropTypes.string.isRequired
 }
 
 export default Ticker

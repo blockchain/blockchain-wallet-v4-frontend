@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 15px;
+  padding-left: 15px;
   box-sizing: border-box;
 `
 const Header = styled.div`
@@ -52,7 +52,7 @@ const BalanceSummary = (props) => {
           return (
             <Row key={index}>
               <Typography small light>{balance.title}</Typography>
-              { props.bitcoinDisplayed
+              { props.coinDisplayed
                 ? <CoinDisplay small light>{balance.amount}</CoinDisplay>
                 : <CurrencyDisplay small light>{balance.amount}</CurrencyDisplay>
               }
@@ -61,7 +61,7 @@ const BalanceSummary = (props) => {
         })}
         <LastRow>
           <Text id='scenes.home.balancesummary.total' text='Total' small />
-          { props.bitcoinDisplayed
+          { props.coinDisplayed
             ? <CoinDisplay small>{props.total}</CoinDisplay>
             : <CurrencyDisplay small>{props.total}</CurrencyDisplay>
           }

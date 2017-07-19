@@ -1,30 +1,32 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 
-const description = (
-  <div className='d-flex flex-column justify-item-start'>
-    <div className='h6'>
-      <FormattedMessage id='scenes.preferences.bitcoinlinkhandling.title' defaultMessage='Bitcoin Links Handling' />
-    </div>
-    <div>
-      <FormattedMessage id='scenes.preferences.bitcoinlinkhandling.description' defaultMessage='Enable this to allow your Blockchain Wallet to handle bitcoin payment links in the web browser.' />
-      <FormattedMessage id='scenes.preferences.bitcoinlinkhandling.description2' defaultMessage='This will make your experience more convenient when transacting online.' />
-    </div>
-  </div>
-)
+import { SecondaryButton } from 'components/generic/Button'
+import { Text, TextGroup } from 'components/generic/Text'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
-const settings = (
-  <div className='d-flex flex-column justify-item-start align-items-end'>
-    <button className='button-secondary'>
-      <FormattedMessage id='scenes.preferences.bitcoinlinkhandling.enable' defaultMessage='Enable' />
-    </button>
-    <div>
-      <FormattedMessage id='scenes.preferences.bitcoinlinkhandling.unknownstatus' defaultMessage="We can't detect whether or not handling of bitcoin links has been enabled." />
-      <FormattedMessage id='scenes.preferences.bitcoinlinkhandling.unknownstatus2' defaultMessage='If it has already been enabled, nothing will happen.' />
-    </div>
-  </div>
-)
-
-export default {
-  description, settings
+const BitcoinLinkHandling = (props) => {
+  return (
+    <SettingContainer>
+      <SettingSummary>
+        <SettingHeader>
+          <Text id='scenes.preferences.link.title' text='Bitcoin link handling' capitalize />
+        </SettingHeader>
+        <SettingDescription>
+          <Text id='scenes.preferences.link.description' text='Enable this to allow your Blockchain Wallet to handle bitcoin payment links in the web browser.' altFont light />
+          <Text id='scenes.preferences.link.description2' text='This will make your experience more convenient when transacting online.' altFont light />
+        </SettingDescription>
+      </SettingSummary>
+      <SettingComponent>
+        <SecondaryButton>
+          <Text id='scenes.preferences.link.enable' text='Enable' small light white />
+        </SecondaryButton>
+        <TextGroup>
+          <Text id='scenes.preferences.link.unknownstatus' text="We can't detect whether or not handling of bitcoin links has been enabled." altFont light red />
+          <Text id='scenes.preferences.link.unknownstatus2' text='If it has already been enabled, nothing will happen.' altFont light red />
+        </TextGroup>
+      </SettingComponent>
+    </SettingContainer>
+  )
 }
+
+export default BitcoinLinkHandling

@@ -30,6 +30,7 @@ const BaseTypography = styled.div`
   color: ${props =>
     props.white ? '#FFFFFF'
     : props.cyan ? '#10ADE4'
+    : props.red ? '#CA3A3C'
     : '#5F5F5F'};
   margin-right: ${props => props.spaceRight ? '5px' : '0'};
 `

@@ -2,15 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { convertToUnit } from 'services/ConversionService'
+import { displayCoin } from 'services/ConversionService'
 import { selectors } from 'data'
 import { Typography } from 'components/generic/Typography'
 
 const CoinDisplay = ({ ...props, children }) => {
-  const { coin, unit, ...rest } = props
-  let crypto = convertToUnit(coin, children, unit).getOrElse({ amount: 'N/A', symbol: '' })
+  const { network, unit, ...rest } = props
+  const coin = displayCoin(network, children, unit).getOrElse('N/A')
 
-  return <Typography {...rest}>{`${crypto.amount} ${crypto.symbol}`}</Typography>
+  return <Typography {...rest}>{coin}</Typography>
 }
 
 CoinDisplay.propTypes = {
@@ -22,7 +22,7 @@ CoinDisplay.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-  coin: 'bitcoin',
+  network: 'bitcoin',
   unit: selectors.core.settings.getBtcCurrency(state)
 })
 
