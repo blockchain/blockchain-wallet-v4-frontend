@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 15px;
+  padding-left: 15px;
   box-sizing: border-box;
 `
 const Header = styled.div`

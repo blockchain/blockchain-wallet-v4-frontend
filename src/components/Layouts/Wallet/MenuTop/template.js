@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 15px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid #EFEFEF;
+  border-bottom: 1px solid #DDDDDD;
 
   @media(min-width: 768px) { 
     flex-direction: row;

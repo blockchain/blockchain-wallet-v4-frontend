@@ -20,21 +20,26 @@ const SettingSummary = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 50%;
+  width: 100%;
   padding: 5px 0;
   box-sizing: border-box;
+
+  @media (min-width: 992px) {
+    width: 50%;
+  }
 `
 const SettingComponent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 30%;
+  width: 100%;
   padding: 5px 0;
   box-sizing: border-box;
 
   @media (min-width: 992px) {
     align-items: flex-end;
+    width: 30%;
   }
 `
 const SettingDescription = styled.div`

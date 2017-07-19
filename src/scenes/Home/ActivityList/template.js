@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 100%;
-  padding: 15px;
+  padding-right: 15px;
   box-sizing: border-box;
 `
 const Header = styled.div`
