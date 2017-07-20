@@ -1,5 +1,5 @@
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete that wallet test fail - idk why
-import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil } from 'ramda'
+import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split } from 'ramda'
 import { view, over, set } from 'ramda-lens'
 import Type from './Type'
 import * as AddressLabelMap from './AddressLabelMap'
@@ -35,6 +35,14 @@ export const isActive = compose(not, isArchived)
 export const isWatchOnly = compose(isNil, view(xpriv))
 
 export const isXpub = curry((myxpub, account) => compose(equals(myxpub), view(xpub))(account))
+
+export const getAddress = (account, path, network) => {
+  const [_, chain, index] = split('/', path)
+  const i = parseInt(index)
+  const c = parseInt(chain)
+  const derive = (acc) => Cache.getAddress(selectCache(acc), c, i, network)
+  return pipe(HDAccount.guard, derive)(account)
+}
 
 export const fromJS = (x, i) => {
   if (is(HDAccount, x)) { return x }
