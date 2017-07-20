@@ -4,10 +4,14 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { wizardForm } from 'components/providers/FormProvider'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
 
 class SendBitcoinContainer extends React.Component {
+  componentWillMount () {
+    this.props.reduxFormActions.change('sendBitcoin', 'from', this.props.defaultSource)
+  }
+
   render () {
     const { step, ...rest } = this.props
 
@@ -19,14 +23,14 @@ class SendBitcoinContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const defaultSource = {
+    xpub: selectors.core.wallet.getDefaultAccountXpub(state),
+    index: selectors.core.wallet.getDefaultAccountIndex(state)
+  }
   const selector = formValueSelector('sendBitcoin')
 
   return {
-    from: selector(state, 'from'),
-    to: selector(state, 'to'),
-    amount: selector(state, 'amount'),
-    message: selector(state, 'message'),
-    fee: selector(state, 'fee')
+    defaultSource
   }
 }
 

@@ -30,8 +30,7 @@ const Aligned = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { show, selectedSource, nextAddress, next, handleClickCode, submitting, invalid } = props
-  console.log(selectedSource)
+  const { show, nextAddress, next, handleClickCode, submitting, invalid } = props
 
   return (
     <Modal icon='icon-receive' title='Request' size='large' show={show}>
@@ -53,7 +52,7 @@ const FirstStep = (props) => {
         <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
         <Field name='amount' component={CoinConvertor} validate={[requiredNumber]} />
         <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
-        <Field name='source' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false, value: selectedSource }} />
+        <Field name='source' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
         <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />
         <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" fullwidth />
         <SecondaryButton fullwidth onClick={next} disabled={submitting || invalid}>
