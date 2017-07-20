@@ -66,7 +66,7 @@ const FirstStep = (props) => {
     <Modal icon='icon-send' title='Send' size='large' show={show}>
       <Form>
         <Text id='modals.sendbitcoin.firststep.from' text='From:' small medium />
-        <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
+        <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false, callback: props.onSelectFrom }} />
         <Text id='modals.sendbitcoin.firststep.to' text='To:' small medium />
         { addressesSelectDisplayed
           ? <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ callback: handleClickAddressesSelect, opened: true, includeAll: false }} />
