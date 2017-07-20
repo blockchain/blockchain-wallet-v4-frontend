@@ -24,7 +24,7 @@ class Modals extends React.Component {
       case 'SendBitcoin':
         return <SendBitcoin {...rest} />
       default:
-        return <RequestBitcoin {...rest} />
+        return <div />
     }
   }
 }

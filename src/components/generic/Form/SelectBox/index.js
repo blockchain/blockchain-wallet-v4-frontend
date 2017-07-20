@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { contains, toUpper, filter, prop } from 'ramda'
+import { equals, contains, toUpper, filter, prop } from 'ramda'
 
 import SelectBox from './template.js'
 
@@ -55,7 +55,7 @@ class SelectBoxContainer extends React.Component {
   }
 
   getText (value, items) {
-    const selectedItems = filter(x => x.value === value, items)
+    const selectedItems = filter(x => equals(x.value, value), items)
     return selectedItems.length === 1 ? prop('text', selectedItems[0]) : this.props.label
   }
 
@@ -84,14 +84,14 @@ SelectBoxContainer.propTypes = {
     group: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
       text: PropTypes.string.isRequired,
-      value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
+      value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
     })).isRequired
   })).isRequired,
   input: PropTypes.shape({
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
+    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
   }).isRequired,
   label: PropTypes.string,
   searchEnabled: PropTypes.bool,

@@ -137,7 +137,7 @@ const SelectBox = (props) => {
 SelectBox.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
+    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
   })).isRequired,
   display: PropTypes.string.isRequired,
   expanded: PropTypes.bool.isRequired,

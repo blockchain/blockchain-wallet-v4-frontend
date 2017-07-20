@@ -36,8 +36,9 @@ const mapStateToProps = (state, ownProps) => {
   const currency = selectors.core.settings.getCurrency(state)
 
   const transformAddresses = items => map(item => {
-    const amount = coinDisplayed ? displayCoin(network, item.amount, unit).getOrElse('N/A') : displayFiat(item.amount, currency).getOrElse('N/A')
-    return { text: `${item.title} (${amount})`, value: item.address }
+    const { title, amount, ...rest } = item
+    const amountDisplay = coinDisplayed ? displayCoin(network, amount, unit).getOrElse('N/A') : displayFiat(amount, currency).getOrElse('N/A')
+    return { text: `${title} (${amountDisplay})`, value: rest }
   }, items)
 
   const accounts = transformAddresses(selectors.core.common.getAccountsBalances(state))

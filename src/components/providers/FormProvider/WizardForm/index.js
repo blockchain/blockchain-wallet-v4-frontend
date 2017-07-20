@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { compose, path } from 'ramda'
-import { reduxForm } from 'redux-form'
+import { reduxForm, actions as reduxFormActions } from 'redux-form'
 import { actions } from 'data'
 
 const wizardForm = (formName, totalSteps) => Component => {
@@ -25,9 +25,15 @@ const wizardForm = (formName, totalSteps) => Component => {
       this.props.actions.setStep(formName, finalPreviousStep)
     }
 
+    reset () {
+      this.props.reduxFormActions.reset(formName)
+    }
+
     render () {
       return <Component {...this.props} step={this.props.step} next={this.next} previous={this.previous} />
     }
+
+    componentWillUnmount () { this.reset() }
   }
 
   const mapStateToProps = (state) => {
@@ -38,7 +44,8 @@ const wizardForm = (formName, totalSteps) => Component => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      actions: bindActionCreators(actions.form, dispatch)
+      actions: bindActionCreators(actions.form, dispatch),
+      reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
     }
   }
 
