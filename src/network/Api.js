@@ -182,7 +182,7 @@ const createApi = ({
     return request('POST', 'wallet', data)
   }
 
-  const getUnspents = function (fromAddresses, confirmations) {
+  const getUnspents = function (fromAddresses, confirmations = 0) {
     const data = {
       active: fromAddresses.join('|'),
       confirmations: gt(confirmations, -1) ? confirmations : -1,

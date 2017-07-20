@@ -6,6 +6,7 @@ import * as logs from './data/Logs/selectors.js'
 import * as rates from './data/Rates/selectors.js'
 import * as transactions from './data/Transactions/selectors.js'
 import * as info from './data/Info/selectors.js'
+import * as payment from './data/payment/selectors.js'
 import * as settings from './settings/selectors.js'
 import * as wallet from './wallet/selectors.js'
 import { commonSelectorsFactory } from './common/selectors.js'
@@ -21,6 +22,7 @@ export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
     rates: map(extend(dataPath), rates),
     transactions: map(extend(dataPath), transactions),
     info: map(extend(dataPath), info),
+    payment: map(extend(dataPath), payment),
     settings: map(extend(settingsPath), settings),
     wallet: map(extend(walletPath), wallet),
     common: common
