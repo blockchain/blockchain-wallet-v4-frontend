@@ -1,4 +1,4 @@
-import { compose, map } from 'ramda'
+import { compose, map, curry } from 'ramda'
 import Either from 'data.either'
 import BIP39 from 'bip39'
 import { Wallet
@@ -21,3 +21,6 @@ export const getAddresses = compose(ImtoJS, map(Address.toJS), Wallet.selectAddr
 export const getHDAccounts = compose(ImtoJS, map(HDAccount.toJS), Wallet.selectHDAccounts, Wrapper.selectWallet)
 export const getSeedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
 export const getMnemonic = compose(e => e.getOrElse(''), entropyToMnemonic, getSeedHex)
+export const getDefaultAccountIndex = compose(HDWallet.selectDefaultAccountIdx, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
+export const getAccountXpub = curry((index, state) => compose(HDAccount.selectXpub, HDWallet.selectAccount(index), HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)(state))
+export const getDefaultAccountXpub = state => getAccountXpub(getDefaultAccountIndex(state), state)
