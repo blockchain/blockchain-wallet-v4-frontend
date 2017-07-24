@@ -7,7 +7,7 @@ import info from './data/Info/reducers.js'
 import rates from './data/Rates/reducers.js'
 import wallet from './wallet/reducers.js'
 import settings from './settings/reducers.js'
-import payment from './data/payment/reducers'
+import payment from './data/Payment/reducers'
 
 const data = combineReducers({
   addresses: addresses,

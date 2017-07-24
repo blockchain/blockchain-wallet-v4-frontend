@@ -8,7 +8,7 @@ import * as logs from './data/Logs/actions.js'
 import * as rates from './data/Rates/actions.js'
 import * as transactions from './data/Transactions/actions.js'
 import * as info from './data/Info/actions.js'
-import * as payment from './data/payment/actions.js'
+import * as payment from './data/Payment/actions.js'
 
 import * as wallet from './wallet/actions.js'
 

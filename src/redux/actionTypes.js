@@ -7,7 +7,7 @@ import * as logs from './data/Logs/actionTypes.js'
 import * as rates from './data/Rates/actionTypes.js'
 import * as transactions from './data/Transactions/actionTypes.js'
 import * as info from './data/Info/actionTypes.js'
-import * as payment from './data/payment/actionTypes.js'
+import * as payment from './data/Payment/actionTypes.js'
 import * as wallet from './wallet/actionTypes.js'
 import * as settings from './settings/actionTypes.js'
 
