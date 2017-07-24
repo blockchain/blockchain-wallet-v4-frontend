@@ -7,11 +7,10 @@ import SelectBox from './template.js'
 class SelectBoxContainer extends React.Component {
   constructor (props) {
     super(props)
-    const { elements, input, opened } = props
+    const { input, opened } = props
     const { value } = input
-    const initialItems = this.transform(elements, undefined)
 
-    this.state = { value: value, items: initialItems, expanded: opened, search: '' }
+    this.state = { value: value, expanded: opened, search: '' }
     this.handleBlur = this.handleBlur.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -19,6 +18,7 @@ class SelectBoxContainer extends React.Component {
   }
 
   handleClick (value) {
+    console.log('selectbox click', value)
     this.setState({ opened: false, value: value })
     this.props.input.onChange(value)
     this.props.input.onBlur(value)
@@ -26,7 +26,7 @@ class SelectBoxContainer extends React.Component {
   }
 
   handleChange (event) {
-    this.setState({ items: this.transform(this.props.elements, event.target.value) })
+    this.setState({ search: event.target.value })
   }
 
   handleBlur () {
@@ -39,14 +39,14 @@ class SelectBoxContainer extends React.Component {
     this.setState({ expanded: true })
   }
 
-  transform (elements, value) {
+  transform (elements, search) {
     let items = []
     elements.map(element => {
-      if (!value && element.group !== '') {
+      if (!search && element.group !== '') {
         items.push({ text: element.group })
       }
       element.items.map(item => {
-        if (!value || (value && contains(toUpper(value), toUpper(item.text)))) {
+        if (!search || (search && contains(toUpper(search), toUpper(item.text)))) {
           items.push({ text: item.text, value: item.value })
         }
       })
@@ -60,12 +60,15 @@ class SelectBoxContainer extends React.Component {
   }
 
   render () {
-    const { searchEnabled, ...rest } = this.props
-    const display = this.getText(this.state.value, this.state.items)
+    const { elements, searchEnabled, ...rest } = this.props
+    console.log(this.props)
+    console.log(elements, this.state.value)
+    const items = this.transform(elements, this.state.search)
+    const display = this.getText(this.props.input.value, items)
 
     return (
       <SelectBox
-        items={this.state.items}
+        items={items}
         display={display}
         expanded={this.state.expanded}
         handleBlur={this.handleBlur}

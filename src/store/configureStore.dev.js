@@ -13,7 +13,19 @@ import { api } from 'services/ApiService'
 import { auth } from 'data/rootSelectors.js'
 import { serializer } from 'dream-wallet/lib/types'
 
-const devToolsConfig = { serialize: serializer }
+const devToolsConfig = {
+  serialize: serializer,
+  actionsBlacklist: [
+    // '@@redux-form/CHANGE',
+    // '@@redux-form/REGISTER_FIELD',
+    // '@@redux-form/UNREGISTER_FIELD',
+    // '@@redux-form/UPDATE_SYNC_ERRORS',
+    // '@@redux-form/FOCUS',
+    // '@@redux-form/BLUR',
+    // '@@redux-form/DESTROY',
+    // '@@redux-form/RESET'
+  ]
+}
 
 const configureStore = () => {
   const history = createBrowserHistory()

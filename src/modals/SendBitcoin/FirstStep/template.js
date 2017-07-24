@@ -48,7 +48,7 @@ const AddressesToButton = styled.div`
   align-items: center;
   height: 40px;
   width: 40px;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
   border: 1px solid #E0E0E0;
   background-color: #FFFFFF;
@@ -60,21 +60,26 @@ const AddressesToButton = styled.div`
 
 const FirstStep = (props) => {
   const { show, next, submitting, invalid, fee, addressesSelectDisplayed, feeEditDisplayed,
-    handleClickAddressesSelect, handleToggleAddressesSelect, handleToggleFeeEdit, handleToggleQrCodeCapture } = props
+    handleToggleAddressesToSelect, handleClickAddressesFromSelect, handleToggleFeeEdit, handleClickFeeSelect, handleToggleQrCodeCapture } = props
 
   return (
     <Modal icon='icon-send' title='Send' size='large' show={show}>
       <Form>
         <Text id='modals.sendbitcoin.firststep.from' text='From:' small medium />
-        <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false, callback: props.onSelectFrom }} />
+        <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false, callback: handleClickAddressesFromSelect }} />
         <Text id='modals.sendbitcoin.firststep.to' text='To:' small medium />
         { addressesSelectDisplayed
-          ? <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ callback: handleClickAddressesSelect, opened: true, includeAll: false }} />
-          : (
+          ? (
+            <AddressesToContainer>
+              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: true, includeAll: false }} />
+              <AddressesToButton onClick={handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleToggleAddressesToSelect}>T</AddressesToButton>
+            </AddressesToContainer>
+          ) : (
             <AddressesToContainer>
               <Field name='to' component={TextBox} validate={[required]} />
               <AddressesToButton onClick={handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
-              <AddressesToButton onClick={handleToggleAddressesSelect}><AddressesSelectToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleToggleAddressesToSelect}><AddressesSelectToggle /></AddressesToButton>
             </AddressesToContainer>
             )
         }
@@ -98,7 +103,7 @@ const FirstStep = (props) => {
           <ColLeft>
             { feeEditDisplayed
               ? <Field name='fee' component={TextBox} validate={[required]} />
-              : <Field name='fee' component={SelectBoxFee} validate={[required]} />
+              : <Field name='fee' component={SelectBoxFee} validate={[required]} props={{callback: handleClickFeeSelect}} />
             }
           </ColLeft>
           <ColRight>
