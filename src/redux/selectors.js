@@ -1,6 +1,7 @@
 import { compose, prop, map } from 'ramda'
 import * as addresses from './data/Addresses/selectors.js'
 import * as adverts from './data/Adverts/selectors.js'
+import * as fee from './data/Fee/selectors.js'
 import * as latestBlock from './data/LatestBlock/selectors.js'
 import * as logs from './data/Logs/selectors.js'
 import * as rates from './data/Rates/selectors.js'
@@ -17,6 +18,7 @@ export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
   return ({
     addresses: map(extend(dataPath), addresses),
     adverts: map(extend(dataPath), adverts),
+    fee: map(extend(dataPath), fee),
     latestBlock: map(extend(dataPath), latestBlock),
     logs: map(extend(dataPath), logs),
     rates: map(extend(dataPath), rates),

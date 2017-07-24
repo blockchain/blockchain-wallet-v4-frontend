@@ -2,6 +2,7 @@ import * as common from './common/actions.js'
 
 import * as addresses from './data/Addresses/actions.js'
 import * as adverts from './data/Adverts/actions.js'
+import * as fee from './data/Fee/actions.js'
 import * as latestBlock from './data/LatestBlock/actions.js'
 import * as logs from './data/Logs/actions.js'
 import * as rates from './data/Rates/actions.js'
@@ -17,6 +18,7 @@ export {
   addresses,
   adverts,
   common,
+  fee,
   latestBlock,
   logs,
   rates,

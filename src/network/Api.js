@@ -14,13 +14,14 @@ const createApi = ({
   apiCode = API_CODE
 } = {}, returnType) => {
   const future = returnType ? futurizeP(returnType) : identity
-  const request = (action, method, data, extraHeaders) => {
+  const request = ({ url, method, endPoint, data, extraHeaders }) => {
     // options
     let options = {
-      method: action,
+      method,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       credentials: 'omit'
     }
+
     if (extraHeaders) {
       if (extraHeaders.sessionToken) {
         options.headers['Authorization'] = 'Bearer ' + extraHeaders.sessionToken
@@ -28,12 +29,13 @@ const createApi = ({
     }
     // body
     const body = encodeFormData(apiCode ? {...data, ...{ api_code: apiCode }} : {...data})
-    switch (action) {
+
+    switch (method) {
       case 'GET':
-        const urlGET = `${rootUrl}${method}?${body}`
+        const urlGET = `${url}${endPoint}?${body}`
         return fetch(urlGET, options).then(checkStatus).then(extractData)
       case 'POST':
-        const urlPOST = `${rootUrl}${method}`
+        const urlPOST = `${url}${endPoint}`
         options.body = body
         return fetch(urlPOST, options).then(checkStatus).then(extractData)
       default:
@@ -71,27 +73,27 @@ const createApi = ({
 
   // fetchPayloadWithSharedKey :: (String, String) -> Promise JSON
   const fetchPayloadWithSharedKey = (guid, sharedKey) => {
-    var data = { guid, sharedKey, method: 'wallet.aes.json', format: 'json' }
-    return request('POST', 'wallet', data)
+    const data = { guid, sharedKey, method: 'wallet.aes.json', format: 'json' }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
   }
 
   // fetchPayloadWithSession :: (String) -> Promise JSON
   const fetchPayloadWithSession = (guid, sessionToken) => {
-    var headers = { sessionToken }
-    var data = { format: 'json', resend_code: null }
-    return request('GET', 'wallet/' + guid, data, headers)
+    const extraHeaders = { sessionToken }
+    const data = { format: 'json', resend_code: null }
+    return request({ url: rootUrl, method: 'GET', endPoint: `wallet/${guid}`, data, extraHeaders })
   }
   // savePayload :: (data) -> Promise JSON
   const savePayload = (data) => {
     const config = { method: 'update', format: 'plain' }
-    return request('POST', 'wallet', merge(config, data))
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: merge(config, data) })
       .then(() => data.checksum)
   }
   // createPayload :: (data) -> Promise JSON
-  // TODO :: merge save and createPayload (method must be a parameter)
+  // TODO :: merge save and createPayload (endPoint must be a parameter)
   const createPayload = (data) => {
     const config = { method: 'insert', format: 'plain' }
-    return request('POST', 'wallet', merge(config, data))
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: merge(config, data) })
       .then(() => data.checksum)
   }
 
@@ -109,7 +111,7 @@ const createApi = ({
       language: 'en',
       no_buttons: true
     }
-    return request('POST', 'multiaddr', data)
+    return request({ url: rootUrl, method: 'POST', endPoint: 'multiaddr', data })
   }
 
   // TODO :: obtain and establish might be done better and one function alone
@@ -120,7 +122,7 @@ const createApi = ({
       }
       return data.token
     }
-    return request('POST', 'wallet/sessions').then(processResult)
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet/sessions' }).then(processResult)
   }
 
   const establishSession = token => {
@@ -133,8 +135,8 @@ const createApi = ({
 
   const pollForSessioGUID = sessionToken => {
     var data = { format: 'json' }
-    var headers = { sessionToken }
-    return request('GET', 'wallet/poll-for-session-guid', data, headers)
+    var extraHeaders = { sessionToken }
+    return request({ url: rootUrl, method: 'GET', endPoint: 'wallet/poll-for-session-guid', data, extraHeaders })
   }
 
   const generateUUIDs = (count) => {
@@ -145,41 +147,41 @@ const createApi = ({
       }
       return data.uuids
     }
-    return request('GET', 'uuid-generator', data).then(extractUUIDs)
+    return request({ url: rootUrl, method: 'GET', endPoint: 'uuid-generator', data }).then(extractUUIDs)
   }
 
   // createPinEntry :: HEXString(32Bytes) -> HEXString(32Bytes) -> String -> Promise Response
   const createPinEntry = (key, value, pin) => {
     const data = { format: 'json', method: 'put', value, pin, key }
-    return request('POST', 'pin-store', data)
+    return request({ url: rootUrl, method: 'POST', endPoint: 'pin-store', data })
   }
 
   // getPinValue :: HEXString(32Bytes) -> String -> Promise Response
   const getPinValue = (key, pin) => {
     const data = { format: 'json', method: 'get', pin, key }
-    return request('GET', 'pin-store', data)
+    return request({ url: rootUrl, method: 'GET', endPoint: 'pin-store', data })
   }
 
   // getTicker :: -> Promise Response
   const getTicker = () => {
     const data = { format: 'json' }
-    return request('GET', 'ticker', data)
+    return request({ url: rootUrl, method: 'GET', endPoint: 'ticker', data })
   }
 
   const getSettings = (guid, sharedKey) => {
     const data = { format: 'json', method: 'get-info', guid, sharedKey }
-    return request('POST', 'wallet', data)
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
   }
 
   const getCaptchaImage = (timestamp) => {
     const data = { timestamp }
-    return request('GET', 'kaptcha.jpg', data)
+    return request({ url: rootUrl, method: 'GET', endPoint: 'kaptcha.jpg', data })
   }
 
   const recoverWallet = (email, captcha) => {
     const timestamp = new Date().getTime()
     const data = { method: 'recover-wallet', email, captcha, ct: timestamp }
-    return request('POST', 'wallet', data)
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
   }
 
   const getUnspents = function (fromAddresses, confirmations = 0) {
@@ -188,7 +190,11 @@ const createApi = ({
       confirmations: gt(confirmations, -1) ? confirmations : -1,
       format: 'json'
     }
-    return request('POST', 'unspent', data)
+    return request({ url: rootUrl, method: 'POST', endPoint: 'unspent', data })
+  }
+
+  const getFee = function (fromAddresses, confirmations = 0) {
+    return request({ url: apiUrl, method: 'GET', endPoint: 'mempool/fees' })
   }
 
   return {
@@ -207,7 +213,8 @@ const createApi = ({
     getSettings: future(getSettings),
     getCaptchaImage: future(getCaptchaImage),
     recoverWallet: future(recoverWallet),
-    getUnspents: future(getUnspents)
+    getUnspents: future(getUnspents),
+    getFee: future(getFee)
   }
 }
 
