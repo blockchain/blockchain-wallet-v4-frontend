@@ -12,12 +12,13 @@ class FirstStepContainer extends React.Component {
 
     this.state = {
       feeEditDisplayed: false,
-      addressesSelectDisplayed: false
+      addressesSelectDisplayed: false,
+      effectiveBalance: 0
     }
 
-    this.handleSelectFrom = this.handleSelectFrom.bind(this)
-    this.handleClickAddressesSelect = this.handleClickAddressesSelect.bind(this)
-    this.handleToggleAddressesSelect = this.handleToggleAddressesSelect.bind(this)
+    this.handleClickAddressesFromSelect = this.handleClickAddressesFromSelect.bind(this)
+    this.handleClickAddressesToSelect = this.handleClickAddressesToSelect.bind(this)
+    this.handleToggleAddressesToSelect = this.handleToggleAddressesToSelect.bind(this)
     this.handleToggleFeeEdit = this.handleToggleFeeEdit.bind(this)
     this.handleToggleQrCodeCapture = this.handleToggleQrCodeCapture.bind(this)
 
@@ -26,15 +27,15 @@ class FirstStepContainer extends React.Component {
     this.handleQrCodeBack = this.handleQrCodeBack.bind(this)
   }
 
-  handleSelectFrom (value) {
+  handleClickAddressesFromSelect (value) {
     this.props.paymentActions.getUnspents(value)
   }
 
-  handleClickAddressesSelect () {
+  handleClickAddressesToSelect () {
     this.setState({ addressesSelectDisplayed: false })
   }
 
-  handleToggleAddressesSelect () {
+  handleToggleAddressesToSelect () {
     this.setState({ addressesSelectDisplayed: !this.state.addressesSelectDisplayed })
   }
 
@@ -64,11 +65,11 @@ class FirstStepContainer extends React.Component {
 
   render () {
     return (<FirstStep
-      onSelectFrom={this.handleSelectFrom}
+      onSelectFrom={this.handleClickAddressesFromSelect}
       addressesSelectDisplayed={this.state.addressesSelectDisplayed}
       feeEditDisplayed={this.state.feeEditDisplayed}
-      handleClickAddressesSelect={this.handleClickAddressesSelect}
-      handleToggleAddressesSelect={this.handleToggleAddressesSelect}
+      handleClickAddressesToSelect={this.handleClickAddressesToSelect}
+      handleToggleAddressesToSelect={this.handleToggleAddressesToSelect}
       handleToggleFeeEdit={this.handleToggleFeeEdit}
       handleToggleQrCodeCapture={this.handleToggleQrCodeCapture}
       {...this.props}

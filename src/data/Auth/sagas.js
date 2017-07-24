@@ -30,7 +30,7 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
     const sk = yield select(selectors.core.wallet.getSharedKey)
     yield put(actions.core.settings.fetchSettings({guid, sharedKey: sk}))
     yield put(actions.auth.loginSuccess())
-    yield put(actions.auth.logoutStartTimer(10))
+    // yield put(actions.auth.logoutStartTimer(10))
     yield put(push('/wallet'))
     yield put(actions.alerts.displaySuccess('Logged in successfully'))
   } catch (error) {
