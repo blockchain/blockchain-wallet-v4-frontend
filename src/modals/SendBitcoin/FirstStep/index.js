@@ -2,8 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions as reduxFormActions } from 'redux-form'
-import { isEmpty } from 'ramda'
+import { isEmpty, gte } from 'ramda'
 
+import { Coin } from 'dream-wallet/lib'
+import { convertFromUnit } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
@@ -29,6 +31,16 @@ class FirstStepContainer extends React.Component {
 
   componentWillMount () {
     if (isEmpty(this.props.feeValues)) { this.props.feeActions.fetchFee() }
+  }
+
+  componentWillUpdate (nextProps) {
+    const { invalid, fee, target, coins } = nextProps
+    console.log(invalid, fee, target, coins)
+
+    if (!invalid && gte(fee, 0) && target && coins) {
+      console.log({fee, target, coins})
+      // this.props.paymentActions.refreshPayment({fee, target, coins})
+    }
   }
 
   componentWillUnmount () {
@@ -86,9 +98,27 @@ class FirstStepContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+FirstStepContainer.defaultProps = {
+  to: { address: undefined }
+
+}
+
+const mapStateToProps = (state, ownProps) => {
+  const network = 'bitcoin'
+  const unit = selectors.core.settings.getBtcCurrency(state)
+  const address = ownProps.to
+    ? ownProps.to.address
+      ? ownProps.to.address
+      : selectors.core.common.getNextAvailableReceiveAddress(undefined, ownProps.to.index, state)
+    : undefined
+  const satoshis = convertFromUnit(network, ownProps.amount, unit).getOrElse({ amount: undefined, symbol: 'N/A' })
+  const target = address && gte(satoshis.amount, 0) ? Coin.fromJS({ address, value: satoshis.amount }) : undefined
+  const coins = selectors.core.payment.getCoins(state)
+  console.log(coins)
   return {
-    feeValues: selectors.core.fee.getFee(state)
+    feeValues: selectors.core.fee.getFee(state),
+    coins,
+    target
   }
 }
 
@@ -97,6 +127,7 @@ const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   feeActions: bindActionCreators(actions.core.fee, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
+  paymentActions: bindActionCreators(actions.core.payment, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

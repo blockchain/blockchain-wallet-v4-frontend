@@ -107,7 +107,7 @@ const FirstStep = (props) => {
             }
           </ColLeft>
           <ColRight>
-            <ComboDisplay small light>{fee}</ComboDisplay>
+            { invalid ? <div /> : <ComboDisplay small light>{fee}</ComboDisplay> }
             <Link fullWidth onClick={handleToggleFeeEdit}>
               { feeEditDisplayed
                 ? <Text id='modals.sendbitcoin.firststep.cancel' text='Cancel' smaller light cyan capitalize />

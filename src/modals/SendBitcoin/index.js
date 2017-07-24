@@ -30,7 +30,12 @@ const mapStateToProps = (state, ownProps) => {
   const selector = formValueSelector('sendBitcoin')
 
   return {
-    defaultSource
+    defaultSource,
+    fee: selector(state, 'fee'),
+    to: selector(state, 'to'),
+    from: selector(state, 'from'),
+    amount: selector(state, 'amount'),
+    message: selector(state, 'message')
   }
 }
 

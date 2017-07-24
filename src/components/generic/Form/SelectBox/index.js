@@ -18,7 +18,6 @@ class SelectBoxContainer extends React.Component {
   }
 
   handleClick (value) {
-    console.log('selectbox click', value)
     this.setState({ opened: false, value: value })
     this.props.input.onChange(value)
     this.props.input.onBlur(value)
@@ -30,12 +29,10 @@ class SelectBoxContainer extends React.Component {
   }
 
   handleBlur () {
-    // this.props.input.onBlur(this.state.value)
     this.setState({ expanded: false })
   }
 
   handleFocus () {
-    // this.props.input.onFocus(this.state.value)
     this.setState({ expanded: true })
   }
 
@@ -61,8 +58,6 @@ class SelectBoxContainer extends React.Component {
 
   render () {
     const { elements, searchEnabled, ...rest } = this.props
-    console.log(this.props)
-    console.log(elements, this.state.value)
     const items = this.transform(elements, this.state.search)
     const display = this.getText(this.props.input.value, items)
 

@@ -58,10 +58,14 @@ const login = function * (action) {
   if (credentials.sharedKey) {
     yield call(fetchWalletSaga, credentials.guid, credentials.sharedKey, undefined, credentials.password)
   } else {
-    let session = yield select(selectors.auth.getSession(credentials.guid))
-    session = yield call(api.establishSession, session)  // establishSession logic should not receive existent session as parameter
-    yield put(actions.auth.saveSession(assoc(credentials.guid, session, {})))
-    yield call(fetchWalletSaga, credentials.guid, undefined, session, credentials.password)
+    try {
+      let session = yield select(selectors.auth.getSession(credentials.guid))
+      session = yield call(api.establishSession, session)  // establishSession logic should not receive existent session as parameter
+      yield put(actions.auth.saveSession(assoc(credentials.guid, session, {})))
+      yield call(fetchWalletSaga, credentials.guid, undefined, session, credentials.password)
+    } catch (e) {
+      yield put(actions.alerts.displayError('Error establishing the session'))
+    }
   }
 }
 
