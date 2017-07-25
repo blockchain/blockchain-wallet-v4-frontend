@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions as reduxFormActions } from 'redux-form'
-import { isEmpty, gte, is, equals } from 'ramda'
+import { isEmpty, gte, is, equals, isNil } from 'ramda'
+import * as crypto from 'crypto'
 
 import { Coin } from 'dream-wallet/lib'
 import { convertFromUnit } from 'services/ConversionService'
@@ -15,8 +16,7 @@ class FirstStepContainer extends React.Component {
 
     this.state = {
       feeEditDisplayed: false,
-      addressesSelectDisplayed: false,
-      effectiveBalance: 0
+      addressesSelectDisplayed: false
     }
 
     this.handleClickAddressesFromSelect = this.handleClickAddressesFromSelect.bind(this)
@@ -37,7 +37,12 @@ class FirstStepContainer extends React.Component {
     const { invalid, fee, target, coins, changeAddress } = nextProps
 
     if (!invalid && gte(fee, 0) && target && coins && changeAddress && !equals(nextProps, this.props)) {
-      this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress)
+      const seed = crypto.randomBytes(16)
+      this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'branchAndBound', seed.toString('hex'))
+    }
+
+    if (isNil(this.props.fee) && !equals(nextProps.defaultFeePerByte, this.props.defaultFeePerByte)) {
+      this.props.reduxFormActions.change('sendBitcoin', 'fee', nextProps.defaultFeePerByte)
     }
   }
 

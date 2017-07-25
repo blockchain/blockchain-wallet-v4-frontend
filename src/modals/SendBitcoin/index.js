@@ -23,14 +23,14 @@ class SendBitcoinContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const defaultSource = {
-    xpub: selectors.core.wallet.getDefaultAccountXpub(state),
-    index: selectors.core.wallet.getDefaultAccountIndex(state)
-  }
   const selector = formValueSelector('sendBitcoin')
 
   return {
-    defaultSource,
+    defaultSource: {
+      xpub: selectors.core.wallet.getDefaultAccountXpub(state),
+      index: selectors.core.wallet.getDefaultAccountIndex(state)
+    },
+    defaultFeePerByte: selectors.core.fee.getRegular(state),
     fee: selector(state, 'fee'),
     to: selector(state, 'to'),
     from: selector(state, 'from'),
