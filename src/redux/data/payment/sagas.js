@@ -14,9 +14,9 @@ export const paymentSaga = ({ api, walletPath, dataPath } = {}) => {
       const coins = yield call(api.getWalletUnspents, wrapper, source)
       yield put(A.getUnspentsSuccess(coins))
       // const effBalance = effectiveBalance(feePerByte, inputs, outputs)
-      const destination = '1NFGxFVFvtELWd62qzoxBctyZ71TatKQVJ'
-      const selection = selectAll(55, coins, destination)
-      console.log(selection)
+      // const destination = '1NFGxFVFvtELWd62qzoxBctyZ71TatKQVJ'
+      // const selection = selectAll(55, coins, destination)
+      // console.log(selection)
     } catch (e) {
       console.log(e)
     }
