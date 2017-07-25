@@ -1,9 +1,10 @@
 import { assoc } from 'ramda'
 import * as A from './actionTypes'
 // import { selectAll, effectiveBalance } from '../../../coinSelection'
-import { descentDraw } from '../../../coinSelection'
+import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound } from '../../../coinSelection'
 
-const INITIAL_STATE = { coins: [], selection: {fee: undefined, inputs: [], outputs: []} }
+const EMPTY_SELECTION = {fee: undefined, inputs: [], outputs: []}
+const INITIAL_STATE = { coins: [], selection: EMPTY_SELECTION }
 
 export default (state = INITIAL_STATE, action) => {
   const { type } = action
@@ -13,11 +14,27 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('coins', coins, state)
     }
     case A.REFRESH_SELECTION: {
-      const { coins, target, feePerByte, change } = action.payload
-      console.log('reducer')
       console.log(action.payload)
-      const selection = descentDraw([target], feePerByte, coins, change)
-      return assoc('selection', selection)(state)
+      const { coins, target, feePerByte, change, algorithm, seed } = action.payload
+      let selection
+      switch (algorithm) {
+        case 'ascentDraw':
+          selection = ascentDraw([target], feePerByte, coins, change)
+          break
+        case 'descentDraw':
+          selection = descentDraw([target], feePerByte, coins, change)
+          break
+        case 'singleRandomDraw':
+          selection = singleRandomDraw([target], feePerByte, coins, change, seed)
+          break
+        case 'branchAndBound':
+          selection = branchAndBound([target], feePerByte, coins, change, seed)
+          break
+        default:
+          selection = EMPTY_SELECTION
+          break
+      }
+      return assoc('selection', selection, state)
     }
     default:
       return state

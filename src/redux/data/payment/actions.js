@@ -10,7 +10,7 @@ export const getUnspentsSuccess = (coins) => ({
   payload: coins
 })
 
-export const refreshSelection = (feePerByte, target, coins, change) => ({
+export const refreshSelection = (feePerByte, target, coins, change, algorithm, seed) => ({
   type: T.REFRESH_SELECTION,
-  payload: {feePerByte, target, coins, change}
+  payload: {feePerByte, target, coins, change, algorithm, seed}
 })
