@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions as reduxFormActions } from 'redux-form'
-import { isEmpty, gte } from 'ramda'
+import { isEmpty, gte, is, equals } from 'ramda'
 
 import { Coin } from 'dream-wallet/lib'
 import { convertFromUnit } from 'services/ConversionService'
@@ -33,13 +33,11 @@ class FirstStepContainer extends React.Component {
     if (isEmpty(this.props.feeValues)) { this.props.feeActions.fetchFee() }
   }
 
-  componentWillUpdate (nextProps) {
-    const { invalid, fee, target, coins } = nextProps
-    console.log(invalid, fee, target, coins)
+  componentWillReceiveProps (nextProps) {
+    const { invalid, fee, target, coins, changeAddress } = nextProps
 
-    if (!invalid && gte(fee, 0) && target && coins) {
-      console.log({fee, target, coins})
-      // this.props.paymentActions.refreshPayment({fee, target, coins})
+    if (!invalid && gte(fee, 0) && target && coins && changeAddress && !equals(nextProps, this.props)) {
+      this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress)
     }
   }
 
@@ -100,25 +98,39 @@ class FirstStepContainer extends React.Component {
 
 FirstStepContainer.defaultProps = {
   to: { address: undefined }
+}
 
+const selectAddress = (addressValue, selectorFunction) => {
+  if (is(String, addressValue)) {
+    return addressValue
+  } else {
+    return addressValue
+      ? addressValue.address
+        ? addressValue.address
+        : selectorFunction(addressValue.index)
+      : undefined
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(undefined, index, state)
+  const getChange = index => selectors.core.common.getNextAvailableChangeAddress(undefined, index, state)
+
   const network = 'bitcoin'
   const unit = selectors.core.settings.getBtcCurrency(state)
-  const address = ownProps.to
-    ? ownProps.to.address
-      ? ownProps.to.address
-      : selectors.core.common.getNextAvailableReceiveAddress(undefined, ownProps.to.index, state)
-    : undefined
+  const targetAddress = selectAddress(ownProps.to, getReceive)
   const satoshis = convertFromUnit(network, ownProps.amount, unit).getOrElse({ amount: undefined, symbol: 'N/A' })
-  const target = address && gte(satoshis.amount, 0) ? Coin.fromJS({ address, value: satoshis.amount }) : undefined
+  const target = targetAddress && gte(satoshis.amount, 0) ? Coin.fromJS({ address: targetAddress, value: satoshis.amount }) : undefined
   const coins = selectors.core.payment.getCoins(state)
-  console.log(coins)
+  const selection = selectors.core.payment.getSelection(state)
+  const changeAddress = selectAddress(ownProps.from, getChange)
+
   return {
     feeValues: selectors.core.fee.getFee(state),
     coins,
-    target
+    target,
+    selection,
+    changeAddress
   }
 }
 
@@ -127,7 +139,6 @@ const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   feeActions: bindActionCreators(actions.core.fee, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentActions: bindActionCreators(actions.core.payment, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

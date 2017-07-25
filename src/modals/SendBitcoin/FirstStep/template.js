@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
 import Modal from 'components/generic/Modal'
-import { Button, ButtonGroup, SecondaryButton } from 'components/generic/Button'
+import { SecondaryButton } from 'components/generic/Button'
 import { Form, TextBox, TextArea } from 'components/generic/Form'
 import { Icon } from 'components/generic/Icon'
 import { Link } from 'components/generic/Link'
@@ -42,6 +42,7 @@ const AddressesToContainer = styled.div`
 `
 const QrCodeCaptureToggle = styled.img.attrs({ src: qrCode })`height: 18px;`
 const AddressesSelectToggle = styled(Icon).attrs({ name: 'icon-down_arrow' })`font-size: 0.6rem;`
+const AddressesEditToggle = styled(Icon).attrs({ name: 'ti-pencil' })`font-size: 1rem;`
 const AddressesToButton = styled.div`
   display: flex;
   justify-content: center;
@@ -59,7 +60,7 @@ const AddressesToButton = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { show, next, submitting, invalid, fee, addressesSelectDisplayed, feeEditDisplayed,
+  const { show, next, submitting, invalid, selection, addressesSelectDisplayed, feeEditDisplayed,
     handleToggleAddressesToSelect, handleClickAddressesFromSelect, handleToggleFeeEdit, handleClickFeeSelect, handleToggleQrCodeCapture } = props
 
   return (
@@ -73,7 +74,7 @@ const FirstStep = (props) => {
             <AddressesToContainer>
               <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: true, includeAll: false }} />
               <AddressesToButton onClick={handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
-              <AddressesToButton onClick={handleToggleAddressesToSelect}>T</AddressesToButton>
+              <AddressesToButton onClick={handleToggleAddressesToSelect}><AddressesEditToggle /></AddressesToButton>
             </AddressesToContainer>
           ) : (
             <AddressesToContainer>
@@ -107,7 +108,7 @@ const FirstStep = (props) => {
             }
           </ColLeft>
           <ColRight>
-            { invalid ? <div /> : <ComboDisplay small light>{fee}</ComboDisplay> }
+            { invalid ? <div /> : <ComboDisplay small light>{selection.fee}</ComboDisplay> }
             <Link fullWidth onClick={handleToggleFeeEdit}>
               { feeEditDisplayed
                 ? <Text id='modals.sendbitcoin.firststep.cancel' text='Cancel' smaller light cyan capitalize />
