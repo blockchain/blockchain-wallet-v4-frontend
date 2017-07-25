@@ -14,7 +14,7 @@ module.exports = {
   ],
   output: {
     path: PATHS.build,
-    filename: 'bundle.js',
+    filename: 'bundle.[hash].js',
     publicPath: '/'
   },
   resolve: {

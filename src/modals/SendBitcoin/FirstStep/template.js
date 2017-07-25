@@ -61,7 +61,7 @@ const AddressesToButton = styled.div`
 
 const FirstStep = (props) => {
   const { show, next, submitting, invalid, selection, addressesSelectDisplayed, feeEditDisplayed,
-  handleToggleAddressesToSelect, handleClickAddressesFromSelect, handleToggleFeeEdit, handleClickFeeSelect, handleToggleQrCodeCapture } = props
+  handleToggleAddressesToSelect, handleClickAddressesFromSelect, handleToggleFeeEdit, handleToggleQrCodeCapture } = props
 
   return (
     <Modal icon='icon-send' title='Send' size='large' show={show}>
@@ -104,7 +104,7 @@ const FirstStep = (props) => {
           <ColLeft>
             { feeEditDisplayed
               ? <Field name='fee' component={TextBox} validate={[required]} />
-              : <Field name='fee' component={SelectBoxFee} validate={[required]} props={{ callback: handleClickFeeSelect }} />
+              : <Field name='fee' component={SelectBoxFee} validate={[required]} />
             }
           </ColLeft>
           <ColRight>

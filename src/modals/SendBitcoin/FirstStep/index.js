@@ -21,7 +21,6 @@ class FirstStepContainer extends React.Component {
 
     this.handleClickAddressesFromSelect = this.handleClickAddressesFromSelect.bind(this)
     this.handleToggleAddressesToSelect = this.handleToggleAddressesToSelect.bind(this)
-    this.handleClickFeeSelect = this.handleClickFeeSelect.bind(this)
     this.handleToggleFeeEdit = this.handleToggleFeeEdit.bind(this)
     this.handleToggleQrCodeCapture = this.handleToggleQrCodeCapture.bind(this)
     this.handleQrCodeScan = this.handleQrCodeScan.bind(this)
@@ -31,6 +30,7 @@ class FirstStepContainer extends React.Component {
 
   componentWillMount () {
     if (isEmpty(this.props.feeValues)) { this.props.feeActions.fetchFee() }
+    this.props.paymentActions.getUnspents(this.props.defaultSource)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -46,30 +46,18 @@ class FirstStepContainer extends React.Component {
     }
   }
 
-  componentWillUnmount () {
-    this.props.feeActions.deleteFee()
-  }
+  componentWillUnmount () { this.props.feeActions.deleteFee() }
 
-  handleClickAddressesFromSelect (value) {
-    this.props.paymentActions.getUnspents(value)
-  }
+  handleClickAddressesFromSelect (value) { this.props.paymentActions.getUnspents(value) }
 
   handleToggleAddressesToSelect () {
     this.setState({ addressesSelectDisplayed: !this.state.addressesSelectDisplayed })
     if (this.state.addressesSelectDisplayed) { this.props.reduxFormActions.change('sendBitcoin', 'to', '') }
   }
 
-  handleToggleFeeEdit () {
-    this.setState({ feeEditDisplayed: !this.state.feeEditDisplayed })
-  }
+  handleToggleFeeEdit () { this.setState({ feeEditDisplayed: !this.state.feeEditDisplayed }) }
 
-  handleClickFeeSelect (value) {
-    console.log(value)
-  }
-
-  handleToggleQrCodeCapture () {
-    this.props.modalActions.showModalQRCodeCapture(this.handleQrCodeScan, this.handleQrCodeError, this.handleQrCodeBack)
-  }
+  handleToggleQrCodeCapture () { this.props.modalActions.showModalQRCodeCapture(this.handleQrCodeScan, this.handleQrCodeError, this.handleQrCodeBack) }
 
   handleQrCodeScan (data) {
     if (data) {
@@ -79,13 +67,9 @@ class FirstStepContainer extends React.Component {
     }
   }
 
-  handleQrCodeError (error) {
-    this.props.alertActions.displayError(error)
-  }
+  handleQrCodeError (error) { this.props.alertActions.displayError(error) }
 
-  handleQrCodeBack () {
-    this.props.modalActions.showModalSendBitcoin()
-  }
+  handleQrCodeBack () { this.props.modalActions.showModalSendBitcoin() }
 
   render () {
     return (<FirstStep
@@ -94,7 +78,6 @@ class FirstStepContainer extends React.Component {
       handleClickAddressesFromSelect={this.handleClickAddressesFromSelect}
       handleToggleAddressesToSelect={this.handleToggleAddressesToSelect}
       handleToggleFeeEdit={this.handleToggleFeeEdit}
-      handleClickFeeSelect={this.handleClickFeeSelect}
       handleToggleQrCodeCapture={this.handleToggleQrCodeCapture}
       {...this.props}
     />)
