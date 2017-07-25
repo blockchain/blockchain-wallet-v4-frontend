@@ -13,6 +13,9 @@ export default (state = INITIAL_STATE, action) => {
       const coins = action.payload
       return assoc('coins', coins, state)
     }
+    case A.PAYMENT_GET_UNSPENTS_ERROR: {
+      return assoc('coins', [], state)
+    }
     case A.REFRESH_SELECTION: {
       console.log(action.payload)
       const { coins, target, feePerByte, change, algorithm, seed } = action.payload
