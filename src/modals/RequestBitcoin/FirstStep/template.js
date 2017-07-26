@@ -30,8 +30,9 @@ const Aligned = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { show, nextAddress, next, handleClickCode, submitting, invalid } = props
-
+  console.log(props)
+  const { show, next, submitting, invalid, receiveAddress, handleClickCode } = props
+  
   return (
     <Modal icon='icon-receive' title='Request' size='large' show={show}>
       <Form>
@@ -43,7 +44,7 @@ const FirstStep = (props) => {
             <Text id='modals.requestbitcoin.firststep.share_tooltip3' text='You can also create a request by attaching an amount below.' smaller light />
           </Tooltip>
         </Aligned>
-        <CopyClipboard handleClickCode={handleClickCode} address={nextAddress} />
+        <CopyClipboard handleClickCode={handleClickCode} address={receiveAddress} />
         <SeparatorContainer>
           <Separator />
           <Text id='modals.requestbitcoin.firststep.or' text='Or' small light uppercase />
@@ -52,7 +53,7 @@ const FirstStep = (props) => {
         <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
         <Field name='amount' component={CoinConvertor} validate={[requiredNumber]} />
         <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
-        <Field name='source' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
+        <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
         <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />
         <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" fullwidth />
         <SecondaryButton fullwidth onClick={next} disabled={submitting || invalid}>

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
@@ -54,7 +55,7 @@ const AddressesToButton = styled(Button)`
 
 const FirstStep = (props) => {
   const validateAmount = (value, allValues, props) => {
-    return value < allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
+    return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
   }
 
   return (
@@ -79,7 +80,7 @@ const FirstStep = (props) => {
             )
         }
         <Text id='modals.sendbitcoin.firststep.amount' text='Enter amount:' small medium />
-        <Field name='amount' component={CoinConvertor} validate={[requiredNumber, validateAmount]} props={{ hello: 'hello' }} />
+        <Field name='amount' component={CoinConvertor} validate={[requiredNumber, validateAmount]} />
         <Field name='effectiveBalance' component={Hidden} />
         <Aligned>
           <Text id='modals.sendbitcoin.firststep.description' text='Description:' small medium />
@@ -104,7 +105,7 @@ const FirstStep = (props) => {
           </ColLeft>
           <ColRight>
             { props.invalid ? <div /> : <ComboDisplay small light>{props.selection.fee}</ComboDisplay> }
-            <Link fullWidth onClick={props.handleToggleFeeEdit}>
+            <Link onClick={props.handleToggleFeeEdit}>
               { props.feeEditDisplayed
                 ? <Text id='modals.sendbitcoin.firststep.cancel' text='Cancel' smaller light cyan capitalize />
                 : <Text id='modals.sendbitcoin.firststep.edit' text='Customize fee' smaller light cyan capitalize />
@@ -112,12 +113,24 @@ const FirstStep = (props) => {
             </Link>
           </ColRight>
         </Row>
-        <SecondaryButton fullwidth onClick={props.next} disabled={props.submitting || props.invalid}>
+        <SecondaryButton fullWidth onClick={props.next} disabled={props.submitting || props.invalid}>
           <Text id='modals.sendbitcoin.firststep.continue' text='Continue' small medium uppercase white />
         </SecondaryButton>
       </Form>
     </Modal>
   )
+}
+
+FirstStep.propTypes = {
+  show: PropTypes.bool.isRequired,
+  addressesSelectDisplayed: PropTypes.bool.isRequired,
+  feeEditDisplayed: PropTypes.bool.isRequired,
+  handleToggleQrCodeCapture: PropTypes.func.isRequired,
+  handleToggleAddressesToSelect: PropTypes.func.isRequired,
+  handleToggleFeeEdit: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  invalid: PropTypes.bool.isRequired
 }
 
 export default FirstStep

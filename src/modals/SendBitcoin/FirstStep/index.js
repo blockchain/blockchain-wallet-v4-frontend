@@ -6,7 +6,7 @@ import { gte, is, equals, isNil } from 'ramda'
 import * as crypto from 'crypto'
 
 import { Coin, CoinSelection } from 'dream-wallet/lib'
-import { convertFromUnit } from 'services/ConversionService'
+import { convertToUnit, convertFromUnit } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
@@ -28,7 +28,7 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { invalid, fee, from, target, coins, changeAddress } = nextProps
+    const { invalid, network, unit, fee, from, target, coins, changeAddress } = nextProps
 
     if (!invalid && gte(fee, 0) && target && coins && changeAddress && !equals(nextProps, this.props)) {
       const seed = crypto.randomBytes(16)
@@ -41,8 +41,9 @@ class FirstStepContainer extends React.Component {
 
     if ((gte(fee, 0)) && (!equals(coins, this.props.coins) || !equals(fee, this.props.fee))) {
       const effectiveBalance = CoinSelection.effectiveBalance(fee, coins).value
-      if (!equals(this.props.effectiveBalance, effectiveBalance)) {
-        this.props.reduxFormActions.change('sendBitcoin', 'effectiveBalance', effectiveBalance)
+      const effectiveBalanceTransformed = convertToUnit(network, effectiveBalance, unit).getOrElse({ amount: 0 })
+      if (!equals(this.props.effectiveBalance, effectiveBalanceTransformed)) {
+        this.props.reduxFormActions.change('sendBitcoin', 'effectiveBalance', effectiveBalanceTransformed.amount)
       }
     }
   }
@@ -115,6 +116,8 @@ const mapStateToProps = (state, ownProps) => {
   const target = targetAddress && gte(satoshis.amount, 0) ? Coin.fromJS({ address: targetAddress, value: satoshis.amount }) : undefined
 
   return {
+    network,
+    unit,
     changeAddress: selectAddress(ownProps.from, getChange),
     coins: selectors.core.payment.getCoins(state),
     feeValues: selectors.core.fee.getFee(state),

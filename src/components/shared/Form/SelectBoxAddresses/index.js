@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { map } from 'ramda'
+import { map, isEmpty } from 'ramda'
 
 import { actions, selectors } from 'data'
 import { displayCoin, displayFiat } from 'services/ConversionService'
@@ -12,10 +12,11 @@ class SelectBoxAddressesContainer extends React.Component {
   render () {
     const { accounts, legacyAddresses, includeAll, ...rest } = this.props
     const allWallets = { text: 'All Wallets', value: '' }
-    const elements = [
-      { group: '', items: includeAll ? [allWallets, ...accounts] : accounts },
-      { group: 'Imported addresses', items: legacyAddresses }
-    ]
+    const elements = []
+    elements.push({ group: '', items: includeAll ? [allWallets, ...accounts] : accounts })
+    if (!isEmpty(legacyAddresses)) {
+      elements.push({ group: 'Imported addresses', items: legacyAddresses })
+    }
 
     return <SelectBox elements={elements} {...rest} />
   }

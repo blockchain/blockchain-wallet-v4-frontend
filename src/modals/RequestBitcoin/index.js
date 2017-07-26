@@ -10,7 +10,8 @@ import SecondStep from './SecondStep'
 
 class RequestBitcoinContainer extends React.Component {
   componentWillMount () {
-    this.props.reduxFormActions.change('requestBitcoin', 'source', this.props.defaultSource)
+    console.log(this.props.initialValues)
+    this.props.reduxFormActions.initialize('requestBitcoin', this.props.initialValues)
   }
 
   render () {
@@ -25,20 +26,34 @@ class RequestBitcoinContainer extends React.Component {
   }
 }
 
+const selectAddress = (addressValue, selectorFunction) => {
+  return addressValue
+    ? addressValue.address
+      ? addressValue.address
+      : selectorFunction(addressValue.index)
+    : undefined
+}
+
 const mapStateToProps = (state, ownProps) => {
-  const defaultSource = {
+  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(undefined, index, state)
+  const selector = formValueSelector('requestBitcoin')
+  const initialTo = {
     xpub: selectors.core.wallet.getDefaultAccountXpub(state),
     index: selectors.core.wallet.getDefaultAccountIndex(state)
   }
-  const selector = formValueSelector('requestBitcoin')
-  const source = selector(state, 'source') || defaultSource
-  const nextAddress = source.address
-    ? source.address
-    : selectors.core.common.getNextAvailableReceiveAddress(undefined, source.index, state)
+  const initialValues = {
+    to: initialTo,
+    receiveAddress: selectAddress(initialTo, getReceive)
+  }
 
   return {
-    defaultSource,
-    nextAddress
+    initialValues,
+    network: 'bitcoin',
+    unit: selectors.core.settings.getBtcCurrency(state),
+    to: selector(state, 'to'),
+    amount: selector(state, 'amount'),
+    message: selector(state, 'message'),
+    receiveAddress: selectAddress(selector(state, 'to'), getReceive)
   }
 }
 

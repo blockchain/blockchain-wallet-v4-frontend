@@ -7,6 +7,7 @@ import { isNil, equals } from 'ramda'
 import { wizardForm } from 'components/providers/FormProvider'
 import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
 
 class SendBitcoinContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
@@ -24,6 +25,8 @@ class SendBitcoinContainer extends React.Component {
     const { step, ...rest } = this.props
 
     switch (step) {
+      case 1:
+        return <SecondStep {...rest} />
       default:
         return <FirstStep {...rest} />
     }
@@ -49,7 +52,7 @@ const mapStateToProps = (state, ownProps) => {
     to: selector(state, 'to'),
     from: selector(state, 'from'),
     amount: selector(state, 'amount'),
-    effectiveBalance: selector(state, 'effetiveBalance'),
+    effectiveBalance: selector(state, 'effectiveBalance'),
     message: selector(state, 'message')
   }
 }

@@ -17,7 +17,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleClickCode () {
-    this.props.actions.showModalQRCode(this.props.nextAddress, this.handleQRCodeClickBack)
+    this.props.actions.showModalQRCode(this.props.receiveAddress, this.handleQRCodeClickBack)
   }
 
   render () {
