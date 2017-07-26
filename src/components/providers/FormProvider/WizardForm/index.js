@@ -5,12 +5,13 @@ import { compose, path } from 'ramda'
 import { reduxForm, actions as reduxFormActions } from 'redux-form'
 import { actions } from 'data'
 
-const wizardForm = (formName, totalSteps) => Component => {
+const wizardForm = (formName, totalSteps, options = {}) => Component => {
   class WizardForm extends React.Component {
-    constructor (props) {
-      super(props)
+    constructor () {
+      super()
       this.next = this.next.bind(this)
       this.previous = this.previous.bind(this)
+      console.log(...options)
     }
 
     next () {
@@ -30,7 +31,7 @@ const wizardForm = (formName, totalSteps) => Component => {
     }
 
     render () {
-      return <Component {...this.props} step={this.props.step} next={this.next} previous={this.previous} />
+      return <Component {...this.props} next={this.next} previous={this.previous} />
     }
 
     componentWillUnmount () { this.reset() }
@@ -50,7 +51,7 @@ const wizardForm = (formName, totalSteps) => Component => {
   }
 
   const enhance = compose(
-    reduxForm({ form: formName, destroyOnUnmount: false }),
+    reduxForm({ form: formName, destroyOnUnmount: false, ...options }),
     connect(mapStateToProps, mapDispatchToProps)
   )
 

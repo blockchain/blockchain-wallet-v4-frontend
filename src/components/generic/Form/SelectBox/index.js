@@ -18,10 +18,14 @@ class SelectBoxContainer extends React.Component {
   }
 
   handleClick (value) {
-    this.setState({ opened: false, value: value })
-    this.props.input.onChange(value)
-    this.props.input.onBlur(value)
-    if (this.props.callback) { this.props.callback(value) }
+    if (!equals(this.state.value, value)) {
+      this.setState({ opened: false, value: value })
+      this.props.input.onChange(value)
+      this.props.input.onBlur(value)
+      if (this.props.callback) { this.props.callback(value) }
+    } else {
+      this.setState({ opened: false })
+    }
   }
 
   handleChange (event) {
