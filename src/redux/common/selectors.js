@@ -1,5 +1,5 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
-import { allPass, anyPass, contains, prop, compose, assoc, map, path, reduce, propSatisfies, toUpper, curry, filter, split, addIndex } from 'ramda'
+import { allPass, anyPass, contains, prop, compose, assoc, map, path, reduce, propSatisfies, toUpper, curry, filter, split } from 'ramda'
 import { getBalances, getChangeIndex, getReceiveIndex } from '../data/Addresses/selectors.js'
 import { getTransactions, getTypeFilter, getSearchFilter } from '../data/Transactions/selectors.js'
 import { getHeight } from '../data/LatestBlock/selectors.js'
@@ -10,7 +10,7 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
   const getActiveHDAccounts = state => {
     const balances = compose(getBalances, prop(dataPath))(state)
     const addInfo = account => assoc('info', prop(prop('xpub', account), balances), account)
-    return compose(map(addInfo), HDAccountList.toJS, HDAccountList.selectActive, HDWallet.selectAccounts,
+    return compose(map(addInfo), HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts,
                    HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet, prop(walletPath))(state)
   }
   // getActiveAddresses :: state -> [AddresseswithInfo]
@@ -21,20 +21,21 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
                    Wallet.selectAddresses, Wrapper.selectWallet, prop(walletPath))(state)
   }
   const digestAddress = x => ({
-    title: prop('label', x) ? prop('label', x) : x.addr,
+    title: prop('label', x) ? prop('label', x) : prop('addr', x),
     amount: path(['info', 'final_balance'], x),
-    address: x.addr
+    address: prop('addr', x)
   })
 
-  const digestAccount = (x, i) => ({
-    title: prop('label', x) ? prop('label', x) : x.xpub,
+  const digestAccount = x => ({
+    title: prop('label', x) ? prop('label', x) : prop('xpub', x),
     amount: path(['info', 'final_balance'], x),
-    xpub: x.xpub,
-    index: i
+    xpub: prop('xpub', x),
+    index: prop('index', x)
   })
 
-  const getAccountsBalances = state => addIndex(map)(digestAccount, getActiveHDAccounts(state))
+  const getAccountsBalances = state => map(digestAccount, getActiveHDAccounts(state))
   const getAddressesBalances = state => map(digestAddress, getActiveAddresses(state))
+  
   const getAggregatedAddressesBalances = state => {
     const ls = getAddressesBalances(state)
     const adder = (a, b) => ({amount: (a.amount + b.amount)})

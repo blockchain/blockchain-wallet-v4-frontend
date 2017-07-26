@@ -26,6 +26,10 @@ export const toJS = pipe(HDAccountList.guard, (accList) => {
   return map(HDAccount.toJS, accList).toArray()
 })
 
+export const toJSwithIndex = pipe(HDAccountList.guard, (accList) => {
+  return map(HDAccount.toJSwithIndex, accList).toArray()
+})
+
 export const fromJS = (accounts) => {
   if (is(HDAccountList, accounts)) {
     return accounts
