@@ -7,6 +7,7 @@ import { wizardForm } from 'components/providers/FormProvider'
 import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
+import settings from 'config'
 
 class RequestBitcoinContainer extends React.Component {
   componentWillMount () {
@@ -35,7 +36,7 @@ const selectAddress = (addressValue, selectorFunction) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(undefined, index, state)
+  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const selector = formValueSelector('requestBitcoin')
   const initialTo = {
     xpub: selectors.core.wallet.getDefaultAccountXpub(state),

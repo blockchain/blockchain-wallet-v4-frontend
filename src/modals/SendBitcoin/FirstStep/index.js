@@ -9,6 +9,7 @@ import { Coin, CoinSelection } from 'dream-wallet/lib'
 import { convertToUnit, convertFromUnit } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
+import settings from 'config'
 
 class FirstStepContainer extends React.Component {
   constructor (props) {
@@ -106,8 +107,8 @@ const selectAddress = (addressValue, selectorFunction) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(undefined, index, state)
-  const getChange = index => selectors.core.common.getNextAvailableChangeAddress(undefined, index, state)
+  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
+  const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
   const network = 'bitcoin'
   const unit = selectors.core.settings.getBtcCurrency(state)

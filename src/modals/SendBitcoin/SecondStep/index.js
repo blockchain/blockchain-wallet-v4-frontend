@@ -5,6 +5,7 @@ import { is } from 'ramda'
 
 import { actions, selectors } from 'data'
 import SecondStep from './template.js'
+import settings from 'config'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
@@ -34,8 +35,8 @@ const selectAddress = (addressValue, selectorFunction) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(undefined, index, state)
-  const getChange = index => selectors.core.common.getNextAvailableChangeAddress(undefined, index, state)
+  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
+  const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
   return {
     fromAddress: selectAddress(ownProps.from, getChange),
