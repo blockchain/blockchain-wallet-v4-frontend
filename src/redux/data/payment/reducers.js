@@ -3,8 +3,15 @@ import * as A from './actionTypes'
 // import { selectAll, effectiveBalance } from '../../../coinSelection'
 import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound } from '../../../coinSelection'
 
-const EMPTY_SELECTION = {fee: undefined, inputs: [], outputs: []}
-const INITIAL_STATE = { coins: [], selection: EMPTY_SELECTION }
+const EMPTY_SELECTION = {
+  fee: undefined,
+  inputs: [],
+  outputs: []
+}
+const INITIAL_STATE = {
+  coins: [],
+  selection: EMPTY_SELECTION
+}
 
 export default (state = INITIAL_STATE, action) => {
   const { type } = action
@@ -17,7 +24,6 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('coins', [], state)
     }
     case A.REFRESH_SELECTION: {
-      console.log(action.payload)
       const { coins, target, feePerByte, change, algorithm, seed } = action.payload
       let selection
       switch (algorithm) {
