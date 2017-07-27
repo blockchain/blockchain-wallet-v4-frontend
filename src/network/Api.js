@@ -197,6 +197,22 @@ const createApi = ({
     return request({ url: apiUrl, method: 'GET', endPoint: 'mempool/fees' })
   }
 
+  const pushTx = function (txHex) {
+    const data = {
+      tx: txHex,
+      format: 'plain'
+    }
+    const responseTXHASH = function (responseText) {
+      if (responseText.indexOf('Transaction Submitted') > -1) {
+        return true
+      } else {
+        return responseText
+      }
+    }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'pushtx', data })
+           .then(responseTXHASH)
+  }
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -214,7 +230,8 @@ const createApi = ({
     getCaptchaImage: future(getCaptchaImage),
     recoverWallet: future(recoverWallet),
     getUnspents: future(getUnspents),
-    getFee: future(getFee)
+    getFee: future(getFee),
+    pushTx: future(pushTx)
   }
 }
 

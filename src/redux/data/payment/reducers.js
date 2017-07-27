@@ -16,6 +16,11 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   const { type } = action
   switch (type) {
+    case A.SIGN_AND_PUBLISH_SUCCESS: {
+      // delete payment data
+      console.log('Transaction SENT!')
+      return INITIAL_STATE
+    }
     case A.PAYMENT_GET_UNSPENTS_SUCCESS: {
       const coins = action.payload
       return assoc('coins', coins, state)

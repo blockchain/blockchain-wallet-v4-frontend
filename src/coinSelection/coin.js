@@ -1,4 +1,4 @@
-import { curry, is, drop, clamp } from 'ramda'
+import { curry, is, drop, clamp, split, length } from 'ramda'
 import { over, view } from 'ramda-lens'
 import Type from '../types/Type'
 
@@ -26,6 +26,12 @@ export class Coin extends Type {
   }
   overValue (f) {
     return over(value, f, this)
+  }
+  isFromAccount () {
+    return length(split('/', this.priv)) > 1
+  }
+  isFromLegacy () {
+    return !this.isFromAccount()
   }
 }
 
