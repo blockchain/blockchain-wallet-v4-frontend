@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { is } from 'ramda'
 
+import { convertFromUnit } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import SecondStep from './template.js'
 import settings from 'config'
@@ -14,7 +15,7 @@ class SecondStepContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.actions.displaySuccess('SENT')
+    this.props.paymentActions.signAndPublish(settings.NETWORK, this.props.selection)
   }
 
   render () {
@@ -40,12 +41,14 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     fromAddress: selectAddress(ownProps.from, getChange),
-    toAddress: selectAddress(ownProps.to, getReceive)
+    toAddress: selectAddress(ownProps.to, getReceive),
+    satoshis: convertFromUnit(ownProps.network, ownProps.amount, ownProps.unit).getOrElse({ amount: undefined, symbol: 'N/A' }).amount
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.alerts, dispatch)
+  alertActions: bindActionCreators(actions.alerts, dispatch),
+  paymentActions: bindActionCreators(actions.core.payment, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

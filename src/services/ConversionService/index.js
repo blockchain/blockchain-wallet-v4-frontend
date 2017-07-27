@@ -5,7 +5,7 @@ import Maybe from 'data.maybe'
 const toUnit = (amount, ratio) => parseFloat(amount * ratio)
 
 // fromUnit :: Number -> Number -> Number -> Maybe (Number)
-const fromUnit = (amount, ratio) => parseFloat(amount / ratio)
+const fromUnit = (amount, ratio) => parseInt(Math.ceil(amount / ratio))
 
 // toCoin :: Number -> Number -> Number -> Maybe (Number)
 const toCoin = (amount, scale, ratio) => parseFloat(amount * scale / ratio)

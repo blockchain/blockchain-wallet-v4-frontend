@@ -46,6 +46,9 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
   return {
+    network: 'bitcoin',
+    unit: selectors.core.settings.getBtcCurrency(state),
+    selection: selectors.core.payment.getSelection(state),
     initialValues,
     feeValues: selectors.core.fee.getFee(state),
     fee: selector(state, 'fee'),

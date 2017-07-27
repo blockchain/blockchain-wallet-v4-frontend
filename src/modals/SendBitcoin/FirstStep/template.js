@@ -67,7 +67,7 @@ const FirstStep = (props) => {
         { props.addressesSelectDisplayed
           ? (
             <AddressesToContainer>
-              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: true, includeAll: false }} />
+              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: !props.addressesSelectDisplayed, includeAll: false }} />
               <AddressesToButton onClick={props.handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
               <AddressesToButton onClick={props.handleToggleAddressesToSelect}><AddressesEditToggle /></AddressesToButton>
             </AddressesToContainer>
@@ -89,7 +89,7 @@ const FirstStep = (props) => {
             <Text id='modals.sendbitcoin.firststep.share_tooltip2' text='This note will be private and only seen by you.' smaller light />
           </Tooltip>
         </Aligned>
-        <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" fullwidth />
+        <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
         <Aligned>
           <Text id='modals.sendbitcoin.firststep.fee' text='Transaction fee:' small medium capitalize />
           <Tooltip>
@@ -113,7 +113,7 @@ const FirstStep = (props) => {
             </Link>
           </ColRight>
         </Row>
-        <SecondaryButton fullWidth onClick={props.next} disabled={props.submitting || props.invalid}>
+        <SecondaryButton fullwidth onClick={props.next} disabled={props.submitting || props.invalid}>
           <Text id='modals.sendbitcoin.firststep.continue' text='Continue' small medium uppercase white />
         </SecondaryButton>
       </Form>

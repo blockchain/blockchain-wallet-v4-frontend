@@ -41,7 +41,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { show, handleClick, previous, fromAddress, toAddress, message, amount, fee } = props
+  const { show, handleClick, previous, fromAddress, toAddress, message, satoshis, fee } = props
 
   return (
     <Modal icon='icon-send' title='Confirm' size='large' show={show}>
@@ -75,7 +75,7 @@ const SecondStep = (props) => {
             <Text id='modals.sendbitcoin.secondstep.payment' text='Payment:' small capitalize />
           </PaymentSendLabel>
           <PaymentSendValue>
-            <ComboDisplay small light>{amount}</ComboDisplay>
+            <ComboDisplay small light>{satoshis}</ComboDisplay>
           </PaymentSendValue>
         </PaymentSendRow>
         <PaymentSendRow>
@@ -91,8 +91,8 @@ const SecondStep = (props) => {
             <Typography big light>
               <Text id='modals.sendbitcoin.secondstep.total' text='Total' small red />
             </Typography>
-            <CoinDisplay biggest red>{amount}</CoinDisplay>
-            <CurrencyDisplay big light red>{amount}</CurrencyDisplay>
+            <CoinDisplay biggest red>{satoshis}</CoinDisplay>
+            <CurrencyDisplay big light red>{satoshis}</CurrencyDisplay>
           </PaymentSendContent>
         </PaymentSendContainer>
         <Footer>
@@ -112,8 +112,8 @@ SecondStep.propTypes = {
   handleClick: PropTypes.func.isRequired,
   fromAddress: PropTypes.string.isRequired,
   toAddress: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
+  message: PropTypes.string,
+  satoshis: PropTypes.number.isRequired,
   fee: PropTypes.number.isRequired
 }
 

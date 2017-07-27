@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions as reduxFormActions } from 'redux-form'
-import { gte, is, equals, isNil } from 'ramda'
+import { gte, is, equals, isNil, pick } from 'ramda'
 import * as crypto from 'crypto'
 
 import { Coin, CoinSelection } from 'dream-wallet/lib'
@@ -17,8 +17,9 @@ class FirstStepContainer extends React.Component {
 
     this.state = {
       feeEditDisplayed: false,
-      addressesSelectDisplayed: false
+      addressesSelectDisplayed: is(Object, props.to)
     }
+    this.timeout = undefined
 
     this.handleToggleAddressesToSelect = this.handleToggleAddressesToSelect.bind(this)
     this.handleToggleFeeEdit = this.handleToggleFeeEdit.bind(this)
@@ -29,11 +30,14 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { invalid, network, unit, fee, from, target, coins, changeAddress } = nextProps
+    const { network, unit, fee, from, target, coins, changeAddress } = nextProps
 
-    if (!invalid && gte(fee, 0) && target && coins && changeAddress && !equals(nextProps, this.props)) {
-      const seed = crypto.randomBytes(16)
-      this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'branchAndBound', seed.toString('hex'))
+    if (gte(fee, 0) && target && coins && changeAddress && !equals(pick(['fee', 'to', 'from', 'amount'], nextProps), pick(['fee', 'to', 'from', 'amount'], this.props))) {
+      if (this.timeout) { clearTimeout(this.timeout) }
+      this.timeout = setTimeout(() => {
+        const seed = crypto.randomBytes(16)
+        this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'descentDraw', seed.toString('hex'))
+      }, 1000)
     }
 
     if (!isNil(from) && !equals(from, this.props.from)) {
@@ -90,10 +94,6 @@ class FirstStepContainer extends React.Component {
   }
 }
 
-FirstStepContainer.defaultProps = {
-  to: { address: undefined }
-}
-
 const selectAddress = (addressValue, selectorFunction) => {
   if (is(String, addressValue)) {
     return addressValue
@@ -110,19 +110,14 @@ const mapStateToProps = (state, ownProps) => {
   const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
-  const network = 'bitcoin'
-  const unit = selectors.core.settings.getBtcCurrency(state)
-  const satoshis = convertFromUnit(network, ownProps.amount, unit).getOrElse({ amount: undefined, symbol: 'N/A' })
+  const satoshis = convertFromUnit(ownProps.network, ownProps.amount, ownProps.unit).getOrElse({ amount: undefined, symbol: 'N/A' })
   const targetAddress = selectAddress(ownProps.to, getReceive)
   const target = targetAddress && gte(satoshis.amount, 0) ? Coin.fromJS({ address: targetAddress, value: satoshis.amount }) : undefined
 
   return {
-    network,
-    unit,
     changeAddress: selectAddress(ownProps.from, getChange),
     coins: selectors.core.payment.getCoins(state),
     feeValues: selectors.core.fee.getFee(state),
-    selection: selectors.core.payment.getSelection(state),
     target
   }
 }

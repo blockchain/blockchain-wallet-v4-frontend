@@ -17,14 +17,14 @@ import { serializer } from 'dream-wallet/lib/types'
 const devToolsConfig = {
   serialize: serializer,
   actionsBlacklist: [
-    // '@@redux-form/CHANGE',
-    // '@@redux-form/REGISTER_FIELD',
-    // '@@redux-form/UNREGISTER_FIELD',
-    // '@@redux-form/UPDATE_SYNC_ERRORS',
-    // '@@redux-form/FOCUS',
-    // '@@redux-form/BLUR',
-    // '@@redux-form/DESTROY',
-    // '@@redux-form/RESET'
+    '@@redux-form/CHANGE',
+    '@@redux-form/REGISTER_FIELD',
+    '@@redux-form/UNREGISTER_FIELD',
+    '@@redux-form/UPDATE_SYNC_ERRORS',
+    '@@redux-form/FOCUS',
+    '@@redux-form/BLUR',
+    '@@redux-form/DESTROY',
+    '@@redux-form/RESET'
   ]
 }
 
