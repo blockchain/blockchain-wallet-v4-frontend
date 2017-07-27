@@ -14,9 +14,11 @@
 ## Commands
 
 1. `yarn install --ignore-engines`: restore the npm dependencies
-2. `yarn run build`: build the project
-3. `yarn run start`: start the website on http://localhost:8080
-4. `yarn run generate`: generate locales/en.json by computing all key/values used in the solution
+2. `yarn build-dev`: build the project in development mode (testnet)
+3. `yarn build-prod`: build the project in production mode (bitcoin)
+4. `yarn start-dev`: start the website on http://localhost:8080 in development mode
+5. `yarn start-prod`: start the website on http://localhost:8080 in production mode
+6. `yarn generate`: generate locales/en.json by computing all key/values used in the solution (DEPRECATED)
 
 ## Development mode
 

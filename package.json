@@ -4,8 +4,10 @@
   "description": "Wallet user interface",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --config webpack.config.dev.js --verbose",
-    "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --devtool eval --progress --colors",
+    "build-dev": "./node_modules/.bin/webpack --config webpack.config.dev.js --progress --colors",
+    "build-prod": "./node_modules/.bin/webpack --config webpack.config.prod.js --progress --colors",
+    "start-dev": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --devtool eval --progress --colors",
+    "start-prod": "./node_modules/.bin/webpack-dev-server --config webpack.config.prod.js --devtool eval --progress --colors",
     "generate": "./node_modules/.bin/babel-node ./tools/generateDefaultLocale.js",
     "test": "jest --watch"
   },
@@ -96,7 +98,6 @@
     "data.maybe": "^1.2.2",
     "dream-wallet": "git+https://github.com/blockchain/dream-wallet.git",
     "es6-promise": "^4.1.0",
-    "immutable-ext": "^1.1.0",
     "postcss-loader": "^2.0.6",
     "prop-types": "^15.5.10",
     "qrcode-react": "^0.1.14",
@@ -121,6 +122,7 @@
     "sass-extract": "^0.4.0",
     "sass-extract-loader": "^0.3.4",
     "styled-components": "^2.1.0",
+    "webpack-bundle-analyzer": "^2.8.3",
     "zxcvbn": "^4.4.2"
   }
 }

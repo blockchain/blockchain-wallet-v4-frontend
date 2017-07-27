@@ -15,7 +15,7 @@ module.exports = {
   ],
   output: {
     path: PATHS.build,
-    filename: 'bundle.[hash].js',
+    filename: 'bundle-[hash].js',
     publicPath: '/'
   },
   resolve: {
@@ -99,7 +99,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: 'fonts/[name][hash].[ext]'
+            name: 'fonts/[name]-[hash].[ext]'
           }
         }
       },
@@ -108,7 +108,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: 'img/[name][hash].[ext]'
+            name: 'img/[name]-[hash].[ext]'
           }
         }
       }
@@ -116,7 +116,7 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: 'style.css'
+      filename: 'style-[hash].css'
     }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
