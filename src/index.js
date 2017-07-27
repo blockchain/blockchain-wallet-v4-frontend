@@ -7,9 +7,9 @@ import './assets/sass/global.scss'
 // Import React & JS
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './scenes/app.js'
-import configureLocales from './store/configureLocales'
-import configureStore from './store/configureStore.dev'
+import App from 'scenes/app.js'
+import configureStore from 'store'
+import configureLocales from 'services/LocalesService'
 
 // Register store
 const { store, history } = configureStore()
