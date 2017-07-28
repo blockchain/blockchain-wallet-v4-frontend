@@ -1,6 +1,7 @@
 
-let ExtractTextPlugin = require('extract-text-webpack-plugin')
-let HtmlWebpackPlugin = require('html-webpack-plugin')
+const Webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const PATHS = {
   build: `${__dirname}/build`,
@@ -14,7 +15,7 @@ module.exports = {
   ],
   output: {
     path: PATHS.build,
-    filename: 'bundle.js',
+    filename: 'bundle-[hash].js',
     publicPath: '/'
   },
   resolve: {
@@ -23,13 +24,15 @@ module.exports = {
       'img': PATHS.src + '/assets/img',
       'locales': PATHS.src + '/assets/locales',
       'sass': PATHS.src + '/assets/sass',
-      'themes': PATHS.src + '/assets/themes',
       'components': PATHS.src + '/components',
+      'config': PATHS.src + '/config',
       'data': PATHS.src + '/data',
       'middleware': PATHS.src + '/middleware',
+      'modals': PATHS.src + '/modals',
       'scenes': PATHS.src + '/scenes',
       'services': PATHS.src + '/services',
-      'config': PATHS.src + '/config.js'
+      'store': PATHS.src + '/store',
+      'themes': PATHS.src + '/themes'
     },
     symlinks: false
   },
@@ -50,12 +53,14 @@ module.exports = {
                   'locales': PATHS.src + '/assets/locales',
                   'sass': PATHS.src + '/assets/sass',
                   'components': PATHS.src + '/components',
+                  'config': PATHS.src + '/config',
                   'data': PATHS.src + '/data',
                   'middleware': PATHS.src + '/middleware',
                   'modals': PATHS.src + '/modals',
                   'scenes': PATHS.src + '/scenes',
                   'services': PATHS.src + '/services',
-                  'config': PATHS.src + '/config.js'
+                  'store': PATHS.src + '/store',
+                  'themes': PATHS.src + '/themes'
                 }
               }]
             ]
@@ -92,7 +97,10 @@ module.exports = {
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
-          loader: 'file-loader'
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name]-[hash].[ext]'
+          }
         }
       },
       {
@@ -100,7 +108,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: 'img/[name].[ext]'
+            name: 'img/[name]-[hash].[ext]'
           }
         }
       }
@@ -108,11 +116,14 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: 'style.css'
+      filename: 'style-[hash].css'
     }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
+    }),
+    new Webpack.DefinePlugin({
+      'process.env': { 'NODE_ENV': JSON.stringify('development') }
     })
   ],
   devServer: {
@@ -131,7 +142,7 @@ module.exports = {
         "script-src 'self' 'unsafe-eval'",
         // 'ws://localhost:8080' is only used by webpack for development and
         // should not be present on production.
-        "connect-src 'self' ws://localhost:8080 https://blockchain.info wss://ws.blockchain.info https://api.blockchain.info https://app-api.coinify.com https://api.sfox.com https://quotes.sfox.com https://sfox-kyc.s3.amazonaws.com",
+        "connect-src 'self' ws://localhost:8080 https://blockchain.info wss://ws.blockchain.info https://api.blockchain.info https://app-api.coinify.com https://api.sfox.com https://quotes.sfox.com https://sfox-kyc.s3.amazonaws.com https://testnet5.blockchain.info https://api.testnet.blockchain.info",
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
         "font-src 'self'"

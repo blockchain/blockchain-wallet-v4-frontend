@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
+import { equals } from 'ramda'
 
 import { selectors, actions } from 'data'
 import TransactionList from './template.js'
@@ -17,10 +18,11 @@ class TransactionListContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.address !== nextProps.address) {
-      const address = nextProps.address ? nextProps.address : ''
-      this.props.actions.setAddressFilter(address)
-      this.props.actions.fetchTransactions(nextProps.address, txsPerPage)
+    if (!equals(this.props.source, nextProps.source)) {
+      const source = nextProps.source ? (nextProps.source.xpub ? nextProps.source.xpub : nextProps.source.address) : ''
+      console.log(source)
+      this.props.actions.setAddressFilter(source)
+      this.props.actions.fetchTransactions(source, txsPerPage)
     }
     if (this.props.status !== nextProps.status) {
       const status = nextProps.status ? nextProps.status : ''
@@ -42,7 +44,7 @@ class TransactionListContainer extends React.Component {
 const mapStateToProps = (state) => {
   const selector = formValueSelector('transactionForm')
   return {
-    address: selector(state, 'address'),
+    source: selector(state, 'source'),
     status: selector(state, 'status'),
     search: selector(state, 'search'),
     transactions: selectors.core.common.getWalletTransactions(state)

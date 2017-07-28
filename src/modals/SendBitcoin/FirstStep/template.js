@@ -1,11 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
 import Modal from 'components/generic/Modal'
-import { Button, ButtonGroup, SecondaryButton } from 'components/generic/Button'
-import { Form, TextBox, TextArea } from 'components/generic/Form'
+import { Button, SecondaryButton } from 'components/generic/Button'
+import { Form, Hidden, TextBox, TextArea } from 'components/generic/Form'
 import { Icon } from 'components/generic/Icon'
 import { Link } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
@@ -42,44 +43,45 @@ const AddressesToContainer = styled.div`
 `
 const QrCodeCaptureToggle = styled.img.attrs({ src: qrCode })`height: 18px;`
 const AddressesSelectToggle = styled(Icon).attrs({ name: 'icon-down_arrow' })`font-size: 0.6rem;`
-const AddressesToButton = styled.div`
+const AddressesEditToggle = styled(Icon).attrs({ name: 'ti-pencil' })`font-size: 1rem;`
+const AddressesToButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
   width: 40px;
-  padding: 20px;
-  box-sizing: border-box;
-  border: 1px solid #E0E0E0;
-  background-color: #FFFFFF;
-  color: #5F5F5F;
-  cursor: pointer;
-
-  &:hover { background-color: #F5F7F9; }
+  margin: 0;
+  border-radius: 0;
 `
 
 const FirstStep = (props) => {
-  const { show, next, submitting, invalid, fee, addressesSelectDisplayed, feeEditDisplayed,
-    handleClickAddressesSelect, handleToggleAddressesSelect, handleToggleFeeEdit, handleToggleQrCodeCapture } = props
+  const validateAmount = (value, allValues, props) => {
+    return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
+  }
 
   return (
-    <Modal icon='icon-send' title='Send' size='large' show={show}>
+    <Modal icon='icon-send' title='Send' size='large' show={props.show}>
       <Form>
         <Text id='modals.sendbitcoin.firststep.from' text='From:' small medium />
         <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
         <Text id='modals.sendbitcoin.firststep.to' text='To:' small medium />
-        { addressesSelectDisplayed
-          ? <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ callback: handleClickAddressesSelect, opened: true, includeAll: false }} />
-          : (
+        { props.addressesSelectDisplayed
+          ? (
+            <AddressesToContainer>
+              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: !props.addressesSelectDisplayed, includeAll: false }} />
+              <AddressesToButton onClick={props.handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
+              <AddressesToButton onClick={props.handleToggleAddressesToSelect}><AddressesEditToggle /></AddressesToButton>
+            </AddressesToContainer>
+          ) : (
             <AddressesToContainer>
               <Field name='to' component={TextBox} validate={[required]} />
-              <AddressesToButton onClick={handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
-              <AddressesToButton onClick={handleToggleAddressesSelect}><AddressesSelectToggle /></AddressesToButton>
+              <AddressesToButton onClick={props.handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
+              <AddressesToButton onClick={props.handleToggleAddressesToSelect}><AddressesSelectToggle /></AddressesToButton>
             </AddressesToContainer>
             )
         }
         <Text id='modals.sendbitcoin.firststep.amount' text='Enter amount:' small medium />
-        <Field name='amount' component={CoinConvertor} validate={[requiredNumber]} />
+        <Field name='amount' component={CoinConvertor} validate={[requiredNumber, validateAmount]} />
+        <Field name='effectiveBalance' component={Hidden} />
         <Aligned>
           <Text id='modals.sendbitcoin.firststep.description' text='Description:' small medium />
           <Tooltip>
@@ -87,7 +89,7 @@ const FirstStep = (props) => {
             <Text id='modals.sendbitcoin.firststep.share_tooltip2' text='This note will be private and only seen by you.' smaller light />
           </Tooltip>
         </Aligned>
-        <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" fullwidth />
+        <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
         <Aligned>
           <Text id='modals.sendbitcoin.firststep.fee' text='Transaction fee:' small medium capitalize />
           <Tooltip>
@@ -96,27 +98,39 @@ const FirstStep = (props) => {
         </Aligned>
         <Row>
           <ColLeft>
-            { feeEditDisplayed
+            { props.feeEditDisplayed
               ? <Field name='fee' component={TextBox} validate={[required]} />
               : <Field name='fee' component={SelectBoxFee} validate={[required]} />
             }
           </ColLeft>
           <ColRight>
-            <ComboDisplay small light>{fee}</ComboDisplay>
-            <Link fullWidth onClick={handleToggleFeeEdit}>
-              { feeEditDisplayed
+            { props.invalid ? <div /> : <ComboDisplay small light>{props.selection.fee}</ComboDisplay> }
+            <Link onClick={props.handleToggleFeeEdit}>
+              { props.feeEditDisplayed
                 ? <Text id='modals.sendbitcoin.firststep.cancel' text='Cancel' smaller light cyan capitalize />
                 : <Text id='modals.sendbitcoin.firststep.edit' text='Customize fee' smaller light cyan capitalize />
               }
             </Link>
           </ColRight>
         </Row>
-        <SecondaryButton fullwidth onClick={next} disabled={submitting || invalid}>
+        <SecondaryButton fullwidth onClick={props.next} disabled={props.submitting || props.invalid}>
           <Text id='modals.sendbitcoin.firststep.continue' text='Continue' small medium uppercase white />
         </SecondaryButton>
       </Form>
     </Modal>
   )
+}
+
+FirstStep.propTypes = {
+  show: PropTypes.bool.isRequired,
+  addressesSelectDisplayed: PropTypes.bool.isRequired,
+  feeEditDisplayed: PropTypes.bool.isRequired,
+  handleToggleQrCodeCapture: PropTypes.func.isRequired,
+  handleToggleAddressesToSelect: PropTypes.func.isRequired,
+  handleToggleFeeEdit: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  invalid: PropTypes.bool.isRequired
 }
 
 export default FirstStep

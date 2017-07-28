@@ -29,6 +29,9 @@ class CopyClipboardContainer extends React.Component {
     )
   }
 }
+CopyClipboardContainer.defaultProps = {
+  address: ''
+}
 
 CopyClipboardContainer.propTypes = {
   address: PropTypes.string.isRequired

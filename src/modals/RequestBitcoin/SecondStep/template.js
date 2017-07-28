@@ -42,8 +42,8 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { show, amount, message, link, active, handleClick, previous } = props
-  console.log(props)
+  const { show, satoshis, message, link, active, handleClick, previous } = props
+
   return (
     <Modal icon='icon-receive' title='Request created' size='large' show={show}>
       <Form>
@@ -51,8 +51,8 @@ const SecondStep = (props) => {
         <Text id='modals.requestbitcoin.secondstep.payment' text='Payment request:' small medium />
         <PaymentRequestContainer>
           <PaymentRequestContent>
-            <CoinDisplay biggest cyan>{amount}</CoinDisplay>
-            <CurrencyDisplay big light cyan>{amount}</CurrencyDisplay>
+            <CoinDisplay biggest cyan>{satoshis}</CoinDisplay>
+            <CurrencyDisplay big light cyan>{satoshis}</CurrencyDisplay>
             <Typography big light>{message}</Typography>
           </PaymentRequestContent>
           <PaymentRequestFooter>
@@ -83,7 +83,7 @@ SecondStep.defaultProps = {
 
 SecondStep.propTypes = {
   active: PropTypes.bool.isRequired,
-  amount: PropTypes.number.isRequired,
+  satoshis: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
   link: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,

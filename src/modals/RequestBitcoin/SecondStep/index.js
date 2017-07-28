@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { convertFromUnit, convertToUnit } from 'services/ConversionService'
 import { actions } from 'data'
 import SecondStep from './template.js'
 
@@ -18,9 +19,12 @@ class SecondStepContainer extends React.Component {
   }
 
   render () {
-    const link = `https://blockchain.info/payment_request?address=${this.props.address}&amount=${this.props.amount}&message=${this.props.message}`
+    const { network, unit, receiveAddress, amount, message } = this.props
+    const satoshis = convertFromUnit(network, amount, unit).getOrElse({ amount: 0 })
+    const bitcoins = convertToUnit(network, satoshis.amount, 'BTC').getOrElse({ amount: 0 })
+    const link = `https://blockchain.info/payment_request?address=${receiveAddress}&amount=${bitcoins.amount}&message=${message}`
 
-    return <SecondStep {...this.props} link={link} active={this.state.active} handleClick={this.handleClick} />
+    return <SecondStep {...this.props} satoshis={satoshis.amount} link={link} active={this.state.active} handleClick={this.handleClick} />
   }
 }
 

@@ -2,27 +2,26 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { SelectBox } from 'components/generic/Form'
 
 class SelectBoxFeeContainer extends React.Component {
   render () {
-    const { fee, ...rest } = this.props
-    const elements = [
-      { group: '', items: fee }
-    ]
+    const { fee, regularFee, priorityFee, ...rest } = this.props
+
+    const elements = [{
+      group: '',
+      items: [{ text: 'Regular', value: regularFee }, { text: 'Priority', value: priorityFee }]
+    }]
 
     return <SelectBox elements={elements} searchEnabled={false} {...rest} />
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const fee = [
-    { text: 'Regular', value: 30 },
-    { text: 'Priority', value: 220 }
-  ]
+const mapStateToProps = (state) => {
   return {
-    fee: fee
+    regularFee: selectors.core.fee.getRegular(state),
+    priorityFee: selectors.core.fee.getPriority(state)
   }
 }
 

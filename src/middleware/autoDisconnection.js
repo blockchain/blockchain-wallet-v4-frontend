@@ -5,7 +5,7 @@ let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
 let blackListedActivityTypes = []
 
-const AuthMiddleware = store => next => action => {
+const AutoDisconnectionMiddleware = store => next => action => {
   // We start the timer
   if (action.type === actionTypes.auth.LOGOUT_START_TIMER) {
     counter = timer = 5
@@ -40,4 +40,4 @@ const refreshTimer = store => () => {
   counter--
 }
 
-export default AuthMiddleware
+export default AutoDisconnectionMiddleware

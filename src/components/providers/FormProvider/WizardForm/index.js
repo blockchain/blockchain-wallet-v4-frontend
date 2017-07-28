@@ -2,15 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { compose, path } from 'ramda'
-import { reduxForm } from 'redux-form'
+import { reduxForm, actions as reduxFormActions } from 'redux-form'
 import { actions } from 'data'
 
-const wizardForm = (formName, totalSteps) => Component => {
+const wizardForm = (formName, totalSteps, options = {}) => Component => {
   class WizardForm extends React.Component {
-    constructor (props) {
-      super(props)
+    constructor () {
+      super()
       this.next = this.next.bind(this)
       this.previous = this.previous.bind(this)
+      console.log(...options)
     }
 
     next () {
@@ -25,9 +26,15 @@ const wizardForm = (formName, totalSteps) => Component => {
       this.props.actions.setStep(formName, finalPreviousStep)
     }
 
-    render () {
-      return <Component {...this.props} step={this.props.step} next={this.next} previous={this.previous} />
+    reset () {
+      this.props.reduxFormActions.reset(formName)
     }
+
+    render () {
+      return <Component {...this.props} next={this.next} previous={this.previous} />
+    }
+
+    componentWillUnmount () { this.reset() }
   }
 
   const mapStateToProps = (state) => {
@@ -38,12 +45,13 @@ const wizardForm = (formName, totalSteps) => Component => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      actions: bindActionCreators(actions.form, dispatch)
+      actions: bindActionCreators(actions.form, dispatch),
+      reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
     }
   }
 
   const enhance = compose(
-    reduxForm({ form: formName, destroyOnUnmount: false }),
+    reduxForm({ form: formName, destroyOnUnmount: false, ...options }),
     connect(mapStateToProps, mapDispatchToProps)
   )
 

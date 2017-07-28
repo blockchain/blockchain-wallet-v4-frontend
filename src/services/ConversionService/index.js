@@ -5,7 +5,7 @@ import Maybe from 'data.maybe'
 const toUnit = (amount, ratio) => parseFloat(amount * ratio)
 
 // fromUnit :: Number -> Number -> Number -> Maybe (Number)
-const fromUnit = (amount, ratio) => parseFloat(amount / ratio)
+const fromUnit = (amount, ratio) => parseInt(Math.ceil(amount / ratio))
 
 // toCoin :: Number -> Number -> Number -> Maybe (Number)
 const toCoin = (amount, scale, ratio) => parseFloat(amount * scale / ratio)
@@ -16,7 +16,8 @@ const fromCoin = (amount, scale, ratio) => parseFloat(amount / scale * ratio)
 // convert :: String -> Number -> String -> Maybe (Number)
 const convertToUnit = (network, amount, unit) => {
   const ratio = getRatio(network, unit)
-  return ratio ? Maybe.Just({ amount: toUnit(amount, ratio), symbol: unit }) : Maybe.Nothing()
+  const symbol = getSymbol(network, unit)
+  return ratio ? Maybe.Just({ amount: toUnit(amount, ratio), symbol }) : Maybe.Nothing()
 }
 
 // convertFromUnit :: String -> Number -> String -> Maybe (Number)
@@ -72,7 +73,7 @@ const scale = {
   bitcoin: {
     BTC: { name: 'bitcoin', symbol: 'BTC', ratio: 0.00000001, decimals: 8 },
     MBC: { name: 'milli-bitcoin', symbol: 'mBTC', ratio: 0.00001, decimals: 5 },
-    UBC: { name: 'micro-bitcoin', symbol: 'μBTC', ratio: 0.01, decimals: 2 },
+    UBC: { name: 'micro-bitcoin', symbol: 'bits', ratio: 0.01, decimals: 2 },
     base: { name: 'satoshi', symbol: 'SAT', ratio: 1, decimals: 0 }
   }
 }

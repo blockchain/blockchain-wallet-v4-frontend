@@ -50,7 +50,7 @@ const MenuTop = (props) => {
     <Wrapper>
       <HorizontalForm>
         <FilterAddresses>
-          <Field name='address' component={SelectBoxAddresses} />
+          <Field name='source' component={SelectBoxAddresses} />
         </FilterAddresses>
         <FilterStatuses>
           <Field name='status' component={Status} />

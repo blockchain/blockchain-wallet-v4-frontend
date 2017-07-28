@@ -25,7 +25,7 @@ import PreferencesContainer from './Preferences'
 import SecuritySettingsContainer from './SecuritySettings'
 import AddressesContainer from './Addresses'
 import FaqContainer from './Faq'
-import theme from './theme'
+import { defaultTheme } from 'themes'
 
 const RootStyle = styled.div`
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
@@ -37,7 +37,7 @@ class App extends React.Component {
     return (
       <Provider store={this.props.store}>
         <ConnectedIntlProvider messages={this.props.messages}>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={defaultTheme}>
             <RootStyle>
               <ConnectedRouter history={this.props.history}>
                 <Switch>

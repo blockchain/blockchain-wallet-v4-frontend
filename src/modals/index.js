@@ -12,6 +12,7 @@ import SendBitcoin from './SendBitcoin'
 class Modals extends React.Component {
   render () {
     const { type, ...rest } = this.props
+
     switch (type) {
       case 'AutoDisconnection':
         return <AutoDisconnection {...rest} />
@@ -24,7 +25,7 @@ class Modals extends React.Component {
       case 'SendBitcoin':
         return <SendBitcoin {...rest} />
       default:
-        return <RequestBitcoin {...rest} />
+        return <div />
     }
   }
 }

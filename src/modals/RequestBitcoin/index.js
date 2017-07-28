@@ -1,14 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { formValueSelector } from 'redux-form'
+import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 
 import { wizardForm } from 'components/providers/FormProvider'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
+import settings from 'config'
 
 class RequestBitcoinContainer extends React.Component {
+  componentWillMount () {
+    console.log(this.props.initialValues)
+    this.props.reduxFormActions.initialize('requestBitcoin', this.props.initialValues)
+  }
+
   render () {
     const { step, ...rest } = this.props
 
@@ -21,20 +27,41 @@ class RequestBitcoinContainer extends React.Component {
   }
 }
 
+const selectAddress = (addressValue, selectorFunction) => {
+  return addressValue
+    ? addressValue.address
+      ? addressValue.address
+      : selectorFunction(addressValue.index)
+    : undefined
+}
+
 const mapStateToProps = (state, ownProps) => {
+  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const selector = formValueSelector('requestBitcoin')
+  const initialTo = {
+    xpub: selectors.core.wallet.getDefaultAccountXpub(state),
+    index: selectors.core.wallet.getDefaultAccountIndex(state)
+  }
+  const initialValues = {
+    to: initialTo,
+    receiveAddress: selectAddress(initialTo, getReceive)
+  }
 
   return {
-    address: selector(state, 'address'),
-    amount: parseFloat(selector(state, 'amount')),
+    initialValues,
+    network: 'bitcoin',
+    unit: selectors.core.settings.getBtcCurrency(state),
+    to: selector(state, 'to'),
+    amount: selector(state, 'amount'),
     message: selector(state, 'message'),
-    nextAddress: '1BxGpZ4JDmfncucQkKi4gB77hXcq7aFhve'
+    receiveAddress: selectAddress(selector(state, 'to'), getReceive)
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  transactionActions: bindActionCreators(actions.core.transactions, dispatch)
+  transactionActions: bindActionCreators(actions.core.transactions, dispatch),
+  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 
 const enhance = compose(
