@@ -115,13 +115,13 @@ export const toEncJSON = wrapper => {
          .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }
 
-export const js = (password, guid, sharedKey, label, mnemonic, xpub, nAccounts = 1) => ({
+export const js = (password, guid, sharedKey, label, mnemonic, xpub, nAccounts = 1, network) => ({
   sync_pubkeys: false,
   payload_checksum: '',
   storage_token: '',
   version: 3,
   language: 'en',
-  wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts),
+  wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts, network),
   war_checksum: '',
   password: password,
   pbkdf2_iterations: 5000

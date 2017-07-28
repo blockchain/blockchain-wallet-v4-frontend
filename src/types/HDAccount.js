@@ -53,13 +53,15 @@ export const fromJS = (x, i) => {
   return accountCons(new HDAccount(assoc('index', i, x)))
 }
 
-export const toJS = pipe(HDAccount.guard, (acc) => {
+export const toJSwithIndex = pipe(HDAccount.guard, (acc) => {
   const accountDecons = compose(
     over(addressLabels, AddressLabelMap.toJS),
     over(cache, Cache.toJS)
   )
-  return dissoc('index', accountDecons(acc).toJS())
+  return accountDecons(acc).toJS()
 })
+
+export const toJS = compose(dissoc('index'), toJSwithIndex)
 
 export const reviver = (jsObject) => {
   return new HDAccount(jsObject)

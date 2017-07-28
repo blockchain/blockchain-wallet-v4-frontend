@@ -289,7 +289,7 @@ export const getLegacyPrivateKey = curry((address, secondPassword, network, wall
   }
 })
 
-export const js = (guid, sharedKey, label, mnemonic, xpub, nAccounts) => ({
+export const js = (guid, sharedKey, label, mnemonic, xpub, nAccounts, network) => ({
   guid: guid,
   sharedKey: sharedKey,
   tx_names: [],
@@ -297,6 +297,6 @@ export const js = (guid, sharedKey, label, mnemonic, xpub, nAccounts) => ({
   double_encryption: false,
   address_book: [],
   keys: [],
-  hd_wallets: [HDWallet.js(label, mnemonic, xpub, nAccounts)],
+  hd_wallets: [HDWallet.js(label, mnemonic, xpub, nAccounts, network)],
   options: Options.js()
 })

@@ -57,10 +57,10 @@ export const reviver = (jsObject) => {
   return new HDWallet(jsObject)
 }
 
-export const js = (label, mnemonic, xpub, nAccounts) => {
+export const js = (label, mnemonic, xpub, nAccounts, network) => {
   const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
-  const masterNode = mnemonic ? Bitcoin.HDNode.fromSeedBuffer(seed) : undefined
+  const masterNode = mnemonic ? Bitcoin.HDNode.fromSeedBuffer(seed, network) : undefined
   const parentNode = mnemonic ? masterNode.deriveHardened(44).deriveHardened(0) : undefined
   const node = i => mnemonic ? parentNode.deriveHardened(i) : undefined
   const account = i => HDAccount.js(`${label} ${i + 1}`, node(i), xpub)

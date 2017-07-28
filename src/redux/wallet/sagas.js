@@ -78,13 +78,13 @@ export const walletSaga = ({ api, walletPath } = {}) => {
   }
 
   const restoreWalletSaga = function * (action) {
-    const { mnemonic, email, password } = action.payload
+    const { mnemonic, email, password, network } = action.payload
     if (!BIP39.validateMnemonic(mnemonic)) {
       yield put(A.restoreWalletError('INVALID_MNEMONIC'))
     } else {
       // we might want to make that coin generic
       const seed = BIP39.mnemonicToSeed(mnemonic)
-      const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed)
+      const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
       const node = masterNode.deriveHardened(44).deriveHardened(0)
       try {
         const nAccounts = yield call(findUsedAccounts, 10, node, [])
