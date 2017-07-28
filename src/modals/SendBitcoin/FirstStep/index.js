@@ -14,24 +14,23 @@ import settings from 'config'
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
-
     this.state = {
       feeEditDisplayed: false,
-      addressesSelectDisplayed: is(Object, props.to)
+      addressesSelectDisplayed: is(Object, props.to),
+      addressSelectOpened: true
     }
     this.timeout = undefined
-
     this.handleToggleAddressesToSelect = this.handleToggleAddressesToSelect.bind(this)
     this.handleToggleFeeEdit = this.handleToggleFeeEdit.bind(this)
     this.handleToggleQrCodeCapture = this.handleToggleQrCodeCapture.bind(this)
     this.handleQrCodeScan = this.handleQrCodeScan.bind(this)
     this.handleQrCodeError = this.handleQrCodeError.bind(this)
-    this.handleQrCodeBack = this.handleQrCodeBack.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
-    const { network, unit, fee, from, target, coins, changeAddress } = nextProps
+    const { network, unit, fee, from, to, target, coins, changeAddress } = nextProps
 
+    // Refresh the selection if fee, from, to or amount have been updated
     if (gte(fee, 0) && target && coins && changeAddress && !equals(pick(['fee', 'to', 'from', 'amount'], nextProps), pick(['fee', 'to', 'from', 'amount'], this.props))) {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
@@ -40,10 +39,17 @@ class FirstStepContainer extends React.Component {
       }, 1000)
     }
 
+    // Update the coins if from has been updated
     if (!isNil(from) && !equals(from, this.props.from)) {
       this.props.paymentActions.getUnspents(from)
     }
 
+    // Update the display of the field 'to' if to has been updated
+    if (!equals(to, this.props.too)) {
+      this.setState({ addressesSelectDisplayed: is(Object, to) })
+    }
+
+    // Update the effectiveBalance value if fee or coins have been updated
     if ((gte(fee, 0)) && (!equals(coins, this.props.coins) || !equals(fee, this.props.fee))) {
       const effectiveBalance = CoinSelection.effectiveBalance(fee, coins).value
       const effectiveBalanceTransformed = convertToUnit(network, effectiveBalance, unit).getOrElse({ amount: 0 })
@@ -63,23 +69,19 @@ class FirstStepContainer extends React.Component {
   }
 
   handleToggleQrCodeCapture () {
-    this.props.modalActions.showModalQRCodeCapture(this.handleQrCodeScan, this.handleQrCodeError, this.handleQrCodeBack)
+    this.props.modalActions.showModalQRCodeCapture(this.handleQrCodeScan, this.handleQrCodeError)
   }
 
   handleQrCodeScan (data) {
     if (data) {
       this.props.alertActions.displaySuccess(data)
       this.props.reduxFormActions.change('sendBitcoin', 'to', data)
-      this.props.modalActions.showModalSendBitcoin()
+      this.props.modalActions.closeModal()
     }
   }
 
   handleQrCodeError (error) {
     this.props.alertActions.displayError(error)
-  }
-
-  handleQrCodeBack () {
-    this.props.modalActions.showModalSendBitcoin()
   }
 
   render () {

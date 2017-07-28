@@ -42,10 +42,10 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { show, satoshis, message, link, active, handleClick, previous } = props
+  const { satoshis, message, link, active, handleClick, previous, ...rest } = props
 
   return (
-    <Modal icon='icon-receive' title='Request created' size='large' show={show}>
+    <Modal {...rest} icon='icon-receive' title='Request created' size='large'>
       <Form>
         <Text id='modals.requestbitcoin.secondstep.explain' text='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' small light />
         <Text id='modals.requestbitcoin.secondstep.payment' text='Payment request:' small medium />
@@ -77,18 +77,13 @@ const SecondStep = (props) => {
   )
 }
 
-SecondStep.defaultProps = {
-  show: false
-}
-
 SecondStep.propTypes = {
   active: PropTypes.bool.isRequired,
   satoshis: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
   link: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
-  previous: PropTypes.func.isRequired,
-  show: PropTypes.bool.isRequired
+  previous: PropTypes.func.isRequired
 }
 
 export default SecondStep

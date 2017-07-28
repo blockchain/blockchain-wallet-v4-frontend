@@ -20,12 +20,12 @@ const Footer = styled.div`
 `
 
 const QRCode = (props) => {
-  const { show, payload } = props
+  const { payload, ...rest } = props
   const { address, handleBack } = payload
   const bitcoinAddress = `bitcoin:${address}`
 
   return (
-    <Modal icon='icon-receive' title='Payment address' size='large' show={show}>
+    <Modal {...rest} icon='icon-receive' title='Payment address' size='large'>
       <Text id='modals.qrcode.scan' text='Scan QR Code' small light />
       <QRCodeContainer>
         <QRCodeReact value={bitcoinAddress} size={256} />
@@ -42,12 +42,7 @@ const QRCode = (props) => {
   )
 }
 
-QRCode.defaultProps = {
-  show: false
-}
-
 QRCode.propTypes = {
-  show: PropTypes.bool.isRequired,
   payload: PropTypes.shape({
     address: PropTypes.string.isRequired,
     handleBack: PropTypes.func

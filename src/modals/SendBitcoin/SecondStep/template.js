@@ -41,10 +41,10 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { show, handleClick, previous, fromAddress, toAddress, message, satoshis, fee } = props
+  const { handleClick, previous, fromAddress, toAddress, message, satoshis, fee, ...rest } = props
 
   return (
-    <Modal icon='icon-send' title='Confirm' size='large' show={show}>
+    <Modal {...rest} icon='icon-send' title='Confirm' size='large'>
       <Form>
         <PaymentSendRow>
           <PaymentSendLabel>
@@ -107,7 +107,6 @@ const SecondStep = (props) => {
 }
 
 SecondStep.propTypes = {
-  show: PropTypes.bool.isRequired,
   previous: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
   fromAddress: PropTypes.string.isRequired,

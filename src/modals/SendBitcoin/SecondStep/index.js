@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { is } from 'ramda'
+import { push } from 'connected-react-router'
 
 import { convertFromUnit } from 'services/ConversionService'
 import { actions, selectors } from 'data'
@@ -12,10 +13,36 @@ class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.handleConfirmSecondPassword = this.handleConfirmSecondPassword.bind(this)
+    this.handleSignAndPublish = this.handleSignAndPublish.bind(this)
+  }
+
+  handleSignAndPublish () {
+    // We sign the transactions
+    // this.props.paymentActions.signAndPublish(settings.NETWORK, this.props.selection)
+
+    // TODO : IF SUCCESSFULL
+    // We close the modal
+    this.props.modalActions.closeModal()
+    // We redirect to transactions
+    this.props.routerActions.push('/transactions')
+    // We display a notification
+    this.props.alertActions.displaySuccess('Transaction confirmed !')
+  }
+
+  handleConfirmSecondPassword (secondPassword) {
+    // TODO
+    // If SecondPassword is valid
+    console.log(secondPassword)
+    this.handleSignAndPublish()
   }
 
   handleClick () {
-    this.props.paymentActions.signAndPublish(settings.NETWORK, this.props.selection)
+    // TODO
+    // If SecondPassword enabled:
+    this.props.modalActions.showModalSecondPassword(this.handleConfirmSecondPassword)
+    // Else
+    // this.handleSignAndPublish()
   }
 
   render () {
@@ -48,7 +75,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  paymentActions: bindActionCreators(actions.core.payment, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  paymentActions: bindActionCreators(actions.core.payment, dispatch),
+  routerActions: bindActionCreators({ push }, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

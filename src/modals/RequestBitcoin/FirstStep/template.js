@@ -30,11 +30,10 @@ const Aligned = styled.div`
 `
 
 const FirstStep = (props) => {
-  console.log(props)
-  const { show, next, submitting, invalid, receiveAddress, handleClickCode } = props
-  
+  const { next, submitting, invalid, receiveAddress, handleClickCode, ...rest } = props
+
   return (
-    <Modal icon='icon-receive' title='Request' size='large' show={show}>
+    <Modal {...rest} icon='icon-receive' title='Request' size='large'>
       <Form>
         <Aligned>
           <Text id='modals.requestbitcoin.firststep.share' text='Copy & share address:' small medium />

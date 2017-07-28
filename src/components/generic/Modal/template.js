@@ -10,11 +10,11 @@ const Wrapper = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  display: ${props => props.show ? 'flex' : 'none'};
+  display: ${props => props.displayed ? 'flex' : 'none'};
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  z-index: 1040;
+  z-index: ${props => props.position ? (props.position) + 1040 : 1040};
   background-color: rgba(0,0,0,0.5);
 `
 const Container = styled.div`
@@ -63,9 +63,10 @@ const Content = styled.div`
 `
 
 const Modal = ({ ...props, children }) => {
-  const { title, icon, show, size, closeButton, close } = props
+  const { position, displayed, title, icon, size, closeButton, close } = props
+
   return (
-    <Wrapper show={show}>
+    <Wrapper position={position} displayed={displayed}>
       <Container size={size}>
         <Header>
           { icon && <HeaderIcon name={icon} /> }
@@ -81,16 +82,15 @@ const Modal = ({ ...props, children }) => {
 }
 
 Modal.propTypes = {
-  show: PropTypes.bool.isRequired,
+  displayed: PropTypes.bool.isRequired,
+  position: PropTypes.number.isRequired,
   title: PropTypes.string,
   icon: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large', '']),
   closeButton: PropTypes.bool
-
 }
 
 Modal.defaultProps = {
-  show: false,
   size: 'large',
   closeButton: true
 }
