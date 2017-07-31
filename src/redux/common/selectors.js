@@ -1,9 +1,11 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
 import { allPass, anyPass, contains, prop, compose, assoc, map, path, reduce, propSatisfies, toUpper, curry, filter, split } from 'ramda'
+import memoize from 'fast-memoize'
 import { getBalances, getChangeIndex, getReceiveIndex } from '../data/Addresses/selectors.js'
 import { getTransactions, getTypeFilter, getSearchFilter } from '../data/Transactions/selectors.js'
 import { getHeight } from '../data/LatestBlock/selectors.js'
 import { transformTx } from '../services/transactions.js'
+const mTransformTx = memoize(transformTx)
 // ---------------------------------------------------------------------------------------------
 export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
   // getActiveHDAccounts :: state -> [hdacountsWithInfo]
@@ -59,7 +61,7 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
     const fullPredicate = allPass([isOfType(typeFilter), searchPredicate])
 
     return compose(filter(fullPredicate),
-                   map(transformTx(wallet, currentBlockHeight)),
+                   map(mTransformTx.bind(undefined, wallet, currentBlockHeight)),
                    getTransactions,
                    prop(dataPath))(state)
   }
@@ -97,7 +99,7 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
     getAccountsBalances: getAccountsBalances,
     getAddressesBalances: getAddressesBalances,
     getAggregatedAddressesBalances: getAggregatedAddressesBalances,
-    getWalletTransactions: getWalletTransactions,
+    getWalletTransactions: memoize(getWalletTransactions),
     getNextAvailableChangeAddress: getNextAvailableChangeAddress,
     getNextAvailableReceiveAddress: getNextAvailableReceiveAddress,
     getAddress: getAddress

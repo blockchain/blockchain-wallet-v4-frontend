@@ -2,8 +2,8 @@ import { Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap,
          TXNotes, Address, HDAccount, AddressBook, AddressBookEntry } from '../../types'
 import { prop, compose, curry, mapAccum, isNil, not, findIndex, view, allPass,
          propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex } from 'ramda'
+import memoize from 'fast-memoize'
 
-// ---------------------------------------------------------------------------------------------
 const unpackInput = prop('prev_out')
 const isLegacy = (wallet, coin) => compose(not, isNil, AddressMap.selectAddress(prop('addr', coin)), Wallet.selectAddresses)(wallet)
 const isAccount = coin => !!coin.xpub
@@ -162,7 +162,7 @@ const CoinBaseData = total => ({
   change: 0
 })
 
-export const transformTx = curry((wallet, currentBlockHeight, tx) => {
+export const transformTx = (wallet, currentBlockHeight, tx) => {
   const txNotes = Wallet.selectTxNotes(wallet)
   const conf = currentBlockHeight - tx.block_height + 1
   const confirmations = conf > 0 ? conf : 0
@@ -194,6 +194,6 @@ export const transformTx = curry((wallet, currentBlockHeight, tx) => {
     to: to,  // based on outputs
     // properties that frontend should compute
     status: null, // based on confirmations
-    initial_value: null, // when the user opens the modal
+    initial_value: null // when the user opens the modal
   })
-})
+}

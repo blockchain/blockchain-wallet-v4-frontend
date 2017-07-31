@@ -11,7 +11,6 @@ const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resol
 export const paymentSaga = ({ api, walletPath, dataPath } = {}) => {
 
   const getUnspentsSaga = function * (action) {
-    console.log('hello')
     try {
       const { index, address } = action.payload
       const source = is(Number, index) ? index : address

@@ -198,10 +198,7 @@ const createApi = ({
   }
 
   const pushTx = function (txHex) {
-    const data = {
-      tx: txHex,
-      format: 'plain'
-    }
+    const data = { tx: txHex, format: 'plain' }
     const responseTXHASH = function (responseText) {
       if (responseText.indexOf('Transaction Submitted') > -1) {
         return true
