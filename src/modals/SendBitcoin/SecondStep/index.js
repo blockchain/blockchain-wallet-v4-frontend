@@ -18,29 +18,21 @@ class SecondStepContainer extends React.Component {
   }
 
   handleSignAndPublish () {
-    // We sign the transactions
-    // this.props.paymentActions.signAndPublish(settings.NETWORK, this.props.selection)
-
-    // TODO : IF SUCCESSFULL
-    // We close the modal
-    this.props.modalActions.closeModal()
-    // We redirect to transactions
-    this.props.routerActions.push('/transactions')
-    // We display a notification
-    this.props.alertActions.displaySuccess('Transaction confirmed !')
+    this.props.paymentActions.signAndPublish(settings.NETWORK, this.props.selection)
   }
 
   handleConfirmSecondPassword (secondPassword) {
     // TODO
     // If SecondPassword is valid
-    console.log(secondPassword)
+    // console.log(secondPassword)
     this.handleSignAndPublish()
   }
 
   handleClick () {
+    this.handleSignAndPublish()
     // TODO
     // If SecondPassword enabled:
-    this.props.modalActions.showModalSecondPassword(this.handleConfirmSecondPassword)
+    // this.props.modalActions.showModalSecondPassword(this.handleConfirmSecondPassword)
     // Else
     // this.handleSignAndPublish()
   }
