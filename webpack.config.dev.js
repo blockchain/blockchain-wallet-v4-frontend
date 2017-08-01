@@ -142,7 +142,24 @@ module.exports = {
         "script-src 'self' 'unsafe-eval'",
         // 'ws://localhost:8080' is only used by webpack for development and
         // should not be present on production.
-        "connect-src 'self' ws://localhost:8080 https://blockchain.info wss://ws.blockchain.info https://api.blockchain.info https://app-api.coinify.com https://api.sfox.com https://quotes.sfox.com https://sfox-kyc.s3.amazonaws.com https://testnet5.blockchain.info https://api.testnet.blockchain.info",
+        [
+          'connect-src',
+          "'self'",
+          'ws://localhost:8080',
+          'https://blockchain.info',
+          'wss://ws.blockchain.info',
+          'https://api.blockchain.info',
+          'https://explorer.staging.blockchain.info',
+          'https://api.staging.blockchain.info',
+          'https://explorer.dev.blockchain.info',
+          'https://api.dev.blockchain.info',
+          'https://app-api.coinify.com',
+          'https://api.sfox.com',
+          'https://quotes.sfox.com',
+          'https://sfox-kyc.s3.amazonaws.com',
+          'https://testnet5.blockchain.info',
+          'https://api.testnet.blockchain.info'
+        ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
         "font-src 'self'"
