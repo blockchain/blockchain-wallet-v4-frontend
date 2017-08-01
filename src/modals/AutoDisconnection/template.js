@@ -33,8 +33,7 @@ const Footer = styled.div`
 `
 
 const AutoDisconnection = (props) => {
-  const { closeButton, payload, handleClick, handleCancel, ...rest } = props
-  const { duration } = payload
+  const { closeButton, duration, handleClick, handleCancel, ...rest } = props
 
   return (
     <Modal {...rest} icon='icon-right_arrow' title='Are you still there?' size='large' closeButton={closeButton}>

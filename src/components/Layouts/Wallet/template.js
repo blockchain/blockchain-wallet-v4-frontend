@@ -6,6 +6,12 @@ import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import Alerts from 'components/shared/Alerts'
+import SendBitcoin from 'modals/SendBitcoin'
+import RequestBitcoin from 'modals/RequestBitcoin'
+import SecondPassword from 'modals/SecondPassword'
+import QRCode from 'modals/QRCode'
+import QRCodeCapture from 'modals/QRCodeCapture'
+import AutoDisconnection from 'modals/AutoDisconnection'
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,7 +59,14 @@ const Page = styled.div`
 const WalletLayout = (props) => (
   <Wrapper>
     <Alerts />
-    <Modals />
+    <Modals>
+      <SendBitcoin />
+      <RequestBitcoin />
+      <SecondPassword />
+      <QRCode />
+      <QRCodeCapture />
+      <AutoDisconnection />
+    </Modals>
     <Nav>
       <Header />
     </Nav>

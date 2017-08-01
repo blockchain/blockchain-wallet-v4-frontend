@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
+import modalEnhancer from 'components/providers/modalEnhancer'
 import QRCodeCapture from './template.js'
 
 class QRCodeCaptureContainer extends React.Component {
@@ -24,4 +25,9 @@ const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(QRCodeCaptureContainer)
+let enhance = compose(
+  modalEnhancer('QRCodeCapture'),
+  connect(void 0, mapDispatchToProps)
+)
+
+export default enhance(QRCodeCaptureContainer)

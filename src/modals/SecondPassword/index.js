@@ -6,6 +6,7 @@ import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
 import { singleForm } from 'components/providers/FormProvider'
+import modalEnhancer from 'components/providers/modalEnhancer'
 import SecondPassword from './template.js'
 
 class SecondPasswordContainer extends React.Component {
@@ -15,8 +16,7 @@ class SecondPasswordContainer extends React.Component {
   }
 
   handleClick () {
-    const { secondPassword, payload } = this.props
-    const { handleConfirm } = payload
+    const { secondPassword, handleConfirm } = this.props
     handleConfirm(secondPassword)
     // We reset the form
     this.props.reduxFormActions.reset('secondPassword')
@@ -30,9 +30,7 @@ class SecondPasswordContainer extends React.Component {
 }
 
 SecondPasswordContainer.propTypes = {
-  payload: PropTypes.shape({
-    handleConfirm: PropTypes.func.isRequired
-  })
+  handleConfirm: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -49,6 +47,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   singleForm('secondPassword'),
+  modalEnhancer('SecondPassword'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

@@ -25,8 +25,7 @@ const QrCodeReader = styled(QrReader)`
 `
 
 const QRCodeCapture = (props) => {
-  const { payload, ...rest } = props
-  const { handleScan, handleError, handleBack } = payload
+  const { handleScan, handleError, handleBack, ...rest } = props
   const delay = 100
 
   return (
@@ -47,11 +46,9 @@ const QRCodeCapture = (props) => {
 }
 
 QRCodeCapture.propTypes = {
-  payload: PropTypes.shape({
-    handleScan: PropTypes.func.isRequired,
-    handleError: PropTypes.func,
-    handleBack: PropTypes.func
-  })
+  handleScan: PropTypes.func.isRequired,
+  handleError: PropTypes.func,
+  handleBack: PropTypes.func
 }
 
 export default QRCodeCapture

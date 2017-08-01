@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
+import modalEnhancer from 'components/providers/modalEnhancer'
 import AutoDisconnection from './template.js'
 
 class AutoDisconnectionContainer extends React.Component {
@@ -46,16 +47,12 @@ class AutoDisconnectionContainer extends React.Component {
 AutoDisconnectionContainer.defaultProps = {
   show: false,
   closeButton: false,
-  payload: {
-    duration: 0
-  }
+  duration: 0
 }
 
 AutoDisconnectionContainer.propTypes = {
   show: PropTypes.bool.isRequired,
-  payload: PropTypes.shape({
-    duration: PropTypes.number
-  })
+  duration: PropTypes.number
 }
 
 const mapDispatchToProps = (dispatch) => ({
@@ -63,4 +60,9 @@ const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(AutoDisconnectionContainer)
+let enhance = compose(
+  modalEnhancer('AutoDisconnection'),
+  connect(void 0, mapDispatchToProps)
+)
+
+export default enhance(AutoDisconnectionContainer)
