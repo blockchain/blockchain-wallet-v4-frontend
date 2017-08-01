@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -12,7 +13,7 @@ class ModalContainer extends React.Component {
   }
 
   close () {
-    this.props.actions.closeModal()
+    this.props.actions.closeAllModals()
   }
 
   render () {
@@ -20,6 +21,11 @@ class ModalContainer extends React.Component {
       <Modal {...this.props} close={this.close} />
     )
   }
+}
+
+ModalContainer.propTypes = {
+  displayed: PropTypes.bool.isRequired,
+  position: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = (dispatch) => ({

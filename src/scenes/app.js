@@ -4,11 +4,11 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import styled, { ThemeProvider } from 'styled-components'
 
+
 import LandingLayout from 'components/layouts/Landing'
 import PublicLayout from 'components/layouts/Public'
 import WalletLayout from 'components/layouts/Wallet'
 import ConnectedIntlProvider from 'components/providers/ConnectedIntlProvider'
-
 import LandingContainer from './Landing'
 import LoginContainer from './Login'
 import HelpContainer from './Help'
@@ -25,21 +25,23 @@ import PreferencesContainer from './Preferences'
 import SecuritySettingsContainer from './SecuritySettings'
 import AddressesContainer from './Addresses'
 import FaqContainer from './Faq'
-import { defaultTheme } from 'themes'
 
 const RootStyle = styled.div`
   font-family: 'Montserrat', 'Helvetica', sans-serif !important;
   height: 100%;
 `
 
+
 class App extends React.Component {
   render () {
+    const { store, history, messages, theme } = this.props
+
     return (
-      <Provider store={this.props.store}>
-        <ConnectedIntlProvider messages={this.props.messages}>
-          <ThemeProvider theme={defaultTheme}>
+      <Provider store={store}>
+        <ConnectedIntlProvider messages={messages}>
+          <ThemeProvider theme={theme}>
             <RootStyle>
-              <ConnectedRouter history={this.props.history}>
+              <ConnectedRouter history={history}>
                 <Switch>
                   <LandingLayout exact path='/' component={LandingContainer} />
                   <PublicLayout path='/login' component={LoginContainer} />

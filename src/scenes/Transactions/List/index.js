@@ -20,7 +20,6 @@ class TransactionListContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (!equals(this.props.source, nextProps.source)) {
       const source = nextProps.source ? (nextProps.source.xpub ? nextProps.source.xpub : nextProps.source.address) : ''
-      console.log(source)
       this.props.actions.setAddressFilter(source)
       this.props.actions.fetchTransactions(source, txsPerPage)
     }

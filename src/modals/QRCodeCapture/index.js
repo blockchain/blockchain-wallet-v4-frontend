@@ -1,62 +1,27 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import QrReader from 'react-qr-reader'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { Link } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
-import Modal from 'components/generic/Modal'
+import { actions } from 'data'
+import QRCodeCapture from './template.js'
 
-const QRCodeContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  width: 100;
-  padding: 30px 0;
-`
-const Footer = styled.div`
-  padding: 5px 0;
-`
-const QrCodeReader = styled(QrReader)`
-  width: 100%;
-  height: 100%;
+class QRCodeCaptureContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleBack = this.handleBack.bind(this)
+  }
 
-  & > * { width: 100%; }
-`
+  handleBack () {
+    this.props.modalActions.closeModal()
+  }
 
-const QRCodeCapture = (props) => {
-  const { show, payload } = props
-  const { handleScan, handleError, handleBack } = payload
-  const delay = 100
-
-  return (
-    <Modal icon='icon-send' title='Payment address' size='large' show={show}>
-      <Text id='modals.qrcodecapture.scan' text='Capture QR Code' small light />
-      <QRCodeContainer>
-        <QrCodeReader delay={delay} onScan={handleScan} onError={handleError} />
-      </QRCodeContainer>
-      { handleBack &&
-      <Footer>
-        <Link onClick={handleBack}>
-          <Text id='modals.qrcodecapture.back' text='Go back' small light cyan />
-        </Link>
-      </Footer>
-      }
-    </Modal>
-  )
+  render () {
+    return <QRCodeCapture {...this.props} handleBack={this.handleBack} />
+  }
 }
 
-QRCodeCapture.defaultProps = {
-  show: false
-}
+const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
 
-QRCodeCapture.propTypes = {
-  show: PropTypes.bool.isRequired,
-  payload: PropTypes.shape({
-    handleScan: PropTypes.func.isRequired,
-    handleError: PropTypes.func,
-    handleBack: PropTypes.func
-  })
-}
-
-export default QRCodeCapture
+export default connect(undefined, mapDispatchToProps)(QRCodeCaptureContainer)

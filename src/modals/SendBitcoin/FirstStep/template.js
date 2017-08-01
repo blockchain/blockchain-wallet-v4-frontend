@@ -57,25 +57,27 @@ const FirstStep = (props) => {
   const validateAmount = (value, allValues, props) => {
     return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
   }
+  const { addressesSelectDisplayed, feeEditDisplayed, selection, next, invalid, submitting,
+    handleToggleQrCodeCapture, handleToggleAddressesToSelect, handleToggleFeeEdit, ...rest } = props
 
   return (
-    <Modal icon='icon-send' title='Send' size='large' show={props.show}>
+    <Modal {...rest} icon='icon-send' title='Send' size='large'>
       <Form>
         <Text id='modals.sendbitcoin.firststep.from' text='From:' small medium />
         <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
         <Text id='modals.sendbitcoin.firststep.to' text='To:' small medium />
-        { props.addressesSelectDisplayed
+        { addressesSelectDisplayed
           ? (
             <AddressesToContainer>
-              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: !props.addressesSelectDisplayed, includeAll: false }} />
-              <AddressesToButton onClick={props.handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
-              <AddressesToButton onClick={props.handleToggleAddressesToSelect}><AddressesEditToggle /></AddressesToButton>
+              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: !addressesSelectDisplayed, includeAll: false }} />
+              <AddressesToButton onClick={handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleToggleAddressesToSelect}><AddressesEditToggle /></AddressesToButton>
             </AddressesToContainer>
           ) : (
             <AddressesToContainer>
               <Field name='to' component={TextBox} validate={[required]} />
-              <AddressesToButton onClick={props.handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
-              <AddressesToButton onClick={props.handleToggleAddressesToSelect}><AddressesSelectToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleToggleAddressesToSelect}><AddressesSelectToggle /></AddressesToButton>
             </AddressesToContainer>
             )
         }
@@ -98,22 +100,22 @@ const FirstStep = (props) => {
         </Aligned>
         <Row>
           <ColLeft>
-            { props.feeEditDisplayed
+            { feeEditDisplayed
               ? <Field name='fee' component={TextBox} validate={[required]} />
               : <Field name='fee' component={SelectBoxFee} validate={[required]} />
             }
           </ColLeft>
           <ColRight>
-            { props.invalid ? <div /> : <ComboDisplay small light>{props.selection.fee}</ComboDisplay> }
-            <Link onClick={props.handleToggleFeeEdit}>
-              { props.feeEditDisplayed
+            { invalid ? <div /> : <ComboDisplay small light>{selection.fee}</ComboDisplay> }
+            <Link onClick={handleToggleFeeEdit}>
+              { feeEditDisplayed
                 ? <Text id='modals.sendbitcoin.firststep.cancel' text='Cancel' smaller light cyan capitalize />
                 : <Text id='modals.sendbitcoin.firststep.edit' text='Customize fee' smaller light cyan capitalize />
               }
             </Link>
           </ColRight>
         </Row>
-        <SecondaryButton fullwidth onClick={props.next} disabled={props.submitting || props.invalid}>
+        <SecondaryButton fullwidth onClick={next} disabled={submitting || invalid}>
           <Text id='modals.sendbitcoin.firststep.continue' text='Continue' small medium uppercase white />
         </SecondaryButton>
       </Form>
@@ -122,7 +124,6 @@ const FirstStep = (props) => {
 }
 
 FirstStep.propTypes = {
-  show: PropTypes.bool.isRequired,
   addressesSelectDisplayed: PropTypes.bool.isRequired,
   feeEditDisplayed: PropTypes.bool.isRequired,
   handleToggleQrCodeCapture: PropTypes.func.isRequired,

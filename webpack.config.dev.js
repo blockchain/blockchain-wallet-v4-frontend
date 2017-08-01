@@ -10,9 +10,15 @@ const PATHS = {
 }
 
 module.exports = {
-  entry: [
-    PATHS.src + '/index.js'
-  ],
+  entry: {
+    app: [
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      'webpack-dev-server/client?http://localhost:8080',
+      'webpack/hot/only-dev-server',
+      PATHS.src + '/index.js'
+    ]
+  },
   output: {
     path: PATHS.build,
     filename: 'bundle-[hash].js',
@@ -40,49 +46,21 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: [/node_modules/],
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            'plugins': [
-              ['module-resolver', {
-                'root': [PATHS.src],
-                'alias': {
-                  'npm': PATHS.npm,
-                  'img': PATHS.src + '/assets/img',
-                  'locales': PATHS.src + '/assets/locales',
-                  'sass': PATHS.src + '/assets/sass',
-                  'components': PATHS.src + '/components',
-                  'config': PATHS.src + '/config',
-                  'data': PATHS.src + '/data',
-                  'middleware': PATHS.src + '/middleware',
-                  'modals': PATHS.src + '/modals',
-                  'scenes': PATHS.src + '/scenes',
-                  'services': PATHS.src + '/services',
-                  'store': PATHS.src + '/store',
-                  'themes': PATHS.src + '/themes'
-                }
-              }]
-            ]
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: ['react-hot-loader/babel']
+            }
           }
-        }]
+        ]
       },
       {
         test: /assets.*\.scss|css$/,
         use: ExtractTextPlugin.extract({
           use: [
             {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 1
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => [ require('autoprefixer')({ browsers: 'last 2 versions' }) ],
-                sourceMap: true
-              }
+              loader: 'css-loader'
             },
             {
               loader: 'sass-loader',
@@ -124,12 +102,20 @@ module.exports = {
     }),
     new Webpack.DefinePlugin({
       'process.env': { 'NODE_ENV': JSON.stringify('development') }
-    })
+    }),
+    new Webpack.NamedModulesPlugin(),
+    new Webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
-    contentBase: PATHS.build,
+    contentBase: PATHS.src,
+    host: 'localhost',
     port: 8080,
+    hot: true,
     historyApiFallback: true,
+    overlay: {
+      warnings: true,
+      errors: true
+    },
     headers: {
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",

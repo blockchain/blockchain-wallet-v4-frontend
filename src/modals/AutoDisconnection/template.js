@@ -33,11 +33,11 @@ const Footer = styled.div`
 `
 
 const AutoDisconnection = (props) => {
-  const { show, closeButton, payload, handleClick, handleCancel } = props
+  const { closeButton, payload, handleClick, handleCancel, ...rest } = props
   const { duration } = payload
 
   return (
-    <Modal icon='icon-right_arrow' title='Are you still there?' size='large' show={show} closeButton={closeButton}>
+    <Modal {...rest} icon='icon-right_arrow' title='Are you still there?' size='large' closeButton={closeButton}>
       <Container>
         <Text id='modals.autodisconnection.explain' text="You've been inactive for {duration} minutes." values={{duration: duration}} small light />
         <br />

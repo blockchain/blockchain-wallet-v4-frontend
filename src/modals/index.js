@@ -1,40 +1,52 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { assoc, compose, equals } from 'ramda'
 
 import { actions, selectors } from 'data'
 import AutoDisconnection from './AutoDisconnection'
 import QRCode from './QRCode'
 import QRCodeCapture from './QRCodeCapture'
 import RequestBitcoin from './RequestBitcoin'
+import SecondPassword from './SecondPassword'
 import SendBitcoin from './SendBitcoin'
 
 class Modals extends React.Component {
-  render () {
-    const { type, ...rest } = this.props
+  constructor (props) {
+    super(props)
+    this.renderModal = this.renderModal.bind(this)
+  }
 
-    switch (type) {
-      case 'AutoDisconnection':
-        return <AutoDisconnection {...rest} />
-      case 'QRCode':
-        return <QRCode {...rest} />
-      case 'QRCodeCapture':
-        return <QRCodeCapture {...rest} />
-      case 'RequestBitcoin':
-        return <RequestBitcoin {...rest} />
-      case 'SendBitcoin':
-        return <SendBitcoin {...rest} />
-      default:
-        return <div />
+  renderModal (modal, index) {
+    const { lastModalIndex } = this.props
+    const props = compose(assoc('displayed', equals(index, lastModalIndex)), assoc('position', index), assoc('key', index))(modal)
+
+    switch (modal.type) {
+      case 'AutoDisconnection': return <AutoDisconnection {...props} />
+      case 'QRCode': return <QRCode {...props} />
+      case 'QRCodeCapture': return <QRCodeCapture {...props} />
+      case 'RequestBitcoin': return <RequestBitcoin {...props} />
+      case 'SecondPassword': return <SecondPassword {...props} />
+      case 'SendBitcoin': return <SendBitcoin {...props} />
+      default: return <div />
     }
+  }
+
+  render () {
+    return (
+      <div>
+        { this.props.modals.map((modal, index) => {
+          return this.renderModal(modal, index)
+        }) }
+      </div>
+    )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    payload: selectors.modals.getPayload(state),
-    show: selectors.modals.getShow(state),
-    type: selectors.modals.getType(state)
+    modals: selectors.modals.getModals(state),
+    lastModalIndex: selectors.modals.getModals(state).length - 1
   }
 }
 
