@@ -11,6 +11,7 @@ import logReducer from './Log/reducers.js'
 import modalsReducer from './Modals/reducers.js'
 import preferencesReducer from './Preferences/reducers.js'
 import uiReducer from './UI/reducers.js'
+import { reducer as reduxUiReducer } from 'redux-ui'
 
 const rootReducer = combineReducers({
   applicationState: combineReducers({
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     modals: modalsReducer,
     ui: uiReducer
   }),
+  ui: reduxUiReducer,
   form: formReducer,
   preferences: preferencesReducer,
   router: routerReducer,
