@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import persistState from 'redux-localstorage'
 import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { coreMiddleware } from 'dream-wallet/lib'
@@ -27,6 +28,7 @@ const configureStore = () => {
   const store = createStore(
     connectRouter(history)(rootReducer),
     composeEnhancers(
+      persistState(['session', 'preferences']),
       applyMiddleware(
         reduxRouterMiddleware,
         autoDisconnection,

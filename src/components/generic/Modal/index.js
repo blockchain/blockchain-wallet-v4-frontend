@@ -13,7 +13,7 @@ class ModalContainer extends React.Component {
   }
 
   close () {
-    this.props.actions.closeModal()
+    this.props.actions.closeAllModals()
   }
 
   render () {

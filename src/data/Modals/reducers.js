@@ -11,6 +11,8 @@ const modals = (state = INITIAL_STATE, action) => {
   switch (type) {
     case AT.CLOSE_MODAL:
       return remove(lastIndex, 1, state)
+    case AT.CLOSE_ALL_MODALS:
+      return []
     case AT.SHOW_MODAL_AUTO_DISCONNECTION:
       return insert(nextIndex, { type: 'AutoDisconnection', payload }, state)
     case AT.SHOW_MODAL_QR_CODE:

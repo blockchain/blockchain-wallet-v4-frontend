@@ -19,7 +19,7 @@ class Modals extends React.Component {
 
   renderModal (modal, index) {
     const { lastModalIndex } = this.props
-    const props = compose(assoc('displayed', equals(index, lastModalIndex)), assoc('position', index))(modal)
+    const props = compose(assoc('displayed', equals(index, lastModalIndex)), assoc('position', index), assoc('key', index))(modal)
 
     switch (modal.type) {
       case 'AutoDisconnection': return <AutoDisconnection {...props} />

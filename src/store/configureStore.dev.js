@@ -39,7 +39,6 @@ const configureStore = () => {
     connectRouter(history)(rootReducer),
     composeEnhancers(
       // persistState(['session', 'preferences']),
-      // persistState(undefined, {deserialize: string => JSON.parse(string, serializer.reviver)}),
       applyMiddleware(
         reduxRouterMiddleware,
         autoDisconnection,
@@ -52,6 +51,12 @@ const configureStore = () => {
     )
   )
   sagaMiddleware.run(rootSaga)
+
+  // if (module.hot) {
+  //   module.hot.accept('data/rootReducer.js', () => {
+  //     store.replaceReducer(connectRouter(history)(require('data/rootReducer.js')))
+  //   })
+  // }
 
   return {
     store,

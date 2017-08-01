@@ -12,8 +12,7 @@ const PATHS = {
 
 module.exports = {
   entry: [
-    PATHS.src + '/index.js',
-    PATHS.npm + '/dream-wallet/node_modules/immutable-ext'
+    PATHS.src + '/index.js'
   ],
   output: {
     path: PATHS.dist,
@@ -43,48 +42,14 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: [/node_modules/],
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            'plugins': [
-              ['module-resolver', {
-                'root': [PATHS.src],
-                'alias': {
-                  'npm': PATHS.npm,
-                  'img': PATHS.src + '/assets/img',
-                  'locales': PATHS.src + '/assets/locales',
-                  'sass': PATHS.src + '/assets/sass',
-                  'components': PATHS.src + '/components',
-                  'config': PATHS.src + '/config',
-                  'data': PATHS.src + '/data',
-                  'middleware': PATHS.src + '/middleware',
-                  'modals': PATHS.src + '/modals',
-                  'scenes': PATHS.src + '/scenes',
-                  'services': PATHS.src + '/services',
-                  'store': PATHS.src + '/store',
-                  'themes': PATHS.src + '/themes'
-                }
-              }]
-            ]
-          }
-        }]
+        use: ['babel-loader']
       },
       {
         test: /assets.*\.scss|css$/,
         use: ExtractTextPlugin.extract({
           use: [
             {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 1
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => [ require('autoprefixer')({ browsers: 'last 2 versions' }) ],
-                sourceMap: true
-              }
+              loader: 'css-loader'
             },
             {
               loader: 'sass-loader',
@@ -146,7 +111,6 @@ module.exports = {
     })
   ].concat([new BundleAnalyzerPlugin()]),
   devServer: {
-    contentBase: PATHS.dist,
     port: 8080,
     historyApiFallback: true,
     headers: {

@@ -13,7 +13,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleQRCodeClickBack () {
-    this.props.actions.showModalRequestBitcoin()
+    this.props.actions.closeModal()
   }
 
   handleClickCode () {

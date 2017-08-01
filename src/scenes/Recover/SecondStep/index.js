@@ -8,6 +8,7 @@ import { Form, PasswordBox, TextBox, CheckBox } from 'components/generic/Form'
 import { Link } from 'components/generic/Link'
 import { Separator } from 'components/generic/Separator'
 import { Text } from 'components/generic/Text'
+import Terms from 'components/shared/Terms'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -25,21 +26,6 @@ const Header = styled.div`
 const Footer = styled.div`
   padding: 5px 0;
 `
-const TermsLabelContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  & > * { margin-right: 5px; }
-`
-const TermsLabel = (
-  <TermsLabelContainer>
-    <Text id='scenes.register.registerform.read' text='I have read and agree to the' small light />
-    <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank'>
-      <Text id='scenes.register.registerform.terms' text='Terms of Service' small light cyan />
-    </Link>
-  </TermsLabelContainer>
-)
 
 const SecondStep = (props) => {
   const { handleSubmit, previous, submitting, invalid } = props
@@ -60,7 +46,7 @@ const SecondStep = (props) => {
         <Field name='password' validate={[required, validPassword]} component={PasswordBox} score />
         <Text id='scenes.recover.secondstep.confirmationPassword' text='Confirm Password' small medium />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
-        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: TermsLabel}} fullwidth />
+        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: Terms}} fullwidth />
         <SecondaryButton disabled={submitting || invalid} onClick={handleSubmit} fullwidth>
           <Text id='scenes.recover.secondstep.recover' text='Recover funds' uppercase white />
         </SecondaryButton>
