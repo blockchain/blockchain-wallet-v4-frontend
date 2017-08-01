@@ -11,9 +11,12 @@ const PATHS = {
 }
 
 module.exports = {
-  entry: [
-    PATHS.src + '/index.js'
-  ],
+  entry: {
+    app: [
+      'babel-polyfill',
+      PATHS.src + '/index.js'
+    ]
+  },
   output: {
     path: PATHS.dist,
     filename: 'bundle-[hash].js',
@@ -41,7 +44,6 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: [/node_modules/],
         use: ['babel-loader']
       },
       {

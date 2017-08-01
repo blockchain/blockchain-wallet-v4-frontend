@@ -16,7 +16,6 @@ class SecondStepContainer extends React.Component {
 
   componentWillUnmount () {
     clearTimeout(this.timeout)
-    console.log('test')
   }
 
   handleClick () {
