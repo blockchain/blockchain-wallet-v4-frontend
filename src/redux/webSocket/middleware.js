@@ -1,37 +1,29 @@
 import { compose, prop } from 'ramda'
 import { Socket } from '../../network'
-import * as A from './actions'
-import * as T from './actionTypes'
-// import * as selectors from '../selectors'
+import * as A from '../actions'
+import * as T from '../actionTypes'
 
-const socket = ({ socket, walletPath, isAuthenticated }) => (store) => {
+const socket = ({ socket, walletPath }) => (store) => {
   const send = socket.send.bind(socket)
-  // const getWrapper = () => store.getState()[walletPath]
 
   return (next) => (action) => {
     const { type } = action
-    // const prevWallet = store.getState()[walletPath]
-    const wasAuth = isAuthenticated(store.getState())
-    const result = next(action)
-    // const nextWallet = store.getState()[walletPath]
-    const isAuth = isAuthenticated(store.getState())
 
     let whitelist = {
-      [T.CREATE_LEGACY_ADDRESS]: compose(send, Socket.addrSubMessage, prop('address'))
-      // [T.SET_WRAPPER]: compose(send, Socket.onOpenMessage, selectors.getInitialSocketContext, getWrapper)
+      [T.wallet.CREATE_LEGACY_ADDRESS]: compose(send, Socket.addrSubMessage, prop('address'))
     }
 
-    if (!wasAuth && isAuth) { // start socket when logged in
+    if (type === T.webSocket.START_SOCKET) {
       socket.connect(
-        compose(store.dispatch, A.openSocket),
-        compose(store.dispatch, A.messageSocket),
-        compose(store.dispatch, A.closeSocket)
+        compose(store.dispatch, A.webSocket.openSocket),
+        compose(store.dispatch, A.webSocket.messageSocket),
+        compose(store.dispatch, A.webSocket.closeSocket)
       )
     }
 
-    if (wasAuth && isAuth && whitelist[type]) whitelist[type](action)
+    if (whitelist[type]) whitelist[type](action)
 
-    return result
+    return next(action)
   }
 }
 
