@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Text } from 'components/generic/Text'
-import { Typography } from 'components/generic/Typography'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import Settings from './Settings'
 
 const WalletId = (props) => {
   return (
@@ -19,7 +19,7 @@ const WalletId = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Typography>29f92cab-4dba-90d5-8a68-ab9cd22c3582</Typography>
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )

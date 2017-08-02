@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { RouterLink } from 'components/generic/Link'
@@ -49,30 +50,30 @@ const NavIcon = styled.i`
 `
 
 const Navigation = (props) => {
-  const { toggled, handleToggle, onClose, ...rest } = props
+  const { toggled, handleToggle, handleClose, ...rest } = props
 
   return (
     <Wrapper {...rest}>
       <NavList>
-        <RouterLink to='/wallet' activeClassName='active' onClick={onClose}>
+        <RouterLink to='/wallet' activeClassName='active' onClick={handleClose}>
           <NavHeader>
             <NavIcon className='icon-home' />
             <Text id='components.layouts.wallet.menuleft.navigation.home' text='Home' smaller uppercase />
           </NavHeader>
         </RouterLink>
-        <RouterLink to='/transactions' activeClassName='active' onClick={onClose}>
+        <RouterLink to='/transactions' activeClassName='active' onClick={handleClose}>
           <NavHeader>
             <NavIcon className='icon-tx' />
             <Text id='components.layouts.wallet.menuleft.navigation.transactions' text='Transactions' smaller uppercase />
           </NavHeader>
         </RouterLink>
-        <RouterLink to='/buy-sell' activeClassName='active' onClick={onClose}>
+        <RouterLink to='/buy-sell' activeClassName='active' onClick={handleClose}>
           <NavHeader>
             <NavIcon className='icon-bitcoin' />
             <Text id='components.layouts.wallet.menuleft.navigation.buybitcoin' text='Buy bitcoin' smaller uppercase />
           </NavHeader>
         </RouterLink>
-        <RouterLink to='/security-center' activeClassName='active' onClick={onClose}>
+        <RouterLink to='/security-center' activeClassName='active' onClick={handleClose}>
           <NavHeader>
             <NavIcon className='icon-lock' />
             <Text id='components.layouts.wallet.menuleft.navigation.securitycenter' text='Security center' smaller uppercase />
@@ -108,7 +109,7 @@ const Navigation = (props) => {
             </RouterLink>
           </SubNavList>
         )}
-        <RouterLink to='/faq' activeClassName='active' onClick={onClose}>
+        <RouterLink to='/faq' activeClassName='active' onClick={handleClose}>
           <NavHeader>
             <NavIcon className='icon-help' />
             <Text id='components.layouts.wallet.menuleft.navigation.faq' text='Faq' smaller uppercase />
@@ -117,6 +118,12 @@ const Navigation = (props) => {
       </NavList>
     </Wrapper>
   )
+}
+
+Navigation.propTypes = {
+  toggled: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired
 }
 
 export default Navigation

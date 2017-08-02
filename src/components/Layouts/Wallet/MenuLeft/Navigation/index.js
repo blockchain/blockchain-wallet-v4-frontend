@@ -7,8 +7,8 @@ const NavigationContainer = ({ ui, updateUI, resetUI, ...props }) => {
   return (
     <Navigation
       toggled={ui.toggled}
-      handleToggle={() => { console.log('ah'); updateUI({ toggled: !ui.toggled }) }}
-      onClose={() => resetUI()}
+      handleToggle={() => updateUI({ toggled: !ui.toggled })}
+      handleClose={() => resetUI()}
       {...props}
     />
   )

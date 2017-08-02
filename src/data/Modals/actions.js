@@ -17,3 +17,5 @@ export const showModalQRCode = (address, handleBack) => showModal('QRCode', { ad
 export const showModalQRCodeCapture = (handleScan, handleError, handleBack) => showModal('QRCodeCapture', { handleScan, handleError, handleBack })
 
 export const showModalSecondPassword = (handleConfirm) => showModal('SecondPassword', { handleConfirm })
+
+export const showModalPairingCode = () => showModal('PairingCode')

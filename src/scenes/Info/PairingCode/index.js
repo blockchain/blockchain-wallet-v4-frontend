@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { SecondaryButton } from 'components/generic/Button'
 import { Text } from 'components/generic/Text'
 import { AppleStore, GooglePlay } from 'components/shared/Badges'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import Settings from './Settings'
 
 const BadgesContainer = styled.div`
   display: block;
@@ -30,9 +30,7 @@ const PairingCode = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <SecondaryButton>
-          <Text id='scenes.info.pairingcode.show' text='Show pairing code' small light white />
-        </SecondaryButton>
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )
