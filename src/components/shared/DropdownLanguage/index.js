@@ -12,15 +12,15 @@ import { SimpleDropdown } from 'components/generic/Dropdown'
 class DropdownLanguageContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.toggle = this.toggle.bind(this)
-    this.click = this.click.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  toggle () {
+  handleToggle () {
     this.props.updateUI({ toggled: !this.props.ui.toggled })
   }
 
-  click (value) {
+  handleClick (value) {
     this.props.preferencesActions.setCulture(value)
   }
 
@@ -34,8 +34,8 @@ class DropdownLanguageContainer extends React.Component {
         display={display}
         items={items}
         toggled={this.props.toggled}
-        toggle={this.toggle}
-        callback={this.click} />
+        handleToggle={this.handleToggle}
+        callback={this.handleClick} />
     )
   }
 }

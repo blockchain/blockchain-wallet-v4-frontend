@@ -35,10 +35,11 @@ const mapStateToProps = (state, ownProps) => {
   const coinDisplayed = selectors.preferences.getCoinDisplayed(state)
   const unit = selectors.core.settings.getBtcCurrency(state)
   const currency = selectors.core.settings.getCurrency(state)
+  const rates = selectors.core.rates.getRates(state)
 
   const transformAddresses = items => map(item => {
     const { title, amount, ...rest } = item
-    const amountDisplay = coinDisplayed ? displayCoin(network, amount, unit).getOrElse('N/A') : displayFiat(amount, currency).getOrElse('N/A')
+    const amountDisplay = coinDisplayed ? displayCoin(network, amount, unit).getOrElse('N/A') : displayFiat(network, amount, currency, rates).getOrElse('N/A')
     return { text: `${title} (${amountDisplay})`, value: rest }
   }, items)
 
