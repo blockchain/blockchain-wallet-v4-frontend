@@ -1,5 +1,5 @@
 
-import { compose, concat } from 'ramda'
+import { compose, concat, prop, propEq } from 'ramda'
 const WebSocket = global.WebSocket || global.MozWebSocket
 
 function WS (uri, protocols, opts) {
@@ -35,7 +35,7 @@ class Socket {
     this.wsUrl = wsUrl
     this.headers = { 'Origin': 'https://blockchain.info' }
     this.reconnect = null
-    this.pingInterval = 15000
+    this.pingInterval = 30000
     this.pingIntervalPID = null
     this.pingTimeout = 5000
     this.pingTimeoutPID = null
@@ -43,7 +43,7 @@ class Socket {
 
   connect (onOpen, onMessage, onClose) {
     this.reconnect = function () {
-      let connect = this._initialize.bind(this, onOpen, onMessage, onClose)
+      let connect = this._initialize.bind(this, onOpen, compose(onMessage, this.onPong.bind(this), this.extractMessage.bind(this)), onClose)
       connect()
     }.bind(this)
     this.reconnect()
@@ -68,6 +68,15 @@ class Socket {
     let connect = this.reconnect.bind(this)
     let close = this.close.bind(this)
     this.pingTimeoutPID = setTimeout(compose(connect, close), this.pingTimeout)
+  }
+
+  onPong (msg) {
+    if (propEq('op', 'pong')) { clearTimeout(this.pingTimeoutPID) }
+    return msg
+  }
+
+  extractMessage (msg) {
+    return compose(JSON.parse, prop('data'))(msg)
   }
 
   close () {
@@ -108,7 +117,7 @@ class Socket {
     return JSON.stringify({ op: 'ping' })
   }
 
-  static onOpenMessage (guid, addresses, xpubs) {
+  static onOpenMessage ({ guid, addresses, xpubs }) {
     return (
       Socket.blockSubMessage() +
       Socket.walletSubMessage(guid) +

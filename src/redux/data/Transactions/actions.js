@@ -13,3 +13,6 @@ export const setTypeFilter = (typeFilter) =>
   ({ type: T.SET_TYPE_FILTER, payload: {typeFilter} })
 export const setSearchFilter = (searchFilter) =>
   ({ type: T.SET_SEARCH_FILTER, payload: {searchFilter} })
+
+  export const deleteTransactions = () =>
+  ({ type: T.DELETE_TRANSACTIONS })

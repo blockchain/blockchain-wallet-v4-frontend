@@ -9,6 +9,7 @@ const list = (state = [], action) => {
       const { payload } = action
       return state.concat(payload.txs)
     }
+    case T.DELETE_TRANSACTIONS:
     case T.SET_ADDRESS_FILTER: {
       return []
     }
