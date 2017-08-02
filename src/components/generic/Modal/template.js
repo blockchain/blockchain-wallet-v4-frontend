@@ -10,18 +10,19 @@ const Wrapper = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  display: ${props => props.displayed ? 'flex' : 'none'};
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  z-index: ${props => props.position ? (props.position) + 1040 : 1040};
-  background-color: rgba(0,0,0,0.5);
+  z-index: 1040;
+  background-color: ${props => props.darken ? 'rgba(0,0,0,0.5)' : 'transparent'};
 `
+
 const Container = styled.div`
   position: relative;
   width: 100%;
   background-color: #FFFFFF;
-
+  z-index: ${props => props.position ? (props.position) + 1040 : 1040};
   @media(min-width: 768px) {
     width: ${props => props.size === 'small' ? '400px'
       : props.size === 'medium' ? '500px'
@@ -38,17 +39,19 @@ const Header = styled.div`
   padding: 30px;
   border-bottom: 1px solid #EFEFEF;
 `
+
 const HeaderIcon = styled(Icon)`
   display: inline-flex;
   font-size: 1.8em;
   font-weight: 300;
   margin-right: 10px;
 `
-const HeaderTitle = styled.span`
 
+const HeaderTitle = styled.span`
   font-size: 1.8em;
   font-weight: 300;
 `
+
 const ButtonClose = styled(Icon)`
   position: absolute;
   top: 30px;
@@ -57,32 +60,28 @@ const ButtonClose = styled(Icon)`
   font-size: 20px;
   cursor: pointer;
 `
+
 const Content = styled.div`
   padding: 30px;
   box-sizing: border-box;
 `
 
-const Modal = ({ ...props, children }) => {
-  const { position, displayed, title, icon, size, closeButton, close } = props
-
-  return (
-    <Wrapper position={position} displayed={displayed}>
-      <Container size={size}>
-        <Header>
-          { icon && <HeaderIcon name={icon} /> }
-          { title && <HeaderTitle>{title}</HeaderTitle> }
-          { closeButton && <ButtonClose name='ti-close' onClick={() => close()} /> }
-        </Header>
-        <Content>
-          {children}
-        </Content>
-      </Container>
-    </Wrapper>
-  )
-}
+const Modal = ({ position, title, icon, size, closeButton, close, ...props }) => (
+  <Wrapper darken={position === 0}>
+    <Container position={position} size={size}>
+      <Header>
+        {icon && <HeaderIcon name={icon} />}
+        {title && <HeaderTitle>{title}</HeaderTitle>}
+        {closeButton && <ButtonClose name='ti-close' onClick={() => close()} />}
+      </Header>
+      <Content>
+        {props.children}
+      </Content>
+    </Container>
+  </Wrapper>
+)
 
 Modal.propTypes = {
-  displayed: PropTypes.bool.isRequired,
   position: PropTypes.number.isRequired,
   title: PropTypes.string,
   icon: PropTypes.string,

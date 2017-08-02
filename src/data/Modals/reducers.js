@@ -13,18 +13,10 @@ const modals = (state = INITIAL_STATE, action) => {
       return remove(lastIndex, 1, state)
     case AT.CLOSE_ALL_MODALS:
       return []
-    case AT.SHOW_MODAL_AUTO_DISCONNECTION:
-      return insert(nextIndex, { type: 'AutoDisconnection', payload }, state)
-    case AT.SHOW_MODAL_QR_CODE:
-      return insert(nextIndex, { type: 'QRCode', payload }, state)
-    case AT.SHOW_MODAL_QR_CODE_CAPTURE:
-      return insert(nextIndex, { type: 'QRCodeCapture', payload }, state)
-    case AT.SHOW_MODAL_REQUEST_BITCOIN:
-      return insert(nextIndex, { type: 'RequestBitcoin' }, state)
-    case AT.SHOW_MODAL_SEND_BITCOIN:
-      return insert(nextIndex, { type: 'SendBitcoin' }, state)
-    case AT.SHOW_MODAL_SECOND_PASSWORD:
-      return insert(nextIndex, { type: 'SecondPassword', payload }, state)
+    case AT.SHOW_MODAL: {
+      let { type, props } = payload
+      return insert(nextIndex, { type, props }, state)
+    }
     default:
       return state
   }
