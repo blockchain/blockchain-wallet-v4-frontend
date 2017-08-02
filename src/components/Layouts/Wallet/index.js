@@ -1,22 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 
 import { selectors } from 'data'
 import WalletLayout from './template.js'
 
 const WalletLayoutContainer = ({component: Component, ...rest}) => {
   return (
-    <Route {...rest} render={props => (
-    // rest.isAuthenticated
-    // ? (
+    <Route {...rest} render={props => (rest.isAuthenticated
+    ? (
       <WalletLayout location={props.location}>
         <Component {...rest} />
       </WalletLayout>
-      // )
-      // : (
-      //   <Redirect to={{ pathname: '/login', state: { from: matchProps.location } }} />
-      // )
+      ) : (
+        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      )
     )} />
   )
 }

@@ -31,7 +31,6 @@ const RootStyle = styled.div`
   height: 100%;
 `
 
-
 class App extends React.Component {
   render () {
     const { store, history, messages, theme } = this.props

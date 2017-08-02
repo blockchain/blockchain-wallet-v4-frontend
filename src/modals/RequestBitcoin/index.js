@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 
 import { wizardForm } from 'components/providers/FormProvider'
-import modalEnhancer from 'components/providers/modalEnhancer'
+import modalEnhancer from 'components/providers/ModalEnhancer'
 import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
@@ -16,7 +16,7 @@ class RequestBitcoinContainer extends React.Component {
   }
 
   render () {
-    console.log('hiii')
+    console.log('test3')
     switch (this.props.step) {
       case 0: return <FirstStep {...this.props} />
       case 1: return <SecondStep {...this.props} />

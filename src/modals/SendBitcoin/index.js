@@ -5,7 +5,7 @@ import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 import { isNil, equals } from 'ramda'
 
 import { wizardForm } from 'components/providers/FormProvider'
-import modalEnhancer from 'components/providers/modalEnhancer'
+import modalEnhancer from 'components/providers/ModalEnhancer'
 import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'

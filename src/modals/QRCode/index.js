@@ -7,7 +7,7 @@ import { Link } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import Modal from 'components/generic/Modal'
 import CopyClipboard from './CopyClipboard'
-import modalEnhancer from 'components/providers/modalEnhancer'
+import modalEnhancer from 'components/providers/ModalEnhancer'
 
 const QRCodeContainer = styled.div`
   display: flex;

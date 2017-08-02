@@ -107,7 +107,7 @@ module.exports = {
     new Webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
-    contentBase: PATHS.src,
+    contentBase: PATHS.build,
     host: 'localhost',
     port: 8080,
     hot: true,
