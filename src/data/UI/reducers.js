@@ -12,9 +12,6 @@ const INITIAL_STATE = {
 
 const ui = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case AT.SHOW_SECURITY_CENTER_MENU: {
-      return assign(INITIAL_STATE, { securityCenterMenuDisplayed: true })
-    }
     case AT.HIDE_SECURITY_CENTER_MENU: {
       return assign(INITIAL_STATE, { securityCenterMenuDisplayed: false })
     }

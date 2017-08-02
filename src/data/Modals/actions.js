@@ -2,14 +2,21 @@ import * as AT from './actionTypes'
 
 export const closeModal = () => ({ type: AT.CLOSE_MODAL })
 
-export const showModalAutoDisconnection = (duration) => ({ type: AT.SHOW_MODAL_AUTO_DISCONNECTION, payload: { duration } })
+export const closeAllModals = () => ({ type: AT.CLOSE_ALL_MODALS })
 
-export const showModalRequestBitcoin = () => ({ type: AT.SHOW_MODAL_REQUEST_BITCOIN })
+export const showModal = (type, props = {}) => ({ type: AT.SHOW_MODAL, payload: { type, props } })
 
-export const showModalSendBitcoin = () => ({ type: AT.SHOW_MODAL_SEND_BITCOIN })
+export const showModalAutoDisconnection = (duration) => showModal('AutoDisconnection', { duration })
 
-export const showModalQRCode = (address, handleBack) => ({ type: AT.SHOW_MODAL_QR_CODE, payload: { address, handleBack } })
+export const showModalRequestBitcoin = () => showModal('RequestBitcoin')
 
-export const showModalQRCodeCapture = (handleScan, handleError, handleBack) => ({ type: AT.SHOW_MODAL_QR_CODE_CAPTURE, payload: { handleScan, handleError, handleBack } })
+export const showModalSendBitcoin = () => showModal('SendBitcoin')
 
-export const showModalSecondPassword = (handleConfirm) => ({ type: AT.SHOW_MODAL_SECOND_PASSWORD, payload: { handleConfirm } })
+export const showModalQRCode = (address, handleBack) => showModal('QRCode', { address, handleBack })
+
+export const showModalQRCodeCapture = () => showModal('QRCodeCapture')
+
+export const showModalSecondPassword = (handleConfirm) => showModal('SecondPassword', { handleConfirm })
+
+export const sendQrCaptureResult = (result) => ({ type: AT.CAPTURE_QR_SUCCESS, payload: result })
+export const sendQrCaptureError = (error) => ({ type: AT.CAPTURE_QR_ERROR, payload: error })

@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 
 import { wizardForm } from 'components/providers/FormProvider'
+import modalEnhancer from 'components/providers/modalEnhancer'
 import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
@@ -11,11 +12,11 @@ import settings from 'config'
 
 class RequestBitcoinContainer extends React.Component {
   componentWillMount () {
-    console.log(this.props.initialValues)
     this.props.reduxFormActions.initialize('requestBitcoin', this.props.initialValues)
   }
 
   render () {
+    console.log('hiii')
     switch (this.props.step) {
       case 0: return <FirstStep {...this.props} />
       case 1: return <SecondStep {...this.props} />
@@ -63,6 +64,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   wizardForm('requestBitcoin', 2),
+  modalEnhancer('RequestBitcoin'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

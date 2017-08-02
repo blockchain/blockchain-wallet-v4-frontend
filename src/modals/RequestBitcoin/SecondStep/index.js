@@ -9,13 +9,18 @@ import SecondStep from './template.js'
 class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
+    this.timeout = undefined
     this.state = { active: false }
     this.handleClick = this.handleClick.bind(this)
   }
 
+  componentWillUnmount () {
+    clearTimeout(this.timeout)
+  }
+
   handleClick () {
     this.setState({ active: true })
-    setTimeout(() => { this.setState({ active: false }) }, 2000)
+    this.timeout = setTimeout(() => { this.setState({ active: false }) }, 2000)
   }
 
   render () {

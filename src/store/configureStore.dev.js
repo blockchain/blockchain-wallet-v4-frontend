@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
-import persistState from 'redux-localstorage'
+import { persistStore, autoRehydrate } from 'redux-persist'
 import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { coreMiddleware } from 'dream-wallet/lib'
@@ -37,8 +37,6 @@ const configureStore = () => {
   const store = createStore(
     connectRouter(history)(rootReducer),
     composeEnhancers(
-      // persistState(['session', 'preferences']),
-      // persistState(undefined, {deserialize: string => JSON.parse(string, serializer.reviver)}),
       applyMiddleware(
         reduxRouterMiddleware,
         autoDisconnection,
@@ -47,15 +45,16 @@ const configureStore = () => {
         coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.getIsAuthenticated }),
         sagaMiddleware// ,
         // logger
-      )
+      ),
+      autoRehydrate()
     )
   )
   sagaMiddleware.run(rootSaga)
+  persistStore(store, { whitelist: ['session', 'preferences'] })
 
   return {
     store,
     history
-    // runSaga: sagaMiddleware.run
   }
 }
 

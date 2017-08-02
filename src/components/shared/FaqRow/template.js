@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
 import { Icon } from 'components/generic/Icon'
 
 const Wrapper = styled.div`
@@ -14,6 +13,7 @@ const Wrapper = styled.div`
   boz-sizing: border-box;
   border-bottom: 1px solid #EFEFEF;
 `
+
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -23,10 +23,12 @@ const Header = styled.div`
   padding: 10px 0;
   cursor: pointer;
 `
+
 const Content = styled.div`
   display: ${props => props.displayed ? 'flex' : 'none'};
   width: 75%;
 `
+
 const Arrow = styled(Icon).attrs({
   name: 'icon-up_arrow'
 })`
@@ -34,24 +36,20 @@ const Arrow = styled(Icon).attrs({
   cursor: pointer;
 `
 
-const FaqRow = (props) => {
-  const { component, handleToggle, toggled } = props
-
-  return (
-    <Wrapper>
-      <Header onClick={handleToggle}>
-        {component.title}
-        <Arrow rotated={toggled} />
-      </Header>
-      <Content displayed={toggled}>
-        { toggled && component.description }
-      </Content>
-    </Wrapper>
-  )
-}
+const FaqRow = ({ component, onToggle, toggled }) => (
+  <Wrapper>
+    <Header onClick={onToggle}>
+      {component.title}
+      <Arrow rotated={toggled} />
+    </Header>
+    <Content displayed={toggled}>
+      {toggled && component.description}
+    </Content>
+  </Wrapper>
+)
 
 FaqRow.propTypes = {
-  handleToggle: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired,
   toggled: PropTypes.bool.isRequired,
   component: PropTypes.shape({
     title: PropTypes.object.isRequired,

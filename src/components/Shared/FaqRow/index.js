@@ -1,22 +1,15 @@
 import React from 'react'
+import ui from 'redux-ui'
 import FaqRow from './template.js'
 
-class FaqRowContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { toggled: false }
-    this.handleToggle = this.handleToggle.bind(this)
-  }
+const FaqRowContainer = ({ ui, updateUI, ...props }) => (
+  <FaqRow
+    toggled={ui.toggled}
+    onToggle={() => updateUI({ toggled: !ui.toggled })}
+    {...props}
+  />
+)
 
-  handleToggle () {
-    this.setState({ toggled: !this.state.toggled })
-  }
+let enhance = ui({ state: { toggled: false } })
 
-  render () {
-    return (
-      <FaqRow toggled={this.state.toggled} handleToggle={this.handleToggle} {...this.props} />
-    )
-  }
-}
-
-export default FaqRowContainer
+export default enhance(FaqRowContainer)

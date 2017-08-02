@@ -7,6 +7,7 @@ import { Link } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import Modal from 'components/generic/Modal'
 import CopyClipboard from './CopyClipboard'
+import modalEnhancer from 'components/providers/modalEnhancer'
 
 const QRCodeContainer = styled.div`
   display: flex;
@@ -20,8 +21,7 @@ const Footer = styled.div`
 `
 
 const QRCode = (props) => {
-  const { payload, ...rest } = props
-  const { address, handleBack } = payload
+  const { address, handleBack, ...rest } = props
   const bitcoinAddress = `bitcoin:${address}`
 
   return (
@@ -43,10 +43,10 @@ const QRCode = (props) => {
 }
 
 QRCode.propTypes = {
-  payload: PropTypes.shape({
-    address: PropTypes.string.isRequired,
-    handleBack: PropTypes.func
-  })
+  address: PropTypes.string.isRequired,
+  handleBack: PropTypes.func
 }
 
-export default QRCode
+let enhance = modalEnhancer('QRCode')
+
+export default enhance(QRCode)
