@@ -14,6 +14,9 @@ export const showModalSendBitcoin = () => showModal('SendBitcoin')
 
 export const showModalQRCode = (address, handleBack) => showModal('QRCode', { address, handleBack })
 
-export const showModalQRCodeCapture = (handleScan, handleError, handleBack) => showModal('QRCodeCapture', { handleScan, handleError, handleBack })
+export const showModalQRCodeCapture = () => showModal('QRCodeCapture')
 
 export const showModalSecondPassword = (handleConfirm) => showModal('SecondPassword', { handleConfirm })
+
+export const sendQrCaptureResult = (result) => ({ type: AT.CAPTURE_QR_SUCCESS, payload: result })
+export const sendQrCaptureError = (error) => ({ type: AT.CAPTURE_QR_ERROR, payload: error })
