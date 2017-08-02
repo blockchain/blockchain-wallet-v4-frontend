@@ -8,7 +8,7 @@ import notifications from 'middleware/notifications.js'
 import { rootSaga, rootReducer } from 'data'
 import settings from 'config'
 import { api } from 'services/ApiService'
-// import { Socket } from 'dream-wallet/lib/network'
+import { socket } from 'services/Socket'
 import { auth } from 'data/rootSelectors.js'
 import { serializer } from 'dream-wallet/lib/types'
 
@@ -32,7 +32,7 @@ const configureStore = () => {
         autoDisconnection,
         notifications,
         // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
-        // coreMiddleware.socket({ socket }),
+        coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.getIsAuthenticated }),
         sagaMiddleware
       )
     )
