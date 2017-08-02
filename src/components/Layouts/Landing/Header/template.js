@@ -26,14 +26,16 @@ const Logo = styled.img.attrs({
   margin: 15px;
 `
 const Header = (props) => {
+  const { toggled, handleToggle } = props
+
   return (
     <Wrapper>
-      <Navbar inverse defaultExpanded={props.headerMenuDisplayed}>
+      <Navbar inverse defaultExpanded={toggled}>
         <NavbarHeader>
           <NavbarBrand>
             <RouterLink to='/'><Logo /></RouterLink>
           </NavbarBrand>
-          <NavbarToggle onClick={props.clickHeaderMenu} />
+          <NavbarToggle onClick={handleToggle} />
         </NavbarHeader>
         <NavbarCollapse>
           <Nav>
@@ -78,8 +80,8 @@ const Header = (props) => {
 }
 
 Header.propTypes = {
-  clickHeaderMenu: PropTypes.func.isRequired,
-  headerMenuDisplayed: PropTypes.bool.isRequired
+  handleToggle: PropTypes.func.isRequired,
+  toggled: PropTypes.bool.isRequired
 }
 
 export default Header

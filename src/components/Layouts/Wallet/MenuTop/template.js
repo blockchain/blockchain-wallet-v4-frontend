@@ -67,7 +67,7 @@ const BalanceContainer = styled.div`
 `
 
 const MenuTop = (props) => {
-  const { openSendBitcoin, openRequestBitcoin, coinDisplayed, toggleCurrencyDisplay, balance } = props
+  const { openSendBitcoin, openRequestBitcoin, coinDisplayed, toggleCoinDisplay, balance } = props
 
   return (
     <Wrapper>
@@ -93,11 +93,11 @@ const MenuTop = (props) => {
       </LeftContainer>
       <RightContainer>
         { coinDisplayed
-          ? <BalanceContainer onClick={toggleCurrencyDisplay}>
+          ? <BalanceContainer onClick={toggleCoinDisplay}>
             <CoinDisplay biggest>{balance}</CoinDisplay>
             <CurrencyDisplay big>{balance}</CurrencyDisplay>
           </BalanceContainer>
-          : <BalanceContainer onClick={toggleCurrencyDisplay}>
+          : <BalanceContainer onClick={toggleCoinDisplay}>
             <CurrencyDisplay biggest>{balance}</CurrencyDisplay>
             <CoinDisplay big>{balance}</CoinDisplay>
           </BalanceContainer>
@@ -108,14 +108,10 @@ const MenuTop = (props) => {
 }
 
 MenuTop.propTypes = {
-  balance: 0,
-  openSendBitcoin: PropTypes.func.isRequired,
-  openRequestBitcoin: PropTypes.func.isRequired
-}
-
-MenuTop.propTypes = {
   balance: PropTypes.number.isRequired,
-  toggleCurrencyDisplay: PropTypes.func.isRequired
+  openSendBitcoin: PropTypes.func.isRequired,
+  openRequestBitcoin: PropTypes.func.isRequired,
+  toggleCoinDisplay: PropTypes.func.isRequired
 }
 
 export default MenuTop

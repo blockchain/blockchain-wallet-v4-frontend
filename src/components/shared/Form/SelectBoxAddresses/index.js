@@ -32,7 +32,7 @@ SelectBoxAddressesContainer.defaultProps = {
 
 const mapStateToProps = (state, ownProps) => {
   const network = 'bitcoin'
-  const coinDisplayed = selectors.ui.getCoinDisplayed(state)
+  const coinDisplayed = selectors.preferences.getCoinDisplayed(state)
   const unit = selectors.core.settings.getBtcCurrency(state)
   const currency = selectors.core.settings.getCurrency(state)
 

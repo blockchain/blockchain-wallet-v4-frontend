@@ -5,11 +5,11 @@ import { formValueSelector } from 'redux-form'
 import { equals } from 'ramda'
 
 import { selectors, actions } from 'data'
-import TransactionList from './template.js'
+import List from './template.js'
 
 const txsPerPage = 50
 
-class TransactionListContainer extends React.Component {
+class ListContainer extends React.Component {
   constructor (props) {
     super(props)
     if (!props.transactions || props.transactions.length === 0) {
@@ -35,7 +35,7 @@ class TransactionListContainer extends React.Component {
 
   render () {
     return (
-      <TransactionList transactions={this.props.transactions} />
+      <List transactions={this.props.transactions} />
     )
   }
 }
@@ -54,4 +54,4 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.core.transactions, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionListContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ListContainer)

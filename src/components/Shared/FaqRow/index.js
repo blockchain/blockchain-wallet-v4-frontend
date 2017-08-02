@@ -5,7 +5,7 @@ import FaqRow from './template.js'
 const FaqRowContainer = ({ ui, updateUI, ...props }) => (
   <FaqRow
     toggled={ui.toggled}
-    onToggle={() => updateUI({ toggled: !ui.toggled })}
+    handleToggle={() => updateUI({ toggled: !ui.toggled })}
     {...props}
   />
 )

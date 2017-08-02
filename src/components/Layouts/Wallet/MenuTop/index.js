@@ -10,11 +10,11 @@ class MenuTopContainer extends React.Component {
     super(props)
     this.openSendBitcoin = this.openSendBitcoin.bind(this)
     this.openRequestBitcoin = this.openRequestBitcoin.bind(this)
-    this.toggleCurrencyDisplay = this.toggleCurrencyDisplay.bind(this)
+    this.toggleCoinDisplay = this.toggleCoinDisplay.bind(this)
   }
 
-  toggleCurrencyDisplay () {
-    this.props.uiActions.toggleCurrencyDisplay()
+  toggleCoinDisplay () {
+    this.props.preferencesActions.toggleCoinDisplayed()
   }
 
   openSendBitcoin () {
@@ -28,7 +28,7 @@ class MenuTopContainer extends React.Component {
   render () {
     return <MenuTop
       {...this.props}
-      toggleCurrencyDisplay={this.toggleCurrencyDisplay}
+      toggleCoinDisplay={this.toggleCoinDisplay}
       openSendBitcoin={this.openSendBitcoin}
       openRequestBitcoin={this.openRequestBitcoin} />
   }
@@ -39,13 +39,13 @@ MenuTopContainer.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-  coinDisplayed: selectors.ui.getCoinDisplayed(state),
+  coinDisplayed: selectors.preferences.getCoinDisplayed(state),
   balance: selectors.core.info.getBalance(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  uiActions: bindActionCreators(actions.ui, dispatch)
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuTopContainer)

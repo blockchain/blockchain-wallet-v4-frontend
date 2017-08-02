@@ -16,22 +16,24 @@ const ButtonContainer = styled.div`
 `
 
 const SecuritySettings = (props) => {
+  const { toggled, handleToggle } = props
+
   return (
     <Wrapper>
       <BasicSecurity />
       <ButtonContainer>
-        <Button onClick={props.clickAdvancedSecurity}>
+        <Button onClick={handleToggle}>
           <Text id='scenes.settings.advancedsettings' text='Advanced settings' small light />
         </Button>
       </ButtonContainer>
-      { props.advancedSecurityDisplayed ? <AdvancedSecurity /> : <div /> }
+      { toggled ? <AdvancedSecurity /> : <div /> }
     </Wrapper>
   )
 }
 
 SecuritySettings.propTypes = {
-  advancedSecurityDisplayed: PropTypes.bool.isRequired,
-  clickAdvancedSecurity: PropTypes.func.isRequired
+  toggled: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired
 }
 
 export default SecuritySettings

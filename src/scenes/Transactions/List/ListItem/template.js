@@ -96,28 +96,30 @@ const ExtraDetails = styled.div`
 `
 
 const ListItem = (props) => {
+  const { toggled, handleToggle, transaction } = props
+
   return (
     <Wrapper>
       <Row>
         <LeftContainer>
-          <Arrow rotated={!props.detailsDisplayed} onClick={props.clickDetails}>
+          <Arrow rotated={!toggled} onClick={handleToggle}>
             <Icon name='icon-down_arrow' />
           </Arrow>
           <Status>
             <StatusLabel {...props} />
             <Typography small light italic>
-              <FormattedDate value={new Date(props.transaction.time * 1000)} />
+              <FormattedDate value={new Date(transaction.time * 1000)} />
             </Typography>
           </Status>
         </LeftContainer>
         <Addresses>
-          <Text id='scenes.transactions.list.listitem.to' text='To : {to}' values={{ to: props.transaction.to }} small light />
-          <Text id='scenes.transactions.list.listitem.from' text='From : {from}' values={{ from: props.transaction.from }} small light />
+          <Text id='scenes.transactions.list.listitem.to' text='To : {to}' values={{ to: transaction.to }} small light />
+          <Text id='scenes.transactions.list.listitem.from' text='From : {from}' values={{ from: transaction.from }} small light />
         </Addresses>
         <Description>
           <Edit>
-            { props.transaction.description !== ''
-              ? <Typography small light>{props.transaction.description}</Typography>
+            { transaction.description !== ''
+              ? <Typography small light>{transaction.description}</Typography>
               : <Typography small light>Add a description</Typography>
             }
             <EditIcon name='ti-pencil' />
@@ -125,21 +127,21 @@ const ListItem = (props) => {
         </Description>
         <ButtonAmount {...props} />
       </Row>
-      <RowDetails collapsed={!props.detailsDisplayed}>
+      <RowDetails collapsed={!toggled}>
         <ExtraDetails>
           <Edit>
-            { props.transaction.description !== ''
-              ? <Typography small light>{props.transaction.description}</Typography>
+            { transaction.description !== ''
+              ? <Typography small light>{transaction.description}</Typography>
               : <Typography small light>Add a description</Typography>
             }
             <EditIcon name='ti-pencil' />
           </Edit>
-          <Text id='scenes.transactions.list.listitem.to' text='To : {to}' values={{ to: props.transaction.to }} small light />
-          <Text id='scenes.transactions.list.listitem.from' text='From : {from}' values={{ from: props.transaction.from }} small light />
+          <Text id='scenes.transactions.list.listitem.to' text='To : {to}' values={{ to: transaction.to }} small light />
+          <Text id='scenes.transactions.list.listitem.from' text='From : {from}' values={{ from: transaction.from }} small light />
         </ExtraDetails>
         <Details>
-          <Typography small light>{props.transaction.status}</Typography>
-          <Text id='scenes.transactions.list.listitem.initial' text='Value when received: {value}' values={{ value: props.transaction.initial_value }} small light />
+          <Typography small light>{transaction.status}</Typography>
+          <Text id='scenes.transactions.list.listitem.initial' text='Value when received: {value}' values={{ value: transaction.initial_value }} small light />
         </Details>
       </RowDetails>
     </Wrapper>
@@ -147,8 +149,9 @@ const ListItem = (props) => {
 }
 
 ListItem.propTypes = {
-  detailsDisplayed: PropTypes.bool.isRequired,
-  clickDetails: PropTypes.func.isRequired,
+  toggled: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
   transaction: PropTypes.shape({
     type: PropTypes.string.isRequired,
     amount: PropTypes.number.isRequired,

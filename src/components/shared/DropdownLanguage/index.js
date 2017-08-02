@@ -1,6 +1,7 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
+import ui from 'redux-ui'
 import { map } from 'ramda'
 
 import { renameKeys } from 'services/RamdaCookingBook'
@@ -16,7 +17,7 @@ class DropdownLanguageContainer extends React.Component {
   }
 
   toggle () {
-    this.props.uiActions.toggleDropdownLanguage()
+    this.props.updateUI({ toggled: !this.props.ui.toggled })
   }
 
   click (value) {
@@ -32,22 +33,25 @@ class DropdownLanguageContainer extends React.Component {
         id='language'
         display={display}
         items={items}
-        dropdownOpen={this.props.dropdownLanguageDisplayed}
+        toggled={this.props.toggled}
         toggle={this.toggle}
         callback={this.click} />
     )
   }
 }
 
-let mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps) => ({
   culture: selectors.preferences.getCulture(state),
-  dropdownLanguageDisplayed: selectors.ui.getDropdownLanguageDisplayed(state),
   languages: languageService.languagesSortedByName
 })
 
-let mapDispatchToProps = (dispatch) => ({
-  uiActions: bindActionCreators(actions.ui, dispatch),
+const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DropdownLanguageContainer)
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: { toggled: false } })
+)
+
+export default enhance(DropdownLanguageContainer)
