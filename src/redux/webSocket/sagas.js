@@ -9,8 +9,6 @@ import { Socket } from '../../network'
 export const webSocketSaga = ({ api, socket, walletPath } = {}) => {
   const send = socket.send.bind(socket)
 
-  const stopSocket = function * () { socket.close() }
-
   const onOpen = function * (action) {
     const wrapper = yield select(prop(walletPath))
     const subscribeInfo = walletSelectors.getInitialSocketContext(wrapper)
@@ -74,6 +72,5 @@ export const webSocketSaga = ({ api, socket, walletPath } = {}) => {
     yield takeEvery(T.webSocket.OPEN_SOCKET, onOpen)
     yield takeEvery(T.webSocket.MESSAGE_SOCKET, onMessage)
     yield takeEvery(T.webSocket.CLOSE_SOCKET, onClose)
-    yield takeEvery(T.webSocket.STOP_SOCKET, stopSocket)
   }
 }

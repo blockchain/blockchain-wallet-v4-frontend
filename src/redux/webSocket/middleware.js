@@ -21,6 +21,8 @@ const socket = ({ socket, walletPath }) => (store) => {
       )
     }
 
+    if (type === T.webSocket.STOP_SOCKET) { socket.close() }
+
     if (whitelist[type]) whitelist[type](action)
 
     return next(action)
