@@ -7,6 +7,8 @@ import { Link } from 'components/generic/Link'
 import { Text } from 'components/generic/Text'
 import Modal from 'components/generic/Modal'
 
+const DELAY = 100
+
 const QRCodeContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -24,31 +26,26 @@ const QrCodeReader = styled(QrReader)`
   & > * { width: 100%; }
 `
 
-const QRCodeCapture = (props) => {
-  const { handleScan, handleError, handleBack, ...rest } = props
-  const delay = 100
-
-  return (
-    <Modal {...rest} icon='icon-send' title='Payment address' size='large'>
-      <Text id='modals.qrcodecapture.scan' text='Capture QR Code' small light />
-      <QRCodeContainer>
-        <QrCodeReader delay={delay} onScan={handleScan} onError={handleError} />
-      </QRCodeContainer>
-      {handleBack &&
-        <Footer>
-          <Link onClick={handleBack}>
-            <Text id='modals.qrcodecapture.back' text='Go back' small light cyan />
-          </Link>
-        </Footer>
-      }
-    </Modal>
-  )
-}
+const QRCodeCapture = ({ onScan, onError, onBack, ...rest }) => (
+  <Modal {...rest} icon='icon-send' title='Payment address' size='large'>
+    <Text id='modals.qrcodecapture.scan' text='Capture QR Code' small light />
+    <QRCodeContainer>
+      <QrCodeReader delay={DELAY} onScan={onScan} onError={onError} />
+    </QRCodeContainer>
+    {onBack &&
+      <Footer>
+        <Link onClick={onBack}>
+          <Text id='modals.qrcodecapture.back' text='Go back' small light cyan />
+        </Link>
+      </Footer>
+    }
+  </Modal>
+)
 
 QRCodeCapture.propTypes = {
-  handleScan: PropTypes.func.isRequired,
-  handleError: PropTypes.func,
-  handleBack: PropTypes.func
+  onScan: PropTypes.func.isRequired,
+  onError: PropTypes.func,
+  onBack: PropTypes.func
 }
 
 export default QRCodeCapture
