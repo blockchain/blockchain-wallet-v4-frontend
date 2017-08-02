@@ -23,17 +23,8 @@ export const webSocketSaga = ({ api, socket, walletPath } = {}) => {
         const newChecksum = message.x.checksum
         const wrapper = yield select(prop(walletPath))
         const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
-        const guid = Wallet.selectGuid(Wrapper.selectWallet(wrapper))
-        const sharedKey = Wallet.selectSharedKey(Wrapper.selectWallet(wrapper))
-        // TODO :: if there is a main password change decryption will not work
-        const password = Wrapper.selectPassword(wrapper)
         if (oldChecksum !== newChecksum) {
-          // TODO :: We should handle api error here
-          const newWrapper = yield call(api.fetchWallet, guid, sharedKey, undefined, password)
-          yield put(A.wallet.setWrapper(newWrapper))
-          const newContext = walletSelectors.getWalletContext(wrapper)
-          yield put(A.common.fetchBlockchainData(newContext))
-          // Maybe we should dispatch a on-change actions to notify frontend in case it needs to show notification
+          yield call(refreshWallet)
         }
         break
       case 'utx':
@@ -68,6 +59,21 @@ export const webSocketSaga = ({ api, socket, walletPath } = {}) => {
     console.log('websocket closed')
   }
 
+  const refreshWallet = function * () {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const skey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const password = yield select(compose(Wrapper.selectPassword, prop(walletPath)))
+    try {
+      const newWrapper = yield call(api.fetchWallet, guid, skey, undefined, password)
+      yield put(A.wallet.setWrapper(newWrapper))
+      const newContext = walletSelectors.getWalletContext(newWrapper)
+      yield put(A.common.fetchBlockchainData(newContext))
+      // Maybe we should dispatch a on-change actions to notify frontend in case it needs to show notification
+    } catch (e) {
+      console.log('REFRESH WALLET FAILED (WEBSOCKET) :: should dispatch error action ?')
+    }
+  }
+  
   return function * () {
     yield takeEvery(T.webSocket.OPEN_SOCKET, onOpen)
     yield takeEvery(T.webSocket.MESSAGE_SOCKET, onMessage)
