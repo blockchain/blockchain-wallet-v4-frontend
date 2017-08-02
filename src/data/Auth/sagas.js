@@ -1,10 +1,10 @@
 import { delay } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { takeEvery, call, put, select } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
-import { actions, selectors } from 'data'
+import { actionTypes, actions, selectors } from 'data'
 import { api } from 'services/ApiService'
 
 let safeParse = Either.try(JSON.parse)
@@ -81,8 +81,10 @@ const trezorFailed = function * (action) {
   yield put(actions.alerts.displayError('Trezor connection failed'))
 }
 
-export default {
-  login: login,
-  trezor: trezor,
-  trezorFailed: trezorFailed
+function * sagas () {
+  yield takeEvery(actionTypes.auth.LOGIN_START, login)
+  yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_SUCCESS, trezor)
+  yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_ERROR, trezorFailed)
 }
+
+export default sagas

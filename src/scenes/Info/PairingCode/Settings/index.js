@@ -13,7 +13,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.modalActions.showModalPairingCode()
+    this.props.modalActions.showModal('PairingCode')
   }
 
   render () {

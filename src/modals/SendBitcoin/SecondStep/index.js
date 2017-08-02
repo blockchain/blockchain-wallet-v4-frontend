@@ -13,28 +13,10 @@ class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleConfirmSecondPassword = this.handleConfirmSecondPassword.bind(this)
-    this.handleSignAndPublish = this.handleSignAndPublish.bind(this)
-  }
-
-  handleSignAndPublish () {
-    this.props.paymentActions.signAndPublish(settings.NETWORK, this.props.selection)
-  }
-
-  handleConfirmSecondPassword (secondPassword) {
-    // TODO
-    // If SecondPassword is valid
-    // console.log(secondPassword)
-    this.handleSignAndPublish()
   }
 
   handleClick () {
-    this.handleSignAndPublish()
-    // TODO
-    // If SecondPassword enabled:
-    // this.props.modalActions.showModalSecondPassword(this.handleConfirmSecondPassword)
-    // Else
-    // this.handleSignAndPublish()
+    this.props.paymentActions.signAndPublish(settings.NETWORK, this.props.selection)
   }
 
   render () {

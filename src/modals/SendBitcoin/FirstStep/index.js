@@ -36,7 +36,6 @@ class FirstStepContainer extends React.Component {
     if (gte(fee, 0) && target && coins && changeAddress && !equals(pick(['fee', 'to', 'from', 'amount'], nextProps), pick(['fee', 'to', 'from', 'amount'], this.props))) {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
-        
         // this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'descentDraw', this.seed.toString('hex'))
         this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
       }, 1000)
@@ -72,7 +71,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleToggleQrCodeCapture () {
-    this.props.modalActions.showModalQRCodeCapture(this.handleQrCodeScan, this.handleQrCodeError)
+    this.props.modalActions.showModal('QRCodeCapture')
   }
 
   handleQrCodeScan (data) {

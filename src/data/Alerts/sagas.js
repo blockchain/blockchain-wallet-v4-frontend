@@ -1,6 +1,7 @@
-import { delay } from 'redux-saga'
+import { takeEvery, delay } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 
+import * as AT from './actionTypes'
 import { actions } from 'data'
 
 export const handleTimer = function * (action) {
@@ -10,3 +11,9 @@ export const handleTimer = function * (action) {
     yield put(actions.alerts.dismissAlert(id))
   }
 }
+
+function * sagas () {
+  yield takeEvery(AT.ALERTS_SHOW, handleTimer)
+}
+
+export default sagas

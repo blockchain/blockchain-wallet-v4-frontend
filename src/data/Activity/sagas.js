@@ -1,5 +1,5 @@
+import { takeLatest, call, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import { call, put } from 'redux-saga/effects'
 
 function * fetchActivities () {
   const response = yield call(function () {
@@ -13,6 +13,8 @@ function * fetchActivities () {
   yield put({type: AT.FETCH_ACTIVITIES_SUCCESSFUL, activities: response})
 }
 
-export default {
-  fetchActivities
+function * sagas () {
+  yield takeLatest(AT.FETCH_ACTIVITIES, fetchActivities)
 }
+
+export default sagas
