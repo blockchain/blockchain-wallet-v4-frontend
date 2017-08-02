@@ -29,6 +29,7 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
     yield put(actions.core.common.fetchBlockchainData(context))
     const sk = yield select(selectors.core.wallet.getSharedKey)
     yield put(actions.core.settings.fetchSettings({guid, sharedKey: sk}))
+    yield put(actions.core.webSocket.startSocket())
     yield put(actions.auth.loginSuccess())
     // yield put(actions.auth.logoutStartTimer(10))
     yield put(push('/wallet'))
@@ -72,6 +73,7 @@ const login = function * (action) {
 const trezor = function * (action) {
   const context = yield select(selectors.core.wallet.getWalletContext)
   yield put(actions.core.common.fetchBlockchainData(context))
+  yield put(actions.core.webSocket.startSocket())
   yield put(actions.auth.loginSuccess())
   yield put(push('/wallet'))
   yield put(actions.alerts.displaySuccess('Logged in successfully'))
