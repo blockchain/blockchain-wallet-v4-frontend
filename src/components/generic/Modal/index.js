@@ -14,24 +14,26 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  z-index: 1040;
-  background-color: ${props => props.darken ? 'rgba(0,0,0,0.5)' : 'transparent'};
+  background-color: ${props => props.isLast ? 'rgba(0, 0, 0, 0.5)' : 'transparent'};
+  z-index: ${props => props.position ? (props.position) + 1040 : 1040};
 `
 
 const Container = styled.div`
   position: relative;
-  width: 100%;
-  background-color: #FFFFFF;
-  z-index: ${props => props.position ? (props.position) + 1040 : 1040};
+  width: calc(100% - ${props => props.position * 20}px);
+  background-color: ${props => props.isLast ? '#FFFFFF' : '#D3D3D3'};
+  z-index: ${props => props.position ? (props.position) + 1041 : 1041};
+
   @media(min-width: 768px) {
-    width: ${props => props.size === 'small' ? '400px'
-    : props.size === 'medium' ? '500px'
-      : props.size === 'large' ? '600px' : '800px'};
+    width: ${props => props.size === 'small' ? 'calc(400px - ' + props.position * 20 + 'px)'
+    : props.size === 'medium' ? 'calc(500 - ' + props.position * 20 + 'px)'
+    : props.size === 'large' ? 'calc(600px - ' + props.position * 20 + 'px)'
+    : 'calc(800px - ' + props.position * 20 + 'px)'};
   }
 `
 const Header = styled.div`
   position: relative;
-  diplay: flex;
+  display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -66,23 +68,26 @@ const Content = styled.div`
   box-sizing: border-box;
 `
 
-const Modal = ({ position, title, icon, size, closeButton, close, ...props }) => (
-  <Wrapper darken={position === 0}>
-    <Container position={position} size={size}>
-      <Header>
-        {icon && <HeaderIcon name={icon} />}
-        {title && <HeaderTitle>{title}</HeaderTitle>}
-        {closeButton && <ButtonClose name='ti-close' onClick={() => close()} />}
-      </Header>
-      <Content>
-        {props.children}
-      </Content>
-    </Container>
-  </Wrapper>
-)
+const Modal = ({ position, isLast, title, icon, size, closeButton, close, ...props }) => {
+  return (
+    <Wrapper position={position} isLast={isLast}>
+      <Container position={position} isLast={isLast} size={size}>
+        <Header>
+          {icon && <HeaderIcon name={icon} />}
+          {title && <HeaderTitle>{title}</HeaderTitle>}
+          {closeButton && <ButtonClose name='ti-close' onClick={() => close()} />}
+        </Header>
+        <Content>
+          {props.children}
+        </Content>
+      </Container>
+    </Wrapper>
+  )
+}
 
 Modal.propTypes = {
   position: PropTypes.number.isRequired,
+  isLast: PropTypes.number.isRequired,
   title: PropTypes.string,
   icon: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large', '']),
@@ -91,6 +96,7 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
   size: 'large',
+  isLast: true,
   closeButton: true
 }
 

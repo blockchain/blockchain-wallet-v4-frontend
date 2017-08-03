@@ -10,7 +10,6 @@ class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClickCode = this.handleClickCode.bind(this)
-    this.handleQRCodeClickBack = this.handleQRCodeClickBack.bind(this)
   }
 
   handleClickCode () {
@@ -27,7 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 FirstStepContainer.propTypes = {
-  receiveAddress: PropTypes.string.isRequired
+  receiveAddress: PropTypes.string
 }
 
 export default connect(undefined, mapDispatchToProps)(FirstStepContainer)

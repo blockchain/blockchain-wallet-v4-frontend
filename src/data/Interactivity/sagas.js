@@ -1,40 +1,53 @@
-import { takeEvery, take, put, race } from 'redux-saga/effects'
+import { takeEvery, take, put } from 'redux-saga/effects'
 import { actions as reduxFormActions } from 'redux-form'
 import { push } from 'react-router-redux'
 import { actions, actionTypes } from 'data'
+import * as AT from './actionTypes'
 
-export const readQrCode = function * () {
-  yield put(actions.modals.showModal('QRCode'))
+// =============================================================================
+// =========================== QrCodeCapture modal =============================
+// =============================================================================
 
-  // let { success, error } = yield race({
-  //   success: take(actionTypes.CAPTURE_QR_SUCCESS),
-  //   error: take(AT.CAPTURE_QR_ERROR)
-  // })
+const qrCodeCaptureSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
 
-  // yield put(actions.modals.closeModal())
-
-  // if (success) return success.payload
-  // else throw new Error(error.payload)
-}
-
-export const readQrAndAlert = function * () {
-  try {
-    let result = yield readQrCode()
-    yield put(actions.alerts.displaySuccess(result))
-  } catch (error) {
-    yield put(actions.alerts.displayError(error.message))
+  if (data) {
+    yield put(actions.alerts.displaySuccess(data))
+    yield put(reduxFormActions.change('sendBitcoin', 'to', data))
+    yield put(actions.modals.closeModal())
   }
 }
 
-const sendBitcoin = function * (action) {
+const qrCodeCaptureError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+  yield put(actions.modals.closeModal())
+}
+
+// =============================================================================
+// ============================ SendBitcoin modal ==============================
+// =============================================================================
+
+const signAndPublishSuccess = function * (action) {
   yield put(reduxFormActions.destroy('sendBitcoin'))
   yield put(actions.modals.closeModal())
   yield put(push('/transactions'))
   yield put(actions.alerts.displaySuccess('Your transaction is being confirmed'))
 }
 
+const signAndPublishError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+}
+
+// =============================== EXPORT ======================================
+
 function * sagas () {
-  yield takeEvery(actionTypes.core.payment.signAndPublish, sendBitcoin)
+  yield takeEvery(AT.QRCODE_CAPTURE_SUCCESS, qrCodeCaptureSuccess)
+  yield takeEvery(AT.QRCODE_CAPTURE_ERROR, qrCodeCaptureError)
+  yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_SUCCESS, signAndPublishSuccess)
+  yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_ERROR, signAndPublishError)
 }
 
 export default sagas

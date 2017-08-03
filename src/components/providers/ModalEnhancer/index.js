@@ -8,22 +8,26 @@ const enhance = connect(
     modals: selectors.modals.getModals(state)
   }),
   (dispatch) => ({
-    close: compose(dispatch, actions.modals.closeModal)
+    close: compose(dispatch, actions.modals.closeAllModals)
   })
 )
 
 export default (type) => (Component) => enhance(
   class Modal extends PureComponent {
     render () {
-      let { modals, ...props } = this.props
-      let filtered = modals.filter(m => m.type === type)
+      const { modals, ...props } = this.props
+      const filtered = modals.filter(m => m.type === type)
+      console.log(this.props)
       return filtered.length ? (
         <div>
           {filtered.map((modal, i) => (
             <Component
               key={`${type}:${i}`}
               position={modals.indexOf(modal)}
-              {...modal.props} {...props} />
+              isLast={modals.indexOf(modal) === modals.length - 1}
+              {...modal.props}
+              {...props}
+            />
           ))}
         </div>
       ) : null
