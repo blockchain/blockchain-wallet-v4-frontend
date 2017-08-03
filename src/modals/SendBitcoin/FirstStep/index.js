@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
+import ui from 'redux-ui'
 import { actions as reduxFormActions } from 'redux-form'
 import { gte, is, equals, isNil, pick } from 'ramda'
 import * as crypto from 'crypto'
@@ -14,19 +15,12 @@ import settings from 'config'
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      feeEditDisplayed: false,
-      addressesSelectDisplayed: is(Object, props.to),
-      addressSelectOpened: true
-    }
     // generate seed once for coin selection
     this.seed = crypto.randomBytes(16)
     this.timeout = undefined
-    this.handleToggleAddressesToSelect = this.handleToggleAddressesToSelect.bind(this)
-    this.handleToggleFeeEdit = this.handleToggleFeeEdit.bind(this)
-    this.handleToggleQrCodeCapture = this.handleToggleQrCodeCapture.bind(this)
-    this.handleQrCodeScan = this.handleQrCodeScan.bind(this)
-    this.handleQrCodeError = this.handleQrCodeError.bind(this)
+    this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
+    this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
+    this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -61,38 +55,29 @@ class FirstStepContainer extends React.Component {
     }
   }
 
-  handleToggleAddressesToSelect () {
-    this.setState({ addressesSelectDisplayed: !this.state.addressesSelectDisplayed })
-    if (this.state.addressesSelectDisplayed) { this.props.reduxFormActions.change('sendBitcoin', 'to', '') }
+  handleClickAddressToggler () {
+    this.props.updateUI({ addressSelectToggled: !this.props.ui.addressSelectToggled })
+    if (this.props.ui.addressSelectToggled) { this.props.reduxFormActions.change('sendBitcoin', 'to', '') }
   }
 
-  handleToggleFeeEdit () {
-    this.setState({ feeEditDisplayed: !this.state.feeEditDisplayed })
+  handleClickFeeToggler () {
+    this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
   }
 
-  handleToggleQrCodeCapture () {
+  handleClickQrCodeCapture () {
     this.props.modalActions.showModal('QRCodeCapture')
   }
 
-  handleQrCodeScan (data) {
-    if (data) {
-      this.props.alertActions.displaySuccess(data)
-      this.props.reduxFormActions.change('sendBitcoin', 'to', data)
-      this.props.modalActions.closeModal()
-    }
-  }
-
-  handleQrCodeError (error) {
-    this.props.alertActions.displayError(error)
-  }
-
   render () {
+    const { ui } = this.props
+
     return <FirstStep
-      addressesSelectDisplayed={this.state.addressesSelectDisplayed}
-      feeEditDisplayed={this.state.feeEditDisplayed}
-      handleToggleAddressesToSelect={this.handleToggleAddressesToSelect}
-      handleToggleFeeEdit={this.handleToggleFeeEdit}
-      handleToggleQrCodeCapture={this.handleToggleQrCodeCapture}
+      addressSelectToggled={ui.addressSelectToggled}
+      addressSelectOpened={ui.addressSelectOpened}
+      feeEditToggled={ui.feeEditToggled}
+      handleClickAddressToggler={this.handleClickAddressToggler}
+      handleClickFeeToggler={this.handleClickFeeToggler}
+      handleClickQrCodeCapture={this.handleClickQrCodeCapture}
       {...this.props}
     />
   }
@@ -134,4 +119,9 @@ const mapDispatchToProps = (dispatch) => ({
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: { feeEditToggled: false, addressSelectToggled: false, addressSelectOpened: false } })
+)
+
+export default enhance(FirstStepContainer)

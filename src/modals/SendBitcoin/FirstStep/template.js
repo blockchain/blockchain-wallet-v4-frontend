@@ -57,8 +57,8 @@ const FirstStep = (props) => {
   const validateAmount = (value, allValues, props) => {
     return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
   }
-  const { addressesSelectDisplayed, feeEditDisplayed, selection, next, invalid, submitting,
-    handleToggleQrCodeCapture, handleToggleAddressesToSelect, handleToggleFeeEdit, ...rest } = props
+  const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, next, invalid, submitting,
+    handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, ...rest } = props
 
   return (
     <Modal {...rest} icon='icon-send' title='Send' size='large'>
@@ -66,18 +66,18 @@ const FirstStep = (props) => {
         <Text id='modals.sendbitcoin.firststep.from' text='From:' small medium />
         <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
         <Text id='modals.sendbitcoin.firststep.to' text='To:' small medium />
-        { addressesSelectDisplayed
+        {addressSelectToggled
           ? (
             <AddressesToContainer>
-              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: !addressesSelectDisplayed, includeAll: false }} />
-              <AddressesToButton onClick={handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
-              <AddressesToButton onClick={handleToggleAddressesToSelect}><AddressesEditToggle /></AddressesToButton>
+              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
+              <AddressesToButton onClick={handleClickQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleClickAddressToggler}><AddressesEditToggle /></AddressesToButton>
             </AddressesToContainer>
           ) : (
             <AddressesToContainer>
               <Field name='to' component={TextBox} validate={[required]} />
-              <AddressesToButton onClick={handleToggleQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
-              <AddressesToButton onClick={handleToggleAddressesToSelect}><AddressesSelectToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleClickQrCodeCapture}><QrCodeCaptureToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleClickAddressToggler}><AddressesSelectToggle /></AddressesToButton>
             </AddressesToContainer>
             )
         }
@@ -100,15 +100,15 @@ const FirstStep = (props) => {
         </Aligned>
         <Row>
           <ColLeft>
-            { feeEditDisplayed
+            {feeEditToggled
               ? <Field name='fee' component={TextBox} validate={[required]} />
               : <Field name='fee' component={SelectBoxFee} validate={[required]} />
             }
           </ColLeft>
           <ColRight>
             { invalid ? <div /> : <ComboDisplay small light>{selection.fee}</ComboDisplay> }
-            <Link onClick={handleToggleFeeEdit}>
-              { feeEditDisplayed
+            <Link onClick={handleClickFeeToggler}>
+              {feeEditToggled
                 ? <Text id='modals.sendbitcoin.firststep.cancel' text='Cancel' smaller light cyan capitalize />
                 : <Text id='modals.sendbitcoin.firststep.edit' text='Customize fee' smaller light cyan capitalize />
               }
@@ -124,11 +124,11 @@ const FirstStep = (props) => {
 }
 
 FirstStep.propTypes = {
-  addressesSelectDisplayed: PropTypes.bool.isRequired,
-  feeEditDisplayed: PropTypes.bool.isRequired,
-  handleToggleQrCodeCapture: PropTypes.func.isRequired,
-  handleToggleAddressesToSelect: PropTypes.func.isRequired,
-  handleToggleFeeEdit: PropTypes.func.isRequired,
+  addressesSelectToggled: PropTypes.bool.isRequired,
+  feeEditToggled: PropTypes.bool.isRequired,
+  handleClickQrCodeCapture: PropTypes.func.isRequired,
+  handleClickAddressToggler: PropTypes.func.isRequired,
+  handleClickFeeToggler: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired

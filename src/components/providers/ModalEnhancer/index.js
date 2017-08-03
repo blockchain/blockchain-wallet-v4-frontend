@@ -17,14 +17,13 @@ export default (type) => (Component) => enhance(
     render () {
       const { modals, ...props } = this.props
       const filtered = modals.filter(m => m.type === type)
-      console.log(this.props)
       return filtered.length ? (
         <div>
           {filtered.map((modal, i) => (
             <Component
               key={`${type}:${i}`}
-              position={modals.indexOf(modal)}
-              isLast={modals.indexOf(modal) === modals.length - 1}
+              position={modals.indexOf(modal) + 1}
+              total={modals.length}
               {...modal.props}
               {...props}
             />

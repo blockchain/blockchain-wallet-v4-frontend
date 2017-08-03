@@ -15,8 +15,10 @@ import { auth } from 'data/rootSelectors.js'
 import { serializer } from 'dream-wallet/lib/types'
 
 const devToolsConfig = {
+  maxAge: 1000,
   serialize: serializer,
   actionsBlacklist: [
+    '@@redux-form/INITIALIZE',
     '@@redux-form/CHANGE',
     '@@redux-form/REGISTER_FIELD',
     '@@redux-form/UNREGISTER_FIELD',
@@ -24,7 +26,9 @@ const devToolsConfig = {
     '@@redux-form/FOCUS',
     '@@redux-form/BLUR',
     '@@redux-form/DESTROY',
-    '@@redux-form/RESET'
+    '@@redux-form/RESET',
+    '@@redux-ui/MOUNT_UI_STATE',
+    '@@redux-ui/UNMOUNT_UI_STATE'
   ]
 }
 

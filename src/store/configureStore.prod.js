@@ -14,8 +14,8 @@ import { auth } from 'data/rootSelectors.js'
 import { serializer } from 'dream-wallet/lib/types'
 
 const devToolsConfig = {
-  serialize: serializer,
-  actionsBlacklist: []
+  maxAge: 1000,
+  serialize: serializer
 }
 
 const configureStore = () => {

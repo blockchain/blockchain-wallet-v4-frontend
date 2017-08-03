@@ -19,7 +19,7 @@ class RequestBitcoinContainer extends React.Component {
     switch (this.props.step) {
       case 0: return <FirstStep {...this.props} />
       case 1: return <SecondStep {...this.props} />
-      default: return <div />
+      default: return null
     }
   }
 }
