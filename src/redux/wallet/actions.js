@@ -47,22 +47,6 @@ export const createAddressSuccess = (wrapper) =>
 export const createAddressError = (errorKey) =>
   ({ type: T.CREATE_LEGACY_ADDRESS_ERROR, payload: errorKey, error: true })
 
-// socket middleware
-export const openSocket = () =>
-  ({ type: T.OPEN_SOCKET })
-export const messageSocket = (data) =>
-  ({ type: T.MESSAGE_SOCKET, data })
-export const closeSocket = () =>
-  ({ type: T.CLOSE_SOCKET })
-
-// walletSync middleware
-export const sync = () =>
-  ({ type: T.SYNC })
-export const syncSuccess = (checksum) =>
-  ({ type: T.SYNC_SUCCESS, payload: checksum })
-export const syncError = (error) =>
-  ({ type: T.SYNC_ERROR, payload: error, error: true })
-
 // create trezor
 export const createTrezorWallet = (accountIndex) =>
   ({ type: T.CREATE_TREZOR_WALLET, payload: accountIndex})

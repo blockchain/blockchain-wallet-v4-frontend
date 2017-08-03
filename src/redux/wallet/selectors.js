@@ -24,3 +24,4 @@ export const getMnemonic = compose(e => e.getOrElse(''), entropyToMnemonic, getS
 export const getDefaultAccountIndex = compose(HDWallet.selectDefaultAccountIdx, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
 export const getAccountXpub = curry((index, state) => compose(HDAccount.selectXpub, HDWallet.selectAccount(index), HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)(state))
 export const getDefaultAccountXpub = state => getAccountXpub(getDefaultAccountIndex(state), state)
+export const getInitialSocketContext = state => ({ guid: getGuid(state), addresses: getAddressContext(state), xpubs: getWalletContext(state) })

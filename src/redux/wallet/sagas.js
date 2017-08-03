@@ -152,4 +152,3 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield takeEvery(T.SET_PBKDF2_ITERATIONS, setPbkdf2IterationsSaga)
   }
 }
-
