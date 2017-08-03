@@ -10,6 +10,6 @@ const HeaderContainer = ({ ui, updateUI, ...props }) => (
   />
 )
 
-let enhance = ui({ state: { toggled: false } })
+const enhance = ui({ key: 'HeaderContainer_Public', state: { toggled: false } })
 
 export default enhance(HeaderContainer)

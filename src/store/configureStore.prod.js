@@ -31,7 +31,7 @@ const configureStore = () => {
       applyMiddleware(
         reduxRouterMiddleware,
         autoDisconnection,
-        notifications,
+        // notifications,
         // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
         // coreMiddleware.socket({ socket }),
         sagaMiddleware

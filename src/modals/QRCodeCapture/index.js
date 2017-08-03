@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch) => ({
   interactivityActions: bindActionCreators(actions.interactivity, dispatch)
 })
 
-let enhance = compose(
+const enhance = compose(
   modalEnhancer('QRCodeCapture'),
   connect(void 0, mapDispatchToProps)
 )

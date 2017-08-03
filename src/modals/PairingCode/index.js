@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'components/providers/ModalEnhancer'
 import PairingCode from './template.js'
 
@@ -17,25 +17,18 @@ class PairingCodeContainer extends React.Component {
   }
 
   render () {
+    console.log(this.props)
     return <PairingCode {...this.props} handleClose={this.handleClose} />
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    guid: selectors.core.wallet.getGuid(state),
-    sharedKey: selectors.core.wallet.getSharedKey(state)
-  }
-}
-
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('PairingCode'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(PairingCodeContainer)

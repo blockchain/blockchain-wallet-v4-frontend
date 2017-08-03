@@ -20,14 +20,13 @@ const Footer = styled.div`
 `
 
 const PairingCode = (props) => {
-  const { encryptedPassword, handleClose, ...rest } = props
-  const encryptedPasswordValue = `bitcoin:${encryptedPassword}`
+  const { data, handleClose, ...rest } = props
 
   return (
     <Modal {...rest} icon='icon-receive' title='Pairing code' size='large'>
       <Text id='modals.pairingcode.scan' text='Scan Pairing Code' small light />
       <QRCodeContainer>
-        <QRCodeReact value={encryptedPasswordValue} size={256} />
+        <QRCodeReact value={data} size={256} />
       </QRCodeContainer>
       <Footer>
         <SecondaryButton fullwidth onClick={handleClose}>
@@ -39,10 +38,10 @@ const PairingCode = (props) => {
 }
 
 PairingCode.propTypes = {
-  encryptedPassword: PropTypes.string.isRequired,
+  data: PropTypes.string.isRequired,
   handleClose: PropTypes.func
 }
 
-let enhance = modalEnhancer('PairingCode')
+const enhance = modalEnhancer('PairingCode')
 
 export default enhance(PairingCode)

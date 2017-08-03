@@ -10,6 +10,6 @@ const FaqRowContainer = ({ ui, updateUI, ...props }) => (
   />
 )
 
-let enhance = ui({ state: { toggled: false } })
+const enhance = ui({ state: { toggled: false } })
 
 export default enhance(FaqRowContainer)

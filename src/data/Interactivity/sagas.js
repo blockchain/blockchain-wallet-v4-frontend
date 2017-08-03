@@ -41,11 +41,27 @@ const signAndPublishError = function * (action) {
   yield put(actions.alerts.displayError(payload))
 }
 
+// =============================================================================
+// =============================== Pairing Code ================================
+// =============================================================================
+const requestPairingCodeSuccess = function * (action) {
+  const { payload } = action
+  const { encryptionPhrase } = payload
+  yield put(actions.modals.showModal('PairingCode', { data: encryptionPhrase }))
+}
+
+const requestPairingCodeError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+}
+
 // =============================== EXPORT ======================================
 
 function * sagas () {
   yield takeEvery(AT.QRCODE_CAPTURE_SUCCESS, qrCodeCaptureSuccess)
   yield takeEvery(AT.QRCODE_CAPTURE_ERROR, qrCodeCaptureError)
+  yield takeEvery(actionTypes.core.settings.REQUEST_PAIRING_CODE_SUCCESS, requestPairingCodeSuccess)
+  yield takeEvery(actionTypes.core.settings.REQUEST_PAIRING_CODE_ERROR, requestPairingCodeError)
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_SUCCESS, signAndPublishSuccess)
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_ERROR, signAndPublishError)
 }

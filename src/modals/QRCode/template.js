@@ -45,6 +45,6 @@ QRCode.propTypes = {
   handleBack: PropTypes.func
 }
 
-let enhance = modalEnhancer('QRCode')
+const enhance = modalEnhancer('QRCode')
 
 export default enhance(QRCode)

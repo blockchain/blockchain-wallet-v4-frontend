@@ -60,7 +60,7 @@ const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-let enhance = compose(
+const enhance = compose(
   modalEnhancer('AutoDisconnection'),
   connect(void 0, mapDispatchToProps)
 )

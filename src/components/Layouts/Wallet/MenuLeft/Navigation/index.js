@@ -14,6 +14,6 @@ const NavigationContainer = ({ ui, updateUI, resetUI, ...props }) => {
   )
 }
 
-let enhance = ui({ persist: true, state: { toggled: false } })
+const enhance = ui({ key: 'NavigationContainer', persist: true, state: { toggled: false } })
 
 export default enhance(NavigationContainer)

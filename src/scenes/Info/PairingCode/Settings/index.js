@@ -13,7 +13,8 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.modalActions.showModal('PairingCode')
+    const { guid, sharedKey } = this.props
+    this.props.settingsActions.requestPairingCode(guid, sharedKey)
   }
 
   render () {
@@ -30,7 +31,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    modalActions: bindActionCreators(actions.modals, dispatch)
+    settingsActions: bindActionCreators(actions.core.settings, dispatch)
   }
 }
 
