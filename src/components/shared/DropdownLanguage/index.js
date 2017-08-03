@@ -1,6 +1,7 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
+import ui from 'redux-ui'
 import { map } from 'ramda'
 
 import { renameKeys } from 'services/RamdaCookingBook'
@@ -11,15 +12,15 @@ import { SimpleDropdown } from 'components/generic/Dropdown'
 class DropdownLanguageContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.toggle = this.toggle.bind(this)
-    this.click = this.click.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  toggle () {
-    this.props.uiActions.toggleDropdownLanguage()
+  handleToggle () {
+    this.props.updateUI({ toggled: !this.props.ui.toggled })
   }
 
-  click (value) {
+  handleClick (value) {
     this.props.preferencesActions.setCulture(value)
   }
 
@@ -32,22 +33,25 @@ class DropdownLanguageContainer extends React.Component {
         id='language'
         display={display}
         items={items}
-        dropdownOpen={this.props.dropdownLanguageDisplayed}
-        toggle={this.toggle}
-        callback={this.click} />
+        toggled={this.props.toggled}
+        handleToggle={this.handleToggle}
+        callback={this.handleClick} />
     )
   }
 }
 
-let mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps) => ({
   culture: selectors.preferences.getCulture(state),
-  dropdownLanguageDisplayed: selectors.ui.getDropdownLanguageDisplayed(state),
   languages: languageService.languagesSortedByName
 })
 
-let mapDispatchToProps = (dispatch) => ({
-  uiActions: bindActionCreators(actions.ui, dispatch),
+const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DropdownLanguageContainer)
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: { toggled: false } })
+)
+
+export default enhance(DropdownLanguageContainer)

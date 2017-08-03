@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
-import modalEnhancer from 'components/providers/modalEnhancer'
+import modalEnhancer from 'components/providers/ModalEnhancer'
 import AutoDisconnection from './template.js'
 
 class AutoDisconnectionContainer extends React.Component {
@@ -60,7 +60,7 @@ const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-let enhance = compose(
+const enhance = compose(
   modalEnhancer('AutoDisconnection'),
   connect(void 0, mapDispatchToProps)
 )

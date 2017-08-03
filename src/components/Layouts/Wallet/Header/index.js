@@ -1,40 +1,15 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-
+import ui from 'redux-ui'
 import Header from './template.js'
-import { actions, selectors } from 'data'
 
-class HeaderContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClickHeaderMenu = this.handleClickHeaderMenu.bind(this)
-  }
+const HeaderContainer = ({ ui, updateUI, ...props }) => (
+  <Header
+    toggled={ui.toggled}
+    handleToggle={() => updateUI({ toggled: !ui.toggled })}
+    {...props}
+  />
+)
 
-  handleClickHeaderMenu () {
-    this.props.actions.toggleHeaderMenu()
-  }
+const enhance = ui({ key: 'HeaderContainer_Wallet', state: { toggled: false } })
 
-  render () {
-    return (
-      <Header
-        headerMenuDisplayed={this.props.headerMenuDisplayed}
-        clickHeaderMenu={this.handleClickHeaderMenu}
-      />
-    )
-  }
-}
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    headerMenuDisplayed: selectors.ui.getHeaderMenuDisplayed(state)
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: bindActionCreators(actions.ui, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer)
+export default enhance(HeaderContainer)

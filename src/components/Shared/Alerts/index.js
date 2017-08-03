@@ -4,11 +4,11 @@ import { selectAlerts } from 'data/Alerts/selectors'
 import * as actions from 'data/Alerts/actions'
 import Alerts from './Alerts'
 
-let mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
   alerts: selectAlerts(state)
 })
 
-let mapDispatchToProps = (dispatch) => (
+const mapDispatchToProps = (dispatch) => (
   bindActionCreators(actions, dispatch)
 )
 

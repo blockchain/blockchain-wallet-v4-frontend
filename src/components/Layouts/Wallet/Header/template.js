@@ -23,35 +23,38 @@ const Logo = styled.img.attrs({
   height: 20px;
   margin-top: 18px;
 `
-const MenuToggle = styled.div`
+const MenuToggle = styled.div``
 
-`
-const Header = (props) => (
-  <Wrapper>
-    <Navbar fluid inverse defaultExpanded={props.headerMenuDisplayed}>
-      <NavbarHeader>
-        <MenuToggle />
-        <NavbarBrand>
-          <RouterLink to='/'><Logo /></RouterLink>
-        </NavbarBrand>
-        <NavbarToggle onClick={props.clickHeaderMenu} />
-      </NavbarHeader>
-      <NavbarCollapse>
-        <Nav pullRight>
-          <Ticker />
-          <ExploreMenu />
-          <WhatsNew />
-          <Refresh />
-          <Logout />
-        </Nav>
-      </NavbarCollapse>
-    </Navbar>
-  </Wrapper>
-)
+const Header = (props) => {
+  const { toggled, handleToggle } = props
+
+  return (
+    <Wrapper>
+      <Navbar fluid inverse defaultExpanded={toggled}>
+        <NavbarHeader>
+          <MenuToggle />
+          <NavbarBrand>
+            <RouterLink to='/'><Logo /></RouterLink>
+          </NavbarBrand>
+          <NavbarToggle onClick={handleToggle} />
+        </NavbarHeader>
+        <NavbarCollapse>
+          <Nav pullRight>
+            <Ticker />
+            <ExploreMenu />
+            <WhatsNew />
+            <Refresh />
+            <Logout />
+          </Nav>
+        </NavbarCollapse>
+      </Navbar>
+    </Wrapper>
+  )
+}
 
 Header.propTypes = {
-  clickHeaderMenu: PropTypes.func.isRequired,
-  headerMenuDisplayed: PropTypes.bool.isRequired
+  handleToggle: PropTypes.func.isRequired,
+  toggled: PropTypes.bool.isRequired
 }
 
 export default Header

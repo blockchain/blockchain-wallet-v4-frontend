@@ -11,7 +11,6 @@ const wizardForm = (formName, totalSteps, options = {}) => Component => {
       super()
       this.next = this.next.bind(this)
       this.previous = this.previous.bind(this)
-      console.log(...options)
     }
 
     next () {

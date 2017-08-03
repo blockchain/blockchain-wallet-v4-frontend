@@ -1,7 +1,6 @@
 
 export const CLOSE_MODAL = 'CLOSE_MODAL'
-export const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
-export const SHOW_MODAL = 'SHOW_MODAL'
 
-export const CAPTURE_QR_SUCCESS = 'CAPTURE_QR_SUCCESS'
-export const CAPTURE_QR_ERROR = 'CAPTURE_QR_ERROR'
+export const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
+
+export const SHOW_MODAL = 'SHOW_MODAL'

@@ -4,7 +4,7 @@ import { selectors } from 'data'
 
 class Modals extends React.Component {
   render () {
-    let { modals, children } = this.props
+    const { modals, children } = this.props
     return modals.length ? <div>{children}</div> : null
   }
 }

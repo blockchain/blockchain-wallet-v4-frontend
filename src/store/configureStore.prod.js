@@ -14,8 +14,8 @@ import { auth } from 'data/rootSelectors.js'
 import { serializer } from 'dream-wallet/lib/types'
 
 const devToolsConfig = {
-  serialize: serializer,
-  actionsBlacklist: []
+  maxAge: 1000,
+  serialize: serializer
 }
 
 const configureStore = () => {
@@ -31,7 +31,7 @@ const configureStore = () => {
       applyMiddleware(
         reduxRouterMiddleware,
         autoDisconnection,
-        notifications,
+        // notifications,
         // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
         coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.getIsAuthenticated }),
         sagaMiddleware

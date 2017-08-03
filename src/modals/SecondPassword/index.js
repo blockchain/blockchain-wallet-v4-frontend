@@ -6,7 +6,7 @@ import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
 import { singleForm } from 'components/providers/FormProvider'
-import modalEnhancer from 'components/providers/modalEnhancer'
+import modalEnhancer from 'components/providers/ModalEnhancer'
 import SecondPassword from './template.js'
 
 class SecondPasswordContainer extends React.Component {

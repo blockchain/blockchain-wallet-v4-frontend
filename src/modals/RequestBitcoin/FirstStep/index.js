@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -9,15 +10,10 @@ class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClickCode = this.handleClickCode.bind(this)
-    this.handleQRCodeClickBack = this.handleQRCodeClickBack.bind(this)
-  }
-
-  handleQRCodeClickBack () {
-    this.props.actions.closeModal()
   }
 
   handleClickCode () {
-    this.props.actions.showModalQRCode(this.props.receiveAddress, this.handleQRCodeClickBack)
+    this.props.actions.showModal('QRCode', { address: this.props.receiveAddress })
   }
 
   render () {
@@ -28,5 +24,9 @@ class FirstStepContainer extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modals, dispatch)
 })
+
+FirstStepContainer.propTypes = {
+  receiveAddress: PropTypes.string
+}
 
 export default connect(undefined, mapDispatchToProps)(FirstStepContainer)

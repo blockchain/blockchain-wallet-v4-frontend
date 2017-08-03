@@ -20,7 +20,7 @@ const mapStateToProps = (state, ownProps) => {
   let aggregatedLegacyAddressesBalances = selectors.core.common.getAggregatedAddressesBalances(state)
   return {
     balances: [...accountsBalances, aggregatedLegacyAddressesBalances],
-    coinDisplayed: selectors.ui.getCoinDisplayed(state)
+    coinDisplayed: selectors.preferences.getCoinDisplayed(state)
   }
 }
 

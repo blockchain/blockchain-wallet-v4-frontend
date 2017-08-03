@@ -7,3 +7,5 @@ export const SET_THEME = 'SET_THEME'
 export const SET_EMAIL = 'SET_EMAIL'
 
 export const CHANGING_EMAIL = 'CHANGING_EMAIL'
+
+export const TOGGLE_COIN_DISPLAY = 'TOGGLE_COIN_DISPLAY'

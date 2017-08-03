@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   language: 'en',
   theme: 'default',
   email: 'blockchainuser@gmail.com',
-  changingEmail: false
+  changingEmail: false,
+  coinDisplayed: true
 }
 
 const preferences = (state = INITIAL_STATE, action) => {
@@ -26,6 +27,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.CHANGING_EMAIL: {
       return assign(state, { changingEmail: !state.changingEmail })
+    }
+    case AT.TOGGLE_COIN_DISPLAY: {
+      return assign(state, { coinDisplayed: !state.coinDisplayed })
     }
     default:
       return state

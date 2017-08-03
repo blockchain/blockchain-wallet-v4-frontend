@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
-import modalEnhancer from 'components/providers/modalEnhancer'
+import modalEnhancer from 'components/providers/ModalEnhancer'
 import QRCodeCapture from './template.js'
 
 class QRCodeCaptureContainer extends React.Component {
@@ -14,35 +14,30 @@ class QRCodeCaptureContainer extends React.Component {
     this.handleError = this.handleError.bind(this)
   }
 
-  handleBack () {
-    this.props.modalActions.sendQrCaptureError('dismissed')
-  }
+  handleBack () { this.props.modalActions.closeModal() }
 
-  handleScan (result) {
-    if (result != null) this.props.modalActions.sendQrCaptureResult(result)
-  }
+  handleScan (result) { if (result) this.props.interactivityActions.qrCodeCaptureSuccess(result) }
 
-  handleError (error) {
-    this.props.modalActions.sendQrCaptureError(error)
-  }
+  handleError (error) { this.props.interactivityActions.qrCodeCaptureError(error) }
 
   render () {
     return (
       <QRCodeCapture
         {...this.props}
-        onBack={this.handleBack}
-        onScan={this.handleScan}
-        onError={this.handleError}
+        handleBack={this.handleBack}
+        handleScan={this.handleScan}
+        handleError={this.handleError}
       />
     )
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  interactivityActions: bindActionCreators(actions.interactivity, dispatch)
 })
 
-let enhance = compose(
+const enhance = compose(
   modalEnhancer('QRCodeCapture'),
   connect(void 0, mapDispatchToProps)
 )

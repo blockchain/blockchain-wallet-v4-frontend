@@ -1,47 +1,19 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import ui from 'redux-ui'
 
-import { actions, selectors } from 'data'
 import Navigation from './template.js'
 
-class NavigationContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClickSecurityCenter = this.handleClickSecurityCenter.bind(this)
-    this.handleClickOthers = this.handleClickOthers.bind(this)
-  }
-
-  handleClickOthers () {
-    if (this.props.securityCenterMenuDisplayed) {
-      this.props.actions.hideSecurityCenterMenu()
-    }
-  }
-
-  handleClickSecurityCenter () {
-    this.props.actions.toggleSecurityCenterMenu()
-  }
-
-  render () {
-    return (
-      <Navigation
-        location={this.props.location}
-        securityCenterMenuDisplayed={this.props.securityCenterMenuDisplayed}
-        clickSecurityCenter={this.handleClickSecurityCenter}
-        clickOthers={this.handleClickOthers} />
-    )
-  }
-}
-const mapStateToProps = (state, ownProps) => {
-  return {
-    securityCenterMenuDisplayed: selectors.ui.getSecurityCenterMenuDisplayed(state)
-  }
+const NavigationContainer = ({ ui, updateUI, resetUI, ...props }) => {
+  return (
+    <Navigation
+      toggled={ui.toggled}
+      handleToggle={() => updateUI({ toggled: !ui.toggled })}
+      handleClose={() => resetUI()}
+      {...props}
+    />
+  )
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: bindActionCreators(actions.ui, dispatch)
-  }
-}
+const enhance = ui({ key: 'NavigationContainer', persist: true, state: { toggled: false } })
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationContainer)
+export default enhance(NavigationContainer)

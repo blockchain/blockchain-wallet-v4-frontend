@@ -36,9 +36,9 @@ const Arrow = styled(Icon).attrs({
   cursor: pointer;
 `
 
-const FaqRow = ({ component, onToggle, toggled }) => (
+const FaqRow = ({ component, handleToggle, toggled }) => (
   <Wrapper>
-    <Header onClick={onToggle}>
+    <Header onClick={handleToggle}>
       {component.title}
       <Arrow rotated={toggled} />
     </Header>
@@ -49,7 +49,7 @@ const FaqRow = ({ component, onToggle, toggled }) => (
 )
 
 FaqRow.propTypes = {
-  onToggle: PropTypes.func.isRequired,
+  handleToggle: PropTypes.func.isRequired,
   toggled: PropTypes.bool.isRequired,
   component: PropTypes.shape({
     title: PropTypes.object.isRequired,
