@@ -32,16 +32,6 @@ export const CREATE_TREZOR_WALLET = '@CORE.CREATE_TREZOR_WALLET'
 export const CREATE_TREZOR_WALLET_SUCCESS = '@CORE.CREATE_TREZOR_WALLET_SUCCESS'
 export const CREATE_TREZOR_WALLET_ERROR = '@CORE.CREATE_TREZOR_WALLET_ERROR'
 
-// socket middleware
-export const OPEN_SOCKET = '@CORE.OPEN_SOCKET'
-export const MESSAGE_SOCKET = '@CORE.MESSAGE_SOCKET'
-export const CLOSE_SOCKET = '@CORE.CLOSE_SOCKET'
-
-// walletSync middleware
-export const SYNC = '@CORE.SYNC'
-export const SYNC_SUCCESS = '@CORE.SYNC_SUCCESS'
-export const SYNC_ERROR = '@CORE.SYNC_ERROR'
-
 // setters
 export const SET_WRAPPER = '@CORE.SET_WRAPPER'
 export const SET_MAIN_PASSWORD = '@CORE.SET_MAIN_PASSWORD'

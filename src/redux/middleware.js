@@ -1,5 +1,5 @@
-import walletSync from './wallet/middleware/walletSync.js'
-import socket from './wallet/middleware/socket.js'
+import walletSync from './walletSync/middleware.js'
+import socket from './webSocket/middleware.js'
 
 export {
   socket,

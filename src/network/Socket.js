@@ -1,5 +1,5 @@
 
-import { compose, concat } from 'ramda'
+import { compose, concat, prop, propEq, identity } from 'ramda'
 const WebSocket = global.WebSocket || global.MozWebSocket
 
 function WS (uri, protocols, opts) {
@@ -34,29 +34,22 @@ class Socket {
     } = options
     this.wsUrl = wsUrl
     this.headers = { 'Origin': 'https://blockchain.info' }
-    this.reconnect = null
-    this.pingInterval = 15000
+    this.pingInterval = 30000
     this.pingIntervalPID = null
     this.pingTimeout = 5000
     this.pingTimeoutPID = null
+    this.reconnect = null
   }
 
-  connect (onOpen, onMessage, onClose) {
-    this.reconnect = function () {
-      let connect = this._initialize.bind(this, onOpen, onMessage, onClose)
-      connect()
-    }.bind(this)
-    this.reconnect()
-  }
-
-  _initialize (onOpen, onMessage, onClose) {
+  connect (onOpen = identity, onMessage = identity, onClose = identity) {
     if (!this.socket || this.socket.readyState === 3) {
       try {
         this.pingIntervalPID = setInterval(this.ping.bind(this), this.pingInterval)
         this.socket = new WS(this.wsUrl, [], { headers: this.headers })
         this.socket.on('open', onOpen)
-        this.socket.on('message', onMessage)
+        this.socket.on('message', compose(onMessage, this.onPong.bind(this), this.extractMessage.bind(this)))
         this.socket.on('close', onClose)
+        this.reconnect = this.connect.bind(this, onOpen, onMessage, onClose)
       } catch (e) {
         console.error('Failed to connect to websocket', e)
       }
@@ -65,9 +58,17 @@ class Socket {
 
   ping () {
     this.send(Socket.pingMessage())
-    let connect = this.reconnect.bind(this)
     let close = this.close.bind(this)
-    this.pingTimeoutPID = setTimeout(compose(connect, close), this.pingTimeout)
+    this.pingTimeoutPID = setTimeout(compose(this.reconnect, close), this.pingTimeout)
+  }
+
+  onPong (msg) {
+    if (propEq('op', 'pong')) { clearTimeout(this.pingTimeoutPID) }
+    return msg
+  }
+
+  extractMessage (msg) {
+    return compose(JSON.parse, prop('data'))(msg)
   }
 
   close () {
@@ -108,7 +109,7 @@ class Socket {
     return JSON.stringify({ op: 'ping' })
   }
 
-  static onOpenMessage (guid, addresses, xpubs) {
+  static onOpenMessage ({ guid, addresses, xpubs }) {
     return (
       Socket.blockSubMessage() +
       Socket.walletSubMessage(guid) +

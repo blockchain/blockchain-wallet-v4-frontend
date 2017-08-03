@@ -10,6 +10,8 @@ import * as info from './data/Info/actionTypes.js'
 import * as payment from './data/Payment/actionTypes.js'
 import * as wallet from './wallet/actionTypes.js'
 import * as settings from './settings/actionTypes.js'
+import * as walletSync from './walletSync/actionTypes.js'
+import * as webSocket from './webSocket/actionTypes.js'
 
 export {
   addresses,
@@ -23,5 +25,7 @@ export {
   info,
   payment,
   settings,
-  common
+  common,
+  webSocket,
+  walletSync
 }
