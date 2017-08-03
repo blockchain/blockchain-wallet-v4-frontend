@@ -16,7 +16,6 @@ module.exports = {
       'react-hot-loader/patch',
       'webpack-dev-server/client?http://localhost:8080',
       'webpack/hot/only-dev-server',
-      PATHS.npm + '/dream-wallet',
       PATHS.src + '/index.js'
     ]
   },
@@ -108,7 +107,7 @@ module.exports = {
     new Webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
-    contentBase: PATHS.build,
+    contentBase: PATHS.src,
     host: 'localhost',
     port: 8080,
     hot: true,

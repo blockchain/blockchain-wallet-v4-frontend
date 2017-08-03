@@ -17,7 +17,6 @@ class PairingCodeContainer extends React.Component {
   }
 
   render () {
-    console.log(this.props)
     return <PairingCode {...this.props} handleClose={this.handleClose} />
   }
 }
