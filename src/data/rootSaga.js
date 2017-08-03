@@ -2,6 +2,7 @@ import { takeEvery, takeLatest, fork } from 'redux-saga/effects'
 
 import settings from 'config'
 import { api } from 'services/ApiService'
+import { socket } from 'services/Socket'
 
 import { coreSagas } from 'dream-wallet/lib'
 import authSagas from './Auth/sagas.js'
@@ -17,7 +18,7 @@ const walletPath = settings.WALLET_IMMUTABLE_PATH
 
 function * sagas () {
   yield [
-    fork(coreSagas.rootSaga({api, dataPath, walletPath, settingsPath}))
+    fork(coreSagas.rootSaga({api, dataPath, walletPath, settingsPath, socket}))
   ]
   yield takeEvery(actionTypes.auth.LOGIN_START, authSagas.login)
   yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_SUCCESS, authSagas.trezor)
