@@ -124,7 +124,7 @@ const FirstStep = (props) => {
 }
 
 FirstStep.propTypes = {
-  addressesSelectToggled: PropTypes.bool.isRequired,
+  addressSelectToggled: PropTypes.bool.isRequired,
   feeEditToggled: PropTypes.bool.isRequired,
   handleClickQrCodeCapture: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,

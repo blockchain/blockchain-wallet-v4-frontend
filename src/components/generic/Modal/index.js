@@ -87,7 +87,7 @@ const Modal = ({ position, total, title, icon, size, closeButton, close, ...prop
 
 Modal.propTypes = {
   position: PropTypes.number.isRequired,
-  isLast: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
   title: PropTypes.string,
   icon: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large', '']),
