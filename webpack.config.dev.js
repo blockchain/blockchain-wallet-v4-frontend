@@ -145,7 +145,8 @@ module.exports = {
           'https://quotes.sfox.com',
           'https://sfox-kyc.s3.amazonaws.com',
           'https://testnet5.blockchain.info',
-          'https://api.testnet.blockchain.info'
+          'https://api.testnet.blockchain.info',
+          'wss://ws.testnet.blockchain.info/inv'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",

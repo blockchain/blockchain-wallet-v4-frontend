@@ -2,6 +2,8 @@ import { fork } from 'redux-saga/effects'
 
 import settings from 'config'
 import { api } from 'services/ApiService'
+import { socket } from 'services/Socket'
+
 import { coreSagas } from 'dream-wallet/lib'
 import activitySagas from './Activity/sagas.js'
 import alertSagas from './Alerts/sagas.js'
@@ -14,7 +16,7 @@ const walletPath = settings.WALLET_IMMUTABLE_PATH
 
 function * sagas () {
   yield [
-    fork(coreSagas.rootSaga({api, dataPath, walletPath, settingsPath})),
+    fork(coreSagas.rootSaga({ api, dataPath, walletPath, settingsPath, socket })),
     fork(activitySagas),
     fork(alertSagas),
     fork(authSagas),
