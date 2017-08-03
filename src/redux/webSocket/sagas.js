@@ -4,9 +4,10 @@ import * as A from '../actions'
 import * as T from '../actionTypes'
 import { Wrapper, Wallet } from '../../types'
 import * as walletSelectors from '../wallet/selectors'
+import * as transSelectors from '../data/Transactions/selectors'
 import { Socket } from '../../network'
 
-export const webSocketSaga = ({ api, socket, walletPath } = {}) => {
+export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
   const send = socket.send.bind(socket)
 
   const onOpen = function * (action) {
@@ -24,20 +25,18 @@ export const webSocketSaga = ({ api, socket, walletPath } = {}) => {
         const wrapper = yield select(prop(walletPath))
         const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
         if (oldChecksum !== newChecksum) {
-          yield call(refreshWallet)
+          yield call(refreshWrapper)
+          yield call(refreshBlockchainData)
         }
         break
       case 'utx':
-        // TODO :: a transaction has arribed (fetch tx again ?)
-        //   WalletStore.sendEvent('on_tx_received', obj.x);
-        //   var sendOnTx = WalletStore.sendEvent.bind(null, 'on_tx');
-        //   MyWallet.wallet.getHistory().then(sendOnTx);
+        yield call(refreshTransactionList)
+        yield call(refreshBlockchainData)
         break
       case 'block':
         const newBlock = message.x
         yield put(A.latestBlock.setLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
-        yield put(A.transactions.deleteTransactions())
-        // TODO :: see what transactions I need to load or bump confirmatins?
+        yield call(refreshTransactionList)
         break
       case 'pong':
         // Do nothing
@@ -59,19 +58,32 @@ export const webSocketSaga = ({ api, socket, walletPath } = {}) => {
     console.log('websocket closed')
   }
 
-  const refreshWallet = function * () {
+  const refreshWrapper = function * () {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const skey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const password = yield select(compose(Wrapper.selectPassword, prop(walletPath)))
     try {
       const newWrapper = yield call(api.fetchWallet, guid, skey, undefined, password)
       yield put(A.wallet.setWrapper(newWrapper))
-      const newContext = walletSelectors.getWalletContext(newWrapper)
-      yield put(A.common.fetchBlockchainData(newContext))
-      // Maybe we should dispatch a on-change actions to notify frontend in case it needs to show notification
     } catch (e) {
-      console.log('REFRESH WALLET FAILED (WEBSOCKET) :: should dispatch error action ?')
+      console.log('REFRESH WRAPPER FAILED (WEBSOCKET) :: should dispatch error action ?')
     }
+  }
+  
+  const refreshBlockchainData = function * () {
+    const wrapper = yield select(prop(walletPath))
+    const context = walletSelectors.getWalletContext(wrapper)
+    try {
+      yield put(A.common.fetchBlockchainData(context))
+    } catch (e) {
+      console.log('REFRESH BLOCKCHAIN DATA FAILED (WEBSOCKET) :: should dispatch error action ?')
+    }
+  }
+
+  const refreshTransactionList = function * () {
+    const addressFilter = yield select(compose(transSelectors.getAddressFilter, prop(dataPath)))
+    yield put(A.transactions.deleteTransactions())
+    yield put(A.transactions.fetchTransactions(addressFilter, 50))
   }
   
   return function * () {

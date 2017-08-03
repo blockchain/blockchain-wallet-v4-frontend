@@ -5,7 +5,6 @@ import * as T from '../actionTypes'
 
 const socket = ({ socket, walletPath }) => (store) => {
   const send = socket.send.bind(socket)
-
   return (next) => (action) => {
     const { type } = action
 
