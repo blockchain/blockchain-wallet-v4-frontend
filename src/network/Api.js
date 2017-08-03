@@ -210,6 +210,11 @@ const createApi = ({
            .then(responseTXHASH)
   }
 
+  const getPairingCode = function (guid, sharedKey) {
+    const data = { guid, sharedKey, method: 'pairing-encryption-password', format: 'plain' }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
+  }
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -228,7 +233,8 @@ const createApi = ({
     recoverWallet: future(recoverWallet),
     getUnspents: future(getUnspents),
     getFee: future(getFee),
-    pushTx: future(pushTx)
+    pushTx: future(pushTx),
+    getPairingCode: future(getPairingCode)
   }
 }
 
