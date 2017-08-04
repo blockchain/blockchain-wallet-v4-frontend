@@ -7,6 +7,7 @@ import { Wallet
        , Address
        , HDWalletList
        , HDWallet
+       , Options
       } from '../../types'
 
 const entropyToMnemonic = Either.try(BIP39.entropyToMnemonic)
@@ -25,3 +26,4 @@ export const getDefaultAccountIndex = compose(HDWallet.selectDefaultAccountIdx, 
 export const getAccountXpub = curry((index, state) => compose(HDAccount.selectXpub, HDWallet.selectAccount(index), HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)(state))
 export const getDefaultAccountXpub = state => getAccountXpub(getDefaultAccountIndex(state), state)
 export const getInitialSocketContext = state => ({ guid: getGuid(state), addresses: getAddressContext(state), xpubs: getWalletContext(state) })
+export const getLogoutTime = compose(Options.selectLogoutTime, Wallet.selectOptions, Wrapper.selectWallet)
