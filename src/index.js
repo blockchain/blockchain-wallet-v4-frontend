@@ -17,7 +17,7 @@ const { store, history } = configureStorePayload
 
 // Register locales
 let configureLocalesPayload = configureLocales(store)
-if (module.hot) { module.hot.accept('services/LocalesService', () => { configureLocalesPayload = require('services/LocalesService').default() }) }
+if (module.hot) { module.hot.accept('services/LocalesService', () => { configureLocalesPayload = require('services/LocalesService').default(store) }) }
 const { messages } = configureLocalesPayload
 
 // Documentation: https://github.com/gaearon/react-hot-loader/tree/master/docs
