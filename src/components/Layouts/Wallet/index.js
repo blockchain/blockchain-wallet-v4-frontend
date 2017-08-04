@@ -1,18 +1,16 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { Route, Redirect } from 'react-router-dom'
 
-import { actions, selectors } from 'data'
+import { selectors } from 'data'
 import WalletLayout from './template.js'
 
 class WalletLayoutContainer extends React.Component {
   render () {
-    const { component: Component, ...rest } = this.props
+    const { component: Component, isAuthenticated, ...rest } = this.props
 
     return (
-      <Route {...rest} render={props => (rest.isAuthenticated
+      <Route {...rest} render={props => (isAuthenticated
       ? (
         <WalletLayout location={props.location}>
           <Component {...rest} />
@@ -27,7 +25,7 @@ class WalletLayoutContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: selectors.auth.getIsAuthenticated
+    isAuthenticated: selectors.auth.getIsAuthenticated(state)
   }
 }
 

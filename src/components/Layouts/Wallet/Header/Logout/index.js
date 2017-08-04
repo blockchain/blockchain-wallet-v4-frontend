@@ -1,13 +1,31 @@
 import React from 'react'
-import { NavItem } from 'components/generic/Navbar'
-import { Text } from 'components/generic/Text'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-const Logout = () => {
-  return (
-    <NavItem>
-      <Text id='components.layouts.wallet.header.logout.signout' text='Sign out' small light white />
-    </NavItem>
-  )
+import { actions } from 'data'
+import Logout from './template.js'
+
+class LogoutContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleLogout = this.handleLogout.bind(this)
+  }
+
+  handleLogout () {
+    this.props.authActions.logoutStart()
+  }
+
+  render () {
+    return (
+      <Logout handleLogout={this.handleLogout} />
+    )
+  }
 }
 
-export default Logout
+const mapDispatchToProps = (dispatch) => {
+  return {
+    authActions: bindActionCreators(actions.auth, dispatch)
+  }
+}
+
+export default connect(undefined, mapDispatchToProps)(LogoutContainer)

@@ -4,6 +4,7 @@ import { push } from 'react-router-redux'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
+import * as AT from './actionTypes'
 import { actionTypes, actions, selectors } from 'data'
 import { api } from 'services/ApiService'
 
@@ -31,7 +32,7 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
     yield put(actions.core.settings.fetchSettings({guid, sharedKey: sk}))
     yield put(actions.core.webSocket.startSocket())
     yield put(actions.auth.loginSuccess())
-    // yield put(actions.auth.logoutStartTimer(10))
+    yield put(actions.auth.logoutStartTimer())
     yield put(push('/wallet'))
     yield put(actions.alerts.displaySuccess('Logged in successfully'))
   } catch (error) {
@@ -83,8 +84,14 @@ const trezorFailed = function * (action) {
   yield put(actions.alerts.displayError('Trezor connection failed'))
 }
 
+const logout = function * () {
+  // yield put(actions.core.webSocket.stopSocket())
+  window.location.reload(true)
+}
+
 function * sagas () {
-  yield takeEvery(actionTypes.auth.LOGIN_START, login)
+  yield takeEvery(AT.LOGIN_START, login)
+  yield takeEvery(AT.LOGOUT_START, logout)
   yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_SUCCESS, trezor)
   yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_ERROR, trezorFailed)
 }

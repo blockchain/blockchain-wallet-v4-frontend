@@ -1,5 +1,5 @@
 import { contains } from 'ramda'
-import { actions, actionTypes } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 
 let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
@@ -8,7 +8,7 @@ let blackListedActivityTypes = []
 const AutoDisconnectionMiddleware = store => next => action => {
   // We start the timer
   if (action.type === actionTypes.auth.LOGOUT_START_TIMER) {
-    counter = timer = 5
+    counter = timer = parseInt(selectors.core.wallet.getLogoutTime(store.getState()) / 1000) || 600 // (Default: 10min )
     startTimer(store)
   }
   // We reset the timer
