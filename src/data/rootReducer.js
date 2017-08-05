@@ -1,7 +1,8 @@
 
 import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
 import settings from 'config'
+import { routerReducer } from 'react-router-redux'
+import { reducer as reduxUiReducer } from 'redux-ui'
 import { coreReducers } from 'dream-wallet/lib'
 import activityReducer from './Activity/reducers.js'
 import alertsReducer from './Alerts/reducers'
@@ -10,7 +11,7 @@ import formReducer from './Form/reducers.js'
 import logReducer from './Log/reducers.js'
 import modalsReducer from './Modals/reducers.js'
 import preferencesReducer from './Preferences/reducers.js'
-import { reducer as reduxUiReducer } from 'redux-ui'
+import scrollReducer from './Scroll/reducers.js'
 
 const rootReducer = combineReducers({
   applicationState: combineReducers({
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     alerts: alertsReducer,
     auth: authReducer.login,
     log: logReducer,
-    modals: modalsReducer
+    modals: modalsReducer,
+    scroll: scrollReducer
   }),
   ui: reduxUiReducer,
   form: formReducer,

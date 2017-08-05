@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Modals from 'modals'
@@ -13,6 +14,8 @@ import QRCodeCapture from 'modals/QRCodeCapture'
 import RequestBitcoin from 'modals/RequestBitcoin'
 import SecondPassword from 'modals/SecondPassword'
 import SendBitcoin from 'modals/SendBitcoin'
+
+import Page from './Page'
 
 const Wrapper = styled.div`
   display: flex;
@@ -51,41 +54,44 @@ const Top = styled.div`
   height: 115px;
   width: 100%;
 `
-const Page = styled.div`
-  height: calc(100% - 115px);
-  width: 100%;
-  overflow-y: auto;
-`
 
-const WalletLayout = (props) => (
-  <Wrapper>
-    <Alerts />
-    <Modals>
-      <AutoDisconnection />
-      <PairingCode />
-      <QRCode />
-      <QRCodeCapture />
-      <RequestBitcoin />
-      <SecondPassword />
-      <SendBitcoin />
-    </Modals>
-    <Nav>
-      <Header />
-    </Nav>
-    <Container>
-      <Left>
-        <MenuLeft location={props.location} />
-      </Left>
-      <Content>
-        <Top>
-          <MenuTop />
-        </Top>
-        <Page>
-          {props.children}
-        </Page>
-      </Content>
-    </Container>
-  </Wrapper>
-)
+const WalletLayout = (props) => {
+  const { location, children } = props
+
+  return (
+    <Wrapper>
+      <Alerts />
+      <Modals>
+        <AutoDisconnection />
+        <PairingCode />
+        <QRCode />
+        <QRCodeCapture />
+        <RequestBitcoin />
+        <SecondPassword />
+        <SendBitcoin />
+      </Modals>
+      <Nav>
+        <Header />
+      </Nav>
+      <Container>
+        <Left>
+          <MenuLeft location={location} />
+        </Left>
+        <Content>
+          <Top>
+            <MenuTop />
+          </Top>
+          <Page>
+            {children}
+          </Page>
+        </Content>
+      </Container>
+    </Wrapper>
+  )
+}
+
+WalletLayout.propTypes = {
+  location: PropTypes.object.isRequired
+}
 
 export default WalletLayout
