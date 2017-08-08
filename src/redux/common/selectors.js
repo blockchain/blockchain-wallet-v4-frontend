@@ -37,30 +37,30 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
 
   const getAccountsBalances = state => map(digestAccount, getActiveHDAccounts(state))
   const getAddressesBalances = state => map(digestAddress, getActiveAddresses(state))
-  
+
   const getAggregatedAddressesBalances = state => {
     const ls = getAddressesBalances(state)
     const adder = (a, b) => ({amount: (a.amount + b.amount)})
     return assoc('title', 'Imported Addresses', reduce(adder, {amount: 0}, ls))
   }
 
-  // search :: String -> Object -> Boolean
-  const isOfType = curry((filter, tx) =>
-    propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
-  // search :: String -> String -> Object -> Boolean
-  const search = curry((text, property, tx) =>
-    compose(contains(toUpper(text)), toUpper, prop(property))(tx))
+  // // search :: String -> Object -> Boolean
+  // const isOfType = curry((filter, tx) =>
+  //   propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
+  // // search :: String -> String -> Object -> Boolean
+  // const search = curry((text, property, tx) =>
+  //   compose(contains(toUpper(text)), toUpper, prop(property))(tx))
 
   // getWalletTransactions :: state -> [Tx]
   const getWalletTransactions = state => {
     const wallet = compose(Wrapper.selectWallet, prop(walletPath))(state)
     const currentBlockHeight = compose(getHeight, prop(dataPath))(state)
-    const typeFilter = compose(getTypeFilter, prop(dataPath))(state)
-    const searchFilter = compose(getSearchFilter, prop(dataPath))(state)
-    const searchPredicate = anyPass(map(search(searchFilter), ['description', 'from', 'to']))
-    const fullPredicate = allPass([isOfType(typeFilter), searchPredicate])
+    // const typeFilter = compose(getTypeFilter, prop(dataPath))(state)
+    // const searchFilter = compose(getSearchFilter, prop(dataPath))(state)
+    // const searchPredicate = anyPass(map(search(searchFilter), ['description', 'from', 'to']))
+    // const fullPredicate = allPass([isOfType(typeFilter), searchPredicate])
 
-    return compose(filter(fullPredicate),
+    return compose( // filter(fullPredicate),
                    map(mTransformTx.bind(undefined, wallet, currentBlockHeight)),
                    getTransactions,
                    prop(dataPath))(state)

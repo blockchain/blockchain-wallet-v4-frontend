@@ -162,7 +162,7 @@ const CoinBaseData = total => ({
   change: 0
 })
 
-export const transformTx = (wallet, currentBlockHeight, tx) => {
+export const _transformTx = (wallet, currentBlockHeight, tx) => {
   const txNotes = Wallet.selectTxNotes(wallet)
   const conf = currentBlockHeight - tx.block_height + 1
   const confirmations = conf > 0 ? conf : 0
@@ -197,3 +197,5 @@ export const transformTx = (wallet, currentBlockHeight, tx) => {
     initial_value: null // when the user opens the modal
   })
 }
+
+export const transformTx = memoize(_transformTx)
