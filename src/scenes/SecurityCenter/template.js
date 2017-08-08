@@ -1,9 +1,12 @@
 import React from 'react'
+import Text from 'components/legacy/Text/index.js'
 
 const SecurityCenter = () => {
   return (
     <section>
-      <span>Security center page</span>
+      <Text type="Description" weight={500}>
+        Security Center Page
+      </Text>
     </section>
   )
 }

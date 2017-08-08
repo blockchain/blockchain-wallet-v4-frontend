@@ -6,7 +6,7 @@ const StyledText = styled.div`
   font-family: ${props => props.font || 'Montserrat'};
 `
 
-const Text = ({ weight, size, ...props, children }) => {
+const BaseText = ({ weight, size, ...props, children }) => {
   return(
     <StyledText className={`em-${ weight } f-${ size }`} {...props}>
       { children }
@@ -14,10 +14,10 @@ const Text = ({ weight, size, ...props, children }) => {
   )
 }
 
-Text.propTypes = {
+BaseText.propTypes = {
   size: PropTypes.number.isRequired,
   font: PropTypes.string,
   weight: PropTypes.number.isRequired
 }
 
-export default Text
+export default BaseText

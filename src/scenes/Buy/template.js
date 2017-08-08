@@ -1,9 +1,12 @@
 import React from 'react'
+import Text from 'components/legacy/Text/index.js'
 
 const Buy = () => {
   return (
     <section>
-      <span>Buy bitcoin page</span>
+      <Text type="Description" weight={500}>
+        Buy Bitcoin Page
+      </Text>
     </section>
   )
 }
