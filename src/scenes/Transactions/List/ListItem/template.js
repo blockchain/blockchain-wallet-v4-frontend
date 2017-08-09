@@ -114,7 +114,7 @@ const ListItem = (props) => {
           <Status>
             <StatusLabel {...props} />
             <Typography small light italic>
-              <FormattedDate value={new Date(transaction.time * 1000)} />
+              <FormattedDate value={new Date(transaction.time * 1000)} year='numeric' month='numeric' day='numeric' hour='numeric' minute='numeric' second='numeric' />
             </Typography>
           </Status>
         </LeftContainer>
