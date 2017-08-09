@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop } from 'ramda'
+import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop, always, dropLast } from 'ramda'
 
 import { selectors, actions } from 'data'
 import List from './template.js'
@@ -69,7 +69,6 @@ class ListContainer extends React.Component {
   }
 
   render () {
-    // console.log('render')
     return (
       <List transactions={this.filteredTransactions} />
     )

@@ -47,11 +47,8 @@ class FirstStepContainer extends React.Component {
 
     // Update the effectiveBalance value if fee or coins have been updated
     if ((gte(fee, 0)) && (!equals(coins, this.props.coins) || !equals(fee, this.props.fee))) {
-      console.log(nextProps.coins, nextProps.fee)
       const effectiveBalance = CoinSelection.effectiveBalance(fee, coins).value
-      console.log(effectiveBalance)
       const effectiveBalanceTransformed = convertToUnit(network, effectiveBalance, unit).getOrElse({ amount: 0 })
-      console.log(effectiveBalanceTransformed)
       if (!equals(this.props.effectiveBalance, effectiveBalanceTransformed.amount)) {
         this.props.reduxFormActions.change('sendBitcoin', 'effectiveBalance', effectiveBalanceTransformed.amount)
       }

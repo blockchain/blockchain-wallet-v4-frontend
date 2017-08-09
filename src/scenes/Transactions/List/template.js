@@ -9,6 +9,7 @@ const Wrapper = styled.div`
 `
 
 const TransactionList = (props) => {
+  console.log(props.transactions)
   return (
     <Wrapper>
       { props.transactions.map(function (transaction, index) {
