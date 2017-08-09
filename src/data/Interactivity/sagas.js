@@ -1,7 +1,11 @@
-import { takeEvery, take, put } from 'redux-saga/effects'
+import { takeEvery, put, select } from 'redux-saga/effects'
 import { actions as reduxFormActions } from 'redux-form'
 import { push } from 'react-router-redux'
-import { actions, actionTypes } from 'data'
+import { isNil } from 'ramda'
+import bip21 from 'bip21'
+
+import { actions, actionTypes, selectors } from 'data'
+import { convertToUnit, convertFromUnit } from 'services/ConversionService'
 import * as AT from './actionTypes'
 
 // =============================================================================
@@ -13,8 +17,28 @@ const qrCodeCaptureSuccess = function * (action) {
   const { data } = payload
 
   if (data) {
-    yield put(actions.alerts.displaySuccess(data))
-    yield put(reduxFormActions.change('sendBitcoin', 'to', data))
+    const decodedData = bip21.decode(data)
+    const address = decodedData.address
+    const amount = decodedData.options.amount
+    const message = decodedData.options.message
+
+    if (isNil(address)) {
+      yield put(actions.alerts.displayError('An error occured when capturing the QRCode.'))
+      return
+    }
+
+    yield put(reduxFormActions.change('sendBitcoin', 'to', address))
+
+    if (!isNil(amount)) {
+      // const unit = yield select(selectors.core.settings.getBtcCurrency)
+      // TODO: conversion here FFS
+      yield put(reduxFormActions.change('sendBitcoin', 'amount', amount))
+    }
+
+    if (!isNil(message)) {
+      yield put(reduxFormActions.change('sendBitcoin', 'message', message))
+    }
+
     yield put(actions.modals.closeModal())
   }
 }

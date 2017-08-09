@@ -81,7 +81,7 @@ const CoinConvertor = (props) => {
     <CoinConvertorWrapper>
       <CoinConvertorInput>
         <TextBoxContainer>
-          <TextBox onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState}  />
+          <TextBox onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
           <TextBoxUnit>{coinUnit}</TextBoxUnit>
         </TextBoxContainer>
         <IconArrow />
