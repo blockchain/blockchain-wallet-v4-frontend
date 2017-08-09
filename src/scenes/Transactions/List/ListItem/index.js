@@ -14,7 +14,7 @@ class ListItemContainer extends React.Component {
   }
 
   handleToggle () {
-    this.setState({ toggled: this.state.toggled })
+    this.setState({ toggled: !this.state.toggled })
   }
 
   handleCoinDisplay () {

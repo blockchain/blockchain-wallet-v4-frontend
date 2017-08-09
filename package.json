@@ -101,6 +101,7 @@
     "dream-wallet": "git+https://github.com/blockchain/dream-wallet.git",
     "es6-promise": "^4.1.0",
     "fast-memoize": "^2.2.8",
+    "moment": "^2.18.1",
     "postcss-loader": "^2.0.6",
     "prop-types": "^15.5.10",
     "qrcode-react": "^0.1.14",

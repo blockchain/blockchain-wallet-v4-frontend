@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedDate } from 'react-intl'
+import moment from 'moment'
 
 import { Icon } from 'components/generic/Icon'
 import { Text } from 'components/generic/Text'
@@ -36,9 +36,10 @@ const RowDetails = styled.div`
 const LeftContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: center;
-  @media(min-width: 1200px) { width: 15%; }
+
+  @media(min-width: 1200px) { width: 20%; }
 `
 const Arrow = styled.div`
   display: flex;
@@ -54,7 +55,11 @@ const Status = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  width: 150px;
+  width: 
+
+  & > div > span {
+    white-space: nowrap;
+  }
 `
 const Addresses = styled.div`
   display: none;
@@ -62,14 +67,14 @@ const Addresses = styled.div`
   @media(min-width: 1200px) { 
     display: flex; 
     flex-direction: column;
-    width: 40%;
+    width: 30%;
   }
 `
 const Description = styled.div`
   display: none;
   @media(min-width: 1200px) { 
     display: flex;
-    width: 30%;
+    width: 40%;
   }
 `
 const Edit = styled.div`
@@ -104,6 +109,12 @@ const ExtraDetails = styled.div`
 const ListItem = (props) => {
   const { toggled, handleToggle, transaction } = props
 
+  const now = moment()
+  const date = moment.utc(transaction.time * 1000)
+  const formattedDate = (date.year() === now.year())
+    ? date.format('MMMM D @kk:mm')
+    : date.format('MMMM D YYYY @kk:mm')
+
   return (
     <Wrapper>
       <Row>
@@ -113,9 +124,7 @@ const ListItem = (props) => {
           </Arrow>
           <Status>
             <StatusLabel {...props} />
-            <Typography small light italic>
-              <FormattedDate value={new Date(transaction.time * 1000)} year='numeric' month='numeric' day='numeric' hour='numeric' minute='numeric' second='numeric' />
-            </Typography>
+            <Typography small light italic>{formattedDate}</Typography>
           </Status>
         </LeftContainer>
         <Addresses>
