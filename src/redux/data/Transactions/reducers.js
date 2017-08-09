@@ -1,16 +1,29 @@
-import { combineReducers } from 'redux'
-
 import * as T from './actionTypes.js'
+import { assoc, equals, lensProp, over, concat } from 'ramda'
 
-const list = (state = [], action) => {
-  const { type } = action
+const INITIAL_STATE = {
+  list: [],
+  address: ''
+}
+
+const listReducer = (state = INITIAL_STATE, action) => {
+  const { type, payload } = action
   switch (type) {
+    case T.FETCH_TRANSACTIONS: {
+      const { address } = payload
+      if (!equals(address, state.address)) {
+        return assoc('address', address, INITIAL_STATE)
+      } else {
+        return state
+      }
+    }
+
     case T.FETCH_TRANSACTIONS_SUCCESS: {
       const { payload } = action
-      return state.concat(payload.txs)
+      return over(lensProp('list'), concat(payload.txs), state)
     }
-    case T.DELETE_TRANSACTIONS:
-    case T.SET_ADDRESS_FILTER: {
+
+    case T.DELETE_TRANSACTIONS: {
       return []
     }
     default:
@@ -18,47 +31,4 @@ const list = (state = [], action) => {
   }
 }
 
-const addressFilter = (state = '', action) => {
-  const { type } = action
-  switch (type) {
-    case T.SET_ADDRESS_FILTER: {
-      const { payload } = action
-      return payload.addressFilter
-    }
-    default:
-      return state
-  }
-}
-
-const typeFilter = (state = '', action) => {
-  const { type } = action
-  switch (type) {
-    case T.SET_TYPE_FILTER: {
-      const { payload } = action
-      return payload.typeFilter
-    }
-    default:
-      return state
-  }
-}
-
-const searchFilter = (state = '', action) => {
-  const { type } = action
-  switch (type) {
-    case T.SET_SEARCH_FILTER: {
-      const { payload } = action
-      return payload.searchFilter
-    }
-    default:
-      return state
-  }
-}
-
-const txsReducer = combineReducers({
-  list,
-  addressFilter,
-  typeFilter,
-  searchFilter
-})
-
-export default txsReducer
+export default listReducer

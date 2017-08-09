@@ -69,7 +69,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
       console.log('REFRESH WRAPPER FAILED (WEBSOCKET) :: should dispatch error action ?')
     }
   }
-  
+
   const refreshBlockchainData = function * () {
     const wrapper = yield select(prop(walletPath))
     const context = walletSelectors.getWalletContext(wrapper)
@@ -81,11 +81,11 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
   }
 
   const refreshTransactionList = function * () {
-    const addressFilter = yield select(compose(transSelectors.getAddressFilter, prop(dataPath)))
-    yield put(A.transactions.deleteTransactions())
-    yield put(A.transactions.fetchTransactions(addressFilter, 50))
+    // const addressFilter = yield select(compose(transSelectors.getAddressFilter, prop(dataPath)))
+    // yield put(A.transactions.deleteTransactions())
+    // yield put(A.transactions.fetchTransactions(addressFilter, 50))
   }
-  
+
   return function * () {
     yield takeEvery(T.webSocket.OPEN_SOCKET, onOpen)
     yield takeEvery(T.webSocket.MESSAGE_SOCKET, onMessage)
