@@ -32,15 +32,34 @@ const RowDetails = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  margin-top: 10px;
+
+  & > div { padding: 10px 0; }
+
+  @media(min-width: 1200px) { 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  } 
 `
-const LeftContainer = styled.div`
+const HiddenOnMobile = styled.div`
+  display: none;
+  @media(min-width: 1200px) { display: flex; }
+`
+const HiddenOnDesktop = styled.div`
+  display: flex;
+  @media(min-width: 1200px) { display: none; }
+`
+const StatusContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-content: center;
   min-width: 220px;
 
-  @media(min-width: 1200px) { width: 20%; }
+  @media(min-width: 1200px) { 
+    width: 20%; 
+  }
 `
 const Arrow = styled.div`
   display: flex;
@@ -62,21 +81,20 @@ const Status = styled.div`
     white-space: nowrap;
   }
 `
-const Addresses = styled.div`
-  display: none;
-
+const AddressesContainer = styled(HiddenOnMobile)`
   @media(min-width: 1200px) { 
-    display: flex; 
     flex-direction: column;
-    width: 50%;
+    width: 35%;
   }
 `
+const Addresses = styled.div`
+  min-width: 400px;
+`
+const DescriptionContainer = styled(HiddenOnMobile)`
+  @media(min-width: 1200px) { width: 25%; }
+`
 const Description = styled.div`
-  display: none;
-  @media(min-width: 1200px) { 
-    display: flex;
-    width: 25%;
-  }
+  min-width: 250px;
 `
 const Edit = styled.div`
   display: flex;
@@ -86,26 +104,21 @@ const Edit = styled.div`
 const EditIcon = styled(Icon)`
   cursor: pointer;
 `
-const Details = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-
-  & > * { padding: 10px 0; }
-
-  @media(min-width: 1200px) { justify-content: space-between; }
+const AmountContainer = styled.div`
+  @media(min-width: 1200px) { 
+    display: flex;
+    width: 20%;
+  }
 `
-const ExtraDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  & > * { padding: 10px 0; } 
-
-  @media(min-width: 1200px) { display: none;}
+const TransactionStatusContainer = styled.div`
+  width: 100%;
+  @media(min-width: 1200px) { width: 20%; }
 `
+const ValueWhenReceivedContainer = styled.div`
+  width: 100%;
+  @media(min-width: 1200px) { width: 20%; }
+`
+const ExtraDetailsContainer = styled(HiddenOnDesktop)``
 
 const ListItem = (props) => {
   const { toggled, handleToggle, transaction } = props
@@ -119,7 +132,7 @@ const ListItem = (props) => {
   return (
     <Wrapper>
       <Row>
-        <LeftContainer>
+        <StatusContainer>
           <Arrow rotated={!toggled} onClick={handleToggle}>
             <Icon name='icon-down_arrow' />
           </Arrow>
@@ -127,24 +140,33 @@ const ListItem = (props) => {
             <StatusLabel {...props} />
             <Typography small light italic>{formattedDate}</Typography>
           </Status>
-        </LeftContainer>
-        <Addresses>
-          <Text id='scenes.transactions.list.listitem.to' text='To : {to}' values={{ to: transaction.to }} small light />
-          <Text id='scenes.transactions.list.listitem.from' text='From : {from}' values={{ from: transaction.from }} small light />
-        </Addresses>
-        <Description>
-          <Edit>
-            { transaction.description !== ''
-              ? <Typography small light>{transaction.description}</Typography>
-              : <Typography small light>Add a description</Typography>
-            }
-            <EditIcon name='ti-pencil' />
-          </Edit>
-        </Description>
-        <ButtonAmount {...props} />
+        </StatusContainer>
+        <AddressesContainer>
+          <Addresses>
+            <Text id='scenes.transactions.list.listitem.to' text='To : {to}' values={{ to: transaction.to }} small light />
+            <Text id='scenes.transactions.list.listitem.from' text='From : {from}' values={{ from: transaction.from }} small light />
+          </Addresses>
+        </AddressesContainer>
+        <DescriptionContainer>
+          <Description>
+            <Edit>
+              { transaction.description !== ''
+                ? <Typography small light>{transaction.description}</Typography>
+                : <Typography small light>Add a description</Typography>
+              }
+              <EditIcon name='ti-pencil' />
+            </Edit>
+          </Description>
+        </DescriptionContainer>
+        <AmountContainer>
+          <ButtonAmount {...props} />
+        </AmountContainer>
       </Row>
       <RowDetails collapsed={!toggled}>
-        <ExtraDetails>
+        <TransactionStatusContainer>
+          <Text id='scenes.transactions.list.listitem.transaction_confirmed' text='Transaction confirmed' small light />
+        </TransactionStatusContainer>
+        <ExtraDetailsContainer>
           <Edit>
             { transaction.description !== ''
               ? <Typography small light>{transaction.description}</Typography>
@@ -152,13 +174,17 @@ const ListItem = (props) => {
             }
             <EditIcon name='ti-pencil' />
           </Edit>
+        </ExtraDetailsContainer>
+        <ExtraDetailsContainer>
           <Text id='scenes.transactions.list.listitem.to' text='To : {to}' values={{ to: transaction.to }} small light />
+        </ExtraDetailsContainer>
+        <ExtraDetailsContainer>
           <Text id='scenes.transactions.list.listitem.from' text='From : {from}' values={{ from: transaction.from }} small light />
-        </ExtraDetails>
-        <Details>
+        </ExtraDetailsContainer>
+        <ValueWhenReceivedContainer>
           <Typography small light>{transaction.status}</Typography>
           <Text id='scenes.transactions.list.listitem.initial' text='Value when received: {value}' values={{ value: transaction.initial_value }} small light />
-        </Details>
+        </ValueWhenReceivedContainer>
       </RowDetails>
     </Wrapper>
   )
