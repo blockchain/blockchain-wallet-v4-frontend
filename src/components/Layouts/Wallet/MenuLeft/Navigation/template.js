@@ -50,66 +50,66 @@ const NavIcon = styled.i`
 `
 
 const Navigation = (props) => {
-  const { toggled, handleToggle, handleClose, ...rest } = props
+  const { settingsToggled, handleOpenSettings, handleCloseSettings, handleCloseMenuLeft, ...rest } = props
 
   return (
     <Wrapper {...rest}>
       <NavList>
-        <RouterLink to='/wallet' activeClassName='active' onClick={handleClose}>
+        <RouterLink to='/wallet' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
             <NavIcon className='icon-home' />
             <Text id='components.layouts.wallet.menuleft.navigation.home' text='Home' smaller uppercase />
           </NavHeader>
         </RouterLink>
-        <RouterLink to='/transactions' activeClassName='active' onClick={handleClose}>
+        <RouterLink to='/transactions' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
             <NavIcon className='icon-tx' />
             <Text id='components.layouts.wallet.menuleft.navigation.transactions' text='Transactions' smaller uppercase />
           </NavHeader>
         </RouterLink>
-        <RouterLink to='/buy-sell' activeClassName='active' onClick={handleClose}>
+        <RouterLink to='/buy-sell' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
             <NavIcon className='icon-bitcoin' />
             <Text id='components.layouts.wallet.menuleft.navigation.buybitcoin' text='Buy bitcoin' smaller uppercase />
           </NavHeader>
         </RouterLink>
-        <RouterLink to='/security-center' activeClassName='active' onClick={handleClose}>
+        <RouterLink to='/security-center' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
             <NavIcon className='icon-lock' />
             <Text id='components.layouts.wallet.menuleft.navigation.securitycenter' text='Security center' smaller uppercase />
           </NavHeader>
         </RouterLink>
-        <RouterLink to='/settings' activeClassName='active' onClick={handleToggle}>
+        <RouterLink to='/settings' activeClassName='active' onClick={handleOpenSettings}>
           <NavHeader>
             <NavIcon className='icon-settings' />
             <Text id='components.layouts.wallet.menuleft.navigation.settings' text='Settings' smaller uppercase />
           </NavHeader>
         </RouterLink>
-        {toggled && (
+        {settingsToggled && (
           <SubNavList>
-            <RouterLink to='/settings/info' activeClassName='active'>
+            <RouterLink to='/settings/info' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubNavHeader>
                 <Text id='components.layouts.wallet.menuleft.navigation.walletinfo' text='Wallet information' smaller />
               </SubNavHeader>
             </RouterLink>
-            <RouterLink to='/settings/preferences' activeClassName='active'>
+            <RouterLink to='/settings/preferences' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubNavHeader>
                 <Text id='components.layouts.wallet.menuleft.navigation.preferences' text='Preferences' smaller />
               </SubNavHeader>
             </RouterLink>
-            <RouterLink to='/settings/security' activeClassName='active'>
+            <RouterLink to='/settings/security' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubNavHeader>
                 <Text id='components.layouts.wallet.menuleft.navigation.security' text='Security' smaller />
               </SubNavHeader>
             </RouterLink>
-            <RouterLink to='/settings/addresses' activeClassName='active'>
+            <RouterLink to='/settings/addresses' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubNavHeader>
                 <Text id='components.layouts.wallet.menuleft.navigation.addresses' text='Addresses' smaller />
               </SubNavHeader>
             </RouterLink>
           </SubNavList>
         )}
-        <RouterLink to='/faq' activeClassName='active' onClick={handleClose}>
+        <RouterLink to='/faq' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
             <NavIcon className='icon-help' />
             <Text id='components.layouts.wallet.menuleft.navigation.faq' text='Faq' smaller uppercase />
@@ -121,9 +121,10 @@ const Navigation = (props) => {
 }
 
 Navigation.propTypes = {
-  toggled: PropTypes.bool.isRequired,
-  handleToggle: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired
+  settingsToggled: PropTypes.bool.isRequired,
+  handleOpenSettings: PropTypes.func.isRequired,
+  handleCloseSettings: PropTypes.func.isRequired,
+  handleCloseMenuLeft: PropTypes.func.isRequired
 }
 
 export default Navigation
