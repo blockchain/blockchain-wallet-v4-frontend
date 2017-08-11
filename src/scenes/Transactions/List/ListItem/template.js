@@ -4,7 +4,9 @@ import styled from 'styled-components'
 import moment from 'moment'
 
 import { Icon } from 'components/generic/Icon'
+import { ConfirmationGauge } from 'components/generic/Gauges'
 import { Text } from 'components/generic/Text'
+import { Tooltip } from 'components/generic/Tooltip'
 import { Typography } from 'components/generic/Typography'
 
 import ButtonAmount from './ButtonAmount'
@@ -114,6 +116,16 @@ const TransactionStatusContainer = styled.div`
   width: 100%;
   @media(min-width: 1200px) { width: 20%; }
 `
+const TransactionTooltipContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-items: space-between;
+
+  & > div:first-child {
+    width: 70%;
+    margin-right: 5px;
+  }
+`
 const ValueWhenReceivedContainer = styled.div`
   width: 100%;
   @media(min-width: 1200px) { width: 20%; }
@@ -164,7 +176,20 @@ const ListItem = (props) => {
       </Row>
       <RowDetails collapsed={!toggled}>
         <TransactionStatusContainer>
-          <Text id='scenes.transactions.list.listitem.transaction_confirmed' text='Transaction confirmed' small light />
+          { transaction.confirmations > 3
+            ? <Text id='scenes.transactions.list.listitem.transaction_confirmed' text='Transaction confirmed' small light />
+            : (
+              <TransactionTooltipContainer>
+                <ConfirmationGauge nbConfirmations={transaction.confirmations} />
+                <Tooltip>
+                  { transaction.confirmations === 0 && <Text id='scenes.transactions.list.listitem.transaction_unconfirmed' text='Your transaction is actually unconfirmed.' small light /> }
+                  { transaction.confirmations === 1 && <Text id='scenes.transactions.list.listitem.transaction_confirmed_1' text='Your transaction confirmation is in progress (1 block ahead).' small light /> }
+                  { transaction.confirmations === 2 && <Text id='scenes.transactions.list.listitem.transaction_confirmed_2' text='Your transaction confirmation is in progress (2 blocks ahead).' small light /> }
+                  { transaction.confirmations === 3 && <Text id='scenes.transactions.list.listitem.transaction_confirmed_3' text='Your transaction is confirmed (3 blocks ahead).' small light /> }
+                </Tooltip>
+              </TransactionTooltipContainer>
+            )
+          }
         </TransactionStatusContainer>
         <ExtraDetailsContainer>
           <Edit>
