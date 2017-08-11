@@ -38,6 +38,7 @@ const LeftContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-content: center;
+  min-width: 220px;
 
   @media(min-width: 1200px) { width: 20%; }
 `
@@ -67,14 +68,14 @@ const Addresses = styled.div`
   @media(min-width: 1200px) { 
     display: flex; 
     flex-direction: column;
-    width: 30%;
+    width: 50%;
   }
 `
 const Description = styled.div`
   display: none;
   @media(min-width: 1200px) { 
     display: flex;
-    width: 40%;
+    width: 25%;
   }
 `
 const Edit = styled.div`
