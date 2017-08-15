@@ -1,4 +1,4 @@
-# DreamWallet 🌙 Frontend
+# V4-Wallet-Frontend
 
 ## Prerequisites
 * Java SDK
