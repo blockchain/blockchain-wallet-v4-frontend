@@ -3,9 +3,12 @@
   "version": "0.0.1",
   "description": "Website containing the components documentation",
   "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --progress --colors",
-    "compile": "babel --presets es2015,stage-0 -d dist/ src/components/",
+    "compile": "babel --presets es2015,stage-0 -d dist/ src/components/ --watch",
     "prepublish": "npm run compile"
   },
   "author": "(Dream Team) Blockchain.info",

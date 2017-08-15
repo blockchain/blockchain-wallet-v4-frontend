@@ -1,6 +1,6 @@
 import React from 'react'
 import * as ReactBootstrap from 'react-bootstrap'
 
-const NavbarCollapse = props => <ReactBootstrap.NavbarCollapse {...props} />
+const NavbarCollapse = props => <ReactBootstrap.Navbar.Collapse {...props} />
 
 export default NavbarCollapse
