@@ -1,4 +1,4 @@
-# V4-Wallet 🌙
+# V4-Wallet 
 
 Functional library for handling Blockchain.info wallets
 
