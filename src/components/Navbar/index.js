@@ -1,22 +1,9 @@
-import React from 'react'
-import * as ReactBootstrap from 'react-bootstrap'
-
-const Navbar = (props) => (<ReactBootstrap.Navbar {...props} />)
-
-const NavbarHeader = (props) => (<ReactBootstrap.Navbar.Header {...props} />)
-
-const NavbarBrand = (props) => (<ReactBootstrap.Navbar.Brand {...props} />)
-
-const NavbarToggle = (props) => (<ReactBootstrap.Navbar.Toggle {...props} />)
-
-const NavbarCollapse = (props) => (<ReactBootstrap.Navbar.Collapse {...props} />)
-
-const Nav = (props) => (<ReactBootstrap.Nav {...props} />)
-
-const NavItem = (props) => (<ReactBootstrap.NavItem {...props} />)
-
-const NavDropdown = (props) => (<ReactBootstrap.NavDropdown {...props} />)
-
-const MenuItem = (props) => (<ReactBootstrap.MenuItem {...props} />)
-
-export { Navbar, NavbarHeader, NavbarBrand, NavbarToggle, NavbarCollapse, Nav, NavItem, NavDropdown, MenuItem }
+export { default as Navbar } from './Navbar'
+export { default as MenuItem } from './MenuItem'
+export { default as Nav } from './Nav'
+export { default as NavbarBrand } from './NavbarBrand'
+export { default as NavbarCollapse } from './NavbarCollapse'
+export { default as NavbarHeader } from './NavbarHeader'
+export { default as NavbarToggle } from './NavbarToggle'
+export { default as NavDropdown } from './NavDropdown'
+export { default as NavItem } from './NavItem'

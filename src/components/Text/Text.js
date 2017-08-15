@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Typography } from 'components'
+import { Typography } from '../Typography'
 
 const Text = (props) => {
   const { id, text, values, ...rest } = props

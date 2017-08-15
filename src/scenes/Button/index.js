@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Button, PrimaryButton, SecondaryButton, ButtonGroup } from 'components/Button'
+import { Button, PrimaryButton, SecondaryButton } from 'components/Buttons'
+import * as comp from 'components'
+console.log(comp)
 
 const ButtonContainer = (props) => {
   return (

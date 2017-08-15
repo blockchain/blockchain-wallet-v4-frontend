@@ -1,12 +1,3 @@
-import React from 'react'
-import * as ReactBootstrap from 'react-bootstrap'
-
-const Grid = (props) => (<ReactBootstrap.Grid {...props} />)
-
-const Row = (props) => (<ReactBootstrap.Row {...props} />)
-
-const Col = (props) => (<ReactBootstrap.Col {...props} />)
-
-const Clearfix = (props) => (<ReactBootstrap.Clearfix {...props} />)
-
-export { Grid, Row, Col, Clearfix }
+export { default as Grid } from './Grid'
+export { default as Row } from './Grid'
+export { default as Col } from './Grid'

@@ -41,7 +41,8 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              plugins: ['react-hot-loader/babel']
+              plugins: ['react-hot-loader/babel'],
+              ignore: '/node_modules/'
             }
           }
         ]

@@ -1,3 +1,1 @@
-import ConfirmationGauge from './ConfirmationGauge'
-
-export { ConfirmationGauge }
+export { default as ConfirmationGauge } from './ConfirmationGauge'

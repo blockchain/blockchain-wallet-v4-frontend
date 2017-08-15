@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon } from 'components'
+import { Icon } from '../Icons'
 
 const Wrapper = styled.div`
   position: absolute;
