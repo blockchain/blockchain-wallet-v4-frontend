@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'components/generic/Text'
-import { Grid } from 'components/generic/Grid'
+import { Grid, Text } from 'blockchain-components'
 import { AppleStore, GooglePlay } from 'components/shared/Badges'
 import banner from 'img/landing-page-banner-sm-overlay.jpg'
 

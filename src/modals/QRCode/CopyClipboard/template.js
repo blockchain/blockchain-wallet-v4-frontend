@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 
-import { Text } from 'components/generic/Text'
+import { Text } from 'blockchain-components'
 
 const Wrapper = styled.div`
   position: relative;

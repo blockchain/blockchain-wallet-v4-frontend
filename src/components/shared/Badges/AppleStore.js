@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Link } from 'components/generic/Link'
+import { Link } from 'blockchain-components'
 import appleStoreBadge from 'img/app-store-badge.svg'
 
 const AppleStoreBadge = styled.img.attrs({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, TextGroup } from 'components/generic/Text'
+import { Text, TextGroup } from 'blockchain-components'
 
 const title = <Text id='scenes.faq.item3.question' text='What is the difference between a wallet ID and a bitcoin address?' />
 

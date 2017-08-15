@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'components/generic/Text'
+import { Text } from 'blockchain-components'
 import InfoWell from 'components/shared/InfoWell'
 import EmailAddress from './EmailAddress'
 import MobileNumber from './MobileNumber'

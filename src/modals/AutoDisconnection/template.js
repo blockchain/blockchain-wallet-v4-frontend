@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Button } from 'components/generic/Button'
-import { Text } from 'components/generic/Text'
-import Modal from 'components/generic/Modal'
+import { Button, Text, Modal } from 'blockchain-components'
 
 const Container = styled.div`
   display: flex;

@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'components/generic/Text'
-import { Grid } from 'components/generic/Grid'
+import { Grid, Text } from 'blockchain-components'
 import bitcoinNetwork from 'img/bitcoin-network.svg'
 
 const NewToBitcoinWrapper = styled.div`

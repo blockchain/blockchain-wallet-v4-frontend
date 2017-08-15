@@ -9,8 +9,7 @@ import Refresh from './Refresh'
 import Logout from './Logout'
 
 import logo from 'img/blockchain-vector.svg'
-import { RouterLink } from 'components/generic/Link'
-import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav } from 'components/generic/Navbar'
+import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav, RouterLink } from 'blockchain-components'
 
 const Wrapper = styled.div`
   & .navbar-header {  height: 60px; }

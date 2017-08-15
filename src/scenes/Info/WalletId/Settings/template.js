@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Typography } from 'components/generic/Typography'
+import { Typography } from 'blockchain-components'
 
 const Settings = (props) => {
   const { guid } = props

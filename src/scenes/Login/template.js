@@ -3,11 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { PrimaryButton, SecondaryButton } from 'components/generic/Button'
-import { Form, PasswordBox, TextBox, HelpBlock } from 'components/generic/Form'
-import { Link, RouterLink } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
-import { Separator } from 'components/generic/Separator'
+import { Form, HelpBlock, Link, PasswordBox, PrimaryButton, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-components'
 
 const Wrapper = styled.div`
   width: 100%;

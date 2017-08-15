@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Text } from 'components/generic/Text'
+import { Text } from 'blockchain-components'
 
 const LabelSent = styled(Text)`
   color: #F26C57;

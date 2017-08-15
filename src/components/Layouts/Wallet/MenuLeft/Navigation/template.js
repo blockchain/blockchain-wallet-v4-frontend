@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { RouterLink } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
+import { RouterLink, Text } from 'blockchain-components'
 
 const Wrapper = styled.div`
   height: 100%;

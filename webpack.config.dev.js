@@ -38,7 +38,8 @@ module.exports = {
       'scenes': PATHS.src + '/scenes',
       'services': PATHS.src + '/services',
       'store': PATHS.src + '/store',
-      'themes': PATHS.src + '/themes'
+      'themes': PATHS.src + '/themes',
+      'react': PATHS.npm + '/react'
     },
     symlinks: false
   },
@@ -46,6 +47,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',

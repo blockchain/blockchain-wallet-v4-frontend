@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { NavItem } from 'components/generic/Navbar'
-import { Typography } from 'components/generic/Typography'
+import { NavItem, Typography } from 'blockchain-components'
 
 const Ticker = (props) => {
   const { coin, fiat } = props

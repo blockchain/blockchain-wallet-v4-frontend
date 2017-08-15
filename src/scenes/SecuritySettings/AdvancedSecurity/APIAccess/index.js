@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { Link } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
+import { Link, Text } from 'blockchain-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const APIAccess = (props) => {

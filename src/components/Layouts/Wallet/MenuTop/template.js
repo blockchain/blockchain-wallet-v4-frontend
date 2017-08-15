@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Button, ButtonGroup } from 'components/generic/Button'
-import { Icon } from 'components/generic/Icon'
-import { Text } from 'components/generic/Text'
+import { Button, ButtonGroup, Icon, Text } from 'blockchain-components'
 import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
+
+console.log(CoinDisplay, CurrencyDisplay)
 
 const Wrapper = styled.div`
   display: flex;

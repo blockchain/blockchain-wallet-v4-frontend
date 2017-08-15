@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import QrReader from 'react-qr-reader'
 
-import { Link } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
-import Modal from 'components/generic/Modal'
+import { Link, Modal, Text } from 'blockchain-components'
 
 const DELAY = 100
 

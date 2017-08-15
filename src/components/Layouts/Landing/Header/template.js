@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import logo from 'img/blockchain-vector.svg'
-import { PrimaryButton, SecondaryButton } from 'components/generic/Button'
-import { RouterLink } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
-import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav, NavItem } from 'components/generic/Navbar'
+import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav, NavItem,
+  PrimaryButton, RouterLink, SecondaryButton, Text } from 'blockchain-components'
 
 const Wrapper = styled.div`
   padding-top: 17px;

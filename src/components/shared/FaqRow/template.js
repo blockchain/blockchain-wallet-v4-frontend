@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Icon } from 'components/generic/Icon'
+import { Icon } from 'blockchain-components'
 
 const Wrapper = styled.div`
   display: flex;

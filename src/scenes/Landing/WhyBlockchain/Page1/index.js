@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'components/generic/Text'
+import { Text } from 'blockchain-components'
 import sophisticated from 'img/sophisticated.svg'
 
 const Page = styled.div`
