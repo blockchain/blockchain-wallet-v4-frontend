@@ -6,3 +6,4 @@ build
 .idea/
 .yarnclean
 yarn-error.log
+.vscode

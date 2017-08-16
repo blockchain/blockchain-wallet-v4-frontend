@@ -50,7 +50,7 @@ const ButtonContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding-top: 10px;
-  width: 275px;
+  width: 300px;
 `
 const BalanceContainer = styled.div`
   display: flex;
