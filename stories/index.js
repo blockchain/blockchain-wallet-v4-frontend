@@ -30,8 +30,8 @@ storiesOf('Buttons', module)
   .add('Button disabled', () => <Button disabled>Button disabled</Button>)
   .add('Button bold', () => <Button bold>Button bold</Button>)
   .add('Button uppercase', () => <Button uppercase>Button uppercase</Button>)
-  .add('ButtonGroup width 2 buttons', () => (<ButtonGroup><Button>Button 1</Button><Button>Button 2</Button></ButtonGroup>))
-  .add('ButtonGroup width 3 buttons', () => (<ButtonGroup><Button>Button 1</Button><Button>Button 2</Button><Button>Button 3</Button></ButtonGroup>))
+  .add('ButtonGroup with 2 buttons', () => (<ButtonGroup><Button>Button 1</Button><Button>Button 2</Button></ButtonGroup>))
+  .add('ButtonGroup with 3 buttons', () => (<ButtonGroup><Button>Button 1</Button><Button>Button 2</Button><Button>Button 3</Button></ButtonGroup>))
 
 storiesOf('Dropdowns', module)
   .add('SimpleDropdown', () => <SimpleDropdown
