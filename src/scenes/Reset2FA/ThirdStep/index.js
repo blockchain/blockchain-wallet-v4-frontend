@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { CaptchaBox } from 'components/shared/Form'
-import { Form, HelpBlock, Link, SecondaryButton, Separator, Text, TextArea } from 'blockchain-components'
+import { Form, HelpBlock, Link, SecondaryButton, Separator, Text, TextArea } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;

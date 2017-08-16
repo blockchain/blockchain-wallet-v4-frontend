@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Grid, Link, RouterLink, Text } from 'blockchain-components'
+import { Grid, Link, RouterLink, Text } from 'blockchain-info-components'
 import DropdownLanguage from 'components/shared/DropdownLanguage'
 
 import logo from 'img/blockchain-blue.svg'

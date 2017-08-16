@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Form, Link, Modal, SecondaryButton, Text, Typography } from 'blockchain-components'
+import { Form, Link, Modal, SecondaryButton, Text, Typography } from 'blockchain-info-components'
 import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 import ComboDisplay from 'components/shared/ComboDisplay'

@@ -1144,6 +1144,37 @@ block-stream@*:
   dependencies:
     bootstrap-sass "^3.3.7"
 
+"blockchain-info-components@git+https://github.com/blockchain/blockchain-info-components.git":
+  version "0.0.1"
+  resolved "git+https://github.com/blockchain/blockchain-info-components.git#c2694d4a91afb4142c0fd332020bf633f7d18d13"
+
+"blockchain-wallet-v4@git+https://github.com/blockchain/blockchain-wallet-v4.git":
+  version "1.0.1"
+  resolved "git+https://github.com/blockchain/blockchain-wallet-v4.git#78b0f33d90a50dc5d9ba7bb35a7166a47a8db95d"
+  dependencies:
+    bigi "^1.4.2"
+    bip39 "^2.3.1"
+    bitcoinjs-lib "^3.1.1"
+    bs58 "^4.0.1"
+    chai-immutable "^1.6.0"
+    data.either "^1.5.0"
+    data.task "^3.1.1"
+    es6-promise "^4.1.0"
+    extendable-immutable "^1.3.3"
+    fast-memoize "^2.2.7"
+    fisher-yates "^1.0.3"
+    futurize "^1.2.0"
+    immutable "^3.8.1"
+    immutable-ext "^1.1.2"
+    isomorphic-fetch "^2.2.1"
+    pbkdf2 "~3.0.12"
+    ramda "^0.24.1"
+    ramda-lens "https://github.com/ramda/ramda-lens.git"
+    redux "^3.6.0"
+    redux-immutable "^3.1.0"
+    redux-saga "^0.15.3"
+    seedrandom "^2.4.3"
+
 bluebird@^2.10.2:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
@@ -2127,33 +2158,6 @@ domutils@1.5.1:
   dependencies:
     dom-serializer "0"
     domelementtype "1"
-
-"dream-wallet@git+https://github.com/blockchain/dream-wallet.git":
-  version "1.0.1"
-  resolved "git+https://github.com/blockchain/dream-wallet.git#1213edc5219b13a9f82a54b99777be37e6e7ccac"
-  dependencies:
-    bigi "^1.4.2"
-    bip39 "^2.3.1"
-    bitcoinjs-lib "^3.1.1"
-    bs58 "^4.0.1"
-    chai-immutable "^1.6.0"
-    data.either "^1.5.0"
-    data.task "^3.1.1"
-    es6-promise "^4.1.0"
-    extendable-immutable "^1.3.3"
-    fast-memoize "^2.2.7"
-    fisher-yates "^1.0.3"
-    futurize "^1.2.0"
-    immutable "^3.8.1"
-    immutable-ext "^1.1.2"
-    isomorphic-fetch "^2.2.1"
-    pbkdf2 "~3.0.12"
-    ramda "^0.24.1"
-    ramda-lens "https://github.com/ramda/ramda-lens.git"
-    redux "^3.6.0"
-    redux-immutable "^3.1.0"
-    redux-saga "^0.15.3"
-    seedrandom "^2.4.3"
 
 duplexer@^0.1.1:
   version "0.1.1"

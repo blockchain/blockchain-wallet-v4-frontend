@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment'
 
-import { ConfirmationGauge, Icon, Text, Tooltip, Typography } from 'blockchain-components'
+import { ConfirmationGauge, Icon, Text, Tooltip, Typography } from 'blockchain-info-components'
 import ButtonAmount from './ButtonAmount'
 import StatusLabel from './StatusLabel'
 

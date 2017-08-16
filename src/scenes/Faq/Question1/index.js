@@ -1,5 +1,5 @@
 import React from 'react'
-import { RouterLink, Text, TextGroup } from 'blockchain-components'
+import { RouterLink, Text, TextGroup } from 'blockchain-info-components'
 
 const title = <Text id='scenes.faq.item1.question' text='How do I buy bitcoin?' />
 

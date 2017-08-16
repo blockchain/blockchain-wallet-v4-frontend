@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SecondaryButton, Text } from 'blockchain-components'
+import { SecondaryButton, Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const WalletRecoveryPhrase = (props) => {

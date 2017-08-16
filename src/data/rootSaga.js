@@ -4,7 +4,7 @@ import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 
-import { coreSagas } from 'dream-wallet/lib'
+import { coreSagas } from 'blockchain-wallet-v4/lib'
 import activitySagas from './Activity/sagas.js'
 import alertSagas from './Alerts/sagas.js'
 import authSagas from './Auth/sagas.js'

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, Text, Typography } from 'blockchain-components'
+import { Icon, Text, Typography } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;

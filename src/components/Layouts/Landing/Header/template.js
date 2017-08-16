@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import logo from 'img/blockchain-vector.svg'
 import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav, NavItem,
-  PrimaryButton, RouterLink, SecondaryButton, Text } from 'blockchain-components'
+  PrimaryButton, RouterLink, SecondaryButton, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   padding-top: 17px;

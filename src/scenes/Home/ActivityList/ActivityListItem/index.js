@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, Typography } from 'blockchain-components'
+import { Icon, Typography } from 'blockchain-info-components'
 
 const Row = styled.div`
   display: flex;

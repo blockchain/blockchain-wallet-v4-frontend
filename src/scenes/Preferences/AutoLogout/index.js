@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SecondaryButton, Text, Typography } from 'blockchain-components'
+import { SecondaryButton, Text, Typography } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const AutoLogout = (props) => {

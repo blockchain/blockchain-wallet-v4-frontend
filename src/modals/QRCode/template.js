@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import QRCodeReact from 'qrcode-react'
 
-import { Link, Modal, Text } from 'blockchain-components'
+import { Link, Modal, Text } from 'blockchain-info-components'
 import CopyClipboard from './CopyClipboard'
 import modalEnhancer from 'components/providers/ModalEnhancer'
 

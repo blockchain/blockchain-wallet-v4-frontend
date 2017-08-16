@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { displayCoin, displayFiat } from 'services/ConversionService'
 import { selectors } from 'data'
-import { Typography } from 'blockchain-components'
+import { Typography } from 'blockchain-info-components'
 
 const CoinDisplay = ({ ...props, children }) => {
   const { network, unit, currency, rates, ...rest } = props

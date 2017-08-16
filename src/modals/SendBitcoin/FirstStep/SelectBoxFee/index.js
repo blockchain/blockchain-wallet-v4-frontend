@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-import { SelectBox } from 'blockchain-components'
+import { SelectBox } from 'blockchain-info-components'
 
 class SelectBoxFeeContainer extends React.Component {
   render () {

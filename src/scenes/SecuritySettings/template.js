@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-components'
+import { Button, Text } from 'blockchain-info-components'
 import BasicSecurity from './BasicSecurity'
 import AdvancedSecurity from './AdvancedSecurity'
 

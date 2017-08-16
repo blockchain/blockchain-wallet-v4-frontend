@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
-import { Button, Form, Hidden, Icon, Link, Modal, SecondaryButton, Text, TextBox, TextArea, Tooltip } from 'blockchain-components'
+import { Button, Form, Hidden, Icon, Link, Modal, SecondaryButton, Text, TextBox, TextArea, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, SelectBoxAddresses } from 'components/shared/Form'
 import ComboDisplay from 'components/shared/ComboDisplay'
 import SelectBoxFee from './SelectBoxFee'

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon } from 'blockchain-components'
+import { Icon } from 'blockchain-info-components'
 
 const SearchContainer = styled.div`
   position: relative;

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
-import { Text, Typography } from 'blockchain-components'
+import { Text, Typography } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;

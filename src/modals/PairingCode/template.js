@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import QRCodeReact from 'qrcode-react'
 
-import { Modal, SecondaryButton, Text } from 'blockchain-components'
+import { Modal, SecondaryButton, Text } from 'blockchain-info-components'
 import modalEnhancer from 'components/providers/ModalEnhancer'
 
 const QRCodeContainer = styled.div`

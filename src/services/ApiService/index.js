@@ -1,4 +1,4 @@
-import { Network } from 'dream-wallet/lib'
+import { Network } from 'blockchain-wallet-v4/lib'
 import settings from 'config'
 
 export const api = Network.createWalletApi({

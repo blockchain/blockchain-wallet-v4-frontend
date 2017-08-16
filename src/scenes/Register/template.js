@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validEmail, validPassword } from 'services/FormHelper'
-import { CheckBox, Form, PasswordBox, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-components'
+import { CheckBox, Form, PasswordBox, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-info-components'
 import Terms from 'components/shared/Terms'
 
 const Wrapper = styled.div`

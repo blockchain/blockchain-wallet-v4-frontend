@@ -1,4 +1,4 @@
-import { coreActions as core } from 'dream-wallet/lib'
+import { coreActions as core } from 'blockchain-wallet-v4/lib'
 import * as activity from './Activity/actions.js'
 import * as alerts from './Alerts/actions.js'
 import * as auth from './Auth/actions.js'

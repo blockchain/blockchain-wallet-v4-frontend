@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field } from 'redux-form'
 
 import { singleForm } from 'components/providers/FormProvider'
-import { Form } from 'blockchain-components'
+import { Form } from 'blockchain-info-components'
 import { SelectBoxAddresses } from 'components/shared/Form'
 import Status from './Status'
 import Search from './Search'

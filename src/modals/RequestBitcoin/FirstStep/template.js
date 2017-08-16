@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
-import { Form, Modal, SecondaryButton, Text, TextArea, Tooltip } from 'blockchain-components'
+import { Form, Modal, SecondaryButton, Text, TextArea, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, SelectBoxAddresses } from 'components/shared/Form'
 import CopyClipboard from './CopyClipboard'
 

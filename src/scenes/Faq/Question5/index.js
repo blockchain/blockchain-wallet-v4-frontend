@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, TextGroup } from 'blockchain-components'
+import { Text, TextGroup } from 'blockchain-info-components'
 
 const title = <Text id='scenes.faq.item5.question' text='How much does it cost to send bitcoin?' />
 

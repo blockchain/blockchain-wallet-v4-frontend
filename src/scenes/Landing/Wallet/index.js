@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
-import { RouterLink, SecondaryButton, Text } from 'blockchain-components'
+import { RouterLink, SecondaryButton, Text } from 'blockchain-info-components'
 
 const WalletWrapper = styled.div`
   display: flex;

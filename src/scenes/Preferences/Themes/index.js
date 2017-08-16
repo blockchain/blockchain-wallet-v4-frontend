@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Text } from 'blockchain-components'
+import { Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const Themes = (props) => {

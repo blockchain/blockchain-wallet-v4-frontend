@@ -6,7 +6,7 @@ import { actions as reduxFormActions } from 'redux-form'
 import { gte, is, equals, isNil, pick } from 'ramda'
 import * as crypto from 'crypto'
 
-import { Coin, CoinSelection } from 'dream-wallet/lib'
+import { Coin, CoinSelection } from 'blockchain-wallet-v4/lib'
 import { convertToUnit, convertFromUnit } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'

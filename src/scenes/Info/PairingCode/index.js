@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'blockchain-components'
+import { Text } from 'blockchain-info-components'
 import { AppleStore, GooglePlay } from 'components/shared/Badges'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 import Settings from './Settings'

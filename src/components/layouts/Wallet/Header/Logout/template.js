@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NavItem, Text } from 'blockchain-components'
+import { NavItem, Text } from 'blockchain-info-components'
 
 const Logout = (props) => {
   const { handleLogout } = props

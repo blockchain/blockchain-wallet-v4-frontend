@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Icon, NavItem } from 'blockchain-components'
+import { Icon, NavItem } from 'blockchain-info-components'
 
 const WhatsNew = () => (
   <NavItem>

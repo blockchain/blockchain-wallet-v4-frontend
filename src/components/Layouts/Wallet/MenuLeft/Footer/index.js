@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Link, Text } from 'blockchain-components'
+import { Link, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;

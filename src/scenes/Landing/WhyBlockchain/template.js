@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Grid, Text } from 'blockchain-components'
+import { Grid, Text } from 'blockchain-info-components'
 import Page1 from './Page1'
 import Page2 from './Page2'
 

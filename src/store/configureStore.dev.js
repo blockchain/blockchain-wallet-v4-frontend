@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import { persistStore, autoRehydrate } from 'redux-persist'
 import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
-import { coreMiddleware } from 'dream-wallet/lib'
+import { coreMiddleware } from 'blockchain-wallet-v4/lib'
 import autoDisconnection from 'middleware/autoDisconnection.js'
 import notifications from 'middleware/notifications.js'
 import { rootSaga, rootReducer } from 'data'
@@ -12,7 +12,7 @@ import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { auth } from 'data/rootSelectors.js'
-import { serializer } from 'dream-wallet/lib/types'
+import { serializer } from 'blockchain-wallet-v4/lib/types'
 
 const devToolsConfig = {
   maxAge: 1000,
