@@ -8,7 +8,7 @@ import Welcome from './welcome.js'
 import Page from './myPage.js'
 import { Button, ButtonGroup, ConfirmationGauge,
           Icon, SimpleDropdown, Link, Modal, Separator, Tooltip,
-          Text, TextGroup } from '../src'
+          Text, TextGroup, CheckBox } from '../src'
 
 addDecorator(story => (<Page>{story()}</Page>))
 addDecorator((story, context) => withInfo('Documentation')(story)(context))
@@ -44,8 +44,8 @@ storiesOf('Dropdowns', module)
 
 storiesOf('Gauges', module)
   .add('ConfirmationGauge empty', () => <ConfirmationGauge />)
-  .add('ConfirmationGauge yellow', () => <ConfirmationGauge nbConfirmations={1} />)
-  .add('ConfirmationGauge orange', () => <ConfirmationGauge nbConfirmations={2} />)
+  .add('ConfirmationGauge orange', () => <ConfirmationGauge nbConfirmations={1} />)
+  .add('ConfirmationGauge yellow', () => <ConfirmationGauge nbConfirmations={2} />)
   .add('ConfirmationGauge green', () => <ConfirmationGauge nbConfirmations={3} />)
 
 //TODO: Fin out how to name icons

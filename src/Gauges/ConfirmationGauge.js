@@ -26,8 +26,8 @@ const ConfirmationGauge = (props) => {
 
   switch (nbConfirmations) {
     case 0: return <Container><EmptyBar /><EmptyBar /><EmptyBar /></Container>
-    case 1: return <Container><YellowBar /><EmptyBar /><EmptyBar /></Container>
-    case 2: return <Container><OrangeBar /><OrangeBar /><EmptyBar /></Container>
+    case 1: return <Container><OrangeBar /><EmptyBar /><EmptyBar /></Container>
+    case 2: return <Container><YellowBar /><YellowBar /><EmptyBar /></Container>
     case 3: return <Container><GreenBar /><GreenBar /><GreenBar /></Container>
     default: return <div />
   }
