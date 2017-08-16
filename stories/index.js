@@ -59,6 +59,10 @@ storiesOf('Icon', module)
 
 storiesOf('Links', module)
   .add('Link', () => <Link>This is a link</Link>)
+  .add('Bold Link', () => <Link bold>This is a bold link</Link>)
+  .add('Uppercase Link', () => <Link uppercase>This is an uppercase link</Link>)
+  .add('Navy Link', () => <Link color='navy'>This is a navy link</Link>)
+  .add('Gray Link', () => <Link color='gray'>This is a gray link</Link>)
 
 //What is total? Why doesn't it show a modal?
 storiesOf('Modals', module)
