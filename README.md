@@ -1,19 +1,12 @@
-# V4-Wallet 
+# Blockchain-Wallet-v4 
 
 Functional library for handling Blockchain.info wallets
 
 ## Development
 
-`yarn --ignore-engines` - Install dependencies
-
-`yarn run` - Run
-
-`yarn test` - Run unit tests
-
-`yarn run coverage` - Generate test coverage report
-
-`yarn run compile` - Compile
-
-`yarn run watch` - Compile and watch for changes
-
-`yarn run lint` - Check for code style errors
+1. `yarn install` - Install dependencies
+2. `yarn test` - Run unit tests
+3. `yarn coverage` - Generate test coverage report
+4. `yarn compile` - Compile
+5. `yarn watch` - Compile and watch for changes
+6. `yarn lint` - Check for code style errors
