@@ -1,38 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const BaseText = styled.div`
   font-family: ${props => props.altFont ? "'GillSans', Helvetica, sans-serif" : "'Montserrat', Helvetica, sans-serif"};
-  font-weight: ${props =>
-    props.lightest ? '100'
-      : props.lighter ? '200'
-        : props.light ? '300'
-          : props.regular ? '400'
-            : props.medium ? '500'
-              : props.bold ? '600'
-                : props.bolder ? '700'
-                  : props.boldest ? '800'
-                    : props.black ? '900' : '400'};
-  font-size: ${props =>
-    props.smallest ? '0.6rem'
-      : props.smaller ? '0.8rem'
-        : props.small ? '0.9rem'
-          : props.big ? '1.1rem'
-            : props.bigger ? '1.3rem'
-              : props.biggest ? '1.5rem'
-                : props.giant ? '2rem'
-                  : props.gianter ? '2.2rem'
-                    : props.giantest ? '2.5rem' : '1rem'};
+  font-weight: ${props => props.weight};
+  font-size: ${props => props.size};
   text-transform: ${props =>
     props.uppercase ? 'uppercase'
       : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => props.italic ? 'italic' : 'normal'};
-  color: ${props =>
-    props.white ? '#FFFFFF'
-      : props.cyan ? '#10ADE4'
-        : props.red ? '#CA3A3C'
-          : '#5F5F5F'};
-  margin-right: ${props => props.spaceRight ? '5px' : '0'};
+  color: ${props => props.color === 'red' ? '#CA3A3C' : '#5F5F5F'};
 `
 
 const Text = ({ ...props, children }) => {
@@ -41,6 +19,25 @@ const Text = ({ ...props, children }) => {
       {children}
     </BaseText>
   )
+}
+
+Text.propTypes = {
+  weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
+  size: PropTypes.string,
+  uppercase: PropTypes.bool,
+  capitalize: PropTypes.bool,
+  italic: PropTypes.bool,
+  color: PropTypes.oneOf(['red']),
+  altFont: PropTypes.string
+}
+
+Text.defaultProps = {
+  weight: 400,
+  size: '16px',
+  uppercase: false,
+  capitalize: false,
+  italic: false,
+  altFont: false
 }
 
 export default Text

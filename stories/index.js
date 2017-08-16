@@ -1,13 +1,18 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+import { storiesOf, addDecorator } from '@storybook/react'
 // import { action } from '@storybook/addon-actions'
 // import { linkTo } from '@storybook/addon-links'
 import { withInfo, setDefaults } from '@storybook/addon-info'
 
 import Welcome from './welcome.js'
+import Page from './myPage.js'
 import { Button, PrimaryButton, SecondaryButton, ButtonGroup, ConfirmationGauge,
           Icon, SimpleDropdown, Link, Modal, Separator, Tooltip,
-          Text } from '../src'
+          Text, TextGroup } from '../src'
+
+addDecorator(story => (<Page>{story()}</Page>))
+addDecorator((story, context) => withInfo('Documentation')(story)(context))
+
 
 // Set default settings for addon-info
 setDefaults({
@@ -18,7 +23,6 @@ storiesOf('Welcome', module)
   .add('Introduction', () => <Welcome />)
 
 storiesOf('Buttons', module)
-  .addDecorator((story, context) => withInfo('Documentation')(story)(context))
   .add('Button', () => <Button>Button</Button>)
   .add('Button rounded', () => <Button rounded>Button</Button>)
   .add('Button full width', () => <Button fullwidth>Button</Button>)
@@ -34,7 +38,6 @@ storiesOf('Buttons', module)
                             </ButtonGroup>)
 
 storiesOf('Dropdowns', module)
-  .addDecorator((story, context) => withInfo('Documentation')(story)(context))
   .add('SimpleDropdown', () => <SimpleDropdown
                                   id={"1"}
                                   dropDownOpen = {false}
@@ -45,7 +48,6 @@ storiesOf('Dropdowns', module)
 
 
 storiesOf('Gauges', module)
-  .addDecorator((story, context) => withInfo('Documentation')(story)(context))
   .add('ConfirmationGauge empty', () => <ConfirmationGauge/>)
   .add('ConfirmationGauge yellow', () => <ConfirmationGauge nbConfirmations={1}/>)
   .add('ConfirmationGauge orange', () => <ConfirmationGauge nbConfirmations={2}/>)
@@ -53,28 +55,30 @@ storiesOf('Gauges', module)
 
 //TODO: Fin out how to name icons
 storiesOf('Icon', module)
-  .addDecorator((story, context) => withInfo('Documentation')(story)(context))
   .add('Icon', () => <Icon name={"fa fa-picture-o"}/>)
 
 storiesOf('Links', module)
-  .addDecorator((story, context) => withInfo('Documentation')(story)(context))
   .add('Link', () => <Link>This is a link</Link>)
 
 //What is total? Why doesn't it show a modal?
 storiesOf('Modals', module)
-  .addDecorator((story, context) => withInfo('Documentation')(story)(context))
   .add('Modal', () => <Modal position={1} total={1} title="Modal"/>)
 
 storiesOf('Separators', module)
-  .addDecorator((story, context) => withInfo('Documentation')(story)(context))
-  .add('Separator', () => <Separator><Button>Button in separator</Button></Separator>)
+  .add('Separator', () => <div><br /><Separator /><br /></div>)
 
 storiesOf('Tooltip', module)
-  .addDecorator((story, context) => withInfo('Documentation')(story)(context))
-  .add('Tooltip', () => <Tooltip>This is hehrnpiorejogp3rejk[pgkeq[elp</Tooltip>)
+  .add('Tooltip', () => <Tooltip>This is a tooltip.</Tooltip>)
 
 storiesOf('Text', module)
-  .addDecorator((story, context) => withInfo('Documentation')(story)(context))
   .add('Text', () => <Text>This is text</Text>)
-  .add('Red Text', () => <Text red>This is text</Text>)
-  .add('Cyan Text', () => <Text cyan>This is text</Text>)
+  .add('Red Text', () => <Text color="red">This is text</Text>)
+  .add('High weight text', () => <Text weight={900}>This is fat text</Text>)
+  .add('Capitalized Text', () => <Text capitalize>This is capitalized text</Text>)
+  .add('Italic Text', () => <Text italic>This is italic text</Text>)
+  .add('Uppercase Text', () => <Text uppercase>This is uppercase text</Text>)
+  .add('Alt font Text', () => <Text altFont>This is text using an alternative font</Text>)
+
+  storiesOf('TextGroup', module)
+    .add('TextGroup not aligned', () => <TextGroup><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text></TextGroup>)
+    .add('TextGroup aligned', () => <TextGroup aligned><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text></TextGroup>)
