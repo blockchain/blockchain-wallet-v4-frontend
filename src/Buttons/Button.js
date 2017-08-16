@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import Color from 'color'
 
-const BaseButtonDisabled = styled.button.attrs({ type: 'button' })`
-  padding: 10px 15px;
-  box-sizing: border-box;
+const BaseButton = styled.button`
   width: ${props => props.fullwidth ? '100%' : 'auto'};
   height: 40px;
+  padding: 10px 15px;
+  box-sizing: border-box;
   margin-bottom: 5px;
   user-select: none;
   text-align: center;
@@ -15,41 +16,84 @@ const BaseButtonDisabled = styled.button.attrs({ type: 'button' })`
   letter-spacing: normal;
   transition: all .2s ease-in-out;
   white-space: nowrap;
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};;
-  border: 1px solid #CDCDCD${props => props.disabled ? '!important' : '!default'};
-  background-color: #CDCDCD${props => props.disabled ? '!important' : '!default'};
-  color: #FFFFFF${props => props.disabled ? '!important' : '!default'};
+  font-family: "'Montserrat', Helvetica, sans-serif";
+  font-size: 16px;
+  font-weight: ${props => props.bold ? '700' : '400'};
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  color: ${props => props.color};
+  background-color: ${props => props.backgroundColor};
   border-radius: ${props => props.rounded ? '20px' : '3px'};
+  border-style: solid;
+  border-width: ${props => props.rounded ? '2px' : '1px'};
+  border-color: ${props => props.borderColor};
 
-  & > * { display: inline-flex; margin: 0 5px; }
-  &:hover { background-color: #F2F2F2; }
+  &:hover {
+    border-color: ${props => props.disabled ? 'none' : props.borderColorHover};
+    background-color: ${props => props.disabled ? 'none' : props.backgroundColorHover}; 
+  }
   &:focus { outline:0; }
  `
-const BaseButton = styled(BaseButtonDisabled)`
-  border: 1px solid #E0E0E0;
-  background-color: #FFFFFF;
-
-  &:hover { background-color: #F5F7F9; }
-`
 
 const Button = ({ ...props, children }) => {
+  let color, backgroundColor, borderColor
+
+  switch (props.type) {
+    case 'empty':
+      color = '#4B4D4E'
+      backgroundColor = '#FFFFFF'
+      borderColor = '#E0E0E0'
+      break
+    case 'primary':
+      color = '#FFFFFF'
+      backgroundColor = '#004A7C'
+      borderColor = '#004A7C'
+      break
+    case 'secondary':
+      color = '#FFFFFF'
+      backgroundColor = '#10ADE4'
+      borderColor = '#10ADE4'
+      break
+    default:
+      color = '#4B4D4E'
+      backgroundColor = '#FFFFFF'
+      borderColor = '#E0E0E0'
+  }
+
+  if (props.disabled) {
+    color = '#FFFFFF'
+    backgroundColor = '#CDCDCD'
+    borderColor = '#CDCDCD'
+  }
+
   return (
-    <BaseButton {...props} forbidden={props.disabled}>
+    <BaseButton
+      {...props}
+      color={color}
+      backgroundColor={backgroundColor}
+      backgroundColorHover={Color(backgroundColor).darken(0.10).toString()}
+      borderColor={borderColor}
+      borderColorHover={Color(borderColor).darken(0.10).toString()}>
       {children}
     </BaseButton>
   )
 }
 
 Button.propTypes = {
-  fullwidth: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  rounded: PropTypes.bool.isRequired
+  type: PropTypes.oneOf(['empty', 'primary', 'secondary']),
+  fullwidth: PropTypes.bool,
+  disabled: PropTypes.bool,
+  rounded: PropTypes.bool,
+  bold: PropTypes.bool,
+  uppercase: PropTypes.bool
 }
 
 Button.defaultProps = {
+  type: 'empty',
   fullwidth: false,
   disabled: false,
-  rounded: false
+  rounded: false,
+  bold: false,
+  uppercase: false
 }
 
 export default Button
