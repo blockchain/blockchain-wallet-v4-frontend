@@ -2,51 +2,90 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { equals } from 'ramda'
+import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop, always, dropLast } from 'ramda'
 
 import { selectors, actions } from 'data'
 import List from './template.js'
 
-const txsPerPage = 50
+const threshold = 250
 
 class ListContainer extends React.Component {
   constructor (props) {
     super(props)
-    if (!props.transactions || props.transactions.length === 0) {
-      props.actions.fetchTransactions(props.address, txsPerPage)
+    this.filteredTransactions = []
+    this.fetchTransactions = this.fetchTransactions.bind(this)
+    this.filterTransactions = this.filterTransactions.bind(this)
+  }
+
+  componentWillMount () {
+    if (isEmpty(this.props.transactions)) {
+      this.fetchTransactions(this.props.source)
+    } else {
+      this.filterTransactions(this.props.status, this.props.search, this.props.transactions)
     }
   }
 
   componentWillReceiveProps (nextProps) {
     if (!equals(this.props.source, nextProps.source)) {
-      const source = nextProps.source ? (nextProps.source.xpub ? nextProps.source.xpub : nextProps.source.address) : ''
-      this.props.actions.setAddressFilter(source)
-      this.props.actions.fetchTransactions(source, txsPerPage)
+      this.props.actions.deleteTransactions()
+      this.fetchTransactions(nextProps.source)
+      return
     }
-    if (this.props.status !== nextProps.status) {
-      const status = nextProps.status ? nextProps.status : ''
-      this.props.actions.setTypeFilter(status)
+
+    if (!equals(this.props.status, nextProps.status) ||
+        !equals(this.props.search, nextProps.search) ||
+        !equals(this.props.transactions, nextProps.transactions)) {
+      this.filterTransactions(nextProps.status, nextProps.search, nextProps.transactions)
+      return
     }
-    if (this.props.search !== nextProps.search) {
-      const search = nextProps.search ? nextProps.search : ''
-      this.props.actions.setSearchFilter(search)
+
+    if (!equals(this.props.scroll.yOffset, nextProps.scroll.yOffset)) {
+      if (nextProps.scroll.yMax - nextProps.scroll.yOffset < threshold) {
+        this.fetchTransactions(nextProps.source)
+      }
     }
+  }
+
+  fetchTransactions (source) {
+    // console.log('fetchTransactions')
+    this.props.actions.fetchTransactions(source, 50)
+  }
+
+  filterTransactions (status, criteria, transactions) {
+    // console.log('filterTransactions')
+    const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
+    const search = curry((text, property, tx) => compose(contains(toUpper(text || '')), toUpper, prop(property))(tx))
+    const searchPredicate = anyPass(map(search(criteria), ['description', 'from', 'to']))
+    const fullPredicate = allPass([isOfType(status), searchPredicate])
+    this.filteredTransactions = filter(fullPredicate, transactions)
+  }
+
+  shouldComponentUpdate (nextProps) {
+    if (!equals(this.props.source, nextProps.source)) return true
+    if (!equals(this.props.status, nextProps.status)) return true
+    if (!equals(this.props.search, nextProps.search)) return true
+    if (!equals(this.props.transactions, nextProps.transactions)) return true
+    return false
   }
 
   render () {
     return (
-      <List transactions={this.props.transactions} />
+      <List transactions={this.filteredTransactions} />
     )
   }
 }
 
 const mapStateToProps = (state) => {
   const selector = formValueSelector('transactionForm')
+  const initialSource = selector(state, 'source')
+
   return {
-    source: selector(state, 'source'),
-    status: selector(state, 'status'),
-    search: selector(state, 'search'),
-    transactions: selectors.core.common.getWalletTransactions(state)
+    source: initialSource ? (initialSource.xpub ? initialSource.xpub : initialSource.address) : '',
+    status: selector(state, 'status') || '',
+    search: selector(state, 'search') || '',
+    transactions: selectors.core.common.getWalletTransactions(state),
+    totalTransactions: selectors.core.info.getNumberTransactions(state),
+    scroll: selectors.scroll.selectScroll(state)
   }
 }
 

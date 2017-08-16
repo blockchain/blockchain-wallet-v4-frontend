@@ -1,13 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 
 import { required, validEmail, validWalletId } from 'services/FormHelper'
-import { SecondaryButton } from 'components/generic/Button'
-import { Form, TextBox, HelpBlock } from 'components/generic/Form'
-import { Link, RouterLink } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
-import { Separator } from 'components/generic/Separator'
+import { Form, HelpBlock, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;

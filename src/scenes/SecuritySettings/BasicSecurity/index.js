@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'components/generic/Text'
+import { Text } from 'blockchain-info-components'
 import InfoWell from 'components/shared/InfoWell'
 import PasswordHint from './PasswordHint'
 import SecondPasswordWallet from './SecondPasswordWallet'

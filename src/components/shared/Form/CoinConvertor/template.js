@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon } from 'components/generic/Icon'
+import { Icon } from 'blockchain-info-components'
 
 const CoinConvertorWrapper = styled.div`
   position: relative;
@@ -81,7 +81,7 @@ const CoinConvertor = (props) => {
     <CoinConvertorWrapper>
       <CoinConvertorInput>
         <TextBoxContainer>
-          <TextBox onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState}  />
+          <TextBox onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
           <TextBoxUnit>{coinUnit}</TextBoxUnit>
         </TextBoxContainer>
         <IconArrow />

@@ -3,10 +3,7 @@ import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { SecondaryButton } from 'components/generic/Button'
-import { Text } from 'components/generic/Text'
-import { Form, PasswordBox } from 'components/generic/Form'
-import Modal from 'components/generic/Modal'
+import { Form, Modal, PasswordBox, SecondaryButton, Text } from 'blockchain-info-components'
 
 const SecondPassword = (props) => {
   const { handleClick, secondPassword, ...rest } = props

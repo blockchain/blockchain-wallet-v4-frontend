@@ -32,13 +32,26 @@ const Nav = styled.div`
   background-color: #004A7C;
 `
 const Left = styled.div`
-  flex: 0 0 270px;;
+  display: flex;
+  position: absolute;
+  top: 60px;
+  left: ${props => props.toggled ? '0' : '-270px'};
+  width: 270px;
+  height: 100%;
   padding: 15px;
   box-sizing: border-box;
   background: #F5F7F9;
   border-right: 1px solid #DDDDDD;
+  z-index: 1000;
+  transition: left .3s ease-in-out;
 
-  @media(max-width: 768px) { display: none; }
+  @media(min-width: 768px) {
+    display: flex;
+    flex: 0 0 270px;
+    position: relative;
+    top: initial;
+    left: initial;
+  }
 `
 const Content = styled.div`
   display: flex;
@@ -56,7 +69,7 @@ const Top = styled.div`
 `
 
 const WalletLayout = (props) => {
-  const { location, children } = props
+  const { location, menuLeftToggled, handleToggleMenuLeft, handleCloseMenuLeft, children } = props
 
   return (
     <Wrapper>
@@ -71,11 +84,11 @@ const WalletLayout = (props) => {
         <SendBitcoin />
       </Modals>
       <Nav>
-        <Header />
+        <Header handleToggleMenuLeft={handleToggleMenuLeft} />
       </Nav>
       <Container>
-        <Left>
-          <MenuLeft location={location} />
+        <Left toggled={menuLeftToggled}>
+          <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
         </Left>
         <Content>
           <Top>

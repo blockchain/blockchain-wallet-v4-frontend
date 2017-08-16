@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { SecondaryButton } from 'components/generic/Button'
-import { Link } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
+import { Link, SecondaryButton, Text } from 'blockchain-info-components'
 import FaqRow from 'components/shared/FaqRow'
 import Question1 from './Question1'
 import Question2 from './Question2'

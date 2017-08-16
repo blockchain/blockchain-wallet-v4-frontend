@@ -6,7 +6,7 @@ import { map, isEmpty } from 'ramda'
 
 import { actions, selectors } from 'data'
 import { displayCoin, displayFiat } from 'services/ConversionService'
-import { SelectBox } from 'components/generic/Form'
+import { SelectBox } from 'blockchain-info-components'
 
 class SelectBoxAddressesContainer extends React.Component {
   render () {

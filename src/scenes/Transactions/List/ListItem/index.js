@@ -1,20 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import ListItem from './template.js'
 
-const ListItemContainer = ({ ui, updateUI, ...props }) => {
-  return (
-    <ListItem
-      toggled={ui.toggled}
-      handleToggle={() => updateUI({ toggled: !ui.toggled })}
-      handleClick={() => props.actions.toggleCoinDisplayed()}
-      {...props}
-    />
-  )
+class ListItemContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { toggled: false }
+    this.handleToggle = this.handleToggle.bind(this)
+    this.handleCoinDisplay = this.handleCoinDisplay.bind(this)
+  }
+
+  handleToggle () {
+    this.setState({ toggled: !this.state.toggled })
+  }
+
+  handleCoinDisplay () {
+    this.props.actions.toggleCoinDisplayed()
+  }
+
+  render () {
+    return (
+      <ListItem
+        toggled={this.state.toggled}
+        handleToggle={this.handleToggle}
+        handleClick={this.handleCoinDisplay}
+        {...this.props}
+      />
+    )
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -23,9 +39,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const enhance = compose(
-  connect(undefined, mapDispatchToProps),
-  ui({ state: { toggled: false } })
-)
-
-export default enhance(ListItemContainer)
+export default connect(undefined, mapDispatchToProps)(ListItemContainer)

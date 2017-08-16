@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { SecondaryButton } from 'components/generic/Button'
-import { Text, TextGroup } from 'components/generic/Text'
+import { SecondaryButton, Text, TextGroup } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const BitcoinLinkHandling = (props) => {

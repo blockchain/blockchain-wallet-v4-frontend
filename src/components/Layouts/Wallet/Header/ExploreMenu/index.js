@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { NavDropdown, MenuItem } from 'components/generic/Navbar'
-import { Text } from 'components/generic/Text'
+import { NavDropdown, MenuItem, Text } from 'blockchain-info-components'
 
 const NavItemDropdown = styled(NavDropdown)`
   & > a {

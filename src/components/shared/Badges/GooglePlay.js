@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Link } from 'components/generic/Link'
+import { Link } from 'blockchain-info-components'
 import googlePlayBadge from 'img/google-play-badge.png'
 
 const GooglePlayBadge = styled.img.attrs({

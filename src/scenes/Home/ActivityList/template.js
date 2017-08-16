@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Text } from 'components/generic/Text'
+import { Text } from 'blockchain-info-components'
 import ActivityListItem from './ActivityListItem'
 
 const Wrapper = styled.div`

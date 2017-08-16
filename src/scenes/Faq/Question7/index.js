@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, TextGroup } from 'components/generic/Text'
+import { Text, TextGroup } from 'blockchain-info-components'
 
 const title = <Text id='scenes.faq.item7.question' text='Can Blockchain see or access my funds?' />
 

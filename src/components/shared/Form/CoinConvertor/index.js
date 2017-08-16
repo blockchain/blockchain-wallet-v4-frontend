@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectors } from 'data'
+import { equals } from 'ramda'
 
 import { convertCoinToFiat, convertFiatToCoin, convertToUnit, convertFromUnit, getDecimals, getSymbol } from 'services/ConversionService'
 import CoinConvertor from './template.js'
@@ -24,13 +25,23 @@ class CoinConvertorContainer extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.input.value, nextProps.input.value)) {
+      const newCoinValue = parseFloat(nextProps.input.value)
+      const newCoinValueTransformed = convertFromUnit(nextProps.network, newCoinValue, nextProps.unit).getOrElse({ amount: 0 })
+      const newFiatValue = convertCoinToFiat(nextProps.network, newCoinValueTransformed.amount, nextProps.currency, nextProps.rates).getOrElse({ amount: 0 })
+      const newFiatValueFormatted = parseFloat(newFiatValue.amount.toFixed(2))
+      this.setState({ value: newCoinValue, coin: newCoinValue, fiat: newFiatValueFormatted })
+    }
+  }
+
   handleChange (event) {
     const { network, unit, currency, rates, decimals, input } = this.props
     const { onChange } = input
 
     const split = event.target.value.split('.')
     if (split.length > 1 && split[1].length > decimals) return
-
+    console.log(event.target.value)
     const newCoinValue = parseFloat(event.target.value)
     const newCoinValueTransformed = convertFromUnit(network, newCoinValue, unit).getOrElse({ amount: 0 })
     const newFiatValue = convertCoinToFiat(network, newCoinValueTransformed.amount, currency, rates).getOrElse({ amount: 0 })

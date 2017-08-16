@@ -7,7 +7,7 @@ import { map } from 'ramda'
 import { renameKeys } from 'services/RamdaCookingBook'
 import * as languageService from 'services/LanguageService'
 import { actions, selectors } from 'data'
-import { SimpleDropdown } from 'components/generic/Dropdown'
+import { SimpleDropdown } from 'blockchain-info-components'
 
 class DropdownLanguageContainer extends React.Component {
   constructor (props) {

@@ -1,5 +1,5 @@
 import settings from 'config'
-import { coreSelectorsFactory } from 'dream-wallet/lib'
+import { coreSelectorsFactory } from 'blockchain-wallet-v4/lib'
 import activitySelectors from 'data/Activity/selectors'
 import * as alertsSelectors from 'data/Alerts/selectors'
 import * as authSelectors from 'data/Auth/selectors'

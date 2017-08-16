@@ -1,20 +1,24 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { compose } from 'redux'
 import { Route, Redirect } from 'react-router-dom'
+import ui from 'redux-ui'
 
-import { actions, selectors } from 'data'
+import { selectors } from 'data'
 import WalletLayout from './template.js'
 
 class WalletLayoutContainer extends React.Component {
   render () {
-    const { component: Component, ...rest } = this.props
+    const { ui, updateUI, resetUI, component: Component, isAuthenticated, ...rest } = this.props
 
     return (
-      <Route {...rest} render={props => (rest.isAuthenticated
+      <Route {...rest} render={props => (isAuthenticated
       ? (
-        <WalletLayout location={props.location}>
+        <WalletLayout
+          location={props.location}
+          menuLeftToggled={ui.menuLeftToggled}
+          handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
+          handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
           <Component {...rest} />
         </WalletLayout>
         ) : (
@@ -27,8 +31,13 @@ class WalletLayoutContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: selectors.auth.getIsAuthenticated
+    isAuthenticated: selectors.auth.getIsAuthenticated(state)
   }
 }
 
-export default connect(mapStateToProps)(WalletLayoutContainer)
+const enhance = compose(
+  connect(mapStateToProps),
+   ui({ key: 'WalletLayout', persist: true, state: { menuLeftToggled: false } })
+)
+
+export default enhance(WalletLayoutContainer)

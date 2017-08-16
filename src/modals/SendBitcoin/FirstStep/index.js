@@ -6,7 +6,7 @@ import { actions as reduxFormActions } from 'redux-form'
 import { gte, is, equals, isNil, pick } from 'ramda'
 import * as crypto from 'crypto'
 
-import { Coin, CoinSelection } from 'dream-wallet/lib'
+import { Coin, CoinSelection } from 'blockchain-wallet-v4/lib'
 import { convertToUnit, convertFromUnit } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
@@ -49,7 +49,7 @@ class FirstStepContainer extends React.Component {
     if ((gte(fee, 0)) && (!equals(coins, this.props.coins) || !equals(fee, this.props.fee))) {
       const effectiveBalance = CoinSelection.effectiveBalance(fee, coins).value
       const effectiveBalanceTransformed = convertToUnit(network, effectiveBalance, unit).getOrElse({ amount: 0 })
-      if (!equals(this.props.effectiveBalance, effectiveBalanceTransformed)) {
+      if (!equals(this.props.effectiveBalance, effectiveBalanceTransformed.amount)) {
         this.props.reduxFormActions.change('sendBitcoin', 'effectiveBalance', effectiveBalanceTransformed.amount)
       }
     }

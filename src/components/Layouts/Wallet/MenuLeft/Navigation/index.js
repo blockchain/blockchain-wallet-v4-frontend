@@ -3,17 +3,18 @@ import ui from 'redux-ui'
 
 import Navigation from './template.js'
 
-const NavigationContainer = ({ ui, updateUI, resetUI, ...props }) => {
+const NavigationContainer = ({ ui, updateUI, resetUI, handleCloseMenuLeft, ...props }) => {
   return (
     <Navigation
-      toggled={ui.toggled}
-      handleToggle={() => updateUI({ toggled: !ui.toggled })}
-      handleClose={() => resetUI()}
+      settingsToggled={ui.settingsToggled}
+      handleOpenSettings={() => { updateUI({ settingsToggled: true }); handleCloseMenuLeft() }}
+      handleCloseSettings={() => { updateUI({ settingsToggled: false }); handleCloseMenuLeft() }}
+      handleCloseMenuLeft={() => handleCloseMenuLeft()}
       {...props}
     />
   )
 }
 
-const enhance = ui({ key: 'NavigationContainer', persist: true, state: { toggled: false } })
+const enhance = ui({ key: 'MenuLeft', persist: true, state: { settingsToggled: false } })
 
 export default enhance(NavigationContainer)

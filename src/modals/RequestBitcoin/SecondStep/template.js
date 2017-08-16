@@ -3,12 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 
-import Modal from 'components/generic/Modal'
-import { SecondaryButton } from 'components/generic/Button'
-import { Link } from 'components/generic/Link'
-import { Form } from 'components/generic/Form'
-import { Text } from 'components/generic/Text'
-import { Typography } from 'components/generic/Typography'
+import { Form, Link, Modal, SecondaryButton, Text, Typography } from 'blockchain-info-components'
 import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
 

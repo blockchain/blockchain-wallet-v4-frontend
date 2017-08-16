@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'components/generic/Text'
-import { Grid } from 'components/generic/Grid'
+import { Grid, Text } from 'blockchain-info-components'
 import banner from 'img/landing-page-banner-overlay.jpg'
 
 const MainContainer = styled.div``

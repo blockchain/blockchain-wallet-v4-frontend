@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Text } from 'components/generic/Text'
+import { Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const Notifications = (props) => {

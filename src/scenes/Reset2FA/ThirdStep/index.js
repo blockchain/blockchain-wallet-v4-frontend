@@ -3,12 +3,8 @@ import styled from 'styled-components'
 import { Field } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { SecondaryButton } from 'components/generic/Button'
-import { Form, TextArea, HelpBlock } from 'components/generic/Form'
 import { CaptchaBox } from 'components/shared/Form'
-import { Link } from 'components/generic/Link'
-import { Separator } from 'components/generic/Separator'
-import { Text } from 'components/generic/Text'
+import { Form, HelpBlock, Link, SecondaryButton, Separator, Text, TextArea } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;

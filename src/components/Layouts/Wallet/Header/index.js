@@ -4,12 +4,12 @@ import Header from './template.js'
 
 const HeaderContainer = ({ ui, updateUI, ...props }) => (
   <Header
-    toggled={ui.toggled}
-    handleToggle={() => updateUI({ toggled: !ui.toggled })}
+    navigationToggled={ui.navigationToggled}
+    handleToggleNavigation={() => updateUI({ navigationToggled: !ui.navigationToggled })}
     {...props}
   />
 )
 
-const enhance = ui({ key: 'HeaderContainer_Wallet', state: { toggled: false } })
+const enhance = ui({ key: 'Header', state: { navigationToggled: false } })
 
 export default enhance(HeaderContainer)

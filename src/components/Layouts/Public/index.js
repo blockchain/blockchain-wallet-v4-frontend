@@ -6,7 +6,7 @@ import Footer from './Footer'
 import styled from 'styled-components'
 
 import Alerts from 'components/shared/Alerts'
-import { Grid } from 'components/generic/Grid'
+import { Grid } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   background-color: #004A7C;

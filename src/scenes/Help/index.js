@@ -1,10 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Button } from 'components/generic/Button'
-import { Link, RouterLink } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
-import { Separator } from 'components/generic/Separator'
+import { Button, Link, RouterLink, Text, Separator } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;

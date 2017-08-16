@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Link } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
+import { Link, Text } from 'blockchain-info-components'
 
 const TermsContainer = styled.div`
   display: flex;

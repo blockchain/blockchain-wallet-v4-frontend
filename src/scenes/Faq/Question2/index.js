@@ -1,6 +1,5 @@
 import React from 'react'
-import { RouterLink } from 'components/generic/Link'
-import { Text, TextGroup } from 'components/generic/Text'
+import { RouterLink, Text, TextGroup } from 'blockchain-info-components'
 
 const title = <Text id='scenes.faq.item2.question' text='What do I need to do to keep my wallet safe?' />
 

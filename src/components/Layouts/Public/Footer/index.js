@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import logo from 'img/blue-logo.svg'
-import { Link } from 'components/generic/Link'
-import { Text } from 'components/generic/Text'
+import { Link, Text } from 'blockchain-info-components'
 import DropdownLanguage from 'components/shared/DropdownLanguage'
 
 const Wrapper = styled.footer`

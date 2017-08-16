@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import settings from 'config'
 import { routerReducer } from 'react-router-redux'
 import { reducer as reduxUiReducer } from 'redux-ui'
-import { coreReducers } from 'dream-wallet/lib'
+import { coreReducers } from 'blockchain-wallet-v4/lib'
 import activityReducer from './Activity/reducers.js'
 import alertsReducer from './Alerts/reducers'
 import authReducer from './Auth/reducers.js'
@@ -30,7 +30,6 @@ const rootReducer = combineReducers({
   [settings.BLOCKCHAIN_DATA_PATH]: coreReducers.data,
   [settings.WALLET_IMMUTABLE_PATH]: coreReducers.wallet,
   [settings.SETTINGS_PATH]: coreReducers.settings
-
 })
 
 export default rootReducer

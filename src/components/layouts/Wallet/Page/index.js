@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { isNil } from 'ramda'
+import { isNil, equals } from 'ramda'
 
 import { actions, selectors } from 'data'
 import Page from './template.js'
@@ -17,6 +17,13 @@ class WalletLayoutContainer extends React.Component {
 
   componentWillMount () {
     if (!isNil(this.props.scroll)) { this.props.scrollActions.resetScroll() }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const yOffset = this.props.scroll.yOffset
+    const newYOffset = nextProps.scroll.yOffset
+    const element = ReactDOM.findDOMNode(this)
+    if (element && !equals(yOffset, newYOffset)) { element.scrollTop = newYOffset }
   }
 
   componentWillUnmount () {
@@ -42,7 +49,7 @@ class WalletLayoutContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    scroll: selectors.scroll.selectScroll
+    scroll: selectors.scroll.selectScroll(state)
   }
 }
 

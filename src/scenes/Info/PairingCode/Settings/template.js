@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { SecondaryButton } from 'components/generic/Button'
-import { Text } from 'components/generic/Text'
+import { SecondaryButton, Text } from 'blockchain-info-components'
 
 const Settings = (props) => {
   const { handleClick } = props
