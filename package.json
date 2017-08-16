@@ -1,5 +1,5 @@
 {
-  "name": "blockchain-components",
+  "name": "blockchain-info-components",
   "version": "0.0.1",
   "description": "Website containing the components documentation",
   "main": "dist/index.js",
