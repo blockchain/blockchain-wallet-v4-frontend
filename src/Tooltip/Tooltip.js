@@ -34,7 +34,7 @@ const TooltipBox = styled(TextGroup)`
 
   &:before {
     content: '';
-    display: block;  
+    display: block;
     position: absolute;
     left: 115px;
     top: 100%;
@@ -46,7 +46,7 @@ const TooltipBox = styled(TextGroup)`
 
   &:after {
     content: '';
-    display: block;  
+    display: block;
     position: absolute;
     left: 116px;
     top: 100%;

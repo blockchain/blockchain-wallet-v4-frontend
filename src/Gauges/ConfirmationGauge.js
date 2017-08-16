@@ -16,8 +16,8 @@ const Bar = styled.div`
   border: 1px solid #000000;
   box-sizing: border-box;
 `
-const YellowBar = styled(Bar)`background-color: #E59400;`
-const OrangeBar = styled(Bar)`background-color: #E5E500;`
+const YellowBar = styled(Bar)`background-color: #E5E500;`
+const OrangeBar = styled(Bar)`background-color: #E59400;`
 const GreenBar = styled(Bar)`background-color: #006600;`
 const EmptyBar = styled(Bar)`background-color: #FFFFFF;`
 

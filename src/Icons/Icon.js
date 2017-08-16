@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Typography } from '../Typography'
+import { Text } from '../Text'
 
 const IconImage = styled.i``
 
@@ -9,9 +9,9 @@ const Icon = (props) => {
   const { name, ...rest } = props
 
   return (
-    <Typography {...rest}>
+    <Text {...rest}>
       <IconImage className={name} />
-    </Typography>
+    </Text>
   )
 }
 

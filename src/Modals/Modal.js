@@ -91,7 +91,8 @@ Modal.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large', '']),
-  closeButton: PropTypes.bool
+  closeButton: PropTypes.bool,
+  isLast: PropTypes.bool
 }
 
 Modal.defaultProps = {

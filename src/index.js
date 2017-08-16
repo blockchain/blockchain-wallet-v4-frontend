@@ -10,4 +10,3 @@ export { MenuItem, Nav, Navbar, NavbarBrand, NavbarCollapse, NavbarHeader, Navba
 export { Separator } from './Separators'
 export { Text, TextGroup } from './Text'
 export { Tooltip } from './Tooltip'
-export { Typography } from './Typography'
