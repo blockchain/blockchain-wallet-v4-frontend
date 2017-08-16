@@ -6,13 +6,12 @@ import { withInfo, setDefaults } from '@storybook/addon-info'
 
 import Welcome from './welcome.js'
 import Page from './myPage.js'
-import { Button, PrimaryButton, SecondaryButton, ButtonGroup, ConfirmationGauge,
+import { Button, ButtonGroup, ConfirmationGauge,
           Icon, SimpleDropdown, Link, Modal, Separator, Tooltip,
           Text, TextGroup } from '../src'
 
 addDecorator(story => (<Page>{story()}</Page>))
 addDecorator((story, context) => withInfo('Documentation')(story)(context))
-
 
 // Set default settings for addon-info
 setDefaults({
@@ -24,18 +23,15 @@ storiesOf('Welcome', module)
 
 storiesOf('Buttons', module)
   .add('Button', () => <Button>Button</Button>)
-  .add('Button rounded', () => <Button rounded>Button</Button>)
-  .add('Button full width', () => <Button fullwidth>Button</Button>)
-  .add('PrimaryButton', () => <PrimaryButton>Button</PrimaryButton>)
-  .add('PrimaryButton rounded', () => <PrimaryButton rounded>Button</PrimaryButton>)
-  .add('PrimaryButton full width', () => <PrimaryButton fullwidth>Button</PrimaryButton>)
-  .add('SecondaryButton', () => <SecondaryButton>Button</SecondaryButton>)
-  .add('SecondaryButton rounded', () => <SecondaryButton rounded>Button</SecondaryButton>)
-  .add('SecondaryButton full width', () => <SecondaryButton fullwidth>Button</SecondaryButton>)
-  .add('ButtonGroup', () => <ButtonGroup>
-                              <PrimaryButton>Primary Button</PrimaryButton>
-                              <SecondaryButton>Secondary Button</SecondaryButton>
-                            </ButtonGroup>)
+  .add('Button primary', () => <Button type='primary'>Button primary</Button>)
+  .add('Button secondary', () => <Button type='secondary'>Button secondary</Button>)
+  .add('Button rounded', () => <Button rounded>Button rounded</Button>)
+  .add('Button fullwidth', () => <Button fullwidth>Button fullwidth</Button>)
+  .add('Button disabled', () => <Button disabled>Button disabled</Button>)
+  .add('Button bold', () => <Button bold>Button bold</Button>)
+  .add('Button uppercase', () => <Button uppercase>Button uppercase</Button>)
+  .add('ButtonGroup width 2 buttons', () => (<ButtonGroup><Button>Button 1</Button><Button>Button 2</Button></ButtonGroup>))
+  .add('ButtonGroup width 3 buttons', () => (<ButtonGroup><Button>Button 1</Button><Button>Button 2</Button><Button>Button 3</Button></ButtonGroup>))
 
 storiesOf('Dropdowns', module)
   .add('SimpleDropdown', () => <SimpleDropdown
@@ -46,12 +42,11 @@ storiesOf('Dropdowns', module)
                                           {text: "item 2", value: 2}]}
                                   callback={function(){}}/>)
 
-
 storiesOf('Gauges', module)
-  .add('ConfirmationGauge empty', () => <ConfirmationGauge/>)
-  .add('ConfirmationGauge yellow', () => <ConfirmationGauge nbConfirmations={1}/>)
-  .add('ConfirmationGauge orange', () => <ConfirmationGauge nbConfirmations={2}/>)
-  .add('ConfirmationGauge green', () => <ConfirmationGauge nbConfirmations={3}/>)
+  .add('ConfirmationGauge empty', () => <ConfirmationGauge />)
+  .add('ConfirmationGauge yellow', () => <ConfirmationGauge nbConfirmations={1} />)
+  .add('ConfirmationGauge orange', () => <ConfirmationGauge nbConfirmations={2} />)
+  .add('ConfirmationGauge green', () => <ConfirmationGauge nbConfirmations={3} />)
 
 //TODO: Fin out how to name icons
 storiesOf('Icon', module)
@@ -83,6 +78,6 @@ storiesOf('Text', module)
   .add('Uppercase Text', () => <Text uppercase>This is uppercase text</Text>)
   .add('Alt font Text', () => <Text altFont>This is text using an alternative font</Text>)
 
-  storiesOf('TextGroup', module)
-    .add('TextGroup not aligned', () => <TextGroup><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text></TextGroup>)
-    .add('TextGroup aligned', () => <TextGroup aligned><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text></TextGroup>)
+storiesOf('TextGroup', module)
+  .add('TextGroup not aligned', () => <TextGroup><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text></TextGroup>)
+  .add('TextGroup aligned', () => <TextGroup aligned><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text></TextGroup>)

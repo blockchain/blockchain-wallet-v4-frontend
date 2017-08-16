@@ -1,4 +1,4 @@
-export { Button, PrimaryButton, SecondaryButton, ButtonGroup } from './Buttons'
+export { Button, ButtonGroup } from './Buttons'
 export { SimpleDropdown } from './Dropdowns'
 export { Form, CheckBox, HelpBlock, Hidden, NumberBox, PasswordBox, SelectBox, TextArea, TextBox } from './Form'
 export { ConfirmationGauge } from './Gauges'
