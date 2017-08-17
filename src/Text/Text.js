@@ -28,7 +28,7 @@ Text.propTypes = {
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
   color: PropTypes.oneOf(['red']),
-  altFont: PropTypes.string
+  altFont: PropTypes.bool
 }
 
 Text.defaultProps = {

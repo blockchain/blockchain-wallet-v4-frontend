@@ -1,11 +1,11 @@
 import React from 'react'
 import { storiesOf, addDecorator } from '@storybook/react'
-// import { action } from '@storybook/addon-actions'
-// import { linkTo } from '@storybook/addon-links'
 import { withInfo, setDefaults } from '@storybook/addon-info'
 
 import Welcome from './welcome.js'
-import Page from './myPage.js'
+import Page from './visualPanel.js'
+import GridIcons from './iconLayout.js'
+
 import { Button, ButtonGroup, ConfirmationGauge,
           Icon, SimpleDropdown, Link, Modal, Separator, Tooltip,
           Text, TextGroup, CheckBox } from '../src'
@@ -48,9 +48,54 @@ storiesOf('Gauges', module)
   .add('ConfirmationGauge yellow', () => <ConfirmationGauge nbConfirmations={2} />)
   .add('ConfirmationGauge green', () => <ConfirmationGauge nbConfirmations={3} />)
 
-//TODO: Fin out how to name icons
-storiesOf('Icon', module)
-  .add('Icon', () => <Icon name={"fa fa-picture-o"}/>)
+// TODO: Fin out how to name icons
+storiesOf('Icons', module)
+  .add('icomoon', () => (
+    <GridIcons>
+      <Icon name='skinny-arrow-right' />
+      <Icon name='paper-airplane' />
+      <Icon name='alert' />
+      <Icon name='completed-check' />
+      <Icon name='exchange-tab' />
+      <Icon name='bell' />
+      <Icon name='clipboard' />
+      <Icon name='pencil' />
+      <Icon name='buysell' />
+      <Icon name='ethereum' />
+      <Icon name='always-supported' />
+      <Icon name='buy-sell' />
+      <Icon name='global' />
+      <Icon name='safe-secure' />
+      <Icon name='simple' />
+      <Icon name='phone' />
+      <Icon name='downtriangle' />
+      <Icon name='bank' />
+      <Icon name='bitcoin' />
+      <Icon name='card' />
+      <Icon name='down_arrow' />
+      <Icon name='export' />
+      <Icon name='help' />
+      <Icon name='home' />
+      <Icon name='id' />
+      <Icon name='left_arrow' />
+      <Icon name='lock' />
+      <Icon name='mail' />
+      <Icon name='mobile' />
+      <Icon name='present' />
+      <Icon name='receive' />
+      <Icon name='right_arrow' />
+      <Icon name='search' />
+      <Icon name='send' />
+      <Icon name='settings' />
+      <Icon name='success' />
+      <Icon name='trash' />
+      <Icon name='tx' />
+      <Icon name='up_arrow' />
+      <Icon name='wallet' />
+      <Icon name='user' />
+    </GridIcons>
+  )
+)
 
 storiesOf('Links', module)
   .add('Link', () => <Link>This is a link</Link>)
@@ -59,7 +104,7 @@ storiesOf('Links', module)
   .add('Navy Link', () => <Link color='navy'>This is a navy link</Link>)
   .add('Gray Link', () => <Link color='gray'>This is a gray link</Link>)
 
-//What is total? Why doesn't it show a modal?
+// What is total? Why doesn't it show a modal?
 storiesOf('Modals', module)
   .add('Modal', () => <Modal position={1} total={1} title="Modal"/>)
 

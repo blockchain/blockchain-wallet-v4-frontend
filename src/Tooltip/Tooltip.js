@@ -4,7 +4,9 @@ import styled from 'styled-components'
 import { TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
+  display: block;
   position: relative;
+  width: 22px;
 `
 const TooltipIcon = styled.div`
   display: inline-flex;
@@ -14,7 +16,7 @@ const TooltipIcon = styled.div`
   height: 20px;
   border-radius: 10px;
   background-color: ${props => props.displayed ? '#004A7C' : '#FFFFFF'};
-  color: ${props => props.displayed ? '#FFFFFF' : 'E0E0E0'};
+  color: ${props => props.displayed ? '#FFFFFF' : '#5F5F5F'};
   border: 1px solid ${props => props.displayed ? '#004AC7' : '#E0E0E0'};
   cursor: pointer;
   font-weight: 300;
@@ -26,7 +28,7 @@ const TooltipBox = styled(TextGroup)`
   width: 250px;
   display: ${props => props.displayed ? 'block' : 'none'};
   background-color: #F5F7F9;
-  color: #E0E0E0;
+  color: #5F5F5F;
   border: 1px solid #E0E0E0;
   border-radius: 5px;
   padding: 5px;
@@ -69,7 +71,7 @@ class Tooltip extends React.Component {
   }
 
   render () {
-    const icon = this.state.displayed ? 'x' : '?'
+    const icon = this.state.displayed ? 'X' : '?'
     return (
       <TooltipWrapper>
         <TooltipIcon displayed={this.state.displayed} onClick={this.handleClick}>{icon}</TooltipIcon>

@@ -4,6 +4,9 @@ import styled from 'styled-components'
 import Color from 'color'
 
 const BaseButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
   height: 40px;
   padding: 10px 15px;
