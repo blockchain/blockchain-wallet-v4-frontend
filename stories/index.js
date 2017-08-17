@@ -1,5 +1,6 @@
 import './chapters/_welcome'
 import './chapters/buttons.js'
+import './chapters/fonts'
 import './chapters/gauges'
 import './chapters/icons'
 import './chapters/links'

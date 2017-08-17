@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const BaseText = styled.div`
-  font-family: ${props => props.altFont ? "'GillSans', Helvetica, sans-serif" : "'Montserrat', Helvetica, sans-serif"};
+  font-family: ${props => props.altFont ? "'GillSans', sans-serif" : "'Montserrat', sans-serif"};
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
   text-transform: ${props =>
