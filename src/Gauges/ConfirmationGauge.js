@@ -8,6 +8,7 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  max-width: 300px;
 `
 const Bar = styled.div`
   display: flex;

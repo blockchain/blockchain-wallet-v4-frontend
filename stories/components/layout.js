@@ -16,7 +16,7 @@ const BasePage = styled.div`
   margin-top: 20px;
   margin-bottom: -30px;
 `
-const TitleContainer = styled.div`
+const TitleWrapper = styled.div`
   border-bottom: 1px solid rgb(238, 238, 238);
   padding-top: 10px;
   margin-bottom: 30px;
@@ -26,21 +26,21 @@ const Title = styled.h1`
   padding: 0px;
   font-size: 25px;
 `
-const VisualContainer = styled.div`
+const Content = styled.div`
   position: relative;
   & > * { margin: 0 auto; }
 `
-const Page = props => {
+const Layout = props => {
   return (
     <BasePage>
-      <TitleContainer>
+      <TitleWrapper>
         <Title>Visual</Title>
-      </TitleContainer>
-      <VisualContainer>
+      </TitleWrapper>
+      <Content>
         {props.children}
-      </VisualContainer>
+      </Content>
     </BasePage>
   )
 }
 
-export default Page
+export default Layout

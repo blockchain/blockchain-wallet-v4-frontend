@@ -5,8 +5,6 @@ import styled from 'styled-components'
 import { Text } from '../Text'
 import Icomoon from './Icomoon'
 
-console.log(Icomoon)
-
 const IconImage = styled.span`
   &:before {
     font-family: 'icomoon';
