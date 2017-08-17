@@ -1,3 +1,3 @@
-import './gillsans'
-import './icomoon'
-import './montserrat'
+import './Gillsans'
+import './Icomoon'
+import './Montserrat'

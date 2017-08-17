@@ -7,8 +7,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "babel --presets es2015,react,stage-0 src -d dist",
-    "build:watch": "babel --presets es2015,react,stage-0 src -w -d dist",
+    "build": "webpack --progress --colors",
     "prepublish": "npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -30,6 +29,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.16",
     "color": "^2.0.0",
     "connected-react-router": "^4.2.1",
     "eslint": "^3.19.0",
@@ -53,6 +53,7 @@
     "react-test-renderer": "^15.5.4",
     "standard": "^10.0.2",
     "styled-components": "^2.1.0",
+    "webpack": "^3.5.5",
     "zxcvbn": "^4.4.2"
   },
   "dependencies": {},

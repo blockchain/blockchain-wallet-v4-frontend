@@ -1,8 +1,8 @@
 import { injectGlobal } from 'styled-components'
 
-import IcomoonEot from './assets/icomoon/icomoon.eot'
-import IcomoonSvg from './assets/icomoon/icomoon.svg'
-import IcomoonTtf from './assets/icomoon/icomoon.ttf'
+import IcomoonEot from './fonts/icomoon.eot'
+import IcomoonSvg from './fonts/icomoon.svg'
+import IcomoonTtf from './fonts/icomoon.ttf'
 
 const FontFace = (name, eot, svg, ttf, weight) => `
   @font-face {
