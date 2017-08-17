@@ -14,7 +14,7 @@ const TooltipIcon = styled.div`
   height: 20px;
   border-radius: 10px;
   background-color: ${props => props.displayed ? '#004A7C' : '#FFFFFF'};
-  color: ${props => props.displayed ? '#FFFFFF' : 'E0E0E0'};
+  color: ${props => props.displayed ? '#FFFFFF' : '#E0E0E0'};
   border: 1px solid ${props => props.displayed ? '#004AC7' : '#E0E0E0'};
   cursor: pointer;
   font-weight: 300;

@@ -1,5 +1,5 @@
 export { Button, ButtonGroup } from './Buttons'
-export { SimpleDropdown } from './Dropdowns'
+export { SimpleDropdown, NewDropdown } from './Dropdowns'
 export { Form, CheckBox, HelpBlock, Hidden, NumberBox, PasswordBox, SelectBox, TextArea, TextBox } from './Form'
 export { ConfirmationGauge } from './Gauges'
 export { Grid, Row, Col } from './Grid'

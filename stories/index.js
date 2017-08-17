@@ -8,7 +8,7 @@ import Welcome from './welcome.js'
 import Page from './myPage.js'
 import { Button, ButtonGroup, ConfirmationGauge,
           Icon, SimpleDropdown, Link, Modal, Separator, Tooltip,
-          Text, TextGroup, CheckBox } from '../src'
+          Text, TextGroup, CheckBox, NewDropdown } from '../src'
 
 addDecorator(story => (<Page>{story()}</Page>))
 addDecorator((story, context) => withInfo('Documentation')(story)(context))
@@ -81,3 +81,12 @@ storiesOf('Text', module)
 storiesOf('TextGroup', module)
   .add('TextGroup not aligned', () => <TextGroup><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text></TextGroup>)
   .add('TextGroup aligned', () => <TextGroup aligned><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text><Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text></TextGroup>)
+
+storiesOf('NewDropdown', module)
+  .add('NewDropdown', () => <NewDropdown
+                              id={0}
+                              items={[{text: 'French', value: 1},
+                                    {text: 'Spanish', value: 2}]}
+                              callback={function(value) {console.log(value)}}
+                              color='cyan'
+                              display='English'/>)

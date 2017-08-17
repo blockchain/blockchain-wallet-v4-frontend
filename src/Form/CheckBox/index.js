@@ -42,6 +42,7 @@ const CheckBoxError = styled.label`
 `
 
 const CheckBox = ({ ...field, children }) => {
+  console.log(field);
   return (
     <CheckBoxContainer>
       <CheckBoxInputContainer>
