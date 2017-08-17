@@ -3,17 +3,19 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const BaseLink = styled.a`
-  display: flex;
+  cursor : pointer;
   text-decoration: none;
-  font-weight: ${props => props.bold ? 500 : 300};
-  color: ${props => props.color === 'cyan' ? '#00aee6' :
-                      props.color === 'gray' ? '#799eb2' :
-                        '#004a7c'};
+  font-weight: ${props => props.bold ? 700 : 400};
+  color: ${props =>
+    props.color === 'cyan' ? '#00aee6'
+    : props.color === 'gray' ? '#799eb2' : '#004a7c'};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
-  &:hover { cursor : pointer;
-            color: ${props => props.color === 'cyan' ? '#00aee6' :
-                                props.color === 'gray' ? 'white' : '#00aee6'};
-          }
+
+  &:hover { 
+    color: ${props =>
+    props.color === 'cyan' ? '#00aee6'
+    : props.color === 'gray' ? '#799eb2' : '#00aee6'};
+  }
   &:focus { text-decoration: none; }
 `
 

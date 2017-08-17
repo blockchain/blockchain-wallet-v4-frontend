@@ -20,7 +20,6 @@ const DropdownList = styled.ul`
   display: ${props => props.open ? 'block' : 'none'};
   border: 1px solid gray;
   border-radius: 3px;
-  border-co
 `
 
 const DropdownItem = styled(Text)`
@@ -46,7 +45,7 @@ class NewDropdown extends React.Component {
   render () {
     return(
       <NewDropdownWrapper>
-        <NewDropdownButton color={this.color} id={this.id} onClick={this.handleClick}>{this.display}</NewDropdownButton>
+        <NewDropdownButton color={this.color} id={this.id} onClick={this.handleClick}>{this.display}</NewDropdownButton><br/>
         <DropdownList open={this.state.open}>
           { this.items.map(function (item, index) {
             return (<li><DropdownItem key={index} onClick={() => this.callback(item.value)}>{item.text}</DropdownItem></li>)

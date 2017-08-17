@@ -5,7 +5,7 @@ const BaseButtonGroup = styled.div`
   margin: 0 5px;
 
   & > * {
-    display: inline-block;
+    display: inline-flex!important;
   }
   & :first-child { 
     border-top-right-radius: 0!important;

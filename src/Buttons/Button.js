@@ -4,6 +4,9 @@ import styled from 'styled-components'
 import Color from 'color'
 
 const BaseButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
   height: 40px;
   padding: 10px 15px;
@@ -16,7 +19,7 @@ const BaseButton = styled.button`
   letter-spacing: normal;
   transition: all .2s ease-in-out;
   white-space: nowrap;
-  font-family: "'Montserrat', Helvetica, sans-serif";
+  font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 16px;
   font-weight: ${props => props.bold ? '700' : '400'};
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
