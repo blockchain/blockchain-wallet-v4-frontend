@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
-import { Button, Form, Hidden, Icon, Link, Modal, SecondaryButton, Text, TextBox, TextArea, Tooltip } from 'blockchain-info-components'
+import { Button, Form, Hidden, Icon, Link, Modal, TextBox, TextArea, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, SelectBoxAddresses } from 'components/shared/Form'
 import ComboDisplay from 'components/shared/ComboDisplay'
 import SelectBoxFee from './SelectBoxFee'
@@ -57,9 +58,9 @@ const FirstStep = (props) => {
   return (
     <Modal {...rest} icon='icon-send' title='Send' size='large'>
       <Form>
-        <Text id='modals.sendbitcoin.firststep.from' text='From:' small medium />
+        <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
         <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
-        <Text id='modals.sendbitcoin.firststep.to' text='To:' small medium />
+        <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
         {addressSelectToggled
           ? (
             <AddressesToContainer>
@@ -75,21 +76,21 @@ const FirstStep = (props) => {
             </AddressesToContainer>
             )
         }
-        <Text id='modals.sendbitcoin.firststep.amount' text='Enter amount:' small medium />
+        <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
         <Field name='amount' component={CoinConvertor} validate={[requiredNumber, validateAmount]} />
         <Field name='effectiveBalance' component={Hidden} />
         <Aligned>
-          <Text id='modals.sendbitcoin.firststep.description' text='Description:' small medium />
+          <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
           <Tooltip>
-            <Text id='modals.sendbitcoin.firststep.share_tooltip1' text='Add a note to remind yourself what this transaction relates to.' smaller light />
-            <Text id='modals.sendbitcoin.firststep.share_tooltip2' text='This note will be private and only seen by you.' smaller light />
+            <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
+            <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
           </Tooltip>
         </Aligned>
         <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
         <Aligned>
-          <Text id='modals.sendbitcoin.firststep.fee' text='Transaction fee:' small medium capitalize />
+          <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
           <Tooltip>
-            <Text id='modals.sendbitcoin.firststep.fee_tooltip' text='Estimated confirmation time 1+ hour.' smaller light />
+            <FormattedMessage id='modals.sendbitcoin.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
           </Tooltip>
         </Aligned>
         <Row>
@@ -101,17 +102,17 @@ const FirstStep = (props) => {
           </ColLeft>
           <ColRight>
             { invalid ? <div /> : <ComboDisplay small light>{selection.fee}</ComboDisplay> }
-            <Link onClick={handleClickFeeToggler}>
+            <Link onClick={handleClickFeeToggler} uppercase>
               {feeEditToggled
-                ? <Text id='modals.sendbitcoin.firststep.cancel' text='Cancel' smaller light cyan capitalize />
-                : <Text id='modals.sendbitcoin.firststep.edit' text='Customize fee' smaller light cyan capitalize />
+                ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
+                : <FormattedMessage id='modals.sendbitcoin.firststep.edit' defaultMessage='Customize fee' />
               }
             </Link>
           </ColRight>
         </Row>
-        <SecondaryButton fullwidth onClick={next} disabled={submitting || invalid}>
-          <Text id='modals.sendbitcoin.firststep.continue' text='Continue' small medium uppercase white />
-        </SecondaryButton>
+        <Button type='secondary' fullwidth onClick={next} disabled={submitting || invalid}>
+          <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
+        </Button>
       </Form>
     </Modal>
   )

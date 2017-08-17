@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Navbar, Nav, NavItem } from 'react-bootstrap'
 
 import logo from 'img/blockchain-vector.svg'
-import { Navbar, NavbarBrand, NavbarHeader, NavbarToggle, NavbarCollapse, Nav, NavItem,
-  PrimaryButton, RouterLink, SecondaryButton, Text } from 'blockchain-info-components'
+import { Button, RouterLink, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   padding-top: 17px;
@@ -29,49 +30,59 @@ const Header = (props) => {
   return (
     <Wrapper>
       <Navbar inverse defaultExpanded={toggled}>
-        <NavbarHeader>
-          <NavbarBrand>
+        <Navbar.Header>
+          <Navbar.Brand>
             <RouterLink to='/'><Logo /></RouterLink>
-          </NavbarBrand>
-          <NavbarToggle onClick={handleToggle} />
-        </NavbarHeader>
-        <NavbarCollapse>
+          </Navbar.Brand>
+          <Navbar.Toggle onClick={handleToggle} />
+        </Navbar.Header>
+        <Navbar.Collapse>
           <Nav>
             <RouterLink to='/wallet'>
               <NavItem>
-                <Text id='components.layouts.landing.header.wallets' text='Wallets' white uppercase />
+                <Text white uppercase>
+                  <FormattedMessage id='components.layouts.landing.header.wallets' defaultMessage='Wallets' />
+                </Text>
               </NavItem>
             </RouterLink>
             <NavItem href='https://blockchain.info/charts' target='_blank'>
-              <Text id='components.layouts.landing.header.charts' text='Charts' white uppercase />
+              <Text white uppercase>
+                <FormattedMessage id='components.layouts.landing.header.charts' defaultMessage='Charts' />
+              </Text>
             </NavItem>
             <NavItem href='https://blockchain.info/stats' target='_blank'>
-              <Text id='components.layouts.landing.header.stats' text='Stats' white uppercase />
+              <Text white uppercase>
+                <FormattedMessage id='components.layouts.landing.header.stats' defaultMessage='Stats' />
+              </Text>
             </NavItem>
             <NavItem href='https://blockchain.info/markets' target='_blank'>
-              <Text id='components.layouts.landing.header.markets' text='Markets' white uppercase />
+              <Text white uppercase>
+                <FormattedMessage id='components.layouts.landing.header.markets' defaultMessage='Markets' />
+              </Text>
             </NavItem>
             <NavItem href='https://blockchain.info/api' target='_blank'>
-              <Text id='components.layouts.landing.header.api' text='Api' white uppercase />
+              <Text white uppercase>
+                <FormattedMessage id='components.layouts.landing.header.api' defaultMessage='Api' />
+              </Text>
             </NavItem>
           </Nav>
           <Nav pullRight>
             <RouterLink to='/login'>
               <NavItem>
-                <PrimaryButton rounded bordered>
-                  <Text id='components.layouts.landing.header.login' text='Log in' light uppercase white />
-                </PrimaryButton>
+                <Button type='primary' uppercase rounded>
+                  <FormattedMessage id='components.layouts.landing.header.login' defaultMessage='Log in' />
+                </Button>
               </NavItem>
             </RouterLink>
             <RouterLink to='/register'>
               <NavItem>
-                <SecondaryButton rounded>
-                  <Text id='components.layouts.landing.header.signup' text='Sign up' light uppercase white />
-                </SecondaryButton>
+                <Button type='secondary' uppercase rounded>
+                  <FormattedMessage id='components.layouts.landing.header.signup' defaultMessage='Sign up' />
+                </Button>
               </NavItem>
             </RouterLink>
           </Nav>
-        </NavbarCollapse>
+        </Navbar.Collapse>
       </Navbar>
     </Wrapper>
   )

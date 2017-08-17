@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { RouterLink, Text } from 'blockchain-info-components'
+import { Icon, RouterLink } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -25,6 +26,7 @@ const NavHeader = styled.li`
   margin: 0 0 10px 0;
   position: relative;
   display: flex;
+  justify-content: start;
   align-items: center;
   color: ${props => props.theme.basicGrey};
   padding: 0.4em 0.8em;
@@ -40,13 +42,13 @@ const SubNavHeader = NavHeader.extend`
   text-transform: none;
   margin: 0px;
 `
-const NavIcon = styled.i`
-  font-size: 20px;
-  margin-right: .55em;
-  text-align: center;
-  line-height: 0;
-  width: 20px;
-`
+// const NavIcon = styled(Icon)`
+//   font-size: 20px;
+//   margin-right: .55em;
+//   text-align: center;
+//   line-height: 0;
+//   width: 20px;
+// `
 
 const Navigation = (props) => {
   const { settingsToggled, handleOpenSettings, handleCloseSettings, handleCloseMenuLeft, ...rest } = props
@@ -56,62 +58,62 @@ const Navigation = (props) => {
       <NavList>
         <RouterLink to='/wallet' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
-            <NavIcon className='icon-home' />
-            <Text id='components.layouts.wallet.menuleft.navigation.home' text='Home' smaller uppercase />
+            <Icon name='home' />
+            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.home' defaultMessage='Home' />
           </NavHeader>
         </RouterLink>
         <RouterLink to='/transactions' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
-            <NavIcon className='icon-tx' />
-            <Text id='components.layouts.wallet.menuleft.navigation.transactions' text='Transactions' smaller uppercase />
+            <Icon name='tx' />
+            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.transactions' defaultMessage='Transactions' smaller uppercase />
           </NavHeader>
         </RouterLink>
         <RouterLink to='/buy-sell' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
-            <NavIcon className='icon-bitcoin' />
-            <Text id='components.layouts.wallet.menuleft.navigation.buybitcoin' text='Buy bitcoin' smaller uppercase />
+            <Icon name='bitcoin' />
+            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy bitcoin' smaller uppercase />
           </NavHeader>
         </RouterLink>
         <RouterLink to='/security-center' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
-            <NavIcon className='icon-lock' />
-            <Text id='components.layouts.wallet.menuleft.navigation.securitycenter' text='Security center' smaller uppercase />
+            <Icon name='lock' />
+            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.securitycenter' defaultMessage='Security center' smaller uppercase />
           </NavHeader>
         </RouterLink>
         <RouterLink to='/settings' activeClassName='active' onClick={handleOpenSettings}>
           <NavHeader>
-            <NavIcon className='icon-settings' />
-            <Text id='components.layouts.wallet.menuleft.navigation.settings' text='Settings' smaller uppercase />
+            <Icon name='settings' />
+            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.settings' defaultMessage='Settings' smaller uppercase />
           </NavHeader>
         </RouterLink>
         {settingsToggled && (
           <SubNavList>
             <RouterLink to='/settings/info' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubNavHeader>
-                <Text id='components.layouts.wallet.menuleft.navigation.walletinfo' text='Wallet information' smaller />
+                <FormattedMessage id='components.layouts.wallet.menuleft.navigation.walletinfo' defaultMessage='Wallet information' smaller />
               </SubNavHeader>
             </RouterLink>
             <RouterLink to='/settings/preferences' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubNavHeader>
-                <Text id='components.layouts.wallet.menuleft.navigation.preferences' text='Preferences' smaller />
+                <FormattedMessage id='components.layouts.wallet.menuleft.navigation.preferences' defaultMessage='Preferences' smaller />
               </SubNavHeader>
             </RouterLink>
             <RouterLink to='/settings/security' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubNavHeader>
-                <Text id='components.layouts.wallet.menuleft.navigation.security' text='Security' smaller />
+                <FormattedMessage id='components.layouts.wallet.menuleft.navigation.security' defaultMessage='Security' smaller />
               </SubNavHeader>
             </RouterLink>
             <RouterLink to='/settings/addresses' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubNavHeader>
-                <Text id='components.layouts.wallet.menuleft.navigation.addresses' text='Addresses' smaller />
+                <FormattedMessage id='components.layouts.wallet.menuleft.navigation.addresses' defaultMessage='Addresses' smaller />
               </SubNavHeader>
             </RouterLink>
           </SubNavList>
         )}
         <RouterLink to='/faq' activeClassName='active' onClick={handleCloseSettings}>
           <NavHeader>
-            <NavIcon className='icon-help' />
-            <Text id='components.layouts.wallet.menuleft.navigation.faq' text='Faq' smaller uppercase />
+            <Icon name='help' />
+            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.faq' defaultMessage='Faq' smaller uppercase />
           </NavHeader>
         </RouterLink>
       </NavList>

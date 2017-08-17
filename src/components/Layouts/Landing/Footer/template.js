@@ -1,10 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Grid } from 'react-bootstrap'
 
-import { Grid, Link, RouterLink, Text } from 'blockchain-info-components'
+import { Link, RouterLink, Text } from 'blockchain-info-components'
 import DropdownLanguage from 'components/shared/DropdownLanguage'
 
 import logo from 'img/blockchain-blue.svg'
+
+console.log(Link, RouterLink, Text)
 
 const Wrapper = styled.div`
   background-color: #E3EFF5;
@@ -84,25 +88,55 @@ const Footer = () => {
         <Top>
           <Logo />
           <LinkContainer>
-            <Text id='components.layouts.landing.footer.products' text='Products' small uppercase cyan />
-            <RouterLink to='/wallet'><Text id='components.layouts.landing.footer.wallet' text='Wallet' small uppercase /></RouterLink>
-            <Link href='https://blockchain.com/enterprise'><Text id='components.layouts.landing.footer.business' text='Business' small uppercase /></Link>
-            <Link href='https://blockchain.com/research'><Text id='components.layouts.landing.footer.research' text='Research' small uppercase /></Link>
-            <Link href='https://blockchain.info'><Text id='components.layouts.landing.footer.explorer' text='.Info Explorer' small uppercase /></Link>
-            <Link href='https://support.blockchain.com'><Text id='components.layouts.landing.footer.support' text='Support' small uppercase /></Link>
+            <Text cyan uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.products' defaultMessage='Products' />
+            </Text>
+            <RouterLink to='/wallet' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.wallet' defaultMessage='Wallet' />
+            </RouterLink>
+            <Link href='https://blockchain.com/enterprise' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.business' defaultMessage='Business' />
+            </Link>
+            <Link href='https://blockchain.com/research' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.research' defaultMessage='Research' />
+            </Link>
+            <Link href='https://blockchain.info' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.explorer' defaultMessage='.Info Explorer' />
+            </Link>
+            <Link href='https://support.blockchain.com' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.support' defaultMessage='Support' />
+            </Link>
           </LinkContainer>
           <LinkContainer>
-            <Text id='components.layouts.landing.footer.company' text='Company' small uppercase cyan />
-            <Link href='https://blockchain.com/about'><Text id='components.layouts.landing.footer.about' text='About' small uppercase /></Link>  
-            <Link href='https://blockchain.com/team'><Text id='components.layouts.landing.footer.team' text='Team' small uppercase /></Link>
-            <Link href='https://blockchain.com/careers'><Text id='components.layouts.landing.footer.careers' text='Careers'small uppercase /></Link>
-            <Link href='https://blockchain.com/interview'><Text id='components.layouts.landing.footer.interviewing' text='Interviewing' small uppercase /></Link>
-            <Link href='https://blockchain.com/faq'><Text id='components.layouts.landing.footer.faq' text='Faq' small uppercase /></Link>
+            <Text cyan uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.company' defaultMessage='Company' />
+            </Text>
+            <Link href='https://blockchain.com/about' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.about' defaultMessage='About' />
+            </Link>
+            <Link href='https://blockchain.com/team' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.team' defaultMessage='Team' />
+            </Link>
+            <Link href='https://blockchain.com/careers' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.careers' defaultMessage='Careers' />
+            </Link>
+            <Link href='https://blockchain.com/interview' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.interviewing' defaultMessage='Interviewing' />
+            </Link>
+            <Link href='https://blockchain.com/faq' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.faq' defaultMessage='Faq' />
+            </Link>
           </LinkContainer>
           <LinkContainer>
-            <Text id='components.layouts.landing.footer.news' text='News' small uppercase cyan />
-            <Link href='https://blockchain.com/press'><Text id='components.layouts.landing.footer.press' text='Press'small uppercase /></Link>
-            <Link href='https://blog.blockchain.com'><Text id='components.layouts.landing.footer.blog' text='Blog' small uppercase /></Link>
+            <Text cyan uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.news' defaultMessage='News' />
+            </Text>
+            <Link href='https://blockchain.com/press' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.press' defaultMessage='Press' />
+            </Link>
+            <Link href='https://blog.blockchain.com' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.blog' defaultMessage='Blog' />
+            </Link>
           </LinkContainer>
           <DropdownContainer>
             <DropdownLanguage />
@@ -110,10 +144,18 @@ const Footer = () => {
         </Top>
         <Bottom>
           <CopyrightContainer>
-            <Text id='components.layouts.landing.footer.copyright' text='2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.' smaller uppercase />
-            <Link href='https://blockchain.com/privacy' target='_blank'><Text id='components.layouts.landing.footer.privacy' text='Privacy' smaller uppercase /></Link>
-            <Link href='https://blockchain.com/terms' target='_blank'><Text id='components.layouts.landing.footer.terms' text='Terms' smaller uppercase /></Link>
-            <Link href='https://blockchain.com/legal' target='_blank'><Text id='components.layouts.landing.footer.enforcement' text='Law enforcement guide' smaller uppercase /></Link>
+            <Text cyan uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.copyright' defaultMessage='2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.' />
+            </Text>
+            <Link href='https://blockchain.com/privacy' target='_blank' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.privacy' defaultMessage='Privacy' />
+            </Link>
+            <Link href='https://blockchain.com/terms' target='_blank' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.terms' defaultMessage='Terms' />
+            </Link>
+            <Link href='https://blockchain.com/legal' target='_blank' uppercase>
+              <FormattedMessage id='components.layouts.landing.footer.enforcement' defaultMessage='Law enforcement guide' />
+            </Link>
           </CopyrightContainer>
         </Bottom>
       </Container>

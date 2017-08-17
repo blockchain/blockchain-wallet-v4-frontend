@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Link, Text } from 'blockchain-info-components'
+import { Link } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,15 +21,15 @@ const Footer = () => {
   return (
     <Wrapper>
       <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank'>
-        <Text id='components.layouts.wallet.menuleft.footer.termsofservice' text='ToS' smaller light />
+        <FormattedMessage id='components.layouts.wallet.menuleft.footer.termsofservice' defaultMessage='ToS' />
       </Link>
       <Circle />
-      <Link href='https://www.blockchain.com/assets/pdf/Blockchain_PrivacyPolicy.pdf' target='_blank' className='text-capitalize'>
-        <Text id='components.layouts.wallet.menuleft.footer.privacypolicy' text='Privacy policy' smaller light />
+      <Link href='https://www.blockchain.com/assets/pdf/Blockchain_PrivacyPolicy.pdf' target='_blank'>
+        <FormattedMessage id='components.layouts.wallet.menuleft.footer.privacypolicy' defaultMessage='Privacy policy' />
       </Link>
       <Circle />
       <Link href='https://www.blockchain.com/about' target='_blank'>
-        <Text id='components.layouts.wallet.menuleft.footer.about' text='About' smaller light />
+        <FormattedMessage id='components.layouts.wallet.menuleft.footer.about' defaultMessage='About' />
       </Link>
     </Wrapper>
   )

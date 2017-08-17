@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import ActivityListItem from './ActivityListItem'
 
 const Wrapper = styled.div`
@@ -27,7 +27,7 @@ const ActivityList = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.home.activitylist.title' text='Most recent activities' capitalize />
+        <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
       </Header>
       <Content>
         { props.activities.map(function (activity, key) {

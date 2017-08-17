@@ -1,6 +1,6 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const LocalCurrency = (props) => {
@@ -8,10 +8,10 @@ const LocalCurrency = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.preferences.currency.title' text='Local currency' capitalize />
+          <FormattedMessage id='scenes.preferences.currency.title' defaultMessage='Local currency' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.preferences.currency.description' text='Select your local currency.' altFont light />
+          <FormattedMessage id='scenes.preferences.currency.description' defaultMessage='Select your local currency.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

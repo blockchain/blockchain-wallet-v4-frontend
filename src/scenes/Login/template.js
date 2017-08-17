@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 
 import { required } from 'services/FormHelper'
-import { Form, HelpBlock, Link, PasswordBox, PrimaryButton, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-info-components'
+import { Button, Form, HelpBlock, Link, PasswordBox, RouterLink, Separator, TextBox } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -41,36 +42,42 @@ const Login = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.login.welcome' text='Welcome back !' biggest light capitalize />
+        <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back !' />
         <Aligned>
-          <Text id='scenes.login.or' text='or' small light />
-          <RouterLink to='/register'><Text id='scenes.login.register' text='Sign up' small light cyan /></RouterLink>
+          <FormattedMessage id='scenes.login.or' defaultMessage='or' />
+          <RouterLink to='/register'>
+            <FormattedMessage id='scenes.login.register' defaultMessage='Sign up' />
+          </RouterLink>
         </Aligned>
       </Header>
-      <Text id='scenes.login.explain' text='Sign in to your wallet below' small light altFont />
+      <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       <Separator />
       <Form>
-        <Text id='scenes.login.guid' text='Wallet ID' small medium />
+        <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
         <Field name='guid' validate={[required]} component={TextBox} />
         <HelpBlock>
-          <Text id='scenes.login.info' text='Find the login link in your email, ' small altFont />
-          <Text id='scenes.login.info2' text='e.g. blockchain.info/wallet/1111-222-333...' small altFont italic />
-          <Text id='scenes.login.info3' text='The series of numbers and dashes at the end of the link is your Wallet ID.' small altFont />
+          <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
+          <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
+          <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
         </HelpBlock>
-        <Text id='scenes.login.password' text='Password' small medium />
+        <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
         <Field name='password' validate={[required]} component={PasswordBox} />
-        <SecondaryButton fullwidth disabled={submitting || invalid} onClick={handleClick}>
-          <Text id='scenes.login.submit' text='Log in' uppercase white />
-        </SecondaryButton>
-        <PrimaryButton fullwidth onClick={handleTrezor}>
-          <Text id='scenes.login.trezor' text='Trezor' uppercase white />
-        </PrimaryButton>
+        <Button type='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+          <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
+        </Button>
+        <Button type='primary' fullwidth uppercase onClick={handleTrezor}>
+          <FormattedMessage id='scenes.login.trezor' defaultMessage='Trezor' />
+        </Button>
       </Form>
       <Footer>
-        <Link><Text id='scenes.login.loginmobile' text='Login via mobile' small light cyan /></Link>
+        <Link>
+          <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via mobile' />
+        </Link>
         <Aligned>
-          <Text id='scenes.login.troubles' text='Having some troubles?' small light />
-          <RouterLink to='/help'><Text id='scenes.login.options' text='View options' small light cyan /></RouterLink>
+          <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some troubles?' />
+          <RouterLink to='/help'>
+            <FormattedMessage id='scenes.login.options' defaultMessage='View options' />
+          </RouterLink>
         </Aligned>
       </Footer>
     </Wrapper>

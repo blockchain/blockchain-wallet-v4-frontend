@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Grid, Text } from 'blockchain-info-components'
+import { Grid } from 'blockchain-info-components'
 import { AppleStore, GooglePlay } from 'components/shared/Badges'
 import banner from 'img/landing-page-banner-sm-overlay.jpg'
 
@@ -16,7 +17,9 @@ const BannerWrapper = styled.div`
   background-size: cover;
   background-position: 70% 100%;
 `
-const BannerContainer = styled(Grid)``
+const BannerContainer = styled(Grid)`
+  color: #FFFFFF;
+`
 const BadgesContainer = styled.div`
   display: block;
   padding: 10px 0;
@@ -28,8 +31,8 @@ const Devices = (props) => {
     <DevicesContainer>
       <BannerWrapper>
         <BannerContainer>
-          <Text id='scenes.landing.devices.bitcoin' text='Bitcoin on All Your Devices' giant lighter white />
-          <Text id='scenes.landing.devices.wallet' text='Access your bitcoin wallet securely anywhere you go.' light white />
+          <FormattedMessage id='scenes.landing.devices.bitcoin' defaultMessage='Bitcoin on All Your Devices' />
+          <FormattedMessage id='scenes.landing.devices.wallet' defaultMessage='Access your bitcoin wallet securely anywhere you go.' />
           <BadgesContainer>
             <AppleStore />
             <GooglePlay />

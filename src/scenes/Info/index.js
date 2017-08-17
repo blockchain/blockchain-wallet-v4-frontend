@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import InfoWell from 'components/shared/InfoWell'
 import WalletId from './WalletId'
 import PairingCode from './PairingCode'
@@ -15,8 +15,8 @@ const Info = () => {
   return (
     <Wrapper>
       <InfoWell>
-        <Text id='scenes.info.explain' text='Use your Wallet ID to log in using our web client,' small />
-        <Text id='scenes.info.explain2' text='or simply scan the code below (click on `Show Pairing Code`) with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices.' small />
+        <FormattedMessage id='scenes.info.explain' defaultMessage='Use your Wallet ID to log in using our web client,' />
+        <FormattedMessage id='scenes.info.explain2' defaultMessage='or simply scan the code below (click on `Show Pairing Code`) with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices.' />
       </InfoWell>
       <WalletId />
       <PairingCode />

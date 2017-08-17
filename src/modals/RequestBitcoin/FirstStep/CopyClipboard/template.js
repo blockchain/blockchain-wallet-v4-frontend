@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import CopyToClipBoard from 'react-copy-to-clipboard'
-
-import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -68,13 +67,13 @@ const CopyClipboard = (props) => {
         <CopyToClipBoard text={address} onCopy={handleClick}>
           <CopyButton active={active}>
             { active
-              ? <Text id='modals.requestbitcoin.firststep.copyclipboard.copied' text='Copied!' small light white uppercase />
-              : <Text id='modals.requestbitcoin.firststep.copyclipboard.copy' text='Copy' small light white uppercase />
+              ? <FormattedMessage id='modals.requestbitcoin.firststep.copyclipboard.copied' defaultMessage='Copied!' />
+              : <FormattedMessage id='modals.requestbitcoin.firststep.copyclipboard.copy' defaultMessage='Copy' />
             }
           </CopyButton>
         </CopyToClipBoard>
         <QRCodeButton onClick={handleClickCode}>
-          <Text id='modals.requestbitcoin.firststep.copyclipboard.qrcode' text='QR Code' small light white />
+          <FormattedMessage id='modals.requestbitcoin.firststep.copyclipboard.qrcode' defaultMessage='QR Code' />
         </QRCodeButton>
       </ButtonContainer>
     </Wrapper>

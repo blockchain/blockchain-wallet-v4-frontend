@@ -1,6 +1,6 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const WalletLanguage = (props) => {
@@ -8,10 +8,10 @@ const WalletLanguage = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.preferences.language.title' text='Wallet language' capitalize />
+          <FormattedMessage id='scenes.preferences.language.title' defaultMessage='Wallet language' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.preferences.language.description' text='Set your preferred language.' altFont light />
+          <FormattedMessage id='scenes.preferences.language.description' defaultMessage='Set your preferred language.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

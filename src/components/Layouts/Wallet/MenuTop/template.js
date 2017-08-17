@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import { Button, ButtonGroup, Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
-
-console.log(CoinDisplay, CurrencyDisplay)
 
 const Wrapper = styled.div`
   display: flex;
@@ -73,20 +72,22 @@ const MenuTop = (props) => {
     <Wrapper>
       <LeftContainer>
         <TextContainer>
-          <Text id='components.layouts.wallet.menutop.bank' text='Be your own bank.' biggest />
+          <Text size='28px' uppercase>
+            <FormattedMessage id='components.layouts.wallet.menutop.bank' defaultMessage='Be your own bank.' />
+          </Text>
         </TextContainer>
         <ButtonContainer>
           <Button onClick={openSendBitcoin}>
-            <Icon name='icon-send' small />
-            <Text id='components.layouts.wallet.menutop.send' text='Send' small light />
+            <Icon name='send' />
+            <FormattedMessage id='components.layouts.wallet.menutop.send' defaultMessage='Send' />
           </Button>
           <ButtonGroup>
             <Button onClick={openRequestBitcoin}>
-              <Icon name='icon-receive' small />
-              <Text id='components.layouts.wallet.menutop.request' text='Request' small light />
+              <Icon name='receive' />
+              <FormattedMessage id='components.layouts.wallet.menutop.request' defaultMessage='Request' />
             </Button>
             <Button>
-              <Icon name='ti-clipboard' small />
+              <Icon name='clipboard' />
             </Button>
           </ButtonGroup>
         </ButtonContainer>

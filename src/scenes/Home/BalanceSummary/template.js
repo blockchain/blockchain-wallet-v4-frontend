@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import CoinDisplay from 'components/shared/CoinDisplay'
 import CurrencyDisplay from 'components/shared/CurrencyDisplay'
-import { Text, Typography } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,13 +44,13 @@ const BalanceSummary = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.home.balancesummary.title' text='Balance summary' capitalize />
+        <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Balance summary' />
       </Header>
       <Content>
         { props.balances.map(function (balance, index) {
           return (
             <Row key={index}>
-              <Typography small light>{balance.title}</Typography>
+              <Text size='12px'>{balance.title}</Text>
               { props.coinDisplayed
                 ? <CoinDisplay small light>{balance.amount}</CoinDisplay>
                 : <CurrencyDisplay small light>{balance.amount}</CurrencyDisplay>
@@ -58,7 +59,7 @@ const BalanceSummary = (props) => {
           )
         })}
         <LastRow>
-          <Text id='scenes.home.balancesummary.total' text='Total' small />
+          <FormattedMessage id='scenes.home.balancesummary.total' defaultMessage='Total' />
           { props.coinDisplayed
             ? <CoinDisplay small>{props.total}</CoinDisplay>
             : <CurrencyDisplay small>{props.total}</CurrencyDisplay>

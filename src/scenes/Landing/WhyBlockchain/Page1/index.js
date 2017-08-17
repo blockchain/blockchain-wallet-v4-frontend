@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import sophisticated from 'img/sophisticated.svg'
 
 const Page = styled.div`
@@ -42,23 +42,23 @@ const Page1 = () => (
     <Block>
       <BlockHeader>
         <BlockIconSophisticated />
-        <Text id='scenes.landing.wallet.simple' text='Simple' regular uppercase />
+        <FormattedMessage id='scenes.landing.wallet.simple' defaultMessage='Simple' />
       </BlockHeader>
-      <Text id='scenes.landing.wallet.simple_explain' text='We make using bitcoin safe, simple, and fun. Securely store your bitcoin and instantly transact with anyone in the world' small lighter />
+      <FormattedMessage id='scenes.landing.wallet.simple_explain' defaultMessage='We make using bitcoin safe, simple, and fun. Securely store your bitcoin and instantly transact with anyone in the world' />
     </Block>
     <Block>
       <BlockHeader>
         <BlockIconSophisticated />
-        <Text id='scenes.landing.wallet.safe' text='Safe & Secure' regular uppercase />
+        <FormattedMessage id='scenes.landing.wallet.safe' defaultMessage='Safe & Secure' />
       </BlockHeader>
-      <Text id='scenes.landing.wallet.safe_explain' text='Our step-by-step Security Center helps you backup your funds, and protect them from unauthorized access.' small lighter />
+      <FormattedMessage id='scenes.landing.wallet.safe_explain' defaultMessage='Our step-by-step Security Center helps you backup your funds, and protect them from unauthorized access.' />
     </Block>
     <Block>
       <BlockHeader>
         <BlockIconSophisticated />
-        <Text id='scenes.landing.wallet.buy' text='Buy & Sell' regular uppercase />
+        <FormattedMessage id='scenes.landing.wallet.buy' defaultMessage='Buy & Sell' />
       </BlockHeader>
-      <Text id='scenes.landing.wallet.buy_explain' text='Blockchain works with exchange partners all around the world to make buying bitcoin in your wallet both a seamless and secure experience.' small lighter />
+      <FormattedMessage id='scenes.landing.wallet.buy_explain' defaultMessage='Blockchain works with exchange partners all around the world to make buying bitcoin in your wallet both a seamless and secure experience.' />
     </Block>
   </Page>
 )

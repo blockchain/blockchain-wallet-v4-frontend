@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validEmail, validPassword } from 'services/FormHelper'
-import { CheckBox, Form, PasswordBox, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-info-components'
+import { Button, CheckBox, Form, PasswordBox, RouterLink, Separator, TextBox } from 'blockchain-info-components'
 import Terms from 'components/shared/Terms'
 
 const Wrapper = styled.div`
@@ -30,25 +31,27 @@ const Register = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.register.create' text='Create your Wallet' biggest light />
+        <FormattedMessage id='scenes.register.create' defaultMessage='Create your Wallet' />
         <Aligned>
-          <Text id='scenes.register.or' text='or' small light />
-          <RouterLink to='/login'><Text id='scenes.register.login' text='Login' small light cyan /></RouterLink>
+          <FormattedMessage id='scenes.register.or' defaultMessage='or' />
+          <RouterLink to='/login'>
+            <FormattedMessage id='scenes.register.login' defaultMessage='Login' />
+          </RouterLink>
         </Aligned>
       </Header>
-      <Text id='scenes.register.explain' text='Sign up for a free wallet below' small light altFont />
+      <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
       <Separator />
       <Form>
-        <Text id='scenes.register.email' text='Email' small medium />
+        <FormattedMessage id='scenes.register.email' defaultMessage='Email' />
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
-        <Text id='scenes.register.password' text='Password' small medium />
+        <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
         <Field name='password' validate={[required, validPassword]} component={PasswordBox} score />
-        <Text id='scenes.register.confirmationPassword' text='Confirm Password' small medium />
+        <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
-        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: Terms}} fullwidth />
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
-          <Text id='scenes.register.submit' text='Continue'uppercase white />
-        </SecondaryButton>
+        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: Terms}} />
+        <Button type='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+          <FormattedMessage id='scenes.register.submit' defaultMessage='Continue' />
+        </Button>
       </Form>
     </Wrapper>
   )

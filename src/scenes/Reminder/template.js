@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, validEmail } from 'services/FormHelper'
-import { Form, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-info-components'
+import { Button, Form, RouterLink, Separator, TextBox } from 'blockchain-info-components'
 import { CaptchaBox } from 'components/shared/Form'
 
 const Wrapper = styled.div`
@@ -23,20 +24,22 @@ const Reminder = (props) => {
 
   return (
     <Wrapper>
-      <Text id='scenes.reminder.remind' text='Remind me' biggest light capitalize />
-      <Text id='scenes.reminder.explain' text="Lost your Wallet Identifier? We'll send it to you via your email." small light altFont />
+      <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind me' />
+      <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your Wallet Identifier? We'll send it to you via your email." />
       <Separator />
       <Form>
-        <Text id='scenes.reminder.email' text='Email' small medium />
+        <FormattedMessage id='scenes.reminder.email' defaultMessage='Email' />
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
-        <Text id='scenes.reminder.captcha' text='Captcha' small medium />
+        <FormattedMessage id='scenes.reminder.captcha' defaultMessage='Captcha' />
         <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
-          <Text id='scenes.reminder.continue' text='Continue' uppercase white />
-        </SecondaryButton>
+        <Button type='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+          <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
+        </Button>
       </Form>
       <Footer>
-        <RouterLink to='/help'><Text id='scenes.reminder.back' text='Go back' small light cyan /></RouterLink>
+        <RouterLink to='/help'>
+          <FormattedMessage id='scenes.reminder.back' defaultMessage='Go back' />
+        </RouterLink>
       </Footer>
     </Wrapper>
   )

@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
-import { ConfirmationGauge, Icon, Text, Tooltip, Typography } from 'blockchain-info-components'
+import { ConfirmationGauge, Icon, Tooltip, Text } from 'blockchain-info-components'
 import ButtonAmount from './ButtonAmount'
 import StatusLabel from './StatusLabel'
 
@@ -145,21 +146,21 @@ const ListItem = (props) => {
           </Arrow>
           <Status>
             <StatusLabel {...props} />
-            <Typography small light italic>{formattedDate}</Typography>
+            <Text size='12px' italic>{formattedDate}</Text>
           </Status>
         </StatusContainer>
         <AddressesContainer>
           <Addresses>
-            <Text id='scenes.transactions.list.listitem.to' text='To : {to}' values={{ to: transaction.to }} small light />
-            <Text id='scenes.transactions.list.listitem.from' text='From : {from}' values={{ from: transaction.from }} small light />
+            <FormattedMessage id='scenes.transactions.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
+            <FormattedMessage id='scenes.transactions.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
           </Addresses>
         </AddressesContainer>
         <DescriptionContainer>
           <Description>
             <Edit>
               { transaction.description !== ''
-                ? <Typography small light>{transaction.description}</Typography>
-                : <Typography small light>Add a description</Typography>
+                ? <Text size='12px'>{transaction.description}</Text>
+                : <Text size='12px'>Add a description</Text>
               }
               <EditIcon name='ti-pencil' />
             </Edit>
@@ -172,15 +173,15 @@ const ListItem = (props) => {
       <RowDetails collapsed={!toggled}>
         <TransactionStatusContainer>
           { transaction.confirmations > 3
-            ? <Text id='scenes.transactions.list.listitem.transaction_confirmed' text='Transaction confirmed' small light />
+            ? <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed' defaultMessage='Transaction confirmed' />
             : (
               <TransactionTooltipContainer>
                 <ConfirmationGauge nbConfirmations={transaction.confirmations} />
                 <Tooltip>
-                  { transaction.confirmations === 0 && <Text id='scenes.transactions.list.listitem.transaction_unconfirmed' text='Your transaction is actually unconfirmed.' small light /> }
-                  { transaction.confirmations === 1 && <Text id='scenes.transactions.list.listitem.transaction_confirmed_1' text='Your transaction confirmation is in progress (1 block ahead).' small light /> }
-                  { transaction.confirmations === 2 && <Text id='scenes.transactions.list.listitem.transaction_confirmed_2' text='Your transaction confirmation is in progress (2 blocks ahead).' small light /> }
-                  { transaction.confirmations === 3 && <Text id='scenes.transactions.list.listitem.transaction_confirmed_3' text='Your transaction is confirmed (3 blocks ahead).' small light /> }
+                  {transaction.confirmations === 0 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_unconfirmed' defaultMessage='Your transaction is actually unconfirmed.' /> }
+                  {transaction.confirmations === 1 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed_1' defaultMessage='Your transaction confirmation is in progress (1 block ahead).' /> }
+                  {transaction.confirmations === 2 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed_2' defaultMessage='Your transaction confirmation is in progress (2 blocks ahead).' /> }
+                  {transaction.confirmations === 3 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed_3' defaultMessage='Your transaction is confirmed (3 blocks ahead).' /> }
                 </Tooltip>
               </TransactionTooltipContainer>
             )
@@ -189,21 +190,21 @@ const ListItem = (props) => {
         <ExtraDetailsContainer>
           <Edit>
             { transaction.description !== ''
-              ? <Typography small light>{transaction.description}</Typography>
-              : <Typography small light>Add a description</Typography>
+              ? <Text size='12px'>{transaction.description}</Text>
+              : <Text size='12px'>Add a description</Text>
             }
             <EditIcon name='ti-pencil' />
           </Edit>
         </ExtraDetailsContainer>
         <ExtraDetailsContainer>
-          <Text id='scenes.transactions.list.listitem.to' text='To : {to}' values={{ to: transaction.to }} small light />
+          <FormattedMessage id='scenes.transactions.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
         </ExtraDetailsContainer>
         <ExtraDetailsContainer>
-          <Text id='scenes.transactions.list.listitem.from' text='From : {from}' values={{ from: transaction.from }} small light />
+          <FormattedMessage id='scenes.transactions.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
         </ExtraDetailsContainer>
         <ValueWhenReceivedContainer>
-          <Typography small light>{transaction.status}</Typography>
-          <Text id='scenes.transactions.list.listitem.initial' text='Value when received: {value}' values={{ value: transaction.initial_value }} small light />
+          <Text size='12px'>{transaction.status}</Text>
+          <FormattedMessage id='scenes.transactions.list.listitem.initial' defaultMessage='Value when received: {value}' values={{ value: transaction.initial_value }} />
         </ValueWhenReceivedContainer>
       </RowDetails>
     </Wrapper>

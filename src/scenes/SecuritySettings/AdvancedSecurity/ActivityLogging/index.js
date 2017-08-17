@@ -1,6 +1,6 @@
 import React from 'react'
-
-import { SecondaryButton, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { Button } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const ActivityLogging = (props) => {
@@ -8,16 +8,16 @@ const ActivityLogging = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.settings.activitylogging.title' text='Activity logging' capitalize />
+          <FormattedMessage id='scenes.settings.activitylogging.title' defaultMessage='Activity logging' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.settings.activitylogging.description' text='Record wallet activity and display it in your activity feed.' altFont light />
+          <FormattedMessage id='scenes.settings.activitylogging.description' defaultMessage='Record wallet activity and display it in your activity feed.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <SecondaryButton>
-          <Text id='scenes.settings.activitylogging.enable' text='Enable' small light white />
-        </SecondaryButton>
+        <Button type='secondary'>
+          <FormattedMessage id='scenes.settings.activitylogging.enable' defaultMessage='Enable' />
+        </Button>
       </SettingComponent>
     </SettingContainer>
   )

@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Grid } from 'react-bootstrap'
 
-import { Grid, Text } from 'blockchain-info-components'
 import bitcoinNetwork from 'img/bitcoin-network.svg'
 
 const NewToBitcoinWrapper = styled.div`
@@ -47,10 +48,10 @@ const NewToBitcoin = (props) => {
       <NewToBitcoinContainer>
         <NewToBitcoinBlock>
           <BitcoinSummary>
-            <Text id='scenes.landing.newtobitcoin.new' text='New to bitcoin ?' giant lighter uppercase />
-            <Text id='scenes.landing.newtobitcoin.current' text='Like paper money and gold before it, bitcoin is a currency that allows parties to exchange value.' light />
-            <Text id='scenes.landing.newtobitcoin.decentralized' text="Unlike it's predecessors, bitcoin is digital and decentralized." light />
-            <Text id='scenes.landing.newtobitcoin.history' text='For the first time in history, people can exchange value without intermediaries which translates to greater control of funds and lower fees.' light />
+            <FormattedMessage id='scenes.landing.newtobitcoin.new' defaultMessage='New to bitcoin ?' />
+            <FormattedMessage id='scenes.landing.newtobitcoin.current' defaultMessage='Like paper money and gold before it, bitcoin is a currency that allows parties to exchange value.' />
+            <FormattedMessage id='scenes.landing.newtobitcoin.decentralized' defaultMessage="Unlike it's predecessors, bitcoin is digital and decentralized." />
+            <FormattedMessage id='scenes.landing.newtobitcoin.history' defaultMessage='For the first time in history, people can exchange value without intermediaries which translates to greater control of funds and lower fees.' />
           </BitcoinSummary>
         </NewToBitcoinBlock>
         <NewToBitcoinBlock>

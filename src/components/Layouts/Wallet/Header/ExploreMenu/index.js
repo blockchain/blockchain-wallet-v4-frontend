@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { NavDropdown, MenuItem, Text } from 'blockchain-info-components'
+import { NavDropdown, MenuItem } from 'blockchain-info-components'
 
 const NavItemDropdown = styled(NavDropdown)`
   & > a {
@@ -14,19 +15,19 @@ const ExploreMenu = (props) => {
   return (
     <NavItemDropdown id='explore_menu' title='Explore'>
       <MenuItem href='https://blockchain.info'>
-        <Text id='components.layouts.wallet.header.exploremenu.home' text='Home' />
+        <FormattedMessage id='components.layouts.wallet.header.exploremenu.home' defaultMessage='Home' />
       </MenuItem>
       <MenuItem href='https://blockchain.info/charts'>
-        <Text id='components.layouts.wallet.header.exploremenu.charts' text='Charts' />
+        <FormattedMessage id='components.layouts.wallet.header.exploremenu.charts' defaultMessage='Charts' />
       </MenuItem>
       <MenuItem href='https://blockchain.info/stats'>
-        <Text id='components.layouts.wallet.header.exploremenu.stats' text='Stats' />
+        <FormattedMessage id='components.layouts.wallet.header.exploremenu.stats' defaultMessage='Stats' />
       </MenuItem>
       <MenuItem href='https://blockchain.info/markets'>
-        <Text id='components.layouts.wallet.header.exploremenu.markets' text='Markets' />
+        <FormattedMessage id='components.layouts.wallet.header.exploremenu.markets' defaultMessage='Markets' />
       </MenuItem>
       <MenuItem href='https://blockchain.info/api'>
-        <Text id='components.layouts.wallet.header.exploremenu.api' text='Api' />
+        <FormattedMessage id='components.layouts.wallet.header.exploremenu.api' defaultMessage='Api' />
       </MenuItem>
     </NavItemDropdown>
   )

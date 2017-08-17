@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Link, Text } from 'blockchain-info-components'
+import { Link } from 'blockchain-info-components'
 
 const TermsContainer = styled.div`
   display: flex;
@@ -12,9 +13,9 @@ const TermsContainer = styled.div`
 `
 const Terms = () => (
   < TermsContainer >
-    <Text id='scenes.register.registerform.read' text='I have read and agree to the' small light />
+    <FormattedMessage id='scenes.register.registerform.read' defaultMessage='I have read and agree to the' />
     <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank'>
-      <Text id='scenes.register.registerform.terms' text='Terms of Service' small light cyan />
+      <FormattedMessage id='scenes.register.registerform.terms' defaultMessage='Terms of Service' />
     </Link>
   </TermsContainer>
 )

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import InfoWell from 'components/shared/InfoWell'
 import EmailAddress from './EmailAddress'
 import MobileNumber from './MobileNumber'
@@ -22,7 +22,7 @@ const Preferences = () => {
   return (
     <Wrapper>
       <InfoWell>
-        <Text id='scenes.preferences.explain' text='Customize your wallet experience.' small />
+        <FormattedMessage id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
       </InfoWell>
       <EmailAddress />
       <MobileNumber />

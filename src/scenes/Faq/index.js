@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Link, SecondaryButton, Text } from 'blockchain-info-components'
+import { Button, Link } from 'blockchain-info-components'
 import FaqRow from 'components/shared/FaqRow'
 import Question1 from './Question1'
 import Question2 from './Question2'
@@ -34,7 +35,7 @@ const Faq = () => {
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.faq.title' text='Frequented asked questions' big light capitalize />
+        <FormattedMessage id='scenes.faq.title' defaultMessage='Frequented asked questions' />
       </Header>
       <FaqRow component={Question1} />
       <FaqRow component={Question2} />
@@ -45,11 +46,11 @@ const Faq = () => {
       <FaqRow component={Question7} />
       <FaqRow component={Question8} />
       <Footer>
-        <Text id='scenes.faq.needmorehelp' text="Can't find what you're looking for?" />
+        <FormattedMessage id='scenes.faq.needmorehelp' defaultMessage="Can't find what you're looking for?" />
         <Link href='https://blockchain.zendesk.com' target='_blank'>
-          <SecondaryButton>
-            <Text id='scenes.faq.supportcenter' text='Support center' small light white capitalize />
-          </SecondaryButton>
+          <Button type='secondary'>
+            <FormattedMessage id='scenes.faq.supportcenter' defaultMessage='Support center' />
+          </Button>
         </Link>
       </Footer>
     </Wrapper>

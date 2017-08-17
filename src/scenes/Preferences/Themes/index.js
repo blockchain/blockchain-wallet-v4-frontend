@@ -1,6 +1,6 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const Themes = (props) => {
@@ -8,10 +8,10 @@ const Themes = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.preferences.themes.title' text='Themes' capitalize />
+          <FormattedMessage id='scenes.preferences.themes.title' defaultMessage='Themes' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.preferences.themes.description' text='Try out different themes for the wallet.' altFont light />
+          <FormattedMessage id='scenes.preferences.themes.description' defaultMessage='Try out different themes for the wallet.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import sophisticated from 'img/sophisticated.svg'
 
 const Page = styled.div`
@@ -42,23 +42,23 @@ const Page2 = () => (
     <Block>
       <BlockHeader>
         <BlockIconSophisticated />
-        <Text id='scenes.landing.wallet.sophisticated' text='Sophisticated' regular uppercase />
+        <FormattedMessage id='scenes.landing.wallet.sophisticated' defaultMessage='Sophisticated' />
       </BlockHeader>
-      <Text id='scenes.landing.wallet.sophisticated_explain' text='Hierarchical deterministic addresses. Dynamic transaction fees. Monitoring and spending from Watch Only addresses.' small lighter />
+      <FormattedMessage id='scenes.landing.wallet.sophisticated_explain' defaultMessage='Hierarchical deterministic addresses. Dynamic transaction fees. Monitoring and spending from Watch Only addresses.' />
     </Block>
     <Block>
       <BlockHeader>
         <BlockIconSophisticated />
-        <Text id='scenes.landing.wallet.global' text='Global' regular uppercase />
+        <FormattedMessage id='scenes.landing.wallet.global' defaultMessage='Global' />
       </BlockHeader>
-      <Text id='scenes.landing.wallet.global_explain' text='140+ countries served. 20+ currency conversion rates, including JPY, RUB, SGD, USD, CNY, EUR, GBP, and many more. 25+ languages.' small lighter />
+      <FormattedMessage id='scenes.landing.wallet.global_explain' defaultMessage='140+ countries served. 20+ currency conversion rates, including JPY, RUB, SGD, USD, CNY, EUR, GBP, and many more. 25+ languages.' />
     </Block>
     <Block>
       <BlockHeader>
         <BlockIconSophisticated />
-        <Text id='scenes.landing.wallet.supported' text='Always supported' regular uppercase />
+        <FormattedMessage id='scenes.landing.wallet.supported' defaultMessage='Always supported' />
       </BlockHeader>
-      <Text id='scenes.landing.wallet.supported_explain' text='Should you need help or have a question, our best in class support team will always be there for you.' small lighter />
+      <FormattedMessage id='scenes.landing.wallet.supported_explain' defaultMessage='Should you need help or have a question, our best in class support team will always be there for you.' />
     </Block>
   </Page>
 )

@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text, Typography } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,16 +47,16 @@ const DidYouKnow = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.home.didyouknow.title' text='Did you know?' capitalize />
-        <Text id={'scenes.home.didyouknow.' + props.info.category.name} text={props.info.category.name} uppercase />
+        <FormattedMessage id='scenes.home.didyouknow.title' defaultMessage='Did you know?' />
+        <FormattedMessage id={'scenes.home.didyouknow.' + props.info.category.name} text={props.info.category.name} />
       </Header>
       <Content>
         <TopRow>
           <PaddedIcon name={props.info.icon} giant />
-          <Text id={'scenes.home.didyouknow.' + props.info.title} text={props.info.title} color={props.info.color} small />
+          <FormattedMessage id={'scenes.home.didyouknow.' + props.info.title} text={props.info.title} color={props.info.color} />
         </TopRow>
         <BottomRow>
-          <Typography small light>{props.info.description}</Typography>
+          <Text size='12px'>{props.info.description}</Text>
         </BottomRow>
       </Content>
     </Wrapper>

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, Typography } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 
 const Row = styled.div`
   display: flex;
@@ -73,13 +73,13 @@ const ActivityListItem = (props) => {
       <LogContainer>
         <InfoContainer>
           <TypeContainer>
-            <Typography small>{props.activity.title}</Typography>
+            <Text size='12px'>{props.activity.title}</Text>
           </TypeContainer>
           <TimeContainer>
-            <Typography smaller light>{props.activity.time}</Typography>
+            <Text size='12px'>{props.activity.time}</Text>
           </TimeContainer>
           <DetailsContainer>
-            <Typography smaller light>{props.activity.description}</Typography>
+            <Text size='12px'>{props.activity.description}</Text>
           </DetailsContainer>
         </InfoContainer>
       </LogContainer>

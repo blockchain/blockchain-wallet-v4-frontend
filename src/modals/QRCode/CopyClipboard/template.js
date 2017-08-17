@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import CopyToClipBoard from 'react-copy-to-clipboard'
-
-import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -41,6 +40,8 @@ const CopyButton = styled.div`
   width: 100%;
   height: 100%;
   cursor: pointer;
+  color: #FFFFFF;
+  text-transform: uppercase;
   background-color: ${props => props.active ? '#006600' : '#10ADE4'};
 `
 
@@ -55,8 +56,8 @@ const CopyClipboard = (props) => {
         <CopyToClipBoard text={address} onCopy={handleClick}>
           <CopyButton active={active}>
             { active
-              ? <Text id='modals.qrcode.copyclipboard.copied' text='Copied!' small light white uppercase />
-              : <Text id='modals.qrcode.copyclipboard.copy' text='Copy' small light white uppercase />
+              ? <FormattedMessage id='modals.qrcode.copyclipboard.copied' defaultMessage='Copied!' />
+              : <FormattedMessage id='modals.qrcode.copyclipboard.copy' defaultMessage='Copy' />
             }
           </CopyButton>
         </CopyToClipBoard>

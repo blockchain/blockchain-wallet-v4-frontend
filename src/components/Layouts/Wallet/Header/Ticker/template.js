@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import { NavItem, Typography } from 'blockchain-info-components'
+import { NavItem } from 'react-bootstrap'
+import { Text } from 'blockchain-info-components'
 
 const Ticker = (props) => {
   const { coin, fiat } = props
 
   return (
     <NavItem href='https://markets.blockchain.info'>
-      <Typography small light white>{`${coin} = ${fiat}`}</Typography>
+      <Text small light white>{`${coin} = ${fiat}`}</Text>
     </NavItem>
   )
 }

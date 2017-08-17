@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Grid } from 'react-bootstrap'
 
-import { Grid, Text } from 'blockchain-info-components'
 import Page1 from './Page1'
 import Page2 from './Page2'
 
@@ -61,11 +62,11 @@ const WhyBlockchain = (props) => {
   return (
     <BlockchainWrapper>
       <BlockchainContainer>
-        <Text id='scenes.landing.wallet.why' text='Why blockchain?' gianter lighter uppercase />
+        <FormattedMessage id='scenes.landing.wallet.why' defaultMessage='Why blockchain?' />
         <TextContainer>
-          <Text id='scenes.landing.wallet.loved' text='Loved by Users.' light />
-          <Text id='scenes.landing.wallet.praised' text='Praised by Geeks.' light />
-          <Text id='scenes.landing.wallet.recognized' text='Recognized by the Press.' light />
+          <FormattedMessage id='scenes.landing.wallet.loved' defaultMessage='Loved by Users.' />
+          <FormattedMessage id='scenes.landing.wallet.praised' defaultMessage='Praised by Geeks.' />
+          <FormattedMessage id='scenes.landing.wallet.recognized' defaultMessage='Recognized by the Press.' />
         </TextContainer>
       </BlockchainContainer>
       <BlockchainCarousel>

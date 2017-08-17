@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import QRCodeReact from 'qrcode-react'
 
-import { Link, Modal, Text } from 'blockchain-info-components'
+import { Link, Modal } from 'blockchain-info-components'
 import CopyClipboard from './CopyClipboard'
 import modalEnhancer from 'components/providers/ModalEnhancer'
 
@@ -24,14 +25,14 @@ const QRCode = (props) => {
 
   return (
     <Modal {...rest} icon='icon-receive' title='Payment address' size='large'>
-      <Text id='modals.qrcode.scan' text='Scan QR Code' small light />
+      <FormattedMessage id='modals.qrcode.scan' defaultMessage='Scan QR Code' />
       <QRCodeContainer>
         <QRCodeReact value={bitcoinAddress} size={256} />
       </QRCodeContainer>
       <CopyClipboard address={bitcoinAddress} />
       <Footer>
         <Link onClick={handleBack}>
-          <Text id='modals.qrcode.back' text='Go back' small light cyan />
+          <FormattedMessage id='modals.qrcode.back' defaultMessage='Go back' />
         </Link>
       </Footer>
     </Modal>

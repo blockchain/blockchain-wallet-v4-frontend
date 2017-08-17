@@ -1,6 +1,6 @@
 import React from 'react'
-
-import { SecondaryButton, Text, Typography } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { Button, Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
 
 const EmailAddress = (props) => {
@@ -8,20 +8,22 @@ const EmailAddress = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.preferences.email.title' text='Email address' capitalize />
+          <FormattedMessage id='scenes.preferences.email.title' defaultMessage='Email address' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.preferences.email.description' text='Your verified email address is used to send login codes when suspicious or unusual activity is detected,' altFont light />
-          <Text id='scenes.preferences.email.description2' text='to remind you of your wallet login ID,' altFont light />
-          <Text id='scenes.preferences.email.description3' text='and to send bitcoin payment alerts when you receive funds.' altFont light />
-          <Text id='scenes.preferences.email.warning' text="This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same." altFont light red />
+          <FormattedMessage id='scenes.preferences.email.description' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected,' />
+          <FormattedMessage id='scenes.preferences.email.description2' defaultMessage='to remind you of your wallet login ID,' />
+          <FormattedMessage id='scenes.preferences.email.description3' defaultMessage='and to send bitcoin payment alerts when you receive funds.' />
+          <Text color='red'>
+            <FormattedMessage id='scenes.preferences.email.warning' defaultMessage="This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same." />
+          </Text>
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Typography>test@example.com</Typography>
-        <SecondaryButton>
-          <Text id='scenes.preferences.email.change' text='Change' small light white />
-        </SecondaryButton>
+        <Text>test@example.com</Text>
+        <Button type='secondary'>
+          <FormattedMessage id='scenes.preferences.email.change' defaultMessage='Change' />
+        </Button>
       </SettingComponent>
     </SettingContainer>
   )

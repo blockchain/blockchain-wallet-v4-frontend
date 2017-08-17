@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, validEmail, validWalletId } from 'services/FormHelper'
-import { Form, HelpBlock, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-info-components'
+import { Button, Form, HelpBlock, RouterLink, Separator, Text, TextBox } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -28,33 +29,39 @@ const FirstStep = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.reset2fa.firststep.reset' text='Reset 2FA' biggest light capitalize />
-        <Text id='scenes.reset2fa.firststep.step1' text='Step 1 of 3' smallest />
+        <FormattedMessage id='scenes.reset2fa.firststep.reset' defaultMessage='Reset 2FA' />
+        <Text size='10px'>
+          <FormattedMessage id='scenes.reset2fa.firststep.step1' defaultMessage='Step 1 of 3' />
+        </Text>
       </Header>
-      <Text id='scenes.reset2fa.firststep.explain' text='Are you unable to gain access to your wallet because you lost your two factor authentication (2FA) device or are unable to access your email account ?' small light altFont />
+      <FormattedMessage id='scenes.reset2fa.firststep.explain' defaultMessage='Are you unable to gain access to your wallet because you lost your two factor authentication (2FA) device or are unable to access your email account ?' />
       <br />
-      <Text id='scenes.reset2fa.firststep.explain2' text='2FA reset requests are automatically approved after a certain time.' small light altFont />
-      <Text id='scenes.reset2fa.firststep.explain3' text='Your IP address and browser information will be recorded on submission.' small light altFont />
+      <FormattedMessage id='scenes.reset2fa.firststep.explain2' defaultMessage='2FA reset requests are automatically approved after a certain time.' />
+      <FormattedMessage id='scenes.reset2fa.firststep.explain3' defaultMessage='Your IP address and browser information will be recorded on submission.' />
       <Separator />
       <Form>
-        <Text id='scenes.reset2fa.firststep.firststepform.guid' text='Wallet identifier' small medium capitalize />
+        <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid' defaultMessage='Wallet identifier' />
         <Field name='guid' validate={[required, validWalletId]} component={TextBox} placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' />
         <HelpBlock>
-          <Text id='scenes.reset2fa.firststep.firststepform.guid_explain' text='If you forgot your wallet identifier, please ' small light altFont />
-          <RouterLink to='/reminder'><Text id='scenes.reset2fa.2fafirstform.look' text='look it up here' small light altFont cyan /></RouterLink>
+          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid_explain' defaultMessage='If you forgot your wallet identifier, please ' />
+          <RouterLink to='/reminder'>
+            <FormattedMessage id='scenes.reset2fa.2fafirstform.look' defaultMessage='look it up here' />
+          </RouterLink>
         </HelpBlock>
-        <Text id='scenes.reset2fa.firststep.firststepform.email' text='Registered email' small medium capitalize />
+        <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email' defaultMessage='Registered email' />
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
         <HelpBlock>
-          <Text id='scenes.reset2fa.firststep.firststepform.email_explain' text='Enter the email associated with your wallet.' small light altFont />
-          <Text id='scenes.reset2fa.firststep.firststepform.email_explain2' text='If you lost access to this email, please enter it regardless.' small light altFont />
+          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet.' />
+          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain2' defaultMessage='If you lost access to this email, please enter it regardless.' />
         </HelpBlock>
-        <SecondaryButton disabled={submitting || invalid} onClick={next} fullwidth>
-          <Text id='scenes.reset2fa.firststep.firststepform.continue' text='Continue' uppercase white />
-        </SecondaryButton>
+        <Button type='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
+          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
+        </Button>
       </Form>
       <Footer>
-        <RouterLink to='/help'><Text id='scenes.reset2fa.firststep.back' text='Go back' small light cyan /></RouterLink>
+        <RouterLink to='/help'>
+          <FormattedMessage id='scenes.reset2fa.firststep.back' defaultMessage='Go back' />
+        </RouterLink>
       </Footer>
     </Wrapper>
   )
