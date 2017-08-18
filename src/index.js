@@ -2,7 +2,7 @@ import './Fonts'
 
 export { Button, ButtonGroup } from './Buttons'
 export { Badge } from './Badges'
-export { NewDropdown } from './Dropdowns'
+export { SimpleDropdown } from './Dropdowns'
 export { ConfirmationGauge } from './Gauges'
 export { Icon } from './Icons'
 export { Background, Image } from './Images'

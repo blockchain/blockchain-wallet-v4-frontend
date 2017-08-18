@@ -73,9 +73,10 @@ class SimpleDropdown extends React.Component {
   constructor (props) {
     super(props)
     this.items = props.items
-    this.state = {opened: props.opened,
-                  display: this.items.filter(item => item.value === props.selectedValue)[0]
-                 }
+    this.state = {
+      opened: props.opened,
+      display: this.items.filter(item => item.value === props.selectedValue)[0]
+    }
     this.handleClick = this.handleClick.bind(this)
     this.handleCallback = this.handleCallback.bind(this)
     this.color = props.color
@@ -88,22 +89,20 @@ class SimpleDropdown extends React.Component {
   }
 
   handleCallback (item) {
-    if(this.props.callback) {
-      this.props.callback(item)
-      this.setState({ opened: false, display: item})
-    }
+    if (this.props.callback) { this.props.callback(item) }
+    this.setState({ opened: false, display: item })
   }
 
   render () {
-    return(
+    return (
       <SimpleDropdownWrapper uppercase={this.uppercase}>
         <DropdownList opened={this.state.opened} down={this.down}>
           { this.items.map((item, index) => {
-            return (<li  key={index} onClick={this.handleCallback.bind(this, item)}>
-                      <DropdownItem>
-                        {item.text}
-                      </DropdownItem>
-                    </li>)
+            return (
+              <li key={index} onClick={this.handleCallback.bind(this, item)}>
+                <DropdownItem>{item.text}</DropdownItem>
+              </li>
+            )
           })}
         </DropdownList>
         <ButtonContainer color={this.color} onClick={this.handleClick}>
