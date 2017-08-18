@@ -5,6 +5,7 @@ import Color from 'color'
 
 const BaseButton = styled.button.attrs({ type: 'button' })`
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
@@ -20,6 +21,8 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
   letter-spacing: normal;
   transition: all .2s ease-in-out;
   white-space: nowrap;
+  line-height: 20px;
+  text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 16px;
   font-weight: ${props => props.bold ? '700' : '400'};
