@@ -14,18 +14,23 @@ module.exports = {
   },
   output: {
     path: PATHS.dist,
-    filename: 'index.js'
+    filename: 'index.js',
+    library: '',
+    libraryTarget: 'commonjs'
+  },
+  externals: {
+    'prop-types': 'commonjs prop-types',
+    'react': 'commonjs react',
+    'styled-components': 'commonjs styled-components'
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader'
-          }
-        ]
+        use: {
+          loader: 'babel-loader'
+        }
       },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
@@ -51,8 +56,7 @@ module.exports = {
     new CleanWebpackPlugin(['dist'], {
       root: '/',
       verbose: true,
-      dry: false,
-      exclude: ['shared.js']
+      dry: false
     })
   ]
 }

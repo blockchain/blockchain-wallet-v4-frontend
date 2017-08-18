@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Text } from '../Text'
 import Icomoon from './Icomoon'
 
-const IconImage = styled.span`
+const BaseIcon = styled.span`
   &:before {
     font-family: 'icomoon';
     content: '${props => props.code}';
@@ -18,7 +18,7 @@ const Icon = (props) => {
 
   return (
     <Text {...rest}>
-      <IconImage code={code} />
+      <BaseIcon code={code} />
     </Text>
   )
 }

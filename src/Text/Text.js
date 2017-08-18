@@ -10,7 +10,10 @@ const BaseText = styled.div`
     props.uppercase ? 'uppercase'
       : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => props.italic ? 'italic' : 'normal'};
-  color: ${props => props.color === 'red' ? '#CA3A3C' : '#5F5F5F'};
+  color: ${props =>
+    props.color === 'cyan' ? '#10ADE4'
+    : props.color === 'white' ? '#FFFFFF'
+    : props.color === 'red' ? '#CA3A3C' : '#5F5F5F'};
 `
 
 const Text = ({ ...props, children }) => {
@@ -27,7 +30,7 @@ Text.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
-  color: PropTypes.oneOf(['red']),
+  color: PropTypes.oneOf(['red', 'white', 'cyan']),
   altFont: PropTypes.bool
 }
 

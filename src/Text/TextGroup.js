@@ -9,7 +9,7 @@ const BaseTextGroup = styled.div`
     : '& > * { display: block; margin-bottom: 10px; }'}
 `
 
-const TextGroup = props => <BaseTextGroup {...props}/>
+const TextGroup = props => <BaseTextGroup {...props} />
 
 TextGroup.propTypes = {
   aligned: PropTypes.bool
