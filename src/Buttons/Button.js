@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Color from 'color'
 
-const BaseButton = styled.button`
+const BaseButton = styled.button.attrs({ type: 'button' })`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,7 +40,7 @@ const BaseButton = styled.button`
 const Button = ({ ...props, children }) => {
   let color, backgroundColor, borderColor
 
-  switch (props.type) {
+  switch (props.nature) {
     case 'empty':
       color = '#4B4D4E'
       backgroundColor = '#FFFFFF'
@@ -55,6 +55,11 @@ const Button = ({ ...props, children }) => {
       color = '#FFFFFF'
       backgroundColor = '#10ADE4'
       borderColor = '#10ADE4'
+      break
+    case 'copy':
+      color = '#FFFFFF'
+      backgroundColor = '#006600'
+      borderColor = '#006600'
       break
     default:
       color = '#4B4D4E'
@@ -82,7 +87,7 @@ const Button = ({ ...props, children }) => {
 }
 
 Button.propTypes = {
-  type: PropTypes.oneOf(['empty', 'primary', 'secondary']),
+  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy']),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,
@@ -91,7 +96,7 @@ Button.propTypes = {
 }
 
 Button.defaultProps = {
-  type: 'empty',
+  nature: 'empty',
   fullwidth: false,
   disabled: false,
   rounded: false,
