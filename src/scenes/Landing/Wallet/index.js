@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { NavLink } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
 
-import { Button, Text } from 'blockchain-info-components'
-import RouterLink from 'components/RouterLink'
+import { Button, Link, Text } from 'blockchain-info-components'
 
 const WalletWrapper = styled.div`
   display: flex;
@@ -37,16 +36,18 @@ const NewToBitcoin = (props) => {
         <Text uppercase>
           <FormattedMessage id='scenes.landing.wallet.get' defaultMessage="Get the world's most popular bitcoin wallet" />
         </Text>
-        <NavLink to='/register'>
+        <LinkContainer to='/register'>
           <Button nature='secondary' rounded>
             <FormattedMessage id='scenes.landing.wallet.getstarted' defaultMessage='Get started now' />
           </Button>
-        </NavLink>
+        </LinkContainer>
         <LoginContainer>
           <FormattedMessage id='scenes.landing.wallet.or' defaultMessage='or' />
-          <RouterLink to='/login'>
-            <FormattedMessage id='scenes.landing.wallet.login' defaultMessage='Login' />
-          </RouterLink>
+          <LinkContainer to='/login'>
+            <Link>
+              <FormattedMessage id='scenes.landing.wallet.login' defaultMessage='Login' />
+            </Link>
+          </LinkContainer>
         </LoginContainer>
       </WalletContainer>
     </WalletWrapper>

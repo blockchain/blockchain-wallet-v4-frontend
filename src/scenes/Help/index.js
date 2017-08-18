@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Link, Separator } from 'blockchain-info-components'
-import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -52,11 +52,11 @@ const Help = (props) => {
           <FormattedMessage id='scenes.help.guid_explain' defaultMessage='Email me a reminder with my Wallet ID to my email address' />
         </Left>
         <Right>
-          <RouterLink to='/reminder'>
+          <LinkContainer to='/reminder'>
             <Button>
               <FormattedMessage id='scenes.help.remind' defaultMessage='Remind me' />
             </Button>
-          </RouterLink>
+          </LinkContainer>
         </Right>
       </Row>
       <Separator />
@@ -66,11 +66,11 @@ const Help = (props) => {
           <FormattedMessage id='scenes.help.password_explain' defaultMessage='Recover your funds with your 12 word recovery passphrase' />
         </Left>
         <Right>
-          <RouterLink to='/recover'>
+          <LinkContainer to='/recover'>
             <Button>
               <FormattedMessage id='scenes.help.recover' defaultMessage='Recover funds' />
             </Button>
-          </RouterLink>
+          </LinkContainer>
         </Right>
       </Row>
       <Separator />
@@ -80,18 +80,20 @@ const Help = (props) => {
           <FormattedMessage id='scenes.help.2fa_explain' defaultMessage='Reset two step verification to regain access to your wallet' />
         </Left>
         <Right>
-          <RouterLink to='/reset2fa'>
+          <LinkContainer to='/reset2fa'>
             <Button>
               <FormattedMessage id='scenes.help.reset' defaultMessage='Reset 2FA' />
             </Button>
-          </RouterLink>
+          </LinkContainer>
         </Right>
       </Row>
       <Separator />
       <Footer>
-        <RouterLink to='/login'>
-          <FormattedMessage id='scenes.help.back' defaultMessage='Go back' />
-        </RouterLink>
+        <LinkContainer to='/login'>
+          <Link>
+            <FormattedMessage id='scenes.help.back' defaultMessage='Go back' />
+          </Link>
+        </LinkContainer>
         <Link href='https://blockchain.zendesk.com/' target='_blank'>
           <FormattedMessage id='scenes.help.contact' defaultMessage='Contact support' />
         </Link>

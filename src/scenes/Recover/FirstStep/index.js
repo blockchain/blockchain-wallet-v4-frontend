@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validMmemonic } from 'services/FormHelper'
-import { Button, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { Form, HelpBlock, TextBox } from 'components/Form'
-import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -55,9 +55,11 @@ const FirstStep = (props) => {
         </Button>
       </Form>
       <Footer>
-        <RouterLink to='/help'>
-          <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go back' />
-        </RouterLink>
+        <LinkContainer to='/help'>
+          <Link>
+            <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go back' />
+          </Link>
+        </LinkContainer>
       </Footer>
     </Wrapper>
 

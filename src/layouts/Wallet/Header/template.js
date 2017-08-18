@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Navbar, Nav } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import Ticker from './Ticker'
 import ExploreMenu from './ExploreMenu'
@@ -10,7 +11,6 @@ import Refresh from './Refresh'
 import Logout from './Logout'
 
 import { Image } from 'blockchain-info-components'
-import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   & .navbar-header {  height: 60px; }
@@ -55,7 +55,9 @@ const Header = (props) => {
             <MenuLeftTogglerBar />
           </MenuLeftToggler>
           <Navbar.Brand>
-            <RouterLink to='/'><Logo name='blockchain-vector' height='20px' /></RouterLink>
+            <LinkContainer to='/'>
+              <Logo name='blockchain-vector' height='20px' />
+            </LinkContainer>
           </Navbar.Brand>
           <Navbar.Toggle onClick={handleToggleNavigation} />
         </Navbar.Header>

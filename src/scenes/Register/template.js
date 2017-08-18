@@ -2,10 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail, validPassword } from 'services/FormHelper'
-import { Button, CheckBox, Form, PasswordBox, Separator, TextBox } from 'blockchain-info-components'
-import RouterLink from 'components/RouterLink'
+import { Button, Link, Separator } from 'blockchain-info-components'
+import { CheckBox, Form, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
 
 const Wrapper = styled.div`
@@ -35,9 +36,11 @@ const Register = (props) => {
         <FormattedMessage id='scenes.register.create' defaultMessage='Create your Wallet' />
         <Aligned>
           <FormattedMessage id='scenes.register.or' defaultMessage='or' />
-          <RouterLink to='/login'>
-            <FormattedMessage id='scenes.register.login' defaultMessage='Login' />
-          </RouterLink>
+          <LinkContainer to='/login'>
+            <Link>
+              <FormattedMessage id='scenes.register.login' defaultMessage='Login' />
+            </Link>
+          </LinkContainer>
         </Aligned>
       </Header>
       <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
@@ -49,7 +52,10 @@ const Register = (props) => {
         <Field name='password' validate={[required, validPassword]} component={PasswordBox} score />
         <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
-        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: Terms}} />
+        <Aligned>
+          <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} />
+          <Terms />
+        </Aligned>
         <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
           <FormattedMessage id='scenes.register.submit' defaultMessage='Continue' />
         </Button>

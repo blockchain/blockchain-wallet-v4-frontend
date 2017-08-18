@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Grid } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { Image, Link, Text } from 'blockchain-info-components'
-import RouterLink from 'components/RouterLink'
 import DropdownLanguage from 'components/DropdownLanguage'
 
 const Wrapper = styled.div`
@@ -40,7 +40,7 @@ const Logo = styled(Image)`
   display: flex;
   margin-bottom: 20px;
 `
-const LinkContainer = styled.div`
+const Column = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -81,13 +81,15 @@ const Footer = () => {
       <Container>
         <Top>
           <Logo name='blockchain-blue' height='20px' />
-          <LinkContainer>
+          <Column>
             <Text color='cyan' uppercase>
               <FormattedMessage id='components.layouts.landing.footer.products' defaultMessage='Products' />
             </Text>
-            <RouterLink to='/wallet' uppercase>
-              <FormattedMessage id='components.layouts.landing.footer.wallet' defaultMessage='Wallet' />
-            </RouterLink>
+            <LinkContainer to='/wallet'>
+              <Text uppercase>
+                <FormattedMessage id='components.layouts.landing.footer.wallet' defaultMessage='Wallet' />
+              </Text>
+            </LinkContainer>
             <Link href='https://blockchain.com/enterprise' uppercase>
               <FormattedMessage id='components.layouts.landing.footer.business' defaultMessage='Business' />
             </Link>
@@ -100,8 +102,8 @@ const Footer = () => {
             <Link href='https://support.blockchain.com' uppercase>
               <FormattedMessage id='components.layouts.landing.footer.support' defaultMessage='Support' />
             </Link>
-          </LinkContainer>
-          <LinkContainer>
+          </Column>
+          <Column>
             <Text color='cyan' uppercase>
               <FormattedMessage id='components.layouts.landing.footer.company' defaultMessage='Company' />
             </Text>
@@ -120,8 +122,8 @@ const Footer = () => {
             <Link href='https://blockchain.com/faq' uppercase>
               <FormattedMessage id='components.layouts.landing.footer.faq' defaultMessage='Faq' />
             </Link>
-          </LinkContainer>
-          <LinkContainer>
+          </Column>
+          <Column>
             <Text color='cyan' uppercase>
               <FormattedMessage id='components.layouts.landing.footer.news' defaultMessage='News' />
             </Text>
@@ -131,14 +133,14 @@ const Footer = () => {
             <Link href='https://blog.blockchain.com' uppercase>
               <FormattedMessage id='components.layouts.landing.footer.blog' defaultMessage='Blog' />
             </Link>
-          </LinkContainer>
+          </Column>
           <DropdownContainer>
             <DropdownLanguage />
           </DropdownContainer>
         </Top>
         <Bottom>
           <CopyrightContainer>
-            <Text cyan uppercase>
+            <Text color='cyan' uppercase>
               <FormattedMessage id='components.layouts.landing.footer.copyright' defaultMessage='2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.' />
             </Text>
             <Link href='https://blockchain.com/privacy' target='_blank' uppercase>

@@ -30,8 +30,8 @@ const Devices = (props) => {
           <FormattedMessage id='scenes.landing.devices.bitcoin' defaultMessage='Bitcoin on All Your Devices' />
           <FormattedMessage id='scenes.landing.devices.wallet' defaultMessage='Access your bitcoin wallet securely anywhere you go.' />
           <BadgesContainer>
-            <Badge nature='applestore' />
-            <Badge nature='googleplay' />
+            <Badge type='applestore' />
+            <Badge type='googleplay' />
           </BadgesContainer>
         </BannerContainer>
       </BannerWrapper>

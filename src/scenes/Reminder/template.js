@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
-import { Button, Separator } from 'blockchain-info-components'
+import { Button, Link, Separator } from 'blockchain-info-components'
 import { CaptchaBox, Form, TextBox } from 'components/Form'
-import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -38,9 +38,11 @@ const Reminder = (props) => {
         </Button>
       </Form>
       <Footer>
-        <RouterLink to='/help'>
-          <FormattedMessage id='scenes.reminder.back' defaultMessage='Go back' />
-        </RouterLink>
+        <LinkContainer to='/help'>
+          <Link>
+            <FormattedMessage id='scenes.reminder.back' defaultMessage='Go back' />
+          </Link>
+        </LinkContainer>
       </Footer>
     </Wrapper>
   )

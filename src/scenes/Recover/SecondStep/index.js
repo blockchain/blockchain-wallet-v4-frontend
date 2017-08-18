@@ -24,6 +24,9 @@ const Header = styled.div`
 const Footer = styled.div`
   padding: 5px 0;
 `
+const Aligned = styled.div`
+& > * { display: inline-block; margin-right: 5px; }
+`
 
 const SecondStep = (props) => {
   const { handleSubmit, previous, submitting, invalid } = props
@@ -46,7 +49,10 @@ const SecondStep = (props) => {
         <Field name='password' validate={[required, validPassword]} component={PasswordBox} score />
         <FormattedMessage id='scenes.recover.secondstep.confirmationPassword' defaultMessage='Confirm Password' small medium />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
-        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: Terms}} fullwidth />
+        <Aligned>
+          <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} />
+          <Terms />
+        </Aligned>
         <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleSubmit}>
           <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover funds' />
         </Button>

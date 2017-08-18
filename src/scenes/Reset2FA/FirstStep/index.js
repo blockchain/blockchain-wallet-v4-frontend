@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail, validWalletId } from 'services/FormHelper'
-import { Button, Separator, Text } from 'blockchain-info-components'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import { Form, HelpBlock, TextBox } from 'components/Form'
-import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -46,9 +46,11 @@ const FirstStep = (props) => {
         <Field name='guid' validate={[required, validWalletId]} component={TextBox} placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' />
         <HelpBlock>
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid_explain' defaultMessage='If you forgot your wallet identifier, please ' />
-          <RouterLink to='/reminder'>
-            <FormattedMessage id='scenes.reset2fa.2fafirstform.look' defaultMessage='look it up here' />
-          </RouterLink>
+          <LinkContainer to='/reminder'>
+            <Link>
+              <FormattedMessage id='scenes.reset2fa.2fafirstform.look' defaultMessage='look it up here' />
+            </Link>
+          </LinkContainer>
         </HelpBlock>
         <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email' defaultMessage='Registered email' />
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
@@ -61,9 +63,11 @@ const FirstStep = (props) => {
         </Button>
       </Form>
       <Footer>
-        <RouterLink to='/help'>
-          <FormattedMessage id='scenes.reset2fa.firststep.back' defaultMessage='Go back' />
-        </RouterLink>
+        <LinkContainer to='/help'>
+          <Link>
+            <FormattedMessage id='scenes.reset2fa.firststep.back' defaultMessage='Go back' />
+          </Link>
+        </LinkContainer>
       </Footer>
     </Wrapper>
   )

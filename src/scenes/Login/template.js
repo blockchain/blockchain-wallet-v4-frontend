@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator } from 'blockchain-info-components'
 import { Form, HelpBlock, PasswordBox, TextBox } from 'components/Form'
-import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -47,9 +47,9 @@ const Login = (props) => {
         <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back !' />
         <Aligned>
           <FormattedMessage id='scenes.login.or' defaultMessage='or' />
-          <RouterLink to='/register'>
+          <LinkContainer to='/register'>
             <FormattedMessage id='scenes.login.register' defaultMessage='Sign up' />
-          </RouterLink>
+          </LinkContainer>
         </Aligned>
       </Header>
       <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
@@ -77,9 +77,11 @@ const Login = (props) => {
         </Link>
         <Aligned>
           <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some troubles?' />
-          <RouterLink to='/help'>
-            <FormattedMessage id='scenes.login.options' defaultMessage='View options' />
-          </RouterLink>
+          <LinkContainer to='/help'>
+            <Link>
+              <FormattedMessage id='scenes.login.options' defaultMessage='View options' />
+            </Link>
+          </LinkContainer>
         </Aligned>
       </Footer>
     </Wrapper>

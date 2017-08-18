@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 
+import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Image, Text } from 'blockchain-info-components'
-import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   padding-top: 17px;
@@ -28,19 +28,21 @@ const Header = (props) => {
       <Navbar inverse defaultExpanded={toggled}>
         <Navbar.Header>
           <Navbar.Brand>
-            <RouterLink to='/'><Logo name='blockchain-vector' height='22px' /></RouterLink>
+            <LinkContainer to='/'>
+              <Logo name='blockchain-vector' height='22px' />
+            </LinkContainer>
           </Navbar.Brand>
           <Navbar.Toggle onClick={handleToggle} />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <RouterLink to='/wallet'>
+            <LinkContainer to='/wallet'>
               <NavItem>
                 <Text color='white' uppercase>
                   <FormattedMessage id='components.layouts.landing.header.wallets' defaultMessage='Wallets' />
                 </Text>
               </NavItem>
-            </RouterLink>
+            </LinkContainer>
             <NavItem href='https://blockchain.info/charts' target='_blank'>
               <Text color='white' uppercase>
                 <FormattedMessage id='components.layouts.landing.header.charts' defaultMessage='Charts' />
@@ -63,20 +65,20 @@ const Header = (props) => {
             </NavItem>
           </Nav>
           <Nav pullRight>
-            <RouterLink to='/login'>
+            <LinkContainer to='/login'>
               <NavItem>
                 <Button nature='primary' uppercase rounded>
                   <FormattedMessage id='components.layouts.landing.header.login' defaultMessage='Log in' />
                 </Button>
               </NavItem>
-            </RouterLink>
-            <RouterLink to='/register'>
+            </LinkContainer>
+            <LinkContainer to='/register'>
               <NavItem>
                 <Button nature='secondary' uppercase rounded>
                   <FormattedMessage id='components.layouts.landing.header.signup' defaultMessage='Sign up' />
                 </Button>
               </NavItem>
-            </RouterLink>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
