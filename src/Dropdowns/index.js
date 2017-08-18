@@ -1,1 +1,1 @@
-export { default as NewDropdown } from './NewDropdown'
+export { default as SimpleDropdown } from './SimpleDropdown'
