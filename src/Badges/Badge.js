@@ -7,40 +7,27 @@ import appleStore from '../Images/img/app-store-badge.svg'
 import googlePlay from '../Images/img/google-play-badge.png'
 
 const BaseBadge = styled.img`
+  display: inline-block;
   height: 40px;
  `
-const Badge = ({ ...props, children }) => {
-  let image, url
-
-  switch (props.type) {
-    case 'applestore':
-      image = appleStore
-      url = 'https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309'
-      break
-    case 'googleplay':
-      image = googlePlay
-      url = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'
-      break
-    default:
-      url = ''
+const selectProperties = type => {
+  switch (type) {
+    case 'applestore': return { image: appleStore, url: 'https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309' }
+    case 'googleplay': return { image: googlePlay, url: 'https://play.google.com/store/apps/details?id=piuk.blockchain.android' }
+    default: return { image: '', url: '#' }
   }
+}
+
+const Badge = ({ ...props, children }) => {
+  const { image, url } = selectProperties(props.type)
 
   return url
-    ? <BaseBadge src={image} />
-    : (
-      <Link src={url} target='_blank'>
-        <BaseBadge src={image} />
-      </Link>
-    )
+    ? <Link href={url} target='_blank'><BaseBadge src={image} /></Link>
+    : <BaseBadge src={image} />
 }
 
 Badge.propTypes = {
-  type: PropTypes.oneOf(['applestore', 'googleplay']).isRequired,
-  url: PropTypes.string
-}
-
-Badge.defaultProps = {
-  url: '#'
+  type: PropTypes.oneOf(['applestore', 'googleplay']).isRequired
 }
 
 export default Badge
