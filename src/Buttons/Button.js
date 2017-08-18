@@ -8,6 +8,7 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
   justify-content: center;
   align-items: center;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
+  min-width: 120px;
   height: 40px;
   padding: 10px 15px;
   box-sizing: border-box;
@@ -28,10 +29,10 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
   border-radius: ${props => props.rounded ? '20px' : '3px'};
   border-style: solid;
   border-width: ${props => props.rounded ? '2px' : '1px'};
-  border-color: ${props => props.borderColor};
+  border-color: ${props => props.rounded ? '#FFFFFF' : props.borderColor};
 
   &:hover {
-    border-color: ${props => props.disabled ? 'none' : props.borderColorHover};
+    border-color: ${props => props.disabled ? 'none' : props.rounded ? '#FFFFFF' : props.borderColorHover};
     background-color: ${props => props.disabled ? 'none' : props.backgroundColorHover}; 
   }
   &:focus { outline:0; }

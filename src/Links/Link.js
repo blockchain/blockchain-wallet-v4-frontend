@@ -7,21 +7,23 @@ const BaseLink = styled.a`
   text-decoration: none;
   font-weight: ${props => props.bold ? 700 : 400};
   color: ${props =>
-    props.color === 'cyan' ? '#00aee6'
-    : props.color === 'gray' ? '#799eb2' : '#004a7c'};
+    props.color === 'cyan' ? '#00AEE6'
+    : props.color === 'gray' ? '#799EB2' : '#004A7C'};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
 
   &:hover { 
     color: ${props =>
-    props.color === 'cyan' ? '#00aee6'
-    : props.color === 'gray' ? '#799eb2' : '#00aee6'};
+    props.color === 'cyan' ? '#00AEE6'
+    : props.color === 'gray' ? '#799EB2' : '#004A7C'};
   }
   &:focus { text-decoration: none; }
 `
 
-const Link = ({...props, children}) => {
+const Link = props => {
+  const { children, ...rest } = props
+
   return (
-    <BaseLink {...props}>
+    <BaseLink {...rest}>
       {children}
     </BaseLink>
   )
