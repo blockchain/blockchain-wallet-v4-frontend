@@ -12,6 +12,7 @@ const BaseText = styled.div`
   font-style: ${props => props.italic ? 'italic' : 'normal'};
   color: ${props =>
     props.color === 'cyan' ? '#10ADE4'
+    : props.color === 'medium-blue' ? '#799EB2'
     : props.color === 'white' ? '#FFFFFF'
     : props.color === 'red' ? '#CA3A3C' : '#5F5F5F'};
 `

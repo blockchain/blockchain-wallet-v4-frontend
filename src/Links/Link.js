@@ -12,7 +12,7 @@ const BaseLink = styled.a`
   font-weight: ${props => props.weight};
   color: ${props =>
     props.color === 'cyan' ? '#00AEE6'
-    : props.color === 'gray' ? '#799EB2' : '#004A7C'};
+    : props.color === 'medium-blue' ? '#799EB2' : '#004A7C'};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   text-decoration: none;
   cursor : pointer;
