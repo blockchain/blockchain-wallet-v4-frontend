@@ -47,8 +47,8 @@ const DropdownList = styled.ul`
   overflow: scroll;
   padding: 5px 0px;
   position: absolute;
-  top: auto;
-  bottom: 25px;
+  ${props => props.down ? 'top: 25px; bottom: auto;'
+                        : 'top: auto; bottom: 25px;'}
   z-index: 1000;
   -webkit-box-direction: normal;
   -webkit-margin-after: 2px;
@@ -80,6 +80,7 @@ class SimpleDropdown extends React.Component {
     this.handleCallback = this.handleCallback.bind(this)
     this.color = props.color
     this.uppercase = props.uppercase
+    this.down = props.down
   }
 
   handleClick () {
@@ -96,7 +97,7 @@ class SimpleDropdown extends React.Component {
   render () {
     return(
       <SimpleDropdownWrapper uppercase={this.uppercase}>
-        <DropdownList opened={this.state.opened}>
+        <DropdownList opened={this.state.opened} down={this.down}>
           { this.items.map((item, index) => {
             return (<li  key={index} onClick={this.handleCallback.bind(this, item)}>
                       <DropdownItem>
@@ -120,7 +121,8 @@ SimpleDropdown.defaultProps = {
   color: 'cyan',
   opened: false,
   selectedValue: 0,
-  uppercase: true
+  uppercase: true,
+  down: false
 }
 
 SimpleDropdown.PropTypes = {
@@ -132,7 +134,8 @@ SimpleDropdown.PropTypes = {
   callback: PropTypes.func.isRequired,
   opened: PropTypes.bool,
   color: PropTypes.oneOf(['cyan', 'white']),
-  uppercase: PropTypes.bool
+  uppercase: PropTypes.bool,
+  down: PropTypes.bool
 }
 
 export default SimpleDropdown
