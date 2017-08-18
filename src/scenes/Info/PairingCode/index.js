@@ -2,9 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
-import { AppleStore, GooglePlay } from 'components/shared/Badges'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import { Badge, Text } from 'blockchain-info-components'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 import Settings from './Settings'
 
 const BadgesContainer = styled.div`
@@ -27,8 +26,8 @@ const PairingCode = (props) => {
             <FormattedMessage id='scenes.info.pairingcode.warning' defaultMessage='Do not share your Pairing Code with others.' />
           </Text>
           <BadgesContainer>
-            <AppleStore />
-            <GooglePlay />
+            <Badge name='applestore' />
+            <Badge name='googleplay' />
           </BadgesContainer>
         </SettingDescription>
       </SettingSummary>

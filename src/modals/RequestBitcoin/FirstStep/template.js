@@ -5,7 +5,7 @@ import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
 import { Button, Form, Modal, TextArea, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, SelectBoxAddresses } from 'components/shared/Form'
+import { CoinConvertor, SelectBoxAddresses } from 'components/Form'
 import CopyClipboard from './CopyClipboard'
 
 const Separator = styled.div`

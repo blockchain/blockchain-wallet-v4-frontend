@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import QRCodeReact from 'qrcode-react'
 
 import { Button, Modal } from 'blockchain-info-components'
-import modalEnhancer from 'components/providers/ModalEnhancer'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const QRCodeContainer = styled.div`
   display: flex;

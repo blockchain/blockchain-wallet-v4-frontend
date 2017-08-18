@@ -6,7 +6,7 @@ import QRCodeReact from 'qrcode-react'
 
 import { Link, Modal } from 'blockchain-info-components'
 import CopyClipboard from './CopyClipboard'
-import modalEnhancer from 'components/providers/ModalEnhancer'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const QRCodeContainer = styled.div`
   display: flex;

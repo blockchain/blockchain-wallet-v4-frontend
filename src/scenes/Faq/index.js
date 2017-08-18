@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Link } from 'blockchain-info-components'
-import FaqRow from 'components/shared/FaqRow'
+import FaqRow from 'components/FaqRow'
 import Question1 from './Question1'
 import Question2 from './Question2'
 import Question3 from './Question3'

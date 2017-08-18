@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import CoinDisplay from 'components/shared/CoinDisplay'
-import CurrencyDisplay from 'components/shared/CurrencyDisplay'
+import CoinDisplay from 'components/CoinDisplay'
+import CurrencyDisplay from 'components/CurrencyDisplay'
 import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`

@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, RouterLink, Separator } from 'blockchain-info-components'
+import { Button, Link, Separator } from 'blockchain-info-components'
+import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   width: 100%;

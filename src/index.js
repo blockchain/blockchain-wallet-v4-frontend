@@ -10,6 +10,9 @@ import { defaultTheme } from 'themes'
 import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
 
+import * as Button from 'blockchain-info-components/dist/index.js'
+console.log(Button)
+
 // Register store
 let configureStorePayload = configureStore()
 if (module.hot) { module.hot.accept('store', () => { configureStorePayload = require('store').default() }) }

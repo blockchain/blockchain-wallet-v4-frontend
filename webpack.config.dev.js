@@ -33,13 +33,14 @@ module.exports = {
       'components': PATHS.src + '/components',
       'config': PATHS.src + '/config',
       'data': PATHS.src + '/data',
+      'layouts': PATHS.src + '/layouts',
       'middleware': PATHS.src + '/middleware',
       'modals': PATHS.src + '/modals',
+      'providers': PATHS.src + '/providers',
       'scenes': PATHS.src + '/scenes',
       'services': PATHS.src + '/services',
       'store': PATHS.src + '/store',
-      'themes': PATHS.src + '/themes',
-      'react': PATHS.npm + '/react'
+      'themes': PATHS.src + '/themes'
     },
     symlinks: false
   },

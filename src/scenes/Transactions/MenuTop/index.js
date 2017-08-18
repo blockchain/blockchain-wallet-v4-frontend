@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
+import { singleForm } from 'providers/FormProvider'
 
-import { singleForm } from 'components/providers/FormProvider'
-import { Form } from 'blockchain-info-components'
-import { SelectBoxAddresses } from 'components/shared/Form'
+import { Form, SelectBoxAddresses } from 'components/Form'
 import Status from './Status'
 import Search from './Search'
 

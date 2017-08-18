@@ -5,7 +5,7 @@ import { Field } from 'redux-form'
 
 import { required, validEmail, validPassword } from 'services/FormHelper'
 import { Button, CheckBox, Form, Link, PasswordBox, Separator, Text, TextBox } from 'blockchain-info-components'
-import Terms from 'components/shared/Terms'
+import Terms from 'components/Terms'
 
 const Wrapper = styled.div`
   width: 100%;

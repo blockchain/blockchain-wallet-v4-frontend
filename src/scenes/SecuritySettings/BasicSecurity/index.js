@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import InfoWell from 'components/shared/InfoWell'
+import InfoWell from 'components/InfoWell'
 import PasswordHint from './PasswordHint'
 import SecondPasswordWallet from './SecondPasswordWallet'
 import TwoStepVerification from './TwoStepVerification'

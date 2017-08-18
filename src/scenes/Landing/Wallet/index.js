@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 
-import { Button, RouterLink, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
+import RouterLink from 'components/RouterLink'
 
 const WalletWrapper = styled.div`
   display: flex;

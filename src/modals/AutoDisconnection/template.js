@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Modal } from 'blockchain-info-components'
+import BlockchainComponents from 'blockchain-info-components'
+console.log(BlockchainComponents)
+
+// import { Button, Modal } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +18,7 @@ const Container = styled.div`
   padding: 30px 0;
   border-bottom: 1px solid EFEFEF;
 `
-const LogoutButton = styled(Button)`
+const LogoutButton = styled.div`
   background-color: #660000;
   border-color: #660000;
   margin-left: 10px;

@@ -6,7 +6,7 @@
   "scripts": {
     "build-dev": "./node_modules/.bin/webpack --config webpack.config.dev.js --progress --colors",
     "build-prod": "./node_modules/.bin/webpack --config webpack.config.prod.js --progress --colors",
-    "start-dev": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --progress --colors",
+    "start-dev": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --progress --colors --watch",
     "start-prod": "./node_modules/.bin/webpack-dev-server --config webpack.config.prod.js --progress --colors",
     "generate": "./node_modules/.bin/babel-node ./tools/generateDefaultLocale.js",
     "test": "jest --watch"

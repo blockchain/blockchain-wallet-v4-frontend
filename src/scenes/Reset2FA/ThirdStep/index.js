@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { CaptchaBox } from 'components/shared/Form'
+import { CaptchaBox } from 'components/Form'
 import { Button, Form, HelpBlock, Link, Separator, Text, TextArea } from 'blockchain-info-components'
 
 const Wrapper = styled.div`

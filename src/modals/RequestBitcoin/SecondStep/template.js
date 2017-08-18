@@ -5,8 +5,8 @@ import { FormattedMessage } from 'react-intl'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 
 import { Button, Form, Link, Modal, Text } from 'blockchain-info-components'
-import CoinDisplay from 'components/shared/CoinDisplay'
-import CurrencyDisplay from 'components/shared/CurrencyDisplay'
+import CoinDisplay from 'components/CoinDisplay'
+import CurrencyDisplay from 'components/CurrencyDisplay'
 
 const CopyButton = styled(Button)`
   color: #FFFFFF;

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import sophisticated from 'img/sophisticated.svg'
+import { Image } from 'blockchain-info-components'
 
 const Page = styled.div`
   display: flex;
@@ -30,10 +30,7 @@ const BlockHeader = styled.div`
   justify-content: flex-start;
   align-items: center;
 `
-const BlockIconSophisticated = styled.img.attrs({
-  src: sophisticated
-})`
-  height: 50px;
+const BlockIcon = styled(Image)`
   margin: 15px 0;
 `
 
@@ -41,21 +38,21 @@ const Page2 = () => (
   <Page>
     <Block>
       <BlockHeader>
-        <BlockIconSophisticated />
+        <BlockIcon name='sophisticated' height='50px' />
         <FormattedMessage id='scenes.landing.wallet.sophisticated' defaultMessage='Sophisticated' />
       </BlockHeader>
       <FormattedMessage id='scenes.landing.wallet.sophisticated_explain' defaultMessage='Hierarchical deterministic addresses. Dynamic transaction fees. Monitoring and spending from Watch Only addresses.' />
     </Block>
     <Block>
       <BlockHeader>
-        <BlockIconSophisticated />
+        <BlockIcon name='sophisticated' height='50px' />
         <FormattedMessage id='scenes.landing.wallet.global' defaultMessage='Global' />
       </BlockHeader>
       <FormattedMessage id='scenes.landing.wallet.global_explain' defaultMessage='140+ countries served. 20+ currency conversion rates, including JPY, RUB, SGD, USD, CNY, EUR, GBP, and many more. 25+ languages.' />
     </Block>
     <Block>
       <BlockHeader>
-        <BlockIconSophisticated />
+        <BlockIcon name='sophisticated' height='50px' />
         <FormattedMessage id='scenes.landing.wallet.supported' defaultMessage='Always supported' />
       </BlockHeader>
       <FormattedMessage id='scenes.landing.wallet.supported_explain' defaultMessage='Should you need help or have a question, our best in class support team will always be there for you.' />

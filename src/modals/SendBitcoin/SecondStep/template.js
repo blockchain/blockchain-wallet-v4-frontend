@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Form, Link, Modal, Text } from 'blockchain-info-components'
-import CoinDisplay from 'components/shared/CoinDisplay'
-import CurrencyDisplay from 'components/shared/CurrencyDisplay'
-import ComboDisplay from 'components/shared/ComboDisplay'
+import CoinDisplay from 'components/CoinDisplay'
+import CurrencyDisplay from 'components/CurrencyDisplay'
+import ComboDisplay from 'components/ComboDisplay'
 
 const PaymentSendRow = styled.div`
   display: flex;

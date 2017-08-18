@@ -4,7 +4,8 @@ import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
 import { required } from 'services/FormHelper'
-import { Button, Form, HelpBlock, Link, PasswordBox, RouterLink, Separator, TextBox } from 'blockchain-info-components'
+import { Button, Form, HelpBlock, Link, PasswordBox, Separator, TextBox } from 'blockchain-info-components'
+import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   width: 100%;

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Grid } from 'react-bootstrap'
 
-import bitcoinNetwork from 'img/bitcoin-network.svg'
+import { Image } from 'blockchain-info-components'
 
 const NewToBitcoinWrapper = styled.div`
   background-color: #FFFFFF;
@@ -36,9 +36,7 @@ const BitcoinNetwork = styled.div`
   justify-content: center;
   align-items: center;
 `
-const BitcoinPicture = styled.img.attrs({
-  src: bitcoinNetwork
-})`
+const BitcoinPicture = styled(Image)`
   max-width: 80%;
 `
 
@@ -56,7 +54,7 @@ const NewToBitcoin = (props) => {
         </NewToBitcoinBlock>
         <NewToBitcoinBlock>
           <BitcoinNetwork>
-            <BitcoinPicture />
+            <BitcoinPicture name='bitcoin-network' />
           </BitcoinNetwork>
         </NewToBitcoinBlock>
       </NewToBitcoinContainer>

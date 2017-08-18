@@ -2,8 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
+
 import { required, validMmemonic } from 'services/FormHelper'
-import { Button, Form, HelpBlock, RouterLink, Separator, Text, TextBox, TextGroup } from 'blockchain-info-components'
+import { Button, Form, HelpBlock, Separator, Text, TextBox, TextGroup } from 'blockchain-info-components'
+import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
   width: 100%;

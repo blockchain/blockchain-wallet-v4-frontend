@@ -3,17 +3,15 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Grid } from 'react-bootstrap'
 
-import banner from 'img/landing-page-banner-overlay.jpg'
+import { Background } from 'blockchain-info-components'
 
 const MainContainer = styled.div``
-const BannerWrapper = styled.div`
+const BannerWrapper = styled(Background)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   height: 480px;
-  background: url(${banner});
-  background-size: cover;
 `
 const BannerContainer = styled(Grid)`
   color: #FFFFFF;
@@ -50,7 +48,7 @@ const Block3 = Block.extend`
 const Main = (props) => {
   return (
     <MainContainer>
-      <BannerWrapper>
+      <BannerWrapper name='landing-page-banner-overlay' height='480px'>
         <BannerContainer>
           <FormattedMessage id='scenes.landing.main.simple' defaultMessage='Simple. Seamless. Secure.' />
           <FormattedMessage id='scenes.landing.main.popular' defaultMessage="Blockchain is the world's most popular bitcoin wallet." />

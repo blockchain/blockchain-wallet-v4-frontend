@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { RouterLink, TextGroup } from 'blockchain-info-components'
+import { TextGroup } from 'blockchain-info-components'
+import RouterLink from 'components/RouterLink'
 
 const title = <FormattedMessage id='scenes.faq.item1.question' defaultMessage='How do I buy bitcoin?' />
 

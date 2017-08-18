@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
-import modalEnhancer from 'components/providers/ModalEnhancer'
+import modalEnhancer from 'providers/ModalEnhancer'
 import QRCodeCapture from './template.js'
 
 class QRCodeCaptureContainer extends React.Component {
