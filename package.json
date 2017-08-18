@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "webpack --config webpack.config.prod.js --progress --colors",
+    "watch": "webpack --config webpack.config.prod.js --progress --colors --watch",
     "prepublish": "npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
