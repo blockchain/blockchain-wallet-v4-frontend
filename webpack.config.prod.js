@@ -1,5 +1,6 @@
 
 const Webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
@@ -112,7 +113,11 @@ module.exports = {
       nameCache: null,
       toplevel: false,
       ie8: false
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: PATHS.npm + '/blockchain-info-components/dist/img', to: PATHS.dist + '/img' },
+      { from: PATHS.npm + '/blockchain-info-components/dist/fonts', to: PATHS.dist + '/fonts' }
+    ])
   ].concat([new BundleAnalyzerPlugin()]),
   devServer: {
     port: 8080,

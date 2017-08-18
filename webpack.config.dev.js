@@ -1,5 +1,6 @@
 
 const Webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -107,7 +108,11 @@ module.exports = {
       'process.env': { 'NODE_ENV': JSON.stringify('development') }
     }),
     new Webpack.NamedModulesPlugin(),
-    new Webpack.HotModuleReplacementPlugin()
+    new Webpack.HotModuleReplacementPlugin(),
+    new CopyWebpackPlugin([
+      { from: PATHS.npm + '/blockchain-info-components/dist/img', to: PATHS.build + '/img' },
+      { from: PATHS.npm + '/blockchain-info-components/dist/fonts', to: PATHS.build + '/fonts' }
+    ])
   ],
   devServer: {
     contentBase: PATHS.src,
