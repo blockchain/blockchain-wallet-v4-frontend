@@ -54,7 +54,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist'], {
-      root: '/',
+      root: __dirname,
       verbose: true,
       dry: false
     })
