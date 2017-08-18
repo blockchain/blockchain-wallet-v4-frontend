@@ -36,42 +36,23 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
   }
   &:focus { outline:0; }
  `
+const selectColors = (nature, disabled) => {
+  if (disabled) { return { color: '#FFFFFF', backgroundColor: '#CDCDCD', borderColor: '#CDCDCD' } }
+
+  switch (nature) {
+    case 'empty': return { color: '#4B4D4E', backgroundColor: '#FFFFFF', borderColor: '#E0E0E0' }
+    case 'primary': return { color: '#FFFFFF', backgroundColor: '#004A7C', borderColor: '#004A7C' }
+    case 'secondary': return { color: '#FFFFFF', backgroundColor: '#10ADE4', borderColor: '#10ADE4' }
+    case 'copy': return { color: '#FFFFFF', backgroundColor: '#006600', borderColor: '#006600' }
+    case 'received': return { color: '#FFFFFF', backgroundColor: '#00BABC', borderColor: '#00BABC' }
+    case 'sent': return { color: '#FFFFFF', backgroundColor: '#F26C57', borderColor: '#F26C57' }
+    case 'transferred': return { color: '#FFFFFF', backgroundColor: '#799EB2', borderColor: '#799EB2' }
+    default: return { color: '#4B4D4E', backgroundColor: '#FFFFFF', borderColor: '#E0E0E0' }
+  }
+}
 
 const Button = ({ ...props, children }) => {
-  let color, backgroundColor, borderColor
-
-  switch (props.nature) {
-    case 'empty':
-      color = '#4B4D4E'
-      backgroundColor = '#FFFFFF'
-      borderColor = '#E0E0E0'
-      break
-    case 'primary':
-      color = '#FFFFFF'
-      backgroundColor = '#004A7C'
-      borderColor = '#004A7C'
-      break
-    case 'secondary':
-      color = '#FFFFFF'
-      backgroundColor = '#10ADE4'
-      borderColor = '#10ADE4'
-      break
-    case 'copy':
-      color = '#FFFFFF'
-      backgroundColor = '#006600'
-      borderColor = '#006600'
-      break
-    default:
-      color = '#4B4D4E'
-      backgroundColor = '#FFFFFF'
-      borderColor = '#E0E0E0'
-  }
-
-  if (props.disabled) {
-    color = '#FFFFFF'
-    backgroundColor = '#CDCDCD'
-    borderColor = '#CDCDCD'
-  }
+  const { color, backgroundColor, borderColor } = selectColors(props.nature, props.disabled)
 
   return (
     <BaseButton
@@ -87,7 +68,7 @@ const Button = ({ ...props, children }) => {
 }
 
 Button.propTypes = {
-  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy']),
+  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred']),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,
