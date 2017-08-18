@@ -7,7 +7,7 @@ import { Text } from '../Text'
 const NewDropdownWrapper = styled.div`
   text-transform: uppercase;
 `
-const NewDropdownButton = styled(Text)`
+const NewDropdownButton = styled.div`
   color: ${props => props.color === 'cyan' ? '#10ADE4' : 'white'};
   #background-color: ${props => props.color === 'cyan' ? '#e3eff5' : '#004a7c'};
   cursor: pointer;
@@ -20,37 +20,52 @@ const DropdownList = styled.ul`
   display: ${props => props.open ? 'block' : 'none'};
   border: 1px solid gray;
   border-radius: 3px;
+  position: absolute;
+  bottom: 0px;
 `
 
-const DropdownItem = styled(Text)`
+const DropdownItem = styled.div`
   cursor: pointer;
 `
 
 class NewDropdown extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {open: props.open}
-    this.handleClick = this.handleClick.bind(this)
     this.items = props.items
-    this.callback = props.callback
-    this.id = props.id
-    this.display = props.display
+    this.state = {open: props.open,
+                  display: this.items.filter(item => item.value === props.display)[0]
+                 }
+    this.handleClick = this.handleClick.bind(this)
+    this.handleCallback = this.handleCallback.bind(this)
     this.color = props.color
   }
 
   handleClick () {
-    this.setState({ open: !this.state.open })
+    this.setState({ open: !this.state.open, display: this.state.display })
+  }
+
+  handleCallback (item) {
+    if(this.props.callback) {
+      this.props.callback(item)
+      this.setState({ open: this.state.open, display: item})
+    }
   }
 
   render () {
     return(
       <NewDropdownWrapper>
-        <NewDropdownButton color={this.color} id={this.id} onClick={this.handleClick}>{this.display}</NewDropdownButton><br/>
         <DropdownList open={this.state.open}>
-          { this.items.map(function (item, index) {
-            return (<li><DropdownItem key={index} onClick={() => this.callback(item.value)}>{item.text}</DropdownItem></li>)
+          { this.items.map((item, index) => {
+            return (<li  key={index} onClick={this.handleCallback.bind(this, item)}>
+                      <DropdownItem>
+                        {item.text}
+                      </DropdownItem>
+                    </li>)
           })}
         </DropdownList>
+        <NewDropdownButton color={this.color} onClick={this.handleClick}>
+          {this.state.display.text}
+        </NewDropdownButton>
       </NewDropdownWrapper>
     )
   }
@@ -58,18 +73,18 @@ class NewDropdown extends React.Component {
 
 NewDropdown.defaultProps = {
   color: 'cyan',
-  dropdownOpen: false
+  open: false,
+  display: 0
 }
 
 NewDropdown.PropTypes = {
-  id: PropTypes.string.isRequired,
-  display: PropTypes.string.isRequired,
+  display: PropTypes.number,
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired
   })),
   callback: PropTypes.func.isRequired,
-  dropdownOpen: PropTypes.bool,
+  open: PropTypes.bool,
   color: PropTypes.oneOf(['cyan', 'white'])
 }
 
