@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Image } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
 
 const Page = styled.div`
   display: flex;
@@ -23,39 +23,38 @@ const Block = styled.div`
   min-height: 150px;
   padding: 0 50px;
   text-align: justify;
-`
-const BlockHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-`
-const BlockIcon = styled(Image)`
-  margin: 15px 0;
+
+  & > * { margin-bottom: 10px; }
 `
 
 const Page2 = () => (
   <Page>
     <Block>
-      <BlockHeader>
-        <BlockIcon name='sophisticated' height='50px' />
+      <Image name='sophisticated' height='50px' />
+      <Text size='18px' weight={300} uppercase>
         <FormattedMessage id='scenes.landing.wallet.sophisticated' defaultMessage='Sophisticated' />
-      </BlockHeader>
-      <FormattedMessage id='scenes.landing.wallet.sophisticated_explain' defaultMessage='Hierarchical deterministic addresses. Dynamic transaction fees. Monitoring and spending from Watch Only addresses.' />
+      </Text>
+      <Text size='14px' weight={200}>
+        <FormattedMessage id='scenes.landing.wallet.sophisticated_explain' defaultMessage='Hierarchical deterministic addresses. Dynamic transaction fees. Monitoring and spending from Watch Only addresses.' />
+      </Text>
     </Block>
     <Block>
-      <BlockHeader>
-        <BlockIcon name='sophisticated' height='50px' />
+      <Image name='sophisticated' height='50px' />
+      <Text size='18px' weight={300} uppercase>
         <FormattedMessage id='scenes.landing.wallet.global' defaultMessage='Global' />
-      </BlockHeader>
-      <FormattedMessage id='scenes.landing.wallet.global_explain' defaultMessage='140+ countries served. 20+ currency conversion rates, including JPY, RUB, SGD, USD, CNY, EUR, GBP, and many more. 25+ languages.' />
+      </Text>
+      <Text size='14px' weight={200}>
+        <FormattedMessage id='scenes.landing.wallet.global_explain' defaultMessage='140+ countries served. 20+ currency conversion rates, including JPY, RUB, SGD, USD, CNY, EUR, GBP, and many more. 25+ languages.' />
+      </Text>
     </Block>
     <Block>
-      <BlockHeader>
-        <BlockIcon name='sophisticated' height='50px' />
+      <Image name='sophisticated' height='50px' />
+      <Text size='18px' weight={300} uppercase>
         <FormattedMessage id='scenes.landing.wallet.supported' defaultMessage='Always supported' />
-      </BlockHeader>
-      <FormattedMessage id='scenes.landing.wallet.supported_explain' defaultMessage='Should you need help or have a question, our best in class support team will always be there for you.' />
+      </Text>
+      <Text size='14px' weight={200}>
+        <FormattedMessage id='scenes.landing.wallet.supported_explain' defaultMessage='Should you need help or have a question, our best in class support team will always be there for you.' />
+      </Text>
     </Block>
   </Page>
 )
