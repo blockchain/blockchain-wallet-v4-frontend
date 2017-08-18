@@ -4,17 +4,17 @@ import { FormattedMessage } from 'react-intl'
 import { Grid } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { Background, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Background, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const MainContainer = styled.div``
-const BannerWrapper = styled(Background)`
+const Wrapper = styled(Background)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   height: 480px;
 `
-const BannerContainer = styled(Grid)`
+const Container = styled(Grid)`
   & > * { padding: 10px 0; }
 `
 const BlockContainer = styled.div`
@@ -47,8 +47,8 @@ const Block3 = Block.extend`
 const Main = (props) => {
   return (
     <MainContainer>
-      <BannerWrapper name='landing-page-banner-overlay' height='480px'>
-        <BannerContainer>
+      <Wrapper name='landing-page-banner-overlay' height='480px'>
+        <Container>
           <Text size='36px' weight={200} color='white'>
             <FormattedMessage id='scenes.landing.main.simple' defaultMessage='Simple. Seamless. Secure.' />
           </Text>
@@ -61,12 +61,13 @@ const Main = (props) => {
             </Text>
           </TextGroup>
           <LinkContainer to='/register'>
-            <Link color='cyan' uppercase>
+            <Link href='https://blockchain.info/wallet/bitcoin-faq' uppercase>
               <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
+              <Icon name='right_arrow' color='cyan' />
             </Link>
           </LinkContainer>
-        </BannerContainer>
-      </BannerWrapper>
+        </Container>
+      </Wrapper>
       <BlockContainer>
         <Block1>
           <Text size='24px' weight={300} color='white' uppercase>

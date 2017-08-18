@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Grid } from 'react-bootstrap'
 
-import { Badge, Background } from 'blockchain-info-components'
+import { Badge, Background, Text } from 'blockchain-info-components'
 
 const DevicesContainer = styled.div``
 const BannerWrapper = styled(Background)`
@@ -27,8 +27,12 @@ const Devices = (props) => {
     <DevicesContainer>
       <BannerWrapper name='landing-page-banner-sm-overlay' height='300px'>
         <BannerContainer>
-          <FormattedMessage id='scenes.landing.devices.bitcoin' defaultMessage='Bitcoin on All Your Devices' />
-          <FormattedMessage id='scenes.landing.devices.wallet' defaultMessage='Access your bitcoin wallet securely anywhere you go.' />
+          <Text size='30px' weight={200} color='white' capitalize>
+            <FormattedMessage id='scenes.landing.devices.bitcoin' defaultMessage='Bitcoin on All Your Devices' />
+          </Text>
+          <Text size='16px' weight={300} color='white'>
+            <FormattedMessage id='scenes.landing.devices.wallet' defaultMessage='Access your bitcoin wallet securely anywhere you go.' />
+          </Text>
           <BadgesContainer>
             <Badge type='applestore' />
             <Badge type='googleplay' />

@@ -33,18 +33,20 @@ const NewToBitcoin = (props) => {
   return (
     <WalletWrapper>
       <WalletContainer>
-        <Text uppercase>
+        <Text size='24px' weight={200} uppercase>
           <FormattedMessage id='scenes.landing.wallet.get' defaultMessage="Get the world's most popular bitcoin wallet" />
         </Text>
         <LinkContainer to='/register'>
-          <Button nature='secondary' rounded>
+          <Button nature='secondary' rounded uppercase>
             <FormattedMessage id='scenes.landing.wallet.getstarted' defaultMessage='Get started now' />
           </Button>
         </LinkContainer>
         <LoginContainer>
-          <FormattedMessage id='scenes.landing.wallet.or' defaultMessage='or' />
+          <Text size='14px' weight={300} uppercase>
+            <FormattedMessage id='scenes.landing.wallet.or' defaultMessage='or' />
+          </Text>
           <LinkContainer to='/login'>
-            <Link>
+            <Link size='14px' weight={300} uppercase>
               <FormattedMessage id='scenes.landing.wallet.login' defaultMessage='Login' />
             </Link>
           </LinkContainer>
