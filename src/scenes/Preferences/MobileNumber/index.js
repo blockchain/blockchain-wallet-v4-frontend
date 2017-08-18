@@ -19,7 +19,7 @@ const MobileNumber = (props) => {
       </SettingSummary>
       <SettingComponent>
         <Text>+447800000000</Text>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.preferences.mobile.change' defaultMessage='Change' />
         </Button>
       </SettingComponent>

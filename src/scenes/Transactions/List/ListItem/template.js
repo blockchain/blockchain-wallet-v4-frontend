@@ -55,9 +55,7 @@ const StatusContainer = styled.div`
   align-content: center;
   min-width: 220px;
 
-  @media(min-width: 1200px) { 
-    width: 20%; 
-  }
+  @media(min-width: 1200px) {  width: 20%; }
 `
 const Arrow = styled.div`
   display: flex;
@@ -73,7 +71,6 @@ const Status = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  width: 
 
   & > div > span {
     white-space: nowrap;
@@ -103,7 +100,8 @@ const EditIcon = styled(Icon)`
   cursor: pointer;
 `
 const AmountContainer = styled.div`
-  @media(min-width: 1200px) { 
+  min-width: 200px;
+  @media(min-width: 1200px) {
     display: flex;
     width: 20%;
   }

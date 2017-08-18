@@ -17,7 +17,7 @@ const LoginIpRestriction = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.info.iprestriction.enable' defaultMessage='Enable' />
         </Button>
       </SettingComponent>

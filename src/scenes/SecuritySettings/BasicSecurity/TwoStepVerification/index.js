@@ -16,7 +16,7 @@ const TwoStepVerification = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <v id='scenes.settings.2fa.enable' defaultMessage='Enable' />
         </Button>
       </SettingComponent>

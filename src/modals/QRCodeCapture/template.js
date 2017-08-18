@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import QrReader from 'react-qr-reader'
 
-import { Link, Modal, Text } from 'blockchain-info-components'
+import { Link, Modal } from 'blockchain-info-components'
 
 const DELAY = 100
 
@@ -26,7 +26,7 @@ const QrCodeReader = styled(QrReader)`
 `
 
 const QRCodeCapture = ({ handleScan, handleBack, handleError, ...rest }) => (
-  <Modal {...rest} icon='icon-send' title='Payment address' size='large'>
+  <Modal {...rest} icon='send' title='Payment address' size='large'>
     <FormattedMessage id='modals.qrcodecapture.scan' defaultMessage='Capture QR Code' />
     <QRCodeContainer>
       <QrCodeReader delay={DELAY} onScan={handleScan} onError={handleError} />

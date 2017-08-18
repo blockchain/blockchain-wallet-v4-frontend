@@ -4,7 +4,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, validEmail, validWalletId } from 'services/FormHelper'
-import { Button, Form, HelpBlock, Separator, Text, TextBox } from 'blockchain-info-components'
+import { Button, Separator, Text } from 'blockchain-info-components'
+import { Form, HelpBlock, TextBox } from 'components/Form'
 import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
@@ -55,7 +56,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet.' />
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain2' defaultMessage='If you lost access to this email, please enter it regardless.' />
         </HelpBlock>
-        <Button type='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
+        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
         </Button>
       </Form>

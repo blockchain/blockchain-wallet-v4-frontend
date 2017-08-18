@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
-import { Button, Form, HelpBlock, Link, Separator, Text, TextBox } from 'blockchain-info-components'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Form, HelpBlock, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -49,7 +50,7 @@ const SecondStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain2' defaultMessage='If the Secret Phrase is correct, your request will be approved much quicker.' />
           <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain3' defaultMessage="If you don't know what this is, leave it blank." />
         </HelpBlock>
-        <Button type='secondary' fullwdith uppercase disabled={submitting || invalid} onClick={next}>
+        <Button nature='secondary' fullwdith uppercase disabled={submitting || invalid} onClick={next}>
           <FormattedMessage id='scenes.reset2fa.secondstep.continue' defaultMessage='Continue' />
         </Button>
       </Form>

@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { NavDropdown } from 'react-bootstrap'
-
-import { MenuItem } from 'blockchain-info-components'
+import { NavDropdown, MenuItem } from 'react-bootstrap'
 
 const NavItemDropdown = styled(NavDropdown)`
   & > a {

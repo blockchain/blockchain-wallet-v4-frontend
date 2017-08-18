@@ -4,9 +4,9 @@ import { Route } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import styled from 'styled-components'
+import { Grid } from 'react-bootstrap'
 
 import Alerts from 'components/Alerts'
-import { Grid } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   background-color: #004A7C;

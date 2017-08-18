@@ -4,7 +4,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, validMmemonic } from 'services/FormHelper'
-import { Button, Form, HelpBlock, Separator, Text, TextBox, TextGroup } from 'blockchain-info-components'
+import { Button, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Form, HelpBlock, TextBox } from 'components/Form'
 import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
@@ -49,7 +50,7 @@ const FirstStep = (props) => {
         <HelpBlock>
           <FormattedMessage id='scenes.recover.firststep.passphrase_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
         </HelpBlock>
-        <Button type='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
+        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
           <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
         </Button>
       </Form>

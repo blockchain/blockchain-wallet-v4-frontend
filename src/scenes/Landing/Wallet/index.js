@@ -38,7 +38,7 @@ const NewToBitcoin = (props) => {
           <FormattedMessage id='scenes.landing.wallet.get' defaultMessage="Get the world's most popular bitcoin wallet" />
         </Text>
         <NavLink to='/register'>
-          <Button type='secondary' rounded>
+          <Button nature='secondary' rounded>
             <FormattedMessage id='scenes.landing.wallet.getstarted' defaultMessage='Get started now' />
           </Button>
         </NavLink>

@@ -15,7 +15,7 @@ const PasswordStretching = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.settings.passwordstretching.change' defaultMessage='Change' />
         </Button>
       </SettingComponent>

@@ -1,58 +1,22 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { Button } from 'blockchain-info-components'
 import CoinDisplay from 'components/CoinDisplay'
 import CurrencyDisplay from 'components/CurrencyDisplay'
 
-const ButtonSent = styled(Button)`
-  width: 200px;
-  background-color: #F26C57;
-  &:hover { background-color : #F0573F; }
-`
-const ButtonTransferred = styled(Button)`
-  width: 200px;
-  background-color: #799EB2;
-  &:hover { background-color : #6992A9; }
-`
-const ButtonReceived = styled(Button)`
-  width: 200px;
-  background-color: #00BABC;
-  &:hover { background-color : #00A1A3; }
-`
-
 const ButtonAmount = (props) => {
   const { coinDisplayed, handleClick, transaction } = props
+  const nature = transaction.type.toLowerCase()
 
-  switch (transaction.type) {
-    case 'Sent': {
-      return coinDisplayed
-        ? <ButtonSent onClick={handleClick} fullwidth>
-          <CoinDisplay light white>{transaction.amount}</CoinDisplay>
-        </ButtonSent>
-        : <ButtonSent onClick={handleClick} fullwidth>
-          <CurrencyDisplay light white>{transaction.amount}</CurrencyDisplay>
-        </ButtonSent>
-    }
-    case 'Transferred': {
-      return coinDisplayed
-        ? <ButtonTransferred onClick={handleClick} fullwidth>
-          <CoinDisplay light white>{transaction.amount}</CoinDisplay>
-        </ButtonTransferred>
-        : <ButtonTransferred onClick={handleClick} fullwidth>
-          <CurrencyDisplay light white>{transaction.amount}</CurrencyDisplay>
-        </ButtonTransferred>
-    }
-    default:
-      return coinDisplayed
-        ? <ButtonReceived onClick={handleClick} fullwidth>
-          <CoinDisplay light white>{transaction.amount}</CoinDisplay>
-        </ButtonReceived>
-        : <ButtonReceived onClick={handleClick} fullwidth>
-          <CurrencyDisplay light white>{transaction.amount}</CurrencyDisplay>
-        </ButtonReceived>
-  }
+  return (
+    <Button nature={nature} onClick={handleClick} fullwidth>
+      { coinDisplayed
+        ? <CoinDisplay light white>{transaction.amount}</CoinDisplay>
+        : <CurrencyDisplay light white>{transaction.amount}</CurrencyDisplay>
+      }
+    </Button>
+  )
 }
 
 ButtonAmount.propTypes = {

@@ -50,7 +50,7 @@ const Register = (props) => {
         <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: Terms}} />
-        <Button type='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
           <FormattedMessage id='scenes.register.submit' defaultMessage='Continue' />
         </Button>
       </Form>

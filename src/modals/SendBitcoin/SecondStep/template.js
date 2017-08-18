@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Form, Link, Modal, Text } from 'blockchain-info-components'
+import { Button, Link, Modal, Text } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 import CoinDisplay from 'components/CoinDisplay'
 import CurrencyDisplay from 'components/CurrencyDisplay'
 import ComboDisplay from 'components/ComboDisplay'
@@ -90,7 +91,7 @@ const SecondStep = (props) => {
           </PaymentSendContent>
         </PaymentSendContainer>
         <Footer>
-          <Button type='secondary' fullwidth onClick={handleClick}>
+          <Button nature='secondary' fullwidth onClick={handleClick}>
             <FormattedMessage id='modals.sendbitcoin.secondstep.send' defaultMessage='Send bitcoin' />
           </Button>
           <Link onClick={previous}>

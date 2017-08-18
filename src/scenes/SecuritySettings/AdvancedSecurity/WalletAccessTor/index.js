@@ -16,7 +16,7 @@ const WalletAccessTor = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.settings.tor.block' defaultMessage='Block' />
         </Button>
       </SettingComponent>

@@ -7,7 +7,7 @@ const CaptchaBoxContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: ${props => props.fullWidth ? '100%' : 'auto'};
+  width: ${props => props.fullwidth ? '100%' : 'auto'};
   height: 130px;
 `
 const CaptchaImage = styled.img`

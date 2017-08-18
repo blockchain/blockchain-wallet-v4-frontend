@@ -15,7 +15,7 @@ const ActivityLogging = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.settings.activitylogging.enable' defaultMessage='Enable' />
         </Button>
       </SettingComponent>

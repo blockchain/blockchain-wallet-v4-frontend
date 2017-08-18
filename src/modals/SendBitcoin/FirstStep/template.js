@@ -54,7 +54,7 @@ const FirstStep = (props) => {
     handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, ...rest } = props
 
   return (
-    <Modal {...rest} icon='icon-send' title='Send' size='large'>
+    <Modal {...rest} icon='send' title='Send' size='large'>
       <Form>
         <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
         <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
@@ -108,7 +108,7 @@ const FirstStep = (props) => {
             </Link>
           </ColRight>
         </Row>
-        <Button type='secondary' fullwidth onClick={next} disabled={submitting || invalid}>
+        <Button nature='secondary' fullwidth onClick={next} disabled={submitting || invalid}>
           <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
         </Button>
       </Form>

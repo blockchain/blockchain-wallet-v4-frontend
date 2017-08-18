@@ -17,7 +17,7 @@ const PasswordHint = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.settings.passwordhint.change' defaultMessage='Change' />
         </Button>
       </SettingComponent>

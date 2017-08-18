@@ -4,16 +4,10 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
-import { Button, Form, Modal, TextArea, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, SelectBoxAddresses } from 'components/Form'
+import { Button, Modal, Separator, Tooltip } from 'blockchain-info-components'
+import { CoinConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Form'
 import CopyClipboard from './CopyClipboard'
 
-const Separator = styled.div`
-  flex-grow: 10;
-  height: 1px;
-  width: 100%;
-  background-color: #EFEFEF;
-`
 const SeparatorContainer = styled.div`
   display: flex;
   justify-content: stretch;
@@ -52,7 +46,7 @@ const FirstStep = (props) => {
         <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
         <FormattedMessage id='modals.requestbitcoin.firststep.description' defaultMessage='Description:' />
         <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" fullwidth />
-        <Button type='secondary' fullwidth onClick={next} disabled={submitting || invalid}>
+        <Button nature='secondary' fullwidth onClick={next} disabled={submitting || invalid}>
           <FormattedMessage id='modals.requestbitcoin.firststep.next' defaultMessage='Next' />
         </Button>
       </Form>

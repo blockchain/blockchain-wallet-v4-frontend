@@ -3,10 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import BlockchainComponents from 'blockchain-info-components'
-console.log(BlockchainComponents)
-
-// import { Button, Modal } from 'blockchain-info-components'
+import { Button, Modal } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;

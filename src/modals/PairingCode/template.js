@@ -22,13 +22,13 @@ const PairingCode = (props) => {
   const { data, handleClose, ...rest } = props
 
   return (
-    <Modal {...rest} icon='icon-receive' title='Pairing code' size='large'>
+    <Modal {...rest} icon='receive' title='Pairing code' size='large'>
       <FormattedMessage id='modals.pairingcode.scan' defaultMessage='Scan Pairing Code' />
       <QRCodeContainer>
         <QRCodeReact value={data} size={256} />
       </QRCodeContainer>
       <Footer>
-        <Button type='secondary' fullwidth onClick={handleClose}>
+        <Button nature='secondary' fullwidth onClick={handleClose}>
           <FormattedMessage id='modals.pairingcode.close' defaultMessage='Close' />
         </Button>
       </Footer>

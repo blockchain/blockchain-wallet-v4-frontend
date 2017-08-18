@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { CaptchaBox } from 'components/Form'
-import { Button, Form, HelpBlock, Link, Separator, Text, TextArea } from 'blockchain-info-components'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { CaptchaBox, Form, HelpBlock, TextArea } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -45,7 +45,7 @@ const ThirdStep = (props) => {
         </HelpBlock>
         <FormattedMessage id='scenes.reset2fa.thirdstep.captcha' defaultMessage='Captcha' />
         <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
-        <Button type='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleSubmit}>
+        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleSubmit}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.reset' defaultMessage='Reset' />
         </Button>
       </Form>

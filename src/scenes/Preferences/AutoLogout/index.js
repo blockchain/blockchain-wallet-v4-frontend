@@ -16,7 +16,7 @@ const AutoLogout = (props) => {
       </SettingSummary>
       <SettingComponent>
         <Text>10 minutes</Text>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.preferences.autologout.change' defaultMessage='change' />
         </Button>
       </SettingComponent>

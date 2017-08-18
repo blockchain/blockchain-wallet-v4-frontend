@@ -1,13 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { CheckBoxInput } from 'blockchain-info-components'
+
 const CheckBoxContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: ${props => props.fullWidth ? '100%' : 'auto'};
+  width: ${props => props.fullwidth ? '100%' : 'auto'};
   height: 40px;
 `
 const CheckBoxInputContainer = styled.div`
@@ -16,13 +18,6 @@ const CheckBoxInputContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-`
-const CheckBoxInput = styled.input.attrs({
-  type: 'checkbox'
-})`
-  display: block;
-  width: 20px;
-  height: 20px;
 `
 const CheckBoxLabelContainer = styled.div`
   display: flex;

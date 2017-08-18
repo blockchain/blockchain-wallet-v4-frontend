@@ -4,7 +4,8 @@ import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
 import { required } from 'services/FormHelper'
-import { Button, Form, HelpBlock, Link, PasswordBox, Separator, TextBox } from 'blockchain-info-components'
+import { Button, Link, Separator } from 'blockchain-info-components'
+import { Form, HelpBlock, PasswordBox, TextBox } from 'components/Form'
 import RouterLink from 'components/RouterLink'
 
 const Wrapper = styled.div`
@@ -63,10 +64,10 @@ const Login = (props) => {
         </HelpBlock>
         <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
         <Field name='password' validate={[required]} component={PasswordBox} />
-        <Button type='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
         </Button>
-        <Button type='primary' fullwidth uppercase onClick={handleTrezor}>
+        <Button nature='primary' fullwidth uppercase onClick={handleTrezor}>
           <FormattedMessage id='scenes.login.trezor' defaultMessage='Trezor' />
         </Button>
       </Form>

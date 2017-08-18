@@ -49,7 +49,7 @@ class EmailAddress extends React.Component {
         <EmailInputContainer className='align-items-start flex-column'>
           <label>Email Address</label>
           <div className='input-group'>
-            <input id='email-input' className='margin-bottom-20' type='text' onChange={this.handleEmailChange} value={this.props.email} autoFocus />
+            <input id='email-input' className='margin-bottom-20' nature='text' onChange={this.handleEmailChange} value={this.props.email} autoFocus />
           </div>
         </EmailInputContainer>
       )

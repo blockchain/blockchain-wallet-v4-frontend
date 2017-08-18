@@ -16,7 +16,7 @@ const WalletPassword = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.settings.password.change' defaultMessage='Change' />
         </Button>
       </SettingComponent>

@@ -18,7 +18,7 @@ const WalletRecoveryPhrase = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.settings.recoveryphrase.backup' defaultMessage='Backup phrase' />
         </Button>
       </SettingComponent>

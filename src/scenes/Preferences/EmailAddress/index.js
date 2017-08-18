@@ -21,7 +21,7 @@ const EmailAddress = (props) => {
       </SettingSummary>
       <SettingComponent>
         <Text>test@example.com</Text>
-        <Button type='secondary'>
+        <Button nature='secondary'>
           <FormattedMessage id='scenes.preferences.email.change' defaultMessage='Change' />
         </Button>
       </SettingComponent>
