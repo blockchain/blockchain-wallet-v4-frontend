@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, ButtonGroup, Icon, Text } from 'blockchain-info-components'
+import { ButtonGroup, IconButton, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/CoinDisplay'
 import CurrencyDisplay from 'components/CurrencyDisplay'
 
@@ -77,32 +77,26 @@ const MenuTop = (props) => {
           </Text>
         </TextContainer>
         <ButtonContainer>
-          <Button onClick={openSendBitcoin}>
-            <Icon name='send' />
+          <IconButton name='send' onClick={openSendBitcoin}>
             <FormattedMessage id='components.layouts.wallet.menutop.send' defaultMessage='Send' />
-          </Button>
+          </IconButton>
           <ButtonGroup>
-            <Button onClick={openRequestBitcoin}>
-              <Icon name='receive' />
+            <IconButton name='receive' onClick={openRequestBitcoin}>
               <FormattedMessage id='components.layouts.wallet.menutop.request' defaultMessage='Request' />
-            </Button>
-            <Button>
-              <Icon name='clipboard' />
-            </Button>
+            </IconButton>
+            <IconButton name='clipboard' />
           </ButtonGroup>
         </ButtonContainer>
       </LeftContainer>
       <RightContainer>
-        { coinDisplayed
-          ? <BalanceContainer onClick={toggleCoinDisplay}>
-            <CoinDisplay biggest>{balance}</CoinDisplay>
-            <CurrencyDisplay big>{balance}</CurrencyDisplay>
-          </BalanceContainer>
-          : <BalanceContainer onClick={toggleCoinDisplay}>
-            <CurrencyDisplay biggest>{balance}</CurrencyDisplay>
-            <CoinDisplay big>{balance}</CoinDisplay>
-          </BalanceContainer>
-        }
+        <BalanceContainer onClick={toggleCoinDisplay}>
+          <Text size='28px'>
+            { coinDisplayed ? <CoinDisplay>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay> }
+          </Text>
+          <Text size='20px'>
+            { !coinDisplayed ? <CoinDisplay>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay> }
+          </Text>
+        </BalanceContainer>
       </RightContainer>
     </Wrapper>
   )

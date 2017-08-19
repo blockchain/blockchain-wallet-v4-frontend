@@ -4,14 +4,13 @@ import { connect } from 'react-redux'
 
 import { displayCoin, displayFiat } from 'services/ConversionService'
 import { selectors } from 'data'
-import { Text } from 'blockchain-info-components'
 
 const CoinDisplay = ({ ...props, children }) => {
-  const { network, unit, currency, rates, ...rest } = props
+  const { network, unit, currency, rates } = props
   const coin = displayCoin(network, children, unit).getOrElse('N/A')
   const fiat = displayFiat(network, children, currency, rates).getOrElse('N/A')
 
-  return <Text {...rest}>{`${coin} (${fiat})`}</Text>
+  return <div>{`${coin} (${fiat})`}</div>
 }
 
 CoinDisplay.propTypes = {
