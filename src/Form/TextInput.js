@@ -26,7 +26,8 @@ const selectBorderColor = (state) => {
   switch (state) {
     case 'initial': return '#CCCCCC'
     case 'invalid': return '#990000'
-    default: return '#006600'
+    case 'valid': return '#006600'
+    default: return '#CCCCCC'
   }
 }
 

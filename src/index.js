@@ -1,6 +1,6 @@
 import './Fonts'
 
-export { Button, ButtonGroup } from './Buttons'
+export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Badge } from './Badges'
 export { SimpleDropdown } from './Dropdowns'
 export { ConfirmationGauge, PasswordGauge } from './Gauges'

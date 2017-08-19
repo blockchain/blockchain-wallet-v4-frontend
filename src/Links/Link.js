@@ -22,9 +22,10 @@ const BaseLink = styled.a`
 
   &:hover { 
     color: ${props =>
-    props.color === 'cyan' ? '#00AEE6'
+    props.color === 'gray' ? '#5F5F5F'
+    : props.color === 'cyan' ? '#00AEE6'
     : props.color === 'white' ? '#FFFFFF'
-    : props.color === 'medium-blue' ? '#799EB2' : '#004A7C'};
+    : props.color === 'medium-blue' ? '#799EB2' : '#00AEE6'};
   }
 
   &:focus { text-decoration: none; }
