@@ -25,7 +25,7 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 16px;
-  font-weight: ${props => props.bold ? '700' : '400'};
+  font-weight: ${props => props.bold ? '700' : '300'};
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   color: ${props => props.color};
   background-color: ${props => props.backgroundColor};
