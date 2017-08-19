@@ -24,9 +24,6 @@ const Header = styled.div`
 const Footer = styled.div`
   padding: 5px 0;
 `
-const Aligned = styled.div`
-& > * { display: inline-block; margin-right: 5px; }
-`
 
 const SecondStep = (props) => {
   const { handleSubmit, previous, submitting, invalid } = props
@@ -35,30 +32,39 @@ const SecondStep = (props) => {
   return (
     <Wrapper>
       <Header>
-        <FormattedMessage id='scenes.recover.secondstep.funds' defaultMessage='Recover funds' />
-        <Text font='10px'>
-          <FormattedMessage id='scenes.recover.secondstep.step2' defaultMessage='Step 2 of 2: Create a new wallet' smallest />
+        <Text size='30px' weight={300}>
+          <FormattedMessage id='scenes.recover.secondstep.funds' defaultMessage='Recover funds' />
+        </Text>
+        <Text size='10px'>
+          <FormattedMessage id='scenes.recover.secondstep.step2' defaultMessage='Step 2 of 2: Create a new wallet' />
         </Text>
       </Header>
-      <FormattedMessage id='scenes.recover.secondstep.explain' defaultMessage='Recover bitcoins from your lost wallet' small light altFont />
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.recover.secondstep.explain' defaultMessage='Recover bitcoins from your lost wallet' />
+      </Text>
       <Separator />
       <Form>
-        <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='Email' small medium />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='Email' />
+        </Text>
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
-        <FormattedMessage id='scenes.recover.secondstep.password' defaultMessage='Password' small medium />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.recover.secondstep.password' defaultMessage='Password' />
+        </Text>
         <Field name='password' validate={[required, validPassword]} component={PasswordBox} score />
-        <FormattedMessage id='scenes.recover.secondstep.confirmationPassword' defaultMessage='Confirm Password' small medium />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.recover.secondstep.confirmationPassword' defaultMessage='Confirm Password' />
+        </Text>
         <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
-        <Aligned>
-          <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} />
+        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
           <Terms />
-        </Aligned>
+        </Field>
         <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleSubmit}>
           <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover funds' />
         </Button>
       </Form>
       <Footer>
-        <Link onClick={previous}>
+        <Link onClick={previous} size='13px' weight={300}>
           <FormattedMessage id='scenes.recover.secondstep.back' defaultMessage='Go back' />
         </Link>
       </Footer>

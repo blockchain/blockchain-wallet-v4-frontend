@@ -1,9 +1,9 @@
 import { IntlProvider } from 'react-intl'
 import { connect } from 'react-redux'
-import { take } from 'ramda'
 
 const mapStateToProps = (state, props) => {
-  let locale = take(2, state.preferences.culture)
+  const locale = state.preferences.language || 'en'
+
   return { locale, key: locale, messages: props.messages[locale] }
 }
 

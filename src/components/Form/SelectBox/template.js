@@ -27,7 +27,7 @@ const Button = styled.button.attrs({
   padding: 0.5rem 1rem;
   transition: all 0.2s ease-in-out;
   background: white;
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-family: 'Montserrat', sans-serif !important;
   font-size: 0.9rem;
   font-weight: 300;
   cursor: pointer;

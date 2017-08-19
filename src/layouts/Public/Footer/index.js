@@ -37,16 +37,6 @@ const LinkContainer = styled.div`
 const DropdownContainer = styled.div`
   margin: 20px 0;
 
-  & .btn-primary {
-    font-weight: 300;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    background-color: transparent!important;
-    color: #FFFFFF!important;
-    border: none!important;
-    padding: 0;
-  }
-
   @media(min-width: 768px) {
     margin: 0;
   }
@@ -57,21 +47,21 @@ const Footer = () => {
     <Wrapper>
       <LinkContainer>
         <Image name='blue-logo' height='40px' width='40px' />
-        <Link href='https://blockchain.info' uppercase white>
+        <Link href='https://blockchain.info' size='14px' color='white' uppercase>
           <FormattedMessage id='components.layouts.public.footer.explorer' defaultMessage='.Info Explorer' />
         </Link>
-        <Link href='https://blockchain.com/about' uppercase white>
+        <Link href='https://blockchain.com/about' size='14px' color='white' uppercase>
           <FormattedMessage id='components.layouts.public.footer.about' defaultMessage='About' />
         </Link>
-        <Link href='https://blog.blockchain.com' uppercase white>
+        <Link href='https://blog.blockchain.com' size='14px' color='white' uppercase>
           <FormattedMessage id='components.layouts.public.footer.blog' defaultMessage='Blog' />
         </Link>
-        <Link href='https://support.blockchain.com' uppercase white>
+        <Link href='https://support.blockchain.com' size='14px' color='white' uppercase>
           <FormattedMessage id='components.layouts.public.footer.support' defaultMessage='Support' />
         </Link>
       </LinkContainer>
       <DropdownContainer>
-        <DropdownLanguage />
+        <DropdownLanguage color='white' />
       </DropdownContainer>
     </Wrapper>
   )

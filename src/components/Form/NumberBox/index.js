@@ -7,15 +7,15 @@ const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
-  height: auto;
+  height: 50px;
 `
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: -18px;
+  top: -10px;
   right: 0;
   height: 15px;
 `

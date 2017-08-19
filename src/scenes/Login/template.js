@@ -5,8 +5,8 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required } from 'services/FormHelper'
-import { Button, Link, Separator } from 'blockchain-info-components'
-import { Form, HelpBlock, PasswordBox, TextBox } from 'components/Form'
+import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Form, PasswordBox, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -34,9 +34,6 @@ const Footer = styled.div`
     align-items: center;
   }
 `
-const Aligned = styled.div`
-  & > * { display: inline-block; margin-right: 5px; }
-`
 
 const Login = (props) => {
   const { handleClick, handleTrezor, submitting, invalid } = props
@@ -44,25 +41,43 @@ const Login = (props) => {
   return (
     <Wrapper>
       <Header>
-        <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back !' />
-        <Aligned>
-          <FormattedMessage id='scenes.login.or' defaultMessage='or' />
+        <Text size='24px' weight={300} capitalize>
+          <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back !' />
+        </Text>
+        <TextGroup inline>
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='scenes.login.or' defaultMessage='or' />
+          </Text>
           <LinkContainer to='/register'>
-            <FormattedMessage id='scenes.login.register' defaultMessage='Sign up' />
+            <Link size='13px' weight={300}>
+              <FormattedMessage id='scenes.login.register' defaultMessage='Sign up' />
+            </Link>
           </LinkContainer>
-        </Aligned>
+        </TextGroup>
       </Header>
-      <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
+      <Text size='16px' weight={300} altFont>
+        <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
+      </Text>
       <Separator />
       <Form>
-        <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
+        </Text>
         <Field name='guid' validate={[required]} component={TextBox} />
-        <HelpBlock>
-          <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
-          <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
-          <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
-        </HelpBlock>
-        <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
+        <TextGroup inline>
+          <Text size='14px' weight={300} altFont>
+            <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
+          </Text>
+          <Text size='14px' weight={300} altFont>
+            <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
+          </Text>
+          <Text size='14px' weight={300} altFont>
+            <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
+          </Text>
+        </TextGroup>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
+        </Text>
         <Field name='password' validate={[required]} component={PasswordBox} />
         <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
@@ -72,17 +87,19 @@ const Login = (props) => {
         </Button>
       </Form>
       <Footer>
-        <Link>
+        <Link size='13px' weight={300}>
           <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via mobile' />
         </Link>
-        <Aligned>
-          <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some troubles?' />
+        <TextGroup inline>
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some troubles?' />
+          </Text>
           <LinkContainer to='/help'>
-            <Link>
+            <Link size='13px' weight={300}>
               <FormattedMessage id='scenes.login.options' defaultMessage='View options' />
             </Link>
           </LinkContainer>
-        </Aligned>
+        </TextGroup>
       </Footer>
     </Wrapper>
   )

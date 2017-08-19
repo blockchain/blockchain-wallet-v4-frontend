@@ -5,7 +5,7 @@ import { Field } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
-import { Button, Link, Separator } from 'blockchain-info-components'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import { CaptchaBox, Form, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
@@ -25,13 +25,24 @@ const Reminder = (props) => {
 
   return (
     <Wrapper>
-      <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind me' />
-      <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your Wallet Identifier? We'll send it to you via your email." />
+      <Text size='30px' weight={300}>
+        <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind me' />
+      </Text>
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your Wallet Identifier? We'll send it to you via your email." />
+      </Text>
       <Separator />
       <Form>
-        <FormattedMessage id='scenes.reminder.email' defaultMessage='Email' />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.reminder.email' defaultMessage='Email' />
+        </Text>
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
-        <FormattedMessage id='scenes.reminder.captcha' defaultMessage='Captcha' />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.reminder.captcha' defaultMessage='Captcha' />
+        </Text>
+        <Text size='14px' weight={300}>
+          <FormattedMessage id='scenes.reminder.robot' defaultMessage="So that we know you're not a robot" />
+        </Text>
         <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
         <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
           <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
@@ -39,7 +50,7 @@ const Reminder = (props) => {
       </Form>
       <Footer>
         <LinkContainer to='/help'>
-          <Link>
+          <Link size='13px' weight={300}>
             <FormattedMessage id='scenes.reminder.back' defaultMessage='Go back' />
           </Link>
         </LinkContainer>

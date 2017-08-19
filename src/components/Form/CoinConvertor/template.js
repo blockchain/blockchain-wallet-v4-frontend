@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon } from 'blockchain-info-components'
+import { Icon, NumberBox, Text } from 'blockchain-info-components'
 
-const CoinConvertorWrapper = styled.div`
+const Wrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@ const CoinConvertorInput = styled.div`
   width: 100%;
   height: 40px;
 `
-const TextBoxContainer = styled.div`
+const Container = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
@@ -27,71 +27,46 @@ const TextBoxContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
 `
-const TextBox = styled.input.attrs({
-  placeholder: '0',
-  type: 'number'
-})`
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 40px;
-  padding: 6px 12px;
-  box-sizing: border-box;
-  font-size: 14px;
-  line-height: 1.42;
-  color: #555555;
-  background-color: #FFFFFF;
-  background-image: none;
-  outline-width: 0;
-  user-select: text;
-  border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
-
-  &::-webkit-input-placeholder { color: #A8A8A8; }
-`
-const TextBoxUnit = styled.span`
+const Unit = styled.span`
   position: absolute;
   padding: 0 15px;
   color: #A8A8A8;
 `
-
-const IconArrow = styled(Icon).attrs({
-  name: 'ti-arrows-horizontal'
-})`
+const Arrow = styled(Icon)`
   font-size: 20px;
   width: 20px;
   margin: 0 5px;
 `
-const CoinConvertorError = styled.label`
+const Error = styled(Text)`
   position: absolute;
-  top: -18px;
-  right: 0;
   display: block;
+  bottom: 5px;
+  left: 0;
   height: 15px;
-  font-size: 13px;
-  font-weight: 300;
-  color: #FF0000;
 `
+const getErrorState = (meta) => {
+  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+}
 
 const CoinConvertor = (props) => {
   const { coinValue, fiatValue, coinUnit, fiatUnit, handleBlur, handleChange, handleFiatChange, handleFocus, meta } = props
-  const { touched, invalid, error } = meta
-  const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
+  const errorState = getErrorState(meta)
 
   return (
-    <CoinConvertorWrapper>
+    <Wrapper>
       <CoinConvertorInput>
-        <TextBoxContainer>
-          <TextBox onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
-          <TextBoxUnit>{coinUnit}</TextBoxUnit>
-        </TextBoxContainer>
-        <IconArrow />
-        <TextBoxContainer>
-          <TextBox onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
-          <TextBoxUnit>{fiatUnit}</TextBoxUnit>
-        </TextBoxContainer>
+        <Container>
+          <NumberBox onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
+          <Unit>{coinUnit}</Unit>
+        </Container>
+        <Arrow name='ti-arrows-horizontal' />
+        <Container>
+          <NumberBox onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
+          <Unit>{fiatUnit}</Unit>
+        </Container>
       </CoinConvertorInput>
-      {touched && error && <CoinConvertorError>{error}</CoinConvertorError>}
-    </CoinConvertorWrapper>
+      {meta.touched && meta.error && <Error size='13px' weight={300} color='red'>{meta.error}</Error>}
+    </Wrapper>
   )
 }
 

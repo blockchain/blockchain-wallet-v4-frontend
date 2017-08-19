@@ -50,7 +50,8 @@ const Column = styled.div`
 `
 const DropdownContainer = styled.div`
   display: flex;
-  margin-top: 20px;
+  font-size: 13px;
+  padding: 5px 0;
 `
 const CopyrightContainer = styled.div`
   text-align: center;

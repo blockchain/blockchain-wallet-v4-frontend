@@ -26,7 +26,7 @@ import AddressesContainer from './Addresses'
 import FaqContainer from './Faq'
 
 const RootStyle = styled.div`
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-family: 'Montserrat', sans-serif;
   height: 100%;
 `
 

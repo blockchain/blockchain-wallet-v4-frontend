@@ -7,35 +7,28 @@ import { map } from 'ramda'
 import { renameKeys } from 'services/RamdaCookingBook'
 import * as languageService from 'services/LanguageService'
 import { actions, selectors } from 'data'
-// import { SimpleDropdown } from 'blockchain-info-components'
-const SimpleDropdown = props => <div />
+import { SimpleDropdown } from 'blockchain-info-components'
 
 class DropdownLanguageContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleToggle = this.handleToggle.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleToggle () {
-    this.props.updateUI({ toggled: !this.props.ui.toggled })
-  }
-
-  handleClick (value) {
-    this.props.preferencesActions.setCulture(value)
+  handleClick (item) {
+    this.props.preferencesActions.setCulture(item.value)
+    this.props.preferencesActions.setLanguage(item.language)
   }
 
   render () {
-    const display = languageService.getLanguageName(this.props.culture).getOrElse('en-GB')
+    const { culture, ...rest } = this.props
     const items = [...map(renameKeys({name: 'text', cultureCode: 'value'}))(this.props.languages)]
 
     return (
       <SimpleDropdown
-        id='language'
-        display={display}
+        {...rest}
+        selectedValue={culture}
         items={items}
-        toggled={this.props.toggled}
-        handleToggle={this.handleToggle}
         callback={this.handleClick} />
     )
   }

@@ -5,8 +5,8 @@ import { Field } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validMmemonic } from 'services/FormHelper'
-import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
-import { Form, HelpBlock, TextBox } from 'components/Form'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Form, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,25 +31,29 @@ const FirstStep = (props) => {
   return (
     <Wrapper>
       <Header>
-        <FormattedMessage id='scenes.recover.firststep.funds' defaultMessage='Recover funds' />
+        <Text size='30px' weight={300}>
+          <FormattedMessage id='scenes.recover.firststep.funds' defaultMessage='Recover funds' />
+        </Text>
         <Text size='10px'>
           <FormattedMessage id='scenes.recover.firststep.step1' defaultMessage='Step 1 of 2: Enter 12 word passphrase' />
         </Text>
       </Header>
-      <FormattedMessage id='scenes.recover.firststep.explain' defaultMessage='Recover bitcoins from your lost wallet' />
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.recover.firststep.explain' defaultMessage='Recover bitcoins from your lost wallet' />
+      </Text>
       <Separator />
       <Form>
-        <TextGroup>
-          <Text color='red'>
-            <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password.' />
-            <FormattedMessage id='scenes.recover.firststep.warning2' defaultMessage='Recovering your funds will create a new Wallet ID.' />
-          </Text>
-        </TextGroup>
-        <FormattedMessage id='scenes.recover.firststep.passphrase' defaultMessage='Your recovery phrase' />
-        <Field name='passphrase' validate={[required, validMmemonic]} component={TextBox} />
-        <HelpBlock>
+        <Text size='13px' weight={300} color='red'>
+          <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password.' />
+          <FormattedMessage id='scenes.recover.firststep.warning2' defaultMessage='Recovering your funds will create a new Wallet ID.' />
+        </Text>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.recover.firststep.passphrase' defaultMessage='Your recovery phrase' />
+        </Text>
+        <Text size='12px' weight={300}>
           <FormattedMessage id='scenes.recover.firststep.passphrase_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
-        </HelpBlock>
+        </Text>
+        <Field name='passphrase' validate={[required, validMmemonic]} component={TextBox} />
         <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
           <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
         </Button>

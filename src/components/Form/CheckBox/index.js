@@ -1,54 +1,57 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { CheckBoxInput } from 'blockchain-info-components'
+import { CheckBoxInput, Text } from 'blockchain-info-components'
 
-const CheckBoxContainer = styled.div`
+const Wrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: ${props => props.fullwidth ? '100%' : 'auto'};
-  height: 40px;
+  width: 100%;
+  height: 50px;
 `
-const CheckBoxInputContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  height: 35px;
 `
-const CheckBoxLabelContainer = styled.div`
+const Label = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 `
-const CheckBoxError = styled.label`
+const Error = styled(Text)`
   position: absolute;
-  top: -18px;
-  right: 0;
   display: block;
+  bottom: 5px;
+  left: 0;
   height: 15px;
-  font-size: 13px;
-  font-weight: 300;
-  color: #FF0000;
 `
+const getErrorState = (meta) => {
+  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+}
 
 const CheckBox = ({ ...field, children }) => {
+  const errorState = getErrorState(field.meta)
+
   return (
-    <CheckBoxContainer>
-      <CheckBoxInputContainer>
-        <CheckBoxInput {...field.input} />
+    <Wrapper>
+      <Container>
+        <CheckBoxInput {...field.input} errorState={errorState} />
         { children && (
-          <CheckBoxLabelContainer>
+          <Label>
             {children}
-          </CheckBoxLabelContainer>
+          </Label>
         )}
-      </CheckBoxInputContainer>
-      {field.meta.touched && field.meta.error && <CheckBoxError>{field.meta.error}</CheckBoxError>}
-    </CheckBoxContainer>
+      </Container>
+      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='red'>{field.meta.error}</Error>}
+    </Wrapper>
   )
 }
 
