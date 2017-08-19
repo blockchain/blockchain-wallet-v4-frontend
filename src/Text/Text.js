@@ -31,7 +31,7 @@ Text.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
-  color: PropTypes.oneOf(['red', 'white', 'cyan']),
+  color: PropTypes.oneOf(['red', 'white', 'cyan', 'medium-blue']),
   altFont: PropTypes.bool
 }
 
