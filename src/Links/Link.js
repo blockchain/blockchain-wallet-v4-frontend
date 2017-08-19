@@ -12,6 +12,7 @@ const BaseLink = styled.a`
   font-weight: ${props => props.weight};
   color: ${props =>
     props.color === 'cyan' ? '#00AEE6'
+    : props.color === 'white' ? '#FFFFFF'
     : props.color === 'medium-blue' ? '#799EB2' : '#004A7C'};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   text-decoration: none;
@@ -22,6 +23,7 @@ const BaseLink = styled.a`
   &:hover { 
     color: ${props =>
     props.color === 'cyan' ? '#00AEE6'
+    : props.color === 'white' ? '#FFFFFF'
     : props.color === 'medium-blue' ? '#799EB2' : '#004A7C'};
   }
 
@@ -41,7 +43,7 @@ const Link = props => {
 Link.propTypes = {
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,
-  color: PropTypes.oneOf(['cyan', 'medium-blue', 'navy']),
+  color: PropTypes.oneOf(['cyan', 'white', 'medium-blue']),
   uppercase: PropTypes.bool
 }
 

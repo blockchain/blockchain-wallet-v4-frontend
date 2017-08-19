@@ -29,11 +29,11 @@ const FontFace = (name, eot, svg, ttf, weight) => `
   }
 `
 
-const GillSansLight = FontFace('gillsans', GillSansLightEot, GillSansLightSvg, GillSansLightTtf, '200')
-const GillSansRegular = FontFace('gillsans', GillSansRegularEot, GillSansRegularSvg, GillSansRegularTtf, '400')
-const GillSansSemiBold = FontFace('gillsans', GillSansSemiBoldEot, GillSansSemiBoldSvg, GillSansSemiBoldTtf, '500')
-const GillSansBold = FontFace('gillsans', GillSansBoldEot, GillSansBoldSvg, GillSansBoldTtf, '700')
-const GillSansUltraBold = FontFace('gillsans', GillSansUltraBoldEot, GillSansUltraBoldSvg, GillSansUltraBoldTtf, '800')
+const GillSansLight = FontFace('GillSans', GillSansLightEot, GillSansLightSvg, GillSansLightTtf, '200')
+const GillSansRegular = FontFace('GillSans', GillSansRegularEot, GillSansRegularSvg, GillSansRegularTtf, '400')
+const GillSansSemiBold = FontFace('GillSans', GillSansSemiBoldEot, GillSansSemiBoldSvg, GillSansSemiBoldTtf, '500')
+const GillSansBold = FontFace('GillSans', GillSansBoldEot, GillSansBoldSvg, GillSansBoldTtf, '700')
+const GillSansUltraBold = FontFace('GillSans', GillSansUltraBoldEot, GillSansUltraBoldSvg, GillSansUltraBoldTtf, '800')
 
 // Fonts management
 injectGlobal`

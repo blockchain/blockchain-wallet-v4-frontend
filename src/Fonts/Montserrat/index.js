@@ -41,15 +41,15 @@ const FontFace = (name, eot, svg, ttf, weight) => `
   }
 `
 
-const MontserratThin = FontFace('gillsans', MontserratThinEot, MontserratThinSvg, MontserratThinTtf, '100')
-const MontserratExtraLight = FontFace('gillsans', MontserratExtraLightEot, MontserratExtraLightSvg, MontserratExtraLightTtf, '200')
-const MontserratLight = FontFace('gillsans', MontserratLightEot, MontserratLightSvg, MontserratLightTtf, '300')
-const MontserratMedium = FontFace('gillsans', MontserratMediumEot, MontserratMediumSvg, MontserratMediumTtf, '400')
-const MontserratRegular = FontFace('gillsans', MontserratRegularEot, MontserratRegularSvg, MontserratRegularTtf, '500')
-const MontserratSemiBold = FontFace('gillsans', MontserratSemiBoldEot, MontserratSemiBoldSvg, MontserratSemiBoldTtf, '600')
-const MontserratExtraBold = FontFace('gillsans', MontserratExtraBoldEot, MontserratExtraBoldSvg, MontserratExtraBoldTtf, '800')
-const MontserratBold = FontFace('gillsans', MontserratBoldEot, MontserratBoldSvg, MontserratBoldTtf, '700')
-const MontserratBlack = FontFace('gillsans', MontserratBlackEot, MontserratBlackSvg, MontserratBlackTtf, '900')
+const MontserratThin = FontFace('Montserrat', MontserratThinEot, MontserratThinSvg, MontserratThinTtf, '100')
+const MontserratExtraLight = FontFace('Montserrat', MontserratExtraLightEot, MontserratExtraLightSvg, MontserratExtraLightTtf, '200')
+const MontserratLight = FontFace('Montserrat', MontserratLightEot, MontserratLightSvg, MontserratLightTtf, '300')
+const MontserratMedium = FontFace('Montserrat', MontserratMediumEot, MontserratMediumSvg, MontserratMediumTtf, '400')
+const MontserratRegular = FontFace('Montserrat', MontserratRegularEot, MontserratRegularSvg, MontserratRegularTtf, '500')
+const MontserratSemiBold = FontFace('Montserrat', MontserratSemiBoldEot, MontserratSemiBoldSvg, MontserratSemiBoldTtf, '600')
+const MontserratExtraBold = FontFace('Montserrat', MontserratExtraBoldEot, MontserratExtraBoldSvg, MontserratExtraBoldTtf, '800')
+const MontserratBold = FontFace('Montserrat', MontserratBoldEot, MontserratBoldSvg, MontserratBoldTtf, '700')
+const MontserratBlack = FontFace('Montserrat', MontserratBlackEot, MontserratBlackSvg, MontserratBlackTtf, '900')
 
 // Fonts management
 injectGlobal`

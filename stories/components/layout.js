@@ -12,7 +12,7 @@ const BasePage = styled.div`
   padding: 20px 40px 40px;
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px;
-  background-color: rgb(255, 255, 255);
+  background-color: #FFFFFF;
   margin-top: 20px;
   margin-bottom: -30px;
 `

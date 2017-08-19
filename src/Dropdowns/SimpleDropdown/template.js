@@ -14,10 +14,12 @@ const ButtonContainer = styled.div`
   justify-content: center;
   cursor: pointer;
   align-items: center;
-  color: ${props => props.color === 'cyan' ? '#10ADE4' : 'white'};
-  #background-color: ${props => props.color === 'cyan' ? '#e3eff5' : '#004a7c'};
   width: min-content;
   height: auto;
+
+  & > * {
+    color: ${props => props.color === 'cyan' ? '#10ADE4' : 'white'}!important;
+  }
 `
 const Button = styled.div`
   display: inline-block;
