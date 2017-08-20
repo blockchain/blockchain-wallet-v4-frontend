@@ -20,6 +20,6 @@ export default {
   'landing-page-banner-overlay': landingPageBannerOverlay,
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
   'qr-code': qrCode,
-  'refresh.svg': refresh,
+  'refresh': refresh,
   'sophisticated': sophisticated
 }
