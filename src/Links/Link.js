@@ -11,7 +11,8 @@ const BaseLink = styled.a`
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
   color: ${props =>
-    props.color === 'cyan' ? '#00AEE6'
+    props.color === 'gray' ? '#5F5F5F'
+    : props.color === 'cyan' ? '#00AEE6'
     : props.color === 'white' ? '#FFFFFF'
     : props.color === 'medium-blue' ? '#799EB2' : '#004A7C'};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
@@ -44,7 +45,7 @@ const Link = props => {
 Link.propTypes = {
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,
-  color: PropTypes.oneOf(['cyan', 'white', 'medium-blue']),
+  color: PropTypes.oneOf(['cyan', 'white', 'medium-blue', 'gray']),
   uppercase: PropTypes.bool
 }
 

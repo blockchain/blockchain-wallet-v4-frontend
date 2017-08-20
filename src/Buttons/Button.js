@@ -13,7 +13,6 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
   height: 40px;
   padding: 10px 15px;
   box-sizing: border-box;
-  margin-bottom: 5px;
   user-select: none;
   text-align: center;
   text-decoration: none;
@@ -51,6 +50,7 @@ const selectColors = (nature, disabled) => {
     case 'received': return { color: '#FFFFFF', backgroundColor: '#00BABC', borderColor: '#00BABC' }
     case 'sent': return { color: '#FFFFFF', backgroundColor: '#F26C57', borderColor: '#F26C57' }
     case 'transferred': return { color: '#FFFFFF', backgroundColor: '#799EB2', borderColor: '#799EB2' }
+    case 'logout': return { color: '#FFFFFF', backgroundColor: '#660000', borderColor: '#660000' }
     default: return { color: '#4B4D4E', backgroundColor: '#FFFFFF', borderColor: '#E0E0E0' }
   }
 }
@@ -72,7 +72,7 @@ const Button = ({ ...props, children }) => {
 }
 
 Button.propTypes = {
-  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred']),
+  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout']),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,

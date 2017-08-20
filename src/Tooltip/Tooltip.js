@@ -31,8 +31,12 @@ const TooltipBox = styled(TextGroup)`
   color: #5F5F5F;
   border: 1px solid #E0E0E0;
   border-radius: 5px;
-  padding: 5px;
+  padding: 10px;
+  box-sizing: border-box;
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 300;
+  font-family: "GillSans", sans serif;
 
   &:before {
     content: '';

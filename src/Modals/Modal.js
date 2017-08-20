@@ -17,7 +17,6 @@ const Wrapper = styled.div`
   background-color: ${props => props.position === props.total ? 'rgba(0, 0, 0, 0.5)' : 'transparent'};
   z-index: ${props => props.position ? (props.position) + 1040 : 1040};
 `
-
 const Container = styled.div`
   position: relative;
   width: calc(100% - ${props => props.position * 20}px);
@@ -41,19 +40,16 @@ const Header = styled.div`
   padding: 30px;
   border-bottom: 1px solid #EFEFEF;
 `
-
 const HeaderIcon = styled(Icon)`
   display: inline-flex;
   font-size: 1.8em;
   font-weight: 300;
   margin-right: 10px;
 `
-
 const HeaderTitle = styled.span`
   font-size: 1.8em;
   font-weight: 300;
 `
-
 const ButtonClose = styled(Icon)`
   position: absolute;
   top: 30px;
@@ -62,7 +58,6 @@ const ButtonClose = styled(Icon)`
   font-size: 20px;
   cursor: pointer;
 `
-
 const Content = styled.div`
   padding: 30px;
   box-sizing: border-box;
@@ -75,7 +70,7 @@ const Modal = ({ position, total, title, icon, size, closeButton, close, ...prop
         <Header>
           {icon && <HeaderIcon name={icon} />}
           {title && <HeaderTitle>{title}</HeaderTitle>}
-          {closeButton && <ButtonClose name='ti-close' onClick={() => close()} />}
+          {closeButton && <ButtonClose name='right_arrow' onClick={() => close()} />}
         </Header>
         <Content>
           {props.children}
