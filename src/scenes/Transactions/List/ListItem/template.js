@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
-import { ConfirmationGauge, Icon, Tooltip, Text } from 'blockchain-info-components'
-import ButtonAmount from './ButtonAmount'
-import StatusLabel from './StatusLabel'
+import { Button, ConfirmationGauge, Icon, Tooltip, Text } from 'blockchain-info-components'
+import CurrencyDisplay from 'components/CurrencyDisplay'
+import CoinDisplay from 'components/CoinDisplay'
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   border-bottom: 1px solid #DDDDDD;
 `
 const Row = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,48 +49,38 @@ const HiddenOnDesktop = styled.div`
   display: flex;
   @media(min-width: 1200px) { display: none; }
 `
-const StatusContainer = styled.div`
+const Status = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
   align-content: center;
   min-width: 220px;
+  margin-left: 60px;
 
   @media(min-width: 1200px) {  width: 20%; }
 `
 const Arrow = styled.div`
+  position: absolute;
+  left: 20px;
+  top: 10px;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 50px;
   transform: ${props => props.rotated ? 'rotate(-90deg)' : 'none'};
+
   cursor: pointer;
 `
-const Status = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+const Addresses = styled(HiddenOnMobile)`
+  min-width: 400px;
 
-  & > div > span {
-    white-space: nowrap;
-  }
-`
-const AddressesContainer = styled(HiddenOnMobile)`
   @media(min-width: 1200px) { 
     flex-direction: column;
     width: 35%;
   }
 `
-const Addresses = styled.div`
-  min-width: 400px;
-`
-const DescriptionContainer = styled(HiddenOnMobile)`
-  @media(min-width: 1200px) { width: 25%; }
-`
-const Description = styled.div`
+const Description = styled(HiddenOnMobile)`
   min-width: 250px;
+  @media(min-width: 1200px) { width: 25%; }
 `
 const Edit = styled.div`
   display: flex;
@@ -99,18 +90,18 @@ const Edit = styled.div`
 const EditIcon = styled(Icon)`
   cursor: pointer;
 `
-const AmountContainer = styled.div`
+const Amount = styled.div`
   min-width: 200px;
   @media(min-width: 1200px) {
     display: flex;
     width: 20%;
   }
 `
-const TransactionStatusContainer = styled.div`
+const TransactionStatus = styled.div`
   width: 100%;
   @media(min-width: 1200px) { width: 20%; }
 `
-const TransactionTooltipContainer = styled.div`
+const TransactionTooltip = styled.div`
   display: flex;
   flex-direction: row;
   justify-items: space-between;
@@ -120,14 +111,21 @@ const TransactionTooltipContainer = styled.div`
     margin-right: 5px;
   }
 `
-const ValueWhenReceivedContainer = styled.div`
+const ValueWhenReceived = styled.div`
   width: 100%;
   @media(min-width: 1200px) { width: 20%; }
 `
-const ExtraDetailsContainer = styled(HiddenOnDesktop)``
+const ExtraDetailsContainer = styled(HiddenOnDesktop)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  & > * { padding: 10px 0;}
+`
 
 const ListItem = (props) => {
-  const { toggled, handleToggle, transaction } = props
+  const { coinDisplayed, toggled, handleToggle, handleClick, transaction } = props
 
   const now = moment()
   const date = moment.utc(transaction.time * 1000)
@@ -138,42 +136,52 @@ const ListItem = (props) => {
   return (
     <Wrapper>
       <Row>
-        <StatusContainer>
+        <Status>
           <Arrow rotated={!toggled} onClick={handleToggle}>
-            <Icon name='icon-down_arrow' />
+            <Icon name='down_arrow' size='10px' />
           </Arrow>
-          <Status>
-            <StatusLabel {...props} />
-            <Text size='12px' italic>{formattedDate}</Text>
-          </Status>
-        </StatusContainer>
-        <AddressesContainer>
-          <Addresses>
+          <Text weight={500} color={transaction.type.toLowerCase()} uppercase>
+            { transaction.type === 'Sent' && <FormattedMessage id='scenes.transactions.list.listitem.sent' defaultMessage='Sent' /> }
+            { transaction.type === 'Received' && <FormattedMessage id='scenes.transactions.list.listitem.received' defaultMessage='Received' /> }
+            { transaction.type === 'Transferred' && <FormattedMessage id='scenes.transactions.list.listitem.transferred' defaultMessage='Transferred' /> }
+          </Text>
+          <Text size='12px' weight={300} italic>{formattedDate}</Text>
+        </Status>
+        <Addresses>
+          <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.transactions.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
+          </Text>
+          <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.transactions.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
-          </Addresses>
-        </AddressesContainer>
-        <DescriptionContainer>
-          <Description>
-            <Edit>
-              { transaction.description !== ''
-                ? <Text size='12px'>{transaction.description}</Text>
-                : <Text size='12px'>Add a description</Text>
-              }
-              <EditIcon name='ti-pencil' />
-            </Edit>
-          </Description>
-        </DescriptionContainer>
-        <AmountContainer>
-          <ButtonAmount {...props} />
-        </AmountContainer>
+          </Text>
+        </Addresses>
+        <Description>
+          { transaction.description !== ''
+            ? <Text size='14px' weight={300}>
+              <FormattedMessage id='scenes.transactions.list.listitem.description' defaultMessage='Description: {description}' values={{ to: transaction.to }} />
+            </Text>
+            : <Text size='14px' weight={300}>
+              <FormattedMessage id='scenes.transactions.list.listitem.adddescription' defaultMessage='Add a description' />
+              <Icon name='pencil' size='14px' />
+            </Text>
+          }
+        </Description>
+        <Amount>
+          <Button nature={transaction.type.toLowerCase()} onClick={handleClick} fullwidth>
+            { coinDisplayed
+              ? <CoinDisplay>{transaction.amount}</CoinDisplay>
+              : <CurrencyDisplay>{transaction.amount}</CurrencyDisplay>
+            }
+          </Button>
+        </Amount>
       </Row>
       <RowDetails collapsed={!toggled}>
-        <TransactionStatusContainer>
+        <TransactionStatus>
+          <Text size='12px'>{transaction.status}</Text>
           { transaction.confirmations > 3
             ? <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed' defaultMessage='Transaction confirmed' />
             : (
-              <TransactionTooltipContainer>
+              <TransactionTooltip>
                 <ConfirmationGauge nbConfirmations={transaction.confirmations} />
                 <Tooltip>
                   {transaction.confirmations === 0 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_unconfirmed' defaultMessage='Your transaction is actually unconfirmed.' /> }
@@ -181,29 +189,32 @@ const ListItem = (props) => {
                   {transaction.confirmations === 2 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed_2' defaultMessage='Your transaction confirmation is in progress (2 blocks ahead).' /> }
                   {transaction.confirmations === 3 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed_3' defaultMessage='Your transaction is confirmed (3 blocks ahead).' /> }
                 </Tooltip>
-              </TransactionTooltipContainer>
+              </TransactionTooltip>
             )
           }
-        </TransactionStatusContainer>
+        </TransactionStatus>
         <ExtraDetailsContainer>
-          <Edit>
-            { transaction.description !== ''
-              ? <Text size='12px'>{transaction.description}</Text>
-              : <Text size='12px'>Add a description</Text>
-            }
-            <EditIcon name='ti-pencil' />
-          </Edit>
+          { transaction.description !== ''
+            ? <Text size='14px' weight={300}>
+              <FormattedMessage id='scenes.transactions.list.listitem.description' defaultMessage='Description: {description}' values={{ to: transaction.to }} />
+            </Text>
+            : <Text size='14px' weight={300}>
+              <FormattedMessage id='scenes.transactions.list.listitem.adddescription' defaultMessage='Add a description' />
+              <Icon name='pencil' size='14px' />
+            </Text>
+          }
+          <Text size='14px' weight={300}>
+            <FormattedMessage id='scenes.transactions.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
+          </Text>
+          <Text size='14px' weight={300}>
+            <FormattedMessage id='scenes.transactions.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
+          </Text>
         </ExtraDetailsContainer>
-        <ExtraDetailsContainer>
-          <FormattedMessage id='scenes.transactions.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
-        </ExtraDetailsContainer>
-        <ExtraDetailsContainer>
-          <FormattedMessage id='scenes.transactions.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
-        </ExtraDetailsContainer>
-        <ValueWhenReceivedContainer>
-          <Text size='12px'>{transaction.status}</Text>
-          <FormattedMessage id='scenes.transactions.list.listitem.initial' defaultMessage='Value when received: {value}' values={{ value: transaction.initial_value }} />
-        </ValueWhenReceivedContainer>
+        <ValueWhenReceived>
+          <Text size='14px' weight={300}>
+            <FormattedMessage id='scenes.transactions.list.listitem.initial' defaultMessage='Value when received: {value}' values={{ value: transaction.initial_value }} />
+          </Text>
+        </ValueWhenReceived>
       </RowDetails>
     </Wrapper>
   )

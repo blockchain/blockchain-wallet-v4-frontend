@@ -36,7 +36,7 @@ const Search = (props) => {
   return (
     <SearchContainer>
       <SearchBox value={value} onChange={handleChange} />
-      <SearchIcon name='icon-search' big />
+      <SearchIcon name='search' />
     </SearchContainer>
   )
 }
