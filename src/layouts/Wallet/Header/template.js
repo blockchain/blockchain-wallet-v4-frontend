@@ -5,7 +5,6 @@ import { Navbar, Nav } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import Ticker from './Ticker'
-import ExploreMenu from './ExploreMenu'
 import WhatsNew from './WhatsNew'
 import Refresh from './Refresh'
 import Logout from './Logout'
@@ -19,7 +18,7 @@ const Wrapper = styled.div`
 const Logo = styled(Image)`
   margin-top: 18px;
 `
-const MenuLeftToggler = styled.button`
+const Toggler = styled.button`
   display: block;
   margin-top: 4px;
   margin-right: 10px;
@@ -34,7 +33,7 @@ const MenuLeftToggler = styled.button`
   @media(min-width: 768px) { display: none; }
 `
 
-const MenuLeftTogglerBar = styled.span`
+const TogglerBar = styled.span`
   display: block;
   width: 22px;
   height: 2px;
@@ -49,11 +48,11 @@ const Header = (props) => {
     <Wrapper>
       <Navbar fluid inverse defaultExpanded={navigationToggled}>
         <Navbar.Header>
-          <MenuLeftToggler onClick={handleToggleMenuLeft}>
-            <MenuLeftTogglerBar />
-            <MenuLeftTogglerBar />
-            <MenuLeftTogglerBar />
-          </MenuLeftToggler>
+          <Toggler onClick={handleToggleMenuLeft}>
+            <TogglerBar />
+            <TogglerBar />
+            <TogglerBar />
+          </Toggler>
           <Navbar.Brand>
             <LinkContainer to='/'>
               <Logo name='blockchain-vector' height='20px' />
@@ -64,7 +63,6 @@ const Header = (props) => {
         <Navbar.Collapse>
           <Nav pullRight>
             <Ticker />
-            <ExploreMenu />
             <WhatsNew />
             <Refresh />
             <Logout />

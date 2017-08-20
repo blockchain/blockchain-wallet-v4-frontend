@@ -8,7 +8,7 @@ const Ticker = (props) => {
 
   return (
     <NavItem href='https://markets.blockchain.info'>
-      <Text small light white>{`${coin} = ${fiat}`}</Text>
+      <Text size='14px' weight={300} color='white' >{`${coin} = ${fiat}`}</Text>
     </NavItem>
   )
 }

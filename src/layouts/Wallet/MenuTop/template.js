@@ -90,7 +90,7 @@ const MenuTop = (props) => {
       </LeftContainer>
       <RightContainer>
         <BalanceContainer onClick={toggleCoinDisplay}>
-          <Text size='24px'>
+          <Text size='24px' weight={300}>
             { coinDisplayed ? <CoinDisplay>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay> }
           </Text>
           <Text size='20px' weight={200}>

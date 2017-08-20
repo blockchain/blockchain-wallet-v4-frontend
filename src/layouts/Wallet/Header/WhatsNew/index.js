@@ -5,7 +5,7 @@ import { Icon } from 'blockchain-info-components'
 
 const WhatsNew = () => (
   <NavItem>
-    <Icon name='ti-gift' white />
+    <Icon name='bell' color='white' />
   </NavItem>
 )
 
