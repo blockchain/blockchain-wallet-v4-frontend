@@ -26,8 +26,8 @@ const PairingCode = (props) => {
             <FormattedMessage id='scenes.info.pairingcode.warning' defaultMessage='Do not share your Pairing Code with others.' />
           </Text>
           <BadgesContainer>
-            <Badge name='applestore' />
-            <Badge name='googleplay' />
+            <Badge type='applestore' />
+            <Badge type='googleplay' />
           </BadgesContainer>
         </SettingDescription>
       </SettingSummary>
