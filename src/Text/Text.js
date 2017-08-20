@@ -14,6 +14,9 @@ const BaseText = styled.div`
     props.color === 'cyan' ? '#10ADE4'
     : props.color === 'medium-blue' ? '#799EB2'
     : props.color === 'white' ? '#FFFFFF'
+    : props.color === 'sent' ? '#F26C57'
+    : props.color === 'transferred' ? '#799EB2'
+    : props.color === 'received' ? '#00BABC'
     : props.color === 'red' ? '#CA3A3C' : '#5F5F5F'};
 `
 
@@ -31,7 +34,7 @@ Text.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
-  color: PropTypes.oneOf(['red', 'white', 'cyan', 'medium-blue']),
+  color: PropTypes.oneOf(['red', 'white', 'cyan', 'medium-blue', 'sent', 'transferred', 'received']),
   altFont: PropTypes.bool
 }
 
