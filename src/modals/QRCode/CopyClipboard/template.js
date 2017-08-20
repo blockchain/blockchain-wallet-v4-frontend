@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 
+import { Button } from 'blockchain-info-components'
+
 const Wrapper = styled.div`
   position: relative;
   display: flex;
@@ -18,50 +20,34 @@ const AddressBox = styled.span`
   align-items: center;
   width: 100%;
   height: 40px;
-  font-size: 1rem;
+  font-size: 16px;
   background-color: #EFEFEF;
 
-  @media(min-width:768px) { font-size: 0.9rem; }
+  @media(min-width:768px) { font-size: 14px; }
 `
-const ButtonContainer = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 40px;
-
-  @media(min-width:768px) { width: 80px; }
-`
-const CopyButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+const CopyButton = styled(Button)`
+  width: 100px;
+  min-width: 0;
   height: 100%;
-  cursor: pointer;
-  color: #FFFFFF;
-  text-transform: uppercase;
-  background-color: ${props => props.active ? '#006600' : '#10ADE4'};
+  border-radius: 0;
 `
 
 const CopyClipboard = (props) => {
   const { active, address, handleClick } = props
+
   return (
     <Wrapper>
       <AddressBox>
         {address}
       </AddressBox>
-      <ButtonContainer>
-        <CopyToClipBoard text={address} onCopy={handleClick}>
-          <CopyButton active={active}>
-            { active
-              ? <FormattedMessage id='modals.qrcode.copyclipboard.copied' defaultMessage='Copied!' />
-              : <FormattedMessage id='modals.qrcode.copyclipboard.copy' defaultMessage='Copy' />
-            }
-          </CopyButton>
-        </CopyToClipBoard>
-      </ButtonContainer>
+      <CopyToClipBoard text={address} onCopy={handleClick}>
+        <CopyButton nature={active ? 'copy' : 'secondary'}>
+          { active
+            ? <FormattedMessage id='modals.qrcode.copyclipboard.copied' defaultMessage='Copied!' />
+            : <FormattedMessage id='modals.qrcode.copyclipboard.copy' defaultMessage='Copy' />
+          }
+        </CopyButton>
+      </CopyToClipBoard>
     </Wrapper>
   )
 }

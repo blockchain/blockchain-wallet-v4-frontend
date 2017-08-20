@@ -35,14 +35,9 @@ const AddressesToContainer = styled.div`
   display: flex;
   align-items: center;
 `
-const AddressesSelectToggle = styled(Icon).attrs({ name: 'icon-down_arrow' })`font-size: 0.6rem;`
-const AddressesEditToggle = styled(Icon).attrs({ name: 'ti-pencil' })`font-size: 1rem;`
 const AddressesToButton = styled(Button)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 40px;
-  margin: 0;
+  min-width: 0;
   border-radius: 0;
 `
 
@@ -64,13 +59,13 @@ const FirstStep = (props) => {
             <AddressesToContainer>
               <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
               <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><AddressesEditToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='pencil' /></AddressesToButton>
             </AddressesToContainer>
           ) : (
             <AddressesToContainer>
               <Field name='to' component={TextBox} validate={[required]} />
               <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><AddressesSelectToggle /></AddressesToButton>
+              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down_arrow' size='10px' /></AddressesToButton>
             </AddressesToContainer>
             )
         }
@@ -99,8 +94,8 @@ const FirstStep = (props) => {
             }
           </ColLeft>
           <ColRight>
-            { invalid ? <div /> : <ComboDisplay small light>{selection.fee}</ComboDisplay> }
-            <Link onClick={handleClickFeeToggler} uppercase>
+            { invalid ? <div /> : <ComboDisplay>{selection.fee}</ComboDisplay> }
+            <Link onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
               {feeEditToggled
                 ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
                 : <FormattedMessage id='modals.sendbitcoin.firststep.edit' defaultMessage='Customize fee' />

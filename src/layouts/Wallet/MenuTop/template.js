@@ -72,7 +72,7 @@ const MenuTop = (props) => {
     <Wrapper>
       <LeftContainer>
         <TextContainer>
-          <Text size='28px' uppercase>
+          <Text size='28px' weight={200} uppercase>
             <FormattedMessage id='components.layouts.wallet.menutop.bank' defaultMessage='Be your own bank.' />
           </Text>
         </TextContainer>
@@ -90,10 +90,10 @@ const MenuTop = (props) => {
       </LeftContainer>
       <RightContainer>
         <BalanceContainer onClick={toggleCoinDisplay}>
-          <Text size='28px'>
+          <Text size='24px'>
             { coinDisplayed ? <CoinDisplay>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay> }
           </Text>
-          <Text size='20px'>
+          <Text size='20px' weight={200}>
             { !coinDisplayed ? <CoinDisplay>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay> }
           </Text>
         </BalanceContainer>

@@ -41,7 +41,6 @@ class CoinConvertorContainer extends React.Component {
 
     const split = event.target.value.split('.')
     if (split.length > 1 && split[1].length > decimals) return
-    console.log(event.target.value)
     const newCoinValue = parseFloat(event.target.value)
     const newCoinValueTransformed = convertFromUnit(network, newCoinValue, unit).getOrElse({ amount: 0 })
     const newFiatValue = convertCoinToFiat(network, newCoinValueTransformed.amount, currency, rates).getOrElse({ amount: 0 })

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, NumberBox, Text } from 'blockchain-info-components'
+import { Icon, NumberInput, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -10,13 +10,15 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
+  height: 40px;
 `
 const CoinConvertorInput = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 40px;
+  height: 100%;
 `
 const Container = styled.div`
   position: relative;
@@ -33,15 +35,20 @@ const Unit = styled.span`
   color: #A8A8A8;
 `
 const Arrow = styled(Icon)`
-  font-size: 20px;
-  width: 20px;
-  margin: 0 5px;
+  font-size: 16px;
+`
+const ArrowLeft = styled(Arrow)`
+  margin-left: 5px;
+`
+const ArrowRight = styled(Arrow)`
+  margin-left: -10px;
+  margin-right: 5px;
 `
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  bottom: 5px;
-  left: 0;
+  top: -18px;
+  right: 0;
   height: 15px;
 `
 const getErrorState = (meta) => {
@@ -56,12 +63,13 @@ const CoinConvertor = (props) => {
     <Wrapper>
       <CoinConvertorInput>
         <Container>
-          <NumberBox onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
+          <NumberInput onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
           <Unit>{coinUnit}</Unit>
         </Container>
-        <Arrow name='ti-arrows-horizontal' />
+        <ArrowLeft name='left_arrow' />
+        <ArrowRight name='right_arrow' />
         <Container>
-          <NumberBox onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
+          <NumberInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
           <Unit>{fiatUnit}</Unit>
         </Container>
       </CoinConvertorInput>

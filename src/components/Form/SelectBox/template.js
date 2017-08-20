@@ -101,12 +101,12 @@ const SelectBoxError = styled.label`
   color: #FF0000;
 `
 const Arrow = styled(Icon).attrs({
-  name: 'icon-down_arrow'
+  name: 'down_arrow'
 })`
   position: absolute;
   top: 15px;
   right: 15px;
-  font-size: 0.6rem;
+  font-size: 10px;
 `
 
 const SelectBox = (props) => {

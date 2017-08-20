@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Modal } from 'blockchain-info-components'
+import { Button, Modal, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
@@ -14,18 +14,6 @@ const Container = styled.div`
   height: 100px;
   padding: 30px 0;
   border-bottom: 1px solid EFEFEF;
-`
-const LogoutButton = styled.div`
-  background-color: #660000;
-  border-color: #660000;
-  margin-left: 10px;
-  color: #FFFFFF;
-
-  &:hover {
-    background-color: #880000;
-    border-color: #880000;
-    color: #FFFFFF;
-  }
 `
 const Footer = styled.div`
   display: flex;
@@ -39,17 +27,21 @@ const AutoDisconnection = (props) => {
   return (
     <Modal {...rest} icon='right_arrow' title='Are you still there?' size='large' closeButton={closeButton}>
       <Container>
-        <FormattedMessage id='modals.autodisconnection.explain' defaultMessage="You've been inactive for {duration} minutes." values={{duration: duration}} />
+        <Text size='14px' weight={300}>
+          <FormattedMessage id='modals.autodisconnection.explain' defaultMessage="You've been inactive for {duration} minutes." values={{duration: duration}} />
+        </Text>
         <br />
-        <FormattedMessage id='modals.autodisconnection.explain2' defaultMessage="Click 'Cancel' if you don't want to be logged out automatically." />
+        <Text size='14px' weight={300}>
+          <FormattedMessage id='modals.autodisconnection.explain2' defaultMessage="Click 'Cancel' if you don't want to be logged out automatically." />
+        </Text>
       </Container>
       <Footer>
         <Button onClick={handleCancel}>
           <FormattedMessage id='modals.autodisconnection.cancel' defaultMessage='Cancel' />
         </Button>
-        <LogoutButton onClick={handleClick}>
+        <Button nature='logout' onClick={handleClick}>
           <FormattedMessage id='modals.autodisconnection.logout' defaultMessage='Log me out' />
-        </LogoutButton>
+        </Button>
       </Footer>
     </Modal>
   )

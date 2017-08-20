@@ -10,12 +10,12 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
-  height: 50px;
+  height: 40px;
 `
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: -10px;
+  top: -18px;
   right: 0;
   height: 15px;
 `

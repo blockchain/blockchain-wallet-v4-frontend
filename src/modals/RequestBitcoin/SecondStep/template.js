@@ -4,72 +4,67 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 
-import { Button, Form, Link, Modal, Text } from 'blockchain-info-components'
+import { Button, Link, Modal, Separator, Text } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 import CoinDisplay from 'components/CoinDisplay'
 import CurrencyDisplay from 'components/CurrencyDisplay'
 
-const CopyButton = styled(Button)`
-  color: #FFFFFF;
-  background-color: #006600;
-  border: 1px solid #006600;
-  text-transform: uppercase;
-
-  &:hover { background-color: #006600 };
-`
-const PaymentRequestContainer = styled.div`
-  background-color: #EFEFEF;
-  margin: 5px 0;
-`
-const PaymentRequestContent = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 15px 0;
-  border-bottom: 1px solid #CDCDCD;
+  background-color: #EFEFEF;
+  margin: 5px 0;
 
-  & > * { padding: 15px 0; }
+  & > * { padding: 5px 0; }
 `
-const PaymentRequestFooter = styled.span`
-  padding: 15px;
+const LinkContainer = styled.div`
+  padding: 10px;
   box-sizing: border-box;
   text-align: center;
   word-wrap: break-word;
+  border-top: 1px solid #DDDDDD;
 `
 const Footer = styled.div`
-  padding: 5px 0;
+padding: 5px 0;
 `
 
 const SecondStep = (props) => {
   const { satoshis, message, link, active, handleClick, previous, ...rest } = props
 
   return (
-    <Modal {...rest} icon='receive' title='Request created' size='large'>
+    <Modal {...rest} icon='receive' title='Request' size='large'>
       <Form>
-        <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' />
-        <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment request:' />
-        <PaymentRequestContainer>
-          <PaymentRequestContent>
-            <CoinDisplay biggest cyan>{satoshis}</CoinDisplay>
-            <CurrencyDisplay big light cyan>{satoshis}</CurrencyDisplay>
-            <Text size='24px'>{message}</Text>
-          </PaymentRequestContent>
-          <PaymentRequestFooter>
-            <Text size='12px'>{link}</Text>
-          </PaymentRequestFooter>
-        </PaymentRequestContainer>
+        <Text size='14px' weight={300}>
+          <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' />
+        </Text>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment request:' />
+        </Text>
+        <Container>
+          <Text size='24px' weight={600} color='medium-blue'>
+            <CoinDisplay>{satoshis}</CoinDisplay>
+          </Text>
+          <Text size='20px' weight={600} color='medium-blue'>
+            <CurrencyDisplay>{satoshis}</CurrencyDisplay>
+          </Text>
+          <Text size='16px'>{message}</Text>
+          <LinkContainer>
+            <Text size='12px' weight={300}>{link}</Text>
+          </LinkContainer>
+        </Container>
         <CopyToClipBoard text={link} onCopy={handleClick}>
-          { active
-            ? <CopyButton fullwidth>
-              <FormattedMessage id='modals.requestbitcoin.secondstep.copied' defaultMessage='Copied!' />
-            </CopyButton>
-            : <Button nature='secondary' fullwidth>
-              <FormattedMessage id='modals.requestbitcoin.secondstep.copy' defaultMessage='Copy link' />
-            </Button>
-          }
+          <Button nature={active ? 'copy' : 'secondary'} fullwidth uppercase>
+            { active
+              ? <FormattedMessage id='modals.requestbitcoin.secondstep.copied' defaultMessage='Copied!' />
+              : <FormattedMessage id='modals.requestbitcoin.secondstep.copy' defaultMessage='Copy link' />
+            }
+          </Button>
         </CopyToClipBoard>
         <Footer>
-          <Link onClick={previous}>
+          <Link onClick={previous} size='13px' weight={300}>
             <FormattedMessage id='scenes.requestbitcoin.secondstep.back' defaultMessage='Go back' />
           </Link>
         </Footer>

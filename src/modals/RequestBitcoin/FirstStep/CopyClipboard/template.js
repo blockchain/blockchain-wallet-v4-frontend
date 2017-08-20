@@ -21,7 +21,8 @@ const Address = styled.span`
   align-items: center;
   width: 100%;
   height: 40px;
-  font-size: 1rem;
+  font-size: 14px;
+  font-weight: 300;
   background-color: #EFEFEF;
 
   @media(min-width:768px) { font-size: 0.9rem; }
@@ -34,10 +35,11 @@ const Buttons = styled.div`
   width: 100%;
   height: 40px;
 
-  @media(min-width:768px) { width: 200px; }
+  @media(min-width:768px) { width: 160px; }
 `
 const MenuButton = styled(Button)`
   width: 50%;
+  min-width: 0;
   height: 100%;
   border-radius: 0;
 `
