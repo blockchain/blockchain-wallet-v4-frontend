@@ -33,12 +33,12 @@ const Content = styled.div`
 `
 
 const Arrow = styled(Icon).attrs({
-  name: 'ti-angle-down'
+  name: 'down_arrow'
 })`
   transform: ${props => props.rotated ? 'rotate(-180deg)' : 'none'};
   color: ${props => props.rotated ? '#004a7c' : 'inherit'};
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 10px;
 `
 
 const FaqRow = ({ component, handleToggle, toggled }) => (

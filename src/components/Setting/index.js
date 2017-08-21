@@ -36,6 +36,7 @@ const SettingComponent = styled.div`
   width: 100%;
   padding: 5px 0;
   box-sizing: border-box;
+  text-align: right;
 
   @media (min-width: 992px) {
     align-items: flex-end;
