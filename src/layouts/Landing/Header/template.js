@@ -39,28 +39,28 @@ const Header = (props) => {
             <LinkContainer to='/wallet'>
               <NavItem>
                 <Text color='white' uppercase>
-                  <FormattedMessage id='components.layouts.landing.header.wallets' defaultMessage='Wallets' />
+                  <FormattedMessage id='layouts.landing.header.wallets' defaultMessage='Wallets' />
                 </Text>
               </NavItem>
             </LinkContainer>
             <NavItem href='https://blockchain.info/charts' target='_blank'>
               <Text color='white' uppercase>
-                <FormattedMessage id='components.layouts.landing.header.charts' defaultMessage='Charts' />
+                <FormattedMessage id='layouts.landing.header.charts' defaultMessage='Charts' />
               </Text>
             </NavItem>
             <NavItem href='https://blockchain.info/stats' target='_blank'>
               <Text color='white' uppercase>
-                <FormattedMessage id='components.layouts.landing.header.stats' defaultMessage='Stats' />
+                <FormattedMessage id='layouts.landing.header.stats' defaultMessage='Stats' />
               </Text>
             </NavItem>
             <NavItem href='https://blockchain.info/markets' target='_blank'>
               <Text color='white' uppercase>
-                <FormattedMessage id='components.layouts.landing.header.markets' defaultMessage='Markets' />
+                <FormattedMessage id='layouts.landing.header.markets' defaultMessage='Markets' />
               </Text>
             </NavItem>
             <NavItem href='https://blockchain.info/api' target='_blank'>
               <Text color='white' uppercase>
-                <FormattedMessage id='components.layouts.landing.header.api' defaultMessage='Api' />
+                <FormattedMessage id='layouts.landing.header.api' defaultMessage='Api' />
               </Text>
             </NavItem>
           </Nav>
@@ -68,14 +68,14 @@ const Header = (props) => {
             <LinkContainer to='/login'>
               <NavItem>
                 <Button nature='primary' uppercase rounded>
-                  <FormattedMessage id='components.layouts.landing.header.login' defaultMessage='Log in' />
+                  <FormattedMessage id='layouts.landing.header.login' defaultMessage='Log in' />
                 </Button>
               </NavItem>
             </LinkContainer>
             <LinkContainer to='/register'>
               <NavItem>
                 <Button nature='secondary' uppercase rounded>
-                  <FormattedMessage id='components.layouts.landing.header.signup' defaultMessage='Sign up' />
+                  <FormattedMessage id='layouts.landing.header.signup' defaultMessage='Sign up' />
                 </Button>
               </NavItem>
             </LinkContainer>

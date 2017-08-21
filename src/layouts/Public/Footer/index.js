@@ -48,16 +48,16 @@ const Footer = () => {
       <LinkContainer>
         <Image name='blue-logo' height='40px' width='40px' />
         <Link href='https://blockchain.info' size='14px' color='white' uppercase>
-          <FormattedMessage id='components.layouts.public.footer.explorer' defaultMessage='.Info Explorer' />
+          <FormattedMessage id='layouts.public.footer.explorer' defaultMessage='.Info Explorer' />
         </Link>
         <Link href='https://blockchain.com/about' size='14px' color='white' uppercase>
-          <FormattedMessage id='components.layouts.public.footer.about' defaultMessage='About' />
+          <FormattedMessage id='layouts.public.footer.about' defaultMessage='About' />
         </Link>
         <Link href='https://blog.blockchain.com' size='14px' color='white' uppercase>
-          <FormattedMessage id='components.layouts.public.footer.blog' defaultMessage='Blog' />
+          <FormattedMessage id='layouts.public.footer.blog' defaultMessage='Blog' />
         </Link>
         <Link href='https://support.blockchain.com' size='14px' color='white' uppercase>
-          <FormattedMessage id='components.layouts.public.footer.support' defaultMessage='Support' />
+          <FormattedMessage id='layouts.public.footer.support' defaultMessage='Support' />
         </Link>
       </LinkContainer>
       <DropdownContainer>

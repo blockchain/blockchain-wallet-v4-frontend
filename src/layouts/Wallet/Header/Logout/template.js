@@ -11,7 +11,7 @@ const Logout = (props) => {
   return (
     <NavItem onClick={handleLogout}>
       <Text size='14px' weight={300} color='white' uppercase>
-        <FormattedMessage id='components.layouts.wallet.header.logout.signout' defaultMessage='Sign out' />
+        <FormattedMessage id='layouts.wallet.header.logout.signout' defaultMessage='Sign out' />
       </Text>
     </NavItem>
   )

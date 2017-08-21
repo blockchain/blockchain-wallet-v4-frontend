@@ -57,53 +57,53 @@ const Navigation = (props) => {
         <LinkContainer to='/wallet' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='home' />
-            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.home' defaultMessage='Home' />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.home' defaultMessage='Home' />
           </MenuItem>
         </LinkContainer>
         <LinkContainer to='/transactions' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='tx' />
-            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.transactions' defaultMessage='Transactions' smaller uppercase />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions' defaultMessage='Transactions' smaller uppercase />
           </MenuItem>
         </LinkContainer>
         <LinkContainer to='/buy-sell' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='bitcoin' />
-            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy bitcoin' smaller uppercase />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy bitcoin' smaller uppercase />
           </MenuItem>
         </LinkContainer>
         <LinkContainer to='/security-center' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='lock' />
-            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.securitycenter' defaultMessage='Security center' smaller uppercase />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.securitycenter' defaultMessage='Security center' smaller uppercase />
           </MenuItem>
         </LinkContainer>
         <LinkContainer to='/settings' activeClassName='active' onClick={handleOpenSettings}>
           <MenuItem>
             <Icon name='settings' />
-            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.settings' defaultMessage='Settings' smaller uppercase />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.settings' defaultMessage='Settings' smaller uppercase />
           </MenuItem>
         </LinkContainer>
         {settingsToggled && (
           <SubMenu>
             <LinkContainer to='/settings/info' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubMenuItem>
-                <FormattedMessage id='components.layouts.wallet.menuleft.navigation.walletinfo' defaultMessage='Wallet information' smaller />
+                <FormattedMessage id='layouts.wallet.menuleft.navigation.walletinfo' defaultMessage='Wallet information' smaller />
               </SubMenuItem>
             </LinkContainer>
             <LinkContainer to='/settings/preferences' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubMenuItem>
-                <FormattedMessage id='components.layouts.wallet.menuleft.navigation.preferences' defaultMessage='Preferences' smaller />
+                <FormattedMessage id='layouts.wallet.menuleft.navigation.preferences' defaultMessage='Preferences' smaller />
               </SubMenuItem>
             </LinkContainer>
             <LinkContainer to='/settings/security' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubMenuItem>
-                <FormattedMessage id='components.layouts.wallet.menuleft.navigation.security' defaultMessage='Security' smaller />
+                <FormattedMessage id='layouts.wallet.menuleft.navigation.security' defaultMessage='Security' smaller />
               </SubMenuItem>
             </LinkContainer>
             <LinkContainer to='/settings/addresses' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubMenuItem>
-                <FormattedMessage id='components.layouts.wallet.menuleft.navigation.addresses' defaultMessage='Addresses' smaller />
+                <FormattedMessage id='layouts.wallet.menuleft.navigation.addresses' defaultMessage='Addresses' smaller />
               </SubMenuItem>
             </LinkContainer>
           </SubMenu>
@@ -111,7 +111,7 @@ const Navigation = (props) => {
         <LinkContainer to='/faq' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='help' />
-            <FormattedMessage id='components.layouts.wallet.menuleft.navigation.faq' defaultMessage='Faq' smaller uppercase />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.faq' defaultMessage='Faq' smaller uppercase />
           </MenuItem>
         </LinkContainer>
       </Menu>

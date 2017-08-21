@@ -21,15 +21,15 @@ const Footer = () => {
   return (
     <Wrapper>
       <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank' size='13px' weight={300} color='gray'>
-        <FormattedMessage id='components.layouts.wallet.menuleft.footer.termsofservice' defaultMessage='ToS' />
+        <FormattedMessage id='layouts.wallet.menuleft.footer.termsofservice' defaultMessage='ToS' />
       </Link>
       <Circle />
       <Link href='https://www.blockchain.com/assets/pdf/Blockchain_PrivacyPolicy.pdf' target='_blank' size='13px' weight={300} color='gray'>
-        <FormattedMessage id='components.layouts.wallet.menuleft.footer.privacypolicy' defaultMessage='Privacy policy' />
+        <FormattedMessage id='layouts.wallet.menuleft.footer.privacypolicy' defaultMessage='Privacy policy' />
       </Link>
       <Circle />
       <Link href='https://www.blockchain.com/about' target='_blank' size='13px' weight={300} color='gray'>
-        <FormattedMessage id='components.layouts.wallet.menuleft.footer.about' defaultMessage='About' />
+        <FormattedMessage id='layouts.wallet.menuleft.footer.about' defaultMessage='About' />
       </Link>
     </Wrapper>
   )

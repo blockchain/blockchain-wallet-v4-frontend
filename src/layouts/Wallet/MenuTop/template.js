@@ -73,16 +73,16 @@ const MenuTop = (props) => {
       <LeftContainer>
         <TextContainer>
           <Text size='28px' weight={200} uppercase>
-            <FormattedMessage id='components.layouts.wallet.menutop.bank' defaultMessage='Be your own bank.' />
+            <FormattedMessage id='layouts.wallet.menutop.bank' defaultMessage='Be your own bank.' />
           </Text>
         </TextContainer>
         <ButtonContainer>
           <IconButton name='send' onClick={openSendBitcoin}>
-            <FormattedMessage id='components.layouts.wallet.menutop.send' defaultMessage='Send' />
+            <FormattedMessage id='layouts.wallet.menutop.send' defaultMessage='Send' />
           </IconButton>
           <ButtonGroup>
             <IconButton name='receive' onClick={openRequestBitcoin}>
-              <FormattedMessage id='components.layouts.wallet.menutop.request' defaultMessage='Request' />
+              <FormattedMessage id='layouts.wallet.menutop.request' defaultMessage='Request' />
             </IconButton>
             <IconButton name='clipboard' />
           </ButtonGroup>
