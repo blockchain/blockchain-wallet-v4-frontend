@@ -11,6 +11,7 @@ const BaseIcon = styled.span`
     props.color === 'cyan' ? '#10ADE4'
     : props.color === 'medium-blue' ? '#799EB2'
     : props.color === 'white' ? '#FFFFFF'
+    : props.color === 'dark-blue' ? '#004a7c'
     : props.color === 'red' ? '#CA3A3C' : '#5F5F5F'};
 
   &:before {
@@ -30,7 +31,7 @@ Icon.propTypes = {
   name: PropTypes.string.isRequired,
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,
-  color: PropTypes.oneOf(['red', 'white', 'cyan', 'medium-blue'])
+  color: PropTypes.oneOf(['red', 'white', 'cyan', 'medium-blue', 'dark-blue'])
 }
 
 Icon.defaultProps = {
