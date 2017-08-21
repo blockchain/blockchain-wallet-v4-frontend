@@ -35,7 +35,7 @@ const Advert = props => {
       </Text>
       { adverts.map(function (advert, index) {
         return (
-          <Container>
+          <Container key={index}>
             <Link src={advert.url}>
               <Image src={advert.data} />
             </Link>

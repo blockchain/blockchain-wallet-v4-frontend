@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 
-import ActivityListItem from './ActivityListItem'
+import ListItem from './ListItem'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,7 +12,6 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  height: 100%;
   padding: 15px;
   box-sizing: border-box;
   border: 1px solid #DDDDDD;
@@ -34,8 +33,8 @@ const ActivityList = (props) => {
         </Text>
       </Header>
       <Content>
-        { props.activities.map(function (activity, key) {
-          return <ActivityListItem activity={activity} key={key} />
+        { props.activities.map(function (activity, index) {
+          return <ListItem activity={activity} key={index} />
         })}
       </Content>
     </Wrapper>
@@ -45,7 +44,6 @@ const ActivityList = (props) => {
 ActivityList.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired
   }))
 }

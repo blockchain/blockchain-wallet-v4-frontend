@@ -1,10 +1,11 @@
 import * as AT from './actionTypes'
+import moment from 'moment'
 
 const INITIAL_STATE = [
-      { type: 'settings', time: '', title: 'Settings', description: 'Created wallet!' },
-      { type: 'settings', time: '', title: 'Settings', description: 'Set password' },
-      { type: 'address', time: '', title: 'Addresses', description: 'Created My Bitcoin Wallet' },
-      { type: 'transaction', time: '', title: 'Transaction', description: 'Received' }
+      { type: 'settings', time: moment().format('ll'), title: 'Settings' },
+      { type: 'settings', time: moment().format('ll'), title: 'Settings' },
+      { type: 'address', time: moment().format('ll'), title: 'Addresses' },
+      { type: 'transaction', time: moment().format('ll'), title: 'Transaction' }
 ]
 
 const activity = (state = INITIAL_STATE, action) => {

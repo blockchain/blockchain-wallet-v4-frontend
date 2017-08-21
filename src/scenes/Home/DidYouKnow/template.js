@@ -15,6 +15,8 @@ const Wrapper = styled.div`
   margin-top: 15px;
   box-sizing: border-box;
   border: 1px solid #DDDDDD;
+
+  & > * { padding: 10px 0; }
 `
 const PaddedIcon = styled(Icon)`
   padding: 5px;

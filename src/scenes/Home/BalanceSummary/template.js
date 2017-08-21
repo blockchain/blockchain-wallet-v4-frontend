@@ -13,61 +13,59 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding-left: 15px;
+  padding: 15px;
   box-sizing: border-box;
   border: 1px solid #DDDDDD;
 `
-const Header = styled.div`
-  width: 100%;
-  padding: 10px 0;
-`
-const Content = styled.div`
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-`
-const Row = styled.div`
+const FirstRow = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #D2CED0;
+  width: 100%;
+  border-bottom: 1px solid #DDDDDD;
   padding: 10px 0;
 `
-const LastRow = styled.div`
-  display: flex;
+const Row = styled(FirstRow)`
   justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
+  border-bottom: ${props => props.last ? 'none' : '1px solid #DDDDDD'};
+`
+const Amount = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
 `
 
 const BalanceSummary = (props) => {
+  const { balances, total } = props
+
   return (
     <Wrapper>
-      <Header>
-        <Text uppercase size='24px' weight={300} color='dark-blue'>
-          <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Balance summary' />
+      <Text size='24px' weight={300} color='dark-blue' uppercase>
+        <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Your balances' />
+      </Text>
+      <FirstRow>
+        <Text size='28px' weight={300}>
+          <CurrencyDisplay>{total}</CurrencyDisplay>
         </Text>
-      </Header>
-      <Content>
-        { props.balances.map(function (balance, index) {
-          return (
-            <Row key={index}>
-              <Text size='16px' weight={300}>{balance.title}</Text>
-              { props.coinDisplayed
-                ? <CoinDisplay small light>{balance.amount}</CoinDisplay>
-                : <CurrencyDisplay small light>{balance.amount}</CurrencyDisplay>
-              }
-            </Row>
-          )
-        })}
-        <LastRow>
-          <FormattedMessage id='scenes.home.balancesummary.total' defaultMessage='Total' />
-          { props.coinDisplayed
-            ? <CoinDisplay small>{props.total}</CoinDisplay>
-            : <CurrencyDisplay small>{props.total}</CurrencyDisplay>
-          }
-        </LastRow>
-      </Content>
+      </FirstRow>
+      { balances.map(function (balance, index) {
+        const last = index === balances.length - 1
+        return (
+          <Row key={index} last={last}>
+            <Text size='16px' weight={300}>{balance.title}</Text>
+            <Amount>
+              <Text size='16px' weight={300}>
+                <CoinDisplay>{balance.amount}</CoinDisplay>
+              </Text>
+              <Text size='12px' weight={300}>
+                <CurrencyDisplay>{balance.amount}</CurrencyDisplay>
+              </Text>
+            </Amount>
+          </Row>
+        )
+      })}
     </Wrapper>
   )
 }
