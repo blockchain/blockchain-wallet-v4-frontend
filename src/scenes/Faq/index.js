@@ -20,6 +20,10 @@ const Wrapper = styled.section`
 const Header = styled.div`
   width: 100%;
   padding: 10px 0;
+  font-size: 20px;
+  font-weight: 300;
+  text-transform: capitalize;
+  line-height: 1.1;
 `
 const Footer = styled.div`
   display: flex;
@@ -35,7 +39,7 @@ const Faq = () => {
   return (
     <Wrapper>
       <Header>
-        <FormattedMessage id='scenes.faq.title' defaultMessage='Frequented asked questions' />
+        <FormattedMessage id='scenes.faq.title' defaultMessage='Frequently asked questions' />
       </Header>
       <FaqRow component={Question1} />
       <FaqRow component={Question2} />

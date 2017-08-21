@@ -27,13 +27,18 @@ const Header = styled.div`
 const Content = styled.div`
   display: ${props => props.displayed ? 'flex' : 'none'};
   width: 75%;
+  font-weight: 300;
+  margin-bottom: 0;
+  color: #5f5f5f;
 `
 
 const Arrow = styled(Icon).attrs({
-  name: 'icon-up_arrow'
+  name: 'ti-angle-down'
 })`
-  transform: ${props => props.rotated && 'rotate(-180deg)'};
+  transform: ${props => props.rotated ? 'rotate(-180deg)' : 'none'};
+  color: ${props => props.rotated ? '#004a7c' : 'inherit'};
   cursor: pointer;
+  font-size: 1.2em;
 `
 
 const FaqRow = ({ component, handleToggle, toggled }) => (

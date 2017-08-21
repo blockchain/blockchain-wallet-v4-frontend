@@ -31,7 +31,8 @@ const MarkerCircle = styled.div`
   align-items: center;
   width: 30px;
   height: 30px;
-  background-color: #004A7C;
+  background-color: white;
+  border: 1px solid #d2ced0;
   border-radius: 100%;
   text-align: center;
 `
@@ -67,19 +68,19 @@ const ActivityListItem = (props) => {
       <MarkerContainer>
         <MarkerBorder />
         <MarkerCircle>
-          <Icon name='icon-tx' white />
+          <Icon name='tx' color='dark-blue' />
         </MarkerCircle>
       </MarkerContainer>
       <LogContainer>
         <InfoContainer>
           <TypeContainer>
-            <Text size='12px'>{props.activity.title}</Text>
+            <Text size='12px' weight='300' capitalize>{props.activity.title}</Text>
           </TypeContainer>
           <TimeContainer>
-            <Text size='12px'>{props.activity.time}</Text>
+            <Text size='12px' weight='300'>{props.activity.time}</Text>
           </TimeContainer>
           <DetailsContainer>
-            <Text size='12px'>{props.activity.description}</Text>
+            <Text size='12px' weight='300'>{props.activity.description}</Text>
           </DetailsContainer>
         </InfoContainer>
       </LogContainer>

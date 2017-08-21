@@ -20,10 +20,10 @@ const BitcoinLinkHandling = (props) => {
           <FormattedMessage id='scenes.preferences.link.enable' defaultMessage='Enable' />
         </Button>
         <TextGroup>
-          <Text color='red'>
+          <Text color='red' weight='300' size='14px' rightAlign>
             <FormattedMessage id='scenes.preferences.link.unknownstatus' defaultMessage="We can't detect whether or not handling of bitcoin links has been enabled." />
           </Text>
-          <Text color='red'>
+          <Text color='red' weight='300' size='14px'rightAlign>
             <FormattedMessage id='scenes.preferences.link.unknownstatus2' defaultMessage='If it has already been enabled, nothing will happen.' />
           </Text>
         </TextGroup>
