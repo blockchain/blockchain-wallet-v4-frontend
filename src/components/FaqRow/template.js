@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   padding: 20px 0;
-  boz-sizing: border-box;
+  box-sizing: border-box;
   border-bottom: 1px solid #EFEFEF;
 `
 

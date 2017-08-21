@@ -19,7 +19,7 @@ const Column = styled.div`
   align-items: center;
   width: 100%;
   padding: 30px;
-  boz-sizing: border-box;
+  box-sizing: border-box;
 `
 
 const Home = (props) => {

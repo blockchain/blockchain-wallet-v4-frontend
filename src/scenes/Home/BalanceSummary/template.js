@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding-left: 15px;
   box-sizing: border-box;
+  border: 1px solid #DDDDDD;
 `
 const Header = styled.div`
   width: 100%;
@@ -22,7 +23,6 @@ const Header = styled.div`
 `
 const Content = styled.div`
   width: 100%;
-  border: 1px solid #D2CED0;
   padding: 10px;
   box-sizing: border-box;
 `
@@ -44,13 +44,15 @@ const BalanceSummary = (props) => {
   return (
     <Wrapper>
       <Header>
-        <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Balance summary' />
+        <Text uppercase size='24px' weight={300} color='dark-blue'>
+          <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Balance summary' />
+        </Text>
       </Header>
       <Content>
         { props.balances.map(function (balance, index) {
           return (
             <Row key={index}>
-              <Text size='12px'>{balance.title}</Text>
+              <Text size='16px' weight={300}>{balance.title}</Text>
               { props.coinDisplayed
                 ? <CoinDisplay small light>{balance.amount}</CoinDisplay>
                 : <CurrencyDisplay small light>{balance.amount}</CurrencyDisplay>

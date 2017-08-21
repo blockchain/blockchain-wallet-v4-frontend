@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Text } from 'blockchain-info-components'
 
 import ActivityListItem from './ActivityListItem'
 
@@ -12,22 +13,25 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 100%;
-  padding-right: 15px;
+  padding: 15px;
   box-sizing: border-box;
+  border: 1px solid #DDDDDD;
 `
 const Header = styled.div`
   width: 100%;
-  padding: 10px 0;
 `
 const Content = styled.div`
   width: 100%;
+  margin-top: 10px;
 `
 
 const ActivityList = (props) => {
   return (
     <Wrapper>
       <Header>
-        <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
+        <Text uppercase size='24px' weight={300} color='dark-blue'>
+          <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
+        </Text>
       </Header>
       <Content>
         { props.activities.map(function (activity, key) {

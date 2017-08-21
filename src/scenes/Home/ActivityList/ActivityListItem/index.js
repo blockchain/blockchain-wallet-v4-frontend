@@ -6,7 +6,7 @@ import { Icon, Text } from 'blockchain-info-components'
 
 const Row = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   height: 80px;
@@ -14,7 +14,7 @@ const Row = styled.div`
 const MarkerContainer = styled.div`
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   width: 60px;
   height: 100%;
@@ -23,6 +23,7 @@ const MarkerBorder = styled.div`
   height: 100%;
   width: 1px;
   background-color: #D2CED0;
+  margin-left: 15px;
 `
 const MarkerCircle = styled.div`
   position: absolute;
