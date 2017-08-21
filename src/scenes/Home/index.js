@@ -10,8 +10,6 @@ const Wrapper = styled.section`
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  padding: 30px;
-  boz-sizing: border-box;
 
   @media(min-width: 992px) { flex-direction: row; }
 `
@@ -20,6 +18,8 @@ const Column = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  padding: 30px;
+  boz-sizing: border-box;
 `
 
 const Home = (props) => {

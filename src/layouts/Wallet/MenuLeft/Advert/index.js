@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { isEmpty } from 'ramda'
+import { isEmpty, equals } from 'ramda'
 
 import { actions, selectors } from 'data'
 import Advert from './template.js'
@@ -9,6 +9,13 @@ import Advert from './template.js'
 class AdvertContainer extends React.Component {
   componentWillMount () {
     if (isEmpty(this.props.adverts)) { this.props.advertsActions.fetchAdverts(2) }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.location, nextProps.location)) {
+      this.props.advertsActions.deleteAdverts()
+      this.props.advertsActions.fetchAdverts(2)
+    }
   }
 
   render () {

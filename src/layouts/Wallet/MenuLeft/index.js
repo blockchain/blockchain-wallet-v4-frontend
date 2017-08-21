@@ -16,7 +16,7 @@ const MenuLeft = (props) => {
   return (
     <Wrapper>
       <Navigation {...props} />
-      <Advert />
+      <Advert location={props.location} />
       <Footer />
     </Wrapper>
   )

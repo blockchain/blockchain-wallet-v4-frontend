@@ -5,7 +5,7 @@ import { Field } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validMmemonic } from 'services/FormHelper'
-import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
@@ -43,10 +43,14 @@ const FirstStep = (props) => {
       </Text>
       <Separator />
       <Form>
-        <Text size='13px' weight={300} color='red'>
-          <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password.' />
-          <FormattedMessage id='scenes.recover.firststep.warning2' defaultMessage='Recovering your funds will create a new Wallet ID.' />
-        </Text>
+        <TextGroup inline>
+          <Text size='13px' weight={300} color='red'>
+            <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password.' />
+          </Text>
+          <Text size='13px' weight={300} color='red'>
+            <FormattedMessage id='scenes.recover.firststep.warning2' defaultMessage='Recovering your funds will create a new Wallet ID.' />
+          </Text>
+        </TextGroup>
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.recover.firststep.passphrase' defaultMessage='Your recovery phrase' />
         </Text>
@@ -60,7 +64,7 @@ const FirstStep = (props) => {
       </Form>
       <Footer>
         <LinkContainer to='/help'>
-          <Link>
+          <Link size='13px' weight={300}>
             <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go back' />
           </Link>
         </LinkContainer>
