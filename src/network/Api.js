@@ -193,7 +193,7 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'unspent', data })
   }
 
-  const getFee = function (fromAddresses, confirmations = 0) {
+  const getFee = function () {
     return request({ url: apiUrl, method: 'GET', endPoint: 'mempool/fees' })
   }
 
@@ -215,6 +215,11 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
   }
 
+  const getAdverts = function (number) {
+    const data = { wallet: true, n: number }
+    return request({ url: apiUrl, method: 'GET', endPoint: 'bci-ads/get', data: data })
+  }
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -234,7 +239,8 @@ const createApi = ({
     getUnspents: future(getUnspents),
     getFee: future(getFee),
     pushTx: future(pushTx),
-    getPairingCode: future(getPairingCode)
+    getPairingCode: future(getPairingCode),
+    getAdverts: future(getAdverts)
   }
 }
 
