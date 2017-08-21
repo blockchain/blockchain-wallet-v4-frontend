@@ -82,14 +82,6 @@ const Description = styled(HiddenOnMobile)`
   min-width: 250px;
   @media(min-width: 1200px) { width: 25%; }
 `
-const Edit = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-const EditIcon = styled(Icon)`
-  cursor: pointer;
-`
 const Amount = styled.div`
   min-width: 200px;
   @media(min-width: 1200px) {
@@ -116,7 +108,6 @@ const ValueWhenReceived = styled.div`
   @media(min-width: 1200px) { width: 20%; }
 `
 const ExtraDetailsContainer = styled(HiddenOnDesktop)`
-  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -158,13 +149,13 @@ const ListItem = (props) => {
         <Description>
           { transaction.description !== ''
             ? <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.listitem.description' defaultMessage='Description: {description}' values={{ to: transaction.to }} />
+              <FormattedMessage id='scenes.transactions.list.listitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
             </Text>
             : <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.transactions.list.listitem.adddescription' defaultMessage='Add a description' />
-              <Icon name='pencil' size='14px' />
             </Text>
           }
+          <Icon name='pencil' size='14px' />
         </Description>
         <Amount>
           <Button nature={transaction.type.toLowerCase()} onClick={handleClick} fullwidth>
@@ -194,15 +185,17 @@ const ListItem = (props) => {
           }
         </TransactionStatus>
         <ExtraDetailsContainer>
-          { transaction.description !== ''
-            ? <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.listitem.description' defaultMessage='Description: {description}' values={{ to: transaction.to }} />
-            </Text>
-            : <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.listitem.adddescription' defaultMessage='Add a description' />
-              <Icon name='pencil' size='14px' />
-            </Text>
-          }
+          <div>
+            { transaction.description !== ''
+              ? <Text size='14px' weight={300}>
+                <FormattedMessage id='scenes.transactions.list.listitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
+              </Text>
+              : <Text size='14px' weight={300}>
+                <FormattedMessage id='scenes.transactions.list.listitem.adddescription' defaultMessage='Add a description' />
+              </Text>
+            }
+            <Icon name='pencil' size='14px' />
+          </div>
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.transactions.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
           </Text>
