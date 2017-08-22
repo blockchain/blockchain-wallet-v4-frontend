@@ -1,4 +1,5 @@
 import './chapters/_welcome'
+import './chapters/badges'
 import './chapters/buttons'
 import './chapters/colors'
 import './chapters/dropdowns'
