@@ -3,7 +3,8 @@ import * as T from './actionTypes.js'
 const INITIAL_STATE = []
 
 const advertsReducer = (state = INITIAL_STATE, action) => {
-  let { type } = action
+  const { type } = action
+
   switch (type) {
     case T.FETCH_ADVERTS_SUCCESS: {
       const { payload } = action
