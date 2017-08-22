@@ -1,5 +1,6 @@
 import './chapters/_welcome'
-import './chapters/buttons.js'
+import './chapters/buttons'
+import './chapters/colors'
 import './chapters/dropdowns'
 import './chapters/fonts'
 import './chapters/gauges'
@@ -9,6 +10,3 @@ import './chapters/separators'
 import './chapters/text'
 import './chapters/textgroup'
 import './chapters/tooltip'
-
-import * as components from '../dist/index.js'
-console.log(components)

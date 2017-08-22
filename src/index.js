@@ -2,6 +2,7 @@ import './Fonts'
 
 export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Badge } from './Badges'
+export { Colors } from './Colors'
 export { SimpleDropdown } from './Dropdowns'
 export { ConfirmationGauge, PasswordGauge } from './Gauges'
 export { CheckBoxInput, HiddenInput, NumberInput, PasswordInput, TextAreaInput, TextInput } from './Form'

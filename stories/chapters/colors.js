@@ -1,14 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { storiesOf } from '@storybook/react'
-import { withInfo } from '@storybook/addon-info'
 
-import { keysIn, map } from 'ramda'
+import { compose, map, zipObj, toPairs } from 'ramda'
 import Layout from '../components/layout'
-import { Icon } from '../../src'
-import IcomoonMap from '../../src/Icons/Icomoon'
+import { Colors } from '../../src'
 
-const IconLayout = styled.div`
+const ColorLayout = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -25,12 +23,10 @@ const Container = styled.div`
   margin: 5px;
 `
 const Sample = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  display: block;
   width: 100%;
   height: 100%;
+  background-color: ${props => props.bgColor};
 `
 const Code = styled.div`
   display: block;
@@ -43,21 +39,25 @@ const Code = styled.div`
   text-align: center;
 `
 
-const iconKeys = keysIn(IcomoonMap)
+const PaletteDefault = () => {
+  const convert = compose(map(zipObj(['key', 'value'])), toPairs)
+  const colorsArray = convert(Colors)
 
-storiesOf('Icons', module)
-  .addDecorator(story => (<Layout>{story()}</Layout>))
-  .add('icomoon', () =>
-    <IconLayout>
-      { map((value, index) => {
+  return (
+    <ColorLayout>
+      { colorsArray.map(function (color, index) {
+        console.log(color)
         return (
-          <Container>
-            <Sample>
-              <Icon name={value} size='40px' />
-            </Sample>
-            <Code>{value}</Code>
+          <Container key={index}>
+            <Sample bgColor={color.value} />
+            <Code>{color.key}</Code>
           </Container>
         )
-      }, iconKeys)}
-    </IconLayout>
+      })}
+    </ColorLayout>
   )
+}
+
+storiesOf('Colors', module)
+  .addDecorator(story => (<Layout>{story()}</Layout>))
+    .add('Default', () => <PaletteDefault />)

@@ -1,0 +1,29 @@
+
+export default {
+  // Primary
+  iris: '#10ADE4',
+  mariner: '#3558A8',
+  balihai: '#799EB2',
+  regalblue: '#153A62',
+  lightblue: '#B2D5E5',
+  lighterblue: '#E3EFF5',
+  blue: '#004A7C',
+  // Secondary
+  spray: '#84D0D3',
+  rosebud: '#F9B0A1',
+  moccasin: '#FFE6B4',
+  dandelion: '#FFCF62',
+  irisgreen: '#00BABC',
+  bittersweet: '#F26C57',
+  // Product
+  jade: '#00A76F',
+  mahogany: '#CA3A3C',
+  // Greys
+  grey: '#F5F7F9',
+  text: '#5F5F5F',
+  black: '#4B4D4E',
+  bordergrey: '#DDDDDD',
+  midgrey: '#B0B0B0',
+  basicgrey: '#757575',
+  greytransparent: 'rgba(245, 247, 249, 0.9)'
+}
