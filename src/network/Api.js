@@ -220,6 +220,11 @@ const createApi = ({
     return request({ url: apiUrl, method: 'GET', endPoint: 'bci-ads/get', data: data })
   }
 
+  const getLogs = function (guid, sharedKey) {
+    const data = { guid, sharedKey, method: 'list-logs', format: 'json' }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
+  }
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -240,7 +245,8 @@ const createApi = ({
     getFee: future(getFee),
     pushTx: future(pushTx),
     getPairingCode: future(getPairingCode),
-    getAdverts: future(getAdverts)
+    getAdverts: future(getAdverts),
+    getLogs: future(getLogs)
   }
 }
 
