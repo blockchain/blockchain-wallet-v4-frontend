@@ -1,30 +1,16 @@
 import React from 'react'
-import {connect} from 'react-redux'
 
 import DidYouKnow from './template.js'
 
 class DidYouKnowContainer extends React.Component {
+  componentWillMount () {
+    this.number = Math.trunc((Math.random() * 23) + 1)
+  }
   render () {
-    let info = {
-      icon: 'icon-id',
-      category: {
-        name: 'Educational',
-        color: 'brand-success'
-      },
-      title: 'Your wallet ID cannot be used to send/receive bitcoin',
-      description: 'Your wallet ID is like a username, you use it to login to your wallet. To send/receive bitcoin you need a bitcoin address. To generate a new bitcoin address click Receive.'
-    }
-
     return (
-      <DidYouKnow info={info} />
+      <DidYouKnow number={this.number} />
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    info: null
-  }
-}
-
-export default connect(mapStateToProps)(DidYouKnowContainer)
+export default DidYouKnowContainer

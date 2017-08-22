@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
-import InfoWell from 'components/shared/InfoWell'
+import InfoWell from 'components/InfoWell'
 import ActivityLogging from './ActivityLogging'
 import APIAccess from './APIAccess'
 import IPWhitelist from './IPWhitelist'
@@ -15,8 +15,8 @@ const Wrapper = styled.div``
 const AdvancedSecurity = () => (
   <Wrapper>
     <InfoWell>
-      <Text id='scenes.settings.advancedsecurity.explain' text='Advanced security: Further customize your security settings for more granular access control and tracking.' small />
-      <Text id='scenes.settings.advancedsecurity.explain2' text='Do not modify these settings unless you know what you are doing.' small />
+      <FormattedMessage id='scenes.settings.advancedsecurity.explain' defaultMessage='Advanced security: Further customize your security settings for more granular access control and tracking.' />
+      <FormattedMessage id='scenes.settings.advancedsecurity.explain2' defaultMessage='Do not modify these settings unless you know what you are doing.' />
     </InfoWell>
     <ActivityLogging />
     <LoginIpRestriction />

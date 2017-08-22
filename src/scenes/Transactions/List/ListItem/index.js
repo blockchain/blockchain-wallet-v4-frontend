@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import ListItem from './template.js'
 
 class ListItemContainer extends React.Component {
@@ -33,10 +33,16 @@ class ListItemContainer extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    coinDisplayed: selectors.preferences.getCoinDisplayed(state)
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(actions.preferences, dispatch)
   }
 }
 
-export default connect(undefined, mapDispatchToProps)(ListItemContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ListItemContainer)

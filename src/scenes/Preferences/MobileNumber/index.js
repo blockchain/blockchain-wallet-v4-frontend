@@ -1,26 +1,27 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
-import { SecondaryButton, Text, Typography } from 'blockchain-info-components'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import { Button, Text } from 'blockchain-info-components'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
 const MobileNumber = (props) => {
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.preferences.mobile.title' text='Mobile number' capitalize />
+          <FormattedMessage id='scenes.preferences.mobile.title' defaultMessage='Mobile number' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.preferences.mobile.description' text='Your mobile phone can be used to enable two-factor authentication,' altFont light/>
-          <Text id='scenes.preferences.mobile.description' text='helping to secure your wallet from unauthorized access,' altFont light/>
-          <Text id='scenes.preferences.mobile.description' text='and to send bitcoin payment alerts when you receive funds.' altFont light/>
+          <FormattedMessage id='scenes.preferences.mobile.description' defaultMessage='Your mobile phone can be used to enable two-factor authentication,' />
+          <FormattedMessage id='scenes.preferences.mobile.description' defaultMessage='helping to secure your wallet from unauthorized access,' />
+          <FormattedMessage id='scenes.preferences.mobile.description' defaultMessage='and to send bitcoin payment alerts when you receive funds.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Typography>+447800000000</Typography>
-        <SecondaryButton>
-          <Text id='scenes.preferences.mobile.change' text='Change' small light white />
-        </SecondaryButton>
+        <Text>+447800000000</Text>
+        <Button nature='secondary'>
+          <FormattedMessage id='scenes.preferences.mobile.change' defaultMessage='Change' />
+        </Button>
       </SettingComponent>
     </SettingContainer>
   )

@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import QRCodeReact from 'qrcode-react'
 
-import { Modal, SecondaryButton, Text } from 'blockchain-info-components'
-import modalEnhancer from 'components/providers/ModalEnhancer'
+import { Button, Modal } from 'blockchain-info-components'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const QRCodeContainer = styled.div`
   display: flex;
@@ -21,15 +22,15 @@ const PairingCode = (props) => {
   const { data, handleClose, ...rest } = props
 
   return (
-    <Modal {...rest} icon='icon-receive' title='Pairing code' size='large'>
-      <Text id='modals.pairingcode.scan' text='Scan Pairing Code' small light />
+    <Modal {...rest} icon='receive' title='Pairing code' size='large'>
+      <FormattedMessage id='modals.pairingcode.scan' defaultMessage='Scan Pairing Code' />
       <QRCodeContainer>
         <QRCodeReact value={data} size={256} />
       </QRCodeContainer>
       <Footer>
-        <SecondaryButton fullwidth onClick={handleClose}>
-          <Text id='modals.pairingcode.close' text='Close' small light white />
-        </SecondaryButton>
+        <Button nature='secondary' fullwidth onClick={handleClose}>
+          <FormattedMessage id='modals.pairingcode.close' defaultMessage='Close' />
+        </Button>
       </Footer>
     </Modal>
   )

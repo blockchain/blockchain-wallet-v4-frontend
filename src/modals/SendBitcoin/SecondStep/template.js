@@ -1,100 +1,97 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Form, Link, Modal, SecondaryButton, Text, Typography } from 'blockchain-info-components'
-import CoinDisplay from 'components/shared/CoinDisplay'
-import CurrencyDisplay from 'components/shared/CurrencyDisplay'
-import ComboDisplay from 'components/shared/ComboDisplay'
+import { Button, Link, Modal, Text } from 'blockchain-info-components'
+import { Form } from 'components/Form'
+import CoinDisplay from 'components/CoinDisplay'
+import CurrencyDisplay from 'components/CurrencyDisplay'
+import ComboDisplay from 'components/ComboDisplay'
 
-const PaymentSendRow = styled.div`
+const Row = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
+
+  & > * { width: 150px; }
 `
-const PaymentSendLabel = styled.div`
-  width: 150px;
-`
-const PaymentSendValue = styled.div`
-  widtH: 100%;
-`
-const PaymentSendContainer = styled.div`
-  background-color: #EFEFEF;
-  margin: 5px 0;
-`
-const PaymentSendContent = styled.div`
+const Summary = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  background-color: #EFEFEF;
+  margin: 5px 0;
+  
   & > * { padding: 10px 0; }
 `
 const Footer = styled.div`
   width: 100%;
   padding: 5px 0;
+
+  & > :last-child { margin-top: 10px; }
 `
 
 const SecondStep = (props) => {
   const { handleClick, previous, fromAddress, toAddress, message, satoshis, fee, ...rest } = props
 
   return (
-    <Modal {...rest} icon='icon-send' title='Confirm' size='large'>
+    <Modal {...rest} icon='send' title='Confirm' size='large'>
       <Form>
-        <PaymentSendRow>
-          <PaymentSendLabel>
-            <Text id='modals.sendbitcoin.secondstep.from' text='From:' small capitalize />
-          </PaymentSendLabel>
-          <PaymentSendValue>
-            <Typography small light>{fromAddress}</Typography>
-          </PaymentSendValue>
-        </PaymentSendRow>
-        <PaymentSendRow>
-          <PaymentSendLabel>
-            <Text id='modals.sendbitcoin.secondstep.to' text='To:' small capitalize />
-          </PaymentSendLabel>
-          <PaymentSendValue>
-            <Typography small light>{toAddress}</Typography>
-          </PaymentSendValue>
-        </PaymentSendRow>
-        <PaymentSendRow>
-          <PaymentSendLabel>
-            <Text id='modals.sendbitcoin.secondstep.for' text='For:' small capitalize />
-          </PaymentSendLabel>
-          <PaymentSendValue>
-            <Typography small light>{message}</Typography>
-          </PaymentSendValue>
-        </PaymentSendRow>
-        <PaymentSendRow>
-          <PaymentSendLabel>
-            <Text id='modals.sendbitcoin.secondstep.payment' text='Payment:' small capitalize />
-          </PaymentSendLabel>
-          <PaymentSendValue>
-            <ComboDisplay small light>{satoshis}</ComboDisplay>
-          </PaymentSendValue>
-        </PaymentSendRow>
-        <PaymentSendRow>
-          <PaymentSendLabel>
-            <Text id='modals.sendbitcoin.secondstep.fee' text='Fee:' small capitalize />
-          </PaymentSendLabel>
-          <PaymentSendValue>
-            <ComboDisplay small light>{fee}</ComboDisplay>
-          </PaymentSendValue>
-        </PaymentSendRow>
-        <PaymentSendContainer>
-          <PaymentSendContent>
-            <Typography big light>
-              <Text id='modals.sendbitcoin.secondstep.total' text='Total' small red />
-            </Typography>
-            <CoinDisplay biggest red>{satoshis}</CoinDisplay>
-            <CurrencyDisplay big light red>{satoshis}</CurrencyDisplay>
-          </PaymentSendContent>
-        </PaymentSendContainer>
+        <Row>
+          <Text size='16px' weight={500}>
+            <FormattedMessage id='modals.sendbitcoin.secondstep.from' defaultMessage='From:' />
+          </Text>
+          <Text size='16px' weight={300}>{fromAddress}</Text>
+        </Row>
+        <Row>
+          <Text size='16px' weight={500}>
+            <FormattedMessage id='modals.sendbitcoin.secondstep.to' defaultMessage='To:' />
+          </Text>
+          <Text size='16px' weight={300}>{toAddress}</Text>
+        </Row>
+        <Row>
+          <Text size='16px' weight={500}>
+            <FormattedMessage id='modals.sendbitcoin.secondstep.for' defaultMessage='For:' />
+          </Text>
+          <Text size='16px' weight={300}>{message}</Text>
+        </Row>
+        <Row>
+          <Text size='16px' weight={500}>
+            <FormattedMessage id='modals.sendbitcoin.secondstep.payment' defaultMessage='Payment:' />
+          </Text>
+          <Text size='16px' weight={300}>
+            <ComboDisplay>{satoshis}</ComboDisplay>
+          </Text>
+        </Row>
+        <Row>
+          <Text size='16px' weight={500}>
+            <FormattedMessage id='modals.sendbitcoin.secondstep.fee' defaultMessage='Fee:' />
+          </Text>
+          <Text size='16px' weight={300}>
+            <ComboDisplay>{fee}</ComboDisplay>
+          </Text>
+        </Row>
+        <Summary>
+          <Text size='16px' weight={300} color='medium-blue'>
+            <FormattedMessage id='modals.sendbitcoin.secondstep.total' defaultMessage='Total' />
+          </Text>
+          <Text size='40px' weight={600} color='medium-blue'>
+            <CoinDisplay>{satoshis}</CoinDisplay>
+          </Text>
+          <Text size='20px' weight={300} color='medium-blue'>
+            <CurrencyDisplay>{satoshis}</CurrencyDisplay>
+          </Text>
+        </Summary>
         <Footer>
-          <SecondaryButton fullwidth onClick={handleClick}>
-            <Text id='modals.sendbitcoin.secondstep.send' text='Send bitcoin' small light uppercase white />
-          </SecondaryButton>
-          <Link onClick={previous}><Text id='scenes.sendbitcoin.secondstep.back' text='Go back' small light cyan /></Link>
+          <Button nature='secondary' fullwidth uppercase onClick={handleClick}>
+            <FormattedMessage id='modals.sendbitcoin.secondstep.send' defaultMessage='Send bitcoin' />
+          </Button>
+          <Link onClick={previous} size='13px' weight={300}>
+            <FormattedMessage id='scenes.sendbitcoin.secondstep.back' defaultMessage='Go back' />
+          </Link>
         </Footer>
       </Form>
     </Modal>

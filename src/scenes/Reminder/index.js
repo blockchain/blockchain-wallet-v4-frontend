@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { singleForm } from 'components/providers/FormProvider'
+import { singleForm } from 'providers/FormProvider'
 
 import { api } from 'services/ApiService'
 import { actions } from 'data'

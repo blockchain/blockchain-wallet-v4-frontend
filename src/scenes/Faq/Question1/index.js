@@ -1,14 +1,17 @@
 import React from 'react'
-import { RouterLink, Text, TextGroup } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 
-const title = <Text id='scenes.faq.item1.question' text='How do I buy bitcoin?' />
+import { TextGroup } from 'blockchain-info-components'
+
+const title = <FormattedMessage id='scenes.faq.item1.question' defaultMessage='How do I buy bitcoin?' />
 
 const description = (
   <TextGroup>
-    <Text id='scenes.faq.item1.answer' text='It’s simple, secure and seamless.' altFont light />
-    <RouterLink to='/buy-sell'>
-      <Text id='scenes.faq.item1.clickhere' text='Click here to get started' altFont light cyan />
-    </RouterLink>
+    <FormattedMessage id='scenes.faq.item1.answer' defaultMessage='It’s simple, secure and seamless.' />
+    <LinkContainer to='/buy-sell'>
+      <FormattedMessage id='scenes.faq.item1.clickhere' defaultMessage='Click here to get started' />
+    </LinkContainer>
   </TextGroup>
 )
 

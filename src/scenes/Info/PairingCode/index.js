@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
-import { AppleStore, GooglePlay } from 'components/shared/Badges'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import { Badge, Text } from 'blockchain-info-components'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 import Settings from './Settings'
 
 const BadgesContainer = styled.div`
@@ -17,15 +17,17 @@ const PairingCode = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.info.pairingcode.title' text='Mobile app pairing code' capitalize />
+          <FormattedMessage id='scenes.info.pairingcode.title' defaultMessage='Mobile app pairing code' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.info.pairingcode.description' text="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet." altFont light />
-          <Text id='scenes.info.pairingcode.description2' text='Download our mobiles applications below' altFont light />
-          <Text id='scenes.info.pairingcode.warning' text='Do not share your Pairing Code with others.' altFont light red />
+          <FormattedMessage id='scenes.info.pairingcode.description' defaultMessage="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet." altFont light />
+          <FormattedMessage id='scenes.info.pairingcode.description2' defaultMessage='Download our mobiles applications below' />
+          <Text color='red' weight='300' size='14px'>
+            <FormattedMessage id='scenes.info.pairingcode.warning' defaultMessage='Do not share your Pairing Code with others.' />
+          </Text>
           <BadgesContainer>
-            <AppleStore />
-            <GooglePlay />
+            <Badge type='applestore' />
+            <Badge type='googleplay' />
           </BadgesContainer>
         </SettingDescription>
       </SettingSummary>

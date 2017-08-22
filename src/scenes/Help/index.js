@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 
-import { Button, Link, RouterLink, Text, Separator } from 'blockchain-info-components'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -41,54 +43,76 @@ const Footer = styled.div`
 const Help = (props) => {
   return (
     <Wrapper>
-      <Text id='scenes.help.login' text='Login help' biggest light capitalize />
-      <Text id='scenes.help.wallet' text='Need help accessing your wallet?' small light altFont />
+      <Text size='30px' weight={300}>
+        <FormattedMessage id='scenes.help.login' defaultMessage='Login help' />
+      </Text>
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.help.wallet' defaultMessage='Need help accessing your wallet?' />
+      </Text>
       <Separator />
       <Row>
         <Left>
-          <Text id='scenes.help.guid' text="I've lost my Wallet ID" small />
-          <Text id='scenes.help.guid_explain' text='Email me a reminder with my Wallet ID to my email address' smaller light />
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='scenes.help.guid' defaultMessage="I've lost my Wallet ID" />
+          </Text>
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='scenes.help.guid_explain' defaultMessage='Email me a reminder with my Wallet ID to my email address' />
+          </Text>
         </Left>
         <Right>
-          <RouterLink to='/reminder'>
+          <LinkContainer to='/reminder'>
             <Button>
-              <Text id='scenes.help.remind' text='Remind me' small capitalize />
+              <FormattedMessage id='scenes.help.remind' defaultMessage='Remind me' />
             </Button>
-          </RouterLink>
+          </LinkContainer>
         </Right>
       </Row>
       <Separator />
       <Row>
         <Left>
-          <Text id='scenes.help.password' text="I've lost my Wallet Password" small />
-          <Text id='scenes.help.password_explain' text='Recover your funds with your 12 word recovery passphrase' smaller light />
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='scenes.help.password' defaultMessage="I've lost my Wallet Password" />
+          </Text>
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='scenes.help.password_explain' defaultMessage='Recover your funds with your 12 word recovery passphrase' />
+          </Text>
         </Left>
         <Right>
-          <RouterLink to='/recover'>
+          <LinkContainer to='/recover'>
             <Button>
-              <Text id='scenes.help.recover' text='Recover funds' small capitalize />
+              <FormattedMessage id='scenes.help.recover' defaultMessage='Recover funds' />
             </Button>
-          </RouterLink>
+          </LinkContainer>
         </Right>
       </Row>
       <Separator />
       <Row>
         <Left>
-          <Text id='scenes.help.2fa' text="I've lost my 2FA Device" small />
-          <Text id='scenes.help.2fa_explain' text='Reset two step verification to regain access to your wallet' smaller light />
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='scenes.help.2fa' defaultMessage="I've lost my 2FA Device" />
+          </Text>
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='scenes.help.2fa_explain' defaultMessage='Reset two step verification to regain access to your wallet' />
+          </Text>
         </Left>
         <Right>
-          <RouterLink to='/reset2fa'>
+          <LinkContainer to='/reset2fa'>
             <Button>
-              <Text id='scenes.help.reset' text='Reset 2FA' small capitalize />
+              <FormattedMessage id='scenes.help.reset' defaultMessage='Reset 2FA' />
             </Button>
-          </RouterLink>
+          </LinkContainer>
         </Right>
       </Row>
       <Separator />
       <Footer>
-        <RouterLink to='/login'><Text id='scenes.help.back' text='Go back' small light cyan /></RouterLink>
-        <Link href='https://blockchain.zendesk.com/' target='_blank'><Text id='scenes.help.contact' text='Contact support' small light cyan capitalize /></Link>
+        <LinkContainer to='/login'>
+          <Link size='13px' weight={300}>
+            <FormattedMessage id='scenes.help.back' defaultMessage='Go back' />
+          </Link>
+        </LinkContainer>
+        <Link href='https://blockchain.zendesk.com/' target='_blank' size='13px' weight={300}>
+          <FormattedMessage id='scenes.help.contact' defaultMessage='Contact support' />
+        </Link>
       </Footer>
     </Wrapper>
   )

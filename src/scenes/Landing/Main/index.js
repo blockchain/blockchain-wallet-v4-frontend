@@ -1,20 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Grid } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
-import { Grid, Text } from 'blockchain-info-components'
-import banner from 'img/landing-page-banner-overlay.jpg'
+import { Background, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const MainContainer = styled.div``
-const BannerWrapper = styled.div`
+const Wrapper = styled(Background)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   height: 480px;
-  background: url(${banner});
-  background-size: cover;
 `
-const BannerContainer = styled(Grid)``
+const Container = styled(Grid)`
+  & > * { padding: 10px 0; }
+`
 const BlockContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,7 +33,6 @@ const Block = styled.div`
   height: 100px;
   width: 100%;
   flex-grow: 1;
-  text-align: center;
 `
 const Block1 = Block.extend`
   background-color: #3558A8;
@@ -46,26 +47,45 @@ const Block3 = Block.extend`
 const Main = (props) => {
   return (
     <MainContainer>
-      <BannerWrapper>
-        <BannerContainer>
-          <Text id='scenes.landing.main.simple' text='Simple. Seamless. Secure.' gianter lighter white />
-          <Text id='scenes.landing.main.popular' text="Blockchain is the world's most popular bitcoin wallet." light white />
-          <Text id='scenes.landing.main.mission' text='We are on a mission to build a more open, accessible, and fair financial future, one piece of software at a time.' light white />
-          <Text id='scenes.landing.main.getstarted' text='Get started now' cyan />
-        </BannerContainer>
-      </BannerWrapper>
+      <Wrapper name='landing-page-banner-overlay' height='480px'>
+        <Container>
+          <Text size='36px' weight={200} color='white'>
+            <FormattedMessage id='scenes.landing.main.simple' defaultMessage='Simple. Seamless. Secure.' />
+          </Text>
+          <TextGroup inline>
+            <Text size='16px' weight={300} color='white'>
+              <FormattedMessage id='scenes.landing.main.popular' defaultMessage="Blockchain is the world's most popular bitcoin wallet." />
+            </Text>
+            <Text size='16px' weight={300} color='white'>
+              <FormattedMessage id='scenes.landing.main.mission' defaultMessage='We are on a mission to build a more open, accessible, and fair financial future, one piece of software at a time.' />
+            </Text>
+          </TextGroup>
+          <LinkContainer to='/register'>
+            <Link href='https://blockchain.info/wallet/bitcoin-faq' uppercase>
+              <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
+              <Icon name='right_arrow' color='cyan' />
+            </Link>
+          </LinkContainer>
+        </Container>
+      </Wrapper>
       <BlockContainer>
         <Block1>
-          <Text id='scenes.landing.main.bitcoin' text='#1 Bitcoin wallet' biggest light white uppercase />
+          <Text size='24px' weight={300} color='white' uppercase>
+            <FormattedMessage id='scenes.landing.main.bitcoin' defaultMessage='#1 Bitcoin wallet' />
+          </Text>
         </Block1>
         <Block2>
-          <Text id='scenes.landing.main.transactions' text='{nbTransactions} million+ transactions' values={{nbTransactions: '100'}} biggest light white uppercase />
+          <Text size='24px' weight={300} color='white' uppercase>
+            <FormattedMessage id='scenes.landing.main.transactions' defaultMessage='{nbTransactions} million+ transactions' values={{ nbTransactions: '100' }} />
+          </Text>
         </Block2>
         <Block3>
-          <Text id='scenes.landing.main.wallets' text='{nbWallets} million+ wallets' values={{nbWallets: '14'}} biggest light white uppercase />
+          <Text size='24px' weight={300} color='white' uppercase>
+            <FormattedMessage id='scenes.landing.main.wallets' defaultMessage='{nbWallets} million+ wallets' values={{ nbWallets: '15' }} />
+          </Text>
         </Block3>
       </BlockContainer>
-    </MainContainer>
+    </MainContainer >
   )
 }
 

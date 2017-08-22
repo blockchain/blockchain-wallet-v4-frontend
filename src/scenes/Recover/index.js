@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { wizardForm } from 'components/providers/FormProvider'
+import { wizardForm } from 'providers/FormProvider'
 
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'

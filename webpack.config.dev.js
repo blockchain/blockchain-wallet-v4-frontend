@@ -1,5 +1,6 @@
 
 const Webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -33,13 +34,14 @@ module.exports = {
       'components': PATHS.src + '/components',
       'config': PATHS.src + '/config',
       'data': PATHS.src + '/data',
+      'layouts': PATHS.src + '/layouts',
       'middleware': PATHS.src + '/middleware',
       'modals': PATHS.src + '/modals',
+      'providers': PATHS.src + '/providers',
       'scenes': PATHS.src + '/scenes',
       'services': PATHS.src + '/services',
       'store': PATHS.src + '/store',
-      'themes': PATHS.src + '/themes',
-      'react': PATHS.npm + '/react'
+      'themes': PATHS.src + '/themes'
     },
     symlinks: false
   },
@@ -106,7 +108,11 @@ module.exports = {
       'process.env': { 'NODE_ENV': JSON.stringify('development') }
     }),
     new Webpack.NamedModulesPlugin(),
-    new Webpack.HotModuleReplacementPlugin()
+    new Webpack.HotModuleReplacementPlugin(),
+    new CopyWebpackPlugin([
+      { from: PATHS.npm + '/blockchain-info-components/dist/img', to: PATHS.build + '/img' },
+      { from: PATHS.npm + '/blockchain-info-components/dist/fonts', to: PATHS.build + '/fonts' }
+    ])
   ],
   devServer: {
     contentBase: PATHS.src,

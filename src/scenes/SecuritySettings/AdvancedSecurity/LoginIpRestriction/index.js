@@ -1,25 +1,25 @@
 import React from 'react'
-
-import { SecondaryButton, Text } from 'blockchain-info-components'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import { FormattedMessage } from 'react-intl'
+import { Button } from 'blockchain-info-components'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
 const LoginIpRestriction = (props) => {
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.info.iprestriction.title' text='Login IP restriction' capitalize />
+          <FormattedMessage id='scenes.info.iprestriction.title' defaultMessage='Login IP restriction' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.settings.iprestriction.description' text='Only allow login from IP address in the whitelist.' altFont light />
-          <Text id='scenes.settings.iprestriction.description2' text='If you do not have a static IP address, this may lock you out of your wallet.' altFont light />
-          <Text id='scenes.settings.iprestriction.description3' text='If you have verified your email address, you will be notified of any suspicious login attempts.' altFont light />
+          <FormattedMessage id='scenes.settings.iprestriction.description' defaultMessage='Only allow login from IP address in the whitelist.' />
+          <FormattedMessage id='scenes.settings.iprestriction.description2' defaultMessage='If you do not have a static IP address, this may lock you out of your wallet.' />
+          <FormattedMessage id='scenes.settings.iprestriction.description3' defaultMessage='If you have verified your email address, you will be notified of any suspicious login attempts.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <SecondaryButton>
-          <Text id='scenes.info.iprestriction.enable' text='Enable' small light white />
-        </SecondaryButton>
+        <Button nature='secondary'>
+          <FormattedMessage id='scenes.info.iprestriction.enable' defaultMessage='Enable' />
+        </Button>
       </SettingComponent>
     </SettingContainer>
   )

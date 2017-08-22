@@ -1,25 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
-import { Form, Modal, SecondaryButton, Text, TextArea, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, SelectBoxAddresses } from 'components/shared/Form'
+import { Button, Modal, Separator, Text, Tooltip } from 'blockchain-info-components'
+import { CoinConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Form'
 import CopyClipboard from './CopyClipboard'
 
-const Separator = styled.div`
-  flex-grow: 10;
-  height: 1px;
-  width: 100%;
-  background-color: #EFEFEF;
-`
 const SeparatorContainer = styled.div`
   display: flex;
-  justify-content: stretch;
+  justify-content: space-between;
   align-items: center;
   padding: 15px 0;
-  & :first-child { margin-right: 5px; }
-  & :last-child { margin-left: 5px; }
+
+  & > :first-child { width: 45%; }
+  & > :last-child { width: 45%; }
 `
 const Aligned = styled.div`
   & > * { display: inline-block; margin-right: 5px; }
@@ -29,31 +25,41 @@ const FirstStep = (props) => {
   const { next, submitting, invalid, receiveAddress, handleClickCode, ...rest } = props
 
   return (
-    <Modal {...rest} icon='icon-receive' title='Request' size='large'>
+    <Modal {...rest} icon='receive' title='Request' size='large'>
       <Form>
         <Aligned>
-          <Text id='modals.requestbitcoin.firststep.share' text='Copy & share address:' small medium />
+          <Text size='14px' weight={500} capitalize>
+            <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & share address:' />
+          </Text>
           <Tooltip>
-            <Text id='modals.requestbitcoin.firststep.share_tooltip1' text='Share this address with others, and they can send you BTC directly to your wallet.' smaller light />
-            <Text id='modals.requestbitcoin.firststep.share_tooltip2' text='Your address changes with every payment.' smaller light />
-            <Text id='modals.requestbitcoin.firststep.share_tooltip3' text='You can also create a request by attaching an amount below.' smaller light />
+            <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip1' defaultMessage='Share this address with others, and they can send you BTC directly to your wallet.' />
+            <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip2' defaultMessage='Your address changes with every payment.' />
+            <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip3' defaultMessage='You can also create a request by attaching an amount below.' />
           </Tooltip>
         </Aligned>
         <CopyClipboard handleClickCode={handleClickCode} address={receiveAddress} />
         <SeparatorContainer>
           <Separator />
-          <Text id='modals.requestbitcoin.firststep.or' text='Or' small light uppercase />
+          <Text size='14px' weight={300} uppercase>
+            <FormattedMessage id='modals.requestbitcoin.firststep.or' defaultMessage='Or' />
+          </Text>
           <Separator />
         </SeparatorContainer>
-        <Text id='modals.requestbitcoin.firststep.amount' text='Enter amount:' small medium />
+        <Text size='14px' weight={500} capitalize>
+          <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter amount:' />
+        </Text>
         <Field name='amount' component={CoinConvertor} validate={[requiredNumber]} />
-        <Text id='modals.requestbitcoin.firststep.to' text='Receive to:' small medium />
+        <Text size='14px' weight={500} capitalize>
+          <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive to:' />
+        </Text>
         <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
-        <Text id='modals.requestbitcoin.firststep.description' text='Description:' small medium />
-        <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" fullwidth />
-        <SecondaryButton fullwidth onClick={next} disabled={submitting || invalid}>
-          <Text id='modals.requestbitcoin.firststep.next' text='Next' small medium uppercase white />
-        </SecondaryButton>
+        <Text size='14px' weight={500} capitalize>
+          <FormattedMessage id='modals.requestbitcoin.firststep.description' defaultMessage='Description:' />
+        </Text>
+        <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" />
+        <Button nature='secondary' fullwidth uppercase onClick={next} disabled={submitting || invalid}>
+          <FormattedMessage id='modals.requestbitcoin.firststep.next' defaultMessage='Next' />
+        </Button>
       </Form>
     </Modal>
   )

@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
-import { Form, HelpBlock, Link, SecondaryButton, Separator, Text, TextBox } from 'blockchain-info-components'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Form, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -27,31 +29,43 @@ const SecondStep = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.reset2fa.secondstep.reset' text='Reset 2FA' biggest light capitalize />
-        <Text id='scenes.reset2fa.secondstep.step2' text='Step 2 of 3' smallest />
+        <Text size='30px' weight={300}>
+          <FormattedMessage id='scenes.reset2fa.secondstep.reset' defaultMessage='Reset 2FA' />
+        </Text>
+        <Text size='10px'>
+          <FormattedMessage id='scenes.reset2fa.secondstep.step2' defaultMessage='Step 2 of 3' />
+        </Text>
       </Header>
-      <Text id='scenes.reset2fa.secondstep.explain4' text='The process will be quicker with more precise details provided to us.' small light altFont />
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.reset2fa.secondstep.explain' defaultMessage='The process will be quicker with more precise details provided to us.' />
+      </Text>
       <Separator />
       <Form>
-        <Text id='scenes.reset2fa.secondstep.newEmail' text='New email' small medium capitalize />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.reset2fa.secondstep.newEmail' defaultMessage='New email' />
+        </Text>
         <Field name='newEmail' component={TextBox} />
-        <HelpBlock>
-          <Text id='scenes.reset2fa.secondstep.newEmail_explain' text='If you lost access to the email associated with your wallet, enter a new email.' small light altFont />
-          <Text id='scenes.reset2fa.secondstep.newEmail_explain2' text='If the 2FA reset request is approved, this email will automatically be set as your new wallet email.' small light altFont />
-        </HelpBlock>
-        <Text id='scenes.reset2fa.secondstep.secretPhrase' text='Secret phrase' small medium capitalize />
+        <Text size='13px' weight={300}>
+          <FormattedMessage id='scenes.reset2fa.secondstep.newEmail_explain' defaultMessage='If you lost access to the email associated with your wallet, enter a new email.' />
+          <FormattedMessage id='scenes.reset2fa.secondstep.newEmail_explain2' defaultMessage='If the 2FA reset request is approved, this email will automatically be set as your new wallet email.' />
+        </Text>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase' defaultMessage='Secret phrase' />
+        </Text>
         <Field name='secretPhrase' component={TextBox} />
-        <HelpBlock>
-          <Text id='scenes.reset2fa.secondstep.secretPhrase_explain' text='Enter your wallet Secret Phrase here if you have one set.' small light altFont />
-          <Text id='scenes.reset2fa.secondstep.secretPhrase_explain2' text='If the Secret Phrase is correct, your request will be approved much quicker.' small light altFont />
-          <Text id='scenes.reset2fa.secondstep.secretPhrase_explain3' text="If you don't know what this is, leave it blank." small light altFont />
-        </HelpBlock>
-        <SecondaryButton disabled={submitting || invalid} onClick={next} fullwidth>
-          <Text id='scenes.reset2fa.secondstep.continue' text='Continue'uppercase white />
-        </SecondaryButton>
+        <Text size='13px' weight={300}>
+          <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain' defaultMessage='Enter your wallet Secret Phrase here if you have one set.' />
+          <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain2' defaultMessage='If the Secret Phrase is correct, your request will be approved much quicker.' />
+          <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain3' defaultMessage="If you don't know what this is, leave it blank." />
+        </Text>
+        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
+          <FormattedMessage id='scenes.reset2fa.secondstep.continue' defaultMessage='Continue' />
+        </Button>
       </Form>
       <Footer>
-        <Link onClick={previous}><Text id='scenes.reset2fa.secondstep.back' text='Go back' small light cyan /></Link>
+        <Link onClick={previous} size='13px' weight={300}>
+          <FormattedMessage id='scenes.reset2fa.secondstep.back' defaultMessage='Go back' />
+        </Link>
       </Footer>
     </Wrapper>
   )

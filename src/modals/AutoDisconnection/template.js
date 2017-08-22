@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Text, Modal } from 'blockchain-info-components'
+import { Button, Modal, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
@@ -14,16 +15,6 @@ const Container = styled.div`
   padding: 30px 0;
   border-bottom: 1px solid EFEFEF;
 `
-const LogoutButton = styled(Button)`
-  background-color: #660000;
-  border-color: #660000;
-  margin-left: 10px;
-
-  &:hover {
-    background-color: #880000;
-    border-color: #880000;
-  }
-`
 const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -34,19 +25,23 @@ const AutoDisconnection = (props) => {
   const { closeButton, duration, handleClick, handleCancel, ...rest } = props
 
   return (
-    <Modal {...rest} icon='icon-right_arrow' title='Are you still there?' size='large' closeButton={closeButton}>
+    <Modal {...rest} icon='right_arrow' title='Are you still there?' size='large' closeButton={closeButton}>
       <Container>
-        <Text id='modals.autodisconnection.explain' text="You've been inactive for {duration} minutes." values={{duration: duration}} small light />
+        <Text size='14px' weight={300}>
+          <FormattedMessage id='modals.autodisconnection.explain' defaultMessage="You've been inactive for {duration} minutes." values={{duration: duration}} />
+        </Text>
         <br />
-        <Text id='modals.autodisconnection.explain2' text="Click 'Cancel' if you don't want to be logged out automatically." small light />
+        <Text size='14px' weight={300}>
+          <FormattedMessage id='modals.autodisconnection.explain2' defaultMessage="Click 'Cancel' if you don't want to be logged out automatically." />
+        </Text>
       </Container>
       <Footer>
         <Button onClick={handleCancel}>
-          <Text id='modals.autodisconnection.cancel' text='Cancel' small light />
+          <FormattedMessage id='modals.autodisconnection.cancel' defaultMessage='Cancel' />
         </Button>
-        <LogoutButton onClick={handleClick}>
-          <Text id='modals.autodisconnection.logout' text='Log me out' small light white />
-        </LogoutButton>
+        <Button nature='logout' onClick={handleClick}>
+          <FormattedMessage id='modals.autodisconnection.logout' defaultMessage='Log me out' />
+        </Button>
       </Footer>
     </Modal>
   )

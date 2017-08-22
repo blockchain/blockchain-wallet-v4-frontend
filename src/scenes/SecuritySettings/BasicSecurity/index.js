@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
-import InfoWell from 'components/shared/InfoWell'
+import InfoWell from 'components/InfoWell'
 import PasswordHint from './PasswordHint'
 import SecondPasswordWallet from './SecondPasswordWallet'
 import TwoStepVerification from './TwoStepVerification'
@@ -15,8 +15,8 @@ const Wrapper = styled.div``
 const BasicSecurity = () => (
   <Wrapper>
     <InfoWell>
-      <Text id='scenes.settings.basicsecurity.explain' text='Basic security: Make sure your details are accurate and up to date to keep your wallet safe from unauthorized access' small />
-      <Text id='scenes.settings.basicsecurity.explain2' text='and to help you restore access to your wallet in the case of a Wallet ID or password loss.' small />
+      <FormattedMessage id='scenes.settings.basicsecurity.explain' defaultMessage='Basic security: Make sure your details are accurate and up to date to keep your wallet safe from unauthorized access' />
+      <FormattedMessage id='scenes.settings.basicsecurity.explain2' defaultMessage='and to help you restore access to your wallet in the case of a Wallet ID or password loss.' />
     </InfoWell>
     <WalletRecoveryPhrase />
     <WalletPassword />

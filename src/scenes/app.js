@@ -4,11 +4,10 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import styled, { ThemeProvider } from 'styled-components'
 
-
-import LandingLayout from 'components/layouts/Landing'
-import PublicLayout from 'components/layouts/Public'
-import WalletLayout from 'components/layouts/Wallet'
-import ConnectedIntlProvider from 'components/providers/ConnectedIntlProvider'
+import LandingLayout from 'layouts/Landing'
+import PublicLayout from 'layouts/Public'
+import WalletLayout from 'layouts/Wallet'
+import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import LandingContainer from './Landing'
 import LoginContainer from './Login'
 import HelpContainer from './Help'
@@ -27,7 +26,7 @@ import AddressesContainer from './Addresses'
 import FaqContainer from './Faq'
 
 const RootStyle = styled.div`
-  font-family: 'Montserrat', 'Helvetica', sans-serif !important;
+  font-family: 'Montserrat', sans-serif;
   height: 100%;
 `
 

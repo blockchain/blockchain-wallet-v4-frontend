@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import { SecondaryButton, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { Button } from 'blockchain-info-components'
 
 const Settings = (props) => {
   const { handleClick } = props
 
   return (
-    <SecondaryButton onClick={handleClick}>
-      <Text id='scenes.info.pairingcode.settings.show' text='Show pairing code' small light white />
-    </SecondaryButton>
+    <Button nature='secondary' onClick={handleClick}>
+      <FormattedMessage id='scenes.info.pairingcode.settings.show' defaultMessage='Show pairing code' small light white />
+    </Button>
   )
 }
 

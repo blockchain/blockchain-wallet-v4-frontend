@@ -1,17 +1,17 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
 const Notifications = (props) => {
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.preferences.notifications.title' text='Notifications' capitalize />
+          <FormattedMessage id='scenes.preferences.notifications.title' defaultMessage='Notifications' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.preferences.notifications.description' text='Get notified when you receive bitcoin.' altFont light />
+          <FormattedMessage id='scenes.preferences.notifications.description' defaultMessage='Get notified when you receive bitcoin.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

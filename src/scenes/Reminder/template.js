@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
-import { Form, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-info-components'
-import { CaptchaBox } from 'components/shared/Form'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { CaptchaBox, Form, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,20 +25,35 @@ const Reminder = (props) => {
 
   return (
     <Wrapper>
-      <Text id='scenes.reminder.remind' text='Remind me' biggest light capitalize />
-      <Text id='scenes.reminder.explain' text="Lost your Wallet Identifier? We'll send it to you via your email." small light altFont />
+      <Text size='30px' weight={300}>
+        <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind me' />
+      </Text>
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your Wallet Identifier? We'll send it to you via your email." />
+      </Text>
       <Separator />
       <Form>
-        <Text id='scenes.reminder.email' text='Email' small medium />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.reminder.email' defaultMessage='Email' />
+        </Text>
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
-        <Text id='scenes.reminder.captcha' text='Captcha' small medium />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.reminder.captcha' defaultMessage='Captcha' />
+        </Text>
+        <Text size='14px' weight={300}>
+          <FormattedMessage id='scenes.reminder.robot' defaultMessage="So that we know you're not a robot" />
+        </Text>
         <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
-          <Text id='scenes.reminder.continue' text='Continue' uppercase white />
-        </SecondaryButton>
+        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+          <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
+        </Button>
       </Form>
       <Footer>
-        <RouterLink to='/help'><Text id='scenes.reminder.back' text='Go back' small light cyan /></RouterLink>
+        <LinkContainer to='/help'>
+          <Link size='13px' weight={300}>
+            <FormattedMessage id='scenes.reminder.back' defaultMessage='Go back' />
+          </Link>
+        </LinkContainer>
       </Footer>
     </Wrapper>
   )

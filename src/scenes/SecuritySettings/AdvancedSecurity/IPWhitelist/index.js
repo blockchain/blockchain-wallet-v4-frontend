@@ -1,23 +1,23 @@
 import React from 'react'
-
-import { SecondaryButton, Text } from 'blockchain-info-components'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import { FormattedMessage } from 'react-intl'
+import { Button } from 'blockchain-info-components'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
 const IPWhitelist = (props) => {
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.settings.whitelist.title' text='IP Whitelist' capitalize />
+          <FormattedMessage id='scenes.settings.whitelist.title' defaultMessage='IP Whitelist' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.settings.whitelist.description' text='Allow login without email authentication from the following list of comma-separated IP addresses. Use % as a wildcard.' altFont light />
+          <FormattedMessage id='scenes.settings.whitelist.description' defaultMessage='Allow login without email authentication from the following list of comma-separated IP addresses. Use % as a wildcard.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <SecondaryButton>
-          <Text id='scenes.settings.whitelist.change' text='Change' small light white />
-        </SecondaryButton>
+        <Button nature='secondary'>
+          <FormattedMessage id='scenes.settings.whitelist.change' defaultMessage='Change' />
+        </Button>
       </SettingComponent>
     </SettingContainer>
   )

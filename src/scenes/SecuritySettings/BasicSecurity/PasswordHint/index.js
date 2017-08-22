@@ -1,25 +1,25 @@
 import React from 'react'
-
-import { SecondaryButton, Text } from 'blockchain-info-components'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import { FormattedMessage } from 'react-intl'
+import { Button } from 'blockchain-info-components'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
 const PasswordHint = (props) => {
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.settings.passwordhint.title' text='Password hint' capitalize />
+          <FormattedMessage id='scenes.settings.passwordhint.title' defaultMessage='Password hint' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.settings.passwordhint.description' text='Your Blockchain Wallet never communicates your password to our servers.' altFont light />
-          <Text id='scenes.settings.passwordhint.description2' text='This means we have no idea what your password is and we cannot reset it if you forget it.' altFont light />
-          <Text id='scenes.settings.passwordhint.description3' text='Create a memorable password hint that we can send to your verified email address in case you forget your password.' altFont light />
+          <FormattedMessage id='scenes.settings.passwordhint.description' defaultMessage='Your Blockchain Wallet never communicates your password to our servers.' />
+          <FormattedMessage id='scenes.settings.passwordhint.description2' defaultMessage='This means we have no idea what your password is and we cannot reset it if you forget it.' />
+          <FormattedMessage id='scenes.settings.passwordhint.description3' defaultMessage='Create a memorable password hint that we can send to your verified email address in case you forget your password.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <SecondaryButton>
-          <Text id='scenes.settings.passwordhint.change' text='Change' small light white />
-        </SecondaryButton>
+        <Button nature='secondary'>
+          <FormattedMessage id='scenes.settings.passwordhint.change' defaultMessage='Change' />
+        </Button>
       </SettingComponent>
     </SettingContainer>
   )

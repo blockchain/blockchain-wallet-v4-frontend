@@ -1,7 +1,7 @@
 import React from 'react'
-
+import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/shared/Setting'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 import Settings from './Settings'
 
 const WalletId = (props) => {
@@ -9,13 +9,15 @@ const WalletId = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <Text id='scenes.info.walletid.title' text='Wallet ID' capitalize />
+          <FormattedMessage id='scenes.info.walletid.title' defaultMessage='Wallet ID' />
         </SettingHeader>
         <SettingDescription>
-          <Text id='scenes.info.walletid.description' text='Wallet ID is your unique identifier.' altFont light />
-          <Text id='scenes.info.walletid.description2' text='It is completely individual to you, and it is what you will use to log in and access your wallet.' altFont light />
-          <Text id='scenes.info.walletid.description3' text='It is NOT a bitcoin address for sending or receiving.' altFont light />
-          <Text id='scenes.info.walletid.warning' text='Do not share your Wallet ID with others.' altFont light red />
+          <FormattedMessage id='scenes.info.walletid.description' defaultMessage='Wallet ID is your unique identifier.' />
+          <FormattedMessage id='scenes.info.walletid.description2' defaultMessage='It is completely individual to you, and it is what you will use to log in and access your wallet.' />
+          <FormattedMessage id='scenes.info.walletid.description3' defaultMessage='It is NOT a bitcoin address for sending or receiving.' />
+          <Text color='red' weight='300' size='14px'>
+            <FormattedMessage id='scenes.info.walletid.warning' defaultMessage='Do not share your Wallet ID with others.' />
+          </Text>
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

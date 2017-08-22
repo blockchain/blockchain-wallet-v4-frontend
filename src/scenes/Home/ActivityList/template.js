@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
-import ActivityListItem from './ActivityListItem'
+
+import ListItem from './ListItem'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,27 +12,32 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  height: 100%;
-  padding-right: 15px;
+  padding: 15px;
   box-sizing: border-box;
+  border: 1px solid #DDDDDD;
 `
 const Header = styled.div`
   width: 100%;
-  padding: 10px 0;
 `
 const Content = styled.div`
   width: 100%;
+  margin-top: 10px;
 `
 
 const ActivityList = (props) => {
+  const { activities } = props
+  console.log(activities)
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.home.activitylist.title' text='Most recent activities' capitalize />
+        <Text uppercase size='24px' weight={300} color='dark-blue'>
+          <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
+        </Text>
       </Header>
       <Content>
-        { props.activities.map(function (activity, key) {
-          return <ActivityListItem activity={activity} key={key} />
+        { activities.map(function (activity, index) {
+          const { action, time } = activity
+          return <ListItem action={action} time={time} key={index} />
         })}
       </Content>
     </Wrapper>
@@ -40,10 +46,13 @@ const ActivityList = (props) => {
 
 ActivityList.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired
+    action: PropTypes.string.isRequired,
+    time: PropTypes.number.isRequired
   }))
+}
+
+ActivityList.defaultProps = {
+  activities: []
 }
 
 export default ActivityList

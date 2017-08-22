@@ -1,10 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail, validPassword } from 'services/FormHelper'
-import { CheckBox, Form, PasswordBox, RouterLink, SecondaryButton, Separator, Text, TextBox } from 'blockchain-info-components'
-import Terms from 'components/shared/Terms'
+import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { CheckBox, Form, PasswordBox, TextBox } from 'components/Form'
+import Terms from 'components/Terms'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -19,9 +22,6 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const Aligned = styled.div`
-  & > * { display: inline-block; margin-right: 5px; }
-`
 
 const Register = (props) => {
   const { handleClick, submitting, invalid } = props
@@ -30,25 +30,43 @@ const Register = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text id='scenes.register.create' text='Create your Wallet' biggest light />
-        <Aligned>
-          <Text id='scenes.register.or' text='or' small light />
-          <RouterLink to='/login'><Text id='scenes.register.login' text='Login' small light cyan /></RouterLink>
-        </Aligned>
+        <Text size='24px' weight={300} capitalize>
+          <FormattedMessage id='scenes.register.create' defaultMessage='Create your Wallet' />
+        </Text>
+        <TextGroup inline>
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='scenes.register.or' defaultMessage='or' />
+          </Text>
+          <LinkContainer to='/login'>
+            <Link size='13px' weight={300}>
+              <FormattedMessage id='scenes.register.login' defaultMessage='Login' />
+            </Link>
+          </LinkContainer>
+        </TextGroup>
       </Header>
-      <Text id='scenes.register.explain' text='Sign up for a free wallet below' small light altFont />
+      <Text size='16px' weight={300} altFont>
+        <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
+      </Text>
       <Separator />
       <Form>
-        <Text id='scenes.register.email' text='Email' small medium />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.register.email' defaultMessage='Email' />
+        </Text>
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
-        <Text id='scenes.register.password' text='Password' small medium />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
+        </Text>
         <Field name='password' validate={[required, validPassword]} component={PasswordBox} score />
-        <Text id='scenes.register.confirmationPassword' text='Confirm Password' small medium />
-        <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
-        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox} props={{children: Terms}} fullwidth />
-        <SecondaryButton disabled={submitting || invalid} onClick={handleClick} fullwidth>
-          <Text id='scenes.register.submit' text='Continue'uppercase white />
-        </SecondaryButton>
+        <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
+        <Text size='14px' weight={500}>
+          <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
+        </Text>
+        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
+          <Terms />
+        </Field>
+        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+          <FormattedMessage id='scenes.register.submit' defaultMessage='Continue' />
+        </Button>
       </Form>
     </Wrapper>
   )

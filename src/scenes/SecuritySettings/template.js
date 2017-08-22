@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 import BasicSecurity from './BasicSecurity'
 import AdvancedSecurity from './AdvancedSecurity'
 
@@ -22,7 +23,7 @@ const SecuritySettings = (props) => {
       <BasicSecurity />
       <ButtonContainer>
         <Button onClick={handleToggle}>
-          <Text id='scenes.settings.advancedsettings' text='Advanced settings' small light />
+          <FormattedMessage id='scenes.settings.advancedsettings' defaultMessage='Advanced settings' />
         </Button>
       </ButtonContainer>
       { toggled ? <AdvancedSecurity /> : <div /> }
