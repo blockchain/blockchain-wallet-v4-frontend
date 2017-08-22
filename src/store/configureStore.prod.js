@@ -5,7 +5,6 @@ import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { coreMiddleware } from 'blockchain-wallet-v4/lib'
 import autoDisconnection from 'middleware/autoDisconnection.js'
-import notifications from 'middleware/notifications.js'
 import { rootSaga, rootReducer } from 'data'
 import settings from 'config'
 import { api } from 'services/ApiService'
@@ -31,7 +30,6 @@ const configureStore = () => {
       applyMiddleware(
         reduxRouterMiddleware,
         autoDisconnection,
-        // notifications,
         // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
         coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.getIsAuthenticated }),
         sagaMiddleware
