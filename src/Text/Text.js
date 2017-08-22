@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { DefaultColor } from '../Colors'
 
 const BaseText = styled.div`
   font-family: ${props => props.altFont ? "'GillSans', sans-serif" : "'Montserrat', sans-serif"};
@@ -11,14 +12,14 @@ const BaseText = styled.div`
       : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => props.italic ? 'italic' : 'normal'};
   color: ${props =>
-    props.color === 'cyan' ? '#10ADE4'
-    : props.color === 'medium-blue' ? '#799EB2'
-    : props.color === 'white' ? '#FFFFFF'
-    : props.color === 'sent' ? '#F26C57'
-    : props.color === 'transferred' ? '#799EB2'
-    : props.color === 'received' ? '#00BABC'
-    : props.color === 'dark-blue' ? '#004a7c'
-    : props.color === 'red' ? '#CA3A3C' : '#5F5F5F'};
+    props.color === 'cyan' ? DefaultColor.iris
+    : props.color === 'medium-blue' ? DefaultColor.balihai
+    : props.color === 'white' ? DefaultColor.white
+    : props.color === 'sent' ? DefaultColor.bittersweet
+    : props.color === 'transferred' ? DefaultColor.balihai
+    : props.color === 'received' ? DefaultColor.irisgreen
+    : props.color === 'dark-blue' ? DefaultColor.blue
+    : props.color === 'red' ? DefaultColor.mahogany : DefaultColor.text};
 `
 
 const Text = ({ ...props, children }) => {

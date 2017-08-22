@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { DefaultColor } from '../Colors'
 
 import { Icon } from '../Icons'
 
@@ -14,13 +15,13 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.position === props.total ? 'rgba(0, 0, 0, 0.5)' : 'transparent'};
+  background-color: ${props => props.position === props.total ? DefaultColor.halftransparentgrey : DefaultColor.transparent};
   z-index: ${props => props.position ? (props.position) + 1040 : 1040};
 `
 const Container = styled.div`
   position: relative;
   width: calc(100% - ${props => props.position * 20}px);
-  background-color: ${props => props.position === props.total ? '#FFFFFF' : '#D3D3D3'};
+  background-color: ${props => props.position === props.total ? DefaultColor.white : DefaultColor.bordergrey};
   z-index: ${props => props.position ? (props.position) + 1041 : 1041};
 
   @media(min-width: 768px) {
@@ -38,7 +39,7 @@ const Header = styled.div`
   align-items: center;
   width: 100%;
   padding: 30px;
-  border-bottom: 1px solid #EFEFEF;
+  border-bottom: 1px solid ${DefaultColor.grey};
 `
 const HeaderIcon = styled(Icon)`
   display: inline-flex;

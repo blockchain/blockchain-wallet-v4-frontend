@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { DefaultColor } from '../Colors'
 
 const BaseTextInput = styled.input.attrs({
   type: 'text'
@@ -12,22 +13,22 @@ const BaseTextInput = styled.input.attrs({
   box-sizing: border-box;
   font-size: 14px;
   line-height: 1.42;
-  color: #555555;
-  background-color: #FFFFFF;
+  color: ${DefaultColor.text};
+  background-color: ${DefaultColor.white};
   background-image: none;
   outline-width: 0;
   user-select: text;
   border: 1px solid ${props => props.borderColor};
 
-  &::-webkit-input-placeholder { color: #A8A8A8; }
+  &::-webkit-input-placeholder { color: ${DefaultColor.text}; }
 `
 
 const selectBorderColor = (state) => {
   switch (state) {
-    case 'initial': return '#CCCCCC'
-    case 'invalid': return '#990000'
-    case 'valid': return '#006600'
-    default: return '#CCCCCC'
+    case 'initial': return DefaultColor.midgrey
+    case 'invalid': return DefaultColor.invalidred
+    case 'valid': return DefaultColor.green
+    default: return DefaultColor.midgrey
   }
 }
 

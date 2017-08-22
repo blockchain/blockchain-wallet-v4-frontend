@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { DefaultColor } from '../Colors'
 
 const BaseLink = styled.a`
   display: flex;
@@ -11,10 +12,10 @@ const BaseLink = styled.a`
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
   color: ${props =>
-    props.color === 'gray' ? '#5F5F5F'
-    : props.color === 'cyan' ? '#00AEE6'
-    : props.color === 'white' ? '#FFFFFF'
-    : props.color === 'medium-blue' ? '#799EB2' : '#004A7C'};
+    props.color === 'gray' ? DefaultColor.text
+    : props.color === 'cyan' ? DefaultColor.iris
+    : props.color === 'white' ? DefaultColor.white
+    : props.color === 'medium-blue' ? DefaultColor.balihai : DefaultColor.blue};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   text-decoration: none;
   cursor : pointer;
@@ -23,10 +24,10 @@ const BaseLink = styled.a`
 
   &:hover { 
     color: ${props =>
-    props.color === 'gray' ? '#5F5F5F'
-    : props.color === 'cyan' ? '#00AEE6'
-    : props.color === 'white' ? '#FFFFFF'
-    : props.color === 'medium-blue' ? '#799EB2' : '#00AEE6'};
+    props.color === 'gray' ? DefaultColor.text
+    : props.color === 'cyan' ? DefaultColor.iris
+    : props.color === 'white' ? DefaultColor.white
+    : props.color === 'medium-blue' ? DefaultColor.balihai : DefaultColor.iris};
   }
 
   &:focus { text-decoration: none; }

@@ -25,5 +25,17 @@ export default {
   bordergrey: '#DDDDDD',
   midgrey: '#B0B0B0',
   basicgrey: '#757575',
-  greytransparent: 'rgba(245, 247, 249, 0.9)'
+  greytransparent: 'rgba(245, 247, 249, 0.9)',
+  // New colors
+  white: '#FFFFFF',
+  green: '#006600',
+  redwine: '#660000',
+  invalidred: '#990000',
+  realblack: '#000000',
+  yellow: '#E5E500',
+  orange: '#E59400',
+  red: '#FF0000',
+  halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
+  transparent: 'transparent',
+  strongblue: '#004AC7'
 }

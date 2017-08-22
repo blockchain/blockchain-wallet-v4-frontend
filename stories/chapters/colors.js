@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react'
 
 import { compose, map, zipObj, toPairs } from 'ramda'
 import Layout from '../components/layout'
-import { Colors } from '../../src'
+import { DefaultColor } from '../../src/Colors'
 
 const ColorLayout = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ const Code = styled.div`
 
 const PaletteDefault = () => {
   const convert = compose(map(zipObj(['key', 'value'])), toPairs)
-  const colorsArray = convert(Colors)
+  const colorsArray = convert(DefaultColor)
 
   return (
     <ColorLayout>
@@ -60,4 +60,4 @@ const PaletteDefault = () => {
 
 storiesOf('Colors', module)
   .addDecorator(story => (<Layout>{story()}</Layout>))
-    .add('Default', () => <PaletteDefault />)
+    .add('Colors', () => <PaletteDefault />)

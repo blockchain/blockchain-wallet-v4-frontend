@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { DefaultColor } from '../Colors'
 
 const Container = styled.div`
   display: flex;
@@ -14,13 +15,13 @@ const ScoreBar = styled.div`
   width: 20%;
   height: 100%;
   box-sizing: border-box;
-  border: 2px solid #FFFFFF;
+  border: 2px solid ${DefaultColor.white};
   background-color: ${props =>
-    props.score === 0 ? '#FFFFFF'
-    : props.score === 1 ? '#660000'
-    : props.score === 2 ? '#FF0000'
-    : props.score === 3 ? '#E59400'
-    : props.score === 4 ? '#E5E500' : '#006600'};
+    props.score === 0 ? DefaultColor.white
+    : props.score === 1 ? DefaultColor.invalidredwine
+    : props.score === 2 ? DefaultColor.red
+    : props.score === 3 ? DefaultColor.orange
+    : props.score === 4 ? DefaultColor.yellow : DefaultColor.green};
 `
 const PasswordGauge = (props) => {
   const { score } = props

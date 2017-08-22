@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { DefaultColor } from '../../src/Colors'
 
 const BasePage = styled.div`
   font-family: -apple-system, ".SFNSText-Regular", "San Francisco", Roboto, "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
@@ -8,16 +9,16 @@ const BasePage = styled.div`
   font-weight: 300;
   line-height: 1.45;
   font-size: 15px;
-  border: 1px solid rgb(238, 238, 238);
+  border: 1px solid ${DefaultColor.bordergrey};
   padding: 20px 40px 40px;
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px;
-  background-color: #FFFFFF;
+  background-color: ${DefaultColor.white};
   margin-top: 20px;
   margin-bottom: -30px;
 `
 const TitleWrapper = styled.div`
-  border-bottom: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid ${DefaultColor.bordergrey};
   padding-top: 10px;
   margin-bottom: 30px;
 `

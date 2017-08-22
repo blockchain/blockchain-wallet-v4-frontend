@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { DefaultColor } from '../Colors'
 
 import { TextGroup } from '../Text'
 
@@ -15,9 +16,9 @@ const TooltipIcon = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 10px;
-  background-color: ${props => props.displayed ? '#004A7C' : '#FFFFFF'};
-  color: ${props => props.displayed ? '#FFFFFF' : '#5F5F5F'};
-  border: 1px solid ${props => props.displayed ? '#004AC7' : '#E0E0E0'};
+  background-color: ${props => props.displayed ? DefaultColor.blue : DefaultColor.white};
+  color: ${props => props.displayed ? DefaultColor.white : DefaultColor.text};
+  border: 1px solid ${props => props.displayed ? DefaultColor.strongblue : DefaultColor.bordergrey};
   cursor: pointer;
   font-weight: 300;
 `
@@ -27,9 +28,9 @@ const TooltipBox = styled(TextGroup)`
   left: -115px;
   width: 250px;
   display: ${props => props.displayed ? 'block' : 'none'};
-  background-color: #F5F7F9;
-  color: #5F5F5F;
-  border: 1px solid #E0E0E0;
+  background-color: ${DefaultColor.grey};
+  color: ${DefaultColor.text};
+  border: 1px solid ${DefaultColor.bordergrey};
   border-radius: 5px;
   padding: 10px;
   box-sizing: border-box;
@@ -47,7 +48,7 @@ const TooltipBox = styled(TextGroup)`
     width: 0;
     height: 0;
     border: 10px solid transparent;
-    border-top-color: #E0E0E0;
+    border-top-color: ${DefaultColor.bordergrey};
   }
 
   &:after {
@@ -59,7 +60,7 @@ const TooltipBox = styled(TextGroup)`
     width: 0;
     height: 0;
     border: 9px solid transparent;
-    border-top-color: #F5F7F9;
+    border-top-color: ${DefaultColor.grey};
   }
 `
 
