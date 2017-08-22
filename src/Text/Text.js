@@ -19,7 +19,6 @@ const BaseText = styled.div`
     : props.color === 'received' ? '#00BABC'
     : props.color === 'dark-blue' ? '#004a7c'
     : props.color === 'red' ? '#CA3A3C' : '#5F5F5F'};
-  text-align: ${props => props.rightAlign ? 'right' : 'justify'};
 `
 
 const Text = ({ ...props, children }) => {
@@ -37,8 +36,7 @@ Text.propTypes = {
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
   color: PropTypes.oneOf(['red', 'white', 'cyan', 'medium-blue', 'sent', 'transferred', 'received', 'dark-blue']),
-  altFont: PropTypes.bool,
-  rightAlign: PropTypes.bool
+  altFont: PropTypes.bool
 }
 
 Text.defaultProps = {
@@ -47,8 +45,7 @@ Text.defaultProps = {
   uppercase: false,
   capitalize: false,
   italic: false,
-  altFont: false,
-  rightAlign: false
+  altFont: false
 }
 
 export default Text
