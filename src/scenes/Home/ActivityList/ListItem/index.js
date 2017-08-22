@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import moment from 'moment'
 
 import { Icon, Text } from 'blockchain-info-components'
 
@@ -43,25 +44,39 @@ const Info = styled.div`
   }
 `
 
+const selectIcon = type => {
+  switch (type) {
+    case 'log': return 'settings'
+    default: return 'tx'
+  }
+}
+
 const ActivityListItem = (props) => {
+  const { action, time, type } = props
+  const timeFormatted = moment(time).format('ll')
+  const iconName = selectIcon(type)
+
   return (
     <Container>
       <Circle>
-        <Icon name='tx' color='dark-blue' />
+        <Icon name={iconName} color='dark-blue' />
       </Circle>
       <Info>
-        <Text size='14px' weight={300} capitalize>{props.activity.title}</Text>
-        <Text size='14px' weight={300}>{props.activity.time}</Text>
+        <Text size='14px' weight={300} capitalize>{action}</Text>
+        <Text size='14px' weight={300}>{timeFormatted}</Text>
       </Info>
     </Container>
   )
 }
 
 ActivityListItem.propTypes = {
-  activity: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired
-  })
+  action: PropTypes.string.isRequired,
+  time: PropTypes.number.isRequired,
+  type: PropTypes.string
+}
+
+ActivityListItem.defaultProps = {
+  type: 'log'
 }
 
 export default ActivityListItem

@@ -25,6 +25,8 @@ const Content = styled.div`
 `
 
 const ActivityList = (props) => {
+  const { activities } = props
+  console.log(activities)
   return (
     <Wrapper>
       <Header>
@@ -33,8 +35,9 @@ const ActivityList = (props) => {
         </Text>
       </Header>
       <Content>
-        { props.activities.map(function (activity, index) {
-          return <ListItem activity={activity} key={index} />
+        { activities.map(function (activity, index) {
+          const { action, time } = activity
+          return <ListItem action={action} time={time} key={index} />
         })}
       </Content>
     </Wrapper>
@@ -43,9 +46,13 @@ const ActivityList = (props) => {
 
 ActivityList.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired
+    action: PropTypes.string.isRequired,
+    time: PropTypes.number.isRequired
   }))
+}
+
+ActivityList.defaultProps = {
+  activities: []
 }
 
 export default ActivityList
