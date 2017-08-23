@@ -1,26 +1,18 @@
 import React from 'react'
-import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
 import { Image } from 'blockchain-info-components'
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #004A7C;
-  width: 100%;
-  height: 60px;
-`
+import { Navbar, NavbarBrand } from 'components/Navbar'
 
 const Header = () => {
   return (
-    <Wrapper>
-      <NavLink to='/'>
-        <Image name='blockchain-vector' height='20px' />
-      </NavLink>
-    </Wrapper>
+    <Navbar height='60px' fluid>
+      <NavbarBrand>
+        <NavLink to='/'>
+          <Image name='blockchain-vector' height='20px' />
+        </NavLink>
+      </NavbarBrand>
+    </Navbar>
   )
 }
 

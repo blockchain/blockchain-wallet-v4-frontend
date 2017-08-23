@@ -4,13 +4,14 @@ import { Route } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import styled from 'styled-components'
-import { Grid } from 'react-bootstrap'
 
 import Alerts from 'components/Alerts'
+import Container from 'components/Container'
 
 const Wrapper = styled.div`
   background-color: #004A7C;
   height: auto;
+  min-height: 100%;
   width: 100%;
 
   @media(min-width: 768px) {
@@ -56,18 +57,16 @@ const PublicLayout = ({component: Component, ...rest}) => {
     <Route {...rest} render={matchProps => (
       <Wrapper>
         <HeaderContainer>
-          <Grid>
-            <Alerts />
-            <Header />
-          </Grid>
+          <Alerts />
+          <Header />
         </HeaderContainer>
         <ContentContainer>
           <Component {...matchProps} />
         </ContentContainer>
         <FooterContainer>
-          <Grid>
+          <Container>
             <Footer />
-          </Grid>
+          </Container>
         </FooterContainer>
       </Wrapper>
     )} />

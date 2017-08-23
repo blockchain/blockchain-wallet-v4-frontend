@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Grid } from 'react-bootstrap'
 
 import { Text, TextGroup } from 'blockchain-info-components'
+import Container from 'components/Container'
 import Page1 from './Page1'
 import Page2 from './Page2'
 
@@ -11,31 +11,31 @@ const Wrapper = styled.div`
   padding: 70px 0;
   background-color: #FFFFFF;
 `
-const Container = styled(Grid)`
+const Row = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `
-const Carousel = styled(Grid)`
+const Carousel = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 0;
 `
-const CarouselContent = styled.div`
+const Content = styled.div`
   position: relative;
   overflow: hidden;
   width: 100%;
   height: 100%;
   padding: 25px 0;
 `
-const CarouselSlide = styled.div`
+const Slide = styled.div`
   display: ${props => props.active ? 'block' : 'none'};
   width: 100%;
 `
-const CarouselControls = styled.div`
+const Controls = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -43,7 +43,7 @@ const CarouselControls = styled.div`
   height: 50px;
   width: 30px;
 `
-const CarouselControl = styled.div`
+const Control = styled.div`
   display: flex;
   width: 10px;
   height: 10px;
@@ -55,7 +55,7 @@ const CarouselControl = styled.div`
 const WhyBlockchain = (props) => {
   return (
     <Wrapper>
-      <Container>
+      <Row>
         <Text size='36px' weight={300} uppercase>
           <FormattedMessage id='scenes.landing.wallet.why' defaultMessage='Why blockchain?' />
         </Text>
@@ -70,16 +70,16 @@ const WhyBlockchain = (props) => {
             <FormattedMessage id='scenes.landing.wallet.recognized' defaultMessage='Recognized by the Press.' />
           </Text>
         </TextGroup>
-      </Container>
+      </Row>
       <Carousel>
-        <CarouselContent>
-          <CarouselSlide active={props.slide1}><Page1 /></CarouselSlide>
-          <CarouselSlide active={props.slide2}><Page2 /></CarouselSlide>
-        </CarouselContent>
-        <CarouselControls>
-          <CarouselControl active={props.slide1} onClick={props.clickPage1} />
-          <CarouselControl active={props.slide2} onClick={props.clickPage2} />
-        </CarouselControls>
+        <Content>
+          <Slide active={props.slide1}><Page1 /></Slide>
+          <Slide active={props.slide2}><Page2 /></Slide>
+        </Content>
+        <Controls>
+          <Control active={props.slide1} onClick={props.clickPage1} />
+          <Control active={props.slide2} onClick={props.clickPage2} />
+        </Controls>
       </Carousel>
     </Wrapper>
   )

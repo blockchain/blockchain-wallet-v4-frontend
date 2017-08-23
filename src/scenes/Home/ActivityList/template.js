@@ -26,7 +26,7 @@ const Content = styled.div`
 
 const ActivityList = (props) => {
   const { activities } = props
-  console.log(activities)
+
   return (
     <Wrapper>
       <Header>

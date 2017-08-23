@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { isEmpty } from 'ramda'
+import { isEmpty, take } from 'ramda'
 
 import ActivityList from './template.js'
 import { actions, selectors } from 'data'
@@ -13,9 +13,10 @@ class ActivityContainer extends React.Component {
   }
 
   render () {
-    return (
-      <ActivityList activities={this.props.logs} />
-    )
+    const { logs } = this.props
+    const lastLogs = take(8, logs)
+
+    return <ActivityList activities={lastLogs} />
   }
 }
 

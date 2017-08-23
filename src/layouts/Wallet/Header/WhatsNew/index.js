@@ -1,12 +1,14 @@
 import React from 'react'
-import { NavItem } from 'react-bootstrap'
-
+import styled from 'styled-components'
 import { Icon } from 'blockchain-info-components'
 
+const Container = styled.div`
+ margin-top: 5px;
+`
 const WhatsNew = () => (
-  <NavItem>
-    <Icon name='bell' color='white' />
-  </NavItem>
+  <Container>
+    <Icon name='bell' size='14px' color='white' />
+  </Container>
 )
 
 export default WhatsNew
