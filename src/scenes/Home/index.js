@@ -18,20 +18,28 @@ const Column = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  padding: 30px;
+  padding: 30px 0;
   box-sizing: border-box;
+`
+const ColumnLeft = styled(Column)`
+  padding: 30px;
+  @media(min-width: 992px) { padding: 30px 5px 30px 30px; }
+`
+const ColumnRight = styled(Column)`
+  padding: 30px;
+  @media(min-width: 992px) { padding: 30px 30px 30px 5px; }
 `
 
 const Home = (props) => {
   return (
     <Wrapper>
-      <Column>
+      <ColumnLeft>
         <ActivityList />
-      </Column>
-      <Column>
+      </ColumnLeft>
+      <ColumnRight>
         <BalanceSummary />
         <DidYouKnow />
-      </Column>
+      </ColumnRight>
     </Wrapper>
   )
 }

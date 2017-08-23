@@ -7,7 +7,6 @@
 
 1. [Development](../master/help/Development.md)
 1. [Localization](../master/help/Localization.md)
-1. [Components](../master/help/Components.md)
 1. [Style](../master/help/Style.md)
 1. [Tests](../master/help/Tests.md)
 

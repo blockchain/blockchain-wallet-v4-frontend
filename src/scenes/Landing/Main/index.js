@@ -33,6 +33,7 @@ const Block = styled.div`
   height: 100px;
   width: 100%;
   flex-grow: 1;
+  white-space: nowrap;
 `
 const Block1 = Block.extend`
   background-color: #3558A8;
@@ -71,7 +72,7 @@ const Main = (props) => {
       <BlockContainer>
         <Block1>
           <Text size='24px' weight={300} color='white' uppercase>
-            <FormattedMessage id='scenes.landing.main.bitcoin' defaultMessage='#1 Bitcoin wallet' />
+            <FormattedMessage id='scenes.landing.main.digital' defaultMessage='#1 Digital wallet' />
           </Text>
         </Block1>
         <Block2>
