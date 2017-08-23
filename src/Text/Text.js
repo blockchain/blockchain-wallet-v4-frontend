@@ -11,15 +11,7 @@ const BaseText = styled.div`
     props.uppercase ? 'uppercase'
       : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => props.italic ? 'italic' : 'normal'};
-  color: ${props =>
-    props.color === 'cyan' ? DefaultColor.iris
-    : props.color === 'medium-blue' ? DefaultColor.balihai
-    : props.color === 'white' ? DefaultColor.white
-    : props.color === 'sent' ? DefaultColor.bittersweet
-    : props.color === 'transferred' ? DefaultColor.balihai
-    : props.color === 'received' ? DefaultColor.irisgreen
-    : props.color === 'dark-blue' ? DefaultColor.blue
-    : props.color === 'red' ? DefaultColor.mahogany : DefaultColor.text};
+  color: ${props => props.color};
 `
 
 const Text = ({ ...props, children }) => {
@@ -36,7 +28,7 @@ Text.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
-  color: PropTypes.oneOf(['red', 'white', 'cyan', 'medium-blue', 'sent', 'transferred', 'received', 'dark-blue']),
+  color: PropTypes.oneOf([DefaultColor.mahogany, DefaultColor.white, DefaultColor.iris, DefaultColor.balihai, DefaultColor.bittersweet, DefaultColor.irisgreen, DefaultColor.blue, DefaultColor.text]),
   altFont: PropTypes.bool
 }
 

@@ -86,7 +86,7 @@ const Dropdown = props => {
 }
 
 Dropdown.defaultProps = {
-  color: 'cyan',
+  color: DefaultColor.iris,
   toggled: false,
   selectedValue: 0,
   uppercase: true,
@@ -101,7 +101,7 @@ Dropdown.PropTypes = {
   })),
   callback: PropTypes.func.isRequired,
   toggled: PropTypes.bool,
-  color: PropTypes.oneOf(['cyan', 'white']),
+  color: PropTypes.oneOf([DefaultColor.iris, DefaultColor.white]),
   uppercase: PropTypes.bool,
   down: PropTypes.bool
 }

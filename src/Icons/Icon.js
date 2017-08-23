@@ -7,12 +7,7 @@ import Icomoon from './Icomoon'
 const BaseIcon = styled.span`
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
-  color: ${props =>
-    props.color === 'cyan' ? DefaultColor.iris
-    : props.color === 'medium-blue' ? DefaultColor.balihai
-    : props.color === 'white' ? DefaultColor.white
-    : props.color === 'dark-blue' ? DefaultColor.blue
-    : props.color === 'red' ? DefaultColor.mahogany : DefaultColor.text};
+  color: ${props => props.color};
 
   &:before {
     font-family: 'icomoon';
@@ -31,12 +26,13 @@ Icon.propTypes = {
   name: PropTypes.string.isRequired,
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,
-  color: PropTypes.oneOf(['red', 'white', 'cyan', 'medium-blue', 'dark-blue'])
+  color: PropTypes.oneOf([DefaultColor.mahogany, DefaultColor.white, DefaultColor.iris, DefaultColor.balihai, DefaultColor.blue, DefaultColor.text])
 }
 
 Icon.defaultProps = {
   weight: 400,
-  size: '16px'
+  size: '16px',
+  color: DefaultColor.text
 }
 
 export default Icon

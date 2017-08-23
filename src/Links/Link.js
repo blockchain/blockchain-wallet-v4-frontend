@@ -11,11 +11,7 @@ const BaseLink = styled.a`
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
-  color: ${props =>
-    props.color === 'gray' ? DefaultColor.text
-    : props.color === 'cyan' ? DefaultColor.iris
-    : props.color === 'white' ? DefaultColor.white
-    : props.color === 'medium-blue' ? DefaultColor.balihai : DefaultColor.blue};
+  color: ${props => props.color};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   text-decoration: none;
   cursor : pointer;
@@ -23,11 +19,7 @@ const BaseLink = styled.a`
   & > * { margin-right: 5px; }
 
   &:hover { 
-    color: ${props =>
-    props.color === 'gray' ? DefaultColor.text
-    : props.color === 'cyan' ? DefaultColor.iris
-    : props.color === 'white' ? DefaultColor.white
-    : props.color === 'medium-blue' ? DefaultColor.balihai : DefaultColor.iris};
+    color: ${props => props.color};
   }
 
   &:focus { text-decoration: none; }
@@ -46,15 +38,17 @@ const Link = props => {
 Link.propTypes = {
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,
-  color: PropTypes.oneOf(['cyan', 'white', 'medium-blue', 'gray']),
-  uppercase: PropTypes.bool
+  color: PropTypes.oneOf([DefaultColor.text, DefaultColor.iris, DefaultColor.white, DefaultColor.balihai, DefaultColor.blue]),
+  uppercase: PropTypes.bool,
+  bold: PropTypes.bool
 }
 
 Link.defaultProps = {
   weight: 400,
   size: '16px',
-  color: 'cyan',
-  uppercase: false
+  color: DefaultColor.iris,
+  uppercase: false,
+  bold: false
 }
 
 export default Link
