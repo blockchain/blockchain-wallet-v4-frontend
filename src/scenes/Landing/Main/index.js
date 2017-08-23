@@ -62,10 +62,8 @@ const Main = (props) => {
             </Text>
           </TextGroup>
           <NavLink to='/register'>
-            <Link href='https://blockchain.info/wallet/bitcoin-faq' uppercase>
-              <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
-              <Icon name='right_arrow' color='cyan' />
-            </Link>
+            <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
+            <Icon name='right_arrow' color='cyan' />
           </NavLink>
         </MainContainer>
       </MainBackground>
