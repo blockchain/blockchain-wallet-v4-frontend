@@ -40,7 +40,5 @@ export default {
   'tx': '\\e915',
   'up_arrow': '\\e916',
   'wallet': '\\e918',
-  'user': '\\e917',
-  'ti-angle-down': '\\e64b',
-  'ti-angle-up': '\\e648'
+  'user': '\\e917'
 }
