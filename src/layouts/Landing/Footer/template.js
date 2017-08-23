@@ -1,17 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Grid } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { Image, Link, Text } from 'blockchain-info-components'
+import Container from 'components/Container'
 import DropdownLanguage from 'components/DropdownLanguage'
 
 const Wrapper = styled.div`
   background-color: #E3EFF5;
   padding: 40px;
 `
-const Container = styled(Grid)`
+const Navigation = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -65,7 +65,7 @@ const CopyrightContainer = styled.div`
 const Footer = () => {
   return (
     <Wrapper>
-      <Container>
+      <Navigation>
         <Top>
           <Logo name='blockchain-blue' height='20px' />
           <Column>
@@ -141,7 +141,7 @@ const Footer = () => {
             </Link>
           </CopyrightContainer>
         </Bottom>
-      </Container>
+      </Navigation>
     </Wrapper>
   )
 }

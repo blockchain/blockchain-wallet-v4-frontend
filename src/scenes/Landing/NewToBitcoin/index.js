@@ -1,16 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Grid } from 'react-bootstrap'
 
 import { Icon, Image, Link, Text, TextGroup } from 'blockchain-info-components'
+import Container from 'components/Container'
 
 const Wrapper = styled.div`
   background-color: #FFFFFF;
   padding: 50px 0;
 `
 
-const Container = styled(Grid)`
+const NewContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,7 +44,7 @@ const Picture = styled(Image)`
 const NewToBitcoin = (props) => {
   return (
     <Wrapper>
-      <Container>
+      <NewContainer>
         <Block>
           <Summary>
             <Text size='30px' weight={200} uppercase>
@@ -72,7 +72,7 @@ const NewToBitcoin = (props) => {
             <Picture name='bitcoin-network' />
           </Network>
         </Block>
-      </Container>
+      </NewContainer>
     </Wrapper>
   )
 }
