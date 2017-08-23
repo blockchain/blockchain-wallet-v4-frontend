@@ -16,9 +16,8 @@ export const settingsSaga = ({ api } = {}) => {
 
   const requestPairingCode = function * (action) {
     try {
+      const { guid, sharedKey } = action.payload
       // Get guid, sharedKey, password and PAIRING_CODE_PBKDF2_ITERATIONS
-      const guid = ''
-      const sharedKey = ''
       const password = ''
       const iterations = ''
       let response = yield call(api.getPairingCode, guid, sharedKey)
