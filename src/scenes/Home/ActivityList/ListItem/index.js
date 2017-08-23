@@ -59,7 +59,7 @@ const ActivityListItem = (props) => {
   return (
     <Container>
       <Circle>
-        <Icon name={iconName} color='dark-blue' />
+        <Icon name={iconName} color='blue' />
       </Circle>
       <Info>
         <Text size='14px' weight={300} capitalize>{action}</Text>

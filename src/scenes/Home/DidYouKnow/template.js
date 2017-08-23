@@ -84,12 +84,12 @@ const DidYouKnow = (props) => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={300} color='dark-blue' uppercase>
+      <Text size='24px' weight={300} color='blue' uppercase>
         <FormattedMessage id='scenes.home.didyouknow.title' defaultMessage='Did you know?' />
       </Text>
       <TextGroup inline>
-        <PaddedIcon name='user' size='18px' color='dark-blue' />
-        <Text size='18px' weight={300} color='dark-blue'>
+        <PaddedIcon name='user' size='18px' color='blue' />
+        <Text size='18px' weight={300} color='blue'>
           { selectTitle(number) }
         </Text>
       </TextGroup>

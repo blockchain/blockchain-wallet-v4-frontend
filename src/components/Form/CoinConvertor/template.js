@@ -73,7 +73,7 @@ const CoinConvertor = (props) => {
           <Unit>{fiatUnit}</Unit>
         </Container>
       </CoinConvertorInput>
-      {meta.touched && meta.error && <Error size='13px' weight={300} color='red'>{meta.error}</Error>}
+      {meta.touched && meta.error && <Error size='13px' weight={300} color='mahogany'>{meta.error}</Error>}
     </Wrapper>
   )
 }

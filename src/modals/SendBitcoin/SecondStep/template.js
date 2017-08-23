@@ -75,13 +75,13 @@ const SecondStep = (props) => {
           </Text>
         </Row>
         <Summary>
-          <Text size='16px' weight={300} color='medium-blue'>
+          <Text size='16px' weight={300} color='balihai'>
             <FormattedMessage id='modals.sendbitcoin.secondstep.total' defaultMessage='Total' />
           </Text>
-          <Text size='40px' weight={600} color='medium-blue'>
+          <Text size='40px' weight={600} color='balihai'>
             <CoinDisplay>{satoshis}</CoinDisplay>
           </Text>
-          <Text size='20px' weight={300} color='medium-blue'>
+          <Text size='20px' weight={300} color='balihai'>
             <CurrencyDisplay>{satoshis}</CurrencyDisplay>
           </Text>
         </Summary>

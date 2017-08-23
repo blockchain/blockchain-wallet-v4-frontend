@@ -50,7 +50,7 @@ const CheckBox = ({ ...field, children }) => {
           </Label>
         )}
       </Container>
-      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='red'>{field.meta.error}</Error>}
+      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='mahogany'>{field.meta.error}</Error>}
     </Wrapper>
   )
 }

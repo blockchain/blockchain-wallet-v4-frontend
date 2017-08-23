@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 
-import { Button, Link, Modal, Separator, Text } from 'blockchain-info-components'
+import { Button, Link, Modal, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import CoinDisplay from 'components/CoinDisplay'
 import CurrencyDisplay from 'components/CurrencyDisplay'
@@ -44,10 +44,10 @@ const SecondStep = (props) => {
           <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment request:' />
         </Text>
         <Container>
-          <Text size='24px' weight={600} color='medium-blue'>
+          <Text size='24px' weight={600} color='balihai'>
             <CoinDisplay>{satoshis}</CoinDisplay>
           </Text>
-          <Text size='20px' weight={600} color='medium-blue'>
+          <Text size='20px' weight={600} color='balihai'>
             <CurrencyDisplay>{satoshis}</CurrencyDisplay>
           </Text>
           <Text size='16px'>{message}</Text>
