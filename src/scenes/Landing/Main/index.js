@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Grid } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { Background, Icon, Link, Text, TextGroup, DefaultColor } from 'blockchain-info-components'
+import { Background, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const MainContainer = styled.div``
 const Wrapper = styled(Background)`
@@ -49,38 +49,38 @@ const Main = (props) => {
     <MainContainer>
       <Wrapper name='landing-page-banner-overlay' height='480px'>
         <Container>
-          <Text size='36px' weight={200} color={DefaultColor.white}>
+          <Text size='36px' weight={200} color='white'>
             <FormattedMessage id='scenes.landing.main.simple' defaultMessage='Simple. Seamless. Secure.' />
           </Text>
           <TextGroup inline>
-            <Text size='16px' weight={300} color={DefaultColor.white}>
+            <Text size='16px' weight={300} color='white'>
               <FormattedMessage id='scenes.landing.main.popular' defaultMessage="Blockchain is the world's most popular bitcoin wallet." />
             </Text>
-            <Text size='16px' weight={300} color={DefaultColor.white}>
+            <Text size='16px' weight={300} color='white'>
               <FormattedMessage id='scenes.landing.main.mission' defaultMessage='We are on a mission to build a more open, accessible, and fair financial future, one piece of software at a time.' />
             </Text>
           </TextGroup>
           <LinkContainer to='/register'>
             <Link href='https://blockchain.info/wallet/bitcoin-faq' uppercase>
               <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
-              <Icon name='right_arrow' color={DefaultColor.iris} />
+              <Icon name='right_arrow' color='iris' />
             </Link>
           </LinkContainer>
         </Container>
       </Wrapper>
       <BlockContainer>
         <Block1>
-          <Text size='24px' weight={300} color={DefaultColor.white} uppercase>
+          <Text size='24px' weight={300} color='white' uppercase>
             <FormattedMessage id='scenes.landing.main.bitcoin' defaultMessage='#1 Bitcoin wallet' />
           </Text>
         </Block1>
         <Block2>
-          <Text size='24px' weight={300} color={DefaultColor.white} uppercase>
+          <Text size='24px' weight={300} color='white' uppercase>
             <FormattedMessage id='scenes.landing.main.transactions' defaultMessage='{nbTransactions} million+ transactions' values={{ nbTransactions: '100' }} />
           </Text>
         </Block2>
         <Block3>
-          <Text size='24px' weight={300} color={DefaultColor.white} uppercase>
+          <Text size='24px' weight={300} color='white' uppercase>
             <FormattedMessage id='scenes.landing.main.wallets' defaultMessage='{nbWallets} million+ wallets' values={{ nbWallets: '15' }} />
           </Text>
         </Block3>

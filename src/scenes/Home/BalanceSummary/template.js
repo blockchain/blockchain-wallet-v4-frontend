@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 
 import CoinDisplay from 'components/CoinDisplay'
 import CurrencyDisplay from 'components/CurrencyDisplay'
-import { Text, DefaultColor } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,7 +42,7 @@ const BalanceSummary = (props) => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={300} color={DefaultColor.blue} uppercase>
+      <Text size='24px' weight={300} color='blue' uppercase>
         <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Your balances' />
       </Text>
       <FirstRow>

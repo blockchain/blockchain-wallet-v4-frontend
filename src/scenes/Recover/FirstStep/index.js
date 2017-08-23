@@ -5,7 +5,7 @@ import { Field } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validMmemonic } from 'services/FormHelper'
-import { Button, Link, Separator, Text, TextGroup, DefaultColor } from 'blockchain-info-components'
+import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
@@ -44,10 +44,10 @@ const FirstStep = (props) => {
       <Separator />
       <Form>
         <TextGroup inline>
-          <Text size='13px' weight={300} color={DefaultColor.mahogany}>
+          <Text size='13px' weight={300} color='mahogany'>
             <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password.' />
           </Text>
-          <Text size='13px' weight={300} color={DefaultColor.mahogany}>
+          <Text size='13px' weight={300} color='mahogany'>
             <FormattedMessage id='scenes.recover.firststep.warning2' defaultMessage='Recovering your funds will create a new Wallet ID.' />
           </Text>
         </TextGroup>

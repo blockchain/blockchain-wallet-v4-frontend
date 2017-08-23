@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, Modal, Text, DefaultColor } from 'blockchain-info-components'
+import { Button, Link, Modal, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import CoinDisplay from 'components/CoinDisplay'
 import CurrencyDisplay from 'components/CurrencyDisplay'
@@ -75,13 +75,13 @@ const SecondStep = (props) => {
           </Text>
         </Row>
         <Summary>
-          <Text size='16px' weight={300} color={DefaultColor.balihai}>
+          <Text size='16px' weight={300} color='balihai'>
             <FormattedMessage id='modals.sendbitcoin.secondstep.total' defaultMessage='Total' />
           </Text>
-          <Text size='40px' weight={600} color={DefaultColor.balihai}>
+          <Text size='40px' weight={600} color='balihai'>
             <CoinDisplay>{satoshis}</CoinDisplay>
           </Text>
-          <Text size='20px' weight={300} color={DefaultColor.balihai}>
+          <Text size='20px' weight={300} color='balihai'>
             <CurrencyDisplay>{satoshis}</CurrencyDisplay>
           </Text>
         </Summary>

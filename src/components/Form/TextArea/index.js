@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Text, TextAreaInput, DefaultColor } from 'blockchain-info-components'
+import { Text, TextAreaInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -30,7 +30,7 @@ const TextArea = (field) => {
   return (
     <Container>
       <TextAreaInput {...field.input} errorState={errorState} placeholder={field.placeholder} rows={field.rows} />
-      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color={DefaultColor.mahogany}>{field.meta.error}</Error>}
+      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='mahogany'>{field.meta.error}</Error>}
     </Container>
   )
 }

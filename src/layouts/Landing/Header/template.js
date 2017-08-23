@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 
 import { LinkContainer } from 'react-router-bootstrap'
-import { Button, Image, Text, DefaultColor } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   padding-top: 17px;
@@ -38,28 +38,28 @@ const Header = (props) => {
           <Nav>
             <LinkContainer to='/wallet'>
               <NavItem>
-                <Text color={DefaultColor.white} uppercase>
+                <Text color='white' uppercase>
                   <FormattedMessage id='layouts.landing.header.wallets' defaultMessage='Wallets' />
                 </Text>
               </NavItem>
             </LinkContainer>
             <NavItem href='https://blockchain.info/charts' target='_blank'>
-              <Text color={DefaultColor.white} uppercase>
+              <Text color='white' uppercase>
                 <FormattedMessage id='layouts.landing.header.charts' defaultMessage='Charts' />
               </Text>
             </NavItem>
             <NavItem href='https://blockchain.info/stats' target='_blank'>
-              <Text color={DefaultColor.white} uppercase>
+              <Text color='white' uppercase>
                 <FormattedMessage id='layouts.landing.header.stats' defaultMessage='Stats' />
               </Text>
             </NavItem>
             <NavItem href='https://blockchain.info/markets' target='_blank'>
-              <Text color={DefaultColor.white} uppercase>
+              <Text color='white' uppercase>
                 <FormattedMessage id='layouts.landing.header.markets' defaultMessage='Markets' />
               </Text>
             </NavItem>
             <NavItem href='https://blockchain.info/api' target='_blank'>
-              <Text color={DefaultColor.white} uppercase>
+              <Text color='white' uppercase>
                 <FormattedMessage id='layouts.landing.header.api' defaultMessage='Api' />
               </Text>
             </NavItem>
