@@ -8,7 +8,7 @@ import { keysIn } from 'ramda'
 const BaseIcon = styled.span`
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
-  color: ${props => props.color};
+  color: ${props => DefaultColor[props.color]};
 
   &:before {
     font-family: 'icomoon';

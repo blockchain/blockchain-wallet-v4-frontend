@@ -12,7 +12,7 @@ const BaseLink = styled.a`
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
-  color: ${props => props.color};
+  color: ${props => DefaultColor[props.color]};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   text-decoration: none;
   cursor : pointer;
@@ -20,7 +20,7 @@ const BaseLink = styled.a`
   & > * { margin-right: 5px; }
 
   &:hover { 
-    color: ${props => props.color};
+    color: ${props => DefaultColor[props.color]};
   }
 
   &:focus { text-decoration: none; }
