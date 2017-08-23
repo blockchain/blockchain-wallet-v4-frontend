@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { Icon } from '../../Icons'
+import { DefaultColor } from '../../Colors'
 
 const Wrapper = styled.div`
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
@@ -18,7 +19,7 @@ const ButtonContainer = styled.div`
   height: auto;
 
   & > * {
-    color: ${props => props.color === 'cyan' ? '#10ADE4' : 'white'}!important;
+    color: ${props => props.color === 'cyan' ? DefaultColor.iris : DefaultColor.white}!important;
   }
 `
 const Button = styled.div`
@@ -30,7 +31,7 @@ const DropdownIcon = styled(Icon)`
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
-  background-color: white;
+  background-color: ${DefaultColor.white};
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   bottom: 0px;
@@ -85,7 +86,7 @@ const Dropdown = props => {
 }
 
 Dropdown.defaultProps = {
-  color: 'cyan',
+  color: DefaultColor.iris,
   toggled: false,
   selectedValue: 0,
   uppercase: true,
@@ -100,7 +101,7 @@ Dropdown.PropTypes = {
   })),
   callback: PropTypes.func.isRequired,
   toggled: PropTypes.bool,
-  color: PropTypes.oneOf(['cyan', 'white']),
+  color: PropTypes.oneOf([DefaultColor.iris, DefaultColor.white]),
   uppercase: PropTypes.bool,
   down: PropTypes.bool
 }

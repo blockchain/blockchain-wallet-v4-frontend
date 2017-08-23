@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { DefaultColor } from '../Colors'
+import { keysIn } from 'ramda'
 
 const BaseLink = styled.a`
   display: flex;
@@ -10,11 +12,7 @@ const BaseLink = styled.a`
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
-  color: ${props =>
-    props.color === 'gray' ? '#5F5F5F'
-    : props.color === 'cyan' ? '#00AEE6'
-    : props.color === 'white' ? '#FFFFFF'
-    : props.color === 'medium-blue' ? '#799EB2' : '#004A7C'};
+  color: ${props => DefaultColor[props.color]};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   text-decoration: none;
   cursor : pointer;
@@ -22,11 +20,7 @@ const BaseLink = styled.a`
   & > * { margin-right: 5px; }
 
   &:hover { 
-    color: ${props =>
-    props.color === 'gray' ? '#5F5F5F'
-    : props.color === 'cyan' ? '#00AEE6'
-    : props.color === 'white' ? '#FFFFFF'
-    : props.color === 'medium-blue' ? '#799EB2' : '#00AEE6'};
+    color: ${props => DefaultColor[props.color]};
   }
 
   &:focus { text-decoration: none; }
@@ -45,15 +39,17 @@ const Link = props => {
 Link.propTypes = {
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,
-  color: PropTypes.oneOf(['cyan', 'white', 'medium-blue', 'gray']),
-  uppercase: PropTypes.bool
+  color: PropTypes.oneOf(keysIn(DefaultColor)),
+  uppercase: PropTypes.bool,
+  bold: PropTypes.bool
 }
 
 Link.defaultProps = {
   weight: 400,
   size: '16px',
-  color: 'cyan',
-  uppercase: false
+  color: 'iris',
+  uppercase: false,
+  bold: false
 }
 
 export default Link

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Dropdown from './template.js'
+import { DefaultColor } from '../../'
 
 class SimpleDropdown extends React.Component {
   constructor (props) {
@@ -37,7 +38,7 @@ class SimpleDropdown extends React.Component {
 }
 
 SimpleDropdown.defaultProps = {
-  color: 'cyan',
+  color: DefaultColor.iris,
   opened: false,
   selectedValue: 0,
   uppercase: true,
@@ -52,7 +53,7 @@ SimpleDropdown.PropTypes = {
   })),
   callback: PropTypes.func.isRequired,
   opened: PropTypes.bool,
-  color: PropTypes.oneOf(['cyan', 'white']),
+  color: PropTypes.oneOf([DefaultColor.iris, DefaultColor.white]),
   uppercase: PropTypes.bool,
   down: PropTypes.bool
 }

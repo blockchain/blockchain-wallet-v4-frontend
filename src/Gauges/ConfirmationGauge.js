@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { DefaultColor } from '../Colors'
 
 const Container = styled.div`
   display: flex;
@@ -14,13 +15,13 @@ const Bar = styled.div`
   display: flex;
   flex-grow: 1;
   height: 15px;
-  border: 1px solid #000000;
+  border: 1px solid ${DefaultColor.realblack};
   box-sizing: border-box;
 `
-const YellowBar = styled(Bar)`background-color: #E5E500;`
-const OrangeBar = styled(Bar)`background-color: #E59400;`
-const GreenBar = styled(Bar)`background-color: #006600;`
-const EmptyBar = styled(Bar)`background-color: #FFFFFF;`
+const YellowBar = styled(Bar)`background-color: ${DefaultColor.yellow};`
+const OrangeBar = styled(Bar)`background-color: ${DefaultColor.orange};`
+const GreenBar = styled(Bar)`background-color: ${DefaultColor.green};`
+const EmptyBar = styled(Bar)`background-color: ${DefaultColor.white};`
 
 const ConfirmationGauge = (props) => {
   const { nbConfirmations } = props

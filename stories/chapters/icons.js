@@ -47,6 +47,7 @@ const iconKeys = keysIn(IcomoonMap)
 
 storiesOf('Icons', module)
   .addDecorator(story => (<Layout>{story()}</Layout>))
+  .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
   .add('icomoon', () =>
     <IconLayout>
       { map((value, index) => {

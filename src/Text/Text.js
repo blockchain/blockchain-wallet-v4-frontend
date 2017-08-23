@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { DefaultColor } from '../Colors'
+import { keysIn } from 'ramda'
 
 const BaseText = styled.div`
   font-family: ${props => props.altFont ? "'GillSans', sans-serif" : "'Montserrat', sans-serif"};
@@ -10,15 +12,7 @@ const BaseText = styled.div`
     props.uppercase ? 'uppercase'
       : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => props.italic ? 'italic' : 'normal'};
-  color: ${props =>
-    props.color === 'cyan' ? '#10ADE4'
-    : props.color === 'medium-blue' ? '#799EB2'
-    : props.color === 'white' ? '#FFFFFF'
-    : props.color === 'sent' ? '#F26C57'
-    : props.color === 'transferred' ? '#799EB2'
-    : props.color === 'received' ? '#00BABC'
-    : props.color === 'dark-blue' ? '#004a7c'
-    : props.color === 'red' ? '#CA3A3C' : '#5F5F5F'};
+  color: ${props => props.color ? DefaultColor[props.color] : DefaultColor.text};
 `
 
 const Text = ({ ...props, children }) => {
@@ -35,7 +29,7 @@ Text.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
-  color: PropTypes.oneOf(['red', 'white', 'cyan', 'medium-blue', 'sent', 'transferred', 'received', 'dark-blue']),
+  color: PropTypes.oneOf(keysIn(DefaultColor)),
   altFont: PropTypes.bool
 }
 
