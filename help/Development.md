@@ -12,60 +12,96 @@
 * `src`
   * [assets](#assets)
   * [components](#components)
+  * [config](#config)
   * [data](#data)
+  * [layouts](#layouts)
+  * [legacy](#legacy)
   * [middleware](#middleware)
+  * [modals](#modals)
+  * [providers](#providers)
   * [scenes](#scenes)
   * [services](#services)
   * [store](#store)
-  * [tools](#tools)
+  * [themes](#themes)
 
-## Assets
+### Assets
 
-The **assets** directory contains locale resources like images, fonts, locales and sass
+This  directory contains locale resources like locales and sass
 
-* `fonts`
-* `img`
 * `locales`
 * `sass`
 
-## Components
+### Components
 
-The **components** directory contains shared/reusable components accross the project.
+This directory contains shared/reusable components accross the project.
 
-Any components in the **Shared** sub directory will be part of a standalone npm package to use them in other **React** projects
+### Config
 
-* `Layouts`
-* `Providers`
-* `Shared`
+The **config** folder contains the settings for the development/production builds
+
+You can switch the development build to *testnet*, *live* or *staging* endpoints by commenting out the non necessary configs.
+
+### Data
+
+The **data** folder contains different redux modules specific to the front-end behavior.
+
+It also encapsulates the redux modules available in the core.
+
+Don't forget to update the entry points at the core of this folder whenever you add/update modules
 
 ### Layouts
 
-The **Layouts** directory contains different layouts used accross the project.
+This directory contains different layouts used by the different scenes.
 
 * `Public`
-  * used by *Login*, *Register* pages
+  * used by *Login*, *Register*, *Help*, ... pages
 * `Landing`
   * used by *Landing* page
 * `Wallet`
   * used by all *Wallet* pages
 
+### Legacy ##
+
+This directory contains some components using blockchain-css style
+
+### Middleware
+
+* `autoDisconnection`
+  * manage the timer starting after a user logins and display the AutoDisconnection modal when needed.
+
+### Modals
+
+This directory contains different modals
+* `AutoDisconnection`
+* `PairingCode`
+* `QRCode`
+* `QRCodeCapture`
+* `RequestBitcoin`
+* `SecondPassword`
+* `SendBitcoin`
+
 ### Providers
+
 * `ConnectedIntlProvider`
-  * propagates localized messages through the application
+  * HOC propagating localized messages through the application
+* `FormProvider`
+  * HOC handling single-screen and multi-screen forms
+* `ModalEnhancer`
+  * HOC handling modal registration
 
-### Shared
+### Scenes
 
-## Data
+This directory contains the different pages that can be accessed through the router.
 
-The **data** directory contains 
+### Services
 
-## Middleware
+This direction contains different useful services that encapsulates business logic to keep components as pure as possible.
 
-## Scenes
+### Store
 
-## Services
+This directory contains the redux store configuration and the different middleware plugged in the pipeline.
 
-## Store
+### Themes
 
-## Tools
+This directory contains the theme class (to discuss)
 
