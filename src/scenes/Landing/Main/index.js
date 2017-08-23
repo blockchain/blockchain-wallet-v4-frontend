@@ -63,7 +63,7 @@ const Main = (props) => {
           </TextGroup>
           <NavLink to='/register'>
             <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
-            <Icon name='right_arrow' color='cyan' />
+            <Icon name='right_arrow' color='iris' />
           </NavLink>
         </MainContainer>
       </MainBackground>

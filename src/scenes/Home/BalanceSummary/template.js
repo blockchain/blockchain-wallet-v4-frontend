@@ -42,7 +42,7 @@ const BalanceSummary = (props) => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={300} color='dark-blue' uppercase>
+      <Text size='24px' weight={300} color='blue' uppercase>
         <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Your balances' />
       </Text>
       <FirstRow>

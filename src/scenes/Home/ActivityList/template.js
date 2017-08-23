@@ -30,7 +30,7 @@ const ActivityList = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text uppercase size='24px' weight={300} color='dark-blue'>
+        <Text uppercase size='24px' weight={300} color='blue'>
           <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
         </Text>
       </Header>
