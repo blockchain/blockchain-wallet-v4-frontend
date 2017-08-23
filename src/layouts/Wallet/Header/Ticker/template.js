@@ -1,15 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NavItem } from 'react-bootstrap'
-import { Text } from 'blockchain-info-components'
+import { Link } from 'blockchain-info-components'
 
 const Ticker = (props) => {
   const { coin, fiat } = props
 
   return (
-    <NavItem href='https://markets.blockchain.info'>
-      <Text size='14px' weight={300} color='white' >{`${coin} = ${fiat}`}</Text>
-    </NavItem>
+    <Link href='https://markets.blockchain.info' size='14px' weight={300} color='white'>
+      {`${coin} = ${fiat}`}
+    </Link>
   )
 }
 
