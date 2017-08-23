@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Grid } from 'react-bootstrap'
 
-import { Icon, Image, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Icon, Image, Link, Text, TextGroup, DefaultColor } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   background-color: #FFFFFF;
@@ -63,7 +63,7 @@ const NewToBitcoin = (props) => {
             </TextGroup>
             <Link href='https://blockchain.info/wallet/bitcoin-faq' uppercase>
               <FormattedMessage id='scenes.landing.newtobitcoin.learnmore' defaultMessage='Learn more' />
-              <Icon name='right_arrow' color='cyan' />
+              <Icon name='right_arrow' color={DefaultColor.iris} />
             </Link>
           </Summary>
         </Block>

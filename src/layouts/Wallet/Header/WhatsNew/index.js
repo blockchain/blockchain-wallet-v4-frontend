@@ -1,11 +1,11 @@
 import React from 'react'
 import { NavItem } from 'react-bootstrap'
 
-import { Icon } from 'blockchain-info-components'
+import { Icon, DefaultColor } from 'blockchain-info-components'
 
 const WhatsNew = () => (
   <NavItem>
-    <Icon name='bell' color='white' />
+    <Icon name='bell' color={DefaultColor.white} />
   </NavItem>
 )
 

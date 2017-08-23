@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { CheckBoxInput, Text } from 'blockchain-info-components'
+import { CheckBoxInput, Text, DefaultColor } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -50,7 +50,7 @@ const CheckBox = ({ ...field, children }) => {
           </Label>
         )}
       </Container>
-      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='red'>{field.meta.error}</Error>}
+      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color={DefaultColor.mahogany}>{field.meta.error}</Error>}
     </Wrapper>
   )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, NumberInput, Text } from 'blockchain-info-components'
+import { Icon, NumberInput, Text, DefaultColor } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -73,7 +73,7 @@ const CoinConvertor = (props) => {
           <Unit>{fiatUnit}</Unit>
         </Container>
       </CoinConvertorInput>
-      {meta.touched && meta.error && <Error size='13px' weight={300} color='red'>{meta.error}</Error>}
+      {meta.touched && meta.error && <Error size='13px' weight={300} color={DefaultColor.mahogany}>{meta.error}</Error>}
     </Wrapper>
   )
 }

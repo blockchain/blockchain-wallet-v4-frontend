@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Badge, Text } from 'blockchain-info-components'
+import { Badge, Text, DefaultColor } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 import Settings from './Settings'
 
@@ -22,7 +22,7 @@ const PairingCode = (props) => {
         <SettingDescription>
           <FormattedMessage id='scenes.info.pairingcode.description' defaultMessage="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet." altFont light />
           <FormattedMessage id='scenes.info.pairingcode.description2' defaultMessage='Download our mobiles applications below' />
-          <Text color='red' weight='300' size='14px'>
+          <Text color={DefaultColor.mahogany} weight={300} size='14px'>
             <FormattedMessage id='scenes.info.pairingcode.warning' defaultMessage='Do not share your Pairing Code with others.' />
           </Text>
           <BadgesContainer>

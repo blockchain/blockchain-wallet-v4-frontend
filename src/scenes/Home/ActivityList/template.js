@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
+import { Text, DefaultColor } from 'blockchain-info-components'
 
 import ListItem from './ListItem'
 
@@ -28,7 +28,7 @@ const ActivityList = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text uppercase size='24px' weight={300} color='dark-blue'>
+        <Text uppercase size='24px' weight={300} color={DefaultColor.blue}>
           <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
         </Text>
       </Header>

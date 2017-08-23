@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Text, DefaultColor } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -47,7 +47,7 @@ const ActivityListItem = (props) => {
   return (
     <Container>
       <Circle>
-        <Icon name='tx' color='dark-blue' />
+        <Icon name='tx' color={DefaultColor.blue} />
       </Circle>
       <Info>
         <Text size='14px' weight={300} capitalize>{props.activity.title}</Text>

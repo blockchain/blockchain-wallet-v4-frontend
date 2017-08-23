@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text, TextInput } from 'blockchain-info-components'
+import { Text, TextInput, DefaultColor } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -44,7 +44,7 @@ const CaptchaBox = (field) => {
       <Image src={field.captchaUrl} />
       <Container>
         <TextInput {...field.input} errorState={errorState} />
-        {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='red'>{field.meta.error}</Error>}
+        {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color={DefaultColor.mahogany}>{field.meta.error}</Error>}
       </Container>
     </Wrapper>
   )

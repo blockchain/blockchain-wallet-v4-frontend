@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Text, DefaultColor } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
 const EmailAddress = (props) => {
@@ -14,7 +14,7 @@ const EmailAddress = (props) => {
           <FormattedMessage id='scenes.preferences.email.description' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected,' />
           <FormattedMessage id='scenes.preferences.email.description2' defaultMessage='to remind you of your wallet login ID,' />
           <FormattedMessage id='scenes.preferences.email.description3' defaultMessage='and to send bitcoin payment alerts when you receive funds.' />
-          <Text color='red' weight='300' size='14px'>
+          <Text color={DefaultColor.mahogany} weight={300} size='14px'>
             <FormattedMessage id='scenes.preferences.email.warning' defaultMessage="This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same." />
           </Text>
         </SettingDescription>

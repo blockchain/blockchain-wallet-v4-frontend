@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text, TextGroup } from 'blockchain-info-components'
+import { Icon, Text, TextGroup, DefaultColor } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -84,12 +84,12 @@ const DidYouKnow = (props) => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={300} color='dark-blue' uppercase>
+      <Text size='24px' weight={300} color={DefaultColor.blue} uppercase>
         <FormattedMessage id='scenes.home.didyouknow.title' defaultMessage='Did you know?' />
       </Text>
       <TextGroup inline>
-        <PaddedIcon name='user' size='18px' color='dark-blue' />
-        <Text size='18px' weight={300} color='dark-blue'>
+        <PaddedIcon name='user' size='18px' color={DefaultColor.blue} />
+        <Text size='18px' weight={300} color={DefaultColor.blue}>
           { selectTitle(number) }
         </Text>
       </TextGroup>
