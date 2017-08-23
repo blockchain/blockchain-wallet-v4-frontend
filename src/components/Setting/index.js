@@ -32,7 +32,7 @@ const SettingComponent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: flex-end;
   width: 100%;
   padding: 5px 0;
   box-sizing: border-box;
@@ -55,6 +55,7 @@ const SettingHeader = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding-top: 10px;
+  font-size: 16px;
 `
 
 export { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary }

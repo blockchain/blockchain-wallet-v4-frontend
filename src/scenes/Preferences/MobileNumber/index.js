@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import Settings from './Settings'
 
 const MobileNumber = (props) => {
   return (
@@ -18,10 +18,7 @@ const MobileNumber = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Text>+447800000000</Text>
-        <Button nature='secondary'>
-          <FormattedMessage id='scenes.preferences.mobile.change' defaultMessage='Change' />
-        </Button>
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )

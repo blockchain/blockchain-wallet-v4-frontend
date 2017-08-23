@@ -28,7 +28,7 @@ const TextBox = (field) => {
 
   return (
     <Container>
-      <TextInput {...field.input} errorState={errorState} placeholder={field.placeholder} rows={field.rows} />
+      <TextInput {...field.input} errorState={errorState} placeholder={field.placeholder} />
       {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='mahogany'>{field.meta.error}</Error>}
     </Container>
   )
