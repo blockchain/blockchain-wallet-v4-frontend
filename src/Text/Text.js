@@ -1,22 +1,45 @@
 import React from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { Typography } from '../Typography'
+import { DefaultColor } from '../Colors'
+import { keysIn } from 'ramda'
 
-const Text = (props) => {
-  const { id, text, values, ...rest } = props
-  if (id == null) console.warn('Component used without translation!')
+const BaseText = styled.div`
+  font-family: ${props => props.altFont ? "'GillSans', sans-serif" : "'Montserrat', sans-serif"};
+  font-weight: ${props => props.weight};
+  font-size: ${props => props.size};
+  text-transform: ${props =>
+    props.uppercase ? 'uppercase'
+      : props.capitalize ? 'capitalize' : 'none'};
+  font-style: ${props => props.italic ? 'italic' : 'normal'};
+  color: ${props => props.color ? DefaultColor[props.color] : DefaultColor.text};
+`
+
+const Text = ({ ...props, children }) => {
   return (
-    <Typography {...rest}>
-      <FormattedMessage id={id} defaultMessage={text} values={values} />
-    </Typography>
+    <BaseText {...props}>
+      {children}
+    </BaseText>
   )
 }
 
 Text.propTypes = {
-  id: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  values: PropTypes.object
+  weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
+  size: PropTypes.string,
+  uppercase: PropTypes.bool,
+  capitalize: PropTypes.bool,
+  italic: PropTypes.bool,
+  color: PropTypes.oneOf(keysIn(DefaultColor)),
+  altFont: PropTypes.bool
+}
+
+Text.defaultProps = {
+  weight: 400,
+  size: '16px',
+  uppercase: false,
+  capitalize: false,
+  italic: false,
+  altFont: false
 }
 
 export default Text

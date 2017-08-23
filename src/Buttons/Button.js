@@ -1,13 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { DefaultColor } from '../Colors'
+import Color from 'color'
 
-const BaseButtonDisabled = styled.button.attrs({ type: 'button' })`
+const BaseButton = styled.button.attrs({ type: 'button' })`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: ${props => props.fullwidth ? '100%' : 'auto'};
+  min-width: 120px;
+  height: 40px;
   padding: 10px 15px;
   box-sizing: border-box;
-  width: ${props => props.fullwidth ? '100%' : 'auto'};
-  height: 40px;
-  margin-bottom: 5px;
   user-select: none;
   text-align: center;
   text-decoration: none;
@@ -15,41 +21,72 @@ const BaseButtonDisabled = styled.button.attrs({ type: 'button' })`
   letter-spacing: normal;
   transition: all .2s ease-in-out;
   white-space: nowrap;
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};;
-  border: 1px solid #CDCDCD${props => props.disabled ? '!important' : '!default'};
-  background-color: #CDCDCD${props => props.disabled ? '!important' : '!default'};
-  color: #FFFFFF${props => props.disabled ? '!important' : '!default'};
+  line-height: 20px;
+  text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: ${props => props.bold ? '700' : '300'};
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  color: ${props => props.color};
+  background-color: ${props => props.backgroundColor};
   border-radius: ${props => props.rounded ? '20px' : '3px'};
+  border-style: solid;
+  border-width: ${props => props.rounded ? '2px' : '1px'};
+  border-color: ${props => props.rounded ? DefaultColor.white : props.borderColor};
 
-  & > * { display: inline-flex; margin: 0 5px; }
-  &:hover { background-color: #F2F2F2; }
+  &:hover {
+    border-color: ${props => props.disabled ? 'none' : props.rounded ? DefaultColor.white : props.borderColorHover};
+    background-color: ${props => props.disabled ? 'none' : props.backgroundColorHover}; 
+  }
   &:focus { outline:0; }
  `
-const BaseButton = styled(BaseButtonDisabled)`
-  border: 1px solid #E0E0E0;
-  background-color: #FFFFFF;
+const selectColors = (nature, disabled) => {
+  if (disabled) { return { color: DefaultColor.white, backgroundColor: DefaultColor.bordergrey, borderColor: DefaultColor.bordergrey } }
 
-  &:hover { background-color: #F5F7F9; }
-`
+  switch (nature) {
+    case 'empty': return { color: DefaultColor.black, backgroundColor: DefaultColor.white, borderColor: DefaultColor.bordergrey }
+    case 'primary': return { color: DefaultColor.white, backgroundColor: DefaultColor.blue, borderColor: DefaultColor.blue }
+    case 'secondary': return { color: DefaultColor.white, backgroundColor: DefaultColor.iris, borderColor: DefaultColor.iris }
+    case 'copy': return { color: DefaultColor.white, backgroundColor: DefaultColor.green, borderColor: DefaultColor.green }
+    case 'received': return { color: DefaultColor.white, backgroundColor: DefaultColor.irisgreen, borderColor: DefaultColor.irisgreen }
+    case 'sent': return { color: DefaultColor.white, backgroundColor: DefaultColor.bittersweet, borderColor: DefaultColor.bittersweet }
+    case 'transferred': return { color: DefaultColor.white, backgroundColor: DefaultColor.balihai, borderColor: DefaultColor.balihai }
+    case 'logout': return { color: DefaultColor.white, backgroundColor: DefaultColor.invalidredwine, borderColor: DefaultColor.invalidredwine }
+    default: return { color: DefaultColor.black, backgroundColor: DefaultColor.white, borderColor: DefaultColor.bordergrey }
+  }
+}
 
 const Button = ({ ...props, children }) => {
+  const { color, backgroundColor, borderColor } = selectColors(props.nature, props.disabled)
   return (
-    <BaseButton {...props} forbidden={props.disabled}>
+    <BaseButton
+      {...props}
+      color={color}
+      backgroundColor={backgroundColor}
+      backgroundColorHover={Color(backgroundColor).darken(0.10).toString()}
+      borderColor={borderColor}
+      borderColorHover={Color(borderColor).darken(0.10).toString()}>
       {children}
     </BaseButton>
   )
 }
 
 Button.propTypes = {
-  fullwidth: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  rounded: PropTypes.bool.isRequired
+  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout']),
+  fullwidth: PropTypes.bool,
+  disabled: PropTypes.bool,
+  rounded: PropTypes.bool,
+  bold: PropTypes.bool,
+  uppercase: PropTypes.bool
 }
 
 Button.defaultProps = {
+  nature: 'empty',
   fullwidth: false,
   disabled: false,
-  rounded: false
+  rounded: false,
+  bold: false,
+  uppercase: false
 }
 
 export default Button

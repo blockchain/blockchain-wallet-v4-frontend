@@ -7,9 +7,9 @@
     "dist"
   ],
   "scripts": {
-    "compile": "babel --presets es2015,react,stage-0 src -d dist",
-    "watch": "babel --presets es2015,react,stage-0 src -w -d dist",
-    "prepublish": "npm run compile",
+    "build": "webpack --config webpack.config.prod.js --progress --colors",
+    "watch": "webpack --config webpack.config.prod.js --progress --colors --watch",
+    "prepublish": "npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -30,7 +30,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "connected-react-router": "^4.2.1",
+    "clean-webpack-plugin": "^0.1.16",
     "eslint": "^3.19.0",
     "eslint-import-resolver-webpack": "^0.8.1",
     "eslint-loader": "^1.7.1",
@@ -40,18 +40,19 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "identity-obj-proxy": "^3.0.0",
     "prop-types": "^15.5.10",
-    "ramda": "^0.24.1",
     "react": "^15.5.4",
-    "react-addons-css-transition-group": "^15.6.0",
-    "react-addons-transition-group": "^15.6.0",
-    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
-    "react-intl": "^2.3.0",
-    "react-router-bootstrap": "^0.24.2",
-    "react-router-dom": "^4.1.1",
-    "react-test-renderer": "^15.5.4",
     "standard": "^10.0.2",
     "styled-components": "^2.1.0",
-    "zxcvbn": "^4.4.2"
+    "webpack": "^3.5.5"
+  },
+  "dependencies": {
+    "color": "^2.0.0",
+    "ramda": "^0.24.1"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "styled-components": "^2.1.0"
   }
 }
