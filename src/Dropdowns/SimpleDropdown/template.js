@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { Icon } from '../../Icons'
 import { DefaultColor } from '../../Colors'
+import { keysIn } from 'ramda'
 
 const Wrapper = styled.div`
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
@@ -19,7 +20,7 @@ const ButtonContainer = styled.div`
   height: auto;
 
   & > * {
-    color: ${props => props.color === 'cyan' ? DefaultColor.iris : DefaultColor.white}!important;
+    color: ${props => DefaultColor[props.color]}!important;
   }
 `
 const Button = styled.div`
@@ -86,7 +87,7 @@ const Dropdown = props => {
 }
 
 Dropdown.defaultProps = {
-  color: 'cyan',
+  color: 'iris',
   toggled: false,
   selectedValue: 0,
   uppercase: true,
@@ -101,7 +102,7 @@ Dropdown.PropTypes = {
   })),
   callback: PropTypes.func.isRequired,
   toggled: PropTypes.bool,
-  color: PropTypes.oneOf(['cyan', 'white']),
+  color: PropTypes.oneOf(keysIn(DefaultColor)),
   uppercase: PropTypes.bool,
   down: PropTypes.bool
 }

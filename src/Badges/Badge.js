@@ -12,18 +12,18 @@ const BaseBadge = styled.img`
  `
 const selectProperties = type => {
   switch (type) {
-    case 'applestore': return { image: appleStore, url: 'https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309' }
-    case 'googleplay': return { image: googlePlay, url: 'https://play.google.com/store/apps/details?id=piuk.blockchain.android' }
-    default: return { image: '', url: '#' }
+    case 'applestore': return { file: appleStore, url: 'https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309' }
+    case 'googleplay': return { file: googlePlay, url: 'https://play.google.com/store/apps/details?id=piuk.blockchain.android' }
+    default: return { file: '', url: '#' }
   }
 }
 
 const Badge = ({ ...props, children }) => {
-  const { image, url } = selectProperties(props.type)
+  const { file, url } = selectProperties(props.type)
 
   return url
-    ? <Link href={url} target='_blank'><BaseBadge src={image} /></Link>
-    : <BaseBadge src={image} />
+    ? <Link href={url} target='_blank'><BaseBadge src={`/${file}`} /></Link>
+    : <BaseBadge src={`/${file}`} />
 }
 
 Badge.propTypes = {

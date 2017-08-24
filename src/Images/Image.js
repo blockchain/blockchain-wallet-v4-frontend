@@ -13,7 +13,7 @@ const Image = (props) => {
   const { name, ...rest } = props
   const file = Images[name]
 
-  return <BaseImage src={file} {...rest} />
+  return <BaseImage src={`/${file}`} {...rest} />
 }
 
 Image.defaultProps = {
