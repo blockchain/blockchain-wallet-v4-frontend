@@ -36,12 +36,12 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
 
   &:hover {
     border-color: ${props => props.disabled ? 'none' : props.rounded ? DefaultColor.white : props.borderColorHover};
-    background-color: ${props => props.disabled ? 'none' : props.backgroundColorHover}; 
+    background-color: ${props => props.disabled ? 'none' : props.backgroundColorHover};
   }
   &:focus { outline:0; }
  `
 const selectColors = (nature, disabled) => {
-  if (disabled) { return { color: DefaultColor.white, backgroundColor: DefaultColor.bordergrey, borderColor: DefaultColor.bordergrey } }
+  if (disabled) { return { color: DefaultColor.white, backgroundColor: DefaultColor.iris, borderColor: DefaultColor.iris } }
 
   switch (nature) {
     case 'empty': return { color: DefaultColor.black, backgroundColor: DefaultColor.white, borderColor: DefaultColor.bordergrey }
