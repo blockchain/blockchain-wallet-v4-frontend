@@ -21,7 +21,7 @@ const EmailAddress = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Settings emailAddress='sixte@blockchain.com' />
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )

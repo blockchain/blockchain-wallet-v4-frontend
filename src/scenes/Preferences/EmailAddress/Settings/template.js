@@ -6,6 +6,7 @@ import { Field } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
+import { validEmail } from 'services/FormHelper'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,8 +16,6 @@ const Wrapper = styled.div`
 `
 const Settings = (props) => {
   const { toggled, handleToggle, handleClick, emailAddress, submitting, invalid } = props
-  const emailRE = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  const validEmailAddress = value => emailRE.test(value) ? undefined : 'Email address invalid'
 
   if (toggled) {
     return (
@@ -26,7 +25,7 @@ const Settings = (props) => {
         </Text>
         <br />
         <Form>
-          <Field name='captcha' validate={[validEmailAddress]} component={TextBox} />
+          <Field name='captcha' validate={[validEmail]} component={TextBox} />
           <ButtonGroup>
             <Button nature='empty' onClick={handleToggle} capitalize>
               <FormattedMessage id='scenes.preferences.emailaddress.setting.cancel' defaultMessage='Cancel' />
