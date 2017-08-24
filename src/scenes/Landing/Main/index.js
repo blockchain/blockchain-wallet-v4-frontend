@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 
-import { Background, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Background, Icon, Text, TextGroup } from 'blockchain-info-components'
 import Container from 'components/Container'
 
 const Wrapper = styled.div``
