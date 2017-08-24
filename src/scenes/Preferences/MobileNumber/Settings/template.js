@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
+import { validMobileNumber } from 'services/FormHelper'
 import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components'
 import { Form, PhoneNumberBox } from 'components/Form'
-import { isValidPhoneNumber } from 'react-phone-number-input'
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,14 +17,12 @@ const Wrapper = styled.div`
 const Settings = (props) => {
   const { toggled, handleToggle, handleClick, mobileNumber, submitting, invalid } = props
 
-  const validPhoneNumber = value => isValidPhoneNumber(value) ? undefined : 'Phone number invalid'
-
   if (toggled) {
     return (
       <Wrapper>
         <TextGroup inline>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.preferences.mobilenumber.setting.explain' defaultMessage='Use your mobile phone to receive a one-time-password after a long attempt.' />
+            <FormattedMessage id='scenes.preferences.mobilenumber.setting.explain' defaultMessage='Use your mobile phone to receive a one-time-password after a login attempt.' />
           </Text>
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.preferences.mobilenumber.setting.explain2' defaultMessage='Add your mobile phone number below to continue,' />
@@ -32,7 +30,7 @@ const Settings = (props) => {
         </TextGroup>
         <br />
         <Form>
-          <Field name='captcha' validate={[validPhoneNumber]} component={PhoneNumberBox} />
+          <Field name='mobileNumber' validate={[validMobileNumber]} component={PhoneNumberBox} />
           <ButtonGroup>
             <Button nature='empty' onClick={handleToggle} capitalize>
               <FormattedMessage id='scenes.preferences.mobilenumber.setting.cancel' defaultMessage='Cancel' />

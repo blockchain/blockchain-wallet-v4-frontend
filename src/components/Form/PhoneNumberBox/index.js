@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import Phone from 'react-phone-number-input'
-import 'react-phone-number-input/rrui.css'
-import 'react-phone-number-input/style.css'
+import { contains } from 'ramda'
 
-import { DefaultColor, Text } from 'blockchain-info-components'
+import { DefaultColor, TextInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -14,19 +12,6 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 40px;
-`
-const PhoneInput = styled(Phone)`
-  width: 100%;
-  height: 40px;
-
-  & > * {
-    border: 1px solid ${props => props.borderColor}!important;
-    height: 100%!important;
-    padding: 6px 12px;
-    box-sizing: border-box;
-
-    & > * > button { border: 0!important; }
-  }
 `
 const Error = styled(Text)`
   position: absolute;
@@ -39,22 +24,15 @@ const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
-const selectBorderColor = (state) => {
-  switch (state) {
-    case 'initial': return DefaultColor.midgrey
-    case 'invalid': return DefaultColor.invalidred
-    case 'valid': return DefaultColor.green
-    default: return DefaultColor.midgrey
-  }
-}
+const authorizedKeys = [' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+']
+const handleKeyPress = event => { if (!contains(event.key, authorizedKeys)) { event.preventDefault() } }
 
 const PhoneNumberBox = (field) => {
   const errorState = getErrorState(field.meta)
-  const borderColor = selectBorderColor(errorState)
 
   return (
     <Container>
-      <PhoneInput {...field.input} borderColor={borderColor} />
+      <TextInput {...field.input} errorState={errorState} placeholder={field.placeholder} onKeyPress={handleKeyPress} />
       {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='mahogany'>{field.meta.error}</Error>}
     </Container>
   )

@@ -12,6 +12,7 @@ const BaseNavItem = styled.li`
     color: #FFFFFF;
     text-transform: uppercase;
     text-decoration: none;
+    cursor: pointer;
 
     &:hover { color: #FFFFFF; }
   }

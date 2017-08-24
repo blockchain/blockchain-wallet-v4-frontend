@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
-import { required, validEmail, validPassword } from 'services/FormHelper'
+import { required, validEmail } from 'services/FormHelper'
 import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import { CheckBox, Form, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
@@ -51,11 +51,11 @@ const SecondStep = (props) => {
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.recover.secondstep.password' defaultMessage='Password' />
         </Text>
-        <Field name='password' validate={[required, validPassword]} component={PasswordBox} score />
+        <Field name='password' validate={[required]} component={PasswordBox} score />
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.recover.secondstep.confirmationPassword' defaultMessage='Confirm Password' />
         </Text>
-        <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
+        <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
           <Terms />
         </Field>

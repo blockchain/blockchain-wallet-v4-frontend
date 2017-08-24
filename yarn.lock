@@ -79,12 +79,6 @@ alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
 
-amator@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/amator/-/amator-1.0.1.tgz#0fd3663fef5f3334d088cf68a70ba74398aa0e26"
-  dependencies:
-    bezier-easing "^2.0.3"
-
 amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
@@ -1080,10 +1074,6 @@ bcrypt-pbkdf@^1.0.0:
   resolved "https://registry.yarnpkg.com/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.1.tgz#63bc5dcb61331b92bc05fd528953c33462a06f8d"
   dependencies:
     tweetnacl "^0.14.3"
-
-bezier-easing@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/bezier-easing/-/bezier-easing-2.0.3.tgz#cb493fddb7f8920ecca00973344ce0518885f17e"
 
 big.js@^3.1.3:
   version "3.1.3"
@@ -3386,13 +3376,6 @@ ini@~1.3.0:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.4.tgz#0537cb79daf59b59a1a517dff706c86ec039162e"
 
-input-format@^0.1.7:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/input-format/-/input-format-0.1.9.tgz#3a340d3c7dd07a815066d775c67c6e0d5d67b3dc"
-  dependencies:
-    babel-runtime "^6.6.1"
-    prop-types "^15.5.6"
-
 inquirer@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-0.12.0.tgz#1ef2bfd63504df0bc75785fff8c2c41df12f077e"
@@ -4168,7 +4151,7 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libphonenumber-js@^0.4.22:
+libphonenumber-js@^0.4.27:
   version "0.4.27"
   resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-0.4.27.tgz#9ce4d042fdd0eb3f9804898a8bfe12a84b14e1f6"
   dependencies:
@@ -5579,18 +5562,6 @@ react-overlays@^0.7.0:
     react-prop-types "^0.4.0"
     warning "^3.0.0"
 
-react-phone-number-input@^0.12.7:
-  version "0.12.7"
-  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-0.12.7.tgz#24a7c39ceb1d65276ace8a8522ef84dfbaa5aa09"
-  dependencies:
-    babel-runtime "^6.6.1"
-    classnames "^2.2.5"
-    input-format "^0.1.7"
-    libphonenumber-js "^0.4.22"
-    prop-types "^15.5.6"
-    react-styling "^1.6.1"
-    scroll-into-view-if-needed "^1.1.0"
-
 react-prop-types@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/react-prop-types/-/react-prop-types-0.4.0.tgz#f99b0bfb4006929c9af2051e7c1414a5c75b93d0"
@@ -5668,13 +5639,6 @@ react-router@^4.1.0, react-router@^4.1.1:
     path-to-regexp "^1.5.3"
     prop-types "^15.5.4"
     warning "^3.0.0"
-
-react-styling@^1.6.1:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/react-styling/-/react-styling-1.6.2.tgz#1a1d9860ac40beeb0c9672a517a4d5366fe9dfc0"
-  dependencies:
-    babel-runtime "^6.6.1"
-    style-builder "^1.0.13"
 
 react-test-renderer@^15.5.4:
   version "15.6.1"
@@ -6117,12 +6081,6 @@ schema-utils@^0.3.0:
   dependencies:
     ajv "^5.0.0"
 
-scroll-into-view-if-needed@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/scroll-into-view-if-needed/-/scroll-into-view-if-needed-1.1.0.tgz#9a0da1424eb2037746ed5c53b797f9676985bfcc"
-  dependencies:
-    amator "^1.0.1"
-
 scss-tokenizer@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/scss-tokenizer/-/scss-tokenizer-0.2.3.tgz#8eb06db9a9723333824d3f5530641149847ce5d1"
@@ -6495,12 +6453,6 @@ strip-indent@^1.0.1:
 strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
-
-style-builder@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/style-builder/-/style-builder-1.0.13.tgz#908f71f77c8ed62df80e20772a2325165f8d3687"
-  dependencies:
-    object-assign "^4.0.1"
 
 style-loader@^0.18.0:
   version "0.18.2"

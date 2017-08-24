@@ -17,6 +17,10 @@ class SettingsContainer extends React.Component {
     this.handleToggle = this.handleToggle.bind(this)
   }
 
+  componentWillMount () {
+    this.props.reduxFormActions.initialize('settingMobilePhone', { mobileNumber: this.props.mobileNumber })
+  }
+
   componentWillReceiveProps (nextProps) {
     if (!equals(nextProps.mobileNumber, this.props.mobileNumber)) {
       this.props.reduxFormActions.change('settingMobilePhone', this.props.mobileNumber)
@@ -33,6 +37,7 @@ class SettingsContainer extends React.Component {
 
   render () {
     const { ui, uiUpdate, ...rest } = this.props
+
     return <Settings
       {...rest}
       toggled={ui.toggled}
