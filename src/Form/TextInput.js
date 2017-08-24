@@ -12,6 +12,7 @@ const BaseTextInput = styled.input.attrs({
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
+  font-weight: 300;
   line-height: 1.42;
   color: ${DefaultColor.text};
   background-color: ${DefaultColor.white};
