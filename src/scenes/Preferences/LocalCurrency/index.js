@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import Settings from './Settings'
 
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
@@ -15,7 +16,7 @@ const LocalCurrency = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        [Local Currency Dropdown]
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )
