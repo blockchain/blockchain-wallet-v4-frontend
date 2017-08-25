@@ -1,6 +1,6 @@
 import 'isomorphic-fetch'
 import Promise from 'es6-promise'
-import { merge, identity, gt } from 'ramda'
+import { merge, identity, gt, type, trim } from 'ramda'
 import { futurizeP } from 'futurize'
 Promise.polyfill()
 
@@ -225,6 +225,30 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
   }
 
+  // SETTINGS
+  const updateSettings = function (guid, sharedKey, method, value) {
+    const payload = type(value) === 'String' ? trim(value) : value + ''
+
+    const data = {
+      method,
+      guid,
+      sharedKey,
+      length: payload.length,
+      payload: payload
+    }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
+  }
+
+  const updateEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
+
+  const sendEmailConfirmation = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
+
+  const verifyEmail = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'verify-email-code', code)
+
+  const updateMobile = (guid, sharedKey, mobile) => updateSettings(guid, sharedKey, 'update-sms', mobile)
+
+  const verifyMobile = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'verify-sms', code)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -246,7 +270,13 @@ const createApi = ({
     pushTx: future(pushTx),
     getPairingCode: future(getPairingCode),
     getAdverts: future(getAdverts),
-    getLogs: future(getLogs)
+    getLogs: future(getLogs),
+
+    updateEmail: future(updateEmail),
+    sendEmailConfirmation: future(sendEmailConfirmation),
+    verifyEmail: future(verifyEmail),
+    updateMobile: future(updateMobile),
+    verifyMobile: future(verifyMobile)
   }
 }
 
