@@ -14,23 +14,17 @@ const Wrapper = styled.div`
 const Settings = (props) => {
   const { handleClick, unit } = props
   const units = ['BTC (1 BTC)', 'mBTC (0.001 BTC)', 'bits (0.000001 BTC)']
+  console.log(`Unit is ${unit}`)
   return (
     <Wrapper>
-      <Field name='unit' component={SelectBox} elements={[{ group: '', items: units.map((u, i) => ({ text: u, value: i })) }]}
-        input={{ onBlur: function () { }, onChange: handleClick, onFocus: function () { }, value: 1 }}
-        label={unit} />
+      <Field name='unit' component={SelectBox} elements={[{ group: '', items: units.map(u => ({ text: u, value: u })) }]}
+        input={{ onBlur: function () { }, onChange: handleClick, onFocus: function () { }, value: unit }} />
     </Wrapper>
   )
 }
 
 Settings.propTypes = {
-  toggled: PropTypes.bool.isRequired,
-  handleToggle: PropTypes.func.isRequired,
   unit: PropTypes.string.isRequired
-}
-
-Settings.defaultProps = {
-  toggled: false
 }
 
 export default Settings

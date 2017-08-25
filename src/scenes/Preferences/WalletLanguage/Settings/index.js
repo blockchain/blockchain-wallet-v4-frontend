@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions } from 'redux-form'
 import { singleForm } from 'providers/FormProvider'
-import ui from 'redux-ui'
 import { equals } from 'ramda'
 
 import { actions, selectors } from 'data'
@@ -12,8 +11,11 @@ import Settings from './template.js'
 class SettingsContainer extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      language: this.props.language
+    }
+
     this.handleClick = this.handleClick.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -22,21 +24,16 @@ class SettingsContainer extends React.Component {
     }
   }
 
-  handleClick () {
-    console.log('click')
-  }
-
-  handleToggle () {
-    this.props.updateUI({ toggled: !this.props.ui.toggled })
+  handleClick (item) {
+    this.setState({ language: item })
   }
 
   render () {
-    const { ui, uiUpdate, ...rest } = this.props
+    const { ...rest } = this.props
     return <Settings
       {...rest}
-      toggled={ui.toggled}
-      handleToggle={this.handleToggle}
       handleClick={this.handleClick}
+      language={this.state.language}
         />
   }
 }
@@ -52,7 +49,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
     connect(mapStateToProps, mapDispatchToProps),
-    ui({ key: 'Setting_language', state: { toggled: false } }),
     singleForm('settingLanguage')
 )
 

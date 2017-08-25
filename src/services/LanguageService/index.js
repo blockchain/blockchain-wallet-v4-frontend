@@ -44,18 +44,10 @@ function convertCultureCodeToLanguage (cultureCode) {
   return Maybe.Just(selectedLanguage.language)
 }
 
-function convertLanguageToLanguageName (language) {
-  let selectedLanguage = find(propEq('language', language))(languages)
-  if (isNil(selectedLanguage)) return Maybe.Nothing()
-
-  return Maybe.Just(selectedLanguage.name)
-}
-
 export {
   languages,
   languagesSortedByName,
   getLanguageName,
   convertCultureCodeToLanguage,
-  convertLanguageToCultureCode,
-  convertLanguageToLanguageName
+  convertLanguageToCultureCode
 }

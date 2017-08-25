@@ -13,24 +13,18 @@ const Wrapper = styled.div`
 `
 const Settings = (props) => {
   const { handleClick, currency } = props
-  const currencies = ['U.S. Dollar', 'Euro', 'Icelandic Krona', 'Hong Kong Dollar', 'New Taiwan Dollar', 'Swiss Franc', 'Danish Krone', 'Chilean Peso']
+  const currencies = ['U.S. Dollar', 'Euro', 'Swiss Franc']
   return (
     <Wrapper>
-      <Field name='currency' component={SelectBox} elements={[{ group: '', items: currencies.map((x, i) => ({ text: x, value: i })) }]}
-        input={{ onBlur: function () { }, onChange: handleClick, onFocus: function () { }, value: 0 }}
+      <Field name='currency' component={SelectBox} elements={[{ group: '', items: currencies.map(c => ({text: c, value: c})) }]}
+        input={{ onBlur: function () { }, onChange: handleClick, onFocus: function () { }, value: currency }}
         label={currency} />
     </Wrapper>
   )
 }
 
 Settings.propTypes = {
-  toggled: PropTypes.bool.isRequired,
-  handleToggle: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired
-}
-
-Settings.defaultProps = {
-  toggled: false
 }
 
 export default Settings
