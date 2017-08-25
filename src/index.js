@@ -1,6 +1,5 @@
 import './Fonts'
 
-export { Banner } from './Banners'
 export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Badge } from './Badges'
 export { DefaultColor } from './Colors'
@@ -14,3 +13,4 @@ export { Modal } from './Modals'
 export { Separator } from './Separators'
 export { Text, TextGroup } from './Text'
 export { Tooltip } from './Tooltip'
+export { Banner } from './Banners'
