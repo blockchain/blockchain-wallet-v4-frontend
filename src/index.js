@@ -1,5 +1,6 @@
 import './Fonts'
 
+export { Banner } from './Banners'
 export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Badge } from './Badges'
 export { DefaultColor } from './Colors'
