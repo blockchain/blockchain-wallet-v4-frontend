@@ -57,7 +57,9 @@ const Register = (props) => {
           <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
         </Text>
         <Field name='password' validate={[required, validPassword]} component={PasswordBox} score />
-        <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
+        </Text>
         <Text size='14px' weight={500}>
           <Field name='confirmationPassword' validate={[required, validPassword]} component={PasswordBox} />
         </Text>
