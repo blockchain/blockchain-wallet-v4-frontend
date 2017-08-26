@@ -21,7 +21,7 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
   letter-spacing: normal;
   transition: all .2s ease-in-out;
   white-space: nowrap;
-  line-height: 20px;
+  line-height: 1;
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 14px;
