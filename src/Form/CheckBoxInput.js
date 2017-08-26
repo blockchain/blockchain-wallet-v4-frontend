@@ -12,7 +12,7 @@ const BaseCheckBoxInput = styled.input.attrs({
 const CheckBoxInput = props => {
   const { errorState, ...rest } = props
 
-  return <BaseCheckBoxInput {...rest} />
+  return <BaseCheckBoxInput id={props.name} {...rest} />
 }
 
 export default CheckBoxInput
