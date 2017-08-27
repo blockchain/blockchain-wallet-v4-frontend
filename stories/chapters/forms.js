@@ -8,7 +8,14 @@ import { CheckBoxInput, HiddenInput, NumberInput, PasswordInput, TextAreaInput, 
 storiesOf('Forms', module)
     .addDecorator(story => (<Layout>{story()}</Layout>))
     .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-    .add('CheckBox input', () => <CheckBoxInput />)
+    .add('CheckBox input', () =>
+      <div>
+        <CheckBoxInput name='myCheckbox' />
+        <div>
+          <label htmlFor='myCheckbox'>Label for myCheckbox</label>
+        </div>
+      </div>
+    )
     .add('Hidden input', () => <HiddenInput />)
     .add('Number input', () => <NumberInput />)
     .add('Password input', () => <PasswordInput />)
