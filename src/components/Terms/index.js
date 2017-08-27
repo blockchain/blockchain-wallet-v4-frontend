@@ -7,7 +7,7 @@ import { Link, Text } from 'blockchain-info-components'
 const TermsContainer = styled.label.attrs({ htmlFor: 'terms' })`
   & > * { display: inline-block; margin-right: 5px; }
 `
-const Terms = (props) => (
+const Terms = () => (
   <TermsContainer >
     <Text size='12px' weight={300}>
       <FormattedMessage id='scenes.register.registerform.read' defaultMessage='I have read and agree to the' />
