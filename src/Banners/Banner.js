@@ -43,6 +43,7 @@ const Banner = props => {
 }
 
 Banner.propTypes = {
+  children: PropTypes.element.isRequired,
   type: PropTypes.oneOf(['success', 'warning', 'alert'])
 }
 
