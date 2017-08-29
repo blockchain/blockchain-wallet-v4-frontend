@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
+  width: 100%;
 `
 const Settings = (props) => {
   const { handleClick, language } = props
