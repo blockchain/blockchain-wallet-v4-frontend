@@ -20,12 +20,6 @@ const Container = styled.div`
   width: 100%;
   height: 35px;
 `
-const Label = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`
 const Error = styled(Text)`
   position: absolute;
   display: block;
@@ -43,12 +37,9 @@ const CheckBox = ({ ...field, children }) => {
   return (
     <Wrapper>
       <Container>
-        <CheckBoxInput {...field.input} errorState={errorState} />
-        { children && (
-          <Label>
-            {children}
-          </Label>
-        )}
+        <CheckBoxInput {...field.input} errorState={errorState}>
+          { children }
+        </CheckBoxInput>
       </Container>
       {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='mahogany'>{field.meta.error}</Error>}
     </Wrapper>

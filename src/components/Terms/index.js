@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Link, Text } from 'blockchain-info-components'
 
-const TermsContainer = styled.label.attrs({ htmlFor: 'terms' })`
+const TermsContainer = styled.div`
   & > * { display: inline-block; margin-right: 5px; }
 `
 const Terms = () => (
