@@ -53,7 +53,7 @@ const Main = (props) => {
           <Text size='36px' weight={200} color='white'>
             <FormattedMessage id='scenes.landing.main.simple' defaultMessage='Simple. Seamless. Secure.' />
           </Text>
-          <TextGroup inline>
+          <TextGroup>
             <Text size='16px' weight={300} color='white'>
               <FormattedMessage id='scenes.landing.main.popular' defaultMessage="Blockchain is the world's most popular bitcoin wallet." />
             </Text>
@@ -62,8 +62,12 @@ const Main = (props) => {
             </Text>
           </TextGroup>
           <NavLink to='/register'>
-            <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
-            <Icon name='right_arrow' color='iris' />
+            <TextGroup inline>
+              <Text size='16px' weight={300} color='cyan' uppercase>
+                <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
+              </Text>
+              <Icon name='right_arrow' color='iris' />
+            </TextGroup>
           </NavLink>
         </MainContainer>
       </MainBackground>

@@ -3,11 +3,13 @@ import { actions as reduxFormActions } from 'redux-form'
 import { push } from 'react-router-redux'
 import { isNil } from 'ramda'
 import bip21 from 'bip21'
+import ui from 'redux-ui'
 
 import { actions, actionTypes, selectors } from 'data'
 import { convertToUnit, convertFromUnit } from 'services/ConversionService'
 import * as AT from './actionTypes'
 
+console.log(ui)
 // =============================================================================
 // =========================== QrCodeCapture modal =============================
 // =============================================================================
@@ -83,6 +85,30 @@ const requestPairingCodeError = function * (action) {
 // ============================== Mobile number ================================
 // =============================================================================
 
+const updateMobileSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateMobileError = function * (action) {
+  const { payload } = action
+  const { message } = payload
+  yield put(actions.alerts.displayError(message))
+}
+
+const verifyMobileSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const verifyMobileError = function * (action) {
+  const { payload } = action
+  const { message } = payload
+  yield put(actions.alerts.displayError(message))
+}
+
 // =============================== EXPORT ======================================
 
 function * sagas () {
@@ -92,6 +118,10 @@ function * sagas () {
   yield takeEvery(actionTypes.core.settings.REQUEST_PAIRING_CODE_ERROR, requestPairingCodeError)
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_SUCCESS, signAndPublishSuccess)
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_ERROR, signAndPublishError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_SUCCESS, updateMobileSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_ERROR, updateMobileError)
+  yield takeEvery(actionTypes.core.settings.VERIFY_MOBILE_SUCCESS, verifyMobileSuccess)
+  yield takeEvery(actionTypes.core.settings.VERIFY_MOBILE_ERROR, verifyMobileError)
 }
 
 export default sagas
