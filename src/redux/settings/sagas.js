@@ -1,7 +1,8 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects'
+import { takeEvery, call, put } from 'redux-saga/effects'
 import * as actions from './actions'
 import * as AT from './actionTypes'
 import { selectors } from '../selectors'
+import { contains, toLower } from 'ramda'
 
 export const settingsSaga = ({ api } = {}) => {
   const fetchSettings = function * (action) {
@@ -30,9 +31,13 @@ export const settingsSaga = ({ api } = {}) => {
 
   const updateEmail = function * (action) {
     try {
-      const { email } = action.payload
-      const response = yield call(api.updateEmail, email)
-      yield put(actions.updateEmailSuccess(response))
+      const { guid, sharedKey, email } = action.payload
+      const response = yield call(api.updateEmail, guid, sharedKey, email)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateEmailSuccess(email, response))
+      } else {
+        yield put(actions.updateEmailError(response))
+      }
     } catch (error) {
       yield put(actions.updateEmailError(error))
     }
@@ -40,16 +45,29 @@ export const settingsSaga = ({ api } = {}) => {
 
   const updateMobile = function * (action) {
     try {
-      const { mobile } = action.payload
-      console.log(mobile)
-      const guid = yield select(selectors.wallet.getGuid)
-      console.log(guid)
-      const sharedKey = yield select(selectors.wallet.getSharedKey)
+      const { guid, sharedKey, mobile } = action.payload
       const response = yield call(api.updateMobile, guid, sharedKey, mobile)
-      console.log(response)
-      yield put(actions.updateMobileSuccess(response))
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateMobileSuccess(mobile, response))
+      } else {
+        yield put(actions.updateMobileError(response))
+      }
     } catch (error) {
       yield put(actions.updateMobileError(error))
+    }
+  }
+
+  const verifyMobile = function * (action) {
+    try {
+      const { guid, sharedKey, code } = action.payload
+      const response = yield call(api.verifyMobile, guid, sharedKey, code)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.verifyMobileSuccess(code, response))
+      } else {
+        yield put(actions.verifyMobileError(response))
+      }
+    } catch (error) {
+      yield put(actions.verifyMobileError(error))
     }
   }
 
@@ -58,5 +76,6 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
     yield takeEvery(AT.UPDATE_EMAIL, updateEmail)
     yield takeEvery(AT.UPDATE_MOBILE, updateMobile)
+    yield takeEvery(AT.VERIFY_MOBILE, verifyMobile)
   }
 }

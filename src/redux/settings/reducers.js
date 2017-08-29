@@ -19,16 +19,18 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       return payload
     }
     case AT.UPDATE_EMAIL_SUCCESS: {
-      return Object.assign({}, state, { email: payload, email_verified: 0 })
+      const { email } = payload
+      return Object.assign({}, state, { email: email, email_verified: 0 })
     }
-    case AT.SEND_EMAIL_CONFIRMATION_SUCCESS: {
+    case AT.VERIFY_EMAIL_SUCCESS: {
       return Object.assign({}, state, { email_verified: 1 })
     }
     case AT.UPDATE_MOBILE_SUCCESS: {
-      return Object.assign({}, state, { email: payload, sms_verified: 0 })
+      const { mobile } = payload
+      return Object.assign({}, state, { sms_number: mobile, sms_verified: 0 })
     }
-    case AT.SEND_MOBILE_CONFIRMATION_SUCCESS: {
-      return Object.assign({}, state, { email_verified: 1 })
+    case AT.VERIFY_MOBILE_SUCCESS: {
+      return Object.assign({}, state, { sms_verified: 1 })
     }
     default:
       return state
