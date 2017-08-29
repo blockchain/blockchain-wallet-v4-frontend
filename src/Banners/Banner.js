@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import Color from 'color'
+
+import { DefaultColor } from '../Colors'
 import { Icon } from '../Icons'
 import { Text } from '../Text'
 
@@ -8,8 +11,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: rgba(${props => props.color}, .1);
-  border: 1px solid rgba(${props => props.color}, .2);
+  background: ${props => props.backgroundColor};
+  border: 1px solid ${props => props.borderColor};
   border-radius: 4px;
   padding: 5px 10px;
   -moz-osx-font-smoothing: grayscale;
@@ -20,22 +23,25 @@ const Container = styled.div`
 
 const selectStyle = type => {
   switch (type) {
-    case 'success': return { color1: 'jade', color2: '0, 167, 111', uppercase: false, icon: 'success' }
-    case 'warning': return { color1: 'mahogany', color2: '202, 58, 60', uppercase: true, icon: 'alert' }
-    case 'alert': return { color1: 'iris', color2: '16, 173, 228', uppercase: false, icon: 'bell' }
-    default: return { color1: 'iris', color2: '16, 173, 228', uppercase: false, icon: null }
+    case 'success': return { color: 'jade', uppercase: false, icon: 'success' }
+    case 'warning': return { color: 'mahogany', uppercase: true, icon: 'alert' }
+    case 'alert': return { color: 'iris', uppercase: false, icon: 'bell' }
+    default: return { color: 'iris', uppercase: false, icon: null }
   }
 }
 
 const Banner = props => {
   const { type, children } = props
   const style = selectStyle(type)
-  const { color1, color2, uppercase, icon } = style
+  const { color, uppercase, icon } = style
+
+  const backgroundColor = Color(DefaultColor[color]).fade(0.9).toString()
+  const borderColor = Color(DefaultColor[color]).fade(0.8).toString()
 
   return (
-    <Container color={color2}>
-      { icon && <Icon name={icon} size='12px' weight={400} color={color1} /> }
-      <Text size='12px' weight={400} color={color1} uppercase={uppercase}>
+    <Container backgroundColor={backgroundColor} borderColor={borderColor}>
+      { icon && <Icon name={icon} size='12px' weight={400} color={color} /> }
+      <Text size='12px' weight={400} color={color} uppercase={uppercase}>
         { children }
       </Text>
     </Container>
