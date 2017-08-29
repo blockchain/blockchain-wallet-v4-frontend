@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 
 import Layout from '../components/layout'
-import { CheckBoxInput, HiddenInput, NumberInput, PasswordInput, SelectInput, TextAreaInput, TextInput } from '../../src'
+import { CheckBoxInput, HiddenInput, NumberInput, PasswordInput, SelectBox, TextAreaInput, TextInput } from '../../src'
 
 storiesOf('Forms', module)
     .addDecorator(story => (<Layout>{story()}</Layout>))
@@ -16,27 +16,13 @@ storiesOf('Forms', module)
     .add('Text input', () => <TextInput />)
     .add('Invalid text input', () => <TextInput errorState='invalid' />)
     .add('Valid text input', () => <NumberInput errorState='valid' />)
-    .add('Select input', () => <SelectInput
-      items={[{ text: 'First item', value: 0 },
+    .add('Select input', () => <SelectBox
+      elements={[{ group: '',
+        items: [{ text: 'First item', value: 0 },
               { text: 'Second item', value: 1 },
-              { text: 'Third item', value: 2 }]}
-      display='This is the display prop'
-      expanded={false}
-      searchEnabled
-      handleBlur={() => { }}
-      handleChange={() => { }}
-      handleClick={() => { }}
-      handleFocus={() => { }}
+              { text: 'Third item', value: 2 }]}]}
+      input={{onBlur: () => {},
+        onChange: (item) => { this.setState({value: 2}) },
+        onFocus: () => {},
+        value: 0 }}
       meta={{touched: false, invalid: false, error: false}} />)
-    .add('Select input expanded', () => <SelectInput
-      items={[{ text: 'First item', value: 0 },
-        { text: 'Second item', value: 1 },
-        { text: 'Third item', value: 2 }]}
-      display='This is the display prop'
-      expanded
-      searchEnabled
-      handleBlur={() => { }}
-      handleChange={() => { }}
-      handleClick={() => { }}
-      handleFocus={() => { }}
-      meta={{ touched: false, invalid: false, error: false }} />)
