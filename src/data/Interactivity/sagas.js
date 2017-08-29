@@ -9,7 +9,6 @@ import { actions, actionTypes, selectors } from 'data'
 import { convertToUnit, convertFromUnit } from 'services/ConversionService'
 import * as AT from './actionTypes'
 
-console.log(ui)
 // =============================================================================
 // =========================== QrCodeCapture modal =============================
 // =============================================================================
