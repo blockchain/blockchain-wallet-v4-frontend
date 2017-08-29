@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import Settings from './Settings'
 
 const EmailAddress = (props) => {
   return (
@@ -20,10 +21,7 @@ const EmailAddress = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Text>test@example.com</Text>
-        <Button nature='secondary'>
-          <FormattedMessage id='scenes.preferences.email.change' defaultMessage='Change' />
-        </Button>
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )
