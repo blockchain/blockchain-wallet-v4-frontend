@@ -43,7 +43,8 @@ const Banner = props => {
 }
 
 Banner.propTypes = {
-  type: PropTypes.oneOf(['success', 'warning', 'alert'])
+  type: PropTypes.oneOf(['success', 'warning', 'alert']),
+  children: PropTypes.node.isRequired
 }
 
 export default Banner
