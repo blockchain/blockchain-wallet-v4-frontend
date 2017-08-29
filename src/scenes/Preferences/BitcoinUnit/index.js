@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import Settings from './Settings'
 
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
@@ -15,7 +16,7 @@ const BitcoinUnit = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        [Bitcoin Unit Dropdown]
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )
