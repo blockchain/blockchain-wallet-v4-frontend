@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
-import { SelectBox } from 'components/Form'
+import { SelectBox } from 'blockchain-info-components'
 import { languagesSortedByName } from 'services/LanguageService'
 
 const Wrapper = styled.div`
