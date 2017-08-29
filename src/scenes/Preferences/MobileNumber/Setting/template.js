@@ -72,13 +72,13 @@ const Setting = (props) => {
 }
 
 Setting.propTypes = {
-  updateToggled: PropTypes.func.isRequired,
-  verifyToggled: PropTypes.func.isRequired,
+  smsNumber: PropTypes.string.isRequired,
+  updateToggled: PropTypes.bool.isRequired,
+  verifyToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleResend: PropTypes.func.isRequired,
-  handleVerify: PropTypes.func.isRequired,
-  smsNumber: PropTypes.string.isRequired
+  handleVerify: PropTypes.func.isRequired
 }
 
 export default Setting

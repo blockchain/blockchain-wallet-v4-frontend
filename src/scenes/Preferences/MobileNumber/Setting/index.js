@@ -31,7 +31,7 @@ class SettingContainer extends React.Component {
     if (!equals(this.props.smsNumber, nextProps.smsNumber)) {
       this.props.updateUI({ updateToggled: false, verifyToggled: true })
     }
-    if (!equals(this.props.smsVerified, nextProps.smsVerified)) {
+    if (equals(this.props.smsNumber, nextProps.smsNumber) && !equals(this.props.smsVerified, nextProps.smsVerified)) {
       this.props.updateUI({ updateToggled: false, verifyToggled: false })
     }
   }
