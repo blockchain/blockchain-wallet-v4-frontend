@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-import { SelectInput } from 'blockchain-info-components'
+import { SelectBox } from 'blockchain-info-components'
 
 class SelectBoxFeeContainer extends React.Component {
   render () {
@@ -14,7 +14,7 @@ class SelectBoxFeeContainer extends React.Component {
       items: [{ text: 'Regular', value: regularFee }, { text: 'Priority', value: priorityFee }]
     }]
 
-    return <SelectInput elements={elements} searchEnabled={false} {...rest} />
+    return <SelectBox elements={elements} searchEnabled={false} {...rest} />
   }
 }
 
