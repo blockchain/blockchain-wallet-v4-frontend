@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { equals, contains, toUpper, filter, prop } from 'ramda'
 
-import SelectBox from './template.js'
+import { SelectInput } from 'blockchain-info-components'
 
-class SelectBoxContainer extends React.Component {
+class SelectBox extends React.Component {
   constructor (props) {
     super(props)
     const { input, opened } = props
@@ -66,7 +66,7 @@ class SelectBoxContainer extends React.Component {
     const display = this.getText(this.props.input.value, items)
 
     return (
-      <SelectBox
+      <SelectInput
         items={items}
         display={display}
         expanded={this.state.expanded}
@@ -81,7 +81,7 @@ class SelectBoxContainer extends React.Component {
   }
 }
 
-SelectBoxContainer.propTypes = {
+SelectBox.propTypes = {
   elements: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -101,10 +101,10 @@ SelectBoxContainer.propTypes = {
   callback: PropTypes.func
 }
 
-SelectBoxContainer.defaultProps = {
+SelectBox.defaultProps = {
   label: 'Select a value',
   searchEnabled: true,
   opened: false
 }
 
-export default SelectBoxContainer
+export default SelectBox
