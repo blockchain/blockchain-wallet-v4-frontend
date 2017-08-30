@@ -4,7 +4,7 @@ import { equals, contains, toUpper, filter, prop } from 'ramda'
 
 import SelectInput from './template.js'
 
-class SelectBoxContainer extends React.Component {
+class SelectInputContainer extends React.Component {
   constructor (props) {
     super(props)
     const { input, opened } = props
@@ -81,7 +81,7 @@ class SelectBoxContainer extends React.Component {
   }
 }
 
-SelectBoxContainer.propTypes = {
+SelectInputContainer.propTypes = {
   elements: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -101,10 +101,10 @@ SelectBoxContainer.propTypes = {
   callback: PropTypes.func
 }
 
-SelectBoxContainer.defaultProps = {
+SelectInputContainer.defaultProps = {
   label: 'Select a value',
   searchEnabled: true,
   opened: false
 }
 
-export default SelectBoxContainer
+export default SelectInputContainer

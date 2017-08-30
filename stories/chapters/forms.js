@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 
 import Layout from '../components/layout'
-import { CheckBoxInput, HiddenInput, NumberInput, PasswordInput, SelectBox, TextAreaInput, TextInput } from '../../src'
+import { CheckBoxInput, HiddenInput, NumberInput, PasswordInput, SelectInput, TextAreaInput, TextInput } from '../../src'
 
 storiesOf('Forms', module)
     .addDecorator(story => (<Layout>{story()}</Layout>))
@@ -16,7 +16,7 @@ storiesOf('Forms', module)
     .add('Text input', () => <TextInput />)
     .add('Invalid text input', () => <TextInput errorState='invalid' />)
     .add('Valid text input', () => <NumberInput errorState='valid' />)
-    .add('Select input', () => <SelectBox
+    .add('Select input', () => <SelectInput
       elements={[{ group: '',
         items: [{ text: 'First item', value: 0 },
               { text: 'Second item', value: 1 },

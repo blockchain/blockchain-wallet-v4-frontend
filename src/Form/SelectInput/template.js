@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Icon } from '../../Icons'
 
-const SelectBoxContainer = styled.div`
+const Container = styled.div`
   position: relative;
   width: 100%;
   height: auto;
@@ -90,7 +90,7 @@ const Header = styled.a`
 
   &:hover { color: #5F5F5F; }
 `
-const SelectBoxError = styled.label`
+const Error = styled.label`
   position: absolute;
   top: -18px;
   right: 0;
@@ -115,7 +115,7 @@ const SelectInput = (props) => {
   const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
 
   return (
-    <SelectBoxContainer>
+    <Container>
       <SelectBoxInput onBlur={handleBlur} onFocus={handleFocus}>
         {!expanded || !searchEnabled
                     ? (<Button errorState={errorState}>{display}</Button>)
@@ -129,8 +129,8 @@ const SelectInput = (props) => {
                     }
         </List>
       </SelectBoxInput>
-      {touched && error && <SelectBoxError>{error}</SelectBoxError>}
-    </SelectBoxContainer>
+      {touched && error && <Error>{error}</Error>}
+    </Container>
   )
 }
 
