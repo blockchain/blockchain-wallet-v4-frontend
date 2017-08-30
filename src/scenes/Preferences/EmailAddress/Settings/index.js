@@ -38,8 +38,6 @@ class SettingContainer extends React.Component {
   handleClick () {
     const { guid, sharedKey, emailAddress } = this.props
     this.props.settingsActions.updateEmail(guid, sharedKey, emailAddress)
-    this.handleToggle()
-    this.props.updateUI({ verifyToggled: !this.props.emailVerified })
   }
 
   handleToggle () {
