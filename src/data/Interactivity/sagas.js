@@ -92,8 +92,7 @@ const updateMobileSuccess = function * (action) {
 
 const updateMobileError = function * (action) {
   const { payload } = action
-  const { message } = payload
-  yield put(actions.alerts.displayError(message))
+  yield put(actions.alerts.displayError(payload))
 }
 
 const verifyMobileSuccess = function * (action) {
@@ -104,8 +103,7 @@ const verifyMobileSuccess = function * (action) {
 
 const verifyMobileError = function * (action) {
   const { payload } = action
-  const { message } = payload
-  yield put(actions.alerts.displayError(message))
+  yield put(actions.alerts.displayError(payload))
 }
 
 // =============================== EXPORT ======================================
