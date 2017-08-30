@@ -8,11 +8,8 @@ const isEmail = value => emailRegex.test(value)
 
 const isGuid = value => guidRegex.test(value)
 
-const passwordStrongness = value => value.length
-
 export {
   isNumeric,
   isEmail,
-  isGuid,
-  passwordStrongness
+  isGuid
 }
