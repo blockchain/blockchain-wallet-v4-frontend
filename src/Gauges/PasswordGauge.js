@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 100%;
   height: 20px;
 `
-const ScoreBar = styled.div`
+const Bar = styled.div`
   display: inline-flex;
   width: 20%;
   height: 100%;
@@ -18,7 +18,7 @@ const ScoreBar = styled.div`
   border: 2px solid ${DefaultColor.white};
   background-color: ${props =>
     props.score === 0 ? DefaultColor.white
-    : props.score === 1 ? DefaultColor.invalidredwine
+    : props.score === 1 ? DefaultColor.invalidred
     : props.score === 2 ? DefaultColor.red
     : props.score === 3 ? DefaultColor.orange
     : props.score === 4 ? DefaultColor.yellow : DefaultColor.green};
@@ -28,17 +28,21 @@ const PasswordGauge = (props) => {
 
   return (
     <Container>
-      {score > 0 ? <ScoreBar score={score} /> : <ScoreBar score={0} />}
-      {score > 1 ? <ScoreBar score={score} /> : <ScoreBar score={0} />}
-      {score > 2 ? <ScoreBar score={score} /> : <ScoreBar score={0} />}
-      {score > 3 ? <ScoreBar score={score} /> : <ScoreBar score={0} />}
-      {score > 4 ? <ScoreBar score={score} /> : <ScoreBar score={0} />}
+      {score > 0 ? <Bar score={score} /> : <Bar score={0} />}
+      {score > 1 ? <Bar score={score} /> : <Bar score={0} />}
+      {score > 2 ? <Bar score={score} /> : <Bar score={0} />}
+      {score > 3 ? <Bar score={score} /> : <Bar score={0} />}
+      {score > 4 ? <Bar score={score} /> : <Bar score={0} />}
     </Container>
   )
 }
 
 PasswordGauge.propTypes = {
-  score: PropTypes.number.isRequired
+  score: PropTypes.oneOf([1, 2, 3, 4, 5]).isRequired
+}
+
+PasswordGauge.defaultProps = {
+  score: 0
 }
 
 export default PasswordGauge

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { DefaultColor } from '../../src/Colors'
 
@@ -29,7 +30,10 @@ const Title = styled.h1`
 `
 const Content = styled.div`
   position: relative;
-  & > * { margin: 0 auto; }
+  
+  & > * {
+    margin: 10px auto;
+  }
 `
 const Layout = props => {
   return (

@@ -17,22 +17,22 @@ const Bar = styled.div`
   height: 15px;
   border: 1px solid ${DefaultColor.realblack};
   box-sizing: border-box;
+  background-color: ${props =>
+    props.score === 0 ? DefaultColor.white
+  : props.score === 1 ? DefaultColor.yellow
+  : props.score === 2 ? DefaultColor.orange : DefaultColor.green};
 `
-const YellowBar = styled(Bar)`background-color: ${DefaultColor.yellow};`
-const OrangeBar = styled(Bar)`background-color: ${DefaultColor.orange};`
-const GreenBar = styled(Bar)`background-color: ${DefaultColor.green};`
-const EmptyBar = styled(Bar)`background-color: ${DefaultColor.white};`
 
 const ConfirmationGauge = (props) => {
   const { nbConfirmations } = props
 
-  switch (nbConfirmations) {
-    case 0: return <Container><EmptyBar /><EmptyBar /><EmptyBar /></Container>
-    case 1: return <Container><OrangeBar /><EmptyBar /><EmptyBar /></Container>
-    case 2: return <Container><YellowBar /><YellowBar /><EmptyBar /></Container>
-    case 3: return <Container><GreenBar /><GreenBar /><GreenBar /></Container>
-    default: return <div />
-  }
+  return (
+    <Container>
+      {nbConfirmations > 0 ? <Bar score={nbConfirmations} /> : <Bar score={0} />}
+      {nbConfirmations > 1 ? <Bar score={nbConfirmations} /> : <Bar score={0} />}
+      {nbConfirmations > 2 ? <Bar score={nbConfirmations} /> : <Bar score={0} />}
+    </Container>
+  )
 }
 
 ConfirmationGauge.defaultProps = {
