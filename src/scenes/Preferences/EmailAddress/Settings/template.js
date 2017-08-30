@@ -12,7 +12,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: flex-start;
+
+  @media(min-width: 992px) {
+    align-items: flex-end;
+  }
 
   & > * { padding: 10px 0; }
 `

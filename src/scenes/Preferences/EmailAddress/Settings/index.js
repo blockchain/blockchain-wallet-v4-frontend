@@ -17,7 +17,6 @@ class SettingContainer extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
     this.handleResend = this.handleResend.bind(this)
-    // this.handleVerify = this.handleVerify.bind(this)
   }
 
   componentWillMount () {
@@ -52,11 +51,6 @@ class SettingContainer extends React.Component {
     this.props.settingsActions.updateEmail(guid, sharedKey, emailAddress)
   }
 
-  // handleVerify () {
-  //   const { guid, sharedKey, code } = this.props
-  //   this.props.settingsActions.verifyEmail(guid, sharedKey, code)
-  // }
-
   render () {
     const { ui, uiUpdate, ...rest } = this.props
 
@@ -67,7 +61,6 @@ class SettingContainer extends React.Component {
       handleToggle={this.handleToggle}
       handleClick={this.handleClick}
       handleResend={this.handleResend}
-      // handleVerify={this.handleVerify}
     />
   }
 }
