@@ -28,7 +28,7 @@ const Settings = (props) => {
       {updateToggled &&
         <Form>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.preferences.emailAddress.updateform.explain' defaultMessage='Email address.' />
+            <FormattedMessage id='scenes.preferences.emailAddress.updateform.explain' defaultMessage='Email address' />
           </Text>
           <Field name='emailAddress' validate={[validEmail]} component={TextBox} />
           <ButtonGroup>
@@ -42,19 +42,19 @@ const Settings = (props) => {
         </Form>
       }
       {!updateToggled && verifyToggled &&
-        <Form>
+        <Wrapper>
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.preferences.emailAddress.verifyform.explain' defaultMessage='We have sent you an email with a link to verify your email address.' />
           </Text>
           <ButtonGroup>
-            <Button nature='empty' capitalize disabled={submitting || invalid} onClick={handleToggle}>
-              <FormattedMessage id='scenes.preferences.emailAddress.verifyform.verify' defaultMessage='Cancel' />
+            <Button nature='empty' capitalize onClick={handleToggle}>
+              <FormattedMessage id='scenes.preferences.emailAddress.verifyform.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='secondary' onClick={handleResend} capitalize>
               <FormattedMessage id='scenes.preferences.emailAddress.verifyform.resend' defaultMessage='Resend' />
             </Button>
           </ButtonGroup>
-        </Form>
+        </Wrapper>
       }
     </Wrapper>
   )
