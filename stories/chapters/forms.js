@@ -8,7 +8,7 @@ import { CheckBoxInput, HiddenInput, NumberInput, PasswordInput, SelectBox, Text
 storiesOf('Forms', module)
     .addDecorator(story => (<Layout>{story()}</Layout>))
     .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-    .add('CheckBox input', () => <CheckBoxInput />)
+    .add('CheckBox input', () => <CheckBoxInput name='myCheckbox'>Label for myCheckbox</CheckBoxInput>)
     .add('Hidden input', () => <HiddenInput />)
     .add('Number input', () => <NumberInput />)
     .add('Password input', () => <PasswordInput />)
