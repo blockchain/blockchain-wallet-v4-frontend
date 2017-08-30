@@ -12,51 +12,65 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: flex-start;
+
+  @media(min-width: 992px) {
+    align-items: flex-end;
+  }
+
+  & > * { padding: 10px 0; }
 `
 const Settings = (props) => {
-  const { toggled, handleToggle, handleClick, emailAddress, submitting, invalid } = props
+  const { updateToggled, verifyToggled, handleToggle, handleClick, handleResend, email, submitting, invalid } = props
 
-  if (toggled) {
-    return (
-      <Wrapper>
-        <Text size='14px' weight={300}>
-          <FormattedMessage id='scenes.preferences.emailaddress.setting.explain' defaultMessage='Enter your email address below to continue.' />
-        </Text>
-        <br />
+  return (
+    <Wrapper>
+      <Text>{email}</Text>
+      <Button nature='secondary' onClick={handleToggle}>
+        <FormattedMessage id='scenes.preferences.emailAddress.updateform.change' defaultMessage='Change' />
+      </Button>
+      {updateToggled &&
         <Form>
-          <Field name='captcha' validate={[validEmail]} component={TextBox} />
+          <Text size='14px' weight={300} color='mahogany'>
+            <FormattedMessage id='scenes.preferences.email.warning' defaultMessage="This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same." />
+          </Text>
+          <Field name='emailAddress' validate={[validEmail]} component={TextBox} />
           <ButtonGroup>
-            <Button nature='empty' onClick={handleToggle} capitalize>
-              <FormattedMessage id='scenes.preferences.emailaddress.setting.cancel' defaultMessage='Cancel' />
+            <Button nature='empty' capitalize onClick={handleToggle}>
+              <FormattedMessage id='scenes.preferences.emailAddress.updateform.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-              <FormattedMessage id='scenes.preferences.emailaddress.setting.save' defaultMessage='Save' />
+              <FormattedMessage id='scenes.preferences.emailAddress.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
         </Form>
-      </Wrapper>
-    )
-  } else {
-    return (
-      <Wrapper>
-        <Text>{emailAddress}</Text>
-        <Button nature='secondary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.preferences.email.change' defaultMessage='Change' />
-        </Button>
-      </Wrapper>
-    )
-  }
+      }
+      {!updateToggled && verifyToggled &&
+        <Wrapper>
+          <Text size='14px' weight={300}>
+            <FormattedMessage id='scenes.preferences.emailAddress.verifyform.explain' defaultMessage='We have sent you an email with a link to verify your email address.' />
+          </Text>
+          <ButtonGroup>
+            <Button nature='empty' capitalize onClick={handleToggle}>
+              <FormattedMessage id='scenes.preferences.emailAddress.verifyform.cancel' defaultMessage='Cancel' />
+            </Button>
+            <Button nature='secondary' onClick={handleResend} capitalize>
+              <FormattedMessage id='scenes.preferences.emailAddress.verifyform.resend' defaultMessage='Resend' />
+            </Button>
+          </ButtonGroup>
+        </Wrapper>
+      }
+    </Wrapper>
+  )
 }
 
 Settings.propTypes = {
-  toggled: PropTypes.bool.isRequired,
+  email: PropTypes.string.isRequired,
+  updateToggled: PropTypes.bool.isRequired,
+  verifyToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  emailAddress: PropTypes.string.isRequired
-}
-
-Settings.defaultProps = {
-  toggled: false
+  handleClick: PropTypes.func.isRequired,
+  handleResend: PropTypes.func.isRequired
 }
 
 export default Settings
