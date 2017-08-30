@@ -71,11 +71,56 @@ export const settingsSaga = ({ api } = {}) => {
     }
   }
 
+  const updateLanguage = function * (action) {
+    try {
+      const { guid, sharedKey, language } = action.payload
+      const response = yield call(api.updateLanguage, guid, sharedKey, language)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateLanguageSuccess(language, response))
+      } else {
+        yield put(actions.updateLanguageError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateLanguageError(error))
+    }
+  }
+
+  const updateCurrency = function * (action) {
+    try {
+      const { guid, sharedKey, currency } = action.payload
+      const response = yield call(api.updateCurrency, guid, sharedKey, currency)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateCurrencySuccess(currency, response))
+      } else {
+        yield put(actions.updateCurrencyError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateCurrencyError(error))
+    }
+  }
+
+  const updateBitcoinUnit = function * (action) {
+    try {
+      const { guid, sharedKey, unit } = action.payload
+      const response = yield call(api.updateBitcoinUnit, guid, sharedKey, unit)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateBitcoinUnitSuccess(unit, response))
+      } else {
+        yield put(actions.updateBitcoinUnitError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateBitcoinUnitError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
     yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
     yield takeEvery(AT.UPDATE_EMAIL, updateEmail)
     yield takeEvery(AT.UPDATE_MOBILE, updateMobile)
     yield takeEvery(AT.VERIFY_MOBILE, verifyMobile)
+    yield takeEvery(AT.UPDATE_LANGUAGE, updateLanguage)
+    yield takeEvery(AT.UPDATE_CURRENCY, updateCurrency)
+    yield takeEvery(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
   }
 }

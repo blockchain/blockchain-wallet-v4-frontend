@@ -249,6 +249,12 @@ const createApi = ({
 
   const verifyMobile = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'verify-sms', code)
 
+  const updateLanguage = (guid, sharedKey, language) => updateSettings(guid, sharedKey, 'update-language', language)
+
+  const updateCurrency = (guid, sharedKey, currency) => updateSettings(guid, sharedKey, 'update-currency', currency)
+
+  const updateBitcoinUnit = (guid, sharedKey, unit) => updateSettings(guid, sharedKey, 'update-btc-currency', unit)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -276,7 +282,10 @@ const createApi = ({
     sendEmailConfirmation: future(sendEmailConfirmation),
     verifyEmail: future(verifyEmail),
     updateMobile: future(updateMobile),
-    verifyMobile: future(verifyMobile)
+    verifyMobile: future(verifyMobile),
+    updateLanguage: future(updateLanguage),
+    updateCurrency: future(updateCurrency),
+    updateBitcoinUnit: future(updateBitcoinUnit)
   }
 }
 

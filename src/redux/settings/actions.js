@@ -27,3 +27,15 @@ export const updateMobileError = message => ({ type: AT.UPDATE_MOBILE_ERROR, pay
 export const verifyMobile = (guid, sharedKey, code) => ({ type: AT.VERIFY_MOBILE, payload: { guid, sharedKey, code } })
 export const verifyMobileSuccess = (code, data) => ({ type: AT.VERIFY_MOBILE_SUCCESS, payload: { code, data } })
 export const verifyMobileError = message => ({ type: AT.VERIFY_MOBILE_ERROR, payload: message })
+
+export const updateLanguage = (guid, sharedKey, language) => ({ type: AT.UPDATE_LANGUAGE, payload: { guid, sharedKey, language } })
+export const updateLanguageSuccess = (language, data) => ({ type: AT.UPDATE_LANGUAGE_SUCCESS, payload: { language, data } })
+export const updateLanguageError = message => ({ type: AT.UPDATE_LANGUAGE_ERROR, payload: message })
+
+export const updateCurrency = (guid, sharedKey, currency) => ({ type: AT.UPDATE_CURRENCY, payload: { guid, sharedKey, currency } })
+export const updateCurrencySuccess = (currency, data) => ({ type: AT.UPDATE_CURRENCY_SUCCESS, payload: { currency, data } })
+export const updateCurrencyError = message => ({ type: AT.UPDATE_CURRENCY_ERROR, payload: message })
+
+export const updateBitcoinUnit = (guid, sharedKey, unit) => ({ type: AT.UPDATE_BITCOIN_UNIT, payload: { guid, sharedKey, unit } })
+export const updateBitcoinUnitSuccess = (unit, data) => ({ type: AT.UPDATE_BITCOIN_UNIT_SUCCESS, payload: { unit, data } })
+export const updateBitcoinUnitError = message => ({ type: AT.UPDATE_BITCOIN_UNIT_ERROR, payload: message })

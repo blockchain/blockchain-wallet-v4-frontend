@@ -32,6 +32,18 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.VERIFY_MOBILE_SUCCESS: {
       return Object.assign({}, state, { sms_verified: 1 })
     }
+    case AT.UPDATE_LANGUAGE_SUCCESS: {
+      const { language } = payload
+      return Object.assign({}, state, { language: language })
+    }
+    case AT.UPDATE_CURRENCY_SUCCESS: {
+      const { currency } = payload
+      return Object.assign({}, state, { currency: currency })
+    }
+    case AT.UPDATE_BITCOIN_UNIT_SUCCESS: {
+      const { unit } = payload
+      return Object.assign({}, state, { btc_currency: unit })
+    }
     default:
       return state
   }
