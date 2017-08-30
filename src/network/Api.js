@@ -255,6 +255,8 @@ const createApi = ({
 
   const updateBitcoinUnit = (guid, sharedKey, unit) => updateSettings(guid, sharedKey, 'update-btc-currency', unit)
 
+  const updateAutoLogout = (guid, sharedKey, autoLogout) => updateSettings(guid, sharedKey, 'update-auto-logout', autoLogout)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -285,7 +287,8 @@ const createApi = ({
     verifyMobile: future(verifyMobile),
     updateLanguage: future(updateLanguage),
     updateCurrency: future(updateCurrency),
-    updateBitcoinUnit: future(updateBitcoinUnit)
+    updateBitcoinUnit: future(updateBitcoinUnit),
+    updateAutoLogout: future(updateAutoLogout)
   }
 }
 

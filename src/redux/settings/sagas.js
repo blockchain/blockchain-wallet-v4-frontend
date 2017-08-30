@@ -113,6 +113,20 @@ export const settingsSaga = ({ api } = {}) => {
     }
   }
 
+  const updateAutoLogout = function * (action) {
+    try {
+      const { guid, sharedKey, autoLogout } = action.payload
+      const response = yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateAutoLogoutSuccess(autoLogout, response))
+      } else {
+        yield put(actions.updateAutoLogoutError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateAutoLogoutError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
     yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
@@ -122,5 +136,6 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_LANGUAGE, updateLanguage)
     yield takeEvery(AT.UPDATE_CURRENCY, updateCurrency)
     yield takeEvery(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
+    yield takeEvery(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
   }
 }
