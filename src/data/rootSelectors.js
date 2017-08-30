@@ -1,13 +1,11 @@
 import settings from 'config'
 import { coreSelectorsFactory } from 'blockchain-wallet-v4/lib'
-import activitySelectors from 'data/Activity/selectors'
 import * as alertsSelectors from 'data/Alerts/selectors'
 import * as authSelectors from 'data/Auth/selectors'
 import * as modalsSelectors from 'data/Modals/selectors'
 import * as preferencesSelectors from 'data/Preferences/selectors'
 import * as scrollSelectors from 'data/Scroll/selectors'
 
-const activity = activitySelectors
 const alerts = alertsSelectors
 const auth = authSelectors
 const modals = modalsSelectors
@@ -22,7 +20,6 @@ const core = coreSelectorsFactory({
 
 export {
   alerts,
-  activity,
   auth,
   core,
   modals,

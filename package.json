@@ -103,6 +103,7 @@
     "data.maybe": "^1.2.2",
     "es6-promise": "^4.1.0",
     "fast-memoize": "^2.2.8",
+    "libphonenumber-js": "^0.4.27",
     "moment": "^2.18.1",
     "postcss-loader": "^2.0.6",
     "prop-types": "^15.5.10",

@@ -3,6 +3,7 @@ import { actions as reduxFormActions } from 'redux-form'
 import { push } from 'react-router-redux'
 import { isNil } from 'ramda'
 import bip21 from 'bip21'
+import ui from 'redux-ui'
 
 import { actions, actionTypes, selectors } from 'data'
 import { convertToUnit, convertFromUnit } from 'services/ConversionService'
@@ -66,7 +67,7 @@ const signAndPublishError = function * (action) {
 }
 
 // =============================================================================
-// =============================== Pairing Code ================================
+// ============================ PairingCode modal ==============================
 // =============================================================================
 const requestPairingCodeSuccess = function * (action) {
   const { payload } = action
@@ -75,6 +76,32 @@ const requestPairingCodeSuccess = function * (action) {
 }
 
 const requestPairingCodeError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+}
+
+// =============================================================================
+// ============================== Mobile number ================================
+// =============================================================================
+
+const updateMobileSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateMobileError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+}
+
+const verifyMobileSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const verifyMobileError = function * (action) {
   const { payload } = action
   yield put(actions.alerts.displayError(payload))
 }
@@ -124,6 +151,10 @@ function * sagas () {
   yield takeEvery(actionTypes.core.settings.REQUEST_PAIRING_CODE_ERROR, requestPairingCodeError)
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_SUCCESS, signAndPublishSuccess)
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_ERROR, signAndPublishError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_SUCCESS, updateMobileSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_ERROR, updateMobileError)
+  yield takeEvery(actionTypes.core.settings.VERIFY_MOBILE_SUCCESS, verifyMobileSuccess)
+  yield takeEvery(actionTypes.core.settings.VERIFY_MOBILE_ERROR, verifyMobileError)
   yield takeEvery(actionTypes.core.settings.UPDATE_LANGUAGE_SUCCESS, updateLanguageSuccess)
   yield takeEvery(actionTypes.core.settings.UPDATE_LANGUAGE_ERROR, updateLanguageError)
   yield takeEvery(actionTypes.core.settings.UPDATE_CURRENCY_SUCCESS, updateCurrencySuccess)

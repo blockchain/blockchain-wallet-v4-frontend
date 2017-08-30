@@ -4,7 +4,6 @@ import settings from 'config'
 import { routerReducer } from 'react-router-redux'
 import { reducer as reduxUiReducer } from 'redux-ui'
 import { coreReducers } from 'blockchain-wallet-v4/lib'
-import activityReducer from './Activity/reducers.js'
 import alertsReducer from './Alerts/reducers'
 import authReducer from './Auth/reducers.js'
 import formReducer from './Form/reducers.js'
@@ -15,7 +14,6 @@ import scrollReducer from './Scroll/reducers.js'
 
 const rootReducer = combineReducers({
   applicationState: combineReducers({
-    activities: activityReducer,
     alerts: alertsReducer,
     auth: authReducer.login,
     log: logReducer,

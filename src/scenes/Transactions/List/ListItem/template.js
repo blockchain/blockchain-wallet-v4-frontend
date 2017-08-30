@@ -114,6 +114,14 @@ const ExtraDetailsContainer = styled(HiddenOnDesktop)`
 
   & > * { padding: 10px 0;}
 `
+const selectColors = type => {
+  switch (type) {
+    case 'Sent': return 'bittersweet'
+    case 'Transferred': return 'balihai'
+    case 'Received': return 'irisgreen'
+    default: return ''
+  }
+}
 
 const ListItem = (props) => {
   const { coinDisplayed, toggled, handleToggle, handleClick, transaction } = props
@@ -131,7 +139,7 @@ const ListItem = (props) => {
           <Arrow rotated={!toggled} onClick={handleToggle}>
             <Icon name='down_arrow' size='10px' />
           </Arrow>
-          <Text weight={500} color={transaction.type.toLowerCase()} uppercase>
+          <Text weight={500} color={selectColors(transaction.type)} uppercase>
             { transaction.type === 'Sent' && <FormattedMessage id='scenes.transactions.list.listitem.sent' defaultMessage='Sent' /> }
             { transaction.type === 'Received' && <FormattedMessage id='scenes.transactions.list.listitem.received' defaultMessage='Received' /> }
             { transaction.type === 'Transferred' && <FormattedMessage id='scenes.transactions.list.listitem.transferred' defaultMessage='Transferred' /> }

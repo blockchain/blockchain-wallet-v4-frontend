@@ -6,6 +6,7 @@ import Form from './Form'
 import Hidden from './Hidden'
 import NumberBox from './NumberBox'
 import PasswordBox from './PasswordBox'
+import PhoneNumberBox from './PhoneNumberBox'
 import SelectBoxAddresses from './SelectBoxAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCurrency from './SelectBoxCurrency'
@@ -21,6 +22,7 @@ export {
   Hidden,
   NumberBox,
   PasswordBox,
+  PhoneNumberBox,
   SelectBoxAddresses,
   SelectBoxBitcoinUnit,
   SelectBoxCurrency,

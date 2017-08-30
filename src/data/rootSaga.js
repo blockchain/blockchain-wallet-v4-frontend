@@ -5,7 +5,6 @@ import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 
 import { coreSagas } from 'blockchain-wallet-v4/lib'
-import activitySagas from './Activity/sagas.js'
 import alertSagas from './Alerts/sagas.js'
 import authSagas from './Auth/sagas.js'
 import interactivitySagas from './Interactivity/sagas.js'
@@ -17,7 +16,6 @@ const walletPath = settings.WALLET_IMMUTABLE_PATH
 function * sagas () {
   yield [
     fork(coreSagas.rootSaga({ api, dataPath, walletPath, settingsPath, socket })),
-    fork(activitySagas),
     fork(alertSagas),
     fork(authSagas),
     fork(interactivitySagas)

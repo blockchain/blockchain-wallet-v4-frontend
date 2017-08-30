@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 
-import { Background, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Background, Icon, Text, TextGroup } from 'blockchain-info-components'
 import Container from 'components/Container'
 
 const Wrapper = styled.div``
@@ -53,7 +53,7 @@ const Main = (props) => {
           <Text size='36px' weight={200} color='white'>
             <FormattedMessage id='scenes.landing.main.simple' defaultMessage='Simple. Seamless. Secure.' />
           </Text>
-          <TextGroup inline>
+          <TextGroup>
             <Text size='16px' weight={300} color='white'>
               <FormattedMessage id='scenes.landing.main.popular' defaultMessage="Blockchain is the world's most popular bitcoin wallet." />
             </Text>
@@ -62,8 +62,12 @@ const Main = (props) => {
             </Text>
           </TextGroup>
           <NavLink to='/register'>
-            <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
-            <Icon name='right_arrow' color='iris' />
+            <TextGroup inline>
+              <Text size='16px' weight={300} color='iris' uppercase>
+                <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
+              </Text>
+              <Icon name='right_arrow' color='iris' />
+            </TextGroup>
           </NavLink>
         </MainContainer>
       </MainBackground>
