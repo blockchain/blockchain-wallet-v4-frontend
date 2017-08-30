@@ -4,6 +4,10 @@ import styled from 'styled-components'
 import { DefaultColor } from '../Colors'
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   width: 100%;
 `
 
@@ -41,12 +45,12 @@ const Label = styled.label`
 
 const CheckBoxInput = props => {
   const { name, errorState, children, ...rest } = props
-
+  console.log(props)
   return (
     <Wrapper>
       <BaseCheckBoxInput id={name} {...rest} />
       <Label htmlFor={name}>
-        {children}
+        { children }
       </Label>
     </Wrapper>
   )
