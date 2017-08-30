@@ -11,34 +11,32 @@ import Settings from './template.js'
 class SettingsContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      unit: this.props.unit
-    }
-
     this.handleClick = this.handleClick.bind(this)
+  }
+
+  componentWillMount () {
+    this.props.reduxFormActions.initialize('settingUnit', { 'unit': this.props.unit })
   }
 
   componentWillReceiveProps (nextProps) {
     if (!equals(nextProps.unit, this.props.unit)) {
-      this.props.reduxFormActions.change('settingUnit', this.props.unit)
+      this.props.reduxFormActions.change('settingUnit', 'unit', nextProps.unit)
     }
   }
 
-  handleClick (item) {
-    this.setState({ unit: item })
+  handleClick (value) {
+    const { guid, sharedKey } = this.props
+    this.props.settingsActions.updateBitcoinUnit(guid, sharedKey, value)
   }
 
   render () {
-    const { ui, uiUpdate, ...rest } = this.props
-    return <Settings
-      {...rest}
-      handleClick={this.handleClick}
-      unit={this.state.unit}
-        />
+    return <Settings {...this.props} handleClick={this.handleClick} />
   }
 }
 
 const mapStateToProps = (state) => ({
+  guid: selectors.core.wallet.getGuid(state),
+  sharedKey: selectors.core.wallet.getSharedKey(state),
   unit: selectors.core.settings.getBtcCurrency(state)
 })
 

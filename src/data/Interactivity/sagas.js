@@ -67,7 +67,7 @@ const signAndPublishError = function * (action) {
 }
 
 // =============================================================================
-// =============================== Pairing Code ================================
+// ============================ PairingCode modal ==============================
 // =============================================================================
 const requestPairingCodeSuccess = function * (action) {
   const { payload } = action
@@ -108,6 +108,42 @@ const verifyMobileError = function * (action) {
   yield put(actions.alerts.displayError(message))
 }
 
+// =============================================================================
+// ================================= Language ==================================
+// =============================================================================
+const updateLanguageSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateLanguageError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// ================================= Currency ==================================
+// =============================================================================
+const updateCurrencySuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateCurrencyError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// =============================== Bitcoin Unit ================================
+// =============================================================================
+const updateBitcoinUnitSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateBitcoinUnitError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
 // =============================== EXPORT ======================================
 
 function * sagas () {
@@ -121,6 +157,12 @@ function * sagas () {
   yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_ERROR, updateMobileError)
   yield takeEvery(actionTypes.core.settings.VERIFY_MOBILE_SUCCESS, verifyMobileSuccess)
   yield takeEvery(actionTypes.core.settings.VERIFY_MOBILE_ERROR, verifyMobileError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_LANGUAGE_SUCCESS, updateLanguageSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_LANGUAGE_ERROR, updateLanguageError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_CURRENCY_SUCCESS, updateCurrencySuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_CURRENCY_ERROR, updateCurrencyError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_BITCOIN_UNIT_SUCCESS, updateBitcoinUnitSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_BITCOIN_UNIT_ERROR, updateBitcoinUnitError)
 }
 
 export default sagas

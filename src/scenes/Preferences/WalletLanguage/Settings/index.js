@@ -11,34 +11,32 @@ import Settings from './template.js'
 class SettingsContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      language: this.props.language
-    }
-
     this.handleClick = this.handleClick.bind(this)
+  }
+
+  componentWillMount () {
+    this.props.reduxFormActions.initialize('settingLanguage', { 'language': this.props.language })
   }
 
   componentWillReceiveProps (nextProps) {
     if (!equals(nextProps.language, this.props.language)) {
-      this.props.reduxFormActions.change('settingLanguage', this.props.language)
+      this.props.reduxFormActions.change('settingLanguage', 'language', nextProps.language)
     }
   }
 
-  handleClick (item) {
-    this.setState({ language: item })
+  handleClick (value) {
+    const { guid, sharedKey } = this.props
+    this.props.settingsActions.updateLanguage(guid, sharedKey, value)
   }
 
   render () {
-    const { ...rest } = this.props
-    return <Settings
-      {...rest}
-      handleClick={this.handleClick}
-      language={this.state.language}
-        />
+    return <Settings {...this.props} handleClick={this.handleClick} />
   }
 }
 
 const mapStateToProps = (state) => ({
+  guid: selectors.core.wallet.getGuid(state),
+  sharedKey: selectors.core.wallet.getSharedKey(state),
   language: selectors.core.settings.getLanguage(state)
 })
 
@@ -48,8 +46,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    singleForm('settingLanguage')
+  connect(mapStateToProps, mapDispatchToProps),
+  singleForm('settingLanguage')
 )
 
 export default enhance(SettingsContainer)
