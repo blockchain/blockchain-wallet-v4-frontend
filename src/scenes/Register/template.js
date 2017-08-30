@@ -57,10 +57,10 @@ const Register = (props) => {
           <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
         </Text>
         <Field name='password' validate={[required]} component={PasswordBox} score />
-        <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
         <Text size='14px' weight={500}>
-          <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
+          <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
         </Text>
+        <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
           <Terms />
         </Field>
