@@ -9,7 +9,7 @@ export const requestPairingCodeSuccess = (encryptionPhrase) => ({ type: AT.REQUE
 export const requestPairingCodeError = (message) => ({ type: AT.REQUEST_PAIRING_CODE_ERROR, payload: message })
 
 export const updateEmail = (guid, sharedKey, email) => ({ type: AT.UPDATE_EMAIL, payload: { guid, sharedKey, email } })
-export const updateEmailSuccess = data => ({ type: AT.UPDATE_EMAIL_SUCCESS, payload: data })
+export const updateEmailSuccess = (email, data) => ({ type: AT.UPDATE_EMAIL_SUCCESS, payload: { email, data } })
 export const updateEmailError = message => ({ type: AT.UPDATE_EMAIL_ERROR, payload: message })
 
 export const sendEmailConfirmation = (guid, sharedKey, email) => ({ type: AT.SEND_EMAIL_CONFIRMATION, payload: { guid, sharedKey, email } })

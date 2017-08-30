@@ -33,7 +33,7 @@ export const settingsSaga = ({ api } = {}) => {
     try {
       const { guid, sharedKey, email } = action.payload
       const response = yield call(api.updateEmail, guid, sharedKey, email)
-      if (contains('successfully', toLower(response))) {
+      if (contains('updated', toLower(response))) {
         yield put(actions.updateEmailSuccess(email, response))
       } else {
         yield put(actions.updateEmailError(response))
