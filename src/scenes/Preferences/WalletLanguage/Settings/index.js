@@ -48,8 +48,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    singleForm('settingLanguage')
+  connect(mapStateToProps, mapDispatchToProps),
+  singleForm('settingLanguage')
 )
 
 export default enhance(SettingsContainer)

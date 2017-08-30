@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
-import { SelectBox } from 'blockchain-info-components'
-import { languagesSortedByName } from 'services/LanguageService'
+import { SelectBoxLanguages } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,11 +14,10 @@ const Wrapper = styled.div`
 `
 const Settings = (props) => {
   const { handleClick, language } = props
+
   return (
     <Wrapper>
-      <Field name='language' component={SelectBox} elements={[{ group: '', items: languagesSortedByName.map(x => ({ text: x.name, value: x.language })) }]}
-        input={{ onBlur: function () { }, onChange: handleClick, onFocus: function () { }, value: language }}
-        label={language} />
+      <Field name='language' component={SelectBoxLanguages} />
     </Wrapper>
   )
 }

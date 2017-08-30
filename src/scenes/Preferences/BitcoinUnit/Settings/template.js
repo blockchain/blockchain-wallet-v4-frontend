@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
-import { SelectBox } from 'blockchain-info-components'
+import { SelectBoxBitcoinUnit } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,11 +14,10 @@ const Wrapper = styled.div`
 `
 const Settings = (props) => {
   const { handleClick, unit } = props
-  const units = ['BTC (1 BTC)', 'mBTC (0.001 BTC)', 'bits (0.000001 BTC)']
+
   return (
     <Wrapper>
-      <Field name='unit' component={SelectBox} elements={[{ group: '', items: units.map(u => ({ text: u, value: u })) }]}
-        input={{ onBlur: function () { }, onChange: handleClick, onFocus: function () { }, value: unit }} />
+      <Field name='unit' component={SelectBoxBitcoinUnit} />
     </Wrapper>
   )
 }

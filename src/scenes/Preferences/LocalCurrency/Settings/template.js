@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
-import { SelectBox } from 'blockchain-info-components'
+import { SelectBoxCurrency } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,12 +14,10 @@ const Wrapper = styled.div`
 `
 const Settings = (props) => {
   const { handleClick, currency } = props
-  const currencies = ['U.S. Dollar', 'Euro', 'Swiss Franc']
+
   return (
     <Wrapper>
-      <Field name='currency' component={SelectBox} elements={[{ group: '', items: currencies.map(c => ({text: c, value: c})) }]}
-        input={{ onBlur: function () { }, onChange: handleClick, onFocus: function () { }, value: currency }}
-        label={currency} />
+      <Field name='currency' component={SelectBoxCurrency} />
     </Wrapper>
   )
 }
