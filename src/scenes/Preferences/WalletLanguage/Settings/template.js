@@ -13,11 +13,11 @@ const Wrapper = styled.div`
   width: 100%;
 `
 const Settings = (props) => {
-  const { handleClick, language } = props
+  const { handleClick } = props
 
   return (
     <Wrapper>
-      <Field name='language' component={SelectBoxLanguages} />
+      <Field name='language' component={SelectBoxLanguages} callback={handleClick} />
     </Wrapper>
   )
 }

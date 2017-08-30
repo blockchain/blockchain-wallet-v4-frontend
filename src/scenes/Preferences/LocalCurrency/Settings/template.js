@@ -13,11 +13,11 @@ const Wrapper = styled.div`
   width: 100%;
 `
 const Settings = (props) => {
-  const { handleClick, currency } = props
+  const { handleClick } = props
 
   return (
     <Wrapper>
-      <Field name='currency' component={SelectBoxCurrency} />
+      <Field name='currency' component={SelectBoxCurrency} callback={handleClick} />
     </Wrapper>
   )
 }
