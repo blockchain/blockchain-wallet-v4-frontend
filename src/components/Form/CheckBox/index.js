@@ -37,8 +37,9 @@ const CheckBox = ({ ...field, children }) => {
   return (
     <Wrapper>
       <Container>
-        <CheckBoxInput {...field.input} errorState={errorState} />
-        { children }
+        <CheckBoxInput {...field.input} errorState={errorState}>
+          { children }
+        </CheckBoxInput>
       </Container>
       {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='mahogany'>{field.meta.error}</Error>}
     </Wrapper>
