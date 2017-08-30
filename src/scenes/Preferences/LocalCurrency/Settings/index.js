@@ -11,34 +11,32 @@ import Settings from './template.js'
 class SettingsContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      currency: this.props.currency
-    }
-
     this.handleClick = this.handleClick.bind(this)
+  }
+
+  componentWillMount () {
+    this.props.reduxFormActions.initialize('settingCurrency', { 'currency': this.props.currency })
   }
 
   componentWillReceiveProps (nextProps) {
     if (!equals(nextProps.currency, this.props.currency)) {
-      this.props.reduxFormActions.change('settingCurrency', this.props.currency)
+      this.props.reduxFormActions.change('settingCurrency', 'currency', nextProps.currency)
     }
   }
 
-  handleClick (item) {
-    this.setState({ currency: item })
+  handleClick (value) {
+    const { guid, sharedKey } = this.props
+    this.props.settingsActions.updateCurrency(guid, sharedKey, value)
   }
 
   render () {
-    const { ...rest } = this.props
-    return <Settings
-      {...rest}
-      handleClick={this.handleClick}
-      currency={this.state.currency}
-        />
+    return <Settings {...this.props} handleClick={this.handleClick} />
   }
 }
 
 const mapStateToProps = (state) => ({
+  guid: selectors.core.wallet.getGuid(state),
+  sharedKey: selectors.core.wallet.getSharedKey(state),
   currency: selectors.core.settings.getCurrency(state)
 })
 

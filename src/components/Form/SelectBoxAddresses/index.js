@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { map, isEmpty } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { selectors } from 'data'
 import { displayCoin, displayFiat } from 'services/ConversionService'
 import { SelectInput } from 'blockchain-info-components'
 
-class SelectBoxAddressesContainer extends React.Component {
+class SelectBoxAddresses extends React.Component {
   render () {
     const { accounts, legacyAddresses, includeAll, ...rest } = this.props
     const allWallets = { text: 'All Wallets', value: '' }
@@ -22,11 +21,11 @@ class SelectBoxAddressesContainer extends React.Component {
   }
 }
 
-SelectBoxAddressesContainer.propTypes = {
+SelectBoxAddresses.propTypes = {
   includeAll: PropTypes.bool
 }
 
-SelectBoxAddressesContainer.defaultProps = {
+SelectBoxAddresses.defaultProps = {
   includeAll: true
 }
 
@@ -56,9 +55,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  transactionActions: bindActionCreators(actions.core.transactions, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectBoxAddressesContainer)
+export default connect(mapStateToProps)(SelectBoxAddresses)
