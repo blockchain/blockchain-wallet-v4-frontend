@@ -4,7 +4,8 @@ import * as adverts from './data/Adverts/selectors.js'
 import * as fee from './data/Fee/selectors.js'
 import * as latestBlock from './data/LatestBlock/selectors.js'
 import * as logs from './data/Logs/selectors.js'
-import * as rates from './data/Rates/selectors.js'
+import * as btcRates from './data/Rates/bitcoin/selectors.js'
+import * as ethRates from './data/Rates/ether/selectors.js'
 import * as transactions from './data/Transactions/selectors.js'
 import * as info from './data/Info/selectors.js'
 import * as payment from './data/Payment/selectors.js'
@@ -21,7 +22,8 @@ export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
     fee: map(extend(dataPath), fee),
     latestBlock: map(extend(dataPath), latestBlock),
     logs: map(extend(dataPath), logs),
-    rates: map(extend(dataPath), rates),
+    btcRates: map(extend(dataPath), btcRates),
+    ethRates: map(extend(dataPath), ethRates),
     transactions: map(extend(dataPath), transactions),
     info: map(extend(dataPath), info),
     payment: map(extend(dataPath), payment),

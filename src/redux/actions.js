@@ -5,7 +5,8 @@ import * as adverts from './data/Adverts/actions.js'
 import * as fee from './data/Fee/actions.js'
 import * as latestBlock from './data/LatestBlock/actions.js'
 import * as logs from './data/Logs/actions.js'
-import * as rates from './data/Rates/actions.js'
+import * as btcRates from './data/Rates/bitcoin/actions.js'
+import * as ethRates from './data/Rates/ether/actions.js'
 import * as transactions from './data/Transactions/actions.js'
 import * as info from './data/Info/actions.js'
 import * as payment from './data/Payment/actions.js'
@@ -21,7 +22,8 @@ export {
   fee,
   latestBlock,
   logs,
-  rates,
+  btcRates,
+  ethRates,
   transactions,
   wallet,
   info,
