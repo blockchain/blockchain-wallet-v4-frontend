@@ -44,10 +44,10 @@ const SecondStep = (props) => {
           <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment request:' />
         </Text>
         <Container>
-          <Text size='24px' weight={600} color='balihai'>
+          <Text size='24px' weight={600} color='transferred'>
             <CoinDisplay>{satoshis}</CoinDisplay>
           </Text>
-          <Text size='20px' weight={600} color='balihai'>
+          <Text size='20px' weight={600} color='transferred'>
             <CurrencyDisplay>{satoshis}</CurrencyDisplay>
           </Text>
           <Text size='16px'>{message}</Text>
