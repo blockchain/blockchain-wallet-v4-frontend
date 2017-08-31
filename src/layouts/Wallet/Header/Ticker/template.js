@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { Link } from 'blockchain-info-components'
 
 const Ticker = (props) => {
-  const { fiat } = props
+  const { coin, fiat } = props
 
   return (
     <Link href='https://markets.blockchain.info' size='14px' weight={300} color='white'>
-      {`1 BTC = ${fiat}`}
+      {`${coin} = ${fiat}`}
     </Link>
   )
 }
