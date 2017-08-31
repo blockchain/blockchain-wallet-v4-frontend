@@ -7,7 +7,7 @@ const Ticker = (props) => {
 
   return (
     <Link href='https://markets.blockchain.info' size='14px' weight={300} color='white'>
-      {`${coin} = ${fiat}`}
+      {`1 BTC = ${fiat}`}
     </Link>
   )
 }

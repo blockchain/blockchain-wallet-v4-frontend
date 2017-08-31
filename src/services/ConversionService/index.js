@@ -37,11 +37,11 @@ const displayCoin = (network, amount, unit) => {
 // Display a coin :: String -> Number -> Object -> Maybe (Number)
 const displayFiat = (network, amount, currency, rates) => {
   const fiat = convertCoinToFiat(network, amount, currency, rates).getOrElse('')
-  return fiat ? Maybe.fromNullable(`${fiat.amount.toFixed(2)} ${fiat.symbol}`) : Maybe.Nothing()
+  return fiat ? Maybe.fromNullable(` ${fiat.symbol}${fiat.amount.toFixed(2)}`) : Maybe.Nothing()
 }
 
 // convertFromUnit :: String -> Number
-const coinScale = network => {
+export const coinScale = network => {
   switch (network) {
     case 'bitcoin': return 100000000
     default: return undefined
