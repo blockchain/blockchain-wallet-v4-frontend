@@ -13,7 +13,8 @@ class TickerContainer extends React.Component {
     const baseCoin = convertFromUnit(network, 1, unit).getOrElse('N/A')
     const amount = baseCoin.amount
     const coin = displayCoin(network, amount, unit).getOrElse('N/A')
-    const fiat = displayFiat(network, btcAmount, currency, rates).getOrElse('N/A')
+    const fiat = displayFiat(network, amount, currency, rates).getOrElse('N/A')
+
     return (
       <Ticker coin={coin} fiat={fiat} />
     )

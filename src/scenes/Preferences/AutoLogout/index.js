@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { Button, Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
+import Settings from './Settings'
+
 const AutoLogout = (props) => {
   return (
     <SettingContainer>
@@ -15,10 +17,7 @@ const AutoLogout = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Text>10 minutes</Text>
-        <Button nature='secondary'>
-          <FormattedMessage id='scenes.preferences.autologout.change' defaultMessage='change' />
-        </Button>
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )
