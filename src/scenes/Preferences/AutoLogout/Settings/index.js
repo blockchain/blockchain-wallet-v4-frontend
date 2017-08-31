@@ -1,6 +1,5 @@
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
@@ -18,13 +17,16 @@ class SettingContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.reduxFormActions.initialize('settingAutoLogoutTime', { logoutTime: this.props.autoLogoutTime })
+    const { logoutTime } = this.props
+    this.props.reduxFormActions.initialize('settingAutoLogoutTime', { autoLogoutTime: logoutTime })
     this.props.updateUI({ updateToggled: false })
   }
 
   handleClick () {
-    const { guid, sharedKey, logoutTime } = this.props
-    this.props.settingsActions.updateAutoLogout(guid, sharedKey, logoutTime)
+    const { autoLogoutTime } = this.props
+    console.log(autoLogoutTime)
+
+    this.props.walletActions.setAutoLogout(parseInt(autoLogoutTime) * 60000)
     this.props.updateUI({ updateToggled: false })
   }
 
@@ -45,14 +47,12 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
-  autoLogoutTime: selectors.core.settings.getAutoLogout(state),
-  logoutTime: formValueSelector('settingAutoLogoutTime')(state, 'logoutTime')
+  autoLogoutTime: parseInt(formValueSelector('settingAutoLogoutTime')(state, 'autoLogoutTime')),
+  logoutTime: parseInt(selectors.core.wallet.getLogoutTime(state) / 60000)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
+  walletActions: bindActionCreators(actions.core.wallet, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 
@@ -61,9 +61,5 @@ const enhance = compose(
   ui({ key: 'Setting_AutoLogoutTime', state: { updateToggled: false } }),
   singleForm('settingAutoLogoutTime')
 )
-
-SettingContainer.propTypes = {
-  autoLogoutTime: PropTypes.string
-}
 
 export default enhance(SettingContainer)

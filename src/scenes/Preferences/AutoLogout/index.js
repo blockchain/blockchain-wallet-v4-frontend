@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
 import Settings from './Settings'
