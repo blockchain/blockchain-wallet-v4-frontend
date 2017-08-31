@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   email: '',
   email_verified: 0,
   sms_number: '',
-  sms_verified: 0
+  sms_verified: 0,
+  auto_logout: 10
 }
 
 const settingsReducer = (state = INITIAL_STATE, action) => {
@@ -43,6 +44,10 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.UPDATE_BITCOIN_UNIT_SUCCESS: {
       const { unit } = payload
       return Object.assign({}, state, { btc_currency: unit })
+    }
+    case AT.UPDATE_AUTO_LOGOUT_SUCCESS: {
+      const { autoLogout } = payload
+      return Object.assign({}, state, { auto_logout: autoLogout })
     }
     default:
       return state
