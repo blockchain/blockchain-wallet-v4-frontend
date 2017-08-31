@@ -8,12 +8,13 @@ const BaseImage = styled.img`
   width: ${props => props.width};
   height: ${props => props.height};
 `
+const removeSlashes = (path) => path.replace(/^\/|\/$/g, '')
 
 const Image = (props) => {
   const { name, ...rest } = props
   const file = Images[name]
 
-  return <BaseImage src={`./${file}`} {...rest} />
+  return <BaseImage src={`/${removeSlashes(file)}`} {...rest} />
 }
 
 Image.defaultProps = {
