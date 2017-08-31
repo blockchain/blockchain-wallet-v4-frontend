@@ -48,9 +48,9 @@ const selectColors = (nature, disabled) => {
     case 'primary': return { color: DefaultColor.white, backgroundColor: DefaultColor.blue, borderColor: DefaultColor.blue }
     case 'secondary': return { color: DefaultColor.white, backgroundColor: DefaultColor.iris, borderColor: DefaultColor.iris }
     case 'copy': return { color: DefaultColor.white, backgroundColor: DefaultColor.green, borderColor: DefaultColor.green }
-    case 'received': return { color: DefaultColor.white, backgroundColor: DefaultColor.irisgreen, borderColor: DefaultColor.irisgreen }
-    case 'sent': return { color: DefaultColor.white, backgroundColor: DefaultColor.bittersweet, borderColor: DefaultColor.bittersweet }
-    case 'transferred': return { color: DefaultColor.white, backgroundColor: DefaultColor.balihai, borderColor: DefaultColor.balihai }
+    case 'received': return { color: DefaultColor.white, backgroundColor: DefaultColor.received, borderColor: DefaultColor.received }
+    case 'sent': return { color: DefaultColor.white, backgroundColor: DefaultColor.sent, borderColor: DefaultColor.sent }
+    case 'transferred': return { color: DefaultColor.white, backgroundColor: DefaultColor.transferred, borderColor: DefaultColor.transferred }
     case 'logout': return { color: DefaultColor.white, backgroundColor: DefaultColor.invalidredwine, borderColor: DefaultColor.invalidredwine }
     default: return { color: DefaultColor.black, backgroundColor: DefaultColor.white, borderColor: DefaultColor.bordergrey }
   }

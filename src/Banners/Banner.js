@@ -23,8 +23,8 @@ const Container = styled.div`
 
 const selectStyle = type => {
   switch (type) {
-    case 'success': return { color: 'jade', uppercase: false, icon: 'success' }
-    case 'warning': return { color: 'mahogany', uppercase: true, icon: 'alert' }
+    case 'success': return { color: 'success', uppercase: false, icon: 'success' }
+    case 'warning': return { color: 'error', uppercase: true, icon: 'alert' }
     case 'alert': return { color: 'iris', uppercase: false, icon: 'bell' }
     default: return { color: 'iris', uppercase: false, icon: null }
   }
