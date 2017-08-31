@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import { convertFromUnit, displayCoin, displayFiat } from 'services/ConversionService'
+import { convertFromUnit, displayCoin, displayFiat, coinScale } from 'services/ConversionService'
 import { selectors } from 'data'
 
 import Ticker from './template.js'
@@ -9,10 +9,12 @@ import Ticker from './template.js'
 class TickerContainer extends React.Component {
   render () {
     const { network, unit, currency, rates } = this.props
+    const btcAmount = coinScale('bitcoin')
     const baseCoin = convertFromUnit(network, 1, unit).getOrElse('N/A')
     const amount = baseCoin.amount
     const coin = displayCoin(network, amount, unit).getOrElse('N/A')
     const fiat = displayFiat(network, amount, currency, rates).getOrElse('N/A')
+
     return (
       <Ticker coin={coin} fiat={fiat} />
     )

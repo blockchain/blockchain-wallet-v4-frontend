@@ -41,7 +41,7 @@ const displayFiat = (network, amount, currency, rates) => {
 }
 
 // convertFromUnit :: String -> Number
-const coinScale = network => {
+export const coinScale = network => {
   switch (network) {
     case 'bitcoin': return 100000000
     default: return undefined
