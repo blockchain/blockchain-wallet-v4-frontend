@@ -116,9 +116,9 @@ const ExtraDetailsContainer = styled(HiddenOnDesktop)`
 `
 const selectColors = type => {
   switch (type) {
-    case 'Sent': return 'bittersweet'
-    case 'Transferred': return 'balihai'
-    case 'Received': return 'irisgreen'
+    case 'Sent': return 'sent'
+    case 'Transferred': return 'transferred'
+    case 'Received': return 'received'
     default: return ''
   }
 }
