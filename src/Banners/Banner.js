@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Color from 'color'
+import { transparentize } from 'polished'
 
 import { DefaultColor } from '../Colors'
 import { Icon } from '../Icons'
@@ -35,8 +35,8 @@ const Banner = props => {
   const style = selectStyle(type)
   const { color, uppercase, icon } = style
 
-  const backgroundColor = Color(DefaultColor[color]).fade(0.9).toString()
-  const borderColor = Color(DefaultColor[color]).fade(0.8).toString()
+  const backgroundColor = transparentize(0.9, DefaultColor[color])
+  const borderColor = transparentize(0.8, DefaultColor[color])
 
   return (
     <Container backgroundColor={backgroundColor} borderColor={borderColor}>

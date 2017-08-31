@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { DefaultColor } from '../Colors'
-import Color from 'color'
+import { darken } from 'polished'
 
 const BaseButton = styled.button.attrs({ type: 'button' })`
   display: flex;
@@ -63,9 +63,9 @@ const Button = ({ ...props, children }) => {
       {...props}
       color={color}
       backgroundColor={backgroundColor}
-      backgroundColorHover={Color(backgroundColor).darken(0.10).toString()}
+      backgroundColorHover={darken(0.1, backgroundColor)}
       borderColor={borderColor}
-      borderColorHover={Color(borderColor).darken(0.10).toString()}>
+      borderColorHover={darken(0.1, borderColor)}>
       {children}
     </BaseButton>
   )
