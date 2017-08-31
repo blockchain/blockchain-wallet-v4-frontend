@@ -3,7 +3,7 @@ export default {
   // Primary
   iris: '#10ADE4',
   mariner: '#3558A8',
-  balihai: '#799EB2',
+  transferred: '#799EB2',
   regalblue: '#153A62',
   lightblue: '#B2D5E5',
   lighterblue: '#E3EFF5',
@@ -13,11 +13,11 @@ export default {
   rosebud: '#F9B0A1',
   moccasin: '#FFE6B4',
   dandelion: '#FFCF62',
-  irisgreen: '#00BABC',
-  bittersweet: '#F26C57',
+  received: '#00BABC',
+  sent: '#F26C57',
   // Product
-  jade: '#00A76F',
-  mahogany: '#CA3A3C',
+  success: '#00A76F',
+  error: '#CA3A3C',
   // Greys
   grey: '#F5F7F9',
   text: '#5F5F5F',

@@ -47,7 +47,7 @@
     "webpack": "^3.5.5"
   },
   "dependencies": {
-    "color": "^2.0.0",
+    "polished": "^1.7.0",
     "ramda": "^0.24.1"
   },
   "peerDependencies": {
