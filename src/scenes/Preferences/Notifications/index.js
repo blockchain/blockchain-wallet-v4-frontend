@@ -1,24 +1,10 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import Notifications from './template.js'
 
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
-
-const Notifications = (props) => {
-  return (
-    <SettingContainer>
-      <SettingSummary>
-        <SettingHeader>
-          <FormattedMessage id='scenes.preferences.notifications.title' defaultMessage='Notifications' />
-        </SettingHeader>
-        <SettingDescription>
-          <FormattedMessage id='scenes.preferences.notifications.description' defaultMessage='Get notified when you receive bitcoin.' />
-        </SettingDescription>
-      </SettingSummary>
-      <SettingComponent>
-        [Notifications Checkboxes]
-      </SettingComponent>
-    </SettingContainer>
-  )
+class NotificationsContainer extends React.Component {
+  render () {
+    return <Notifications {...this.props} />
+  }
 }
 
-export default Notifications
+export default NotificationsContainer
