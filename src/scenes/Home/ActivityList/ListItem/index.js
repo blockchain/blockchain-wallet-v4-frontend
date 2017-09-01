@@ -13,8 +13,8 @@ const Container = styled.div`
   width: calc(100% - 30px);
   height: 60px;
   margin: 0 20px;
-  border-left: 1px solid ${props => props.theme['bordergrey']};
-  border-bottom: 1px solid ${props => props.theme['bordergrey']};
+  border-left: 1px solid ${props => props.theme['gray-2']};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
 `
 const Circle = styled.div`
   position: absolute;
@@ -25,7 +25,7 @@ const Circle = styled.div`
   width: 30px;
   height: 30px;
   background-color: ${props => props.theme['white']};
-  border: 1px solid ${props => props.theme['bordergrey']};
+  border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 100%;
   text-align: center;
 `
@@ -59,7 +59,7 @@ const ActivityListItem = (props) => {
   return (
     <Container>
       <Circle>
-        <Icon name={iconName} color='blue' />
+        <Icon name={iconName} color='brand-primary' />
       </Circle>
       <Info>
         <Text size='14px' weight={300} capitalize>{action}</Text>

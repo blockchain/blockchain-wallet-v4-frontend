@@ -23,7 +23,7 @@ const Address = styled.span`
   height: 40px;
   font-size: 14px;
   font-weight: 300;
-  background-color: ${props => props.theme['greytransparent']};
+  background-color: ${props => props.theme['gray-1']};
 
   @media(min-width:768px) { font-size: 0.9rem; }
 `

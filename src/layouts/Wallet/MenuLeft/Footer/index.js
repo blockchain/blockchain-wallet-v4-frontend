@@ -14,21 +14,21 @@ const Circle = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  border: 1px solid ${props => props.theme['bordergrey']};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 
 const Footer = () => {
   return (
     <Wrapper>
-      <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank' size='13px' weight={300} color='text'>
+      <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank' size='13px' weight={300} color='gray-5'>
         <FormattedMessage id='layouts.wallet.menuleft.footer.termsofservice' defaultMessage='ToS' />
       </Link>
       <Circle />
-      <Link href='https://www.blockchain.com/assets/pdf/Blockchain_PrivacyPolicy.pdf' target='_blank' size='13px' weight={300} color='text'>
+      <Link href='https://www.blockchain.com/assets/pdf/Blockchain_PrivacyPolicy.pdf' target='_blank' size='13px' weight={300} color='gray-5'>
         <FormattedMessage id='layouts.wallet.menuleft.footer.privacypolicy' defaultMessage='Privacy policy' />
       </Link>
       <Circle />
-      <Link href='https://www.blockchain.com/about' target='_blank' size='13px' weight={300} color='text'>
+      <Link href='https://www.blockchain.com/about' target='_blank' size='13px' weight={300} color='gray-5'>
         <FormattedMessage id='layouts.wallet.menuleft.footer.about' defaultMessage='About' />
       </Link>
     </Wrapper>

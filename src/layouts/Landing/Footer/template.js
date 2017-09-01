@@ -8,7 +8,7 @@ import Container from 'components/Container'
 import DropdownLanguage from 'components/DropdownLanguage'
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme['lighterblue']};
+  background-color: ${props => props.theme['brand-quaternary']};
   padding: 40px;
 `
 const Navigation = styled(Container)`
@@ -67,9 +67,9 @@ const Footer = () => {
     <Wrapper>
       <Navigation>
         <Top>
-          <Logo name='blockchain-blue' height='20px' />
+          <Logo name='blockchain-brand-primary' height='20px' />
           <Column>
-            <Text size='13px' weight={500} color='iris' uppercase>
+            <Text size='13px' weight={500} color='brand-secondary' uppercase>
               <FormattedMessage id='layouts.landing.footer.products' defaultMessage='Products' />
             </Text>
             <LinkContainer to='/wallet'>
@@ -91,7 +91,7 @@ const Footer = () => {
             </Link>
           </Column>
           <Column>
-            <Text size='13px' weight={500} color='iris' uppercase>
+            <Text size='13px' weight={500} color='brand-secondary' uppercase>
               <FormattedMessage id='layouts.landing.footer.company' defaultMessage='Company' />
             </Text>
             <Link href='https://blockchain.com/about' size='13px' weight={500} color='transferred' uppercase>
@@ -111,7 +111,7 @@ const Footer = () => {
             </Link>
           </Column>
           <Column>
-            <Text size='13px' weight={500} color='iris' uppercase>
+            <Text size='13px' weight={500} color='brand-secondary' uppercase>
               <FormattedMessage id='layouts.landing.footer.news' defaultMessage='News' />
             </Text>
             <Link href='https://blockchain.com/press' size='13px' weight={500} color='transferred' uppercase>

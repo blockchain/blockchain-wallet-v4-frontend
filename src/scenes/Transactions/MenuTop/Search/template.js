@@ -8,7 +8,7 @@ const SearchContainer = styled.div`
   width: 100%;
 `
 const SearchBox = styled.input.attrs({
-  type: 'text'
+  type: 'gray-5'
 })`
   display: block;
   width: 100%;
@@ -18,12 +18,12 @@ const SearchBox = styled.input.attrs({
   box-sizing: border-box;
   font-size: 14px;
   line-height: 1.42;
-  color: ${props => props.theme['text']};
+  color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border: 1px solid ${props => props.theme['bordergrey']};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const SearchIcon = styled(Icon)`
   position: absolute;

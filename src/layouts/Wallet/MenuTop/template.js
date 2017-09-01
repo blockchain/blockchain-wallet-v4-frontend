@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 15px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme['bordergrey']};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
 
   @media(min-width: 768px) { 
     flex-direction: row;

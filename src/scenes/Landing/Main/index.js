@@ -36,13 +36,13 @@ const Block = styled.div`
   white-space: nowrap;
 `
 const Block1 = Block.extend`
-  background-color: ${props => props.theme['mariner']};
+  background-color: ${props => props.theme['marketing-primary']};
 `
 const Block2 = Block.extend`
-  background-color: ${props => props.theme['blue']};
+  background-color: ${props => props.theme['brand-primary']};
 `
 const Block3 = Block.extend`
-  background-color: ${props => props.theme['iris']};
+  background-color: ${props => props.theme['brand-secondary']};
 `
 
 const Main = (props) => {
@@ -63,10 +63,10 @@ const Main = (props) => {
           </TextGroup>
           <NavLink to='/register'>
             <TextGroup inline>
-              <Text size='16px' weight={300} color='iris' uppercase>
+              <Text size='16px' weight={300} color='brand-secondary' uppercase>
                 <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
               </Text>
-              <Icon name='right_arrow' color='iris' />
+              <Icon name='right_arrow' color='brand-secondary' />
             </TextGroup>
           </NavLink>
         </MainContainer>

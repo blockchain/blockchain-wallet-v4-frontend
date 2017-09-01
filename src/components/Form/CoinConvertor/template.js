@@ -32,7 +32,7 @@ const Container = styled.div`
 const Unit = styled.span`
   position: absolute;
   padding: 0 15px;
-  color: ${props => props.theme['basicgrey']};
+  color: ${props => props.theme['gray-4']};
 `
 const Arrow = styled(Icon)`
   font-size: 16px;

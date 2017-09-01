@@ -7,7 +7,7 @@ const SettingContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  border-bottom: 1px solid ${props => props.theme['bordergrey']};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
 
   @media (min-width: 992px) {
     flex-direction: row;
