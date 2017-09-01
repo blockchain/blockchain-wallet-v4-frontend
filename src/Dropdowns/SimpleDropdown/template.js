@@ -57,7 +57,7 @@ const DropdownList = styled.ul`
 `
 
 const DropdownItem = styled.li`
-  color: ${props => props.theme['text']};
+  color: ${props => props.theme['gray-5']};
   cursor: pointer;
   padding: 3px 20px;
   font-family: 'Montserrat', Helvetica, sans-serif;
@@ -87,7 +87,7 @@ const Dropdown = props => {
 }
 
 Dropdown.defaultProps = {
-  color: 'iris',
+  color: 'brand-secondary',
   toggled: false,
   selectedValue: 0,
   uppercase: true,

@@ -39,7 +39,7 @@ Text.defaultProps = {
   uppercase: false,
   capitalize: false,
   italic: false,
-  color: 'text',
+  color: 'gray-5',
   altFont: false
 }
 

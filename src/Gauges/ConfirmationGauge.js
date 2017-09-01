@@ -14,16 +14,16 @@ const Bar = styled.div`
   display: flex;
   flex-grow: 1;
   height: 15px;
-  border: 1px solid ${props => props.theme['realblack']};
+  border: 1px solid ${props => props.theme['black']};
   box-sizing: border-box;
   background-color: ${props => props.theme[props.color]};
 `
 
 const selectColor = nbConfirmations => {
   switch (nbConfirmations) {
-    case 1: return 'yellow'
-    case 2: return 'orange'
-    case 3: return 'green'
+    case 1: return 'brand-yellow-lighter'
+    case 2: return 'brand-yellow'
+    case 3: return 'success'
     default: return 'white'
   }
 }

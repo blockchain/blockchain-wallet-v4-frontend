@@ -11,7 +11,7 @@ const BasePage = styled.div`
   font-weight: 300;
   line-height: 1.45;
   font-size: 15px;
-  border: 1px solid ${Color('bordergrey')};
+  border: 1px solid ${Color('gray-2')};
   padding: 20px 40px 40px;
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px;
@@ -23,7 +23,7 @@ const TitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 1px solid ${Color('bordergrey')};
+  border-bottom: 1px solid ${Color('gray-2')};
   padding: 10px;
   box-sizing: border-box;
   margin-bottom: 30px;

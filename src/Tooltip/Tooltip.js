@@ -28,8 +28,8 @@ const TooltipBox = styled(TextGroup)`
   width: 250px;
   display: ${props => props.displayed ? 'block' : 'none'};
   background-color: ${props => props.theme['grey']};
-  color: ${props => props.theme['text']};
-  border: 1px solid ${props => props.theme['bordergrey']};
+  color: ${props => props.theme['gray-5']};
+  border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 5px;
   padding: 10px;
   box-sizing: border-box;
@@ -47,7 +47,7 @@ const TooltipBox = styled(TextGroup)`
     width: 0;
     height: 0;
     border: 10px solid transparent;
-    border-top-color: ${props => props.theme['bordergrey']};
+    border-top-color: ${props => props.theme['gray-2']};
   }
 
   &:after {
@@ -64,8 +64,8 @@ const TooltipBox = styled(TextGroup)`
 `
 
 const selectColors = displayed => displayed
-  ? { color: 'white', backgroundColor: 'blue', borderColor: 'strongblue' }
-  : { color: 'text', backgroundColor: 'white', borderColor: 'bordergrey' }
+  ? { color: 'white', backgroundColor: 'blue', borderColor: 'primary' }
+  : { color: 'gray-5', backgroundColor: 'white', borderColor: 'gray-2' }
 
 class Tooltip extends React.Component {
   constructor (props) {

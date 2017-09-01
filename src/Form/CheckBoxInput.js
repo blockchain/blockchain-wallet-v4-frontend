@@ -21,7 +21,7 @@ const BaseCheckBoxInput = styled.input.attrs({
   &:checked {
     & + label {
       &:before {
-        background: ${props => props.theme['iris']};
+        background: ${props => props.theme['brand-secondary']};
       }
     }
   }
@@ -38,7 +38,7 @@ const Label = styled.label`
     background: white;
     border-radius: 2px;
     transition: background .2s;
-    border: 1px solid ${props => props.theme['iris']};
+    border: 1px solid ${props => props.theme['brand-secondary']};
   }
 `
 
