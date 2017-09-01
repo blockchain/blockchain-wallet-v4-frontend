@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { contains } from 'ramda'
 
-import { DefaultColor, TextInput, Text } from 'blockchain-info-components'
+import { TextInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;

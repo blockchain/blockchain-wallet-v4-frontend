@@ -22,12 +22,12 @@ const MenuItem = styled.li`
   justify-content: flex-start;
   align-items: center;
   padding: 8px 16px;
-  color: #757575;
+  color: ${props => props.theme['basicgrey']};
   cursor: pointer;
 
   & > :first-child { width: 30px; }
   & > :last-child { text-transform: uppercase; }
-  &.active {  & > * { color: #10ADE4; } }
+  &.active {  & > * { color: ${props => props.theme['iris']}; } }
 `
 const SubMenu = styled.ul`
   display: flex;
@@ -42,10 +42,10 @@ const SubMenuItem = styled.li`
   padding: 5px 10px;
   margin-right: 10px;
   text-transform: none;
-  color: #757575;
+  color: ${props => props.theme['basicgrey']};
   cursor: pointer;
 
-  &.active {  & > * { color: #10ADE4; } }
+  &.active {  & > * { color: ${props => props.theme['iris']}; } }
 `
 
 const Navigation = (props) => {

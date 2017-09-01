@@ -18,12 +18,12 @@ const SearchBox = styled.input.attrs({
   box-sizing: border-box;
   font-size: 14px;
   line-height: 1.42;
-  color: #555555;
-  background-color: #FFFFFF;
+  color: ${props => props.theme['text']};
+  background-color: ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border: 1px solid #CCCCCC;
+  border: 1px solid ${props => props.theme['bordergrey']};
 `
 const SearchIcon = styled(Icon)`
   position: absolute;

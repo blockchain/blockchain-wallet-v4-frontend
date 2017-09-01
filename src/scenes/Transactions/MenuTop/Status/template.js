@@ -13,7 +13,7 @@ const Item = styled.span`
   text-transform: uppercase;
   font-weight: normal;
   cursor: pointer;
-  color: #CDCDCD;
+  color: ${props => props.theme['midgrey']};
   text-align: center;
 `
 const ItemSelected = styled.span`
@@ -23,6 +23,7 @@ const ItemSelected = styled.span`
   text-transform: uppercase;
   font-weight: normal;
   cursor: pointer;
+  color: ${props => props.theme['basicgrey']};
   text-align: center;
 `
 

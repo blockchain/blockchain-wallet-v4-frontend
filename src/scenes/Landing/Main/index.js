@@ -36,13 +36,13 @@ const Block = styled.div`
   white-space: nowrap;
 `
 const Block1 = Block.extend`
-  background-color: #3558A8;
+  background-color: ${props => props.theme['mariner']};
 `
 const Block2 = Block.extend`
-  background-color: #004A7C;
+  background-color: ${props => props.theme['blue']};
 `
 const Block3 = Block.extend`
-  background-color: #10ADE4;
+  background-color: ${props => props.theme['iris']};
 `
 
 const Main = (props) => {

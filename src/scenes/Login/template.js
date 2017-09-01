@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 40px;
   box-sigin: border-box;
-  background-color: #FFFFFF;
+  background-color: ${props => props.theme['white']};
 
   @media(min-width: 768px) { width: 550px; }
 `

@@ -4,7 +4,7 @@ export const getCulture = path(['preferences', 'culture'])
 
 export const getLanguage = path(['preferences', 'language'])
 
-export const getTheme = path(['theme', 'theme'])
+export const getTheme = path(['preferences', 'theme'])
 
 export const getEmail = path(['preferences', 'email'])
 

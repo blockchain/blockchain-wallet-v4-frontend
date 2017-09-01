@@ -15,6 +15,7 @@ import Themes from './Themes'
 
 const Wrapper = styled.section`
   padding: 30px;
+  margin-bottom: 80px;
   box-sizing: border-box;
 `
 
