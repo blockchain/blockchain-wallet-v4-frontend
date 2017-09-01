@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { DefaultColor } from '../Colors'
 import { darken } from 'polished'
+
+import { Color } from '../Colors'
 
 const BaseButton = styled.button.attrs({ type: 'button' })`
   display: flex;
@@ -27,45 +28,45 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
   font-size: 14px;
   font-weight: ${props => props.bold ? '700' : '300'};
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-  color: ${props => props.color};
-  background-color: ${props => props.backgroundColor};
+  color: ${props => props.theme[props.color]};
+  background-color: ${props => props.theme[props.backgroundColor]};
   border-radius: ${props => props.rounded ? '20px' : '3px'};
   border-style: solid;
   border-width: ${props => props.rounded ? '2px' : '1px'};
-  border-color: ${props => props.rounded ? DefaultColor.white : props.borderColor};
+  border-color: ${props => props.disabled ? 'none' : props.theme[props.borderColor]};
 
   &:hover {
-    border-color: ${props => props.disabled ? 'none' : props.rounded ? DefaultColor.white : props.borderColorHover};
-    background-color: ${props => props.disabled ? 'none' : props.backgroundColorHover};
+    border-color: ${props => props.disabled ? 'none' : darken(0.1, (props.theme[props.borderColor]))};
+    background-color: ${props => props.disabled ? 'none' : darken(0.1, (props.theme[props.backgroundColor]))};
   }
   &:focus { outline:0; }
  `
-const selectColors = (nature, disabled) => {
-  if (disabled) { return { color: DefaultColor.white, backgroundColor: DefaultColor.iris, borderColor: DefaultColor.iris } }
+const selectColor = (nature, theme, disabled) => {
+  if (disabled) { return { color: 'white', backgroundColor: 'iris', borderColor: 'iris' } }
 
   switch (nature) {
-    case 'empty': return { color: DefaultColor.black, backgroundColor: DefaultColor.white, borderColor: DefaultColor.bordergrey }
-    case 'primary': return { color: DefaultColor.white, backgroundColor: DefaultColor.blue, borderColor: DefaultColor.blue }
-    case 'secondary': return { color: DefaultColor.white, backgroundColor: DefaultColor.iris, borderColor: DefaultColor.iris }
-    case 'copy': return { color: DefaultColor.white, backgroundColor: DefaultColor.green, borderColor: DefaultColor.green }
-    case 'received': return { color: DefaultColor.white, backgroundColor: DefaultColor.received, borderColor: DefaultColor.received }
-    case 'sent': return { color: DefaultColor.white, backgroundColor: DefaultColor.sent, borderColor: DefaultColor.sent }
-    case 'transferred': return { color: DefaultColor.white, backgroundColor: DefaultColor.transferred, borderColor: DefaultColor.transferred }
-    case 'logout': return { color: DefaultColor.white, backgroundColor: DefaultColor.invalidredwine, borderColor: DefaultColor.invalidredwine }
-    default: return { color: DefaultColor.black, backgroundColor: DefaultColor.white, borderColor: DefaultColor.bordergrey }
+    case 'empty': return { color: 'black', backgroundColor: 'white', borderColor: 'bordergrey' }
+    case 'primary': return { color: 'white', backgroundColor: 'blue', borderColor: 'blue' }
+    case 'secondary': return { color: 'white', backgroundColor: 'iris', borderColor: 'iris' }
+    case 'copy': return { color: 'white', backgroundColor: 'green', borderColor: 'green' }
+    case 'received': return { color: 'white', backgroundColor: 'received', borderColor: 'received' }
+    case 'sent': return { color: 'white', backgroundColor: 'sent', borderColor: 'sent' }
+    case 'transferred': return { color: 'white', backgroundColor: 'transferred', borderColor: 'transferred' }
+    case 'logout': return { color: 'white', backgroundColor: 'invalidredwine', borderColor: 'invalidredwine' }
+    default: return { color: 'black', backgroundColor: 'white', borderColor: 'bordergrey' }
   }
 }
 
-const Button = ({ ...props, children }) => {
-  const { color, backgroundColor, borderColor } = selectColors(props.nature, props.disabled)
+const Button = (props) => {
+  const { children, nature, theme, disabled, ...rest } = props
+  const { color, backgroundColor, borderColor } = selectColor(nature, theme, disabled)
+
   return (
     <BaseButton
-      {...props}
+      {...rest}
       color={color}
       backgroundColor={backgroundColor}
-      backgroundColorHover={darken(0.1, backgroundColor)}
-      borderColor={borderColor}
-      borderColorHover={darken(0.1, borderColor)}>
+      borderColor={borderColor}>
       {children}
     </BaseButton>
   )

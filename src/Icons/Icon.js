@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { DefaultColor } from '../Colors'
+import { Palette } from '../Colors'
 import Icomoon from './Icomoon'
 import { keysIn } from 'ramda'
 
 const BaseIcon = styled.span`
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
-  color: ${props => DefaultColor[props.color]};
+  color: ${props => props.theme[props.color]};
 
   &:before {
     font-family: 'icomoon';
@@ -27,7 +27,7 @@ Icon.propTypes = {
   name: PropTypes.string.isRequired,
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,
-  color: PropTypes.oneOf(keysIn(DefaultColor))
+  color: PropTypes.oneOf(keysIn(Palette()))
 }
 
 Icon.defaultProps = {

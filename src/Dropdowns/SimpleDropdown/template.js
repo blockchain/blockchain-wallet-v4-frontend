@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { Icon } from '../../Icons'
-import { DefaultColor } from '../../Colors'
+import { Palette } from '../../Colors'
 import { keysIn } from 'ramda'
 
 const Wrapper = styled.div`
@@ -16,11 +16,11 @@ const ButtonContainer = styled.div`
   justify-content: center;
   cursor: pointer;
   align-items: center;
-  width: min-content;
+  width: auto;
   height: auto;
 
   & > * {
-    color: ${props => DefaultColor[props.color]}!important;
+    color:  ${props => props.theme[props.color]}!important;
   }
 `
 const Button = styled.div`
@@ -32,8 +32,8 @@ const DropdownIcon = styled(Icon)`
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
-  background-color: ${DefaultColor.white};
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color:  ${props => props.theme['white']};;
+  border: 1px solid ${props => props.theme['grey']};
   border-radius: 4px;
   bottom: 0px;
   #box-sizing: border-box;
@@ -57,7 +57,7 @@ const DropdownList = styled.ul`
 `
 
 const DropdownItem = styled.li`
-  color: rgb(51, 51, 51);
+  color: ${props => props.theme['text']};
   cursor: pointer;
   padding: 3px 20px;
   font-family: 'Montserrat', Helvetica, sans-serif;
@@ -102,7 +102,7 @@ Dropdown.PropTypes = {
   })),
   callback: PropTypes.func.isRequired,
   toggled: PropTypes.bool,
-  color: PropTypes.oneOf(keysIn(DefaultColor)),
+  color: PropTypes.oneOf(keysIn(Palette())),
   uppercase: PropTypes.bool,
   down: PropTypes.bool
 }

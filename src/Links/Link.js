@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { DefaultColor } from '../Colors'
+import { Palette } from '../Colors'
 import { keysIn } from 'ramda'
 
 const BaseLink = styled.a`
@@ -12,7 +12,7 @@ const BaseLink = styled.a`
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
-  color: ${props => DefaultColor[props.color]};
+  color: ${props => props.theme[props.color]};
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   text-decoration: none;
   cursor : pointer;
@@ -20,7 +20,7 @@ const BaseLink = styled.a`
   & > * { margin-right: 5px; }
 
   &:hover { 
-    color: ${props => DefaultColor[props.color]};
+    color: ${props => props.theme[props.color]};
   }
 
   &:focus { text-decoration: none; }
@@ -39,7 +39,7 @@ const Link = props => {
 Link.propTypes = {
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,
-  color: PropTypes.oneOf(keysIn(DefaultColor)),
+  color: PropTypes.oneOf(keysIn(Palette())),
   uppercase: PropTypes.bool,
   bold: PropTypes.bool
 }
