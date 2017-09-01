@@ -6,7 +6,8 @@ import latestBlock from './data/LatestBlock/reducers.js'
 import logs from './data/Logs/reducers.js'
 import transactions from './data/Transactions/reducers.js'
 import info from './data/Info/reducers.js'
-import rates from './data/Rates/reducers.js'
+import btcRates from './data/Rates/bitcoin/reducers.js'
+import ethRates from './data/Rates/ether/reducers.js'
 import wallet from './wallet/reducers.js'
 import settings from './settings/reducers.js'
 import payment from './data/Payment/reducers'
@@ -19,7 +20,8 @@ const data = combineReducers({
   logs,
   txs: transactions,
   info: info,
-  rates: rates,
+  btcRates: btcRates,
+  ethRates: ethRates,
   payment
 })
 

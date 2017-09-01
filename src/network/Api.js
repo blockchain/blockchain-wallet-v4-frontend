@@ -168,6 +168,11 @@ const createApi = ({
     return request({ url: rootUrl, method: 'GET', endPoint: 'ticker', data })
   }
 
+  const getEthTicker = () => {
+    const data = { format: 'json', currency: 'USD', base: 'ETH' }
+    return request({ url: rootUrl, method: 'GET', endPoint: 'ticker', data })
+  }
+
   const getSettings = (guid, sharedKey) => {
     const data = { format: 'json', method: 'get-info', guid, sharedKey }
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
@@ -270,6 +275,7 @@ const createApi = ({
     createPinEntry: future(createPinEntry),
     getPinValue: future(getPinValue),
     getTicker: future(getTicker),
+    getEthTicker: future(getEthTicker),
     getSettings: future(getSettings),
     getCaptchaImage: future(getCaptchaImage),
     recoverWallet: future(recoverWallet),
