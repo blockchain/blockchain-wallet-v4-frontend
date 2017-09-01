@@ -21,7 +21,7 @@ const AddressBox = styled.span`
   width: 100%;
   height: 40px;
   font-size: 16px;
-  background-color: #EFEFEF;
+  background-color: ${props => props.theme['midgrey']};
 
   @media(min-width:768px) { font-size: 14px; }
 `

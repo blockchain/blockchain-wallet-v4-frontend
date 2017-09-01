@@ -8,7 +8,7 @@ import Container from 'components/Container'
 import DropdownLanguage from 'components/DropdownLanguage'
 
 const Wrapper = styled.div`
-  background-color: #E3EFF5;
+  background-color: ${props => props.theme['lighterblue']};
   padding: 40px;
 `
 const Navigation = styled(Container)`

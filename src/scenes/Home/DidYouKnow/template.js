@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   padding: 15px;
   margin-top: 15px;
   box-sizing: border-box;
-  border: 1px solid #DDDDDD;
+  border: 1px solid ${props => props.theme['bordergrey']};
 
   & > * { padding: 10px 0; }
 `

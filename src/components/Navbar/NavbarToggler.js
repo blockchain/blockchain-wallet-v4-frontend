@@ -17,7 +17,7 @@ const BaseTogglerBar = styled.span`
   height: 2px;
   border-radius: 1px;
   margin-top: 4px;
-  background-color: #FFFFFF;
+  background-color: ${props => props.theme['white']};
 `
 
 const NavbarToggler = props => {

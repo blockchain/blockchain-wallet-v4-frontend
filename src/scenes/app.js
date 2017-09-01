@@ -2,12 +2,15 @@ import React from 'react'
 import { Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import styled, { ThemeProvider } from 'styled-components'
+import styled from 'styled-components'
+
+import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
+import ThemeProvider from 'providers/ThemeProvider'
 
 import LandingLayout from 'layouts/Landing'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
-import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
+
 import LandingContainer from './Landing'
 import LoginContainer from './Login'
 import HelpContainer from './Help'
@@ -32,12 +35,12 @@ const RootStyle = styled.div`
 
 class App extends React.Component {
   render () {
-    const { store, history, messages, theme } = this.props
+    const { store, history, messages } = this.props
 
     return (
       <Provider store={store}>
         <ConnectedIntlProvider messages={messages}>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider>
             <RootStyle>
               <ConnectedRouter history={history}>
                 <Switch>

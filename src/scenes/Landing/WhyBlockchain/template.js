@@ -9,7 +9,7 @@ import Page2 from './Page2'
 
 const Wrapper = styled.div`
   padding: 70px 0;
-  background-color: #FFFFFF;
+  background-color: ${props => props.theme['white']};
 `
 const Row = styled(Container)`
   display: flex;
@@ -48,7 +48,7 @@ const Control = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: ${props => props.active ? '#004A7C' : '#E3EFF5'};
+  background-color: ${props => props.active ? props.theme['iris'] : props.theme['basicgreys']};
   cursor: pointer;
 `
 

@@ -29,7 +29,7 @@ const Container = styled.div`
 `
 const Nav = styled.div`
   flex: 0 0 60px;
-  background-color: #004A7C;
+  background-color: ${props => props.theme['blue']};
 `
 const Left = styled.div`
   display: flex;
@@ -40,8 +40,8 @@ const Left = styled.div`
   height: 100%;
   padding: 15px;
   box-sizing: border-box;
-  background: #F5F7F9;
-  border-right: 1px solid #DDDDDD;
+  background: ${props => props.theme['grey']};
+  border-right: 1px solid ${props => props.theme['bordergrey']};
   z-index: 1000;
   transition: left .3s ease-in-out;
 
@@ -59,6 +59,7 @@ const Content = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: calc(100% - 270px);
+  background-color: ${props => props.theme['white']};
 
   @media(max-width: 768px) { width: 100%; }
 `

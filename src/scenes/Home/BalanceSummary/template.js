@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 15px;
   box-sizing: border-box;
-  border: 1px solid #DDDDDD;
+  border: 1px solid ${props => props.theme['bordergrey']};
 `
 const FirstRow = styled.div`
   display: flex;
@@ -23,12 +23,12 @@ const FirstRow = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  border-bottom: 1px solid #DDDDDD;
+  border-bottom: 1px solid ${props => props.theme['bordergrey']};
   padding: 10px 0;
 `
 const Row = styled(FirstRow)`
   justify-content: space-between;
-  border-bottom: ${props => props.last ? 'none' : '1px solid #DDDDDD'};
+  border-bottom: ${props => props.last ? 'none' : '1px solid ' + props.theme['']};
 `
 const Amount = styled.div`
   display: flex;

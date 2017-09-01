@@ -6,7 +6,7 @@ import { Icon, Image, Link, Text, TextGroup } from 'blockchain-info-components'
 import Container from 'components/Container'
 
 const Wrapper = styled.div`
-  background-color: #FFFFFF;
+  background-color: ${props => props.theme['white']};
   padding: 50px 0;
 `
 

@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: ${props => props.height};
   margin: 0 auto;
-  background-color: #004A7C;
+  background-color: ${props => props.theme['blue']};
 
   @media(min-width: 768px) { width: ${props => props.fluid ? '720px' : '100%'}; }
   @media(min-width: 992px) { width: ${props => props.fluid ? '960px' : '100%'}; }

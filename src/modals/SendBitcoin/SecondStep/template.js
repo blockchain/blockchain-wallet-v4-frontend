@@ -22,7 +22,7 @@ const Summary = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #EFEFEF;
+  background-color: ${props => props.theme['bordergrey']};
   margin: 5px 0;
   
   & > * { padding: 10px 0; }

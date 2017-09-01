@@ -6,7 +6,7 @@ import Header from './Header'
 import Footer from './Footer'
 
 const Wrapper = styled.div`
-  background-color: #004A7C;
+  background-color: ${props => props.theme['blue']};
 `
 
 const LandingLayout = ({component: Component, ...rest}) => {
