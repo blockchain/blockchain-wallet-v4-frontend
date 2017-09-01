@@ -2,9 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { storiesOf } from '@storybook/react'
 
-import { compose, map, zipObj, toPairs } from 'ramda'
+import { compose, map, zipObj, toPairs, keysIn } from 'ramda'
 import Layout from '../components/layout'
-import { DefaultColor } from '../../src/Colors'
+import { Palette } from '../../src/Colors'
+
+console.log(Palette())
 
 const ColorLayout = styled.div`
   display: flex;
@@ -39,18 +41,17 @@ const Code = styled.div`
   text-align: center;
 `
 
-const PaletteDefault = () => {
-  const convert = compose(map(zipObj(['key', 'value'])), toPairs)
-  const colorsArray = convert(DefaultColor)
+const PaletteLayout = (props) => {
+  const palette = Palette(props.theme)
+  const keys = keysIn(palette)
 
   return (
     <ColorLayout>
-      { colorsArray.map(function (color, index) {
-        console.log(color)
+      { keys.map(function (key, index) {
         return (
           <Container key={index}>
-            <Sample bgColor={color.value} />
-            <Code>{color.key}</Code>
+            <Sample bgColor={palette[key]} />
+            <Code>{key}</Code>
           </Container>
         )
       })}
@@ -60,4 +61,5 @@ const PaletteDefault = () => {
 
 storiesOf('Colors', module)
   .addDecorator(story => (<Layout>{story()}</Layout>))
-    .add('Colors', () => <PaletteDefault />)
+  .add('Default', () => <PaletteLayout theme='default' />)
+  .add('Invert', () => <PaletteLayout theme='invert' />)

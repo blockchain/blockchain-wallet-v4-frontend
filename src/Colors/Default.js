@@ -26,7 +26,7 @@ export default {
   midgrey: '#B0B0B0',
   basicgrey: '#757575',
   greytransparent: 'rgba(245, 247, 249, 0.9)',
-  // New colors
+  // New Color
   white: '#FFFFFF',
   green: '#006600',
   redwine: '#660000',
@@ -36,6 +36,7 @@ export default {
   orange: '#E59400',
   red: '#FF0000',
   halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
-  transparent: 'transparent',
+  // transparent: 'transparent',
+  transparent: '#FFFFFF',
   strongblue: '#004AC7'
 }

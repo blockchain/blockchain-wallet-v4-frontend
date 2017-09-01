@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { transparentize } from 'polished'
 
-import { DefaultColor } from '../Colors'
 import { Icon } from '../Icons'
 import { Text } from '../Text'
 
@@ -11,8 +10,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: ${props => props.backgroundColor};
-  border: 1px solid ${props => props.borderColor};
+  background: ${props => transparentize(0.9, (props.theme[props.color]))};
+  border: 1px solid ${props => transparentize(0.8, (props.theme[props.color]))};
   border-radius: 4px;
   padding: 5px 10px;
   -moz-osx-font-smoothing: grayscale;
@@ -35,11 +34,8 @@ const Banner = props => {
   const style = selectStyle(type)
   const { color, uppercase, icon } = style
 
-  const backgroundColor = transparentize(0.9, DefaultColor[color])
-  const borderColor = transparentize(0.8, DefaultColor[color])
-
   return (
-    <Container backgroundColor={backgroundColor} borderColor={borderColor}>
+    <Container color={color}>
       { icon && <Icon name={icon} size='12px' weight={400} color={color} /> }
       <Text size='12px' weight={400} color={color} uppercase={uppercase}>
         { children }

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { DefaultColor } from '../Colors'
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,7 +21,7 @@ const BaseCheckBoxInput = styled.input.attrs({
   &:checked {
     & + label {
       &:before {
-        background: ${DefaultColor.iris};
+        background: ${props => props.theme['iris']};
       }
     }
   }
@@ -39,7 +38,7 @@ const Label = styled.label`
     background: white;
     border-radius: 2px;
     transition: background .2s;
-    border: 1px solid ${DefaultColor.iris};
+    border: 1px solid ${props => props.theme['iris']};
   }
 `
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Dropdown from './template.js'
-import { DefaultColor } from '../../'
+import { Color, Palette } from '../../'
 import { keysIn } from 'ramda'
 
 class SimpleDropdown extends React.Component {
@@ -54,7 +54,7 @@ SimpleDropdown.PropTypes = {
   })),
   callback: PropTypes.func.isRequired,
   opened: PropTypes.bool,
-  color: PropTypes.oneOf(keysIn(DefaultColor)),
+  color: PropTypes.oneOf(keysIn(Palette())),
   uppercase: PropTypes.bool,
   down: PropTypes.bool
 }

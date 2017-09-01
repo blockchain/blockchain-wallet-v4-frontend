@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { DefaultColor } from '../Colors'
 
 const Container = styled.div`
   display: flex;
@@ -15,22 +14,29 @@ const Bar = styled.div`
   display: flex;
   flex-grow: 1;
   height: 15px;
-  border: 1px solid ${DefaultColor.realblack};
+  border: 1px solid ${props => props.theme['realblack']};
   box-sizing: border-box;
-  background-color: ${props =>
-    props.score === 0 ? DefaultColor.white
-  : props.score === 1 ? DefaultColor.yellow
-  : props.score === 2 ? DefaultColor.orange : DefaultColor.green};
+  background-color: ${props => props.theme[props.color]};
 `
+
+const selectColor = nbConfirmations => {
+  switch (nbConfirmations) {
+    case 1: return 'yellow'
+    case 2: return 'orange'
+    case 3: return 'green'
+    default: return 'white'
+  }
+}
 
 const ConfirmationGauge = (props) => {
   const { nbConfirmations } = props
+  const color = selectColor(nbConfirmations)
 
   return (
     <Container>
-      {nbConfirmations > 0 ? <Bar score={nbConfirmations} /> : <Bar score={0} />}
-      {nbConfirmations > 1 ? <Bar score={nbConfirmations} /> : <Bar score={0} />}
-      {nbConfirmations > 2 ? <Bar score={nbConfirmations} /> : <Bar score={0} />}
+      {nbConfirmations > 0 ? <Bar color={color} /> : <Bar color='white' />}
+      {nbConfirmations > 1 ? <Bar color={color} /> : <Bar color='white' />}
+      {nbConfirmations > 2 ? <Bar color={color} /> : <Bar color='white' />}
     </Container>
   )
 }
