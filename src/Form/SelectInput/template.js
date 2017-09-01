@@ -62,11 +62,11 @@ const List = styled.div`
   display: ${props => props.expanded ? 'flex' : 'none'};
   flex-direction: column;
   justify-content: flex-start;
-  align-items: left;
+  align-items: flex-start;
   order: 1;
   width: 100%;
   height: auto;
-  max-height: 140px;
+  max-height: 140px; 
   overflow-y: scroll;
   overflow-x: hidden;
   background-color: ${props => props.theme['white']};
