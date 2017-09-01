@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import Settings from './Settings'
 
 const Themes = (props) => {
   return (
@@ -15,7 +16,7 @@ const Themes = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        [Themes Dropdown]
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )

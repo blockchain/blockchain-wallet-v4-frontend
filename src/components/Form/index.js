@@ -11,6 +11,7 @@ import SelectBoxAddresses from './SelectBoxAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCurrency from './SelectBoxCurrency'
 import SelectBoxLanguages from './SelectBoxLanguages'
+import SelectBoxTheme from './SelectBoxTheme'
 import TextArea from './TextArea'
 import TextBox from './TextBox'
 
@@ -27,6 +28,7 @@ export {
   SelectBoxBitcoinUnit,
   SelectBoxCurrency,
   SelectBoxLanguages,
+  SelectBoxTheme,
   TextArea,
   TextBox
 }

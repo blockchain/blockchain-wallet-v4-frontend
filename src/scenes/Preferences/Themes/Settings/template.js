@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
-import { SelectBoxBitcoinUnit } from 'components/Form'
+import { SelectBoxTheme } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,9 +17,13 @@ const Settings = (props) => {
 
   return (
     <Wrapper>
-      <Field name='unit' component={SelectBoxBitcoinUnit} callback={handleClick} />
+      <Field name='theme' component={SelectBoxTheme} callback={handleClick} />
     </Wrapper>
   )
+}
+
+Settings.propTypes = {
+  theme: PropTypes.string.isRequired
 }
 
 export default Settings
