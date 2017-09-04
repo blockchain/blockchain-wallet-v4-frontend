@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 40px;
   box-sigin: border-box;
-  background-color: #FFFFFF;
+  background-color: ${props => props.theme['white']};
 
   @media(min-width: 768px) { width: 550px; }
 `
@@ -44,10 +44,10 @@ const FirstStep = (props) => {
       <Separator />
       <Form>
         <TextGroup inline>
-          <Text size='13px' weight={300} color='mahogany'>
+          <Text size='13px' weight={300} color='error'>
             <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password.' />
           </Text>
-          <Text size='13px' weight={300} color='mahogany'>
+          <Text size='13px' weight={300} color='error'>
             <FormattedMessage id='scenes.recover.firststep.warning2' defaultMessage='Recovering your funds will create a new Wallet ID.' />
           </Text>
         </TextGroup>

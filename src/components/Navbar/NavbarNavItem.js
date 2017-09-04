@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const BaseNavItem = styled.li`
@@ -9,12 +8,12 @@ const BaseNavItem = styled.li`
   & > a {
     font-size: 14px;
     font-weight: 400;
-    color: #FFFFFF;
+    color: ${props => props.theme['white']};
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
 
-    &:hover { color: #FFFFFF; }
+    &:hover { color: ${props => props.theme['white']}; }
   }
 `
 

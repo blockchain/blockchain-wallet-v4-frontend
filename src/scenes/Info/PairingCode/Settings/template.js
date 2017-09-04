@@ -8,7 +8,7 @@ const Settings = (props) => {
 
   return (
     <Button nature='secondary' onClick={handleClick}>
-      <FormattedMessage id='scenes.info.pairingcode.settings.show' defaultMessage='Show pairing code' small light white />
+      <FormattedMessage id='scenes.info.pairingcode.settings.show' defaultMessage='Show pairing code' />
     </Button>
   )
 }

@@ -29,14 +29,14 @@ const Content = styled.div`
   width: 75%;
   font-weight: 300;
   margin-bottom: 0;
-  color: #5f5f5f;
+  color: ${props => props.theme['text']};
 `
 
 const Arrow = styled(Icon).attrs({
   name: 'down_arrow'
 })`
   transform: ${props => props.rotated ? 'rotate(-180deg)' : 'none'};
-  color: ${props => props.rotated ? '#004a7c' : 'inherit'};
+  color: ${props => props.rotated ? props.theme['blue'] : 'inherit'};
   cursor: pointer;
   font-size: 10px;
 `

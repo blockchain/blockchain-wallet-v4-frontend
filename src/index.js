@@ -6,7 +6,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from 'scenes/app.js'
-import { defaultTheme } from 'themes'
 import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
 
@@ -24,7 +23,7 @@ const { messages } = configureLocalesPayload
 const render = Component => {
   ReactDOM.render(
     <AppContainer key={Math.random()}>
-      <Component store={store} history={history} messages={messages} theme={defaultTheme} />
+      <Component store={store} history={history} messages={messages} />
     </AppContainer>,
     document.getElementById('app')
   )

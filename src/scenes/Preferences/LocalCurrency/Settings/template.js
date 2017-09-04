@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 
@@ -20,10 +19,6 @@ const Settings = (props) => {
       <Field name='currency' component={SelectBoxCurrency} callback={handleClick} />
     </Wrapper>
   )
-}
-
-Settings.propTypes = {
-  currency: PropTypes.string.isRequired
 }
 
 export default Settings

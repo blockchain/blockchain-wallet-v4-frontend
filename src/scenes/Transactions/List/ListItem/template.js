@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
-  border-bottom: 1px solid #DDDDDD;
+  border-bottom: 1px solid ${props => props.theme['bordergrey']};
 `
 const Row = styled.div`
   position: relative;
@@ -116,9 +116,9 @@ const ExtraDetailsContainer = styled(HiddenOnDesktop)`
 `
 const selectColors = type => {
   switch (type) {
-    case 'Sent': return 'bittersweet'
-    case 'Transferred': return 'balihai'
-    case 'Received': return 'irisgreen'
+    case 'Sent': return 'sent'
+    case 'Transferred': return 'transferred'
+    case 'Received': return 'received'
     default: return ''
   }
 }

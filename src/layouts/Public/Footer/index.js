@@ -12,7 +12,6 @@ const Wrapper = styled.footer`
   align-items: center;
   width: 100%;
   min-height: 60px;
-  background-color: #004A7C;
 
   @media(min-width: 768px) { 
     flex-direction: row;

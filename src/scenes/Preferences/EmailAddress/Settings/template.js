@@ -31,7 +31,7 @@ const Settings = (props) => {
       </Button>
       {updateToggled &&
         <Form>
-          <Text size='14px' weight={300} color='mahogany'>
+          <Text size='14px' weight={300} color='error'>
             <FormattedMessage id='scenes.preferences.email.warning' defaultMessage="This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same." />
           </Text>
           <Field name='emailAddress' validate={[validEmail]} component={TextBox} />

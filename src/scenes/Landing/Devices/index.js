@@ -14,7 +14,7 @@ const BannerBackground = styled(Background)`
   background-position: 70% 100%;
 `
 const Banner = styled(Container)`
-  color: #FFFFFF;
+  color: ${props => props.theme['white']};
 `
 const Badges = styled.div`
   display: block;

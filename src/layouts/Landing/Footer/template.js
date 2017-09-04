@@ -8,7 +8,7 @@ import Container from 'components/Container'
 import DropdownLanguage from 'components/DropdownLanguage'
 
 const Wrapper = styled.div`
-  background-color: #E3EFF5;
+  background-color: ${props => props.theme['lighterblue']};
   padding: 40px;
 `
 const Navigation = styled(Container)`
@@ -73,20 +73,20 @@ const Footer = () => {
               <FormattedMessage id='layouts.landing.footer.products' defaultMessage='Products' />
             </Text>
             <LinkContainer to='/wallet'>
-              <Text size='13px' weight={500} color='balihai' uppercase>
+              <Text size='13px' weight={500} color='transferred' uppercase>
                 <FormattedMessage id='layouts.landing.footer.wallet' defaultMessage='Wallet' />
               </Text>
             </LinkContainer>
-            <Link href='https://blockchain.com/enterprise' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blockchain.com/enterprise' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.business' defaultMessage='Business' />
             </Link>
-            <Link href='https://blockchain.com/research' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blockchain.com/research' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.research' defaultMessage='Research' />
             </Link>
-            <Link href='https://blockchain.info' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blockchain.info' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.explorer' defaultMessage='.Info Explorer' />
             </Link>
-            <Link href='https://support.blockchain.com' size='13px' weight={500}color='balihai' uppercase>
+            <Link href='https://support.blockchain.com' size='13px' weight={500}color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.support' defaultMessage='Support' />
             </Link>
           </Column>
@@ -94,19 +94,19 @@ const Footer = () => {
             <Text size='13px' weight={500} color='iris' uppercase>
               <FormattedMessage id='layouts.landing.footer.company' defaultMessage='Company' />
             </Text>
-            <Link href='https://blockchain.com/about' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blockchain.com/about' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.about' defaultMessage='About' />
             </Link>
-            <Link href='https://blockchain.com/team' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blockchain.com/team' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.team' defaultMessage='Team' />
             </Link>
-            <Link href='https://blockchain.com/careers' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blockchain.com/careers' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.careers' defaultMessage='Careers' />
             </Link>
-            <Link href='https://blockchain.com/interview' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blockchain.com/interview' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.interviewing' defaultMessage='Interviewing' />
             </Link>
-            <Link href='https://blockchain.com/faq' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blockchain.com/faq' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.faq' defaultMessage='Faq' />
             </Link>
           </Column>
@@ -114,10 +114,10 @@ const Footer = () => {
             <Text size='13px' weight={500} color='iris' uppercase>
               <FormattedMessage id='layouts.landing.footer.news' defaultMessage='News' />
             </Text>
-            <Link href='https://blockchain.com/press' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blockchain.com/press' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.press' defaultMessage='Press' />
             </Link>
-            <Link href='https://blog.blockchain.com' size='13px' weight={500} color='balihai' uppercase>
+            <Link href='https://blog.blockchain.com' size='13px' weight={500} color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.blog' defaultMessage='Blog' />
             </Link>
           </Column>
@@ -127,16 +127,16 @@ const Footer = () => {
         </Top>
         <Bottom>
           <CopyrightContainer>
-            <Text size='10px' color='balihai' uppercase>
+            <Text size='10px' color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.copyright' defaultMessage='2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.' />
             </Text>
-            <Link href='https://blockchain.com/privacy' target='_blank' size='10px' color='balihai' uppercase>
+            <Link href='https://blockchain.com/privacy' target='_blank' size='10px' color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.privacy' defaultMessage='Privacy' />
             </Link>
-            <Link href='https://blockchain.com/terms' target='_blank' size='10px' color='balihai' uppercase>
+            <Link href='https://blockchain.com/terms' target='_blank' size='10px' color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.terms' defaultMessage='Terms' />
             </Link>
-            <Link href='https://blockchain.com/legal' target='_blank' size='10px' color='balihai' uppercase>
+            <Link href='https://blockchain.com/legal' target='_blank' size='10px' color='transferred' uppercase>
               <FormattedMessage id='layouts.landing.footer.enforcement' defaultMessage='Law enforcement guide' />
             </Link>
           </CopyrightContainer>

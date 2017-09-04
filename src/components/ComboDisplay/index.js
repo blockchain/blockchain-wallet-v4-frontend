@@ -25,7 +25,7 @@ const mapStateToProps = (state) => ({
   network: 'bitcoin',
   unit: selectors.core.settings.getBtcCurrency(state),
   currency: selectors.core.settings.getCurrency(state),
-  rates: selectors.core.rates.getRates(state)
+  rates: selectors.core.btcRates.getBtcRates(state)
 })
 
 export default connect(mapStateToProps)(CoinDisplay)

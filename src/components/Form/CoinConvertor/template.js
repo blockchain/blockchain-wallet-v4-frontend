@@ -32,7 +32,7 @@ const Container = styled.div`
 const Unit = styled.span`
   position: absolute;
   padding: 0 15px;
-  color: #A8A8A8;
+  color: ${props => props.theme['basicgrey']};
 `
 const Arrow = styled(Icon)`
   font-size: 16px;
@@ -73,7 +73,7 @@ const CoinConvertor = (props) => {
           <Unit>{fiatUnit}</Unit>
         </Container>
       </CoinConvertorInput>
-      {meta.touched && meta.error && <Error size='13px' weight={300} color='mahogany'>{meta.error}</Error>}
+      {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
     </Wrapper>
   )
 }

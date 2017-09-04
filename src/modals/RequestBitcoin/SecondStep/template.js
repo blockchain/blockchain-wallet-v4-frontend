@@ -15,7 +15,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 15px 0;
-  background-color: #EFEFEF;
+  background-color: ${props => props.theme['midgrey']};
   margin: 5px 0;
 
   & > * { padding: 5px 0; }
@@ -25,7 +25,7 @@ const LinkContainer = styled.div`
   box-sizing: border-box;
   text-align: center;
   word-wrap: break-word;
-  border-top: 1px solid #DDDDDD;
+  border-top: 1px solid ${props => props.theme['bordergrey']};
 `
 const Footer = styled.div`
 padding: 5px 0;
@@ -44,10 +44,10 @@ const SecondStep = (props) => {
           <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment request:' />
         </Text>
         <Container>
-          <Text size='24px' weight={600} color='balihai'>
+          <Text size='24px' weight={600} color='transferred'>
             <CoinDisplay>{satoshis}</CoinDisplay>
           </Text>
-          <Text size='20px' weight={600} color='balihai'>
+          <Text size='20px' weight={600} color='transferred'>
             <CurrencyDisplay>{satoshis}</CurrencyDisplay>
           </Text>
           <Text size='16px'>{message}</Text>

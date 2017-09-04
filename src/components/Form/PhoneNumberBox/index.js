@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { contains } from 'ramda'
 
-import { DefaultColor, TextInput, Text } from 'blockchain-info-components'
+import { TextInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -33,7 +33,7 @@ const PhoneNumberBox = (field) => {
   return (
     <Container>
       <TextInput {...field.input} errorState={errorState} placeholder={field.placeholder} onKeyPress={handleKeyPress} />
-      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='mahogany'>{field.meta.error}</Error>}
+      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='error'>{field.meta.error}</Error>}
     </Container>
   )
 }

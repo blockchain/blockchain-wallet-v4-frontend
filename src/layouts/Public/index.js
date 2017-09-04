@@ -9,7 +9,7 @@ import Alerts from 'components/Alerts'
 import Container from 'components/Container'
 
 const Wrapper = styled.div`
-  background-color: #004A7C;
+  background-color: ${props => props.theme['blue']};
   height: auto;
   min-height: 100%;
   width: 100%;
