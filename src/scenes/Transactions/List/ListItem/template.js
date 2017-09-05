@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme['bordergrey']};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
 `
 const Row = styled.div`
   position: relative;

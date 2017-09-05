@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 15px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['bordergrey']};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const Header = styled.div`
   width: 100%;
@@ -30,7 +30,7 @@ const ActivityList = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text uppercase size='24px' weight={300} color='blue'>
+        <Text uppercase size='24px' weight={300} color='brand-primary'>
           <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
         </Text>
       </Header>

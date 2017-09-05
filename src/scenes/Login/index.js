@@ -9,11 +9,11 @@ import { actions } from 'data'
 class LoginContainer extends React.Component {
   constructor () {
     super()
-    this.handleClick = this.handleClick.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleTrezor = this.handleTrezor.bind(this)
   }
 
-  handleClick (event) {
+  handleSubmit (event) {
     event.preventDefault()
     this.props.authActions.loginStart({ guid: this.props.guid, password: this.props.password })
   }
@@ -25,7 +25,7 @@ class LoginContainer extends React.Component {
 
   render () {
     return (
-      <Login handleClick={this.handleClick} handleTrezor={this.handleTrezor} />
+      <Login handleSubmit={this.handleSubmit} handleTrezor={this.handleTrezor} />
     )
   }
 }

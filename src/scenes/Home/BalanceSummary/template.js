@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 15px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['bordergrey']};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const FirstRow = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const FirstRow = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  border-bottom: 1px solid ${props => props.theme['bordergrey']};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
   padding: 10px 0;
 `
 const Row = styled(FirstRow)`
@@ -42,7 +42,7 @@ const BalanceSummary = (props) => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={300} color='blue' uppercase>
+      <Text size='24px' weight={300} color='brand-primary' uppercase>
         <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Your balances' />
       </Text>
       <FirstRow>

@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   padding: 15px;
   margin-top: 15px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['bordergrey']};
+  border: 1px solid ${props => props.theme['gray-2']};
 
   & > * { padding: 10px 0; }
 `
@@ -84,12 +84,12 @@ const DidYouKnow = (props) => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={300} color='blue' uppercase>
+      <Text size='24px' weight={300} color='brand-primary' uppercase>
         <FormattedMessage id='scenes.home.didyouknow.title' defaultMessage='Did you know?' />
       </Text>
       <TextGroup inline>
-        <PaddedIcon name='user' size='18px' color='blue' />
-        <Text size='18px' weight={300} color='blue'>
+        <PaddedIcon name='user' size='18px' color='brand-primary' />
+        <Text size='18px' weight={300} color='brand-primary'>
           { selectTitle(number) }
         </Text>
       </TextGroup>

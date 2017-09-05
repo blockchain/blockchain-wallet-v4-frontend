@@ -29,7 +29,7 @@ const Container = styled.div`
 `
 const Nav = styled.div`
   flex: 0 0 60px;
-  background-color: ${props => props.theme['blue']};
+  background-color: ${props => props.theme['brand-primary']};
 `
 const Left = styled.div`
   display: flex;
@@ -40,8 +40,8 @@ const Left = styled.div`
   height: 100%;
   padding: 15px;
   box-sizing: border-box;
-  background: ${props => props.theme['grey']};
-  border-right: 1px solid ${props => props.theme['bordergrey']};
+  background: ${props => props.theme['gray-1']};
+  border-right: 1px solid ${props => props.theme['gray-2']};
   z-index: 1000;
   transition: left .3s ease-in-out;
 
