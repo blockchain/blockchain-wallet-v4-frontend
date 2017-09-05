@@ -22,6 +22,7 @@ const Wrapper = styled.div`
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, secondPasswordEnabled } = props
   if (secondPasswordEnabled) {
+    console.log('Second password is enabled')
     return (
       <Wrapper>
         <Button nature='secondary' onClick={handleToggle}>
@@ -46,6 +47,7 @@ const Settings = (props) => {
       </Wrapper>
     )
   } else {
+    console.log('Second password is disabled')
     return (
       <Wrapper>
         <Button nature='secondary' onClick={handleToggle}>

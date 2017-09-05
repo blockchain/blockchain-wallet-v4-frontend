@@ -25,24 +25,15 @@ class SettingContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.secondPassword, nextProps.secondPassword)) {
-      this.props.updateUI({ updateToggled: false })
-    }
-    if (equals(this.props.secondPassword, nextProps.secondPassword) && !equals(this.props.secondPasswordEnabled, nextProps.secondPasswordEnabled)) {
+    if (!equals(this.props.secondPassword, nextProps.secondPassword) ||
+      !equals(this.props.secondPasswordEnabled, nextProps.secondPasswordEnabled)) {
       this.props.updateUI({ updateToggled: false })
     }
   }
 
   handleClick () {
-    if (this.props.secondPasswordEnabled) {
-      // CASE: Remove second password
-      // Check second password value is secondPassword before
-      // Here use actions to remove secondPassword
-    } else {
-      // CASE: Set second password
-      const { secondPasswordValue } = this.props
-      this.props.walletActions.toggleSecondPassword(secondPasswordValue)
-    }
+    const { secondPasswordValue } = this.props
+    this.props.walletActions.toggleSecondPassword(secondPasswordValue)
     this.handleToggle()
   }
 
@@ -63,10 +54,7 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
-  // secondPassword: selectors.core.wallet.getSecondPassword(state),
-  // secondPasswordEnabled: selectors.core.wallet.getSecondPasswordEnabled(state),
+  secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
   secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword'),
   code: formValueSelector('settingSecondPassword')(state, 'code')
 })

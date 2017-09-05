@@ -4,16 +4,14 @@ import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, 
 import Setting from './Setting'
 
 const SecondPasswordWallet = (props) => {
-  const { secondpasswordEnabled } = props
-  const isEnabled = secondpasswordEnabled === 1
-
+  const { secondPasswordEnabled } = props
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage id='scenes.security.secondpassword.title' defaultMessage='Second wallet password' />
-          <SettingStatus active={isEnabled}>
-            {isEnabled
+          <SettingStatus active={secondPasswordEnabled}>
+            {secondPasswordEnabled
               ? <FormattedMessage id='scenes.security.secondpassword.enabled' defaultMessage='Enabled' />
               : <FormattedMessage id='scenes.security.secondpassword.disabled' defaultMessage='Disabled' />
             }
