@@ -25,6 +25,14 @@ const BaseCheckBoxInput = styled.input.attrs({
       }
     }
   }
+  &:disabled {
+    & + label {
+      &:before {
+        cursor: not-allowed;
+        border: 1px solid ${DefaultColor.bordergrey};
+      }
+    }
+  }
 `
 const Label = styled.label`
   display: flex;
@@ -43,11 +51,11 @@ const Label = styled.label`
 `
 
 const CheckBoxInput = props => {
-  const { name, errorState, children, ...rest } = props
+  const { name, errorState, children, checked, disabled, ...rest } = props
 
   return (
     <Wrapper>
-      <BaseCheckBoxInput id={name} {...rest} />
+      <BaseCheckBoxInput id={name} checked={checked} disabled={disabled} {...rest} />
       <Label htmlFor={name}>
         { children }
       </Label>
@@ -57,7 +65,9 @@ const CheckBoxInput = props => {
 
 CheckBoxInput.propTypes = {
   name: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  checked: PropTypes.bool,
+  disabled: PropTypes.string
 }
 
 export default CheckBoxInput
