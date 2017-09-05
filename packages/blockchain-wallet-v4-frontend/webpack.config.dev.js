@@ -1,12 +1,15 @@
-
+const path = require('path')
 const Webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+let resolveModule = (m) => (
+  require.resolve(m).replace(new RegExp(`${m}\\/.*`), `${m}/`)
+)
+
 const PATHS = {
   build: `${__dirname}/build`,
-  npm: `${__dirname}/node_modules`,
   src: `${__dirname}/src`
 }
 
@@ -27,7 +30,6 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'npm': PATHS.npm,
       'img': PATHS.src + '/assets/img',
       'locales': PATHS.src + '/assets/locales',
       'sass': PATHS.src + '/assets/sass',
@@ -110,8 +112,8 @@ module.exports = {
     new Webpack.NamedModulesPlugin(),
     new Webpack.HotModuleReplacementPlugin(),
     new CopyWebpackPlugin([
-      { from: PATHS.npm + '/blockchain-info-components/dist/img', to: PATHS.build + '/img' },
-      { from: PATHS.npm + '/blockchain-info-components/dist/fonts', to: PATHS.build + '/fonts' }
+      { from: path.join(resolveModule('blockchain-info-components'), '/dist/img'), to: PATHS.build + '/img' },
+      { from: path.join(resolveModule('blockchain-info-components'), '/dist/fonts'), to: PATHS.build + '/fonts' }
     ])
   ],
   devServer: {

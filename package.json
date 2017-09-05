@@ -2,6 +2,9 @@
   "private": true,
   "name": "blockchain-wallet-v4",
   "version": "0.1.0",
+  "scripts": {
+    "start": "cd packages/blockchain-wallet-v4-frontend && yarn start-dev"
+  },
   "workspaces": [
     "packages/*"
   ]

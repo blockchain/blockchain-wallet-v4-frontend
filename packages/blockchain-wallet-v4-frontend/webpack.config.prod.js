@@ -1,13 +1,16 @@
-
+const path = require('path')
 const Webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
+let resolveModule = (m) => (
+  require.resolve(m).replace(new RegExp(`${m}\\/.*`), `${m}/`)
+)
+
 const PATHS = {
   dist: `${__dirname}/dist`,
-  npm: `${__dirname}/node_modules`,
   src: `${__dirname}/src`
 }
 
@@ -25,7 +28,6 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'npm': PATHS.npm,
       'img': PATHS.src + '/assets/img',
       'locales': PATHS.src + '/assets/locales',
       'sass': PATHS.src + '/assets/sass',
@@ -115,8 +117,8 @@ module.exports = {
       ie8: false
     }),
     new CopyWebpackPlugin([
-      { from: PATHS.npm + '/blockchain-info-components/dist/img', to: PATHS.dist + '/img' },
-      { from: PATHS.npm + '/blockchain-info-components/dist/fonts', to: PATHS.dist + '/fonts' }
+      { from: path.join(resolveModule('blockchain-info-components'), '/dist/img'), to: PATHS.dist + '/img' },
+      { from: path.join(resolveModule('blockchain-info-components'), '/dist/fonts'), to: PATHS.dist + '/fonts' }
     ])
   ].concat([new BundleAnalyzerPlugin()]),
   devServer: {
