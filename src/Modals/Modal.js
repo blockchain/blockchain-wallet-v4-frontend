@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   position: relative;
   width: calc(100% - ${props => props.position * 20}px);
-  background-color: ${props => props.position === props.total ? props.theme['white'] : props.theme['bordergrey']};
+  background-color: ${props => props.position === props.total ? props.theme['white'] : props.theme['gray-2']};
   z-index: ${props => props.position ? (props.position) + 1041 : 1041};
 
   @media(min-width: 768px) {

@@ -57,7 +57,7 @@ class SelectInputContainer extends React.Component {
 
   getText (value, items) {
     const selectedItems = filter(x => equals(x.value, value), items)
-    return selectedItems.length === 1 ? prop('text', selectedItems[0]) : this.props.label
+    return selectedItems.length === 1 ? prop('gray-5', selectedItems[0]) : this.props.label
   }
 
   render () {

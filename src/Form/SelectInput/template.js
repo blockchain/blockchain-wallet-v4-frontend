@@ -27,7 +27,7 @@ const Button = styled.button.attrs({
   user-select: none;
   padding: 0.5rem 1rem;
   transition: all 0.2s ease-in-out;
-  color: ${props => props.theme['text']};
+  color: ${props => props.theme['gray-3']};
   background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', sans-serif !important;
   font-size: 0.9rem;
@@ -40,11 +40,11 @@ const Button = styled.button.attrs({
   }
 `
 const Search = styled.input.attrs({
-  type: 'text'
+  type: 'gray-3'
 })`
-  color: ${props => props.theme['text']};
+  color: ${props => props.theme['gray-3']};
   background-color: ${props => props.theme['white']};
-  border: 1px solid ${props => props.theme['bordergrey']};
+  border: 1px solid ${props => props.theme['gray-2']};
   font-size: 0.9rem;
   font-weight: normal;
   box-shadow: none;
@@ -53,7 +53,7 @@ const Search = styled.input.attrs({
 
   &:focus {
     border-radius: none;
-    border: 1px solid ${props => props.theme['bordergrey']};
+    border: 1px solid ${props => props.theme['gray-2']};
     outline: none;
   }
 `
@@ -70,29 +70,29 @@ const List = styled.div`
   overflow-y: scroll;
   overflow-x: hidden;
   background-color: ${props => props.theme['white']};
-  border: 1px solid ${props => props.theme['bordergrey']};
+  border: 1px solid ${props => props.theme['gray-2']};
   z-index: 100;
 `
 const ListItem = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
   font-weight: 300;
-  color: ${props => props.theme['text']};
+  color: ${props => props.theme['gray-3']};
   cursor: pointer;
 
   &:hover {
-    color: ${props => props.theme['text']};
-    background-color: ${props => props.theme['bordergrey']};
+    color: ${props => props.theme['gray-3']};
+    background-color: ${props => props.theme['gray-2']};
   }
 `
 const Header = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
-  color: ${props => props.theme['text']};
-  background-color: ${props => props.theme['bordergrey']};
+  color: ${props => props.theme['gray-3']};
+  background-color: ${props => props.theme['gray-2']};
   cursor: not-allowed;
 
-  &:hover { color: ${props => props.theme['text']}; }
+  &:hover { color: ${props => props.theme['gray-3']}; }
 `
 const Error = styled.label`
   position: absolute;
@@ -102,7 +102,7 @@ const Error = styled.label`
   height: 15px;
   font-size: 13px;
   font-weight: 300;
-  color: ${props => props.theme['invalidred']};
+  color: ${props => props.theme['error']};
 `
 const Arrow = styled(Icon).attrs({
   name: 'down_arrow'

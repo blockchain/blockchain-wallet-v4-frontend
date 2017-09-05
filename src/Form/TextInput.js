@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const BaseTextInput = styled.input.attrs({
-  type: 'text'
+  type: 'gray-5'
 })`
   display: block;
   width: 100%;
@@ -13,7 +13,7 @@ const BaseTextInput = styled.input.attrs({
   font-size: 14px;
   font-weight: 300;
   line-height: 1.42;
-  color:  ${props => props.theme['text']};
+  color:  ${props => props.theme['gray-2']};
   background-color:  ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
@@ -21,15 +21,15 @@ const BaseTextInput = styled.input.attrs({
   border: 1px solid  ${props => props.theme[props.borderColor]};
 
   &::-webkit-input-placeholder {
-    color: ${props => props.theme['text']};
+    color: ${props => props.theme['gray-2']};
   }
 `
 
 const selectBorderColor = (state) => {
   switch (state) {
     case 'initial': return 'midgrey'
-    case 'invalid': return 'invalidred'
-    case 'valid': return 'green'
+    case 'invalid': return 'error'
+    case 'valid': return 'success'
     default: return 'midgrey'
   }
 }

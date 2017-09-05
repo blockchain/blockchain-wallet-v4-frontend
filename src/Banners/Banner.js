@@ -24,8 +24,8 @@ const selectStyle = type => {
   switch (type) {
     case 'success': return { color: 'success', uppercase: false, icon: 'success' }
     case 'warning': return { color: 'error', uppercase: true, icon: 'alert' }
-    case 'alert': return { color: 'iris', uppercase: false, icon: 'bell' }
-    default: return { color: 'iris', uppercase: false, icon: null }
+    case 'alert': return { color: 'brand-secondary', uppercase: false, icon: 'bell' }
+    default: return { color: 'brand-secondary', uppercase: false, icon: null }
   }
 }
 

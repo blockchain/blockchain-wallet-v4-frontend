@@ -42,18 +42,18 @@ const BaseButton = styled.button.attrs({ type: 'button' })`
   &:focus { outline:0; }
  `
 const selectColor = (nature, theme, disabled) => {
-  if (disabled) { return { color: 'white', backgroundColor: 'iris', borderColor: 'iris' } }
+  if (disabled) { return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' } }
 
   switch (nature) {
-    case 'empty': return { color: 'black', backgroundColor: 'white', borderColor: 'bordergrey' }
-    case 'primary': return { color: 'white', backgroundColor: 'blue', borderColor: 'blue' }
-    case 'secondary': return { color: 'white', backgroundColor: 'iris', borderColor: 'iris' }
-    case 'copy': return { color: 'white', backgroundColor: 'green', borderColor: 'green' }
+    case 'empty': return { color: 'black', backgroundColor: 'white', borderColor: 'gray-2' }
+    case 'primary': return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' }
+    case 'secondary': return { color: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
+    case 'copy': return { color: 'white', backgroundColor: 'success', borderColor: 'success' }
     case 'received': return { color: 'white', backgroundColor: 'received', borderColor: 'received' }
     case 'sent': return { color: 'white', backgroundColor: 'sent', borderColor: 'sent' }
     case 'transferred': return { color: 'white', backgroundColor: 'transferred', borderColor: 'transferred' }
-    case 'logout': return { color: 'white', backgroundColor: 'invalidredwine', borderColor: 'invalidredwine' }
-    default: return { color: 'black', backgroundColor: 'white', borderColor: 'bordergrey' }
+    case 'logout': return { color: 'white', backgroundColor: 'error', borderColor: 'error' }
+    default: return { color: 'black', backgroundColor: 'white', borderColor: 'gray-2' }
   }
 }
 

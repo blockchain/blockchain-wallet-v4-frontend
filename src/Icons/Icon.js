@@ -33,7 +33,7 @@ Icon.propTypes = {
 Icon.defaultProps = {
   weight: 400,
   size: '16px',
-  color: 'text'
+  color: 'gray-5'
 }
 
 export default Icon
