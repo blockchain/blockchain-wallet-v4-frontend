@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { darken } from 'polished'
 
-import { Color } from '../Colors'
-
-const BaseButton = styled.button.attrs({ type: 'button' })`
+const BaseButton = styled.button.attrs({
+  type: props => props.type ? props.type : 'button'
+})`
   display: flex;
   flex-direction: row;
   justify-content: center;
