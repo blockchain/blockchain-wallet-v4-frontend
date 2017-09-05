@@ -32,7 +32,7 @@ const Settings = (props) => {
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.security.secondPassword.updateform.label' defaultMessage='Second Password' />
             </Text>
-            <Field name='secondPassword' /* validate={[ TODO: Check if password === secondPassword ]} */ component={PasswordBox} label='Second Password' />
+            <Field name='secondPassword' /* validate={[ TODO: Check if password === secondPassword ]} */ component={PasswordBox} />
             <ButtonGroup>
               <Button nature='empty' capitalize onClick={handleToggle}>
                 <FormattedMessage id='scenes.security.secondPassword.updateform.cancel' defaultMessage='Cancel' />

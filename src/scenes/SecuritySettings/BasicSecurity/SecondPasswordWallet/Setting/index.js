@@ -34,8 +34,15 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    // const { guid, sharedKey, secondPassword } = this.props
-    // this.props.settingsActions.updateSecondPassword(guid, sharedKey, secondPassword)
+    if (this.props.secondPasswordEnabled) {
+      // CASE: Remove second password
+      // Check second password value is secondPassword before
+      // Here use actions to remove secondPassword
+    } else {
+      // CASE: Set second password
+      const { secondPasswordValue } = this.props
+      this.props.walletActions.toggleSecondPassword(secondPasswordValue)
+    }
     this.handleToggle()
   }
 
@@ -60,7 +67,7 @@ const mapStateToProps = (state) => ({
   sharedKey: selectors.core.wallet.getSharedKey(state),
   // secondPassword: selectors.core.wallet.getSecondPassword(state),
   // secondPasswordEnabled: selectors.core.wallet.getSecondPasswordEnabled(state),
-  newSecondPassword: formValueSelector('settingSecondPassword')(state, 'secondPassword'),
+  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword'),
   code: formValueSelector('settingSecondPassword')(state, 'code')
 })
 
