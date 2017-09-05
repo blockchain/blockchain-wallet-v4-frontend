@@ -1,0 +1,47 @@
+//import global blockchain CSS
+@import '~blockchain-css/sass/bootstrap-blockchain';
+@import '~blockchain-css/sass/variables';
+@import '~blockchain-css/sass/fonts';
+
+//import global utilities
+@import '~blockchain-css/sass/utilities/general';
+@import '~blockchain-css/sass/utilities/colors';
+@import '~blockchain-css/sass/utilities/flex';
+@import '~blockchain-css/sass/utilities/spacing';
+@import '~blockchain-css/sass/utilities/layout';
+@import '~blockchain-css/sass/utilities/borders';
+@import '~blockchain-css/sass/utilities/typography';
+
+//import global elements
+@import '~blockchain-css/sass/elements/buttons';
+@import '~blockchain-css/sass/elements/inputs';
+@import '~blockchain-css/sass/elements/forms';
+@import '~blockchain-css/sass/elements/links';
+
+//import global modules
+@import '~blockchain-css/sass/modules/header';
+@import '~blockchain-css/sass/modules/footer';
+
+//import global components
+@import '~blockchain-css/sass/components/modals';
+
+html {
+  padding:0;
+  margin:0;
+  font-size: 16px !important;
+  height: 100%;
+
+  & body {
+    padding:0;
+    margin:0;
+    height: 100%;
+
+    & #app {
+      height: 100%;
+
+      & > div {
+        height: 100%;
+      }
+    }
+  }
+}

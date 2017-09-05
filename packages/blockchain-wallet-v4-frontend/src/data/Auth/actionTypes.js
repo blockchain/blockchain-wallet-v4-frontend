@@ -1,0 +1,15 @@
+export const LOGIN_START = 'LOGIN_START'
+
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+
+export const LOGIN_ERROR = 'LOGIN_ERROR'
+
+export const SAVE_SESSION = 'SAVE_SESSION'
+
+export const LOGOUT_START_TIMER = 'LOGOUT_START_TIMER'
+
+export const LOGOUT_RESET_TIMER = 'LOGOUT_RESET_TIMER'
+
+export const LOGOUT_START = 'LOGOUT_START'
+
+export const LOGOUT_CANCEL = 'LOGOUT_CANCEL'
