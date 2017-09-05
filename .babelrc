@@ -1,7 +1,8 @@
 {
   "presets": [
-    ["es2015", { "modules" : "commonjs" }],
+    ["es2015", { "modules": "commonjs" }],
     "react",
-    "stage-0"
+    "stage-0",
+    "stage-2"
   ]
 }

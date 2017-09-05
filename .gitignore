@@ -1,4 +1,8 @@
-.DS_Store
 dist
-node_modules
 *.log
+node_modules
+lib
+.DS_Store
+.vscode
+coverage
+.idea/
