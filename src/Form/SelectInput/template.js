@@ -8,6 +8,7 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   height: auto;
+  background-color: ${props => props.theme['white']};
 `
 const SelectBoxInput = styled.div`
   position: relative;
@@ -26,7 +27,8 @@ const Button = styled.button.attrs({
   user-select: none;
   padding: 0.5rem 1rem;
   transition: all 0.2s ease-in-out;
-  background: white;
+  color: ${props => props.theme['text']};
+  background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', sans-serif !important;
   font-size: 0.9rem;
   font-weight: 300;
@@ -40,7 +42,9 @@ const Button = styled.button.attrs({
 const Search = styled.input.attrs({
   type: 'text'
 })`
-  border: 1px solid #CCCCCC;
+  color: ${props => props.theme['text']};
+  background-color: ${props => props.theme['white']};
+  border: 1px solid ${props => props.theme['bordergrey']};
   font-size: 0.9rem;
   font-weight: normal;
   box-shadow: none;
@@ -49,7 +53,7 @@ const Search = styled.input.attrs({
 
   &:focus {
     border-radius: none;
-    border: 1px solid #CCCCCC;
+    border: 1px solid ${props => props.theme['bordergrey']};
     outline: none;
   }
 `
@@ -58,37 +62,37 @@ const List = styled.div`
   display: ${props => props.expanded ? 'flex' : 'none'};
   flex-direction: column;
   justify-content: flex-start;
-  align-items: left;
+  align-items: flex-start;
   order: 1;
   width: 100%;
   height: auto;
-  max-height: 140px;
+  max-height: 140px; 
   overflow-y: scroll;
   overflow-x: hidden;
-  background-color: #FFFFFF;
-  border: 1px solid #CCCCCC;
+  background-color: ${props => props.theme['white']};
+  border: 1px solid ${props => props.theme['bordergrey']};
   z-index: 100;
 `
 const ListItem = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
   font-weight: 300;
-  color: #5F5F5F;
+  color: ${props => props.theme['text']};
   cursor: pointer;
 
   &:hover {
-    color: #5F5F5F;
-    background-color: #F5F5F5;
+    color: ${props => props.theme['text']};
+    background-color: ${props => props.theme['bordergrey']};
   }
 `
 const Header = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
-  color: #5F5F5F;
-  background-color: #CCCCCC;
+  color: ${props => props.theme['text']};
+  background-color: ${props => props.theme['bordergrey']};
   cursor: not-allowed;
 
-  &:hover { color: #5F5F5F; }
+  &:hover { color: ${props => props.theme['text']}; }
 `
 const Error = styled.label`
   position: absolute;
@@ -98,7 +102,7 @@ const Error = styled.label`
   height: 15px;
   font-size: 13px;
   font-weight: 300;
-  color: #FF0000;
+  color: ${props => props.theme['invalidred']};
 `
 const Arrow = styled(Icon).attrs({
   name: 'down_arrow'

@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { DefaultColor } from '../Colors'
 
 const BaseTextAreaInput = styled.textarea`
   display: block;
@@ -9,23 +8,24 @@ const BaseTextAreaInput = styled.textarea`
   box-sizing: border-box;
   font-size: 14px;
   line-height: 1.42;
-  color: ${DefaultColor.text};
-  background-color: ${DefaultColor.white};
+  color:  ${props => props.theme['text']};
+  background-color:  ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
   user-select: text;
-  resize: none;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid  ${props => props.theme[props.borderColor]};
 
-  &::-webkit-input-placeholder { color: ${DefaultColor.text}; }
+  &::-webkit-input-placeholder {
+    color: ${props => props.theme['text']};
+  }
 `
 
 const selectBorderColor = (state) => {
   switch (state) {
-    case 'initial': return DefaultColor.midgrey
-    case 'invalid': return DefaultColor.invalidred
-    case 'valid': return DefaultColor.green
-    default: return DefaultColor.midgrey
+    case 'initial': return 'midgrey'
+    case 'invalid': return 'invalidred'
+    case 'valid': return 'green'
+    default: return 'midgrey'
   }
 }
 

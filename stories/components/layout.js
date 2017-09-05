@@ -1,7 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { DefaultColor } from '../../src/Colors'
+import styled, { ThemeProvider } from 'styled-components'
+
+import { SimpleDropdown } from '../../src/Dropdowns'
+import { Color, Palette } from '../../src/Colors'
 
 const BasePage = styled.div`
   font-family: -apple-system, ".SFNSText-Regular", "San Francisco", Roboto, "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
@@ -10,17 +11,21 @@ const BasePage = styled.div`
   font-weight: 300;
   line-height: 1.45;
   font-size: 15px;
-  border: 1px solid ${DefaultColor.bordergrey};
+  border: 1px solid ${Color('bordergrey')};
   padding: 20px 40px 40px;
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px;
-  background-color: ${DefaultColor.white};
+  background-color: ${Color('white')};
   margin-top: 20px;
   margin-bottom: -30px;
 `
 const TitleWrapper = styled.div`
-  border-bottom: 1px solid ${DefaultColor.bordergrey};
-  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid ${Color('bordergrey')};
+  padding: 10px;
+  box-sizing: border-box;
   margin-bottom: 30px;
 `
 const Title = styled.h1`
@@ -30,22 +35,43 @@ const Title = styled.h1`
 `
 const Content = styled.div`
   position: relative;
-  
-  & > * {
-    margin: 10px auto;
-  }
+  margin: 10px;
 `
-const Layout = props => {
-  return (
-    <BasePage>
-      <TitleWrapper>
-        <Title>Visual</Title>
-      </TitleWrapper>
-      <Content>
-        {props.children}
-      </Content>
-    </BasePage>
-  )
+
+class Layout extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { theme: 'defaut' }
+    this.themes = [
+      { text: 'Default', value: 'default' },
+      { text: 'Complement', value: 'complement' },
+      { text: 'Grayscale', value: 'grayscale' },
+      { text: 'Invert', value: 'invert' }
+    ]
+    this.selectTheme = this.selectTheme.bind(this)
+  }
+
+  selectTheme (item) {
+    this.setState({ theme: item.value })
+  }
+
+  render () {
+    const theme = Palette(this.state.theme)
+
+    return (
+      <BasePage>
+        <TitleWrapper>
+          <Title>Visual</Title>
+          <SimpleDropdown items={this.themes} selectedValue={this.state.theme} callback={this.selectTheme} />
+        </TitleWrapper>
+        <Content>
+          <ThemeProvider theme={theme}>
+            {this.props.children}
+          </ThemeProvider>
+        </Content>
+      </BasePage>
+    )
+  }
 }
 
 export default Layout

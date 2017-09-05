@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { DefaultColor } from '../Colors'
+import { Palette } from '../Colors'
 import { keysIn } from 'ramda'
 
 const BaseText = styled.div`
@@ -10,9 +10,9 @@ const BaseText = styled.div`
   font-size: ${props => props.size};
   text-transform: ${props =>
     props.uppercase ? 'uppercase'
-      : props.capitalize ? 'capitalize' : 'none'};
+    : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => props.italic ? 'italic' : 'normal'};
-  color: ${props => props.color ? DefaultColor[props.color] : DefaultColor.text};
+  color: ${props => props.theme[props.color]};
 `
 
 const Text = ({ ...props, children }) => {
@@ -29,7 +29,7 @@ Text.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
-  color: PropTypes.oneOf(keysIn(DefaultColor)),
+  color: PropTypes.oneOf(keysIn(Palette())),
   altFont: PropTypes.bool
 }
 
@@ -39,6 +39,7 @@ Text.defaultProps = {
   uppercase: false,
   capitalize: false,
   italic: false,
+  color: 'text',
   altFont: false
 }
 
