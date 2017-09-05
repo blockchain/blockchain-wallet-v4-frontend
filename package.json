@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "name": "blockchain-wallet-v4",
+  "version": "0.1.0",
+  "workspaces": [
+    "packages/*"
+  ]
+}
