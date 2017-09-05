@@ -64,6 +64,7 @@ const Button = (props) => {
   return (
     <BaseButton
       {...rest}
+      disabled={disabled}
       color={color}
       backgroundColor={backgroundColor}
       borderColor={borderColor}>
