@@ -48,7 +48,7 @@ const Control = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: ${props => props.active ? props.theme['iris'] : props.theme['basicgreys']};
+  background-color: ${props => props.active ? props.theme['brand-secondary'] : props.theme['gray-4s']};
   cursor: pointer;
 `
 

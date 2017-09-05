@@ -10,7 +10,7 @@ const WalletWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;  
-  background-color: ${props => props.theme['grey']};
+  background-color: ${props => props.theme['gray-1']};
   height: 300px;
 `
 const WalletContainer = styled.div`

@@ -10,8 +10,8 @@ import Search from './Search'
 const Wrapper = styled.div`
   padding: 8px 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['grey']};
-  border-bottom: 1px solid ${props => props.theme['bordergrey']};
+  background-color: ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
 `
 const HorizontalForm = styled(Form)`
   display: flex;

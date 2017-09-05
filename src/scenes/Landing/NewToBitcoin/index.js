@@ -63,7 +63,7 @@ const NewToBitcoin = (props) => {
             </TextGroup>
             <Link href='https://blockchain.info/wallet/bitcoin-faq' uppercase>
               <FormattedMessage id='scenes.landing.newtobitcoin.learnmore' defaultMessage='Learn more' />
-              <Icon name='right_arrow' color='iris' />
+              <Icon name='right_arrow' color='brand-secondary' />
             </Link>
           </Summary>
         </Block>
