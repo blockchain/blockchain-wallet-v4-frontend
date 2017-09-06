@@ -72,6 +72,7 @@ storiesOf('Buttons', module)
         return <ButtonComponent key={index} nature={value}>{`Button ${value}`}</ButtonComponent>
       })}
     </ButtonLayout>)
+  .add('Button', () => <Button>Button</Button>)
   .add('Button rounded', () => <Button rounded>Button rounded</Button>)
   .add('Button fullwidth', () => <Button fullwidth>Button fullwidth</Button>)
   .add('Button disabled', () => <Button disabled>Button disabled</Button>)
