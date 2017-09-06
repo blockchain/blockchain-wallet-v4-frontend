@@ -7,24 +7,24 @@ import { Palette } from '../../Colors'
 import { keysIn } from 'ramda'
 
 const Wrapper = styled.div`
+  display: inline-flex;
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   position: relative;
 `
 const ButtonContainer = styled.div`
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   justify-content: center;
-  cursor: pointer;
   align-items: center;
-  width: auto;
-  height: auto;
+  cursor: pointer;
+  width: inherit;
 
   & > * {
-    color:  ${props => props.theme[props.color]}!important;
+    color: ${props => props.theme[props.color]}!important;
   }
 `
 const Button = styled.div`
-  display: inline-block;
+  display: inline;
 `
 const DropdownIcon = styled(Icon)`
   padding-left: 2px;
@@ -41,6 +41,7 @@ const DropdownList = styled.ul`
   display: ${props => props.toggled ? 'block' : 'none'};
   float: none;
   height: auto;
+  width: inherit;
   line-height: 20px;
   list-style-image: none;
   list-style-position: outside;

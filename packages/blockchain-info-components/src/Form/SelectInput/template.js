@@ -40,7 +40,7 @@ const Button = styled.button.attrs({
   }
 `
 const Search = styled.input.attrs({
-  type: 'gray-3'
+  type: 'text'
 })`
   color: ${props => props.theme['gray-3']};
   background-color: ${props => props.theme['white']};

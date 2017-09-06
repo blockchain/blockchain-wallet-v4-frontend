@@ -23,7 +23,7 @@ const BaseButton = styled.button.attrs({
   transition: all .2s ease-in-out;
   white-space: nowrap;
   line-height: 1;
-  text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
+  text-transform: ${props => props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
   font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 14px;
   font-weight: ${props => props.bold ? '700' : '300'};
@@ -64,6 +64,7 @@ const Button = (props) => {
   return (
     <BaseButton
       {...rest}
+      disabled={disabled}
       color={color}
       backgroundColor={backgroundColor}
       borderColor={borderColor}>
@@ -78,7 +79,8 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,
   bold: PropTypes.bool,
-  uppercase: PropTypes.bool
+  uppercase: PropTypes.bool,
+  capitalize: PropTypes.bool
 }
 
 Button.defaultProps = {
@@ -87,7 +89,8 @@ Button.defaultProps = {
   disabled: false,
   rounded: false,
   bold: false,
-  uppercase: false
+  uppercase: false,
+  capitalize: false
 }
 
 export default Button
