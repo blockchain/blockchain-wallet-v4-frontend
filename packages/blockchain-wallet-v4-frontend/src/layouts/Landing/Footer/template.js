@@ -67,7 +67,7 @@ const Footer = () => {
     <Wrapper>
       <Navigation>
         <Top>
-          <Logo name='blockchain-brand-primary' height='20px' />
+          <Logo name='blockchain-blue' height='20px' />
           <Column>
             <Text size='13px' weight={500} color='brand-secondary' uppercase>
               <FormattedMessage id='layouts.landing.footer.products' defaultMessage='Products' />
