@@ -5,7 +5,7 @@ import { withInfo } from '@storybook/addon-info'
 
 import { keysIn } from 'ramda'
 import Layout from '../components/layout'
-import { Icon as IconComponent } from '../../src'
+import { Icon } from '../../src'
 import IcomoonMap from '../../src/Icons/Icomoon'
 
 const IconWrapper = styled.div`
@@ -42,13 +42,13 @@ const Code = styled.div`
   font-weight: 500;
   text-align: center;
 `
-const Icon = props => {
+const IconComponent = props => {
   const { name } = props
 
   return (
     <Container>
       <Sample>
-        <IconComponent name={name} size='40px' />
+        <Icon name={name} size='40px' />
       </Sample>
       <Code>{name}</Code>
     </Container>
@@ -68,9 +68,13 @@ const iconKeys = keysIn(IcomoonMap)
 storiesOf('Icons', module)
   .addDecorator(story => (<Layout>{story()}</Layout>))
   .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-  .add('icomoon', () =>
+  .add('All icons (icomoon)', () =>
     <IconLayout>
       { iconKeys.map((value, index) => {
-        return <Icon key={index} name={value} />
+        return <IconComponent key={index} name={value} />
       })}
     </IconLayout>)
+  .add('Icon', () => <Icon name='mobile' />)
+  .add('Icon with size', () => <Icon name='mobile' size='54px' />)
+  .add('Icon with weight', () => <Icon name='mobile' size='54px' weight={700} />)
+  .add('Icon with color', () => <Icon name='mobile' size='54px' color='brand-primary' />)

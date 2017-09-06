@@ -5,7 +5,7 @@ import { withInfo } from '@storybook/addon-info'
 import { keysIn } from 'ramda'
 
 import Layout from '../components/layout'
-import { Image as ImageComponent } from '../../src'
+import { Image } from '../../src'
 import Images from '../../src/Images/Images'
 
 const ImageWrapper = styled.div`
@@ -44,13 +44,13 @@ const Code = styled.div`
   font-weight: 500;
   text-align: center;
 `
-const Image = props => {
-  const { name, width } = props
+const ImageComponent = props => {
+  const { name } = props
 
   return (
     <Container>
       <Sample>
-        <ImageComponent name={name} width={width} />
+        <Image name={name} width='100%' />
       </Sample>
       <Code>{name}</Code>
     </Container>
@@ -73,19 +73,9 @@ storiesOf('Images', module)
     .add('All images', () =>
       <ImageLayout>
         { imageKeys.map((value, index) => {
-          return <Image key={index} name={value} width='100%' />
+          return <ImageComponent key={index} name={value} />
         })}
       </ImageLayout>)
-    .add('App store badge', () => <Image name='app-store-badge' />)
-    .add('Bitcoin network', () => <Image name='bitcoin-network' />)
-    .add('Blockchain blue', () => <Image name='blockchain-blue' />)
-    .add('Blockchain vector', () => <Image name='blockchain-vector' />)
-    .add('Blue logo', () => <Image name='blue-logo' />)
-    .add('Google play badge', () => <Image name='google-play-badge' />)
-    .add('Landing page banner overlay', () => <Image name='landing-page-banner-overlay' />)
-    .add('Landing page banner sm overlay', () => <Image name='landing-page-banner-sm-overlay' />)
-    .add('QR code', () => <Image name='qr-code' />)
-    .add('Refresh', () => <Image name='refresh' />)
-    .add('Sophisticated', () => <Image name='sophisticated' />)
-    .add('Blue logo with width', () => <Image name='blue-logo' width='100' />)
-    .add('Blue logo with height', () => <Image name='blue-logo' height='50' />)
+    .add('Image', () => <Image name='blockchain-blue' />)
+    .add('Image width width', () => <Image name='blockchain-blue' width='750px' />)
+    .add('Image width height', () => <Image name='blockchain-blue' height='50px' />)
