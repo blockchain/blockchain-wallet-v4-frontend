@@ -1,6 +1,6 @@
 import 'isomorphic-fetch'
 import Promise from 'es6-promise'
-import { merge, identity, gt } from 'ramda'
+import { merge, identity, gt, type, trim } from 'ramda'
 import { futurizeP } from 'futurize'
 Promise.polyfill()
 
@@ -168,6 +168,11 @@ const createApi = ({
     return request({ url: rootUrl, method: 'GET', endPoint: 'ticker', data })
   }
 
+  const getEthTicker = () => {
+    const data = { format: 'json', currency: 'USD', base: 'ETH' }
+    return request({ url: rootUrl, method: 'GET', endPoint: 'ticker', data })
+  }
+
   const getSettings = (guid, sharedKey) => {
     const data = { format: 'json', method: 'get-info', guid, sharedKey }
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
@@ -225,6 +230,38 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
   }
 
+  // SETTINGS
+  const updateSettings = function (guid, sharedKey, method, value) {
+    const payload = type(value) === 'String' ? trim(value) : value + ''
+
+    const data = {
+      method,
+      guid,
+      sharedKey,
+      length: payload.length,
+      payload: payload
+    }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
+  }
+
+  const updateEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
+
+  const sendEmailConfirmation = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
+
+  const verifyEmail = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'verify-email-code', code)
+
+  const updateMobile = (guid, sharedKey, mobile) => updateSettings(guid, sharedKey, 'update-sms', mobile)
+
+  const verifyMobile = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'verify-sms', code)
+
+  const updateLanguage = (guid, sharedKey, language) => updateSettings(guid, sharedKey, 'update-language', language)
+
+  const updateCurrency = (guid, sharedKey, currency) => updateSettings(guid, sharedKey, 'update-currency', currency)
+
+  const updateBitcoinUnit = (guid, sharedKey, unit) => updateSettings(guid, sharedKey, 'update-btc-currency', unit)
+
+  const updateAutoLogout = (guid, sharedKey, autoLogout) => updateSettings(guid, sharedKey, 'update-auto-logout', autoLogout)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -238,6 +275,7 @@ const createApi = ({
     createPinEntry: future(createPinEntry),
     getPinValue: future(getPinValue),
     getTicker: future(getTicker),
+    getEthTicker: future(getEthTicker),
     getSettings: future(getSettings),
     getCaptchaImage: future(getCaptchaImage),
     recoverWallet: future(recoverWallet),
@@ -246,7 +284,17 @@ const createApi = ({
     pushTx: future(pushTx),
     getPairingCode: future(getPairingCode),
     getAdverts: future(getAdverts),
-    getLogs: future(getLogs)
+    getLogs: future(getLogs),
+
+    updateEmail: future(updateEmail),
+    sendEmailConfirmation: future(sendEmailConfirmation),
+    verifyEmail: future(verifyEmail),
+    updateMobile: future(updateMobile),
+    verifyMobile: future(verifyMobile),
+    updateLanguage: future(updateLanguage),
+    updateCurrency: future(updateCurrency),
+    updateBitcoinUnit: future(updateBitcoinUnit),
+    updateAutoLogout: future(updateAutoLogout)
   }
 }
 
