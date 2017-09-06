@@ -13,6 +13,7 @@ const removeSlashes = (path) => path.replace(/^\/|\/$/g, '')
 const Image = (props) => {
   const { name, ...rest } = props
   const file = Images[name]
+  if (!file) { return <img /> }
 
   return <BaseImage src={`/${removeSlashes(file)}`} {...rest} />
 }
