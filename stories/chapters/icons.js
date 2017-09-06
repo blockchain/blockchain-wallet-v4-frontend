@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 
-import { keysIn, map } from 'ramda'
+import { keysIn } from 'ramda'
 import Layout from '../components/layout'
-import { Icon } from '../../src'
+import { Icon as IconComponent } from '../../src'
 import IcomoonMap from '../../src/Icons/Icomoon'
 
-const IconLayout = styled.div`
+const IconWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -42,6 +42,26 @@ const Code = styled.div`
   font-weight: 500;
   text-align: center;
 `
+const Icon = props => {
+  const { name } = props
+
+  return (
+    <Container>
+      <Sample>
+        <IconComponent name={name} size='40px' />
+      </Sample>
+      <Code>{name}</Code>
+    </Container>
+  )
+}
+
+const IconLayout = props => {
+  return (
+    <IconWrapper>
+      {props.children}
+    </IconWrapper>
+  )
+}
 
 const iconKeys = keysIn(IcomoonMap)
 
@@ -50,15 +70,7 @@ storiesOf('Icons', module)
   .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
   .add('icomoon', () =>
     <IconLayout>
-      { map((value, index) => {
-        return (
-          <Container>
-            <Sample>
-              <Icon name={value} size='40px' />
-            </Sample>
-            <Code>{value}</Code>
-          </Container>
-        )
-      }, iconKeys)}
-    </IconLayout>
-  )
+      { iconKeys.map((value, index) => {
+        return <Icon key={index} name={value} />
+      })}
+    </IconLayout>)
