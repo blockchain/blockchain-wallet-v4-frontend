@@ -1,5 +1,5 @@
 import { is, pipe } from 'ramda'
-import { view } from 'ramda-lens'
+import { view, set } from 'ramda-lens'
 import Type from './Type'
 
 export class Options extends Type {}
@@ -15,6 +15,8 @@ export const selectPbkdf2Iterations = view(pbkdf2Iterations)
 export const selectFeePerKb = view(feePerKb)
 export const selectHtml5Notifications = view(html5Notifications)
 export const selectLogoutTime = view(logoutTime)
+
+export const setLogoutTime = set(logoutTime)
 
 export const toJS = pipe(Options.guard, (txnotes) => {
   return txnotes.toObject()

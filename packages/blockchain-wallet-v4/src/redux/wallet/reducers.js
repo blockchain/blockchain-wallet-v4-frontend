@@ -1,6 +1,7 @@
 import * as T from './actionTypes.js'
-import { Wrapper, Wallet } from '../../types'
-import { over, set } from 'ramda-lens'
+import { Wrapper, Wallet, Options } from '../../types'
+import { over, set, view } from 'ramda-lens'
+import { compose } from 'ramda'
 
 export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(Wrapper.createNewReadOnly('', ''))
 
@@ -30,6 +31,10 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     case T.SET_LEGACY_ADDRESS_LABEL: {
       const { address, label } = action.payload
       return over(Wrapper.wallet, Wallet.setLegacyAddressLabel(address, label), state)
+    }
+    case T.SET_AUTOLOGOUT: {
+      const { time } = action.payload
+      return over(compose(Wrapper.wallet, Wallet.options), Options.setLogoutTime(time), state)
     }
     case T.DELETE_LEGACY_ADDRESS: {
       const address = action.payload

@@ -1,16 +1,17 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
-import * as A from './actions'
-import * as T from './actionTypes'
+import * as actions from './actions'
+import * as AT from './actionTypes'
 import { selectors } from '../selectors'
+import { contains, toLower } from 'ramda'
 
 export const settingsSaga = ({ api } = {}) => {
   const fetchSettings = function * (action) {
     const { guid, sharedKey } = action.payload
     try {
       let response = yield call(api.getSettings, guid, sharedKey)
-      yield put(A.fetchSettingsSuccess(response))
+      yield put(actions.fetchSettingsSuccess(response))
     } catch (error) {
-      yield put(A.fetchSettingsError(error))
+      yield put(actions.fetchSettingsError(error))
     }
   }
 
@@ -22,14 +23,119 @@ export const settingsSaga = ({ api } = {}) => {
       const iterations = ''
       let response = yield call(api.getPairingCode, guid, sharedKey)
       // TODO /!\ : Convert to right format : https://github.com/blockchain/My-Wallet-V3/blob/master/src/wallet.js#L187
-      yield put(A.requestPairingCodeSuccess(response))
+      yield put(actions.requestPairingCodeSuccess(response))
     } catch (error) {
-      yield put(A.requestPairingCodeError(error))
+      yield put(actions.requestPairingCodeError(error))
+    }
+  }
+
+  const updateEmail = function * (action) {
+    try {
+      const { guid, sharedKey, email } = action.payload
+      const response = yield call(api.updateEmail, guid, sharedKey, email)
+      if (contains('updated', toLower(response))) {
+        yield put(actions.updateEmailSuccess(email, response))
+      } else {
+        yield put(actions.updateEmailError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateEmailError(error))
+    }
+  }
+
+  const updateMobile = function * (action) {
+    try {
+      const { guid, sharedKey, mobile } = action.payload
+      const response = yield call(api.updateMobile, guid, sharedKey, mobile)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateMobileSuccess(mobile, response))
+      } else {
+        yield put(actions.updateMobileError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateMobileError(error))
+    }
+  }
+
+  const verifyMobile = function * (action) {
+    try {
+      const { guid, sharedKey, code } = action.payload
+      const response = yield call(api.verifyMobile, guid, sharedKey, code)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.verifyMobileSuccess(code, response))
+      } else {
+        yield put(actions.verifyMobileError(response))
+      }
+    } catch (error) {
+      yield put(actions.verifyMobileError(error))
+    }
+  }
+
+  const updateLanguage = function * (action) {
+    try {
+      const { guid, sharedKey, language } = action.payload
+      const response = yield call(api.updateLanguage, guid, sharedKey, language)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateLanguageSuccess(language, response))
+      } else {
+        yield put(actions.updateLanguageError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateLanguageError(error))
+    }
+  }
+
+  const updateCurrency = function * (action) {
+    try {
+      const { guid, sharedKey, currency } = action.payload
+      const response = yield call(api.updateCurrency, guid, sharedKey, currency)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateCurrencySuccess(currency, response))
+      } else {
+        yield put(actions.updateCurrencyError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateCurrencyError(error))
+    }
+  }
+
+  const updateBitcoinUnit = function * (action) {
+    try {
+      const { guid, sharedKey, unit } = action.payload
+      const response = yield call(api.updateBitcoinUnit, guid, sharedKey, unit)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateBitcoinUnitSuccess(unit, response))
+      } else {
+        yield put(actions.updateBitcoinUnitError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateBitcoinUnitError(error))
+    }
+  }
+
+  const updateAutoLogout = function * (action) {
+    try {
+      const { guid, sharedKey, autoLogout } = action.payload
+      const response = yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
+      if (contains('successfully', toLower(response))) {
+        yield put(actions.updateAutoLogoutSuccess(autoLogout, response))
+      } else {
+        yield put(actions.updateAutoLogoutError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateAutoLogoutError(error))
     }
   }
 
   return function * () {
-    yield takeEvery(T.FETCH_SETTINGS, fetchSettings)
-    yield takeEvery(T.REQUEST_PAIRING_CODE, requestPairingCode)
+    yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
+    yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
+    yield takeEvery(AT.UPDATE_EMAIL, updateEmail)
+    yield takeEvery(AT.UPDATE_MOBILE, updateMobile)
+    yield takeEvery(AT.VERIFY_MOBILE, verifyMobile)
+    yield takeEvery(AT.UPDATE_LANGUAGE, updateLanguage)
+    yield takeEvery(AT.UPDATE_CURRENCY, updateCurrency)
+    yield takeEvery(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
+    yield takeEvery(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
   }
 }
