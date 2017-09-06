@@ -61,21 +61,22 @@ const ColorGrid = styled.table`
   width: 100%;
   border-collapse: collapse;
 `
-const ColorGridRow = styled.div`
+const ColorGridBody = styled.tbody``
+const ColorGridRow = styled.tr`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-top: 1px solid #CDCDCD;
-  border-bottom: 1px ${props => props.last ? 'solid' : 'none'} #CDCDCD;
+  border-top: 1px solid #EFEFEF;
+  border-bottom: 1px ${props => props.last ? 'solid' : 'none'} #EFEFEF;
 `
-const ColorGridCell = styled.div`
+const ColorGridCell = styled.td`
   flex-basis: 20%;
   font-size: 18px;
   text-transform: uppercase;
   text-align: center;
-  border-left: 1px solid #CDCDCD;
-  border-right: 1px ${props => props.last ? 'solid' : 'none'} #CDCDCD;
+  border-left: 1px solid #EFEFEF;
+  border-right: 1px ${props => props.last ? 'solid' : 'none'} #EFEFEF;
   background-color: ${props => props.color ? props.color : 'white'};
   &:first-child { flex-basis: 40%; }
 `
@@ -86,18 +87,20 @@ const PaletteGrid = props => {
 
   return (
     <ColorGrid>
-      <ColorGridRow>
-        <ColorGridCell>&nbsp;</ColorGridCell>
-        {themes.map((theme, index) => <ColorGridCell key={index} last={index === themes.length - 1}>{theme}</ColorGridCell>) }
-      </ColorGridRow>
-      { keys.map((key, indexRow) => {
-        return (
-          <ColorGridRow key={indexRow} last={indexRow === keys.length - 1}>
-            <ColorGridCell>{key}</ColorGridCell>
-            {themes.map((theme, indexCell) => <ColorGridCell key={indexCell} last={indexCell === themes.length - 1} color={Palette(theme)[key]}>&nbsp;</ColorGridCell>) }
-          </ColorGridRow>
-        )
-      })}
+      <ColorGridBody>
+        <ColorGridRow>
+          <ColorGridCell>&nbsp;</ColorGridCell>
+          {themes.map((theme, index) => <ColorGridCell key={index} last={index === themes.length - 1}>{theme}</ColorGridCell>) }
+        </ColorGridRow>
+        { keys.map((key, indexRow) => {
+          return (
+            <ColorGridRow key={indexRow} last={indexRow === keys.length - 1}>
+              <ColorGridCell>{key}</ColorGridCell>
+              {themes.map((theme, indexCell) => <ColorGridCell key={indexCell} last={indexCell === themes.length - 1} color={Palette(theme)[key]}>&nbsp;</ColorGridCell>) }
+            </ColorGridRow>
+          )
+        })}
+      </ColorGridBody>
     </ColorGrid>
   )
 }
