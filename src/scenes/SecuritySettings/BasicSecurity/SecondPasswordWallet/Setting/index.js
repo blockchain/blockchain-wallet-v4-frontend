@@ -28,7 +28,7 @@ class SettingContainer extends React.Component {
   }
 
   render () {
-    const { ui, uiUpdate, ...rest } = this.props
+    const { ui, ...rest } = this.props
 
     return <Settings
       {...rest}
@@ -41,8 +41,7 @@ class SettingContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
-  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword'),
-  code: formValueSelector('settingSecondPassword')(state, 'code')
+  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword')
 })
 
 const mapDispatchToProps = (dispatch) => ({

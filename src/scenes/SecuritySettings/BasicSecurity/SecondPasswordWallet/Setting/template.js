@@ -22,7 +22,6 @@ const Wrapper = styled.div`
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, secondPasswordEnabled } = props
   if (secondPasswordEnabled) {
-    console.log('Second password is enabled')
     return (
       <Wrapper>
         <Button nature='secondary' onClick={handleToggle}>
@@ -47,14 +46,13 @@ const Settings = (props) => {
       </Wrapper>
     )
   } else {
-    console.log('Second password is disabled')
     return (
       <Wrapper>
         <Button nature='secondary' onClick={handleToggle}>
           <FormattedMessage id='scenes.security.secondPassword.updateform.setsecondpassword' defaultMessage='Set Second Password' />
         </Button>
         {updateToggled &&
-          <Form>
+          <Form initialValues={{secondPassword: '', secondPasswordConfirmation: ''}}>
             <Text size='14px' weight={300} color='error'>
               <FormattedMessage id='scenes.security.secondPassword.warning' defaultMessage="We highly recommend you backup your wallet's recovery phrase before setting a second password. Backing up your wallet will ensure your bitcoins are safe in case you lose your password. For your security, we do not keep any passwords on file." />
             </Text>
@@ -71,7 +69,7 @@ const Settings = (props) => {
                 <FormattedMessage id='scenes.security.secondPassword.updateform.cancel' defaultMessage='Cancel' />
               </Button>
               <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-                <FormattedMessage id='scenes.security.secondPassword.updateform.save' defaultMessage='Save' />
+                <FormattedMessage id='scenes.security.secondPassword.updateform.save' />
               </Button>
             </ButtonGroup>
           </Form>
