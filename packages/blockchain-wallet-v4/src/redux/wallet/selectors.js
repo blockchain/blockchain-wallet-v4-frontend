@@ -27,3 +27,4 @@ export const getAccountXpub = curry((index, state) => compose(HDAccount.selectXp
 export const getDefaultAccountXpub = state => getAccountXpub(getDefaultAccountIndex(state), state)
 export const getInitialSocketContext = state => ({ guid: getGuid(state), addresses: getAddressContext(state), xpubs: getWalletContext(state) })
 export const getLogoutTime = compose(Options.selectLogoutTime, Wallet.selectOptions, Wrapper.selectWallet)
+export const isSecondPasswordOn = compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet)
