@@ -22,7 +22,7 @@ class DropdownLanguageContainer extends React.Component {
 
   render () {
     const { culture, ...rest } = this.props
-    const items = [...map(renameKeys({name: 'gray-5', cultureCode: 'value'}))(this.props.languages)]
+    const items = [...map(renameKeys({name: 'text', cultureCode: 'value'}))(this.props.languages)]
 
     return (
       <SimpleDropdown
