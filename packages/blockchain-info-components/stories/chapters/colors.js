@@ -2,11 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { storiesOf } from '@storybook/react'
 
-import { compose, map, zipObj, toPairs, keysIn } from 'ramda'
+import { keysIn } from 'ramda'
 import Layout from '../components/layout'
 import { Palette } from '../../src/Colors'
-
-console.log(Palette())
 
 const ColorLayout = styled.div`
   display: flex;
@@ -21,19 +19,19 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 150px;
-  height: 175px;
+  height: 200px;
   margin: 5px;
 `
 const Sample = styled.div`
   display: block;
   width: 100%;
-  height: 100%;
+  height: 150px;
   background-color: ${props => props.bgColor};
 `
 const Code = styled.div`
   display: block;
   width: 100%;
-  height: 25px;
+  height: 50px;
   border: 1px solid #CDCDCD;
   box-sizing: border-box;
   font-size: 16px;
@@ -59,7 +57,58 @@ const PaletteLayout = (props) => {
   )
 }
 
+const ColorGrid = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`
+const ColorGridBody = styled.tbody``
+const ColorGridRow = styled.tr`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #EFEFEF;
+  border-bottom: 1px ${props => props.last ? 'solid' : 'none'} #EFEFEF;
+`
+const ColorGridCell = styled.td`
+  flex-basis: 20%;
+  font-size: 18px;
+  text-transform: uppercase;
+  text-align: center;
+  border-left: 1px solid #EFEFEF;
+  border-right: 1px ${props => props.last ? 'solid' : 'none'} #EFEFEF;
+  background-color: ${props => props.color ? props.color : 'white'};
+  &:first-child { flex-basis: 40%; }
+`
+
+const PaletteGrid = props => {
+  const themes = ['default', 'complement', 'grayscale', 'invert']
+  const keys = keysIn(Palette('default'))
+
+  return (
+    <ColorGrid>
+      <ColorGridBody>
+        <ColorGridRow>
+          <ColorGridCell>&nbsp;</ColorGridCell>
+          {themes.map((theme, index) => <ColorGridCell key={index} last={index === themes.length - 1}>{theme}</ColorGridCell>) }
+        </ColorGridRow>
+        { keys.map((key, indexRow) => {
+          return (
+            <ColorGridRow key={indexRow} last={indexRow === keys.length - 1}>
+              <ColorGridCell>{key}</ColorGridCell>
+              {themes.map((theme, indexCell) => <ColorGridCell key={indexCell} last={indexCell === themes.length - 1} color={Palette(theme)[key]}>&nbsp;</ColorGridCell>) }
+            </ColorGridRow>
+          )
+        })}
+      </ColorGridBody>
+    </ColorGrid>
+  )
+}
+
 storiesOf('Colors', module)
   .addDecorator(story => (<Layout>{story()}</Layout>))
-  .add('Default', () => <PaletteLayout theme='default' />)
-  .add('Invert', () => <PaletteLayout theme='invert' />)
+  .add('All colors', () => <PaletteGrid />)
+  .add('Theme Default', () => <PaletteLayout theme='default' />)
+  .add('Theme Complement', () => <PaletteLayout theme='complement' />)
+  .add('Theme Grayscale', () => <PaletteLayout theme='grayscale' />)
+  .add('Theme Invert', () => <PaletteLayout theme='invert' />)
