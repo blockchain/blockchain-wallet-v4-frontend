@@ -6,7 +6,6 @@ import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 import { singleForm } from 'providers/FormProvider'
 import ui from 'redux-ui'
-import { equals, isEmpty } from 'ramda'
 
 import { actions, selectors } from 'data'
 import Settings from './template.js'
@@ -16,19 +15,6 @@ class SettingContainer extends React.Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
-  }
-
-  componentWillMount () {
-    if (!isEmpty(this.props.secondPassword)) {
-      this.props.reduxFormActions.initialize('settingSecondPassword', { secondPassword: this.props.secondPassword })
-    }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.secondPassword, nextProps.secondPassword) ||
-      !equals(this.props.secondPasswordEnabled, nextProps.secondPasswordEnabled)) {
-      this.props.updateUI({ updateToggled: false })
-    }
   }
 
   handleClick () {

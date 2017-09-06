@@ -33,7 +33,7 @@ const Settings = (props) => {
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.security.secondPassword.updateform.label' defaultMessage='Second Password' />
             </Text>
-            <Field name='secondPassword' /* validate={[ TODO: Check if password === secondPassword ]} */ component={PasswordBox} />
+            <Field name='secondPassword' component={PasswordBox} />
             <ButtonGroup>
               <Button nature='empty' capitalize onClick={handleToggle}>
                 <FormattedMessage id='scenes.security.secondPassword.updateform.cancel' defaultMessage='Cancel' />
@@ -65,7 +65,7 @@ const Settings = (props) => {
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.security.secondPasswordConfirmation.label' defaultMessage='Confirm Second Password' />
             </Text>
-            <Field name='secondPasswordConfirmation' validate={(value, allValues, props) => (value === allValues['secondPassword']) ? undefined : 'Passwords do not match'} component={PasswordBox} />
+            <Field name='secondPasswordConfirmation' validate={(value, allValues) => (value === allValues['secondPassword']) ? undefined : 'Passwords do not match'} component={PasswordBox} />
             <ButtonGroup>
               <Button nature='empty' capitalize onClick={handleToggle}>
                 <FormattedMessage id='scenes.security.secondPassword.updateform.cancel' defaultMessage='Cancel' />
