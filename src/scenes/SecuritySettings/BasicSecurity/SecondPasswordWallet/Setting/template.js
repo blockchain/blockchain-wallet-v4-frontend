@@ -69,7 +69,7 @@ const Settings = (props) => {
                 <FormattedMessage id='scenes.security.secondPassword.updateform.cancel' defaultMessage='Cancel' />
               </Button>
               <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-                <FormattedMessage id='scenes.security.secondPassword.updateform.save' />
+                <FormattedMessage id='scenes.security.secondPassword.updateform.save' defaultMessage='Save' />
               </Button>
             </ButtonGroup>
           </Form>
