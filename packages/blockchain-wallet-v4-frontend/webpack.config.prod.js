@@ -1,13 +1,7 @@
-const path = require('path')
 const Webpack = require('webpack')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-
-let resolveModule = (m) => (
-  require.resolve(m).replace(new RegExp(`${m}\\/.*`), `${m}/`)
-)
 
 const PATHS = {
   dist: `${__dirname}/dist`,
@@ -115,11 +109,7 @@ module.exports = {
       nameCache: null,
       toplevel: false,
       ie8: false
-    }),
-    new CopyWebpackPlugin([
-      { from: path.join(resolveModule('blockchain-info-components'), '/dist/img'), to: PATHS.dist + '/img' },
-      { from: path.join(resolveModule('blockchain-info-components'), '/dist/fonts'), to: PATHS.dist + '/fonts' }
-    ])
+    })
   ].concat([new BundleAnalyzerPlugin()]),
   devServer: {
     port: 8080,

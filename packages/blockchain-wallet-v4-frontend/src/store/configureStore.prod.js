@@ -3,14 +3,14 @@ import createSagaMiddleware from 'redux-saga'
 import { persistStore, autoRehydrate } from 'redux-persist'
 import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
-import { coreMiddleware } from 'blockchain-wallet-v4/lib'
+import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import autoDisconnection from 'middleware/autoDisconnection.js'
 import { rootSaga, rootReducer } from 'data'
 import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { auth } from 'data/rootSelectors.js'
-import { serializer } from 'blockchain-wallet-v4/lib/types'
+import { serializer } from 'blockchain-wallet-v4/src/types'
 
 const devToolsConfig = {
   maxAge: 1000,

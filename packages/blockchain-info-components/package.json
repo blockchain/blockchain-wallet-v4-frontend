@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Website containing the components documentation",
   "main": "dist/index.js",
+  "module": "src/index.js",
   "files": [
     "dist"
   ],

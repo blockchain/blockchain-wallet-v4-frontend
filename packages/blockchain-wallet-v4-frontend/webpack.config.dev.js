@@ -1,12 +1,6 @@
-const path = require('path')
 const Webpack = require('webpack')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
-let resolveModule = (m) => (
-  require.resolve(m).replace(new RegExp(`${m}\\/.*`), `${m}/`)
-)
 
 const PATHS = {
   build: `${__dirname}/build`,
@@ -51,7 +45,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
         use: [
           {
             loader: 'babel-loader',
@@ -110,11 +104,7 @@ module.exports = {
       'process.env': { 'NODE_ENV': JSON.stringify('development') }
     }),
     new Webpack.NamedModulesPlugin(),
-    new Webpack.HotModuleReplacementPlugin(),
-    new CopyWebpackPlugin([
-      { from: path.join(resolveModule('blockchain-info-components'), '/dist/img'), to: PATHS.build + '/img' },
-      { from: path.join(resolveModule('blockchain-info-components'), '/dist/fonts'), to: PATHS.build + '/fonts' }
-    ])
+    new Webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
     contentBase: PATHS.src,

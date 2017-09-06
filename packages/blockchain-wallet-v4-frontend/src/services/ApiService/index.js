@@ -1,4 +1,4 @@
-import { Network } from 'blockchain-wallet-v4/lib'
+import { Network } from 'blockchain-wallet-v4/src'
 import settings from 'config'
 
 export const api = Network.createWalletApi({
