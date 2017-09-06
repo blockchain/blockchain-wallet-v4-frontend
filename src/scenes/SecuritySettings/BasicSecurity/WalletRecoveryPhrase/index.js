@@ -8,7 +8,7 @@ const WalletRecoveryPhrase = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.settings.recoveryphrase.title' defaultMessage='Wallet password' />
+          <FormattedMessage id='scenes.settings.recoveryphrase.title' defaultMessage='Wallet Recovery Phrase' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage id='scenes.settings.recoveryphrase.description' defaultMessage='Your recovery phrase can be used to restore all your funds in the case of a lost password or a loss of service at Blockchain.' />
