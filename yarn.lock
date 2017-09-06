@@ -1138,19 +1138,22 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-"blockchain-css@git+https://github.com/blockchain/brand-assets#abs-paths":
+"blockchain-css@git+ssh://git@github.com:blockchain/brand-assets.git#abs-paths":
   version "1.1.26"
-  resolved "git+https://github.com/blockchain/brand-assets#07c7f9dc7693615e9f9f081a1198aeabed08718d"
+  resolved "git+ssh://git@github.com:blockchain/brand-assets.git#07c7f9dc7693615e9f9f081a1198aeabed08718d"
   dependencies:
     bootstrap-sass "^3.3.7"
 
-"blockchain-info-components@git+https://github.com/blockchain/blockchain-info-components.git":
+"blockchain-info-components@git+ssh://git@github.com/blockchain/blockchain-info-components.git":
   version "0.0.1"
-  resolved "git+https://github.com/blockchain/blockchain-info-components.git#c2694d4a91afb4142c0fd332020bf633f7d18d13"
+  resolved "git+ssh://git@github.com/blockchain/blockchain-info-components.git#063a56a883fcf5966339233c584dddf7cfa5c6d0"
+  dependencies:
+    polished "^1.7.0"
+    ramda "^0.24.1"
 
-"blockchain-wallet-v4@git+https://github.com/blockchain/blockchain-wallet-v4.git":
+"blockchain-wallet-v4@git+ssh://git@github.com/blockchain/blockchain-wallet-v4.git":
   version "1.0.1"
-  resolved "git+https://github.com/blockchain/blockchain-wallet-v4.git#78b0f33d90a50dc5d9ba7bb35a7166a47a8db95d"
+  resolved "git+ssh://git@github.com/blockchain/blockchain-wallet-v4.git#a1ba6d4091931764c70b02514c54a569993769c8"
   dependencies:
     bigi "^1.4.2"
     bip39 "^2.3.1"
@@ -5019,6 +5022,10 @@ pkg-up@^1.0.0:
 pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
+
+polished@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/polished/-/polished-1.7.0.tgz#cfc55113f52e9ecec7c84dbd0c708b9a3235d7c3"
 
 portfinder@^1.0.9:
   version "1.0.13"
