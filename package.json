@@ -7,9 +7,6 @@
     "build:v4": "cd packages/blockchain-wallet-v4 && yarn watch",
     "build:components": "cd packages/blockchain-info-components && yarn watch"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "lerna": "^2.0.0"
   }

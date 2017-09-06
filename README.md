@@ -10,12 +10,12 @@ Collection of Blockchain Wallet frontend packages.
 
 ## Development
 
-⚠️ Make sure you have `yarn@0.28` installed!
+⚠️ Make sure you have `npm@5` and `lerna` installed
 
-Install and link packages: `yarn`
+Install and link packages: `npm i && lerna bootstrap`
 
-Build components: `yarn build:components`
+Build components: `npm run build:components`
 
-Build wallet core: `yarn build:v4`
+Build wallet core: `npm run build:v4`
 
-Start application in dev mode: `yarn start`
+Start application in dev mode: `npm start`
