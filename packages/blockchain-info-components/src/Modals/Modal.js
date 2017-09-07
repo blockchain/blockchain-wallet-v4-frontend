@@ -38,7 +38,7 @@ const Header = styled.div`
   align-items: center;
   width: 100%;
   padding: 30px;
-  border-bottom: 1px solid ${props => props.theme['grey']};
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const HeaderIcon = styled(Icon)`
   display: inline-flex;

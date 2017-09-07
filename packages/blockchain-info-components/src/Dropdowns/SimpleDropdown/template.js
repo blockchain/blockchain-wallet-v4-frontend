@@ -33,7 +33,7 @@ const DropdownIcon = styled(Icon)`
 const DropdownList = styled.ul`
   background-clip: padding-box;
   background-color:  ${props => props.theme['white']};;
-  border: 1px solid ${props => props.theme['grey']};
+  border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
   bottom: 0px;
   #box-sizing: border-box;

@@ -27,7 +27,7 @@ const TooltipBox = styled(TextGroup)`
   left: -115px;
   width: 250px;
   display: ${props => props.displayed ? 'block' : 'none'};
-  background-color: ${props => props.theme['grey']};
+  background-color: ${props => props.theme['gray-1']};
   color: ${props => props.theme['gray-5']};
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 5px;
@@ -59,7 +59,7 @@ const TooltipBox = styled(TextGroup)`
     width: 0;
     height: 0;
     border: 9px solid transparent;
-    border-top-color: ${props => props.theme['grey']};
+    border-top-color: ${props => props.theme['gray-1']};
   }
 `
 
