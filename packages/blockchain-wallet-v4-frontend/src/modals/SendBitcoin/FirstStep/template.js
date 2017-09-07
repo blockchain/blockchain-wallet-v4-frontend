@@ -42,7 +42,11 @@ const AddressesToButton = styled(Button)`
 `
 
 const SendButton = styled(Button)`
-  width: 50%;
+  width: 69%;
+`
+
+const DonateButton = styled(Button)`
+  width: 31%;
 `
 
 const FirstStep = (props) => {
@@ -108,12 +112,12 @@ const FirstStep = (props) => {
           </ColRight>
         </Row>
         <ButtonGroup fullwidth>
-          <SendButton nature='primary' onClick={next} disabled={submitting || invalid}>
+          <SendButton nature='primary' uppercase onClick={next} disabled={submitting || invalid}>
             <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
           </SendButton>
-          <SendButton nature='secondary' onClick={handleClickDonation}>
+          <DonateButton nature='secondary' uppercase onClick={handleClickDonation}>
             <FormattedMessage id='modals.sendbitcoin.firststep.donation' defaultMessage='Add a donation' />
-          </SendButton>
+          </DonateButton>
         </ButtonGroup>
       </Form>
     </Modal>
