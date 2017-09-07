@@ -22,6 +22,7 @@ class FirstStepContainer extends React.Component {
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
     this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
     this.handleClickDonation = this.handleClickDonation.bind(this)
+    this.handleClickDonationRemove = this.handleClickDonationRemove.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -70,7 +71,12 @@ class FirstStepContainer extends React.Component {
   }
 
   handleClickDonation () {
+    this.props.updateUI({ donatedToggled: true })
     this.props.modalActions.showModal('Donation')
+  }
+
+  handleClickDonationRemove () {
+    this.props.updateUI({ donatedToggled: false })
   }
 
   render () {
@@ -84,6 +90,8 @@ class FirstStepContainer extends React.Component {
       handleClickFeeToggler={this.handleClickFeeToggler}
       handleClickQrCodeCapture={this.handleClickQrCodeCapture}
       handleClickDonation={this.handleClickDonation}
+      handleClickDonationRemove={this.handleClickDonationRemove}
+      donatedToggled={ui.donatedToggled}
       {...this.props}
     />
   }
@@ -127,7 +135,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { feeEditToggled: false, addressSelectToggled: false, addressSelectOpened: false } })
+  ui({ state: { feeEditToggled: false, addressSelectToggled: false, addressSelectOpened: false, donatedToggled: false } })
 )
 
 export default enhance(FirstStepContainer)

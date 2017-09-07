@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
-import { Button, ButtonGroup, Icon, Image, Link, Modal, Tooltip } from 'blockchain-info-components'
+import { Button, ButtonGroup, Icon, Image, Link, Modal, Text, TextGroup, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, Form, Hidden, SelectBoxAddresses, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 import SelectBoxFee from './SelectBoxFee'
@@ -54,7 +54,8 @@ const FirstStep = (props) => {
     return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
   }
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, next, invalid, submitting,
-    handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, handleClickDonation, ...rest } = props
+    handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, handleClickDonation, donatedToggled,
+    handleClickDonationRemove, ...rest } = props
 
   return (
     <Modal {...rest} icon='send' title='Send' size='large'>
@@ -88,6 +89,32 @@ const FirstStep = (props) => {
           </Tooltip>
         </Aligned>
         <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
+        {donatedToggled &&
+          <div>
+            <Aligned>
+              <FormattedMessage id='modals.sendbitcoin.firststep.donationto' defaultMessage='Donation To' />
+            </Aligned>
+            <Row>
+              <ColLeft>
+                <FormattedMessage id='modals.sendbitcoin.firststep.charityname' defaultMessage='Charity 1'/* Charity selected */ />
+              </ColLeft>
+              <ColRight>
+                <FormattedMessage id='modals.sendbitcoin.firststep.charityamount' defaultMessage='0.00016058 BTC ($0.75)' />
+                <TextGroup inline>
+                  <Link onClick={handleClickDonation} size='13px' weight={300} uppercase>
+                    {feeEditToggled
+                  ? <FormattedMessage id='modals.sendbitcoin.firststep.donation.cancel' defaultMessage='Cancel' />
+                  : <FormattedMessage id='modals.sendbitcoin.firststep.donation.edit' defaultMessage='Edit' />
+                }
+                  </Link>
+                  <Link onClick={handleClickDonationRemove} size='13px' color='error' weight={300} uppercase>
+                    <FormattedMessage id='modals.sendbitcoin.firststep.donation.remove' defaultMessage='Remove' />
+                  </Link>
+                </TextGroup>
+              </ColRight>
+            </Row>
+          </div>
+        }
         <Aligned>
           <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
           <Tooltip>
@@ -131,6 +158,7 @@ FirstStep.propTypes = {
   handleClickAddressToggler: PropTypes.func.isRequired,
   handleClickDonation: PropTypes.func.isRequired,
   handleClickFeeToggler: PropTypes.func.isRequired,
+  handleClickDonationRemove: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired
