@@ -28,7 +28,7 @@ const Donation = (props) => {
   return (
     <Modal {...rest} icon='send' title='Donate' size='large' nature='primary'>
       <DonationContainer>
-        <Text size='14px' color='white' weight={500}>
+        <Text size='14px' color='white' weight={300}>
           <FormattedMessage id='modals.Donation.donate' defaultMessage='See what adding a portion of your transaction will do for those in need.' />
         </Text>
       </DonationContainer>
