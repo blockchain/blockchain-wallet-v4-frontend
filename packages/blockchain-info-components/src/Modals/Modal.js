@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { keysIn } from 'ramda'
 
+import { Color, Palette } from '../Colors'
 import { Icon } from '../Icons'
 
 const Wrapper = styled.div`
@@ -20,7 +22,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   position: relative;
   width: calc(100% - ${props => props.position * 20}px);
-  background-color: ${props => props.position === props.total ? props.theme['white'] : props.theme['gray-2']};
+  background-color: ${props => props.position === props.total ? props.theme[props.backgroundColor] : props.theme['gray-1']};
   z-index: ${props => props.position ? (props.position) + 1041 : 1041};
 
   @media(min-width: 768px) {
@@ -63,10 +65,10 @@ const Content = styled.div`
   box-sizing: border-box;
 `
 
-const Modal = ({ position, total, title, icon, size, closeButton, close, ...props }) => {
+const Modal = ({ position, total, title, icon, backgroundColor, size, closeButton, close, ...props }) => {
   return (
     <Wrapper position={position} total={total}>
-      <Container position={position} total={total} size={size}>
+      <Container position={position} total={total} size={size} backgroundColor={backgroundColor}>
         <Header>
           {icon && <HeaderIcon name={icon} />}
           {title && <HeaderTitle>{title}</HeaderTitle>}
@@ -83,6 +85,7 @@ const Modal = ({ position, total, title, icon, size, closeButton, close, ...prop
 Modal.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
+  backgroundColor: PropTypes.oneOf([keysIn(Palette())]),
   title: PropTypes.string,
   icon: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large', '']),
@@ -91,6 +94,7 @@ Modal.propTypes = {
 }
 
 Modal.defaultProps = {
+  backgroundColor: 'white',
   size: 'large',
   isLast: true,
   closeButton: true
