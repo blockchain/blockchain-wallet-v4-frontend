@@ -2,16 +2,12 @@
   "name": "blockchain-info-components",
   "version": "0.0.1",
   "description": "Website containing the components documentation",
-  "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
+  "main": "lib/index.js",
+  "module": "src/index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.prod.js --progress --colors",
-    "watch": "webpack --config webpack.config.prod.js --progress --colors --watch",
-    "prepublish": "npm run build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "prepublish": "rm -rf lib && babel --out-dir lib --copy-files src",
+    "storybook:start": "start-storybook -p 6006",
+    "storybook:build": "build-storybook"
   },
   "author": "(Dream Team) Blockchain.info",
   "license": "ISC",

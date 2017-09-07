@@ -3,9 +3,7 @@
   "name": "blockchain-wallet-v4",
   "version": "0.1.0",
   "scripts": {
-    "start": "cd packages/blockchain-wallet-v4-frontend && yarn start-dev",
-    "build:v4": "cd packages/blockchain-wallet-v4 && yarn watch",
-    "build:components": "cd packages/blockchain-info-components && yarn watch"
+    "start": "cd packages/blockchain-wallet-v4-frontend && yarn start-dev"
   },
   "devDependencies": {
     "lerna": "^2.0.0"

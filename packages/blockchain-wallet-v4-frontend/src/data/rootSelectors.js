@@ -1,5 +1,5 @@
 import settings from 'config'
-import { coreSelectorsFactory } from 'blockchain-wallet-v4/lib'
+import { coreSelectorsFactory } from 'blockchain-wallet-v4/src'
 import * as alertsSelectors from 'data/Alerts/selectors'
 import * as authSelectors from 'data/Auth/selectors'
 import * as modalsSelectors from 'data/Modals/selectors'

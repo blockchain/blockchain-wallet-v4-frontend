@@ -14,8 +14,4 @@ Collection of Blockchain Wallet frontend packages.
 
 Install and link packages: `npm i && lerna bootstrap`
 
-Build components: `npm run build:components`
-
-Build wallet core: `npm run build:v4`
-
 Start application in dev mode: `npm start`

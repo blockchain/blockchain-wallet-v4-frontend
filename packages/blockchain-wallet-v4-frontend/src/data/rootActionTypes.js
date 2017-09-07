@@ -1,4 +1,4 @@
-import { coreActionsTypes as core } from 'blockchain-wallet-v4/lib'
+import { coreActionsTypes as core } from 'blockchain-wallet-v4/src'
 import * as alerts from './Alerts/actionTypes.js'
 import * as auth from './Auth/actionTypes.js'
 import * as form from './Form/actionTypes.js'
