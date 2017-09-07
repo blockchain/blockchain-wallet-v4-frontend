@@ -3,7 +3,8 @@
   "name": "blockchain-wallet-v4",
   "version": "0.1.0",
   "scripts": {
-    "start": "cd packages/blockchain-wallet-v4-frontend && yarn start-dev"
+    "start": "cd packages/blockchain-wallet-v4-frontend && npm run start-dev",
+    "storybook": "cd packages/blockchain-info-components && npm run storybook:start"
   },
   "devDependencies": {
     "lerna": "^2.0.0"
