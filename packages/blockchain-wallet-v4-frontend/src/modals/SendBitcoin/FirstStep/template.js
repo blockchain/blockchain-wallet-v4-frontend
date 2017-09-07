@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
-import { Button, Icon, Image, Link, Modal, Tooltip } from 'blockchain-info-components'
+import { Button, ButtonGroup, Icon, Image, Link, Modal, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, Form, Hidden, SelectBoxAddresses, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 import SelectBoxFee from './SelectBoxFee'
@@ -39,6 +39,10 @@ const AddressesToButton = styled(Button)`
   width: 40px;
   min-width: 0;
   border-radius: 0;
+`
+
+const SendButton = styled(Button)`
+  width: 50%;
 `
 
 const FirstStep = (props) => {
@@ -103,9 +107,14 @@ const FirstStep = (props) => {
             </Link>
           </ColRight>
         </Row>
-        <Button nature='secondary' fullwidth onClick={next} disabled={submitting || invalid}>
-          <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
-        </Button>
+        <ButtonGroup fullwidth>
+          <SendButton nature='primary' onClick={next} disabled={submitting || invalid}>
+            <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
+          </SendButton>
+          <SendButton nature='secondary'>
+            <FormattedMessage id='modals.sendbitcoin.firststep.donation' defaultMessage='Add a donation' />
+          </SendButton>
+        </ButtonGroup>
       </Form>
     </Modal>
   )
