@@ -21,6 +21,7 @@ class FirstStepContainer extends React.Component {
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
     this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
+    this.handleClickDonation = this.handleClickDonation.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -68,6 +69,10 @@ class FirstStepContainer extends React.Component {
     this.props.modalActions.showModal('QRCodeCapture')
   }
 
+  handleClickDonation () {
+    this.props.modalActions.showModal('Donation')
+  }
+
   render () {
     const { ui } = this.props
 
@@ -78,6 +83,7 @@ class FirstStepContainer extends React.Component {
       handleClickAddressToggler={this.handleClickAddressToggler}
       handleClickFeeToggler={this.handleClickFeeToggler}
       handleClickQrCodeCapture={this.handleClickQrCodeCapture}
+      handleClickDonation={this.handleClickDonation}
       {...this.props}
     />
   }

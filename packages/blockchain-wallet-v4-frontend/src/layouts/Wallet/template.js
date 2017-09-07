@@ -14,6 +14,7 @@ import QRCodeCapture from 'modals/QRCodeCapture'
 import RequestBitcoin from 'modals/RequestBitcoin'
 import SecondPassword from 'modals/SecondPassword'
 import SendBitcoin from 'modals/SendBitcoin'
+import Donation from 'modals/Donation'
 
 import Page from './Page'
 
@@ -83,6 +84,7 @@ const WalletLayout = (props) => {
         <RequestBitcoin />
         <SecondPassword />
         <SendBitcoin />
+        <Donation />
       </Modals>
       <Nav>
         <Header handleToggleMenuLeft={handleToggleMenuLeft} />

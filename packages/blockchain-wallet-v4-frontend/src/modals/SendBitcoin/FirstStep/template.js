@@ -50,7 +50,7 @@ const FirstStep = (props) => {
     return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
   }
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, next, invalid, submitting,
-    handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, ...rest } = props
+    handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, handleClickDonation, ...rest } = props
 
   return (
     <Modal {...rest} icon='send' title='Send' size='large'>
@@ -111,7 +111,7 @@ const FirstStep = (props) => {
           <SendButton nature='primary' onClick={next} disabled={submitting || invalid}>
             <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
           </SendButton>
-          <SendButton nature='secondary'>
+          <SendButton nature='secondary' onClick={handleClickDonation}>
             <FormattedMessage id='modals.sendbitcoin.firststep.donation' defaultMessage='Add a donation' />
           </SendButton>
         </ButtonGroup>
@@ -125,6 +125,7 @@ FirstStep.propTypes = {
   feeEditToggled: PropTypes.bool.isRequired,
   handleClickQrCodeCapture: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,
+  handleClickDonation: PropTypes.func.isRequired,
   handleClickFeeToggler: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
