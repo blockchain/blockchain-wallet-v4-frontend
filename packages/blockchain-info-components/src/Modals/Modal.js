@@ -30,7 +30,7 @@ const Container = styled.div`
     width: ${props => props.size === 'small' ? 'calc(400px - ' + props.position * 20 + 'px)'
     : props.size === 'medium' ? 'calc(500 - ' + props.position * 20 + 'px)'
     : props.size === 'large' ? 'calc(600px - ' + props.position * 20 + 'px)'
-    : 'calc(800px - ' + props.position * 20 + 'px)'};
+    : 'calc(700px - ' + props.position * 20 + 'px)'};
   }
 `
 const Header = styled.div`
@@ -97,7 +97,7 @@ Modal.propTypes = {
 }
 
 Modal.defaultProps = {
-  size: 'large',
+  size: '',
   isLast: true,
   closeButton: true
 }
