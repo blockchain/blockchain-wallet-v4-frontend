@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { keysIn } from 'ramda'
 
-import { Color, Palette } from '../Colors'
+import { Palette } from '../Colors'
 import { Icon } from '../Icons'
+import { Text } from '../Text'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -41,38 +42,40 @@ const Header = styled.div`
   width: 100%;
   padding: 30px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
-const HeaderIcon = styled(Icon)`
-  display: inline-flex;
-  font-size: 1.8em;
-  font-weight: 300;
-  margin-right: 10px;
-`
-const HeaderTitle = styled.span`
-  font-size: 1.8em;
-  font-weight: 300;
+
+  & > :first-child { margin-right: 10px; }
 `
 const ButtonClose = styled(Icon)`
   position: absolute;
   top: 30px;
   right: 20px;
   height: 20px;
-  font-size: 20px;
   cursor: pointer;
 `
 const Content = styled.div`
   padding: 30px;
   box-sizing: border-box;
+  
 `
 
-const Modal = ({ position, total, title, icon, backgroundColor, size, closeButton, close, ...props }) => {
+const selectColors = nature => {
+  switch (nature) {
+    case 'primary': return { color: 'white', backgroundColor: 'brand-primary' }
+    default: return { color: 'gray-5', backgroundColor: 'white' }
+  }
+}
+
+const Modal = (props) => {
+  const { position, total, title, icon, nature, size, closeButton, close } = props
+  const { color, backgroundColor } = selectColors(nature)
+
   return (
     <Wrapper position={position} total={total}>
       <Container position={position} total={total} size={size} backgroundColor={backgroundColor}>
         <Header>
-          {icon && <HeaderIcon name={icon} />}
-          {title && <HeaderTitle>{title}</HeaderTitle>}
-          {closeButton && <ButtonClose name='right_arrow' onClick={() => close()} />}
+          {icon && <Icon name={icon} size='24px' weight={300} color={color} />}
+          {title && <Text size='24px' weight={300} color={color}>{title}</Text>}
+          {closeButton && <ButtonClose name='right_arrow' size='20px' weight={300} color={color} onClick={() => close()} />}
         </Header>
         <Content>
           {props.children}
@@ -85,16 +88,15 @@ const Modal = ({ position, total, title, icon, backgroundColor, size, closeButto
 Modal.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
-  backgroundColor: PropTypes.oneOf([keysIn(Palette())]),
+  backgroundColor: PropTypes.oneOf(['primary']),
   title: PropTypes.string,
   icon: PropTypes.string,
-  size: PropTypes.oneOf(['small', 'medium', 'large', '']),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
   closeButton: PropTypes.bool,
   isLast: PropTypes.bool
 }
 
 Modal.defaultProps = {
-  backgroundColor: 'white',
   size: 'large',
   isLast: true,
   closeButton: true
