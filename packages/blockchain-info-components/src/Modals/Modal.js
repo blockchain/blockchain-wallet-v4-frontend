@@ -45,7 +45,7 @@ const Header = styled.div`
 
   & > :first-child { margin-right: 10px; }
 `
-const ButtonClose = styled(Icon)`
+const ButtonClose = styled(Text)`
   position: absolute;
   top: 30px;
   right: 20px;
@@ -75,7 +75,7 @@ const Modal = (props) => {
         <Header>
           {icon && <Icon name={icon} size='24px' weight={300} color={color} />}
           {title && <Text size='24px' weight={300} color={color}>{title}</Text>}
-          {closeButton && <ButtonClose name='right_arrow' size='20px' weight={300} color={color} onClick={() => close()} />}
+          {closeButton && <ButtonClose name='right_arrow' size='20px' weight={300} color={color} onClick={() => close()}>X</ButtonClose>}
         </Header>
         <Content>
           {props.children}
