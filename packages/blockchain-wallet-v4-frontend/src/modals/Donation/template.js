@@ -83,15 +83,13 @@ const Footer = styled.div`
 
 const PercentageBox = styled(Text)`
   position: relative;
-  background-color: ${props => props.theme['white']};
   width: 6.5%;
   height: 40px;
-  color: ${props => props.theme['gray-5']};
-  border: 1px solid ${props => props.theme['gray-2']};
+  color: ${props => props.theme['white']};
   border-radius: 20px;
   box-sizing: border-box;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
   font-family: "GillSans", sans serif;
   text-align: center;
@@ -112,7 +110,7 @@ const Donation = (props) => {
           <FormattedMessage id='modals.Donation.donate' defaultMessage='See what adding a portion of your transaction will do for those in need.' />
         </Text>
         <PercentageBox style={{left: percentageStyle}}>
-          {percentage * 100}%
+          {Math.trunc(percentage * 100)}%
         </PercentageBox>
         <SimpleSlider min={0.01} max={1} step={0.01} onInput={handleSlide} value={parseFloat(percentage)} />
         <Center>
