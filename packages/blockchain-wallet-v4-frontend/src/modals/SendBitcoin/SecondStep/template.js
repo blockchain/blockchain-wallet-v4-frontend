@@ -116,7 +116,7 @@ SecondStep.propTypes = {
   message: PropTypes.string,
   satoshis: PropTypes.number.isRequired,
   fee: PropTypes.number.isRequired,
-  coinDonation: PropTypes.number
+  coinDonation: PropTypes.object
 }
 
 export default SecondStep
