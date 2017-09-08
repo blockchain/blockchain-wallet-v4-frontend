@@ -36,7 +36,7 @@ const Footer = styled.div`
 
 const SecondStep = (props) => {
   const { handleClick, previous, fromAddress, toAddress, message, satoshis, fee, coinDonation, ...rest } = props
-  const total = satoshis + fee + coinDonation ? coinDonation.value : 0
+  const total = satoshis + fee + (coinDonation ? coinDonation.value : 0)
   return (
     <Modal {...rest} icon='send' title='Confirm' size='large'>
       <Form>
