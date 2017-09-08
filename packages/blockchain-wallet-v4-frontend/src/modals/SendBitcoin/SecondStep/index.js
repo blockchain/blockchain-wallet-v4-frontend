@@ -17,13 +17,8 @@ class SecondStepContainer extends React.Component {
   }
 
   handleClick () {
-    const { coinDonation, selection } = this.props
-
-    let finalSelection = selection
-    if (coinDonation) { finalSelection.outputs.push(coinDonation) }
-
-    console.log('paying : ', finalSelection)
-    // this.props.paymentActions.signAndPublish(settings.NETWORK, finalSelection)
+    const { selection } = this.props
+    this.props.paymentActions.signAndPublish(settings.NETWORK, selection)
   }
 
   render () {
