@@ -35,7 +35,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { handleClick, previous, fromAddress, toAddress, message, satoshis, fee, ...rest } = props
+  const { handleClick, previous, fromAddress, toAddress, message, satoshis, fee, coinDonation, ...rest } = props
 
   return (
     <Modal {...rest} icon='send' title='Confirm' size='large'>
@@ -74,6 +74,14 @@ const SecondStep = (props) => {
             <ComboDisplay>{fee}</ComboDisplay>
           </Text>
         </Row>
+        <Row>
+          <Text size='16px' weight={500}>
+            <FormattedMessage id='modals.sendbitcoin.secondstep.donation' defaultMessage='Donation:' />
+          </Text>
+          <Text size='16px' weight={300}>
+            <ComboDisplay>{coinDonation}</ComboDisplay>
+          </Text>
+        </Row>
         <Summary>
           <Text size='16px' weight={300} color='transferred'>
             <FormattedMessage id='modals.sendbitcoin.secondstep.total' defaultMessage='Total' />
@@ -105,7 +113,8 @@ SecondStep.propTypes = {
   toAddress: PropTypes.string.isRequired,
   message: PropTypes.string,
   satoshis: PropTypes.number.isRequired,
-  fee: PropTypes.number.isRequired
+  fee: PropTypes.number.isRequired,
+  coinDonation: PropTypes.number.isRequired
 }
 
 export default SecondStep
