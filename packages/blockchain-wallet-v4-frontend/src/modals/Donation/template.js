@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Color, Button, Image, Link, Modal, SimpleSlider, Text } from 'blockchain-info-components'
 import ComboDisplay from 'components/ComboDisplay'
-import modalEnhancer from 'providers/ModalEnhancer'
+
 
 const Container = styled.div`
   display: flex;
@@ -89,15 +89,13 @@ const Donation = (props) => {
   const worldLandTrustSelected = charity === 'World Land Trust'
   const techSoupSelected = charity === 'Tech Soup'
 
-  console.log(percentage, charity)
-
   return (
     <Modal {...rest} icon='send' title='Donate' nature='primary'>
       <Container>
         <Text size='16px' color='white' weight={200}>
           <FormattedMessage id='modals.Donation.donate' defaultMessage='See what adding a portion of your transaction will do for those in need.' />
         </Text>
-        <SimpleSlider min='0.01' max='1' step='0.01' onInput={handleSlide} value={percentage} />
+        <SimpleSlider min={0.01} max={1} step={0.01} onInput={handleSlide} value={parseFloat(percentage)} />
         <Center>
           <Text size='18px' color='white' weight={300}>
             <ComboDisplay>{donation}</ComboDisplay>
@@ -111,8 +109,12 @@ const Donation = (props) => {
                 <Image name='logo-global-giving' width='60%' />
               </FlipperFront>
               <FlipperBack>
-                <Text size='16px' weight={300} color={globalGivingSelected ? 'brand-primary' : 'white'}>GlobalGiving</Text>
-                <Text size='11px' weight={300} color={globalGivingSelected ? 'brand-primary' : 'white'}>Each month they feature a new impactful project. Past projects include  sending 1,000 kids with disabilities to school in India and providing clean water for 1,500 people in rural Senegal.</Text>
+                <Text size='16px' weight={300} color={globalGivingSelected ? 'brand-primary' : 'white'}>
+                  GlobalGiving
+                </Text>
+                <Text size='11px' weight={300} color={globalGivingSelected ? 'brand-primary' : 'white'}>
+                  Each month they feature a new impactful project. Past projects include  sending 1,000 kids with disabilities to school in India and providing clean water for 1,500 people in rural Senegal.
+                </Text>
               </FlipperBack>
             </Flipper>
           </FlipContainer>
@@ -123,20 +125,28 @@ const Donation = (props) => {
                 <Image name='logo-world-land-trust' width='60%' />
               </FlipperFront>
               <FlipperBack>
-                <Text size='16px' weight={300} color={worldLandTrustSelected ? 'brand-primary' : 'white'}>World Land Trust</Text>
-                <Text size='11px' weight={300} color={worldLandTrustSelected ? 'brand-primary' : 'white'}>They work to protect some of the world’s most biodiverse and threatened habitats acre by acre through the protection and restoration of degraded habitats.</Text>
+                <Text size='16px' weight={300} color={worldLandTrustSelected ? 'brand-primary' : 'white'}>
+                  World Land Trust
+                </Text>
+                <Text size='11px' weight={300} color={worldLandTrustSelected ? 'brand-primary' : 'white'}>
+                  They work to protect some of the world’s most biodiverse and threatened habitats acre by acre through the protection and restoration of degraded habitats.
+                </Text>
               </FlipperBack>
             </Flipper>
           </FlipContainer>
           <FlipContainer onClick={() => handleSelect('Tech Soup')} selected={techSoupSelected}>
             <Flipper>
               <FlipperFront>
-                <Text size='16px' weight={300} color={techSoupSelected ? 'brand-primary' : 'white'}>Tech Soup</Text>
+                <Text size='16px' weight={300} color={techSoupSelected ? 'brand-primary' : 'white'}>
+                  Tech Soup
+                </Text>
                 <Image name='logo-tech-soup' width='60%' />
               </FlipperFront>
               <FlipperBack>
                 <Text size='16px' weight={300} color={techSoupSelected ? 'brand-primary' : 'white'}>Tech Soup</Text>
-                <Text size='11px' weight={300} color={techSoupSelected ? 'brand-primary' : 'white'}>They have reached 851,000 organizations with the tools they need to improve lives and have delivered more than $7.6 billion in technological tools and philanthropic services.</Text>
+                <Text size='11px' weight={300} color={techSoupSelected ? 'brand-primary' : 'white'}>
+                  They have reached 851,000 organizations with the tools they need to improve lives and have delivered more than $7.6 billion in technological tools and philanthropic services.
+                </Text>
               </FlipperBack>
             </Flipper>
           </FlipContainer>
@@ -158,7 +168,4 @@ Donation.propTypes = {
   handleBack: PropTypes.func
 }
 
-
-const enhance = modalEnhancer('Donation')
-
-export default enhance(Donation)
+export default Donation

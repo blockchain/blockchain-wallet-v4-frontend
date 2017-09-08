@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, actions as reduxFormActions } from 'redux-form'
 import { convertFromUnit, getDecimals } from 'services/ConversionService'
 import { singleForm } from 'providers/FormProvider'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 import { actions, selectors } from 'data'
 import Donation from './template.js'
@@ -15,16 +16,26 @@ class DonationContainer extends React.Component {
     this.handleSelect = this.handleSelect.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleSlide = this.handleSlide.bind(this)
-    this.props.reduxFormActions.initialize('donationForm', { percentage: '0.05', charity: 'Global Giving', donationConfirmed: false })
+
+    this.props.reduxFormActions.initialize('donation', { percentage: 0.05, charity: 'Global Giving', coin: undefined })
   }
 
   handleSelect (value) {
-    this.props.reduxFormActions.change('donationForm', 'charity', value)
+    this.props.reduxFormActions.change('donation', 'charity', value)
   }
 
   handleClick () {
-    this.props.reduxFormActions.change('donationForm', 'donationConfirmed', true)
-    this.props.modalActions.closeModal()
+    const { amount, percentage, charity, network, unit } = this.props
+
+    const donation = convertAmountInDonation(amount, percentage, network, unit)
+    console.log(donation)
+
+    const output = selectCharityOutput(charity)
+    console.log(output)
+
+    // this.props.reduxFormActions.change('donation', 'coin', )
+
+    // this.props.modalActions.closeModal()
   }
 
   handleBack () {
@@ -32,19 +43,19 @@ class DonationContainer extends React.Component {
   }
 
   handleSlide (event) {
-    this.props.reduxFormActions.change('donationForm', 'percentage', event.target.value)
+    this.props.reduxFormActions.change('donation', 'percentage', event.target.value)
   }
 
   render () {
-    const { amount, network, unit, percentage, charity } = this.props
-    const donation = parseFloat(amount) * percentage
-    const newCoinValue = convertFromUnit(network, donation, unit).getOrElse({ amount: 0 })
+    console.log(this.props)
+    const { amount, percentage, network, unit } = this.props
+    console.log(amount, percentage)
+    const donation = convertAmountInDonation(amount, percentage, network, unit)
+    console.log(donation)
 
     return <Donation
       {...this.props}
-      charity={charity}
-      percentage={percentage}
-      donation={newCoinValue.amount}
+      donation={donation}
       handleBack={this.handleBack}
       handleSelect={this.handleSelect}
       handleClick={this.handleClick}
@@ -53,16 +64,26 @@ class DonationContainer extends React.Component {
   }
 }
 
+const convertAmountInDonation = (amount, percentage, network, unit) => {
+  const donation = parseFloat(amount) * parseFloat(percentage || 0)
+  return convertFromUnit(network, donation, unit).getOrElse({ amount: 0 }).amount
+}
+
+const selectCharityOutput = charity => {
+  switch (charity) {
+    case 'Global Giving': return 'address1'
+    case 'World Land Trust': return 'address2'
+    case 'Tech Soup': return 'address3'
+    default: return 'address0'
+  }
+}
+
 const mapStateToProps = (state) => {
-  const selector = formValueSelector('sendBitcoin')
-  const selectorDonation = formValueSelector('donationForm')
+  const selectorDonation = formValueSelector('donation')
 
   return {
-    amount: selector(state, 'amount'),
     network: 'bitcoin',
     unit: selectors.core.settings.getBtcCurrency(state),
-    currency: selectors.core.settings.getCurrency(state),
-    rates: selectors.core.btcRates.getBtcRates(state),
     decimals: getDecimals('bitcoin', selectors.core.settings.getBtcCurrency(state)),
     percentage: selectorDonation(state, 'percentage'),
     charity: selectorDonation(state, 'charity')
@@ -75,8 +96,9 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  singleForm('donationForm')
+  singleForm('donation'),
+  modalEnhancer('Donation'),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(DonationContainer)
