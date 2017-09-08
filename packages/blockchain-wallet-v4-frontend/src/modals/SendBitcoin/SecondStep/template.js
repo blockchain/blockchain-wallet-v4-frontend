@@ -36,7 +36,6 @@ const Footer = styled.div`
 
 const SecondStep = (props) => {
   const { handleClick, previous, fromAddress, toAddress, message, satoshis, fee, coinDonation, ...rest } = props
-
   return (
     <Modal {...rest} icon='send' title='Confirm' size='large'>
       <Form>
@@ -79,7 +78,7 @@ const SecondStep = (props) => {
             <FormattedMessage id='modals.sendbitcoin.secondstep.donation' defaultMessage='Donation:' />
           </Text>
           <Text size='16px' weight={300}>
-            <ComboDisplay>{coinDonation}</ComboDisplay>
+            <ComboDisplay>{coinDonation.value}</ComboDisplay>
           </Text>
         </Row>
         <Summary>
@@ -87,10 +86,10 @@ const SecondStep = (props) => {
             <FormattedMessage id='modals.sendbitcoin.secondstep.total' defaultMessage='Total' />
           </Text>
           <Text size='40px' weight={600} color='transferred'>
-            <CoinDisplay>{satoshis}</CoinDisplay>
+            <CoinDisplay>{satoshis + fee + coinDonation.value}</CoinDisplay>
           </Text>
           <Text size='20px' weight={300} color='transferred'>
-            <CurrencyDisplay>{satoshis}</CurrencyDisplay>
+            <CurrencyDisplay>{satoshis + fee + coinDonation.value}</CurrencyDisplay>
           </Text>
         </Summary>
         <Footer>
