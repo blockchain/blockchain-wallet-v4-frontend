@@ -112,7 +112,7 @@ const Donation = (props) => {
           <FormattedMessage id='modals.Donation.donate' defaultMessage='See what adding a portion of your transaction will do for those in need.' />
         </Text>
         <PercentageBox style={{left: percentageStyle}}>
-          {percentage}%
+          {percentage * 100}%
         </PercentageBox>
         <SimpleSlider min={0.01} max={1} step={0.01} onInput={handleSlide} value={parseFloat(percentage)} />
         <Center>
