@@ -72,7 +72,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleClickDonation () {
-    this.props.modalActions.showModal('Donation')
+    this.props.modalActions.showModal('Donation', { amount: this.props.amount })
   }
 
   handleClickDonationRemove () {
@@ -81,7 +81,6 @@ class FirstStepContainer extends React.Component {
 
   render () {
     const { ui } = this.props
-    const newCoinValue = convertFromUnit(this.props.network, this.props.donation, this.props.unit).getOrElse({ amount: 0 })
 
     return <FirstStep
       addressSelectToggled={ui.addressSelectToggled}
@@ -92,7 +91,6 @@ class FirstStepContainer extends React.Component {
       handleClickQrCodeCapture={this.handleClickQrCodeCapture}
       handleClickDonation={this.handleClickDonation}
       handleClickDonationRemove={this.handleClickDonationRemove}
-      donationAmount={newCoinValue.amount}
       {...this.props}
     />
   }
@@ -111,7 +109,7 @@ const selectAddress = (addressValue, selectorFunction) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const selectorDonation = formValueSelector('donationForm')
+  const selectorDonation = formValueSelector('donation')
   const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
@@ -130,7 +128,7 @@ const mapStateToProps = (state, ownProps) => {
     rates: selectors.core.btcRates.getBtcRates(state),
     percentage: selectorDonation(state, 'percentage'),
     charity: selectorDonation(state, 'charity'),
-    donationConfirmed: selectorDonation(state, 'donationConfirmed')
+    coin: selectorDonation(state, 'coin')
   }
 }
 

@@ -56,7 +56,7 @@ const FirstStep = (props) => {
   }
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, next, invalid, submitting,
     handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, handleClickDonation,
-    handleClickDonationRemove, donationConfirmed, charity, percentage, donationAmount, ...rest } = props
+    handleClickDonationRemove, donationConfirmed, charity, percentage, coin, ...rest } = props
 
   return (
     <Modal {...rest} icon='send' title='Send' size='large'>
@@ -90,7 +90,7 @@ const FirstStep = (props) => {
           </Tooltip>
         </Aligned>
         <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
-        {donationConfirmed &&
+        { coin &&
           <div>
             <Aligned>
               <FormattedMessage id='modals.sendbitcoin.firststep.donationto' defaultMessage='Donation To' />
@@ -101,7 +101,7 @@ const FirstStep = (props) => {
               </ColLeft>
               <ColRight>
                 <Text size='14px' weight={500}>
-                  <ComboDisplay>{donationAmount}</ComboDisplay>
+                  <ComboDisplay>{coin.value}</ComboDisplay>
                 </Text>
                 <TextGroup inline>
                   <Link onClick={handleClickDonation} size='13px' weight={300} uppercase>
@@ -145,8 +145,8 @@ const FirstStep = (props) => {
           <SendButton nature='primary' fullwidth={donationConfirmed} uppercase onClick={next} disabled={submitting || invalid}>
             <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
           </SendButton>
-          { !donationConfirmed &&
-            <DonateButton nature='secondary' uppercase onClick={handleClickDonation} /* disabled={submitting || invalid} */>
+          { !coin &&
+            <DonateButton nature='secondary' uppercase onClick={handleClickDonation}>
               <FormattedMessage id='modals.sendbitcoin.firststep.donation' defaultMessage='Add a donation' />
             </DonateButton>
           }

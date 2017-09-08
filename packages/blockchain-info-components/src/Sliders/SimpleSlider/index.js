@@ -65,7 +65,7 @@ SimpleSlider.propTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
   onInput: PropTypes.func.isRequired,
-  step: PropTypes.number.isReqreuid
+  step: PropTypes.number.isRequired
 }
 
 export default SimpleSlider
