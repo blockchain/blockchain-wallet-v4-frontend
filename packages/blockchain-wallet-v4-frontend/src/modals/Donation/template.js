@@ -158,6 +158,7 @@ Donation.propTypes = {
   handleBack: PropTypes.func
 }
 
+
 const enhance = modalEnhancer('Donation')
 
 export default enhance(Donation)

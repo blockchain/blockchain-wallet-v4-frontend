@@ -91,7 +91,7 @@ Modal.propTypes = {
   backgroundColor: PropTypes.oneOf(['primary']),
   title: PropTypes.string,
   icon: PropTypes.string,
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  size: PropTypes.oneOf(['small', 'medium', 'large', '']),
   closeButton: PropTypes.bool,
   isLast: PropTypes.bool
 }

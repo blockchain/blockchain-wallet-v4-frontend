@@ -15,16 +15,16 @@ class DonationContainer extends React.Component {
     this.handleSelect = this.handleSelect.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleSlide = this.handleSlide.bind(this)
-    this.props.reduxFormActions.initialize('donationForm', { percentage: '0.05', charity: 'Global Giving' })
+    this.props.reduxFormActions.initialize('donationForm', { percentage: '0.05', charity: 'Global Giving', donationConfirmed: false })
   }
 
   handleSelect (value) {
-    console.log(value)
     this.props.reduxFormActions.change('donationForm', 'charity', value)
   }
 
   handleClick () {
-    console.log('ADD THE COIN IN THE TRANSACTION')
+    this.props.reduxFormActions.change('donationForm', 'donationConfirmed', true)
+    this.props.modalActions.closeModal()
   }
 
   handleBack () {
@@ -32,7 +32,6 @@ class DonationContainer extends React.Component {
   }
 
   handleSlide (event) {
-    console.log(event.target.value)
     this.props.reduxFormActions.change('donationForm', 'percentage', event.target.value)
   }
 

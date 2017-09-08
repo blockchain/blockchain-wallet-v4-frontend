@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+
 import ui from 'redux-ui'
-import { actions as reduxFormActions } from 'redux-form'
+import { formValueSelector, actions as reduxFormActions } from 'redux-form'
 import { gte, is, equals, isNil, pick } from 'ramda'
 import * as crypto from 'crypto'
 
@@ -71,16 +72,16 @@ class FirstStepContainer extends React.Component {
   }
 
   handleClickDonation () {
-    this.props.updateUI({ donatedToggled: true })
     this.props.modalActions.showModal('Donation')
   }
 
   handleClickDonationRemove () {
-    this.props.updateUI({ donatedToggled: false })
+    this.props.reduxFormActions.initialize('donationForm', { percentage: '0.05', charity: 'Global Giving', donationConfirmed: false })
   }
 
   render () {
     const { ui } = this.props
+    const newCoinValue = convertFromUnit(this.props.network, this.props.donation, this.props.unit).getOrElse({ amount: 0 })
 
     return <FirstStep
       addressSelectToggled={ui.addressSelectToggled}
@@ -91,7 +92,7 @@ class FirstStepContainer extends React.Component {
       handleClickQrCodeCapture={this.handleClickQrCodeCapture}
       handleClickDonation={this.handleClickDonation}
       handleClickDonationRemove={this.handleClickDonationRemove}
-      donatedToggled={ui.donatedToggled}
+      donationAmount={newCoinValue.amount}
       {...this.props}
     />
   }
@@ -110,6 +111,7 @@ const selectAddress = (addressValue, selectorFunction) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const selectorDonation = formValueSelector('donationForm')
   const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
@@ -121,7 +123,14 @@ const mapStateToProps = (state, ownProps) => {
     changeAddress: selectAddress(ownProps.from, getChange),
     coins: selectors.core.payment.getCoins(state),
     feeValues: selectors.core.fee.getFee(state),
-    target
+    target,
+    network: 'bitcoin',
+    unit: selectors.core.settings.getBtcCurrency(state),
+    currency: selectors.core.settings.getCurrency(state),
+    rates: selectors.core.btcRates.getBtcRates(state),
+    percentage: selectorDonation(state, 'percentage'),
+    charity: selectorDonation(state, 'charity'),
+    donationConfirmed: selectorDonation(state, 'donationConfirmed')
   }
 }
 
@@ -135,7 +144,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { feeEditToggled: false, addressSelectToggled: false, addressSelectOpened: false, donatedToggled: false } })
+  ui({ state: { feeEditToggled: false, addressSelectToggled: false, addressSelectOpened: false } })
 )
 
 export default enhance(FirstStepContainer)
