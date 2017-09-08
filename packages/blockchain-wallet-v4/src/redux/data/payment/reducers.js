@@ -28,20 +28,21 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('coins', [], state)
     }
     case A.REFRESH_SELECTION: {
-      const { coins, target, feePerByte, change, algorithm, seed } = action.payload
+      const { coins, targets, feePerByte, change, algorithm, seed } = action.payload
+
       let selection
       switch (algorithm) {
         case 'ascentDraw':
-          selection = ascentDraw([target], feePerByte, coins, change)
+          selection = ascentDraw(targets, feePerByte, coins, change)
           break
         case 'descentDraw':
-          selection = descentDraw([target], feePerByte, coins, change)
+          selection = descentDraw(targets, feePerByte, coins, change)
           break
         case 'singleRandomDraw':
-          selection = singleRandomDraw([target], feePerByte, coins, change, seed)
+          selection = singleRandomDraw(targets, feePerByte, coins, change, seed)
           break
         case 'branchAndBound':
-          selection = branchAndBound([target], feePerByte, coins, change, seed)
+          selection = branchAndBound(targets, feePerByte, coins, change, seed)
           break
         default:
           selection = EMPTY_SELECTION

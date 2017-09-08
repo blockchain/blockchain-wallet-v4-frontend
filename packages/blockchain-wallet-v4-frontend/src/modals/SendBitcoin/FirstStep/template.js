@@ -40,14 +40,13 @@ const AddressesToButton = styled(Button)`
   min-width: 0;
   border-radius: 0;
 `
-
-const SendButton = styled(Button)`
-  width: ${props => props.fullwidth ? '100%' : '69%'};
-  transition: none;
-`
-
-const DonateButton = styled(Button)`
-  width: 31%;
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  & > * { width: 100%; flex-grow: 1; }
 `
 
 const FirstStep = (props) => {
@@ -56,7 +55,7 @@ const FirstStep = (props) => {
   }
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, next, invalid, submitting,
     handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, handleClickDonation,
-    handleClickDonationRemove, donationConfirmed, charity, percentage, coin, ...rest } = props
+    handleClickDonationRemove, donationConfirmed, charity, percentage, donationCoin, ...rest } = props
 
   return (
     <Modal {...rest} icon='send' title='Send' size='large'>
@@ -90,7 +89,7 @@ const FirstStep = (props) => {
           </Tooltip>
         </Aligned>
         <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
-        { coin &&
+        { donationCoin &&
           <div>
             <Aligned>
               <FormattedMessage id='modals.sendbitcoin.firststep.donationto' defaultMessage='Donation To' />
@@ -101,7 +100,7 @@ const FirstStep = (props) => {
               </ColLeft>
               <ColRight>
                 <Text size='14px' weight={500}>
-                  <ComboDisplay>{coin.value}</ComboDisplay>
+                  <ComboDisplay>{donationCoin.value}</ComboDisplay>
                 </Text>
                 <TextGroup inline>
                   <Link onClick={handleClickDonation} size='13px' weight={300} uppercase>
@@ -141,16 +140,16 @@ const FirstStep = (props) => {
             </Link>
           </ColRight>
         </Row>
-        <ButtonGroup>
-          <SendButton nature='primary' fullwidth={donationConfirmed} uppercase onClick={next} disabled={submitting || invalid}>
+        <ButtonRow>
+          <Button nature='primary' uppercase onClick={next} disabled={submitting || invalid}>
             <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
-          </SendButton>
-          { !coin &&
-            <DonateButton nature='secondary' uppercase onClick={handleClickDonation}>
+          </Button>
+          { !donationCoin &&
+            <Button nature='secondary' uppercase onClick={handleClickDonation}>
               <FormattedMessage id='modals.sendbitcoin.firststep.donation' defaultMessage='Add a donation' />
-            </DonateButton>
+            </Button>
           }
-        </ButtonGroup>
+        </ButtonRow>
       </Form>
     </Modal>
   )

@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import ui from 'redux-ui'
 import { formValueSelector, actions as reduxFormActions } from 'redux-form'
-import { gte, is, equals, isNil, pick } from 'ramda'
+import { gte, is, equals, isNil, pick, concat } from 'ramda'
 import * as crypto from 'crypto'
 
 import { Coin, CoinSelection } from 'blockchain-wallet-v4/src'
@@ -27,14 +27,17 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { network, unit, fee, from, to, target, coins, changeAddress } = nextProps
+    const { network, unit, fee, from, to, target, coins, donationCoin, changeAddress } = nextProps
 
-    // Refresh the selection if fee, from, to or amount have been updated
-    if (gte(fee, 0) && target && coins && changeAddress && !equals(pick(['fee', 'to', 'from', 'amount'], nextProps), pick(['fee', 'to', 'from', 'amount'], this.props))) {
+    // Refresh the selection if fee, from, to or amount, or donationCoin have been updated
+    if (gte(fee, 0) && target && coins && changeAddress && !equals(pick(['fee', 'to', 'from', 'amount', 'donationCoin'], nextProps), pick(['fee', 'to', 'from', 'amount', 'donationCoin'], this.props))) {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
-        // this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'descentDraw', this.seed.toString('hex'))
-        this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
+        if (donationCoin) {
+          this.props.paymentActions.refreshSelection(fee, concat([target], [donationCoin]), coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
+        } else {
+          this.props.paymentActions.refreshSelection(fee, [target], coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
+        }
       }, 1000)
     }
 
@@ -76,7 +79,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleClickDonationRemove () {
-    this.props.reduxFormActions.initialize('donationForm', { percentage: '0.05', charity: 'Global Giving', donationConfirmed: false })
+    this.props.reduxFormActions.initialize('donation', { percentage: '0.05', charity: 'Global Giving', coin: undefined })
   }
 
   render () {
@@ -128,7 +131,7 @@ const mapStateToProps = (state, ownProps) => {
     rates: selectors.core.btcRates.getBtcRates(state),
     percentage: selectorDonation(state, 'percentage'),
     charity: selectorDonation(state, 'charity'),
-    coin: selectorDonation(state, 'coin')
+    donationCoin: selectorDonation(state, 'coin')
   }
 }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, actions as reduxFormActions } from 'redux-form'
 import { convertFromUnit, getDecimals } from 'services/ConversionService'
+import * as Coin from 'blockchain-wallet-v4/src/coinSelection/coin.js'
 import { singleForm } from 'providers/FormProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -28,17 +29,14 @@ class DonationContainer extends React.Component {
     const { amount, percentage, charity, network, unit } = this.props
 
     const donation = convertAmountInDonation(amount, percentage, network, unit)
-    console.log(donation)
-
     const output = selectCharityOutput(charity)
-    console.log(output)
-
-    // this.props.reduxFormActions.change('donation', 'coin', )
-
-    // this.props.modalActions.closeModal()
+    const coin = Coin.fromJS({ value: donation, address: output })
+    this.props.reduxFormActions.change('donation', 'coin', coin)
+    this.props.modalActions.closeModal()
   }
 
   handleBack () {
+    this.props.reduxFormActions.change('donation', 'coin', undefined)
     this.props.modalActions.closeModal()
   }
 
@@ -71,7 +69,7 @@ const convertAmountInDonation = (amount, percentage, network, unit) => {
 
 const selectCharityOutput = charity => {
   switch (charity) {
-    case 'Global Giving': return 'address1'
+    case 'Global Giving': return '1HRvNY8uVtEMCQsR5wHg2gW5SiFyjdMac2'
     case 'World Land Trust': return 'address2'
     case 'Tech Soup': return 'address3'
     default: return 'address0'
