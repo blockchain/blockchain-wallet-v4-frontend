@@ -40,7 +40,7 @@ const AddressesToButton = styled(Button)`
   min-width: 0;
   border-radius: 0;
 `
-const ButtonRow = styled.div`
+const ButtonRow = styled(ButtonGroup)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -146,7 +146,7 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
           </Button>
           { !donationCoin &&
-            <Button nature='secondary' uppercase onClick={handleClickDonation}>
+            <Button nature='secondary' uppercase disabled={submitting || invalid} onClick={handleClickDonation}>
               <FormattedMessage id='modals.sendbitcoin.firststep.donation' defaultMessage='Add a donation' />
             </Button>
           }

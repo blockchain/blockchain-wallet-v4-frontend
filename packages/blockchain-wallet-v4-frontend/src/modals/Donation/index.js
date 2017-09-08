@@ -69,10 +69,10 @@ const convertAmountInDonation = (amount, percentage, network, unit) => {
 
 const selectCharityOutput = charity => {
   switch (charity) {
-    case 'Global Giving': return '1HRvNY8uVtEMCQsR5wHg2gW5SiFyjdMac2'
-    case 'World Land Trust': return 'address2'
-    case 'Tech Soup': return 'address3'
-    default: return 'address0'
+    case 'Global Giving': return 'mwHsrKGwKPu2BPfgvJCyi7WJk1qvrsQWtn'
+    case 'World Land Trust': return 'mgg7EaBTwRMxYtjHFA2nEtHBE74PAkRdEL'
+    case 'Tech Soup': return 'muxUcr2f6LLHca9CyCiNxHoxxLhmCANEvN'
+    default: return 'mwHsrKGwKPu2BPfgvJCyi7WJk1qvrsQWtn'
   }
 }
 

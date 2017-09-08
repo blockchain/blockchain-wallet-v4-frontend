@@ -34,8 +34,10 @@ class FirstStepContainer extends React.Component {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
         if (donationCoin) {
+          console.log('both', target, donationCoin)
           this.props.paymentActions.refreshSelection(fee, concat([target], [donationCoin]), coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
         } else {
+          console.log('only target', target)
           this.props.paymentActions.refreshSelection(fee, [target], coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
         }
       }, 1000)
