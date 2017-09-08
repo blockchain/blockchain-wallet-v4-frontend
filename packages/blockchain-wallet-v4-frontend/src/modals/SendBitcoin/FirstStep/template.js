@@ -146,7 +146,7 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
           </SendButton>
           { !donationConfirmed &&
-            <DonateButton nature='secondary' uppercase onClick={handleClickDonation} disabled={submitting || invalid}>
+            <DonateButton nature='secondary' uppercase onClick={handleClickDonation} /* disabled={submitting || invalid} */>
               <FormattedMessage id='modals.sendbitcoin.firststep.donation' defaultMessage='Add a donation' />
             </DonateButton>
           }

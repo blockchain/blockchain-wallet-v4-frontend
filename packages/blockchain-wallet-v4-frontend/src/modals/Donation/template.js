@@ -82,6 +82,22 @@ const Footer = styled.div`
   & > * { justify-content: center; margin-top: 10px; }
 `
 
+const PercentageBox = styled(Text)`
+  position: relative;
+  background-color: ${props => props.theme['white']};
+  width: 6.5%;
+  height: 40px;
+  color: ${props => props.theme['gray-5']};
+  border: 1px solid ${props => props.theme['gray-2']};
+  border-radius: 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 300;
+  font-family: "GillSans", sans serif;
+  text-align: center;
+`
+
 const Donation = (props) => {
   const { handleBack, handleSelect, handleClick, handleSlide, donation, percentage, charity, ...rest } = props
 
@@ -90,6 +106,7 @@ const Donation = (props) => {
   const techSoupSelected = charity === 'Tech Soup'
 
   console.log(percentage, charity)
+  var percentageStyle = (percentage - 0.025) * 98 + '%'
 
   return (
     <Modal {...rest} icon='send' title='Donate' nature='primary'>
@@ -97,6 +114,9 @@ const Donation = (props) => {
         <Text size='16px' color='white' weight={200}>
           <FormattedMessage id='modals.Donation.donate' defaultMessage='See what adding a portion of your transaction will do for those in need.' />
         </Text>
+        <PercentageBox style={{left: percentageStyle}}>
+          {percentage}%
+        </PercentageBox>
         <SimpleSlider min='0.01' max='1' step='0.01' onInput={handleSlide} value={percentage} />
         <Center>
           <Text size='18px' color='white' weight={300}>
@@ -157,7 +177,6 @@ const Donation = (props) => {
 Donation.propTypes = {
   handleBack: PropTypes.func
 }
-
 
 const enhance = modalEnhancer('Donation')
 
