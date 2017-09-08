@@ -46,7 +46,8 @@ const ButtonRow = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  & > * { width: 100%; flex-grow: 1; }
+  & > button:first-child { width: 100%; }
+  & > button:last-child: { width: 200px; }
 `
 
 const FirstStep = (props) => {
