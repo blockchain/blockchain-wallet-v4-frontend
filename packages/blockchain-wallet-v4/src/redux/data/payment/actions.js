@@ -26,7 +26,7 @@ export const signAndPublishError = (message) => ({
   payload: message
 })
 
-export const refreshSelection = (feePerByte, targets, coins, change, algorithm, seed) => ({
+export const refreshSelection = (feePerByte, target, coins, change, algorithm, seed) => ({
   type: T.REFRESH_SELECTION,
-  payload: {feePerByte, targets, coins, change, algorithm, seed}
+  payload: {feePerByte, target, coins, change, algorithm, seed}
 })
