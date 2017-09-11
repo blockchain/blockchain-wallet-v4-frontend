@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
 import ui from 'redux-ui'
-import { formValueSelector, actions as reduxFormActions } from 'redux-form'
-import { gte, is, equals, isNil, pick, concat } from 'ramda'
+import { actions as reduxFormActions } from 'redux-form'
+import { gte, is, equals, isNil, pick } from 'ramda'
 import * as crypto from 'crypto'
 
 import { Coin, CoinSelection } from 'blockchain-wallet-v4/src'
