@@ -78,8 +78,6 @@ class FirstStepContainer extends React.Component {
       handleClickAddressToggler={this.handleClickAddressToggler}
       handleClickFeeToggler={this.handleClickFeeToggler}
       handleClickQrCodeCapture={this.handleClickQrCodeCapture}
-      handleClickDonation={this.handleClickDonation}
-      handleClickDonationRemove={this.handleClickDonationRemove}
       {...this.props}
     />
   }
@@ -109,11 +107,7 @@ const mapStateToProps = (state, ownProps) => {
     changeAddress: selectAddress(ownProps.from, getChange),
     coins: selectors.core.payment.getCoins(state),
     feeValues: selectors.core.fee.getFee(state),
-    target,
-    network: 'bitcoin',
-    unit: selectors.core.settings.getBtcCurrency(state),
-    currency: selectors.core.settings.getCurrency(state),
-    rates: selectors.core.btcRates.getBtcRates(state)
+    target
   }
 }
 
