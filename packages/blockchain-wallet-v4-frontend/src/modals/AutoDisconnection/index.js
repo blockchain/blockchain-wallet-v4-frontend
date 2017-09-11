@@ -45,13 +45,10 @@ class AutoDisconnectionContainer extends React.Component {
 }
 
 AutoDisconnectionContainer.defaultProps = {
-  show: false,
-  closeButton: false,
   duration: 0
 }
 
 AutoDisconnectionContainer.propTypes = {
-  show: PropTypes.bool.isRequired,
   duration: PropTypes.number
 }
 

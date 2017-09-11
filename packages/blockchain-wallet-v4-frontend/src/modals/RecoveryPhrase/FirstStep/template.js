@@ -3,15 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, ButtonGroup, Icon, Modal, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, ButtonGroup, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Separator, Text, TextGroup } from 'blockchain-info-components'
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-content: flex-start;
-  border-bottom: 1px solid ${props => props.theme['gray-2']};
-`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -19,18 +12,16 @@ const ButtonContainer = styled.div`
   align-items: center;
   padding: 10px 0;
 `
-const Footer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-`
 
 const FirstStep = (props) => {
-  const { handleClose, next, ...rest } = props
+  const { close, next } = props
 
   return (
-    <Modal {...rest} icon='bell' title='Backup recovery phrase' closeButton={handleClose}>
-      <Container>
+    <Modal size='large'>
+      <ModalHeader icon='bell' onClose={close} >
+        <FormattedMessage id='modals.recoveryphrase.title' defaultMessage='Backup recovery phrase' />
+      </ModalHeader>
+      <ModalBody>
         <TextGroup inline>
           <Icon name='safe' size='18px' weight={300} color='error' />
           <Text size='18px' weight={400} color='error'>
@@ -62,19 +53,24 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.recoveryphrase.print' defaultMessage='Print recovery sheet' />
           </Button>
         </ButtonContainer>
-      </Container>
-      <Footer>
+      </ModalBody>
+      <ModalFooter>
         <ButtonGroup>
-          <Button onClick={handleClose}>
+          <Button>
             <FormattedMessage id='modals.recoveryphrase.cancel' defaultMessage='Cancel' />
           </Button>
           <Button nature='secondary' onClick={next}>
             <FormattedMessage id='modals.recoveryphrase.logout' defaultMessage='Next step' />
           </Button>
         </ButtonGroup>
-      </Footer>
+      </ModalFooter>
     </Modal>
   )
+}
+
+FirstStep.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired
 }
 
 export default FirstStep

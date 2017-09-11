@@ -6,17 +6,8 @@ import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
 class FirstStepContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClose = this.handleClose.bind(this)
-  }
-
-  handleClose () {
-    this.props.modalActions.closeModal()
-  }
-
   render () {
-    return <FirstStep {...this.props} handleClose={this.handleClose} />
+    return <FirstStep {...this.props} />
   }
 }
 

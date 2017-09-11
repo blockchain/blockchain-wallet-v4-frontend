@@ -13,7 +13,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleClickCode () {
-    this.props.actions.showModal('QRCode', { address: this.props.receiveAddress })
+    this.props.modalActions.showModal('QRCode', { address: this.props.receiveAddress })
   }
 
   render () {
@@ -22,7 +22,7 @@ class FirstStepContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 FirstStepContainer.propTypes = {

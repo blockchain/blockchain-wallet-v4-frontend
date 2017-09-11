@@ -2,117 +2,75 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
 
-import { required, requiredNumber } from 'services/FormHelper'
-import { Button, ButtonGroup, Icon, Image, Link, Modal, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, Hidden, SelectBoxAddresses, TextBox, TextArea } from 'components/Form'
-import ComboDisplay from 'components/ComboDisplay'
+import { Button, ButtonGroup, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Separator, Text, TextGroup } from 'blockchain-info-components'
 
-const Aligned = styled.div`
-  & > * { display: inline-block; margin-right: 5px; }
-`
-const Row = styled.div`
+const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: auto;
-`
-const ColLeft = styled.div`
-  width: 50%;
-`
-const ColRight = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  width: 50%;
-`
-const AddressesToContainer = styled.div`
-  display: flex;
-  align-items: center;
-`
-const AddressesToButton = styled(Button) `
-  width: 40px;
-  min-width: 0;
-  border-radius: 0;
-`
-const ButtonRow = styled(ButtonGroup) `
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  & > button:first-child { width: 100%; }
-  & > button:last-child: { width: 200px; }
+  padding: 10px 0;
 `
 
 const FirstStep = (props) => {
-  const validateAmount = (value, allValues, props) => {
-    return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
-  }
-  const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, next, invalid, submitting,
-    handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, ...rest } = props
+  const { next, close } = props
 
   return (
-    <Modal {...rest} icon='send' title='Send' size='large'>
-      <Form>
-        <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
-        <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
-        <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
-        {addressSelectToggled
-          ? (
-            <AddressesToContainer>
-              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
-              <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='pencil' /></AddressesToButton>
-            </AddressesToContainer>
-          ) : (
-            <AddressesToContainer>
-              <Field name='to' component={TextBox} validate={[required]} />
-              <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' /></AddressesToButton>
-            </AddressesToContainer>
-          )
-        }
-        <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
-        <Field name='amount' component={CoinConvertor} validate={[requiredNumber, validateAmount]} />
-        <Field name='effectiveBalance' component={Hidden} />
-        <Aligned>
-          <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
-          <Tooltip>
-            <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-            <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
-          </Tooltip>
-        </Aligned>
-        <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
-        <Aligned>
-          <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
-          <Tooltip>
-            <FormattedMessage id='modals.sendbitcoin.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
-          </Tooltip>
-        </Aligned>
-        <ButtonRow>
-          <Button nature='primary' uppercase onClick={next} disabled={submitting || invalid}>
-            <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
+    <Modal size='large'>
+      <ModalHeader icon='bell' onClose={close}>
+        <FormattedMessage id='modals.recoveryphrase.title' defaultMessage='Backup recovery phrase' />
+      </ModalHeader>
+      <ModalBody>
+        <TextGroup inline>
+          <Icon name='safe' size='18px' weight={300} color='error' />
+          <Text size='18px' weight={400} color='error'>
+            <FormattedMessage id='modals.recoveryphrase.tip' defaultMessage='Security tip' />
+          </Text>
+        </TextGroup>
+        <TextGroup inline>
+          <Text size='14px' weight={300} color='error'>
+            <FormattedMessage id='modals.recoveryphrase.explain' defaultMessage='Do not store your Recovery Phrase on your computer or online.' />
+          </Text>
+          <Text size='14px' weight={300} color='error'>
+            <FormattedMessage id='modals.recoveryphrase.explain2' defaultMessage='It is very important to keep your Recovery Phrase offline in a safe and private place.' />
+          </Text>
+          <Text size='14px' weight={500} color='error'>
+            <FormattedMessage id='modals.recoveryphrase.explain3' defaultMessage='Anyone with access to your Recovery Phrase has access to your funds.' />
+          </Text>
+        </TextGroup>
+        <Separator />
+        <TextGroup inline>
+          <Text size='14px' weight={300}>
+            <FormattedMessage id='modals.recoveryphrase.explain4' defaultMessage='We have created a printable Recovery Sheet to help you conveniently keep your Recovery Phrase safe.' />
+          </Text>
+          <Text size='14px' weight={300}>
+            <FormattedMessage id='modals.recoveryphrase.explain5' defaultMessage='Print the blank Recovery Sheet and then move onto the next step to fill it in.' />
+          </Text>
+        </TextGroup>
+        <ButtonContainer>
+          <Button nature='primary'>
+            <FormattedMessage id='modals.recoveryphrase.print' defaultMessage='Print recovery sheet' />
           </Button>
-        </ButtonRow>
-      </Form>
+        </ButtonContainer>
+      </ModalBody>
+      <ModalFooter>
+        <ButtonGroup>
+          <Button>
+            <FormattedMessage id='modals.recoveryphrase.cancel' defaultMessage='Cancel' />
+          </Button>
+          <Button nature='secondary' onClick={next}>
+            <FormattedMessage id='modals.recoveryphrase.logout' defaultMessage='Next step' />
+          </Button>
+        </ButtonGroup>
+      </ModalFooter>
     </Modal>
   )
 }
 
 FirstStep.propTypes = {
-  addressSelectToggled: PropTypes.bool.isRequired,
-  feeEditToggled: PropTypes.bool.isRequired,
-  handleClickQrCodeCapture: PropTypes.func.isRequired,
-  handleClickAddressToggler: PropTypes.func.isRequired,
-  handleClickFeeToggler: PropTypes.func.isRequired,
-  next: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired
+  handleClose: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired
 }
 
 export default FirstStep

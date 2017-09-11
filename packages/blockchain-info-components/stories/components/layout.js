@@ -77,7 +77,7 @@ class Layout extends React.Component {
   }
 }
 
-Layout.defaultProps = {
+Layout.propTypes = {
   height: PropTypes.string
 }
 

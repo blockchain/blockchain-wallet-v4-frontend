@@ -9,15 +9,15 @@ import PairingCode from './template.js'
 class PairingCodeContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleClose = this.handleClose.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClose () {
+  handleClick () {
     this.props.modalActions.closeModal()
   }
 
   render () {
-    return <PairingCode {...this.props} handleClose={this.handleClose} />
+    return <PairingCode {...this.props} handleClick={this.handleClick} />
   }
 }
 
