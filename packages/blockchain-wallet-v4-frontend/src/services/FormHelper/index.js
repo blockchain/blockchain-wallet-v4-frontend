@@ -2,6 +2,7 @@ import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
 import { isNumeric, isEmail, isGuid } from 'services/ValidationHelper'
 import { parse } from 'libphonenumber-js'
+import zxcvbn from 'zxcvbn'
 
 const required = value => value ? undefined : 'Required'
 
@@ -17,4 +18,6 @@ const validWalletId = value => isGuid(value) ? undefined : 'Invalid wallet ident
 
 const validMobileNumber = value => !isEmpty(parse(value)) ? undefined : 'Invalid mobile number'
 
-export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber }
+const validStrongPassword = value => (value !== undefined && zxcvbn(value).score > 1) ? undefined : 'Your password is not strong enough'
+
+export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword }

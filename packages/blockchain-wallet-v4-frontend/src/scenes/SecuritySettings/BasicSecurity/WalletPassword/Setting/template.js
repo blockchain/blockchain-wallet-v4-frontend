@@ -6,6 +6,7 @@ import { Field } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { Form, PasswordBox } from 'components/Form'
+import { validStrongPassword } from 'services/FormHelper'
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ const Settings = (props) => {
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.security.walletPassword.label' defaultMessage='New Password' />
           </Text>
-          <Field name='newPassword' component={PasswordBox} />
+          <Field name='newPassword' component={PasswordBox} validate={[validStrongPassword]} score />
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.security.walletPasswordConfirmation.label' defaultMessage='Confirm Password' />
           </Text>
