@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
-import { Form, PasswordBox, TextBox } from 'components/Form'
+import { Form, FormGroup, PasswordBox, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -61,31 +60,39 @@ const Login = (props) => {
       </Text>
       <Separator />
       <Form onSubmit={handleSubmit}>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
-        </Text>
-        <Field name='guid' validate={[required]} component={TextBox} />
-        <TextGroup inline>
-          <Text size='14px' weight={300} altFont>
-            <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
+        <FormGroup>
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
           </Text>
-          <Text size='14px' weight={300} altFont>
-            <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
+          <Field name='guid' validate={[required]} component={TextBox} />
+          <TextGroup inline>
+            <Text size='14px' weight={300} altFont>
+              <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
+            </Text>
+            <Text size='14px' weight={300} altFont>
+              <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
+            </Text>
+            <Text size='14px' weight={300} altFont>
+              <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
+            </Text>
+          </TextGroup>
+        </FormGroup>
+        <FormGroup>
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
           </Text>
-          <Text size='14px' weight={300} altFont>
-            <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
-          </Text>
-        </TextGroup>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
-        </Text>
-        <Field name='password' validate={[required]} component={PasswordBox} />
-        <Button nature='secondary' type='submit' fullwidth uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
-        </Button>
-        <Button nature='primary' fullwidth uppercase onClick={handleTrezor}>
-          <FormattedMessage id='scenes.login.trezor' defaultMessage='Trezor' />
-        </Button>
+          <Field name='password' validate={[required]} component={PasswordBox} />
+        </FormGroup>
+        <FormGroup>
+          <Button nature='secondary' type='submit' fullwidth uppercase disabled={submitting || invalid}>
+            <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
+          </Button>
+        </FormGroup>
+        <FormGroup>
+          <Button nature='primary' fullwidth uppercase onClick={handleTrezor}>
+            <FormattedMessage id='scenes.login.trezor' defaultMessage='Trezor' />
+          </Button>
+        </FormGroup>
       </Form>
       <Footer>
         <Link size='13px' weight={300}>

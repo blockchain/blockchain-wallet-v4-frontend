@@ -3,6 +3,7 @@ import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CoinConvertor from './CoinConvertor'
 import Form from './Form'
+import FormGroup from './FormGroup'
 import Hidden from './Hidden'
 import NumberBox from './NumberBox'
 import PasswordBox from './PasswordBox'
@@ -20,6 +21,7 @@ export {
   CheckBox,
   CoinConvertor,
   Form,
+  FormGroup,
   Hidden,
   NumberBox,
   PasswordBox,

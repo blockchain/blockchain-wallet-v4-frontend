@@ -12,20 +12,8 @@ const Container = styled.div`
   width: 100%;
   height: 40px;
 `
-const Error = styled(Text)`
-  position: absolute;
-  display: block;
-  top: -18px;
-  right: 0;
-  height: 15px;
-`
-const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
-}
 
 const TextBox = (field) => {
-  const errorState = getErrorState(field.meta)
-
   return (
     <Container>
       <TextInput {...field.input} errorState={errorState} placeholder={field.placeholder} />
