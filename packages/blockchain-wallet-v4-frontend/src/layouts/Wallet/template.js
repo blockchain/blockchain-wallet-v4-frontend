@@ -11,6 +11,7 @@ import AutoDisconnection from 'modals/AutoDisconnection'
 import PairingCode from 'modals/PairingCode'
 import QRCode from 'modals/QRCode'
 import QRCodeCapture from 'modals/QRCodeCapture'
+import RecoveryPhrase from 'modals/RecoveryPhrase'
 import RequestBitcoin from 'modals/RequestBitcoin'
 import SecondPassword from 'modals/SecondPassword'
 import SendBitcoin from 'modals/SendBitcoin'
@@ -80,6 +81,7 @@ const WalletLayout = (props) => {
         <PairingCode />
         <QRCode />
         <QRCodeCapture />
+        <RecoveryPhrase />
         <RequestBitcoin />
         <SecondPassword />
         <SendBitcoin />

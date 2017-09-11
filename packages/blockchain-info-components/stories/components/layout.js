@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
 
 import { SimpleDropdown } from '../../src/Dropdowns'
@@ -36,6 +37,8 @@ const Title = styled.h1`
 const Content = styled.div`
   position: relative;
   margin: 10px;
+  width: 100%;
+  height: ${props => props.height};
 `
 
 class Layout extends React.Component {
@@ -64,7 +67,7 @@ class Layout extends React.Component {
           <Title>Visual</Title>
           <SimpleDropdown items={this.themes} selectedValue={this.state.theme} callback={this.selectTheme} />
         </TitleWrapper>
-        <Content>
+        <Content height={this.props.height}>
           <ThemeProvider theme={theme}>
             {this.props.children}
           </ThemeProvider>
@@ -72,6 +75,14 @@ class Layout extends React.Component {
       </BasePage>
     )
   }
+}
+
+Layout.defaultProps = {
+  height: PropTypes.string
+}
+
+Layout.defaultProps = {
+  height: 'auto'
 }
 
 export default Layout

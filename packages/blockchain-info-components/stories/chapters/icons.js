@@ -71,7 +71,7 @@ storiesOf('Icons', module)
   .add('All icons (icomoon)', () =>
     <IconLayout>
       { iconKeys.map((value, index) => {
-        return <IconComponent key={index} name={value} />
+        return <IconComponent key={index} name={value} size='40px' />
       })}
     </IconLayout>)
   .add('Icon', () => <Icon name='mobile' />)

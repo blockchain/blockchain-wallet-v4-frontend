@@ -9,7 +9,7 @@ export { CheckBoxInput, HiddenInput, NumberInput, PasswordInput, SelectInput, Te
 export { Icon } from './Icons'
 export { Background, Image } from './Images'
 export { Link } from './Links'
-export { Modal } from './Modals'
+export { Modal, ModalHeader, ModalBody, ModalFooter } from './Modals'
 export { Separator } from './Separators'
 export { SimpleSlider } from './Sliders'
 export { Text, TextGroup } from './Text'

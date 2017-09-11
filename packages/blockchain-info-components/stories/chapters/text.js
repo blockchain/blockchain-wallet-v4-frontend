@@ -10,7 +10,7 @@ const sample = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Cras id 
 storiesOf('Text', module)
   .addDecorator(story => (<Layout>{story()}</Layout>))
   .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-  .add('gray-5', () => <Text>{sample}</Text>)
+  .add('Text', () => <Text>{sample}</Text>)
   .add('Coloured text', () => <Text color='brand-secondary'>{sample}</Text>)
   .add('Bold text', () => <Text weight={900}>{sample}</Text>)
   .add('Capitalized text', () => <Text capitalize>{sample}</Text>)

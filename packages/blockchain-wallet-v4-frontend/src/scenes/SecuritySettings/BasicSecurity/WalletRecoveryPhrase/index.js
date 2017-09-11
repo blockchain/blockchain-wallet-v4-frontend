@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import Settings from './Settings'
 
 const WalletRecoveryPhrase = (props) => {
   return (
@@ -18,9 +18,7 @@ const WalletRecoveryPhrase = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='secondary'>
-          <FormattedMessage id='scenes.settings.recoveryphrase.backup' defaultMessage='Backup phrase' />
-        </Button>
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )
