@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
 import { is } from 'ramda'
 import { push } from 'connected-react-router'
 
@@ -39,15 +38,13 @@ const selectAddress = (addressValue, selectorFunction) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const selectorDonation = formValueSelector('donation')
   const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
   return {
     fromAddress: selectAddress(ownProps.from, getChange),
     toAddress: selectAddress(ownProps.to, getReceive),
-    satoshis: convertFromUnit(ownProps.network, ownProps.amount, ownProps.unit).getOrElse({ amount: undefined, symbol: 'N/A' }).amount,
-    coinDonation: selectorDonation(state, 'coin')
+    satoshis: convertFromUnit(ownProps.network, ownProps.amount, ownProps.unit).getOrElse({ amount: undefined, symbol: 'N/A' }).amount
   }
 }
 
