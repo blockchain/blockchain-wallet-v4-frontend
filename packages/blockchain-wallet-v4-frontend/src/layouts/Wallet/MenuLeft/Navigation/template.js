@@ -62,7 +62,7 @@ const Navigation = (props) => {
         </LinkContainer>
         <LinkContainer to='/transactions' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
-            <Icon name='tx' />
+            <Icon name='transactions' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions' defaultMessage='Transactions' smaller uppercase />
           </MenuItem>
         </LinkContainer>
@@ -110,7 +110,7 @@ const Navigation = (props) => {
         )}
         <LinkContainer to='/faq' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
-            <Icon name='help' />
+            <Icon name='question-in-circle' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.faq' defaultMessage='Faq' smaller uppercase />
           </MenuItem>
         </LinkContainer>

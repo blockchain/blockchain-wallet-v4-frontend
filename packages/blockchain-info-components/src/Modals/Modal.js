@@ -70,7 +70,7 @@ const Modal = ({ position, total, title, icon, size, closeButton, close, ...prop
         <Header>
           {icon && <HeaderIcon name={icon} />}
           {title && <HeaderTitle>{title}</HeaderTitle>}
-          {closeButton && <ButtonClose name='right_arrow' onClick={() => close()} />}
+          {closeButton && <ButtonClose name='close' onClick={() => close()} />}
         </Header>
         <Content>
           {props.children}

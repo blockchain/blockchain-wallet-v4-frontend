@@ -66,7 +66,7 @@ const Main = (props) => {
               <Text size='16px' weight={300} color='brand-secondary' uppercase>
                 <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
               </Text>
-              <Icon name='right_arrow' color='brand-secondary' />
+              <Icon name='right-arrow' color='brand-secondary' />
             </TextGroup>
           </NavLink>
         </MainContainer>

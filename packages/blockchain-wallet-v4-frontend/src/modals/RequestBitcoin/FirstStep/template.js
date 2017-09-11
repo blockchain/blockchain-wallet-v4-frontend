@@ -25,7 +25,7 @@ const FirstStep = (props) => {
   const { next, submitting, invalid, receiveAddress, handleClickCode, ...rest } = props
 
   return (
-    <Modal {...rest} icon='receive' title='Request' size='large'>
+    <Modal {...rest} icon='request' title='Request' size='large'>
       <Form>
         <Aligned>
           <Text size='14px' weight={500} capitalize>

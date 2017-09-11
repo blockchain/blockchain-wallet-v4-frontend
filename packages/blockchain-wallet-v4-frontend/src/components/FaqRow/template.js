@@ -33,7 +33,7 @@ const Content = styled.div`
 `
 
 const Arrow = styled(Icon).attrs({
-  name: 'down_arrow'
+  name: 'down-arrow'
 })`
   transform: ${props => props.rotated ? 'rotate(-180deg)' : 'none'};
   color: ${props => props.rotated ? props.theme['brand-primary'] : 'inherit'};
