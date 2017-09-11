@@ -6,8 +6,9 @@ import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 import { singleForm } from 'providers/FormProvider'
 import ui from 'redux-ui'
+import { equals, isEmpty } from 'ramda'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingContainer extends React.Component {
@@ -18,8 +19,8 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    // const { passwordHint } = this.props
-    // this.props.walletActions.togglePasswordHint(passwordHint)
+    const { guid, sharedKey, passwordHintValue } = this.props
+    this.props.settingsActions.updateHint(guid, sharedKey, passwordHintValue)
     this.handleToggle()
   }
 
@@ -40,11 +41,14 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  passwordHint: formValueSelector('settingPasswordHint')(state, 'passwordHint')
+  guid: selectors.core.wallet.getGuid(state),
+  sharedKey: selectors.core.wallet.getSharedKey(state),
+  passwordHintValue: formValueSelector('settingPasswordHint')(state, 'passwordHint'),
+  currentHint: selectors.core.settings.getHint(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  walletActions: bindActionCreators(actions.core.wallet, dispatch),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

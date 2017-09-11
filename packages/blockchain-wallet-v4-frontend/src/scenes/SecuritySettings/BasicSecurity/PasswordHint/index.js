@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-// import { selectors } from 'data'
+import { selectors } from 'data'
 import SecondPassword from './template.js'
 
 class PasswordHintContainer extends React.Component {
@@ -11,7 +11,7 @@ class PasswordHintContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  passwordHintStored: false // selectors.core.wallet.isPasswordHintOn(state)
+  passwordHintStored: selectors.core.settings.getHint(state) !== undefined && selectors.core.settings.getHint(state) !== 'undefined'
 })
 
 export default connect(mapStateToProps)(PasswordHintContainer)

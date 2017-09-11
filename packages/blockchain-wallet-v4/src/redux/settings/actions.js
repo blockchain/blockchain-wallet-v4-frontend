@@ -43,3 +43,7 @@ export const updateBitcoinUnitError = message => ({ type: AT.UPDATE_BITCOIN_UNIT
 export const updateAutoLogout = (guid, sharedKey, autoLogout) => ({ type: AT.UPDATE_AUTO_LOGOUT, payload: { guid, sharedKey, autoLogout } })
 export const updateAutoLogoutSuccess = (autoLogout, data) => ({ type: AT.UPDATE_AUTO_LOGOUT_SUCCESS, payload: { autoLogout, data } })
 export const updateAutoLogoutError = message => ({ type: AT.UPDATE_AUTO_LOGOUT_ERROR, payload: message })
+
+export const updateHint = (guid, sharedKey, hint) => ({ type: AT.UPDATE_HINT, payload: { guid, sharedKey, hint } })
+export const updateHintSuccess = (hint, data) => ({ type: AT.UPDATE_HINT_SUCCESS, payload: { hint, data } })
+export const updateHintError = message => ({ type: AT.UPDATE_HINT_ERROR, payload: message })

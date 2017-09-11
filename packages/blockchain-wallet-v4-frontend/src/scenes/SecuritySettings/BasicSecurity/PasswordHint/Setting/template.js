@@ -20,9 +20,12 @@ const Wrapper = styled.div`
   & > * { padding: 10px 0; }
 `
 const Setting = (props) => {
-  const { updateToggled, handleToggle, handleClick, submitting, invalid } = props
+  const { updateToggled, handleToggle, handleClick, submitting, invalid, currentHint } = props
   return (
     <Wrapper>
+      {currentHint !== 'undefined' &&
+        <Text>{currentHint}</Text>
+      }
       <Button nature='secondary' onClick={handleToggle}>
         <FormattedMessage id='scenes.security.passwordHint.updateform.setpasswordHint' defaultMessage='Change' />
       </Button>
