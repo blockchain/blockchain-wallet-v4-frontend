@@ -43,7 +43,7 @@ const Header = styled.div`
 
   & > :first-child { margin-right: 10px; }
 `
-const ButtonClose = styled(Text)`
+const ButtonClose = styled(Icon)`
   position: absolute;
   top: 30px;
   right: 20px;

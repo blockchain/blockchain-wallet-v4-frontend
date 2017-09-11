@@ -14,13 +14,19 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 
-  @media(min-width: 992px) {
-    align-items: flex-end;
-    & > * { align-items: flex-end; }
-  }
+  @media(min-width: 992px) {  align-items: flex-end; }
   
   & > * { padding: 10px 0; }
 `
+const SettingForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  @media(min-width: 992px) { align-items: flex-end; }
+`
+
 const Setting = (props) => {
   const { updateToggled, verifyToggled, handleToggle, handleClick, handleResend, handleVerify, smsNumber, submitting, invalid } = props
 
@@ -31,7 +37,7 @@ const Setting = (props) => {
         <FormattedMessage id='scenes.preferences.mobilenumber.updateform.change' defaultMessage='Change' />
       </Button>
       { updateToggled &&
-        <Form>
+        <SettingForm>
           <TextGroup inline>
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.preferences.mobilenumber.updateform.explain' defaultMessage='Use your mobile phone to receive a one-time-password after a login attempt.' />
@@ -49,10 +55,10 @@ const Setting = (props) => {
               <FormattedMessage id='scenes.preferences.mobilenumber.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
-        </Form>
+        </SettingForm>
       }
       { !updateToggled && verifyToggled &&
-        <Form>
+        <SettingForm>
           <TextGroup inline>
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.preferences.mobilenumber.verifyform.explain' defaultMessage='We have sent your mobile phone an SMS message with a verification code.' />
@@ -70,7 +76,7 @@ const Setting = (props) => {
               <FormattedMessage id='scenes.preferences.mobilenumber.verifyform.verify' defaultMessage='Verify' />
             </Button>
           </ButtonGroup>
-        </Form>
+        </SettingForm>
       }
     </Wrapper>
   )

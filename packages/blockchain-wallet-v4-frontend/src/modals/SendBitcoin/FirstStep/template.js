@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
-import { Button, ButtonGroup, Icon, Image, Link, Modal, Text, TextGroup, Tooltip } from 'blockchain-info-components'
+import { Button, ButtonGroup, Icon, Image, Link, Modal, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, Form, Hidden, SelectBoxAddresses, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 import SelectBoxFee from './SelectBoxFee'

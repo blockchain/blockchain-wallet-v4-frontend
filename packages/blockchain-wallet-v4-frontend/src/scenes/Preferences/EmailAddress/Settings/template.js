@@ -14,13 +14,19 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 
-  @media(min-width: 992px) {
-    align-items: flex-end;
-    & > * { align-items: flex-end; }
-  }
+  @media(min-width: 992px) { align-items: flex-end; }
 
   & > * { padding: 10px 0; }
 `
+const SettingForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  @media(min-width: 992px) { align-items: flex-end; }
+`
+
 const Settings = (props) => {
   const { updateToggled, verifyToggled, handleToggle, handleClick, handleResend, email, submitting, invalid } = props
 
@@ -31,7 +37,7 @@ const Settings = (props) => {
         <FormattedMessage id='scenes.preferences.emailAddress.updateform.change' defaultMessage='Change' />
       </Button>
       {updateToggled &&
-        <Form>
+        <SettingForm>
           <Text size='14px' weight={300} color='error'>
             <FormattedMessage id='scenes.preferences.email.warning' defaultMessage="This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same." />
           </Text>
@@ -44,10 +50,10 @@ const Settings = (props) => {
               <FormattedMessage id='scenes.preferences.emailAddress.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
-        </Form>
+        </SettingForm>
       }
       {!updateToggled && verifyToggled &&
-        <Wrapper>
+        <SettingForm>
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.preferences.emailAddress.verifyform.explain' defaultMessage='We have sent you an email with a link to verify your email address.' />
           </Text>
@@ -59,7 +65,7 @@ const Settings = (props) => {
               <FormattedMessage id='scenes.preferences.emailAddress.verifyform.resend' defaultMessage='Resend' />
             </Button>
           </ButtonGroup>
-        </Wrapper>
+        </SettingForm>
       }
     </Wrapper>
   )

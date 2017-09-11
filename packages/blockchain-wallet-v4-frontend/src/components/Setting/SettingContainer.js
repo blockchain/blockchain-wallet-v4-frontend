@@ -12,7 +12,7 @@ const SettingContainer = styled.div`
   @media (min-width: 992px) {
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
   }
 `
 
