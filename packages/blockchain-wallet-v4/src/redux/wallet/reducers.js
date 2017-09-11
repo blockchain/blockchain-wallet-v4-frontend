@@ -41,7 +41,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       return over(Wrapper.wallet, Wallet.deleteLegacyAddress(address), state)
     }
     case T.SET_MAIN_PASSWORD: {
-      const { password } = action.payload
+      const password = action.payload
       return set(Wrapper.password, password, state)
     }
     case T.SET_HD_ADDRESS_LABEL: {

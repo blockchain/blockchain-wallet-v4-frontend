@@ -1,6 +1,5 @@
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
@@ -18,8 +17,8 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    const { secondPasswordValue } = this.props
-    this.props.walletActions.toggleSecondPassword(secondPasswordValue)
+    const { newWalletPasswordValue } = this.props
+    this.props.walletActions.setMainPassword(newWalletPasswordValue)
     this.handleToggle()
   }
 
@@ -40,8 +39,9 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
-  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword')
+  currentWalletPassword: selectors.core.wallet.getMainPassword(state),
+  walletPasswordValue: formValueSelector('settingWalletPassword')(state, 'currentPassword'),
+  newWalletPasswordValue: formValueSelector('settingWalletPassword')(state, 'newPassword')
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -51,8 +51,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Setting_SecondPassword', state: { updateToggled: false } }),
-  singleForm('settingSecondPassword')
+  ui({ key: 'Setting_WalletPassword', state: { updateToggled: false } }),
+  singleForm('settingWalletPassword')
 )
 
 export default enhance(SettingContainer)
