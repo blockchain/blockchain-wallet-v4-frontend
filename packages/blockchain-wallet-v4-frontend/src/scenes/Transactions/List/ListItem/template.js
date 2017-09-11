@@ -137,7 +137,7 @@ const ListItem = (props) => {
       <Row>
         <Status>
           <Arrow rotated={!toggled} onClick={handleToggle}>
-            <Icon name='down_arrow' size='10px' />
+            <Icon name='down-arrow' size='10px' />
           </Arrow>
           <Text weight={500} color={selectColors(transaction.type)} uppercase>
             { transaction.type === 'Sent' && <FormattedMessage id='scenes.transactions.list.listitem.sent' defaultMessage='Sent' /> }

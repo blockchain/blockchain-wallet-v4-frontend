@@ -47,7 +47,7 @@ const Info = styled.div`
 const selectIcon = type => {
   switch (type) {
     case 'log': return 'settings'
-    default: return 'tx'
+    default: return 'transactions'
   }
 }
 

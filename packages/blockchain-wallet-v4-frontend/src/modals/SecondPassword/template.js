@@ -11,7 +11,7 @@ const SecondPassword = (props) => {
   const { handleClick, secondPassword, ...rest } = props
 
   return (
-    <Modal {...rest} icon='safe-secure' title='Second password' size='large'>
+    <Modal {...rest} icon='safe' title='Second password' size='large'>
       <Text size='14px' weight={500}>
         <FormattedMessage id='modals.secondpassword.explain' defaultMessage='Please enter your second password' />
       </Text>

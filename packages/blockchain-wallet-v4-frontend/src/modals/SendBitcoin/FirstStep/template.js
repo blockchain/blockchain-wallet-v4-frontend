@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
-import { Button, Icon, Image, Link, Modal, Tooltip } from 'blockchain-info-components'
+import { Button, ButtonGroup, Icon, Image, Link, Modal, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, Form, Hidden, SelectBoxAddresses, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 import SelectBoxFee from './SelectBoxFee'
@@ -40,6 +40,15 @@ const AddressesToButton = styled(Button)`
   min-width: 0;
   border-radius: 0;
 `
+const ButtonRow = styled(ButtonGroup)`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  & > button:first-child { width: 100%; }
+  & > button:last-child: { width: 200px; }
+`
 
 const FirstStep = (props) => {
   const validateAmount = (value, allValues, props) => {
@@ -65,7 +74,7 @@ const FirstStep = (props) => {
             <AddressesToContainer>
               <Field name='to' component={TextBox} validate={[required]} />
               <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down_arrow' size='10px' /></AddressesToButton>
+              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' /></AddressesToButton>
             </AddressesToContainer>
             )
         }
@@ -103,9 +112,11 @@ const FirstStep = (props) => {
             </Link>
           </ColRight>
         </Row>
-        <Button nature='secondary' fullwidth onClick={next} disabled={submitting || invalid}>
-          <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
-        </Button>
+        <ButtonRow>
+          <Button nature='primary' uppercase onClick={next} disabled={submitting || invalid}>
+            <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
+          </Button>
+        </ButtonRow>
       </Form>
     </Modal>
   )

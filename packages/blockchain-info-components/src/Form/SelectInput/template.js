@@ -27,7 +27,7 @@ const Button = styled.button.attrs({
   user-select: none;
   padding: 0.5rem 1rem;
   transition: all 0.2s ease-in-out;
-  color: ${props => props.theme['gray-3']};
+  color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', sans-serif !important;
   font-size: 0.9rem;
@@ -77,18 +77,18 @@ const ListItem = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
   font-weight: 300;
-  color: ${props => props.theme['gray-3']};
+  color: ${props => props.theme['gray-4']};
   cursor: pointer;
 
   &:hover {
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme['gray-4']};
     background-color: ${props => props.theme['gray-2']};
   }
 `
 const Header = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
-  color: ${props => props.theme['gray-3']};
+  color: ${props => props.theme['gray-4']};
   background-color: ${props => props.theme['gray-2']};
   cursor: not-allowed;
 
@@ -105,7 +105,7 @@ const Error = styled.label`
   color: ${props => props.theme['error']};
 `
 const Arrow = styled(Icon).attrs({
-  name: 'down_arrow'
+  name: 'down-arrow'
 })`
   position: absolute;
   top: 15px;

@@ -66,8 +66,8 @@ const CoinConvertor = (props) => {
           <NumberInput onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
           <Unit>{coinUnit}</Unit>
         </Container>
-        <ArrowLeft name='left_arrow' />
-        <ArrowRight name='right_arrow' />
+        <ArrowLeft name='left-arrow' />
+        <ArrowRight name='right-arrow' />
         <Container>
           <NumberInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
           <Unit>{fiatUnit}</Unit>

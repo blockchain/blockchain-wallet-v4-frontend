@@ -81,7 +81,7 @@ const MenuTop = (props) => {
             <FormattedMessage id='layouts.wallet.menutop.send' defaultMessage='Send' />
           </IconButton>
           <ButtonGroup>
-            <IconButton name='receive' onClick={openRequestBitcoin}>
+            <IconButton name='request' onClick={openRequestBitcoin}>
               <FormattedMessage id='layouts.wallet.menutop.request' defaultMessage='Request' />
             </IconButton>
             <IconButton name='clipboard' />

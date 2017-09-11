@@ -24,7 +24,6 @@ class SettingContainer extends React.Component {
 
   handleClick () {
     const { autoLogoutTime } = this.props
-    console.log(autoLogoutTime)
 
     this.props.walletActions.setAutoLogout(parseInt(autoLogoutTime) * 60000)
     this.props.updateUI({ updateToggled: false })

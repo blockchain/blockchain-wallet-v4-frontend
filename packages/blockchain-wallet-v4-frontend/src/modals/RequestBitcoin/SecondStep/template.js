@@ -35,7 +35,7 @@ const SecondStep = (props) => {
   const { satoshis, message, link, active, handleClick, previous, ...rest } = props
 
   return (
-    <Modal {...rest} icon='receive' title='Request' size='large'>
+    <Modal {...rest} icon='request' title='Request' size='large'>
       <Form>
         <Text size='14px' weight={300}>
           <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' />
