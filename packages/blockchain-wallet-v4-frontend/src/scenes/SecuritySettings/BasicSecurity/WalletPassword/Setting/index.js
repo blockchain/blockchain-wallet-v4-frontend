@@ -6,7 +6,7 @@ import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 import { singleForm } from 'providers/FormProvider'
 import ui from 'redux-ui'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingContainer extends React.Component {
@@ -39,6 +39,7 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  currentWalletPassword: selectors.core.wallet.getMainPassword(state),
   walletPasswordValue: formValueSelector('settingWalletPassword')(state, 'currentPassword'),
   newWalletPasswordValue: formValueSelector('settingWalletPassword')(state, 'newPassword')
 })

@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   & > * { padding: 10px 0; }
 `
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, submitting, invalid } = props
+  const { updateToggled, handleToggle, handleClick, submitting, invalid, currentWalletPassword } = props
   return (
     <Wrapper>
       <Button nature='secondary' onClick={handleToggle}>
@@ -32,7 +32,7 @@ const Settings = (props) => {
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.security.walletPassword.label' defaultMessage='Current Password' />
           </Text>
-          <Field name='currentPassword' component={PasswordBox} />
+          <Field name='currentPassword' component={PasswordBox} validate={(value) => (value === currentWalletPassword ? undefined : 'Incorrect password')} />
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.security.walletPassword.label' defaultMessage='New Password' />
           </Text>
