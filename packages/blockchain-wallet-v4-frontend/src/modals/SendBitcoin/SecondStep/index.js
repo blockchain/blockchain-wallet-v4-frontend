@@ -16,7 +16,8 @@ class SecondStepContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.paymentActions.signAndPublish(settings.NETWORK, this.props.selection)
+    const { selection } = this.props
+    this.props.paymentActions.signAndPublish(settings.NETWORK, selection)
   }
 
   render () {

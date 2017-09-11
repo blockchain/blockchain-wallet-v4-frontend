@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+
 import ui from 'redux-ui'
 import { actions as reduxFormActions } from 'redux-form'
 import { gte, is, equals, isNil, pick } from 'ramda'
@@ -26,11 +27,10 @@ class FirstStepContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     const { network, unit, fee, from, to, target, coins, changeAddress } = nextProps
 
-    // Refresh the selection if fee, from, to or amount have been updated
+    // Refresh the selection if fee, from, to or amount, or donationCoin have been updated
     if (gte(fee, 0) && target && coins && changeAddress && !equals(pick(['fee', 'to', 'from', 'amount'], nextProps), pick(['fee', 'to', 'from', 'amount'], this.props))) {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
-        // this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'descentDraw', this.seed.toString('hex'))
         this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
       }, 1000)
     }

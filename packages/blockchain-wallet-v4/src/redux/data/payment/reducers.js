@@ -29,6 +29,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case A.REFRESH_SELECTION: {
       const { coins, target, feePerByte, change, algorithm, seed } = action.payload
+
       let selection
       switch (algorithm) {
         case 'ascentDraw':
@@ -47,6 +48,7 @@ export default (state = INITIAL_STATE, action) => {
           selection = EMPTY_SELECTION
           break
       }
+
       return assoc('selection', selection, state)
     }
     default:

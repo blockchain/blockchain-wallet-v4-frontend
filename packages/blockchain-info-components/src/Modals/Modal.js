@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Icon } from '../Icons'
+import { Text } from '../Text'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -20,14 +21,14 @@ const Wrapper = styled.div`
 const Container = styled.div`
   position: relative;
   width: calc(100% - ${props => props.position * 20}px);
-  background-color: ${props => props.position === props.total ? props.theme['white'] : props.theme['gray-2']};
+  background-color: ${props => props.position === props.total ? props.theme[props.backgroundColor] : props.theme['gray-1']};
   z-index: ${props => props.position ? (props.position) + 1041 : 1041};
 
   @media(min-width: 768px) {
     width: ${props => props.size === 'small' ? 'calc(400px - ' + props.position * 20 + 'px)'
     : props.size === 'medium' ? 'calc(500 - ' + props.position * 20 + 'px)'
     : props.size === 'large' ? 'calc(600px - ' + props.position * 20 + 'px)'
-    : 'calc(800px - ' + props.position * 20 + 'px)'};
+    : 'calc(700px - ' + props.position * 20 + 'px)'};
   }
 `
 const Header = styled.div`
@@ -39,38 +40,40 @@ const Header = styled.div`
   width: 100%;
   padding: 30px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
+
+  & > :first-child { margin-right: 10px; }
 `
-const HeaderIcon = styled(Icon)`
-  display: inline-flex;
-  font-size: 1.8em;
-  font-weight: 300;
-  margin-right: 10px;
-`
-const HeaderTitle = styled.span`
-  font-size: 1.8em;
-  font-weight: 300;
-`
-const ButtonClose = styled(Icon)`
+const ButtonClose = styled(Text)`
   position: absolute;
   top: 30px;
   right: 20px;
   height: 20px;
-  font-size: 20px;
   cursor: pointer;
 `
 const Content = styled.div`
   padding: 30px;
   box-sizing: border-box;
+  
 `
 
-const Modal = ({ position, total, title, icon, size, closeButton, close, ...props }) => {
+const selectColors = nature => {
+  switch (nature) {
+    case 'primary': return { color: 'white', backgroundColor: 'brand-primary' }
+    default: return { color: 'gray-5', backgroundColor: 'white' }
+  }
+}
+
+const Modal = (props) => {
+  const { position, total, title, icon, nature, size, closeButton, close } = props
+  const { color, backgroundColor } = selectColors(nature)
+
   return (
     <Wrapper position={position} total={total}>
-      <Container position={position} total={total} size={size}>
+      <Container position={position} total={total} size={size} backgroundColor={backgroundColor}>
         <Header>
-          {icon && <HeaderIcon name={icon} />}
-          {title && <HeaderTitle>{title}</HeaderTitle>}
-          {closeButton && <ButtonClose name='right_arrow' onClick={() => close()} />}
+          {icon && <Icon name={icon} size='24px' weight={300} color={color} />}
+          {title && <Text size='24px' weight={300} color={color}>{title}</Text>}
+          {closeButton && <ButtonClose name='right_arrow' size='20px' weight={300} color={color} onClick={() => close()}>X</ButtonClose>}
         </Header>
         <Content>
           {props.children}
@@ -83,6 +86,7 @@ const Modal = ({ position, total, title, icon, size, closeButton, close, ...prop
 Modal.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
+  backgroundColor: PropTypes.oneOf(['primary']),
   title: PropTypes.string,
   icon: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large', '']),
@@ -91,7 +95,7 @@ Modal.propTypes = {
 }
 
 Modal.defaultProps = {
-  size: 'large',
+  size: '',
   isLast: true,
   closeButton: true
 }
