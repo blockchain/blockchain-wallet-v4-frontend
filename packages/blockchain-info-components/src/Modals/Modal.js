@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { keysIn } from 'ramda'
 
-import { Palette } from '../Colors'
 import { Icon } from '../Icons'
 import { Text } from '../Text'
 

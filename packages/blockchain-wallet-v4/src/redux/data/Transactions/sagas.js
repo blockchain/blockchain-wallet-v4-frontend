@@ -13,7 +13,6 @@ export const transactionsSaga = ({ api, walletPath, dataPath } = {}) => {
       const context = yield select(compose(Wallet.selectContext, Wrapper.selectWallet, prop(walletPath)))
       const currentTxs = yield select(compose(getTransactions, prop(dataPath)))
       const offset = currentTxs.length
-      console.log(offset)
       const data = yield call(api.fetchBlockchainData, context.toJS(), { n: nbTransactions, onlyShow: address, offset: offset })
       yield put(A.fetchTransactionsSuccess({ address: address, txs: data.txs }))
     } catch (error) {

@@ -8,4 +8,4 @@ import { SimpleSlider } from '../../src'
 storiesOf('Sliders', module)
   .addDecorator(story => (<Layout>{story()}</Layout>))
   .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-  .add('Slider', () => <SimpleSlider />)
+  .add('SimpleSlider', () => <SimpleSlider />)

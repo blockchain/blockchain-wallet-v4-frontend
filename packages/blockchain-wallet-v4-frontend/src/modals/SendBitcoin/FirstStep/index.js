@@ -22,24 +22,16 @@ class FirstStepContainer extends React.Component {
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
     this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
-    this.handleClickDonation = this.handleClickDonation.bind(this)
-    this.handleClickDonationRemove = this.handleClickDonationRemove.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
-    const { network, unit, fee, from, to, target, coins, donationCoin, changeAddress } = nextProps
+    const { network, unit, fee, from, to, target, coins, changeAddress } = nextProps
 
     // Refresh the selection if fee, from, to or amount, or donationCoin have been updated
-    if (gte(fee, 0) && target && coins && changeAddress && !equals(pick(['fee', 'to', 'from', 'amount', 'donationCoin'], nextProps), pick(['fee', 'to', 'from', 'amount', 'donationCoin'], this.props))) {
+    if (gte(fee, 0) && target && coins && changeAddress && !equals(pick(['fee', 'to', 'from', 'amount'], nextProps), pick(['fee', 'to', 'from', 'amount'], this.props))) {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
-        if (donationCoin) {
-          console.log('both', target, donationCoin)
-          this.props.paymentActions.refreshSelection(fee, concat([target], [donationCoin]), coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
-        } else {
-          console.log('only target', target)
-          this.props.paymentActions.refreshSelection(fee, [target], coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
-        }
+        this.props.paymentActions.refreshSelection(fee, [target], coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
       }, 1000)
     }
 
@@ -76,14 +68,6 @@ class FirstStepContainer extends React.Component {
     this.props.modalActions.showModal('QRCodeCapture')
   }
 
-  handleClickDonation () {
-    this.props.modalActions.showModal('Donation', { amount: this.props.amount })
-  }
-
-  handleClickDonationRemove () {
-    this.props.reduxFormActions.initialize('donation', { percentage: '0.05', charity: 'Global Giving', coin: undefined })
-  }
-
   render () {
     const { ui } = this.props
 
@@ -114,7 +98,6 @@ const selectAddress = (addressValue, selectorFunction) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const selectorDonation = formValueSelector('donation')
   const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
@@ -130,10 +113,7 @@ const mapStateToProps = (state, ownProps) => {
     network: 'bitcoin',
     unit: selectors.core.settings.getBtcCurrency(state),
     currency: selectors.core.settings.getCurrency(state),
-    rates: selectors.core.btcRates.getBtcRates(state),
-    percentage: selectorDonation(state, 'percentage'),
-    charity: selectorDonation(state, 'charity'),
-    donationCoin: selectorDonation(state, 'coin')
+    rates: selectors.core.btcRates.getBtcRates(state)
   }
 }
 
