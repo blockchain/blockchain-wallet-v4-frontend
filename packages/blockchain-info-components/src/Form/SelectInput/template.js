@@ -105,7 +105,7 @@ const Error = styled.label`
   color: ${props => props.theme['error']};
 `
 const Arrow = styled(Icon).attrs({
-  name: 'down_arrow'
+  name: 'down-arrow'
 })`
   position: absolute;
   top: 15px;

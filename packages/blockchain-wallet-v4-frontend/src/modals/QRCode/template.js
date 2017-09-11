@@ -27,7 +27,7 @@ const QRCode = (props) => {
   const bitcoinAddress = `bitcoin:${address}`
 
   return (
-    <Modal {...rest} icon='receive' title='Payment address' size='large'>
+    <Modal {...rest} icon='request' title='Payment address' size='large'>
       <Aligned>
         <Text size='14px' weight={500} capitalize>
           <FormattedMessage id='modals.qrcode.scan' defaultMessage='Scan QR Code' />

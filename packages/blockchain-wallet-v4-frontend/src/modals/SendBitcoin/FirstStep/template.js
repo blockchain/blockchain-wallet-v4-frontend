@@ -74,7 +74,7 @@ const FirstStep = (props) => {
             <AddressesToContainer>
               <Field name='to' component={TextBox} validate={[required]} />
               <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down_arrow' size='10px' /></AddressesToButton>
+              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' /></AddressesToButton>
             </AddressesToContainer>
             )
         }

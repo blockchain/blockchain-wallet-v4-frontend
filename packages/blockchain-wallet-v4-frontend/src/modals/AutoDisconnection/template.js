@@ -25,7 +25,7 @@ const AutoDisconnection = (props) => {
   const { closeButton, duration, handleClick, handleCancel, ...rest } = props
 
   return (
-    <Modal {...rest} icon='right_arrow' title='Are you still there?' size='large' closeButton={closeButton}>
+    <Modal {...rest} icon='right-arrow' title='Are you still there?' size='large' closeButton={closeButton}>
       <Container>
         <Text size='14px' weight={300}>
           <FormattedMessage id='modals.autodisconnection.explain' defaultMessage="You've been inactive for {duration} minutes." values={{duration: duration}} />
