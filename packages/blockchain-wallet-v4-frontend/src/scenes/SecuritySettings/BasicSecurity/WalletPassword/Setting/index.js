@@ -17,8 +17,8 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    // const { walletPasswordValue, newPasswordValue } = this.props
-    // this.props.walletActions.changeWalletPassword(walletPasswordValue, newPasswordValue)
+    const { newWalletPasswordValue } = this.props
+    this.props.walletActions.setMainPassword(newWalletPasswordValue)
     this.handleToggle()
   }
 
