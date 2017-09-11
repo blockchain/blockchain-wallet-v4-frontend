@@ -11,7 +11,7 @@ const BaseButton = styled.button.attrs({
   justify-content: center;
   align-items: center;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
-  min-width: 120px;
+  min-width: 140px;
   height: 40px;
   padding: 10px 15px;
   box-sizing: border-box;

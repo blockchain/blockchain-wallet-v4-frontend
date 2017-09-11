@@ -16,6 +16,7 @@ const Row = styled.div`
   align-items: center;
 
   & > * { width: 150px; }
+  & > :last-child { width: 100%; }
 `
 const Summary = styled.div`
   display: flex;
@@ -28,6 +29,10 @@ const Summary = styled.div`
   & > * { padding: 10px 0; }
 `
 const Footer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   width: 100%;
   padding: 5px 0;
 
@@ -52,12 +57,14 @@ const SecondStep = (props) => {
           </Text>
           <Text size='16px' weight={300}>{toAddress}</Text>
         </Row>
-        <Row>
-          <Text size='16px' weight={500}>
-            <FormattedMessage id='modals.sendbitcoin.secondstep.for' defaultMessage='For:' />
-          </Text>
-          <Text size='16px' weight={300}>{message}</Text>
-        </Row>
+        { message &&
+          <Row>
+            <Text size='16px' weight={500}>
+              <FormattedMessage id='modals.sendbitcoin.secondstep.for' defaultMessage='For:' />
+            </Text>
+            <Text size='16px' weight={300}>{message}</Text>
+          </Row>
+        }
         <Row>
           <Text size='16px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.secondstep.payment' defaultMessage='Payment:' />
