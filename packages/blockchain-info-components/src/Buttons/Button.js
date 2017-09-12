@@ -41,7 +41,7 @@ const BaseButton = styled.button.attrs({
   }
   &:focus { outline:0; }
  `
-const selectColor = (nature, theme, disabled) => {
+const selectColor = (nature, disabled) => {
   if (disabled) { return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' } }
 
   switch (nature) {
@@ -60,7 +60,7 @@ const selectColor = (nature, theme, disabled) => {
 
 const Button = (props) => {
   const { children, nature, theme, disabled, ...rest } = props
-  const { color, backgroundColor, borderColor } = selectColor(nature, theme, disabled)
+  const { color, backgroundColor, borderColor } = selectColor(nature, disabled)
 
   return (
     <BaseButton
@@ -75,7 +75,7 @@ const Button = (props) => {
 }
 
 Button.propTypes = {
-  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout']),
+  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout', 'dark']),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,

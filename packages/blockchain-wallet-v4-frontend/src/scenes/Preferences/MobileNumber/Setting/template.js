@@ -16,8 +16,8 @@ const Wrapper = styled.div`
   align-items: flex-start;
 
   @media(min-width: 992px) {  align-items: flex-end; }
-  
-  & > * { padding: 10px 0; }
+
+  & > * { margin-bottom: 10px; }
 `
 
 const Setting = (props) => {

@@ -14,6 +14,11 @@ storiesOf('Modals', module)
       <ModalBody>This is my content</ModalBody>
       <ModalFooter>This is my footer</ModalFooter>
     </Modal>)
+  .add('Modal with size', () =>
+    <Modal size='small'>
+      <ModalHeader>This is my header</ModalHeader>
+      <ModalBody>This is my content</ModalBody>
+    </Modal>)
   .add('Modal with icon', () =>
     <Modal>
       <ModalHeader icon='alert'>This is my header</ModalHeader>

@@ -13,11 +13,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 
-  @media(min-width: 992px) {
-    align-items: flex-end;
-  }
-
-  & > * { padding: 10px 0; }
+  @media(min-width: 992px) { align-items: flex-end; }
 `
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, secondPasswordEnabled } = props

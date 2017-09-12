@@ -1,76 +1,82 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, ButtonGroup, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Icon, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text, TextGroup } from 'blockchain-info-components'
 
-const ButtonContainer = styled.div`
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+`
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 25px 0;
+`
+const Arrow = styled(Icon)`
+  cursor: pointer;
+  visibility: ${props => props.visible ? 'visible' : 'hidden'};
+`
+const Display = styled(Text)`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
+  width: 300px;
 `
 
-const FirstStep = (props) => {
-  const { next, position, total, close } = props
+const SecondStep = (props) => {
+  const { previous, next, position, total, close, currentIndex, currentWord, nextWord, previousWord } = props
+  console.log(currentWord)
 
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='bell' onClose={close}>
-        <FormattedMessage id='modals.recoveryphrase.title' defaultMessage='Backup recovery phrase' />
+        <FormattedMessage id='modals.recoveryphrase.secondstep.title' defaultMessage='Backup recovery phrase' />
       </ModalHeader>
       <ModalBody>
         <TextGroup inline>
-          <Icon name='safe' size='18px' weight={300} color='error' />
-          <Text size='18px' weight={400} color='error'>
-            <FormattedMessage id='modals.recoveryphrase.tip' defaultMessage='Security tip' />
+          <Icon name='pencil' size='18px' weight={300} />
+          <Text size='18px' weight={300}>
+            <FormattedMessage id='modals.recoveryphrase.secondstep.tip' defaultMessage='Write it down' />
           </Text>
         </TextGroup>
         <TextGroup inline>
-          <Text size='14px' weight={300} color='error'>
-            <FormattedMessage id='modals.recoveryphrase.explain' defaultMessage='Do not store your Recovery Phrase on your computer or online.' />
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='modals.recoveryphrase.secondstep.explain' defaultMessage='Use a pen to legibly write down the following 12 words onto your printed Recovery Sheet.' />
           </Text>
-          <Text size='14px' weight={300} color='error'>
-            <FormattedMessage id='modals.recoveryphrase.explain2' defaultMessage='It is very important to keep your Recovery Phrase offline in a safe and private place.' />
-          </Text>
-          <Text size='14px' weight={500} color='error'>
-            <FormattedMessage id='modals.recoveryphrase.explain3' defaultMessage='Anyone with access to your Recovery Phrase has access to your funds.' />
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='modals.recoveryphrase.secondstep.explain2' defaultMessage='It is important that you write down the words exactly as they appear here and in this order.' />
           </Text>
         </TextGroup>
-        <Separator />
-        <TextGroup inline>
-          <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.recoveryphrase.explain4' defaultMessage='We have created a printable Recovery Sheet to help you conveniently keep your Recovery Phrase safe.' />
+        <Wrapper>
+          <Text size='20px' weight={300}>
+            <FormattedMessage id='modals.recoveryphrase.secondstep.number' defaultMessage='Word {number}' values={{ number: currentIndex + 1 }} />
           </Text>
-          <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.recoveryphrase.explain5' defaultMessage='Print the blank Recovery Sheet and then move onto the next step to fill it in.' />
-          </Text>
-        </TextGroup>
-        <ButtonContainer>
-          <Button nature='primary'>
-            <FormattedMessage id='modals.recoveryphrase.print' defaultMessage='Print recovery sheet' />
-          </Button>
-        </ButtonContainer>
+          <Container>
+            <Arrow name='left-arrow' size='40px' onClick={previousWord} visible={currentIndex !== 0} />
+            <Display size='40px'>{currentWord}</Display>
+            <Arrow name='right-arrow' size='40px' onClick={nextWord} visible={currentIndex !== 11} />
+          </Container>
+        </Wrapper>
       </ModalBody>
-      <ModalFooter>
-        <ButtonGroup>
-          <Button>
-            <FormattedMessage id='modals.recoveryphrase.cancel' defaultMessage='Cancel' />
-          </Button>
-          <Button nature='secondary' onClick={next}>
-            <FormattedMessage id='modals.recoveryphrase.logout' defaultMessage='Next step' />
-          </Button>
-        </ButtonGroup>
+      <ModalFooter align='spaced'>
+        <Link size='13px' weight={300} onClick={previous}>
+          <FormattedMessage id='modals.recoveryphrase.secondstep.back' defaultMessage='Back' />
+        </Link>
+        <Button nature='primary' onClick={next}>
+          <FormattedMessage id='modals.recoveryphrase.secondstep.next' defaultMessage='Final step' />
+        </Button>
       </ModalFooter>
     </Modal>
   )
 }
 
-FirstStep.propTypes = {
-  handleClose: PropTypes.func.isRequired,
-  next: PropTypes.func.isRequired
-}
-
-export default FirstStep
+export default SecondStep
