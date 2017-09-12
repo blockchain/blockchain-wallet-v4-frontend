@@ -11,18 +11,24 @@ const ModalBackground = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background-color: ${props => props.isLast ? props.theme['halftransparentgrey'] : 'transparent'};
   z-index: ${props => props.position + 1040};
+
+  @media(min-width: 768px) { align-items: center; }
 `
 
 const BaseModal = styled.div`
   position: relative;
-  width: calc(100% - ${props => props.position * 20}px);
+  width: calc(100% - ${props => (props.position - 1) * 20}px);
+  margin-top: 60px;
   z-index: ${props => props.position + 1041};
   background-color: ${props => props.isLast ? props.theme['white'] : props.theme['gray-1']};
 
-  @media(min-width: 768px) { width: ${props => props.width}; }
+  @media(min-width: 768px) {
+    width: ${props => props.width};
+    margin-top: initial;
+  }
 `
 
 const selectWidth = (size, position) => {
@@ -30,7 +36,7 @@ const selectWidth = (size, position) => {
     case 'small': return `${400 - ((position - 1) * 20)}px`
     case 'medium': return `${500 - ((position - 1) * 20)}px`
     case 'large': return `${600 - ((position - 1) * 20)}px`
-    case 'xlarge': return `${1000 - ((position - 1) * 20)}px`
+    case 'xlarge': return `${800 - ((position - 1) * 20)}px`
     default: return `${1000 - ((position - 1) * 20)}px`
   }
 }
@@ -57,7 +63,6 @@ Modal.propTypes = {
 }
 
 Modal.defaultProps = {
-  size: 'medium',
   closeButton: true
 }
 

@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, ButtonGroup, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, IconButton, Icon, Link, Modal, ModalHeader, ModalBody, ModalFooter, Separator, Text, TextGroup } from 'blockchain-info-components'
+import recoveryPdf from './recovery.pdf'
 
-const ButtonContainer = styled.div`
+const PrintContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
+  padding: 20px 0;
 `
 
 const FirstStep = (props) => {
@@ -19,50 +20,50 @@ const FirstStep = (props) => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='bell' onClose={close} >
-        <FormattedMessage id='modals.recoveryphrase.title' defaultMessage='Backup recovery phrase' />
+        <FormattedMessage id='modals.recoveryphrase.firststep.title' defaultMessage='Backup recovery phrase' />
       </ModalHeader>
       <ModalBody>
         <TextGroup inline>
           <Icon name='safe' size='18px' weight={300} color='error' />
           <Text size='18px' weight={400} color='error'>
-            <FormattedMessage id='modals.recoveryphrase.tip' defaultMessage='Security tip' />
+            <FormattedMessage id='modals.recoveryphrase.firststep.tip' defaultMessage='Security tip' />
           </Text>
         </TextGroup>
         <TextGroup inline>
-          <Text size='14px' weight={300} color='error'>
-            <FormattedMessage id='modals.recoveryphrase.explain' defaultMessage='Do not store your Recovery Phrase on your computer or online.' />
+          <Text size='13px' weight={300} color='error'>
+            <FormattedMessage id='modals.recoveryphrase.firststep.explain' defaultMessage='Do not store your Recovery Phrase on your computer or online.' />
           </Text>
-          <Text size='14px' weight={300} color='error'>
-            <FormattedMessage id='modals.recoveryphrase.explain2' defaultMessage='It is very important to keep your Recovery Phrase offline in a safe and private place.' />
+          <Text size='13px' weight={300} color='error'>
+            <FormattedMessage id='modals.recoveryphrase.firststep.explain2' defaultMessage='It is very important to keep your Recovery Phrase offline in a safe and private place.' />
           </Text>
-          <Text size='14px' weight={500} color='error'>
-            <FormattedMessage id='modals.recoveryphrase.explain3' defaultMessage='Anyone with access to your Recovery Phrase has access to your funds.' />
+          <Text size='13px' weight={500} color='error'>
+            <FormattedMessage id='modals.recoveryphrase.firststep.explain3' defaultMessage='Anyone with access to your Recovery Phrase has access to your funds.' />
           </Text>
         </TextGroup>
         <Separator />
         <TextGroup inline>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.recoveryphrase.explain4' defaultMessage='We have created a printable Recovery Sheet to help you conveniently keep your Recovery Phrase safe.' />
+            <FormattedMessage id='modals.recoveryphrase.firststep.explain4' defaultMessage='We have created a printable Recovery Sheet to help you conveniently keep your Recovery Phrase safe.' />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.recoveryphrase.explain5' defaultMessage='Print the blank Recovery Sheet and then move onto the next step to fill it in.' />
+            <FormattedMessage id='modals.recoveryphrase.firststep.explain5' defaultMessage='Print the blank Recovery Sheet and then move onto the next step to fill it in.' />
           </Text>
         </TextGroup>
-        <ButtonContainer>
-          <Button nature='primary'>
-            <FormattedMessage id='modals.recoveryphrase.print' defaultMessage='Print recovery sheet' />
-          </Button>
-        </ButtonContainer>
+        <PrintContainer>
+          <Link href={recoveryPdf} download='recovery.pdf'>
+            <Button nature='dark'>
+              <FormattedMessage id='modals.recoveryphrase.firststep.print' defaultMessage='Print recovery sheet' />
+            </Button>
+          </Link>
+        </PrintContainer>
       </ModalBody>
-      <ModalFooter>
-        <ButtonGroup>
-          <Button>
-            <FormattedMessage id='modals.recoveryphrase.cancel' defaultMessage='Cancel' />
-          </Button>
-          <Button nature='secondary' onClick={next}>
-            <FormattedMessage id='modals.recoveryphrase.logout' defaultMessage='Next step' />
-          </Button>
-        </ButtonGroup>
+      <ModalFooter align='spaced'>
+        <Link size='13px' weight={300} onClick={close}>
+          <FormattedMessage id='modals.recoveryphrase.firststep.cancel' defaultMessage='Cancel' />
+        </Link>
+        <IconButton nature='primary' onClick={next}>
+          <FormattedMessage id='modals.recoveryphrase.firststep.logout' defaultMessage='Next step' />
+        </IconButton>
       </ModalFooter>
     </Modal>
   )
