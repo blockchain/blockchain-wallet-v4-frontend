@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -12,9 +11,9 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, blockTorIps } = this.props
-    const newBlockTorIps = Number(!blockTorIps)
-    this.props.settingsActions.updateBlockTorIps(guid, sharedKey, newBlockTorIps)
+    const { guid, sharedKey, ipLockOn } = this.props
+    const newIpLockOn = Number(!ipLockOn)
+    this.props.settingsActions.updateIpLockOn(guid, sharedKey, newIpLockOn)
   }
 
   render () {
@@ -30,7 +29,7 @@ class SettingContainer extends React.Component {
 const mapStateToProps = (state) => ({
   guid: selectors.core.wallet.getGuid(state),
   sharedKey: selectors.core.wallet.getSharedKey(state),
-  blockTorIps: selectors.core.settings.getBlockTorIps(state)
+  ipLockOn: selectors.core.settings.getIpLockOn(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

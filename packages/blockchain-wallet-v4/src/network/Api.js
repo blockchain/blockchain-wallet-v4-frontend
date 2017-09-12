@@ -2,7 +2,6 @@ import 'isomorphic-fetch'
 import Promise from 'es6-promise'
 import { merge, identity, gt, type, trim } from 'ramda'
 import { futurizeP } from 'futurize'
-import { compose } from 'redux'
 Promise.polyfill()
 
 export const BLOCKCHAIN_INFO = 'https://blockchain.info/'
@@ -306,8 +305,8 @@ const createApi = ({
     updateAutoLogout: future(updateAutoLogout),
     updateLoggingLevel: future(updateLoggingLevel),
     updateIpLock: future(updateIpLock),
-    updateBlockTorIps: future(updateBlockTorIps),
-    updateIpLockOn: future(updateIpLockOn)
+    updateIpLockOn: future(updateIpLockOn),
+    updateBlockTorIps: future(updateBlockTorIps)
   }
 }
 

@@ -130,7 +130,6 @@ export const settingsSaga = ({ api } = {}) => {
     try {
       const { guid, sharedKey, loggingLevel } = action.payload
       const response = yield call(api.updateLoggingLevel, guid, sharedKey, loggingLevel)
-      console.log(response)
       if (contains('Logging level updated.', response)) {
         yield put(actions.updateLoggingLevelSuccess(loggingLevel, response))
       } else {
@@ -145,7 +144,6 @@ export const settingsSaga = ({ api } = {}) => {
     try {
       const { guid, sharedKey, ipLock } = action.payload
       const response = yield call(api.updateIpLock, guid, sharedKey, ipLock)
-      console.log(response)
       if (contains('Updated IP Lock Settings', response)) {
         yield put(actions.updateIpLockSuccess(ipLock, response))
       } else {
@@ -160,7 +158,6 @@ export const settingsSaga = ({ api } = {}) => {
     try {
       const { guid, sharedKey, ipLockOn } = action.payload
       const response = yield call(api.updateIpLockOn, guid, sharedKey, ipLockOn)
-      console.log(response)
       if (contains('Updated IP Lock Settings', response)) {
         yield put(actions.updateIpLockOnSuccess(ipLockOn, response))
       } else {
@@ -172,11 +169,9 @@ export const settingsSaga = ({ api } = {}) => {
   }
 
   const updateBlockTorIps = function * (action) {
-    console.log('Update block tor ips')
     try {
       const { guid, sharedKey, blockTorIps } = action.payload
       const response = yield call(api.updateBlockTorIps, guid, sharedKey, blockTorIps)
-      console.log(response)
       if (contains('Tor IP address settings updated.', response)) {
         yield put(actions.updateBlockTorIpsSuccess(blockTorIps, response))
       } else {
@@ -199,7 +194,7 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
     yield takeEvery(AT.UPDATE_LOGGING_LEVEL, updateLoggingLevel)
     yield takeEvery(AT.UPDATE_IP_LOCK, updateIpLock)
-    yield takeEvery(AT.UPDATE_IP_LOCK, updateIpLockOn)
+    yield takeEvery(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
     yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
   }
 }

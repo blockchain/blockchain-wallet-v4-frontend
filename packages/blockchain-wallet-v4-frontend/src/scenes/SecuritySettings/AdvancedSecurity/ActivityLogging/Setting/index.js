@@ -14,12 +14,11 @@ class SettingContainer extends React.Component {
   handleClick () {
     const { guid, sharedKey, activityLoggingEnabled } = this.props
     const newLoggingLevel = Number(!activityLoggingEnabled)
-    console.log(newLoggingLevel)
     this.props.settingsActions.updateLoggingLevel(guid, sharedKey, newLoggingLevel)
   }
 
   render () {
-    const { ui, ...rest } = this.props
+    const { ...rest } = this.props
 
     return <Settings
       {...rest}
