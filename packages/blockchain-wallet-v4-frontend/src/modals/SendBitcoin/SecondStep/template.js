@@ -30,11 +30,11 @@ const Summary = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { handleClick, previous, fromAddress, toAddress, message, satoshis, fee, close } = props
+  const { handleClick, previous, fromAddress, toAddress, message, satoshis, fee, position, total, closeAll } = props
 
   return (
-    <Modal size='large'>
-      <ModalHeader icon='send' onClose={close}>
+    <Modal size='large' position={position} total={total}>
+      <ModalHeader icon='send' onClose={closeAll}>
         <FormattedMessage id='modals.sendbitcoin.secondstep.title' defaultMessage='Confirm' />
       </ModalHeader>
       <ModalBody>

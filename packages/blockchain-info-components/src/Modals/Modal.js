@@ -13,7 +13,7 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${props => props.isLast ? props.theme['halftransparentgrey'] : 'transparent'};
-  z-index: 1040;
+  z-index: ${props => props.position + 1040};
 `
 
 const BaseModal = styled.div`
@@ -37,11 +37,11 @@ const selectWidth = (size, position) => {
 
 const Modal = props => {
   const { size, position, total, children, ...rest } = props
-  const width = selectWidth(size, props.position)
+  const width = selectWidth(size, position)
   const isLast = total === position
 
   return (
-    <ModalBackground isLast={isLast} {...rest}>
+    <ModalBackground isLast={isLast} position={position} {...rest}>
       <BaseModal isLast={isLast} position={position} width={width} {...rest}>
         {children}
       </BaseModal>

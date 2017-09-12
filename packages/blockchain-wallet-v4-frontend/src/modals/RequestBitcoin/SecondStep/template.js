@@ -29,11 +29,11 @@ const LinkContainer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { satoshis, message, link, active, handleClick, previous, close } = props
+  const { satoshis, message, link, active, handleClick, previous, position, total, closeAll } = props
 
   return (
-    <Modal size='large'>
-      <ModalHeader icon='request' onClose={close}>
+    <Modal size='large' position={position} total={total}>
+      <ModalHeader icon='request' onClose={closeAll}>
         <FormattedMessage id='modals.requestbitcoin.secondstep.title' defaultMessage='Request' />
       </ModalHeader>
       <ModalBody>

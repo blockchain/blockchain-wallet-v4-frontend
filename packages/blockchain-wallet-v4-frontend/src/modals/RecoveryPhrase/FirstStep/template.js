@@ -14,10 +14,10 @@ const ButtonContainer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { close, next } = props
+  const { next, position, total, close } = props
 
   return (
-    <Modal size='large'>
+    <Modal size='large' position={position} total={total}>
       <ModalHeader icon='bell' onClose={close} >
         <FormattedMessage id='modals.recoveryphrase.title' defaultMessage='Backup recovery phrase' />
       </ModalHeader>

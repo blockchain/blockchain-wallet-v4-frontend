@@ -9,12 +9,9 @@ import QRCodeCapture from './template.js'
 class QRCodeCaptureContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleBack = this.handleBack.bind(this)
     this.handleScan = this.handleScan.bind(this)
     this.handleError = this.handleError.bind(this)
   }
-
-  handleBack () { this.props.close() }
 
   handleScan (result) { if (result) this.props.interactivityActions.qrCodeCaptureSuccess(result) }
 
@@ -24,7 +21,6 @@ class QRCodeCaptureContainer extends React.Component {
     return (
       <QRCodeCapture
         {...this.props}
-        handleBack={this.handleBack}
         handleScan={this.handleScan}
         handleError={this.handleError}
       />

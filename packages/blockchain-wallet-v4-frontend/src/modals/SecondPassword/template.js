@@ -8,10 +8,10 @@ import { Form, PasswordBox } from 'components/Form'
 import { Button, Modal, ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 
 const SecondPassword = (props) => {
-  const { handleClick, secondPassword } = props
+  const { handleClick, secondPassword, position, total } = props
 
   return (
-    <Modal size='large'>
+    <Modal size='large' position={position} total={total}>
       <ModalHeader icon='safe'>
         <FormattedMessage id='modals.secondpassword.title' defaultMessage='Second password required' />
       </ModalHeader>

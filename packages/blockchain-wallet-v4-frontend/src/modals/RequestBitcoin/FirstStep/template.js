@@ -8,11 +8,11 @@ import { CoinConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Fo
 import CopyClipboard from './CopyClipboard'
 
 const FirstStep = (props) => {
-  const { next, submitting, invalid, receiveAddress, handleClickCode, close } = props
+  const { next, submitting, invalid, receiveAddress, handleClickCode, position, total, closeAll } = props
 
   return (
-    <Modal size='large'>
-      <ModalHeader icon='request' onClose={close}>
+    <Modal size='large' position={position} total={total}>
+      <ModalHeader icon='request' onClose={closeAll}>
         <FormattedMessage id='modals.requestbitcoin.firststep.title' defaultMessage='Request' />
       </ModalHeader>
       <ModalBody>

@@ -9,9 +9,6 @@ import { Button, ButtonGroup, Icon, Image, Link, Modal, ModalHeader, ModalBody, 
 import { CoinConvertor, Form, Hidden, SelectBoxAddresses, SelectBoxFee, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 
-const Aligned = styled.div`
-  & > * { display: inline-block; margin-right: 5px; }
-`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -54,11 +51,11 @@ const FirstStep = (props) => {
     return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
   }
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, next, invalid, submitting,
-    handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, close } = props
+    handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, position, total, closeAll } = props
 
   return (
-    <Modal size='large'>
-      <ModalHeader icon='send' onClose={close}>
+    <Modal size='large' position={position} total={total}>
+      <ModalHeader icon='send' onClose={closeAll}>
         <FormattedMessage id='modals.sendbitcoin.firststep.title' defaultMessage='Send' />
       </ModalHeader>
       <ModalBody>

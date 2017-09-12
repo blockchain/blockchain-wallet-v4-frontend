@@ -22,4 +22,4 @@ const Modals = props => (
   </div>
 )
 
-export default (Modals)
+export default Modals

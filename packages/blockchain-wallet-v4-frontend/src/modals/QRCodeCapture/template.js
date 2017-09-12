@@ -23,11 +23,12 @@ const QrCodeReader = styled(QrReader)`
 `
 
 const QRCodeCapture = (props) => {
-  const { handleScan, handleBack, handleError } = props
+  console.log(props)
+  const { handleScan, handleError, position, total, close, closeAll } = props
 
   return (
-    <Modal name='QRCodeCapture' size='large'>
-      <ModalHeader icon='send'>
+    <Modal size='large' position={position} total={total}>
+      <ModalHeader icon='send' onClose={closeAll}>
         <FormattedMessage id='modals.qrcodecapture.title' defaultMessage='Payment address' />
       </ModalHeader>
       <ModalBody>
@@ -39,7 +40,7 @@ const QRCodeCapture = (props) => {
         </QRCodeContainer>
       </ModalBody>
       <ModalFooter>
-        <Link onClick={handleBack} size='13px' weight={300}>
+        <Link onClick={close} size='13px' weight={300}>
           <FormattedMessage id='modals.qrcodecapture.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>

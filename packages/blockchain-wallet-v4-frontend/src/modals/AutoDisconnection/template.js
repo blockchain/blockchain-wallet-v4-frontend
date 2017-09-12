@@ -4,11 +4,11 @@ import { FormattedMessage } from 'react-intl'
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 
 const AutoDisconnection = (props) => {
-  const { duration, handleClick, handleCancel, close } = props
+  const { duration, handleClick, handleCancel, position, total } = props
 
   return (
-    <Modal size='large' closeButton={false}>
-      <ModalHeader icon='right-arrow' onClose={close}>
+    <Modal size='large' position={position} total={total} closeButton={false}>
+      <ModalHeader icon='right-arrow'>
         <FormattedMessage id='modals.autodisconnection.title' defaultMessage='Are you still there?' />
       </ModalHeader>
       <ModalBody>
