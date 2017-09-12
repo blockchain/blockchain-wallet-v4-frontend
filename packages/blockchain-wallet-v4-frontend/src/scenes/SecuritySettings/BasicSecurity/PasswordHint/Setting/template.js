@@ -23,7 +23,7 @@ const Setting = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, currentHint } = props
   return (
     <Wrapper>
-      {currentHint !== 'undefined' &&
+      {currentHint &&
         <Text>{currentHint}</Text>
       }
       <Button nature='secondary' onClick={handleToggle}>
