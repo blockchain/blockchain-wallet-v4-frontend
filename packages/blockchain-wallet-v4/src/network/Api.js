@@ -267,6 +267,8 @@ const createApi = ({
 
   const updateIpLock = (guid, sharedKey, ipLock) => updateSettings(guid, sharedKey, 'update-ip-lock', ipLock)
 
+  const updateIpLockOn = (guid, sharedKey, ipLockOn) => updateSettings(guid, sharedKey, 'update-ip-lock-on', ipLockOn)
+
   const updateBlockTorIps = (guid, sharedKey, blockTorIps) => updateSettings(guid, sharedKey, 'update-block-tor-ips', blockTorIps)
 
   return {
@@ -304,7 +306,8 @@ const createApi = ({
     updateAutoLogout: future(updateAutoLogout),
     updateLoggingLevel: future(updateLoggingLevel),
     updateIpLock: future(updateIpLock),
-    updateBlockTorIps: future(updateBlockTorIps)
+    updateBlockTorIps: future(updateBlockTorIps),
+    updateIpLockOn: future(updateIpLockOn)
   }
 }
 

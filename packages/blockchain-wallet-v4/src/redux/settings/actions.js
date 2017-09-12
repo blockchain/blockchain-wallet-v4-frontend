@@ -52,6 +52,10 @@ export const updateIpLock = (guid, sharedKey, ipLock) => ({ type: AT.UPDATE_IP_L
 export const updateIpLockSuccess = (ipLock, data) => ({ type: AT.UPDATE_IP_LOCK_SUCCESS, payload: { ipLock, data } })
 export const updateIpLockError = message => ({ type: AT.UPDATE_IP_LOCK_ERROR, payload: message })
 
+export const updateIpLockOn = (guid, sharedKey, ipLockOn) => ({ type: AT.UPDATE_IP_LOCK_ON, payload: { guid, sharedKey, ipLockOn } })
+export const updateIpLockOnSuccess = (ipLockOn, data) => ({ type: AT.UPDATE_IP_LOCK_ON_SUCCESS, payload: { ipLockOn, data } })
+export const updateIpLockOnError = message => ({ type: AT.UPDATE_IP_LOCK_ON_ERROR, payload: message })
+
 export const updateBlockTorIps = (guid, sharedKey, blockTorIps) => ({ type: AT.UPDATE_BLOCK_TOR_IPS, payload: { guid, sharedKey, blockTorIps } })
 export const updateBlockTorIpsSuccess = (blockTorIps, data) => ({ type: AT.UPDATE_BLOCK_TOR_IPS_SUCCESS, payload: { blockTorIps, data } })
 export const updateBlockTorIpsError = message => ({ type: AT.UPDATE_BLOCK_TOR_IPS_ERROR, payload: message })

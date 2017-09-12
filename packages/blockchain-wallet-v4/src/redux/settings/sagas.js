@@ -156,6 +156,21 @@ export const settingsSaga = ({ api } = {}) => {
     }
   }
 
+  const updateIpLockOn = function * (action) {
+    try {
+      const { guid, sharedKey, ipLockOn } = action.payload
+      const response = yield call(api.updateIpLockOn, guid, sharedKey, ipLockOn)
+      console.log(response)
+      if (contains('Updated IP Lock Settings', response)) {
+        yield put(actions.updateIpLockOnSuccess(ipLockOn, response))
+      } else {
+        yield put(actions.updateIpLockOnError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateIpLockOnError(error))
+    }
+  }
+
   const updateBlockTorIps = function * (action) {
     console.log('Update block tor ips')
     try {
@@ -184,6 +199,7 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
     yield takeEvery(AT.UPDATE_LOGGING_LEVEL, updateLoggingLevel)
     yield takeEvery(AT.UPDATE_IP_LOCK, updateIpLock)
+    yield takeEvery(AT.UPDATE_IP_LOCK, updateIpLockOn)
     yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
   }
 }

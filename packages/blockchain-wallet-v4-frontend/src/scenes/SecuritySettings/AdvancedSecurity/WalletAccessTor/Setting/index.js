@@ -13,7 +13,7 @@ class SettingContainer extends React.Component {
 
   handleClick () {
     const { guid, sharedKey, blockTorIps } = this.props
-    const newBlockTorIps = blockTorIps ? 0 : 1
+    const newBlockTorIps = Number(!blockTorIps)
     this.props.settingsActions.updateBlockTorIps(guid, sharedKey, newBlockTorIps)
   }
 
