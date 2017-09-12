@@ -1,7 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
 import * as actions from './actions'
 import * as AT from './actionTypes'
-import { selectors } from '../selectors'
 import { contains, toLower } from 'ramda'
 
 export const settingsSaga = ({ api } = {}) => {
@@ -127,6 +126,21 @@ export const settingsSaga = ({ api } = {}) => {
     }
   }
 
+  const updateLoggingLevel = function * (action) {
+    try {
+      const { guid, sharedKey, loggingLevel } = action.payload
+      const response = yield call(api.updateLoggingLevel, guid, sharedKey, loggingLevel)
+      console.log(response)
+      if (contains('Logging level updated.', response)) {
+        yield put(actions.updateLoggingLevelSuccess(loggingLevel, response))
+      } else {
+        yield put(actions.updateLoggingLevelError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateLoggingLevelError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
     yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
@@ -137,5 +151,6 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_CURRENCY, updateCurrency)
     yield takeEvery(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
     yield takeEvery(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
+    yield takeEvery(AT.UPDATE_LOGGING_LEVEL, updateLoggingLevel)
   }
 }

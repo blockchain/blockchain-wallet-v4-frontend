@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   email_verified: 0,
   sms_number: '',
   sms_verified: 0,
-  auto_logout: 10
+  auto_logout: 10,
+  logging_level: 0
 }
 
 const settingsReducer = (state = INITIAL_STATE, action) => {
@@ -48,6 +49,10 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.UPDATE_AUTO_LOGOUT_SUCCESS: {
       const { autoLogout } = payload
       return Object.assign({}, state, { auto_logout: autoLogout })
+    }
+    case AT.UPDATE_LOGGING_LEVEL_SUCCESS: {
+      const { loggingLevel } = payload
+      return Object.assign({}, state, { logging_level: loggingLevel })
     }
     default:
       return state

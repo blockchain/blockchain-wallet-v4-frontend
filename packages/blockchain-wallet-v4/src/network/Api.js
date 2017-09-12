@@ -2,6 +2,7 @@ import 'isomorphic-fetch'
 import Promise from 'es6-promise'
 import { merge, identity, gt, type, trim } from 'ramda'
 import { futurizeP } from 'futurize'
+import { compose } from 'redux'
 Promise.polyfill()
 
 export const BLOCKCHAIN_INFO = 'https://blockchain.info/'
@@ -262,6 +263,8 @@ const createApi = ({
 
   const updateAutoLogout = (guid, sharedKey, autoLogout) => updateSettings(guid, sharedKey, 'update-auto-logout', autoLogout)
 
+  const updateLoggingLevel = (guid, sharedKey, loggingLevel) => updateSettings(guid, sharedKey, 'update-logging-level', loggingLevel)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -294,7 +297,8 @@ const createApi = ({
     updateLanguage: future(updateLanguage),
     updateCurrency: future(updateCurrency),
     updateBitcoinUnit: future(updateBitcoinUnit),
-    updateAutoLogout: future(updateAutoLogout)
+    updateAutoLogout: future(updateAutoLogout),
+    updateLoggingLevel: future(updateLoggingLevel)
   }
 }
 
