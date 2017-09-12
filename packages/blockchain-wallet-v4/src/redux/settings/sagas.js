@@ -141,6 +141,36 @@ export const settingsSaga = ({ api } = {}) => {
     }
   }
 
+  const updateIpLock = function * (action) {
+    try {
+      const { guid, sharedKey, ipLock } = action.payload
+      const response = yield call(api.updateIpLock, guid, sharedKey, ipLock)
+      console.log(response)
+      if (contains('Updated IP Lock Settings', response)) {
+        yield put(actions.updateIpLockSuccess(ipLock, response))
+      } else {
+        yield put(actions.updateIpLockError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateIpLockError(error))
+    }
+  }
+
+  const updateBlockTorIps = function * (action) {
+    try {
+      const { guid, sharedKey, blockTorIps } = action.payload
+      const response = yield call(api.BlockTorIps, guid, sharedKey, blockTorIps)
+      console.log(response)
+      if (contains('Tor IP address settings updated.', response)) {
+        yield put(actions.updateBlockTorIpsSuccess(blockTorIps, response))
+      } else {
+        yield put(actions.updateBlockTorIpsError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateBlockTorIpsError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
     yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
@@ -152,5 +182,7 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
     yield takeEvery(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
     yield takeEvery(AT.UPDATE_LOGGING_LEVEL, updateLoggingLevel)
+    yield takeEvery(AT.UPDATE_IP_LOCK, updateIpLock)
+    yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
   }
 }

@@ -265,6 +265,10 @@ const createApi = ({
 
   const updateLoggingLevel = (guid, sharedKey, loggingLevel) => updateSettings(guid, sharedKey, 'update-logging-level', loggingLevel)
 
+  const updateIpLock = (guid, sharedKey, ipLock) => updateSettings(guid, sharedKey, 'update-ip-lock', ipLock)
+
+  const updateBlockTorIps = (guid, sharedKey, blockTorIps) => updateSettings(guid, sharedKey, 'update-block-tor-ips', blockTorIps)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -298,7 +302,9 @@ const createApi = ({
     updateCurrency: future(updateCurrency),
     updateBitcoinUnit: future(updateBitcoinUnit),
     updateAutoLogout: future(updateAutoLogout),
-    updateLoggingLevel: future(updateLoggingLevel)
+    updateLoggingLevel: future(updateLoggingLevel),
+    updateIpLock: future(updateIpLock),
+    updateBlockTorIps: future(updateBlockTorIps)
   }
 }
 

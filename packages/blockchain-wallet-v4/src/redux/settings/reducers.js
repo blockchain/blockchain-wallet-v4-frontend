@@ -54,6 +54,14 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       const { loggingLevel } = payload
       return Object.assign({}, state, { logging_level: loggingLevel })
     }
+    case AT.UPDATE_IP_LOCK_SUCCESS: {
+      const { ipLock } = payload
+      return Object.assign({}, state, { ip_lock: ipLock })
+    }
+    case AT.UPDATE_BLOCK_TOR_IPS_SUCCESS: {
+      const { blockTorIps } = payload
+      return Object.assign({}, state, { block_tor_ips: blockTorIps })
+    }
     default:
       return state
   }
