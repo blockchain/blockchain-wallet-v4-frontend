@@ -1,9 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import modalEnhancer from 'providers/ModalEnhancer'
 
-import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 import QrCode from './template.js'
 
 class QrCodeContainer extends React.Component {
@@ -13,7 +10,7 @@ class QrCodeContainer extends React.Component {
   }
 
   handleBack () {
-    this.props.modalActions.closeModal()
+    this.props.close()
   }
 
   render () {
@@ -21,13 +18,4 @@ class QrCodeContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const enhance = compose(
-  modalEnhancer('QRCode'),
-  connect(undefined, mapDispatchToProps)
-)
-
-export default enhance(QrCodeContainer)
+export default modalEnhancer('QRCode')(QrCodeContainer)

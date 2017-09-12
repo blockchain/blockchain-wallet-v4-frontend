@@ -12,19 +12,17 @@ const ModalBackground = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.position === props.total ? props.theme['halftransparentgrey'] : 'transparent'};
-  z-index: ${props => props.position ? (props.position) + 1040 : 1040};
+  background-color: ${props => props.isLast ? props.theme['halftransparentgrey'] : 'transparent'};
+  z-index: 1040;
 `
 
 const BaseModal = styled.div`
   position: relative;
   width: calc(100% - ${props => props.position * 20}px);
-  background-color: ${props => props.position === props.total ? props.theme['white'] : props.theme['gray-1']};
-  z-index: ${props => props.position ? (props.position) + 1041 : 1041};
+  z-index: ${props => props.position + 1041};
+  background-color: ${props => props.isLast ? props.theme['white'] : props.theme['gray-1']};
 
-  @media(min-width: 768px) {
-    width: ${props => props.width};
-  }
+  @media(min-width: 768px) { width: ${props => props.width}; }
 `
 
 const selectWidth = (size, position) => {
@@ -40,10 +38,11 @@ const selectWidth = (size, position) => {
 const Modal = props => {
   const { size, position, total, children, ...rest } = props
   const width = selectWidth(size, props.position)
+  const isLast = total === position
 
   return (
-    <ModalBackground position={position} total={total} {...rest}>
-      <BaseModal position={position} total={total} width={width} {...rest}>
+    <ModalBackground isLast={isLast} {...rest}>
+      <BaseModal isLast={isLast} position={position} width={width} {...rest}>
         {children}
       </BaseModal>
     </ModalBackground>
@@ -51,15 +50,13 @@ const Modal = props => {
 }
 
 Modal.propTypes = {
-  position: PropTypes.number,
-  total: PropTypes.number,
+  position: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
   size: PropTypes.oneOf(['small', 'medium', 'large', '']),
   closeButton: PropTypes.bool
 }
 
 Modal.defaultProps = {
-  position: 1,
-  total: 1,
   size: 'medium',
   closeButton: true
 }

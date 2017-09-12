@@ -1,8 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
 
-import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import PairingCode from './template.js'
 
@@ -13,7 +10,7 @@ class PairingCodeContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.modalActions.closeModal()
+    this.props.close()
   }
 
   render () {
@@ -21,13 +18,4 @@ class PairingCodeContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const enhance = compose(
-  modalEnhancer('PairingCode'),
-  connect(undefined, mapDispatchToProps)
-)
-
-export default enhance(PairingCodeContainer)
+export default modalEnhancer('PairingCode')(PairingCodeContainer)

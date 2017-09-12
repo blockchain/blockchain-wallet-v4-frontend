@@ -3,18 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Modals from 'modals'
+import Alerts from 'components/Alerts'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
-import Alerts from 'components/Alerts'
-import AutoDisconnection from 'modals/AutoDisconnection'
-import PairingCode from 'modals/PairingCode'
-import QRCode from 'modals/QRCode'
-import QRCodeCapture from 'modals/QRCodeCapture'
-import RecoveryPhrase from 'modals/RecoveryPhrase'
-import RequestBitcoin from 'modals/RequestBitcoin'
-import SecondPassword from 'modals/SecondPassword'
-import SendBitcoin from 'modals/SendBitcoin'
 
 import Page from './Page'
 
@@ -76,16 +68,7 @@ const WalletLayout = (props) => {
   return (
     <Wrapper>
       <Alerts />
-      <Modals>
-        <AutoDisconnection />
-        <PairingCode />
-        <QRCode />
-        <QRCodeCapture />
-        <RecoveryPhrase />
-        <RequestBitcoin />
-        <SecondPassword />
-        <SendBitcoin />
-      </Modals>
+      <Modals />
       <Nav>
         <Header handleToggleMenuLeft={handleToggleMenuLeft} />
       </Nav>

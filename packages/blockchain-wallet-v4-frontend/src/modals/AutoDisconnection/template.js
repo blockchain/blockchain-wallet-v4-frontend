@@ -1,15 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 
 const AutoDisconnection = (props) => {
-  const { duration, handleClick, handleCancel } = props
+  const { duration, handleClick, handleCancel, close } = props
 
   return (
     <Modal size='large' closeButton={false}>
-      <ModalHeader icon='right-arrow'>
+      <ModalHeader icon='right-arrow' onClose={close}>
         <FormattedMessage id='modals.autodisconnection.title' defaultMessage='Are you still there?' />
       </ModalHeader>
       <ModalBody>

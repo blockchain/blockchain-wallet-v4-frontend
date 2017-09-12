@@ -59,7 +59,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   modalEnhancer('AutoDisconnection'),
-  connect(void 0, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(AutoDisconnectionContainer)

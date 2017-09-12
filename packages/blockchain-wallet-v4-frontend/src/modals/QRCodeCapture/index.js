@@ -14,7 +14,7 @@ class QRCodeCaptureContainer extends React.Component {
     this.handleError = this.handleError.bind(this)
   }
 
-  handleBack () { this.props.modalActions.closeModal() }
+  handleBack () { this.props.close() }
 
   handleScan (result) { if (result) this.props.interactivityActions.qrCodeCaptureSuccess(result) }
 
@@ -33,13 +33,12 @@ class QRCodeCaptureContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
   interactivityActions: bindActionCreators(actions.interactivity, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('QRCodeCapture'),
-  connect(void 0, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(QRCodeCaptureContainer)

@@ -6,7 +6,8 @@ import { Field } from 'redux-form'
 
 import { validMobileNumber, required } from 'services/FormHelper'
 import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components'
-import { Form, PhoneNumberBox, TextBox } from 'components/Form'
+import { PhoneNumberBox, TextBox } from 'components/Form'
+import { SettingForm } from 'components/Setting'
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,14 +18,6 @@ const Wrapper = styled.div`
   @media(min-width: 992px) {  align-items: flex-end; }
   
   & > * { padding: 10px 0; }
-`
-const SettingForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) { align-items: flex-end; }
 `
 
 const Setting = (props) => {

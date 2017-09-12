@@ -53,6 +53,7 @@ const selectColor = (nature, theme, disabled) => {
     case 'sent': return { color: 'white', backgroundColor: 'sent', borderColor: 'sent' }
     case 'transferred': return { color: 'white', backgroundColor: 'transferred', borderColor: 'transferred' }
     case 'logout': return { color: 'white', backgroundColor: 'error', borderColor: 'error' }
+    case 'dark': return { color: 'white', backgroundColor: 'gray-6', borderColor: 'gray-6' }
     default: return { color: 'black', backgroundColor: 'white', borderColor: 'gray-2' }
   }
 }
