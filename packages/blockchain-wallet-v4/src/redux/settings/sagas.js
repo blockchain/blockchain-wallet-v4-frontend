@@ -157,9 +157,10 @@ export const settingsSaga = ({ api } = {}) => {
   }
 
   const updateBlockTorIps = function * (action) {
+    console.log('Update block tor ips')
     try {
       const { guid, sharedKey, blockTorIps } = action.payload
-      const response = yield call(api.BlockTorIps, guid, sharedKey, blockTorIps)
+      const response = yield call(api.updateBlockTorIps, guid, sharedKey, blockTorIps)
       console.log(response)
       if (contains('Tor IP address settings updated.', response)) {
         yield put(actions.updateBlockTorIpsSuccess(blockTorIps, response))

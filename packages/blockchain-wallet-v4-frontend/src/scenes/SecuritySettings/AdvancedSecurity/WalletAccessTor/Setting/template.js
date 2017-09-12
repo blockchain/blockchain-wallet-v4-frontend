@@ -17,14 +17,15 @@ const Wrapper = styled.div`
 
   & > * { padding: 10px 0; }
 `
+
 const Setting = (props) => {
-  const { handleClick, activityLoggingEnabled } = props
+  const { handleClick, blockTorIps } = props
   return (
     <Wrapper>
       <Button nature='secondary' onClick={handleClick}>
-        {activityLoggingEnabled
-          ? <FormattedMessage id='scenes.security.activityLogging.disableactivitylogging' defaultMessage='Disable' />
-          : <FormattedMessage id='scenes.security.activityLogging.enableactivitylogging' defaultMessage='Enable' />
+        {blockTorIps
+          ? <FormattedMessage id='scenes.security.tor.allowtorips' defaultMessage='Allow' />
+          : <FormattedMessage id='scenes.security.tor.blocktorips' defaultMessage='Block' />
         }
       </Button>
     </Wrapper>
