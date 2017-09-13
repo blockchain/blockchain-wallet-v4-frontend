@@ -16,7 +16,7 @@ const Container = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, position, total, close, indexes, mnemonic } = props
+  const { previousStep, position, total, close, indexes, mnemonic, handleFinish, submitting, invalid } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -54,7 +54,7 @@ const ThirdStep = (props) => {
         <Link size='13px' weight={300} onClick={previousStep}>
           <FormattedMessage id='modals.recoveryphrase.thirdstep.back' defaultMessage='Back' />
         </Link>
-        <Button nature='primary'>
+        <Button nature='primary' onClick={handleFinish} disabled={submitting || invalid}>
           <FormattedMessage id='modals.recoveryphrase.thirdstep.finish' defaultMessage='Finish' />
         </Button>
       </ModalFooter>
@@ -65,7 +65,7 @@ const ThirdStep = (props) => {
 ThirdStep.propTypes = {
   indexes: PropTypes.array.isRequired,
   mnemonic: PropTypes.array.isRequired,
-  previous: PropTypes.func.isRequired
+  previousStep: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'recoveryPhrase' })(ThirdStep)

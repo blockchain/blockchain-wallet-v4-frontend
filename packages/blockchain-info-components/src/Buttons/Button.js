@@ -45,7 +45,7 @@ const selectColor = (nature, disabled) => {
   if (disabled) { return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' } }
 
   switch (nature) {
-    case 'empty': return { color: 'black', backgroundColor: 'white', borderColor: 'gray-2' }
+    case 'empty': return { color: 'gray-6', backgroundColor: 'white', borderColor: 'gray-2' }
     case 'primary': return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' }
     case 'secondary': return { color: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
     case 'copy': return { color: 'white', backgroundColor: 'success', borderColor: 'success' }
@@ -54,7 +54,7 @@ const selectColor = (nature, disabled) => {
     case 'transferred': return { color: 'white', backgroundColor: 'transferred', borderColor: 'transferred' }
     case 'logout': return { color: 'white', backgroundColor: 'error', borderColor: 'error' }
     case 'dark': return { color: 'white', backgroundColor: 'gray-6', borderColor: 'gray-6' }
-    default: return { color: 'black', backgroundColor: 'white', borderColor: 'gray-2' }
+    default: return { color: 'gray-6', backgroundColor: 'white', borderColor: 'gray-2' }
   }
 }
 

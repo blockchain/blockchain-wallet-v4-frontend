@@ -46,3 +46,6 @@ export const DELETE_HD_ADDRESS_LABEL = '@CORE.DELETE_HD_ADDRESS_LABEL'
 
 // autologout time
 export const SET_AUTOLOGOUT = '@CORE.SET_AUTOLOGOUT'
+
+// mnemonic verified
+export const VERIFY_MNEMONIC = '@CORE.VERIFY_MNEMONIC'

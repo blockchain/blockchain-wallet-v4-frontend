@@ -13,19 +13,19 @@ const BaseIconButton = styled(Button)`
 `
 
 const selectColor = (nature, disabled) => {
-  if (disabled) { return { color: 'white' } }
+  if (disabled) { return 'white' }
 
   switch (nature) {
-    case 'empty': return { color: 'black' }
-    case 'primary': return { color: 'white' }
-    case 'secondary': return { color: 'white' }
-    case 'copy': return { color: 'white' }
-    case 'received': return { color: 'white' }
-    case 'sent': return { color: 'white' }
-    case 'transferred': return { color: 'white' }
-    case 'logout': return { color: 'white' }
-    case 'dark': return { color: 'white' }
-    default: return { color: 'black' }
+    case 'empty': return 'gray-6'
+    case 'primary': return 'white'
+    case 'secondary': return 'white'
+    case 'copy': return 'white'
+    case 'received': return 'white'
+    case 'sent': return 'white'
+    case 'transferred': return 'white'
+    case 'logout': return 'white'
+    case 'dark': return 'white'
+    default: return 'gray-6'
   }
 }
 
