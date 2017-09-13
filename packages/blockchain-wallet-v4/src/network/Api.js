@@ -262,6 +262,8 @@ const createApi = ({
 
   const updateAutoLogout = (guid, sharedKey, autoLogout) => updateSettings(guid, sharedKey, 'update-auto-logout', autoLogout)
 
+  const updateHint = (guid, sharedKey, hint) => updateSettings(guid, sharedKey, 'update-password-hint1', hint)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -294,7 +296,8 @@ const createApi = ({
     updateLanguage: future(updateLanguage),
     updateCurrency: future(updateCurrency),
     updateBitcoinUnit: future(updateBitcoinUnit),
-    updateAutoLogout: future(updateAutoLogout)
+    updateAutoLogout: future(updateAutoLogout),
+    updateHint: future(updateHint)
   }
 }
 

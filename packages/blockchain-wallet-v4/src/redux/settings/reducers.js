@@ -49,6 +49,10 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       const { autoLogout } = payload
       return Object.assign({}, state, { auto_logout: autoLogout })
     }
+    case AT.UPDATE_HINT_SUCCESS: {
+      const { hint } = payload
+      return Object.assign({}, state, { password_hint1: hint })
+    }
     default:
       return state
   }

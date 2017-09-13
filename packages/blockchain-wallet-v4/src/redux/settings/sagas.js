@@ -127,6 +127,20 @@ export const settingsSaga = ({ api } = {}) => {
     }
   }
 
+  const updateHint = function * (action) {
+    try {
+      const { guid, sharedKey, hint } = action.payload
+      const response = yield call(api.updateHint, guid, sharedKey, hint)
+      if (contains('Updated Password Hint', response)) {
+        yield put(actions.updateHintSuccess(hint, response))
+      } else {
+        yield put(actions.updateHintError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateHintError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
     yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
@@ -137,5 +151,6 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_CURRENCY, updateCurrency)
     yield takeEvery(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
     yield takeEvery(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
+    yield takeEvery(AT.UPDATE_HINT, updateHint)
   }
 }
