@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
+
 import Settings from './template.js'
 
 class SettingContainer extends React.Component {
@@ -17,7 +18,7 @@ class SettingContainer extends React.Component {
   }
 
   render () {
-    const { ...rest } = this.props
+    const { ui, ...rest } = this.props
 
     return <Settings
       {...rest}

@@ -58,7 +58,14 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.UPDATE_IP_LOCK_SUCCESS: {
       const { ipLock } = payload
-      return Object.assign({}, state, { ip_lock: ipLock })
+      console.log(`Ip lock is ${ipLock}`)
+      if (ipLock === '') {
+        console.log(`Ip lock empty`)
+        return Object.assign({}, state, { ip_lock: ipLock, ip_lock_on: 0 })
+      } else {
+        console.log(`Ip lock not empty`)
+        return Object.assign({}, state, { ip_lock: ipLock })
+      }
     }
     case AT.UPDATE_IP_LOCK_ON_SUCCESS: {
       const { ipLockOn } = payload

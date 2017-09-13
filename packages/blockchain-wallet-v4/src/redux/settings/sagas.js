@@ -144,7 +144,7 @@ export const settingsSaga = ({ api } = {}) => {
     try {
       const { guid, sharedKey, ipLock } = action.payload
       const response = yield call(api.updateIpLock, guid, sharedKey, ipLock)
-      if (contains('Updated IP Lock Settings', response)) {
+      if (contains('Ip Addresses Updated', response)) {
         yield put(actions.updateIpLockSuccess(ipLock, response))
       } else {
         yield put(actions.updateIpLockError(response))
