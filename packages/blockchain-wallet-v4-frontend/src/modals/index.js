@@ -1,16 +1,25 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { selectors } from 'data'
 
-class Modals extends React.Component {
-  render () {
-    const { modals, children } = this.props
-    return modals.length ? <div>{children}</div> : null
-  }
-}
+import AutoDisconnection from './AutoDisconnection'
+import PairingCode from './PairingCode'
+import QRCode from './QRCode'
+import QRCodeCapture from './QRCodeCapture'
+import RecoveryPhrase from './RecoveryPhrase'
+import RequestBitcoin from './RequestBitcoin'
+import SecondPassword from './SecondPassword'
+import SendBitcoin from './SendBitcoin'
 
-const mapStateToProps = (state, ownProps) => ({
-  modals: selectors.modals.getModals(state)
-})
+const Modals = props => (
+  <div>
+    <AutoDisconnection />
+    <PairingCode />
+    <QRCode />
+    <QRCodeCapture />
+    <RecoveryPhrase />
+    <RequestBitcoin />
+    <SecondPassword />
+    <SendBitcoin />
+  </div>
+)
 
-export default connect(mapStateToProps)(Modals)
+export default Modals

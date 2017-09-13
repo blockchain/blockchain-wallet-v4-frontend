@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { actions as reduxFormActions } from 'redux-form'
-import { singleForm } from 'providers/FormProvider'
 import { equals } from 'ramda'
 
 import { actions, selectors } from 'data'
@@ -45,9 +44,4 @@ const mapDispatchToProps = (dispatch) => ({
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 
-const enhance = compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    singleForm('settingCurrency')
-)
-
-export default enhance(SettingsContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

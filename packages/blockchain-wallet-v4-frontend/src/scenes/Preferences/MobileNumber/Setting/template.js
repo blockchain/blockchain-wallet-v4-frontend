@@ -2,11 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { validMobileNumber, required } from 'services/FormHelper'
 import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components'
-import { Form, PhoneNumberBox, TextBox } from 'components/Form'
+import { PhoneNumberBox, TextBox } from 'components/Form'
+import { SettingForm } from 'components/Setting'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,16 +16,8 @@ const Wrapper = styled.div`
   align-items: flex-start;
 
   @media(min-width: 992px) {  align-items: flex-end; }
-  
-  & > * { padding: 10px 0; }
-`
-const SettingForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
 
-  @media(min-width: 992px) { align-items: flex-end; }
+  & > * { margin-bottom: 10px; }
 `
 
 const Setting = (props) => {
@@ -92,4 +85,4 @@ Setting.propTypes = {
   handleVerify: PropTypes.func.isRequired
 }
 
-export default Setting
+export default reduxForm({ form: 'settingMobilePhone' })(Setting)

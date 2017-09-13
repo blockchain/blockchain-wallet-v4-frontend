@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { Form, PasswordBox } from 'components/Form'
@@ -13,11 +13,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 
-  @media(min-width: 992px) {
-    align-items: flex-end;
-  }
-
-  & > * { padding: 10px 0; }
+  @media(min-width: 992px) { align-items: flex-end; }
 `
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, secondPasswordEnabled } = props
@@ -85,4 +81,4 @@ Settings.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-export default Settings
+export default reduxForm({ form: 'settingSecondPassword' })(Settings)

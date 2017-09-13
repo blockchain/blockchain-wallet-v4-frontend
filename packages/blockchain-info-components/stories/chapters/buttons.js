@@ -61,7 +61,7 @@ const ButtonLayout = props => {
   )
 }
 
-const natures = ['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout']
+const natures = ['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout', 'dark']
 
 storiesOf('Buttons', module)
   .addDecorator(story => (<Layout>{story()}</Layout>))

@@ -20,10 +20,12 @@ export const isHDWallet = is(HDWallet)
 export const seedHex = HDWallet.define('seedHex')
 export const accounts = HDWallet.define('accounts')
 export const defaultAccountIdx = HDWallet.define('default_account_idx')
+export const mnemonicVerified = HDWallet.define('mnemonic_verified')
 
 export const selectSeedHex = view(seedHex)
 export const selectAccounts = view(accounts)
 export const selectDefaultAccountIdx = view(defaultAccountIdx)
+export const selectMnemonicVerified = compose(Boolean, view(mnemonicVerified))
 
 export const selectAccount = curry((index, hdwallet) =>
   selectAccounts(hdwallet).get(index))

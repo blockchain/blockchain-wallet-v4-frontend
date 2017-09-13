@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
@@ -59,4 +59,4 @@ const Reminder = (props) => {
   )
 }
 
-export default Reminder
+export default reduxForm({ form: 'reminder' })(Reminder)

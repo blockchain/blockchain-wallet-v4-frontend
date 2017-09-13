@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { required, validEmail } from 'services/FormHelper'
 import { Button, Link, Separator, Text } from 'blockchain-info-components'
@@ -26,7 +26,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { handleSubmit, previous, submitting, invalid } = props
+  const { previousStep, handleSubmit, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
@@ -64,7 +64,7 @@ const SecondStep = (props) => {
         </Button>
       </Form>
       <Footer>
-        <Link onClick={previous} size='13px' weight={300}>
+        <Link onClick={previousStep} size='13px' weight={300}>
           <FormattedMessage id='scenes.recover.secondstep.back' defaultMessage='Go back' />
         </Link>
       </Footer>
@@ -72,4 +72,4 @@ const SecondStep = (props) => {
   )
 }
 
-export default SecondStep
+export default reduxForm({ form: 'recover', destroyOnUnmount: false })(SecondStep)

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field } from 'redux-form'
-import { singleForm } from 'providers/FormProvider'
+import { Field, reduxForm } from 'redux-form'
 
 import { Form, SelectBoxAddresses } from 'components/Form'
 import Status from './Status'
@@ -62,4 +61,4 @@ const MenuTop = (props) => {
   )
 }
 
-export default singleForm('transactionForm')(MenuTop)
+export default reduxForm({ form: 'transactionForm' })(MenuTop)

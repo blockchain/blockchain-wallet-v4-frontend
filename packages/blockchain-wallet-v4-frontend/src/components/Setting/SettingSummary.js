@@ -7,7 +7,7 @@ const SettingSummary = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 100%;
-  padding: 5px 0;
+  padding: 15px 0 10px 0;
   box-sizing: border-box;
 
   @media (min-width: 992px) {

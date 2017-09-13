@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { singleForm } from 'providers/FormProvider'
 
 import { api } from 'services/ApiService'
 import { actions } from 'data'
@@ -68,9 +67,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const enhance = compose(
-  singleForm('reminderForm'),
-  connect(mapStateToProps, mapDispatchToProps)
-)
-
-export default enhance(ReminderContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ReminderContainer)

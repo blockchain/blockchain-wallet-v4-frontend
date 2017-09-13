@@ -19,9 +19,9 @@ const AddressBox = styled.span`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 40px;
+  height: 36px;
   font-size: 16px;
-  background-color: ${props => props.theme['gray-3']};
+  background-color: ${props => props.theme['gray-1']};
 
   @media(min-width:768px) { font-size: 14px; }
 `

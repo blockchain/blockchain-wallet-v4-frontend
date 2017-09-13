@@ -28,5 +28,6 @@ export const getDefaultAccountXpub = state => getAccountXpub(getDefaultAccountIn
 export const getInitialSocketContext = state => ({ guid: getGuid(state), addresses: getAddressContext(state), xpubs: getWalletContext(state) })
 export const getLogoutTime = compose(Options.selectLogoutTime, Wallet.selectOptions, Wrapper.selectWallet)
 export const isSecondPasswordOn = compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet)
+export const isMnemonicVerified = compose(HDWallet.selectMnemonicVerified, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
 export const getMainPassword = Wrapper.selectPassword
 export const getPbkdf2Iterations = Wrapper.selectPbkdf2Iterations

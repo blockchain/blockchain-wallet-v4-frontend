@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { wizardForm } from 'providers/FormProvider'
 
+import wizardProvider from 'providers/WizardProvider'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import { actions } from 'data'
@@ -22,8 +22,8 @@ class ReminderContainer extends React.Component {
     const { step, ...rest } = this.props
 
     switch (step) {
-      case 0: return <FirstStep {...rest} />
-      case 1: return <SecondStep {...rest} handleSubmit={this.handleSubmit} />
+      case 1: return <FirstStep {...rest} />
+      case 2: return <SecondStep {...rest} handleSubmit={this.handleSubmit} />
       default: return <FirstStep {...rest} />
     }
   }
@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const enhance = compose(
-  wizardForm('recoverForm', 2),
+  wizardProvider('recover', 2),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

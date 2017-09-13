@@ -89,6 +89,15 @@ module.exports = {
             name: 'img/[name]-[hash].[ext]'
           }
         }
+      },
+      {
+        test: /\.(pdf)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'resources/[name]-[hash].[ext]'
+          }
+        }
       }
     ]
   },

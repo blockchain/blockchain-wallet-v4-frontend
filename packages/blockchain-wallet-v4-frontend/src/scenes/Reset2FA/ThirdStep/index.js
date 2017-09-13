@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text } from 'blockchain-info-components'
@@ -25,7 +25,7 @@ const Footer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { handleSubmit, timestamp, previous, submitting, invalid } = props
+  const { previousStep, handleSubmit, timestamp, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -58,7 +58,7 @@ const ThirdStep = (props) => {
         </Button>
       </Form>
       <Footer>
-        <Link onClick={previous} size='13px' weight={300}>
+        <Link onClick={previousStep} size='13px' weight={300}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.back' defaultMessage='Go back' />
         </Link>
       </Footer>
@@ -66,4 +66,4 @@ const ThirdStep = (props) => {
   )
 }
 
-export default ThirdStep
+export default reduxForm({ form: 'reset2FA', destroyOnUnmount: false })(ThirdStep)

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { SelectBoxTheme } from 'components/Form'
 
@@ -26,4 +26,4 @@ Settings.propTypes = {
   theme: PropTypes.string.isRequired
 }
 
-export default Settings
+export default reduxForm({ form: 'settingTheme' })(Settings)

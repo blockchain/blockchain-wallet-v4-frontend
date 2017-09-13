@@ -34,7 +34,7 @@ class SecondStepContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(undefined, mapDispatchToProps)(SecondStepContainer)

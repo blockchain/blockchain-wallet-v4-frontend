@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { Form, NumberBox } from 'components/Form'
@@ -16,8 +16,6 @@ const Wrapper = styled.div`
   @media(min-width: 992px) {
     align-items: flex-end;
   }
-
-  & > * { padding: 10px 0; }
 `
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, logoutTime, submitting, invalid } = props
@@ -69,4 +67,4 @@ Settings.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-export default Settings
+export default reduxForm({ form: 'settingAutoLogoutTime' })(Settings)

@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
-import { Form, TextBox } from 'components/Form'
+import { TextBox } from 'components/Form'
+import { SettingForm } from 'components/Setting'
 import { validEmail } from 'services/FormHelper'
 
 const Wrapper = styled.div`
@@ -16,15 +17,7 @@ const Wrapper = styled.div`
 
   @media(min-width: 992px) { align-items: flex-end; }
 
-  & > * { padding: 10px 0; }
-`
-const SettingForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) { align-items: flex-end; }
+  & > * { margin-bottom: 10px; }
 `
 
 const Settings = (props) => {
@@ -80,4 +73,4 @@ Settings.propTypes = {
   handleResend: PropTypes.func.isRequired
 }
 
-export default Settings
+export default reduxForm({ form: 'settingEmailAddress' })(Settings)
