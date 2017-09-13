@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 
-import { singleForm } from 'providers/FormProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
 
@@ -39,7 +38,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  singleForm('secondPassword'),
   modalEnhancer('SecondPassword'),
   connect(mapStateToProps, mapDispatchToProps)
 )

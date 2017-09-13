@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { validMobileNumber, required } from 'services/FormHelper'
 import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components'
@@ -85,4 +85,4 @@ Setting.propTypes = {
   handleVerify: PropTypes.func.isRequired
 }
 
-export default Setting
+export default singleForm({ form: 'settingMobilePhone' })(Setting)

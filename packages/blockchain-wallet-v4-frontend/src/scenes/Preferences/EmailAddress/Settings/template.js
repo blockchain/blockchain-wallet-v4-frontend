@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
@@ -73,4 +73,4 @@ Settings.propTypes = {
   handleResend: PropTypes.func.isRequired
 }
 
-export default Settings
+export default reduxForm({ form: 'settingEmailAddress' })(Settings)

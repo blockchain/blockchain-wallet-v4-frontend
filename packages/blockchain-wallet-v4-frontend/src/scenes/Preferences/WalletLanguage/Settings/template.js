@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { SelectBoxLanguages } from 'components/Form'
 
@@ -21,4 +21,4 @@ const Settings = (props) => {
   )
 }
 
-export default Settings
+export default reduxForm({ form: 'settingLanguage' })(Settings)

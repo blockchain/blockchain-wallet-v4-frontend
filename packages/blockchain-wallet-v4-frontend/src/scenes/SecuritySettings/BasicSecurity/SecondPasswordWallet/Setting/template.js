@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { Form, PasswordBox } from 'components/Form'
@@ -81,4 +81,4 @@ Settings.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-export default Settings
+export default reduxForm({ form: 'settingSecondPassword' })(Settings)
