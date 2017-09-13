@@ -1,26 +1,17 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { Button } from 'blockchain-info-components'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import { connect } from 'react-redux'
 
-const PasswordStretching = (props) => {
-  return (
-    <SettingContainer>
-      <SettingSummary>
-        <SettingHeader>
-          <FormattedMessage id='scenes.settings.passwordstretching.title' defaultMessage='Password stretching (PBKDF2)' />
-        </SettingHeader>
-        <SettingDescription>
-          <FormattedMessage id='scenes.settings.passwordstretching.description' defaultMessage='This increases the difficulty of discovering your password using a brute-force attack but slows down loading and saving your wallet.' />
-        </SettingDescription>
-      </SettingSummary>
-      <SettingComponent>
-        <Button nature='secondary'>
-          <FormattedMessage id='scenes.settings.passwordstretching.change' defaultMessage='Change' />
-        </Button>
-      </SettingComponent>
-    </SettingContainer>
-  )
+import { selectors } from 'data'
+import PasswordStretching from './template.js'
+
+class PasswordStretchingContainer extends React.Component {
+  render () {
+    return <PasswordStretching {...this.props} />
+  }
 }
 
-export default PasswordStretching
+const mapStateToProps = (state) => ({
+  passwordStretchingStored: selectors.core.wallet.getPbkdf2Iterations(state) !== undefined && selectors.core.wallet.getPbkdf2Iterations(state) !== 'undefined'
+})
+
+export default connect(mapStateToProps)(PasswordStretchingContainer)

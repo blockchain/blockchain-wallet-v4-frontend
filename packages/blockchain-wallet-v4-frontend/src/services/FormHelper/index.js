@@ -22,4 +22,6 @@ const validStrongPassword = value => (value !== undefined && zxcvbn(value).score
 
 const validIpList = value => isIpList(value) ? undefined : 'Invalid IP list'
 
-export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList }
+const validPasswordStretchingNumber = value => (value > 1 && value <= 20000) ? undefined : 'Please ensure 1 < PBKDF2 <= 20000'
+
+export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList, validPasswordStretchingNumber }
