@@ -6,7 +6,7 @@ import { Field } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
-// import { validIpList } from 'services/FormHelper'
+import { validIpList } from 'services/FormHelper'
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const Setting = (props) => {
       </Button>
       {updateToggled &&
         <SettingForm>
-          <Field name='IPWhitelist' /* validate={[validIpList]} */ component={TextBox} />
+          <Field name='IPWhitelist' validate={[validIpList]} component={TextBox} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.settings.whitelist.updateform.cancel' defaultMessage='Cancel' />
