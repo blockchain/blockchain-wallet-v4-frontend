@@ -44,7 +44,7 @@ const wizardForm = (formName, totalSteps, options = {}) => Component => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      actions: bindActionCreators(actions.form, dispatch),
+      // actions: bindActionCreators(actions.form, dispatch),
       reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
     }
   }

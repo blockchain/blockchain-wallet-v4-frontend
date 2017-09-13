@@ -14,7 +14,7 @@ const PrintContainer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { next, position, total, close } = props
+  const { nextStep, position, total, close } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -23,19 +23,19 @@ const FirstStep = (props) => {
       </ModalHeader>
       <ModalBody>
         <TextGroup inline>
-          <Icon name='safe' size='18px' weight={300} color='error' />
-          <Text size='18px' weight={300} color='error'>
+          <Icon name='safe' size='18px' weight={300} />
+          <Text size='18px' weight={300}>
             <FormattedMessage id='modals.recoveryphrase.firststep.tip' defaultMessage='Security tip' />
           </Text>
         </TextGroup>
         <TextGroup inline>
-          <Text size='13px' weight={300} color='error'>
+          <Text size='13px' weight={300}>
             <FormattedMessage id='modals.recoveryphrase.firststep.explain' defaultMessage='Do not store your Recovery Phrase on your computer or online.' />
           </Text>
-          <Text size='13px' weight={300} color='error'>
+          <Text size='13px' weight={300}>
             <FormattedMessage id='modals.recoveryphrase.firststep.explain2' defaultMessage='It is very important to keep your Recovery Phrase offline in a safe and private place.' />
           </Text>
-          <Text size='13px' weight={500} color='error'>
+          <Text size='13px' weight={500}>
             <FormattedMessage id='modals.recoveryphrase.firststep.explain3' defaultMessage='Anyone with access to your Recovery Phrase has access to your funds.' />
           </Text>
         </TextGroup>
@@ -60,7 +60,7 @@ const FirstStep = (props) => {
         <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage id='modals.recoveryphrase.firststep.cancel' defaultMessage='Cancel' />
         </Link>
-        <Button nature='primary' onClick={next}>
+        <Button nature='primary' onClick={nextStep}>
           <FormattedMessage id='modals.recoveryphrase.firststep.logout' defaultMessage='Next step' />
         </Button>
       </ModalFooter>

@@ -7,7 +7,6 @@ const logReducer = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case T.FETCH_LOGS_SUCCESS: {
-      console.log(action)
       const { payload } = action
       return payload
     }

@@ -3,14 +3,15 @@ import { combineReducers } from 'redux'
 import settings from 'config'
 import { routerReducer } from 'react-router-redux'
 import { reducer as reduxUiReducer } from 'redux-ui'
+import { reducer as formReducer } from 'redux-form'
 import { coreReducers } from 'blockchain-wallet-v4/src'
 import alertsReducer from './Alerts/reducers'
 import authReducer from './Auth/reducers.js'
-import formReducer from './Form/reducers.js'
 import logReducer from './Log/reducers.js'
 import modalsReducer from './Modals/reducers.js'
 import preferencesReducer from './Preferences/reducers.js'
 import scrollReducer from './Scroll/reducers.js'
+import wizardReducer from './Wizard/reducers.js'
 
 const rootReducer = combineReducers({
   applicationState: combineReducers({
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     auth: authReducer.login,
     log: logReducer,
     modals: modalsReducer,
-    scroll: scrollReducer
+    scroll: scrollReducer,
+    wizard: wizardReducer
   }),
   ui: reduxUiReducer,
   form: formReducer,

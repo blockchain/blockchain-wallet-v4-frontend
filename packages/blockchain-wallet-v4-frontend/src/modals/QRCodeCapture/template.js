@@ -23,7 +23,6 @@ const QrCodeReader = styled(QrReader)`
 `
 
 const QRCodeCapture = (props) => {
-  console.log(props)
   const { handleScan, handleError, position, total, close, closeAll } = props
 
   return (

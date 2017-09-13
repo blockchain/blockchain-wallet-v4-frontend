@@ -1,45 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
+import ui from 'redux-ui'
 
 import { selectors } from 'data'
 import SecondStep from './template.js'
 
-class SecondStepContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.words = this.props.mnemonic.split(' ')
-    this.state = { currentIndex: 0, currentWord: this.words[0] }
-    this.nextWord = this.nextWord.bind(this)
-    this.previousWord = this.previousWord.bind(this)
-  }
+const SecondStepContainer = props => {
+  const { ui, updateUI, mnemonic } = props
 
-  nextWord () {
-    const index = this.state.currentIndex
-    const currentIndex = index < 11 ? index + 1 : 11
-    this.setState({ currentIndex, currentWord: this.words[currentIndex] })
-  }
+  const handleClickPrevious = () => { updateUI({ index: ui.index - 1 }) }
 
-  previousWord () {
-    const index = this.state.currentIndex
-    const currentIndex = index > 0 ? index - 1 : 0
-    this.setState({ currentIndex, currentWord: this.words[currentIndex] })
-  }
+  const handleClickNext = () => { updateUI({ index: ui.index + 1 }) }
 
-  render () {
-    return <SecondStep
-      {...this.props}
-      currentIndex={this.state.currentIndex}
-      currentWord={this.state.currentWord}
-      nextWord={this.nextWord}
-      previousWord={this.previousWord}
+  return (
+    <SecondStep
+      {...props}
+      index={ui.index}
+      word={mnemonic[ui.index]}
+      handleClickPrevious={handleClickPrevious}
+      handleClickNext={handleClickNext}
     />
-  }
+  )
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    mnemonic: selectors.core.wallet.getMnemonic(state)
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  mnemonic: selectors.core.wallet.getMnemonic(state).split(' ')
+})
 
-export default connect(mapStateToProps)(SecondStepContainer)
+const enhance = compose(
+  ui({ key: 'RecoveryPhraseMnemonic', state: { index: 0 } }),
+  connect(mapStateToProps)
+)
+
+export default enhance(SecondStepContainer)

@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 150px;
   width: 100%;
 `
 const Container = styled.div`
@@ -33,8 +33,7 @@ const Display = styled(Text)`
 `
 
 const SecondStep = (props) => {
-  const { previous, next, position, total, close, currentIndex, currentWord, nextWord, previousWord } = props
-  console.log(currentWord)
+  const { previousStep, nextStep, position, total, close, index, word, handleClickPrevious, handleClickNext } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -58,20 +57,20 @@ const SecondStep = (props) => {
         </TextGroup>
         <Wrapper>
           <Text size='20px' weight={300}>
-            <FormattedMessage id='modals.recoveryphrase.secondstep.number' defaultMessage='Word {number}' values={{ number: currentIndex + 1 }} />
+            <FormattedMessage id='modals.recoveryphrase.secondstep.number' defaultMessage='Word {number}' values={{ number: index + 1 }} />
           </Text>
           <Container>
-            <Arrow name='left-arrow' size='40px' onClick={previousWord} visible={currentIndex !== 0} />
-            <Display size='40px'>{currentWord}</Display>
-            <Arrow name='right-arrow' size='40px' onClick={nextWord} visible={currentIndex !== 11} />
+            <Arrow name='left-arrow' size='40px' onClick={handleClickPrevious} visible={index > 0} />
+            <Display size='40px'>{word}</Display>
+            <Arrow name='right-arrow' size='40px' onClick={handleClickNext} visible={index < 11} />
           </Container>
         </Wrapper>
       </ModalBody>
       <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={previous}>
+        <Link size='13px' weight={300} onClick={previousStep}>
           <FormattedMessage id='modals.recoveryphrase.secondstep.back' defaultMessage='Back' />
         </Link>
-        <Button nature='primary' onClick={next}>
+        <Button nature='primary' onClick={nextStep} disabled={index !== 11}>
           <FormattedMessage id='modals.recoveryphrase.secondstep.next' defaultMessage='Final step' />
         </Button>
       </ModalFooter>

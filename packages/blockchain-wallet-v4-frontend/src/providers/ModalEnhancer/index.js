@@ -19,7 +19,6 @@ export default (type) => (Component) => enhance(
     render () {
       const { modals, ...rest } = this.props
       const filtered = modals.filter(m => m.type === type)
-
       return filtered.length ? (
         <div>
           {filtered.map((modal, i) => (
