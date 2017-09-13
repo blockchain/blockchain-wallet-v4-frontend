@@ -215,8 +215,8 @@ function * sagas () {
   yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ERROR, updateIpLockError)
   yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ON_SUCCESS, updateIpLockOnSuccess)
   yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ON_ERROR, updateIpLockOnError)
-  yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ON_SUCCESS, updateBlockTorIpsSuccess)
-  yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ON_ERROR, updateBlockTorIpsError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_BLOCK_TOR_IPS_SUCCESS, updateBlockTorIpsSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_BLOCK_TOR_IPS_ERROR, updateBlockTorIpsError)
 }
 
 export default sagas
