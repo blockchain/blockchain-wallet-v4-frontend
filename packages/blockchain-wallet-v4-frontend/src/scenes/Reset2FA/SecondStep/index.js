@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
@@ -71,4 +71,4 @@ const SecondStep = (props) => {
   )
 }
 
-export default SecondStep
+export default reduxForm({ form: 'reset2FA', destroyOnUnmount: false })(SecondStep)

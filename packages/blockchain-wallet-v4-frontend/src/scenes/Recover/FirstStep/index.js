@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validMmemonic } from 'services/FormHelper'
@@ -26,7 +26,7 @@ const Footer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { next, submitting, invalid } = props
+  const { nextStep, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -58,7 +58,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.recover.firststep.passphrase_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
         </Text>
         <Field name='passphrase' validate={[required, validMmemonic]} component={TextBox} />
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
+        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
           <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
         </Button>
       </Form>
@@ -74,4 +74,4 @@ const FirstStep = (props) => {
   )
 }
 
-export default FirstStep
+export default reduxForm({ form: 'recover', destroyOnUnmount: false })(FirstStep)

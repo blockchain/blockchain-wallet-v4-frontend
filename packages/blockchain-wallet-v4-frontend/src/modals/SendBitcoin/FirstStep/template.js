@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
 import { Button, ButtonGroup, Icon, Image, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
@@ -140,4 +140,4 @@ FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired
 }
 
-export default FirstStep
+export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false })(FirstStep)

@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
 import { isNil, equals } from 'ramda'
 
-import { wizardForm } from 'providers/FormProvider'
+import wizardProvider from 'providers/WizardProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
@@ -67,8 +67,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  wizardForm('sendBitcoin', 2),
   modalEnhancer('SendBitcoin'),
+  wizardProvider('sendBitcoin', 2),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

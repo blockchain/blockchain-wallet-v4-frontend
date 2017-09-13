@@ -29,7 +29,7 @@ const LinkContainer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { satoshis, message, link, active, handleClick, previous, position, total, closeAll } = props
+  const { previousStep, satoshis, message, link, active, handleClick, position, total, closeAll } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -67,7 +67,7 @@ const SecondStep = (props) => {
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Link onClick={previous} size='13px' weight={300}>
+        <Link onClick={previousStep} size='13px' weight={300}>
           <FormattedMessage id='scenes.requestbitcoin.secondstep.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>

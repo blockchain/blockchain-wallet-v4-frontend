@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, Separator, Text, Tooltip } from 'blockchain-info-components'
@@ -8,7 +8,7 @@ import { CoinConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Fo
 import CopyClipboard from './CopyClipboard'
 
 const FirstStep = (props) => {
-  const { next, submitting, invalid, receiveAddress, handleClickCode, position, total, closeAll } = props
+  const { nextStep, submitting, invalid, receiveAddress, handleClickCode, position, total, closeAll } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -43,7 +43,7 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.requestbitcoin.firststep.description' defaultMessage='Description:' />
           </Text>
           <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" />
-          <Button nature='secondary' fullwidth uppercase onClick={next} disabled={submitting || invalid}>
+          <Button nature='secondary' fullwidth uppercase onClick={nextStep} disabled={submitting || invalid}>
             <FormattedMessage id='modals.requestbitcoin.firststep.next' defaultMessage='Next' />
           </Button>
         </Form>
@@ -52,4 +52,4 @@ const FirstStep = (props) => {
   )
 }
 
-export default FirstStep
+export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(FirstStep)

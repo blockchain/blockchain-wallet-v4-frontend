@@ -30,7 +30,7 @@ const Summary = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { handleClick, previous, fromAddress, toAddress, message, satoshis, fee, position, total, closeAll } = props
+  const { previousStep, handleClick, fromAddress, toAddress, message, satoshis, fee, position, total, closeAll } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -92,7 +92,7 @@ const SecondStep = (props) => {
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Link onClick={previous} size='13px' weight={300}>
+        <Link onClick={previousStep} size='13px' weight={300}>
           <FormattedMessage id='scenes.sendbitcoin.secondstep.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>
