@@ -22,8 +22,8 @@ class ReminderContainer extends React.Component {
     const { step, ...rest } = this.props
 
     switch (step) {
-      case 0: return <FirstStep {...rest} />
-      case 1: return <SecondStep {...rest} handleSubmit={this.handleSubmit} />
+      case 1: return <FirstStep {...rest} />
+      case 2: return <SecondStep {...rest} handleSubmit={this.handleSubmit} />
       default: return <FirstStep {...rest} />
     }
   }

@@ -85,4 +85,4 @@ Setting.propTypes = {
   handleVerify: PropTypes.func.isRequired
 }
 
-export default singleForm({ form: 'settingMobilePhone' })(Setting)
+export default reduxForm({ form: 'settingMobilePhone' })(Setting)

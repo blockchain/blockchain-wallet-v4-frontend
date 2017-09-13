@@ -24,8 +24,8 @@ class SendBitcoinContainer extends React.Component {
 
   render () {
     switch (this.props.step) {
-      case 0: return <FirstStep {...this.props} />
-      case 1: return <SecondStep {...this.props} />
+      case 1: return <FirstStep {...this.props} />
+      case 2: return <SecondStep {...this.props} />
       default: return <div />
     }
   }

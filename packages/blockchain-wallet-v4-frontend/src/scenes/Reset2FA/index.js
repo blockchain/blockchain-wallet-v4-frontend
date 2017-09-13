@@ -25,9 +25,9 @@ class Reset2FAContainer extends React.Component {
     const { step, ...rest } = this.props
 
     switch (step) {
-      case 0: return <FirstStep {...rest} />
-      case 1: return <SecondStep {...rest} />
-      case 2: return <ThirdStep {...rest} handleSubmit={this.handleSubmit} timestamp={this.state.timestamp} />
+      case 1: return <FirstStep {...rest} />
+      case 2: return <SecondStep {...rest} />
+      case 3: return <ThirdStep {...rest} handleSubmit={this.handleSubmit} timestamp={this.state.timestamp} />
       default: return <FirstStep {...rest} />
     }
   }

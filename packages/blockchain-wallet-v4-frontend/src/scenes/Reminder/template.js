@@ -59,4 +59,4 @@ const Reminder = (props) => {
   )
 }
 
-export default reduxForm('reminder')(Reminder)
+export default reduxForm({ form: 'reminder' })(Reminder)
