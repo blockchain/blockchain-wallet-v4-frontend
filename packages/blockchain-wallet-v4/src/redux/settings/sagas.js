@@ -1,7 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
 import * as actions from './actions'
 import * as AT from './actionTypes'
-import { selectors } from '../selectors'
 import { contains, toLower } from 'ramda'
 
 export const settingsSaga = ({ api } = {}) => {
@@ -127,6 +126,76 @@ export const settingsSaga = ({ api } = {}) => {
     }
   }
 
+  const updateLoggingLevel = function * (action) {
+    try {
+      const { guid, sharedKey, loggingLevel } = action.payload
+      const response = yield call(api.updateLoggingLevel, guid, sharedKey, loggingLevel)
+      if (contains('Logging level updated.', response)) {
+        yield put(actions.updateLoggingLevelSuccess(loggingLevel, response))
+      } else {
+        yield put(actions.updateLoggingLevelError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateLoggingLevelError(error))
+    }
+  }
+
+  const updateIpLock = function * (action) {
+    try {
+      const { guid, sharedKey, ipLock } = action.payload
+      const response = yield call(api.updateIpLock, guid, sharedKey, ipLock)
+      if (contains('Ip Addresses Updated', response)) {
+        yield put(actions.updateIpLockSuccess(ipLock, response))
+      } else {
+        yield put(actions.updateIpLockError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateIpLockError(error))
+    }
+  }
+
+  const updateIpLockOn = function * (action) {
+    try {
+      const { guid, sharedKey, ipLockOn } = action.payload
+      const response = yield call(api.updateIpLockOn, guid, sharedKey, ipLockOn)
+      if (contains('Updated IP Lock Settings', response)) {
+        yield put(actions.updateIpLockOnSuccess(ipLockOn, response))
+      } else {
+        yield put(actions.updateIpLockOnError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateIpLockOnError(error))
+    }
+  }
+
+  const updateBlockTorIps = function * (action) {
+    try {
+      const { guid, sharedKey, blockTorIps } = action.payload
+      const response = yield call(api.updateBlockTorIps, guid, sharedKey, blockTorIps)
+      if (contains('Tor IP address settings updated.', response)) {
+        yield put(actions.updateBlockTorIpsSuccess(blockTorIps, response))
+      } else {
+        yield put(actions.updateBlockTorIpsError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateBlockTorIpsError(error))
+    }
+  }
+  
+  const updateHint = function * (action) {
+    try {
+      const { guid, sharedKey, hint } = action.payload
+      const response = yield call(api.updateHint, guid, sharedKey, hint)
+      if (contains('Updated Password Hint', response)) {
+        yield put(actions.updateHintSuccess(hint, response))
+      } else {
+        yield put(actions.updateHintError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateHintError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
     yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
@@ -137,5 +206,10 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_CURRENCY, updateCurrency)
     yield takeEvery(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
     yield takeEvery(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
+    yield takeEvery(AT.UPDATE_LOGGING_LEVEL, updateLoggingLevel)
+    yield takeEvery(AT.UPDATE_IP_LOCK, updateIpLock)
+    yield takeEvery(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
+    yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
+    yield takeEvery(AT.UPDATE_HINT, updateHint)
   }
 }

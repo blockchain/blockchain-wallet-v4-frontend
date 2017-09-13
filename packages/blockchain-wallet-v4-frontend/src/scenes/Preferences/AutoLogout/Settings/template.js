@@ -32,15 +32,15 @@ const Settings = (props) => {
       <Wrapper>
         <Form>
           <Text size='14px' weight={300} leftAlign>
-            <FormattedMessage id='scenes.preferences.email.warning' defaultMessage='Auto Logout Time' />
+            <FormattedMessage id='scenes.preferences.autologout.settings.warning' defaultMessage='Auto Logout Time' />
           </Text>
           <Field name='autoLogoutTime' component={NumberBox} validate={[isValidAutoLogoutTime]} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>
-              <FormattedMessage id='scenes.preferences.emailAddress.updateform.cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='scenes.preferences.autologout.settings.updateform.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-              <FormattedMessage id='scenes.preferences.emailAddress.updateform.save' defaultMessage='Save' />
+              <FormattedMessage id='scenes.preferences.autologout.settings.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
         </Form>
@@ -53,7 +53,7 @@ const Settings = (props) => {
           <FormattedMessage id='scenes.preferences.autologout.settings.minutes' defaultMessage='{time} minutes' values={{ time: logoutTime }} />
         </Text>
         <Button nature='secondary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.preferences.emailAddress.updateform.change' defaultMessage='Change' />
+          <FormattedMessage id='scenes.preferences.autologout.settings.updateform.change' defaultMessage='Change' />
         </Button>
       </Wrapper>
     )

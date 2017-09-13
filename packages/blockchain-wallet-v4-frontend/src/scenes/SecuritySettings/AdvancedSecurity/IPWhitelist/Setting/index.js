@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { singleForm } from 'providers/FormProvider'
 import ui from 'redux-ui'
+import { equals, isEmpty } from 'ramda'
 
 import { actions, selectors } from 'data'
 import Settings from './template.js'
@@ -16,9 +18,21 @@ class SettingContainer extends React.Component {
     this.handleToggle = this.handleToggle.bind(this)
   }
 
+  componentWillMount () {
+    if (!isEmpty(this.props.currentWhitelist)) {
+      this.props.reduxFormActions.initialize('settingIPWhitelist', { IPWhitelist: this.props.currentWhitelist })
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.currentWhitelist, nextProps.currentWhitelist)) {
+      this.props.updateUI({ updateToggled: false })
+    }
+  }
+
   handleClick () {
-    const { secondPasswordValue } = this.props
-    this.props.walletActions.toggleSecondPassword(secondPasswordValue)
+    const { guid, sharedKey, IPWhitelist } = this.props
+    this.props.settingsActions.updateIpLock(guid, sharedKey, IPWhitelist)
     this.handleToggle()
   }
 
@@ -39,18 +53,25 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
-  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword')
+  guid: selectors.core.wallet.getGuid(state),
+  sharedKey: selectors.core.wallet.getSharedKey(state),
+  currentWhitelist: selectors.core.settings.getIpLock(state),
+  IPWhitelist: formValueSelector('settingIPWhitelist')(state, 'IPWhitelist')
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  walletActions: bindActionCreators(actions.core.wallet, dispatch),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Setting_SecondPassword', state: { updateToggled: false } })
+  ui({ key: 'Setting_IPWhitelist', state: { updateToggled: false, verifyToggled: false } }),
+  singleForm('settingIPWhitelist')
 )
+
+SettingContainer.propTypes = {
+  currentWhitelist: PropTypes.string
+}
 
 export default enhance(SettingContainer)

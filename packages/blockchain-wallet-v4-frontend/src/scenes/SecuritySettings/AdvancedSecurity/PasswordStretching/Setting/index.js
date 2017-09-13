@@ -1,9 +1,9 @@
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { singleForm } from 'providers/FormProvider'
 import ui from 'redux-ui'
 
 import { actions, selectors } from 'data'
@@ -17,8 +17,8 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    const { secondPasswordValue } = this.props
-    this.props.walletActions.toggleSecondPassword(secondPasswordValue)
+    const { passwordStretchingValue, password } = this.props
+    this.props.walletActions.setPbkdf2Iterations(Number(passwordStretchingValue), password)
     this.handleToggle()
   }
 
@@ -39,8 +39,9 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
-  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword')
+  password: selectors.core.wallet.getMainPassword(state),
+  passwordStretchingValue: formValueSelector('settingPasswordStretching')(state, 'passwordStretching'),
+  currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -50,7 +51,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Setting_SecondPassword', state: { updateToggled: false } })
+  ui({ key: 'Setting_PasswordStretching', state: { updateToggled: false } }),
+  singleForm('settingPasswordStretching')
 )
+
+SettingContainer.propTypes = {
+  passwordStretching: PropTypes.number
+}
 
 export default enhance(SettingContainer)

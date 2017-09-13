@@ -49,7 +49,7 @@ export const createAddressError = (errorKey) =>
 
 // create trezor
 export const createTrezorWallet = (accountIndex) =>
-  ({ type: T.CREATE_TREZOR_WALLET, payload: accountIndex})
+  ({ type: T.CREATE_TREZOR_WALLET, payload: accountIndex })
 export const createTrezorWalletSuccess = (wrapper) =>
   ({ type: T.CREATE_TREZOR_WALLET_SUCCESS, payload: wrapper })
 export const createTrezorWalletError = (errorKey) =>

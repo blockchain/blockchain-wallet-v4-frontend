@@ -48,7 +48,7 @@ const Settings = (props) => {
           <FormattedMessage id='scenes.security.secondPassword.updateform.setsecondpassword' defaultMessage='Set Second Password' />
         </Button>
         {updateToggled &&
-          <Form initialValues={{secondPassword: '', secondPasswordConfirmation: ''}}>
+          <Form>
             <Text size='14px' weight={300} color='error'>
               <FormattedMessage id='scenes.security.secondPassword.warning' defaultMessage="We highly recommend you backup your wallet's recovery phrase before setting a second password. Backing up your wallet will ensure your bitcoins are safe in case you lose your password. For your security, we do not keep any passwords on file." />
             </Text>

@@ -262,6 +262,17 @@ const createApi = ({
 
   const updateAutoLogout = (guid, sharedKey, autoLogout) => updateSettings(guid, sharedKey, 'update-auto-logout', autoLogout)
 
+  const updateLoggingLevel = (guid, sharedKey, loggingLevel) => updateSettings(guid, sharedKey, 'update-logging-level', loggingLevel)
+
+  const updateIpLock = (guid, sharedKey, ipLock) => updateSettings(guid, sharedKey, 'update-ip-lock', ipLock)
+
+  const updateIpLockOn = (guid, sharedKey, ipLockOn) => updateSettings(guid, sharedKey, 'update-ip-lock-on', ipLockOn)
+
+  const updateBlockTorIps = (guid, sharedKey, blockTorIps) => updateSettings(guid, sharedKey, 'update-block-tor-ips', blockTorIps)
+
+  const updateHint = (guid, sharedKey, hint) => updateSettings(guid, sharedKey, 'update-password-hint1', hint)
+
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -294,7 +305,12 @@ const createApi = ({
     updateLanguage: future(updateLanguage),
     updateCurrency: future(updateCurrency),
     updateBitcoinUnit: future(updateBitcoinUnit),
-    updateAutoLogout: future(updateAutoLogout)
+    updateAutoLogout: future(updateAutoLogout),
+    updateLoggingLevel: future(updateLoggingLevel),
+    updateIpLock: future(updateIpLock),
+    updateIpLockOn: future(updateIpLockOn),
+    updateBlockTorIps: future(updateBlockTorIps)
+    updateHint: future(updateHint)
   }
 }
 
