@@ -52,6 +52,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       const { autoLogout } = payload
       return Object.assign({}, state, { auto_logout: autoLogout })
     }
+
     case AT.UPDATE_LOGGING_LEVEL_SUCCESS: {
       const { loggingLevel } = payload
       return Object.assign({}, state, { logging_level: loggingLevel })
@@ -74,6 +75,10 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.UPDATE_BLOCK_TOR_IPS_SUCCESS: {
       const { blockTorIps } = payload
       return Object.assign({}, state, { block_tor_ips: blockTorIps })
+    }
+    case AT.UPDATE_HINT_SUCCESS: {
+      const { hint } = payload
+      return Object.assign({}, state, { password_hint1: hint })
     }
     default:
       return state

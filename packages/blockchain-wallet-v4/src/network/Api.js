@@ -270,6 +270,9 @@ const createApi = ({
 
   const updateBlockTorIps = (guid, sharedKey, blockTorIps) => updateSettings(guid, sharedKey, 'update-block-tor-ips', blockTorIps)
 
+  const updateHint = (guid, sharedKey, hint) => updateSettings(guid, sharedKey, 'update-password-hint1', hint)
+
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -307,6 +310,7 @@ const createApi = ({
     updateIpLock: future(updateIpLock),
     updateIpLockOn: future(updateIpLockOn),
     updateBlockTorIps: future(updateBlockTorIps)
+    updateHint: future(updateHint)
   }
 }
 

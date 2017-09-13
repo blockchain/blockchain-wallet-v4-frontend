@@ -181,6 +181,20 @@ export const settingsSaga = ({ api } = {}) => {
       yield put(actions.updateBlockTorIpsError(error))
     }
   }
+  
+  const updateHint = function * (action) {
+    try {
+      const { guid, sharedKey, hint } = action.payload
+      const response = yield call(api.updateHint, guid, sharedKey, hint)
+      if (contains('Updated Password Hint', response)) {
+        yield put(actions.updateHintSuccess(hint, response))
+      } else {
+        yield put(actions.updateHintError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateHintError(error))
+    }
+  }
 
   return function * () {
     yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
@@ -196,5 +210,6 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_IP_LOCK, updateIpLock)
     yield takeEvery(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
     yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
+    yield takeEvery(AT.UPDATE_HINT, updateHint)
   }
 }
