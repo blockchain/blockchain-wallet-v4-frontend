@@ -13,7 +13,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.modalActions.showModal('RecoveryPhrase')
+    this.props.modalActions.showModal('2FA')
   }
 
   render () {
@@ -21,8 +21,12 @@ class SettingsContainer extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  isTwoStepVerificationEnabled: true
+})
+
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(SettingsContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)
