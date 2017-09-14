@@ -53,7 +53,7 @@ const ThirdStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.thirdstep.captcha' defaultMessage='Captcha' />
         </Text>
         <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleSubmit}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={handleSubmit}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.reset' defaultMessage='Reset' />
         </Button>
       </Form>

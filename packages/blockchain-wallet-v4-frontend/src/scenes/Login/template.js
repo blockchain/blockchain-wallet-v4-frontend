@@ -80,10 +80,10 @@ const Login = (props) => {
           <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
         </Text>
         <Field name='password' validate={[required]} component={PasswordBox} />
-        <Button nature='secondary' type='submit' fullwidth uppercase disabled={submitting || invalid}>
+        <Button nature='primary' type='submit' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
         </Button>
-        <Button nature='primary' fullwidth uppercase onClick={handleTrezor}>
+        <Button nature='secondary' fullwidth uppercase onClick={handleTrezor}>
           <FormattedMessage id='scenes.login.trezor' defaultMessage='Trezor' />
         </Button>
       </Form>

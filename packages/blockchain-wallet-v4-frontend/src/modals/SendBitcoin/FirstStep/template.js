@@ -119,7 +119,7 @@ const FirstStep = (props) => {
             </ColRight>
           </Row>
           <ButtonRow>
-            <Button nature='primary' uppercase onClick={next} disabled={submitting || invalid}>
+            <Button nature='secondary' uppercase onClick={next} disabled={submitting || invalid}>
               <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
             </Button>
           </ButtonRow>

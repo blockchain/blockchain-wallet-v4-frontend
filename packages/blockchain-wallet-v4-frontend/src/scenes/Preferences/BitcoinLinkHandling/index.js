@@ -16,7 +16,7 @@ const BitcoinLinkHandling = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='secondary'>
+        <Button nature='primary'>
           <FormattedMessage id='scenes.preferences.link.enable' defaultMessage='Enable' />
         </Button>
         <TextGroup inline>

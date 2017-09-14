@@ -71,7 +71,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet.' />
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain2' defaultMessage='If you lost access to this email, please enter it regardless.' />
         </Text>
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
         </Button>
       </Form>

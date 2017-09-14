@@ -14,7 +14,7 @@ const Setting = (props) => {
   return (
     <SettingWrapper>
       <Text>{currentWhitelist}</Text>
-      <Button nature='secondary' onClick={handleToggle}>
+      <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.settings.whitelist.updateform.change' defaultMessage='Change' />
       </Button>
       {updateToggled &&
@@ -24,7 +24,7 @@ const Setting = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.settings.whitelist.updateform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.settings.whitelist.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>

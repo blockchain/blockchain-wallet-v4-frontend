@@ -86,7 +86,7 @@ const SecondStep = (props) => {
               <CurrencyDisplay>{satoshis}</CurrencyDisplay>
             </Text>
           </Summary>
-          <Button nature='secondary' fullwidth uppercase onClick={handleClick}>
+          <Button nature='primary' fullwidth uppercase onClick={handleClick}>
             <FormattedMessage id='modals.sendbitcoin.secondstep.send' defaultMessage='Send bitcoin' />
           </Button>
         </Form>

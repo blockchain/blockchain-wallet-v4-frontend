@@ -12,7 +12,7 @@ const Settings = (props) => {
   if (secondPasswordEnabled) {
     return (
       <SettingWrapper>
-        <Button nature='secondary' onClick={handleToggle}>
+        <Button nature='primary' onClick={handleToggle}>
           <FormattedMessage id='scenes.security.secondPassword.updateform.removesecondpassword' defaultMessage='Remove Second Password' />
         </Button>
         {updateToggled &&
@@ -25,7 +25,7 @@ const Settings = (props) => {
               <Button nature='empty' capitalize onClick={handleToggle}>
                 <FormattedMessage id='scenes.security.secondPassword.updateform.cancel' defaultMessage='Cancel' />
               </Button>
-              <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+              <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
                 <FormattedMessage id='scenes.security.secondPassword.updateform.save' defaultMessage='Save' />
               </Button>
             </ButtonGroup>
@@ -36,7 +36,7 @@ const Settings = (props) => {
   } else {
     return (
       <SettingWrapper>
-        <Button nature='secondary' onClick={handleToggle}>
+        <Button nature='primary' onClick={handleToggle}>
           <FormattedMessage id='scenes.security.secondPassword.updateform.setsecondpassword' defaultMessage='Set Second Password' />
         </Button>
         {updateToggled &&
@@ -56,7 +56,7 @@ const Settings = (props) => {
               <Button nature='empty' capitalize onClick={handleToggle}>
                 <FormattedMessage id='scenes.security.secondPassword.updateform.cancel' defaultMessage='Cancel' />
               </Button>
-              <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+              <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
                 <FormattedMessage id='scenes.security.secondPassword.updateform.save' defaultMessage='Save' />
               </Button>
             </ButtonGroup>

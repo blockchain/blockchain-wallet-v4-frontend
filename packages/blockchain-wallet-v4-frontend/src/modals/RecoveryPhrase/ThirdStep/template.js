@@ -54,7 +54,7 @@ const ThirdStep = (props) => {
         <Link size='13px' weight={300} onClick={previousStep}>
           <FormattedMessage id='modals.recoveryphrase.thirdstep.back' defaultMessage='Back' />
         </Link>
-        <Button nature='primary' onClick={handleFinish} disabled={submitting || invalid}>
+        <Button nature='secondary' onClick={handleFinish} disabled={submitting || invalid}>
           <FormattedMessage id='modals.recoveryphrase.thirdstep.finish' defaultMessage='Finish' />
         </Button>
       </ModalFooter>
