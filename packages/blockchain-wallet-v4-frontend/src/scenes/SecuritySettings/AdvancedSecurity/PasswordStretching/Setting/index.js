@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
-import { singleForm } from 'providers/FormProvider'
 import ui from 'redux-ui'
 
 import { actions, selectors } from 'data'
@@ -51,8 +50,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Setting_PasswordStretching', state: { updateToggled: false } }),
-  singleForm('settingPasswordStretching')
+  ui({ key: 'Setting_PasswordStretching', state: { updateToggled: false } })
 )
 
 SettingContainer.propTypes = {

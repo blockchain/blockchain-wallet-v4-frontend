@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
-import { singleForm } from 'providers/FormProvider'
 import ui from 'redux-ui'
 import { equals, isEmpty } from 'ramda'
 
@@ -66,8 +65,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Setting_IPWhitelist', state: { updateToggled: false, verifyToggled: false } }),
-  singleForm('settingIPWhitelist')
+  ui({ key: 'Setting_IPWhitelist', state: { updateToggled: false, verifyToggled: false } })
 )
 
 SettingContainer.propTypes = {

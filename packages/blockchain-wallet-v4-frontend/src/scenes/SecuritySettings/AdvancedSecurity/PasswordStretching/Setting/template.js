@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
-import { Form, NumberBox } from 'components/Form'
-
+import { NumberBox } from 'components/Form'
+import { SettingForm } from 'components/Setting'
 import { validPasswordStretchingNumber } from 'services/FormHelper'
 
 const Wrapper = styled.div`
@@ -30,7 +30,7 @@ const Setting = (props) => {
         <FormattedMessage id='scenes.security.passwordStretching.updateform.setpasswordStretching' defaultMessage='Change' />
       </Button>
       {updateToggled &&
-        <Form>
+        <SettingForm>
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.security.passwordStretching.label' defaultMessage='Password Stretching (PBKDF2)' />
           </Text>
@@ -43,7 +43,7 @@ const Setting = (props) => {
               <FormattedMessage id='scenes.security.passwordStretching.updateform.save' defaultMessage='Change' />
             </Button>
           </ButtonGroup>
-        </Form>
+        </SettingForm>
       }
     </Wrapper>
   )
@@ -55,4 +55,4 @@ Setting.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-export default Setting
+export default reduxForm({ form: 'settingPasswordStretching' })(Setting)

@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
-import { Form, PasswordBox } from 'components/Form'
+import { PasswordBox } from 'components/Form'
+import { SettingForm } from 'components/Setting'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,7 +25,7 @@ const Settings = (props) => {
           <FormattedMessage id='scenes.security.secondPassword.updateform.removesecondpassword' defaultMessage='Remove Second Password' />
         </Button>
         {updateToggled &&
-          <Form>
+          <SettingForm>
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.security.secondPassword.updateform.label' defaultMessage='Second Password' />
             </Text>
@@ -37,7 +38,7 @@ const Settings = (props) => {
                 <FormattedMessage id='scenes.security.secondPassword.updateform.save' defaultMessage='Save' />
               </Button>
             </ButtonGroup>
-          </Form>
+          </SettingForm>
         }
       </Wrapper>
     )
@@ -48,7 +49,7 @@ const Settings = (props) => {
           <FormattedMessage id='scenes.security.secondPassword.updateform.setsecondpassword' defaultMessage='Set Second Password' />
         </Button>
         {updateToggled &&
-          <Form>
+          <SettingForm>
             <Text size='14px' weight={300} color='error'>
               <FormattedMessage id='scenes.security.secondPassword.warning' defaultMessage="We highly recommend you backup your wallet's recovery phrase before setting a second password. Backing up your wallet will ensure your bitcoins are safe in case you lose your password. For your security, we do not keep any passwords on file." />
             </Text>
@@ -68,7 +69,7 @@ const Settings = (props) => {
                 <FormattedMessage id='scenes.security.secondPassword.updateform.save' defaultMessage='Save' />
               </Button>
             </ButtonGroup>
-          </Form>
+          </SettingForm>
         }
       </Wrapper>
     )

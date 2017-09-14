@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
-import { Form, TextBox } from 'components/Form'
+import { TextBox } from 'components/Form'
+import { SettingForm } from 'components/Setting'
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,7 +31,7 @@ const Setting = (props) => {
         <FormattedMessage id='scenes.security.passwordHint.updateform.setpasswordHint' defaultMessage='Change' />
       </Button>
       {updateToggled &&
-        <Form>
+        <SettingForm>
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.security.passwordHint.label' defaultMessage='Password Hint' />
           </Text>
@@ -43,7 +44,7 @@ const Setting = (props) => {
               <FormattedMessage id='scenes.security.passwordHint.updateform.save' defaultMessage='Change' />
             </Button>
           </ButtonGroup>
-        </Form>
+        </SettingForm>
       }
     </Wrapper>
   )
@@ -55,4 +56,4 @@ Setting.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-export default Setting
+export default reduxForm({ form: 'settingPasswordHint' })(Setting)

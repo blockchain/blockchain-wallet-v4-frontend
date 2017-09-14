@@ -2,11 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
-import { Form, TextBox } from 'components/Form'
+import { TextBox } from 'components/Form'
 import { validIpList } from 'services/FormHelper'
+import { SettingForm } from 'components/Setting'
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,14 +18,6 @@ const Wrapper = styled.div`
   @media(min-width: 992px) { align-items: flex-end; }
 
   & > * { padding: 10px 0; }
-`
-const SettingForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) { align-items: flex-end; }
 `
 
 const Setting = (props) => {
@@ -60,4 +53,4 @@ Setting.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-export default Setting
+export default reduxForm({ form: 'settingIPWhitelist' })(Setting)

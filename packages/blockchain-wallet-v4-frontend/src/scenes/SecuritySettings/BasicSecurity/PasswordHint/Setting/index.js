@@ -4,9 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
-import { singleForm } from 'providers/FormProvider'
 import ui from 'redux-ui'
-import { equals, isEmpty } from 'ramda'
 
 import { actions, selectors } from 'data'
 import Settings from './template.js'
@@ -54,8 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Setting_PasswordHint', state: { updateToggled: false } }),
-  singleForm('settingPasswordHint')
+  ui({ key: 'Setting_PasswordHint', state: { updateToggled: false } })
 )
 
 SettingContainer.propTypes = {

@@ -272,7 +272,6 @@ const createApi = ({
 
   const updateHint = (guid, sharedKey, hint) => updateSettings(guid, sharedKey, 'update-password-hint1', hint)
 
-
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -309,7 +308,7 @@ const createApi = ({
     updateLoggingLevel: future(updateLoggingLevel),
     updateIpLock: future(updateIpLock),
     updateIpLockOn: future(updateIpLockOn),
-    updateBlockTorIps: future(updateBlockTorIps)
+    updateBlockTorIps: future(updateBlockTorIps),
     updateHint: future(updateHint)
   }
 }

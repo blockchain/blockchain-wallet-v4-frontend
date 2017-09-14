@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
-import { Form, PasswordBox } from 'components/Form'
+import { PasswordBox } from 'components/Form'
+import { SettingForm } from 'components/Setting'
 import { validStrongPassword } from 'services/FormHelper'
 
 const Wrapper = styled.div`
@@ -28,7 +29,7 @@ const Settings = (props) => {
         <FormattedMessage id='scenes.security.walletPassword.updateform.setwalletpassword' defaultMessage='Change' />
       </Button>
       {updateToggled &&
-        <Form>
+        <SettingForm>
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.security.walletPassword.label' defaultMessage='Current Password' />
           </Text>
@@ -49,7 +50,7 @@ const Settings = (props) => {
               <FormattedMessage id='scenes.security.walletPassword.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
-        </Form>
+        </SettingForm>
       }
     </Wrapper>
   )
@@ -61,4 +62,4 @@ Settings.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-export default Settings
+export default reduxForm({ form: 'settingWalletPassword' })(Settings)
