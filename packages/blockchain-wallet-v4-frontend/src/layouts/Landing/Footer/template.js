@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { Image, Link, Text } from 'blockchain-info-components'
+import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
 import Container from 'components/Container'
 import DropdownLanguage from 'components/DropdownLanguage'
 
@@ -63,10 +63,15 @@ const SubcolumnWrapper = styled(Top)`
   }
 `
 
+const SettingColumn = styled(Column)`
+  align-items: flex-end;
+`
+
 const DropdownContainer = styled.div`
   display: flex;
-  font-size: 13px;
-  padding: 0px 0;
+  font-size: 12px;
+  padding: 5px 0;
+  font-weight: 300;
 `
 const CopyrightContainer = styled.div`
   text-align: left;
@@ -82,6 +87,17 @@ const SectionTitle = styled(Text)`
   border-bottom: 0.5px solid ${props => props.theme['brand-primary']};
 `
 
+const SocialContainer = styled.div`
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 15px 0;
+
+  & > * {
+    display: inline-block;
+    padding: 0 5px;
+  }
+`
+
 const Footer = () => {
   return (
     <Wrapper>
@@ -95,17 +111,19 @@ const Footer = () => {
             <SubcolumnWrapper>
               <Column>
                 <LinkContainer to='/wallet'>
-                  <Text size='12px' weight={300} color='brand-primary' uppercase>
+                  <Link size='12px' weight={300} color='brand-primary' uppercase>
                     <FormattedMessage id='layouts.landing.footer.wallet' defaultMessage='Wallet' />
-                  </Text>
+                  </Link>
                 </LinkContainer>
-                <Link href='#' size='12px' weight={300} color='brand-primary' uppercase>
-                  <FormattedMessage id='layouts.landing.footer.api' defaultMessage='API' />
-                </Link>
+                <LinkContainer to='/api'>
+                  <Link size='12px' weight={300} color='brand-primary' uppercase>
+                    <FormattedMessage id='layouts.landing.footer.api' defaultMessage='API' />
+                  </Link>
+                </LinkContainer>
                 <Link href='https://blockchain.com/enterprise' size='12px' weight={300} color='brand-primary' uppercase>
                   <FormattedMessage id='layouts.landing.footer.business' defaultMessage='Business' />
                 </Link>
-                <Link href='#' size='12px' weight={300} color='brand-primary' uppercase>
+                <Link href='https://blockchain.com/thunder' size='12px' weight={300} color='brand-primary' uppercase>
                   <FormattedMessage id='layouts.landing.footer.thunder' defaultMessage='Thunder' />
                 </Link>
                 <Link href='https://blockchain.com/research' size='12px' weight={300} color='brand-primary' uppercase>
@@ -167,21 +185,33 @@ const Footer = () => {
             <Link href='https://support.blockchain.com/hc/' size='12px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage id='layouts.landing.footer.helpcenter' defaultMessage='Help Center' />
             </Link>
-            <Link href='#' size='12px' weight={300} color='brand-primary' uppercase>
+            <Link href='https://blog.blockchain.com/category/tutorials-and-guides/' size='12px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage id='layouts.landing.footer.tutorials' defaultMessage='Tutorials' />
             </Link>
-            <Link href='#' size='12px' weight={300} color='brand-primary' uppercase>
+            <Link href='https://blockchain.info/wallet/bitcoin-faq' size='12px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage id='layouts.landing.footer.learningportal' defaultMessage='Learning Portal' />
             </Link>
           </Column>
-
-          <DropdownContainer>
-            <DropdownLanguage color='brand-primary' />
-          </DropdownContainer>
+          <SettingColumn>
+            <DropdownContainer>
+              <DropdownLanguage color='brand-primary' />
+            </DropdownContainer>
+            <DropdownContainer>
+              <DropdownLanguage color='brand-primary' />
+            </DropdownContainer>
+            <TextGroup inline>
+              <Text size='12px' weight={600} color='brand-primary' uppercase>
+              Advanced view:
+            </Text>
+              <Link size='12px' weight={300} uppercase>
+              Enable
+            </Link>
+            </TextGroup>
+          </SettingColumn>
         </Top>
         <Bottom>
           <CopyrightContainer>
-            <Text size='10px' color='brand-primary' uppercase>
+            <Text size='10px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage id='layouts.landing.footer.copyright' defaultMessage='2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.' />
             </Text>
             <Link href='https://blockchain.com/privacy' target='_blank' size='10px' color='brand-primary' uppercase>
@@ -193,7 +223,17 @@ const Footer = () => {
             <Link href='https://blockchain.com/legal' target='_blank' size='10px' color='brand-primary' uppercase>
               <FormattedMessage id='layouts.landing.footer.enforcement' defaultMessage='Law enforcement guide' />
             </Link>
+            <Link href='https://blockchain.info/advertise' target='_blank' size='10px' color='brand-primary' uppercase>
+              <FormattedMessage id='layouts.landing.footer.advertise' defaultMessage='Advertise' />
+            </Link>
           </CopyrightContainer>
+          <SocialContainer>
+            <Image name='android' height='32px' />
+            <Image name='apple' height='32px' />
+            <Image name='twitter' height='32px' />
+            <Image name='linkedin' height='32px' />
+            <Image name='facebook' height='32px' />
+          </SocialContainer>
         </Bottom>
       </Navigation>
     </Wrapper>
