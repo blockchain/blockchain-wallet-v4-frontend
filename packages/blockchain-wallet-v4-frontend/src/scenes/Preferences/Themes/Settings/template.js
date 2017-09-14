@@ -4,21 +4,15 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { SelectBoxTheme } from 'components/Form'
+import { SettingWrapper } from 'components/Setting'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
-  width: 100%;
-`
 const Settings = (props) => {
   const { handleClick } = props
 
   return (
-    <Wrapper>
+    <SettingWrapper>
       <Field name='theme' component={SelectBoxTheme} callback={handleClick} />
-    </Wrapper>
+    </SettingWrapper>
   )
 }
 

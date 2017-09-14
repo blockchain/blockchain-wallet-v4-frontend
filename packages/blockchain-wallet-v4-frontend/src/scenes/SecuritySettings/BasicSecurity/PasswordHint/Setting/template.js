@@ -1,29 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
-import { SettingForm } from 'components/Setting'
+import { SettingForm, SettingWrapper } from 'components/Setting'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) {
-    align-items: flex-end;
-  }
-
-  & > * { padding: 10px 0; }
-`
 const Setting = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, currentHint } = props
   return (
-    <Wrapper>
+    <SettingWrapper>
       {currentHint &&
         <Text>{currentHint}</Text>
       }
@@ -46,7 +33,7 @@ const Setting = (props) => {
           </ButtonGroup>
         </SettingForm>
       }
-    </Wrapper>
+    </SettingWrapper>
   )
 }
 

@@ -1,22 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
-import { Form, NumberBox } from 'components/Form'
+import { NumberBox } from 'components/Form'
+import { SettingForm, SettingWrapper } from 'components/Setting'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) {
-    align-items: flex-end;
-  }
-`
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, logoutTime, submitting, invalid } = props
 
@@ -29,8 +19,8 @@ const Settings = (props) => {
 
   if (updateToggled) {
     return (
-      <Wrapper>
-        <Form>
+      <SettingWrapper>
+        <SettingForm>
           <Text size='14px' weight={300} leftAlign>
             <FormattedMessage id='scenes.preferences.autologout.settings.warning' defaultMessage='Auto Logout Time' />
           </Text>
@@ -43,19 +33,19 @@ const Settings = (props) => {
               <FormattedMessage id='scenes.preferences.autologout.settings.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
-        </Form>
-      </Wrapper>
+        </SettingForm>
+      </SettingWrapper>
     )
   } else {
     return (
-      <Wrapper>
+      <SettingWrapper>
         <Text>
           <FormattedMessage id='scenes.preferences.autologout.settings.minutes' defaultMessage='{time} minutes' values={{ time: logoutTime }} />
         </Text>
         <Button nature='secondary' onClick={handleToggle}>
           <FormattedMessage id='scenes.preferences.autologout.settings.updateform.change' defaultMessage='Change' />
         </Button>
-      </Wrapper>
+      </SettingWrapper>
     )
   }
 }

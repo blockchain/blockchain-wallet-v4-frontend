@@ -1,30 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
-import { SettingForm } from 'components/Setting'
+import { SettingForm, SettingWrapper } from 'components/Setting'
 import { validEmail } from 'services/FormHelper'
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) { align-items: flex-end; }
-
-  & > * { margin-bottom: 10px; }
-`
 
 const Settings = (props) => {
   const { updateToggled, verifyToggled, handleToggle, handleClick, handleResend, email, submitting, invalid } = props
 
   return (
-    <Wrapper>
+    <SettingWrapper>
       <Text>{email}</Text>
       <Button nature='secondary' onClick={handleToggle}>
         <FormattedMessage id='scenes.preferences.email.setting.updateform.change' defaultMessage='Change' />
@@ -60,7 +48,7 @@ const Settings = (props) => {
           </ButtonGroup>
         </SettingForm>
       }
-    </Wrapper>
+    </SettingWrapper>
   )
 }
 

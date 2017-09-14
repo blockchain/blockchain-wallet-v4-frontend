@@ -1,30 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { PasswordBox } from 'components/Form'
-import { SettingForm } from 'components/Setting'
+import { SettingForm, SettingWrapper } from 'components/Setting'
 import { validStrongPassword } from 'services/FormHelper'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) {
-    align-items: flex-end;
-  }
-
-  & > * { padding: 10px 0; }
-`
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, currentWalletPassword } = props
   return (
-    <Wrapper>
+    <SettingWrapper>
       <Button nature='secondary' onClick={handleToggle}>
         <FormattedMessage id='scenes.security.walletPassword.updateform.setwalletpassword' defaultMessage='Change' />
       </Button>
@@ -52,7 +39,7 @@ const Settings = (props) => {
           </ButtonGroup>
         </SettingForm>
       }
-    </Wrapper>
+    </SettingWrapper>
   )
 }
 

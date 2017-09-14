@@ -1,26 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { PasswordBox } from 'components/Form'
-import { SettingForm } from 'components/Setting'
+import { SettingForm, SettingWrapper } from 'components/Setting'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) { align-items: flex-end; }
-`
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, secondPasswordEnabled } = props
   if (secondPasswordEnabled) {
     return (
-      <Wrapper>
+      <SettingWrapper>
         <Button nature='secondary' onClick={handleToggle}>
           <FormattedMessage id='scenes.security.secondPassword.updateform.removesecondpassword' defaultMessage='Remove Second Password' />
         </Button>
@@ -40,11 +31,11 @@ const Settings = (props) => {
             </ButtonGroup>
           </SettingForm>
         }
-      </Wrapper>
+      </SettingWrapper>
     )
   } else {
     return (
-      <Wrapper>
+      <SettingWrapper>
         <Button nature='secondary' onClick={handleToggle}>
           <FormattedMessage id='scenes.security.secondPassword.updateform.setsecondpassword' defaultMessage='Set Second Password' />
         </Button>
@@ -71,7 +62,7 @@ const Settings = (props) => {
             </ButtonGroup>
           </SettingForm>
         }
-      </Wrapper>
+      </SettingWrapper>
     )
   }
 }

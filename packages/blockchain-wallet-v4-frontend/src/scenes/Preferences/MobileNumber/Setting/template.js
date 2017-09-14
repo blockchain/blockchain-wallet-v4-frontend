@@ -1,30 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { validMobileNumber, required } from 'services/FormHelper'
 import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components'
 import { PhoneNumberBox, TextBox } from 'components/Form'
-import { SettingForm } from 'components/Setting'
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) {  align-items: flex-end; }
-
-  & > * { margin-bottom: 10px; }
-`
+import { SettingForm, SettingWrapper } from 'components/Setting'
 
 const Setting = (props) => {
   const { updateToggled, verifyToggled, handleToggle, handleClick, handleResend, handleVerify, smsNumber, submitting, invalid } = props
 
   return (
-    <Wrapper>
+    <SettingWrapper>
       <Text>{smsNumber}</Text>
       <Button nature='secondary' onClick={handleToggle}>
         <FormattedMessage id='scenes.preferences.mobile.setting.updateform.change' defaultMessage='Change' />
@@ -71,7 +59,7 @@ const Setting = (props) => {
           </ButtonGroup>
         </SettingForm>
       }
-    </Wrapper>
+    </SettingWrapper>
   )
 }
 
