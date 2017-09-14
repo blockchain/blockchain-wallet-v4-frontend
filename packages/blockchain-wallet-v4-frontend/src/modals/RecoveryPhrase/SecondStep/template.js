@@ -70,7 +70,7 @@ const SecondStep = (props) => {
         <Link size='13px' weight={300} onClick={previousStep}>
           <FormattedMessage id='modals.recoveryphrase.secondstep.back' defaultMessage='Back' />
         </Link>
-        <Button nature='secondary' onClick={nextStep} disabled={index !== 11}>
+        <Button nature='primary' onClick={nextStep} disabled={index !== 11}>
           <FormattedMessage id='modals.recoveryphrase.secondstep.next' defaultMessage='Final step' />
         </Button>
       </ModalFooter>
