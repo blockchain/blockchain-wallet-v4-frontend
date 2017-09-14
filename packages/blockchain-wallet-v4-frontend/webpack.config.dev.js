@@ -115,6 +115,13 @@ module.exports = {
     new Webpack.NamedModulesPlugin(),
     new Webpack.HotModuleReplacementPlugin()
   ],
+  node: {
+    fs: 'empty',
+    dns: 'mock',
+    net: 'mock',
+    dgram: 'empty',
+    child_process: 'empty'
+  },
   devServer: {
     contentBase: PATHS.src,
     host: 'localhost',
@@ -141,6 +148,7 @@ module.exports = {
           'connect-src',
           "'self'",
           'ws://localhost:8080',
+          'ws://localhost:8081',
           'https://blockchain.info',
           'wss://ws.blockchain.info',
           'https://api.blockchain.info',
