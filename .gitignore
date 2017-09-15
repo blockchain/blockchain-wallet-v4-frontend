@@ -10,3 +10,10 @@ build
 .yarnclean
 yarn-error.log
 .vscode
+
+
+packages/bcoin/node_modules/
+packages/bcoin/docs/reference/
+packages/bcoin/docker_data/
+packages/bcoin/browser/bcoin*
+packages/bcoin/npm-debug.log
