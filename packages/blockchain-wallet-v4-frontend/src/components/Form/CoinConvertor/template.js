@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, NumberInput, Text } from 'blockchain-info-components'
+import { Error } from 'components/Form'
+import { Icon, NumberInput } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -43,13 +44,6 @@ const ArrowLeft = styled(Arrow)`
 const ArrowRight = styled(Arrow)`
   margin-left: -10px;
   margin-right: 5px;
-`
-const Error = styled(Text)`
-  position: absolute;
-  display: block;
-  top: -18px;
-  right: 0;
-  height: 15px;
 `
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')

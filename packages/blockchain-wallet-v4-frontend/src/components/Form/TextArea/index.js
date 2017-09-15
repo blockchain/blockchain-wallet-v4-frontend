@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Text, TextAreaInput } from 'blockchain-info-components'
+import { Error } from 'components/Form'
+import { TextAreaInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -12,13 +13,6 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   height: auto;
-`
-const Error = styled(Text)`
-  position: absolute;
-  display: block;
-  top: -18px;
-  right: 0;
-  height: 15px;
 `
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')

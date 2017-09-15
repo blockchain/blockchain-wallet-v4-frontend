@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Text, PasswordInput } from 'blockchain-info-components'
+import { Error } from 'components/Form'
+import { PasswordInput } from 'blockchain-info-components'
 import PasswordScore from './PasswordScore'
 
 const Container = styled.div`
@@ -13,13 +14,6 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 55px;
-`
-const Error = styled(Text)`
-  position: absolute;
-  display: block;
-  top: -18px;
-  right: 0;
-  height: 15px;
 `
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
