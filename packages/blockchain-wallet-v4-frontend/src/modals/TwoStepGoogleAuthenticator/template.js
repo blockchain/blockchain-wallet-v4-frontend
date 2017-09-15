@@ -8,14 +8,14 @@ import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from '
 import { Form, TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 
-const QRCodeContainer = styled.div`
+const QRCode = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
   width: 100%;
   padding: 30px 0;
 `
-const CodeContainer = styled.div`
+const Code = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -34,9 +34,9 @@ const TwoStepGoogleAuthenticator = (props) => {
         <FormattedMessage id='modals.twostepgoogleauthenticator.title' defaultMessage='Two Step - Google Authenticator' />
       </ModalHeader>
       <ModalBody>
-        <QRCodeContainer>
+        <QRCode>
           <QRCodeReact value={''} size={256} />
-        </QRCodeContainer>
+        </QRCode>
         <Form>
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.twostepgoogleauthenticator.explain' defaultMessage='Scan this QR code with your Google Authenticator app on your mobile phone (download for iOS or Android).' />
@@ -44,12 +44,12 @@ const TwoStepGoogleAuthenticator = (props) => {
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.twostepgoogleauthenticator.explain' defaultMessage='Once scanned you will be presented with a random 6 digit number.' />
           </Text>
-          <CodeContainer>
+          <Code>
             <Text size='14px' weight={300}>
               <FormattedMessage id='modals.twostepgoogleauthenticator.explain3' defaultMessage='Enter that number to finish the setup process:' />
             </Text>
             <Field name='code' component={TextBox} placeholder='XXXXXX' validate={[required]} />
-          </CodeContainer>
+          </Code>
         </Form>
       </ModalBody>
       <ModalFooter align='spaced'>

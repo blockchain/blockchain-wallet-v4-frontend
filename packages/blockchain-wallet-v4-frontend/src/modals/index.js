@@ -1,6 +1,8 @@
 import React from 'react'
 
 import AutoDisconnection from './AutoDisconnection'
+import MobileNumberChange from './MobileNumberChange'
+import MobileNumberVerify from './MobileNumberVerify'
 import PairingCode from './PairingCode'
 import QRCode from './QRCode'
 import QRCodeCapture from './QRCodeCapture'
@@ -10,12 +12,15 @@ import SecondPassword from './SecondPassword'
 import SendBitcoin from './SendBitcoin'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepMobile from './TwoStepMobile'
+import TwoStepSetup from './TwoStepSetup'
 import TwoStepVerification from './TwoStepVerification'
 import TwoStepYubico from './TwoStepYubico'
 
 const Modals = props => (
   <div>
     <AutoDisconnection />
+    <MobileNumberChange />
+    <MobileNumberVerify />
     <PairingCode />
     <QRCode />
     <QRCodeCapture />
@@ -25,6 +30,7 @@ const Modals = props => (
     <SendBitcoin />
     <TwoStepGoogleAuthenticator />
     <TwoStepMobile />
+    <TwoStepSetup />
     <TwoStepVerification />
     <TwoStepYubico />
   </div>

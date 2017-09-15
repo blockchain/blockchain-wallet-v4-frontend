@@ -10,11 +10,11 @@ export default (state = INITIAL_STATE, action) => {
       return []
     }
     case ALERTS_DISMISS: {
-      let { id } = action.payload
+      const { id } = action.payload
       return filter(a => a.id !== id, state)
     }
     case ALERTS_SHOW: {
-      let { type, message, id } = action.payload
+      const { type, message, id } = action.payload
       return prepend({ type, message, id }, state)
     }
     default: {

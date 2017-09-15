@@ -7,7 +7,7 @@ import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from '
 import { Form, TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 
-const CodeContainer = styled.div`
+const Code = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -38,19 +38,19 @@ const TwoStepMobile = (props) => {
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.twostepmobile.explain' defaultMessage='We have sent your mobile phone an SMS message with a verification code. ' />
           </Text>
-          <CodeContainer>
+          <Code>
             <Text size='14px' weight={300}>
               <FormattedMessage id='modals.twostepmobile.explain2' defaultMessage='Enter the code to verify your mobile phone number:' />
             </Text>
             <Field name='code' component={TextBox} placeholder='XXXXXX' validate={[required]} />
-          </CodeContainer>
+          </Code>
           <Options>
             <Link size='13px' weight={300}>
               <FormattedMessage id='modals.twostepmobile.resend' defaultMessage='Resend' />
             </Link>
             <Text size='13px' weight={300} color='brand-secondary'>|</Text>
             <Link size='13px' weight={300} capitalize>
-              <FormattedMessage id='modals.twostepmobile.update' defaultMessage='Update mobile number' />
+              <FormattedMessage id='modals.twostepmobile.change' defaultMessage='Change mobile number' />
             </Link>
           </Options>
         </Form>

@@ -4,27 +4,27 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import TwoStepVerification from './template.js'
+import TwoStepSetup from './template.js'
 
-class TwoStepVerificationContainer extends React.Component {
+class TwoStepSetupContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick (value) {
-    
+    this.props.modalActions.showModal(value)
   }
 
   render () {
     return (
-      <TwoStepVerification {...this.props} handleClick={this.handleClick} />
+      <TwoStepSetup {...this.props} handleClick={this.handleClick} />
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  
+  enabled: false
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -32,8 +32,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer('TwoStepVerification'),
+  modalEnhancer('TwoStepSetup'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 
-export default enhance(TwoStepVerificationContainer)
+export default enhance(TwoStepSetupContainer)

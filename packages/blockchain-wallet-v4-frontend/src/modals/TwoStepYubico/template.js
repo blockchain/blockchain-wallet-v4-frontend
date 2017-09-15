@@ -7,7 +7,7 @@ import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from '
 import { Form, TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 
-const CodeContainer = styled.div`
+const Code = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -27,12 +27,12 @@ const TwoStepYubico = (props) => {
       </ModalHeader>
       <ModalBody>
         <Form>
-          <CodeContainer>
+          <Code>
             <Text size='14px' weight={300}>
               <FormattedMessage id='modals.twostepyubico.explain' defaultMessage='Pair with your yubikey:' />
             </Text>
             <Field name='code' component={TextBox} placeholder='XXXXXX' validate={[required]} />
-          </CodeContainer>
+          </Code>
         </Form>
       </ModalBody>
       <ModalFooter align='spaced'>
