@@ -8,6 +8,10 @@ import RecoveryPhrase from './RecoveryPhrase'
 import RequestBitcoin from './RequestBitcoin'
 import SecondPassword from './SecondPassword'
 import SendBitcoin from './SendBitcoin'
+import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
+import TwoStepMobile from './TwoStepMobile'
+import TwoStepVerification from './TwoStepVerification'
+import TwoStepYubico from './TwoStepYubico'
 
 const Modals = props => (
   <div>
@@ -19,6 +23,10 @@ const Modals = props => (
     <RequestBitcoin />
     <SecondPassword />
     <SendBitcoin />
+    <TwoStepGoogleAuthenticator />
+    <TwoStepMobile />
+    <TwoStepVerification />
+    <TwoStepYubico />
   </div>
 )
 

@@ -12,7 +12,7 @@ const QRCodeContainer = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
-  width: 100;
+  width: 100%;
   padding: 30px 0;
 `
 

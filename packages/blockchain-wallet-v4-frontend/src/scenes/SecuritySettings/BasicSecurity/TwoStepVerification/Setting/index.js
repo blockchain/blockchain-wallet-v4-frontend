@@ -13,7 +13,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.modalActions.showModal('2FA')
+    this.props.modalActions.showModal('TwoStepVerification')
   }
 
   render () {
