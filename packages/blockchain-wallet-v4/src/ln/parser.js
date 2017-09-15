@@ -14,7 +14,9 @@ function Parser (options) {
 
   EventEmitter.call(this)
 
-  this.network = bcoin.network.get(options.network)
+  console.info('bcoin is: '+bcoin + ' network is '+options.network)
+
+  this.network = options.network
   console.info('parser setup network ', this.network)
 
   this.pending = []

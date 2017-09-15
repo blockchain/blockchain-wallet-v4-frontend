@@ -3,7 +3,6 @@
 import Connection from 'blockchain-wallet-v4/src/ln/connection'
 
 var EventEmitter = require('events').EventEmitter
-var bcoin = require('bcoin/lib/bcoin-browser')
 var utils = require('bcoin/lib/utils')
 var Parser = require('./parser')
 var Framer = require('./framer')
@@ -12,7 +11,7 @@ function Peer (staticLocal, staticRemote, network) {
   var self = this
   EventEmitter.call(this)
 
-  this.network = network || bcoin.network.get()
+  this.network = network
   this.conn = new Connection(staticLocal, staticRemote)
   this.parser = new Parser({network: 'testnet'})
   this.framer = new Framer({network: 'testnet'})

@@ -105,8 +105,7 @@ Connection.prototype._onConnect = function _onConnect () {
   this.readRaw(50, (data) => {
     this.readHandshakePart2(data)
     this.sendHandshakePart3()
-
-    this.write(Buffer.alloc(100))
+    console.info('Handshake completed with ' + this.staticRemote.pub.toString('hex'))
   })
 }
 

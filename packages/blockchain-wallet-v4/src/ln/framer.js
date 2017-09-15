@@ -18,7 +18,7 @@ function Framer (options) {
 
   this.options = options
 
-  this.network = bcoin.network.get(options.network)
+  this.network = options.network
 }
 
 /**
