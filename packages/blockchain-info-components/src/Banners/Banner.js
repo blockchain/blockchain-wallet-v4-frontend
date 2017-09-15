@@ -22,7 +22,7 @@ const Container = styled.div`
 
 const selectStyle = type => {
   switch (type) {
-    case 'success': return { color: 'success', uppercase: false, icon: 'success' }
+    case 'success': return { color: 'success', uppercase: false, icon: 'checkmark-in-circle' }
     case 'warning': return { color: 'error', uppercase: true, icon: 'alert' }
     case 'alert': return { color: 'brand-secondary', uppercase: false, icon: 'bell' }
     default: return { color: 'brand-secondary', uppercase: false, icon: null }
@@ -36,7 +36,7 @@ const Banner = props => {
 
   return (
     <Container color={color}>
-      { icon && <Icon name={icon} size='12px' weight={400} color={color} /> }
+      { icon && <Icon name={icon} size='12px' weight={700} color={color} /> }
       <Text size='12px' weight={400} color={color} uppercase={uppercase}>
         { children }
       </Text>
