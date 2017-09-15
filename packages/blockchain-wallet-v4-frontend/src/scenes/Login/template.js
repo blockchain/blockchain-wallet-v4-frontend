@@ -37,7 +37,7 @@ const Footer = styled.div`
 `
 
 const Login = (props) => {
-  const { handleSubmit, handleTrezor, submitting, invalid } = props
+  const { handleSubmit, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -82,9 +82,6 @@ const Login = (props) => {
         <Field name='password' validate={[required]} component={PasswordBox} />
         <Button nature='primary' type='submit' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
-        </Button>
-        <Button nature='secondary' fullwidth uppercase onClick={handleTrezor}>
-          <FormattedMessage id='scenes.login.trezor' defaultMessage='Trezor' />
         </Button>
       </Form>
       <Footer>

@@ -10,7 +10,6 @@ class LoginContainer extends React.Component {
   constructor () {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleTrezor = this.handleTrezor.bind(this)
   }
 
   handleSubmit (event) {
@@ -18,14 +17,9 @@ class LoginContainer extends React.Component {
     this.props.authActions.loginStart({ guid: this.props.guid, password: this.props.password })
   }
 
-  handleTrezor (event) {
-    event.preventDefault()
-    this.props.coreActions.createTrezorWallet(0)
-  }
-
   render () {
     return (
-      <Login handleSubmit={this.handleSubmit} handleTrezor={this.handleTrezor} />
+      <Login handleSubmit={this.handleSubmit} />
     )
   }
 }
