@@ -10,14 +10,10 @@ import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
 
 // Register store
-let configureStorePayload = configureStore()
-if (module.hot) { module.hot.accept('store', () => { configureStorePayload = require('store').default() }) }
-const { store, history } = configureStorePayload
+const { store, history } = configureStore()
 
 // Register locales
-let configureLocalesPayload = configureLocales(store)
-if (module.hot) { module.hot.accept('services/LocalesService', () => { configureLocalesPayload = require('services/LocalesService').default(store) }) }
-const { messages } = configureLocalesPayload
+const { messages } = configureLocales(store)
 
 // Documentation: https://github.com/gaearon/react-hot-loader/tree/master/docs
 const render = Component => {
