@@ -11,7 +11,7 @@ class LoginContainer extends React.Component {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleTrezor = this.handleTrezor.bind(this)
-    this.openQRCodeCapture = this.openQRCodeCapture.bind(this)
+    this.openMobileLogin = this.openMobileLogin.bind(this)
   }
 
   handleSubmit (event) {
@@ -24,8 +24,8 @@ class LoginContainer extends React.Component {
     this.props.coreActions.createTrezorWallet(0)
   }
 
-  openQRCodeCapture () {
-    this.props.modalActions.showModal('QRCodeCapture')
+  openMobileLogin () {
+    this.props.modalActions.showModal('MobileLogin')
   }
 
   render () {
@@ -33,7 +33,7 @@ class LoginContainer extends React.Component {
       <Login
         handleSubmit={this.handleSubmit}
         handleTrezor={this.handleTrezor}
-        openQRCodeCapture={this.openQRCodeCapture} />
+        openMobileLogin={this.openMobileLogin} />
     )
   }
 }

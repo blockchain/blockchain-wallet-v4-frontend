@@ -13,6 +13,47 @@ import * as AT from './actionTypes'
 // =========================== QrCodeCapture modal =============================
 // =============================================================================
 
+const mobileLoginSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+
+  if (data) {
+    // const decodedData = bip21.decode(data)
+    // const address = decodedData.address
+    // const amount = decodedData.options.amount
+    // const message = decodedData.options.message
+
+    // if (isNil(address)) {
+    //   yield put(actions.alerts.displayError('An error occured when capturing the QRCode.'))
+    //   return
+    // }
+
+    // yield put(reduxFormActions.change('sendBitcoin', 'to', address))
+
+    // if (!isNil(amount)) {
+    //   // const unit = yield select(selectors.core.settings.getBtcCurrency)
+    //   // TODO: conversion here FFS
+    //   yield put(reduxFormActions.change('sendBitcoin', 'amount', amount))
+    // }
+
+    // if (!isNil(message)) {
+    //   yield put(reduxFormActions.change('sendBitcoin', 'message', message))
+    // }
+
+    yield put(actions.modals.closeModal())
+  }
+}
+
+const mobileLoginError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+  yield put(actions.modals.closeModal())
+}
+
+// =============================================================================
+// =========================== QrCodeCapture modal =============================
+// =============================================================================
+
 const qrCodeCaptureSuccess = function * (action) {
   const { payload } = action
   const { data } = payload
@@ -145,6 +186,8 @@ const updateBitcoinUnitError = function * (action) {
 // =============================== EXPORT ======================================
 
 function * sagas () {
+  yield takeEvery(AT.MOBILE_LOGIN_SUCCESS, mobileLoginSuccess)
+  yield takeEvery(AT.MOBILE_LOGIN_ERROR, mobileLoginError)
   yield takeEvery(AT.QRCODE_CAPTURE_SUCCESS, qrCodeCaptureSuccess)
   yield takeEvery(AT.QRCODE_CAPTURE_ERROR, qrCodeCaptureError)
   yield takeEvery(actionTypes.core.settings.REQUEST_PAIRING_CODE_SUCCESS, requestPairingCodeSuccess)

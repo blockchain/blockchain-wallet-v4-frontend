@@ -9,7 +9,7 @@ import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { Form, PasswordBox, TextBox } from 'components/Form'
 import Modals from 'modals'
-import QRCodeCapture from 'modals/QRCodeCapture'
+import MobileLogin from 'modals/MobileLogin'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -39,11 +39,11 @@ const Footer = styled.div`
 `
 
 const Login = (props) => {
-  const { handleSubmit, handleTrezor, submitting, invalid, openQRCodeCapture } = props
+  const { handleSubmit, handleTrezor, submitting, invalid, openMobileLogin } = props
   return (
     <Wrapper>
       <Modals>
-        <QRCodeCapture />
+        <MobileLogin />
       </Modals>
       <Header>
         <Text size='24px' weight={300} capitalize>
@@ -92,7 +92,7 @@ const Login = (props) => {
         </Button>
       </Form>
       <Footer>
-        <Link size='13px' weight={300} onClick={openQRCodeCapture}>
+        <Link size='13px' weight={300} onClick={openMobileLogin}>
           <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via mobile' />
         </Link>
         <TextGroup inline>
