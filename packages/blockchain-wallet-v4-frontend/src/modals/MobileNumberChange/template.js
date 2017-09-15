@@ -57,4 +57,4 @@ MobileNumberChange.propTypes = {
   handleUpdate: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'changeMobileNumber' })(MobileNumberChange)
+export default reduxForm({ form: 'mobileNumberChange' })(MobileNumberChange)

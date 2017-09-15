@@ -12,11 +12,12 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    const { smsNumber, smsVerified } = this.props
-    if (!smsNumber || smsVerified) {
-      this.props.modalActions.showModal('ChangeMobileNumber')
+    const { smsNumber, smsVerified, modalActions } = this.props
+
+    if (!smsVerified && smsNumber) {
+      modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumber })
     } else {
-      this.props.modalActions.showModal('VerifyMobileNumber', { mobileNumber: smsNumber })
+      modalActions.showModal('MobileNumberChange')
     }
   }
 

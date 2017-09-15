@@ -47,7 +47,7 @@ class MobileNumberVerifyContainer extends React.Component {
 const mapStateToProps = (state) => ({
   guid: selectors.core.wallet.getGuid(state),
   sharedKey: selectors.core.wallet.getSharedKey(state),
-  code: formValueSelector('verifyMobileNumber')(state, 'code'),
+  code: formValueSelector('mobileNumberVerify')(state, 'code'),
   payload: PropTypes.shape({
     mobileNumber: PropTypes.string.isRequired
   }).isRequired
@@ -59,7 +59,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer('VerifyMobileNumber'),
+  modalEnhancer('MobileNumberVerify'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

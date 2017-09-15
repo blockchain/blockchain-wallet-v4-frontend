@@ -76,4 +76,4 @@ MobileNumberVerify.propTypes = {
   handleVerify: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'verifyMobileNumber' })(MobileNumberVerify)
+export default reduxForm({ form: 'mobileNumberVerify' })(MobileNumberVerify)
