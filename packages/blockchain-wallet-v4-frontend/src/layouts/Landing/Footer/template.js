@@ -20,7 +20,7 @@ const Navigation = styled(Container)`
 const Top = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: stretch;
   width: 100%;
 
@@ -33,8 +33,9 @@ const Top = styled.div`
 const Bottom = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
+  padding-top: 30px;
   width: 100%;
 `
 const Logo = styled(Image)`
@@ -54,8 +55,9 @@ const Column = styled.div`
 `
 
 const SubcolumnWrapper = styled(Top)`
+  border-top: 0.5px solid ${props => props.theme['brand-primary']};
   & > * {
-    padding-right: 20px;
+    padding-right: 10px;
   }
 
   & > :last-child {
@@ -65,37 +67,28 @@ const SubcolumnWrapper = styled(Top)`
 
 const SettingColumn = styled(Column)`
   align-items: flex-end;
+  padding-top: 20px;
 `
 
 const DropdownContainer = styled.div`
   display: flex;
   font-size: 12px;
-  padding: 5px 0;
   font-weight: 300;
 `
 const CopyrightContainer = styled.div`
-  text-align: left;
-  padding: 30px 0;
-
-  & > div, a {
-    display: inline-block;
-    padding: 0 10px;
-  }
-`
-const SectionTitle = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   width: 100%;
-  border-bottom: 0.5px solid ${props => props.theme['brand-primary']};
 `
+
+const SectionTitle = styled(Text)``
 
 const SocialContainer = styled.div`
-  align-items: flex-end;
+  display: flex;
+  align-items: stretch;
   justify-content: flex-end;
-  padding: 15px 0;
-
-  & > * {
-    display: inline-block;
-    padding: 0 5px;
-  }
+  flex-wrap: nowrap;
 `
 
 const Footer = () => {
@@ -182,15 +175,19 @@ const Footer = () => {
             <SectionTitle size='12px' weight={600} color='brand-primary' uppercase>
               <FormattedMessage id='layouts.landing.footer.support' defaultMessage='Support' />
             </SectionTitle>
-            <Link href='https://support.blockchain.com/hc/' size='12px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='layouts.landing.footer.helpcenter' defaultMessage='Help Center' />
-            </Link>
-            <Link href='https://blog.blockchain.com/category/tutorials-and-guides/' size='12px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='layouts.landing.footer.tutorials' defaultMessage='Tutorials' />
-            </Link>
-            <Link href='https://blockchain.info/wallet/bitcoin-faq' size='12px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='layouts.landing.footer.learningportal' defaultMessage='Learning Portal' />
-            </Link>
+            <SubcolumnWrapper>
+              <Column>
+                <Link href='https://support.blockchain.com/hc/' size='12px' weight={300} color='brand-primary' uppercase>
+                  <FormattedMessage id='layouts.landing.footer.helpcenter' defaultMessage='Help Center' />
+                </Link>
+                <Link href='https://blog.blockchain.com/category/tutorials-and-guides/' size='12px' weight={300} color='brand-primary' uppercase>
+                  <FormattedMessage id='layouts.landing.footer.tutorials' defaultMessage='Tutorials' />
+                </Link>
+                <Link href='https://blockchain.info/wallet/bitcoin-faq' size='12px' weight={300} color='brand-primary' uppercase>
+                  <FormattedMessage id='layouts.landing.footer.learningportal' defaultMessage='Learning Portal' />
+                </Link>
+              </Column>
+            </SubcolumnWrapper>
           </Column>
           <SettingColumn>
             <DropdownContainer>
@@ -228,11 +225,21 @@ const Footer = () => {
             </Link>
           </CopyrightContainer>
           <SocialContainer>
-            <Image name='android' height='32px' />
-            <Image name='apple' height='32px' />
-            <Image name='twitter' height='32px' />
-            <Image name='linkedin' height='32px' />
-            <Image name='facebook' height='32px' />
+            <Link href='https://play.google.com/store/apps/details?id=piuk.blockchain.android&hl=en' target='_blank'>
+              <Image name='android' height='32px' />
+            </Link>
+            <Link href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309?mt=8' target='_blank'>
+              <Image name='apple' height='32px' />
+            </Link>
+            <Link href='https://twitter.com/blockchain' target='_blank'>
+              <Image name='twitter' height='32px' />
+            </Link>
+            <Link href='https://www.linkedin.com/company/blockchain' target='_blank'>
+              <Image name='linkedin' height='32px' />
+            </Link>
+            <Link href='https://www.facebook.com/blockchain/' target='_blank'>
+              <Image name='facebook' height='32px' />
+            </Link>
           </SocialContainer>
         </Bottom>
       </Navigation>
