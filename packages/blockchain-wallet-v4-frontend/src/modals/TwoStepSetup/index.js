@@ -40,7 +40,7 @@ class TwoStepSetupContainer extends React.Component {
         {...this.props}
         handleGoogleAuthenticator={this.handleGoogleAuthenticator}
         handleMobile={this.handleMobile}
-        handleYubikey={this.handleYubikey}
+        handleYubico={this.handleYubico}
       />
     )
   }

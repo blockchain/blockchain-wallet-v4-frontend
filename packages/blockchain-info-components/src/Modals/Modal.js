@@ -8,22 +8,23 @@ const ModalBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
+  display: ${props => props.isLast ? 'flex' : 'none'};
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  background-color: ${props => props.isLast ? props.theme['halftransparentgrey'] : 'transparent'};
-  z-index: ${props => props.position + 1040};
+  background-color: ${props => props.theme['halftransparentgrey']};
+  z-index: 1400;
 
   @media(min-width: 768px) { align-items: center; }
 `
 
 const BaseModal = styled.div`
+  display: ${props => props.isLast ? 'block' : 'none'};
   position: relative;
-  width: calc(100% - ${props => (props.position - 1) * 20}px);
+  width: 100%;
   margin-top: 60px;
-  z-index: ${props => props.position + 1041};
-  background-color: ${props => props.isLast ? props.theme['white'] : props.theme['gray-1']};
+  z-index: 1041;
+  background-color: ${props => props.theme['white']};
 
   @media(min-width: 768px) {
     width: ${props => props.width};
@@ -33,11 +34,11 @@ const BaseModal = styled.div`
 
 const selectWidth = (size, position) => {
   switch (size) {
-    case 'small': return `${400 - ((position - 1) * 20)}px`
-    case 'medium': return `${500 - ((position - 1) * 20)}px`
-    case 'large': return `${600 - ((position - 1) * 20)}px`
-    case 'xlarge': return `${800 - ((position - 1) * 20)}px`
-    default: return `${1000 - ((position - 1) * 20)}px`
+    case 'small': return '400px'
+    case 'medium': return '500px'
+    case 'large': return '600px'
+    case 'xlarge': return '800px'
+    default: return '1000px'
   }
 }
 

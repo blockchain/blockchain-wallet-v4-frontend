@@ -36,7 +36,7 @@ const Container = styled.div`
 
 const TwoStepSetup = (props) => {
   const { position, total, close, closeAll, ...rest } = props
-  const { handleClick, handleGoogleAuthenticator, handleMobile, handleYubico, enabled } = rest
+  const { handleGoogleAuthenticator, handleMobile, handleYubico, enabled } = rest
 
   return enabled ? (
     <Modal size='large' position={position} total={total}>
