@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga'
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
-import { prop, assoc } from 'ramda'
+import { prop, assoc, isNil } from 'ramda'
 import Either from 'data.either'
 
 import * as AT from './actionTypes'
@@ -89,7 +89,46 @@ const logout = function * () {
   window.location.reload(true)
 }
 
+// =============================================================================
+// ============================ MobileLogin modal = =============================
+// =============================================================================
+
+const mobileLoginSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+
+  if (data) {
+    const [version, guid, encrypted] = data.split('|');
+    const passphrase = yield call(api.getPairingPassword, guid)
+    console.log(passphrase)
+    // const guid = decodedData.guid
+    // const password = decodedData.password
+    // const sharedKey = decodedData.sharedKey
+
+    // console.log(guid)
+    // console.log(password)
+    // console.log(sharedKey)
+
+    if (isNil(guid)) {
+      yield put(actions.alerts.displayError('An error occured when capturing the QRCode.'))
+      return
+    }
+
+    // fetchWalletSaga(guid, sharedKey, undefined, password)
+
+    yield put(actions.modals.closeModal())
+  }
+}
+
+const mobileLoginError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+  yield put(actions.modals.closeModal())
+}
+
 function * sagas () {
+  yield takeEvery(AT.MOBILE_LOGIN_SUCCESS, mobileLoginSuccess)
+  yield takeEvery(AT.MOBILE_LOGIN_ERROR, mobileLoginError)
   yield takeEvery(AT.LOGIN_START, login)
   yield takeEvery(AT.LOGOUT_START, logout)
   yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_SUCCESS, trezor)

@@ -13,9 +13,9 @@ class MobileLoginContainer extends React.Component {
     this.handleError = this.handleError.bind(this)
   }
 
-  handleScan (result) { if (result) this.props.interactivityActions.mobileLoginSuccess(result) }
+  handleScan (result) { if (result) this.props.authActions.mobileLoginSuccess(result) }
 
-  handleError (error) { this.props.interactivityActions.mobileLoginError(error) }
+  handleError (error) { this.props.authActions.mobileLoginError(error) }
 
   render () {
     return (
@@ -30,7 +30,7 @@ class MobileLoginContainer extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  interactivityActions: bindActionCreators(actions.interactivity, dispatch)
+  authActions: bindActionCreators(actions.auth, dispatch)
 })
 
 const enhance = compose(

@@ -111,7 +111,7 @@ const Login = (props) => {
 }
 
 Login.propTypes = {
-  openQRCodeCapture: PropTypes.func.isRequired
+  openMobileLogin: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'loginForm' })(Login)
