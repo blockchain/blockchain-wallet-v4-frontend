@@ -14,7 +14,7 @@ const Settings = (props) => {
   return (
     <SettingWrapper>
       <Text>{email}</Text>
-      <Button nature='secondary' onClick={handleToggle}>
+      <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.preferences.email.setting.updateform.change' defaultMessage='Change' />
       </Button>
       {updateToggled &&
@@ -27,7 +27,7 @@ const Settings = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.preferences.email.setting.updateform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.preferences.email.setting.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
@@ -42,7 +42,7 @@ const Settings = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.preferences.email.setting.verifyform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' onClick={handleResend} capitalize>
+            <Button nature='primary' onClick={handleResend} capitalize>
               <FormattedMessage id='scenes.preferences.email.setting.verifyform.resend' defaultMessage='Resend' />
             </Button>
           </ButtonGroup>

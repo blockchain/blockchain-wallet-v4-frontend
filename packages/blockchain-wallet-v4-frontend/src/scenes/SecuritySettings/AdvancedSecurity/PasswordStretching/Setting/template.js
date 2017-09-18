@@ -15,7 +15,7 @@ const Setting = (props) => {
       {currentStretch &&
         <Text>{currentStretch}</Text>
       }
-      <Button nature='secondary' onClick={handleToggle}>
+      <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.security.passwordStretching.updateform.setpasswordStretching' defaultMessage='Change' />
       </Button>
       {updateToggled &&
@@ -28,7 +28,7 @@ const Setting = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.security.passwordStretching.updateform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.security.passwordStretching.updateform.save' defaultMessage='Change' />
             </Button>
           </ButtonGroup>

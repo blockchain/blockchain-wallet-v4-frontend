@@ -57,14 +57,14 @@ const Header = (props) => {
         <ButtonNav>
           <NavbarNavItem>
             <NavLink to='/login'>
-              <Button nature='primary' uppercase rounded>
+              <Button nature='secondary' uppercase rounded>
                 <FormattedMessage id='layouts.landing.header.login' defaultMessage='Log in' />
               </Button>
             </NavLink>
           </NavbarNavItem>
           <NavbarNavItem>
             <NavLink to='/register'>
-              <Button nature='secondary' uppercase rounded>
+              <Button nature='primary' uppercase rounded>
                 <FormattedMessage id='layouts.landing.header.signup' defaultMessage='Sign up' />
               </Button>
             </NavLink>

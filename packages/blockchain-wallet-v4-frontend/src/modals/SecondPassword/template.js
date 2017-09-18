@@ -23,7 +23,7 @@ const SecondPassword = (props) => {
           <Form>
             <Field name='secondPassword' component={PasswordBox} />
           </Form>
-          <Button nature='secondary' fullwidth onClick={() => handleClick(secondPassword)} validate={[required]}>
+          <Button nature='primary' fullwidth onClick={() => handleClick(secondPassword)} validate={[required]}>
             <FormattedMessage id='modals.secondpassword.confirm' defaultMessage='Confirm' />
           </Button>
         </Form>

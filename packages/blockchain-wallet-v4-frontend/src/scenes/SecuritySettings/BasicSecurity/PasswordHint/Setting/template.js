@@ -14,7 +14,7 @@ const Setting = (props) => {
       {currentHint &&
         <Text>{currentHint}</Text>
       }
-      <Button nature='secondary' onClick={handleToggle}>
+      <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.security.passwordHint.updateform.setpasswordHint' defaultMessage='Change' />
       </Button>
       {updateToggled &&
@@ -27,7 +27,7 @@ const Setting = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.security.passwordHint.updateform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.security.passwordHint.updateform.save' defaultMessage='Change' />
             </Button>
           </ButtonGroup>

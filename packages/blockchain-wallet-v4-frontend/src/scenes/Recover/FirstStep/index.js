@@ -58,7 +58,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.recover.firststep.passphrase_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
         </Text>
         <Field name='passphrase' validate={[required, validMmemonic]} component={TextBox} />
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
           <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
         </Button>
       </Form>

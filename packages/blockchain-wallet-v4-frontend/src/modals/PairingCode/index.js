@@ -30,7 +30,7 @@ const PairingCode = (props) => {
         </QRCodeContainer>
       </ModalBody>
       <ModalFooter>
-        <Button nature='secondary' fullwidth onClick={close}>
+        <Button nature='primary' fullwidth onClick={close}>
           <FormattedMessage id='modals.pairingcode.close' defaultMessage='Close' />
         </Button>
       </ModalFooter>

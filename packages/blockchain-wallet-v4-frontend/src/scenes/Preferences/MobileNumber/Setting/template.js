@@ -14,7 +14,7 @@ const Setting = (props) => {
   return (
     <SettingWrapper>
       <Text>{smsNumber}</Text>
-      <Button nature='secondary' onClick={handleToggle}>
+      <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.preferences.mobile.setting.updateform.change' defaultMessage='Change' />
       </Button>
       { updateToggled &&
@@ -32,7 +32,7 @@ const Setting = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.preferences.mobile.setting.updateform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.preferences.mobile.setting.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
@@ -53,7 +53,7 @@ const Setting = (props) => {
             <Button nature='empty' onClick={handleResend} capitalize>
               <FormattedMessage id='scenes.preferences.mobile.setting.verifyform.resend' defaultMessage='Resend' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleVerify}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleVerify}>
               <FormattedMessage id='scenes.preferences.mobile.setting.verifyform.verify' defaultMessage='Verify' />
             </Button>
           </ButtonGroup>

@@ -43,7 +43,7 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.requestbitcoin.firststep.description' defaultMessage='Description:' />
           </Text>
           <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" />
-          <Button nature='secondary' fullwidth uppercase onClick={nextStep} disabled={submitting || invalid}>
+          <Button nature='primary' fullwidth uppercase onClick={nextStep} disabled={submitting || invalid}>
             <FormattedMessage id='modals.requestbitcoin.firststep.next' defaultMessage='Next' />
           </Button>
         </Form>
