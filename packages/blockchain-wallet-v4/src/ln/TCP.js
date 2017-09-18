@@ -93,7 +93,7 @@ class TCP {
 
   onClose () {
     for (const key of Object.keys(connections)) {
-      key.onClose()
+      connections[key].onClose()
     }
     connections = undefined
   }
