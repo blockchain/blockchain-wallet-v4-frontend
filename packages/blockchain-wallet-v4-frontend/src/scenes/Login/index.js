@@ -15,8 +15,8 @@ class LoginContainer extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    const { guid, password, authType } = this.props
-    this.props.authActions.loginStart({ guid, password, payload: authType })
+    const { guid, password, code } = this.props
+    this.props.authActions.loginStart({ guid, password, code })
   }
 
   handleTrezor (event) {
@@ -36,6 +36,7 @@ class LoginContainer extends React.Component {
 const mapStateToProps = (state) => ({
   guid: formValueSelector('loginForm')(state, 'guid'),
   password: formValueSelector('loginForm')(state, 'password'),
+  code: formValueSelector('loginForm')(state, 'code'),
   authType: selectors.auth.getAuthType(state)
 })
 

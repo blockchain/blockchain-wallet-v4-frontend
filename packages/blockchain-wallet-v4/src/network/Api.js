@@ -86,6 +86,19 @@ const createApi = ({
     // const data = { guid, method: 'wallet.aes.json', format: 'json' }
     // return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data, extraHeaders })
   }
+
+  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) => {
+    const extraHeaders = { sessionToken }
+    const data = {
+      guid,
+      payload: twoFactorCode,
+      length: twoFactorCode.length,
+      method: 'get-wallet',
+      format: 'plain'
+    }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data, extraHeaders })
+  }
+
   // savePayload :: (data) -> Promise JSON
   const savePayload = (data) => {
     const config = { method: 'update', format: 'plain' }
@@ -287,6 +300,7 @@ const createApi = ({
 
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
+    fetchPayloadWithTwoFactorAuth: future(fetchPayloadWithTwoFactorAuth),
     savePayload: future(savePayload),
     createPayload: future(createPayload),
     fetchBlockchainData: future(fetchBlockchainData),

@@ -22,9 +22,9 @@ const pollingSaga = function * (session, n = 50) {
   return yield call(pollingSaga, session, n - 1)
 }
 
-const fetchWalletSaga = function * (guid, sharedKey, session, password) {
+const fetchWalletSaga = function * (guid, sharedKey, session, password, code) {
   try {
-    let wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password)
+    const wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password, code)
     yield put(actions.core.wallet.setWrapper(wrapper))
     const context = yield select(selectors.core.wallet.getWalletContext)
     yield put(actions.core.common.fetchBlockchainData(context))
@@ -60,16 +60,16 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
 }
 
 const login = function * (action) {
-  const credentials = action.payload
+  const { guid, sharedKey, password, code } = action.payload
   // login with shared key
-  if (credentials.sharedKey) {
-    yield call(fetchWalletSaga, credentials.guid, credentials.sharedKey, undefined, credentials.password)
+  if (sharedKey) {
+    yield call(fetchWalletSaga, guid, sharedKey, undefined, password, undefined)
   } else {
     try {
-      let session = yield select(selectors.auth.getSession(credentials.guid))
+      let session = yield select(selectors.auth.getSession(guid))
       session = yield call(api.establishSession, session)  // establishSession logic should not receive existent session as parameter
-      yield put(actions.auth.saveSession(assoc(credentials.guid, session, {})))
-      yield call(fetchWalletSaga, credentials.guid, undefined, session, credentials.password)
+      yield put(actions.auth.saveSession(assoc(guid, session, {})))
+      yield call(fetchWalletSaga, guid, undefined, session, password, code)
     } catch (e) {
       yield put(actions.alerts.displayError('Error establishing the session'))
     }

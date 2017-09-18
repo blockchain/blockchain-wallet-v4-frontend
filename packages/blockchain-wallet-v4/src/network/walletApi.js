@@ -34,13 +34,26 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
       .chain(eitherToTask)
 
   const fetchWalletWithSession = compose(taskToPromise, fetchWalletWithSessionTask)
+
   // ////////////////////////////////////////////////////////////////
-  const fetchWallet = (guid, sharedKey, session, password) => {
+  const fetchWalletWithTwoFactorTask = (guid, session, password, twoFactorCode) =>
+    promiseToTask(ApiPromise.fetchPayloadWithTwoFactorAuth)(guid, session, twoFactorCode)
+      .map(Wrapper.fromEncJSON(password))
+      .chain(eitherToTask)
+
+  const fetchWalletWithTwoFactor = compose(taskToPromise, fetchWalletWithTwoFactorTask)
+
+  // ////////////////////////////////////////////////////////////////
+  const fetchWallet = (guid, sharedKey, session, password, twoFactorCode) => {
     if (sharedKey) {
       return fetchWalletWithSharedKey(guid, sharedKey, password)
     }
     if (session) {
-      return fetchWalletWithSession(guid, session, password)
+      if (twoFactorCode) {
+        return fetchWalletWithTwoFactor(guid, session, password, twoFactorCode)
+      } else {
+        return fetchWalletWithSession(guid, session, password)
+      }
     }
     return Promise.reject(new Error('MISSING_CREDENTIALS'))
   }
@@ -85,6 +98,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
     ...Api,
     fetchWalletWithSharedKey: future(fetchWalletWithSharedKey),
     fetchWalletWithSession: future(fetchWalletWithSession),
+    fetchWalletWithTwoFactor: future(fetchWalletWithTwoFactorTask),
     fetchWallet: future(fetchWallet),
     saveWallet: future(saveWallet),
     createWallet: future(createWallet),
