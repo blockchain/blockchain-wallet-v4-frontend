@@ -1,16 +1,10 @@
 'use strict'
 
-import TCP from 'blockchain-wallet-v4/src/ln/TCP'
-import { sha256 } from '../WalletCrypto/index'
-
-var EventEmitter = require('events').EventEmitter
-var bcoin = require('bcoin/lib/bcoin-browser')
-var ec = require('bcoin/lib/crypto/secp256k1-browser')
-var utils = require('bcoin/lib/utils/util')
-var crypto = require('bcoin/lib/crypto')
-var hkdf = require('bcoin/lib/crypto/hkdf')
-var assert = require('assert')
-var AEAD = require('bcoin/lib/crypto/aead')
+let ec = require('bcoin/lib/crypto/secp256k1-browser')
+let crypto = require('bcoin/lib/crypto')
+let hkdf = require('bcoin/lib/crypto/hkdf')
+let assert = require('assert')
+let AEAD = require('bcoin/lib/crypto/aead')
 
 /**
  * Lightning Connection
@@ -18,12 +12,10 @@ var AEAD = require('bcoin/lib/crypto/aead')
  */
 const handshakeVersion = Buffer.from('00', 'hex')
 
-function Connection (staticLocal, staticRemote) {
+function Connection (options, staticRemote) {
   if (!(this instanceof Connection)) { return new Connection() }
 
-  EventEmitter.call(this)
-
-  this.staticLocal = staticLocal
+  this.staticLocal = options.staticLocal
   this.staticRemote = staticRemote
 
   // Handshake data
@@ -61,42 +53,43 @@ function Connection (staticLocal, staticRemote) {
   this.total = 0
   this.waiting = 2
   this.hasSize = false
-}
 
-utils.inherits(Connection, EventEmitter)
+  // Callback functions
+  this.onHandshakeCb = null
+  this.onMessage = null
+}
 
 Connection.prototype.error = function error (err) {
-  this.emit('error', new Error(err))
+  console.error(err)
+  throw err
 }
 
-Connection.prototype.connect = function connect () {
-  var self = this
+Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb, onMessageCb, onCloseCb) {
+  let self = this
+
+  this.tcp = tcp
+
+  this.onHandshakeCb = onHandshakeCb
+  this.onMessage = onMessageCb
 
   let onConnect = () => {
+    onConnectCb()
     self._onConnect()
-  }
-
-  let onClose = () => {
-    self.emit('error', 'Connection closed')
   }
 
   let onData = (data) => {
     self.feed(data)
   }
 
-  let t = new TCP()
-  t.connectToMaster(() => {
-    t.connectToNode(
-      '127.0.0.1:8080',
-      () => {
-        console.info(t)
-        t.connectToNode(this.staticRemote.pub.toString('base64'), onConnect, onData, onClose)
-      },
-      (data) => console.info('msg ', data),
-      () => console.info('closed')
-    )
-  })
-  this.conn = t
+  let onClose = () => {
+    // clean up
+    this.authed = false
+    onCloseCb()
+  }
+
+  tcp.connectToNode(this.staticRemote.pub.toString('base64'), onConnect, onData, onClose)
+
+  this.tcp = tcp
 }
 
 Connection.prototype._onConnect = function _onConnect () {
@@ -106,6 +99,7 @@ Connection.prototype._onConnect = function _onConnect () {
     this.readHandshakePart2(data)
     this.sendHandshakePart3()
     console.info('Handshake completed with ' + this.staticRemote.pub.toString('hex'))
+    this.onHandshakeCb()
   })
 }
 
@@ -121,7 +115,7 @@ Connection.prototype.sendHandshakePart1 = function () {
   this._appendToHash(this.staticRemote.pub)
   this._appendToHash(this.tempLocal.pub)
 
-  var ss = crypto.sha256(ec.ecdh(this.staticRemote.pub, this.tempLocal.priv))
+  let ss = crypto.sha256(ec.ecdh(this.staticRemote.pub, this.tempLocal.priv))
 
   console.debug('ss = 0x' + ss.toString('hex'))
   console.debug('ck = 0x' + this.ck.toString('hex'))
@@ -130,12 +124,12 @@ Connection.prototype.sendHandshakePart1 = function () {
   this.ck = hkdfResult.p1
   this.temp_k1 = hkdfResult.p2
 
-  var c = encryptAEAD(this.temp_k1, this.h)
+  let c = encryptAEAD(this.temp_k1, this.h)
   console.info('c = 0x' + c.toString('hex'))
 
   this._appendToHash(c)
 
-  var packet = Buffer.concat([handshakeVersion, this.tempLocal.pub, c])
+  let packet = Buffer.concat([handshakeVersion, this.tempLocal.pub, c])
 
   this.writeRaw(packet)
 }
@@ -201,7 +195,7 @@ Connection.prototype.sendHandshakePart3 = function () {
   this.sn = 0
   this.authed = true
 
-  var packet = Buffer.concat([handshakeVersion, c, t])
+  let packet = Buffer.concat([handshakeVersion, c, t])
 
   this.writeRaw(packet)
 }
@@ -248,10 +242,10 @@ const encryptAEAD = function (key, ad, nonce = 0, data = Buffer.allocUnsafe(0)) 
 }
 
 Connection.prototype.writeClear = function writeClear (payload) {
-  var packet = Buffer.alloc(2 + payload.length)
+  let packet = Buffer.alloc(2 + payload.length)
   packet.writeUInt16BE(payload.length, 0, true)
   payload.copy(packet, 2)
-  this.conn.sendToNode(this.staticRemote.pub, packet)
+  this.tcp.sendToNode(this.staticRemote.pub, packet)
 }
 
 Connection.prototype.readClear = function readClear (size, callback) {
@@ -259,7 +253,7 @@ Connection.prototype.readClear = function readClear (size, callback) {
 }
 
 Connection.prototype.writeRaw = function writeRaw (data) {
-  this.conn.sendToNode(this.staticRemote.pub, data)
+  this.tcp.sendToNode(this.staticRemote.pub, data)
 }
 
 Connection.prototype.readRaw = function readRaw (size, callback) {
@@ -269,7 +263,7 @@ Connection.prototype.readRaw = function readRaw (size, callback) {
 }
 
 Connection.prototype.feed = function feed (data) {
-  var chunk
+  let chunk
 
   console.info('feed called with length ' + data.length + ' waiting: ' + this.waiting)
 
@@ -283,7 +277,7 @@ Connection.prototype.feed = function feed (data) {
 }
 
 Connection.prototype.read = function read (size) {
-  var pending, chunk, off, len
+  let pending, chunk, off, len
 
   assert(this.total >= size, 'Reading too much.')
 
@@ -323,7 +317,7 @@ Connection.prototype.read = function read (size) {
 }
 
 Connection.prototype.parse = function parse (data) {
-  var size, payload, tag, item
+  let size, payload, tag, item
 
   console.info('Received data: ' + data.toString('hex'))
 
@@ -343,7 +337,6 @@ Connection.prototype.parse = function parse (data) {
       if (size < 12) {
         this.waiting = 2
         console.info('bad packet size')
-        // this.emit('error', new Error('Bad packet size.'))
         return
       }
 
@@ -362,8 +355,6 @@ Connection.prototype.parse = function parse (data) {
       item.callback.call(this, data)
       return
     }
-
-    this.emit('data', data)
 
     return
   }
@@ -404,7 +395,7 @@ Connection.prototype.parse = function parse (data) {
   this.local.decrypt(payload)
   this.local.sequence()
 
-  this.emit('data', payload)
+  this.onMessage(payload)
 }
 
 Connection.prototype.encryptOut = function (payload) {

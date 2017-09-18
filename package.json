@@ -9,5 +9,9 @@
   "devDependencies": {
     "lerna": "^2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "eslint": "^4.7.0",
+    "eslint-plugin-react": "^7.3.0",
+    "react-hot-loader": "^3.0.0-beta.7"
+  }
 }

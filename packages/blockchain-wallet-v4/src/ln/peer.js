@@ -1,42 +1,29 @@
 'use strict'
 
-import Connection from 'blockchain-wallet-v4/src/ln/connection'
+import Connection from './connection'
 
-var EventEmitter = require('events').EventEmitter
-var utils = require('bcoin/lib/utils')
 var Parser = require('./parser')
 var Framer = require('./framer')
 
-function Peer (staticLocal, staticRemote, network) {
+function Peer (options, tcp, staticRemote) {
   var self = this
-  EventEmitter.call(this)
 
-  this.network = network
-  this.conn = new Connection(staticLocal, staticRemote)
-  this.parser = new Parser({network: 'testnet'})
-  this.framer = new Framer({network: 'testnet'})
+  this.options = options
+  this.framer = new Framer(options)
+  this.parser = new Parser(options)
 
-  this.conn.on('connect', function () {
-    self.emit('connect')
-  })
-
-  this.conn.on('data', function (data) {
-    self.parser.feed(data)
-  })
-
-  this.conn.on('error', function (err) {
-    self.emit('error', err)
-  })
+  this.conn = new Connection(options, staticRemote)
+  this.conn.connect(
+    tcp,
+    () => { console.log('connected!') },
+    () => { console.log('handshake completed!') },
+    (data) => { this.parser.feed(data) },
+    () => { console.log('closed!') }
+  )
 
   this.parser.on('packet', function (msg) {
     self.emit('packet', msg)
   })
-}
-
-// utils.inherits(Peer, EventEmitter)
-
-Peer.prototype.connect = function connect () {
-  this.conn.connect()
 }
 
 Peer.prototype.send = function send (msg) {
@@ -48,7 +35,7 @@ Peer.prototype.frame = function frame (cmd, payload) {
 }
 
 Peer.prototype.write = function write (cmd, payload) {
-  return this.conn.write(this.frame(cmd, payload))
+  return this.tcp.write(this.frame(cmd, payload))
 }
 
 export default Peer

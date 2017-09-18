@@ -63,8 +63,8 @@ In the eclair.log it will display a public key, similar to this
 The hex string needs to be set in 
 
 ```
-blockchain-wallet-v4-frontend/packages/blockchain-wallet-v4-frontend/src/index.js
-25:staticRemote.pub = Buffer.from('022a72195e7eaf2f032fef55114ba026f573e34f7606edb3089d5189a0b2a368cd', 'hex')
+packages/blockchain-wallet-v4/src/ln/index.js
+8:    connect(options, tcp, '022a72195e7eaf2f032fef55114ba026f573e34f7606edb3089d5189a0b2a368cd')
 ```
 
 in later versions, there will be a discovery service that the wallet can talk to, in order to discover which nodes exists. The proxy service will also have a directory in order to establish connections to public keys. 
