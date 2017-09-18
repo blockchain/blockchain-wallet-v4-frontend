@@ -33,8 +33,14 @@ Furthermore, you need to setup bitcoind node and eclair (a Scala implementation 
 ```
 wget https://bitcoin.org/bin/bitcoin-core-0.14.2/bitcoin-0.14.2-osx64.tar.gz bitcoind.tar.gz
 tar -xvzf bitcoind.tar.gz
-./bitcoind/bin/bitcoind -daemon -conf=/Users/matsjerratsch/GitHub/ln/blockchain-wallet-v4-frontend/bitcoind.conf
+./bitcoind/bin/bitcoind --regtest --daemon -conf=/Users/matsjerratsch/GitHub/ln/blockchain-wallet-v4-frontend/bitcoind.conf
+./bitcoin-0.14.2/bin/bitcoin-cli -conf='/Users/matsjerratsch/GitHub/ln/blockchain-wallet-v4-frontend/bitcoin.conf' generate 150
+./bitcoin-0.14.2/bin/bitcoin-cli -conf='/Users/matsjerratsch/GitHub/ln/blockchain-wallet-v4-frontend/bitcoin.conf' getinfo
 ```
+
+This has started up bitcoind in `regtest` mode. In this mode, you can generate blocks
+ with `generate` command, it will not create any outbound connections, it's
+ very convenient for debugging and local development.
 
 ```
 mkdir eclair
