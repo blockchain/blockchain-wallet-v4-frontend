@@ -30,7 +30,15 @@ function Connection (options, staticRemote) {
   this.e = null
   this.s = null
 
+  // Queue for handshake
+  this.readQueue = []
+  this.readCallback = null
+  this.pending = []
+  this.total = 0
+  this.waiting = 2
+
   // Key for sending and receiving
+  this.authed = false
   this.sk = null
   this.rk = null
 
@@ -38,21 +46,10 @@ function Connection (options, staticRemote) {
   this.rn = 0
   this.sn = 0
 
-  this.authed = false
-  this.local = null
-  this.remote = null
-  this.viaPBX = false
-  this.pbxIncoming = null
-  this.pbxOutgoing = null
-  this.version = 0
-  this.socket = null
-
-  this.readQueue = []
-  this.readCallback = null
-  this.pending = []
-  this.total = 0
-  this.waiting = 2
   this.hasSize = false
+  this.sizeBuffer = Buffer.alloc(0)
+  this.size = 0
+  this.dataBuffer = Buffer.alloc(0)
 
   // Callback functions
   this.onHandshakeCb = null
@@ -74,7 +71,7 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
 
   let onConnect = () => {
     onConnectCb()
-    self._onConnect()
+    self.sendHandshakePart1()
   }
 
   let onData = (data) => {
@@ -90,17 +87,6 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
   tcp.connectToNode(this.staticRemote.pub.toString('base64'), onConnect, onData, onClose)
 
   this.tcp = tcp
-}
-
-Connection.prototype._onConnect = function _onConnect () {
-  this.sendHandshakePart1()
-
-  this.readRaw(50, (data) => {
-    this.readHandshakePart2(data)
-    this.sendHandshakePart3()
-    console.info('Handshake completed with ' + this.staticRemote.pub.toString('hex'))
-    this.onHandshakeCb()
-  })
 }
 
 Connection.prototype.sendHandshakePart1 = function () {
@@ -241,167 +227,101 @@ const encryptAEAD = function (key, ad, nonce = 0, data = Buffer.allocUnsafe(0)) 
   return result
 }
 
-Connection.prototype.writeClear = function writeClear (payload) {
-  let packet = Buffer.alloc(2 + payload.length)
-  packet.writeUInt16BE(payload.length, 0, true)
-  payload.copy(packet, 2)
-  this.tcp.sendToNode(this.staticRemote.pub, packet)
-}
+const decryptAEAD = function (key, ad, nonce, data, tag) {
+  let tempData = Buffer.from(data)
+  let tempAEAD = new AEAD()
 
-Connection.prototype.readClear = function readClear (size, callback) {
-  this.readQueue.push(new QueuedRead(size, callback))
-}
+  let iv = Buffer.allocUnsafe(12)
+  iv.fill(0)
+  iv.writeUIntLE(nonce, 4, 8, false)
 
-Connection.prototype.writeRaw = function writeRaw (data) {
-  this.tcp.sendToNode(this.staticRemote.pub, data)
-}
+  tempAEAD.init(key, iv)
 
-Connection.prototype.readRaw = function readRaw (size, callback) {
-  assert(!this.hasSize)
-  this.waiting = size
-  this.readCallback = callback
+  tempAEAD.aad(ad)
+  tempAEAD.auth(tempData)
+
+  let hmac = tempAEAD.finish()
+  let result = Buffer.compare(hmac, tag)
+  let decrypted = tempAEAD.decrypt(data)
+
+  console.info(`decryptAEAD 
+  (${key.toString('hex')}, ${ad.toString('hex')}, ${iv.toString('hex')}, ${data.toString('hex')}, ${tag.toString('hex')})
+        = (${result}, ${decrypted.toString('hex')})`)
+
+  if (result !== 0) {
+    throw new Error('HMAC not correct')
+  }
+
+  return decrypted
 }
 
 Connection.prototype.feed = function feed (data) {
-  let chunk
-
-  console.info('feed called with length ' + data.length + ' waiting: ' + this.waiting)
-
-  this.total += data.length
-  this.pending.push(data)
-
-  while (this.total >= this.waiting) {
-    chunk = this.read(this.waiting)
-    this.parse(chunk)
-  }
-}
-
-Connection.prototype.read = function read (size) {
-  let pending, chunk, off, len
-
-  assert(this.total >= size, 'Reading too much.')
-
-  if (size === 0) { return Buffer.alloc(0) }
-
-  pending = this.pending[0]
-
-  if (pending.length > size) {
-    chunk = pending.slice(0, size)
-    this.pending[0] = pending.slice(size)
-    this.total -= chunk.length
-    return chunk
-  }
-
-  if (pending.length === size) {
-    chunk = this.pending.shift()
-    this.total -= chunk.length
-    return chunk
-  }
-
-  chunk = Buffer.alloc(size)
-  off = 0
-  len = 0
-
-  while (off < chunk.length) {
-    pending = this.pending[0]
-    len = pending.copy(chunk, off)
-    if (len === pending.length) { this.pending.shift() } else { this.pending[0] = pending.slice(len) }
-    off += len
-  }
-
-  assert.equal(off, chunk.length)
-
-  this.total -= chunk.length
-
-  return chunk
-}
-
-Connection.prototype.parse = function parse (data) {
-  let size, payload, tag, item
-
   console.info('Received data: ' + data.toString('hex'))
 
   if (!this.authed) {
-    if (this.readCallback) {
-      this.hasSize = false
-      this.waiting = 2
-      item = this.readCallback
-      this.readCallback = null
-      item.call(this, data)
+    if (data.length !== 50) {
+      console.error('Invalid handshake length')
+      // TODO close and error
       return
     }
 
+    this.readHandshakePart2(data)
+    this.sendHandshakePart3()
+    console.info('Handshake completed with ' + this.staticRemote.pub.toString('hex'))
+    this.onHandshakeCb()
+
+    return
+  }
+
+  // Not sure how to handle corrupted bytes - for now we just fail the connection completely
+  this.dataBuffer = Buffer.concat([this.dataBuffer, data])
+
+  // Loop as long as there are enough bytes in dataBuffer for more messages
+  // TODO try catch block to fail connection on corrupted bytes
+  while (true) {
+    if (!this.hasSize && this.dataBuffer.size() < 18) {
+      return
+    }
+
+    // The handshake is already complete - retrieve the size and the payload
     if (!this.hasSize) {
-      size = data.readUInt16BE(0, true)
+      let sizeBuffer = this.dataBuffer.slice(0, 2)
+      let sizeTag = this.dataBuffer.slice(2, 18)
 
-      if (size < 12) {
-        this.waiting = 2
-        console.info('bad packet size')
-        return
-      }
-
+      this.size = this.decryptIn(sizeBuffer, sizeTag)
       this.hasSize = true
-      this.waiting = size
 
+      this.dataBuffer = this.dataBuffer.slice(18)
+    }
+
+    if (this.dataBuffer.size() < (this.size + 16)) {
       return
     }
 
+    let encryptedData = this.dataBuffer.slice(0, this.size)
+    let encryptedTag = this.dataBuffer.slice(this.size, this.size + 16)
+
+    let decryptedData = this.decryptIn(encryptedData, encryptedTag)
+
+    // Re-initialise our fields after completely retrieving a full message
+    this.dataBuffer = this.dataBuffer.slice(this.size + 16)
+    this.size = 0
     this.hasSize = false
-    this.waiting = 2
 
-    if (this.readQueue.length > 0) {
-      item = this.readQueue.shift()
-      if (item.size !== data.length) { return this.error('Bad packet size.') }
-      item.callback.call(this, data)
-      return
-    }
-
-    return
+    this.onMessage(decryptedData)
   }
-
-  if (!this.hasSize) {
-    size = this.local.decryptSize(data)
-
-    if (size < 2) {
-      this.waiting = 2
-      this.error('Bad packet size.')
-      return
-    }
-
-    this.hasSize = true
-    this.waiting = size
-
-    return
-  }
-
-  payload = data.slice(0, this.waiting - 16)
-  tag = data.slice(this.waiting - 16, this.waiting)
-
-  this.hasSize = false
-  this.waiting = 2
-
-  // Authenticate payload before decrypting.
-  // This ensures the cipher state isn't altered
-  // if the payload integrity has been compromised.
-  this.local.auth(payload)
-  this.local.finish()
-
-  if (!this.local.verify(tag)) {
-    this.local.sequence()
-    this.error('Bad tag.')
-    return
-  }
-
-  this.local.decrypt(payload)
-  this.local.sequence()
-
-  this.onMessage(payload)
 }
 
 Connection.prototype.encryptOut = function (payload) {
   let encrypted = encryptAEAD(this.sk, Buffer.alloc(0), this.sn, payload)
   this.sn++
   return encrypted
+}
+
+Connection.prototype.decryptIn = function (payload, tag) {
+  let decrypted = decryptAEAD(this.sk, Buffer.alloc(0), this.sn, payload, tag)
+  this.sn++
+  return decrypted
 }
 
 Connection.prototype.write = function (payload) {
@@ -416,13 +336,8 @@ Connection.prototype.write = function (payload) {
   this.writeRaw(Buffer.concat([sizeEncrypted, dataEncrypted]))
 }
 
-/*
- * Helpers
- */
-
-function QueuedRead (size, callback) {
-  this.size = size
-  this.callback = callback
+Connection.prototype.writeRaw = function writeRaw (data) {
+  this.tcp.sendToNode(this.staticRemote.pub, data)
 }
 
 export default Connection
