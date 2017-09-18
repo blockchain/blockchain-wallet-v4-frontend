@@ -63,3 +63,11 @@ export const updateBlockTorIpsError = message => ({ type: AT.UPDATE_BLOCK_TOR_IP
 export const updateHint = (guid, sharedKey, hint) => ({ type: AT.UPDATE_HINT, payload: { guid, sharedKey, hint } })
 export const updateHintSuccess = (hint, data) => ({ type: AT.UPDATE_HINT_SUCCESS, payload: { hint, data } })
 export const updateHintError = message => ({ type: AT.UPDATE_HINT_ERROR, payload: message })
+
+export const updateAuthType = (guid, sharedKey, authType) => ({ type: AT.UPDATE_AUTH_TYPE, payload: { guid, sharedKey, authType } })
+export const updateAuthTypeSuccess = (authType, data) => ({ type: AT.UPDATE_AUTH_TYPE_SUCCESS, payload: { authType, data } })
+export const updateAuthTypeError = message => ({ type: AT.UPDATE_AUTH_TYPE_ERROR, payload: message })
+
+export const updateAuthTypeNeverSave = (guid, sharedKey, authTypeNeverSave) => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE, payload: { guid, sharedKey, authTypeNeverSave } })
+export const updateAuthTypeNeverSaveSuccess = (authTypeNeverSave, data) => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE_SUCCESS, payload: { authTypeNeverSave, data } })
+export const updateAuthTypeNeverSaveError = message => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE_ERROR, payload: message })

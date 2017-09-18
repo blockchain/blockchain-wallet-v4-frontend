@@ -11,7 +11,7 @@ class TwoStepVerificationContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  isTwoStepVerificationEnabled: true
+  authType: selectors.core.settings.getAuthType(state)
 })
 
 export default connect(mapStateToProps)(TwoStepVerificationContainer)

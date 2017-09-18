@@ -190,6 +190,30 @@ const updateBlockTorIpsError = function * (action) {
   yield put(actions.alerts.displayError(action.payload))
 }
 
+// =============================================================================
+// ================================ Auth Type ==================================
+// =============================================================================
+const updateAuthTypeSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateAuthTypeError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// =========================== Auth Type Never Save ============================
+// =============================================================================
+const updateAuthTypeNeverSaveSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateAuthTypeNeverSaveError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
 // =============================== EXPORT ======================================
 
 function * sagas () {
@@ -217,6 +241,10 @@ function * sagas () {
   yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ON_ERROR, updateIpLockOnError)
   yield takeEvery(actionTypes.core.settings.UPDATE_BLOCK_TOR_IPS_SUCCESS, updateBlockTorIpsSuccess)
   yield takeEvery(actionTypes.core.settings.UPDATE_BLOCK_TOR_IPS_ERROR, updateBlockTorIpsError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_SUCCESS, updateAuthTypeSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_ERROR, updateAuthTypeError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_NEVER_SAVE_SUCCESS, updateAuthTypeNeverSaveSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_NEVER_SAVE_ERROR, updateAuthTypeNeverSaveError)
 }
 
 export default sagas

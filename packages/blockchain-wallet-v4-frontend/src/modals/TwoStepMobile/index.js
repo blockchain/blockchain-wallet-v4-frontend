@@ -10,7 +10,7 @@ class TwoStepMobileContainer extends React.Component {
   }
 
   handleClick () {
-
+    
   }
 
   render () {

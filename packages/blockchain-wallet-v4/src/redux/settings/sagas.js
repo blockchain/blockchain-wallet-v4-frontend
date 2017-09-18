@@ -181,7 +181,7 @@ export const settingsSaga = ({ api } = {}) => {
       yield put(actions.updateBlockTorIpsError(error))
     }
   }
-  
+
   const updateHint = function * (action) {
     try {
       const { guid, sharedKey, hint } = action.payload
@@ -193,6 +193,34 @@ export const settingsSaga = ({ api } = {}) => {
       }
     } catch (error) {
       yield put(actions.updateHintError(error))
+    }
+  }
+
+  const updateAuthType = function * (action) {
+    try {
+      const { guid, sharedKey, authType } = action.payload
+      const response = yield call(api.updateAuthType, guid, sharedKey, authType)
+      if (contains('Updated Password Hint', response)) {
+        yield put(actions.updateAuthTypeSuccess(authType, response))
+      } else {
+        yield put(actions.updateAuthTypeError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateAuthTypeError(error))
+    }
+  }
+
+  const updateAuthTypeNeverSave = function * (action) {
+    try {
+      const { guid, sharedKey, authTypeNeverSave } = action.payload
+      const response = yield call(api.updateAuthTypeNeverSave, guid, sharedKey, authTypeNeverSave)
+      if (contains('Success', response)) {
+        yield put(actions.updateAuthTypeNeverSaveSuccess(authTypeNeverSave ? 1 : 0, response))
+      } else {
+        yield put(actions.updateAuthTypeNeverSaveError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateAuthTypeNeverSaveError(error))
     }
   }
 
@@ -211,5 +239,7 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
     yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
     yield takeEvery(AT.UPDATE_HINT, updateHint)
+    yield takeEvery(AT.UPDATE_AUTH_TYPE, updateAuthType)
+    yield takeEvery(AT.UPDATE_AUTH_TYPE_NEVER_SAVE, updateAuthTypeNeverSave)
   }
 }

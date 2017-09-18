@@ -23,15 +23,19 @@ class TwoStepSetupContainer extends React.Component {
   }
 
   handleMobile () {
-    const { smsNumber, smsVerified, alertActions, modalActions } = this.props
+    const { smsNumber, smsVerified, guid, sharedKey } = this.props
 
     if (!smsNumber) {
-      modalActions.showModal('MobileNumberChange')
+      this.props.modalActions.showModal('MobileNumberChange')
     } else if (!smsVerified) {
-      modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumber })
+      this.props.modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumber })
     } else {
-      alertActions.displaySuccess('Two Step Verification (Mobile) has been enabled.')
+      this.props.settingsActions.updateAuthType(guid, sharedKey, 5)
     }
+  }
+
+  handleDisable () {
+
   }
 
   render () {
@@ -47,14 +51,17 @@ class TwoStepSetupContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  enabled: false,
+  guid: selectors.core.wallet.getGuid(state),
+  sharedKey: selectors.core.wallet.getSharedKey(state),
+  authType: selectors.core.settings.getAuthType(state),
   smsNumber: selectors.core.settings.getSmsNumber(state),
   smsVerified: selectors.core.settings.getSmsVerified(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 const enhance = compose(

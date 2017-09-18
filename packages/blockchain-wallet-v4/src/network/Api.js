@@ -272,6 +272,16 @@ const createApi = ({
 
   const updateHint = (guid, sharedKey, hint) => updateSettings(guid, sharedKey, 'update-password-hint1', hint)
 
+  // 0: 2FA Disabled
+  // 1: 2FA Yubikey
+  // 2: 2FA Email
+  // 3: ????
+  // 4: 2FA Google Authenticator
+  // 5: 2FA SMS
+  const updateAuthType = (guid, sharedKey, authType) => updateSettings(guid, sharedKey, 'update-auth-type', authType)
+
+  const updateAuthTypeNeverSave = (guid, sharedKey, authTypeNeverSave) => updateSettings(guid, sharedKey, 'update-never-save-auth-type', authTypeNeverSave)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     savePayload: future(savePayload),
@@ -309,7 +319,9 @@ const createApi = ({
     updateIpLock: future(updateIpLock),
     updateIpLockOn: future(updateIpLockOn),
     updateBlockTorIps: future(updateBlockTorIps),
-    updateHint: future(updateHint)
+    updateHint: future(updateHint),
+    updateAuthType: future(updateAuthType),
+    updateAuthTypeNeverSave: future(updateAuthTypeNeverSave)
   }
 }
 

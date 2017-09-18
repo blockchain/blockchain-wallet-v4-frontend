@@ -38,21 +38,21 @@ const MobileNumberVerify = (props) => {
       <ModalBody>
         <Form>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.mobilenumberchange.explain3' defaultMessage='We have sent to {number} an SMS message with a verification code.' values={{ number: mobileNumber }} />
+            <FormattedMessage id='modals.mobilenumberverify.explain' defaultMessage='We have sent to {number} an SMS message with a verification code.' values={{ number: mobileNumber }} />
           </Text>
           <Code>
             <Text size='14px' weight={300}>
-              <FormattedMessage id='modals.mobilenumberchange.explain4' defaultMessage='Verification code :' />
+              <FormattedMessage id='modals.mobilenumberverify.explain2' defaultMessage='Verification code :' />
             </Text>
             <Field name='code' validate={[required]} component={TextBox} />
           </Code>
           <Options>
             <Link size='13px' weight={300} onClick={handleResend}>
-              <FormattedMessage id='modals.mobilenumberchange.resend' defaultMessage='Resend' />
+              <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage='Resend' />
             </Link>
             <Text size='13px' weight={300} color='brand-secondary'>|</Text>
             <Link size='13px' weight={300} capitalize onClick={handleChangeMobileNumber}>
-              <FormattedMessage id='modals.mobilenumberchange.change' defaultMessage='Change mobile number' />
+              <FormattedMessage id='modals.mobilenumberverify.change' defaultMessage='Change mobile number' />
             </Link>
           </Options>
         </Form>

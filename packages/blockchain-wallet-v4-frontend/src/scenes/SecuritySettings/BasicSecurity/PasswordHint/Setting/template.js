@@ -11,13 +11,11 @@ const Setting = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, currentHint } = props
   return (
     <SettingWrapper>
-      {currentHint &&
-        <Text>{currentHint}</Text>
-      }
+      { currentHint && <Text>{currentHint || ''}</Text> }
       <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.security.passwordHint.updateform.setpasswordHint' defaultMessage='Change' />
       </Button>
-      {updateToggled &&
+      { updateToggled &&
         <SettingForm>
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.security.passwordHint.label' defaultMessage='Password Hint' />

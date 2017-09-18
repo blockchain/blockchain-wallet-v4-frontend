@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Image, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Image, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,9 +36,9 @@ const Container = styled.div`
 
 const TwoStepSetup = (props) => {
   const { position, total, close, closeAll, ...rest } = props
-  const { handleGoogleAuthenticator, handleMobile, handleYubico, enabled } = rest
+  const { handleGoogleAuthenticator, handleMobile, handleYubico, authType } = rest
 
-  return enabled ? (
+  return authType === 0 ? (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='settings' onClose={closeAll} >
         <FormattedMessage id='modals.twostepsetup.title1' defaultMessage='Disabled Two Step' />
@@ -48,10 +48,13 @@ const TwoStepSetup = (props) => {
           <FormattedMessage id='modals.twostepsetup' defaultMessage='Are you sure to disable two step authentication ?' />
         </Text>
       </ModalBody>
-      <ModalFooter>
+      <ModalFooter align='spaced'>
         <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage id='modals.twostepsetup.cancel' defaultMessage='Cancel' />
         </Link>
+        <Button type='logout'>
+          <FormattedMessage id='modals.twostepsetup.disable' defaultMessage='Disable' />
+        </Button>
       </ModalFooter>
     </Modal>
   ) : (

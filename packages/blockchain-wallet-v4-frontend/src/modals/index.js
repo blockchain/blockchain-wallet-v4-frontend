@@ -13,7 +13,6 @@ import SendBitcoin from './SendBitcoin'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepMobile from './TwoStepMobile'
 import TwoStepSetup from './TwoStepSetup'
-import TwoStepVerification from './TwoStepVerification'
 import TwoStepYubico from './TwoStepYubico'
 
 const Modals = props => (
@@ -31,7 +30,6 @@ const Modals = props => (
     <TwoStepGoogleAuthenticator />
     <TwoStepMobile />
     <TwoStepSetup />
-    <TwoStepVerification />
     <TwoStepYubico />
   </div>
 )

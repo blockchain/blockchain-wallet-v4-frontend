@@ -80,6 +80,14 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       const { hint } = payload
       return Object.assign({}, state, { password_hint1: hint })
     }
+    case AT.UPDATE_AUTH_TYPE_SUCCESS: {
+      const { authType } = payload
+      return Object.assign({}, state, { auth_type: authType })
+    }
+    case AT.UPDATE_AUTH_TYPE_NEVER_SAVE_SUCCESS: {
+      const { authTypeNeverSave } = payload
+      return Object.assign({}, state, { never_save_auth_type: authTypeNeverSave })
+    }
     default:
       return state
   }
