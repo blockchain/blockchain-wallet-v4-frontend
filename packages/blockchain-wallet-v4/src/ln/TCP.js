@@ -50,8 +50,6 @@ class TCP {
       try {
         this.pingIntervalPID = setInterval(this.ping.bind(this), this.pingInterval)
         this.socket = new WS(this.wsUrl)
-        console.log('OPENED')
-        console.log(this.socket)
 
         this.socket.on('open', onOpen)
         this.socket.on('message', this.onMessage.bind(this))
@@ -82,8 +80,9 @@ class TCP {
 
   ping () {
     this.send(TCP.pingMessage())
-    let close = this.close.bind(this)
-    this.pingTimeoutPID = setTimeout(compose(this.reconnect, close), this.pingTimeout)
+    // TODO this closes and reconnects the whole websocket every 30s - ask Jaume how this is supposed to work
+    // let close = this.close.bind(this)
+    // this.pingTimeoutPID = setTimeout(compose(this.reconnect, close), this.pingTimeout)
   }
 
   onPong (msg) {
