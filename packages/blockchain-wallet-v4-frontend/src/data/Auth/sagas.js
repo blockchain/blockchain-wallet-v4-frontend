@@ -114,7 +114,7 @@ const decode = (data, passphrase) => {
     }
   }
 
-  const decryptData = o => crypto.decryptDataWithPasswordSync(o.encrypted, passphrase, 10)
+  const decryptData = object => crypto.decryptDataWithPasswordSync(object.encrypted, passphrase, 10)
 
   const getCredentials = decoded => {
     const [sharedKey, passwordHex] = decoded.split('|')
@@ -138,24 +138,29 @@ const mobileLoginSuccess = function * (action) {
   const { payload } = action
   const { data } = payload
 
-  if (data) {
-    const [version, guid, encrypted] = data.split('|')
-    const passphrase = yield call(api.getPairingPassword, guid)
+  try {
+    if (data) {
+      const [version, guid, encrypted] = data.split('|')
+      const passphrase = yield call(api.getPairingPassword, guid)
 
-    const credentialsE = decode(data, passphrase)
-    if (credentialsE.isRight) {
-      const { sharedKey, password } = credentialsE.value
-      yield call(fetchWalletSaga, guid, sharedKey, undefined, password)
+      const credentialsE = decode(data, passphrase)
+      if (credentialsE.isRight) {
+        const { sharedKey, password } = credentialsE.value
+        yield call(fetchWalletSaga, guid, sharedKey, undefined, password)
+      } else {
+        yield put(actions.alerts.displayError('An error occured while decoding the QR code'))
+      }
+
+      if (isNil(guid)) {
+        yield put(actions.alerts.displayError('An error occured when capturing the QRCode.'))
+        return
+      }
+      yield put(actions.modals.closeModal())
     } else {
-      console.log('Your QRCode is not right.')
+      yield put(actions.alerts.displayError('Cannot find QR code data.'))
     }
-
-    if (isNil(guid)) {
-      yield put(actions.alerts.displayError('An error occured when capturing the QRCode.'))
-      return
-    }
-
-    yield put(actions.modals.closeModal())
+  } catch (error) {
+    yield put(actions.alerts.displayError('Error logging in via mobile: invalid QR code'))
   }
 }
 
