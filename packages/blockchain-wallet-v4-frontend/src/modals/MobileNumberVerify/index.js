@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
@@ -16,6 +15,10 @@ class MobileNumberVerifyContainer extends React.Component {
     this.handleVerify = this.handleVerify.bind(this)
   }
 
+  componentDidMount () {
+    this.handleResend()
+  }
+
   handleResend () {
     const { guid, sharedKey, mobileNumber } = this.props
     this.props.settingsActions.updateMobile(guid, sharedKey, mobileNumber)
@@ -29,7 +32,7 @@ class MobileNumberVerifyContainer extends React.Component {
 
   handleChangeMobileNumber () {
     this.props.modalActions.closeModal()
-    this.props.modalActions.showModal('ChangeMobileNumber')
+    this.props.modalActions.showModal('MobileNumberChange')
   }
 
   render () {
@@ -47,10 +50,7 @@ class MobileNumberVerifyContainer extends React.Component {
 const mapStateToProps = (state) => ({
   guid: selectors.core.wallet.getGuid(state),
   sharedKey: selectors.core.wallet.getSharedKey(state),
-  code: formValueSelector('mobileNumberVerify')(state, 'code'),
-  payload: PropTypes.shape({
-    mobileNumber: PropTypes.string.isRequired
-  }).isRequired
+  code: formValueSelector('mobileNumberVerify')(state, 'code')
 })
 
 const mapDispatchToProps = (dispatch) => ({

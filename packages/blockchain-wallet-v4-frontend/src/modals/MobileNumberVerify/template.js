@@ -28,7 +28,7 @@ const Options = styled.div`
 
 const MobileNumberVerify = (props) => {
   const { position, total, close, closeAll, submitting, invalid, ...rest } = props
-  const { smsNumber, handleChangeMobileNumber, handleResend, handleVerify } = rest
+  const { mobileNumber, handleChangeMobileNumber, handleResend, handleVerify } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -38,7 +38,7 @@ const MobileNumberVerify = (props) => {
       <ModalBody>
         <Form>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.mobilenumberchange.explain3' defaultMessage='We have sent to {number} an SMS message with a verification code.' values={{ number: smsNumber }} />
+            <FormattedMessage id='modals.mobilenumberchange.explain3' defaultMessage='We have sent to {number} an SMS message with a verification code.' values={{ number: mobileNumber }} />
           </Text>
           <Code>
             <Text size='14px' weight={300}>
@@ -70,8 +70,8 @@ const MobileNumberVerify = (props) => {
 }
 
 MobileNumberVerify.propTypes = {
-  smsNumber: PropTypes.string.isRequired,
-  handleToggle: PropTypes.func.isRequired,
+  mobileNumber: PropTypes.string.isRequired,
+  handleChangeMobileNumber: PropTypes.func.isRequired,
   handleResend: PropTypes.func.isRequired,
   handleVerify: PropTypes.func.isRequired
 }
