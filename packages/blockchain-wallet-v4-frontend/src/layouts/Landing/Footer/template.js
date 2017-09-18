@@ -32,15 +32,20 @@ const Top = styled.div`
 `
 const Bottom = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
-  padding-top: 30px;
+  align-items: stretch;
+  padding-top: 20px;
   width: 100%;
+
+  @media(min-width: 768px) { 
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `
 const Logo = styled(Image)`
   display: flex;
-  margin-bottom: 20px;
+  padding-right: 20px;
 `
 const Column = styled.div`
   display: flex;
@@ -75,20 +80,28 @@ const DropdownContainer = styled.div`
   font-size: 12px;
   font-weight: 300;
 `
+const CopyrightText = styled(Text)`
+  display: flex;
+  flex-shrink: 0;
+`
+
 const CopyrightContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
+  justify-content: space-between;
+  flex-shrink: 0;
 `
 
 const SectionTitle = styled(Text)``
 
 const SocialContainer = styled.div`
   display: flex;
-  align-items: stretch;
-  justify-content: flex-end;
-  flex-wrap: nowrap;
+  justify-content: flex-start;
+  flex-shrink: 0;
+
+  @media(min-width: 768px) {
+    align-items: stretch;
+  }
 `
 
 const Footer = () => {
@@ -207,10 +220,10 @@ const Footer = () => {
           </SettingColumn>
         </Top>
         <Bottom>
+          <CopyrightText size='10px' weight={300} color='brand-primary' uppercase>
+            <FormattedMessage id='layouts.landing.footer.copyright' defaultMessage='2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.' />
+          </CopyrightText>
           <CopyrightContainer>
-            <Text size='10px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='layouts.landing.footer.copyright' defaultMessage='2017 BLOCKCHAIN LUXEMBOURG S.A. ALL RIGHTS RESERVED.' />
-            </Text>
             <Link href='https://blockchain.com/privacy' target='_blank' size='10px' color='brand-primary' uppercase>
               <FormattedMessage id='layouts.landing.footer.privacy' defaultMessage='Privacy' />
             </Link>
