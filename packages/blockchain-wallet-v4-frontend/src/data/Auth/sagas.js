@@ -139,30 +139,23 @@ const mobileLoginSuccess = function * (action) {
   const { data } = payload
 
   try {
-    if (data) {
-      const [version, guid, encrypted] = data.split('|')
+    const [version, guid, encrypted] = data.split('|')
+    if (!isNil(guid)) {
       const passphrase = yield call(api.getPairingPassword, guid)
-
       const credentialsE = decode(data, passphrase)
-      if (credentialsE.isRight) {
-        const { sharedKey, password } = credentialsE.value
+      const { sharedKey, password } = credentialsE.value
+      if (!(isNil(sharedKey) || isNil(password))) {
         yield call(fetchWalletSaga, guid, sharedKey, undefined, password)
       } else {
-        yield put(actions.alerts.displayError('An error occured while decoding the QR code'))
+        throw new Error('Login failed')
       }
-
-      if (isNil(guid)) {
-        yield put(actions.alerts.displayError('An error occured when capturing the QRCode.'))
-        return
-      }
-      yield put(actions.modals.closeModal())
     } else {
-      yield put(actions.alerts.displayError('Cannot find QR code data.'))
+      throw new Error('Invalid QR code')
     }
   } catch (error) {
-    yield put(actions.alerts.displayError('Error logging in via mobile: invalid QR code'))
-    yield put(actions.modals.closeModal())
+    yield put(actions.alerts.displayError(error.message))
   }
+  yield put(actions.modals.closeModal())
 }
 
 const mobileLoginError = function * (action) {
