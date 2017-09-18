@@ -3,7 +3,10 @@
   "name": "blockchain-wallet-v4",
   "version": "0.1.0",
   "scripts": {
-    "start": "cd packages/blockchain-wallet-v4-frontend && npm run start-dev",
+    "start": "cd packages/blockchain-wallet-v4-frontend && npm run start",
+    "start:prod": "NODE_ENV=production cd packages/blockchain-wallet-v4-frontend && npm run start",
+    "build": "cd packages/blockchain-wallet-v4-frontend && npm run build",
+    "build:prod": "NODE_ENV=production cd packages/blockchain-wallet-v4-frontend && npm run build",
     "storybook": "cd packages/blockchain-info-components && npm run storybook:start"
   },
   "devDependencies": {
