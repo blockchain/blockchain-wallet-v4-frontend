@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 
 import Layout from '../components/layout'
-import { SimpleDropdown } from '../../src'
+import { HoverDropdown, SimpleDropdown } from '../../src'
 
 const items = [
   { text: 'English', value: 0 },

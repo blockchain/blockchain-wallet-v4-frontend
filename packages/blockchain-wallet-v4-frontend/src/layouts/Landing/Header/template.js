@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 
-import { Button, Image, Link } from 'blockchain-info-components'
+import { Button, HoverDropdown, Image, Link } from 'blockchain-info-components'
 import { Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNav, NavbarNavItem, NavbarToggler } from 'components/Navbar'
 
 const ButtonNav = styled(NavbarNav)`
@@ -12,6 +12,12 @@ const ButtonNav = styled(NavbarNav)`
   width: 340px;
   margin: 0 auto;
   @media(min-width: 768px) and (max-width: 992px) { display: none; }
+`
+
+const SearchBar = styled(NavbarNav)`
+  background-color: white;
+  width: 180px;
+  height: 25px;
 `
 
 const Header = (props) => {
@@ -29,31 +35,38 @@ const Header = (props) => {
       <NavbarMenu toggled={toggled}>
         <NavbarNav>
           <NavbarNavItem>
-            <NavLink to='/wallet'>
-              <FormattedMessage id='layouts.landing.header.wallets' defaultMessage='Wallets' />
-            </NavLink>
+            <HoverDropdown>
+              <NavLink to='/wallet'>
+                <FormattedMessage id='layouts.landing.header.wallet' defaultMessage='Wallet' />
+              </NavLink>
+              <Link href='https://blockchain.info/charts'>
+                <FormattedMessage id='layouts.landing.header.charts' defaultMessage='Charts' />
+              </Link>
+              <Link href='https://blockchain.info/stats'>
+                <FormattedMessage id='layouts.landing.header.stats' defaultMessage='Stats' />
+              </Link>
+              <Link href='https://blockchain.info/markets'>
+                <FormattedMessage id='layouts.landing.header.markets' defaultMessage='Markets' />
+              </Link>
+            </HoverDropdown>
           </NavbarNavItem>
           <NavbarNavItem>
-            <Link href='https://blockchain.info/charts' target='_blank'>
-              <FormattedMessage id='layouts.landing.header.charts' defaultMessage='Charts' />
-            </Link>
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <Link href='https://blockchain.info/stats' target='_blank'>
-              <FormattedMessage id='layouts.landing.header.stats' defaultMessage='Stats' />
-            </Link>
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <Link href='https://blockchain.info/markets' target='_blank'>
-              <FormattedMessage id='layouts.landing.header.markets' defaultMessage='Markets' />
+            <Link href='https://blockchain.info/' target='_blank'>
+              <FormattedMessage id='layouts.landing.header.data' defaultMessage='Data' />
             </Link>
           </NavbarNavItem>
           <NavbarNavItem>
             <Link href='https://blockchain.info/api' target='_blank'>
-              <FormattedMessage id='layouts.landing.header.api' defaultMessage='Api' />
+              <FormattedMessage id='layouts.landing.header.api' defaultMessage='API' />
+            </Link>
+          </NavbarNavItem>
+          <NavbarNavItem>
+            <Link href='https://blockchain.info/about' target='_blank'>
+              <FormattedMessage id='layouts.landing.header.about' defaultMessage='About' />
             </Link>
           </NavbarNavItem>
         </NavbarNav>
+        <SearchBar />
         <ButtonNav>
           <NavbarNavItem>
             <NavLink to='/login'>
