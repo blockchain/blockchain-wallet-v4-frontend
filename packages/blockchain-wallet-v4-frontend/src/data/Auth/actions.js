@@ -15,3 +15,5 @@ export const logoutResetTimer = () => ({ type: AT.LOGOUT_RESET_TIMER })
 export const logoutStart = () => ({ type: AT.LOGOUT_START })
 
 export const logoutCancel = () => ({ type: AT.LOGOUT_CANCEL })
+
+export const setAuthType = (authType) => ({ type: AT.SET_AUTH_TYPE, payload: { authType } })

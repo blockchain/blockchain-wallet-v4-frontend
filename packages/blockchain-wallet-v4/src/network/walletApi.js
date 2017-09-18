@@ -1,6 +1,6 @@
 import Task from 'data.task'
 import Either from 'data.either'
-import { assoc, compose, map, identity, prop, over, lensProp, is } from 'ramda'
+import { assoc, compose, map, identity, prop, propSatisfies, over, lensProp, is, ifElse } from 'ramda'
 import { mapped } from 'ramda-lens'
 import Promise from 'es6-promise'
 import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from '../types'
@@ -16,6 +16,8 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
   const promiseToTask = futurizeP(Task)
   const future = returnType ? futurizeP(returnType) : identity
+  const is2FAEnabled = ifElse(propSatisfies(x => x > 0, 'auth_type'), Task.rejected, Task.of)
+
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSharedKeyTask = (guid, sharedKey, password) =>
     promiseToTask(ApiPromise.fetchPayloadWithSharedKey)(guid, sharedKey)
@@ -23,9 +25,11 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
       .chain(eitherToTask)
 
   const fetchWalletWithSharedKey = compose(taskToPromise, fetchWalletWithSharedKeyTask)
+
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSessionTask = (guid, session, password) =>
     promiseToTask(ApiPromise.fetchWalletWithSession)(guid, session)
+      .chain(is2FAEnabled)
       .map(Wrapper.fromEncJSON(password))
       .chain(eitherToTask)
 

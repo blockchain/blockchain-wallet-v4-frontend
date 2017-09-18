@@ -38,7 +38,7 @@ const TwoStepSetup = (props) => {
   const { position, total, close, closeAll, ...rest } = props
   const { handleGoogleAuthenticator, handleMobile, handleYubico, authType } = rest
 
-  return authType === 0 ? (
+  return authType !== 0 ? (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='settings' onClose={closeAll} >
         <FormattedMessage id='modals.twostepsetup.title1' defaultMessage='Disabled Two Step' />

@@ -5,11 +5,12 @@ import { assign } from 'services/RamdaCookingBook'
 const INITIAL_STATE = {
   isLoggingIn: false,
   isAuthenticated: false,
+  authType: '',
   error: null
 }
 
 const login = (state = INITIAL_STATE, action) => {
-  let { type } = action
+  const { type } = action
   switch (type) {
     case AT.LOGIN_START: {
       return assign(INITIAL_STATE, { isLoggingIn: true })
@@ -18,8 +19,13 @@ const login = (state = INITIAL_STATE, action) => {
       return assign(INITIAL_STATE, { isAuthenticated: true })
     }
     case AT.LOGIN_ERROR: {
-      let { payload } = action
+      const { payload } = action
       return assign(INITIAL_STATE, { error: payload })
+    }
+    case AT.SET_AUTH_TYPE: {
+      const { payload } = action
+      const { authType } = payload
+      return assign(INITIAL_STATE, { authType })
     }
     default:
       return state

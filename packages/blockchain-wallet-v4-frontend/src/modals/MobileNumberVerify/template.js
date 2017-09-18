@@ -11,11 +11,11 @@ import { required } from 'services/FormHelper'
 const Code = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   padding-top: 5px;
 
-  & > :last-child { flex-basis: 150px; }
+  & > :first-child { flex-basis: 200px; margin-right: 10px; }
 `
 const Options = styled.div`
   display: flex;
@@ -40,21 +40,21 @@ const MobileNumberVerify = (props) => {
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.mobilenumberverify.explain' defaultMessage='We have sent to {number} an SMS message with a verification code.' values={{ number: mobileNumber }} />
           </Text>
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='modals.mobilenumberverify.explain2' defaultMessage='Enter code :' />
+          </Text>
           <Code>
-            <Text size='14px' weight={300}>
-              <FormattedMessage id='modals.mobilenumberverify.explain2' defaultMessage='Verification code :' />
-            </Text>
             <Field name='code' validate={[required]} component={TextBox} />
+            <Options>
+              <Link size='13px' weight={300} onClick={handleResend}>
+                <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage='Resend' />
+              </Link>
+              <Text size='13px' weight={300} color='brand-secondary'>|</Text>
+              <Link size='13px' weight={300} capitalize onClick={handleChangeMobileNumber}>
+                <FormattedMessage id='modals.mobilenumberverify.change' defaultMessage='Change mobile number' />
+              </Link>
+            </Options>
           </Code>
-          <Options>
-            <Link size='13px' weight={300} onClick={handleResend}>
-              <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage='Resend' />
-            </Link>
-            <Text size='13px' weight={300} color='brand-secondary'>|</Text>
-            <Link size='13px' weight={300} capitalize onClick={handleChangeMobileNumber}>
-              <FormattedMessage id='modals.mobilenumberverify.change' defaultMessage='Change mobile number' />
-            </Link>
-          </Options>
         </Form>
       </ModalBody>
       <ModalFooter align='spaced'>

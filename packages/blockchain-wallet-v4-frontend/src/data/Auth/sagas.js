@@ -36,20 +36,25 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
     yield put(push('/wallet'))
     yield put(actions.alerts.displaySuccess('Logged in successfully'))
   } catch (error) {
-    let initialError = safeParse(error).map(prop('initial_error'))
-    let authRequired = safeParse(error).map(prop('authorization_required'))
-
+    const initialError = safeParse(error).map(prop('initial_error'))
+    const authRequired = safeParse(error).map(prop('authorization_required'))
     if (authRequired.isRight && authRequired.value) {
       yield put(actions.alerts.displayInfo('Authorization required, check your inbox'))
-      let authorized = yield call(pollingSaga, session)
+      const authorized = yield call(pollingSaga, session)
       if (authorized) {
         yield call(fetchWalletSaga, guid, undefined, session, password)
       }
     } else if (initialError.isRight && initialError.value) {
       yield put(actions.alerts.displayError(initialError.value))
     } else {
-      yield put(actions.alerts.displayError(error.message || 'Error logging into your wallet'))
-      yield put(actions.log.recordLog({ type: 'ERROR', message: error.message }))
+      if (error.auth_type > 0) { // 2fa required
+        // dispatch state change to show form
+        yield put(actions.auth.setAuthType(error.auth_type))
+        yield put(actions.alerts.displaySuccess('2FA required'))
+      } else {
+        yield put(actions.alerts.displayError(error.message || 'Error logging into your wallet'))
+        yield put(actions.log.recordLog({ type: 'ERROR', message: error.message }))
+      }
     }
   }
 }

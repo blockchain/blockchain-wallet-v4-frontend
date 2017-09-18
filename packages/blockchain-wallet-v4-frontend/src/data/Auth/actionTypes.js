@@ -13,3 +13,5 @@ export const LOGOUT_RESET_TIMER = 'LOGOUT_RESET_TIMER'
 export const LOGOUT_START = 'LOGOUT_START'
 
 export const LOGOUT_CANCEL = 'LOGOUT_CANCEL'
+
+export const SET_AUTH_TYPE = 'SET_AUTH_TYPE'

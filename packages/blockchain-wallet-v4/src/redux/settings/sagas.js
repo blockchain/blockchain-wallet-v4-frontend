@@ -200,7 +200,7 @@ export const settingsSaga = ({ api } = {}) => {
     try {
       const { guid, sharedKey, authType } = action.payload
       const response = yield call(api.updateAuthType, guid, sharedKey, authType)
-      if (contains('Updated Password Hint', response)) {
+      if (contains('updated', response)) {
         yield put(actions.updateAuthTypeSuccess(authType, response))
       } else {
         yield put(actions.updateAuthTypeError(response))

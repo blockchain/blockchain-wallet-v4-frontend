@@ -37,7 +37,7 @@ const Footer = styled.div`
 `
 
 const Login = (props) => {
-  const { handleSubmit, handleTrezor, submitting, invalid } = props
+  const { handleSubmit, handleTrezor, authType, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -80,6 +80,16 @@ const Login = (props) => {
           <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
         </Text>
         <Field name='password' validate={[required]} component={PasswordBox} />
+        { authType &&
+          <Text size='14px' weight={500}>
+            { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
+            { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
+            { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
+          </Text>
+        }
+        { authType &&
+          <Field name='code' validate={[required]} component={TextBox} />
+        }
         <Button nature='primary' type='submit' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
         </Button>

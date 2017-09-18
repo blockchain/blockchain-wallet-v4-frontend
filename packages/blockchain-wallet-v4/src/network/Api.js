@@ -79,9 +79,12 @@ const createApi = ({
 
   // fetchPayloadWithSession :: (String) -> Promise JSON
   const fetchPayloadWithSession = (guid, sessionToken) => {
+    console.log('here!')
     const extraHeaders = { sessionToken }
     const data = { format: 'json', resend_code: null }
     return request({ url: rootUrl, method: 'GET', endPoint: `wallet/${guid}`, data, extraHeaders })
+    // const data = { guid, method: 'wallet.aes.json', format: 'json' }
+    // return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data, extraHeaders })
   }
   // savePayload :: (data) -> Promise JSON
   const savePayload = (data) => {

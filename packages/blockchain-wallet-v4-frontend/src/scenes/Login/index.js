@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import Login from './template.js'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 class LoginContainer extends React.Component {
   constructor () {
@@ -15,7 +15,8 @@ class LoginContainer extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    this.props.authActions.loginStart({ guid: this.props.guid, password: this.props.password })
+    const { guid, password, authType } = this.props
+    this.props.authActions.loginStart({ guid, password, payload: authType })
   }
 
   handleTrezor (event) {
@@ -24,26 +25,24 @@ class LoginContainer extends React.Component {
   }
 
   render () {
+    const { authType } = this.props
+
     return (
-      <Login handleSubmit={this.handleSubmit} handleTrezor={this.handleTrezor} />
+      <Login handleSubmit={this.handleSubmit} handleTrezor={this.handleTrezor} authType={authType} />
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  const selector = formValueSelector('loginForm')
-  return {
-    guid: selector(state, 'guid'),
-    password: selector(state, 'password')
-  }
-}
+const mapStateToProps = (state) => ({
+  guid: formValueSelector('loginForm')(state, 'guid'),
+  password: formValueSelector('loginForm')(state, 'password'),
+  authType: selectors.auth.getAuthType(state)
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    authActions: bindActionCreators(actions.auth, dispatch),
-    alertActions: bindActionCreators(actions.alerts, dispatch),
-    coreActions: bindActionCreators(actions.core.wallet, dispatch)
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  authActions: bindActionCreators(actions.auth, dispatch),
+  alertActions: bindActionCreators(actions.alerts, dispatch),
+  coreActions: bindActionCreators(actions.core.wallet, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
