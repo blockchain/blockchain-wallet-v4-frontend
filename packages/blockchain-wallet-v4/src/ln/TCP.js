@@ -98,8 +98,7 @@ class TCP {
   }
 
   onMessage (msg) {
-    console.info('Received msg ', msg)
-    console.info(this)
+    console.info('ws [<-]: ', msg.data)
     let m = JSON.parse(msg.data)
 
     if (m.op === 'msg') {
@@ -134,7 +133,7 @@ class TCP {
   }
 
   send (message) {
-    console.info('Send: ', message)
+    console.info('ws [->]: ', message)
     if (this.socket && this.socket.readyState === 1) {
       this.socket.send(message)
     }
