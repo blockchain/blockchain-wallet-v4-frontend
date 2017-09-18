@@ -161,6 +161,7 @@ const mobileLoginSuccess = function * (action) {
     }
   } catch (error) {
     yield put(actions.alerts.displayError('Error logging in via mobile: invalid QR code'))
+    yield put(actions.modals.closeModal())
   }
 }
 
