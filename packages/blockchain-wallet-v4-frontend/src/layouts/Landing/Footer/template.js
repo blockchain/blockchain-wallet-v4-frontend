@@ -82,12 +82,14 @@ const DropdownContainer = styled.div`
 `
 const CopyrightText = styled(Text)`
   display: flex;
+  align-items: center;
   flex-shrink: 0;
 `
 
 const CopyrightContainer = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
 `
@@ -96,6 +98,7 @@ const SectionTitle = styled(Text)``
 
 const SocialContainer = styled.div`
   display: flex;
+  align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
 
