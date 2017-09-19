@@ -1,12 +1,9 @@
-import { takeEvery, put, select } from 'redux-saga/effects'
+import { takeEvery, put } from 'redux-saga/effects'
 import { actions as reduxFormActions } from 'redux-form'
 import { push } from 'react-router-redux'
 import { isNil } from 'ramda'
 import bip21 from 'bip21'
-import ui from 'redux-ui'
-
-import { actions, actionTypes, selectors } from 'data'
-import { convertToUnit, convertFromUnit } from 'services/ConversionService'
+import { actions, actionTypes } from 'data'
 import * as AT from './actionTypes'
 
 // =============================================================================
@@ -214,6 +211,31 @@ const updateAuthTypeNeverSaveError = function * (action) {
   yield put(actions.alerts.displayError(action.payload))
 }
 
+// =============================================================================
+// ===================== Google Authenticator Secret Url =======================
+// =============================================================================
+const getGoogleAuthenticatorSecretUrlSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.modals.showModal('TwoStepGoogleAuthenticator', { googleAuthenticatorSecretUrl: data }))
+}
+
+const getGoogleAuthenticatorSecretUrlError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// ======================== Google Authenticator Setup =========================
+// =============================================================================
+const confirmGoogleAuthenticatorSetupSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.modals.closeModal())
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const confirmGoogleAuthenticatorSetupError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
 // =============================== EXPORT ======================================
 
 function * sagas () {
@@ -245,6 +267,10 @@ function * sagas () {
   yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_ERROR, updateAuthTypeError)
   yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_NEVER_SAVE_SUCCESS, updateAuthTypeNeverSaveSuccess)
   yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_NEVER_SAVE_ERROR, updateAuthTypeNeverSaveError)
+  yield takeEvery(actionTypes.core.settings.GET_GOOGLE_AUTHENTICATOR_SECRET_URL_SUCCESS, getGoogleAuthenticatorSecretUrlSuccess)
+  yield takeEvery(actionTypes.core.settings.GET_GOOGLE_AUTHENTICATOR_SECRET_URL_ERROR, getGoogleAuthenticatorSecretUrlError)
+  yield takeEvery(actionTypes.core.settings.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_SUCCESS, confirmGoogleAuthenticatorSetupSuccess)
+  yield takeEvery(actionTypes.core.settings.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_ERROR, confirmGoogleAuthenticatorSetupError)
 }
 
 export default sagas

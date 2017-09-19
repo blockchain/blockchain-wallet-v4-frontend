@@ -47,4 +47,4 @@ const TwoStepYubico = (props) => {
   )
 }
 
-export default reduxForm({ form: 'TwoStepYubico' })(TwoStepYubico)
+export default reduxForm({ form: 'twoStepYubico' })(TwoStepYubico)

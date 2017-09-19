@@ -88,6 +88,9 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       const { authTypeNeverSave } = payload
       return Object.assign({}, state, { never_save_auth_type: authTypeNeverSave })
     }
+    case AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_SUCCESS: {
+      return Object.assign({}, state, { auth_type: 4 })
+    }
     default:
       return state
   }

@@ -257,7 +257,7 @@ const createApi = ({
       length: payload.length,
       payload: payload
     }
-    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
   }
 
   const updateEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
@@ -297,6 +297,10 @@ const createApi = ({
   const updateAuthType = (guid, sharedKey, authType) => updateSettings(guid, sharedKey, 'update-auth-type', authType)
 
   const updateAuthTypeNeverSave = (guid, sharedKey, authTypeNeverSave) => updateSettings(guid, sharedKey, 'update-never-save-auth-type', authTypeNeverSave)
+
+  const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret')
+
+  const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => updateSettings(guid, sharedKey, `update-auth-type?code=${code}`, 4)
 
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
@@ -338,7 +342,9 @@ const createApi = ({
     updateBlockTorIps: future(updateBlockTorIps),
     updateHint: future(updateHint),
     updateAuthType: future(updateAuthType),
-    updateAuthTypeNeverSave: future(updateAuthTypeNeverSave)
+    updateAuthTypeNeverSave: future(updateAuthTypeNeverSave),
+    getGoogleAuthenticatorSecretUrl: future(getGoogleAuthenticatorSecretUrl),
+    confirmGoogleAuthenticatorSetup: future(confirmGoogleAuthenticatorSetup)
   }
 }
 

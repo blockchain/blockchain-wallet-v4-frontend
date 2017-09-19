@@ -15,7 +15,8 @@ class TwoStepSetupContainer extends React.Component {
   }
 
   handleGoogleAuthenticator () {
-    this.props.modalActions.showModal('TwoStepGoogleAuthenticator')
+    const { guid, sharedKey } = this.props
+    this.props.settingsActions.getGoogleAuthenticatorSecretUrl(guid, sharedKey)
   }
 
   handleYubico () {

@@ -26,8 +26,9 @@ const Code = styled.div`
 `
 
 const TwoStepGoogleAuthenticator = (props) => {
-  const { handleClick, position, total, closeAll, close, submitting, invalid } = props
-
+  const { position, total, closeAll, close, submitting, invalid, ...rest } = props
+  const { handleClick, googleAuthenticatorSecretUrl } = rest
+  console.log(googleAuthenticatorSecretUrl)
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='settings' onClose={closeAll}>
@@ -35,7 +36,7 @@ const TwoStepGoogleAuthenticator = (props) => {
       </ModalHeader>
       <ModalBody>
         <QRCode>
-          <QRCodeReact value={''} size={256} />
+          <QRCodeReact value={googleAuthenticatorSecretUrl} size={256} />
         </QRCode>
         <Form>
           <Text size='14px' weight={300}>
@@ -64,4 +65,4 @@ const TwoStepGoogleAuthenticator = (props) => {
   )
 }
 
-export default reduxForm({ form: 'TwoStepGoogleAuthenticator' })(TwoStepGoogleAuthenticator)
+export default reduxForm({ form: 'twoStepGoogleAuthenticator' })(TwoStepGoogleAuthenticator)

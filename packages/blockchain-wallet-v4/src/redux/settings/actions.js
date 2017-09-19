@@ -71,3 +71,11 @@ export const updateAuthTypeError = message => ({ type: AT.UPDATE_AUTH_TYPE_ERROR
 export const updateAuthTypeNeverSave = (guid, sharedKey, authTypeNeverSave) => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE, payload: { guid, sharedKey, authTypeNeverSave } })
 export const updateAuthTypeNeverSaveSuccess = (authTypeNeverSave, data) => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE_SUCCESS, payload: { authTypeNeverSave, data } })
 export const updateAuthTypeNeverSaveError = message => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE_ERROR, payload: message })
+
+export const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => ({ type: AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, payload: { guid, sharedKey } })
+export const getGoogleAuthenticatorSecretUrlSuccess = data => ({ type: AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL_SUCCESS, payload: { data } })
+export const getGoogleAuthenticatorSecretUrlError = message => ({ type: AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL_ERROR, payload: message })
+
+export const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => ({ type: AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP, payload: { guid, sharedKey, code } })
+export const confirmGoogleAuthenticatorSetupSuccess = data => ({ type: AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_SUCCESS, payload: { data } })
+export const confirmGoogleAuthenticatorSetupError = message => ({ type: AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_ERROR, payload: message })

@@ -224,6 +224,34 @@ export const settingsSaga = ({ api } = {}) => {
     }
   }
 
+  const getGoogleAuthenticatorSecretUrl = function * (action) {
+    try {
+      const { guid, sharedKey } = action.payload
+      const response = yield call(api.getGoogleAuthenticatorSecretUrl, guid, sharedKey)
+      if (contains('secret', response)) {
+        yield put(actions.getGoogleAuthenticatorSecretUrlSuccess(response))
+      } else {
+        yield put(actions.getGoogleAuthenticatorSecretUrlError(response))
+      }
+    } catch (error) {
+      yield put(actions.getGoogleAuthenticatorSecretUrlError(error))
+    }
+  }
+
+  const confirmGoogleAuthenticatorSetup = function * (action) {
+    try {
+      const { guid, sharedKey, code } = action.payload
+      const response = yield call(api.confirmGoogleAuthenticatorSetup, guid, sharedKey, code)
+      if (contains('updated', response)) {
+        yield put(actions.confirmGoogleAuthenticatorSetupSuccess(response))
+      } else {
+        yield put(actions.confirmGoogleAuthenticatorSetupError(response))
+      }
+    } catch (error) {
+      yield put(actions.confirmGoogleAuthenticatorSetupError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
     yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
@@ -241,5 +269,7 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_HINT, updateHint)
     yield takeEvery(AT.UPDATE_AUTH_TYPE, updateAuthType)
     yield takeEvery(AT.UPDATE_AUTH_TYPE_NEVER_SAVE, updateAuthTypeNeverSave)
+    yield takeEvery(AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, getGoogleAuthenticatorSecretUrl)
+    yield takeEvery(AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP, confirmGoogleAuthenticatorSetup)
   }
 }
