@@ -15,7 +15,7 @@ const BaseNavbarNavItem = styled.li`
   & > a {
     font-size: 14px;
     font-weight: 400;
-    color: ${props => props.theme['white']};
+    color: ${props => props.theme['white']}!important;
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
