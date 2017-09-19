@@ -16,7 +16,10 @@ function Peer (options, tcp, staticRemote) {
   this.conn.connect(
     tcp,
     () => { console.log('connected!') },
-    () => { console.log('handshake completed!') },
+    () => {
+      console.log('handshake completed!')
+      this.conn.write(Buffer.from('00100000000108', 'hex')) // TODO hack to send init message
+    },
     (data) => { this.parser.feed(data) },
     () => { console.log('closed!') }
   )
