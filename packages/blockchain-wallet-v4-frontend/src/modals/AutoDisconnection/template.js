@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
+import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 
 const AutoDisconnection = (props) => {
-  const { duration, handleClick, handleCancel, position, total } = props
+  const { duration, position, total, ...rest } = props
+  const { handleLogout, handleCancel } = rest
 
   return (
     <Modal size='large' position={position} total={total} closeButton={false}>
-      <ModalHeader icon='right-arrow'>
+      <ModalHeader>
         <FormattedMessage id='modals.autodisconnection.title' defaultMessage='Are you still there?' />
       </ModalHeader>
       <ModalBody>
@@ -20,15 +21,13 @@ const AutoDisconnection = (props) => {
           <FormattedMessage id='modals.autodisconnection.explain2' defaultMessage="Click 'Cancel' if you don't want to be logged out automatically." />
         </Text>
       </ModalBody>
-      <ModalFooter>
-        <ButtonGroup>
-          <Button onClick={handleCancel}>
-            <FormattedMessage id='modals.autodisconnection.cancel' defaultMessage='Cancel' />
-          </Button>
-          <Button nature='logout' onClick={handleClick}>
-            <FormattedMessage id='modals.autodisconnection.logout' defaultMessage='Log me out' />
-          </Button>
-        </ButtonGroup>
+      <ModalFooter align='spaced'>
+        <Link size='13px' weight={300} onClick={handleCancel}>
+          <FormattedMessage id='modals.autodisconnection.cancel' defaultMessage='Cancel' />
+        </Link>
+        <Button nature='logout' onClick={handleLogout}>
+          <FormattedMessage id='modals.autodisconnection.logout' defaultMessage='Log me out' />
+        </Button>
       </ModalFooter>
     </Modal>
   )

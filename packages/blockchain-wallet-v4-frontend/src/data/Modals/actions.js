@@ -5,6 +5,10 @@ export const closeModal = () => ({ type: AT.CLOSE_MODAL })
 export const closeAllModals = () => ({ type: AT.CLOSE_ALL_MODALS })
 export const showModal = (type, props = {}) => ({ type: AT.SHOW_MODAL, payload: { type, props } })
 
+// AutoDisconnection
+export const clickAutoDisconnectionLogout = () => ({ type: AT.CLICK_AUTO_DISCONNECTION_LOGOUT })
+export const clickAutoDisconnectionCancel = () => ({ type: AT.CLICK_AUTO_DISCONNECTION_CANCEL })
+
 // TwoStepSetup
 export const clickTwoStepSetupDisable = () => ({ type: AT.CLICK_TWO_STEP_SETUP_DISABLE })
 export const clickTwoStepSetupMobile = () => ({ type: AT.CLICK_TWO_STEP_SETUP_MOBILE })

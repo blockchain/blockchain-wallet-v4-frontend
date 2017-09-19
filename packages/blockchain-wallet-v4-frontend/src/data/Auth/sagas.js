@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { takeEvery, call, put, select } from 'redux-saga/effects'
+import { takeEvery, call, put, select, cancel, cancelled, fork } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
@@ -89,14 +89,58 @@ const trezorFailed = function * (action) {
   yield put(actions.alerts.displayError('Trezor connection failed'))
 }
 
-const logout = function * () {
+// =============================================================================
+// ================================== Logout ===================================
+// =============================================================================
+let timerTask
+
+const logoutStart = function * () {
   // yield put(actions.core.webSocket.stopSocket())
   window.location.reload(true)
 }
 
+const logoutStartTimer = function * () {
+  timerTask = yield fork(logoutTimer)
+}
+
+const logoutResetTimer = function * () {
+  yield cancel(timerTask)
+}
+
+const logoutTimer = function * () {
+  try {
+    // const autoLogout = yield select(selectors.core.wallet.getLogoutTime)
+    const autoLogout = 15000
+
+    let elapsed = 0
+    const total = parseInt(autoLogout / 1000)
+    const threshold = 10
+
+    while (elapsed < total) {
+      // When we reach the threshold value, we show the auto-disconnection modal
+      if (total - elapsed === threshold) {
+        yield put(actions.modals.showModal('AutoDisconnection', { duration: threshold }))
+      }
+      yield call(delay, 1000)
+      elapsed++
+    }
+  } finally {
+    if (yield cancelled()) {
+      // If the task has been cancelled (reset timer), we restart the timer
+      yield put(actions.modals.closeModal())
+      yield put(actions.auth.logoutStartTimer())
+    } else {
+      // If the timer reaches the end, we logout
+      yield put(actions.auth.logoutStart())
+    }
+  }
+}
+
 function * sagas () {
   yield takeEvery(AT.LOGIN_START, login)
-  yield takeEvery(AT.LOGOUT_START, logout)
+  yield takeEvery(AT.LOGOUT_START, logoutStart)
+  yield takeEvery(AT.LOGOUT_START_TIMER, logoutStartTimer)
+  yield takeEvery(AT.LOGOUT_RESET_TIMER, logoutResetTimer)
   yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_SUCCESS, trezor)
   yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_ERROR, trezorFailed)
 }
