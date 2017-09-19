@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import { Header } from 'blockchain-info-components'
 import Modals from 'modals'
 import Alerts from 'components/Alerts'
-import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 

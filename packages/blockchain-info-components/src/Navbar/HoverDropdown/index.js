@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Dropdown from './template.js'
-import { Palette } from '../../'
+import { Palette } from 'blockchain-info-components'
 import { keysIn } from 'ramda'
 
 class HoverDropdown extends React.Component {
@@ -21,7 +21,7 @@ class HoverDropdown extends React.Component {
   }
 
   handleMouseOut () {
-    this.setState({ toggled: false })
+    this.setState({ toggled: true })
   }
 
   render () {

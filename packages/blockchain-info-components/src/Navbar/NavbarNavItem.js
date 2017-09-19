@@ -12,8 +12,6 @@ const BaseNavItem = styled.li`
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
-
-    &:hover { color: ${props => props.theme['white']}; }
   }
 `
 

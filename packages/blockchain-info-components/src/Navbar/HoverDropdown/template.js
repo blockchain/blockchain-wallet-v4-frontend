@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-
-import { Palette } from '../../Colors'
+import { Palette } from 'blockchain-info-components'
 import { keysIn } from 'ramda'
 
-const Wrapper = styled.div`
+import NavbarNavItem from '../NavbarNavItem'
+
+const Wrapper = styled(NavbarNavItem)`
   display: inline-flex;
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   position: relative;
