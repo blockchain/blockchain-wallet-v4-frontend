@@ -13,10 +13,15 @@ class HoverDropdown extends React.Component {
       toggled: props.opened
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
+    this.handleMouseOut = this.handleMouseOut.bind(this)
   }
 
   handleMouseOver () {
-    this.setState({ toggled: !this.state.toggled })
+    this.setState({ toggled: true })
+  }
+
+  handleMouseOut () {
+    this.setState({ toggled: false })
   }
 
   render () {
@@ -24,6 +29,7 @@ class HoverDropdown extends React.Component {
 
     return <Dropdown {...rest}
       handleMouseOver={this.handleMouseOver}
+      handleMouseOut={this.handleMouseOut}
       toggled={this.state.toggled}
     />
   }

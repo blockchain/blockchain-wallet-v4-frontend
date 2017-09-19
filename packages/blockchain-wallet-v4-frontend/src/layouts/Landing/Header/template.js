@@ -39,6 +39,16 @@ const Header = (props) => {
               <NavLink to='/wallet'>
                 <FormattedMessage id='layouts.landing.header.wallet' defaultMessage='Wallet' />
               </NavLink>
+              <Link href='https://blockchain.info/login' target='_blank'>
+                <FormattedMessage id='layouts.landing.header.login' defaultMessage='Login' />
+              </Link>
+            </HoverDropdown>
+          </NavbarNavItem>
+          <NavbarNavItem>
+            <HoverDropdown>
+              <Link href='https://blockchain.info/' target='_blank'>
+                <FormattedMessage id='layouts.landing.header.data' defaultMessage='Data' />
+              </Link>
               <Link href='https://blockchain.info/charts'>
                 <FormattedMessage id='layouts.landing.header.charts' defaultMessage='Charts' />
               </Link>
@@ -51,22 +61,35 @@ const Header = (props) => {
             </HoverDropdown>
           </NavbarNavItem>
           <NavbarNavItem>
-            <Link href='https://blockchain.info/' target='_blank'>
-              <FormattedMessage id='layouts.landing.header.data' defaultMessage='Data' />
-            </Link>
+            <HoverDropdown>
+              <Link href='https://blockchain.info/api' target='_blank'>
+                <FormattedMessage id='layouts.landing.header.api' defaultMessage='API' />
+              </Link>
+              <Link href='https://blockchain.info/enterprise' target='_blank'>
+                <FormattedMessage id='layouts.landing.header.business' defaultMessage='Business' />
+              </Link>
+            </HoverDropdown>
           </NavbarNavItem>
           <NavbarNavItem>
-            <Link href='https://blockchain.info/api' target='_blank'>
-              <FormattedMessage id='layouts.landing.header.api' defaultMessage='API' />
-            </Link>
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <Link href='https://blockchain.info/about' target='_blank'>
-              <FormattedMessage id='layouts.landing.header.about' defaultMessage='About' />
-            </Link>
+            <HoverDropdown>
+              <Link href='https://blockchain.info/about' target='_blank'>
+                <FormattedMessage id='layouts.landing.header.about' defaultMessage='About' />
+              </Link>
+              <Link href='https://blockchain.com/team' target='_blank'>
+                <FormattedMessage id='layouts.landing.header.team' defaultMessage='Team' />
+              </Link>
+              <Link href='https://blockchain.com/careers' target='_blank'>
+                <FormattedMessage id='layouts.landing.header.careers' defaultMessage='Careers' />
+              </Link>
+              <Link href='https://blockchain.com/press' target='_blank'>
+                <FormattedMessage id='layouts.landing.header.press' defaultMessage='Press' />
+              </Link>
+              <Link href='https://blog.blockchain.com' target='_blank'>
+                <FormattedMessage id='layouts.landing.header.blog' defaultMessage='Blog' />
+              </Link>
+            </HoverDropdown>
           </NavbarNavItem>
         </NavbarNav>
-        <SearchBar />
         <ButtonNav>
           <NavbarNavItem>
             <NavLink to='/login'>

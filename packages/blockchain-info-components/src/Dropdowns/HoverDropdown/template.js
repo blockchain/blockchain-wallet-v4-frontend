@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   display: inline-flex;
   text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
   position: relative;
+  background-color:  ${props => props.toggled ? props.theme['navhoverbg'] : 'none'};
 `
 const ButtonContainer = styled.div`
   display: inline-flex;
@@ -24,42 +25,30 @@ const ButtonContainer = styled.div`
 `
 
 const DropdownList = styled.div`
-  background-clip: padding-box;
-  background-color:  ${props => props.theme['navhoverbg']};
   display: ${props => props.toggled ? 'block' : 'none'};
-  float: none;
   height: auto;
   width: inherit;
-  line-height: 20px;
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
-  margin: 2px 0px;
   overflow: auto;
-  padding: 5px 0px;
   position: absolute;
-  right: 0;
+  margin-top: 20px;
   z-index: 10;
 `
 
 const DropdownItem = styled.div`
   color: ${props => props.theme['navhover']};
   cursor: pointer;
-  padding: 3px 20px;
-  font-family: 'Montserrat', Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: 300;
-  text-align: left;
-  text-size-adjust: 100%;
   white-space: nowrap;
 `
 
 const Dropdown = props => {
-  const { color, uppercase, toggled, handleMouseOver, children } = props
+  const { color, uppercase, toggled, handleMouseOver, children, handleMouseOut } = props
 
   return (
-    <Wrapper uppercase={uppercase}>
-      <ButtonContainer color={color} onMouseOver={handleMouseOver}>
+    <Wrapper uppercase={uppercase} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} toggled={toggled}>
+      <ButtonContainer color={color}>
         {children[0]}
       </ButtonContainer>
       <DropdownList toggled={toggled}>
