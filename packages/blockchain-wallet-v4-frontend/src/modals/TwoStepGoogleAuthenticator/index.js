@@ -15,7 +15,8 @@ class TwoStepGoogleAuthenticatorContainer extends React.Component {
 
   handleClick () {
     const { guid, sharedKey, code } = this.props
-    this.props.settingsActions.confirmGoogleAuthenticator(guid, sharedKey, code)
+    console.log(guid, sharedKey, code)
+    this.props.settingsActions.confirmGoogleAuthenticatorSetup(guid, sharedKey, code)
   }
 
   render () {

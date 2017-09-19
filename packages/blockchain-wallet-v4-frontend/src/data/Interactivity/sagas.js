@@ -228,7 +228,7 @@ const getGoogleAuthenticatorSecretUrlError = function * (action) {
 // =============================================================================
 const confirmGoogleAuthenticatorSetupSuccess = function * (action) {
   const { data } = action.payload
-  yield put(actions.modals.closeModal())
+  yield put(actions.modals.closeAllModals())
   yield put(actions.alerts.displaySuccess(data))
 }
 

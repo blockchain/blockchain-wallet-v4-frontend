@@ -247,7 +247,7 @@ const createApi = ({
   }
 
   // SETTINGS
-  const updateSettings = function (guid, sharedKey, method, value) {
+  const updateSettings = function (guid, sharedKey, method, value, querystring = '') {
     const payload = type(value) === 'String' ? trim(value) : value + ''
 
     const data = {
@@ -257,7 +257,7 @@ const createApi = ({
       length: payload.length,
       payload: payload
     }
-    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet' + querystring, data })
   }
 
   const updateEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
@@ -300,7 +300,7 @@ const createApi = ({
 
   const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret')
 
-  const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => updateSettings(guid, sharedKey, `update-auth-type?code=${code}`, 4)
+  const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
 
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
