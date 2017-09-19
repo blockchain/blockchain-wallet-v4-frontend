@@ -174,8 +174,8 @@ Connection.prototype.sendHandshakePart3 = function () {
   console.debug('temp_k3 = 0x' + this.temp_k3.toString('hex'))
 
   let hkdfResult2 = hkdfDerive(this.ck, Buffer.allocUnsafe(0))
-  this.rk = hkdfResult2.p1
-  this.sk = hkdfResult2.p2
+  this.sk = hkdfResult2.p1
+  this.rk = hkdfResult2.p2
 
   this.rn = 0
   this.sn = 0
@@ -222,7 +222,7 @@ const encryptAEAD = function (key, ad, nonce = 0, data = Buffer.allocUnsafe(0)) 
 
   console.info(`encryptAEAD 
   (${key.toString('hex')}, ${ad.toString('hex')}, ${iv.toString('hex')}, ${data.toString('hex')})
-        = (${tag.toString('hex')}, ${tempData.toString('hex')})`)
+        = (${tempData.toString('hex')}, ${tag.toString('hex')})`)
 
   return result
 }
@@ -279,7 +279,7 @@ Connection.prototype.feed = function feed (data) {
   // Loop as long as there are enough bytes in dataBuffer for more messages
   // TODO try catch block to fail connection on corrupted bytes
   while (true) {
-    if (!this.hasSize && this.dataBuffer.size() < 18) {
+    if (!this.hasSize && this.dataBuffer.length < 18) {
       return
     }
 
@@ -288,13 +288,16 @@ Connection.prototype.feed = function feed (data) {
       let sizeBuffer = this.dataBuffer.slice(0, 2)
       let sizeTag = this.dataBuffer.slice(2, 18)
 
-      this.size = this.decryptIn(sizeBuffer, sizeTag)
+      sizeBuffer = this.decryptIn(sizeBuffer, sizeTag)
+      this.size = sizeBuffer.readInt16BE(0)
       this.hasSize = true
 
       this.dataBuffer = this.dataBuffer.slice(18)
+
+      console.info('received size: ' + this.size)
     }
 
-    if (this.dataBuffer.size() < (this.size + 16)) {
+    if (this.dataBuffer.length < (this.size + 16)) {
       return
     }
 
@@ -308,6 +311,7 @@ Connection.prototype.feed = function feed (data) {
     this.size = 0
     this.hasSize = false
 
+    console.info('received msg: ' + decryptedData.toString('hex'))
     this.onMessage(decryptedData)
   }
 }
@@ -319,8 +323,8 @@ Connection.prototype.encryptOut = function (payload) {
 }
 
 Connection.prototype.decryptIn = function (payload, tag) {
-  let decrypted = decryptAEAD(this.sk, Buffer.alloc(0), this.sn, payload, tag)
-  this.sn++
+  let decrypted = decryptAEAD(this.rk, Buffer.alloc(0), this.rn, payload, tag)
+  this.rn++
   return decrypted
 }
 

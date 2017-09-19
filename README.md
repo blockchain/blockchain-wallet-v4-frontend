@@ -74,7 +74,8 @@ in later versions, there will be a discovery service that the wallet can talk to
 - [X] Connect to proxy service
 - [X] Connect to eclair node over proxy
 - [X] Complete handshake with eclair node
-- [ ] Exchange and serialise messages
+- [X] Decrypt and encrypt messages
+- [ ] Serialize and deserialize messages
 - [ ] Open payment channel
 - [ ] Decrypt lightning address
 - [ ] Retrieve route from directory service
