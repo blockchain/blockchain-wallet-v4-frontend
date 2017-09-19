@@ -79,3 +79,7 @@ export const getGoogleAuthenticatorSecretUrlError = message => ({ type: AT.GET_G
 export const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => ({ type: AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP, payload: { guid, sharedKey, code } })
 export const confirmGoogleAuthenticatorSetupSuccess = data => ({ type: AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_SUCCESS, payload: { data } })
 export const confirmGoogleAuthenticatorSetupError = message => ({ type: AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_ERROR, payload: message })
+
+export const enableYubikey = (guid, sharedKey, code) => ({ type: AT.ENABLE_YUBIKEY, payload: { guid, sharedKey, code } })
+export const enableYubikeySuccess = data => ({ type: AT.ENABLE_YUBIKEY_SUCCESS, payload: { data } })
+export const enableYubikeyError = message => ({ type: AT.ENABLE_YUBIKEY_ERROR, payload: message })

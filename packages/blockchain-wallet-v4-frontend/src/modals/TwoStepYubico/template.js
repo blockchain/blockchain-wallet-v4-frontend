@@ -18,7 +18,8 @@ const Code = styled.div`
 `
 
 const TwoStepYubico = (props) => {
-  const { handleClick, position, total, closeAll, close, submitting, invalid } = props
+  const { position, total, closeAll, close, submitting, invalid, ...rest } = props
+  const { handleClick } = rest
 
   return (
     <Modal size='small' position={position} total={total}>

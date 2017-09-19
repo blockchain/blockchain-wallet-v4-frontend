@@ -14,7 +14,7 @@ const modals = (state = INITIAL_STATE, action) => {
     case AT.CLOSE_ALL_MODALS:
       return []
     case AT.SHOW_MODAL: {
-      let { type, props } = payload
+      const { type, props } = payload
       return insert(nextIndex, { type, props }, state)
     }
     default:

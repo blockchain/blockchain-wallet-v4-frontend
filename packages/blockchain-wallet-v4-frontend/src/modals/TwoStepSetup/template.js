@@ -52,7 +52,7 @@ const TwoStepSetup = (props) => {
         <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage id='modals.twostepsetup.cancel' defaultMessage='Cancel' />
         </Link>
-        <Button type='logout'>
+        <Button nature='logout'>
           <FormattedMessage id='modals.twostepsetup.disable' defaultMessage='Disable' />
         </Button>
       </ModalFooter>

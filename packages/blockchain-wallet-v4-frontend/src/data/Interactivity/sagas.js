@@ -1,9 +1,9 @@
-import { takeEvery, put } from 'redux-saga/effects'
+import { takeEvery, put, select } from 'redux-saga/effects'
 import { actions as reduxFormActions } from 'redux-form'
 import { push } from 'react-router-redux'
 import { isNil } from 'ramda'
 import bip21 from 'bip21'
-import { actions, actionTypes } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 import * as AT from './actionTypes'
 
 // =============================================================================

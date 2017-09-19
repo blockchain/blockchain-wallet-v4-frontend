@@ -12,31 +12,23 @@ class TwoStepSetupContainer extends React.Component {
     this.handleGoogleAuthenticator = this.handleGoogleAuthenticator.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
     this.handleYubico = this.handleYubico.bind(this)
+    this.handleDisable = this.handleDisable.bind(this)
   }
 
   handleGoogleAuthenticator () {
-    const { guid, sharedKey } = this.props
-    this.props.settingsActions.getGoogleAuthenticatorSecretUrl(guid, sharedKey)
+    this.props.modalActions.clickTwoStepSetupGoogleAuthenticator()
   }
 
   handleYubico () {
-    this.props.modalActions.showModal('TwoStepYubico')
+    this.props.modalActions.clickTwoStepSetupYubico()
   }
 
   handleMobile () {
-    const { smsNumber, smsVerified, guid, sharedKey } = this.props
-
-    if (!smsNumber) {
-      this.props.modalActions.showModal('MobileNumberChange')
-    } else if (!smsVerified) {
-      this.props.modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumber })
-    } else {
-      this.props.settingsActions.updateAuthType(guid, sharedKey, 5)
-    }
+    this.props.modalActions.clickTwoStepSetupMobile()
   }
 
   handleDisable () {
-
+    this.props.modalActions.clickTwoStepSetupDisable()
   }
 
   render () {
@@ -46,23 +38,18 @@ class TwoStepSetupContainer extends React.Component {
         handleGoogleAuthenticator={this.handleGoogleAuthenticator}
         handleMobile={this.handleMobile}
         handleYubico={this.handleYubico}
+        handleDisable={this.handleDisable}
       />
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
-  authType: selectors.core.settings.getAuthType(state),
-  smsNumber: selectors.core.settings.getSmsNumber(state),
-  smsVerified: selectors.core.settings.getSmsVerified(state)
+  authType: selectors.core.settings.getAuthType(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(

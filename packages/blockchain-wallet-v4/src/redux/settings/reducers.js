@@ -91,6 +91,9 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_SUCCESS: {
       return Object.assign({}, state, { auth_type: 4 })
     }
+    case AT.CONFIRM_YUBIKEY_SETUP_SUCCESS: {
+      return Object.assign({}, state, { auth_type: 2 })
+    }
     default:
       return state
   }

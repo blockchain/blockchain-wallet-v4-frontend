@@ -302,6 +302,8 @@ const createApi = ({
 
   const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
 
+  const enableYubikey = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-yubikey', code)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     fetchPayloadWithTwoFactorAuth: future(fetchPayloadWithTwoFactorAuth),
@@ -344,7 +346,8 @@ const createApi = ({
     updateAuthType: future(updateAuthType),
     updateAuthTypeNeverSave: future(updateAuthTypeNeverSave),
     getGoogleAuthenticatorSecretUrl: future(getGoogleAuthenticatorSecretUrl),
-    confirmGoogleAuthenticatorSetup: future(confirmGoogleAuthenticatorSetup)
+    confirmGoogleAuthenticatorSetup: future(confirmGoogleAuthenticatorSetup),
+    enableYubikey: future(enableYubikey)
   }
 }
 

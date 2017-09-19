@@ -252,6 +252,21 @@ export const settingsSaga = ({ api } = {}) => {
     }
   }
 
+  const enableYubikey = function * (action) {
+    try {
+      const { guid, sharedKey, code } = action.payload
+      const response = yield call(api.enableYubikey, guid, sharedKey, code)
+
+      if (contains('updated', response)) {
+        yield put(actions.enableYubikeySuccess(response))
+      } else {
+        yield put(actions.enableYubikeyError(response))
+      }
+    } catch (error) {
+      yield put(actions.enableYubikeyError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
     yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
@@ -271,5 +286,6 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_AUTH_TYPE_NEVER_SAVE, updateAuthTypeNeverSave)
     yield takeEvery(AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, getGoogleAuthenticatorSecretUrl)
     yield takeEvery(AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP, confirmGoogleAuthenticatorSetup)
+    yield takeEvery(AT.ENABLE_YUBIKEY, enableYubikey)
   }
 }
