@@ -9,7 +9,10 @@ const INITIAL_STATE = {
   email_verified: 0,
   sms_number: '',
   sms_verified: 0,
-  auto_logout: 10
+  auto_logout: 10,
+  logging_level: 0,
+  ip_lock: '',
+  ip_lock_on: 0
 }
 
 const settingsReducer = (state = INITIAL_STATE, action) => {
@@ -48,6 +51,30 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.UPDATE_AUTO_LOGOUT_SUCCESS: {
       const { autoLogout } = payload
       return Object.assign({}, state, { auto_logout: autoLogout })
+    }
+
+    case AT.UPDATE_LOGGING_LEVEL_SUCCESS: {
+      const { loggingLevel } = payload
+      return Object.assign({}, state, { logging_level: loggingLevel })
+    }
+    case AT.UPDATE_IP_LOCK_SUCCESS: {
+      const { ipLock } = payload
+      console.log(`Ip lock is ${ipLock}`)
+      if (ipLock === '') {
+        console.log(`Ip lock empty`)
+        return Object.assign({}, state, { ip_lock: ipLock, ip_lock_on: 0 })
+      } else {
+        console.log(`Ip lock not empty`)
+        return Object.assign({}, state, { ip_lock: ipLock })
+      }
+    }
+    case AT.UPDATE_IP_LOCK_ON_SUCCESS: {
+      const { ipLockOn } = payload
+      return Object.assign({}, state, { ip_lock_on: ipLockOn })
+    }
+    case AT.UPDATE_BLOCK_TOR_IPS_SUCCESS: {
+      const { blockTorIps } = payload
+      return Object.assign({}, state, { block_tor_ips: blockTorIps })
     }
     case AT.UPDATE_HINT_SUCCESS: {
       const { hint } = payload

@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { wizardForm } from 'providers/FormProvider'
 
+import wizardProvider from 'providers/WizardProvider'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
@@ -25,9 +25,9 @@ class Reset2FAContainer extends React.Component {
     const { step, ...rest } = this.props
 
     switch (step) {
-      case 0: return <FirstStep {...rest} />
-      case 1: return <SecondStep {...rest} />
-      case 2: return <ThirdStep {...rest} handleSubmit={this.handleSubmit} timestamp={this.state.timestamp} />
+      case 1: return <FirstStep {...rest} />
+      case 2: return <SecondStep {...rest} />
+      case 3: return <ThirdStep {...rest} handleSubmit={this.handleSubmit} timestamp={this.state.timestamp} />
       default: return <FirstStep {...rest} />
     }
   }
@@ -54,7 +54,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const enhance = compose(
-  wizardForm('reset2FAForm', 3),
+  wizardProvider('reset2FA', 3),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

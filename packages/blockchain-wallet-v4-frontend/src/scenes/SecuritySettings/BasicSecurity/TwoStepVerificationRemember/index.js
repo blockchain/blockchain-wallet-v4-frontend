@@ -16,7 +16,7 @@ const TwoStepVerificationRemember = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='secondary'>
+        <Button nature='primary'>
           <FormattedMessage id='scenes.settings.2faremember.enable' defaultMessage='Enable' />
         </Button>
       </SettingComponent>

@@ -13,11 +13,16 @@ class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   handleClick () {
     const { selection } = this.props
     this.props.paymentActions.signAndPublish(settings.NETWORK, selection)
+  }
+
+  handleClose () {
+    this.props.modalActions.closeAllModals()
   }
 
   render () {

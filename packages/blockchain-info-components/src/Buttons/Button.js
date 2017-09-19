@@ -41,11 +41,11 @@ const BaseButton = styled.button.attrs({
   }
   &:focus { outline:0; }
  `
-const selectColor = (nature, theme, disabled) => {
+const selectColor = (nature, disabled) => {
   if (disabled) { return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' } }
 
   switch (nature) {
-    case 'empty': return { color: 'black', backgroundColor: 'white', borderColor: 'gray-2' }
+    case 'empty': return { color: 'gray-6', backgroundColor: 'white', borderColor: 'gray-2' }
     case 'primary': return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' }
     case 'secondary': return { color: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
     case 'copy': return { color: 'white', backgroundColor: 'success', borderColor: 'success' }
@@ -53,13 +53,14 @@ const selectColor = (nature, theme, disabled) => {
     case 'sent': return { color: 'white', backgroundColor: 'sent', borderColor: 'sent' }
     case 'transferred': return { color: 'white', backgroundColor: 'transferred', borderColor: 'transferred' }
     case 'logout': return { color: 'white', backgroundColor: 'error', borderColor: 'error' }
-    default: return { color: 'black', backgroundColor: 'white', borderColor: 'gray-2' }
+    case 'dark': return { color: 'white', backgroundColor: 'gray-6', borderColor: 'gray-6' }
+    default: return { color: 'gray-6', backgroundColor: 'white', borderColor: 'gray-2' }
   }
 }
 
 const Button = (props) => {
   const { children, nature, theme, disabled, ...rest } = props
-  const { color, backgroundColor, borderColor } = selectColor(nature, theme, disabled)
+  const { color, backgroundColor, borderColor } = selectColor(nature, disabled)
 
   return (
     <BaseButton
@@ -74,7 +75,7 @@ const Button = (props) => {
 }
 
 Button.propTypes = {
-  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout']),
+  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout', 'dark']),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,

@@ -44,6 +44,22 @@ export const updateAutoLogout = (guid, sharedKey, autoLogout) => ({ type: AT.UPD
 export const updateAutoLogoutSuccess = (autoLogout, data) => ({ type: AT.UPDATE_AUTO_LOGOUT_SUCCESS, payload: { autoLogout, data } })
 export const updateAutoLogoutError = message => ({ type: AT.UPDATE_AUTO_LOGOUT_ERROR, payload: message })
 
+export const updateLoggingLevel = (guid, sharedKey, loggingLevel) => ({ type: AT.UPDATE_LOGGING_LEVEL, payload: { guid, sharedKey, loggingLevel } })
+export const updateLoggingLevelSuccess = (loggingLevel, data) => ({ type: AT.UPDATE_LOGGING_LEVEL_SUCCESS, payload: { loggingLevel, data } })
+export const updateLoggingLevelError = message => ({ type: AT.UPDATE_LOGGING_LEVEL_ERROR, payload: message })
+
+export const updateIpLock = (guid, sharedKey, ipLock) => ({ type: AT.UPDATE_IP_LOCK, payload: { guid, sharedKey, ipLock } })
+export const updateIpLockSuccess = (ipLock, data) => ({ type: AT.UPDATE_IP_LOCK_SUCCESS, payload: { ipLock, data } })
+export const updateIpLockError = message => ({ type: AT.UPDATE_IP_LOCK_ERROR, payload: message })
+
+export const updateIpLockOn = (guid, sharedKey, ipLockOn) => ({ type: AT.UPDATE_IP_LOCK_ON, payload: { guid, sharedKey, ipLockOn } })
+export const updateIpLockOnSuccess = (ipLockOn, data) => ({ type: AT.UPDATE_IP_LOCK_ON_SUCCESS, payload: { ipLockOn, data } })
+export const updateIpLockOnError = message => ({ type: AT.UPDATE_IP_LOCK_ON_ERROR, payload: message })
+
+export const updateBlockTorIps = (guid, sharedKey, blockTorIps) => ({ type: AT.UPDATE_BLOCK_TOR_IPS, payload: { guid, sharedKey, blockTorIps } })
+export const updateBlockTorIpsSuccess = (blockTorIps, data) => ({ type: AT.UPDATE_BLOCK_TOR_IPS_SUCCESS, payload: { blockTorIps, data } })
+export const updateBlockTorIpsError = message => ({ type: AT.UPDATE_BLOCK_TOR_IPS_ERROR, payload: message })
+
 export const updateHint = (guid, sharedKey, hint) => ({ type: AT.UPDATE_HINT, payload: { guid, sharedKey, hint } })
 export const updateHintSuccess = (hint, data) => ({ type: AT.UPDATE_HINT_SUCCESS, payload: { hint, data } })
 export const updateHintError = message => ({ type: AT.UPDATE_HINT_ERROR, payload: message })

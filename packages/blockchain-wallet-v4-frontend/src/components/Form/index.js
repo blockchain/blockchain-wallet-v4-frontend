@@ -10,6 +10,7 @@ import PhoneNumberBox from './PhoneNumberBox'
 import SelectBoxAddresses from './SelectBoxAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCurrency from './SelectBoxCurrency'
+import SelectBoxFee from './SelectBoxFee'
 import SelectBoxLanguages from './SelectBoxLanguages'
 import SelectBoxTheme from './SelectBoxTheme'
 import TextArea from './TextArea'
@@ -27,6 +28,7 @@ export {
   SelectBoxAddresses,
   SelectBoxBitcoinUnit,
   SelectBoxCurrency,
+  SelectBoxFee,
   SelectBoxLanguages,
   SelectBoxTheme,
   TextArea,

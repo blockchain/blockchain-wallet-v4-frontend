@@ -142,6 +142,54 @@ const updateBitcoinUnitError = function * (action) {
   yield put(actions.alerts.displayError(action.payload))
 }
 
+// =============================================================================
+// =============================== Logging Level ===============================
+// =============================================================================
+const updateLoggingLevelSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateLoggingLevelError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// ================================== IP Lock ==================================
+// =============================================================================
+const updateIpLockSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateIpLockError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// ================================= IP Lock on ================================
+// =============================================================================
+const updateIpLockOnSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateIpLockOnError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// =============================== Block Tor IPs ===============================
+// =============================================================================
+const updateBlockTorIpsSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateBlockTorIpsError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
 // =============================== EXPORT ======================================
 
 function * sagas () {
@@ -161,6 +209,14 @@ function * sagas () {
   yield takeEvery(actionTypes.core.settings.UPDATE_CURRENCY_ERROR, updateCurrencyError)
   yield takeEvery(actionTypes.core.settings.UPDATE_BITCOIN_UNIT_SUCCESS, updateBitcoinUnitSuccess)
   yield takeEvery(actionTypes.core.settings.UPDATE_BITCOIN_UNIT_ERROR, updateBitcoinUnitError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_LOGGING_LEVEL_SUCCESS, updateLoggingLevelSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_LOGGING_LEVEL_ERROR, updateLoggingLevelError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_SUCCESS, updateIpLockSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ERROR, updateIpLockError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ON_SUCCESS, updateIpLockOnSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ON_ERROR, updateIpLockOnError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_BLOCK_TOR_IPS_SUCCESS, updateBlockTorIpsSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_BLOCK_TOR_IPS_ERROR, updateBlockTorIpsError)
 }
 
 export default sagas

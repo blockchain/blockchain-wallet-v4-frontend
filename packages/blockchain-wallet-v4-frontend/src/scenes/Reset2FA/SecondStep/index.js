@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
@@ -24,7 +24,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { previous, next, submitting, invalid } = props
+  const { previousStep, nextStep, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -58,12 +58,12 @@ const SecondStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain2' defaultMessage='If the Secret Phrase is correct, your request will be approved much quicker.' />
           <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain3' defaultMessage="If you don't know what this is, leave it blank." />
         </Text>
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
           <FormattedMessage id='scenes.reset2fa.secondstep.continue' defaultMessage='Continue' />
         </Button>
       </Form>
       <Footer>
-        <Link onClick={previous} size='13px' weight={300}>
+        <Link onClick={previousStep} size='13px' weight={300}>
           <FormattedMessage id='scenes.reset2fa.secondstep.back' defaultMessage='Go back' />
         </Link>
       </Footer>
@@ -71,4 +71,4 @@ const SecondStep = (props) => {
   )
 }
 
-export default SecondStep
+export default reduxForm({ form: 'reset2FA', destroyOnUnmount: false })(SecondStep)

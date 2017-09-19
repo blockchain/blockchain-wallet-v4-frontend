@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail, validWalletId } from 'services/FormHelper'
@@ -26,7 +26,7 @@ const Footer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { next, submitting, invalid } = props
+  const { nextStep, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -71,7 +71,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet.' />
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain2' defaultMessage='If you lost access to this email, please enter it regardless.' />
         </Text>
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={next}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
         </Button>
       </Form>
@@ -86,4 +86,4 @@ const FirstStep = (props) => {
   )
 }
 
-export default FirstStep
+export default reduxForm({ form: 'reset2FA', destroyOnUnmount: false })(FirstStep)

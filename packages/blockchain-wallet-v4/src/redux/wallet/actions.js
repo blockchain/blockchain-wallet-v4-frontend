@@ -77,3 +77,6 @@ export const deleteHdAddressLabel = (accountIdx, addressIdx) =>
 
 // autologout time
 export const setAutoLogout = (time) => ({ type: T.SET_AUTOLOGOUT, payload: { time } })
+
+// mnemonic verified
+export const verifyMnemonic = () => ({ type: T.VERIFY_MNEMONIC })

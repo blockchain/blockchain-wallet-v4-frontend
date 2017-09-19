@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
-  display: block;
+  display: inline-flex;
   position: relative;
   width: 22px;
 `

@@ -45,13 +45,10 @@ class AutoDisconnectionContainer extends React.Component {
 }
 
 AutoDisconnectionContainer.defaultProps = {
-  show: false,
-  closeButton: false,
   duration: 0
 }
 
 AutoDisconnectionContainer.propTypes = {
-  show: PropTypes.bool.isRequired,
   duration: PropTypes.number
 }
 
@@ -62,7 +59,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   modalEnhancer('AutoDisconnection'),
-  connect(void 0, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(AutoDisconnectionContainer)

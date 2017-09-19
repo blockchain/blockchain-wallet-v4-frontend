@@ -1,39 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { validMobileNumber, required } from 'services/FormHelper'
 import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components'
-import { Form, PhoneNumberBox, TextBox } from 'components/Form'
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) {  align-items: flex-end; }
-  
-  & > * { padding: 10px 0; }
-`
-const SettingForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) { align-items: flex-end; }
-`
+import { PhoneNumberBox, TextBox } from 'components/Form'
+import { SettingForm, SettingWrapper } from 'components/Setting'
 
 const Setting = (props) => {
   const { updateToggled, verifyToggled, handleToggle, handleClick, handleResend, handleVerify, smsNumber, submitting, invalid } = props
 
   return (
-    <Wrapper>
+    <SettingWrapper>
       <Text>{smsNumber}</Text>
-      <Button nature='secondary' onClick={handleToggle}>
+      <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.preferences.mobile.setting.updateform.change' defaultMessage='Change' />
       </Button>
       { updateToggled &&
@@ -51,7 +32,7 @@ const Setting = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.preferences.mobile.setting.updateform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.preferences.mobile.setting.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
@@ -72,13 +53,13 @@ const Setting = (props) => {
             <Button nature='empty' onClick={handleResend} capitalize>
               <FormattedMessage id='scenes.preferences.mobile.setting.verifyform.resend' defaultMessage='Resend' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleVerify}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleVerify}>
               <FormattedMessage id='scenes.preferences.mobile.setting.verifyform.verify' defaultMessage='Verify' />
             </Button>
           </ButtonGroup>
         </SettingForm>
       }
-    </Wrapper>
+    </SettingWrapper>
   )
 }
 
@@ -92,4 +73,4 @@ Setting.propTypes = {
   handleVerify: PropTypes.func.isRequired
 }
 
-export default Setting
+export default reduxForm({ form: 'settingMobilePhone' })(Setting)

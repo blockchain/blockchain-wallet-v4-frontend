@@ -1,5 +1,5 @@
 import * as T from './actionTypes.js'
-import { Wrapper, Wallet, Options } from '../../types'
+import { Wrapper, Wallet, Options, HDWallet, HDWalletList } from '../../types'
 import { over, set, view } from 'ramda-lens'
 import { compose } from 'ramda'
 
@@ -25,7 +25,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     }
     case T.RESTORE_WALLET_SUCCESS:
     case T.CREATE_WALLET_SUCCESS: {
-      let { guid, sharedKey, mnemonic, label, password, nAccounts } = action.payload
+      const { guid, sharedKey, mnemonic, label, password, nAccounts } = action.payload
       return Wrapper.createNew(guid, password, sharedKey, mnemonic, label, nAccounts)
     }
     case T.SET_LEGACY_ADDRESS_LABEL: {
@@ -51,6 +51,13 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     case T.DELETE_HD_ADDRESS_LABEL: {
       const { accountIdx, addressIdx } = action.payload
       return over(Wrapper.wallet, Wallet.deleteHdAddressLabel(accountIdx, addressIdx), state)
+    }
+    case T.VERIFY_MNEMONIC: {
+      const mvLens = compose(Wrapper.wallet,
+                             Wallet.hdWallets,
+                             HDWalletList.hdwallet,
+                             HDWallet.mnemonicVerified)
+      return set(mvLens, true, state)
     }
     default:
       return state

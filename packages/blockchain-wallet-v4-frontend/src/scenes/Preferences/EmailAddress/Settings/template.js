@@ -1,39 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
-import { Form, TextBox } from 'components/Form'
+import { TextBox } from 'components/Form'
+import { SettingForm, SettingWrapper } from 'components/Setting'
 import { validEmail } from 'services/FormHelper'
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) { align-items: flex-end; }
-
-  & > * { padding: 10px 0; }
-`
-const SettingForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media(min-width: 992px) { align-items: flex-end; }
-`
 
 const Settings = (props) => {
   const { updateToggled, verifyToggled, handleToggle, handleClick, handleResend, email, submitting, invalid } = props
 
   return (
-    <Wrapper>
+    <SettingWrapper>
       <Text>{email}</Text>
-      <Button nature='secondary' onClick={handleToggle}>
+      <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.preferences.email.setting.updateform.change' defaultMessage='Change' />
       </Button>
       {updateToggled &&
@@ -46,7 +27,7 @@ const Settings = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.preferences.email.setting.updateform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.preferences.email.setting.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
@@ -61,13 +42,13 @@ const Settings = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.preferences.email.setting.verifyform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' onClick={handleResend} capitalize>
+            <Button nature='primary' onClick={handleResend} capitalize>
               <FormattedMessage id='scenes.preferences.email.setting.verifyform.resend' defaultMessage='Resend' />
             </Button>
           </ButtonGroup>
         </SettingForm>
       }
-    </Wrapper>
+    </SettingWrapper>
   )
 }
 
@@ -80,4 +61,4 @@ Settings.propTypes = {
   handleResend: PropTypes.func.isRequired
 }
 
-export default Settings
+export default reduxForm({ form: 'settingEmailAddress' })(Settings)

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
@@ -44,7 +44,7 @@ const Reminder = (props) => {
           <FormattedMessage id='scenes.reminder.robot' defaultMessage="So that we know you're not a robot" />
         </Text>
         <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
           <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
         </Button>
       </Form>
@@ -59,4 +59,4 @@ const Reminder = (props) => {
   )
 }
 
-export default Reminder
+export default reduxForm({ form: 'reminder' })(Reminder)
