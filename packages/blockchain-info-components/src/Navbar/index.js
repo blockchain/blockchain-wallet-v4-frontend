@@ -5,6 +5,15 @@ import NavbarMenu from './NavbarMenu'
 import NavbarNav from './NavbarNav'
 import NavbarNavItem from './NavbarNavItem'
 import NavbarToggler from './NavbarToggler'
-import HoverDropdown from './HoverDropdown'
+import NavbarDropdown from './NavbarDropdown'
 
-export { HoverDropdown, Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNav, NavbarNavItem, NavbarToggler }
+export {
+  Navbar,
+  NavbarBrand,
+  NavbarHeader,
+  NavbarMenu,
+  NavbarNav,
+  NavbarNavItem,
+  NavbarToggler,
+  NavbarDropdown
+}

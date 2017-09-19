@@ -1,50 +1,50 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Dropdown from './template.js'
+import NavbarNavItem from './template.js'
 import { Palette } from 'blockchain-info-components'
 import { keysIn } from 'ramda'
 
-class HoverDropdown extends React.Component {
+class NavbarNavItemContainer extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      toggled: props.opened
+      hovered: props.opened
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
   }
 
   handleMouseOver () {
-    this.setState({ toggled: true })
+    this.setState({ hovered: true })
   }
 
   handleMouseOut () {
-    this.setState({ toggled: true })
+    this.setState({ hovered: false })
   }
 
   render () {
     const { opened, ...rest } = this.props
 
-    return <Dropdown {...rest}
+    return <NavbarNavItem {...rest}
       handleMouseOver={this.handleMouseOver}
       handleMouseOut={this.handleMouseOut}
-      toggled={this.state.toggled}
+      hovered={this.state.hovered}
     />
   }
 }
 
-HoverDropdown.defaultProps = {
+NavbarNavItemContainer.defaultProps = {
   color: 'white',
   opened: false,
   uppercase: true
 }
 
-HoverDropdown.PropTypes = {
+NavbarNavItemContainer.PropTypes = {
   opened: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),
   uppercase: PropTypes.bool
 }
 
-export default HoverDropdown
+export default NavbarNavItemContainer

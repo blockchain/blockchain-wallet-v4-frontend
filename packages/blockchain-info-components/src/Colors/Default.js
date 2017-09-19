@@ -28,6 +28,5 @@ export default {
   white: '#FFFFFF',
   red: '#FF0000',
   halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
-  'navhoverbg': 'rgba(255, 255, 255, 0.3)',
   'navhover': 'rgba(255, 255, 255, 0.59)'
 }
