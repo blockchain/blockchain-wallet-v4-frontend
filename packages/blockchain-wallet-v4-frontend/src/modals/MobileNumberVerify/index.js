@@ -1,66 +1,56 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { formValueSelector } from 'redux-form'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import MobileNumberVerify from './template.js'
 
 class MobileNumberVerifyContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleChangeMobileNumber = this.handleChangeMobileNumber.bind(this)
+    this.handleValidate = this.handleValidate.bind(this)
     this.handleResend = this.handleResend.bind(this)
-    this.handleVerify = this.handleVerify.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
   }
 
   componentDidMount () {
-    // this.handleResend()
+    this.props.modalActions.clickMobileNumberVerifyResend(this.props.mobileNumber)
   }
 
   handleResend () {
-    const { guid, sharedKey, mobileNumber } = this.props
-    this.props.settingsActions.updateMobile(guid, sharedKey, mobileNumber)
+    this.props.modalActions.clickMobileNumberVerifyResend(this.props.mobileNumber)
   }
 
-  handleVerify () {
-    const { guid, sharedKey, code } = this.props
-    this.props.settingsActions.verifyMobile(guid, sharedKey, code)
-    this.props.modalActions.closeModal()
+  handleValidate () {
+    this.props.modalActions.clickMobileNumberVerifyValidate()
   }
 
-  handleChangeMobileNumber () {
-    this.props.modalActions.closeModal()
-    this.props.modalActions.showModal('MobileNumberChange')
+  handleChange () {
+    this.props.modalActions.clickMobileNumberVerifyChange()
   }
 
   render () {
     return (
       <MobileNumberVerify
         {...this.props}
-        handleChangeMobileNumber={this.handleChangeMobileNumber}
+        handleValidate={this.handleValidate}
         handleResend={this.handleResend}
-        handleVerify={this.handleVerify}
+        handleChange={this.handleChange}
+        handleCancel={this.handleCancel}
       />
     )
   }
 }
 
-const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
-  code: formValueSelector('mobileNumberVerify')(state, 'code')
-})
-
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('MobileNumberVerify'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(MobileNumberVerifyContainer)

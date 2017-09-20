@@ -18,6 +18,57 @@ const clickAutoDisconnectionCancel = function * (action) {
 }
 
 // =============================================================================
+// ========================= MobileNumberChange Modal ==========================
+// =============================================================================
+
+const clickMobileNumberChangeUpdate = function * (action) {
+  const guid = yield select(selectors.core.wallet.getGuid)
+  const sharedKey = yield select(selectors.core.wallet.getSharedKey)
+  const mobileNumber = yield select(state => formValueSelector('mobileNumberChange')(state, 'mobileNumber'))
+  yield put(actions.settings.updateMobile(guid, sharedKey, mobileNumber))
+  yield put(actions.modals.closeModal())
+  yield put(actions.modals.showModal('MobileNumberVerify', { mobileNumber }))
+}
+
+const clickMobileNumberChangeCancel = function * (action) {
+  yield put(actions.modals.closeModal())
+}
+
+// =============================================================================
+// ========================= MobileNumberVerify Modal ==========================
+// =============================================================================
+const clickMobileNumberVerifyValidate = function * (action) {
+  const guid = yield select(selectors.core.wallet.getGuid)
+  const sharedKey = yield select(selectors.core.wallet.getSharedKey)
+  const code = yield select(state => formValueSelector('mobileNumberVerify')(state, 'code'))
+  yield put(actions.settings.verifyMobile(guid, sharedKey, code))
+  yield put(actions.modals.closeModal())
+}
+
+const clickMobileNumberVerifyResend = function * (action) {
+  const guid = yield select(selectors.core.wallet.getGuid)
+  const sharedKey = yield select(selectors.core.wallet.getSharedKey)
+  const mobileNumber = action.payload.mobileNumber
+  yield put(actions.settings.updateMobile(guid, sharedKey, mobileNumber))
+}
+
+const clickMobileNumberVerifyChange = function * (action) {
+  yield put(actions.modals.closeModal())
+  yield put(actions.modals.showModal('MobileNumberChange'))
+}
+
+const clickMobileNumberVerifyCancel = function * (action) {
+  yield put(actions.modals.closeModal())
+}
+
+// =============================================================================
+// ============================ PairingCode modal ==============================
+// =============================================================================
+const initPairingCode = function * (action) {
+  yield put(actions.modals.showModal('PairingCode', { data: action.payload.encryptionPhrase }))
+}
+
+// =============================================================================
 // ============================ TwoStepSetup Modal =============================
 // =============================================================================
 const clickTwoStepSetupMobile = function * (action) {
@@ -71,7 +122,7 @@ const clickTwoStepYubicoEnable = function * () {
   const code = yield select(state => formValueSelector('twoStepYubico')(state, 'code'))
 
   console.log(guid, sharedKey, code)
-  // this.props.settingsActions.confirmGoogleAuthenticatorSetup(guid, sharedKey, code)
+  // this.props.settingsActions.enableYubikey(guid, sharedKey, code)
 }
 
 // This saga listen if the Yubikey is successfully enabled on the server
@@ -88,6 +139,16 @@ function * sagas () {
   // AutoDisconnection
   yield takeEvery(AT.CLICK_AUTO_DISCONNECTION_LOGOUT, clickAutoDisconnectionLogout)
   yield takeEvery(AT.CLICK_AUTO_DISCONNECTION_CANCEL, clickAutoDisconnectionCancel)
+  // MobileNumberChange
+  yield takeEvery(AT.CLICK_MOBILE_NUMBER_CHANGE_UPDATE, clickMobileNumberChangeUpdate)
+  yield takeEvery(AT.CLICK_MOBILE_NUMBER_CHANGE_CANCEL, clickMobileNumberChangeCancel)
+  // MobileNumberVerify
+  yield takeEvery(AT.CLICK_MOBILE_NUMBER_VERIFY_VALIDATE, clickMobileNumberVerifyValidate)
+  yield takeEvery(AT.CLICK_MOBILE_NUMBER_VERIFY_RESEND, clickMobileNumberVerifyResend)
+  yield takeEvery(AT.CLICK_MOBILE_NUMBER_VERIFY_CHANGE, clickMobileNumberVerifyChange)
+  yield takeEvery(AT.CLICK_MOBILE_NUMBER_VERIFY_CANCEL, clickMobileNumberVerifyCancel)
+  // PairingCode
+  yield takeEvery(actionTypes.core.settings.requestPairingCodeSuccess, initPairingCode)
   // TwoStepSetup
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_MOBILE, clickTwoStepSetupMobile)
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_GOOGLE_AUTHENTICATOR, clickTwoStepSetupGoogleAuthenticator)

@@ -22,17 +22,13 @@ class SettingsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    guid: selectors.core.wallet.getGuid(state),
-    sharedKey: selectors.core.wallet.getSharedKey(state)
-  }
-}
+const mapStateToProps = (state) => ({
+  guid: selectors.core.wallet.getGuid(state),
+  sharedKey: selectors.core.wallet.getSharedKey(state)
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    settingsActions: bindActionCreators(actions.core.settings, dispatch)
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

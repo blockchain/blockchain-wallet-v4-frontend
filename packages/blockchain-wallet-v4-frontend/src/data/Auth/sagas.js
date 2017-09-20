@@ -109,9 +109,7 @@ const logoutResetTimer = function * () {
 
 const logoutTimer = function * () {
   try {
-    // const autoLogout = yield select(selectors.core.wallet.getLogoutTime)
-    const autoLogout = 15000
-
+    const autoLogout = yield select(selectors.core.wallet.getLogoutTime)
     let elapsed = 0
     const total = parseInt(autoLogout / 1000)
     const threshold = 10

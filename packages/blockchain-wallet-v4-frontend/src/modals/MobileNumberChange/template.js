@@ -19,8 +19,8 @@ const MobileNumber = styled.div`
 `
 
 const MobileNumberChange = (props) => {
-  const { position, total, close, closeAll, submitting, invalid, ...rest } = props
-  const { handleUpdate } = rest
+  const { position, total, closeAll, submitting, invalid, ...rest } = props
+  const { handleUpdate, handleCancel } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -41,7 +41,7 @@ const MobileNumberChange = (props) => {
         </Form>
       </ModalBody>
       <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={close}>
+        <Link size='13px' weight={300} onClick={handleCancel}>
           <FormattedMessage id='modals.mobilenumberchange.cancel' defaultMessage='Cancel' />
         </Link>
         <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleUpdate}>

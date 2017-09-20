@@ -9,6 +9,16 @@ export const showModal = (type, props = {}) => ({ type: AT.SHOW_MODAL, payload: 
 export const clickAutoDisconnectionLogout = () => ({ type: AT.CLICK_AUTO_DISCONNECTION_LOGOUT })
 export const clickAutoDisconnectionCancel = () => ({ type: AT.CLICK_AUTO_DISCONNECTION_CANCEL })
 
+// MobileNumberChange
+export const clickMobileNumberChangeUpdate = () => ({ type: AT.CLICK_MOBILE_NUMBER_CHANGE_UPDATE })
+export const clickMobileNumberChangeCancel = () => ({ type: AT.CLICK_MOBILE_NUMBER_CHANGE_CANCEL })
+
+// MobileNumberVerify
+export const clickMobileNumberVerifyValidate = () => ({ type: AT.CLICK_MOBILE_NUMBER_VERIFY_VALIDATE })
+export const clickMobileNumberVerifyResend = (mobileNumber) => ({ type: AT.CLICK_MOBILE_NUMBER_VERIFY_RESEND, payload: { mobileNumber } })
+export const clickMobileNumberVerifyChange = () => ({ type: AT.CLICK_MOBILE_NUMBER_VERIFY_CHANGE })
+export const clickMobileNumberVerifyCancel = () => ({ type: AT.CLICK_MOBILE_NUMBER_VERIFY_CANCEL })
+
 // TwoStepSetup
 export const clickTwoStepSetupDisable = () => ({ type: AT.CLICK_TWO_STEP_SETUP_DISABLE })
 export const clickTwoStepSetupMobile = () => ({ type: AT.CLICK_TWO_STEP_SETUP_MOBILE })
