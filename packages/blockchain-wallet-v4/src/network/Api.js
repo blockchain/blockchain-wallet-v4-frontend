@@ -79,7 +79,6 @@ const createApi = ({
 
   // fetchPayloadWithSession :: (String) -> Promise JSON
   const fetchPayloadWithSession = (guid, sessionToken) => {
-    console.log('here!')
     const extraHeaders = { sessionToken }
     const data = { format: 'json', resend_code: null }
     return request({ url: rootUrl, method: 'GET', endPoint: `wallet/${guid}`, data, extraHeaders })

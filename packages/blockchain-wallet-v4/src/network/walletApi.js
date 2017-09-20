@@ -38,7 +38,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithTwoFactorTask = (guid, session, password, twoFactorCode) =>
     promiseToTask(ApiPromise.fetchPayloadWithTwoFactorAuth)(guid, session, twoFactorCode)
-      .map(Wrapper.fromEncJSON(password))
+      .map(Wrapper.fromEncPayload(password))
       .chain(eitherToTask)
 
   const fetchWalletWithTwoFactor = compose(taskToPromise, fetchWalletWithTwoFactorTask)
