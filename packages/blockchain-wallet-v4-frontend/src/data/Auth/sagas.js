@@ -1,12 +1,13 @@
 import { delay } from 'redux-saga'
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
-import { prop, assoc } from 'ramda'
+import { prop, assoc, isNil, propSatisfies, propEq } from 'ramda'
 import Either from 'data.either'
 
 import * as AT from './actionTypes'
 import { actionTypes, actions, selectors } from 'data'
 import { api } from 'services/ApiService'
+import { crypto } from 'blockchain-wallet-v4/src'
 
 let safeParse = Either.try(JSON.parse)
 
@@ -89,7 +90,83 @@ const logout = function * () {
   window.location.reload(true)
 }
 
+// Helper function for mobile login modal
+
+const decode = (data, passphrase) => {
+  const split = string => {
+    const [version, guid, encrypted] = string.split('|')
+    return ({ version, guid, encrypted })
+  }
+
+  const checkVersion = object => {
+    if (propEq('version', '1', object)) {
+      return Either.Right(object)
+    } else {
+      return Either.Left(`Invalid Pairing Version Code ${object.version}`)
+    }
+  }
+
+  const checkGUID = object => {
+    if (propSatisfies(g => (g == null || g.length !== 36), 'guid', object)) {
+      return Either.Left(`Invalid Pairing QR Code, GUID is invalid`)
+    } else {
+      return Either.Right(object)
+    }
+  }
+
+  const decryptData = object => crypto.decryptDataWithPasswordSync(object.encrypted, passphrase, 10)
+
+  const getCredentials = decoded => {
+    const [sharedKey, passwordHex] = decoded.split('|')
+    const password = Buffer.from(passwordHex, 'hex').toString('utf8')
+    return { sharedKey, password }
+  }
+
+  return Either.fromNullable(data)
+    .map(split)
+    .chain(checkVersion)
+    .chain(checkGUID)
+    .map(decryptData)
+    .map(getCredentials)
+}
+
+// =============================================================================
+// ============================ MobileLogin modal ==============================
+// =============================================================================
+
+const mobileLoginSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+
+  try {
+    const [version, guid, encrypted] = data.split('|')
+    if (!isNil(guid)) {
+      const passphrase = yield call(api.getPairingPassword, guid)
+      const credentialsE = decode(data, passphrase)
+      const { sharedKey, password } = credentialsE.value
+      if (!(isNil(sharedKey) || isNil(password))) {
+        yield call(fetchWalletSaga, guid, sharedKey, undefined, password)
+      } else {
+        throw new Error('Login failed')
+      }
+    } else {
+      throw new Error('Invalid QR code')
+    }
+  } catch (error) {
+    yield put(actions.alerts.displayError(error.message))
+  }
+  yield put(actions.modals.closeModal())
+}
+
+const mobileLoginError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+  yield put(actions.modals.closeModal())
+}
+
 function * sagas () {
+  yield takeEvery(AT.MOBILE_LOGIN_SUCCESS, mobileLoginSuccess)
+  yield takeEvery(AT.MOBILE_LOGIN_ERROR, mobileLoginError)
   yield takeEvery(AT.LOGIN_START, login)
   yield takeEvery(AT.LOGOUT_START, logout)
   yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_SUCCESS, trezor)

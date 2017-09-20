@@ -10,6 +10,7 @@ class LoginContainer extends React.Component {
   constructor () {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.openMobileLogin = this.openMobileLogin.bind(this)
   }
 
   handleSubmit (event) {
@@ -17,9 +18,15 @@ class LoginContainer extends React.Component {
     this.props.authActions.loginStart({ guid: this.props.guid, password: this.props.password })
   }
 
+  openMobileLogin () {
+    this.props.modalActions.showModal('MobileLogin')
+  }
+
   render () {
     return (
-      <Login handleSubmit={this.handleSubmit} />
+      <Login
+        handleSubmit={this.handleSubmit}
+        openMobileLogin={this.openMobileLogin} />
     )
   }
 }
@@ -34,6 +41,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    modalActions: bindActionCreators(actions.modals, dispatch),
     authActions: bindActionCreators(actions.auth, dispatch),
     alertActions: bindActionCreators(actions.alerts, dispatch),
     coreActions: bindActionCreators(actions.core.wallet, dispatch)
