@@ -9,6 +9,8 @@ import App from 'scenes/app.js'
 import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
 import * as LN from 'blockchain-wallet-v4/src/ln/index'
+import * as random from 'crypto'
+
 
 var ec = require('../../bcoin/lib/crypto/secp256k1-browser')
 
@@ -17,7 +19,7 @@ console.info('test')
 let options = {}
 
 let staticLocal = {}
-staticLocal.priv = Buffer.from('022a72195e7eaf2f032fef55114ba026f573e34f7606edb3089d5189a0b2a367', 'hex')
+staticLocal.priv = random.randomBytes(32)
 staticLocal.pub = ec.publicKeyCreate(staticLocal.priv, true)
 
 options.staticLocal = staticLocal
