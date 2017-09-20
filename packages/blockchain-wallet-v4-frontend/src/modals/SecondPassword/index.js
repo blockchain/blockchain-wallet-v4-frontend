@@ -19,7 +19,6 @@ class SecondPasswordContainer extends React.Component {
     const finalPayload = Object.assign({}, nextPayload, { secondPassword: this.state.secondPassword })
     const action = { type: nextAction, payload: finalPayload }
     this.props.close()
-    console.log(action)
     this.props.dispatch(action)
   }
 

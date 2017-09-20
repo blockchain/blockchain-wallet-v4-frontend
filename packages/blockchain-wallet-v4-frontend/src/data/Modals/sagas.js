@@ -175,6 +175,7 @@ const clickTwoStepSetupMobile = function * (action) {
   } else if (!smsVerified) {
     yield put(actions.modals.showModal('MobileNumberVerify', { mobileNumber: smsNumber }))
   } else {
+    yield put(actions.modals.closeModal())
     yield put(actions.core.settings.updateAuthType(guid, sharedKey, 5))
   }
 }
@@ -192,7 +193,7 @@ const clickTwoStepSetupYubico = function * (action) {
 const clickTwoStepSetupDisable = function * (action) {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
-  yield put(actions.settings.updateAuthType(guid, sharedKey, 0))
+  yield put(actions.core.settings.updateAuthType(guid, sharedKey, 0))
 }
 
 // =============================================================================
@@ -203,7 +204,7 @@ const clickTwoStepGoogleAuthenticatorEnable = function * () {
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
   const code = yield select(state => formValueSelector('twoStepGoogleAuthenticator')(state, 'code'))
 
-  this.props.settingsActions.confirmGoogleAuthenticatorSetup(guid, sharedKey, code)
+  yield put(actions.core.settings.confirmGoogleAuthenticatorSetup(guid, sharedKey, code))
 }
 
 // =============================================================================

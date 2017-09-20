@@ -36,7 +36,7 @@ const Container = styled.div`
 
 const TwoStepSetup = (props) => {
   const { position, total, close, closeAll, ...rest } = props
-  const { handleGoogleAuthenticator, handleMobile, handleYubico, authType } = rest
+  const { handleGoogleAuthenticator, handleMobile, handleYubico, handleDisable, authType } = rest
 
   return authType !== 0 ? (
     <Modal size='large' position={position} total={total}>
@@ -44,7 +44,7 @@ const TwoStepSetup = (props) => {
         <FormattedMessage id='modals.twostepsetup.title1' defaultMessage='Disabled Two Step' />
       </ModalHeader>
       <ModalBody>
-        <Text>
+        <Text size='14px' weight={300}>
           <FormattedMessage id='modals.twostepsetup' defaultMessage='Are you sure to disable two step authentication ?' />
         </Text>
       </ModalBody>
@@ -52,7 +52,7 @@ const TwoStepSetup = (props) => {
         <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage id='modals.twostepsetup.cancel' defaultMessage='Cancel' />
         </Link>
-        <Button nature='logout'>
+        <Button nature='logout' onClick={handleDisable}>
           <FormattedMessage id='modals.twostepsetup.disable' defaultMessage='Disable' />
         </Button>
       </ModalFooter>
