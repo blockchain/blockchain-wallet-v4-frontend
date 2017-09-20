@@ -12,12 +12,6 @@ class ThirdStepContainer extends React.Component {
     this.handleFinish = this.handleFinish.bind(this)
   }
 
-  handleFinish () {
-    this.props.walletActions.verifyMnemonic()
-    this.props.modalActions.closeModal()
-    this.props.alertActions.displaySuccess('Your mnemonic has been verified !')
-  }
-
   componentWillMount () {
     const { updateUI } = this.props
     const randomize = sortBy(prop(0))
@@ -25,6 +19,10 @@ class ThirdStepContainer extends React.Component {
     const indexes = compose(take(4), map(prop(1)), randomize, pair)(range(0, 12))
 
     updateUI({ indexes })
+  }
+
+  handleFinish () {
+    this.props.modalActions.clickRecoveryPhraseFinish()
   }
 
   render () {
@@ -41,9 +39,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  walletActions: bindActionCreators(actions.core.wallet, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(

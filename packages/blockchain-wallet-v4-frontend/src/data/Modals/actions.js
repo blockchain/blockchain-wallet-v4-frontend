@@ -32,6 +32,15 @@ export const scanQRCodeCaptureSuccess = (data) => ({ type: AT.SCAN_QRCODE_CAPTUR
 export const scanQRCodeCaptureError = (message) => ({ type: AT.SCAN_QRCODE_CAPTURE_ERROR, payload: message })
 export const clickQRCodeCaptureCancel = () => ({ type: AT.CLICK_QRCODE_CAPTURE_CANCEL })
 
+// RecoveryPhase
+export const clickRecoveryPhraseFinish = () => ({ type: AT.CLICK_RECOVERY_PHASE_FINISH })
+
+// RequestBitcoin
+export const clickRequestBitcoinQRCode = (receiveAddress) => ({ type: AT.CLICK_REQUEST_BITCOIN_QRCODE, payload: { receiveAddress } })
+
+// SendBitcoin
+export const clickSendBitcoinSend = (selection) => ({ type: AT.CLICK_SEND_BITCOIN_SEND, payload: { selection } })
+
 // TwoStepSetup
 export const clickTwoStepSetupDisable = () => ({ type: AT.CLICK_TWO_STEP_SETUP_DISABLE })
 export const clickTwoStepSetupMobile = () => ({ type: AT.CLICK_TWO_STEP_SETUP_MOBILE })

@@ -30,8 +30,8 @@ const Summary = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { previousStep, handleClick, fromAddress, toAddress, message, satoshis, fee, position, total, closeAll } = props
-
+  const { previousStep, position, total, closeAll, ...rest } = props
+  const { handleSend, fromAddress, toAddress, message, satoshis, fee } = rest
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='send' onClose={closeAll}>
@@ -86,7 +86,7 @@ const SecondStep = (props) => {
               <CurrencyDisplay>{satoshis}</CurrencyDisplay>
             </Text>
           </Summary>
-          <Button nature='primary' fullwidth uppercase onClick={handleClick}>
+          <Button nature='primary' fullwidth uppercase onClick={handleSend}>
             <FormattedMessage id='modals.sendbitcoin.secondstep.send' defaultMessage='Send bitcoin' />
           </Button>
         </Form>

@@ -1,6 +1,7 @@
 import { takeEvery, put, select } from 'redux-saga/effects'
 import { formValueSelector, actions as reduxFormActions } from 'redux-form'
 import bip21 from 'bip21'
+import settings from 'config'
 import { actions, actionTypes, selectors } from 'data'
 import * as AT from './actionTypes'
 
@@ -103,10 +104,8 @@ const scanQRCodeCaptureSuccess = function * (action) {
   const { data } = payload
 
   if (data) {
-    const decodedData = bip21.decode(data)
-    const address = decodedData.address
-    const amount = decodedData.options.amount
-    const message = decodedData.options.message
+    const { address, options } = bip21.decode(data)
+    const { amount, message } = options
 
     if (!address) {
       yield put(actions.alerts.displayError('An error occured when capturing the QRCode.'))
@@ -133,6 +132,33 @@ const scanQRCodeCaptureError = function * (action) {
 
 const clickQRCodeCaptureCancel = function * (action) {
   yield put(actions.modals.closeModal())
+}
+
+// =============================================================================
+// =========================== RecoveryPhase Modal ============================
+// =============================================================================
+const clickRecoveryPhraseFinish = function * (action) {
+  yield put(actions.core.wallet.verifyMnemonic())
+  yield put(actions.modals.closeModal())
+  yield put(actions.alerts.displaySuccess('Your mnemonic has been verified !'))
+}
+
+// =============================================================================
+// =========================== RequestBitcoin Modal ============================
+// =============================================================================
+const clickRequestBitcoinQRCode = function * (action) {
+  const { payload } = action
+  const { receiveAddress } = payload
+  yield put(actions.modals.showModal('QRCode', { address: receiveAddress }))
+}
+
+// =============================================================================
+// ============================= SendBitcoin Modal =============================
+// =============================================================================
+const clickSendBitcoinSend = function * (action) {
+  const { payload } = action
+  const { selection } = payload
+  yield put(actions.core.payment.signAndPublish(settings.NETWORK, selection))
 }
 
 // =============================================================================
@@ -225,7 +251,13 @@ function * sagas () {
   yield takeEvery(AT.SCAN_QRCODE_CAPTURE_SUCCESS, scanQRCodeCaptureSuccess)
   yield takeEvery(AT.SCAN_QRCODE_CAPTURE_ERROR, scanQRCodeCaptureError)
   yield takeEvery(AT.CLICK_QRCODE_CAPTURE_CANCEL, clickQRCodeCaptureCancel)
-    // TwoStepSetup
+  // RecoveryPhrase
+  yield takeEvery(AT.CLICK_RECOVERY_PHASE_FINISH, clickRecoveryPhraseFinish)
+  // RequestBitcoin
+  yield takeEvery(AT.CLICK_REQUEST_BITCOIN_QRCODE, clickRequestBitcoinQRCode)
+  // sendBitcoin
+  yield takeEvery(AT.CLICK_SEND_BITCOIN_SEND, clickSendBitcoinSend)
+  // TwoStepSetup
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_MOBILE, clickTwoStepSetupMobile)
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_GOOGLE_AUTHENTICATOR, clickTwoStepSetupGoogleAuthenticator)
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_YUBICO, clickTwoStepSetupYubico)

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import QRCodeReact from 'qrcode-react'
 
 import { Link, Modal, ModalHeader, ModalBody, ModalFooter, Text, Tooltip } from 'blockchain-info-components'
-import CopyClipboard from './CopyClipboard'
+import CopyClipboard from 'components/CopyClipboard'
 
 const QRCodeContainer = styled.div`
   display: flex;
