@@ -1,7 +1,8 @@
-import { takeEvery, put, select } from 'redux-saga/effects'
+import { takeEvery, put, select, call } from 'redux-saga/effects'
 import { formValueSelector } from 'redux-form'
 import { actions, actionTypes, selectors } from 'data'
 import * as AT from './actionTypes'
+import { pairing } from 'blockchain-wallet-v4/src'
 
 // =============================================================================
 // ========================= AutoDisconnection Modal ===========================
@@ -14,6 +15,24 @@ const clickAutoDisconnectionLogout = function * (action) {
 
 const clickAutoDisconnectionCancel = function * (action) {
   yield put(actions.auth.logoutResetTimer())
+  yield put(actions.modals.closeModal())
+}
+
+// =============================================================================
+// ============================ MobileLogin Modal ==============================
+// =============================================================================
+const captureMobileLoginSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+  yield put(actions.auth.mobileLoginSuccess(data))
+}
+
+const captureMobileLoginError = function * (action) {
+  const { payload } = action
+  yield put(actions.auth.mobileLoginError(payload))
+}
+
+const clickMobileLoginCancel = function * (action) {
   yield put(actions.modals.closeModal())
 }
 
@@ -134,11 +153,14 @@ const clickTwoStepYubicoEnableConfirmation = function * () {
 }
 
 // =============================== EXPORT ======================================
-
 function * sagas () {
   // AutoDisconnection
   yield takeEvery(AT.CLICK_AUTO_DISCONNECTION_LOGOUT, clickAutoDisconnectionLogout)
   yield takeEvery(AT.CLICK_AUTO_DISCONNECTION_CANCEL, clickAutoDisconnectionCancel)
+  // MobileLogin
+  yield takeEvery(AT.CAPTURE_MOBILE_LOGIN_SUCCESS, captureMobileLoginSuccess)
+  yield takeEvery(AT.CAPTURE_MOBILE_LOGIN_ERROR, captureMobileLoginError)
+  yield takeEvery(AT.CLICK_MOBILE_LOGIN_CANCEL, clickMobileLoginCancel)
   // MobileNumberChange
   yield takeEvery(AT.CLICK_MOBILE_NUMBER_CHANGE_UPDATE, clickMobileNumberChangeUpdate)
   yield takeEvery(AT.CLICK_MOBILE_NUMBER_CHANGE_CANCEL, clickMobileNumberChangeCancel)

@@ -50,7 +50,7 @@ const FirstStep = (props) => {
   const validateAmount = (value, allValues, props) => {
     return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
   }
-  const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, next, invalid, submitting,
+  const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, nextStep, invalid, submitting,
     handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, position, total, closeAll } = props
 
   return (
@@ -119,7 +119,7 @@ const FirstStep = (props) => {
             </ColRight>
           </Row>
           <ButtonRow>
-            <Button nature='secondary' uppercase onClick={next} disabled={submitting || invalid}>
+            <Button nature='secondary' uppercase onClick={nextStep} disabled={submitting || invalid}>
               <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
             </Button>
           </ButtonRow>

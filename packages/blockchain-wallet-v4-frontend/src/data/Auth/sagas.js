@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga'
 import { takeEvery, call, put, select, cancel, cancelled, fork } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
-import { prop, assoc, isNil } from 'ramda'
+import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import * as AT from './actionTypes'
@@ -145,17 +145,12 @@ const mobileLoginSuccess = function * (action) {
 
   try {
     const parsedDataE = pairing.parseQRcode(data)
-    console.log(parsedDataE)
     if (parsedDataE.isRight) {
       const { guid, encrypted } = parsedDataE.value
-      console.log(guid, encrypted)
       const passphrase = yield call(api.getPairingPassword, guid)
-      console.log(passphrase)
       const credentialsE = pairing.decode(encrypted, passphrase)
-      console.log(credentialsE)
       if (credentialsE.isRight) {
         const { sharedKey, password } = credentialsE.value
-        console.log(sharedKey, password)
         yield call(fetchWalletSaga, guid, sharedKey, undefined, password)
       } else {
         throw new Error(credentialsE.value)

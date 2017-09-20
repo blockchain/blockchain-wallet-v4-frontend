@@ -9,6 +9,11 @@ export const showModal = (type, props = {}) => ({ type: AT.SHOW_MODAL, payload: 
 export const clickAutoDisconnectionLogout = () => ({ type: AT.CLICK_AUTO_DISCONNECTION_LOGOUT })
 export const clickAutoDisconnectionCancel = () => ({ type: AT.CLICK_AUTO_DISCONNECTION_CANCEL })
 
+// MobileLogin
+export const captureMobileLoginSuccess = (data) => ({ type: AT.CAPTURE_MOBILE_LOGIN_SUCCESS, payload: { data } })
+export const captureMobileLoginError = (message) => ({ type: AT.CAPTURE_MOBILE_LOGIN_ERROR, payload: message })
+export const clickMobileLoginCancel = () => ({ type: AT.CLICK_MOBILE_LOGIN_CANCEL })
+
 // MobileNumberChange
 export const clickMobileNumberChangeUpdate = () => ({ type: AT.CLICK_MOBILE_NUMBER_CHANGE_UPDATE })
 export const clickMobileNumberChangeCancel = () => ({ type: AT.CLICK_MOBILE_NUMBER_CHANGE_CANCEL })
