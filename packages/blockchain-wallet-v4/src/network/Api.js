@@ -235,6 +235,11 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
   }
 
+  const getPriceIndexSeries = function (crypto, fiat, start, end, scale) {
+    const data = { base: crypto, quote: fiat, start: start, end: end, scale: scale }
+    return request({ url: apiUrl, method: 'POST', endPoint: 'price/index-series', data: data })
+  }
+
   // SETTINGS
   const updateSettings = function (guid, sharedKey, method, value) {
     const payload = type(value) === 'String' ? trim(value) : value + ''
@@ -300,6 +305,7 @@ const createApi = ({
     getPairingCode: future(getPairingCode),
     getAdverts: future(getAdverts),
     getLogs: future(getLogs),
+    getPriceIndexSeries: future(getPriceIndexSeries),
     getPairingPassword: future(getPairingPassword),
 
     updateEmail: future(updateEmail),
