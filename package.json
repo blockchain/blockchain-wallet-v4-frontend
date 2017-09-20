@@ -10,7 +10,6 @@
     "storybook": "cd packages/blockchain-info-components && npm run storybook:start"
   },
   "devDependencies": {
-    "lerna": "^2.0.0"
-  },
-  "dependencies": {}
+    "lerna": "^2.1.2"
+  }
 }
