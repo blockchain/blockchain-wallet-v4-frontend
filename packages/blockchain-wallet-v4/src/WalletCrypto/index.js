@@ -80,7 +80,7 @@ function decryptDataWithPassword (data, password, iterations, options) {
 }
 
 // decryptDataWithPasswordSync :: data -> password -> iterations -> options -> Buffer
-function decryptDataWithPasswordSync (data, password, iterations, options) {
+export function decryptDataWithPasswordSync (data, password, iterations, options) {
   if (!data) { return data }
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')

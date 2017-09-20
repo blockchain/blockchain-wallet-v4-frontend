@@ -1,12 +1,13 @@
 import { delay } from 'redux-saga'
 import { takeEvery, call, put, select, cancel, cancelled, fork } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
-import { prop, assoc } from 'ramda'
+import { prop, assoc, isNil } from 'ramda'
 import Either from 'data.either'
 
 import * as AT from './actionTypes'
 import { actionTypes, actions, selectors } from 'data'
 import { api } from 'services/ApiService'
+import { pairing } from 'blockchain-wallet-v4/src'
 
 let safeParse = Either.try(JSON.parse)
 
@@ -134,7 +135,44 @@ const logoutTimer = function * () {
   }
 }
 
+// =============================================================================
+// ============================ MobileLogin modal ==============================
+// =============================================================================
+
+const mobileLoginSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+
+  try {
+    const parsedDataE = pairing.parseQRcode(data)
+    if (parsedDataE.isRight) {
+      const { guid, encrypted } = parsedDataE.value
+      const passphrase = yield call(api.getPairingPassword, guid)
+      const credentialsE = pairing.decode(encrypted, passphrase)
+      if (credentialsE.isRight) {
+        const { sharedKey, password } = credentialsE.value
+        yield call(fetchWalletSaga, guid, sharedKey, undefined, password)
+      } else {
+        throw new Error(credentialsE.value)
+      }
+    } else {
+      throw new Error(parsedDataE.value)
+    }
+  } catch (error) {
+    yield put(actions.alerts.displayError(error.message))
+  }
+  yield put(actions.modals.closeModal())
+}
+
+const mobileLoginError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+  yield put(actions.modals.closeModal())
+}
+
 function * sagas () {
+  yield takeEvery(AT.MOBILE_LOGIN_SUCCESS, mobileLoginSuccess)
+  yield takeEvery(AT.MOBILE_LOGIN_ERROR, mobileLoginError)
   yield takeEvery(AT.LOGIN_START, login)
   yield takeEvery(AT.LOGOUT_START, logoutStart)
   yield takeEvery(AT.LOGOUT_START_TIMER, logoutStartTimer)

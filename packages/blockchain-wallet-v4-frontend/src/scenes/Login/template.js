@@ -1,6 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -8,6 +8,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { Form, PasswordBox, TextBox } from 'components/Form'
+import Modals from 'modals'
+import MobileLogin from 'modals/MobileLogin'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -37,10 +39,14 @@ const Footer = styled.div`
 `
 
 const Login = (props) => {
-  const { handleSubmit, handleTrezor, authType, submitting, invalid } = props
+  const { submitting, invalid, ...rest } = props
+  const { handleSubmit, handleMobile, authType } = rest
 
   return (
     <Wrapper>
+      <Modals>
+        <MobileLogin />
+      </Modals>
       <Header>
         <Text size='24px' weight={300} capitalize>
           <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back !' />
@@ -93,12 +99,9 @@ const Login = (props) => {
         <Button nature='primary' type='submit' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
         </Button>
-        <Button nature='secondary' fullwidth uppercase onClick={handleTrezor}>
-          <FormattedMessage id='scenes.login.trezor' defaultMessage='Trezor' />
-        </Button>
       </Form>
       <Footer>
-        <Link size='13px' weight={300}>
+        <Link size='13px' weight={300} onClick={handleMobile}>
           <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via mobile' />
         </Link>
         <TextGroup inline>
@@ -114,6 +117,10 @@ const Login = (props) => {
       </Footer>
     </Wrapper>
   )
+}
+
+Login.propTypes = {
+  handleMobile: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'loginForm' })(Login)

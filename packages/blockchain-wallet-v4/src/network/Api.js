@@ -205,6 +205,11 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
   }
 
+  const getPairingPassword = (guid) => {
+    const data = { method: 'pairing-encryption-password', guid }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
+  }
+
   const getUnspents = function (fromAddresses, confirmations = 0) {
     const data = {
       active: fromAddresses.join('|'),
@@ -328,6 +333,7 @@ const createApi = ({
     getPairingCode: future(getPairingCode),
     getAdverts: future(getAdverts),
     getLogs: future(getLogs),
+    getPairingPassword: future(getPairingPassword),
 
     updateEmail: future(updateEmail),
     sendEmailConfirmation: future(sendEmailConfirmation),
