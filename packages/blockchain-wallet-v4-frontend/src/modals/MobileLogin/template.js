@@ -56,7 +56,7 @@ const DELAY = 100
 
 const MobileLogin = (props) => {
   const { position, total, ...rest } = props
-  const { handleCapture, handleError, handleCancel } = rest
+  const { handleScan, handleError, handleCancel } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -69,7 +69,7 @@ const MobileLogin = (props) => {
         </Text>
         <Container>
           <QRCodeContainer>
-            <QrReader delay={DELAY} onScan={handleCapture} onError={handleError} />
+            <QrReader delay={DELAY} onScan={handleScan} onError={handleError} />
           </QRCodeContainer>
           <InstructionsContainer>
             <Text size='16px' weight={400} color='brand-primary'>
@@ -103,7 +103,7 @@ const MobileLogin = (props) => {
 }
 
 MobileLogin.propTypes = {
-  handleCapture: PropTypes.func.isRequired,
+  handleScan: PropTypes.func.isRequired,
   handleError: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired
 }

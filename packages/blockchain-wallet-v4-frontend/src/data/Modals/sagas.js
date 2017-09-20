@@ -1,8 +1,8 @@
-import { takeEvery, put, select, call } from 'redux-saga/effects'
-import { formValueSelector } from 'redux-form'
+import { takeEvery, put, select } from 'redux-saga/effects'
+import { formValueSelector, actions as reduxFormActions } from 'redux-form'
+import bip21 from 'bip21'
 import { actions, actionTypes, selectors } from 'data'
 import * as AT from './actionTypes'
-import { pairing } from 'blockchain-wallet-v4/src'
 
 // =============================================================================
 // ========================= AutoDisconnection Modal ===========================
@@ -21,13 +21,13 @@ const clickAutoDisconnectionCancel = function * (action) {
 // =============================================================================
 // ============================ MobileLogin Modal ==============================
 // =============================================================================
-const captureMobileLoginSuccess = function * (action) {
+const scanMobileLoginSuccess = function * (action) {
   const { payload } = action
   const { data } = payload
   yield put(actions.auth.mobileLoginSuccess(data))
 }
 
-const captureMobileLoginError = function * (action) {
+const scanMobileLoginError = function * (action) {
   const { payload } = action
   yield put(actions.auth.mobileLoginError(payload))
 }
@@ -81,10 +81,58 @@ const clickMobileNumberVerifyCancel = function * (action) {
 }
 
 // =============================================================================
-// ============================ PairingCode modal ==============================
+// ============================ PairingCode Modal ==============================
 // =============================================================================
 const initPairingCode = function * (action) {
   yield put(actions.modals.showModal('PairingCode', { data: action.payload.encryptionPhrase }))
+}
+
+// =============================================================================
+// =============================== QRCode Modal ================================
+// =============================================================================
+const clickQRCodeCancel = function * (action) {
+  yield put(actions.modals.closeModal())
+}
+
+// =============================================================================
+// ========================== QRCodeCapture Modal ==============================
+// =============================================================================
+
+const scanQRCodeCaptureSuccess = function * (action) {
+  const { payload } = action
+  const { data } = payload
+
+  if (data) {
+    const decodedData = bip21.decode(data)
+    const address = decodedData.address
+    const amount = decodedData.options.amount
+    const message = decodedData.options.message
+
+    if (!address) {
+      yield put(actions.alerts.displayError('An error occured when capturing the QRCode.'))
+      return
+    }
+    yield put(reduxFormActions.change('sendBitcoin', 'to', address))
+    if (!amount) {
+      // const unit = yield select(selectors.core.settings.getBtcCurrency)
+      // TODO: conversion here FFS
+      yield put(reduxFormActions.change('sendBitcoin', 'amount', amount))
+    }
+    if (!message) {
+      yield put(reduxFormActions.change('sendBitcoin', 'message', message))
+    }
+    yield put(actions.modals.closeModal())
+  }
+}
+
+const scanQRCodeCaptureError = function * (action) {
+  const { payload } = action
+  yield put(actions.alerts.displayError(payload))
+  yield put(actions.modals.closeModal())
+}
+
+const clickQRCodeCaptureCancel = function * (action) {
+  yield put(actions.modals.closeModal())
 }
 
 // =============================================================================
@@ -158,8 +206,8 @@ function * sagas () {
   yield takeEvery(AT.CLICK_AUTO_DISCONNECTION_LOGOUT, clickAutoDisconnectionLogout)
   yield takeEvery(AT.CLICK_AUTO_DISCONNECTION_CANCEL, clickAutoDisconnectionCancel)
   // MobileLogin
-  yield takeEvery(AT.CAPTURE_MOBILE_LOGIN_SUCCESS, captureMobileLoginSuccess)
-  yield takeEvery(AT.CAPTURE_MOBILE_LOGIN_ERROR, captureMobileLoginError)
+  yield takeEvery(AT.SCAN_MOBILE_LOGIN_SUCCESS, scanMobileLoginSuccess)
+  yield takeEvery(AT.SCAN_MOBILE_LOGIN_ERROR, scanMobileLoginError)
   yield takeEvery(AT.CLICK_MOBILE_LOGIN_CANCEL, clickMobileLoginCancel)
   // MobileNumberChange
   yield takeEvery(AT.CLICK_MOBILE_NUMBER_CHANGE_UPDATE, clickMobileNumberChangeUpdate)
@@ -171,7 +219,13 @@ function * sagas () {
   yield takeEvery(AT.CLICK_MOBILE_NUMBER_VERIFY_CANCEL, clickMobileNumberVerifyCancel)
   // PairingCode
   yield takeEvery(actionTypes.core.settings.REQUEST_PAIRING_CODE_SUCCESS, initPairingCode)
-  // TwoStepSetup
+  // QRCode
+  yield takeEvery(AT.CLICK_QRCODE_CANCEL, clickQRCodeCancel)
+  // QRCodeCapture
+  yield takeEvery(AT.SCAN_QRCODE_CAPTURE_SUCCESS, scanQRCodeCaptureSuccess)
+  yield takeEvery(AT.SCAN_QRCODE_CAPTURE_ERROR, scanQRCodeCaptureError)
+  yield takeEvery(AT.CLICK_QRCODE_CAPTURE_CANCEL, clickQRCodeCaptureCancel)
+    // TwoStepSetup
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_MOBILE, clickTwoStepSetupMobile)
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_GOOGLE_AUTHENTICATOR, clickTwoStepSetupGoogleAuthenticator)
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_YUBICO, clickTwoStepSetupYubico)

@@ -9,17 +9,17 @@ import MobileLogin from './template.js'
 class MobileLoginContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleCapture = this.handleCapture.bind(this)
+    this.handleScan = this.handleScan.bind(this)
     this.handleError = this.handleError.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
   }
 
-  handleCapture (result) {
-    if (result) { this.props.modalActions.captureMobileLoginSuccess(result) }
+  handleScan (result) {
+    if (result) { this.props.modalActions.scanMobileLoginSuccess(result) }
   }
 
   handleError (error) {
-    this.props.modalActions.captureMobileLoginError(error)
+    this.props.modalActions.scanMobileLoginError(error)
   }
 
   handleCancel () {
@@ -30,7 +30,7 @@ class MobileLoginContainer extends React.Component {
     return (
       <MobileLogin
         {...this.props}
-        handleCapture={this.handleCapture}
+        handleScan={this.handleScan}
         handleError={this.handleError}
         handleCancel={this.handleCancel}
       />

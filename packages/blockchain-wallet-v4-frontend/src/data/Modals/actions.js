@@ -10,8 +10,8 @@ export const clickAutoDisconnectionLogout = () => ({ type: AT.CLICK_AUTO_DISCONN
 export const clickAutoDisconnectionCancel = () => ({ type: AT.CLICK_AUTO_DISCONNECTION_CANCEL })
 
 // MobileLogin
-export const captureMobileLoginSuccess = (data) => ({ type: AT.CAPTURE_MOBILE_LOGIN_SUCCESS, payload: { data } })
-export const captureMobileLoginError = (message) => ({ type: AT.CAPTURE_MOBILE_LOGIN_ERROR, payload: message })
+export const scanMobileLoginSuccess = (data) => ({ type: AT.SCAN_MOBILE_LOGIN_SUCCESS, payload: { data } })
+export const scanMobileLoginError = (message) => ({ type: AT.SCAN_MOBILE_LOGIN_ERROR, payload: message })
 export const clickMobileLoginCancel = () => ({ type: AT.CLICK_MOBILE_LOGIN_CANCEL })
 
 // MobileNumberChange
@@ -23,6 +23,14 @@ export const clickMobileNumberVerifyValidate = () => ({ type: AT.CLICK_MOBILE_NU
 export const clickMobileNumberVerifyResend = (mobileNumber) => ({ type: AT.CLICK_MOBILE_NUMBER_VERIFY_RESEND, payload: { mobileNumber } })
 export const clickMobileNumberVerifyChange = () => ({ type: AT.CLICK_MOBILE_NUMBER_VERIFY_CHANGE })
 export const clickMobileNumberVerifyCancel = () => ({ type: AT.CLICK_MOBILE_NUMBER_VERIFY_CANCEL })
+
+// QRCode
+export const clickQRCodeCancel = () => ({ type: AT.CLICK_QRCODE_CANCEL })
+
+// QRCodeCapture
+export const scanQRCodeCaptureSuccess = (data) => ({ type: AT.SCAN_QRCODE_CAPTURE_SUCCESS, payload: { data } })
+export const scanQRCodeCaptureError = (message) => ({ type: AT.SCAN_QRCODE_CAPTURE_ERROR, payload: message })
+export const clickQRCodeCaptureCancel = () => ({ type: AT.CLICK_QRCODE_CAPTURE_CANCEL })
 
 // TwoStepSetup
 export const clickTwoStepSetupDisable = () => ({ type: AT.CLICK_TWO_STEP_SETUP_DISABLE })

@@ -23,7 +23,8 @@ const QrCodeReader = styled(QrReader)`
 `
 
 const QRCodeCapture = (props) => {
-  const { handleScan, handleError, position, total, close, closeAll } = props
+  const { position, total, closeAll, ...rest } = props
+  const { handleScan, handleError, handleCancel } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -39,7 +40,7 @@ const QRCodeCapture = (props) => {
         </QRCodeContainer>
       </ModalBody>
       <ModalFooter>
-        <Link onClick={close} size='13px' weight={300}>
+        <Link onClick={handleCancel} size='13px' weight={300}>
           <FormattedMessage id='modals.qrcodecapture.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>
@@ -49,8 +50,8 @@ const QRCodeCapture = (props) => {
 
 QRCodeCapture.propTypes = {
   handleScan: PropTypes.func.isRequired,
-  handleError: PropTypes.func,
-  handleBack: PropTypes.func
+  handleError: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func.isRequired
 }
 
 export default QRCodeCapture

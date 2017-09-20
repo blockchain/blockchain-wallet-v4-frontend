@@ -135,7 +135,7 @@ FirstStep.propTypes = {
   handleClickQrCodeCapture: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,
   handleClickFeeToggler: PropTypes.func.isRequired,
-  next: PropTypes.func.isRequired,
+  nextStep: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired
 }

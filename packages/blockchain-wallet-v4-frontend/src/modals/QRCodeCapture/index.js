@@ -11,11 +11,20 @@ class QRCodeCaptureContainer extends React.Component {
     super(props)
     this.handleScan = this.handleScan.bind(this)
     this.handleError = this.handleError.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
   }
 
-  handleScan (result) { if (result) this.props.interactivityActions.qrCodeCaptureSuccess(result) }
+  handleScan (result) {
+    if (result) { this.props.modalActions.scanQRCodeCaptureSuccess(result) }
+  }
 
-  handleError (error) { this.props.interactivityActions.qrCodeCaptureError(error) }
+  handleError (error) {
+    this.props.modalActions.scanQRCodeCaptureError(error)
+  }
+
+  handleCancel () {
+    this.props.clickQRCodeCaptureCancel()
+  }
 
   render () {
     return (
@@ -23,13 +32,14 @@ class QRCodeCaptureContainer extends React.Component {
         {...this.props}
         handleScan={this.handleScan}
         handleError={this.handleError}
+        handleCancel={this.handleCancel}
       />
     )
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  interactivityActions: bindActionCreators(actions.interactivity, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
