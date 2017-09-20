@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { compose } from 'redux'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
@@ -10,36 +9,42 @@ import SecondPassword from './template.js'
 class SecondPasswordContainer extends React.Component {
   constructor (props) {
     super(props)
+    this.state = { secondPassword: '' }
     this.handleClick = this.handleClick.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   handleClick () {
-    const { secondPassword, handleConfirm } = this.props
-    handleConfirm(secondPassword)
-    this.props.reduxFormActions.reset('secondPassword')
+    const { nextAction, nextPayload } = this.props
+    const finalPayload = Object.assign({}, nextPayload, { secondPassword: this.state.secondPassword })
+    const action = { type: nextAction, payload: finalPayload }
     this.props.close()
+    console.log(action)
+    this.props.dispatch(action)
+  }
+
+  handleChange (event) {
+    this.setState({ secondPassword: event.target.value })
   }
 
   render () {
-    return <SecondPassword {...this.props} handleClick={this.handleClick} />
+    return <SecondPassword {...this.props} handleClick={this.handleClick} handleChange={this.handleChange} value={this.state.secondPassword} />
   }
 }
 
 SecondPasswordContainer.propTypes = {
-  handleConfirm: PropTypes.func.isRequired
+  nextAction: PropTypes.string.isRequired,
+  nextPayload: PropTypes.object
 }
 
-const mapStateToProps = (state) => ({
-  secondPassword: formValueSelector('secondPassword')(state, 'secondPassword')
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
-})
+SecondPasswordContainer.defaultProps = {
+  nextAction: 'SHOW_MODAL',
+  nextPayload: { type: 'SecondPassword' }
+}
 
 const enhance = compose(
   modalEnhancer('SecondPassword'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect()
 )
 
 export default enhance(SecondPasswordContainer)
