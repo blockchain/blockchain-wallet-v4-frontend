@@ -13,8 +13,8 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey } = this.props
-    this.props.settingsActions.requestPairingCode(guid, sharedKey)
+    const { guid, sharedKey, password } = this.props
+    this.props.settingsActions.requestPairingCode(guid, sharedKey, password)
   }
 
   render () {
@@ -24,7 +24,8 @@ class SettingsContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state)
+  sharedKey: selectors.core.wallet.getSharedKey(state),
+  password: selectors.core.wallet.getMainPassword(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

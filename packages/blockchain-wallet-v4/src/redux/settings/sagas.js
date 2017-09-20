@@ -2,6 +2,7 @@ import { takeEvery, call, put } from 'redux-saga/effects'
 import * as actions from './actions'
 import * as AT from './actionTypes'
 import { contains, toLower } from 'ramda'
+import { pairing } from 'blockchain-wallet-v4/src'
 
 export const settingsSaga = ({ api } = {}) => {
   const fetchSettings = function * (action) {
@@ -16,13 +17,13 @@ export const settingsSaga = ({ api } = {}) => {
 
   const requestPairingCode = function * (action) {
     try {
-      const { guid, sharedKey } = action.payload
-      // Get guid, sharedKey, password and PAIRING_CODE_PBKDF2_ITERATIONS
-      const password = ''
-      const iterations = ''
-      let response = yield call(api.getPairingCode, guid, sharedKey)
-      // TODO /!\ : Convert to right format : https://github.com/blockchain/My-Wallet-V3/blob/master/src/wallet.js#L187
-      yield put(actions.requestPairingCodeSuccess(response))
+      const { guid, sharedKey, password } = action.payload
+      console.log(guid, sharedKey, password)
+      const pairingPassword = yield call(api.getPairingPassword, guid)
+      console.log(pairingPassword)
+      const data = pairing.encode(guid, sharedKey, password, pairingPassword)
+      console.log(data)
+      yield put(actions.requestPairingCodeSuccess(data))
     } catch (error) {
       yield put(actions.requestPairingCodeError(error))
     }

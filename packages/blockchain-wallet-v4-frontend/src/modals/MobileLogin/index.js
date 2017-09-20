@@ -13,7 +13,9 @@ class MobileLoginContainer extends React.Component {
     this.handleError = this.handleError.bind(this)
   }
 
-  handleScan (result) { if (result) this.props.authActions.mobileLoginSuccess(result) }
+  handleScan (result) {
+    if (result) this.props.authActions.mobileLoginSuccess(result)
+  }
 
   handleError (error) { this.props.authActions.mobileLoginError(error) }
 

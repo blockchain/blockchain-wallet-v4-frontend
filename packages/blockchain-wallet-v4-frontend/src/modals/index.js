@@ -3,6 +3,7 @@ import React from 'react'
 import AutoDisconnection from './AutoDisconnection'
 import MobileNumberChange from './MobileNumberChange'
 import MobileNumberVerify from './MobileNumberVerify'
+import MobileLogin from './MobileLogin'
 import PairingCode from './PairingCode'
 import QRCode from './QRCode'
 import QRCodeCapture from './QRCodeCapture'
@@ -19,6 +20,7 @@ const Modals = props => (
     <AutoDisconnection />
     <MobileNumberChange />
     <MobileNumberVerify />
+    <MobileLogin />
     <PairingCode />
     <QRCode />
     <QRCodeCapture />

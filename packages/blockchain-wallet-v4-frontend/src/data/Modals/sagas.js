@@ -148,7 +148,7 @@ function * sagas () {
   yield takeEvery(AT.CLICK_MOBILE_NUMBER_VERIFY_CHANGE, clickMobileNumberVerifyChange)
   yield takeEvery(AT.CLICK_MOBILE_NUMBER_VERIFY_CANCEL, clickMobileNumberVerifyCancel)
   // PairingCode
-  yield takeEvery(actionTypes.core.settings.requestPairingCodeSuccess, initPairingCode)
+  yield takeEvery(actionTypes.core.settings.REQUEST_PAIRING_CODE_SUCCESS, initPairingCode)
   // TwoStepSetup
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_MOBILE, clickTwoStepSetupMobile)
   yield takeEvery(AT.CLICK_TWO_STEP_SETUP_GOOGLE_AUTHENTICATOR, clickTwoStepSetupGoogleAuthenticator)

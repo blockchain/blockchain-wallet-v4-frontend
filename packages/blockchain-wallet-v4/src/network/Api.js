@@ -236,11 +236,6 @@ const createApi = ({
            .then(responseTXHASH)
   }
 
-  const getPairingCode = function (guid, sharedKey) {
-    const data = { guid, sharedKey, method: 'pairing-encryption-password', format: 'plain' }
-    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
-  }
-
   const getAdverts = function (number) {
     const data = { wallet: true, n: number }
     return request({ url: apiUrl, method: 'GET', endPoint: 'bci-ads/get', data: data })
@@ -330,7 +325,6 @@ const createApi = ({
     getUnspents: future(getUnspents),
     getFee: future(getFee),
     pushTx: future(pushTx),
-    getPairingCode: future(getPairingCode),
     getAdverts: future(getAdverts),
     getLogs: future(getLogs),
     getPairingPassword: future(getPairingPassword),

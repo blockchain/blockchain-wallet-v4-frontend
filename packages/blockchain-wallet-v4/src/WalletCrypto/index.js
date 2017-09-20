@@ -84,7 +84,6 @@ export function decryptDataWithPasswordSync (data, password, iterations, options
   if (!data) { return data }
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')
-
   var dataHex = Buffer.from(data, 'base64')
   var iv = dataHex.slice(0, U.SALT_BYTES)
   var payload = dataHex.slice(U.SALT_BYTES)
@@ -118,7 +117,7 @@ function encryptDataWithPassword (data, password, iterations) {
   })
 }
 
-function encryptDataWithPasswordSync (data, password, iterations) {
+export function encryptDataWithPasswordSync (data, password, iterations) {
   if (!data) { return data }
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')

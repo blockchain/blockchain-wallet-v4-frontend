@@ -4,7 +4,7 @@ export const fetchSettings = (data) => ({ type: AT.FETCH_SETTINGS, payload: data
 export const fetchSettingsSuccess = (data) => ({ type: AT.FETCH_SETTINGS_SUCCESS, payload: data })
 export const fetchSettingsError = (errorKey) => ({ type: AT.FETCH_SETTINGS_ERROR, payload: errorKey, error: true })
 
-export const requestPairingCode = (guid, sharedKey) => ({ type: AT.REQUEST_PAIRING_CODE, payload: { guid, sharedKey } })
+export const requestPairingCode = (guid, sharedKey, password) => ({ type: AT.REQUEST_PAIRING_CODE, payload: { guid, sharedKey, password } })
 export const requestPairingCodeSuccess = (encryptionPhrase) => ({ type: AT.REQUEST_PAIRING_CODE_SUCCESS, payload: { encryptionPhrase } })
 export const requestPairingCodeError = (message) => ({ type: AT.REQUEST_PAIRING_CODE_ERROR, payload: message })
 
