@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import ActivityList from './ActivityList'
 import BalanceSummary from './BalanceSummary'
 import DidYouKnow from './DidYouKnow'
-import Chart from './Chart'
+import Chart from './Highchart/Chart'
 
 const Wrapper = styled.section`
   display: flex;
