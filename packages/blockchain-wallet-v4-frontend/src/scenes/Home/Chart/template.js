@@ -2,12 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import ReactHighstock from 'react-highcharts/reactHighstock'
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: stretch;
+  align-items: space-between;
   width: 100%;
   padding: 15px;
   box-sizing: border-box;
@@ -16,8 +17,20 @@ const Wrapper = styled.div`
   & > * { padding: 10px 0; }
 `
 
+const TickerText = styled(Text)`
+  cursor: pointer;
+`
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: stretch;
+  color: white;
+`
+
 const Chart = (props) => {
-  const { currency, data } = props
+  const { currency, data, btcCoin, btcRate, ethCoin, ethRate } = props
 
   const config = {
     chart: {
@@ -77,6 +90,14 @@ const Chart = (props) => {
 
   return (
     <Wrapper>
+      <Row>
+        <TickerText onClick={() => console.log('BTC')} size='24px' weight={300} color='brand-primary'>
+          {`${btcCoin} = ${btcRate}`}
+        </TickerText>
+        <TickerText onClick={() => console.log('ETH')} size='24px' weight={300} color='brand-primary'>
+          {`${ethCoin} = ${ethRate}`}
+        </TickerText>
+      </Row>
       <ReactHighcharts config={config} />
     </Wrapper>
   )
