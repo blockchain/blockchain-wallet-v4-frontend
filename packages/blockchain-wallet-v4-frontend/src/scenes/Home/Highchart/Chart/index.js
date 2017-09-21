@@ -5,13 +5,20 @@ import { api } from 'services/ApiService'
 
 import Chart from './template.js'
 
+const intervals = {
+  hour: 3600 * 1000,
+  day: 24 * 3600 * 1000
+}
+
 class ChartContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state =
     {
       data: this.fetchChartData('BTC'),
-      selectedCoin: 'BTC'
+      selectedCoin: 'BTC',
+      start: 12307680,
+      interval: intervals.day
     }
     this.selectCoin = this.selectCoin.bind(this)
   }
@@ -38,7 +45,9 @@ class ChartContainer extends React.Component {
         selectCoin={this.selectCoin}
         selectedCoin={this.state.selectedCoin}
         currency={this.props.currency}
-        data={this.state.data} />
+        data={this.state.data}
+        start={this.state.start}
+        interval={this.state.interval} />
     )
   }
 }

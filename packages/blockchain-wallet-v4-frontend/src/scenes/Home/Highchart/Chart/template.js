@@ -27,10 +27,12 @@ const Row = styled.div`
   color: white;
 `
 
-const TickerWrapper = styled.div``
+const TickerWrapper = styled.div`
+  padding-right: 10px;
+`
 
 const Chart = (props) => {
-  const { currency, data, selectCoin, selectedCoin } = props
+  const { currency, data, selectCoin, selectedCoin, start, interval } = props
 
   const config = {
     chart: {
@@ -62,7 +64,9 @@ const Chart = (props) => {
     },
     plotOptions: {
       series: {
-        color: '#10ADE4'
+        color: '#10ADE4',
+        pointStart: start,
+        pointInterval: interval
       },
       line: {
         marker: {
