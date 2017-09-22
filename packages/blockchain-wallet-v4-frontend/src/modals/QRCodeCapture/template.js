@@ -2,11 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import QrReader from 'react-qr-reader'
 
 import { Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
-
-const DELAY = 100
+import QRReader from 'components/QRReader'
 
 const QRCodeContainer = styled.div`
   display: flex;
@@ -14,12 +12,8 @@ const QRCodeContainer = styled.div`
   align-content: center;
   width: 100;
   padding: 30px 0;
-`
-const QrCodeReader = styled(QrReader)`
-  width: 100%;
-  height: 100%;
 
-  & > * { width: 100%; }
+  & > section > video { width: 100%; }
 `
 
 const QRCodeCapture = (props) => {
@@ -36,7 +30,7 @@ const QRCodeCapture = (props) => {
           <FormattedMessage id='modals.qrcodecapture.scan' defaultMessage='Capture QR Code' />
         </Text>
         <QRCodeContainer>
-          <QrCodeReader delay={DELAY} onScan={handleScan} onError={handleError} />
+          <QRReader onScan={handleScan} onError={handleError} />
         </QRCodeContainer>
       </ModalBody>
       <ModalFooter>

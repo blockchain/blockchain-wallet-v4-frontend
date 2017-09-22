@@ -5,7 +5,6 @@ import { assign } from 'services/RamdaCookingBook'
 const INITIAL_STATE = {
   isLoggingIn: false,
   isAuthenticated: false,
-  authType: '',
   error: null
 }
 

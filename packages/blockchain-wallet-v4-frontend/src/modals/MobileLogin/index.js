@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { isNil, isEmpty } from 'ramda'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -15,11 +16,11 @@ class MobileLoginContainer extends React.Component {
   }
 
   handleScan (result) {
-    if (result) { this.props.modalActions.scanMobileLoginSuccess(result) }
+    if (!isNil(result) && !isEmpty(result)) { this.props.modalActions.scanMobileLoginSuccess(result) }
   }
 
   handleError (error) {
-    this.props.modalActions.scanMobileLoginError(error)
+    if (!isNil(error) && !isEmpty(error)) { this.props.modalActions.scanMobileLoginError('Could not scan the mobile login QR Code') }
   }
 
   handleCancel () {

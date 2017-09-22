@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import QrReader from 'react-qr-reader'
+import QRReader from 'components/QRReader'
 
 import { Badge, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 
@@ -52,15 +52,14 @@ const BadgesContainer = styled.div`
   justify-content: center;
   align-items: center;
 `
-const DELAY = 100
 
 const MobileLogin = (props) => {
-  const { position, total, ...rest } = props
+  const { position, total, closeAll, ...rest } = props
   const { handleScan, handleError, handleCancel } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader>
+      <ModalHeader onClose={closeAll} >
         <FormattedMessage id='modals.mobilelogin.title' defaultMessage='Mobile login' />
       </ModalHeader>
       <ModalBody>
@@ -69,7 +68,7 @@ const MobileLogin = (props) => {
         </Text>
         <Container>
           <QRCodeContainer>
-            <QrReader delay={DELAY} onScan={handleScan} onError={handleError} />
+            <QRReader onScan={handleScan} onError={handleError} />
           </QRCodeContainer>
           <InstructionsContainer>
             <Text size='16px' weight={400} color='brand-primary'>

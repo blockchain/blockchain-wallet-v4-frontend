@@ -166,7 +166,7 @@ const mobileLoginSuccess = function * (action) {
 
 const mobileLoginError = function * (action) {
   const { payload } = action
-  yield put(actions.alerts.displayError(payload))
+  yield put(actions.alerts.displayError('Error using mobile login'))
   yield put(actions.modals.closeModal())
 }
 

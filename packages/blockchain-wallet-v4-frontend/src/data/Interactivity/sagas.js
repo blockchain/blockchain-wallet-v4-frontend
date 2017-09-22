@@ -4,7 +4,7 @@ import { push } from 'react-router-redux'
 import { actions, actionTypes } from 'data'
 
 // =============================================================================
-// ============================ SendBitcoin modal ==============================
+// =============================== SendBitcoin =================================
 // =============================================================================
 
 const signAndPublishSuccess = function * (action) {
@@ -18,7 +18,6 @@ const signAndPublishError = function * (action) {
   const { payload } = action
   yield put(actions.alerts.displayError(payload))
 }
-
 
 // =============================================================================
 // ============================== Mobile number ================================

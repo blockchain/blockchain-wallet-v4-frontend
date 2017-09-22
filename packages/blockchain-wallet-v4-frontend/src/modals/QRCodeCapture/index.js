@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { isEmpty, isNil } from 'ramda'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -15,15 +16,15 @@ class QRCodeCaptureContainer extends React.Component {
   }
 
   handleScan (result) {
-    if (result) { this.props.modalActions.scanQRCodeCaptureSuccess(result) }
+    if (!isNil(result) && !isEmpty(result)) { this.props.modalActions.scanQRCodeCaptureSuccess(result) }
   }
 
   handleError (error) {
-    this.props.modalActions.scanQRCodeCaptureError(error)
+    if (!isNil(error) && !isEmpty(error)) { this.props.modalActions.scanQRCodeCaptureError(error) }
   }
 
   handleCancel () {
-    this.props.clickQRCodeCaptureCancel()
+    this.props.modalActions.clickQRCodeCaptureCancel()
   }
 
   render () {
