@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import ReactHighstock from 'react-highcharts/reactHighstock'
+import { FormattedMessage } from 'react-intl'
+import { Link } from 'blockchain-info-components'
 
 import ChartTicker from '../ChartTicker'
 
@@ -21,8 +23,7 @@ const Wrapper = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: stretch;
+  justify-content: center;
   width: 100%;
   color: white;
 `
@@ -31,8 +32,12 @@ const TickerWrapper = styled.div`
   padding-right: 10px;
 `
 
+const TimeWindow = styled(Link)`
+  color: ${props => props.theme['brand-primary']};
+`
+
 const Chart = (props) => {
-  const { currency, data, selectCoin, selectedCoin, start, interval } = props
+  const { currency, data, selectCoin, selectedCoin, start, selectTimeframe, interval } = props
 
   const config = {
     chart: {
@@ -106,6 +111,23 @@ const Chart = (props) => {
         </TickerWrapper>
       </Row>
       <ReactHighcharts config={config} />
+      <Row>
+        <TimeWindow onClick={() => selectTimeframe('all')}>
+          <FormattedMessage id='scenes.home.chart.alltime' defaultMessage='All time' />
+        </TimeWindow>
+        <TimeWindow onClick={() => selectTimeframe('year')} >
+          <FormattedMessage id='scenes.home.chart.year' defaultMessage='Year' />
+        </TimeWindow>
+        <TimeWindow onClick={() => selectTimeframe('month')} >
+          <FormattedMessage id='scenes.home.chart.month' defaultMessage='Month' />
+        </TimeWindow>
+        <TimeWindow onClick={() => selectTimeframe('week')} >
+          <FormattedMessage id='scenes.home.chart.week' defaultMessage='Week' />
+        </TimeWindow>
+        <TimeWindow onClick={() => selectTimeframe('day')} >
+          <FormattedMessage id='scenes.home.chart.day' defaultMessage='Day' />
+        </TimeWindow>
+      </Row>
     </Wrapper>
   )
 }
