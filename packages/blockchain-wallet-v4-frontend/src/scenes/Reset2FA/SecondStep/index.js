@@ -58,7 +58,7 @@ const SecondStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain2' defaultMessage='If the Secret Phrase is correct, your request will be approved much quicker.' />
           <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain3' defaultMessage="If you don't know what this is, leave it blank." />
         </Text>
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
           <FormattedMessage id='scenes.reset2fa.secondstep.continue' defaultMessage='Continue' />
         </Button>
       </Form>

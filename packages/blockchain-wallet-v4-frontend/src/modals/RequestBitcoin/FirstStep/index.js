@@ -9,15 +9,16 @@ import FirstStep from './template.js'
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleClickCode = this.handleClickCode.bind(this)
+    this.handleClickQRCode = this.handleClickQRCode.bind(this)
   }
 
-  handleClickCode () {
-    this.props.modalActions.showModal('QRCode', { address: this.props.receiveAddress })
+  handleClickQRCode () {
+    const { receiveAddress } = this.props
+    this.props.modalActions.clickRequestBitcoinQRCode(receiveAddress)
   }
 
   render () {
-    return <FirstStep {...this.props} handleClickCode={this.handleClickCode} />
+    return <FirstStep {...this.props} handleClickQRCode={this.handleClickQRCode} />
   }
 }
 

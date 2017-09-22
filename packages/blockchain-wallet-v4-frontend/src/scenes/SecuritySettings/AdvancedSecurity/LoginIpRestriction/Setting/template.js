@@ -9,7 +9,7 @@ const Setting = (props) => {
   const { handleClick, ipLockOn } = props
   return (
     <SettingWrapper>
-      <Button nature='secondary' onClick={handleClick}>
+      <Button nature='primary' onClick={handleClick}>
         {ipLockOn
           ? <FormattedMessage id='scenes.security.iprestriction.disable' defaultMessage='Disable' />
           : <FormattedMessage id='scenes.security.iprestriction.enable' defaultMessage='Enable' />

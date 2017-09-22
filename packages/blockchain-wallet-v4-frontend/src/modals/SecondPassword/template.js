@@ -1,17 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
 
-import { required } from 'services/FormHelper'
-import { Form, PasswordBox } from 'components/Form'
-import { Button, Modal, ModalHeader, ModalBody, Text } from 'blockchain-info-components'
+import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, PasswordInput, Text } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 
 const SecondPassword = (props) => {
-  const { handleClick, secondPassword, position, total } = props
+  const { position, total, ...rest } = props
+  const { handleClick, handleChange, value } = rest
 
   return (
-    <Modal size='large' position={position} total={total}>
+    <Modal size='medium' position={position} total={total} closeButton={false}>
       <ModalHeader icon='safe'>
         <FormattedMessage id='modals.secondpassword.title' defaultMessage='Second password required' />
       </ModalHeader>
@@ -20,14 +19,17 @@ const SecondPassword = (props) => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.secondpassword.explain' defaultMessage='Please enter your second password' />
           </Text>
-          <Form>
-            <Field name='secondPassword' component={PasswordBox} />
-          </Form>
-          <Button nature='secondary' fullwidth onClick={() => handleClick(secondPassword)} validate={[required]}>
-            <FormattedMessage id='modals.secondpassword.confirm' defaultMessage='Confirm' />
-          </Button>
+          <PasswordInput value={value} onChange={handleChange} />
         </Form>
       </ModalBody>
+      <ModalFooter align='spaced'>
+        <Link size='13px' weight={300}>
+          <FormattedMessage id='modals.secondpassword.cancel' defaultMessage='Cancel' />
+        </Link>
+        <Button nature='primary' onClick={handleClick}>
+          <FormattedMessage id='modals.secondpassword.confirm' defaultMessage='Confirm' />
+        </Button>
+      </ModalFooter>
     </Modal>
   )
 }
@@ -37,4 +39,4 @@ SecondPassword.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'secondPassword' })(SecondPassword)
+export default SecondPassword

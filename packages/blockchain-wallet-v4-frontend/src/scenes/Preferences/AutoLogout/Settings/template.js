@@ -29,7 +29,7 @@ const Settings = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.preferences.autologout.settings.updateform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.preferences.autologout.settings.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
@@ -42,7 +42,7 @@ const Settings = (props) => {
         <Text>
           <FormattedMessage id='scenes.preferences.autologout.settings.minutes' defaultMessage='{time} minutes' values={{ time: logoutTime }} />
         </Text>
-        <Button nature='secondary' onClick={handleToggle}>
+        <Button nature='primary' onClick={handleToggle}>
           <FormattedMessage id='scenes.preferences.autologout.settings.updateform.change' defaultMessage='Change' />
         </Button>
       </SettingWrapper>

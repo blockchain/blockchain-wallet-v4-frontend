@@ -4,11 +4,9 @@
   "description": "Wallet user interface",
   "main": "index.js",
   "scripts": {
-    "build-dev": "./node_modules/.bin/webpack --config webpack.config.dev.js --progress --colors",
-    "build-prod": "./node_modules/.bin/webpack --config webpack.config.prod.js --progress --colors",
-    "start-dev": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --progress --colors --watch",
-    "start-prod": "./node_modules/.bin/webpack-dev-server --config webpack.config.prod.js --progress --colors",
-    "generate": "./node_modules/.bin/babel-node ./tools/generateDefaultLocale.js",
+    "build": "webpack --config webpack.config.js --progress --colors",
+    "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
+    "generate": "babel-node ./tools/generateDefaultLocale.js",
     "test": "jest --watch"
   },
   "repository": {
@@ -114,6 +112,7 @@
     "react-addons-css-transition-group": "^15.6.0",
     "react-addons-transition-group": "^15.6.0",
     "react-bootstrap": "^0.31.0",
+    "react-browser-detection": "^1.0.3",
     "react-copy-to-clipboard": "^5.0.0",
     "react-dom": "^15.5.4",
     "react-intl": "^2.3.0",

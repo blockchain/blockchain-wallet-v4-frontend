@@ -5,7 +5,7 @@ import Setting from './Setting'
 
 const PasswordHint = (props) => {
   const { passwordHintStored } = props
-  console.log(passwordHintStored)
+
   return (
     <SettingContainer>
       <SettingSummary>

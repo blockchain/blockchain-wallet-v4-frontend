@@ -1,27 +1,17 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { Button } from 'blockchain-info-components'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import { connect } from 'react-redux'
 
-const TwoStepVerificationRemember = (props) => {
-  return (
-    <SettingContainer>
-      <SettingSummary>
-        <SettingHeader>
-          <FormattedMessage id='scenes.settings.2faremember.title' defaultMessage='Remember 2-step verification' />
-        </SettingHeader>
-        <SettingDescription>
-          <FormattedMessage id='scenes.settings.2faremember.description' defaultMessage='Your browser will be remembered for a short period of time, allowing you to login again without having to re-authenticate.' />
-          <FormattedMessage id='scenes.settings.2faremember.description2' defaultMessage='Disable this to require full authentication every time you login. This will not affect your current browser until you delete all cookies.' />
-        </SettingDescription>
-      </SettingSummary>
-      <SettingComponent>
-        <Button nature='secondary'>
-          <FormattedMessage id='scenes.settings.2faremember.enable' defaultMessage='Enable' />
-        </Button>
-      </SettingComponent>
-    </SettingContainer>
-  )
+import { selectors } from 'data'
+import TwoStepVerification from './template.js'
+
+class TwoStepVerificationRememberContainer extends React.Component {
+  render () {
+    return <TwoStepVerification {...this.props} />
+  }
 }
 
-export default TwoStepVerificationRemember
+const mapStateToProps = (state) => ({
+  authTypeNeverSave: selectors.core.settings.getAuthTypeNeverSave(state)
+})
+
+export default connect(mapStateToProps)(TwoStepVerificationRememberContainer)

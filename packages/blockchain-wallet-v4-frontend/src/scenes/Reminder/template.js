@@ -44,7 +44,7 @@ const Reminder = (props) => {
           <FormattedMessage id='scenes.reminder.robot' defaultMessage="So that we know you're not a robot" />
         </Text>
         <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
           <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
         </Button>
       </Form>
