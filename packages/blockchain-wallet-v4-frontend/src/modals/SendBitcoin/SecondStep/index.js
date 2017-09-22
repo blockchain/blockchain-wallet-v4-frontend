@@ -4,29 +4,24 @@ import { bindActionCreators } from 'redux'
 import { is } from 'ramda'
 import { push } from 'connected-react-router'
 
+import settings from 'config'
 import { convertFromUnit } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import SecondStep from './template.js'
-import settings from 'config'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleClose = this.handleClose.bind(this)
+    this.handleSend = this.handleSend.bind(this)
   }
 
-  handleClick () {
+  handleSend () {
     const { selection } = this.props
-    this.props.paymentActions.signAndPublish(settings.NETWORK, selection)
-  }
-
-  handleClose () {
-    this.props.modalActions.closeAllModals()
+    this.props.modalActions.clickSendBitcoinSend(selection)
   }
 
   render () {
-    return <SecondStep {...this.props} handleClick={this.handleClick} />
+    return <SecondStep {...this.props} handleSend={this.handleSend} />
   }
 }
 

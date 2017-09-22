@@ -16,5 +16,8 @@ export const logoutStart = () => ({ type: AT.LOGOUT_START })
 
 export const logoutCancel = () => ({ type: AT.LOGOUT_CANCEL })
 
+export const setAuthType = (authType) => ({ type: AT.SET_AUTH_TYPE, payload: { authType } })
+
 export const mobileLoginSuccess = (data) => ({ type: AT.MOBILE_LOGIN_SUCCESS, payload: { data } })
-export const mobileLoginError = (message) => ({ type: AT.MOBILE_LOGIN_SUCCESS, payload: message })
+
+export const mobileLoginError = (message) => ({ type: AT.MOBILE_LOGIN_ERROR, payload: message })

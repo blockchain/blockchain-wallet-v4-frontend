@@ -82,7 +82,22 @@ const createApi = ({
     const extraHeaders = { sessionToken }
     const data = { format: 'json', resend_code: null }
     return request({ url: rootUrl, method: 'GET', endPoint: `wallet/${guid}`, data, extraHeaders })
+    // const data = { guid, method: 'wallet.aes.json', format: 'json' }
+    // return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data, extraHeaders })
   }
+
+  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) => {
+    const extraHeaders = { sessionToken }
+    const data = {
+      guid,
+      payload: twoFactorCode,
+      length: twoFactorCode.length,
+      method: 'get-wallet',
+      format: 'plain'
+    }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data, extraHeaders })
+  }
+
   // savePayload :: (data) -> Promise JSON
   const savePayload = (data) => {
     const config = { method: 'update', format: 'plain' }
@@ -220,11 +235,6 @@ const createApi = ({
            .then(responseTXHASH)
   }
 
-  const getPairingCode = function (guid, sharedKey) {
-    const data = { guid, sharedKey, method: 'pairing-encryption-password', format: 'plain' }
-    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
-  }
-
   const getAdverts = function (number) {
     const data = { wallet: true, n: number }
     return request({ url: apiUrl, method: 'GET', endPoint: 'bci-ads/get', data: data })
@@ -236,7 +246,7 @@ const createApi = ({
   }
 
   // SETTINGS
-  const updateSettings = function (guid, sharedKey, method, value) {
+  const updateSettings = function (guid, sharedKey, method, value, querystring = '') {
     const payload = type(value) === 'String' ? trim(value) : value + ''
 
     const data = {
@@ -246,7 +256,7 @@ const createApi = ({
       length: payload.length,
       payload: payload
     }
-    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet' + querystring, data })
   }
 
   const updateEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
@@ -277,8 +287,25 @@ const createApi = ({
 
   const updateHint = (guid, sharedKey, hint) => updateSettings(guid, sharedKey, 'update-password-hint1', hint)
 
+  // 0: 2FA Disabled
+  // 1: 2FA Yubikey
+  // 2: 2FA Email
+  // 3: ????
+  // 4: 2FA Google Authenticator
+  // 5: 2FA SMS
+  const updateAuthType = (guid, sharedKey, authType) => updateSettings(guid, sharedKey, 'update-auth-type', authType)
+
+  const updateAuthTypeNeverSave = (guid, sharedKey, authTypeNeverSave) => updateSettings(guid, sharedKey, 'update-never-save-auth-type', authTypeNeverSave)
+
+  const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret')
+
+  const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
+
+  const enableYubikey = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-yubikey', code)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
+    fetchPayloadWithTwoFactorAuth: future(fetchPayloadWithTwoFactorAuth),
     savePayload: future(savePayload),
     createPayload: future(createPayload),
     fetchBlockchainData: future(fetchBlockchainData),
@@ -297,7 +324,6 @@ const createApi = ({
     getUnspents: future(getUnspents),
     getFee: future(getFee),
     pushTx: future(pushTx),
-    getPairingCode: future(getPairingCode),
     getAdverts: future(getAdverts),
     getLogs: future(getLogs),
     getPairingPassword: future(getPairingPassword),
@@ -315,7 +341,12 @@ const createApi = ({
     updateIpLock: future(updateIpLock),
     updateIpLockOn: future(updateIpLockOn),
     updateBlockTorIps: future(updateBlockTorIps),
-    updateHint: future(updateHint)
+    updateHint: future(updateHint),
+    updateAuthType: future(updateAuthType),
+    updateAuthTypeNeverSave: future(updateAuthTypeNeverSave),
+    getGoogleAuthenticatorSecretUrl: future(getGoogleAuthenticatorSecretUrl),
+    confirmGoogleAuthenticatorSetup: future(confirmGoogleAuthenticatorSetup),
+    enableYubikey: future(enableYubikey)
   }
 }
 

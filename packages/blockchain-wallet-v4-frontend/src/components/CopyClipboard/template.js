@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import CopyToClipBoard from 'react-copy-to-clipboard'
@@ -43,13 +44,19 @@ const CopyClipboard = (props) => {
       <CopyToClipBoard text={address} onCopy={handleClick}>
         <CopyButton nature={active ? 'copy' : 'secondary'}>
           { active
-            ? <FormattedMessage id='modals.qrcode.copyclipboard.copied' defaultMessage='Copied!' />
-            : <FormattedMessage id='modals.qrcode.copyclipboard.copy' defaultMessage='Copy' />
+            ? <FormattedMessage id='components.copyclipboard.copied' defaultMessage='Copied!' />
+            : <FormattedMessage id='components.copyclipboard.copy' defaultMessage='Copy' />
           }
         </CopyButton>
       </CopyToClipBoard>
     </Wrapper>
   )
+}
+
+CopyClipboard.propTypes = {
+  active: PropTypes.bool.isRequired,
+  address: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired
 }
 
 export default CopyClipboard

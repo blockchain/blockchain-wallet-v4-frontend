@@ -8,6 +8,7 @@ import * as coreSagas from './redux/sagas.js'
 import * as Coin from './coinSelection/coin.js'
 import * as CoinSelection from './coinSelection'
 import * as crypto from './WalletCrypto'
+import * as pairing from './pairing'
 
 export {
   coreActions,
@@ -19,5 +20,6 @@ export {
   Network,
   Coin,
   CoinSelection,
-  crypto
+  crypto,
+  pairing
 }
