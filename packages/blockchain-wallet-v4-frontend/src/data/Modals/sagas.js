@@ -215,17 +215,15 @@ const clickTwoStepYubicoEnable = function * () {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
   const code = yield select(state => formValueSelector('twoStepYubico')(state, 'code'))
-  console.log(guid, sharedKey, code)
-  // yield put(actions.core.settings..enableYubikey(guid, sharedKey, code)
+  yield put(actions.core.settings.enableYubikey(guid, sharedKey, code))
 }
 
 // This saga listen if the Yubikey is successfully enabled on the server
 const clickTwoStepYubicoEnableConfirmation = function * () {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
-  console.log(guid, sharedKey)
-  // yield put(actions.core.settings.updateAuthType(guid, sharedKey, 2))
-  // yield put(actions.modals.closeAllModals())
+  yield put(actions.core.settings.updateAuthType(guid, sharedKey, 1))
+  yield put(actions.modals.closeAllModals())
 }
 
 // =============================== EXPORT ======================================

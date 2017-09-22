@@ -10,11 +10,12 @@ import { required } from 'services/FormHelper'
 const Code = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding-top: 5px;
 
-  & > :last-child { flex-basis: 140px; }
+  & > :first-child { margin-right: 10px; }
+  & > :last-child { flex-basis: 300px; }
 `
 
 const TwoStepYubico = (props) => {
@@ -22,28 +23,28 @@ const TwoStepYubico = (props) => {
   const { handleClick } = rest
 
   return (
-    <Modal size='small' position={position} total={total}>
-      <ModalHeader icon='settings' onClose={closeAll}>
-        <FormattedMessage id='modals.twostepyubico.title' defaultMessage='Two Step - YubiKey' />
-      </ModalHeader>
-      <ModalBody>
-        <Form>
+    <Modal size='large' position={position} total={total}>
+      <Form onSubmit={handleClick}>
+        <ModalHeader onClose={closeAll}>
+          <FormattedMessage id='modals.twostepyubico.title' defaultMessage='Enable 2-Step Verification' />
+        </ModalHeader>
+        <ModalBody>
           <Code>
             <Text size='14px' weight={300}>
               <FormattedMessage id='modals.twostepyubico.explain' defaultMessage='Pair with your yubikey:' />
             </Text>
-            <Field name='code' component={TextBox} placeholder='XXXXXX' validate={[required]} />
+            <Field name='code' component={TextBox} validate={[required]} />
           </Code>
-        </Form>
-      </ModalBody>
-      <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={close} capitalize>
-          <FormattedMessage id='modals.twostepyubico.back' defaultMessage='Go back' />
-        </Link>
-        <Button nature='primary' onClick={handleClick} disabled={submitting || invalid}>
-          <FormattedMessage id='modals.twostepyubico.enable' defaultMessage='Enable 2FA' />
-        </Button>
-      </ModalFooter>
+        </ModalBody>
+        <ModalFooter align='spaced'>
+          <Link size='13px' weight={300} onClick={close} capitalize>
+            <FormattedMessage id='modals.twostepyubico.back' defaultMessage='Go back' />
+          </Link>
+          <Button type='submit' nature='primary' disabled={submitting || invalid}>
+            <FormattedMessage id='modals.twostepyubico.enable' defaultMessage='Enable 2FA' />
+          </Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
 }

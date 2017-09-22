@@ -40,8 +40,8 @@ const TwoStepSetup = (props) => {
 
   return authType !== 0 ? (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='settings' onClose={closeAll} >
-        <FormattedMessage id='modals.twostepsetup.title1' defaultMessage='Disabled Two Step' />
+      <ModalHeader onClose={closeAll} >
+        <FormattedMessage id='modals.twostepsetup.title1' defaultMessage='Disable 2-Step Verification' />
       </ModalHeader>
       <ModalBody>
         <Text size='14px' weight={300}>
@@ -59,8 +59,8 @@ const TwoStepSetup = (props) => {
     </Modal>
   ) : (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='settings' onClose={closeAll} >
-        <FormattedMessage id='modals.twostepsetup.title2' defaultMessage='Enable Two Step' />
+      <ModalHeader onClose={closeAll} >
+        <FormattedMessage id='modals.twostepsetup.title2' defaultMessage='Enable 2-Step Verification' />
       </ModalHeader>
       <ModalBody>
         <TextGroup>

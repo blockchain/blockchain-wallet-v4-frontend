@@ -18,21 +18,21 @@ const QRCode = styled.div`
 const Code = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding-top: 5px;
 
-  & > :last-child { flex-basis: 140px; }
+  & > :last-child { flex-basis: 150px; }
 `
 
 const TwoStepGoogleAuthenticator = (props) => {
   const { position, total, closeAll, close, submitting, invalid, ...rest } = props
   const { handleClick, googleAuthenticatorSecretUrl } = rest
-  console.log(googleAuthenticatorSecretUrl)
+
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='settings' onClose={closeAll}>
-        <FormattedMessage id='modals.twostepgoogleauthenticator.title' defaultMessage='Two Step - Google Authenticator' />
+      <ModalHeader onClose={closeAll}>
+        <FormattedMessage id='modals.twostepgoogleauthenticator.title' defaultMessage='Enable 2-Step Verification' />
       </ModalHeader>
       <ModalBody>
         <QRCode>
