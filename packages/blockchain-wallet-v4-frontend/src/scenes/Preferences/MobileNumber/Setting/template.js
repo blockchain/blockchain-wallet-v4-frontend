@@ -10,7 +10,7 @@ const Setting = (props) => {
 
   return (
     <SettingWrapper>
-      <Text>{smsNumber}</Text>
+      <Text>{smsNumber || 'N/A'}</Text>
       <Button nature='primary' onClick={handleClick}>
         { smsVerified === 1
           ? <FormattedMessage id='scenes.preferences.mobile.setting.change' defaultMessage='Change' />
@@ -22,7 +22,7 @@ const Setting = (props) => {
 }
 
 Setting.propTypes = {
-  smsNumber: PropTypes.string.isRequired,
+  smsNumber: PropTypes.string,
   smsVerified: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired
 }

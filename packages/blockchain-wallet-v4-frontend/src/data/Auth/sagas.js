@@ -52,9 +52,10 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password, code) {
         // dispatch state change to show form
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displaySuccess('2FA required'))
+      } else if (error.message) {
+        yield put(actions.alerts.displayError(error.message))
       } else {
-        yield put(actions.alerts.displayError(error.message || 'Error logging into your wallet'))
-        yield put(actions.log.recordLog({ type: 'ERROR', message: error.message }))
+        yield put(actions.alerts.displayError(error || 'Error logging into your wallet'))
       }
     }
   }

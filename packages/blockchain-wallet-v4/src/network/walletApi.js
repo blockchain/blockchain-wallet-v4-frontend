@@ -1,6 +1,6 @@
 import Task from 'data.task'
 import Either from 'data.either'
-import { assoc, compose, map, identity, prop, propSatisfies, over, lensProp, is, ifElse } from 'ramda'
+import { assoc, compose, map, identity, prop, propSatisfies, over, lensProp, is, ifElse, contains } from 'ramda'
 import { mapped } from 'ramda-lens'
 import Promise from 'es6-promise'
 import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from '../types'
@@ -17,6 +17,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   const promiseToTask = futurizeP(Task)
   const future = returnType ? futurizeP(returnType) : identity
   const is2FAEnabled = ifElse(propSatisfies(x => x > 0, 'auth_type'), Task.rejected, Task.of)
+  const is2FACodeValid = ifElse(x => contains('incorrect', x), Task.rejected, Task.of)
 
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSharedKeyTask = (guid, sharedKey, password) =>
@@ -38,6 +39,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithTwoFactorTask = (guid, session, password, twoFactorCode) =>
     promiseToTask(ApiPromise.fetchPayloadWithTwoFactorAuth)(guid, session, twoFactorCode)
+      .chain(is2FACodeValid)
       .map(Wrapper.fromEncPayload(password))
       .chain(eitherToTask)
 

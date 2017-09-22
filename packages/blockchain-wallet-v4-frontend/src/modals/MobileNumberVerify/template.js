@@ -28,7 +28,7 @@ const Options = styled.div`
 
 const MobileNumberVerify = (props) => {
   const { position, total, close, closeAll, submitting, invalid, ...rest } = props
-  const { mobileNumber, handleChangeMobileNumber, handleResend, handleVerify } = rest
+  const { mobileNumber, handleChangeMobileNumber, handleResend, handleValidate, handleCancel } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -58,10 +58,10 @@ const MobileNumberVerify = (props) => {
         </Form>
       </ModalBody>
       <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={close}>
+        <Link size='13px' weight={300} onClick={handleCancel}>
           <FormattedMessage id='modals.mobilenumberverify.cancel' defaultMessage='Cancel' />
         </Link>
-        <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleVerify}>
+        <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleValidate}>
           <FormattedMessage id='modals.mobilenumberverify.verify' defaultMessage='Verify' />
         </Button>
       </ModalFooter>
@@ -71,9 +71,10 @@ const MobileNumberVerify = (props) => {
 
 MobileNumberVerify.propTypes = {
   mobileNumber: PropTypes.string.isRequired,
-  handleChangeMobileNumber: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
   handleResend: PropTypes.func.isRequired,
-  handleVerify: PropTypes.func.isRequired
+  handleValidate: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'mobileNumberVerify' })(MobileNumberVerify)

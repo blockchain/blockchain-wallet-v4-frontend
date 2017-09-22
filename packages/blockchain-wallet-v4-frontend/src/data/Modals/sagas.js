@@ -45,7 +45,7 @@ const clickMobileNumberChangeUpdate = function * (action) {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
   const mobileNumber = yield select(state => formValueSelector('mobileNumberChange')(state, 'mobileNumber'))
-  yield put(actions.settings.updateMobile(guid, sharedKey, mobileNumber))
+  yield put(actions.core.settings.updateMobile(guid, sharedKey, mobileNumber))
   yield put(actions.modals.closeModal())
   yield put(actions.modals.showModal('MobileNumberVerify', { mobileNumber }))
 }
@@ -61,15 +61,15 @@ const clickMobileNumberVerifyValidate = function * (action) {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
   const code = yield select(state => formValueSelector('mobileNumberVerify')(state, 'code'))
-  yield put(actions.settings.verifyMobile(guid, sharedKey, code))
-  yield put(actions.modals.closeModal())
+  yield put(actions.core.settings.verifyMobile(guid, sharedKey, code))
+  yield put(actions.modals.closeAllModals())
 }
 
 const clickMobileNumberVerifyResend = function * (action) {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
   const mobileNumber = action.payload.mobileNumber
-  yield put(actions.settings.updateMobile(guid, sharedKey, mobileNumber))
+  yield put(actions.core.settings.updateMobile(guid, sharedKey, mobileNumber))
 }
 
 const clickMobileNumberVerifyChange = function * (action) {
@@ -194,6 +194,7 @@ const clickTwoStepSetupDisable = function * (action) {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
   yield put(actions.core.settings.updateAuthType(guid, sharedKey, 0))
+  yield put(actions.modals.closeAllModals())
 }
 
 // =============================================================================
@@ -203,8 +204,8 @@ const clickTwoStepGoogleAuthenticatorEnable = function * () {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
   const code = yield select(state => formValueSelector('twoStepGoogleAuthenticator')(state, 'code'))
-
   yield put(actions.core.settings.confirmGoogleAuthenticatorSetup(guid, sharedKey, code))
+  yield put(actions.modals.closeAllModals())
 }
 
 // =============================================================================
@@ -214,9 +215,8 @@ const clickTwoStepYubicoEnable = function * () {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
   const code = yield select(state => formValueSelector('twoStepYubico')(state, 'code'))
-
   console.log(guid, sharedKey, code)
-  // this.props.settingsActions.enableYubikey(guid, sharedKey, code)
+  // yield put(actions.core.settings..enableYubikey(guid, sharedKey, code)
 }
 
 // This saga listen if the Yubikey is successfully enabled on the server
@@ -224,7 +224,8 @@ const clickTwoStepYubicoEnableConfirmation = function * () {
   const guid = yield select(selectors.core.wallet.getGuid)
   const sharedKey = yield select(selectors.core.wallet.getSharedKey)
   console.log(guid, sharedKey)
-  // yield put(actions.settings.updateAuthType(guid, sharedKey, 2))
+  // yield put(actions.core.settings.updateAuthType(guid, sharedKey, 2))
+  // yield put(actions.modals.closeAllModals())
 }
 
 // =============================== EXPORT ======================================

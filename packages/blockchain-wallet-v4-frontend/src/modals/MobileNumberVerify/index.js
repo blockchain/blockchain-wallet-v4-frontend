@@ -31,6 +31,10 @@ class MobileNumberVerifyContainer extends React.Component {
     this.props.modalActions.clickMobileNumberVerifyChange()
   }
 
+  handleCancel () {
+    this.props.modalActions.clickMobileNumberVerifyCancel()
+  }
+
   render () {
     return (
       <MobileNumberVerify
