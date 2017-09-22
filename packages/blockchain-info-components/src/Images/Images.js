@@ -38,6 +38,6 @@ export default {
   'refresh': refresh,
   'smartphone': smartphone,
   'sophisticated': sophisticated,
-  'twitter': twitter
+  'twitter': twitter,
   'yubikey': yubikey
 }
