@@ -11,10 +11,11 @@ const intervals = {
 }
 
 const scales = {
-  '1 day': 86400,
-  '15 mins': 900,
-  '1 hour': 3600,
-  '5 days': 432000
+  FIFTEENMIN: 900,
+  HOUR: 3600,
+  TWOHOUR: 7200,
+  DAY: 86400,
+  FIVEDAY: 432000
 }
 const BTCSTART = 1282089600
 const ETHSTART = 1438992000
@@ -24,10 +25,12 @@ class ChartContainer extends React.Component {
     super(props)
     this.state =
     {
-      data: this.fetchChartData('BTC', BTCSTART),
+      data: this.fetchChartData('BTC', 'all', BTCSTART, scales.FIVEDAY),
       selectedCoin: 'BTC',
+      selectedTimeframe: 'all',
       start: BTCSTART,
-      interval: intervals.day
+      interval: intervals.day,
+      scale: scales.FIVEDAY
     }
     this.selectCoin = this.selectCoin.bind(this)
     this.selectTimeframe = this.selectTimeframe.bind(this)
@@ -36,48 +39,58 @@ class ChartContainer extends React.Component {
 
   selectCoin (coin) {
     if (this.state.selectedCoin !== coin) {
-      this.fetchChartData(coin, this.state.start | BTCSTART)
+      const { selectedTimeframe, start, scale } = this.state
+      this.fetchChartData(coin, selectedTimeframe, start, scale)
     }
   }
 
   selectTimeframe (timeframe) {
-    var start = this.state.start
-    let date = new Date()
-    switch (timeframe) {
-      case 'year':
-        start = date.setFullYear(date.getFullYear() - 1)
-        break
-      case 'month':
-        start = date.setMonth(date.getMonth() - 1)
-        break
-      case 'week':
-        start = date.setDate(date.getDate - 7)
-        break
-      case 'day':
-        start = date.setDate(date.getDate - 1)
-        break
-      default: break
+    if (timeframe !== this.state.selectedTimeframe) {
+      let { start, scale } = this.state
+      let date = new Date()
+      switch (timeframe) {
+        case 'all':
+          start = this.state.selectedCoin === 'BTC' ? BTCSTART : ETHSTART
+          scale = scales.FIVEDAY
+          break
+        case 'year':
+          start = date.setFullYear(date.getFullYear() - 1)
+          scale = scales.DAY
+          break
+        case 'month':
+          start = date.setMonth(date.getMonth() - 1)
+          scale = scales.TWOHOUR
+          break
+        case 'week':
+          start = date.setDate(date.getDate() - 7)
+          scale = scales.HOUR
+          this.setState({ interval: intervals.hour })
+          break
+        case 'day':
+          start = date.setDate(date.getDate() - 1)
+          scale = scales.FIFTEENMIN
+          this.setState({ interval: intervals.hour })
+          break
+        default: break
+      }
+      start = Math.round(start / 1000 | 0)
+      this.fetchChartData(this.state.selectedCoin, timeframe, start, scale)
     }
-    start = Math.round(start / 1000 | 0)
-    this.fetchChartData(this.state.selectedCoin, start)
   }
 
-  fetchChartData (coin, start) {
-    console.log(`Start is ${start}`)
-    const scale = scales['1 day']
+  fetchChartData (coin, timeframe, start, scale) {
     const { currency } = this.props
     api.getPriceIndexSeries(coin, currency, start, scale).then(
-      data => this.setState({ data: data.map(o => [o.timestamp * 1000, o.price]), selectedCoin: coin, start: data[0].timestamp * 1000 }),
+      data => this.setState({ data: data.map(o => [o.timestamp * 1000, o.price]), selectedCoin: coin, selectedTimeframe: timeframe, start: start, scale: scale }),
       message => this.props.alertActions.displayError(message)
     )
   }
 
   render () {
-    console.log('Rendering')
-
     return (
       <Chart
         selectTimeframe={this.selectTimeframe}
+        selectedTimeframe={this.state.selectedTimeframe}
         selectCoin={this.selectCoin}
         selectedCoin={this.state.selectedCoin}
         currency={this.props.currency}

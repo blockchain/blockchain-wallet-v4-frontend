@@ -34,6 +34,7 @@ const TickerWrapper = styled.div`
 
 const TimeWindow = styled(Link)`
   color: ${props => props.theme['brand-primary']};
+  text-decoration: underline;
 `
 
 const Chart = (props) => {
