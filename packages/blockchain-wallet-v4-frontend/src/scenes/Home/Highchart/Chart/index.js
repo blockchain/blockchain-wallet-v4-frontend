@@ -10,6 +10,13 @@ const intervals = {
   day: 24 * 3600 * 1000
 }
 
+const scales = {
+  '1 day': 86400,
+  '15 mins': 900,
+  '1 hour': 3600,
+  '5 days': 432000
+}
+
 class ChartContainer extends React.Component {
   constructor (props) {
     super(props)
@@ -29,10 +36,10 @@ class ChartContainer extends React.Component {
 
   fetchChartData (coin) {
     const start = 12307680
-    const scale = 3600 * 24
+    const scale = scales['1 day']
     const { currency } = this.props
     api.getPriceIndexSeries(coin, currency, start, scale).then(
-      data => this.setState({ data: data.map(o => [o.timestamp, o.price]), selectedCoin: coin }),
+      data => this.setState({ data: data.map(o => [o.timestamp * 1000, o.price]), selectedCoin: coin, start: data[0].timestamp }),
       message => this.props.alertActions.displayError(message)
     )
   }
