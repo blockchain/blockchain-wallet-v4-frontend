@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
-import ReactHighstock from 'react-highcharts/reactHighstock'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'blockchain-info-components'
 
-import ChartTicker from '../ChartTicker'
+import ChartTicker from './ChartTicker'
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,10 +13,9 @@ const Wrapper = styled.div`
   align-items: space-between;
   width: 100%;
   padding: 15px;
+  margin-top: 15px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
-
-  & > * { padding: 10px 0; }
 `
 
 const Row = styled.div`
