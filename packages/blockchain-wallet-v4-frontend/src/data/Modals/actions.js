@@ -52,3 +52,6 @@ export const clickTwoStepGoogleAuthenticatorEnable = () => ({ type: AT.CLICK_TWO
 
 // TwoStepYubico Modal
 export const clickTwoStepYubicoEnable = () => ({ type: AT.CLICK_TWO_STEP_YUBICO_ENABLE })
+
+// UpgradeWizard Modal
+export const clickUpgradeWalletContinue = () => ({ type: AT.CLICK_UPGRADE_WALLET_CONTINUE })

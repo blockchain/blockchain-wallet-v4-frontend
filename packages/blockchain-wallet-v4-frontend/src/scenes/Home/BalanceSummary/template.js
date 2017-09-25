@@ -14,10 +14,9 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   padding: 15px;
+  margin-bottom: 15px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
-
-  & > * { padding: 10px 0; }
 `
 const FirstRow = styled.div`
   display: flex;
@@ -25,11 +24,12 @@ const FirstRow = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding-bottom: 10px;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
-  padding: 10px 0;
 `
 const Row = styled(FirstRow)`
   justify-content: space-between;
+  padding: 10px;
   border-bottom: ${props => props.last ? 'none' : '1px solid ' + props.theme['']};
 `
 const Amount = styled.div`
@@ -53,9 +53,8 @@ const BalanceSummary = (props) => {
         </Text>
       </FirstRow>
       { balances.map(function (balance, index) {
-        const last = index === balances.length - 1
         return (
-          <Row key={index} last={last}>
+          <Row key={index} last={index === balances.length - 1}>
             <Text size='16px' weight={300}>{balance.title}</Text>
             <Amount>
               <Text size='16px' weight={300}>

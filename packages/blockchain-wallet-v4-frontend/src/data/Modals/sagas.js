@@ -226,6 +226,13 @@ const clickTwoStepYubicoEnableConfirmation = function * () {
   yield put(actions.modals.closeAllModals())
 }
 
+// =============================================================================
+// ============================ UpgradeWizard Modal ============================
+// =============================================================================
+const clickUpgradeWizardContinue = function * () {
+  console.log('click')
+}
+
 // =============================== EXPORT ======================================
 function * sagas () {
   // AutoDisconnection
@@ -267,6 +274,8 @@ function * sagas () {
   // TwoStepYubikey
   yield takeEvery(AT.CLICK_TWO_STEP_YUBICO_ENABLE, clickTwoStepYubicoEnable)
   yield takeEvery(actionTypes.core.settings.ENABLE_YUBIKEY_SUCCESS, clickTwoStepYubicoEnableConfirmation)
+  // UpgradeWizard
+  yield takeEvery(AT.CLICK_UPGRADE_WALLET_CONTINUE, clickUpgradeWizardContinue)
 }
 
 export default sagas

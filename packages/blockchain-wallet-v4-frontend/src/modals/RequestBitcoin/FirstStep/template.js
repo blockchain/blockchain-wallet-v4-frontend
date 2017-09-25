@@ -37,7 +37,7 @@ const FirstStep = (props) => {
         <FormattedMessage id='modals.requestbitcoin.firststep.title' defaultMessage='Request' />
       </ModalHeader>
       <ModalBody>
-        <Form>
+        <Form onSubmit={nextStep}>
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & share address:' />
             <Tooltip>
@@ -69,7 +69,7 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.requestbitcoin.firststep.description' defaultMessage='Description:' />
           </Text>
           <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" />
-          <Button nature='primary' fullwidth uppercase onClick={nextStep} disabled={submitting || invalid}>
+          <Button nature='primary' fullwidth uppercase disabled={submitting || invalid}>
             <FormattedMessage id='modals.requestbitcoin.firststep.next' defaultMessage='Next' />
           </Button>
         </Form>

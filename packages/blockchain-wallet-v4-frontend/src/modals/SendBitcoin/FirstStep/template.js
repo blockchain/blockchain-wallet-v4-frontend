@@ -59,7 +59,7 @@ const FirstStep = (props) => {
         <FormattedMessage id='modals.sendbitcoin.firststep.title' defaultMessage='Send' />
       </ModalHeader>
       <ModalBody>
-        <Form>
+        <Form onSubmit={nextStep}>
           <Text size='14px' weight={500} capitalize>
             <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
           </Text>
@@ -119,7 +119,7 @@ const FirstStep = (props) => {
             </ColRight>
           </Row>
           <ButtonRow>
-            <Button nature='secondary' uppercase onClick={nextStep} disabled={submitting || invalid}>
+            <Button nature='secondary' uppercase disabled={submitting || invalid}>
               <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
             </Button>
           </ButtonRow>
