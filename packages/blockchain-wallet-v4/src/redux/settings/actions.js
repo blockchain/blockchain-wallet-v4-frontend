@@ -4,7 +4,7 @@ export const fetchSettings = (data) => ({ type: AT.FETCH_SETTINGS, payload: data
 export const fetchSettingsSuccess = (data) => ({ type: AT.FETCH_SETTINGS_SUCCESS, payload: data })
 export const fetchSettingsError = (errorKey) => ({ type: AT.FETCH_SETTINGS_ERROR, payload: errorKey, error: true })
 
-export const requestPairingCode = (guid, sharedKey) => ({ type: AT.REQUEST_PAIRING_CODE, payload: { guid, sharedKey } })
+export const requestPairingCode = (guid, sharedKey, password) => ({ type: AT.REQUEST_PAIRING_CODE, payload: { guid, sharedKey, password } })
 export const requestPairingCodeSuccess = (encryptionPhrase) => ({ type: AT.REQUEST_PAIRING_CODE_SUCCESS, payload: { encryptionPhrase } })
 export const requestPairingCodeError = (message) => ({ type: AT.REQUEST_PAIRING_CODE_ERROR, payload: message })
 
@@ -63,3 +63,23 @@ export const updateBlockTorIpsError = message => ({ type: AT.UPDATE_BLOCK_TOR_IP
 export const updateHint = (guid, sharedKey, hint) => ({ type: AT.UPDATE_HINT, payload: { guid, sharedKey, hint } })
 export const updateHintSuccess = (hint, data) => ({ type: AT.UPDATE_HINT_SUCCESS, payload: { hint, data } })
 export const updateHintError = message => ({ type: AT.UPDATE_HINT_ERROR, payload: message })
+
+export const updateAuthType = (guid, sharedKey, authType) => ({ type: AT.UPDATE_AUTH_TYPE, payload: { guid, sharedKey, authType } })
+export const updateAuthTypeSuccess = (authType, data) => ({ type: AT.UPDATE_AUTH_TYPE_SUCCESS, payload: { authType, data } })
+export const updateAuthTypeError = message => ({ type: AT.UPDATE_AUTH_TYPE_ERROR, payload: message })
+
+export const updateAuthTypeNeverSave = (guid, sharedKey, authTypeNeverSave) => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE, payload: { guid, sharedKey, authTypeNeverSave } })
+export const updateAuthTypeNeverSaveSuccess = (authTypeNeverSave, data) => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE_SUCCESS, payload: { authTypeNeverSave, data } })
+export const updateAuthTypeNeverSaveError = message => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE_ERROR, payload: message })
+
+export const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => ({ type: AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, payload: { guid, sharedKey } })
+export const getGoogleAuthenticatorSecretUrlSuccess = data => ({ type: AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL_SUCCESS, payload: { data } })
+export const getGoogleAuthenticatorSecretUrlError = message => ({ type: AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL_ERROR, payload: message })
+
+export const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => ({ type: AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP, payload: { guid, sharedKey, code } })
+export const confirmGoogleAuthenticatorSetupSuccess = data => ({ type: AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_SUCCESS, payload: { data } })
+export const confirmGoogleAuthenticatorSetupError = message => ({ type: AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_ERROR, payload: message })
+
+export const enableYubikey = (guid, sharedKey, code) => ({ type: AT.ENABLE_YUBIKEY, payload: { guid, sharedKey, code } })
+export const enableYubikeySuccess = data => ({ type: AT.ENABLE_YUBIKEY_SUCCESS, payload: { data } })
+export const enableYubikeyError = message => ({ type: AT.ENABLE_YUBIKEY_ERROR, payload: message })

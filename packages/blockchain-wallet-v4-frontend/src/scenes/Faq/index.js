@@ -52,7 +52,7 @@ const Faq = () => {
       <Footer>
         <FormattedMessage id='scenes.faq.needmorehelp' defaultMessage="Can't find what you're looking for?" />
         <Link href='https://blockchain.zendesk.com' target='_blank'>
-          <Button nature='secondary'>
+          <Button nature='primary'>
             <FormattedMessage id='scenes.faq.supportcenter' defaultMessage='Support center' />
           </Button>
         </Link>

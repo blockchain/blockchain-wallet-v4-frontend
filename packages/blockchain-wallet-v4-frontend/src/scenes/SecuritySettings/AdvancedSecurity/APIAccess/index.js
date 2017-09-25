@@ -15,7 +15,7 @@ const APIAccess = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Link href='https://github.com/blockchain/service-my-wallet-v3#installation' target='_blank'>
+        <Link href='https://github.com/blockchain/service-my-wallet-v3#installation' target='_blank' size='13px' weight={300}>
           <FormattedMessage id='scenes.settings.api.getstarted' defaultMessage='To get started, follow the steps here' />
         </Link>
       </SettingComponent>

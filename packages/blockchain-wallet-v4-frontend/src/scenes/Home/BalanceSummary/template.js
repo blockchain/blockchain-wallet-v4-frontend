@@ -16,6 +16,8 @@ const Wrapper = styled.div`
   padding: 15px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
+
+  & > * { padding: 10px 0; }
 `
 const FirstRow = styled.div`
   display: flex;

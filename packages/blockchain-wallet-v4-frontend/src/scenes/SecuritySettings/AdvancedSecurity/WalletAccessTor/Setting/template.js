@@ -9,7 +9,7 @@ const Setting = (props) => {
   const { handleClick, blockTorIps } = props
   return (
     <SettingWrapper>
-      <Button nature='secondary' onClick={handleClick}>
+      <Button nature='primary' onClick={handleClick}>
         {blockTorIps
           ? <FormattedMessage id='scenes.security.tor.allowtorips' defaultMessage='Allow' />
           : <FormattedMessage id='scenes.security.tor.blocktorips' defaultMessage='Block' />

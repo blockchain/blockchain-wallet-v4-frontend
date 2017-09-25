@@ -12,7 +12,7 @@ const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, currentWalletPassword } = props
   return (
     <SettingWrapper>
-      <Button nature='secondary' onClick={handleToggle}>
+      <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.security.walletPassword.updateform.setwalletpassword' defaultMessage='Change' />
       </Button>
       {updateToggled &&
@@ -33,7 +33,7 @@ const Settings = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.security.walletPassword.updateform.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='secondary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.security.walletPassword.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>

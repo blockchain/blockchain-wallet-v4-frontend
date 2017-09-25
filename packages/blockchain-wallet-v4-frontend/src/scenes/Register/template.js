@@ -64,7 +64,7 @@ const Register = (props) => {
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
           <Terms />
         </Field>
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
           <FormattedMessage id='scenes.register.submit' defaultMessage='Continue' />
         </Button>
       </Form>

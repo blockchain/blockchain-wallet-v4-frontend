@@ -1,57 +1,10 @@
-import { takeEvery, put, select } from 'redux-saga/effects'
+import { takeEvery, put } from 'redux-saga/effects'
 import { actions as reduxFormActions } from 'redux-form'
 import { push } from 'react-router-redux'
-import { isNil } from 'ramda'
-import bip21 from 'bip21'
-import ui from 'redux-ui'
-
-import { actions, actionTypes, selectors } from 'data'
-import { convertToUnit, convertFromUnit } from 'services/ConversionService'
-import * as AT from './actionTypes'
+import { actions, actionTypes } from 'data'
 
 // =============================================================================
-// =========================== QrCodeCapture modal =============================
-// =============================================================================
-
-const qrCodeCaptureSuccess = function * (action) {
-  const { payload } = action
-  const { data } = payload
-
-  if (data) {
-    const decodedData = bip21.decode(data)
-    const address = decodedData.address
-    const amount = decodedData.options.amount
-    const message = decodedData.options.message
-
-    if (isNil(address)) {
-      yield put(actions.alerts.displayError('An error occured when capturing the QRCode.'))
-      return
-    }
-
-    yield put(reduxFormActions.change('sendBitcoin', 'to', address))
-
-    if (!isNil(amount)) {
-      // const unit = yield select(selectors.core.settings.getBtcCurrency)
-      // TODO: conversion here FFS
-      yield put(reduxFormActions.change('sendBitcoin', 'amount', amount))
-    }
-
-    if (!isNil(message)) {
-      yield put(reduxFormActions.change('sendBitcoin', 'message', message))
-    }
-
-    yield put(actions.modals.closeModal())
-  }
-}
-
-const qrCodeCaptureError = function * (action) {
-  const { payload } = action
-  yield put(actions.alerts.displayError(payload))
-  yield put(actions.modals.closeModal())
-}
-
-// =============================================================================
-// ============================ SendBitcoin modal ==============================
+// =============================== SendBitcoin =================================
 // =============================================================================
 
 const signAndPublishSuccess = function * (action) {
@@ -62,20 +15,6 @@ const signAndPublishSuccess = function * (action) {
 }
 
 const signAndPublishError = function * (action) {
-  const { payload } = action
-  yield put(actions.alerts.displayError(payload))
-}
-
-// =============================================================================
-// ============================ PairingCode modal ==============================
-// =============================================================================
-const requestPairingCodeSuccess = function * (action) {
-  const { payload } = action
-  const { encryptionPhrase } = payload
-  yield put(actions.modals.showModal('PairingCode', { data: encryptionPhrase }))
-}
-
-const requestPairingCodeError = function * (action) {
   const { payload } = action
   yield put(actions.alerts.displayError(payload))
 }
@@ -190,13 +129,58 @@ const updateBlockTorIpsError = function * (action) {
   yield put(actions.alerts.displayError(action.payload))
 }
 
+// =============================================================================
+// ================================ Auth Type ==================================
+// =============================================================================
+const updateAuthTypeSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateAuthTypeError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// =========================== Auth Type Never Save ============================
+// =============================================================================
+const updateAuthTypeNeverSaveSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const updateAuthTypeNeverSaveError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// ===================== Google Authenticator Secret Url =======================
+// =============================================================================
+const getGoogleAuthenticatorSecretUrlSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.modals.showModal('TwoStepGoogleAuthenticator', { googleAuthenticatorSecretUrl: data }))
+}
+
+const getGoogleAuthenticatorSecretUrlError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
+// =============================================================================
+// ======================== Google Authenticator Setup =========================
+// =============================================================================
+const confirmGoogleAuthenticatorSetupSuccess = function * (action) {
+  const { data } = action.payload
+  yield put(actions.modals.closeAllModals())
+  yield put(actions.alerts.displaySuccess(data))
+}
+
+const confirmGoogleAuthenticatorSetupError = function * (action) {
+  yield put(actions.alerts.displayError(action.payload))
+}
+
 // =============================== EXPORT ======================================
 
 function * sagas () {
-  yield takeEvery(AT.QRCODE_CAPTURE_SUCCESS, qrCodeCaptureSuccess)
-  yield takeEvery(AT.QRCODE_CAPTURE_ERROR, qrCodeCaptureError)
-  yield takeEvery(actionTypes.core.settings.REQUEST_PAIRING_CODE_SUCCESS, requestPairingCodeSuccess)
-  yield takeEvery(actionTypes.core.settings.REQUEST_PAIRING_CODE_ERROR, requestPairingCodeError)
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_SUCCESS, signAndPublishSuccess)
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_ERROR, signAndPublishError)
   yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_SUCCESS, updateMobileSuccess)
@@ -217,6 +201,14 @@ function * sagas () {
   yield takeEvery(actionTypes.core.settings.UPDATE_IP_LOCK_ON_ERROR, updateIpLockOnError)
   yield takeEvery(actionTypes.core.settings.UPDATE_BLOCK_TOR_IPS_SUCCESS, updateBlockTorIpsSuccess)
   yield takeEvery(actionTypes.core.settings.UPDATE_BLOCK_TOR_IPS_ERROR, updateBlockTorIpsError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_SUCCESS, updateAuthTypeSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_ERROR, updateAuthTypeError)
+  yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_NEVER_SAVE_SUCCESS, updateAuthTypeNeverSaveSuccess)
+  yield takeEvery(actionTypes.core.settings.UPDATE_AUTH_TYPE_NEVER_SAVE_ERROR, updateAuthTypeNeverSaveError)
+  yield takeEvery(actionTypes.core.settings.GET_GOOGLE_AUTHENTICATOR_SECRET_URL_SUCCESS, getGoogleAuthenticatorSecretUrlSuccess)
+  yield takeEvery(actionTypes.core.settings.GET_GOOGLE_AUTHENTICATOR_SECRET_URL_ERROR, getGoogleAuthenticatorSecretUrlError)
+  yield takeEvery(actionTypes.core.settings.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_SUCCESS, confirmGoogleAuthenticatorSetupSuccess)
+  yield takeEvery(actionTypes.core.settings.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP_ERROR, confirmGoogleAuthenticatorSetupError)
 }
 
 export default sagas

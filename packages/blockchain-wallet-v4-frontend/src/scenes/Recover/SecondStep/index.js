@@ -59,7 +59,7 @@ const SecondStep = (props) => {
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
           <Terms />
         </Field>
-        <Button nature='secondary' fullwidth uppercase disabled={submitting || invalid} onClick={handleSubmit}>
+        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={handleSubmit}>
           <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover funds' />
         </Button>
       </Form>

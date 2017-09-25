@@ -7,7 +7,7 @@ const Settings = (props) => {
   const { handleClick } = props
 
   return (
-    <Button nature='secondary' onClick={handleClick}>
+    <Button nature='primary' onClick={handleClick}>
       <FormattedMessage id='scenes.settings.recoveryphrase.backup' defaultMessage='Backup phrase' />
     </Button>
   )
