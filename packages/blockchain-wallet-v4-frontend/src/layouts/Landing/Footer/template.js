@@ -70,6 +70,7 @@ const Column2 = styled(Column)`
   width: 100%;
   margin-bottom: 10px;
 
+
   @media(min-width: 992px) {
     width: 33%;
   }
@@ -89,7 +90,8 @@ const Terms = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
+  flex-wrap: wrap;
+  
   @media(min-width: 992px) {
     justify-content: flex-start;
   }

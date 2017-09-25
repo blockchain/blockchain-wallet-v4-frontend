@@ -13,6 +13,8 @@ const MainBackground = styled(Background)`
   justify-content: flex-start;
   align-items: center;
   height: 480px;
+  padding: 20px;
+  box-sizing: border-box;
 `
 const MainContainer = styled(Container)`
   & > * { padding: 10px 0; }
