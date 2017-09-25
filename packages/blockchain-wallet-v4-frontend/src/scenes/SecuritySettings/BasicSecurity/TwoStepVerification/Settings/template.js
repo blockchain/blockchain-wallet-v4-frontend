@@ -9,8 +9,8 @@ const Settings = (props) => {
   return (
     <Button nature='primary' onClick={handleClick}>
       { authType === 0
-        ? <FormattedMessage id='scenes.settings.twostepverification.setting.enable' defaultMessage='Enable' />
-        : <FormattedMessage id='scenes.settings.twostepverification.setting.disable' defaultMessage='Disable' />
+        ? <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Enable' />
+        : <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Disable' />
       }
     </Button>
   )

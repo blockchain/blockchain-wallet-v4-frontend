@@ -8,24 +8,24 @@ import { TextBox } from 'components/Form'
 import { validIpList } from 'services/FormHelper'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 
-const Setting = (props) => {
+const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, currentWhitelist, submitting, invalid } = props
 
   return (
     <SettingWrapper>
       <Text>{currentWhitelist}</Text>
       <Button nature='primary' onClick={handleToggle}>
-        <FormattedMessage id='scenes.settings.whitelist.updateform.change' defaultMessage='Change' />
+        <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change' defaultMessage='Change' />
       </Button>
       {updateToggled &&
         <SettingForm>
           <Field name='IPWhitelist' validate={[validIpList]} component={TextBox} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>
-              <FormattedMessage id='scenes.settings.whitelist.updateform.cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-              <FormattedMessage id='scenes.settings.whitelist.updateform.save' defaultMessage='Save' />
+              <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
         </SettingForm>
@@ -34,11 +34,11 @@ const Setting = (props) => {
   )
 }
 
-Setting.propTypes = {
+Settings.propTypes = {
   currentWhitelist: PropTypes.string.isRequired,
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'settingIPWhitelist' })(Setting)
+export default reduxForm({ form: 'settingIPWhitelist' })(Settings)

@@ -5,22 +5,22 @@ import { FormattedMessage } from 'react-intl'
 import { Button } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
 
-const Setting = (props) => {
+const Settings = (props) => {
   const { handleClick, ipLockOn } = props
   return (
     <SettingWrapper>
       <Button nature='primary' onClick={handleClick}>
         {ipLockOn
-          ? <FormattedMessage id='scenes.security.iprestriction.disable' defaultMessage='Disable' />
-          : <FormattedMessage id='scenes.security.iprestriction.enable' defaultMessage='Enable' />
+          ? <FormattedMessage id='scenes.securitysettings.advancedsettings.loginiprestriction.settings.disable' defaultMessage='Disable' />
+          : <FormattedMessage id='scenes.securitysettings.advancedsettings.loginiprestriction.settings.enable' defaultMessage='Enable' />
         }
       </Button>
     </SettingWrapper>
   )
 }
 
-Setting.propTypes = {
+Settings.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-export default Setting
+export default Settings

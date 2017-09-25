@@ -9,8 +9,8 @@ const Settings = (props) => {
   return (
     <Button nature='primary' onClick={handleClick}>
       { authTypeNeverSave === 0
-        ? <FormattedMessage id='scenes.settings.twostepverification.setting.disable' defaultMessage='Disable' />
-        : <FormattedMessage id='scenes.settings.twostepverification.setting.enable' defaultMessage='Enable' />
+        ? <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverificationremember.settings.disable' defaultMessage='Disable' />
+        : <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverificationremember.settings.enable' defaultMessage='Enable' />
       }
     </Button>
   )

@@ -6,6 +6,10 @@ import { darken } from 'polished'
 const BaseButton = styled.button.attrs({
   type: props => props.type ? props.type : 'button'
 })`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
   min-width: 140px;
   height: 40px;
@@ -38,14 +42,6 @@ const BaseButton = styled.button.attrs({
 
   &:focus { outline:0; }
  `
-const Span = styled.span`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  & > :not(:first-child) { margin-left: 10px }
-`
 
 const selectColor = (nature, disabled) => {
   if (disabled) { return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' } }
@@ -75,9 +71,7 @@ const Button = (props) => {
       color={color}
       backgroundColor={backgroundColor}
       borderColor={borderColor}>
-      <Span>
-        {children}
-      </Span>
+      {children}
     </BaseButton>
   )
 }

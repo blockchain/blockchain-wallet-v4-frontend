@@ -7,26 +7,26 @@ import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 
-const Setting = (props) => {
+const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, currentHint } = props
   return (
     <SettingWrapper>
       { currentHint && <Text>{currentHint || ''}</Text> }
       <Button nature='primary' onClick={handleToggle}>
-        <FormattedMessage id='scenes.security.passwordHint.updateform.setpasswordHint' defaultMessage='Change' />
+        <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.change' defaultMessage='Change' />
       </Button>
       { updateToggled &&
         <SettingForm>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.security.passwordHint.label' defaultMessage='Password Hint' />
+            <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.label' defaultMessage='Password Hint' />
           </Text>
           <Field name='passwordHint' component={TextBox} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>
-              <FormattedMessage id='scenes.security.passwordHint.updateform.cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-              <FormattedMessage id='scenes.security.passwordHint.updateform.save' defaultMessage='Change' />
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.save' defaultMessage='Change' />
             </Button>
           </ButtonGroup>
         </SettingForm>
@@ -35,10 +35,10 @@ const Setting = (props) => {
   )
 }
 
-Setting.propTypes = {
+Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'settingPasswordHint' })(Setting)
+export default reduxForm({ form: 'settingPasswordHint' })(Settings)

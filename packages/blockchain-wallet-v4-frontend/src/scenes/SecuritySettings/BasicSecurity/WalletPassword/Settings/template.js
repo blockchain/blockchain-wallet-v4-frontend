@@ -13,28 +13,28 @@ const Settings = (props) => {
   return (
     <SettingWrapper>
       <Button nature='primary' onClick={handleToggle}>
-        <FormattedMessage id='scenes.security.walletPassword.updateform.setwalletpassword' defaultMessage='Change' />
+        <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.settings.change' defaultMessage='Change' />
       </Button>
       {updateToggled &&
         <SettingForm>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.security.walletPassword.label' defaultMessage='Current Password' />
+            <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.settings.current' defaultMessage='Current Password' />
           </Text>
           <Field name='currentPassword' component={PasswordBox} validate={(value) => (value === currentWalletPassword ? undefined : 'Incorrect password')} />
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.security.walletPassword.label' defaultMessage='New Password' />
+            <FormattedMessage id='sscenes.securitysettings.basicsecurity.walletpassword.settings.new' defaultMessage='New Password' />
           </Text>
           <Field name='newPassword' component={PasswordBox} validate={[validStrongPassword]} score />
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.security.walletPasswordConfirmation.label' defaultMessage='Confirm Password' />
+            <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.settings.confirm' defaultMessage='Confirm Password' />
           </Text>
           <Field name='walletPasswordConfirmation' validate={(value, allValues) => (value === allValues['newPassword']) ? undefined : 'Passwords do not match'} component={PasswordBox} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>
-              <FormattedMessage id='scenes.security.walletPassword.updateform.cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.settings.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-              <FormattedMessage id='scenes.security.walletPassword.updateform.save' defaultMessage='Save' />
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.settings.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
         </SettingForm>

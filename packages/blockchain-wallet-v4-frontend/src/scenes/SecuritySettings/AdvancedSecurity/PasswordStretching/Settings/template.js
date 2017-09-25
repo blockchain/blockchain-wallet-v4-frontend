@@ -8,7 +8,7 @@ import { NumberBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { validPasswordStretchingNumber } from 'services/FormHelper'
 
-const Setting = (props) => {
+const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, currentStretch } = props
   return (
     <SettingWrapper>
@@ -16,20 +16,20 @@ const Setting = (props) => {
         <Text>{currentStretch}</Text>
       }
       <Button nature='primary' onClick={handleToggle}>
-        <FormattedMessage id='scenes.security.passwordStretching.updateform.setpasswordStretching' defaultMessage='Change' />
+        <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.change' defaultMessage='Change' />
       </Button>
       {updateToggled &&
         <SettingForm>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.security.passwordStretching.label' defaultMessage='Password Stretching (PBKDF2)' />
+            <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.label' defaultMessage='Password Stretching (PBKDF2)' />
           </Text>
           <Field name='passwordStretching' component={NumberBox} validate={validPasswordStretchingNumber} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>
-              <FormattedMessage id='scenes.security.passwordStretching.updateform.cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-              <FormattedMessage id='scenes.security.passwordStretching.updateform.save' defaultMessage='Change' />
+              <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.save' defaultMessage='Change' />
             </Button>
           </ButtonGroup>
         </SettingForm>
@@ -38,10 +38,10 @@ const Setting = (props) => {
   )
 }
 
-Setting.propTypes = {
+Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'settingPasswordStretching' })(Setting)
+export default reduxForm({ form: 'settingPasswordStretching' })(Settings)

@@ -8,7 +8,7 @@ import ui from 'redux-ui'
 import { actions, selectors } from 'data'
 import Settings from './template.js'
 
-class SettingContainer extends React.Component {
+class SettingsContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -52,4 +52,4 @@ const enhance = compose(
   ui({ key: 'Setting_SecondPassword', state: { updateToggled: false } })
 )
 
-export default enhance(SettingContainer)
+export default enhance(SettingsContainer)

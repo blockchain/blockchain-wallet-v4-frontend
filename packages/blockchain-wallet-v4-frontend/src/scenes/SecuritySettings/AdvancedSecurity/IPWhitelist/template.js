@@ -2,21 +2,21 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 
-import Setting from './Setting'
+import Settings from './Settings'
 
 const IPWhitelist = (props) => {
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.settings.whitelist.title' defaultMessage='IP Whitelist' />
+          <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.title' defaultMessage='IP Whitelist' />
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.settings.whitelist.description' defaultMessage='Allow login without email authentication from the following list of comma-separated IP addresses. Use % as a wildcard.' />
+          <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.description' defaultMessage='Allow login without email authentication from the following list of comma-separated IP addresses. Use % as a wildcard.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Setting />
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )

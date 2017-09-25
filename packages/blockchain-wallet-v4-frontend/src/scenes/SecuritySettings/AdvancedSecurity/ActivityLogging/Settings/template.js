@@ -11,8 +11,8 @@ const Setting = (props) => {
     <SettingWrapper>
       <Button nature='primary' onClick={handleClick}>
         { activityLoggingEnabled
-          ? <FormattedMessage id='scenes.security.activityLogging.disableactivitylogging' defaultMessage='Disable' />
-          : <FormattedMessage id='scenes.security.activityLogging.enableactivitylogging' defaultMessage='Enable' />
+          ? <FormattedMessage id='scenes.securitysettings.advancedsecurity.activitylogging.settings.disable' defaultMessage='Disable' />
+          : <FormattedMessage id='scenes.securitysettings.advancedsecurity.activitylogging..settings.enable' defaultMessage='Enable' />
         }
       </Button>
     </SettingWrapper>

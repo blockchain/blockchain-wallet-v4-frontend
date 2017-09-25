@@ -10,7 +10,7 @@ import { equals, isEmpty } from 'ramda'
 import { actions, selectors } from 'data'
 import Settings from './template.js'
 
-class SettingContainer extends React.Component {
+class SettingsContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -68,8 +68,8 @@ const enhance = compose(
   ui({ key: 'Setting_IPWhitelist', state: { updateToggled: false, verifyToggled: false } })
 )
 
-SettingContainer.propTypes = {
+SettingsContainer.propTypes = {
   currentWhitelist: PropTypes.string
 }
 
-export default enhance(SettingContainer)
+export default enhance(SettingsContainer)

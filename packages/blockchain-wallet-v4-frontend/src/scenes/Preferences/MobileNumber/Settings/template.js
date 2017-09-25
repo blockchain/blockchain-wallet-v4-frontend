@@ -13,8 +13,8 @@ const Setting = (props) => {
       <Text>{smsNumber || 'N/A'}</Text>
       <Button nature='primary' onClick={handleClick}>
         { smsVerified === 1
-          ? <FormattedMessage id='scenes.preferences.mobile.setting.change' defaultMessage='Change' />
-          : <FormattedMessage id='scenes.preferences.mobile.setting.verify' defaultMessage='Verify' />
+          ? <FormattedMessage id='scenes.preferences.mobile.settings.change' defaultMessage='Change' />
+          : <FormattedMessage id='scenes.preferences.mobile.settings.verify' defaultMessage='Verify' />
         }
       </Button>
     </SettingWrapper>

@@ -1,5 +1,5 @@
-
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions as reduxFormActions, formValueSelector } from 'redux-form'
@@ -8,7 +8,7 @@ import ui from 'redux-ui'
 import { actions, selectors } from 'data'
 import Settings from './template.js'
 
-class SettingContainer extends React.Component {
+class SettingsContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -16,8 +16,8 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    const { newWalletPasswordValue } = this.props
-    this.props.walletActions.setMainPassword(newWalletPasswordValue)
+    const { passwordStretchingValue, password } = this.props
+    this.props.walletActions.setPbkdf2Iterations(Number(passwordStretchingValue), password)
     this.handleToggle()
   }
 
@@ -38,9 +38,9 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  currentWalletPassword: selectors.core.wallet.getMainPassword(state),
-  walletPasswordValue: formValueSelector('settingWalletPassword')(state, 'currentPassword'),
-  newWalletPasswordValue: formValueSelector('settingWalletPassword')(state, 'newPassword')
+  password: selectors.core.wallet.getMainPassword(state),
+  passwordStretchingValue: formValueSelector('settingPasswordStretching')(state, 'passwordStretching'),
+  currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -50,7 +50,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Setting_WalletPassword', state: { updateToggled: false } })
+  ui({ key: 'Setting_PasswordStretching', state: { updateToggled: false } })
 )
 
-export default enhance(SettingContainer)
+SettingsContainer.propTypes = {
+  passwordStretching: PropTypes.number
+}
+
+export default enhance(SettingsContainer)
