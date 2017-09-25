@@ -1,6 +1,6 @@
 import 'isomorphic-fetch'
 import Promise from 'es6-promise'
-import { merge, identity, gt, type, trim } from 'ramda'
+import { merge, identity, gt, type, trim, toLower } from 'ramda'
 import { futurizeP } from 'futurize'
 Promise.polyfill()
 
@@ -245,6 +245,12 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
   }
 
+  const getPriceIndexSeries = function (crypto, fiat, start, scale) {
+    const data = { base: toLower(crypto), quote: toLower(fiat), start: start, scale: scale }
+    console.log(data)
+    return request({ url: apiUrl, method: 'GET', endPoint: 'price/index-series', data: data })
+  }
+
   // SETTINGS
   const updateSettings = function (guid, sharedKey, method, value, querystring = '') {
     const payload = type(value) === 'String' ? trim(value) : value + ''
@@ -326,6 +332,7 @@ const createApi = ({
     pushTx: future(pushTx),
     getAdverts: future(getAdverts),
     getLogs: future(getLogs),
+    getPriceIndexSeries: future(getPriceIndexSeries),
     getPairingPassword: future(getPairingPassword),
 
     updateEmail: future(updateEmail),

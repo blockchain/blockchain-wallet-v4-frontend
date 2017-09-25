@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ActivityList from './ActivityList'
 import BalanceSummary from './BalanceSummary'
 import DidYouKnow from './DidYouKnow'
+import Chart from './Chart'
 
 const Wrapper = styled.section`
   display: flex;
@@ -37,6 +38,7 @@ const Home = (props) => {
       </ColumnLeft>
       <ColumnRight>
         <BalanceSummary />
+        <Chart />
         <DidYouKnow />
       </ColumnRight>
     </Wrapper>
