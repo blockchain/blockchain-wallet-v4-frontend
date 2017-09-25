@@ -7,22 +7,26 @@ const BaseNavbarNavItem = styled.li`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100px;
   padding: 10px 15px;
-  background-color:  ${props => props.hovered ? transparentize(0.7, (props.theme['white'])) : 'transparent'};
-  position: relative;
+  width: auto;
+  min-width: 110px;
 
   & > a {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 300;
     color: ${props => props.theme['white']}!important;
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
   }
 
-  & > :not(:first-child):last-child {
-    display:  ${props => props.hovered ? 'block' : 'none'};
+  @media(min-width: 768px) {
+    background-color:  ${props => props.hovered ? transparentize(0.7, (props.theme['white'])) : 'transparent'};
+    position: relative;
+
+    & :not(:first-child):last-child {
+      display:  ${props => props.hovered ? 'block' : 'none'};
+    }
   }
 `
 

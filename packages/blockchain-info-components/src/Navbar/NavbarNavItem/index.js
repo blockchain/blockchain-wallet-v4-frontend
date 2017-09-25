@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import NavbarNavItem from './template.js'
-import { Palette } from 'blockchain-info-components'
+import { Palette } from '../../Colors'
 import { keysIn } from 'ramda'
 
 class NavbarNavItemContainer extends React.Component {

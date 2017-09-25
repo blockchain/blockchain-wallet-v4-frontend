@@ -1,17 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 
 import { Button, Image, Link, NavbarDropdown, Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNav, NavbarNavItem, NavbarToggler } from 'blockchain-info-components'
-
-const ButtonNav = styled(NavbarNav)`
-  flex-direction: row;
-  width: 340px;
-  margin: 0 auto;
-  @media(min-width: 768px) and (max-width: 992px) { display: none; }
-`
 
 const Header = (props) => {
   const { toggled, handleToggle } = props
@@ -53,6 +45,8 @@ const Header = (props) => {
               </Link>
             </NavbarDropdown>
           </NavbarNavItem>
+        </NavbarNav>
+        <NavbarNav>
           <NavbarNavItem>
             <Link href='https://blockchain.info/api' target='_blank'>
               <FormattedMessage id='layouts.landing.header.api' defaultMessage='API' />
@@ -83,7 +77,7 @@ const Header = (props) => {
             </NavbarDropdown>
           </NavbarNavItem>
         </NavbarNav>
-        <ButtonNav>
+        <NavbarNav alignRight>
           <NavbarNavItem>
             <NavLink to='/register'>
               <Button nature='primary' uppercase rounded>
@@ -91,9 +85,9 @@ const Header = (props) => {
               </Button>
             </NavLink>
           </NavbarNavItem>
-        </ButtonNav>
+        </NavbarNav>
       </NavbarMenu>
-      <NavbarToggler onToggle={handleToggle} />
+      <NavbarToggler onToggle={handleToggle} toggled={toggled} />
     </Navbar>
   )
 }

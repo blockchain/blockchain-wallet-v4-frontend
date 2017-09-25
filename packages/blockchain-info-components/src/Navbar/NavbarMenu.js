@@ -7,9 +7,9 @@ const BaseMenu = styled.div`
   top: 100%;
   display: ${props => props.toggled ? 'flex' : 'none'};
   flex-direction: column;
-  justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  padding: 0 20px;
   background-color: inherit;
 
   @media(min-width: 768px) {
@@ -17,7 +17,6 @@ const BaseMenu = styled.div`
     top: initial;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
   }
 `
