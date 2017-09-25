@@ -11,7 +11,7 @@ export function BufHelper (buffer) {
   }
 
   this.readWithLen = () => {
-    let len = this.buffer.read16()
+    let len = this.read16()
     let v = this.buffer.slice(this.offset, this.offset + len)
     this.offset += len
     return v

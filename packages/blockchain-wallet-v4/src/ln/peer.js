@@ -1,44 +1,94 @@
 'use strict'
 
 import Connection from './connection'
+import * as Parse from './messages/parser'
+import TYPE from './messages/types'
+import * as Message from './messages/serializer'
+import * as Time from 'unix-timestamp'
+import * as State from './state'
 
-var Parser = require('./parser')
-var Framer = require('./framer')
-
-function Peer (options, tcp, staticRemote) {
-  var self = this
-
+function Peer (options, state, tcp, staticRemote) {
+  console.info(JSON.stringify(staticRemote))
   this.options = options
-  this.framer = new Framer(options)
-  this.parser = new Parser(options)
+
+  this.state = state
+
+  let onHandshake = () => {
+    this.state.connections[staticRemote.pub] = State.Connection()
+
+    this.send(new Message.Init(Buffer.alloc(0), Buffer.from('08', 'hex')))
+  }
+
+  let onClose = () => {
+    this.state.connections[staticRemote.pub] = null
+    console.info('Connection to ' + staticRemote.pub.toString('hex') + ' closed!')
+  }
+
+  let parse = (data) => {
+    let msg = Parse.readMessage(data)
+    console.info('Parsed message: ' + JSON.stringify(msg))
+    let stateCurrent = this.state.connections[staticRemote.pub]
+    console.info('Current state ' + JSON.stringify(stateCurrent))
+    this.state.connections[staticRemote.pub] = onMessage(msg, stateCurrent)
+    console.info('New state ' + JSON.stringify(this.state))
+  }
+
+  let onMessage = (data, state) => {
+    return getMessageHandler(data)(data, state)
+  }
+
+  let onPing = (msg, state) => {
+    this.send(new Message.Pong(msg.byteslen))
+    state.lastPing = Time.now(0)
+    return state
+  }
+
+  let onPong = (msg, state) => {
+    return state
+  }
+
+  let onInit = (msg, state) => {
+    state.initReceived = true
+    state.gfRemote = msg.gf
+    state.lfRemote = msg.lf
+
+    if (!state.initSent) {
+      this.send(new Message.Init(Buffer.alloc(0), Buffer.from('08', 'hex')))
+      state.initSent = true
+    }
+
+    return state
+  }
+
+  let onError = (msg, state) => {
+    console.warn('received error message: ' + msg)
+    state.error = msg
+    return state
+  }
+
+  let getMessageHandler = (data) => {
+    switch (data.type) {
+      case TYPE.INIT: return onInit
+      case TYPE.ERROR: return onError
+      case TYPE.PING: return onPing
+      case TYPE.PONG: return onPong
+
+      default: throw new Error('No message handler for ' + JSON.stringify(data))
+    }
+  }
 
   this.conn = new Connection(options, staticRemote)
   this.conn.connect(
     tcp,
     () => { console.log('connected!') },
-    () => {
-      console.log('handshake completed!')
-      this.conn.write(Buffer.from('00100000000108', 'hex')) // TODO hack to send init message
-    },
-    (data) => { this.parser.feed(data) },
-    () => { console.log('closed!') }
+    onHandshake,
+    parse,
+    onClose
   )
-
-  this.parser.on('packet', function (msg) {
-    self.emit('packet', msg)
-  })
 }
 
 Peer.prototype.send = function send (msg) {
-  return this.write(msg.cmd, msg.toRaw())
-}
-
-Peer.prototype.frame = function frame (cmd, payload) {
-  return this.framer.packet(cmd, payload)
-}
-
-Peer.prototype.write = function write (cmd, payload) {
-  return this.tcp.write(this.frame(cmd, payload))
+  this.conn.write(Parse.writeMessage(msg))
 }
 
 export default Peer

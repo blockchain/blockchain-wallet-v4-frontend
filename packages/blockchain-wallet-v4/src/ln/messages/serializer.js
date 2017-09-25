@@ -15,6 +15,10 @@ function createBuffer (len) {
   return new BufHelper(Buffer.alloc(len))
 }
 
+function createMessageBuffer (msg, len) {
+  return createBuffer(len + 2).write16(msg.type)
+}
+
 // Operational messages
 // Init
 export let Init = (gf, lf) =>
@@ -26,7 +30,7 @@ export function readInit (buf) {
     buf.readWithLen())
 }
 export function writeInit (msg) {
-  return createBuffer(4 + msg.gf.length + msg.lf.length)
+  return createMessageBuffer(msg, 4 + msg.gf.length + msg.lf.length)
     .writeWithLen(msg.gf)
     .writeWithLen(msg.lf)
 }
@@ -41,7 +45,7 @@ export function readError (buf) {
     buf.readWithLen())
 }
 export function writeError (msg) {
-  return createBuffer(32 + 2 + msg.data.length)
+  return createMessageBuffer(msg, 32 + 2 + msg.data.length)
     .write(msg.channelId)
     .writeWithLen(msg.data)
 }
@@ -61,7 +65,7 @@ export function readPing (buf) {
 }
 
 export function writePing (msg) {
-  return createBuffer(2 + 2 + msg.byteslen)
+  return createMessageBuffer(msg, 2 + 2 + msg.byteslen)
     .write16(msg.numPongBytes)
     .write16(msg.byteslen)
     .write(Buffer.alloc(msg.byteslen))
@@ -69,7 +73,7 @@ export function writePing (msg) {
 
 // Pong
 export let Pong = (byteslen) =>
-                 ({byteslen, type: TYPE.PONGq})
+                 ({byteslen, type: TYPE.PONG})
 
 export function readPong (buf) {
   let byteslen = buf.read16()
@@ -80,7 +84,7 @@ export function readPong (buf) {
   return Pong(byteslen)
 }
 export function writePong (msg) {
-  return createBuffer(2 + msg.byteslen)
+  return createMessageBuffer(msg, 2 + msg.byteslen)
     .write16(msg.byteslen)
     .write(Buffer.alloc(msg.byteslen))
 }
@@ -149,7 +153,7 @@ export function readOpenChannel (buf) {
 }
 
 export function writeOpenChannel (msg) {
-  return createBuffer(286)
+  return createMessageBuffer(msg, 286)
     .write(msg.chainHash)
     .write(msg.temporaryChannelId)
     .write64(msg.fundingSatoshi)
@@ -216,7 +220,7 @@ export function readAcceptChannel (buf) {
     buf.read(33))
 }
 export function writeAcceptChannel (msg) {
-  return createBuffer(237)
+  return createMessageBuffer(msg, 237)
     .write(msg.temporaryChannelId)
     .write64(msg.dustLimitSatoshis)
     .write64(msg.maxHtlcValueInFlightMsat)
@@ -244,7 +248,7 @@ export function readFundingCreated (buf) {
     buf.read(64))
 }
 export function writeFundingCreated (msg) {
-  return createBuffer(130)
+  return createMessageBuffer(msg, 130)
     .write(msg.temporaryChannelId)
     .write(msg.fundingTxid)
     .write16(msg.fundingOutputIndex)
@@ -262,7 +266,7 @@ export function readFundingSigned (buf) {
 }
 
 export function writeFundingSigned (msg) {
-  return createBuffer(96)
+  return createMessageBuffer(msg, 96)
     .write(msg.channelId)
     .write(msg.signature)
 }
@@ -278,7 +282,7 @@ export function readFundingLocked (buf) {
 }
 
 export function writeFundingLocked (msg) {
-  return createBuffer(65)
+  return createMessageBuffer(msg, 65)
     .write(msg.channelId)
     .write(msg.nextPerCommitmentPoint)
 }
@@ -294,7 +298,7 @@ export function readShutdown (buf) {
   )
 }
 export function writeShutdown (msg) {
-  return createBuffer(32 + msg.scriptPubKey.length)
+  return createMessageBuffer(msg, 32 + msg.scriptPubKey.length)
     .write(msg.channelId)
     .writeWithLen(msg.scriptPubKey)
 }
@@ -311,7 +315,7 @@ export function readClosingSigned (buf) {
   )
 }
 export function writeClosingSigned (msg) {
-  return createBuffer(104)
+  return createMessageBuffer(msg, 104)
     .write(msg.channelId)
     .write64(msg.feeSatoshi)
     .write(msg.signature)
@@ -332,7 +336,7 @@ export function readUpdateAddHtlc (buf) {
     buf.read(1366))
 }
 export function writeUpdateAddHtlc (msg) {
-  return createBuffer(1450)
+  return createMessageBuffer(msg, 1450)
     .write(msg.channelId)
     .write64(msg.id)
     .write64(msg.amountMsat)
@@ -352,7 +356,7 @@ export function readUpdateFulfillHtlc (buf) {
     buf.read(32))
 }
 export function writeUpdateFulfillHtlc (msg) {
-  return createBuffer(1450)
+  return createMessageBuffer(msg, 1450)
     .write(msg.channelId)
     .write64(msg.id)
     .write(msg.paymentPreimage)
@@ -369,7 +373,7 @@ export function readUpdateFailHtlc (buf) {
     buf.readWithLen())
 }
 export function writeUpdateFailHtlc (msg) {
-  return createBuffer(40 + msg.reason.length)
+  return createMessageBuffer(msg, 40 + msg.reason.length)
     .write(msg.channelId)
     .write64(msg.id)
     .writeWithLen(msg.reason)
@@ -387,7 +391,7 @@ export function readUpdateFailMalformedHtlc (buf) {
     buf.read16())
 }
 export function writeUpdateMalformedHtlc (msg) {
-  return createBuffer(74)
+  return createMessageBuffer(msg, 74)
     .write(msg.channelId)
     .write64(msg.id)
     .write(msg.sha256OfOnion)
@@ -411,7 +415,7 @@ export function readCommitmentSigned (buf) {
     signatures)
 }
 export function writeCommitSigned (msg) {
-  return createBuffer(98 + msg.numHtlcs * 64)
+  return createMessageBuffer(msg, 98 + msg.numHtlcs * 64)
     .write(msg.channelId)
     .write(msg.signature)
     .write16(msg.numHtlcs)
@@ -429,7 +433,7 @@ export function readRevokeAndAck (buf) {
     buf.read(33))
 }
 export function writeRevokeAndAck (msg) {
-  return createBuffer(97)
+  return createMessageBuffer(msg, 97)
     .write(msg.channelId)
     .write(msg.perCommitmentSecret)
     .write(msg.nextPerCommitmentPoint)
@@ -444,7 +448,7 @@ export function readUpdateFee (buf) {
     buf.read32())
 }
 export function writeUpdateFee (msg) {
-  return createBuffer(36)
+  return createMessageBuffer(msg, 36)
     .write(msg.channelId)
     .write32(msg.feeratePerKw)
 }
@@ -461,7 +465,7 @@ export function readChannelReestablish (buf) {
 }
 
 export function writeChannelReestablish (msg) {
-  return createBuffer(48)
+  return createMessageBuffer(msg, 48)
     .write(msg.channelId)
     .write(msg.nextLocalCommitmentNumber)
     .write(msg.nextRemoteRevocationNumber)
