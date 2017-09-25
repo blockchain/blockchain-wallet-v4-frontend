@@ -67,12 +67,11 @@ const Row2 = styled.div`
   }
 `
 const Column2 = styled(Column)`
-  width: 100%;
+  flex: 0 0 100%;
   margin-bottom: 10px;
 
-
   @media(min-width: 992px) {
-    width: 33%;
+    flex: 0 0 33%;
   }
 `
 const Copyright = styled.div`
@@ -91,9 +90,10 @@ const Terms = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  
+
   @media(min-width: 992px) {
     justify-content: flex-start;
+    flex-wrap: nowrap;
   }
 `
 const Social = styled.div`
