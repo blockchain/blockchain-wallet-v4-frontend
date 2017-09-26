@@ -7,16 +7,15 @@ class Carousel extends React.Component {
     super(props)
     this.state = { index: 0, total: props.children.length - 1 }
     this.handleClick = this.handleClick.bind(this)
+    this.handlePrevious = this.handlePrevious.bind(this)
+    this.handleNext = this.handleNext.bind(this)
     this.interval = undefined
   }
 
   componentWillMount () {
     const { auto, delay } = this.props
     if (auto) {
-      this.interval = setInterval(() => {
-        const nextIndex = this.state.index === this.state.total ? 0 : this.state.index + 1
-        this.setState({ index: nextIndex })
-      }, delay)
+      this.interval = setInterval(() => this.setState({ index: this.getNextIndex() }), delay)
     }
   }
 
@@ -24,15 +23,40 @@ class Carousel extends React.Component {
     if (this.interval) { clearInterval(this.interval) }
   }
 
+  getPreviousIndex () {
+    const { index, total } = this.state
+    return index === 0 ? total : index - 1
+  }
+
+  getNextIndex () {
+    const { index, total } = this.state
+    return index === total ? 0 : index + 1
+  }
+
   handleClick (index) {
     this.setState({ index })
+  }
+
+  handlePrevious () {
+    this.setState({ index: this.getPreviousIndex() })
+  }
+
+  handleNext () {
+    this.setState({ index: this.getNextIndex() })
   }
 
   render () {
     const { children, ...rest } = this.props
 
     return (
-      <CarouselTemplate index={this.state.index} total={this.state.total} handleClick={this.handleClick} {...rest}>
+      <CarouselTemplate
+        index={this.state.index}
+        total={this.state.total}
+        handleClick={this.handleClick}
+        handlePrevious={this.handlePrevious}
+        handleNext={this.handleNext}
+        {...rest}
+      >
         {children}
       </CarouselTemplate>
     )
@@ -42,13 +66,17 @@ class Carousel extends React.Component {
 Carousel.propTypes = {
   auto: PropTypes.bool,
   delay: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
+  arrows: PropTypes.bool,
+  chips: PropTypes.bool
 }
 
 Carousel.defaultProps = {
   auto: false,
   delay: 3000,
-  height: 150
+  height: 150,
+  arrows: true,
+  chips: true
 }
 
 export default Carousel

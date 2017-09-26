@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { range } from 'ramda'
 
+import { Color } from '../../Colors'
+import { Icon } from '../../Icons'
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,7 +16,7 @@ const Wrapper = styled.div`
 const Content = styled.div`
   position: relative;
   width: 100%;
-  min-height: ${props => props.height}px; 
+  min-height: ${props => props.height}px;
   overflow-x: hidden;
 `
 const Slider = styled.div`
@@ -53,20 +56,40 @@ const Control = styled.div`
   cursor: pointer;
   z-index: 
 `
+const Arrow = styled(Icon).attrs({
+  name: 'down-arrow',
+  size: '24px',
+  weight: 700,
+  color: 'gray-6'
+})`
+  position: absolute;
+  top: 50%;
+  left: ${props => props.left ? '10px' : 'initial'};
+  right: ${props => !props.left ? '10px' : 'initial'};
+  transform: ${props => props.left ? 'rotate(90deg)' : 'rotate(-90deg)'};
+  cursor: pointer;
+  z-index: 1;
+
+  &:hover { color: ${Color('brand-secondary')}!important; }
+`
 
 const Carousel = props => {
-  const { index, total, height, children, handleClick } = props
+  const { index, total, height, arrows, chips, children, handleClick, handlePrevious, handleNext } = props
 
   return (
     <Wrapper>
       <Content height={height} total={total}>
+        { arrows && <Arrow left onClick={handlePrevious} /> }
         <Slider height={height} index={index} total={total}>
           {children}
         </Slider>
+        { arrows && <Arrow onClick={handleNext} /> }
       </Content>
-      <Controls>
-        { range(0, total + 1).map((value, arrayIndex) => <Control key={arrayIndex} onClick={() => handleClick(value)} active={index === value} />) }
-      </Controls>
+      { chips &&
+        <Controls>
+          {range(0, total + 1).map((value, arrayIndex) => <Control key={arrayIndex} onClick={() => handleClick(value)} active={index === value} />)}
+        </Controls>
+      }
     </Wrapper>
   )
 }
@@ -75,7 +98,9 @@ Carousel.propTypes = {
   index: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleClick: PropTypes.func.isRequired,
+  arrows: PropTypes.bool.isRequired,
+  chips: PropTypes.bool.isRequired
 }
 
 export default Carousel

@@ -9,16 +9,16 @@ import TwoStepYubico from './template.js'
 class TwoStepYubicoContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleConfirm = this.handleConfirm.bind(this)
+    this.handleContinue = this.handleContinue.bind(this)
   }
 
-  handleConfirm () {
-    this.props.modalActions.clickUpgradeWizardConfirm()
+  handleContinue () {
+    // this.props.modalActions.clickUpgradeWizardContinue()
   }
 
   render () {
     return (
-      <TwoStepYubico {...this.props} handleConfirm={this.handleConfirm} />
+      <TwoStepYubico {...this.props} handleContinue={this.handleContinue} />
     )
   }
 }

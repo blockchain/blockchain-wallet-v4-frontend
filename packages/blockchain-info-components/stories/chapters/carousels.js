@@ -32,3 +32,15 @@ storiesOf('Carousels', module)
       <span>My second content</span>
       <span>My third content</span>
     </Carousel>)
+  .add('Carousel with arrows disabled', () =>
+    <Carousel arrows={false}>
+      <span>My first content</span>
+      <span>My second content</span>
+      <span>My third content</span>
+    </Carousel>)
+  .add('Carousel with chips disabled', () =>
+    <Carousel chips={false}>
+      <span>My first content</span>
+      <span>My second content</span>
+      <span>My third content</span>
+    </Carousel>)

@@ -9,8 +9,13 @@ import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
 import qrCode from './img/qr-code.png'
 import refresh from './img/refresh.svg'
+import rocket from './img/rocket.gif'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
+import walletV3Backup from './img/wallet-v3-backup.jpg'
+import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
+import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
+import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import yubikey from './img/yubikey.png'
 
 export default {
@@ -25,7 +30,12 @@ export default {
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
   'qr-code': qrCode,
   'refresh': refresh,
+  'rocket': rocket,
   'smartphone': smartphone,
   'sophisticated': sophisticated,
+  'wallet-v3-backup': walletV3Backup,
+  'wallet-v3-fund-management': walletV3FundManagement,
+  'wallet-v3-new-design': walletV3NewDesign,
+  'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'yubikey': yubikey
 }
