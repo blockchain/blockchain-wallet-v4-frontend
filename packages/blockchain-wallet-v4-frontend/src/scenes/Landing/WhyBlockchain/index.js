@@ -48,7 +48,7 @@ const WhyBlockchain = (props) => {
           </Text>
         </TextGroup>
       </Content>
-      <Carousel height={150} auto>
+      <Carousel height={150} auto arrows={false}>
         <Block>
           <Image name='sophisticated' height='50px' />
           <Text size='18px' weight={300} uppercase>
