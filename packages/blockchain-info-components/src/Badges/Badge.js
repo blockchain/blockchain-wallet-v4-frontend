@@ -10,13 +10,13 @@ const Badge = ({ ...props, children }) => {
     case 'applestore':
       return (
         <Link href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309'>
-          <Image name='google-play-badge' height='40px' />
+          <Image name='app-store-badge' height='40px' />
         </Link>
       )
     case 'googleplay':
       return (
         <Link href='https://play.google.com/store/apps/details?id=piuk.blockchain.android'>
-          <Image name='app-store-badge' height='40px' />
+          <Image name='google-play-badge' height='40px' />
         </Link>
       )
     default: return <div />

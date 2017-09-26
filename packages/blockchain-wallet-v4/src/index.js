@@ -7,7 +7,12 @@ import * as Network from './network'
 import * as coreSagas from './redux/sagas.js'
 import * as Coin from './coinSelection/coin.js'
 import * as CoinSelection from './coinSelection'
+<<<<<<< HEAD
 import * as Exchange from './exchange'
+=======
+import * as crypto from './WalletCrypto'
+import * as pairing from './pairing'
+>>>>>>> master
 
 export {
   coreActions,
@@ -19,5 +24,10 @@ export {
   Network,
   Coin,
   CoinSelection,
+<<<<<<< HEAD
   Exchange
+=======
+  crypto,
+  pairing
+>>>>>>> master
 }

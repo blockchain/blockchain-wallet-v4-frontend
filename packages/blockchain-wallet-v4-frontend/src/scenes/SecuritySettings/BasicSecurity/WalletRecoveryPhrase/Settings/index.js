@@ -21,11 +21,8 @@ class SettingsContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    modalActions: bindActionCreators(actions.modals, dispatch),
-    settingsActions: bindActionCreators(actions.core.settings, dispatch)
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
 
 export default connect(undefined, mapDispatchToProps)(SettingsContainer)

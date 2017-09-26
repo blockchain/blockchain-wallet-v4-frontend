@@ -1,14 +1,35 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, requiredNumber } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, Separator, Text, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Form'
-import CopyClipboard from './CopyClipboard'
+import CopyClipboard from 'components/CopyClipboard'
+
+const AddressContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`
+const QRCodeButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 36px;
+  background-color: ${props => props.theme['brand-secondary']};
+  color: ${props => props.theme['white']};
+  font-weight: 300;
+  cursor: pointer;
+`
 
 const FirstStep = (props) => {
-  const { nextStep, submitting, invalid, receiveAddress, handleClickCode, position, total, closeAll } = props
+  const { nextStep, submitting, invalid, position, total, closeAll, ...rest } = props
+  const { handleClickQRCode, receiveAddress } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -17,7 +38,7 @@ const FirstStep = (props) => {
       </ModalHeader>
       <ModalBody>
         <Form>
-          <Text size='14px' weight={500} capitalize>
+          <Text size='14px' weight={500}>
             <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & share address:' />
             <Tooltip>
               <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip1' defaultMessage='Share this address with others, and they can send you BTC directly to your wallet.' />
@@ -25,7 +46,12 @@ const FirstStep = (props) => {
               <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip3' defaultMessage='You can also create a request by attaching an amount below.' />
             </Tooltip>
           </Text>
-          <CopyClipboard handleClickCode={handleClickCode} address={receiveAddress} />
+          <AddressContainer>
+            <CopyClipboard address={receiveAddress} />
+            <QRCodeButton onClick={handleClickQRCode}>
+              <FormattedMessage id='modals.requestbitcoin.firststep.qrcode' defaultMessage='QR Code' />
+            </QRCodeButton>
+          </AddressContainer>
           <Separator>
             <Text size='14px' weight={300} uppercase>
               <FormattedMessage id='modals.requestbitcoin.firststep.or' defaultMessage='Or' />
