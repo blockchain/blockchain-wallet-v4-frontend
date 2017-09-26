@@ -109,9 +109,32 @@ const convertBaseCoinToCoin = (unit, value) => {
   return btcAmount.chain(Currency.toUnit(BTCunit)).map(Currency.unitToString).getOrElse('N/A')
 }
 
+
+const convertUnitToFiat = (unit, currency, rates, value) => {
+  const CUR = prop(currency, Currencies)
+  const CURCode = prop('code', CUR)
+  const CURunit = path(['units', CURCode], CUR)
+  const pairs = Pairs.create(BTC.code, rates)
+  const btcAmount = Currency.fromUnit({value: value, unit: BTC.units[unit]})
+  const fiatAmount = btcAmount.chain(Currency.convert(pairs, CUR))
+  return fiatAmount.chain(Currency.toUnit(CURunit)).getOrElse({value: ''})
+}
+
+const convertFiatToUnit = (unit, currency, rates, value) => {
+  const CUR = prop(currency, Currencies)
+  const CURCode = prop('code', CUR)
+  const CURunit = path(['units', CURCode], CUR)
+  const pairs = Pairs.create(BTC.code, rates)
+  const fiatAmount = Currency.fromUnit({value: value, unit: CURunit })
+  const btcAmount = fiatAmount.chain(Currency.convert(pairs, BTC))
+  return btcAmount.chain(Currency.toUnit(BTC.units[unit])).getOrElse({value: ''})
+}
+
 export {
   convertBaseCoinToFiat,
   convertBaseCoinToCoin,
+  convertUnitToFiat,
+  convertFiatToUnit,
   convertCoinToFiat,
   convertFiatToCoin,
   convertToUnit,
