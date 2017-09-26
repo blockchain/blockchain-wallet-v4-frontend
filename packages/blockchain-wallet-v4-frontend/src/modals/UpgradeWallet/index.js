@@ -4,21 +4,21 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import TwoStepYubico from './template.js'
+import UpgradeWallet from './template.js'
 
-class TwoStepYubicoContainer extends React.Component {
+class UpgradeWizardContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleContinue = this.handleContinue.bind(this)
   }
 
   handleContinue () {
-    // this.props.modalActions.clickUpgradeWizardContinue()
+    this.props.modalActions.clickUpgradeWalletContinue()
   }
 
   render () {
     return (
-      <TwoStepYubico {...this.props} handleContinue={this.handleContinue} />
+      <UpgradeWallet {...this.props} handleContinue={this.handleContinue} />
     )
   }
 }
@@ -28,8 +28,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer('UpgradeWizard'),
+  modalEnhancer('UpgradeWallet'),
   connect(undefined, mapDispatchToProps)
 )
 
-export default enhance(TwoStepYubicoContainer)
+export default enhance(UpgradeWizardContainer)

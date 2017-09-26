@@ -227,9 +227,16 @@ const clickTwoStepYubicoEnableConfirmation = function * () {
 }
 
 // =============================================================================
-// ============================ UpgradeWizard Modal ============================
+// ============================ UpgradeWallet Modal ============================
 // =============================================================================
 const clickUpgradeWizardContinue = function * () {
+  console.log('click')
+}
+
+// =============================================================================
+// ============================ UpgradeWallet Modal ============================
+// =============================================================================
+const clickWelcomeContinue = function * () {
   console.log('click')
 }
 
@@ -274,8 +281,10 @@ function * sagas () {
   // TwoStepYubikey
   yield takeEvery(AT.CLICK_TWO_STEP_YUBICO_ENABLE, clickTwoStepYubicoEnable)
   yield takeEvery(actionTypes.core.settings.ENABLE_YUBIKEY_SUCCESS, clickTwoStepYubicoEnableConfirmation)
-  // UpgradeWizard
+  // UpgradeWallet
   yield takeEvery(AT.CLICK_UPGRADE_WALLET_CONTINUE, clickUpgradeWizardContinue)
+  // Welcome
+  yield takeEvery(AT.CLICK_WELCOME_CONTINUE, clickWelcomeContinue)
 }
 
 export default sagas
