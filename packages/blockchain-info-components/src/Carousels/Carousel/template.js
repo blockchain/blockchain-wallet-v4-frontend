@@ -64,6 +64,7 @@ const Arrow = styled(Icon).attrs({
 })`
   position: absolute;
   top: 50%;
+  margin-top: -18px;
   left: ${props => props.left ? '10px' : 'initial'};
   right: ${props => !props.left ? '10px' : 'initial'};
   transform: ${props => props.left ? 'rotate(90deg)' : 'rotate(-90deg)'};

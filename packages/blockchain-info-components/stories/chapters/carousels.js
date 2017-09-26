@@ -15,7 +15,7 @@ storiesOf('Carousels', module)
       <span>My third content</span>
     </Carousel>)
   .add('Carousel with height', () =>
-    <Carousel height={30}>
+    <Carousel height={60}>
       <span>My first content</span>
       <span>My second content</span>
       <span>My third content</span>
