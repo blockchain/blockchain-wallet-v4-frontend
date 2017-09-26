@@ -247,7 +247,6 @@ const createApi = ({
 
   const getPriceIndexSeries = function (crypto, fiat, start, scale) {
     const data = { base: toLower(crypto), quote: toLower(fiat), start: start, scale: scale }
-    console.log(data)
     return request({ url: apiUrl, method: 'GET', endPoint: 'price/index-series', data: data })
   }
 

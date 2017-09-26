@@ -1,5 +1,6 @@
-import { path, sequence, map } from 'ramda'
+import { path, sequence, map, prop } from 'ramda'
 import Maybe from 'data.maybe'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 // toUnit :: Number -> Number -> Number -> Maybe (Number)
 const toUnit = (amount, ratio) => parseFloat(amount * ratio)
@@ -87,7 +88,30 @@ const getDecimals = (network, unit) => path([network, unit, 'decimals'], scale)
 // getDecimals :: Number -> Number -> Maybe (Number)
 const getSymbol = (network, unit) => path([network, unit, 'symbol'], scale)
 
+
+const { Currencies, Currency, Pairs } = Exchange
+const { BTC } = Currencies
+
+const convertBaseCoinToFiat = (currency, rates, value) => {
+  const CUR = prop(currency, Currencies)
+  const CURCode = prop('code', CUR)
+  const CURunit = path(['units', CURCode], CUR)
+  const pairs = Pairs.create(BTC.code, rates)
+  const btcAmount = Currency.fromUnit({value, unit: BTC.units.SAT})
+
+  return btcAmount.chain(Currency.convert(pairs, CUR)).chain(Currency.toUnit(CURunit)).map(Currency.unitToString).getOrElse('N/A')
+}
+
+const convertBaseCoinToCoin = (unit, value) => {
+  const BTCunit = path(['units', unit], BTC)
+  const btcAmount = Currency.fromUnit({value, unit: BTC.units.SAT})
+
+  return btcAmount.chain(Currency.toUnit(BTCunit)).map(Currency.unitToString).getOrElse('N/A')
+}
+
 export {
+  convertBaseCoinToFiat,
+  convertBaseCoinToCoin,
   convertCoinToFiat,
   convertFiatToCoin,
   convertToUnit,

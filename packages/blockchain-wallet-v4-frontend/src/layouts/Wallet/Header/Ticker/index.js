@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { equals, prop, path } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { convertFromUnit, displayCoin, displayFiat, coinScale } from 'services/ConversionService'
 import { selectors } from 'data'
 
 import Ticker from './template.js'

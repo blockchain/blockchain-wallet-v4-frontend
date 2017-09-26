@@ -10,13 +10,13 @@ export default
       decimal_digits: 0,
       currency: 'BTC'
     },
-    UBTC: {
+    UBC: {
       rate: '100',
       symbol: 'μBTC',
       decimal_digits: 2,
       currency: 'BTC'
     },
-    MBTC: {
+    MBC: {
       rate: '100000',
       symbol: 'mBTC',
       decimal_digits: 5,

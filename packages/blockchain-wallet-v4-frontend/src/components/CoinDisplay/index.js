@@ -2,14 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { displayCoin } from 'services/ConversionService'
+import { convertBaseCoinToCoin } from 'services/ConversionService'
 import { selectors } from 'data'
 
-const CoinDisplay = ({ ...props, children }) => {
-  const { network, unit } = props
-  const coin = displayCoin(network, children, unit).getOrElse('N/A')
-
-  return <div>{coin}</div>
+const CoinDisplay = props => {
+  const { unit, children } = props
+  return <div>{convertBaseCoinToCoin(unit, children)}</div>
 }
 
 CoinDisplay.propTypes = {
@@ -21,7 +19,6 @@ CoinDisplay.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-  network: 'bitcoin',
   unit: selectors.core.settings.getBtcCurrency(state)
 })
 
