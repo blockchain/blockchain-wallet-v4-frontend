@@ -7,12 +7,13 @@ import { selectors } from 'data'
 
 const CurrencyDisplay = props => {
   const { currency, rates, children } = props
+  const amount = children.toString()
 
-  return (<div>{convertBaseCoinToFiat(currency, rates, children)}</div>)
+  return (<div>{convertBaseCoinToFiat(currency, rates, amount)}</div>)
 }
 
 CurrencyDisplay.propTypes = {
-  children: PropTypes.number.isRequired
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 }
 
 CurrencyDisplay.defaultProps = {

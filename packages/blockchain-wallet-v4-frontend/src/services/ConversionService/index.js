@@ -21,7 +21,9 @@ const convertBaseCoinToCoin = (unit, value) => {
   return btcAmount.chain(Currency.toUnit(BTCunit)).map(Currency.unitToString).getOrElse('N/A')
 }
 
-// Return decimals
+// =============================================================================
+// ================================= BITCOIN ===================================
+// =============================================================================
 const convertUnitToFiat = (unit, currency, rates, value) => {
   const CUR = prop(currency, Currencies)
   const CURCode = prop('code', CUR)

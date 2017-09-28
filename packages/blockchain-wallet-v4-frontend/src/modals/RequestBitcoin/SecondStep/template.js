@@ -32,7 +32,7 @@ const LinkContainer = styled.div`
 const SecondStep = (props) => {
   const { previousStep, position, total, closeAll, ...rest } = props
   const { onSubmit, satoshis, message, link, active } = rest
-  console.log(props)
+
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='request' onClose={closeAll}>
@@ -59,7 +59,7 @@ const SecondStep = (props) => {
             </LinkContainer>
           </Container>
           <CopyToClipBoard text={link}>
-            <Button type='submit' nature={active ? 'copy' : 'secondary'} fullwidth uppercase>
+            <Button type='submit' nature={active ? 'copy' : 'primary'} fullwidth uppercase>
               { active
                 ? <FormattedMessage id='modals.requestbitcoin.secondstep.copied' defaultMessage='Copied!' />
                 : <FormattedMessage id='modals.requestbitcoin.secondstep.copy' defaultMessage='Copy link' />

@@ -7,15 +7,17 @@ import { selectors } from 'data'
 
 const ComboDisplay = props => {
   const { unit, currency, rates, children } = props
-  return <div>{`${convertBaseCoinToCoin(unit, children)} (${convertBaseCoinToFiat(currency, rates, children)})`}</div>
+  const amount = children.toString()
+
+  return <div>{`${convertBaseCoinToCoin(unit, amount)} (${convertBaseCoinToFiat(currency, rates, amount)})`}</div>
 }
 
 ComboDisplay.propTypes = {
-  children: PropTypes.number.isRequired
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 }
 
 ComboDisplay.defaultProps = {
-  children: 0
+  children: '0'
 }
 
 const mapStateToProps = (state) => ({

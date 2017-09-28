@@ -19,7 +19,6 @@ class SelectInputContainer extends React.Component {
 
   handleClick (value) {
     const { input, callback } = this.props
-    console.log(this.props)
     const { onChange } = input
     if (!equals(this.state.value, value)) {
       this.setState({ value })

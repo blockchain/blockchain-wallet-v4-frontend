@@ -82,4 +82,8 @@ BalanceSummary.propTypes = {
   total: PropTypes.number.isRequired
 }
 
+BalanceSummary.defaultProps = {
+  total: 0
+}
+
 export default BalanceSummary
