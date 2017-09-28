@@ -7,16 +7,11 @@ import { selectors } from 'data'
 
 const CoinDisplay = props => {
   const { unit, currency, rates, children } = props
-
   return <div>{`${convertBaseCoinToCoin(unit, children)} (${convertBaseCoinToFiat(currency, rates, children)})`}</div>
 }
 
 CoinDisplay.propTypes = {
   children: PropTypes.number.isRequired
-}
-
-CoinDisplay.defaultProps = {
-  children: 0
 }
 
 const mapStateToProps = (state) => ({

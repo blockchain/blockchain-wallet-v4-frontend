@@ -14,10 +14,6 @@ CoinDisplay.propTypes = {
   children: PropTypes.number.isRequired
 }
 
-CoinDisplay.defaultProps = {
-  children: 0
-}
-
 const mapStateToProps = (state) => ({
   unit: selectors.core.settings.getBtcCurrency(state)
 })

@@ -1,5 +1,5 @@
 import BigRational from 'big-rational'
-import { compose, curry, is, drop, clamp, split, length, prop, path, flip, sequence } from 'ramda'
+import { compose, curry, is, prop, flip, sequence } from 'ramda'
 import { view } from 'ramda-lens'
 import Type from '../types/Type'
 import * as Currencies from './currencies'
@@ -19,9 +19,9 @@ export class Currency extends Type {
   }
   convert (pairs, toCurrency) {
     let ratio = BigRational.one
-    const toCurrencyM = Maybe.fromNullable(toCurrency)  
+    const toCurrencyM = Maybe.fromNullable(toCurrency)
     const pairsM = Maybe.fromNullable(pairs)
-    
+
     return sequence(Maybe.of, [toCurrencyM, pairsM])
     .chain(([toCurrency, pairs]) => {
       if (this.currency.code === toCurrency.code) {

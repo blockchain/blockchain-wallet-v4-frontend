@@ -21,19 +21,14 @@ const Row = styled.div`
 `
 
 class TickerContainer extends React.Component {
-
   shouldComponentUpdate (nextProps) {
-    if (!equals(this.props.btcraw, nextProps.btcraw)
-      || !equals(this.props.ethraw, nextProps.ethraw)
-      || !equals(this.props.currency, nextProps.currency)) {
-      return true
-    }
-    return false
+    const { btcraw, ethraw, currency } = this.props
+    return !equals(btcraw, nextProps.btcraw) || !equals(ethraw, nextProps.ethraw) || !equals(currency, nextProps.currency)
   }
 
   render () {
     const { currency, btcRates, ethRates } = this.props
-    
+
     const CUR = prop(currency, Exchange.Currencies)
     const CURCode = prop('code', CUR)
     const CURunit = path(['units', CURCode], CUR)

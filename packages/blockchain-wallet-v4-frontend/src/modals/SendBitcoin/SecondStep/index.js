@@ -1,50 +1,63 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { is } from 'ramda'
+import { formValueSelector } from 'redux-form'
 import { push } from 'connected-react-router'
 
 import settings from 'config'
-import { convertFromUnit } from 'services/ConversionService'
+import { convertUnitToSatoshis } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import SecondStep from './template.js'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleSend = this.handleSend.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  handleSend () {
+  onSubmit (e) {
+    e.preventDefault()
     const { selection } = this.props
     this.props.modalActions.clickSendBitcoinSend(selection)
   }
 
   render () {
-    return <SecondStep {...this.props} handleSend={this.handleSend} />
+    return <SecondStep {...this.props} onSubmit={this.onSubmit} />
   }
 }
 
-const selectAddress = (addressValue, selectorFunction) => {
-  if (is(String, addressValue)) {
-    return addressValue
-  } else {
-    return addressValue
-      ? addressValue.address
-        ? addressValue.address
-        : selectorFunction(addressValue.index)
-      : undefined
-  }
-}
+const extractAddress = (value, selectorFunction) =>
+  value
+    ? value.address
+      ? value.address
+      : selectorFunction(value.index)
+    : undefined
 
 const mapStateToProps = (state, ownProps) => {
   const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
+  const unit = selectors.core.settings.getBtcCurrency(state)
+  const selection = selectors.core.payment.getSelection(state)
+
+  const from = formValueSelector('sendBitcoin')(state, 'from')
+  const to = formValueSelector('sendBitcoin')(state, 'to')
+  const to2 = formValueSelector('sendBitcoin')(state, 'to2')
+  const amount = formValueSelector('sendBitcoin')(state, 'amount')
+  const message = formValueSelector('sendBitcoin')(state, 'message')
+  const fee = formValueSelector('sendBitcoin')(state, 'fee')
+
+  const satoshis = convertUnitToSatoshis(amount, unit).value
+  const fromAddress = extractAddress(from, getChange)
+  const toAddress = to2 || extractAddress(to, getReceive)
+
   return {
-    fromAddress: selectAddress(ownProps.from, getChange),
-    toAddress: selectAddress(ownProps.to, getReceive),
-    satoshis: convertFromUnit(ownProps.network, ownProps.amount, ownProps.unit).getOrElse({ amount: undefined, symbol: 'N/A' }).amount
+    fee,
+    message,
+    fromAddress,
+    toAddress,
+    satoshis,
+    selection
   }
 }
 

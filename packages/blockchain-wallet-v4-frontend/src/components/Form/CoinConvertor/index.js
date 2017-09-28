@@ -18,8 +18,8 @@ class CoinConvertorContainer extends React.Component {
     const { value } = input
     const coin = value
     const fiat = convertUnitToFiat(unit, currency, rates, coin)
-    
-    this.state = { 
+
+    this.state = {
       coin,
       coinUnit: BTC.units[unit].symbol,
       fiat: fiat.value,
@@ -32,7 +32,7 @@ class CoinConvertorContainer extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {    
+  componentWillReceiveProps (nextProps) {
     if (!equals(this.props.input.value, nextProps.input.value ||
         !equals(this.props.rates, nextProps.rates) ||
         !equals(this.props.unit, nextProps.unit) ||
@@ -82,7 +82,6 @@ class CoinConvertorContainer extends React.Component {
       fiat: fiat,
       fiatUnit: CURunit.symbol
     })
-
   }
 
   handleBlur () {
