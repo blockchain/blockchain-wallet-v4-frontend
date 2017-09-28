@@ -29,7 +29,6 @@ class SecondStepContainer extends React.Component {
   render () {
     const { receiveAddress, satoshis, btc, message } = this.props
     const link = `https://blockchain.info/payment_request?address=${receiveAddress}&amount=${btc}&message=${message}`
-    console.log(this.props)
 
     return <SecondStep {...this.props}
       satoshis={satoshis}

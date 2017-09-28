@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required, requiredNumber } from 'services/FormHelper'
+import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, Separator, Text, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'

@@ -95,7 +95,7 @@ const FirstStep = (props) => {
           </Text>
           <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
+            <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee (sat/b) :' />
             <Tooltip>
               <FormattedMessage id='modals.sendbitcoin.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
             </Tooltip>
