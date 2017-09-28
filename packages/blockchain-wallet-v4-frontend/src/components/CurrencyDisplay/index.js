@@ -15,6 +15,10 @@ CurrencyDisplay.propTypes = {
   children: PropTypes.number.isRequired
 }
 
+CurrencyDisplay.defaultProps = {
+  children: 0
+}
+
 const mapStateToProps = (state) => ({
   currency: selectors.core.settings.getCurrency(state),
   rates: selectors.core.btcRates.getBtcRates(state)

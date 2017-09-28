@@ -23,18 +23,20 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.reduxFormActions.initialize('sendBitcoin', this.props.initialValues)
-    this.props.feeActions.fetchFee()
+    const { reduxFormActions, feeActions, initialValues } = this.props
+    reduxFormActions.initialize('sendBitcoin', initialValues)
+    feeActions.fetchFee()
   }
 
   componentWillUnmount () {
-    this.props.feeActions.deleteFee()
+    const { feeActions } = this.props
+    feeActions.deleteFee()
   }
 
   componentWillReceiveProps (nextProps) {
     const { unit, ...rest } = this.props
     const { fee, from, to, to2, amount, ...rest2 } = rest
-    const { feeValues, targetCoin, coins, fromAddress } = rest2
+    const { feeValues, coins } = rest2
     const { paymentActions, reduxFormActions } = rest
     // Update 'coins' if 'from' has been updated
     if (!equals(from, nextProps.from)) {

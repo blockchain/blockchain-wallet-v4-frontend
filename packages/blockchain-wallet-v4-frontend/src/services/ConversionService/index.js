@@ -21,12 +21,6 @@ const convertBaseCoinToCoin = (unit, value) => {
   return btcAmount.chain(Currency.toUnit(BTCunit)).map(Currency.unitToString).getOrElse('N/A')
 }
 
-const convertCoinToBaseCoin = (unit, value) => {
-  const btcAmount = Currency.fromUnit({ value, unit: BTC.units.SAT })
-
-  return btcAmount.chain(Currency.toUnit(BTC.units[unit])).map(Currency.unitToString).getOrElse('N/A')
-}
-
 // Return decimals
 const convertUnitToFiat = (unit, currency, rates, value) => {
   const CUR = prop(currency, Currencies)
@@ -62,11 +56,8 @@ const convertUnitToSatoshis = (value, unit) => {
 export {
   convertBaseCoinToFiat,
   convertBaseCoinToCoin,
-  convertCoinToBaseCoin,
   convertUnitToFiat,
   convertFiatToUnit,
-  // Convert Satoshis to specific BTC unit
   convertSatoshisToUnit,
-  // Convert specific BTC unit to Satoshis
   convertUnitToSatoshis
 }

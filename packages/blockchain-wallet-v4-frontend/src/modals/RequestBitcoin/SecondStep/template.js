@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
@@ -29,15 +30,16 @@ const LinkContainer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { previousStep, satoshis, message, link, active, handleClick, position, total, closeAll } = props
-
+  const { previousStep, position, total, closeAll, ...rest } = props
+  const { onSubmit, satoshis, message, link, active } = rest
+  console.log(props)
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='request' onClose={closeAll}>
         <FormattedMessage id='modals.requestbitcoin.secondstep.title' defaultMessage='Request' />
       </ModalHeader>
       <ModalBody>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' />
           </Text>
@@ -56,8 +58,8 @@ const SecondStep = (props) => {
               <Text size='12px' weight={300}>{link}</Text>
             </LinkContainer>
           </Container>
-          <CopyToClipBoard text={link} onCopy={handleClick}>
-            <Button nature={active ? 'copy' : 'secondary'} fullwidth uppercase>
+          <CopyToClipBoard text={link}>
+            <Button type='submit' nature={active ? 'copy' : 'secondary'} fullwidth uppercase>
               { active
                 ? <FormattedMessage id='modals.requestbitcoin.secondstep.copied' defaultMessage='Copied!' />
                 : <FormattedMessage id='modals.requestbitcoin.secondstep.copy' defaultMessage='Copy link' />
@@ -76,12 +78,15 @@ const SecondStep = (props) => {
 }
 
 SecondStep.propTypes = {
+  position: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  closeAll: PropTypes.func.isRequired,
   active: PropTypes.bool.isRequired,
-  satoshis: PropTypes.number.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  satoshis: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
-  previous: PropTypes.func.isRequired
+  previousStep: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
-export default SecondStep
+export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(SecondStep)

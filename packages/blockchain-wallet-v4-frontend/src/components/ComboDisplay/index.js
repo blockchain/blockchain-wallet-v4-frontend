@@ -5,13 +5,17 @@ import { connect } from 'react-redux'
 import { convertBaseCoinToCoin, convertBaseCoinToFiat } from 'services/ConversionService'
 import { selectors } from 'data'
 
-const CoinDisplay = props => {
+const ComboDisplay = props => {
   const { unit, currency, rates, children } = props
   return <div>{`${convertBaseCoinToCoin(unit, children)} (${convertBaseCoinToFiat(currency, rates, children)})`}</div>
 }
 
-CoinDisplay.propTypes = {
+ComboDisplay.propTypes = {
   children: PropTypes.number.isRequired
+}
+
+ComboDisplay.defaultProps = {
+  children: 0
 }
 
 const mapStateToProps = (state) => ({
@@ -20,4 +24,4 @@ const mapStateToProps = (state) => ({
   rates: selectors.core.btcRates.getBtcRates(state)
 })
 
-export default connect(mapStateToProps)(CoinDisplay)
+export default connect(mapStateToProps)(ComboDisplay)
