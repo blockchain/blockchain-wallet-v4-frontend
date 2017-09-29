@@ -71,7 +71,7 @@ const List = styled.div`
   overflow-x: hidden;
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
-  z-index: 100;
+  z-index: 10;
 `
 const ListItem = styled.a`
   width: 100%;
