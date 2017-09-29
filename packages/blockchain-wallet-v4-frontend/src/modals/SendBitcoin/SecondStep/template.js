@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
@@ -31,14 +32,16 @@ const Summary = styled.div`
 
 const SecondStep = (props) => {
   const { previousStep, position, total, closeAll, ...rest } = props
-  const { handleSend, fromAddress, toAddress, message, satoshis, fee } = rest
+  const { onSubmit, fromAddress, toAddress, message, satoshis, selection } = rest
+  const { fee } = selection
+
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='send' onClose={closeAll}>
         <FormattedMessage id='modals.sendbitcoin.secondstep.title' defaultMessage='Confirm' />
       </ModalHeader>
       <ModalBody>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Row>
             <Text size='16px' weight={500}>
               <FormattedMessage id='modals.sendbitcoin.secondstep.from' defaultMessage='From:' />
@@ -86,7 +89,7 @@ const SecondStep = (props) => {
               <CurrencyDisplay>{satoshis}</CurrencyDisplay>
             </Text>
           </Summary>
-          <Button nature='primary' fullwidth uppercase onClick={handleSend}>
+          <Button type='submit' nature='primary' fullwidth uppercase>
             <FormattedMessage id='modals.sendbitcoin.secondstep.send' defaultMessage='Send bitcoin' />
           </Button>
         </Form>
@@ -101,13 +104,7 @@ const SecondStep = (props) => {
 }
 
 SecondStep.propTypes = {
-  previous: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  fromAddress: PropTypes.string.isRequired,
-  toAddress: PropTypes.string.isRequired,
-  message: PropTypes.string,
-  satoshis: PropTypes.number.isRequired,
-  fee: PropTypes.number.isRequired
+
 }
 
-export default SecondStep
+export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false })(SecondStep)

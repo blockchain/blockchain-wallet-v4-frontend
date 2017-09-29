@@ -109,4 +109,8 @@ MenuTop.propTypes = {
   toggleCoinDisplay: PropTypes.func.isRequired
 }
 
+MenuTop.defaultProps = {
+  balance: 0
+}
+
 export default MenuTop

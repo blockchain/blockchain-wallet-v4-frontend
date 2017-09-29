@@ -18,11 +18,8 @@ export const settingsSaga = ({ api } = {}) => {
   const requestPairingCode = function * (action) {
     try {
       const { guid, sharedKey, password } = action.payload
-      console.log(guid, sharedKey, password)
       const pairingPassword = yield call(api.getPairingPassword, guid)
-      console.log(pairingPassword)
       const data = pairing.encode(guid, sharedKey, password, pairingPassword)
-      console.log(data)
       yield put(actions.requestPairingCodeSuccess(data))
     } catch (error) {
       yield put(actions.requestPairingCodeError(error))
