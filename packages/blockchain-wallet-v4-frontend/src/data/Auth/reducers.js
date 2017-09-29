@@ -33,7 +33,7 @@ const login = (state = INITIAL_STATE, action) => {
 }
 
 const session = (state = {}, action) => {
-  let { type } = action
+  const { type } = action
   switch (type) {
     case AT.SAVE_SESSION: {
       return merge(state, action.payload)
