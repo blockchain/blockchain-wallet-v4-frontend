@@ -56,8 +56,8 @@ const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <Wrapper>
+        <Alerts />
         <HeaderContainer>
-          <Alerts />
           <Header />
         </HeaderContainer>
         <ContentContainer>

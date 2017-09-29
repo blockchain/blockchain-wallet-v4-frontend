@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 }
 
 const login = (state = INITIAL_STATE, action) => {
-  let { type } = action
+  const { type } = action
   switch (type) {
     case AT.LOGIN_START: {
       return assign(INITIAL_STATE, { isLoggingIn: true })
@@ -27,7 +27,7 @@ const login = (state = INITIAL_STATE, action) => {
 }
 
 const session = (state = {}, action) => {
-  let { type } = action
+  const { type } = action
   switch (type) {
     case AT.SAVE_SESSION: {
       return merge(state, action.payload)

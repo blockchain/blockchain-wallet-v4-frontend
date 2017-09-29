@@ -1,65 +1,85 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { transparentize } from 'polished'
+import { transparentize, darken } from 'polished'
 
-import { Text } from '../Text'
-import { Link } from '../Links'
+import { Icon } from '../Icons'
 
-const Container = styled.div`
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  background: ${props => transparentize(0.9, (props.theme[props.color]))};
-  border-top: 6px solid ${props => transparentize(0.8, (props.theme[props.color]))};
+const Wrapper = styled.div`
   height: 65px;
-  padding: 0 20px;
-  width: 500px;
+  width: 100%;
+  background-color: ${props => props.theme['white']};
+
+  @media(min-width: 768px) { width: 500px; }
+`
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 15px 10px 15px 25px;
+  box-sizing: border-box;
+  background: ${props => transparentize(0.9, props.theme[props.color])};
+  color: ${props => props.theme[props.color]};
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  border-top: 6px solid ${props => transparentize(0.8, props.theme[props.color])};
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+`
+const Content = styled.div`
+  flex: 100%;
+  margin-right: 10px;
+  box-sizing: border-box;
 
-  & > :first-child { margin-right: 8px; }
+  & > :first-child { text-transform: uppercase; }
+  
+  @media(min-width: 768px) { & > :first-child { display:none; } }
+`
+const Close = styled(Icon)`
+  cursor: pointer;
+
+  &:hover { color: ${props => darken(0.2, props.theme[props.color])}!important; }
 `
 
-const selectStyle = type => {
+const selectColor = type => {
   switch (type) {
-    case 'success': return { color: 'success'}
-    case 'error': return { color: 'error' }
-    default: return { color: 'brand-secondary' }
+    case 'success': return 'success'
+    case 'error': return 'error'
+    case 'info': return 'brand-secondary'
+    default: return 'brand-secondary'
   }
 }
 
 const Toast = props => {
-  const { action, title, type, children } = props
-  const style = selectStyle(type)
-  const { color, uppercase } = style
-  const actionStyle = {
-    alignSelf: 'flex-end'
-  }
-  const messageStyle = {
-    alignSelf: 'flex-start'
-  }
+  const { nature, onClose, children } = props
+  const color = selectColor(nature)
 
   return (
-    <Container color={color}>
-      <Text size='14px' weight={500} color={color} uppercase>
-        { title }
-      </Text>
-      <Link color={color} size='14px' style={actionStyle} weight={400} uppercase>Dismiss</Link>
-      <Text size='14px' weight={400} style={messageStyle} color={color}>
-        { children }
-      </Text>
-    </Container>
+    <Wrapper>
+      <Container color={color}>
+        <Content>
+          {children}
+        </Content>
+        <Close name='close' size='20px' weight={300} color={color} onClick={onClose} />
+      </Container>
+    </Wrapper>
   )
 }
 
 Toast.propTypes = {
-  action: PropTypes.node.isRequired,
-  children: PropTypes.node.isRequired,
-  type: PropTypes.oneOf(['success', 'warning', 'default'])
+  nature: PropTypes.oneOf(['success', 'error', 'info']),
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired
+}
+
+Toast.defaultProps = {
+  nature: 'info'
 }
 
 export default Toast

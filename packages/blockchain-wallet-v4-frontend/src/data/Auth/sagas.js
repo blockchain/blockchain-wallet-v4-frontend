@@ -49,7 +49,6 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password) {
       yield put(actions.alerts.displayError(initialError.value))
     } else {
       yield put(actions.alerts.displayError(error.message || 'Error logging into your wallet'))
-      yield put(actions.log.recordLog({ type: 'ERROR', message: error.message }))
     }
   }
 }

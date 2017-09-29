@@ -1,1 +1,3 @@
-export { default as Toast } from './Toast'
+import Toast from './Toast'
+
+export { Toast }
