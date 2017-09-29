@@ -1,5 +1,4 @@
 const Webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
@@ -66,23 +65,6 @@ module.exports = {
         ]
       }),
       {
-        test: /assets.*\.scss|css$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true
-              }
-            }
-          ],
-          fallback: 'style-loader'
-        })
-      },
-      {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
           loader: 'file-loader',
@@ -112,9 +94,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin({
-      filename: 'style-[hash].css'
-    }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'

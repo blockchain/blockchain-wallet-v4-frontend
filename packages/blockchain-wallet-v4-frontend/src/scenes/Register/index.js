@@ -8,18 +8,17 @@ import { actions } from 'data'
 class RegisterContainer extends React.Component {
   constructor () {
     super()
-    this.handleClick = this.handleClick.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  handleClick (event) {
-    event.preventDefault()
-     // TODO: Handle multilanguages
+  onSubmit (e) {
+    e.preventDefault()
     this.props.alertActions.displaySuccess('Registration completed!')
   }
 
   render () {
     return (
-      <Register handleClick={this.handleClick} />
+      <Register onSubmit={this.onSubmit} />
     )
   }
 }

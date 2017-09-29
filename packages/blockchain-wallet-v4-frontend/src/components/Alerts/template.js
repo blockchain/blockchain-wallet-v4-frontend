@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   @media(min-width: 768px) { 
     bottom: 5px;
     left: 5px;
+    width: auto;
   }
 `
 

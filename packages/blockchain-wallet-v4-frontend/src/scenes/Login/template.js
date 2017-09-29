@@ -14,7 +14,7 @@ import MobileLogin from 'modals/MobileLogin'
 const Wrapper = styled.div`
   width: 100%;
   padding: 40px;
-  box-sigin: border-box;
+  box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
   @media(min-width: 768px) { width: 550px; }
@@ -40,7 +40,7 @@ const Footer = styled.div`
 
 const Login = (props) => {
   const { submitting, invalid, ...rest } = props
-  const { handleSubmit, handleMobile, authType } = rest
+  const { onSubmit, handleMobile, authType } = rest
 
   return (
     <Wrapper>
@@ -66,7 +66,7 @@ const Login = (props) => {
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={onSubmit}>
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
         </Text>
@@ -96,7 +96,7 @@ const Login = (props) => {
         { authType &&
           <Field name='code' validate={[required]} component={TextBox} />
         }
-        <Button nature='primary' type='submit' fullwidth uppercase disabled={submitting || invalid}>
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
         </Button>
       </Form>
