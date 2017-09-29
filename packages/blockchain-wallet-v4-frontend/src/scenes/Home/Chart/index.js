@@ -1,21 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectors } from 'data'
-import { api } from 'services/ApiService'
+import { bindActionCreators } from 'redux'
+import moment from 'moment'
+import { equals } from 'ramda'
 
+import { actions, selectors } from 'data'
+import ChartConfig from './chart.config.js'
 import Chart from './template.js'
 
 const intervals = {
-  hour: 3600 * 1000,
-  day: 24 * 3600 * 1000
+  hour: 60 * 60 * 1000,
+  day: 24 * 60 * 60 * 1000
 }
-
 const scales = {
-  FIFTEENMIN: 900,
-  HOUR: 3600,
-  TWOHOUR: 7200,
-  DAY: 86400,
-  FIVEDAY: 432000
+  FIFTEENMIN: 15 * 60,
+  HOUR: 60 * 60,
+  TWOHOUR: 2 * 60 * 60,
+  DAY: 24 * 60 * 60,
+  FIVEDAY: 5 * 24 * 60 * 60
 }
 const BTCSTART = 1282089600
 const ETHSTART = 1438992000
@@ -25,84 +27,113 @@ class ChartContainer extends React.Component {
     super(props)
     this.state =
     {
-      data: this.fetchChartData('BTC', 'all', BTCSTART, scales.FIVEDAY),
-      selectedCoin: 'BTC',
-      selectedTimeframe: 'all',
+      coin: 'BTC',
+      timeframe: 'all',
       start: BTCSTART,
       interval: intervals.day,
       scale: scales.FIVEDAY
     }
-    this.selectCoin = this.selectCoin.bind(this)
+    this.selectBitcoin = this.selectBitcoin.bind(this)
+    this.selectEthereum = this.selectEthereum.bind(this)
     this.selectTimeframe = this.selectTimeframe.bind(this)
-    this.fetchChartData = this.fetchChartData.bind(this)
   }
 
-  selectCoin (coin) {
-    if (this.state.selectedCoin !== coin) {
-      const { selectedTimeframe, start, scale } = this.state
-      this.fetchChartData(coin, selectedTimeframe, start, scale)
+  componentWillMount () {
+    const { currency } = this.props
+    const { coin, start, scale } = this.state
+    this.props.chartActions.fetchPriceIndexSeries(coin, currency, start, scale)
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
+    return !equals(this.props.data, nextProps.data) ||
+           !equals(this.state.coin, nextState.coin) ||
+           !equals(this.state.timeframe, nextState.timeframe)
+  }
+
+  componentWillUpdate (nextProps, nextState) {
+    if (!equals(this.state.coin, nextState.coin) || !equals(this.state.timeframe, nextState.timeframe)) {
+      this.props.chartActions.fetchPriceIndexSeries(nextState.coin, nextProps.currency, nextState.start, nextState.scale)
     }
+  }
+
+  selectBitcoin () {
+    this.setState({ coin: 'BTC' })
+  }
+
+  selectEthereum () {
+    this.setState({ coin: 'ETH' })
   }
 
   selectTimeframe (timeframe) {
-    if (timeframe !== this.state.selectedTimeframe) {
-      let { start, scale } = this.state
-      let date = new Date()
-      switch (timeframe) {
-        case 'all':
-          start = this.state.selectedCoin === 'BTC' ? BTCSTART : ETHSTART
-          scale = scales.FIVEDAY
-          break
-        case 'year':
-          start = date.setFullYear(date.getFullYear() - 1)
-          scale = scales.DAY
-          break
-        case 'month':
-          start = date.setMonth(date.getMonth() - 1)
-          scale = scales.TWOHOUR
-          break
-        case 'week':
-          start = date.setDate(date.getDate() - 7)
-          scale = scales.HOUR
-          this.setState({ interval: intervals.hour })
-          break
-        case 'day':
-          start = date.setDate(date.getDate() - 1)
-          scale = scales.FIFTEENMIN
-          this.setState({ interval: intervals.hour })
-          break
-        default: break
-      }
-      start = Math.round(start / 1000 | 0)
-      this.fetchChartData(this.state.selectedCoin, timeframe, start, scale)
+    switch (timeframe) {
+      case 'all':
+        this.setState({
+          start: this.state.coin === 'BTC' ? BTCSTART : ETHSTART,
+          scale: scales.FIVEDAY,
+          timeframe,
+          interval: intervals.day
+        })
+        break
+      case 'year':
+        this.setState({
+          start: moment().subtract(1, 'year').format('X'),
+          scale: scales.DAY,
+          timeframe,
+          interval: intervals.day
+        })
+        break
+      case 'month':
+        this.setState({
+          start: moment().subtract(1, 'month').format('X'),
+          scale: scales.TWOHOUR,
+          timeframe,
+          interval: intervals.day
+        })
+        break
+      case 'week':
+        this.setState({
+          start: moment().subtract(7, 'month').format('X'),
+          scale: scales.HOUR,
+          timeframe,
+          interval: intervals.hour
+        })
+        break
+      case 'day':
+        this.setState({
+          start: moment().subtract(1, 'day').format('X'),
+          scale: scales.FIFTEENMIN,
+          timeframe,
+          interval: intervals.hour
+        })
+        break
+      default: break
     }
   }
 
-  fetchChartData (coin, timeframe, start, scale) {
-    const { currency } = this.props
-    api.getPriceIndexSeries(coin, currency, start, scale).then(
-      data => this.setState({ data: data.map(o => [o.timestamp * 1000, o.price]), selectedCoin: coin, selectedTimeframe: timeframe, start: start, scale: scale }),
-      message => this.props.alertActions.displayError(message)
-    )
-  }
-
   render () {
+    const { coin, timeframe, start, interval } = this.state
+    const { currency, data } = this.props
+    const config = ChartConfig(start, interval, currency, data)
+
     return (
       <Chart
-        selectTimeframe={this.selectTimeframe}
-        selectedTimeframe={this.state.selectedTimeframe}
-        selectCoin={this.selectCoin}
-        selectedCoin={this.state.selectedCoin}
-        currency={this.props.currency}
-        data={this.state.data}
-        start={this.state.start}
-        interval={this.state.interval} />
+        coin={coin}
+        timeframe={timeframe}
+        config={config}
+        selectBitcoin={this.selectBitcoin}
+        selectEthereum={this.selectEthereum}
+        selectTimeframe={this.selectTimeframe} />
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  currency: selectors.core.settings.getCurrency(state)
+  currency: selectors.core.settings.getCurrency(state),
+  data: selectors.charts.getPriceIndexSeries(state).map(o => [o.timestamp * 1000, o.price])
 })
 
-export default connect(mapStateToProps)(ChartContainer)
+const mapDispatchToProps = (dispatch) => ({
+  chartActions: bindActionCreators(actions.charts, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChartContainer)
