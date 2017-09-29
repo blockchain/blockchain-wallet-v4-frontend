@@ -4,8 +4,10 @@
   "description": "Wallet user interface",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js --progress --colors",
+    "build": "lerna bootstrap && webpack --config webpack.config.js --progress --colors",
+    "build:prod": "lerna bootstrap && webpack -p --config webpack.config.js --progress --colors",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
+    "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",  
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "test": "jest --watch"
   },
@@ -64,6 +66,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.17",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.2",
     "eslint": "^3.19.0",

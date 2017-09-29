@@ -1,9 +1,10 @@
 const Webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
-const ENV = process.env.NODE_ENV || 'development'
-const PROD = ENV === 'production'
+const PROD = process.argv.indexOf('-p') !== -1
+const ENV = PROD ? 'production' : 'development'
 
 const PATHS = {
   build: `${__dirname}/build`,
@@ -122,6 +123,7 @@ module.exports = {
       'process.env': { 'NODE_ENV': JSON.stringify(ENV) }
     }),
     ...(PROD ? [
+      new CleanWebpackPlugin(PATHS.dist),
       new Webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false
