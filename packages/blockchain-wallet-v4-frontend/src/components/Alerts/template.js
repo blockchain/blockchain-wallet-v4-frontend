@@ -15,6 +15,8 @@ const Wrapper = styled.div`
   align-items: flex-start;
   z-index: 5;
 
+  & > * { margin-top: 5px; }
+
   @media(min-width: 768px) { 
     bottom: 5px;
     left: 5px;
