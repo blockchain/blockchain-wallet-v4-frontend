@@ -1,4 +1,4 @@
-import { is, curry, lensProp, pipe, compose, assoc, dissoc } from 'ramda'
+import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from 'ramda'
 import { traverseOf, view, over, set } from 'ramda-lens'
 import Either from 'data.either'
 
@@ -83,7 +83,7 @@ export const fromEncJSON = curry((password, json) => {
     EitherIter.map(it => assoc('pbkdf2_iterations', it, wrapper))
   // assocVersion :: Number => Either Error Wrapper
   const assocVersion = wrapper =>
-    EitherVer.map(it => assoc('version', it, wrapper))
+    EitherVer.map(v => assoc('version', v, wrapper))
   return traverseOf(plens, Either.of, Wallet.fromEncryptedPayload(password), json)
          .chain(assocVersion)
          .chain(assocIterations)
@@ -95,6 +95,19 @@ export const fromEncJSON = curry((password, json) => {
          .map(dissoc('symbol_local'))
          .map(dissoc('guid'))
          .map(dissoc('initial_success'))
+         .map(fromJS)
+})
+
+// This is needed because the 2FA login hits a different endpoint to login (review that)
+// fromEncPayload :: String -> JSON -> Either Error Wrapper
+export const fromEncPayload = curry((password, payload) => {
+  const temp = JSON.parse(payload)
+  const pbkdf2_iterations = prop('pbkdf2_iterations', temp)
+  const version = prop('version', temp)
+  const wrapper = { password, payload, pbkdf2_iterations, version }
+  return traverseOf(lensProp('payload'), Either.of, Wallet.fromEncryptedPayload(password), wrapper)
+         .map(o => assoc('wallet', o.payload, o))
+         .map(dissoc('payload'))
          .map(fromJS)
 })
 

@@ -2,6 +2,7 @@ import { takeEvery, call, put } from 'redux-saga/effects'
 import * as actions from './actions'
 import * as AT from './actionTypes'
 import { contains, toLower } from 'ramda'
+import { pairing } from 'blockchain-wallet-v4/src'
 
 export const settingsSaga = ({ api } = {}) => {
   const fetchSettings = function * (action) {
@@ -16,13 +17,10 @@ export const settingsSaga = ({ api } = {}) => {
 
   const requestPairingCode = function * (action) {
     try {
-      const { guid, sharedKey } = action.payload
-      // Get guid, sharedKey, password and PAIRING_CODE_PBKDF2_ITERATIONS
-      const password = ''
-      const iterations = ''
-      let response = yield call(api.getPairingCode, guid, sharedKey)
-      // TODO /!\ : Convert to right format : https://github.com/blockchain/My-Wallet-V3/blob/master/src/wallet.js#L187
-      yield put(actions.requestPairingCodeSuccess(response))
+      const { guid, sharedKey, password } = action.payload
+      const pairingPassword = yield call(api.getPairingPassword, guid)
+      const data = pairing.encode(guid, sharedKey, password, pairingPassword)
+      yield put(actions.requestPairingCodeSuccess(data))
     } catch (error) {
       yield put(actions.requestPairingCodeError(error))
     }
@@ -181,7 +179,7 @@ export const settingsSaga = ({ api } = {}) => {
       yield put(actions.updateBlockTorIpsError(error))
     }
   }
-  
+
   const updateHint = function * (action) {
     try {
       const { guid, sharedKey, hint } = action.payload
@@ -193,6 +191,77 @@ export const settingsSaga = ({ api } = {}) => {
       }
     } catch (error) {
       yield put(actions.updateHintError(error))
+    }
+  }
+
+  const updateAuthType = function * (action) {
+    try {
+      const { guid, sharedKey, authType } = action.payload
+      const response = yield call(api.updateAuthType, guid, sharedKey, authType)
+      if (contains('updated', response)) {
+        yield put(actions.updateAuthTypeSuccess(authType, response))
+      } else {
+        yield put(actions.updateAuthTypeError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateAuthTypeError(error))
+    }
+  }
+
+  const updateAuthTypeNeverSave = function * (action) {
+    try {
+      const { guid, sharedKey, authTypeNeverSave } = action.payload
+      const response = yield call(api.updateAuthTypeNeverSave, guid, sharedKey, authTypeNeverSave)
+      if (contains('Success', response)) {
+        yield put(actions.updateAuthTypeNeverSaveSuccess(authTypeNeverSave ? 1 : 0, response))
+      } else {
+        yield put(actions.updateAuthTypeNeverSaveError(response))
+      }
+    } catch (error) {
+      yield put(actions.updateAuthTypeNeverSaveError(error))
+    }
+  }
+
+  const getGoogleAuthenticatorSecretUrl = function * (action) {
+    try {
+      const { guid, sharedKey } = action.payload
+      const response = yield call(api.getGoogleAuthenticatorSecretUrl, guid, sharedKey)
+      if (contains('secret', response)) {
+        yield put(actions.getGoogleAuthenticatorSecretUrlSuccess(response))
+      } else {
+        yield put(actions.getGoogleAuthenticatorSecretUrlError(response))
+      }
+    } catch (error) {
+      yield put(actions.getGoogleAuthenticatorSecretUrlError(error))
+    }
+  }
+
+  const confirmGoogleAuthenticatorSetup = function * (action) {
+    try {
+      const { guid, sharedKey, code } = action.payload
+      const response = yield call(api.confirmGoogleAuthenticatorSetup, guid, sharedKey, code)
+      if (contains('updated', response)) {
+        yield put(actions.confirmGoogleAuthenticatorSetupSuccess(response))
+      } else {
+        yield put(actions.confirmGoogleAuthenticatorSetupError(response))
+      }
+    } catch (error) {
+      yield put(actions.confirmGoogleAuthenticatorSetupError(error))
+    }
+  }
+
+  const enableYubikey = function * (action) {
+    try {
+      const { guid, sharedKey, code } = action.payload
+      const response = yield call(api.enableYubikey, guid, sharedKey, code)
+
+      if (contains('updated', response)) {
+        yield put(actions.enableYubikeySuccess(response))
+      } else {
+        yield put(actions.enableYubikeyError(response))
+      }
+    } catch (error) {
+      yield put(actions.enableYubikeyError(error))
     }
   }
 
@@ -211,5 +280,10 @@ export const settingsSaga = ({ api } = {}) => {
     yield takeEvery(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
     yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
     yield takeEvery(AT.UPDATE_HINT, updateHint)
+    yield takeEvery(AT.UPDATE_AUTH_TYPE, updateAuthType)
+    yield takeEvery(AT.UPDATE_AUTH_TYPE_NEVER_SAVE, updateAuthTypeNeverSave)
+    yield takeEvery(AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, getGoogleAuthenticatorSecretUrl)
+    yield takeEvery(AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP, confirmGoogleAuthenticatorSetup)
+    yield takeEvery(AT.ENABLE_YUBIKEY, enableYubikey)
   }
 }

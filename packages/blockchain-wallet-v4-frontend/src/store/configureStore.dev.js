@@ -5,7 +5,6 @@ import { persistStore, autoRehydrate } from 'redux-persist'
 import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import autoDisconnection from 'middleware/autoDisconnection.js'
 import { rootSaga, rootReducer } from 'data'
 import settings from 'config'
 import { api } from 'services/ApiService'
@@ -17,17 +16,17 @@ const devToolsConfig = {
   maxAge: 1000,
   serialize: serializer,
   actionsBlacklist: [
-    '@@redux-form/INITIALIZE',
-    '@@redux-form/CHANGE',
-    '@@redux-form/REGISTER_FIELD',
-    '@@redux-form/UNREGISTER_FIELD',
-    '@@redux-form/UPDATE_SYNC_ERRORS',
-    '@@redux-form/FOCUS',
-    '@@redux-form/BLUR',
-    '@@redux-form/DESTROY',
-    '@@redux-form/RESET',
-    '@@redux-ui/MOUNT_UI_STATE',
-    '@@redux-ui/UNMOUNT_UI_STATE'
+    // '@@redux-form/INITIALIZE',
+    // '@@redux-form/CHANGE',
+    // '@@redux-form/REGISTER_FIELD',
+    // '@@redux-form/UNREGISTER_FIELD',
+    // '@@redux-form/UPDATE_SYNC_ERRORS',
+    // '@@redux-form/FOCUS',
+    // '@@redux-form/BLUR',
+    // '@@redux-form/DESTROY',
+    // '@@redux-form/RESET',
+    // '@@redux-ui/MOUNT_UI_STATE',
+    // '@@redux-ui/UNMOUNT_UI_STATE'
   ]
 }
 
@@ -42,7 +41,6 @@ const configureStore = () => {
     composeEnhancers(
       applyMiddleware(
         reduxRouterMiddleware,
-        autoDisconnection,
         // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
         coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.getIsAuthenticated }),
         sagaMiddleware// ,

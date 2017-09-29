@@ -39,8 +39,10 @@ const BaseButton = styled.button.attrs({
     border-color: ${props => props.disabled ? 'none' : darken(0.1, (props.theme[props.borderColor]))};
     background-color: ${props => props.disabled ? 'none' : darken(0.1, (props.theme[props.backgroundColor]))};
   }
+
   &:focus { outline:0; }
  `
+
 const selectColor = (nature, disabled) => {
   if (disabled) { return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' } }
 

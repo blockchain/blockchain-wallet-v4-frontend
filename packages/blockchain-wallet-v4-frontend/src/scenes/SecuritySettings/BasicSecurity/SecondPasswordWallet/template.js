@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary, SettingStatus } from 'components/Setting'
-import Setting from './Setting'
+import Settings from './Settings'
 
 const SecondPasswordWallet = (props) => {
   const { secondPasswordEnabled } = props
@@ -23,7 +23,7 @@ const SecondPasswordWallet = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Setting />
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )
