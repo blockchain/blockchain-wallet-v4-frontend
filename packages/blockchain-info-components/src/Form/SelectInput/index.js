@@ -18,14 +18,14 @@ class SelectInputContainer extends React.Component {
   }
 
   handleClick (value) {
+    const { input, callback } = this.props
+    const { onChange } = input
     if (!equals(this.state.value, value)) {
-      this.setState({ opened: false, value: value })
-      this.props.input.onChange(value)
-      this.props.input.onBlur(value)
-      if (this.props.callback) { this.props.callback(value) }
-    } else {
-      this.setState({ opened: false })
+      this.setState({ value })
+      onChange(value)
+      if (callback) { callback(value) }
     }
+    this.setState({ opened: false })
   }
 
   handleChange (event) {
@@ -33,11 +33,18 @@ class SelectInputContainer extends React.Component {
   }
 
   handleBlur () {
+    const { input } = this.props
+    const { onBlur, onChange } = input
     this.setState({ expanded: false })
+    onBlur()
+    onChange(this.state.value)
   }
 
   handleFocus () {
+    const { input } = this.props
+    const { onFocus } = input
     this.setState({ expanded: true })
+    onFocus()
   }
 
   transform (elements, search) {

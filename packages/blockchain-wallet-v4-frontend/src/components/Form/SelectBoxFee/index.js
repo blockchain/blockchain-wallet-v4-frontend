@@ -18,12 +18,10 @@ class SelectBoxFeeContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    regularFee: selectors.core.fee.getRegular(state),
-    priorityFee: selectors.core.fee.getPriority(state)
-  }
-}
+const mapStateToProps = (state) => ({
+  regularFee: selectors.core.fee.getRegular(state),
+  priorityFee: selectors.core.fee.getPriority(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),

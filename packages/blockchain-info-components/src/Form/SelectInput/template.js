@@ -122,18 +122,18 @@ const SelectInput = (props) => {
     <Container>
       <SelectBoxInput onBlur={handleBlur} onFocus={handleFocus}>
         {!expanded || !searchEnabled
-                    ? (<Button errorState={errorState}>{display}</Button>)
-                    : (<Search autoFocus={expanded} onChange={handleChange} />)
-                }
+          ? (<Button errorState={errorState}>{display}</Button>)
+          : (<Search autoFocus={expanded} onChange={handleChange} />)
+        }
         <Arrow />
         <List expanded={expanded}>
-          {items.map((item, index) => item.value == null
-                        ? (<Header key={index}>{item.text}</Header>)
-                        : (<ListItem key={index} onMouseDown={() => handleClick(item.value)}>{item.text}</ListItem>))
-                    }
+          { items.map((item, index) => item.value == null
+            ? (<Header key={index}>{item.text}</Header>)
+            : (<ListItem key={index} onMouseDown={() => handleClick(item.value)}>{item.text}</ListItem>))
+          }
         </List>
       </SelectBoxInput>
-      {touched && error && <Error>{error}</Error>}
+      { touched && error && <Error>{error}</Error>}
     </Container>
   )
 }

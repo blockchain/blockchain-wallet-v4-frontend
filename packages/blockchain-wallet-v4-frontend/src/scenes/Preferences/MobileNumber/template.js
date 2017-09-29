@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary, SettingStatus } from 'components/Setting'
-import Setting from './Setting'
+import Settings from './Settings'
 
 const MobileNumber = (props) => {
   const { smsVerified } = props
@@ -28,7 +28,7 @@ const MobileNumber = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Setting />
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )

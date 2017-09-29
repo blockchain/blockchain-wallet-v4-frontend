@@ -1,14 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-
+import { reduxForm, formValueSelector, actions as reduxFormActions } from 'redux-form'
 import ui from 'redux-ui'
-import { actions as reduxFormActions } from 'redux-form'
-import { gte, is, equals, isNil, pick } from 'ramda'
+import { gte, equals } from 'ramda'
 import * as crypto from 'crypto'
-
 import { Coin, CoinSelection } from 'blockchain-wallet-v4/src'
-import { convertToUnit, convertFromUnit } from 'services/ConversionService'
+import { convertSatoshisToUnit, convertUnitToSatoshis } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 import settings from 'config'
@@ -16,98 +14,158 @@ import settings from 'config'
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    // generate seed once for coin selection
-    this.seed = crypto.randomBytes(16)
+    this.state = { effectiveBalance: 0, seed: crypto.randomBytes(16) }
     this.timeout = undefined
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
     this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  componentWillMount () {
+    const { reduxFormActions, feeActions, initialValues } = this.props
+    reduxFormActions.initialize('sendBitcoin', initialValues)
+    feeActions.fetchFee()
+  }
+
+  componentWillUnmount () {
+    const { feeActions } = this.props
+    feeActions.deleteFee()
   }
 
   componentWillReceiveProps (nextProps) {
-    const { network, unit, fee, from, to, target, coins, changeAddress } = nextProps
+    const { unit, ...rest } = this.props
+    const { fee, from, to, to2, amount, ...rest2 } = rest
+    const { feeValues, coins } = rest2
+    const { paymentActions, reduxFormActions } = rest
+    // Update 'coins' if 'from' has been updated
+    if (!equals(from, nextProps.from)) {
+      paymentActions.getUnspents(nextProps.from)
+    }
 
-    // Refresh the selection if fee, from, to or amount, or donationCoin have been updated
-    if (gte(fee, 0) && target && coins && changeAddress && !equals(pick(['fee', 'to', 'from', 'amount'], nextProps), pick(['fee', 'to', 'from', 'amount'], this.props))) {
+    // Update the feeValues if we receive new values
+    if (nextProps.feeValues && !equals(feeValues, nextProps.feeValues)) {
+      console.log(feeValues, nextProps.feeValues)
+      reduxFormActions.change('sendBitcoin', 'fee', nextProps.feeValues.regular)
+    }
+
+    // Refresh the selection if fee, targetCoin, coins or fromAddress have been updated
+    if (nextProps.from && (nextProps.to || nextProps.to2) && nextProps.amount &&
+        nextProps.fee && nextProps.targetCoin && nextProps.coins &&
+        (!equals(from, nextProps.from) ||
+        !equals(to, nextProps.to) ||
+        !equals(to2, nextProps.to2) ||
+        !equals(amount, nextProps.amount) ||
+        !equals(fee, nextProps.fee))) {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
-        this.props.paymentActions.refreshSelection(fee, target, coins, changeAddress, 'singleRandomDraw', this.seed.toString('hex'))
+        paymentActions.refreshSelection(nextProps.fee, nextProps.targetCoin, nextProps.coins, nextProps.fromAddress, 'singleRandomDraw', this.state.seed.toString('hex'))
       }, 1000)
     }
 
-    // Update the coins if from has been updated
-    if (!isNil(from) && !equals(from, this.props.from)) {
-      this.props.paymentActions.getUnspents(from)
-    }
-
-    // Update the display of the field 'to' if to has been updated
-    if (!equals(to, this.props.too)) {
-      this.setState({ addressesSelectDisplayed: is(Object, to) })
-    }
-
     // Update the effectiveBalance value if fee or coins have been updated
-    if ((gte(fee, 0)) && (!equals(coins, this.props.coins) || !equals(fee, this.props.fee))) {
-      const effectiveBalance = CoinSelection.effectiveBalance(fee, coins).value
-      const effectiveBalanceTransformed = convertToUnit(network, effectiveBalance, unit).getOrElse({ amount: 0 })
-      if (!equals(this.props.effectiveBalance, effectiveBalanceTransformed.amount)) {
-        this.props.reduxFormActions.change('sendBitcoin', 'effectiveBalance', effectiveBalanceTransformed.amount)
-      }
+    if (nextProps.fee && nextProps.coins && (gte(nextProps.fee, 0)) && (!equals(coins, nextProps.coins) || !equals(fee, nextProps.fee))) {
+      const satoshisEffectiveBalance = CoinSelection.effectiveBalance(nextProps.fee, nextProps.coins).value
+      const effectiveBalance = convertSatoshisToUnit(satoshisEffectiveBalance, unit).value
+      this.setState({ effectiveBalance })
     }
   }
 
   handleClickAddressToggler () {
-    this.props.updateUI({ addressSelectToggled: !this.props.ui.addressSelectToggled })
-    if (this.props.ui.addressSelectToggled) { this.props.reduxFormActions.change('sendBitcoin', 'to', '') }
+    const { updateUI, ui, reduxFormActions } = this.props
+    // We toggle the dropdown 'to' display
+    updateUI({ addressSelectToggled: !ui.addressSelectToggled })
+    // We reset fieldd 'to' or 'to2' to make sure we only have 1 of those fields filled at a time.
+    reduxFormActions.change('sendBitcoin', 'to', '')
+    reduxFormActions.change('sendBitcoin', 'to2', '')
   }
 
   handleClickFeeToggler () {
-    this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
+    const { updateUI, ui } = this.props
+    // We toggle the fee display
+    updateUI({ feeEditToggled: !ui.feeEditToggled })
   }
 
   handleClickQrCodeCapture () {
-    this.props.modalActions.showModal('QRCodeCapture')
+    const { modalActions } = this.props
+    // We open the capture modal
+    modalActions.showModal('QRCodeCapture')
+  }
+
+  onSubmit (e) {
+    e.preventDefault()
+    this.props.nextStep()
   }
 
   render () {
-    const { ui } = this.props
+    const { ui, position, total, closeAll, selection } = this.props
 
     return <FirstStep
+      position={position}
+      total={total}
+      closeAll={closeAll}
+      selection={selection}
       addressSelectToggled={ui.addressSelectToggled}
       addressSelectOpened={ui.addressSelectOpened}
       feeEditToggled={ui.feeEditToggled}
+      effectiveBalance={this.state.effectiveBalance}
       handleClickAddressToggler={this.handleClickAddressToggler}
       handleClickFeeToggler={this.handleClickFeeToggler}
       handleClickQrCodeCapture={this.handleClickQrCodeCapture}
-      {...this.props}
+      onSubmit={this.onSubmit}
     />
   }
 }
 
-const selectAddress = (addressValue, selectorFunction) => {
-  if (is(String, addressValue)) {
-    return addressValue
-  } else {
-    return addressValue
-      ? addressValue.address
-        ? addressValue.address
-        : selectorFunction(addressValue.index)
-      : undefined
-  }
-}
+const extractAddress = (value, selectorFunction) =>
+  value
+    ? value.address
+      ? value.address
+      : selectorFunction(value.index)
+    : undefined
 
 const mapStateToProps = (state, ownProps) => {
   const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
-  const satoshis = convertFromUnit(ownProps.network, ownProps.amount, ownProps.unit).getOrElse({ amount: undefined, symbol: 'N/A' })
-  const targetAddress = selectAddress(ownProps.to, getReceive)
-  const target = targetAddress && gte(satoshis.amount, 0) ? Coin.fromJS({ address: targetAddress, value: satoshis.amount }) : undefined
+  const initialValues = {
+    from: {
+      xpub: selectors.core.wallet.getDefaultAccountXpub(state),
+      index: selectors.core.wallet.getDefaultAccountIndex(state)
+    }
+  }
+  const coins = selectors.core.payment.getCoins(state)
+  const feeValues = selectors.core.fee.getFee(state)
+  const selection = selectors.core.payment.getSelection(state)
+  const unit = selectors.core.settings.getBtcCurrency(state)
+
+  const from = formValueSelector('sendBitcoin')(state, 'from')
+  const to = formValueSelector('sendBitcoin')(state, 'to')
+  const to2 = formValueSelector('sendBitcoin')(state, 'to2')
+  const amount = formValueSelector('sendBitcoin')(state, 'amount')
+  const message = formValueSelector('sendBitcoin')(state, 'message')
+  const fee = formValueSelector('sendBitcoin')(state, 'fee')
+
+  const satoshis = convertUnitToSatoshis(amount, unit).value
+  const fromAddress = extractAddress(from, getChange)
+  const toAddress = ownProps.ui.addressSelectToggled ? extractAddress(to, getReceive) : to2
+  const targetCoin = toAddress && gte(satoshis, 0) ? Coin.fromJS({ address: toAddress, value: satoshis }) : undefined
 
   return {
-    changeAddress: selectAddress(ownProps.from, getChange),
-    coins: selectors.core.payment.getCoins(state),
-    feeValues: selectors.core.fee.getFee(state),
-    target
+    initialValues,
+    fromAddress,
+    toAddress,
+    targetCoin,
+    fee,
+    to,
+    to2,
+    from,
+    amount,
+    message,
+    coins,
+    feeValues,
+    selection,
+    unit
   }
 }
 
@@ -120,8 +178,9 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { feeEditToggled: false, addressSelectToggled: false, addressSelectOpened: false } })
+  reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false }),
+  ui({ state: { feeEditToggled: false, addressSelectToggled: false, addressSelectOpened: false } }),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(FirstStepContainer)

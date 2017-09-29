@@ -1,6 +1,6 @@
 import Task from 'data.task'
 import Either from 'data.either'
-import { assoc, compose, map, identity, prop, over, lensProp, is } from 'ramda'
+import { assoc, compose, map, identity, prop, propSatisfies, over, lensProp, is, ifElse, contains } from 'ramda'
 import { mapped } from 'ramda-lens'
 import Promise from 'es6-promise'
 import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from '../types'
@@ -16,6 +16,9 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
   const promiseToTask = futurizeP(Task)
   const future = returnType ? futurizeP(returnType) : identity
+  const is2FAEnabled = ifElse(propSatisfies(x => x > 0, 'auth_type'), Task.rejected, Task.of)
+  const is2FACodeValid = ifElse(x => contains('incorrect', x), Task.rejected, Task.of)
+
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSharedKeyTask = (guid, sharedKey, password) =>
     promiseToTask(ApiPromise.fetchPayloadWithSharedKey)(guid, sharedKey)
@@ -23,20 +26,36 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
       .chain(eitherToTask)
 
   const fetchWalletWithSharedKey = compose(taskToPromise, fetchWalletWithSharedKeyTask)
+
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSessionTask = (guid, session, password) =>
     promiseToTask(ApiPromise.fetchWalletWithSession)(guid, session)
+      .chain(is2FAEnabled)
       .map(Wrapper.fromEncJSON(password))
       .chain(eitherToTask)
 
   const fetchWalletWithSession = compose(taskToPromise, fetchWalletWithSessionTask)
+
   // ////////////////////////////////////////////////////////////////
-  const fetchWallet = (guid, sharedKey, session, password) => {
+  const fetchWalletWithTwoFactorTask = (guid, session, password, twoFactorCode) =>
+    promiseToTask(ApiPromise.fetchPayloadWithTwoFactorAuth)(guid, session, twoFactorCode)
+      .chain(is2FACodeValid)
+      .map(Wrapper.fromEncPayload(password))
+      .chain(eitherToTask)
+
+  const fetchWalletWithTwoFactor = compose(taskToPromise, fetchWalletWithTwoFactorTask)
+
+  // ////////////////////////////////////////////////////////////////
+  const fetchWallet = (guid, sharedKey, session, password, twoFactorCode) => {
     if (sharedKey) {
       return fetchWalletWithSharedKey(guid, sharedKey, password)
     }
     if (session) {
-      return fetchWalletWithSession(guid, session, password)
+      if (twoFactorCode) {
+        return fetchWalletWithTwoFactor(guid, session, password, twoFactorCode)
+      } else {
+        return fetchWalletWithSession(guid, session, password)
+      }
     }
     return Promise.reject(new Error('MISSING_CREDENTIALS'))
   }
@@ -81,6 +100,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
     ...Api,
     fetchWalletWithSharedKey: future(fetchWalletWithSharedKey),
     fetchWalletWithSession: future(fetchWalletWithSession),
+    fetchWalletWithTwoFactor: future(fetchWalletWithTwoFactorTask),
     fetchWallet: future(fetchWallet),
     saveWallet: future(saveWallet),
     createWallet: future(createWallet),

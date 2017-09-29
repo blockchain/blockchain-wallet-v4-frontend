@@ -8,15 +8,15 @@ const APIAccess = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.settings.api.title' defaultMessage='API access' />
+          <FormattedMessage id='scenes.securitysettings.apiaccess.title' defaultMessage='API access' />
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.settings.api.description' defaultMessage='Use our API to interact with your wallet programmatically.' />
+          <FormattedMessage id='scenes.securitysettings.apiaccess.description' defaultMessage='Use our API to interact with your wallet programmatically.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
         <Link href='https://github.com/blockchain/service-my-wallet-v3#installation' target='_blank' size='13px' weight={300}>
-          <FormattedMessage id='scenes.settings.api.getstarted' defaultMessage='To get started, follow the steps here' />
+          <FormattedMessage id='scenes.securitysettings.apiaccess.getstarted' defaultMessage='To get started, follow the steps here' />
         </Link>
       </SettingComponent>
     </SettingContainer>

@@ -7,6 +7,7 @@ import { socket } from 'services/Socket'
 import { coreSagas } from 'blockchain-wallet-v4/src'
 import alertSagas from './Alerts/sagas.js'
 import authSagas from './Auth/sagas.js'
+import modalSagas from './Modals/sagas.js'
 import interactivitySagas from './Interactivity/sagas.js'
 
 const dataPath = settings.BLOCKCHAIN_DATA_PATH
@@ -18,6 +19,7 @@ function * sagas () {
     fork(coreSagas.rootSaga({ api, dataPath, walletPath, settingsPath, socket })),
     fork(alertSagas),
     fork(authSagas),
+    fork(modalSagas),
     fork(interactivitySagas)
   ]
   // yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_SUCCESS, handleSend)
