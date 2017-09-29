@@ -1,7 +1,3 @@
-// Internal resources
-import './assets/sass/global.scss'
-
-// Import React & JS
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from 'scenes/app.js'
