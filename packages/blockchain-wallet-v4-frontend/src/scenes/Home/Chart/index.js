@@ -114,7 +114,7 @@ class ChartContainer extends React.Component {
     const { coin, timeframe, start, interval } = this.state
     const { currency, data } = this.props
     const config = ChartConfig(start, interval, currency, data)
-    console.log(config)
+
     return (
       <Chart
         coin={coin}
