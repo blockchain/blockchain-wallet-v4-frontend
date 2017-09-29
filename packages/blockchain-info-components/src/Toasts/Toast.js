@@ -33,6 +33,10 @@ const Container = styled.div`
   -webkit-font-smoothing: antialiased;
 `
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   flex: 100%;
   margin-right: 10px;
   box-sizing: border-box;
