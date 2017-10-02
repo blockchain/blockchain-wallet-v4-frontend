@@ -31,6 +31,7 @@ const fetchWalletSaga = function * (guid, sharedKey, session, password, code) {
     yield put(actions.core.common.fetchBlockchainData(context))
     const sk = yield select(selectors.core.wallet.getSharedKey)
     yield put(actions.core.settings.fetchSettings({guid, sharedKey: sk}))
+    yield put(actions.core.walletOptions.fetchWalletOptions())
     yield put(actions.core.webSocket.startSocket())
     yield put(actions.auth.loginSuccess())
     yield put(actions.auth.logoutStartTimer())

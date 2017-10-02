@@ -10,6 +10,7 @@ import btcRates from './data/Rates/bitcoin/reducers.js'
 import ethRates from './data/Rates/ether/reducers.js'
 import wallet from './wallet/reducers.js'
 import settings from './settings/reducers.js'
+import walletOptions from './walletOptions/reducers.js'
 import payment from './data/Payment/reducers'
 
 const data = combineReducers({
@@ -28,5 +29,6 @@ const data = combineReducers({
 export {
   data,
   wallet,
-  settings
+  settings,
+  walletOptions
 }
