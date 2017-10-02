@@ -2,6 +2,7 @@ import * as common from './common/actions.js'
 
 import * as addresses from './data/Addresses/actions.js'
 import * as adverts from './data/Adverts/actions.js'
+import * as captcha from './data/Captcha/actions.js'
 import * as fee from './data/Fee/actions.js'
 import * as latestBlock from './data/LatestBlock/actions.js'
 import * as logs from './data/Logs/actions.js'
@@ -18,6 +19,7 @@ import * as webSocket from './webSocket/actions.js'
 export {
   addresses,
   adverts,
+  captcha,
   common,
   fee,
   latestBlock,

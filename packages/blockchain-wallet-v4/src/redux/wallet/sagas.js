@@ -142,6 +142,21 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
+  const remindWalletGuid = function * (action) {
+    const { email, code, sessionToken } = action.payload
+    try {
+      const response = yield call(api.remindGuid, email, code, sessionToken)
+      const { success, message } = response
+      if (success) {
+        yield put(A.remindWalletGuidSuccess(message))
+      } else {
+        yield put(A.remindWalletGuidError(message))
+      }
+    } catch (error) {
+      yield put(A.remindWalletGuidError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(T.TOGGLE_SECOND_PASSWORD, toggleSecondPasswordSaga)
     yield takeEvery(T.CHANGE_SECOND_PASSWORD, changeSecondPasswordSaga)
@@ -150,5 +165,6 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield takeEvery(T.CREATE_TREZOR_WALLET, createTrezorWalletSaga)
     yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
     yield takeEvery(T.SET_PBKDF2_ITERATIONS, setPbkdf2IterationsSaga)
+    yield takeEvery(T.REMIND_WALLET_GUID, remindWalletGuid)
   }
 }

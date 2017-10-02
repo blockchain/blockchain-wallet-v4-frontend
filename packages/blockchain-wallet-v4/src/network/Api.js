@@ -25,6 +25,7 @@ const createApi = ({
     if (extraHeaders) {
       if (extraHeaders.sessionToken) {
         options.headers['Authorization'] = 'Bearer ' + extraHeaders.sessionToken
+        console.log('extraHeader', extraHeaders)
       }
     }
     // body
@@ -193,15 +194,16 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
   }
 
-  const getCaptchaImage = (timestamp) => {
+  const getCaptchaImage = (timestamp, sessionToken) => {
     const data = { timestamp }
-    return request({ url: rootUrl, method: 'GET', endPoint: 'kaptcha.jpg', data })
+    const extraHeaders = { sessionToken }
+    return request({ url: rootUrl, method: 'GET', endPoint: 'kaptcha.jpg', data, extraHeaders })
   }
 
-  const recoverWallet = (email, captcha) => {
-    const timestamp = new Date().getTime()
-    const data = { method: 'recover-wallet', email, captcha, ct: timestamp }
-    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
+  const remindGuid = (email, captcha, sessionToken) => {
+    const data = { method: 'recover-wallet', email, captcha }
+    const extraHeaders = { sessionToken }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data, extraHeaders })
   }
 
   const getPairingPassword = (guid) => {
@@ -325,7 +327,7 @@ const createApi = ({
     getEthTicker: future(getEthTicker),
     getSettings: future(getSettings),
     getCaptchaImage: future(getCaptchaImage),
-    recoverWallet: future(recoverWallet),
+    remindGuid: future(remindGuid),
     getUnspents: future(getUnspents),
     getFee: future(getFee),
     pushTx: future(pushTx),
