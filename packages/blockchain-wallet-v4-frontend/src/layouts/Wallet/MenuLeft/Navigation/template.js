@@ -12,6 +12,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-left: 15px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: ${props => props.theme['gray-4']};
 `
 const Menu = styled.ul`
   list-style: none;
@@ -21,11 +26,11 @@ const MenuItem = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 8px 16px;
-  color: ${props => props.theme['gray-4']};
+  padding: 8px 0;
+  box-sizing: border-box;
   cursor: pointer;
 
-  & > :first-child { width: 30px; }
+  & > :first-child { width: 30px; font-size: 20px; }
   & > :last-child { text-transform: uppercase; }
   &.active {  & > * { color: ${props => props.theme['brand-secondary']}; } }
 `
@@ -36,13 +41,13 @@ const SubMenu = styled.ul`
   align-items: flex-start;
   list-style: none;
   text-transform: none;
-  padding-left: 40px;
+  padding: 0;
+  margin-left: 30px;
 `
 const SubMenuItem = styled.li`
-  padding: 5px 10px;
-  margin-right: 10px;
+  padding: 5px 0;
+  box-sizing: border-box;
   text-transform: none;
-  color: ${props => props.theme['gray-4']};
   cursor: pointer;
 
   &.active {  & > * { color: ${props => props.theme['brand-secondary']}; } }
