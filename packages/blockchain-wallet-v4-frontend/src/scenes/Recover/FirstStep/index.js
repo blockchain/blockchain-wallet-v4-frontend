@@ -52,12 +52,12 @@ const FirstStep = (props) => {
           </Text>
         </TextGroup>
         <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.recover.firststep.passphrase' defaultMessage='Your recovery phrase' />
+          <FormattedMessage id='scenes.recover.firststep.mnemonic' defaultMessage='Your recovery phrase' />
         </Text>
         <Text size='12px' weight={300}>
-          <FormattedMessage id='scenes.recover.firststep.passphrase_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
+          <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
         </Text>
-        <Field name='passphrase' validate={[required, validMmemonic]} component={TextBox} />
+        <Field name='mnemonic' validate={[required, validMmemonic]} component={TextBox} />
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
         </Button>

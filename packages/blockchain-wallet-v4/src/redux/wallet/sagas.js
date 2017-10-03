@@ -82,7 +82,6 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     if (!BIP39.validateMnemonic(mnemonic)) {
       yield put(A.restoreWalletError('INVALID_MNEMONIC'))
     } else {
-      // we might want to make that coin generic
       const seed = BIP39.mnemonicToSeed(mnemonic)
       const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
       const node = masterNode.deriveHardened(44).deriveHardened(0)
@@ -90,9 +89,14 @@ export const walletSaga = ({ api, walletPath } = {}) => {
         const nAccounts = yield call(findUsedAccounts, 10, node, [])
         const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
         const label = undefined
-        yield put(A.restoreWalletSuccess(guid, password, sharedKey, mnemonic, label, email, nAccounts))
+        const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, label, nAccounts)
+        const register = api.createWallet(email)
+        yield call(register, wrapper)
+        yield put(A.setWrapper(wrapper))
+        yield put(A.restoreWalletSuccess())
+
       } catch (e) {
-        yield put(A.restoreWalletError('ERROR_DISCOVERING_ACCOUNTS'))
+        yield put(A.restoreWalletError())
       }
     }
   }

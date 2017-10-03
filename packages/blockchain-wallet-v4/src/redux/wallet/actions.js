@@ -9,12 +9,12 @@ export const createWalletError = () =>
   ({ type: T.CREATE_WALLET_ERROR })
 
 // wallet from Mnemonic
-export const restoreWallet = (mnemonic, password, email, network) =>
-  ({ type: T.RESTORE_WALLET, payload: { password, email, network } })
-export const restoreWalletSuccess = (guid, password, sharedKey, mnemonic, label, email, nAccounts) =>
-  ({ type: T.RESTORE_WALLET_SUCCESS, payload: { guid, password, sharedKey, mnemonic, label, email, nAccounts } })
-export const restoreWalletError = (errorKey) =>
-  ({ type: T.RESTORE_WALLET_ERROR, payload: errorKey, error: true })
+export const restoreWallet = (mnemonic, email, password, network) =>
+  ({ type: T.RESTORE_WALLET, payload: { mnemonic, email, password, network } })
+export const restoreWalletSuccess = () =>
+ ({ type: T.RESTORE_WALLET_SUCCESS })
+export const restoreWalletError = () =>
+  ({ type: T.RESTORE_WALLET_ERROR })
 
 // wallet remind guid
 export const remindWalletGuid = (email, code, sessionToken) =>

@@ -110,6 +110,19 @@ const registerError = function * (action) {
 }
 
 // =============================================================================
+// ================================== Recover ==================================
+// =============================================================================
+const restoreWalletSuccess = function* (action) {
+  yield put(actions.alerts.displaySuccess('Your wallet has been successfully restored.'))
+  yield call(loginRoutineSaga)
+}
+
+const restoreWalletError = function* () {
+  yield put(actions.alerts.displayError('Error restoring your wallet.'))
+}
+
+
+// =============================================================================
 // ============================ MobileLogin modal ==============================
 // =============================================================================
 
@@ -202,6 +215,9 @@ function * sagas () {
 
   yield takeEvery(actionTypes.core.wallet.CREATE_WALLET_SUCCESS, registerSuccess)
   yield takeEvery(actionTypes.core.wallet.CREATE_WALLET_ERROR, registerError)
+
+  yield takeEvery(actionTypes.core.wallet.RESTORE_WALLET_SUCCESS, restoreWalletSuccess)
+  yield takeEvery(actionTypes.core.wallet.RESTORE_WALLET_ERROR, restoreWalletError)
 }
 
 export default sagas

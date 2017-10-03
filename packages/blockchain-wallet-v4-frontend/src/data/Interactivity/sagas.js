@@ -199,6 +199,7 @@ function * sagas () {
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_ERROR, signAndPublishError)
   yield takeEvery(actionTypes.core.wallet.REMIND_WALLET_GUID_SUCCESS, remindWalletGuidSuccess)
   yield takeEvery(actionTypes.core.wallet.REMIND_WALLET_GUID_ERROR, remindWalletGuidError)
+
   yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_SUCCESS, updateMobileSuccess)
   yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_ERROR, updateMobileError)
   yield takeEvery(actionTypes.core.settings.VERIFY_MOBILE_SUCCESS, verifyMobileSuccess)
