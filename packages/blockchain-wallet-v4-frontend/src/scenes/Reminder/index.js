@@ -21,7 +21,7 @@ class ReminderContainer extends React.Component {
     //   data => this.success(data),
     //   message => this.props.alertActions.displayError(message)
     // )
-    // this.props.authActions.loginStart({ guid: this.props.guid, password: this.props.password })
+    // this.props.authActions.login({ guid: this.props.guid, password: this.props.password })
   }
 
   render () {

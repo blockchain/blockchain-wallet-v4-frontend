@@ -15,6 +15,7 @@ class RegisterContainer extends React.Component {
   onSubmit (e) {
     e.preventDefault()
     const { email, password } = this.props
+    this.props.alertActions.displayInfo('Creating wallet...')
     this.props.walletActions.createWallet(email, password)
   }
 
@@ -31,6 +32,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  alertActions: bindActionCreators(actions.alerts, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 

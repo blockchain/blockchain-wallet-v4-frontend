@@ -12,7 +12,7 @@ const INITIAL_STATE = {
 const login = (state = INITIAL_STATE, action) => {
   const { type } = action
   switch (type) {
-    case AT.LOGIN_START: {
+    case AT.LOGIN: {
       return assign(state, { isLoggingIn: true })
     }
     case AT.LOGIN_SUCCESS: {
