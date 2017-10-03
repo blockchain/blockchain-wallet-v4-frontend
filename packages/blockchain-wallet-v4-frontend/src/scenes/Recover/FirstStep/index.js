@@ -42,7 +42,7 @@ const FirstStep = (props) => {
         <FormattedMessage id='scenes.recover.firststep.explain' defaultMessage='Recover bitcoins from your lost wallet' />
       </Text>
       <Separator />
-      <Form>
+      <Form onSubmit={nextStep}>
         <TextGroup inline>
           <Text size='13px' weight={300} color='error'>
             <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password.' />
@@ -58,7 +58,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.recover.firststep.passphrase_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
         </Text>
         <Field name='passphrase' validate={[required, validMmemonic]} component={TextBox} />
-        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
         </Button>
       </Form>

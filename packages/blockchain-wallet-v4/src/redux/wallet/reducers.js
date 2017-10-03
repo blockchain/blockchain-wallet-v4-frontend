@@ -23,11 +23,6 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     case T.DELETE_WRAPPER: {
       return WRAPPER_INITIAL_STATE
     }
-    case T.RESTORE_WALLET_SUCCESS:
-    case T.CREATE_WALLET_SUCCESS: {
-      const { guid, sharedKey, mnemonic, label, password, nAccounts } = action.payload
-      return Wrapper.createNew(guid, password, sharedKey, mnemonic, label, nAccounts)
-    }
     case T.SET_LEGACY_ADDRESS_LABEL: {
       const { address, label } = action.payload
       return over(Wrapper.wallet, Wallet.setLegacyAddressLabel(address, label), state)

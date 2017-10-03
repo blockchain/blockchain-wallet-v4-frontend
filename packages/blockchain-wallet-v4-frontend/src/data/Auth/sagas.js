@@ -7,6 +7,7 @@ import Either from 'data.either'
 import * as AT from './actionTypes'
 import { actionTypes, actions, selectors } from 'data'
 import { api } from 'services/ApiService'
+import { Wrapper } from 'blockchain-wallet-v4/src/types'
 import { pairing } from 'blockchain-wallet-v4/src'
 
 let safeParse = Either.try(JSON.parse)
@@ -79,6 +80,15 @@ const login = function * (action) {
 }
 
 const trezor = function * (action) {
+  const context = yield select(selectors.core.wallet.getWalletContext)
+  yield put(actions.core.common.fetchBlockchainData(context))
+  yield put(actions.core.webSocket.startSocket())
+  yield put(actions.auth.loginSuccess())
+  yield put(push('/wallet'))
+  yield put(actions.alerts.displaySuccess('Logged in successfully'))
+}
+
+const createWalletSuccess = function * (action) {
   const context = yield select(selectors.core.wallet.getWalletContext)
   yield put(actions.core.common.fetchBlockchainData(context))
   yield put(actions.core.webSocket.startSocket())
@@ -180,6 +190,7 @@ function * sagas () {
   yield takeEvery(AT.LOGOUT_RESET_TIMER, logoutResetTimer)
   yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_SUCCESS, trezor)
   yield takeEvery(actionTypes.core.wallet.CREATE_TREZOR_WALLET_ERROR, trezorFailed)
+  yield takeEvery(actionTypes.core.wallet.CREATE_WALLET_SUCCESS, createWalletSuccess)
 }
 
 export default sagas

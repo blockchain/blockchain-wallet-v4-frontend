@@ -47,16 +47,17 @@ export const walletSaga = ({ api, walletPath } = {}) => {
   }
 
   const createWalletSaga = function * (action) {
-    const label = undefined
     const { password, email } = action.payload
     const mnemonic = BIP39.generateMnemonic()
     try {
       const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-      yield put(A.createWalletSuccess(guid, password, sharedKey, mnemonic, label, email))
+      const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic)
+      const register = api.createWallet(email)
+      yield call(register, wrapper)
+      yield put(A.setWrapper(wrapper))
+      yield put(A.createWalletSuccess())
     } catch (error) {
-      // TODO :: create a file with error keys
-      const errorKey = 'API_GENERATE_UUID_FAILED'
-      yield put(A.createWalletError(errorKey))
+      yield put(A.createWalletError())
     }
   }
 
