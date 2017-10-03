@@ -148,5 +148,5 @@ export const setBothPbkdf2Iterations = curry((iterations, wrapper) => compose(
 export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
   fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic, undefined, nAccounts))
 
-export const createNewReadOnly = (xpub, firstAccountName = 'My Trezor Wallet') =>
+export const createNewReadOnly = (xpub, firstAccountName = 'My read-only Wallet') =>
   fromJS(js('', '', '', firstAccountName, undefined, xpub, 1))

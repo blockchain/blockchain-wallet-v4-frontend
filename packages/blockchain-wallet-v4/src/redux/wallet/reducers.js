@@ -15,7 +15,6 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     case T.CHANGE_SECOND_PASSWORD_SUCCESS:
     case T.CREATE_LEGACY_ADDRESS_SUCCESS:
     case T.TOGGLE_SECOND_PASSWORD_SUCCESS:
-    case T.CREATE_TREZOR_WALLET_SUCCESS:
     case T.SET_PBKDF2_ITERATIONS_SUCCESS:
     case T.SET_WRAPPER: {
       return action.payload

@@ -55,14 +55,6 @@ export const createAddressSuccess = (wrapper) =>
 export const createAddressError = (errorKey) =>
   ({ type: T.CREATE_LEGACY_ADDRESS_ERROR, payload: errorKey, error: true })
 
-// create trezor
-export const createTrezorWallet = (accountIndex) =>
-  ({ type: T.CREATE_TREZOR_WALLET, payload: accountIndex })
-export const createTrezorWalletSuccess = (wrapper) =>
-  ({ type: T.CREATE_TREZOR_WALLET_SUCCESS, payload: wrapper })
-export const createTrezorWalletError = (errorKey) =>
-  ({ type: T.CREATE_TREZOR_WALLET_ERROR, payload: errorKey, error: true })
-
 // setters
 export const setWrapper = (payload) =>
   ({ type: T.SET_WRAPPER, payload: payload })

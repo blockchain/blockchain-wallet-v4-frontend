@@ -8,7 +8,6 @@ import Either from 'data.either'
 import * as A from './actions'
 import * as T from './actionTypes'
 import { Wrapper, Wallet, Address } from '../../types'
-import * as Trezor from '../../Trezor'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -98,18 +97,6 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
-  const createTrezorWalletSaga = function * (action) {
-    const accountIndex = action.payload || 0
-    try {
-      const task = Trezor.getXPub(`m/44'/0'/${accountIndex}'`)
-      const xpub = yield call(compose(taskToPromise, () => task))
-      const wrapper = Wrapper.createNewReadOnly(xpub)
-      yield put(A.createTrezorWalletSuccess(wrapper))
-    } catch (e) {
-      yield put(A.createTrezorWalletError('UNABLE_TO_CONNECT'))
-    }
-  }
-
   const setPbkdf2IterationsSaga = function * (action) {
     const { iterations, password } = action.payload
     if (not(is(Number, iterations))) {
@@ -163,7 +150,6 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield takeEvery(T.CHANGE_SECOND_PASSWORD, changeSecondPasswordSaga)
     yield takeEvery(T.CREATE_WALLET, createWalletSaga)
     yield takeEvery(T.RESTORE_WALLET, restoreWalletSaga)
-    yield takeEvery(T.CREATE_TREZOR_WALLET, createTrezorWalletSaga)
     yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
     yield takeEvery(T.SET_PBKDF2_ITERATIONS, setPbkdf2IterationsSaga)
     yield takeEvery(T.REMIND_WALLET_GUID, remindWalletGuid)
