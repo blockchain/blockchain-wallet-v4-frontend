@@ -1,7 +1,12 @@
 import * as AT from './actionTypes'
 
-export const login = (payload) => ({ type: AT.LOGIN, payload })
+export const login = (guid, password) => ({ type: AT.LOGIN, payload: { guid, password } })
 
+export const register = (email, password) => ({ type: AT.REGISTER, payload: { email, password } })
+
+export const restore = (mnemonic, email, password, network) => ({ type: AT.RESTORE, payload: { mnemonic, email, password, network } })
+
+//
 export const loginSuccess = () => ({ type: AT.LOGIN_SUCCESS })
 
 export const loginError = (payload) => ({ type: AT.LOGIN_ERROR, payload })

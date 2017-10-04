@@ -1,21 +1,5 @@
 import * as T from './actionTypes'
 
-// wallet signup
-export const createWallet = (email, password) =>
-  ({ type: T.CREATE_WALLET, payload: { email, password } })
-export const createWalletSuccess = () =>
-  ({ type: T.CREATE_WALLET_SUCCESS })
-export const createWalletError = () =>
-  ({ type: T.CREATE_WALLET_ERROR })
-
-// wallet from Mnemonic
-export const restoreWallet = (mnemonic, email, password, network) =>
-  ({ type: T.RESTORE_WALLET, payload: { mnemonic, email, password, network } })
-export const restoreWalletSuccess = () =>
- ({ type: T.RESTORE_WALLET_SUCCESS })
-export const restoreWalletError = () =>
-  ({ type: T.RESTORE_WALLET_ERROR })
-
 // wallet remind guid
 export const remindWalletGuid = (email, code, sessionToken) =>
   ({ type: T.REMIND_WALLET_GUID, payload: { email, code, sessionToken } })

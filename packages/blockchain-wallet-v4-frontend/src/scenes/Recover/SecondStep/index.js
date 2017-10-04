@@ -17,8 +17,7 @@ class RecoverContainer extends React.Component {
     e.preventDefault()
     const { mnemonic, email, password } = this.props
     const network = settings.NETWORK
-    this.props.alertActions.displayInfo('Restoring wallet...')
-    this.props.walletActions.restoreWallet(mnemonic, email, password, network)
+    this.props.authActions.restore(mnemonic, email, password, network)
   }
 
   render () {
@@ -36,6 +35,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  authActions: bindActionCreators(actions.auth, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 

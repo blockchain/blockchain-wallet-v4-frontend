@@ -21,7 +21,6 @@ function * sagas () {
     fork(modalSagas),
     fork(interactivitySagas)
   ]
-  // yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_SUCCESS, handleSend)
 }
 
 export default sagas

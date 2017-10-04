@@ -17,6 +17,7 @@ import { commonSelectorsFactory } from './common/selectors.js'
 export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
   const common = commonSelectorsFactory({walletPath, dataPath, settingsPath})
   const extend = path => s => compose(s, prop(path))
+
   return ({
     addresses: map(extend(dataPath), addresses),
     adverts: map(extend(dataPath), adverts),

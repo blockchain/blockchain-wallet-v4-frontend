@@ -1,4 +1,5 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import { prop, compose, endsWith, repeat, range, map, propSatisfies,
@@ -6,7 +7,6 @@ import { prop, compose, endsWith, repeat, range, map, propSatisfies,
 import Task from 'data.task'
 import Either from 'data.either'
 import * as A from './actions'
-import * as T from './actionTypes'
 import { Wrapper, Wallet, Address } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -48,16 +48,18 @@ export const walletSaga = ({ api, walletPath } = {}) => {
   const createWalletSaga = function * (action) {
     const { password, email } = action.payload
     const mnemonic = BIP39.generateMnemonic()
-    try {
-      const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-      const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic)
-      const register = api.createWallet(email)
-      yield call(register, wrapper)
-      yield put(A.setWrapper(wrapper))
-      yield put(A.createWalletSuccess())
-    } catch (error) {
-      yield put(A.createWalletError())
-    }
+    const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+    const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic)
+    const register = api.createWallet(email)
+    yield call(register, wrapper)
+    yield put(A.setWrapper(wrapper))
+  }
+
+
+
+  const fetchWalletSaga = function * (guid, sharedKey, session, password, code) {
+    const wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password, code)
+    yield put(A.setWrapper(wrapper))
   }
 
   const findUsedAccounts = function * (batch, node, usedAccounts) {
@@ -79,26 +81,15 @@ export const walletSaga = ({ api, walletPath } = {}) => {
 
   const restoreWalletSaga = function * (action) {
     const { mnemonic, email, password, network } = action.payload
-    if (!BIP39.validateMnemonic(mnemonic)) {
-      yield put(A.restoreWalletError('INVALID_MNEMONIC'))
-    } else {
-      const seed = BIP39.mnemonicToSeed(mnemonic)
-      const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
-      const node = masterNode.deriveHardened(44).deriveHardened(0)
-      try {
-        const nAccounts = yield call(findUsedAccounts, 10, node, [])
-        const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-        const label = undefined
-        const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, label, nAccounts)
-        const register = api.createWallet(email)
-        yield call(register, wrapper)
-        yield put(A.setWrapper(wrapper))
-        yield put(A.restoreWalletSuccess())
-
-      } catch (e) {
-        yield put(A.restoreWalletError())
-      }
-    }
+    const seed = BIP39.mnemonicToSeed(mnemonic)
+    const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
+    const node = masterNode.deriveHardened(44).deriveHardened(0)
+    const nAccounts = yield call(findUsedAccounts, 10, node, [])
+    const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+    const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, undefined, nAccounts)
+    const register = api.createWallet(email)
+    yield call(register, wrapper)
+    yield put(A.setWrapper(wrapper))
   }
 
   const setPbkdf2IterationsSaga = function * (action) {
@@ -134,7 +125,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
-  const remindWalletGuid = function * (action) {
+  const remindWalletGuidSaga = function * (action) {
     const { email, code, sessionToken } = action.payload
     try {
       const response = yield call(api.remindGuid, email, code, sessionToken)
@@ -149,13 +140,23 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(T.TOGGLE_SECOND_PASSWORD, toggleSecondPasswordSaga)
-    yield takeEvery(T.CHANGE_SECOND_PASSWORD, changeSecondPasswordSaga)
-    yield takeEvery(T.CREATE_WALLET, createWalletSaga)
-    yield takeEvery(T.RESTORE_WALLET, restoreWalletSaga)
-    yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
-    yield takeEvery(T.SET_PBKDF2_ITERATIONS, setPbkdf2IterationsSaga)
-    yield takeEvery(T.REMIND_WALLET_GUID, remindWalletGuid)
+  // return function * () {
+  //   yield takeEvery(T.TOGGLE_SECOND_PASSWORD, toggleSecondPasswordSaga)
+  //   yield takeEvery(T.CHANGE_SECOND_PASSWORD, changeSecondPasswordSaga)
+  //   yield takeEvery(T.CREATE_WALLET, createWalletSaga)
+  //   yield takeEvery(T.RESTORE_WALLET, restoreWalletSaga)
+  //   yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
+  //   yield takeEvery(T.SET_PBKDF2_ITERATIONS, setPbkdf2IterationsSaga)
+  //   yield takeEvery(T.REMIND_WALLET_GUID, remindWalletGuid)
+  // }
+  return {
+    toggleSecondPasswordSaga,
+    changeSecondPasswordSaga,
+    createWalletSaga,
+    restoreWalletSaga,
+    createAddressSaga,
+    setPbkdf2IterationsSaga,
+    remindWalletGuidSaga,
+    fetchWalletSaga
   }
 }
