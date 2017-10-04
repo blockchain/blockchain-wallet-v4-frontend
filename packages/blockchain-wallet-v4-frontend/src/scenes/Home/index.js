@@ -31,6 +31,7 @@ const ColumnRight = styled(Column)`
 `
 
 const Home = (props) => {
+  console.log('1')
   return (
     <Wrapper>
       <ColumnLeft>

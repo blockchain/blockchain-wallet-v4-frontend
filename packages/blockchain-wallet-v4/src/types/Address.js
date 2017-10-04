@@ -1,6 +1,6 @@
 import { compose, is, equals, not, pipe, curry, isNil } from 'ramda'
 import { view, set, traverseOf } from 'ramda-lens'
-import * as crypto from '../WalletCrypto'
+import * as crypto from '../walletCrypto'
 import Either from 'data.either'
 import Type from './Type'
 import { iToJS } from './util'

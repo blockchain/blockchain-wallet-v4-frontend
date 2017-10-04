@@ -18,7 +18,6 @@ class RecoverContainer extends React.Component {
     const { mnemonic, email, password } = this.props
     const network = settings.NETWORK
     this.props.alertActions.displayInfo('Restoring wallet...')
-    console.log(mnemonic, password, email, network)
     this.props.walletActions.restoreWallet(mnemonic, email, password, network)
   }
 

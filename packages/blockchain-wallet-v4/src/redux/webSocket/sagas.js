@@ -4,7 +4,7 @@ import * as A from '../actions'
 import * as T from '../actionTypes'
 import { Wrapper, Wallet } from '../../types'
 import * as walletSelectors from '../wallet/selectors'
-import * as transSelectors from '../data/Transactions/selectors'
+import * as transSelectors from '../data/transactions/selectors'
 import { Socket } from '../../network'
 
 export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {

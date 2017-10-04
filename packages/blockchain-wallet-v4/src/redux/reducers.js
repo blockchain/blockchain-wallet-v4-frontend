@@ -1,29 +1,29 @@
 import { combineReducers } from 'redux'
-import addresses from './data/Addresses/reducers.js'
-import adverts from './data/Adverts/reducers.js'
-import captcha from './data/Captcha/reducers.js'
-import fee from './data/Fee/reducers.js'
-import latestBlock from './data/LatestBlock/reducers.js'
-import logs from './data/Logs/reducers.js'
-import transactions from './data/Transactions/reducers.js'
-import info from './data/Info/reducers.js'
-import btcRates from './data/Rates/bitcoin/reducers.js'
-import ethRates from './data/Rates/ether/reducers.js'
+import addresses from './data/addresses/reducers.js'
+import adverts from './data/adverts/reducers.js'
+import captcha from './data/captcha/reducers.js'
+import charts from './data/charts/reducers.js'
+import fee from './data/fee/reducers.js'
+import latestBlock from './data/latestBlock/reducers.js'
+import logs from './data/logs/reducers.js'
+import payment from './data/payment/reducers'
+import transactions from './data/transactions/reducers.js'
+import info from './data/info/reducers.js'
+import rates from './data/rates/reducers.js'
 import wallet from './wallet/reducers.js'
 import settings from './settings/reducers.js'
-import payment from './data/Payment/reducers'
 
 const data = combineReducers({
-  addresses: addresses,
-  adverts: adverts,
-  captcha: captcha,
-  fee: fee,
+  addresses,
+  adverts,
+  captcha,
+  charts,
+  fee,
   latest_block: latestBlock,
   logs,
   txs: transactions,
   info: info,
-  btcRates: btcRates,
-  ethRates: ethRates,
+  rates,
   payment
 })
 

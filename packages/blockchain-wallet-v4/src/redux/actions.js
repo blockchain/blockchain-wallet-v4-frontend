@@ -1,16 +1,16 @@
 import * as common from './common/actions.js'
 
-import * as addresses from './data/Addresses/actions.js'
-import * as adverts from './data/Adverts/actions.js'
-import * as captcha from './data/Captcha/actions.js'
-import * as fee from './data/Fee/actions.js'
-import * as latestBlock from './data/LatestBlock/actions.js'
-import * as logs from './data/Logs/actions.js'
-import * as btcRates from './data/Rates/bitcoin/actions.js'
-import * as ethRates from './data/Rates/ether/actions.js'
-import * as transactions from './data/Transactions/actions.js'
-import * as info from './data/Info/actions.js'
-import * as payment from './data/Payment/actions.js'
+import * as addresses from './data/addresses/actions.js'
+import * as adverts from './data/adverts/actions.js'
+import * as captcha from './data/captcha/actions.js'
+import * as charts from './data/charts/actions.js'
+import * as fee from './data/fee/actions.js'
+import * as latestBlock from './data/latestBlock/actions.js'
+import * as logs from './data/logs/actions.js'
+import * as rates from './data/rates/actions.js'
+import * as transactions from './data/transactions/actions.js'
+import * as info from './data/info/actions.js'
+import * as payment from './data/payment/actions.js'
 import * as wallet from './wallet/actions.js'
 import * as settings from './settings/actions.js'
 import * as walletSync from './walletSync/actions.js'
@@ -20,12 +20,12 @@ export {
   addresses,
   adverts,
   captcha,
+  charts,
   common,
   fee,
   latestBlock,
   logs,
-  btcRates,
-  ethRates,
+  rates,
   transactions,
   wallet,
   info,

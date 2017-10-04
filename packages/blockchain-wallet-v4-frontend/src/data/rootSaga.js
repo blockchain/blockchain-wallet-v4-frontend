@@ -3,11 +3,9 @@ import { fork } from 'redux-saga/effects'
 import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
-
 import { coreSagas } from 'blockchain-wallet-v4/src'
 import alertSagas from './Alerts/sagas.js'
 import authSagas from './Auth/sagas.js'
-import chartsSaga from './Charts/sagas.js'
 import modalSagas from './Modals/sagas.js'
 import interactivitySagas from './Interactivity/sagas.js'
 
@@ -20,7 +18,6 @@ function * sagas () {
     fork(coreSagas.rootSaga({ api, dataPath, walletPath, settingsPath, socket })),
     fork(alertSagas),
     fork(authSagas),
-    fork(chartsSaga),
     fork(modalSagas),
     fork(interactivitySagas)
   ]

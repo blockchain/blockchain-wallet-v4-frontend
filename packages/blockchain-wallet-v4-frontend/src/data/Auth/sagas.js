@@ -112,12 +112,12 @@ const registerError = function * (action) {
 // =============================================================================
 // ================================== Recover ==================================
 // =============================================================================
-const restoreWalletSuccess = function* (action) {
+const restoreWalletSuccess = function * (action) {
   yield put(actions.alerts.displaySuccess('Your wallet has been successfully restored.'))
   yield call(loginRoutineSaga)
 }
 
-const restoreWalletError = function* () {
+const restoreWalletError = function * () {
   yield put(actions.alerts.displayError('Error restoring your wallet.'))
 }
 

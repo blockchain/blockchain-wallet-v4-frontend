@@ -45,7 +45,6 @@ class FirstStepContainer extends React.Component {
 
     // Update the feeValues if we receive new values
     if (nextProps.feeValues && !equals(feeValues, nextProps.feeValues)) {
-      console.log(feeValues, nextProps.feeValues)
       reduxFormActions.change('sendBitcoin', 'fee', nextProps.feeValues.regular)
     }
 
