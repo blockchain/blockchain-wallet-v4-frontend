@@ -57,11 +57,11 @@ class ChartContainer extends React.Component {
   }
 
   selectBitcoin () {
-    this.setState({ coin: 'BTC' })
+    this.setState({ coin: 'BTC', start: BTCSTART })
   }
 
   selectEthereum () {
-    this.setState({ coin: 'ETH' })
+    this.setState({ coin: 'ETH', start: ETHSTART })
   }
 
   selectTimeframe (timeframe) {
