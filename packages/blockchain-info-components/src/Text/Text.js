@@ -14,7 +14,7 @@ const BaseText = styled.div`
   font-style: ${props => props.italic ? 'italic' : 'normal'};
   color: ${props => props.theme[props.color]};
 
-  & > :first-child { margin-right: 10px; }
+  & > :first-child { margin-right: 5px; }
 `
 
 const Text = ({ ...props, children }) => {

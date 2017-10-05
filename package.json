@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "lerna": "^2.1.2"
+  },
+  "dependencies": {
+    "read-blob": "^1.1.0"
   }
 }

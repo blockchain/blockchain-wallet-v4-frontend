@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import Register from './template.js'
 import { actions } from 'data'
@@ -13,7 +14,9 @@ class RegisterContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.alertActions.displaySuccess('Registration completed!')
+    const { email, password } = this.props
+    this.props.alertActions.displayInfo('Creating wallet...')
+    this.props.walletActions.createWallet(email, password)
   }
 
   render () {
@@ -23,11 +26,14 @@ class RegisterContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    authActions: bindActionCreators(actions.auth, dispatch),
-    alertActions: bindActionCreators(actions.alerts, dispatch)
-  }
-}
+const mapStateToProps = (state) => ({
+  email: formValueSelector('register')(state, 'email'),
+  password: formValueSelector('register')(state, 'password')
+})
 
-export default connect(undefined, mapDispatchToProps)(RegisterContainer)
+const mapDispatchToProps = (dispatch) => ({
+  alertActions: bindActionCreators(actions.alerts, dispatch),
+  walletActions: bindActionCreators(actions.core.wallet, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterContainer)

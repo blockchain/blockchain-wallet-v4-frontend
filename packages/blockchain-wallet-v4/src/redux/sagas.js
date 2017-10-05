@@ -1,5 +1,6 @@
 import { fork } from 'redux-saga/effects'
 import { advertsSaga } from './data/Adverts/sagas.js'
+import { captchaSaga } from './data/Captcha/sagas.js'
 import { feeSaga } from './data/Fee/sagas.js'
 import { logsSaga } from './data/Logs/sagas.js'
 import { btcRatesSaga } from './data/Rates/bitcoin/sagas.js'
@@ -15,6 +16,7 @@ export const rootSaga = ({ api, dataPath, walletPath, settingsPath, socket } = {
   return function * () {
     yield [
       fork(advertsSaga({api})),
+      fork(captchaSaga({ api })),
       fork(feeSaga({api})),
       fork(logsSaga({ api })),
       fork(btcRatesSaga({api})),

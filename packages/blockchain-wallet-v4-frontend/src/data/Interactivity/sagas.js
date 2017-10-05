@@ -20,6 +20,20 @@ const signAndPublishError = function * (action) {
 }
 
 // =============================================================================
+// ================================ RemindGuid =================================
+// =============================================================================
+const remindWalletGuidSuccess = function * (action) {
+  yield put(actions.core.captcha.clearCaptcha())
+  yield put(push('/login'))
+  yield put(actions.alerts.displaySuccess('An email containing your Guid has been sent to your email address.'))
+}
+
+const remindWalletGuidError = function * () {
+  yield put(actions.core.captcha.fetchCaptcha())
+  yield put(actions.alerts.displayError('Captcha invalid.'))
+}
+
+// =============================================================================
 // ============================== Mobile number ================================
 // =============================================================================
 
@@ -183,6 +197,9 @@ const confirmGoogleAuthenticatorSetupError = function * (action) {
 function * sagas () {
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_SUCCESS, signAndPublishSuccess)
   yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_ERROR, signAndPublishError)
+  yield takeEvery(actionTypes.core.wallet.REMIND_WALLET_GUID_SUCCESS, remindWalletGuidSuccess)
+  yield takeEvery(actionTypes.core.wallet.REMIND_WALLET_GUID_ERROR, remindWalletGuidError)
+
   yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_SUCCESS, updateMobileSuccess)
   yield takeEvery(actionTypes.core.settings.UPDATE_MOBILE_ERROR, updateMobileError)
   yield takeEvery(actionTypes.core.settings.VERIFY_MOBILE_SUCCESS, verifyMobileSuccess)

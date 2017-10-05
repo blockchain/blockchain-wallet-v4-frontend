@@ -16,7 +16,7 @@ class LoginContainer extends React.Component {
   onSubmit (event) {
     event.preventDefault()
     const { guid, password, code } = this.props
-    this.props.authActions.loginStart({ guid, password, code })
+    this.props.authActions.login({ guid, password, code })
   }
 
   handleMobile () {

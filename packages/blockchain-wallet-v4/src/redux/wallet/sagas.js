@@ -8,7 +8,6 @@ import Either from 'data.either'
 import * as A from './actions'
 import * as T from './actionTypes'
 import { Wrapper, Wallet, Address } from '../../types'
-import * as Trezor from '../../Trezor'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -47,16 +46,17 @@ export const walletSaga = ({ api, walletPath } = {}) => {
   }
 
   const createWalletSaga = function * (action) {
-    const label = undefined
     const { password, email } = action.payload
     const mnemonic = BIP39.generateMnemonic()
     try {
       const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-      yield put(A.createWalletSuccess(guid, password, sharedKey, mnemonic, label, email))
+      const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic)
+      const register = api.createWallet(email)
+      yield call(register, wrapper)
+      yield put(A.setWrapper(wrapper))
+      yield put(A.createWalletSuccess())
     } catch (error) {
-      // TODO :: create a file with error keys
-      const errorKey = 'API_GENERATE_UUID_FAILED'
-      yield put(A.createWalletError(errorKey))
+      yield put(A.createWalletError())
     }
   }
 
@@ -82,7 +82,6 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     if (!BIP39.validateMnemonic(mnemonic)) {
       yield put(A.restoreWalletError('INVALID_MNEMONIC'))
     } else {
-      // we might want to make that coin generic
       const seed = BIP39.mnemonicToSeed(mnemonic)
       const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
       const node = masterNode.deriveHardened(44).deriveHardened(0)
@@ -90,22 +89,15 @@ export const walletSaga = ({ api, walletPath } = {}) => {
         const nAccounts = yield call(findUsedAccounts, 10, node, [])
         const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
         const label = undefined
-        yield put(A.restoreWalletSuccess(guid, password, sharedKey, mnemonic, label, email, nAccounts))
-      } catch (e) {
-        yield put(A.restoreWalletError('ERROR_DISCOVERING_ACCOUNTS'))
-      }
-    }
-  }
+        const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, label, nAccounts)
+        const register = api.createWallet(email)
+        yield call(register, wrapper)
+        yield put(A.setWrapper(wrapper))
+        yield put(A.restoreWalletSuccess())
 
-  const createTrezorWalletSaga = function * (action) {
-    const accountIndex = action.payload || 0
-    try {
-      const task = Trezor.getXPub(`m/44'/0'/${accountIndex}'`)
-      const xpub = yield call(compose(taskToPromise, () => task))
-      const wrapper = Wrapper.createNewReadOnly(xpub)
-      yield put(A.createTrezorWalletSuccess(wrapper))
-    } catch (e) {
-      yield put(A.createTrezorWalletError('UNABLE_TO_CONNECT'))
+      } catch (e) {
+        yield put(A.restoreWalletError())
+      }
     }
   }
 
@@ -142,13 +134,28 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
+  const remindWalletGuid = function * (action) {
+    const { email, code, sessionToken } = action.payload
+    try {
+      const response = yield call(api.remindGuid, email, code, sessionToken)
+      const { success, message } = response
+      if (success) {
+        yield put(A.remindWalletGuidSuccess(message))
+      } else {
+        yield put(A.remindWalletGuidError(message))
+      }
+    } catch (error) {
+      yield put(A.remindWalletGuidError(error))
+    }
+  }
+
   return function * () {
     yield takeEvery(T.TOGGLE_SECOND_PASSWORD, toggleSecondPasswordSaga)
     yield takeEvery(T.CHANGE_SECOND_PASSWORD, changeSecondPasswordSaga)
     yield takeEvery(T.CREATE_WALLET, createWalletSaga)
     yield takeEvery(T.RESTORE_WALLET, restoreWalletSaga)
-    yield takeEvery(T.CREATE_TREZOR_WALLET, createTrezorWalletSaga)
     yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
     yield takeEvery(T.SET_PBKDF2_ITERATIONS, setPbkdf2IterationsSaga)
+    yield takeEvery(T.REMIND_WALLET_GUID, remindWalletGuid)
   }
 }

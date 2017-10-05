@@ -20,7 +20,7 @@ class MobileLoginContainer extends React.Component {
   }
 
   handleError (error) {
-    if (!isNil(error) && !isEmpty(error)) { this.props.modalActions.scanMobileLoginError('Could not scan the mobile login QR Code') }
+    if (isNil(error) && isEmpty(error)) { this.props.modalActions.scanMobileLoginError('Could not scan the mobile login QR Code') }
   }
 
   handleCancel () {

@@ -1,20 +1,28 @@
 import * as T from './actionTypes'
 
 // wallet signup
-export const createWallet = (password, email) =>
-  ({ type: T.CREATE_WALLET, payload: { password, email } })
-export const createWalletSuccess = (guid, password, sharedKey, mnemonic, label, email, nAccounts) =>
-  ({ type: T.CREATE_WALLET_SUCCESS, payload: { guid, password, sharedKey, mnemonic, label, email, nAccounts } })
-export const createWalletError = (errorKey) =>
-  ({ type: T.CREATE_WALLET_ERROR, payload: errorKey, error: true })
+export const createWallet = (email, password) =>
+  ({ type: T.CREATE_WALLET, payload: { email, password } })
+export const createWalletSuccess = () =>
+  ({ type: T.CREATE_WALLET_SUCCESS })
+export const createWalletError = () =>
+  ({ type: T.CREATE_WALLET_ERROR })
 
 // wallet from Mnemonic
-export const restoreWallet = (mnemonic, password, email, network) =>
-  ({ type: T.RESTORE_WALLET, payload: { password, email, network } })
-export const restoreWalletSuccess = (guid, password, sharedKey, mnemonic, label, email, nAccounts) =>
-  ({ type: T.RESTORE_WALLET_SUCCESS, payload: { guid, password, sharedKey, mnemonic, label, email, nAccounts } })
-export const restoreWalletError = (errorKey) =>
-  ({ type: T.RESTORE_WALLET_ERROR, payload: errorKey, error: true })
+export const restoreWallet = (mnemonic, email, password, network) =>
+  ({ type: T.RESTORE_WALLET, payload: { mnemonic, email, password, network } })
+export const restoreWalletSuccess = () =>
+ ({ type: T.RESTORE_WALLET_SUCCESS })
+export const restoreWalletError = () =>
+  ({ type: T.RESTORE_WALLET_ERROR })
+
+// wallet remind guid
+export const remindWalletGuid = (email, code, sessionToken) =>
+  ({ type: T.REMIND_WALLET_GUID, payload: { email, code, sessionToken } })
+export const remindWalletGuidSuccess = (data) =>
+  ({ type: T.REMIND_WALLET_GUID_SUCCESS, payload: { data } })
+export const remindWalletGuidError = (message) =>
+  ({ type: T.REMIND_WALLET_GUID_ERROR, payload: message })
 
 // second Password
 export const toggleSecondPassword = (password) =>
@@ -46,14 +54,6 @@ export const createAddressSuccess = (wrapper) =>
   ({ type: T.CREATE_LEGACY_ADDRESS_SUCCESS, payload: wrapper })
 export const createAddressError = (errorKey) =>
   ({ type: T.CREATE_LEGACY_ADDRESS_ERROR, payload: errorKey, error: true })
-
-// create trezor
-export const createTrezorWallet = (accountIndex) =>
-  ({ type: T.CREATE_TREZOR_WALLET, payload: accountIndex })
-export const createTrezorWalletSuccess = (wrapper) =>
-  ({ type: T.CREATE_TREZOR_WALLET_SUCCESS, payload: wrapper })
-export const createTrezorWalletError = (errorKey) =>
-  ({ type: T.CREATE_TREZOR_WALLET_ERROR, payload: errorKey, error: true })
 
 // setters
 export const setWrapper = (payload) =>

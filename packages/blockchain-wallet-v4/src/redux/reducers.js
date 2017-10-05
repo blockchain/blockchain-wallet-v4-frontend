@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import addresses from './data/Addresses/reducers.js'
 import adverts from './data/Adverts/reducers.js'
+import captcha from './data/Captcha/reducers.js'
 import fee from './data/Fee/reducers.js'
 import latestBlock from './data/LatestBlock/reducers.js'
 import logs from './data/Logs/reducers.js'
@@ -15,6 +16,7 @@ import payment from './data/Payment/reducers'
 const data = combineReducers({
   addresses: addresses,
   adverts: adverts,
+  captcha: captcha,
   fee: fee,
   latest_block: latestBlock,
   logs,

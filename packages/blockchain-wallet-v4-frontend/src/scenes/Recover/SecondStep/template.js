@@ -2,10 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
-import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import { CheckBox, Form, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
 
@@ -22,54 +21,55 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `
+const Footer = styled.div`
+  padding: 5px 0;
+`
 
-const Register = (props) => {
-  const { onSubmit, submitting, invalid } = props
+const SecondStep = (props) => {
+  const { onSubmit, previousStep, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300} capitalize>
-          <FormattedMessage id='scenes.register.create' defaultMessage='Create your Wallet' />
+        <Text size='30px' weight={300}>
+          <FormattedMessage id='scenes.recover.secondstep.funds' defaultMessage='Recover funds' />
         </Text>
-        <TextGroup inline>
-          <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.register.or' defaultMessage='or' />
-          </Text>
-          <LinkContainer to='/login'>
-            <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.register.login' defaultMessage='Login' />
-            </Link>
-          </LinkContainer>
-        </TextGroup>
+        <Text size='10px'>
+          <FormattedMessage id='scenes.recover.secondstep.step2' defaultMessage='Step 2 of 2: Create a new wallet' />
+        </Text>
       </Header>
-      <Text size='16px' weight={300} altFont>
-        <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.recover.secondstep.explain' defaultMessage='Recover bitcoins from your lost wallet' />
       </Text>
       <Separator />
       <Form onSubmit={onSubmit}>
         <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.register.email' defaultMessage='Email' />
+          <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='Email' />
         </Text>
         <Field name='email' validate={[required, validEmail]} component={TextBox} />
         <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
+          <FormattedMessage id='scenes.recover.secondstep.password' defaultMessage='Password' />
         </Text>
         <Field name='password' validate={[required]} component={PasswordBox} score />
         <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
+          <FormattedMessage id='scenes.recover.secondstep.confirmationPassword' defaultMessage='Confirm Password' />
         </Text>
         <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
           <Terms />
         </Field>
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='scenes.register.submit' defaultMessage='Continue' />
+          <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover funds' />
         </Button>
       </Form>
+      <Footer>
+        <Link onClick={previousStep} size='13px' weight={300}>
+          <FormattedMessage id='scenes.recover.secondstep.back' defaultMessage='Go back' />
+        </Link>
+      </Footer>
     </Wrapper>
   )
 }
 
-export default reduxForm({ form: 'register' })(Register)
+export default reduxForm({ form: 'recover', destroyOnUnmount: false })(SecondStep)

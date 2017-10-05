@@ -7,40 +7,34 @@ import wizardProvider from 'providers/WizardProvider'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { api } from 'services/ApiService'
 
 class Reset2FAContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = { timestamp: new Date().getTime() }
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   success (data) {
     const { message } = data
     // TODO: Handle multilanguages
     switch (message) {
-      case 'Request Submitted':
+      case 'Two Factor Authentication Reset Request Successfully Submitted.':
         this.props.alertActions.displaySuccess(message)
         break
-      case 'Captcha Code Incorrect':
-        this.props.alertActions.displayError(message)
-        break
-      case 'Invalid Email':
-        this.props.alertActions.displayError(message)
-        break
-      case 'Two factor authentication not enabled.':
-        this.props.alertActions.displayError(message)
-        break
       default:
-        this.props.alertActions.displayError('Unknown error')
+        this.props.alertActions.displayError(message)
+        break
     }
   }
 
-  handleSubmit () {
+  onSubmit (event) {
+    event.preventDefault()
     this.setState({ timestamp: new Date().getTime() })
-    const { guid, email, newEmail, secretPhrase, message, captcha } = this.props
+    const { guid, email, newEmail, secretPhrase, message, code, captcha } = this.props
+    const { sessionToken } = captcha
     const data = {
       method: 'reset-two-factor-form',
       guid: guid,
@@ -48,10 +42,10 @@ class Reset2FAContainer extends React.Component {
       contact_email: newEmail,
       secret_phrase: secretPhrase,
       message: message,
-      kaptcha: captcha,
+      kaptcha: code,
       ct: this.state.timestamp
     }
-    api.reset2fa(data).then(
+    api.reset2fa(data, sessionToken).then(
       data => this.success(data)
     )
   }
@@ -62,7 +56,7 @@ class Reset2FAContainer extends React.Component {
     switch (step) {
       case 1: return <FirstStep {...rest} />
       case 2: return <SecondStep {...rest} />
-      case 3: return <ThirdStep {...rest} handleSubmit={this.handleSubmit} timestamp={this.state.timestamp} />
+      case 3: return <ThirdStep {...rest} onSubmit={this.onSubmit} timestamp={this.state.timestamp} />
       default: return <FirstStep {...rest} />
     }
   }
@@ -76,7 +70,9 @@ const mapStateToProps = (state) => {
     newEmail: selector(state, 'newEmail'),
     secretPhrase: selector(state, 'secretPhrase'),
     message: selector(state, 'message'),
-    captcha: selector(state, 'captcha')
+    code: selector(state, 'code'),
+    captcha: selectors.core.captcha.getCaptcha(state)
+
   })
 }
 
