@@ -206,8 +206,8 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data, extraHeaders })
   }
 
-  const reset2fa = (data, sessionToken) => {
-    console.log(data, sessionToken)
+  const reset2fa = (guid, email, newEmail, secretPhrase, message, code, sessionToken) => {
+    const data = { method: 'reset-two-factor-form', guid, email, contact_email: newEmail, secret_phrase: secretPhrase, message, kaptcha: code }
     const extraHeaders = { sessionToken }
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data, extraHeaders })
   }

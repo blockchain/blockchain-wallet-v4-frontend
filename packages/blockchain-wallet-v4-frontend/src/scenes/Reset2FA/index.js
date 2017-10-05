@@ -35,17 +35,7 @@ class Reset2FAContainer extends React.Component {
     this.setState({ timestamp: new Date().getTime() })
     const { guid, email, newEmail, secretPhrase, message, code, captcha } = this.props
     const { sessionToken } = captcha
-    const data = {
-      method: 'reset-two-factor-form',
-      guid: guid,
-      email: email,
-      contact_email: newEmail,
-      secret_phrase: secretPhrase,
-      message: message,
-      kaptcha: code,
-      ct: this.state.timestamp
-    }
-    api.reset2fa(data, sessionToken).then(
+    api.reset2fa(guid, email, newEmail, secretPhrase, message, code, sessionToken).then(
       data => this.success(data)
     )
   }
