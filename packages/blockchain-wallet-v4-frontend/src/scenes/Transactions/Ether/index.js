@@ -2,13 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 
 import MenuTop from './MenuTop'
-import List from './List'
+import List from './template.js'
 
 const Wrapper = styled.div`
   width: 100%;
 `
 
-const Transactions = (props) => {
+const EtherTransactionsContainer = (props) => {
   return (
     <Wrapper>
       <MenuTop />
@@ -17,4 +17,4 @@ const Transactions = (props) => {
   )
 }
 
-export default Transactions
+export default EtherTransactionsContainer

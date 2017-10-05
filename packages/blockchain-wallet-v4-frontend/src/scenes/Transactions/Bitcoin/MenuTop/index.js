@@ -61,4 +61,4 @@ const MenuTop = (props) => {
   )
 }
 
-export default reduxForm({ form: 'transactionForm' })(MenuTop)
+export default reduxForm({ form: 'bitconTransactionForm' })(MenuTop)
