@@ -19,18 +19,12 @@ const HorizontalForm = styled(Form)`
 
   @media(min-width: 992px) { flex-direction: row; }
 `
-const Filter = styled.div`
+const FilterStatuses = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   margin-bottom: 5px;
-`
-
-const FilterStatuses = styled(Filter)`
-  flex-grow: 2;
-  order: 1; 
-  @media(min-width: 992px) { order: 2; } 
 `
 
 const MenuTop = (props) => {
