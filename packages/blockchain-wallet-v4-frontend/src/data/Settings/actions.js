@@ -32,10 +32,12 @@ export const updateBlockTorIps = (blockTorIps) => ({ type: AT.UPDATE_BLOCK_TOR_I
 
 export const updateHint = (hint) => ({ type: AT.UPDATE_HINT, payload: { hint } })
 
-export const updateAuthType = (authType) => ({ type: AT.UPDATE_AUTH_TYPE, payload: { authType } })
+export const disableTwoStep = () => ({ type: AT.DISABLE_TWO_STEP, payload: { authType: 0 } })
 
-export const updateAuthTypeNeverSave = (authTypeNeverSave) => ({ type: AT.UPDATE_AUTH_TYPE_NEVER_SAVE, payload: { authTypeNeverSave } })
+export const enableTwoStepMobile = () => ({ type: AT.ENABLE_TWO_STEP_MOBILE, payload: { authType: 5 } })
 
-export const enableGoogleAuthenticator = (code) => ({ type: AT.ENABLE_GOOGLE_AUTHENTICATOR, payload: { code } })
+export const enableTwoStepGoogleAuthenticator = (code) => ({ type: AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, payload: { code } })
 
-export const enableYubikey = (code) => ({ type: AT.ENABLE_YUBIKEY, payload: { code } })
+export const enableTwoStepYubikey = (code) => ({ type: AT.ENABLE_TWO_STEP_YUBIKEY, payload: { code } })
+
+export const toggleTwoStepRemember = () => ({ type: AT.TOGGLE_TWO_STEP_REMEMBER })

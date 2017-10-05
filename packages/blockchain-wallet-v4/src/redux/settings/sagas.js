@@ -158,7 +158,7 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const { code } = action.payload
-    const response = yield call(api.confirmGoogleAuthenticatorSetup, guid, sharedKey, code)
+    const response = yield call(api.enableGoogleAuthenticator, guid, sharedKey, code)
     if (!contains('updated', response)) { throw new Error(response) }
     yield put(actions.setGoogleAuthenticator())
   }
@@ -168,6 +168,7 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const { code } = action.payload
     const response = yield call(api.enableYubikey, guid, sharedKey, code)
+    yield call(api.updateAuthType, guid, sharedKey, 1)
     if (!contains('updated', response)) { throw new Error(response) }
     yield put(actions.setYubikey())
   }

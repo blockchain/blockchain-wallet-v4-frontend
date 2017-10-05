@@ -150,9 +150,9 @@ const updateHint = function * (action) {
   }
 }
 
-const updateAuthType = function * (action) {
+const disableTwoStep = function * (action) {
   try {
-    yield call(settingsSagas.updateAuthType, action)
+    yield call(settingsSagas.setAuthType, action)
     yield put(actions.alerts.displaySuccess('2-step verification has been successfully updated.'))
     yield put(actions.modals.closeAllModals())
   } catch (e) {
@@ -161,19 +161,19 @@ const updateAuthType = function * (action) {
   }
 }
 
-const updateAuthTypeNeverSave = function * (action) {
+const toggleTwoStepRemember = function * (action) {
   try {
-    yield call(settingsSagas.updateAuthTypeNeverSave, action)
+    yield call(settingsSagas.setAuthTypeNeverSave, action)
     yield put(actions.alerts.displaySuccess('2-step verification remember has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update 2-step verification remember.'))
   }
 }
 
-const enableGoogleAuthenticator = function * (action) {
+const enableTwoStepMobile = function * (action) {
   try {
-    yield call(settingsSagas.enableGoogleAuthenticator, action)
-    yield put(actions.alerts.displaySuccess('2-step verification has been successfully updated.'))
+    yield call(settingsSagas.setAuthType, action)
+    yield put(actions.alerts.displaySuccess('2-step verification (Mobile) has been successfully enabled.'))
     yield put(actions.modals.closeAllModals())
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update 2-step verification.'))
@@ -181,12 +181,25 @@ const enableGoogleAuthenticator = function * (action) {
   }
 }
 
-const enableYubikey = function * (action) {
+const enableTwoStepGoogleAuthenticator = function * (action) {
   try {
-    yield call(settingsSagas.enableYubikey, action)
-    yield put(actions.alerts.displaySuccess('2-step verification has been successfully updated.'))
+    yield call(settingsSagas.setGoogleAuthenticator, action)
+    yield put(actions.alerts.displaySuccess('2-step verification (Google Authenticator) has been successfully enabled.'))
+    yield put(actions.modals.closeAllModals())
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+    yield put(actions.modals.closeModal())
+  }
+}
+
+const enableTwoStepYubikey = function * (action) {
+  try {
+    yield call(settingsSagas.setYubikey, action)
+    yield put(actions.alerts.displaySuccess('2-step verification (Yubikey) has been successfully enabled.'))
+    yield put(actions.modals.closeAllModals())
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+    yield put(actions.modals.closeModal())
   }
 }
 
@@ -207,10 +220,11 @@ const sagas = function * () {
   yield takeEvery(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
   yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
   yield takeEvery(AT.UPDATE_HINT, updateHint)
-  yield takeEvery(AT.UPDATE_AUTH_TYPE, updateAuthType)
-  yield takeEvery(AT.UPDATE_AUTH_TYPE_NEVER_SAVE, updateAuthTypeNeverSave)
-  yield takeEvery(AT.ENABLE_GOOGLE_AUTHENTICATOR, enableGoogleAuthenticator)
-  yield takeEvery(AT.ENABLE_YUBIKEY, enableYubikey)
+  yield takeEvery(AT.DISABLE_TWO_STEP, disableTwoStep)
+  yield takeEvery(AT.TOGGLE_TWO_STEP_REMEMBER, toggleTwoStepRemember)
+  yield takeEvery(AT.ENABLE_TWO_STEP_MOBILE, enableTwoStepMobile)
+  yield takeEvery(AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, enableTwoStepGoogleAuthenticator)
+  yield takeEvery(AT.ENABLE_TWO_STEP_YUBIKEY, enableTwoStepYubikey)
 }
 
 export default sagas
