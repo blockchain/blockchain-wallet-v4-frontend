@@ -19,8 +19,8 @@ const MobileNumber = styled.div`
 `
 
 const MobileNumberChange = (props) => {
-  const { position, total, closeAll, submitting, invalid, ...rest } = props
-  const { handleUpdate, handleCancel } = rest
+  const { position, total, close, closeAll, submitting, invalid, ...rest } = props
+  const { onSubmit } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -28,7 +28,7 @@ const MobileNumberChange = (props) => {
         <FormattedMessage id='modals.mobilenumberchange.title1' defaultMessage='Change Mobile Number' />
       </ModalHeader>
       <ModalBody>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.mobilenumberchange.explain' defaultMessage='Use your mobile phone to receive a one-time-password after a login attempt.' />
           </Text>
@@ -41,14 +41,13 @@ const MobileNumberChange = (props) => {
         </Form>
       </ModalBody>
       <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={handleCancel}>
+        <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage id='modals.mobilenumberchange.cancel' defaultMessage='Cancel' />
         </Link>
-        <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleUpdate}>
+        <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
           <FormattedMessage id='modals.mobilenumberchange.update' defaultMessage='Update' />
         </Button>
       </ModalFooter>
-
     </Modal>
   )
 }

@@ -24,8 +24,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick (value) {
-    const { guid, sharedKey } = this.props
-    this.props.settingsActions.updateBitcoinUnit(guid, sharedKey, value)
+    this.props.settingsActions.updateBitcoinUnit(value)
   }
 
   render () {
@@ -34,13 +33,11 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   unit: selectors.core.settings.getBtcCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
+  settingsActions: bindActionCreators(actions.settings, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

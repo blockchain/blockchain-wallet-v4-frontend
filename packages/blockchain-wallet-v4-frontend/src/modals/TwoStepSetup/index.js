@@ -16,19 +16,27 @@ class TwoStepSetupContainer extends React.Component {
   }
 
   handleGoogleAuthenticator () {
-    this.props.modalActions.clickTwoStepSetupGoogleAuthenticator()
+    this.props.settingsActions.showGoogleAuthenticatorSecretUrl()
   }
 
   handleYubico () {
-    this.props.modalActions.clickTwoStepSetupYubico()
+    this.props.modalActions.showModal('TwoStepYubico')
   }
 
   handleMobile () {
-    this.props.modalActions.clickTwoStepSetupMobile()
+    const { smsNumber, smsVerified } = this.props
+
+    if (!smsNumber) {
+      this.props.modalActions.showModal('MobileNumberChange')
+    } else if (!smsVerified) {
+      this.props.modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumber })
+    } else {
+      this.props.settingActions.updateAuthType(5)
+    }
   }
 
   handleDisable () {
-    this.props.modalActions.clickTwoStepSetupDisable()
+    this.props.settingActions.updateAuthType(0)
   }
 
   render () {
@@ -45,11 +53,14 @@ class TwoStepSetupContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  authType: selectors.core.settings.getAuthType(state)
+  authType: selectors.core.settings.getAuthType(state),
+  smsNumber: selectors.core.settings.getSmsNumber(state),
+  smsVerified: selectors.core.settings.getSmsVerified(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 const enhance = compose(

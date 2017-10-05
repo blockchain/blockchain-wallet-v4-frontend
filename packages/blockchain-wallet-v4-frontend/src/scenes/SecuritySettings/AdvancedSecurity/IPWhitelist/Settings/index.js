@@ -30,8 +30,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, IPWhitelist } = this.props
-    this.props.settingsActions.updateIpLock(guid, sharedKey, IPWhitelist)
+    this.props.settingsActions.updateIpLock(this.props.IPWhitelist)
     this.handleToggle()
   }
 
@@ -52,14 +51,12 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   currentWhitelist: selectors.core.settings.getIpLock(state),
   IPWhitelist: formValueSelector('settingIPWhitelist')(state, 'IPWhitelist')
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
+  settingsActions: bindActionCreators(actions.settings, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

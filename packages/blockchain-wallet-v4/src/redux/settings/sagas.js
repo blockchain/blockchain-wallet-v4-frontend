@@ -1,289 +1,196 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
+import { contains, toLower, compose, prop } from 'ramda'
 import * as actions from './actions'
-import * as AT from './actionTypes'
-import { contains, toLower } from 'ramda'
-import { pairing } from 'blockchain-wallet-v4/src'
+import { pairing, Wallet, Wrapper } from 'blockchain-wallet-v4/src'
 
-export const settingsSaga = ({ api } = {}) => {
-  const fetchSettings = function * (action) {
-    const { guid, sharedKey } = action.payload
-    try {
-      let response = yield call(api.getSettings, guid, sharedKey)
-      yield put(actions.fetchSettingsSuccess(response))
-    } catch (error) {
-      yield put(actions.fetchSettingsError(error))
-    }
-  }
-
+export const settingsSaga = ({ api, walletPath } = {}) => {
   const requestPairingCode = function * (action) {
-    try {
-      const { guid, sharedKey, password } = action.payload
-      const pairingPassword = yield call(api.getPairingPassword, guid)
-      const data = pairing.encode(guid, sharedKey, password, pairingPassword)
-      yield put(actions.requestPairingCodeSuccess(data))
-    } catch (error) {
-      yield put(actions.requestPairingCodeError(error))
-    }
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const password = yield select(compose(Wrapper.selectPassword, prop(walletPath)))
+    const pairingPassword = yield call(api.getPairingPassword, guid)
+    return pairing.encode(guid, sharedKey, password, pairingPassword)
   }
 
-  const updateEmail = function * (action) {
-    try {
-      const { guid, sharedKey, email } = action.payload
-      const response = yield call(api.updateEmail, guid, sharedKey, email)
-      if (contains('updated', toLower(response))) {
-        yield put(actions.updateEmailSuccess(email, response))
-      } else {
-        yield put(actions.updateEmailError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateEmailError(error))
-    }
+  const requestGoogleAuthenticatorSecretUrl = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const response = yield call(api.getGoogleAuthenticatorSecretUrl, guid, sharedKey)
+    if (contains('secret', response)) { throw new Error(response) }
+    return response
   }
 
-  const updateMobile = function * (action) {
-    try {
-      const { guid, sharedKey, mobile } = action.payload
-      const response = yield call(api.updateMobile, guid, sharedKey, mobile)
-      if (contains('successfully', toLower(response))) {
-        yield put(actions.updateMobileSuccess(mobile, response))
-      } else {
-        yield put(actions.updateMobileError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateMobileError(error))
-    }
+  // SETTERS
+  const setSettings = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const response = yield call(api.getSettings, guid, sharedKey)
+    yield put(actions.setSettings(response))
   }
 
-  const verifyMobile = function * (action) {
-    try {
-      const { guid, sharedKey, code } = action.payload
-      const response = yield call(api.verifyMobile, guid, sharedKey, code)
-      if (contains('successfully', toLower(response))) {
-        yield put(actions.verifyMobileSuccess(code, response))
-      } else {
-        yield put(actions.verifyMobileError(response))
-      }
-    } catch (error) {
-      yield put(actions.verifyMobileError(error))
-    }
+  const setEmail = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { email } = action.payload
+    const response = yield call(api.updateEmail, guid, sharedKey, email)
+    if (!contains('updated', toLower(response))) { throw new Error(response) }
+    yield put(actions.setEmail(email))
   }
 
-  const updateLanguage = function * (action) {
-    try {
-      const { guid, sharedKey, language } = action.payload
-      const response = yield call(api.updateLanguage, guid, sharedKey, language)
-      if (contains('successfully', toLower(response))) {
-        yield put(actions.updateLanguageSuccess(language, response))
-      } else {
-        yield put(actions.updateLanguageError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateLanguageError(error))
-    }
+  const setMobile = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { mobile } = action.payload
+    const response = yield call(api.updateMobile, guid, sharedKey, mobile)
+    if (!contains('successfully', toLower(response))) { throw new Error(response) }
+    yield put(actions.setMobile(mobile))
   }
 
-  const updateCurrency = function * (action) {
-    try {
-      const { guid, sharedKey, currency } = action.payload
-      const response = yield call(api.updateCurrency, guid, sharedKey, currency)
-      if (contains('successfully', toLower(response))) {
-        yield put(actions.updateCurrencySuccess(currency, response))
-      } else {
-        yield put(actions.updateCurrencyError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateCurrencyError(error))
-    }
+  const setMobileVerified = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { code } = action.payload
+    const response = yield call(api.verifyMobile, guid, sharedKey, code)
+    if (!contains('successfully', toLower(response))) { throw new Error(response) }
+    yield put(actions.setMobileVerified())
   }
 
-  const updateBitcoinUnit = function * (action) {
-    try {
-      const { guid, sharedKey, unit } = action.payload
-      const response = yield call(api.updateBitcoinUnit, guid, sharedKey, unit)
-      if (contains('successfully', toLower(response))) {
-        yield put(actions.updateBitcoinUnitSuccess(unit, response))
-      } else {
-        yield put(actions.updateBitcoinUnitError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateBitcoinUnitError(error))
-    }
+  const setLanguage = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { language } = action.payload
+    const response = yield call(api.updateLanguage, guid, sharedKey, language)
+    if (!contains('successfully', toLower(response))) { throw new Error(response) }
+    yield put(actions.setLanguage(language))
   }
 
-  const updateAutoLogout = function * (action) {
-    try {
-      const { guid, sharedKey, autoLogout } = action.payload
-      const response = yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
-      if (contains('successfully', toLower(response))) {
-        yield put(actions.updateAutoLogoutSuccess(autoLogout, response))
-      } else {
-        yield put(actions.updateAutoLogoutError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateAutoLogoutError(error))
-    }
+  const setCurrency = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { currency } = action.payload
+    const response = yield call(api.updateCurrency, guid, sharedKey, currency)
+    if (!contains('successfully', toLower(response))) { throw new Error(response) }
+    yield put(actions.setCurrency(currency))
   }
 
-  const updateLoggingLevel = function * (action) {
-    try {
-      const { guid, sharedKey, loggingLevel } = action.payload
-      const response = yield call(api.updateLoggingLevel, guid, sharedKey, loggingLevel)
-      if (contains('Logging level updated.', response)) {
-        yield put(actions.updateLoggingLevelSuccess(loggingLevel, response))
-      } else {
-        yield put(actions.updateLoggingLevelError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateLoggingLevelError(error))
-    }
+  const setBitcoinUnit = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { unit } = action.payload
+    const response = yield call(api.updateBitcoinUnit, guid, sharedKey, unit)
+    if (!contains('successfully', toLower(response))) { throw new Error(response) }
+    yield put(actions.setBitcoinUnit(unit))
   }
 
-  const updateIpLock = function * (action) {
-    try {
-      const { guid, sharedKey, ipLock } = action.payload
-      const response = yield call(api.updateIpLock, guid, sharedKey, ipLock)
-      if (contains('Ip Addresses Updated', response)) {
-        yield put(actions.updateIpLockSuccess(ipLock, response))
-      } else {
-        yield put(actions.updateIpLockError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateIpLockError(error))
-    }
+  const setAutoLogout = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { autoLogout } = action.payload
+    const response = yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
+    if (!contains('successfully', toLower(response))) { throw new Error(response) }
+    yield put(actions.setAutoLogout(autoLogout))
   }
 
-  const updateIpLockOn = function * (action) {
-    try {
-      const { guid, sharedKey, ipLockOn } = action.payload
-      const response = yield call(api.updateIpLockOn, guid, sharedKey, ipLockOn)
-      if (contains('Updated IP Lock Settings', response)) {
-        yield put(actions.updateIpLockOnSuccess(ipLockOn, response))
-      } else {
-        yield put(actions.updateIpLockOnError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateIpLockOnError(error))
-    }
+  const setLoggingLevel = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { loggingLevel } = action.payload
+    const response = yield call(api.updateLoggingLevel, guid, sharedKey, loggingLevel)
+    if (!contains('Logging level updated.', response)) { throw new Error(response) }
+    yield put(actions.setAutoLogout(loggingLevel))
   }
 
-  const updateBlockTorIps = function * (action) {
-    try {
-      const { guid, sharedKey, blockTorIps } = action.payload
-      const response = yield call(api.updateBlockTorIps, guid, sharedKey, blockTorIps)
-      if (contains('Tor IP address settings updated.', response)) {
-        yield put(actions.updateBlockTorIpsSuccess(blockTorIps, response))
-      } else {
-        yield put(actions.updateBlockTorIpsError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateBlockTorIpsError(error))
-    }
+  const setIpLock = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { ipLock } = action.payload
+    const response = yield call(api.updateIpLock, guid, sharedKey, ipLock)
+    if (!contains('Ip Addresses Updated', response)) { throw new Error(response) }
+    yield put(actions.setIpLock(ipLock))
   }
 
-  const updateHint = function * (action) {
-    try {
-      const { guid, sharedKey, hint } = action.payload
-      const response = yield call(api.updateHint, guid, sharedKey, hint)
-      if (contains('Updated Password Hint', response)) {
-        yield put(actions.updateHintSuccess(hint, response))
-      } else {
-        yield put(actions.updateHintError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateHintError(error))
-    }
+  const setIpLockOn = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { ipLockOn } = action.payload
+    const response = yield call(api.updateIpLockOn, guid, sharedKey, ipLockOn)
+    if (!contains('Updated IP Lock Settings', response)) { throw new Error(response) }
+    yield put(actions.setIpLockOn(ipLockOn))
   }
 
-  const updateAuthType = function * (action) {
-    try {
-      const { guid, sharedKey, authType } = action.payload
-      const response = yield call(api.updateAuthType, guid, sharedKey, authType)
-      if (contains('updated', response)) {
-        yield put(actions.updateAuthTypeSuccess(authType, response))
-      } else {
-        yield put(actions.updateAuthTypeError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateAuthTypeError(error))
-    }
+  const setBlockTorIps = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { blockTorIps } = action.payload
+    const response = yield call(api.updateBlockTorIps, guid, sharedKey, blockTorIps)
+    if (contains('Tor IP address settings updated.', response)) { throw new Error(response) }
+    yield put(actions.setIpLockOn(blockTorIps))
   }
 
-  const updateAuthTypeNeverSave = function * (action) {
-    try {
-      const { guid, sharedKey, authTypeNeverSave } = action.payload
-      const response = yield call(api.updateAuthTypeNeverSave, guid, sharedKey, authTypeNeverSave)
-      if (contains('Success', response)) {
-        yield put(actions.updateAuthTypeNeverSaveSuccess(authTypeNeverSave ? 1 : 0, response))
-      } else {
-        yield put(actions.updateAuthTypeNeverSaveError(response))
-      }
-    } catch (error) {
-      yield put(actions.updateAuthTypeNeverSaveError(error))
-    }
+  const setHint = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { hint } = action.payload
+    const response = yield call(api.updateHint, guid, sharedKey, hint)
+    if (!contains('Updated Password Hint', response)) { throw new Error(response) }
+    yield put(actions.setHint(hint))
   }
 
-  const getGoogleAuthenticatorSecretUrl = function * (action) {
-    try {
-      const { guid, sharedKey } = action.payload
-      const response = yield call(api.getGoogleAuthenticatorSecretUrl, guid, sharedKey)
-      if (contains('secret', response)) {
-        yield put(actions.getGoogleAuthenticatorSecretUrlSuccess(response))
-      } else {
-        yield put(actions.getGoogleAuthenticatorSecretUrlError(response))
-      }
-    } catch (error) {
-      yield put(actions.getGoogleAuthenticatorSecretUrlError(error))
-    }
+  const setAuthType = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { authType } = action.payload
+    const response = yield call(api.updateAuthType, guid, sharedKey, authType)
+    if (!contains('updated', response)) { throw new Error(response) }
+    yield put(actions.setAuthType(authType))
   }
 
-  const confirmGoogleAuthenticatorSetup = function * (action) {
-    try {
-      const { guid, sharedKey, code } = action.payload
-      const response = yield call(api.confirmGoogleAuthenticatorSetup, guid, sharedKey, code)
-      if (contains('updated', response)) {
-        yield put(actions.confirmGoogleAuthenticatorSetupSuccess(response))
-      } else {
-        yield put(actions.confirmGoogleAuthenticatorSetupError(response))
-      }
-    } catch (error) {
-      yield put(actions.confirmGoogleAuthenticatorSetupError(error))
-    }
+  const setAuthTypeNeverSave = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { authTypeNeverSave } = action.payload
+    const response = yield call(api.updateAuthTypeNeverSave, guid, sharedKey, authTypeNeverSave)
+    if (!contains('Success', response)) { throw new Error(response) }
+    yield put(actions.setAuthTypeNeverSave(authTypeNeverSave))
   }
 
-  const enableYubikey = function * (action) {
-    try {
-      const { guid, sharedKey, code } = action.payload
-      const response = yield call(api.enableYubikey, guid, sharedKey, code)
-
-      if (contains('updated', response)) {
-        yield put(actions.enableYubikeySuccess(response))
-      } else {
-        yield put(actions.enableYubikeyError(response))
-      }
-    } catch (error) {
-      yield put(actions.enableYubikeyError(error))
-    }
+  const setGoogleAuthenticator = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { code } = action.payload
+    const response = yield call(api.confirmGoogleAuthenticatorSetup, guid, sharedKey, code)
+    if (!contains('updated', response)) { throw new Error(response) }
+    yield put(actions.setGoogleAuthenticator())
   }
 
-  return function * () {
-    yield takeEvery(AT.FETCH_SETTINGS, fetchSettings)
-    yield takeEvery(AT.REQUEST_PAIRING_CODE, requestPairingCode)
-    yield takeEvery(AT.UPDATE_EMAIL, updateEmail)
-    yield takeEvery(AT.UPDATE_MOBILE, updateMobile)
-    yield takeEvery(AT.VERIFY_MOBILE, verifyMobile)
-    yield takeEvery(AT.UPDATE_LANGUAGE, updateLanguage)
-    yield takeEvery(AT.UPDATE_CURRENCY, updateCurrency)
-    yield takeEvery(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
-    yield takeEvery(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
-    yield takeEvery(AT.UPDATE_LOGGING_LEVEL, updateLoggingLevel)
-    yield takeEvery(AT.UPDATE_IP_LOCK, updateIpLock)
-    yield takeEvery(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
-    yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
-    yield takeEvery(AT.UPDATE_HINT, updateHint)
-    yield takeEvery(AT.UPDATE_AUTH_TYPE, updateAuthType)
-    yield takeEvery(AT.UPDATE_AUTH_TYPE_NEVER_SAVE, updateAuthTypeNeverSave)
-    yield takeEvery(AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, getGoogleAuthenticatorSecretUrl)
-    yield takeEvery(AT.CONFIRM_GOOGLE_AUTHENTICATOR_SETUP, confirmGoogleAuthenticatorSetup)
-    yield takeEvery(AT.ENABLE_YUBIKEY, enableYubikey)
+  const setYubikey = function * (action) {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const { code } = action.payload
+    const response = yield call(api.enableYubikey, guid, sharedKey, code)
+    if (!contains('updated', response)) { throw new Error(response) }
+    yield put(actions.setYubikey())
+  }
+
+  return {
+    requestPairingCode,
+    requestGoogleAuthenticatorSecretUrl,
+    setSettings,
+    setEmail,
+    setMobile,
+    setMobileVerified,
+    setLanguage,
+    setCurrency,
+    setBitcoinUnit,
+    setAutoLogout,
+    setLoggingLevel,
+    setIpLock,
+    setIpLockOn,
+    setBlockTorIps,
+    setHint,
+    setAuthType,
+    setAuthTypeNeverSave,
+    setGoogleAuthenticator,
+    setYubikey
   }
 }

@@ -17,8 +17,8 @@ const QRCodeContainer = styled.div`
 `
 
 const QRCodeCapture = (props) => {
-  const { position, total, closeAll, ...rest } = props
-  const { handleScan, handleError, handleCancel } = rest
+  const { position, total, close, closeAll, ...rest } = props
+  const { handleScan, handleError } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -34,7 +34,7 @@ const QRCodeCapture = (props) => {
         </QRCodeContainer>
       </ModalBody>
       <ModalFooter>
-        <Link onClick={handleCancel} size='13px' weight={300}>
+        <Link onClick={close} size='13px' weight={300}>
           <FormattedMessage id='modals.qrcodecapture.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>

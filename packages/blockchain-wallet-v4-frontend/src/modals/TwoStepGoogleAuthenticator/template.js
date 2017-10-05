@@ -27,18 +27,18 @@ const Code = styled.div`
 
 const TwoStepGoogleAuthenticator = (props) => {
   const { position, total, closeAll, close, submitting, invalid, ...rest } = props
-  const { handleClick, googleAuthenticatorSecretUrl } = rest
+  const { onSubmit, googleAuthenticatorSecretUrl } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader onClose={closeAll}>
-        <FormattedMessage id='modals.twostepgoogleauthenticator.title' defaultMessage='Enable 2-Step Verification' />
-      </ModalHeader>
-      <ModalBody>
-        <QRCode>
-          <QRCodeReact value={googleAuthenticatorSecretUrl} size={256} />
-        </QRCode>
-        <Form>
+      <Form onSubmit={onSubmit}>
+        <ModalHeader onClose={closeAll}>
+          <FormattedMessage id='modals.twostepgoogleauthenticator.title' defaultMessage='Enable 2-Step Verification' />
+        </ModalHeader>
+        <ModalBody>
+          <QRCode>
+            <QRCodeReact value={googleAuthenticatorSecretUrl} size={256} />
+          </QRCode>
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.twostepgoogleauthenticator.explain' defaultMessage='Scan this QR code with your Google Authenticator app on your mobile phone (download for iOS or Android).' />
           </Text>
@@ -51,16 +51,16 @@ const TwoStepGoogleAuthenticator = (props) => {
             </Text>
             <Field name='code' component={TextBox} placeholder='XXXXXX' validate={[required]} />
           </Code>
-        </Form>
-      </ModalBody>
-      <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={close} capitalize>
-          <FormattedMessage id='modals.twostepgoogleauthenticator.back' defaultMessage='Go back' />
-        </Link>
-        <Button nature='primary' onClick={handleClick} disabled={submitting || invalid}>
-          <FormattedMessage id='modals.twostepgoogleauthenticator.enable' defaultMessage='Enable 2FA' />
-        </Button>
-      </ModalFooter>
+        </ModalBody>
+        <ModalFooter align='spaced'>
+          <Link size='13px' weight={300} onClick={close} capitalize>
+            <FormattedMessage id='modals.twostepgoogleauthenticator.back' defaultMessage='Go back' />
+          </Link>
+          <Button type='submit' nature='primary' disabled={submitting || invalid}>
+            <FormattedMessage id='modals.twostepgoogleauthenticator.enable' defaultMessage='Enable 2FA' />
+          </Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
 }

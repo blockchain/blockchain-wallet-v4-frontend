@@ -24,7 +24,7 @@ class SettingContainer extends React.Component {
   handleClick () {
     const { autoLogoutTime } = this.props
 
-    this.props.walletActions.setAutoLogout(parseInt(autoLogoutTime) * 60000)
+    this.props.settingsActions.updateAutoLogout(parseInt(autoLogoutTime) * 60000)
     this.props.updateUI({ updateToggled: false })
   }
 
@@ -50,8 +50,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  walletActions: bindActionCreators(actions.core.wallet, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  reduxFormActions: bindActionCreators(reduxFormActions, dispatch),
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 const enhance = compose(

@@ -12,9 +12,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, ipLockOn } = this.props
-    const newIpLockOn = Number(!ipLockOn)
-    this.props.settingsActions.updateIpLockOn(guid, sharedKey, newIpLockOn)
+    this.props.settingsActions.updateIpLockOn(Number(!this.props.ipLockOn))
   }
 
   render () {
@@ -28,13 +26,11 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   ipLockOn: selectors.core.settings.getIpLockOn(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

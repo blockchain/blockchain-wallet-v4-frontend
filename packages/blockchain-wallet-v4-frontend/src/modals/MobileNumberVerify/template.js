@@ -28,15 +28,15 @@ const Options = styled.div`
 
 const MobileNumberVerify = (props) => {
   const { position, total, close, closeAll, submitting, invalid, ...rest } = props
-  const { mobileNumber, handleChangeMobileNumber, handleResend, handleValidate, handleCancel } = rest
+  const { mobileNumber, onSubmit, handleChangeMobileNumber, handleResend } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='mobile' onClose={closeAll} >
-        <FormattedMessage id='modals.mobilenumberverify.title' defaultMessage='Verify Mobile Number' />
-      </ModalHeader>
-      <ModalBody>
-        <Form>
+      <Form onSubmit={onSubmit}>
+        <ModalHeader icon='mobile' onClose={closeAll} >
+          <FormattedMessage id='modals.mobilenumberverify.title' defaultMessage='Verify Mobile Number' />
+        </ModalHeader>
+        <ModalBody>
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.mobilenumberverify.explain' defaultMessage='We have sent to {number} an SMS message with a verification code.' values={{ number: mobileNumber }} />
           </Text>
@@ -55,16 +55,16 @@ const MobileNumberVerify = (props) => {
               </Link>
             </Options>
           </Code>
-        </Form>
-      </ModalBody>
-      <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={handleCancel}>
-          <FormattedMessage id='modals.mobilenumberverify.cancel' defaultMessage='Cancel' />
-        </Link>
-        <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleValidate}>
-          <FormattedMessage id='modals.mobilenumberverify.verify' defaultMessage='Verify' />
-        </Button>
-      </ModalFooter>
+        </ModalBody>
+        <ModalFooter align='spaced'>
+          <Link size='13px' weight={300} onClick={close}>
+            <FormattedMessage id='modals.mobilenumberverify.cancel' defaultMessage='Cancel' />
+          </Link>
+          <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
+            <FormattedMessage id='modals.mobilenumberverify.verify' defaultMessage='Verify' />
+          </Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
 }
@@ -73,8 +73,7 @@ MobileNumberVerify.propTypes = {
   mobileNumber: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleResend: PropTypes.func.isRequired,
-  handleValidate: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  handleValidate: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'mobileNumberVerify' })(MobileNumberVerify)

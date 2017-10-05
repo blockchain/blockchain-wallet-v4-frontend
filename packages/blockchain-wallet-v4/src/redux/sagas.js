@@ -9,7 +9,6 @@ import { settingsSaga } from './settings/sagas.js'
 import { transactionsSaga } from './data/transactions/sagas.js'
 import { paymentSaga } from './data/payment/sagas'
 import { commonSaga } from './common/sagas.js'
-import { walletSaga } from './wallet/sagas.js'
 import { webSocketSaga } from './webSocket/sagas.js'
 
 export const rootSaga = ({ api, dataPath, walletPath, settingsPath, socket } = {}) => {
@@ -25,7 +24,6 @@ export const rootSaga = ({ api, dataPath, walletPath, settingsPath, socket } = {
       fork(transactionsSaga({api, walletPath, dataPath})),
       fork(commonSaga({api})),
       fork(paymentSaga({api, walletPath, dataPath})),
-      // fork(walletSaga({api, walletPath})),
       fork(webSocketSaga({socket, walletPath, dataPath, api}))
     ]
   }
