@@ -134,7 +134,7 @@ const updateIpLockOn = function * (action) {
 
 const updateBlockTorIps = function * (action) {
   try {
-    yield call(settingsSagas.setLoggingLevel, action)
+    yield call(settingsSagas.setBlockTorIps, action)
     yield put(actions.alerts.displaySuccess('Logging level has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update logging level.'))

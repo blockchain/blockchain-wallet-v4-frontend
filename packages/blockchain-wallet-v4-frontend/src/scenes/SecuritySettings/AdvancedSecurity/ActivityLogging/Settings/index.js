@@ -27,7 +27,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer)

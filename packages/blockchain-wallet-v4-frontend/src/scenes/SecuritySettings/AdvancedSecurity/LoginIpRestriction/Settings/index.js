@@ -18,10 +18,7 @@ class SettingsContainer extends React.Component {
   render () {
     const { ui, ...rest } = this.props
 
-    return <Settings
-      {...rest}
-      handleClick={this.handleClick}
-    />
+    return <Settings {...rest} handleClick={this.handleClick} />
   }
 }
 

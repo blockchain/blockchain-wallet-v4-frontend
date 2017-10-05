@@ -13,7 +13,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.settingsActions.updateAuthTypeNeverSave(!this.props.authTypeNeverSave)
+    this.props.settingsActions.updateTwoStepRemember(Number(!this.props.authTypeNeverSave))
   }
 
   render () {

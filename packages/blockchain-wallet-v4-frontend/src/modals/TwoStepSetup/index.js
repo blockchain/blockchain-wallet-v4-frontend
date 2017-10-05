@@ -31,12 +31,12 @@ class TwoStepSetupContainer extends React.Component {
     } else if (!smsVerified) {
       this.props.modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumber })
     } else {
-      this.props.settingActions.enableTwoStepMobile()
+      this.props.settingsActions.enableTwoStepMobile()
     }
   }
 
   handleDisable () {
-    this.props.settingActions.disableTwoStep()
+    this.props.settingsActions.disableTwoStep()
   }
 
   render () {

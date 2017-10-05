@@ -1,8 +1,8 @@
 import { call, put, select } from 'redux-saga/effects'
 import { contains, toLower, compose, prop } from 'ramda'
 import * as actions from './actions'
-import * as pairing from '../../pairing'
-import { Wrapper, Wallet } from '../../types'
+import { pairing } from '../../pairing'
+import { Wallet, Wrapper } from '../../types'
 
 export const settingsSaga = ({ api, walletPath } = {}) => {
   const requestPairingCode = function * (action) {
@@ -17,7 +17,7 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const response = yield call(api.getGoogleAuthenticatorSecretUrl, guid, sharedKey)
-    if (contains('secret', response)) { throw new Error(response) }
+    if (!contains('secret', response)) { throw new Error(response) }
     return response
   }
 
@@ -87,7 +87,8 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const { autoLogout } = action.payload
-    yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
+    const response = yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
+    if (!contains('successfully', toLower(response))) { throw new Error(response) }
     yield put(actions.setAutoLogout(autoLogout))
   }
 
@@ -97,7 +98,7 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     const { loggingLevel } = action.payload
     const response = yield call(api.updateLoggingLevel, guid, sharedKey, loggingLevel)
     if (!contains('Logging level updated.', response)) { throw new Error(response) }
-    yield put(actions.setLoggingLevel(loggingLevel))
+    yield put(actions.setAutoLogout(loggingLevel))
   }
 
   const setIpLock = function * (action) {
