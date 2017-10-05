@@ -204,6 +204,10 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
   }
 
+  const reset2fa = (data) => {
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
+  }
+
   const getPairingPassword = (guid) => {
     const data = { method: 'pairing-encryption-password', guid }
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
@@ -326,6 +330,7 @@ const createApi = ({
     getSettings: future(getSettings),
     getCaptchaImage: future(getCaptchaImage),
     recoverWallet: future(recoverWallet),
+    reset2fa: future(reset2fa),
     getUnspents: future(getUnspents),
     getFee: future(getFee),
     pushTx: future(pushTx),
