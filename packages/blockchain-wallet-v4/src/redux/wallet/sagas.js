@@ -55,8 +55,6 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield put(A.setWrapper(wrapper))
   }
 
-
-
   const fetchWalletSaga = function * (guid, sharedKey, session, password, code) {
     const wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password, code)
     yield put(A.setWrapper(wrapper))
@@ -127,17 +125,9 @@ export const walletSaga = ({ api, walletPath } = {}) => {
 
   const remindWalletGuidSaga = function * (action) {
     const { email, code, sessionToken } = action.payload
-    try {
-      const response = yield call(api.remindGuid, email, code, sessionToken)
-      const { success, message } = response
-      if (success) {
-        yield put(A.remindWalletGuidSuccess(message))
-      } else {
-        yield put(A.remindWalletGuidError(message))
-      }
-    } catch (error) {
-      yield put(A.remindWalletGuidError(error))
-    }
+    const response = yield call(api.remindGuid, email, code, sessionToken)
+    const { success, message } = response
+    if (!success) { throw new Error(message) }
   }
 
   // return function * () {

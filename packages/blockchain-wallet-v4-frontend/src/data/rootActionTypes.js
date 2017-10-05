@@ -4,6 +4,7 @@ import * as auth from './Auth/actionTypes.js'
 import * as modals from './Modals/actionTypes.js'
 import * as preferences from './Preferences/actionTypes.js'
 import * as scroll from './Scroll/actionTypes.js'
+import * as session from './Session/actionTypes.js'
 import * as wizard from './Wizard/actionTypes.js'
 
 export {
@@ -13,5 +14,6 @@ export {
   modals,
   preferences,
   scroll,
+  session,
   wizard
 }

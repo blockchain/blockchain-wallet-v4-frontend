@@ -5,6 +5,7 @@ import * as auth from './Auth/selectors'
 import * as modals from './Modals/selectors'
 import * as preferences from './Preferences/selectors'
 import * as scroll from './Scroll/selectors'
+import * as session from './Session/selectors'
 import * as wizard from './Wizard/selectors'
 
 const core = coreSelectorsFactory({
@@ -20,5 +21,6 @@ export {
   modals,
   preferences,
   scroll,
+  session,
   wizard
 }

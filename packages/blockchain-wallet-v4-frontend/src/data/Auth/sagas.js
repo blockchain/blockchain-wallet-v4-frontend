@@ -79,9 +79,8 @@ const loginRoutineSaga = function * () {
   yield put(actions.core.common.fetchBlockchainData(context))
   yield put(actions.core.settings.fetchSettings({ guid, sharedKey }))
   yield put(actions.core.webSocket.startSocket())
-  yield put(actions.auth.loginSuccess())
+  yield put(actions.auth.authenticate())
   yield put(actions.alerts.displaySuccess('Login successful'))
-  yield put(actions.auth.logoutStartTimer)
   yield put(push('/wallet'))
 }
 
@@ -89,7 +88,7 @@ const loginRoutineSaga = function * () {
 // ================================== Login ====================================
 // =============================================================================
 
-const pollingSaga = function * (session, n = 50) {
+const pollingSession = function * (session, n = 50) {
   if (n === 0) { return false }
   try {
     yield call(delay, 2000)
@@ -98,17 +97,17 @@ const pollingSaga = function * (session, n = 50) {
   } catch (error) {
     return false
   }
-  return yield call(pollingSaga, session, n - 1)
+  return yield call(pollingSession, session, n - 1)
 }
 
 const login = function * (action) {
   const { guid, password, code } = action.payload
   const safeParse = Either.try(JSON.parse)
-  let session = yield select(selectors.auth.getSession(guid))
+  let session = yield select(selectors.session.getSession(guid))
 
   try {
     if (!session) { session = yield call(api.establishSession) }
-    yield put(actions.auth.saveSession(assoc(guid, session, {})))
+    yield put(actions.session.saveSession(assoc(guid, session, {})))
     yield call(walletSagas.fetchWalletSaga, guid, undefined, session, password, code)
     yield call(loginRoutineSaga)
   } catch (error) {
@@ -118,7 +117,7 @@ const login = function * (action) {
     if (authRequired.isRight && authRequired.value) {
       // auth errors (polling)
       yield put(actions.alerts.displayInfo('Authorization required. Please check your mailbox.'))
-      const authorized = yield call(pollingSaga, session)
+      const authorized = yield call(pollingSession, session)
       if (authorized) {
         yield call(walletSagas.fetchWalletSaga, guid, undefined, session, password)
       } else {
@@ -171,24 +170,32 @@ const restore = function * (action) {
 }
 
 // =============================================================================
+// =============================== Remind Guid =================================
+// =============================================================================
+const remindGuid = function * (action) {
+  try {
+    yield call(walletSagas.remindWalletGuidSaga, action)
+    yield put(actions.alerts.displaySuccess('Your wallet guid has been sent to your email address.'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Error sending email.'))
+  }
+}
+
+// =============================================================================
 // ================================== Logout ===================================
 // =============================================================================
 let timerTask
 
-const logoutStart = function * () {
-  // yield put(actions.core.webSocket.stopSocket())
-  console.log('logout start')
+const logout = function * () {
+  // yield put(actions.core.webSocket.stopSocket()
   window.location.reload(true)
 }
 
-const logoutStartTimer = function * () {
-  console.log('logout start timer')
+const startLogoutTimer = function * () {
   timerTask = yield fork(logoutTimer)
-  console.log('after timer')
-  return true
 }
 
-const logoutResetTimer = function * () {
+const resetLogoutTimer = function * () {
   yield cancel(timerTask)
 }
 
@@ -211,10 +218,10 @@ const logoutTimer = function * () {
     if (yield cancelled()) {
       // If the task has been cancelled (reset timer), we restart the timer
       yield put(actions.modals.closeModal())
-      yield put(actions.auth.logoutStartTimer())
+      yield put(actions.auth.startLogoutTimer())
     } else {
       // If the timer reaches the end, we logout
-      yield put(actions.auth.logoutStart())
+      yield put(actions.auth.logout())
     }
   }
 }
@@ -223,9 +230,10 @@ function * sagas () {
   yield takeEvery(AT.LOGIN, login)
   yield takeEvery(AT.REGISTER, register)
   yield takeEvery(AT.RESTORE, restore)
-  yield takeEvery(AT.LOGOUT_START_TIMER, logoutStartTimer)
-  yield takeEvery(AT.LOGOUT_RESET_TIMER, logoutResetTimer)
-  yield takeEvery(AT.LOGOUT_START, logoutStart)
+  yield takeEvery(AT.REMIND_GUID, remindGuid)
+  yield takeEvery(AT.AUTHENTICATE, startLogoutTimer)
+  yield takeEvery(AT.LOGOUT, logout)
+  yield takeEvery(AT.LOGOUT_RESET_TIMER, resetLogoutTimer)
 }
 
 export default sagas

@@ -10,12 +10,13 @@ import authReducer from './Auth/reducers.js'
 import modalsReducer from './Modals/reducers.js'
 import preferencesReducer from './Preferences/reducers.js'
 import scrollReducer from './Scroll/reducers.js'
+import sessionReducer from './Session/reducers.js'
 import wizardReducer from './Wizard/reducers.js'
 
 const rootReducer = combineReducers({
   application: combineReducers({
     alerts: alertsReducer,
-    auth: authReducer.login,
+    auth: authReducer,
     modals: modalsReducer,
     scroll: scrollReducer,
     wizard: wizardReducer
@@ -24,7 +25,7 @@ const rootReducer = combineReducers({
   form: formReducer,
   preferences: preferencesReducer,
   router: routerReducer,
-  session: authReducer.session,
+  session: sessionReducer,
   [settings.BLOCKCHAIN_DATA_PATH]: coreReducers.data,
   [settings.WALLET_IMMUTABLE_PATH]: coreReducers.wallet,
   [settings.SETTINGS_PATH]: coreReducers.settings

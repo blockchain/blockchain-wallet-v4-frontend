@@ -1,13 +1,5 @@
 import * as T from './actionTypes'
 
-// wallet remind guid
-export const remindWalletGuid = (email, code, sessionToken) =>
-  ({ type: T.REMIND_WALLET_GUID, payload: { email, code, sessionToken } })
-export const remindWalletGuidSuccess = (data) =>
-  ({ type: T.REMIND_WALLET_GUID_SUCCESS, payload: { data } })
-export const remindWalletGuidError = (message) =>
-  ({ type: T.REMIND_WALLET_GUID_ERROR, payload: message })
-
 // second Password
 export const toggleSecondPassword = (password) =>
   ({ type: T.TOGGLE_SECOND_PASSWORD, payload: password })
