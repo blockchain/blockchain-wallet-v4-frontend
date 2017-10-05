@@ -4,10 +4,8 @@ export const requestPairingCode = () => ({ type: AT.REQUEST_PAIRING_CODE })
 
 export const requestGoogleAuthenticatorSecretUrl = () => ({ type: AT.REQUEST_GOOGLE_AUTHENTICATOR_SECRET_URL })
 
-export const sendEmailConfirmation = () => ({ type: AT.SEND_EMAIL_CONFIRMATION })
-
 // SETTERS
-export const setSettings = (data) => ({ type: AT.SET_SETTINGS, payload: data })
+export const fetchSettings = (data) => ({ type: AT.FETCH_SETTINGS, payload: { data } })
 
 export const setEmail = (email) => ({ type: AT.SET_EMAIL, payload: { email } })
 

@@ -16,6 +16,10 @@ ComboDisplay.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 }
 
+ComboDisplay.defaultProps = {
+  children: 0
+}
+
 const mapStateToProps = (state) => ({
   unit: selectors.core.settings.getBtcCurrency(state),
   currency: selectors.core.settings.getCurrency(state),

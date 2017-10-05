@@ -1,4 +1,3 @@
-import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'

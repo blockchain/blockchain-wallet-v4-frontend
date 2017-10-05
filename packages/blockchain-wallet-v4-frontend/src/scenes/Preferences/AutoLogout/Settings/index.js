@@ -33,7 +33,7 @@ class SettingContainer extends React.Component {
   }
 
   render () {
-    const { ui, uiUpdate, ...rest } = this.props
+    const { ui, ...rest } = this.props
 
     return <Settings
       {...rest}

@@ -17,7 +17,7 @@ class MobileNumberVerifyContainer extends React.Component {
   }
 
   componentDidMount () {
-    this.props.settingsActions.verifyMobile(this.props.code)
+    this.handleResend()
   }
 
   onSubmit (e) {

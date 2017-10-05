@@ -66,11 +66,11 @@ const mobileLoginError = function * (action) {
 // =============================================================================
 
 const loginRoutineSaga = function * () {
+  yield put(actions.auth.authenticate())
   const context = yield select(selectors.core.wallet.getWalletContext)
   yield put(actions.core.common.fetchBlockchainData(context))
-  yield put(actions.settings.initSettings())
   yield put(actions.core.webSocket.startSocket())
-  yield put(actions.auth.authenticate())
+  yield put(actions.settings.initSettings())
   yield put(actions.alerts.displaySuccess('Login successful'))
   yield put(push('/wallet'))
 }

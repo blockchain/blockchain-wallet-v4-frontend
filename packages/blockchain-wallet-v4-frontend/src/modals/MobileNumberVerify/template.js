@@ -28,7 +28,7 @@ const Options = styled.div`
 
 const MobileNumberVerify = (props) => {
   const { position, total, close, closeAll, submitting, invalid, ...rest } = props
-  const { mobileNumber, onSubmit, handleChangeMobileNumber, handleResend } = rest
+  const { mobileNumber, onSubmit, handleChange, handleResend } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -50,7 +50,7 @@ const MobileNumberVerify = (props) => {
                 <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage='Resend' />
               </Link>
               <Text size='13px' weight={300} color='brand-secondary'>|</Text>
-              <Link size='13px' weight={300} capitalize onClick={handleChangeMobileNumber}>
+              <Link size='13px' weight={300} capitalize onClick={handleChange}>
                 <FormattedMessage id='modals.mobilenumberverify.change' defaultMessage='Change mobile number' />
               </Link>
             </Options>

@@ -1,7 +1,8 @@
 import { call, put, select } from 'redux-saga/effects'
 import { contains, toLower, compose, prop } from 'ramda'
 import * as actions from './actions'
-import { pairing, Wallet, Wrapper } from 'blockchain-wallet-v4/src'
+import * as pairing from '../../pairing'
+import { Wrapper, Wallet } from '../../types'
 
 export const settingsSaga = ({ api, walletPath } = {}) => {
   const requestPairingCode = function * (action) {
@@ -21,11 +22,11 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
   }
 
   // SETTERS
-  const setSettings = function * (action) {
+  const fetchSettings = function * (action) {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const response = yield call(api.getSettings, guid, sharedKey)
-    yield put(actions.setSettings(response))
+    yield put(actions.fetchSettings(response))
   }
 
   const setEmail = function * (action) {
@@ -86,8 +87,7 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const { autoLogout } = action.payload
-    const response = yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
-    if (!contains('successfully', toLower(response))) { throw new Error(response) }
+    yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
     yield put(actions.setAutoLogout(autoLogout))
   }
 
@@ -97,7 +97,7 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     const { loggingLevel } = action.payload
     const response = yield call(api.updateLoggingLevel, guid, sharedKey, loggingLevel)
     if (!contains('Logging level updated.', response)) { throw new Error(response) }
-    yield put(actions.setAutoLogout(loggingLevel))
+    yield put(actions.setLoggingLevel(loggingLevel))
   }
 
   const setIpLock = function * (action) {
@@ -176,7 +176,7 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
   return {
     requestPairingCode,
     requestGoogleAuthenticatorSecretUrl,
-    setSettings,
+    fetchSettings,
     setEmail,
     setMobile,
     setMobileVerified,

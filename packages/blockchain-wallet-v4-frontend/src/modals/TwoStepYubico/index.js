@@ -15,7 +15,7 @@ class TwoStepYubicoContainer extends React.Component {
 
   handleClick (e) {
     e.preventDefault()
-    this.props.settingsActions.enableYubikey(this.props.code)
+    this.props.settingsActions.enableTwoStepYubikey(this.props.code)
   }
 
   render () {

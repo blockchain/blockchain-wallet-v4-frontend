@@ -40,4 +40,4 @@ export const enableTwoStepGoogleAuthenticator = (code) => ({ type: AT.ENABLE_TWO
 
 export const enableTwoStepYubikey = (code) => ({ type: AT.ENABLE_TWO_STEP_YUBIKEY, payload: { code } })
 
-export const toggleTwoStepRemember = () => ({ type: AT.TOGGLE_TWO_STEP_REMEMBER })
+export const updateTwoStepRemember = (authTypeNeverSave) => ({ type: AT.UPDATE_TWO_STEP_REMEMBER, payload: { authTypeNeverSave } })

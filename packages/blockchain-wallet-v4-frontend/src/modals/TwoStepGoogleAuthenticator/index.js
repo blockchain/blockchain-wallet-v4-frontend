@@ -15,7 +15,7 @@ class TwoStepGoogleAuthenticatorContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.settingsActions.enableGoogleAuthenticator(this.props.code)
+    this.props.settingsActions.enableTwoStepGoogleAuthenticator(this.props.code)
   }
 
   render () {

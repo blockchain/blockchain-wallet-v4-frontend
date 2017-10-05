@@ -5,11 +5,11 @@ import { settingsSaga } from 'blockchain-wallet-v4/src/redux/settings/sagas.js'
 import { api } from 'services/ApiService'
 import settings from 'config'
 
-const settingsSagas = settingsSaga({ api, settingsPath: settings.SETTINGS_PATH })
+const settingsSagas = settingsSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
 
 const initSettings = function * (action) {
   try {
-    yield call(settingsSagas.setSettings)
+    yield call(settingsSagas.fetchSettings)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch settings.'))
   }
@@ -18,7 +18,7 @@ const initSettings = function * (action) {
 const showPairingCode = function * (action) {
   try {
     const encryptionPhrase = yield call(settingsSagas.requestPairingCode)
-    yield put(actions.modal.showModal('PairingCode', { data: encryptionPhrase }))
+    yield put(actions.modals.showModal('PairingCode', { data: encryptionPhrase }))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch pairing code.'))
   }
@@ -27,7 +27,7 @@ const showPairingCode = function * (action) {
 const showGoogleAuthenticatorSecretUrl = function * (action) {
   try {
     const googleAuthenticatorSecretUrl = yield call(settingsSagas.requestGoogleAuthenticatorSecretUrl)
-    yield put(actions.modal.showModal('TwoStepGoogleAuthenticator', { googleAuthenticatorSecretUrl }))
+    yield put(actions.modals.showModal('TwoStepGoogleAuthenticator', { googleAuthenticatorSecretUrl }))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch google authenticator secret.'))
   }
@@ -54,7 +54,7 @@ const verifyEmail = function * (action) {
 const updateMobile = function * (action) {
   try {
     yield call(settingsSagas.setMobile, action)
-    yield put(actions.alerts.displaySuccess('Mobile number has been successfully updated.'))
+    yield put(actions.alerts.displaySuccess('Mobile number has been successfully updated. Verification SMS has been sent.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update mobile number.'))
   }
@@ -161,7 +161,7 @@ const disableTwoStep = function * (action) {
   }
 }
 
-const toggleTwoStepRemember = function * (action) {
+const updateTwoStepRemember = function * (action) {
   try {
     yield call(settingsSagas.setAuthTypeNeverSave, action)
     yield put(actions.alerts.displaySuccess('2-step verification remember has been successfully updated.'))
@@ -221,7 +221,7 @@ const sagas = function * () {
   yield takeEvery(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
   yield takeEvery(AT.UPDATE_HINT, updateHint)
   yield takeEvery(AT.DISABLE_TWO_STEP, disableTwoStep)
-  yield takeEvery(AT.TOGGLE_TWO_STEP_REMEMBER, toggleTwoStepRemember)
+  yield takeEvery(AT.UPDATE_TWO_STEP_REMEMBER, updateTwoStepRemember)
   yield takeEvery(AT.ENABLE_TWO_STEP_MOBILE, enableTwoStepMobile)
   yield takeEvery(AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, enableTwoStepGoogleAuthenticator)
   yield takeEvery(AT.ENABLE_TWO_STEP_YUBIKEY, enableTwoStepYubikey)
