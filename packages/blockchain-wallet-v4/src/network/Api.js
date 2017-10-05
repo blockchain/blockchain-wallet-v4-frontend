@@ -25,7 +25,6 @@ const createApi = ({
     if (extraHeaders) {
       if (extraHeaders.sessionToken) {
         options.headers['Authorization'] = 'Bearer ' + extraHeaders.sessionToken
-        console.log('extraHeader', extraHeaders)
       }
     }
     // body
