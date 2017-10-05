@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { Icon } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -74,7 +74,13 @@ const Navigation = (props) => {
         <LinkContainer to='/buy-sell' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='bitcoin' />
-            <FormattedMessage id='layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy bitcoin' smaller uppercase />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy & sell bitcoin' smaller uppercase />
+          </MenuItem>
+        </LinkContainer>
+        <LinkContainer to='/exchange' activeClassName='active' onClick={handleCloseSettings}>
+          <MenuItem>
+            <Icon name='exchange' />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.exchange' defaultMessage='Exchange' smaller uppercase />
           </MenuItem>
         </LinkContainer>
         <LinkContainer to='/security-center' activeClassName='active' onClick={handleCloseSettings}>
