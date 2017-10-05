@@ -43,7 +43,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  walletActions: bindActionCreators(actions.core.wallet, dispatch),
+  walletActions: bindActionCreators(actions.wallet, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

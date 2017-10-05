@@ -1,7 +1,8 @@
+import { over, set } from 'ramda-lens'
+import { compose } from 'ramda'
+
 import * as T from './actionTypes.js'
 import { Wrapper, Wallet, Options, HDWallet, HDWalletList } from '../../types'
-import { over, set, view } from 'ramda-lens'
-import { compose } from 'ramda'
 
 export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(Wrapper.createNewReadOnly('', ''))
 
@@ -12,10 +13,6 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const checksum = action.payload
       return set(Wrapper.payloadChecksum, checksum, state)
     }
-    case T.CHANGE_SECOND_PASSWORD_SUCCESS:
-    case T.CREATE_LEGACY_ADDRESS_SUCCESS:
-    case T.TOGGLE_SECOND_PASSWORD_SUCCESS:
-    case T.SET_PBKDF2_ITERATIONS_SUCCESS:
     case T.SET_WRAPPER: {
       return action.payload
     }

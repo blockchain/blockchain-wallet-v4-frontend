@@ -16,8 +16,8 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { passwordStretchingValue, password } = this.props
-    this.props.walletActions.setPbkdf2Iterations(Number(passwordStretchingValue), password)
+    const { passwordStretchingValue } = this.props
+    this.props.walletActions.updatePbkdf2Iterations(Number(passwordStretchingValue))
     this.handleToggle()
   }
 
@@ -38,13 +38,12 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  password: selectors.core.wallet.getMainPassword(state),
   passwordStretchingValue: formValueSelector('settingPasswordStretching')(state, 'passwordStretching'),
   currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  walletActions: bindActionCreators(actions.core.wallet, dispatch),
+  walletActions: bindActionCreators(actions.wallet, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

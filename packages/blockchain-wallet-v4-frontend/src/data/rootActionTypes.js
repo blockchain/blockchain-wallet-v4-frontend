@@ -6,6 +6,7 @@ import * as preferences from './Preferences/actionTypes.js'
 import * as scroll from './Scroll/actionTypes.js'
 import * as session from './Session/actionTypes.js'
 import * as wizard from './Wizard/actionTypes.js'
+import * as wallet from './Wallet/actionTypes.js'
 
 export {
   core,
@@ -15,5 +16,6 @@ export {
   preferences,
   scroll,
   session,
-  wizard
+  wizard,
+  wallet
 }
