@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { ButtonGroup, Icon, IconButton, Text, TextGroup } from 'blockchain-info-components'
+import { ButtonGroup, Icon, IconButton, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/CoinDisplay'
 import CurrencyDisplay from 'components/CurrencyDisplay'
 
@@ -99,16 +99,15 @@ const MenuTop = (props) => {
               <Icon name='bitcoin' size='24px' weight={300} />
             </Text>
             <Text weight={200} size='24px' >
-              {coinDisplayed ? <CoinDisplay>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
+              {coinDisplayed ? <CoinDisplay coin='BTC'>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
             </Text>
             <Text weight={200} size='24px' >|</Text>
             <Text>
               <Icon name='ethereum' size='24px' weight={300} />
             </Text>
             <Text weight={200} size='24px' >
-              {coinDisplayed ? <CoinDisplay>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
+              {coinDisplayed ? <CoinDisplay coin='ETH'>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
             </Text>
-
           </BalancesWrapper>
           <Text size='20px' weight={200}>
             <CurrencyDisplay>{balance}</CurrencyDisplay>

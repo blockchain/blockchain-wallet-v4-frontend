@@ -137,7 +137,7 @@ const mapStateToProps = (state, ownProps) => {
   const coins = selectors.core.payment.getCoins(state)
   const feeValues = selectors.core.fee.getFee(state)
   const selection = selectors.core.payment.getSelection(state)
-  const unit = selectors.core.settings.getBtcCurrency(state)
+  const unit = selectors.core.settings.getBtcUnit(state)
 
   const from = formValueSelector('sendBitcoin')(state, 'from')
   const to = formValueSelector('sendBitcoin')(state, 'to')

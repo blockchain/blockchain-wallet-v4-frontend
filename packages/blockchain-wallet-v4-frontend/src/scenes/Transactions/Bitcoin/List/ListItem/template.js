@@ -168,7 +168,7 @@ const ListItem = (props) => {
         <Amount>
           <Button nature={transaction.type.toLowerCase()} onClick={handleClick} fullwidth>
             { coinDisplayed
-              ? <CoinDisplay>{transaction.amount}</CoinDisplay>
+              ? <CoinDisplay coin='BTC'>{transaction.amount}</CoinDisplay>
               : <CurrencyDisplay>{transaction.amount}</CurrencyDisplay>
             }
           </Button>

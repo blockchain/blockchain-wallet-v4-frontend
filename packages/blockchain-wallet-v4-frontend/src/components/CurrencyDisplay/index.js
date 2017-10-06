@@ -13,7 +13,7 @@ const CurrencyDisplay = props => {
 }
 
 CurrencyDisplay.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 const mapStateToProps = (state) => ({

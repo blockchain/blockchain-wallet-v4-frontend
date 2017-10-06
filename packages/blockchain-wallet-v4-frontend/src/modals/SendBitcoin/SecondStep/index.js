@@ -37,7 +37,7 @@ const mapStateToProps = (state, ownProps) => {
   const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
 
-  const unit = selectors.core.settings.getBtcCurrency(state)
+  const unit = selectors.core.settings.getBtcUnit(state)
   const selection = selectors.core.payment.getSelection(state)
 
   const from = formValueSelector('sendBitcoin')(state, 'from')

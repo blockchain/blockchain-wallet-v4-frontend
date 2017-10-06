@@ -113,7 +113,7 @@ const scanQRCodeCaptureSuccess = function * (action) {
     }
     yield put(reduxFormActions.change('sendBitcoin', 'to', address))
     if (!amount) {
-      // const unit = yield select(selectors.core.settings.getBtcCurrency)
+      // const unit = yield select(selectors.core.settings.getBtcUnit)
       // TODO: conversion here FFS
       yield put(reduxFormActions.change('sendBitcoin', 'amount', amount))
     }

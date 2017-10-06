@@ -2,7 +2,7 @@ import { path, prop } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
 const { Currencies, Currency, Pairs } = Exchange
-const { BTC } = Currencies
+const { BTC, ETH } = Currencies
 
 const convertBaseCoinToFiat = (currency, rates, value) => {
   const CUR = prop(currency, Currencies)
@@ -14,11 +14,10 @@ const convertBaseCoinToFiat = (currency, rates, value) => {
   return btcAmount.chain(Currency.convert(pairs, CUR)).chain(Currency.toUnit(CURunit)).map(Currency.unitToString).getOrElse('N/A')
 }
 
-const convertBaseCoinToCoin = (unit, value) => {
-  const BTCunit = path(['units', unit], BTC)
-  const btcAmount = Currency.fromUnit({ value, unit: BTC.units.SAT })
-
-  return btcAmount.chain(Currency.toUnit(BTCunit)).map(Currency.unitToString).getOrElse('N/A')
+const convertBaseCoinToCoin = (coin, unit, value) => {
+  const coinUnit = coin === 'BTC' ? path(['units', unit], BTC) : path(['units', unit], ETH)
+  const coinAmount = coin === 'BTC' ? Currency.fromUnit({ value, unit: BTC.units.SAT }) : Currency.fromUnit({ value, unit: ETH.units.WEI })
+  return coinAmount.chain(Currency.toUnit(coinUnit)).map(Currency.unitToString).getOrElse('N/A')
 }
 
 // =============================================================================

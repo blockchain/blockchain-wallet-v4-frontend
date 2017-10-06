@@ -1,7 +1,8 @@
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
-  btc_currency: 'BTC',
+  btc_unit: 'BTC',
+  eth_unit: 'ETH',
   language: 'en',
   currency: 'USD',
   country_code: 'US',
@@ -46,7 +47,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.UPDATE_BITCOIN_UNIT_SUCCESS: {
       const { unit } = payload
-      return Object.assign({}, state, { btc_currency: unit })
+      return Object.assign({}, state, { btc_unit: unit })
     }
     case AT.UPDATE_AUTO_LOGOUT_SUCCESS: {
       const { autoLogout } = payload
@@ -59,12 +60,9 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.UPDATE_IP_LOCK_SUCCESS: {
       const { ipLock } = payload
-      console.log(`Ip lock is ${ipLock}`)
       if (ipLock === '') {
-        console.log(`Ip lock empty`)
         return Object.assign({}, state, { ip_lock: ipLock, ip_lock_on: 0 })
       } else {
-        console.log(`Ip lock not empty`)
         return Object.assign({}, state, { ip_lock: ipLock })
       }
     }

@@ -36,7 +36,7 @@ class SettingsContainer extends React.Component {
 const mapStateToProps = (state) => ({
   guid: selectors.core.wallet.getGuid(state),
   sharedKey: selectors.core.wallet.getSharedKey(state),
-  unit: selectors.core.settings.getBtcCurrency(state)
+  unit: selectors.core.settings.getBtcUnit(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

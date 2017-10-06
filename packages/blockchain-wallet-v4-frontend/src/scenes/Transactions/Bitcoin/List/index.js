@@ -76,7 +76,7 @@ class ListContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const selector = formValueSelector('transactionForm')
+  const selector = formValueSelector('bitcoinTransactionForm')
   const initialSource = selector(state, 'source')
 
   return {
