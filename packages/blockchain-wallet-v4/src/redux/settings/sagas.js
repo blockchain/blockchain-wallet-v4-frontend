@@ -1,6 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
 import { contains, toLower, compose, prop } from 'ramda'
 import * as actions from './actions'
+import * as walletActions from '../wallet/actions'
 import * as pairing from '../../pairing'
 import { Wallet, Wrapper } from '../../types'
 
@@ -87,9 +88,8 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const { autoLogout } = action.payload
-    const response = yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
-    if (!contains('successfully', toLower(response))) { throw new Error(response) }
-    yield put(actions.setAutoLogout(autoLogout))
+    yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
+    yield put(walletActions.setAutoLogout(autoLogout))
   }
 
   const setLoggingLevel = function * (action) {
