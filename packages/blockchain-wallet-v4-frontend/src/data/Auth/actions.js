@@ -1,14 +1,14 @@
 import * as AT from './actionTypes'
 
-export const login = (guid, password) => ({ type: AT.LOGIN, payload: { guid, password } })
-
-export const authenticate = () => ({ type: AT.AUTHENTICATE })
+export const login = (guid, password, code) => ({ type: AT.LOGIN, payload: { guid, password, code } })
 
 export const register = (email, password) => ({ type: AT.REGISTER, payload: { email, password } })
 
 export const restore = (mnemonic, email, password, network) => ({ type: AT.RESTORE, payload: { mnemonic, email, password, network } })
 
 export const remindGuid = (email, code, sessionToken) => ({ type: AT.REMIND_GUID, payload: { email, code, sessionToken } })
+
+export const authenticate = () => ({ type: AT.AUTHENTICATE })
 
 export const logout = () => ({ type: AT.LOGOUT })
 

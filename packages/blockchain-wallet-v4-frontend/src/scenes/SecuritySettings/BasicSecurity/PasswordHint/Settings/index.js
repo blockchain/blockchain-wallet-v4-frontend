@@ -17,8 +17,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, passwordHintValue } = this.props
-    this.props.settingsActions.updateHint(guid, sharedKey, passwordHintValue)
+    this.props.settingsActions.updateHint(this.props.passwordHintValue)
     this.handleToggle()
   }
 
@@ -39,14 +38,12 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   passwordHintValue: formValueSelector('settingPasswordHint')(state, 'passwordHint'),
   currentHint: selectors.core.settings.getHint(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
+  settingsActions: bindActionCreators(actions.settings, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

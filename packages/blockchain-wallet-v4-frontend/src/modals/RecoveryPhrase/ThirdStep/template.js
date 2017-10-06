@@ -16,8 +16,8 @@ const Container = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, position, total, close, indexes, mnemonic, handleFinish, submitting, invalid } = props
-
+  const { previousStep, position, total, close, submitting, invalid, ...rest } = props
+  const { indexes, mnemonic, onSubmit } = rest
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='bell' onClose={close}>
@@ -34,7 +34,7 @@ const ThirdStep = (props) => {
           <FormattedMessage id='modals.recoveryphrase.explain' defaultMessage='Using the completed Recovery Sheet as a reference, please enter the following words from your Recovery Phrase to complete the backup process.' />
         </Text>
         <Container>
-          <Form>
+          <Form onSubmit={onSubmit}>
             {indexes.indexOf(0) > -1 && <WordInput index={0} mnemonic={mnemonic} />}
             {indexes.indexOf(1) > -1 && <WordInput index={1} mnemonic={mnemonic} />}
             {indexes.indexOf(2) > -1 && <WordInput index={2} mnemonic={mnemonic} />}
@@ -54,7 +54,7 @@ const ThirdStep = (props) => {
         <Link size='13px' weight={300} onClick={previousStep}>
           <FormattedMessage id='modals.recoveryphrase.thirdstep.back' defaultMessage='Back' />
         </Link>
-        <Button nature='primary' onClick={handleFinish} disabled={submitting || invalid}>
+        <Button type='submit' nature='primary' disabled={submitting || invalid}>
           <FormattedMessage id='modals.recoveryphrase.thirdstep.finish' defaultMessage='Finish' />
         </Button>
       </ModalFooter>

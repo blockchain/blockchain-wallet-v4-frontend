@@ -47,39 +47,16 @@ const mobileLoginError = function * (action) {
   yield put(actions.modals.closeModal())
 }
 
-
-
-// function * sagas () {
-//   yield takeEvery(AT.LOGIN, login)
-//   // yield takeEvery(AT.LOGIN_SUCCESS, loginSuccess)
-//   // yield takeEvery(AT.LOGIN_ERROR, loginError)
-
-//   yield takeEvery(AT.MOBILE_LOGIN_SUCCESS, mobileLoginSuccess)
-//   yield takeEvery(AT.MOBILE_LOGIN_ERROR, mobileLoginError)
-
-
-
-//   yield takeEvery(actionTypes.core.wallet.CREATE_WALLET_SUCCESS, registerSuccess)
-//   yield takeEvery(actionTypes.core.wallet.CREATE_WALLET_ERROR, registerError)
-
-//   yield takeEvery(actionTypes.core.wallet.RESTORE_WALLET_SUCCESS, restoreWalletSuccess)
-//   yield takeEvery(actionTypes.core.wallet.RESTORE_WALLET_ERROR, restoreWalletError)
-// }
-
-// export default sagas
-
 // =============================================================================
 // ================================= Generic ===================================
 // =============================================================================
 
 const loginRoutineSaga = function * () {
-  const context = yield select(selectors.core.wallet.getWalletContext)
-  const sharedKey = yield select(selectors.core.wallet.getSharedKey)
-  const guid = yield select(selectors.core.wallet.getGuid)
-  yield put(actions.core.common.fetchBlockchainData(context))
-  yield put(actions.core.settings.fetchSettings({ guid, sharedKey }))
-  yield put(actions.core.webSocket.startSocket())
   yield put(actions.auth.authenticate())
+  const context = yield select(selectors.core.wallet.getWalletContext)
+  yield put(actions.core.common.fetchBlockchainData(context))
+  yield put(actions.core.webSocket.startSocket())
+  yield put(actions.settings.initSettings())
   yield put(actions.alerts.displaySuccess('Login successful'))
   yield put(push('/wallet'))
 }

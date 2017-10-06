@@ -12,7 +12,6 @@ export const LOGOUT = 'LOGOUT'
 
 export const LOGOUT_RESET_TIMER = 'LOGOUT_RESET_TIMER'
 
-
 export const SET_AUTH_TYPE = 'SET_AUTH_TYPE'
 
 export const MOBILE_LOGIN_SUCCESS = 'MOBILE_LOGIN_SUCCESS'

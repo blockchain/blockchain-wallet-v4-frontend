@@ -15,13 +15,11 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillMount () {
-    const { reduxFormActions, initialValues } = this.props
-    reduxFormActions.initialize('requestBitcoin', initialValues)
+    this.props.reduxFormActions.initialize('requestBitcoin', this.props.initialValues)
   }
 
   handleClickQRCode () {
-    const { modalActions, receiveAddress } = this.props
-    modalActions.clickRequestBitcoinQRCode(receiveAddress)
+    this.props.modalActions.showModal('QRCode', { address: this.props.receiveAddress })
   }
 
   onSubmit (e) {
@@ -60,7 +58,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  transactionActions: bindActionCreators(actions.core.transactions, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

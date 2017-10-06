@@ -5,6 +5,7 @@ import * as modals from './Modals/actions.js'
 import * as preferences from './Preferences/actions.js'
 import * as scroll from './Scroll/actions.js'
 import * as session from './Session/actions.js'
+import * as settings from './Settings/actions.js'
 import * as wizard from './Wizard/actions.js'
 import * as wallet from './Wallet/actions.js'
 
@@ -16,6 +17,7 @@ export {
   preferences,
   scroll,
   session,
+  settings,
   wizard,
   wallet
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
@@ -19,16 +18,17 @@ const MobileNumber = styled.div`
 `
 
 const MobileNumberChange = (props) => {
-  const { position, total, closeAll, submitting, invalid, ...rest } = props
-  const { handleUpdate, handleCancel } = rest
+  const { position, total, close, closeAll, submitting, invalid, ...rest } = props
+  const { onSubmit } = rest
+  console.log(onSubmit)
 
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='mobile' onClose={closeAll} >
-        <FormattedMessage id='modals.mobilenumberchange.title1' defaultMessage='Change Mobile Number' />
-      </ModalHeader>
-      <ModalBody>
-        <Form>
+      <Form onSubmit={onSubmit}>
+        <ModalHeader icon='mobile' onClose={closeAll} >
+          <FormattedMessage id='modals.mobilenumberchange.title1' defaultMessage='Change Mobile Number' />
+        </ModalHeader>
+        <ModalBody>
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.mobilenumberchange.explain' defaultMessage='Use your mobile phone to receive a one-time-password after a login attempt.' />
           </Text>
@@ -38,23 +38,18 @@ const MobileNumberChange = (props) => {
             </Text>
             <Field name='mobileNumber' validate={[validMobileNumber]} component={PhoneNumberBox} placeholder='+XX XXX XXX...' />
           </MobileNumber>
-        </Form>
-      </ModalBody>
-      <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={handleCancel}>
-          <FormattedMessage id='modals.mobilenumberchange.cancel' defaultMessage='Cancel' />
-        </Link>
-        <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleUpdate}>
-          <FormattedMessage id='modals.mobilenumberchange.update' defaultMessage='Update' />
-        </Button>
-      </ModalFooter>
-
+        </ModalBody>
+        <ModalFooter align='spaced'>
+          <Link size='13px' weight={300} onClick={close}>
+            <FormattedMessage id='modals.mobilenumberchange.cancel' defaultMessage='Cancel' />
+          </Link>
+          <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
+            <FormattedMessage id='modals.mobilenumberchange.update' defaultMessage='Update' />
+          </Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
-}
-
-MobileNumberChange.propTypes = {
-  handleUpdate: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'mobileNumberChange' })(MobileNumberChange)

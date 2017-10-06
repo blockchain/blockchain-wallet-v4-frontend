@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -9,32 +10,34 @@ import MobileNumberChange from './template.js'
 class MobileNumberChangeContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleUpdate = this.handleUpdate.bind(this)
-    this.handleCancel = this.handleCancel.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  handleUpdate () {
-    this.props.modalActions.clickMobileNumberChangeUpdate()
-  }
-
-  handleCancel () {
-    this.props.modalActions.clickMobileNumberChangeCancel()
+  onSubmit (e) {
+    e.preventDefault()
+    const { mobileNumber } = this.props
+    this.props.settingsActions.updateMobile(mobileNumber)
+    this.props.modalActions.closeModal()
+    this.props.modalActions.showModal('MobileNumberVerify', { mobileNumber })
   }
 
   render () {
-    return (
-      <MobileNumberChange {...this.props} handleUpdate={this.handleUpdate} handleCancel={this.handleCancel} />
-    )
+    return <MobileNumberChange {...this.props} onSubmit={this.onSubmit} />
   }
 }
 
+const mapStateToProps = (state) => ({
+  mobileNumber: formValueSelector('mobileNumberChange')(state, 'mobileNumber')
+})
+
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('MobileNumberChange'),
-  connect(undefined, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(MobileNumberChangeContainer)

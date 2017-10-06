@@ -35,8 +35,7 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, emailAddress } = this.props
-    this.props.settingsActions.updateEmail(guid, sharedKey, emailAddress)
+    this.props.settingsActions.updateEmail(this.props.emailAddress)
   }
 
   handleToggle () {
@@ -44,8 +43,7 @@ class SettingContainer extends React.Component {
   }
 
   handleResend () {
-    const { guid, sharedKey, emailAddress } = this.props
-    this.props.settingsActions.updateEmail(guid, sharedKey, emailAddress)
+    this.props.settingsActions.updateEmail(this.props.emailAddress)
   }
 
   render () {
@@ -63,8 +61,6 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   email: selectors.core.settings.getEmail(state),
   emailVerified: selectors.core.settings.getEmailVerified(state),
   emailAddress: formValueSelector('settingEmailAddress')(state, 'emailAddress'),
@@ -72,7 +68,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
+  settingsActions: bindActionCreators(actions.settings, dispatch),
   reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
 })
 

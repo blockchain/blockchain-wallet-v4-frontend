@@ -86,9 +86,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleClickQrCodeCapture () {
-    const { modalActions } = this.props
-    // We open the capture modal
-    modalActions.showModal('QRCodeCapture')
+    this.props.modalActions.showModal('QRCodeCapture')
   }
 
   onSubmit (e) {

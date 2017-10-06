@@ -8,11 +8,7 @@ export const BLOCKCHAIN_INFO = 'https://blockchain.info/'
 export const API_BLOCKCHAIN_INFO = 'https://api.blockchain.info/'
 export const API_CODE = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
-const createApi = ({
-  rootUrl = BLOCKCHAIN_INFO,
-  apiUrl = API_BLOCKCHAIN_INFO,
-  apiCode = API_CODE
-} = {}, returnType) => {
+const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCode = API_CODE } = {}, returnType) => {
   const future = returnType ? futurizeP(returnType) : identity
   const request = ({ url, method, endPoint, data, extraHeaders }) => {
     // options
@@ -305,7 +301,7 @@ const createApi = ({
 
   const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret')
 
-  const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
+  const enableGoogleAuthenticator = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
 
   const enableYubikey = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-yubikey', code)
 
@@ -352,7 +348,7 @@ const createApi = ({
     updateAuthType: future(updateAuthType),
     updateAuthTypeNeverSave: future(updateAuthTypeNeverSave),
     getGoogleAuthenticatorSecretUrl: future(getGoogleAuthenticatorSecretUrl),
-    confirmGoogleAuthenticatorSetup: future(confirmGoogleAuthenticatorSetup),
+    enableGoogleAuthenticator: future(enableGoogleAuthenticator),
     enableYubikey: future(enableYubikey)
   }
 }

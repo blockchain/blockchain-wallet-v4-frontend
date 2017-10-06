@@ -12,9 +12,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, blockTorIps } = this.props
-    const newBlockTorIps = Number(!blockTorIps)
-    this.props.settingsActions.updateBlockTorIps(guid, sharedKey, newBlockTorIps)
+    this.props.settingsActions.updateBlockTorIps(Number(!this.props.blockTorIps))
   }
 
   render () {
@@ -28,13 +26,11 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   blockTorIps: selectors.core.settings.getBlockTorIps(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)
