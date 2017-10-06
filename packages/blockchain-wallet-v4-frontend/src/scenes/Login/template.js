@@ -123,4 +123,4 @@ Login.propTypes = {
   handleMobile: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'loginForm' })(Login)
+export default reduxForm({ form: 'login' })(Login)
