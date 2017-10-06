@@ -1,7 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
 import { contains, toLower, compose, prop } from 'ramda'
 import * as actions from './actions'
-import { pairing } from '../../pairing'
+import * as pairing from '../../pairing'
 import { Wallet, Wrapper } from '../../types'
 
 export const settingsSaga = ({ api, walletPath } = {}) => {

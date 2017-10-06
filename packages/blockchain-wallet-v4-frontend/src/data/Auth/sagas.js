@@ -47,20 +47,6 @@ const mobileLoginError = function * (action) {
   yield put(actions.modals.closeModal())
 }
 
-// function * sagas () {
-//   yield takeEvery(AT.LOGIN, login)
-//   yield takeEvery(AT.LOGIN_SUCCESS, loginSuccess)
-//   yield takeEvery(AT.LOGIN_ERROR, loginError)
-//   yield takeEvery(AT.MOBILE_LOGIN_SUCCESS, mobileLoginSuccess)
-//   yield takeEvery(AT.MOBILE_LOGIN_ERROR, mobileLoginError)
-//   yield takeEvery(actionTypes.core.wallet.CREATE_WALLET_SUCCESS, registerSuccess)
-//   yield takeEvery(actionTypes.core.wallet.CREATE_WALLET_ERROR, registerError)
-//   yield takeEvery(actionTypes.core.wallet.RESTORE_WALLET_SUCCESS, restoreWalletSuccess)
-//   yield takeEvery(actionTypes.core.wallet.RESTORE_WALLET_ERROR, restoreWalletError)
-// }
-
-// export default sagas
-
 // =============================================================================
 // ================================= Generic ===================================
 // =============================================================================
