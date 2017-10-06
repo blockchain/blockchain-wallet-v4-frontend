@@ -19,6 +19,7 @@ const loginRoutineSaga = function * () {
   const guid = yield select(selectors.core.wallet.getGuid)
   yield put(actions.core.common.fetchBlockchainData(context))
   yield put(actions.core.settings.fetchSettings({ guid, sharedKey }))
+  yield put(actions.core.walletOptions.fetchWalletOptions())
   yield put(actions.core.webSocket.startSocket())
   yield put(actions.auth.loginSuccess())
   yield put(actions.auth.logoutStartTimer())

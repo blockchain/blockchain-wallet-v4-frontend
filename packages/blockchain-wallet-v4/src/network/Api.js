@@ -2,6 +2,7 @@ import 'isomorphic-fetch'
 import Promise from 'es6-promise'
 import { merge, identity, gt, type, trim, toLower } from 'ramda'
 import { futurizeP } from 'futurize'
+import walletOptions from './wallet-options.json'
 Promise.polyfill()
 
 export const BLOCKCHAIN_INFO = 'https://blockchain.info/'
@@ -315,6 +316,8 @@ const createApi = ({
 
   const enableYubikey = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-yubikey', code)
 
+  const getWalletOptions = () => (walletOptions)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     fetchPayloadWithTwoFactorAuth: future(fetchPayloadWithTwoFactorAuth),
@@ -360,7 +363,9 @@ const createApi = ({
     updateAuthTypeNeverSave: future(updateAuthTypeNeverSave),
     getGoogleAuthenticatorSecretUrl: future(getGoogleAuthenticatorSecretUrl),
     confirmGoogleAuthenticatorSetup: future(confirmGoogleAuthenticatorSetup),
-    enableYubikey: future(enableYubikey)
+    enableYubikey: future(enableYubikey),
+
+    getWalletOptions: future(getWalletOptions)
   }
 }
 

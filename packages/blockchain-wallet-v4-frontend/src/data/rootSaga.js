@@ -14,10 +14,11 @@ import interactivitySagas from './Interactivity/sagas.js'
 const dataPath = settings.BLOCKCHAIN_DATA_PATH
 const settingsPath = settings.SETTINGS_PATH
 const walletPath = settings.WALLET_IMMUTABLE_PATH
+const walletOptionsPath = settings.WALLET_OPTIONS_PATH
 
 function * sagas () {
   yield [
-    fork(coreSagas.rootSaga({ api, dataPath, walletPath, settingsPath, socket })),
+    fork(coreSagas.rootSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket })),
     fork(alertSagas),
     fork(authSagas),
     fork(chartsSaga),
