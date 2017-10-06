@@ -17,7 +17,7 @@ const initSettings = function * (action) {
 
 const showPairingCode = function * (action) {
   try {
-    const encryptionPhrase = yield call(settingsSagas.requestPairingCode)
+    const encryptionPhrase = yield call(settingsSagas.encodePairingCode)
     yield put(actions.modals.showModal('PairingCode', { data: encryptionPhrase }))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch pairing code.'))

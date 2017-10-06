@@ -20,7 +20,6 @@ const MobileNumber = styled.div`
 const MobileNumberChange = (props) => {
   const { position, total, close, closeAll, submitting, invalid, ...rest } = props
   const { onSubmit } = rest
-  console.log(onSubmit)
 
   return (
     <Modal size='large' position={position} total={total}>

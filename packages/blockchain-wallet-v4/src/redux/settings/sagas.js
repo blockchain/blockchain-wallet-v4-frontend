@@ -6,12 +6,27 @@ import * as pairing from '../../pairing'
 import { Wallet, Wrapper } from '../../types'
 
 export const settingsSaga = ({ api, walletPath } = {}) => {
-  const requestPairingCode = function * (action) {
+  // Utilities
+  const encodePairingCode = function * (action) {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const password = yield select(compose(Wrapper.selectPassword, prop(walletPath)))
     const pairingPassword = yield call(api.getPairingPassword, guid)
     return pairing.encode(guid, sharedKey, password, pairingPassword)
+  }
+
+  const decodePairingCode = function * (action) {
+    const { data } = action.payload
+    const parsedDataE = pairing.parseQRcode(data)
+    if (parsedDataE.isRight) {
+      const { guid, encrypted } = parsedDataE.value
+      const passphrase = yield call(api.getPairingPassword, guid)
+      const credentialsE = pairing.decode(encrypted, passphrase)
+      if (credentialsE.isRight) {
+        const { sharedKey, password } = credentialsE.value
+        return { guid, sharedKey, password }
+      } else { throw new Error(credentialsE.value) }
+    } else { throw new Error(parsedDataE.value) }
   }
 
   const requestGoogleAuthenticatorSecretUrl = function * (action) {
@@ -175,7 +190,8 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
   }
 
   return {
-    requestPairingCode,
+    encodePairingCode,
+    decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
     fetchSettings,
     setEmail,

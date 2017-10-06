@@ -7,45 +7,12 @@ import Either from 'data.either'
 import * as AT from './actionTypes'
 import { actions, selectors } from 'data'
 import { walletSaga } from 'blockchain-wallet-v4/src/redux/wallet/sagas.js'
+import { settingsSaga } from 'blockchain-wallet-v4/src/redux/settings/sagas.js'
 import { api } from 'services/ApiService'
-import { pairing } from 'blockchain-wallet-v4/src'
 import settings from 'config'
 
 const walletSagas = walletSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
-
-// =============================================================================
-// ============================ MobileLogin modal ==============================
-// =============================================================================
-
-const mobileLoginSuccess = function * (action) {
-  const { payload } = action
-  const { data } = payload
-
-  try {
-    const parsedDataE = pairing.parseQRcode(data)
-    if (parsedDataE.isRight) {
-      const { guid, encrypted } = parsedDataE.value
-      const passphrase = yield call(api.getPairingPassword, guid)
-      const credentialsE = pairing.decode(encrypted, passphrase)
-      if (credentialsE.isRight) {
-        const { sharedKey, password } = credentialsE.value
-        yield call(fetchWalletSaga, guid, sharedKey, undefined, password)
-      } else {
-        throw new Error(credentialsE.value)
-      }
-    } else {
-      throw new Error(parsedDataE.value)
-    }
-  } catch (error) {
-    yield put(actions.alerts.displayError(error.message))
-  }
-  yield put(actions.modals.closeModal())
-}
-
-const mobileLoginError = function * (action) {
-  yield put(actions.alerts.displayError('Error using mobile login'))
-  yield put(actions.modals.closeModal())
-}
+const settingsSagas = settingsSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
 
 // =============================================================================
 // ================================= Generic ===================================
@@ -78,14 +45,14 @@ const pollingSession = function * (session, n = 50) {
 }
 
 const login = function * (action) {
-  const { guid, password, code } = action.payload
+  const { guid, sharedKey, password, code } = action.payload
   const safeParse = Either.try(JSON.parse)
   let session = yield select(selectors.session.getSession(guid))
 
   try {
     if (!session) { session = yield call(api.establishSession) }
     yield put(actions.session.saveSession(assoc(guid, session, {})))
-    yield call(walletSagas.fetchWalletSaga, guid, undefined, session, password, code)
+    yield call(walletSagas.fetchWalletSaga, guid, sharedKey, session, password, code)
     yield call(loginRoutineSaga)
   } catch (error) {
     const initialError = safeParse(error).map(prop('initial_error'))
@@ -116,6 +83,17 @@ const login = function * (action) {
       }
     }
   }
+}
+
+const mobileLogin = function * (action) {
+  try {
+    const { guid, sharedKey, password } = yield call(settingsSagas.decodePairingCode, action)
+    const loginAction = actions.auth.login(guid, password, undefined, sharedKey)
+    yield call(login, loginAction)
+  } catch (error) {
+    yield put(actions.alerts.displayError('Error logging into your wallet'))
+  }
+  yield put(actions.modals.closeModal())
 }
 
 // =============================================================================
@@ -205,6 +183,7 @@ const logoutTimer = function * () {
 
 function * sagas () {
   yield takeEvery(AT.LOGIN, login)
+  yield takeEvery(AT.MOBILE_LOGIN, mobileLogin)
   yield takeEvery(AT.REGISTER, register)
   yield takeEvery(AT.RESTORE, restore)
   yield takeEvery(AT.REMIND_GUID, remindGuid)
