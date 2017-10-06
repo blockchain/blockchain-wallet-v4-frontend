@@ -12,36 +12,31 @@ const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resol
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
 export const walletSaga = ({ api, walletPath } = {}) => {
-  // helpers saga
-  const runTask = function * (task, failureAction, successAction) {
-    try {
-      let result = yield call(compose(taskToPromise, () => task))
-      yield put(successAction(result))
-    } catch (error) {
-      yield put(failureAction(error.message))
-    }
+  const runTask = function * (task, setActionCreator) {
+    let result = yield call(compose(taskToPromise, () => task))
+    yield put(setActionCreator(result))
   }
 
-  const toggleSecondPasswordSaga = function * (action) {
-    const password = action.payload
+  const toggleSecondPassword = function * (action) {
+    const { password } = action.payload
     const wrapper = yield select(prop(walletPath))
     const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
     if (isEncrypted) {
       const task = Wrapper.traverseWallet(Task.of, Wallet.decrypt(password), wrapper)
-      yield call(runTask, task, A.toggleSecondPasswordError, A.toggleSecondPasswordSuccess)
+      yield call(runTask, task, A.setWrapper)
     } else {
       const task = Wrapper.traverseWallet(Task.of, Wallet.encrypt(password), wrapper)
-      yield call(runTask, task, A.toggleSecondPasswordError, A.toggleSecondPasswordSuccess)
+      yield call(runTask, task, A.setWrapper)
     }
   }
 
-  const createAddressSaga = function * (action) {
-    const { address, secondPassword } = action.payload
-    const newAddress = Address.fromJS(address)
+  const createLegacyAddress = function * (action) {
+    const { address, password } = action.payload
     const wrapper = yield select(prop(walletPath))
-    const addNewAddress = wallet => Wallet.addAddress(wallet, newAddress, secondPassword)
-    const task = eitherToTask(Wrapper.traverseWallet(Either.of, addNewAddress, wrapper))
-    yield call(runTask, task, A.createAddressError, A.createAddressSuccess)
+    const a = Address.fromJS(address)
+    const addAddress = wallet => Wallet.addAddress(wallet, a, password)
+    const task = eitherToTask(Wrapper.traverseWallet(Either.of, addAddress, wrapper))
+    yield call(runTask, task, A.setWrapper)
   }
 
   const createWalletSaga = function * (action) {
@@ -89,10 +84,10 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield put(A.setWrapper(wrapper))
   }
 
-  const setPbkdf2IterationsSaga = function * (action) {
+  const updatePbkdf2Iterations = function * (action) {
     const { iterations, password } = action.payload
     if (not(is(Number, iterations))) {
-      yield put(A.setPbkdf2IterationsError('PBKDF2_ITERATIONS_NOT_A_NUMBER'))
+      throw new Error('PBKDF2_ITERATIONS_NOT_A_NUMBER')
     } else {
       const wrapper = yield select(prop(walletPath))
       const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
@@ -101,24 +96,11 @@ export const walletSaga = ({ api, walletPath } = {}) => {
                     .chain(Wrapper.traverseWallet(Task.of, Wallet.decrypt(password)))
                     .map(Wrapper.setBothPbkdf2Iterations(iterations))
                     .chain(Wrapper.traverseWallet(Task.of, Wallet.encrypt(password)))
-        yield call(runTask, task, A.setPbkdf2IterationsError, A.setPbkdf2IterationsSuccess)
+        yield call(runTask, task, A.setWrapper)
       } else {
         const newWrapper = Wrapper.setBothPbkdf2Iterations(iterations, wrapper)
-        yield put(A.setPbkdf2IterationsSuccess(newWrapper))
+        yield put(A.setWrapper(newWrapper))
       }
-    }
-  }
-  const changeSecondPasswordSaga = function * (action) {
-    const { oldPassword, newPassword } = action.payload
-    const wrapper = yield select(prop(walletPath))
-    const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
-    if (isEncrypted) {
-      const task = Task.of(wrapper)
-                  .chain(Wrapper.traverseWallet(Task.of, Wallet.decrypt(oldPassword)))
-                  .chain(Wrapper.traverseWallet(Task.of, Wallet.encrypt(newPassword)))
-      yield call(runTask, task, A.changeSecondPasswordError, A.changeSecondPasswordSuccess)
-    } else {
-      yield put(A.changeSecondPasswordError('SECOND_PASSWORD_WAS_NOT_ACTIVE'))
     }
   }
 
@@ -129,22 +111,12 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     if (!success) { throw new Error(message) }
   }
 
-  // return function * () {
-  //   yield takeEvery(T.TOGGLE_SECOND_PASSWORD, toggleSecondPasswordSaga)
-  //   yield takeEvery(T.CHANGE_SECOND_PASSWORD, changeSecondPasswordSaga)
-  //   yield takeEvery(T.CREATE_WALLET, createWalletSaga)
-  //   yield takeEvery(T.RESTORE_WALLET, restoreWalletSaga)
-  //   yield takeEvery(T.CREATE_LEGACY_ADDRESS, createAddressSaga)
-  //   yield takeEvery(T.SET_PBKDF2_ITERATIONS, setPbkdf2IterationsSaga)
-  //   yield takeEvery(T.REMIND_WALLET_GUID, remindWalletGuid)
-  // }
   return {
-    toggleSecondPasswordSaga,
-    changeSecondPasswordSaga,
+    toggleSecondPassword,
     createWalletSaga,
     restoreWalletSaga,
-    createAddressSaga,
-    setPbkdf2IterationsSaga,
+    createLegacyAddress,
+    updatePbkdf2Iterations,
     remindWalletGuidSaga,
     fetchWalletSaga
   }

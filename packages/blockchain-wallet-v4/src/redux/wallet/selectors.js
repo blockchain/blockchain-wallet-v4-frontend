@@ -31,3 +31,4 @@ export const isSecondPasswordOn = compose(Wallet.isDoubleEncrypted, Wrapper.sele
 export const isMnemonicVerified = compose(HDWallet.selectMnemonicVerified, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
 export const getMainPassword = Wrapper.selectPassword
 export const getPbkdf2Iterations = Wrapper.selectPbkdf2Iterations
+export const getWallet = Wrapper.selectWallet
