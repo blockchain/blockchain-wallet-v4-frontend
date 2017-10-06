@@ -47,11 +47,10 @@ const ButtonRow = styled(ButtonGroup)`
 `
 
 const FirstStep = (props) => {
-  const validAmount = (value, allValues, props) => value <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
-
   const { invalid, submitting, position, total, closeAll, ...rest } = props
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, ...rest2 } = rest
-  const { onSubmit, handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler } = rest2
+  const { onSubmit, handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, validAmount } = rest2
+  console.log('effectiveBalance (Child)', props.effectiveBalance)
 
   return (
     <Modal size='large' position={position} total={total}>

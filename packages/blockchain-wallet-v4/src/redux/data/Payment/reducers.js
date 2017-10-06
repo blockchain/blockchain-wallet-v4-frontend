@@ -10,24 +10,23 @@ const EMPTY_SELECTION = {
 }
 const INITIAL_STATE = {
   coins: [],
-  selection: EMPTY_SELECTION
+  selection: EMPTY_SELECTION,
+  effectiveBalance: 0
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type } = action
+  const { type, payload } = action
+
   switch (type) {
-    case A.SIGN_AND_PUBLISH_SUCCESS: {
-      // delete payment data
-      return INITIAL_STATE
-    }
-    case A.PAYMENT_GET_UNSPENTS_SUCCESS: {
-      const coins = action.payload
+    case A.SET_UNSPENT: {
+      const { coins } = payload
       return assoc('coins', coins, state)
     }
-    case A.PAYMENT_GET_UNSPENTS_ERROR: {
-      return assoc('coins', [], state)
+    case A.SET_EFFECTIVE_BALANCE: {
+      const { effectiveBalance } = payload
+      return assoc('effectiveBalance', effectiveBalance, state)
     }
-    case A.REFRESH_SELECTION: {
+    case A.SET_SELECTION: {
       const { coins, target, feePerByte, change, algorithm, seed } = action.payload
 
       let selection

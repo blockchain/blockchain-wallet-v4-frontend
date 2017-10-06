@@ -6,7 +6,7 @@ const feeReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case T.FETCH_FEE_SUCCESS: {
+    case T.SET_FEE: {
       return payload
     }
     case T.DELETE_FEE: {

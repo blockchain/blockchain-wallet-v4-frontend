@@ -18,7 +18,7 @@ class MenuTopContainer extends React.Component {
   }
 
   openSendBitcoin () {
-    this.props.modalActions.showModal('SendBitcoin')
+    this.props.paymentActions.initSendBitcoin()
   }
 
   openRequestBitcoin () {
@@ -45,6 +45,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
+  paymentActions: bindActionCreators(actions.payment, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
