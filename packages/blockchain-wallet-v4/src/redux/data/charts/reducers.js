@@ -9,7 +9,7 @@ const charts = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.FETCH_PRICE_INDEX_SERIES_SUCCESS: {
+    case AT.SET_PRICE_INDEX_SERIES: {
       const { data } = payload
       return assoc('price_index_series', data, state)
     }

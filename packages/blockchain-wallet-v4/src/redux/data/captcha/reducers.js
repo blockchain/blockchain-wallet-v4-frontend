@@ -4,11 +4,12 @@ const INITIAL_STATE = {}
 
 const captchaReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
+
   switch (type) {
-    case AT.FETCH_CAPTCHA_SUCCESS: {
+    case AT.SET_CAPTCHA: {
       return payload
     }
-    case AT.CLEAR_CAPTCHA: {
+    case AT.DELETE_CAPTCHA: {
       return INITIAL_STATE
     }
     default:

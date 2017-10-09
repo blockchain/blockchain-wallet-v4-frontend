@@ -41,7 +41,7 @@ class ChartContainer extends React.Component {
   componentWillMount () {
     const { currency } = this.props
     const { coin, start, scale } = this.state
-    this.props.chartActions.fetchPriceIndexSeries(coin, currency, start, scale)
+    this.props.dataActions.getPriceIndexSeries(coin, currency, start, scale)
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -52,7 +52,7 @@ class ChartContainer extends React.Component {
 
   componentWillUpdate (nextProps, nextState) {
     if (!equals(this.state.coin, nextState.coin) || !equals(this.state.timeframe, nextState.timeframe)) {
-      this.props.chartActions.fetchPriceIndexSeries(nextState.coin, nextProps.currency, nextState.start, nextState.scale)
+      this.props.dataActions.getPriceIndexSeries(nextState.coin, nextProps.currency, nextState.start, nextState.scale)
     }
   }
 
@@ -133,7 +133,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  chartActions: bindActionCreators(actions.core.charts, dispatch)
+  dataActions: bindActionCreators(actions.data, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChartContainer)

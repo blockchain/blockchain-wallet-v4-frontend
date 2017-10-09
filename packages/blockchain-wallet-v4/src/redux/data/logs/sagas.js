@@ -1,20 +1,18 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
-import * as A from './actions'
-import * as T from './actionTypes'
+import { call, put, select } from 'redux-saga/effects'
+import { compose, prop } from 'ramda'
+import { Wallet, Wrapper } from '../../../types'
 
-export const logsSaga = ({ api } = {}) => {
-  const fetchLogs = function * (action) {
-    try {
-      const { guid, sharedKey } = action.payload
-      const response = yield call(api.getLogs, guid, sharedKey)
-      const { results } = response
-      yield put(A.fetchLogsSuccess(results))
-    } catch (error) {
-      yield put(A.fetchLogsError(error))
-    }
+import * as A from './actions'
+
+export const logsSaga = ({ api, walletPath } = {}) => {
+  const fetchLogs = function * () {
+    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
+    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const response = yield call(api.getLogs, guid, sharedKey)
+    yield put(A.setLogs(response.results))
   }
 
-  return function * () {
-    yield takeEvery(T.FETCH_LOGS, fetchLogs)
+  return {
+    fetchLogs
   }
 }

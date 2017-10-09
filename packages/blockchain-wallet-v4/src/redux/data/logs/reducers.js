@@ -3,11 +3,10 @@ import * as T from './actionTypes.js'
 const INITIAL_STATE = []
 
 const logReducer = (state = INITIAL_STATE, action) => {
-  const { type } = action
+  const { type, payload } = action
 
   switch (type) {
-    case T.FETCH_LOGS_SUCCESS: {
-      const { payload } = action
+    case T.SET_LOGS: {
       return payload
     }
     case T.DELETE_LOGS: {

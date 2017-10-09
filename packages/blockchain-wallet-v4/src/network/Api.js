@@ -242,8 +242,8 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
   }
 
-  const getPriceIndexSeries = function (crypto, fiat, start, scale) {
-    const data = { base: toLower(crypto), quote: toLower(fiat), start: start, scale: scale }
+  const getPriceIndexSeries = function (coin, currency, start, scale) {
+    const data = { base: toLower(coin), quote: toLower(currency), start: start, scale: scale }
     return request({ url: apiUrl, method: 'GET', endPoint: 'price/index-series', data: data })
   }
 

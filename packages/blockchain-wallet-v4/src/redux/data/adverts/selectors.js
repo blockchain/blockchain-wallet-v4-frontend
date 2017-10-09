@@ -1,3 +1,3 @@
 import { path } from 'ramda'
 
-export const selectAdverts = path(['adverts'])
+export const getAdverts = path(['adverts'])

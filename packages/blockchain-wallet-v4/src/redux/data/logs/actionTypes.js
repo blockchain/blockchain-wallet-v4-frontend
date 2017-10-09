@@ -1,4 +1,2 @@
-export const FETCH_LOGS = '@CORE.FETCH_LOGS'
-export const FETCH_LOGS_SUCCESS = '@CORE.FETCH_LOGS_SUCCESS'
-export const FETCH_LOGS_ERROR = '@CORE.FETCH_LOG_ERRORS'
-export const DELETE_LOGS = '@CORE.DELETE_LOGS'
+
+export const SET_LOGS = '@CORE.SET_LOGS'

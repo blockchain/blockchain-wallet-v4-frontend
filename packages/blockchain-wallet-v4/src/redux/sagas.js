@@ -13,10 +13,6 @@ import { webSocketSaga } from './webSocket/sagas.js'
 export const rootSaga = ({ api, dataPath, walletPath, settingsPath, socket } = {}) => {
   return function * () {
     yield [
-      fork(advertsSaga({api})),
-      fork(captchaSaga({ api })),
-      fork(chartsSaga({ api })),
-      fork(logsSaga({ api })),
       fork(transactionsSaga({api, walletPath, dataPath})),
       fork(webSocketSaga({socket, walletPath, dataPath, api}))
     ]

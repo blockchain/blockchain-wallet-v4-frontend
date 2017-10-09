@@ -6,11 +6,8 @@ const advertsReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case T.FETCH_ADVERTS_SUCCESS: {
+    case T.SET_ADVERTS: {
       return payload
-    }
-    case T.DELETE_FEE: {
-      return INITIAL_STATE
     }
     default:
       return state
