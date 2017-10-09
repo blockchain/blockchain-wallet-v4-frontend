@@ -7,7 +7,7 @@ export const commonSaga = ({ api } = {}) => {
     yield put(A.setBlockchainData(data))
   }
 
-  return ({
-    fetchBlockchainData: fetchBlockchainData
-  })
+  return {
+    fetchBlockchainData
+  }
 }

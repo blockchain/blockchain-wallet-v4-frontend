@@ -11,8 +11,7 @@ const latestBlockReducer = (state = INITIAL_STATE, action) => {
       return path(['info', 'latest_block'], payload)
     }
     case T.latestBlock.SET_LATEST_BLOCK: {
-      const { latestBlock } = payload
-      return latestBlock
+      return payload
     }
     default:
       return state
