@@ -5,6 +5,7 @@ import { actions, selectors } from 'data'
 import { feeSaga } from 'blockchain-wallet-v4/src/redux/data/fee/sagas.js'
 import { paymentSaga } from 'blockchain-wallet-v4/src/redux/data/payment/sagas.js'
 import { api } from 'services/ApiService'
+import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 import settings from 'config'
 
 import { convertUnitToSatoshis } from 'services/ConversionService'
@@ -19,9 +20,7 @@ const initSendBitcoin = function * (action) {
     const index = yield select(selectors.core.wallet.getDefaultAccountIndex)
     yield call(paymentSagas.getUnspent, index, undefined)
   } catch (e) {
-    console.log(e)
     if (e !== 'No free outputs to spend') {
-      console.log(e)
       yield put(actions.alerts.displayError('Could not init send bitcoin.'))
     }
   } finally {
@@ -60,7 +59,6 @@ const getSelection = function * (action) {
     const algorithm = 'singleRandomDraw'
     yield call(paymentSagas.refreshSelection, fee, changeAddress, receiveAddress, satoshis, algorithm, seed)
   } catch (e) {
-    console.log(e)
     yield put(actions.alerts.displayError('Could not calculate selection.'))
   }
 }
@@ -70,19 +68,18 @@ const getEffectiveBalance = function * (action) {
   try {
     yield call(paymentSagas.refreshEffectiveBalance, fee)
   } catch (e) {
-    console.log(e)
     yield put(actions.alerts.displayError('Could not calculate selection.'))
   }
 }
 
 const sendBitcoin = function * (action) {
   try {
-    const { selection } = action.payload
-    // yield put(actions.core.payment.signAndPublish(settings.NETWORK, selection
-    //   yield put(reduxFormActions.destroy('sendBitcoin'))
-    //   yield put(actions.modals.closeModal())
-    //   yield put(push('/transactions'))
-    //   yield put(actions.alerts.displaySuccess('Your transaction is being confirmed'))
+    const saga = askSecondPasswordEnhancer(paymentSagas.signAndPublish)
+    yield call(saga, action.payload)
+    yield put(actions.form.destroy('sendBitcoin'))
+    yield put(actions.modals.closeModal())
+    yield put(actions.router.push('/transactions'))
+    yield put(actions.alerts.displaySuccess('Your transaction is being confirmed'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch settings.'))
   }

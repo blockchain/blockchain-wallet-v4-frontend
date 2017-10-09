@@ -36,12 +36,10 @@ export const paymentSaga = ({ api, walletPath, dataPath } = {}) => {
     yield put(A.setEffectiveBalance(effectiveBalance))
   }
 
-  const signAndPublish = function * (action) {
-    const { network, selection, secondPassword } = action.payload
+  const signAndPublish = function * ({ network, selection, password }) {
     const wrapper = yield select(prop(walletPath))
-    const signAndPublish = (sel, pass) =>
-      taskToPromise(sign(network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushTx)))
-    return yield call(signAndPublish, selection, secondPassword)
+    const signAndPublish = (sel, pass) => taskToPromise(sign(network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushTx)))
+    return yield call(signAndPublish, selection, password)
   }
 
   return {

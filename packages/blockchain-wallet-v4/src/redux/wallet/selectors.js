@@ -23,7 +23,10 @@ export const getHDAccounts = compose(ImtoJS, map(HDAccount.toJS), Wallet.selectH
 export const getSeedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
 export const getMnemonic = compose(e => e.getOrElse(''), entropyToMnemonic, getSeedHex)
 export const getDefaultAccountIndex = compose(HDWallet.selectDefaultAccountIdx, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
+// TODO
 export const getAccountXpub = curry((index, state) => compose(HDAccount.selectXpub, HDWallet.selectAccount(index), HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)(state))
+export const getAccountLabel = curry((index, state) => compose(HDAccount.selectLabel, HDWallet.selectAccount(index), HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)(state))
+// END TODO
 export const getDefaultAccountXpub = state => getAccountXpub(getDefaultAccountIndex(state), state)
 export const getInitialSocketContext = state => ({ guid: getGuid(state), addresses: getAddressContext(state), xpubs: getWalletContext(state) })
 export const getLogoutTime = compose(Options.selectLogoutTime, Wallet.selectOptions, Wrapper.selectWallet)

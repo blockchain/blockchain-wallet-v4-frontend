@@ -30,8 +30,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
-  const createLegacyAddress = function * (action) {
-    const { address, password } = action.payload
+  const createLegacyAddress = function * ({address, password}) {
     const wrapper = yield select(prop(walletPath))
     const a = Address.fromJS(address)
     const addAddress = wallet => Wallet.addAddress(wallet, a, password)
@@ -84,8 +83,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield put(A.setWrapper(wrapper))
   }
 
-  const updatePbkdf2Iterations = function * (action) {
-    const { iterations, password } = action.payload
+  const updatePbkdf2Iterations = function * ({iterations, password}) {
     if (not(is(Number, iterations))) {
       throw new Error('PBKDF2_ITERATIONS_NOT_A_NUMBER')
     } else {
