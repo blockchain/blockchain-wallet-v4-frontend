@@ -35,7 +35,7 @@ const TransactionSearch = (props) => {
   const { value, handleChange } = props
   return (
     <SearchContainer>
-      <SearchBox value={value} onChange={handleChange} />
+      <SearchBox value={value} onChange={handleChange} placeholder='Search' />
       <SearchIcon name='search' />
     </SearchContainer>
   )
