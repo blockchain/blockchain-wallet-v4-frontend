@@ -57,7 +57,7 @@ const getSelection = function * (action) {
     const unit = yield select(selectors.core.settings.getBtcCurrency)
     const satoshis = convertUnitToSatoshis(amount, unit).value
     const algorithm = 'singleRandomDraw'
-    yield call(paymentSagas.refreshSelection, fee, changeAddress, receiveAddress, satoshis, algorithm, seed)
+    yield call(paymentSagas.refreshSelection, { feePerByte: fee, changeAddress, receiveAddress, satoshis, algorithm, seed })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not calculate selection.'))
   }
@@ -66,7 +66,7 @@ const getSelection = function * (action) {
 const getEffectiveBalance = function * (action) {
   const { fee } = action.payload
   try {
-    yield call(paymentSagas.refreshEffectiveBalance, fee)
+    yield call(paymentSagas.refreshEffectiveBalance, { feePerByte: fee })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not calculate selection.'))
   }

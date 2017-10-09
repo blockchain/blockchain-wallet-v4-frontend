@@ -24,13 +24,13 @@ export const paymentSaga = ({ api, walletPath, dataPath } = {}) => {
     }
   }
 
-  const refreshSelection = function * (feePerByte, changeAddress, receiveAddress, satoshis, algorithm, seed) {
+  const refreshSelection = function * ({ feePerByte, changeAddress, receiveAddress, satoshis, algorithm, seed }) {
     const coins = yield select(compose(getCoins, prop(dataPath)))
     const targetCoin = Coin.fromJS({ address: receiveAddress, value: satoshis })
     yield put(A.setSelection(feePerByte, targetCoin, coins, changeAddress, algorithm, seed))
   }
 
-  const refreshEffectiveBalance = function * (feePerByte) {
+  const refreshEffectiveBalance = function * ({ feePerByte }) {
     const coins = yield select(compose(getCoins, prop(dataPath)))
     const effectiveBalance = CoinSelection.effectiveBalance(feePerByte, coins).value
     yield put(A.setEffectiveBalance(effectiveBalance))
