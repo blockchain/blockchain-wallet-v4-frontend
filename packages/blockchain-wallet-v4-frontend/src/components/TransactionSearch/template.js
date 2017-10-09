@@ -31,7 +31,7 @@ const SearchIcon = styled(Icon)`
   right: 10px;
 `
 
-const Search = (props) => {
+const TransactionSearch = (props) => {
   const { value, handleChange } = props
   return (
     <SearchContainer>
@@ -41,4 +41,4 @@ const Search = (props) => {
   )
 }
 
-export default Search
+export default TransactionSearch

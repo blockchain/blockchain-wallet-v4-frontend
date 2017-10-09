@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Search from './template.js'
+import TransactionSearch from './template.js'
 
-class SearchContainer extends React.Component {
+class TransactionSearchContainer extends React.Component {
   constructor (props) {
     super(props)
     this.timeout = undefined
@@ -16,16 +16,16 @@ class SearchContainer extends React.Component {
 
   render () {
     return (
-      <Search value={this.props.input.value} handleChange={this.handleChange} />
+      <TransactionSearch value={this.props.input.value} handleChange={this.handleChange} />
     )
   }
 }
 
-SearchContainer.propTypes = {
+TransactionSearchContainer.propTypes = {
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired
   })
 }
 
-export default SearchContainer
+export default TransactionSearchContainer

@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { Form, SelectBoxAddresses } from 'components/Form'
 import TransactionMenuStatus from 'components/TransactionMenuStatus'
-import Search from './Search'
+import TransactionSearch from 'components/TransactionSearch'
 
 const Wrapper = styled.div`
   padding: 8px 30px;
@@ -54,7 +54,7 @@ const MenuTop = (props) => {
           <Field name='status' component={TransactionMenuStatus} />
         </FilterStatuses>
         <FilterSearch>
-          <Field name='search' component={Search} />
+          <Field name='search' component={TransactionSearch} />
         </FilterSearch>
       </HorizontalForm>
     </Wrapper>
