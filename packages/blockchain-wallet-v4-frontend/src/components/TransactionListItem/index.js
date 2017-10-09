@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-import ListItem from './template.js'
+import TransactionListItem from './template.js'
 
-class ListItemContainer extends React.Component {
+class TransactionListItemContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = { toggled: false }
@@ -23,7 +23,7 @@ class ListItemContainer extends React.Component {
 
   render () {
     return (
-      <ListItem
+      <TransactionListItem
         toggled={this.state.toggled}
         handleToggle={this.handleToggle}
         handleClick={this.handleCoinDisplay}
@@ -45,4 +45,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListItemContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionListItemContainer)
