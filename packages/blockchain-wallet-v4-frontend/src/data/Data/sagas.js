@@ -7,6 +7,7 @@ import { chartsSaga } from 'blockchain-wallet-v4/src/redux/data/charts/sagas.js'
 import { logsSaga } from 'blockchain-wallet-v4/src/redux/data/logs/sagas.js'
 import { ratesSaga } from 'blockchain-wallet-v4/src/redux/data/rates/sagas.js'
 import { commonSaga } from 'blockchain-wallet-v4/src/redux/common/sagas.js'
+import { transactionsSaga } from 'blockchain-wallet-v4/src/redux/data/transactions/sagas.js'
 import { api } from 'services/ApiService'
 import settings from 'config'
 
@@ -16,6 +17,7 @@ const chartsSagas = chartsSaga({ api })
 const logsSagas = logsSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
 const ratesSagas = ratesSaga({ api })
 const commonSagas = commonSaga({ api })
+const transactionsSagas = transactionsSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH, dataPath: settings.BLOCKCHAIN_DATA_PATH })
 
 const initData = function * (action) {
   try {
@@ -62,12 +64,23 @@ const getLogs = function * (action) {
   }
 }
 
+const getTransactions = function * (action) {
+  const { address } = action.payload
+  try {
+    yield call(transactionsSagas.fetchTransactions, { address })
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch transactions.'))
+  }
+}
+
+
 const sagas = function * () {
   yield takeEvery(AT.INIT_DATA, initData)
   yield takeEvery(AT.GET_ADVERTS, getAdverts)
   yield takeEvery(AT.GET_CAPTCHA, getCaptcha)
   yield takeEvery(AT.GET_PRICE_INDEX_SERIES, getPriceIndexSeries)
   yield takeEvery(AT.GET_LOGS, getLogs)
+  yield takeEvery(AT.GET_TRANSACTIONS, getTransactions)
 }
 
 export default sagas

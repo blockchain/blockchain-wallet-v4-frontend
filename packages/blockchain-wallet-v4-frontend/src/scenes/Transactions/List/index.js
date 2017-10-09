@@ -27,7 +27,6 @@ class ListContainer extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (!equals(this.props.source, nextProps.source)) {
-      this.props.actions.deleteTransactions()
       this.fetchTransactions(nextProps.source)
       return
     }
@@ -48,7 +47,7 @@ class ListContainer extends React.Component {
 
   fetchTransactions (source) {
     // console.log('fetchTransactions')
-    this.props.actions.fetchTransactions(source, 50)
+    this.props.dataActions.getTransactions(source)
   }
 
   filterTransactions (status, criteria, transactions) {
@@ -90,7 +89,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.core.transactions, dispatch)
+  dataActions: bindActionCreators(actions.data, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListContainer)

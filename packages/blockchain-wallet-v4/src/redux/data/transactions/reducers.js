@@ -9,23 +9,15 @@ const INITIAL_STATE = {
 const listReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
-    case T.FETCH_TRANSACTIONS: {
-      const { address } = payload
-      if (!equals(address, state.address)) {
-        return assoc('address', address, INITIAL_STATE)
+    case T.SET_TRANSACTIONS: {
+      const { address, txs, reset } = payload
+      if (reset) {
+        return { address, list: txs }
       } else {
-        return state
+        return { address, list: concat(txs, state.list) }
       }
     }
 
-    case T.FETCH_TRANSACTIONS_SUCCESS: {
-      const { payload } = action
-      return over(lensProp('list'), concat(payload.txs), state)
-    }
-
-    case T.DELETE_TRANSACTIONS: {
-      return []
-    }
     default:
       return state
   }
