@@ -28,8 +28,8 @@ const configureStore = () => {
     composeEnhancers(
       applyMiddleware(
         reduxRouterMiddleware,
-        // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
-        coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.getIsAuthenticated }),
+        // coreMiddleware.walletSync({isAuthenticated: auth.isAuthenticated, api, walletPath}),
+        coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.isAuthenticated }),
         sagaMiddleware
       ),
       autoRehydrate()

@@ -3,12 +3,15 @@ import { prop, compose } from 'ramda'
 import * as A from '../actions'
 import * as T from '../actionTypes'
 import { Wrapper, Wallet } from '../../types'
+import { commonSaga } from '../common/sagas.js'
 import * as walletSelectors from '../wallet/selectors'
-import * as transSelectors from '../data/transactions/selectors'
+// import * as transSelectors from '../data/transactions/selectors'
 import { Socket } from '../../network'
 
 export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
   const send = socket.send.bind(socket)
+    
+  const commonSagas = commonSaga({ api })
 
   const onOpen = function * (action) {
     const wrapper = yield select(prop(walletPath))
@@ -74,7 +77,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
     const wrapper = yield select(prop(walletPath))
     const context = walletSelectors.getWalletContext(wrapper)
     try {
-      yield put(A.common.fetchBlockchainData(context))
+      yield call(commonSagas.fetchBlockchainData, { context })
     } catch (e) {
       console.log('REFRESH BLOCKCHAIN DATA FAILED (WEBSOCKET) :: should dispatch error action ?')
     }
