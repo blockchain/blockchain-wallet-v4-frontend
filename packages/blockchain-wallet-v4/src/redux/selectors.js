@@ -1,4 +1,4 @@
-import { compose, prop, map } from 'ramda'
+import { useWith, prop, map } from 'ramda'
 import * as addresses from './data/addresses/selectors.js'
 import * as adverts from './data/adverts/selectors.js'
 import * as captcha from './data/captcha/selectors.js'
@@ -16,7 +16,7 @@ import { commonSelectorsFactory } from './common/selectors.js'
 
 export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
   const common = commonSelectorsFactory({walletPath, dataPath, settingsPath})
-  const extend = path => s => compose(s, prop(path))
+  const extend = path => s => useWith(s, [prop(path)])
 
   return ({
     addresses: map(extend(dataPath), addresses),

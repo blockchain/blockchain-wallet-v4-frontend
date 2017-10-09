@@ -29,12 +29,9 @@ const mapStateToProps = (state, ownProps) => {
   const to2 = formValueSelector('sendBitcoin')(state, 'to2')
   const from = formValueSelector('sendBitcoin')(state, 'from')
   const message = formValueSelector('sendBitcoin')(state, 'message')
-  // console.log('from', from)
-  // console.log(selectors.core.wallet.getDefaultAccountXpub(state))
-  // const toAddress = !isNil(to2) ? to2 : (to.address || selectors.core.wallet.getAccountLabel(to.index, state))
-  const toAddress = 'TODO TO'
-  // const fromAddress = from.address || selectors.core.wallet.getAccountLabel(from.index)(state)
-  const fromAddress = 'TODO FROM'
+  // TODO :: get legaacy address label if any for both cases, from and to
+  const toAddress = !isNil(to2) ? to2 : (to.address || selectors.core.wallet.getAccountLabel(state, to.index))
+  const fromAddress = from.address || selectors.core.wallet.getAccountLabel(state, from.index)
   const selection = selectors.core.payment.getSelection(state)
   const targetCoin = filter(x => !x.change, selection.outputs)[0]
   const satoshis = targetCoin.value
