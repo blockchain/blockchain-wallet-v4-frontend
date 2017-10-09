@@ -6,6 +6,7 @@ import { socket } from 'services/Socket'
 import { coreSagas } from 'blockchain-wallet-v4/src'
 import alertSagas from './Alerts/sagas.js'
 import authSagas from './Auth/sagas.js'
+import dataSagas from './Data/sagas.js'
 import modalSagas from './Modals/sagas.js'
 import paymentSagas from './Payment/sagas.js'
 import settingsSaga from './Settings/sagas.js'
@@ -20,6 +21,7 @@ function * sagas () {
     fork(coreSagas.rootSaga({ api, dataPath, walletPath, settingsPath, socket })),
     fork(alertSagas),
     fork(authSagas),
+    fork(dataSagas),
     fork(paymentSagas),
     fork(modalSagas),
     fork(settingsSaga),

@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { call, put, fork } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import * as A from './actions'
 
 export const ratesSaga = ({ api } = {}) => {
@@ -7,32 +7,22 @@ export const ratesSaga = ({ api } = {}) => {
 
   const refreshBitcoinRates = function * () {
     while (true) {
-      try {
-        const response = yield call(api.getTicker)
-        yield put(A.fetchBtcRatesSuccess(response))
-      } catch (error) {
-        yield put(A.fetchBtcRatesError(error))
-      }
+      const response = yield call(api.getTicker)
+      yield put(A.setBitcoinRates(response))
       yield call(delay, refreshRatesDelay)
     }
   }
 
   const refreshEthereumRates = function * () {
     while (true) {
-      try {
-        const response = yield call(api.getEthTicker)
-        yield put(A.fetchEthRatesSuccess(response))
-      } catch (error) {
-        yield put(A.fetchEthRatesError(error))
-      }
+      const response = yield call(api.getEthTicker)
+      yield put(A.setEthereumRates(response))
       yield call(delay, refreshRatesDelay)
     }
   }
 
-  return function * () {
-    yield [
-      fork(refreshBitcoinRates),
-      fork(refreshEthereumRates)
-    ]
+  return {
+    refreshBitcoinRates,
+    refreshEthereumRates
   }
 }

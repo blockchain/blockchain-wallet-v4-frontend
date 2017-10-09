@@ -1,9 +1,5 @@
 import * as T from './actionTypes'
 
-export const fetchBtcRatesSuccess = (data) => ({ type: T.FETCH_BTC_RATES_SUCCESS, payload: data })
+export const setBitcoinRates = (data) => ({ type: T.SET_BITCOIN_RATES, payload: data })
 
-export const fetchBtcRatesError = (message) => ({ type: T.FETCH_BTC_RATES_ERROR, payload: message })
-
-export const fetchEthRatesSuccess = (data) => ({ type: T.FETCH_ETH_RATES_SUCCESS, payload: data })
-
-export const fetchEthRatesError = (message) => ({ type: T.FETCH_ETH_RATES_ERROR, payload: message })
+export const setEthereumRates = (data) => ({ type: T.SET_ETHEREUM_RATES, payload: data })

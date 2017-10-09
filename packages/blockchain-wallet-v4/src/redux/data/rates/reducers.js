@@ -6,13 +6,13 @@ const INITIAL_STATE = {
   ethereum: {}
 }
 
-const btcRatesReducer = (state = INITIAL_STATE, action) => {
+const ratesReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
-    case T.FETCH_BTC_RATES_SUCCESS: {
+    case T.SET_BITCOIN_RATES: {
       return assoc('bitcoin', payload, state)
     }
-    case T.FETCH_ETH_RATES_SUCCESS: {
+    case T.SET_ETHEREUM_RATES: {
       return assoc('ethereum', payload, state)
     }
     default:
@@ -20,4 +20,4 @@ const btcRatesReducer = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default btcRatesReducer
+export default ratesReducer

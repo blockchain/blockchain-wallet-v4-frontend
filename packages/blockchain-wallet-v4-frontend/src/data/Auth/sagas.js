@@ -13,7 +13,6 @@ import settings from 'config'
 
 const walletSagas = walletSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
 const settingsSagas = settingsSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
-
 // =============================================================================
 // ================================= Generic ===================================
 // =============================================================================
@@ -23,6 +22,7 @@ const loginRoutineSaga = function * () {
   const context = yield select(selectors.core.wallet.getWalletContext)
   yield put(actions.core.common.fetchBlockchainData(context))
   yield put(actions.core.webSocket.startSocket())
+  yield put(actions.data.initData())
   yield put(actions.settings.initSettings())
   yield put(actions.alerts.displaySuccess('Login successful'))
   yield put(push('/wallet'))
