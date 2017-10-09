@@ -7,7 +7,7 @@ const infoReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case T.common.FETCH_BLOCKCHAIN_DATA_SUCCESS: {
+    case T.common.SET_BLOCKCHAIN_DATA: {
       return prop('wallet', payload)
     }
     default:

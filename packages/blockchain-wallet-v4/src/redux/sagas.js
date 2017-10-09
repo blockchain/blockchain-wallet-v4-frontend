@@ -18,7 +18,6 @@ export const rootSaga = ({ api, dataPath, walletPath, settingsPath, socket } = {
       fork(chartsSaga({ api })),
       fork(logsSaga({ api })),
       fork(transactionsSaga({api, walletPath, dataPath})),
-      fork(commonSaga({api})),
       fork(webSocketSaga({socket, walletPath, dataPath, api}))
     ]
   }

@@ -19,8 +19,6 @@ const settingsSagas = settingsSaga({ api, walletPath: settings.WALLET_IMMUTABLE_
 
 const loginRoutineSaga = function * () {
   yield put(actions.auth.authenticate())
-  const context = yield select(selectors.core.wallet.getWalletContext)
-  yield put(actions.core.common.fetchBlockchainData(context))
   yield put(actions.core.webSocket.startSocket())
   yield put(actions.data.initData())
   yield put(actions.settings.initSettings())
