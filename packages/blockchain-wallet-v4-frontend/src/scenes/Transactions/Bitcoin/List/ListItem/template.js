@@ -54,7 +54,7 @@ const Status = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-content: center;
-  min-width: 220px;
+  min-width: 200px;
   margin-left: 60px;
 
   @media(min-width: 1200px) {  width: 20%; }
@@ -71,7 +71,7 @@ const Arrow = styled.div`
   cursor: pointer;
 `
 const Addresses = styled(HiddenOnMobile)`
-  min-width: 400px;
+  min-width: 350px;
 
   @media(min-width: 1200px) { 
     flex-direction: column;
@@ -79,11 +79,14 @@ const Addresses = styled(HiddenOnMobile)`
   }
 `
 const Description = styled(HiddenOnMobile)`
-  min-width: 250px;
+  min-width: 150px;
+  padding-right: 5px;
   @media(min-width: 1200px) { width: 25%; }
 `
 const Amount = styled.div`
-  min-width: 200px;
+  display: flex;
+  align-self: flex-end;
+  min-width: 140px;
   @media(min-width: 1200px) {
     display: flex;
     width: 20%;
