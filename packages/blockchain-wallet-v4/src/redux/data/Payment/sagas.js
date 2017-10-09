@@ -15,8 +15,13 @@ export const paymentSaga = ({ api, walletPath, dataPath } = {}) => {
   const getUnspent = function * (index, address) {
     const source = is(Number, index) ? index : address
     const wrapper = yield select(prop(walletPath))
-    const coins = yield call(api.getWalletUnspents, wrapper, source)
-    yield put(A.setUnspent(coins))
+    try {
+      const coins = yield call(api.getWalletUnspents, wrapper, source)
+      yield put(A.setUnspent(coins))
+    } catch (e) {
+      yield put(A.setUnspent([]))
+      throw e
+    }
   }
 
   const refreshSelection = function * (feePerByte, changeAddress, receiveAddress, satoshis, algorithm, seed) {

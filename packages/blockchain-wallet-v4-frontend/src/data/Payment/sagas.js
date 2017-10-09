@@ -18,11 +18,16 @@ const initSendBitcoin = function * (action) {
     yield call(feeSagas.fetchFee)
     const index = yield select(selectors.core.wallet.getDefaultAccountIndex)
     yield call(paymentSagas.getUnspent, index, undefined)
+  } catch (e) {
+    console.log(e)
+    if (e !== 'No free outputs to spend') {
+      console.log(e)
+      yield put(actions.alerts.displayError('Could not init send bitcoin.'))
+    }
+  } finally {
     const feePerByteRegular = yield select(selectors.core.fee.getRegular)
     yield call(paymentSagas.refreshEffectiveBalance, feePerByteRegular)
     yield put(actions.modals.showModal('SendBitcoin'))
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not init send bitcoin.'))
   }
 }
 
@@ -31,7 +36,9 @@ const getUnspent = function * (action) {
   try {
     yield call(paymentSagas.getUnspent, index, address)
   } catch (e) {
-    yield put(actions.alerts.displayError('Could not fetch coin unspent.'))
+    if (e !== 'No free outputs to spend') {
+      yield put(actions.alerts.displayError('Could not fetch coin unspent.'))
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { reduxForm, formValueSelector, actions as reduxFormActions } from 'redux-form'
+import { formValueSelector, actions as reduxFormActions } from 'redux-form'
 import ui from 'redux-ui'
 import { equals } from 'ramda'
 import * as crypto from 'crypto'
@@ -11,7 +11,6 @@ import FirstStep from './template.js'
 
 class FirstStepContainer extends React.Component {
   constructor (props) {
-    console.log('constructor:', props.effectiveBalance)
     super(props)
     this.timeout = undefined
     this.seed = crypto.randomBytes(16).toString('hex')
@@ -19,25 +18,22 @@ class FirstStepContainer extends React.Component {
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
     this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.validAmount = this.validAmount.bind(this)
   }
 
   componentWillMount () {
-    console.log('componentWillReceiveProps:', this.props.effectiveBalance)
     this.props.reduxFormActions.initialize('sendBitcoin', this.props.initialValues)
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log('componentWillReceiveProps:', this.props.effectiveBalance, nextProps.effectiveBalance)
-    const { fee, from, to, to2, amount } = nextProps
+    // console.log('componentWillReceiveProps:', this.props.effectiveBalance, nextProps.effectiveBalance)
+    const { fee, from, to, to2, amount, coins } = nextProps
     // Update 'coins' if 'from' has been updated
     if (!equals(this.props.from, from)) {
       this.props.paymentActions.getUnspent(from)
     }
 
-    // Update effective balance if fee or amount has changed
-    if (!equals(this.props.from, from) || !equals(this.props.fee, fee)) {
-      console.log('componentWillReceiveProps 2:', this.props.effectiveBalance, nextProps.effectiveBalance)
+    // Update effective balance if fee or from (coins) has changed
+    if (!equals(this.props.fee, fee) || !equals(this.props.coins, coins)) {
       this.props.paymentActions.getEffectiveBalance({ fee })
     }
 
@@ -68,11 +64,6 @@ class FirstStepContainer extends React.Component {
     this.props.modalActions.showModal('QRCodeCapture')
   }
 
-  validAmount (value, allValues, props) {
-    console.log('validationRule', props.effectiveBalance)
-    return value <= props.convertedEffectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
-  }
-
   onSubmit (e) {
     e.preventDefault()
     this.props.nextStep()
@@ -81,7 +72,6 @@ class FirstStepContainer extends React.Component {
   render () {
     const { ui, position, total, closeAll, selection, unit, effectiveBalance } = this.props
     const convertedEffectiveBalance = convertSatoshisToUnit(effectiveBalance, unit).value
-    console.log('render:', this.props.effectiveBalance)
 
     return <FirstStep
       position={position}
@@ -92,7 +82,6 @@ class FirstStepContainer extends React.Component {
       addressSelectOpened={ui.addressSelectOpened}
       feeEditToggled={ui.feeEditToggled}
       effectiveBalance={convertedEffectiveBalance}
-      validAmount={this.validAmount}
       handleClickAddressToggler={this.handleClickAddressToggler}
       handleClickFeeToggler={this.handleClickFeeToggler}
       handleClickQrCodeCapture={this.handleClickQrCodeCapture}
@@ -119,6 +108,7 @@ const mapStateToProps = (state, ownProps) => {
     selection: selectors.core.payment.getSelection(state),
     feeValues: selectors.core.fee.getFee(state),
     effectiveBalance: selectors.core.payment.getEffectiveBalance(state),
+    coins: selectors.core.payment.getCoins(state),
     unit: selectors.core.settings.getBtcCurrency(state)
   }
 }

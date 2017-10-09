@@ -45,12 +45,23 @@ const ButtonRow = styled(ButtonGroup)`
   & > button:first-child { width: 100%; }
   & > button:last-child: { width: 200px; }
 `
+const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+  if (initialRender) { return true }
+  return (
+    initialRender ||
+    !structure.deepEqual(values, nextProps.values) ||
+    props.effectiveBalance !== nextProps.effectiveBalance
+  )
+}
+
+const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
+
+// const emptyAmount = (value, allValues, props) => props.coins ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = (props) => {
   const { invalid, submitting, position, total, closeAll, ...rest } = props
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, ...rest2 } = rest
-  const { onSubmit, handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, validAmount } = rest2
-  console.log('effectiveBalance (Child)', props.effectiveBalance)
+  const { onSubmit, handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler } = rest2
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -143,4 +154,4 @@ FirstStep.propTypes = {
   handleClickFeeToggler: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false, shouldValidate: shouldValidate })(FirstStep)
