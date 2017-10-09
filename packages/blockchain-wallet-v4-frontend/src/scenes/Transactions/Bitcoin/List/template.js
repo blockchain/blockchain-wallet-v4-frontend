@@ -12,6 +12,7 @@ const TransactionList = (props) => {
   return (
     <Wrapper>
       { props.transactions.map(function (transaction, index) {
+        console.log(transaction)
         return <TransactionListItem key={index} transaction={transaction} />
       })}
     </Wrapper>

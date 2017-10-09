@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { Form, SelectBoxAddresses } from 'components/Form'
-import Status from './Status'
+import TransactionMenuStatus from 'components/TransactionMenuStatus'
 import Search from './Search'
 
 const Wrapper = styled.div`
@@ -51,7 +51,7 @@ const MenuTop = (props) => {
           <Field name='source' component={SelectBoxAddresses} />
         </FilterAddresses>
         <FilterStatuses>
-          <Field name='status' component={Status} />
+          <Field name='status' component={TransactionMenuStatus} />
         </FilterStatuses>
         <FilterSearch>
           <Field name='search' component={Search} />

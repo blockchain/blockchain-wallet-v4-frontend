@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { Form } from 'components/Form'
-import Status from './Status'
+import TransactionMenuStatus from 'components/TransactionMenuStatus'
 
 const Wrapper = styled.div`
   padding: 8px 30px;
@@ -32,7 +32,7 @@ const MenuTop = (props) => {
     <Wrapper>
       <HorizontalForm>
         <FilterStatuses>
-          <Field name='status' component={Status} />
+          <Field name='status' component={TransactionMenuStatus} />
         </FilterStatuses>
       </HorizontalForm>
     </Wrapper>
