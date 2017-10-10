@@ -27,7 +27,7 @@ class EthereumTickerContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const ethraw = selectors.core.ethRates.getEthRates(state)
+  const ethraw = selectors.core.rates.getEthRates(state)
   return {
     currency: selectors.core.settings.getCurrency(state),
     ethRates: Pairs.create(ETH.code, ethraw)

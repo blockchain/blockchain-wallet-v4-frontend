@@ -16,9 +16,13 @@ CurrencyDisplay.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
+CurrencyDisplay.defaultProps = {
+  children: 0
+}
+
 const mapStateToProps = (state) => ({
   currency: selectors.core.settings.getCurrency(state),
-  rates: selectors.core.btcRates.getBtcRates(state)
+  rates: selectors.core.rates.getBtcRates(state)
 })
 
 export default connect(mapStateToProps)(CurrencyDisplay)

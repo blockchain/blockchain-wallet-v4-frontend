@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { merge } from 'ramda'
+
 import { assign } from 'services/RamdaCookingBook'
 
 const INITIAL_STATE = {
@@ -9,18 +9,14 @@ const INITIAL_STATE = {
   error: null
 }
 
-const login = (state = INITIAL_STATE, action) => {
+const auth = (state = INITIAL_STATE, action) => {
   const { type } = action
   switch (type) {
-    case AT.LOGIN_START: {
+    case AT.LOGIN: {
       return assign(state, { isLoggingIn: true })
     }
-    case AT.LOGIN_SUCCESS: {
+    case AT.AUTHENTICATE: {
       return assign(state, { isAuthenticated: true })
-    }
-    case AT.LOGIN_ERROR: {
-      const { payload } = action
-      return assign(state, { error: payload })
     }
     case AT.SET_AUTH_TYPE: {
       const { payload } = action
@@ -32,17 +28,4 @@ const login = (state = INITIAL_STATE, action) => {
   }
 }
 
-const session = (state = {}, action) => {
-  const { type } = action
-  switch (type) {
-    case AT.SAVE_SESSION: {
-      return merge(state, action.payload)
-    }
-    default:
-      return state
-  }
-}
-
-export default {
-  login, session
-}
+export default auth

@@ -1,7 +1,7 @@
 import chai from 'chai'
 import chaiImmutable from 'chai-immutable'
 import { Address, serializer } from '../../src/types'
-import * as crypto from '../../src/WalletCrypto'
+import * as crypto from '../../src/walletCrypto'
 const { expect } = chai
 chai.use(chaiImmutable)
 

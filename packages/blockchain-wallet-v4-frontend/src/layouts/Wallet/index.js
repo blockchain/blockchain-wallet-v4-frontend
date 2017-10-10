@@ -31,7 +31,7 @@ class WalletLayoutContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: selectors.auth.getIsAuthenticated(state)
+    isAuthenticated: selectors.auth.isAuthenticated(state)
   }
 }
 

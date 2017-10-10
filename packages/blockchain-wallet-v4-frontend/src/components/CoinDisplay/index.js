@@ -7,14 +7,17 @@ import EthDisplay from './EthDisplay'
 const CoinDisplay = props => {
   const { coin, children } = props
   const amount = children || '0'
-  return (
-    coin === 'BTC' ? <BtcDisplay amount={amount} /> : <EthDisplay amount={amount} />
-  )
+
+  return coin === 'BTC' ? <BtcDisplay amount={amount} /> : <EthDisplay amount={amount} />
 }
 
 CoinDisplay.propTypes = {
   coin: PropTypes.oneOf(['BTC', 'ETH']),
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+}
+
+CoinDisplay.defaultProps = {
+  children: 0
 }
 
 export default CoinDisplay

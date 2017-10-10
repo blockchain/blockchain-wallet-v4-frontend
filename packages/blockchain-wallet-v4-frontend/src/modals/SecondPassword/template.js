@@ -3,24 +3,21 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, PasswordInput, Text } from 'blockchain-info-components'
-import { Form } from 'components/Form'
 
 const SecondPassword = (props) => {
-  const { position, total, ...rest } = props
+  const { position, total, close, ...rest } = props
   const { handleClick, handleChange, value } = rest
 
   return (
     <Modal size='medium' position={position} total={total} closeButton={false}>
-      <ModalHeader icon='safe'>
+      <ModalHeader icon='safe' onClose={close}>
         <FormattedMessage id='modals.secondpassword.title' defaultMessage='Second password required' />
       </ModalHeader>
       <ModalBody>
-        <Form>
-          <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.secondpassword.explain' defaultMessage='Please enter your second password' />
-          </Text>
-          <PasswordInput value={value} onChange={handleChange} />
-        </Form>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='modals.secondpassword.explain' defaultMessage='Please enter your second password' />
+        </Text>
+        <PasswordInput value={value} onChange={handleChange} />
       </ModalBody>
       <ModalFooter align='spaced'>
         <Link size='13px' weight={300}>

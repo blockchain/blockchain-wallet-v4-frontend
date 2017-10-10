@@ -54,8 +54,8 @@ const BadgesContainer = styled.div`
 `
 
 const MobileLogin = (props) => {
-  const { position, total, closeAll, ...rest } = props
-  const { handleScan, handleError, handleCancel } = rest
+  const { position, total, close, closeAll, ...rest } = props
+  const { handleScan, handleError } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -93,7 +93,7 @@ const MobileLogin = (props) => {
         </BadgesContainer>
       </ModalBody>
       <ModalFooter>
-        <Link size='13px' weight={300} onClick={handleCancel}>
+        <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage id='modals.mobilelogin.cancel' defaultMessage='Cancel' />
         </Link>
       </ModalFooter>
@@ -103,8 +103,7 @@ const MobileLogin = (props) => {
 
 MobileLogin.propTypes = {
   handleScan: PropTypes.func.isRequired,
-  handleError: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  handleError: PropTypes.func.isRequired
 }
 
 export default MobileLogin

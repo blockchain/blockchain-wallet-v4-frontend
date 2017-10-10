@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 
 import { actions, selectors } from 'data'
@@ -16,8 +16,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { newWalletPasswordValue } = this.props
-    this.props.walletActions.setMainPassword(newWalletPasswordValue)
+    this.props.walletActions.setMainPassword(this.props.newWalletPasswordValue)
     this.handleToggle()
   }
 
@@ -45,7 +44,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(

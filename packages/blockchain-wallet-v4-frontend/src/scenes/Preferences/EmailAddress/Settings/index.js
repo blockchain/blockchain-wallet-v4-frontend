@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 import { equals, isEmpty } from 'ramda'
 
@@ -20,7 +20,7 @@ class SettingContainer extends React.Component {
 
   componentWillMount () {
     if (!isEmpty(this.props.email)) {
-      this.props.reduxFormActions.initialize('settingEmailAddress', { emailAddress: this.props.email })
+      this.props.formActions.initialize('settingEmailAddress', { emailAddress: this.props.email })
       this.props.updateUI({ verifyToggled: !this.props.emailVerified })
     }
   }
@@ -35,8 +35,7 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, emailAddress } = this.props
-    this.props.settingsActions.updateEmail(guid, sharedKey, emailAddress)
+    this.props.settingsActions.updateEmail(this.props.emailAddress)
   }
 
   handleToggle () {
@@ -44,8 +43,7 @@ class SettingContainer extends React.Component {
   }
 
   handleResend () {
-    const { guid, sharedKey, emailAddress } = this.props
-    this.props.settingsActions.updateEmail(guid, sharedKey, emailAddress)
+    this.props.settingsActions.updateEmail(this.props.emailAddress)
   }
 
   render () {
@@ -63,8 +61,6 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   email: selectors.core.settings.getEmail(state),
   emailVerified: selectors.core.settings.getEmailVerified(state),
   emailAddress: formValueSelector('settingEmailAddress')(state, 'emailAddress'),
@@ -72,8 +68,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(

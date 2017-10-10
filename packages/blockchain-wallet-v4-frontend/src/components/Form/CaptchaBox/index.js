@@ -1,54 +1,27 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import CaptchaBox from './template.js'
-import { actions } from 'data'
-import { api } from 'services/ApiService'
+import { actions, selectors } from 'data'
 
 class CaptchaBoxContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { captchaUrl: '' }
-    this.refreshUrl(props.timestamp)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (this.state.captchaUrl === '' || this.props.timestamp !== nextProps.timestamp) {
-      this.refreshUrl(nextProps.timestamp)
-    }
-  }
-
-  generateUrl (blob) {
-    return (window.URL || window.webkitURL).createObjectURL(blob)
-  }
-
-  refreshUrl (timestamp) {
-    // TODO: Handle multilanguages
-    api.getCaptchaImage(timestamp).then(
-      data => this.setState({ captchaUrl: this.generateUrl(data) }),
-      message => this.props.alertActions.displayError(message)
-    )
+  componentWillMount () {
+    this.props.dataActions.getCaptcha()
   }
 
   render () {
-    return <CaptchaBox captchaUrl={this.state.captchaUrl} {...this.props} />
+    return <CaptchaBox captchaUrl={this.props.data.url} {...this.props} />
   }
 }
 
-CaptchaBoxContainer.propTypes = {
-  timestamp: PropTypes.number.isRequired
-}
+const mapStateToProps = (state) => ({
+  data: selectors.core.captcha.getCaptcha(state)
+})
 
-CaptchaBoxContainer.defaultProps = {
-  timestamp: new Date().getTime()
-}
+const mapDispatchToProps = (dispatch) => ({
+  alertActions: bindActionCreators(actions.alerts, dispatch),
+  dataActions: bindActionCreators(actions.data, dispatch)
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    alertActions: bindActionCreators(actions.alerts, dispatch)
-  }
-}
-
-export default connect(undefined, mapDispatchToProps)(CaptchaBoxContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CaptchaBoxContainer)

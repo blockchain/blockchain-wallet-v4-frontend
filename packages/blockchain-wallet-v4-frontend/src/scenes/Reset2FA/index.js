@@ -7,18 +7,37 @@ import wizardProvider from 'providers/WizardProvider'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { api } from 'services/ApiService'
 
 class Reset2FAContainer extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = { timestamp: new Date().getTime() }
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  handleSubmit () {
-    // this.setState({ timestamp: new Date().getTime() })
-    this.props.alertActions.displaySuccess('Success !')
+  success (data) {
+    const { message } = data
+    // TODO: Handle multilanguages
+    switch (message) {
+      case 'Two Factor Authentication Reset Request Successfully Submitted.':
+        this.props.alertActions.displaySuccess(message)
+        break
+      default:
+        this.props.alertActions.displayError(message)
+        break
+    }
+  }
+
+  onSubmit (event) {
+    event.preventDefault()
+    this.setState({ timestamp: new Date().getTime() })
+    const { guid, email, newEmail, secretPhrase, message, code, captcha } = this.props
+    const { sessionToken } = captcha
+    api.reset2fa(guid, email, newEmail, secretPhrase, message, code, sessionToken).then(
+      data => this.success(data)
+    )
   }
 
   render () {
@@ -27,22 +46,24 @@ class Reset2FAContainer extends React.Component {
     switch (step) {
       case 1: return <FirstStep {...rest} />
       case 2: return <SecondStep {...rest} />
-      case 3: return <ThirdStep {...rest} handleSubmit={this.handleSubmit} timestamp={this.state.timestamp} />
+      case 3: return <ThirdStep {...rest} onSubmit={this.onSubmit} timestamp={this.state.timestamp} />
       default: return <FirstStep {...rest} />
     }
   }
 }
 
 const mapStateToProps = (state) => {
-  const selector = formValueSelector('reset2FAForm')
-  return {
+  const selector = formValueSelector('reset2FA')
+  return ({
     guid: selector(state, 'guid'),
     email: selector(state, 'email'),
     newEmail: selector(state, 'newEmail'),
     secretPhrase: selector(state, 'secretPhrase'),
     message: selector(state, 'message'),
-    captcha: selector(state, 'captcha')
-  }
+    code: selector(state, 'code'),
+    captcha: selectors.core.captcha.getCaptcha(state)
+
+  })
 }
 
 const mapDispatchToProps = (dispatch) => {
