@@ -82,13 +82,13 @@ const Navigation = (props) => {
           </Text>
           <Separator />
         </TransactionsWrapper>
-        <LinkContainer to='/transactions/bitcoin' activeClassName='active' onClick={handleCloseSettings}>
+        <LinkContainer to='/btc/transactions' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='bitcoin' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.bitcoin' defaultMessage='Bitcoin' smaller uppercase />
           </MenuItem>
         </LinkContainer>
-        <LinkContainer to='/transactions/ether' activeClassName='active' onClick={handleCloseSettings}>
+        <LinkContainer to='/eth/transactions' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='ethereum' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.ether' defaultMessage='Ether' smaller uppercase />
