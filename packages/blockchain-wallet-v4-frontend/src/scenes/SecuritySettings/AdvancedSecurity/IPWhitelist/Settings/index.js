@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 import { equals, isEmpty } from 'ramda'
 
@@ -19,7 +19,7 @@ class SettingsContainer extends React.Component {
 
   componentWillMount () {
     if (!isEmpty(this.props.currentWhitelist)) {
-      this.props.reduxFormActions.initialize('settingIPWhitelist', { IPWhitelist: this.props.currentWhitelist })
+      this.props.formActions.initialize('settingIPWhitelist', { IPWhitelist: this.props.currentWhitelist })
     }
   }
 
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.settings, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(

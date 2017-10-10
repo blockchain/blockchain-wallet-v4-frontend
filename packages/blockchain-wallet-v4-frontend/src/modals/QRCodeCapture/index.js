@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions as reduxFormActions } from 'redux-form'
 import { isEmpty, isNil } from 'ramda'
 import bip21 from 'bip21'
 
@@ -21,9 +20,9 @@ class QRCodeCaptureContainer extends React.Component {
       const { address, options } = bip21.decode(result)
       const { amount, message } = options
       this.props.alertActions.displayError('QRCode has been successfully read.')
-      this.props.reduxFormActions.change('sendBitcoin', 'to', address)
-      this.props.reduxFormActions.change('sendBitcoin', 'amount', amount)
-      this.props.reduxFormActions.change('sendBitcoin', 'message', message)
+      this.props.formActions.change('sendBitcoin', 'to', address)
+      this.props.formActions.change('sendBitcoin', 'amount', amount)
+      this.props.formActions.change('sendBitcoin', 'message', message)
       this.props.modalActions.closeModal()
     }
   }
@@ -43,7 +42,7 @@ class QRCodeCaptureContainer extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(

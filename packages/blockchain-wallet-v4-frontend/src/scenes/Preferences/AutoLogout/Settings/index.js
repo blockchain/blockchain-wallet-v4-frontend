@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 
 import { actions, selectors } from 'data'
@@ -17,7 +17,7 @@ class SettingContainer extends React.Component {
 
   componentWillMount () {
     const { logoutTime } = this.props
-    this.props.reduxFormActions.initialize('settingAutoLogoutTime', { autoLogoutTime: logoutTime })
+    this.props.formActions.initialize('settingAutoLogoutTime', { autoLogoutTime: logoutTime })
     this.props.updateUI({ updateToggled: false })
   }
 
@@ -50,7 +50,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 

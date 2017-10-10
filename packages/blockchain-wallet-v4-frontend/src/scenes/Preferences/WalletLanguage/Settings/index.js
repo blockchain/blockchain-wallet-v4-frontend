@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions as reduxFormActions } from 'redux-form'
 import { equals } from 'ramda'
 
 import { actions, selectors } from 'data'
@@ -14,12 +13,12 @@ class SettingsContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.reduxFormActions.initialize('settingLanguage', { 'language': this.props.language })
+    this.props.formActions.initialize('settingLanguage', { 'language': this.props.language })
   }
 
   componentWillReceiveProps (nextProps) {
     if (!equals(nextProps.language, this.props.language)) {
-      this.props.reduxFormActions.change('settingLanguage', 'language', nextProps.language)
+      this.props.formActions.change('settingLanguage', 'language', nextProps.language)
     }
   }
 
@@ -38,7 +37,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.settings, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

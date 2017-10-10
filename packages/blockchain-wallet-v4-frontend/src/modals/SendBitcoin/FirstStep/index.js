@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { formValueSelector, actions as reduxFormActions } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 import { equals } from 'ramda'
 import * as crypto from 'crypto'
@@ -21,7 +21,7 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.reduxFormActions.initialize('sendBitcoin', this.props.initialValues)
+    this.props.formActions.initialize('sendBitcoin', this.props.initialValues)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -52,8 +52,8 @@ class FirstStepContainer extends React.Component {
     // We toggle the dropdown 'to' display
     this.props.updateUI({ addressSelectToggled: !this.props.ui.addressSelectToggled })
     // /!\ CAREFUL: We reset field 'to' or 'to2' to make sure we only have 1 of those fields filled at a time.
-    reduxFormActions.change('sendBitcoin', 'to', '')
-    reduxFormActions.change('sendBitcoin', 'to2', '')
+    this.props.formActions.change('sendBitcoin', 'to', '')
+    this.props.formActions.change('sendBitcoin', 'to2', '')
   }
 
   handleClickFeeToggler () {
@@ -118,7 +118,7 @@ const mapDispatchToProps = (dispatch) => ({
   feeActions: bindActionCreators(actions.core.fee, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   paymentActions: bindActionCreators(actions.payment, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(

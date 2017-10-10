@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions as reduxFormActions } from 'redux-form'
 import { equals } from 'ramda'
 
 import { actions, selectors } from 'data'
@@ -14,12 +13,12 @@ class SettingsContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.reduxFormActions.initialize('settingTheme', { 'theme': this.props.theme })
+    this.props.formActions.initialize('settingTheme', { 'theme': this.props.theme })
   }
 
   componentWillReceiveProps (nextProps) {
     if (!equals(nextProps.currency, this.props.currency)) {
-      this.props.reduxFormActions.change('settingTheme', 'theme', nextProps.currency)
+      this.props.formActions.change('settingTheme', 'theme', nextProps.currency)
     }
   }
 
@@ -38,7 +37,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

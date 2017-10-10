@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions as reduxFormActions } from 'redux-form'
 import { equals } from 'ramda'
 
 import { actions, selectors } from 'data'
@@ -14,12 +13,12 @@ class SettingsContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.reduxFormActions.initialize('settingUnit', { 'unit': this.props.unit })
+    this.props.formActions.initialize('settingUnit', { 'unit': this.props.unit })
   }
 
   componentWillReceiveProps (nextProps) {
     if (!equals(nextProps.unit, this.props.unit)) {
-      this.props.reduxFormActions.change('settingUnit', 'unit', nextProps.unit)
+      this.props.formActions.change('settingUnit', 'unit', nextProps.unit)
     }
   }
 
@@ -38,7 +37,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.settings, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

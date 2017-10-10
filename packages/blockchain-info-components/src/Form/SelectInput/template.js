@@ -23,6 +23,7 @@ const Button = styled.button.attrs({
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 40px;
   white-space: nowrap;
   user-select: none;
   padding: 0.5rem 1rem;
