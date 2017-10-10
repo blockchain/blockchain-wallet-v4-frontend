@@ -60,6 +60,7 @@ const login = function * (action) {
       const authorized = yield call(pollingSession, session)
       if (authorized) {
         yield call(sagas.core.wallet.fetchWalletSaga, { guid, session, password })
+        yield call(loginRoutineSaga)
       } else {
         yield put(actions.alerts.displayError('Error establishing the session'))
       }

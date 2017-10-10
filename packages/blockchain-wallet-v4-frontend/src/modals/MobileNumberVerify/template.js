@@ -71,9 +71,9 @@ const MobileNumberVerify = (props) => {
 
 MobileNumberVerify.propTypes = {
   mobileNumber: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleResend: PropTypes.func.isRequired,
-  handleValidate: PropTypes.func.isRequired
+  handleResend: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'mobileNumberVerify' })(MobileNumberVerify)
