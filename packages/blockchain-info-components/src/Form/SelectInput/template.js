@@ -30,7 +30,7 @@ const Button = styled.button.attrs({
   color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', sans-serif !important;
-  font-size: 0.9rem;
+  font-size: 14px;
   font-weight: 300;
   cursor: pointer;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
@@ -45,11 +45,12 @@ const Search = styled.input.attrs({
   color: ${props => props.theme['gray-3']};
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
-  font-size: 0.9rem;
+  font-size: 14px;
   font-weight: normal;
   box-shadow: none;
   width: 100%;
   height: 40px;
+  box-sizing: border-box;
 
   &:focus {
     border-radius: none;
@@ -66,17 +67,19 @@ const List = styled.div`
   order: 1;
   width: 100%;
   height: auto;
-  max-height: 140px; 
+  max-height: 140px;
   overflow-y: scroll;
   overflow-x: hidden;
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
+  box-sizing: border-box;
   z-index: 10;
 `
 const ListItem = styled.a`
   width: 100%;
   padding: 0.5rem 1rem;
   font-weight: 300;
+  font-size: 14px;
   color: ${props => props.theme['gray-4']};
   cursor: pointer;
 

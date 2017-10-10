@@ -35,7 +35,7 @@ const showGoogleAuthenticatorSecretUrl = function * (action) {
 
 const updateEmail = function * (action) {
   try {
-    yield call(settingsSagas.setEmail, action)
+    yield call(settingsSagas.setEmail, action.payload)
     yield put(actions.alerts.displaySuccess('Email address has been successfully updated. Confirmation email has been sent.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update email address.'))
@@ -44,7 +44,7 @@ const updateEmail = function * (action) {
 
 const verifyEmail = function * (action) {
   try {
-    yield call(settingsSagas.setEmailVerified, action)
+    yield call(settingsSagas.setEmailVerified, action.payload)
     yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not verify email address.'))
@@ -53,7 +53,7 @@ const verifyEmail = function * (action) {
 
 const updateMobile = function * (action) {
   try {
-    yield call(settingsSagas.setMobile, action)
+    yield call(settingsSagas.setMobile, action.payload)
     yield put(actions.alerts.displaySuccess('Mobile number has been successfully updated. Verification SMS has been sent.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update mobile number.'))
@@ -62,7 +62,7 @@ const updateMobile = function * (action) {
 
 const verifyMobile = function * (action) {
   try {
-    yield call(settingsSagas.setMobileVerified, action)
+    yield call(settingsSagas.setMobileVerified, action.payload)
     yield put(actions.alerts.displaySuccess('Mobile number has been successfully verified.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not verify mobile number.'))
@@ -71,7 +71,7 @@ const verifyMobile = function * (action) {
 
 const updateLanguage = function * (action) {
   try {
-    yield call(settingsSagas.setLanguage, action)
+    yield call(settingsSagas.setLanguage, action.payload)
     yield put(actions.alerts.displaySuccess('Language has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update language.'))
@@ -80,7 +80,7 @@ const updateLanguage = function * (action) {
 
 const updateCurrency = function * (action) {
   try {
-    yield call(settingsSagas.setCurrency, action)
+    yield call(settingsSagas.setCurrency, action.payload)
     yield put(actions.alerts.displaySuccess('Currency has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update currency.'))
@@ -89,7 +89,7 @@ const updateCurrency = function * (action) {
 
 const updateBitcoinUnit = function * (action) {
   try {
-    yield call(settingsSagas.setBitcoinUnit, action)
+    yield call(settingsSagas.setBitcoinUnit, action.payload)
     yield put(actions.alerts.displaySuccess('Bitcoin unit has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update bitcoin unit.'))
@@ -98,7 +98,7 @@ const updateBitcoinUnit = function * (action) {
 
 const updateAutoLogout = function * (action) {
   try {
-    yield call(settingsSagas.setAutoLogout, action)
+    yield call(settingsSagas.setAutoLogout, action.payload)
     yield put(actions.alerts.displaySuccess('Auto logout has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update auto logout.'))
@@ -107,7 +107,7 @@ const updateAutoLogout = function * (action) {
 
 const updateLoggingLevel = function * (action) {
   try {
-    yield call(settingsSagas.setLoggingLevel, action)
+    yield call(settingsSagas.setLoggingLevel, action.payload)
     yield put(actions.alerts.displaySuccess('Logging level has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update logging level.'))
@@ -116,7 +116,7 @@ const updateLoggingLevel = function * (action) {
 
 const updateIpLock = function * (action) {
   try {
-    yield call(settingsSagas.setIpLock, action)
+    yield call(settingsSagas.setIpLock, action.payload)
     yield put(actions.alerts.displaySuccess('IP whitelist has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update IP whitelist.'))
@@ -125,7 +125,7 @@ const updateIpLock = function * (action) {
 
 const updateIpLockOn = function * (action) {
   try {
-    yield call(settingsSagas.setIpLockOn, action)
+    yield call(settingsSagas.setIpLockOn, action.payload)
     yield put(actions.alerts.displaySuccess('IP restriction has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update IP restriction.'))
@@ -134,7 +134,7 @@ const updateIpLockOn = function * (action) {
 
 const updateBlockTorIps = function * (action) {
   try {
-    yield call(settingsSagas.setBlockTorIps, action)
+    yield call(settingsSagas.setBlockTorIps, action.payload)
     yield put(actions.alerts.displaySuccess('Logging level has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update logging level.'))
@@ -143,7 +143,7 @@ const updateBlockTorIps = function * (action) {
 
 const updateHint = function * (action) {
   try {
-    yield call(settingsSagas.setHint, action)
+    yield call(settingsSagas.setHint, action.payload)
     yield put(actions.alerts.displaySuccess('Hint has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update hint.'))
@@ -152,7 +152,7 @@ const updateHint = function * (action) {
 
 const disableTwoStep = function * (action) {
   try {
-    yield call(settingsSagas.setAuthType, action)
+    yield call(settingsSagas.setAuthType, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification has been successfully updated.'))
     yield put(actions.modals.closeAllModals())
   } catch (e) {
@@ -163,7 +163,7 @@ const disableTwoStep = function * (action) {
 
 const updateTwoStepRemember = function * (action) {
   try {
-    yield call(settingsSagas.setAuthTypeNeverSave, action)
+    yield call(settingsSagas.setAuthTypeNeverSave, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification remember has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update 2-step verification remember.'))
@@ -172,7 +172,7 @@ const updateTwoStepRemember = function * (action) {
 
 const enableTwoStepMobile = function * (action) {
   try {
-    yield call(settingsSagas.setAuthType, action)
+    yield call(settingsSagas.setAuthType, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification (Mobile) has been successfully enabled.'))
     yield put(actions.modals.closeAllModals())
   } catch (e) {
@@ -183,7 +183,7 @@ const enableTwoStepMobile = function * (action) {
 
 const enableTwoStepGoogleAuthenticator = function * (action) {
   try {
-    yield call(settingsSagas.setGoogleAuthenticator, action)
+    yield call(settingsSagas.setGoogleAuthenticator, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification (Google Authenticator) has been successfully enabled.'))
     yield put(actions.modals.closeAllModals())
   } catch (e) {
@@ -194,7 +194,7 @@ const enableTwoStepGoogleAuthenticator = function * (action) {
 
 const enableTwoStepYubikey = function * (action) {
   try {
-    yield call(settingsSagas.setYubikey, action)
+    yield call(settingsSagas.setYubikey, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification (Yubikey) has been successfully enabled.'))
     yield put(actions.modals.closeAllModals())
   } catch (e) {
