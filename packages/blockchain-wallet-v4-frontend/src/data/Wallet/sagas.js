@@ -34,8 +34,15 @@ const toggleSecondPassword = function * (action) {
   }
 }
 
+const verifyMmenonic = function * (action) {
+  yield put(actions.core.wallet.verifyMnemonic())
+  yield put(actions.modals.closeModal())
+  yield put(actions.alerts.displaySuccess('Your mnemonic has been verified !'))
+}
+
 export default function * () {
   yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
   yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
   yield takeEvery(AT.CREATE_LEGACY_ADDRESS, createLegacyAddress)
+  yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
 }

@@ -5,6 +5,7 @@ import ui from 'redux-ui'
 import { take, map, sortBy, prop, range } from 'ramda'
 import { actions, selectors } from 'data'
 import ThirdStep from './template.js'
+console.log(selectors)
 
 class ThirdStepContainer extends React.Component {
   constructor (props) {
@@ -21,7 +22,7 @@ class ThirdStepContainer extends React.Component {
   }
 
   onSubmit () {
-
+    this.props.walletActions.verifyMnemonic()
   }
 
   render () {
@@ -38,7 +39,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const enhance = compose(

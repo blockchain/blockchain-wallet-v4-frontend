@@ -5,7 +5,6 @@ import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import alerts from './Alerts/sagas.js'
 import auth from './Auth/sagas.js'
 import data from './Data/sagas.js'
-import modal from './Modals/sagas.js'
 import payment from './Payment/sagas.js'
 import settings from './Settings/sagas.js'
 import wallet from './Wallet/sagas.js'
@@ -27,7 +26,6 @@ export {
   alerts,
   auth,
   data,
-  modal,
   payment,
   settings,
   wallet
