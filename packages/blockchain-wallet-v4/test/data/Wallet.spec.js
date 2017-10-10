@@ -3,7 +3,7 @@ import chaiImmutable from 'chai-immutable'
 import spies from 'chai-spies'
 import * as R from 'ramda'
 import { Address, Wallet, HDWallet, HDAccount, AddressMap, serializer } from '../../src/types'
-import * as crypto from '../../src/WalletCrypto'
+import * as crypto from '../../src/walletCrypto'
 chai.use(chaiImmutable)
 chai.use(spies)
 const { expect } = chai

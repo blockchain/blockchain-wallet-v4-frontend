@@ -14,14 +14,10 @@ class ReminderContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    const { email, code, captcha, walletActions } = this.props
+    const { email, code, captcha, authActions } = this.props
     const { sessionToken } = captcha
-    walletActions.remindWalletGuid(email, code, sessionToken)
-    // api.recoverWallet(this.props.email, this.props.captcha).then(
-    //   data => this.success(data),
-    //   message => this.props.alertActions.displayError(message)
-    // )
-    // this.props.authActions.login({ guid: this.props.guid, password: this.props.password })
+
+    authActions.remindGuid(email, code, sessionToken)
   }
 
   render () {
@@ -38,9 +34,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  authActions: bindActionCreators(actions.auth, dispatch),
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  walletActions: bindActionCreators(actions.core.wallet, dispatch)
+  authActions: bindActionCreators(actions.auth, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReminderContainer)

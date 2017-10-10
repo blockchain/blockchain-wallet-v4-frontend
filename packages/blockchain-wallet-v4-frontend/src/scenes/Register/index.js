@@ -16,7 +16,7 @@ class RegisterContainer extends React.Component {
     e.preventDefault()
     const { email, password } = this.props
     this.props.alertActions.displayInfo('Creating wallet...')
-    this.props.walletActions.createWallet(email, password)
+    this.props.authActions.register(email, password)
   }
 
   render () {
@@ -33,6 +33,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  authActions: bindActionCreators(actions.auth, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 

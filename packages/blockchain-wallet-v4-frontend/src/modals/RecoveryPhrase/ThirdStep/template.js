@@ -16,25 +16,26 @@ const Container = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, position, total, close, indexes, mnemonic, handleFinish, submitting, invalid } = props
+  const { previousStep, position, total, close, submitting, invalid, ...rest } = props
+  const { indexes, mnemonic, onSubmit } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='bell' onClose={close}>
-        <FormattedMessage id='modals.recoveryphrase.title' defaultMessage='Backup recovery phrase' />
-      </ModalHeader>
-      <ModalBody>
-        <TextGroup inline>
-          <Icon name='checkmark' size='18px' weight={300} />
-          <Text size='18px' weight={400}>
-            <FormattedMessage id='modals.recoveryphrase.tip' defaultMessage='Verify' />
+      <Form onSubmit={onSubmit}>
+        <ModalHeader icon='bell' onClose={close}>
+          <FormattedMessage id='modals.recoveryphrase.title' defaultMessage='Backup recovery phrase' />
+        </ModalHeader>
+        <ModalBody>
+          <TextGroup inline>
+            <Icon name='checkmark' size='18px' weight={300} />
+            <Text size='18px' weight={400}>
+              <FormattedMessage id='modals.recoveryphrase.tip' defaultMessage='Verify' />
+            </Text>
+          </TextGroup>
+          <Text size='14px' weight={300}>
+            <FormattedMessage id='modals.recoveryphrase.explain' defaultMessage='Using the completed Recovery Sheet as a reference, please enter the following words from your Recovery Phrase to complete the backup process.' />
           </Text>
-        </TextGroup>
-        <Text size='14px' weight={300}>
-          <FormattedMessage id='modals.recoveryphrase.explain' defaultMessage='Using the completed Recovery Sheet as a reference, please enter the following words from your Recovery Phrase to complete the backup process.' />
-        </Text>
-        <Container>
-          <Form>
+          <Container>
             {indexes.indexOf(0) > -1 && <WordInput index={0} mnemonic={mnemonic} />}
             {indexes.indexOf(1) > -1 && <WordInput index={1} mnemonic={mnemonic} />}
             {indexes.indexOf(2) > -1 && <WordInput index={2} mnemonic={mnemonic} />}
@@ -47,17 +48,17 @@ const ThirdStep = (props) => {
             {indexes.indexOf(9) > -1 && <WordInput index={9} mnemonic={mnemonic} />}
             {indexes.indexOf(10) > -1 && <WordInput index={10} mnemonic={mnemonic} />}
             {indexes.indexOf(11) > -1 && <WordInput index={11} mnemonic={mnemonic} />}
-          </Form>
-        </Container>
-      </ModalBody>
-      <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={previousStep}>
-          <FormattedMessage id='modals.recoveryphrase.thirdstep.back' defaultMessage='Back' />
-        </Link>
-        <Button nature='primary' onClick={handleFinish} disabled={submitting || invalid}>
-          <FormattedMessage id='modals.recoveryphrase.thirdstep.finish' defaultMessage='Finish' />
-        </Button>
-      </ModalFooter>
+          </Container>
+        </ModalBody>
+        <ModalFooter align='spaced'>
+          <Link size='13px' weight={300} onClick={previousStep}>
+            <FormattedMessage id='modals.recoveryphrase.thirdstep.back' defaultMessage='Back' />
+          </Link>
+          <Button type='submit' nature='primary' disabled={submitting || invalid}>
+            <FormattedMessage id='modals.recoveryphrase.thirdstep.finish' defaultMessage='Finish' />
+          </Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
 }

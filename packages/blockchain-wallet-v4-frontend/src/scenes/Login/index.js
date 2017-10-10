@@ -16,7 +16,7 @@ class LoginContainer extends React.Component {
   onSubmit (event) {
     event.preventDefault()
     const { guid, password, code } = this.props
-    this.props.authActions.login({ guid, password, code })
+    this.props.authActions.login(guid, password, code)
   }
 
   handleMobile () {
@@ -36,9 +36,9 @@ class LoginContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: formValueSelector('loginForm')(state, 'guid'),
-  password: formValueSelector('loginForm')(state, 'password'),
-  code: formValueSelector('loginForm')(state, 'code'),
+  guid: formValueSelector('login')(state, 'guid'),
+  password: formValueSelector('login')(state, 'password'),
+  code: formValueSelector('login')(state, 'code'),
   authType: selectors.auth.getAuthType(state)
 })
 

@@ -10,20 +10,22 @@ import AutoDisconnection from './template.js'
 class AutoDisconnectionContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleLogout = this.handleLogout.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
   }
 
-  handleLogout () {
-    this.props.modalActions.clickAutoDisconnectionLogout()
+  onSubmit () {
+    this.props.authActions.logout()
+    this.props.modalActions.closeModal()
   }
 
   handleCancel () {
-    this.props.modalActions.clickAutoDisconnectionCancel()
+    this.props.authActions.logoutResetTimer()
+    this.props.modalActions.closeModal()
   }
 
   render () {
-    return <AutoDisconnection {...this.props} handleLogout={this.handleLogout} handleCancel={this.handleCancel} />
+    return <AutoDisconnection {...this.props} onSubmit={this.onSubmit} handleCancel={this.handleCancel} />
   }
 }
 

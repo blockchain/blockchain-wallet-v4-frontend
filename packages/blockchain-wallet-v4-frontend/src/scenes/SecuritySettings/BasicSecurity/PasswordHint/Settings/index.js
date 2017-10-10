@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 
 import { actions, selectors } from 'data'
@@ -17,8 +17,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, passwordHintValue } = this.props
-    this.props.settingsActions.updateHint(guid, sharedKey, passwordHintValue)
+    this.props.settingsActions.updateHint(this.props.passwordHintValue)
     this.handleToggle()
   }
 
@@ -39,15 +38,13 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   passwordHintValue: formValueSelector('settingPasswordHint')(state, 'passwordHint'),
   currentHint: selectors.core.settings.getHint(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(

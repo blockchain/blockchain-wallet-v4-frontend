@@ -1,34 +1,28 @@
-import { fork } from 'redux-saga/effects'
-import { advertsSaga } from './data/Adverts/sagas.js'
-import { captchaSaga } from './data/Captcha/sagas.js'
-import { feeSaga } from './data/Fee/sagas.js'
-import { logsSaga } from './data/Logs/sagas.js'
-import { btcRatesSaga } from './data/Rates/bitcoin/sagas.js'
-import { ethRatesSaga } from './data/Rates/ether/sagas.js'
-import { settingsSaga } from './settings/sagas.js'
-import { transactionsSaga } from './data/Transactions/sagas.js'
+import { advertsSaga } from './data/adverts/sagas.js'
+import { captchaSaga } from './data/captcha/sagas.js'
+import { chartsSaga } from './data/charts/sagas.js'
+import { feeSaga } from './data/fee/sagas.js'
+import { logsSaga } from './data/logs/sagas.js'
+import { ratesSaga } from './data/rates/sagas.js'
+import { transactionsSaga } from './data/transactions/sagas.js'
+import { paymentSaga } from './data/payment/sagas'
 import { commonSaga } from './common/sagas.js'
-import { paymentSaga } from './data/Payment/sagas'
+import { settingsSaga } from './settings/sagas.js'
 import { walletSaga } from './wallet/sagas.js'
 import { webSocketSaga } from './webSocket/sagas.js'
 import { walletOptionsSaga } from './walletOptions/sagas.js'
 
-export const rootSaga = ({ api, dataPath, walletPath, settingsPath, socket } = {}) => {
-  return function * () {
-    yield [
-      fork(advertsSaga({api})),
-      fork(captchaSaga({ api })),
-      fork(feeSaga({api})),
-      fork(logsSaga({ api })),
-      fork(btcRatesSaga({api})),
-      fork(ethRatesSaga({api})),
-      fork(settingsSaga({api})),
-      fork(transactionsSaga({api, walletPath, dataPath})),
-      fork(commonSaga({api})),
-      fork(paymentSaga({api, walletPath, dataPath})),
-      fork(walletSaga({api, walletPath})),
-      fork(webSocketSaga({socket, walletPath, dataPath, api})),
-      fork(walletOptionsSaga({api}))
-    ]
-  }
-}
+export const coreSagasFactory = ({ api, dataPath, walletPath, settingsPath, socket } = {}) => ({
+  adverts: advertsSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  captcha: captchaSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  charts: chartsSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  fee: feeSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  logs: logsSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  rates: ratesSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  transactions: transactionsSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  payment: paymentSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  common: commonSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  settings: settingsSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  wallet: walletSaga({ api, dataPath, walletPath, settingsPath, socket }),
+  webSocket: webSocketSaga({ api, dataPath, walletPath, settingsPath, socket })
+})

@@ -1,10 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
-
+import { bindActionCreators, compose } from 'redux'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
+import { Types } from 'blockchain-wallet-v4'
 
 class SecondPasswordContainer extends React.Component {
   constructor (props) {
@@ -15,11 +15,13 @@ class SecondPasswordContainer extends React.Component {
   }
 
   handleClick () {
-    const { nextAction, nextPayload } = this.props
-    const finalPayload = Object.assign({}, nextPayload, { secondPassword: this.state.secondPassword })
-    const action = { type: nextAction, payload: finalPayload }
-    this.props.close()
-    this.props.dispatch(action)
+    if (Types.Wallet.isValidSecondPwd(this.state.secondPassword, this.props.wallet)) {
+      this.props.walletActions.submitSecondPassword(this.state.secondPassword)
+      this.props.modalActions.closeModal()
+    } else {
+      this.props.alertActions.displayError('Wrong second password')
+      this.setState({ secondPassword: '' })
+    }
   }
 
   handleChange (event) {
@@ -30,20 +32,19 @@ class SecondPasswordContainer extends React.Component {
     return <SecondPassword {...this.props} handleClick={this.handleClick} handleChange={this.handleChange} value={this.state.secondPassword} />
   }
 }
+const mapStateToProps = (state) => ({
+  wallet: selectors.core.wallet.getWallet(state)
+})
 
-SecondPasswordContainer.propTypes = {
-  nextAction: PropTypes.string.isRequired,
-  nextPayload: PropTypes.object
-}
-
-SecondPasswordContainer.defaultProps = {
-  nextAction: 'SHOW_MODAL',
-  nextPayload: { type: 'SecondPassword' }
-}
+const mapDispatchToProps = (dispatch) => ({
+  alertActions: bindActionCreators(actions.alerts, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  walletActions: bindActionCreators(actions.wallet, dispatch)
+})
 
 const enhance = compose(
   modalEnhancer('SecondPassword'),
-  connect()
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(SecondPasswordContainer)

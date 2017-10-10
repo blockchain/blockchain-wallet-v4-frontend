@@ -17,7 +17,7 @@ const QRCodeContainer = styled.div`
 
 const QRCode = (props) => {
   const { position, total, close, closeAll, ...rest } = props
-  const { address, handleCancel } = rest
+  const { address } = rest
   const bitcoinAddress = `bitcoin:${address}`
 
   return (
@@ -38,7 +38,7 @@ const QRCode = (props) => {
         <CopyClipboard address={bitcoinAddress} />
       </ModalBody>
       <ModalFooter>
-        <Link onClick={handleCancel} size='13px' weight={300}>
+        <Link onClick={close} size='13px' weight={300}>
           <FormattedMessage id='modals.qrcode.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>

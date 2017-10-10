@@ -2,7 +2,7 @@ import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from 'ramda'
 import { traverseOf, view, over, set } from 'ramda-lens'
 import Either from 'data.either'
 
-import * as crypto from '../WalletCrypto'
+import * as crypto from '../walletCrypto'
 import Type from './Type'
 import * as Wallet from './Wallet'
 import * as Options from './Options'
