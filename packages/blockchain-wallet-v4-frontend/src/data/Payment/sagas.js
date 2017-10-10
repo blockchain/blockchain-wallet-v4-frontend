@@ -24,8 +24,8 @@ const initSendBitcoin = function * (action) {
       yield put(actions.alerts.displayError('Could not init send bitcoin.'))
     }
   } finally {
-    const feePerByteRegular = yield select(selectors.core.fee.getRegular)
-    yield call(paymentSagas.refreshEffectiveBalance, feePerByteRegular)
+    const feePerByte = yield select(selectors.core.fee.getRegular)
+    yield call(paymentSagas.refreshEffectiveBalance, { feePerByte })
     yield put(actions.modals.showModal('SendBitcoin'))
   }
 }
