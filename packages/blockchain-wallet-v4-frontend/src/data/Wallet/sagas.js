@@ -29,8 +29,9 @@ const updatePbkdf2Iterations = function * (action) {
 }
 
 const toggleSecondPassword = function * (action) {
+  const { password } = action.payload
   try {
-    yield call(walletSagas.toggleSecondPassword, action)
+    yield call(walletSagas.toggleSecondPassword, { password })
     yield put(actions.alerts.displaySuccess('Second password toggle successful.'))
   } catch (error) {
     yield put(actions.alerts.displayError('Error toggling second password.'))

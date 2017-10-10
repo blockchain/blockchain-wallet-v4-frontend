@@ -17,8 +17,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield put(setActionCreator(result))
   }
 
-  const toggleSecondPassword = function * (action) {
-    const { password } = action.payload
+  const toggleSecondPassword = function * ({ password }) {
     const wrapper = yield select(prop(walletPath))
     const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
     if (isEncrypted) {
@@ -38,8 +37,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield call(runTask, task, A.setWrapper)
   }
 
-  const createWalletSaga = function * (action) {
-    const { password, email } = action.payload
+  const createWalletSaga = function * ({ password, email }) {
     const mnemonic = BIP39.generateMnemonic()
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic)
@@ -48,12 +46,12 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     yield put(A.setWrapper(wrapper))
   }
 
-  const fetchWalletSaga = function * (guid, sharedKey, session, password, code) {
+  const fetchWalletSaga = function * ({ guid, sharedKey, session, password, code }) {
     const wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password, code)
     yield put(A.setWrapper(wrapper))
   }
 
-  const findUsedAccounts = function * (batch, node, usedAccounts) {
+  const findUsedAccounts = function * ({batch, node, usedAccounts}) {
     if (endsWith(repeat(false, 5), usedAccounts)) {
       const n = length(dropLastWhile(not, usedAccounts))
       return n < 1 ? 1 : n
@@ -66,16 +64,15 @@ export const walletSaga = ({ api, walletPath } = {}) => {
       const search = xpub => find(propEq('address', xpub))
       const accounts = map(xpub => search(xpub)(prop('addresses', result)), xpubs)
       const flags = map(isUsed, accounts)
-      return yield call(findUsedAccounts, batch, node, concat(usedAccounts, flags))
+      return yield call(findUsedAccounts, { batch: batch, node: node, usedAccounts: concat(usedAccounts, flags) })
     }
   }
 
-  const restoreWalletSaga = function * (action) {
-    const { mnemonic, email, password, network } = action.payload
+  const restoreWalletSaga = function * ({ mnemonic, email, password, network }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
     const node = masterNode.deriveHardened(44).deriveHardened(0)
-    const nAccounts = yield call(findUsedAccounts, 10, node, [])
+    const nAccounts = yield call(findUsedAccounts, {batch: 10, node: node, usedAccounts: []})
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, undefined, nAccounts)
     const register = api.createWallet(email)
@@ -102,8 +99,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     }
   }
 
-  const remindWalletGuidSaga = function * (action) {
-    const { email, code, sessionToken } = action.payload
+  const remindWalletGuidSaga = function * ({ email, code, sessionToken }) {
     const response = yield call(api.remindGuid, email, code, sessionToken)
     const { success, message } = response
     if (!success) { throw new Error(message) }

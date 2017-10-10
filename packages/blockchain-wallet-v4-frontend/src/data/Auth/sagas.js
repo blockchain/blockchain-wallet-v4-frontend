@@ -50,7 +50,7 @@ const login = function * (action) {
   try {
     if (!session) { session = yield call(api.establishSession) }
     yield put(actions.session.saveSession(assoc(guid, session, {})))
-    yield call(walletSagas.fetchWalletSaga, guid, sharedKey, session, password, code)
+    yield call(walletSagas.fetchWalletSaga, { guid, sharedKey, session, password, code })
     yield call(loginRoutineSaga)
   } catch (error) {
     const initialError = safeParse(error).map(prop('initial_error'))
@@ -61,7 +61,7 @@ const login = function * (action) {
       yield put(actions.alerts.displayInfo('Authorization required. Please check your mailbox.'))
       const authorized = yield call(pollingSession, session)
       if (authorized) {
-        yield call(walletSagas.fetchWalletSaga, guid, undefined, session, password)
+        yield call(walletSagas.fetchWalletSaga, { guid, session, password })
       } else {
         yield put(actions.alerts.displayError('Error establishing the session'))
       }
@@ -98,9 +98,10 @@ const mobileLogin = function * (action) {
 // ================================ Register ===================================
 // =============================================================================
 const register = function * (action) {
+  const { password, email } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Creating wallet...'))
-    yield call(walletSagas.createWalletSaga, action)
+    yield call(walletSagas.createWalletSaga, { password, email })
     yield put(actions.alerts.displaySuccess('Wallet successfully created.'))
     yield call(loginRoutineSaga)
   } catch (e) {
@@ -112,9 +113,10 @@ const register = function * (action) {
 // ================================= Restore ===================================
 // =============================================================================
 const restore = function * (action) {
+  const { mnemonic, email, password, network } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Restoring wallet...'))
-    yield call(walletSagas.restoreWalletSaga, action)
+    yield call(walletSagas.restoreWalletSaga, { mnemonic, email, password, network })
     yield put(actions.alerts.displaySuccess('Your wallet has been successfully restored.'))
     yield call(loginRoutineSaga)
   } catch (e) {
@@ -126,8 +128,9 @@ const restore = function * (action) {
 // =============================== Remind Guid =================================
 // =============================================================================
 const remindGuid = function * (action) {
+  const { email, code, sessionToken } = action.payload
   try {
-    yield call(walletSagas.remindWalletGuidSaga, action)
+    yield call(walletSagas.remindWalletGuidSaga, { email, code, sessionToken })
     yield put(actions.alerts.displaySuccess('Your wallet guid has been sent to your email address.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Error sending email.'))
