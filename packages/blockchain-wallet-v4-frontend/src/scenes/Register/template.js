@@ -72,4 +72,4 @@ const Register = (props) => {
   )
 }
 
-export default reduxForm({ form: 'registerForm' })(Register)
+export default reduxForm({ form: 'register' })(Register)

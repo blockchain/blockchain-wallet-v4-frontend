@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 
 import settings from 'config'
 import { actions, selectors } from 'data'
@@ -15,13 +15,11 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillMount () {
-    const { reduxFormActions, initialValues } = this.props
-    reduxFormActions.initialize('requestBitcoin', initialValues)
+    this.props.formActions.initialize('requestBitcoin', this.props.initialValues)
   }
 
   handleClickQRCode () {
-    const { modalActions, receiveAddress } = this.props
-    modalActions.clickRequestBitcoinQRCode(receiveAddress)
+    this.props.modalActions.showModal('QRCode', { address: this.props.receiveAddress })
   }
 
   onSubmit (e) {
@@ -60,8 +58,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  transactionActions: bindActionCreators(actions.core.transactions, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)

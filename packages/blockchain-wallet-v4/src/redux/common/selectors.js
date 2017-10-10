@@ -1,9 +1,9 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
 import { prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
 import memoize from 'fast-memoize'
-import { getBalances, getChangeIndex, getReceiveIndex } from '../data/Addresses/selectors.js'
-import { getTransactions } from '../data/Transactions/selectors.js'
-import { getHeight } from '../data/LatestBlock/selectors.js'
+import { getBalances, getChangeIndex, getReceiveIndex } from '../data/addresses/selectors.js'
+import { getTransactions } from '../data/transactions/selectors.js'
+import { getHeight } from '../data/latestBlock/selectors.js'
 import { transformTx } from '../services/transactions.js'
 const mTransformTx = memoize(transformTx)
 // ---------------------------------------------------------------------------------------------

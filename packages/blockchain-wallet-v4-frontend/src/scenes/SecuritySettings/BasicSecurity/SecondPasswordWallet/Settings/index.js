@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions as reduxFormActions, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 
 import { actions, selectors } from 'data'
@@ -43,8 +43,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  walletActions: bindActionCreators(actions.core.wallet, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  walletActions: bindActionCreators(actions.wallet, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(

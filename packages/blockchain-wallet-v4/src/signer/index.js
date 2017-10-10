@@ -39,6 +39,3 @@ export const sign = curry((network, secondPassword, wrapper, selection) => {
 //   const selectionWithKeys = Task.of(set(compose(lensProp('inputs'), mapped, Coin.priv), mykey, selection))
 //   return map(signSelection(network), selectionWithKeys)
 // })
-
-// export const signFromTrezor = curry((network, ) => {
-// })

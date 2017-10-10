@@ -8,26 +8,22 @@ import { actions, selectors } from 'data'
 
 class ActivityContainer extends React.Component {
   componentWillMount () {
-    const { logs, logActions, guid, sharedKey } = this.props
-    if (isEmpty(logs)) { logActions.fetchLogs(guid, sharedKey) }
+    if (isEmpty(this.props.logs)) { this.props.dataActions.getLogs() }
   }
 
   render () {
-    const { logs } = this.props
-    const lastLogs = take(8, logs)
+    const lastLogs = take(8, this.props.logs)
 
     return <ActivityList activities={lastLogs} />
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  logs: selectors.core.logs.selectLogs(state),
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state)
+  logs: selectors.core.logs.getLogs(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  logActions: bindActionCreators(actions.core.logs, dispatch)
+  dataActions: bindActionCreators(actions.data, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityContainer)

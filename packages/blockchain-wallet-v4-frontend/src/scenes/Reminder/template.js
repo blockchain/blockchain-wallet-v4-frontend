@@ -21,7 +21,7 @@ const Footer = styled.div`
 `
 
 const Reminder = (props) => {
-  const { handleClick, timestamp, submitting, invalid } = props
+  const { onSubmit, timestamp, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -32,7 +32,7 @@ const Reminder = (props) => {
         <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your Wallet Identifier? We'll send it to you via your email." />
       </Text>
       <Separator />
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.reminder.email' defaultMessage='Email' />
         </Text>
@@ -43,8 +43,8 @@ const Reminder = (props) => {
         <Text size='14px' weight={300}>
           <FormattedMessage id='scenes.reminder.robot' defaultMessage="So that we know you're not a robot" />
         </Text>
-        <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
-        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+        <Field name='code' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={onSubmit}>
           <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
         </Button>
       </Form>

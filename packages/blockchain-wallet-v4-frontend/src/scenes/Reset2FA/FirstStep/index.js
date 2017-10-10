@@ -48,7 +48,7 @@ const FirstStep = (props) => {
         </Text>
       </TextGroup>
       <Separator />
-      <Form>
+      <Form onSubmit={nextStep}>
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid' defaultMessage='Wallet identifier' />
         </Text>
@@ -71,7 +71,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet.' />
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain2' defaultMessage='If you lost access to this email, please enter it regardless.' />
         </Text>
-        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={nextStep}>
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} >
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
         </Button>
       </Form>

@@ -9,7 +9,7 @@ import { rootSaga, rootReducer } from 'data'
 import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
-import { auth } from 'data/rootSelectors.js'
+import { auth } from 'data/selectors.js'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 
 const devToolsConfig = {
@@ -41,8 +41,8 @@ const configureStore = () => {
     composeEnhancers(
       applyMiddleware(
         reduxRouterMiddleware,
-        // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
-        coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.getIsAuthenticated }),
+        // coreMiddleware.walletSync({isAuthenticated: auth.isAuthenticated, api, walletPath}),
+        coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.isAuthenticated }),
         sagaMiddleware// ,
         // logger
       ),

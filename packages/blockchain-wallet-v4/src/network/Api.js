@@ -9,11 +9,7 @@ export const BLOCKCHAIN_INFO = 'https://blockchain.info/'
 export const API_BLOCKCHAIN_INFO = 'https://api.blockchain.info/'
 export const API_CODE = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
-const createApi = ({
-  rootUrl = BLOCKCHAIN_INFO,
-  apiUrl = API_BLOCKCHAIN_INFO,
-  apiCode = API_CODE
-} = {}, returnType) => {
+const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCode = API_CODE } = {}, returnType) => {
   const future = returnType ? futurizeP(returnType) : identity
   const request = ({ url, method, endPoint, data, extraHeaders }) => {
     // options
@@ -194,15 +190,22 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
   }
 
-  const getCaptchaImage = (timestamp) => {
+  const getCaptchaImage = (timestamp, sessionToken) => {
     const data = { timestamp }
-    return request({ url: rootUrl, method: 'GET', endPoint: 'kaptcha.jpg', data })
+    const extraHeaders = { sessionToken }
+    return request({ url: rootUrl, method: 'GET', endPoint: 'kaptcha.jpg', data, extraHeaders })
   }
 
-  const recoverWallet = (email, captcha) => {
-    const timestamp = new Date().getTime()
-    const data = { method: 'recover-wallet', email, captcha, ct: timestamp }
-    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
+  const remindGuid = (email, captcha, sessionToken) => {
+    const data = { method: 'recover-wallet', email, captcha }
+    const extraHeaders = { sessionToken }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data, extraHeaders })
+  }
+
+  const reset2fa = (guid, email, newEmail, secretPhrase, message, code, sessionToken) => {
+    const data = { method: 'reset-two-factor-form', guid, email, contact_email: newEmail, secret_phrase: secretPhrase, message, kaptcha: code }
+    const extraHeaders = { sessionToken }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data, extraHeaders })
   }
 
   const getPairingPassword = (guid) => {
@@ -246,8 +249,8 @@ const createApi = ({
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: data })
   }
 
-  const getPriceIndexSeries = function (crypto, fiat, start, scale) {
-    const data = { base: toLower(crypto), quote: toLower(fiat), start: start, scale: scale }
+  const getPriceIndexSeries = function (coin, currency, start, scale) {
+    const data = { base: toLower(coin), quote: toLower(currency), start: start, scale: scale }
     return request({ url: apiUrl, method: 'GET', endPoint: 'price/index-series', data: data })
   }
 
@@ -305,7 +308,7 @@ const createApi = ({
 
   const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret')
 
-  const confirmGoogleAuthenticatorSetup = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
+  const enableGoogleAuthenticator = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
 
   const enableYubikey = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-yubikey', code)
 
@@ -328,7 +331,8 @@ const createApi = ({
     getEthTicker: future(getEthTicker),
     getSettings: future(getSettings),
     getCaptchaImage: future(getCaptchaImage),
-    recoverWallet: future(recoverWallet),
+    reset2fa: future(reset2fa),
+    remindGuid: future(remindGuid),
     getUnspents: future(getUnspents),
     getFee: future(getFee),
     pushTx: future(pushTx),
@@ -336,7 +340,6 @@ const createApi = ({
     getLogs: future(getLogs),
     getPriceIndexSeries: future(getPriceIndexSeries),
     getPairingPassword: future(getPairingPassword),
-
     updateEmail: future(updateEmail),
     sendEmailConfirmation: future(sendEmailConfirmation),
     verifyEmail: future(verifyEmail),
@@ -354,9 +357,8 @@ const createApi = ({
     updateAuthType: future(updateAuthType),
     updateAuthTypeNeverSave: future(updateAuthTypeNeverSave),
     getGoogleAuthenticatorSecretUrl: future(getGoogleAuthenticatorSecretUrl),
-    confirmGoogleAuthenticatorSetup: future(confirmGoogleAuthenticatorSetup),
+    enableGoogleAuthenticator: future(enableGoogleAuthenticator),
     enableYubikey: future(enableYubikey),
-
     getWalletOptions: future(getWalletOptions)
   }
 }
