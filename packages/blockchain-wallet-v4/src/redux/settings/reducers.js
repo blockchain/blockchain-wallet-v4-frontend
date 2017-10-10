@@ -19,7 +19,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.FETCH_SETTINGS: {
+    case AT.SET_SETTINGS: {
       const { data } = payload
       return data
     }

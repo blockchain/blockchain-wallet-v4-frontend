@@ -41,7 +41,7 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const response = yield call(api.getSettings, guid, sharedKey)
-    yield put(actions.fetchSettings(response))
+    yield put(actions.setSettings(response))
   }
 
   const setEmail = function * ({ email }) {

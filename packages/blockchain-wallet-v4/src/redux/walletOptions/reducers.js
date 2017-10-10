@@ -7,8 +7,9 @@ const walletOptionsReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.FETCH_WALLET_OPTIONS_SUCCESS: {
-      return payload
+    case AT.SET_WALLET_OPTIONS: {
+      const { data } = payload
+      return data
     }
     default:
       return state
