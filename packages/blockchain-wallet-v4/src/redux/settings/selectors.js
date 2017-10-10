@@ -1,7 +1,6 @@
 import { prop } from 'ramda'
 
-export const getBtcUnit = prop('btc_unit')
-export const getEthUnit = prop('eth_unit')
+export const getBtcUnit = prop('btc_currency')
 export const getLanguage = prop('language')
 export const getCurrency = prop('currency')
 export const getSmsNumber = prop('sms_number')
