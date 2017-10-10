@@ -54,8 +54,8 @@ class App extends React.Component {
                   <PublicLayout path='/reset2fa' component={Reset2FAContainer} />
                   <PublicLayout path='/register' component={RegisterContainer} />
                   <WalletLayout path='/wallet' component={HomeContainer} />
-                  <WalletLayout path='/transactions/bitcoin' component={BitcoinTransactionsContainer} />
-                  <WalletLayout path='/transactions/ether' component={EtherTransactionsContainer} />
+                  <WalletLayout path='/btc/transactions' component={BitcoinTransactionsContainer} />
+                  <WalletLayout path='/eth/transactions' component={EtherTransactionsContainer} />
                   <WalletLayout path='/buy-sell' component={BuyContainer} />
                   <WalletLayout path='/exchange' component={ExchangeContainer} />
                   <WalletLayout path='/security-center' component={SecurityCenterContainer} />
