@@ -7,7 +7,7 @@ export const decodePairingCode = (data) => ({ type: AT.DECODE_PAIRING_CODE, payl
 export const requestGoogleAuthenticatorSecretUrl = () => ({ type: AT.REQUEST_GOOGLE_AUTHENTICATOR_SECRET_URL })
 
 // SETTERS
-export const fetchSettings = (data) => ({ type: AT.FETCH_SETTINGS, payload: { data } })
+export const setSettings = (data) => ({ type: AT.SET_SETTINGS, payload: { data } })
 
 export const setEmail = (email) => ({ type: AT.SET_EMAIL, payload: { email } })
 

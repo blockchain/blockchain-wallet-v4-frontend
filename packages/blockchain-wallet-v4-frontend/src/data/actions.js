@@ -12,6 +12,7 @@ import * as session from './Session/actions.js'
 import * as settings from './Settings/actions.js'
 import * as wizard from './Wizard/actions.js'
 import * as wallet from './Wallet/actions.js'
+import * as walletOptions from './WalletOptions/actions.js'
 
 export {
   core,
@@ -27,5 +28,6 @@ export {
   session,
   settings,
   wizard,
-  wallet
+  wallet,
+  walletOptions
 }

@@ -8,16 +8,19 @@ import data from './Data/sagas.js'
 import payment from './Payment/sagas.js'
 import settings from './Settings/sagas.js'
 import wallet from './Wallet/sagas.js'
+import walletOptions from './WalletOptions/sagas.js'
 
 const dataPath = config.BLOCKCHAIN_DATA_PATH
 const settingsPath = config.SETTINGS_PATH
 const walletPath = config.WALLET_IMMUTABLE_PATH
+const walletOptionsPath = config.WALLET_OPTIONS_PATH
 
 const core = coreSagasFactory({
   api,
   dataPath,
   walletPath,
   settingsPath,
+  walletOptionsPath,
   socket
 })
 
@@ -28,5 +31,6 @@ export {
   data,
   payment,
   settings,
-  wallet
+  wallet,
+  walletOptions
 }

@@ -3,8 +3,6 @@ import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
 
-console.log(sagas)
-
 const initSettings = function * (action) {
   try {
     yield call(sagas.core.settings.fetchSettings)
