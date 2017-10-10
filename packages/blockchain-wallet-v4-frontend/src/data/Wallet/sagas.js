@@ -1,15 +1,11 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
-import { walletSaga } from 'blockchain-wallet-v4/src/redux/wallet/sagas.js'
 import * as AT from './actionTypes'
-import { actions } from 'data'
-import { api } from 'services/ApiService'
+import * as actions from '../actions.js'
+import * as sagas from '../sagas.js'
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
-import settings from 'config'
-
-const walletSagas = walletSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
 
 const createLegacyAddress = function * (action) {
-  const saga = askSecondPasswordEnhancer(walletSagas.createLegacyAddress)
+  const saga = askSecondPasswordEnhancer(sagas.core.wallet.createLegacyAddress)
   try {
     yield call(saga, action.payload)
     yield put(actions.alerts.displaySuccess('Address added succesfully.'))
@@ -19,7 +15,7 @@ const createLegacyAddress = function * (action) {
 }
 
 const updatePbkdf2Iterations = function * (action) {
-  const saga = askSecondPasswordEnhancer(walletSagas.updatePbkdf2Iterations)
+  const saga = askSecondPasswordEnhancer(sagas.core.wallet.updatePbkdf2Iterations)
   try {
     yield call(saga, action.payload)
     yield put(actions.alerts.displaySuccess('PBKDF2 iterations changed successfully.'))
@@ -31,17 +27,15 @@ const updatePbkdf2Iterations = function * (action) {
 const toggleSecondPassword = function * (action) {
   const { password } = action.payload
   try {
-    yield call(walletSagas.toggleSecondPassword, { password })
+    yield call(sagas.core.wallet.toggleSecondPassword, { password })
     yield put(actions.alerts.displaySuccess('Second password toggle successful.'))
   } catch (error) {
     yield put(actions.alerts.displayError('Error toggling second password.'))
   }
 }
 
-function * sagas () {
+export default function * () {
   yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
   yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
   yield takeEvery(AT.CREATE_LEGACY_ADDRESS, createLegacyAddress)
 }
-
-export default sagas

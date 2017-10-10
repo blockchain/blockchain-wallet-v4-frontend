@@ -1,31 +1,16 @@
 import { takeEvery, put, call, all, select } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import { actions, selectors } from 'data'
-import { advertsSaga } from 'blockchain-wallet-v4/src/redux/data/adverts/sagas.js'
-import { captchaSaga } from 'blockchain-wallet-v4/src/redux/data/captcha/sagas.js'
-import { chartsSaga } from 'blockchain-wallet-v4/src/redux/data/charts/sagas.js'
-import { logsSaga } from 'blockchain-wallet-v4/src/redux/data/logs/sagas.js'
-import { ratesSaga } from 'blockchain-wallet-v4/src/redux/data/rates/sagas.js'
-import { commonSaga } from 'blockchain-wallet-v4/src/redux/common/sagas.js'
-import { transactionsSaga } from 'blockchain-wallet-v4/src/redux/data/transactions/sagas.js'
-import { api } from 'services/ApiService'
-import settings from 'config'
-
-const advertsSagas = advertsSaga({ api })
-const captchaSagas = captchaSaga({ api })
-const chartsSagas = chartsSaga({ api })
-const logsSagas = logsSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
-const ratesSagas = ratesSaga({ api })
-const commonSagas = commonSaga({ api })
-const transactionsSagas = transactionsSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH, dataPath: settings.BLOCKCHAIN_DATA_PATH })
+import * as actions from '../actions.js'
+import * as selectors from '../selectors.js'
+import * as sagas from '../sagas.js'
 
 const initData = function * (action) {
   try {
     const context = yield select(selectors.core.wallet.getWalletContext)
     yield all([
-      call(commonSagas.fetchBlockchainData, { context }),
-      call(ratesSagas.refreshEthereumRates),
-      call(ratesSagas.refreshBitcoinRates)
+      call(sagas.core.common.fetchBlockchainData, { context }),
+      call(sagas.core.rates.refreshEthereumRates),
+      call(sagas.core.rates.refreshBitcoinRates)
     ])
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch data.'))
@@ -34,7 +19,7 @@ const initData = function * (action) {
 
 const getAdverts = function * (action) {
   try {
-    yield call(advertsSagas.fetchAdverts, action.payload)
+    yield call(sagas.core.adverts.fetchAdverts, action.payload)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch adverts.'))
   }
@@ -42,7 +27,7 @@ const getAdverts = function * (action) {
 
 const getCaptcha = function * (action) {
   try {
-    yield call(captchaSagas.fetchCaptcha)
+    yield call(sagas.core.captcha.fetchCaptcha)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch captcha.'))
   }
@@ -50,7 +35,7 @@ const getCaptcha = function * (action) {
 
 const getPriceIndexSeries = function * (action) {
   try {
-    yield call(chartsSagas.fetchPriceIndexSeries, action.payload)
+    yield call(sagas.core.charts.fetchPriceIndexSeries, action.payload)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch price index series.'))
   }
@@ -58,7 +43,7 @@ const getPriceIndexSeries = function * (action) {
 
 const getLogs = function * (action) {
   try {
-    yield call(logsSagas.fetchLogs)
+    yield call(sagas.core.logs.fetchLogs)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch logs.'))
   }
@@ -67,14 +52,13 @@ const getLogs = function * (action) {
 const getTransactions = function * (action) {
   const { address } = action.payload
   try {
-    yield call(transactionsSagas.fetchTransactions, { address })
+    yield call(sagas.core.transactions.fetchTransactions, { address })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch transactions.'))
   }
 }
 
-
-const sagas = function * () {
+export default function * () {
   yield takeEvery(AT.INIT_DATA, initData)
   yield takeEvery(AT.GET_ADVERTS, getAdverts)
   yield takeEvery(AT.GET_CAPTCHA, getCaptcha)
@@ -82,5 +66,3 @@ const sagas = function * () {
   yield takeEvery(AT.GET_LOGS, getLogs)
   yield takeEvery(AT.GET_TRANSACTIONS, getTransactions)
 }
-
-export default sagas

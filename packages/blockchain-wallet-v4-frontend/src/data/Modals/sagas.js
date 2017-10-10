@@ -1,9 +1,7 @@
 import { takeEvery, put, select } from 'redux-saga/effects'
-import { formValueSelector } from 'redux-form'
-
-import settings from 'config'
-import { actions, actionTypes, selectors } from 'data'
 import * as AT from './actionTypes'
+import * as actions from '../actions.js'
+import * as selectors from '../selectors.js'
 
 // =============================================================================
 // =========================== RecoveryPhase Modal ============================
@@ -26,11 +24,6 @@ const clickTwoStepYubicoEnableConfirmation = function * () {
 }
 
 // =============================== EXPORT ======================================
-function * sagas () {
-  // RecoveryPhrase
+export default function * () {
   yield takeEvery(AT.CLICK_RECOVERY_PHASE_FINISH, clickRecoveryPhraseFinish)
- // TwoStepYubikey
-  //yield takeEvery(actionTypes.core.settings.ENABLE_YUBIKEY_SUCCESS, clickTwoStepYubicoEnableConfirmation)
 }
-
-export default sagas

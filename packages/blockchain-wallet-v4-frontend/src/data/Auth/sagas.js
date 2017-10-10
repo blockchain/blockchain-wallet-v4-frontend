@@ -5,14 +5,11 @@ import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import * as AT from './actionTypes'
-import { actions, selectors } from 'data'
-import { walletSaga } from 'blockchain-wallet-v4/src/redux/wallet/sagas.js'
-import { settingsSaga } from 'blockchain-wallet-v4/src/redux/settings/sagas.js'
+import * as actions from '../actions.js'
+import * as selectors from '../selectors.js'
+import * as sagas from '../sagas.js'
 import { api } from 'services/ApiService'
-import settings from 'config'
 
-const walletSagas = walletSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
-const settingsSagas = settingsSaga({ api, walletPath: settings.WALLET_IMMUTABLE_PATH })
 // =============================================================================
 // ================================= Generic ===================================
 // =============================================================================
@@ -50,7 +47,7 @@ const login = function * (action) {
   try {
     if (!session) { session = yield call(api.establishSession) }
     yield put(actions.session.saveSession(assoc(guid, session, {})))
-    yield call(walletSagas.fetchWalletSaga, { guid, sharedKey, session, password, code })
+    yield call(sagas.core.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
     yield call(loginRoutineSaga)
   } catch (error) {
     const initialError = safeParse(error).map(prop('initial_error'))
@@ -61,7 +58,7 @@ const login = function * (action) {
       yield put(actions.alerts.displayInfo('Authorization required. Please check your mailbox.'))
       const authorized = yield call(pollingSession, session)
       if (authorized) {
-        yield call(walletSagas.fetchWalletSaga, { guid, session, password })
+        yield call(sagas.core.wallet.fetchWalletSaga, { guid, session, password })
       } else {
         yield put(actions.alerts.displayError('Error establishing the session'))
       }
@@ -85,7 +82,7 @@ const login = function * (action) {
 
 const mobileLogin = function * (action) {
   try {
-    const { guid, sharedKey, password } = yield call(settingsSagas.decodePairingCode, action)
+    const { guid, sharedKey, password } = yield call(sagas.core.settings.decodePairingCode, action)
     const loginAction = actions.auth.login(guid, password, undefined, sharedKey)
     yield call(login, loginAction)
   } catch (error) {
@@ -101,7 +98,7 @@ const register = function * (action) {
   const { password, email } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Creating wallet...'))
-    yield call(walletSagas.createWalletSaga, { password, email })
+    yield call(sagas.core.wallet.createWalletSaga, { password, email })
     yield put(actions.alerts.displaySuccess('Wallet successfully created.'))
     yield call(loginRoutineSaga)
   } catch (e) {
@@ -116,7 +113,7 @@ const restore = function * (action) {
   const { mnemonic, email, password, network } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Restoring wallet...'))
-    yield call(walletSagas.restoreWalletSaga, { mnemonic, email, password, network })
+    yield call(sagas.core.wallet.restoreWalletSaga, { mnemonic, email, password, network })
     yield put(actions.alerts.displaySuccess('Your wallet has been successfully restored.'))
     yield call(loginRoutineSaga)
   } catch (e) {
@@ -130,7 +127,7 @@ const restore = function * (action) {
 const remindGuid = function * (action) {
   const { email, code, sessionToken } = action.payload
   try {
-    yield call(walletSagas.remindWalletGuidSaga, { email, code, sessionToken })
+    yield call(sagas.core.wallet.remindWalletGuidSaga, { email, code, sessionToken })
     yield put(actions.alerts.displaySuccess('Your wallet guid has been sent to your email address.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Error sending email.'))
@@ -182,7 +179,7 @@ const logoutTimer = function * () {
   }
 }
 
-function * sagas () {
+export default function * () {
   yield takeEvery(AT.LOGIN, login)
   yield takeEvery(AT.MOBILE_LOGIN, mobileLogin)
   yield takeEvery(AT.REGISTER, register)
@@ -192,5 +189,3 @@ function * sagas () {
   yield takeEvery(AT.LOGOUT, logout)
   yield takeEvery(AT.LOGOUT_RESET_TIMER, resetLogoutTimer)
 }
-
-export default sagas

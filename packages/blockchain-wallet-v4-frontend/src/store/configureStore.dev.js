@@ -9,7 +9,7 @@ import { rootSaga, rootReducer } from 'data'
 import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
-import { auth } from 'data/rootSelectors.js'
+import { auth } from 'data/selectors.js'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 
 const devToolsConfig = {

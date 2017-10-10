@@ -163,7 +163,7 @@ export const settingsSaga = ({ api, walletPath } = {}) => {
     yield put(actions.setGoogleAuthenticator())
   }
 
-  const setYubikey = function * ({ code } ) {
+  const setYubikey = function * ({ code }) {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
     const response = yield call(api.enableYubikey, guid, sharedKey, code)

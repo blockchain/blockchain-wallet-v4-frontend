@@ -1,5 +1,3 @@
-import { fork } from 'redux-saga/effects'
-
 import config from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
@@ -16,27 +14,21 @@ const dataPath = config.BLOCKCHAIN_DATA_PATH
 const settingsPath = config.SETTINGS_PATH
 const walletPath = config.WALLET_IMMUTABLE_PATH
 
-export const sagas = {
-  core: coreSagasFactory({
-    api,
-    dataPath,
-    walletPath,
-    settingsPath,
-    socket
-  })
-}
+const core = coreSagasFactory({
+  api,
+  dataPath,
+  walletPath,
+  settingsPath,
+  socket
+})
 
-const rootSaga = function * () {
-  yield [
-    fork(alerts),
-    fork(auth),
-    fork(data),
-    fork(payment),
-    fork(modal),
-    fork(settings),
-    fork(wallet),
-    fork(sagas.core.webSocket)
-  ]
+export {
+  core,
+  alerts,
+  auth,
+  data,
+  modal,
+  payment,
+  settings,
+  wallet
 }
-
-export default rootSaga
