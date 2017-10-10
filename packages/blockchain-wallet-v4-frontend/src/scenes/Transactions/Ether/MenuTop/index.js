@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
-import { Form } from 'components/Form'
 import TransactionMenuStatus from 'components/TransactionMenuStatus'
 import TransactionSearch from 'components/TransactionSearch'
 
@@ -12,7 +11,7 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme['gray-1']};
   border-bottom: 1px solid ${props => props.theme['gray-2']};
 `
-const HorizontalForm = styled(Form)`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -37,14 +36,14 @@ const FilterSearch = styled.div`
 const MenuTop = (props) => {
   return (
     <Wrapper>
-      <HorizontalForm>
+      <Container>
         <FilterStatuses>
           <Field name='status' component={TransactionMenuStatus} />
         </FilterStatuses>
         <FilterSearch>
           <Field name='search' component={TransactionSearch} />
         </FilterSearch>
-      </HorizontalForm>
+      </Container>
     </Wrapper>
   )
 }
