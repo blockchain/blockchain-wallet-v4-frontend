@@ -46,8 +46,7 @@ class ListContainer extends React.Component {
   }
 
   fetchTransactions (source) {
-    // console.log('fetchTransactions')
-    this.props.dataActions.getTransactions(source)
+    this.props.dataActions.getTransactions(source, 50)
   }
 
   filterTransactions (status, criteria, transactions) {

@@ -47,12 +47,10 @@ class ListContainer extends React.Component {
   }
 
   fetchTransactions (source) {
-    // console.log('fetchTransactions')
-    this.props.actions.fetchTransactions(source, 50)
+    this.props.dataActions.getTransactions(source, 50)
   }
 
   filterTransactions (status, criteria, transactions) {
-    // console.log('filterTransactions')
     const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
     const search = curry((text, property, tx) => compose(contains(toUpper(text || '')), toUpper, prop(property))(tx))
     const searchPredicate = anyPass(map(search(criteria), ['description', 'from', 'to']))
@@ -90,7 +88,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.core.transactions, dispatch)
+  dataActions: bindActionCreators(actions.data, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListContainer)
