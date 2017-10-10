@@ -48,7 +48,7 @@ const SecondStep = (props) => {
           </Text>
           <Container>
             <Text size='24px' weight={600} color='transferred'>
-              <CoinDisplay>{satoshis}</CoinDisplay>
+              <CoinDisplay coin='BTC'>{satoshis}</CoinDisplay>
             </Text>
             <Text size='20px' weight={600} color='transferred'>
               <CurrencyDisplay>{satoshis}</CurrencyDisplay>

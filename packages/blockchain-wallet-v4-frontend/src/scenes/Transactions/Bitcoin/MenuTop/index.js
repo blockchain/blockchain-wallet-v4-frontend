@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
-import { Form, SelectBoxAddresses } from 'components/Form'
-import Status from './Status'
-import Search from './Search'
+import { SelectBoxAddresses } from 'components/Form'
+import TransactionMenuStatus from 'components/TransactionMenuStatus'
+import TransactionSearch from 'components/TransactionSearch'
 
 const Wrapper = styled.div`
   padding: 8px 30px;
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme['gray-1']};
   border-bottom: 1px solid ${props => props.theme['gray-2']};
 `
-const HorizontalForm = styled(Form)`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -46,19 +46,19 @@ const FilterSearch = styled(Filter)`
 const MenuTop = (props) => {
   return (
     <Wrapper>
-      <HorizontalForm>
+      <Container>
         <FilterAddresses>
           <Field name='source' component={SelectBoxAddresses} />
         </FilterAddresses>
         <FilterStatuses>
-          <Field name='status' component={Status} />
+          <Field name='status' component={TransactionMenuStatus} />
         </FilterStatuses>
         <FilterSearch>
-          <Field name='search' component={Search} />
+          <Field name='search' component={TransactionSearch} />
         </FilterSearch>
-      </HorizontalForm>
+      </Container>
     </Wrapper>
   )
 }
 
-export default reduxForm({ form: 'transactionForm' })(MenuTop)
+export default reduxForm({ form: 'bitcoinTransactionForm' })(MenuTop)

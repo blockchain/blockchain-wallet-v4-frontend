@@ -1,7 +1,8 @@
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
-  btc_currency: 'BTC',
+  btc_unit: 'BTC',
+  eth_unit: 'ETH',
   language: 'en',
   currency: 'USD',
   country_code: 'US',
@@ -47,7 +48,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_BITCOIN_UNIT: {
       const { unit } = payload
-      return Object.assign({}, state, { btc_currency: unit })
+      return Object.assign({}, state, { btc_unit: unit })
     }
     case AT.SET_AUTO_LOGOUT: {
       const { autoLogout } = payload

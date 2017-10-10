@@ -49,7 +49,7 @@ const getSelection = function * (action) {
     if (is(Number, finalFrom)) {
       changeAddress = yield select(selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, finalFrom))
     }
-    const unit = yield select(selectors.core.settings.getBtcCurrency)
+    const unit = yield select(selectors.core.settings.getBtcUnit)
     const satoshis = convertUnitToSatoshis(amount, unit).value
     const algorithm = 'singleRandomDraw'
     yield call(sagas.core.payment.refreshSelection, { feePerByte: fee, changeAddress, receiveAddress, satoshis, algorithm, seed })

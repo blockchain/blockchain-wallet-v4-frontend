@@ -31,14 +31,14 @@ SelectBoxAddresses.defaultProps = {
 
 const mapStateToProps = (state, ownProps) => {
   const coinDisplayed = selectors.preferences.getCoinDisplayed(state)
-  const unit = selectors.core.settings.getBtcCurrency(state)
+  const unit = selectors.core.settings.getBtcUnit(state)
   const currency = selectors.core.settings.getCurrency(state)
   const rates = selectors.core.rates.getBtcRates(state)
 
   const transformAddresses = items => map(item => {
     const { title, amount, ...rest } = item
     const amountDisplay = coinDisplayed
-      ? convertBaseCoinToCoin(unit, amount)
+      ? convertBaseCoinToCoin('BTC', unit || 'BTC', amount)
       : convertBaseCoinToFiat(currency, rates, amount)
 
     return { text: `${title} (${amountDisplay})`, value: rest }

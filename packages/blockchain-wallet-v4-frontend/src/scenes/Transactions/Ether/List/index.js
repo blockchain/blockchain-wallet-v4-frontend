@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop, always, dropLast } from 'ramda'
+import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop } from 'ramda'
 
 import { selectors, actions } from 'data'
 import List from './template.js'
@@ -46,8 +46,7 @@ class ListContainer extends React.Component {
   }
 
   fetchTransactions (source) {
-    // console.log('fetchTransactions')
-    this.props.dataActions.getTransactions(source)
+    this.props.dataActions.getTransactions(source, 50)
   }
 
   filterTransactions (status, criteria, transactions) {
@@ -75,7 +74,7 @@ class ListContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const selector = formValueSelector('transactionForm')
+  const selector = formValueSelector('etherTransactionForm')
   const initialSource = selector(state, 'source')
 
   return {

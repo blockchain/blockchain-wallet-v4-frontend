@@ -123,7 +123,7 @@ CoinConvertorContainer.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  unit: selectors.core.settings.getBtcCurrency(state),
+  unit: selectors.core.settings.getBtcUnit(state),
   currency: selectors.core.settings.getCurrency(state),
   rates: selectors.core.rates.getBtcRates(state)
 })

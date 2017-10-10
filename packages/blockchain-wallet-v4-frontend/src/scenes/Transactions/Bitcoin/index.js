@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const Transactions = (props) => {
+const BitcoinTransactionsContainer = (props) => {
   return (
     <Wrapper>
       <MenuTop />
@@ -17,4 +17,4 @@ const Transactions = (props) => {
   )
 }
 
-export default Transactions
+export default BitcoinTransactionsContainer

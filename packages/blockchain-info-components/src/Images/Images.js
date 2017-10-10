@@ -9,6 +9,7 @@ import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
 import qrCode from './img/qr-code.png'
 import refresh from './img/refresh.svg'
+import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
 import yubikey from './img/yubikey.png'
@@ -25,6 +26,7 @@ export default {
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
   'qr-code': qrCode,
   'refresh': refresh,
+  'shapeshiftLogo': shapeshiftLogo,
   'smartphone': smartphone,
   'sophisticated': sophisticated,
   'yubikey': yubikey

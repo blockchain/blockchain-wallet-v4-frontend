@@ -109,7 +109,7 @@ const mapStateToProps = (state, ownProps) => {
     feeValues: selectors.core.fee.getFee(state),
     effectiveBalance: selectors.core.payment.getEffectiveBalance(state),
     coins: selectors.core.payment.getCoins(state),
-    unit: selectors.core.settings.getBtcCurrency(state)
+    unit: selectors.core.settings.getBtcUnit(state)
   }
 }
 

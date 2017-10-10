@@ -54,7 +54,7 @@ const Status = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-content: center;
-  min-width: 220px;
+  min-width: 180px;
   margin-left: 60px;
 
   @media(min-width: 1200px) {  width: 20%; }
@@ -71,7 +71,7 @@ const Arrow = styled.div`
   cursor: pointer;
 `
 const Addresses = styled(HiddenOnMobile)`
-  min-width: 400px;
+  min-width: 350px;
 
   @media(min-width: 1200px) { 
     flex-direction: column;
@@ -79,11 +79,14 @@ const Addresses = styled(HiddenOnMobile)`
   }
 `
 const Description = styled(HiddenOnMobile)`
-  min-width: 250px;
+  min-width: 150px;
+  padding-right: 20px;
   @media(min-width: 1200px) { width: 25%; }
 `
 const Amount = styled.div`
-  min-width: 200px;
+  display: flex;
+  align-self: flex-end;
+  min-width: 140px;
   @media(min-width: 1200px) {
     display: flex;
     width: 20%;
@@ -123,7 +126,7 @@ const selectColors = type => {
   }
 }
 
-const ListItem = (props) => {
+const TransactionListItem = (props) => {
   const { coinDisplayed, toggled, handleToggle, handleClick, transaction } = props
 
   const now = moment()
@@ -140,27 +143,27 @@ const ListItem = (props) => {
             <Icon name='down-arrow' size='10px' />
           </Arrow>
           <Text weight={500} color={selectColors(transaction.type)} uppercase>
-            { transaction.type === 'Sent' && <FormattedMessage id='scenes.transactions.list.listitem.sent' defaultMessage='Sent' /> }
-            { transaction.type === 'Received' && <FormattedMessage id='scenes.transactions.list.listitem.received' defaultMessage='Received' /> }
-            { transaction.type === 'Transferred' && <FormattedMessage id='scenes.transactions.list.listitem.transferred' defaultMessage='Transferred' /> }
+            { transaction.type === 'Sent' && <FormattedMessage id='scenes.transactions.list.transactionlistitem.sent' defaultMessage='Sent' /> }
+            { transaction.type === 'Received' && <FormattedMessage id='scenes.transactions.list.transactionlistitem.received' defaultMessage='Received' /> }
+            { transaction.type === 'Transferred' && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transferred' defaultMessage='Transferred' /> }
           </Text>
           <Text size='12px' weight={300} italic>{formattedDate}</Text>
         </Status>
         <Addresses>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
+            <FormattedMessage id='scenes.transactions.list.transactionlistitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
+            <FormattedMessage id='scenes.transactions.list.transactionlistitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
           </Text>
         </Addresses>
         <Description>
           { transaction.description !== ''
             ? <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.listitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
+              <FormattedMessage id='scenes.transactions.list.transactionlistitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
             </Text>
             : <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.listitem.adddescription' defaultMessage='Add a description' />
+              <FormattedMessage id='scenes.transactions.list.transactionlistitem.adddescription' defaultMessage='Add a description' />
             </Text>
           }
           <Icon name='pencil' size='14px' />
@@ -168,7 +171,7 @@ const ListItem = (props) => {
         <Amount>
           <Button nature={transaction.type.toLowerCase()} onClick={handleClick} fullwidth>
             { coinDisplayed
-              ? <CoinDisplay>{transaction.amount}</CoinDisplay>
+              ? <CoinDisplay coin='BTC'>{transaction.amount}</CoinDisplay>
               : <CurrencyDisplay>{transaction.amount}</CurrencyDisplay>
             }
           </Button>
@@ -178,15 +181,15 @@ const ListItem = (props) => {
         <TransactionStatus>
           <Text size='12px'>{transaction.status}</Text>
           { transaction.confirmations > 3
-            ? <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed' defaultMessage='Transaction confirmed' />
+            ? <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed' defaultMessage='Transaction confirmed' />
             : (
               <TransactionTooltip>
                 <ConfirmationGauge nbConfirmations={transaction.confirmations} />
                 <Tooltip>
-                  {transaction.confirmations === 0 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_unconfirmed' defaultMessage='Your transaction is actually unconfirmed.' /> }
-                  {transaction.confirmations === 1 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed_1' defaultMessage='Your transaction confirmation is in progress (1 block ahead).' /> }
-                  {transaction.confirmations === 2 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed_2' defaultMessage='Your transaction confirmation is in progress (2 blocks ahead).' /> }
-                  {transaction.confirmations === 3 && <FormattedMessage id='scenes.transactions.list.listitem.transaction_confirmed_3' defaultMessage='Your transaction is confirmed (3 blocks ahead).' /> }
+                  {transaction.confirmations === 0 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_unconfirmed' defaultMessage='Your transaction is actually unconfirmed.' /> }
+                  {transaction.confirmations === 1 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed_1' defaultMessage='Your transaction confirmation is in progress (1 block ahead).' /> }
+                  {transaction.confirmations === 2 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed_2' defaultMessage='Your transaction confirmation is in progress (2 blocks ahead).' /> }
+                  {transaction.confirmations === 3 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed_3' defaultMessage='Your transaction is confirmed (3 blocks ahead).' /> }
                 </Tooltip>
               </TransactionTooltip>
             )
@@ -196,24 +199,24 @@ const ListItem = (props) => {
           <div>
             { transaction.description !== ''
               ? <Text size='14px' weight={300}>
-                <FormattedMessage id='scenes.transactions.list.listitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
+                <FormattedMessage id='scenes.transactions.list.transactionlistitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
               </Text>
               : <Text size='14px' weight={300}>
-                <FormattedMessage id='scenes.transactions.list.listitem.adddescription' defaultMessage='Add a description' />
+                <FormattedMessage id='scenes.transactions.list.transactionlistitem.adddescription' defaultMessage='Add a description' />
               </Text>
             }
             <Icon name='pencil' size='14px' />
           </div>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
+            <FormattedMessage id='scenes.transactions.list.transactionlistitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
+            <FormattedMessage id='scenes.transactions.list.transactionlistitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
           </Text>
         </ExtraDetailsContainer>
         <ValueWhenReceived>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.listitem.initial' defaultMessage='Value when received: {value}' values={{ value: transaction.initial_value }} />
+            <FormattedMessage id='scenes.transactions.list.transactionlistitem.initial' defaultMessage='Value when received: {value}' values={{ value: transaction.initial_value }} />
           </Text>
         </ValueWhenReceived>
       </RowDetails>
@@ -221,7 +224,7 @@ const ListItem = (props) => {
   )
 }
 
-ListItem.propTypes = {
+TransactionListItem.propTypes = {
   toggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
@@ -237,4 +240,4 @@ ListItem.propTypes = {
   })
 }
 
-export default ListItem
+export default TransactionListItem

@@ -83,7 +83,7 @@ const login = function * (action) {
 
 const mobileLogin = function * (action) {
   try {
-    const { guid, sharedKey, password } = yield call(sagas.core.settings.decodePairingCode, action)
+    const { guid, sharedKey, password } = yield call(sagas.core.settings.decodePairingCode, action.payload)
     const loginAction = actions.auth.login(guid, password, undefined, sharedKey)
     yield call(login, loginAction)
   } catch (error) {

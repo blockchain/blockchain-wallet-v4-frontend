@@ -83,7 +83,7 @@ const SecondStep = (props) => {
               <FormattedMessage id='modals.sendbitcoin.secondstep.total' defaultMessage='Total' />
             </Text>
             <Text size='40px' weight={600} color='transferred'>
-              <CoinDisplay>{satoshis}</CoinDisplay>
+              <CoinDisplay coin='BTC'>{satoshis}</CoinDisplay>
             </Text>
             <Text size='20px' weight={300} color='transferred'>
               <CurrencyDisplay>{satoshis}</CurrencyDisplay>
