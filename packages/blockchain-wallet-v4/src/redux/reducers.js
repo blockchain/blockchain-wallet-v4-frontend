@@ -12,6 +12,7 @@ import info from './data/info/reducers.js'
 import rates from './data/rates/reducers.js'
 import wallet from './wallet/reducers.js'
 import settings from './settings/reducers.js'
+import walletOptions from './walletOptions/reducers.js'
 
 const data = combineReducers({
   addresses,
@@ -22,7 +23,7 @@ const data = combineReducers({
   latest_block: latestBlock,
   logs,
   txs: transactions,
-  info: info,
+  info,
   rates,
   payment
 })
@@ -30,5 +31,6 @@ const data = combineReducers({
 export {
   data,
   wallet,
-  settings
+  settings,
+  walletOptions
 }

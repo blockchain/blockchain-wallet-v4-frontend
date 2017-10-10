@@ -2,6 +2,7 @@ import 'isomorphic-fetch'
 import Promise from 'es6-promise'
 import { merge, identity, gt, type, trim, toLower } from 'ramda'
 import { futurizeP } from 'futurize'
+import walletOptions from './wallet-options.json'
 Promise.polyfill()
 
 export const BLOCKCHAIN_INFO = 'https://blockchain.info/'
@@ -201,6 +202,12 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data, extraHeaders })
   }
 
+  const reset2fa = (guid, email, newEmail, secretPhrase, message, code, sessionToken) => {
+    const data = { method: 'reset-two-factor-form', guid, email, contact_email: newEmail, secret_phrase: secretPhrase, message, kaptcha: code }
+    const extraHeaders = { sessionToken }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data, extraHeaders })
+  }
+
   const getPairingPassword = (guid) => {
     const data = { method: 'pairing-encryption-password', guid }
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data })
@@ -305,6 +312,8 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
 
   const enableYubikey = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-yubikey', code)
 
+  const getWalletOptions = () => (walletOptions)
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     fetchPayloadWithTwoFactorAuth: future(fetchPayloadWithTwoFactorAuth),
@@ -322,6 +331,7 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
     getEthTicker: future(getEthTicker),
     getSettings: future(getSettings),
     getCaptchaImage: future(getCaptchaImage),
+    reset2fa: future(reset2fa),
     remindGuid: future(remindGuid),
     getUnspents: future(getUnspents),
     getFee: future(getFee),
@@ -330,7 +340,6 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
     getLogs: future(getLogs),
     getPriceIndexSeries: future(getPriceIndexSeries),
     getPairingPassword: future(getPairingPassword),
-
     updateEmail: future(updateEmail),
     sendEmailConfirmation: future(sendEmailConfirmation),
     verifyEmail: future(verifyEmail),
@@ -349,7 +358,8 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
     updateAuthTypeNeverSave: future(updateAuthTypeNeverSave),
     getGoogleAuthenticatorSecretUrl: future(getGoogleAuthenticatorSecretUrl),
     enableGoogleAuthenticator: future(enableGoogleAuthenticator),
-    enableYubikey: future(enableYubikey)
+    enableYubikey: future(enableYubikey),
+    getWalletOptions: future(getWalletOptions)
   }
 }
 

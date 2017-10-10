@@ -10,6 +10,7 @@ import { commonSaga } from './common/sagas.js'
 import { settingsSaga } from './settings/sagas.js'
 import { walletSaga } from './wallet/sagas.js'
 import { webSocketSaga } from './webSocket/sagas.js'
+import { walletOptionsSaga } from './walletOptions/sagas.js'
 
 export const coreSagasFactory = ({ api, dataPath, walletPath, settingsPath, socket } = {}) => ({
   adverts: advertsSaga({ api, dataPath, walletPath, settingsPath, socket }),
@@ -25,11 +26,3 @@ export const coreSagasFactory = ({ api, dataPath, walletPath, settingsPath, sock
   wallet: walletSaga({ api, dataPath, walletPath, settingsPath, socket }),
   webSocket: webSocketSaga({ api, dataPath, walletPath, settingsPath, socket })
 })
-
-// export const rootSaga = ({ api, dataPath, walletPath, settingsPath, socket } = {}) => {
-//   return function * () {
-//     yield [
-//       fork(webSocketSaga({socket, walletPath, dataPath, api}))
-//     ]
-//   }
-// }

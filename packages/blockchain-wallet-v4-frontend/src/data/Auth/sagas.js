@@ -16,6 +16,7 @@ import { api } from 'services/ApiService'
 
 const loginRoutineSaga = function * () {
   yield put(actions.auth.authenticate())
+  // yield put(actions.core.walletOptions.fetchWalletOptions())
   yield put(actions.core.webSocket.startSocket())
   yield put(actions.data.initData())
   yield put(actions.settings.initSettings())

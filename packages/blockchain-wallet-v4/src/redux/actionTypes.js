@@ -13,6 +13,7 @@ import * as payment from './data/payment/actionTypes.js'
 import * as wallet from './wallet/actionTypes.js'
 import * as settings from './settings/actionTypes.js'
 import * as walletSync from './walletSync/actionTypes.js'
+import * as walletOptions from './walletOptions/actionTypes.js'
 import * as webSocket from './webSocket/actionTypes.js'
 
 export {
@@ -31,5 +32,6 @@ export {
   settings,
   common,
   webSocket,
-  walletSync
+  walletSync,
+  walletOptions
 }

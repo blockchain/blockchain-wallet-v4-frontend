@@ -11,6 +11,7 @@ export default {
   BLOCKCHAIN_DATA_PATH: 'data',
   WALLET_IMMUTABLE_PATH: 'payload',
   SETTINGS_PATH: 'settings',
+  WALLET_OPTIONS_PATH: 'walletOptions',
   NETWORK: Bitcoin.networks.bitcoin
 }
 
@@ -24,6 +25,7 @@ export default {
 //   BLOCKCHAIN_DATA_PATH: 'data',
 //   WALLET_IMMUTABLE_PATH: 'payload',
 //   SETTINGS_PATH: 'settings',
+//   WALLET_OPTIONS_PATH: 'walletOptions',
 //   NETWORK: Bitcoin.networks.testnet
 // }
 
@@ -36,5 +38,6 @@ export default {
 //   BLOCKCHAIN_DATA_PATH: 'data',
 //   WALLET_IMMUTABLE_PATH: 'payload',
 //   SETTINGS_PATH: 'settings',
+//   WALLET_OPTIONS_PATH: 'walletOptions',
 //   NETWORK: Bitcoin.networks.bitcoin
 // }
