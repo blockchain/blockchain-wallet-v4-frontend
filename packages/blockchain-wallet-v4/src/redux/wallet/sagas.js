@@ -105,6 +105,10 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     if (!success) { throw new Error(message) }
   }
 
+  const resetWallet2fa = function * ({ guid, email, newEmail, secretPhrase, message, code, sessionToken }) {
+    yield call(api.reset2fa, guid, email, newEmail, secretPhrase, message, code, sessionToken)
+  }
+
   return {
     toggleSecondPassword,
     createWalletSaga,
@@ -112,6 +116,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     createLegacyAddress,
     updatePbkdf2Iterations,
     remindWalletGuidSaga,
-    fetchWalletSaga
+    fetchWalletSaga,
+    resetWallet2fa
   }
 }
