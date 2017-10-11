@@ -1,6 +1,5 @@
 import { delay } from 'redux-saga'
 import { takeEvery, call, put, select, cancel, cancelled, fork, all } from 'redux-saga/effects'
-import { push } from 'react-router-redux'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
@@ -30,7 +29,7 @@ const loginRoutineSaga = function * () {
       call(sagas.core.walletOptions.fetchWalletOptions)
     ])
     yield put(actions.alerts.displaySuccess('Login successful'))
-    yield put(push('/wallet'))
+    yield put(actions.router.push('/wallet'))
     yield call(goalSaga)
   } catch (e) {
     // Redirect to error page instead of notification
