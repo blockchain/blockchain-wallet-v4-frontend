@@ -20,7 +20,7 @@ const configureStore = () => {
   const history = createBrowserHistory()
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig) : compose
-  const walletPath = settings.WALLET_IMMUTABLE_PATH
+  const walletPath = settings.WALLET_PAYLOAD_PATH
   const reduxRouterMiddleware = routerMiddleware(history)
 
   const store = createStore(

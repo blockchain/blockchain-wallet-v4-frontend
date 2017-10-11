@@ -14,21 +14,19 @@ import sessionReducer from './Session/reducers.js'
 import wizardReducer from './Wizard/reducers.js'
 
 const rootReducer = combineReducers({
-  application: combineReducers({
-    alerts: alertsReducer,
-    auth: authReducer,
-    modals: modalsReducer,
-    scroll: scrollReducer,
-    wizard: wizardReducer
-  }),
-  ui: reduxUiReducer,
+  alerts: alertsReducer,
+  auth: authReducer,
   form: formReducer,
+  modals: modalsReducer,
   preferences: preferencesReducer,
   router: routerReducer,
+  scroll: scrollReducer,
   session: sessionReducer,
-  [settings.BLOCKCHAIN_DATA_PATH]: coreReducers.data,
-  [settings.WALLET_IMMUTABLE_PATH]: coreReducers.wallet,
-  [settings.SETTINGS_PATH]: coreReducers.settings,
+  ui: reduxUiReducer,
+  wizard: wizardReducer,
+  [settings.WALLET_DATA_PATH]: coreReducers.data,
+  [settings.WALLET_PAYLOAD_PATH]: coreReducers.wallet,
+  [settings.WALLET_SETTINGS_PATH]: coreReducers.settings,
   [settings.WALLET_OPTIONS_PATH]: coreReducers.walletOptions
 })
 

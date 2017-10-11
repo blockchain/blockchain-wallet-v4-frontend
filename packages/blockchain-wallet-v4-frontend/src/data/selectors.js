@@ -9,9 +9,9 @@ import * as session from './Session/selectors'
 import * as wizard from './Wizard/selectors'
 
 const core = coreSelectorsFactory({
-  dataPath: settings.BLOCKCHAIN_DATA_PATH,
-  settingsPath: settings.SETTINGS_PATH,
-  walletPath: settings.WALLET_IMMUTABLE_PATH,
+  dataPath: settings.WALLET_DATA_PATH,
+  settingsPath: settings.WALLET_SETTINGS_PATH,
+  walletPath: settings.WALLET_PAYLOAD_PATH,
   walletOptionsPath: settings.WALLET_OPTIONS_PATH
 })
 

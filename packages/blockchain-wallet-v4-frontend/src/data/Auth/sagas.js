@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { takeEvery, call, put, select, cancel, cancelled, fork } from 'redux-saga/effects'
+import { takeEvery, call, put, select, cancel, cancelled, fork, all } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
@@ -13,15 +13,29 @@ import { api } from 'services/ApiService'
 // =============================================================================
 // ================================= Generic ===================================
 // =============================================================================
+const goalSaga = function * () {
+  console.log('Check goals !')
+}
 
 const loginRoutineSaga = function * () {
-  yield put(actions.auth.authenticate())
-  yield put(actions.core.webSocket.startSocket())
-  yield put(actions.data.initData())
-  yield put(actions.settings.initSettings())
-  yield put(actions.walletOptions.initWalletOptions())
-  yield put(actions.alerts.displaySuccess('Login successful'))
-  yield put(push('/wallet'))
+  try {
+    yield put(actions.auth.authenticate())
+    yield put(actions.core.webSocket.startSocket())
+    const context = yield select(selectors.core.wallet.getWalletContext)
+    yield all([
+      call(sagas.core.common.fetchBlockchainData, { context }),
+      call(sagas.core.rates.startEthereumRates),
+      call(sagas.core.rates.startBitcoinRates),
+      call(sagas.core.settings.fetchSettings),
+      call(sagas.core.walletOptions.fetchWalletOptions)
+    ])
+    yield put(actions.alerts.displaySuccess('Login successful'))
+    yield put(push('/wallet'))
+    yield call(goalSaga)
+  } catch (e) {
+    // Redirect to error page instead of notification
+    yield put(actions.alerts.displayError('Critical error while fetching essential data !' + e.message))
+  }
 }
 
 // =============================================================================
@@ -60,6 +74,7 @@ const login = function * (action) {
       const authorized = yield call(pollingSession, session)
       if (authorized) {
         yield call(sagas.core.wallet.fetchWalletSaga, { guid, session, password })
+        yield call(loginRoutineSaga)
       } else {
         yield put(actions.alerts.displayError('Error establishing the session'))
       }

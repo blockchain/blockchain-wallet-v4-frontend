@@ -1,4 +1,3 @@
-export const INIT_DATA = 'INIT_DATA'
 
 export const GET_ADVERTS = 'GET_ADVERTS'
 

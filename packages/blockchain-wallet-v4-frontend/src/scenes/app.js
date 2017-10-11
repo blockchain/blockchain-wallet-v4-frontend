@@ -1,7 +1,8 @@
 import React from 'react'
 import { Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'connected-react-router'
+// import { ConnectedRouter } from 'connected-react-router'
+import { ConnectedRouter } from 'react-router-redux'
 import styled from 'styled-components'
 
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'

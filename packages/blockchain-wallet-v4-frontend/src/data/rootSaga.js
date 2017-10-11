@@ -10,11 +10,10 @@ import data from './Data/sagas.js'
 import payment from './Payment/sagas.js'
 import settings from './Settings/sagas.js'
 import wallet from './Wallet/sagas.js'
-import walletOptions from './WalletOptions/sagas.js'
 
-const dataPath = config.BLOCKCHAIN_DATA_PATH
-const settingsPath = config.SETTINGS_PATH
-const walletPath = config.WALLET_IMMUTABLE_PATH
+const dataPath = config.WALLET_DATA_PATH
+const settingsPath = config.WALLET_SETTINGS_PATH
+const walletPath = config.WALLET_PAYLOAD_PATH
 
 export const sagas = {
   core: coreSagasFactory({
@@ -34,7 +33,6 @@ const rootSaga = function * () {
     fork(payment),
     fork(settings),
     fork(wallet),
-    fork(walletOptions),
     fork(sagas.core.webSocket)
   ]
 }

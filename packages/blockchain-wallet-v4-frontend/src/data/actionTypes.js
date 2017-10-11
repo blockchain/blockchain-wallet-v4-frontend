@@ -9,7 +9,6 @@ import * as scroll from './Scroll/actionTypes.js'
 import * as session from './Session/actionTypes.js'
 import * as settings from './Settings/actionTypes.js'
 import * as wallet from './Wallet/actionTypes.js'
-import * as walletOptions from './WalletOptions/actionTypes.js'
 
 export {
   core,
@@ -22,6 +21,5 @@ export {
   scroll,
   session,
   settings,
-  wallet,
-  walletOptions
+  wallet
 }

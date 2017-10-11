@@ -5,7 +5,6 @@ import ui from 'redux-ui'
 import { take, map, sortBy, prop, range } from 'ramda'
 import { actions, selectors } from 'data'
 import ThirdStep from './template.js'
-console.log(selectors)
 
 class ThirdStepContainer extends React.Component {
   constructor (props) {

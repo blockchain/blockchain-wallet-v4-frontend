@@ -3,14 +3,6 @@ import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
 
-const initSettings = function * (action) {
-  try {
-    yield call(sagas.core.settings.fetchSettings)
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not fetch settings.'))
-  }
-}
-
 const showPairingCode = function * (action) {
   try {
     const encryptionPhrase = yield call(sagas.core.settings.encodePairingCode)
@@ -200,7 +192,6 @@ const enableTwoStepYubikey = function * (action) {
 }
 
 export default function * () {
-  yield takeEvery(AT.INIT_SETTINGS, initSettings)
   yield takeEvery(AT.SHOW_PAIRING_CODE, showPairingCode)
   yield takeEvery(AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL, showGoogleAuthenticatorSecretUrl)
   yield takeEvery(AT.UPDATE_EMAIL, updateEmail)

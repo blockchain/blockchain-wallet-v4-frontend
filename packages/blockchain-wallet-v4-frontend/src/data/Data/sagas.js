@@ -1,21 +1,7 @@
-import { takeEvery, put, call, all, select } from 'redux-saga/effects'
+import { takeEvery, put, call } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
-import * as selectors from '../selectors.js'
 import * as sagas from '../sagas.js'
-
-const initData = function * (action) {
-  try {
-    const context = yield select(selectors.core.wallet.getWalletContext)
-    yield all([
-      call(sagas.core.common.fetchBlockchainData, { context }),
-      call(sagas.core.rates.refreshEthereumRates),
-      call(sagas.core.rates.refreshBitcoinRates)
-    ])
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not fetch data.'))
-  }
-}
 
 const getAdverts = function * (action) {
   try {
@@ -59,7 +45,6 @@ const getTransactions = function * (action) {
 }
 
 export default function * () {
-  yield takeEvery(AT.INIT_DATA, initData)
   yield takeEvery(AT.GET_ADVERTS, getAdverts)
   yield takeEvery(AT.GET_CAPTCHA, getCaptcha)
   yield takeEvery(AT.GET_PRICE_INDEX_SERIES, getPriceIndexSeries)

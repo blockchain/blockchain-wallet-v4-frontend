@@ -1,7 +1,5 @@
 import * as AT from './actionTypes'
 
-export const initData = () => ({ type: AT.INIT_DATA })
-
 export const getAdverts = (number) => ({ type: AT.GET_ADVERTS, payload: { number } })
 
 export const getCaptcha = () => ({ type: AT.GET_CAPTCHA })
