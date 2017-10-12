@@ -28,6 +28,7 @@ const Content = styled.div`
   display: ${props => props.displayed ? 'flex' : 'none'};
   width: 75%;
   font-weight: 300;
+  font-size: 14px;
   margin-bottom: 0;
   color: ${props => props.theme['gray-5']};
 `

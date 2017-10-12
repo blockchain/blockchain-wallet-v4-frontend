@@ -2,19 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { displayFiat } from 'services/ConversionService'
+import { convertBaseCoinToFiat } from 'services/ConversionService'
 import { selectors } from 'data'
 
-const CurrencyDisplay = ({ ...props, children }) => {
-  const { network, currency, rates } = props
-  const fiat = displayFiat(network, children, currency, rates).getOrElse('N/A')
+const CurrencyDisplay = props => {
+  const { currency, rates, children } = props
+  const amount = children || '0'
 
-  return (
-    <div>{fiat}</div>)
+  return (<div>{convertBaseCoinToFiat(currency, rates, amount)}</div>)
 }
 
 CurrencyDisplay.propTypes = {
-  children: PropTypes.number.isRequired
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 CurrencyDisplay.defaultProps = {
@@ -22,9 +21,8 @@ CurrencyDisplay.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-  network: 'bitcoin',
   currency: selectors.core.settings.getCurrency(state),
-  rates: selectors.core.btcRates.getBtcRates(state)
+  rates: selectors.core.rates.getBtcRates(state)
 })
 
 export default connect(mapStateToProps)(CurrencyDisplay)

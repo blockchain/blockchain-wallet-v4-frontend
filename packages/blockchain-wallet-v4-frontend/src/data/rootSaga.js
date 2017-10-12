@@ -1,28 +1,42 @@
 import { fork } from 'redux-saga/effects'
 
-import settings from 'config'
+import config from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
+import { coreSagasFactory } from 'blockchain-wallet-v4/src'
+import alerts from './Alerts/sagas.js'
+import auth from './Auth/sagas.js'
+import data from './Data/sagas.js'
+import payment from './Payment/sagas.js'
+import settings from './Settings/sagas.js'
+import wallet from './Wallet/sagas.js'
+import walletOptions from './WalletOptions/sagas.js'
 
-import { coreSagas } from 'blockchain-wallet-v4/src'
-import alertSagas from './Alerts/sagas.js'
-import authSagas from './Auth/sagas.js'
-import modalSagas from './Modals/sagas.js'
-import interactivitySagas from './Interactivity/sagas.js'
+const dataPath = config.BLOCKCHAIN_DATA_PATH
+const settingsPath = config.SETTINGS_PATH
+const walletPath = config.WALLET_IMMUTABLE_PATH
 
-const dataPath = settings.BLOCKCHAIN_DATA_PATH
-const settingsPath = settings.SETTINGS_PATH
-const walletPath = settings.WALLET_IMMUTABLE_PATH
-
-function * sagas () {
-  yield [
-    fork(coreSagas.rootSaga({ api, dataPath, walletPath, settingsPath, socket })),
-    fork(alertSagas),
-    fork(authSagas),
-    fork(modalSagas),
-    fork(interactivitySagas)
-  ]
-  // yield takeEvery(actionTypes.core.payment.SIGN_AND_PUBLISH_SUCCESS, handleSend)
+export const sagas = {
+  core: coreSagasFactory({
+    api,
+    dataPath,
+    walletPath,
+    settingsPath,
+    socket
+  })
 }
 
-export default sagas
+const rootSaga = function * () {
+  yield [
+    fork(alerts),
+    fork(auth),
+    fork(data),
+    fork(payment),
+    fork(settings),
+    fork(wallet),
+    fork(walletOptions),
+    fork(sagas.core.webSocket)
+  ]
+}
+
+export default rootSaga

@@ -1,12 +1,17 @@
 import React from 'react'
 import {connect} from 'react-redux'
-
-import { convertFromUnit, displayCoin, displayFiat, coinScale } from 'services/ConversionService'
+import { equals, prop, path } from 'ramda'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 import Ticker from './template.js'
 
 import styled from 'styled-components'
+
+const BTC = Exchange.Currencies.BTC
+const ETH = Exchange.Currencies.ETH
+const Currency = Exchange.Currency
+const Pairs = Exchange.Pairs
 
 const Row = styled.div`
   display: flex;
@@ -16,19 +21,40 @@ const Row = styled.div`
 `
 
 class TickerContainer extends React.Component {
+  shouldComponentUpdate (nextProps) {
+    const { btcraw, ethraw, currency } = this.props
+    return !equals(btcraw, nextProps.btcraw) || !equals(ethraw, nextProps.ethraw) || !equals(currency, nextProps.currency)
+  }
+
   render () {
-    const { network, unit, currency, btcRates, ethRates } = this.props
-    const btcAmount = coinScale('bitcoin')
-    const baseCoin = convertFromUnit(network, 1, unit).getOrElse('N/A')
-    const amount = baseCoin.amount
-    const btcCoin = `1 BTC`
-    const ethCoin = `1 ETH`
-    const btcRate = displayFiat(network, btcAmount, currency, btcRates).getOrElse('N/A')
-    const ethRate = displayFiat(network, btcAmount, currency, ethRates).getOrElse('N/A')
+    const { currency, btcRates, ethRates } = this.props
+
+    const CUR = prop(currency, Exchange.Currencies)
+    const CURCode = prop('code', CUR)
+    const CURunit = path(['units', CURCode], CUR)
+
+    const oneBTC = Currency.fromUnit({value: '1', unit: BTC.units.BTC})
+    const btcCoin = oneBTC.chain(Currency.toUnit(BTC.units.BTC))
+                          .map(Currency.unitToString)
+                          .getOrElse('N/A')
+    const btcRate = oneBTC.chain(Currency.convert(btcRates, CUR))
+                          .chain(Currency.toUnit(CURunit))
+                          .map(Currency.unitToString)
+                          .getOrElse('N/A')
+
+    const oneETH = Currency.fromUnit({value: '1', unit: ETH.units.ETH})
+    const ethCoin = oneETH.chain(Currency.toUnit(ETH.units.ETH))
+                          .map(Currency.unitToString)
+                          .getOrElse('N/A')
+    const ethRate = oneETH.chain(Currency.convert(ethRates, CUR))
+                          .chain(Currency.toUnit(CURunit))
+                          .map(Currency.unitToString)
+                          .getOrElse('N/A')
 
     return (
       <Row>
         <Ticker coin={btcCoin} fiat={btcRate} />
+        <span>&nbsp;</span>
         <Ticker coin={ethCoin} fiat={ethRate} />
       </Row>
     )
@@ -36,12 +62,15 @@ class TickerContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const btcraw = selectors.core.rates.getBtcRates(state)
+  const ethraw = selectors.core.rates.getEthRates(state)
+
   return {
-    network: 'bitcoin',
-    unit: selectors.core.settings.getBtcCurrency(state),
     currency: selectors.core.settings.getCurrency(state),
-    btcRates: selectors.core.btcRates.getBtcRates(state),
-    ethRates: selectors.core.ethRates.getEthRates(state)
+    btcRates: Pairs.create(BTC.code, btcraw),
+    ethRates: Pairs.create(ETH.code, ethraw),
+    btcraw,
+    ethraw
   }
 }
 

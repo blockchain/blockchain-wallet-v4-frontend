@@ -1,21 +1,17 @@
-export const LOGIN_START = 'LOGIN_START'
+export const LOGIN = 'LOGIN'
 
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const MOBILE_LOGIN = 'MOBILE_LOGIN'
 
-export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const AUTHENTICATE = 'AUTHENTICATE'
 
-export const SAVE_SESSION = 'SAVE_SESSION'
+export const REGISTER = 'REGISTER'
 
-export const LOGOUT_START_TIMER = 'LOGOUT_START_TIMER'
+export const RESTORE = 'RESTORE'
+
+export const REMIND_GUID = 'REMIND_GUID'
+
+export const LOGOUT = 'LOGOUT'
 
 export const LOGOUT_RESET_TIMER = 'LOGOUT_RESET_TIMER'
 
-export const LOGOUT_START = 'LOGOUT_START'
-
-export const LOGOUT_CANCEL = 'LOGOUT_CANCEL'
-
 export const SET_AUTH_TYPE = 'SET_AUTH_TYPE'
-
-export const MOBILE_LOGIN_SUCCESS = 'MOBILE_LOGIN_SUCCESS'
-
-export const MOBILE_LOGIN_ERROR = 'MOBILE_LOGIN_ERROR'

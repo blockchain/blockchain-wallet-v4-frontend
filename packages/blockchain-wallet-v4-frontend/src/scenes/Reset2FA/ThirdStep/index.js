@@ -10,7 +10,7 @@ import { CaptchaBox, Form, TextArea } from 'components/Form'
 const Wrapper = styled.div`
   width: 100%;
   padding: 40px;
-  box-sigin: border-box;
+  box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
   @media(min-width: 768px) { width: 550px; }
@@ -25,7 +25,7 @@ const Footer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, handleSubmit, timestamp, submitting, invalid } = props
+  const { previousStep, onSubmit, timestamp, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -41,7 +41,7 @@ const ThirdStep = (props) => {
         <FormattedMessage id='scenes.reset2fa.thirdstep.explain' defaultMessage='The process will be quicker with more precise details provided to us.' />
       </Text>
       <Separator />
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.message' defaultMessage='Message' />
         </Text>
@@ -52,8 +52,8 @@ const ThirdStep = (props) => {
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.captcha' defaultMessage='Captcha' />
         </Text>
-        <Field name='captcha' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
-        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={handleSubmit}>
+        <Field name='code' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} >
           <FormattedMessage id='scenes.reset2fa.thirdstep.reset' defaultMessage='Reset' />
         </Button>
       </Form>

@@ -12,34 +12,24 @@ class MobileLoginContainer extends React.Component {
     super(props)
     this.handleScan = this.handleScan.bind(this)
     this.handleError = this.handleError.bind(this)
-    this.handleCancel = this.handleCancel.bind(this)
   }
 
   handleScan (result) {
-    if (!isNil(result) && !isEmpty(result)) { this.props.modalActions.scanMobileLoginSuccess(result) }
+    if (!isNil(result) && !isEmpty(result)) { this.props.authActions.mobileLogin(result) }
   }
 
   handleError (error) {
-    if (!isNil(error) && !isEmpty(error)) { this.props.modalActions.scanMobileLoginError('Could not scan the mobile login QR Code') }
-  }
-
-  handleCancel () {
-    this.props.modalActions.clickMobileLoginCancel()
+    if (isNil(error) && isEmpty(error)) { this.props.alertsActions.displayError('Could not scan the mobile login QR Code') }
   }
 
   render () {
-    return (
-      <MobileLogin
-        {...this.props}
-        handleScan={this.handleScan}
-        handleError={this.handleError}
-        handleCancel={this.handleCancel}
-      />
-    )
+    return <MobileLogin {...this.props} handleScan={this.handleScan} handleError={this.handleError} />
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  alertsActions: bindActionCreators(actions.alerts, dispatch),
+  authActions: bindActionCreators(actions.auth, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary, SettingStatus } from 'components/Setting'
 
-import Setting from './Setting'
+import Settings from './Settings'
 
 const WalletAccessTor = (props) => {
   const { blockTorIps } = props
@@ -24,7 +24,7 @@ const WalletAccessTor = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Setting />
+        <Settings />
       </SettingComponent>
     </SettingContainer>
   )

@@ -14,6 +14,7 @@ import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg
 import linkedin from './img/linkedin.svg'
 import qrCode from './img/qr-code.png'
 import refresh from './img/refresh.svg'
+import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
 import twitter from './img/twitter.svg'
@@ -36,9 +37,9 @@ export default {
   'linkedin': linkedin,
   'qr-code': qrCode,
   'refresh': refresh,
-  'sophisticated': sophisticated,
+  'shapeshiftLogo': shapeshiftLogo,
   'smartphone': smartphone,
   'sophisticated': sophisticated,
-   'twitter': twitter,
+  'twitter': twitter,
   'yubikey': yubikey
 }

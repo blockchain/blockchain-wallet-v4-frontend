@@ -1,8 +1,8 @@
-import * as actions from './rootActions'
-import * as actionTypes from './rootActionTypes'
+import * as actions from './actions'
+import * as actionTypes from './actionTypes'
 import rootReducer from './rootReducer'
 import rootSaga from './rootSaga'
-import * as selectors from './rootSelectors'
+import * as selectors from './selectors'
 
 export {
   actions,

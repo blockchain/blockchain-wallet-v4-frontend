@@ -1,4 +1,0 @@
-export const FETCH_FEE = '@CORE.FETCH_FEE'
-export const FETCH_FEE_SUCCESS = '@CORE.FETCH_FEE_SUCCESS'
-export const FETCH_FEE_ERROR = '@CORE.FETCH_FEE_ERROR'
-export const DELETE_FEE = '@CORE.DELETE_FEE'

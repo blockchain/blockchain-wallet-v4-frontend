@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { NavLink } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
 
-import { Background, Icon, Text, TextGroup } from 'blockchain-info-components'
+import { Background, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import Container from 'components/Container'
 
 const Wrapper = styled.div``
@@ -61,14 +61,12 @@ const Main = (props) => {
               <FormattedMessage id='scenes.landing.main.mission' defaultMessage='We are on a mission to build a more open, accessible, and fair financial future, one piece of software at a time.' />
             </Text>
           </TextGroup>
-          <NavLink to='/register'>
-            <TextGroup inline>
-              <Text size='16px' weight={300} color='brand-secondary' uppercase>
-                <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
-              </Text>
+          <LinkContainer to='/register'>
+            <Link size='16px' weight={300} color='brand-secondary' uppercase>
+              <FormattedMessage id='scenes.landing.main.getstarted' defaultMessage='Get started now' />
               <Icon name='right-arrow' color='brand-secondary' />
-            </TextGroup>
-          </NavLink>
+            </Link>
+          </LinkContainer>
         </MainContainer>
       </MainBackground>
       <Blocks>

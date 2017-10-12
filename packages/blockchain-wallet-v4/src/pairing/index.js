@@ -1,6 +1,6 @@
 
 import { propEq, propSatisfies } from 'ramda'
-import * as crypto from '../WalletCrypto'
+import * as crypto from '../walletCrypto'
 import Either from 'data.either'
 
 const PAIRING_CODE_PBKDF2_ITERATIONS = 10

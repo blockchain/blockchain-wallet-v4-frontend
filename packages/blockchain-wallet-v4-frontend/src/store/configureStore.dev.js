@@ -9,24 +9,24 @@ import { rootSaga, rootReducer } from 'data'
 import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
-import { auth } from 'data/rootSelectors.js'
+import { auth } from 'data/selectors.js'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 
 const devToolsConfig = {
   maxAge: 1000,
   serialize: serializer,
   actionsBlacklist: [
-    '@@redux-form/INITIALIZE',
-    '@@redux-form/CHANGE',
-    '@@redux-form/REGISTER_FIELD',
-    '@@redux-form/UNREGISTER_FIELD',
-    '@@redux-form/UPDATE_SYNC_ERRORS',
-    '@@redux-form/FOCUS',
-    '@@redux-form/BLUR',
-    '@@redux-form/DESTROY',
-    '@@redux-form/RESET',
-    '@@redux-ui/MOUNT_UI_STATE',
-    '@@redux-ui/UNMOUNT_UI_STATE'
+    // '@@redux-form/INITIALIZE',
+    // '@@redux-form/CHANGE',
+    // '@@redux-form/REGISTER_FIELD',
+    // '@@redux-form/UNREGISTER_FIELD',
+    // '@@redux-form/UPDATE_SYNC_ERRORS',
+    // '@@redux-form/FOCUS',
+    // '@@redux-form/BLUR',
+    // '@@redux-form/DESTROY',
+    // '@@redux-form/RESET',
+    // '@@redux-ui/MOUNT_UI_STATE',
+    // '@@redux-ui/UNMOUNT_UI_STATE'
   ]
 }
 
@@ -41,8 +41,8 @@ const configureStore = () => {
     composeEnhancers(
       applyMiddleware(
         reduxRouterMiddleware,
-        // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
-        coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.getIsAuthenticated }),
+        // coreMiddleware.walletSync({isAuthenticated: auth.isAuthenticated, api, walletPath}),
+        coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.isAuthenticated }),
         sagaMiddleware// ,
         // logger
       ),

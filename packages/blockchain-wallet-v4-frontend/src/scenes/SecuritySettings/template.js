@@ -23,7 +23,7 @@ const SecuritySettings = (props) => {
       <BasicSecurity />
       <ButtonContainer>
         <Button onClick={handleToggle}>
-          <FormattedMessage id='scenes.settings.advancedsettings' defaultMessage='Advanced settings' />
+          <FormattedMessage id='scenes.securitysettings.title' defaultMessage='Advanced settings' />
         </Button>
       </ButtonContainer>
       { toggled ? <AdvancedSecurity /> : <div /> }

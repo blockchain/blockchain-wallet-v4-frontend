@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, NumberInput, Text } from 'blockchain-info-components'
+import { Icon, TextInput, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -56,20 +56,20 @@ const getErrorState = (meta) => {
 }
 
 const CoinConvertor = (props) => {
-  const { coinValue, fiatValue, coinUnit, fiatUnit, handleBlur, handleChange, handleFiatChange, handleFocus, meta } = props
+  const { coinValue, fiatValue, coinUnit, fiatUnit, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
   const errorState = getErrorState(meta)
 
   return (
     <Wrapper>
       <CoinConvertorInput>
         <Container>
-          <NumberInput onBlur={handleBlur} onChange={handleChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
+          <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
           <Unit>{coinUnit}</Unit>
         </Container>
         <ArrowLeft name='left-arrow' />
         <ArrowRight name='right-arrow' />
         <Container>
-          <NumberInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
+          <TextInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
           <Unit>{fiatUnit}</Unit>
         </Container>
       </CoinConvertorInput>
@@ -79,12 +79,12 @@ const CoinConvertor = (props) => {
 }
 
 CoinConvertor.propTypes = {
-  coinValue: PropTypes.number,
-  fiatValue: PropTypes.number,
+  coinValue: PropTypes.string,
+  fiatValue: PropTypes.string,
   coinUnit: PropTypes.string.isRequired,
   fiatUnit: PropTypes.string.isRequired,
   handleBlur: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
+  handleCoinChange: PropTypes.func.isRequired,
   handleFiatChange: PropTypes.func.isRequired,
   handleFocus: PropTypes.func.isRequired
 }

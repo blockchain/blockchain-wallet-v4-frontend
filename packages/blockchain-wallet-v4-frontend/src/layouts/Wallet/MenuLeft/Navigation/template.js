@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { Icon } from 'blockchain-info-components'
+import { Icon, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -12,6 +12,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-left: 15px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: ${props => props.theme['gray-4']};
 `
 const Menu = styled.ul`
   list-style: none;
@@ -21,11 +26,11 @@ const MenuItem = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 8px 16px;
-  color: ${props => props.theme['gray-4']};
+  padding: 8px 0;
+  box-sizing: border-box;
   cursor: pointer;
 
-  & > :first-child { width: 30px; }
+  & > :first-child { width: 30px; font-size: 20px; }
   & > :last-child { text-transform: uppercase; }
   &.active {  & > * { color: ${props => props.theme['brand-secondary']}; } }
 `
@@ -36,16 +41,27 @@ const SubMenu = styled.ul`
   align-items: flex-start;
   list-style: none;
   text-transform: none;
-  padding-left: 40px;
+  padding: 0;
+  margin-left: 30px;
 `
 const SubMenuItem = styled.li`
-  padding: 5px 10px;
-  margin-right: 10px;
+  padding: 5px 0;
+  box-sizing: border-box;
   text-transform: none;
-  color: ${props => props.theme['gray-4']};
   cursor: pointer;
 
   &.active {  & > * { color: ${props => props.theme['brand-secondary']}; } }
+`
+
+const TransactionsWrapper = styled(TextGroup)`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`
+const Separator = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: ${props => props.theme['gray-4']};
 `
 
 const Navigation = (props) => {
@@ -57,19 +73,38 @@ const Navigation = (props) => {
         <LinkContainer to='/wallet' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='home' />
-            <FormattedMessage id='layouts.wallet.menuleft.navigation.home' defaultMessage='Home' />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.dashboard' defaultMessage='Dashboard' />
           </MenuItem>
         </LinkContainer>
-        <LinkContainer to='/transactions' activeClassName='active' onClick={handleCloseSettings}>
+        <TransactionsWrapper inline>
+          <Text weight={200} size='small'>
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions' defaultMessage='Transactions' smaller />
+          </Text>
+          <Separator />
+        </TransactionsWrapper>
+        <LinkContainer to='/btc/transactions' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
-            <Icon name='transactions' />
-            <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions' defaultMessage='Transactions' smaller uppercase />
+            <Icon name='bitcoin' />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.bitcoin' defaultMessage='Bitcoin' smaller uppercase />
           </MenuItem>
         </LinkContainer>
+        <LinkContainer to='/eth/transactions' activeClassName='active' onClick={handleCloseSettings}>
+          <MenuItem>
+            <Icon name='ethereum' />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.ether' defaultMessage='Ether' smaller uppercase />
+          </MenuItem>
+        </LinkContainer>
+        <Separator />
         <LinkContainer to='/buy-sell' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='bitcoin' />
-            <FormattedMessage id='layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy bitcoin' smaller uppercase />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy & sell bitcoin' smaller uppercase />
+          </MenuItem>
+        </LinkContainer>
+        <LinkContainer to='/exchange' activeClassName='active' onClick={handleCloseSettings}>
+          <MenuItem>
+            <Icon name='exchange' />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.exchange' defaultMessage='Exchange' smaller uppercase />
           </MenuItem>
         </LinkContainer>
         <LinkContainer to='/security-center' activeClassName='active' onClick={handleCloseSettings}>
