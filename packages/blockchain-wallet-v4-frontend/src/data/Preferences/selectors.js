@@ -1,13 +1,13 @@
 import { path } from 'ramda'
 
-export const getCulture = path(['culture'])
+export const getCulture = path(['preferences', 'culture'])
 
-export const getLanguage = path(['language'])
+export const getLanguage = path(['preferences', 'language'])
 
-export const getTheme = path(['theme'])
+export const getTheme = path(['preferences', 'theme'])
 
-export const getEmail = path(['email'])
+export const getEmail = path(['preferences', 'email'])
 
-export const isChangingEmail = path(['changingEmail'])
+export const isChangingEmail = path(['preferences', 'changingEmail'])
 
-export const getCoinDisplayed = path(['coinDisplayed'])
+export const getCoinDisplayed = path(['preferences', 'coinDisplayed'])

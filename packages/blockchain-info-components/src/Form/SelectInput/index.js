@@ -7,10 +7,7 @@ import SelectInput from './template.js'
 class SelectInputContainer extends React.Component {
   constructor (props) {
     super(props)
-    const { input, opened } = props
-    const { value } = input
-
-    this.state = { value: value, expanded: opened, search: '' }
+    this.state = { expanded: this.props.opened, search: '' }
     this.handleBlur = this.handleBlur.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -18,13 +15,7 @@ class SelectInputContainer extends React.Component {
   }
 
   handleClick (value) {
-    const { input, callback } = this.props
-    const { onChange } = input
-    if (!equals(this.state.value, value)) {
-      this.setState({ value })
-      onChange(value)
-      if (callback) { callback(value) }
-    }
+    this.props.input.onChange(value)
     this.setState({ opened: false })
   }
 
@@ -33,18 +24,14 @@ class SelectInputContainer extends React.Component {
   }
 
   handleBlur () {
-    const { input } = this.props
-    const { onBlur, onChange } = input
+    this.props.input.onBlur()
+    this.props.input.onChange(this.state.value)
     this.setState({ expanded: false })
-    onBlur()
-    onChange(this.state.value)
   }
 
   handleFocus () {
-    const { input } = this.props
-    const { onFocus } = input
+    this.props.input.onFocus()
     this.setState({ expanded: true })
-    onFocus()
   }
 
   transform (elements, search) {
@@ -83,7 +70,7 @@ class SelectInputContainer extends React.Component {
         handleFocus={this.handleFocus}
         searchEnabled={this.props.searchEnabled}
         {...rest}
-            />
+      />
     )
   }
 }

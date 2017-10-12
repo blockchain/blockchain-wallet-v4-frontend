@@ -27,7 +27,6 @@ class ListContainer extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (!equals(this.props.source, nextProps.source)) {
-      this.props.actions.deleteTransactions()
       this.fetchTransactions(nextProps.source)
       return
     }
@@ -74,7 +73,7 @@ class ListContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const selector = formValueSelector('bitcoinTransactionForm')
+  const selector = formValueSelector('bitcoinTransaction')
   const initialSource = selector(state, 'source')
 
   return {
