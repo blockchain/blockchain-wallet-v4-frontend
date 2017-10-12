@@ -2,7 +2,6 @@
 import Bitcoin from 'bitcoinjs-lib'
 
 // ======================== LIVE ============================
-
 export default {
   ROOT_URL: 'https://blockchain.info/',
   API_BLOCKCHAIN_INFO: 'https://api.blockchain.info/',

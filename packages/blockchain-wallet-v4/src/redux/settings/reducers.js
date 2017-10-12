@@ -48,7 +48,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_BITCOIN_UNIT: {
       const { unit } = payload
-      return Object.assign({}, state, { btc_unit: unit })
+      return Object.assign({}, state, { btc_currency: unit })
     }
     case AT.SET_AUTO_LOGOUT: {
       const { autoLogout } = payload

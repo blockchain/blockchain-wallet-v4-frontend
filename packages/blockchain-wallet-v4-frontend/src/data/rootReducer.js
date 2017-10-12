@@ -6,6 +6,7 @@ import { reducer as formReducer } from 'redux-form'
 import { coreReducers } from 'blockchain-wallet-v4/src'
 import alertsReducer from './Alerts/reducers.js'
 import authReducer from './Auth/reducers.js'
+import goalsReducer from './Goals/reducers.js'
 import modalsReducer from './Modals/reducers.js'
 import preferencesReducer from './Preferences/reducers.js'
 import scrollReducer from './Scroll/reducers.js'
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   alerts: alertsReducer,
   auth: authReducer,
   form: formReducer,
+  goals: goalsReducer,
   modals: modalsReducer,
   preferences: preferencesReducer,
   scroll: scrollReducer,

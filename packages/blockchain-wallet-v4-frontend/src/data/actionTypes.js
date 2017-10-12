@@ -2,6 +2,7 @@ import { coreActionsTypes as core } from 'blockchain-wallet-v4/src'
 import * as alerts from './Alerts/actionTypes.js'
 import * as auth from './Auth/actionTypes.js'
 import * as data from './Data/actionTypes.js'
+import * as goals from './Goals/actionTypes.js'
 import * as modals from './Modals/actionTypes.js'
 import * as payment from './Payment/actionTypes.js'
 import * as preferences from './Preferences/actionTypes.js'
@@ -15,6 +16,7 @@ export {
   alerts,
   auth,
   data,
+  goals,
   modals,
   payment,
   preferences,
