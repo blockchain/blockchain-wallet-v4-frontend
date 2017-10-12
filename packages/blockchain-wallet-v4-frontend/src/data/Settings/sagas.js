@@ -1,7 +1,11 @@
-import { takeEvery, put, call } from 'redux-saga/effects'
+import { takeEvery, put, call, select, delay } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
+import * as selectors from '../selectors.js'
+import { flip } from 'ramda'
+
+import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 
 const initSettings = function * (action) {
   try {
@@ -18,6 +22,15 @@ const showPairingCode = function * (action) {
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch pairing code.'))
   }
+}
+
+const showBackupRecovery = function * (action) {
+  const recoverySaga = function * ({ password }) {
+    const m = yield select(flip(selectors.core.wallet.getMnemonic)(password))
+    const mnemonic = m.split(' ')
+    yield put(actions.modals.showModal('RecoveryPhrase', { mnemonic }))
+  }
+  yield call(askSecondPasswordEnhancer(recoverySaga), {})
 }
 
 const showGoogleAuthenticatorSecretUrl = function * (action) {
@@ -202,6 +215,7 @@ const enableTwoStepYubikey = function * (action) {
 export default function * () {
   yield takeEvery(AT.INIT_SETTINGS, initSettings)
   yield takeEvery(AT.SHOW_PAIRING_CODE, showPairingCode)
+  yield takeEvery(AT.SHOW_BACKUP_RECOVERY, showBackupRecovery)
   yield takeEvery(AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL, showGoogleAuthenticatorSecretUrl)
   yield takeEvery(AT.UPDATE_EMAIL, updateEmail)
   yield takeEvery(AT.VERIFY_EMAIL, verifyEmail)
