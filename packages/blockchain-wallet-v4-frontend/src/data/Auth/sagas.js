@@ -14,6 +14,9 @@ import { api } from 'services/ApiService'
 // =============================================================================
 const goalSaga = function * () {
   console.log('Check goals !')
+  console.log(selectors.core.wallet.getHDAccounts)
+  const shouldDisplayUpgradeModal = yield select(selectors.core.wallet.getHDAccounts).length > 0
+
 }
 
 const loginRoutineSaga = function * () {
@@ -203,4 +206,5 @@ export default function * () {
   yield takeEvery(AT.AUTHENTICATE, startLogoutTimer)
   yield takeEvery(AT.LOGOUT, logout)
   yield takeEvery(AT.LOGOUT_RESET_TIMER, resetLogoutTimer)
+  yield takeEvery('CHECK_GOALS', goalSaga)
 }

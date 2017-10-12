@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { persistStore, autoRehydrate } from 'redux-persist'
 import { createBrowserHistory } from 'history'
-import { routerMiddleware } from 'react-router-redux'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import { rootSaga, rootReducer, selectors } from 'data'
 import settings from 'config'
@@ -20,13 +20,12 @@ const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig) : compose
   const walletPath = settings.WALLET_PAYLOAD_PATH
-  const reduxRouterMiddleware = routerMiddleware(history)
 
   const store = createStore(
-    rootReducer,
+    connectRouter(history)(rootReducer),
     composeEnhancers(
       applyMiddleware(
-        reduxRouterMiddleware,
+        routerMiddleware(history),
         // coreMiddleware.walletSync({isAuthenticated: auth.isAuthenticated, api, walletPath}),
         coreMiddleware.socket({ socket, walletPath, isAuthenticated: selectors.auth.isAuthenticated }),
         sagaMiddleware

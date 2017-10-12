@@ -1,7 +1,6 @@
 
 import { combineReducers } from 'redux'
 import settings from 'config'
-import { routerReducer } from 'react-router-redux'
 import { reducer as reduxUiReducer } from 'redux-ui'
 import { reducer as formReducer } from 'redux-form'
 import { coreReducers } from 'blockchain-wallet-v4/src'
@@ -19,7 +18,6 @@ const rootReducer = combineReducers({
   form: formReducer,
   modals: modalsReducer,
   preferences: preferencesReducer,
-  router: routerReducer,
   scroll: scrollReducer,
   session: sessionReducer,
   ui: reduxUiReducer,
