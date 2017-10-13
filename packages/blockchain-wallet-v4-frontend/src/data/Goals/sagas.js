@@ -5,8 +5,10 @@ import * as selectors from '../selectors'
 import * as sagas from '../sagas'
 import { convertBtcUnitToBtcUnit } from 'services/ConversionService'
 
-const sendBitcoinGoalSaga = function * (data) {
+const sendBitcoinGoalSaga = function * (goal) {
+  const { id, data } = goal
   const { amount, address, message } = data
+  // Goal work
   const unit = yield select(selectors.core.settings.getBtcUnit)
   const scaledAmount = convertBtcUnitToBtcUnit(amount, 'BTC', unit).value
   yield call(sagas.payment.initSendBitcoin)
@@ -15,6 +17,8 @@ const sendBitcoinGoalSaga = function * (data) {
   yield put(actions.form.change('sendBitcoin', 'amount', scaledAmount))
   yield put(actions.form.change('sendBitcoin', 'message', message))
   yield put(actions.form.touch('sendBitcoin', 'to2', 'amount', 'message'))
+  // Goal removed from state
+  yield put(actions.goals.deleteGoal(id))
 }
 
 const goalSaga = function * () {
@@ -22,9 +26,8 @@ const goalSaga = function * () {
   const goals = yield select(selectors.goals.getGoals)
 
   yield goals.map((goal) => {
-    const { name, data } = goal
-    switch (name) {
-      case 'payment': return call(sendBitcoinGoalSaga, data)
+    switch (goal.name) {
+      case 'payment': return call(sendBitcoinGoalSaga, goal)
     }
   })
 }

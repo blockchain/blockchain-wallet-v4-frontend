@@ -14,7 +14,10 @@ class BitcoinLinkHandlingContainer extends React.Component {
   handleClick () {
     this.props.updateUI({ warningDisplayed: true })
     // Register bitcoin links
-    window.navigator.registerProtocolHandler('bitcoin', `${config.ROOT_URL}a/%s`, 'Blockchain')
+    // const link = `${config.ROOT_URL}a/%s`
+    const link = 'http://localhost:8080/a/%s'
+    console.log(link)
+    window.navigator.registerProtocolHandler('bitcoin', link, 'Blockchain')
   }
 
   render () {
