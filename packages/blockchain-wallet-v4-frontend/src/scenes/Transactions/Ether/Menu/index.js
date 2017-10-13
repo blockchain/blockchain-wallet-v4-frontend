@@ -18,38 +18,46 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  @media(min-width: 992px) { flex-direction: row; }
+  @media(min-width: 992px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `
-const FilterStatuses = styled.div`
+const Filter = styled.div`
   display: flex;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  width: 80%;
   margin-bottom: 5px;
-`
-const FilterSearch = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 20%;
+  width: 100%;
+  flex-grow: 1;
+
+  & input { border: 1px solid ${props => props.theme['gray-2']}!important; }
+  & button { border: 1px solid ${props => props.theme['gray-2']}!important; }
+
+  @media(min-width: 992px) {
+    justify-content: flex-start;
+    width: 30%;
+  }
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
   top: 10px;
   right: 10px;
 `
+console.log('ok')
 
 const MenuTop = (props) => {
   return (
     <Wrapper>
       <Container>
-        <FilterStatuses>
+        <Filter>
           <Field name='status' component={TransactionMenuStatus} />
-        </FilterStatuses>
-        <FilterSearch>
+        </Filter>
+        <Filter>
           <Field name='search' component={TextBox} />
           <SearchIcon name='search' />
-        </FilterSearch>
+        </Filter>
       </Container>
     </Wrapper>
   )

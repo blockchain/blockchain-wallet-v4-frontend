@@ -6,25 +6,18 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  width: auto;
 `
 const Item = styled.span`
+  display: block;
   padding: 10px;
-  text-decoration: none;
+  text-decoration: ${props => props.selected ? 'underline' : 'none'};
   text-transform: uppercase;
   font-weight: normal;
   cursor: pointer;
-  color: ${props => props.theme['gray-3']};
+  color: ${props => props.selected ? props.theme['gray-5'] : props.theme['gray-3']};
   text-align: center;
-`
-const ItemSelected = styled.span`
-  padding: 10px;
-  color: black;
-  text-decoration: underline;
-  text-transform: uppercase;
-  font-weight: normal;
-  cursor: pointer;
-  color: ${props => props.theme['gray-4']};
-  text-align: center;
+  flex: 1;
 `
 
 const Status = (props) => {
@@ -32,13 +25,7 @@ const Status = (props) => {
 
   return (
     <Container>
-      { items.map(function (item, index) {
-        if (item.value === value) {
-          return <ItemSelected key={index} onClick={() => handleChange(item.value)}>{item.text}</ItemSelected>
-        } else {
-          return <Item key={index} onClick={() => handleChange(item.value)}>{item.text}</Item>
-        }
-      })}
+      {items.map((item, index) => <Item key={index} selected={item.value === value} onClick={() => handleChange(item.value)}>{item.text}</Item>)}
     </Container>
   )
 }

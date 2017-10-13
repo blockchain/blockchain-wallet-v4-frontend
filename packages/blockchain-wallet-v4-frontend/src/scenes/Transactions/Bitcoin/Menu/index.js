@@ -18,29 +18,27 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  @media(min-width: 992px) { flex-direction: row; }
+  @media(min-width: 992px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `
 const Filter = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
   margin-bottom: 5px;
-`
-const FilterAddresses = styled(Filter)`
+  width: 100%;
   flex-grow: 1;
-  order: 2; 
-  @media(min-width: 992px) { order: 1; } 
-`
-const FilterStatuses = styled(Filter)`
-  flex-grow: 2;
-  order: 1; 
-  @media(min-width: 992px) { order: 2; } 
-`
-const FilterSearch = styled(Filter)`
-  flex-grow: 1;
-  order: 3;
-  @media(min-width: 992px) { order: 3; } 
+
+  & input { border: 1px solid ${props => props.theme['gray-2']}!important; }
+  & button { border: 1px solid ${props => props.theme['gray-2']}!important; }
+
+  @media(min-width: 992px) {
+    justify-content: flex-start;
+    width: 30%;
+  }
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
@@ -48,22 +46,20 @@ const SearchIcon = styled(Icon)`
   right: 10px;
 `
 
-console.log('lol')
-
 const Menu = (props) => {
   return (
     <Wrapper>
       <Container>
-        <FilterAddresses>
+        <Filter>
           <Field name='source' component={SelectBoxAddresses} />
-        </FilterAddresses>
-        <FilterStatuses>
+        </Filter>
+        <Filter>
           <Field name='status' component={TransactionMenuStatus} />
-        </FilterStatuses>
-        <FilterSearch>
+        </Filter>
+        <Filter>
           <Field name='search' component={TextBox} />
           <SearchIcon name='search' />
-        </FilterSearch>
+        </Filter>
       </Container>
     </Wrapper>
   )
