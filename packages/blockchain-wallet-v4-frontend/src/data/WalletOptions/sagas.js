@@ -7,7 +7,6 @@ const initWalletOptions = function * (action) {
   try {
     yield call(sagas.core.walletOptions.fetchWalletOptions)
   } catch (e) {
-    console.log(e)
     yield put(actions.alerts.displayError('Could not fetch options.'))
   }
 }
