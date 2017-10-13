@@ -24,6 +24,7 @@ const Container = styled.div`
   }
 `
 const Filter = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;

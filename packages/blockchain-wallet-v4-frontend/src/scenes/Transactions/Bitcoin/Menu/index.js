@@ -18,12 +18,13 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  @media(min-width: 992px) {
+  @media(min-width: 1200px) {
     flex-direction: row;
     justify-content: space-between;
   }
 `
 const Filter = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -35,7 +36,7 @@ const Filter = styled.div`
   & input { border: 1px solid ${props => props.theme['gray-2']}!important; }
   & button { border: 1px solid ${props => props.theme['gray-2']}!important; }
 
-  @media(min-width: 992px) {
+  @media(min-width: 1200px) {
     justify-content: flex-start;
     width: 30%;
   }
