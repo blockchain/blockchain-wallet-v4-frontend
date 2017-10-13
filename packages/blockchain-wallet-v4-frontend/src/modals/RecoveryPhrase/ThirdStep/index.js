@@ -34,17 +34,13 @@ class ThirdStepContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  mnemonic: selectors.core.wallet.getMnemonic(state).split(' ')
-})
-
 const mapDispatchToProps = (dispatch) => ({
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const enhance = compose(
   ui({ key: 'RecoveryPhraseVerification', state: { indexes: [] } }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(ThirdStepContainer)
