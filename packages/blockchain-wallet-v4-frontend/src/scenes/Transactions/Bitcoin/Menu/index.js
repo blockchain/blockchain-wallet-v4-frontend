@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
-import { SelectBoxAddresses } from 'components/Form'
+import { Icon } from 'blockchain-info-components'
+import { SelectBoxAddresses, TextBox } from 'components/Form'
 import TransactionMenuStatus from 'components/TransactionMenuStatus'
-import TransactionSearch from 'components/TransactionSearch'
 
 const Wrapper = styled.div`
   padding: 8px 30px;
@@ -42,8 +42,15 @@ const FilterSearch = styled(Filter)`
   order: 3;
   @media(min-width: 992px) { order: 3; } 
 `
+const SearchIcon = styled(Icon)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`
 
-const MenuTop = (props) => {
+console.log('lol')
+
+const Menu = (props) => {
   return (
     <Wrapper>
       <Container>
@@ -54,11 +61,12 @@ const MenuTop = (props) => {
           <Field name='status' component={TransactionMenuStatus} />
         </FilterStatuses>
         <FilterSearch>
-          <Field name='search' component={TransactionSearch} />
+          <Field name='search' component={TextBox} />
+          <SearchIcon name='search' />
         </FilterSearch>
       </Container>
     </Wrapper>
   )
 }
 
-export default reduxForm({ form: 'bitcoinTransactionForm' })(MenuTop)
+export default reduxForm({ form: 'bitcoinTransaction' })(Menu)

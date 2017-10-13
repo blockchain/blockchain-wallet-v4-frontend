@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
 
-  @media(min-width: 1200px) { width: 50%; }
+  @media(min-width: 1200px) { width: auto; }
 `
 
 const TransactionDetailsDescription = props => (

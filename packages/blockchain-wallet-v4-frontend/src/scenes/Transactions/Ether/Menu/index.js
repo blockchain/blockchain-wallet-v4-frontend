@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
+import { Icon } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
 import TransactionMenuStatus from 'components/TransactionMenuStatus'
-import TransactionSearch from 'components/TransactionSearch'
 
 const Wrapper = styled.div`
   padding: 8px 30px;
@@ -32,6 +33,11 @@ const FilterSearch = styled.div`
   align-items: center;
   width: 20%;
 `
+const SearchIcon = styled(Icon)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`
 
 const MenuTop = (props) => {
   return (
@@ -41,11 +47,12 @@ const MenuTop = (props) => {
           <Field name='status' component={TransactionMenuStatus} />
         </FilterStatuses>
         <FilterSearch>
-          <Field name='search' component={TransactionSearch} />
+          <Field name='search' component={TextBox} />
+          <SearchIcon name='search' />
         </FilterSearch>
       </Container>
     </Wrapper>
   )
 }
 
-export default reduxForm({ form: 'etherTransactionForm' })(MenuTop)
+export default reduxForm({ form: 'etherTransaction' })(MenuTop)

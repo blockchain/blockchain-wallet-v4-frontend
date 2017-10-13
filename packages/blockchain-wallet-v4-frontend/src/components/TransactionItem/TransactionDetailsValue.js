@@ -7,6 +7,8 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+
+  @media(min-width: 1200px) { width: auto; }
 `
 
 const TransactionDetailsValue = props => (
