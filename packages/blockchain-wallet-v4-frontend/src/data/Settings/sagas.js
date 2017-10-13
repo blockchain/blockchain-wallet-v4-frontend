@@ -26,9 +26,13 @@ const showPairingCode = function * (action) {
 
 const showBackupRecovery = function * (action) {
   const recoverySaga = function * ({ password }) {
-    const m = yield select(flip(selectors.core.wallet.getMnemonic)(password))
-    const mnemonic = m.split(' ')
-    yield put(actions.modals.showModal('RecoveryPhrase', { mnemonic }))
+    const eitherMnemonic = yield select(flip(selectors.core.wallet.getMnemonic)(password))
+    if (eitherMnemonic.isRight) {
+      const mnemonic = eitherMnemonic.value.split(' ')
+      yield put(actions.modals.showModal('RecoveryPhrase', { mnemonic }))
+    } else {
+      yield put(actions.alerts.displayError('Could not read mnemonic.'))
+    }
   }
   yield call(askSecondPasswordEnhancer(recoverySaga), {})
 }
