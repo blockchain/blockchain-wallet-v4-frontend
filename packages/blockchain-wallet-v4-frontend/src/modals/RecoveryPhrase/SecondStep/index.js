@@ -9,7 +9,6 @@ const SecondStepContainer = props => {
   const handleClickPrevious = () => { updateUI({ index: ui.index - 1 }) }
 
   const handleClickNext = () => { updateUI({ index: ui.index + 1 }) }
-  console.log(props.mnemonic)
 
   return (
     <SecondStep
