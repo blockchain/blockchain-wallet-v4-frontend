@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
-import { Button, ConfirmationGauge, Icon, Tooltip, Text } from 'blockchain-info-components'
+import { Button, ConfirmationGauge, Icon, Link, Tooltip, Text } from 'blockchain-info-components'
 import CurrencyDisplay from 'components/CurrencyDisplay'
 import CoinDisplay from 'components/CoinDisplay'
 import { Transaction, TransactionRow, TransactionRowAddresses, TransactionRowAmount, TransactionRowDescription,
@@ -12,9 +12,18 @@ import { Transaction, TransactionRow, TransactionRowAddresses, TransactionRowAmo
   TransactionDetailsDescription, TransactionDetailsStatus, TransactionDetailsValue } from 'components/TransactionItem'
 
 const TransactionTooltip = styled.div`
+  position: relative;
   display: flex;
-  flex-direction: row;
-  justify-items: space-between;
+  flex-direction: column;
+  justify-items: flex-start;
+  align-items: flex-start;
+  width: 80%;
+
+  & > :last-child {
+    position: absolute;
+    top: -30px;
+    right: 0;
+  }
 `
 
 const selectColors = type => {
@@ -82,10 +91,8 @@ const TransactionListItem = (props) => {
             <TransactionTooltip>
               <ConfirmationGauge nbConfirmations={transaction.confirmations} />
               <Tooltip>
-                {transaction.confirmations === 0 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_unconfirmed' defaultMessage='Your transaction is actually unconfirmed.' />}
-                {transaction.confirmations === 1 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed_1' defaultMessage='Your transaction confirmation is in progress (1 block ahead).' />}
-                {transaction.confirmations === 2 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed_2' defaultMessage='Your transaction confirmation is in progress (2 blocks ahead).' />}
-                {transaction.confirmations === 3 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed_3' defaultMessage='Your transaction is confirmed (3 blocks ahead).' />}
+                <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_unconfirmed' defaultMessage='Your transaction will be complete after it has 3 confirmations.' />
+                <Link href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-' target='_blank' size='12px' weight={300} altFont>Learn more.</Link>
               </Tooltip>
             </TransactionTooltip>
           }

@@ -26,7 +26,6 @@ class ListItemContainer extends React.Component {
   }
 
   render () {
-    console.log(this.props.transactionFiatAtTime)
     return <ListItem toggled={this.state.toggled} handleToggle={this.handleToggle} handleClick={this.handleCoinToggle} {...this.props} />
   }
 }
