@@ -58,6 +58,15 @@ const getTransactions = function * (action) {
   }
 }
 
+const getTransactionFiatAtTime = function * (action) {
+  const { coin, hash } = action.payload
+  try {
+    yield call(sagas.core.transactionFiats.fetchTransactionFiatAtTime, { coin, hash })
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch transaction fiat at time.'))
+  }
+}
+
 export default function * () {
   yield takeEvery(AT.INIT_DATA, initData)
   yield takeEvery(AT.GET_ADVERTS, getAdverts)
@@ -65,4 +74,5 @@ export default function * () {
   yield takeEvery(AT.GET_PRICE_INDEX_SERIES, getPriceIndexSeries)
   yield takeEvery(AT.GET_LOGS, getLogs)
   yield takeEvery(AT.GET_TRANSACTIONS, getTransactions)
+  yield takeEvery(AT.GET_TRANSACTION_FIAT_AT_TIME, getTransactionFiatAtTime)
 }

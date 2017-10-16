@@ -27,7 +27,7 @@ const selectColors = type => {
 }
 
 const TransactionListItem = (props) => {
-  const { coinDisplayed, toggled, handleToggle, handleClick, transaction } = props
+  const { coinDisplayed, toggled, handleToggle, handleClick, transaction, transactionFiatAtTime } = props
   const now = moment()
   const date = moment.utc(transaction.time * 1000)
   const formattedDate = (date.year() === now.year())
@@ -112,7 +112,7 @@ const TransactionListItem = (props) => {
         </TransactionDetailsDescription>
         <TransactionDetailsValue>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.initial' defaultMessage='Value when received: {value}' values={{ value: transaction.initial_value }} />
+            <FormattedMessage id='scenes.transactions.list.transactionlistitem.initial' defaultMessage='Value when received: {value}' values={{ value: transactionFiatAtTime }} />
           </Text>
         </TransactionDetailsValue>
       </TransactionDetails>

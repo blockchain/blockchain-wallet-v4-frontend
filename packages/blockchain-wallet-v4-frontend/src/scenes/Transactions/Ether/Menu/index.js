@@ -46,9 +46,8 @@ const SearchIcon = styled(Icon)`
   top: 10px;
   right: 10px;
 `
-console.log('ok')
 
-const MenuTop = (props) => {
+const Menu = (props) => {
   return (
     <Wrapper>
       <Container>
@@ -64,4 +63,4 @@ const MenuTop = (props) => {
   )
 }
 
-export default reduxForm({ form: 'etherTransaction' })(MenuTop)
+export default reduxForm({ form: 'etherTransaction' })(Menu)

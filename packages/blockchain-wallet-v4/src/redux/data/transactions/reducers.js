@@ -1,5 +1,5 @@
 import * as T from './actionTypes.js'
-import { assoc, equals, lensProp, over, concat } from 'ramda'
+import { concat } from 'ramda'
 
 const INITIAL_STATE = {
   list: [],
