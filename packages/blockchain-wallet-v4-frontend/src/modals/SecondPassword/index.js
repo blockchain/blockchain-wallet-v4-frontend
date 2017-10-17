@@ -16,8 +16,8 @@ class SecondPasswordContainer extends React.Component {
 
   handleClick () {
     if (Types.Wallet.isValidSecondPwd(this.state.secondPassword, this.props.wallet)) {
-      this.props.walletActions.submitSecondPassword(this.state.secondPassword)
       this.props.modalActions.closeModal()
+      this.props.walletActions.submitSecondPassword(this.state.secondPassword)
     } else {
       this.props.alertActions.displayError('Wrong second password')
       this.setState({ secondPassword: '' })

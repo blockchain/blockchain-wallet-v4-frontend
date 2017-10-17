@@ -4,6 +4,8 @@ export const showGoogleAuthenticatorSecretUrl = () => ({ type: AT.SHOW_GOOGLE_AU
 
 export const showPairingCode = () => ({ type: AT.SHOW_PAIRING_CODE })
 
+export const showBackupRecovery = () => ({ type: AT.SHOW_BACKUP_RECOVERY })
+
 export const updateEmail = (email) => ({ type: AT.UPDATE_EMAIL, payload: { email } })
 
 export const verifyEmail = (code) => ({ type: AT.VERIFY_EMAIL, payload: { code } })

@@ -92,7 +92,7 @@ class ChartContainer extends React.Component {
         break
       case 'week':
         this.setState({
-          start: moment().subtract(7, 'month').format('X'),
+          start: moment().subtract(7, 'day').format('X'),
           scale: scales.HOUR,
           timeframe,
           interval: intervals.hour
