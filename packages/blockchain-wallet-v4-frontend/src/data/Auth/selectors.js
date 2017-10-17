@@ -1,4 +1,4 @@
 import { path } from 'ramda'
 
-export const isAuthenticated = path(['application', 'auth', 'isAuthenticated'])
-export const getAuthType = path(['application', 'auth', 'authType'])
+export const isAuthenticated = path(['auth', 'isAuthenticated'])
+export const getAuthType = path(['auth', 'authType'])

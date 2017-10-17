@@ -5,7 +5,6 @@ import ui from 'redux-ui'
 import { take, map, sortBy, prop, range } from 'ramda'
 import { actions, selectors } from 'data'
 import ThirdStep from './template.js'
-console.log(selectors)
 
 class ThirdStepContainer extends React.Component {
   constructor (props) {
@@ -34,17 +33,13 @@ class ThirdStepContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  mnemonic: selectors.core.wallet.getMnemonic(state).split(' ')
-})
-
 const mapDispatchToProps = (dispatch) => ({
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const enhance = compose(
   ui({ key: 'RecoveryPhraseVerification', state: { indexes: [] } }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(ThirdStepContainer)

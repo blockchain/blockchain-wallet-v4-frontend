@@ -1,10 +1,10 @@
 import * as AT from './actionTypes'
 
-export const initSettings = () => ({ type: AT.INIT_SETTINGS })
-
 export const showGoogleAuthenticatorSecretUrl = () => ({ type: AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL })
 
 export const showPairingCode = () => ({ type: AT.SHOW_PAIRING_CODE })
+
+export const showBackupRecovery = () => ({ type: AT.SHOW_BACKUP_RECOVERY })
 
 export const updateEmail = (email) => ({ type: AT.UPDATE_EMAIL, payload: { email } })
 

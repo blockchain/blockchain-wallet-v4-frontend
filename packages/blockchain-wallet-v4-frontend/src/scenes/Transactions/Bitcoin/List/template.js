@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import TransactionListItem from 'components/TransactionListItem'
+import ListItem from './ListItem'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -11,9 +11,7 @@ const Wrapper = styled.div`
 const TransactionList = (props) => {
   return (
     <Wrapper>
-      { props.transactions.map(function (transaction, index) {
-        return <TransactionListItem key={index} transaction={transaction} />
-      })}
+      { props.transactions.map((transaction, index) => <ListItem key={index} transaction={transaction} currency={props.currency} />)}
     </Wrapper>
   )
 }

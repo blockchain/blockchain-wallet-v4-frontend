@@ -13,7 +13,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.modalActions.showModal('RecoveryPhrase')
+    this.props.settingsActions.showBackupRecovery()
   }
 
   render () {
@@ -22,7 +22,7 @@ class SettingsContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 export default connect(undefined, mapDispatchToProps)(SettingsContainer)

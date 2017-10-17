@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { push } from 'connected-react-router'
 
 import { filter, isNil } from 'ramda'
 import { actions, selectors } from 'data'
