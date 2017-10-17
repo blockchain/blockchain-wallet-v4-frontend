@@ -11,5 +11,6 @@
   },
   "devDependencies": {
     "lerna": "^2.1.2"
-  }
+  },
+  "dependencies": {}
 }

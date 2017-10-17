@@ -8,6 +8,7 @@ import * as latestBlock from './data/latestBlock/selectors.js'
 import * as logs from './data/logs/selectors.js'
 import * as rates from './data/rates/selectors.js'
 import * as transactions from './data/transactions/selectors.js'
+import * as transactionFiats from './data/transactionFiats/selectors.js'
 import * as info from './data/info/selectors.js'
 import * as payment from './data/payment/selectors.js'
 import * as settings from './settings/selectors.js'
@@ -29,6 +30,7 @@ export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath, wallet
     logs: map(extend(dataPath), logs),
     rates: map(extend(dataPath), rates),
     transactions: map(extend(dataPath), transactions),
+    transactionFiats: map(extend(dataPath), transactionFiats),
     info: map(extend(dataPath), info),
     payment: map(extend(dataPath), payment),
     settings: map(extend(settingsPath), settings),

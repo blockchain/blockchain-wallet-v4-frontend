@@ -27,7 +27,6 @@ class ListContainer extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (!equals(this.props.source, nextProps.source)) {
-      this.props.actions.deleteTransactions()
       this.fetchTransactions(nextProps.source)
       return
     }
@@ -68,16 +67,17 @@ class ListContainer extends React.Component {
 
   render () {
     return (
-      <List transactions={this.filteredTransactions} />
+      <List transactions={this.filteredTransactions} currency={this.props.currency} />
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  const selector = formValueSelector('bitcoinTransactionForm')
+  const selector = formValueSelector('bitcoinTransaction')
   const initialSource = selector(state, 'source')
 
   return {
+    currency: selectors.core.settings.getCurrency(state),
     source: initialSource ? (initialSource.xpub ? initialSource.xpub : initialSource.address) : '',
     status: selector(state, 'status') || '',
     search: selector(state, 'search') || '',

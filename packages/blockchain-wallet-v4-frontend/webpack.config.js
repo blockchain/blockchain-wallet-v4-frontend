@@ -131,6 +131,12 @@ module.exports = {
     port: 8080,
     hot: !PROD,
     historyApiFallback: true,
+    proxy: [
+      {
+        path: /\/a\/.*/,
+        bypass: function (req, res, proxyOptions) { return '/index.html' }
+      }
+    ],
     overlay: !PROD && {
       warnings: true,
       errors: true

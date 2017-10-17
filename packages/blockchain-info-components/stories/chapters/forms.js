@@ -19,13 +19,4 @@ storiesOf('Forms', module)
     .add('Text input', () => <TextInput />)
     .add('Invalid text input', () => <TextInput errorState='invalid' />)
     .add('Valid text input', () => <NumberInput errorState='valid' />)
-    .add('Select input', () => <SelectInput
-      elements={[{ group: '',
-        items: [{ text: 'First item', value: 0 },
-              { text: 'Second item', value: 1 },
-              { text: 'Third item', value: 2 }]}]}
-      input={{onBlur: () => {},
-        onChange: (item) => { this.setState({value: 2}) },
-        onFocus: () => {},
-        value: 0 }}
-      meta={{touched: false, invalid: false, error: false}} />)
+    .add('Select input', () => <SelectInput elements={[{ group: '', items: [{ text: 'First item', value: 0 }, { text: 'Second item', value: 1 }, { text: 'Third item', value: 2 }] }]} />)

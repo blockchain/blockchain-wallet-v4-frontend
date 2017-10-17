@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import MenuTop from './MenuTop'
+import Menu from './Menu'
 import List from './List'
 
 const Wrapper = styled.div`
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 const BitcoinTransactionsContainer = (props) => {
   return (
     <Wrapper>
-      <MenuTop />
+      <Menu />
       <List />
     </Wrapper>
   )

@@ -4,7 +4,7 @@ import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 
-const createLegacyAddress = function * (action) {
+export const createLegacyAddress = function * (action) {
   const saga = askSecondPasswordEnhancer(sagas.core.wallet.createLegacyAddress)
   try {
     yield call(saga, action.payload)
@@ -14,7 +14,7 @@ const createLegacyAddress = function * (action) {
   }
 }
 
-const updatePbkdf2Iterations = function * (action) {
+export const updatePbkdf2Iterations = function * (action) {
   const saga = askSecondPasswordEnhancer(sagas.core.wallet.updatePbkdf2Iterations)
   try {
     yield call(saga, action.payload)
@@ -24,7 +24,7 @@ const updatePbkdf2Iterations = function * (action) {
   }
 }
 
-const toggleSecondPassword = function * (action) {
+export const toggleSecondPassword = function * (action) {
   const { password } = action.payload
   try {
     yield call(sagas.core.wallet.toggleSecondPassword, { password })
@@ -34,7 +34,7 @@ const toggleSecondPassword = function * (action) {
   }
 }
 
-const verifyMmenonic = function * (action) {
+export const verifyMmenonic = function * (action) {
   yield put(actions.core.wallet.verifyMnemonic())
   yield put(actions.modals.closeModal())
   yield put(actions.alerts.displaySuccess('Your mnemonic has been verified !'))
