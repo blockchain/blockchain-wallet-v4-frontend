@@ -107,10 +107,9 @@ export const mobileLogin = function * (action) {
 // ================================ Register ===================================
 // =============================================================================
 export const register = function * (action) {
-  const { password, email } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Creating wallet...'))
-    yield call(sagas.core.wallet.createWalletSaga, { password, email })
+    yield call(sagas.core.wallet.createWalletSaga, action.payload)
     yield put(actions.alerts.displaySuccess('Wallet successfully created.'))
     yield call(loginRoutineSaga)
   } catch (e) {
@@ -122,10 +121,9 @@ export const register = function * (action) {
 // ================================= Restore ===================================
 // =============================================================================
 export const restore = function * (action) {
-  const { mnemonic, email, password, network } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Restoring wallet...'))
-    yield call(sagas.core.wallet.restoreWalletSaga, { mnemonic, email, password, network })
+    yield call(sagas.core.wallet.restoreWalletSaga, action.payload)
     yield put(actions.alerts.displaySuccess('Your wallet has been successfully restored.'))
     yield call(loginRoutineSaga)
   } catch (e) {
@@ -137,12 +135,27 @@ export const restore = function * (action) {
 // =============================== Remind Guid =================================
 // =============================================================================
 export const remindGuid = function * (action) {
-  const { email, code, sessionToken } = action.payload
   try {
-    yield call(sagas.core.wallet.remindWalletGuidSaga, { email, code, sessionToken })
+    yield call(sagas.core.wallet.remindWalletGuidSaga, action.payload)
     yield put(actions.alerts.displaySuccess('Your wallet guid has been sent to your email address.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Error sending email.'))
+  }
+}
+
+// =============================================================================
+// ================================ Reset 2fa ==================================
+// =============================================================================
+const reset2fa = function * (action) {
+  try {
+    const response = yield call(sagas.core.wallet.resetWallet2fa, action.payload)
+    if (response.success) {
+      yield put(actions.alerts.displayInfo('Reset 2-step Authentication has been successfully submitted. You will reset an email shortly when the authentication is successfully reset.'))
+    } else {
+      yield put(actions.alerts.displayError(response.message))
+    }
+  } catch (e) {
+    yield put(actions.alerts.displayError('Error resetting 2-step authentication.'))
   }
 }
 
@@ -200,4 +213,5 @@ export default function * () {
   yield takeEvery(AT.AUTHENTICATE, startLogoutTimer)
   yield takeEvery(AT.LOGOUT, logout)
   yield takeEvery(AT.LOGOUT_RESET_TIMER, resetLogoutTimer)
+  yield takeEvery(AT.RESET_2FA, reset2fa)
 }

@@ -11,10 +11,6 @@ const wizard = (name, totalSteps) => Component => {
       this.handlePreviousStep = this.handlePreviousStep.bind(this)
     }
 
-    componentWillMount () {
-      this.props.actions.reset(name)
-    }
-
     handlePreviousStep () {
       if (this.props.step > 1) {
         this.props.actions.setStep(name, (this.props.step - 1))
