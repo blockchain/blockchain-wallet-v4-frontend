@@ -21,9 +21,7 @@ class ReminderContainer extends React.Component {
   }
 
   render () {
-    return (
-      <Reminder onSubmit={this.onSubmit} />
-    )
+    return <Reminder onSubmit={this.onSubmit} />
   }
 }
 
