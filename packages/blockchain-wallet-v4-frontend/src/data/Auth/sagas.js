@@ -148,8 +148,12 @@ export const remindGuid = function * (action) {
 // =============================================================================
 const reset2fa = function * (action) {
   try {
-    yield call(sagas.core.wallet.resetWallet2fa, action.payload)
-    yield put(actions.alerts.displaySuccess('Reset 2-step Authentication has been successfully submitted. You will reset an email shortly when the authentication is successfully reset.'))
+    const response = yield call(sagas.core.wallet.resetWallet2fa, action.payload)
+    if (response.success) {
+      yield put(actions.alerts.displayInfo('Reset 2-step Authentication has been successfully submitted. You will reset an email shortly when the authentication is successfully reset.'))
+    } else {
+      yield put(actions.alerts.displayError(response.message))
+    }
   } catch (e) {
     yield put(actions.alerts.displayError('Error resetting 2-step authentication.'))
   }
