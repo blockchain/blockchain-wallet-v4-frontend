@@ -12,4 +12,4 @@ export const getLogs = () => ({ type: AT.GET_LOGS })
 
 export const getTransactions = (address) => ({ type: AT.GET_TRANSACTIONS, payload: { address } })
 
-export const getTransactionFiatAtTime = (coin, hash) => ({ type: AT.GET_TRANSACTION_FIAT_AT_TIME, payload: { coin, hash } })
+export const getTransactionFiatAtTime = (coin, hash, amount, time) => ({ type: AT.GET_TRANSACTION_FIAT_AT_TIME, payload: { coin, hash, amount, time } })

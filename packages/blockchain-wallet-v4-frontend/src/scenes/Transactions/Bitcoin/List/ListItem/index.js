@@ -16,7 +16,7 @@ class ListItemContainer extends React.Component {
   handleToggle () {
     const { transaction, transactionFiatAtTime } = this.props
     if (!this.state.toggled && !transactionFiatAtTime) {
-      this.props.dataActions.getTransactionFiatAtTime('bitcoin', transaction.hash)
+      this.props.dataActions.getTransactionFiatAtTime('bitcoin', transaction.hash, transaction.amount, transaction.time * 1000)
     }
     this.setState({ toggled: !this.state.toggled })
   }
@@ -30,13 +30,10 @@ class ListItemContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const coin = 'bitcoin'
-  return {
-    coinDisplayed: selectors.preferences.getCoinDisplayed(state),
-    transactionFiatAtTime: selectors.core.transactionFiats.getTransactionFiatAtTime(state, coin, ownProps.transaction.hash, ownProps.currency)
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  coinDisplayed: selectors.preferences.getCoinDisplayed(state),
+  transactionFiatAtTime: selectors.core.transactionFiats.getTransactionFiatAtTime(state, 'bitcoin', ownProps.transaction.hash, ownProps.currency)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   dataActions: bindActionCreators(actions.data, dispatch),

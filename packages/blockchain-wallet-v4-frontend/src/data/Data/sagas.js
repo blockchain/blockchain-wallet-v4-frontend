@@ -59,9 +59,9 @@ const getTransactions = function * (action) {
 }
 
 const getTransactionFiatAtTime = function * (action) {
-  const { coin, hash } = action.payload
+  const { coin, hash, amount, time } = action.payload
   try {
-    yield call(sagas.core.transactionFiats.fetchTransactionFiatAtTime, { coin, hash })
+    yield call(sagas.core.transactionFiats.fetchTransactionFiatAtTime, { coin, hash, amount, time })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch transaction fiat at time.'))
   }
