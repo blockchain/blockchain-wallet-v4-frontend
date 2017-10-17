@@ -25,7 +25,7 @@ const Footer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, onSubmit, timestamp, submitting, invalid } = props
+  const { previousStep, onSubmit, submitting, invalid } = props
 
   return (
     <Wrapper>

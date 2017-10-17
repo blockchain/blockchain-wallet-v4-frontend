@@ -107,7 +107,6 @@ export const mobileLogin = function * (action) {
 // ================================ Register ===================================
 // =============================================================================
 export const register = function * (action) {
-  const { password, email } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Creating wallet...'))
     yield call(sagas.core.wallet.createWalletSaga, action.payload)
@@ -122,7 +121,6 @@ export const register = function * (action) {
 // ================================= Restore ===================================
 // =============================================================================
 export const restore = function * (action) {
-  const { mnemonic, email, password, network } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Restoring wallet...'))
     yield call(sagas.core.wallet.restoreWalletSaga, action.payload)
@@ -137,7 +135,6 @@ export const restore = function * (action) {
 // =============================== Remind Guid =================================
 // =============================================================================
 export const remindGuid = function * (action) {
-  const { email, code, sessionToken } = action.payload
   try {
     yield call(sagas.core.wallet.remindWalletGuidSaga, action.payload)
     yield put(actions.alerts.displaySuccess('Your wallet guid has been sent to your email address.'))
