@@ -11,6 +11,7 @@ export default {
   WALLET_PAYLOAD_PATH: 'wallet.payload',
   WALLET_SETTINGS_PATH: 'wallet.settings',
   WALLET_OPTIONS_PATH: 'wallet.options',
+  WALLET_KVSTORE_PATH: 'wallet.kvstore',
   NETWORK: Bitcoin.networks.bitcoin
 }
 
@@ -25,6 +26,7 @@ export default {
 //   WALLET_PAYLOAD_PATH: 'wallet.payload',
 //   WALLET_SETTINGS_PATH: 'wallet.settings',
 //   WALLET_OPTIONS_PATH: 'wallet.options',
+//   WALLET_KVSTORE_PATH: 'wallet.kvstore',
 //   NETWORK: Bitcoin.networks.testnet
 // }
 
@@ -38,5 +40,6 @@ export default {
 //   WALLET_PAYLOAD_PATH: 'wallet.payload',
 //   WALLET_SETTINGS_PATH: 'wallet.settings',
 //   WALLET_OPTIONS_PATH: 'wallet.options',
+//   WALLET_KVSTORE_PATH: 'wallet.kvstore',
 //   NETWORK: Bitcoin.networks.bitcoin
 // }

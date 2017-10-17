@@ -14,6 +14,7 @@ import rates from './data/rates/reducers.js'
 import wallet from './wallet/reducers.js'
 import settings from './settings/reducers.js'
 import walletOptions from './walletOptions/reducers.js'
+import kvStore from './kvStore/reducers.js'
 
 const data = combineReducers({
   addresses,
@@ -34,5 +35,6 @@ export {
   data,
   wallet,
   settings,
-  walletOptions
+  walletOptions,
+  kvStore
 }

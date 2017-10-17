@@ -23,7 +23,8 @@ const loginRoutineSaga = function * () {
       call(sagas.core.rates.startEthereumRates),
       call(sagas.core.rates.startBitcoinRates),
       call(sagas.core.settings.fetchSettings),
-      call(sagas.core.walletOptions.fetchWalletOptions)
+      call(sagas.core.walletOptions.fetchWalletOptions),
+      call(sagas.core.kvStore.fetchKVStoreFromType, {type: 'buy-sell'})
     ])
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))

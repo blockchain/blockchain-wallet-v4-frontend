@@ -131,14 +131,21 @@ export function encryptDataWithPasswordSync (data, password, iterations) {
 // key: AES key (256 bit Buffer)
 // iv: optional initialization vector
 // returns: concatenated and Base64 encoded iv + payload
-export function encryptDataWithKey (data, key, iv) {
-  iv = iv || crypto.randomBytes(U.SALT_BYTES)
-  var dataBytes = Buffer.from(data, 'utf8')
-  var options = { mode: U.AES.CBC, padding: U.Iso10126 }
-  var encryptedBytes = U.AES.encrypt(dataBytes, key, iv, options)
-  var payload = Buffer.concat([ iv, encryptedBytes ])
+export const encryptDataWithKey = curry((data, key, iv) => {
+  let IV = iv || crypto.randomBytes(U.SALT_BYTES)
+  let dataBytes = Buffer.from(data, 'utf8')
+  let options = { mode: U.AES.CBC, padding: U.Iso10126 }
+  let encryptedBytes = U.AES.encrypt(dataBytes, key, IV, options)
+  let payload = Buffer.concat([ IV, encryptedBytes ])
   return payload.toString('base64')
-}
+})
+
+export const decryptDataWithKey = curry((data, key) => {
+  let dataHex = Buffer.from(data, 'base64')
+  let iv = dataHex.slice(0, U.SALT_BYTES)
+  let payload = dataHex.slice(U.SALT_BYTES)
+  return decryptBufferWithKey(payload, iv, key)
+})
 
 const checkFailure = curry((pass, fail, str) => str === '' ? fail(new Error('DECRYPT_FAILURE')) : pass(str))
 

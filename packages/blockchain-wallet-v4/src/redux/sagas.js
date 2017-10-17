@@ -12,8 +12,9 @@ import { settingsSaga } from './settings/sagas.js'
 import { walletSaga } from './wallet/sagas.js'
 import { webSocketSaga } from './webSocket/sagas.js'
 import { walletOptionsSaga } from './walletOptions/sagas.js'
+import { kvStoreSaga } from './kvStore/sagas.js'
 
-export const coreSagasFactory = ({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket } = {}) => ({
+export const coreSagasFactory = ({ api, kvStoreApi, kvStorePath, dataPath, walletPath, settingsPath, walletOptionsPath, socket } = {}) => ({
   adverts: advertsSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
   captcha: captchaSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
   charts: chartsSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
@@ -27,5 +28,6 @@ export const coreSagasFactory = ({ api, dataPath, walletPath, settingsPath, wall
   settings: settingsSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
   wallet: walletSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
   walletOptions: walletOptionsSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
-  webSocket: webSocketSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket })
+  webSocket: webSocketSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
+  kvStore: kvStoreSaga({ kvStoreApi, kvStorePath, walletPath })
 })

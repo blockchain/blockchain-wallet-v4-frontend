@@ -1,5 +1,5 @@
 import config from 'config'
-import { api } from 'services/ApiService'
+import { api, kvStoreApi } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as auth from './Auth/sagas.js'
@@ -12,13 +12,16 @@ const dataPath = config.WALLET_DATA_PATH
 const settingsPath = config.WALLET_SETTINGS_PATH
 const walletPath = config.WALLET_PAYLOAD_PATH
 const walletOptionsPath = config.WALLET_OPTIONS_PATH
+const kvStorePath = config.WALLET_KVSTORE_PATH
 
 const core = coreSagasFactory({
   api,
+  kvStoreApi,
   dataPath,
   walletPath,
   settingsPath,
   walletOptionsPath,
+  kvStorePath,
   socket
 })
 
