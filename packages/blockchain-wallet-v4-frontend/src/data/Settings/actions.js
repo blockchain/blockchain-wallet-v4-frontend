@@ -1,7 +1,5 @@
 import * as AT from './actionTypes'
 
-export const initSettings = () => ({ type: AT.INIT_SETTINGS })
-
 export const showGoogleAuthenticatorSecretUrl = () => ({ type: AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL })
 
 export const showPairingCode = () => ({ type: AT.SHOW_PAIRING_CODE })

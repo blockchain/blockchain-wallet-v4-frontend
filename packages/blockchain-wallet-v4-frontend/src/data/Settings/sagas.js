@@ -1,4 +1,4 @@
-import { takeEvery, put, call, select, delay } from 'redux-saga/effects'
+import { takeEvery, put, call, select } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
@@ -7,15 +7,7 @@ import { flip } from 'ramda'
 
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 
-const initSettings = function * (action) {
-  try {
-    yield call(sagas.core.settings.fetchSettings)
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not fetch settings.'))
-  }
-}
-
-const showPairingCode = function * (action) {
+export const showPairingCode = function * (action) {
   try {
     const encryptionPhrase = yield call(sagas.core.settings.encodePairingCode)
     yield put(actions.modals.showModal('PairingCode', { data: encryptionPhrase }))
@@ -46,7 +38,7 @@ const showGoogleAuthenticatorSecretUrl = function * (action) {
   }
 }
 
-const updateEmail = function * (action) {
+export const updateEmail = function * (action) {
   try {
     yield call(sagas.core.settings.setEmail, action.payload)
     yield put(actions.alerts.displaySuccess('Email address has been successfully updated. Confirmation email has been sent.'))
@@ -55,7 +47,7 @@ const updateEmail = function * (action) {
   }
 }
 
-const verifyEmail = function * (action) {
+export const verifyEmail = function * (action) {
   try {
     yield call(sagas.core.settings.setEmailVerified, action.payload)
     yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
@@ -64,7 +56,7 @@ const verifyEmail = function * (action) {
   }
 }
 
-const updateMobile = function * (action) {
+export const updateMobile = function * (action) {
   try {
     yield call(sagas.core.settings.setMobile, action.payload)
     yield put(actions.alerts.displaySuccess('Mobile number has been successfully updated. Verification SMS has been sent.'))
@@ -73,7 +65,7 @@ const updateMobile = function * (action) {
   }
 }
 
-const verifyMobile = function * (action) {
+export const verifyMobile = function * (action) {
   try {
     yield call(sagas.core.settings.setMobileVerified, action.payload)
     yield put(actions.alerts.displaySuccess('Mobile number has been successfully verified.'))
@@ -82,7 +74,7 @@ const verifyMobile = function * (action) {
   }
 }
 
-const updateLanguage = function * (action) {
+export const updateLanguage = function * (action) {
   try {
     yield call(sagas.core.settings.setLanguage, action.payload)
     yield put(actions.alerts.displaySuccess('Language has been successfully updated.'))
@@ -91,7 +83,7 @@ const updateLanguage = function * (action) {
   }
 }
 
-const updateCurrency = function * (action) {
+export const updateCurrency = function * (action) {
   try {
     yield call(sagas.core.settings.setCurrency, action.payload)
     yield put(actions.alerts.displaySuccess('Currency has been successfully updated.'))
@@ -100,7 +92,7 @@ const updateCurrency = function * (action) {
   }
 }
 
-const updateBitcoinUnit = function * (action) {
+export const updateBitcoinUnit = function * (action) {
   try {
     yield call(sagas.core.settings.setBitcoinUnit, action.payload)
     yield put(actions.alerts.displaySuccess('Bitcoin unit has been successfully updated.'))
@@ -109,7 +101,7 @@ const updateBitcoinUnit = function * (action) {
   }
 }
 
-const updateAutoLogout = function * (action) {
+export const updateAutoLogout = function * (action) {
   try {
     yield call(sagas.core.settings.setAutoLogout, action.payload)
     yield put(actions.alerts.displaySuccess('Auto logout has been successfully updated.'))
@@ -118,7 +110,7 @@ const updateAutoLogout = function * (action) {
   }
 }
 
-const updateLoggingLevel = function * (action) {
+export const updateLoggingLevel = function * (action) {
   try {
     yield call(sagas.core.settings.setLoggingLevel, action.payload)
     yield put(actions.alerts.displaySuccess('Logging level has been successfully updated.'))
@@ -127,7 +119,7 @@ const updateLoggingLevel = function * (action) {
   }
 }
 
-const updateIpLock = function * (action) {
+export const updateIpLock = function * (action) {
   try {
     yield call(sagas.core.settings.setIpLock, action.payload)
     yield put(actions.alerts.displaySuccess('IP whitelist has been successfully updated.'))
@@ -136,7 +128,7 @@ const updateIpLock = function * (action) {
   }
 }
 
-const updateIpLockOn = function * (action) {
+export const updateIpLockOn = function * (action) {
   try {
     yield call(sagas.core.settings.setIpLockOn, action.payload)
     yield put(actions.alerts.displaySuccess('IP restriction has been successfully updated.'))
@@ -145,7 +137,7 @@ const updateIpLockOn = function * (action) {
   }
 }
 
-const updateBlockTorIps = function * (action) {
+export const updateBlockTorIps = function * (action) {
   try {
     yield call(sagas.core.settings.setBlockTorIps, action.payload)
     yield put(actions.alerts.displaySuccess('Logging level has been successfully updated.'))
@@ -154,7 +146,7 @@ const updateBlockTorIps = function * (action) {
   }
 }
 
-const updateHint = function * (action) {
+export const updateHint = function * (action) {
   try {
     yield call(sagas.core.settings.setHint, action.payload)
     yield put(actions.alerts.displaySuccess('Hint has been successfully updated.'))
@@ -163,7 +155,7 @@ const updateHint = function * (action) {
   }
 }
 
-const disableTwoStep = function * (action) {
+export const disableTwoStep = function * (action) {
   try {
     yield call(sagas.core.settings.setAuthType, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification has been successfully updated.'))
@@ -174,7 +166,7 @@ const disableTwoStep = function * (action) {
   }
 }
 
-const updateTwoStepRemember = function * (action) {
+export const updateTwoStepRemember = function * (action) {
   try {
     yield call(sagas.core.settings.setAuthTypeNeverSave, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification remember has been successfully updated.'))
@@ -183,7 +175,7 @@ const updateTwoStepRemember = function * (action) {
   }
 }
 
-const enableTwoStepMobile = function * (action) {
+export const enableTwoStepMobile = function * (action) {
   try {
     yield call(sagas.core.settings.setAuthType, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification (Mobile) has been successfully enabled.'))
@@ -194,7 +186,7 @@ const enableTwoStepMobile = function * (action) {
   }
 }
 
-const enableTwoStepGoogleAuthenticator = function * (action) {
+export const enableTwoStepGoogleAuthenticator = function * (action) {
   try {
     yield call(sagas.core.settings.setGoogleAuthenticator, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification (Google Authenticator) has been successfully enabled.'))
@@ -205,7 +197,7 @@ const enableTwoStepGoogleAuthenticator = function * (action) {
   }
 }
 
-const enableTwoStepYubikey = function * (action) {
+export const enableTwoStepYubikey = function * (action) {
   try {
     yield call(sagas.core.settings.setYubikey, action.payload)
     yield put(actions.alerts.displaySuccess('2-step verification (Yubikey) has been successfully enabled.'))
@@ -217,7 +209,6 @@ const enableTwoStepYubikey = function * (action) {
 }
 
 export default function * () {
-  yield takeEvery(AT.INIT_SETTINGS, initSettings)
   yield takeEvery(AT.SHOW_PAIRING_CODE, showPairingCode)
   yield takeEvery(AT.SHOW_BACKUP_RECOVERY, showBackupRecovery)
   yield takeEvery(AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL, showGoogleAuthenticatorSecretUrl)

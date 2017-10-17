@@ -54,11 +54,17 @@ const convertUnitToSatoshis = (value, unit) => {
   return btcAmount.chain(Currency.toUnit(BTC.units.SAT)).getOrElse({ value: undefined })
 }
 
+const convertBtcUnitToBtcUnit = (value, fromUnit, toUnit) => {
+  const fromAmount = Currency.fromUnit({ value, unit: BTC.units[fromUnit] })
+  return fromAmount.chain(Currency.toUnit(BTC.units[toUnit])).getOrElse({ value: undefined })
+}
+
 export {
   convertBaseCoinToFiat,
   convertBaseCoinToCoin,
   convertUnitToFiat,
   convertFiatToUnit,
   convertSatoshisToUnit,
-  convertUnitToSatoshis
+  convertUnitToSatoshis,
+  convertBtcUnitToBtcUnit
 }

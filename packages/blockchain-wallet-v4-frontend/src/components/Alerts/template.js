@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   flex-direction: column-reverse;
   justify-content: flex-start;
   align-items: flex-start;
-  z-index: 5;
+  z-index: 1050;
 
   & > * { margin-top: 5px; }
 

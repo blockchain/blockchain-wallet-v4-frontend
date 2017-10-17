@@ -4,12 +4,11 @@ import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as selectors from '../selectors.js'
 import * as sagas from '../sagas.js'
-import { api } from 'services/ApiService'
 import settings from 'config'
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 import { convertUnitToSatoshis } from 'services/ConversionService'
 
-const initSendBitcoin = function * (action) {
+export const initSendBitcoin = function * (action) {
   try {
     yield call(sagas.core.fee.fetchFee)
     const index = yield select(selectors.core.wallet.getDefaultAccountIndex)
@@ -25,7 +24,7 @@ const initSendBitcoin = function * (action) {
   }
 }
 
-const getUnspent = function * (action) {
+export const getUnspent = function * (action) {
   const { index, address } = action.payload
   try {
     yield call(sagas.core.payment.getUnspent, index, address)
@@ -36,7 +35,7 @@ const getUnspent = function * (action) {
   }
 }
 
-const getSelection = function * (action) {
+export const getSelection = function * (action) {
   try {
     const { from, to, to2, amount, fee, seed } = action.payload
     const finalTo = !isNil(to2) ? to2 : (to.address || to.index)
@@ -58,7 +57,7 @@ const getSelection = function * (action) {
   }
 }
 
-const getEffectiveBalance = function * (action) {
+export const getEffectiveBalance = function * (action) {
   const { fee } = action.payload
   try {
     yield call(sagas.core.payment.refreshEffectiveBalance, { feePerByte: fee })
@@ -67,7 +66,7 @@ const getEffectiveBalance = function * (action) {
   }
 }
 
-const sendBitcoin = function * (action) {
+export const sendBitcoin = function * (action) {
   try {
     const saga = askSecondPasswordEnhancer(sagas.core.payment.signAndPublish)
     yield call(saga, action.payload)

@@ -1,6 +1,5 @@
 import { delay } from 'redux-saga'
-import { takeEvery, call, put, select, cancel, cancelled, fork } from 'redux-saga/effects'
-import { push } from 'react-router-redux'
+import { takeEvery, call, put, select, cancel, cancelled, fork, all } from 'redux-saga/effects'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
@@ -15,13 +14,24 @@ import { api } from 'services/ApiService'
 // =============================================================================
 
 const loginRoutineSaga = function * () {
-  yield put(actions.auth.authenticate())
-  yield put(actions.core.webSocket.startSocket())
-  yield put(actions.data.initData())
-  yield put(actions.settings.initSettings())
-  yield put(actions.walletOptions.initWalletOptions())
-  yield put(actions.alerts.displaySuccess('Login successful'))
-  yield put(push('/wallet'))
+  try {
+    yield put(actions.auth.authenticate())
+    yield put(actions.core.webSocket.startSocket())
+    const context = yield select(selectors.core.wallet.getWalletContext)
+    yield all([
+      call(sagas.core.common.fetchBlockchainData, { context }),
+      call(sagas.core.rates.startEthereumRates),
+      call(sagas.core.rates.startBitcoinRates),
+      call(sagas.core.settings.fetchSettings),
+      call(sagas.core.walletOptions.fetchWalletOptions)
+    ])
+    yield put(actions.alerts.displaySuccess('Login successful'))
+    yield put(actions.router.push('/wallet'))
+    yield put(actions.goals.runGoals())
+  } catch (e) {
+    // Redirect to error page instead of notification
+    yield put(actions.alerts.displayError('Critical error while fetching essential data !' + e.message))
+  }
 }
 
 // =============================================================================
@@ -40,7 +50,7 @@ const pollingSession = function * (session, n = 50) {
   return yield call(pollingSession, session, n - 1)
 }
 
-const login = function * (action) {
+export const login = function * (action) {
   const { guid, sharedKey, password, code } = action.payload
   const safeParse = Either.try(JSON.parse)
   let session = yield select(selectors.session.getSession(guid))
@@ -60,6 +70,7 @@ const login = function * (action) {
       const authorized = yield call(pollingSession, session)
       if (authorized) {
         yield call(sagas.core.wallet.fetchWalletSaga, { guid, session, password })
+        yield call(loginRoutineSaga)
       } else {
         yield put(actions.alerts.displayError('Error establishing the session'))
       }
@@ -81,7 +92,7 @@ const login = function * (action) {
   }
 }
 
-const mobileLogin = function * (action) {
+export const mobileLogin = function * (action) {
   try {
     const { guid, sharedKey, password } = yield call(sagas.core.settings.decodePairingCode, action.payload)
     const loginAction = actions.auth.login(guid, password, undefined, sharedKey)
@@ -95,7 +106,7 @@ const mobileLogin = function * (action) {
 // =============================================================================
 // ================================ Register ===================================
 // =============================================================================
-const register = function * (action) {
+export const register = function * (action) {
   const { password, email } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Creating wallet...'))
@@ -110,7 +121,7 @@ const register = function * (action) {
 // =============================================================================
 // ================================= Restore ===================================
 // =============================================================================
-const restore = function * (action) {
+export const restore = function * (action) {
   const { mnemonic, email, password, network } = action.payload
   try {
     yield put(actions.alerts.displayInfo('Restoring wallet...'))
@@ -125,7 +136,7 @@ const restore = function * (action) {
 // =============================================================================
 // =============================== Remind Guid =================================
 // =============================================================================
-const remindGuid = function * (action) {
+export const remindGuid = function * (action) {
   const { email, code, sessionToken } = action.payload
   try {
     yield call(sagas.core.wallet.remindWalletGuidSaga, { email, code, sessionToken })
@@ -139,19 +150,6 @@ const remindGuid = function * (action) {
 // ================================== Logout ===================================
 // =============================================================================
 let timerTask
-
-const logout = function * () {
-  // yield put(actions.core.webSocket.stopSocket()
-  window.location.reload(true)
-}
-
-const startLogoutTimer = function * () {
-  timerTask = yield fork(logoutTimer)
-}
-
-const resetLogoutTimer = function * () {
-  yield cancel(timerTask)
-}
 
 const logoutTimer = function * () {
   try {
@@ -178,6 +176,19 @@ const logoutTimer = function * () {
       yield put(actions.auth.logout())
     }
   }
+}
+
+export const logout = function * () {
+  // yield put(actions.core.webSocket.stopSocket()
+  window.location.reload(true)
+}
+
+export const startLogoutTimer = function * () {
+  timerTask = yield fork(logoutTimer)
+}
+
+export const resetLogoutTimer = function * () {
+  yield cancel(timerTask)
 }
 
 export default function * () {
