@@ -8,6 +8,7 @@ import * as latestBlock from './data/latestBlock/actionTypes.js'
 import * as logs from './data/logs/actionTypes.js'
 import * as rates from './data/rates/actionTypes.js'
 import * as transactions from './data/transactions/actionTypes.js'
+import * as transactionFiats from './data/transactionFiats/actionTypes.js'
 import * as info from './data/info/actionTypes.js'
 import * as payment from './data/payment/actionTypes.js'
 import * as wallet from './wallet/actionTypes.js'
@@ -26,6 +27,7 @@ export {
   logs,
   rates,
   transactions,
+  transactionFiats,
   wallet,
   info,
   payment,

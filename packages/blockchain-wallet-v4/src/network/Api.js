@@ -1,6 +1,6 @@
 import 'isomorphic-fetch'
 import Promise from 'es6-promise'
-import { merge, identity, gt, type, trim, toLower } from 'ramda'
+import { merge, identity, gt, type, trim, toLower, toUpper } from 'ramda'
 import { futurizeP } from 'futurize'
 import walletOptions from './wallet-options.json'
 Promise.polyfill()
@@ -239,6 +239,14 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
            .then(responseTXHASH)
   }
 
+  const getTransactionFiatAtTime = function (coin, amount, currency, time) {
+    const data = { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
+    switch (coin) {
+      case 'bitcoin': return request({ url: apiUrl, method: 'GET', endPoint: 'frombtc', data: data })
+      case 'ethereum': return request({ url: apiUrl, method: 'GET', endPoint: 'frometh', data: data })
+    }
+  }
+
   const getAdverts = function (number) {
     const data = { wallet: true, n: number }
     return request({ url: apiUrl, method: 'GET', endPoint: 'bci-ads/get', data: data })
@@ -336,6 +344,7 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
     getUnspents: future(getUnspents),
     getFee: future(getFee),
     pushTx: future(pushTx),
+    getTransactionFiatAtTime: future(getTransactionFiatAtTime),
     getAdverts: future(getAdverts),
     getLogs: future(getLogs),
     getPriceIndexSeries: future(getPriceIndexSeries),

@@ -15,9 +15,9 @@ const TooltipIcon = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 10px;
-  background-color: ${props => props.theme[props.backgroundColor]};
-  color: ${props => props.theme[props.color]};
-  border: 1px solid ${props => props.theme[props.borderColor]};
+  background-color: ${props => props.theme[props.colors.backgroundColor]};
+  color: ${props => props.theme[props.colors.foreColor]};
+  border: 1px solid ${props => props.theme[props.colors.borderColor]};
   cursor: pointer;
   font-weight: 300;
 `
@@ -64,8 +64,8 @@ const TooltipBox = styled(TextGroup)`
 `
 
 const selectColors = displayed => displayed
-  ? { color: 'white', backgroundColor: 'blue', borderColor: 'primary' }
-  : { color: 'gray-5', backgroundColor: 'white', borderColor: 'gray-2' }
+  ? { foreColor: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
+  : { foreColor: 'gray-5', backgroundColor: 'white', borderColor: 'gray-2' }
 
 class Tooltip extends React.Component {
   constructor (props) {
@@ -85,7 +85,7 @@ class Tooltip extends React.Component {
     return (
       <TooltipWrapper>
         <TooltipIcon displayed={this.state.displayed} colors={colors} onClick={this.handleClick}>{icon}</TooltipIcon>
-        <TooltipBox displayed={this.state.displayed} colors={colors} onClick={this.handleClick}>{this.props.children}</TooltipBox>
+        <TooltipBox displayed={this.state.displayed} onClick={this.handleClick}>{this.props.children}</TooltipBox>
       </TooltipWrapper>
     )
   }

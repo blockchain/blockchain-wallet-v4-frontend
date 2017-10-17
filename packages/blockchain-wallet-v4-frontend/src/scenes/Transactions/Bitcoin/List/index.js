@@ -67,7 +67,7 @@ class ListContainer extends React.Component {
 
   render () {
     return (
-      <List transactions={this.filteredTransactions} />
+      <List transactions={this.filteredTransactions} currency={this.props.currency} />
     )
   }
 }
@@ -77,6 +77,7 @@ const mapStateToProps = (state) => {
   const initialSource = selector(state, 'source')
 
   return {
+    currency: selectors.core.settings.getCurrency(state),
     source: initialSource ? (initialSource.xpub ? initialSource.xpub : initialSource.address) : '',
     status: selector(state, 'status') || '',
     search: selector(state, 'search') || '',
