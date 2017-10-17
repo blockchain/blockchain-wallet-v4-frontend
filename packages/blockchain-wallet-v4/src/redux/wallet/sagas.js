@@ -106,7 +106,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
   }
 
   const resetWallet2fa = function * ({ guid, email, newEmail, secretPhrase, message, code, sessionToken }) {
-    yield call(api.reset2fa, guid, email, newEmail, secretPhrase, message, code, sessionToken)
+    return yield call(api.reset2fa, guid, email, newEmail, secretPhrase, message, code, sessionToken)
   }
 
   return {
