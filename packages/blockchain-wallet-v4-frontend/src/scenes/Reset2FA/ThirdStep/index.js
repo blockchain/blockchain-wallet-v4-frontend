@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import wizardProvider from 'providers/WizardProvider'
-import ThirdStep from './ThirdStep'
+import ThirdStep from './template'
 import { actions, selectors } from 'data'
 
 class ThirdStepContainer extends React.Component {
@@ -19,7 +19,7 @@ class ThirdStepContainer extends React.Component {
     const { guid, email, newEmail, secretPhrase, message, code, captcha } = this.props
     const { sessionToken } = captcha
 
-    this.props.reset2fa(guid, email, newEmail, secretPhrase, message, code, sessionToken)
+    this.props.authActions.reset2fa(guid, email, newEmail, secretPhrase, message, code, sessionToken)
   }
 
   render () {
