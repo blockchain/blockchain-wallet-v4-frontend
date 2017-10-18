@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -6,24 +7,41 @@ const Wrapper = styled.div`
   fle-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
-
-  & > :first-child { width: 100%; }
-  & > :last-child { width: 100%; }
-  & > :not(:first-child):not(:last-child) { white-space: nowrap; padding: 0 10px; }
+  width: 100%;
 `
-
+const Content = styled.div`
+  white-space: nowrap;
+  padding-left: ${props => props.align === 'left' || props.align === 'center' ? '10px' : '0'};
+  padding-right: ${props => props.align === 'right' || props.align === 'center' ? '10px' : '0'}; 
+`
 const BaseSeparator = styled.div`
-  border-bottom: 1px solid ${props => props.theme['gray-2']};
+  width: 100%;
+  height: 1px;
+  background-color: ${props => props.theme['gray-2']};
   margin: 10px 0;
 `
 
 const Separator = props => {
-  const { children } = props
+  const { children, align } = props
 
   return children
-    ? <Wrapper><BaseSeparator />{ children }<BaseSeparator /></Wrapper>
-    : <BaseSeparator />
+    ? (
+      <Wrapper>
+        {align !== 'right' && <BaseSeparator />}
+        <Content align={align}>{children}</Content>
+        {align !== 'left' && <BaseSeparator />}
+      </Wrapper>
+    ) : (
+      <BaseSeparator />
+    )
+}
+
+Separator.propTypes = {
+  align: PropTypes.oneOf(['left', 'right', 'center'])
+}
+
+Separator.defaultProps = {
+  align: 'center'
 }
 
 export default Separator

@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { Icon } from 'blockchain-info-components'
-import { TextBox } from 'components/Form'
-import TransactionMenuStatus from 'components/TransactionMenuStatus'
+import { TextBox, TransactionStatus } from 'components/Form'
 
 const Wrapper = styled.div`
   padding: 8px 30px;
@@ -52,7 +51,7 @@ const Menu = (props) => {
     <Wrapper>
       <Container>
         <Filter>
-          <Field name='status' component={TransactionMenuStatus} />
+          <Field name='status' component={TransactionStatus} />
         </Filter>
         <Filter>
           <Field name='search' component={TextBox} />
