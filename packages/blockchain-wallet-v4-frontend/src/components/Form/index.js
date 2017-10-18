@@ -3,7 +3,6 @@ import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CoinConvertor from './CoinConvertor'
 import Form from './Form'
-import Hidden from './Hidden'
 import NumberBox from './NumberBox'
 import PasswordBox from './PasswordBox'
 import PlaceHolder from './PlaceHolder'
@@ -16,13 +15,13 @@ import SelectBoxLanguages from './SelectBoxLanguages'
 import SelectBoxTheme from './SelectBoxTheme'
 import TextArea from './TextArea'
 import TextBox from './TextBox'
+import TransactionStatus from './TransactionStatus'
 
 export {
   CaptchaBox,
   CheckBox,
   CoinConvertor,
   Form,
-  Hidden,
   NumberBox,
   PasswordBox,
   PlaceHolder,
@@ -34,5 +33,6 @@ export {
   SelectBoxLanguages,
   SelectBoxTheme,
   TextArea,
-  TextBox
+  TextBox,
+  TransactionStatus
 }

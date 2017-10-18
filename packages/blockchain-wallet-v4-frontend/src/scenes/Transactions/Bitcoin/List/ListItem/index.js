@@ -18,6 +18,7 @@ class ListItemContainer extends React.Component {
     if (!this.state.toggled && !transactionFiatAtTime) {
       this.props.dataActions.getTransactionFiatAtTime('bitcoin', transaction.hash, transaction.amount, transaction.time * 1000)
     }
+
     this.setState({ toggled: !this.state.toggled })
   }
 

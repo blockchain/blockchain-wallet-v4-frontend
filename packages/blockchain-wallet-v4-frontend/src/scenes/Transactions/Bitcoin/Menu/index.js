@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { Icon } from 'blockchain-info-components'
-import { SelectBoxAddresses, TextBox } from 'components/Form'
-import TransactionMenuStatus from 'components/TransactionMenuStatus'
+import { SelectBoxAddresses, TextBox, TransactionStatus } from 'components/Form'
 
 const Wrapper = styled.div`
   padding: 8px 30px;
@@ -31,16 +30,16 @@ const Filter = styled.div`
   align-items: center;
   margin-bottom: 5px;
   width: 100%;
-  flex-grow: 1;
 
   & input { border: 1px solid ${props => props.theme['gray-2']}!important; }
   & button { border: 1px solid ${props => props.theme['gray-2']}!important; }
 
-  @media(min-width: 1200px) {
-    justify-content: flex-start;
-    width: 30%;
-  }
+  @media(min-width: 1200px) { width: 30%; }
 `
+const FilterStatus = Filter.extend`
+  @media(min-width: 1200px) { width: 40%; }
+`
+
 const SearchIcon = styled(Icon)`
   position: absolute;
   top: 10px;
@@ -54,9 +53,9 @@ const Menu = (props) => {
         <Filter>
           <Field name='source' component={SelectBoxAddresses} />
         </Filter>
-        <Filter>
-          <Field name='status' component={TransactionMenuStatus} />
-        </Filter>
+        <FilterStatus>
+          <Field name='status' component={TransactionStatus} />
+        </FilterStatus>
         <Filter>
           <Field name='search' component={TextBox} />
           <SearchIcon name='search' />
