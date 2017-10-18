@@ -11,6 +11,7 @@ import * as transactions from './data/transactions/actionTypes.js'
 import * as transactionFiats from './data/transactionFiats/actionTypes.js'
 import * as info from './data/info/actionTypes.js'
 import * as payment from './data/payment/actionTypes.js'
+import * as reports from './data/reports/actionTypes.js'
 import * as wallet from './wallet/actionTypes.js'
 import * as settings from './settings/actionTypes.js'
 import * as walletSync from './walletSync/actionTypes.js'
@@ -31,6 +32,7 @@ export {
   wallet,
   info,
   payment,
+  reports,
   settings,
   common,
   webSocket,

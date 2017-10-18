@@ -12,13 +12,14 @@ const TooltipIcon = styled.div`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 10px;
   background-color: ${props => props.theme[props.colors.backgroundColor]};
   color: ${props => props.theme[props.colors.foreColor]};
   border: 1px solid ${props => props.theme[props.colors.borderColor]};
   cursor: pointer;
+  font-size: 12px;
   font-weight: 300;
 `
 const TooltipBox = styled(TextGroup)`

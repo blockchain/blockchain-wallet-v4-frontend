@@ -107,6 +107,7 @@
     "react": "^15.5.4",
     "react-browser-detection": "^1.0.3",
     "react-copy-to-clipboard": "^5.0.0",
+    "react-csv": "^1.0.8",
     "react-dom": "^15.5.4",
     "react-highcharts": "^12.0.0",
     "react-intl": "^2.3.0",
