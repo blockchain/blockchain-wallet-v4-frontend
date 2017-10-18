@@ -1,8 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { Image } from 'blockchain-info-components'
-import { Navbar, NavbarBrand } from 'components/Navbar'
+import { Image, Navbar, NavbarBrand } from 'blockchain-info-components'
 
 const Header = () => {
   return (

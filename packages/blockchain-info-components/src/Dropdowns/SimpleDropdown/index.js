@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Dropdown from './template.js'
-import { Color, Palette } from '../../'
+import { Palette } from '../../'
 import { keysIn } from 'ramda'
 
 class SimpleDropdown extends React.Component {

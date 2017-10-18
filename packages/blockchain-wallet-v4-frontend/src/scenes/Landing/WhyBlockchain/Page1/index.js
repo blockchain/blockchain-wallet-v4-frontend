@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Image, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 
 const Page = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Block = styled.div`
 const Page1 = () => (
   <Page>
     <Block>
-      <Image name='sophisticated' height='50px' />
+      <Icon name='wallet' size='50px' />
       <Text size='18px' weight={300} uppercase>
         <FormattedMessage id='scenes.landing.wallet.simple' defaultMessage='Simple' />
       </Text>
@@ -39,7 +39,7 @@ const Page1 = () => (
       </Text>
     </Block>
     <Block>
-      <Image name='sophisticated' height='50px' />
+      <Icon name='lock' size='50px' />
       <Text size='18px' weight={300} uppercase>
         <FormattedMessage id='scenes.landing.wallet.safe' defaultMessage='Safe & Secure' />
       </Text>
@@ -48,7 +48,7 @@ const Page1 = () => (
       </Text>
     </Block>
     <Block>
-      <Image name='sophisticated' height='50px' />
+      <Icon name='cart' size='50px' />
       <Text size='18px' weight={300} uppercase>
         <FormattedMessage id='scenes.landing.wallet.buy' defaultMessage='Buy & Sell' />
       </Text>

@@ -27,5 +27,6 @@ export default {
   // New Color
   white: '#FFFFFF',
   red: '#FF0000',
-  halftransparentgrey: 'rgba(0, 0, 0, 0.5)'
+  halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
+  'navhover': 'rgba(255, 255, 255, 0.59)'
 }
