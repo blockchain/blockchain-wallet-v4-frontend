@@ -11,7 +11,7 @@ const { messages } = configureLocales(store)
 
 const render = Component => {
   ReactDOM.render(
-    <AppContainer key={Math.random()} warnings={true}>
+    <AppContainer key={Math.random()} warnings={false}>
       <Component store={store} history={history} messages={messages} />
     </AppContainer>,
     document.getElementById('app')
