@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { Icon, Text, TextGroup } from 'blockchain-info-components'
+import { Icon, Separator, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -12,26 +12,33 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 15px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
+  text-transform: uppercase;
   color: ${props => props.theme['gray-4']};
 `
 const Menu = styled.ul`
   list-style: none;
   padding: 0;
+  margin: 0;
+  width: 100%;
 `
 const MenuItem = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 8px 0;
+  padding: 5px 10px;
+  margin-bottom: 5px;
   box-sizing: border-box;
   cursor: pointer;
+  width: 100%;
 
-  & > :first-child { width: 30px; font-size: 20px; }
-  & > :last-child { text-transform: uppercase; }
+  & > span:first-child { 
+    width: 30px;
+    font-size: 20px;
+  }
+
   &.active {  & > * { color: ${props => props.theme['brand-secondary']}; } }
 `
 const SubMenu = styled.ul`
@@ -41,8 +48,9 @@ const SubMenu = styled.ul`
   align-items: flex-start;
   list-style: none;
   text-transform: none;
-  padding: 0;
+  padding: 5px 10px;
   margin-left: 30px;
+  margin-top: -15px;
 `
 const SubMenuItem = styled.li`
   padding: 5px 0;
@@ -51,17 +59,6 @@ const SubMenuItem = styled.li`
   cursor: pointer;
 
   &.active {  & > * { color: ${props => props.theme['brand-secondary']}; } }
-`
-
-const TransactionsWrapper = styled(TextGroup)`
-  display: flex;
-  align-items: center;
-  width: 100%;
-`
-const Separator = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: ${props => props.theme['gray-4']};
 `
 
 const Navigation = (props) => {
@@ -76,12 +73,13 @@ const Navigation = (props) => {
             <FormattedMessage id='layouts.wallet.menuleft.navigation.dashboard' defaultMessage='Dashboard' />
           </MenuItem>
         </LinkContainer>
-        <TransactionsWrapper inline>
-          <Text weight={200} size='small'>
-            <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions' defaultMessage='Transactions' smaller />
-          </Text>
-          <Separator />
-        </TransactionsWrapper>
+        <MenuItem>
+          <Separator align='right'>
+            <Text weight={200} size='small'>
+              <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions' defaultMessage='Transactions' smaller />
+            </Text>
+          </Separator>
+        </MenuItem>
         <LinkContainer to='/btc/transactions' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='bitcoin' />
@@ -94,7 +92,9 @@ const Navigation = (props) => {
             <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.ether' defaultMessage='Ether' smaller uppercase />
           </MenuItem>
         </LinkContainer>
-        <Separator />
+        <MenuItem>
+          <Separator />
+        </MenuItem>
         <LinkContainer to='/buy-sell' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='bitcoin' />

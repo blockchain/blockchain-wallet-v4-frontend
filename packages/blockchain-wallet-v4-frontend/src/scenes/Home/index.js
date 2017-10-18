@@ -34,10 +34,10 @@ const Home = (props) => {
   return (
     <Wrapper>
       <ColumnLeft>
+        <BalanceSummary />
         <ActivityList />
       </ColumnLeft>
       <ColumnRight>
-        <BalanceSummary />
         <Chart />
         <DidYouKnow />
       </ColumnRight>

@@ -36,7 +36,6 @@ const Title = styled.h1`
 `
 const Content = styled.div`
   position: relative;
-  margin: 10px;
   width: 100%;
   height: ${props => props.height};
 `
