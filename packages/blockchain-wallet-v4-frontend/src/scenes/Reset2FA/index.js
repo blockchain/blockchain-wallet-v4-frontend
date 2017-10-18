@@ -6,6 +6,11 @@ import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
 
 class Reset2FAContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    props.resetStep()
+  }
+
   render () {
     const { step, ...rest } = this.props
 

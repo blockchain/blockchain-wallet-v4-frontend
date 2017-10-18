@@ -5,6 +5,11 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
 class ReminderContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    props.resetStep()
+  }
+
   render () {
     const { step, ...rest } = this.props
 

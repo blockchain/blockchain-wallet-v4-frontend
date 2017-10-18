@@ -18,6 +18,7 @@ const BaseSeparator = styled.div`
   width: 100%;
   height: 1px;
   background-color: ${props => props.theme['gray-2']};
+  margin: 10px 0;
 `
 
 const Separator = props => {
