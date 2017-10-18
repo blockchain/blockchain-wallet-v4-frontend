@@ -108,13 +108,10 @@ const Error = styled.label`
   font-weight: 300;
   color: ${props => props.theme['error']};
 `
-const Arrow = styled(Icon).attrs({
-  name: 'down-arrow'
-})`
+const Arrow = styled(Icon)`
   position: absolute;
   top: 15px;
   right: 15px;
-  font-size: 10px;
 `
 
 const SelectInput = (props) => {
@@ -129,7 +126,7 @@ const SelectInput = (props) => {
           ? (<Button errorState={errorState}>{display}</Button>)
           : (<Search autoFocus={expanded} onChange={handleChange} />)
         }
-        <Arrow />
+        <Arrow name='down-arrow' size='10px' />
         <List expanded={expanded}>
           { items.map((item, index) => item.value == null
             ? (<Header key={index}>{item.text}</Header>)
