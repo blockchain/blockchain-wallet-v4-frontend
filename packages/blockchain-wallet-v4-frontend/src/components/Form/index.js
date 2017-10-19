@@ -14,9 +14,10 @@ import SelectBoxCurrency from './SelectBoxCurrency'
 import SelectBoxFee from './SelectBoxFee'
 import SelectBoxLanguages from './SelectBoxLanguages'
 import SelectBoxTheme from './SelectBoxTheme'
+import TabMenuTransactionStatus from './TabMenuTransactionStatus'
 import TextArea from './TextArea'
 import TextBox from './TextBox'
-import TransactionStatus from './TransactionStatus'
+
 
 export {
   CaptchaBox,
@@ -34,7 +35,7 @@ export {
   SelectBoxFee,
   SelectBoxLanguages,
   SelectBoxTheme,
+  TabMenuTransactionStatus,
   TextArea,
-  TextBox,
-  TransactionStatus
+  TextBox
 }

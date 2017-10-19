@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 
-const TransactionStatus = props => {
+const TabMenuTransactionStatus = props => {
   const { handleClick, value } = props
 
   return (
@@ -25,9 +25,9 @@ const TransactionStatus = props => {
   )
 }
 
-TransactionStatus.propTypes = {
+TabMenuTransactionStatus.propTypes = {
   value: PropTypes.oneOf(['', 'received', 'sent', 'transferred']),
   onClick: PropTypes.func
 }
 
-export default TransactionStatus
+export default TabMenuTransactionStatus

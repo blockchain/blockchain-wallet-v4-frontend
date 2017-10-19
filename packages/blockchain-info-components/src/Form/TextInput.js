@@ -27,10 +27,10 @@ const BaseTextInput = styled.input.attrs({
 
 const selectBorderColor = (state) => {
   switch (state) {
-    case 'initial': return 'midgrey'
+    case 'initial': return 'gray-2'
     case 'invalid': return 'error'
     case 'valid': return 'success'
-    default: return 'midgrey'
+    default: return 'gray-2'
   }
 }
 

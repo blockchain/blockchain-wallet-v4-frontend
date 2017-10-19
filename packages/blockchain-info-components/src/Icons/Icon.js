@@ -10,7 +10,7 @@ const BaseIcon = styled.span`
   font-size: ${props => props.size};
   color: ${props => props.theme[props.color]};
   -webkit-font-smoothing: antialiased;
-  cursor: ${props => props.cursor ? 'pointer' : 'none'};
+  cursor: ${props => props.cursor ? 'pointer' : 'default'};
 
   &:before {
     font-family: 'icomoon';

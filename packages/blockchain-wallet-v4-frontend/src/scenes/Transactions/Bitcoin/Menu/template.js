@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { Icon } from 'blockchain-info-components'
-import { SelectBoxAddresses, TextBox, TransactionStatus } from 'components/Form'
+import { SelectBoxAddresses, TextBox, TabMenuTransactionStatus } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -25,6 +25,7 @@ const Container = styled.div`
   }
 `
 const Controls = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -32,6 +33,7 @@ const Controls = styled.div`
   margin-bottom: 5px;
   width: 100%;
 
+  & > * { margin-left: 5px; }
   & input { border: 1px solid ${props => props.theme['gray-2']}!important; }
   & button { border: 1px solid ${props => props.theme['gray-2']}!important; }
 
@@ -50,13 +52,18 @@ const Status = styled.div`
   width: 100%;
   @media(min-width: 1200px) { width: 360px; }
 `
-const Reporting = styled.div`
-  width: 40px;
-`
+
 const Search = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   width: 100%;
   @media(min-width: 1200px) { width: auto; }
+`
+const ReportingIcon = styled(Icon)`
+  width: 40px;
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
@@ -75,14 +82,12 @@ const Menu = (props) => {
             <Field name='source' component={SelectBoxAddresses} />
           </Addresses>
           <Status>
-            <Field name='status' component={TransactionStatus} />
+            <Field name='status' component={TabMenuTransactionStatus} />
           </Status>
         </Controls>
         <Controls>
-          <Reporting>
-            <Icon name='up-arrow-in-circle' size='28px' cursor onClick={handleClickReporting} />
-          </Reporting>
           <Search>
+            <ReportingIcon name='up-arrow-in-circle' size='28px' cursor onClick={handleClickReporting} />
             <Field name='search' component={TextBox} />
             <SearchIcon name='search' size='20px' />
           </Search>
