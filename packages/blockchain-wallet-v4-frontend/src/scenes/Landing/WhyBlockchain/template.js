@@ -16,6 +16,10 @@ const Row = styled(Container)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+
+  & > :last-child { text-align: left; }
 `
 const Carousel = styled(Container)`
   display: flex;

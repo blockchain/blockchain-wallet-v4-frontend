@@ -8,7 +8,6 @@ const BaseLink = styled.a`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
