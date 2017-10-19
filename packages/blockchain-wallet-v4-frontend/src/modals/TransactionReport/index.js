@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 import moment from 'moment'
-import { equals } from 'ramda'
+import { equals, map } from 'ramda'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -16,6 +16,7 @@ class TransactionReportContainer extends React.Component {
     super(props)
     this.state = { filename: '' }
     this.onSubmit = this.onSubmit.bind(this)
+    this.transformToCsvData = this.transformToCsvData.bind(this)
   }
 
   componentWillMount () {
@@ -34,6 +35,12 @@ class TransactionReportContainer extends React.Component {
     }
   }
 
+  transformToCsvData (data) {
+    const headers = [['date', 'time', 'amount_btc', 'value_then', 'value_now', 'exchange_rate_then', 'tx']]
+    const records = map((record) => [record.date, record.time, record.type, record.amount_btc, record.value_then, record.value_now, record.exchange_rate_then, record.tx], data)
+    return headers.concat(records)
+  }
+
   onSubmit (e) {
     e.preventDefault()
     const { from, start, end } = this.props
@@ -45,7 +52,8 @@ class TransactionReportContainer extends React.Component {
   }
 
   render () {
-    return <TransactionReport {...this.props} filename={this.state.filename} onSubmit={this.onSubmit} />
+    const data = this.transformToCsvData(this.props.data)
+    return <TransactionReport data={data} filename={this.state.filename} onSubmit={this.onSubmit} />
   }
 }
 

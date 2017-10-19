@@ -47,9 +47,6 @@ const DownloadLink = styled(CSVLink)`
 const TransactionReport = (props) => {
   const { position, total, close, closeAll, ...rest } = props
   const { onSubmit, data, filename } = rest
-  const headers = [['date', 'time', 'amount_btc', 'value_then', 'value_now', 'exchange_rate_then', 'tx']]
-  const records = map((record) => [record.date, record.time, record.type, record.amount_btc, record.value_then, record.value_now, record.exchange_rate_then, record.tx], data)
-  const csvData = headers.concat(records)
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -78,7 +75,7 @@ const TransactionReport = (props) => {
           </Link>
           <DownloadContainer>
             { filename &&
-              <DownloadLink data={csvData} filename={filename} target='_blank'>
+              <DownloadLink data={data} filename={filename} target='_blank'>
                 <FormattedMessage id='modals.transactionreport.download' defaultMessage='Download' />
               </DownloadLink>
             }
