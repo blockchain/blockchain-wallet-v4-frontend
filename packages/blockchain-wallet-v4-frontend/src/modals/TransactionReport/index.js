@@ -53,7 +53,7 @@ class TransactionReportContainer extends React.Component {
 
   render () {
     const data = this.transformToCsvData(this.props.data)
-    return <TransactionReport data={data} filename={this.state.filename} onSubmit={this.onSubmit} />
+    return <TransactionReport {...this.props} data={data} filename={this.state.filename} onSubmit={this.onSubmit} />
   }
 }
 
