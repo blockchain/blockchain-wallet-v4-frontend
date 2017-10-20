@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const BaseNumberInput = styled.input.attrs({
-  type: 'number'
+const BaseDateInput = styled.input.attrs({
+  type: 'date'
 })`
   display: block;
   width: 100%;
@@ -11,6 +11,7 @@ const BaseNumberInput = styled.input.attrs({
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
+  font-weight: 300;
   line-height: 1.42;
   color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
@@ -33,11 +34,11 @@ const selectBorderColor = (state) => {
   }
 }
 
-const NumberInput = props => {
+const DateInput = props => {
   const { errorState, ...rest } = props
   const borderColor = selectBorderColor(errorState)
 
-  return <BaseNumberInput borderColor={borderColor} {...rest} />
+  return <BaseDateInput borderColor={borderColor} {...rest} />
 }
 
-export default NumberInput
+export default DateInput

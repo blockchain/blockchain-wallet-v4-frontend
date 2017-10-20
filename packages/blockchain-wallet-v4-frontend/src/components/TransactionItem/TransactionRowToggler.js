@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 
 const TransactionRowToggler = props => (
   <Wrapper {...props}>
-    <Icon name='down-arrow' size='16px' />
+    <Icon name='down-arrow' size='16px' cursor />
   </Wrapper>
 )
 

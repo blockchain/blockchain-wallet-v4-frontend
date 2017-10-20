@@ -12,6 +12,7 @@ import * as transactions from './data/transactions/actions.js'
 import * as transactionFiats from './data/transactionFiats/actions.js'
 import * as info from './data/info/actions.js'
 import * as payment from './data/payment/actions.js'
+import * as reports from './data/reports/actions.js'
 import * as wallet from './wallet/actions.js'
 import * as settings from './settings/actions.js'
 import * as walletSync from './walletSync/actions.js'
@@ -33,6 +34,7 @@ export {
   wallet,
   info,
   payment,
+  reports,
   settings,
   walletSync,
   walletOptions,

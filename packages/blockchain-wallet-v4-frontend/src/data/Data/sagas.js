@@ -1,4 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects'
+import moment from 'moment'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
@@ -53,6 +54,15 @@ const getTransactionFiatAtTime = function * (action) {
   }
 }
 
+const getTransactionHistory = function * (action) {
+  const { address, start, end } = action.payload
+  try {
+    yield call(sagas.core.reports.fetchTransactionHistory, { address, start, end })
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch transaction history data.'))
+  }
+}
+
 export default function * () {
   yield takeEvery(AT.GET_ADVERTS, getAdverts)
   yield takeEvery(AT.GET_CAPTCHA, getCaptcha)
@@ -60,4 +70,5 @@ export default function * () {
   yield takeEvery(AT.GET_LOGS, getLogs)
   yield takeEvery(AT.GET_TRANSACTIONS, getTransactions)
   yield takeEvery(AT.GET_TRANSACTION_FIAT_AT_TIME, getTransactionFiatAtTime)
+  yield takeEvery(AT.GET_TRANSACTION_HISTORY, getTransactionHistory)
 }

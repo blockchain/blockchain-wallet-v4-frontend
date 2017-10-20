@@ -46,8 +46,6 @@ const Content = styled.div`
   @media(min-width: 768px) { & > :first-child { display:none; } }
 `
 const Close = styled(Icon)`
-  cursor: pointer;
-
   &:hover { color: ${props => darken(0.2, props.theme[props.color])}!important; }
 `
 
@@ -70,7 +68,7 @@ const Toast = props => {
         <Content>
           {children}
         </Content>
-        <Close name='close' size='20px' weight={300} color={color} onClick={onClose} />
+        <Close name='close' size='20px' weight={300} color={color} cursor onClick={onClose} />
       </Container>
     </Wrapper>
   )

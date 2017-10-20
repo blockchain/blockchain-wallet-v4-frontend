@@ -26,7 +26,6 @@ class ListContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log(nextProps.status)
     if (!equals(this.props.source, nextProps.source)) {
       this.fetchTransactions(nextProps.source)
       return

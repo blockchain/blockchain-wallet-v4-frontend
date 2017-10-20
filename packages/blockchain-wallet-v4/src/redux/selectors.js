@@ -11,6 +11,7 @@ import * as transactions from './data/transactions/selectors.js'
 import * as transactionFiats from './data/transactionFiats/selectors.js'
 import * as info from './data/info/selectors.js'
 import * as payment from './data/payment/selectors.js'
+import * as reports from './data/reports/selectors.js'
 import * as settings from './settings/selectors.js'
 import * as wallet from './wallet/selectors.js'
 import * as walletOptions from './walletOptions/selectors.js'
@@ -33,6 +34,7 @@ export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath, wallet
     transactionFiats: map(extend(dataPath), transactionFiats),
     info: map(extend(dataPath), info),
     payment: map(extend(dataPath), payment),
+    reports: map(extend(dataPath), reports),
     settings: map(extend(settingsPath), settings),
     wallet: map(extend(walletPath), wallet),
     walletOptions: map(extend(walletOptionsPath, walletOptions)),

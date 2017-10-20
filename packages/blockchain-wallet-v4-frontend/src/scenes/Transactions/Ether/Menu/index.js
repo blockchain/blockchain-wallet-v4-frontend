@@ -3,9 +3,10 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { Icon } from 'blockchain-info-components'
-import { TextBox, TransactionStatus } from 'components/Form'
+import { TextBox, TabMenuTransactionStatus } from 'components/Form'
 
 const Wrapper = styled.div`
+  width: 100%;
   padding: 8px 30px;
   box-sizing: border-box;
   background-color: ${props => props.theme['gray-1']};
@@ -16,29 +17,21 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
 
-  @media(min-width: 992px) {
+  @media(min-width: 1200px) {
     flex-direction: row;
     justify-content: space-between;
   }
 `
-const Filter = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 5px;
+const Status = styled.div`
   width: 100%;
-  flex-grow: 1;
-
-  & input { border: 1px solid ${props => props.theme['gray-2']}!important; }
-  & button { border: 1px solid ${props => props.theme['gray-2']}!important; }
-
-  @media(min-width: 992px) {
-    justify-content: flex-start;
-    width: 30%;
-  }
+  @media(min-width: 1200px) { width: 360px; }
+`
+const Search = styled.div`
+  position: relative;
+  width: 100%;
+  @media(min-width: 1200px) { width: auto; }
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
@@ -50,13 +43,13 @@ const Menu = (props) => {
   return (
     <Wrapper>
       <Container>
-        <Filter>
-          <Field name='status' component={TransactionStatus} />
-        </Filter>
-        <Filter>
+        <Status>
+          <Field name='status' component={TabMenuTransactionStatus} />
+        </Status>
+        <Search>
           <Field name='search' component={TextBox} />
-          <SearchIcon name='search' />
-        </Filter>
+          <SearchIcon name='search' size='20px' />
+        </Search>
       </Container>
     </Wrapper>
   )

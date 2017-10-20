@@ -7,6 +7,7 @@ import fee from './data/fee/reducers.js'
 import latestBlock from './data/latestBlock/reducers.js'
 import logs from './data/logs/reducers.js'
 import payment from './data/payment/reducers'
+import reports from './data/reports/reducers'
 import transactions from './data/transactions/reducers.js'
 import transactionFiats from './data/transactionFiats/reducers.js'
 import info from './data/info/reducers.js'
@@ -27,7 +28,8 @@ const data = combineReducers({
   txs_fiat: transactionFiats,
   info,
   rates,
-  payment
+  payment,
+  reports
 })
 
 export {
