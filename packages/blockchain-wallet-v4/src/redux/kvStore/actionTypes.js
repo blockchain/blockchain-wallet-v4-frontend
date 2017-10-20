@@ -1,3 +1,7 @@
-export const KV_SYNC = 'CORE.KV_SYNC'
+import * as whatsNew from './whatsNew/actionTypes'
+import * as ethereum from './ethereum/actionTypes'
 
-export const SET_KV_STORE = 'CORE.SET_KV_STORE'
+export {
+  whatsNew,
+  ethereum
+}

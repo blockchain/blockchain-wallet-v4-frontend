@@ -1,5 +1,7 @@
-import * as T from './actionTypes'
+import * as whatsNew from './whatsNew/actions'
+import * as ethereum from './ethereum/actions'
 
-export const syncKv = (kv) => ({ type: T.KV_SYNC, payload: kv })
-
-export const setKVStore = (key, data) => ({ type: T.SET_KV_STORE, payload: {key, data} })
+export {
+  whatsNew,
+  ethereum
+}

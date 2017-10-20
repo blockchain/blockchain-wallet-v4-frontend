@@ -1,14 +1,17 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Icon } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { selectors } from 'data'
+import WhatsNew from './template.js'
 
-const Container = styled.div`
- margin-top: 5px;
-`
-const WhatsNew = () => (
-  <Container>
-    <Icon name='bell' size='14px' color='white' />
-  </Container>
-)
+class WhatsNewContainer extends React.Component {
+  render () {
+    console.log(this.props.lastViewed)
+    return <WhatsNew />
+  }
+}
 
-export default WhatsNew
+const mapStateToProps = (state) => ({
+  lastViewed: selectors.core.kvStore.whatsNew.getLastViewed(state)
+})
+
+export default connect(mapStateToProps)(WhatsNewContainer)

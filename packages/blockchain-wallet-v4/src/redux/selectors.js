@@ -14,10 +14,12 @@ import * as payment from './data/payment/selectors.js'
 import * as settings from './settings/selectors.js'
 import * as wallet from './wallet/selectors.js'
 import * as walletOptions from './walletOptions/selectors.js'
+import { kvStoreSelectorsFactory } from './kvStore/selectors.js'
 import { commonSelectorsFactory } from './common/selectors.js'
 
-export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath, walletOptionsPath}) => {
-  const common = commonSelectorsFactory({walletPath, dataPath, settingsPath, walletOptionsPath})
+export const coreSelectorsFactory = ({walletPath, dataPath, kvStorePath, settingsPath, walletOptionsPath}) => {
+  const common = commonSelectorsFactory({walletPath, dataPath, kvStorePath, settingsPath, walletOptionsPath})
+  const kvStore = kvStoreSelectorsFactory({walletPath, dataPath, kvStorePath, settingsPath, walletOptionsPath})
   const extend = path => s => useWith(s, [prop(path)])
 
   return ({
@@ -35,7 +37,8 @@ export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath, wallet
     payment: map(extend(dataPath), payment),
     settings: map(extend(settingsPath), settings),
     wallet: map(extend(walletPath), wallet),
-    walletOptions: map(extend(walletOptionsPath, walletOptions)),
+    walletOptions: map(extend(walletOptionsPath), walletOptions),
+    kvStore: kvStore,
     common: common
   })
 }

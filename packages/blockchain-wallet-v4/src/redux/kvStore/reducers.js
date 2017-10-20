@@ -1,21 +1,11 @@
-import { over, set } from 'ramda-lens'
-import { compose, assoc } from 'ramda'
+import { combineReducers } from 'redux'
+import whatsNew from './whatsNew/reducers.js'
+import ethereum from './ethereum/reducers.js'
+import * as C from './config'
 
-import * as T from './actionTypes.js'
-// import { Wrapper, Wallet, Options, HDWallet, HDWalletList } from '../../types'
-
-const INITIAL_STATE = {}
-
-export const kvStoreReducer = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
-  switch (type) {
-    case T.SET_KV_STORE: {
-      const { key, data } = payload
-      return assoc(key, data, state)
-    }
-    default:
-      return state
-  }
-}
+const kvStoreReducer = combineReducers({
+  [C.WHATSNEW]: whatsNew,
+  [C.ETHEREUM]: ethereum
+})
 
 export default kvStoreReducer

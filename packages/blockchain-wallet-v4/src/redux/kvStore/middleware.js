@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { keys, compose, zip, over } from 'ramda'
+import { keys, compose, zip, over, mapObjIndexed, any, identity, values } from 'ramda'
 
 import { Wallet, KVStoreEntry } from '../../types'
 import * as A from '../actions'
@@ -58,12 +58,15 @@ import * as T from '../actionTypes'
 
 
 
-const kvStoreMiddleware = ({ isAuthenticated, walletPath, kvPath, api } = {}) => (store) => (next) => (action) => {
-  // const prevWallet = store.getState()[walletPath]
+const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, kvStoreApi } = {}) => (store) => (next) => (action) => {
+  const prevKVStore = store.getState()[kvStorePath]
   const wasAuth = isAuthenticated(store.getState())
   const result = next(action)
-  // const nextWallet = store.getState()[walletPath]
+  const nextKVStore = store.getState()[kvStorePath]
   const isAuth = isAuthenticated(store.getState())
+
+  const hasChanged = (value, key) => prevKVStore[key] !== nextKVStore[key]
+  const changes = mapObjIndexed(hasChanged, nextKVStore)
 
   // Easily know when to sync, because of ✨immutable✨ data
   // the initial_state check could be done against full payload state
@@ -86,11 +89,15 @@ const kvStoreMiddleware = ({ isAuthenticated, walletPath, kvPath, api } = {}) =>
 
   switch (true) {
     // wallet sync
-    case ((wasAuth && isAuth) // &&
-        //  action.type !== T.wallet.SET_PAYLOAD_CHECKSUM &&
-        //  prevWallet !== nextWallet
-      ):
-      console.log('is authenticated')
+    case (wasAuth && isAuth &&
+           action.type !== T.kvStore.SET_KV_STORE &&
+           any(identity, values(changes))):
+
+      const canviat = nextKVStore['whatsNew']
+      kvStoreApi.update(canviat)
+
+                // .map(nou => console.log(nou))
+                .fork(console.log, console.log)
       // sync(api.saveWallet)
       break
     // wallet creation

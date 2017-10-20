@@ -13,7 +13,7 @@ import Type from './Type'
 Payload types:
 0: reserved (guid)
 1: reserved
-2: whats-new
+2: whatsNew
 3: buy-sell
 4: contacts
 */
@@ -59,7 +59,7 @@ export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
     typeId,
     magicHash: null,
     address: node.keyPair.getAddress(),
-    signKey: node.keyPair,
+    signKey: node.keyPair.toWIF(),
     encKeyBuffer: encryptionKey,
     value: void 0
   })
@@ -119,9 +119,10 @@ export const sign = curry((keyPair, msg) =>
 )
 
 // computeSignature :: keypair -> buffer -> buffer -> base64
-export const computeSignature = curry((key, payloadBuff, magicHash) =>
-  sign(key, message(payloadBuff, magicHash))
-)
+export const computeSignature = curry((keyWIF, payloadBuff, magicHash) => {
+  const key = Bitcoin.ECPair.fromWIF(keyWIF)
+  return sign(key, message(payloadBuff, magicHash))
+})
 
 export const verifyResponse = curry((address, res) => {
   if (res === null) return Either.of(res)
