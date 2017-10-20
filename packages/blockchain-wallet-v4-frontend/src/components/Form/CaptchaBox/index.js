@@ -16,7 +16,7 @@ class CaptchaBoxContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  data: selectors.core.captcha.getCaptcha(state)
+  data: selectors.core.data.captcha.getCaptcha(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

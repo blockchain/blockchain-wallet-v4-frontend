@@ -11,7 +11,7 @@ import * as CoinSelection from '../../../coinSelection'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const paymentSaga = ({ api, walletPath, dataPath } = {}) => {
+export const payment = ({ api, walletPath, dataPath } = {}) => {
   const getUnspent = function * (index, address) {
     const source = is(Number, index) ? index : address
     const wrapper = yield select(prop(walletPath))

@@ -6,7 +6,7 @@ import { Wrapper, Wallet } from '../../../types'
 import { getTransactions, getAddress } from './selectors'
 import { getCurrency } from '../../settings/selectors'
 
-export const transactionsSaga = ({ api, walletPath, dataPath, settingsPath } = {}) => {
+export const transactions = ({ api, walletPath, dataPath, settingsPath } = {}) => {
   const fetchTransactions = function * ({ address }) {
     let reset = false
     const context = yield select(compose(Wallet.selectContext, Wrapper.selectWallet, prop(walletPath)))

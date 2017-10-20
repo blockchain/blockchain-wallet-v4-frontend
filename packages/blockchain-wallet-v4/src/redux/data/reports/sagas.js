@@ -5,7 +5,7 @@ import * as AT from './actions'
 import { Wrapper, Wallet } from '../../../types'
 import { getCurrency } from '../../settings/selectors'
 
-export const reportsSagas = ({ api, walletPath, dataPath, settingsPath } = {}) => {
+export const reports = ({ api, walletPath, dataPath, settingsPath } = {}) => {
   const fetchTransactionHistory = function * ({ address, start, end }) {
     const currency = yield select(compose(getCurrency, prop(settingsPath)))
     if (address) {

@@ -33,13 +33,12 @@ const mapStateToProps = (state) => ({
   secretPhrase: formValueSelector('reset2FA')(state, 'secretPhrase'),
   message: formValueSelector('reset2FA')(state, 'message'),
   code: formValueSelector('reset2FA')(state, 'code'),
-  captcha: selectors.core.captcha.getCaptcha(state)
+  captcha: selectors.core.data.captcha.getCaptcha(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  coreActions: bindActionCreators(actions.core.wallet, dispatch)
+  alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThirdStepContainer)

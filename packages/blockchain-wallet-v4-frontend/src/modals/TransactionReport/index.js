@@ -61,7 +61,7 @@ const mapStateToProps = (state) => ({
   from: formValueSelector('transactionReport')(state, 'from'),
   start: formValueSelector('transactionReport')(state, 'start'),
   end: formValueSelector('transactionReport')(state, 'end'),
-  data: selectors.core.reports.getTransactionHistory(state)
+  data: selectors.core.data.reports.getTransactionHistory(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

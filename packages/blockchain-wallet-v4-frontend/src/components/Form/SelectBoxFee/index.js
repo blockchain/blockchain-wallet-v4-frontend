@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { selectors } from 'data'
 import { SelectInput } from 'blockchain-info-components'
 
 class SelectBoxFeeContainer extends React.Component {
@@ -19,13 +18,8 @@ class SelectBoxFeeContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  regularFee: selectors.core.fee.getRegular(state),
-  priorityFee: selectors.core.fee.getPriority(state)
+  regularFee: selectors.core.date.fee.getRegular(state),
+  priorityFee: selectors.core.date.fee.getPriority(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  transactionActions: bindActionCreators(actions.core.transactions, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectBoxFeeContainer)
+export default connect(mapStateToProps)(SelectBoxFeeContainer)

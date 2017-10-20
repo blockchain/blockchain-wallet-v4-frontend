@@ -97,7 +97,7 @@ const mapStateToProps = (state, ownProps) => {
         xpub: selectors.core.wallet.getDefaultAccountXpub(state),
         index: selectors.core.wallet.getDefaultAccountIndex(state)
       },
-      fee: selectors.core.fee.getRegular(state)
+      fee: selectors.core.data.fee.getRegular(state)
     },
     from: formValueSelector('sendBitcoin')(state, 'from'),
     to: formValueSelector('sendBitcoin')(state, 'to'),
@@ -105,17 +105,15 @@ const mapStateToProps = (state, ownProps) => {
     amount: formValueSelector('sendBitcoin')(state, 'amount'),
     message: formValueSelector('sendBitcoin')(state, 'message'),
     fee: formValueSelector('sendBitcoin')(state, 'fee'),
-    selection: selectors.core.payment.getSelection(state),
-    feeValues: selectors.core.fee.getFee(state),
-    effectiveBalance: selectors.core.payment.getEffectiveBalance(state),
-    coins: selectors.core.payment.getCoins(state),
+    selection: selectors.core.data.payment.getSelection(state),
+    feeValues: selectors.core.data.fee.getFee(state),
+    effectiveBalance: selectors.core.data.payment.getEffectiveBalance(state),
+    coins: selectors.core.datapayment.getCoins(state),
     unit: selectors.core.settings.getBtcUnit(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  feeActions: bindActionCreators(actions.core.fee, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   paymentActions: bindActionCreators(actions.payment, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)

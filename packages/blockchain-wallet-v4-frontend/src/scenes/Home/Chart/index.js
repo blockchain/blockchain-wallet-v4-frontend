@@ -129,7 +129,7 @@ class ChartContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   currency: selectors.core.settings.getCurrency(state),
-  data: selectors.core.charts.getPriceIndexSeries(state).map(o => [o.timestamp * 1000, o.price])
+  data: selectors.core.data.charts.getPriceIndexSeries(state).map(o => [o.timestamp * 1000, o.price])
 })
 
 const mapDispatchToProps = (dispatch) => ({

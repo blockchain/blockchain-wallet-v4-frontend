@@ -40,7 +40,7 @@ MenuTopContainer.defaultProps = {
 
 const mapStateToProps = (state) => ({
   coinDisplayed: selectors.preferences.getCoinDisplayed(state),
-  balance: selectors.core.info.getBalance(state)
+  balance: selectors.core.data.info.getBalance(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

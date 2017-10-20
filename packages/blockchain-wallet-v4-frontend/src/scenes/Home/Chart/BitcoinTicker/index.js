@@ -27,7 +27,7 @@ class BitcoinTickerContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const btcraw = selectors.core.rates.getBtcRates(state)
+  const btcraw = selectors.core.data.rates.getBtcRates(state)
   return {
     currency: selectors.core.settings.getCurrency(state),
     btcRates: Pairs.create(BTC.code, btcraw)

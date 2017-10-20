@@ -4,7 +4,7 @@ import { prop, compose } from 'ramda'
 import * as A from './actions'
 import { getCurrency } from '../../settings/selectors'
 
-export const transactionFiatsSaga = ({ api, walletPath, dataPath, settingsPath } = {}) => {
+export const transactionFiats = ({ api, walletPath, dataPath, settingsPath } = {}) => {
   const fetchTransactionFiatAtTime = function * ({ coin, hash, amount, time }) {
     const currency = yield select(compose(getCurrency, prop(settingsPath)))
     const data = yield call(api.getTransactionFiatAtTime, coin, amount, currency, time)
