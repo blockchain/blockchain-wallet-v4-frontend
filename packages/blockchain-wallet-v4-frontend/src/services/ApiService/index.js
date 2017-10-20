@@ -6,3 +6,7 @@ export const api = blockchainWallet.Network.createWalletApi({
   apiUrl: settings.API_BLOCKCHAIN_INFO,
   apiCode: settings.API_CODE
 })
+
+export const kvStoreApi = blockchainWallet.Network.createKvApi({
+  apiUrl: settings.API_BLOCKCHAIN_INFO
+})

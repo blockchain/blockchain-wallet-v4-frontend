@@ -14,6 +14,7 @@ import * as AddressBookEntry from './AddressBookEntry'
 import * as TXNotes from './TXNotes'
 import * as TXNames from './TXNames'
 import * as Options from './Options'
+import * as KVStoreEntry from './KVStoreEntry'
 import serializer from './Serializer'
 
 export {
@@ -33,5 +34,6 @@ export {
   AddressBook,
   TXNotes,
   TXNames,
-  Options
+  Options,
+  KVStoreEntry
 }

@@ -18,6 +18,7 @@ import * as settings from './settings/actions.js'
 import * as walletSync from './walletSync/actions.js'
 import * as walletOptions from './walletOptions/actions.js'
 import * as webSocket from './webSocket/actions.js'
+import * as kvStore from './kvStore/actions.js'
 
 export {
   addresses,
@@ -38,5 +39,6 @@ export {
   settings,
   walletSync,
   walletOptions,
-  webSocket
+  webSocket,
+  kvStore
 }

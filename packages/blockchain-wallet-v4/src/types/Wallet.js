@@ -52,7 +52,6 @@ export const txNotes = Wallet.define('tx_notes')
 export const txNames = Wallet.define('tx_names')
 export const addressBook = Wallet.define('address_book')
 
-// selectGuid :: Wallet -> String
 export const selectGuid = view(guid)
 export const selectSharedKey = view(sharedKey)
 export const selectOptions = view(options)
