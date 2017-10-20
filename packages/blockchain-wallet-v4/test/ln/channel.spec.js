@@ -72,7 +72,7 @@ describe('Channel State Machine', () => {
       state1 = Channel.createCommitmentSigned(channelId, state1, payment)
 
       let msgAdd = getMsg(state1, 0)
-      expect(state1.getIn(['channels', channelId, 'remote', 'staged', 0, 'msg'])).to.deep.equal(fromJS(msgAdd))
+      expect(state1.getIn(['channels', channelId, 'remote', 'unack', 0, 'msg'])).to.deep.equal(fromJS(msgAdd))
       // TODO check validity of signatures
     })
 
@@ -86,7 +86,39 @@ describe('Channel State Machine', () => {
 
       state2 = Channel.onUpdateAddHtlc(state2, msgAdd)
       state2 = Channel.onCommitmentSigned(state2, msgCommit)
-      expect(state2.getIn(['channels', channelId, 'local', 'staged', 0, 'msg'])).to.deep.equal(fromJS(msgAdd))
+      expect(state2.getIn(['channels', channelId, 'local', 'unack', 0, 'msg'])).to.deep.equal(fromJS(msgAdd))
+    })
+  })
+
+  describe('RevokeAck', () => {
+    it('Send', () => {
+      state1 = Channel.createUpdateAddHtlc(channelId, state1, payment)
+      state1 = Channel.createCommitmentSigned(channelId, state1, payment)
+      let msgAdd = getMsg(state1, 0)
+      let msgCommit = getMsg(state1, 1)
+
+      state2 = Channel.onUpdateAddHtlc(state2, msgAdd)
+      state2 = Channel.onCommitmentSigned(state2, msgCommit)
+      state2 = Channel.createRevokeAck(state2, channelId)
+
+      let msgRevoke = getMsg(state2, 0)
+      // TODO actually test something here
+    })
+
+    it('Receive', () => {
+      state1 = Channel.createUpdateAddHtlc(channelId, state1, payment)
+      state1 = Channel.createCommitmentSigned(channelId, state1, payment)
+      let msgAdd = getMsg(state1, 0)
+      let msgCommit = getMsg(state1, 1)
+
+      state2 = Channel.onUpdateAddHtlc(state2, msgAdd)
+      state2 = Channel.onCommitmentSigned(state2, msgCommit)
+      state2 = Channel.createRevokeAck(state2, channelId)
+
+      let msgRevoke = getMsg(state2, 0)
+
+      state1 = Channel.onRevokeAck(state1, msgRevoke)
+      // TODO actually test something here
     })
   })
 })

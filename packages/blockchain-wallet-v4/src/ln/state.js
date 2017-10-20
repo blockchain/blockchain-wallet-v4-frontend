@@ -41,7 +41,7 @@ export let Funded = {
   LOCAL_FUNDED: 1,
   REMOTE_FUNDED: 2
 }
-export let ChannelUpdateWrapper = (type, direction, msg) => fromJS({type, direction, msg})
+export let ChannelUpdateWrapper = (type, direction, index, msg) => fromJS({type, direction, index, msg})
 
 export let ChannelState = () => fromJS({
   amountMsatLocal: null,
@@ -55,16 +55,11 @@ export let ChannelState = () => fromJS({
   committed: [],
   ack: [],
   unack: [],
-  staged: []
 
-  // Dictionaries containing all payments
-  // These dictionaries will include payments that haven't been committed yet.
-  // Ideally we should prune these on connection and remove all uncommitted payments
-
-  // payments: {
-  //  mapI: {},
-  //  mapO: {}
-  // }
+  // This is the index of the update this state was on before a commit message
+  // Upon an ack message, we move all unack messages into the other ack state, which are <= this index
+  updateCounter: new Long(0),
+  commitIndex: new Long(0)
 })
 
 export let Channel = () => fromJS({
@@ -87,4 +82,3 @@ export let PaymentWrapper = (direction, id, payment) =>
 
 export let Payment = (amount, paymentHash, onionRoutingPackage, cltvTimeout) =>
               fromJS({amount, paymentHash, onionRoutingPackage, cltvTimeout})
-

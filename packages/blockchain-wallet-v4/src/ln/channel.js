@@ -16,14 +16,14 @@ export let phase = {
   OPEN: 5
 }
 
-var createKey = () => {
+let createKey = () => {
   let key = {}
   key.priv = random.randomBytes(32)
   key.pub = ec.publicKeyCreate(key.priv, true)
   return fromJS(key)
 }
 
-var wrapPubKey = (pub) => fromJS({pub, priv: null})
+let wrapPubKey = (pub) => fromJS({pub, priv: null})
 
 let checkChannel = (channel, phase) => {
   assert(channel !== undefined)
@@ -194,42 +194,46 @@ let applyWrapper = (channelState, wrapper) => {
 
 let applyWrapperList = (list, state) => list.reduce((s, w) => applyWrapper(s, w), state)
 
-let fillStaged = (channelState) => {
-  return channelState
-    .set('staged', List())
-    .update('staged', l => l.push(...channelState.get('ack')))
-    .update('staged', l => l.push(...channelState.get('unack')))
-    .set('ack', List())
-    .set('unack', List())
-}
+let localPaymentIndexPath = ['local', 'indexes', 'inU']
+let localUpdateCounterPath = ['local', 'updateCounter']
+let localCommitIndexPath = ['local', 'commitIndex']
 
-let localIndexPath = ['local', 'indexes', 'inU']
-let remoteIndexPath = ['local', 'indexes', 'inU']
-let getLocalIndex = (c) => c.getIn(localIndexPath)
-let getRemoteIndex = (c) => c.getIn(remoteIndexPath)
-let incrementLocalIndex = (c) => c.updateIn(localIndexPath, i => i.add(1))
-let incrementRemoteIndex = (c) => c.updateIn(remoteIndexPath, i => i.add(1))
+let remotePaymentIndexPath = ['remote', 'indexes', 'inU']
+let remoteUpdateCounterPath = ['remote', 'updateCounter']
+let remoteCommitIndexPath = ['remote', 'commitIndex']
 
-let addMessage = (msg) => { return state => state.updateIn(['messageOut'], o => o.push(msg)) }
+let increment = path => c => c.updateIn(path, i => i.add(1))
+let setter = (path1, path2) => c => c.setIn(path1, c.getIn(path2))
+
+let addMessage = (msg) => state => state.updateIn(['messageOut'], o => o.push(msg))
 let updateChannel = (state, channelId, channel) => state.updateIn(['channels'], o => o.set(channelId, channel))
 
-export function createUpdateAddHtlc (channelId, state, payment) {
-  let channel = getChannel(state, channelId)
-    .update(incrementLocalIndex)
+let addWrapper = (channel, list, index, type, direction, msg) => {
+  let commitIndex = channel.getIn([index, 'updateCounter'])
+  return channel.updateIn([list, 'unack'], l => l.push(ChannelUpdateWrapper(type, direction, commitIndex, msg)))
+}
 
-  // TODO check if we actually have enough money to make this payment
-  let paymentIndex = getLocalIndex(channel)
-
-  let msg = UpdateAddHtlc(
+let createAddMessage = (channelId, paymentIndex, payment) => {
+  return UpdateAddHtlc(
     channelId,
     paymentIndex,
     payment.get('amount'),
     payment.get('paymentHash'),
     payment.get('cltvTimeout'),
     payment.get('onionRoutingPackage'))
+}
+
+export function createUpdateAddHtlc (channelId, state, payment) {
+  let channel = getChannel(state, channelId)
+    .update(increment(localPaymentIndexPath))
+    .update(increment(remoteUpdateCounterPath))
+
+  // TODO check if we actually have enough money to make this payment
+  let paymentIndex = channel.getIn(localPaymentIndexPath)
+  let msg = createAddMessage(channelId, paymentIndex, payment)
 
   channel = channel
-    .updateIn(['remote', 'unack'], l => l.push(ChannelUpdateWrapper(ChannelUpdateTypes.ADD, Direction.RECEIVED, msg)))
+    .update(s => addWrapper(s, 'remote', 'remote', ChannelUpdateTypes.ADD, Direction.RECEIVED, msg))
     .update(addMessage(msg))
 
   return updateChannel(state, channelId, channel)
@@ -237,8 +241,9 @@ export function createUpdateAddHtlc (channelId, state, payment) {
 
 export let onUpdateAddHtlc = (state, msg) => {
   let channel = getChannel(state, msg.channelId)
-    .update(incrementRemoteIndex)
-    .updateIn(['local', 'unack'], l => l.push(ChannelUpdateWrapper(ChannelUpdateTypes.ADD, Direction.RECEIVED, msg)))
+    .update(increment(remotePaymentIndexPath))
+    .update(increment(localUpdateCounterPath))
+    .update(s => addWrapper(s, 'local', 'local', ChannelUpdateTypes.ADD, Direction.RECEIVED, msg))
 
   // TODO check index
   // assert.deepEqual(msg.id, channel.remote.indexes.inU.add(1))
@@ -251,10 +256,10 @@ export let onUpdateAddHtlc = (state, msg) => {
 export function createCommitmentSigned (channelId, state) {
   let channel = getChannel(state, channelId)
   let channelState = channel.get('remote')
-    .update(fillStaged)
 
   let channelStateComm = channelState
-    .update(s => applyWrapperList(channelState.get('staged'), s))
+    .update(s => applyWrapperList(channelState.get('ack'), s))
+    .update(s => applyWrapperList(channelState.get('unack'), s))
 
   let paymentList = channelStateComm.get('committed')
   // TODO prune payment list
@@ -265,7 +270,7 @@ export function createCommitmentSigned (channelId, state) {
   let msg = CommitmentSigned(channelId, null, 0, null)
 
   channel = channel
-    .set('remote', channelState)
+    .update(setter(remoteCommitIndexPath, remoteUpdateCounterPath))
     .update(addMessage(msg))
   return updateChannel(state, channelId, channel)
 }
@@ -273,30 +278,54 @@ export function createCommitmentSigned (channelId, state) {
 export function onCommitmentSigned (state, msg) {
   let channel = getChannel(state, msg.channelId)
   let channelState = channel.get('local')
-    .update(fillStaged)
   // We received a commitment message from the other party
   // We need to apply all the local diffs
 
   let channelStateComm = channelState
-    .update(s => applyWrapperList(channelState.get('staged'), s))
+    .update(s => applyWrapperList(channelState.get('ack'), s))
+    .update(s => applyWrapperList(channelState.get('unack'), s))
 
   let paymentList = channelStateComm.get('committed')
   // TODO create commitment transaction
   // TODO check commitment signature
 
-  return updateChannel(state, msg.channelId,
-    channel.set('local', channelState))
+  channel = channel
+    .update(setter(localCommitIndexPath, localUpdateCounterPath))
+
+  return updateChannel(state, msg.channelId, channel)
 }
 
-export function createRevokeAck (channelId, state) {
+export function createRevokeAck (state, channelId) {
   let channel = getChannel(state, channelId)
+
+  // TODO revocation secrets
+  let msg = RevokeAndAck(channelId, null, null)
 
   // We are permanently committing to the new state by revoking the old state
   // After sending this message, the comm list will be merged to the committed list
-  channel.local = applyWrapper(channel.local, channel.local.staged)
+  // This message also serves as an ack message for all the staged updates, such that
+  // we can safely merge them into our counterparties ack list.
+  let channelState = channel.get('local')
+    .update(s => applyWrapperList(s.get('ack'), s))
+    .update(s => applyWrapperList(s.get('unack'), s))
 
-  channel.messageOut.push(RevokeAndAck(channelId, null, null))
-  return state
+  // We also need to copy the local unack list
+  let commitIndex = channelState.get('commitIndex')
+  let filter = a => a.get('index').lte(commitIndex)
+
+  let updatesToCommit = channelState
+    .get('unack')
+    .filter(filter)
+    .map(reverseWrapper)
+
+  channel = channel
+    .set('local', channelState)
+    .updateIn(['remote', 'ack'], a => a.push(...updatesToCommit))
+    .updateIn(['local', 'unack'], a => a.filterNot(filter))
+    .setIn(['local', 'ack'], List())
+    .update(addMessage(msg))
+
+  return updateChannel(state, channelId, channel)
 }
 
 export function onRevokeAck (state, msg) {
@@ -304,7 +333,21 @@ export function onRevokeAck (state, msg) {
 
   // TODO check commitments and compact our commitment store
 
-  channel.local = applyWrapper(channel.remote, channel.remote.staged)
+  let channelState = channel.get('remote')
+    .update(s => applyWrapperList(s.get('ack'), s))
+    .update(s => applyWrapperList(s.get('unack'), s))
 
-  return state
+  // We also need to copy the remote unack list
+  let commitIndex = channelState.get('commitIndex')
+  let filter = a => a.get('index').lte(commitIndex)
+
+  let updatesToCommit = channelState.get('unack').filter(filter)
+  channel = channel
+    .set('remote', channelState)
+    .updateIn(['local', 'ack'], a => a.push(...updatesToCommit))
+    .updateIn(['remote', 'unack'], a => a.filterNot(filter))
+    .setIn(['remote', 'ack'], List())
+    .update(addMessage(msg))
+
+  return updateChannel(state, msg.channelId, channel)
 }
