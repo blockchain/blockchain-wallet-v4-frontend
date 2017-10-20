@@ -1,0 +1,1 @@
+export const SET_CONTACTS = '@CORE.KVSTORE.SET_CONTACTS'
