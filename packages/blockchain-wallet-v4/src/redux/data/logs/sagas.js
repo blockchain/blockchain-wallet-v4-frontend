@@ -4,7 +4,7 @@ import { Wallet, Wrapper } from '../../../types'
 
 import * as A from './actions'
 
-export const logsSaga = ({ api, walletPath } = {}) => {
+export const logs = ({ api, walletPath } = {}) => {
   const fetchLogs = function * () {
     const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
     const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))

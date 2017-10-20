@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects'
 import readBlob from 'read-blob'
 import * as A from './actions'
 
-export const captchaSaga = ({ api } = {}) => {
+export const captcha = ({ api } = {}) => {
   const fetchCaptcha = function * () {
     const timestamp = new Date().getTime()
     const sessionToken = yield call(api.obtainSessionToken)

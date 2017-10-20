@@ -19,7 +19,7 @@ class ActivityContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  logs: selectors.core.logs.getLogs(state)
+  logs: selectors.core.data.logs.getLogs(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

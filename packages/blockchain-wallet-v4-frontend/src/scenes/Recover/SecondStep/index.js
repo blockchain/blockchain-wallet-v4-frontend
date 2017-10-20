@@ -35,8 +35,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  authActions: bindActionCreators(actions.auth, dispatch),
-  walletActions: bindActionCreators(actions.core.wallet, dispatch)
+  authActions: bindActionCreators(actions.auth, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecoverContainer)

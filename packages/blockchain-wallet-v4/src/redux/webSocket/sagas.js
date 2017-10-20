@@ -10,7 +10,7 @@ import { Socket } from '../../network'
 
 export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
   const send = socket.send.bind(socket)
-    
+
   const commonSagas = commonSaga({ api })
 
   const onOpen = function * (action) {
@@ -38,7 +38,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
         break
       case 'block':
         const newBlock = message.x
-        yield put(A.latestBlock.setLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
+        yield put(A.data.latestBlock.setLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
         yield call(refreshTransactionList)
         break
       case 'pong':

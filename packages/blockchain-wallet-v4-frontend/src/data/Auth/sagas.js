@@ -20,8 +20,8 @@ const loginRoutineSaga = function * () {
     const context = yield select(selectors.core.wallet.getWalletContext)
     yield all([
       call(sagas.core.common.fetchBlockchainData, { context }),
-      call(sagas.core.rates.startEthereumRates),
-      call(sagas.core.rates.startBitcoinRates),
+      call(sagas.core.data.rates.startEthereumRates),
+      call(sagas.core.data.rates.startBitcoinRates),
       call(sagas.core.settings.fetchSettings),
       call(sagas.core.walletOptions.fetchWalletOptions),
       call(sagas.core.kvStore.whatsNew.fetchWhatsNew),
