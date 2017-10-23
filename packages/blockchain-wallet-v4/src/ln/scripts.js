@@ -158,7 +158,7 @@ export let getOfferedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHa
   return SCRIPT.compile(chunks)
 }
 
-export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHash, cltvExpiry) => {
+export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHash, cltvTimeout) => {
   // # To you with revocation key
   // OP_DUP OP_HASH160 <RIPEMD160(SHA256(revocationkey))> OP_EQUAL
   // OP_IF
@@ -210,7 +210,7 @@ export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentH
   chunks.push(OPS.OP_ELSE)
 
   chunks.push(OPS.OP_DROP)
-  chunks.push(intToNum(cltvExpiry))
+  chunks.push(intToNum(cltvTimeout))
   chunks.push(OPS.OP_CHECKLOCKTIMEVERIFY)
   chunks.push(OPS.OP_DROP)
   chunks.push(OPS.OP_CHECKSIG)

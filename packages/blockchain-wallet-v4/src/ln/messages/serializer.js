@@ -8,6 +8,7 @@ export function wrapBuffer (data) {
 }
 
 export function unwrapBuffer (data) {
+  console.info('unwrap buffer: '+data+' - '+JSON.stringify(data))
   return data.buffer
 }
 
@@ -111,7 +112,7 @@ export let OpenChannel =
    channelFlags) => {
     return ({
       chainHash,
-      temporaryChannelId,
+      temporaryChannelId: channelId,
       fundingSatoshi,
       pushMsat,
       dustLimitSatoshis,
@@ -155,7 +156,7 @@ export function readOpenChannel (buf) {
 export function writeOpenChannel (msg) {
   return createMessageBuffer(msg, 286)
     .write(msg.chainHash)
-    .write(msg.temporaryChannelId)
+    .write(msg.channelId)
     .write64(msg.fundingSatoshi)
     .write64(msg.pushMsat)
     .write64(msg.dustLimitSatoshis)
@@ -221,7 +222,7 @@ export function readAcceptChannel (buf) {
 }
 export function writeAcceptChannel (msg) {
   return createMessageBuffer(msg, 237)
-    .write(msg.temporaryChannelId)
+    .write(msg.channelId)
     .write64(msg.dustLimitSatoshis)
     .write64(msg.maxHtlcValueInFlightMsat)
     .write64(msg.channelReserveSatoshis)
@@ -249,7 +250,7 @@ export function readFundingCreated (buf) {
 }
 export function writeFundingCreated (msg) {
   return createMessageBuffer(msg, 130)
-    .write(msg.temporaryChannelId)
+    .write(msg.channelId)
     .write(msg.fundingTxid)
     .write16(msg.fundingOutputIndex)
     .write(msg.signature)
@@ -323,8 +324,8 @@ export function writeClosingSigned (msg) {
 
 // Payments
 // UpdateAddHtlc
-export let UpdateAddHtlc = (channelId, id, amountMsat, paymentHash, cltvExpiry, onionRoutingPacket) =>
-                          ({channelId, id, amountMsat, paymentHash, cltvExpiry, onionRoutingPacket, type: TYPE.UPDATE_ADD_HTLC})
+export let UpdateAddHtlc = (channelId, id, amountMsat, paymentHash, cltvTimeout, onionRoutingPackage) =>
+                          ({channelId, id, amountMsat, paymentHash, cltvTimeout, onionRoutingPackage, type: TYPE.UPDATE_ADD_HTLC})
 
 export function readUpdateAddHtlc (buf) {
   return UpdateAddHtlc(
@@ -341,7 +342,7 @@ export function writeUpdateAddHtlc (msg) {
     .write64(msg.id)
     .write64(msg.amountMsat)
     .write(msg.paymentHash)
-    .write32(msg.cltvExpiry)
+    .write32(msg.cltvTimeout)
     .write(msg.onionRoutingPacket)
 }
 

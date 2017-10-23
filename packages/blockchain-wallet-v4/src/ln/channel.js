@@ -1,764 +1,353 @@
-/*!
- * channel.js
- * https://github.com/bcoin-org/plasma
- *
- * References:
- *   https://github.com/lightningnetwork/lnd/blob/master/lnwallet/channel.go
- *   https://github.com/lightningnetwork/lnd/blob/master/lnwallet/script_utils.go
- *   https://github.com/lightningnetwork/lnd/blob/master/elkrem/elkrem.go
- *   https://github.com/lightningnetwork/lnd/blob/master/channeldb/channel.go
- *   https://github.com/lightningnetwork/lnd/blob/master/lnwire/htlc_addrequest.go
- *   https://github.com/lightningnetwork/lnd/blob/master/lnwallet/script_utils.go
- *   https://github.com/lightningnetwork/lnd/blob/master/lnwallet/script_utils_test.go
- *   https://github.com/lightningnetwork/lnd/blob/master/lnwallet/channel_test.go
- */
+import {CommitmentSigned, OpenChannel, RevokeAndAck, UpdateAddHtlc} from './messages/serializer'
+import * as random from 'crypto'
+import assert from 'assert'
+import {ChannelParams, ChannelUpdateTypes, ChannelUpdateWrapper, Direction, Payment, PaymentWrapper} from './state'
 
-'use strict'
+import {List, fromJS} from 'immutable'
 
-var bcoin = require('bcoin/lib/bcoin-browser')
-var constants = bcoin.constants
-var utils = require('bcoin/lib/utils/util')
-var assert = require('assert')
-var hashType = constants.hashType
-var util = require('./scriptutil')
-var crypto = bcoin.crypto
-var wire = require('./wire')
-var CommitRevocation = wire.CommitRevocation
-var List = require('./list')
+const ec = require('../../../bcoin/lib/crypto/secp256k1-browser')
+const Long = require('long')
 
-/**
- * Channel
- */
-
-function Channel (options) {
-  this.wallet = options.wallet || null
-  this.chain = options.chain || null
-  this.ourLogCounter = 0
-  this.theirLogCounter = 0
-  this.status = Channel.states.PENDING
-  this.currentHeight = options.state.numUpdates || 0
-  this.revocationWindowEdge = options.state.numUpdates || 0
-  this.usedRevocations = []
-  this.revocationWindow = []
-  this.remoteCommitChain = new CommitmentChain()
-  this.localCommitChain = new CommitmentChain()
-  this.state = options.state
-  this.ourUpdateLog = new List()
-  this.theirUpdateLog = new List()
-  this.ourLogIndex = {}
-  this.theirLogIndex = {}
-  this.fundingInput = new bcoin.coin()
-  this.fundingInput.version = 1
-  this.fundingP2WSH = null
-  this.db = options.db || null
-  this.started = 0
-  this.shutdown = 0
-
-  this._init()
+export let phase = {
+  SENT_OPEN: 1,
+  SENT_FUNDING_CREATED: 2,
+  FUNDING_CONFIRMING: 3,
+  SENT_FUNDING_LOCKED: 4,
+  OPEN: 5
 }
 
-Channel.states = {
-  PENDING: 0,
-  OPEN: 1,
-  CLOSING: 2,
-  CLOSED: 3,
-  DISPUTE: 4,
-  PENDINGPAYMENT: 5
+let createKey = () => {
+  let key = {}
+  key.priv = random.randomBytes(32)
+  key.pub = ec.publicKeyCreate(key.priv, true)
+  return fromJS(key)
 }
 
-Channel.updateType = {
-  ADD: 0,
-  TIMEOUT: 1,
-  SETTLE: 2
+let wrapPubKey = (pub) => fromJS({pub, priv: null})
+
+let checkChannel = (channel, phase) => {
+  assert(channel !== undefined)
+  assert(channel.phase === phase)
 }
 
-Channel.maxPendingPayments = 100
+let getChannel = (state, channelId) => state.getIn(['channels', channelId])
+let getChannelCheck = (state, channelId, phase) => checkChannel(getChannel(state, channelId), phase)
 
-Channel.initialRevocationWindow = 4
+export function openChannel (state, peer, options, channel) {
+  let channelId = random.randomBytes(32) // TODO
 
-Channel.prototype._init = function _init () {
-  var initialCommit = new Commitment()
-  var fundingScript
+  let paramsLocal = ChannelParams(
+    createKey(),
+    options.dustLimitSatoshis,
+    options.maxHtlcValueInFlightMsat,
+    options.channelReserveSatoshis,
+    options.htlcMinimumMsat,
+    options.toSelfDelay,
+    options.maxAcceptedHtlcs,
+    createKey(),
+    createKey(),
+    createKey(),
+    options.gf,
+    options.lf)
 
-  initialCommit.height = this.currentHeight
-  initialCommit.ourBalance = this.state.ourBalance
-  initialCommit.theirBalance = this.state.theirBalance
+  let open = OpenChannel(
+    options.chainHash,
+    channel.channelId,
+    channel.amountMsatLocal.div(1000).value,
+    channel.amountMsatRemote,
+    paramsLocal.dustLimitSatoshis,
+    channel.amountMsatLocal.div(1000).value,
+    new Long(0),
+    new Long(0),
+    paramsLocal.feeratePerKw,
+    paramsLocal.toSelfDelay,
+    paramsLocal.maxAcceptedHtlcs,
+    paramsLocal.fundingKey.pub,
+    paramsLocal.revocationBasepoint.pub,
+    paramsLocal.paymentBasepoint.pub,
+    paramsLocal.delayedPaymentBasepoint.pub,
+    paramsLocal.firstPerCommitmentPoint.pub,
+    Buffer.alloc(1)
+  )
 
-  this.localCommitChain.add(initialCommit)
-  this.remoteCommitChain.add(initialCommit)
+  channel = channel
+    .set('staticRemote', peer.staticRemote)
+    .set('channelId', channelId)
+    .set('paramsLocal', paramsLocal)
+    .set('phase', phase.SENT_OPEN)
+    .update('messageOut', (l) => l.push(open))
 
-  fundingScript = util.toWitnessScripthash(this.state.fundingScript)
+  state = state.setIn(['channels', channelId], channel)
 
-  this.fundingInput.hash = this.state.fundingInput.hash
-  this.fundingInput.index = this.state.fundingInput.index
-  this.fundingInput.script = fundingScript
-  this.fundingP2WSH = fundingScript
+  return state
 }
 
-Channel.prototype.getCommitmentView = getCommitmentView
+export function readAcceptChannel (msg, state, peer) {
+  let channel = getChannelCheck(state, msg.channelId, phase.SENT_OPEN)
 
-function getCommitmentView (ourLogIndex, theirLogIndex, revKey, revHash, remoteChain) {
-  var commitChain, ourBalance, theirBalance, nextHeight
-  var view, filtered
-  var selfKey, remoteKey, delay, delayBalance, p2wpkhBalance
-  var i, ourCommit, commit, htlc, commitment
+  let paramsRemote = ChannelParams(
+    wrapPubKey(msg.fundingPubkey),
+    msg.dustLimitSatoshis,
+    msg.maxHtlcValueInFlightMsat,
+    msg.channelReserveSatoshis,
+    msg.htlcMinimumMsat,
+    msg.toSelfDelay,
+    msg.maxAcceptedHtlcs,
+    wrapPubKey(msg.revocationBasepoint),
+    wrapPubKey(msg.paymentBasepoint),
+    wrapPubKey(msg.delayedPaymentBasepoint),
+    wrapPubKey(msg.revocationBasepoint),
+    peer.gf,
+    peer.lf)
 
-  if (remoteChain) { commitChain = this.remoteCommitChain } else { commitChain = this.localCommitChain }
-
-  if (!commitChain.tip()) {
-    ourBalance = this.state.ourBalance
-    theirBalance = this.state.theirBalance
-    nextHeight = 1
-  } else {
-    ourBalance = commitChain.tip().ourBalance
-    theirBalance = commitChain.tip().theirBalance
-    nextHeight = commitChain.tip().height + 1
-  }
-
-  view = this.getHTLCView(theirLogIndex, ourLogIndex)
-
-  filtered = this.evalHTLCView(
-    view, ourBalance, theirBalance,
-    nextHeight, remoteChain)
-
-  if (remoteChain) {
-    selfKey = this.state.theirCommitKey
-    remoteKey = this.state.ourCommitPub
-    delay = this.state.remoteCSVDelay
-    delayBalance = filtered.theirBalance
-    p2wpkhBalance = filtered.ourBalance
-  } else {
-    selfKey = this.state.ourCommitPub
-    remoteKey = this.state.theirCommitKey
-    delay = this.state.localCSVDelay
-    delayBalance = filtered.ourBalance
-    p2wpkhBalance = filtered.theirBalance
-  }
-
-  ourCommit = !remoteChain
-
-  commit = util.createCommitTX(
-    this.fundingInput, selfKey, remoteKey,
-    revKey, delay, delayBalance, p2wpkhBalance)
-
-  for (i = 0; i < filtered.ourUpdates.length; i++) {
-    htlc = filtered.ourUpdates[i]
-    this.pushHTLC(commit, ourCommit, htlc, revHash, delay, false)
-  }
-
-  for (i = 0; i < filtered.theirUpdates.length; i++) {
-    htlc = filtered.theirUpdates[i]
-    this.pushHTLC(commit, ourCommit, htlc, revHash, delay, true)
-  }
-
-  commit.sortMembers()
-
-  commitment = new Commitment()
-  commitment.tx = commit
-  commitment.height = nextHeight
-  commitment.ourBalance = filtered.ourBalance
-  commitment.ourMessageIndex = ourLogIndex
-  commitment.theirMessageIndex = theirLogIndex
-  commitment.theirBalance = filtered.theirBalance
-
-  return commitment
+  return channel
+    .set('paramsRemote', paramsRemote)
+    .set('minimumDepth', msg.minimumDepth)
 }
 
-Channel.prototype.getHTLCView = function getHTLCView (theirLogIndex, ourLogIndex) {
-  var ours = []
-  var theirs = []
-  var item, htlc
+export function sendFundingCreated (channelId, state, wallet) {
 
-  for (item = this.ourUpdateLog.head; item; item = item.next) {
-    htlc = item.value
-    if (htlc.index < ourLogIndex) { ours.push(htlc) }
-  }
-
-  for (item = this.theirUpdateLog.head; item; item = item.next) {
-    htlc = item.value
-    if (htlc.index < theirLogIndex) { theirs.push(htlc) }
-  }
-
-  return new HTLCView(ours, theirs)
 }
 
-Channel.prototype.evalHTLCView = evalHTLCView
-
-function evalHTLCView (view, ourBalance, theirBalance, nextHeight, remoteChain) {
-  var filtered = new HTLCView()
-  var skipUs = {}
-  var skipThem = {}
-  var i, entry, addEntry, isAdd
-
-  filtered.ourBalance = ourBalance
-  filtered.theirBalance = theirBalance
-
-  for (i = 0; i < view.ourUpdates.length; i++) {
-    entry = view.ourUpdates[i]
-    if (entry.entryType === Channel.updateType.ADD) { continue }
-    addEntry = this.theirLogIndex[entry.parentIndex]
-    skipThem[addEntry.value.index] = true
-    processRemoveEntry(entry, filtered, nextHeight, remoteChain, true)
-  }
-
-  for (i = 0; i < view.theirUpdates.length; i++) {
-    entry = view.theirUpdates[i]
-    if (entry.entryType === Channel.updateType.ADD) { continue }
-    addEntry = this.ourLogIndex[entry.parentIndex]
-    skipUs[addEntry.value.index] = true
-    processRemoveEntry(entry, filtered, nextHeight, remoteChain, false)
-  }
-
-  for (i = 0; i < view.ourUpdates.length; i++) {
-    entry = view.ourUpdates[i]
-    isAdd = entry.entryType === Channel.updateType.ADD
-    if (!isAdd || skipUs[entry.index]) { continue }
-    processAddEntry(entry, filtered, nextHeight, remoteChain, false)
-    filtered.ourUpdates.push(entry)
-  }
-
-  for (i = 0; i < view.theirUpdates.length; i++) {
-    entry = view.theirUpdates[i]
-    isAdd = entry.entryType === Channel.updateType.ADD
-    if (!isAdd || skipThem[entry.index]) { continue }
-    processAddEntry(entry, filtered, nextHeight, remoteChain, true)
-    filtered.theirUpdates.push(entry)
-  }
-
-  return filtered
-}
-
-function processAddEntry (htlc, filtered, nextHeight, remoteChain, isIncoming) {
-  var addHeight
-
-  if (remoteChain) { addHeight = htlc.addCommitHeightRemote } else { addHeight = htlc.addCommitHeightLocal }
-
-  if (addHeight !== 0) { return }
-
-  if (isIncoming) { filtered.theirBalance -= htlc.value } else { filtered.ourBalance -= htlc.value }
-
-  if (remoteChain) { htlc.addCommitHeightRemote = nextHeight } else { htlc.addCommitHeightLocal = nextHeight }
-}
-
-function processRemoveEntry (htlc, filtered, nextHeight, remoteChain, isIncoming) {
-  var removeHeight
-
-  if (remoteChain) { removeHeight = htlc.removeCommitHeightRemote } else { removeHeight = htlc.removeCommitHeightLocal }
-
-  if (removeHeight !== 0) { return }
-
-  if (isIncoming) {
-    if (htlc.entryType === Channel.updateType.SETTLE) { filtered.ourBalance += htlc.value } else if (htlc.entryType === Channel.updateType.TIMEOUT) { filtered.theirBalance += htlc.value }
-  } else {
-    if (htlc.entryType === Channel.updateType.SETTLE) { filtered.theirBalance += htlc.value } else if (htlc.entryType === Channel.updateType.TIMEOUT) { filtered.ourBalance += htlc.value }
-  }
-
-  if (remoteChain) { htlc.removeCommitHeightRemote = nextHeight } else { htlc.removeCommitHeightLocal = nextHeight }
-}
-
-Channel.prototype.signNextCommitment = function signNextCommitment () {
-  var nextRev, remoteRevKey, remoteRevHash, view, sig
-
-  if (this.revocationWindow.length === 0 ||
-      this.usedRevocations.length === Channel.initialRevocationWindow) {
-    throw new Error('No revocation window.')
-  }
-
-  nextRev = this.revocationWindow[0]
-  remoteRevKey = nextRev.nextRevKey
-  remoteRevHash = nextRev.nextRevHash
-
-  view = this.getCommitmentView(
-    this.ourLogCounter, this.theirLogCounter,
-    remoteRevKey, remoteRevHash, true)
-
-  view.tx.inputs[0].coin.value = this.state.capacity
-
-  sig = view.tx.signature(0,
-    this.state.fundingScript,
-    this.state.ourMultisigKey,
-    hashType.ALL,
-    1)
-
-  this.remoteCommitChain.add(view)
-
-  this.usedRevocations.push(nextRev)
-  this.revocationWindow.shift()
-
-  return {
-    sig: sig.slice(0, -1),
-    index: this.theirLogCounter
-  }
-}
-
-Channel.prototype.receiveNewCommitment = function receiveNewCommitment (sig, ourLogIndex) {
-  var theirCommitKey = this.state.theirCommitKey
-  var theirMultisigKey = this.state.theirMultisigKey
-  var nextHeight = this.currentHeight + 1
-  var revocation = this.state.localElkrem.getIndex(nextHeight)
-  var revKey = util.deriveRevPub(theirCommitKey, revocation)
-  var revHash = crypto.sha256(revocation)
-  var view, localCommit, multisigScript
-  var msg, result
-
-  view = this.getCommitmentView(
-    ourLogIndex, this.theirLogCounter,
-    revKey, revHash, false)
-
-  localCommit = view.tx
-  multisigScript = this.state.fundingScript
-
-  localCommit.inputs[0].coin.value = this.state.capacity
-
-  msg = localCommit.signatureHash(0, multisigScript, hashType.ALL, 1)
-  result = bcoin.ec.verify(msg, sig, theirMultisigKey)
-
-  if (!result) { throw new Error('Invalid commitment signature.') }
-
-  view.sig = sig
-
-  this.localCommitChain.add(view)
-}
-
-Channel.prototype.pendingUpdates = function pendingUpdates () {
-  var localTip = this.localCommitChain.tip()
-  var remoteTip = this.remoteCommitChain.tip()
-  return localTip.ourMessageIndex !== remoteTip.ourMessageIndex
-}
-
-Channel.prototype.revokeCurrentCommitment = function revokeCurrentCommitment () {
-  var theirCommitKey = this.state.theirCommitKey
-  var revMsg = new CommitRevocation()
-  var currentRev, revEdge, tail
-
-  revMsg.channelPoint = this.state.id
-
-  currentRev = this.state.localElkrem.getIndex(this.currentHeight)
-  revMsg.revocation = currentRev
-
-  this.revocationWindowEdge++
-
-  revEdge = this.state.localElkrem.getIndex(this.revocationWindowEdge)
-  revMsg.nextRevKey = util.deriveRevPub(theirCommitKey, revEdge)
-  revMsg.nextRevHash = crypto.sha256(revEdge)
-
-  this.localCommitChain.advanceTail()
-  this.currentHeight++
-
-  tail = this.localCommitChain.tail()
-  this.state.ourCommitTX = tail.tx
-  this.state.ourBalance = tail.ourBalance
-  this.state.theirBalance = tail.theirBalance
-  this.state.ourCommitSig = tail.sig
-  this.state.numUpdates++
-
-  this.state.fullSync()
-
-  return revMsg
-}
-
-Channel.prototype.receiveRevocation = function receiveRevocation (revMsg) {
-  var ourCommitKey, currentRevKey, pendingRev
-  var revPriv, revPub, revHash, nextRev
-  var remoteChainTail, localChainTail
-  var item, htlcsToForward, htlc, uncommitted
-
-  if (utils.equal(revMsg.revocation, constants.ZERO_HASH)) {
-    this.revocationWindow.push(revMsg)
-    return
-  }
-
-  ourCommitKey = this.state.ourCommitKey
-  currentRevKey = this.state.theirCurrentRevocation
-  pendingRev = revMsg.revocation
-
-  this.state.remoteElkrem.addNext(pendingRev)
-
-  revPriv = util.deriveRevPriv(ourCommitKey, pendingRev)
-  revPub = bcoin.ec.publicKeyCreate(revPriv, true)
-
-  if (!utils.equal(revPub, currentRevKey)) { throw new Error('Revocation key mistmatch.') }
-
-  if (!utils.equal(this.state.theirCurrentRevHash, constants.ZERO_HASH)) {
-    revHash = crypto.sha256(pendingRev)
-    if (!utils.equal(this.state.theirCurrentRevHash, revHash)) { throw new Error('Revocation hash mismatch.') }
-  }
-
-  nextRev = this.usedRevocations[0]
-
-  this.state.theirCurrentRevocation = nextRev.nextRevKey
-  this.state.theirCurrentRevHash = nextRev.nextRevHash
-  this.usedRevocations.shift()
-  this.revocationWindow.push(revMsg)
-
-  this.state.syncRevocation()
-  this.remoteCommitChain.advanceTail()
-
-  remoteChainTail = this.remoteCommitChain.tail().height
-  localChainTail = this.localCommitChain.tail().height
-
-  htlcsToForward = []
-
-  for (item = this.theirUpdateLog.head; item; item = item.next) {
-    htlc = item.value
-
-    if (htlc.isForwarded) { continue }
-
-    uncommitted = htlc.addCommitHeightRemote === 0 ||
-      htlc.addCommitHeightLocal === 0
-
-    if (htlc.entryType === Channel.updateType.ADD && uncommitted) { continue }
-
-    if (htlc.entryType === Channel.updateType.ADD &&
-        remoteChainTail >= htlc.addCommitHeightRemote &&
-        localChainTail >= htlc.addCommitHeightLocal) {
-      htlc.isForwarded = true
-      htlcsToForward.push(htlc)
-      continue
-    }
-
-    if (htlc.entryType !== Channel.updateType.ADD &&
-      remoteChainTail >= htlc.removeCommitHeightRemote &&
-      localChainTail >= htlc.removeCommitHeightLocal) {
-      htlc.isForwarded = true
-      htlcsToForward.push(htlc)
-    }
-  }
-
-  this.compactLogs(
-    this.ourUpdateLog, this.theirUpdateLog,
-    localChainTail, remoteChainTail)
-
-  return htlcsToForward
-}
-
-Channel.prototype.compactLogs = compactLogs
-
-function compactLogs (ourLog, theirLog, localChainTail, remoteChainTail) {
-  function compact (logA, logB, indexB, indexA) {
-    var item, next, htlc, parentLink, parentIndex
-
-    for (item = logA.head; item; item = next) {
-      htlc = item.value
-      next = item.next
-
-      if (htlc.entryType === Channel.updateType.ADD) { continue }
-
-      if (htlc.removeCommitHeightRemote === 0 ||
-          htlc.removeCommitHeightLocal === 0) {
-        continue
-      }
-
-      if (remoteChainTail >= htlc.removeCommitHeightRemote &&
-          localChainTail >= htlc.removeCommitHeightLocal) {
-        parentLink = indexB[htlc.parentIndex]
-        assert(htlc.parentIndex === parentLink.value.index)
-        parentIndex = parentLink.value.index
-        logB.removeItem(parentLink)
-        logA.removeItem(item)
-        delete indexB[parentIndex]
-        delete indexA[htlc.index]
-      }
-    }
-  }
-
-  compact(ourLog, theirLog, this.theirLogIndex, this.ourLogIndex)
-  compact(theirLog, ourLog, this.ourLogIndex, this.theirLogIndex)
-};
-
-Channel.prototype.extendRevocationWindow = function extendRevocationWindow () {
-  var revMsg = new CommitRevocation()
-  var nextHeight = this.revocationWindowEdge + 1
-  var revocation = this.state.localElkrem.getIndex(nextHeight)
-  var theirCommitKey = this.state.theirCommitKey
-
-  revMsg.channelPoint = this.state.id
-  revMsg.nextRevKey = util.deriveRevPub(theirCommitKey, revocation)
-  revMsg.nextRevHash = crypto.sha256(revocation)
-
-  this.revocationWindowEdge++
-
-  return revMsg
-}
-
-Channel.prototype.addHTLC = function addHTLC (htlc) {
-  var pd = new PaymentDescriptor()
-  var item
-
-  pd.entryType = Channel.updateType.ADD
-  pd.paymentHash = htlc.redemptionHashes[0]
-  pd.timeout = htlc.expiry
-  pd.value = htlc.value
-  pd.index = this.ourLogCounter
-
-  item = this.ourUpdateLog.push(pd)
-  this.ourLogIndex[pd.index] = item
-  this.ourLogCounter++
-
-  return pd.index
-}
-
-Channel.prototype.receiveHTLC = function receiveHTLC (htlc) {
-  var pd = new PaymentDescriptor()
-  var item
-
-  pd.entryType = Channel.updateType.ADD
-  pd.paymentHash = htlc.redemptionHashes[0]
-  pd.timeout = htlc.expiry
-  pd.value = htlc.value
-  pd.index = this.theirLogCounter
-
-  item = this.theirUpdateLog.push(pd)
-  this.theirLogIndex[pd.index] = item
-  this.theirLogCounter++
-
-  return pd.index
-}
-
-Channel.prototype.settleHTLC = function settleHTLC (preimage) {
-  var paymentHash = crypto.sha256(preimage)
-  var item, htlc, target, pd
-
-  for (item = this.theirUpdateLog.head; item; item = item.next) {
-    htlc = item.value
-
-    if (htlc.entryType !== Channel.updateType.ADD) { continue }
-
-    if (htlc.settled) { continue }
-
-    if (utils.equal(htlc.paymentHash, paymentHash)) {
-      htlc.settled = true
-      target = htlc
-      break
-    }
-  }
-
-  if (!target) { throw new Error('Invalid payment hash.') }
-
-  pd = new PaymentDescriptor()
-  pd.value = target.value
-  pd.index = this.ourLogCounter
-  pd.parentIndex = target.index
-  pd.entryType = Channel.updateType.SETTLE
-
-  this.ourUpdateLog.push(pd)
-  this.ourLogCounter++
-
-  return target.index
-}
-
-Channel.prototype.receiveHTLCSettle = function receiveHTLCSettle (preimage, logIndex) {
-  var paymentHash = crypto.sha256(preimage)
-  var addEntry = this.ourLogIndex[logIndex]
-  var htlc, pd
-
-  if (!addEntry) { throw new Error('Non existent log entry.') }
-
-  htlc = addEntry.value
-
-  if (!utils.equal(htlc.paymentHash, paymentHash)) { throw new Error('Invalid payment hash.') }
-
-  pd = new PaymentDescriptor()
-  pd.value = htlc.value
-  pd.parentIndex = htlc.index
-  pd.index = this.theirLogCounter
-  pd.entryType = Channel.updateType.SETTLE
-
-  this.theirUpdateLog.push(pd)
-  this.theirLogCounter++
-}
-
-Channel.prototype.channelPoint = function channelPoint () {
-  return this.state.id
-}
-
-Channel.prototype.pushHTLC = pushHTLC
-
-function pushHTLC (commitTX, ourCommit, pd, revocation, delay, isIncoming) {
-  var localKey = this.state.ourCommitPub
-  var remoteKey = this.state.theirCommitKey
-  var timeout = pd.timeout
-  var payHash = pd.paymentHash
-  var redeem, script, pending, output
-
-  if (isIncoming) {
-    if (ourCommit) {
-      redeem = util.createReceiverHTLC(
-        timeout, delay, remoteKey,
-        localKey, revocation, payHash)
+let reverseWrapper = (wrapper) => {
+  return wrapper.update('direction', (d) => {
+    if (d === Direction.OFFERED) {
+      return Direction.RECEIVED
     } else {
-      redeem = util.createSenderHTLC(
-        timeout, delay, remoteKey,
-        localKey, revocation, payHash)
+      return Direction.OFFERED
     }
+  })
+}
+
+let getPaymentI = (state, id) => state.getIn(['payments', 'mapI', id])
+let getPaymentO = (state, id) => state.getIn(['payments', 'mapO', id])
+
+let filterPayment = (id) => { return a => { return a !== id } }
+let wrapPayment = (msg, direction) => PaymentWrapper(direction, msg.id, Payment(msg.amountMsat, msg.paymentHash, msg.onionRoutingPackage, msg.cltvTimeout))
+
+let applyAdd = (channelState, msg, direction) => {
+  // A new payment is added to the channelState
+  // We need to remove balance and add it to the commitment tx
+  if (direction === Direction.RECEIVED) {
+    return channelState
+      .update('amountMsatRemote', a => a.sub(msg.amountMsat))
+      .update('committed', a => a.push(wrapPayment(msg, direction)))
   } else {
-    if (ourCommit) {
-      redeem = util.createSenderHTLC(
-        timeout, delay, localKey,
-        remoteKey, revocation, payHash)
-    } else {
-      redeem = util.createReceiverHTLC(
-        timeout, delay, localKey,
-        remoteKey, revocation, payHash)
-    }
-  }
-
-  script = util.toWitnessScripthash(redeem)
-  pending = pd.value
-
-  output = new bcoin.output()
-  output.script = script
-  output.value = pending
-
-  commitTX.addOutput(output)
-}
-
-Channel.prototype.forceClose = function forceClose () {
-}
-
-Channel.prototype.initCooperativeClose = function initCooperativeClose () {
-  var closeTX, sig
-
-  if (this.status === Channel.states.CLOSING ||
-      this.status === Channel.states.CLOSED) {
-    throw new Error('Channel is already closed.')
-  }
-
-  this.status = Channel.states.CLOSING
-
-  closeTX = util.createCooperativeClose(
-    this.fundingInput,
-    this.state.ourBalance,
-    this.state.theirBalance,
-    this.state.ourDeliveryScript,
-    this.state.theirDeliveryScript,
-    true)
-
-  closeTX.inputs[0].coin.value = this.state.capacity
-
-  sig = closeTX.signature(0,
-    this.state.fundingScript,
-    this.state.ourMultisigKey,
-    hashType.ALL, 1)
-
-  return {
-    sig: sig,
-    hash: closeTX.hash()
+    return channelState
+      .update('amountMsatLocal', a => a.sub(msg.amountMsat))
+      .update('committed', a => a.push(wrapPayment(msg, direction)))
   }
 }
 
-Channel.prototype.completeCooperativeClose = function completeCooperativeClose (remoteSig) {
-  var closeTX, redeem, sig, ourKey, theirKey, witness
-
-  if (this.status === Channel.states.CLOSING ||
-      this.status === Channel.states.CLOSED) {
-    throw new Error('Channel is already closed.')
+let applyFulfill = (channelState, msg, direction) => {
+  // This payment got successfully resolved
+  // We credit our balance with the amount of the payment and
+  // remove it from the commitment tx
+  // TODO need to save the secret somewhere
+  if (direction === Direction.RECEIVED) {
+    let payment = getPaymentO(channelState, msg.id)
+    return channelState
+      .update('amountMsatRemote', a => a.add(payment.get('amount')))
+      .update('committed', filterPayment(msg.id))
+  } else {
+    let payment = getPaymentI(channelState, msg.id)
+    return channelState
+      .update('amountMsatLocal', a => a.add(payment.get('amount')))
+      .update('committed', filterPayment(msg.id))
   }
-
-  this.status = Channel.states.CLOSED
-
-  closeTX = util.createCooperativeClose(
-    this.fundingInput,
-    this.state.ourBalance,
-    this.state.theirBalance,
-    this.state.ourDeliveryScript,
-    this.state.theirDeliveryScript,
-    false)
-
-  closeTX.inputs[0].coin.value = this.state.capacity
-
-  redeem = this.state.fundingScript
-
-  sig = closeTX.signature(0,
-    redeem,
-    this.state.ourMultisigKey,
-    hashType.ALL, 1)
-
-  ourKey = this.state.ourMultisigPub
-  theirKey = this.state.theirMultisigKey
-  witness = util.spendMultisig(redeem, ourKey, sig, theirKey, remoteSig)
-
-  closeTX.inputs[0].witness = witness
-
-  if (!closeTX.verify()) { throw new Error('TX did not verify.') }
-
-  return closeTX
 }
 
-/**
- * Payment Descriptor
- */
-
-function PaymentDescriptor () {
-  this.paymentHash = constants.ZERO_HASH
-  this.timeout = 0
-  this.value = 0
-  this.index = 0
-  this.parentIndex = 0
-  this.payload = null
-  this.entryType = Channel.updateType.ADD
-  this.addCommitHeightRemote = 0
-  this.addCommitHeightLocal = 0
-  this.removeCommitHeightRemote = 0
-  this.removeCommitHeightLocal = 0
-  this.isForwarded = false
-  this.settled = false
+let applyFail = (channelState, msg, direction) => {
+  // This payment failed, this means we need to credit our balance with
+  // the amount of this payment again and remove it from the commitment tx
+  if (direction === Direction.RECEIVED) {
+    let payment = getPaymentO(channelState, msg.id)
+    return channelState
+      .update('amountMsatLocal', a => a.add(payment.get('amount')))
+      .updateIn(['committed', 'o'], filterPayment(msg.id))
+  } else {
+    let payment = getPaymentI(channelState, msg.id)
+    return channelState
+      .update('amountMsatRemote', a => a.add(payment.get('amount')))
+      .updateIn(['committed', 'i'], filterPayment(msg.id))
+  }
 }
 
-/**
- * Commitment
- */
+// TODO do we need to handle this case much differently?
+let applyMalformed = (channelState, fail, direction) => applyFail(channelState, fail, direction)
 
-function Commitment () {
-  this.height = 0
-  this.ourMessageIndex = 0
-  this.theirMessageIndex = 0
-  this.tx = new bcoin.mtx()
-  this.sig = constants.ZERO_SIG
-  this.ourBalance = 0
-  this.theirBalance = 0
+let applyWrapper = (channelState, wrapper) => {
+  let {type, direction, msg} = wrapper.toJS()
+
+  if (type === ChannelUpdateTypes.ADD) {
+    return applyAdd(channelState, msg, direction)
+  } else if (type === ChannelUpdateTypes.FULFILL) {
+    return applyFulfill(channelState, msg, direction)
+  } else if (type === ChannelUpdateTypes.FAIL) {
+    return applyFail(channelState, msg, direction)
+  } else if (type === ChannelUpdateTypes.FAIL_MALFORMED) {
+    return applyMalformed(channelState, msg, direction)
+  } else {
+    throw new Error('Unknown wrapper? ' + JSON.stringify(wrapper))
+  }
 }
 
-/**
- * Commitment Chain
- */
+let applyWrapperList = (list, state) => list.reduce((s, w) => applyWrapper(s, w), state)
 
-function CommitmentChain (height) {
-  this.list = new List()
-  this.startingHeight = height || 0
+let localPaymentIndexPath = ['local', 'indexes', 'inU']
+let localUpdateCounterPath = ['local', 'updateCounter']
+let localCommitIndexPath = ['local', 'commitIndex']
+
+let remotePaymentIndexPath = ['remote', 'indexes', 'inU']
+let remoteUpdateCounterPath = ['remote', 'updateCounter']
+let remoteCommitIndexPath = ['remote', 'commitIndex']
+
+let increment = path => c => c.updateIn(path, i => i.add(1))
+let setter = (path1, path2) => c => c.setIn(path1, c.getIn(path2))
+
+let addMessage = (msg) => state => state.updateIn(['messageOut'], o => o.push(msg))
+let updateChannel = (state, channelId, channel) => state.updateIn(['channels'], o => o.set(channelId, channel))
+
+let addWrapper = (channel, list, index, type, direction, msg) => {
+  let commitIndex = channel.getIn([index, 'updateCounter'])
+  return channel.updateIn([list, 'unack'], l => l.push(ChannelUpdateWrapper(type, direction, commitIndex, msg)))
 }
 
-CommitmentChain.prototype.add = function (c) {
-  this.list.push(c)
+let createAddMessage = (channelId, paymentIndex, payment) => {
+  return UpdateAddHtlc(
+    channelId,
+    paymentIndex,
+    payment.get('amount'),
+    payment.get('paymentHash'),
+    payment.get('cltvTimeout'),
+    payment.get('onionRoutingPackage'))
 }
 
-CommitmentChain.prototype.advanceTail = function () {
-  this.list.shift()
+export function createUpdateAddHtlc (channelId, state, payment) {
+  let channel = getChannel(state, channelId)
+    .update(increment(localPaymentIndexPath))
+    .update(increment(remoteUpdateCounterPath))
+
+  // TODO check if we actually have enough money to make this payment
+  let paymentIndex = channel.getIn(localPaymentIndexPath)
+  let msg = createAddMessage(channelId, paymentIndex, payment)
+
+  channel = channel
+    .update(s => addWrapper(s, 'remote', 'remote', ChannelUpdateTypes.ADD, Direction.RECEIVED, msg))
+    .update(addMessage(msg))
+
+  return updateChannel(state, channelId, channel)
 }
 
-CommitmentChain.prototype.tip = function () {
-  if (!this.list.tail) { return }
-  return this.list.tail.value
+export let onUpdateAddHtlc = (state, msg) => {
+  let channel = getChannel(state, msg.channelId)
+    .update(increment(remotePaymentIndexPath))
+    .update(increment(localUpdateCounterPath))
+    .update(s => addWrapper(s, 'local', 'local', ChannelUpdateTypes.ADD, Direction.RECEIVED, msg))
+
+  // TODO check index
+  // assert.deepEqual(msg.id, channel.remote.indexes.inU.add(1))
+  // TODO check amount
+  // TODO go through staged payments and calculate there are enough funds
+
+  return updateChannel(state, msg.channelId, channel)
 }
 
-CommitmentChain.prototype.tail = function () {
-  if (!this.list.head) { return }
-  return this.list.head.value
+export function createCommitmentSigned (channelId, state) {
+  let channel = getChannel(state, channelId)
+  let channelState = channel.get('remote')
+
+  let channelStateComm = channelState
+    .update(s => applyWrapperList(channelState.get('ack'), s))
+    .update(s => applyWrapperList(channelState.get('unack'), s))
+
+  let paymentList = channelStateComm.get('committed')
+  // TODO prune payment list
+  // TODO create commitment transaction
+  // TODO sign commitment transaction
+  // TODO sign payment transactions
+
+  let msg = CommitmentSigned(channelId, null, 0, null)
+
+  channel = channel
+    .update(setter(remoteCommitIndexPath, remoteUpdateCounterPath))
+    .update(addMessage(msg))
+  return updateChannel(state, channelId, channel)
 }
 
-/**
- * HTLC View
- */
+export function onCommitmentSigned (state, msg) {
+  let channel = getChannel(state, msg.channelId)
+  let channelState = channel.get('local')
+  // We received a commitment message from the other party
+  // We need to apply all the local diffs
 
-function HTLCView (ourUpdates, theirUpdates) {
-  this.ourUpdates = ourUpdates || []
-  this.theirUpdates = theirUpdates || []
-  this.ourBalance = 0
-  this.theirBalance = 0
+  let channelStateComm = channelState
+    .update(s => applyWrapperList(channelState.get('ack'), s))
+    .update(s => applyWrapperList(channelState.get('unack'), s))
+
+  let paymentList = channelStateComm.get('committed')
+  // TODO create commitment transaction
+  // TODO check commitment signature
+
+  channel = channel
+    .update(setter(localCommitIndexPath, localUpdateCounterPath))
+
+  return updateChannel(state, msg.channelId, channel)
 }
 
-/*
- * Expose
- */
+export function createRevokeAck (state, channelId) {
+  let channel = getChannel(state, channelId)
 
-module.exports = Channel
+  // TODO revocation secrets
+  let msg = RevokeAndAck(channelId, null, null)
+
+  // We are permanently committing to the new state by revoking the old state
+  // After sending this message, the comm list will be merged to the committed list
+  // This message also serves as an ack message for all the staged updates, such that
+  // we can safely merge them into our counterparties ack list.
+  let channelState = channel.get('local')
+    .update(s => applyWrapperList(s.get('ack'), s))
+    .update(s => applyWrapperList(s.get('unack'), s))
+
+  // We also need to copy the local unack list
+  let commitIndex = channelState.get('commitIndex')
+  let filter = a => a.get('index').lte(commitIndex)
+
+  let updatesToCommit = channelState
+    .get('unack')
+    .filter(filter)
+    .map(reverseWrapper)
+
+  channel = channel
+    .set('local', channelState)
+    .updateIn(['remote', 'ack'], a => a.push(...updatesToCommit))
+    .updateIn(['local', 'unack'], a => a.filterNot(filter))
+    .setIn(['local', 'ack'], List())
+    .update(addMessage(msg))
+
+  return updateChannel(state, channelId, channel)
+}
+
+export function onRevokeAck (state, msg) {
+  let channel = getChannel(state, msg.channelId)
+
+  // TODO check commitments and compact our commitment store
+
+  let channelState = channel.get('remote')
+    .update(s => applyWrapperList(s.get('ack'), s))
+    .update(s => applyWrapperList(s.get('unack'), s))
+
+  // We also need to copy the remote unack list
+  let commitIndex = channelState.get('commitIndex')
+  let filter = a => a.get('index').lte(commitIndex)
+
+  let updatesToCommit = channelState.get('unack').filter(filter)
+  channel = channel
+    .set('remote', channelState)
+    .updateIn(['local', 'ack'], a => a.push(...updatesToCommit))
+    .updateIn(['remote', 'unack'], a => a.filterNot(filter))
+    .setIn(['remote', 'ack'], List())
+    .update(addMessage(msg))
+
+  return updateChannel(state, msg.channelId, channel)
+}
