@@ -51,6 +51,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     const wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password, code)
     const hdwallets = compose(i => i.toJS(), Wallet.selectHdWallets, Wrapper.selectWallet)(wrapper)
     if (isEmpty(hdwallets)) {
+      // TODO :: if second password on should add an encrypted hdwallet (require ask second password)
       const mnemonic = BIP39.generateMnemonic()
       const hdwalletList = HDWalletList.createNew(guid, password, sharedKey, mnemonic)
       const newWrapper = set(compose(Wrapper.wallet, Wallet.hdWallets), hdwalletList, wrapper)
