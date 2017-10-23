@@ -24,15 +24,16 @@ const MenuTooltipIcon = styled(Icon)`
 `
 const MenuTooltipBox = styled(TextGroup)`
   position: absolute;
+  z-index: 9999;
   top: 150%;
   left: -115px;
   width: 250px;
   display: ${props => props.displayed ? 'block' : 'none'};
+  background-color: ${props => props.theme['white']};
   color: ${props => props.theme['gray-5']};
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 5px;
   box-sizing: border-box;
-  cursor: pointer;
   font-size: 13px;
   font-weight: 300;
   font-family: "GillSans", sans serif;
@@ -67,6 +68,12 @@ const MenuTooltipTitle = styled(Text)`
     padding: 8px 14px;
 `
 
+const TextContainer = styled.div`
+  max-height: 250px;
+  overflow-y: scroll;
+  padding: 0px 8px;
+`
+
 class MenuTooltip extends React.Component {
   constructor (props) {
     super(props)
@@ -87,7 +94,9 @@ class MenuTooltip extends React.Component {
           <MenuTooltipTitle size='14px' weight={500}>
             {title}
           </MenuTooltipTitle>
-          {children}
+          <TextContainer>
+            {children}
+          </TextContainer>
         </MenuTooltipBox>
       </MenuTooltipWrapper>
     )
