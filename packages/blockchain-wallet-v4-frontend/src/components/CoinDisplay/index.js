@@ -1,28 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
-import { displayCoin } from 'services/ConversionService'
-import { selectors } from 'data'
+import BtcDisplay from './BtcDisplay'
+import EthDisplay from './EthDisplay'
 
-const CoinDisplay = ({ ...props, children }) => {
-  const { network, unit } = props
-  const coin = displayCoin(network, children, unit).getOrElse('N/A')
+const CoinDisplay = props => {
+  const { coin, children } = props
+  const amount = children || '0'
 
-  return <div>{coin}</div>
+  return coin === 'BTC' ? <BtcDisplay amount={amount} /> : <EthDisplay amount={amount} />
 }
 
 CoinDisplay.propTypes = {
-  children: PropTypes.number.isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH']),
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 CoinDisplay.defaultProps = {
   children: 0
 }
 
-const mapStateToProps = (state) => ({
-  network: 'bitcoin',
-  unit: selectors.core.settings.getBtcCurrency(state)
-})
-
-export default connect(mapStateToProps)(CoinDisplay)
+export default CoinDisplay

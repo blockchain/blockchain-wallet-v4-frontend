@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Button, Image, Text } from 'blockchain-info-components'
-import { NavLink } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,11 +29,11 @@ const Empty = props => (
       <Text size='16px' weight={300}>
         <FormattedMessage id='scenes.home.activitylist.empty.funds' defaultMessage='Get started by adding some funds to your wallet!' />
       </Text>
-      <NavLink to='/buy-sell'>
+      <LinkContainer to='/buy-sell'>
         <Button uppercase rounded nature='primary'>
           <FormattedMessage id='scenes.home.activitylist.empty.getstarted' defaultMessage='Click here to get started' />
         </Button>
-      </NavLink>
+      </LinkContainer>
     </Container>
   </Wrapper>
 )

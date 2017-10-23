@@ -1,3 +1,3 @@
 import { path } from 'ramda'
 
-export const getModals = path(['applicationState', 'modals'])
+export const getModals = path(['modals'])

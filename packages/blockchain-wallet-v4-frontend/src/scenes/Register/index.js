@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import Register from './template.js'
 import { actions } from 'data'
@@ -8,27 +9,31 @@ import { actions } from 'data'
 class RegisterContainer extends React.Component {
   constructor () {
     super()
-    this.handleClick = this.handleClick.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  handleClick (event) {
-    event.preventDefault()
-     // TODO: Handle multilanguages
-    this.props.alertActions.displaySuccess('Registration completed!')
+  onSubmit (e) {
+    e.preventDefault()
+    const { email, password } = this.props
+    this.props.alertActions.displayInfo('Creating wallet...')
+    this.props.authActions.register(email, password)
   }
 
   render () {
     return (
-      <Register handleClick={this.handleClick} />
+      <Register onSubmit={this.onSubmit} />
     )
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    authActions: bindActionCreators(actions.auth, dispatch),
-    alertActions: bindActionCreators(actions.alerts, dispatch)
-  }
-}
+const mapStateToProps = (state) => ({
+  email: formValueSelector('register')(state, 'email'),
+  password: formValueSelector('register')(state, 'password')
+})
 
-export default connect(undefined, mapDispatchToProps)(RegisterContainer)
+const mapDispatchToProps = (dispatch) => ({
+  alertActions: bindActionCreators(actions.alerts, dispatch),
+  authActions: bindActionCreators(actions.auth, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterContainer)

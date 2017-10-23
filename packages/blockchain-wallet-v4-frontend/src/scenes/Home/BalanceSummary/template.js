@@ -58,7 +58,7 @@ const BalanceSummary = (props) => {
             <Text size='16px' weight={300}>{balance.title}</Text>
             <Amount>
               <Text size='16px' weight={300}>
-                <CoinDisplay>{balance.amount}</CoinDisplay>
+                <CoinDisplay coin='BTC'>{balance.amount}</CoinDisplay>
               </Text>
               <Text size='12px' weight={300}>
                 <CurrencyDisplay>{balance.amount}</CurrencyDisplay>
@@ -79,6 +79,10 @@ BalanceSummary.propTypes = {
     })
   ),
   total: PropTypes.number.isRequired
+}
+
+BalanceSummary.defaultProps = {
+  total: 0
 }
 
 export default BalanceSummary

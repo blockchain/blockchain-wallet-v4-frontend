@@ -2,7 +2,7 @@ import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from 'ramda'
 import { traverseOf, view, over, set } from 'ramda-lens'
 import Either from 'data.either'
 
-import * as crypto from '../WalletCrypto'
+import * as crypto from '../walletCrypto'
 import Type from './Type'
 import * as Wallet from './Wallet'
 import * as Options from './Options'
@@ -148,5 +148,5 @@ export const setBothPbkdf2Iterations = curry((iterations, wrapper) => compose(
 export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
   fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic, undefined, nAccounts))
 
-export const createNewReadOnly = (xpub, firstAccountName = 'My Trezor Wallet') =>
+export const createNewReadOnly = (xpub, firstAccountName = 'My read-only Wallet') =>
   fromJS(js('', '', '', firstAccountName, undefined, xpub, 1))

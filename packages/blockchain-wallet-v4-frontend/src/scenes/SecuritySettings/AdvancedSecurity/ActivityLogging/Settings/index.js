@@ -12,29 +12,22 @@ class SettingContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, activityLoggingEnabled } = this.props
-    const newLoggingLevel = Number(!activityLoggingEnabled)
-    this.props.settingsActions.updateLoggingLevel(guid, sharedKey, newLoggingLevel)
+    this.props.settingsActions.updateLoggingLevel(Number(!this.props.activityLoggingEnabled))
   }
 
   render () {
     const { ...rest } = this.props
 
-    return <Settings
-      {...rest}
-      handleClick={this.handleClick}
-    />
+    return <Settings {...rest} handleClick={this.handleClick} />
   }
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   activityLoggingEnabled: selectors.core.settings.getLoggingLevel(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer)

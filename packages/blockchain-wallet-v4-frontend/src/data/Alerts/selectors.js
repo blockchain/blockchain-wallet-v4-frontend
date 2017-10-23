@@ -1,3 +1,3 @@
 import { path } from 'ramda'
 
-export const selectAlerts = path(['applicationState', 'alerts'])
+export const selectAlerts = path(['alerts'])

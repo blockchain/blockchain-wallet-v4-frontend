@@ -11,6 +11,7 @@ import LandingLayout from 'layouts/Landing'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
 
+import ActionsContainer from './Actions'
 import LandingContainer from './Landing'
 import LoginContainer from './Login'
 import HelpContainer from './Help'
@@ -19,8 +20,10 @@ import ReminderContainer from './Reminder'
 import Reset2FAContainer from './Reset2FA'
 import RegisterContainer from './Register'
 import HomeContainer from './Home'
-import TransactionsContainer from './Transactions'
+import BitcoinTransactionsContainer from './Transactions/Bitcoin'
+import EtherTransactionsContainer from './Transactions/Ether'
 import BuyContainer from './Buy'
+import ExchangeContainer from './Exchange'
 import SecurityCenterContainer from './SecurityCenter'
 import InfoContainer from './Info'
 import PreferencesContainer from './Preferences'
@@ -45,6 +48,7 @@ class App extends React.Component {
               <ConnectedRouter history={history}>
                 <Switch>
                   <LandingLayout exact path='/' component={LandingContainer} />
+                  <PublicLayout path='/a/:payload' component={ActionsContainer} />
                   <PublicLayout path='/login' component={LoginContainer} />
                   <PublicLayout path='/help' component={HelpContainer} />
                   <PublicLayout path='/recover' component={RecoverContainer} />
@@ -52,8 +56,10 @@ class App extends React.Component {
                   <PublicLayout path='/reset2fa' component={Reset2FAContainer} />
                   <PublicLayout path='/register' component={RegisterContainer} />
                   <WalletLayout path='/wallet' component={HomeContainer} />
-                  <WalletLayout path='/transactions' component={TransactionsContainer} />
+                  <WalletLayout path='/btc/transactions' component={BitcoinTransactionsContainer} />
+                  <WalletLayout path='/eth/transactions' component={EtherTransactionsContainer} />
                   <WalletLayout path='/buy-sell' component={BuyContainer} />
+                  <WalletLayout path='/exchange' component={ExchangeContainer} />
                   <WalletLayout path='/security-center' component={SecurityCenterContainer} />
                   <Redirect from='/settings' to='/settings/info' exact />
                   <WalletLayout path='/settings/info' component={InfoContainer} />

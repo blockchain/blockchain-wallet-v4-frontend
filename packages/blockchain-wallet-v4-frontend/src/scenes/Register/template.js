@@ -12,7 +12,7 @@ import Terms from 'components/Terms'
 const Wrapper = styled.div`
   width: 100%;
   padding: 40px;
-  box-sigin: border-box;
+  box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
   @media(min-width: 768px) { width: 550px; }
@@ -24,7 +24,7 @@ const Header = styled.div`
 `
 
 const Register = (props) => {
-  const { handleClick, submitting, invalid } = props
+  const { onSubmit, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
@@ -48,7 +48,7 @@ const Register = (props) => {
         <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
       </Text>
       <Separator />
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.register.email' defaultMessage='Email' />
         </Text>
@@ -64,7 +64,7 @@ const Register = (props) => {
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
           <Terms />
         </Field>
-        <Button nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={handleClick}>
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.register.submit' defaultMessage='Continue' />
         </Button>
       </Form>
@@ -72,4 +72,4 @@ const Register = (props) => {
   )
 }
 
-export default reduxForm({ form: 'registerForm' })(Register)
+export default reduxForm({ form: 'register' })(Register)

@@ -54,7 +54,7 @@ export const selectChange = view(change)
 
 export const fromJS = (o) => {
   return new Coin({
-    value: o.value,
+    value: parseInt(o.value),
     script: o.script,
     txHash: o.tx_hash_big_endian,
     index: o.tx_output_n,

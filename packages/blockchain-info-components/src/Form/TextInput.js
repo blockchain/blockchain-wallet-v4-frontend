@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const BaseTextInput = styled.input.attrs({
-  type: 'gray-5'
+  type: 'text'
 })`
   display: block;
   width: 100%;
@@ -27,10 +27,10 @@ const BaseTextInput = styled.input.attrs({
 
 const selectBorderColor = (state) => {
   switch (state) {
-    case 'initial': return 'midgrey'
+    case 'initial': return 'gray-2'
     case 'invalid': return 'error'
     case 'valid': return 'success'
-    default: return 'midgrey'
+    default: return 'gray-2'
   }
 }
 

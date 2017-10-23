@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { isEmpty, isNil } from 'ramda'
+import bip21 from 'bip21'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -12,35 +13,36 @@ class QRCodeCaptureContainer extends React.Component {
     super(props)
     this.handleScan = this.handleScan.bind(this)
     this.handleError = this.handleError.bind(this)
-    this.handleCancel = this.handleCancel.bind(this)
   }
 
   handleScan (result) {
-    if (!isNil(result) && !isEmpty(result)) { this.props.modalActions.scanQRCodeCaptureSuccess(result) }
+    if (!isNil(result) && !isEmpty(result)) {
+      const { address, options } = bip21.decode(result)
+      const { amount, message } = options
+      this.props.alertActions.displayError('QRCode has been successfully read.')
+      this.props.formActions.change('sendBitcoin', 'to', address)
+      this.props.formActions.change('sendBitcoin', 'amount', amount)
+      this.props.formActions.change('sendBitcoin', 'message', message)
+      this.props.modalActions.closeModal()
+    }
   }
 
   handleError (error) {
-    if (!isNil(error) && !isEmpty(error)) { this.props.modalActions.scanQRCodeCaptureError(error) }
-  }
-
-  handleCancel () {
-    this.props.modalActions.clickQRCodeCaptureCancel()
+    if (!isNil(error) && !isEmpty(error)) {
+      this.props.alertActions.displayError(error)
+      this.props.modalActions.closeModal()
+    }
   }
 
   render () {
-    return (
-      <QRCodeCapture
-        {...this.props}
-        handleScan={this.handleScan}
-        handleError={this.handleError}
-        handleCancel={this.handleCancel}
-      />
-    )
+    return <QRCodeCapture {...this.props} handleScan={this.handleScan} handleError={this.handleError} />
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  alertActions: bindActionCreators(actions.alerts, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(

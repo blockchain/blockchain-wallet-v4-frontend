@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { map, isEmpty } from 'ramda'
 
 import { selectors } from 'data'
-import { displayCoin, displayFiat } from 'services/ConversionService'
+import { convertBaseCoinToFiat, convertBaseCoinToCoin } from 'services/ConversionService'
 import { SelectInput } from 'blockchain-info-components'
 
 class SelectBoxAddresses extends React.Component {
@@ -30,15 +30,17 @@ SelectBoxAddresses.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const network = 'bitcoin'
   const coinDisplayed = selectors.preferences.getCoinDisplayed(state)
-  const unit = selectors.core.settings.getBtcCurrency(state)
+  const unit = selectors.core.settings.getBtcUnit(state)
   const currency = selectors.core.settings.getCurrency(state)
-  const rates = selectors.core.btcRates.getBtcRates(state)
+  const rates = selectors.core.data.rates.getBtcRates(state)
 
   const transformAddresses = items => map(item => {
     const { title, amount, ...rest } = item
-    const amountDisplay = coinDisplayed ? displayCoin(network, amount, unit).getOrElse('N/A') : displayFiat(network, amount, currency, rates).getOrElse('N/A')
+    const amountDisplay = coinDisplayed
+      ? convertBaseCoinToCoin('BTC', unit || 'BTC', amount)
+      : convertBaseCoinToFiat(currency, rates, amount)
+
     return { text: `${title} (${amountDisplay})`, value: rest }
   }, items)
 
@@ -48,7 +50,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     accounts,
     legacyAddresses,
-    network,
     unit,
     currency,
     coinDisplayed

@@ -10,6 +10,7 @@ import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg
 import qrCode from './img/qr-code.png'
 import refresh from './img/refresh.svg'
 import rocket from './img/rocket.gif'
+import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
@@ -31,6 +32,7 @@ export default {
   'qr-code': qrCode,
   'refresh': refresh,
   'rocket': rocket,
+  'shapeshiftLogo': shapeshiftLogo,
   'smartphone': smartphone,
   'sophisticated': sophisticated,
   'wallet-v3-backup': walletV3Backup,

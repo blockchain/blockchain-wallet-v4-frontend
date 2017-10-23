@@ -1,9 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required, requiredNumber } from 'services/FormHelper'
+import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, Separator, Text, Tooltip } from 'blockchain-info-components'
 import { CoinConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
@@ -28,8 +29,8 @@ const QRCodeButton = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { nextStep, submitting, invalid, position, total, closeAll, ...rest } = props
-  const { handleClickQRCode, receiveAddress } = rest
+  const { submitting, invalid, position, total, closeAll, ...rest } = props
+  const { onSubmit, handleClickQRCode, receiveAddress } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -37,7 +38,7 @@ const FirstStep = (props) => {
         <FormattedMessage id='modals.requestbitcoin.firststep.title' defaultMessage='Request' />
       </ModalHeader>
       <ModalBody>
-        <Form onSubmit={nextStep}>
+        <Form onSubmit={onSubmit}>
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & share address:' />
             <Tooltip>
@@ -60,7 +61,7 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500} capitalize>
             <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[requiredNumber]} />
+          <Field name='amount' component={CoinConvertor} validate={[required]} />
           <Text size='14px' weight={500} capitalize>
             <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive to:' />
           </Text>
@@ -69,13 +70,24 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.requestbitcoin.firststep.description' defaultMessage='Description:' />
           </Text>
           <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" />
-          <Button nature='primary' fullwidth uppercase disabled={submitting || invalid}>
+          <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
             <FormattedMessage id='modals.requestbitcoin.firststep.next' defaultMessage='Next' />
           </Button>
         </Form>
       </ModalBody>
     </Modal>
   )
+}
+
+FirstStep.propTypes = {
+  invalid: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  position: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  closeAll: PropTypes.func.isRequired,
+  receiveAddress: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  handleClickQRCode: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(FirstStep)

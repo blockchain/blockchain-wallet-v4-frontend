@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required, requiredNumber } from 'services/FormHelper'
+import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Icon, Image, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, Hidden, SelectBoxAddresses, SelectBoxFee, TextBox, TextArea } from 'components/Form'
+import { CoinConvertor, Form, SelectBoxAddresses, SelectBoxFee, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 
 const Row = styled.div`
@@ -45,13 +45,23 @@ const ButtonRow = styled(ButtonGroup)`
   & > button:first-child { width: 100%; }
   & > button:last-child: { width: 200px; }
 `
+const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+  if (initialRender) { return true }
+  return (
+    initialRender ||
+    !structure.deepEqual(values, nextProps.values) ||
+    props.effectiveBalance !== nextProps.effectiveBalance
+  )
+}
+
+const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
+
+// const emptyAmount = (value, allValues, props) => props.coins ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = (props) => {
-  const validateAmount = (value, allValues, props) => {
-    return value <= allValues.effectiveBalance ? undefined : `Invalid amount. Available : ${allValues.effectiveBalance}`
-  }
-  const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, nextStep, invalid, submitting,
-    handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler, position, total, closeAll } = props
+  const { invalid, submitting, position, total, closeAll, ...rest } = props
+  const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, ...rest2 } = rest
+  const { onSubmit, handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler } = rest2
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -59,35 +69,33 @@ const FirstStep = (props) => {
         <FormattedMessage id='modals.sendbitcoin.firststep.title' defaultMessage='Send' />
       </ModalHeader>
       <ModalBody>
-        <Form onSubmit={nextStep}>
-          <Text size='14px' weight={500} capitalize>
+        <Form onSubmit={onSubmit}>
+          <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
           </Text>
           <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
-          <Text size='14px' weight={500} capitalize>
+          <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
           </Text>
-          {addressSelectToggled
-            ? (
-              <AddressesToContainer>
-                <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
-                <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-                <AddressesToButton onClick={handleClickAddressToggler}><Icon name='pencil' /></AddressesToButton>
-              </AddressesToContainer>
-            ) : (
-              <AddressesToContainer>
-                <Field name='to' component={TextBox} validate={[required]} />
-                <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-                <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' /></AddressesToButton>
-              </AddressesToContainer>
-            )
+          { addressSelectToggled &&
+            <AddressesToContainer>
+              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
+              <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
+              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='pencil' /></AddressesToButton>
+            </AddressesToContainer>
           }
-          <Text size='14px' weight={500} capitalize>
+          { !addressSelectToggled &&
+            <AddressesToContainer>
+              <Field name='to2' component={TextBox} validate={[required]} />
+              <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
+              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' /></AddressesToButton>
+            </AddressesToContainer>
+          }
+          <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[requiredNumber, validateAmount]} />
-          <Field name='effectiveBalance' component={Hidden} />
-          <Text size='14px' weight={500} capitalize>
+          <Field name='amount' component={CoinConvertor} validate={[required, validAmount]} />
+          <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
             <Tooltip>
               <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
@@ -95,8 +103,8 @@ const FirstStep = (props) => {
             </Tooltip>
           </Text>
           <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
-          <Text size='14px' weight={500} capitalize>
-            <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee (sat/b) :' />
             <Tooltip>
               <FormattedMessage id='modals.sendbitcoin.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
             </Tooltip>
@@ -119,7 +127,7 @@ const FirstStep = (props) => {
             </ColRight>
           </Row>
           <ButtonRow>
-            <Button nature='secondary' uppercase disabled={submitting || invalid}>
+            <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
               <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
             </Button>
           </ButtonRow>
@@ -130,14 +138,19 @@ const FirstStep = (props) => {
 }
 
 FirstStep.propTypes = {
+  invalid: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  position: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  closeAll: PropTypes.func.isRequired,
   addressSelectToggled: PropTypes.bool.isRequired,
+  addressSelectOpened: PropTypes.bool.isRequired,
   feeEditToggled: PropTypes.bool.isRequired,
+  selection: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   handleClickQrCodeCapture: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,
-  handleClickFeeToggler: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired
+  handleClickFeeToggler: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false, shouldValidate: shouldValidate })(FirstStep)

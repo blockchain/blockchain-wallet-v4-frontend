@@ -1,15 +1,35 @@
+import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { selectAlerts } from 'data/Alerts/selectors'
-import * as actions from 'data/Alerts/actions'
-import Alerts from './Alerts'
+
+import { actions, selectors } from 'data'
+import Alerts from './template.js'
+
+class AlertsContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleClose = this.handleClose.bind(this)
+  }
+
+  handleClose (id) {
+    this.props.alertActions.dismissAlert(id)
+  }
+
+  render () {
+    const { alerts } = this.props
+
+    return (
+      <Alerts alerts={alerts} handleClose={this.handleClose} />
+    )
+  }
+}
 
 const mapStateToProps = (state) => ({
-  alerts: selectAlerts(state)
+  alerts: selectors.alerts.selectAlerts(state)
 })
 
-const mapDispatchToProps = (dispatch) => (
-  bindActionCreators(actions, dispatch)
-)
+const mapDispatchToProps = (dispatch) => ({
+  alertActions: bindActionCreators(actions.alerts, dispatch)
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(Alerts)
+export default connect(mapStateToProps, mapDispatchToProps)(AlertsContainer)

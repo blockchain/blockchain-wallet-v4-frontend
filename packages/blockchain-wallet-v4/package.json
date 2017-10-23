@@ -52,9 +52,11 @@
     "standard": "^10.0.2"
   },
   "dependencies": {
+    "big-rational": "^0.10.7",
     "bigi": "^1.4.2",
     "bip39": "^2.3.1",
     "bitcoinjs-lib": "^3.1.1",
+    "bitcoinjs-message": "^2.0.0",
     "bs58": "^4.0.1",
     "chai-immutable": "^1.6.0",
     "data.either": "^1.5.0",

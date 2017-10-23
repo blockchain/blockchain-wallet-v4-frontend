@@ -13,8 +13,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey, authTypeNeverSave } = this.props
-    this.props.settingsActions.updateAuthTypeNeverSave(guid, sharedKey, !authTypeNeverSave)
+    this.props.settingsActions.updateTwoStepRemember(Number(!this.props.authTypeNeverSave))
   }
 
   render () {
@@ -23,14 +22,12 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
   authTypeNeverSave: selectors.core.settings.getAuthTypeNeverSave(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

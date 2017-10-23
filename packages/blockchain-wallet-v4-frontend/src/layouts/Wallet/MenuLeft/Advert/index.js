@@ -8,14 +8,11 @@ import Advert from './template.js'
 
 class AdvertContainer extends React.Component {
   componentWillMount () {
-    if (isEmpty(this.props.adverts)) { this.props.advertsActions.fetchAdverts(2) }
+    if (isEmpty(this.props.adverts)) { this.props.dataActions.getAdverts(2) }
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.location, nextProps.location)) {
-      this.props.advertsActions.deleteAdverts()
-      this.props.advertsActions.fetchAdverts(2)
-    }
+    if (!equals(this.props.location, nextProps.location)) { this.props.dataActions.getAdverts(2) }
   }
 
   render () {
@@ -28,11 +25,11 @@ class AdvertContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  adverts: selectors.core.adverts.selectAdverts(state)
+  adverts: selectors.core.data.adverts.getAdverts(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  advertsActions: bindActionCreators(actions.core.adverts, dispatch)
+  dataActions: bindActionCreators(actions.data, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdvertContainer)

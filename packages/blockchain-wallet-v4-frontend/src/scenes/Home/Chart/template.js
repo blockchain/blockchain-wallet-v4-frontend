@@ -2,131 +2,70 @@ import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import { FormattedMessage } from 'react-intl'
-import { Link } from 'blockchain-info-components'
 
-import ChartTicker from './ChartTicker'
+import { Color, Link } from 'blockchain-info-components'
+import BitcoinTicker from './BitcoinTicker'
+import EthereumTicker from './EthereumTicker'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: stretch;
-  align-items: space-between;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   padding: 15px;
-  margin-bottom: 15px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
-`
 
-const Row = styled.div`
+  & > * { margin-bottom: 10px; }
+`
+const Ticker = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
+  & > * { margin: 0 10px; }
+`
+const Highchart = styled.div`
   width: 100%;
-  color: white;
 `
-
-const TickerWrapper = styled.div`
-  padding-right: 10px;
+const Filters = styled.div`
+  display: flex;
+  justify-content: center;
 `
-
-const TimeWindow = styled(Link)`
-  color: ${props => props.theme['brand-primary']};
-  text-decoration: underline;
+const Filter = styled(Link)`
+  margin: 0 10px;
+  &:hover { color: ${Color('brand-secondary')}; }
 `
 
 const Chart = (props) => {
-  const { currency, data, selectCoin, selectedCoin, start, selectTimeframe, interval } = props
-
-  const config = {
-    chart: {
-      height: 300
-    },
-    title: {
-      text: null
-    },
-    yAxis: {
-      title: {
-        text: null
-      },
-      labels: {
-        formatter: function () {
-          return (currency + this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
-        }
-      },
-      lineWidth: 1,
-      gridLineWidth: 0
-    },
-    xAxis: {
-      type: 'datetime',
-      tickWidth: 0,
-      labels: {
-        style: {
-          color: 'gray'
-        }
-      }
-    },
-    plotOptions: {
-      series: {
-        color: '#10ADE4',
-        pointStart: start,
-        pointInterval: interval
-      },
-      line: {
-        marker: {
-          enabled: false
-        }
-      }
-    },
-    tooltip: {
-      pointFormat: '{series.name}(' + currency + '): {point.y}'
-    },
-    credits: {
-      enabled: false
-    },
-    legend: {
-      enabled: false
-    },
-
-    series: [
-      {
-        name: 'Price',
-        data: data
-      }
-    ]
-  }
-
-  const btcCoin = `BTC`
-  const ethCoin = `ETH`
+  const { start, interval, currency, data, ...rest } = props
+  const { config, coin, timeframe, selectBitcoin, selectEthereum, selectTimeframe } = rest
 
   return (
     <Wrapper>
-      <Row>
-        <TickerWrapper onClick={() => selectCoin(btcCoin)}>
-          <ChartTicker coin={btcCoin} selectedCoin={selectedCoin} />
-        </TickerWrapper>
-        <TickerWrapper onClick={() => selectCoin(ethCoin)} >
-          <ChartTicker coin={ethCoin} selectedCoin={selectedCoin} />
-        </TickerWrapper>
-      </Row>
-      <ReactHighcharts config={config} />
-      <Row>
-        <TimeWindow onClick={() => selectTimeframe('all')}>
+      <Ticker>
+        <BitcoinTicker selected={coin === 'BTC'} onClick={selectBitcoin} />
+        <EthereumTicker selected={coin === 'ETH'} onClick={selectEthereum} />
+      </Ticker>
+      <Highchart>
+        <ReactHighcharts config={config} />
+      </Highchart>
+      <Filters>
+        <Filter size='14px' weight={300} color={timeframe === 'all' ? 'brand-secondary' : 'brand-primary'} onClick={() => selectTimeframe('all')}>
           <FormattedMessage id='scenes.home.chart.alltime' defaultMessage='All time' />
-        </TimeWindow>
-        <TimeWindow onClick={() => selectTimeframe('year')} >
+        </Filter>
+        <Filter size='14px' weight={300} color={timeframe === 'year' ? 'brand-secondary' : 'brand-primary'} onClick={() => selectTimeframe('year')}>
           <FormattedMessage id='scenes.home.chart.year' defaultMessage='Year' />
-        </TimeWindow>
-        <TimeWindow onClick={() => selectTimeframe('month')} >
+        </Filter>
+        <Filter size='14px' weight={300} color={timeframe === 'month' ? 'brand-secondary' : 'brand-primary'} onClick={() => selectTimeframe('month')}>
           <FormattedMessage id='scenes.home.chart.month' defaultMessage='Month' />
-        </TimeWindow>
-        <TimeWindow onClick={() => selectTimeframe('week')} >
+        </Filter>
+        <Filter size='14px' weight={300} color={timeframe === 'week' ? 'brand-secondary' : 'brand-primary'} onClick={() => selectTimeframe('week')}>
           <FormattedMessage id='scenes.home.chart.week' defaultMessage='Week' />
-        </TimeWindow>
-        <TimeWindow onClick={() => selectTimeframe('day')} >
+        </Filter>
+        <Filter size='14px' weight={300} color={timeframe === 'day' ? 'brand-secondary' : 'brand-primary'} onClick={() => selectTimeframe('day')}>
           <FormattedMessage id='scenes.home.chart.day' defaultMessage='Day' />
-        </TimeWindow>
-      </Row>
+        </Filter>
+      </Filters>
     </Wrapper>
   )
 }

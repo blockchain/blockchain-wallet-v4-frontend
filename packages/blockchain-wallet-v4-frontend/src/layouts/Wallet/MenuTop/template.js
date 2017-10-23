@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { ButtonGroup, IconButton, Text } from 'blockchain-info-components'
+import { ButtonGroup, Icon, IconButton, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/CoinDisplay'
 import CurrencyDisplay from 'components/CurrencyDisplay'
 
@@ -64,6 +64,10 @@ const BalanceContainer = styled.div`
     & > :last-child { display: block; }
   }
 `
+const BalancesWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 
 const MenuTop = (props) => {
   const { openSendBitcoin, openRequestBitcoin, coinDisplayed, toggleCoinDisplay, balance } = props
@@ -90,11 +94,23 @@ const MenuTop = (props) => {
       </LeftContainer>
       <RightContainer>
         <BalanceContainer onClick={toggleCoinDisplay}>
-          <Text size='24px' weight={300}>
-            { coinDisplayed ? <CoinDisplay>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay> }
-          </Text>
+          <BalancesWrapper>
+            <Text>
+              <Icon name='bitcoin' size='24px' weight={300} />
+            </Text>
+            <Text weight={200} size='24px' >
+              {coinDisplayed ? <CoinDisplay coin='BTC'>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
+            </Text>
+            <Text weight={200} size='24px' >|</Text>
+            <Text>
+              <Icon name='ethereum' size='24px' weight={300} />
+            </Text>
+            <Text weight={200} size='24px' >
+              {coinDisplayed ? <CoinDisplay coin='ETH'>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
+            </Text>
+          </BalancesWrapper>
           <Text size='20px' weight={200}>
-            { !coinDisplayed ? <CoinDisplay>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay> }
+            <CurrencyDisplay>{balance}</CurrencyDisplay>
           </Text>
         </BalanceContainer>
       </RightContainer>
@@ -107,6 +123,10 @@ MenuTop.propTypes = {
   openSendBitcoin: PropTypes.func.isRequired,
   openRequestBitcoin: PropTypes.func.isRequired,
   toggleCoinDisplay: PropTypes.func.isRequired
+}
+
+MenuTop.defaultProps = {
+  balance: 0
 }
 
 export default MenuTop

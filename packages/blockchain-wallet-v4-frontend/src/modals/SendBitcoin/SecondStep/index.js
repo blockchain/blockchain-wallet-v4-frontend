@@ -1,58 +1,57 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { is } from 'ramda'
-import { push } from 'connected-react-router'
+import { formValueSelector } from 'redux-form'
 
-import settings from 'config'
-import { convertFromUnit } from 'services/ConversionService'
+import { filter, isNil } from 'ramda'
 import { actions, selectors } from 'data'
 import SecondStep from './template.js'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleSend = this.handleSend.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  handleSend () {
-    const { selection } = this.props
-    this.props.modalActions.clickSendBitcoinSend(selection)
+  onSubmit (e) {
+    e.preventDefault()
+    this.props.paymentActions.sendBitcoin(this.props.selection)
   }
 
   render () {
-    return <SecondStep {...this.props} handleSend={this.handleSend} />
-  }
-}
-
-const selectAddress = (addressValue, selectorFunction) => {
-  if (is(String, addressValue)) {
-    return addressValue
-  } else {
-    return addressValue
-      ? addressValue.address
-        ? addressValue.address
-        : selectorFunction(addressValue.index)
-      : undefined
+    return <SecondStep {...this.props} onSubmit={this.onSubmit} />
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
-  const getChange = index => selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, index, state)
+  const to = formValueSelector('sendBitcoin')(state, 'to')
+  const to2 = formValueSelector('sendBitcoin')(state, 'to2')
+  const from = formValueSelector('sendBitcoin')(state, 'from')
+  const message = formValueSelector('sendBitcoin')(state, 'message')
+  const f = selectors.core.wallet.getAccountLabel(state)
+  const g = selectors.core.wallet.getLegacyAddressLabel(state)
+  const toAddress = !isNil(to2) ? to2 : (to.address || g(to.address) || f(to.index))
+  const fromAddress = from.address || g(from.address) || f(from.index)
+  const selection = selectors.core.data.payment.getSelection(state)
+  const targetCoin = filter(x => !x.change, selection.outputs)[0]
+  const satoshis = targetCoin.value
+  const fee = selection.fee
 
   return {
-    fromAddress: selectAddress(ownProps.from, getChange),
-    toAddress: selectAddress(ownProps.to, getReceive),
-    satoshis: convertFromUnit(ownProps.network, ownProps.amount, ownProps.unit).getOrElse({ amount: undefined, symbol: 'N/A' }).amount
+    fee,
+    message,
+    fromAddress,
+    toAddress,
+    satoshis,
+    selection
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentActions: bindActionCreators(actions.core.payment, dispatch),
-  routerActions: bindActionCreators({ push }, dispatch)
+  paymentActions: bindActionCreators(actions.payment, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

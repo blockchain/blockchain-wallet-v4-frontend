@@ -9,14 +9,14 @@ import { actions, selectors } from 'data'
 class LoginContainer extends React.Component {
   constructor () {
     super()
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
   }
 
-  handleSubmit (event) {
+  onSubmit (event) {
     event.preventDefault()
     const { guid, password, code } = this.props
-    this.props.authActions.loginStart({ guid, password, code })
+    this.props.authActions.login(guid, password, code)
   }
 
   handleMobile () {
@@ -29,23 +29,22 @@ class LoginContainer extends React.Component {
     return (
       <Login
         authType={authType}
-        handleSubmit={this.handleSubmit}
+        onSubmit={this.onSubmit}
         handleMobile={this.handleMobile} />
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  guid: formValueSelector('loginForm')(state, 'guid'),
-  password: formValueSelector('loginForm')(state, 'password'),
-  code: formValueSelector('loginForm')(state, 'code'),
+  guid: formValueSelector('login')(state, 'guid'),
+  password: formValueSelector('login')(state, 'password'),
+  code: formValueSelector('login')(state, 'code'),
   authType: selectors.auth.getAuthType(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  coreActions: bindActionCreators(actions.core.wallet, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

@@ -1,9 +1,9 @@
 const Webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
-const ENV = process.env.NODE_ENV || 'development'
-const PROD = ENV === 'production'
+const PROD = process.argv.indexOf('-p') !== -1
+const ENV = PROD ? 'production' : 'development'
 
 const PATHS = {
   build: `${__dirname}/build`,
@@ -65,23 +65,6 @@ module.exports = {
         ]
       }),
       {
-        test: /assets.*\.scss|css$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true
-              }
-            }
-          ],
-          fallback: 'style-loader'
-        })
-      },
-      {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
           loader: 'file-loader',
@@ -111,9 +94,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin({
-      filename: 'style-[hash].css'
-    }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
@@ -122,6 +102,7 @@ module.exports = {
       'process.env': { 'NODE_ENV': JSON.stringify(ENV) }
     }),
     ...(PROD ? [
+      new CleanWebpackPlugin(PATHS.dist),
       new Webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false
@@ -150,6 +131,12 @@ module.exports = {
     port: 8080,
     hot: !PROD,
     historyApiFallback: true,
+    proxy: [
+      {
+        path: /\/a\/.*/,
+        bypass: function (req, res, proxyOptions) { return '/index.html' }
+      }
+    ],
     overlay: !PROD && {
       warnings: true,
       errors: true

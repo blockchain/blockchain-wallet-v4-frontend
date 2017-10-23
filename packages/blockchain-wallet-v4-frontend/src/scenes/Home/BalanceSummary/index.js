@@ -7,7 +7,7 @@ import BalanceSummary from './template.js'
 
 class BalanceSummaryContainer extends React.Component {
   render () {
-    const adder = (acc, value) => [acc + prop('amount', value), acc + prop('amount', value)]
+    const adder = (acc, value) => [acc + (prop('amount', value) || 0), (acc + prop('amount', value) || 0)]
     const total = head(mapAccum(adder, 0, this.props.balances))
     return (
       <BalanceSummary balances={this.props.balances} total={total} coinDisplayed={this.props.coinDisplayed} />

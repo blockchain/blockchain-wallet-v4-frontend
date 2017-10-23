@@ -14,7 +14,7 @@ class SelectBoxBitcoinUnit extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  unit: selectors.core.settings.getBtcCurrency(state),
+  unit: selectors.core.settings.getBtcUnit(state),
   units: [
     { text: 'Bitcoin', value: 'BTC' },
     { text: 'milliBit (mBTC)', value: 'MBC' },

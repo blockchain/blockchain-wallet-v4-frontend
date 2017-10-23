@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -14,23 +15,25 @@ class TwoStepYubicoContainer extends React.Component {
 
   handleClick (e) {
     e.preventDefault()
-    this.props.modalActions.clickTwoStepYubicoEnable()
+    this.props.settingsActions.enableTwoStepYubikey(this.props.code)
   }
 
   render () {
-    return (
-      <TwoStepYubico {...this.props} handleClick={this.handleClick} />
-    )
+    return <TwoStepYubico {...this.props} handleClick={this.handleClick} />
   }
 }
 
+const mapStateToProps = (state) => ({
+  code: formValueSelector('twoStepYubico')(state, 'code')
+})
+
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('TwoStepYubico'),
-  connect(undefined, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(TwoStepYubicoContainer)
