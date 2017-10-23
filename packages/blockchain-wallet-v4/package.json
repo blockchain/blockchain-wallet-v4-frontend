@@ -70,7 +70,7 @@
     "immutable-ext": "^1.1.2",
     "isomorphic-fetch": "^2.2.1",
     "pbkdf2": "~3.0.12",
-    "ramda": "^0.24.1",
+    "ramda": "^0.25",
     "ramda-lens": "https://github.com/ramda/ramda-lens.git",
     "redux": "^3.6.0",
     "redux-immutable": "^3.1.0",

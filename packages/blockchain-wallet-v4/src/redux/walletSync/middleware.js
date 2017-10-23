@@ -30,6 +30,7 @@ const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (ne
 
   switch (true) {
     // wallet sync
+    case (action.type === T.walletSync.FORCE_SYNC):
     case ((wasAuth && isAuth) &&
          action.type !== T.wallet.SET_PAYLOAD_CHECKSUM &&
          prevWallet !== nextWallet):

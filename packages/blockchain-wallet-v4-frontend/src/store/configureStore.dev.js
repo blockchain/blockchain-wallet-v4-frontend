@@ -42,7 +42,7 @@ const configureStore = () => {
       applyMiddleware(
         routerMiddleware(history),
         coreMiddleware.kvStore({isAuthenticated, kvStoreApi, kvStorePath}),
-        // coreMiddleware.walletSync({isAuthenticated, api, walletPath}),
+        coreMiddleware.walletSync({isAuthenticated, api, walletPath}),
         coreMiddleware.socket({ socket, walletPath, isAuthenticated }),
         sagaMiddleware
       ),

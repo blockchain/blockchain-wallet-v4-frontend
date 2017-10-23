@@ -13,7 +13,7 @@ class UpgradeWizardContainer extends React.Component {
   }
 
   handleContinue () {
-    this.props.modalActions.clickUpgradeWalletContinue()
+    this.props.walletSyncActions.forceSync()
   }
 
   render () {
@@ -24,7 +24,8 @@ class UpgradeWizardContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  walletSyncActions: bindActionCreators(actions.core.walletSync, dispatch)
 })
 
 const enhance = compose(
