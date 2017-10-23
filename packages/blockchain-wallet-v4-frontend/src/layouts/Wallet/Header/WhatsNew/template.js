@@ -23,7 +23,8 @@ const LearnMoreLink = styled(NavLink)`
   text-decoration: none;
 `
 
-const WhatsNew = () => {
+const WhatsNew = (props) => {
+  const { lastViewed } = props
   const infos = [
     {
       title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title10' defaultMessage={'Bitcoin Cash'} />,
@@ -73,10 +74,17 @@ const WhatsNew = () => {
     }
   ]
 
+  var news = infos.filter(info => info.date >= 1000 * lastViewed)
+  const hasNews = !(news.length === 0)
+  if (!hasNews) {
+    // Show at least two news
+    news = infos.slice(1, 3)
+  }
+
   return (
     <Container>
-      <MenuTooltip title='What&apos;s new?'>
-        {infos.map((item, index) => {
+      <MenuTooltip title='What&apos;s new?' hasNews>
+        {news.map((item, index) => {
           const { title, desc, date, link } = item
           return (
             <NewsItemWrapper key={index}>

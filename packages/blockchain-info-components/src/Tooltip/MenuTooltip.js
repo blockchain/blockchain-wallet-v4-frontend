@@ -63,6 +63,21 @@ const MenuTooltipBox = styled(TextGroup)`
   }
 `
 
+const MenuTooltipIconWrapper = styled.div`
+  position: relative;
+`
+
+const NewLabel = styled.div`
+  position: absolute;
+  z-index: 10000;
+  right: 1px;
+  top: 3px;
+  width: 10px;
+  height: 10px;
+  background-color: ${props => props.theme['error']};
+  border-radius: 100%;
+`
+
 const MenuTooltipTitle = styled(Text)`
     background-color: ${props => props.theme['gray-1']};
     padding: 8px 14px;
@@ -77,19 +92,22 @@ const TextContainer = styled.div`
 class MenuTooltip extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { displayed: false }
+    this.state = { displayed: false, hasNews: props.hasNews }
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick () {
-    this.setState({ displayed: !this.state.displayed })
+    this.setState({ displayed: !this.state.displayed, hasNews: false })
   }
 
   render () {
     const { icon, title, children } = this.props
     return (
       <MenuTooltipWrapper>
-        <MenuTooltipIcon displayed={this.state.displayed} onClick={this.handleClick} name={icon} />
+        <MenuTooltipIconWrapper>
+          {this.state.hasNews && <NewLabel />}
+          <MenuTooltipIcon displayed={this.state.displayed} onClick={this.handleClick} name={icon} />
+        </MenuTooltipIconWrapper>
         <MenuTooltipBox displayed={this.state.displayed} onClick={this.handleClick}>
           <MenuTooltipTitle size='14px' weight={500}>
             {title}
@@ -104,7 +122,8 @@ class MenuTooltip extends React.Component {
 }
 
 MenuTooltip.defaultProps = {
-  icon: 'bell'
+  icon: 'bell',
+  hasNews: true
 }
 
 export default MenuTooltip
