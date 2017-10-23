@@ -1,62 +1,10 @@
-import { combineReducers } from 'redux'
-import { keys, compose, zip, over, mapObjIndexed, any, identity, values } from 'ramda'
+import { mapObjIndexed, any, identity, values, sequence } from 'ramda'
+import Task from 'data.task'
 
-import { Wallet, KVStoreEntry } from '../../types'
-import * as A from '../actions'
-import * as T from '../actionTypes'
-
-// export const kvReducerEnhancer = (typeId, reducer) => (state = KVStoreEntry.createEmpty(typeId), action) => {
-//   let { type, payload } = action
-//   if (type === KV_SYNC && payload.typeId === typeId) {
-//     return payload
-//   }
-//   return over(KVStoreEntry.value, (value) => reducer(value, action), state)
-// }
-
-// const kvStoreMiddleware = (reducers, { api, path, walletPath, serialize = JSON.stringify } = {}) => {
-//   let keyPaths = keys(reducers)
-//   let select = (state) => (keyPath) => state[path][keyPath]
-
-//   let reducer = () => combineReducers(reducers)
-
-//   let middleware = () => (store) => (next) => (action) => {
-//     let prevs = keyPaths.map(select(store.getState()))
-//     let result = next(action)
-//     let currs = keyPaths.map(select(store.getState()))
-//     let zipped = zip(prevs, currs)
-
-//     let wallet = store.getState()[walletPath].get('walletImmutable')
-
-//     if (!wallet || !wallet.guid || action.type === KV_SYNC) {
-//       return result
-//     }
-
-//     let hd = Wallet.selectHdWallet(wallet)
-
-//     let run = (task) => task.fork(
-//       (e) => console.log('error:', e),
-//       compose(store.dispatch, syncKv)
-//     )
-
-//     zipped.forEach(([p, c]) => {
-//       if (c.magicHash === void 0) {
-//         let kv = KVStoreEntry.fromHdWallet(hd, c.typeId)
-//         run(api.fetch(kv))
-//       } else if (serialize(p.value) !== serialize(c.value)) {
-//         run(api.update(c))
-//       }
-//     })
-
-//     return result
-//   }
-
-//   return {
-//     reducer,
-//     middleware
-//   }
-// }
-
-
+// import { Wallet, KVStoreEntry } from '../../types'
+import * as A from './actions'
+import * as T from './actionTypes'
+import * as C from './config'
 
 const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, kvStoreApi } = {}) => (store) => (next) => (action) => {
   const prevKVStore = store.getState()[kvStorePath]
@@ -64,50 +12,36 @@ const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, kvStoreApi } = {}) =>
   const result = next(action)
   const nextKVStore = store.getState()[kvStorePath]
   const isAuth = isAuthenticated(store.getState())
-
   const hasChanged = (value, key) => prevKVStore[key] !== nextKVStore[key]
   const changes = mapObjIndexed(hasChanged, nextKVStore)
 
-  // Easily know when to sync, because of ✨immutable✨ data
-  // the initial_state check could be done against full payload state
-
-  // const sync = (apiCall) => {
-  //   store.dispatch(A.walletSync.sync())
-  //   if (Wrapper.isWrapper(nextWallet)) {
-  //     apiCall(nextWallet).then(checksum => {
-  //       store.dispatch(A.wallet.setPayloadChecksum(checksum))
-  //       return checksum
-  //     }).then(
-  //       (cs) => store.dispatch(A.walletSync.syncSuccess(cs))
-  //     ).catch(
-  //       (error) => store.dispatch(A.walletSync.syncError(error))
-  //     )
-  //   } else {
-  //     store.dispatch(A.walletSync.syncError('SYNC_ERROR_NOT_A_WRAPPER'))
-  //   }
-  // }
-
   switch (true) {
-    // wallet sync
     case (wasAuth && isAuth &&
-           action.type !== T.kvStore.SET_KV_STORE &&
-           any(identity, values(changes))):
+          action.type !== T.whatsNew.SET_WHATS_NEW &&
+          action.type !== T.buySell.SET_BUYSELL &&
+          action.type !== T.contacts.SET_CONTACTS &&
+          action.type !== T.ethereum.SET_ETHEREUM &&
+          action.type !== T.shapeShift.SET_SHAPESHIFT &&
+          any(identity, values(changes))):
 
-      const canviat = nextKVStore['whatsNew']
-      kvStoreApi.update(canviat)
-
-                // .map(nou => console.log(nou))
-                .fork(console.log, console.log)
-      // sync(api.saveWallet)
+      const actionCreators = {
+        // [GUID]: 0,
+        [C.WHATSNEW]: A.whatsNew.setWhatsNew,
+        [C.BUYSELL]: A.buySell.setBuySell,
+        [C.CONTACTS]: A.contacts.setContacts,
+        [C.ETHEREUM]: A.ethereum.setEthereum,
+        [C.SHAPESHIFT]: A.shapeShift.setShapeShift
+      }
+      // need to be improved: when copy is out of sync it fails with {message: 'Unauthorized'}
+      // we have to handle failure with fetch and redispatch of the original action
+      const saveTasks = (value, key) => value
+        ? kvStoreApi.update(nextKVStore[key]).map(k => store.dispatch(actionCreators[key](k)))
+        : Task.of(nextKVStore[key])
+      const taskObject = mapObjIndexed(saveTasks, changes)
+      const syncTask = sequence(Task.of, values(taskObject))
+      // waiting to see what notification system we use (maybe action required)
+      syncTask.fork(console.log, identity)
       break
-    // wallet creation
-    // case (
-    //       action.type === T.wallet.CREATE_WALLET_SUCCESS ||
-    //       action.type === T.wallet.RESTORE_WALLET_SUCCESS):
-    //   console.log('create wallet')
-      // const { email } = action.payload
-      // sync(api.createWallet(email))
-      // break
     default:
       break
   }
