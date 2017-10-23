@@ -1,8 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { MenuTooltip, Text, TextGroup } from 'blockchain-info-components'
+import { Text, TextGroup } from 'blockchain-info-components'
 import { NavLink } from 'react-router-dom'
+
+import { MenuTooltip } from 'components/Tooltip'
 
 const Container = styled.div`
  margin-top: 5px;
@@ -74,8 +76,8 @@ const WhatsNew = (props) => {
     }
   ]
 
-  var news = infos.filter(info => info.date >= 1000 * lastViewed)
-  const hasNews = !(news.length === 0)
+  var news = infos.filter(info => new Date(info.date) >= lastViewed)
+  const hasNews = news.length !== 0
   if (!hasNews) {
     // Show at least two news
     news = infos.slice(1, 3)
@@ -83,7 +85,7 @@ const WhatsNew = (props) => {
 
   return (
     <Container>
-      <MenuTooltip title='What&apos;s new?' hasNews>
+      <MenuTooltip title='What&apos;s new?' hasNews={hasNews}>
         {news.map((item, index) => {
           const { title, desc, date, link } = item
           return (

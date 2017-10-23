@@ -5,7 +5,6 @@ const INITIAL_STATE = {}
 
 const addressesReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
-  console.log(state)
   switch (type) {
     case T.common.SET_BLOCKCHAIN_DATA: {
       console.log('payload', payload)

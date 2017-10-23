@@ -1,8 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+import ui from 'redux-ui'
+import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
+import { actions } from 'data'
 
-import { Text, TextGroup } from '../Text'
-import { Icon } from '../Icons'
+import { Icon, Text, TextGroup } from 'blockchain-info-components'
 
 const MenuTooltipWrapper = styled.div`
   display: inline-flex;
@@ -98,6 +101,8 @@ class MenuTooltip extends React.Component {
 
   handleClick () {
     this.setState({ displayed: !this.state.displayed, hasNews: false })
+    console.log(Date.now())
+    this.props.whatsNewActions.updateWhatsNew(Date.now())
   }
 
   render () {
@@ -122,8 +127,11 @@ class MenuTooltip extends React.Component {
 }
 
 MenuTooltip.defaultProps = {
-  icon: 'bell',
-  hasNews: true
+  icon: 'bell'
 }
 
-export default MenuTooltip
+const mapDispatchToProps = (dispatch) => ({
+  whatsNewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(MenuTooltip)
