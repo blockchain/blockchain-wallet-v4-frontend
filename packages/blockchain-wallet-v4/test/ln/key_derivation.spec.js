@@ -73,12 +73,10 @@ describe('Key Derivation Test', () => {
 
       var perCommitmentPoint = Buffer.from('025f7117a78150fe2ef97db7cfc83bd57b2e2c0d0dd25eaf467a4a1c2a45ce1486', 'hex')
 
-      var keys = dr.deriveKeys(baseSecret, perCommitmentSecret, basePoint, perCommitmentPoint)
-
-      expect(Buffer.from(keys.localKey).toString('hex')).to.equal('0235f2dbfaa89b57ec7b055afe29849ef7ddfeb1cefdb9ebdc43f5494984db29e5')
-      expect(Buffer.from(keys.localPrivateKey).toString('hex')).to.equal('cbced912d3b21bf196a766651e436aff192362621ce317704ea2f75d87e7be0f')
-      expect(Buffer.from(keys.revocationKey).toString('hex')).to.equal('02916e326636d19c33f13e8c0c3a03dd157f332f3e99c317c141dd865eb01f8ff0')
-      expect(Buffer.from(keys.revocationPrivateKey).toString('hex')).to.equal('d09ffff62ddb2297ab000cc85bcb4283fdeb6aa052affbc9dddcf33b61078110')
+      expect(Buffer.from(dr.deriveLocalKey(basePoint, perCommitmentPoint)).toString('hex')).to.equal('0235f2dbfaa89b57ec7b055afe29849ef7ddfeb1cefdb9ebdc43f5494984db29e5')
+      expect(Buffer.from(dr.deriveLocalPrivateKey(baseSecret, basePoint, perCommitmentPoint)).toString('hex')).to.equal('cbced912d3b21bf196a766651e436aff192362621ce317704ea2f75d87e7be0f')
+      expect(Buffer.from(dr.deriveRevocationKey(basePoint, perCommitmentPoint)).toString('hex')).to.equal('02916e326636d19c33f13e8c0c3a03dd157f332f3e99c317c141dd865eb01f8ff0')
+      expect(Buffer.from(dr.deriveRevocationPrivateKey(baseSecret, perCommitmentSecret, basePoint, perCommitmentPoint)).toString('hex')).to.equal('d09ffff62ddb2297ab000cc85bcb4283fdeb6aa052affbc9dddcf33b61078110')
     })
   })
 })

@@ -28,26 +28,44 @@ function concat (a, b) {
   return res
 }
 
-function deriveKeys (baseSecret, perCommitmentSecret, basePoint, perCommitmentPoint) {
-  let keys = {}
+function deriveLocalKey (basePoint, perCommitmentPoint) {
   let a = concat(perCommitmentPoint, basePoint)
 
   a = sha(a, {asBytes: true})
-  keys.localKey = ec.publicKeyTweakAdd(Buffer.from(basePoint), Buffer.from(a), true)
-  keys.localPrivateKey = ec.privateKeyTweakAdd(Buffer.from(baseSecret), Buffer.from(a), true)
+  return ec.publicKeyTweakAdd(Buffer.from(basePoint), Buffer.from(a), true)
+}
 
+function deriveLocalPrivateKey (baseSecret, basePoint, perCommitmentPoint) {
+  let a = concat(perCommitmentPoint, basePoint)
+  a = sha(a, {asBytes: true})
+  return ec.privateKeyTweakAdd(Buffer.from(baseSecret), Buffer.from(a), true)
+}
+
+function deriveRevocationKey (basePoint, perCommitmentPoint) {
   let b = concat(basePoint, perCommitmentPoint)
   b = sha(b, {asBytes: true})
+  let a = concat(perCommitmentPoint, basePoint)
+  a = sha(a, {asBytes: true})
   let bp = ec.publicKeyTweakMul(Buffer.from(basePoint), Buffer.from(b), true)
   let ap = ec.publicKeyTweakMul(Buffer.from(perCommitmentPoint), Buffer.from(a), true)
 
-  keys.revocationKey = ec.publicKeyCombine([ap, bp], true)
-
-  bp = ec.privateKeyTweakMul(Buffer.from(baseSecret), Buffer.from(b), true)
-  ap = ec.privateKeyTweakMul(Buffer.from(perCommitmentSecret), Buffer.from(a), true)
-
-  keys.revocationPrivateKey = ec.privateKeyTweakAdd(ap, bp, true)
-  return keys
+  return ec.publicKeyCombine([ap, bp], true)
 }
 
-module.exports = {generatePerCommitmentSecret: generatePerCommitmentSecret, deriveKeys: deriveKeys}
+function deriveRevocationPrivateKey (baseSecret, perCommitmentSecret, basePoint, perCommitmentPoint) {
+  let b = concat(basePoint, perCommitmentPoint)
+  b = sha(b, {asBytes: true})
+  let a = concat(perCommitmentPoint, basePoint)
+  a = sha(a, {asBytes: true})
+  let bp = ec.privateKeyTweakMul(Buffer.from(baseSecret), Buffer.from(b), true)
+  let ap = ec.privateKeyTweakMul(Buffer.from(perCommitmentSecret), Buffer.from(a), true)
+
+  return ec.privateKeyTweakAdd(ap, bp, true)
+}
+
+module.exports = {generatePerCommitmentSecret: generatePerCommitmentSecret,
+                  deriveLocalKey: deriveLocalKey,
+                  deriveLocalPrivateKey: deriveLocalPrivateKey,
+                  deriveRevocationKey: deriveRevocationKey,
+                  deriveRevocationPrivateKey: deriveRevocationPrivateKey}
+
