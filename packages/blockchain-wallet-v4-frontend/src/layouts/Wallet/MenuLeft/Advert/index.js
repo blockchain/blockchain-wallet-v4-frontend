@@ -25,7 +25,7 @@ class AdvertContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  adverts: selectors.core.adverts.getAdverts(state)
+  adverts: selectors.core.data.adverts.getAdverts(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

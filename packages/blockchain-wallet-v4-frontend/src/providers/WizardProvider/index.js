@@ -9,6 +9,7 @@ const wizard = (name, totalSteps) => Component => {
       super(props)
       this.handleNextStep = this.handleNextStep.bind(this)
       this.handlePreviousStep = this.handlePreviousStep.bind(this)
+      this.handleResetStep = this.handleResetStep.bind(this)
     }
 
     handlePreviousStep () {
@@ -23,16 +24,17 @@ const wizard = (name, totalSteps) => Component => {
       }
     }
 
+    handleResetStep () {
+      this.props.actions.reset(name)
+    }
+
     render () {
       return <Component
         {...this.props}
         previousStep={this.handlePreviousStep}
         nextStep={this.handleNextStep}
+        resetStep={this.handleResetStep}
       />
-    }
-
-    componentWillUnmount () {
-      this.props.actions.reset(name)
     }
   }
 

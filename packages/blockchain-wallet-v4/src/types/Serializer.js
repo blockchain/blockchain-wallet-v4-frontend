@@ -14,6 +14,7 @@ import * as HDWalletList from './HDWalletList'
 import * as TXNotes from './TXNotes'
 import * as TXNames from './TXNames'
 import * as Options from './Options'
+import * as KVStoreEntry from './KVStoreEntry'
 
 const serializer = {
   reviver: function (key, value) {
@@ -36,6 +37,7 @@ const serializer = {
         case 'TXNotes': return TXNotes.reviver(data)
         case 'TXNames': return TXNames.reviver(data)
         case 'Options': return Options.reviver(data)
+        case 'KVStoreEntry': return KVStoreEntry.reviver(data)
         default: return data
       }
     }

@@ -29,7 +29,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   alertsActions: bindActionCreators(actions.alerts, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.settings, dispatch)
 })
 

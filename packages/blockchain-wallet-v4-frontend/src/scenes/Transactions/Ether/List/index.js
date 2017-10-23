@@ -82,7 +82,7 @@ const mapStateToProps = (state) => {
     status: selector(state, 'status') || '',
     search: selector(state, 'search') || '',
     transactions: selectors.core.common.getWalletTransactions(state),
-    totalTransactions: selectors.core.info.getNumberTransactions(state),
+    totalTransactions: selectors.core.data.info.getNumberTransactions(state),
     scroll: selectors.scroll.selectScroll(state)
   }
 }

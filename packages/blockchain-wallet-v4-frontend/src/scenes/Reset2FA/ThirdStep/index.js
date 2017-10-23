@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import wizardProvider from 'providers/WizardProvider'
 import ThirdStep from './template'
 import { actions, selectors } from 'data'
 
@@ -34,18 +33,12 @@ const mapStateToProps = (state) => ({
   secretPhrase: formValueSelector('reset2FA')(state, 'secretPhrase'),
   message: formValueSelector('reset2FA')(state, 'message'),
   code: formValueSelector('reset2FA')(state, 'code'),
-  captcha: selectors.core.captcha.getCaptcha(state)
+  captcha: selectors.core.data.captcha.getCaptcha(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  coreActions: bindActionCreators(actions.core.wallet, dispatch)
+  alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 
-const enhance = compose(
-  wizardProvider('reset2FA', 3),
-  connect(mapStateToProps, mapDispatchToProps)
-)
-
-export default enhance(ThirdStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ThirdStepContainer)

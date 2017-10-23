@@ -21,7 +21,6 @@ const Container = styled.div`
   padding: 25px 0;
 `
 const Arrow = styled(Icon)`
-  cursor: pointer;
   visibility: ${props => props.visible ? 'visible' : 'hidden'};
 `
 const Display = styled(Text)`
@@ -60,9 +59,9 @@ const SecondStep = (props) => {
             <FormattedMessage id='modals.recoveryphrase.secondstep.number' defaultMessage='Word {number}' values={{ number: index + 1 }} />
           </Text>
           <Container>
-            <Arrow name='left-arrow' size='40px' onClick={handleClickPrevious} visible={index > 0} />
+            <Arrow name='left-arrow' size='40px' cursor onClick={handleClickPrevious} visible={index > 0} />
             <Display size='40px'>{word}</Display>
-            <Arrow name='right-arrow' size='40px' onClick={handleClickNext} visible={index < 11} />
+            <Arrow name='right-arrow' size='40px' cursor onClick={handleClickNext} visible={index < 11} />
           </Container>
         </Wrapper>
       </ModalBody>

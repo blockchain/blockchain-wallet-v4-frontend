@@ -28,7 +28,6 @@ const Button = styled.div`
 `
 const DropdownIcon = styled(Icon)`
   padding-left: 2px;
-  font-size: 8px;
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
@@ -81,7 +80,7 @@ const Dropdown = props => {
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>
         <Button>{selectedItem.text}</Button>
-        <DropdownIcon name='down-arrow' />
+        <DropdownIcon size='8px' name='down-arrow' />
       </ButtonContainer>
     </Wrapper>
   )

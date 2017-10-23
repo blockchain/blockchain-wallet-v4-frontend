@@ -1,41 +1,23 @@
 import { useWith, prop, map } from 'ramda'
-import * as addresses from './data/addresses/selectors.js'
-import * as adverts from './data/adverts/selectors.js'
-import * as captcha from './data/captcha/selectors.js'
-import * as charts from './data/charts/selectors.js'
-import * as fee from './data/fee/selectors.js'
-import * as latestBlock from './data/latestBlock/selectors.js'
-import * as logs from './data/logs/selectors.js'
-import * as rates from './data/rates/selectors.js'
-import * as transactions from './data/transactions/selectors.js'
-import * as transactionFiats from './data/transactionFiats/selectors.js'
-import * as info from './data/info/selectors.js'
-import * as payment from './data/payment/selectors.js'
+import { dataSelectorsFactory } from './data/selectors.js'
 import * as settings from './settings/selectors.js'
 import * as wallet from './wallet/selectors.js'
 import * as walletOptions from './walletOptions/selectors.js'
+import { kvStoreSelectorsFactory } from './kvStore/selectors.js'
 import { commonSelectorsFactory } from './common/selectors.js'
 
-export const coreSelectorsFactory = ({walletPath, dataPath, settingsPath, walletOptionsPath}) => {
-  const common = commonSelectorsFactory({walletPath, dataPath, settingsPath, walletOptionsPath})
+export const coreSelectorsFactory = ({walletPath, dataPath, kvStorePath, settingsPath, walletOptionsPath}) => {
+  const common = commonSelectorsFactory({ walletPath, dataPath, kvStorePath, settingsPath, walletOptionsPath })
+  const data = dataSelectorsFactory({ walletPath, dataPath, kvStorePath, settingsPath, walletOptionsPath })
+  const kvStore = kvStoreSelectorsFactory({walletPath, dataPath, kvStorePath, settingsPath, walletOptionsPath})
   const extend = path => s => useWith(s, [prop(path)])
 
-  return ({
-    addresses: map(extend(dataPath), addresses),
-    adverts: map(extend(dataPath), adverts),
-    captcha: map(extend(dataPath), captcha),
-    charts: map(extend(dataPath), charts),
-    fee: map(extend(dataPath), fee),
-    latestBlock: map(extend(dataPath), latestBlock),
-    logs: map(extend(dataPath), logs),
-    rates: map(extend(dataPath), rates),
-    transactions: map(extend(dataPath), transactions),
-    transactionFiats: map(extend(dataPath), transactionFiats),
-    info: map(extend(dataPath), info),
-    payment: map(extend(dataPath), payment),
+  return {
+    common,
+    data,
+    kvStore,
     settings: map(extend(settingsPath), settings),
     wallet: map(extend(walletPath), wallet),
-    walletOptions: map(extend(walletOptionsPath, walletOptions)),
-    common: common
-  })
+    walletOptions: map(extend(walletOptionsPath), walletOptions)
+  }
 }

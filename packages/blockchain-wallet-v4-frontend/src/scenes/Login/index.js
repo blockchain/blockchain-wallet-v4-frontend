@@ -45,7 +45,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  coreActions: bindActionCreators(actions.core.wallet, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

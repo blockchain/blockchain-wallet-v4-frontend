@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
 import CopyClipboard from './template.js'
 
 class CopyClipboardContainer extends React.Component {
@@ -38,8 +35,4 @@ CopyClipboardContainer.propTypes = {
   address: PropTypes.string.isRequired
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.core.transactions, dispatch)
-})
-
-export default connect(undefined, mapDispatchToProps)(CopyClipboardContainer)
+export default CopyClipboardContainer

@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 
 import Layout from '../components/layout'
-import { CheckBoxInput, HiddenInput, NumberInput, PasswordInput, PlaceHolder, SelectInput, TextAreaInput, TextInput } from '../../src'
+import { CheckBoxInput, DateInput, NumberInput, PasswordInput, PlaceHolder, SelectInput, TextAreaInput, TextInput } from '../../src'
 
 storiesOf('Forms', module)
     .addDecorator(story => (<Layout>{story()}</Layout>))
@@ -11,11 +11,11 @@ storiesOf('Forms', module)
     .add('CheckBox input checked', () => <CheckBoxInput name='myCheckbox' checked>Label for myCheckbox</CheckBoxInput>)
     .add('CheckBox input unchecked', () => <CheckBoxInput name='myCheckbox'>Label for Checkbox</CheckBoxInput>)
     .add('CheckBox input disabled', () => <CheckBoxInput name='myCheckbox' disabled={`disabled`}>Disabled Checkbox</CheckBoxInput>)
-    .add('Hidden input', () => <HiddenInput />)
     .add('Number input', () => <NumberInput />)
     .add('Password input', () => <PasswordInput />)
     .add('PlaceHolder', () => <div><TextInput /><PlaceHolder>Enter text here</PlaceHolder></div>)
     .add('TextArea input', () => <TextAreaInput />)
+    .add('Date input', () => <DateInput />)
     .add('Text input', () => <TextInput />)
     .add('Invalid text input', () => <TextInput errorState='invalid' />)
     .add('Valid text input', () => <NumberInput errorState='valid' />)

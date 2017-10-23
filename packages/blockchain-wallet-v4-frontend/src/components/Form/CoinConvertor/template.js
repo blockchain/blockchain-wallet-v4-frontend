@@ -34,13 +34,10 @@ const Unit = styled.span`
   padding: 0 15px;
   color: ${props => props.theme['gray-4']};
 `
-const Arrow = styled(Icon)`
-  font-size: 16px;
-`
-const ArrowLeft = styled(Arrow)`
+const ArrowLeft = styled(Icon)`
   margin-left: 5px;
 `
-const ArrowRight = styled(Arrow)`
+const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 5px;
 `
@@ -66,8 +63,8 @@ const CoinConvertor = (props) => {
           <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
           <Unit>{coinUnit}</Unit>
         </Container>
-        <ArrowLeft name='left-arrow' />
-        <ArrowRight name='right-arrow' />
+        <ArrowLeft size='16px' name='left-arrow' />
+        <ArrowRight size='16px' name='right-arrow' />
         <Container>
           <TextInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
           <Unit>{fiatUnit}</Unit>

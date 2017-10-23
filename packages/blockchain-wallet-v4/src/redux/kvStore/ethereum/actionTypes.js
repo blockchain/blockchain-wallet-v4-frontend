@@ -1,0 +1,1 @@
+export const SET_ETHEREUM = '@CORE.KVSTORE.SET_ETHEREUM'

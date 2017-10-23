@@ -14,19 +14,15 @@ const Wrapper = styled.div`
   cursor: pointer;
 `
 
-const Toggler = styled(Icon).attrs({
-  name: 'down-arrow'
-})`
+const Toggler = styled(Icon)`
   transform: ${props => props.rotated ? 'rotate(-180deg)' : 'none'};
   color: ${props => props.rotated ? props.theme['brand-primary'] : 'inherit'};
-  cursor: pointer;
-  font-size: 10px;
 `
 
 const FaqHeader = props => (
   <Wrapper onClick={props.handleToggle}>
     {props.children}
-    <Toggler toggled={props.toggled} />
+    <Toggler name='down-arrow' size='10px' cursor toggled={props.toggled} />
   </Wrapper>
 )
 

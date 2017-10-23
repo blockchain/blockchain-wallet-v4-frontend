@@ -247,6 +247,11 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
     }
   }
 
+  const getTransactionHistory = function (active, currency, start, end) {
+    const data = { active, currency: toUpper(currency), start, end }
+    return request({ url: rootUrl, method: 'POST', endPoint: 'v2/export-history', data: data })
+  }
+
   const getAdverts = function (number) {
     const data = { wallet: true, n: number }
     return request({ url: apiUrl, method: 'GET', endPoint: 'bci-ads/get', data: data })
@@ -345,6 +350,7 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
     getFee: future(getFee),
     pushTx: future(pushTx),
     getTransactionFiatAtTime: future(getTransactionFiatAtTime),
+    getTransactionHistory: future(getTransactionHistory),
     getAdverts: future(getAdverts),
     getLogs: future(getLogs),
     getPriceIndexSeries: future(getPriceIndexSeries),

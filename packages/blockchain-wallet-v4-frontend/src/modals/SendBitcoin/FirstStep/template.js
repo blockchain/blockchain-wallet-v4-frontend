@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Icon, Image, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, Hidden, SelectBoxAddresses, SelectBoxFee, TextBox, TextArea } from 'components/Form'
+import { CoinConvertor, Form, SelectBoxAddresses, SelectBoxFee, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 
 const Row = styled.div`
@@ -95,7 +95,6 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
           <Field name='amount' component={CoinConvertor} validate={[required, validAmount]} />
-          <Field name='effectiveBalance' component={Hidden} />
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
             <Tooltip>

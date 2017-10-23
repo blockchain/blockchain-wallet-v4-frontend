@@ -2,7 +2,7 @@ import { delay } from 'redux-saga'
 import { call, put, cancel, spawn } from 'redux-saga/effects'
 import * as A from './actions'
 
-export const ratesSaga = ({ api } = {}) => {
+export const rates = ({ api } = {}) => {
   const refreshRatesDelay = 600000
   let bitcoinRatesTask, ethereumRatesTask
 

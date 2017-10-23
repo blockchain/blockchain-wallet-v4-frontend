@@ -1,5 +1,4 @@
 import { compose, map, curry, ifElse, always, isNil, identity } from 'ramda'
-import Either from 'data.either'
 import { Wallet
        , Wrapper
        , HDAccount
@@ -33,3 +32,4 @@ export const isSecondPasswordOn = compose(Wallet.isDoubleEncrypted, Wrapper.sele
 export const isMnemonicVerified = compose(HDWallet.selectMnemonicVerified, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
 export const getMainPassword = Wrapper.selectPassword
 export const getPbkdf2Iterations = Wrapper.selectPbkdf2Iterations
+export const getDefaultHDWallet = compose(HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
