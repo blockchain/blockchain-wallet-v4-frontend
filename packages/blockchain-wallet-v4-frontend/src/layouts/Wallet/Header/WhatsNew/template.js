@@ -77,7 +77,9 @@ const WhatsNew = (props) => {
   ]
 
   var news = infos.filter(info => new Date(info.date) >= lastViewed)
-  const hasNews = news.length !== 0
+  const newsLength = news.length
+  const hasNews = newsLength !== 0
+
   if (!hasNews) {
     // Show at least two news
     news = infos.slice(1, 3)
@@ -85,7 +87,7 @@ const WhatsNew = (props) => {
 
   return (
     <Container>
-      <MenuTooltip title='What&apos;s new?' hasNews={hasNews}>
+      <MenuTooltip title='What&apos;s new?' hasNews newsLength={newsLength}>
         {news.map((item, index) => {
           const { title, desc, date, link } = item
           return (

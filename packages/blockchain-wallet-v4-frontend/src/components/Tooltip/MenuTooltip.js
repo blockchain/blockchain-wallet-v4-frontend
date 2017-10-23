@@ -71,6 +71,9 @@ const MenuTooltipIconWrapper = styled.div`
 `
 
 const NewLabel = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   z-index: 10000;
   right: 1px;
@@ -101,16 +104,19 @@ class MenuTooltip extends React.Component {
 
   handleClick () {
     this.setState({ displayed: !this.state.displayed, hasNews: false })
-    console.log(Date.now())
     this.props.whatsNewActions.updateWhatsNew(Date.now())
   }
 
   render () {
-    const { icon, title, children } = this.props
+    const { icon, newsLength, title, children } = this.props
     return (
       <MenuTooltipWrapper>
         <MenuTooltipIconWrapper>
-          {this.state.hasNews && <NewLabel />}
+          {this.state.hasNews &&
+          <NewLabel>
+            <Text size='11px' color='white' weight={300}>{newsLength}</Text>
+          </NewLabel>
+          }
           <MenuTooltipIcon displayed={this.state.displayed} onClick={this.handleClick} name={icon} />
         </MenuTooltipIconWrapper>
         <MenuTooltipBox displayed={this.state.displayed} onClick={this.handleClick}>
