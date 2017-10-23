@@ -87,7 +87,7 @@ const WhatsNew = (props) => {
 
   return (
     <Container>
-      <MenuTooltip title='What&apos;s new?' hasNews newsLength={newsLength}>
+      <MenuTooltip title='What&apos;s new?' hasNews={hasNews} newsLength={newsLength}>
         {news.map((item, index) => {
           const { title, desc, date, link } = item
           return (
