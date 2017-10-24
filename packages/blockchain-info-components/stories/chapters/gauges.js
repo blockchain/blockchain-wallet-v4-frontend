@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 
 import Layout from '../components/layout'
-import { ConfirmationGauge, PasswordGauge } from '../../src'
+import { ConfirmationGauge, PasswordGauge, SecurityGauge } from '../../src'
 
 storiesOf('Gauges', module)
   .addDecorator(story => (<Layout>{story()}</Layout>))
@@ -23,5 +23,14 @@ storiesOf('Gauges', module)
       <PasswordGauge score={3} />
       <PasswordGauge score={4} />
       <PasswordGauge score={5} />
+    </div>
+  ))
+  .add('SecurityGauge', () => (
+    <div>
+      <SecurityGauge score={1} />
+      <SecurityGauge score={2} />
+      <SecurityGauge score={3} />
+      <SecurityGauge score={4} />
+      <SecurityGauge score={5} />
     </div>
   ))
