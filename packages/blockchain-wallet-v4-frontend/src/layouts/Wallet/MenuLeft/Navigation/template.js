@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { Icon, Separator, Text } from 'blockchain-info-components'
+import { Icon, SecurityGauge, Separator, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -111,6 +111,7 @@ const Navigation = (props) => {
           <MenuItem>
             <Icon name='lock' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.securitycenter' defaultMessage='Security center' smaller uppercase />
+            <SecurityGauge score={3} />
           </MenuItem>
         </LinkContainer>
         <LinkContainer to='/settings' activeClassName='active' onClick={handleOpenSettings}>

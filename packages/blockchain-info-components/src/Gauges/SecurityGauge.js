@@ -6,25 +6,19 @@ const Container = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  overflow: hidden;
   width: 52px;
   height: 10px;
-  background-color: ${props => props.theme['gray-1']};
-  box-shadow: ${props => props.theme['gray-2']} 10px;
-  border-radius: 100%;
-  
-  & > :first-child {
-    border-radius: 100% 0% 0% 100%;
-  }
-
-  & > :last-child {
-    border-radius: 0% 100% 100% 0%;
-  }
+  margin-left: 10px;
+  box-shadow: 0px 0px 2px 2px ${props => props.theme['gray-2']};
+  border-radius: 10px;
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const Bar = styled.div`
+  overflow: hidden;
   display: inline-flex;
   width: 20%;
   height: 100%;
-  box-sizing: border-box;
   background-color: ${props => props.theme[props.color]};
 `
 
