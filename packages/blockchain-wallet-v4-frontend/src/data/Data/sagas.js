@@ -35,12 +35,21 @@ export const getLogs = function * (action) {
   }
 }
 
-export const getTransactions = function * (action) {
+export const getBitcoinTransactions = function * (action) {
   const { address } = action.payload
   try {
-    yield call(sagas.core.data.transactions.fetchTransactions, { address })
+    yield call(sagas.core.data.transactions.fetchBitcoinTransactions, { address })
   } catch (e) {
-    yield put(actions.alerts.displayError('Could not fetch transactions.'))
+    yield put(actions.alerts.displayError('Could not fetch bitcoin transactions.'))
+  }
+}
+
+export const getEthereumTransactions = function * (action) {
+  const { address } = action.payload
+  try {
+    yield call(sagas.core.data.transactions.fetchEthereumTransactions, { address })
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch ethereum transactions.'))
   }
 }
 
@@ -67,7 +76,8 @@ export default function * () {
   yield takeEvery(AT.GET_CAPTCHA, getCaptcha)
   yield takeEvery(AT.GET_PRICE_INDEX_SERIES, getPriceIndexSeries)
   yield takeEvery(AT.GET_LOGS, getLogs)
-  yield takeEvery(AT.GET_TRANSACTIONS, getTransactions)
+  yield takeEvery(AT.GET_BITCOIN_TRANSACTIONS, getBitcoinTransactions)
+  yield takeEvery(AT.GET_ETHEREUM_TRANSACTIONS, getEthereumTransactions)
   yield takeEvery(AT.GET_TRANSACTION_FIAT_AT_TIME, getTransactionFiatAtTime)
   yield takeEvery(AT.GET_TRANSACTION_HISTORY, getTransactionHistory)
 }

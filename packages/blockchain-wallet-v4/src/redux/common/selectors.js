@@ -2,7 +2,7 @@ import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDA
 import { prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
 import memoize from 'fast-memoize'
 import { getBalances, getChangeIndex, getReceiveIndex } from '../data/addresses/selectors.js'
-import { getTransactions } from '../data/transactions/selectors.js'
+import { getBitcoinTransactions } from '../data/transactions/selectors.js'
 import { getHeight } from '../data/latestBlock/selectors.js'
 import { transformTx } from '../services/transactions.js'
 const mTransformTx = memoize(transformTx)
@@ -55,15 +55,14 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
   const getWalletTransactions = state => {
     const wallet = compose(Wrapper.selectWallet, prop(walletPath))(state)
     const currentBlockHeight = compose(getHeight, prop(dataPath))(state)
-    // const typeFilter = compose(getTypeFilter, prop(dataPath))(state)
-    // const searchFilter = compose(getSearchFilter, prop(dataPath))(state)
-    // const searchPredicate = anyPass(map(search(searchFilter), ['description', 'from', 'to']))
-    // const fullPredicate = allPass([isOfType(typeFilter), searchPredicate])
-
-    return compose( // filter(fullPredicate),
-                   map(mTransformTx.bind(undefined, wallet, currentBlockHeight)),
-                   getTransactions,
-                   prop(dataPath))(state)
+    const btcTransactions = compose(getBitcoinTransactions, prop(dataPath))(state)
+    console.log(btcTransactions)
+    const result = compose(map(mTransformTx.bind(undefined, wallet, currentBlockHeight)), getBitcoinTransactions, prop(dataPath))(state)
+    console.log(result)
+    return compose(
+      map(mTransformTx.bind(undefined, wallet, currentBlockHeight)),
+      getBitcoinTransactions,
+      prop(dataPath))(state)
   }
 
   // path is: accountIndex/chainIndex/addressIndex

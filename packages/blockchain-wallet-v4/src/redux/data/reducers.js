@@ -25,8 +25,8 @@ const dataReducer = combineReducers({
   payment: payment,
   rates: rates,
   reports: reports,
-  txs: transactions,
-  txs_fiat: transactionFiats
+  transactions: transactions,
+  transactions_fiat: transactionFiats
 })
 
 export default dataReducer

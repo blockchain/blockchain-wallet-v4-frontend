@@ -46,7 +46,7 @@ class ListContainer extends React.Component {
   }
 
   fetchTransactions (source) {
-    this.props.dataActions.getTransactions(source, 50)
+    this.props.dataActions.getEthereumTransactions(source, 50)
   }
 
   filterTransactions (status, criteria, transactions) {
