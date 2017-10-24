@@ -327,6 +327,9 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
 
   const getWalletOptions = () => (walletOptions)
 
+  // ETHEREUM
+  const fetchEthereumBalance = (address) => request({ url: apiUrl, method: 'GET', endPoint: `eth/account/${address}/balance` })
+
   return {
     fetchPayloadWithSharedKey: future(fetchPayloadWithSharedKey),
     fetchPayloadWithTwoFactorAuth: future(fetchPayloadWithTwoFactorAuth),
@@ -374,7 +377,8 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
     getGoogleAuthenticatorSecretUrl: future(getGoogleAuthenticatorSecretUrl),
     enableGoogleAuthenticator: future(enableGoogleAuthenticator),
     enableYubikey: future(enableYubikey),
-    getWalletOptions: future(getWalletOptions)
+    getWalletOptions: future(getWalletOptions),
+    fetchEthereumBalance: future(fetchEthereumBalance)
   }
 }
 
