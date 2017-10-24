@@ -5,8 +5,8 @@ import WhatsNew from './template.js'
 
 class WhatsNewContainer extends React.Component {
   render () {
-    console.log(this.props.lastViewed)
-    return <WhatsNew />
+    const { lastViewed } = this.props
+    return <WhatsNew lastViewed={lastViewed} />
   }
 }
 
