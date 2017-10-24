@@ -66,12 +66,12 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
 
   const saveWallet = compose(taskToPromise, saveWalletTask)
   // ////////////////////////////////////////////////////////////////
-  const createWalletTask = email => wrapper =>
-    eitherToTask(Wrapper.toEncJSON(wrapper))
-      .map(assoc('email', email))
-      .chain(promiseToTask(ApiPromise.createPayload))
-
-  const createWallet = email => wrapper => compose(taskToPromise, createWalletTask(email))(wrapper)
+  const createWalletTask = email => wrapper => {
+    const create = w => ApiPromise.createPayload(email, w)
+    return eitherToTask(Wrapper.toEncJSON(wrapper))
+      .chain(promiseToTask(create))
+  }
+  const createWallet = (email, wrapper) => compose(taskToPromise, createWalletTask(email))(wrapper)
 
   // source is an account index or a legacy address
   const getWalletUnspentsTask = (wrapper, source, confirmations = -1) => {

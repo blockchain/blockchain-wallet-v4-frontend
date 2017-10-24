@@ -7,6 +7,7 @@ import { set } from 'ramda-lens'
 import Task from 'data.task'
 import Either from 'data.either'
 import * as A from './actions'
+
 import { Wrapper, Wallet, Address, HDWalletList } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -42,9 +43,8 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     const mnemonic = BIP39.generateMnemonic()
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic)
-    const register = api.createWallet(email)
-    yield call(register, wrapper)
-    yield put(A.setWrapper(wrapper))
+    yield call(api.createWallet, email, wrapper)
+    yield put(A.refreshWrapper(wrapper))
   }
 
   const fetchWalletSaga = function * ({ guid, sharedKey, session, password, code }) {
@@ -87,9 +87,8 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     const nAccounts = yield call(findUsedAccounts, {batch: 10, node: node, usedAccounts: []})
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, undefined, nAccounts)
-    const register = api.createWallet(email)
-    yield call(register, wrapper)
-    yield put(A.setWrapper(wrapper))
+    yield call(api.createWallet, email, wrapper)
+    yield put(A.refreshWrapper(wrapper))
   }
 
   const updatePbkdf2Iterations = function * ({iterations, password}) {

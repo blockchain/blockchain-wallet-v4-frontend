@@ -1,6 +1,6 @@
 import { delay } from 'redux-saga'
 import { takeEvery, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
-import { prop, assoc, isEmpty } from 'ramda'
+import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import * as AT from './actionTypes'
@@ -13,7 +13,6 @@ import { api } from 'services/ApiService'
 // =============================================================================
 // ================================= Generic ===================================
 // =============================================================================
-
 
 const upgradeWalletSaga = function * () {
   yield put(actions.modals.showModal('UpgradeWallet'))
@@ -31,22 +30,22 @@ const upgradeWalletSaga = function * () {
   }
 }
 
-const loginRoutineSaga = function * ({ shouldUpgrade }) {
+const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
   try {
     // If needed, the user should upgrade its wallet before being able to open the wallet
     if (shouldUpgrade) {
       yield call(upgradeWalletSaga)
     }
     yield put(actions.auth.authenticate())
-    // yield put(actions.core.webSocket.startSocket())
-    // const context = yield select(selectors.core.wallet.getWalletContext)
+    yield put(actions.core.webSocket.startSocket())
+    const context = yield select(selectors.core.wallet.getWalletContext)
     yield all([
-      // call(sagas.core.common.fetchBlockchainData, { context }),
+      call(sagas.core.common.fetchBlockchainData, { context }),
       call(sagas.core.data.rates.startEthereumRates),
       call(sagas.core.data.rates.startBitcoinRates),
       call(sagas.core.settings.fetchSettings),
-      call(sagas.core.walletOptions.fetchWalletOptions),
-      call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
+      call(sagas.core.walletOptions.fetchWalletOptions)
+      // call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
       // call(sagas.core.kvStore.ethereum.fetchEthereum),
       // call(sagas.core.kvStore.shapeShift.fetchShapeShift),
       // call(sagas.core.kvStore.buySell.fetchBuySell),
