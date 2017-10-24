@@ -11,8 +11,7 @@ class WhatsNewContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  // lastViewed: selectors.core.kvStore.whatsNew.getLastViewed(state)
-  lastViewed: 0
+  lastViewed: selectors.core.kvStore.whatsNew.getLastViewed(state)
 })
 
 export default connect(mapStateToProps)(WhatsNewContainer)

@@ -44,8 +44,8 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
       call(sagas.core.data.rates.startEthereumRates),
       call(sagas.core.data.rates.startBitcoinRates),
       call(sagas.core.settings.fetchSettings),
-      call(sagas.core.walletOptions.fetchWalletOptions)
-      // call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
+      call(sagas.core.walletOptions.fetchWalletOptions),
+      call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
       // call(sagas.core.kvStore.ethereum.fetchEthereum),
       // call(sagas.core.kvStore.shapeShift.fetchShapeShift),
       // call(sagas.core.kvStore.buySell.fetchBuySell),
