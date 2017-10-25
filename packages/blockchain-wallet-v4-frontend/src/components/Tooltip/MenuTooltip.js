@@ -103,8 +103,8 @@ class MenuTooltip extends React.Component {
   }
 
   handleClick () {
+    if (!this.state.displayed) { this.props.whatsNewActions.updateWhatsNew(Date.now()) }
     this.setState({ displayed: !this.state.displayed, hasNews: false })
-    this.props.whatsNewActions.updateWhatsNew(Date.now())
   }
 
   render () {

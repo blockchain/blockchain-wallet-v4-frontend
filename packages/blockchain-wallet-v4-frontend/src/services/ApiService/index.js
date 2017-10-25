@@ -1,4 +1,4 @@
-import { createWalletApi, createKvApi } from 'blockchain-wallet-v4/src/network'
+import { createWalletApi } from 'blockchain-wallet-v4/src/network'
 import settings from 'config'
 
 const api = createWalletApi({
@@ -7,8 +7,6 @@ const api = createWalletApi({
   apiCode: settings.API_CODE
 })
 
-const kvStoreApi = createKvApi({
-  apiUrl: settings.API_BLOCKCHAIN_INFO
-})
+console.log(api)
 
-export { api, kvStoreApi }
+export { api }

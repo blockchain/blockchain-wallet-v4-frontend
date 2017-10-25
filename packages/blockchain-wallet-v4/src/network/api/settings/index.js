@@ -2,7 +2,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getSettings = (guid, sharedKey) => post({
     url: rootUrl,
     endPoint: 'wallet',
-    data: { guid, sharedKey, method: 'get-info' }
+    data: { guid, sharedKey, method: 'get-info', format: 'json' }
   })
 
   const updateSettings = (guid, sharedKey, method, payload, querystring = '') => post({

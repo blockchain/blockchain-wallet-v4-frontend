@@ -7,7 +7,7 @@ import { derivationMap, CONTACTS } from '../config'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const contacts = ({ kvStoreApi, kvStorePath, walletPath } = {}) => {
+export const contacts = ({ api, kvStorePath, walletPath } = {}) => {
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }
@@ -15,7 +15,7 @@ export const contacts = ({ kvStoreApi, kvStorePath, walletPath } = {}) => {
     const typeId = derivationMap[CONTACTS]
     const hdwallet = yield select(compose(getDefaultHDWallet, prop(walletPath)))
     const kv = KVStoreEntry.fromHdWallet(hdwallet, typeId)
-    const newkv = yield callTask(kvStoreApi.fetch(kv))
+    const newkv = yield callTask(api.fetchKVStore(kv))
     yield put(A.setContacts(newkv))
   }
 
