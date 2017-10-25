@@ -1,7 +1,7 @@
 import { fork } from 'redux-saga/effects'
 
 import config from 'config'
-import { api, kvStoreApi } from 'services/ApiService'
+import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import alerts from './Alerts/sagas.js'
@@ -20,7 +20,6 @@ const kvStorePath = config.WALLET_KVSTORE_PATH
 export const sagas = {
   core: coreSagasFactory({
     api,
-    kvStoreApi,
     dataPath,
     walletPath,
     settingsPath,

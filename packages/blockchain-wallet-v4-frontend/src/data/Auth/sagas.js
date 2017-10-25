@@ -45,11 +45,11 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
       call(sagas.core.data.rates.startBitcoinRates),
       call(sagas.core.settings.fetchSettings),
       call(sagas.core.walletOptions.fetchWalletOptions),
-      call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
-      // call(sagas.core.kvStore.ethereum.fetchEthereum),
-      // call(sagas.core.kvStore.shapeShift.fetchShapeShift),
-      // call(sagas.core.kvStore.buySell.fetchBuySell),
-      // call(sagas.core.kvStore.contacts.fetchContacts)
+      call(sagas.core.kvStore.whatsNew.fetchWhatsNew),
+      call(sagas.core.kvStore.ethereum.fetchEthereum),
+      call(sagas.core.kvStore.shapeShift.fetchShapeShift),
+      call(sagas.core.kvStore.buySell.fetchBuySell),
+      call(sagas.core.kvStore.contacts.fetchContacts)
     ])
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
@@ -68,7 +68,7 @@ const pollingSession = function * (session, n = 50) {
   if (n === 0) { return false }
   try {
     yield call(delay, 2000)
-    const response = yield call(api.pollForSessioGUID, session)
+    const response = yield call(api.pollForSessionGUID, session)
     if (prop('guid', response)) { return true }
   } catch (error) {
     return false
@@ -82,7 +82,7 @@ export const login = function * (action) {
   let session = yield select(selectors.session.getSession(guid))
 
   try {
-    if (!session) { session = yield call(api.establishSession) }
+    if (!session) { session = yield call(api.obtainSessionToken) }
     yield put(actions.session.saveSession(assoc(guid, session, {})))
     const shouldUpgrade = yield call(sagas.core.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
     yield call(loginRoutineSaga, { shouldUpgrade })

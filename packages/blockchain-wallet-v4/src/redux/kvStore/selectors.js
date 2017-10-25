@@ -5,7 +5,7 @@ import * as shapeShift from './shapeShift/selectors.js'
 import * as buySell from './buySell/selectors.js'
 import * as contacts from './contacts/selectors.js'
 
-export const kvStoreSelectorsFactory = ({walletPath, dataPath, kvStorePath, settingsPath, walletOptionsPath}) => {
+export const kvStoreSelectorsFactory = ({ kvStorePath }) => {
   const extend = path => s => useWith(s, [prop(path)])
   return ({
     whatsNew: map(extend(kvStorePath), whatsNew),

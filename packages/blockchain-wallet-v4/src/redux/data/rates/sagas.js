@@ -8,7 +8,7 @@ export const rates = ({ api } = {}) => {
 
   const refreshBitcoinRates = function * () {
     while (true) {
-      const response = yield call(api.getTicker)
+      const response = yield call(api.getBitcoinTicker)
       yield put(A.setBitcoinRates(response))
       yield call(delay, refreshRatesDelay)
     }
@@ -24,7 +24,7 @@ export const rates = ({ api } = {}) => {
 
   const refreshEthereumRates = function * () {
     while (true) {
-      const response = yield call(api.getEthTicker)
+      const response = yield call(api.getEthereumTicker)
       yield put(A.setEthereumRates(response))
       yield call(delay, refreshRatesDelay)
     }

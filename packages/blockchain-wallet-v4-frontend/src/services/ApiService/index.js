@@ -1,12 +1,10 @@
-import * as blockchainWallet from 'blockchain-wallet-v4/src'
+import { createWalletApi } from 'blockchain-wallet-v4/src/network'
 import settings from 'config'
 
-export const api = blockchainWallet.Network.createWalletApi({
+const api = createWalletApi({
   rootUrl: settings.ROOT_URL,
   apiUrl: settings.API_BLOCKCHAIN_INFO,
   apiCode: settings.API_CODE
 })
 
-export const kvStoreApi = blockchainWallet.Network.createKvApi({
-  apiUrl: settings.API_BLOCKCHAIN_INFO
-})
+export { api }

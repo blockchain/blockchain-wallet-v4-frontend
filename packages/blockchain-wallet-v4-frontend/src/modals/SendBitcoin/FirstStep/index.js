@@ -70,7 +70,7 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    const { ui, position, total, closeAll, selection, unit, effectiveBalance } = this.props
+    const { ui, position, total, closeAll, selection, unit, coins, effectiveBalance } = this.props
     const convertedEffectiveBalance = convertSatoshisToUnit(effectiveBalance, unit).value
 
     return <FirstStep
@@ -82,6 +82,7 @@ class FirstStepContainer extends React.Component {
       addressSelectOpened={ui.addressSelectOpened}
       feeEditToggled={ui.feeEditToggled}
       effectiveBalance={convertedEffectiveBalance}
+      coins={coins}
       handleClickAddressToggler={this.handleClickAddressToggler}
       handleClickFeeToggler={this.handleClickFeeToggler}
       handleClickQrCodeCapture={this.handleClickQrCodeCapture}

@@ -14,7 +14,6 @@ export const transactions = ({ api, walletPath, dataPath, settingsPath } = {}) =
     if (!equals(currentAddress, address)) { reset = true }
     const offset = currentTxs.length
     const data = yield call(api.fetchBlockchainData, context.toJS(), { n: 50, onlyShow: address, offset: offset })
-    console.log(data)
     yield put(A.setBitcoinTransactions(address, data.txs, reset))
   }
 

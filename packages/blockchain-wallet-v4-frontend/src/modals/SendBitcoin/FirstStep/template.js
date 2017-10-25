@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { isEmpty } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
@@ -56,7 +57,7 @@ const shouldValidate = ({ values, nextProps, props, initialRender, structure }) 
 
 const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
 
-// const emptyAmount = (value, allValues, props) => props.coins ? undefined : 'Invalid amount. Account is empty.'
+const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = (props) => {
   const { invalid, submitting, position, total, closeAll, ...rest } = props
@@ -94,7 +95,7 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[required, validAmount]} />
+          <Field name='amount' component={CoinConvertor} validate={[required, validAmount, emptyAmount]} />
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
             <Tooltip>
