@@ -24,7 +24,7 @@ export const rates = ({ api } = {}) => {
 
   const refreshEthereumRates = function * () {
     while (true) {
-      const response = yield call(api.getBitcoinTicker)
+      const response = yield call(api.getEthereumTicker)
       yield put(A.setEthereumRates(response))
       yield call(delay, refreshRatesDelay)
     }

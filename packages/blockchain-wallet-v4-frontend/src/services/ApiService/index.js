@@ -7,6 +7,4 @@ const api = createWalletApi({
   apiCode: settings.API_CODE
 })
 
-console.log(api)
-
 export { api }
