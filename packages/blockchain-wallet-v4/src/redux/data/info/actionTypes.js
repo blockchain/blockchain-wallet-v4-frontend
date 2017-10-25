@@ -1,0 +1,1 @@
+export const SET_ETHER_BALANCE = '@CORE.SET_ETHER_BALANCE'

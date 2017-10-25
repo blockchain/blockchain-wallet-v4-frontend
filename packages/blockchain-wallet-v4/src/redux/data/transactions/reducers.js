@@ -1,5 +1,6 @@
-import * as T from './actionTypes.js'
-import { assoc, concat, path } from 'ramda'
+import * as actionTypes from '../../actionTypes.js'
+import * as AT from './actionTypes.js'
+import { assoc, concat, path, prop, mapObjIndexed } from 'ramda'
 
 const INITIAL_STATE = {
   bitcoin: {
@@ -15,7 +16,7 @@ const INITIAL_STATE = {
 const listReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
-    case T.SET_BITCOIN_TRANSACTIONS: {
+    case AT.SET_BITCOIN_TRANSACTIONS: {
       const { address, txs, reset } = payload
       if (reset) {
         return assoc('bitcoin', { address, list: txs }, state)
@@ -24,10 +25,9 @@ const listReducer = (state = INITIAL_STATE, action) => {
         return assoc('bitcoin', { address, list: concat(txs, currentTxs) }, state)
       }
     }
-    case T.SET_ETHEREUM_TRANSACTIONS: {
-      const { address, txs } = payload
-      const currentTxs = path(['ethereum', 'list'], state)
-      return assoc('ethereum', { address, list: concat(txs, currentTxs) }, state)
+    case actionTypes.common.SET_ETHEREUM_DATA: {
+      const selectTxns = (num, key, obj) => prop('txns', num)
+      return assoc('ethereum', mapObjIndexed(selectTxns, payload), state)
     }
     default:
       return state

@@ -1,4 +1,5 @@
 import data from './data'
+import ethereum from './ethereum'
 import kvStore from './kvStore'
 import options from './options'
 import settings from './settings'
@@ -14,6 +15,7 @@ export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCo
 
   return {
     ...data({ rootUrl, apiUrl, get, post }),
+    ...ethereum({ rootUrl, apiUrl, get, post }),
     ...kvStore({ apiUrl }),
     ...options({ rootUrl, apiUrl, get, post }),
     ...settings({ rootUrl, apiUrl, get, post }),
