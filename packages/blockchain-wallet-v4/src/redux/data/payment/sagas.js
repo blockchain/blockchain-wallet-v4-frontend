@@ -1,13 +1,12 @@
 import { call, put, select } from 'redux-saga/effects'
 import * as A from './actions'
-import { getCoins } from '../payment/selectors.js'
+import { getCoins } from './selectors.js'
 import { prop, is, compose } from 'ramda'
 import { sign } from '../../../signer'
 import { futurizeP } from 'futurize'
 import Task from 'data.task'
 import * as Coin from '../../../coinSelection/coin'
 import * as CoinSelection from '../../../coinSelection'
-// import { CoinSelection } from '../../coinSelection'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 

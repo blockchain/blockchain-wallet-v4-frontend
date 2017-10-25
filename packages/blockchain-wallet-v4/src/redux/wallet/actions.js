@@ -3,6 +3,9 @@ import * as T from './actionTypes'
 // setters
 export const setWrapper = (payload) =>
   ({ type: T.SET_WRAPPER, payload: payload })
+// ignored by the sync middleware and used by websocket middleware
+export const refreshWrapper = (payload) =>
+  ({ type: T.REFRESH_WRAPPER, payload: payload })
 export const setMainPassword = (password) =>
   ({ type: T.SET_MAIN_PASSWORD, payload: password })
 export const setPayloadChecksum = (checksum) =>

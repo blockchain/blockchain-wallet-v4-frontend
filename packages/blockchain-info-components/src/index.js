@@ -2,6 +2,7 @@ import './Fonts'
 
 export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Badge } from './Badges'
+export { Carousel } from './Carousels'
 export { Color, Palette } from './Colors'
 export { SimpleDropdown } from './Dropdowns'
 export { ConfirmationGauge, PasswordGauge } from './Gauges'

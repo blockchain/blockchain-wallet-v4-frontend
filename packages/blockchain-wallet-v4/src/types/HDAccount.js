@@ -1,5 +1,6 @@
+import Bitcoin from 'bitcoinjs-lib'
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete that wallet test fail - idk why
-import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split } from 'ramda'
+import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split, isEmpty, merge } from 'ramda'
 import { view, over, set } from 'ramda-lens'
 import Type from './Type'
 import * as AddressLabelMap from './AddressLabelMap'
@@ -46,10 +47,15 @@ export const getAddress = (account, path, network) => {
 
 export const fromJS = (x, i) => {
   if (is(HDAccount, x)) { return x }
-  const accountCons = compose(
-    over(addressLabels, AddressLabelMap.fromJS),
-    over(cache, Cache.fromJS)
-  )
+  const accountCons = a => {
+    const xpub = selectXpub(a)
+    const node = isEmpty(xpub) || isNil(xpub) ? null : Bitcoin.HDNode.fromBase58(xpub) // TODO :: network
+    const cacheCons = (c) => c || isNil(node) ? Cache.fromJS(c) : Cache.fromJS(Cache.js(node))
+    return compose(
+      over(addressLabels, AddressLabelMap.fromJS),
+      over(cache, cacheCons)
+    )(a)
+  }
   return accountCons(new HDAccount(assoc('index', i, x)))
 }
 

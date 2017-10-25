@@ -28,7 +28,7 @@ export const setLabel = curry((index, label, addressLabelMap) =>
   )(addressLabelMap)
 )
 
-export const fromJS = (labels) => {
+export const fromJS = (labels = []) => {
   if (is(AddressLabelMap, labels)) {
     return labels
   } else {
