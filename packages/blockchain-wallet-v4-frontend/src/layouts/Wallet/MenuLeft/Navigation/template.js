@@ -62,7 +62,7 @@ const SubMenuItem = styled.li`
 `
 
 const Navigation = (props) => {
-  const { settingsToggled, handleOpenSettings, handleCloseSettings, handleCloseMenuLeft, ...rest } = props
+  const { settingsToggled, handleOpenSettings, handleCloseSettings, handleCloseMenuLeft, securityScore, ...rest } = props
 
   return (
     <Wrapper {...rest}>
@@ -111,7 +111,7 @@ const Navigation = (props) => {
           <MenuItem>
             <Icon name='lock' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.securitycenter' defaultMessage='Security center' smaller uppercase />
-            <SecurityGauge score={3} />
+            <SecurityGauge score={securityScore} />
           </MenuItem>
         </LinkContainer>
         <LinkContainer to='/settings' activeClassName='active' onClick={handleOpenSettings}>

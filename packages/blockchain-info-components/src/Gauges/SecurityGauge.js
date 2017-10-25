@@ -17,18 +17,20 @@ const Container = styled.div`
 const Bar = styled.div`
   overflow: hidden;
   display: inline-flex;
-  width: 20%;
+  width: 15%;
   height: 100%;
   background-color: ${props => props.theme[props.color]};
 `
 
 const selectColor = score => {
   switch (score) {
+    case 0: return 'error'
     case 1: return 'error'
     case 2: return 'red'
     case 3: return 'brand-yellow-lighter'
     case 4: return 'brand-yellow'
-    case 5: return 'success'
+    case 5: return 'brand-yellow'
+    case 6: return 'success'
     default: return 'white'
   }
 }
@@ -37,19 +39,17 @@ const SecurityGauge = (props) => {
   const { score } = props
   const color = selectColor(score)
 
+  const values = [0, 1, 2, 3, 4, 5, 6]
+
   return (
     <Container>
-      {score > 0 ? <Bar color={color} /> : <Bar color='gray-1' />}
-      {score > 1 ? <Bar color={color} /> : <Bar color='gray-1' />}
-      {score > 2 ? <Bar color={color} /> : <Bar color='gray-1' />}
-      {score > 3 ? <Bar color={color} /> : <Bar color='gray-1' />}
-      {score > 4 ? <Bar color={color} /> : <Bar color='gray-1' />}
+      {values.map(value => score >= value ? <Bar color={color} key={value} /> : <Bar color='gray-1' key={value} />)}
     </Container>
   )
 }
 
 SecurityGauge.propTypes = {
-  score: PropTypes.oneOf([1, 2, 3, 4, 5]).isRequired
+  score: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]).isRequired
 }
 
 SecurityGauge.defaultProps = {
