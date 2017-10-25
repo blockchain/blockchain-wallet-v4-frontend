@@ -67,7 +67,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
     const password = yield select(compose(Wrapper.selectPassword, prop(walletPath)))
     try {
       const newWrapper = yield call(api.fetchWallet, guid, skey, undefined, password)
-      yield put(A.wallet.setWrapper(newWrapper))
+      yield put(A.wallet.refreshWrapper(newWrapper))
     } catch (e) {
       console.log('REFRESH WRAPPER FAILED (WEBSOCKET) :: should dispatch error action ?')
     }

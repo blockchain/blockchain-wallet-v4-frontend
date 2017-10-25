@@ -1,10 +1,11 @@
 import { delay } from 'redux-saga'
-import { takeEvery, call, put, select, cancel, cancelled, fork, all } from 'redux-saga/effects'
+import { takeEvery, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
+import * as actionTypes from '../actionTypes.js'
 import * as selectors from '../selectors.js'
 import * as sagas from '../sagas.js'
 import { api } from 'services/ApiService'
@@ -13,8 +14,28 @@ import { api } from 'services/ApiService'
 // ================================= Generic ===================================
 // =============================================================================
 
-const loginRoutineSaga = function * () {
+const upgradeWalletSaga = function * () {
+  yield put(actions.modals.showModal('UpgradeWallet'))
+  const { success, error } = yield race({
+    success: take(actionTypes.core.walletSync.SYNC_SUCCESS),
+    error: take(actionTypes.core.walletSync.SYNC_ERROR)
+  })
+  if (error) {
+    yield put(actions.alerts.displayError('Error: Sync failed'))
+    yield put(actions.modals.closeModal())
+    yield call(upgradeWalletSaga)
+  }
+  if (success) {
+    yield put(actions.modals.closeModal())
+  }
+}
+
+const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
   try {
+    // If needed, the user should upgrade its wallet before being able to open the wallet
+    if (shouldUpgrade) {
+      yield call(upgradeWalletSaga)
+    }
     yield put(actions.auth.authenticate())
     yield put(actions.core.webSocket.startSocket())
     const context = yield select(selectors.core.wallet.getWalletContext)
@@ -24,11 +45,11 @@ const loginRoutineSaga = function * () {
       call(sagas.core.data.rates.startBitcoinRates),
       call(sagas.core.settings.fetchSettings),
       call(sagas.core.walletOptions.fetchWalletOptions),
-      call(sagas.core.kvStore.whatsNew.fetchWhatsNew),
-      call(sagas.core.kvStore.ethereum.fetchEthereum),
-      call(sagas.core.kvStore.shapeShift.fetchShapeShift),
-      call(sagas.core.kvStore.buySell.fetchBuySell),
-      call(sagas.core.kvStore.contacts.fetchContacts)
+      call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
+      // call(sagas.core.kvStore.ethereum.fetchEthereum),
+      // call(sagas.core.kvStore.shapeShift.fetchShapeShift),
+      // call(sagas.core.kvStore.buySell.fetchBuySell),
+      // call(sagas.core.kvStore.contacts.fetchContacts)
     ])
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
@@ -63,8 +84,8 @@ export const login = function * (action) {
   try {
     if (!session) { session = yield call(api.establishSession) }
     yield put(actions.session.saveSession(assoc(guid, session, {})))
-    yield call(sagas.core.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
-    yield call(loginRoutineSaga)
+    const shouldUpgrade = yield call(sagas.core.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
+    yield call(loginRoutineSaga, { shouldUpgrade })
   } catch (error) {
     const initialError = safeParse(error).map(prop('initial_error'))
     const authRequired = safeParse(error).map(prop('authorization_required'))
@@ -74,8 +95,8 @@ export const login = function * (action) {
       yield put(actions.alerts.displayInfo('Authorization required. Please check your mailbox.'))
       const authorized = yield call(pollingSession, session)
       if (authorized) {
-        yield call(sagas.core.wallet.fetchWalletSaga, { guid, session, password })
-        yield call(loginRoutineSaga)
+        const shouldUpgrade = yield call(sagas.core.wallet.fetchWalletSaga, { guid, session, password })
+        yield call(loginRoutineSaga, { shouldUpgrade })
       } else {
         yield put(actions.alerts.displayError('Error establishing the session'))
       }

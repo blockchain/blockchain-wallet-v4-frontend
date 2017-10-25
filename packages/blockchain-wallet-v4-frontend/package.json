@@ -103,7 +103,7 @@
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "qrcode-react": "^0.1.14",
-    "ramda": "^0.24.1",
+    "ramda": "^0.25",
     "react": "^15.5.4",
     "react-browser-detection": "^1.0.3",
     "react-copy-to-clipboard": "^5.0.0",

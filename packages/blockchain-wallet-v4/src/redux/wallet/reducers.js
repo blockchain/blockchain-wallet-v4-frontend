@@ -13,6 +13,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const checksum = action.payload
       return set(Wrapper.payloadChecksum, checksum, state)
     }
+    case T.REFRESH_WRAPPER:
     case T.SET_WRAPPER: {
       return action.payload
     }
