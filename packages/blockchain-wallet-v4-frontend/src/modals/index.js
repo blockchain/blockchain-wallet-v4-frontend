@@ -15,6 +15,8 @@ import TransactionReport from './TransactionReport'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepSetup from './TwoStepSetup'
 import TwoStepYubico from './TwoStepYubico'
+import UpgradeWallet from './UpgradeWallet'
+import Welcome from './Welcome'
 
 const Modals = props => (
   <div>
@@ -33,6 +35,8 @@ const Modals = props => (
     <TwoStepGoogleAuthenticator />
     <TwoStepSetup />
     <TwoStepYubico />
+    <UpgradeWallet />
+    <Welcome />
   </div>
 )
 

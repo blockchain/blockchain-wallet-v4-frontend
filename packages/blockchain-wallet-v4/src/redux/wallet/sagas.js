@@ -2,11 +2,13 @@ import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import { prop, compose, endsWith, repeat, range, map, propSatisfies,
-         dropLastWhile, not, length, concat, propEq, is, find } from 'ramda'
+         dropLastWhile, not, length, concat, propEq, is, find, isEmpty } from 'ramda'
+import { set } from 'ramda-lens'
 import Task from 'data.task'
 import Either from 'data.either'
 import * as A from './actions'
-import { Wrapper, Wallet, Address } from '../../types'
+
+import { Wrapper, Wallet, Address, HDWalletList } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -41,14 +43,24 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     const mnemonic = BIP39.generateMnemonic()
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic)
-    const register = api.createWallet(email)
-    yield call(register, wrapper)
-    yield put(A.setWrapper(wrapper))
+    yield call(api.createWallet, email, wrapper)
+    yield put(A.refreshWrapper(wrapper))
   }
 
   const fetchWalletSaga = function * ({ guid, sharedKey, session, password, code }) {
     const wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password, code)
-    yield put(A.setWrapper(wrapper))
+    const hdwallets = compose(i => i.toJS(), Wallet.selectHdWallets, Wrapper.selectWallet)(wrapper)
+    if (isEmpty(hdwallets)) {
+      // TODO :: if second password on should add an encrypted hdwallet (require ask second password)
+      const mnemonic = BIP39.generateMnemonic()
+      const hdwalletList = HDWalletList.createNew(guid, password, sharedKey, mnemonic)
+      const newWrapper = set(compose(Wrapper.wallet, Wallet.hdWallets), hdwalletList, wrapper)
+      yield put(A.setWrapper(newWrapper))
+      return true // upgrade need
+    } else {
+      yield put(A.setWrapper(wrapper))
+      return false
+    }
   }
 
   const findUsedAccounts = function * ({batch, node, usedAccounts}) {
@@ -75,9 +87,8 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     const nAccounts = yield call(findUsedAccounts, {batch: 10, node: node, usedAccounts: []})
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, undefined, nAccounts)
-    const register = api.createWallet(email)
-    yield call(register, wrapper)
-    yield put(A.setWrapper(wrapper))
+    yield call(api.createWallet, email, wrapper)
+    yield put(A.refreshWrapper(wrapper))
   }
 
   const updatePbkdf2Iterations = function * ({iterations, password}) {

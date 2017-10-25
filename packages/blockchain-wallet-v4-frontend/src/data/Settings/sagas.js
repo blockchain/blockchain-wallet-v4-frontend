@@ -3,7 +3,6 @@ import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
 import * as selectors from '../selectors.js'
-import { flip } from 'ramda'
 
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 
@@ -18,7 +17,8 @@ export const showPairingCode = function * (action) {
 
 const showBackupRecovery = function * (action) {
   const recoverySaga = function * ({ password }) {
-    const eitherMnemonic = yield select(flip(selectors.core.wallet.getMnemonic)(password))
+    const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
+    const eitherMnemonic = yield select(getMnemonic)
     if (eitherMnemonic.isRight) {
       const mnemonic = eitherMnemonic.value.split(' ')
       yield put(actions.modals.showModal('RecoveryPhrase', { mnemonic }))

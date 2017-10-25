@@ -103,8 +103,8 @@ const createApi = ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, ap
   }
   // createPayload :: (data) -> Promise JSON
   // TODO :: merge save and createPayload (endPoint must be a parameter)
-  const createPayload = (data) => {
-    const config = { method: 'insert', format: 'plain' }
+  const createPayload = (email, data) => {
+    const config = { email, method: 'insert', format: 'plain' }
     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet', data: merge(config, data) })
       .then(() => data.checksum)
   }

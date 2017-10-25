@@ -5,6 +5,7 @@ import styled from 'styled-components'
 const BaseMenu = styled.div`
   position: absolute;
   top: 100%;
+  left: 0;
   display: ${props => props.toggled ? 'flex' : 'none'};
   flex-direction: column;
   justify-content: flex-start;

@@ -70,6 +70,12 @@ export const reviver = (jsObject) => {
   return new Wrapper(jsObject)
 }
 
+// computeChecksum :: encJSON -> String
+export const computeChecksum = compose(
+  payload => crypto.sha256(payload).toString('hex'),
+  prop('payload')
+)
+
 // fromEncJSON :: String -> JSON -> Either Error Wrapper
 export const fromEncJSON = curry((password, json) => {
   const plens = lensProp('payload')

@@ -21,9 +21,13 @@ export const fromJS = (wallets) => {
   if (is(HDWalletList, wallets)) {
     return wallets
   } else {
-    return new HDWalletList(map(HDWallet.fromJS, wallets))
+    const ws = wallets || []
+    return new HDWalletList(map(HDWallet.fromJS, ws))
   }
 }
+
+export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
+  fromJS([HDWallet.js(firstAccountName, mnemonic, undefined, nAccounts, undefined)])
 
 export const reviver = (jsObject) => {
   return new HDWalletList(jsObject)

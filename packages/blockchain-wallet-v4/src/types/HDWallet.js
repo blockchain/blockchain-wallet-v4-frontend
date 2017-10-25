@@ -40,7 +40,6 @@ const shiftHDWallet = compose(shiftIProp('seed_hex', 'seedHex'), shift)
 export const fromJS = (x) => {
   if (is(HDWallet, x)) { return x }
   const hdwalletCons = compose(
-    // over(hdWallets, hdWalletListCons),
     over(accounts, HDAccountList.fromJS),
     hdw => shiftHDWallet(hdw).forward()
   )
