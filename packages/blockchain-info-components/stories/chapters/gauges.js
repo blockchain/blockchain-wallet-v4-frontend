@@ -27,10 +27,12 @@ storiesOf('Gauges', module)
   ))
   .add('SecurityGauge', () => (
     <div>
+      <SecurityGauge score={0} />
       <SecurityGauge score={1} />
       <SecurityGauge score={2} />
       <SecurityGauge score={3} />
       <SecurityGauge score={4} />
       <SecurityGauge score={5} />
+      <SecurityGauge score={6} />
     </div>
   ))
