@@ -61,7 +61,7 @@ export const login = function * (action) {
   let session = yield select(selectors.session.getSession(guid))
 
   try {
-    if (!session) { session = yield call(api.establishSession) }
+    if (!session) { session = yield call(api.obtainSessionToken) }
     yield put(actions.session.saveSession(assoc(guid, session, {})))
     yield call(sagas.core.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
     yield call(loginRoutineSaga)

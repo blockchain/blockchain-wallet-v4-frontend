@@ -137,13 +137,13 @@
 //     return request({ url: rootUrl, method: 'POST', endPoint: 'wallet/sessions' }).then(processResult)
 //   }
 
-//   const establishSession = token => {
-//     if (token) {
-//       return Promise.resolve(token)
-//     } else {
-//       return obtainSessionToken()
-//     }
-//   }
+//   // const establishSession = token => {
+//   //   if (token) {
+//   //     return Promise.resolve(token)
+//   //   } else {
+//   //     return obtainSessionToken()
+//   //   }
+//   // }
 
 //   const pollForSessioGUID = sessionToken => {
 //     var data = { format: 'json' }
@@ -337,8 +337,8 @@
 //     createPayload: future(createPayload),
 //     fetchBlockchainData: future(fetchBlockchainData),
 //     obtainSessionToken: future(obtainSessionToken),
-//     establishSession: future(establishSession),
-//     pollForSessioGUID: future(pollForSessioGUID),
+//     // establishSession: future(establishSession),
+//     pollForSessionGUID: future(pollForSessioGUID),
 //     fetchWalletWithSession: future(fetchPayloadWithSession),
 //     generateUUIDs: future(generateUUIDs),
 //     createPinEntry: future(createPinEntry),

@@ -8,7 +8,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { guid, sharedKey, method: 'wallet.aes.json', format: 'json' }
   })
 
-  const fetchPayloadWithSession = (guid, sessionToken) => post({
+  const fetchPayloadWithSession = (guid, sessionToken) => get({
     url: rootUrl,
     endPoint: `wallet/${guid}`,
     data: { format: 'json', resend_code: null },
