@@ -5,9 +5,8 @@ import { mapped } from 'ramda-lens'
 import Promise from 'es6-promise'
 import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from '../types'
 import { futurizeP } from 'futurize'
-import createApi from './Api'
+import createApi from './api'
 import * as Coin from '../coinSelection/coin.js'
-Promise.polyfill()
 
 const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   // ////////////////////////////////////////////////////////////////
@@ -29,7 +28,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
 
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSessionTask = (guid, session, password) =>
-    promiseToTask(ApiPromise.fetchWalletWithSession)(guid, session)
+    promiseToTask(ApiPromise.fetchPayloadWithSession)(guid, session)
       .chain(is2FAEnabled)
       .map(Wrapper.fromEncJSON(password))
       .chain(eitherToTask)

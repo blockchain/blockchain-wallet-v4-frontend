@@ -1,6 +1,6 @@
 import Task from 'data.task'
 import { compose, set, curry, prop } from 'ramda'
-import { API_BLOCKCHAIN_INFO } from './Api'
+import { API_BLOCKCHAIN_INFO } from './api'
 import * as KV from '../types/KVStoreEntry'
 
 const eitherToTask = (e) => e.fold(Task.rejected, Task.of)

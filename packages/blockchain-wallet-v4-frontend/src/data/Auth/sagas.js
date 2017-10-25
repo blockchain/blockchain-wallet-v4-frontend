@@ -47,7 +47,7 @@ const pollingSession = function * (session, n = 50) {
   if (n === 0) { return false }
   try {
     yield call(delay, 2000)
-    const response = yield call(api.pollForSessioGUID, session)
+    const response = yield call(api.pollForSessionGUID, session)
     if (prop('guid', response)) { return true }
   } catch (error) {
     return false

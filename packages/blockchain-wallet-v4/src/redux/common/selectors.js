@@ -55,10 +55,7 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
   const getWalletTransactions = state => {
     const wallet = compose(Wrapper.selectWallet, prop(walletPath))(state)
     const currentBlockHeight = compose(getHeight, prop(dataPath))(state)
-    const btcTransactions = compose(getBitcoinTransactions, prop(dataPath))(state)
-    console.log(btcTransactions)
-    const result = compose(map(mTransformTx.bind(undefined, wallet, currentBlockHeight)), getBitcoinTransactions, prop(dataPath))(state)
-    console.log(result)
+
     return compose(
       map(mTransformTx.bind(undefined, wallet, currentBlockHeight)),
       getBitcoinTransactions,
