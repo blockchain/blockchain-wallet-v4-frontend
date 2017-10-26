@@ -59,7 +59,9 @@ export let ChannelState = () => fromJS({
   // This is the index of the update this state was on before a commit message
   // Upon an ack message, we move all unack messages into the other ack state, which are <= this index
   updateCounter: new Long(0),
-  commitIndex: new Long(0)
+  commitIndex: new Long(0),
+
+  commitmentNumber: Math.pow(2, 48) - 1
 })
 
 export let Channel = () => fromJS({
@@ -73,6 +75,7 @@ export let Channel = () => fromJS({
   local: ChannelState(),
 
   commitmentObscureHash: null,
+  commitmentStorage: [],
 
   messageOut: []
 })

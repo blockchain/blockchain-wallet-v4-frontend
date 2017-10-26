@@ -1,9 +1,8 @@
 // Internal resources
+import {Map} from 'immutable'
 
 let sha = require('sha256')
 let ec = require('secp256k1')
-
-let storedSecrets = []
 
 function generatePerCommitmentSecret (seed, I) {
   for (let i = 47; i >= 0; i--) {
@@ -65,6 +64,7 @@ function deriveRevocationPrivateKey (baseSecret, perCommitmentSecret, basePoint,
 }
 
 function getStorageIndex (I) {
+  I = intToArray(I)
   for (let i = 0; i < 48; i++) {
     if (I[5 - Math.floor(i / 8)] >> (i % 8) & 1) {
       return i
@@ -73,21 +73,42 @@ function getStorageIndex (I) {
   return 48
 }
 
-function insertSecret (secret, I) {
+let intToArray = (i) => {
+  let byteArray = [0, 0, 0, 0, 0, 0]
+
+  for (let index = 0; index < byteArray.length; index++) {
+    let byte = i & 0xff
+    byteArray[ index ] = byte
+    i = (i - byte) / 256
+  }
+
+  return byteArray.reverse()
+}
+
+function isCorrectNewSecret (storedSecrets, secret, I) {
   let index = getStorageIndex(I)
   for (let i = 0; i < index; i++) {
-    if (storedSecrets[i] !== undefined &&
-      !Buffer.from(deriveSecret(secret, i, storedSecrets[i].index)).equals(storedSecrets[i].secret)) {
-      return false
+    let storedSecretI = storedSecrets.get(i)
+
+    if (storedSecretI !== undefined) {
+      let derivedSecret = Buffer.from(deriveSecret(secret, i, storedSecretI.get('index')))
+
+      if (!derivedSecret.equals(storedSecretI.get('secret'))) {
+        return false
+      }
     }
   }
-  storedSecrets[index] = {}
-  storedSecrets[index].index = I
-  storedSecrets[index].secret = secret
   return true
 }
 
+function insertSecret (storedSecrets, secret, I) {
+  let index = getStorageIndex(I)
+  return storedSecrets
+    .set(index, Map({index: I, secret}))
+}
+
 function deriveSecret (seed, bits, I) {
+  I = intToArray(I)
   let result = Buffer.from(seed)
   for (let i = bits; i >= 0; i--) {
     let index = Math.floor(i / 8)
@@ -104,4 +125,6 @@ module.exports = {generatePerCommitmentSecret,
   deriveLocalPrivateKey,
   deriveRevocationKey,
   deriveRevocationPrivateKey,
-  insertSecret}
+  isCorrectNewSecret,
+  insertSecret
+}
