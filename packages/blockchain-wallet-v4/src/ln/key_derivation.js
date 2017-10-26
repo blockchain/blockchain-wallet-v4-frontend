@@ -2,9 +2,8 @@
 
 let sha = require('sha256')
 let ec = require('secp256k1')
-let Buffer = require('buffer').Buffer
 
-let storedSecrets = [];
+let storedSecrets = []
 
 function generatePerCommitmentSecret (seed, I) {
   for (let i = 47; i >= 0; i--) {
@@ -65,41 +64,31 @@ function deriveRevocationPrivateKey (baseSecret, perCommitmentSecret, basePoint,
   return ec.privateKeyTweakAdd(ap, bp, true)
 }
 
-function getStorageIndex(I) {
+function getStorageIndex (I) {
   for (let i = 0; i < 48; i++) {
     if (I[5 - Math.floor(i / 8)] >> (i % 8) & 1) {
-      return i;
+      return i
     }
   }
-  return 48;
+  return 48
 }
 
-function insertSecret(secret, I) {
+function insertSecret (secret, I) {
   let index = getStorageIndex(I)
   for (let i = 0; i < index; i++) {
     if (storedSecrets[i] !== undefined &&
       !Buffer.from(deriveSecret(secret, i, storedSecrets[i].index)).equals(storedSecrets[i].secret)) {
-      return false;
+      return false
     }
   }
   storedSecrets[index] = {}
-  storedSecrets[index].index = I;
+  storedSecrets[index].index = I
   storedSecrets[index].secret = secret
   return true
 }
 
-
-function deriveOldSecret(I) {
-  for (let i = 0; i < storedSecrets.length; i++) {
-    if (I & (~(1 << i - 1)) == storedSecrets[i].index) {
-      return deriveSecret(storedSecrets[i].secret, i, I)
-    }
-  }
-}
-
-
 function deriveSecret (seed, bits, I) {
-  var result = new Buffer(seed);
+  let result = Buffer.from(seed)
   for (let i = bits; i >= 0; i--) {
     let index = Math.floor(i / 8)
     if (I[5 - Math.floor(i / 8)] >> (i % 8) & 1) {
@@ -110,10 +99,9 @@ function deriveSecret (seed, bits, I) {
   return result
 }
 
-module.exports = {generatePerCommitmentSecret: generatePerCommitmentSecret,
-                  deriveLocalKey: deriveLocalKey,
-                  deriveLocalPrivateKey: deriveLocalPrivateKey,
-                  deriveRevocationKey: deriveRevocationKey,
-                  deriveRevocationPrivateKey: deriveRevocationPrivateKey,
-                  insertSecret: insertSecret}
-
+module.exports = {generatePerCommitmentSecret,
+  deriveLocalKey,
+  deriveLocalPrivateKey,
+  deriveRevocationKey,
+  deriveRevocationPrivateKey,
+  insertSecret}
