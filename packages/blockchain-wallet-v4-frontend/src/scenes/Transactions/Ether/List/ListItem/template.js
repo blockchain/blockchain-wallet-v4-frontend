@@ -69,7 +69,7 @@ const TransactionListItem = (props) => {
         <TransactionRowAmount>
           <Button nature={transaction.type.toLowerCase()} onClick={handleClick} fullwidth>
             { coinDisplayed
-              ? <CoinDisplay coin='BTC'>{transaction.amount}</CoinDisplay>
+              ? <CoinDisplay coin='ETH'>{transaction.amount}</CoinDisplay>
               : <CurrencyDisplay>{transaction.amount}</CurrencyDisplay>
             }
           </Button>
@@ -110,11 +110,7 @@ const TransactionListItem = (props) => {
             </Text>
           }
         </TransactionDetailsDescription>
-        <TransactionDetailsValue>
-          <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.initial' defaultMessage='Value when received: {value}' values={{ value: transaction.initial_value }} />
-          </Text>
-        </TransactionDetailsValue>
+        <TransactionDetailsValue />
       </TransactionDetails>
     </Transaction>
   )
@@ -131,7 +127,6 @@ TransactionListItem.propTypes = {
     to: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
     description: PropTypes.string,
-    status: PropTypes.string,
     initial_value: PropTypes.string
   })
 }

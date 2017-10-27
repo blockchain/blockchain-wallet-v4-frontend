@@ -1,35 +1,21 @@
-// import { contains } from 'ramda'
+import { contains, map, toLower } from 'ramda'
 
-// const getType = (tx, accounts) => {
-//   switch (true) {
-//     case accounts: return 'Transferred'
-//     case result < 0: return 'Sent'
-//     case result > 0: return 'Received'
-//     default: return 'Unknown'
-//   }
-// }
+const getType = (tx, addresses) => {
+  const lowerAddresses = map(toLower, addresses)
+  switch (true) {
+    case contains(tx.from, lowerAddresses) && contains(tx.to, lowerAddresses): return 'Transferred'
+    case contains(tx.from, lowerAddresses): return 'Sent'
+    case contains(tx.to, lowerAddresses): return 'Received'
+    default: return 'Unknown'
+  }
+}
 
-// // amount is what we show on the transaction feed
-// // result is internalreceive - internalspend
-// const computeAmount = (type, inputData, outputData) => {
-//   switch (type) {
-//     case 'Transferred': return propOr(0, 'internal', outputData) - propOr(0, 'change', outputData)
-//     case 'Sent': return -propOr(0, 'internal', outputData) + propOr(0, 'internal', inputData)
-//     case 'Received': return propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
-//     default: return propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
-//   }
-// }
-
-
-// export const transformEthereumTx = (tx, accounts) => {
-//   const type = getType(tx, accounts)
-
-//   return {
-//     type,
-//     amount,
-//     to,
-//     from,
-//     description,
-//     status
-//   }
-// }
+export const transformEthereumTx = (addresses, tx) => ({
+  type: getType(tx, addresses),
+  amount: parseInt(tx.value),
+  to: tx.to,
+  from: tx.from,
+  description: tx.description,
+  time: tx.timeStamp,
+  status: ''
+})

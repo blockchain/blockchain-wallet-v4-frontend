@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 10%;
-  min-width: 150px;
+  min-width: 200px;
 `
 
 const TransactionRowAmount = props => (

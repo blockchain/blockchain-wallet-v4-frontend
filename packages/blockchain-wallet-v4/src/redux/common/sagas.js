@@ -33,7 +33,6 @@ export const commonSaga = ({ api } = {}) => {
       },
       transactions
     }
-    console.log(ethereumData)
     yield put(A.setEthereumData(ethereumData))
   }
 

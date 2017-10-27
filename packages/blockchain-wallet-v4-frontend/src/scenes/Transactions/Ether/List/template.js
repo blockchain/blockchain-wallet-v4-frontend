@@ -25,9 +25,7 @@ TransactionList.propTypes = {
     time: PropTypes.number.isRequired,
     to: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    status: PropTypes.string,
-    initial_value: PropTypes.string
+    description: PropTypes.string
   }))
 }
 

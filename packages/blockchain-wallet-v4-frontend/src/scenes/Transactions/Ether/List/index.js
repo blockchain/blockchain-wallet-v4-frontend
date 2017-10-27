@@ -65,7 +65,6 @@ class ListContainer extends React.Component {
   // }
 
   render () {
-    console.log('TRANSAC', this.props.transactions)
     return (
       // <List transactions={this.filteredTransactions} />
       <List transactions={this.props.transactions} />

@@ -99,14 +99,14 @@ const MenuTop = (props) => {
               <Icon name='bitcoin' size='24px' weight={300} />
             </Text>
             <Text weight={200} size='24px' >
-              {coinDisplayed ? <CoinDisplay coin='BTC'>{bitcoinBalance}</CoinDisplay> : <CurrencyDisplay>{bitcoinBalance}</CurrencyDisplay>}
+              {coinDisplayed ? <CoinDisplay coin='BTC'>{bitcoinBalance}</CoinDisplay> : <CurrencyDisplay coin='BTC'>{bitcoinBalance}</CurrencyDisplay>}
             </Text>
             <Text weight={200} size='24px' >|</Text>
             <Text>
               <Icon name='ethereum' size='24px' weight={300} />
             </Text>
             <Text weight={200} size='24px' >
-              {coinDisplayed ? <CoinDisplay coin='ETH'>{etherBalance}</CoinDisplay> : <CurrencyDisplay>{etherBalance}</CurrencyDisplay>}
+              {coinDisplayed ? <CoinDisplay coin='ETH'>{etherBalance}</CoinDisplay> : <CurrencyDisplay coin='ETH'>{etherBalance}</CurrencyDisplay>}
             </Text>
           </BalancesWrapper>
           <Text size='20px' weight={200}>

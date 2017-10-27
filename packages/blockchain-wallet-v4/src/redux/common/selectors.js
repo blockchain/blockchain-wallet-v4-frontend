@@ -1,5 +1,5 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
-import { keys, prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
+import { keysIn, prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
 import memoize from 'fast-memoize'
 import { getBitcoinAddresses, getChangeIndex, getReceiveIndex, getEthereumAddresses } from '../data/addresses/selectors.js'
 import { getBitcoinTransactions, getEthereumTransactions } from '../data/transactions/selectors.js'
@@ -92,13 +92,13 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
   })
 
   // Ethereum
-  const getWalletEthereumTransactions = state => {
-    const accounts = compose(keys, getEthereumAddresses, prop(dataPath), state)
+  const getWalletEthereumTransactions = (state) => {
+    const accounts = compose(keysIn, getEthereumAddresses, prop(dataPath))(state)
     return compose(
-        map(transactions.transformEthereumTx.bind(undefined, accounts)),
-        getEthereumTransactions,
-        prop(dataPath)
-      )(state)
+      map(transactions.transformEthereumTx.bind(undefined, accounts)),
+      getEthereumTransactions,
+      prop(dataPath)
+    )(state)
   }
 
   return {

@@ -20,6 +20,26 @@ const convertBaseCoinToCoin = (coin, unit, value) => {
   return coinAmount.chain(Currency.toUnit(coinUnit)).map(Currency.unitToString).getOrElse('N/A')
 }
 
+const displaySatoshiToFiat = (currency, rates, value) => {
+  const CUR = prop(currency, Currencies)
+  const CURCode = prop('code', CUR)
+  const CURunit = path(['units', CURCode], CUR)
+  const pairs = Pairs.create(BTC.code, rates)
+  const btcAmount = Currency.fromUnit({ value, unit: BTC.units.SAT })
+
+  return btcAmount.chain(Currency.convert(pairs, CUR)).chain(Currency.toUnit(CURunit)).map(Currency.unitToString).getOrElse('N/A')
+}
+
+const displayWeiToFiat = (currency, rates, value) => {
+  const CUR = prop(currency, Currencies)
+  const CURCode = prop('code', CUR)
+  const CURunit = path(['units', CURCode], CUR)
+  const pairs = Pairs.create(ETH.code, rates)
+  const ethAmount = Currency.fromUnit({ value, unit: ETH.units.WEI })
+
+  return ethAmount.chain(Currency.convert(pairs, CUR)).chain(Currency.toUnit(CURunit)).map(Currency.unitToString).getOrElse('N/A')
+}
+
 // =============================================================================
 // ================================= BITCOIN ===================================
 // =============================================================================
@@ -66,5 +86,8 @@ export {
   convertFiatToUnit,
   convertSatoshisToUnit,
   convertUnitToSatoshis,
-  convertBtcUnitToBtcUnit
+  convertBtcUnitToBtcUnit,
+
+  displaySatoshiToFiat,
+  displayWeiToFiat
 }
