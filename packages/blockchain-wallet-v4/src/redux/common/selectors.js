@@ -1,8 +1,8 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
-import { prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
+import { keys, prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
 import memoize from 'fast-memoize'
-import { getBitcoinAddresses, getChangeIndex, getReceiveIndex } from '../data/addresses/selectors.js'
-import { getBitcoinTransactions } from '../data/transactions/selectors.js'
+import { getBitcoinAddresses, getChangeIndex, getReceiveIndex, getEthereumAddresses } from '../data/addresses/selectors.js'
+import { getBitcoinTransactions, getEthereumTransactions } from '../data/transactions/selectors.js'
 import { getHeight } from '../data/latestBlock/selectors.js'
 // import { transformTx } from '../../transactions'
 import transactions from '../../transactions'
@@ -91,6 +91,16 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
     return getAddress(network, `${accountIndex}/${0}/${index}`, state)
   })
 
+  // Ethereum
+  const getWalletEthereumTransactions = state => {
+    const accounts = compose(keys, getEthereumAddresses, prop(dataPath), state)
+    return compose(
+        map(transactions.transformEthereumTx.bind(undefined, accounts)),
+        getEthereumTransactions,
+        prop(dataPath)
+      )(state)
+  }
+
   return {
     getActiveHDAccounts: getActiveHDAccounts,
     getActiveAddresses: getActiveAddresses,
@@ -98,6 +108,7 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
     getAddressesBalances: getAddressesBalances,
     getAggregatedAddressesBalances: getAggregatedAddressesBalances,
     getWalletTransactions: memoize(getWalletTransactions),
+    getEthereumTransactions: getWalletEthereumTransactions,
     getNextAvailableChangeAddress: getNextAvailableChangeAddress,
     getNextAvailableReceiveAddress: getNextAvailableReceiveAddress,
     getAddress: getAddress

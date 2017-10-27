@@ -1,6 +1,5 @@
-import { assoc, dissoc, indexBy, prop, mapObjIndexed } from 'ramda'
+import { assoc, indexBy, prop } from 'ramda'
 import * as actionTypes from '../../actionTypes.js'
-import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   'bitcoin': {},
@@ -15,12 +14,8 @@ const addressesReducer = (state = INITIAL_STATE, action) => {
       return assoc('bitcoin', indexBy(prop('address'), addresses), state)
     }
     case actionTypes.common.SET_ETHEREUM_DATA: {
-      const removeTxns = (num, key, obj) => dissoc('txns', num)
-      return assoc('ethereum', mapObjIndexed(removeTxns, payload), state)
-    }
-    case AT.SET_ETHEREUM_ADDRESSES: {
-      const { addresses } = payload
-      return assoc('ethereum', )
+      const addresses = prop('addresses', payload)
+      return assoc('ethereum', addresses, state)
     }
     default:
       return state

@@ -6,7 +6,7 @@ export const info = ({ api } = {}) => {
   const fetchEtherBalance = function * ({ context }) {
     const response = yield call(api.getEtherBalances, context)
     const balance = sum(values(response).map(obj => obj.balance))
-    yield put(A.setEtherBalance(balance))
+    yield put(A.setEtherBalance({ balance }))
   }
 
   return {

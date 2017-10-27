@@ -12,6 +12,7 @@ const INITIAL_STATE = {
 
 const listReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
+
   switch (type) {
     case AT.SET_BITCOIN_TRANSACTIONS: {
       const { address, txs, reset } = payload
@@ -23,12 +24,8 @@ const listReducer = (state = INITIAL_STATE, action) => {
       }
     }
     case actionTypes.common.SET_ETHEREUM_DATA: {
-      const selectTxns = (num, key, obj) => prop('txns', num)
-      return assoc('ethereum', mapObjIndexed(selectTxns, payload), state)
-    }
-    case AT.SET_ETHEREUM_TRANSACTIONS: {
-      const { address, txs } = payload
-      return assocPath(['ethereum', address], txs)
+      const { transactions } = payload
+      return assoc('ethereum', transactions, state)
     }
     default:
       return state
