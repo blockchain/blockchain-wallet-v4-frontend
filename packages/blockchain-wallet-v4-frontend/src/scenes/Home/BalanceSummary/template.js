@@ -40,7 +40,7 @@ const Amount = styled.div`
 `
 
 const BalanceSummary = (props) => {
-  const { balances, total } = props
+  const { bitcoinBalances, total } = props
 
   return (
     <Wrapper>
@@ -49,19 +49,19 @@ const BalanceSummary = (props) => {
       </Text>
       <FirstRow>
         <Text size='28px' weight={300}>
-          <CurrencyDisplay>{total}</CurrencyDisplay>
+          <CurrencyDisplay coin='BTC'>{total}</CurrencyDisplay>
         </Text>
       </FirstRow>
-      { balances.map(function (balance, index) {
+      { bitcoinBalances.map(function (balance, index) {
         return (
-          <Row key={index} last={index === balances.length - 1}>
+          <Row key={index} last={index === bitcoinBalances.length - 1}>
             <Text size='16px' weight={300}>{balance.title}</Text>
             <Amount>
               <Text size='16px' weight={300}>
                 <CoinDisplay coin='BTC'>{balance.amount}</CoinDisplay>
               </Text>
               <Text size='12px' weight={300}>
-                <CurrencyDisplay>{balance.amount}</CurrencyDisplay>
+                <CurrencyDisplay coin='BTC'>{balance.amount}</CurrencyDisplay>
               </Text>
             </Amount>
           </Row>

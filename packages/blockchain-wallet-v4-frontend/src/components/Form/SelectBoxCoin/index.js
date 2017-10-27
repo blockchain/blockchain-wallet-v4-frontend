@@ -1,0 +1,21 @@
+import React from 'react'
+import { connect } from 'react-redux'
+
+import { SelectInput } from 'blockchain-info-components'
+
+class SelectBoxCoin extends React.Component {
+  render () {
+    const { coins, ...rest } = this.props
+    const elements = [{ group: '', items: coins }]
+    return <SelectInput elements={elements} {...rest} />
+  }
+}
+
+const mapStateToProps = (state, ownProps) => ({
+  coins: [
+    { text: 'Bitcoin', value: 'BTC' },
+    { text: 'Ether', value: 'ETH' }
+  ]
+})
+
+export default connect(mapStateToProps)(SelectBoxCoin)

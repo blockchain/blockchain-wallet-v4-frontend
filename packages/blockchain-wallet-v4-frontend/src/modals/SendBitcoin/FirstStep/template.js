@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Icon, Image, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, SelectBoxAddresses, SelectBoxFee, TextBox, TextArea } from 'components/Form'
+import { CoinConvertor, Form, SelectBoxAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 
 const Row = styled.div`
@@ -18,15 +18,23 @@ const Row = styled.div`
   width: 100%;
   height: auto;
 `
+const ColOne = styled.div`
+  width: 50%;
+  margin-right: 5px;
+  @media(min-width: 1200px) { width: 30%; }
+`
+const ColTwo = styled.div`
+  width: 50%;
+  @media(min-width: 1200px) { width: 70%; }
+`
 const ColLeft = styled.div`
   width: 50%;
 `
-const ColRight = styled.div`
+const ColRight = ColLeft.extend`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  width: 50%;
 `
 const AddressesToContainer = styled.div`
   display: flex;
@@ -71,10 +79,20 @@ const FirstStep = (props) => {
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={onSubmit}>
-          <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
-          </Text>
-          <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
+          <Row>
+            <ColOne>
+              <Text size='14px' weight={500}>
+                <FormattedMessage id='modals.sendbitcoin.firststep.coin' defaultMessage='Currency:' />
+              </Text>
+              <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+            </ColOne>
+            <ColTwo>
+              <Text size='14px' weight={500}>
+                <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
+              </Text>
+              <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
+            </ColTwo>
+          </Row>
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
           </Text>

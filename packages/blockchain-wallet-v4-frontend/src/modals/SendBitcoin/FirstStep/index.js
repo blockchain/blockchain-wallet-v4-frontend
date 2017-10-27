@@ -25,8 +25,12 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // console.log('componentWillReceiveProps:', this.props.effectiveBalance, nextProps.effectiveBalance)
-    const { fee, from, to, to2, amount, coins } = nextProps
+    const { coin, fee, from, to, to2, amount, coins } = nextProps
+    // Replace the bitcoin modal to the ethereum modal
+    if (coin === 'ETH') {
+      this.props.modalActions.replaceModal('SendEthereum')
+    }
+
     // Update 'coins' if 'from' has been updated
     if (!equals(this.props.from, from)) {
       this.props.paymentActions.getUnspent(from)
@@ -94,12 +98,14 @@ class FirstStepContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: {
+      coin: 'BTC',
       from: {
         xpub: selectors.core.wallet.getDefaultAccountXpub(state),
         index: selectors.core.wallet.getDefaultAccountIndex(state)
       },
       fee: selectors.core.data.fee.getRegular(state)
     },
+    coin: formValueSelector('sendBitcoin')(state, 'coin'),
     from: formValueSelector('sendBitcoin')(state, 'from'),
     to: formValueSelector('sendBitcoin')(state, 'to'),
     to2: formValueSelector('sendBitcoin')(state, 'to2'),

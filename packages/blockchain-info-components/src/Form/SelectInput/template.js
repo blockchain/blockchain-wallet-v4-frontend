@@ -35,7 +35,8 @@ const Button = styled.button.attrs({
   font-weight: 300;
   cursor: pointer;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
-
+  border-radius: 0;
+  
   &:focus {
     outline: none;
   }
