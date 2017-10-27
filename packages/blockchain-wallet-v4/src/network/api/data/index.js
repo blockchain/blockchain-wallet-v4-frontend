@@ -7,12 +7,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { format: 'json' }
   })
 
-  const getEthereumTicker = () => get({
-    url: rootUrl,
-    endPoint: 'ticker',
-    data: { format: 'json', currency: 'USD', base: 'ETH' }
-  })
-
   const getCaptchaImage = (timestamp, sessionToken) => get({
     url: rootUrl,
     endPoint: 'kaptcha.jpg',
@@ -73,7 +67,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   return {
     getBitcoinTicker,
-    getEthereumTicker,
     getCaptchaImage,
     getUnspents,
     getFee,

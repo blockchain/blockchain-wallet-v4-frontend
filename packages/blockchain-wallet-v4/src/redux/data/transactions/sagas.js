@@ -17,7 +17,13 @@ export const transactions = ({ api, walletPath, dataPath, settingsPath } = {}) =
     yield put(A.setBitcoinTransactions(address, data.txs, reset))
   }
 
+  const fetchEthereumTransactions = function * ({ address }) {
+    const data = yield call(api.getEthereumData, address)
+    yield put(A.setEthereumTransactions(address, data.txns))
+  }
+
   return {
-    fetchBitcoinTransactions
+    fetchBitcoinTransactions,
+    fetchEthereumTransactions
   }
 }

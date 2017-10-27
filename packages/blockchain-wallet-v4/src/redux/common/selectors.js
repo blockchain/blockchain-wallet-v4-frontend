@@ -1,23 +1,25 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
 import { prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
 import memoize from 'fast-memoize'
-import { getBalances, getChangeIndex, getReceiveIndex } from '../data/addresses/selectors.js'
+import { getBitcoinAddresses, getChangeIndex, getReceiveIndex } from '../data/addresses/selectors.js'
 import { getBitcoinTransactions } from '../data/transactions/selectors.js'
 import { getHeight } from '../data/latestBlock/selectors.js'
-import { transformTx } from '../services/transactions.js'
-const mTransformTx = memoize(transformTx)
+// import { transformTx } from '../../transactions'
+import transactions from '../../transactions'
+
+const mTransformTx = memoize(transactions.transformTx)
 // ---------------------------------------------------------------------------------------------
 export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
   // getActiveHDAccounts :: state -> [hdacountsWithInfo]
   const getActiveHDAccounts = state => {
-    const balances = compose(getBalances, prop(dataPath))(state)
+    const balances = compose(getBitcoinAddresses, prop(dataPath))(state)
     const addInfo = account => assoc('info', prop(prop('xpub', account), balances), account)
     return compose(map(addInfo), HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts,
                    HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet, prop(walletPath))(state)
   }
   // getActiveAddresses :: state -> [AddresseswithInfo]
   const getActiveAddresses = state => {
-    const balances = compose(getBalances, prop(dataPath))(state)
+    const balances = compose(getBitcoinAddresses, prop(dataPath))(state)
     const addInfo = address => assoc('info', prop(prop('addr', address), balances), address)
     return compose(map(addInfo), AddressMap.toJS, AddressMap.selectActive,
                    Wallet.selectAddresses, Wrapper.selectWallet, prop(walletPath))(state)

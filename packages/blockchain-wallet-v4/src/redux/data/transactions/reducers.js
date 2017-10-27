@@ -1,16 +1,13 @@
 import * as actionTypes from '../../actionTypes.js'
 import * as AT from './actionTypes.js'
-import { assoc, concat, path, prop, mapObjIndexed } from 'ramda'
+import { assoc, assocPath, concat, path, prop, mapObjIndexed } from 'ramda'
 
 const INITIAL_STATE = {
   bitcoin: {
     list: [],
     address: ''
   },
-  ethereum: {
-    list: [],
-    address: ''
-  }
+  ethereum: {}
 }
 
 const listReducer = (state = INITIAL_STATE, action) => {
@@ -28,6 +25,10 @@ const listReducer = (state = INITIAL_STATE, action) => {
     case actionTypes.common.SET_ETHEREUM_DATA: {
       const selectTxns = (num, key, obj) => prop('txns', num)
       return assoc('ethereum', mapObjIndexed(selectTxns, payload), state)
+    }
+    case AT.SET_ETHEREUM_TRANSACTIONS: {
+      const { address, txs } = payload
+      return assocPath(['ethereum', address], txs)
     }
     default:
       return state

@@ -49,7 +49,7 @@ const ButtonContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding-top: 10px;
-  width: 300px;
+  width: auto;
 `
 const BalanceContainer = styled.div`
   display: flex;
@@ -70,7 +70,7 @@ const BalancesWrapper = styled.div`
 `
 
 const MenuTop = (props) => {
-  const { openSendBitcoin, openRequestBitcoin, coinDisplayed, toggleCoinDisplay, balance } = props
+  const { openSendBitcoin, openRequestBitcoin, coinDisplayed, toggleCoinDisplay, bitcoinBalance, etherBalance } = props
 
   return (
     <Wrapper>
@@ -99,18 +99,18 @@ const MenuTop = (props) => {
               <Icon name='bitcoin' size='24px' weight={300} />
             </Text>
             <Text weight={200} size='24px' >
-              {coinDisplayed ? <CoinDisplay coin='BTC'>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
+              {coinDisplayed ? <CoinDisplay coin='BTC'>{bitcoinBalance}</CoinDisplay> : <CurrencyDisplay>{bitcoinBalance}</CurrencyDisplay>}
             </Text>
             <Text weight={200} size='24px' >|</Text>
             <Text>
               <Icon name='ethereum' size='24px' weight={300} />
             </Text>
             <Text weight={200} size='24px' >
-              {coinDisplayed ? <CoinDisplay coin='ETH'>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
+              {coinDisplayed ? <CoinDisplay coin='ETH'>{etherBalance}</CoinDisplay> : <CurrencyDisplay>{etherBalance}</CurrencyDisplay>}
             </Text>
           </BalancesWrapper>
           <Text size='20px' weight={200}>
-            <CurrencyDisplay>{balance}</CurrencyDisplay>
+            {/* <CurrencyDisplay>{balance}</CurrencyDisplay> */}
           </Text>
         </BalanceContainer>
       </RightContainer>

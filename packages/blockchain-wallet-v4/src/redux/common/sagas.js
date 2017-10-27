@@ -8,7 +8,7 @@ export const commonSaga = ({ api } = {}) => {
   }
 
   const fetchEthereumData = function * ({ context }) {
-    const data = yield call(api.fetchEthereumData, context)
+    const data = yield call(api.getEthereumData, context)
     yield put(A.setEthereumData(data))
   }
 

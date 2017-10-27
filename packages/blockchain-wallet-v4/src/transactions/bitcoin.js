@@ -1,7 +1,11 @@
-import { Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap,
-         TXNotes, Address, HDAccount, AddressBook, AddressBookEntry } from '../../types'
-import { prop, compose, curry, mapAccum, isNil, not, findIndex, view, allPass,
-         propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex } from 'ramda'
+import {
+  Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap,
+  TXNotes, Address, HDAccount, AddressBook, AddressBookEntry
+} from '../types'
+import {
+  prop, compose, curry, mapAccum, isNil, not, findIndex, view, allPass,
+  propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex
+} from 'ramda'
 import memoize from 'fast-memoize'
 
 const unpackInput = prop('prev_out')
@@ -30,9 +34,9 @@ const tagCoin = curry((wallet, coin) => {
       }
     case isAccount(coin):
       const account = compose(HDAccountList.selectByXpub(coin.xpub.m),
-                              HDWallet.selectAccounts,
-                              HDWalletList.selectHDWallet,
-                              Wallet.selectHdWallets)(wallet)
+        HDWallet.selectAccounts,
+        HDWalletList.selectHDWallet,
+        Wallet.selectHdWallets)(wallet)
       const index = HDAccount.selectIndex(account)
       return {
         accountIndex: index,
@@ -60,14 +64,10 @@ const tagCoin = curry((wallet, coin) => {
 const txtype = (result, fee) => {
   const impact = result + fee
   switch (true) {
-    case impact === 0:
-      return 'Transferred'
-    case result < 0:
-      return 'Sent'
-    case result > 0:
-      return 'Received'
-    default:
-      return 'Unknown'
+    case impact === 0: return 'Transferred'
+    case result < 0: return 'Sent'
+    case result > 0: return 'Received'
+    default: return 'Unknown'
   }
 }
 
@@ -75,14 +75,10 @@ const txtype = (result, fee) => {
 // result is internalreceive - internalspend
 const computeAmount = (type, inputData, outputData) => {
   switch (type) {
-    case 'Transferred':
-      return propOr(0, 'internal', outputData) - propOr(0, 'change', outputData)
-    case 'Sent':
-      return -propOr(0, 'internal', outputData) + propOr(0, 'internal', inputData)
-    case 'Received':
-      return propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
-    default:
-      return propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
+    case 'Transferred': return propOr(0, 'internal', outputData) - propOr(0, 'change', outputData)
+    case 'Sent': return -propOr(0, 'internal', outputData) + propOr(0, 'internal', inputData)
+    case 'Received': return propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
+    default: return propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
   }
 }
 
@@ -153,7 +149,8 @@ const CoinbaseCoin = total => ({
   change: false,
   coinType: 'external',
   label: 'Coinbase',
-  isWatchOnly: false })
+  isWatchOnly: false
+})
 
 const CoinBaseData = total => ({
   total: total,

@@ -29,7 +29,7 @@ const FirstRow = styled.div`
 `
 const Row = styled(FirstRow)`
   justify-content: space-between;
-  padding: 10px;
+  padding: 10px 0;
   border-bottom: ${props => props.last ? 'none' : '1px solid ' + props.theme['']};
 `
 const Amount = styled.div`

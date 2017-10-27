@@ -11,7 +11,6 @@ const checkStatus = (r) => r.ok ? Promise.resolve(r) : r.text().then(j => Promis
 // extractData :: Response -> Promise (JSON | BLOB | TEXT)
 const extractData = (r) => {
   const responseOfType = (t) => r.headers.get('content-type') && r.headers.get('content-type').indexOf(t) > -1
-
   switch (true) {
     case responseOfType('application/json'): return r.json()
     case responseOfType('image/jpeg'): return r.blob()
@@ -21,8 +20,8 @@ const extractData = (r) => {
 
 export default ({ apiCode }) => {
   // Generic request object
-  const request = ({ method, url, endPoint, data, sessionToken }) => {
-    const defaultHeaders = { 'Content-Type': 'application/x-www-form-urlencoded' }
+  const request = ({ method, url, endPoint, data, sessionToken, contentType = 'application/x-www-form-urlencoded' }) => {
+    const defaultHeaders = { 'Content-Type': contentType }
 
     const formEncodedData = queryString.stringify({
       ...data,
