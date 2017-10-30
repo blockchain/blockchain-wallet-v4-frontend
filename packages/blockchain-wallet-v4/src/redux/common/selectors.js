@@ -1,9 +1,8 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
 import { keysIn, prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
 import memoize from 'fast-memoize'
-import { getBitcoinAddresses, getChangeIndex, getReceiveIndex, getEthereumAddresses } from '../data/addresses/selectors.js'
-import { getBitcoinTransactions, getEthereumTransactions } from '../data/transactions/selectors.js'
-import { getHeight } from '../data/latestBlock/selectors.js'
+import { getBitcoinAddresses, getChangeIndex, getReceiveIndex, getBitcoinTransactions, getHeight } from '../data/bitcoin/selectors.js'
+import { getEthereumAddresses, getEthereumTransactions } from '../data/ethereum/selectors.js'
 // import { transformTx } from '../../transactions'
 import transactions from '../../transactions'
 
