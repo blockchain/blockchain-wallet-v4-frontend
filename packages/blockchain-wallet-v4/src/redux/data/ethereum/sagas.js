@@ -1,4 +1,5 @@
-import { call, put, spawn, cancel, delay } from 'redux-saga/effects'
+import { call, put, spawn, cancel } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import { sum, values } from 'ramda'
 import * as A from './actions'
 
@@ -8,6 +9,7 @@ export const ethereum = ({ api } = {}) => {
     const balance = sum(values(response).map(obj => obj.balance))
     yield put(A.setEtherBalance({ balance }))
   }
+
   const refreshRatesDelay = 600000
   let ethereumRatesTask
 

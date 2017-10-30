@@ -50,7 +50,6 @@ class ListContainer extends React.Component {
   }
 
   filterTransactions (status, criteria, transactions) {
-    console.log(status)
     const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
     const search = curry((text, property, tx) => compose(contains(toUpper(text || '')), toUpper, prop(property))(tx))
     const searchPredicate = anyPass(map(search(criteria), ['description', 'from', 'to']))
@@ -67,7 +66,6 @@ class ListContainer extends React.Component {
   }
 
   render () {
-    console.log(this.props.status)
     return (
       <List transactions={this.filteredTransactions} currency={this.props.currency} />
     )
@@ -84,7 +82,7 @@ const mapStateToProps = (state) => {
     status: selector(state, 'status') || '',
     search: selector(state, 'search') || '',
     transactions: selectors.core.common.getWalletTransactions(state),
-    totalTransactions: selectors.core.data.info.getNumberTransactions(state),
+    totalTransactions: selectors.core.data.bitcoin.getNumberTransactions(state),
     scroll: selectors.scroll.selectScroll(state)
   }
 }

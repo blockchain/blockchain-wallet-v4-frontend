@@ -5,7 +5,7 @@ import * as sagas from '../sagas.js'
 
 export const getAdverts = function * (action) {
   try {
-    yield call(sagas.core.data.adverts.fetchAdverts, action.payload)
+    yield call(sagas.core.data.misc.fetchAdverts, action.payload)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch adverts.'))
   }
@@ -13,7 +13,7 @@ export const getAdverts = function * (action) {
 
 export const getCaptcha = function * (action) {
   try {
-    yield call(sagas.core.data.captcha.fetchCaptcha)
+    yield call(sagas.core.data.misc.fetchCaptcha)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch captcha.'))
   }
@@ -21,7 +21,7 @@ export const getCaptcha = function * (action) {
 
 export const getPriceIndexSeries = function * (action) {
   try {
-    yield call(sagas.core.data.charts.fetchPriceIndexSeries, action.payload)
+    yield call(sagas.core.data.misc.fetchPriceIndexSeries, action.payload)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch price index series.'))
   }
@@ -29,7 +29,7 @@ export const getPriceIndexSeries = function * (action) {
 
 export const getLogs = function * (action) {
   try {
-    yield call(sagas.core.data.logs.fetchLogs)
+    yield call(sagas.core.data.misc.fetchLogs)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch logs.'))
   }
@@ -38,7 +38,7 @@ export const getLogs = function * (action) {
 export const getBitcoinTransactions = function * (action) {
   const { address } = action.payload
   try {
-    yield call(sagas.core.data.transactions.fetchBitcoinTransactions, { address })
+    yield call(sagas.core.data.bitcoin.fetchBitcoinTransactions, { address })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch bitcoin transactions.'))
   }
@@ -47,7 +47,7 @@ export const getBitcoinTransactions = function * (action) {
 export const getEthereumTransactions = function * (action) {
   const { address } = action.payload
   try {
-    yield call(sagas.core.data.transactions.fetchEthereumTransactions, { address })
+    yield call(sagas.core.data.ethereum.fetchEthereumTransactions, { address })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch ethereum transactions.'))
   }
@@ -56,7 +56,7 @@ export const getEthereumTransactions = function * (action) {
 const getTransactionFiatAtTime = function * (action) {
   const { coin, hash, amount, time } = action.payload
   try {
-    yield call(sagas.core.data.transactionFiats.fetchTransactionFiatAtTime, { coin, hash, amount, time })
+    yield call(sagas.core.data.bitcoin.fetchTransactionFiatAtTime, { coin, hash, amount, time })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch transaction fiat at time.'))
   }
@@ -65,7 +65,7 @@ const getTransactionFiatAtTime = function * (action) {
 const getTransactionHistory = function * (action) {
   const { address, start, end } = action.payload
   try {
-    yield call(sagas.core.data.reports.fetchTransactionHistory, { address, start, end })
+    yield call(sagas.core.data.misc.fetchTransactionHistory, { address, start, end })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch transaction history data.'))
   }

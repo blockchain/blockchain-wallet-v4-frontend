@@ -62,8 +62,8 @@ class TickerContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const btcraw = selectors.core.data.rates.getBtcRates(state)
-  const ethraw = selectors.core.data.rates.getEthRates(state)
+  const btcraw = selectors.core.data.bitcoin.getBtcRates(state)
+  const ethraw = selectors.core.data.ethereum.getEthRates(state)
 
   return {
     currency: selectors.core.settings.getCurrency(state),

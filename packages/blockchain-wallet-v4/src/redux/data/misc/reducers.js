@@ -1,9 +1,14 @@
-import { assoc } from 'ramda'
+import { assoc, assocPath } from 'ramda'
 import * as AT from './actionTypes.js'
 
 const INITIAL_STATE = {
-  'adverts': {},
-  'captcha': {}
+  adverts: [],
+  captcha: {},
+  charts: {
+    price_index_series: []
+  },
+  logs: [],
+  reports: {}
 }
 
 const miscReducer = (state = INITIAL_STATE, action) => {
@@ -21,7 +26,7 @@ const miscReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_PRICE_INDEX_SERIES: {
       const { data } = payload
-      return assoc('price_index_series', data, state)
+      return assocPath(['charts', 'price_index_series'], data, state)
     }
     case AT.SET_LOGS: {
       return assoc('logs', payload, state)

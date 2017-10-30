@@ -29,8 +29,8 @@ CurrencyDisplay.defaultProps = {
 
 const mapStateToProps = (state) => ({
   currency: selectors.core.settings.getCurrency(state),
-  bitcoinRates: selectors.core.data.rates.getBtcRates(state),
-  ethereumRates: selectors.core.data.rates.getEthRates(state)
+  bitcoinRates: selectors.core.data.bitcoin.getBtcRates(state),
+  ethereumRates: selectors.core.data.ethereum.getEthRates(state)
 })
 
 export default connect(mapStateToProps)(CurrencyDisplay)

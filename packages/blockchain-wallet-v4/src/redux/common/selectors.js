@@ -3,7 +3,6 @@ import { keysIn, prop, compose, assoc, map, path, reduce, curry, split } from 'r
 import memoize from 'fast-memoize'
 import { getBitcoinAddresses, getChangeIndex, getReceiveIndex, getBitcoinTransactions, getHeight } from '../data/bitcoin/selectors.js'
 import { getEthereumAddresses, getEthereumTransactions } from '../data/ethereum/selectors.js'
-// import { transformTx } from '../../transactions'
 import transactions from '../../transactions'
 
 const mTransformTx = memoize(transactions.transformTx)
@@ -56,7 +55,6 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
   const getWalletTransactions = state => {
     const wallet = compose(Wrapper.selectWallet, prop(walletPath))(state)
     const currentBlockHeight = compose(getHeight, prop(dataPath))(state)
-
     return compose(
       map(mTransformTx.bind(undefined, wallet, currentBlockHeight)),
       getBitcoinTransactions,

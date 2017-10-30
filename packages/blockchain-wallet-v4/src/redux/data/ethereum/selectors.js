@@ -1,11 +1,11 @@
 import { path } from 'ramda'
 
-export const getEtherBalance = path(['info', 'final_balance'])
+export const getEtherBalance = path(['ethereum', 'info', 'final_balance'])
 
-export const getEthereumAddresses = path(['addresses'])
+export const getEthereumAddresses = path(['ethereum', 'addresses'])
 
-export const getEthRates = path(['rates'])
+export const getEthRates = path(['ethereum', 'rates'])
 
-export const getEthRate = currencyCode => path(['rates', currencyCode])
+export const getEthRate = currencyCode => path(['ethereum', 'rates', currencyCode])
 
-export const getEthereumTransactions = path(['transactions'])
+export const getEthereumTransactions = path(['ethereum', 'transactions'])

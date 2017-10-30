@@ -41,8 +41,8 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     const context = yield select(selectors.core.wallet.getWalletContext)
     yield all([
       call(sagas.core.common.fetchBlockchainData, { context }),
-      call(sagas.core.data.rates.startEthereumRates),
-      call(sagas.core.data.rates.startBitcoinRates),
+      call(sagas.core.data.ethereum.startEthereumRates),
+      call(sagas.core.data.bitcoin.startBitcoinRates),
       call(sagas.core.settings.fetchSettings),
       call(sagas.core.walletOptions.fetchWalletOptions),
       call(sagas.core.kvStore.whatsNew.fetchWhatsNew),

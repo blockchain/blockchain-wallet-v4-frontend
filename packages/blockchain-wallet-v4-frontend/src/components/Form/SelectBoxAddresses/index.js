@@ -33,7 +33,7 @@ const mapStateToProps = (state, ownProps) => {
   const coinDisplayed = selectors.preferences.getCoinDisplayed(state)
   const unit = selectors.core.settings.getBtcUnit(state)
   const currency = selectors.core.settings.getCurrency(state)
-  const rates = selectors.core.data.rates.getBtcRates(state)
+  const rates = selectors.core.data.bitcoin.getBtcRates(state)
 
   const transformAddresses = items => map(item => {
     const { title, amount, ...rest } = item

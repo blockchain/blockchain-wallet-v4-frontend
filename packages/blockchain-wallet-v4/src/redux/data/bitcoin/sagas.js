@@ -1,4 +1,5 @@
-import { call, put, select, delay, spawn, cancel } from 'redux-saga/effects'
+import { call, put, select, spawn, cancel } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import { futurizeP } from 'futurize'
 import { equals, prop, is, compose } from 'ramda'
 import Task from 'data.task'
@@ -16,7 +17,7 @@ const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resol
 
 export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
   const fetchFee = function * () {
-    const response = yield call(api.getFee)
+    const response = yield call(api.getBitcoinFee)
     yield put(A.setFee(response))
   }
 

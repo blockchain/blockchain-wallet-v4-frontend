@@ -103,7 +103,7 @@ const mapStateToProps = (state, ownProps) => {
         xpub: selectors.core.wallet.getDefaultAccountXpub(state),
         index: selectors.core.wallet.getDefaultAccountIndex(state)
       },
-      fee: selectors.core.data.fee.getRegular(state)
+      fee: selectors.core.data.bitcoin.getRegular(state)
     },
     coin: formValueSelector('sendBitcoin')(state, 'coin'),
     from: formValueSelector('sendBitcoin')(state, 'from'),
@@ -112,10 +112,10 @@ const mapStateToProps = (state, ownProps) => {
     amount: formValueSelector('sendBitcoin')(state, 'amount'),
     message: formValueSelector('sendBitcoin')(state, 'message'),
     fee: formValueSelector('sendBitcoin')(state, 'fee'),
-    selection: selectors.core.data.payment.getSelection(state),
-    feeValues: selectors.core.data.fee.getFee(state),
-    effectiveBalance: selectors.core.data.payment.getEffectiveBalance(state),
-    coins: selectors.core.data.payment.getCoins(state),
+    selection: selectors.core.data.bitcoin.getSelection(state),
+    feeValues: selectors.core.data.bitcoin.getBitcoinFee(state),
+    effectiveBalance: selectors.core.data.bitcoin.getEffectiveBalance(state),
+    coins: selectors.core.data.bitcoin.getCoins(state),
     unit: selectors.core.settings.getBtcUnit(state)
   }
 }

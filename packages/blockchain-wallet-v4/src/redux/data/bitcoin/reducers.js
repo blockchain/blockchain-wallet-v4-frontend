@@ -13,10 +13,16 @@ const INITIAL_STATE = {
   addresses: {},
   fee: {},
   info: {},
+  latest_block: {},
   payment: {
     coins: [],
     selection: EMPTY_SELECTION,
     effectiveBalance: 0
+  },
+  rates: {},
+  transactions: {
+    address: '',
+    list: []
   }
 }
 
@@ -25,7 +31,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case actionTypes.common.SET_BLOCKCHAIN_DATA: {
-      return payload
+      return Object.assign({}, state, payload)
     }
     case AT.SET_FEE: {
       return assoc('fee', payload, state)
@@ -38,11 +44,11 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_UNSPENT: {
       const { coins } = payload
-      return assoc('coins', coins, state)
+      return assocPath(['payment', 'coins'], coins, state)
     }
     case AT.SET_EFFECTIVE_BALANCE: {
       const { effectiveBalance } = payload
-      return assoc('effectiveBalance', effectiveBalance, state)
+      return assocPath(['payment', 'effectiveBalance'], effectiveBalance, state)
     }
     case AT.SET_SELECTION: {
       const { coins, target, feePerByte, change, algorithm, seed } = action.payload
@@ -66,7 +72,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
           break
       }
 
-      return assoc('selection', selection, state)
+      return assocPath(['payment', 'selection'], selection, state)
     }
     case AT.SET_BITCOIN_RATES: {
       return assoc('rates', payload, state)
@@ -80,7 +86,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
       if (reset) {
         return assoc('transactions', { address, list: txs }, state)
       } else {
-        const currentTxs = path(['bitcoin', 'list'], state)
+        const currentTxs = path(['transactions', 'list'], state)
         return assoc('transactions', { address, list: concat(txs, currentTxs) }, state)
       }
     }
