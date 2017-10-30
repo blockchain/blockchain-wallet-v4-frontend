@@ -15,7 +15,7 @@ export const transformEthereumTx = (addresses, tx) => ({
   amount: parseInt(tx.value),
   to: tx.to,
   from: tx.from,
-  description: tx.description,
+  description: tx.description || '',
   time: tx.timeStamp,
   status: ''
 })
