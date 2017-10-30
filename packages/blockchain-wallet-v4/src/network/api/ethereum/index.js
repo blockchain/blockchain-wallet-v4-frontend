@@ -1,6 +1,6 @@
 
 export default ({ rootUrl, apiUrl, get, post }) => {
-  const getEtherBalances = (context) => get({
+  const getEthereumBalances = (context) => get({
     url: apiUrl,
     endPoint: `eth/account/${Array.isArray(context) ? context.join() : context}/balance`
   })
@@ -34,7 +34,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   return {
-    getEtherBalances,
+    getEthereumBalances,
     getEthereumData,
     getEthereumFee,
     getEthereumLatestBlock,

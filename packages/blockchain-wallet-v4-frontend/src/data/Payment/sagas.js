@@ -18,7 +18,7 @@ export const initSendBitcoin = function * (action) {
       yield put(actions.alerts.displayError('Could not init send bitcoin.'))
     }
   } finally {
-    const feePerByte = yield select(selectors.core.data.bitcoin.getRegular)
+    const feePerByte = yield select(selectors.core.data.bitcoin.getFeeRegular)
     yield call(sagas.core.data.bitcoin.refreshEffectiveBalance, { feePerByte })
     yield put(actions.modals.closeAllModals())
     yield put(actions.modals.showModal('SendBitcoin'))
@@ -31,7 +31,7 @@ export const initSendEthereum = function * (action) {
   } catch (e) {
     yield put(actions.alerts.displayError('Could not init send ethereum.'))
   } finally {
-    // const feePerByte = yield select(selectors.core.data.ethereum.getRegular)
+    // const feePerByte = yield select(selectors.core.data.ethereum.getFeeRegular)
     // yield call(sagas.core.data.ethereum.refreshEffectiveBalance, { feePerByte })
     yield put(actions.modals.closeAllModals())
     yield put(actions.modals.showModal('SendEthereum'))

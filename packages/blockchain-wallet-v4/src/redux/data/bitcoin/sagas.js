@@ -18,7 +18,7 @@ const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resol
 export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
   const fetchFee = function * () {
     const response = yield call(api.getBitcoinFee)
-    yield put(A.setFee(response))
+    yield put(A.setBitcoinFee(response))
   }
 
   const getUnspent = function * (index, address) {
@@ -26,9 +26,9 @@ export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
     const wrapper = yield select(prop(walletPath))
     try {
       const coins = yield call(api.getWalletUnspents, wrapper, source)
-      yield put(A.setUnspent(coins))
+      yield put(A.setBitcoinUnspent(coins))
     } catch (e) {
-      yield put(A.setUnspent([]))
+      yield put(A.setBitcoinUnspent([]))
       throw e
     }
   }
@@ -36,13 +36,13 @@ export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
   const refreshSelection = function * ({ feePerByte, changeAddress, receiveAddress, satoshis, algorithm, seed }) {
     const coins = yield select(compose(getCoins, prop(dataPath)))
     const targetCoin = Coin.fromJS({ address: receiveAddress, value: satoshis })
-    yield put(A.setSelection(feePerByte, targetCoin, coins, changeAddress, algorithm, seed))
+    yield put(A.setBitcoinSelection(feePerByte, targetCoin, coins, changeAddress, algorithm, seed))
   }
 
   const refreshEffectiveBalance = function * ({ feePerByte }) {
     const coins = yield select(compose(getCoins, prop(dataPath)))
     const effectiveBalance = CoinSelection.effectiveBalance(feePerByte, coins).value
-    yield put(A.setEffectiveBalance(effectiveBalance))
+    yield put(A.setBitcoinEffectiveBalance(effectiveBalance))
   }
 
   const signAndPublish = function * ({ network, selection, password }) {
@@ -54,7 +54,7 @@ export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
   const refreshRatesDelay = 600000
   let bitcoinRatesTask
 
-  const refreshBitcoinRates = function * () {
+  const refreshRates = function * () {
     while (true) {
       const response = yield call(api.getBitcoinTicker)
       yield put(A.setBitcoinRates(response))
@@ -62,25 +62,25 @@ export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
     }
   }
 
-  const startBitcoinRates = function * () {
-    bitcoinRatesTask = yield spawn(refreshBitcoinRates)
+  const startRates = function * () {
+    bitcoinRatesTask = yield spawn(refreshRates)
   }
 
-  const stopBitcoinRates = function * () {
+  const stopRates = function * () {
     yield cancel(bitcoinRatesTask)
   }
 
   const fetchTransactionFiatAtTime = function * ({ coin, hash, amount, time }) {
     const currency = yield select(compose(getCurrency, prop(settingsPath)))
     const data = yield call(api.getTransactionFiatAtTime, coin, amount, currency, time)
-    yield put(A.setTransactionFiatAtTime(coin, currency, hash, data))
+    yield put(A.setBitcoinFiatAtTime(coin, currency, hash, data))
   }
 
-  const fetchBitcoinTransactions = function * ({ address }) {
+  const fetchTransactions = function * ({ address }) {
     let reset = false
     const context = yield select(compose(Wallet.selectContext, Wrapper.selectWallet, prop(walletPath)))
-    const currentAddress = yield select(compose(S.getBitcoinAddress, prop(dataPath)))
-    const currentTxs = yield select(compose(S.getBitcoinTransactions, prop(dataPath)))
+    const currentAddress = yield select(compose(S.getAddress, prop(dataPath)))
+    const currentTxs = yield select(compose(S.getTransactions, prop(dataPath)))
     if (!equals(currentAddress, address)) { reset = true }
     const offset = currentTxs.length
     const data = yield call(api.fetchBlockchainData, context.toJS(), { n: 50, onlyShow: address, offset: offset })
@@ -93,9 +93,9 @@ export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
     refreshSelection,
     refreshEffectiveBalance,
     signAndPublish,
-    startBitcoinRates,
-    stopBitcoinRates,
+    startRates,
+    stopRates,
     fetchTransactionFiatAtTime,
-    fetchBitcoinTransactions
+    fetchTransactions
   }
 }

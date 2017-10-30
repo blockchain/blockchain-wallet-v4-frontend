@@ -125,7 +125,7 @@ CoinConvertorContainer.propTypes = {
 const mapStateToProps = (state) => ({
   unit: selectors.core.settings.getBtcUnit(state),
   currency: selectors.core.settings.getCurrency(state),
-  rates: selectors.core.data.bitcoin.getBtcRates(state)
+  rates: selectors.core.data.bitcoin.getRates(state)
 })
 
 export default connect(mapStateToProps)(CoinConvertorContainer)

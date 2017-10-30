@@ -1,8 +1,8 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
 import { keysIn, prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
 import memoize from 'fast-memoize'
-import { getBitcoinAddresses, getChangeIndex, getReceiveIndex, getBitcoinTransactions, getHeight } from '../data/bitcoin/selectors.js'
-import { getEthereumAddresses, getEthereumTransactions } from '../data/ethereum/selectors.js'
+import * as bitcoinSelectors from '../data/bitcoin/selectors.js'
+import * as ethereumSelectors from '../data/ethereum/selectors.js'
 import transactions from '../../transactions'
 
 const mTransformTx = memoize(transactions.transformTx)
@@ -10,14 +10,14 @@ const mTransformTx = memoize(transactions.transformTx)
 export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
   // getActiveHDAccounts :: state -> [hdacountsWithInfo]
   const getActiveHDAccounts = state => {
-    const balances = compose(getBitcoinAddresses, prop(dataPath))(state)
+    const balances = compose(bitcoinSelectors.getAddresses, prop(dataPath))(state)
     const addInfo = account => assoc('info', prop(prop('xpub', account), balances), account)
     return compose(map(addInfo), HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts,
                    HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet, prop(walletPath))(state)
   }
   // getActiveAddresses :: state -> [AddresseswithInfo]
   const getActiveAddresses = state => {
-    const balances = compose(getBitcoinAddresses, prop(dataPath))(state)
+    const balances = compose(bitcoinSelectors.getAddresses, prop(dataPath))(state)
     const addInfo = address => assoc('info', prop(prop('addr', address), balances), address)
     return compose(map(addInfo), AddressMap.toJS, AddressMap.selectActive,
                    Wallet.selectAddresses, Wrapper.selectWallet, prop(walletPath))(state)
@@ -54,10 +54,10 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
   // getWalletTransactions :: state -> [Tx]
   const getWalletTransactions = state => {
     const wallet = compose(Wrapper.selectWallet, prop(walletPath))(state)
-    const currentBlockHeight = compose(getHeight, prop(dataPath))(state)
+    const currentBlockHeight = compose(bitcoinSelectors.getHeight, prop(dataPath))(state)
     return compose(
       map(mTransformTx.bind(undefined, wallet, currentBlockHeight)),
-      getBitcoinTransactions,
+      bitcoinSelectors.getTransactions,
       prop(dataPath))(state)
   }
 
@@ -76,7 +76,7 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
     const account = compose(HDWallet.selectAccount(accountIndex), HDWalletList.selectHDWallet,
                             Wallet.selectHdWallets, Wrapper.selectWallet, prop(walletPath))(state)
     const xpub = HDAccount.selectXpub(account)
-    const index = compose(getChangeIndex(xpub), prop(dataPath))(state)
+    const index = compose(bitcoinSelectors.getChangeIndex(xpub), prop(dataPath))(state)
     return getAddress(network, `${accountIndex}/${1}/${index}`, state)
   })
 
@@ -84,16 +84,16 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
     const account = compose(HDWallet.selectAccount(accountIndex), HDWalletList.selectHDWallet,
                             Wallet.selectHdWallets, Wrapper.selectWallet, prop(walletPath))(state)
     const xpub = HDAccount.selectXpub(account)
-    const index = compose(getReceiveIndex(xpub), prop(dataPath))(state)
+    const index = compose(bitcoinSelectors.getReceiveIndex(xpub), prop(dataPath))(state)
     return getAddress(network, `${accountIndex}/${0}/${index}`, state)
   })
 
   // Ethereum
   const getWalletEthereumTransactions = (state) => {
-    const accounts = compose(keysIn, getEthereumAddresses, prop(dataPath))(state)
+    const accounts = compose(keysIn, ethereumSelectors.getAddresses, prop(dataPath))(state)
     return compose(
       map(transactions.transformEthereumTx.bind(undefined, accounts)),
-      getEthereumTransactions,
+      ethereumSelectors.getTransactions,
       prop(dataPath)
     )(state)
   }

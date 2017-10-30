@@ -38,21 +38,28 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     }
     yield put(actions.auth.authenticate())
     yield put(actions.core.webSocket.startSocket())
+    // Fetch settings, options and rates
+    yield all([
+      call(sagas.core.data.ethereum.startRates),
+      call(sagas.core.data.bitcoin.startRates),
+      call(sagas.core.settings.fetchSettings),
+      call(sagas.core.walletOptions.fetchWalletOptions)
+    ])
+    // Fetch metadata
+    yield all([
+      call(sagas.core.kvStore.whatsNew.fetchWhatsNew),
+      call(sagas.core.kvStore.ethereum.fetchEthereum)
+      // call(sagas.core.kvStore.shapeShift.fetchShapeShift)
+      // call(sagas.core.kvStore.buySell.fetchBuySell)
+      // call(sagas.core.kvStore.contacts.fetchContacts)
+    ])
+    // Fetch blockchain data
     const context = yield select(selectors.core.wallet.getWalletContext)
+    const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
     yield all([
       call(sagas.core.common.fetchBlockchainData, { context }),
-      call(sagas.core.data.ethereum.startEthereumRates),
-      call(sagas.core.data.bitcoin.startBitcoinRates),
-      call(sagas.core.settings.fetchSettings),
-      call(sagas.core.walletOptions.fetchWalletOptions),
-      call(sagas.core.kvStore.whatsNew.fetchWhatsNew),
-      call(sagas.core.kvStore.ethereum.fetchEthereum),
-      call(sagas.core.kvStore.shapeShift.fetchShapeShift),
-      call(sagas.core.kvStore.buySell.fetchBuySell),
-      call(sagas.core.kvStore.contacts.fetchContacts)
+      call(sagas.core.common.fetchEthereumData, { context: etherContext })
     ])
-    const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
-    yield call(sagas.core.common.fetchEthereumData, { context: etherContext })
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())

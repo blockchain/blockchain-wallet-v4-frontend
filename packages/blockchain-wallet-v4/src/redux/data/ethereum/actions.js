@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const setEtherBalance = (balance) => ({ type: AT.SET_ETHER_BALANCE, payload: { balance } })
+export const setEthereumBalance = (balance) => ({ type: AT.SET_ETHEREUM_BALANCE, payload: { balance } })
 
 export const setEthereumRates = (data) => ({ type: AT.SET_ETHEREUM_RATES, payload: data })
 

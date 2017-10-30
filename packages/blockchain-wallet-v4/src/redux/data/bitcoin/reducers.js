@@ -33,24 +33,24 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
     case actionTypes.common.SET_BLOCKCHAIN_DATA: {
       return Object.assign({}, state, payload)
     }
-    case AT.SET_FEE: {
+    case AT.SET_BITCOIN_FEE: {
       return assoc('fee', payload, state)
     }
-    case AT.DELETE_FEE: {
+    case AT.DELETE_BITCOIN_FEE: {
       return assoc('fee', {}, state)
     }
-    case AT.SET_LATEST_BLOCK: {
+    case AT.SET_BITCOIN_LATEST_BLOCK: {
       return assocPath(['latest_block'], payload, state)
     }
-    case AT.SET_UNSPENT: {
+    case AT.SET_BITCOIN_UNSPENT: {
       const { coins } = payload
       return assocPath(['payment', 'coins'], coins, state)
     }
-    case AT.SET_EFFECTIVE_BALANCE: {
+    case AT.SET_BITCOIN_EFFECTIVE_BALANCE: {
       const { effectiveBalance } = payload
       return assocPath(['payment', 'effectiveBalance'], effectiveBalance, state)
     }
-    case AT.SET_SELECTION: {
+    case AT.SET_BITCOIN_SELECTION: {
       const { coins, target, feePerByte, change, algorithm, seed } = action.payload
 
       let selection
@@ -77,7 +77,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
     case AT.SET_BITCOIN_RATES: {
       return assoc('rates', payload, state)
     }
-    case AT.SET_TRANSACTION_FIAT_AT_TIME: {
+    case AT.SET_BITCOIN_FIAT_AT_TIME: {
       const { currency, hash, value } = payload
       return assocPath(['transactions_fiat', hash, currency], value, state)
     }
