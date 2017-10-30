@@ -20,7 +20,21 @@ export const initSendBitcoin = function * (action) {
   } finally {
     const feePerByte = yield select(selectors.core.data.fee.getRegular)
     yield call(sagas.core.data.payment.refreshEffectiveBalance, { feePerByte })
+    yield put(actions.modals.closeAllModals())
     yield put(actions.modals.showModal('SendBitcoin'))
+  }
+}
+
+export const initSendEthereum = function * (action) {
+  try {
+    yield call(sagas.core.data.fee.fetchFee)
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not init send ethereum.'))
+  } finally {
+    const feePerByte = yield select(selectors.core.data.fee.getRegular)
+    yield call(sagas.core.data.payment.refreshEffectiveBalance, { feePerByte })
+    yield put(actions.modals.closeAllModals())
+    yield put(actions.modals.showModal('SendEthereum'))
   }
 }
 
@@ -81,6 +95,7 @@ export const sendBitcoin = function * (action) {
 
 export default function * () {
   yield takeEvery(AT.INIT_SEND_BITCOIN, initSendBitcoin)
+  yield takeEvery(AT.INIT_SEND_ETHEREUM, initSendEthereum)
   yield takeEvery(AT.GET_UNSPENT, getUnspent)
   yield takeEvery(AT.GET_SELECTION, getSelection)
   yield takeEvery(AT.GET_EFFECTIVE_BALANCE, getEffectiveBalance)

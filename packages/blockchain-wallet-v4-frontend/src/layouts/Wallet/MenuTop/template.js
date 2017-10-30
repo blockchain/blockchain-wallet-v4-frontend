@@ -70,7 +70,7 @@ const BalancesWrapper = styled.div`
 `
 
 const MenuTop = (props) => {
-  const { openSendBitcoin, openRequestBitcoin, coinDisplayed, toggleCoinDisplay, bitcoinBalance, etherBalance } = props
+  const { openSend, openRequest, coinDisplayed, toggleCoinDisplay, bitcoinBalance, etherBalance } = props
 
   return (
     <Wrapper>
@@ -81,11 +81,11 @@ const MenuTop = (props) => {
           </Text>
         </TextContainer>
         <ButtonContainer>
-          <IconButton name='send' onClick={openSendBitcoin}>
+          <IconButton name='send' onClick={openSend}>
             <FormattedMessage id='layouts.wallet.menutop.send' defaultMessage='Send' />
           </IconButton>
           <ButtonGroup>
-            <IconButton name='request' onClick={openRequestBitcoin}>
+            <IconButton name='request' onClick={openRequest}>
               <FormattedMessage id='layouts.wallet.menutop.request' defaultMessage='Request' />
             </IconButton>
             <IconButton name='clipboard' />
@@ -120,8 +120,8 @@ const MenuTop = (props) => {
 
 MenuTop.propTypes = {
   balance: PropTypes.number.isRequired,
-  openSendBitcoin: PropTypes.func.isRequired,
-  openRequestBitcoin: PropTypes.func.isRequired,
+  openSend: PropTypes.func.isRequired,
+  openRequest: PropTypes.func.isRequired,
   toggleCoinDisplay: PropTypes.func.isRequired
 }
 

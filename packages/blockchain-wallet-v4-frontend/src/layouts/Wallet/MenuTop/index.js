@@ -8,8 +8,8 @@ import MenuTop from './template.js'
 class MenuTopContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.openSendBitcoin = this.openSendBitcoin.bind(this)
-    this.openRequestBitcoin = this.openRequestBitcoin.bind(this)
+    this.openSend = this.openSend.bind(this)
+    this.openRequest = this.openRequest.bind(this)
     this.toggleCoinDisplay = this.toggleCoinDisplay.bind(this)
   }
 
@@ -17,20 +17,28 @@ class MenuTopContainer extends React.Component {
     this.props.preferencesActions.toggleCoinDisplayed()
   }
 
-  openSendBitcoin () {
-    this.props.paymentActions.initSendBitcoin()
+  openSend () {
+    if (this.props.router.location.pathname === '/eth/transactions') {
+      this.props.paymentActions.initSendEthereum()
+    } else {
+      this.props.paymentActions.initSendBitcoin()
+    }
   }
 
-  openRequestBitcoin () {
-    this.props.modalActions.showModal('RequestBitcoin')
+  openRequest () {
+    if (this.props.router.location.pathname === '/eth/transactions') {
+      this.props.modalActions.showModal('RequestEthereum')
+    } else {
+      this.props.modalActions.showModal('RequestBitcoin')
+    }
   }
 
   render () {
     return <MenuTop
       {...this.props}
       toggleCoinDisplay={this.toggleCoinDisplay}
-      openSendBitcoin={this.openSendBitcoin}
-      openRequestBitcoin={this.openRequestBitcoin} />
+      openSend={this.openSend}
+      openRequest={this.openRequest} />
   }
 }
 
@@ -41,7 +49,8 @@ MenuTopContainer.defaultProps = {
 const mapStateToProps = (state) => ({
   coinDisplayed: selectors.preferences.getCoinDisplayed(state),
   bitcoinBalance: selectors.core.data.info.getBitcoinBalance(state),
-  etherBalance: selectors.core.data.info.getEtherBalance(state)
+  etherBalance: selectors.core.data.info.getEtherBalance(state),
+  router: state.router
 })
 
 const mapDispatchToProps = (dispatch) => ({

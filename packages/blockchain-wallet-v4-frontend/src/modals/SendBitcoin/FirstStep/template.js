@@ -75,7 +75,7 @@ const FirstStep = (props) => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='send' onClose={closeAll}>
-        <FormattedMessage id='modals.sendbitcoin.firststep.title' defaultMessage='Send' />
+        <FormattedMessage id='modals.sendbitcoin.firststep.title' defaultMessage='Send Bitcoin' />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={onSubmit}>
