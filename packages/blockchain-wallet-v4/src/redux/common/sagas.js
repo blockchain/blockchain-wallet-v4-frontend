@@ -1,16 +1,20 @@
 import { call, put } from 'redux-saga/effects'
-import { compose, dissoc, flatten, mapObjIndexed, prop, sortBy, sum, values, negate, uniqBy } from 'ramda'
+import { compose, dissoc, flatten, indexBy, mapObjIndexed, prop, sortBy, sum, values, negate, uniqBy, path } from 'ramda'
 import * as A from './actions'
 
 export const commonSaga = ({ api } = {}) => {
   const fetchBlockchainData = function * ({ context }) {
     const data = yield call(api.fetchBlockchainData, context, { n: 1 })
-    yield put(A.setBlockchainData(data))
+    const bitcoinData = {
+      addresses: indexBy(prop('address'), prop('addresses', data)),
+      info: path(['wallet'], data),
+      latest_block: path(['info', 'latest_block'], data)
+    }
+    yield put(A.setBlockchainData(bitcoinData))
   }
 
   const fetchEthereumData = function * ({ context }) {
     const data = yield call(api.getEthereumData, context)
-
     const finalBalance = sum(values(data).map(obj => obj.balance))
     const totalReceived = sum(values(data).map(obj => obj.totalReceived))
     const totalSent = sum(values(data).map(obj => obj.totalSent))

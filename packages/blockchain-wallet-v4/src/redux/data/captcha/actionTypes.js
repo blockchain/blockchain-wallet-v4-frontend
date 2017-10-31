@@ -1,3 +1,0 @@
-export const SET_CAPTCHA = '@CORE.SET_CAPTCHA'
-
-export const DELETE_CAPTCHA = '@CORE.DELETE_CAPTCHA'

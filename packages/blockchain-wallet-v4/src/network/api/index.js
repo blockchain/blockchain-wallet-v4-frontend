@@ -1,6 +1,7 @@
-import data from './data'
+import bitcoin from './bitcoin'
 import ethereum from './ethereum'
 import kvStore from './kvStore'
+import misc from './misc'
 import options from './options'
 import settings from './settings'
 import wallet from './wallet'
@@ -14,9 +15,10 @@ export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCo
   const { get, post } = fetchService({ apiCode })
 
   return {
-    ...data({ rootUrl, apiUrl, get, post }),
+    ...bitcoin({ rootUrl, apiUrl, get, post }),
     ...ethereum({ rootUrl, apiUrl, get, post }),
     ...kvStore({ apiUrl }),
+    ...misc({ rootUrl, apiUrl, get, post }),
     ...options({ rootUrl, apiUrl, get, post }),
     ...settings({ rootUrl, apiUrl, get, post }),
     ...wallet({ rootUrl, apiUrl, get, post })
