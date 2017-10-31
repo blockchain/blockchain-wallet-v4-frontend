@@ -21,11 +21,11 @@ const Row = styled.div`
 const ColOne = styled.div`
   width: 50%;
   margin-right: 5px;
-  @media(min-width: 1200px) { width: 30%; }
+  @media(min-width: 992px) { width: 30%; }
 `
 const ColTwo = styled.div`
   width: 50%;
-  @media(min-width: 1200px) { width: 70%; }
+  @media(min-width: 992px) { width: 70%; }
 `
 const ColLeft = styled.div`
   width: 50%;
@@ -68,7 +68,7 @@ const validAmount = (value, allValues, props) => parseFloat(value) <= props.effe
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = (props) => {
-  const { invalid, submitting, position, total, closeAll, ...rest } = props
+  const { invalid, submitting, position, total, closeAll, loading, ...rest } = props
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, ...rest2 } = rest
   const { onSubmit, handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler } = rest2
 
@@ -77,7 +77,7 @@ const FirstStep = (props) => {
       <ModalHeader icon='send' onClose={closeAll}>
         <FormattedMessage id='modals.sendbitcoin.firststep.title' defaultMessage='Send Bitcoin' />
       </ModalHeader>
-      <ModalBody>
+      <ModalBody loading={loading}>
         <Form onSubmit={onSubmit}>
           <Row>
             <ColOne>

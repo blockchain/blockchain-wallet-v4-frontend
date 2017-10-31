@@ -21,7 +21,7 @@ export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
     yield put(A.setBitcoinFee(response))
   }
 
-  const getUnspent = function * (index, address) {
+  const fetchUnspent = function * (index, address) {
     const source = is(Number, index) ? index : address
     const wrapper = yield select(prop(walletPath))
     try {
@@ -89,13 +89,13 @@ export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
 
   return {
     fetchFee,
-    getUnspent,
+    fetchTransactions,
+    fetchTransactionFiatAtTime,
+    fetchUnspent,
     refreshSelection,
     refreshEffectiveBalance,
     signAndPublish,
     startRates,
-    stopRates,
-    fetchTransactionFiatAtTime,
-    fetchTransactions
+    stopRates
   }
 }

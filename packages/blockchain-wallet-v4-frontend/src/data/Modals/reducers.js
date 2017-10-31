@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { insert, remove, update } from 'ramda'
+import { insert, remove, update, last, merge } from 'ramda'
 
 const INITIAL_STATE = []
 
@@ -14,10 +14,17 @@ const modals = (state = INITIAL_STATE, action) => {
     case AT.CLOSE_ALL_MODALS:
       return []
     case AT.SHOW_MODAL: {
-      return insert(nextIndex, payload, state)
+      return state.filter(x => x.type === payload.type).length === 0
+        ? insert(nextIndex, payload, state)
+        : state
     }
     case AT.REPLACE_MODAL: {
-      return update(0, payload, state)
+      return update(lastIndex, payload, state)
+    }
+    case AT.UPDATE_MODAL: {
+      const lastModal = last(state)
+      const updatedModal = merge(lastModal, payload)
+      return update(lastIndex, updatedModal, state)
     }
     default:
       return state
