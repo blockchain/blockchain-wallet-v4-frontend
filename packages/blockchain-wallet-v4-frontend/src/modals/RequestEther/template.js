@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
@@ -18,8 +18,9 @@ const AddressContainer = styled.div`
 `
 const QRCodeContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   width: 100%;
   padding: 30px 0;
 `
@@ -27,9 +28,12 @@ const CoinSelector = styled.div`
   width: 50%;
   margin-bottom: 20px;
 `
+const ScanMessage = styled.div`
+  padding-bottom: 20px;
+`
 
 const RequestEther = (props) => {
-  const { submitting, invalid, position, closeAll, ...rest } = props
+  const { position, closeAll, ...rest } = props
   const { onSubmit, receiveAddress } = rest
 
   return (
@@ -60,15 +64,31 @@ const RequestEther = (props) => {
             </Text>
           </Separator>
           <QRCodeContainer>
-            <QRCodeReact value={receiveAddress} size={225} />
+            <ScanMessage>
+              <Text size='14px'>
+                <FormattedMessage id='modals.requestether.scan' defaultMessage='Scan QR Code:' />
+                <Tooltip>
+                  <FormattedMessage id='modals.requestether.scan_tooltip' defaultMessage='Ask the sender to scan this QR code with their ether wallet' />
+                </Tooltip>
+              </Text>
+            </ScanMessage>
+            <QRCodeReact value={receiveAddress} size={150} />
           </QRCodeContainer>
-          <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
+          <Button type='submit' nature='primary' fullwidth uppercase>
             <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
           </Button>
         </Form>
       </ModalBody>
     </Modal>
   )
+}
+
+RequestEther.propTypes = {
+  position: PropTypes.number.isRequired,
+  closeAll: PropTypes.func.isRequired,
+  receiveAddress: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  coin: PropTypes.string.isRequired
 }
 
 export default reduxForm({ form: 'requestEther', destroyOnUnmount: false })(RequestEther)
