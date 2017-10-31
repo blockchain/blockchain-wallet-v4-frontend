@@ -1,4 +1,4 @@
-import { assoc } from 'ramda'
+import { assoc, merge } from 'ramda'
 import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes.js'
 
@@ -16,7 +16,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case actionTypes.common.SET_ETHEREUM_DATA: {
-      return Object.assign({}, state, payload)
+      return merge(state, payload)
     }
     case AT.SET_ETHEREUM_RATES: {
       return assoc('rates', payload, state)

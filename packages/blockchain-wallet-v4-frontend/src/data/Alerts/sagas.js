@@ -1,5 +1,5 @@
-import { takeEvery, delay } from 'redux-saga'
-import { call, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { takeEvery, call, put } from 'redux-saga/effects'
 
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
