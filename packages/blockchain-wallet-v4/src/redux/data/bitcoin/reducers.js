@@ -1,4 +1,4 @@
-import { assoc, assocPath, concat, path } from 'ramda'
+import { assoc, assocPath, concat, merge, path } from 'ramda'
 import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes.js'
 import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound } from '../../../coinSelection'
@@ -31,7 +31,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case actionTypes.common.SET_BLOCKCHAIN_DATA: {
-      return Object.assign({}, state, payload)
+      return merge(state, payload)
     }
     case AT.SET_BITCOIN_FEE: {
       return assoc('fee', payload, state)

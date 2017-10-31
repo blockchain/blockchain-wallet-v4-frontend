@@ -102,7 +102,7 @@
     "libphonenumber-js": "^0.4.27",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
-    "qrcode-react": "^0.1.14",
+    "qrcode.react": "^0.7.2",
     "ramda": "^0.25",
     "react": "^15.5.4",
     "react-browser-detection": "^1.0.3",

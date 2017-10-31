@@ -91,14 +91,9 @@ FirstStep.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired,
-  addressSelectToggled: PropTypes.bool.isRequired,
-  addressSelectOpened: PropTypes.bool.isRequired,
-  feeEditToggled: PropTypes.bool.isRequired,
   selection: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  handleClickQrCodeCapture: PropTypes.func.isRequired,
-  handleClickAddressToggler: PropTypes.func.isRequired,
-  handleClickFeeToggler: PropTypes.func.isRequired
+  handleClickQrCodeCapture: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false, shouldValidate: shouldValidate })(FirstStep)
+export default reduxForm({ form: 'sendEthereum', destroyOnUnmount: false, shouldValidate: shouldValidate })(FirstStep)

@@ -1,4 +1,4 @@
-import { fork } from 'redux-saga/effects'
+import { all, fork } from 'redux-saga/effects'
 
 import config from 'config'
 import { api } from 'services/ApiService'
@@ -29,7 +29,7 @@ export const sagas = {
 }
 
 const rootSaga = function * () {
-  yield [
+  yield all([
     fork(alerts),
     fork(auth),
     fork(data),
@@ -38,7 +38,7 @@ const rootSaga = function * () {
     fork(settings),
     fork(wallet),
     fork(sagas.core.webSocket)
-  ]
+  ])
 }
 
 export default rootSaga
