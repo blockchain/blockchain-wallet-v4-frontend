@@ -2,8 +2,6 @@ import * as AT from './actionTypes'
 
 export const setBitcoinFee = (data) => ({ type: AT.SET_BITCOIN_FEE, payload: data })
 
-export const deleteBitcoinFee = () => ({ type: AT.DELETE_BITCOIN_FEE })
-
 export const setBitcoinLatestBlock = (block_index, hash, height, time) => ({ type: AT.SET_BITCOIN_LATEST_BLOCK, payload: { block_index, hash, height, time } })
 
 export const setBitcoinUnspent = (coins) => ({ type: AT.SET_BITCOIN_UNSPENT, payload: { coins } })
