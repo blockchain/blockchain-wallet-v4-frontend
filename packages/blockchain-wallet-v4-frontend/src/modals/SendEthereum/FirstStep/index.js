@@ -62,14 +62,14 @@ const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: {
       coin: 'ETH',
-      fee: selectors.core.data.fee.getRegular(state)
+      fee: 100 // selectors.core.data.ethereum.getFeeRegular(state)
     },
     coin: formValueSelector('sendEthereum')(state, 'coin'),
     to: formValueSelector('sendEthereum')(state, 'to'),
     amount: formValueSelector('sendEthereum')(state, 'amount'),
     message: formValueSelector('sendEthereum')(state, 'message'),
     fee: 0.000441,
-    effectiveBalance: selectors.core.data.payment.getEffectiveBalance(state),
+    effectiveBalance: 100, //selectors.core.data.ethereum.getEffectiveBalance(state),
     unit: selectors.core.settings.getBtcUnit(state)
   }
 }

@@ -32,7 +32,7 @@ const mapStateToProps = (state, ownProps) => {
   const g = selectors.core.wallet.getLegacyAddressLabel(state)
   const toAddress = !isNil(to2) ? to2 : (to.address || g(to.address) || f(to.index))
   const fromAddress = from.address || g(from.address) || f(from.index)
-  const selection = selectors.core.data.payment.getSelection(state)
+  const selection = selectors.core.data.bitcoin.getSelection(state)
   const targetCoin = filter(x => !x.change, selection.outputs)[0]
   const satoshis = targetCoin.value
   const fee = selection.fee

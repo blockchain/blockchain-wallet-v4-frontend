@@ -8,7 +8,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const updateSettings = (guid, sharedKey, method, payload, querystring = '') => post({
     url: rootUrl,
     endPoint: querystring ? `wallet?${querystring}` : 'wallet',
-    data: { guid, sharedKey, method: 'update-email', payload, length: payload.length }
+    data: { guid, sharedKey, method, payload, length: payload.length }
   })
 
   const updateEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)

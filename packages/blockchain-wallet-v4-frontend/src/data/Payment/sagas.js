@@ -10,16 +10,16 @@ import { convertUnitToSatoshis } from 'services/ConversionService'
 
 export const initSendBitcoin = function * (action) {
   try {
-    yield call(sagas.core.data.fee.fetchFee)
+    yield call(sagas.core.data.bitcoin.fetchFee)
     const index = yield select(selectors.core.wallet.getDefaultAccountIndex)
-    yield call(sagas.core.data.payment.getUnspent, index, undefined)
+    yield call(sagas.core.data.bitcoin.getUnspent, index, undefined)
   } catch (e) {
     if (e !== 'No free outputs to spend') {
       yield put(actions.alerts.displayError('Could not init send bitcoin.'))
     }
   } finally {
-    const feePerByte = yield select(selectors.core.data.fee.getRegular)
-    yield call(sagas.core.data.payment.refreshEffectiveBalance, { feePerByte })
+    const feePerByte = yield select(selectors.core.data.bitcoin.getFeeRegular)
+    yield call(sagas.core.data.bitcoin.refreshEffectiveBalance, { feePerByte })
     yield put(actions.modals.closeAllModals())
     yield put(actions.modals.showModal('SendBitcoin'))
   }
@@ -27,12 +27,12 @@ export const initSendBitcoin = function * (action) {
 
 export const initSendEthereum = function * (action) {
   try {
-    yield call(sagas.core.data.fee.fetchFee)
+    // yield call(sagas.core.ethereum.fee.fetchFee)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not init send ethereum.'))
   } finally {
-    const feePerByte = yield select(selectors.core.data.fee.getRegular)
-    yield call(sagas.core.data.payment.refreshEffectiveBalance, { feePerByte })
+    // const feePerByte = yield select(selectors.core.data.ethereum.getFeeRegular)
+    // yield call(sagas.core.data.ethereum.refreshEffectiveBalance, { feePerByte })
     yield put(actions.modals.closeAllModals())
     yield put(actions.modals.showModal('SendEthereum'))
   }
@@ -41,7 +41,7 @@ export const initSendEthereum = function * (action) {
 export const getUnspent = function * (action) {
   const { index, address } = action.payload
   try {
-    yield call(sagas.core.data.payment.getUnspent, index, address)
+    yield call(sagas.core.data.bitcoin.getUnspent, index, address)
   } catch (e) {
     if (e !== 'No free outputs to spend') {
       yield put(actions.alerts.displayError('Could not fetch coin unspent.'))
@@ -65,7 +65,7 @@ export const getSelection = function * (action) {
     const unit = yield select(selectors.core.settings.getBtcUnit)
     const satoshis = convertUnitToSatoshis(amount, unit).value
     const algorithm = 'singleRandomDraw'
-    yield call(sagas.core.data.payment.refreshSelection, { feePerByte: fee, changeAddress, receiveAddress, satoshis, algorithm, seed })
+    yield call(sagas.core.data.bitcoin.refreshSelection, { feePerByte: fee, changeAddress, receiveAddress, satoshis, algorithm, seed })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not calculate selection.'))
   }
@@ -74,7 +74,7 @@ export const getSelection = function * (action) {
 export const getEffectiveBalance = function * (action) {
   const { fee } = action.payload
   try {
-    yield call(sagas.core.data.payment.refreshEffectiveBalance, { feePerByte: fee })
+    yield call(sagas.core.data.bitcoin.refreshEffectiveBalance, { feePerByte: fee })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not calculate selection.'))
   }
@@ -82,7 +82,7 @@ export const getEffectiveBalance = function * (action) {
 
 export const sendBitcoin = function * (action) {
   try {
-    const saga = askSecondPasswordEnhancer(sagas.core.data.payment.signAndPublish)
+    const saga = askSecondPasswordEnhancer(sagas.core.data.bitcoin.signAndPublish)
     yield call(saga, action.payload)
     yield put(actions.form.destroy('sendBitcoin'))
     yield put(actions.modals.closeModal())

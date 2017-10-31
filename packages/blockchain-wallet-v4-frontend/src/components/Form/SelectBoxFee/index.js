@@ -18,8 +18,8 @@ class SelectBoxFeeContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  regularFee: selectors.core.data.fee.getRegular(state),
-  priorityFee: selectors.core.data.fee.getPriority(state)
+  regularFee: selectors.core.data.bitcoin.getFeeRegular(state),
+  priorityFee: selectors.core.data.bitcoin.getFeePriority(state)
 })
 
 export default connect(mapStateToProps)(SelectBoxFeeContainer)
