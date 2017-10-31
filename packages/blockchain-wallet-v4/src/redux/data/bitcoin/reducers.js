@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   payment: {
     coins: [],
     selection: EMPTY_SELECTION,
-    effectiveBalance: 0
+    effectiveBalance: undefined
   },
   rates: {},
   transactions: {
@@ -35,9 +35,6 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_BITCOIN_FEE: {
       return assoc('fee', payload, state)
-    }
-    case AT.DELETE_BITCOIN_FEE: {
-      return assoc('fee', {}, state)
     }
     case AT.SET_BITCOIN_LATEST_BLOCK: {
       return assocPath(['latest_block'], payload, state)
