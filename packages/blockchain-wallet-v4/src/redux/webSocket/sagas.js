@@ -38,7 +38,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
         break
       case 'block':
         const newBlock = message.x
-        yield put(A.core.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
+        yield put(A.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
         yield call(refreshTransactionList)
         break
       case 'pong':
