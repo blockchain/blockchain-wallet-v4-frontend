@@ -26,7 +26,7 @@ const INITIAL_STATE = {
   }
 }
 
-const ethereumReducer = (state = INITIAL_STATE, action) => {
+const bitcoinReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
@@ -95,4 +95,4 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default ethereumReducer
+export default bitcoinReducer

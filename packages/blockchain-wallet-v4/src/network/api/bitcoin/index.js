@@ -1,4 +1,4 @@
-import { gt, toUpper } from 'ramda'
+import { toUpper } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getBitcoinTicker = () => get({
@@ -12,7 +12,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'unspent',
     data: {
       active: fromAddresses.join('|'),
-      confirmations: gt(confirmations, -1) ? confirmations : -1,
+      confirmations: Math.max(confirmations, -1),
       format: 'json'
     }
   })
