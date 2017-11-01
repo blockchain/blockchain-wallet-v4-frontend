@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import ui from 'redux-ui'
 import { equals } from 'ramda'
+
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
@@ -20,14 +21,9 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { coin, fee, coins } = nextProps
+    const { coin } = nextProps
     // Replace the bitcoin modal to the ethereum modal
     if (!equals(this.props.coin, coin) && coin === 'BTC') { this.props.paymentActions.initSendBitcoin() }
-
-    // Update effective balance if fee or from (coins) has changed
-    // if (!equals(this.props.fee, fee) || !equals(this.props.coins, coins)) {
-    //   this.props.paymentActions.getEffectiveBalance({ fee })
-    // }
   }
 
   handleClickQrCodeCapture () {
@@ -40,16 +36,16 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    const { position, total, closeAll, selection, unit, effectiveBalance } = this.props
-    // const convertedEffectiveBalance = convertSatoshisToUnit(effectiveBalance, unit).value
-    const convertedEffectiveBalance = 0
+    const { position, total, closeAll, amount, fee } = this.props
+    const convertedFee = Exchange.convertBitcoinToBitcoin({ value: fee || 0, fromUnit: 'WEI', toUnit: 'ETH' }).value
+    const effectiveBalance = amount - convertedFee
 
     return <FirstStep
       position={position}
       total={total}
       closeAll={closeAll}
-      selection={selection}
-      effectiveBalance={convertedEffectiveBalance}
+      fee={fee}
+      effectiveBalance={effectiveBalance}
       handleClickQrCodeCapture={this.handleClickQrCodeCapture}
       onSubmit={this.onSubmit}
     />
@@ -59,16 +55,13 @@ class FirstStepContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: {
-      coin: 'ETH',
-      fee: selectors.core.data.ethereum.getFeeRegular(state)
+      coin: 'ETH'
     },
     coin: formValueSelector('sendEthereum')(state, 'coin'),
     to: formValueSelector('sendEthereum')(state, 'to'),
     amount: formValueSelector('sendEthereum')(state, 'amount'),
     message: formValueSelector('sendEthereum')(state, 'message'),
-    fee: formValueSelector('sendEthereum')(state, 'fee'),
-    effectiveBalance: 100, // selectors.core.data.ethereum.getEffectiveBalance(state),
-    unit: selectors.core.settings.getBtcUnit(state)
+    fee: selectors.core.data.ethereum.getFeeRegular(state)
   }
 }
 
@@ -78,9 +71,4 @@ const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { feeEditToggled: false, addressSelectToggled: false, addressSelectOpened: false } })
-)
-
-export default enhance(FirstStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
