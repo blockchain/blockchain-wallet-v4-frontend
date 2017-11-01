@@ -72,7 +72,7 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.sendethereum.firststep.fee' defaultMessage='Transaction fee :' />
           </Text>
           <Text weight={300}>
-            <ComboDisplay>{fee}</ComboDisplay>
+            <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
           </Text>
           <ButtonRow>
             <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>

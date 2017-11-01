@@ -2,26 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectors } from 'data'
-import { equals, prop, path } from 'ramda'
+import { equals } from 'ramda'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
-
-import { convertUnitToFiat, convertFiatToUnit } from 'services/ConversionService'
 import CoinConvertor from './template.js'
-
-const { Currencies } = Exchange
-const { BTC } = Currencies
 
 class CoinConvertorContainer extends React.Component {
   constructor (props) {
     super(props)
     const { unit, currency, rates, input } = props
     const { value } = input
-    const coin = value
-    const fiat = convertUnitToFiat(unit, currency, rates, coin)
+    const fiat = Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates })
 
     this.state = {
-      coin,
-      coinUnit: BTC.units[unit].symbol,
+      coin: value,
+      coinUnit: unit,
       fiat: fiat.value,
       fiatUnit: fiat.unit.symbol
     }
@@ -38,12 +33,12 @@ class CoinConvertorContainer extends React.Component {
         !equals(this.props.unit, nextProps.unit) ||
         !equals(this.props.currency, nextProps.currency))) {
       const { unit, currency, rates } = nextProps
-      const coin = nextProps.input.value
-      const fiat = convertUnitToFiat(unit, currency, rates, coin)
+      const value = nextProps.input.value
+      const fiat = Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates })
 
       this.setState({
-        coin,
-        coinUnit: BTC.units[unit].symbol,
+        coin: value,
+        coinUnit: unit,
         fiat: fiat.value,
         fiatUnit: fiat.unit ? fiat.unit.symbol : ''
       })
@@ -54,12 +49,11 @@ class CoinConvertorContainer extends React.Component {
     const { unit, currency, rates, input } = this.props
     const { onChange } = input
     const value = event.target.value
-    const coin = value
-    const fiat = convertUnitToFiat(unit, currency, rates, coin)
+    const fiat = Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates })
 
     this.setState({
-      coin,
-      coinUnit: BTC.units[unit].symbol,
+      coin: value,
+      coinUnit: unit,
       fiat: fiat.value,
       fiatUnit: fiat.unit.symbol
     })
@@ -70,17 +64,13 @@ class CoinConvertorContainer extends React.Component {
   handleFiatChange (event) {
     const { unit, currency, rates } = this.props
     const value = event.target.value
-    const fiat = value
-    const coin = convertFiatToUnit(unit, currency, rates, fiat)
-    const CUR = prop(currency, Currencies)
-    const CURCode = prop('code', CUR)
-    const CURunit = path(['units', CURCode], CUR)
+    const coin = Exchange.convertFiatToBitcoin({ value: value, fromCurrency: currency, toUnit: unit, rates })
 
     this.setState({
       coin: coin.value,
       coinUnit: coin.unit.symbol,
-      fiat: fiat,
-      fiatUnit: CURunit.symbol
+      fiat: value,
+      fiatUnit: currency
     })
   }
 

@@ -67,7 +67,7 @@ const SecondStep = (props) => {
               <FormattedMessage id='modals.sendbitcoin.secondstep.payment' defaultMessage='Payment:' />
             </Text>
             <Text size='16px' weight={300}>
-              <ComboDisplay>{satoshis}</ComboDisplay>
+              <ComboDisplay coin='BTC'>{satoshis}</ComboDisplay>
             </Text>
           </Row>
           <Row>
@@ -75,7 +75,7 @@ const SecondStep = (props) => {
               <FormattedMessage id='modals.sendbitcoin.secondstep.fee' defaultMessage='Fee:' />
             </Text>
             <Text size='16px' weight={300}>
-              <ComboDisplay>{fee}</ComboDisplay>
+              <ComboDisplay coin='BTC'>{fee}</ComboDisplay>
             </Text>
           </Row>
           <Summary>
@@ -86,7 +86,7 @@ const SecondStep = (props) => {
               <CoinDisplay coin='BTC'>{satoshis}</CoinDisplay>
             </Text>
             <Text size='20px' weight={300} color='transferred'>
-              <CurrencyDisplay>{satoshis}</CurrencyDisplay>
+              <CurrencyDisplay coin='BTC'>{satoshis}</CurrencyDisplay>
             </Text>
           </Summary>
           <Button type='submit' nature='primary' fullwidth uppercase>

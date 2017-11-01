@@ -136,7 +136,10 @@ const FirstStep = (props) => {
               }
             </ColLeft>
             <ColRight>
-              {invalid ? <div /> : <ComboDisplay>{selection.fee}</ComboDisplay>}
+              { selection.fee
+                ? <ComboDisplay coin='BTC'>{selection.fee}</ComboDisplay>
+                : <div />
+              }
               <Link onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
                 {feeEditToggled
                   ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
