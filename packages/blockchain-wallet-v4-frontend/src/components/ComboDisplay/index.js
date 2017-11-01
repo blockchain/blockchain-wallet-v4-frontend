@@ -9,9 +9,9 @@ const ComboDisplay = props => {
   const { coin, unit, currency, bitcoinRates, ethereumRates, children } = props
   const result = coin === 'BTC'
     ? `${Exchange.displayBitcoinToBitcoin({ value: children, fromUnit: 'SAT', toUnit: unit })} 
-       ${Exchange.displayBitcoinToFiat({ value: children, fromUnit: 'SAT', toCurrency: currency, bitcoinRates })}`
+       ${Exchange.displayBitcoinToFiat({ value: children, fromUnit: 'SAT', toCurrency: currency, rates: bitcoinRates })}`
     : `${Exchange.displayEtherToEther({ value: children, fromUnit: 'WEI', toUnit: 'ETH' })} 
-       ${Exchange.displayEtherToFiat({ value: children, fromUnit: 'WEI', toCurrency: currency, ethereumRates })}`
+       ${Exchange.displayEtherToFiat({ value: children, fromUnit: 'WEI', toCurrency: currency, rates: ethereumRates })}`
 
   return <div>{result}</div>
 }
@@ -28,8 +28,8 @@ ComboDisplay.defaultProps = {
 const mapStateToProps = (state) => ({
   unit: selectors.core.settings.getBtcUnit(state),
   currency: selectors.core.settings.getCurrency(state),
-  bticoinRates: selectors.core.data.bitcoin.getRates(state),
-  ethereumRates: selectors.core.data.bitcoin.getRates(state)
+  bitcoinRates: selectors.core.data.bitcoin.getRates(state),
+  ethereumRates: selectors.core.data.ethereum.getRates(state)
 })
 
 export default connect(mapStateToProps)(ComboDisplay)

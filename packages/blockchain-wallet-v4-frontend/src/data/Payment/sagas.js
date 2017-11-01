@@ -31,7 +31,7 @@ export const initSendEthereum = function * (action) {
   try {
     yield put(actions.modals.closeAllModals())
     yield put(actions.modals.showModal('SendEthereum', undefined, { loading: true }))
-    yield call(sagas.core.ethereum.fee.fetchFee)
+    yield call(sagas.core.data.ethereum.fetchFee)
     yield put(actions.modals.updateModal(undefined, { loading: false }))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not init send ethereum.'))

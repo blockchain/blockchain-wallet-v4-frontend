@@ -75,7 +75,7 @@ class FirstStepContainer extends React.Component {
   render () {
     const { ui, position, total, loading, closeAll, selection, unit, coins, effectiveBalance } = this.props
     const convertedEffectiveBalance = Exchange.convertBitcoinToBitcoin({ value: effectiveBalance || 0, fromUnit: 'SAT', toUnit: unit }).value
-    console.log(convertedEffectiveBalance)
+
     return <FirstStep
       position={position}
       total={total}

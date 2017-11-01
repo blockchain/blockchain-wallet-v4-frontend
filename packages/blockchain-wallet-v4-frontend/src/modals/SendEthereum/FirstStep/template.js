@@ -36,8 +36,8 @@ const validAmount = (value, allValues, props) => parseFloat(value) <= props.effe
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = (props) => {
-  const { invalid, submitting, position, total, closeAll, ...rest } = props
-  const { fee, onSubmit } = rest
+  const { invalid, submitting, position, total, closeAll, fee, onSubmit } = props
+  console.log(fee)
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -71,9 +71,11 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendethereum.firststep.fee' defaultMessage='Transaction fee :' />
           </Text>
-          <Text weight={300}>
-            <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
-          </Text>
+          { fee &&
+            <Text weight={300}>
+              <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
+            </Text>
+          }
           <ButtonRow>
             <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
               <FormattedMessage id='modals.sendethereum.firststep.continue' defaultMessage='Continue' />
@@ -91,7 +93,7 @@ FirstStep.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired,
-  selection: PropTypes.object.isRequired,
+  fee: PropTypes.number,
   onSubmit: PropTypes.func.isRequired,
   handleClickQrCodeCapture: PropTypes.func.isRequired
 }
