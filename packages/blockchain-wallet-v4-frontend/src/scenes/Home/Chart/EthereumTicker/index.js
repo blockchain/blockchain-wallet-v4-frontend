@@ -8,7 +8,7 @@ import EthereumTicker from './template.js'
 class EthereumTickerContainer extends React.Component {
   render () {
     const { currency, ethereumRates } = this.props
-    const rate = Exchange.displayEtherToFiat({ value: '1', fromUnit: 'ETH', toCurrency: currency, rates: ethereumRates }).value
+    const rate = Exchange.displayEtherToFiat({ value: '1', fromUnit: 'ETH', toCurrency: currency, rates: ethereumRates })
 
     return <EthereumTicker rate={rate} />
   }
