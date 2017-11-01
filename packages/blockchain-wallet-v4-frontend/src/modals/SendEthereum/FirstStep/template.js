@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
+import { FiatConvertor, Form, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 
 const Currency = styled.div`
@@ -59,7 +59,7 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendethereum.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[required, validAmount, emptyAmount]} />
+          <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' />
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendethereum.firststep.description' defaultMessage='Description:' />
             <Tooltip>

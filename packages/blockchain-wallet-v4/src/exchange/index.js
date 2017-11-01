@@ -25,10 +25,9 @@ const transformFiatToBitcoin = ({ value, fromCurrency, toUnit, rates }) => {
   const sourceCurrency = prop(fromCurrency, Currencies)
   const sourceCurrencyCode = prop('code', sourceCurrency)
   const sourceCurrencyUnit = path(['units', sourceCurrencyCode], sourceCurrency)
-  const sourceUnit = path(['units', 'SAT'], BTC)
   const targetUnit = path(['units', toUnit], BTC)
-  return Currency.fromUnit({ value: value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, sourceCurrencyUnit))
+  return Currency.fromUnit({ value: value, unit: sourceCurrencyUnit })
+    .chain(Currency.convert(pairs, BTC))
     .chain(Currency.toUnit(targetUnit))
 }
 
@@ -54,10 +53,9 @@ const transformFiatToEther = ({ value, fromCurrency, toUnit, rates }) => {
   const sourceCurrency = prop(fromCurrency, Currencies)
   const sourceCurrencyCode = prop('code', sourceCurrency)
   const sourceCurrencyUnit = path(['units', sourceCurrencyCode], sourceCurrency)
-  const sourceUnit = path(['units', 'WEI'], ETH)
   const targetUnit = path(['units', toUnit], ETH)
-  return Currency.fromUnit({ value: value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, sourceCurrencyUnit))
+  return Currency.fromUnit({ value: value, unit: sourceCurrencyUnit })
+    .chain(Currency.convert(pairs, ETH))
     .chain(Currency.toUnit(targetUnit))
 }
 

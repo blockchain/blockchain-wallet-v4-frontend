@@ -10,96 +10,99 @@ import CoinConvertor from './template.js'
 class CoinConvertorContainer extends React.Component {
   constructor (props) {
     super(props)
-    const { unit, currency, rates, input } = props
-    const { value } = input
-    const fiat = Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates })
+    // const { coin, unit, currency, bitcoinRates, ethereumRates } = props
+    // const conversion = coin === 'BTC'
+    //   ? Exchange.convertBitcoinToFiat({ value: this.props.input.value, fromUnit: unit, toCurrency: currency, rates: bitcoinRates })
+    //   : Exchange.convertEtherToFiat({ value: this.props.input.value, fromUnit: unit, toCurrency: currency, rates: ethereumRates })
 
-    this.state = {
-      coin: value,
-      coinUnit: unit,
-      fiat: fiat.value,
-      fiatUnit: fiat.unit.symbol
-    }
+    // this.state = {
+    //   coin: this.props.input.value,
+    //   coinUnit: unit,
+    //   fiat: conversion.value,
+    //   fiatUnit: currency
+    // }
 
-    this.handleBlur = this.handleBlur.bind(this)
-    this.handleCoinChange = this.handleCoinChange.bind(this)
-    this.handleFiatChange = this.handleFiatChange.bind(this)
-    this.handleFocus = this.handleFocus.bind(this)
+    // this.handleBlur = this.handleBlur.bind(this)
+    // this.handleCoinChange = this.handleCoinChange.bind(this)
+    // this.handleFiatChange = this.handleFiatChange.bind(this)
+    // this.handleFocus = this.handleFocus.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.input.value, nextProps.input.value ||
-        !equals(this.props.rates, nextProps.rates) ||
-        !equals(this.props.unit, nextProps.unit) ||
-        !equals(this.props.currency, nextProps.currency))) {
-      const { unit, currency, rates } = nextProps
-      const value = nextProps.input.value
-      const fiat = Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates })
+  // componentWillReceiveProps (nextProps) {
+  //   if (!equals(this.props.input.value, nextProps.input.value ||
+  //       !equals(this.props.rates, nextProps.rates) ||
+  //       !equals(this.props.unit, nextProps.unit) ||
+  //       !equals(this.props.currency, nextProps.currency))) {
+  //     const { coin, unit, currency, bitcoinRates, ethereumRates } = nextProps
+  //     const value = nextProps.input.value
+  //     const conversion = coin === 'BTC'
+  //       ? Exchange.convertBitcoinToFiat({ value: this.props.input.value, fromUnit: unit, toCurrency: currency, rates: bitcoinRates })
+  //       : Exchange.convertEtherToFiat({ value: this.props.input.value, fromUnit: unit, toCurrency: currency, rates: ethereumRates })
 
-      this.setState({
-        coin: value,
-        coinUnit: unit,
-        fiat: fiat.value,
-        fiatUnit: fiat.unit ? fiat.unit.symbol : ''
-      })
-    }
-  }
+  //     this.setState({
+  //       coin: value,
+  //       coinUnit: unit,
+  //       fiat: conversion.value,
+  //       fiatUnit: currency
+  //     })
+  //   }
+  // }
 
-  handleCoinChange (event) {
-    const { unit, currency, rates, input } = this.props
-    const { onChange } = input
-    const value = event.target.value
-    const fiat = Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates })
+  // handleCoinChange (event) {
+  //   const { coin, unit, currency, bitcoinRates, ethereumRates } = this.props
+  //   const value = event.target.value
+  //   const conversion = coin === 'BTC'
+  //     ? Exchange.convertBitcoinToFiat({ value: this.props.input.value, fromUnit: unit, toCurrency: currency, rates: bitcoinRates })
+  //     : Exchange.convertEtherToFiat({ value: this.props.input.value, fromUnit: unit, toCurrency: currency, rates: ethereumRates })
 
-    this.setState({
-      coin: value,
-      coinUnit: unit,
-      fiat: fiat.value,
-      fiatUnit: fiat.unit.symbol
-    })
+  //   this.setState({
+  //     coin: value,
+  //     coinUnit: unit,
+  //     fiat: conversion.value,
+  //     fiatUnit: currency
+  //   })
 
-    if (onChange) { onChange(value) }
-  }
+  //   if (this.props.input.onChange) { this.props.input.onChange(value) }
+  // }
 
-  handleFiatChange (event) {
-    const { unit, currency, rates } = this.props
-    const value = event.target.value
-    const coin = Exchange.convertFiatToBitcoin({ value: value, fromCurrency: currency, toUnit: unit, rates })
+  // handleFiatChange (event) {
+  //   const { coin, unit, currency, bitcoinRates, ethereumRates } = this.props
+  //   const value = event.target.value
+  //   const conversion = coin === 'BTC'
+  //     ? Exchange.convertFiatToBitcoin({ value: value, fromCurrency: currency, toUnit: unit, rates: bitcoinRates })
+  //     : Exchange.convertFiatToEther({ value: value, fromCurrency: currency, toUnit: unit, rates: ethereumRates })
 
-    this.setState({
-      coin: coin.value,
-      coinUnit: coin.unit.symbol,
-      fiat: value,
-      fiatUnit: currency
-    })
-  }
+  //   this.setState({
+  //     coin: conversion.value,
+  //     coinUnit: unit,
+  //     fiat: value,
+  //     fiatUnit: currency
+  //   })
+  // }
 
-  handleBlur () {
-    const { input } = this.props
-    const { onBlur } = input
-    if (onBlur) { onBlur(this.state.coin) }
-  }
+  // handleBlur () {
+  //   if (this.props.input.onBlur) { this.props.input.onBlur(this.state.coin) }
+  // }
 
-  handleFocus () {
-    const { input } = this.props
-    const { onFocus } = input
-    if (onFocus) { onFocus(this.state.coin) }
-  }
+  // handleFocus () {
+  //   if (this.props.input.onFocus) { this.props.input.onFocus(this.state.coin) }
+  // }
 
   render () {
     const { unit, currency, ...rest } = this.props
 
-    return <CoinConvertor
-      coinValue={this.state.coin}
-      fiatValue={this.state.fiat}
-      coinUnit={this.state.coinUnit}
-      fiatUnit={this.state.fiatUnit}
-      handleBlur={this.handleBlur}
-      handleCoinChange={this.handleCoinChange}
-      handleFiatChange={this.handleFiatChange}
-      handleFocus={this.handleFocus}
-      {...rest}
-    />
+    // return <CoinConvertor
+    //   coinValue={this.state.coin}
+    //   fiatValue={this.state.fiat}
+    //   coinUnit={this.state.coinUnit}
+    //   fiatUnit={this.state.fiatUnit}
+    //   handleBlur={this.handleBlur}
+    //   handleCoinChange={this.handleCoinChange}
+    //   handleFiatChange={this.handleFiatChange}
+    //   handleFocus={this.handleFocus}
+    //   {...rest}
+    // />
+    return <div />
   }
 }
 
@@ -110,12 +113,14 @@ CoinConvertorContainer.propTypes = {
     onFocus: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
   }).isRequired
+  // coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired
 }
 
 const mapStateToProps = (state) => ({
   unit: selectors.core.settings.getBtcUnit(state),
   currency: selectors.core.settings.getCurrency(state),
-  rates: selectors.core.data.bitcoin.getRates(state)
+  bitcoinRates: selectors.core.data.bitcoin.getRates(state),
+  ethereumRates: selectors.core.data.ethereum.getRates(state)
 })
 
 export default connect(mapStateToProps)(CoinConvertorContainer)
