@@ -4,7 +4,6 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 import { equals } from 'ramda'
-import { convertSatoshisToUnit } from 'services/ConversionService'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
@@ -42,7 +41,8 @@ class FirstStepContainer extends React.Component {
 
   render () {
     const { position, total, closeAll, selection, unit, effectiveBalance } = this.props
-    const convertedEffectiveBalance = convertSatoshisToUnit(effectiveBalance, unit).value
+    // const convertedEffectiveBalance = convertSatoshisToUnit(effectiveBalance, unit).value
+    const convertedEffectiveBalance = 0
 
     return <FirstStep
       position={position}
@@ -60,14 +60,14 @@ const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: {
       coin: 'ETH',
-      fee: 100 // selectors.core.data.ethereum.getFeeRegular(state)
+      fee: selectors.core.data.ethereum.getFeeRegular(state)
     },
     coin: formValueSelector('sendEthereum')(state, 'coin'),
     to: formValueSelector('sendEthereum')(state, 'to'),
     amount: formValueSelector('sendEthereum')(state, 'amount'),
     message: formValueSelector('sendEthereum')(state, 'message'),
-    fee: 0.000441,
-    effectiveBalance: 100, //selectors.core.data.ethereum.getEffectiveBalance(state),
+    fee: formValueSelector('sendEthereum')(state, 'fee'),
+    effectiveBalance: 100, // selectors.core.data.ethereum.getEffectiveBalance(state),
     unit: selectors.core.settings.getBtcUnit(state)
   }
 }

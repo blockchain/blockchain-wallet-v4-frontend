@@ -3,14 +3,14 @@ import * as AT from './actionTypes'
 import * as actions from '../actions'
 import * as selectors from '../selectors'
 import * as sagas from '../sagas'
-import { convertBtcUnitToBtcUnit } from 'services/ConversionService'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 const sendBitcoinGoalSaga = function * (goal) {
   const { id, data } = goal
   const { amount, address, message } = data
   // Goal work
   const unit = yield select(selectors.core.settings.getBtcUnit)
-  const scaledAmount = convertBtcUnitToBtcUnit(amount, 'BTC', unit).value
+  const scaledAmount = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: 'SAT', toUnit: unit }).value
   yield call(sagas.payment.initSendBitcoin)
   yield put(actions.form.startAsyncValidation('sendBitcoin'))
   yield put(actions.form.change('sendBitcoin', 'to2', address))
@@ -22,7 +22,6 @@ const sendBitcoinGoalSaga = function * (goal) {
 }
 
 const goalSaga = function * () {
-  // const isV2Payload = yield select(selectors.core.wallet.getHDAccounts).length > 0
   const goals = yield select(selectors.goals.getGoals)
 
   yield goals.map((goal) => {

@@ -10,6 +10,11 @@ export const ethereum = ({ api } = {}) => {
     yield put(A.setEthereumBalance({ balance }))
   }
 
+  const fetchFee = function * () {
+    const response = yield call(api.getEthereumFee)
+    yield put(A.setEthereumFee(response))
+  }
+
   const refreshRatesDelay = 600000
   let ethereumRatesTask
 
@@ -36,6 +41,7 @@ export const ethereum = ({ api } = {}) => {
 
   return {
     fetchBalance,
+    fetchFee,
     startRates,
     stopRates,
     fetchTransactions
