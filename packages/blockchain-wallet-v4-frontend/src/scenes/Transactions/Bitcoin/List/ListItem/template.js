@@ -79,7 +79,7 @@ const TransactionListItem = (props) => {
           <Button nature={transaction.type.toLowerCase()} onClick={handleClick} fullwidth>
             { coinDisplayed
               ? <CoinDisplay coin='BTC'>{transaction.amount}</CoinDisplay>
-              : <CurrencyDisplay>{transaction.amount}</CurrencyDisplay>
+              : <CurrencyDisplay coin='BTC'>{transaction.amount}</CurrencyDisplay>
             }
           </Button>
         </TransactionRowAmount>
