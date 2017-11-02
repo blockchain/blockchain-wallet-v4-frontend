@@ -7,10 +7,10 @@ import BitcoinTicker from './template.js'
 
 class BitcoinTickerContainer extends React.Component {
   render () {
-    const { currency, bitcoinRates } = this.props
+    const { coin, currency, bitcoinRates } = this.props
     const rate = Exchange.displayBitcoinToFiat({ value: '1', fromUnit: 'BTC', toCurrency: currency, rates: bitcoinRates })
 
-    return <BitcoinTicker rate={rate} />
+    return <BitcoinTicker rate={rate} selected={coin === 'BTC'} {...this.props} />
   }
 }
 
