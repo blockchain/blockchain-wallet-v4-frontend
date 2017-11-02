@@ -27,7 +27,7 @@ class MenuTopContainer extends React.Component {
 
   openRequest () {
     if (this.props.router.location.pathname === '/eth/transactions') {
-      this.props.modalActions.showModal('RequestEthereum')
+      this.props.modalActions.showModal('RequestEther')
     } else {
       this.props.modalActions.showModal('RequestBitcoin')
     }
