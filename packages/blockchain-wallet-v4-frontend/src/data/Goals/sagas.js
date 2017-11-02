@@ -1,4 +1,4 @@
-import { takeEvery, select, call, put } from 'redux-saga/effects'
+import { all, takeEvery, select, call, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions'
 import * as selectors from '../selectors'
@@ -24,11 +24,11 @@ const sendBitcoinGoalSaga = function * (goal) {
 const goalSaga = function * () {
   const goals = yield select(selectors.goals.getGoals)
 
-  yield goals.map((goal) => {
+  yield all(goals.map((goal) => {
     switch (goal.name) {
       case 'payment': return call(sendBitcoinGoalSaga, goal)
     }
-  })
+  }))
 }
 
 export default function * () {
