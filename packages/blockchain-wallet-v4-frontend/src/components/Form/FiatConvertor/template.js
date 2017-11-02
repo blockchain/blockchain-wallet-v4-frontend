@@ -53,21 +53,21 @@ const getErrorState = (meta) => {
 }
 
 const FiatConvertor = (props) => {
-  const { coinValue, fiatValue, coinUnit, fiatUnit, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
+  const { coin, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
   const errorState = getErrorState(meta)
 
   return (
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
-          <Unit>{coinUnit}</Unit>
+          <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={coin} errorState={errorState} />
+          <Unit>{unit}</Unit>
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
         <ArrowRight size='16px' name='right-arrow' />
         <Container>
-          <TextInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
-          <Unit>{fiatUnit}</Unit>
+          <TextInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiat} errorState={errorState} />
+          <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
       {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
@@ -76,10 +76,10 @@ const FiatConvertor = (props) => {
 }
 
 FiatConvertor.propTypes = {
-  coinValue: PropTypes.string,
-  fiatValue: PropTypes.string,
-  coinUnit: PropTypes.string.isRequired,
-  fiatUnit: PropTypes.string.isRequired,
+  coin: PropTypes.string,
+  fiat: PropTypes.string,
+  unit: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
   handleBlur: PropTypes.func.isRequired,
   handleCoinChange: PropTypes.func.isRequired,
   handleFiatChange: PropTypes.func.isRequired,

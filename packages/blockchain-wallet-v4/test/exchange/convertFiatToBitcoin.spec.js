@@ -1,10 +1,10 @@
 import { expect } from 'chai'
-import Conversion from '../../src/exchange'
+import * as Conversion from '../../src/exchange'
 import { bitcoinRates } from './conversion.textures'
 
 const { DefaultConversion } = Conversion
 
-describe.only('convertFiatToBitcoin', () => {
+describe('convertFiatToBitcoin', () => {
   it('should return correct value', () => {
     const input = {
       value: 1,

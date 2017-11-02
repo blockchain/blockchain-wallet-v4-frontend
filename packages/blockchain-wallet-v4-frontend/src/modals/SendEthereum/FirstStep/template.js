@@ -37,7 +37,6 @@ const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefin
 
 const FirstStep = (props) => {
   const { invalid, submitting, position, total, closeAll, fee, onSubmit } = props
-  console.log(fee)
 
   return (
     <Modal size='large' position={position} total={total}>
