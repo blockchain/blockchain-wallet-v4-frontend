@@ -9,7 +9,8 @@
     "build:prod": "cd packages/blockchain-wallet-v4-frontend && npm run build:prod",
     "storybook": "cd packages/blockchain-info-components && npm run storybook:start",
     "test": "cd packages/blockchain-wallet-v4-frontend && npm run test",
-    "test-core": "cd packages/blockchain-wallet-v4 && npm run test"
+    "test-core": "cd packages/blockchain-wallet-v4 && npm run test",
+    "test3": "cd packages/blockchain-wallet-v4-frontend && npm run test && cd ../blockchain-wallet-v4 && npm run test"
   },
   "devDependencies": {
     "lerna": "^2.1.2"
