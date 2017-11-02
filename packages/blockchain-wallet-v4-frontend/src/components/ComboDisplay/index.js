@@ -2,18 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { convertBaseCoinToCoin, convertBaseCoinToFiat } from 'services/ConversionService'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 const ComboDisplay = props => {
-  const { unit, currency, rates, children } = props
-  const amount = children || '0'
+  const { coin, unit, currency, bitcoinRates, ethereumRates, children } = props
+  const result = coin === 'BTC'
+    ? `${Exchange.displayBitcoinToBitcoin({ value: children, fromUnit: 'SAT', toUnit: unit })} 
+       ${Exchange.displayBitcoinToFiat({ value: children, fromUnit: 'SAT', toCurrency: currency, rates: bitcoinRates })}`
+    : `${Exchange.displayEtherToEther({ value: children, fromUnit: 'WEI', toUnit: 'ETH' })} 
+       ${Exchange.displayEtherToFiat({ value: children, fromUnit: 'WEI', toCurrency: currency, rates: ethereumRates })}`
 
-  return <div>{`${convertBaseCoinToCoin('BTC', unit, amount)} (${convertBaseCoinToFiat(currency, rates, amount)})`}</div>
+  return <div>{result}</div>
 }
 
 ComboDisplay.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 ComboDisplay.defaultProps = {
@@ -23,7 +28,8 @@ ComboDisplay.defaultProps = {
 const mapStateToProps = (state) => ({
   unit: selectors.core.settings.getBtcUnit(state),
   currency: selectors.core.settings.getCurrency(state),
-  rates: selectors.core.data.bitcoin.getRates(state)
+  bitcoinRates: selectors.core.data.bitcoin.getRates(state),
+  ethereumRates: selectors.core.data.ethereum.getRates(state)
 })
 
 export default connect(mapStateToProps)(ComboDisplay)

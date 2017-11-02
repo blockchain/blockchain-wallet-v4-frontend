@@ -7,7 +7,7 @@ import * as selectors from '../selectors.js'
 import * as sagas from '../sagas.js'
 import settings from 'config'
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
-import { convertUnitToSatoshis } from 'services/ConversionService'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const initSendBitcoin = function * (action) {
   try {
@@ -30,13 +30,11 @@ export const initSendBitcoin = function * (action) {
 export const initSendEthereum = function * (action) {
   try {
     yield put(actions.modals.closeAllModals())
-    // yield call(sagas.core.ethereum.fee.fetchFee)
+    yield put(actions.modals.showModal('SendEthereum', undefined, { loading: true }))
+    yield call(sagas.core.data.ethereum.fetchFee)
+    yield put(actions.modals.updateModal(undefined, { loading: false }))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not init send ethereum.'))
-  } finally {
-    // const feePerByte = yield select(selectors.core.data.ethereum.getFeeRegular)
-    // yield call(sagas.core.data.ethereum.refreshEffectiveBalance, { feePerByte })
-    yield put(actions.modals.showModal('SendEthereum'))
   }
 }
 
@@ -65,7 +63,7 @@ export const getSelection = function * (action) {
       changeAddress = yield select(selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, finalFrom))
     }
     const unit = yield select(selectors.core.settings.getBtcUnit)
-    const satoshis = convertUnitToSatoshis(amount, unit).value
+    const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'SAT' }).value
     const algorithm = 'singleRandomDraw'
     yield call(sagas.core.data.bitcoin.refreshSelection, { feePerByte: fee, changeAddress, receiveAddress, satoshis, algorithm, seed })
   } catch (e) {

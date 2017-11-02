@@ -66,7 +66,7 @@ const SecondStep = (props) => {
               <FormattedMessage id='modals.sendethereum.secondstep.payment' defaultMessage='Payment:' />
             </Text>
             <Text size='16px' weight={300}>
-              <ComboDisplay>{wei}</ComboDisplay>
+              <ComboDisplay coin='ETH'>{wei}</ComboDisplay>
             </Text>
           </Row>
           <Row>
@@ -74,7 +74,7 @@ const SecondStep = (props) => {
               <FormattedMessage id='modals.sendethereum.secondstep.fee' defaultMessage='Fee:' />
             </Text>
             <Text size='16px' weight={300}>
-              <ComboDisplay>{fee}</ComboDisplay>
+              <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
             </Text>
           </Row>
           <Summary>

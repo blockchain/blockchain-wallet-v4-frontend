@@ -3,6 +3,7 @@ import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CoinConvertor from './CoinConvertor'
 import DateBox from './DateBox'
+import FiatConvertor from './FiatConvertor'
 import Form from './Form'
 import NumberBox from './NumberBox'
 import PasswordBox from './PasswordBox'
@@ -24,6 +25,7 @@ export {
   CheckBox,
   CoinConvertor,
   DateBox,
+  FiatConvertor,
   Form,
   NumberBox,
   PasswordBox,
