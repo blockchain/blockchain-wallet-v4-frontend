@@ -1,3 +1,4 @@
+import BlockchainLoader from './BlockchainLoader'
 import Loader from './Loader'
 
-export { Loader }
+export { BlockchainLoader, Loader }
