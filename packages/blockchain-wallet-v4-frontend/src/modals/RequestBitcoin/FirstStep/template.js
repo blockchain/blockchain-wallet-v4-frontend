@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, Separator, Text, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Form'
+import { FiatConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
 const AddressContainer = styled.div`
@@ -61,7 +61,7 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500} capitalize>
             <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[required]} />
+          <Field name='amount' component={FiatConvertor} validate={[required]} coin='BTC' />
           <Text size='14px' weight={500} capitalize>
             <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive to:' />
           </Text>

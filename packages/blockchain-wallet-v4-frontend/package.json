@@ -35,6 +35,9 @@
   },
   "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend#readme",
   "jest": {
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|scss)$": "identity-obj-proxy",
@@ -78,6 +81,7 @@
     "html-webpack-plugin": "^2.28.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
+    "jest-cli": "^21.2.1",
     "jest-css-modules": "^1.1.0",
     "react-hot-loader": "^3.1.1",
     "react-test-renderer": "^15.5.4",
