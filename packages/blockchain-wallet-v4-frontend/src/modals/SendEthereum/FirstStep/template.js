@@ -92,7 +92,7 @@ FirstStep.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired,
-  fee: PropTypes.number,
+  fee: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   handleClickQrCodeCapture: PropTypes.func.isRequired
 }
