@@ -53,14 +53,14 @@ const getErrorState = (meta) => {
 }
 
 const FiatConvertor = (props) => {
-  const { coin, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
+  const { value, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
   const errorState = getErrorState(meta)
 
   return (
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={coin} errorState={errorState} />
+          <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={value} errorState={errorState} />
           <Unit>{unit}</Unit>
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
