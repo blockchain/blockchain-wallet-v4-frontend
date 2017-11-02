@@ -33,11 +33,11 @@ const ScanMessage = styled.div`
 `
 
 const RequestEther = (props) => {
-  const { position, closeAll, ...rest } = props
+  const { position, total, closeAll, ...rest } = props
   const { onSubmit, receiveAddress } = rest
 
   return (
-    <Modal size='large' position={position}>
+    <Modal size='large' position={position} total={total}>
       <ModalHeader icon='request' onClose={closeAll}>
         <FormattedMessage id='modals.requestether.title' defaultMessage='Request' />
       </ModalHeader>
@@ -87,8 +87,7 @@ RequestEther.propTypes = {
   position: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired,
   receiveAddress: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  coin: PropTypes.string.isRequired
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'requestEther', destroyOnUnmount: false })(RequestEther)
