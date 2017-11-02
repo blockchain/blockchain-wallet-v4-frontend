@@ -2,6 +2,7 @@ import React from 'react'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
+import { head, prop } from 'ramda'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -33,6 +34,7 @@ class RequestEtherContainer extends React.Component {
 
   render () {
     const { closeAll, selection, coins } = this.props
+
     return <RequestEther
       {...this.props}
       closeAll={closeAll}
@@ -43,17 +45,13 @@ class RequestEtherContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const getReceive = (state) => selectors.core.kvStore.ethereum.getContext(state)
-  const receiveAddress = getReceive(state)[0]
-  return {
-    initialValues: {
-      coin: 'ETH'
-    },
-    receiveAddress,
-    coin: formValueSelector('requestEther')(state, 'coin')
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  initialValues: {
+    coin: 'ETH'
+  },
+  receiveAddress: prop('addr', head(selectors.core.kvStore.ethereum.getAccounts(state) || [])),
+  coin: formValueSelector('requestEther')(state, 'coin')
+})
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),

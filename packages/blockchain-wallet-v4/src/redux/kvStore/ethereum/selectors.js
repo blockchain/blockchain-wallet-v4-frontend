@@ -1,10 +1,10 @@
-import { concat, map, path, prop, compose } from 'ramda'
-import { KVStoreEntry } from '../../../types'
+import { concat, map, path } from 'ramda'
+// import { KVStoreEntry } from '../../../types'
 import { ETHEREUM } from '../config'
 
-export const getAccounts = compose(path(['ethereum', 'accounts']), KVStoreEntry.selectValue, prop(ETHEREUM))
+export const getAccounts = path([ETHEREUM, 'value', 'ethereum', 'accounts'])
 
-export const getLegacyAccount = compose(path(['ethereum', 'legacy_account']), KVStoreEntry.selectValue, prop(ETHEREUM))
+export const getLegacyAccount = path([ETHEREUM, 'value', 'ethereum', 'legacy_account'])
 
 export const getContext = state => {
   const accounts = getAccounts(state)
