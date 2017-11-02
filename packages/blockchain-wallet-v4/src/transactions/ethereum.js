@@ -10,7 +10,9 @@ const getType = (tx, addresses) => {
   }
 }
 
-export const transformEthereumTx = (addresses, tx) => ({
+export const calculateFee = (gasRegular, gasLimit) => `${(gasRegular * gasLimit)}000000000` // Convert gwei => wei
+
+export const transformTx = (addresses, tx) => ({
   type: getType(tx, addresses),
   amount: parseInt(tx.value),
   to: tx.to,

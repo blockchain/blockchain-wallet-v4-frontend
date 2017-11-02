@@ -1,15 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { convertBaseCoinToCoin } from 'services/ConversionService'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 const CoinDisplay = props => {
   const { coin, unit, children } = props
-  const amount = children || '0'
-  const from = coin
-  const to = coin === 'BTC' ? unit : 'ETH'
-  return <div>{convertBaseCoinToCoin(from, to, amount)}</div>
+
+  const result = coin === 'BTC'
+    ? Exchange.displayBitcoinToBitcoin({ value: children, fromUnit: 'SAT', toUnit: unit })
+    : Exchange.displayEtherToEther({ value: children, fromUnit: 'WEI', toUnit: 'ETH' })
+
+  return <div>{result}</div>
 }
 
 CoinDisplay.propTypes = {
@@ -22,7 +24,7 @@ CoinDisplay.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-  unit: selectors.core.settings.getBtcUnit(state) || 'BTC'
+  unit: selectors.core.settings.getBtcUnit(state)
 })
 
 export default connect(mapStateToProps)(CoinDisplay)

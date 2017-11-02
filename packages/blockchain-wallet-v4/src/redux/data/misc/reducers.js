@@ -8,7 +8,9 @@ const INITIAL_STATE = {
     price_index_series: []
   },
   logs: [],
-  reports: {}
+  reports: {
+    transactions: []
+  }
 }
 
 const miscReducer = (state = INITIAL_STATE, action) => {
@@ -36,7 +38,7 @@ const miscReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_TRANSACTION_HISTORY: {
       const { data } = payload
-      return assoc('transactions', data, state)
+      return assocPath(['reports', 'transactions'], data, state)
     }
     default:
       return state

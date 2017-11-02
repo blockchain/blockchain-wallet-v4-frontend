@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Icon, Image, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, SelectBoxAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
+import { FiatConvertor, Form, SelectBoxAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 
 const Row = styled.div`
@@ -113,7 +113,7 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[required, validAmount, emptyAmount]} />
+          <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' />
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
             <Tooltip>
@@ -136,7 +136,10 @@ const FirstStep = (props) => {
               }
             </ColLeft>
             <ColRight>
-              {invalid ? <div /> : <ComboDisplay>{selection.fee}</ComboDisplay>}
+              { selection.fee
+                ? <ComboDisplay coin='BTC'>{selection.fee}</ComboDisplay>
+                : <div />
+              }
               <Link onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
                 {feeEditToggled
                   ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />

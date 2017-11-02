@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
+import { FiatConvertor, Form, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 
 const Currency = styled.div`
@@ -36,8 +36,7 @@ const validAmount = (value, allValues, props) => parseFloat(value) <= props.effe
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = (props) => {
-  const { invalid, submitting, position, total, closeAll, ...rest } = props
-  const { fee, onSubmit } = rest
+  const { invalid, submitting, position, total, closeAll, fee, onSubmit } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -59,7 +58,7 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendethereum.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[required, validAmount, emptyAmount]} />
+          <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' />
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendethereum.firststep.description' defaultMessage='Description:' />
             <Tooltip>
@@ -71,9 +70,11 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendethereum.firststep.fee' defaultMessage='Transaction fee :' />
           </Text>
-          <Text weight={300}>
-            <ComboDisplay>{fee}</ComboDisplay>
-          </Text>
+          { fee &&
+            <Text weight={300}>
+              <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
+            </Text>
+          }
           <ButtonRow>
             <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
               <FormattedMessage id='modals.sendethereum.firststep.continue' defaultMessage='Continue' />
@@ -91,7 +92,7 @@ FirstStep.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired,
-  selection: PropTypes.object.isRequired,
+  fee: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   handleClickQrCodeCapture: PropTypes.func.isRequired
 }

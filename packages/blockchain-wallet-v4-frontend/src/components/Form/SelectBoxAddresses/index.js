@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { map, isEmpty } from 'ramda'
 
-import { selectors } from 'data'
-import { convertBaseCoinToFiat, convertBaseCoinToCoin } from 'services/ConversionService'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { SelectInput } from 'blockchain-info-components'
+import { selectors } from 'data'
 
 class SelectBoxAddresses extends React.Component {
   render () {
@@ -16,7 +16,6 @@ class SelectBoxAddresses extends React.Component {
     if (!isEmpty(legacyAddresses)) {
       elements.push({ group: 'Imported addresses', items: legacyAddresses })
     }
-
     return <SelectInput elements={elements} {...rest} />
   }
 }
@@ -37,11 +36,11 @@ const mapStateToProps = (state, ownProps) => {
 
   const transformAddresses = items => map(item => {
     const { title, amount, ...rest } = item
-    const amountDisplay = coinDisplayed
-      ? convertBaseCoinToCoin('BTC', unit || 'BTC', amount)
-      : convertBaseCoinToFiat(currency, rates, amount)
+    const display = coinDisplayed
+      ? Exchange.displayBitcoinToBitcoin({ value: amount, fromUnit: 'SAT', toUnit: unit })
+      : Exchange.displayBitcoinToFiat({ value: amount, fromUnit: 'SAT', toCurrency: currency, rates })
 
-    return { text: `${title} (${amountDisplay})`, value: rest }
+    return { text: `${title} (${display})`, value: rest }
   }, items)
 
   const accounts = transformAddresses(selectors.core.common.getAccountsBalances(state))

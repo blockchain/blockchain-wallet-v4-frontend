@@ -2,20 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { convertBaseCoinToFiat, displayWeiToFiat } from 'services/ConversionService'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 const CurrencyDisplay = props => {
-  const { currency, bitcoinRates, ethereumRates, coin, children } = props
-  const amount = children || '0'
-  return (
-    <div>
-      { coin === 'BTC'
-        ? convertBaseCoinToFiat(currency, bitcoinRates, amount)
-        : displayWeiToFiat(currency, ethereumRates, amount)
-      }
-    </div>
-  )
+  const { coin, currency, bitcoinRates, ethereumRates, children } = props
+  const result = coin === 'BTC'
+    ? Exchange.displayBitcoinToFiat({ value: children, fromUnit: 'SAT', toCurrency: currency, rates: bitcoinRates })
+    : Exchange.displayEtherToFiat({ value: children, fromUnit: 'WEI', toCurrency: currency, rates: ethereumRates })
+
+  return <div>{result}</div>
 }
 
 CurrencyDisplay.propTypes = {
