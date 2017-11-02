@@ -6,7 +6,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendEthereumContainer extends React.Component {
+class SendEtherContainer extends React.Component {
   componentWillMount () {
     this.props.resetStep()
   }
@@ -21,8 +21,8 @@ class SendEthereumContainer extends React.Component {
 }
 
 const enhance = compose(
-  modalEnhancer('SendEthereum'),
-  wizardProvider('sendEthereum', 2)
+  modalEnhancer('SendEther'),
+  wizardProvider('sendEther', 2)
 )
 
-export default enhance(SendEthereumContainer)
+export default enhance(SendEtherContainer)

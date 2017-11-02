@@ -14,6 +14,6 @@ export const getUnspent = (payload) => ({ type: AT.GET_UNSPENT, payload })
 
 export const initSendBitcoin = () => ({ type: AT.INIT_SEND_BITCOIN })
 
-export const initSendEthereum = () => ({ type: AT.INIT_SEND_ETHEREUM })
+export const initSendEther = () => ({ type: AT.INIT_SEND_ETHER })
 
 export const sendBitcoin = (selection) => ({ type: AT.SEND_BITCOIN, payload: { selection } })

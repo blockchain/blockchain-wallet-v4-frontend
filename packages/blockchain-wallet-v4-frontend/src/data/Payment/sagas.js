@@ -18,7 +18,7 @@ export const initSendBitcoin = function * (action) {
     yield call(sagas.core.data.bitcoin.fetchUnspent, index, undefined)
     const feePerByte = yield select(selectors.core.data.bitcoin.getFeeRegular)
     yield call(sagas.core.data.bitcoin.refreshEffectiveBalance, { feePerByte })
-    yield call(delay, 3000)
+    yield call(delay, 2000)
     yield put(actions.modals.updateModal(undefined, { loading: false }))
   } catch (e) {
     if (e !== 'No free outputs to spend') {
@@ -27,11 +27,12 @@ export const initSendBitcoin = function * (action) {
   }
 }
 
-export const initSendEthereum = function * (action) {
+export const initSendEther = function * (action) {
   try {
     yield put(actions.modals.closeAllModals())
-    yield put(actions.modals.showModal('SendEthereum', undefined, { loading: true }))
+    yield put(actions.modals.showModal('SendEther', undefined, { loading: true }))
     yield call(sagas.core.data.ethereum.fetchFee)
+    yield call(delay, 2000)
     yield put(actions.modals.updateModal(undefined, { loading: false }))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not init send ethereum.'))
@@ -95,7 +96,7 @@ export const sendBitcoin = function * (action) {
 
 export default function * () {
   yield takeEvery(AT.INIT_SEND_BITCOIN, initSendBitcoin)
-  yield takeEvery(AT.INIT_SEND_ETHEREUM, initSendEthereum)
+  yield takeEvery(AT.INIT_SEND_ETHER, initSendEther)
   yield takeEvery(AT.GET_UNSPENT, getUnspent)
   yield takeEvery(AT.GET_SELECTION, getSelection)
   yield takeEvery(AT.GET_EFFECTIVE_BALANCE, getEffectiveBalance)
