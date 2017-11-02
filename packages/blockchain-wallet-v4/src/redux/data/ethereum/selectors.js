@@ -8,6 +8,8 @@ export const getFeeRegular = path(['ethereum', 'fee', 'regular'])
 
 export const getFeePriority = path(['ethereum', 'fee', 'priority'])
 
+export const getGasLimit = path(['ethereum', 'fee', 'gasLimit'])
+
 export const getAddresses = path(['ethereum', 'addresses'])
 
 export const getRates = path(['ethereum', 'rates'])

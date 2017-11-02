@@ -3,9 +3,9 @@ import { keysIn, prop, compose, assoc, map, path, reduce, curry, split } from 'r
 import memoize from 'fast-memoize'
 import * as bitcoinSelectors from '../data/bitcoin/selectors.js'
 import * as ethereumSelectors from '../data/ethereum/selectors.js'
-import transactions from '../../transactions'
+import * as transactions from '../../transactions'
 
-const mTransformTx = memoize(transactions.transformTx)
+const mTransformTx = memoize(transactions.bitcoin.transformTx)
 // ---------------------------------------------------------------------------------------------
 export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
   // getActiveHDAccounts :: state -> [hdacountsWithInfo]
@@ -92,7 +92,7 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
   const getWalletEthereumTransactions = (state) => {
     const accounts = compose(keysIn, ethereumSelectors.getAddresses, prop(dataPath))(state)
     return compose(
-      map(transactions.transformEthereumTx.bind(undefined, accounts)),
+      map(transactions.ethereum.transformTx.bind(undefined, accounts)),
       ethereumSelectors.getTransactions,
       prop(dataPath)
     )(state)

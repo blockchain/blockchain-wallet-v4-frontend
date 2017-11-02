@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { equals } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange, transactions } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
@@ -36,8 +36,9 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    const { position, total, closeAll, amount, fee } = this.props
-    const convertedFee = Exchange.convertBitcoinToBitcoin({ value: fee || 0, fromUnit: 'WEI', toUnit: 'ETH' }).value
+    const { position, total, closeAll, amount, feeRegular, gasLimit } = this.props
+    const fee = transactions.ethereum.calculateFee(feeRegular, gasLimit)
+    const convertedFee = Exchange.convertBitcoinToBitcoin({ value: fee, fromUnit: 'WEI', toUnit: 'ETH' }).value
     const effectiveBalance = amount - convertedFee
 
     return <FirstStep
@@ -52,18 +53,17 @@ class FirstStepContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    initialValues: {
-      coin: 'ETH'
-    },
-    coin: formValueSelector('sendEthereum')(state, 'coin'),
-    to: formValueSelector('sendEthereum')(state, 'to'),
-    amount: formValueSelector('sendEthereum')(state, 'amount'),
-    message: formValueSelector('sendEthereum')(state, 'message'),
-    fee: selectors.core.data.ethereum.getFeeRegular(state)
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  initialValues: {
+    coin: 'ETH'
+  },
+  coin: formValueSelector('sendEthereum')(state, 'coin'),
+  to: formValueSelector('sendEthereum')(state, 'to'),
+  amount: formValueSelector('sendEthereum')(state, 'amount'),
+  message: formValueSelector('sendEthereum')(state, 'message'),
+  feeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
+  gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0
+})
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),

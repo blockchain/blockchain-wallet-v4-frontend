@@ -63,23 +63,19 @@ class FiatConvertorContainer extends React.Component {
     const conversion = coin === 'BTC'
       ? Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates: bitcoinRates })
       : Exchange.convertEtherToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates: ethereumRates })
+
     this.setState({ value: value, fiat: conversion.value })
   }
 
   render () {
-    const { coin, currency, ...rest } = this.props
-    const unit = coin === 'BTC' ? this.props.unit : 'ETH'
-
     return <FiatConvertor
       value={this.state.value}
       fiat={this.state.fiat}
-      unit={unit}
-      currency={currency}
       handleBlur={this.handleBlur}
       handleCoinChange={this.handleCoinChange}
       handleFiatChange={this.handleFiatChange}
       handleFocus={this.handleFocus}
-      {...rest}
+      {...this.props}
     />
   }
 }
@@ -94,8 +90,8 @@ FiatConvertorContainer.propTypes = {
   coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired
 }
 
-const mapStateToProps = (state) => ({
-  unit: selectors.core.settings.getBtcUnit(state),
+const mapStateToProps = (state, ownProps) => ({
+  unit: ownProps.coin === 'BTC' ? selectors.core.settings.getBtcUnit(state) : 'ETH',
   currency: selectors.core.settings.getCurrency(state),
   bitcoinRates: selectors.core.data.bitcoin.getRates(state),
   ethereumRates: selectors.core.data.ethereum.getRates(state)
