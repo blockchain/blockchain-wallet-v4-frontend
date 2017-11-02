@@ -19,7 +19,7 @@ class MenuTopContainer extends React.Component {
 
   openSend () {
     if (this.props.router.location.pathname === '/eth/transactions') {
-      this.props.paymentActions.initSendEthereum()
+      this.props.paymentActions.initSendEther()
     } else {
       this.props.paymentActions.initSendBitcoin()
     }

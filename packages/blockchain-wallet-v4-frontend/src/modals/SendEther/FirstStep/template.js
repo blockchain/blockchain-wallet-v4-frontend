@@ -36,39 +36,39 @@ const validAmount = (value, allValues, props) => parseFloat(value) <= props.effe
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = (props) => {
-  const { invalid, submitting, position, total, closeAll, fee, onSubmit } = props
+  const { invalid, submitting, position, total, closeAll, loading, fee, onSubmit } = props
 
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='send' onClose={closeAll}>
-        <FormattedMessage id='modals.sendethereum.firststep.title' defaultMessage='Send Ethereum' />
+        <FormattedMessage id='modals.sendether.firststep.title' defaultMessage='Send Ethereum' />
       </ModalHeader>
-      <ModalBody>
+      <ModalBody loading={loading}>
         <Form onSubmit={onSubmit}>
           <Currency>
             <Text size='14px' weight={500}>
-              <FormattedMessage id='modals.sendethereum.firststep.coin' defaultMessage='Currency:' />
+              <FormattedMessage id='modals.sendether.firststep.coin' defaultMessage='Currency:' />
             </Text>
             <Field name='coin' component={SelectBoxCoin} validate={[required]} />
           </Currency>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.sendethereum.firststep.to' defaultMessage='To:' />
+            <FormattedMessage id='modals.sendether.firststep.to' defaultMessage='To:' />
           </Text>
           <Field name='to' component={TextBox} validate={[required]} />
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.sendethereum.firststep.amount' defaultMessage='Enter amount:' />
+            <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
           <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' />
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.sendethereum.firststep.description' defaultMessage='Description:' />
+            <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description:' />
             <Tooltip>
-              <FormattedMessage id='modals.sendethereum.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-              <FormattedMessage id='modals.sendethereum.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
+              <FormattedMessage id='modals.sendether.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
+              <FormattedMessage id='modals.sendether.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
             </Tooltip>
           </Text>
           <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.sendethereum.firststep.fee' defaultMessage='Transaction fee :' />
+            <FormattedMessage id='modals.sendether.firststep.fee' defaultMessage='Transaction fee :' />
           </Text>
           { fee &&
             <Text weight={300}>
@@ -77,7 +77,7 @@ const FirstStep = (props) => {
           }
           <ButtonRow>
             <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
-              <FormattedMessage id='modals.sendethereum.firststep.continue' defaultMessage='Continue' />
+              <FormattedMessage id='modals.sendether.firststep.continue' defaultMessage='Continue' />
             </Button>
           </ButtonRow>
         </Form>
@@ -97,4 +97,4 @@ FirstStep.propTypes = {
   handleClickQrCodeCapture: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendEthereum', destroyOnUnmount: false, shouldValidate: shouldValidate })(FirstStep)
+export default reduxForm({ form: 'sendEther', destroyOnUnmount: false, shouldValidate: shouldValidate })(FirstStep)

@@ -17,7 +17,7 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.formActions.initialize('sendEthereum', this.props.initialValues)
+    this.props.formActions.initialize('sendEther', this.props.initialValues)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -36,7 +36,7 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    const { position, total, closeAll, amount, feeRegular, gasLimit } = this.props
+    const { position, total, closeAll, loading, amount, feeRegular, gasLimit } = this.props
     const fee = transactions.ethereum.calculateFee(feeRegular, gasLimit)
     const convertedFee = Exchange.convertBitcoinToBitcoin({ value: fee, fromUnit: 'WEI', toUnit: 'ETH' }).value
     const effectiveBalance = amount - convertedFee
@@ -44,6 +44,7 @@ class FirstStepContainer extends React.Component {
     return <FirstStep
       position={position}
       total={total}
+      loading={loading}
       closeAll={closeAll}
       fee={fee}
       effectiveBalance={effectiveBalance}
@@ -57,10 +58,10 @@ const mapStateToProps = (state, ownProps) => ({
   initialValues: {
     coin: 'ETH'
   },
-  coin: formValueSelector('sendEthereum')(state, 'coin'),
-  to: formValueSelector('sendEthereum')(state, 'to'),
-  amount: formValueSelector('sendEthereum')(state, 'amount'),
-  message: formValueSelector('sendEthereum')(state, 'message'),
+  coin: formValueSelector('sendEther')(state, 'coin'),
+  to: formValueSelector('sendEther')(state, 'to'),
+  amount: formValueSelector('sendEther')(state, 'amount'),
+  message: formValueSelector('sendEther')(state, 'message'),
   feeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
   gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0
 })

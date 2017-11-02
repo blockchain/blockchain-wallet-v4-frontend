@@ -11,7 +11,7 @@ import RecoveryPhrase from './RecoveryPhrase'
 import RequestBitcoin from './RequestBitcoin'
 import SecondPassword from './SecondPassword'
 import SendBitcoin from './SendBitcoin'
-import SendEthereum from './SendEthereum'
+import SendEther from './SendEther'
 import TransactionReport from './TransactionReport'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepSetup from './TwoStepSetup'
@@ -32,7 +32,7 @@ const Modals = props => (
     <RequestBitcoin />
     <SecondPassword />
     <SendBitcoin />
-    <SendEthereum />
+    <SendEther />
     <TransactionReport />
     <TwoStepGoogleAuthenticator />
     <TwoStepSetup />

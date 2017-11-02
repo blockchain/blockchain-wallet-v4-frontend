@@ -37,33 +37,33 @@ const SecondStep = (props) => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='send' onClose={closeAll}>
-        <FormattedMessage id='modals.sendethereum.secondstep.title' defaultMessage='Confirm' />
+        <FormattedMessage id='modals.sendether.secondstep.title' defaultMessage='Confirm' />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={onSubmit}>
           <Row>
             <Text size='16px' weight={500}>
-              <FormattedMessage id='modals.sendethereum.secondstep.from' defaultMessage='From:' />
+              <FormattedMessage id='modals.sendether.secondstep.from' defaultMessage='From:' />
             </Text>
             <Text size='16px' weight={300}>{fromAddress}</Text>
           </Row>
           <Row>
             <Text size='16px' weight={500}>
-              <FormattedMessage id='modals.sendethereum.secondstep.to' defaultMessage='To:' />
+              <FormattedMessage id='modals.sendether.secondstep.to' defaultMessage='To:' />
             </Text>
             <Text size='16px' weight={300}>{to}</Text>
           </Row>
           { message &&
             <Row>
               <Text size='16px' weight={500}>
-                <FormattedMessage id='modals.sendethereum.secondstep.for' defaultMessage='For:' />
+                <FormattedMessage id='modals.sendether.secondstep.for' defaultMessage='For:' />
               </Text>
               <Text size='16px' weight={300}>{message}</Text>
             </Row>
           }
           <Row>
             <Text size='16px' weight={500}>
-              <FormattedMessage id='modals.sendethereum.secondstep.payment' defaultMessage='Payment:' />
+              <FormattedMessage id='modals.sendether.secondstep.payment' defaultMessage='Payment:' />
             </Text>
             <Text size='16px' weight={300}>
               <ComboDisplay coin='ETH'>{wei}</ComboDisplay>
@@ -71,7 +71,7 @@ const SecondStep = (props) => {
           </Row>
           <Row>
             <Text size='16px' weight={500}>
-              <FormattedMessage id='modals.sendethereum.secondstep.fee' defaultMessage='Fee:' />
+              <FormattedMessage id='modals.sendether.secondstep.fee' defaultMessage='Fee:' />
             </Text>
             <Text size='16px' weight={300}>
               <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
@@ -79,7 +79,7 @@ const SecondStep = (props) => {
           </Row>
           <Summary>
             <Text size='16px' weight={300} color='transferred'>
-              <FormattedMessage id='modals.sendethereum.secondstep.total' defaultMessage='Total' />
+              <FormattedMessage id='modals.sendether.secondstep.total' defaultMessage='Total' />
             </Text>
             <Text size='40px' weight={600} color='transferred'>
               <CoinDisplay coin='ETH'>{wei}</CoinDisplay>
@@ -89,13 +89,13 @@ const SecondStep = (props) => {
             </Text>
           </Summary>
           <Button type='submit' nature='primary' fullwidth uppercase>
-            <FormattedMessage id='modals.sendethereum.secondstep.send' defaultMessage='Send ether' />
+            <FormattedMessage id='modals.sendether.secondstep.send' defaultMessage='Send ether' />
           </Button>
         </Form>
       </ModalBody>
       <ModalFooter>
         <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.sendethereum.secondstep.back' defaultMessage='Go back' />
+          <FormattedMessage id='scenes.sendether.secondstep.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>
     </Modal>

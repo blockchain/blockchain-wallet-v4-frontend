@@ -29,7 +29,7 @@ class FirstStepContainer extends React.Component {
     const { coin, fee, from, to, to2, amount, feeValues, coins } = nextProps
 
     // Replace the bitcoin modal to the ethereum modal
-    if (!equals(this.props.coin, coin) && coin === 'ETH') { this.props.paymentActions.initSendEthereum() }
+    if (!equals(this.props.coin, coin) && coin === 'ETH') { this.props.paymentActions.initSendEther() }
 
     // Update 'fee' if new value is fetched
     if (!equals(this.props.feeValues, feeValues)) { this.props.formActions.change('sendBitcoin', 'fee', feeValues.regular) }
