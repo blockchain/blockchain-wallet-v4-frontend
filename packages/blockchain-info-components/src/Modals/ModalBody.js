@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Loader } from '../Loaders'
+import { BlockchainLoader } from '../Loaders'
 
 const BaseModalBody = styled.div`
   position: relative;
@@ -29,7 +29,7 @@ const ModalBody = props => {
   return (
     <BaseModalBody>
       <SplashScreen displayed={loading}>
-        <Loader />
+        <BlockchainLoader />
       </SplashScreen>
       {children}
     </BaseModalBody>
