@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
-import { difference, equals, isNil } from 'ramda'
+import { equals } from 'ramda'
 import * as crypto from 'crypto'
 
-import { convertSatoshisToUnit } from 'services/ConversionService'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
@@ -74,7 +74,7 @@ class FirstStepContainer extends React.Component {
 
   render () {
     const { ui, position, total, loading, closeAll, selection, unit, coins, effectiveBalance } = this.props
-    const convertedEffectiveBalance = !isNil(effectiveBalance) ? convertSatoshisToUnit(effectiveBalance, unit).value : 0
+    const convertedEffectiveBalance = Exchange.convertBitcoinToBitcoin({ value: effectiveBalance || 0, fromUnit: 'SAT', toUnit: unit }).value
 
     return <FirstStep
       position={position}

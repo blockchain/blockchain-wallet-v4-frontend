@@ -1,9 +1,10 @@
 import BigRational from 'big-rational'
 import { compose, curry, is, prop, flip, sequence } from 'ramda'
 import { view } from 'ramda-lens'
-import Type from '../types/Type'
-import * as Currencies from './currencies'
 import Maybe from 'data.maybe'
+
+import Type from '../../types/Type'
+import * as Currencies from '../currencies'
 
 export class Currency extends Type {
   toString () {
