@@ -6,8 +6,6 @@ export const getLanguage = path(['preferences', 'language'])
 
 export const getTheme = path(['preferences', 'theme'])
 
-export const getEmail = path(['preferences', 'email'])
-
-export const isChangingEmail = path(['preferences', 'changingEmail'])
-
 export const getCoinDisplayed = path(['preferences', 'coinDisplayed'])
+
+export const getShowEtherWelcome = path(['preferences', 'showEtherWelcome'])

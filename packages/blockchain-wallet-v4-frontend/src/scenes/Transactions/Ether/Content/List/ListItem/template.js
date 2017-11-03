@@ -40,28 +40,28 @@ const TransactionListItem = (props) => {
         <TransactionRowToggler toggled={toggled} onClick={handleToggle} />
         <TransactionRowStatus>
           <Text weight={500} color={selectColors(transaction.type)} uppercase>
-            { transaction.type === 'Sent' && <FormattedMessage id='scenes.transactions.list.transactionlistitem.sent' defaultMessage='Sent' /> }
-            { transaction.type === 'Received' && <FormattedMessage id='scenes.transactions.list.transactionlistitem.received' defaultMessage='Received' /> }
-            { transaction.type === 'Transferred' && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transferred' defaultMessage='Transferred' /> }
+            { transaction.type === 'Sent' && <FormattedMessage id='scenes.transactions.ether.content.list.listitem.sent' defaultMessage='Sent' /> }
+            { transaction.type === 'Received' && <FormattedMessage id='scenes.transactions.ether.content.list.listitem.received' defaultMessage='Received' /> }
+            { transaction.type === 'Transferred' && <FormattedMessage id='scenes.transactions.ether.content.list.listitem.transferred' defaultMessage='Transferred' /> }
           </Text>
           <Text size='12px' weight={300} italic>{formattedDate}</Text>
         </TransactionRowStatus>
         <TransactionRowAddresses>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
+            <FormattedMessage id='scenes.transactions.ether.content.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
+            <FormattedMessage id='scenes.transactions.ether.content.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
           </Text>
         </TransactionRowAddresses>
         <TransactionRowDescription>
           { transaction.description !== ''
             ? <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.transactionlistitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
+              <FormattedMessage id='scenes.transactions.ether.content.list.listitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
               <Icon name='pencil' size='14px' />
             </Text>
             : <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.transactionlistitem.adddescription' defaultMessage='Add a description' />
+              <FormattedMessage id='scenes.transactions.ether.content.list.listitem.adddescription' defaultMessage='Add a description' />
               <Icon name='pencil' size='14px' />
             </Text>
           }
@@ -77,35 +77,35 @@ const TransactionListItem = (props) => {
       </TransactionRow>
       <TransactionDetails toggled={toggled}>
         <TransactionDetailsStatus>
-          { transaction.confirmations > 3 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed' defaultMessage='Transaction confirmed' /> }
+          { transaction.confirmations > 3 && <FormattedMessage id='scenes.transactions.ether.content.list.listitem.transaction_confirmed' defaultMessage='Transaction confirmed' /> }
           { transaction.confirmations <= 3 &&
             <TransactionTooltip>
               <ConfirmationGauge nbConfirmations={transaction.confirmations} />
               <Tooltip>
-                {transaction.confirmations === 0 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_unconfirmed' defaultMessage='Your transaction is actually unconfirmed.' />}
-                {transaction.confirmations === 1 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed_1' defaultMessage='Your transaction confirmation is in progress (1 block ahead).' />}
-                {transaction.confirmations === 2 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed_2' defaultMessage='Your transaction confirmation is in progress (2 blocks ahead).' />}
-                {transaction.confirmations === 3 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed_3' defaultMessage='Your transaction is confirmed (3 blocks ahead).' />}
+                {transaction.confirmations === 0 && <FormattedMessage id='scenes.transactions.ether.content.list.listitem.transaction_unconfirmed' defaultMessage='Your transaction is actually unconfirmed.' />}
+                {transaction.confirmations === 1 && <FormattedMessage id='scenes.transactions.ether.content.list.listitem.transaction_confirmed_1' defaultMessage='Your transaction confirmation is in progress (1 block ahead).' />}
+                {transaction.confirmations === 2 && <FormattedMessage id='scenes.transactions.ether.content.list.listitem.transaction_confirmed_2' defaultMessage='Your transaction confirmation is in progress (2 blocks ahead).' />}
+                {transaction.confirmations === 3 && <FormattedMessage id='scenes.transactions.ether.content.list.listitem.transaction_confirmed_3' defaultMessage='Your transaction is confirmed (3 blocks ahead).' />}
               </Tooltip>
             </TransactionTooltip>
           }
         </TransactionDetailsStatus>
         <TransactionDetailsAddresses>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
+            <FormattedMessage id='scenes.transactions.ether.content.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
+            <FormattedMessage id='scenes.transactions.ether.content.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
           </Text>
         </TransactionDetailsAddresses>
         <TransactionDetailsDescription>
           {transaction.description !== ''
             ? <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.transactionlistitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
+              <FormattedMessage id='scenes.transactions.ether.content.list.listitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
               <Icon name='pencil' size='14px' />
             </Text>
             : <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.transactionlistitem.adddescription' defaultMessage='Add a description' />
+              <FormattedMessage id='scenes.transactions.ether.content.list.listitem.adddescription' defaultMessage='Add a description' />
               <Icon name='pencil' size='14px' />
             </Text>
           }

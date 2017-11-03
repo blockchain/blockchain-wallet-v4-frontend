@@ -12,7 +12,8 @@ export default {
   WALLET_SETTINGS_PATH: 'wallet.settings',
   WALLET_OPTIONS_PATH: 'wallet.options',
   WALLET_KVSTORE_PATH: 'wallet.kvstore',
-  NETWORK: Bitcoin.networks.bitcoin
+  NETWORK: Bitcoin.networks.bitcoin,
+  NETWORK_ETHEREUM: 1 // MAINNET
 }
 
 // ======================= TESTNET ==========================

@@ -1,5 +1,10 @@
 
 export default ({ rootUrl, apiUrl, get, post }) => {
+  const checkContract = (address) => ({
+    url: apiUrl,
+    endPoint: `eth/account/${address}/isContract`
+  })
+
   const getEthereumBalances = (context) => get({
     url: apiUrl,
     endPoint: `eth/account/${Array.isArray(context) ? context.join() : context}/balance`
@@ -26,19 +31,26 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { format: 'json', currency: 'USD', base: 'ETH' }
   })
 
-  const pushTx = (tx) => post({
+  const getEthereumTransaction = (hash) => get({
+    url: apiUrl,
+    endPoint: `eth/tx/${hash}`
+  })
+
+  const pushEthereumTx = (rawTx) => post({
     url: apiUrl,
     endPoint: 'eth/pushtx',
     contentType: 'application/json',
-    data: JSON.stringify(tx)
+    data: JSON.stringify({ rawTx })
   })
 
   return {
+    checkContract,
     getEthereumBalances,
     getEthereumData,
     getEthereumFee,
     getEthereumLatestBlock,
     getEthereumTicker,
-    pushTx
+    getEthereumTransaction,
+    pushEthereumTx
   }
 }
