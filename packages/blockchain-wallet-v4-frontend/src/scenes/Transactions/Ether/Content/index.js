@@ -5,49 +5,27 @@ import { formValueSelector } from 'redux-form'
 import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop } from 'ramda'
 
 import { selectors, actions } from 'data'
-import List from './template.js'
-
-// const threshold = 250
+import Empty from './Empty'
+import List from './List'
 
 class ListContainer extends React.Component {
   constructor (props) {
     super(props)
     this.filteredTransactions = []
-    // this.fetchTransactions = this.fetchTransactions.bind(this)
     this.filterTransactions = this.filterTransactions.bind(this)
   }
 
   componentWillMount () {
-    // if (isEmpty(this.props.transactions)) {
-    //   this.fetchTransactions(this.props.source)
-    // } else {
     this.filterTransactions(this.props.status, this.props.search, this.props.transactions)
-    // }
   }
 
   componentWillReceiveProps (nextProps) {
-    // if (!equals(this.props.source, nextProps.source)) {
-    //   this.fetchTransactions(nextProps.source)
-    //   return
-    // }
-
     if (!equals(this.props.status, nextProps.status) ||
         !equals(this.props.search, nextProps.search) ||
         !equals(this.props.transactions, nextProps.transactions)) {
       this.filterTransactions(nextProps.status, nextProps.search, nextProps.transactions)
-      return
     }
-
-    // if (!equals(this.props.scroll.yOffset, nextProps.scroll.yOffset)) {
-    //   if (nextProps.scroll.yMax - nextProps.scroll.yOffset < threshold) {
-    //     this.fetchTransactions(nextProps.source)
-    //   }
-    // }
   }
-
-  // fetchTransactions (source) {
-  //   this.props.dataActions.getEthereumTransactions(source, 50)
-  // }
 
   filterTransactions (status, criteria, transactions) {
     const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
@@ -65,9 +43,9 @@ class ListContainer extends React.Component {
   }
 
   render () {
-    return (
-      <List transactions={this.filteredTransactions} />
-    )
+    return !isEmpty(this.filteredTransactions)
+      ? <List transactions={this.filteredTransactions} />
+      : <Empty />
   }
 }
 

@@ -1,27 +1,39 @@
+import { assoc } from 'ramda'
 import * as AT from './actionTypes'
-import { assign } from 'services/RamdaCookingBook'
 
 const INITIAL_STATE = {
   culture: 'en-GB',
   language: 'en',
   theme: 'default',
-  coinDisplayed: true
+  coinDisplayed: true,
+  showBackupReminder: true,
+  showBuyAlert: true,
+  showBuyBitcoinReminder: { index: 0, when: new Date().getTime() },
+  showEtherWelcome: true,
+  showLogoutSurvey: true
 }
 
 const preferences = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
     case AT.SET_CULTURE: {
-      return assign(state, { culture: payload })
+      const { culture } = payload
+      return assoc('culture', culture, state)
     }
     case AT.SET_LANGUAGE: {
-      return assign(state, { language: payload })
+      const { language } = payload
+      return assoc('language', language, state)
     }
     case AT.SET_THEME: {
-      return assign(state, { theme: payload })
+      const { theme } = payload
+      return assoc('theme', theme, state)
     }
     case AT.TOGGLE_COIN_DISPLAY: {
-      return assign(state, { coinDisplayed: !state.coinDisplayed })
+      return assoc('coinDisplayed', !state.coinDisplayed, state)
+    }
+    case AT.SET_ETHER_WELCOME: {
+      const { displayed } = payload
+      return assoc('showEtherWelcome', displayed, state)
     }
     default:
       return state
