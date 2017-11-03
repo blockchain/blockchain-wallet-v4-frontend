@@ -8,23 +8,46 @@ import { selectors, actions } from 'data'
 import Empty from './Empty'
 import List from './List'
 
+const threshold = 250
+
 class ContentContainer extends React.Component {
   constructor (props) {
     super(props)
     this.filteredTransactions = []
+    this.fetchTransactions = this.fetchTransactions.bind(this)
     this.filterTransactions = this.filterTransactions.bind(this)
   }
 
   componentWillMount () {
-    this.filterTransactions(this.props.status, this.props.search, this.props.transactions)
+    if (isEmpty(this.props.transactions)) {
+      this.fetchTransactions(this.props.source)
+    } else {
+      this.filterTransactions(this.props.status, this.props.search, this.props.transactions)
+    }
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.status, nextProps.status) ||
-        !equals(this.props.search, nextProps.search) ||
-        !equals(this.props.transactions, nextProps.transactions)) {
-      this.filterTransactions(nextProps.status, nextProps.search, nextProps.transactions)
+    if (!equals(this.props.source, nextProps.source)) {
+      this.fetchTransactions(nextProps.source)
+      return
     }
+
+    if (!equals(this.props.status, nextProps.status) ||
+      !equals(this.props.search, nextProps.search) ||
+      !equals(this.props.transactions, nextProps.transactions)) {
+      this.filterTransactions(nextProps.status, nextProps.search, nextProps.transactions)
+      return
+    }
+
+    if (!equals(this.props.scroll.yOffset, nextProps.scroll.yOffset)) {
+      if (nextProps.scroll.yMax - nextProps.scroll.yOffset < threshold) {
+        this.fetchTransactions(nextProps.source)
+      }
+    }
+  }
+
+  fetchTransactions (source) {
+    this.props.dataActions.getBitcoinTransactions(source, 50)
   }
 
   filterTransactions (status, criteria, transactions) {
@@ -36,6 +59,7 @@ class ContentContainer extends React.Component {
   }
 
   shouldComponentUpdate (nextProps) {
+    if (!equals(this.props.source, nextProps.source)) return true
     if (!equals(this.props.status, nextProps.status)) return true
     if (!equals(this.props.search, nextProps.search)) return true
     if (!equals(this.props.transactions, nextProps.transactions)) return true
@@ -43,19 +67,23 @@ class ContentContainer extends React.Component {
   }
 
   render () {
-    return !isEmpty(this.filteredTransactions)
-      ? <List transactions={this.filteredTransactions} />
+    return isEmpty(this.filteredTransactions)
+      ? <List transactions={this.filteredTransactions} currency={this.props.currency} />
       : <Empty />
   }
 }
 
 const mapStateToProps = (state) => {
-  const selector = formValueSelector('etherTransaction')
+  const selector = formValueSelector('bitcoinTransaction')
+  const initialSource = selector(state, 'source')
 
   return {
+    currency: selectors.core.settings.getCurrency(state),
+    source: initialSource ? (initialSource.xpub ? initialSource.xpub : initialSource.address) : '',
     status: selector(state, 'status') || '',
     search: selector(state, 'search') || '',
-    transactions: selectors.core.common.getEthereumTransactions(state),
+    transactions: selectors.core.common.getWalletTransactions(state),
+    totalTransactions: selectors.core.data.bitcoin.getNumberTransactions(state),
     scroll: selectors.scroll.selectScroll(state)
   }
 }
