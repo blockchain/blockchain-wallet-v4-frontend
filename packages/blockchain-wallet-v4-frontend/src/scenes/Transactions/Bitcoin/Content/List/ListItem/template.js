@@ -49,28 +49,28 @@ const TransactionListItem = (props) => {
         <TransactionRowToggler toggled={toggled} onClick={handleToggle} />
         <TransactionRowStatus>
           <Text weight={500} color={selectColors(transaction.type)} uppercase>
-            { transaction.type === 'Sent' && <FormattedMessage id='scenes.transactions.list.transactionlistitem.sent' defaultMessage='Sent' /> }
-            { transaction.type === 'Received' && <FormattedMessage id='scenes.transactions.list.transactionlistitem.received' defaultMessage='Received' /> }
-            { transaction.type === 'Transferred' && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transferred' defaultMessage='Transferred' /> }
+            { transaction.type === 'Sent' && <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.sent' defaultMessage='Sent' /> }
+            { transaction.type === 'Received' && <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.received' defaultMessage='Received' /> }
+            { transaction.type === 'Transferred' && <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.transferred' defaultMessage='Transferred' /> }
           </Text>
           <Text size='12px' weight={300} italic>{formattedDate}</Text>
         </TransactionRowStatus>
         <TransactionRowAddresses>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
+            <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
+            <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
           </Text>
         </TransactionRowAddresses>
         <TransactionRowDescription>
           { transaction.description !== ''
             ? <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.transactionlistitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
+              <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
               <Icon name='pencil' size='14px' />
             </Text>
             : <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.transactionlistitem.adddescription' defaultMessage='Add a description' />
+              <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.adddescription' defaultMessage='Add a description' />
               <Icon name='pencil' size='14px' />
             </Text>
           }
@@ -86,12 +86,12 @@ const TransactionListItem = (props) => {
       </TransactionRow>
       <TransactionDetails toggled={toggled}>
         <TransactionDetailsStatus>
-          { transaction.confirmations > 3 && <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_confirmed' defaultMessage='Transaction confirmed' /> }
+          { transaction.confirmations > 3 && <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.transaction_confirmed' defaultMessage='Transaction confirmed' /> }
           { transaction.confirmations <= 3 &&
             <TransactionTooltip>
               <ConfirmationGauge nbConfirmations={transaction.confirmations} />
               <Tooltip>
-                <FormattedMessage id='scenes.transactions.list.transactionlistitem.transaction_unconfirmed' defaultMessage='Your transaction will be complete after it has 3 confirmations.' />
+                <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.transaction_unconfirmed' defaultMessage='Your transaction will be complete after it has 3 confirmations.' />
                 <Link href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-' target='_blank' size='12px' weight={300} altFont>Learn more.</Link>
               </Tooltip>
             </TransactionTooltip>
@@ -99,27 +99,27 @@ const TransactionListItem = (props) => {
         </TransactionDetailsStatus>
         <TransactionDetailsAddresses>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
+            <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.to' defaultMessage='To : {to}' values={{ to: transaction.to }} />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
+            <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.from' defaultMessage='From : {from}' values={{ from: transaction.from }} />
           </Text>
         </TransactionDetailsAddresses>
         <TransactionDetailsDescription>
           {transaction.description !== ''
             ? <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.transactionlistitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
+              <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
               <Icon name='pencil' size='14px' />
             </Text>
             : <Text size='14px' weight={300}>
-              <FormattedMessage id='scenes.transactions.list.transactionlistitem.adddescription' defaultMessage='Add a description' />
+              <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.adddescription' defaultMessage='Add a description' />
               <Icon name='pencil' size='14px' />
             </Text>
           }
         </TransactionDetailsDescription>
         <TransactionDetailsValue>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.transactions.list.transactionlistitem.initial' defaultMessage='Value when received: {value}' values={{ value: transactionFiatAtTime }} />
+            <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.initial' defaultMessage='Value when received: {value}' values={{ value: transactionFiatAtTime }} />
           </Text>
         </TransactionDetailsValue>
       </TransactionDetails>
