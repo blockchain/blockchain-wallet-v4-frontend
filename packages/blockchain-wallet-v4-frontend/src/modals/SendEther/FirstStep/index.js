@@ -21,9 +21,18 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { coin } = nextProps
+    const { coin, feeRegular, gasLimit, fee } = nextProps
     // Replace the bitcoin modal to the ethereum modal
     if (!equals(this.props.coin, coin) && coin === 'BTC') { this.props.paymentActions.initSendBitcoin() }
+
+    // Update fee when feeRegular or gasLimit change
+    if (!equals(this.props.feeRegular, feeRegular) ||
+        !equals(this.props.gasLimit, gasLimit) ||
+        (feeRegular && gasLimit && !fee)
+      ) {
+      const fee = transactions.ethereum.calculateFee(feeRegular, gasLimit)
+      this.props.formActions.change('sendEther', 'fee', fee)
+    }
   }
 
   handleClickQrCodeCapture () {
@@ -36,10 +45,8 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    const { position, total, closeAll, loading, amount, feeRegular, gasLimit } = this.props
-    const fee = transactions.ethereum.calculateFee(feeRegular, gasLimit)
-    const convertedFee = Exchange.convertBitcoinToBitcoin({ value: fee, fromUnit: 'WEI', toUnit: 'ETH' }).value
-    const effectiveBalance = amount - convertedFee
+    const { position, total, closeAll, loading, etherBalance, fee } = this.props
+    const effectiveBalance = etherBalance - fee > 0 ? etherBalance - fee : 0
 
     return <FirstStep
       position={position}
@@ -62,8 +69,10 @@ const mapStateToProps = (state, ownProps) => ({
   to: formValueSelector('sendEther')(state, 'to'),
   amount: formValueSelector('sendEther')(state, 'amount'),
   message: formValueSelector('sendEther')(state, 'message'),
+  fee: formValueSelector('sendEther')(state, 'fee'),
   feeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
-  gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0
+  gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0,
+  etherBalance: selectors.core.data.ethereum.getBalance(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

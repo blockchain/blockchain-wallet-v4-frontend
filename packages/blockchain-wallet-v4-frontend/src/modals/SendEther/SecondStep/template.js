@@ -32,7 +32,7 @@ const Summary = styled.div`
 
 const SecondStep = (props) => {
   const { previousStep, position, total, closeAll, ...rest } = props
-  const { onSubmit, fromAddress, to, message, wei, fee } = rest
+  const { onSubmit, to, message, amount, fee } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -41,12 +41,6 @@ const SecondStep = (props) => {
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={onSubmit}>
-          <Row>
-            <Text size='16px' weight={500}>
-              <FormattedMessage id='modals.sendether.secondstep.from' defaultMessage='From:' />
-            </Text>
-            <Text size='16px' weight={300}>{fromAddress}</Text>
-          </Row>
           <Row>
             <Text size='16px' weight={500}>
               <FormattedMessage id='modals.sendether.secondstep.to' defaultMessage='To:' />
@@ -66,7 +60,7 @@ const SecondStep = (props) => {
               <FormattedMessage id='modals.sendether.secondstep.payment' defaultMessage='Payment:' />
             </Text>
             <Text size='16px' weight={300}>
-              <ComboDisplay coin='ETH'>{wei}</ComboDisplay>
+              <ComboDisplay coin='ETH'>{amount}</ComboDisplay>
             </Text>
           </Row>
           <Row>
@@ -81,11 +75,11 @@ const SecondStep = (props) => {
             <Text size='16px' weight={300} color='transferred'>
               <FormattedMessage id='modals.sendether.secondstep.total' defaultMessage='Total' />
             </Text>
-            <Text size='40px' weight={600} color='transferred'>
-              <CoinDisplay coin='ETH'>{wei}</CoinDisplay>
+            <Text size='34px' weight={600} color='transferred'>
+              <CoinDisplay coin='ETH'>{amount}</CoinDisplay>
             </Text>
             <Text size='20px' weight={300} color='transferred'>
-              <CurrencyDisplay coin='ETH'>{wei}</CurrencyDisplay>
+              <CurrencyDisplay coin='ETH'>{amount}</CurrencyDisplay>
             </Text>
           </Summary>
           <Button type='submit' nature='primary' fullwidth uppercase>
