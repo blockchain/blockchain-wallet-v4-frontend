@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
-import { Button, Icon, Link, ModalBody, ModalFooter, Text, TextGroup } from 'blockchain-info-components'
-import { Form } from 'components/Form'
+import { Button, Link, Text, Tooltip } from 'blockchain-info-components'
+import { CheckBox, Form } from 'components/Form'
+import Terms from 'components/Terms'
 
 const Wrapper = styled.div`
   border: 1px solid black;
@@ -26,6 +27,11 @@ const Body = styled.div`
   padding: 20px 30px;
 `
 
+const ExpiryText = styled(Text)`
+  display: flex;
+  justify-content: flex-end;
+`
+
 const Footer = styled.div`
   display: flex;
   justify-content: center;
@@ -37,6 +43,7 @@ const RecapTable = styled.div``
 const SecondStep = (props) => {
   const { previousStep, position, total, close, submitting, invalid, ...rest } = props
   const { onSubmit } = rest
+  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
     <Wrapper>
@@ -53,9 +60,20 @@ const SecondStep = (props) => {
           <Text size='13px' weight={300}>
             <FormattedMessage id='scenes.exchange.exchangebox.secondstep.recap' defaultMessage='x BTC will be sent directly from Mon portefeuille bitcoin and exchanged for y ETH to be deposited into My Ether Wallet. The process can take up to two hours and you can keep track of your Exchange progress in the Order History tab.' />
           </Text>
+          <ExpiryText size='13px' weight={300}>
+            <FormattedMessage id='scenes.exchange.exchangebox.secondstep.expiry' defaultMessage='Quote expires in: TIME' />
+            <Tooltip>
+              <FormattedMessage id='scenes.exchange.exchangebox.secondstep.expiryexplanation' defaultMessage='This rate will expire after 10 minutes. If that happens please restart your trade.' />
+            </Tooltip>
+          </ExpiryText>
           <RecapTable>
             Recap table
           </RecapTable>
+          <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
+            <Text size='12px' weight={300}>
+              <Terms company='shapeshift' />
+            </Text>
+          </Field>
         </Body>
         <Footer align='spaced'>
           <Link size='13px' weight={300} onClick={previousStep}>
