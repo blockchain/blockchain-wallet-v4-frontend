@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Text, TextGroup } from 'blockchain-info-components'
+import { Link, Text, TextGroup } from 'blockchain-info-components'
+import ExchangeBox from './ExchangeBox'
 
 const Wrapper = styled.section`
   display: flex;
@@ -27,9 +28,16 @@ const ColumnRight = styled(Column)`
   padding: 30px;
   @media(min-width: 992px) { padding: 30px 30px 30px 5px; }
 `
-const ExchangeBox = styled.div`
-  height: 300px;
-  border: 1px solid black;
+// const ExchangeBox = styled.div`
+//   height: 300px;
+//   border: 1px solid black;
+// `
+
+const HelpLink = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 5px;
 `
 
 const Exchange = () => {
@@ -39,6 +47,14 @@ const Exchange = () => {
         <ExchangeBox>
           Exchange details
         </ExchangeBox>
+        <HelpLink>
+          <Text weight={300} size='13px'>
+            <FormattedMessage id='scenes.exchange.simple' defaultMessage='Need help?' />
+          </Text>
+          <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='13px' weight={300}>
+            <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.learnmore' defaultMessage='Contact Support' />
+          </Link>
+        </HelpLink>
       </ColumnLeft>
       <ColumnRight>
         <TextGroup>
