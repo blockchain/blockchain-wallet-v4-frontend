@@ -30,12 +30,17 @@ const upgradeWalletSaga = function * () {
   }
 }
 
+const transferEtherSaga = function * ({ address }) {
+  const balance = yield call(sagas.core.data.ethereum.fetchBalance, { context: address })
+  if (balance > 0) {
+    yield put(actions.modals.showModal('TransferEther'))
+  }
+}
+
 const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
   try {
     // If needed, the user should upgrade its wallet before being able to open the wallet
-    if (shouldUpgrade) {
-      yield call(upgradeWalletSaga)
-    }
+    if (shouldUpgrade) { yield call(upgradeWalletSaga) }
     yield put(actions.auth.authenticate())
     yield put(actions.core.webSocket.startSocket())
     // Fetch settings, options and rates
@@ -53,16 +58,20 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
       // call(sagas.core.kvStore.buySell.fetchBuySell)
       // call(sagas.core.kvStore.contacts.fetchContacts)
     ])
+
     // Fetch blockchain data
-    const context = yield select(selectors.core.wallet.getWalletContext)
+    const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
     const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
     yield all([
-      call(sagas.core.common.fetchBlockchainData, { context }),
+      call(sagas.core.common.fetchBlockchainData, { context: bitcoinContext }),
       call(sagas.core.common.fetchEthereumData, { context: etherContext })
     ])
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
+    // ETHER - Fix derivation
+    // const legacyAccount = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
+    // yield call(transferEtherSaga, { address: legacyAccount.addr })
   } catch (e) {
     // Redirect to error page instead of notification
     yield put(actions.alerts.displayError('Critical error while fetching essential data !' + e.message))

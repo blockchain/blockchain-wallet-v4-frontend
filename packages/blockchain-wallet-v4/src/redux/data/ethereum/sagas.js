@@ -6,8 +6,7 @@ import * as A from './actions'
 export const ethereum = ({ api } = {}) => {
   const fetchBalance = function * ({ context }) {
     const response = yield call(api.getEthereumBalances, context)
-    const balance = sum(values(response).map(obj => obj.balance))
-    yield put(A.setEthereumBalance({ balance }))
+    return sum(values(response).map(obj => obj.balance))
   }
 
   const fetchFee = function * () {
