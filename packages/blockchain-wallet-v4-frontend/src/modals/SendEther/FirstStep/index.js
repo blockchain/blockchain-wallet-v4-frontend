@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { equals } from 'ramda'
 
-import { Exchange, transactions } from 'blockchain-wallet-v4/src'
+import { transactions } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
@@ -12,7 +12,6 @@ class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.timeout = undefined
-    this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -35,10 +34,6 @@ class FirstStepContainer extends React.Component {
     }
   }
 
-  handleClickQrCodeCapture () {
-    this.props.modalActions.showModal('QRCodeCapture')
-  }
-
   onSubmit (e) {
     e.preventDefault()
     this.props.nextStep()
@@ -55,7 +50,6 @@ class FirstStepContainer extends React.Component {
       closeAll={closeAll}
       fee={fee}
       effectiveBalance={effectiveBalance}
-      handleClickQrCodeCapture={this.handleClickQrCodeCapture}
       onSubmit={this.onSubmit}
     />
   }
