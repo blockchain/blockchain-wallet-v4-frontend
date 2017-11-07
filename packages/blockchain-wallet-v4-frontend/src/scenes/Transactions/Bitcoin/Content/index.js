@@ -67,7 +67,7 @@ class ContentContainer extends React.Component {
   }
 
   render () {
-    return isEmpty(this.filteredTransactions)
+    return !isEmpty(this.filteredTransactions)
       ? <List transactions={this.filteredTransactions} currency={this.props.currency} />
       : <Empty />
   }

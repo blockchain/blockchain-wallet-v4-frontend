@@ -6,9 +6,10 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { Button, ButtonGroup, Icon, Image, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
+import { Button, ButtonGroup, Icon, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, SelectBoxAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
+import QRCodeCapture from 'components/QRCodeCapture'
 
 const Row = styled.div`
   display: flex;
@@ -16,7 +17,6 @@ const Row = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: auto;
 `
 const ColOne = styled.div`
   width: 50%;
@@ -36,14 +36,17 @@ const ColRight = ColLeft.extend`
   justify-content: center;
   align-items: flex-end;
 `
-const AddressesToContainer = styled.div`
+const AddressButton = styled.div`
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-`
-const AddressesToButton = styled(Button)`
   width: 40px;
-  min-width: 0;
-  border-radius: 0;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid ${props => props.theme['gray-2']};
+
+  &:hover { background-color: ${props => props.theme['gray-1']}; }
 `
 const ButtonRow = styled(ButtonGroup)`
   display: flex;
@@ -70,7 +73,7 @@ const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefin
 const FirstStep = (props) => {
   const { invalid, submitting, position, total, closeAll, loading, ...rest } = props
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, ...rest2 } = rest
-  const { onSubmit, handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler } = rest2
+  const { onSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest2
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -96,20 +99,17 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
           </Text>
-          { addressSelectToggled &&
-            <AddressesToContainer>
-              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
-              <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='pencil' /></AddressesToButton>
-            </AddressesToContainer>
-          }
-          { !addressSelectToggled &&
-            <AddressesToContainer>
-              <Field name='to2' component={TextBox} validate={[required]} />
-              <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' /></AddressesToButton>
-            </AddressesToContainer>
-          }
+          <Row>
+            { addressSelectToggled
+              ? <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
+              : <Field name='to2' component={TextBox} validate={[required]} />
+            }
+            <QRCodeCapture coin='BTC' />
+            {addressSelectToggled
+              ? <AddressButton onClick={handleClickAddressToggler}><Icon name='pencil' size='16px' cursor /></AddressButton>
+              : <AddressButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' cursor /></AddressButton>
+            }
+          </Row>
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
           </Text>

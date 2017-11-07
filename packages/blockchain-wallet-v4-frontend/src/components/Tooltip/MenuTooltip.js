@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import ui from 'redux-ui'
 import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 
 import { Icon, Text, TextGroup } from 'blockchain-info-components'

@@ -17,7 +17,6 @@ class FirstStepContainer extends React.Component {
     this.seed = crypto.randomBytes(16).toString('hex')
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
-    this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -63,10 +62,6 @@ class FirstStepContainer extends React.Component {
     this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
   }
 
-  handleClickQrCodeCapture () {
-    this.props.modalActions.showModal('QRCodeCapture')
-  }
-
   onSubmit (e) {
     e.preventDefault()
     this.props.nextStep()
@@ -89,7 +84,6 @@ class FirstStepContainer extends React.Component {
       feeEditToggled={ui.feeEditToggled}
       handleClickAddressToggler={this.handleClickAddressToggler}
       handleClickFeeToggler={this.handleClickFeeToggler}
-      handleClickQrCodeCapture={this.handleClickQrCodeCapture}
       onSubmit={this.onSubmit}
     />
   }

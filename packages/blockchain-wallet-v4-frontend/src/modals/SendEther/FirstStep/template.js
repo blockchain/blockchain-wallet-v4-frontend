@@ -8,6 +8,7 @@ import { Field, reduxForm } from 'redux-form'
 import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
+import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/ComboDisplay'
 
 const Currency = styled.div`
@@ -22,14 +23,13 @@ const ButtonRow = styled(ButtonGroup)`
   & > button:first-child { width: 100%; }
   & > button:last-child: { width: 200px; }
 `
-const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
-  if (initialRender) { return true }
-  return (
-    initialRender ||
-    !structure.deepEqual(values, nextProps.values) ||
-    props.effectiveBalance !== nextProps.effectiveBalance
-  )
-}
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`
 
 const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
 
@@ -54,7 +54,10 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendether.firststep.to' defaultMessage='To:' />
           </Text>
-          <Field name='to' component={TextBox} validate={[required]} />
+          <Row>
+            <Field name='to' component={TextBox} validate={[required]} />
+            <QRCodeCapture coin='ETH' />
+          </Row>
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
@@ -93,8 +96,7 @@ FirstStep.propTypes = {
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired,
   fee: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
-  handleClickQrCodeCapture: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendEther', destroyOnUnmount: false, shouldValidate: shouldValidate })(FirstStep)
+export default reduxForm({ form: 'sendEther', destroyOnUnmount: false })(FirstStep)

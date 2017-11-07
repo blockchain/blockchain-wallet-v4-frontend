@@ -1,0 +1,55 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled, { keyframes } from 'styled-components'
+import { keysIn } from 'ramda'
+
+import { Palette } from '../Colors'
+
+const bounceAnimation = keyframes`
+  0%, 100% { transform: scale(0.0); }
+  50% { transform: scale(1.0); }
+`
+const Container = styled.div`
+  position: relative;
+  width: ${props => props.width};
+  height: ${props => props.height};
+`
+const Circle1 = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0.7;
+  background-color: ${props => props.theme[props.color]};
+  animation: ${bounceAnimation} 2s infinite ease-in-out;
+`
+const Circle2 = styled(Circle1)`
+  animation-delay: -1.0s;
+`
+
+const HeartbeatLoader = props => {
+  const { color, ...rest } = props
+
+  return (
+    <Container {...rest}>
+      <Circle1 color={color} />
+      <Circle2 color={color} />
+    </Container>
+  )
+}
+
+HeartbeatLoader.propTypes = {
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
+  color: PropTypes.oneOf(keysIn(Palette()))
+}
+
+HeartbeatLoader.defaultProps = {
+  width: '40px',
+  height: '40px',
+  color: 'brand-secondary'
+}
+
+export default HeartbeatLoader
