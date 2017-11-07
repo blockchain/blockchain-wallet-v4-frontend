@@ -42,6 +42,24 @@ const transformBitcoinToFiat = ({ value, fromUnit, toCurrency, rates }) => {
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
+const transformBitcoinToEther = ({ value, fromUnit, toUnit, rates }) => {
+  const pairs = Pairs.create(BTC.code, rates)
+  const targetUnit = path(['units', toUnit], ETH)
+  const sourceUnit = path(['units', fromUnit], BTC)
+  return Currency.fromUnit({ value, unit: sourceUnit })
+    .chain(Currency.convert(pairs, ETH))
+    .chain(Currency.toUnit(targetUnit))
+}
+
+const transformEtherToBitcoin = ({ value, fromUnit, toUnit, rates }) => {
+  const pairs = Pairs.create(ETH.code, rates)
+  const targetUnit = path(['units', toUnit], BTC)
+  const sourceUnit = path(['units', fromUnit], ETH)
+  return Currency.fromUnit({ value, unit: sourceUnit })
+    .chain(Currency.convert(pairs, BTC))
+    .chain(Currency.toUnit(targetUnit))
+}
+
 const transformBitcoinToBitcoin = ({ value, fromUnit, toUnit }) => {
   const sourceUnit = path(['units', fromUnit], BTC)
   const targetUnit = path(['units', toUnit], BTC)
@@ -103,6 +121,14 @@ const convertEtherToEther = ({ value, fromUnit, toUnit }) => {
   return transformEtherToEther({ value, fromUnit, toUnit }).getOrElse(DefaultConversion)
 }
 
+const convertBitcoinToEther = ({ value, fromUnit, toUnit, rates }) => {
+  return transformBitcoinToEther({ value, fromUnit, toUnit, rates }).getOrElse(DefaultConversion)
+}
+
+const convertEtherToBitcoin = ({ value, fromUnit, toUnit, rates }) => {
+  return transformEtherToBitcoin({ value, fromUnit, toUnit, rates }).getOrElse(DefaultConversion)
+}
+
 // =====================================================================
 // =============================== STRING ==============================
 // =====================================================================
@@ -130,6 +156,14 @@ const displayEtherToEther = ({ value, fromUnit, toUnit }) => {
   return transformEtherToEther({ value, fromUnit, toUnit }).map(Currency.unitToString).getOrElse(DefaultDisplay)
 }
 
+const displayBitcoinToEther = ({ value, fromUnit, toUnit, rates }) => {
+  return transformBitcoinToEther({ value, fromUnit, toUnit, rates }).map(Currency.unitToString).getOrElse(DefaultDisplay)
+}
+
+const displayEtherToBitcoin = ({ value, fromUnit, toUnit, rates }) => {
+  return transformEtherToBitcoin({ value, fromUnit, toUnit, rates }).map(Currency.unitToString).getOrElse(DefaultDisplay)
+}
+
 export {
   DefaultConversion,
   DefaultDisplay,
@@ -139,10 +173,14 @@ export {
   convertFiatToEther,
   convertEtherToFiat,
   convertEtherToEther,
+  convertBitcoinToEther,
+  convertEtherToBitcoin,
   displayFiatToBitcoin,
   displayBitcoinToFiat,
   displayBitcoinToBitcoin,
   displayFiatToEther,
   displayEtherToFiat,
-  displayEtherToEther
+  displayEtherToEther,
+  displayBitcoinToEther,
+  displayEtherToBitcoin
 }
