@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
-import { FiatConvertor, SelectBoxAddresses } from 'components/Form'
+import { CoinConvertor, SelectBoxAddresses } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,6 +27,9 @@ const Header = styled.div`
 `
 
 const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   padding: 20px 30px;
 `
 
@@ -82,7 +85,9 @@ const FirstStep = (props) => {
           <Text>
             <FormattedMessage id='scenes.exchange.exchangebox.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={FiatConvertor} validate={[required]} coin='BTC' />
+        </SelectionRow>
+        <SelectionRow>
+          <Field name='amount' component={CoinConvertor} validate={[required]} fromCoin='BTC' toCoin='ETH' />
         </SelectionRow>
         <Text color='error' weight={300} size='12px'>
           <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage='x BTC needed to exchange.' />
