@@ -6,10 +6,10 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 const CurrencyDisplay = props => {
-  const { coin, currency, bitcoinRates, ethereumRates, children } = props
+  const { coin, currency, bitcoinRates, ethereumRates, unit, children } = props
   const result = coin === 'BTC'
-    ? Exchange.displayBitcoinToFiat({ value: children, fromUnit: 'SAT', toCurrency: currency, rates: bitcoinRates })
-    : Exchange.displayEtherToFiat({ value: children, fromUnit: 'WEI', toCurrency: currency, rates: ethereumRates })
+    ? Exchange.displayBitcoinToFiat({ value: children, fromUnit: unit || 'SAT', toCurrency: currency, rates: bitcoinRates })
+    : Exchange.displayEtherToFiat({ value: children, fromUnit: unit || 'WEI', toCurrency: currency, rates: ethereumRates })
 
   return <div>{result}</div>
 }
