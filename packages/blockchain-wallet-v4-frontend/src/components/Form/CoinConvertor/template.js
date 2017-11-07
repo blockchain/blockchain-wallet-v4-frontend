@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Icon, TextInput, Text } from 'blockchain-info-components'
+import CurrencyDisplay from 'components/CurrencyDisplay'
 
 const Wrapper = styled.div`
   display: flex;
@@ -63,7 +64,7 @@ const getErrorState = (meta) => {
 }
 
 const CoinConvertor = (props) => {
-  const { value, toValue, fromValueFiat, toValueFiat, btcUnit, ethUnit, fromCoin, toCoin, handleBlur, handleFromCoinChange, handleToCoinChange, handleFocus, meta } = props
+  const { value, toValue, currency, btcUnit, ethUnit, fromCoin, toCoin, bitcoinRates, ethereumRates, handleBlur, handleFromCoinChange, handleToCoinChange, handleFocus, meta } = props
   const errorState = getErrorState(meta)
 
   return (
@@ -76,7 +77,9 @@ const CoinConvertor = (props) => {
           </Row>
           <OutputRow>
             <FiatDisplay weight={300} size='14px'>
-              {fromValueFiat}
+              <CurrencyDisplay coin='BTC' unit='BTC' currency={currency} bitcoinRates={bitcoinRates}>
+                {value}
+              </CurrencyDisplay>
             </FiatDisplay>
           </OutputRow>
         </Container>
@@ -88,7 +91,9 @@ const CoinConvertor = (props) => {
           </Row>
           <OutputRow>
             <FiatDisplay weight={300} size='14px'>
-              {toValueFiat}
+              <CurrencyDisplay coin='ETH' unit='ETH' currency={currency} ethereumRates={ethereumRates}>
+                {toValue}
+              </CurrencyDisplay>
             </FiatDisplay>
           </OutputRow>
         </Container>

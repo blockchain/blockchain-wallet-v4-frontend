@@ -12,7 +12,7 @@ class CoinConvertorContainer extends React.Component {
     super(props)
 
     const value = this.props.input.value || 0
-    this.state = { value, toValue: 0, fromValueFiat: 0, toValueFiat: 0 }
+    this.state = { value, toValue: undefined }
 
     this.handleBlur = this.handleBlur.bind(this)
     this.handleFromCoinChange = this.handleFromCoinChange.bind(this)
@@ -27,17 +27,17 @@ class CoinConvertorContainer extends React.Component {
     if (!equals(value, nextProps.input.value) ||
       (fromCoin === 'BTC' && !equals(btcEthRates, nextProps.btcEthRates)) ||
       (fromCoin === 'ETH' && !equals(ethBtcRates, nextProps.ethBtcRates))) {
-      this.convertAll(nextProps.input.value, true)
+      this.convertCoin(nextProps.input.value, true)
     }
   }
 
   handleFromCoinChange (event) {
-    this.convertAll(event.target.value, true)
+    this.convertCoin(event.target.value, true)
     if (this.props.input.onChange) { this.props.input.onChange(event.target.value) }
   }
 
   handleToCoinChange (event) {
-    this.convertAll(event.target.value, false)
+    this.convertCoin(event.target.value, false)
   }
 
   handleBlur () {
@@ -48,38 +48,21 @@ class CoinConvertorContainer extends React.Component {
     if (this.props.input.onFocus) { this.props.input.onFocus(this.state.value) }
   }
 
-  convertAll (value, valueIsFrom) {
+  convertCoin (value, valueIsFrom) {
     const { fromCoin, btcUnit, ethUnit, btcEthRates, ethBtcRates } = this.props
-    const fromCoinIsBtc = fromCoin === 'BTC'
-    const valueIsBtc = (fromCoinIsBtc && valueIsFrom) || (!fromCoinIsBtc && !valueIsFrom)
 
-    const conversion = fromCoinIsBtc
+    const conversion = fromCoin === 'BTC'
       ? Exchange.convertBitcoinToEther({ value: value, fromUnit: btcUnit, toUnit: ethUnit, rates: btcEthRates })
       : Exchange.convertEtherToBitcoin({ value: value, fromUnit: ethUnit, toUnit: btcUnit, rates: ethBtcRates })
 
-    const valueFiat = this.convertFiat(value, valueIsBtc)
-    const conversionValueFiat = this.convertFiat(conversion.value, !valueIsBtc)
-
-    valueIsFrom ? this.setState({ value: value, toValue: conversion.value, fromValueFiat: valueFiat, toValueFiat: conversionValueFiat })
-      : this.setState({ value: conversion.value, toValue: value, fromValueFiat: conversionValueFiat, toValueFiat: valueFiat })
-  }
-
-  convertFiat (value, fromBtc) {
-    const { btcUnit, ethUnit, currency, bitcoinRates, ethereumRates } = this.props
-
-    const fiat = fromBtc
-      ? Exchange.displayBitcoinToFiat({ value: value, fromUnit: btcUnit, toCurrency: currency, rates: bitcoinRates })
-      : Exchange.displayEtherToFiat({ value: value, fromUnit: ethUnit, toCurrency: currency, rates: ethereumRates })
-
-    return fiat
+    valueIsFrom ? this.setState({ value: value, toValue: conversion.value })
+      : this.setState({ value: conversion.value, toValue: value })
   }
 
   render () {
     return <CoinConvertor
       value={this.state.value}
       toValue={this.state.toValue}
-      fromValueFiat={this.state.fromValueFiat}
-      toValueFiat={this.state.toValueFiat}
       handleBlur={this.handleBlur}
       handleFromCoinChange={this.handleFromCoinChange}
       handleToCoinChange={this.handleToCoinChange}
