@@ -149,4 +149,4 @@ SecondStep.propTypes = {
   previousStep: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'recoveryPhrase' })(SecondStep)
+export default reduxForm({ form: 'exchange' })(SecondStep)

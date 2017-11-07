@@ -1,8 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
+import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
+import { FiatConvertor, SelectBoxAddresses } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,6 +30,19 @@ const Body = styled.div`
   padding: 20px 30px;
 `
 
+const SelectionRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+const Column = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  width: 45%;
+`
+
 const Footer = styled.div`
   display: flex;
   justify-content: center;
@@ -34,7 +50,8 @@ const Footer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { nextStep } = props
+  const { nextStep, invalid } = props
+  const addressShouldBeSelected = value => value ? undefined : 'You must select an address'
 
   return (
     <Wrapper>
@@ -47,10 +64,32 @@ const FirstStep = (props) => {
         </Text>
       </Header>
       <Body>
-        Exchange form
+        <SelectionRow>
+          <Column>
+            <Text>
+              <FormattedMessage id='scenes.exchange.exchangebox.firststep.from' defaultMessage='Exchange from:' />
+            </Text>
+            <Field name='from' validate={[addressShouldBeSelected]} component={SelectBoxAddresses} />
+          </Column>
+          <Column>
+            <Text>
+              <FormattedMessage id='scenes.exchange.exchangebox.firststep.to' defaultMessage='To:' />
+            </Text>
+            <Field name='to' component={SelectBoxAddresses} />
+          </Column>
+        </SelectionRow>
+        <SelectionRow>
+          <Text>
+            <FormattedMessage id='scenes.exchange.exchangebox.firststep.amount' defaultMessage='Enter amount:' />
+          </Text>
+          <Field name='amount' component={FiatConvertor} validate={[required]} coin='BTC' />
+        </SelectionRow>
+        <Text color='error' weight={300} size='12px'>
+          <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage='x BTC needed to exchange.' />
+        </Text>
       </Body>
       <Footer>
-        <Button nature='primary' fullwidth onClick={nextStep}>
+        <Button nature='primary' fullwidth disabled={invalid} onClick={nextStep}>
           <FormattedMessage id='scenes.exchange.exchangebox.firststep.logout' defaultMessage='Next step' />
         </Button>
       </Footer>
@@ -58,4 +97,4 @@ const FirstStep = (props) => {
   )
 }
 
-export default FirstStep
+export default reduxForm({ form: 'exchange' })(FirstStep)
