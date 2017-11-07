@@ -7,6 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Button, Link, Text, Tooltip } from 'blockchain-info-components'
 import { CheckBox, Form } from 'components/Form'
 import Terms from 'components/Terms'
+import CoinDisplay from 'components/CoinDisplay'
 
 const Wrapper = styled.div`
   border: 1px solid black;
@@ -32,13 +33,30 @@ const ExpiryText = styled(Text)`
   justify-content: flex-end;
 `
 
+const RecapTableRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
+`
+
+const AmountText = styled(Text)`
+  display: flex;
+  flex-direction: row;
+`
+
 const Footer = styled.div`
   display: flex;
   justify-content: center;
   padding: 0px 20px 20px 20px;
 `
 
-const RecapTable = styled.div``
+const RecapTable = styled.div`
+  background-color: ${props => props.theme['brand-quaternary']};
+  border: 1px solid ${props => props.theme['gray-2']};
+`
 
 const SecondStep = (props) => {
   const { previousStep, position, total, close, submitting, invalid, ...rest } = props
@@ -67,7 +85,46 @@ const SecondStep = (props) => {
             </Tooltip>
           </ExpiryText>
           <RecapTable>
-            Recap table
+            <RecapTableRow>
+              <Text weight={400}>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.todeposit' defaultMessage='Bitcoin to deposit:' />
+              </Text>
+              <AmountText weight={300}>
+                <CoinDisplay coin='BTC'>{100000000}</CoinDisplay>
+              </AmountText>
+            </RecapTableRow>
+            <RecapTableRow>
+              <Text weight={400}>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.tobereceived' defaultMessage='Ether to be received:' />
+              </Text>
+              <AmountText weight={300}>
+                <CoinDisplay coin='ETH'>{255000000000}</CoinDisplay>
+              </AmountText>
+            </RecapTableRow>
+            <RecapTableRow>
+              <Text weight={400}>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.rate' defaultMessage='Exchange rate:' />
+              </Text>
+              <AmountText weight={300}>
+                <CoinDisplay coin='BTC'>{100000000}</CoinDisplay>=<CoinDisplay coin='ETH'>{255000000000}</CoinDisplay>
+              </AmountText>
+            </RecapTableRow>
+            <RecapTableRow>
+              <Text weight={400}>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfee' defaultMessage='Transaction fee:' />
+              </Text>
+              <AmountText weight={300}>
+                <CoinDisplay coin='BTC'>{610200}</CoinDisplay>
+              </AmountText>
+            </RecapTableRow>
+            <RecapTableRow>
+              <Text weight={400}>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.shapeshiftfee' defaultMessage='ShapeShift withdrawal fee:' />
+              </Text>
+              <AmountText weight={300}>
+                <CoinDisplay coin='ETH'>{100000000}</CoinDisplay>
+              </AmountText>
+            </RecapTableRow>
           </RecapTable>
           <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
             <Text size='12px' weight={300}>
