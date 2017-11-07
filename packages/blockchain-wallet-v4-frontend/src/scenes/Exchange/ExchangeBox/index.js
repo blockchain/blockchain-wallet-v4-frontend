@@ -18,4 +18,4 @@ class ExchangeBoxContainer extends React.Component {
   }
 }
 
-export default wizardProvider('ExchangeBox', 2)(ExchangeBoxContainer)
+export default wizardProvider('exchange', 2)(ExchangeBoxContainer)
