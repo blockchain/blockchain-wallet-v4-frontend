@@ -2,6 +2,7 @@ import { prop } from 'ramda'
 
 export const getBtcUnit = prop('btc_currency')
 export const getLanguage = prop('language')
+export const getCountryCode = prop('country_code')
 export const getCurrency = prop('currency')
 export const getSmsNumber = prop('sms_number')
 export const getSmsVerified = prop('sms_verified')

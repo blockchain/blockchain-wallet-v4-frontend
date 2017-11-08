@@ -47,7 +47,11 @@ storiesOf('Trade', module)
       <OrderHistoryHeader sent='Exchanged' received='Received' />
       {
         trades.map(t => {
-          return <Trade trade={t} key={t.quote.orderId} openTradeDetails={() => openDetails(t)} />
+          return <Trade
+            trade={t}
+            key={t.quote.orderId}
+            openTradeDetails={() => openDetails(t)}
+          />
         })
       }
     </div>
