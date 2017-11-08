@@ -10,7 +10,7 @@ export const initSendEther = function * (action) {
     yield put(actions.modals.showModal('SendEther', undefined, { loading: true }))
     yield call(sagas.core.data.ethereum.fetchFee)
     yield call(delay, 2000)
-    yield put(actions.modals.updateModal(undefined, { loading: false }))
+    yield put(actions.modals.updateModalOptions({ loading: false }))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not init send ether.'))
   }
@@ -18,11 +18,12 @@ export const initSendEther = function * (action) {
 
 export const initTransferEther = function * (action) {
   try {
+    const { balance } = action.payload
     yield put(actions.modals.closeAllModals())
-    yield put(actions.modals.showModal('TransferEther', undefined, { loading: true }))
+    yield put(actions.modals.showModal('TransferEther', { balance }, { loading: true }))
     yield call(sagas.core.data.ethereum.fetchFee)
     yield call(delay, 2000)
-    yield put(actions.modals.updateModal(undefined, { loading: false }))
+    yield put(actions.modals.updateModalOptions({ loading: false }))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not init transfer ether.'))
   }

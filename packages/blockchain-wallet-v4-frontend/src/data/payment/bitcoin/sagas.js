@@ -19,7 +19,7 @@ export const initSendBitcoin = function * (action) {
     const feePerByte = yield select(selectors.core.data.bitcoin.getFeeRegular)
     yield call(sagas.core.data.bitcoin.refreshEffectiveBalance, { feePerByte })
     yield call(delay, 2000)
-    yield put(actions.modals.updateModal(undefined, { loading: false }))
+    yield put(actions.modals.updateModalOptions({ loading: false }))
   } catch (e) {
     if (e !== 'No free outputs to spend') {
       yield put(actions.alerts.displayError('Could not init send bitcoin.'))

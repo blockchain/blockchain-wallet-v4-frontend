@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Modal, ModalHeader, ModalBody, Text, TextGroup } from 'blockchain-info-components'
+import CoinDisplay from 'components/CoinDisplay'
 
 const Container = styled.div`
   display: flex;
@@ -67,7 +68,7 @@ const TransferEther = (props) => {
               <FormattedMessage id='modals.transferether.label3' defaultMessage='Amount:' />
             </Text>
             <Text size='14px' weight={300}>
-              {amount}
+              <CoinDisplay coin='ETH'>{amount}</CoinDisplay>
             </Text>
           </Row>
           <Row>
@@ -75,7 +76,7 @@ const TransferEther = (props) => {
               <FormattedMessage id='modals.transferether.label3' defaultMessage='Transaction Fee:' />
             </Text>
             <Text size='14px' weight={300}>
-              {fee}
+              <CoinDisplay coin='ETH'>{fee}</CoinDisplay>
             </Text>
           </Row>
         </Container>
