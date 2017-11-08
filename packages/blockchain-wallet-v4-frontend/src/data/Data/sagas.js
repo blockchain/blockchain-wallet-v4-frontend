@@ -71,6 +71,22 @@ const getTransactionHistory = function * (action) {
   }
 }
 
+const getBtcEth = function * (action) {
+  try {
+    yield call(sagas.core.data.shapeShift.fetchBtcEth)
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch shapeShift data for bitcoin to ether conversion.'))
+  }
+}
+
+const getEthBtc = function * (action) {
+  try {
+    yield call(sagas.core.data.shapeShift.fetchEthBtc)
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch shapeShift data for ether to bitcoin conversion.'))
+  }
+}
+
 export default function * () {
   yield takeEvery(AT.GET_ADVERTS, getAdverts)
   yield takeEvery(AT.GET_CAPTCHA, getCaptcha)
@@ -80,4 +96,6 @@ export default function * () {
   yield takeEvery(AT.GET_ETHEREUM_TRANSACTIONS, getEthereumTransactions)
   yield takeEvery(AT.GET_TRANSACTION_FIAT_AT_TIME, getTransactionFiatAtTime)
   yield takeEvery(AT.GET_TRANSACTION_HISTORY, getTransactionHistory)
+  yield takeEvery(AT.GET_BTC_ETH, getBtcEth)
+  yield takeEvery(AT.GET_ETH_BTC, getEthBtc)
 }

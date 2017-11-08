@@ -10,5 +10,6 @@ export default {
   WALLET_SETTINGS_PATH: 'wallet.settings',
   WALLET_OPTIONS_PATH: 'wallet.options',
   WALLET_KVSTORE_PATH: 'wallet.kvstore',
+  SHAPESHIFT_ROOT_URL: 'https://shapeshift.io/',
   NETWORK: Bitcoin.networks.bitcoin
 }
