@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { head } from 'ramda'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -13,17 +14,20 @@ class TransferEtherContainer extends React.Component {
   }
 
   handleSubmit () {
-
+    // this.props.paymentActions.
   }
 
   render () {
+    const { legacyAccount, accounts, ...rest } = this.props
+
     return (
       <TransferEther
         handleSubmit={this.handleSubmit}
-        legacyAccountAddress='legacy address'
-        defaultAccountAddress='default address'
+        legacyAccountAddress={legacyAccount.addr}
+        defaultAccountAddress={head(accounts).addr}
         amount={`${500} ETH`}
         fee={`${100} ETH`}
+        {...rest}
       />
     )
   }
@@ -35,7 +39,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  paymentActions: bindActionCreators(actions.payment, dispatch)
 })
 
 const enhance = compose(

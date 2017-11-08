@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Modal, ModalHeader, ModalBody, Text, TextGroup } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  margin-top: 10px;
+  margin: 10px 0;
   background-color: ${props => props.theme['gray-1']};
   border: 1px solid ${props => props.theme['gray-2']};
 `
@@ -25,7 +25,7 @@ const Row = styled.div`
 `
 
 const TransferEther = (props) => {
-  const { position, total, ...rest } = props
+  const { position, total, loading, ...rest } = props
   const { handleSubmit, legacyAccountAddress, defaultAccountAddress, amount, fee } = rest
 
   return (
@@ -33,7 +33,7 @@ const TransferEther = (props) => {
       <ModalHeader closeButton={false}>
         <FormattedMessage id='modals.transferether.title' defaultMessage='Your Ether Address' />
       </ModalHeader>
-      <ModalBody>
+      <ModalBody loading={loading}>
         <TextGroup inline>
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.transferether.beta' defaultMessage='As we leave our beta program we want to make sure your backup phrase is compatible with other ether wallets.' />
@@ -79,12 +79,10 @@ const TransferEther = (props) => {
             </Text>
           </Row>
         </Container>
-      </ModalBody>
-      <ModalFooter>
         <Button nature='primary' fullwidth uppercase onClick={handleSubmit}>
           <FormattedMessage id='modals.transferether.confirm' defaultMessage='Confirm' />
         </Button>
-      </ModalFooter>
+      </ModalBody>
     </Modal>
   )
 }

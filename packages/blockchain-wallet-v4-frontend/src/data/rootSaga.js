@@ -4,18 +4,20 @@ import config from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
-import alerts from './Alerts/sagas.js'
-import auth from './Auth/sagas.js'
-import data from './Data/sagas.js'
-import goals from './Goals/sagas.js'
-import payment from './Payment/sagas.js'
-import settings from './Settings/sagas.js'
-import wallet from './Wallet/sagas.js'
+import alerts from './alerts/sagas.js'
+import auth from './auth/sagas.js'
+import data from './data/sagas.js'
+import goals from './goals/sagas.js'
+import payment from './payment/sagas.js'
+import settings from './settings/sagas.js'
+import wallet from './wallet/sagas.js'
 
 const dataPath = config.WALLET_DATA_PATH
 const settingsPath = config.WALLET_SETTINGS_PATH
 const walletPath = config.WALLET_PAYLOAD_PATH
 const kvStorePath = config.WALLET_KVSTORE_PATH
+
+console.log(payment)
 
 export const sagas = {
   core: coreSagasFactory({

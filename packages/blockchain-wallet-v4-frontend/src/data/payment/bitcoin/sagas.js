@@ -2,9 +2,9 @@ import { takeEvery, put, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { isNil, is } from 'ramda'
 import * as AT from './actionTypes'
-import * as actions from '../actions.js'
-import * as selectors from '../selectors.js'
-import * as sagas from '../sagas.js'
+import * as actions from '../../actions.js'
+import * as selectors from '../../selectors.js'
+import * as sagas from '../../sagas.js'
 import settings from 'config'
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -24,18 +24,6 @@ export const initSendBitcoin = function * (action) {
     if (e !== 'No free outputs to spend') {
       yield put(actions.alerts.displayError('Could not init send bitcoin.'))
     }
-  }
-}
-
-export const initSendEther = function * (action) {
-  try {
-    yield put(actions.modals.closeAllModals())
-    yield put(actions.modals.showModal('SendEther', undefined, { loading: true }))
-    yield call(sagas.core.data.ethereum.fetchFee)
-    yield call(delay, 2000)
-    yield put(actions.modals.updateModal(undefined, { loading: false }))
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not init send ethereum.'))
   }
 }
 
@@ -96,7 +84,6 @@ export const sendBitcoin = function * (action) {
 
 export default function * () {
   yield takeEvery(AT.INIT_SEND_BITCOIN, initSendBitcoin)
-  yield takeEvery(AT.INIT_SEND_ETHER, initSendEther)
   yield takeEvery(AT.GET_UNSPENT, getUnspent)
   yield takeEvery(AT.GET_SELECTION, getSelection)
   yield takeEvery(AT.GET_EFFECTIVE_BALANCE, getEffectiveBalance)

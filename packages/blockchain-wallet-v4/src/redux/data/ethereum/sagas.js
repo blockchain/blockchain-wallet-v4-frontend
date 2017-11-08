@@ -2,6 +2,7 @@ import { call, put, spawn, cancel } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { sum, values } from 'ramda'
 import * as A from './actions'
+// import * as transactions from './'
 
 export const ethereum = ({ api } = {}) => {
   const fetchBalance = function * ({ context }) {
@@ -38,11 +39,25 @@ export const ethereum = ({ api } = {}) => {
     yield put(A.setEthereumTransactions(address, data.txns))
   }
 
+  const buildTx = function * ({ to, amount, gasPrice, gasLimit }) {
+    return 
+  }
+
+  const pushTx = function * ({ transaction }) {
+    // Serialize
+    const rawTransaction = `0x${transaction.serialize().toString('hex')}`
+    // Sign
+
+    // Push
+  }
+
   return {
     fetchBalance,
     fetchFee,
     startRates,
     stopRates,
-    fetchTransactions
+    fetchTransactions,
+    buildTx,
+    pushTx
   }
 }
