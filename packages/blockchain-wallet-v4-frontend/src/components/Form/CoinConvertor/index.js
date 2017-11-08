@@ -30,17 +30,6 @@ class CoinConvertorContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    const { fromCoin, input, btcEthRates, ethBtcRates } = this.props
-    const { value } = input
-
-    if (!equals(value, nextProps.input.value) ||
-      (fromCoin === 'BTC' && !equals(btcEthRates, nextProps.btcEthRates)) ||
-      (fromCoin === 'ETH' && !equals(ethBtcRates, nextProps.ethBtcRates))) {
-      this.convertCoin(nextProps.input.value, true)
-    }
-  }
-
   handleFromCoinChange (event) {
     this.convertCoin(event.target.value, true)
     if (this.props.input.onChange) { this.props.input.onChange(event.target.value) }
@@ -60,10 +49,9 @@ class CoinConvertorContainer extends React.Component {
 
   convertCoin (value, valueIsFrom) {
     const { fromCoin, btcUnit, ethUnit, btcEth, ethBtc } = this.props
-    const fromCoinIsBtc = fromCoin === 'BTC'
-    const conversion = (fromCoinIsBtc && valueIsFrom) || (!fromCoinIsBtc && !valueIsFrom)
-      ? Exchange.convertBitcoinToEther({ value: value, fromUnit: btcUnit, toUnit: ethUnit, rate: btcEth.rate })
-      : Exchange.convertEtherToBitcoin({ value: value, fromUnit: ethUnit, toUnit: btcUnit, rate: ethBtc.rate })
+    const conversion = fromCoin === 'BTC'
+      ? Exchange.convertBitcoinToEther({ value: value, fromUnit: btcUnit, toUnit: ethUnit, rate: btcEth.rate, reverse: !valueIsFrom })
+      : Exchange.convertEtherToBitcoin({ value: value, fromUnit: ethUnit, toUnit: btcUnit, rate: ethBtc.rate, reverse: !valueIsFrom })
 
     valueIsFrom ? this.setState({ value: value, toValue: conversion.value })
       : this.setState({ value: conversion.value, toValue: value })
