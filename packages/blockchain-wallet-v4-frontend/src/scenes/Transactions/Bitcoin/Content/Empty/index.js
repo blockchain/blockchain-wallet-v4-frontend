@@ -13,7 +13,7 @@ class EmptyContainer extends React.Component {
   }
 
   handleSend () {
-    this.props.paymentActions.initSendBitcoin()
+    this.props.paymentActions.bitcoin.initSendBitcoin()
   }
 
   handleRequest () {

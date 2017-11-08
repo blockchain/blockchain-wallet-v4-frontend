@@ -11,9 +11,8 @@ import * as sagas from '../sagas.js'
 import { api } from 'services/ApiService'
 
 // =============================================================================
-// ================================= Generic ===================================
+// ================================== Addons ===================================
 // =============================================================================
-
 const upgradeWalletSaga = function * () {
   yield put(actions.modals.showModal('UpgradeWallet'))
   const { success, error } = yield race({
@@ -33,9 +32,13 @@ const upgradeWalletSaga = function * () {
 const transferEtherSaga = function * ({ address }) {
   const balance = yield call(sagas.core.data.ethereum.fetchBalance, { context: address })
   if (balance > 0) {
-    yield put(actions.modals.showModal('TransferEther'))
+    yield call(sagas.payment.ethereum.initTransferEther)
   }
 }
+
+// =============================================================================
+// ================================= Generic ===================================
+// =============================================================================
 
 const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
   try {
@@ -70,8 +73,8 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
     // ETHER - Fix derivation
-    // const legacyAccount = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
-    // yield call(transferEtherSaga, { address: legacyAccount.addr })
+    const legacyAccount = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
+    yield call(transferEtherSaga, { address: legacyAccount.addr })
   } catch (e) {
     // Redirect to error page instead of notification
     yield put(actions.alerts.displayError('Critical error while fetching essential data !' + e.message))

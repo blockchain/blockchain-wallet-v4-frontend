@@ -15,7 +15,7 @@ class SecondStepContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.paymentActions.sendBitcoin(this.props.selection)
+    this.props.paymentActions.bitcoin.sendBitcoin(this.props.selection)
   }
 
   render () {

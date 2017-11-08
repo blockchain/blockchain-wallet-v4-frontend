@@ -11,7 +11,7 @@ const sendBitcoinGoalSaga = function * (goal) {
   // Goal work
   const unit = yield select(selectors.core.settings.getBtcUnit)
   const scaledAmount = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: 'SAT', toUnit: unit }).value
-  yield call(sagas.payment.initSendBitcoin)
+  yield call(sagas.payment.bitcoin.initSendBitcoin)
   yield put(actions.form.startAsyncValidation('sendBitcoin'))
   yield put(actions.form.change('sendBitcoin', 'to2', address))
   yield put(actions.form.change('sendBitcoin', 'amount', scaledAmount))

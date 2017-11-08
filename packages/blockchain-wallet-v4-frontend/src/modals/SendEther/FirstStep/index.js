@@ -22,7 +22,7 @@ class FirstStepContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     const { coin, feeRegular, gasLimit, fee } = nextProps
     // Replace the bitcoin modal to the ethereum modal
-    if (!equals(this.props.coin, coin) && coin === 'BTC') { this.props.paymentActions.initSendBitcoin() }
+    if (!equals(this.props.coin, coin) && coin === 'BTC') { this.props.paymentActions.bitcoin.initSendBitcoin() }
 
     // Update fee when feeRegular or gasLimit change
     if (!equals(this.props.feeRegular, feeRegular) ||

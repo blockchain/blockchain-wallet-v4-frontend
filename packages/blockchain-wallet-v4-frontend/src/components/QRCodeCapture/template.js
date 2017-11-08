@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BrowserDetection from 'react-browser-detection'
-import QrReader from 'react-qr-reader'
+import QRReader from '../QRReader'
 
 import { Image, HeartbeatLoader } from 'blockchain-info-components'
 
@@ -68,12 +68,7 @@ const QRCodeCapture = props => {
       {toggled && <HeartbeatLoader width='30px' height='30px' color='red' onClick={handleToggle} />}
       {toggled &&
         <TooltipBox>
-          <BrowserDetection once>
-            {{
-              safari: () => <QrReader onImageLoad={handleScan} onError={handleError} legacyMode />,
-              default: () => <QrReader onScan={handleScan} onError={handleError} />
-            }}
-          </BrowserDetection>
+          <QRReader onScan={handleScan} onError={handleError} />
         </TooltipBox>
       }
     </Wrapper>
