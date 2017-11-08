@@ -7,7 +7,7 @@ const mapDispatchToProps = (dispatch) => ({
   close: compose(dispatch, actions.modals.closeModal),
   closeAll: compose(dispatch, actions.modals.closeAllModals),
   replace: compose(dispatch, actions.modals.replaceModal),
-  update: compose(dispatch, actions.modals.updateModal)
+  update: compose(dispatch, actions.modals.updateModalOptions)
 })
 
 const mapStateToProps = (state) => ({

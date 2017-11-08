@@ -29,10 +29,12 @@ const upgradeWalletSaga = function * () {
   }
 }
 
-const transferEtherSaga = function * ({ address }) {
-  const balance = yield call(sagas.core.data.ethereum.fetchBalance, { context: address })
+const transferEtherSaga = function * () {
+  const legacyAccount = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
+  const balance = yield call(sagas.core.data.ethereum.fetchBalance, { context: legacyAccount.addr })
   if (balance > 0) {
-    yield call(sagas.payment.ethereum.initTransferEther)
+    console.log(balance)
+    yield put(actions.payment.ethereum.initTransferEther(balance))
   }
 }
 
@@ -73,8 +75,7 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
     // ETHER - Fix derivation
-    const legacyAccount = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
-    yield call(transferEtherSaga, { address: legacyAccount.addr })
+    yield call(transferEtherSaga)
   } catch (e) {
     // Redirect to error page instead of notification
     yield put(actions.alerts.displayError('Critical error while fetching essential data !' + e.message))

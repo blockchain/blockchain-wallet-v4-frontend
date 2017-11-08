@@ -6,6 +6,7 @@ import { head } from 'ramda'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import TransferEther from './template.js'
+import { transactions } from 'blockchain-wallet-v4/src'
 
 class TransferEtherContainer extends React.Component {
   constructor (props) {
@@ -14,19 +15,20 @@ class TransferEtherContainer extends React.Component {
   }
 
   handleSubmit () {
-    // this.props.paymentActions.
+
   }
 
   render () {
-    const { legacyAccount, accounts, ...rest } = this.props
+    const { legacyAccount, accounts, feeRegular, gasLimit, balance, ...rest } = this.props
+    const fee = feeRegular && gasLimit ? transactions.ethereum.calculateFee(feeRegular, gasLimit) : 0
 
     return (
       <TransferEther
         handleSubmit={this.handleSubmit}
         legacyAccountAddress={legacyAccount.addr}
         defaultAccountAddress={head(accounts).addr}
-        amount={`${500} ETH`}
-        fee={`${100} ETH`}
+        amount={balance}
+        fee={fee}
         {...rest}
       />
     )
@@ -35,7 +37,9 @@ class TransferEtherContainer extends React.Component {
 
 const mapStateToProps = state => ({
   legacyAccount: selectors.core.kvStore.ethereum.getLegacyAccount(state),
-  accounts: selectors.core.kvStore.ethereum.getAccounts(state)
+  accounts: selectors.core.kvStore.ethereum.getAccounts(state),
+  feeRegular: selectors.core.data.ethereum.getFeeRegular(state),
+  gasLimit: selectors.core.data.ethereum.getGasLimit(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
