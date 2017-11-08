@@ -60,7 +60,8 @@ class CoinConvertorContainer extends React.Component {
 
   convertCoin (value, valueIsFrom) {
     const { fromCoin, btcUnit, ethUnit, btcEth, ethBtc } = this.props
-    const conversion = fromCoin === 'BTC'
+    const fromCoinIsBtc = fromCoin === 'BTC'
+    const conversion = (fromCoinIsBtc && valueIsFrom) || (!fromCoinIsBtc && !valueIsFrom)
       ? Exchange.convertBitcoinToEther({ value: value, fromUnit: btcUnit, toUnit: ethUnit, rate: btcEth.rate })
       : Exchange.convertEtherToBitcoin({ value: value, fromUnit: ethUnit, toUnit: btcUnit, rate: ethBtc.rate })
 
