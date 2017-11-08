@@ -1,4 +1,4 @@
-export default ({ shapeShiftRootUrl, get, post }) => {
+export default ({ shapeShiftRootUrl, get }) => {
   const getBtcEth = () => get({
     url: shapeShiftRootUrl,
     endPoint: `marketinfo/btc_eth`

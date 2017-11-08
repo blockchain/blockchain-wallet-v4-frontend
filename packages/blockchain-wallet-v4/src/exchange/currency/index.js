@@ -40,6 +40,20 @@ export class Currency extends Type {
             }))
     })
   }
+
+  convertWithRate (toCurrency, rate) {
+    let ratio = BigRational(rate)
+    const toCurrencyM = Maybe.fromNullable(toCurrency)
+
+    return sequence(Maybe.of, [toCurrencyM])
+      .chain(([toCurrency]) => {
+        return this.toUnit(this.currency.units[this.currency.trade])
+          .chain(o => fromUnit({
+            value: BigRational(o.value).multiply(ratio),
+            unit: toCurrency.units[toCurrency.trade]
+          }))
+      })
+  }
 }
 const newCurrency = o => new Currency(o)
 
@@ -52,6 +66,7 @@ export const selectCurrency = view(currency)
 export const selectUnits = compose(prop('units'), selectCurrency)
 
 export const convert = curry((pairs, toCurrency, currencyObject) => currencyObject.convert(pairs, toCurrency))
+export const convertWithRate = curry((toCurrency, rate, currencyObject) => currencyObject.convertWithRate(toCurrency, rate))
 export const toUnit = curry((unit, currencyObject) => currencyObject.toUnit(unit))
 
 export const fromUnit = ({value, unit}) => {

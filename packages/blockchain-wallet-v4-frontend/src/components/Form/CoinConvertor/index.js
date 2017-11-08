@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { selectors } from 'data'
-import { equals } from 'ramda'
+import { actions, selectors } from 'data'
+import { equals, isEmpty } from 'ramda'
+import { bindActionCreators } from 'redux'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import CoinConvertor from './template.js'
@@ -12,12 +13,21 @@ class CoinConvertorContainer extends React.Component {
     super(props)
 
     const value = this.props.input.value || 0
-    this.state = { value, toValue: undefined }
+    this.state = { value, toValue: '0' }
 
     this.handleBlur = this.handleBlur.bind(this)
     this.handleFromCoinChange = this.handleFromCoinChange.bind(this)
     this.handleToCoinChange = this.handleToCoinChange.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+  }
+
+  componentWillMount () {
+    if (isEmpty(this.props.btcEth)) {
+      this.props.dataActions.getBtcEth()
+    }
+    if (isEmpty(this.props.ethBtc)) {
+      this.props.dataActions.getEthBtc()
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -49,11 +59,10 @@ class CoinConvertorContainer extends React.Component {
   }
 
   convertCoin (value, valueIsFrom) {
-    const { fromCoin, btcUnit, ethUnit, btcEthRates, ethBtcRates } = this.props
-
+    const { fromCoin, btcUnit, ethUnit, btcEth, ethBtc } = this.props
     const conversion = fromCoin === 'BTC'
-      ? Exchange.convertBitcoinToEther({ value: value, fromUnit: btcUnit, toUnit: ethUnit, rates: btcEthRates })
-      : Exchange.convertEtherToBitcoin({ value: value, fromUnit: ethUnit, toUnit: btcUnit, rates: ethBtcRates })
+      ? Exchange.convertBitcoinToEther({ value: value, fromUnit: btcUnit, toUnit: ethUnit, rate: btcEth.rate })
+      : Exchange.convertEtherToBitcoin({ value: value, fromUnit: ethUnit, toUnit: btcUnit, rate: ethBtc.rate })
 
     valueIsFrom ? this.setState({ value: value, toValue: conversion.value })
       : this.setState({ value: conversion.value, toValue: value })
@@ -89,8 +98,12 @@ const mapStateToProps = (state) => ({
   currency: selectors.core.settings.getCurrency(state),
   bitcoinRates: selectors.core.data.bitcoin.getRates(state),
   ethereumRates: selectors.core.data.ethereum.getRates(state),
-  btcEthRates: 0,
-  ethBtcRates: 0
+  btcEth: selectors.core.data.shapeShift.getBtcEth(state),
+  ethBtc: selectors.core.data.shapeShift.getEthBtc(state)
 })
 
-export default connect(mapStateToProps)(CoinConvertorContainer)
+const mapDispatchToProps = (dispatch) => ({
+  dataActions: bindActionCreators(actions.data, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoinConvertorContainer)

@@ -24,7 +24,7 @@ export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCo
     ...misc({ rootUrl, apiUrl, get, post }),
     ...options({ rootUrl, apiUrl, get, post }),
     ...settings({ rootUrl, apiUrl, get, post }),
-    ...shapeShift({ shapeShiftRootUrl, get, post }),
+    ...shapeShift({ shapeShiftRootUrl, get }),
     ...wallet({ rootUrl, apiUrl, get, post })
   }
 }
