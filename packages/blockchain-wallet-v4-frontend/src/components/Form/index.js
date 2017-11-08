@@ -9,10 +9,11 @@ import NumberBox from './NumberBox'
 import PasswordBox from './PasswordBox'
 import PlaceHolder from './PlaceHolder'
 import PhoneNumberBox from './PhoneNumberBox'
-import SelectBoxAddresses from './SelectBoxAddresses'
+import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCoin from './SelectBoxCoin'
 import SelectBoxCurrency from './SelectBoxCurrency'
+import SelectBoxDefaultAccounts from './SelectBoxDefaultAccounts'
 import SelectBoxFee from './SelectBoxFee'
 import SelectBoxLanguages from './SelectBoxLanguages'
 import SelectBoxTheme from './SelectBoxTheme'
@@ -31,10 +32,11 @@ export {
   PasswordBox,
   PlaceHolder,
   PhoneNumberBox,
-  SelectBoxAddresses,
+  SelectBoxBitcoinAddresses,
   SelectBoxBitcoinUnit,
   SelectBoxCoin,
   SelectBoxCurrency,
+  SelectBoxDefaultAccounts,
   SelectBoxFee,
   SelectBoxLanguages,
   SelectBoxTheme,

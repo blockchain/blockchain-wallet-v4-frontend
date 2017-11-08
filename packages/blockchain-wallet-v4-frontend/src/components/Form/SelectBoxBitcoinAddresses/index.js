@@ -7,7 +7,7 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { SelectInput } from 'blockchain-info-components'
 import { selectors } from 'data'
 
-class SelectBoxAddresses extends React.Component {
+class SelectBoxBitcoinAddresses extends React.Component {
   render () {
     const { accounts, legacyAddresses, includeAll, ...rest } = this.props
     const allWallets = { text: 'All Wallets', value: '' }
@@ -20,11 +20,11 @@ class SelectBoxAddresses extends React.Component {
   }
 }
 
-SelectBoxAddresses.propTypes = {
+SelectBoxBitcoinAddresses.propTypes = {
   includeAll: PropTypes.bool
 }
 
-SelectBoxAddresses.defaultProps = {
+SelectBoxBitcoinAddresses.defaultProps = {
   includeAll: true
 }
 
@@ -55,4 +55,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(SelectBoxAddresses)
+export default connect(mapStateToProps)(SelectBoxBitcoinAddresses)
