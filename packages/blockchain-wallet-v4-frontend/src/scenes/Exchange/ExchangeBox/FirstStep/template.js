@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
-import { CoinConvertor, SelectBoxAddresses } from 'components/Form'
+import { CoinConvertor, SelectBoxDefaultAccounts } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,6 +46,10 @@ const Column = styled.div`
   width: 45%;
 `
 
+const TitleText = styled(Text)`
+  padding: 15px 0px 10px 0px;
+`
+
 const Footer = styled.div`
   display: flex;
   justify-content: center;
@@ -69,22 +73,22 @@ const FirstStep = (props) => {
       <Body>
         <SelectionRow>
           <Column>
-            <Text>
+            <TitleText>
               <FormattedMessage id='scenes.exchange.exchangebox.firststep.from' defaultMessage='Exchange from:' />
-            </Text>
-            <Field name='from' validate={[addressShouldBeSelected]} component={SelectBoxAddresses} />
+            </TitleText>
+            <Field name='from' validate={[addressShouldBeSelected]} component={SelectBoxDefaultAccounts} />
           </Column>
           <Column>
-            <Text>
+            <TitleText>
               <FormattedMessage id='scenes.exchange.exchangebox.firststep.to' defaultMessage='To:' />
-            </Text>
-            <Field name='to' component={SelectBoxAddresses} />
+            </TitleText>
+            <Field name='to' component={SelectBoxDefaultAccounts} />
           </Column>
         </SelectionRow>
         <SelectionRow>
-          <Text>
+          <TitleText>
             <FormattedMessage id='scenes.exchange.exchangebox.firststep.amount' defaultMessage='Enter amount:' />
-          </Text>
+          </TitleText>
         </SelectionRow>
         <SelectionRow>
           <Field name='amount' component={CoinConvertor} validate={[required]} fromCoin='BTC' toCoin='ETH' />

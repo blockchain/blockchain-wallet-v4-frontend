@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Icon, Image, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
-import { FiatConvertor, Form, SelectBoxAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
+import { FiatConvertor, Form, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/ComboDisplay'
 
 const Row = styled.div`
@@ -90,7 +90,7 @@ const FirstStep = (props) => {
               <Text size='14px' weight={500}>
                 <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
               </Text>
-              <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
+              <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
             </ColTwo>
           </Row>
           <Text size='14px' weight={500}>
@@ -98,7 +98,7 @@ const FirstStep = (props) => {
           </Text>
           { addressSelectToggled &&
             <AddressesToContainer>
-              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
+              <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
               <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
               <AddressesToButton onClick={handleClickAddressToggler}><Icon name='pencil' /></AddressesToButton>
             </AddressesToContainer>

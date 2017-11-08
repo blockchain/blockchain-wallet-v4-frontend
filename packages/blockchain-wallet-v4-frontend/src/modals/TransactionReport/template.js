@@ -7,7 +7,7 @@ import { CSVLink } from 'react-csv-2'
 import { map } from 'ramda'
 
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip } from 'blockchain-info-components'
-import { DateBox, SelectBoxAddresses, Form } from 'components/Form'
+import { DateBox, SelectBoxBitcoinAddresses, Form } from 'components/Form'
 
 const Container = styled.div`
   display: flex;
@@ -60,7 +60,7 @@ const TransactionReport = (props) => {
         <ModalBody>
           <Container>
             <Addresses>
-              <Field name='from' component={SelectBoxAddresses} />
+              <Field name='from' component={SelectBoxBitcoinAddresses} />
             </Addresses>
             <Dates>
               <Field name='start' component={DateBox} />
