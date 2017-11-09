@@ -3,19 +3,7 @@ import * as hash from 'bcoin/lib/crypto/digest'
 
 import * as OPS from 'bitcoin-ops'
 
-import Long from 'long'
-
 let OP_CSV = 178
-
-let intTo48BigNum = (num) => {
-  let l = new Long(num)
-
-  let b = Buffer.alloc(8)
-  b.writeInt32BE(l.hi, 0)
-  b.writeInt32BE(l.low, 4)
-
-  return b.slice(3)
-}
 
 let intToNum = (num) => {
   let b = null
@@ -35,9 +23,7 @@ let intToNum = (num) => {
 
 export let getFundingOutputScript = (fundingKeyLocal, fundingKeyRemote) => {
   // 2 <key1> <key2> 2 OP_CHECKMULTISIG
-
   let chunks = []
-
   chunks.push(OPS.OP_2)
 
   if (Buffer.compare(fundingKeyLocal, fundingKeyRemote) < 0) {
@@ -50,8 +36,23 @@ export let getFundingOutputScript = (fundingKeyLocal, fundingKeyRemote) => {
 
   chunks.push(OPS.OP_2)
   chunks.push(OPS.OP_CHECKMULTISIG)
-
   return SCRIPT.compile(chunks)
+}
+
+export let getFundingRedeemScript = (key1, key2, sig1, sig2) => {
+  let chunks = []
+  chunks.push([])
+
+  if (Buffer.compare(key1, key2) < 0) {
+    chunks.push(sig1)
+    chunks.push(sig2)
+  } else {
+    chunks.push(sig2)
+    chunks.push(sig1)
+  }
+
+  chunks.push(getFundingOutputScript(key1, key2))
+  return chunks
 }
 
 export let getToLocalOutputScript = (revocationKey, toSelfDelay, localDelayedKey) => {
