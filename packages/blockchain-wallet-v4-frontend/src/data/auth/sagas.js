@@ -67,7 +67,8 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
     yield all([
       call(sagas.core.common.fetchBlockchainData, { context: bitcoinContext }),
-      call(sagas.core.common.fetchEthereumData, { context: etherContext })
+      call(sagas.core.common.fetchEthereumData, { context: etherContext }),
+      call(sagas.core.data.ethereum.fetchLatestBlock)
     ])
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))

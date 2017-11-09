@@ -39,6 +39,11 @@ export const ethereum = ({ api } = {}) => {
     yield put(A.setEthereumTransactions(address, data.txns))
   }
 
+  const fetchLatestBlock = function * () {
+    const data = yield call(api.getEthereumLatestBlock)
+    yield put(A.setEthereumLatestBlock(data))
+  }
+
   const buildTx = function * ({ fromAccount, toAddress, amount, gasPrice, gasLimit }) {
     console.log('buildTx', { fromAccount, toAddress, amount, gasPrice, gasLimit })
     return transactions.ethereum.createTx(fromAccount, toAddress, amount, gasPrice, gasLimit)
@@ -58,6 +63,7 @@ export const ethereum = ({ api } = {}) => {
     startRates,
     stopRates,
     fetchTransactions,
+    fetchLatestBlock,
     buildTx,
     pushTx
   }

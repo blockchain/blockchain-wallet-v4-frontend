@@ -20,9 +20,9 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'eth/fees'
   })
 
-  const getEthereumLatestBlock = () => ({
+  const getEthereumLatestBlock = () => get({
     url: apiUrl,
-    endPoint: 'eth/latestBlock'
+    endPoint: 'eth/latestblock'
   })
 
   const getEthereumTicker = () => get({
