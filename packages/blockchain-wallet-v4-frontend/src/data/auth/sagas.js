@@ -1,6 +1,6 @@
 import { delay } from 'redux-saga'
 import { takeEvery, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
-import { prop, assoc } from 'ramda'
+import { compose, prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import * as AT from './actionTypes'
@@ -30,11 +30,9 @@ const upgradeWalletSaga = function * () {
 }
 
 const transferEtherSaga = function * () {
-  const legacyAccount = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
-  const balance = yield call(sagas.core.data.ethereum.fetchBalance, { context: legacyAccount.addr })
-  if (balance > 0) {
-    console.log(balance)
-    yield put(actions.payment.ethereum.initTransferEther(balance))
+  const legacyAccountBalance = yield select(selectors.core.data.ethereum.getLegacyAccountBalance)
+  if (parseFloat(legacyAccountBalance) > 0) {
+    yield put(actions.payment.ethereum.initTransferEther())
   }
 }
 

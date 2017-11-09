@@ -1,8 +1,9 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
+import * as kvStoreEthereumSelectors from '../kvStore/ethereum/selectors'
 import { compose, dissoc, indexBy, mapObjIndexed, prop, sortBy, sum, values, negate, path } from 'ramda'
 import * as A from './actions'
 
-export const commonSaga = ({ api } = {}) => {
+export const commonSaga = ({ api, kvStorePath } = {}) => {
   const fetchBlockchainData = function * ({ context }) {
     const data = yield call(api.fetchBlockchainData, context, { n: 1 })
     const bitcoinData = {
@@ -14,13 +15,17 @@ export const commonSaga = ({ api } = {}) => {
   }
 
   const fetchEthereumData = function * ({ context }) {
+    const legacyAccountAddress = yield select(compose(kvStoreEthereumSelectors.getLegacyAccountAddress, prop(kvStorePath)))
     const data = yield call(api.getEthereumData, context)
-    const finalBalance = sum(values(data).map(obj => obj.balance))
-    const totalReceived = sum(values(data).map(obj => obj.totalReceived))
-    const totalSent = sum(values(data).map(obj => obj.totalSent))
-    const nTx = sum(values(data).map(obj => obj.txn_count))
-    const addresses = mapObjIndexed((num, key, obj) => dissoc('txns', num), data)
-    const transactions = mapObjIndexed((num, key, obj) => sortBy(compose(negate, prop('timeStamp')), prop('txns', num)), data)
+    const accounts = dissoc(legacyAccountAddress, data)
+    const legacyAccount = prop(legacyAccountAddress, data)
+    // Accounts treatments
+    const finalBalance = sum(values(accounts).map(obj => obj.balance))
+    const totalReceived = sum(values(accounts).map(obj => obj.totalReceived))
+    const totalSent = sum(values(accounts).map(obj => obj.totalSent))
+    const nTx = sum(values(accounts).map(obj => obj.txn_count))
+    const addresses = mapObjIndexed((num, key, obj) => dissoc('txns', num), accounts)
+    const transactions = mapObjIndexed((num, key, obj) => sortBy(compose(negate, prop('timeStamp')), prop('txns', num)), accounts)
 
     const ethereumData = {
       addresses,
@@ -30,6 +35,7 @@ export const commonSaga = ({ api } = {}) => {
         total_sent: totalSent,
         final_balance: finalBalance
       },
+      legacy: legacyAccount,
       transactions
     }
     yield put(A.setEthereumData(ethereumData))

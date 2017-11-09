@@ -15,8 +15,7 @@ class TransferEtherContainer extends React.Component {
   }
 
   handleSubmit () {
-    const { legacyAccountAddress, defaultAccountAddress, balance } = this.props
-    this.props.paymentEthereumActions.transferEther(legacyAccountAddress, defaultAccountAddress, balance)
+    this.props.paymentEthereumActions.transferEther()
   }
 
   render () {
@@ -25,15 +24,18 @@ class TransferEtherContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const legacyAccount = selectors.core.kvStore.ethereum.getLegacyAccount(state)
-  const accounts = selectors.core.kvStore.ethereum.getAccounts(state)
-  const feeRegular = selectors.core.data.ethereum.getFeeRegular(state)
+  const legacyAccount = selectors.core.data.ethereum.getLegacyAccount(state)
+  const legacyAccountAddress = legacyAccount.account
+  const defaultAccountAddress = head(selectors.core.kvStore.ethereum.getAccounts(state)).addr
+  const balance = legacyAccount.balance
+  const gasPrice = selectors.core.data.ethereum.getFeeRegular(state)
   const gasLimit = selectors.core.data.ethereum.getGasLimit(state)
-  const fee = (feeRegular && gasLimit) ? transactions.ethereum.calculateFee(feeRegular, gasLimit) : 0
+  const fee = (gasPrice && gasLimit) ? transactions.ethereum.calculateFee(gasPrice, gasLimit) : 0
 
   return {
-    legacyAccountAddress: legacyAccount.addr,
-    defaultAccountAddress: head(accounts).addr,
+    from: legacyAccountAddress,
+    to: defaultAccountAddress,
+    balance,
     fee
   }
 }
