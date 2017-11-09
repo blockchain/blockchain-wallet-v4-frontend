@@ -4,8 +4,7 @@ import { socket } from 'services/Socket'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as auth from './auth/sagas.js'
 import * as data from './data/sagas.js'
-import * as paymentBitcoin from './payment/bitcoin/sagas.js'
-import * as paymentEthereum from './payment/ethereum/sagas.js'
+import * as payment from './payment/sagas.js'
 import * as settings from './settings/sagas.js'
 import * as wallet from './wallet/sagas.js'
 
@@ -24,11 +23,6 @@ const core = coreSagasFactory({
   kvStorePath,
   socket
 })
-
-const payment = {
-  bitcoin: paymentBitcoin,
-  ethereum: paymentEthereum
-}
 
 export {
   auth,
