@@ -42,7 +42,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentActions: bindActionCreators(actions.payment, dispatch),
+  paymentEthereumActions: bindActionCreators(actions.payment.ethereum, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 

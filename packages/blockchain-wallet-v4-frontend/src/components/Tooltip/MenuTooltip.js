@@ -26,7 +26,7 @@ const MenuTooltipIcon = styled(Icon)`
 `
 const MenuTooltipBox = styled(TextGroup)`
   position: absolute;
-  z-index: 9999;
+  z-index: 5;
   top: 150%;
   left: -115px;
   width: 250px;
@@ -74,7 +74,7 @@ const NewLabel = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  z-index: 10000;
+  z-index: 6;
   right: 1px;
   top: 3px;
   width: 10px;

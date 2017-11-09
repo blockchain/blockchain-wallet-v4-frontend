@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects'
-import { compose, dissoc, flatten, indexBy, mapObjIndexed, prop, sortBy, sum, values, negate, uniqBy, path } from 'ramda'
+import { compose, dissoc, indexBy, mapObjIndexed, prop, sortBy, sum, values, negate, path } from 'ramda'
 import * as A from './actions'
 
 export const commonSaga = ({ api } = {}) => {
@@ -20,13 +20,7 @@ export const commonSaga = ({ api } = {}) => {
     const totalSent = sum(values(data).map(obj => obj.totalSent))
     const nTx = sum(values(data).map(obj => obj.txn_count))
     const addresses = mapObjIndexed((num, key, obj) => dissoc('txns', num), data)
-    const transactions = compose(
-      sortBy(compose(negate, prop('timeStamp'))),
-      uniqBy(prop('hash')),
-      flatten,
-      values,
-      mapObjIndexed((num, key, obj) => prop('txns', num))
-    )(data)
+    const transactions = mapObjIndexed((num, key, obj) => sortBy(compose(negate, prop('timeStamp')), prop('txns', num)), data)
 
     const ethereumData = {
       addresses,

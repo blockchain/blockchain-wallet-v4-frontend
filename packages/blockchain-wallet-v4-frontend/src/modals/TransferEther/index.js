@@ -15,35 +15,31 @@ class TransferEtherContainer extends React.Component {
   }
 
   handleSubmit () {
-
+    const { legacyAccountAddress, defaultAccountAddress, balance } = this.props
+    this.props.paymentEthereumActions.transferEther(legacyAccountAddress, defaultAccountAddress, balance)
   }
 
   render () {
-    const { legacyAccount, accounts, feeRegular, gasLimit, balance, ...rest } = this.props
-    const fee = feeRegular && gasLimit ? transactions.ethereum.calculateFee(feeRegular, gasLimit) : 0
-
-    return (
-      <TransferEther
-        handleSubmit={this.handleSubmit}
-        legacyAccountAddress={legacyAccount.addr}
-        defaultAccountAddress={head(accounts).addr}
-        amount={balance}
-        fee={fee}
-        {...rest}
-      />
-    )
+    return <TransferEther handleSubmit={this.handleSubmit} {...this.props} />
   }
 }
 
-const mapStateToProps = state => ({
-  legacyAccount: selectors.core.kvStore.ethereum.getLegacyAccount(state),
-  accounts: selectors.core.kvStore.ethereum.getAccounts(state),
-  feeRegular: selectors.core.data.ethereum.getFeeRegular(state),
-  gasLimit: selectors.core.data.ethereum.getGasLimit(state)
-})
+const mapStateToProps = state => {
+  const legacyAccount = selectors.core.kvStore.ethereum.getLegacyAccount(state)
+  const accounts = selectors.core.kvStore.ethereum.getAccounts(state)
+  const feeRegular = selectors.core.data.ethereum.getFeeRegular(state)
+  const gasLimit = selectors.core.data.ethereum.getGasLimit(state)
+  const fee = (feeRegular && gasLimit) ? transactions.ethereum.calculateFee(feeRegular, gasLimit) : 0
+
+  return {
+    legacyAccountAddress: legacyAccount.addr,
+    defaultAccountAddress: head(accounts).addr,
+    fee
+  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
-  paymentActions: bindActionCreators(actions.payment, dispatch)
+  paymentEthereumActions: bindActionCreators(actions.payment.ethereum, dispatch)
 })
 
 const enhance = compose(
