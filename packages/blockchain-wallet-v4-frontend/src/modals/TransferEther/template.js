@@ -27,7 +27,7 @@ const Row = styled.div`
 
 const TransferEther = (props) => {
   const { position, total, loading, ...rest } = props
-  const { handleSubmit, legacyAccountAddress, defaultAccountAddress, amount, fee } = rest
+  const { handleSubmit, legacyAccountAddress, defaultAccountAddress, balance, fee } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -68,7 +68,7 @@ const TransferEther = (props) => {
               <FormattedMessage id='modals.transferether.label3' defaultMessage='Amount:' />
             </Text>
             <Text size='14px' weight={300}>
-              <CoinDisplay coin='ETH'>{amount}</CoinDisplay>
+              <CoinDisplay coin='ETH'>{balance}</CoinDisplay>
             </Text>
           </Row>
           <Row>

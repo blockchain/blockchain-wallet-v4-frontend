@@ -13,7 +13,7 @@ class EmptyContainer extends React.Component {
   }
 
   handleSend () {
-    this.props.paymentActions.bitcoin.initSendBitcoin()
+    this.props.paymentBitcoinActions.initSendBitcoin()
   }
 
   handleRequest () {
@@ -27,7 +27,7 @@ class EmptyContainer extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentActions: bindActionCreators(actions.payment, dispatch)
+  paymentBitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch)
 })
 
 export default connect(undefined, mapDispatchToProps)(EmptyContainer)

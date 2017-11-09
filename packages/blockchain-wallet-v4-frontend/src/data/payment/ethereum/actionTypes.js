@@ -2,3 +2,7 @@
 export const INIT_SEND_ETHER = 'INIT_SEND_ETHER'
 
 export const INIT_TRANSFER_ETHER = 'INIT_TRANSFER_ETHER'
+
+export const SEND_ETHER = 'SEND_ETHER'
+
+export const TRANSFER_ETHER = 'TRANSFER_ETHER'

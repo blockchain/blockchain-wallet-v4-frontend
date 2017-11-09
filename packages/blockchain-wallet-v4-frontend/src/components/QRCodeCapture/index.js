@@ -28,7 +28,6 @@ class QRCodeCaptureContainer extends React.Component {
     if (!isNil(data) && !isEmpty(data)) {
       const { address, options } = bip21.decode(data)
       const { amount, message } = options
-      console.log(data, address, amount, message)
       this.props.formActions.change('sendBitcoin', 'to2', address)
       this.props.formActions.change('sendBitcoin', 'amount', amount)
       this.props.formActions.change('sendBitcoin', 'message', message)

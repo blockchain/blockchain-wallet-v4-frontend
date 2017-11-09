@@ -17,3 +17,5 @@ export const getRates = path(['ethereum', 'rates'])
 export const getRate = currencyCode => path(['ethereum', 'rates', currencyCode])
 
 export const getTransactions = path(['ethereum', 'transactions'])
+
+export const getTransactionsByAccount = account => path(['ethereum', 'transactions', account])

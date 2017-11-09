@@ -15,21 +15,25 @@ const getType = (tx, addresses) => {
 
 export const calculateFee = (gasRegular, gasLimit) => `${(gasRegular * gasLimit)}000000000` // Convert gwei => wei
 
-export const createTx = (account, network = 1) => {
-  let tx = new EthereumTx(null, network)
-  console.log(tx)
-  // tx.nonce = account.nonce
+export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, network = 1) => {
+  try {
+    let tx = new EthereumTx(null, network)
+    tx.nonce = fromAccount.nonce
+    console.log(tx)
+    // let feeBN = 
 
-  // let feeBN = 
-
-  // return {
-  //   account: account.addr,
-  //   _tx: ,
-  //   _fee: '',
-  //   _amount: '',
-  //   _available: ''
-  // }
-  return ''
+    // return {
+    //   account: account.addr,
+    //   _tx: ,
+    //   _fee: '',
+    //   _amount: '',
+    //   _available: ''
+    // }
+  }
+  catch (e) {
+    console.log(e)
+  }
+  return tx
 }
 
 export const signTx = (transaction, ptrivateKey) => {
