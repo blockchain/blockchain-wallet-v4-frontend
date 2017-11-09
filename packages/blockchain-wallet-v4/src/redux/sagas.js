@@ -7,7 +7,7 @@ import { walletOptionsSaga } from './walletOptions/sagas.js'
 import { kvStoreSagasFactory } from './kvStore/sagas.js'
 
 export const coreSagasFactory = ({ api, kvStorePath, dataPath, walletPath, settingsPath, walletOptionsPath, socket } = {}) => ({
-  common: commonSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
+  common: commonSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, kvStorePath, socket }),
   data: dataSagasFactory({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
   settings: settingsSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
   wallet: walletSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),

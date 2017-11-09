@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   fee: {},
   info: {},
   latest_block: {},
+  legacy: {},
   rates: {},
   transactions: {}
 }
