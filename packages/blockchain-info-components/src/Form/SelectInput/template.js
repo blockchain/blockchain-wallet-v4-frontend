@@ -142,10 +142,10 @@ const SelectInput = (props) => {
 
 SelectInput.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
   })).isRequired,
-  display: PropTypes.string.isRequired,
+  display: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
   expanded: PropTypes.bool.isRequired,
   searchEnabled: PropTypes.bool.isRequired,
   handleBlur: PropTypes.func.isRequired,

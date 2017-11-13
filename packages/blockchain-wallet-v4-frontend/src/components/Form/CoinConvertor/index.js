@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
-import { equals, isEmpty } from 'ramda'
+import { isEmpty } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Exchange } from 'blockchain-wallet-v4/src'

@@ -44,7 +44,6 @@ const OutputRow = styled(Row)`
 `
 
 const Unit = styled.span`
-  position: absolute;
   padding: 0 15px;
   color: ${props => props.theme['gray-4']};
 `
