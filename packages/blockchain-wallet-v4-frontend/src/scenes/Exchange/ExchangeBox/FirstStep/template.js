@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { Button, Text } from 'blockchain-info-components'
-import { CoinConvertor, SelectBoxDefaultAccounts } from 'components/Form'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { CoinConvertor, SelectBoxesAccounts } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   justify-content: space-around;
   align-items: stretch;
   border: 1px solid black;
+  min-width: 400px;
 `
 
 const Header = styled.div`
@@ -30,35 +31,28 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 20px 30px;
+  padding: 20px 10px;
 `
 
 const SelectionRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-`
-
-const Column = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-  width: 45%;
+  justify-content: flex-start;
 `
 
 const TitleText = styled(Text)`
+  width: 50%;
   padding: 15px 0px 10px 0px;
 `
 
 const Footer = styled.div`
   display: flex;
   justify-content: center;
-  padding: 0px 20px 20px 20px;
+  padding: 0px 10px 20px 10px;
 `
 
 const FirstStep = (props) => {
   const { nextStep, invalid } = props
-  const addressShouldBeSelected = value => value ? undefined : 'You must select an address'
 
   return (
     <Wrapper>
@@ -72,18 +66,15 @@ const FirstStep = (props) => {
       </Header>
       <Body>
         <SelectionRow>
-          <Column>
-            <TitleText>
-              <FormattedMessage id='scenes.exchange.exchangebox.firststep.from' defaultMessage='Exchange from:' />
-            </TitleText>
-            <Field name='from' validate={[addressShouldBeSelected]} component={SelectBoxDefaultAccounts} />
-          </Column>
-          <Column>
-            <TitleText>
-              <FormattedMessage id='scenes.exchange.exchangebox.firststep.to' defaultMessage='To:' />
-            </TitleText>
-            <Field name='to' component={SelectBoxDefaultAccounts} />
-          </Column>
+          <TitleText>
+            <FormattedMessage id='scenes.exchange.exchangebox.firststep.from' defaultMessage='Exchange from:' />
+          </TitleText>
+          <TitleText>
+            <FormattedMessage id='scenes.exchange.exchangebox.firststep.to' defaultMessage='To:' />
+          </TitleText>
+        </SelectionRow>
+        <SelectionRow>
+          <Field name='accounts' component={SelectBoxesAccounts} validate={[required]} />
         </SelectionRow>
         <SelectionRow>
           <TitleText>

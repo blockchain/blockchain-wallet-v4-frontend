@@ -1,15 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { map } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { SelectInput } from 'blockchain-info-components'
+import { Icon, SelectInput } from 'blockchain-info-components'
 import { selectors } from 'data'
+import { FormattedMessage } from 'react-intl'
 
-class SelectBoxDefaultAccounts extends React.Component {
+class SelectBoxAccounts extends React.Component {
   render () {
     const { btcAccounts, ethAccount, ...rest } = this.props
+
     const elements = []
     elements.push({ group: '', items: btcAccounts })
     elements.push({ group: '', items: ethAccount })
@@ -30,7 +31,14 @@ const mapStateToProps = (state, ownProps) => {
       ? Exchange.displayBitcoinToBitcoin({ value: amount, fromUnit: 'SAT', toUnit: unit })
       : Exchange.displayBitcoinToFiat({ value: amount, fromUnit: 'SAT', toCurrency: currency, rates: btcRates })
 
-    return { text: `${title} (${display})`, value: rest }
+    const text = (
+      <div>
+        <Icon name='bitcoin' />
+        {title} ({display})
+      </div>
+    )
+
+    return { text, value: rest }
   }, items)
 
   const transformEthBalance = balance => {
@@ -38,7 +46,15 @@ const mapStateToProps = (state, ownProps) => {
       ? Exchange.displayEtherToEther({value: balance, fromUnit: 'WEI', toUnit: 'ETH'})
       : Exchange.displayEtherToFiat({ value: balance, fromUnit: 'WEI', toCurrency: currency, rates: ethRates })
 
-    return [{ text: `My Ether Wallet (${display})`, value: 0 }]
+    const text = (
+      <div>
+        <Icon name='ethereum' />
+        <FormattedMessage id='components.form.SelectBoxAccounts.etherwallet' defaultMessage='My ether wallet' />
+        ({display})
+      </div>
+      )
+
+    return [{ text, value: 'ether' }]
   }
 
   const btcAccounts = transformAddresses(selectors.core.common.getAccountsBalances(state))
@@ -53,4 +69,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(SelectBoxDefaultAccounts)
+export default connect(mapStateToProps)(SelectBoxAccounts)
