@@ -1,6 +1,5 @@
 import * as AT from './actionTypes'
-
-import { assign } from 'services/RamdaCookingBook'
+import { assoc } from 'ramda'
 
 const INITIAL_STATE = {
   isLoggingIn: false,
@@ -10,18 +9,18 @@ const INITIAL_STATE = {
 }
 
 const auth = (state = INITIAL_STATE, action) => {
-  const { type } = action
+  const { type, payload } = action
+
   switch (type) {
     case AT.LOGIN: {
-      return assign(state, { isLoggingIn: true })
+      return assoc('isLoggingIn', true, state)
     }
     case AT.AUTHENTICATE: {
-      return assign(state, { isAuthenticated: true })
+      return assoc('isAuthenticated', true, state)
     }
     case AT.SET_AUTH_TYPE: {
-      const { payload } = action
       const { authType } = payload
-      return assign(state, { authType })
+      return assoc('auth_type', authType, state)
     }
     default:
       return state

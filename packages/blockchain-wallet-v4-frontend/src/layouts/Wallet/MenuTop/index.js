@@ -42,12 +42,7 @@ class MenuTopContainer extends React.Component {
   }
 }
 
-MenuTopContainer.defaultProps = {
-  balance: 0
-}
-
 const mapStateToProps = (state) => ({
-  coinDisplayed: selectors.preferences.getCoinDisplayed(state),
   bitcoinBalance: selectors.core.data.bitcoin.getBalance(state),
   etherBalance: selectors.core.data.ethereum.getBalance(state),
   router: state.router

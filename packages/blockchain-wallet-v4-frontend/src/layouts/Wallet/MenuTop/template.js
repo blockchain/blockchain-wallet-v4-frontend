@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { ButtonGroup, Icon, IconButton, Text } from 'blockchain-info-components'
-import CoinDisplay from 'components/CoinDisplay'
-import CurrencyDisplay from 'components/CurrencyDisplay'
+import { ButtonGroup, IconButton, Text } from 'blockchain-info-components'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,24 +52,18 @@ const ButtonContainer = styled.div`
 `
 const BalanceContainer = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  & > :last-child { display: none; }
 
-  @media(min-width: 850px) {
-    flex-direction: column;
-    align-items: flex-end;
-    & > :last-child { display: block; }
-  }
-`
-const BalancesWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
+  & > * { margin-right: 5px; }
+
+  @media(min-width: 850px) { align-items: flex-end; }
 `
 
 const MenuTop = (props) => {
-  const { openSend, openRequest, coinDisplayed, toggleCoinDisplay, bitcoinBalance, etherBalance } = props
+  const { openSend, openRequest, toggleCoinDisplay, bitcoinBalance, etherBalance } = props
 
   return (
     <Wrapper>
@@ -94,30 +87,9 @@ const MenuTop = (props) => {
       </LeftContainer>
       <RightContainer>
         <BalanceContainer onClick={toggleCoinDisplay}>
-          <BalancesWrapper>
-            <Text>
-              <Icon name='bitcoin' size='24px' weight={300} />
-            </Text>
-            <Text weight={200} size='24px' >
-              { coinDisplayed
-                ? <CoinDisplay coin='BTC'>{bitcoinBalance}</CoinDisplay>
-                : <CurrencyDisplay coin='BTC'>{bitcoinBalance}</CurrencyDisplay>
-              }
-            </Text>
-            <Text weight={200} size='24px' >|</Text>
-            <Text>
-              <Icon name='ethereum' size='24px' weight={300} />
-            </Text>
-            <Text weight={200} size='24px' >
-              { coinDisplayed
-                ? <CoinDisplay coin='ETH'>{etherBalance}</CoinDisplay>
-                : <CurrencyDisplay coin='ETH'>{etherBalance}</CurrencyDisplay>
-              }
-            </Text>
-          </BalancesWrapper>
-          <Text size='20px' weight={200}>
-            {/* <CurrencyDisplay>{balance}</CurrencyDisplay> */}
-          </Text>
+          <SwitchableDisplay coin='BTC' size='24px' weight={100} showIcon>{bitcoinBalance}</SwitchableDisplay>
+          <Text weight={200} size='24px' >|</Text>
+          <SwitchableDisplay coin='ETH' size='24px' weight={100} showIcon>{etherBalance}</SwitchableDisplay>
         </BalanceContainer>
       </RightContainer>
     </Wrapper>

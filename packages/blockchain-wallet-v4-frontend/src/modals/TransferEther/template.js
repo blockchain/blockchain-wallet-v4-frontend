@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Modal, ModalHeader, ModalBody, Text, TextGroup } from 'blockchain-info-components'
-import CoinDisplay from 'components/CoinDisplay'
+import CoinDisplay from 'components/Display/CoinDisplay'
 
 const Container = styled.div`
   display: flex;

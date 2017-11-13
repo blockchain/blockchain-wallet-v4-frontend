@@ -82,12 +82,10 @@ const NewLabel = styled.div`
   background-color: ${props => props.theme['error']};
   border-radius: 100%;
 `
-
 const MenuTooltipTitle = styled(Text)`
-    background-color: ${props => props.theme['gray-1']};
-    padding: 8px 14px;
+  background-color: ${props => props.theme['gray-1']};
+  padding: 8px 14px;
 `
-
 const TextContainer = styled.div`
   max-height: 250px;
   overflow-y: scroll;

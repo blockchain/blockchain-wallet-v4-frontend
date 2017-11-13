@@ -32,7 +32,6 @@ class ListItemContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  coinDisplayed: selectors.preferences.getCoinDisplayed(state),
   transactionFiatAtTime: selectors.core.data.bitcoin.getTransactionFiatAtTime(state, ownProps.transaction.hash, ownProps.currency)
 })
 

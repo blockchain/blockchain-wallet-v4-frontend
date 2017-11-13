@@ -12,7 +12,6 @@ const Container = styled.div`
 const NewsItemWrapper = styled.div`
   padding-top: 5px;
 `
-
 const Headline = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -20,7 +19,6 @@ const Headline = styled.div`
   flex-wrap: nowrap;
   align-items: baseline;
 `
-
 const LearnMoreLink = styled(NavLink)`
   text-decoration: none;
 `
@@ -98,7 +96,6 @@ const WhatsNew = (props) => {
               </Headline>
               <TextGroup inline>
                 <Text size='12px' weight={300}>{desc}</Text>
-
                 <LearnMoreLink to='/settings/info'>
                   <Text size='12px' weight={300} color='brand-primary'>
                     {link &&
