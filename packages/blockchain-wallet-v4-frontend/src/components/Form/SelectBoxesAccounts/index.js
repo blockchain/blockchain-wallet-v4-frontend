@@ -35,6 +35,7 @@ class SelectBoxesAccountsContainer extends React.Component {
     }
     const newState = { source: value, target: newTarget || this.state.target }
     this.setState(newState)
+    console.log(newState)
     this.props.input.onChange(newState)
   }
 
@@ -71,8 +72,8 @@ class SelectBoxesAccountsContainer extends React.Component {
 
     return <SelectBoxesAccounts
       items={allItems}
-      source={this.state ? this.state.source : false}
-      target={this.state ? this.state.target : false}
+      source={this.state ? this.state.source : btcAccounts[0].value}
+      target={this.state ? this.state.target : ethAccount[0].value}
       handleSelectSource={this.handleSelectSource}
       handleSelectTarget={this.handleSelectTarget}
       /* { value={this.state.value}
