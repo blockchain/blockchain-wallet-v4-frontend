@@ -19,6 +19,8 @@ class CoinConvertorContainer extends React.Component {
     this.handleFromCoinChange = this.handleFromCoinChange.bind(this)
     this.handleToCoinChange = this.handleToCoinChange.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+    this.enterMin = this.enterMin.bind(this)
+    this.enterMax = this.enterMax.bind(this)
   }
 
   componentWillMount () {
@@ -47,7 +49,24 @@ class CoinConvertorContainer extends React.Component {
     if (this.props.input.onFocus) { this.props.input.onFocus(this.state.value) }
   }
 
+  enterMin () {
+    console.log('enterMin')
+    switch (this.props.fromCoin) {
+      case 'ETH': this.convertCoin(this.props.ethBtc.minimum, true)
+        break
+      case 'BTC': this.convertCoin(this.props.btcEth.minimum, true)
+        break
+      default: break
+    }
+  }
+
+  enterMax () {
+    // TODO: convertCoin with maximum value
+  }
+
   convertCoin (value, valueIsFrom) {
+    console.log(this.props.btcEth)
+
     const { fromCoin, btcUnit, ethUnit, btcEth, ethBtc } = this.props
     const conversion = fromCoin === 'BTC'
       ? Exchange.convertBitcoinToEther({ value: value, fromUnit: btcUnit, toUnit: ethUnit, rate: btcEth.rate, reverse: !valueIsFrom })
@@ -58,6 +77,9 @@ class CoinConvertorContainer extends React.Component {
   }
 
   render () {
+    const { fromCoin, btcEth, ethBtc } = this.props
+    const minimum = fromCoin === 'ETH' ? ethBtc.minimum : btcEth.minimum
+
     return <CoinConvertor
       value={this.state.value}
       toValue={this.state.toValue}
@@ -65,6 +87,9 @@ class CoinConvertorContainer extends React.Component {
       handleFromCoinChange={this.handleFromCoinChange}
       handleToCoinChange={this.handleToCoinChange}
       handleFocus={this.handleFocus}
+      enterMin={this.enterMin}
+      enterMax={this.enterMax}
+      canExchange={this.props.sourceAmount >= minimum}
       {...this.props}
     />
   }

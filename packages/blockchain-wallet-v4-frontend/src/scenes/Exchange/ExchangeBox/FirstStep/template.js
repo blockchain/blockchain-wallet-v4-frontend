@@ -37,9 +37,15 @@ const Row = styled.div`
   justify-content: flex-start;
 `
 const TitleText = styled(Text)`
-  width: 50%;
   padding: 15px 0px 10px 0px;
 `
+const TitleTextOne = styled(TitleText)`
+  width: 55%;
+`
+const TitleTextTwo = styled(TitleText)`
+  width: 45%;
+`
+
 const Footer = styled.div`
   display: flex;
   justify-content: center;
@@ -47,7 +53,7 @@ const Footer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { sourceCoin, targetCoin, nextStep, invalid } = props
+  const { btcEth, ethBtc, sourceCoin, targetCoin, sourceAmount, nextStep, invalid } = props
 
   console.log(sourceCoin, targetCoin)
 
@@ -63,12 +69,12 @@ const FirstStep = (props) => {
       </Header>
       <Body>
         <Row>
-          <TitleText>
+          <TitleTextOne>
             <FormattedMessage id='scenes.exchange.exchangebox.firststep.from' defaultMessage='Exchange from:' />
-          </TitleText>
-          <TitleText>
+          </TitleTextOne>
+          <TitleTextTwo>
             <FormattedMessage id='scenes.exchange.exchangebox.firststep.to' defaultMessage='To:' />
-          </TitleText>
+          </TitleTextTwo>
         </Row>
         <Row>
           <Field name='accounts' component={SelectBoxesAccounts} validate={[required]} />
@@ -79,11 +85,10 @@ const FirstStep = (props) => {
           </TitleText>
         </Row>
         <Row>
-          <Field name='amount' component={CoinConvertor} validate={[required]} fromCoin={sourceCoin} toCoin={targetCoin} />
+          <Field name='amount' component={CoinConvertor} validate={[required]}
+            fromCoin={sourceCoin} toCoin={targetCoin}
+            btcEth={btcEth} ethBtc={ethBtc} sourceAmount={sourceAmount} />
         </Row>
-        <Text color='error' weight={300} size='12px'>
-          <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage={`x ${sourceCoin} needed to exchange.`} />
-        </Text>
       </Body>
       <Footer>
         <Button nature='primary' fullwidth disabled={invalid} onClick={nextStep}>

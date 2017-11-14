@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { assoc, concat, map } from 'ramda'
+import { assoc, assocPath, concat, map } from 'ramda'
 import { selectors } from 'data'
-import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
 
 import SelectBoxesAccounts from './template.js'
@@ -12,7 +11,7 @@ class SelectBoxesAccountsContainer extends React.Component {
     super(props)
     const { source, target } = this.props.input.value
     const { btcAccounts, ethAccounts } = this.props
-  
+
     this.state = {
       source: source || btcAccounts[0].value,
       target: target || ethAccounts[0].value,
@@ -24,17 +23,18 @@ class SelectBoxesAccountsContainer extends React.Component {
 
     this.handleSelectSource = this.handleSelectSource.bind(this)
     this.handleSelectTarget = this.handleSelectTarget.bind(this)
+    this.handleSwap = this.handleSwap.bind(this)
   }
 
   handleSelectSource (value) {
     const {btcAccounts, ethAccounts} = this.props
     var newTarget
     if (value.coin === 'ETH') {
-      if (!this.state || !this.state.target || this.state.target.coin === 'ETH') {
+      if (this.state.target.coin === 'ETH') {
         newTarget = btcAccounts[0].value
       }
     } else {
-      if (!this.state || !this.state.target || this.state.target.coin === 'BTC') {
+      if (this.state.target.coin === 'BTC') {
         newTarget = ethAccounts[0].value
       }
     }
@@ -46,15 +46,20 @@ class SelectBoxesAccountsContainer extends React.Component {
     const { btcAccounts, ethAccounts } = this.props
     var newSource
     if (value.coin === 'ETH') {
-      if (!this.state || !this.state.source || this.state.source.coin === 'ETH') {
+      if (this.state.source.coin === 'ETH') {
         newSource = btcAccounts[0].value
       }
     } else {
-      if (!this.state || !this.state.source || this.state.source.coin === 'BTC') {
+      if (this.state.source.coin === 'BTC') {
         newSource = ethAccounts[0].value
       }
     }
     this.setState({ source: newSource || this.state.source, target: value })
+    this.props.input.onChange(this.state)
+  }
+
+  handleSwap () {
+    this.setState({ source: this.state.target, target: this.state.source })
     this.props.input.onChange(this.state)
   }
 
@@ -66,6 +71,7 @@ class SelectBoxesAccountsContainer extends React.Component {
         target={this.state.target}
         handleSelectSource={this.handleSelectSource}
         handleSelectTarget={this.handleSelectTarget}
+        handleSwap={this.handleSwap}
         {...this.props}
       />
     )
@@ -73,22 +79,22 @@ class SelectBoxesAccountsContainer extends React.Component {
 }
 
 const transformBitcoinAddress = (address) => {
-  const { title, amount, ...rest } = address
+  const { title, ...rest } = address
   return {
     text: <Icon name='bitcoin' size='14px' weight={300}>{title}</Icon>,
     value: assoc('coin', 'BTC', rest)
   }
 }
 
-const tranformEthereumAddress = (address) => {
-  const actualAddress = address.account
+const tranformEthereumAddress = (address, ethBalance) => {
+  console.log(address)
   return {
     text: (
       <Icon name='ethereum' size='14px' weight={300}>
-        <FormattedMessage id='components.form.selectboxesaccounts.etherwallet' defaultMessage='My ether wallet' />
+        {address.label}
       </Icon>
     ),
-    value: { coin: 'ETH', address: actualAddress }
+    value: { coin: 'ETH', address: address.addr, amount: ethBalance }
   }
 }
 
@@ -99,10 +105,11 @@ const mapStateToProps = (state, ownProps) => {
   const btcHDAddresses = map(x => transformBitcoinAddress(x), selectors.core.common.getAccountsBalances(state))
   const btcLegacyAddresses = map(x => transformBitcoinAddress(x), selectors.core.common.getAddressesBalances(state))
   const ethAccounts = map(x => tranformEthereumAddress(x), selectors.core.kvStore.ethereum.getAccounts(state))
+  const ethBalance = selectors.core.data.ethereum.getBalance(state)
 
   return {
     btcAccounts: concat(btcHDAddresses, btcLegacyAddresses),
-    ethAccounts,
+    ethAccounts: map(x => assocPath(['value', 'amount'], ethBalance, x), ethAccounts),
     unit,
     currency,
     coinDisplayed
