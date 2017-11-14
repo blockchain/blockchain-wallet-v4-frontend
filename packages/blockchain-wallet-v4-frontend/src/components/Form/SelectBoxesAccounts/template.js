@@ -14,12 +14,12 @@ const SelectBoxesAccounts = (props) => {
   return (
     <Row>
       {source
-      ? <SelectInput elements={items} onclick={handleSelectSource} {...rest} />
-      : <SelectInput elements={items} onclick={handleSelectSource} {...rest} />
+      ? <SelectInput elements={items} value={source} callback={handleSelectSource} {...rest} />
+        : <SelectInput elements={items} callback={handleSelectSource} {...rest} />
       }
       {target
-        ? <SelectInput elements={items} onclick={handleSelectTarget} {...rest} />
-        : <SelectInput elements={items} onclick={handleSelectTarget} {...rest} />
+        ? <SelectInput elements={items} value={target} callback={handleSelectTarget} {...rest} />
+        : <SelectInput elements={items} callback={handleSelectTarget} {...rest} />
       }
     </Row>
   )

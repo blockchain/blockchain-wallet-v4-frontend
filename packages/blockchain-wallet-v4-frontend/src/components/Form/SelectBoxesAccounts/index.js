@@ -12,10 +12,8 @@ import SelectBoxesAccounts from './template.js'
 class SelectBoxesAccountsContainer extends React.Component {
   constructor (props) {
     super(props)
-    if (this.props.input.value) {
-      const { source, target } = this.props.input.value
-      this.state = { source, target }
-    }
+    const { source, target } = this.props.input.value
+    this.state = { source, target }
 
     // this.handleBlur = this.handleBlur.bind(this)
     this.handleSelectSource = this.handleSelectSource.bind(this)
@@ -23,40 +21,38 @@ class SelectBoxesAccountsContainer extends React.Component {
     // this.handleFocus = this.handleFocus.bind(this)
   }
 
-  handleSelectSource (item) {
-    console.log(item)
-
+  handleSelectSource (value) {
     const {btcAccounts, ethAccount} = this.props
     var newTarget
-    if (item.value.coin === 'ETH') {
-      if (!this.state.target || this.state.target.coin === 'ETH') {
-        newTarget = btcAccounts[0]
+    if (value.coin === 'ETH') {
+      if (!this.state || !this.state.target || this.state.target.coin === 'ETH') {
+        newTarget = btcAccounts[0].value
       }
     } else {
-      if (!this.state.target || this.state.target.coin === 'BTC') {
-        newTarget = ethAccount[0]
+      if (!this.state || !this.state.target || this.state.target.coin === 'BTC') {
+        newTarget = ethAccount[0].value
       }
     }
-    this.setState({ value: { source: item, target: newTarget || this.state.target } })
-    this.props.input.onChange(this.state.value)
+    const newState = { source: value, target: newTarget || this.state.target }
+    this.setState(newState)
+    this.props.input.onChange(newState)
   }
 
-  handleSelectTarget (item) {
-    console.log(item)
-
+  handleSelectTarget (value) {
     const { btcAccounts, ethAccount } = this.props
     var newSource
-    if (item.value.coin === 'ETH') {
-      if (!this.state.source || this.state.source.coin === 'ETH') {
-        newSource = btcAccounts[0]
+    if (value.coin === 'ETH') {
+      if (!this.state || !this.state.source || this.state.source.coin === 'ETH') {
+        newSource = btcAccounts[0].value
       }
     } else {
-      if (!this.state.target || this.state.source.coin === 'BTC') {
-        newSource = ethAccount[0]
+      if (!this.state || !this.state.source || this.state.source.coin === 'BTC') {
+        newSource = ethAccount[0].value
       }
     }
-    this.setState({ value: { source: newSource || this.state.source, target: item } })
-    this.props.input.onChange(this.state.value)
+    const newState = { source: newSource || this.state.source, target: value }
+    this.setState(newState)
+    this.props.input.onChange(newState)
   }
 
   // handleBlur () {
@@ -119,7 +115,7 @@ const mapStateToProps = (state, ownProps) => {
     const text = (
       <div>
         <Icon name='ethereum' />
-        <FormattedMessage id='components.form.SelectBoxAccounts.etherwallet' defaultMessage='My ether wallet' />
+        <FormattedMessage id='components.form.selectboxesaccounts.etherwallet' defaultMessage='My ether wallet' />
         ({display})
       </div>
     )

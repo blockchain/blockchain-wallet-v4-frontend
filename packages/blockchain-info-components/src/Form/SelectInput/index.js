@@ -15,6 +15,10 @@ class SelectInputContainer extends React.Component {
   }
 
   handleClick (value) {
+    const { callback } = this.props
+    if (callback) {
+      callback(value)
+    }
     this.props.input.onChange(value)
     this.setState({ opened: false })
   }
@@ -57,7 +61,8 @@ class SelectInputContainer extends React.Component {
   render () {
     const { elements, searchEnabled, ...rest } = this.props
     const items = this.transform(elements, this.state.search)
-    const display = this.getText(this.props.input.value, items)
+    const displayValue = this.props.value || this.props.input.value
+    const display = this.getText(displayValue, items)
 
     return (
       <SelectInput
@@ -89,6 +94,7 @@ SelectInputContainer.propTypes = {
     onFocus: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
   }).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired]),
   label: PropTypes.string,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
