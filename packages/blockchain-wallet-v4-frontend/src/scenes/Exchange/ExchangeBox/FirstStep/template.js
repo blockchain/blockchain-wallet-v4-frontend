@@ -15,7 +15,6 @@ const Wrapper = styled.div`
   border: 1px solid black;
   min-width: 400px;
 `
-
 const Header = styled.div`
   position: relative;
   display: flex;
@@ -26,25 +25,21 @@ const Header = styled.div`
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
-
 const Body = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   padding: 20px 10px;
 `
-
-const SelectionRow = styled.div`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 `
-
 const TitleText = styled(Text)`
   width: 50%;
   padding: 15px 0px 10px 0px;
 `
-
 const Footer = styled.div`
   display: flex;
   justify-content: center;
@@ -53,6 +48,8 @@ const Footer = styled.div`
 
 const FirstStep = (props) => {
   const { sourceCoin, targetCoin, nextStep, invalid } = props
+
+  console.log(sourceCoin, targetCoin)
 
   return (
     <Wrapper>
@@ -65,25 +62,25 @@ const FirstStep = (props) => {
         </Text>
       </Header>
       <Body>
-        <SelectionRow>
+        <Row>
           <TitleText>
             <FormattedMessage id='scenes.exchange.exchangebox.firststep.from' defaultMessage='Exchange from:' />
           </TitleText>
           <TitleText>
             <FormattedMessage id='scenes.exchange.exchangebox.firststep.to' defaultMessage='To:' />
           </TitleText>
-        </SelectionRow>
-        <SelectionRow>
+        </Row>
+        <Row>
           <Field name='accounts' component={SelectBoxesAccounts} validate={[required]} />
-        </SelectionRow>
-        <SelectionRow>
+        </Row>
+        <Row>
           <TitleText>
             <FormattedMessage id='scenes.exchange.exchangebox.firststep.amount' defaultMessage='Enter amount:' />
           </TitleText>
-        </SelectionRow>
-        <SelectionRow>
+        </Row>
+        <Row>
           <Field name='amount' component={CoinConvertor} validate={[required]} fromCoin={sourceCoin} toCoin={targetCoin} />
-        </SelectionRow>
+        </Row>
         <Text color='error' weight={300} size='12px'>
           <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage={`x ${sourceCoin} needed to exchange.`} />
         </Text>

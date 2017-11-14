@@ -1,15 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-// import { selectors } from 'data'
-import { SelectInput } from 'blockchain-info-components'
+import SelectBox from '../SelectBox'
 
 class SelectBoxUSState extends React.Component {
   render () {
     const { states, ...rest } = this.props
     const elements = [{ group: '', items: states }]
 
-    return <SelectInput label='Select state' elements={elements} {...rest} />
+    return <SelectBox label='Select state' elements={elements} {...rest} />
   }
 }
 

@@ -11,7 +11,6 @@ class FirstStepContainer extends React.Component {
     const targetCoin = exchangeAccounts && exchangeAccounts.target ? exchangeAccounts.target.coin : 'ETH'
 
     console.log(exchangeAccounts)
-    console.log(sourceCoin)
 
     return (
       <FirstStep sourceCoin={sourceCoin} targetCoin={targetCoin} {...rest} />
