@@ -31,9 +31,6 @@ const Header = (props) => {
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <Ticker />
-          </NavbarNavItem>
-          <NavbarNavItem>
             <WhatsNew />
           </NavbarNavItem>
           <NavbarNavItem>

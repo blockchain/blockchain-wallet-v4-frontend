@@ -20,7 +20,7 @@ export const getRate = currencyCode => path(['ethereum', 'rates', currencyCode])
 
 export const getTransactions = path(['ethereum', 'transactions'])
 
-export const getTransactionsByAccount = (state, address) => path(['ethereum', 'transactions', address])(state)
+export const getTransactionsByAddress = (state, address) => path(['ethereum', 'transactions', address])(state)
 
 // Legacy stuff
 export const getLegacyAccount = path(['ethereum', 'legacy'])

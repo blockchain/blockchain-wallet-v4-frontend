@@ -95,11 +95,8 @@ export const commonSelectorsFactory = ({walletPath, dataPath, kvStorePath, setti
     const addresses = map(x => x.addr, accounts)
     const defaultAccount = head(accounts)
 
-    return compose(
-      map(transactions.ethereum.transformTx.bind(undefined, addresses)),
-      ethereumSelectors.getTransactionsByAccount(defaultAccount.addr),
-      prop(dataPath)
-    )(state)
+    const rawTransactions = ethereumSelectors.getTransactionsByAddress(prop(dataPath, state), defaultAccount.addr)
+    return map(transactions.ethereum.transformTx.bind(undefined, addresses), rawTransactions)
   }
 
   return {

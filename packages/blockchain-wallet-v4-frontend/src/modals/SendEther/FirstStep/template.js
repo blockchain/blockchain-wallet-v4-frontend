@@ -9,7 +9,7 @@ import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import QRCodeCapture from 'components/QRCodeCapture'
-import ComboDisplay from 'components/ComboDisplay'
+import ComboDisplay from 'components/Display/ComboDisplay'
 
 const Currency = styled.div`
   width: 30%;

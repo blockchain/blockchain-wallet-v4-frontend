@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Icon, TextInput, Text } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   position: relative;
@@ -53,10 +54,10 @@ const getErrorState = (meta) => {
 }
 
 const FiatConvertor = (props) => {
-  const { value, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
+  const { enabled, value, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
   const errorState = getErrorState(meta)
 
-  return (
+  return enabled ? (
     <Wrapper>
       <FiatConvertorInput>
         <Container>
@@ -72,6 +73,8 @@ const FiatConvertor = (props) => {
       </FiatConvertorInput>
       {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
     </Wrapper>
+  ) : (
+    <TextBox {...props} />
   )
 }
 

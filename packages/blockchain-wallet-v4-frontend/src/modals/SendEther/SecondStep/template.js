@@ -1,14 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
-import CoinDisplay from 'components/CoinDisplay'
-import CurrencyDisplay from 'components/CurrencyDisplay'
-import ComboDisplay from 'components/ComboDisplay'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import ComboDisplay from 'components/Display/ComboDisplay'
 
 const Row = styled.div`
   display: flex;
@@ -79,7 +78,7 @@ const SecondStep = (props) => {
               <CoinDisplay coin='ETH'>{amount}</CoinDisplay>
             </Text>
             <Text size='20px' weight={300} color='transferred'>
-              <CurrencyDisplay coin='ETH'>{amount}</CurrencyDisplay>
+              <FiatDisplay coin='ETH'>{amount}</FiatDisplay>
             </Text>
           </Summary>
           <Button type='submit' nature='primary' fullwidth uppercase>

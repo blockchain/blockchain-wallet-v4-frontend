@@ -5,8 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
 import { Button, ConfirmationGauge, Icon, Tooltip, Text } from 'blockchain-info-components'
-import CurrencyDisplay from 'components/CurrencyDisplay'
-import CoinDisplay from 'components/CoinDisplay'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { Transaction, TransactionRow, TransactionRowAddresses, TransactionRowAmount, TransactionRowDescription,
   TransactionRowStatus, TransactionRowToggler, TransactionDetails, TransactionDetailsAddresses,
   TransactionDetailsDescription, TransactionDetailsStatus, TransactionDetailsValue } from 'components/TransactionItem'
@@ -27,7 +26,7 @@ const selectColors = type => {
 }
 
 const TransactionListItem = (props) => {
-  const { coinDisplayed, toggled, handleToggle, handleClick, transaction } = props
+  const { toggled, handleToggle, handleClick, transaction } = props
   const now = moment()
   const date = moment.utc(transaction.time * 1000)
   const formattedDate = (date.year() === now.year())
@@ -68,10 +67,7 @@ const TransactionListItem = (props) => {
         </TransactionRowDescription>
         <TransactionRowAmount>
           <Button nature={transaction.type.toLowerCase()} onClick={handleClick} fullwidth>
-            { coinDisplayed
-              ? <CoinDisplay coin='ETH'>{transaction.amount}</CoinDisplay>
-              : <CurrencyDisplay coin='ETH'>{transaction.amount}</CurrencyDisplay>
-            }
+            <SwitchableDisplay coin='ETH' size='14px' weight={300} color='white'>{transaction.amount}</SwitchableDisplay>
           </Button>
         </TransactionRowAmount>
       </TransactionRow>
