@@ -7,14 +7,20 @@ const Row = styled.div`
   flex-direction: row;
   width: 100%;
 `
-
+const Cell = styled.div`
+  width: 50%;
+`
 const SelectBoxesAccounts = (props) => {
   const { items, source, target, handleSelectSource, handleSelectTarget, ...rest } = props
 
   return (
     <Row>
-      <SelectInput elements={items} value={source} callback={handleSelectSource} {...rest} />
-      <SelectInput elements={items} value={target} callback={handleSelectTarget} {...rest} />
+      <Cell>
+        <SelectInput elements={items} value={source} onChange={handleSelectSource} {...rest} />
+      </Cell>
+      <Cell>
+        <SelectInput elements={items} value={target} onChange={handleSelectTarget} {...rest} />
+      </Cell>
     </Row>
   )
 }

@@ -13,7 +13,6 @@ import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCoin from './SelectBoxCoin'
 import SelectBoxCurrency from './SelectBoxCurrency'
-import SelectBoxAccounts from './SelectBoxAccounts'
 import SelectBoxesAccounts from './SelectBoxesAccounts'
 import SelectBoxFee from './SelectBoxFee'
 import SelectBoxLanguages from './SelectBoxLanguages'
@@ -38,7 +37,6 @@ export {
   SelectBoxBitcoinUnit,
   SelectBoxCoin,
   SelectBoxCurrency,
-  SelectBoxAccounts,
   SelectBoxesAccounts,
   SelectBoxFee,
   SelectBoxLanguages,

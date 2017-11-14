@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { map, isEmpty } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { SelectInput } from 'blockchain-info-components'
+import SelectBox from '../SelectBox'
 import { selectors } from 'data'
 
 class SelectBoxBitcoinAddresses extends React.Component {
@@ -16,7 +16,7 @@ class SelectBoxBitcoinAddresses extends React.Component {
     if (!isEmpty(legacyAddresses)) {
       elements.push({ group: 'Imported addresses', items: legacyAddresses })
     }
-    return <SelectInput elements={elements} {...rest} />
+    return <SelectBox elements={elements} {...rest} />
   }
 }
 

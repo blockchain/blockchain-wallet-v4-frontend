@@ -4,12 +4,6 @@ import styled from 'styled-components'
 
 import { Icon } from '../../Icons'
 
-const Container = styled.div`
-  position: relative;
-  width: 100%;
-  height: auto;
-  background-color: ${props => props.theme['white']};
-`
 const SelectBoxInput = styled.div`
   position: relative;
   display: block;
@@ -99,16 +93,6 @@ const Header = styled.a`
 
   &:hover { color: ${props => props.theme['gray-3']}; }
 `
-const Error = styled.label`
-  position: absolute;
-  top: -18px;
-  right: 0;
-  display: block;
-  height: 15px;
-  font-size: 13px;
-  font-weight: 300;
-  color: ${props => props.theme['error']};
-`
 const Arrow = styled(Icon)`
   position: absolute;
   top: 15px;
@@ -116,27 +100,22 @@ const Arrow = styled(Icon)`
 `
 
 const SelectInput = (props) => {
-  const { items, display, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, meta } = props
-  const { touched, invalid, error } = meta
-  const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
+  const { items, display, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus } = props
 
   return (
-    <Container>
-      <SelectBoxInput onBlur={handleBlur} onFocus={handleFocus}>
-        {!expanded || !searchEnabled
-          ? (<Button errorState={errorState}>{display}</Button>)
-          : (<Search autoFocus={expanded} onChange={handleChange} />)
+    <SelectBoxInput onBlur={handleBlur} onFocus={handleFocus}>
+      {!expanded || !searchEnabled
+        ? (<Button>{display}</Button>)
+        : (<Search autoFocus={expanded} onChange={handleChange} />)
+      }
+      <Arrow name='down-arrow' size='10px' />
+      <List expanded={expanded}>
+        { items.map((item, index) => item.value == null
+          ? (<Header key={index}>{item.text}</Header>)
+          : (<ListItem key={index} onMouseDown={() => handleClick(item.value)}>{item.text}</ListItem>))
         }
-        <Arrow name='down-arrow' size='10px' />
-        <List expanded={expanded}>
-          { items.map((item, index) => item.value == null
-            ? (<Header key={index}>{item.text}</Header>)
-            : (<ListItem key={index} onMouseDown={() => handleClick(item.value)}>{item.text}</ListItem>))
-          }
-        </List>
-      </SelectBoxInput>
-      { touched && error && <Error>{error}</Error>}
-    </Container>
+      </List>
+    </SelectBoxInput>
   )
 }
 
@@ -145,13 +124,15 @@ SelectInput.propTypes = {
     text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
   })).isRequired,
-  display: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
-  expanded: PropTypes.bool.isRequired,
-  searchEnabled: PropTypes.bool.isRequired,
-  handleBlur: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  handleFocus: PropTypes.func.isRequired
+  input: PropTypes.shape({
+    onBlur: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
+  }).isRequired,
+  label: PropTypes.string,
+  searchEnabled: PropTypes.bool,
+  opened: PropTypes.bool
 }
 
 export default SelectInput
