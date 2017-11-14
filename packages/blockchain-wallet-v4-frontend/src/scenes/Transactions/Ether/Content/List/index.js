@@ -11,9 +11,7 @@ const Wrapper = styled.div`
 const TransactionList = (props) => {
   return (
     <Wrapper>
-      { props.transactions.map(function (transaction, index) {
-        return <ListItem key={index} transaction={transaction} />
-      })}
+      { props.transactions.map((transaction, index) => <ListItem key={index} transaction={transaction} />)}
     </Wrapper>
   )
 }

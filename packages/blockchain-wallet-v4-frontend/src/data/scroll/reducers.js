@@ -1,5 +1,4 @@
 import * as AT from './actionTypes'
-import { assign } from 'services/RamdaCookingBook'
 
 const INITIAL_STATE = {
   xOffset: 0,
@@ -13,7 +12,7 @@ const scroll = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.UPDATE_SCROLL: {
-      return assign(INITIAL_STATE, payload)
+      return payload
     }
     case AT.RESET_SCROLL: {
       return INITIAL_STATE

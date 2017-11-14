@@ -5,7 +5,9 @@ import { selectors } from 'data'
 import { equals } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { isBitcoinFiatAvailable, isEthereumFiatAvailable } from 'services/ValidationHelper'
 import FiatConvertor from './template.js'
+import { TextBox } from 'components/Form'
 
 class FiatConvertorContainer extends React.Component {
   constructor (props) {
@@ -67,6 +69,15 @@ class FiatConvertorContainer extends React.Component {
     this.setState({ value: value, fiat: conversion.value })
   }
 
+  isEnabled () {
+    const { coin, country, currency, bitcoinRates, ethereumRates, bitcoinOptions, ethereumOptions } = this.props
+
+    switch (coin) {
+      case 'BTC': return isBitcoinFiatAvailable(country, currency, bitcoinRates, bitcoinOptions)
+      case 'ETH': return isEthereumFiatAvailable(country, currency, ethereumRates, ethereumOptions)
+    }
+  }
+
   render () {
     return <FiatConvertor
       value={this.state.value}
@@ -75,6 +86,7 @@ class FiatConvertorContainer extends React.Component {
       handleCoinChange={this.handleCoinChange}
       handleFiatChange={this.handleFiatChange}
       handleFocus={this.handleFocus}
+      enabled={this.isEnabled()}
       {...this.props}
     />
   }
@@ -92,9 +104,12 @@ FiatConvertorContainer.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   unit: ownProps.coin === 'BTC' ? selectors.core.settings.getBtcUnit(state) : 'ETH',
+  country: selectors.core.settings.getCountryCode(state),
   currency: selectors.core.settings.getCurrency(state),
   bitcoinRates: selectors.core.data.bitcoin.getRates(state),
-  ethereumRates: selectors.core.data.ethereum.getRates(state)
+  ethereumRates: selectors.core.data.ethereum.getRates(state),
+  bitcoinOptions: selectors.core.walletOptions.selectBitcoin(state),
+  ethereumOptions: selectors.core.walletOptions.selectEthereum(state)
 })
 
 export default connect(mapStateToProps)(FiatConvertorContainer)

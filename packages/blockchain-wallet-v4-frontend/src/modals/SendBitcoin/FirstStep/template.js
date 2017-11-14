@@ -8,7 +8,7 @@ import { Field, reduxForm } from 'redux-form'
 import { required } from 'services/FormHelper'
 import { Button, ButtonGroup, Icon, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, SelectBoxAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
-import ComboDisplay from 'components/ComboDisplay'
+import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
 
 const Row = styled.div`
