@@ -1,8 +1,7 @@
 import chai from 'chai'
 import * as Script from '../../src/ln/scripts'
-import {fromJS} from 'immutable'
-import {ChannelParams, ChannelState, Direction, Funded, Payment, PaymentWrapper} from '../../src/ln/state'
-import {addWitness, getCommitmentTransaction, signCommitmentTransaction} from '../../src/ln/transactions'
+import {Direction, Funded, Payment, PaymentWrapper} from '../../src/ln/state'
+import {addWitness, getCommitmentTransaction, getPaymentInputScript} from '../../src/ln/transactions'
 import {obscureHash, wrapPubKey} from '../../src/ln/channel'
 import * as hash from 'bcoin/lib/crypto/digest'
 
@@ -10,54 +9,20 @@ const { expect } = chai
 const Long = require('long')
 const bcoin = require('bcoin/lib/bcoin-browser')
 
+let wrapHex = (hex) => Buffer.from(hex, 'hex')
+
 describe('LN Transaction Generation', () => {
-  let paramsLocal
-  let paramsRemote
-  let stateLocal
-
-  let obscuredHash = obscureHash(
-    Buffer.from('034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa', 'hex'),
-    Buffer.from('032c0b7cf95324a07d05398b240174dc0c2be444d96b159aa6c7f7b1e668680991', 'hex')
-  )
-
-  let fundingKeySet = {
-    localKey: {
-      pub: Buffer.from('023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb', 'hex'),
-      priv: Buffer.from('30ff4956bbdd3222d44cc5e8a1261dab1e07957bdac5ae88fe3261ef321f3749', 'hex')
-    },
-    remoteKey: wrapPubKey(Buffer.from('030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c1', 'hex'))
-  }
-
-  let keySet = {
-    localKey: {
-      pub: Buffer.from('030d417a46946384f88d5f3337267c5e579765875dc4daca813e21734b140639e7', 'hex'),
-      priv: Buffer.from('bb13b121cdc357cd2e608b0aea294afca36e2b34cf958e2e6451a2f274694491', 'hex')
-    },
-    remoteKey: wrapPubKey(Buffer.from('0394854aa6eab5b2a8122cc726e9dded053a2184d88256816826d6231c068d4a5b', 'hex')),
-    delayedKey: wrapPubKey(Buffer.from('03fd5960528dc152014952efdb702a88f71e3c1653b2314431701ec77e57fde83c', 'hex')),
-    revocationKey: wrapPubKey(Buffer.from('0212a140cd0c6539d07cd08dfe09984dec3251ea808b892efeac3ede9402bf2b19', 'hex'))
-  }
-
-  let input = fromJS({
-    outpoint: {
-      hash: Buffer.from('8984484a580b825b9972d7adb15050b3ab624ccd731946b3eeddb92f4e7ef6be', 'hex'),
-      n: 0
-    },
-    script: Buffer.from('5221023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb21030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c152ae', 'hex')
-  })
-  let inputValue = 10000000
-
-  let preImageToHash = (preImageHex) => hash.ripemd160(hash.sha256(Buffer.from(preImageHex, 'hex')))
+  let preImageToHash = (preImageHex) => hash.ripemd160(hash.sha256(wrapHex(preImageHex, 'hex')))
   let testPayments = [
-    PaymentWrapper(Direction.RECEIVED, 0, Payment(Long.fromInt(1000000), preImageToHash('0000000000000000000000000000000000000000000000000000000000000000'), Buffer.alloc(0), 500)),
-    PaymentWrapper(Direction.RECEIVED, 1, Payment(Long.fromInt(2000000), preImageToHash('0101010101010101010101010101010101010101010101010101010101010101'), Buffer.alloc(0), 501)),
-    PaymentWrapper(Direction.OFFERED, 2, Payment(Long.fromInt(2000000), preImageToHash('0202020202020202020202020202020202020202020202020202020202020202'), Buffer.alloc(0), 502)),
-    PaymentWrapper(Direction.OFFERED, 3, Payment(Long.fromInt(3000000), preImageToHash('0303030303030303030303030303030303030303030303030303030303030303'), Buffer.alloc(0), 503)),
-    PaymentWrapper(Direction.RECEIVED, 4, Payment(Long.fromInt(4000000), preImageToHash('0404040404040404040404040404040404040404040404040404040404040404'), Buffer.alloc(0), 504))
+    PaymentWrapper(Direction.RECEIVED, 0, Payment(Long.fromInt(1000000), preImageToHash('0000000000000000000000000000000000000000000000000000000000000000'), Buffer.alloc(0), 500, wrapHex('0000000000000000000000000000000000000000000000000000000000000000'))),
+    PaymentWrapper(Direction.RECEIVED, 1, Payment(Long.fromInt(2000000), preImageToHash('0101010101010101010101010101010101010101010101010101010101010101'), Buffer.alloc(0), 501, wrapHex('0101010101010101010101010101010101010101010101010101010101010101'))),
+    PaymentWrapper(Direction.OFFERED, 2, Payment(Long.fromInt(2000000), preImageToHash('0202020202020202020202020202020202020202020202020202020202020202'), Buffer.alloc(0), 502, wrapHex('0202020202020202020202020202020202020202020202020202020202020202'))),
+    PaymentWrapper(Direction.OFFERED, 3, Payment(Long.fromInt(3000000), preImageToHash('0303030303030303030303030303030303030303030303030303030303030303'), Buffer.alloc(0), 503, wrapHex('0303030303030303030303030303030303030303030303030303030303030303'))),
+    PaymentWrapper(Direction.RECEIVED, 4, Payment(Long.fromInt(4000000), preImageToHash('0404040404040404040404040404040404040404040404040404040404040404'), Buffer.alloc(0), 504, wrapHex('0404040404040404040404040404040404040404040404040404040404040404')))
   ]
 
   let addSighash = (sig) => {
-    return Buffer.concat([sig, Buffer.from('01', 'hex')])
+    return Buffer.concat([sig, wrapHex('01')])
   }
 
   let createTestCase = (name, valueLocal, valueRemote, feeRate, payments, remoteSig, remotePaymentSig, expectedCommitmentTx, expectedPaymentTxs) => ({
@@ -66,10 +31,10 @@ describe('LN Transaction Generation', () => {
     valueRemote,
     feeRate,
     payments: payments.map(i => testPayments[i]),
-    signature: addSighash(Buffer.from(remoteSig, 'hex')),
-    paymentSignatures: remotePaymentSig.map(i => addSighash(Buffer.from(i, 'hex'))),
-    commitmentTx: Buffer.from(expectedCommitmentTx, 'hex'),
-    paymentTxs: expectedPaymentTxs.map(i => Buffer.from(i, 'hex'))
+    signature: addSighash(wrapHex(remoteSig, 'hex')),
+    paymentSigs: remotePaymentSig.map(i => addSighash(wrapHex(i, 'hex'))),
+    commitmentTx: wrapHex(expectedCommitmentTx, 'hex'),
+    paymentTxs: expectedPaymentTxs.map(i => wrapHex(i, 'hex'))
   })
 
   let testCases = [
@@ -81,13 +46,13 @@ describe('LN Transaction Generation', () => {
       '02000000000101bef67e4e2fb9ddeeb3461973cd4c62abb35050b1add772995b820b584a488489000000000038b02b8002c0c62d0000000000160014ccf1af2f2aabee14bb40fa3851ab2301de84311054a56a00000000002200204adb4e2f00643db396dd120d4e7dc17625f5f2c11a40d857accc862d6b7dd80e0400473044022051b75c73198c6deee1a875871c3961832909acd297c6b908d59e3319e5185a46022055c419379c5051a78d00dbbce11b5b664a0c22815fbcc6fcef6b1937c383693901483045022100f51d2e566a70ba740fc5d8c0f07b9b93d2ed741c3c0860c613173de7d39e7968022041376d520e9c0e1ad52248ddf4b22e12be8763007df977253ef45a4ca3bdb7c001475221023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb21030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c152ae3e195220',
       []),
     createTestCase(
-      'commitment tx with all 5 HTLCs untrimmed (minimum feerate)',
+      'commitment tx with 7 outputs untrimmed (minimum feerate)',
       6988000000, 3000000000, 0, [0, 1, 2, 3, 4],
       '304402204fd4928835db1ccdfc40f5c78ce9bd65249b16348df81f0c44328dcdefc97d630220194d3869c38bc732dd87d13d2958015e2fc16829e74cd4377f84d215c0b70606',
       [
         '304402206a6e59f18764a5bf8d4fa45eebc591566689441229c918b480fb2af8cc6a4aeb02205248f273be447684b33e3c8d1d85a8e0ca9fa0bae9ae33f0527ada9c162919a6',
-        '304402201b63ec807771baf4fdff523c644080de17f1da478989308ad13a58b51db91d360220568939d38c9ce295adba15665fa68f51d967e8ed14a007b751540a80b325f202',
         '3045022100d5275b3619953cb0c3b5aa577f04bc512380e60fa551762ce3d7a1bb7401cff9022037237ab0dac3fe100cde094e82e2bed9ba0ed1bb40154b48e56aa70f259e608b',
+        '304402201b63ec807771baf4fdff523c644080de17f1da478989308ad13a58b51db91d360220568939d38c9ce295adba15665fa68f51d967e8ed14a007b751540a80b325f202',
         '3045022100daee1808f9861b6c3ecd14f7b707eca02dd6bdfc714ba2f33bc8cdba507bb182022026654bf8863af77d74f51f4e0b62d461a019561bb12acb120d3f7195d148a554',
         '304402207e0410e45454b0978a623f36a10626ef17b27d9ad44e2760f98cfa3efb37924f0220220bd8acd43ecaa916a80bd4f919c495a2c58982ce7c8625153f8596692a801d'
       ],
@@ -105,8 +70,8 @@ describe('LN Transaction Generation', () => {
       '3045022100a5c01383d3ec646d97e40f44318d49def817fcd61a0ef18008a665b3e151785502203e648efddd5838981ef55ec954be69c4a652d021e6081a100d034de366815e9b',
       [
         '30440220385a5afe75632f50128cbb029ee95c80156b5b4744beddc729ad339c9ca432c802202ba5f48550cad3379ac75b9b4fedb86a35baa6947f16ba5037fb8b11ab343740',
-        '304402206a401b29a0dff0d18ec903502c13d83e7ec019450113f4a7655a4ce40d1f65ba0220217723a084e727b6ca0cc8b6c69c014a7e4a01fcdcba3e3993f462a3c574d833',
         '304402207ceb6678d4db33d2401fdc409959e57c16a6cb97a30261d9c61f29b8c58d34b90220084b4a17b4ca0e86f2d798b3698ca52de5621f2ce86f80bed79afa66874511b0',
+        '304402206a401b29a0dff0d18ec903502c13d83e7ec019450113f4a7655a4ce40d1f65ba0220217723a084e727b6ca0cc8b6c69c014a7e4a01fcdcba3e3993f462a3c574d833',
         '30450221009b1c987ba599ee3bde1dbca776b85481d70a78b681a8d84206723e2795c7cac002207aac84ad910f8598c4d1c0ea2e3399cf6627a4e3e90131315bc9f038451ce39d',
         '3045022100cc28030b59f0914f45b84caa983b6f8effa900c952310708c2b5b00781117022022027ba2ccdf94d03c6d48b327f183f6e28c8a214d089b9227f94ac4f85315274f0'
       ],
@@ -169,7 +134,7 @@ describe('LN Transaction Generation', () => {
         '0200000000010140a83ce364747ff277f4d7595d8d15f708418798922c40bc2b056aca5485a21802000000000000000001f1090000000000002200204adb4e2f00643db396dd120d4e7dc17625f5f2c11a40d857accc862d6b7dd80e0500483045022100c9458a4d2cbb741705577deb0a890e5cb90ee141be0400d3162e533727c9cb2102206edcf765c5dc5e5f9b976ea8149bf8607b5a0efb30691138e1231302b640d2a40147304402200831422aa4e1ee6d55e0b894201770a8f8817a189356f2d70be76633ffa6a6f602200dd1b84a4855dc6727dd46c98daae43dfc70889d1ba7ef0087529a57c06e5e04012004040404040404040404040404040404040404040404040404040404040404048a76a91414011f7254d96b819c76986c277d115efce6f7b58763ac67210394854aa6eab5b2a8122cc726e9dded053a2184d88256816826d6231c068d4a5b7c8201208763a91418bc1a114ccf9c052d3d23e28d3b0a9d1227434288527c21030d417a46946384f88d5f3337267c5e579765875dc4daca813e21734b140639e752ae677502f801b175ac686800000000'
       ]),
     createTestCase(
-      'commitment tx with 6 outputs untrimmed (maximum feerate)',
+      'commitment tx with 5 outputs untrimmed (maximum feerate)',
       6988000000, 3000000000, 2194, [0, 1, 2, 3, 4],
       '3045022100d33c4e541aa1d255d41ea9a3b443b3b822ad8f7f86862638aac1f69f8f760577022007e2a18e6931ce3d3a804b1c78eda1de17dbe1fb7a95488c9a4ec86203953348',
       [
@@ -268,38 +233,46 @@ describe('LN Transaction Generation', () => {
       [])
   ]
 
-  beforeEach(() => {
-    paramsLocal = ChannelParams()
-    stateLocal = ChannelState().set('commitmentNumber', 42)
-    paramsRemote = ChannelParams()
+  let input = { hash: wrapHex('8984484a580b825b9972d7adb15050b3ab624ccd731946b3eeddb92f4e7ef6be'), n: 0, value: 10000000 }
+  let obscuredHash = obscureHash(
+    wrapHex('034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa'),
+    wrapHex('032c0b7cf95324a07d05398b240174dc0c2be444d96b159aa6c7f7b1e668680991')
+  )
 
-    paramsLocal = paramsLocal
-      .set('paymentBasepoint', {
-        priv: null,
-        pub: Buffer.from('034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa', 'hex')
-      })
+  let fundingKeySet = {
+    localKey: {
+      pub: wrapHex('023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb'),
+      priv: wrapHex('30ff4956bbdd3222d44cc5e8a1261dab1e07957bdac5ae88fe3261ef321f3749')
+    },
+    remoteKey: wrapPubKey(wrapHex('030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c1'))
+  }
 
-    paramsRemote = paramsRemote
-      .set('paymentBasepoint', {
-        priv: null,
-        pub: Buffer.from('032c0b7cf95324a07d05398b240174dc0c2be444d96b159aa6c7f7b1e668680991', 'hex')}
-    )
-  })
+  let keySet = {
+    localKey: {
+      pub: wrapHex('030d417a46946384f88d5f3337267c5e579765875dc4daca813e21734b140639e7'),
+      priv: wrapHex('bb13b121cdc357cd2e608b0aea294afca36e2b34cf958e2e6451a2f274694491')
+    },
+    remoteKey: wrapPubKey(wrapHex('0394854aa6eab5b2a8122cc726e9dded053a2184d88256816826d6231c068d4a5b')),
+    delayedKey: wrapPubKey(wrapHex('03fd5960528dc152014952efdb702a88f71e3c1653b2314431701ec77e57fde83c')),
+    revocationKey: wrapPubKey(wrapHex('0212a140cd0c6539d07cd08dfe09984dec3251ea808b892efeac3ede9402bf2b19')),
+
+    fundingLocalKey: {
+      pub: wrapHex('023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb'),
+      priv: wrapHex('30ff4956bbdd3222d44cc5e8a1261dab1e07957bdac5ae88fe3261ef321f3749')
+    },
+    fundingRemoteKey: wrapPubKey(wrapHex('030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c1'))
+  }
 
   describe('Commitments', () => {
     testCases.forEach(test => {
       it(test.name, () => {
-        stateLocal = stateLocal
-          .set('amountMsatLocal', Long.fromNumber(test.valueLocal))
-          .set('amountMsatRemote', Long.fromNumber(test.valueRemote))
-          .set('committed', test.payments)
-        paramsLocal = paramsLocal
-          .set('feeRatePerKw', test.feeRate)
-
-        let tx = getCommitmentTransaction(
+        let commitment = getCommitmentTransaction(
           input,
           obscuredHash,
-          stateLocal,
+          test.payments,
+          42,
+          Long.fromNumber(test.valueLocal),
+          Long.fromNumber(test.valueRemote),
           test.feeRate,
           546,
           144,
@@ -307,21 +280,32 @@ describe('LN Transaction Generation', () => {
           Funded.LOCAL_FUNDED
         )
 
-        let sig = signCommitmentTransaction(inputValue, tx, fundingKeySet.localKey, fundingKeySet.remoteKey)
-
         let inputScript = Script.getFundingRedeemScript(
           fundingKeySet.localKey.pub,
           fundingKeySet.remoteKey.pub,
-          sig,
+          commitment.commitmentSig,
           test.signature
         )
 
-        tx = addWitness(tx, 0, inputScript)
+        let commitmentTx = addWitness(commitment.commitmentTx, 0, inputScript)
 
-        let tx1 = bcoin.tx.fromRaw(tx)
-        let tx2 = bcoin.tx.fromRaw(test.commitmentTx)
+        expect(bcoin.tx.fromRaw(commitmentTx))
+          .to.deep.equal(bcoin.tx.fromRaw(test.commitmentTx))
 
-        expect(tx1.toJSON()).to.deep.equal(tx2.toJSON())
+        expect(test.paymentTxs.length).to.equal(commitment.paymentTxs.length)
+
+        for (let i = 0; i < test.paymentTxs.length; i++) {
+          let payment = commitment.payments[i]
+          let paymentTx = commitment.paymentTxs[i]
+          let paymentSigLocal = commitment.paymentSigs[i]
+          let paymentSigRemote = test.paymentSigs[i]
+
+          let paymentInputScript = getPaymentInputScript(keySet.revocationKey, keySet.remoteKey, keySet.localKey, payment, paymentSigRemote, paymentSigLocal)
+          paymentTx = addWitness(paymentTx, 0, paymentInputScript)
+
+          expect(bcoin.tx.fromRaw(test.paymentTxs[i]))
+             .to.deep.equal(bcoin.tx.fromRaw(paymentTx))
+        }
       })
     })
   })

@@ -92,5 +92,5 @@ export let Channel = () => fromJS({
 export let PaymentWrapper = (direction, id, payment) =>
                      fromJS({direction, id, payment})
 
-export let Payment = (amount, paymentHash, onionRoutingPackage, cltvTimeout) =>
-              fromJS({amount, paymentHash, onionRoutingPackage, cltvTimeout})
+export let Payment = (amount, paymentHash, onionRoutingPackage, cltvTimeout, paymentPreImage) =>
+              fromJS({amount, paymentHash, onionRoutingPackage, cltvTimeout, paymentPreImage})
