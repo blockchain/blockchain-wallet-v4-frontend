@@ -19,7 +19,7 @@
           "request": true,
           "history": true,
           "report": true,
-          "fiat": false
+          "fiat": true
         },
         "fraction": 1,
         "countries": "*",
