@@ -56,7 +56,6 @@ const getErrorState = (meta) => {
 const FiatConvertor = (props) => {
   const { enabled, value, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
   const errorState = getErrorState(meta)
-  console.log(props)
 
   return enabled ? (
     <Wrapper>
