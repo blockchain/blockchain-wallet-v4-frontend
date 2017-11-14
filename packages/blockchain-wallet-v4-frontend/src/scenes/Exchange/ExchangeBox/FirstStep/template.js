@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { CoinConvertor, SelectBoxesAccounts } from 'components/Form'
 
 const Wrapper = styled.div`
@@ -52,7 +52,7 @@ const Footer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { nextStep, invalid } = props
+  const { sourceCoin, targetCoin, nextStep, invalid } = props
 
   return (
     <Wrapper>
@@ -82,10 +82,10 @@ const FirstStep = (props) => {
           </TitleText>
         </SelectionRow>
         <SelectionRow>
-          <Field name='amount' component={CoinConvertor} validate={[required]} fromCoin='BTC' toCoin='ETH' />
+          <Field name='amount' component={CoinConvertor} validate={[required]} fromCoin={sourceCoin} toCoin={targetCoin} />
         </SelectionRow>
         <Text color='error' weight={300} size='12px'>
-          <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage='x BTC needed to exchange.' />
+          <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage={`x ${sourceCoin} needed to exchange.`} />
         </Text>
       </Body>
       <Footer>
