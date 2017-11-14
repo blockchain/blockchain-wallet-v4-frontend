@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Icon, TextInput, Text } from 'blockchain-info-components'
+import { Icon, Link, TextInput, Text } from 'blockchain-info-components'
 import CurrencyDisplay from 'components/CurrencyDisplay'
 
 const Wrapper = styled.div`
@@ -58,13 +59,20 @@ const Error = styled(Text)`
   right: 0;
   height: 15px;
 `
+const MinMaxText = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`
+
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
 const CoinConvertor = (props) => {
-  const { value, toValue, currency, btcUnit, ethUnit, fromCoin, toCoin, bitcoinRates, ethereumRates, handleBlur, handleFromCoinChange, handleToCoinChange, handleFocus, meta } = props
+  const { value, toValue, currency, btcUnit, ethUnit, fromCoin, toCoin, bitcoinRates, ethereumRates, handleBlur, handleFromCoinChange, handleToCoinChange, handleFocus, enterMax, enterMin, meta } = props
   const errorState = getErrorState(meta)
+  const canExchange = true
 
   return (
     <Wrapper>
@@ -97,6 +105,17 @@ const CoinConvertor = (props) => {
           </OutputRow>
         </Container>
       </CoinConvertorContainer>
+      {canExchange
+        ? <MinMaxText weight={300} size='12px'>
+          <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
+          <Link size='12px' weight={300} onClick={enterMin}><FormattedMessage id='scenes.exchangebox.firststep.min' defaultMessage='minimum' /></Link>
+          <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
+          <Link size='12px' weight={300} onclick={enterMax}><FormattedMessage id='scenes.exchangebox.firststep.max' defaultMessage='maximum' /></Link>
+        </MinMaxText>
+        : <MinMaxText color='error' weight={300} size='12px'>
+          <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage={`x ${fromCoin} needed to exchange.`} />
+        </MinMaxText>
+      }
       {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
     </Wrapper>
   )
