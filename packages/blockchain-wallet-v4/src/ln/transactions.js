@@ -1,7 +1,5 @@
 /* eslint-disable new-cap */
-import {fromJS} from 'immutable'
 import * as Script from './scripts'
-import * as hash from 'bcoin/lib/crypto/digest'
 import xor from 'buffer-xor'
 import {Direction, Funded} from './state'
 import {derivePubKey, deriveRevocationPubKey} from './key_derivation'
@@ -10,15 +8,18 @@ let bcoin = require('bcoin/lib/bcoin-browser')
 let Tx = bcoin.tx
 let ScriptBcoin = bcoin.script
 let ec = bcoin.secp256k1
-var Long = require('long')
+let Long = require('long')
 
 export let Commitment = (commitmentTx, commitmentSig, payments, paymentTxs, paymentSigs) =>
-               ({ commitmentTx, commitmentSig, payments, paymentTxs, paymentSigs })
+                      ({ commitmentTx, commitmentSig, payments, paymentTxs, paymentSigs })
 
 // https://github.com/lightningnetwork/lightning-rfc/blob/master/03-transactions.md#fee-calculation
 let commitmentWeight = htlcCount => 724 + 172 * htlcCount
 let htlcTimeoutWeight = 663
 let htlcSuccessWeight = 703
+
+let baseWeight = paymentAmount => commitmentWeight(paymentAmount)
+let baseFee = (paymentAmount, feePerKw) => weightToFee(baseWeight(paymentAmount), feePerKw)
 
 let weightToFee = (weight, fee) => Math.floor((weight * fee) / 1000)
 let roundDown = (num) => num.div(1000).toNumber()
@@ -28,7 +29,6 @@ let htlcSuccessFee = fee => weightToFee(htlcSuccessWeight, fee)
 
 let getCommitmentLocktime = obscuredTxNum => {
   let b = Buffer.from('20000000', 'hex')
-
   obscuredTxNum.copy(b, 1, 3, 6)
   return b.readUInt32BE()
 }
@@ -51,8 +51,13 @@ export let intTo48Bit = num => {
 let obscureTransactionNumber = (transactionNumber, obscuredHash) => {
   let xorHash = obscuredHash.slice(26)
   let number = intTo48Bit(transactionNumber)
-
   return xor(number, xorHash)
+}
+
+export let addWitness = (tx, index, script) => {
+  let t = new bcoin.mtx.fromRaw(tx)
+  t.inputs[index].witness = new bcoin.witness(script)
+  return t.toTX().toRaw()
 }
 
 export let trimPredicate = (feePerKw, dustLimit) => p => {
@@ -64,25 +69,6 @@ export let trimPredicate = (feePerKw, dustLimit) => p => {
   } else {
     return payment.amount.div(1000).sub(htlcSuccessFee(feePerKw)).greaterThanOrEqual(dustLimit)
   }
-}
-
-let baseWeight = paymentAmount => commitmentWeight(paymentAmount)
-let baseFee = (paymentAmount, feePerKw) => weightToFee(baseWeight(paymentAmount), feePerKw)
-
-let substractFeeFromFunder = (funded, fee) => state => {
-  if (funded === Funded.LOCAL_FUNDED) {
-    return state
-      .update('amountMsatLocal', i => i.sub(fee * 1000))
-  } else {
-    return state
-      .update('amountMsatRemote', i => i.sub(fee * 1000))
-  }
-}
-
-// getTransactionInput : TransactionOutpoint -> ECKey -> ECKey
-export let getTransactionInput = (outpoint, key1, key2) => {
-  let fundingScript = Script.getFundingOutputScript(key1.get('pub'), key2.get('pub'))
-  return fromJS({outpoint, script: fundingScript})
 }
 
 let reverseBytes = (b) => {
@@ -124,37 +110,32 @@ export let getCommitmentTransaction =
   (input, obscuredHash, payments, commitmentNumber, amountMsatLocal, amountMsatRemote,
    feeRate, dustLimit, toSelfDelay, keySet, funded) => {
     let commitmentBuilder = new bcoin.mtx()
-    commitmentBuilder.version = 2
 
     let sequence = getCommitmenSequence(obscureTransactionNumber(commitmentNumber, obscuredHash))
     let locktime = getCommitmentLocktime(obscureTransactionNumber(commitmentNumber, obscuredHash))
 
     let prevOut = new bcoin.outpoint(reverseBytes(input.hash).toString('hex'), input.n)
 
-    commitmentBuilder.addInput({
-      prevout: prevOut,
-      sequence: sequence,
-      script: null
-    })
-
+    commitmentBuilder.version = 2
+    commitmentBuilder.addInput({prevout: prevOut, sequence: sequence})
     commitmentBuilder.setLocktime(locktime)
 
     let revocationKey = keySet.revocationKey.pub
     let delayedKey = keySet.delayedKey.pub
-    let localKey = keySet.localKey.pub
+    let localKey = keySet.localKey
     let remoteKey = keySet.remoteKey.pub
 
     let paymentsTrimmed = payments
         .filter(trimPredicate(feeRate, dustLimit))
-        .sort(sortPayments(revocationKey, remoteKey, localKey))
+        .sort(sortPayments(revocationKey, remoteKey, localKey.pub))
 
     // Calculate the total fee for the commitment transaction
     let fee = baseFee(paymentsTrimmed.length, feeRate)
 
-    // Substract fee from whoever funded the channel
     let amountLocal = amountMsatLocal.div(1000).toNumber()
     let amountRemote = amountMsatRemote.div(1000).toNumber()
 
+    // Substract fee from whoever funded the channel
     if (funded === Funded.LOCAL_FUNDED) {
       amountLocal -= fee
     } else {
@@ -163,21 +144,20 @@ export let getCommitmentTransaction =
 
     if (amountLocal >= dustLimit) {
       commitmentBuilder.addOutput(
-      ScriptBcoin.fromRaw(
-        Script.wrapP2WSH(
-          Script.getToLocalOutputScript(revocationKey, toSelfDelay, delayedKey))), amountLocal)
+        ScriptBcoin.fromRaw(
+          Script.wrapP2WSH(
+            Script.getToLocalOutputScript(revocationKey, toSelfDelay, delayedKey))), amountLocal)
     }
 
     if (amountRemote >= dustLimit) {
       commitmentBuilder.addOutput(
-      ScriptBcoin.fromRaw(
-        Script.getToRemoteOutputScript(remoteKey)), amountRemote)
+        ScriptBcoin.fromRaw(
+          Script.getToRemoteOutputScript(remoteKey)), amountRemote)
     }
 
-    paymentsTrimmed
-    .forEach(p => {
+    paymentsTrimmed.forEach(p => {
       commitmentBuilder.addOutput(
-          getPaymentOutputScriptP2SH(revocationKey, remoteKey, localKey, p),
+        getPaymentOutputScriptP2SH(revocationKey, remoteKey, localKey.pub, p),
           roundDown(getPaymentAmount(p)))
     })
 
@@ -185,7 +165,7 @@ export let getCommitmentTransaction =
     let commitmentTx = commitmentBuilder.toTX().toRaw()
 
     let commitmentSig
-    if (keySet.localKey.priv !== undefined) {
+    if (keySet.fundingLocalKey.priv !== undefined) {
       commitmentSig = signCommitmentTransaction(
         input.value,
         commitmentTx,
@@ -202,14 +182,14 @@ export let getCommitmentTransaction =
       let paymentPrevOut = new bcoin.outpoint(commitmentBuilder.hash().toString('hex'), i)
       let paymentTx = getPaymentTransaction(paymentPrevOut, feeRate, toSelfDelay, keySet, payment)
 
-      if (keySet.localKey.priv !== undefined) {
-        paymentTxsSigs.push(signPaymentTransaction(paymentTx, payment, keySet.revocationKey, keySet.remoteKey, keySet.localKey))
+      if (localKey.priv !== undefined) {
+        paymentTxsSigs.push(signPaymentTransaction(paymentTx, payment, revocationKey, remoteKey, localKey))
       }
       paymentTxs.push(paymentTx)
     }
 
     return Commitment(
-      commitmentBuilder.toTX().toRaw(),
+      commitmentTx,
       commitmentSig,
       paymentsTrimmed,
       paymentTxs,
@@ -225,51 +205,9 @@ export let signCommitmentTransaction = (inputValue, tx, keySign, keyRemote) => {
   return Buffer.concat([sig, Buffer.from('01', 'hex')])
 }
 
-export let signPaymentTransaction = (tx, p, revocationKey, remoteKey, localKey) => {
-  let t = Tx.fromRaw(tx)
-  let inputScript = ScriptBcoin.fromRaw(getPaymentOutputScript(revocationKey.pub, remoteKey.pub, localKey.pub, p))
-  let hash = t.signatureHash(0, inputScript, p.getIn(['payment', 'amount']).div(1000).toNumber(), 1, 1)
-  let sig = ec.sign(hash, localKey.priv)
-  return Buffer.concat([sig, Buffer.from('01', 'hex')])
-}
-
-export let getPaymentInputScript = (revocationKey, remoteKey, localKey, p, sigRemote, sigLocal) => {
-  let inputScript = getPaymentOutputScript(revocationKey.pub, remoteKey.pub, localKey.pub, p)
-  let direction = p.get('direction')
-  if (direction === Direction.OFFERED) {
-    // This is the timeout transaction
-    return [
-      [],
-      sigRemote,
-      sigLocal,
-      [],
-      inputScript
-    ]
-  } else {
-    // This is trying to redeem this transaction
-    let paymentPreImage = p.getIn(['payment', 'paymentPreImage'])
-
-    return [
-      [],
-      sigRemote,
-      sigLocal,
-      paymentPreImage,
-      inputScript
-    ]
-  }
-}
-
-export let addWitness = (tx, index, script) => {
-  let t = new bcoin.mtx.fromRaw(tx)
-  t.inputs[index].witness = new bcoin.witness(script)
-  return t.toTX().toRaw()
-}
-
 export let sortPayments = (revocationKey, remoteKey, localKey) => (a, b) => {
-  let {direction: directionA, __, payment: paymentA} = a.toJS()
-  let {direction: directionB, _, payment: paymentB} = b.toJS()
-
-  let cmp = paymentA.amount.div(1000).sub(paymentB.amount.div(1000)).toNumber()
+  let cmp = a.getIn(['payment', 'amount']).div(1000).sub(
+    b.getIn(['payment', 'amount']).div(1000)).toNumber()
 
   if (cmp !== 0) {
     return cmp
@@ -309,4 +247,38 @@ export let getPaymentTransaction = (outpoint, feeRate, toSelfDelay, keySet, p) =
 
   builder.addOutput(script, amount)
   return builder.toTX().toRaw()
+}
+
+export let signPaymentTransaction = (tx, p, revocationKey, remoteKey, localKey) => {
+  let t = Tx.fromRaw(tx)
+  let inputScript = ScriptBcoin.fromRaw(getPaymentOutputScript(revocationKey, remoteKey, localKey.pub, p))
+  let hash = t.signatureHash(0, inputScript, p.getIn(['payment', 'amount']).div(1000).toNumber(), 1, 1)
+  let sig = ec.sign(hash, localKey.priv)
+  return Buffer.concat([sig, Buffer.from('01', 'hex')])
+}
+
+export let getPaymentInputScript = (revocationKey, remoteKey, localKey, p, sigRemote, sigLocal) => {
+  let inputScript = getPaymentOutputScript(revocationKey.pub, remoteKey.pub, localKey.pub, p)
+  let direction = p.get('direction')
+  if (direction === Direction.OFFERED) {
+    // This is the timeout transaction
+    return [
+      [],
+      sigRemote,
+      sigLocal,
+      [],
+      inputScript
+    ]
+  } else {
+    // This is trying to redeem this transaction
+    let paymentPreImage = p.getIn(['payment', 'paymentPreImage'])
+
+    return [
+      [],
+      sigRemote,
+      sigLocal,
+      paymentPreImage,
+      inputScript
+    ]
+  }
 }
