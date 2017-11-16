@@ -29,4 +29,8 @@ TransactionList.propTypes = {
   }))
 }
 
+TransactionList.defaultProps = {
+  transactions: []
+}
+
 export default TransactionList
