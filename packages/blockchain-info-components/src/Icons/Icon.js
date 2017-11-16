@@ -5,12 +5,12 @@ import { Palette } from '../Colors'
 import Icomoon from './Icomoon'
 import { keysIn } from 'ramda'
 
-const BaseIcon = styled.span`
+const BaseIcon = styled.div`
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
   color: ${props => props.theme[props.color]};
   -webkit-font-smoothing: antialiased;
-  cursor: ${props => props.cursor ? 'pointer' : 'default'};
+  cursor: ${props => props.cursorEnabled ? 'pointer' : 'default'};
 
   &:before {
     font-family: 'icomoon';
@@ -19,10 +19,10 @@ const BaseIcon = styled.span`
 `
 
 const Icon = (props) => {
-  const { name, ...rest } = props
+  const { name, cursor, ...rest } = props
   const code = Icomoon[name]
 
-  return <BaseIcon {...rest} code={code} />
+  return <BaseIcon {...rest} code={code} cursorEnabled={cursor} />
 }
 
 Icon.propTypes = {
