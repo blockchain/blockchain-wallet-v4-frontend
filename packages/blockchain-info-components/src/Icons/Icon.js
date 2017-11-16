@@ -5,7 +5,7 @@ import { Palette } from '../Colors'
 import Icomoon from './Icomoon'
 import { keysIn } from 'ramda'
 
-const BaseIcon = styled.div`
+const BaseIcon = styled.span`
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
   color: ${props => props.theme[props.color]};
