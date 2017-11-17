@@ -4,7 +4,9 @@ let ec = require('bcoin/lib/crypto/secp256k1-browser')
 let crypto = require('bcoin/lib/crypto')
 let hkdf = require('bcoin/lib/crypto/hkdf')
 let assert = require('assert')
-let AEAD = require('bcoin/lib/crypto/aead')
+let AEAD = require('./crypto/aead')
+const elliptic = require('elliptic')
+const secp256k1 = elliptic.ec('secp256k1')
 
 /**
  * Lightning Connection
@@ -21,6 +23,8 @@ function Connection (options, staticRemote) {
   // Handshake data
   this.tempLocal = {}
   this.tempRemote = {}
+  this.tempLocal.priv = ec.generatePrivateKey()
+  this.tempLocal.pub = ec.publicKeyCreate(this.tempLocal.priv, true)
 
   this.ck = null
   this.h = null
@@ -62,8 +66,6 @@ Connection.prototype.error = function error (err) {
 }
 
 Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb, onMessageCb, onCloseCb) {
-  let self = this
-
   this.tcp = tcp
 
   this.onHandshakeCb = onHandshakeCb
@@ -71,11 +73,18 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
 
   let onConnect = () => {
     onConnectCb()
-    self.sendHandshakePart1()
+    this.sendHandshakePart1()
   }
 
   let onData = (data) => {
-    self.feed(data)
+    try {
+      this.feed(data)
+    } catch (e) {
+      // TODO close channel
+      console.warn('Error: ' + e)
+      this.authed = false
+      onCloseCb()
+    }
   }
 
   let onClose = () => {
@@ -92,16 +101,22 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
 Connection.prototype.sendHandshakePart1 = function () {
   console.debug('sendHandshakePart1')
 
-  this.tempLocal.priv = ec.generatePrivateKey()
-  this.tempLocal.pub = ec.publicKeyCreate(this.tempLocal.priv, true)
-
   this.h = crypto.sha256('Noise_XK_secp256k1_ChaChaPoly_SHA256')
   this.ck = this.h
   this._appendToHash(Buffer.from('lightning', 'ascii'))
   this._appendToHash(this.staticRemote.pub)
   this._appendToHash(this.tempLocal.pub)
 
-  let ss = crypto.sha256(ec.ecdh(this.staticRemote.pub, this.tempLocal.priv))
+  let ecdhResult = ecdh(this.staticRemote.pub, this.tempLocal.priv)
+  console.info('ecdh: ' + ecdhResult.toString('hex'))
+  let ecdhResultHashed = crypto.sha256(ecdhResult)
+  console.info(ecdhResultHashed.toString('hex'))
+
+  let ss = ecdh(this.staticRemote.pub, this.tempLocal.priv)
+
+  console.info('staticRemote: ' + this.staticRemote.pub.toString('hex'))
+  console.info('tempLocal: ' + this.tempLocal.pub.toString('hex'))
+  console.info('tempLocalPriv: ' + this.tempLocal.priv.toString('hex'))
 
   console.debug('ss = 0x' + ss.toString('hex'))
   console.debug('ck = 0x' + this.ck.toString('hex'))
@@ -132,7 +147,7 @@ Connection.prototype.readHandshakePart2 = function (data) {
   let c = data.slice(34, 50)
 
   this._appendToHash(this.tempRemote.pub)
-  let ss = crypto.sha256(ec.ecdh(this.tempRemote.pub, this.tempLocal.priv))
+  let ss = ecdh(this.tempRemote.pub, this.tempLocal.priv)
 
   let hkdfResult = hkdfDerive(this.ck, ss)
   this.ck = hkdfResult.p1
@@ -160,7 +175,7 @@ Connection.prototype.sendHandshakePart3 = function () {
   let c = encryptAEAD(this.temp_k2, this.h, 1, this.staticLocal.pub)
   this._appendToHash(c)
 
-  let ss = crypto.sha256(ec.ecdh(this.tempRemote.pub, this.staticLocal.priv))
+  let ss = ecdh(this.tempRemote.pub, this.staticLocal.priv)
 
   let hkdfResult1 = hkdfDerive(this.ck, ss)
   this.ck = hkdfResult1.p1
@@ -189,6 +204,13 @@ Connection.prototype.sendHandshakePart3 = function () {
 Connection.prototype._appendToHash = function _appendToHash (data) {
   let v = [this.h, data]
   this.h = crypto.sha256(Buffer.concat(v))
+}
+
+const ecdh = function (pub, priv) {
+  priv = secp256k1.keyPair({ priv: priv })
+  pub = secp256k1.keyPair({ pub: pub })
+  let dh = Buffer.from(pub.getPublic().mul(priv.getPrivate()).encode('array', true))
+  return crypto.sha256(dh)
 }
 
 const hkdfDerive = function (salt, key) {
@@ -222,7 +244,7 @@ const encryptAEAD = function (key, ad, nonce = 0, data = Buffer.allocUnsafe(0)) 
 
   console.info(`encryptAEAD 
   (${key.toString('hex')}, ${ad.toString('hex')}, ${iv.toString('hex')}, ${data.toString('hex')})
-        = (${tempData.toString('hex')}, ${tag.toString('hex')})`)
+        = (${tempData.toString('hex')}, ${tag.toString('hex')}) = (${result.toString('hex')})`)
 
   return result
 }
@@ -319,12 +341,28 @@ Connection.prototype.feed = function feed (data) {
 Connection.prototype.encryptOut = function (payload) {
   let encrypted = encryptAEAD(this.sk, Buffer.alloc(0), this.sn, payload)
   this.sn++
+
+  if (this.sn % 1000 === 0) {
+    let hkdf = hkdfDerive(this.ck, this.sk)
+    this.ck = hkdf.p1
+    this.sk = hkdf.p2
+    this.sn = 0
+  }
+
   return encrypted
 }
 
 Connection.prototype.decryptIn = function (payload, tag) {
   let decrypted = decryptAEAD(this.rk, Buffer.alloc(0), this.rn, payload, tag)
   this.rn++
+
+  if (this.rn % 1000 === 0) {
+    let hkdf = hkdfDerive(this.ck, this.rk)
+    this.ck = hkdf.p1
+    this.rk = hkdf.p2
+    this.rn = 0
+  }
+
   return decrypted
 }
 
