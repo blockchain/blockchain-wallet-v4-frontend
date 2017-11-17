@@ -24,8 +24,11 @@ export let Connection = () => ({
   error: null
 })
 
-export let ChannelParams = (fundingKey, dustLimitSatoshis, maxHtlcValueInFlightMsat, channelReserveSatoshis, htlcMinimumMsat, toSelfDelay, maxAcceptedHtlcs, revocationBasepoint, paymentBasepoint, delayedPaymentBasepoint, globalFeatures, localFeatures) =>
-                    fromJS({fundingKey, dustLimitSatoshis, maxHtlcValueInFlightMsat, channelReserveSatoshis, htlcMinimumMsat, toSelfDelay, maxAcceptedHtlcs, revocationBasepoint, paymentBasepoint, delayedPaymentBasepoint, globalFeatures, localFeatures})
+export let TransactionOutpoint = (hash, n) =>
+                          fromJS({hash, n})
+
+export let ChannelParams = (fundingKey, dustLimitSatoshis, maxHtlcValueInFlightMsat, channelReserveSatoshis, htlcMinimumMsat, feeRatePerKw, toSelfDelay, maxAcceptedHtlcs, revocationBasepoint, paymentBasepoint, delayedPaymentBasepoint, globalFeatures, localFeatures) =>
+                    fromJS({fundingKey, dustLimitSatoshis, maxHtlcValueInFlightMsat, channelReserveSatoshis, htlcMinimumMsat, feeRatePerKw, toSelfDelay, maxAcceptedHtlcs, revocationBasepoint, paymentBasepoint, delayedPaymentBasepoint, globalFeatures, localFeatures})
 
 export let ChannelUpdateTypes = {
   ADD: 1,
@@ -61,12 +64,16 @@ export let ChannelState = () => fromJS({
   updateCounter: new Long(0),
   commitIndex: new Long(0),
 
+  currentCommitmentPoint: null,
+  nextCommitmentPoint: null,
   commitmentNumber: Math.pow(2, 48) - 1
 })
 
 export let Channel = () => fromJS({
   channelId: null,
   staticRemote: null,
+
+  outpoint: null,
 
   paramsLocal: null,
   paramsRemote: null,
@@ -75,6 +82,8 @@ export let Channel = () => fromJS({
   local: ChannelState(),
 
   commitmentObscureHash: null,
+
+  commitmentSecretSeed: null,
   commitmentStorage: [],
 
   messageOut: []
@@ -83,5 +92,5 @@ export let Channel = () => fromJS({
 export let PaymentWrapper = (direction, id, payment) =>
                      fromJS({direction, id, payment})
 
-export let Payment = (amount, paymentHash, onionRoutingPackage, cltvTimeout) =>
-              fromJS({amount, paymentHash, onionRoutingPackage, cltvTimeout})
+export let Payment = (amount, paymentHash, onionRoutingPackage, cltvTimeout, paymentPreImage) =>
+              fromJS({amount, paymentHash, onionRoutingPackage, cltvTimeout, paymentPreImage})

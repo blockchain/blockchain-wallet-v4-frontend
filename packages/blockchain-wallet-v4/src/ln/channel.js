@@ -1,12 +1,17 @@
 import {CommitmentSigned, OpenChannel, RevokeAndAck, UpdateAddHtlc} from './messages/serializer'
 import * as random from 'crypto'
 import assert from 'assert'
-import {ChannelParams, ChannelUpdateTypes, ChannelUpdateWrapper, Direction, Payment, PaymentWrapper} from './state'
+import {
+  Channel, ChannelParams, ChannelUpdateTypes, ChannelUpdateWrapper, Direction, Payment,
+  PaymentWrapper
+} from './state'
 
 import {List, fromJS} from 'immutable'
+import {generatePerCommitmentPoint} from './key_derivation'
 
 const ec = require('../../../bcoin/lib/crypto/secp256k1-browser')
 const Long = require('long')
+const sha = require('sha256')
 
 export let phase = {
   SENT_OPEN: 1,
@@ -23,7 +28,7 @@ let createKey = () => {
   return fromJS(key)
 }
 
-let wrapPubKey = (pub) => fromJS({pub, priv: null})
+export let wrapPubKey = (pub) => ({pub, priv: null})
 
 let checkChannel = (channel, phase) => {
   assert(channel !== undefined)
@@ -33,8 +38,18 @@ let checkChannel = (channel, phase) => {
 let getChannel = (state, channelId) => state.getIn(['channels', channelId])
 let getChannelCheck = (state, channelId, phase) => checkChannel(getChannel(state, channelId), phase)
 
-export function openChannel (state, peer, options, channel) {
+let addMessage = (msg) => state => state.updateIn(['messageOut'], o => o.push(msg))
+let updateChannel = (state, channelId, channel) => state.updateIn(['channels'], o => o.set(channelId, channel))
+
+export let obscureHash = (basePoint1, basePoint2) => {
+  let b = Buffer.concat([basePoint1, basePoint2])
+  let s = Buffer.from(sha(b), 'hex')
+  return s
+}
+
+export function openChannel (state, peer, options, value) {
   let channelId = random.randomBytes(32) // TODO
+  let commitmentSecret = random.randomBytes(32)
 
   let paramsLocal = ChannelParams(
     createKey(),
@@ -49,37 +64,40 @@ export function openChannel (state, peer, options, channel) {
     createKey(),
     options.gf,
     options.lf)
+  let paramsJS = paramsLocal.toJS()
+
+  let nextCommitmentPoint = generatePerCommitmentPoint(commitmentSecret, Math.pow(2, 48) - 1)
 
   let open = OpenChannel(
     options.chainHash,
-    channel.channelId,
-    channel.amountMsatLocal.div(1000).value,
-    channel.amountMsatRemote,
-    paramsLocal.dustLimitSatoshis,
-    channel.amountMsatLocal.div(1000).value,
+    channelId,
+    value,
+    new Long(0),
+    paramsJS.dustLimitSatoshis,
+    value,
     new Long(0),
     new Long(0),
-    paramsLocal.feeratePerKw,
-    paramsLocal.toSelfDelay,
-    paramsLocal.maxAcceptedHtlcs,
-    paramsLocal.fundingKey.pub,
-    paramsLocal.revocationBasepoint.pub,
-    paramsLocal.paymentBasepoint.pub,
-    paramsLocal.delayedPaymentBasepoint.pub,
-    paramsLocal.firstPerCommitmentPoint.pub,
+    paramsJS.feeratePerKw,
+    paramsJS.toSelfDelay,
+    paramsJS.maxAcceptedHtlcs,
+    paramsJS.fundingKey.pub,
+    paramsJS.revocationBasepoint.pub,
+    paramsJS.paymentBasepoint.pub,
+    paramsJS.delayedPaymentBasepoint.pub,
+    nextCommitmentPoint,
     Buffer.alloc(1)
   )
 
-  channel = channel
+  let channel = Channel()
     .set('staticRemote', peer.staticRemote)
     .set('channelId', channelId)
     .set('paramsLocal', paramsLocal)
     .set('phase', phase.SENT_OPEN)
-    .update('messageOut', (l) => l.push(open))
+    .set('commitmentSecretSeed', commitmentSecret)
+    .setIn(['local', 'nextCommitmentPoint'], nextCommitmentPoint)
+    .update(addMessage(open))
 
-  state = state.setIn(['channels', channelId], channel)
-
-  return state
+  return updateChannel(state, channelId, channel)
 }
 
 export function readAcceptChannel (msg, state, peer) {
@@ -103,6 +121,7 @@ export function readAcceptChannel (msg, state, peer) {
   return channel
     .set('paramsRemote', paramsRemote)
     .set('minimumDepth', msg.minimumDepth)
+    .setIn(['remote', 'nextCommitmentPoint'], msg.nextCommitmentPoint)
 }
 
 export function sendFundingCreated (channelId, state, wallet) {
@@ -204,9 +223,6 @@ let remoteCommitIndexPath = ['remote', 'commitIndex']
 
 let increment = path => c => c.updateIn(path, i => i.add(1))
 let setter = (path1, path2) => c => c.setIn(path1, c.getIn(path2))
-
-let addMessage = (msg) => state => state.updateIn(['messageOut'], o => o.push(msg))
-let updateChannel = (state, channelId, channel) => state.updateIn(['channels'], o => o.set(channelId, channel))
 
 let addWrapper = (channel, list, index, type, direction, msg) => {
   let commitIndex = channel.getIn([index, 'updateCounter'])
