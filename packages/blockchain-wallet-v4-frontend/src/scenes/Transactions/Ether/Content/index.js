@@ -49,16 +49,12 @@ class ContentContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const selector = formValueSelector('etherTransaction')
-
-  return {
-    status: selector(state, 'status') || '',
-    search: selector(state, 'search') || '',
-    transactions: selectors.core.common.getEthereumTransactions(state),
-    scroll: selectors.scroll.selectScroll(state)
-  }
-}
+const mapStateToProps = (state) => ({
+  status: formValueSelector('etherTransaction')(state, 'status') || '',
+  search: formValueSelector('etherTransaction')(state, 'search') || '',
+  transactions: selectors.core.common.getEthereumTransactions(state),
+  scroll: selectors.scroll.selectScroll(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   dataActions: bindActionCreators(actions.data, dispatch)

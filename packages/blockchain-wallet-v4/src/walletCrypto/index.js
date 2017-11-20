@@ -168,3 +168,9 @@ export const hashNTimes = curry((iterations, data) => {
   while (iterations--) data = sha256(data)
   return data
 })
+
+export const isStringHashInFraction = (str, fraction) => {
+  if (!str) return false
+  if (fraction < 0) return false
+  return (crypto.sha256(str)[0] / 256) >= (1 - fraction)
+}

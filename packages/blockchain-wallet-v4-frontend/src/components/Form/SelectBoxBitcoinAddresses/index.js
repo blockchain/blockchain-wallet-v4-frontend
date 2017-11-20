@@ -1,13 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { map, isEmpty } from 'ramda'
+import { contains, equals, isEmpty, isNil, map } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import SelectBox from '../SelectBox'
 import { selectors } from 'data'
 
 class SelectBoxBitcoinAddresses extends React.Component {
+  isFiatAvailable () {
+    const { coin, country, currency, rates, bitcoinOptions } = this.props
+    if (isNil(coin)) return false
+    if (isNil(country)) return false
+    if (isNil(currency)) return false
+    if (isNil(bitcoinOptions)) return false
+    if (!bitcoinOptions.availability.fiat) return false
+    if (!equals(bitcoinOptions.countries, '*') && !contains(bitcoinOptions.countries, country)) return false
+    // if (!equals(bitcoinOptions.states, '*') && equals(country, 'US') && !contains(bitcoinOptions.states, state)) return false
+    if (isEmpty(rates)) return false
+    return true
+  }
+
   render () {
     const { accounts, legacyAddresses, includeAll, ...rest } = this.props
     const allWallets = { text: 'All Wallets', value: '' }

@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import ui from 'redux-ui'
 import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 
 import { Icon, Text, TextGroup } from 'blockchain-info-components'
@@ -27,7 +26,7 @@ const MenuTooltipIcon = styled(Icon)`
 `
 const MenuTooltipBox = styled(TextGroup)`
   position: absolute;
-  z-index: 9999;
+  z-index: 5;
   top: 150%;
   left: -115px;
   width: 250px;
@@ -75,7 +74,7 @@ const NewLabel = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  z-index: 10000;
+  z-index: 6;
   right: 1px;
   top: 3px;
   width: 10px;
@@ -83,12 +82,10 @@ const NewLabel = styled.div`
   background-color: ${props => props.theme['error']};
   border-radius: 100%;
 `
-
 const MenuTooltipTitle = styled(Text)`
-    background-color: ${props => props.theme['gray-1']};
-    padding: 8px 14px;
+  background-color: ${props => props.theme['gray-1']};
+  padding: 8px 14px;
 `
-
 const TextContainer = styled.div`
   max-height: 250px;
   overflow-y: scroll;

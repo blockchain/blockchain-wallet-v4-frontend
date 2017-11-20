@@ -1,4 +1,6 @@
 import BlockchainLoader from './BlockchainLoader'
-import Loader from './Loader'
+import FlatLoader from './FlatLoader'
+import FlatLoader2 from './FlatLoader2'
+import HeartbeatLoader from './HeartbeatLoader'
 
-export { BlockchainLoader, Loader }
+export { BlockchainLoader, FlatLoader, FlatLoader2, HeartbeatLoader }

@@ -17,7 +17,6 @@ class FirstStepContainer extends React.Component {
     this.seed = crypto.randomBytes(16).toString('hex')
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
-    this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -29,16 +28,16 @@ class FirstStepContainer extends React.Component {
     const { coin, fee, from, to, to2, amount, feeValues, coins } = nextProps
 
     // Replace the bitcoin modal to the ethereum modal
-    if (!equals(this.props.coin, coin) && coin === 'ETH') { this.props.paymentActions.initSendEther() }
+    if (!equals(this.props.coin, coin) && coin === 'ETH') { this.props.paymentEthereumActions.initSendEther() }
 
     // Update 'fee' if new value is fetched
     if (!equals(this.props.feeValues, feeValues)) { this.props.formActions.change('sendBitcoin', 'fee', feeValues.regular) }
 
     // Update 'coins' if 'from' has been updated
-    if (!equals(this.props.from, from)) { this.props.paymentActions.getUnspent(from) }
+    if (!equals(this.props.from, from)) { this.props.paymentBitcoinActions.getUnspent(from) }
 
     // Update effective balance if fee or from (coins) has changed
-    if (!equals(this.props.fee, fee) || !equals(this.props.coins, coins)) { this.props.paymentActions.getEffectiveBalance({ fee }) }
+    if (!equals(this.props.fee, fee) || !equals(this.props.coins, coins)) { this.props.paymentBitcoinActions.getEffectiveBalance({ fee }) }
 
     // // Refresh the selection if fee, targetCoin, coins or fromAddress have been updated
     if (from && (to || to2) && amount && fee &&
@@ -46,7 +45,7 @@ class FirstStepContainer extends React.Component {
       !equals(this.props.amount, amount) || !equals(this.props.fee, fee))) {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
-        this.props.paymentActions.getSelection({ from, to, to2, amount, fee, seed: this.seed })
+        this.props.paymentBitcoinActions.getSelection({ from, to, to2, amount, fee, seed: this.seed })
       }, 1000)
     }
   }
@@ -61,10 +60,6 @@ class FirstStepContainer extends React.Component {
 
   handleClickFeeToggler () {
     this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
-  }
-
-  handleClickQrCodeCapture () {
-    this.props.modalActions.showModal('QRCodeCapture')
   }
 
   onSubmit (e) {
@@ -89,7 +84,6 @@ class FirstStepContainer extends React.Component {
       feeEditToggled={ui.feeEditToggled}
       handleClickAddressToggler={this.handleClickAddressToggler}
       handleClickFeeToggler={this.handleClickFeeToggler}
-      handleClickQrCodeCapture={this.handleClickQrCodeCapture}
       onSubmit={this.onSubmit}
     />
   }
@@ -119,7 +113,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentActions: bindActionCreators(actions.payment, dispatch),
+  paymentBitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch),
+  paymentEthereumActions: bindActionCreators(actions.payment.ethereum, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

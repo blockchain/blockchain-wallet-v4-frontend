@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import CoinDisplay from 'components/CoinDisplay'
-import CurrencyDisplay from 'components/CurrencyDisplay'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -48,21 +48,15 @@ const BalanceSummary = (props) => {
         <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Your balances' />
       </Text>
       <FirstRow>
-        <Text size='28px' weight={300}>
-          <CurrencyDisplay coin='BTC'>{total}</CurrencyDisplay>
-        </Text>
+        <FiatDisplay coin='BTC' size='28px' weight={300}>{total}</FiatDisplay>
       </FirstRow>
       { bitcoinBalances.map(function (balance, index) {
         return (
           <Row key={index} last={index === bitcoinBalances.length - 1}>
             <Text size='16px' weight={300}>{balance.title}</Text>
             <Amount>
-              <Text size='16px' weight={300}>
-                <CoinDisplay coin='BTC'>{balance.amount}</CoinDisplay>
-              </Text>
-              <Text size='12px' weight={300}>
-                <CurrencyDisplay coin='BTC'>{balance.amount}</CurrencyDisplay>
-              </Text>
+              <CoinDisplay coin='BTC' size='16px' weight={300}>{balance.amount}</CoinDisplay>
+              <FiatDisplay coin='BTC' size='12px' weight={300}>{balance.amount}</FiatDisplay>
             </Amount>
           </Row>
         )

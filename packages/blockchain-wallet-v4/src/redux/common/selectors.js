@@ -1,13 +1,14 @@
 import { Wrapper, Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap, HDAccount } from '../../types'
-import { keysIn, prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
+import { head, prop, compose, assoc, map, path, reduce, curry, split } from 'ramda'
 import memoize from 'fast-memoize'
 import * as bitcoinSelectors from '../data/bitcoin/selectors.js'
 import * as ethereumSelectors from '../data/ethereum/selectors.js'
+import * as kvStoreEthereumSelectors from '../kvStore/ethereum/selectors.js'
 import * as transactions from '../../transactions'
 
 const mTransformTx = memoize(transactions.bitcoin.transformTx)
 // ---------------------------------------------------------------------------------------------
-export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => {
+export const commonSelectorsFactory = ({walletPath, dataPath, kvStorePath, settingsPath}) => {
   // getActiveHDAccounts :: state -> [hdacountsWithInfo]
   const getActiveHDAccounts = state => {
     const balances = compose(bitcoinSelectors.getAddresses, prop(dataPath))(state)
@@ -90,12 +91,12 @@ export const commonSelectorsFactory = ({walletPath, dataPath, settingsPath}) => 
 
   // Ethereum
   const getWalletEthereumTransactions = (state) => {
-    const accounts = compose(keysIn, ethereumSelectors.getAddresses, prop(dataPath))(state)
-    return compose(
-      map(transactions.ethereum.transformTx.bind(undefined, accounts)),
-      ethereumSelectors.getTransactions,
-      prop(dataPath)
-    )(state)
+    const accounts = compose(kvStoreEthereumSelectors.getAccounts, prop(kvStorePath))(state)
+    const addresses = map(x => x.addr, accounts)
+    const defaultAccount = head(accounts)
+
+    const rawTransactions = ethereumSelectors.getTransactionsByAddress(prop(dataPath, state), defaultAccount.addr)
+    return map(transactions.ethereum.transformTx.bind(undefined, addresses), rawTransactions)
   }
 
   return {
