@@ -170,7 +170,6 @@ FirstStep.propTypes = {
   feeEditToggled: PropTypes.bool.isRequired,
   selection: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  handleClickQrCodeCapture: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,
   handleClickFeeToggler: PropTypes.func.isRequired
 }

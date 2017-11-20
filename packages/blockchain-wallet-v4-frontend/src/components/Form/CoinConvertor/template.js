@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
-import { Icon, Link, TextInput, Text } from 'blockchain-info-components'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { Icon, TextInput, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,44 +11,47 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
 `
-const CoinConvertorContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-`
-
-const FiatText = styled(Text)`
-  padding-left: 10px;
-`
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-`
+  width: 100%;
 
-const OutputRow = styled(Row)`
-  border: 1px solid ${props => props.theme['gray-2']};
-  border-top: none;
-  height: 30px;
+  & > :first-child { width: 45%; }
+  & > :last-child { width: 45%; }
+`
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: ${props => props.center ? 'center' : 'flex-start'};
+  align-items: flex-start;
+  height: auto;
+`
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
   justify-content: flex-start;
-`
+  align-items: center;
+  width: 100%;
+  border-top: 1px solid ${props => props.theme['gray-2']};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
+  border-left: 1px solid ${props => props.theme['gray-2']};
+  border-right: 1px solid ${props => props.theme['gray-2']};
+  ${props => props.fiat && 'border-top: none;'}
 
-const Unit = styled.span`
-  padding: 0 15px;
-  color: ${props => props.theme['gray-4']};
+  & > input { border: none; }
 `
-const ArrowRight = styled(Icon)`
-  margin-left: 5px;
-  margin-right: 5px;
+const Unit = styled.span`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  font-size: 13px;
+  font-weight: 300;
+  color: ${props => props.theme['gray-4']};
 `
 const Error = styled(Text)`
   position: absolute;
@@ -59,53 +60,44 @@ const Error = styled(Text)`
   right: 0;
   height: 15px;
 `
-const MinMaxText = styled(Text)`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-`
 
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
 const CoinConvertor = (props) => {
-  const { value, toValue, currency, btcUnit, ethUnit, fromCoin, toCoin, bitcoinRates, ethereumRates, handleBlur, handleFromCoinChange, handleToCoinChange, handleFocus, enterMax, enterMin, meta } = props
+  const { coin1, coin2, fiat1, fiat2, coin1Unit, coin2Unit, currency, meta, ...rest } = props
+  const { handleChangeCoin1, handleChangeCoin2, handleChangeFiat1, handleChangeFiat2 } = rest
   const errorState = getErrorState(meta)
-  const canExchange = true
 
   return (
     <Wrapper>
-      <CoinConvertorContainer>
-        <Container>
-          <Row>
-            <TextInput onBlur={handleBlur} onChange={handleFromCoinChange} onFocus={handleFocus} value={value} errorState={errorState} />
-            <Unit>{fromCoin === 'BTC' ? btcUnit : ethUnit}</Unit>
-          </Row>
-          <OutputRow>
-            <FiatText weight={300} size='14px'>
-              <FiatDisplay coin='BTC' unit='BTC' currency={currency} bitcoinRates={bitcoinRates}>
-                {value}
-              </FiatDisplay>
-            </FiatText>
-          </OutputRow>
-        </Container>
-        <ArrowRight size='12px' name='right-arrow' />
-        <Container>
-          <Row>
-            <TextInput onBlur={handleBlur} onChange={handleToCoinChange} onFocus={handleFocus} value={toValue} errorState={errorState} />
-            <Unit>{toCoin === 'BTC' ? btcUnit : ethUnit}</Unit>
-          </Row>
-          <OutputRow>
-            <FiatText weight={300} size='14px'>
-              <FiatDisplay coin='ETH' unit='ETH' currency={currency} ethereumRates={ethereumRates}>
-                {toValue}
-              </FiatDisplay>
-            </FiatText>
-          </OutputRow>
-        </Container>
-      </CoinConvertorContainer>
-      {canExchange
+      <Row>
+        <Column>
+          <Container>
+            <TextInput onChange={handleChangeCoin1} value={coin1} errorState={errorState} />
+            <Unit>{coin1Unit}</Unit>
+          </Container>
+          <Container fiat>
+            <Unit>{currency}</Unit>
+            <TextInput onChange={handleChangeFiat1} value={fiat1} />
+          </Container>
+        </Column>
+        <Column center>
+          <Icon name='right-arrow' size='24px' />
+        </Column>
+        <Column>
+          <Container>
+            <TextInput onChange={handleChangeCoin2} value={coin2} errorState={errorState} />
+            <Unit>{coin2Unit}</Unit>
+          </Container>
+          <Container fiat>
+            <Unit>{currency}</Unit>
+            <TextInput onChange={handleChangeFiat2} value={fiat2} />
+          </Container>
+        </Column>
+      </Row>
+      {/* {canExchange
         ? <MinMaxText weight={300} size='12px'>
           <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
           <Link size='12px' weight={300} onClick={enterMin}><FormattedMessage id='scenes.exchangebox.firststep.min' defaultMessage='minimum' /></Link>
@@ -115,21 +107,26 @@ const CoinConvertor = (props) => {
         : <MinMaxText color='error' weight={300} size='12px'>
           <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage={`x ${fromCoin} needed to exchange.`} />
         </MinMaxText>
-      }
-      {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
+      } */}
+      <Row>
+        {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
+      </Row>
     </Wrapper>
   )
 }
 
 CoinConvertor.propTypes = {
-  fromCoin: PropTypes.string,
-  toCoin: PropTypes.string.isRequired,
-  toValue: PropTypes.string,
-  btcUnit: PropTypes.string.isRequired,
-  handleBlur: PropTypes.func.isRequired,
-  handleFromCoinChange: PropTypes.func.isRequired,
-  handleToCoinChange: PropTypes.func.isRequired,
-  handleFocus: PropTypes.func.isRequired
+  coin1: PropTypes.string.isRequired,
+  coin2: PropTypes.string.isRequired,
+  fiat1: PropTypes.string.isRequired,
+  fiat2: PropTypes.string.isRequired,
+  coin1Unit: PropTypes.string.isRequired,
+  coin2Unit: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
+  handleChangeCoin1: PropTypes.func.isRequired,
+  handleChangeCoin2: PropTypes.func.isRequired,
+  handleChangeFiat1: PropTypes.func.isRequired,
+  handleChangeFiat2: PropTypes.func.isRequired
 }
 
 export default CoinConvertor

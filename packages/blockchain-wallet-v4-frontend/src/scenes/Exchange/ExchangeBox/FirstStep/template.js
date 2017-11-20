@@ -5,94 +5,90 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
-import { CoinConvertor, SelectBoxesAccounts } from 'components/Form'
+import { CoinConvertor, Form, SelectBoxesAccounts } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: stretch;
-  border: 1px solid black;
-  min-width: 400px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding: 30px 30px 10px 30px;
+  box-sizing: border-box;
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const Header = styled.div`
-  position: relative;
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
-  padding: 20px 30px;
-  box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
-const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  padding: 20px 10px;
 `
 const Row = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 30px;
+`
+const AccountLabels = styled.div`
+  display: flex;
   flex-direction: row;
   justify-content: flex-start;
-`
-const TitleText = styled(Text)`
-  padding: 15px 0px 10px 0px;
-`
-const TitleTextOne = styled(TitleText)`
-  width: 55%;
-`
-const TitleTextTwo = styled(TitleText)`
-  width: 45%;
-`
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 10px;
 
-const Footer = styled.div`
+  & > :first-child { width: 55%; }
+  & > :last-child { width: 45%; }
+`
+const AmountLabels = styled.div`
   display: flex;
-  justify-content: center;
-  padding: 0px 10px 20px 10px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 10px;
+
 `
 
 const FirstStep = (props) => {
-  const { btcEth, ethBtc, sourceCoin, targetCoin, sourceAmount, handleNext, invalid } = props
+  const { sourceCoin, targetCoin, sourceAmount, handleNext, invalid } = props
 
   return (
     <Wrapper>
       <Header>
-        <Text>
-          <FormattedMessage id='scenes.exchange.exchangebox.firststep.title' defaultMessage='Exchange Details' />
-        </Text>
-        <Text weight={300}>
+        <Text size='12px' weight={300}>
           <FormattedMessage id='scenes.exchange.exchangebox.firststep.stepnumber' defaultMessage='Step 1 of 2' />
         </Text>
       </Header>
-      <Body>
+      <Form>
         <Row>
-          <TitleTextOne>
-            <FormattedMessage id='scenes.exchange.exchangebox.firststep.from' defaultMessage='Exchange from:' />
-          </TitleTextOne>
-          <TitleTextTwo>
-            <FormattedMessage id='scenes.exchange.exchangebox.firststep.to' defaultMessage='To:' />
-          </TitleTextTwo>
-        </Row>
-        <Row>
+          <AccountLabels>
+            <Text size='16px' weight={500}>
+              <FormattedMessage id='scenes.exchange.exchangebox.firststep.from' defaultMessage='Exchange:' />
+            </Text>
+            <Text size='16px' weight={500}>
+              <FormattedMessage id='scenes.exchange.exchangebox.firststep.to' defaultMessage='Receive:' />
+            </Text>
+          </AccountLabels>
           <Field name='accounts' component={SelectBoxesAccounts} validate={[required]} />
         </Row>
         <Row>
-          <TitleText>
-            <FormattedMessage id='scenes.exchange.exchangebox.firststep.amount' defaultMessage='Enter amount:' />
-          </TitleText>
+          <AmountLabels>
+            <Text size='16px' weight={500}>
+              <FormattedMessage id='scenes.exchange.exchangebox.firststep.amount' defaultMessage='Enter amount:' />
+            </Text>
+          </AmountLabels>
+          <Field name='amount' component={CoinConvertor} validate={[required]} sourceCoin={sourceCoin} targetCoin={targetCoin} sourceAmount={sourceAmount} />
         </Row>
         <Row>
-          <Field name='amount' component={CoinConvertor} validate={[required]}
-            fromCoin={sourceCoin} toCoin={targetCoin}
-            btcEth={btcEth} ethBtc={ethBtc} sourceAmount={sourceAmount} />
+          <Button nature='primary' fullwidth disabled={invalid} onClick={handleNext}>
+            <FormattedMessage id='scenes.exchange.exchangebox.firststep.next' defaultMessage='Next' />
+          </Button>
         </Row>
-      </Body>
-      <Footer>
-        <Button nature='primary' fullwidth disabled={invalid} onClick={handleNext}>
-          <FormattedMessage id='scenes.exchange.exchangebox.firststep.logout' defaultMessage='Next step' />
-        </Button>
-      </Footer>
+      </Form>
     </Wrapper>
   )
 }

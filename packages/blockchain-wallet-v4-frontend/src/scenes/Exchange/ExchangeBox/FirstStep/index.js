@@ -21,6 +21,7 @@ class FirstStepContainer extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     const nextExchangeAccounts = nextProps.exchangeAccounts
+
     if (nextExchangeAccounts) {
       if (!equals(this.props.exchangeAccounts, nextExchangeAccounts)) {
         this.setState({
