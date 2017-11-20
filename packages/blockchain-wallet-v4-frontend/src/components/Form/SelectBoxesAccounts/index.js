@@ -87,7 +87,6 @@ const transformBitcoinAddress = (address) => {
 }
 
 const tranformEthereumAddress = (address, ethBalance) => {
-  console.log(address)
   return {
     text: (
       <Icon name='ethereum' size='14px' weight={300}>

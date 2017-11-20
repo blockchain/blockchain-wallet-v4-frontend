@@ -50,7 +50,6 @@ class CoinConvertorContainer extends React.Component {
   }
 
   enterMin () {
-    console.log('enterMin')
     switch (this.props.fromCoin) {
       case 'ETH': this.convertCoin(this.props.ethBtc.minimum, true)
         break
@@ -65,8 +64,6 @@ class CoinConvertorContainer extends React.Component {
   }
 
   convertCoin (value, valueIsFrom) {
-    console.log(this.props.btcEth)
-
     const { fromCoin, btcUnit, ethUnit, btcEth, ethBtc } = this.props
     const conversion = fromCoin === 'BTC'
       ? Exchange.convertBitcoinToEther({ value: value, fromUnit: btcUnit, toUnit: ethUnit, rate: btcEth.rate, reverse: !valueIsFrom })

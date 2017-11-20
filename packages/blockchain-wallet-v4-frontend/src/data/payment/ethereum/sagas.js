@@ -20,7 +20,6 @@ export const initSendEther = function * (action) {
 
 export const sendEther = function * (action) {
   try {
-    console.log('sendEther')
   } catch (e) {
     yield put(actions.alerts.displayError('Could not send ether.'))
   }
@@ -46,7 +45,6 @@ export const transferEther = function * (action) {
     const legacyAccount = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
     const accounts = yield select(selectors.core.kvStore.ethereum.getAccounts)
     const defaultAccount = head(accounts)
-    console.log(legacyAccount)
 
     // const transaction = yield call(sagas.core.data.ethereum.buildTx, { from, to, amount, gasPrice, gasLimit })
     // console.log(transaction)

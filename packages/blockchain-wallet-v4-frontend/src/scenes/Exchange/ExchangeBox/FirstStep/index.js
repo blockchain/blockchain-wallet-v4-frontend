@@ -15,14 +15,13 @@ class FirstStepContainer extends React.Component {
     const sourceCoin = exchangeAccounts && exchangeAccounts.source ? exchangeAccounts.source.coin : 'BTC'
     const targetCoin = exchangeAccounts && exchangeAccounts.target ? exchangeAccounts.target.coin : 'ETH'
     const sourceAmount = exchangeAccounts && exchangeAccounts.source ? exchangeAccounts.source.amount : 0
-    this.onSubmit = this.onSubmit.bind(this)
+    this.handleNext = this.handleNext.bind(this)
     this.state = { sourceCoin, targetCoin, sourceAmount }
   }
 
   componentWillReceiveProps (nextProps) {
-    const { nextExchangeAccounts } = nextProps.exchangeAccounts
-    console.log(nextExchangeAccounts)
-
+    const nextExchangeAccounts = nextProps.exchangeAccounts
+    console.log('Next exchange accounts', nextExchangeAccounts)
     if (nextExchangeAccounts) {
       if (!equals(this.props.exchangeAccounts, nextExchangeAccounts)) {
         this.setState({
@@ -36,8 +35,10 @@ class FirstStepContainer extends React.Component {
     }
   }
 
-  onSubmit () {
+  handleNext () {
+    console.log('Submitting step 1')
     // Make request to shapeShift to create order
+    console.log(this.state)
     const { sourceCoin, targetCoin, sourceAmount, sourceAddress, targetAddress } = this.state
     const pair = toLower(sourceCoin + '_' + targetCoin)
     this.props.shapeShiftActions.createOrder({
@@ -52,14 +53,12 @@ class FirstStepContainer extends React.Component {
   render () {
     const { exchangeAccounts, ...rest } = this.props
 
-    console.log(exchangeAccounts)
-    console.log(this.state.sourceAmount)
-
     return (
       <FirstStep
         sourceCoin={this.state.sourceCoin}
         targetCoin={this.state.targetCoin}
         sourceAmount={this.state.amount}
+        handleNext={this.handleNext}
         {...rest} />
     )
   }
@@ -70,7 +69,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  shapeShiftActions: bindActionCreators(actions.shapeShift, dispatch)
+  shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)

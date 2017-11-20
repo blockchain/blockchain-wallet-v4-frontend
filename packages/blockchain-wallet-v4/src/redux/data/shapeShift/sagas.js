@@ -12,8 +12,8 @@ export const shapeShift = ({ api } = {}) => {
     yield put(A.setEthBtc(response))
   }
 
-  const createOrder = function * () {
-    const response = yield call(api.createOrder)
+  const createOrder = function * (action) {
+    const response = yield call(api.createOrder, action.payload)
     yield put(A.setOrder(response))
   }
 
