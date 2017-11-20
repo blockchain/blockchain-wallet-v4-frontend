@@ -31,7 +31,7 @@ export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
 
   // Get and post requests
   const get = ({ endPoint }) => request('GET', endPoint, {})
-  const post = ({ endpoint, ...data }) => request('POST', endpoint, data)
+  const post = ({ endPoint, ...data }) => request('POST', endPoint, data)
 
   const getBtcEth = () => get({
     endPoint: `marketinfo/btc_eth`

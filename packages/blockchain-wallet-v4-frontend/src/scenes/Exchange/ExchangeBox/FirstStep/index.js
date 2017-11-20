@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { equals, toLower } from 'ramda'
+import { equals } from 'ramda'
 import { actions } from 'data'
 
 import FirstStep from './template.js'
@@ -21,14 +21,11 @@ class FirstStepContainer extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     const nextExchangeAccounts = nextProps.exchangeAccounts
-    console.log('Next exchange accounts', nextExchangeAccounts)
     if (nextExchangeAccounts) {
       if (!equals(this.props.exchangeAccounts, nextExchangeAccounts)) {
         this.setState({
           sourceCoin: nextExchangeAccounts.source.coin,
           targetCoin: nextExchangeAccounts.target.coin,
-          sourceAddress: nextExchangeAccounts.source.coin === 'ETH' ? nextExchangeAccounts.source.address : nextExchangeAccounts.source.xpub,
-          targetAddress: nextExchangeAccounts.target.coin === 'ETH' ? nextExchangeAccounts.target.address : nextExchangeAccounts.target.xpub,
           sourceAmount: nextExchangeAccounts.source.amount
         })
       }
@@ -36,17 +33,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleNext () {
-    console.log('Submitting step 1')
-    // Make request to shapeShift to create order
-    console.log(this.state)
-    const { sourceCoin, targetCoin, sourceAmount, sourceAddress, targetAddress } = this.state
-    const pair = toLower(sourceCoin + '_' + targetCoin)
-    this.props.shapeShiftActions.createOrder({
-      depositAmount: sourceAmount,
-      pair,
-      returnAddress: sourceAddress,
-      withdrawal: targetAddress
-    })
+    console.log(this.props)
     this.props.nextStep()
   }
 
