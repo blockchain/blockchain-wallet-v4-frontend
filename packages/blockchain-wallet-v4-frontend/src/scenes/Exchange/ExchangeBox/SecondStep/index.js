@@ -1,9 +1,9 @@
 import React from 'react'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import { compose } from 'redux'
 // import ui from 'redux-ui'
 import { take, map, sortBy, prop, range } from 'ramda'
-// import { actions, selectors } from 'data'
+import { actions, selectors } from 'data'
 import SecondStep from './template.js'
 
 class SecondStepContainer extends React.Component {
@@ -25,8 +25,12 @@ class SecondStepContainer extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  order: selectors.core.data.shapeShift.getOrder(state)
+})
+
 // const mapDispatchToProps = (dispatch) => ({
 //   walletActions: bindActionCreators(actions.wallet, dispatch)
 // })
 
-export default SecondStepContainer
+export default connect(mapStateToProps)(SecondStepContainer)
