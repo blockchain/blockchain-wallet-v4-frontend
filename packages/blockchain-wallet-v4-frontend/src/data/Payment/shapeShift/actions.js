@@ -1,2 +1,2 @@
 import * as AT from './actionTypes'
-export const createOrder = (payload) => ({ type: AT.CREATE_ORDER, payload })
+export const createOrder = ({ depositAmount, pair, returnAddress, withdrawal }) => ({ type: AT.CREATE_ORDER, payload: { depositAmount, pair, returnAddress, withdrawal } })

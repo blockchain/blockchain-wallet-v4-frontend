@@ -7,7 +7,7 @@ export const createOrder = function * (action) {
   try {
     yield call(sagas.core.data.shapeShift.createOrder, action.payload)
   } catch (e) {
-    yield put(actions.alerts.displayError('Could not create shapeShift order.'))
+    yield put(actions.alerts.displayError('Cannot create shapeShift order'))
   }
 }
 

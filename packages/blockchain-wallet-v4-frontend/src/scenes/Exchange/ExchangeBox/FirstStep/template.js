@@ -97,4 +97,4 @@ const FirstStep = (props) => {
   )
 }
 
-export default reduxForm({ form: 'exchange' })(FirstStep)
+export default reduxForm({ form: 'exchange', destroyOnUnmount: false })(FirstStep)
