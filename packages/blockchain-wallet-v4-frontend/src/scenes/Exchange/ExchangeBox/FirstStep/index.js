@@ -13,6 +13,7 @@ class FirstStepContainer extends React.Component {
     const sourceCoin = exchangeAccounts && exchangeAccounts.source ? exchangeAccounts.source.coin : 'BTC'
     const targetCoin = exchangeAccounts && exchangeAccounts.target ? exchangeAccounts.target.coin : 'ETH'
     const sourceAmount = exchangeAccounts && exchangeAccounts.source ? exchangeAccounts.source.amount : 0
+    this.onSubmit = this.onSubmit.bind(this)
     this.state = { sourceCoin, targetCoin, sourceAmount }
   }
 
@@ -30,6 +31,11 @@ class FirstStepContainer extends React.Component {
         })
       }
     }
+  }
+
+  onSubmit () {
+    // Make request to shapeShift to create order
+    this.props.nextStep()
   }
 
   render () {
@@ -50,7 +56,6 @@ class FirstStepContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   exchangeAccounts: formValueSelector('exchange')(state, 'accounts')
-
 })
 
 export default connect(mapStateToProps)(FirstStepContainer)

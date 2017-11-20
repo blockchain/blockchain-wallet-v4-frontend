@@ -12,8 +12,14 @@ export const shapeShift = ({ api } = {}) => {
     yield put(A.setEthBtc(response))
   }
 
+  const createOrder = function * () {
+    const response = yield call(api.createOrder)
+    yield put(A.setOrder(response))
+  }
+
   return {
     fetchBtcEth,
-    fetchEthBtc
+    fetchEthBtc,
+    createOrder
   }
 }

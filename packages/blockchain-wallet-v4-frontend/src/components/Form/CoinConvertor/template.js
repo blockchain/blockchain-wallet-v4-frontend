@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Icon, Link, TextInput, Text } from 'blockchain-info-components'
-import CurrencyDisplay from 'components/CurrencyDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const Container = styled.div`
   justify-content: flex-start;
 `
 
-const FiatDisplay = styled(Text)`
+const FiatText = styled(Text)`
   padding-left: 10px;
 `
 
@@ -83,11 +83,11 @@ const CoinConvertor = (props) => {
             <Unit>{fromCoin === 'BTC' ? btcUnit : ethUnit}</Unit>
           </Row>
           <OutputRow>
-            <FiatDisplay weight={300} size='14px'>
-              <CurrencyDisplay coin='BTC' unit='BTC' currency={currency} bitcoinRates={bitcoinRates}>
+            <FiatText weight={300} size='14px'>
+              <FiatDisplay coin='BTC' unit='BTC' currency={currency} bitcoinRates={bitcoinRates}>
                 {value}
-              </CurrencyDisplay>
-            </FiatDisplay>
+              </FiatDisplay>
+            </FiatText>
           </OutputRow>
         </Container>
         <ArrowRight size='12px' name='right-arrow' />
@@ -97,11 +97,11 @@ const CoinConvertor = (props) => {
             <Unit>{toCoin === 'BTC' ? btcUnit : ethUnit}</Unit>
           </Row>
           <OutputRow>
-            <FiatDisplay weight={300} size='14px'>
-              <CurrencyDisplay coin='ETH' unit='ETH' currency={currency} ethereumRates={ethereumRates}>
+            <FiatText weight={300} size='14px'>
+              <FiatDisplay coin='ETH' unit='ETH' currency={currency} ethereumRates={ethereumRates}>
                 {toValue}
-              </CurrencyDisplay>
-            </FiatDisplay>
+              </FiatDisplay>
+            </FiatText>
           </OutputRow>
         </Container>
       </CoinConvertorContainer>

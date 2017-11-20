@@ -3,7 +3,8 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   btc_eth: {},
-  eth_btc: {}
+  eth_btc: {},
+  order: {}
 }
 
 const shapeShiftReducer = (state = INITIAL_STATE, action) => {
@@ -15,6 +16,9 @@ const shapeShiftReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_ETH_BTC: {
       return assoc('eth_btc', payload, state)
+    }
+    case AT.SET_ORDER: {
+      return assoc('order', payload, state)
     }
     default:
       return state
