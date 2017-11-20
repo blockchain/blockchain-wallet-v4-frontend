@@ -10,59 +10,64 @@ const Wrapper = styled.section`
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
+  padding: 30px;
+  box-sizing: border-box;
 
   @media(min-width: 992px) { flex-direction: row; }
 `
 const Column = styled.div`
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
-  padding: 30px 0;
-  box-sizing: border-box;
 `
 const ColumnLeft = styled(Column)`
-  padding: 30px;
-  @media(min-width: 992px) { padding: 30px 5px 30px 30px; }
+  align-items: flex-end;
+  order: 2;
+  margin-right: 10px;
+
+  & > :first-child { margin-bottom: 10px; }
+  @media(min-width: 992px) {
+    order: 1;
+    width: 60%;
+  }
 `
 const ColumnRight = styled(Column)`
-  padding: 30px;
-  @media(min-width: 992px) { padding: 30px 30px 30px 5px; }
-`
-// const ExchangeBox = styled.div`
-//   height: 300px;
-//   border: 1px solid black;
-// `
+  order: 1;
+  padding: 0;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 
-const HelpLink = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding-top: 5px;
+  @media(min-width: 992px) {
+    order: 2;
+    width: 40%;
+    padding: 0 30px 20px 30px;
+  }
 `
-
 const Exchange = () => {
   return (
     <Wrapper>
       <ColumnLeft>
         <ExchangeBox>
-          Exchange details
+          <FormattedMessage id='scenes.Exchange details' defaultMessage='Exchange details' />
         </ExchangeBox>
-        <HelpLink>
+        <TextGroup inline>
           <Text weight={300} size='13px'>
             <FormattedMessage id='scenes.exchange.simple' defaultMessage='Need help?' />
           </Text>
           <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='13px' weight={300}>
-            <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.learnmore' defaultMessage='Contact Support' />
+            <FormattedMessage id='scenes.exchange.support' defaultMessage='Contact Support' />
           </Link>
-        </HelpLink>
+        </TextGroup>
       </ColumnLeft>
       <ColumnRight>
         <TextGroup>
-          <Text color='brand-primary' weight={600} size='18px'>
+          <Text size='18px' weight={600} color='brand-primary' >
             <FormattedMessage id='scenes.exchange.simple' defaultMessage='Simple. Seamless. Secure.' />
           </Text>
-          <Text weight={300} size='16px'>
-            <FormattedMessage id='scenes.exchange.text' defaultMessage='You can now exchange your bitcoin for ether and vice versa directly from your Blockchain wallet. In a few simple steps, your exchange will be in progress. Note: exchanges usually take between twenty minutes and two hours.' />
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='scenes.exchange.summary' defaultMessage='You can now exchange your bitcoin for ether and vice versa directly from your Blockchain wallet. In a few simple steps, your exchange will be in progress. Note: exchanges usually take between twenty minutes and two hours.' />
           </Text>
         </TextGroup>
       </ColumnRight>

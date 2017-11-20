@@ -124,15 +124,14 @@ SelectInput.propTypes = {
     text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
   })).isRequired,
-  input: PropTypes.shape({
-    onBlur: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
-  }).isRequired,
-  label: PropTypes.string,
+  display: PropTypes.string,
+  expanded: PropTypes.bool,
   searchEnabled: PropTypes.bool,
-  opened: PropTypes.bool
+  opened: PropTypes.bool,
+  handleBlur: PropTypes.func,
+  handleChange: PropTypes.func,
+  handleClick: PropTypes.func,
+  handleFocus: PropTypes.func
 }
 
 export default SelectInput

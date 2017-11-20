@@ -7,7 +7,6 @@ import { equals } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { isBitcoinFiatAvailable, isEthereumFiatAvailable } from 'services/ValidationHelper'
 import FiatConvertor from './template.js'
-import { TextBox } from 'components/Form'
 
 class FiatConvertorContainer extends React.Component {
   constructor (props) {
