@@ -33,7 +33,6 @@ class FirstStepContainer extends React.Component {
   }
 
   handleNext () {
-    console.log(this.props)
     this.props.nextStep()
   }
 

@@ -59,7 +59,7 @@ const RecapTable = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { previousStep, position, total, close, submitting, invalid, ...rest } = props
+  const { previousStep, position, total, close, submitting, invalid, sourceCoin, targetCoin, sourceAddress, targetAddress, sourceAmount, ...rest } = props
   const { onSubmit } = rest
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
@@ -76,7 +76,7 @@ const SecondStep = (props) => {
         </Header>
         <Body>
           <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.exchange.exchangebox.secondstep.recap' defaultMessage='x BTC will be sent directly from Mon portefeuille bitcoin and exchanged for y ETH to be deposited into My Ether Wallet. The process can take up to two hours and you can keep track of your Exchange progress in the Order History tab.' />
+            <FormattedMessage id='scenes.exchange.exchangebox.secondstep.recap' defaultMessage='Review the details below and click &apos;Confirm&apos; to begin your exchange. The exchanged funds will be deposited directly into TARGET ACCOUNT NAME' />
           </Text>
           <ExpiryText size='13px' weight={300}>
             <FormattedMessage id='scenes.exchange.exchangebox.secondstep.expiry' defaultMessage='Quote expires in: TIME' />
@@ -87,26 +87,10 @@ const SecondStep = (props) => {
           <RecapTable>
             <RecapTableRow>
               <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.todeposit' defaultMessage='Bitcoin to deposit:' />
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.todeposit' defaultMessage={`${sourceCoin} to deposit:`} />
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin='BTC'>{100000000}</CoinDisplay>
-              </AmountText>
-            </RecapTableRow>
-            <RecapTableRow>
-              <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.tobereceived' defaultMessage='Ether to be received:' />
-              </Text>
-              <AmountText weight={300}>
-                <CoinDisplay coin='ETH'>{255000000000}</CoinDisplay>
-              </AmountText>
-            </RecapTableRow>
-            <RecapTableRow>
-              <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.rate' defaultMessage='Exchange rate:' />
-              </Text>
-              <AmountText weight={300}>
-                <CoinDisplay coin='BTC'>{100000000}</CoinDisplay>=<CoinDisplay coin='ETH'>{255000000000}</CoinDisplay>
+                <CoinDisplay coin={sourceCoin}>{sourceAmount}</CoinDisplay>
               </AmountText>
             </RecapTableRow>
             <RecapTableRow>
@@ -114,15 +98,48 @@ const SecondStep = (props) => {
                 <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfee' defaultMessage='Transaction fee:' />
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin='BTC'>{610200}</CoinDisplay>
+                <CoinDisplay coin={sourceCoin}>{610200}</CoinDisplay>
+              </AmountText>
+              <Tooltip>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfeeexplanation' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
+              </Tooltip>
+            </RecapTableRow>
+            <RecapTableRow>
+              <Text weight={400}>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.leaving' defaultMessage={`Total ${sourceCoin} leaving the wallet:`} />
+              </Text>
+              <AmountText weight={300}>
+                <CoinDisplay coin={0}>{sourceAmount}</CoinDisplay>
               </AmountText>
             </RecapTableRow>
             <RecapTableRow>
               <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.shapeshiftfee' defaultMessage='ShapeShift withdrawal fee:' />
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.rate' defaultMessage='Exchange rate:' />
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin='ETH'>{100000000}</CoinDisplay>
+                <CoinDisplay coin={sourceCoin}>{sourceAmount}</CoinDisplay>=<CoinDisplay coin={targetCoin}>{0}</CoinDisplay>
+              </AmountText>
+              <Tooltip>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.ratetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
+              </Tooltip>
+            </RecapTableRow>
+            <RecapTableRow>
+              <Text weight={400}>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.networkfee' defaultMessage='Network transaction fee:' />
+              </Text>
+              <AmountText weight={300}>
+                <CoinDisplay coin={targetCoin}>{100000000}</CoinDisplay>
+              </AmountText>
+              <Tooltip>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.networkfeetooltip' defaultMessage='ShapeShift will use this fee to send the incoming exchange funds to your wallet.' />
+              </Tooltip>
+            </RecapTableRow>
+            <RecapTableRow>
+              <Text weight={400}>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.tobereceived' defaultMessage={`${targetCoin} to be received:`} />
+              </Text>
+              <AmountText weight={300}>
+                <CoinDisplay coin={targetCoin}>{0}</CoinDisplay>
               </AmountText>
             </RecapTableRow>
           </RecapTable>

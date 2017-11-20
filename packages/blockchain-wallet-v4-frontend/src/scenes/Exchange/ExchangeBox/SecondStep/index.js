@@ -15,7 +15,6 @@ class SecondStepContainer extends React.Component {
 
   componentWillMount () {
     // Make request to shapeShift to create order
-    console.log(this.props)
     const { source, target } = this.props.exchangeAccounts
     const sourceCoin = source.coin
     const targetCoin = target.coin
@@ -43,10 +42,21 @@ class SecondStepContainer extends React.Component {
   }
 
   render () {
-    const { ...rest } = this.props
+    const { exchangeAccounts, ...rest } = this.props
+    const { source, target } = exchangeAccounts
+    const sourceAddress = source.address || source.xpub
+    const targetAddress = target.address || target.xpub
 
     return (
-      <SecondStep {...rest} onSubmit={this.onSubmit} />
+      <SecondStep
+        {...rest}
+        sourceAddress={sourceAddress}
+        targetAddress={targetAddress}
+        sourceAmount={this.props.amount}
+        sourceCoin={source.coin}
+        targetCoin={target.coin}
+        onSubmit={this.onSubmit}
+        source />
     )
   }
 }
