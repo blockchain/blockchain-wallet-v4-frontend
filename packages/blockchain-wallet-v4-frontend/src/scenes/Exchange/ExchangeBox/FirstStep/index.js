@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { equals } from 'ramda'
+import { equals, toLower } from 'ramda'
+import { actions } from 'data'
 
 import FirstStep from './template.js'
 
@@ -27,6 +29,7 @@ class FirstStepContainer extends React.Component {
           sourceCoin: nextExchangeAccounts.source.coin,
           targetCoin: nextExchangeAccounts.target.coin,
           sourceAddress: nextExchangeAccounts.source.coin === 'ETH' ? nextExchangeAccounts.source.address : nextExchangeAccounts.source.xpub,
+          targetAddress: nextExchangeAccounts.target.coin === 'ETH' ? nextExchangeAccounts.target.address : nextExchangeAccounts.target.xpub,
           sourceAmount: nextExchangeAccounts.source.amount
         })
       }
@@ -35,6 +38,14 @@ class FirstStepContainer extends React.Component {
 
   onSubmit () {
     // Make request to shapeShift to create order
+    const { sourceCoin, targetCoin, sourceAmount, sourceAddress, targetAddress } = this.state
+    const pair = toLower(sourceCoin + '_' + targetCoin)
+    this.props.shapeShiftActions.createOrder({
+      depositAmount: sourceAmount,
+      pair,
+      returnAddress: sourceAddress,
+      withdrawal: targetAddress
+    })
     this.props.nextStep()
   }
 
@@ -58,4 +69,8 @@ const mapStateToProps = (state) => ({
   exchangeAccounts: formValueSelector('exchange')(state, 'accounts')
 })
 
-export default connect(mapStateToProps)(FirstStepContainer)
+const mapDispatchToProps = (dispatch) => ({
+  shapeShiftActions: bindActionCreators(actions.shapeShift, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
