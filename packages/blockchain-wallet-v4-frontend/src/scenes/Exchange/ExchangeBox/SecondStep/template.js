@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Button, Link, Text, Tooltip } from 'blockchain-info-components'
 import { CheckBox, Form } from 'components/Form'
 import Terms from 'components/Terms'
-import CoinDisplay from 'components/CoinDisplay'
+import CoinDisplay from 'components/Display/CoinDisplay'
 
 const Wrapper = styled.div`
   border: 1px solid black;

@@ -10,7 +10,7 @@ export { CheckBoxInput, DateInput, NumberInput, PasswordInput, PlaceHolder, Sele
 export { Icon } from './Icons'
 export { Background, Image } from './Images'
 export { Link } from './Links'
-export { BlockchainLoader, Loader } from './Loaders'
+export { BlockchainLoader, FlatLoader, FlatLoader2, HeartbeatLoader } from './Loaders'
 export { TabMenu, TabMenuItem } from './Menus'
 export { Modal, ModalHeader, ModalBody, ModalFooter } from './Modals'
 export { Separator } from './Separators'

@@ -6,7 +6,6 @@ import MobileNumberVerify from './MobileNumberVerify'
 import MobileLogin from './MobileLogin'
 import PairingCode from './PairingCode'
 import QRCode from './QRCode'
-import QRCodeCapture from './QRCodeCapture'
 import RecoveryPhrase from './RecoveryPhrase'
 import RequestBitcoin from './RequestBitcoin'
 import RequestEther from './RequestEther'
@@ -14,6 +13,7 @@ import SecondPassword from './SecondPassword'
 import SendBitcoin from './SendBitcoin'
 import SendEther from './SendEther'
 import TransactionReport from './TransactionReport'
+import TransferEther from './TransferEther'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepSetup from './TwoStepSetup'
 import TwoStepYubico from './TwoStepYubico'
@@ -28,7 +28,6 @@ const Modals = props => (
     <MobileLogin />
     <PairingCode />
     <QRCode />
-    <QRCodeCapture />
     <RecoveryPhrase />
     <RequestBitcoin />
     <RequestEther />
@@ -36,6 +35,7 @@ const Modals = props => (
     <SendBitcoin />
     <SendEther />
     <TransactionReport />
+    <TransferEther />
     <TwoStepGoogleAuthenticator />
     <TwoStepSetup />
     <TwoStepYubico />

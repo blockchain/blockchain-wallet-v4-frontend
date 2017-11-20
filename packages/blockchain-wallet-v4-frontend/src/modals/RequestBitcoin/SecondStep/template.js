@@ -7,8 +7,8 @@ import CopyToClipBoard from 'react-copy-to-clipboard'
 
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
-import CoinDisplay from 'components/CoinDisplay'
-import CurrencyDisplay from 'components/CurrencyDisplay'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 const Container = styled.div`
   display: flex;
@@ -51,7 +51,7 @@ const SecondStep = (props) => {
               <CoinDisplay coin='BTC'>{satoshis}</CoinDisplay>
             </Text>
             <Text size='20px' weight={600} color='transferred'>
-              <CurrencyDisplay>{satoshis}</CurrencyDisplay>
+              <FiatDisplay>{satoshis}</FiatDisplay>
             </Text>
             <Text size='16px'>{message}</Text>
             <LinkContainer>

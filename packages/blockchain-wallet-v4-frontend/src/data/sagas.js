@@ -2,11 +2,11 @@ import config from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
-import * as auth from './Auth/sagas.js'
-import * as data from './Data/sagas.js'
-import * as payment from './Payment/sagas.js'
-import * as settings from './Settings/sagas.js'
-import * as wallet from './Wallet/sagas.js'
+import * as auth from './auth/sagas.js'
+import * as data from './data/sagas.js'
+import * as payment from './payment/sagas.js'
+import * as settings from './settings/sagas.js'
+import * as wallet from './wallet/sagas.js'
 
 const dataPath = config.WALLET_DATA_PATH
 const settingsPath = config.WALLET_SETTINGS_PATH

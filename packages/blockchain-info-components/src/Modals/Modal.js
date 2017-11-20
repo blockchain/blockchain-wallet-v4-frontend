@@ -14,7 +14,7 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: flex-start;
   background-color: ${props => transparentize(0.5, (props.theme['black']))};
-  z-index: 1400;
+  z-index: 1040;
 
   @media(min-width: 768px) { align-items: center; }
 `

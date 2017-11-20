@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   fee: {},
   info: {},
   latest_block: {},
+  legacy: {},
   rates: {},
   transactions: {}
 }
@@ -19,10 +20,16 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
       return merge(state, payload)
     }
     case AT.SET_ETHEREUM_FEE: {
-      return assoc('fee', payload, state)
+      const { data } = payload
+      return assoc('fee', data, state)
     }
     case AT.SET_ETHEREUM_RATES: {
-      return assoc('rates', payload, state)
+      const { data } = payload
+      return assoc('rates', data, state)
+    }
+    case AT.SET_ETHEREUM_LATEST_BLOCK: {
+      const { data } = payload
+      return assoc('latest_block', data, state)
     }
     default:
       return state

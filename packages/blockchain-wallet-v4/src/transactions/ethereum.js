@@ -1,4 +1,7 @@
 import { contains, map, toLower } from 'ramda'
+import EthereumTx from 'ethereumjs-tx'
+import EthereumUtil from 'ethereumjs-util'
+import EthereumWallet from 'ethereumjs-wallet'
 
 const getType = (tx, addresses) => {
   const lowerAddresses = map(toLower, addresses)
@@ -11,6 +14,31 @@ const getType = (tx, addresses) => {
 }
 
 export const calculateFee = (gasRegular, gasLimit) => `${(gasRegular * gasLimit)}000000000` // Convert gwei => wei
+
+export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, network = 1) => {
+  try {
+    let tx = new EthereumTx(null, network)
+    tx.nonce = fromAccount.nonce
+    console.log(tx)
+    // let feeBN = 
+
+    // return {
+    //   account: account.addr,
+    //   _tx: ,
+    //   _fee: '',
+    //   _amount: '',
+    //   _available: ''
+    // }
+  }
+  catch (e) {
+    console.log(e)
+  }
+  return tx
+}
+
+export const signTx = (transaction, ptrivateKey) => {
+
+}
 
 export const transformTx = (addresses, tx) => ({
   type: getType(tx, addresses),

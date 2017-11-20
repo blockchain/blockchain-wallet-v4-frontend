@@ -19,9 +19,9 @@ class MenuTopContainer extends React.Component {
 
   openSend () {
     if (this.props.router.location.pathname === '/eth/transactions') {
-      this.props.paymentActions.initSendEther()
+      this.props.paymentEthereumActions.initSendEther()
     } else {
-      this.props.paymentActions.initSendBitcoin()
+      this.props.paymentBitcoinActions.initSendBitcoin()
     }
   }
 
@@ -42,12 +42,7 @@ class MenuTopContainer extends React.Component {
   }
 }
 
-MenuTopContainer.defaultProps = {
-  balance: 0
-}
-
 const mapStateToProps = (state) => ({
-  coinDisplayed: selectors.preferences.getCoinDisplayed(state),
   bitcoinBalance: selectors.core.data.bitcoin.getBalance(state),
   etherBalance: selectors.core.data.ethereum.getBalance(state),
   router: state.router
@@ -55,7 +50,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentActions: bindActionCreators(actions.payment, dispatch),
+  paymentBitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch),
+  paymentEthereumActions: bindActionCreators(actions.payment.ethereum, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
