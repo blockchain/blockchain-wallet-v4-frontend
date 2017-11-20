@@ -23,3 +23,5 @@ export const getEthBtcMinimum = path(['shapeShift', 'eth_btc', 'minimum'])
 export const getBtcEthRate = path(['shapeShift', 'btc_eth', 'rate'])
 
 export const getEthBtcRate = path(['shapeShift', 'eth_btc', 'rate'])
+
+export const getOrder = path(['shapeShift', 'order'])

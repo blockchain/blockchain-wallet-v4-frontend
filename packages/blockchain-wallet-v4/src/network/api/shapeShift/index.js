@@ -1,4 +1,4 @@
-export default ({ shapeShiftRootUrl }) => {
+export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
   // checkStatus :: Response -> Promise Response
   const checkStatus = (r) => r.ok ? Promise.resolve(r) : r.text().then(j => Promise.reject(j))
 
@@ -29,8 +29,9 @@ export default ({ shapeShiftRootUrl }) => {
     return fetch(url, options).then(checkStatus).then(extractData)
   }
 
-  // Get request
+  // Get and post requests
   const get = ({ endPoint }) => request('GET', endPoint, {})
+  const post = ({ endpoint, ...data }) => request('POST', endpoint, data)
 
   const getBtcEth = () => get({
     endPoint: `marketinfo/btc_eth`
@@ -40,8 +41,13 @@ export default ({ shapeShiftRootUrl }) => {
     endPoint: `marketinfo/eth_btc`
   })
 
+  const createOrder = ({ depositAmount, pair, returnAddress, withdrawal }) => post({
+    endPoint: 'sendamount', apiKey: shapeShiftApiKey, depositAmount, pair, returnAddress, withdrawal
+  })
+
   return {
     getBtcEth,
-    getEthBtc
+    getEthBtc,
+    createOrder
   }
 }

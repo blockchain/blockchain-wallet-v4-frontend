@@ -53,7 +53,7 @@ const Footer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { btcEth, ethBtc, sourceCoin, targetCoin, sourceAmount, nextStep, invalid } = props
+  const { btcEth, ethBtc, sourceCoin, targetCoin, sourceAmount, onSubmit, invalid } = props
 
   console.log(sourceCoin, targetCoin)
 
@@ -91,7 +91,7 @@ const FirstStep = (props) => {
         </Row>
       </Body>
       <Footer>
-        <Button nature='primary' fullwidth disabled={invalid} onClick={nextStep}>
+        <Button nature='primary' fullwidth disabled={invalid} onClick={onSubmit}>
           <FormattedMessage id='scenes.exchange.exchangebox.firststep.logout' defaultMessage='Next step' />
         </Button>
       </Footer>

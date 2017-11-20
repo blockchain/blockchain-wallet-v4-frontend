@@ -13,8 +13,9 @@ export const API_BLOCKCHAIN_INFO = 'https://api.blockchain.info/'
 export const API_CODE = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
 export const SHAPESHIFT_IO = 'https://shapeshift.io/'
+export const SHAPESHIFT_API_KEY = 'b7a7c320c19ea3a8e276c8921bc3ff79ec064d2cd9d98ab969acc648246b4be5ab2379af704c5d3a3021c0ddf82b3e479590718847c1301e1a85331d2d2a8370'
 
-export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCode = API_CODE, shapeShiftRootUrl = SHAPESHIFT_IO } = {}) => {
+export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCode = API_CODE, shapeShiftRootUrl = SHAPESHIFT_IO, shapeShiftApiKey = SHAPESHIFT_API_KEY } = {}) => {
   const { get, post } = fetchService({ apiCode })
 
   return {
@@ -24,7 +25,7 @@ export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCo
     ...misc({ rootUrl, apiUrl, get, post }),
     ...options({ rootUrl, apiUrl, get, post }),
     ...settings({ rootUrl, apiUrl, get, post }),
-    ...shapeShift({ shapeShiftRootUrl }),
+    ...shapeShift({ shapeShiftRootUrl, shapeShiftApiKey }),
     ...wallet({ rootUrl, apiUrl, get, post })
   }
 }
