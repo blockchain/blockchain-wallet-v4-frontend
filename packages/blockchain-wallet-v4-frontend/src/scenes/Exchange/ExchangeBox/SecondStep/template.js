@@ -90,7 +90,7 @@ const SecondStep = (props) => {
                 <FormattedMessage id='scenes.exchange.exchangebox.secondstep.todeposit' defaultMessage={`${sourceCoin} to deposit:`} />
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin={sourceCoin}>{sourceAmount}</CoinDisplay>
+                <CoinDisplay coin={sourceCoin}>{sourceAmount * 10000000000000000000}</CoinDisplay>
               </AmountText>
             </RecapTableRow>
             <RecapTableRow>

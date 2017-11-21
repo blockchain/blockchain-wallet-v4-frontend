@@ -1,17 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
-
 import { connect } from 'react-redux'
+import { equals } from 'ramda'
+
 import { selectors } from 'data'
-import { and, equals } from 'ramda'
-
 import Exchange from './template.js'
-import MenuTop from './MenuTop'
 import StateSelect from './StateSelect'
-
-const Wrapper = styled.div`
-  width: 100%;
-`
 
 class ExchangeContainer extends React.Component {
   constructor (props) {
@@ -26,14 +19,9 @@ class ExchangeContainer extends React.Component {
   }
 
   render () {
-    const renderStep = country => and(equals(country, 'US'), !this.state.storedState) ? <StateSelect handleNextStep={this.onHandleNextStep} /> : <Exchange />
-
-    return (
-      <Wrapper>
-        <MenuTop />
-        { renderStep(this.props.countryCode) }
-      </Wrapper>
-    )
+    return equals(this.props.countryCode, 'US') && !this.state.storedState
+      ? <StateSelect handleNextStep={this.onHandleNextStep} />
+      : <Exchange />
   }
 }
 
