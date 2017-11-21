@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { assoc, assocPath, concat, map } from 'ramda'
+import { assoc, concat, compose, equals, filter, groupBy, head, map, mapObjIndexed, path, prop, values } from 'ramda'
 import { selectors } from 'data'
 import { Icon } from 'blockchain-info-components'
 
@@ -9,16 +9,16 @@ import SelectBoxesAccounts from './template.js'
 class SelectBoxesAccountsContainer extends React.Component {
   constructor (props) {
     super(props)
-    const { source, target } = this.props.input.value
-    const { btcAccounts, ethAccounts } = this.props
+    const { accounts, input } = props
+    const { source, target } = input.value
+    const sourceCoin = prop('coin', source) || 'BTC'
+    const targetCoin = prop('coin', target) || 'ETH'
 
     this.state = {
-      source: source || btcAccounts[0].value,
-      target: target || ethAccounts[0].value,
-      allItems: [
-        { group: '', items: btcAccounts },
-        { group: '', items: ethAccounts }
-      ]
+      source,
+      target,
+      sourceItems: generateAccounts(accounts, sourceCoin),
+      targetItems: generateAccounts(accounts, targetCoin)
     }
 
     this.handleSelectSource = this.handleSelectSource.bind(this)
@@ -27,48 +27,36 @@ class SelectBoxesAccountsContainer extends React.Component {
   }
 
   handleSelectSource (value) {
-    const {btcAccounts, ethAccounts} = this.props
-    var newTarget
-    if (value.coin === 'ETH') {
-      if (this.state.target.coin === 'ETH') {
-        newTarget = btcAccounts[0].value
-      }
-    } else {
-      if (this.state.target.coin === 'BTC') {
-        newTarget = ethAccounts[0].value
-      }
-    }
-    this.setState({ source: value, target: newTarget || this.state.target })
-    this.props.input.onChange(this.state)
+    const { accounts } = this.props
+    const target = filterFirstAccount(accounts, value)
+    const newState = { source: value, target }
+    this.setState(newState)
+    this.props.input.onChange(newState)
   }
 
   handleSelectTarget (value) {
-    const { btcAccounts, ethAccounts } = this.props
-    var newSource
-    if (value.coin === 'ETH') {
-      if (this.state.source.coin === 'ETH') {
-        newSource = btcAccounts[0].value
-      }
-    } else {
-      if (this.state.source.coin === 'BTC') {
-        newSource = ethAccounts[0].value
-      }
-    }
-    this.setState({ source: newSource || this.state.source, target: value })
-    this.props.input.onChange(this.state)
+    const { accounts } = this.props
+    const source = filterFirstAccount(accounts, value)
+    const newState = { source, target: value }
+    this.setState(newState)
+    this.props.input.onChange(newState)
   }
 
   handleSwap () {
-    this.setState({ source: this.state.target, target: this.state.source })
-    this.props.input.onChange(this.state)
+    const newState = { source: this.state.target, target: this.state.source }
+    this.setState(newState)
+    this.props.input.onChange(newState)
   }
 
   render () {
+    const { source, target, sourceItems, targetItems } = this.state
+
     return (
       <SelectBoxesAccounts
-        items={this.state.allItems}
-        source={this.state.source}
-        target={this.state.target}
+        source={source}
+        target={target}
+        sourceItems={sourceItems}
+        targetItems={targetItems}
         handleSelectSource={this.handleSelectSource}
         handleSelectTarget={this.handleSelectTarget}
         handleSwap={this.handleSwap}
@@ -78,40 +66,49 @@ class SelectBoxesAccountsContainer extends React.Component {
   }
 }
 
-const transformBitcoinAddress = (address) => {
-  const { title, ...rest } = address
-  return {
-    text: <Icon name='bitcoin' size='14px' weight={300}>{title}</Icon>,
-    value: assoc('coin', 'BTC', rest)
+const transformBitcoin = (data) => ({
+  text: <Icon name='bitcoin' size='14px' weight={300} cursor>{prop('title', data)}</Icon>,
+  value: data
+})
+
+const tranformEthereum = (data) => ({
+  text: <Icon name='ethereum' size='14px' weight={300} cursor>{prop('label', data)}</Icon>,
+  value: data
+})
+
+const transformDisplay = (data) => {
+  switch (data.coin) {
+    case 'BTC': return transformBitcoin(data)
+    case 'ETH': return tranformEthereum(data)
   }
 }
 
-const tranformEthereumAddress = (address, ethBalance) => {
-  return {
-    text: (
-      <Icon name='ethereum' size='14px' weight={300}>
-        {address.label}
-      </Icon>
-    ),
-    value: { coin: 'ETH', address: address.addr, amount: ethBalance }
-  }
+const generateAccounts = (accounts, coinToExclude) => {
+  const transform = compose(
+    values,
+    mapObjIndexed((num, key, obj) => ({ group: key, items: num })),
+    groupBy(a => path(['value', 'coin'], a)),
+    map(a => transformDisplay(a))
+  )
+
+  return transform(accounts)
+}
+
+const filterFirstAccount = (accounts, value) => {
+  return head(filter(a => !equals(prop('coin', a), prop('coin', value)), accounts))
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const coinDisplayed = selectors.preferences.getCoinDisplayed(state)
-  const unit = selectors.core.settings.getBtcUnit(state)
-  const currency = selectors.core.settings.getCurrency(state)
-  const btcHDAddresses = map(x => transformBitcoinAddress(x), selectors.core.common.getAccountsBalances(state))
-  const btcLegacyAddresses = map(x => transformBitcoinAddress(x), selectors.core.common.getAddressesBalances(state))
-  const ethAccounts = map(x => tranformEthereumAddress(x), selectors.core.kvStore.ethereum.getAccounts(state))
-  const ethBalance = selectors.core.data.ethereum.getBalance(state)
+  const bitcoinHdAccounts = selectors.core.common.getAccountsBalances(state)
+  const bitcoinLegacyAddresses = selectors.core.common.getAddressesBalances(state)
+  const bitcoinAccounts = map(a => assoc('coin', 'BTC', a), concat(bitcoinHdAccounts, bitcoinLegacyAddresses))
+  const ethereumAccounts = map(a => assoc('coin', 'ETH', a), selectors.core.kvStore.ethereum.getAccounts(state))
 
   return {
-    btcAccounts: concat(btcHDAddresses, btcLegacyAddresses),
-    ethAccounts: map(x => assocPath(['value', 'amount'], ethBalance, x), ethAccounts),
-    unit,
-    currency,
-    coinDisplayed
+    coinDisplayed: selectors.preferences.getCoinDisplayed(state),
+    unit: selectors.core.settings.getBtcUnit(state),
+    currency: selectors.core.settings.getCurrency(state),
+    accounts: concat(bitcoinAccounts, ethereumAccounts)
   }
 }
 
