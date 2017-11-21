@@ -125,7 +125,7 @@ SelectInput.propTypes = {
     text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
   })).isRequired,
-  display: PropTypes.string,
+  display: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   expanded: PropTypes.bool,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
