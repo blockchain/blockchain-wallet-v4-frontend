@@ -15,13 +15,15 @@ class SecondStepContainer extends React.Component {
 
   componentWillMount () {
     // Make request to shapeShift to create order
+    console.log(this.props.exchangeAccounts)
     const { source, target } = this.props.exchangeAccounts
     const sourceCoin = source.coin
     const targetCoin = target.coin
     const pair = toLower(sourceCoin + '_' + targetCoin)
 
     const sourceAddress = source.address || source.xpub
-    const targetAddress = source.address || source.xpub
+    const targetAddress = target.address || target.xpub
+    console.log(this.props.amount)
     console.log({
       depositAmount: this.props.amount,
       pair,
@@ -42,20 +44,27 @@ class SecondStepContainer extends React.Component {
   }
 
   render () {
-    const { exchangeAccounts, ...rest } = this.props
+    const { exchangeAccounts, amount, ...rest } = this.props
     const { source, target } = exchangeAccounts
     const sourceAddress = source.address || source.xpub
     const targetAddress = target.address || target.xpub
+    const { minerFee, quotedRate } = this.props.order
+    const txFee = 0 // To be computed
+    const received = amount * quotedRate - txFee
 
     return (
       <SecondStep
         {...rest}
         sourceAddress={sourceAddress}
         targetAddress={targetAddress}
-        sourceAmount={this.props.amount}
+        sourceAmount={amount}
         sourceCoin={source.coin}
         targetCoin={target.coin}
         onSubmit={this.onSubmit}
+        minerFee={minerFee}
+        txFee={txFee}
+        rate={quotedRate}
+        received={received}
         source />
     )
   }

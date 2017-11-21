@@ -84,7 +84,7 @@ const FirstStep = (props) => {
           <Field name='amount' component={CoinConvertor} validate={[required]} sourceCoin={sourceCoin} targetCoin={targetCoin} sourceAmount={sourceAmount} />
         </Row>
         <Row>
-          <Button nature='primary' fullwidth disabled={invalid} onClick={handleNext}>
+          <Button nature='primary' fullwidth disabled={false} onClick={handleNext}>
             <FormattedMessage id='scenes.exchange.exchangebox.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>

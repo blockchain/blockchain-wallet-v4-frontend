@@ -59,7 +59,7 @@ const RecapTable = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { previousStep, position, total, close, submitting, invalid, sourceCoin, targetCoin, sourceAddress, targetAddress, sourceAmount, ...rest } = props
+  const { previousStep, position, total, close, submitting, invalid, sourceCoin, targetCoin, sourceAddress, targetAddress, sourceAmount, minerFee, txFee, rate, received, ...rest } = props
   const { onSubmit } = rest
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
@@ -96,50 +96,50 @@ const SecondStep = (props) => {
             <RecapTableRow>
               <Text weight={400}>
                 <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfee' defaultMessage='Transaction fee:' />
+                <Tooltip>
+                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfeeexplanation' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
+                </Tooltip>
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin={sourceCoin}>{610200}</CoinDisplay>
+                <CoinDisplay coin={sourceCoin}>{txFee}</CoinDisplay>
               </AmountText>
-              <Tooltip>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfeeexplanation' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
-              </Tooltip>
             </RecapTableRow>
             <RecapTableRow>
               <Text weight={400}>
                 <FormattedMessage id='scenes.exchange.exchangebox.secondstep.leaving' defaultMessage={`Total ${sourceCoin} leaving the wallet:`} />
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin={0}>{sourceAmount}</CoinDisplay>
+                <CoinDisplay coin={sourceCoin}>{sourceAmount + txFee}</CoinDisplay>
               </AmountText>
             </RecapTableRow>
             <RecapTableRow>
               <Text weight={400}>
                 <FormattedMessage id='scenes.exchange.exchangebox.secondstep.rate' defaultMessage='Exchange rate:' />
+                <Tooltip>
+                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.ratetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
+                </Tooltip>
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin={sourceCoin}>{sourceAmount}</CoinDisplay>=<CoinDisplay coin={targetCoin}>{0}</CoinDisplay>
+                <CoinDisplay coin={sourceCoin}>{1}</CoinDisplay>=<CoinDisplay coin={targetCoin}>{rate}</CoinDisplay>
               </AmountText>
-              <Tooltip>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.ratetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
-              </Tooltip>
             </RecapTableRow>
             <RecapTableRow>
               <Text weight={400}>
                 <FormattedMessage id='scenes.exchange.exchangebox.secondstep.networkfee' defaultMessage='Network transaction fee:' />
+                <Tooltip>
+                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.networkfeetooltip' defaultMessage='ShapeShift will use this fee to send the incoming exchange funds to your wallet.' />
+                </Tooltip>
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin={targetCoin}>{100000000}</CoinDisplay>
+                <CoinDisplay coin={targetCoin}>{minerFee}</CoinDisplay>
               </AmountText>
-              <Tooltip>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.networkfeetooltip' defaultMessage='ShapeShift will use this fee to send the incoming exchange funds to your wallet.' />
-              </Tooltip>
             </RecapTableRow>
             <RecapTableRow>
               <Text weight={400}>
                 <FormattedMessage id='scenes.exchange.exchangebox.secondstep.tobereceived' defaultMessage={`${targetCoin} to be received:`} />
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin={targetCoin}>{0}</CoinDisplay>
+                <CoinDisplay coin={targetCoin}>{received}</CoinDisplay>
               </AmountText>
             </RecapTableRow>
           </RecapTable>
