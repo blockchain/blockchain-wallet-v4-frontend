@@ -117,7 +117,7 @@ class CoinConvertorContainer extends React.Component {
 
   handleClickMinimum () {
     // switch(this.props.fromCoin) {
-    //   case 'ETH': 
+    //   case 'ETH':
     //     this.convertCoin(this.props.ethBtc.minimum, true)
     //     break
     //   case 'BTC':

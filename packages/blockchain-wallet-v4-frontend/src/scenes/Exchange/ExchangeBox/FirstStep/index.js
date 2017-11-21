@@ -1,7 +1,9 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { equals, path } from 'ramda'
+import { actions } from 'data'
 
 import FirstStep from './template.js'
 
@@ -16,6 +18,11 @@ class FirstStepContainer extends React.Component {
 
     this.state = { sourceCoin, targetCoin, amount }
     this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  componentWillMount () {
+    console.log(this.props)
+    this.props.shapeShiftActions.initShapeShift()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -61,4 +68,8 @@ const mapStateToProps = (state) => ({
   amount: formValueSelector('exchange')(state, 'amount')
 })
 
-export default connect(mapStateToProps)(FirstStepContainer)
+const mapDispatchToProps = (dispatch) => ({
+  shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
