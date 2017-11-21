@@ -20,11 +20,6 @@ class FirstStepContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentWillMount () {
-    console.log(this.props)
-    this.props.shapeShiftActions.initShapeShift()
-  }
-
   componentWillReceiveProps (nextProps) {
     const nextExchangeAccounts = nextProps.exchangeAccounts
     const nextAmount = nextProps.amount
