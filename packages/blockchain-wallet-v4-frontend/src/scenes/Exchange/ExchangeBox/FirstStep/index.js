@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { equals } from 'ramda'
+import { equals, path } from 'ramda'
 import { actions } from 'data'
 
 import FirstStep from './template.js'
@@ -15,8 +15,8 @@ class FirstStepContainer extends React.Component {
     const sourceCoin = exchangeAccounts && exchangeAccounts.source ? exchangeAccounts.source.coin : 'BTC'
     const targetCoin = exchangeAccounts && exchangeAccounts.target ? exchangeAccounts.target.coin : 'ETH'
     const sourceAmount = exchangeAccounts && exchangeAccounts.source ? exchangeAccounts.source.amount : 0
-    this.handleNext = this.handleNext.bind(this)
     this.state = { sourceCoin, targetCoin, sourceAmount }
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -25,15 +25,15 @@ class FirstStepContainer extends React.Component {
     if (nextExchangeAccounts) {
       if (!equals(this.props.exchangeAccounts, nextExchangeAccounts)) {
         this.setState({
-          sourceCoin: nextExchangeAccounts.source.coin,
-          targetCoin: nextExchangeAccounts.target.coin,
-          sourceAmount: nextExchangeAccounts.source.amount
+          sourceCoin: path(['source', 'coin'], nextExchangeAccounts),
+          targetCoin: path(['target', 'coin'], nextExchangeAccounts),
+          sourceAmount: path(['source', 'amount'], nextExchangeAccounts)
         })
       }
     }
   }
 
-  handleNext () {
+  handleSubmit () {
     this.props.nextStep()
   }
 
@@ -45,7 +45,7 @@ class FirstStepContainer extends React.Component {
         sourceCoin={this.state.sourceCoin}
         targetCoin={this.state.targetCoin}
         sourceAmount={this.state.amount}
-        handleNext={this.handleNext}
+        handleSubmit={this.handleSubmit}
         {...rest} />
     )
   }

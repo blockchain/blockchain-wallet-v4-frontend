@@ -30,7 +30,7 @@ const TabMenuItem = (props) => {
 }
 
 TabMenuItem.propTypes = {
-  selected: PropTypes.bool.isRequired
+  selected: PropTypes.bool
 }
 
 export default TabMenuItem

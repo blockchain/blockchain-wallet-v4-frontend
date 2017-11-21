@@ -42,6 +42,7 @@ class CoinConvertorContainer extends React.Component {
     const fiat1 = this.convertCoinToFiat(value, sourceCoin).value
     const fiat2 = this.convertCoinToFiat(coin2, targetCoin).value
     this.setState({ coin1: value, coin2, fiat1, fiat2 })
+    this.props.input.onChange(value)
   }
 
   handleChangeCoin2 (e) {
@@ -52,6 +53,7 @@ class CoinConvertorContainer extends React.Component {
     const fiat1 = this.convertCoinToFiat(coin1, sourceCoin).value
     const fiat2 = this.convertCoinToFiat(value, targetCoin).value
     this.setState({ coin1, coin2: value, fiat1, fiat2 })
+    this.props.input.onChange(coin1)
   }
 
   handleChangeFiat1 (e) {
@@ -59,9 +61,10 @@ class CoinConvertorContainer extends React.Component {
     const { sourceCoin, targetCoin } = this.props
     const value = e.target.value
     const coin1 = this.convertFiatToCoin(value, sourceCoin).value
-    const coin2 = this.convertCoinToCoin(coin1, sourceCoin, targetCoin).value
+    const coin2 = this.convertCoinToCoin(coin1, sourceCoin, targetCoin, true).value
     const fiat2 = this.convertCoinToFiat(coin2, targetCoin).value
     this.setState({ coin1, coin2, fiat1: value, fiat2 })
+    this.props.input.onChange(coin1)
   }
 
   handleChangeFiat2 (e) {
@@ -69,9 +72,10 @@ class CoinConvertorContainer extends React.Component {
     const { sourceCoin, targetCoin } = this.props
     const value = e.target.value
     const coin2 = this.convertFiatToCoin(value, targetCoin).value
-    const coin1 = this.convertCoinToCoin(coin2, targetCoin, sourceCoin).value
-    const fiat1 = this.convertCoinToFiat(coin1, targetCoin).value
+    const coin1 = this.convertCoinToCoin(coin2, targetCoin, sourceCoin, false).value
+    const fiat1 = this.convertCoinToFiat(coin1, sourceCoin).value
     this.setState({ coin1, coin2, fiat1, fiat2: value })
+    this.props.input.onChange(coin1)
   }
 
   convertCoinToCoin (value, fromCoin, toCoin, isFrom) {

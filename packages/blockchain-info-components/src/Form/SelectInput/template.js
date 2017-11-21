@@ -71,7 +71,8 @@ const List = styled.div`
   box-sizing: border-box;
   z-index: 10;
 `
-const ListItem = styled.a`
+const ListItem = styled.div`
+  display: block;
   width: 100%;
   padding: 0.5rem 1rem;
   font-weight: 300;
@@ -81,17 +82,17 @@ const ListItem = styled.a`
 
   &:hover {
     color: ${props => props.theme['gray-4']};
-    background-color: ${props => props.theme['gray-2']};
+    background-color: ${props => props.theme['gray-1']};
   }
 `
-const Header = styled.a`
+const Header = styled.div`
   width: 100%;
   padding: 0.5rem 1rem;
   color: ${props => props.theme['gray-4']};
   background-color: ${props => props.theme['gray-2']};
   cursor: not-allowed;
 
-  &:hover { color: ${props => props.theme['gray-3']}; }
+  &:hover { color: ${props => props.theme['gray-4']}; }
 `
 const Arrow = styled(Icon)`
   position: absolute;

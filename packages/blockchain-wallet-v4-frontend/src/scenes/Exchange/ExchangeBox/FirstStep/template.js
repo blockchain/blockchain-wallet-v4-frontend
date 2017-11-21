@@ -54,16 +54,16 @@ const AmountLabels = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { sourceCoin, targetCoin, sourceAmount, handleNext, invalid } = props
+  const { sourceCoin, targetCoin, sourceAmount, handleSubmit, invalid, submitting } = props
 
   return (
     <Wrapper>
       <Header>
         <Text size='12px' weight={300}>
-          <FormattedMessage id='scenes.exchange.exchangebox.firststep.stepnumber' defaultMessage='Step 1 of 2' />
+          <FormattedMessage id='scenes.exchange.exchangebox.firststep.step' defaultMessage='Step 1 of 2' />
         </Text>
       </Header>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Row>
           <AccountLabels>
             <Text size='16px' weight={500}>
@@ -84,7 +84,7 @@ const FirstStep = (props) => {
           <Field name='amount' component={CoinConvertor} validate={[required]} sourceCoin={sourceCoin} targetCoin={targetCoin} sourceAmount={sourceAmount} />
         </Row>
         <Row>
-          <Button nature='primary' fullwidth disabled={invalid} onClick={handleNext}>
+          <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>
             <FormattedMessage id='scenes.exchange.exchangebox.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>
