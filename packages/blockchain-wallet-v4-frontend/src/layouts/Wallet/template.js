@@ -80,7 +80,7 @@ const WalletLayout = (props) => {
           <Top>
             <MenuTop />
           </Top>
-          <Page>
+          <Page location={location}>
             {children}
           </Page>
         </Content>
