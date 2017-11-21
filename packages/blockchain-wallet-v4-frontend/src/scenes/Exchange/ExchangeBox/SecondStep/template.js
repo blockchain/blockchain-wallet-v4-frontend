@@ -120,7 +120,7 @@ const SecondStep = (props) => {
                 </Tooltip>
               </Text>
               <AmountText weight={300}>
-                <CoinDisplay coin={sourceCoin}>{1}</CoinDisplay>=<CoinDisplay coin={targetCoin}>{rate}</CoinDisplay>
+                1{sourceCoin}={rate}{targetCoin}
               </AmountText>
             </RecapTableRow>
             <RecapTableRow>

@@ -127,6 +127,17 @@ const convertEtherToBitcoin = ({ value, fromUnit, toUnit, rate, reverse }) => {
   return transformEtherToBitcoin({ value, fromUnit, toUnit, rate, reverse }).getOrElse(DefaultConversion)
 }
 
+const convertCoinToCoin = ({ value, coin, baseToStandard }) => {
+  switch (coin) {
+    case 'BTC': return baseToStandard
+      ? convertBitcoinToBitcoin({ value, fromUnit: 'SAT', toUnit: 'BTC' })
+      : convertBitcoinToBitcoin({ value, fromUnit: 'BTC', toUnit: 'SAT' })
+    case 'ETH': return baseToStandard
+      ? convertEtherToEther({ value, fromUnit: 'WEI', toUnit: 'ETH' })
+      : convertEtherToEther({ value, fromUnit: 'ETH', toUnit: 'WEI' })
+  }
+}
+
 // =====================================================================
 // =============================== STRING ==============================
 // =====================================================================
@@ -162,6 +173,17 @@ const displayEtherToBitcoin = ({ value, fromUnit, toUnit, rate, reverse }) => {
   return transformEtherToBitcoin({ value, fromUnit, toUnit, rate, reverse }).map(Currency.unitToString).getOrElse(DefaultDisplay)
 }
 
+const displayCoinToCoin = ({ value, coin, baseToStandard }) => {
+  switch (coin) {
+    case 'BTC': return baseToStandard
+      ? displayBitcoinToBitcoin({ value, fromUnit: 'SAT', toUnit: 'BTC' })
+      : displayBitcoinToBitcoin({ value, fromUnit: 'BTC', toUnit: 'SAT' })
+    case 'ETH': return baseToStandard
+      ? displayEtherToEther({ value, fromUnit: 'WEI', toUnit: 'ETH' })
+      : displayEtherToEther({ value, fromUnit: 'ETH', toUnit: 'WEI' })
+  }
+}
+
 export {
   DefaultConversion,
   DefaultDisplay,
@@ -173,6 +195,7 @@ export {
   convertEtherToEther,
   convertBitcoinToEther,
   convertEtherToBitcoin,
+  convertCoinToCoin,
   displayFiatToBitcoin,
   displayBitcoinToFiat,
   displayBitcoinToBitcoin,
@@ -180,5 +203,6 @@ export {
   displayEtherToFiat,
   displayEtherToEther,
   displayBitcoinToEther,
-  displayEtherToBitcoin
+  displayEtherToBitcoin,
+  displayCoinToCoin
 }
