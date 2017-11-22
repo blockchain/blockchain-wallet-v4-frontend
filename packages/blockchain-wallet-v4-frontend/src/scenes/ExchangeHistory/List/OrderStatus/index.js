@@ -15,12 +15,12 @@ const selectStyle = status => {
 
 const renderStatus = status => {
   switch (status) {
-    case 'complete': return <FormattedMessage id='scenes.exchangehistory.complete' defaultMessage='Complete' />
-    case 'failed': return <FormattedMessage id='scenes.exchangehistory.failed' defaultMessage='Failed' />
-    case 'no_deposits': return <FormattedMessage id='scenes.exchangehistory.inprogress' defaultMessage='In progress' />
-    case 'received': return <FormattedMessage id='scenes.exchangehistory.pending' defaultMessage='Pending' />
-    case 'resolved': return <FormattedMessage id='scenes.exchangehistory.refunded' defaultMessage='Refunded' />
-    default: return <FormattedMessage id='scenes.exchangehistory.unknown' defaultMessage='Unknown' />
+    case 'complete': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.complete' defaultMessage='Complete' />
+    case 'failed': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.failed' defaultMessage='Failed' />
+    case 'no_deposits': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.inprogress' defaultMessage='In progress' />
+    case 'received': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.pending' defaultMessage='Pending' />
+    case 'resolved': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.refunded' defaultMessage='Refunded' />
+    default: return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.unknown' defaultMessage='Unknown' />
   }
 }
 

@@ -19,62 +19,69 @@ const Wrapper = styled.div`
   & > :first-child { margin-bottom: 10px; }
 `
 
-const List = props => (
-  <Wrapper>
-    <Text size='16px' weight={500} capitalize>
-      <FormattedMessage id='scenes.exchangehistory.exchanges' defaultMessage='Completed exchanges' />
-    </Text>
-    <History>
-      <HistoryHeader>
-        <HistoryCell width='15%'>
-          <Text size='13px' weight={500} capitalize>
-            <FormattedMessage id='scenes.exchangehistory.status' defaultMessage='Status' />
-          </Text>
-        </HistoryCell>
-        <HistoryCell width='15%' />
-        <HistoryCell width='30%'>
-          <Text size='13px' weight={500} capitalize>
-            <FormattedMessage id='scenes.exchangehistory.date' defaultMessage='Date' />
-          </Text>
-        </HistoryCell>
-        <HistoryCell width='20%'>
-          <Text size='13px' weight={500} capitalize>
-            <FormattedMessage id='scenes.exchangehistory.exchanged' defaultMessage='Exchanged' />
-          </Text>
-        </HistoryCell>
-        <HistoryCell width='20%'>
-          <Text size='13px' weight={500} capitalize>
-            <FormattedMessage id='scenes.exchangehistory.received' defaultMessage='Received' />
-          </Text>
-        </HistoryCell>
-      </HistoryHeader>
-      {props.trades.map((trade, index) => (
-        <HistoryRow key={index}>
+const List = props => {
+  const { trades, handleClick } = props
+  return (
+    <Wrapper>
+      <Text size='16px' weight={500} capitalize>
+        <FormattedMessage id='scenes.exchangehistory.list.exchanges' defaultMessage='Completed exchanges' />
+      </Text>
+      <History>
+        <HistoryHeader>
           <HistoryCell width='15%'>
-            <OrderStatus status={trade.status} />
+            <Text size='13px' weight={500} capitalize>
+              <FormattedMessage id='scenes.exchangehistory.list.status' defaultMessage='Status' />
+            </Text>
           </HistoryCell>
-          <HistoryCell width='15%'>
-            <Link size='14px' weight={300} capitalize>
-              <FormattedMessage id='scenes.exchangehistory.details' defaultMessage='View details' />
-            </Link>
-          </HistoryCell>
+          <HistoryCell width='15%' />
           <HistoryCell width='30%'>
-            <Text size='14px' weight={300}>{trade.date}</Text>
+            <Text size='13px' weight={500} capitalize>
+              <FormattedMessage id='scenes.exchangehistory.list.date' defaultMessage='Date' />
+            </Text>
           </HistoryCell>
           <HistoryCell width='20%'>
-            <Text size='14px' weight={300}>0.05633931 ETH</Text>
+            <Text size='13px' weight={500} capitalize>
+              <FormattedMessage id='scenes.exchangehistory.list.exchanged' defaultMessage='Exchanged' />
+            </Text>
           </HistoryCell>
           <HistoryCell width='20%'>
-            <Text size='14px' weight={300}>0.00123241 BTC</Text>
+            <Text size='13px' weight={500} capitalize>
+              <FormattedMessage id='scenes.exchangehistory.list.received' defaultMessage='Received' />
+            </Text>
           </HistoryCell>
-        </HistoryRow>
-      ))}
-    </History>
-  </Wrapper>
-)
+        </HistoryHeader>
+        {props.trades.map((trade, index) => {
+          const { date, status } = trade
+          return (
+            <HistoryRow key={index}>
+              <HistoryCell width='15%'>
+                <OrderStatus status={status} />
+              </HistoryCell>
+              <HistoryCell width='15%'>
+                <Link size='14px' weight={300} capitalize onClick={() => handleClick(trade)}>
+                  <FormattedMessage id='scenes.exchangehistory.list.details' defaultMessage='View details' />
+                </Link>
+              </HistoryCell>
+              <HistoryCell width='30%'>
+                <Text size='14px' weight={300}>{date}</Text>
+              </HistoryCell>
+              <HistoryCell width='20%'>
+                <Text size='14px' weight={300}>0.05633931 ETH</Text>
+              </HistoryCell>
+              <HistoryCell width='20%'>
+                <Text size='14px' weight={300}>0.00123241 BTC</Text>
+              </HistoryCell>
+            </HistoryRow>
+          )
+        })}
+      </History>
+    </Wrapper>
+  )
+}
 
 List.propTypes = {
-  trades: PropTypes.array
+  trades: PropTypes.array,
+  handleClick: PropTypes.func.isRequired
 }
 
 List.defaultProps = {
