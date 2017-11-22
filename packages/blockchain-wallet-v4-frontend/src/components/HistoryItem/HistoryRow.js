@@ -1,18 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 
-const History = props => {
+const HistoryRow = ({ children }) => (
+  <Wrapper>
+    {children}
+  </Wrapper>
+)
 
-  return (
-    <Wrapper>
-
-    </Wrapper>
-  )
-}
-
-export default History
+export default HistoryRow
