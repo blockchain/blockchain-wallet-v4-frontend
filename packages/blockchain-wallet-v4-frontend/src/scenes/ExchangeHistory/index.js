@@ -1,16 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-import ExchangeLayout from 'layouts/Exchange'
+import { selectors } from 'data'
 import ExchangeHistory from './template.js'
 
 class ExchangeHistoryContainer extends React.Component {
   render () {
-    return (
-      <ExchangeLayout>
-        <ExchangeHistory />
-      </ExchangeLayout>
-    )
+    const { trades } = this.props
+    return <ExchangeHistory trades={trades} />
   }
 }
 
-export default ExchangeHistoryContainer
+const mapStateToProps = state => ({
+  trades: selectors.core.kvStore.shapeShift.getTrades(state)
+})
+
+export default connect(mapStateToProps)(ExchangeHistoryContainer)

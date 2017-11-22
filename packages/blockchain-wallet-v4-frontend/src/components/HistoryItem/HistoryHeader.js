@@ -1,18 +1,22 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  background-color: ${props => props.theme['brand-quaternary']};
+  border-left: 1px solid ${props => props.theme['gray-2']};
+  border-top: 1px solid ${props => props.theme['gray-2']};
+  border-right: 1px solid ${props => props.theme['gray-2']};
 `
 
-const History = props => {
+const HistoryHeader = ({ children }) => (
+  <Wrapper>
+    {children}
+  </Wrapper>
+)
 
-  return (
-    <Wrapper>
-
-    </Wrapper>
-  )
-}
-
-export default History
+export default HistoryHeader

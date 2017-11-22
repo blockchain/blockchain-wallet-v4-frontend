@@ -1,17 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { isNil } from 'ramda'
 
-const Wrapper = styled.div`
-  display: flex;
-`
+import ExchangeLayout from 'layouts/Exchange'
+import List from './List'
+import Empty from './Empty'
 
 const ExchangeHistory = props => {
+  const { trades } = props
   return (
-    <Wrapper>
-      Exchange history
-    </Wrapper>
+    <ExchangeLayout>
+      {!isNil(trades) ? <List trades={trades} /> : <Empty />}
+    </ExchangeLayout>
   )
+}
+
+ExchangeHistory.propTypes = {
+  trades: PropTypes.array
 }
 
 export default ExchangeHistory
