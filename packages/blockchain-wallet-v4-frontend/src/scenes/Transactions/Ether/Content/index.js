@@ -52,7 +52,7 @@ class ContentContainer extends React.Component {
 const mapStateToProps = (state) => ({
   status: formValueSelector('etherTransaction')(state, 'status') || '',
   search: formValueSelector('etherTransaction')(state, 'search') || '',
-  transactions: selectors.core.common.getEthereumTransactions(state),
+  transactions: selectors.core.common.ethereum.getEthereumTransactions(state),
   scroll: selectors.scroll.selectScroll(state)
 })
 

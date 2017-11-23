@@ -4,6 +4,8 @@ import { ETHEREUM } from '../config'
 
 export const getAccounts = path([ETHEREUM, 'value', 'ethereum', 'accounts'])
 
+export const getDefaultAccount = compose(head, getAccounts)
+
 export const getLegacyAccount = path([ETHEREUM, 'value', 'ethereum', 'legacy_account'])
 
 export const getLegacyAccountAddress = compose(prop('addr'), getLegacyAccount)
