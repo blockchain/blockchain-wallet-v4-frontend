@@ -82,7 +82,7 @@ const mapStateToProps = (state) => {
     source: initialSource ? (initialSource.xpub ? initialSource.xpub : initialSource.address) : '',
     status: selector(state, 'status') || '',
     search: selector(state, 'search') || '',
-    transactions: selectors.core.common.getWalletTransactions(state),
+    transactions: selectors.core.common.bitcoin.getWalletTransactions(state),
     totalTransactions: selectors.core.data.bitcoin.getNumberTransactions(state),
     scroll: selectors.scroll.selectScroll(state)
   }

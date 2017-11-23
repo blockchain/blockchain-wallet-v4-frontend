@@ -44,12 +44,12 @@ export const getSelection = function * (action) {
     const finalTo = !isNil(to2) ? to2 : (to.address || to.index)
     let receiveAddress = finalTo
     if (is(Number, finalTo)) {
-      receiveAddress = yield select(selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, finalTo))
+      receiveAddress = yield select(selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, finalTo))
     }
     const finalFrom = from.address || from.index
     let changeAddress = finalFrom
     if (is(Number, finalFrom)) {
-      changeAddress = yield select(selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, finalFrom))
+      changeAddress = yield select(selectors.core.common.bitcoin.getNextAvailableChangeAddress(settings.NETWORK, finalFrom))
     }
     const unit = yield select(selectors.core.settings.getBtcUnit)
     const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'SAT' }).value
