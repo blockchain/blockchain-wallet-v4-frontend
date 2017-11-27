@@ -15,6 +15,12 @@ function generatePerCommitmentSecret (seed, I) {
   return seed
 }
 
+function generatePerCommitmentPoint (seed, index) {
+  let I = intToArray(index)
+  let secret = generatePerCommitmentSecret(seed, I)
+  return ec.publicKeyCreate(secret, true)
+}
+
 function concat (a, b) {
   let i
   let res = []
@@ -28,20 +34,20 @@ function concat (a, b) {
   return res
 }
 
-function deriveLocalKey (basePoint, perCommitmentPoint) {
+function derivePubKey (basePoint, perCommitmentPoint) {
   let a = concat(perCommitmentPoint, basePoint)
 
   a = sha(a, {asBytes: true})
   return ec.publicKeyTweakAdd(Buffer.from(basePoint), Buffer.from(a), true)
 }
 
-function deriveLocalPrivateKey (baseSecret, basePoint, perCommitmentPoint) {
+function derivePrivKey (baseSecret, basePoint, perCommitmentPoint) {
   let a = concat(perCommitmentPoint, basePoint)
   a = sha(a, {asBytes: true})
   return ec.privateKeyTweakAdd(Buffer.from(baseSecret), Buffer.from(a), true)
 }
 
-function deriveRevocationKey (basePoint, perCommitmentPoint) {
+function deriveRevocationPubKey (basePoint, perCommitmentPoint) {
   let b = concat(basePoint, perCommitmentPoint)
   b = sha(b, {asBytes: true})
   let a = concat(perCommitmentPoint, basePoint)
@@ -52,7 +58,7 @@ function deriveRevocationKey (basePoint, perCommitmentPoint) {
   return ec.publicKeyCombine([ap, bp], true)
 }
 
-function deriveRevocationPrivateKey (baseSecret, perCommitmentSecret, basePoint, perCommitmentPoint) {
+function deriveRevocationPrivKey (baseSecret, perCommitmentSecret, basePoint, perCommitmentPoint) {
   let b = concat(basePoint, perCommitmentPoint)
   b = sha(b, {asBytes: true})
   let a = concat(perCommitmentPoint, basePoint)
@@ -120,11 +126,13 @@ function deriveSecret (seed, bits, I) {
   return result
 }
 
-module.exports = {generatePerCommitmentSecret,
-  deriveLocalKey,
-  deriveLocalPrivateKey,
-  deriveRevocationKey,
-  deriveRevocationPrivateKey,
+module.exports = {
+  generatePerCommitmentPoint,
+  generatePerCommitmentSecret,
+  derivePubKey,
+  derivePrivKey,
+  deriveRevocationPubKey,
+  deriveRevocationPrivKey,
   isCorrectNewSecret,
   insertSecret
 }
