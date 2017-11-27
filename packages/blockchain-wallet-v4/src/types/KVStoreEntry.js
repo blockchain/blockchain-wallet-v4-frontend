@@ -1,11 +1,12 @@
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import BIP39 from 'bip39'
-import { assoc, curry, compose, prop, is } from 'ramda'
-import { traversed, traverseOf, over, view, set } from 'ramda-lens'
+import { assoc, curry, compose, prop, is, isNil } from 'ramda'
+import { view } from 'ramda-lens'
 import Either from 'data.either'
 import * as crypto from '../walletCrypto'
 import Type from './Type'
+import BigInteger from 'bigi'
 // import { shift, shiftIProp } from './util'
 
 
@@ -49,20 +50,33 @@ export const createEmpty = (typeId) => {
   return new KVStoreEntry({ VERSION: 1, typeId })
 }
 
+export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
+  return new KVStoreEntry({
+    VERSION: 1,
+    typeId: isNil(typeId) ? -1 : typeId,
+    magicHash: null,
+    address: entryECKey.getAddress(),
+    signKey: entryECKey.toWIF(),
+    encKeyBuffer: encKeyBuffer,
+    value: void 0
+  })
+}
+
+export const fromCredentials = curry((guid, sharedKey, password) => {
+  const entropy = crypto.sha256(Buffer.from(guid + sharedKey + password))
+  const d = BigInteger.fromBuffer(entropy)
+  const key = new Bitcoin.ECPair(d, null)
+  const enc = key.d.toBuffer(32)
+  // const enc = crypto.stringToKey(password + sharedKey, 5000)
+  return fromKeys(key, enc)
+})
+
 export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
   let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
   let node = payloadTypeNode.deriveHardened(0)
   let privateKeyBuffer = payloadTypeNode.deriveHardened(1).keyPair.d.toBuffer()
   let encryptionKey = crypto.sha256(privateKeyBuffer)
-  return new KVStoreEntry({
-    VERSION: 1,
-    typeId,
-    magicHash: null,
-    address: node.keyPair.getAddress(),
-    signKey: node.keyPair.toWIF(),
-    encKeyBuffer: encryptionKey,
-    value: void 0
-  })
+  return fromKeys(node.keyPair, encryptionKey, typeId)
 })
 
 export const deriveMetadataNode = (masterHDNode) => {
