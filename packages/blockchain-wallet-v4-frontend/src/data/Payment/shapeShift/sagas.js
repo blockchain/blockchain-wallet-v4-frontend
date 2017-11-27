@@ -7,6 +7,7 @@ import * as selectors from '../../selectors.js'
 export const initShapeShift = function * (action) {
   try {
     yield call(sagas.core.data.bitcoin.fetchFee)
+    yield call(sagas.core.data.ethereum.fetchFee)
     const index = yield select(selectors.core.wallet.getDefaultAccountIndex)
     yield call(sagas.core.data.bitcoin.fetchUnspent, index, undefined)
     const feePerByte = yield select(selectors.core.data.bitcoin.getFeeRegular)

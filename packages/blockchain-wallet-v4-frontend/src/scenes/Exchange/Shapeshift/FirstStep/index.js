@@ -20,6 +20,11 @@ class FirstStepContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentWillMount () {
+    this.props.shapeShiftActions.initShapeShift()
+    // this.props.bitcoinActions.getUnspent()
+  }
+
   componentWillReceiveProps (nextProps) {
     const nextExchangeAccounts = nextProps.exchangeAccounts
     const nextAmount = nextProps.amount
@@ -64,7 +69,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch)
+  shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch),
+  bitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
