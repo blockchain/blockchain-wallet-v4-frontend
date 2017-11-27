@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
-import { prop, toLower } from 'ramda'
+import { equals, prop, toLower } from 'ramda'
 
 import settings from 'config'
 import { actions, selectors } from 'data'
@@ -40,6 +40,16 @@ class SecondStepContainer extends React.Component {
     })
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.order, nextProps.order)) {
+      const error = prop('error', nextProps.order)
+      if (error) {
+        this.props.alertActions.displayError(error)
+        this.props.previousStep()
+      }
+    }
+  }
+
   onSubmit () {
     // Submit exchange
   }
@@ -47,30 +57,40 @@ class SecondStepContainer extends React.Component {
   render () {
     const { exchangeAccounts, amount, sourceAddress, targetAddress, ...rest } = this.props
     const { source, target } = exchangeAccounts
-    const { minerFee, quotedRate } = this.props.order
-    console.log(this.props.order)
-    console.log('Miner fee is ', minerFee)
-    console.log('Quoted rate is ', quotedRate)
-    const txFee = 0 // To be computed
-    const received = prop('value', Exchange.convertCoinToCoin({ value: amount * quotedRate - minerFee, coin: target.coin, baseToStandard: false }))
-    const sourceAmount = prop('value', Exchange.convertCoinToCoin({ value: amount, coin: source.coin, baseToStandard: false }))
-    const minerFeeBase = prop('value', Exchange.convertCoinToCoin({ value: minerFee, coin: target.coin, baseToStandard: false }))
-
-    return (
-      <SecondStep
-        {...rest}
-        sourceAddress={sourceAddress}
-        targetAddress={targetAddress}
-        sourceAmount={sourceAmount}
-        sourceCoin={source.coin}
-        targetCoin={target.coin}
-        onSubmit={this.onSubmit}
-        minerFee={minerFeeBase}
-        txFee={txFee}
-        rate={quotedRate}
-        received={received}
-        source />
-    )
+    const { success } = this.props.order
+    if (success) {
+      const { expiration, minerFee, quotedRate, withdrawalAmount } = success
+      console.log(this.props.order)
+      console.log('Miner fee is ', minerFee)
+      console.log('Quoted rate is ', quotedRate)
+      const txFee = 0 // To be computed
+      const sourceAmount = prop('value', Exchange.convertCoinToCoin({ value: amount, coin: source.coin, baseToStandard: false }))
+      const minerFeeBase = prop('value', Exchange.convertCoinToCoin({ value: minerFee, coin: target.coin, baseToStandard: false }))
+      const received = prop('value', Exchange.convertCoinToCoin({ value: withdrawalAmount, coin: target.coin, baseToStandard: false }))
+      return (
+        <SecondStep
+          {...rest}
+          isLoading={false}
+          sourceAddress={sourceAddress}
+          targetAddress={targetAddress}
+          sourceAmount={sourceAmount}
+          sourceCoin={source.coin}
+          targetCoin={target.coin}
+          onSubmit={this.onSubmit}
+          minerFee={minerFeeBase}
+          txFee={txFee}
+          rate={quotedRate}
+          received={received}
+          expiration={expiration}
+          source />
+      )
+    } else {
+      return (
+        <SecondStep
+          isLoading
+        />
+      )
+    }
   }
 }
 
@@ -84,8 +104,6 @@ const extractAddress = (value, selectorFunction) =>
 const mapStateToProps = (state, ownProps) => {
   const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const exchangeAccounts = formValueSelector('exchange')(state, 'accounts')
-  const f = selectors.core.wallet.getAccountLabel(state)
-  const g = selectors.core.wallet.getLegacyAddressLabel(state)
   const { source, target } = exchangeAccounts
 
   return {
@@ -99,7 +117,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch)
+  shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch),
+  alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)
