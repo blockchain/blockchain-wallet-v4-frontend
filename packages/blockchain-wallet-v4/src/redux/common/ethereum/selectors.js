@@ -5,7 +5,7 @@ import * as transactions from '../../../transactions'
 
 // ---------------------------------------------------------------------------------------------
 export const ethereum = ({ walletPath, dataPath, kvStorePath, settingsPath }) => {
-  const getAccountsBalances = (state) => {
+  const getAccountBalances = (state) => {
     const accounts = compose(getAccounts, prop(kvStorePath))(state)
     const addresses = compose(getAddresses, prop(dataPath))(state)
 
@@ -27,7 +27,7 @@ export const ethereum = ({ walletPath, dataPath, kvStorePath, settingsPath }) =>
   }
 
   return {
-    getAccountsBalances,
+    getAccountBalances,
     getTransactions
   }
 }
