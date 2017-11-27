@@ -102,8 +102,7 @@ const mapStateToProps = (state, ownProps) => {
   const bitcoinHdAccounts = selectors.core.common.bitcoin.getAccountsBalances(state)
   const bitcoinLegacyAddresses = selectors.core.common.bitcoin.getAddressesBalances(state)
   const bitcoinAccounts = map(a => assoc('coin', 'BTC', a), concat(bitcoinHdAccounts, bitcoinLegacyAddresses))
-  const ethereumAccounts = selectors.core.common.ethereum.getAccountsBalances(state)
-  console.log(ethereumAccounts)
+  const ethereumAccounts = selectors.core.common.ethereum.getAccountBalances(state)
 
   return {
     coinDisplayed: selectors.preferences.getCoinDisplayed(state),
