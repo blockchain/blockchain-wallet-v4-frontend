@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { Button, Link, Text, Tooltip } from 'blockchain-info-components'
+import { BlockchainLoader, Button, Link, Text, Tooltip } from 'blockchain-info-components'
 import { CheckBox, Form } from 'components/Form'
 import Terms from 'components/Terms'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -59,107 +59,115 @@ const RecapTable = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { previousStep, position, total, close, submitting, invalid, sourceCoin, targetCoin, sourceAddress, targetAddress, sourceAmount, minerFee, txFee, rate, received, ...rest } = props
+  const { isLoading, expiration, previousStep, position, total, close, submitting, invalid, sourceCoin, targetCoin, sourceAddress, targetAddress, sourceAmount, minerFee, txFee, rate, received, ...rest } = props
   const { onSubmit } = rest
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
+  const timeLeft = new Date(expiration - new Date().getTime())
 
-  return (
-    <Wrapper>
-      <Form onSubmit={onSubmit}>
-        <Header>
-          <Text>
-            <FormattedMessage id='scenes.exchange.exchangebox.firststep.title' defaultMessage='Confirm Exchange Order' />
-          </Text>
-          <Text weight={300}>
-            <FormattedMessage id='scenes.exchange.exchangebox.firststep.stepnumber' defaultMessage='Step 2 of 2' />
-          </Text>
-        </Header>
-        <Body>
-          <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.exchange.exchangebox.secondstep.recap' defaultMessage='Review the details below and click &apos;Confirm&apos; to begin your exchange. The exchanged funds will be deposited directly into TARGET ACCOUNT NAME' />
-          </Text>
-          <ExpiryText size='13px' weight={300}>
-            <FormattedMessage id='scenes.exchange.exchangebox.secondstep.expiry' defaultMessage='Quote expires in: TIME' />
-            <Tooltip>
-              <FormattedMessage id='scenes.exchange.exchangebox.secondstep.expiryexplanation' defaultMessage='This rate will expire after 10 minutes. If that happens please restart your trade.' />
-            </Tooltip>
-          </ExpiryText>
-          <RecapTable>
-            <RecapTableRow>
-              <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.todeposit' defaultMessage={`${sourceCoin} to deposit:`} />
-              </Text>
-              <AmountText weight={300}>
-                <CoinDisplay coin={sourceCoin}>{sourceAmount * 10000000000000000000}</CoinDisplay>
-              </AmountText>
-            </RecapTableRow>
-            <RecapTableRow>
-              <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfee' defaultMessage='Transaction fee:' />
-                <Tooltip>
-                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfeeexplanation' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
-                </Tooltip>
-              </Text>
-              <AmountText weight={300}>
-                <CoinDisplay coin={sourceCoin}>{txFee}</CoinDisplay>
-              </AmountText>
-            </RecapTableRow>
-            <RecapTableRow>
-              <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.leaving' defaultMessage={`Total ${sourceCoin} leaving the wallet:`} />
-              </Text>
-              <AmountText weight={300}>
-                <CoinDisplay coin={sourceCoin}>{sourceAmount + txFee}</CoinDisplay>
-              </AmountText>
-            </RecapTableRow>
-            <RecapTableRow>
-              <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.rate' defaultMessage='Exchange rate:' />
-                <Tooltip>
-                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.ratetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
-                </Tooltip>
-              </Text>
-              <AmountText weight={300}>
-                1{sourceCoin}={rate}{targetCoin}
-              </AmountText>
-            </RecapTableRow>
-            <RecapTableRow>
-              <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.networkfee' defaultMessage='Network transaction fee:' />
-                <Tooltip>
-                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.networkfeetooltip' defaultMessage='ShapeShift will use this fee to send the incoming exchange funds to your wallet.' />
-                </Tooltip>
-              </Text>
-              <AmountText weight={300}>
-                <CoinDisplay coin={targetCoin}>{minerFee}</CoinDisplay>
-              </AmountText>
-            </RecapTableRow>
-            <RecapTableRow>
-              <Text weight={400}>
-                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.tobereceived' defaultMessage={`${targetCoin} to be received:`} />
-              </Text>
-              <AmountText weight={300}>
-                <CoinDisplay coin={targetCoin}>{received}</CoinDisplay>
-              </AmountText>
-            </RecapTableRow>
-          </RecapTable>
-          <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-            <Text size='12px' weight={300}>
-              <Terms company='shapeshift' />
+  if (isLoading) {
+    return (
+      <BlockchainLoader />
+    )
+  } else {
+    return (
+      <Wrapper>
+        <Form onSubmit={onSubmit}>
+          <Header>
+            <Text>
+              <FormattedMessage id='scenes.exchange.exchangebox.firststep.title' defaultMessage='Confirm Exchange Order' />
             </Text>
-          </Field>
-        </Body>
-        <Footer align='spaced'>
-          <Link size='13px' weight={300} onClick={previousStep}>
-            <FormattedMessage id='scenes.exchange.exchangebox.secondstep.back' defaultMessage='Cancel' />
-          </Link>
-          <Button type='submit' nature='primary' disabled={submitting || invalid}>
-            <FormattedMessage id='scenes.exchange.exchangebox.secondstep.finish' defaultMessage='Confirm' />
-          </Button>
-        </Footer>
-      </Form>
-    </Wrapper>
-  )
+            <Text weight={300}>
+              <FormattedMessage id='scenes.exchange.exchangebox.firststep.stepnumber' defaultMessage='Step 2 of 2' />
+            </Text>
+          </Header>
+          <Body>
+            <Text size='13px' weight={300}>
+              <FormattedMessage id='scenes.exchange.exchangebox.secondstep.recap' defaultMessage='Review the details below and click &apos;Confirm&apos; to begin your exchange. The exchanged funds will be deposited directly into TARGET ACCOUNT NAME' />
+            </Text>
+            <ExpiryText size='13px' weight={300}>
+              <FormattedMessage id='scenes.exchange.exchangebox.secondstep.expiry' defaultMessage={`Quote expires in: `} />
+              {timeLeft.getMinutes()}:{timeLeft.getSeconds()}
+              <Tooltip>
+                <FormattedMessage id='scenes.exchange.exchangebox.secondstep.expiryexplanation' defaultMessage='This rate will expire after 10 minutes. If that happens please restart your trade.' />
+              </Tooltip>
+            </ExpiryText>
+            <RecapTable>
+              <RecapTableRow>
+                <Text weight={400}>
+                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.todeposit' defaultMessage={`${sourceCoin} to deposit:`} />
+                </Text>
+                <AmountText weight={300}>
+                  <CoinDisplay coin={sourceCoin}>{sourceAmount}</CoinDisplay>
+                </AmountText>
+              </RecapTableRow>
+              <RecapTableRow>
+                <Text weight={400}>
+                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfee' defaultMessage='Transaction fee:' />
+                  <Tooltip>
+                    <FormattedMessage id='scenes.exchange.exchangebox.secondstep.txfeeexplanation' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
+                  </Tooltip>
+                </Text>
+                <AmountText weight={300}>
+                  <CoinDisplay coin={sourceCoin}>{txFee}</CoinDisplay>
+                </AmountText>
+              </RecapTableRow>
+              <RecapTableRow>
+                <Text weight={400}>
+                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.leaving' defaultMessage={`Total ${sourceCoin} leaving the wallet:`} />
+                </Text>
+                <AmountText weight={300}>
+                  <CoinDisplay coin={sourceCoin}>{Number(sourceAmount) + Number(txFee)}</CoinDisplay>
+                </AmountText>
+              </RecapTableRow>
+              <RecapTableRow>
+                <Text weight={400}>
+                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.rate' defaultMessage='Exchange rate:' />
+                  <Tooltip>
+                    <FormattedMessage id='scenes.exchange.exchangebox.secondstep.ratetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
+                  </Tooltip>
+                </Text>
+                <AmountText weight={300}>
+                  1{sourceCoin}={rate}{targetCoin}
+                </AmountText>
+              </RecapTableRow>
+              <RecapTableRow>
+                <Text weight={400}>
+                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.networkfee' defaultMessage='Network transaction fee:' />
+                  <Tooltip>
+                    <FormattedMessage id='scenes.exchange.exchangebox.secondstep.networkfeetooltip' defaultMessage='ShapeShift will use this fee to send the incoming exchange funds to your wallet.' />
+                  </Tooltip>
+                </Text>
+                <AmountText weight={300}>
+                  <CoinDisplay coin={targetCoin}>{minerFee}</CoinDisplay>
+                </AmountText>
+              </RecapTableRow>
+              <RecapTableRow>
+                <Text weight={400}>
+                  <FormattedMessage id='scenes.exchange.exchangebox.secondstep.tobereceived' defaultMessage={`${targetCoin} to be received:`} />
+                </Text>
+                <AmountText weight={300}>
+                  <CoinDisplay coin={targetCoin}>{received}</CoinDisplay>
+                </AmountText>
+              </RecapTableRow>
+            </RecapTable>
+            <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
+              <Text size='12px' weight={300}>
+                <Terms company='shapeshift' />
+              </Text>
+            </Field>
+          </Body>
+          <Footer align='spaced'>
+            <Link size='13px' weight={300} onClick={previousStep}>
+              <FormattedMessage id='scenes.exchange.exchangebox.secondstep.back' defaultMessage='Cancel' />
+            </Link>
+            <Button type='submit' nature='primary' disabled={submitting || invalid}>
+              <FormattedMessage id='scenes.exchange.exchangebox.secondstep.finish' defaultMessage='Confirm' />
+            </Button>
+          </Footer>
+        </Form>
+      </Wrapper>
+    )
+  }
 }
 
 SecondStep.propTypes = {
