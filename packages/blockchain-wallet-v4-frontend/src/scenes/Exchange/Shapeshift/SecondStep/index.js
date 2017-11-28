@@ -60,9 +60,9 @@ class SecondStepContainer extends React.Component {
     const { success } = this.props.order
     if (success) {
       const { expiration, minerFee, quotedRate, withdrawalAmount } = success
-      console.log(this.props.order)
-      console.log('Miner fee is ', minerFee)
-      console.log('Quoted rate is ', quotedRate)
+      console.log(expiration)
+      const timeLeft = expiration - new Date().getTime()
+      console.log(timeLeft)
       const txFee = 0 // To be computed
       const sourceAmount = prop('value', Exchange.convertCoinToCoin({ value: amount, coin: source.coin, baseToStandard: false }))
       const minerFeeBase = prop('value', Exchange.convertCoinToCoin({ value: minerFee, coin: target.coin, baseToStandard: false }))
@@ -81,7 +81,7 @@ class SecondStepContainer extends React.Component {
           txFee={txFee}
           rate={quotedRate}
           received={received}
-          expiration={expiration}
+          timeLeft={timeLeft}
           source />
       )
     } else {
