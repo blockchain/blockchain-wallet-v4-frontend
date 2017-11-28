@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { compose, bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import Login from './template.js'
 import { actions, selectors } from 'data'
 
 class LoginContainer extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
   }
@@ -25,13 +25,7 @@ class LoginContainer extends React.Component {
 
   render () {
     const { authType } = this.props
-
-    return (
-      <Login
-        authType={authType}
-        onSubmit={this.onSubmit}
-        handleMobile={this.handleMobile} />
-    )
+    return <Login authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} />
   }
 }
 
@@ -48,4 +42,7 @@ const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps)
+)
+export default enhance(LoginContainer)
