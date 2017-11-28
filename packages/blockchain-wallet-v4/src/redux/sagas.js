@@ -1,4 +1,4 @@
-import { commonSaga } from './common/sagas.js'
+import { commonSagasFactory } from './common/sagas.js'
 import { dataSagasFactory } from './data/sagas.js'
 import { settingsSaga } from './settings/sagas.js'
 import { walletSaga } from './wallet/sagas.js'
@@ -7,7 +7,7 @@ import { walletOptionsSaga } from './walletOptions/sagas.js'
 import { kvStoreSagasFactory } from './kvStore/sagas.js'
 
 export const coreSagasFactory = ({ api, kvStorePath, dataPath, walletPath, settingsPath, walletOptionsPath, socket } = {}) => ({
-  common: commonSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, kvStorePath, socket }),
+  common: commonSagasFactory({ api, dataPath, walletPath, settingsPath, walletOptionsPath, kvStorePath, socket }),
   data: dataSagasFactory({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
   settings: settingsSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
   wallet: walletSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),

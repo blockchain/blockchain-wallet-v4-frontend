@@ -2,7 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
-import { equals, path, prop } from 'ramda'
+import { assoc, equals, path, prop } from 'ramda'
 import * as crypto from 'crypto'
 
 import { actions, selectors } from 'data'
@@ -15,27 +15,29 @@ class FirstStepContainer extends React.Component {
 
     this.timeout = undefined
     this.seed = crypto.randomBytes(16).toString('hex')
-    const { exchangeAccounts } = this.props
+    const { accounts } = this.props
     const amount = this.props.amount || 0
-    const sourceCoin = exchangeAccounts && exchangeAccounts.source ? exchangeAccounts.source.coin : 'BTC'
-    const targetCoin = exchangeAccounts && exchangeAccounts.target ? exchangeAccounts.target.coin : 'ETH'
+    const sourceCoin = path(['source', 'coin'], accounts) || 'BTC'
+    const targetCoin = path(['target', 'coin'], accounts) || 'ETH'
 
     this.state = { sourceCoin, targetCoin, amount }
+
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillMount () {
+    this.props.formActions.initialize('exchange', this.props.initialValues)
     this.props.shapeShiftActions.initShapeShift()
   }
 
   componentWillReceiveProps (nextProps) {
-    const { exchangeAccounts, amount, ethFeeRegular, gasLimit, bitcoinFeeValues } = nextProps
+    const { accounts, amount, ethFeeRegular, gasLimit, bitcoinFeeValues } = nextProps
 
-    if (exchangeAccounts) {
-      const sourceCoin = path(['source', 'coin'], exchangeAccounts)
-      const targetCoin = path(['target', 'coin'], exchangeAccounts)
+    if (accounts) {
+      const sourceCoin = path(['source', 'coin'], accounts)
+      const targetCoin = path(['target', 'coin'], accounts)
 
-      if (!equals(this.props.exchangeAccounts, exchangeAccounts)) {
+      if (!equals(this.props.accounts, accounts)) {
         this.setState({
           sourceCoin,
           targetCoin
@@ -51,9 +53,9 @@ class FirstStepContainer extends React.Component {
       }
 
       if (equals(sourceCoin, 'BTC')) {
-        const source = prop('source', exchangeAccounts)
+        const source = prop('source', accounts)
         const from = { xpub: source.xpub, index: source.index }
-        if (!equals(source, prop('source', this.props.exchangeAccounts))) {
+        if (!equals(source, prop('source', this.props.accounts))) {
           this.props.bitcoinActions.getUnspent(from)
         }
 
@@ -81,7 +83,7 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    const { exchangeAccounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
+    const { accounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
     const { ethFee } = this.state
     const effectiveBalance = this.state.sourceCoin === 'ETH'
                               ? (etherBalance - this.state.ethFee > 0
@@ -101,17 +103,30 @@ class FirstStepContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  exchangeAccounts: formValueSelector('exchange')(state, 'accounts'),
-  amount: formValueSelector('exchange')(state, 'amount'),
-  ethFeeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
-  gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0,
-  bitcoinFeeValues: selectors.core.data.bitcoin.getFee(state),
-  etherBalance: selectors.core.data.ethereum.getBalance(state),
-  bitcoinEffectiveBalance: selectors.core.data.bitcoin.getEffectiveBalance(state) || 0
-})
+const mapStateToProps = (state) => {
+  const source = selectors.core.wallet.getDefaultAccount(state)
+  const target = selectors.core.kvStore.ethereum.getDefaultAccount(state)
+  const initialValues = {
+    accounts: {
+      source: assoc('coin', 'BTC', source),
+      target: assoc('coin', 'ETH', target)
+    }
+  }
+
+  return {
+    initialValues,
+    accounts: formValueSelector('exchange')(state, 'accounts'),
+    amount: formValueSelector('exchange')(state, 'amount'),
+    ethFeeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
+    gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0,
+    bitcoinFeeValues: selectors.core.data.bitcoin.getFee(state),
+    etherBalance: selectors.core.data.ethereum.getBalance(state),
+    bitcoinEffectiveBalance: selectors.core.data.bitcoin.getEffectiveBalance(state) || 0
+  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch),
   bitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch)
 })
