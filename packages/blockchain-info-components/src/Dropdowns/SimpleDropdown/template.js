@@ -80,7 +80,7 @@ const Dropdown = props => {
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>
         <Button>{selectedItem.text}</Button>
-        <DropdownIcon size='8px' name='down-arrow' />
+        <DropdownIcon name='down-arrow' size='8px' />
       </ButtonContainer>
     </Wrapper>
   )
