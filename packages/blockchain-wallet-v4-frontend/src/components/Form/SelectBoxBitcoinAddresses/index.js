@@ -56,8 +56,8 @@ const mapStateToProps = (state, ownProps) => {
     return { text: `${title} (${display})`, value: rest }
   }, items)
 
-  const accounts = transformAddresses(selectors.core.common.getAccountsBalances(state))
-  const legacyAddresses = transformAddresses(selectors.core.common.getAddressesBalances(state))
+  const accounts = transformAddresses(selectors.core.common.bitcoin.getAccountsBalances(state))
+  const legacyAddresses = transformAddresses(selectors.core.common.bitcoin.getAddressesBalances(state))
 
   return {
     accounts,

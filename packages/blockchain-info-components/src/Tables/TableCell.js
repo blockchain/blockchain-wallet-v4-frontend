@@ -8,18 +8,18 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-const HistoryCell = ({ children, ...rest }) => (
+const TableCell = ({ children, ...rest }) => (
   <Wrapper {...rest}>
     {children}
   </Wrapper>
 )
 
-HistoryCell.propTypes = {
+TableCell.propTypes = {
   width: PropTypes.string
 }
 
-HistoryCell.defaultProps = {
+TableCell.defaultProps = {
   width: '100%'
 }
 
-export default HistoryCell
+export default TableCell

@@ -1,0 +1,1 @@
+export const SET_ETHEREUM_DATA = '@CORE.SET_ETHEREUM_DATA'
