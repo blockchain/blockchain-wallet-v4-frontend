@@ -8,6 +8,7 @@ import { BlockchainLoader, Button, Link, Text, Tooltip } from 'blockchain-info-c
 import { CheckBox, Form } from 'components/Form'
 import Terms from 'components/Terms'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import CountdownTimer from './CountdownTimer.js'
 
 const Wrapper = styled.div`
   border: 1px solid black;
@@ -59,10 +60,9 @@ const RecapTable = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { isLoading, expiration, previousStep, position, total, close, submitting, invalid, sourceCoin, targetCoin, sourceAddress, targetAddress, sourceAmount, minerFee, txFee, rate, received, ...rest } = props
+  const { isLoading, timeLeft, previousStep, position, total, close, submitting, invalid, sourceCoin, targetCoin, sourceAddress, targetAddress, sourceAmount, minerFee, txFee, rate, received, ...rest } = props
   const { onSubmit } = rest
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
-  const timeLeft = new Date(expiration - new Date().getTime())
 
   if (isLoading) {
     return (
@@ -86,7 +86,7 @@ const SecondStep = (props) => {
             </Text>
             <ExpiryText size='13px' weight={300}>
               <FormattedMessage id='scenes.exchange.exchangebox.secondstep.expiry' defaultMessage={`Quote expires in: `} />
-              {timeLeft.getMinutes()}:{timeLeft.getSeconds()}
+              <CountdownTimer timeLeft={timeLeft} />
               <Tooltip>
                 <FormattedMessage id='scenes.exchange.exchangebox.secondstep.expiryexplanation' defaultMessage='This rate will expire after 10 minutes. If that happens please restart your trade.' />
               </Tooltip>

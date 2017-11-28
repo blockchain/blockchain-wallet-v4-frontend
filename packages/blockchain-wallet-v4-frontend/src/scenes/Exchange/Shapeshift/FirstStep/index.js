@@ -21,6 +21,7 @@ class FirstStepContainer extends React.Component {
 
   componentWillMount () {
     this.props.formActions.initialize('exchange', this.props.initialValues)
+    this.props.shapeShiftActions.initShapeShift()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -68,7 +69,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch)
+  shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch),
+  bitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
