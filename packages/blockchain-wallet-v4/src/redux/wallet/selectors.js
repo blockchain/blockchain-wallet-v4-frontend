@@ -21,6 +21,7 @@ export const getAddresses = compose(ImtoJS, map(Address.toJS), Wallet.selectAddr
 export const getHDAccounts = compose(ImtoJS, map(HDAccount.toJS), Wallet.selectHDAccounts, Wrapper.selectWallet)
 export const getSeedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
 export const getMnemonic = curry((state, password) => compose(Wallet.getMnemonic(password), Wrapper.selectWallet)(state))
+export const getDefaultAccount = compose(HDWallet.selectDefaultAccount, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
 export const getDefaultAccountIndex = compose(HDWallet.selectDefaultAccountIdx, HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)
 export const getAccountXpub = curry((state, index) => compose(HDAccount.selectXpub, HDWallet.selectAccount(index), HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)(state))
 export const getAccountLabel = curry((state, index) => compose(HDAccount.selectLabel, HDWallet.selectAccount(index), HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet)(state))

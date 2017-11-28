@@ -7,13 +7,16 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  border: 1px solid ${props => props.theme['gray-2']};
+  margin: 10px 0;
 `
 
-const HistoryRow = ({ children }) => (
-  <Wrapper>
-    {children}
-  </Wrapper>
-)
+const Pagination = props => {
+  const { children } = props
+  return (
+    <Wrapper>
+      {children}
+    </Wrapper>
+  )
+}
 
-export default HistoryRow
+export default Pagination
