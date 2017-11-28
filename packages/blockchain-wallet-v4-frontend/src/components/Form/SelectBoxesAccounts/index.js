@@ -99,10 +99,10 @@ const filterFirstAccount = (accounts, value) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const bitcoinHdAccounts = selectors.core.common.getAccountsBalances(state)
-  const bitcoinLegacyAddresses = selectors.core.common.getAddressesBalances(state)
+  const bitcoinHdAccounts = selectors.core.common.bitcoin.getAccountsBalances(state)
+  const bitcoinLegacyAddresses = selectors.core.common.bitcoin.getAddressesBalances(state)
   const bitcoinAccounts = map(a => assoc('coin', 'BTC', a), concat(bitcoinHdAccounts, bitcoinLegacyAddresses))
-  const ethereumAccounts = map(a => assoc('coin', 'ETH', a), selectors.core.kvStore.ethereum.getAccounts(state))
+  const ethereumAccounts = selectors.core.common.ethereum.getAccountBalances(state)
 
   return {
     coinDisplayed: selectors.preferences.getCoinDisplayed(state),

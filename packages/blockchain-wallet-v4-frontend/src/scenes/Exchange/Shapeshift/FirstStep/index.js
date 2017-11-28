@@ -2,46 +2,39 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
-import { equals, path } from 'ramda'
-import { actions } from 'data'
+import { assoc, equals, path } from 'ramda'
 
+import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
-
-    const { exchangeAccounts } = this.props
     const amount = this.props.amount || 0
-    const sourceCoin = exchangeAccounts && exchangeAccounts.source ? exchangeAccounts.source.coin : 'BTC'
-    const targetCoin = exchangeAccounts && exchangeAccounts.target ? exchangeAccounts.target.coin : 'ETH'
+    const sourceCoin = path(['source', 'coin'], this.props.accounts) || 'BTC'
+    const targetCoin = path(['target', 'coin'], this.props.accounts) || 'ETH'
 
     this.state = { sourceCoin, targetCoin, amount }
+
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillMount () {
+    this.props.formActions.initialize('exchange', this.props.initialValues)
     this.props.shapeShiftActions.initShapeShift()
-    // this.props.bitcoinActions.getUnspent()
   }
 
   componentWillReceiveProps (nextProps) {
-    const nextExchangeAccounts = nextProps.exchangeAccounts
-    const nextAmount = nextProps.amount
+    const { amount, accounts } = nextProps
 
-    if (nextExchangeAccounts) {
-      if (!equals(this.props.exchangeAccounts, nextExchangeAccounts)) {
-        this.setState({
-          sourceCoin: path(['source', 'coin'], nextExchangeAccounts),
-          targetCoin: path(['target', 'coin'], nextExchangeAccounts)
-        })
-      }
+    if (!equals(this.props.accounts, accounts)) {
+      const sourceCoin = path(['source', 'coin'], accounts)
+      const targetCoin = path(['target', 'coin'], accounts)
+      this.setState({ sourceCoin, targetCoin })
     }
 
-    if (nextAmount && !equals(this.props.amount, nextAmount)) {
-      this.setState({
-        amount: nextAmount
-      })
+    if (!equals(this.props.amount, amount)) {
+      this.setState({ amount })
     }
   }
 
@@ -50,25 +43,32 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    const { exchangeAccounts, ...rest } = this.props
+    const { sourceCoin, targetCoin, amount } = this.state
 
-    return (
-      <FirstStep
-        sourceCoin={this.state.sourceCoin}
-        targetCoin={this.state.targetCoin}
-        sourceAmount={this.state.amount}
-        handleSubmit={this.handleSubmit}
-        {...rest} />
-    )
+    return <FirstStep sourceCoin={sourceCoin} targetCoin={targetCoin} sourceAmount={amount} handleSubmit={this.handleSubmit} {...this.props} />
   }
 }
 
-const mapStateToProps = (state) => ({
-  exchangeAccounts: formValueSelector('exchange')(state, 'accounts'),
-  amount: formValueSelector('exchange')(state, 'amount')
-})
+const mapStateToProps = (state) => {
+  const source = selectors.core.wallet.getDefaultAccount(state)
+  console.log(source)
+  const target = selectors.core.kvStore.ethereum.getDefaultAccount(state)
+  const initialValues = {
+    accounts: {
+      source: assoc('coin', 'BTC', source),
+      target: assoc('coin', 'ETH', target)
+    }
+  }
+
+  return {
+    initialValues,
+    accounts: formValueSelector('exchange')(state, 'accounts'),
+    amount: formValueSelector('exchange')(state, 'amount')
+  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch),
   bitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch)
 })

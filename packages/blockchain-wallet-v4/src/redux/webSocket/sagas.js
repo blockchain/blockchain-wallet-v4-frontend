@@ -3,7 +3,7 @@ import { prop, compose } from 'ramda'
 import * as A from '../actions'
 import * as T from '../actionTypes'
 import { Wrapper, Wallet } from '../../types'
-import { commonSaga } from '../common/sagas.js'
+import { commonSagasFactory } from '../common/sagas.js'
 import * as walletSelectors from '../wallet/selectors'
 // import * as transSelectors from '../data/transactions/selectors'
 import { Socket } from '../../network'
@@ -11,7 +11,7 @@ import { Socket } from '../../network'
 export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
   const send = socket.send.bind(socket)
 
-  const commonSagas = commonSaga({ api })
+  const commonSagas = commonSagasFactory({ api })
 
   const onOpen = function * (action) {
     const wrapper = yield select(prop(walletPath))
