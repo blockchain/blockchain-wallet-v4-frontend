@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import ui from 'redux-ui'
-import { equals, head, map, slice, path, prop, repeat } from 'ramda'
+import { equals, map, slice, path, prop } from 'ramda'
 import moment from 'moment'
 
 import { actions, selectors } from 'data'
