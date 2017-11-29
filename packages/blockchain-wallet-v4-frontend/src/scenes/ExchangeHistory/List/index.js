@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import ui from 'redux-ui'
-import { assoc, head, map, repeat, slice } from 'ramda'
+import { equals, head, map, slice, path, prop, repeat } from 'ramda'
 import moment from 'moment'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import List from './template.js'
 
 class ListContainer extends React.Component {
@@ -13,24 +13,52 @@ class ListContainer extends React.Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleClickPage = this.handleClickPage.bind(this)
+    this.transformTrade = this.transformTrade.bind(this)
   }
 
-  handleClick (trade) {
-    this.props.modalActions.showModal('ExchangeDetails', { trade })
+  componentWillMount () {
+    const depositAddresses = map(t => path(['quote', 'deposit'], t), this.props.trades)
+    this.props.dataActions.getShapeshiftOrderStatuses(depositAddresses)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.ui.page, nextProps.ui.page)) {
+      const depositAddresses = map(t => path(['quote', 'deposit'], t), nextProps.trades)
+      this.props.dataActions.getShapeshiftOrderStatuses(depositAddresses)
+    }
+  }
+
+  handleClick (address) {
+    this.props.modalActions.showModal('ExchangeDetails', { address })
   }
 
   handleClickPage (value) {
     this.props.updateUI({ page: value })
   }
 
+  transformTrade (trade) {
+    const { tradesStatus } = this.props
+    const address = path(['quote', 'deposit'], trade)
+    const status = prop(address, tradesStatus)
+    return {
+      address,
+      date: moment(prop('timestamp', trade)).format('DD MMMM YYYY, HH:mm'),
+      status: prop('status', trade),
+      incomingCoin: prop('incomingCoin', status),
+      incomingType: prop('incomingType', status),
+      outgoingCoin: prop('outgoingCoin', status),
+      outgoingType: prop('outgoingType', status)
+    }
+  }
+
   render () {
-    const trades = map(x => assoc('date', moment(x.date).format('DD MMMM YYYY, HH:mm'), x), this.props.trades)
-    // const temp = map(x => assoc('date', moment(x.date).format('DD MMMM YYYY, HH:mm'), x), this.props.trades)
-    // const trades = repeat(head(temp), 105)
+    const { trades } = this.props
+    const finalTrades = map(this.transformTrade, trades)
+
     const pageSize = 10
     const pageTotal = Math.trunc((trades.length / pageSize)) + 1
     const pageNumber = this.props.ui.page
-    const paginatedTrades = slice((pageNumber - 1) * pageSize, pageNumber * pageSize, trades)
+    const paginatedTrades = slice((pageNumber - 1) * pageSize, pageNumber * pageSize, finalTrades)
 
     return <List
       trades={paginatedTrades}
@@ -43,13 +71,18 @@ class ListContainer extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  tradesStatus: selectors.core.data.shapeShift.getTradesStatus(state)
+})
+
 const mapDispatchToProps = dispatch => ({
+  dataActions: bindActionCreators(actions.data, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
   ui({ state: { page: 1 } }),
-  connect(undefined, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(ListContainer)

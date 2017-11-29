@@ -21,7 +21,6 @@ class FirstStepContainer extends React.Component {
     const targetCoin = path(['target', 'coin'], accounts) || 'ETH'
 
     this.state = { sourceCoin, targetCoin, amount }
-
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -91,11 +90,13 @@ class FirstStepContainer extends React.Component {
                                 : 0)
                               : bitcoinEffectiveBalance
 
+    const { sourceCoin, targetCoin, amount } = this.state
+
     return (
       <FirstStep
-        sourceCoin={this.state.sourceCoin}
-        targetCoin={this.state.targetCoin}
-        sourceAmount={this.state.amount}
+        sourceCoin={sourceCoin}
+        targetCoin={targetCoin}
+        sourceAmount={amount}
         handleSubmit={this.handleSubmit}
         max={effectiveBalance}
         {...rest} />

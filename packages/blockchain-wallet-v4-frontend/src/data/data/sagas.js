@@ -87,6 +87,16 @@ const getEthBtc = function * (action) {
   }
 }
 
+const getShapeshiftOrderStatuses = function * (action) {
+  try {
+    const { addresses } = action.payload
+    console.log(sagas)
+    yield call(sagas.core.data.shapeShift.getTradesStatus, addresses)
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch shapeshift trade statuses.'))
+  }
+}
+
 export default function * () {
   yield takeEvery(AT.GET_ADVERTS, getAdverts)
   yield takeEvery(AT.GET_CAPTCHA, getCaptcha)
@@ -98,4 +108,5 @@ export default function * () {
   yield takeEvery(AT.GET_TRANSACTION_HISTORY, getTransactionHistory)
   yield takeEvery(AT.GET_BTC_ETH, getBtcEth)
   yield takeEvery(AT.GET_ETH_BTC, getEthBtc)
+  yield takeEvery(AT.GET_SHAPESHIFT_ORDER_STATUSES, getShapeshiftOrderStatuses)
 }
