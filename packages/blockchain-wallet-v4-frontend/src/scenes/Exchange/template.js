@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import ExchangeLayout from 'layouts/Exchange'
-import ShapeShift from './ShapeShift'
+import Shapeshift from './Shapeshift'
 import Info from './Info'
 import Support from './Support'
 
@@ -50,7 +50,7 @@ const Exchange = () => (
   <ExchangeLayout>
     <Wrapper>
       <ColumnLeft>
-        <ShapeShift />
+        <Shapeshift />
         <Support />
       </ColumnLeft>
       <ColumnRight>

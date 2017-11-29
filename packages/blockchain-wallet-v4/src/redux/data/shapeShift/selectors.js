@@ -25,3 +25,7 @@ export const getBtcEthRate = path(['shapeShift', 'btc_eth', 'rate'])
 export const getEthBtcRate = path(['shapeShift', 'eth_btc', 'rate'])
 
 export const getOrder = path(['shapeShift', 'order'])
+
+export const getTradeStatus = address => path(['shapeShift', 'trades', address])
+
+export const getTradesStatus = path(['shapeShift', 'trades'])

@@ -1,4 +1,5 @@
-import { call, put } from 'redux-saga/effects'
+import { all, call, put } from 'redux-saga/effects'
+import { map } from 'ramda'
 import * as A from './actions'
 
 export const shapeShift = ({ api } = {}) => {
@@ -17,9 +18,20 @@ export const shapeShift = ({ api } = {}) => {
     yield put(A.setOrder(response))
   }
 
+  const getTradeStatus = function * (address) {
+    const response = yield call(api.getTradeStatus, address)
+    yield put(A.setTradeStatus(response))
+  }
+
+  const getTradesStatus = function * (addresses) {
+    yield all(map(a => call(getTradeStatus, a), addresses))
+  }
+
   return {
     fetchBtcEth,
     fetchEthBtc,
-    createOrder
+    createOrder,
+    getTradeStatus,
+    getTradesStatus
   }
 }

@@ -41,6 +41,10 @@ export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
     endPoint: `marketinfo/eth_btc`
   })
 
+  const getTradeStatus = (address) => get({
+    endPoint: `txStat/${address}`
+  })
+
   const createQuote = ({ depositAmount, pair }) => post({
     endPoint: 'sendamount', apiKey: shapeShiftApiKey, depositAmount, pair
   })
@@ -52,6 +56,7 @@ export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
   return {
     getBtcEth,
     getEthBtc,
+    getTradeStatus,
     createQuote,
     createOrder
   }

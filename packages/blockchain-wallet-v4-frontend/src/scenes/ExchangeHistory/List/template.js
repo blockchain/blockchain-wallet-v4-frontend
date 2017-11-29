@@ -51,25 +51,25 @@ const List = props => {
           </TableCell>
         </TableHeader>
         {trades.map((trade, index) => {
-          const { date, status } = trade
+          console.log(trade)
           return (
             <TableRow key={index}>
               <TableCell width='15%'>
-                <OrderStatus status={status} />
+                <OrderStatus status={trade.status} />
               </TableCell>
               <TableCell width='15%'>
-                <Link size='14px' weight={300} capitalize onClick={() => handleClick(trade)}>
+                <Link size='14px' weight={300} capitalize onClick={() => handleClick(trade.address)}>
                   <FormattedMessage id='scenes.exchangehistory.list.details' defaultMessage='View details' />
                 </Link>
               </TableCell>
               <TableCell width='30%'>
-                <Text size='14px' weight={300}>{date}</Text>
+                <Text size='14px' weight={300}>{trade.date}</Text>
               </TableCell>
               <TableCell width='20%'>
-                <Text size='14px' weight={300}>0.05633931 ETH</Text>
+                <Text size='14px' weight={300}>{`${trade.incomingCoin} ${trade.incomingType}`}</Text>
               </TableCell>
               <TableCell width='20%'>
-                <Text size='14px' weight={300}>0.00123241 BTC</Text>
+                <Text size='14px' weight={300}>{`${trade.outgoingCoin} ${trade.outgoingType}`}</Text>
               </TableCell>
             </TableRow>
           )
