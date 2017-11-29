@@ -4,7 +4,7 @@ import styled, { keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { merge } from 'ramda'
 
-import { Button, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Text, TextGroup, Tooltip } from 'blockchain-info-components'
+import { Button, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Text, Tooltip } from 'blockchain-info-components'
 
 const bounceAnimation = keyframes`
   0%, 100% { transform: scale(0.9); }
@@ -101,13 +101,14 @@ const selectStyle = status => {
 
 const ExchangeDetails = (props) => {
   const { position, total, close, trade } = props
-  const { status } = trade
+  const { status, exchangeRate, transactionFee, orderId, incomingCoin, incomingType, outgoingCoin, outgoingType } = trade
   const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
 
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
-        <FormattedMessage id='modals.exchangedetails.title' defaultMessage='Exchange details' />
+        {status === 'complete' && <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success ! Your exchange is complete' />}
+        {status !== 'complete' && <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />}
       </ModalHeader>
       <ModalBody>
         <Timeline>
@@ -142,27 +143,29 @@ const ExchangeDetails = (props) => {
             <Line color={color2} />
           </TimelineLines>
         </Timeline>
-        <Notice>
-          <Text size='13px' weight={300}>
-            <FormattedMessage id='modals.exchangedetails.explain' defaultMessage='Your exchange is complete.' />
-            <FormattedMessage id='modals.exchangedetails.explain2' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
-          </Text>
-        </Notice>
+        { status === 'complete' &&
+          <Notice>
+            <Text size='13px' weight={300}>
+              <FormattedMessage id='modals.exchangedetails.explain' defaultMessage='Your exchange is complete.' />
+              <FormattedMessage id='modals.exchangedetails.explain2' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
+            </Text>
+          </Notice>
+        }
         <Info>
           <InfoRow>
             <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: 'ether' }} />
+              <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: incomingType }} />
             </Text>
             <Text size='13px' weight={300} uppercase>
-              0.05633931 ETH
+              {`${incomingCoin} ${incomingType}`}
             </Text>
           </InfoRow>
           <InfoRow>
             <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: 'ether' }} />
+              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: outgoingType }} />
             </Text>
             <Text size='13px' weight={300} uppercase>
-              0.00123241 BTC
+              {`${outgoingCoin} ${outgoingType}`}
             </Text>
           </InfoRow>
           <InfoRow>
@@ -173,7 +176,7 @@ const ExchangeDetails = (props) => {
               </Tooltip>
             </Text>
             <Text size='13px' weight={300} uppercase>
-              1 ETH = 0.04406172 BTC
+              {`1 ${incomingType} = ${exchangeRate} ${outgoingType}`}
             </Text>
           </InfoRow>
           <InfoRow>
@@ -184,7 +187,7 @@ const ExchangeDetails = (props) => {
               </Tooltip>
             </Text>
             <Text size='13px' weight={300} uppercase>
-              0.00125 BTC
+              {transactionFee}
             </Text>
           </InfoRow>
           <InfoRow>
@@ -192,7 +195,7 @@ const ExchangeDetails = (props) => {
               <FormattedMessage id='modals.exchangedetails.orderid' defaultMessage='Order ID:' />
             </Text>
             <Text size='13px' weight={300} uppercase>
-              5ec574a4-2c54-431f-bfc4-83bbf9ede8e7
+              {orderId}
             </Text>
           </InfoRow>
         </Info>
