@@ -1,4 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
@@ -38,7 +39,9 @@ export const getLogs = function * (action) {
 export const getBitcoinTransactions = function * (action) {
   const { address } = action.payload
   try {
+    yield put(actions.application.startRequest())
     yield call(sagas.core.data.bitcoin.fetchTransactions, { address })
+    yield put(actions.application.stopRequest())
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch bitcoin transactions.'))
   }
@@ -90,8 +93,9 @@ const getEthBtc = function * (action) {
 const getShapeshiftOrderStatuses = function * (action) {
   try {
     const { addresses } = action.payload
-    console.log(sagas)
+    yield put(actions.application.startRequest())
     yield call(sagas.core.data.shapeShift.getTradesStatus, addresses)
+    yield put(actions.application.stopRequest())
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch shapeshift trade statuses.'))
   }
