@@ -47,16 +47,13 @@ class WalletLayoutContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    scroll: selectors.scroll.selectScroll(state)
-  }
-}
+const mapStateToProps = (state) => ({
+  scroll: selectors.scroll.selectScroll(state),
+  isFetching: selectors.application.selectIsFetching(state)
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    scrollActions: bindActionCreators(actions.scroll, dispatch)
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  scrollActions: bindActionCreators(actions.scroll, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletLayoutContainer)

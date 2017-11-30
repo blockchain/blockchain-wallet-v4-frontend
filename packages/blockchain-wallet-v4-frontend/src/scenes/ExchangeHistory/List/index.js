@@ -17,12 +17,15 @@ class ListContainer extends React.Component {
   }
 
   componentWillMount () {
+    console.log('componentWillMount')
     const depositAddresses = map(t => path(['quote', 'deposit'], t), this.props.trades)
     this.props.dataActions.getShapeshiftOrderStatuses(depositAddresses)
   }
 
   componentWillReceiveProps (nextProps) {
+    console.log('componentWillReceiveProps')
     if (!equals(this.props.ui.page, nextProps.ui.page)) {
+      console.log(this.props.ui.page, nextProps.ui.page)
       const depositAddresses = map(t => path(['quote', 'deposit'], t), nextProps.trades)
       this.props.dataActions.getShapeshiftOrderStatuses(depositAddresses)
     }

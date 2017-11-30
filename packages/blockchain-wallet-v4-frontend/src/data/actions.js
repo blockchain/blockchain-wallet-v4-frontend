@@ -1,5 +1,6 @@
 import { coreActions as core } from 'blockchain-wallet-v4/src'
 import * as alerts from './alerts/actions.js'
+import * as application from './application/actions.js'
 import * as auth from './auth/actions.js'
 import * as data from './data/actions.js'
 import * as goals from './goals/actions.js'
@@ -17,6 +18,7 @@ import * as wallet from './wallet/actions.js'
 export {
   core,
   alerts,
+  application,
   auth,
   data,
   goals,
