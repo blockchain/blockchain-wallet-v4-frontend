@@ -34,11 +34,23 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
   })
 
+  const getLatestBlock = () => get({
+    url: rootUrl,
+    endPoint: 'latestblock'
+  })
+
+  const getRawTx = (txHex) => get({
+    url: rootUrl,
+    endPoint: 'rawtx/' + txHex
+  })
+
   return {
     getBitcoinTicker,
     getBitcoinUnspents,
     getBitcoinFee,
     pushTx,
-    getTransactionFiatAtTime
+    getTransactionFiatAtTime,
+    getLatestBlock,
+    getRawTx
   }
 }
