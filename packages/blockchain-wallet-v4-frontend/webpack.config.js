@@ -144,13 +144,13 @@ module.exports = {
     headers: {
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
-        "style-src 'self' 'unsafe-inline'",
-        'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
-        'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
+        "style-src 'self' https://hosted-sip.civic.com/ 'unsafe-inline'",
+        'frame-src https://verify.isignthis.com/ https://hosted-sip.civic.com/ https://wallet-helper.blockchain.info',
+        'child-src https://verify.isignthis.com/ https://hosted-sip.civic.com/ https://wallet-helper.blockchain.info',
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
         "worker-src 'self' 'unsafe-eval' blob:",
-        "script-src 'self' 'unsafe-eval'",
+        "script-src 'self' https://hosted-sip.civic.com",
         // 'ws://localhost:8080' is only used by webpack for development and
         // should not be present on production.
         [
