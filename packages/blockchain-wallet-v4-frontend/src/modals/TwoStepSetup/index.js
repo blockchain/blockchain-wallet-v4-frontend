@@ -10,6 +10,7 @@ class TwoStepSetupContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleGoogleAuthenticator = this.handleGoogleAuthenticator.bind(this)
+    this.handleCivic = this.handleCivic.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
     this.handleYubico = this.handleYubico.bind(this)
     this.handleDisable = this.handleDisable.bind(this)
@@ -21,6 +22,15 @@ class TwoStepSetupContainer extends React.Component {
 
   handleYubico () {
     this.props.modalActions.showModal('TwoStepYubico')
+  }
+
+  handleCivic () {
+    var civicSip = new civic.sip({ appId: 'Hk--MyWeM' }) // eslint-disable-line
+    civicSip.signup({ style: 'popup', scopeRequest: civicSip.ScopeRequests.BASIC_SIGNUP })
+
+    civicSip.on('auth-code-received', (event) => {
+      console.log(event)
+    })
   }
 
   handleMobile () {
@@ -46,6 +56,7 @@ class TwoStepSetupContainer extends React.Component {
         handleGoogleAuthenticator={this.handleGoogleAuthenticator}
         handleMobile={this.handleMobile}
         handleYubico={this.handleYubico}
+        handleCivic={this.handleCivic}
         handleDisable={this.handleDisable}
       />
     )

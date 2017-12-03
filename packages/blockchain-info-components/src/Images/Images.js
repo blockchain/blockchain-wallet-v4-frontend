@@ -3,6 +3,7 @@ import bitcoinNetwork from './img/bitcoin-network.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
 import blockchainVector from './img/blockchain-vector.svg'
 import blueLogo from './img/blue-logo.svg'
+import civic from './img/civic.png'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.png'
 import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
@@ -25,6 +26,7 @@ export default {
   'blockchain-blue': blockchainBlue,
   'blockchain-vector': blockchainVector,
   'blue-logo': blueLogo,
+  'civic': civic,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
   'landing-page-banner-overlay': landingPageBannerOverlay,

@@ -36,7 +36,7 @@ const Container = styled.div`
 
 const TwoStepSetup = (props) => {
   const { position, total, close, closeAll, ...rest } = props
-  const { handleGoogleAuthenticator, handleMobile, handleYubico, handleDisable, authType } = rest
+  const { handleGoogleAuthenticator, handleMobile, handleCivic, handleYubico, handleDisable, authType } = rest
 
   return authType !== 0 ? (
     <Modal size='large' position={position} total={total}>
@@ -82,6 +82,12 @@ const TwoStepSetup = (props) => {
             <Image name='yubikey' height='100px' />
             <Text size='14px' weight={300}>
               <FormattedMessage id='modals.twostepsetup.use_yubikey' defaultMessage='Yubikey' />
+            </Text>
+          </Container>
+          <Container onClick={handleCivic}>
+            <Image name='civic' height='100px' />
+            <Text size='14px' weight={300}>
+              <FormattedMessage id='modals.twostepsetup.use_civic' defaultMessage='Civic' />
             </Text>
           </Container>
           <Container onClick={handleMobile}>
