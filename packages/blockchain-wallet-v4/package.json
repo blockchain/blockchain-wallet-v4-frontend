@@ -48,7 +48,7 @@
     "chai": "~3.5.0",
     "chai-spies": "~0.7.1",
     "mocha": "~3.2.0",
-    "npm-watch": "~0.1.8",
+    "npm-watch": "^0.3.0",
     "standard": "^10.0.2"
   },
   "dependencies": {
@@ -79,7 +79,7 @@
     "ramda-lens": "https://github.com/ramda/ramda-lens.git",
     "redux": "^3.6.0",
     "redux-immutable": "^3.1.0",
-    "redux-saga": "^0.15.3",
+    "redux-saga": "^0.16.0",
     "seedrandom": "^2.4.3"
   }
 }
