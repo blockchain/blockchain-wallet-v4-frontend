@@ -1,15 +1,17 @@
-import {CommitmentSigned, OpenChannel, RevokeAndAck, UpdateAddHtlc} from './messages/serializer'
+import {CommitmentSigned, FundingCreated, OpenChannel, RevokeAndAck, UpdateAddHtlc} from './messages/serializer'
 import * as random from 'crypto'
 import assert from 'assert'
 import {
-  Channel, ChannelParams, ChannelUpdateTypes, ChannelUpdateWrapper, Direction, Payment,
+  Channel, ChannelParams, ChannelUpdateTypes, ChannelUpdateWrapper, Direction, Funded, Payment,
   PaymentWrapper
 } from './state'
 
 import {List, fromJS} from 'immutable'
 import {generatePerCommitmentPoint} from './key_derivation'
+import {checkCommitmentSignature, createKeySet, getCommitmentTransaction, getFundingTransaction} from './transactions'
+import xor from 'buffer-xor'
 
-const ec = require('../../../bcoin/lib/crypto/secp256k1-browser')
+const ec = require('secp256k1')
 const Long = require('long')
 const sha = require('sha256')
 
@@ -23,7 +25,7 @@ export let phase = {
 
 let createKey = () => {
   let key = {}
-  key.priv = random.randomBytes(32)
+  key.priv = Buffer.from(random.randomBytes(32))
   key.pub = ec.publicKeyCreate(key.priv, true)
   return fromJS(key)
 }
@@ -32,19 +34,33 @@ export let wrapPubKey = (pub) => ({pub, priv: null})
 
 let checkChannel = (channel, phase) => {
   assert(channel !== undefined)
-  assert(channel.phase === phase)
+  assert(channel.get('phase') === phase)
+  return channel
 }
 
 let getChannel = (state, channelId) => state.getIn(['channels', channelId])
 let getChannelCheck = (state, channelId, phase) => checkChannel(getChannel(state, channelId), phase)
 
-let addMessage = (msg) => state => state.updateIn(['messageOut'], o => o.push(msg))
-let updateChannel = (state, channelId, channel) => state.updateIn(['channels'], o => o.set(channelId, channel))
+let addMessage = (msg) => channel => channel.update('messageOut', o => o.push(msg))
+let updateChannel = (state, channelId, channel) => state.update('channels', o => o.set(channelId, channel))
 
 export let obscureHash = (basePoint1, basePoint2) => {
   let b = Buffer.concat([basePoint1, basePoint2])
   let s = Buffer.from(sha(b), 'hex')
   return s
+}
+
+let calculateChannelId = (commitmentInput) => {
+  let hash = commitmentInput.hash
+  let n = commitmentInput.n
+
+  let id = hash.slice(0, 32)
+  let nBuffer = Buffer.alloc(2)
+  nBuffer.writeUInt16BE(n, 0)
+
+  let x = xor(hash.slice(30, 31), nBuffer)
+  x.copy(id, 30)
+  return id
 }
 
 export function openChannel (state, peer, options, value) {
@@ -57,6 +73,7 @@ export function openChannel (state, peer, options, value) {
     options.maxHtlcValueInFlightMsat,
     options.channelReserveSatoshis,
     options.htlcMinimumMsat,
+    options.feeRatePerKw,
     options.toSelfDelay,
     options.maxAcceptedHtlcs,
     createKey(),
@@ -77,7 +94,7 @@ export function openChannel (state, peer, options, value) {
     value,
     new Long(0),
     new Long(0),
-    paramsJS.feeratePerKw,
+    paramsJS.feeRatePerKw,
     paramsJS.toSelfDelay,
     paramsJS.maxAcceptedHtlcs,
     paramsJS.fundingKey.pub,
@@ -89,19 +106,24 @@ export function openChannel (state, peer, options, value) {
   )
 
   let channel = Channel()
-    .set('staticRemote', peer.staticRemote)
+    .set('staticRemote', peer)
     .set('channelId', channelId)
+    .setIn(['commitmentInput', 'value'], value.toNumber())
     .set('paramsLocal', paramsLocal)
     .set('phase', phase.SENT_OPEN)
     .set('commitmentSecretSeed', commitmentSecret)
     .setIn(['local', 'nextCommitmentPoint'], nextCommitmentPoint)
+    .setIn(['local', 'amountMsatLocal'], Long.fromNumber(value).mul(1000))
+    .setIn(['local', 'amountMsatRemote'], Long.fromNumber(0))
+    .setIn(['remote', 'amountMsatRemote'], Long.fromNumber(value).mul(1000))
+    .setIn(['remote', 'amountMsatLocal'], Long.fromNumber(0))
     .update(addMessage(open))
 
-  return updateChannel(state, channelId, channel)
+  return state.setIn(['channels', channelId], channel)
 }
 
 export function readAcceptChannel (msg, state, peer) {
-  let channel = getChannelCheck(state, msg.channelId, phase.SENT_OPEN)
+  let channel = getChannelCheck(state, msg.temporaryChannelId, phase.SENT_OPEN)
 
   let paramsRemote = ChannelParams(
     wrapPubKey(msg.fundingPubkey),
@@ -109,23 +131,121 @@ export function readAcceptChannel (msg, state, peer) {
     msg.maxHtlcValueInFlightMsat,
     msg.channelReserveSatoshis,
     msg.htlcMinimumMsat,
+    channel.getIn(['paramsLocal', 'feeRatePerKw']),
     msg.toSelfDelay,
     msg.maxAcceptedHtlcs,
     wrapPubKey(msg.revocationBasepoint),
     wrapPubKey(msg.paymentBasepoint),
     wrapPubKey(msg.delayedPaymentBasepoint),
     wrapPubKey(msg.revocationBasepoint),
-    peer.gf,
-    peer.lf)
+    peer.get('gf'),
+    peer.get('lf'))
 
-  return channel
+  channel = channel
     .set('paramsRemote', paramsRemote)
     .set('minimumDepth', msg.minimumDepth)
-    .setIn(['remote', 'nextCommitmentPoint'], msg.nextCommitmentPoint)
+    .set('commitmentObscureHash', obscureHash(
+      channel.getIn(['paramsLocal', 'paymentBasepoint', 'pub']),
+      msg.paymentBasepoint))
+    .setIn(['remote', 'nextCommitmentPoint'], msg.firstPerCommitmentPoint)
+
+  return state.setIn(['channels', msg.temporaryChannelId], channel)
 }
 
-export function sendFundingCreated (channelId, state, wallet) {
+export function sendFundingCreated (state, channelId, wallet) {
+  let channel = getChannelCheck(state, channelId, phase.SENT_OPEN)
 
+  let fundingTx = getFundingTransaction(
+    wallet.unspents,
+    channel.getIn(['paramsRemote', 'fundingKey', 'pub']),
+    channel.getIn(['paramsLocal', 'fundingKey', 'pub']),
+    channel.getIn(['local', 'amountMsatLocal']).div(1000).toNumber(),
+    1000)
+
+  let fundingHash = fundingTx.hash()
+
+  channel = channel
+    .setIn(['commitmentInput', 'hash'], fundingHash)
+    .setIn(['commitmentInput', 'n'], 0)
+
+  console.info('Created funding transaction: \n' + fundingTx.toRaw().toString('hex'))
+
+  let keySet = createKeySet(
+    channel.getIn(['remote', 'nextCommitmentPoint']),
+    channel.getIn(['paramsRemote', 'paymentBasepoint', 'pub']),
+    channel.getIn(['paramsRemote', 'delayedPaymentBasepoint', 'pub']),
+    channel.getIn(['paramsLocal', 'revocationBasepoint', 'pub']),
+    channel.getIn(['paramsLocal', 'paymentBasepoint', 'pub']),
+    channel.getIn(['paramsLocal', 'fundingKey']).toJS(),
+    channel.getIn(['paramsRemote', 'fundingKey']).toJS()
+  )
+
+  let commitment = getCommitmentTransaction(
+    channel.get('commitmentInput').toJS(),
+    channel.get('commitmentObscureHash'),
+    [],
+    channel.getIn(['remote', 'commitmentNumber']),
+    channel.getIn(['remote', 'amountMsatLocal']),
+    channel.getIn(['remote', 'amountMsatRemote']),
+    channel.getIn(['paramsRemote', 'feeRatePerKw']),
+    channel.getIn(['paramsRemote', 'dustLimitSatoshis']).toNumber(),
+    channel.getIn(['paramsLocal', 'toSelfDelay']),
+    keySet,
+    Funded.REMOTE_FUNDED
+  )
+
+  let msg = FundingCreated(
+    channelId,
+    fundingHash,
+    0,
+    commitment.commitmentSig
+  )
+
+  channel = channel
+    .update(addMessage(msg))
+
+  return state
+    .setIn(['channels', channelId], channel)
+    .setIn(['channels', calculateChannelId(channel.get('commitmentInput').toJS())], channel)
+}
+
+export function readFundingSigned (msg, state) {
+  let channel = getChannelCheck(state, msg.channelId, phase.SENT_OPEN)
+
+  let keySet = createKeySet(
+    channel.getIn(['local', 'nextCommitmentPoint']),
+    channel.getIn(['paramsLocal', 'paymentBasepoint', 'pub']),
+    channel.getIn(['paramsLocal', 'delayedPaymentBasepoint', 'pub']),
+    channel.getIn(['paramsRemote', 'revocationBasepoint', 'pub']),
+    channel.getIn(['paramsRemote', 'paymentBasepoint', 'pub']),
+    channel.getIn(['paramsLocal', 'fundingKey']).toJS(),
+    channel.getIn(['paramsRemote', 'fundingKey']).toJS()
+  )
+
+  let input = channel.get('commitmentInput').toJS()
+  let commitment = getCommitmentTransaction(
+    input,
+    channel.get('commitmentObscureHash'),
+    [],
+    channel.getIn(['local', 'commitmentNumber']),
+    channel.getIn(['local', 'amountMsatLocal']),
+    channel.getIn(['local', 'amountMsatRemote']),
+    channel.getIn(['paramsLocal', 'feeRatePerKw']),
+    channel.getIn(['paramsLocal', 'dustLimitSatoshis']),
+    channel.getIn(['paramsRemote', 'toSelfDelay']),
+    keySet,
+    Funded.LOCAL_FUNDED
+  )
+
+  let sigCheck = checkCommitmentSignature(
+    input.value,
+    commitment.commitmentTx,
+    channel.getIn(['paramsLocal', 'fundingKey']).toJS(),
+    channel.getIn(['paramsRemote', 'fundingKey']).toJS(),
+    msg.signature)
+
+  console.info('Signature Check: ' + sigCheck)
+  // TODO need to wire up somehow with broadcasting transaction and keeping track of confirmations
 }
 
 let reverseWrapper = (wrapper) => {

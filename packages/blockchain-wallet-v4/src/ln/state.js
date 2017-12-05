@@ -88,6 +88,7 @@ export let Channel = () => fromJS({
   remote: ChannelState(),
   local: ChannelState(),
 
+  commitmentInput: {},
   commitmentObscureHash: null,
 
   commitmentSecretSeed: null,
