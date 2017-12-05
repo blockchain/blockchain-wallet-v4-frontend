@@ -24,6 +24,12 @@ export let Connection = () => ({
   error: null
 })
 
+export let Wallet = () => ({
+  unspents: [
+    {privKey: Buffer.from('92fc477d4310b63613c84cbb17ce39f7bb16b5a55daeb3462cb4aabbccddeeff', 'hex'), hash: Buffer.from('41935e3f9332ea8e2da79c3cc926ac1df66307809b6cb93a27ac62518ea6122d', 'hex'), n: 0, value: 900000}
+  ]
+})
+
 export let TransactionOutpoint = (hash, n) =>
                           fromJS({hash, n})
 
