@@ -15,3 +15,7 @@ TCP.prototype.connectToNode = function (node, onConnect, onData, onClose) {
 TCP.prototype.sendToNode = function (node, data) {
   this.messages.push(data)
 }
+
+TCP.prototype.close = function (node) {
+
+}
