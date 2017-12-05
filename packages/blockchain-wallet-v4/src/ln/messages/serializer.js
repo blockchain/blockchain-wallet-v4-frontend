@@ -257,7 +257,7 @@ export function writeFundingCreated (msg) {
 
 // FundingSigned
 export let FundingSigned = (channelId, signature) =>
-                          ({channelId, signature})
+                          ({channelId, signature, type: TYPE.FUNDING_SIGNED})
 
 export function readFundingSigned (buf) {
   return new FundingSigned(
