@@ -7,12 +7,10 @@ import styled from 'styled-components'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 
-import LandingLayout from 'layouts/Landing'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
 
 import ActionsContainer from './Actions'
-import LandingContainer from './Landing'
 import LoginContainer from './Login'
 import HelpContainer from './Help'
 import RecoverContainer from './Recover'
@@ -48,7 +46,7 @@ class App extends React.Component {
             <RootStyle>
               <ConnectedRouter history={history}>
                 <Switch>
-                  <LandingLayout exact path='/' component={LandingContainer} />
+
                   <PublicLayout path='/a/:payload' component={ActionsContainer} />
                   <PublicLayout path='/login' component={LoginContainer} />
                   <PublicLayout path='/help' component={HelpContainer} />
@@ -63,12 +61,13 @@ class App extends React.Component {
                   <WalletLayout path='/exchange/history' component={ExchangeHistoryContainer} />
                   <WalletLayout path='/exchange' component={ExchangeContainer} exact />
                   <WalletLayout path='/security-center' component={SecurityCenterContainer} />
-                  <Redirect from='/settings' to='/settings/info' />
                   <WalletLayout path='/settings/info' component={InfoContainer} />
                   <WalletLayout path='/settings/preferences' component={PreferencesContainer} />
                   <WalletLayout path='/settings/security' component={SecuritySettingsContainer} />
                   <WalletLayout path='/settings/addresses' component={AddressesContainer} />
                   <WalletLayout path='/faq' component={FaqContainer} />
+                  <Redirect from='/' to='/login' />
+                  <Redirect from='/settings' to='/settings/info' />
                 </Switch>
               </ConnectedRouter>
             </RootStyle>
