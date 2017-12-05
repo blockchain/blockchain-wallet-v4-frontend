@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
-import Ticker from './Ticker'
 import WhatsNew from './WhatsNew'
 import Refresh from './Refresh'
 import Logout from './Logout'
@@ -30,9 +29,6 @@ const Header = (props) => {
       <NavbarMenu toggled={navigationToggled}>
         <div />
         <NavbarNav>
-          <NavbarNavItem>
-            <Ticker />
-          </NavbarNavItem>
           <NavbarNavItem>
             <WhatsNew />
           </NavbarNavItem>

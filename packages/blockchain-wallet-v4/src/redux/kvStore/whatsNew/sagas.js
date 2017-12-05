@@ -7,7 +7,7 @@ import { derivationMap, WHATSNEW } from '../config'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const whatsNew = ({ kvStoreApi, kvStorePath, walletPath } = {}) => {
+export const whatsNew = ({ api, kvStorePath, walletPath } = {}) => {
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }
@@ -15,7 +15,7 @@ export const whatsNew = ({ kvStoreApi, kvStorePath, walletPath } = {}) => {
     const typeId = derivationMap[WHATSNEW]
     const hdwallet = yield select(compose(getDefaultHDWallet, prop(walletPath)))
     const kv = KVStoreEntry.fromHdWallet(hdwallet, typeId)
-    const newkv = yield callTask(kvStoreApi.fetch(kv))
+    const newkv = yield callTask(api.fetchKVStore(kv))
     yield put(A.setWhatsNew(newkv))
   }
 

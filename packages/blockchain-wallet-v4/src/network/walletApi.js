@@ -5,9 +5,8 @@ import { mapped } from 'ramda-lens'
 import Promise from 'es6-promise'
 import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from '../types'
 import { futurizeP } from 'futurize'
-import createApi from './Api'
+import createApi from './api'
 import * as Coin from '../coinSelection/coin.js'
-Promise.polyfill()
 
 const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   // ////////////////////////////////////////////////////////////////
@@ -29,7 +28,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
 
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSessionTask = (guid, session, password) =>
-    promiseToTask(ApiPromise.fetchWalletWithSession)(guid, session)
+    promiseToTask(ApiPromise.fetchPayloadWithSession)(guid, session)
       .chain(is2FAEnabled)
       .map(Wrapper.fromEncJSON(password))
       .chain(eitherToTask)
@@ -80,12 +79,12 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
         compose(HDAccount.selectXpub, HDWallet.selectAccount(source),
                 HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet))
       return eitherToTask(selectXpub(wrapper))
-            .chain(xpub => promiseToTask(ApiPromise.getUnspents)([xpub], confirmations))
+            .chain(xpub => promiseToTask(ApiPromise.getBitcoinUnspents)([xpub], confirmations))
             .map(prop('unspent_outputs'))
             .map(over(compose(mapped, lensProp('xpub')), assoc('index', source)))
             .map(map(Coin.fromJS))
     } else { // legacy address
-      return promiseToTask(ApiPromise.getUnspents)([source], confirmations)
+      return promiseToTask(ApiPromise.getBitcoinUnspents)([source], confirmations)
             .map(prop('unspent_outputs'))
             .map(over(mapped, assoc('priv', source)))
             .map(map(Coin.fromJS))

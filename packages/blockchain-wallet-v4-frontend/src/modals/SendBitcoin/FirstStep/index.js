@@ -5,7 +5,8 @@ import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 import { equals } from 'ramda'
 import * as crypto from 'crypto'
-import { convertSatoshisToUnit } from 'services/ConversionService'
+
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import FirstStep from './template.js'
 
@@ -16,7 +17,6 @@ class FirstStepContainer extends React.Component {
     this.seed = crypto.randomBytes(16).toString('hex')
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
-    this.handleClickQrCodeCapture = this.handleClickQrCodeCapture.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -25,17 +25,19 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // console.log('componentWillReceiveProps:', this.props.effectiveBalance, nextProps.effectiveBalance)
-    const { fee, from, to, to2, amount, coins } = nextProps
+    const { coin, fee, from, to, to2, amount, feeValues, coins } = nextProps
+
+    // Replace the bitcoin modal to the ethereum modal
+    if (!equals(this.props.coin, coin) && coin === 'ETH') { this.props.paymentEthereumActions.initSendEther() }
+
+    // Update 'fee' if new value is fetched
+    if (!equals(this.props.feeValues, feeValues)) { this.props.formActions.change('sendBitcoin', 'fee', feeValues.regular) }
+
     // Update 'coins' if 'from' has been updated
-    if (!equals(this.props.from, from)) {
-      this.props.paymentActions.getUnspent(from)
-    }
+    if (!equals(this.props.from, from)) { this.props.paymentBitcoinActions.getUnspent(from) }
 
     // Update effective balance if fee or from (coins) has changed
-    if (!equals(this.props.fee, fee) || !equals(this.props.coins, coins)) {
-      this.props.paymentActions.getEffectiveBalance({ fee })
-    }
+    if (!equals(this.props.fee, fee) || !equals(this.props.coins, coins)) { this.props.paymentBitcoinActions.getEffectiveBalance({ fee }) }
 
     // // Refresh the selection if fee, targetCoin, coins or fromAddress have been updated
     if (from && (to || to2) && amount && fee &&
@@ -43,7 +45,7 @@ class FirstStepContainer extends React.Component {
       !equals(this.props.amount, amount) || !equals(this.props.fee, fee))) {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
-        this.props.paymentActions.getSelection({ from, to, to2, amount, fee, seed: this.seed })
+        this.props.paymentBitcoinActions.getSelection({ from, to, to2, amount, fee, seed: this.seed })
       }, 1000)
     }
   }
@@ -60,62 +62,59 @@ class FirstStepContainer extends React.Component {
     this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
   }
 
-  handleClickQrCodeCapture () {
-    this.props.modalActions.showModal('QRCodeCapture')
-  }
-
   onSubmit (e) {
     e.preventDefault()
     this.props.nextStep()
   }
 
   render () {
-    const { ui, position, total, closeAll, selection, unit, effectiveBalance } = this.props
-    const convertedEffectiveBalance = convertSatoshisToUnit(effectiveBalance, unit).value
+    const { ui, position, total, loading, closeAll, selection, unit, coins, effectiveBalance } = this.props
+    const convertedEffectiveBalance = Exchange.convertBitcoinToBitcoin({ value: effectiveBalance || 0, fromUnit: 'SAT', toUnit: unit }).value
 
     return <FirstStep
       position={position}
       total={total}
       closeAll={closeAll}
+      loading={loading}
+      coins={coins}
+      effectiveBalance={convertedEffectiveBalance}
       selection={selection}
       addressSelectToggled={ui.addressSelectToggled}
       addressSelectOpened={ui.addressSelectOpened}
       feeEditToggled={ui.feeEditToggled}
-      effectiveBalance={convertedEffectiveBalance}
       handleClickAddressToggler={this.handleClickAddressToggler}
       handleClickFeeToggler={this.handleClickFeeToggler}
-      handleClickQrCodeCapture={this.handleClickQrCodeCapture}
       onSubmit={this.onSubmit}
     />
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    initialValues: {
-      from: {
-        xpub: selectors.core.wallet.getDefaultAccountXpub(state),
-        index: selectors.core.wallet.getDefaultAccountIndex(state)
-      },
-      fee: selectors.core.data.fee.getRegular(state)
-    },
-    from: formValueSelector('sendBitcoin')(state, 'from'),
-    to: formValueSelector('sendBitcoin')(state, 'to'),
-    to2: formValueSelector('sendBitcoin')(state, 'to2'),
-    amount: formValueSelector('sendBitcoin')(state, 'amount'),
-    message: formValueSelector('sendBitcoin')(state, 'message'),
-    fee: formValueSelector('sendBitcoin')(state, 'fee'),
-    selection: selectors.core.data.payment.getSelection(state),
-    feeValues: selectors.core.data.fee.getFee(state),
-    effectiveBalance: selectors.core.data.payment.getEffectiveBalance(state),
-    coins: selectors.core.data.payment.getCoins(state),
-    unit: selectors.core.settings.getBtcUnit(state)
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  initialValues: {
+    coin: 'BTC',
+    from: {
+      xpub: selectors.core.wallet.getDefaultAccountXpub(state),
+      index: selectors.core.wallet.getDefaultAccountIndex(state)
+    }
+  },
+  coin: formValueSelector('sendBitcoin')(state, 'coin'),
+  from: formValueSelector('sendBitcoin')(state, 'from'),
+  to: formValueSelector('sendBitcoin')(state, 'to'),
+  to2: formValueSelector('sendBitcoin')(state, 'to2'),
+  amount: formValueSelector('sendBitcoin')(state, 'amount'),
+  message: formValueSelector('sendBitcoin')(state, 'message'),
+  fee: formValueSelector('sendBitcoin')(state, 'fee'),
+  selection: selectors.core.data.bitcoin.getSelection(state),
+  feeValues: selectors.core.data.bitcoin.getFee(state),
+  effectiveBalance: selectors.core.data.bitcoin.getEffectiveBalance(state),
+  coins: selectors.core.data.bitcoin.getCoins(state),
+  unit: selectors.core.settings.getBtcUnit(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentActions: bindActionCreators(actions.payment, dispatch),
+  paymentBitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch),
+  paymentEthereumActions: bindActionCreators(actions.payment.ethereum, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

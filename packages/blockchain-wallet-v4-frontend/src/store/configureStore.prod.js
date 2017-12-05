@@ -20,14 +20,17 @@ const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig) : compose
   const walletPath = settings.WALLET_PAYLOAD_PATH
+  const kvStorePath = settings.WALLET_KVSTORE_PATH
+  const isAuthenticated = selectors.auth.isAuthenticated
 
   const store = createStore(
     connectRouter(history)(rootReducer),
     composeEnhancers(
       applyMiddleware(
         routerMiddleware(history),
-        // coreMiddleware.walletSync({isAuthenticated: auth.isAuthenticated, api, walletPath}),
-        coreMiddleware.socket({ socket, walletPath, isAuthenticated: selectors.auth.isAuthenticated }),
+        coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
+        coreMiddleware.socket({ socket, walletPath, isAuthenticated }),
+        coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
         sagaMiddleware
       ),
       autoRehydrate()

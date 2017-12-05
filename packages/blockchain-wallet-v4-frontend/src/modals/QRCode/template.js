@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import QRCodeReact from 'qrcode-react'
+import QRCodeReact from 'qrcode.react'
 
 import { Link, Modal, ModalHeader, ModalBody, ModalFooter, Text, Tooltip } from 'blockchain-info-components'
 import CopyClipboard from 'components/CopyClipboard'
@@ -47,8 +47,7 @@ const QRCode = (props) => {
 }
 
 QRCode.propTypes = {
-  address: PropTypes.string.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  address: PropTypes.string.isRequired
 }
 
 export default QRCode

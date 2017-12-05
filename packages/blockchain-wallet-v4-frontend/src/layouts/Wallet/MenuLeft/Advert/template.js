@@ -55,4 +55,8 @@ Advert.propTypes = {
   })).isRequired
 }
 
+Advert.defaultProps = {
+  adverts: []
+}
+
 export default Advert

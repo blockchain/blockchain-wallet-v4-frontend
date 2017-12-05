@@ -5,41 +5,53 @@ import styled from 'styled-components'
 import { Icon, TextInput, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  height: 40px;
 `
-const CoinConvertorInput = styled.div`
+const Row = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100%;
+
+  & > :first-child { width: 45%; }
+  & > :last-child { width: 45%; }
+`
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: ${props => props.center ? 'center' : 'flex-start'};
+  align-items: flex-start;
+  height: auto;
 `
 const Container = styled.div`
   position: relative;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
+  width: 100%;
+  border-top: 1px solid ${props => props.theme['gray-2']};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
+  border-left: 1px solid ${props => props.theme['gray-2']};
+  border-right: 1px solid ${props => props.theme['gray-2']};
+  ${props => props.fiat && 'border-top: none;'}
+
+  & > input { border: none; }
 `
 const Unit = styled.span`
-  position: absolute;
-  padding: 0 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  font-size: 13px;
+  font-weight: 300;
   color: ${props => props.theme['gray-4']};
-`
-const ArrowLeft = styled(Icon)`
-  margin-left: 5px;
-`
-const ArrowRight = styled(Icon)`
-  margin-left: -10px;
-  margin-right: 5px;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -48,42 +60,73 @@ const Error = styled(Text)`
   right: 0;
   height: 15px;
 `
+
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
 const CoinConvertor = (props) => {
-  const { coinValue, fiatValue, coinUnit, fiatUnit, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
+  const { coin1, coin2, fiat1, fiat2, coin1Unit, coin2Unit, currency, meta, ...rest } = props
+  const { handleChangeCoin1, handleChangeCoin2, handleChangeFiat1, handleChangeFiat2 } = rest
   const errorState = getErrorState(meta)
 
   return (
     <Wrapper>
-      <CoinConvertorInput>
-        <Container>
-          <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={coinValue} errorState={errorState} />
-          <Unit>{coinUnit}</Unit>
-        </Container>
-        <ArrowLeft size='16px' name='left-arrow' />
-        <ArrowRight size='16px' name='right-arrow' />
-        <Container>
-          <TextInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiatValue} errorState={errorState} />
-          <Unit>{fiatUnit}</Unit>
-        </Container>
-      </CoinConvertorInput>
-      {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
+      <Row>
+        <Column>
+          <Container>
+            <TextInput onChange={handleChangeCoin1} value={coin1} errorState={errorState} />
+            <Unit>{coin1Unit}</Unit>
+          </Container>
+          <Container fiat>
+            <Unit>{currency}</Unit>
+            <TextInput onChange={handleChangeFiat1} value={fiat1} />
+          </Container>
+        </Column>
+        <Column center>
+          <Icon name='right-arrow' size='24px' />
+        </Column>
+        <Column>
+          <Container>
+            <TextInput onChange={handleChangeCoin2} value={coin2} errorState={errorState} />
+            <Unit>{coin2Unit}</Unit>
+          </Container>
+          <Container fiat>
+            <Unit>{currency}</Unit>
+            <TextInput onChange={handleChangeFiat2} value={fiat2} />
+          </Container>
+        </Column>
+      </Row>
+      {/* {canExchange
+        ? <MinMaxText weight={300} size='12px'>
+          <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
+          <Link size='12px' weight={300} onClick={enterMin}><FormattedMessage id='scenes.exchangebox.firststep.min' defaultMessage='minimum' /></Link>
+          <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
+          <Link size='12px' weight={300} onclick={enterMax}><FormattedMessage id='scenes.exchangebox.firststep.max' defaultMessage='maximum' /></Link>
+        </MinMaxText>
+        : <MinMaxText color='error' weight={300} size='12px'>
+          <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage={`x ${fromCoin} needed to exchange.`} />
+        </MinMaxText>
+      } */}
+      <Row>
+        {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
+      </Row>
     </Wrapper>
   )
 }
 
 CoinConvertor.propTypes = {
-  coinValue: PropTypes.string,
-  fiatValue: PropTypes.string,
-  coinUnit: PropTypes.string.isRequired,
-  fiatUnit: PropTypes.string.isRequired,
-  handleBlur: PropTypes.func.isRequired,
-  handleCoinChange: PropTypes.func.isRequired,
-  handleFiatChange: PropTypes.func.isRequired,
-  handleFocus: PropTypes.func.isRequired
+  coin1: PropTypes.string.isRequired,
+  coin2: PropTypes.string.isRequired,
+  fiat1: PropTypes.string.isRequired,
+  fiat2: PropTypes.string.isRequired,
+  coin1Unit: PropTypes.string.isRequired,
+  coin2Unit: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
+  handleChangeCoin1: PropTypes.func.isRequired,
+  handleChangeCoin2: PropTypes.func.isRequired,
+  handleChangeFiat1: PropTypes.func.isRequired,
+  handleChangeFiat2: PropTypes.func.isRequired
 }
 
 export default CoinConvertor

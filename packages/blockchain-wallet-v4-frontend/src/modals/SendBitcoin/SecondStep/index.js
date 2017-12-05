@@ -15,7 +15,7 @@ class SecondStepContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.paymentActions.sendBitcoin(this.props.selection)
+    this.props.paymentBitcoinActions.sendBitcoin(this.props.selection)
   }
 
   render () {
@@ -32,7 +32,7 @@ const mapStateToProps = (state, ownProps) => {
   const g = selectors.core.wallet.getLegacyAddressLabel(state)
   const toAddress = !isNil(to2) ? to2 : (to.address || g(to.address) || f(to.index))
   const fromAddress = from.address || g(from.address) || f(from.index)
-  const selection = selectors.core.data.payment.getSelection(state)
+  const selection = selectors.core.data.bitcoin.getSelection(state)
   const targetCoin = filter(x => !x.change, selection.outputs)[0]
   const satoshis = targetCoin.value
   const fee = selection.fee
@@ -50,7 +50,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentActions: bindActionCreators(actions.payment, dispatch),
+  paymentBitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 

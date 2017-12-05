@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import CoinDisplay from 'components/CoinDisplay'
-import CurrencyDisplay from 'components/CurrencyDisplay'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -29,7 +29,7 @@ const FirstRow = styled.div`
 `
 const Row = styled(FirstRow)`
   justify-content: space-between;
-  padding: 10px;
+  padding: 10px 0;
   border-bottom: ${props => props.last ? 'none' : '1px solid ' + props.theme['']};
 `
 const Amount = styled.div`
@@ -40,7 +40,7 @@ const Amount = styled.div`
 `
 
 const BalanceSummary = (props) => {
-  const { balances, total } = props
+  const { bitcoinBalances, total } = props
 
   return (
     <Wrapper>
@@ -48,21 +48,15 @@ const BalanceSummary = (props) => {
         <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Your balances' />
       </Text>
       <FirstRow>
-        <Text size='28px' weight={300}>
-          <CurrencyDisplay>{total}</CurrencyDisplay>
-        </Text>
+        <FiatDisplay coin='BTC' size='28px' weight={300}>{total}</FiatDisplay>
       </FirstRow>
-      { balances.map(function (balance, index) {
+      { bitcoinBalances.map(function (balance, index) {
         return (
-          <Row key={index} last={index === balances.length - 1}>
+          <Row key={index} last={index === bitcoinBalances.length - 1}>
             <Text size='16px' weight={300}>{balance.title}</Text>
             <Amount>
-              <Text size='16px' weight={300}>
-                <CoinDisplay coin='BTC'>{balance.amount}</CoinDisplay>
-              </Text>
-              <Text size='12px' weight={300}>
-                <CurrencyDisplay>{balance.amount}</CurrencyDisplay>
-              </Text>
+              <CoinDisplay coin='BTC' size='16px' weight={300}>{balance.amount}</CoinDisplay>
+              <FiatDisplay coin='BTC' size='12px' weight={300}>{balance.amount}</FiatDisplay>
             </Amount>
           </Row>
         )

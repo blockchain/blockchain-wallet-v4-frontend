@@ -10,6 +10,7 @@ import * as CoinSelection from './coinSelection'
 import * as Exchange from './exchange'
 import * as crypto from './walletCrypto'
 import * as pairing from './pairing'
+import * as transactions from './transactions'
 import * as Types from './types'
 
 export {
@@ -25,5 +26,6 @@ export {
   Exchange,
   crypto,
   pairing,
+  transactions,
   Types
 }
