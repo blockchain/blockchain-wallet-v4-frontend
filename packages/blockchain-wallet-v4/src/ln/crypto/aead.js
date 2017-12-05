@@ -55,14 +55,9 @@ AEAD.prototype.init = function init (key, iv) {
 
   this.aadLen = 0
   this.cipherLen = 0
-
-  this.whole = Buffer.allocUnsafe(0)
-
-  console.info('init aead with key ' + key.toString('hex') + ' and nonce ' + iv.toString('hex') + ' = ' + polyKey.toString('hex'))
 }
 
 AEAD.prototype.updatePoly = function (data) {
-  this.whole = Buffer.concat([this.whole, data])
   this.poly1305.update(data)
 }
 
@@ -149,9 +144,6 @@ AEAD.prototype.finish = function finish () {
   this.pad16(this.cipherLen)
 
   this.updatePoly(len)
-
-  console.info('AEAD finish\nkey is : ' + this.polyKey.toString('hex') + ' \ndata is: ' + this.whole.toString('hex'))
-  this.whole = Buffer.allocUnsafe(0)
 
   return this.poly1305.finish()
 }
