@@ -1,4 +1,6 @@
 'use strict'
+import {List} from 'immutable'
+import {getSerializer} from './messages/parser'
 
 let ec = require('bcoin/lib/crypto/secp256k1-browser')
 let crypto = require('bcoin/lib/crypto')
@@ -81,8 +83,9 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
       this.feed(data)
     } catch (e) {
       // TODO close channel
-      console.warn('Error: ' + e)
+      console.info(e)
       this.authed = false
+      tcp.close()
       onCloseCb()
     }
   }
@@ -107,16 +110,7 @@ Connection.prototype.sendHandshakePart1 = function () {
   this._appendToHash(this.staticRemote.pub)
   this._appendToHash(this.tempLocal.pub)
 
-  let ecdhResult = ecdh(this.staticRemote.pub, this.tempLocal.priv)
-  console.info('ecdh: ' + ecdhResult.toString('hex'))
-  let ecdhResultHashed = crypto.sha256(ecdhResult)
-  console.info(ecdhResultHashed.toString('hex'))
-
   let ss = ecdh(this.staticRemote.pub, this.tempLocal.priv)
-
-  console.info('staticRemote: ' + this.staticRemote.pub.toString('hex'))
-  console.info('tempLocal: ' + this.tempLocal.pub.toString('hex'))
-  console.info('tempLocalPriv: ' + this.tempLocal.priv.toString('hex'))
 
   console.debug('ss = 0x' + ss.toString('hex'))
   console.debug('ck = 0x' + this.ck.toString('hex'))
@@ -126,12 +120,10 @@ Connection.prototype.sendHandshakePart1 = function () {
   this.temp_k1 = hkdfResult.p2
 
   let c = encryptAEAD(this.temp_k1, this.h)
-  console.info('c = 0x' + c.toString('hex'))
+  console.debug('c = 0x' + c.toString('hex'))
 
   this._appendToHash(c)
-
   let packet = Buffer.concat([handshakeVersion, this.tempLocal.pub, c])
-
   this.writeRaw(packet)
 }
 
@@ -219,7 +211,7 @@ const hkdfDerive = function (salt, key) {
   const ck = hkdfResult.slice(0, 32)
   const tempK = hkdfResult.slice(32, 64)
 
-  console.info(`hkdf derive call (${key.toString('hex')}, ${salt.toString('hex')})
+  console.debug(`hkdf derive call (${key.toString('hex')}, ${salt.toString('hex')})
    = (${ck.toString('hex')}, ${tempK.toString('hex')})`)
 
   return { p1: ck, p2: tempK }
@@ -242,9 +234,9 @@ const encryptAEAD = function (key, ad, nonce = 0, data = Buffer.allocUnsafe(0)) 
 
   let result = Buffer.concat([tempData, tag])
 
-  console.info(`encryptAEAD 
-  (${key.toString('hex')}, ${ad.toString('hex')}, ${iv.toString('hex')}, ${data.toString('hex')})
-        = (${tempData.toString('hex')}, ${tag.toString('hex')}) = (${result.toString('hex')})`)
+  console.debug(`encryptAEAD
+    (${key.toString('hex')}, ${ad.toString('hex')}, ${iv.toString('hex')}, ${data.toString('hex')})
+       = (${tempData.toString('hex')}, ${tag.toString('hex')}) = (${result.toString('hex')})`)
 
   return result
 }
@@ -266,9 +258,9 @@ const decryptAEAD = function (key, ad, nonce, data, tag) {
   let result = Buffer.compare(hmac, tag)
   let decrypted = tempAEAD.decrypt(data)
 
-  console.info(`decryptAEAD 
-  (${key.toString('hex')}, ${ad.toString('hex')}, ${iv.toString('hex')}, ${data.toString('hex')}, ${tag.toString('hex')})
-        = (${result}, ${decrypted.toString('hex')})`)
+  console.debug(`decryptAEAD
+    (${key.toString('hex')}, ${ad.toString('hex')}, ${iv.toString('hex')}, ${data.toString('hex')}, ${tag.toString('hex')})
+       = (${result}, ${decrypted.toString('hex')})`)
 
   if (result !== 0) {
     throw new Error('HMAC not correct')
@@ -278,8 +270,6 @@ const decryptAEAD = function (key, ad, nonce, data, tag) {
 }
 
 Connection.prototype.feed = function feed (data) {
-  console.info('Received data: ' + data.toString('hex'))
-
   if (!this.authed) {
     if (data.length !== 50) {
       console.error('Invalid handshake length')
@@ -315,8 +305,6 @@ Connection.prototype.feed = function feed (data) {
       this.hasSize = true
 
       this.dataBuffer = this.dataBuffer.slice(18)
-
-      console.info('received size: ' + this.size)
     }
 
     if (this.dataBuffer.length < (this.size + 16)) {
@@ -333,7 +321,7 @@ Connection.prototype.feed = function feed (data) {
     this.size = 0
     this.hasSize = false
 
-    console.info('received msg: ' + decryptedData.toString('hex'))
+    console.info('[<-] ' + decryptedData.toString('hex'))
     this.onMessage(decryptedData)
   }
 }
@@ -367,6 +355,7 @@ Connection.prototype.decryptIn = function (payload, tag) {
 }
 
 Connection.prototype.write = function (payload) {
+  console.info('[->] ' + payload)
   assert(payload.length < 65535)
 
   let size = Buffer.alloc(2)
