@@ -8,7 +8,6 @@ export function wrapBuffer (data) {
 }
 
 export function unwrapBuffer (data) {
-  console.info('unwrap buffer: '+data+' - '+JSON.stringify(data))
   return data.buffer
 }
 

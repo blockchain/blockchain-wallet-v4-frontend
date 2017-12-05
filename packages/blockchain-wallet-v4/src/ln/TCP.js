@@ -10,7 +10,6 @@ function WS (uri, protocols, opts) {
 let connections = []
 
 if (WebSocket) {
-  console.info('Setup WebSocket 1')
   WS.prototype = WebSocket.prototype
 
   WS.prototype.on = function (event, callback) {
@@ -27,7 +26,6 @@ if (WebSocket) {
   WS.prototype.off = function (event) {
     this['on' + event] = null
   }
-  console.info('Setup WebSocket 1 done')
 }
 
 class TCP {
