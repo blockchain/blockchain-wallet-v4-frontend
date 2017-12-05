@@ -27,11 +27,9 @@ export const selectAccounts = view(accounts)
 export const selectDefaultAccountIdx = view(defaultAccountIdx)
 export const selectMnemonicVerified = compose(Boolean, view(mnemonicVerified))
 
-export const selectAccount = curry((index, hdwallet) =>
-  selectAccounts(hdwallet).get(index))
+export const selectAccount = curry((index, hdwallet) => selectAccounts(hdwallet).get(index))
 
-export const selectDefaultAccount = (hdwallet) =>
-  selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
+export const selectDefaultAccount = (hdwallet) => selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
 
 export const selectContext = compose(HDAccountList.selectContext, selectAccounts)
 

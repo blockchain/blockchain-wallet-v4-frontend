@@ -24,6 +24,7 @@ import BitcoinTransactionsContainer from './Transactions/Bitcoin'
 import EtherTransactionsContainer from './Transactions/Ether'
 import BuyContainer from './Buy'
 import ExchangeContainer from './Exchange'
+import ExchangeHistoryContainer from './ExchangeHistory'
 import SecurityCenterContainer from './SecurityCenter'
 import InfoContainer from './Info'
 import PreferencesContainer from './Preferences'
@@ -59,9 +60,10 @@ class App extends React.Component {
                   <WalletLayout path='/btc/transactions' component={BitcoinTransactionsContainer} />
                   <WalletLayout path='/eth/transactions' component={EtherTransactionsContainer} />
                   <WalletLayout path='/buy-sell' component={BuyContainer} />
-                  <WalletLayout path='/exchange' component={ExchangeContainer} />
+                  <WalletLayout path='/exchange/history' component={ExchangeHistoryContainer} />
+                  <WalletLayout path='/exchange' component={ExchangeContainer} exact />
                   <WalletLayout path='/security-center' component={SecurityCenterContainer} />
-                  <Redirect from='/settings' to='/settings/info' exact />
+                  <Redirect from='/settings' to='/settings/info' />
                   <WalletLayout path='/settings/info' component={InfoContainer} />
                   <WalletLayout path='/settings/preferences' component={PreferencesContainer} />
                   <WalletLayout path='/settings/security' component={SecuritySettingsContainer} />

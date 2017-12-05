@@ -1,5 +1,10 @@
-import { prop, compose } from 'ramda'
-import { KVStoreEntry } from '../../../types'
+import { compose, equals, head, filter, path } from 'ramda'
 import { SHAPESHIFT } from '../config'
 
-// export const getLastViewed = compose(prop('lastViewed'), KVStoreEntry.selectValue, prop(WHATSNEW))
+export const getTrades = path([SHAPESHIFT, 'value', 'trades'])
+
+export const getTrade = (state, address) => compose(
+  head,
+  filter(t => equals(path(['quote', 'deposit'], t), address)),
+  getTrades
+)(state)

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { transparentize } from 'polished'
 import { TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
@@ -34,6 +34,7 @@ const TooltipBox = styled(TextGroup)`
   border-radius: 5px;
   padding: 10px;
   box-sizing: border-box;
+  box-shadow: ${props => transparentize(0.65, props.theme['gray-6'])} 0px 3px 8px 0px;
   cursor: pointer;
   font-size: 13px;
   font-weight: 300;

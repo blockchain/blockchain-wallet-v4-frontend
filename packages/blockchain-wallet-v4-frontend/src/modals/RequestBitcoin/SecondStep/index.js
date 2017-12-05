@@ -48,7 +48,7 @@ const extractAddress = (value, selectorFunction) =>
     : undefined
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
+  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const unit = selectors.core.settings.getBtcUnit(state)
   const amount = formValueSelector('requestBitcoin')(state, 'amount')
   const to = formValueSelector('requestBitcoin')(state, 'to')

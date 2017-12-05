@@ -30,7 +30,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case actionTypes.common.SET_BLOCKCHAIN_DATA: {
+    case actionTypes.common.bitcoin.SET_BLOCKCHAIN_DATA: {
       return merge(state, payload)
     }
     case AT.SET_BITCOIN_FEE: {

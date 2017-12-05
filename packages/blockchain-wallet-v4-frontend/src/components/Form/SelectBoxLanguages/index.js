@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { map } from 'ramda'
 
 import { selectors } from 'data'
-import { SelectInput } from 'blockchain-info-components'
+import SelectBox from '../SelectBox'
 import { renameKeys } from 'services/RamdaCookingBook'
 import * as languageService from 'services/LanguageService'
 
@@ -13,7 +13,7 @@ class SelectBoxLanguages extends React.Component {
     const items = [...map(renameKeys({ name: 'text', language: 'value' }))(languages)]
     const elements = [{ group: '', items }]
 
-    return <SelectInput elements={elements} {...rest} />
+    return <SelectBox elements={elements} {...rest} />
   }
 }
 

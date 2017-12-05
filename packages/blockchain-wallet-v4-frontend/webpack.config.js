@@ -170,7 +170,8 @@ module.exports = {
           'https://sfox-kyc.s3.amazonaws.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
-          'wss://ws.testnet.blockchain.info/inv'
+          'wss://ws.testnet.blockchain.info/inv',
+          'https://shapeshift.io'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
