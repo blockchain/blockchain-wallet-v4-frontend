@@ -100,7 +100,7 @@ export let OpenChannel =
    maxHtlcValueInFlightMsat,
    channelReserveSatoshis,
    htlcMinimumMsat,
-   feeratePerKw,
+   feeRatePerKw,
    toSelfDelay,
    maxAcceptedHtlcs,
    fundingPubkey,
@@ -111,14 +111,14 @@ export let OpenChannel =
    channelFlags) => {
     return ({
       chainHash,
-      temporaryChannelId: channelId,
+      temporaryChannelId,
       fundingSatoshi,
       pushMsat,
       dustLimitSatoshis,
       maxHtlcValueInFlightMsat,
       channelReserveSatoshis,
       htlcMinimumMsat,
-      feeratePerKw,
+      feeRatePerKw,
       toSelfDelay,
       maxAcceptedHtlcs,
       fundingPubkey,
@@ -155,14 +155,14 @@ export function readOpenChannel (buf) {
 export function writeOpenChannel (msg) {
   return createMessageBuffer(msg, 286)
     .write(msg.chainHash)
-    .write(msg.channelId)
+    .write(msg.temporaryChannelId)
     .write64(msg.fundingSatoshi)
     .write64(msg.pushMsat)
     .write64(msg.dustLimitSatoshis)
     .write64(msg.maxHtlcValueInFlightMsat)
     .write64(msg.channelReserveSatoshis)
     .write64(msg.htlcMinimumMsat)
-    .write32(msg.feeratePerKw)
+    .write32(msg.feeRatePerKw)
     .write16(msg.toSelfDelay)
     .write16(msg.maxAcceptedHtlcs)
     .write(msg.fundingPubkey)
@@ -249,7 +249,7 @@ export function readFundingCreated (buf) {
 }
 export function writeFundingCreated (msg) {
   return createMessageBuffer(msg, 130)
-    .write(msg.channelId)
+    .write(msg.temporaryChannelId)
     .write(msg.fundingTxid)
     .write16(msg.fundingOutputIndex)
     .write(msg.signature)
