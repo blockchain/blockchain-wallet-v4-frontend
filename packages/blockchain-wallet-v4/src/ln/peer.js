@@ -26,11 +26,10 @@ function Peer (options, state, tcp, staticRemote) {
 
   let parse = (data) => {
     let msg = Parse.readMessage(data)
-    console.info('Parsed message: ' + JSON.stringify(msg))
-    let stateCurrent = this.state.connections[staticRemote.pub]
-    console.info('Current state ' + JSON.stringify(stateCurrent))
-    this.state.connections[staticRemote.pub] = onMessage(msg, stateCurrent)
-    console.info('New state ' + JSON.stringify(this.state))
+    let state = stateHolder.get()
+    state = onMessage(msg, state)
+    state = sendOutAllMessages(state)
+    stateHolder.set(state)
   }
 
   let onMessage = (data, state) => {
