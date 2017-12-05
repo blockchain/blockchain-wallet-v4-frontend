@@ -4,12 +4,13 @@ var Long = require('long')
 
 export let State = () => fromJS({
   channels: {},
-  connections: [],
+  connections: {},
 
   connected: false
 })
 
-export let Connection = () => ({
+export let Connection = () => fromJS({
+  conn: undefined,
   connected: true,
   initSent: true,
   initReceived: false,
