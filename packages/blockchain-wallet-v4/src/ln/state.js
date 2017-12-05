@@ -66,7 +66,7 @@ export let ChannelState = () => fromJS({
 
   currentCommitmentPoint: null,
   nextCommitmentPoint: null,
-  commitmentNumber: Math.pow(2, 48) - 1
+  commitmentNumber: 0
 })
 
 export let Channel = () => fromJS({
