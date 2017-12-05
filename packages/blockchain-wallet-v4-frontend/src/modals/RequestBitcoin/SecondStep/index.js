@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import settings from 'config'
-import { convertUnitToSatoshis, convertSatoshisToUnit } from 'services/ConversionService'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import SecondStep from './template.js'
 
@@ -27,7 +27,9 @@ class SecondStepContainer extends React.Component {
   }
 
   render () {
-    const { receiveAddress, satoshis, btc, message } = this.props
+    const { amount, message, receiveAddress, unit } = this.props
+    const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'SAT' }).value
+    const btc = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'BTC' }).value
     const link = `https://blockchain.info/payment_request?address=${receiveAddress}&amount=${btc}&message=${message}`
 
     return <SecondStep {...this.props}
@@ -46,20 +48,18 @@ const extractAddress = (value, selectorFunction) =>
     : undefined
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
+  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const unit = selectors.core.settings.getBtcUnit(state)
   const amount = formValueSelector('requestBitcoin')(state, 'amount')
   const to = formValueSelector('requestBitcoin')(state, 'to')
   const message = formValueSelector('requestBitcoin')(state, 'message')
   const receiveAddress = extractAddress(to, getReceive)
-  const satoshis = convertUnitToSatoshis(amount, unit).value
-  const btc = convertSatoshisToUnit(satoshis, 'BTC').value
 
   return {
-    satoshis,
-    btc,
+    amount,
     message,
-    receiveAddress
+    receiveAddress,
+    unit
   }
 }
 

@@ -6,7 +6,7 @@ import * as A from './actions'
 import * as T from './actionTypes'
 import * as C from './config'
 
-const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, kvStoreApi } = {}) => (store) => (next) => (action) => {
+const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, api } = {}) => (store) => (next) => (action) => {
   const prevKVStore = store.getState()[kvStorePath]
   const wasAuth = isAuthenticated(store.getState())
   const result = next(action)
@@ -35,7 +35,7 @@ const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, kvStoreApi } = {}) =>
       // need to be improved: when copy is out of sync it fails with {message: 'Unauthorized'}
       // we have to handle failure with fetch and redispatch of the original action
       const saveTasks = (value, key) => value
-        ? kvStoreApi.update(nextKVStore[key]).map(k => store.dispatch(actionCreators[key](k)))
+        ? api.updateKVStore(nextKVStore[key]).map(k => store.dispatch(actionCreators[key](k)))
         : Task.of(nextKVStore[key])
       const taskObject = mapObjIndexed(saveTasks, changes)
       const syncTask = sequence(Task.of, values(taskObject))

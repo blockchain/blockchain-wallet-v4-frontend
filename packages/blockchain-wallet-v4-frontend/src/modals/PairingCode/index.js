@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import QRCodeReact from 'qrcode-react'
+import QRCodeReact from 'qrcode.react'
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
 import modalEnhancer from 'providers/ModalEnhancer'

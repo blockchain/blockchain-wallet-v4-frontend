@@ -6,7 +6,7 @@ import { createBrowserHistory } from 'history'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import { rootSaga, rootReducer, selectors } from 'data'
 import settings from 'config'
-import { kvStoreApi, api } from 'services/ApiService'
+import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 
@@ -41,7 +41,7 @@ const configureStore = () => {
     composeEnhancers(
       applyMiddleware(
         routerMiddleware(history),
-        coreMiddleware.kvStore({isAuthenticated, kvStoreApi, kvStorePath}),
+        coreMiddleware.kvStore({isAuthenticated, api, kvStorePath}),
         coreMiddleware.socket({ socket, walletPath, isAuthenticated }),
         coreMiddleware.walletSync({isAuthenticated, api, walletPath}),
         sagaMiddleware

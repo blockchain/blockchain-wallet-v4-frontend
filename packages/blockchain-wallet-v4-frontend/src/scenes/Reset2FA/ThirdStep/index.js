@@ -33,7 +33,7 @@ const mapStateToProps = (state) => ({
   secretPhrase: formValueSelector('reset2FA')(state, 'secretPhrase'),
   message: formValueSelector('reset2FA')(state, 'message'),
   code: formValueSelector('reset2FA')(state, 'code'),
-  captcha: selectors.core.data.captcha.getCaptcha(state)
+  captcha: selectors.core.data.misc.getCaptcha(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

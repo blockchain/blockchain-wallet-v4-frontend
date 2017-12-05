@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, Separator, Text, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, SelectBoxAddresses, TextArea } from 'components/Form'
+import { FiatConvertor, Form, SelectBoxBitcoinAddresses, TextArea, SelectBoxCoin } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
 const AddressContainer = styled.div`
@@ -27,6 +27,10 @@ const QRCodeButton = styled.div`
   font-weight: 300;
   cursor: pointer;
 `
+const CoinSelector = styled.div`
+  width: 50%;
+  margin-bottom: 20px;
+`
 
 const FirstStep = (props) => {
   const { submitting, invalid, position, total, closeAll, ...rest } = props
@@ -39,6 +43,12 @@ const FirstStep = (props) => {
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={onSubmit}>
+          <CoinSelector>
+            <Text size='14px' weight={500}>
+              <FormattedMessage id='modals.sendbitcoin.firststep.coin' defaultMessage='Currency:' />
+            </Text>
+            <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+          </CoinSelector>
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & share address:' />
             <Tooltip>
@@ -61,11 +71,11 @@ const FirstStep = (props) => {
           <Text size='14px' weight={500} capitalize>
             <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[required]} />
+          <Field name='amount' component={FiatConvertor} validate={[required]} coin='BTC' />
           <Text size='14px' weight={500} capitalize>
             <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive to:' />
           </Text>
-          <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
+          <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
           <Text size='14px' weight={500} capitalize>
             <FormattedMessage id='modals.requestbitcoin.firststep.description' defaultMessage='Description:' />
           </Text>

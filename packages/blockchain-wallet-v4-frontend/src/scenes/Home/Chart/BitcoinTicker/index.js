@@ -1,37 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectors } from 'data'
-import { prop, path } from 'ramda'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
-
+import { selectors } from 'data'
+import { isBitcoinFiatAvailable } from 'services/ValidationHelper'
 import BitcoinTicker from './template.js'
-
-const { Currencies, Currency, Pairs } = Exchange
-const { BTC } = Currencies
 
 class BitcoinTickerContainer extends React.Component {
   render () {
-    const { currency, btcRates } = this.props
-    const CUR = prop(currency, Exchange.Currencies)
-    const CURCode = prop('code', CUR)
-    const CURunit = path(['units', CURCode], CUR)
-
-    const oneBTC = Currency.fromUnit({ value: '1', unit: BTC.units.BTC })
-    const btcRate = oneBTC.chain(Currency.convert(btcRates, CUR))
-                          .chain(Currency.toUnit(CURunit))
-                          .map(Currency.unitToString)
-                          .getOrElse('N/A')
-
-    return <BitcoinTicker rate={btcRate} {...this.props} />
+    const { coin, country, currency, bitcoinRates, bitcoinOptions } = this.props
+    const rate = Exchange.displayBitcoinToFiat({ value: '1', fromUnit: 'BTC', toCurrency: currency, rates: bitcoinRates })
+    return isBitcoinFiatAvailable(country, currency, bitcoinRates, bitcoinOptions)
+      ? <BitcoinTicker selected={coin === 'BTC'} {...this.props}>{rate}</BitcoinTicker>
+      : <BitcoinTicker selected={coin === 'BTC'} {...this.props}>N/A</BitcoinTicker>
   }
 }
 
-const mapStateToProps = (state) => {
-  const btcraw = selectors.core.data.rates.getBtcRates(state)
-  return {
-    currency: selectors.core.settings.getCurrency(state),
-    btcRates: Pairs.create(BTC.code, btcraw)
-  }
-}
+const mapStateToProps = (state) => ({
+  country: selectors.core.settings.getCountryCode(state),
+  currency: selectors.core.settings.getCurrency(state),
+  bitcoinRates: selectors.core.data.bitcoin.getRates(state),
+  bitcoinOptions: selectors.core.walletOptions.selectBitcoin(state)
+})
 
 export default connect(mapStateToProps)(BitcoinTickerContainer)

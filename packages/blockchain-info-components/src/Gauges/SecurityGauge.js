@@ -8,9 +8,8 @@ const Container = styled.div`
   align-items: center;
   overflow: hidden;
   width: 52px;
-  height: 10px;
+  height: 8px;
   margin-left: 10px;
-  box-shadow: 0px 0px 2px 2px ${props => props.theme['gray-2']};
   border-radius: 10px;
   border: 1px solid ${props => props.theme['gray-2']};
 `
@@ -27,7 +26,7 @@ const selectColor = score => {
     case 0: return 'error'
     case 1: return 'error'
     case 2: return 'red'
-    case 3: return 'brand-yellow-lighter'
+    case 3: return 'brand-yellow'
     case 4: return 'brand-yellow'
     case 5: return 'brand-yellow'
     case 6: return 'success'

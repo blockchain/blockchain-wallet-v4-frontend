@@ -1,4 +1,7 @@
-import * as T from './actionTypes'
+import * as bitcoin from './bitcoin/actions'
+import * as ethereum from './ethereum/actions'
 
-export const setBlockchainData = (data) =>
-  ({ type: T.SET_BLOCKCHAIN_DATA, payload: data })
+export {
+  bitcoin,
+  ethereum
+}

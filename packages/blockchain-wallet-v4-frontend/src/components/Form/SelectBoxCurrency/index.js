@@ -2,14 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { selectors } from 'data'
-import { SelectInput } from 'blockchain-info-components'
+import SelectBox from '../SelectBox'
 
 class SelectBoxCurrency extends React.Component {
   render () {
     const { currencies, ...rest } = this.props
     const elements = [{ group: '', items: currencies }]
 
-    return <SelectInput elements={elements} {...rest} />
+    return <SelectBox elements={elements} {...rest} />
   }
 }
 

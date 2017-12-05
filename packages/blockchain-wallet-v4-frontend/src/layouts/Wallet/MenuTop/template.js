@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { ButtonGroup, Icon, IconButton, Text } from 'blockchain-info-components'
-import CoinDisplay from 'components/CoinDisplay'
-import CurrencyDisplay from 'components/CurrencyDisplay'
+import { ButtonGroup, IconButton, Text } from 'blockchain-info-components'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,28 +48,22 @@ const ButtonContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding-top: 10px;
-  width: 300px;
+  width: auto;
 `
 const BalanceContainer = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  & > :last-child { display: none; }
 
-  @media(min-width: 850px) {
-    flex-direction: column;
-    align-items: flex-end;
-    & > :last-child { display: block; }
-  }
-`
-const BalancesWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
+  & > * { margin-right: 5px; }
+
+  @media(min-width: 850px) { align-items: flex-end; }
 `
 
 const MenuTop = (props) => {
-  const { openSendBitcoin, openRequestBitcoin, coinDisplayed, toggleCoinDisplay, balance } = props
+  const { openSend, openRequest, toggleCoinDisplay, bitcoinBalance, etherBalance } = props
 
   return (
     <Wrapper>
@@ -81,11 +74,11 @@ const MenuTop = (props) => {
           </Text>
         </TextContainer>
         <ButtonContainer>
-          <IconButton name='send' onClick={openSendBitcoin}>
+          <IconButton name='send' onClick={openSend}>
             <FormattedMessage id='layouts.wallet.menutop.send' defaultMessage='Send' />
           </IconButton>
           <ButtonGroup>
-            <IconButton name='request' onClick={openRequestBitcoin}>
+            <IconButton name='request' onClick={openRequest}>
               <FormattedMessage id='layouts.wallet.menutop.request' defaultMessage='Request' />
             </IconButton>
             <IconButton name='clipboard' />
@@ -94,24 +87,9 @@ const MenuTop = (props) => {
       </LeftContainer>
       <RightContainer>
         <BalanceContainer onClick={toggleCoinDisplay}>
-          <BalancesWrapper>
-            <Text>
-              <Icon name='bitcoin' size='24px' weight={300} />
-            </Text>
-            <Text weight={200} size='24px' >
-              {coinDisplayed ? <CoinDisplay coin='BTC'>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
-            </Text>
-            <Text weight={200} size='24px' >|</Text>
-            <Text>
-              <Icon name='ethereum' size='24px' weight={300} />
-            </Text>
-            <Text weight={200} size='24px' >
-              {coinDisplayed ? <CoinDisplay coin='ETH'>{balance}</CoinDisplay> : <CurrencyDisplay>{balance}</CurrencyDisplay>}
-            </Text>
-          </BalancesWrapper>
-          <Text size='20px' weight={200}>
-            <CurrencyDisplay>{balance}</CurrencyDisplay>
-          </Text>
+          <SwitchableDisplay coin='BTC' size='24px' weight={100} showIcon>{bitcoinBalance}</SwitchableDisplay>
+          <Text weight={200} size='24px' >|</Text>
+          <SwitchableDisplay coin='ETH' size='24px' weight={100} showIcon>{etherBalance}</SwitchableDisplay>
         </BalanceContainer>
       </RightContainer>
     </Wrapper>
@@ -120,8 +98,8 @@ const MenuTop = (props) => {
 
 MenuTop.propTypes = {
   balance: PropTypes.number.isRequired,
-  openSendBitcoin: PropTypes.func.isRequired,
-  openRequestBitcoin: PropTypes.func.isRequired,
+  openSend: PropTypes.func.isRequired,
+  openRequest: PropTypes.func.isRequired,
   toggleCoinDisplay: PropTypes.func.isRequired
 }
 

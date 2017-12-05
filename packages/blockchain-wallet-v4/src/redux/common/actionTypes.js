@@ -1,1 +1,7 @@
-export const SET_BLOCKCHAIN_DATA = '@CORE.SET_BLOCKCHAIN_DATA'
+import * as bitcoin from './bitcoin/actionTypes'
+import * as ethereum from './ethereum/actionTypes'
+
+export {
+  bitcoin,
+  ethereum
+}

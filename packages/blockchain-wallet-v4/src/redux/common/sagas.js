@@ -1,13 +1,7 @@
-import { call, put } from 'redux-saga/effects'
-import * as A from './actions'
+import { bitcoin } from './bitcoin/sagas.js'
+import { ethereum } from './ethereum/sagas.js'
 
-export const commonSaga = ({ api } = {}) => {
-  const fetchBlockchainData = function * ({ context }) {
-    const data = yield call(api.fetchBlockchainData, context, { n: 1 })
-    yield put(A.setBlockchainData(data))
-  }
-
-  return {
-    fetchBlockchainData
-  }
-}
+export const commonSagasFactory = ({ api, kvStorePath, dataPath, walletPath, settingsPath, walletOptionsPath, socket } = {}) => ({
+  bitcoin: bitcoin({ api, kvStorePath, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
+  ethereum: ethereum({ api, kvStorePath, dataPath, walletPath, settingsPath, walletOptionsPath, socket })
+})

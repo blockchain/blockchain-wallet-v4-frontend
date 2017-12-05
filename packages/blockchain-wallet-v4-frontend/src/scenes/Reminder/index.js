@@ -28,7 +28,7 @@ class ReminderContainer extends React.Component {
 const mapStateToProps = (state) => ({
   email: formValueSelector('reminder')(state, 'email'),
   code: formValueSelector('reminder')(state, 'code'),
-  captcha: selectors.core.data.captcha.getCaptcha(state)
+  captcha: selectors.core.data.misc.getCaptcha(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

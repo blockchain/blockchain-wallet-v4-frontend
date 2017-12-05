@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { isEmpty } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { Button, ButtonGroup, Icon, Image, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
-import { CoinConvertor, Form, SelectBoxAddresses, SelectBoxFee, TextBox, TextArea } from 'components/Form'
-import ComboDisplay from 'components/ComboDisplay'
+import { Button, ButtonGroup, Icon, Link, Modal, ModalHeader, ModalBody, Text, Tooltip } from 'blockchain-info-components'
+import { FiatConvertor, Form, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
+import ComboDisplay from 'components/Display/ComboDisplay'
+import QRCodeCapture from 'components/QRCodeCapture'
 
 const Row = styled.div`
   display: flex;
@@ -15,26 +17,36 @@ const Row = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: auto;
+`
+const ColOne = styled.div`
+  width: 50%;
+  margin-right: 5px;
+  @media(min-width: 992px) { width: 30%; }
+`
+const ColTwo = styled.div`
+  width: 50%;
+  @media(min-width: 992px) { width: 70%; }
 `
 const ColLeft = styled.div`
   width: 50%;
 `
-const ColRight = styled.div`
+const ColRight = ColLeft.extend`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  width: 50%;
 `
-const AddressesToContainer = styled.div`
+const AddressButton = styled.div`
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-`
-const AddressesToButton = styled(Button)`
   width: 40px;
-  min-width: 0;
-  border-radius: 0;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid ${props => props.theme['gray-2']};
+
+  &:hover { background-color: ${props => props.theme['gray-1']}; }
 `
 const ButtonRow = styled(ButtonGroup)`
   display: flex;
@@ -56,45 +68,52 @@ const shouldValidate = ({ values, nextProps, props, initialRender, structure }) 
 
 const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
 
-// const emptyAmount = (value, allValues, props) => props.coins ? undefined : 'Invalid amount. Account is empty.'
+const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = (props) => {
-  const { invalid, submitting, position, total, closeAll, ...rest } = props
+  const { invalid, submitting, position, total, closeAll, loading, ...rest } = props
   const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, ...rest2 } = rest
-  const { onSubmit, handleClickQrCodeCapture, handleClickAddressToggler, handleClickFeeToggler } = rest2
+  const { onSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest2
 
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='send' onClose={closeAll}>
-        <FormattedMessage id='modals.sendbitcoin.firststep.title' defaultMessage='Send' />
+        <FormattedMessage id='modals.sendbitcoin.firststep.title' defaultMessage='Send Bitcoin' />
       </ModalHeader>
-      <ModalBody>
+      <ModalBody loading={loading}>
         <Form onSubmit={onSubmit}>
-          <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
-          </Text>
-          <Field name='from' component={SelectBoxAddresses} validate={[required]} props={{ includeAll: false }} />
+          <Row>
+            <ColOne>
+              <Text size='14px' weight={500}>
+                <FormattedMessage id='modals.sendbitcoin.firststep.coin' defaultMessage='Currency:' />
+              </Text>
+              <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+            </ColOne>
+            <ColTwo>
+              <Text size='14px' weight={500}>
+                <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
+              </Text>
+              <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
+            </ColTwo>
+          </Row>
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
           </Text>
-          { addressSelectToggled &&
-            <AddressesToContainer>
-              <Field name='to' component={SelectBoxAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
-              <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='pencil' /></AddressesToButton>
-            </AddressesToContainer>
-          }
-          { !addressSelectToggled &&
-            <AddressesToContainer>
-              <Field name='to2' component={TextBox} validate={[required]} />
-              <AddressesToButton onClick={handleClickQrCodeCapture}><Image name='qr-code' height='18px' /></AddressesToButton>
-              <AddressesToButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' /></AddressesToButton>
-            </AddressesToContainer>
-          }
+          <Row>
+            { addressSelectToggled
+              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
+              : <Field name='to2' component={TextBox} validate={[required]} />
+            }
+            <QRCodeCapture coin='BTC' />
+            {addressSelectToggled
+              ? <AddressButton onClick={handleClickAddressToggler}><Icon name='pencil' size='16px' cursor /></AddressButton>
+              : <AddressButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' cursor /></AddressButton>
+            }
+          </Row>
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[required, validAmount]} />
+          <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' />
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
             <Tooltip>
@@ -117,7 +136,10 @@ const FirstStep = (props) => {
               }
             </ColLeft>
             <ColRight>
-              {invalid ? <div /> : <ComboDisplay>{selection.fee}</ComboDisplay>}
+              { selection.fee
+                ? <ComboDisplay coin='BTC'>{selection.fee}</ComboDisplay>
+                : <div />
+              }
               <Link onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
                 {feeEditToggled
                   ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
@@ -148,7 +170,6 @@ FirstStep.propTypes = {
   feeEditToggled: PropTypes.bool.isRequired,
   selection: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  handleClickQrCodeCapture: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,
   handleClickFeeToggler: PropTypes.func.isRequired
 }

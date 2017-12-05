@@ -1,13 +1,14 @@
 import settings from 'config'
 import { coreSelectorsFactory } from 'blockchain-wallet-v4/src'
-import * as alerts from './Alerts/selectors'
-import * as auth from './Auth/selectors'
-import * as goals from './Goals/selectors'
-import * as modals from './Modals/selectors'
-import * as preferences from './Preferences/selectors'
-import * as scroll from './Scroll/selectors'
-import * as session from './Session/selectors'
-import * as wizard from './Wizard/selectors'
+import * as alerts from './alerts/selectors'
+import * as application from './application/selectors'
+import * as auth from './auth/selectors'
+import * as goals from './goals/selectors'
+import * as modals from './modals/selectors'
+import * as preferences from './preferences/selectors'
+import * as scroll from './scroll/selectors'
+import * as session from './session/selectors'
+import * as wizard from './wizard/selectors'
 
 const core = coreSelectorsFactory({
   dataPath: settings.WALLET_DATA_PATH,
@@ -19,6 +20,7 @@ const core = coreSelectorsFactory({
 
 export {
   alerts,
+  application,
   auth,
   core,
   goals,

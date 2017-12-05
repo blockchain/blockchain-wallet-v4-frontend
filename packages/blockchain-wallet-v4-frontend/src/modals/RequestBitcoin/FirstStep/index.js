@@ -18,6 +18,15 @@ class FirstStepContainer extends React.Component {
     this.props.formActions.initialize('requestBitcoin', this.props.initialValues)
   }
 
+  componentWillReceiveProps (nextProps) {
+    const { coin } = nextProps
+    // Replace the bitcoin modal to the ethereum modal
+    if (coin === 'ETH') {
+      this.props.modalActions.closeAllModals()
+      this.props.modalActions.showModal('RequestEther')
+    }
+  }
+
   handleClickQRCode () {
     this.props.modalActions.showModal('QRCode', { address: this.props.receiveAddress })
   }
@@ -40,8 +49,9 @@ const extractAddress = (value, selectorFunction) =>
     : undefined
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
+  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const initialValues = {
+    coin: 'BTC',
     to: {
       xpub: selectors.core.wallet.getDefaultAccountXpub(state),
       index: selectors.core.wallet.getDefaultAccountIndex(state)
@@ -52,7 +62,8 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     initialValues,
-    receiveAddress
+    receiveAddress,
+    coin: formValueSelector('requestBitcoin')(state, 'coin')
   }
 }
 
