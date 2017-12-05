@@ -1,4 +1,4 @@
-import * as Long from 'long'
+const Long = require('long')
 
 export function BufHelper (buffer) {
   this.buffer = buffer
@@ -36,7 +36,9 @@ export function BufHelper (buffer) {
   }
 
   this.read64 = () => {
-    return new Long(this.read(4), this.read(4))
+    let hi = this.read32()
+    let lo = this.read32()
+    return Long.fromBits(lo, hi, true)
   }
 
   this.write = (data) => {
