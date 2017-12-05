@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { contains, equals, isEmpty, isNil, map } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { SelectInput } from 'blockchain-info-components'
+import SelectBox from '../SelectBox'
 import { selectors } from 'data'
 
-class SelectBoxAddresses extends React.Component {
+class SelectBoxBitcoinAddresses extends React.Component {
   isFiatAvailable () {
     const { coin, country, currency, rates, bitcoinOptions } = this.props
     if (isNil(coin)) return false
@@ -29,15 +29,15 @@ class SelectBoxAddresses extends React.Component {
     if (!isEmpty(legacyAddresses)) {
       elements.push({ group: 'Imported addresses', items: legacyAddresses })
     }
-    return <SelectInput elements={elements} {...rest} />
+    return <SelectBox elements={elements} {...rest} />
   }
 }
 
-SelectBoxAddresses.propTypes = {
+SelectBoxBitcoinAddresses.propTypes = {
   includeAll: PropTypes.bool
 }
 
-SelectBoxAddresses.defaultProps = {
+SelectBoxBitcoinAddresses.defaultProps = {
   includeAll: true
 }
 
@@ -56,8 +56,8 @@ const mapStateToProps = (state, ownProps) => {
     return { text: `${title} (${display})`, value: rest }
   }, items)
 
-  const accounts = transformAddresses(selectors.core.common.getAccountsBalances(state))
-  const legacyAddresses = transformAddresses(selectors.core.common.getAddressesBalances(state))
+  const accounts = transformAddresses(selectors.core.common.bitcoin.getAccountsBalances(state))
+  const legacyAddresses = transformAddresses(selectors.core.common.bitcoin.getAddressesBalances(state))
 
   return {
     accounts,
@@ -68,4 +68,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(SelectBoxAddresses)
+export default connect(mapStateToProps)(SelectBoxBitcoinAddresses)

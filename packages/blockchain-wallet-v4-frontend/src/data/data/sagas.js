@@ -1,4 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
@@ -38,7 +39,9 @@ export const getLogs = function * (action) {
 export const getBitcoinTransactions = function * (action) {
   const { address } = action.payload
   try {
+    yield put(actions.application.startRequest())
     yield call(sagas.core.data.bitcoin.fetchTransactions, { address })
+    yield put(actions.application.stopRequest())
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch bitcoin transactions.'))
   }
@@ -71,6 +74,33 @@ const getTransactionHistory = function * (action) {
   }
 }
 
+const getBtcEth = function * (action) {
+  try {
+    yield call(sagas.core.data.shapeShift.fetchBtcEth)
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch shapeShift data for bitcoin to ether conversion.'))
+  }
+}
+
+const getEthBtc = function * (action) {
+  try {
+    yield call(sagas.core.data.shapeShift.fetchEthBtc)
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch shapeShift data for ether to bitcoin conversion.'))
+  }
+}
+
+const getShapeshiftOrderStatuses = function * (action) {
+  try {
+    const { addresses } = action.payload
+    yield put(actions.application.startRequest())
+    yield call(sagas.core.data.shapeShift.getTradesStatus, addresses)
+    yield put(actions.application.stopRequest())
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not fetch shapeshift trade statuses.'))
+  }
+}
+
 export default function * () {
   yield takeEvery(AT.GET_ADVERTS, getAdverts)
   yield takeEvery(AT.GET_CAPTCHA, getCaptcha)
@@ -80,4 +110,7 @@ export default function * () {
   yield takeEvery(AT.GET_ETHEREUM_TRANSACTIONS, getEthereumTransactions)
   yield takeEvery(AT.GET_TRANSACTION_FIAT_AT_TIME, getTransactionFiatAtTime)
   yield takeEvery(AT.GET_TRANSACTION_HISTORY, getTransactionHistory)
+  yield takeEvery(AT.GET_BTC_ETH, getBtcEth)
+  yield takeEvery(AT.GET_ETH_BTC, getEthBtc)
+  yield takeEvery(AT.GET_SHAPESHIFT_ORDER_STATUSES, getShapeshiftOrderStatuses)
 }

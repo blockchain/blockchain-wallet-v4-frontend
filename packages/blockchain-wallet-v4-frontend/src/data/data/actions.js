@@ -15,3 +15,9 @@ export const getEthereumTransactions = (address) => ({ type: AT.GET_ETHEREUM_TRA
 export const getTransactionFiatAtTime = (coin, hash, amount, time) => ({ type: AT.GET_TRANSACTION_FIAT_AT_TIME, payload: { coin, hash, amount, time } })
 
 export const getTransactionHistory = (address, start, end) => ({ type: AT.GET_TRANSACTION_HISTORY, payload: { address, start, end } })
+
+export const getBtcEth = () => ({ type: AT.GET_BTC_ETH })
+
+export const getEthBtc = () => ({ type: AT.GET_ETH_BTC })
+
+export const getShapeshiftOrderStatuses = (addresses) => ({ type: AT.GET_SHAPESHIFT_ORDER_STATUSES, payload: { addresses } })
