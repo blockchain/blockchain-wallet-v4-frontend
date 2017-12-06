@@ -1,4 +1,7 @@
-import * as Long from 'long'
+import {assertBuffer, assertLong, assertNumber} from '../helper';
+
+const Long = require('long')
+const assert = require('assert')
 
 export function BufHelper (buffer) {
   this.buffer = buffer
@@ -36,16 +39,20 @@ export function BufHelper (buffer) {
   }
 
   this.read64 = () => {
-    return new Long(this.read(4), this.read(4))
+    let hi = this.read32()
+    let lo = this.read32()
+    return Long.fromBits(lo, hi, true)
   }
 
   this.write = (data) => {
+    assertBuffer(data)
     data.copy(this.buffer, this.offset)
     this.offset += data.length
     return this
   }
 
   this.writeWithLen = (data) => {
+    assertBuffer(data)
     this.write16(data.length)
     data.copy(this.buffer, this.offset)
     this.offset += data.length
@@ -53,24 +60,29 @@ export function BufHelper (buffer) {
   }
 
   this.write8 = (num) => {
+    assertNumber(num)
+    assert(num <= 255)
     this.buffer.writeInt8(num, this.offset)
     this.offset += 1
     return this
   }
 
   this.write16 = (num) => {
+    assertNumber(num)
     this.buffer.writeUInt16BE(num, this.offset)
     this.offset += 2
     return this
   }
 
   this.write32 = (num) => {
+    assertNumber(num)
     this.buffer.writeUInt32BE(num, this.offset)
     this.offset += 4
     return this
   }
 
   this.write64 = (num) => {
+    assertLong(num)
     return this.write32(num.high).write32(num.low)
   }
 }

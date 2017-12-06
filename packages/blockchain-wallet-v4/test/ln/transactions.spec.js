@@ -4,12 +4,11 @@ import {Direction, Funded, Payment, PaymentWrapper} from '../../src/ln/state'
 import {addWitness, getCommitmentTransaction, getPaymentInputScript} from '../../src/ln/transactions'
 import {obscureHash, wrapPubKey} from '../../src/ln/channel'
 import * as hash from 'bcoin/lib/crypto/digest'
+import {fromDER, wrapHex} from "../../src/ln/helper";
 
 const { expect } = chai
 const Long = require('long')
 const bcoin = require('bcoin/lib/bcoin-browser')
-
-let wrapHex = (hex) => Buffer.from(hex, 'hex')
 
 describe('LN Transaction Generation', () => {
   let preImageToHash = (preImageHex) => hash.ripemd160(hash.sha256(wrapHex(preImageHex, 'hex')))
@@ -21,20 +20,16 @@ describe('LN Transaction Generation', () => {
     PaymentWrapper(Direction.RECEIVED, 4, Payment(Long.fromInt(4000000), preImageToHash('0404040404040404040404040404040404040404040404040404040404040404'), Buffer.alloc(0), 504, wrapHex('0404040404040404040404040404040404040404040404040404040404040404')))
   ]
 
-  let addSighash = (sig) => {
-    return Buffer.concat([sig, wrapHex('01')])
-  }
-
   let createTestCase = (name, valueLocal, valueRemote, feeRate, payments, remoteSig, remotePaymentSig, expectedCommitmentTx, expectedPaymentTxs) => ({
     name,
     valueLocal,
     valueRemote,
     feeRate,
     payments: payments.map(i => testPayments[i]),
-    signature: addSighash(wrapHex(remoteSig, 'hex')),
-    paymentSigs: remotePaymentSig.map(i => addSighash(wrapHex(i, 'hex'))),
-    commitmentTx: wrapHex(expectedCommitmentTx, 'hex'),
-    paymentTxs: expectedPaymentTxs.map(i => wrapHex(i, 'hex'))
+    signature: fromDER(wrapHex(remoteSig)),
+    paymentSigs: remotePaymentSig.map(i => fromDER(wrapHex(i))),
+    commitmentTx: wrapHex(expectedCommitmentTx),
+    paymentTxs: expectedPaymentTxs.map(i => wrapHex(i))
   })
 
   let testCases = [
@@ -233,7 +228,7 @@ describe('LN Transaction Generation', () => {
       [])
   ]
 
-  let input = { hash: wrapHex('8984484a580b825b9972d7adb15050b3ab624ccd731946b3eeddb92f4e7ef6be'), n: 0, value: 10000000 }
+  let input = { hash: wrapHex('8984484a580b825b9972d7adb15050b3ab624ccd731946b3eeddb92f4e7ef6be').reverse(), n: 0, value: 10000000 }
   let obscuredHash = obscureHash(
     wrapHex('034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa'),
     wrapHex('032c0b7cf95324a07d05398b240174dc0c2be444d96b159aa6c7f7b1e668680991')
@@ -253,8 +248,8 @@ describe('LN Transaction Generation', () => {
       priv: wrapHex('bb13b121cdc357cd2e608b0aea294afca36e2b34cf958e2e6451a2f274694491')
     },
     remoteKey: wrapPubKey(wrapHex('0394854aa6eab5b2a8122cc726e9dded053a2184d88256816826d6231c068d4a5b')),
-    delayedKey: wrapPubKey(wrapHex('03fd5960528dc152014952efdb702a88f71e3c1653b2314431701ec77e57fde83c')),
-    revocationKey: wrapPubKey(wrapHex('0212a140cd0c6539d07cd08dfe09984dec3251ea808b892efeac3ede9402bf2b19')),
+    delayedKey: wrapHex('03fd5960528dc152014952efdb702a88f71e3c1653b2314431701ec77e57fde83c'),
+    revocationKey: wrapHex('0212a140cd0c6539d07cd08dfe09984dec3251ea808b892efeac3ede9402bf2b19'),
 
     fundingLocalKey: {
       pub: wrapHex('023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb'),

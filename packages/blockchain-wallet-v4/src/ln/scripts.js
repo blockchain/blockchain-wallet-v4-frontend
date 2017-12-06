@@ -2,10 +2,14 @@ import * as SCRIPT from 'bitcoinjs-lib/src/script'
 import * as hash from 'bcoin/lib/crypto/digest'
 
 import * as OPS from 'bitcoin-ops'
+import {sigToBitcoin, assertNumber, assertPubKey, assertSignature, wrapHex} from './helper'
+
+const assert = require('assert')
 
 let OP_CSV = 178
 
-let intToNum = (num) => {
+let intToNum = num => {
+  assertNumber(num)
   let b = null
 
   if (num < 65536) {
@@ -21,8 +25,38 @@ let intToNum = (num) => {
   return b
 }
 
+export let getP2PKHScript = pubkey => {
+  assertPubKey(pubkey)
+  let chunks = []
+  chunks.push(OPS.OP_DUP)
+  chunks.push(OPS.OP_HASH160)
+  chunks.push(hash.ripemd160(hash.sha256(pubkey)))
+  chunks.push(OPS.OP_EQUALVERIFY)
+  chunks.push(OPS.OP_CHECKSIG)
+  return SCRIPT.compile(chunks)
+}
+
+export let getP2WPKHScript = pubkey => {
+  assertPubKey(pubkey)
+
+  let chunks = []
+  chunks.push(OPS.OP_0)
+  chunks.push(hash.ripemd160(hash.sha256(pubkey)))
+  return SCRIPT.compile(chunks)
+}
+
+export let getP2WPKHRedeemScript = (pubkey, signature) => {
+  assertPubKey(pubkey)
+  assertSignature(signature)
+
+  return [sigToBitcoin(signature), pubkey]
+}
+
 export let getFundingOutputScript = (fundingKeyLocal, fundingKeyRemote) => {
   // 2 <key1> <key2> 2 OP_CHECKMULTISIG
+  assertPubKey(fundingKeyLocal)
+  assertPubKey(fundingKeyRemote)
+
   let chunks = []
   chunks.push(OPS.OP_2)
 
@@ -40,6 +74,14 @@ export let getFundingOutputScript = (fundingKeyLocal, fundingKeyRemote) => {
 }
 
 export let getFundingRedeemScript = (key1, key2, sig1, sig2) => {
+  assertPubKey(key1)
+  assertPubKey(key2)
+  assertSignature(sig1)
+  assertSignature(sig2)
+
+  sig1 = sigToBitcoin(sig1)
+  sig2 = sigToBitcoin(sig2)
+
   let chunks = []
   chunks.push([])
 
@@ -66,6 +108,9 @@ export let getToLocalOutputScript = (revocationKey, toSelfDelay, localDelayedKey
   //   <local_delayedkey>
   // OP_ENDIF
   // OP_CHECKSIG
+  assertPubKey(revocationKey)
+  assertPubKey(localDelayedKey)
+  assertNumber(toSelfDelay)
 
   let chunks = []
 
@@ -84,6 +129,7 @@ export let getToLocalOutputScript = (revocationKey, toSelfDelay, localDelayedKey
 
 export let getToRemoteOutputScript = (remoteKey) => {
   // This output sends funds to the other peer, thus is a simple P2WPKH to remotekey.
+  assertPubKey(remoteKey)
 
   let chunks = []
 
@@ -117,6 +163,10 @@ export let getOfferedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHa
   //       OP_CHECKSIG
   //     OP_ENDIF
   //   OP_ENDIF
+  assertPubKey(remoteKey)
+  assertPubKey(localKey)
+  assertPubKey(revocationKey)
+  assert.equal(paymentHash.length, 20)
 
   let chunks = []
 
@@ -134,7 +184,7 @@ export let getOfferedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHa
   chunks.push(remoteKey)
   chunks.push(OPS.OP_SWAP)
   chunks.push(OPS.OP_SIZE)
-  chunks.push(Buffer.from('20', 'hex')) // Push <32> onto the stack
+  chunks.push(wrapHex('20')) // Push <32> onto the stack
   chunks.push(OPS.OP_EQUAL)
 
   chunks.push(OPS.OP_NOTIF)
@@ -177,6 +227,11 @@ export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentH
   //     OP_CHECKSIG
   //   OP_ENDIF
   // OP_ENDIF
+  assertPubKey(remoteKey)
+  assertPubKey(localKey)
+  assertPubKey(revocationKey)
+  assertNumber(cltvTimeout)
+  assert.equal(paymentHash.length, 20)
 
   let chunks = []
 
@@ -194,7 +249,7 @@ export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentH
   chunks.push(remoteKey)
   chunks.push(OPS.OP_SWAP)
   chunks.push(OPS.OP_SIZE)
-  chunks.push(Buffer.from('20', 'hex')) // Push <32> onto the stack
+  chunks.push(wrapHex('20')) // Push <32> onto the stack
   chunks.push(OPS.OP_EQUAL)
 
   chunks.push(OPS.OP_IF)
@@ -233,6 +288,9 @@ export let getHTLCFollowUpTx = (revocationKey, toSelfDelay, delayedKeyLocal) => 
   //   <local_delayedkey>
   // OP_ENDIF
   // OP_CHECKSIG
+  assertPubKey(revocationKey)
+  assertPubKey(delayedKeyLocal)
+  assertNumber(toSelfDelay)
 
   let chunks = []
 

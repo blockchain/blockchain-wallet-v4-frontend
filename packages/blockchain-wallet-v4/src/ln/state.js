@@ -1,15 +1,17 @@
 import {fromJS} from 'immutable'
+import {wrapHex} from './helper'
 
 var Long = require('long')
 
 export let State = () => fromJS({
   channels: {},
-  connections: [],
+  connections: {},
 
   connected: false
 })
 
-export let Connection = () => ({
+export let Connection = () => fromJS({
+  conn: undefined,
   connected: true,
   initSent: true,
   initReceived: false,
@@ -22,6 +24,12 @@ export let Connection = () => ({
   lastPing: 0,
 
   error: null
+})
+
+export let Wallet = () => ({
+  unspents: [
+    {privKey: wrapHex('92fc477d4310b63613c84cbb17ce39f7bb16b5a55daeb3462cb4aabbccddeeff'), hash: wrapHex('41935e3f9332ea8e2da79c3cc926ac1df66307809b6cb93a27ac62518ea6122d'), n: 0, value: 900000}
+  ]
 })
 
 export let TransactionOutpoint = (hash, n) =>
@@ -66,7 +74,7 @@ export let ChannelState = () => fromJS({
 
   currentCommitmentPoint: null,
   nextCommitmentPoint: null,
-  commitmentNumber: Math.pow(2, 48) - 1
+  commitmentNumber: 0
 })
 
 export let Channel = () => fromJS({
@@ -81,6 +89,7 @@ export let Channel = () => fromJS({
   remote: ChannelState(),
   local: ChannelState(),
 
+  commitmentInput: {},
   commitmentObscureHash: null,
 
   commitmentSecretSeed: null,

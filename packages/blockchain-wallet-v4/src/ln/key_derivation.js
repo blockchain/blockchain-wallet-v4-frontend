@@ -17,7 +17,7 @@ function generatePerCommitmentSecret (seed, I) {
 
 function generatePerCommitmentPoint (seed, index) {
   let I = intToArray(index)
-  let secret = generatePerCommitmentSecret(seed, I)
+  let secret = Buffer.from(generatePerCommitmentSecret(seed, I))
   return ec.publicKeyCreate(secret, true)
 }
 
