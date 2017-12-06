@@ -49,7 +49,7 @@ const extractAddress = (value, selectorFunction) =>
     : undefined
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
+  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
   const initialValues = {
     coin: 'BTC',
     to: {

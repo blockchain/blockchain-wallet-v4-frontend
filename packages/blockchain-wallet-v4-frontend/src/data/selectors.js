@@ -1,6 +1,7 @@
 import settings from 'config'
 import { coreSelectorsFactory } from 'blockchain-wallet-v4/src'
 import * as alerts from './alerts/selectors'
+import * as application from './application/selectors'
 import * as auth from './auth/selectors'
 import * as goals from './goals/selectors'
 import * as modals from './modals/selectors'
@@ -19,6 +20,7 @@ const core = coreSelectorsFactory({
 
 export {
   alerts,
+  application,
   auth,
   core,
   goals,

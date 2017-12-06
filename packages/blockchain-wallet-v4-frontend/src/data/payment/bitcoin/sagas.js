@@ -1,6 +1,6 @@
 import { takeEvery, put, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { isNil, is } from 'ramda'
+import { isNil, is, prop } from 'ramda'
 import * as AT from './actionTypes'
 import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
@@ -41,15 +41,15 @@ export const getUnspent = function * (action) {
 export const getSelection = function * (action) {
   try {
     const { from, to, to2, amount, fee, seed } = action.payload
-    const finalTo = !isNil(to2) ? to2 : (to.address || to.index)
+    const finalTo = !isNil(to2) ? to2 : (prop('address', to) || prop('index', to))
     let receiveAddress = finalTo
     if (is(Number, finalTo)) {
-      receiveAddress = yield select(selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, finalTo))
+      receiveAddress = yield select(selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, finalTo))
     }
     const finalFrom = from.address || from.index
     let changeAddress = finalFrom
     if (is(Number, finalFrom)) {
-      changeAddress = yield select(selectors.core.common.getNextAvailableChangeAddress(settings.NETWORK, finalFrom))
+      changeAddress = yield select(selectors.core.common.bitcoin.getNextAvailableChangeAddress(settings.NETWORK, finalFrom))
     }
     const unit = yield select(selectors.core.settings.getBtcUnit)
     const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'SAT' }).value
@@ -65,7 +65,7 @@ export const getEffectiveBalance = function * (action) {
   try {
     yield call(sagas.core.data.bitcoin.refreshEffectiveBalance, { feePerByte: fee })
   } catch (e) {
-    yield put(actions.alerts.displayError('Could not calculate selection.'))
+    yield put(actions.alerts.displayError('Could not get effective balance.'))
   }
 }
 

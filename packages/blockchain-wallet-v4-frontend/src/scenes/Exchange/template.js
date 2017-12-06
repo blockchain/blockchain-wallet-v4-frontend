@@ -1,57 +1,63 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Text, TextGroup } from 'blockchain-info-components'
+import ExchangeLayout from 'layouts/Exchange'
+import Shapeshift from './Shapeshift'
+import Info from './Info'
+import Support from './Support'
 
 const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: start;
   width: 100%;
+  padding: 30px;
+  box-sizing: border-box;
 
   @media(min-width: 992px) { flex-direction: row; }
 `
 const Column = styled.div`
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
-  padding: 30px 0;
-  box-sizing: border-box;
 `
 const ColumnLeft = styled(Column)`
-  padding: 30px;
-  @media(min-width: 992px) { padding: 30px 5px 30px 30px; }
+  align-items: flex-end;
+  order: 2;
+  margin-right: 10px;
+
+  & > :first-child { margin-bottom: 10px; }
+  @media(min-width: 992px) {
+    order: 1;
+    width: 60%;
+  }
 `
 const ColumnRight = styled(Column)`
-  padding: 30px;
-  @media(min-width: 992px) { padding: 30px 30px 30px 5px; }
-`
-const ExchangeBox = styled.div`
-  height: 300px;
-  border: 1px solid black;
-`
+  order: 1;
+  padding: 0;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 
-const Exchange = () => {
-  return (
+  @media(min-width: 992px) {
+    order: 2;
+    width: 40%;
+  }
+`
+const Exchange = () => (
+  <ExchangeLayout>
     <Wrapper>
       <ColumnLeft>
-        <ExchangeBox>
-          Exchange details
-        </ExchangeBox>
+        <Shapeshift />
+        <Support />
       </ColumnLeft>
       <ColumnRight>
-        <TextGroup>
-          <Text color='brand-primary' weight={600} size='18px'>
-            <FormattedMessage id='scenes.exchange.simple' defaultMessage='Simple. Seamless. Secure.' />
-          </Text>
-          <Text weight={300} size='16px'>
-            <FormattedMessage id='scenes.exchange.text' defaultMessage='You can now exchange your bitcoin for ether and vice versa directly from your Blockchain wallet. In a few simple steps, your exchange will be in progress. Note: exchanges usually take between twenty minutes and two hours.' />
-          </Text>
-        </TextGroup>
+        <Info />
       </ColumnRight>
     </Wrapper>
-  )
-}
+  </ExchangeLayout>
+)
 
 export default Exchange

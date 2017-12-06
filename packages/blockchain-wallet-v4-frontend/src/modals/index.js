@@ -1,6 +1,7 @@
 import React from 'react'
 
 import AutoDisconnection from './AutoDisconnection'
+import ExchangeDetails from './ExchangeDetails'
 import MobileNumberChange from './MobileNumberChange'
 import MobileNumberVerify from './MobileNumberVerify'
 import MobileLogin from './MobileLogin'
@@ -23,6 +24,7 @@ import Welcome from './Welcome'
 const Modals = props => (
   <div>
     <AutoDisconnection />
+    <ExchangeDetails />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />

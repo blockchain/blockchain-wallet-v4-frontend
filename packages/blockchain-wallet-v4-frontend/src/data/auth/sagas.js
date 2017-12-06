@@ -66,8 +66,8 @@ const manageWalletData = function * () {
   const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
   const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
   yield all([
-    call(sagas.core.common.fetchBlockchainData, { context: bitcoinContext }),
-    call(sagas.core.common.fetchEthereumData, { context: etherContext }),
+    call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext }),
+    call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext }),
     call(sagas.core.data.ethereum.fetchLatestBlock)
   ])
 }
