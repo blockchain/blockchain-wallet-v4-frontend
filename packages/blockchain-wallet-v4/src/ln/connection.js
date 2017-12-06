@@ -1,6 +1,7 @@
 'use strict'
 import {List} from 'immutable'
 import {getSerializer} from './messages/parser'
+import {wrapHex} from "./helper";
 
 let ec = require('bcoin/lib/crypto/secp256k1-browser')
 let crypto = require('bcoin/lib/crypto')
@@ -14,7 +15,7 @@ const secp256k1 = elliptic.ec('secp256k1')
  * Lightning Connection
  * @constructor
  */
-const handshakeVersion = Buffer.from('00', 'hex')
+const handshakeVersion = wrapHex('00')
 
 function Connection (options, staticRemote) {
   if (!(this instanceof Connection)) { return new Connection() }

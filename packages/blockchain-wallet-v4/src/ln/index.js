@@ -2,6 +2,7 @@
 import TCP from './TCP'
 import Peer from './peer'
 import {State} from './state'
+import {wrapHex} from './helper'
 
 export const startUp = (options) => {
   let tcp = new TCP()
@@ -21,7 +22,7 @@ export const startUp = (options) => {
 
 export const connect = (options, state, tcp, key) => {
   let staticRemote = {}
-  staticRemote.pub = Buffer.from(key, 'hex')
+  staticRemote.pub = wrapHex(key)
 
   let peer = new Peer(options, state, tcp, staticRemote)
 }

@@ -10,6 +10,7 @@ import {List, fromJS} from 'immutable'
 import {generatePerCommitmentPoint} from './key_derivation'
 import {checkCommitmentSignature, createKeySet, getCommitmentTransaction, getFundingTransaction} from './transactions'
 import xor from 'buffer-xor'
+import {wrapHex} from "./helper";
 
 const ec = require('secp256k1')
 const Long = require('long')
@@ -46,8 +47,7 @@ let updateChannel = (state, channelId, channel) => state.update('channels', o =>
 
 export let obscureHash = (basePoint1, basePoint2) => {
   let b = Buffer.concat([basePoint1, basePoint2])
-  let s = Buffer.from(sha(b), 'hex')
-  return s
+  return wrapHex(sha(b))
 }
 
 let calculateChannelId = (commitmentInput) => {
@@ -170,15 +170,7 @@ export function sendFundingCreated (state, channelId, wallet) {
 
   console.info('Created funding transaction: \n' + fundingTx.toRaw().toString('hex'))
 
-  let keySet = createKeySet(
-    channel.getIn(['remote', 'nextCommitmentPoint']),
-    channel.getIn(['paramsRemote', 'paymentBasepoint', 'pub']),
-    channel.getIn(['paramsRemote', 'delayedPaymentBasepoint', 'pub']),
-    channel.getIn(['paramsLocal', 'revocationBasepoint', 'pub']),
-    channel.getIn(['paramsLocal', 'paymentBasepoint', 'pub']),
-    channel.getIn(['paramsLocal', 'fundingKey']).toJS(),
-    channel.getIn(['paramsRemote', 'fundingKey']).toJS()
-  )
+  let keySet = createKeySet(channel.get('remote'), channel.get('paramsRemote'), channel.get('paramsLocal'))
 
   let commitment = getCommitmentTransaction(
     channel.get('commitmentInput').toJS(),
@@ -212,15 +204,7 @@ export function sendFundingCreated (state, channelId, wallet) {
 export function readFundingSigned (msg, state) {
   let channel = getChannelCheck(state, msg.channelId, phase.SENT_OPEN)
 
-  let keySet = createKeySet(
-    channel.getIn(['local', 'nextCommitmentPoint']),
-    channel.getIn(['paramsLocal', 'paymentBasepoint', 'pub']),
-    channel.getIn(['paramsLocal', 'delayedPaymentBasepoint', 'pub']),
-    channel.getIn(['paramsRemote', 'revocationBasepoint', 'pub']),
-    channel.getIn(['paramsRemote', 'paymentBasepoint', 'pub']),
-    channel.getIn(['paramsLocal', 'fundingKey']).toJS(),
-    channel.getIn(['paramsRemote', 'fundingKey']).toJS()
-  )
+  let keySet = createKeySet(channel.get('local'), channel.get('paramsLocal'), channel.get('paramsRemote'))
 
   let input = channel.get('commitmentInput').toJS()
   let commitment = getCommitmentTransaction(

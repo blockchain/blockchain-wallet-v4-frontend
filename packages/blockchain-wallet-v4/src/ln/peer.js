@@ -9,6 +9,7 @@ import * as Time from 'unix-timestamp'
 import * as State from './state'
 import * as Long from 'long'
 import {openChannel, readAcceptChannel, sendFundingCreated, readFundingSigned} from './channel'
+import {wrapHex} from './helper'
 
 function Peer (options, stateHolder, tcp, staticRemote) {
   console.info(JSON.stringify(staticRemote))
@@ -21,7 +22,7 @@ function Peer (options, stateHolder, tcp, staticRemote) {
       .setIn(['connections', staticRemote.pub, 'conn'], this.conn)
 
     // TODO correctly wire this up as an initMessage
-    this.send(new Message.Init(Buffer.alloc(0), Buffer.from('08', 'hex')))
+    this.send(new Message.Init(Buffer.alloc(0), wrapHex('08')))
 
     // TODO move opening a channel somewhere else
     state = openChannel(state, staticRemote, options, Long.fromNumber(100000))
@@ -63,7 +64,7 @@ function Peer (options, stateHolder, tcp, staticRemote) {
     connState.gfRemote = msg.gf
     connState.lfRemote = msg.lf
     if (!connState.initSent) {
-      this.send(new Message.Init(Buffer.alloc(0), Buffer.from('08', 'hex')))
+      this.send(new Message.Init(Buffer.alloc(0), wrapHex('08')))
       connState.initSent = true
     }
 

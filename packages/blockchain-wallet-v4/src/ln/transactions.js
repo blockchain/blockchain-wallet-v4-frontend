@@ -5,7 +5,7 @@ import {Direction, Funded} from './state'
 import {derivePubKey, deriveRevocationPubKey} from './key_derivation'
 import {getP2PKHScript} from './scripts'
 import {getP2WPKHRedeemScript} from './scripts'
-import {sigToBitcoin} from "./helper";
+import {assertPubKey, sigToBitcoin, wrapHex} from './helper'
 
 let bcoin = require('bcoin/lib/bcoin-browser')
 let Tx = bcoin.tx
@@ -31,14 +31,16 @@ let roundDown = (num) => num.div(1000).toNumber()
 let htlcTimeoutFee = fee => weightToFee(htlcTimeoutWeight, fee)
 let htlcSuccessFee = fee => weightToFee(htlcSuccessWeight, fee)
 
+let getPaymentAmount = p => p.getIn(['payment', 'amount'])
+
 let getCommitmentLocktime = obscuredTxNum => {
-  let b = Buffer.from('20000000', 'hex')
+  let b = wrapHex('20000000')
   obscuredTxNum.copy(b, 1, 3, 6)
   return b.readUInt32BE(0)
 }
 
 let getCommitmentSequence = obscuredTxNum => {
-  let b = Buffer.from('80000000', 'hex')
+  let b = wrapHex('80000000')
   obscuredTxNum.copy(b, 1, 0, 3)
   return b.readUInt32BE(0)
 }
@@ -68,18 +70,27 @@ export let trimPredicate = (feePerKw, dustLimit) => p => {
   let {direction, _, payment} = p.toJS()
   dustLimit = Long.fromNumber(dustLimit)
 
-  if (direction === Direction.OFFERED) {
-    return payment.amount.div(1000).sub(htlcTimeoutFee(feePerKw)).greaterThanOrEqual(dustLimit)
-  } else {
-    return payment.amount.div(1000).sub(htlcSuccessFee(feePerKw)).greaterThanOrEqual(dustLimit)
-  }
+  let fee = direction === Direction.OFFERED ? htlcTimeoutFee(feePerKw) : htlcSuccessFee(feePerKw)
+  return payment.amount.div(1000).sub(fee).greaterThanOrEqual(dustLimit)
 }
 
-let reverseBytes = (b) => {
-  return Buffer.from(b.toString('hex').match(/.{2}/g).reverse().join(''), 'hex')
+export let createKeySet = (stateLocal, paramsLocal, paramsRemote) => {
+  stateLocal = stateLocal.toJS()
+  paramsLocal = paramsLocal.toJS()
+  paramsRemote = paramsRemote.toJS()
+
+  return createKeySetInternal(
+    stateLocal.nextCommitmentPoint.pub,
+    paramsLocal.paymentBasepoint.pub,
+    paramsLocal.delayedPaymentBasepoint.pub,
+    paramsRemote.revocationBasepoint.pub,
+    paramsRemote.paymentBasepoint.pub,
+    paramsRemote.fundingKey,
+    paramsLocal.fundingKey
+  )
 }
 
-export let createKeySet = (
+let createKeySetInternal = (
   commitmentPoint,
   paymentBasepointLocal,
   delayedPaymentBasepointLocal,
@@ -87,6 +98,14 @@ export let createKeySet = (
   paymentBasepointRemote,
   fundingLocalKey,
   fundingRemoteKey) => {
+  assertPubKey(commitmentPoint)
+  assertPubKey(paymentBasepointRemote)
+  assertPubKey(paymentBasepointLocal)
+  assertPubKey(delayedPaymentBasepointLocal)
+  assertPubKey(revocationPaymentBasepointLocal)
+  assertPubKey(fundingLocalKey.pub)
+  assertPubKey(fundingRemoteKey.pub)
+
   return {
     revocationKey: deriveRevocationPubKey(revocationPaymentBasepointLocal, commitmentPoint),
     delayedKey: derivePubKey(delayedPaymentBasepointLocal, commitmentPoint),
@@ -111,8 +130,6 @@ let getPaymentOutputScriptP2SH = (revocationKey, remoteKey, localKey, p) => {
       Script.wrapP2WSH(
         getPaymentOutputScript(revocationKey, remoteKey, localKey, p)))
 }
-
-let getPaymentAmount = p => p.getIn(['payment', 'amount'])
 
 export let getFundingTransaction =
   (inputs, remoteKey, localKey, amount, feeRatePerKw) => {
@@ -142,7 +159,7 @@ export let getFundingTransaction =
       let hash = txBuilder.toTX().signatureHash(i, inputScript, input.value, 1, 1)
       let sig = ec.sign(hash, input.privKey).signature
       let sigDER = ecBcoin.toDER(sig)
-      sig = Buffer.concat([sigDER, Buffer.from('01', 'hex')])
+      sig = Buffer.concat([sigDER, wrapHex('01')])
       txBuilder.inputs[0].witness = new bcoin.witness(getP2WPKHRedeemScript(pubkey, sig))
 
       i++
@@ -159,7 +176,7 @@ export let getCommitmentTransaction =
     let sequence = getCommitmentSequence(obscureTransactionNumber(commitmentNumber, obscuredHash))
     let locktime = getCommitmentLocktime(obscureTransactionNumber(commitmentNumber, obscuredHash))
 
-    let prevOut = new bcoin.outpoint(Buffer.from(input.hash).toString('hex'), input.n)
+    let prevOut = new bcoin.outpoint(input.hash.toString('hex'), input.n)
 
     commitmentBuilder.version = 2
     commitmentBuilder.addInput({prevout: prevOut, sequence: sequence})

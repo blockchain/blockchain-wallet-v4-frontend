@@ -2,7 +2,7 @@ import * as SCRIPT from 'bitcoinjs-lib/src/script'
 import * as hash from 'bcoin/lib/crypto/digest'
 
 import * as OPS from 'bitcoin-ops'
-import {addSighash, sigToBitcoin, assertNumber, assertPubKey, assertSignature} from './helper';
+import {sigToBitcoin, assertNumber, assertPubKey, assertSignature, wrapHex} from './helper'
 
 const assert = require('assert')
 
@@ -184,7 +184,7 @@ export let getOfferedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHa
   chunks.push(remoteKey)
   chunks.push(OPS.OP_SWAP)
   chunks.push(OPS.OP_SIZE)
-  chunks.push(Buffer.from('20', 'hex')) // Push <32> onto the stack
+  chunks.push(wrapHex('20')) // Push <32> onto the stack
   chunks.push(OPS.OP_EQUAL)
 
   chunks.push(OPS.OP_NOTIF)
@@ -249,7 +249,7 @@ export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentH
   chunks.push(remoteKey)
   chunks.push(OPS.OP_SWAP)
   chunks.push(OPS.OP_SIZE)
-  chunks.push(Buffer.from('20', 'hex')) // Push <32> onto the stack
+  chunks.push(wrapHex('20')) // Push <32> onto the stack
   chunks.push(OPS.OP_EQUAL)
 
   chunks.push(OPS.OP_IF)
