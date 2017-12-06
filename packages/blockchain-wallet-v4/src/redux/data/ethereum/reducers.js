@@ -16,7 +16,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case actionTypes.common.SET_ETHEREUM_DATA: {
+    case actionTypes.common.ethereum.SET_ETHEREUM_DATA: {
       return merge(state, payload)
     }
     case AT.SET_ETHEREUM_FEE: {

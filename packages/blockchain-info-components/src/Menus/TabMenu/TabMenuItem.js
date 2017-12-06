@@ -12,7 +12,11 @@ const BaseTabMenuItem = styled.span`
   text-align: center;
   color: ${props => props.selected ? props.theme['gray-5'] : props.theme['gray-3']};
   cursor: pointer;
-  flex: 1 0;
+
+  &.active {
+    text-decoration: underline;
+    color: ${props => props.theme['gray-5']};
+  }
 `
 
 const TabMenuItem = (props) => {
@@ -26,7 +30,7 @@ const TabMenuItem = (props) => {
 }
 
 TabMenuItem.propTypes = {
-  selected: PropTypes.bool.isRequired
+  selected: PropTypes.bool
 }
 
 export default TabMenuItem

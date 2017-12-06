@@ -5,6 +5,8 @@ import { prop, mapAccum, head } from 'ramda'
 import { selectors } from 'data'
 import BalanceSummary from './template.js'
 
+console.log(selectors)
+
 class BalanceSummaryContainer extends React.Component {
   render () {
     const adder = (acc, value) => [acc + (prop('amount', value) || 0), (acc + prop('amount', value) || 0)]
@@ -16,8 +18,8 @@ class BalanceSummaryContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const accountsBalances = selectors.core.common.getAccountsBalances(state)
-  const aggregatedLegacyAddressesBalances = selectors.core.common.getAggregatedAddressesBalances(state)
+  const accountsBalances = selectors.core.common.bitcoin.getAccountsBalances(state)
+  const aggregatedLegacyAddressesBalances = selectors.core.common.bitcoin.getAggregatedAddressesBalances(state)
   return {
     bitcoinBalances: [...accountsBalances, aggregatedLegacyAddressesBalances],
     coinDisplayed: selectors.preferences.getCoinDisplayed(state)
