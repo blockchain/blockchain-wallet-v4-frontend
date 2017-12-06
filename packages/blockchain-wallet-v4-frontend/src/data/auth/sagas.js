@@ -1,6 +1,6 @@
 import { delay } from 'redux-saga'
 import { takeEvery, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
-import { compose, prop, assoc } from 'ramda'
+import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import * as AT from './actionTypes'
@@ -9,6 +9,7 @@ import * as actionTypes from '../actionTypes.js'
 import * as selectors from '../selectors.js'
 import * as sagas from '../sagas.js'
 import { api } from 'services/ApiService'
+import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 
 // =============================================================================
 // ================================== Addons ===================================
@@ -58,8 +59,8 @@ const manageWalletMetadata = function * () {
   yield call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
   yield call(sagas.core.kvStore.ethereum.fetchEthereum)
   yield call(sagas.core.kvStore.shapeShift.fetchShapeShift)
-  yield call(sagas.core.kvStore.buySell.fetchBuySell)
-  yield call(sagas.core.kvStore.contacts.fetchContacts)
+  // yield call(sagas.core.kvStore.buySell.fetchBuySell)
+  // yield call(sagas.core.kvStore.contacts.fetchContacts)
 }
 
 const manageWalletData = function * () {
@@ -78,9 +79,7 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     if (shouldUpgrade) { yield call(upgradeWalletSaga) }
     yield put(actions.auth.authenticate())
     yield put(actions.core.webSocket.startSocket())
-
-    // mystuff
-    yield call(sagas.core.kvStore.root.fetchRoot)
+    yield call(sagas.core.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     yield call(manageWalletOptions)
     yield call(manageWalletSettings)
     yield call(manageWalletMetadata)

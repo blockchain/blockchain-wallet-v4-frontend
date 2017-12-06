@@ -71,13 +71,11 @@ export const fromCredentials = curry((guid, sharedKey, password) => {
   return fromKeys(key, enc)
 })
 
-export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
-  let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
-  let node = payloadTypeNode.deriveHardened(0)
-  let privateKeyBuffer = payloadTypeNode.deriveHardened(1).keyPair.d.toBuffer()
-  let encryptionKey = crypto.sha256(privateKeyBuffer)
-  return fromKeys(node.keyPair, encryptionKey, typeId)
-})
+export const getMasterHDNode = (seedHex) => {
+  const mnemonic = BIP39.entropyToMnemonic(seedHex)
+  const masterhex = BIP39.mnemonicToSeed(mnemonic)
+  return Bitcoin.HDNode.fromSeedBuffer(masterhex)
+}
 
 export const deriveMetadataNode = (masterHDNode) => {
   // BIP 43 purpose needs to be 31 bit or less. For lack of a BIP number
@@ -87,15 +85,24 @@ export const deriveMetadataNode = (masterHDNode) => {
   return masterHDNode.deriveHardened(purpose)
 }
 
+export const fromMetadataXpriv = curry((xpriv, typeId) =>
+  fromMetadataHDNode(Bitcoin.HDNode.fromBase58(xpriv), typeId))
+
+export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
+  let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
+  let node = payloadTypeNode.deriveHardened(0)
+  let privateKeyBuffer = payloadTypeNode.deriveHardened(1).keyPair.d.toBuffer()
+  let encryptionKey = crypto.sha256(privateKeyBuffer)
+  return fromKeys(node.keyPair, encryptionKey, typeId)
+})
+
 export const fromMasterHDNode = curry((masterHDNode, typeId) => {
   let metadataHDNode = deriveMetadataNode(masterHDNode)
   return fromMetadataHDNode(metadataHDNode, typeId)
 })
 
 export const fromHdWallet = curry((hdWallet, typeId) => {
-  const mnemonic = BIP39.entropyToMnemonic(hdWallet.seedHex)
-  const masterhex = BIP39.mnemonicToSeed(mnemonic)
-  const masterHdNode = Bitcoin.HDNode.fromSeedBuffer(masterhex)
+  const masterHdNode = getMasterHDNode(hdWallet.seedHex)
   return fromMasterHDNode(masterHdNode, typeId)
 })
 

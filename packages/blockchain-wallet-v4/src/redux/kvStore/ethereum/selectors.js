@@ -1,4 +1,4 @@
-import { concat, compose, head, map, path, prop, isNil } from 'ramda'
+import { prepend, compose, head, map, path, prop, isNil } from 'ramda'
 // import { KVStoreEntry } from '../../../types'
 import { ETHEREUM } from '../config'
 
@@ -15,6 +15,6 @@ export const getDefaultAccountAddress = compose(prop('addr'), head, getAccounts)
 export const getContext = state => {
   const legacyAccount = getLegacyAccount(state)
   const accounts = getAccounts(state)
-  const allAccounts = !isNil(legacyAccount) ? concat([legacyAccount], accounts) : getAccounts()
-  return map(account => account.addr, allAccounts)
+  const allAccounts = !isNil(legacyAccount) ? prepend(legacyAccount, accounts) : accounts
+  return map(prop('addr'), allAccounts)
 }
