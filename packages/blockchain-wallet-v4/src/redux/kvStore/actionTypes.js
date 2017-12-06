@@ -3,8 +3,10 @@ import * as ethereum from './ethereum/actionTypes'
 import * as shapeShift from './shapeShift/actionTypes'
 import * as buySell from './buySell/actionTypes'
 import * as contacts from './contacts/actionTypes'
+import * as root from './root/actionTypes'
 
 export {
+  root,
   whatsNew,
   ethereum,
   shapeShift,

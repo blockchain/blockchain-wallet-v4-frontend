@@ -1,3 +1,4 @@
+export const ROOT = 'root'
 // export const GUID = 'guid'
 export const WHATSNEW = 'whatsNew'
 export const BUYSELL = 'buySell'
@@ -6,6 +7,7 @@ export const ETHEREUM = 'ethereum'
 export const SHAPESHIFT = 'shapeshift'
 
 export const derivationMap = {
+  [ROOT]: -1,
   // [GUID]: 0,
   [WHATSNEW]: 2,
   [BUYSELL]: 3,

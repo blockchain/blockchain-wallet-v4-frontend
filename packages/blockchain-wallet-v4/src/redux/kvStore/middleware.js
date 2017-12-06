@@ -17,6 +17,7 @@ const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, api } = {}) => (store
 
   switch (true) {
     case (wasAuth && isAuth &&
+          action.type !== T.root.SET_ROOT &&
           action.type !== T.whatsNew.SET_WHATS_NEW &&
           action.type !== T.buySell.SET_BUYSELL &&
           action.type !== T.contacts.SET_CONTACTS &&
@@ -26,6 +27,7 @@ const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, api } = {}) => (store
 
       const actionCreators = {
         // [GUID]: 0,
+        [C.ROOT]: A.root.set,
         [C.WHATSNEW]: A.whatsNew.setWhatsNew,
         [C.BUYSELL]: A.buySell.setBuySell,
         [C.CONTACTS]: A.contacts.setContacts,
