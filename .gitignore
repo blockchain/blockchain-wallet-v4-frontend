@@ -9,7 +9,6 @@ build
 .yarnclean
 yarn-error.log
 .vscode
-<<<<<<< HEAD
 
 packages/blockchain-info-components/lib
 packages/blockchain-info-components/node_modules
