@@ -9,10 +9,16 @@ build
 .yarnclean
 yarn-error.log
 .vscode
+<<<<<<< HEAD
 
 packages/blockchain-info-components/lib
+packages/blockchain-info-components/node_modules
 packages/blockchain-wallet-v4-frontend/lib
+packages/blockchain-wallet-v4-frontend/build
+packages/blockchain-wallet-v4-frontend/dist
+packages/blockchain-wallet-v4-frontend/node_modules
 packages/blockchain-wallet-v4/lib
+packages/blockchain-wallet-v4/node_modules
 
 
 

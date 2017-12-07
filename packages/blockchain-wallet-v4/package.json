@@ -46,20 +46,26 @@
     "chai": "~3.5.0",
     "chai-spies": "~0.7.1",
     "mocha": "~3.2.0",
-    "npm-watch": "~0.1.8",
+    "npm-watch": "^0.3.0",
     "standard": "^10.0.2"
   },
   "dependencies": {
     "bcoin": "v1.0.0-beta.14",
+    "big-rational": "^0.10.7",
     "bigi": "^1.4.2",
     "bip39": "^2.3.1",
     "bitcoinjs-lib": "^3.1.1",
+    "bitcoinjs-message": "^2.0.0",
     "bs58": "^4.0.1",
     "chacha": "2.1.0",
     "chai-immutable": "^1.6.0",
     "data.either": "^1.5.0",
+    "data.maybe": "^1.2.2",
     "data.task": "^3.1.1",
     "es6-promise": "^4.1.0",
+    "ethereumjs-tx": "^1.3.3",
+    "ethereumjs-util": "^5.1.2",
+    "ethereumjs-wallet": "^0.6.0",
     "extendable-immutable": "^1.3.3",
     "fast-memoize": "^2.2.7",
     "fisher-yates": "^1.0.3",
@@ -73,7 +79,8 @@
     "jsdoc": "3.4.0",
     "level-js": "2.2.4",
     "pbkdf2": "~3.0.12",
-    "ramda": "^0.24.1",
+    "query-string": "^5.0.1",
+    "ramda": "^0.25",
     "ramda-lens": "https://github.com/ramda/ramda-lens.git",
     "redux": "^3.6.0",
     "redux-immutable": "^3.1.0",
@@ -81,6 +88,8 @@
     "seedrandom": "^2.4.3",
     "uglify-js": "2.7.3",
     "sha256": "0.2.0",
-    "chacha20": "0.1.4"
+    "chacha20": "0.1.4",
+    "redux-saga": "^0.16.0",
+    "seedrandom": "^2.4.3"
   }
 }

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 
+import Empty from './Empty'
 import ListItem from './ListItem'
 
 const Wrapper = styled.div`
@@ -13,6 +14,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   padding: 15px;
+  margin-top: 15px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
 `
@@ -35,10 +37,12 @@ const ActivityList = (props) => {
         </Text>
       </Header>
       <Content>
-        { activities.map(function (activity, index) {
-          const { action, time } = activity
-          return <ListItem action={action} time={time} key={index} />
-        })}
+        { (activities.length === 0)
+          ? <Empty />
+          : activities.map(function (activity, index) {
+            return <ListItem action={activity.action} time={activity.time} key={index} />
+          })
+        }
       </Content>
     </Wrapper>
   )

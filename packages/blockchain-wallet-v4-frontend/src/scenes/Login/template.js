@@ -1,6 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -8,11 +8,13 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { Form, PasswordBox, TextBox } from 'components/Form'
+import Modals from 'modals'
+import MobileLogin from 'modals/MobileLogin'
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 40px;
-  box-sigin: border-box;
+  box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
   @media(min-width: 768px) { width: 550px; }
@@ -37,10 +39,14 @@ const Footer = styled.div`
 `
 
 const Login = (props) => {
-  const { handleSubmit, submitting, invalid } = props
+  const { submitting, invalid, ...rest } = props
+  const { onSubmit, handleMobile, authType } = rest
 
   return (
     <Wrapper>
+      <Modals>
+        <MobileLogin />
+      </Modals>
       <Header>
         <Text size='24px' weight={300} capitalize>
           <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back !' />
@@ -60,7 +66,7 @@ const Login = (props) => {
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={onSubmit}>
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
         </Text>
@@ -80,12 +86,22 @@ const Login = (props) => {
           <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
         </Text>
         <Field name='password' validate={[required]} component={PasswordBox} />
-        <Button nature='primary' type='submit' fullwidth uppercase disabled={submitting || invalid}>
+        { authType &&
+          <Text size='14px' weight={500}>
+            { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
+            { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
+            { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
+          </Text>
+        }
+        { authType &&
+          <Field name='code' validate={[required]} component={TextBox} />
+        }
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
         </Button>
       </Form>
       <Footer>
-        <Link size='13px' weight={300}>
+        <Link size='13px' weight={300} onClick={handleMobile}>
           <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via mobile' />
         </Link>
         <TextGroup inline>
@@ -103,4 +119,8 @@ const Login = (props) => {
   )
 }
 
-export default reduxForm({ form: 'loginForm' })(Login)
+Login.propTypes = {
+  handleMobile: PropTypes.func.isRequired
+}
+
+export default reduxForm({ form: 'login' })(Login)

@@ -9,13 +9,7 @@ import ThirdStep from './template.js'
 class ThirdStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.handleFinish = this.handleFinish.bind(this)
-  }
-
-  handleFinish () {
-    this.props.walletActions.verifyMnemonic()
-    this.props.modalActions.closeModal()
-    this.props.alertActions.displaySuccess('Your mnemonic has been verified !')
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentWillMount () {
@@ -23,32 +17,29 @@ class ThirdStepContainer extends React.Component {
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
     const indexes = compose(take(4), map(prop(1)), randomize, pair)(range(0, 12))
-
     updateUI({ indexes })
+  }
+
+  onSubmit () {
+    this.props.walletActions.verifyMnemonic()
   }
 
   render () {
     const { ui, ...rest } = this.props
 
     return (
-      <ThirdStep {...rest} indexes={ui.indexes} handleFinish={this.handleFinish} />
+      <ThirdStep {...rest} indexes={ui.indexes} onSubmit={this.onSubmit} />
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  mnemonic: selectors.core.wallet.getMnemonic(state).split(' ')
-})
-
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  walletActions: bindActionCreators(actions.core.wallet, dispatch)
+  walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const enhance = compose(
   ui({ key: 'RecoveryPhraseVerification', state: { indexes: [] } }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(ThirdStepContainer)

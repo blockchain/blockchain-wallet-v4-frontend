@@ -4,12 +4,10 @@ import { persistStore, autoRehydrate } from 'redux-persist'
 import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import autoDisconnection from 'middleware/autoDisconnection.js'
-import { rootSaga, rootReducer } from 'data'
+import { rootSaga, rootReducer, selectors } from 'data'
 import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
-import { auth } from 'data/rootSelectors.js'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 
 const devToolsConfig = {
@@ -21,17 +19,18 @@ const configureStore = () => {
   const history = createBrowserHistory()
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig) : compose
-  const walletPath = settings.WALLET_IMMUTABLE_PATH
-  const reduxRouterMiddleware = routerMiddleware(history)
+  const walletPath = settings.WALLET_PAYLOAD_PATH
+  const kvStorePath = settings.WALLET_KVSTORE_PATH
+  const isAuthenticated = selectors.auth.isAuthenticated
 
   const store = createStore(
     connectRouter(history)(rootReducer),
     composeEnhancers(
       applyMiddleware(
-        reduxRouterMiddleware,
-        autoDisconnection,
-        // coreMiddleware.walletSync({isAuthenticated: auth.getIsAuthenticated, api, walletPath}),
-        coreMiddleware.socket({ socket, walletPath, isAuthenticated: auth.getIsAuthenticated }),
+        routerMiddleware(history),
+        coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
+        coreMiddleware.socket({ socket, walletPath, isAuthenticated }),
+        coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
         sagaMiddleware
       ),
       autoRehydrate()

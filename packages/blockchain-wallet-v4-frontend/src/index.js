@@ -1,5 +1,6 @@
-// Internal resources
-import './assets/sass/global.scss'
+const index = (process.env.NODE_ENV === 'production')
+  ? require('./index.prod')
+  : require('./index.dev')
 
 // Import React & JS
 import React from 'react'

@@ -8,8 +8,8 @@ import MenuTop from './template.js'
 class MenuTopContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.openSendBitcoin = this.openSendBitcoin.bind(this)
-    this.openRequestBitcoin = this.openRequestBitcoin.bind(this)
+    this.openSend = this.openSend.bind(this)
+    this.openRequest = this.openRequest.bind(this)
     this.toggleCoinDisplay = this.toggleCoinDisplay.bind(this)
   }
 
@@ -17,34 +17,41 @@ class MenuTopContainer extends React.Component {
     this.props.preferencesActions.toggleCoinDisplayed()
   }
 
-  openSendBitcoin () {
-    this.props.modalActions.showModal('SendBitcoin')
+  openSend () {
+    if (this.props.router.location.pathname === '/eth/transactions') {
+      this.props.paymentEthereumActions.initSendEther()
+    } else {
+      this.props.paymentBitcoinActions.initSendBitcoin()
+    }
   }
 
-  openRequestBitcoin () {
-    this.props.modalActions.showModal('RequestBitcoin')
+  openRequest () {
+    if (this.props.router.location.pathname === '/eth/transactions') {
+      this.props.modalActions.showModal('RequestEther')
+    } else {
+      this.props.modalActions.showModal('RequestBitcoin')
+    }
   }
 
   render () {
     return <MenuTop
       {...this.props}
       toggleCoinDisplay={this.toggleCoinDisplay}
-      openSendBitcoin={this.openSendBitcoin}
-      openRequestBitcoin={this.openRequestBitcoin} />
+      openSend={this.openSend}
+      openRequest={this.openRequest} />
   }
 }
 
-MenuTopContainer.defaultProps = {
-  balance: 0
-}
-
 const mapStateToProps = (state) => ({
-  coinDisplayed: selectors.preferences.getCoinDisplayed(state),
-  balance: selectors.core.info.getBalance(state)
+  bitcoinBalance: selectors.core.data.bitcoin.getBalance(state),
+  etherBalance: selectors.core.data.ethereum.getBalance(state),
+  router: state.router
 })
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
+  paymentBitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch),
+  paymentEthereumActions: bindActionCreators(actions.payment.ethereum, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 

@@ -1,40 +1,45 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions as reduxFormActions, formValueSelector } from 'redux-form'
-
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
+import { Types } from 'blockchain-wallet-v4'
 
 class SecondPasswordContainer extends React.Component {
   constructor (props) {
     super(props)
+    this.state = { secondPassword: '' }
     this.handleClick = this.handleClick.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   handleClick () {
-    const { secondPassword, handleConfirm } = this.props
-    handleConfirm(secondPassword)
-    this.props.reduxFormActions.reset('secondPassword')
-    this.props.close()
+    if (Types.Wallet.isValidSecondPwd(this.state.secondPassword, this.props.wallet)) {
+      this.props.modalActions.closeModal()
+      this.props.walletActions.submitSecondPassword(this.state.secondPassword)
+    } else {
+      this.props.alertActions.displayError('Wrong second password')
+      this.setState({ secondPassword: '' })
+    }
+  }
+
+  handleChange (event) {
+    this.setState({ secondPassword: event.target.value })
   }
 
   render () {
-    return <SecondPassword {...this.props} handleClick={this.handleClick} />
+    return <SecondPassword {...this.props} handleClick={this.handleClick} handleChange={this.handleChange} value={this.state.secondPassword} />
   }
 }
-
-SecondPasswordContainer.propTypes = {
-  handleConfirm: PropTypes.func.isRequired
-}
-
 const mapStateToProps = (state) => ({
-  secondPassword: formValueSelector('secondPassword')(state, 'secondPassword')
+  wallet: selectors.core.wallet.getWallet(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  alertActions: bindActionCreators(actions.alerts, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const enhance = compose(

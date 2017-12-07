@@ -9,13 +9,13 @@ const Badge = ({ ...props, children }) => {
   switch (type) {
     case 'applestore':
       return (
-        <Link href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309'>
+        <Link href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309' target='_blank'>
           <Image name='app-store-badge' height='40px' />
         </Link>
       )
     case 'googleplay':
       return (
-        <Link href='https://play.google.com/store/apps/details?id=piuk.blockchain.android'>
+        <Link href='https://play.google.com/store/apps/details?id=piuk.blockchain.android' target='_blank'>
           <Image name='google-play-badge' height='40px' />
         </Link>
       )

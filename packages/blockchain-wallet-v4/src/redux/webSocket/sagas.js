@@ -3,12 +3,15 @@ import { prop, compose } from 'ramda'
 import * as A from '../actions'
 import * as T from '../actionTypes'
 import { Wrapper, Wallet } from '../../types'
+import { commonSagasFactory } from '../common/sagas.js'
 import * as walletSelectors from '../wallet/selectors'
-import * as transSelectors from '../data/Transactions/selectors'
+// import * as transSelectors from '../data/transactions/selectors'
 import { Socket } from '../../network'
 
 export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
   const send = socket.send.bind(socket)
+
+  const commonSagas = commonSagasFactory({ api })
 
   const onOpen = function * (action) {
     const wrapper = yield select(prop(walletPath))
@@ -35,7 +38,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
         break
       case 'block':
         const newBlock = message.x
-        yield put(A.latestBlock.setLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
+        yield put(A.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
         yield call(refreshTransactionList)
         break
       case 'pong':
@@ -64,7 +67,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
     const password = yield select(compose(Wrapper.selectPassword, prop(walletPath)))
     try {
       const newWrapper = yield call(api.fetchWallet, guid, skey, undefined, password)
-      yield put(A.wallet.setWrapper(newWrapper))
+      yield put(A.wallet.refreshWrapper(newWrapper))
     } catch (e) {
       console.log('REFRESH WRAPPER FAILED (WEBSOCKET) :: should dispatch error action ?')
     }
@@ -74,7 +77,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
     const wrapper = yield select(prop(walletPath))
     const context = walletSelectors.getWalletContext(wrapper)
     try {
-      yield put(A.common.fetchBlockchainData(context))
+      yield call(commonSagas.fetchBlockchainData, { context })
     } catch (e) {
       console.log('REFRESH BLOCKCHAIN DATA FAILED (WEBSOCKET) :: should dispatch error action ?')
     }

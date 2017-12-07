@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.Component {
@@ -13,8 +13,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    const { guid, sharedKey } = this.props
-    this.props.settingsActions.requestPairingCode(guid, sharedKey)
+    this.props.settingsActions.showPairingCode()
   }
 
   render () {
@@ -22,17 +21,8 @@ class SettingsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    guid: selectors.core.wallet.getGuid(state),
-    sharedKey: selectors.core.wallet.getSharedKey(state)
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  settingsActions: bindActionCreators(actions.settings, dispatch)
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    settingsActions: bindActionCreators(actions.core.settings, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)
+export default connect(undefined, mapDispatchToProps)(SettingsContainer)

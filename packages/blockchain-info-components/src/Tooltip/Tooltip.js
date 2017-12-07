@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { transparentize } from 'polished'
 import { TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
@@ -12,13 +12,14 @@ const TooltipIcon = styled.div`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 10px;
-  background-color: ${props => props.theme[props.backgroundColor]};
-  color: ${props => props.theme[props.color]};
-  border: 1px solid ${props => props.theme[props.borderColor]};
+  background-color: ${props => props.theme[props.colors.backgroundColor]};
+  color: ${props => props.theme[props.colors.foreColor]};
+  border: 1px solid ${props => props.theme[props.colors.borderColor]};
   cursor: pointer;
+  font-size: 12px;
   font-weight: 300;
 `
 const TooltipBox = styled(TextGroup)`
@@ -33,6 +34,7 @@ const TooltipBox = styled(TextGroup)`
   border-radius: 5px;
   padding: 10px;
   box-sizing: border-box;
+  box-shadow: ${props => transparentize(0.65, props.theme['gray-6'])} 0px 3px 8px 0px;
   cursor: pointer;
   font-size: 13px;
   font-weight: 300;
@@ -64,8 +66,8 @@ const TooltipBox = styled(TextGroup)`
 `
 
 const selectColors = displayed => displayed
-  ? { color: 'white', backgroundColor: 'blue', borderColor: 'primary' }
-  : { color: 'gray-5', backgroundColor: 'white', borderColor: 'gray-2' }
+  ? { foreColor: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
+  : { foreColor: 'gray-5', backgroundColor: 'white', borderColor: 'gray-2' }
 
 class Tooltip extends React.Component {
   constructor (props) {
@@ -85,7 +87,7 @@ class Tooltip extends React.Component {
     return (
       <TooltipWrapper>
         <TooltipIcon displayed={this.state.displayed} colors={colors} onClick={this.handleClick}>{icon}</TooltipIcon>
-        <TooltipBox displayed={this.state.displayed} colors={colors} onClick={this.handleClick}>{this.props.children}</TooltipBox>
+        <TooltipBox displayed={this.state.displayed} onClick={this.handleClick}>{this.props.children}</TooltipBox>
       </TooltipWrapper>
     )
   }

@@ -1,4 +1,7 @@
-// export const WALLET_DATA_REQUEST = '@CORE.WALLET_DATA_REQUEST'
-export const FETCH_BLOCKCHAIN_DATA = '@CORE.FETCH_BLOCKCHAIN_DATA'
-export const FETCH_BLOCKCHAIN_DATA_SUCCESS = '@CORE.FETCH_BLOCKCHAIN_DATA_SUCCESS'
-export const FETCH_BLOCKCHAIN_DATA_ERROR = '@CORE.FETCH_BLOCKCHAIN_DATA_ERROR'
+import * as bitcoin from './bitcoin/actionTypes'
+import * as ethereum from './ethereum/actionTypes'
+
+export {
+  bitcoin,
+  ethereum
+}

@@ -1,47 +1,37 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions as reduxFormActions } from 'redux-form'
-import { equals } from 'ramda'
+import { formValueSelector } from 'redux-form'
+import { isNil, equals } from 'ramda'
 
 import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
   componentWillMount () {
-    this.props.reduxFormActions.initialize('settingLanguage', { 'language': this.props.language })
+    this.props.formActions.initialize('settingLanguage', { 'language': this.props.language })
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!equals(nextProps.language, this.props.language)) {
-      this.props.reduxFormActions.change('settingLanguage', 'language', nextProps.language)
+    const { language, newLanguage } = this.props
+    if (!isNil(nextProps.newLanguage) && !equals(language, nextProps.newLanguage) && !equals(newLanguage, nextProps.newLanguage)) {
+      this.props.settingsActions.updateLanguage(nextProps.newLanguage)
     }
   }
 
-  handleClick (value) {
-    const { guid, sharedKey } = this.props
-    this.props.settingsActions.updateLanguage(guid, sharedKey, value)
-  }
-
   render () {
-    return <Settings {...this.props} handleClick={this.handleClick} />
+    return <Settings {...this.props} />
   }
 }
 
 const mapStateToProps = (state) => ({
-  guid: selectors.core.wallet.getGuid(state),
-  sharedKey: selectors.core.wallet.getSharedKey(state),
-  language: selectors.core.settings.getLanguage(state)
+  language: selectors.core.settings.getLanguage(state),
+  newLanguage: formValueSelector('settingLanguage')(state, 'language')
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
-  reduxFormActions: bindActionCreators(reduxFormActions, dispatch)
+  settingsActions: bindActionCreators(actions.settings, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

@@ -1,7 +1,8 @@
 import { prop } from 'ramda'
 
-export const getBtcCurrency = prop('btc_currency')
+export const getBtcUnit = prop('btc_currency')
 export const getLanguage = prop('language')
+export const getCountryCode = prop('country_code')
 export const getCurrency = prop('currency')
 export const getSmsNumber = prop('sms_number')
 export const getSmsVerified = prop('sms_verified')
@@ -13,3 +14,5 @@ export const getIpLock = prop('ip_lock')
 export const getIpLockOn = prop('ip_lock_on')
 export const getBlockTorIps = prop('block_tor_ips')
 export const getHint = prop('password_hint1')
+export const getAuthType = prop('auth_type')
+export const getAuthTypeNeverSave = prop('never_save_auth_type')

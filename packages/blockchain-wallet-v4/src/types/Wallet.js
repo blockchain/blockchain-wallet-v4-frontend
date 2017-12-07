@@ -4,9 +4,10 @@ import Either from 'data.either'
 import Task from 'data.task'
 import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
+import BIP39 from 'bip39'
 import { compose, curry, map, is, pipe, __, concat, split, isNil } from 'ramda'
 import { traversed, traverseOf, over, view, set } from 'ramda-lens'
-import * as crypto from '../WalletCrypto'
+import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
 import Type from './Type'
 import * as HDWallet from './HDWallet'
@@ -51,7 +52,6 @@ export const txNotes = Wallet.define('tx_notes')
 export const txNames = Wallet.define('tx_names')
 export const addressBook = Wallet.define('address_book')
 
-// selectGuid :: Wallet -> String
 export const selectGuid = view(guid)
 export const selectSharedKey = view(sharedKey)
 export const selectOptions = view(options)
@@ -274,6 +274,7 @@ export const getHDPrivateKey = curry((keypath, secondPassword, network, wallet) 
   }
 })
 
+
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, network) =>
   new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, { network })
@@ -286,6 +287,18 @@ export const getLegacyPrivateKey = curry((address, secondPassword, network, wall
            .map(pk => fromBase58toKey(pk, network))
   } else {
     return Task.of(priv).map(pk => fromBase58toKey(pk, network))
+  }
+})
+
+export const getMnemonic = curry((secondPassword, wallet) => {
+  const entropyToMnemonic = Either.try(BIP39.entropyToMnemonic)
+  let seedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, selectHdWallets)(wallet)
+  if (isDoubleEncrypted(wallet)) {
+    return validateSecondPwd(Either.of, Either.Left)(secondPassword, wallet)
+           .chain(() => crypto.decryptSecPassSync(selectSharedKey(wallet), selectIterations(wallet), secondPassword, seedHex))
+           .chain(entropyToMnemonic)
+  } else {
+    return entropyToMnemonic(seedHex)
   }
 })
 

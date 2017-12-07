@@ -9,6 +9,8 @@ const BaseIcon = styled.span`
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
   color: ${props => props.theme[props.color]};
+  -webkit-font-smoothing: antialiased;
+  cursor: ${props => props.cursorEnabled ? 'pointer' : 'default'};
 
   &:before {
     font-family: 'icomoon';
@@ -17,23 +19,25 @@ const BaseIcon = styled.span`
 `
 
 const Icon = (props) => {
-  const { name, ...rest } = props
+  const { name, cursor, ...rest } = props
   const code = Icomoon[name]
 
-  return <BaseIcon {...rest} code={code} />
+  return <BaseIcon {...rest} code={code} cursorEnabled={cursor} />
 }
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,
-  color: PropTypes.oneOf(keysIn(Palette()))
+  color: PropTypes.oneOf(keysIn(Palette())),
+  cursor: PropTypes.bool
 }
 
 Icon.defaultProps = {
   weight: 400,
   size: '16px',
-  color: 'gray-5'
+  color: 'gray-5',
+  cursor: false
 }
 
 export default Icon

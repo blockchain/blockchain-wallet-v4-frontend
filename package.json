@@ -3,11 +3,17 @@
   "name": "blockchain-wallet-v4",
   "version": "0.1.0",
   "scripts": {
-    "start": "cd packages/blockchain-wallet-v4-frontend && npm run start-dev",
-    "storybook": "cd packages/blockchain-info-components && npm run storybook:start"
+    "start": "cd packages/blockchain-wallet-v4-frontend && npm run start",
+    "start:prod": "cd packages/blockchain-wallet-v4-frontend && npm run start:prod",
+    "build": "cd packages/blockchain-wallet-v4-frontend && npm run build",
+    "build:prod": "cd packages/blockchain-wallet-v4-frontend && npm run build:prod",
+    "storybook": "cd packages/blockchain-info-components && npm run storybook:start",
+    "test": "cd packages/blockchain-wallet-v4-frontend && npm run test",
+    "test-core": "cd packages/blockchain-wallet-v4 && npm run test",
+    "test3": "cd packages/blockchain-wallet-v4-frontend && npm run test && cd ../blockchain-wallet-v4 && npm run test"
   },
   "devDependencies": {
-    "lerna": "^2.0.0"
+    "lerna": "^2.1.2"
   },
   "dependencies": {
     "bech32": "^1.0.0",

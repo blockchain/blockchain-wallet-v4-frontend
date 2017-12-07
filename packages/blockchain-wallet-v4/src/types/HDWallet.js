@@ -27,11 +27,9 @@ export const selectAccounts = view(accounts)
 export const selectDefaultAccountIdx = view(defaultAccountIdx)
 export const selectMnemonicVerified = compose(Boolean, view(mnemonicVerified))
 
-export const selectAccount = curry((index, hdwallet) =>
-  selectAccounts(hdwallet).get(index))
+export const selectAccount = curry((index, hdwallet) => selectAccounts(hdwallet).get(index))
 
-export const selectDefaultAccount = (hdwallet) =>
-  selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
+export const selectDefaultAccount = (hdwallet) => selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
 
 export const selectContext = compose(HDAccountList.selectContext, selectAccounts)
 
@@ -40,7 +38,6 @@ const shiftHDWallet = compose(shiftIProp('seed_hex', 'seedHex'), shift)
 export const fromJS = (x) => {
   if (is(HDWallet, x)) { return x }
   const hdwalletCons = compose(
-    // over(hdWallets, hdWalletListCons),
     over(accounts, HDAccountList.fromJS),
     hdw => shiftHDWallet(hdw).forward()
   )

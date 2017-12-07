@@ -35,7 +35,7 @@ const Left = styled.div`
   box-sizing: border-box;
   background: ${props => props.theme['gray-1']};
   border-right: 1px solid ${props => props.theme['gray-2']};
-  z-index: 1000;
+  z-index: 2;
   transition: left .3s ease-in-out;
 
   @media(min-width: 768px) {
@@ -80,7 +80,7 @@ const WalletLayout = (props) => {
           <Top>
             <MenuTop />
           </Top>
-          <Page>
+          <Page location={location}>
             {children}
           </Page>
         </Content>

@@ -1,9 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
 import ui from 'redux-ui'
 
-import { selectors } from 'data'
 import SecondStep from './template.js'
 
 const SecondStepContainer = props => {
@@ -24,13 +21,4 @@ const SecondStepContainer = props => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  mnemonic: selectors.core.wallet.getMnemonic(state).split(' ')
-})
-
-const enhance = compose(
-  ui({ key: 'RecoveryPhraseMnemonic', state: { index: 0 } }),
-  connect(mapStateToProps)
-)
-
-export default enhance(SecondStepContainer)
+export default ui({ key: 'RecoveryPhraseMnemonic', state: { index: 0 } })(SecondStepContainer)

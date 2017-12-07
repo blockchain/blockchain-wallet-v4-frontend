@@ -6,13 +6,11 @@ import { actions } from 'data'
 import Logout from './template.js'
 
 const LogoutContainer = ({ authActions }) => (
-  <Logout handleLogout={authActions.logoutStart} />
+  <Logout handleLogout={authActions.logout} />
 )
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    authActions: bindActionCreators(actions.auth, dispatch)
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  authActions: bindActionCreators(actions.auth, dispatch)
+})
 
 export default connect(undefined, mapDispatchToProps)(LogoutContainer)

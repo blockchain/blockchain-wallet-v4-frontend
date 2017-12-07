@@ -15,20 +15,20 @@ const Settings = (props) => {
     <SettingWrapper>
       <Text>{email}</Text>
       <Button nature='primary' onClick={handleToggle}>
-        <FormattedMessage id='scenes.preferences.email.setting.updateform.change' defaultMessage='Change' />
+        <FormattedMessage id='scenes.preferences.email.settings.updateform.change' defaultMessage='Change' />
       </Button>
       {updateToggled &&
         <SettingForm>
           <Text size='14px' weight={300} color='error'>
-            <FormattedMessage id='scenes.preferences.email.setting.warning' defaultMessage="This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same." />
+            <FormattedMessage id='scenes.preferences.email.settings.warning' defaultMessage="This will change your wallet's email address, but the email address you signed up to Buy Bitcoin with will remain the same." />
           </Text>
           <Field name='emailAddress' validate={[validEmail]} component={TextBox} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>
-              <FormattedMessage id='scenes.preferences.email.setting.updateform.cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='scenes.preferences.email.settings.updateform.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-              <FormattedMessage id='scenes.preferences.email.setting.updateform.save' defaultMessage='Save' />
+              <FormattedMessage id='scenes.preferences.email.settings.updateform.save' defaultMessage='Save' />
             </Button>
           </ButtonGroup>
         </SettingForm>
@@ -36,14 +36,14 @@ const Settings = (props) => {
       {!updateToggled && verifyToggled &&
         <SettingForm>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.preferences.email.setting.verifyform.explain' defaultMessage='We have sent you an email with a link to verify your email address.' />
+            <FormattedMessage id='scenes.preferences.email.settings.verifyform.explain' defaultMessage='We have sent you an email with a link to verify your email address.' />
           </Text>
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>
-              <FormattedMessage id='scenes.preferences.email.setting.verifyform.cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='scenes.preferences.email.settings.verifyform.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' onClick={handleResend} capitalize>
-              <FormattedMessage id='scenes.preferences.email.setting.verifyform.resend' defaultMessage='Resend' />
+              <FormattedMessage id='scenes.preferences.email.settings.verifyform.resend' defaultMessage='Resend' />
             </Button>
           </ButtonGroup>
         </SettingForm>

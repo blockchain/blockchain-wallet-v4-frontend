@@ -1,13 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
-import CoinDisplay from 'components/CoinDisplay'
-import CurrencyDisplay from 'components/CurrencyDisplay'
-import ComboDisplay from 'components/ComboDisplay'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import ComboDisplay from 'components/Display/ComboDisplay'
 
 const Row = styled.div`
   display: flex;
@@ -30,7 +30,9 @@ const Summary = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { previousStep, handleClick, fromAddress, toAddress, message, satoshis, fee, position, total, closeAll } = props
+  const { previousStep, position, total, closeAll, ...rest } = props
+  const { onSubmit, fromAddress, toAddress, message, satoshis, selection } = rest
+  const { fee } = selection
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -38,7 +40,7 @@ const SecondStep = (props) => {
         <FormattedMessage id='modals.sendbitcoin.secondstep.title' defaultMessage='Confirm' />
       </ModalHeader>
       <ModalBody>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Row>
             <Text size='16px' weight={500}>
               <FormattedMessage id='modals.sendbitcoin.secondstep.from' defaultMessage='From:' />
@@ -64,7 +66,7 @@ const SecondStep = (props) => {
               <FormattedMessage id='modals.sendbitcoin.secondstep.payment' defaultMessage='Payment:' />
             </Text>
             <Text size='16px' weight={300}>
-              <ComboDisplay>{satoshis}</ComboDisplay>
+              <ComboDisplay coin='BTC'>{satoshis}</ComboDisplay>
             </Text>
           </Row>
           <Row>
@@ -72,7 +74,7 @@ const SecondStep = (props) => {
               <FormattedMessage id='modals.sendbitcoin.secondstep.fee' defaultMessage='Fee:' />
             </Text>
             <Text size='16px' weight={300}>
-              <ComboDisplay>{fee}</ComboDisplay>
+              <ComboDisplay coin='BTC'>{fee}</ComboDisplay>
             </Text>
           </Row>
           <Summary>
@@ -80,13 +82,13 @@ const SecondStep = (props) => {
               <FormattedMessage id='modals.sendbitcoin.secondstep.total' defaultMessage='Total' />
             </Text>
             <Text size='40px' weight={600} color='transferred'>
-              <CoinDisplay>{satoshis}</CoinDisplay>
+              <CoinDisplay coin='BTC'>{satoshis}</CoinDisplay>
             </Text>
             <Text size='20px' weight={300} color='transferred'>
-              <CurrencyDisplay>{satoshis}</CurrencyDisplay>
+              <FiatDisplay coin='BTC'>{satoshis}</FiatDisplay>
             </Text>
           </Summary>
-          <Button nature='primary' fullwidth uppercase onClick={handleClick}>
+          <Button type='submit' nature='primary' fullwidth uppercase>
             <FormattedMessage id='modals.sendbitcoin.secondstep.send' defaultMessage='Send bitcoin' />
           </Button>
         </Form>
@@ -101,13 +103,7 @@ const SecondStep = (props) => {
 }
 
 SecondStep.propTypes = {
-  previous: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  fromAddress: PropTypes.string.isRequired,
-  toAddress: PropTypes.string.isRequired,
-  message: PropTypes.string,
-  satoshis: PropTypes.number.isRequired,
-  fee: PropTypes.number.isRequired
+
 }
 
-export default SecondStep
+export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false })(SecondStep)

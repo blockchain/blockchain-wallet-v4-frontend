@@ -1,35 +1,39 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
+import { reduxForm } from 'redux-form'
+
+import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 
 const AutoDisconnection = (props) => {
-  const { duration, handleClick, handleCancel, position, total } = props
+  const { duration, position, total, ...rest } = props
+  const { onSubmit, handleCancel } = rest
 
   return (
     <Modal size='large' position={position} total={total} closeButton={false}>
-      <ModalHeader icon='right-arrow'>
-        <FormattedMessage id='modals.autodisconnection.title' defaultMessage='Are you still there?' />
-      </ModalHeader>
-      <ModalBody>
-        <Text size='14px' weight={300}>
-          <FormattedMessage id='modals.autodisconnection.explain' defaultMessage="You've been inactive for {duration} minutes." values={{ duration: duration }} />
-        </Text>
-        <br />
-        <Text size='14px' weight={300}>
-          <FormattedMessage id='modals.autodisconnection.explain2' defaultMessage="Click 'Cancel' if you don't want to be logged out automatically." />
-        </Text>
-      </ModalBody>
-      <ModalFooter>
-        <ButtonGroup>
-          <Button onClick={handleCancel}>
+      <Form onSubmit={onSubmit}>
+        <ModalHeader>
+          <FormattedMessage id='modals.autodisconnection.title' defaultMessage='Are you still there?' />
+        </ModalHeader>
+        <ModalBody>
+          <Text size='14px' weight={300}>
+            <FormattedMessage id='modals.autodisconnection.explain' defaultMessage="You've been inactive for {duration} minutes." values={{ duration: duration }} />
+          </Text>
+          <br />
+          <Text size='14px' weight={300}>
+            <FormattedMessage id='modals.autodisconnection.explain2' defaultMessage="Click 'Cancel' if you don't want to be logged out automatically." />
+          </Text>
+        </ModalBody>
+        <ModalFooter align='spaced'>
+          <Link size='13px' weight={300} onClick={handleCancel}>
             <FormattedMessage id='modals.autodisconnection.cancel' defaultMessage='Cancel' />
-          </Button>
-          <Button nature='logout' onClick={handleClick}>
+          </Link>
+          <Button type='submit' nature='logout'>
             <FormattedMessage id='modals.autodisconnection.logout' defaultMessage='Log me out' />
           </Button>
-        </ButtonGroup>
-      </ModalFooter>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
 }
@@ -42,4 +46,4 @@ AutoDisconnection.propTypes = {
   })
 }
 
-export default AutoDisconnection
+export default reduxForm({ form: 'autoDisconnection' })(AutoDisconnection)

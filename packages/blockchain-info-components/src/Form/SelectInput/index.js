@@ -1,31 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { equals, contains, toUpper, filter, prop } from 'ramda'
+import { equals, isNil, contains, toUpper, filter, prop } from 'ramda'
 
 import SelectInput from './template.js'
 
 class SelectInputContainer extends React.Component {
   constructor (props) {
     super(props)
-    const { input, opened } = props
-    const { value } = input
-
-    this.state = { value: value, expanded: opened, search: '' }
+    this.state = {
+      expanded: this.props.opened,
+      search: '',
+      value: this.props.value
+    }
     this.handleBlur = this.handleBlur.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  handleClick (value) {
-    if (!equals(this.state.value, value)) {
-      this.setState({ opened: false, value: value })
-      this.props.input.onChange(value)
-      this.props.input.onBlur(value)
-      if (this.props.callback) { this.props.callback(value) }
-    } else {
-      this.setState({ opened: false })
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.value, nextProps.value)) {
+      this.setState({ value: nextProps.value })
     }
+  }
+
+  handleClick (value) {
+    if (this.props.onChange) { this.props.onChange(value) }
+    this.setState({ value: value, opened: false })
   }
 
   handleChange (event) {
@@ -33,10 +34,13 @@ class SelectInputContainer extends React.Component {
   }
 
   handleBlur () {
+    if (this.props.onBlur) { this.props.onBlur() }
+    if (this.props.onChange) { this.props.onChange(this.state.value) }
     this.setState({ expanded: false })
   }
 
   handleFocus () {
+    if (this.props.onFocus) { this.props.onFocus() }
     this.setState({ expanded: true })
   }
 
@@ -55,7 +59,9 @@ class SelectInputContainer extends React.Component {
     return items
   }
 
-  getText (value, items) {
+  getText (items) {
+    const { value } = this.state
+    if (isNil(value)) return this.props.label
     const selectedItems = filter(x => equals(x.value, value), items)
     return selectedItems.length === 1 ? prop('text', selectedItems[0]) : this.props.label
   }
@@ -63,7 +69,7 @@ class SelectInputContainer extends React.Component {
   render () {
     const { elements, searchEnabled, ...rest } = this.props
     const items = this.transform(elements, this.state.search)
-    const display = this.getText(this.props.input.value, items)
+    const display = this.getText(items)
 
     return (
       <SelectInput
@@ -76,7 +82,7 @@ class SelectInputContainer extends React.Component {
         handleFocus={this.handleFocus}
         searchEnabled={this.props.searchEnabled}
         {...rest}
-            />
+      />
     )
   }
 }
@@ -85,20 +91,17 @@ SelectInputContainer.propTypes = {
   elements: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.string.isRequired,
+      text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]).isRequired,
       value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
     })).isRequired
   })).isRequired,
-  input: PropTypes.shape({
-    onBlur: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
-  }).isRequired,
   label: PropTypes.string,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
-  callback: PropTypes.func
+  value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired]),
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  onFocus: PropTypes.func
 }
 
 SelectInputContainer.defaultProps = {
