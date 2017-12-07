@@ -15,7 +15,7 @@ import * as random from 'crypto'
 import * as script from 'blockchain-wallet-v4/src/ln/scripts'
 import * as Long from 'long'
 
-var ec = require('../../bcoin/lib/crypto/secp256k1-browser')
+var ec = require('bcoin/lib/crypto/secp256k1-browser')
 
 let options = {
   chainHash: Buffer.from('06226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910f', 'hex'),
