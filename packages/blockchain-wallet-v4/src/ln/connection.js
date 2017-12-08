@@ -105,7 +105,7 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
 Connection.prototype.sendHandshakePart1 = function () {
   console.debug('sendHandshakePart1')
 
-  this.h = crypto.sha256('Noise_XK_secp256k1_ChaChaPoly_SHA256')
+  this.h = crypto.sha256(Buffer.from('Noise_XK_secp256k1_ChaChaPoly_SHA256', 'ascii'))
   this.ck = this.h
   this._appendToHash(Buffer.from('lightning', 'ascii'))
   this._appendToHash(this.staticRemote.pub)
