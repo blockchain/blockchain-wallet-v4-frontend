@@ -57,7 +57,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
+  actions: bindActionCreators(actions.components.transactionEther, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer)

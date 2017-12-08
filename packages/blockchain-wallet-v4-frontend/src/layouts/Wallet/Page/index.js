@@ -48,8 +48,7 @@ class WalletLayoutContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  scroll: selectors.scroll.selectScroll(state),
-  isFetching: selectors.application.selectIsFetching(state)
+  scroll: selectors.scroll.selectScroll(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

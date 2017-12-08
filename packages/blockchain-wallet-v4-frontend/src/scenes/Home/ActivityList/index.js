@@ -1,29 +1,29 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { isEmpty, take } from 'ramda'
+import { take } from 'ramda'
 
 import ActivityList from './template.js'
 import { actions, selectors } from 'data'
 
 class ActivityContainer extends React.Component {
   componentWillMount () {
-    if (isEmpty(this.props.logs)) { this.props.dataActions.getLogs() }
+    this.props.actions.initActivity()
   }
 
   render () {
-    const lastLogs = take(8, this.props.logs)
+    const lastActivities = take(8, this.props.activity.data)
 
-    return <ActivityList activities={lastLogs} />
+    return <ActivityList activities={lastActivities} />
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  logs: selectors.core.data.misc.getLogs(state)
+  activity: selectors.components.activity.getActivity(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
+  actions: bindActionCreators(actions.components.activity, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityContainer)

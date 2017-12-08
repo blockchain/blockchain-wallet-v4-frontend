@@ -5,22 +5,8 @@ import moment from 'moment'
 import { equals } from 'ramda'
 
 import { actions, selectors } from 'data'
-import ChartConfig from './chart.config.js'
+import { configure, INTERVALS, SCALES, BTCSTART, ETHSTART } from './chart.config.js'
 import Chart from './template.js'
-
-const intervals = {
-  hour: 60 * 60 * 1000,
-  day: 24 * 60 * 60 * 1000
-}
-const scales = {
-  FIFTEENMIN: 15 * 60,
-  HOUR: 60 * 60,
-  TWOHOUR: 2 * 60 * 60,
-  DAY: 24 * 60 * 60,
-  FIVEDAY: 5 * 24 * 60 * 60
-}
-const BTCSTART = 1282089600
-const ETHSTART = 1438992000
 
 class ChartContainer extends React.Component {
   constructor (props) {
@@ -30,8 +16,8 @@ class ChartContainer extends React.Component {
       coin: 'BTC',
       timeframe: 'all',
       start: BTCSTART,
-      interval: intervals.day,
-      scale: scales.FIVEDAY
+      interval: INTERVALS.day,
+      scale: SCALES.FIVEDAY
     }
     this.selectBitcoin = this.selectBitcoin.bind(this)
     this.selectEthereum = this.selectEthereum.bind(this)
@@ -41,18 +27,18 @@ class ChartContainer extends React.Component {
   componentWillMount () {
     const { currency } = this.props
     const { coin, start, scale } = this.state
-    this.props.dataActions.getPriceIndexSeries(coin, currency, start, scale)
+    this.props.actions.initChart(coin, currency, start, scale)
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    return !equals(this.props.data, nextProps.data) ||
+    return !equals(this.props.chart, nextProps.chart) ||
            !equals(this.state.coin, nextState.coin) ||
            !equals(this.state.timeframe, nextState.timeframe)
   }
 
   componentWillUpdate (nextProps, nextState) {
     if (!equals(this.state.coin, nextState.coin) || !equals(this.state.timeframe, nextState.timeframe)) {
-      this.props.dataActions.getPriceIndexSeries(nextState.coin, nextProps.currency, nextState.start, nextState.scale)
+      this.props.actions.initChart(nextState.coin, nextProps.currency, nextState.start, nextState.scale)
     }
   }
 
@@ -69,41 +55,41 @@ class ChartContainer extends React.Component {
       case 'all':
         this.setState({
           start: this.state.coin === 'BTC' ? BTCSTART : ETHSTART,
-          scale: scales.FIVEDAY,
+          scale: SCALES.FIVEDAY,
           timeframe,
-          interval: intervals.day
+          interval: INTERVALS.day
         })
         break
       case 'year':
         this.setState({
           start: moment().subtract(1, 'year').format('X'),
-          scale: scales.DAY,
+          scale: SCALES.DAY,
           timeframe,
-          interval: intervals.day
+          interval: INTERVALS.day
         })
         break
       case 'month':
         this.setState({
           start: moment().subtract(1, 'month').format('X'),
-          scale: scales.TWOHOUR,
+          scale: SCALES.TWOHOUR,
           timeframe,
-          interval: intervals.day
+          interval: INTERVALS.day
         })
         break
       case 'week':
         this.setState({
           start: moment().subtract(7, 'day').format('X'),
-          scale: scales.HOUR,
+          scale: SCALES.HOUR,
           timeframe,
-          interval: intervals.hour
+          interval: INTERVALS.hour
         })
         break
       case 'day':
         this.setState({
           start: moment().subtract(1, 'day').format('X'),
-          scale: scales.FIFTEENMIN,
+          scale: SCALES.FIFTEENMIN,
           timeframe,
-          interval: intervals.hour
+          interval: INTERVALS.hour
         })
         break
       default: break
@@ -112,28 +98,28 @@ class ChartContainer extends React.Component {
 
   render () {
     const { coin, timeframe, start, interval } = this.state
-    const { currency, data } = this.props
-    const config = ChartConfig(start, interval, currency, data)
+    const { currency, chart } = this.props
+    const data = chart.data.map(o => [o.timestamp * 1000, o.price])
+    const config = configure(start, interval, currency, data)
 
-    return (
-      <Chart
-        coin={coin}
-        timeframe={timeframe}
-        config={config}
-        selectBitcoin={this.selectBitcoin}
-        selectEthereum={this.selectEthereum}
-        selectTimeframe={this.selectTimeframe} />
-    )
+    return <Chart
+      coin={coin}
+      timeframe={timeframe}
+      config={config}
+      selectBitcoin={this.selectBitcoin}
+      selectEthereum={this.selectEthereum}
+      selectTimeframe={this.selectTimeframe}
+    />
   }
 }
 
 const mapStateToProps = (state) => ({
   currency: selectors.core.settings.getCurrency(state),
-  data: selectors.core.data.misc.getPriceIndexSeries(state).map(o => [o.timestamp * 1000, o.price])
+  chart: selectors.components.chart.getChart(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
+  actions: bindActionCreators(actions.components.chart, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChartContainer)

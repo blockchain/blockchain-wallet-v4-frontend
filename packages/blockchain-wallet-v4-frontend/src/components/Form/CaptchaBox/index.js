@@ -7,7 +7,7 @@ import { actions, selectors } from 'data'
 
 class CaptchaBoxContainer extends React.Component {
   componentWillMount () {
-    this.props.dataActions.getCaptcha()
+    this.props.componentsActions.initCaptcha()
   }
 
   render () {
@@ -16,12 +16,12 @@ class CaptchaBoxContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  data: selectors.core.data.misc.getCaptcha(state)
+  data: selectors.components.captcha.getCaptcha(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  dataActions: bindActionCreators(actions.data, dispatch)
+  componentsActions: bindActionCreators(actions.components.captcha, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CaptchaBoxContainer)
