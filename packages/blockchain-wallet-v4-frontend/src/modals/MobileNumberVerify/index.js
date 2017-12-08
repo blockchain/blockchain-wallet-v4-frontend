@@ -57,7 +57,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  settingsActions: bindActionCreators(actions.settings, dispatch)
+  settingsActions: bindActionCreators(actions.components.settings, dispatch)
 })
 
 const enhance = compose(

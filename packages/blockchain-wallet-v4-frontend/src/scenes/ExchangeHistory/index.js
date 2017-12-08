@@ -1,22 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { selectors } from 'data'
 import ExchangeHistory from './template.js'
 
 class ExchangeHistoryContainer extends React.Component {
   render () {
-    return <ExchangeHistory trades={this.props.trades} />
+    return <ExchangeHistory trades={this.props.exchangeHistory.data.trades} />
   }
 }
 
 const mapStateToProps = state => ({
-  trades: selectors.core.kvStore.shapeShift.getTrades(state)
+  exchangeHistory: selectors.components.exchangeHistory.getExchangeHistory(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExchangeHistoryContainer)
+export default connect(mapStateToProps)(ExchangeHistoryContainer)

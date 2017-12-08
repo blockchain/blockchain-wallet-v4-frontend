@@ -1,6 +1,6 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { assoc, equals, path, prop } from 'ramda'
 import * as crypto from 'crypto'
@@ -26,7 +26,7 @@ class FirstStepContainer extends React.Component {
 
   componentWillMount () {
     this.props.formActions.initialize('exchange', this.props.initialValues)
-    this.props.exchangeActions.initShapeShift()
+    this.props.exchangeActions.initExchange()
   }
 
   componentWillReceiveProps (nextProps) {

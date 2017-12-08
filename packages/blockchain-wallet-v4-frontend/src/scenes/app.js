@@ -10,25 +10,25 @@ import ThemeProvider from 'providers/ThemeProvider'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
 
-import ActionsContainer from './Actions'
-import LoginContainer from './Login'
-import HelpContainer from './Help'
-import RecoverContainer from './Recover'
-import ReminderContainer from './Reminder'
-import Reset2FAContainer from './Reset2FA'
-import RegisterContainer from './Register'
-import HomeContainer from './Home'
-import BitcoinTransactionsContainer from './Transactions/Bitcoin'
-import EtherTransactionsContainer from './Transactions/Ether'
-import BuyContainer from './Buy'
-import ExchangeContainer from './Exchange'
-import ExchangeHistoryContainer from './ExchangeHistory'
-import SecurityCenterContainer from './SecurityCenter'
-import InfoContainer from './Info'
-import PreferencesContainer from './Preferences'
-import SecuritySettingsContainer from './SecuritySettings'
-import AddressesContainer from './Addresses'
-import FaqContainer from './Faq'
+import Actions from './Actions'
+import Login from './Login'
+import Help from './Help'
+import Recover from './Recover'
+import Reminder from './Reminder'
+import Reset2FA from './Reset2FA'
+import Register from './Register'
+import Home from './Home'
+import BitcoinTransactions from './Transactions/Bitcoin'
+import EtherTransactions from './Transactions/Ether'
+import Buy from './Buy'
+import Exchange from './Exchange'
+import ExchangeHistory from './ExchangeHistory'
+import SecurityCenter from './SecurityCenter'
+import Info from './Settings/Info'
+import Preferences from './Settings/Preferences'
+import Security from './Settings/Security'
+import Addresses from './Settings/Addresses'
+import Faq from './Faq'
 
 const RootStyle = styled.div`
   font-family: 'Montserrat', sans-serif;
@@ -47,27 +47,27 @@ class App extends React.Component {
               <ConnectedRouter history={history}>
                 <Switch>
 
-                  <PublicLayout path='/a/:payload' component={ActionsContainer} />
-                  <PublicLayout path='/login' component={LoginContainer} />
-                  <PublicLayout path='/help' component={HelpContainer} />
-                  <PublicLayout path='/recover' component={RecoverContainer} />
-                  <PublicLayout path='/reminder' component={ReminderContainer} />
-                  <PublicLayout path='/reset2fa' component={Reset2FAContainer} />
-                  <PublicLayout path='/register' component={RegisterContainer} />
-                  <WalletLayout path='/wallet' component={HomeContainer} />
-                  <WalletLayout path='/btc/transactions' component={BitcoinTransactionsContainer} />
-                  <WalletLayout path='/eth/transactions' component={EtherTransactionsContainer} />
-                  <WalletLayout path='/buy-sell' component={BuyContainer} />
-                  <WalletLayout path='/exchange/history' component={ExchangeHistoryContainer} />
-                  <WalletLayout path='/exchange' component={ExchangeContainer} exact />
-                  <WalletLayout path='/security-center' component={SecurityCenterContainer} />
-                  <WalletLayout path='/settings/info' component={InfoContainer} />
-                  <WalletLayout path='/settings/preferences' component={PreferencesContainer} />
-                  <WalletLayout path='/settings/security' component={SecuritySettingsContainer} />
-                  <WalletLayout path='/settings/addresses' component={AddressesContainer} />
-                  <WalletLayout path='/faq' component={FaqContainer} />
-                  <Redirect from='/' to='/login' />
+                  <PublicLayout path='/a/:payload' component={Actions} />
+                  <PublicLayout path='/login' component={Login} />
+                  <PublicLayout path='/help' component={Help} />
+                  <PublicLayout path='/recover' component={Recover} />
+                  <PublicLayout path='/reminder' component={Reminder} />
+                  <PublicLayout path='/reset2fa' component={Reset2FA} />
+                  <PublicLayout path='/register' component={Register} />
+                  <WalletLayout path='/wallet' component={Home} />
+                  <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
+                  <WalletLayout path='/eth/transactions' component={EtherTransactions} />
+                  <WalletLayout path='/buy-sell' component={Buy} />
+                  <WalletLayout path='/exchange/history' component={ExchangeHistory} />
+                  <WalletLayout path='/exchange' component={Exchange} exact />
+                  <WalletLayout path='/security-center' component={SecurityCenter} />
+                  <WalletLayout path='/settings/info' component={Info} />
+                  <WalletLayout path='/settings/preferences' component={Preferences} />
+                  <WalletLayout path='/settings/security' component={Security} />
+                  <WalletLayout path='/settings/addresses' component={Addresses} />
+                  <WalletLayout path='/faq' component={Faq} />
                   <Redirect from='/settings' to='/settings/info' />
+                  <Redirect from='/' to='/login' />
                 </Switch>
               </ConnectedRouter>
             </RootStyle>
