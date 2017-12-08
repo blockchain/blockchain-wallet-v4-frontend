@@ -5,8 +5,6 @@ import { prop, mapAccum, head } from 'ramda'
 import { selectors } from 'data'
 import BalanceSummary from './template.js'
 
-console.log(selectors)
-
 class BalanceSummaryContainer extends React.Component {
   render () {
     const adder = (acc, value) => [acc + (prop('amount', value) || 0), (acc + prop('amount', value) || 0)]

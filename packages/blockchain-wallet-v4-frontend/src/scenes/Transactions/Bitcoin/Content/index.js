@@ -47,7 +47,7 @@ class ContentContainer extends React.Component {
   }
 
   fetchTransactions (source) {
-    this.props.dataActions.getBitcoinTransactions(source, 50)
+    this.props.actions.initBitcoinTransactions(source)
   }
 
   filterTransactions (status, criteria, transactions) {
@@ -89,7 +89,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
+  actions: bindActionCreators(actions.components.transactionBitcoin, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer)

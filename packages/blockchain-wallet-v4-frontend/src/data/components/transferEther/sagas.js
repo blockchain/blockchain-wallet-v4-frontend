@@ -6,25 +6,6 @@ import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
 import * as selectors from '../../selectors.js'
 
-export const initSendEther = function * (action) {
-  try {
-    yield put(actions.modals.closeAllModals())
-    yield put(actions.modals.showModal('SendEther', undefined, { loading: true }))
-    yield call(sagas.core.data.ethereum.fetchFee)
-    yield call(delay, 2000)
-    yield put(actions.modals.updateModalOptions({ loading: false }))
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not init send ether.'))
-  }
-}
-
-export const sendEther = function * (action) {
-  try {
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not send ether.'))
-  }
-}
-
 export const initTransferEther = function * (action) {
   try {
     const { balance } = action.payload
@@ -47,15 +28,12 @@ export const transferEther = function * (action) {
     const defaultAccount = head(accounts)
 
     // const transaction = yield call(sagas.core.data.ethereum.buildTx, { from, to, amount, gasPrice, gasLimit })
-    // console.log(transaction)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not transfer ether.'))
   }
 }
 
 export default function * () {
-  yield takeEvery(AT.INIT_SEND_ETHER, initSendEther)
   yield takeEvery(AT.INIT_TRANSFER_ETHER, initTransferEther)
-  yield takeLatest(AT.SEND_ETHER, sendEther)
   yield takeLatest(AT.TRANSFER_ETHER, transferEther)
 }

@@ -15,7 +15,7 @@ class TransferEtherContainer extends React.Component {
   }
 
   handleSubmit () {
-    this.props.paymentEthereumActions.transferEther()
+    this.props.transferEtherActions.transferEther()
   }
 
   render () {
@@ -41,7 +41,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  paymentEthereumActions: bindActionCreators(actions.payment.ethereum, dispatch)
+  transferEtherActions: bindActionCreators(actions.components.transferEther, dispatch)
 })
 
 const enhance = compose(

@@ -1,34 +1,31 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { isEmpty, equals } from 'ramda'
+import { equals } from 'ramda'
 
 import { actions, selectors } from 'data'
 import Advert from './template.js'
 
 class AdvertContainer extends React.Component {
   componentWillMount () {
-    if (isEmpty(this.props.adverts)) { this.props.dataActions.getAdverts(2) }
+    this.props.actions.initAdvert(2)
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.location, nextProps.location)) { this.props.dataActions.getAdverts(2) }
+    if (!equals(this.props.location, nextProps.location)) { this.props.actions.initAdvert(2) }
   }
 
   render () {
-    const { adverts } = this.props
-    return (
-      <Advert adverts={adverts} />
-    )
+    return <Advert adverts={this.props.advert.data} />
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  adverts: selectors.core.data.misc.getAdverts(state)
+  advert: selectors.components.advert.getAdvert(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
+  actions: bindActionCreators(actions.components.advert, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdvertContainer)

@@ -4,13 +4,13 @@ import config from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
-import alerts from './alerts/sagas.js'
-import auth from './auth/sagas.js'
-import data from './data/sagas.js'
-import goals from './goals/sagas.js'
-import payment from './payment/sagas.js'
-import settings from './settings/sagas.js'
-import wallet from './wallet/sagas.js'
+import alerts from './alerts/sagas'
+import auth from './auth/sagas'
+import components from './components/sagas'
+import data from './data/sagas'
+import goals from './goals/sagas'
+import settings from './settings/sagas'
+import wallet from './wallet/sagas'
 
 const dataPath = config.WALLET_DATA_PATH
 const settingsPath = config.WALLET_SETTINGS_PATH
@@ -48,9 +48,9 @@ const rootSaga = function * () {
     call(welcomeSaga),
     fork(alerts),
     fork(auth),
+    fork(components),
     fork(data),
     fork(goals),
-    fork(payment),
     fork(settings),
     fork(wallet),
     fork(sagas.core.webSocket)

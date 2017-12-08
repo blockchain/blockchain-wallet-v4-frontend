@@ -28,16 +28,16 @@ class FirstStepContainer extends React.Component {
     const { coin, fee, from, to, to2, amount, feeValues, coins } = nextProps
 
     // Replace the bitcoin modal to the ethereum modal
-    if (!equals(this.props.coin, coin) && coin === 'ETH') { this.props.paymentEthereumActions.initSendEther() }
+    if (!equals(this.props.coin, coin) && coin === 'ETH') { this.props.sendEtherActions.initSendEther() }
 
     // Update 'fee' if new value is fetched
     if (!equals(this.props.feeValues, feeValues)) { this.props.formActions.change('sendBitcoin', 'fee', feeValues.regular) }
 
     // Update 'coins' if 'from' has been updated
-    if (!equals(this.props.from, from)) { this.props.paymentBitcoinActions.getUnspent(from) }
+    if (!equals(this.props.from, from)) { this.props.sendBitcoinActions.getUnspent(from) }
 
     // Update effective balance if fee or from (coins) has changed
-    if (!equals(this.props.fee, fee) || !equals(this.props.coins, coins)) { this.props.paymentBitcoinActions.getEffectiveBalance({ fee }) }
+    if (!equals(this.props.fee, fee) || !equals(this.props.coins, coins)) { this.props.sendBitcoinActions.getEffectiveBalance({ fee }) }
 
     // // Refresh the selection if fee, targetCoin, coins or fromAddress have been updated
     if (from && (to || to2) && amount && fee &&
@@ -45,7 +45,7 @@ class FirstStepContainer extends React.Component {
       !equals(this.props.amount, amount) || !equals(this.props.fee, fee))) {
       if (this.timeout) { clearTimeout(this.timeout) }
       this.timeout = setTimeout(() => {
-        this.props.paymentBitcoinActions.getSelection({ from, to, to2, amount, fee, seed: this.seed })
+        this.props.sendBitcoinActions.getSelection({ from, to, to2, amount, fee, seed: this.seed })
       }, 1000)
     }
   }
@@ -113,8 +113,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentBitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch),
-  paymentEthereumActions: bindActionCreators(actions.payment.ethereum, dispatch),
+  sendBitcoinActions: bindActionCreators(actions.components.sendBitcoin, dispatch),
+  sendEtherActions: bindActionCreators(actions.components.sendEther, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

@@ -26,7 +26,7 @@ class FirstStepContainer extends React.Component {
 
   componentWillMount () {
     this.props.formActions.initialize('exchange', this.props.initialValues)
-    this.props.shapeShiftActions.initShapeShift()
+    this.props.exchangeActions.initShapeShift()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -55,7 +55,7 @@ class FirstStepContainer extends React.Component {
         const source = prop('source', accounts)
         const from = { xpub: source.xpub, index: source.index }
         if (!equals(source, prop('source', this.props.accounts))) {
-          this.props.bitcoinActions.getUnspent(from)
+          this.props.sendBitcoinActions.getUnspent(from)
         }
 
         if (amount && (!equals(this.props.source, source) ||
@@ -64,7 +64,7 @@ class FirstStepContainer extends React.Component {
           if (this.timeout) { clearTimeout(this.timeout) }
           this.timeout = setTimeout(() => {
             console.log({ from, amount, fee: bitcoinFeeValues.regular, seed: this.seed })
-            this.props.bitcoinActions.getSelection({ from, amount, fee: bitcoinFeeValues.regular, seed: this.seed })
+            this.props.sendBitcoinActions.getSelection({ from, amount, fee: bitcoinFeeValues.regular, seed: this.seed })
           }, 1000)
         }
       }
@@ -128,8 +128,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  shapeShiftActions: bindActionCreators(actions.payment.shapeShift, dispatch),
-  bitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch)
+  exchangeActions: bindActionCreators(actions.components.exchange, dispatch),
+  sendBitcoinActions: bindActionCreators(actions.components.sendBitcoin, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
