@@ -1,11 +1,22 @@
-import { takeEvery, put, call, select } from 'redux-saga/effects'
+import { takeLatest, put, call, select } from 'redux-saga/effects'
+import { assoc } from 'ramda'
 import * as AT from './actionTypes'
 import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
 import * as selectors from '../../selectors.js'
 
-export const initExchange = function * (action) {
+const initExchange = function * (action) {
   try {
+    // We init the form
+    const source = yield select(selectors.core.wallet.getDefaultAccount)
+    const target = yield select(selectors.core.kvStore.ethereum.getDefaultAccount)
+    const initialValues = {
+      accounts: {
+        source: assoc('coin', 'BTC', source),
+        target: assoc('coin', 'ETH', target)
+      }
+    }
+    yield put(actions.form.initialize('exchange', initialValues))
     // We fetch the current fee for our different crypto
     yield call(sagas.core.data.bitcoin.fetchFee)
     yield call(sagas.core.data.ethereum.fetchFee)
@@ -23,7 +34,7 @@ export const initExchange = function * (action) {
   }
 }
 
-export const createOrder = function * (action) {
+const createOrder = function * (action) {
   try {
     yield call(sagas.core.data.shapeShift.createOrder, action.payload)
   } catch (e) {
@@ -31,7 +42,13 @@ export const createOrder = function * (action) {
   }
 }
 
+const resetExchange = function * () {
+  // We reset the form
+  yield put(actions.form.reset('exchange'))
+}
+
 export default function * () {
-  yield takeEvery(AT.INIT_EXCHANGE, initExchange)
-  yield takeEvery(AT.CREATE_ORDER, createOrder)
+  yield takeLatest(AT.INIT_EXCHANGE, initExchange)
+  yield takeLatest(AT.CREATE_ORDER, createOrder)
+  yield takeLatest(AT.RESET_EXCHANGE, resetExchange)
 }

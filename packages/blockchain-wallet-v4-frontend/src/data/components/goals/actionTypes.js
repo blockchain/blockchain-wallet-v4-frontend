@@ -1,0 +1,2 @@
+
+export const INIT_GOALS = '@COMPONENT.INIT_GOALS'
