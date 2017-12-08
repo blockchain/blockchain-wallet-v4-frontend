@@ -18,13 +18,13 @@ class ListContainer extends React.Component {
 
   componentWillMount () {
     const depositAddresses = map(t => path(['quote', 'deposit'], t), this.props.trades)
-    this.props.dataActions.getShapeshiftOrderStatuses(depositAddresses)
+    this.props.exchangeHistoryActions.initExchangeHistory(depositAddresses)
   }
 
   componentWillReceiveProps (nextProps) {
     if (!equals(this.props.ui.page, nextProps.ui.page)) {
       const depositAddresses = map(t => path(['quote', 'deposit'], t), nextProps.trades)
-      this.props.dataActions.getShapeshiftOrderStatuses(depositAddresses)
+      this.props.exchangeHistoryActions.initExchangeHistory(depositAddresses)
     }
   }
 
@@ -72,11 +72,11 @@ class ListContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  tradesStatus: selectors.core.data.shapeShift.getTradesStatus(state)
+  exchangeHistory: selectors.components.exchangeHistory.getExchangeHistory(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-  dataActions: bindActionCreators(actions.data, dispatch),
+  exchangeHistoryActions: bindActionCreators(actions.components.exchangeHistory, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

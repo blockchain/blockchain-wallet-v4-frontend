@@ -4,8 +4,6 @@ import { socket } from 'services/Socket'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as auth from './auth/sagas'
 import * as components from './components/sagas'
-import * as data from './data/sagas'
-import * as settings from './settings/sagas'
 import * as wallet from './wallet/sagas'
 
 const dataPath = config.WALLET_DATA_PATH
@@ -28,7 +26,5 @@ export {
   auth,
   components,
   core,
-  data,
-  settings,
   wallet
 }

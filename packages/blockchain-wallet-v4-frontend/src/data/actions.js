@@ -2,7 +2,6 @@ import { coreActions as core } from 'blockchain-wallet-v4/src'
 import * as alerts from './alerts/actions'
 import * as auth from './auth/actions'
 import * as components from './components/actions'
-import * as data from './data/actions'
 import * as goals from './goals/actions'
 import * as modals from './modals/actions'
 import { actions as form } from 'redux-form'
@@ -10,7 +9,6 @@ import * as preferences from './preferences/actions'
 import { routerActions as router } from 'connected-react-router'
 import * as scroll from './scroll/actions'
 import * as session from './session/actions'
-import * as settings from './settings/actions'
 import * as wizard from './wizard/actions'
 import * as wallet from './wallet/actions'
 
@@ -19,7 +17,6 @@ export {
   alerts,
   auth,
   components,
-  data,
   goals,
   form,
   modals,
@@ -27,7 +24,6 @@ export {
   router,
   scroll,
   session,
-  settings,
   wizard,
   wallet
 }

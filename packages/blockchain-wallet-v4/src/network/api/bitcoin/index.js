@@ -28,9 +28,9 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { tx: txHex, format: 'plain' }
   })
 
-  const getTransactionFiatAtTime = (coin, amount, currency, time) => get({
+  const getBitcoinFiatAtTime = (amount, currency, time) => get({
     url: apiUrl,
-    endPoint: coin === 'bitcoin' ? 'frombtc' : 'frometh',
+    endPoint: 'frombtc',
     data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
   })
 
@@ -49,7 +49,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getBitcoinUnspents,
     getBitcoinFee,
     pushTx,
-    getTransactionFiatAtTime,
+    getBitcoinFiatAtTime,
     getLatestBlock,
     getRawTx
   }

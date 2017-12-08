@@ -29,7 +29,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   alertsActions: bindActionCreators(actions.alerts, dispatch),
-  settingsActions: bindActionCreators(actions.settings, dispatch)
+  settingsActions: bindActionCreators(actions.components.settings, dispatch)
 })
 
 const enhance = compose(

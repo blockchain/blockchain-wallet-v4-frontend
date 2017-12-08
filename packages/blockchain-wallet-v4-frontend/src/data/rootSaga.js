@@ -7,9 +7,7 @@ import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import alerts from './alerts/sagas'
 import auth from './auth/sagas'
 import components from './components/sagas'
-import data from './data/sagas'
 import goals from './goals/sagas'
-import settings from './settings/sagas'
 import wallet from './wallet/sagas'
 
 const dataPath = config.WALLET_DATA_PATH
@@ -49,9 +47,7 @@ const rootSaga = function * () {
     fork(alerts),
     fork(auth),
     fork(components),
-    fork(data),
     fork(goals),
-    fork(settings),
     fork(wallet),
     fork(sagas.core.webSocket)
   ])

@@ -4,11 +4,13 @@ import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
 import * as selectors from '../../selectors.js'
 
-export const initShapeShift = function * (action) {
+export const initExchange = function * (action) {
   try {
     // We fetch the current fee for our different crypto
     yield call(sagas.core.data.bitcoin.fetchFee)
     yield call(sagas.core.data.ethereum.fetchFee)
+    yield call(sagas.core.data.shapeShift.fetchBtcEth)
+    yield call(sagas.core.data.shapeShift.fetchEthBtc)
     // We get the effectiveBalance for bitcoin
     const index = yield select(selectors.core.wallet.getDefaultAccountIndex)
     yield call(sagas.core.data.bitcoin.fetchUnspent, index, undefined)
@@ -30,6 +32,6 @@ export const createOrder = function * (action) {
 }
 
 export default function * () {
-  yield takeEvery(AT.INIT_SHAPESHIFT, initShapeShift)
+  yield takeEvery(AT.INIT_EXCHANGE, initExchange)
   yield takeEvery(AT.CREATE_ORDER, createOrder)
 }

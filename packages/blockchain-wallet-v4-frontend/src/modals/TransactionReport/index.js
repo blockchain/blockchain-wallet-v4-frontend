@@ -47,7 +47,7 @@ class TransactionReportContainer extends React.Component {
     const address = from && (from.xpub || from.address)
     const startDate = moment(start, dateFormatUS)
     const endDate = moment(end, dateFormatUS)
-    this.props.dataActions.getTransactionHistory(address, startDate.format('DD/MM/YYYY'), endDate.format('DD/MM/YYYY'))
+    this.props.transactionHistoryActions.initTransactionReport(address, startDate.format('DD/MM/YYYY'), endDate.format('DD/MM/YYYY'))
     this.setState({ filename: `history-${startDate.format('DD-MM-YYYY')}-${endDate.format('DD-MM-YYYY')}.csv` })
   }
 
@@ -65,10 +65,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch),
+  transactionHistoryReport: bindActionCreators(actions.components.transactionReport, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  settingsActions: bindActionCreators(actions.settings, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(

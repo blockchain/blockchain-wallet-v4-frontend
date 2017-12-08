@@ -30,8 +30,7 @@ class CoinConvertorContainer extends React.Component {
   }
 
   componentWillMount () {
-    if (isEmpty(this.props.btcEth)) { this.props.dataActions.getBtcEth() }
-    if (isEmpty(this.props.ethBtc)) { this.props.dataActions.getEthBtc() }
+    this.props.actions.initCoinConvertor()
   }
 
   handleChangeCoin1 (e) {
@@ -115,21 +114,9 @@ class CoinConvertorContainer extends React.Component {
     if (this.props.input.onFocus) { this.props.input.onFocus(this.state.value) }
   }
 
-  handleClickMinimum () {
-    // switch(this.props.fromCoin) {
-    //   case 'ETH':
-    //     this.convertCoin(this.props.ethBtc.minimum, true)
-    //     break
-    //   case 'BTC':
-    //     this.convertCoin(this.props.btcEth.minimum, true)
-    //     break
-    //   default: break
-    // }
-  }
+  handleClickMinimum () { }
 
-  handleClickMaximum () {
-
-  }
+  handleClickMaximum () { }
 
   render () {
     const { sourceCoin, targetCoin, btcUnit, ethUnit } = this.props
@@ -179,7 +166,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
+  actions: bindActionCreators(actions.components.coinConvertor, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinConvertorContainer)

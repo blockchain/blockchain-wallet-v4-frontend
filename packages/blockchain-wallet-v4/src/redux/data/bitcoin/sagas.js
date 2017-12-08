@@ -70,10 +70,10 @@ export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
     yield cancel(bitcoinRatesTask)
   }
 
-  const fetchTransactionFiatAtTime = function * ({ coin, hash, amount, time }) {
+  const fetchTransactionFiatAtTime = function * ({ hash, amount, time }) {
     const currency = yield select(compose(getCurrency, prop(settingsPath)))
-    const data = yield call(api.getTransactionFiatAtTime, coin, amount, currency, time)
-    yield put(A.setBitcoinFiatAtTime(coin, currency, hash, data))
+    const data = yield call(api.getBitcoinFiatAtTime, amount, currency, time)
+    yield put(A.setBitcoinFiatAtTime('bitcoin', currency, hash, data))
   }
 
   const fetchTransactions = function * ({ address }) {

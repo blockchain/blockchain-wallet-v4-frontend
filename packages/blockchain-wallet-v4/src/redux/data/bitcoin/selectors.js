@@ -34,6 +34,8 @@ export const getRates = path(['bitcoin', 'rates'])
 
 export const getRate = currencyCode => path(['bitcoin', 'rates', currencyCode])
 
+export const getFiatAtTime = path(['bitcoin', 'rates'])
+
 export const getTransactionFiatAtTime = curry((state, hash, currency) => path(['bitcoin', 'transactions_fiat', hash, currency], state))
 
 export const getTransactions = path(['bitcoin', 'transactions', 'list'])
