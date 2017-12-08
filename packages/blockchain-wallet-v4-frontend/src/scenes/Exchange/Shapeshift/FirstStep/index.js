@@ -25,7 +25,6 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.formActions.initialize('exchange', this.props.initialValues)
     this.props.exchangeActions.initExchange()
   }
 
@@ -104,27 +103,15 @@ class FirstStepContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const source = selectors.core.wallet.getDefaultAccount(state)
-  const target = selectors.core.kvStore.ethereum.getDefaultAccount(state)
-  const initialValues = {
-    accounts: {
-      source: assoc('coin', 'BTC', source),
-      target: assoc('coin', 'ETH', target)
-    }
-  }
-
-  return {
-    initialValues,
-    accounts: formValueSelector('exchange')(state, 'accounts'),
-    amount: formValueSelector('exchange')(state, 'amount'),
-    ethFeeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
-    gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0,
-    bitcoinFeeValues: selectors.core.data.bitcoin.getFee(state),
-    etherBalance: selectors.core.data.ethereum.getBalance(state),
-    bitcoinEffectiveBalance: selectors.core.data.bitcoin.getEffectiveBalance(state) || 0
-  }
-}
+const mapStateToProps = (state) => ({
+  accounts: formValueSelector('exchange')(state, 'accounts'),
+  amount: formValueSelector('exchange')(state, 'amount'),
+  ethFeeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
+  gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0,
+  bitcoinFeeValues: selectors.core.data.bitcoin.getFee(state),
+  etherBalance: selectors.core.data.ethereum.getBalance(state),
+  bitcoinEffectiveBalance: selectors.core.data.bitcoin.getEffectiveBalance(state) || 0
+})
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
