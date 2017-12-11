@@ -4,6 +4,7 @@ import * as chart from './chart/actions'
 import * as coinConvertor from './coinConvertor/actions'
 import * as exchange from './exchange/actions'
 import * as exchangeHistory from './exchangeHistory/actions'
+import * as securityGauge from './securityGauge/actions'
 import * as sendBitcoin from './sendBitcoin/actions'
 import * as sendEther from './sendEther/actions'
 import * as settings from './settings/actions'
@@ -21,6 +22,7 @@ export {
   coinConvertor,
   exchange,
   exchangeHistory,
+  securityGauge,
   sendBitcoin,
   sendEther,
   settings,
