@@ -55,23 +55,23 @@ const manageWalletSettings = function * () {
   yield call(sagas.core.settings.fetchSettings)
 }
 
-const manageWalletMetadata = function * () {
+// const manageWalletMetadata = function * () {
   // yield call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
-  yield call(sagas.core.kvStore.ethereum.fetchEthereum)
+  // yield call(sagas.core.kvStore.ethereum.fetchEthereum)
   // yield call(sagas.core.kvStore.shapeShift.fetchShapeShift)
   // yield call(sagas.core.kvStore.buySell.fetchBuySell)
   // yield call(sagas.core.kvStore.contacts.fetchContacts)
-}
+// }
 
-const manageWalletData = function * () {
-  const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
-  const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
-  yield all([
-    call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext }),
-    call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext }),
-    call(sagas.core.data.ethereum.fetchLatestBlock)
-  ])
-}
+// const manageWalletData = function * () {
+//   const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
+//   const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
+//   yield all([
+//     call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext }),
+//     call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext }),
+//     call(sagas.core.data.ethereum.fetchLatestBlock)
+//   ])
+// }
 
 const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
   try {
@@ -82,8 +82,8 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     yield call(sagas.core.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     yield call(manageWalletOptions)
     yield call(manageWalletSettings)
-    yield call(manageWalletMetadata)
-    yield call(manageWalletData)
+    // yield call(manageWalletMetadata)
+    // yield call(manageWalletData)
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())

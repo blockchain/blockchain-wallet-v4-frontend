@@ -1,58 +1,62 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { actions, selectors } from 'data'
-import MenuTop from './template.js'
+import { Text } from 'blockchain-info-components'
+import Actions from './Actions'
+import Balance from './Balance'
 
-class MenuTopContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.openSend = this.openSend.bind(this)
-    this.openRequest = this.openRequest.bind(this)
-    this.toggleCoinDisplay = this.toggleCoinDisplay.bind(this)
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 15px 30px;
+  box-sizing: border-box;
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
+
+  @media(min-width: 850px) { 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
+`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+`
+const LeftContainer = styled(Container)`
+  order: 2;
+  @media(min-width: 850px) { order: 1; }
+`
+const RightContainer = styled(Container)`
+  order: 1;
+  @media(min-width: 850px) { order: 2; }
+`
+const TextContainer = styled.div`
+  display: none;
+  @media(min-width: 850px) { display: flex; }
+`
 
-  toggleCoinDisplay () {
-    this.props.preferencesActions.toggleCoinDisplayed()
-  }
+const MenuTop = (props) => (
+  <Wrapper>
+    <LeftContainer>
+      <TextContainer>
+        <Text size='28px' weight={200} uppercase>
+          <FormattedMessage id='layouts.wallet.menutop.bank' defaultMessage='Be your own bank.' />
+        </Text>
+      </TextContainer>
+      <Actions />
+    </LeftContainer>
+    <RightContainer>
+      <Balance />
+    </RightContainer>
+  </Wrapper>
+)
 
-  openSend () {
-    if (this.props.router.location.pathname === '/eth/transactions') {
-      this.props.sendEtherActions.initSendEther()
-    } else {
-      this.props.sendBitcoinActions.initSendBitcoin()
-    }
-  }
-
-  openRequest () {
-    if (this.props.router.location.pathname === '/eth/transactions') {
-      this.props.modalActions.showModal('RequestEther')
-    } else {
-      this.props.modalActions.showModal('RequestBitcoin')
-    }
-  }
-
-  render () {
-    return <MenuTop
-      {...this.props}
-      toggleCoinDisplay={this.toggleCoinDisplay}
-      openSend={this.openSend}
-      openRequest={this.openRequest} />
-  }
-}
-
-const mapStateToProps = (state) => ({
-  bitcoinBalance: selectors.core.data.bitcoin.getBalance(state),
-  etherBalance: selectors.core.data.ethereum.getBalance(state),
-  router: state.router
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch),
-  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(MenuTopContainer)
+export default MenuTop
