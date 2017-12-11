@@ -115,8 +115,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  exchangeActions: bindActionCreators(actions.components.exchange, dispatch),
-  sendBitcoinActions: bindActionCreators(actions.components.sendBitcoin, dispatch)
+  exchangeActions: bindActionCreators(actions.modules.exchange, dispatch),
+  sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)

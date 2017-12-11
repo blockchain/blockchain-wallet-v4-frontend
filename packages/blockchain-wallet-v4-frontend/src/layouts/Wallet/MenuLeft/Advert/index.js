@@ -21,11 +21,11 @@ class AdvertContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  advert: selectors.components.advert.getAdvert(state)
+  advert: selectors.modules.advert.getAdvert(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.advert, dispatch)
+  actions: bindActionCreators(actions.modules.advert, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdvertContainer)

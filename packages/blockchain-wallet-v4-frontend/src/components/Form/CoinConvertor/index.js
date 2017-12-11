@@ -166,7 +166,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.coinConvertor, dispatch)
+  actions: bindActionCreators(actions.modules.coinConvertor, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinConvertorContainer)

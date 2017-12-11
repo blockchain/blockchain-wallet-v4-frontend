@@ -16,7 +16,7 @@ class PreferencesContainer extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  settingsActions: bindActionCreators(actions.components.settings, dispatch)
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 export default connect(undefined, mapDispatchToProps)(PreferencesContainer)
