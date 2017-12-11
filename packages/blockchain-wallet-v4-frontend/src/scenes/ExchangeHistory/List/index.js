@@ -33,8 +33,7 @@ class ListContainer extends React.Component {
   }
 
   render () {
-    const { trades, tradesTotal } = this.props
-
+    const { trades, tradesTotal } = this.props.exchangeHistory
     const pageSize = 10
     const pageTotal = Math.trunc((tradesTotal / pageSize)) + 1
     const pageNumber = this.props.ui.page
@@ -51,8 +50,7 @@ class ListContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  exchangeHistory: selectors.modules.exchangeHistory.getExchangeHistory(state),
-  tradesTotal: selectors.modules.exchangeHistory.getTradesTotal(state)
+  exchangeHistory: selectors.modules.exchangeHistory.getExchangeHistory(state)
 })
 
 const mapDispatchToProps = dispatch => ({

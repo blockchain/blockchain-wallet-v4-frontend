@@ -56,7 +56,7 @@ const manageWalletSettings = function * () {
 }
 
 const manageWalletMetadata = function * () {
-  yield call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
+  // yield call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
   yield call(sagas.core.kvStore.ethereum.fetchEthereum)
   // yield call(sagas.core.kvStore.shapeShift.fetchShapeShift)
   // yield call(sagas.core.kvStore.buySell.fetchBuySell)
