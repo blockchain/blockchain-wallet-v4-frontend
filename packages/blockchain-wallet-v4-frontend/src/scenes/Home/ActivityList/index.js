@@ -19,11 +19,11 @@ class ActivityContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  activity: selectors.components.activity.getActivity(state)
+  activity: selectors.modules.activity.getActivity(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.activity, dispatch)
+  actions: bindActionCreators(actions.modules.activity, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityContainer)

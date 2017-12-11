@@ -1,12 +1,15 @@
-import { takeEvery, put, call } from 'redux-saga/effects'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 import * as AT from './actionTypes'
+import * as S from './selectors'
 import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
 
 const initExchangeHistory = function * (action) {
   try {
-    const { addresses } = action.payload
-    yield call(sagas.core.data.shapeShift.getTradesStatus, addresses)
+    yield call(sagas.core.kvStore.shapeShift.fetchShapeShift)
+    const { page } = action.payload
+    const depositAddresses = yield select(S.getDepositAddresses, page)
+    yield call(sagas.core.data.shapeShift.getTradesStatus, depositAddresses)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch shapeshift trade statuses.'))
   }

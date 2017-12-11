@@ -6,7 +6,7 @@ import { socket } from 'services/Socket'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import alerts from './alerts/sagas'
 import auth from './auth/sagas'
-import components from './components/sagas'
+import modules from './modules/sagas'
 import goals from './goals/sagas'
 import wallet from './wallet/sagas'
 
@@ -46,7 +46,7 @@ const rootSaga = function * () {
     call(welcomeSaga),
     fork(alerts),
     fork(auth),
-    fork(components),
+    fork(modules),
     fork(goals),
     fork(wallet),
     fork(sagas.core.webSocket)

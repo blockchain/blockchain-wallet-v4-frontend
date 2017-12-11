@@ -65,7 +65,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  transactionHistoryReport: bindActionCreators(actions.components.transactionReport, dispatch),
+  transactionHistoryReport: bindActionCreators(actions.modules.transactionReport, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })

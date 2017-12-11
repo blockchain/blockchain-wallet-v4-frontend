@@ -39,11 +39,11 @@ class ListItemContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  transaction: selectors.components.transactionBitcoin.getTransactionBitcoin(state, ownProps.transaction.hash, ownProps.currency)
+  transaction: selectors.modules.transactionBitcoin.getTransactionBitcoin(state, ownProps.transaction.hash, ownProps.currency)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  bitcoinTransactionsActions: bindActionCreators(actions.components.transactionBitcoin),
+  bitcoinTransactionsActions: bindActionCreators(actions.modules.transactionBitcoin),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 

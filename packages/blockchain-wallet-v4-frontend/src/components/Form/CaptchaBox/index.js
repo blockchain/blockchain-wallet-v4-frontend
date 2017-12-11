@@ -16,12 +16,12 @@ class CaptchaBoxContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  data: selectors.components.captcha.getCaptcha(state)
+  data: selectors.modules.captcha.getCaptcha(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  componentsActions: bindActionCreators(actions.components.captcha, dispatch)
+  componentsActions: bindActionCreators(actions.modules.captcha, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CaptchaBoxContainer)

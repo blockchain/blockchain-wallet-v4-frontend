@@ -42,7 +42,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  sendEtherActions: bindActionCreators(actions.components.sendEther, dispatch),
+  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 

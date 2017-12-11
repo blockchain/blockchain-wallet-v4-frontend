@@ -18,6 +18,7 @@ const initExchange = function * (action) {
     }
     yield put(actions.form.initialize('exchange', initialValues))
     // We fetch the current fee for our different crypto
+    yield call(sagas.core.kvStore.shapeShift.fetchShapeShift)
     yield call(sagas.core.data.bitcoin.fetchFee)
     yield call(sagas.core.data.ethereum.fetchFee)
     yield call(sagas.core.data.shapeShift.fetchBtcEth)

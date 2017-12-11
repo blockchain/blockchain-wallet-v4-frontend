@@ -113,8 +113,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  sendBitcoinActions: bindActionCreators(actions.components.sendBitcoin, dispatch),
-  sendEtherActions: bindActionCreators(actions.components.sendEther, dispatch),
+  sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch),
+  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

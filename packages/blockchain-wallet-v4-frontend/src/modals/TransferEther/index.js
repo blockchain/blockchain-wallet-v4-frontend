@@ -41,7 +41,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  transferEtherActions: bindActionCreators(actions.components.transferEther, dispatch)
+  transferEtherActions: bindActionCreators(actions.modules.transferEther, dispatch)
 })
 
 const enhance = compose(

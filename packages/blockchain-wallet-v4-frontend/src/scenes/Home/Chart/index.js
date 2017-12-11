@@ -115,11 +115,11 @@ class ChartContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   currency: selectors.core.settings.getCurrency(state),
-  chart: selectors.components.chart.getChart(state)
+  chart: selectors.modules.chart.getChart(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.chart, dispatch)
+  actions: bindActionCreators(actions.modules.chart, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChartContainer)

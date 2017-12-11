@@ -27,7 +27,7 @@ class EmptyContainer extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  sendBitcoinActions: bindActionCreators(actions.components.sendBitcoin, dispatch)
+  sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch)
 })
 
 export default connect(undefined, mapDispatchToProps)(EmptyContainer)
