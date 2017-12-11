@@ -6,7 +6,7 @@ export const getExchangeHistory = curry((state, page) => {
   const trades = selectors.core.kvStore.shapeShift.getTrades(state)
   const tradesStatus = selectors.core.data.shapeShift.getTradesStatus(state)
   if (isEmpty(tradesStatus)) return { data: [], state: 'NotAsked' }
-
+  const tradesTotal = length(trades) || 0
   const tradesPage = slice((page - 1) * 10, page * 10 - 1, trades)
   const details = (trade, tradesStatus) => {
     const address = path(['quote', 'deposit'], trade)
@@ -23,7 +23,8 @@ export const getExchangeHistory = curry((state, page) => {
   }
 
   return {
-    data: map(x => details(x, tradesStatus), tradesPage)
+    trades: map(x => details(x, tradesStatus), tradesPage),
+    tradesTotal
   }
 })
 
@@ -32,5 +33,3 @@ export const getDepositAddresses = curry((state, page) => {
   const tradesPage = slice((page - 1) * 10, page * 10 - 1, trades)
   return map(x => path(['quote', 'deposit'], x), tradesPage)
 })
-
-export const getTradesTotal = state => length(selectors.core.kvStore.shapeShift.getTrades(state)) || 0

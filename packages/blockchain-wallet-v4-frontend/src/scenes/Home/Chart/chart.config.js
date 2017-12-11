@@ -1,21 +1,4 @@
-export const INTERVALS = {
-  hour: 60 * 60 * 1000,
-  day: 24 * 60 * 60 * 1000
-}
-
-export const SCALES = {
-  FIFTEENMIN: 15 * 60,
-  HOUR: 60 * 60,
-  TWOHOUR: 2 * 60 * 60,
-  DAY: 24 * 60 * 60,
-  FIVEDAY: 5 * 24 * 60 * 60
-}
-
-export const BTCSTART = 1282089600
-
-export const ETHSTART = 1438992000
-
-export const configure = (start, interval, currency, data) => ({
+export default (start, interval, currency, data) => ({
   chart: {
     height: 300
   },
@@ -64,10 +47,8 @@ export const configure = (start, interval, currency, data) => ({
   legend: {
     enabled: false
   },
-  series: [
-    {
-      name: 'Price',
-      data: data
-    }
-  ]
+  series: [{
+    name: 'Price',
+    data: data
+  }]
 })

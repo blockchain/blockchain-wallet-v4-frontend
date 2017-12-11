@@ -7,9 +7,12 @@ import * as exchangeHistory from './exchangeHistory/actions'
 import * as sendBitcoin from './sendBitcoin/actions'
 import * as sendEther from './sendEther/actions'
 import * as settings from './settings/actions'
+import * as tickerBitcoin from './tickerBitcoin/actions'
+import * as tickerEther from './tickerEther/actions'
 import * as transactionBitcoin from './transactionBitcoin/actions'
 import * as transactionEther from './transactionEther/actions'
 import * as transferEther from './transferEther/actions'
+import * as whatsNew from './whatsNew/actions'
 
 export {
   activity,
@@ -21,7 +24,10 @@ export {
   sendBitcoin,
   sendEther,
   settings,
+  tickerBitcoin,
+  tickerEther,
   transactionBitcoin,
   transactionEther,
-  transferEther
+  transferEther,
+  whatsNew
 }

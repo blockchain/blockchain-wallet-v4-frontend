@@ -38,13 +38,13 @@ const Filter = styled(Link)`
 
 const Chart = (props) => {
   const { start, interval, currency, data, ...rest } = props
-  const { config, coin, timeframe, selectBitcoin, selectEthereum, selectTimeframe } = rest
+  const { config, coin, timeframe, selectCoin, selectTimeframe } = rest
 
   return (
     <Wrapper>
       <Ticker>
-        <BitcoinTicker selected={coin === 'BTC'} onClick={selectBitcoin} />
-        <EthereumTicker selected={coin === 'ETH'} onClick={selectEthereum} />
+        <BitcoinTicker selected={coin === 'BTC'} onClick={() => selectCoin('BTC')} />
+        <EthereumTicker selected={coin === 'ETH'} onClick={() => selectCoin('ETH')} />
       </Ticker>
       <Highchart>
         <ReactHighcharts config={config} />

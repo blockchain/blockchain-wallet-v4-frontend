@@ -1,17 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectors } from 'data'
+import { bindActionCreators } from 'redux'
+
+import { actions, selectors } from 'data'
 import WhatsNew from './template.js'
 
 class WhatsNewContainer extends React.Component {
+  componentWillMount () {
+    this.props.actions.initWhatsNew()
+  }
+
   render () {
-    const { lastViewed } = this.props
-    return <WhatsNew lastViewed={lastViewed} />
+    return <WhatsNew lastViewed={this.props.whatsNew.data} />
   }
 }
 
-const mapStateToProps = (state) => ({
-  lastViewed: selectors.core.kvStore.whatsNew.getLastViewed(state)
+const mapStateToProps = state => ({
+  whatsNew: selectors.modules.whatsNew.getWhatsNew(state)
 })
 
-export default connect(mapStateToProps)(WhatsNewContainer)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.modules.whatsNew, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(WhatsNewContainer)

@@ -30,7 +30,7 @@ const Header = (props) => {
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <WhatsNew />
+            {/* <WhatsNew /> */}
           </NavbarNavItem>
           <NavbarNavItem>
             <Refresh />
