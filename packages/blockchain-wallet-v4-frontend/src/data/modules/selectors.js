@@ -4,6 +4,7 @@ import * as chart from './chart/selectors'
 import * as coinConvertor from './coinConvertor/selectors'
 import * as exchange from './exchange/selectors'
 import * as exchangeHistory from './exchangeHistory/selectors'
+import * as menuTopBalance from './menuTopBalance/selectors'
 import * as securityGauge from './securityGauge/selectors'
 import * as sendBitcoin from './sendBitcoin/selectors'
 import * as sendEther from './sendEther/selectors'
@@ -22,6 +23,7 @@ export {
   coinConvertor,
   exchange,
   exchangeHistory,
+  menuTopBalance,
   securityGauge,
   sendBitcoin,
   sendEther,

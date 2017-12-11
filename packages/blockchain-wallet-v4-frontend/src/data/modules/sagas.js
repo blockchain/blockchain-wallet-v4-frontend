@@ -6,6 +6,7 @@ import chart from './chart/sagas'
 import coinConvertor from './coinConvertor/sagas'
 import exchange from './exchange/sagas'
 import exchangeHistory from './exchangeHistory/sagas'
+import menuTopBalance from './menuTopBalance/sagas'
 import securityGauge from './securityGauge/sagas'
 import sendBitcoin from './sendBitcoin/sagas'
 import sendEther from './sendEther/sagas'
@@ -25,6 +26,7 @@ export default function * () {
     call(coinConvertor),
     call(exchange),
     call(exchangeHistory),
+    call(menuTopBalance),
     call(securityGauge),
     call(sendBitcoin),
     call(sendEther),
