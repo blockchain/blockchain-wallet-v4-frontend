@@ -1,21 +1,20 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
-import { prop, compose } from 'ramda'
+import { compose } from 'ramda'
 import * as A from '../actions'
 import * as T from '../actionTypes'
-import { Wrapper, Wallet } from '../../types'
+import { Wrapper } from '../../types'
 import { commonSagasFactory } from '../common/sagas.js'
 import * as walletSelectors from '../wallet/selectors'
 // import * as transSelectors from '../data/transactions/selectors'
 import { Socket } from '../../network'
 
-export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
+export const webSocketSaga = ({ api, socket } = {}) => {
   const send = socket.send.bind(socket)
 
   const commonSagas = commonSagasFactory({ api })
 
   const onOpen = function * (action) {
-    const wrapper = yield select(prop(walletPath))
-    const subscribeInfo = walletSelectors.getInitialSocketContext(wrapper)
+    const subscribeInfo = yield select(walletSelectors.getInitialSocketContext)
     yield call(compose(send, Socket.onOpenMessage), subscribeInfo)
   }
 
@@ -25,7 +24,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
     switch (message.op) {
       case 'on_change':
         const newChecksum = message.x.checksum
-        const wrapper = yield select(prop(walletPath))
+        const wrapper = yield select(walletSelectors.getWrapper)
         const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
         if (oldChecksum !== newChecksum) {
           yield call(refreshWrapper)
@@ -62,9 +61,9 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
   }
 
   const refreshWrapper = function * () {
-    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
-    const skey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
-    const password = yield select(compose(Wrapper.selectPassword, prop(walletPath)))
+    const guid = yield select(walletSelectors.getGuid)
+    const skey = yield select(walletSelectors.getSharedKey)
+    const password = yield select(walletSelectors.getMainPassword)
     try {
       const newWrapper = yield call(api.fetchWallet, guid, skey, undefined, password)
       yield put(A.wallet.refreshWrapper(newWrapper))
@@ -74,8 +73,7 @@ export const webSocketSaga = ({ api, socket, walletPath, dataPath } = {}) => {
   }
 
   const refreshBlockchainData = function * () {
-    const wrapper = yield select(prop(walletPath))
-    const context = walletSelectors.getWalletContext(wrapper)
+    const context = yield select(walletSelectors.getWalletContext)
     try {
       yield call(commonSagas.fetchBlockchainData, { context })
     } catch (e) {
