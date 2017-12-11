@@ -6,12 +6,12 @@ import { webSocketSaga } from './webSocket/sagas.js'
 import { walletOptionsSaga } from './walletOptions/sagas.js'
 import { kvStoreSagasFactory } from './kvStore/sagas.js'
 
-export const coreSagasFactory = ({ api, kvStorePath, dataPath, walletPath, settingsPath, walletOptionsPath, socket } = {}) => ({
-  common: commonSagasFactory({ api, dataPath, walletPath, settingsPath, walletOptionsPath, kvStorePath, socket }),
-  data: dataSagasFactory({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
-  settings: settingsSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
-  wallet: walletSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
-  walletOptions: walletOptionsSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
-  webSocket: webSocketSaga({ api, dataPath, walletPath, settingsPath, walletOptionsPath, socket }),
-  kvStore: kvStoreSagasFactory({ api, kvStorePath, walletPath })
+export const coreSagasFactory = ({ api, socket } = {}) => ({
+  common: commonSagasFactory({ api, socket }),
+  data: dataSagasFactory({ api, socket }),
+  settings: settingsSaga({ api, socket }),
+  wallet: walletSaga({ api, socket }),
+  walletOptions: walletOptionsSaga({ api, socket }),
+  webSocket: webSocketSaga({ api, socket }),
+  kvStore: kvStoreSagasFactory({ api })
 })

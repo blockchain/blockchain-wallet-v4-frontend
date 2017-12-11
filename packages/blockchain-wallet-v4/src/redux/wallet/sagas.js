@@ -7,21 +7,22 @@ import { set } from 'ramda-lens'
 import Task from 'data.task'
 import Either from 'data.either'
 import * as A from './actions'
+import * as S from './selectors'
 
 import { Wrapper, Wallet, Address, HDWalletList } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
-export const walletSaga = ({ api, walletPath } = {}) => {
+export const walletSaga = ({ api } = {}) => {
   const runTask = function * (task, setActionCreator) {
     let result = yield call(compose(taskToPromise, () => task))
     yield put(setActionCreator(result))
   }
 
   const toggleSecondPassword = function * ({ password }) {
-    const wrapper = yield select(prop(walletPath))
-    const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
+    const wrapper = yield select(S.getWrapper)
+    const isEncrypted = yield select(S.isSecondPasswordOn)
     if (isEncrypted) {
       const task = Wrapper.traverseWallet(Task.of, Wallet.decrypt(password), wrapper)
       yield call(runTask, task, A.setWrapper)
@@ -32,7 +33,7 @@ export const walletSaga = ({ api, walletPath } = {}) => {
   }
 
   const createLegacyAddress = function * ({address, password}) {
-    const wrapper = yield select(prop(walletPath))
+    const wrapper = yield select(S.getWrapper)
     const a = Address.fromJS(address)
     const addAddress = wallet => Wallet.addAddress(wallet, a, password)
     const task = eitherToTask(Wrapper.traverseWallet(Either.of, addAddress, wrapper))
@@ -95,8 +96,8 @@ export const walletSaga = ({ api, walletPath } = {}) => {
     if (not(is(Number, iterations))) {
       throw new Error('PBKDF2_ITERATIONS_NOT_A_NUMBER')
     } else {
-      const wrapper = yield select(prop(walletPath))
-      const isEncrypted = yield select(compose(Wallet.isDoubleEncrypted, Wrapper.selectWallet, prop(walletPath)))
+      const wrapper = yield select(S.getWrapper)
+      const isEncrypted = yield select(S.isSecondPasswordOn)
       if (isEncrypted) {
         const task = Task.of(wrapper)
                     .chain(Wrapper.traverseWallet(Task.of, Wallet.decrypt(password)))
