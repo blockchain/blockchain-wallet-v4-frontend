@@ -21,13 +21,7 @@ class CopyClipboardContainer extends React.Component {
   }
 
   render () {
-    return (
-      <CopyClipboard
-        active={this.state.active}
-        address={this.props.address}
-        handleClick={this.handleClick}
-      />
-    )
+    return <CopyClipboard active={this.state.active} address={this.props.address} handleClick={this.handleClick} />
   }
 }
 

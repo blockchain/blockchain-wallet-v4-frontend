@@ -4,6 +4,7 @@ import * as chart from './chart/actions'
 import * as coinConvertor from './coinConvertor/actions'
 import * as exchange from './exchange/actions'
 import * as exchangeHistory from './exchangeHistory/actions'
+import * as fiatDisplay from './fiatDisplay/actions'
 import * as menuTopBalance from './menuTopBalance/actions'
 import * as securityGauge from './securityGauge/actions'
 import * as sendBitcoin from './sendBitcoin/actions'
@@ -23,6 +24,7 @@ export {
   coinConvertor,
   exchange,
   exchangeHistory,
+  fiatDisplay,
   menuTopBalance,
   securityGauge,
   sendBitcoin,

@@ -1,49 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { isBitcoinFiatAvailable, isEthereumFiatAvailable } from 'services/ValidationHelper'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import FiatDisplay from './template.js'
 
 class FiatDisplayContainer extends React.Component {
-  render () {
-    const { coin, country, currency, bitcoinRates, ethereumRates, bitcoinOptions, ethereumOptions, children } = this.props
+  componentWillMount () {
+    this.props.actions.initFiatDisplay(this.props.coin)
+  }
 
-    switch (coin) {
-      case 'BTC': {
-        return isBitcoinFiatAvailable(country, currency, bitcoinRates, bitcoinOptions)
-          ? <FiatDisplay {...this.props}>{Exchange.displayBitcoinToFiat({ value: children, fromUnit: 'SAT', toCurrency: currency, rates: bitcoinRates })}</FiatDisplay>
-          : <FiatDisplay {...this.props}>N/A</FiatDisplay>
-      }
-      case 'ETH': {
-        return isEthereumFiatAvailable(country, currency, ethereumRates, ethereumOptions)
-          ? <FiatDisplay {...this.props}>{Exchange.displayEtherToFiat({ value: children, fromUnit: 'WEI', toCurrency: currency, rates: ethereumRates })}</FiatDisplay>
-          : <FiatDisplay {...this.props}>N/A</FiatDisplay>
-      }
-    }
+  render () {
+    const { fiatDisplay, ...rest } = this.props
+    return <FiatDisplay {...rest}>{fiatDisplay.value}</FiatDisplay>
   }
 }
 
 FiatDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired,
-  country: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  bitcoinRates: PropTypes.object.isRequired,
-  ethereumRates: PropTypes.object.isRequired,
-  bitcoinOptions: PropTypes.object.isRequired,
-  ethereumOptions: PropTypes.object.isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired
 }
 
-const mapStateToProps = (state) => ({
-  country: selectors.core.settings.getCountryCode(state),
-  currency: selectors.core.settings.getCurrency(state),
-  bitcoinRates: selectors.core.data.bitcoin.getRates(state),
-  ethereumRates: selectors.core.data.ethereum.getRates(state),
-  bitcoinOptions: selectors.core.walletOptions.selectBitcoin(state),
-  ethereumOptions: selectors.core.walletOptions.selectEthereum(state)
+const mapStateToProps = (state, ownProps) => ({
+  fiatDisplay: selectors.modules.fiatDisplay.getFiatDisplay(state, ownProps.coin, ownProps.children)
 })
 
-export default connect(mapStateToProps)(FiatDisplayContainer)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.modules.fiatDisplay, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(FiatDisplayContainer)

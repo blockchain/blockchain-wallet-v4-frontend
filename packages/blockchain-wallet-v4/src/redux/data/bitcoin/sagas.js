@@ -63,7 +63,7 @@ export const bitcoin = ({ api, walletPath, dataPath, settingsPath } = {}) => {
   }
 
   const startRates = function * () {
-    bitcoinRatesTask = yield spawn(refreshRates)
+    if (!bitcoinRatesTask) { bitcoinRatesTask = yield spawn(refreshRates) }
   }
 
   const stopRates = function * () {
