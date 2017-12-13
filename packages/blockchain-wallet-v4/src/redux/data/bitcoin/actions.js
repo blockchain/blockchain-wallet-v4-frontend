@@ -10,8 +10,13 @@ export const setBitcoinEffectiveBalance = (effectiveBalance) => ({ type: AT.SET_
 
 export const setBitcoinSelection = (feePerByte, target, coins, change, algorithm, seed) => ({ type: AT.SET_BITCOIN_SELECTION, payload: { feePerByte, target, coins, change, algorithm, seed } })
 
-export const setBitcoinRates = (data) => ({ type: AT.SET_BITCOIN_RATES, payload: data })
-
 export const setBitcoinFiatAtTime = (coin, currency, hash, value) => ({ type: AT.SET_BITCOIN_FIAT_AT_TIME, payload: { coin, currency, hash, value } })
 
 export const setBitcoinTransactions = (address, txs, reset) => ({ type: AT.SET_BITCOIN_TRANSACTIONS, payload: { address, txs, reset } })
+
+
+export const fetchRates = () => ({ type: AT.FETCH_BITCOIN_RATES })
+
+export const fetchRatesSuccess = (data) => ({ type: AT.FETCH_BITCOIN_RATES_SUCCESS, payload: data })
+
+export const fetchRatesFailure = (error) => ({ type: AT.FETCH_BITCOIN_RATES_FAILURE, payload: error })

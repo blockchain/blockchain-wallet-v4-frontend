@@ -3,6 +3,7 @@ import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes.js'
 import * as actions from '../../actions'
 import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound } from '../../../coinSelection'
+import * as RD from '../../remoteData'
 
 const EMPTY_SELECTION = {
   fee: undefined,
@@ -20,7 +21,7 @@ const INITIAL_STATE = {
     selection: EMPTY_SELECTION,
     effectiveBalance: undefined
   },
-  rates: {},
+  rates: RD.NotAsked(),
   transactions: {
     address: '',
     list: []
@@ -72,9 +73,16 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
 
       return assocPath(['payment', 'selection'], selection, state)
     }
-    case AT.SET_BITCOIN_RATES: {
-      return assoc('rates', payload, state)
+    case AT.FETCH_BITCOIN_RATES: {
+      return assoc('rates', RD.Loading(), state)
     }
+    case AT.FETCH_BITCOIN_RATES_SUCCESS: {
+      return assoc('rates', RD.Success(payload), state)
+    }
+    case AT.FETCH_BITCOIN_RATES_FAILURE: {
+      return assoc('rates', RD.Failed(payload), state)
+    }
+
     case AT.SET_BITCOIN_FIAT_AT_TIME: {
       const { currency, hash, value } = payload
       return assocPath(['transactions_fiat', hash, currency], value, state)
@@ -86,14 +94,6 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       } else {
         const currentTxs = path(['transactions', 'list'], state)
         return assoc('transactions', { address, list: concat(txs, currentTxs) }, state)
-      }
-    }
-    case actions.mother.FETCH_SUCCESS: {
-      const { name, data } = payload
-      console.log(name, data)
-      switch (name) {
-        case 'bitcoin_rates': return assoc('rates', data, state)
-        default: return state
       }
     }
     default:

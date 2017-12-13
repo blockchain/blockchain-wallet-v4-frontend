@@ -50,25 +50,6 @@ export const bitcoin = ({ api } = {}) => {
     return yield call(signAndPublish, selection, password)
   }
 
-  const refreshRatesDelay = 600000
-  let bitcoinRatesTask
-
-  const refreshRates = function * () {
-    while (true) {
-      const response = yield call(api.getBitcoinTicker)
-      yield put(A.setBitcoinRates(response))
-      yield call(delay, refreshRatesDelay)
-    }
-  }
-
-  const startRates = function * () {
-    if (!bitcoinRatesTask) { bitcoinRatesTask = yield spawn(refreshRates) }
-  }
-
-  const stopRates = function * () {
-    yield cancel(bitcoinRatesTask)
-  }
-
   const fetchTransactionFiatAtTime = function * ({ hash, amount, time }) {
     const currency = yield select(compose(getCurrency, prop(settingsPath)))
     const data = yield call(api.getBitcoinFiatAtTime, amount, currency, time)
@@ -93,8 +74,6 @@ export const bitcoin = ({ api } = {}) => {
     fetchUnspent,
     refreshSelection,
     refreshEffectiveBalance,
-    signAndPublish,
-    startRates,
-    stopRates
+    signAndPublish
   }
 }

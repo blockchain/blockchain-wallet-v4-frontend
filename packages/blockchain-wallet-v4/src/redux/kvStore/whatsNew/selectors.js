@@ -1,4 +1,4 @@
-import { path, prop, compose } from 'ramda'
+import { prop, compose } from 'ramda'
 import { KVStoreEntry } from '../../../types'
 import { WHATSNEW } from '../config'
 import { kvStorePath } from '../../paths'

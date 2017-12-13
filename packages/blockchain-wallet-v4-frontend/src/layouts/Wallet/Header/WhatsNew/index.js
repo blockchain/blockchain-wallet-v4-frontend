@@ -16,7 +16,7 @@ class WhatsNewContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  whatsNew: selectors.modules.whatsNew.getWhatsNew(state)
+  whatsNew: {} // selectors.modules.whatsNew.getWhatsNew(state)
 })
 
 const mapDispatchToProps = dispatch => ({

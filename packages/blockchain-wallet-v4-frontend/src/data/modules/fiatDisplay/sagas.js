@@ -7,16 +7,14 @@ import * as sagas from '../../sagas'
 export const init = function * (action) {
   try {
     const { coin } = action.payload
+    console.log(coin)
     switch (coin) {
-      case 'ETH':
-        yield call(sagas.core.data.ethereum.startRates)
-        break
-      default:
-        yield call(sagas.core.data.bitcoin.startRates)
+      // case 'ETH': return yield put(actions.core.data.ethereum.fetchRates())
+      default: return yield put(actions.core.data.bitcoin.fetchRates())
     }
-    yield call(delay, 3000)
   } catch (e) {
-    yield put(actions.alerts.displayError('Could not init coin display.'))
+    console.log(e)
+    yield put(actions.alerts.displayError('Could not init fiat display.'))
   }
 }
 export default function * () {

@@ -33,8 +33,6 @@ export const getEffectiveBalance = path([dataPath, 'bitcoin', 'payment', 'effect
 
 export const getRates = path([dataPath, 'bitcoin', 'rates'])
 
-export const getRate = currencyCode => path([dataPath, 'bitcoin', 'rates', currencyCode])
-
 export const getTransactionFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))
 
 export const getTransactions = path([dataPath, 'bitcoin', 'transactions', 'list'])
