@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects'
 import { indexBy, prop, path } from 'ramda'
 import * as A from './actions'
 
-export const bitcoin = ({ api, kvStorePath } = {}) => {
+export const bitcoin = ({ api } = {}) => {
   const fetchBlockchainData = function * ({ context }) {
     const data = yield call(api.fetchBlockchainData, context, { n: 1 })
     const bitcoinData = {
