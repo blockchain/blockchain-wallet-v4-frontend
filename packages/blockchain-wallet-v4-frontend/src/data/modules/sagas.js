@@ -2,6 +2,7 @@ import { all, call } from 'redux-saga/effects'
 
 import activity from './activity/sagas'
 import advert from './advert/sagas'
+import balanceSummary from './balanceSummary/sagas'
 import chart from './chart/sagas'
 import coinConvertor from './coinConvertor/sagas'
 import exchange from './exchange/sagas'
@@ -23,6 +24,7 @@ export default function * () {
   yield all([
     call(activity),
     call(advert),
+    call(balanceSummary),
     call(chart),
     call(coinConvertor),
     call(exchange),
