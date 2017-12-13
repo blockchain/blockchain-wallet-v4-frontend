@@ -46,6 +46,7 @@ const rootSaga = function * () {
     call(welcomeSaga),
     fork(alerts),
     fork(auth),
+    call(sagas.core.mother.watchFetch),
     fork(modules),
     fork(goals),
     fork(wallet),
