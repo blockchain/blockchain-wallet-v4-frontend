@@ -1,6 +1,5 @@
 import { all, call, fork } from 'redux-saga/effects'
 
-import config from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
@@ -12,21 +11,7 @@ import payment from './payment/sagas.js'
 import settings from './settings/sagas.js'
 import wallet from './wallet/sagas.js'
 
-const dataPath = config.WALLET_DATA_PATH
-const settingsPath = config.WALLET_SETTINGS_PATH
-const walletPath = config.WALLET_PAYLOAD_PATH
-const kvStorePath = config.WALLET_KVSTORE_PATH
-
-export const sagas = {
-  core: coreSagasFactory({
-    api,
-    dataPath,
-    walletPath,
-    settingsPath,
-    kvStorePath,
-    socket
-  })
-}
+export const sagas = { core: coreSagasFactory({ api, socket }) }
 
 const welcomeSaga = function * () {
   if (console) {

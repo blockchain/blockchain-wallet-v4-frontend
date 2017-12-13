@@ -5,12 +5,13 @@ import { compose } from 'ramda'
 import * as A from '../actions'
 import * as T from '../actionTypes'
 import { Wrapper } from '../../types'
+import { selectors } from 'data'
 
-const walletSync = ({ isAuthenticated, walletPath, api } = {}) => (store) => (next) => (action) => {
-  const prevWallet = store.getState()[walletPath]
+const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (action) => {
+  const prevWallet = selectors.core.wallet.getWrapper(store.getState())
   const wasAuth = isAuthenticated(store.getState())
   const result = next(action)
-  const nextWallet = store.getState()[walletPath]
+  const nextWallet = selectors.core.wallet.getWrapper(store.getState())
   const isAuth = isAuthenticated(store.getState())
   const promiseToTask = futurizeP(Task)
   const eitherToTask = e => e.fold(Task.rejected, Task.of)
