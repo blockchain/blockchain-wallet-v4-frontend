@@ -2,7 +2,7 @@ import * as coreActions from './redux/actions'
 import * as coreActionsTypes from './redux/actionTypes'
 import * as coreMiddleware from './redux/middleware'
 import * as coreReducers from './redux/reducers'
-import { coreSelectorsFactory } from './redux/selectors'
+import * as coreSelectors from './redux/selectors'
 import { coreSagasFactory } from './redux/sagas'
 import * as Network from './network'
 import * as Coin from './coinSelection/coin.js'
@@ -12,14 +12,16 @@ import * as crypto from './walletCrypto'
 import * as pairing from './pairing'
 import * as transactions from './transactions'
 import * as Types from './types'
+import * as paths from './redux/paths'
 
 export {
   coreActions,
   coreActionsTypes,
   coreMiddleware,
   coreReducers,
-  coreSelectorsFactory,
+  coreSelectors,
   coreSagasFactory,
+  paths,
   Network,
   Coin,
   CoinSelection,

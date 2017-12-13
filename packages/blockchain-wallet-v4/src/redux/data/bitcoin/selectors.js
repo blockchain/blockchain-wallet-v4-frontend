@@ -1,43 +1,43 @@
 import { path, curry } from 'ramda'
+import { dataPath } from '../../paths'
 
-export const getAddresses = path(['bitcoin', 'addresses'])
+export const getAddresses = path([dataPath, 'bitcoin', 'addresses'])
 
-export const getChangeIndex = curry((xpub, data) => path(['bitcoin', 'addresses', xpub, 'change_index'], data))
+export const getChangeIndex = curry((xpub, data) => path([dataPath, 'bitcoin', 'addresses', xpub, 'change_index'], data))
 
-export const getReceiveIndex = curry((xpub, data) => path(['bitcoin', 'addresses', xpub, 'account_index'], data))
+export const getReceiveIndex = curry((xpub, data) => path([dataPath, 'bitcoin', 'addresses', xpub, 'account_index'], data))
 
-export const getBalance = path(['bitcoin', 'info', 'final_balance'])
+export const getBalance = path([dataPath, 'bitcoin', 'info', 'final_balance'])
 
-export const getNumberTransactions = path(['bitcoin', 'info', 'n_tx'])
+export const getNumberTransactions = path([dataPath, 'bitcoin', 'info', 'n_tx'])
 
-export const getFee = path(['bitcoin', 'fee'])
+export const getFee = path([dataPath, 'bitcoin', 'fee'])
 
-export const getFeeRegular = path(['bitcoin', 'fee', 'regular'])
+export const getFeeRegular = path([dataPath, 'bitcoin', 'fee', 'regular'])
 
-export const getFeePriority = path(['bitcoin', 'fee', 'priority'])
+export const getFeePriority = path([dataPath, 'bitcoin', 'fee', 'priority'])
 
-export const getHeight = path(['bitcoin', 'latest_block', 'height'])
+export const getHeight = path([dataPath, 'bitcoin', 'latest_block', 'height'])
 
-export const getTime = path(['bitcoin', 'latest_block', 'time'])
+export const getTime = path([dataPath, 'bitcoin', 'latest_block', 'time'])
 
-export const getHash = path(['bitcoin', 'latest_block', 'hash'])
+export const getHash = path([dataPath, 'bitcoin', 'latest_block', 'hash'])
 
-export const getIndex = path(['bitcoin', 'latest_block', 'block_index'])
+export const getIndex = path([dataPath, 'bitcoin', 'latest_block', 'block_index'])
 
-export const getCoins = path(['bitcoin', 'payment', 'coins'])
+export const getCoins = path([dataPath, 'bitcoin', 'payment', 'coins'])
 
-export const getSelection = path(['bitcoin', 'payment', 'selection'])
+export const getSelection = path([dataPath, 'bitcoin', 'payment', 'selection'])
 
-export const getEffectiveBalance = path(['bitcoin', 'payment', 'effectiveBalance'])
+export const getEffectiveBalance = path([dataPath, 'bitcoin', 'payment', 'effectiveBalance'])
 
-export const getRates = path(['bitcoin', 'rates'])
+export const getRates = path([dataPath, 'bitcoin', 'rates'])
 
-export const getRate = currencyCode => path(['bitcoin', 'rates', currencyCode])
+export const getRate = currencyCode => path([dataPath, 'bitcoin', 'rates', currencyCode])
 
-export const getFiatAtTime = path(['bitcoin', 'rates'])
+export const getTransactionFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))
 
-export const getTransactionFiatAtTime = curry((state, hash, currency) => path(['bitcoin', 'transactions_fiat', hash, currency], state))
+export const getTransactions = path([dataPath, 'bitcoin', 'transactions', 'list'])
 
-export const getTransactions = path(['bitcoin', 'transactions', 'list'])
+export const getAddress = path([dataPath, 'bitcoin', 'transactions', 'address'])
 
-export const getAddress = path(['bitcoin', 'transactions', 'address'])
