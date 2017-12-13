@@ -2,10 +2,11 @@ import { call, put, select } from 'redux-saga/effects'
 import { compose, prop } from 'ramda'
 import { Wrapper, Wallet } from '../../../types'
 import { getCurrency } from '../../settings/selectors'
+import { getGuid, getSharedKey, getWalletContext } from '../../wallet/selectors'
 import readBlob from 'read-blob'
 import * as A from './actions'
 
-export const misc = ({ api, walletPath, settingsPath } = {}) => {
+export const misc = ({ api } = {}) => {
   const fetchAdverts = function * ({ number }) {
     const response = yield call(api.getAdverts, number)
     yield put(A.setAdverts(response))
@@ -25,20 +26,20 @@ export const misc = ({ api, walletPath, settingsPath } = {}) => {
   }
 
   const fetchLogs = function * () {
-    const guid = yield select(compose(Wallet.selectGuid, Wrapper.selectWallet, prop(walletPath)))
-    const sharedKey = yield select(compose(Wallet.selectSharedKey, Wrapper.selectWallet, prop(walletPath)))
+    const guid = yield select(getGuid)
+    const sharedKey = yield select(getSharedKey)
     const response = yield call(api.getLogs, guid, sharedKey)
     yield put(A.setLogs(response.results))
   }
 
   const fetchTransactionHistory = function * ({ address, start, end }) {
-    const currency = yield select(compose(getCurrency, prop(settingsPath)))
+    const currency = yield select(getCurrency)
     if (address) {
       const response = yield call(api.getTransactionHistory, address, currency, start, end)
       yield put(A.setTransactionHistory(response))
     } else {
-      const context = yield select(compose(Wallet.selectContext, Wrapper.selectWallet, prop(walletPath)))
-      const active = context.toJS().join('|')
+      const context = yield select(getWalletContext)
+      const active = context.join('|')
       const response = yield call(api.getTransactionHistory, active, currency, start, end)
       yield put(A.setTransactionHistory(response))
     }

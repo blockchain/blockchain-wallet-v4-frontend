@@ -6,12 +6,12 @@ import { KVStoreEntry } from '../../../types'
 import { getMnemonic, getGuid, getMainPassword, getSharedKey } from '../../wallet/selectors'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const root = ({ api, kvStorePath, walletPath } = {}) => {
+export const root = ({ api } = {}) => {
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }
   const createRoot = function * ({ password }) {
-    const mnemonic = state => getMnemonic(prop(walletPath, state), password)
+    const mnemonic = state => getMnemonic(state, password)
     const eitherMnemonic = yield select(mnemonic)
     if (eitherMnemonic.isRight) {
       const seedHex = BIP39.mnemonicToEntropy(eitherMnemonic.value)
@@ -25,9 +25,9 @@ export const root = ({ api, kvStorePath, walletPath } = {}) => {
   }
 
   const fetchRoot = function * (secondPasswordSagaEnhancer) {
-    const guid = yield select(compose(getGuid, prop(walletPath)))
-    const sharedKey = yield select(compose(getSharedKey, prop(walletPath)))
-    const mainPassword = yield select(compose(getMainPassword, prop(walletPath)))
+    const guid = yield select(getGuid)
+    const sharedKey = yield select(getSharedKey)
+    const mainPassword = yield select(getMainPassword)
     const kv = KVStoreEntry.fromCredentials(guid, sharedKey, mainPassword)
     const newkv = yield callTask(api.fetchKVStore(kv))
     yield put(A.set(newkv))

@@ -5,8 +5,9 @@ import Task from 'data.task'
 import * as A from './actions'
 import * as T from './actionTypes'
 import * as C from './config'
+import { kvStorePath } from '../paths'
 
-const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, api } = {}) => (store) => (next) => (action) => {
+const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) => (action) => {
   const prevKVStore = store.getState()[kvStorePath]
   const wasAuth = isAuthenticated(store.getState())
   const result = next(action)
