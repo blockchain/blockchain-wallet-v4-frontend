@@ -1,5 +1,6 @@
 import * as activity from './activity/actions'
 import * as advert from './advert/actions'
+import * as balanceSummary from './balanceSummary/actions'
 import * as chart from './chart/actions'
 import * as coinConvertor from './coinConvertor/actions'
 import * as exchange from './exchange/actions'
@@ -20,6 +21,7 @@ import * as whatsNew from './whatsNew/actions'
 export {
   activity,
   advert,
+  balanceSummary,
   chart,
   coinConvertor,
   exchange,
