@@ -39,31 +39,25 @@ const Amount = styled.div`
   align-items: flex-end;
 `
 
-const BalanceSummary = (props) => {
-  const { bitcoinBalances, total } = props
-
-  return (
-    <Wrapper>
-      <Text size='24px' weight={300} color='brand-primary' uppercase>
-        <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Your balances' />
-      </Text>
-      <FirstRow>
-        <FiatDisplay coin='BTC' size='28px' weight={300}>{total}</FiatDisplay>
-      </FirstRow>
-      { bitcoinBalances.map(function (balance, index) {
-        return (
-          <Row key={index} last={index === bitcoinBalances.length - 1}>
-            <Text size='16px' weight={300}>{balance.title}</Text>
-            <Amount>
-              <CoinDisplay coin='BTC' size='16px' weight={300}>{balance.amount}</CoinDisplay>
-              <FiatDisplay coin='BTC' size='12px' weight={300}>{balance.amount}</FiatDisplay>
-            </Amount>
-          </Row>
-        )
-      })}
-    </Wrapper>
-  )
-}
+const BalanceSummary = ({ bitcoinBalances, total }) => (
+  <Wrapper>
+    <Text size='24px' weight={300} color='brand-primary' uppercase>
+      <FormattedMessage id='scenes.home.balancesummary.title' defaultMessage='Your balances' />
+    </Text>
+    <FirstRow>
+      <FiatDisplay coin='BTC' size='28px' weight={300}>{total}</FiatDisplay>
+    </FirstRow>
+    {bitcoinBalances.map((balance, index) => (
+      <Row key={index} last={index === bitcoinBalances.length - 1}>
+        <Text size='16px' weight={300}>{balance.title}</Text>
+        <Amount>
+          <CoinDisplay coin='BTC' size='16px' weight={300}>{balance.amount}</CoinDisplay>
+          <FiatDisplay coin='BTC' size='12px' weight={300}>{balance.amount}</FiatDisplay>
+        </Amount>
+      </Row>
+    ))}
+  </Wrapper>
+)
 
 BalanceSummary.propTypes = {
   balances: PropTypes.arrayOf(
@@ -73,10 +67,6 @@ BalanceSummary.propTypes = {
     })
   ),
   total: PropTypes.number.isRequired
-}
-
-BalanceSummary.defaultProps = {
-  total: 0
 }
 
 export default BalanceSummary
