@@ -1,6 +1,7 @@
 import { assoc, assocPath, concat, merge, path } from 'ramda'
 import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes.js'
+import * as actions from '../../actions'
 import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound } from '../../../coinSelection'
 
 const EMPTY_SELECTION = {
@@ -85,6 +86,14 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       } else {
         const currentTxs = path(['transactions', 'list'], state)
         return assoc('transactions', { address, list: concat(txs, currentTxs) }, state)
+      }
+    }
+    case actions.mother.FETCH_SUCCESS: {
+      const { name, data } = payload
+      console.log(name, data)
+      switch (name) {
+        case 'bitcoin_rates': return assoc('rates', data, state)
+        default: return state
       }
     }
     default:
