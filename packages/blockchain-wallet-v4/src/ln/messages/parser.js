@@ -1,6 +1,6 @@
 import TYPE from './types'
 import * as Reader from './serializer'
-import {assertBuffer} from "../helper";
+import {assertBuffer} from '../helper'
 
 export function appendType (data, message) {
   assertBuffer(data)

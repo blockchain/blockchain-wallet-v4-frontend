@@ -1,28 +1,31 @@
 
 import TCP from './TCP'
 import Peer from './peer'
-import {State} from './state'
+import {State, StateHolder} from './state';
 import {wrapHex} from './helper'
+import {sendOutAllMessages} from './connection'
+import {wrapPubKey} from "./channel";
 
 export const startUp = (options) => {
   let tcp = new TCP()
 
   let state = State()
-
-  let get = () => state
-  let set = (s) => { state = s }
-  let update = (s) => { state = s(state) }
-
-  let s = {get, set, update}
+  let stateHolder = new StateHolder(state)
 
   tcp.connectToMaster(() => {
-    connect(options, s, tcp, '02064792bfd15aa44906c8d20da44adc095c57cd0aeb3a8c4a29662fb814eb8d08')
+    connect(options, stateHolder, tcp, '02f1da524a70afd8de6019e2367b47d8d41a623aa3594f55d0785fe1b047c853bc')
   })
 }
 
-export const connect = (options, state, tcp, key) => {
+export const connect = (options, stateHolder, tcp, key) => {
   let staticRemote = {}
   staticRemote.pub = wrapHex(key)
 
-  let peer = new Peer(options, state, tcp, staticRemote)
+  let peer = new Peer(options, tcp, staticRemote)
+
+  let handshakeCb = () => {
+    stateHolder.update(state => peer.createPaymentChannel(state, 100000))
+  }
+
+  peer.connect(stateHolder, handshakeCb)
 }

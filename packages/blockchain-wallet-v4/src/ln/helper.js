@@ -28,3 +28,5 @@ export let wrapHex = hex => Buffer.from(hex, 'hex')
 export let toDER = sig => secp.toDER(sig)
 export let fromDER = sig => secp.fromDER(sig)
 export let sigToBitcoin = sig => addSighash(toDER(sig))
+
+export let identity = a => a
