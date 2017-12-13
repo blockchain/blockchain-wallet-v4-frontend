@@ -80,7 +80,7 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     yield put(actions.auth.authenticate())
     yield put(actions.core.webSocket.startSocket())
     yield call(sagas.core.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-    yield call(manageWalletOptions)
+    // yield call(manageWalletOptions)
     yield call(manageWalletSettings)
     // yield call(manageWalletMetadata)
     // yield call(manageWalletData)

@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import { compose, map, reduce, add } from 'ramda'
 
 import { actions, selectors } from 'data'
-import { FlatLoader } from 'blockchain-info-components'
 import BalanceSummary from './template.js'
 
 const getTotalBalance = compose(reduce(add, 0), map(value => value.amount))
@@ -16,9 +15,7 @@ class BalanceSummaryContainer extends React.Component {
 
   render () {
     let { bitcoinBalances } = this.props
-    return bitcoinBalances.every(balance => !isNaN(balance.amount))
-      ? <BalanceSummary bitcoinBalances={bitcoinBalances} total={getTotalBalance(bitcoinBalances)} />
-      : <FlatLoader />
+    return <BalanceSummary bitcoinBalances={bitcoinBalances} total={getTotalBalance(bitcoinBalances)} />
   }
 }
 

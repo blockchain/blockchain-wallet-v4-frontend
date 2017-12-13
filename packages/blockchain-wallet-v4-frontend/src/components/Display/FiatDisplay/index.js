@@ -2,9 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import * as RD from 'blockchain-wallet-v4/src/redux/remoteData'
 
 import { actions, selectors } from 'data'
-import FiatDisplay from './template.js'
+import FiatDisplay from './template'
+import Error from './template_error'
+import Loading from './template_loading'
 
 class FiatDisplayContainer extends React.Component {
   componentWillMount () {
@@ -13,7 +16,12 @@ class FiatDisplayContainer extends React.Component {
 
   render () {
     const { fiatDisplay, ...rest } = this.props
-    return <FiatDisplay {...rest}>{fiatDisplay.value}</FiatDisplay>
+
+    return RD.caseOf(fiatDisplay.value, {
+      Success: (value) => <FiatDisplay {...rest}>{value}</FiatDisplay>,
+      Failed: (message) => <Error>{message}</Error>,
+      _: () => <Loading />
+    })
   }
 }
 

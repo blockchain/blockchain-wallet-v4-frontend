@@ -2,7 +2,7 @@ import { all, call, fork } from 'redux-saga/effects'
 
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
-import { coreSagasFactory } from 'blockchain-wallet-v4/src'
+import { coreSagasFactory, rootSaga } from 'blockchain-wallet-v4/src'
 import alerts from './alerts/sagas'
 import auth from './auth/sagas'
 import modules from './modules/sagas'
@@ -10,6 +10,9 @@ import goals from './goals/sagas'
 import wallet from './wallet/sagas'
 
 export const sagas = { core: coreSagasFactory({ api, socket }) }
+const coreRootSaga = rootSaga({ api, socket })
+
+// console.log(coreRootSaga)
 
 const welcomeSaga = function * () {
   if (console) {
@@ -26,17 +29,18 @@ const welcomeSaga = function * () {
   }
 }
 
-const rootSaga = function * () {
+// console.log(coreRootSaga)
+// console.log(welcomeSaga)
+
+export default function * () {
   yield all([
     call(welcomeSaga),
     fork(alerts),
     fork(auth),
-    call(sagas.core.mother.watchFetch),
     fork(modules),
     fork(goals),
     fork(wallet),
-    fork(sagas.core.webSocket)
+    fork(sagas.core.webSocket),
+    fork(coreRootSaga)
   ])
 }
-
-export default rootSaga
