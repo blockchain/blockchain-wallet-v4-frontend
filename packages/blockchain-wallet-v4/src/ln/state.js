@@ -6,6 +6,7 @@ var Long = require('long')
 export let State = () => fromJS({
   channels: {},
   connections: {},
+  transactions: {},
 
   connected: false
 })
