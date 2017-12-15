@@ -1,4 +1,4 @@
-import {assertBuffer, assertLong, assertNumber} from '../helper';
+import {assertBuffer, assertLong, assertNumber} from '../helper'
 
 const Long = require('long')
 const assert = require('assert')
@@ -18,6 +18,14 @@ export function BufHelper (buffer) {
     let v = this.buffer.slice(this.offset, this.offset + len)
     this.offset += len
     return v
+  }
+
+  this.optionalReadWithLen = () => {
+    if (this.buffer.length === this.offset) {
+      return Buffer.alloc(0)
+    } else {
+      return this.readWithLen()
+    }
   }
 
   this.read8 = () => {

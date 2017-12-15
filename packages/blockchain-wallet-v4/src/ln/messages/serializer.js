@@ -107,8 +107,10 @@ export let OpenChannel =
    revocationBasepoint,
    paymentBasepoint,
    delayedPaymentBasepoint,
+   htlcBasepoint,
    firstPerCommitmentPoint,
-   channelFlags) => {
+   channelFlags,
+   shutdownScriptpubkey) => {
     return ({
       chainHash,
       temporaryChannelId,
@@ -125,8 +127,10 @@ export let OpenChannel =
       revocationBasepoint,
       paymentBasepoint,
       delayedPaymentBasepoint,
+      htlcBasepoint,
       firstPerCommitmentPoint,
       channelFlags,
+      shutdownScriptpubkey,
       type: TYPE.OPEN_CHANNEL
     })
   }
@@ -149,11 +153,13 @@ export function readOpenChannel (buf) {
     buf.read(33),
     buf.read(33),
     buf.read(33),
-    buf.read(1))
+    buf.read(33),
+    buf.read(1),
+    buf.readWithLen())
 }
 
 export function writeOpenChannel (msg) {
-  return createMessageBuffer(msg, 286)
+  return createMessageBuffer(msg, 321 + msg.shutdownScriptpubkey.length)
     .write(msg.chainHash)
     .write(msg.temporaryChannelId)
     .write64(msg.fundingSatoshi)
@@ -169,8 +175,10 @@ export function writeOpenChannel (msg) {
     .write(msg.revocationBasepoint)
     .write(msg.paymentBasepoint)
     .write(msg.delayedPaymentBasepoint)
+    .write(msg.htlcBasepoint)
     .write(msg.firstPerCommitmentPoint)
     .write(msg.channelFlags)
+    .writeWithLen(msg.shutdownScriptpubkey)
 }
 
 // Accept channel
@@ -187,7 +195,9 @@ export let AcceptChannel =
  revocationBasepoint,
  paymentBasepoint,
  delayedPaymentBasepoint,
- firstPerCommitmentPoint) => ({
+ htlcBasepoint,
+ firstPerCommitmentPoint,
+ shutdownScriptpubkey) => ({
    temporaryChannelId,
    dustLimitSatoshis,
    maxHtlcValueInFlightMsat,
@@ -200,10 +210,13 @@ export let AcceptChannel =
    revocationBasepoint,
    paymentBasepoint,
    delayedPaymentBasepoint,
+   htlcBasepoint,
    firstPerCommitmentPoint,
+   shutdownScriptpubkey,
    type: TYPE.ACCEPT_CHANNEL})
 
 export function readAcceptChannel (buf) {
+  console.info(buf.buffer.length)
   return AcceptChannel(
     buf.read(32),
     buf.read64(),
@@ -217,10 +230,12 @@ export function readAcceptChannel (buf) {
     buf.read(33),
     buf.read(33),
     buf.read(33),
-    buf.read(33))
+    buf.read(33),
+    buf.read(33),
+    buf.optionalReadWithLen())
 }
 export function writeAcceptChannel (msg) {
-  return createMessageBuffer(msg, 237)
+  return createMessageBuffer(msg, 272 + msg.shutdownScriptpubkey)
     .write(msg.channelId)
     .write64(msg.dustLimitSatoshis)
     .write64(msg.maxHtlcValueInFlightMsat)
@@ -233,7 +248,9 @@ export function writeAcceptChannel (msg) {
     .write(msg.revocationBasepoint)
     .write(msg.paymentBasepoint)
     .write(msg.delayedPaymentBasepoint)
+    .write(msg.htlcBasepoint)
     .write(msg.firstPerCommitmentPoint)
+    .writeWithLen(msg.shutdownScriptpubkey)
 }
 
 // FundingCreated

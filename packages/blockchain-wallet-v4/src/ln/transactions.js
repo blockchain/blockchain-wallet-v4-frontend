@@ -2,10 +2,10 @@
 import * as Script from './scripts'
 import xor from 'buffer-xor'
 import {Direction, Funded} from './state'
-import {derivePubKey, deriveRevocationPubKey} from './key_derivation'
+import {deriveKey, derivePubKey, deriveRevocationPubKey} from './key_derivation'
 import {getP2PKHScript} from './scripts'
 import {getP2WPKHRedeemScript} from './scripts'
-import {assertPubKey, sigToBitcoin, wrapHex} from './helper'
+import {assertBuffer, assertPubKey, sigToBitcoin, wrapHex} from './helper'
 
 let bcoin = require('bcoin/lib/bcoin-browser')
 let Tx = bcoin.tx
@@ -74,61 +74,81 @@ export let trimPredicate = (feePerKw, dustLimit) => p => {
   return payment.amount.div(1000).sub(fee).greaterThanOrEqual(dustLimit)
 }
 
-export let createKeySet = (stateLocal, paramsLocal, paramsRemote) => {
-  stateLocal = stateLocal.toJS()
-  paramsLocal = paramsLocal.toJS()
-  paramsRemote = paramsRemote.toJS()
+export let createSigCheckKeySet = (channel) => {
+  let stateRemote = channel.get('remote').toJS()
+  let paramsLocal = channel.get('paramsLocal').toJS()
+  let paramsRemote = channel.get('paramsRemote').toJS()
 
   return createKeySetInternal(
-    stateLocal.nextCommitmentPoint.pub,
-    paramsLocal.paymentBasepoint.pub,
-    paramsLocal.delayedPaymentBasepoint.pub,
-    paramsRemote.revocationBasepoint.pub,
-    paramsRemote.paymentBasepoint.pub,
+    stateRemote.nextCommitmentPoint,
+    paramsLocal.revocationBasepoint,
+    paramsRemote.paymentBasepoint,
+    paramsLocal.paymentBasepoint,
+    paramsRemote.delayedPaymentBasepoint,
+    paramsLocal.fundingKey,
+    paramsRemote.fundingKey)
+}
+
+export let createSigCreateKeySet = (channel) => {
+  let stateLocal = channel.get('local').toJS()
+  let paramsLocal = channel.get('paramsLocal').toJS()
+  let paramsRemote = channel.get('paramsRemote').toJS()
+
+  return createKeySetInternal(
+    stateLocal.nextCommitmentPoint,
+    paramsRemote.revocationBasepoint,
+    paramsLocal.paymentBasepoint,
+    paramsRemote.paymentBasepoint,
+    paramsLocal.delayedPaymentBasepoint,
     paramsRemote.fundingKey,
-    paramsLocal.fundingKey
-  )
+    paramsLocal.fundingKey)
 }
 
 let createKeySetInternal = (
   commitmentPoint,
-  paymentBasepointLocal,
-  delayedPaymentBasepointLocal,
-  revocationPaymentBasepointLocal,
-  paymentBasepointRemote,
-  fundingLocalKey,
-  fundingRemoteKey) => {
+  revocationPaymentBasepoint,
+  paymentBasepoint,
+  delayedPaymentBasepoint,
+  localHtlcBasepoint,
+  remoteHtlcBasepoint,
+  localFundingKey,
+  remoteFundingKey) => {
   assertPubKey(commitmentPoint)
-  assertPubKey(paymentBasepointRemote)
-  assertPubKey(paymentBasepointLocal)
-  assertPubKey(delayedPaymentBasepointLocal)
-  assertPubKey(revocationPaymentBasepointLocal)
-  assertPubKey(fundingLocalKey.pub)
-  assertPubKey(fundingRemoteKey.pub)
+  assertPubKey(revocationPaymentBasepoint)
+  assertPubKey(paymentBasepoint)
+  assertPubKey(delayedPaymentBasepoint)
+  assertPubKey(localHtlcBasepoint)
+  assertPubKey(remoteHtlcBasepoint)
 
+  assertPubKey(localFundingKey.pub)
+  assertPubKey(remoteFundingKey.pub)
+
+  // If we generate a transaction for the other party, we need the secret to generate the corresponding signatures
+  // If we just want to check signatures from the other party, all we need are the public keys
   return {
-    revocationKey: deriveRevocationPubKey(revocationPaymentBasepointLocal, commitmentPoint),
-    delayedKey: derivePubKey(delayedPaymentBasepointLocal, commitmentPoint),
-    localKey: derivePubKey(paymentBasepointLocal, commitmentPoint),
-    remoteKey: derivePubKey(paymentBasepointRemote, commitmentPoint),
-    fundingLocalKey,
-    fundingRemoteKey
+    revocationKey: deriveRevocationPubKey(revocationPaymentBasepoint, commitmentPoint),
+    remoteKey: deriveKey(paymentBasepoint, commitmentPoint),
+    delayedKey: deriveKey(delayedPaymentBasepoint, commitmentPoint),
+    localHtlcKey: deriveKey(localHtlcBasepoint, commitmentPoint),
+    remoteHtlcKey: deriveKey(remoteHtlcBasepoint, commitmentPoint),
+    localFundingKey,
+    remoteFundingKey
   }
 }
 
-let getPaymentOutputScript = (revocationKey, remoteKey, localKey, p) => {
+let getPaymentOutputScript = (revocationKey, remoteHtlcKey, localHtlcKey, p) => {
   let {direction, _, payment} = p.toJS()
   if (direction === Direction.OFFERED) {
-    return Script.getOfferedHTLCOutput(revocationKey, remoteKey, localKey, payment.paymentHash)
+    return Script.getOfferedHTLCOutput(revocationKey, remoteHtlcKey, localHtlcKey, payment.paymentHash)
   } else {
-    return Script.getReceivedHTLCOutput(revocationKey, remoteKey, localKey, payment.paymentHash, payment.cltvTimeout)
+    return Script.getReceivedHTLCOutput(revocationKey, remoteHtlcKey, localHtlcKey, payment.paymentHash, payment.cltvTimeout)
   }
 }
 
-let getPaymentOutputScriptP2SH = (revocationKey, remoteKey, localKey, p) => {
+let getPaymentOutputScriptP2SH = (revocationKey, remoteHtlcKey, localHtlcKey, p) => {
   return ScriptBcoin.fromRaw(
       Script.wrapP2WSH(
-        getPaymentOutputScript(revocationKey, remoteKey, localKey, p)))
+        getPaymentOutputScript(revocationKey, remoteHtlcKey, localHtlcKey, p)))
 }
 
 export let getFundingTransaction =
@@ -158,8 +178,6 @@ export let getFundingTransaction =
       let inputScript = ScriptBcoin.fromRaw(getP2PKHScript(pubkey))
       let hash = txBuilder.toTX().signatureHash(i, inputScript, input.value, 1, 1)
       let sig = ec.sign(hash, input.privKey).signature
-      let sigDER = ecBcoin.toDER(sig)
-      sig = Buffer.concat([sigDER, wrapHex('01')])
       txBuilder.inputs[0].witness = new bcoin.witness(getP2WPKHRedeemScript(pubkey, sig))
 
       i++
@@ -183,13 +201,14 @@ export let getCommitmentTransaction =
     commitmentBuilder.setLocktime(locktime)
 
     let revocationKey = keySet.revocationKey
-    let delayedKey = keySet.delayedKey
-    let localKey = keySet.localKey
-    let remoteKey = keySet.remoteKey
+    let delayedKey = keySet.delayedKey.pub
+    let remoteKey = keySet.remoteKey.pub
+    let remoteHtlcKeyPub = keySet.remoteHtlcKey.pub
+    let localHtlcKeyPub = keySet.localHtlcKey.pub
 
     let paymentsTrimmed = payments
         .filter(trimPredicate(feeRate, dustLimit))
-        .sort(sortPayments(revocationKey, remoteKey.pub, localKey.pub))
+        .sort(sortPayments(revocationKey, remoteHtlcKeyPub, localHtlcKeyPub))
 
     // Calculate the total fee for the commitment transaction
     let fee = baseFee(paymentsTrimmed.length, feeRate)
@@ -214,12 +233,12 @@ export let getCommitmentTransaction =
     if (amountRemote >= dustLimit) {
       commitmentBuilder.addOutput(
         ScriptBcoin.fromRaw(
-          Script.getToRemoteOutputScript(remoteKey.pub)), amountRemote)
+          Script.getToRemoteOutputScript(remoteKey)), amountRemote)
     }
 
     paymentsTrimmed.forEach(p => {
       commitmentBuilder.addOutput(
-        getPaymentOutputScriptP2SH(revocationKey, remoteKey.pub, localKey.pub, p),
+        getPaymentOutputScriptP2SH(revocationKey, remoteHtlcKeyPub, localHtlcKeyPub, p),
           roundDown(getPaymentAmount(p)))
     })
 
@@ -228,12 +247,12 @@ export let getCommitmentTransaction =
     let commitmentTx = commitmentBuilder.toTX().toRaw()
 
     let commitmentSig
-    if (keySet.fundingLocalKey.priv !== undefined) {
+    if (keySet.localFundingKey.priv !== null) {
       commitmentSig = signCommitmentTransaction(
         input.value,
         commitmentTx,
-        keySet.fundingLocalKey,
-        keySet.fundingRemoteKey
+        keySet.localFundingKey,
+        keySet.remoteFundingKey
       )
     }
 
@@ -245,9 +264,7 @@ export let getCommitmentTransaction =
       let paymentPrevOut = new bcoin.outpoint(commitmentBuilder.hash().toString('hex'), i)
       let paymentTx = getPaymentTransaction(paymentPrevOut, feeRate, toSelfDelay, keySet, payment)
 
-      if (localKey.priv !== undefined) {
-        paymentTxsSigs.push(signPaymentTransaction(paymentTx, payment, revocationKey, remoteKey.pub, localKey))
-      }
+      paymentTxsSigs.push(signPaymentTransaction(paymentTx, payment, revocationKey, remoteHtlcKeyPub, keySet.localHtlcKey))
       paymentTxs.push(paymentTx)
     }
 
@@ -301,7 +318,7 @@ export let getPaymentTransaction = (outpoint, feeRate, toSelfDelay, keySet, p) =
   })
 
   let revocationKey = keySet.revocationKey
-  let delayedKey = keySet.delayedKey
+  let delayedKey = keySet.delayedKey.pub
 
   let amount
   if (direction === Direction.OFFERED) {

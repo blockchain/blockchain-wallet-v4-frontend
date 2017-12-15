@@ -1,5 +1,7 @@
 // Internal resources
 import {Map} from 'immutable'
+import {assertPubKey} from './helper'
+import {wrapPubKey} from './channel'
 
 let sha = require('sha256')
 let ec = require('secp256k1')
@@ -45,6 +47,18 @@ function derivePrivKey (baseSecret, basePoint, perCommitmentPoint) {
   let a = concat(perCommitmentPoint, basePoint)
   a = sha(a, {asBytes: true})
   return ec.privateKeyTweakAdd(Buffer.from(baseSecret), Buffer.from(a), true)
+}
+
+function deriveKey (key, perCommitmentPoint) {
+  assertPubKey(key.pub)
+
+  if (Buffer.isBuffer(key.priv)) {
+    let priv = derivePrivKey(key.priv, key.pub, perCommitmentPoint)
+    let pub = ec.publicKeyCreate(priv, true)
+    return {priv: priv, pub: pub}
+  } else {
+    return wrapPubKey(derivePubKey(key.pub, perCommitmentPoint))
+  }
 }
 
 function deriveRevocationPubKey (basePoint, perCommitmentPoint) {
@@ -129,6 +143,7 @@ function deriveSecret (seed, bits, I) {
 module.exports = {
   generatePerCommitmentPoint,
   generatePerCommitmentSecret,
+  deriveKey,
   derivePubKey,
   derivePrivKey,
   deriveRevocationPubKey,

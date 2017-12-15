@@ -147,24 +147,24 @@ export let hash160 = (data) => {
   return hash.ripemd160(sha)
 }
 
-export let getOfferedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHash) => {
+export let getOfferedHTLCOutput = (revocationKey, remoteHtlcKey, localHtlcKey, paymentHash) => {
   // # To you with revocation key
   //   OP_DUP OP_HASH160 <RIPEMD160(SHA256(revocationkey))> OP_EQUAL
   //   OP_IF
   //     OP_CHECKSIG
   //   OP_ELSE
-  //     <remotekey> OP_SWAP OP_SIZE 32 OP_EQUAL
+  //     <remote_htlckey> OP_SWAP OP_SIZE 32 OP_EQUAL
   //     OP_NOTIF
   //       # To me via HTLC-timeout transaction (timelocked).
-  //       OP_DROP 2 OP_SWAP <localkey> 2 OP_CHECKMULTISIG
+  //       OP_DROP 2 OP_SWAP <local_htlckey> 2 OP_CHECKMULTISIG
   //     OP_ELSE
   //       # To you with preimage.
   //       OP_HASH160 <RIPEMD160(payment_hash)> OP_EQUALVERIFY
   //       OP_CHECKSIG
   //     OP_ENDIF
   //   OP_ENDIF
-  assertPubKey(remoteKey)
-  assertPubKey(localKey)
+  assertPubKey(remoteHtlcKey)
+  assertPubKey(localHtlcKey)
   assertPubKey(revocationKey)
   assert.equal(paymentHash.length, 20)
 
@@ -181,7 +181,7 @@ export let getOfferedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHa
 
   chunks.push(OPS.OP_ELSE)
 
-  chunks.push(remoteKey)
+  chunks.push(remoteHtlcKey)
   chunks.push(OPS.OP_SWAP)
   chunks.push(OPS.OP_SIZE)
   chunks.push(wrapHex('20')) // Push <32> onto the stack
@@ -192,7 +192,7 @@ export let getOfferedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHa
   chunks.push(OPS.OP_DROP)
   chunks.push(OPS.OP_2)
   chunks.push(OPS.OP_SWAP)
-  chunks.push(localKey)
+  chunks.push(localHtlcKey)
   chunks.push(OPS.OP_2)
   chunks.push(OPS.OP_CHECKMULTISIG)
 
@@ -209,7 +209,7 @@ export let getOfferedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHa
   return SCRIPT.compile(chunks)
 }
 
-export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentHash, cltvTimeout) => {
+export let getReceivedHTLCOutput = (revocationKey, remoteHtlcKey, localHtlcKey, paymentHash, cltvTimeout) => {
   // # To you with revocation key
   // OP_DUP OP_HASH160 <RIPEMD160(SHA256(revocationkey))> OP_EQUAL
   // OP_IF
@@ -227,8 +227,8 @@ export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentH
   //     OP_CHECKSIG
   //   OP_ENDIF
   // OP_ENDIF
-  assertPubKey(remoteKey)
-  assertPubKey(localKey)
+  assertPubKey(remoteHtlcKey)
+  assertPubKey(localHtlcKey)
   assertPubKey(revocationKey)
   assertNumber(cltvTimeout)
   assert.equal(paymentHash.length, 20)
@@ -246,7 +246,7 @@ export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentH
 
   chunks.push(OPS.OP_ELSE)
 
-  chunks.push(remoteKey)
+  chunks.push(remoteHtlcKey)
   chunks.push(OPS.OP_SWAP)
   chunks.push(OPS.OP_SIZE)
   chunks.push(wrapHex('20')) // Push <32> onto the stack
@@ -259,7 +259,7 @@ export let getReceivedHTLCOutput = (revocationKey, remoteKey, localKey, paymentH
   chunks.push(OPS.OP_EQUALVERIFY)
   chunks.push(OPS.OP_2)
   chunks.push(OPS.OP_SWAP)
-  chunks.push(localKey)
+  chunks.push(localHtlcKey)
   chunks.push(OPS.OP_2)
   chunks.push(OPS.OP_CHECKMULTISIG)
 

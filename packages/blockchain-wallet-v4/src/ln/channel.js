@@ -8,9 +8,12 @@ import {
 
 import {List, fromJS} from 'immutable'
 import {generatePerCommitmentPoint} from './key_derivation'
-import {checkCommitmentSignature, createKeySet, getCommitmentTransaction, getFundingTransaction} from './transactions'
+import {
+  checkCommitmentSignature, createSigCheckKeySet, createSigCreateKeySet, getCommitmentTransaction,
+  getFundingTransaction
+} from './transactions'
 import xor from 'buffer-xor'
-import {wrapHex} from "./helper";
+import {wrapHex} from './helper'
 
 const ec = require('secp256k1')
 const Long = require('long')
@@ -79,6 +82,8 @@ export function openChannel (state, peer, options, value) {
     createKey(),
     createKey(),
     createKey(),
+    createKey(),
+    Buffer.alloc(35), // TODO generate shutdown script
     options.gf,
     options.lf)
   let paramsJS = paramsLocal.toJS()
@@ -101,8 +106,10 @@ export function openChannel (state, peer, options, value) {
     paramsJS.revocationBasepoint.pub,
     paramsJS.paymentBasepoint.pub,
     paramsJS.delayedPaymentBasepoint.pub,
+    paramsJS.htlcBasepoint.pub,
     nextCommitmentPoint,
-    Buffer.alloc(1)
+    Buffer.alloc(1),
+    paramsJS.shutdownScriptpubkey
   )
 
   let channel = Channel()
@@ -137,7 +144,8 @@ export function readAcceptChannel (msg, state, peer) {
     wrapPubKey(msg.revocationBasepoint),
     wrapPubKey(msg.paymentBasepoint),
     wrapPubKey(msg.delayedPaymentBasepoint),
-    wrapPubKey(msg.revocationBasepoint),
+    wrapPubKey(msg.htlcBasepoint),
+    msg.shutdownScriptpubkey,
     peer.get('gf'),
     peer.get('lf'))
 
@@ -170,7 +178,7 @@ export function sendFundingCreated (state, channelId, wallet) {
 
   console.info('Created funding transaction: \n' + fundingTx.toRaw().toString('hex'))
 
-  let keySet = createKeySet(channel.get('remote'), channel.get('paramsRemote'), channel.get('paramsLocal'))
+  let keySet = createSigCreateKeySet(channel)
 
   let commitment = getCommitmentTransaction(
     channel.get('commitmentInput').toJS(),
@@ -204,7 +212,7 @@ export function sendFundingCreated (state, channelId, wallet) {
 export function readFundingSigned (msg, state) {
   let channel = getChannelCheck(state, msg.channelId, phase.SENT_OPEN)
 
-  let keySet = createKeySet(channel.get('local'), channel.get('paramsLocal'), channel.get('paramsRemote'))
+  let keySet = createSigCheckKeySet(channel)
 
   let input = channel.get('commitmentInput').toJS()
   let commitment = getCommitmentTransaction(
@@ -229,6 +237,7 @@ export function readFundingSigned (msg, state) {
     msg.signature)
 
   console.info('Signature Check: ' + sigCheck)
+  assert(sigCheck)
   // TODO need to wire up somehow with broadcasting transaction and keeping track of confirmations
 }
 
