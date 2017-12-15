@@ -39,8 +39,8 @@ let onPing = (msg) => (connectionState) => {
   return connectionState.update('lastPing', Time.now(0))
 }
 
-let onInit = (handshakeCb, msg) => (connectionState) => {
-  connectionState = connectionState.toJS()
+let onInit = (staticRemote, handshakeCb, msg) => (state) => {
+  let connectionState = state.getIn(['connections', staticRemote.pub]).toJS()
 
   connectionState.initReceived = true
   connectionState.gfRemote = msg.gf
@@ -50,13 +50,12 @@ let onInit = (handshakeCb, msg) => (connectionState) => {
     this.send(new Message.Init(Buffer.alloc(0), wrapHex('08')))
     connectionState.initSent = true
   }
-
-  handshakeCb()
-  return fromJS(connectionState)
+  state = state.setIn(['connections', staticRemote.pub], fromJS(connectionState))
+  state = handshakeCb(state)
+  return state
 }
 
 let onError = (msg) => (s) => {
-  console.info("AHHH")
   console.info('ERROR: ' + msg.data.toString('ascii'))
   // TODO need to write error message to channel state if available
 }
@@ -79,7 +78,7 @@ let getMessageHandler = (staticRemote, handshakeCb) => data => {
   let updater = updateConnectionState(staticRemote)
 
   switch (msg.type) {
-    case TYPE.INIT: return updater(onInit(handshakeCb, msg))
+    case TYPE.INIT: return onInit(staticRemote, handshakeCb, msg)
     case TYPE.ERROR: return updater(onError(msg))
     case TYPE.PING: return updater(onPing(msg))
     case TYPE.PONG: return identity
@@ -111,11 +110,8 @@ Peer.prototype.connect = function connect (state, handshakeCb) {
     this.tcp,
     () => {},
     () => update(updateConnection(onHandshake(this))),
-    (msg) => {
-      let handler = messageHandler(msg)
-      update(handler)
-    },
-        onClose)
+    (msg) => { update(messageHandler(msg)) },
+    onClose)
 }
 
 Peer.prototype.createPaymentChannel = function createPaymentChannel (state, amount) {

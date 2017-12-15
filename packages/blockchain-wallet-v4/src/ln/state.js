@@ -1,7 +1,22 @@
 import {fromJS} from 'immutable'
 import {wrapHex} from './helper'
+import {sendOutAllMessages} from "./connection";
 
 var Long = require('long')
+
+export let StateHolder = function (state) {
+  this.state = state
+
+  this.get = () => state
+  this.set = (s) => {
+    // TODO not sure where's the best place to do this
+    s = sendOutAllMessages(s)
+    state = s
+  }
+  this.update = (s) => {
+    this.set(s(state))
+  }
+}
 
 export let State = () => fromJS({
   channels: {},
