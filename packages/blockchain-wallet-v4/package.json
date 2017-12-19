@@ -33,10 +33,17 @@
   ],
   "license": "ISC",
   "standard": {
-    "global": [
-      "fetch",
+    "globals": [
+      "jest",
+      "test",
       "describe",
-      "it"
+      "context",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect"
     ]
   },
   "devDependencies": {

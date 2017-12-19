@@ -3,10 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { RemoteData } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
 import { selectPriceIndexSeriesOptions } from 'services/ChartService'
 import configure from './chart.config.js'
+import { getChart } from './selectors'
 import Chart from './template.js'
+import Error from './template.error'
+import Loading from './template.loading'
 
 class ChartContainer extends React.Component {
   constructor (props) {
@@ -17,13 +21,17 @@ class ChartContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.actions.initChart(this.state.coin, this.state.timeframe)
+    const { coin, timeframe } = this.state
+    const { start, scale } = selectPriceIndexSeriesOptions(coin, timeframe)
+    this.props.dataMiscActions.fetchPriceIndexSeries(coin, start, scale)
+    this.props.settingsActions.fetchSettings()
   }
 
   shouldComponentUpdate (nextProps, nextState) {
     if (!equals(this.state.coin, nextState.coin) ||
         !equals(this.state.timeframe, nextState.timeframe)) {
-      this.props.actions.refreshChart(nextState.coin, nextState.timeframe)
+      const { start, scale } = selectPriceIndexSeriesOptions(nextState.coin, nextState.timeframe)
+      this.props.actions.fetchPriceIndexSeries(nextState.coin, start, scale)
     }
 
     return !equals(this.props.chart, nextProps.chart) ||
@@ -40,28 +48,36 @@ class ChartContainer extends React.Component {
   }
 
   render () {
-    const { priceIndexSeries, currency } = this.props.chart
-    const { coin, timeframe } = this.state
-    const { start, interval } = selectPriceIndexSeriesOptions(coin, timeframe)
-    const data = priceIndexSeries.map(o => [o.timestamp * 1000, o.price])
-    const config = configure(start, interval, currency, data)
+    console.log(this.props)
+    // const { chart } = this.props
+    // const { priceIndexSeries, currency } = chart.value
+    // const { coin, timeframe } = this.state
+    // const { start, interval } = selectPriceIndexSeriesOptions(coin, timeframe)
+    // const data = priceIndexSeries.map(o => [o.timestamp * 1000, o.price])
+    // const config = configure(start, interval, currency, data)
 
-    return <Chart
-      coin={coin}
-      timeframe={timeframe}
-      config={config}
-      selectCoin={this.selectCoin}
-      selectTimeframe={this.selectTimeframe}
-    />
+    // return RemoteData.caseOf(chart.value, {
+    //   Success: (value) => <Chart
+    //     coin={coin}
+    //     timeframe={timeframe}
+    //     config={config}
+    //     selectCoin={this.selectCoin}
+    //     selectTimeframe={this.selectTimeframe}
+    //   />,
+    //   Failed: (message) => <Error>{message}</Error>,
+    //   _: () => <Loading />
+    // })
+    return <div />
   }
 }
 
 const mapStateToProps = (state) => ({
-  chart: selectors.modules.chart.getChart(state)
+  chart: getChart(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modules.chart, dispatch)
+  dataMiscActions: bindActionCreators(actions.core.data.misc, dispatch),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChartContainer)

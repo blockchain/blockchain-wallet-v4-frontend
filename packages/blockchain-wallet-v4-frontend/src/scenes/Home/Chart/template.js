@@ -7,6 +7,7 @@ import { Color, Link } from 'blockchain-info-components'
 import BitcoinTicker from './BitcoinTicker'
 import EthereumTicker from './EthereumTicker'
 
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;

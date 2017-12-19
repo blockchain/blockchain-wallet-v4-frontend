@@ -5,8 +5,6 @@ export const getAdverts = path([dataPath, 'misc', 'adverts'])
 
 export const getCaptcha = path([dataPath, 'misc', 'captcha'])
 
-export const getPriceIndexSeries = path([dataPath, 'misc', 'charts', 'price_index_series'])
+export const getPriceIndexSeries = path([dataPath, 'misc', 'price_index_series'])
 
 export const getLogs = path([dataPath, 'misc', 'logs'])
-
-export const getTransactionHistory = path([dataPath, 'misc', 'reports', 'transactions'])

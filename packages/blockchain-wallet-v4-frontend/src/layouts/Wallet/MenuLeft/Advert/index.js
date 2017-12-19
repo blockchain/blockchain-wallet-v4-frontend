@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals } from 'ramda'
 
-import { actions, selectors } from 'data'
-import Advert from './template.js'
+import { actions } from 'data'
+import { getAdvert } from './selectors'
+import Advert from './template'
 
 class AdvertContainer extends React.Component {
   componentWillMount () {
-    this.props.actions.initAdvert(2)
+    this.props.actions.fetchAdverts(2)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -16,16 +17,17 @@ class AdvertContainer extends React.Component {
   }
 
   render () {
-    return <Advert adverts={this.props.advert.data} />
+    // return <Advert adverts={this.props.advert.data} />
+    return <div />
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  advert: selectors.modules.advert.getAdvert(state)
+  advert: getAdvert(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modules.advert, dispatch)
+  actions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdvertContainer)
