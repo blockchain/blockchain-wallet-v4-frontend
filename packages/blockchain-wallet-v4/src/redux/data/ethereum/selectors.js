@@ -17,8 +17,6 @@ export const getAddressDetails = (state, address) => path([dataPath, 'ethereum',
 
 export const getRates = path([dataPath, 'ethereum', 'rates'])
 
-export const getRate = currencyCode => path([dataPath, 'ethereum', 'rates', currencyCode])
-
 export const getTransactions = path([dataPath, 'ethereum', 'transactions'])
 
 export const getTransactionsByAddress = (state, address) => path([dataPath, 'ethereum', 'transactions', address])(state)
