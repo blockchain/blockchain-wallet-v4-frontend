@@ -1,6 +1,7 @@
 import { assoc, merge } from 'ramda'
 import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes.js'
+import * as RD from '../../remoteData'
 
 const INITIAL_STATE = {
   addresses: {},
@@ -23,9 +24,14 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
       const { data } = payload
       return assoc('fee', data, state)
     }
-    case AT.SET_ETHEREUM_RATES: {
-      const { data } = payload
-      return assoc('rates', data, state)
+    case AT.FETCH_ETHEREUM_RATES: {
+      return assoc('rates', RD.Loading(), state)
+    }
+    case AT.FETCH_ETHEREUM_RATES_SUCCESS: {
+      return assoc('rates', RD.Success(payload), state)
+    }
+    case AT.FETCH_ETHEREUM_RATES_FAILURE: {
+      return assoc('rates', RD.Failed(payload), state)
     }
     case AT.SET_ETHEREUM_LATEST_BLOCK: {
       const { data } = payload

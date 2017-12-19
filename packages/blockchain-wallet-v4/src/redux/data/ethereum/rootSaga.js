@@ -7,7 +7,7 @@ import * as A from './actions'
 export default ({ api } = {}) => {
   const fetchRates = function * () {
     try {
-      const response = yield call(api.getBitcoinTicker)
+      const response = yield call(api.getEthereumTicker)
       yield call(delay, 2000)
       yield put(A.fetchRatesSuccess(response))
     } catch (e) {
@@ -16,6 +16,6 @@ export default ({ api } = {}) => {
   }
 
   return function * () {
-    yield takeLatest(AT.FETCH_BITCOIN_RATES, fetchRates)
+    yield takeLatest(AT.FETCH_ETHEREUM_RATES, fetchRates)
   }
 }

@@ -1,12 +1,12 @@
 import { all, fork } from 'redux-saga/effects'
-import { bitcoinSaga } from './data/bitcoin/rootSaga'
+import bitcoinDataSaga from './data/bitcoin/rootSaga'
+import ethereumDataSaga from './data/ethereum/rootSaga'
 
 export const rootSaga = ({ api, socket } = {}) => {
-  console.log('rootSagaCreator')
   return function * () {
-    console.log('rootSagaIn')
     yield all([
-      fork(bitcoinSaga({ api }))
+      fork(bitcoinDataSaga({ api })),
+      fork(ethereumDataSaga({ api }))
     ])
   }
 }

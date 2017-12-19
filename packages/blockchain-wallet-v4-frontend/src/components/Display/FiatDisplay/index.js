@@ -11,7 +11,10 @@ import Loading from './template_loading'
 
 class FiatDisplayContainer extends React.Component {
   componentWillMount () {
-    this.props.actions.initFiatDisplay(this.props.coin)
+    switch (this.props.coin) {
+      case 'BTC': return this.props.bitcoinActions.fetchRates()
+      case 'ETH': return this.props.ethereumActions.fetchRates()
+    }
   }
 
   render () {
@@ -35,7 +38,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.modules.fiatDisplay, dispatch)
+  bitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  ethereumActions: bindActionCreators(actions.core.data.ethereum, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FiatDisplayContainer)
