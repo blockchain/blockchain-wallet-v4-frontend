@@ -5,12 +5,12 @@ import * as RD from '../../remoteData'
 
 const INITIAL_STATE = {
   addresses: {},
-  fee: {},
+  fee: RD.Loading(),
   info: {},
-  latest_block: {},
+  latest_block: RD.Loading(),
   legacy: {},
-  rates: {},
-  transactions: {}
+  rates: RD.Loading(),
+  transactions: RD.Loading()
 }
 
 const ethereumReducer = (state = INITIAL_STATE, action) => {
@@ -20,9 +20,23 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
     case actionTypes.common.ethereum.SET_ETHEREUM_DATA: {
       return merge(state, payload)
     }
-    case AT.SET_ETHEREUM_FEE: {
-      const { data } = payload
-      return assoc('fee', data, state)
+    case AT.FETCH_ETHEREUM_FEE: {
+      return assoc('fee', RD.Loading(), state)
+    }
+    case AT.FETCH_ETHEREUM_FEE_SUCCESS: {
+      return assoc('fee', RD.Success(payload), state)
+    }
+    case AT.FETCH_ETHEREUM_FEE_FAILURE: {
+      return assoc('fee', RD.Failed(payload), state)
+    }
+    case AT.FETCH_ETHEREUM_LATEST_BLOCK: {
+      return assoc('latest_block', RD.Loading(), state)
+    }
+    case AT.FETCH_ETHEREUM_LATEST_BLOCK_SUCCESS: {
+      return assoc('latest_Block', RD.Success(payload), state)
+    }
+    case AT.FETCH_ETHEREUM_LATEST_BLOCK_FAILURE: {
+      return assoc('latest_block', RD.Failed(payload), state)
     }
     case AT.FETCH_ETHEREUM_RATES: {
       return assoc('rates', RD.Loading(), state)
@@ -33,9 +47,14 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_RATES_FAILURE: {
       return assoc('rates', RD.Failed(payload), state)
     }
-    case AT.SET_ETHEREUM_LATEST_BLOCK: {
-      const { data } = payload
-      return assoc('latest_block', data, state)
+    case AT.FETCH_ETHEREUM_TRANSACTIONS: {
+      return assoc('transactions', RD.Loading(), state)
+    }
+    case AT.FETCH_ETHEREUM_TRANSACTION_SUCCESS: {
+      return assoc('transactions', RD.Success(payload), state)
+    }
+    case AT.FETCH_ETHEREUM_TRANSACTION_FAILURE: {
+      return assoc('transactions', RD.Failed(payload), state)
     }
     default:
       return state

@@ -5,6 +5,7 @@ import * as coreReducers from './redux/reducers'
 import * as coreSelectors from './redux/selectors'
 import { coreSagasFactory } from './redux/sagas'
 import { rootSaga } from './redux/rootSaga'
+import * as RemoteData from './redux/remoteData'
 import * as Network from './network'
 import * as Coin from './coinSelection/coin.js'
 import * as CoinSelection from './coinSelection'
@@ -23,6 +24,7 @@ export {
   coreSelectors,
   coreSagasFactory,
   paths,
+  RemoteData,
   rootSaga,
   Network,
   Coin,

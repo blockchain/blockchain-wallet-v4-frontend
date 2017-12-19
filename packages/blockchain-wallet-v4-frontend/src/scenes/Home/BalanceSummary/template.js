@@ -47,15 +47,16 @@ const BalanceSummary = ({ bitcoinBalances, total }) => (
     <FirstRow>
       <FiatDisplay coin='BTC' size='28px' weight={300}>{total}</FiatDisplay>
     </FirstRow>
-    {bitcoinBalances.map((balance, index) => (
-      <Row key={index} last={index === bitcoinBalances.length - 1}>
+    {bitcoinBalances.map((balance, index) => {
+      console.log(balance)
+      return <Row key={index} last={index === bitcoinBalances.length - 1}>
         <Text size='16px' weight={300}>{balance.title}</Text>
         <Amount>
           <CoinDisplay coin='BTC' size='16px' weight={300}>{balance.amount}</CoinDisplay>
           <FiatDisplay coin='BTC' size='12px' weight={300}>{balance.amount}</FiatDisplay>
         </Amount>
       </Row>
-    ))}
+    })}
   </Wrapper>
 )
 

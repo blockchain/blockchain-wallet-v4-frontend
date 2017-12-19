@@ -1,3 +1,4 @@
+import * as RD from '../remoteData'
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
@@ -91,6 +92,15 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_YUBIKEY: {
       return Object.assign({}, state, { auth_type: 2 })
+    }
+    case AT.FETCH_SETTINGS: {
+      return RD.Loading()
+    }
+    case AT.FETCH_SETTINGS_SUCCESS: {
+      return RD.Success(payload)
+    }
+    case AT.FETCH_SETTINGS_FAILURE: {
+      return RD.Failed(payload)
     }
     default:
       return state

@@ -1,6 +1,6 @@
-import * as selectors from './../../selectors'
+import { selectors } from 'data'
 
 export const getAdvert = (state) => ({
-  data: selectors.core.data.misc.getAdverts(state)
+  value: selectors.core.data.misc.getAdverts(state)
   // state: selectors.core.data.misc.getAdvertsState(state)
 })

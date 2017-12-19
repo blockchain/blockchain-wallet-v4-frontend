@@ -35,7 +35,4 @@ export const getRates = path([dataPath, 'bitcoin', 'rates'])
 
 export const getTransactionFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))
 
-export const getTransactions = path([dataPath, 'bitcoin', 'transactions', 'list'])
-
-export const getAddress = path([dataPath, 'bitcoin', 'transactions', 'address'])
-
+export const getTransactions = path([dataPath, 'bitcoin', 'transactions'])

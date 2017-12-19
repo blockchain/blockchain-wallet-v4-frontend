@@ -1,4 +1,4 @@
-import * as selectors from './../../selectors'
+import { selectors } from 'data'
 
 export const getSecurityGauge = (state) => {
   const isEmailVerified = selectors.core.settings.getEmailVerified(state)

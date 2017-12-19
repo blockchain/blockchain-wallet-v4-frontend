@@ -1,2 +1,0 @@
-
-export const INIT_ADVERT = '@COMPONENT.INIT_ADVERT'

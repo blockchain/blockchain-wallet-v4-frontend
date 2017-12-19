@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 export default (props) => {
   return (
     <Wrapper>
-      <FlatLoader />
+      <FlatLoader width='50px' height='14px' />
     </Wrapper>
   )
 }
