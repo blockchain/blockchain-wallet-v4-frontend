@@ -6,24 +6,16 @@ export const getFiatDisplay = (state, coin, amount) => {
   const rates = coin === 'BTC'
     ? selectors.core.data.bitcoin.getRates(state)
     : selectors.core.data.ethereum.getRates(state)
-  const test = RemoteData.concat(rates, settings)
-  console.log('test', test)
+
+  const data = RemoteData.concat(rates, settings)
+
   const convert = value => {
-    console.log(coin, amount)
     return coin === 'BTC'
     ? Exchange.displayBitcoinToFiat({ value: amount, fromUnit: 'SAT', toCurrency: value[1].btc_currency, rates: value[0] })
-    : Exchange.displayEtherToFiat({ value: amount, fromUnit: 'WEI', toCurrency: value[1].btc_currency, rates: value[0] })
+    : Exchange.displayEtherToFiat({ value: amount, fromUnit: 'WEI', toCurrency: 'ETH', rates: value[0] })
   }
 
   return {
-    value: RemoteData.map((coin, amount) => convert(coin, amount), test)
+    value: RemoteData.map((coin, amount) => convert(coin, amount), data)
   }
-  // switch (coin) {
-  // case 'ETH': return ({
-  //   value: Exchange.displayBitcoinToFiat({ value, fromUnit: 'WEI', toCurrency: currency, rates: ethereumRates }) || 'N/A'
-  // })
-  // default: return ({
-  //   value: Exchange.displayBitcoinToFiat({ value, fromUnit: 'SAT', toCurrency: currency, rates: bitcoinRates }) || 'N/A'
-  // })
-  // }
 }
