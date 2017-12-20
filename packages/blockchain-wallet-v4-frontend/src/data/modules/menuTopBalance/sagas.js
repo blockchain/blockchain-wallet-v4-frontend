@@ -6,13 +6,13 @@ import * as selectors from '../../selectors'
 
 export const init = function * (action) {
   try {
-    yield call(sagas.core.kvStore.ethereum.fetchEthereum)
-    const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
-    const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
-    yield all([
-      call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext }),
-      call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext })
-    ])
+    // yield call(sagas.core.kvStore.ethereum.fetchEthereum)
+    // const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
+    // const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
+    // yield all([
+    //   call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext }),
+    //   call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext })
+    // ])
   } catch (e) {
     yield put(actions.alerts.displayError('Could not init menutop balance.'))
   }

@@ -1,5 +1,3 @@
-import * as activity from './activity/actionTypes'
-import * as balanceSummary from './balanceSummary/actionTypes'
 import * as coinConvertor from './coinConvertor/actionTypes'
 import * as exchange from './exchange/actionTypes'
 import * as exchangeHistory from './exchangeHistory/actionTypes'
@@ -15,8 +13,6 @@ import * as transferEther from './transferEther/actionTypes'
 import * as whatsNew from './whatsNew/actionTypes'
 
 export {
-  activity,
-  balanceSummary,
   coinConvertor,
   exchange,
   exchangeHistory,

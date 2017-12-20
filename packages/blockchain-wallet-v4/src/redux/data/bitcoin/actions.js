@@ -6,6 +6,12 @@ import * as AT from './actionTypes'
 
 // export const setBitcoinSelection = (feePerByte, target, coins, change, algorithm, seed) => ({ type: AT.SET_BITCOIN_SELECTION, payload: { feePerByte, target, coins, change, algorithm, seed } })
 
+export const fetchData = () => ({ type: AT.FETCH_BITCOIN_DATA })
+
+export const fetchDataSuccess = (data) => ({ type: AT.FETCH_BITCOIN_DATA_SUCCESS, payload: data })
+
+export const fetchDataFailure = (error) => ({ type: AT.FETCH_BITCOIN_DATA_FAILURE, payload: error })
+
 export const fetchFee = () => ({ type: AT.FETCH_BITCOIN_FEE })
 
 export const fetchFeeSuccess = (data) => ({ type: AT.FETCH_BITCOIN_FEE_SUCCESS, payload: data })

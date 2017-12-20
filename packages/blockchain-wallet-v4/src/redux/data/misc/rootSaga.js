@@ -49,7 +49,7 @@ export default ({ api } = {}) => {
       const sharedKey = yield select(selectors.wallet.getSharedKey)
       const data = yield call(api.getLogs, guid, sharedKey)
       yield call(delay, 2000)
-      yield put(A.fetchLogsSuccess(data))
+      yield put(A.fetchLogsSuccess(data.results))
     } catch (e) {
       yield put(A.fetchLogsFailure(e.message))
       throw e

@@ -3,23 +3,31 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { compose, map, reduce, add } from 'ramda'
 
-import { actions, selectors } from 'data'
-import BalanceSummary from './template.js'
-
-const getTotalBalance = compose(reduce(add, 0), map(value => value.amount))
+import { RemoteData } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class BalanceSummaryContainer extends React.Component {
   componentWillMount () {
-    this.props.initBalanceSummary()
+    this.props.bitcoinActions.fetchData()
   }
 
   render () {
-    let { bitcoinBalances } = this.props
-    return <BalanceSummary bitcoinBalances={bitcoinBalances} total={getTotalBalance(bitcoinBalances)} />
+    console.log('balanceSummary', this.props)
+    // return <Success bitcoinBalances={bitcoinBalances} total={getTotalBalance(bitcoinBalances)} />
+    return <div />
   }
 }
 
-const mapStateToProps = selectors.modules.balanceSummary.getBalanceSummaryData
-const mapDispatchToProps = (dispatch) => bindActionCreators(actions.modules.balanceSummary, dispatch)
+const mapStateToProps = state => ({
+  data: 'lol' //getData(state)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  bitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(BalanceSummaryContainer)
