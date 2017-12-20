@@ -5,10 +5,10 @@ import { bindActionCreators } from 'redux'
 
 import { RemoteData } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
-import { getFiatDisplay } from './selectors'
-import FiatDisplay from './template'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
+import Success from './template.success'
 
 class FiatDisplayContainer extends React.Component {
   componentWillMount () {
@@ -20,11 +20,10 @@ class FiatDisplayContainer extends React.Component {
   }
 
   render () {
-    const { fiatDisplay, ...rest } = this.props
-    console.log('fiatDisplay', fiatDisplay)
+    const { data, ...rest } = this.props
 
-    return RemoteData.caseOf(fiatDisplay.value, {
-      Success: (value) => <FiatDisplay {...rest}>{value}</FiatDisplay>,
+    return RemoteData.caseOf(data.value, {
+      Success: (value) => <Success {...rest}>{value}</Success>,
       Failed: (message) => <Error>{message}</Error>,
       _: () => <Loading />
     })
@@ -37,7 +36,7 @@ FiatDisplayContainer.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  fiatDisplay: getFiatDisplay(state, ownProps.coin, ownProps.children)
+  data: getData(state, ownProps.coin, ownProps.children)
 })
 
 const mapDispatchToProps = dispatch => ({
