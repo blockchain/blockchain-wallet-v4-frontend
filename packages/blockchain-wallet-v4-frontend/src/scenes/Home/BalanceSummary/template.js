@@ -48,7 +48,6 @@ const BalanceSummary = ({ bitcoinBalances, total }) => (
       <FiatDisplay coin='BTC' size='28px' weight={300}>{total}</FiatDisplay>
     </FirstRow>
     {bitcoinBalances.map((balance, index) => {
-      console.log(balance)
       return <Row key={index} last={index === bitcoinBalances.length - 1}>
         <Text size='16px' weight={300}>{balance.title}</Text>
         <Amount>
