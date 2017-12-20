@@ -16,6 +16,7 @@ let DEFAULT_EXPIRY_TIME = 3600
 let PUBLIC_KEY_DATA_LENGTH = 53
 let P2PKH_TAG = 17
 let P2SH_TAG = 18
+let DEFAULT_MIN_FINAL_EXPIRY_TIME = 9
 
 const parse = (message) => {
   var parts = message.split('1')
@@ -231,6 +232,11 @@ function encodeTags (tags) {
     result = result.concat('r', getDataLength(routeStr.length) + routeStr)
   }
 
+  if (typeof (tags.min_cltv_expiry_time) !== 'undefined' && tags.min_cltv_expiry_time !== DEFAULT_MIN_FINAL_EXPIRY_TIME) {
+    let minExpiryTime = convert(tags.min_cltv_expiry_time)
+    result = result.concat('c' + getDataLength(minExpiryTime.length) + minExpiryTime)
+  }
+
   return result
 }
 
@@ -344,6 +350,19 @@ function parseTag (type, dataLength, data, result) {
           'cltv_expiry_delta': (next[49] << 5) + next[50]
         })
       }
+      break
+    case 'c':
+      if (typeof (result.min_final_cltv_expiry) !== 'undefined') {
+        throw new Error('Expiry time already set!')
+      }
+      if (data[0] === 'q') {
+        throw new Error('Min final expiry time field should use minimum data length possible')
+      }
+      var minCltvExpiryTime = 0
+      for (var i = 0; i < data.length; i++) {
+        minCltvExpiryTime = minCltvExpiryTime * 32 + ALPHABET_MAP[data[i]]
+      }
+      result.min_cltv_expiry_time = minCltvExpiryTime
       break
     default: console.error('Unknown tag type' + type + ' skipping')
   }
