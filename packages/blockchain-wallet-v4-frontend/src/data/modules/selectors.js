@@ -5,8 +5,6 @@ import * as menuTopBalance from './menuTopBalance/selectors'
 import * as sendBitcoin from './sendBitcoin/selectors'
 import * as sendEther from './sendEther/selectors'
 import * as settings from './settings/selectors'
-import * as tickerBitcoin from './tickerBitcoin/selectors'
-import * as tickerEther from './tickerEther/selectors'
 import * as transactionBitcoin from './transactionBitcoin/selectors'
 import * as transactionEther from './transactionEther/selectors'
 import * as transferEther from './transferEther/selectors'
@@ -20,8 +18,6 @@ export {
   sendBitcoin,
   sendEther,
   settings,
-  tickerBitcoin,
-  tickerEther,
   transactionBitcoin,
   transactionEther,
   transferEther,

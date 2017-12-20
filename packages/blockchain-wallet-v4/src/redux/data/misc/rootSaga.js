@@ -32,9 +32,9 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchPriceIndexSeries = function * ({ coin, start, scale }) {
+  const fetchPriceIndexSeries = function * (action) {
     try {
-      const currency = yield select(selectors.settings.getCurrency)
+      const { coin, currency, start, scale } = action.payload
       const data = yield call(api.getPriceIndexSeries, coin, currency, start, scale)
       yield call(delay, 2000)
       yield put(A.fetchPriceIndexSeriesSuccess(data))

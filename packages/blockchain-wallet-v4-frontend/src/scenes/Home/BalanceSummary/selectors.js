@@ -10,7 +10,9 @@ export const getData = (state) => {
   const getTotalBalance = compose(reduce(add, 0), map(value => prop('amount', value)))
 
   return {
-    bitcoinBalances,
-    total: map(getTotalBalance, bitcoinBalances)
+    value: {
+      bitcoinBalances,
+      total: map(getTotalBalance, bitcoinBalances)
+    }
   }
 }

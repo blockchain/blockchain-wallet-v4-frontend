@@ -1,12 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import ReactHighcharts from 'react-highcharts'
 import { FormattedMessage } from 'react-intl'
 
 import { Color, Link } from 'blockchain-info-components'
 import BitcoinTicker from './BitcoinTicker'
 import EthereumTicker from './EthereumTicker'
-
+import Chart from './Chart'
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,37 +19,33 @@ const Wrapper = styled.div`
 
   & > * { margin-bottom: 10px; }
 `
-const Ticker = styled.div`
+const Row = styled.div`
   display: flex;
-  justify-content: space-around;
-  & > * { margin: 0 10px; }
-`
-const Highchart = styled.div`
-  width: 100%;
-`
-const Filters = styled.div`
-  display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
 `
 const Filter = styled(Link)`
   margin: 0 10px;
   &:hover { color: ${Color('brand-secondary')}; }
 `
 
-const Chart = (props) => {
-  const { start, interval, currency, data, ...rest } = props
-  const { config, coin, timeframe, selectCoin, selectTimeframe } = rest
+const Success = props => {
+  const { coin, timeframe, selectCoin, selectTimeframe, currency } = props
 
   return (
     <Wrapper>
-      <Ticker>
-        <BitcoinTicker selected={coin === 'BTC'} onClick={() => selectCoin('BTC')} />
-        <EthereumTicker selected={coin === 'ETH'} onClick={() => selectCoin('ETH')} />
-      </Ticker>
-      <Highchart>
-        <ReactHighcharts config={config} />
-      </Highchart>
-      <Filters>
+      <Row>
+        <BitcoinTicker selected={coin === 'BTC'} currency={currency} onClick={() => selectCoin('BTC')} />
+        <EthereumTicker selected={coin === 'ETH'} currency={currency} onClick={() => selectCoin('ETH')} />
+      </Row>
+      <Row>
+        <Chart currency={currency} coin={coin} timeframe={timeframe} />
+      </Row>
+      <Row>
         <Filter size='14px' weight={300} color={timeframe === 'all' ? 'brand-secondary' : 'brand-primary'} onClick={() => selectTimeframe('all')}>
           <FormattedMessage id='scenes.home.chart.alltime' defaultMessage='All time' />
         </Filter>
@@ -66,9 +61,9 @@ const Chart = (props) => {
         <Filter size='14px' weight={300} color={timeframe === 'day' ? 'brand-secondary' : 'brand-primary'} onClick={() => selectTimeframe('day')}>
           <FormattedMessage id='scenes.home.chart.day' defaultMessage='Day' />
         </Filter>
-      </Filters>
+      </Row>
     </Wrapper>
   )
 }
 
-export default Chart
+export default Success
