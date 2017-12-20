@@ -18,7 +18,7 @@ export const fetchLogsSuccess = (data) => ({ type: AT.FETCH_LOGS_SUCCESS, payloa
 
 export const fetchLogsFailure = (error) => ({ type: AT.FETCH_LOGS_FAILURE, payload: error })
 
-export const fetchPriceIndexSeries = (coin, start, scale) => ({ type: AT.FETCH_PRICE_INDEX_SERIES, payload: { coin, start, scale } })
+export const fetchPriceIndexSeries = (coin, currency, start, scale) => ({ type: AT.FETCH_PRICE_INDEX_SERIES, payload: { coin, currency, start, scale } })
 
 export const fetchPriceIndexSeriesSuccess = (data) => ({ type: AT.FETCH_PRICE_INDEX_SERIES_SUCCESS, payload: data })
 

@@ -29,7 +29,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getPriceIndexSeries = (coin, currency, start, scale) => get({
     url: apiUrl,
     endPoint: 'price/index-series',
-    data: { base: toLower(coin), quote: toLower(currency), start: start, scale: scale }
+    data: { base: coin, quote: currency, start: start, scale: scale }
   })
 
   return {

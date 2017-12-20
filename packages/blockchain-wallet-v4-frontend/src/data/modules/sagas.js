@@ -7,8 +7,6 @@ import menuTopBalance from './menuTopBalance/sagas'
 import sendBitcoin from './sendBitcoin/sagas'
 import sendEther from './sendEther/sagas'
 import settings from './settings/sagas'
-import tickerBitcoin from './tickerBitcoin/sagas'
-import tickerEther from './tickerEther/sagas'
 import transactionBitcoin from './transactionBitcoin/sagas'
 import transactionEther from './transactionEther/sagas'
 import transferEther from './transferEther/sagas'
@@ -23,8 +21,6 @@ export default function * () {
     call(sendBitcoin),
     call(sendEther),
     call(settings),
-    call(tickerBitcoin),
-    call(tickerEther),
     call(transactionBitcoin),
     call(transactionEther),
     call(transferEther),

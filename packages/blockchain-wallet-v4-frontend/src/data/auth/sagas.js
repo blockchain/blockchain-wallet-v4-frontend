@@ -40,29 +40,6 @@ const transferEtherSaga = function * () {
 // =============================================================================
 // ================================= Generic ===================================
 // =============================================================================
-// const manageWalletOptions = function * () {
-//   yield call(sagas.core.walletOptions.fetchWalletOptions)
-//   const bitcoin = yield select(selectors.core.walletOptions.selectBitcoinAvailability)
-//   const ethereum = yield select(selectors.core.walletOptions.selectEthereumAvailability)
-
-//   let tasks = []
-//   if (bitcoin.fiat) { tasks.push(call(sagas.core.data.bitcoin.startRates)) }
-//   if (ethereum.fiat) { tasks.push(call(sagas.core.data.ethereum.startRates)) }
-//   yield all(tasks)
-// }
-
-// const manageWalletSettings = function * () {
-//   yield call(sagas.core.settings.fetchSettings)
-// }
-
-// const manageWalletMetadata = function * () {
-  // yield call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
-  // yield call(sagas.core.kvStore.ethereum.fetchEthereum)
-  // yield call(sagas.core.kvStore.shapeShift.fetchShapeShift)
-  // yield call(sagas.core.kvStore.buySell.fetchBuySell)
-  // yield call(sagas.core.kvStore.contacts.fetchContacts)
-// }
-
 // const manageWalletData = function * () {
 //   const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
 //   const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
@@ -80,10 +57,10 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     yield put(actions.auth.authenticate())
     yield put(actions.core.webSocket.startSocket())
     yield call(sagas.core.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-    // yield call(manageWalletOptions)
-    // yield call(manageWalletSettings)
-    // yield call(manageWalletMetadata)
-    // yield call(manageWalletData)
+    // yield all([
+    //   call(sagas.core.walletOptions.fetchWalletOptions),
+    //   call(sagas.core.settings.fetchSettings)
+    // ])
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
