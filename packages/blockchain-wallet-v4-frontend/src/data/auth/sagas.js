@@ -40,20 +40,20 @@ const transferEtherSaga = function * () {
 // =============================================================================
 // ================================= Generic ===================================
 // =============================================================================
-const manageWalletOptions = function * () {
-  yield call(sagas.core.walletOptions.fetchWalletOptions)
-  const bitcoin = yield select(selectors.core.walletOptions.selectBitcoinAvailability)
-  const ethereum = yield select(selectors.core.walletOptions.selectEthereumAvailability)
+// const manageWalletOptions = function * () {
+//   yield call(sagas.core.walletOptions.fetchWalletOptions)
+//   const bitcoin = yield select(selectors.core.walletOptions.selectBitcoinAvailability)
+//   const ethereum = yield select(selectors.core.walletOptions.selectEthereumAvailability)
 
-  let tasks = []
-  if (bitcoin.fiat) { tasks.push(call(sagas.core.data.bitcoin.startRates)) }
-  if (ethereum.fiat) { tasks.push(call(sagas.core.data.ethereum.startRates)) }
-  yield all(tasks)
-}
+//   let tasks = []
+//   if (bitcoin.fiat) { tasks.push(call(sagas.core.data.bitcoin.startRates)) }
+//   if (ethereum.fiat) { tasks.push(call(sagas.core.data.ethereum.startRates)) }
+//   yield all(tasks)
+// }
 
-const manageWalletSettings = function * () {
-  yield call(sagas.core.settings.fetchSettings)
-}
+// const manageWalletSettings = function * () {
+//   yield call(sagas.core.settings.fetchSettings)
+// }
 
 // const manageWalletMetadata = function * () {
   // yield call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
@@ -81,7 +81,7 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     yield put(actions.core.webSocket.startSocket())
     yield call(sagas.core.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     // yield call(manageWalletOptions)
-    yield call(manageWalletSettings)
+    // yield call(manageWalletSettings)
     // yield call(manageWalletMetadata)
     // yield call(manageWalletData)
     yield put(actions.alerts.displaySuccess('Login successful'))

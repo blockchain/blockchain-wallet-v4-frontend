@@ -1,5 +1,3 @@
-import * as activity from './activity/selectors'
-import * as balanceSummary from './balanceSummary/selectors'
 import * as coinConvertor from './coinConvertor/selectors'
 import * as exchange from './exchange/selectors'
 import * as exchangeHistory from './exchangeHistory/selectors'
@@ -15,8 +13,6 @@ import * as transferEther from './transferEther/selectors'
 import * as whatsNew from './whatsNew/selectors'
 
 export {
-  activity,
-  balanceSummary,
   coinConvertor,
   exchange,
   exchangeHistory,

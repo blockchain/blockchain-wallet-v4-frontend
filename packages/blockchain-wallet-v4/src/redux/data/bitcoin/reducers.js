@@ -12,10 +12,10 @@ const EMPTY_SELECTION = {
 }
 
 const INITIAL_STATE = {
-  addresses: {},
+  addresses: RD.NotAsked(),
   fee: RD.NotAsked(),
-  info: {},
-  latest_block: {},
+  info: RD.NotAsked(),
+  latest_block: RD.NotAsked(),
   payment: {
     coins: RD.NotAsked(),
     selection: EMPTY_SELECTION,
@@ -63,6 +63,32 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
 
     //   return assocPath(['payment', 'selection'], selection, state)
     // }
+    case AT.FETCH_BITCOIN_DATA: {
+      const data = {
+        addresses: RD.Loading(),
+        info: RD.Loading(),
+        latest_block: RD.Loading()
+      }
+      return merge(state, data)
+    }
+    case AT.FETCH_BITCOIN_DATA_SUCCESS: {
+      const { addresses, info, latest_block } = payload
+      const data = {
+        addresses: RD.Success(addresses),
+        info: RD.Success(info),
+        latest_block: RD.Success(latest_block)
+      }
+      return merge(state, data)
+    }
+    case AT.FETCH_BITCOIN_DATA_FAILURE: {
+      const { addresses, info, latest_block } = payload
+      const data = {
+        addresses: RD.Failed(addresses),
+        info: RD.Failed(info),
+        latest_block: RD.Failed(latest_block)
+      }
+      return merge(state, data)
+    }
     case AT.FETCH_BITCOIN_FEE: {
       return assoc('fee', RD.Loading(), state)
     }

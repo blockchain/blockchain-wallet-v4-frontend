@@ -13,7 +13,7 @@ class SecurityGaugeContainer extends React.Component {
   }
 
   render () {
-    console.log(this.props)
+    // console.log(this.props)
     // return <SecurityGauge score={this.props.securityGauge.score} />
     return <div />
   }

@@ -26,37 +26,27 @@ const Content = styled.div`
   margin-top: 10px;
 `
 
-const ActivityList = (props) => {
-  const { activities } = props
-
-  return (
-    <Wrapper>
-      <Header>
-        <Text uppercase size='24px' weight={300} color='brand-primary'>
-          <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
-        </Text>
-      </Header>
-      <Content>
-        { (activities.length === 0)
-          ? <Empty />
-          : activities.map(function (activity, index) {
-            return <ListItem action={activity.action} time={activity.time} key={index} />
-          })
-        }
-      </Content>
-    </Wrapper>
-  )
-}
+const ActivityList = props => (
+  <Wrapper>
+    <Header>
+      <Text uppercase size='24px' weight={300} color='brand-primary'>
+        <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
+      </Text>
+    </Header>
+    <Content>
+      { (props.activities.length === 0)
+        ? <Empty />
+        : props.activities.map((activity, index) => <ListItem action={activity.action} time={activity.time} key={index} />)
+      }
+    </Content>
+  </Wrapper>
+)
 
 ActivityList.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
     action: PropTypes.string.isRequired,
     time: PropTypes.number.isRequired
-  }))
-}
-
-ActivityList.defaultProps = {
-  activities: []
+  })).isRequired
 }
 
 export default ActivityList

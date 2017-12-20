@@ -1,29 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { take } from 'ramda'
 
-import ActivityList from './template.js'
-import { actions, selectors } from 'data'
+import { RemoteData } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
-class ActivityContainer extends React.Component {
+class ActivityListContainer extends React.Component {
   componentWillMount () {
-    this.props.actions.initActivity()
+    this.props.actions.fetchLogs()
   }
 
   render () {
-    const lastActivities = take(8, this.props.activity.data)
+    const { data } = this.props
 
-    return <ActivityList activities={lastActivities} />
+    return RemoteData.caseOf(data.value, {
+      Success: (value) => <Success activities={value} />,
+      Failed: (message) => <Error>{message}</Error>,
+      _: () => <Loading />
+    })
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  activity: selectors.modules.activity.getActivity(state)
+  data: getData(state, 8)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modules.activity, dispatch)
+  actions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActivityContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityListContainer)

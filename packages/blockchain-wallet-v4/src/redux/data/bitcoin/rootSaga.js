@@ -1,7 +1,7 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { is } from 'ramda'
+import { indexBy, is, path, prop } from 'ramda'
 import { futurizeP } from 'futurize'
 import Task from 'data.task'
 import { sign } from '../../../signer'
@@ -13,11 +13,26 @@ import * as selectors from '../../selectors'
 export default ({ api } = {}) => {
   const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
+  const fetchData = function * () {
+    try {
+      const context = yield select(selectors.wallet.getWalletContext)
+      const data = yield call(api.fetchBlockchainData, context, { n: 1 })
+      const bitcoinData = {
+        addresses: indexBy(prop('address'), prop('addresses', data)),
+        info: path(['wallet'], data),
+        latest_block: path(['info', 'latest_block'], data)
+      }
+      yield put(A.fetchDataSuccess(bitcoinData))
+    } catch (e) {
+      yield put(A.fetchDataFailure(e.message))
+      throw e
+    }
+  }
   const fetchFee = function * () {
     try {
-      const response = yield call(api.getBitcoinFee)
+      const data = yield call(api.getBitcoinFee)
       yield call(delay, 2000)
-      yield put(A.fetchFeeSuccess(response))
+      yield put(A.fetchFeeSuccess(data))
     } catch (e) {
       yield put(A.fetchFeeFailure(e.message))
       throw e
@@ -26,9 +41,9 @@ export default ({ api } = {}) => {
 
   const fetchRates = function * () {
     try {
-      const response = yield call(api.getBitcoinTicker)
+      const data = yield call(api.getBitcoinTicker)
       yield call(delay, 2000)
-      yield put(A.fetchRatesSuccess(response))
+      yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
       throw e
@@ -57,8 +72,8 @@ export default ({ api } = {}) => {
       } else {
         const context = yield select(selectors.wallet.getWalletContext)
         const active = context.join('|')
-        const response = yield call(api.getTransactionHistory, active, currency, start, end)
-        yield put(A.fetchTransactionHistorySuccess(response))
+        const data = yield call(api.getTransactionHistory, active, currency, start, end)
+        yield put(A.fetchTransactionHistorySuccess(data))
       }
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
@@ -81,8 +96,8 @@ export default ({ api } = {}) => {
     try {
       const source = is(Number, index) ? index : address
       const wrapper = yield select(selectors.wallet.getWrapper)
-      const coins = yield call(api.getWalletUnspents, wrapper, source)
-      yield put(A.fetchUnspentSuccess(coins))
+      const data = yield call(api.getWalletUnspents, wrapper, source)
+      yield put(A.fetchUnspentSuccess(data))
     } catch (e) {
       yield put(A.fetchUnspentSuccess([]))
       throw e
@@ -100,6 +115,7 @@ export default ({ api } = {}) => {
   }
 
   return function * () {
+    yield takeLatest(AT.FETCH_BITCOIN_DATA, fetchData)
     yield takeLatest(AT.FETCH_BITCOIN_FEE, fetchFee)
     yield takeLatest(AT.FETCH_BITCOIN_FIAT_AT_TIME, fetchFiatAtTime)
     yield takeLatest(AT.FETCH_BITCOIN_RATES, fetchRates)
