@@ -5,13 +5,13 @@ import { compose } from 'ramda'
 import * as A from '../actions'
 import * as T from '../actionTypes'
 import { Wrapper } from '../../types'
-import { selectors } from 'data'
+import { wallet } from '../selectors'
 
 const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (action) => {
-  const prevWallet = selectors.core.wallet.getWrapper(store.getState())
+  const prevWallet = wallet.getWrapper(store.getState())
   const wasAuth = isAuthenticated(store.getState())
   const result = next(action)
-  const nextWallet = selectors.core.wallet.getWrapper(store.getState())
+  const nextWallet = wallet.getWrapper(store.getState())
   const isAuth = isAuthenticated(store.getState())
   const promiseToTask = futurizeP(Task)
   const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -21,7 +21,7 @@ const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (acti
 
   const sync = (apiCall) => {
     const encEither = Wrapper.toEncJSON(nextWallet)
-    
+
     encEither.map(Wrapper.computeChecksum)
       .fold(e => console.log('ERROR(sync middleware): computeChecksum'),
             compose(store.dispatch, A.wallet.setPayloadChecksum))
