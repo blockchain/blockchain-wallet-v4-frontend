@@ -1,6 +1,6 @@
 import {fromJS} from 'immutable'
 import {wrapHex} from './helper'
-import {sendOutAllMessages} from "./connection";
+import {sendOutAllMessages} from "./peers/connection";
 
 var Long = require('long')
 

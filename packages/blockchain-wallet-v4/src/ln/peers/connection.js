@@ -1,13 +1,13 @@
 'use strict'
 import {List} from 'immutable'
-import {getSerializer} from './messages/parser'
-import {wrapHex} from "./helper";
+import {getSerializer} from '../messages/parser'
+import {wrapHex} from "../helper";
 
 let ec = require('bcoin/lib/crypto/secp256k1-browser')
 let crypto = require('bcoin/lib/crypto')
 let hkdf = require('bcoin/lib/crypto/hkdf')
 let assert = require('assert')
-let AEAD = require('./crypto/aead')
+let AEAD = require('../crypto/aead')
 const elliptic = require('elliptic')
 const secp256k1 = elliptic.ec('secp256k1')
 

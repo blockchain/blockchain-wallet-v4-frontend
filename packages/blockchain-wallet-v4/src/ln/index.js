@@ -3,7 +3,7 @@ import TCP from './TCP'
 import Peer from './peer'
 import {State, StateHolder} from './state'
 import {wrapHex} from './helper'
-import {sendOutAllMessages} from './connection'
+import {sendOutAllMessages} from './peers/connection'
 import {wrapPubKey} from './channel'
 
 export const startUp = (options) => {

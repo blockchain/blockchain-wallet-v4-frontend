@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import Parser from '../../src/ln/payment_parser.js'
-import {Connection} from '../../src/ln/connection'
+import {Connection} from '../../src/ln/peers/connection'
 import {TCP} from './tcp_mock'
 
 const assert = require('assert')
