@@ -19,8 +19,7 @@ export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, net
   try {
     let tx = new EthereumTx(null, network)
     tx.nonce = fromAccount.nonce
-    console.log(tx)
-    // let feeBN = 
+    // let feeBN =
 
     // return {
     //   account: account.addr,

@@ -1,38 +1,44 @@
-import { path, curry } from 'ramda'
+import { path } from 'ramda'
 import { dataPath } from '../../paths'
+import * as RemoteData from '../../remoteData'
 
 export const getAddresses = path([dataPath, 'bitcoin', 'addresses'])
 
-export const getChangeIndex = curry((xpub, data) => path([dataPath, 'bitcoin', 'addresses', xpub, 'change_index'], data))
-
-export const getReceiveIndex = curry((xpub, data) => path([dataPath, 'bitcoin', 'addresses', xpub, 'account_index'], data))
-
-export const getBalance = path([dataPath, 'bitcoin', 'info', 'final_balance'])
-
-export const getNumberTransactions = path([dataPath, 'bitcoin', 'info', 'n_tx'])
-
 export const getFee = path([dataPath, 'bitcoin', 'fee'])
 
-export const getFeeRegular = path([dataPath, 'bitcoin', 'fee', 'regular'])
+export const getInfo = path([dataPath, 'bitcoin', 'info'])
 
-export const getFeePriority = path([dataPath, 'bitcoin', 'fee', 'priority'])
-
-export const getHeight = path([dataPath, 'bitcoin', 'latest_block', 'height'])
-
-export const getTime = path([dataPath, 'bitcoin', 'latest_block', 'time'])
-
-export const getHash = path([dataPath, 'bitcoin', 'latest_block', 'hash'])
-
-export const getIndex = path([dataPath, 'bitcoin', 'latest_block', 'block_index'])
-
-export const getCoins = path([dataPath, 'bitcoin', 'payment', 'coins'])
-
-export const getSelection = path([dataPath, 'bitcoin', 'payment', 'selection'])
-
-export const getEffectiveBalance = path([dataPath, 'bitcoin', 'payment', 'effectiveBalance'])
+export const getLatestBlock = path([dataPath, 'bitcoin', 'latest_block'])
 
 export const getRates = path([dataPath, 'bitcoin', 'rates'])
 
-export const getTransactionFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))
-
 export const getTransactions = path([dataPath, 'bitcoin', 'transactions'])
+
+// Specific
+export const getChangeIndex = state => RemoteData.map(x => path(['xpub', 'change_index'], x), getAddresses(state))
+
+export const getReceiveIndex = state => RemoteData.map(x => path(['xpub', 'account_index'], x), getAddresses(state))
+
+export const getFeeRegular = state => RemoteData.map(x => path(['regular'], x), getFee(state))
+
+export const getFeePriority = state => RemoteData.map(x => path(['priority'], x), getFee(state))
+
+export const getBalance = state => RemoteData.map(x => path(['final_balance'], x), getInfo(state))
+
+export const getNumberTransactions = state => RemoteData.map(x => path(['n_tx'], x), getInfo(state))
+
+export const getHeight = state => RemoteData.map(x => path(['height'], x), getLatestBlock(state))
+
+export const getTime = state => RemoteData.map(x => path(['time'], x), getLatestBlock(state))
+
+export const getHash = state => RemoteData.map(x => path(['hash'], x), getLatestBlock(state))
+
+export const getIndex = state => RemoteData.map(x => path(['block_index'], x), getLatestBlock(state))
+
+// export const getCoins = path([dataPath, 'bitcoin', 'payment', 'coins'])
+
+// export const getSelection = path([dataPath, 'bitcoin', 'payment', 'selection'])
+
+// export const getEffectiveBalance = path([dataPath, 'bitcoin', 'payment', 'effectiveBalance'])
+
+// export const getTransactionFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))

@@ -18,10 +18,9 @@ class EtherBalance extends React.Component {
 
   render () {
     const { data } = this.props
-    console.log('EtherBalance render', data)
 
     return RemoteData.caseOf(data.value, {
-      Success: (value) => <Success etherBalance={value} />,
+      Success: (value) => <Success balance={value} />,
       Failed: (message) => <Error>{message}</Error>,
       _: () => <Loading />
     })

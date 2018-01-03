@@ -13,9 +13,10 @@ import * as selectors from '../../selectors'
 export default ({ api } = {}) => {
   const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-  const fetchData = function * () {
+  const fetchData = function * (action) {
     try {
-      const context = yield select(selectors.wallet.getWalletContext)
+      const { context } = action.payload
+      // const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
       const bitcoinData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),

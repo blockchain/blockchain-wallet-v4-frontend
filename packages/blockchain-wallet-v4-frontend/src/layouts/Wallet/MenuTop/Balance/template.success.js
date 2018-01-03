@@ -19,11 +19,11 @@ const Wrapper = styled.div`
 `
 
 const Success = props => {
-  const { etherContext, handleCoinDisplay } = props
+  const { bitcoinContext, etherContext, handleCoinDisplay } = props
 
   return (
     <Wrapper onClick={handleCoinDisplay}>
-      {/* <BitcoinBalance /> */}
+      <BitcoinBalance context={bitcoinContext} />
       <Text weight={200} size='24px' >|</Text>
       <EtherBalance context={etherContext} />
     </Wrapper>

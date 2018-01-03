@@ -1,9 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
+import { RemoteData } from 'blockchain-wallet-v4/src'
 
 import Error from './template.error'
 import Loading from './template.loading'
@@ -11,13 +13,22 @@ import Success from './template.success'
 
 class BitcoinBalance extends React.Component {
   componentWillMount () {
-    this.props.actions.fetchData()
+    this.props.actions.fetchData(this.props.context)
   }
 
   render () {
-    const { bitcoinBalance } = this.props.data
-    return <Success bitcoinBalance={bitcoinBalance} />
+    const { data } = this.props
+
+    return RemoteData.caseOf(data.value, {
+      Success: (value) => <Success balance={value} />,
+      Failed: (message) => <Error>{message}</Error>,
+      _: () => <Loading />
+    })
   }
+}
+
+BitcoinBalance.propTypes = {
+  context: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => ({
