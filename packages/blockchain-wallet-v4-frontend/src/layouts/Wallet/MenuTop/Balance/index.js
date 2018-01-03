@@ -1,18 +1,30 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { path } from 'ramda'
+import { actions } from 'data'
+import { getData } from './selectors'
+import { RemoteData } from 'blockchain-wallet-v4/src'
 
-import { actions, selectors } from 'data'
-import Balance from './template.js'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
-class ActionsContainer extends React.Component {
+class Balance extends React.Component {
   constructor (props) {
     super(props)
     this.handleCoinDisplay = this.handleCoinDisplay.bind(this)
   }
 
   componentWillMount () {
-    this.props.menuTopBalanceActions.initMenuTopBalance()
+    this.props.actions.fetchMetadataEthereum()
+    // yield call(sagas.core.kvStore.ethereum.fetchEthereum)
+    // const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
+    // const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
+    // yield all([
+    //   call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext }),
+    //   call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext })
+    // ])
   }
 
   handleCoinDisplay () {
@@ -20,18 +32,24 @@ class ActionsContainer extends React.Component {
   }
 
   render () {
-    const { bitcoinBalance, etherBalance } = this.props.menuTopBalance
-    return <Balance handleCoinDisplay={this.handleCoinDisplay} bitcoinBalance={bitcoinBalance} etherBalance={etherBalance} />
+    const { data } = this.props
+    console.log('Balance render', data)
+
+    return RemoteData.caseOf(data.value, {
+      Success: (value) => <Success etherContext={value} handleCoinDisplay={this.handleCoinDisplay} />,
+      Failed: (message) => <Error>{message}</Error>,
+      _: () => <Loading />
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
-  menuTopBalance: selectors.modules.menuTopBalance.getMenuTopBalance(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  menuTopBalanceActions: bindActionCreators(actions.modules.menuTopBalance, dispatch),
+  actions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActionsContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(Balance)

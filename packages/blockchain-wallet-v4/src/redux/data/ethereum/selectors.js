@@ -1,29 +1,30 @@
-import { path } from 'ramda'
+import { head, path, prop } from 'ramda'
 import { dataPath } from '../../paths'
-
-export const getBalance = path([dataPath, 'ethereum', 'info', 'final_balance'])
-
-export const getFee = path([dataPath, 'ethereum', 'fee'])
-
-export const getFeeRegular = path([dataPath, 'ethereum', 'fee', 'regular'])
-
-export const getFeePriority = path([dataPath, 'ethereum', 'fee', 'priority'])
-
-export const getGasLimit = path([dataPath, 'ethereum', 'fee', 'gasLimit'])
+import * as RemoteData from '../../remoteData'
 
 export const getAddresses = path([dataPath, 'ethereum', 'addresses'])
 
-export const getAddressDetails = (state, address) => path([dataPath, 'ethereum', 'addresses', address])(state)
+export const getFee = path([dataPath, 'ethereum', 'fee'])
+
+export const getInfo = path([dataPath, 'ethereum', 'info'])
+
+export const getLatestBlock = path([dataPath, 'ethereum', 'latest_block'])
 
 export const getRates = path([dataPath, 'ethereum', 'rates'])
 
 export const getTransactions = path([dataPath, 'ethereum', 'transactions'])
 
-export const getTransactionsByAddress = (state, address) => path([dataPath, 'ethereum', 'transactions', address])(state)
+// Specific
+export const getBalance = state => RemoteData.map(x => prop('final_balance', x), getInfo(state))
 
-// Legacy stuff
-export const getLegacyAccount = path([dataPath, 'ethereum', 'legacy'])
+export const getFeeRegular = state => RemoteData.map(x => prop('regular', x), getFee(state))
 
-export const getLegacyAccountAddress = path([dataPath, 'ethereum', 'legacy', 'addr'])
+export const getFeePriority = state => RemoteData.map(x => prop('priority', x), getFee(state))
 
-export const getLegacyAccountBalance = path([dataPath, 'ethereum', 'legacy', 'balance'])
+export const getGasLimit = state => RemoteData.map(x => prop('gasLimit', x), getFee(state))
+
+export const getDefaultAddress = state => RemoteData.map(x => head(x), getAddresses(state))
+
+export const getAddress = (state, address) => RemoteData.map(x => prop(address), getAddresses(state))
+
+export const getTransactionsByAddress = (state, address) => RemoteData.map(x => prop(address), getTransactions(state))

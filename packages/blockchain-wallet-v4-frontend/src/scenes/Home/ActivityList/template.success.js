@@ -26,7 +26,7 @@ const Content = styled.div`
   margin-top: 10px;
 `
 
-const ActivityList = props => (
+const Success = props => (
   <Wrapper>
     <Header>
       <Text uppercase size='24px' weight={300} color='brand-primary'>
@@ -42,11 +42,11 @@ const ActivityList = props => (
   </Wrapper>
 )
 
-ActivityList.propTypes = {
+Success.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
     action: PropTypes.string.isRequired,
     time: PropTypes.number.isRequired
   })).isRequired
 }
 
-export default ActivityList
+export default Success

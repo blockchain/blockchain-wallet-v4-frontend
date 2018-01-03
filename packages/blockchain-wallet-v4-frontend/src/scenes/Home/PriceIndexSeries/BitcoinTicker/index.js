@@ -13,6 +13,7 @@ class BitcoinTicker extends React.Component {
   componentWillMount () {
     this.props.actions.fetchRates()
   }
+
   render () {
     const { coin, data } = this.props
 
