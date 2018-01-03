@@ -1,36 +1,43 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { RemoteData } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
+import { RemoteData } from 'blockchain-wallet-v4/src'
+
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class EthereumTicker extends React.Component {
+class EtherBalance extends React.Component {
   componentWillMount () {
-    this.props.actions.fetchRates()
+    this.props.actions.fetchData(this.props.context)
   }
 
   render () {
-    const { coin, data } = this.props
+    const { data } = this.props
+    console.log('EtherBalance render', data)
 
     return RemoteData.caseOf(data.value, {
-      Success: (value) => <Success selected={coin === 'ETH'} {...this.props}>{value}</Success>,
+      Success: (value) => <Success etherBalance={value} />,
       Failed: (message) => <Error>{message}</Error>,
       _: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = state => ({
+EtherBalance.propTypes = {
+  context: PropTypes.string.isRequired
+}
+
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.core.data.ethereum, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EthereumTicker)
+export default connect(mapStateToProps, mapDispatchToProps)(EtherBalance)

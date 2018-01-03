@@ -1,9 +1,12 @@
 import * as AT from './actionTypes'
 
-export const setEthereumTransactions = (address, txs) => ({ type: AT.SET_ETHEREUM_TRANSACTIONS, payload: { address, txs } })
+// export const setEthereumTransactions = (address, txs) => ({ type: AT.SET_ETHEREUM_TRANSACTIONS, payload: { address, txs } })
 
+export const fetchData = (context) => ({ type: AT.FETCH_ETHEREUM_DATA, payload: { context } })
 
+export const fetchDataSuccess = (data) => ({ type: AT.FETCH_ETHEREUM_DATA_SUCCESS, payload: data })
 
+export const fetchDataFailure = (error) => ({ type: AT.FETCH_ETHEREUM_DATA_FAILURE, payload: error })
 
 export const fetchFee = () => ({ type: AT.FETCH_ETHEREUM_FEE })
 

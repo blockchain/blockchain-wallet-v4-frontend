@@ -53,19 +53,15 @@ const transferEtherSaga = function * () {
 const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
   try {
     // If needed, the user should upgrade its wallet before being able to open the wallet
-    if (shouldUpgrade) { yield call(upgradeWalletSaga) }
+    // if (shouldUpgrade) { yield call(upgradeWalletSaga) }
     yield put(actions.auth.authenticate())
     yield put(actions.core.webSocket.startSocket())
     yield call(sagas.core.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-    // yield all([
-    //   call(sagas.core.walletOptions.fetchWalletOptions),
-    //   call(sagas.core.settings.fetchSettings)
-    // ])
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
     // ETHER - Fix derivation
-    yield call(transferEtherSaga)
+    // yield call(transferEtherSaga)
   } catch (e) {
     // Redirect to error page instead of notification
     yield put(actions.alerts.displayError('Critical error while fetching essential data !' + e.message))

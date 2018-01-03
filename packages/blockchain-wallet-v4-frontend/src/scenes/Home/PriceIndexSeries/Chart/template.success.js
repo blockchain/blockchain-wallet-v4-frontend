@@ -6,13 +6,8 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const Chart = (props) => {
-  console.log(props)
-  return (
-    <Wrapper>
-      <ReactHighcharts config={props.config} />
-    </Wrapper>
-  )
-}
-
-export default Chart
+export default props => (
+  <Wrapper>
+    <ReactHighcharts config={props.config} isPureConfig />
+  </Wrapper>
+)

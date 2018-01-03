@@ -3,6 +3,7 @@ import dataBitcoinSaga from './data/bitcoin/rootSaga'
 import dataEthereumSaga from './data/ethereum/rootSaga'
 import dataMiscSaga from './data/misc/rootSaga'
 import dataShapeShiftSaga from './data/shapeShift/rootSaga'
+import kvStoreEthereumSaga from './kvStore/ethereum/rootSaga'
 import settingsSaga from './settings/rootSaga'
 
 export const rootSaga = ({ api, socket } = {}) => {
@@ -12,6 +13,7 @@ export const rootSaga = ({ api, socket } = {}) => {
       fork(dataEthereumSaga({ api })),
       fork(dataMiscSaga({ api })),
       fork(dataShapeShiftSaga({ api })),
+      fork(kvStoreEthereumSaga({ api })),
       fork(settingsSaga({ api }))
     ])
   }

@@ -33,7 +33,7 @@ const Filter = styled(Link)`
   &:hover { color: ${Color('brand-secondary')}; }
 `
 
-const Success = props => {
+export default props => {
   const { coin, timeframe, selectCoin, selectTimeframe, currency } = props
 
   return (
@@ -65,5 +65,3 @@ const Success = props => {
     </Wrapper>
   )
 }
-
-export default Success

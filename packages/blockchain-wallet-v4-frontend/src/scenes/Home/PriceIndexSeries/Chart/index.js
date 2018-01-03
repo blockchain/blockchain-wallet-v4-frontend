@@ -29,11 +29,12 @@ class Chart extends React.Component {
   }
 
   shouldComponentUpdate (nextProps) {
-    return !equals(this.props.coin, nextProps.coins) || !equals(this.props.timeframe, nextProps.timeframe)
+    return !equals(this.props.coin, nextProps.coin) ||
+           !equals(this.props.timeframe, nextProps.timeframe) ||
+           !equals(this.props.data, nextProps.data)
   }
 
   render () {
-    console.log(this.props.timeframe)
     const { currency, data, coin, timeframe } = this.props
     const { start, interval } = selectPriceIndexSeriesOptions(coin, timeframe)
 
@@ -54,7 +55,7 @@ class Chart extends React.Component {
 Chart.propTypes = {
   currency: PropTypes.string.isRequired,
   coin: PropTypes.string.isRequired,
-  timeframe: PropTypes.number.isRequired
+  timeframe: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => ({

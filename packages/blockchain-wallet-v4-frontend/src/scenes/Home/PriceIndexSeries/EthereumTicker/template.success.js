@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   padding-left: 5px;
 `
 
-const EthereumTicker = (props) => {
+export default props => {
   const { selected, children, ...rest } = props
 
   return (
@@ -17,5 +17,3 @@ const EthereumTicker = (props) => {
     </Wrapper>
   )
 }
-
-export default EthereumTicker

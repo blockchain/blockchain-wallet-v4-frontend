@@ -1,16 +1,15 @@
-import { assoc, merge } from 'ramda'
+import { assoc, merge, prop } from 'ramda'
 import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes.js'
 import * as RD from '../../remoteData'
 
 const INITIAL_STATE = {
-  addresses: {},
-  fee: RD.Loading(),
-  info: {},
-  latest_block: RD.Loading(),
-  legacy: {},
-  rates: RD.Loading(),
-  transactions: RD.Loading()
+  addresses: RD.NotAsked(),
+  fee: RD.NotAsked(),
+  info: RD.NotAsked(),
+  latest_block: RD.NotAsked(),
+  rates: RD.NotAsked(),
+  transactions: RD.NotAsked()
 }
 
 const ethereumReducer = (state = INITIAL_STATE, action) => {
@@ -19,6 +18,30 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
   switch (type) {
     case actionTypes.common.ethereum.SET_ETHEREUM_DATA: {
       return merge(state, payload)
+    }
+    case AT.FETCH_ETHEREUM_DATA: {
+      const newState = {
+        addresses: RD.Loading(),
+        info: RD.Loading(),
+        transactions: RD.Loading()
+      }
+      return merge(state, newState)
+    }
+    case AT.FETCH_ETHEREUM_DATA_SUCCESS: {
+      const newState = {
+        addresses: RD.Success(prop('addresses', payload)),
+        info: RD.Success(prop('info', payload)),
+        transactions: RD.Success(prop('transactions', payload))
+      }
+      return merge(state, newState)
+    }
+    case AT.FETCH_ETHEREUM_DATA_FAILURE: {
+      const newState = {
+        addresses: RD.Failed(prop('addresses', payload)),
+        info: RD.Failed(prop('info', payload)),
+        transactions: RD.Failed(prop('transactions', payload))
+      }
+      return merge(state, newState)
     }
     case AT.FETCH_ETHEREUM_FEE: {
       return assoc('fee', RD.Loading(), state)
