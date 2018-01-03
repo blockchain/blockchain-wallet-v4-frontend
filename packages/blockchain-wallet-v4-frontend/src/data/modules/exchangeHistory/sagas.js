@@ -9,7 +9,7 @@ const initExchangeHistory = function * (action) {
     yield call(sagas.core.kvStore.shapeShift.fetchShapeShift)
     const { page } = action.payload
     const depositAddresses = yield select(S.getDepositAddresses, page)
-    yield call(sagas.core.data.shapeShift.getTradesStatus, depositAddresses)
+    yield call(sagas.core.data.shapeShift.getTrades, depositAddresses)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch shapeshift trade statuses.'))
   }

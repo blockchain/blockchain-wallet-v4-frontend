@@ -6,7 +6,7 @@ import * as AT from './actionTypes'
 
 // export const setBitcoinSelection = (feePerByte, target, coins, change, algorithm, seed) => ({ type: AT.SET_BITCOIN_SELECTION, payload: { feePerByte, target, coins, change, algorithm, seed } })
 
-export const fetchData = () => ({ type: AT.FETCH_BITCOIN_DATA })
+export const fetchData = (context) => ({ type: AT.FETCH_BITCOIN_DATA, payload: { context } })
 
 export const fetchDataSuccess = (data) => ({ type: AT.FETCH_BITCOIN_DATA_SUCCESS, payload: data })
 

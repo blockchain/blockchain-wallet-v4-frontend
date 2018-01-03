@@ -12,7 +12,6 @@ const Wrapper = styled.div`
 
 const CoinDisplay = props => {
   const { showIcon, coin, children, size, weight, color } = props
-
   return (
     <Wrapper>
       {showIcon && coin === 'BTC' && <Icon name='bitcoin' size={size} weight={weight} color={color} />}

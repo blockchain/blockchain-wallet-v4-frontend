@@ -1,32 +1,34 @@
 import { path } from 'ramda'
 import { dataPath } from '../../paths'
+import * as RemoteData from '../../remoteData'
 
 export const getBtcEth = path([dataPath, 'shapeShift', 'btc_eth'])
 
 export const getEthBtc = path([dataPath, 'shapeShift', 'eth_btc'])
 
-export const getBtcEthLimit = path([dataPath, 'shapeShift', 'btc_eth', 'limit'])
-
-export const getEthBtcLimit = path([dataPath, 'shapeShift', 'eth_btc', 'limit'])
-
-export const getBtcEthMaxLimit = path([dataPath, 'shapeShift', 'btc_eth', 'maxLimit'])
-
-export const getEthBtcMaxLimit = path([dataPath, 'shapeShift', 'eth_btc', 'maxLimit'])
-
-export const getBtcEthMinerFee = path([dataPath, 'shapeShift', 'btc_eth', 'minerFee'])
-
-export const getEthBtcMinerFee = path([dataPath, 'shapeShift', 'eth_btc', 'minerFee'])
-
-export const getBtcEthMinimum = path([dataPath, 'shapeShift', 'btc_eth', 'minimum'])
-
-export const getEthBtcMinimum = path([dataPath, 'shapeShift', 'eth_btc', 'minimum'])
-
-export const getBtcEthRate = path([dataPath, 'shapeShift', 'btc_eth', 'rate'])
-
-export const getEthBtcRate = path([dataPath, 'shapeShift', 'eth_btc', 'rate'])
-
 export const getOrder = path([dataPath, 'shapeShift', 'order'])
 
-export const getTradeStatus = (state, address) => path([dataPath, 'shapeShift', 'trades', address], state)
+export const getTrades = path([dataPath, 'shapeShift', 'trades'])
 
-export const getTradesStatus = path([dataPath, 'shapeShift', 'trades'])
+// Specific
+export const getBtcEthLimit = state => RemoteData.map(x => path(['limit'], x), getBtcEth(state))
+
+export const getBtcEthMaxLimit = state => RemoteData.map(x => path(['maxLimit'], x), getBtcEth(state))
+
+export const getBtcEthMinerFee = state => RemoteData.map(x => path(['minerFee'], x), getBtcEth(state))
+
+export const getBtcEthMinimum = state => RemoteData.map(x => path(['minimum'], x), getBtcEth(state))
+
+export const getBtcEthRate = state => RemoteData.map(x => path(['rate'], x), getBtcEth(state))
+
+export const getEthBtcLimit = state => RemoteData.map(x => path(['maxLimit'], x), getEthBtc(state))
+
+export const getEthBtcMaxLimit = state => RemoteData.map(x => path(['limit'], x), getEthBtc(state))
+
+export const getEthBtcMinerFee = state => RemoteData.map(x => path(['minerFee'], x), getEthBtc(state))
+
+export const getEthBtcMinimum = state => RemoteData.map(x => path(['minimum'], x), getEthBtc(state))
+
+export const getEthBtcRate = state => RemoteData.map(x => path(['rate'], x), getEthBtc(state))
+
+export const getTrade = (state, address) => RemoteData.map(x => path([address], x), getTrades(state))

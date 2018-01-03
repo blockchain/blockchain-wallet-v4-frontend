@@ -1,5 +1,5 @@
 import { selectors } from 'data'
 
 export const getData = (state) => ({
-  value: selectors.core.kvStore.ethereum.getMetadata(state)
+  value: selectors.core.data.bitcoin.getBalance(state)
 })

@@ -4,7 +4,7 @@ import * as selectors from './../../selectors'
 
 export const getExchangeHistory = curry((state, page) => {
   const trades = selectors.core.kvStore.shapeShift.getTrades(state)
-  const tradesStatus = selectors.core.data.shapeShift.getTradesStatus(state)
+  const tradesStatus = selectors.core.data.shapeShift.getTrades(state)
   if (isEmpty(tradesStatus)) return { data: [], state: 'NotAsked' }
   const tradesTotal = length(trades) || 0
   const tradesPage = slice((page - 1) * 10, page * 10 - 1, trades)
