@@ -32,7 +32,7 @@ class PriceIndexSeries extends React.Component {
   render () {
     const { data } = this.props
     const { coin, timeframe } = this.state
-
+    console.log('data.value', data.value)
     return RemoteData.caseOf(data.value, {
       Success: (value) => <Success currency={value.currency} coin={coin} timeframe={timeframe} selectCoin={this.selectCoin} selectTimeframe={this.selectTimeframe} />,
       Failed: (message) => <Error>{message}</Error>,

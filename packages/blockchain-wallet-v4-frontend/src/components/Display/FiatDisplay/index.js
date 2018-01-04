@@ -12,11 +12,11 @@ import Success from './template.success'
 
 class FiatDisplayContainer extends React.Component {
   componentWillMount () {
+    this.props.settingsActions.fetchSettings()
     switch (this.props.coin) {
       case 'BTC': return this.props.bitcoinActions.fetchRates()
       case 'ETH': return this.props.ethereumActions.fetchRates()
     }
-    this.props.settingsActions.fetchSettings()
   }
 
   render () {

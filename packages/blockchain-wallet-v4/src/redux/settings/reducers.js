@@ -93,7 +93,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.SET_YUBIKEY: {
       return Object.assign({}, state, { auth_type: 2 })
     }
-    case AT.FETCH_SETTINGS: {
+    case AT.FETCH_SETTINGS_LOADING: {
       return RD.Loading()
     }
     case AT.FETCH_SETTINGS_SUCCESS: {

@@ -13,7 +13,7 @@ const shapeShiftReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.FETCH_BTC_ETH: {
+    case AT.FETCH_BTC_ETH_LOADING: {
       return assoc('btc_eth', RD.Loading(), state)
     }
     case AT.FETCH_BTC_ETH_SUCCESS: {
@@ -22,7 +22,7 @@ const shapeShiftReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BTC_ETH_FAILURE: {
       return assoc('btc_eth', RD.Failed(payload), state)
     }
-    case AT.FETCH_ETH_BTC: {
+    case AT.FETCH_ETH_BTC_LOADING: {
       return assoc('eth_btc', RD.Loading(), state)
     }
     case AT.FETCH_ETH_BTC_SUCCESS: {

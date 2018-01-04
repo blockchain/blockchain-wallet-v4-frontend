@@ -19,7 +19,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
     case actionTypes.common.ethereum.SET_ETHEREUM_DATA: {
       return merge(state, payload)
     }
-    case AT.FETCH_ETHEREUM_DATA: {
+    case AT.FETCH_ETHEREUM_DATA_LOADING: {
       const newState = {
         addresses: RD.Loading(),
         info: RD.Loading(),
@@ -43,7 +43,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
       }
       return merge(state, newState)
     }
-    case AT.FETCH_ETHEREUM_FEE: {
+    case AT.FETCH_ETHEREUM_FEE_LOADING: {
       return assoc('fee', RD.Loading(), state)
     }
     case AT.FETCH_ETHEREUM_FEE_SUCCESS: {
@@ -52,7 +52,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_FEE_FAILURE: {
       return assoc('fee', RD.Failed(payload), state)
     }
-    case AT.FETCH_ETHEREUM_LATEST_BLOCK: {
+    case AT.FETCH_ETHEREUM_LATEST_BLOCK_LOADING: {
       return assoc('latest_block', RD.Loading(), state)
     }
     case AT.FETCH_ETHEREUM_LATEST_BLOCK_SUCCESS: {
@@ -61,7 +61,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_LATEST_BLOCK_FAILURE: {
       return assoc('latest_block', RD.Failed(payload), state)
     }
-    case AT.FETCH_ETHEREUM_RATES: {
+    case AT.FETCH_ETHEREUM_RATES_LOADING: {
       return assoc('rates', RD.Loading(), state)
     }
     case AT.FETCH_ETHEREUM_RATES_SUCCESS: {
@@ -70,7 +70,7 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_RATES_FAILURE: {
       return assoc('rates', RD.Failed(payload), state)
     }
-    case AT.FETCH_ETHEREUM_TRANSACTIONS: {
+    case AT.FETCH_ETHEREUM_TRANSACTIONS_LOADING: {
       return assoc('transactions', RD.Loading(), state)
     }
     case AT.FETCH_ETHEREUM_TRANSACTION_SUCCESS: {

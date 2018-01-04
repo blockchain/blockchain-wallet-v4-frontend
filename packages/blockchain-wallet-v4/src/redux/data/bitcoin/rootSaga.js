@@ -16,6 +16,7 @@ export default ({ api } = {}) => {
 
   const fetchData = function * (action) {
     try {
+      yield put(A.fetchDataLoading())
       const { context } = action.payload
       // const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
@@ -33,6 +34,7 @@ export default ({ api } = {}) => {
   }
   const fetchFee = function * () {
     try {
+      yield put(A.fetchFeeLoading())
       const data = yield call(api.getBitcoinFee)
       yield call(delay, delayAjax)
       yield put(A.fetchFeeSuccess(data))
@@ -44,6 +46,7 @@ export default ({ api } = {}) => {
 
   const fetchRates = function * () {
     try {
+      yield put(A.fetchRatesLoading())
       const data = yield call(api.getBitcoinTicker)
       yield call(delay, delayAjax)
       yield put(A.fetchRatesSuccess(data))
@@ -55,6 +58,7 @@ export default ({ api } = {}) => {
 
   const fetchTransactions = function * ({ address, reset }) {
     try {
+      yield put(A.fetchTransactionsLoading())
       const context = yield select(selectors.wallet.getWalletContext)
       const transactions = yield select(S.getTransactions)
       const offset = reset ? 0 : transactions.data.length
@@ -68,6 +72,7 @@ export default ({ api } = {}) => {
 
   const fetchTransactionHistory = function * ({ address, start, end }) {
     try {
+      yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
         const data = yield call(api.getTransactionHistory, address, currency, start, end)
@@ -86,6 +91,7 @@ export default ({ api } = {}) => {
 
   const fetchFiatAtTime = function * ({ hash, amount, time }) {
     try {
+      yield put(A.fetchFiatAtTimeLoading())
       const currency = yield select(selectors.settings.getCurrency)
       const data = yield call(api.getBitcoinFiatAtTime, amount, currency, time)
       yield put(A.fetchFiatAtTimeSuccess({ currency: { hash: data } }))
@@ -97,6 +103,7 @@ export default ({ api } = {}) => {
 
   const fetchUnspent = function * (index, address) {
     try {
+      yield put(A.fetchUnspentLoading())
       const source = is(Number, index) ? index : address
       const wrapper = yield select(selectors.wallet.getWrapper)
       const data = yield call(api.getWalletUnspents, wrapper, source)

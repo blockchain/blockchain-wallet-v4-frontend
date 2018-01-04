@@ -10,6 +10,7 @@ export default ({ api } = {}) => {
     try {
       const guid = yield select(selectors.wallet.getGuid)
       const sharedKey = yield select(selectors.wallet.getSharedKey)
+      yield put(A.fetchSettingsLoading())
       const data = yield call(api.getSettings, guid, sharedKey)
       yield call(delay, 2000)
       yield put(A.fetchSettingsSuccess(data))

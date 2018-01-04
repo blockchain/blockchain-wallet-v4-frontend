@@ -13,7 +13,7 @@ export const ethereumReducer = (state = INITIAL_STATE, action) => {
     //   const { data } = payload
     //   return data
     // }
-    case AT.FETCH_METADATA_ETHEREUM: {
+    case AT.FETCH_METADATA_ETHEREUM_LOADING: {
       return RD.Loading()
     }
     case AT.FETCH_METADATA_ETHEREUM_SUCCESS: {
