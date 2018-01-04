@@ -19,6 +19,7 @@ export default ({ api } = {}) => {
       const typeId = derivationMap[ETHEREUM]
       const mxpriv = yield select(getMetadataXpriv)
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
+      yield put(A.fetchMetadataEthereumLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       yield put(A.fetchMetadataEthereumSuccess(newkv))
     } catch (e) {

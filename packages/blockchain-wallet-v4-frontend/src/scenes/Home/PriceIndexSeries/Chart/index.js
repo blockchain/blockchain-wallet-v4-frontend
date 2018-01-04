@@ -15,6 +15,7 @@ import Success from './template.success'
 
 class Chart extends React.Component {
   componentWillMount () {
+    console.log('Chart will mount')
     const { coin, currency, timeframe } = this.props
     const { start, scale } = selectPriceIndexSeriesOptions(coin, timeframe)
     this.props.dataMiscActions.fetchPriceIndexSeries(coin, currency, start, scale)

@@ -9,6 +9,7 @@ import * as A from './actions'
 export default ({ api } = {}) => {
   const fetchData = function * (action) {
     try {
+      yield put(A.fetchDataLoading())
       const { context } = action.payload
       const data = yield call(api.getEthereumData, context)
       // Accounts treatments
@@ -39,6 +40,7 @@ export default ({ api } = {}) => {
 
   const fetchFee = function * () {
     try {
+      yield put(A.fetchFeeLoading())
       const data = yield call(api.getEthereumFee)
       yield call(delay, delayAjax)
       yield put(A.fetchFeeSuccess(data))
@@ -50,6 +52,7 @@ export default ({ api } = {}) => {
 
   const fetchLatestBlock = function * () {
     try {
+      yield put(A.fetchLatestBlockLoading())
       const data = yield call(api.getEthereumLatestBlock)
       yield call(delay, delayAjax)
       yield put(A.fetchLatestBlockSuccess(data))
@@ -61,6 +64,7 @@ export default ({ api } = {}) => {
 
   const fetchRates = function * () {
     try {
+      yield put(A.fetchRatesLoading())
       const data = yield call(api.getEthereumTicker)
       yield call(delay, delayAjax)
       yield put(A.fetchRatesSuccess(data))
@@ -71,6 +75,7 @@ export default ({ api } = {}) => {
 
   const fetchTransactions = function * ({ address }) {
     try {
+      yield put(A.fetchTransactionsLoading())
       const data = yield call(api.getEthereumData, address)
       yield call(delay, delayAjax)
       yield put(A.fetchTransactionsSuccess(data))

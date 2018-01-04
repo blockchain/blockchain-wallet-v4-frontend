@@ -13,7 +13,7 @@ const miscReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.FETCH_ADVERTS: {
+    case AT.FETCH_ADVERTS_LOADING: {
       return assoc('adverts', RD.Loading(), state)
     }
     case AT.FETCH_ADVERTS_SUCCESS: {
@@ -22,7 +22,7 @@ const miscReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_ADVERTS_FAILURE: {
       return assoc('adverts', RD.Failed(payload), state)
     }
-    case AT.FETCH_CAPTCHA: {
+    case AT.FETCH_CAPTCHA_LOADING: {
       return assoc('captcha', RD.Loading(), state)
     }
     case AT.FETCH_CAPTCHA_SUCCESS: {
@@ -31,7 +31,7 @@ const miscReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_CAPTCHA_FAILURE: {
       return assoc('captcha', RD.Failed(payload), state)
     }
-    case AT.FETCH_LOGS: {
+    case AT.FETCH_LOGS_LOADING: {
       return assoc('logs', RD.Loading(), state)
     }
     case AT.FETCH_LOGS_SUCCESS: {
@@ -40,7 +40,7 @@ const miscReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_LOGS_FAILURE: {
       return assoc('logs', RD.Failed(payload), state)
     }
-    case AT.FETCH_PRICE_INDEX_SERIES: {
+    case AT.FETCH_PRICE_INDEX_SERIES_LOADING: {
       return assoc('price_index_series', RD.Loading(), state)
     }
     case AT.FETCH_PRICE_INDEX_SERIES_SUCCESS: {

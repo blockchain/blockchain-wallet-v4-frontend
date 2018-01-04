@@ -11,6 +11,7 @@ export default ({ api } = {}) => {
   const fetchAdverts = function * (action) {
     try {
       const { number } = action.payload
+      yield put(A.fetchAdvertsLoading())
       const data = yield call(api.getAdverts, number)
       yield call(delay, delayAjax)
       yield put(A.fetchAdvertsSuccess(data))
@@ -24,6 +25,7 @@ export default ({ api } = {}) => {
     try {
       const timestamp = new Date().getTime()
       const sessionToken = yield call(api.obtainSessionToken)
+      yield put(A.fetchCaptchaLoading())
       const data = yield call(api.getCaptchaImage, timestamp, sessionToken)
       const url = yield call(readBlob, data, 'dataurl')
       yield call(delay, delayAjax)
@@ -37,6 +39,7 @@ export default ({ api } = {}) => {
   const fetchPriceIndexSeries = function * (action) {
     try {
       const { coin, currency, start, scale } = action.payload
+      yield put(A.fetchPriceIndexSeriesLoading())
       const data = yield call(api.getPriceIndexSeries, coin, currency, start, scale)
       yield call(delay, delayAjax)
       yield put(A.fetchPriceIndexSeriesSuccess(data))
@@ -49,6 +52,7 @@ export default ({ api } = {}) => {
     try {
       const guid = yield select(selectors.wallet.getGuid)
       const sharedKey = yield select(selectors.wallet.getSharedKey)
+      yield put(A.fetchLogsLoading())
       const data = yield call(api.getLogs, guid, sharedKey)
       yield call(delay, delayAjax)
       yield put(A.fetchLogsSuccess(data.results))

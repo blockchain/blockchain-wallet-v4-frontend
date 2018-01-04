@@ -63,7 +63,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
 
     //   return assocPath(['payment', 'selection'], selection, state)
     // }
-    case AT.FETCH_BITCOIN_DATA: {
+    case AT.FETCH_BITCOIN_DATA_LOADING: {
       const data = {
         addresses: RD.Loading(),
         info: RD.Loading(),
@@ -89,7 +89,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       }
       return merge(state, data)
     }
-    case AT.FETCH_BITCOIN_FEE: {
+    case AT.FETCH_BITCOIN_FEE_LOADING: {
       return assoc('fee', RD.Loading(), state)
     }
     case AT.FETCH_BITCOIN_FEE_SUCCESS: {
@@ -98,7 +98,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BITCOIN_FEE_FAILURE: {
       return assoc('fee', RD.Failed(payload), state)
     }
-    case AT.FETCH_BITCOIN_RATES: {
+    case AT.FETCH_BITCOIN_RATES_LOADING: {
       return assoc('rates', RD.Loading(), state)
     }
     case AT.FETCH_BITCOIN_RATES_SUCCESS: {
@@ -107,7 +107,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BITCOIN_RATES_FAILURE: {
       return assoc('rates', RD.Failed(payload), state)
     }
-    case AT.FETCH_BITCOIN_SELECTION: {
+    case AT.FETCH_BITCOIN_SELECTION_LOADING: {
       return assocPath(['payment', 'selection'], RD.Loading(), state)
     }
     case AT.FETCH_BITCOIN_SELECTION_SUCCESS: {
@@ -116,7 +116,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BITCOIN_SELECTION_FAILURE: {
       return assocPath(['payment', 'selection'], RD.Failed(payload), state)
     }
-    case AT.FETCH_BITCOIN_TRANSACTIONS: {
+    case AT.FETCH_BITCOIN_TRANSACTIONS_LOADING: {
       return assoc('transactions', RD.Loading(), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS: {
@@ -127,7 +127,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE: {
       return assoc('transactions', RD.Failed(payload), state)
     }
-    case AT.FETCH_BITCOIN_TRANSACTION_HISTORY: {
+    case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_LOADING: {
       return assoc('transaction_history', RD.Loading(), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_SUCCESS: {
@@ -136,7 +136,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_FAILURE: {
       return assoc('transaction_history', RD.Failed(payload), state)
     }
-    case AT.FETCH_BITCOIN_UNSPENT: {
+    case AT.FETCH_BITCOIN_UNSPENT_LOADING: {
       return assocPath(['payment', 'coins'], RD.Loading(), state)
     }
     case AT.FETCH_BITCOIN_UNSPENT_SUCCESS: {

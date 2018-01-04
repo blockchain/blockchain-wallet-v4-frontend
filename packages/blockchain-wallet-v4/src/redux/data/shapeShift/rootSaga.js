@@ -10,6 +10,7 @@ export default ({ api } = {}) => {
   const fetchBtcEth = function * () {
     try {
       const data = yield call(api.getBtcEth)
+      yield put(A.fetchBtcEthLoading())
       yield call(delay, delayAjax)
       yield put(A.fetchBtcEthSuccess(data))
     } catch (e) {
@@ -21,6 +22,7 @@ export default ({ api } = {}) => {
   const fetchEthBtc = function * () {
     try {
       const data = yield call(api.getEthBtc)
+      yield put(A.fetchEthBtcLoading())
       yield call(delay, delayAjax)
       yield put(A.fetchEthBtcSuccess(data))
     } catch (e) {

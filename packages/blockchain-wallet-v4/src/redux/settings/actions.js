@@ -23,8 +23,8 @@ export const setAuthTypeNeverSave = (authTypeNeverSave) => ({ type: AT.SET_AUTH_
 export const setGoogleAuthenticator = () => ({ type: AT.SET_GOOGLE_AUTHENTICATOR })
 export const setYubikey = () => ({ type: AT.SET_YUBIKEY })
 
+// FETCH_SETTINGS
 export const fetchSettings = () => ({ type: AT.FETCH_SETTINGS })
-
+export const fetchSettingsLoading = () => ({ type: AT.FETCH_SETTINGS_LOADING })
 export const fetchSettingsSuccess = (data) => ({ type: AT.FETCH_SETTINGS_SUCCESS, payload: data })
-
 export const fetchSettingsFailure = (error) => ({ type: AT.FETCH_SETTINGS_FAILURE, payload: error })

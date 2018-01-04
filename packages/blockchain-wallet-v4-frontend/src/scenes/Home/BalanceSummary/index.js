@@ -12,7 +12,7 @@ import Success from './template.success'
 
 class BalanceSummary extends React.Component {
   componentWillMount () {
-    this.props.bitcoinActions.fetchData()
+    // this.props.bitcoinActions.fetchData()
   }
 
   render () {

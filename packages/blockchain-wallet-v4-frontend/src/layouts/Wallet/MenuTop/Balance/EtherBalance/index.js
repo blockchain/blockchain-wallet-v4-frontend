@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { getData } from './selectors'
 import { RemoteData } from 'blockchain-wallet-v4/src'
+import { identity } from "ramda"
 
 import Error from './template.error'
 import Loading from './template.loading'
@@ -13,7 +14,10 @@ import Success from './template.success'
 
 class EtherBalance extends React.Component {
   componentWillMount () {
-    this.props.actions.fetchData(this.props.context)
+    RemoteData.caseOf(this.props.data.value, {
+      NotAsked: () => this.props.actions.fetchData(this.props.context),
+      _: identity
+    })
   }
 
   render () {
