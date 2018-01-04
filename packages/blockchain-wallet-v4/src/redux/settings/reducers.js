@@ -1,7 +1,7 @@
 import * as RD from '../remoteData'
 import * as AT from './actionTypes'
 
-const INITIAL_STATE = {
+const INITIAL_STATE = RD.NotAsked({
   btc_unit: 'BTC',
   eth_unit: 'ETH',
   language: 'en',
@@ -15,16 +15,16 @@ const INITIAL_STATE = {
   logging_level: 0,
   ip_lock: '',
   ip_lock_on: 0
-}
+})
 
 const settingsReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.SET_SETTINGS: {
-      const { data } = payload
-      return data
-    }
+    // case AT.SET_SETTINGS: {
+    //   const { data } = payload
+    //   return data
+    // }
     case AT.SET_EMAIL: {
       const { email } = payload
       return Object.assign({}, state, { email: email, email_verified: 0 })
