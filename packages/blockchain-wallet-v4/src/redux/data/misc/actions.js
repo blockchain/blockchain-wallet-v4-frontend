@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const fetchAdverts = () => ({ type: AT.FETCH_ADVERTS })
+export const fetchAdverts = (number) => ({ type: AT.FETCH_ADVERTS, payload: { number } })
 
 export const fetchAdvertsSuccess = (data) => ({ type: AT.FETCH_ADVERTS_SUCCESS, payload: data })
 

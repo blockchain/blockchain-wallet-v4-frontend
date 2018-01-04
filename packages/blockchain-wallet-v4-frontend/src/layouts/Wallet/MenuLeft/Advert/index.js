@@ -3,9 +3,12 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals } from 'ramda'
 
+import { RemoteData } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
-import { getAdvert } from './selectors'
-import Advert from './template'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class AdvertContainer extends React.Component {
   componentWillMount () {
@@ -13,17 +16,24 @@ class AdvertContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.location, nextProps.location)) { this.props.actions.initAdvert(2) }
+    if (!equals(this.props.location, nextProps.location)) {
+      this.props.actions.fetchAdverts(2)
+    }
   }
 
   render () {
-    // return <Advert adverts={this.props.advert.data} />
-    return <div />
+    const { data } = this.props
+
+    return RemoteData.caseOf(data.value, {
+      Success: (value) => <Success adverts={value} />,
+      Failed: (message) => <Error>{message}</Error>,
+      _: () => <Loading />
+    })
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  advert: getAdvert(state)
+const mapStateToProps = state => ({
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
