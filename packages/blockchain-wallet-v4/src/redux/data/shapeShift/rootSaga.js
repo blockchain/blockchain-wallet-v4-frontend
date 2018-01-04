@@ -1,6 +1,7 @@
 
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
+import { delayAjax } from '../../paths'
 import { all, map } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'
@@ -9,7 +10,7 @@ export default ({ api } = {}) => {
   const fetchBtcEth = function * () {
     try {
       const data = yield call(api.getBtcEth)
-      yield call(delay, 2000)
+      yield call(delay, delayAjax)
       yield put(A.fetchBtcEthSuccess(data))
     } catch (e) {
       yield put(A.fetchBtcEthFailure(e.message))
@@ -20,7 +21,7 @@ export default ({ api } = {}) => {
   const fetchEthBtc = function * () {
     try {
       const data = yield call(api.getEthBtc)
-      yield call(delay, 2000)
+      yield call(delay, delayAjax)
       yield put(A.fetchEthBtcSuccess(data))
     } catch (e) {
       yield put(A.fetchEthBtcFailure(e.message))

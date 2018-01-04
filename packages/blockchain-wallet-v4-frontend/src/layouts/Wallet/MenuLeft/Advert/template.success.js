@@ -33,13 +33,13 @@ const Advert = props => {
       <Text size='14px' weight={400} uppercase>
         <FormattedMessage id='layouts.menuleft.advert.sponsored' defaultMessage='Sponsored links' />
       </Text>
-      { adverts.map(function (advert, index) {
+      {adverts.map(function (advert, index) {
         return (
           <Container key={index}>
             <Link src={advert.url}>
               <Image src={advert.data} />
             </Link>
-            { advert.name && <Text size='14px' weight={400} uppercase>{advert.name}</Text> }
+            {advert.name && <Text size='14px' weight={400} uppercase>{advert.name}</Text>}
           </Container>
         )
       })}

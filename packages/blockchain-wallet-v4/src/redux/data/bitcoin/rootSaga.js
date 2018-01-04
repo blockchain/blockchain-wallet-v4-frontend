@@ -5,6 +5,7 @@ import { indexBy, is, path, prop } from 'ramda'
 import { futurizeP } from 'futurize'
 import Task from 'data.task'
 import { sign } from '../../../signer'
+import { delayAjax } from '../../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
@@ -23,6 +24,7 @@ export default ({ api } = {}) => {
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)
       }
+      yield call(delay, delayAjax)
       yield put(A.fetchDataSuccess(bitcoinData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
@@ -32,7 +34,7 @@ export default ({ api } = {}) => {
   const fetchFee = function * () {
     try {
       const data = yield call(api.getBitcoinFee)
-      yield call(delay, 2000)
+      yield call(delay, delayAjax)
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
       yield put(A.fetchFeeFailure(e.message))
@@ -43,7 +45,7 @@ export default ({ api } = {}) => {
   const fetchRates = function * () {
     try {
       const data = yield call(api.getBitcoinTicker)
-      yield call(delay, 2000)
+      yield call(delay, delayAjax)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))

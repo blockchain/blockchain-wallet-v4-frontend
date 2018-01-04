@@ -21,9 +21,9 @@ export const getBtcEthMinimum = state => RemoteData.map(x => path(['minimum'], x
 
 export const getBtcEthRate = state => RemoteData.map(x => path(['rate'], x), getBtcEth(state))
 
-export const getEthBtcLimit = state => RemoteData.map(x => path(['maxLimit'], x), getEthBtc(state))
+export const getEthBtcLimit = state => RemoteData.map(x => path(['limit'], x), getEthBtc(state))
 
-export const getEthBtcMaxLimit = state => RemoteData.map(x => path(['limit'], x), getEthBtc(state))
+export const getEthBtcMaxLimit = state => RemoteData.map(x => path(['maxLimit'], x), getEthBtc(state))
 
 export const getEthBtcMinerFee = state => RemoteData.map(x => path(['minerFee'], x), getEthBtc(state))
 
