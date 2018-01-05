@@ -20,7 +20,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchSettingsSuccess(data))
     } catch (e) {
       yield put(A.fetchSettingsFailure(e.message))
-      throw e
     }
   }
 

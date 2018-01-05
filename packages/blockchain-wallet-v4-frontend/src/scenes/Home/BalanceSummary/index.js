@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { compose, map, reduce, add } from 'ramda'
 
 import { RemoteData } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
@@ -16,7 +15,13 @@ class BalanceSummary extends React.Component {
   }
 
   render () {
-    // return <Success bitcoinBalances={bitcoinBalances} total={getTotalBalance(bitcoinBalances)} />
+    const { data } = this.props
+
+    // return RemoteData.caseOf(data.value, {
+    //   Success: (value) => <Success bitcoinBalances={value.bitcoinBalances} total={value.total} />,
+    //   Failed: (message) => <Error>{message}</Error>,
+    //   _: () => <Loading />
+    // })
     return <div />
   }
 }

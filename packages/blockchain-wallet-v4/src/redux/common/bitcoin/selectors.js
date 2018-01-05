@@ -4,19 +4,28 @@ import memoize from 'fast-memoize'
 import * as bitcoinSelectors from '../../data/bitcoin/selectors.js'
 import * as transactions from '../../../transactions'
 import { getDefaultHDWallet, getWallet } from '../../wallet/selectors'
+import * as RemoteData from '../../remoteData'
 
 const mTransformTx = memoize(transactions.bitcoin.transformTx)
 
-// getActiveHDAccounts :: state -> [hdacountsWithInfo]
+// getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
-  const balances = bitcoinSelectors.getAddresses(state)
-  const addInfo = account => assoc('info', prop(prop('xpub', account), balances), account)
+  const balancesRD = bitcoinSelectors.getAddresses(state)
+  // HDAccount -> RD ( HDAccount with info )
+  const addInfo = account => {
+    const infoRD = RemoteData.map(x => prop(prop('xpub', account), x), balancesRD)
+    return RemoteData.map(x => assoc('info', x, account), infoRD)
+  }
   return compose(map(addInfo), HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts, getDefaultHDWallet)(state)
 }
 // getActiveAddresses :: state -> [AddresseswithInfo]
 export const getActiveAddresses = state => {
-  const balances = bitcoinSelectors.getAddresses(state)
-  const addInfo = address => assoc('info', prop(prop('addr', address), balances), address)
+  const balancesRD = bitcoinSelectors.getAddresses(state)
+  // LegacyAddress -> RD ( LegacyAddress with info )
+  const addInfo = address => {
+    const infoRD = RemoteData.map(x => prop(prop('addr', address), x), balancesRD)
+    return RemoteData.map(x => assoc('info', x, address), infoRD)
+  }
   return compose(map(addInfo), AddressMap.toJS, AddressMap.selectActive, Wallet.selectAddresses, getWallet)(state)
 }
 const digestAddress = x => ({
@@ -32,7 +41,12 @@ const digestAccount = x => ({
   index: prop('index', x)
 })
 
-export const getAccountsBalances = state => map(digestAccount, getActiveHDAccounts(state))
+export const getAccountsBalances = state => {
+
+  return reduce(RemoteData.concat, RemoteData.empty, getActiveHDAccounts(state))
+  // return map(digestAccount, getActiveHDAccounts(state))
+}
+
 export const getAddressesBalances = state => map(digestAddress, getActiveAddresses(state))
 
 export const getAggregatedAddressesBalances = state => {

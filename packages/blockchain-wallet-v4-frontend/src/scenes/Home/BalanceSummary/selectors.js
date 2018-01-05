@@ -5,7 +5,9 @@ import { selectors } from 'data'
 export const getData = (state) => {
   // const bitcoinAddressesData = selectors.core.data.bitcoin.getAddresses(state)
   // const bitcoinLegacyAddresses = selectors.core.wallet.getAddresses(state)
-  // const bitcoinHDAccounts = selectors.core.wallet.getHDAccounts(state)
+  const bitcoinHDAccounts = selectors.core.common.bitcoin.getAccountsBalances(state)
+  console.log('----------')
+  console.log(bitcoinHDAccounts)
   // console.log('bitcoinLegacyAddresses', bitcoinLegacyAddresses)
   // console.log('bitcoinHDAccounts', bitcoinHDAccounts)
 

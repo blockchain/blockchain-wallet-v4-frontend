@@ -34,7 +34,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchDataSuccess(ethereumData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
-      throw e
     }
   }
 
@@ -46,7 +45,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
       yield put(A.fetchFeeFailure(e.message))
-      throw e
     }
   }
 
@@ -58,7 +56,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchLatestBlockSuccess(data))
     } catch (e) {
       yield put(A.fetchLatestBlockFailure(e.message))
-      throw e
     }
   }
 
@@ -81,7 +78,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchTransactionsSuccess(data))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
-      throw e
     }
   }
 

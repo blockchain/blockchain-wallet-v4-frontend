@@ -29,7 +29,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchDataSuccess(bitcoinData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
-      throw e
     }
   }
   const fetchFee = function * () {
@@ -40,7 +39,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
       yield put(A.fetchFeeFailure(e.message))
-      throw e
     }
   }
 
@@ -52,8 +50,7 @@ export default ({ api } = {}) => {
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
-      throw e
-    }
+     }
   }
 
   const fetchTransactions = function * ({ address, reset }) {
@@ -66,7 +63,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchTransactionsSuccess(data, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
-      throw e
     }
   }
 
@@ -85,7 +81,6 @@ export default ({ api } = {}) => {
       }
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
-      throw e
     }
   }
 
@@ -97,7 +92,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchFiatAtTimeSuccess({ currency: { hash: data } }))
     } catch (e) {
       yield put(A.fetchFiatAtTimeFailure(e.message))
-      throw e
     }
   }
 
@@ -110,7 +104,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchUnspentSuccess(data))
     } catch (e) {
       yield put(A.fetchUnspentSuccess([]))
-      throw e
     }
   }
 
@@ -120,7 +113,6 @@ export default ({ api } = {}) => {
       const signAndPublish = (sel, pass) => taskToPromise(sign(network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushTx)))
       return yield call(signAndPublish, selection, password)
     } catch (e) {
-      throw e
     }
   }
 
