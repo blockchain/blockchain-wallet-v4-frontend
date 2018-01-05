@@ -17,7 +17,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchAdvertsSuccess(data))
     } catch (e) {
       yield put(A.fetchAdvertsFailure(e.message))
-      throw e
     }
   }
 
@@ -32,7 +31,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchCaptchaSuccess({ url, sessionToken }))
     } catch (e) {
       yield put(A.fetchCaptchaFailure(e.message))
-      throw e
     }
   }
 
@@ -58,7 +56,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchLogsSuccess(data.results))
     } catch (e) {
       yield put(A.fetchLogsFailure(e.message))
-      throw e
     }
   }
 

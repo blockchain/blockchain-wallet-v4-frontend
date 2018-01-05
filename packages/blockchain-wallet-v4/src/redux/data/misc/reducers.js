@@ -3,10 +3,10 @@ import * as AT from './actionTypes.js'
 import * as RD from '../../remoteData'
 
 const INITIAL_STATE = {
-  adverts: RD.Loading(),
-  captcha: RD.Loading(),
-  logs: RD.Loading(),
-  price_index_series: RD.Loading()
+  adverts: RD.NotAsked(),
+  captcha: RD.NotAsked(),
+  logs: RD.NotAsked(),
+  price_index_series: RD.NotAsked()
 }
 
 const miscReducer = (state = INITIAL_STATE, action) => {

@@ -15,7 +15,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchBtcEthSuccess(data))
     } catch (e) {
       yield put(A.fetchBtcEthFailure(e.message))
-      throw e
     }
   }
 
@@ -27,7 +26,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchEthBtcSuccess(data))
     } catch (e) {
       yield put(A.fetchEthBtcFailure(e.message))
-      throw e
     }
   }
 

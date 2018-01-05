@@ -15,6 +15,8 @@ export const map = (f, remoteData) => caseOf(remoteData, {
   _: () => remoteData
 })
 
+export const empty = Success('')
+
 export const concat = (remoteData1, remoteData2) => {
   const status1 = prop('status', remoteData1)
   const value1 = prop('value', remoteData1)

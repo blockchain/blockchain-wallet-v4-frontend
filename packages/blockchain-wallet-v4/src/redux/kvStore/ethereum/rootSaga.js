@@ -24,7 +24,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchMetadataEthereumSuccess(newkv))
     } catch (e) {
       yield put(A.fetchMetadataEthereumFailure(e.message))
-      throw e
     }
   }
 
