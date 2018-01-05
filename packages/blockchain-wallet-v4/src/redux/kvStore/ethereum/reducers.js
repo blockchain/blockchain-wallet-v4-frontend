@@ -6,13 +6,10 @@ import * as RD from '../../remoteData'
 // initial state should be a kvstore object
 const INITIAL_STATE = RD.NotAsked()
 
-export const ethereumReducer = (state = INITIAL_STATE, action) => {
+export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
+
   switch (type) {
-    // case T.SET_ETHEREUM: {
-    //   const { data } = payload
-    //   return data
-    // }
     case AT.FETCH_METADATA_ETHEREUM_LOADING: {
       return RD.Loading()
     }
@@ -26,5 +23,3 @@ export const ethereumReducer = (state = INITIAL_STATE, action) => {
       return state
   }
 }
-
-export default ethereumReducer
