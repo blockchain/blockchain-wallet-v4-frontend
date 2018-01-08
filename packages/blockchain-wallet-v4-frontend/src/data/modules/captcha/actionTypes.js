@@ -1,1 +1,0 @@
-export const INIT_CAPTCHA = '@COMPONENT.INIT_CAPTCHA'
