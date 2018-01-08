@@ -1,7 +1,6 @@
-import * as T from './actionTypes.js'
 import {peerReducer} from './peer/reducers'
 
-// The state is a mapping of public key to
+// The state is a mapping of public key to connection objects
 const INITIAL_STATE = {}
 
 export const peersReducer = (state = INITIAL_STATE, action) => {
