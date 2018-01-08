@@ -4,7 +4,6 @@ import memoize from 'fast-memoize'
 import * as bitcoinSelectors from '../../data/bitcoin/selectors.js'
 import * as transactions from '../../../transactions'
 import { getDefaultHDWallet, getWallet } from '../../wallet/selectors'
-import * as RemoteData from '../../remoteData'
 
 const mTransformTx = memoize(transactions.bitcoin.transformTx)
 
@@ -13,8 +12,8 @@ export const getActiveHDAccounts = state => {
   const balancesRD = bitcoinSelectors.getAddresses(state)
   // HDAccount -> RD ( HDAccount with info )
   const addInfo = account => {
-    const infoRD = RemoteData.map(x => prop(prop('xpub', account), x), balancesRD)
-    return RemoteData.map(x => assoc('info', x, account), infoRD)
+  //   const infoRD = RemoteData.map(x => prop(prop('xpub', account), x), balancesRD)
+  //   return RemoteData.map(x => assoc('info', x, account), infoRD)
   }
   return compose(map(addInfo), HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts, getDefaultHDWallet)(state)
 }
@@ -23,8 +22,8 @@ export const getActiveAddresses = state => {
   const balancesRD = bitcoinSelectors.getAddresses(state)
   // LegacyAddress -> RD ( LegacyAddress with info )
   const addInfo = address => {
-    const infoRD = RemoteData.map(x => prop(prop('addr', address), x), balancesRD)
-    return RemoteData.map(x => assoc('info', x, address), infoRD)
+    // const infoRD = RemoteData.map(x => prop(prop('addr', address), x), balancesRD)
+    // return RemoteData.map(x => assoc('info', x, address), infoRD)
   }
   return compose(map(addInfo), AddressMap.toJS, AddressMap.selectActive, Wallet.selectAddresses, getWallet)(state)
 }
@@ -43,7 +42,7 @@ const digestAccount = x => ({
 
 export const getAccountsBalances = state => {
 
-  return reduce(RemoteData.concat, RemoteData.empty, getActiveHDAccounts(state))
+  // return reduce(RemoteData.concat, RemoteData.empty, getActiveHDAccounts(state))
   // return map(digestAccount, getActiveHDAccounts(state))
 }
 

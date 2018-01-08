@@ -6,7 +6,6 @@ import { equals } from 'ramda'
 
 import { selectPriceIndexSeriesOptions } from 'services/ChartService'
 import configure from './chart.config.js'
-import { RemoteData } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -38,7 +37,7 @@ class Chart extends React.Component {
     const { currency, data, coin, timeframe } = this.props
     const { start, interval } = selectPriceIndexSeriesOptions(coin, timeframe)
 
-    return RemoteData.caseOf(data.value, {
+    return data.cata({
       Success: (value) => <Success
         coin={coin}
         timeframe={timeframe}
@@ -47,7 +46,8 @@ class Chart extends React.Component {
         selectTimeframe={this.selectTimeframe}
       />,
       Failed: (message) => <Error>{message}</Error>,
-      _: () => <Loading />
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }

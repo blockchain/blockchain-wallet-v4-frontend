@@ -1,5 +1,3 @@
 import { selectors } from 'data'
 
-export const getData = (state) => ({
-  value: selectors.core.settings.getSettings(state)
-})
+export const getData = selectors.core.settings.getSettings

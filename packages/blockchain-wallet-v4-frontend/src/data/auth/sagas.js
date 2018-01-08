@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { takeEvery, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
+import { takeLatest, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
@@ -239,13 +239,13 @@ export const resetLogoutTimer = function * () {
 }
 
 export default function * () {
-  yield takeEvery(AT.LOGIN, login)
-  yield takeEvery(AT.MOBILE_LOGIN, mobileLogin)
-  yield takeEvery(AT.REGISTER, register)
-  yield takeEvery(AT.RESTORE, restore)
-  yield takeEvery(AT.REMIND_GUID, remindGuid)
-  yield takeEvery(AT.AUTHENTICATE, startLogoutTimer)
-  yield takeEvery(AT.LOGOUT, logout)
-  yield takeEvery(AT.LOGOUT_RESET_TIMER, resetLogoutTimer)
-  yield takeEvery(AT.RESET_2FA, reset2fa)
+  yield takeLatest(AT.LOGIN, login)
+  yield takeLatest(AT.MOBILE_LOGIN, mobileLogin)
+  yield takeLatest(AT.REGISTER, register)
+  yield takeLatest(AT.RESTORE, restore)
+  yield takeLatest(AT.REMIND_GUID, remindGuid)
+  yield takeLatest(AT.AUTHENTICATE, startLogoutTimer)
+  yield takeLatest(AT.LOGOUT, logout)
+  yield takeLatest(AT.LOGOUT_RESET_TIMER, resetLogoutTimer)
+  yield takeLatest(AT.RESET_2FA, reset2fa)
 }

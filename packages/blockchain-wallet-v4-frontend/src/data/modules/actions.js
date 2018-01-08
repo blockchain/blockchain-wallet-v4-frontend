@@ -7,7 +7,6 @@ import * as settings from './settings/actions'
 import * as transactionBitcoin from './transactionBitcoin/actions'
 import * as transactionEther from './transactionEther/actions'
 import * as transferEther from './transferEther/actions'
-import * as whatsNew from './whatsNew/actions'
 
 export {
   coinConvertor,
@@ -18,6 +17,5 @@ export {
   settings,
   transactionBitcoin,
   transactionEther,
-  transferEther,
-  whatsNew
+  transferEther
 }

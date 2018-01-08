@@ -12,8 +12,6 @@ import wallet from './wallet/sagas'
 export const sagas = { core: coreSagasFactory({ api, socket }) }
 const coreRootSaga = rootSaga({ api, socket })
 
-// console.log(coreRootSaga)
-
 const welcomeSaga = function * () {
   if (console) {
     const version = '4.0.0.0'
@@ -28,9 +26,6 @@ const welcomeSaga = function * () {
     console.log('%c it is a scam and will give them access to your money!', style2)
   }
 }
-
-// console.log(coreRootSaga)
-// console.log(welcomeSaga)
 
 export default function * () {
   yield all([

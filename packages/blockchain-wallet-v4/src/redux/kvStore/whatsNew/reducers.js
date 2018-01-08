@@ -1,23 +1,23 @@
 // import { set } from 'ramda-lens'
 // import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
-import * as RD from '../../remoteData'
+import Remote from '../../../remote'
 
 // initial state should be a kvstore object
-const INITIAL_STATE = RD.NotAsked()
+const INITIAL_STATE = Remote.NotAsked
 
 export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
     case AT.FETCH_METADATA_WHATSNEW_LOADING: {
-      return RD.Loading()
+      return Remote.Loading
     }
     case AT.FETCH_METADATA_WHATSNEW_SUCCESS: {
-      return RD.Success(payload)
+      return Remote.Success(payload)
     }
     case AT.FETCH_METADATA_WHATSNEW_FAILURE: {
-      return RD.Failed(payload)
+      return Remote.Failure(payload)
     }
     default:
       return state

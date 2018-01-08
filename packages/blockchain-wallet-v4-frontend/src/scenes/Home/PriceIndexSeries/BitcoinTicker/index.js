@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { RemoteData } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -11,16 +11,19 @@ import Success from './template.success'
 
 class BitcoinTicker extends React.Component {
   componentWillMount () {
-    this.props.actions.fetchRates()
+    if (Remote.NotAsked.is(this.props.data)) {
+      this.props.actions.fetchRates()
+    }
   }
 
   render () {
     const { coin, data } = this.props
 
-    return RemoteData.caseOf(data.value, {
+    return data.cata({
       Success: (value) => <Success selected={coin === 'BTC'} {...this.props}>{value}</Success>,
       Failed: (message) => <Error>{message}</Error>,
-      _: () => <Loading />
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }

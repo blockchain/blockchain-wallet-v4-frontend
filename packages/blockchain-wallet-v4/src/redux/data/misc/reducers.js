@@ -1,12 +1,12 @@
 import { assoc } from 'ramda'
 import * as AT from './actionTypes.js'
-import * as RD from '../../remoteData'
+import Remote from '../../../remote'
 
 const INITIAL_STATE = {
-  adverts: RD.NotAsked(),
-  captcha: RD.NotAsked(),
-  logs: RD.NotAsked(),
-  price_index_series: RD.NotAsked()
+  adverts: Remote.NotAsked,
+  captcha: Remote.NotAsked,
+  logs: Remote.NotAsked,
+  price_index_series: Remote.NotAsked
 }
 
 const miscReducer = (state = INITIAL_STATE, action) => {
@@ -14,40 +14,40 @@ const miscReducer = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.FETCH_ADVERTS_LOADING: {
-      return assoc('adverts', RD.Loading(), state)
+      return assoc('adverts', Remote.Loading, state)
     }
     case AT.FETCH_ADVERTS_SUCCESS: {
-      return assoc('adverts', RD.Success(payload), state)
+      return assoc('adverts', Remote.Success(payload), state)
     }
     case AT.FETCH_ADVERTS_FAILURE: {
-      return assoc('adverts', RD.Failed(payload), state)
+      return assoc('adverts', Remote.Failure(payload), state)
     }
     case AT.FETCH_CAPTCHA_LOADING: {
-      return assoc('captcha', RD.Loading(), state)
+      return assoc('captcha', Remote.Loading, state)
     }
     case AT.FETCH_CAPTCHA_SUCCESS: {
-      return assoc('captcha', RD.Success(payload), state)
+      return assoc('captcha', Remote.Success(payload), state)
     }
     case AT.FETCH_CAPTCHA_FAILURE: {
-      return assoc('captcha', RD.Failed(payload), state)
+      return assoc('captcha', Remote.Failure(payload), state)
     }
     case AT.FETCH_LOGS_LOADING: {
-      return assoc('logs', RD.Loading(), state)
+      return assoc('logs', Remote.Loading, state)
     }
     case AT.FETCH_LOGS_SUCCESS: {
-      return assoc('logs', RD.Success(payload), state)
+      return assoc('logs', Remote.Success(payload), state)
     }
     case AT.FETCH_LOGS_FAILURE: {
-      return assoc('logs', RD.Failed(payload), state)
+      return assoc('logs', Remote.Failure(payload), state)
     }
     case AT.FETCH_PRICE_INDEX_SERIES_LOADING: {
-      return assoc('price_index_series', RD.Loading(), state)
+      return assoc('price_index_series', Remote.Loading, state)
     }
     case AT.FETCH_PRICE_INDEX_SERIES_SUCCESS: {
-      return assoc('price_index_series', RD.Success(payload), state)
+      return assoc('price_index_series', Remote.Success(payload), state)
     }
     case AT.FETCH_PRICE_INDEX_SERIES_FAILURE: {
-      return assoc('price_index_series', RD.Failed(payload), state)
+      return assoc('price_index_series', Remote.Failure(payload), state)
     }
     default:
       return state
