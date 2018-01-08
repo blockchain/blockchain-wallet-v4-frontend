@@ -29,40 +29,37 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    // case actionTypes.common.bitcoin.SET_BLOCKCHAIN_DATA: {
-    //   return merge(state, payload)
-    // }
     // case AT.SET_BITCOIN_LATEST_BLOCK: {
     //   return assocPath(['latest_block'], payload, state)
     // }
-    // case AT.SET_BITCOIN_EFFECTIVE_BALANCE: {
-    //   const { effectiveBalance } = payload
-    //   return assocPath(['payment', 'effectiveBalance'], effectiveBalance, state)
-    // }
-    // case AT.SET_BITCOIN_SELECTION: {
-    //   const { coins, target, feePerByte, change, algorithm, seed } = action.payload
+    case AT.SET_BITCOIN_EFFECTIVE_BALANCE: {
+      const { effectiveBalance } = payload
+      return assocPath(['payment', 'effectiveBalance'], effectiveBalance, state)
+    }
+    case AT.SET_BITCOIN_SELECTION: {
+      const { coins, target, feePerByte, change, algorithm, seed } = action.payload
 
-    //   let selection
-    //   switch (algorithm) {
-    //     case 'ascentDraw':
-    //       selection = ascentDraw([target], feePerByte, coins, change)
-    //       break
-    //     case 'descentDraw':
-    //       selection = descentDraw([target], feePerByte, coins, change)
-    //       break
-    //     case 'singleRandomDraw':
-    //       selection = singleRandomDraw([target], feePerByte, coins, change, seed)
-    //       break
-    //     case 'branchAndBound':
-    //       selection = branchAndBound([target], feePerByte, coins, change, seed)
-    //       break
-    //     default:
-    //       selection = EMPTY_SELECTION
-    //       break
-    //   }
+      let selection
+      switch (algorithm) {
+        case 'ascentDraw':
+          selection = ascentDraw([target], feePerByte, coins, change)
+          break
+        case 'descentDraw':
+          selection = descentDraw([target], feePerByte, coins, change)
+          break
+        case 'singleRandomDraw':
+          selection = singleRandomDraw([target], feePerByte, coins, change, seed)
+          break
+        case 'branchAndBound':
+          selection = branchAndBound([target], feePerByte, coins, change, seed)
+          break
+        default:
+          selection = EMPTY_SELECTION
+          break
+      }
 
-    //   return assocPath(['payment', 'selection'], selection, state)
-    // }
+      return assocPath(['payment', 'selection'], selection, state)
+    }
     case AT.FETCH_BITCOIN_DATA_LOADING: {
       const data = {
         addresses: Remote.Loading,
@@ -107,15 +104,15 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BITCOIN_RATES_FAILURE: {
       return assoc('rates', Remote.Failure(payload), state)
     }
-    case AT.FETCH_BITCOIN_SELECTION_LOADING: {
-      return assocPath(['payment', 'selection'], Remote.Loading, state)
-    }
-    case AT.FETCH_BITCOIN_SELECTION_SUCCESS: {
-      return assocPath(['payment', 'selection'], Remote.Success(payload), state)
-    }
-    case AT.FETCH_BITCOIN_SELECTION_FAILURE: {
-      return assocPath(['payment', 'selection'], Remote.Failure(payload), state)
-    }
+    // case AT.FETCH_BITCOIN_SELECTION_LOADING: {
+    //   return assocPath(['payment', 'selection'], Remote.Loading, state)
+    // }
+    // case AT.FETCH_BITCOIN_SELECTION_SUCCESS: {
+    //   return assocPath(['payment', 'selection'], Remote.Success(payload), state)
+    // }
+    // case AT.FETCH_BITCOIN_SELECTION_FAILURE: {
+    //   return assocPath(['payment', 'selection'], Remote.Failure(payload), state)
+    // }
     case AT.FETCH_BITCOIN_TRANSACTIONS_LOADING: {
       return assoc('transactions', Remote.Loading, state)
     }

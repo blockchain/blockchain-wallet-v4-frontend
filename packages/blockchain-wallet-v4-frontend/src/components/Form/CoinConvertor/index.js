@@ -30,7 +30,10 @@ class CoinConvertorContainer extends React.Component {
   }
 
   componentWillMount () {
-    this.props.actions.initCoinConvertor()
+    this.props.bitcoinDataActions.fetchFee()
+    this.props.ethereumDataActions.fetchFee()
+    this.props.shapeshiftDataActions.fetchBtcEth()
+    this.props.shapeshiftDataActions.fetchEthBtc()
   }
 
   handleChangeCoin1 (e) {
@@ -166,7 +169,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modules.coinConvertor, dispatch)
+  bitcoinDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  ethereumDataActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  shapeshiftDataActions: bindActionCreators(actions.core.data.shapeShift, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinConvertorContainer)
