@@ -1,21 +1,23 @@
-import * as RD from '../remoteData'
+import Remote from '../../remote'
 import * as AT from './actionTypes'
 
-const INITIAL_STATE = RD.NotAsked({
-  btc_unit: 'BTC',
-  eth_unit: 'ETH',
-  language: 'en',
-  currency: 'USD',
-  country_code: 'US',
-  email: '',
-  email_verified: 0,
-  sms_number: '',
-  sms_verified: 0,
-  auto_logout: 10,
-  logging_level: 0,
-  ip_lock: '',
-  ip_lock_on: 0
-})
+// const INITIAL_STATE = RD.NotAsked({
+//   btc_unit: 'BTC',
+//   eth_unit: 'ETH',
+//   language: 'en',
+//   currency: 'USD',
+//   country_code: 'US',
+//   email: '',
+//   email_verified: 0,
+//   sms_number: '',
+//   sms_verified: 0,
+//   auto_logout: 10,
+//   logging_level: 0,
+//   ip_lock: '',
+//   ip_lock_on: 0
+// })
+
+const INITIAL_STATE = Remote.NotAsked
 
 const settingsReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
@@ -94,13 +96,13 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       return Object.assign({}, state, { auth_type: 2 })
     }
     case AT.FETCH_SETTINGS_LOADING: {
-      return RD.Loading()
+      return Remote.Loading
     }
     case AT.FETCH_SETTINGS_SUCCESS: {
-      return RD.Success(payload)
+      return Remote.Success(payload)
     }
     case AT.FETCH_SETTINGS_FAILURE: {
-      return RD.Failed(payload)
+      return Remote.Failure(payload)
     }
     default:
       return state

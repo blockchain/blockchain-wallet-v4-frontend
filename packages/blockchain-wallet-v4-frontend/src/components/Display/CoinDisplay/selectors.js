@@ -1,15 +1,12 @@
 
-import { Exchange, RemoteData } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
+import { lift } from 'ramda'
 
 export const getData = (state, coin, amount) => {
   const settings = selectors.core.settings.getSettings(state)
-
-  const convert = value => coin === 'BTC'
-    ? Exchange.displayBitcoinToBitcoin({ value: amount, fromUnit: 'SAT', toUnit: value.btc_currency })
-    : Exchange.displayEtherToEther({ value: amount, fromUnit: 'WEI', toUnit: 'ETH' })
-
-  return {
-    value: RemoteData.map((coin, amount) => convert(coin, amount), settings)
-  }
+  const convert = (s, c, a) => c === 'BTC'
+    ? Exchange.displayBitcoinToBitcoin({ value: a, fromUnit: 'SAT', toUnit: s.btc_currency })
+    : Exchange.displayEtherToEther({ value: a, fromUnit: 'WEI', toUnit: 'ETH' })
+  return lift(convert)(settings, Remote.of(coin), Remote.of(amount))
 }

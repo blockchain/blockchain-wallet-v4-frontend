@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { RemoteData } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -32,11 +31,11 @@ class PriceIndexSeries extends React.Component {
   render () {
     const { data } = this.props
     const { coin, timeframe } = this.state
-
-    return RemoteData.caseOf(data.value, {
+    return data.cata({
       Success: (value) => <Success currency={value.currency} coin={coin} timeframe={timeframe} selectCoin={this.selectCoin} selectTimeframe={this.selectTimeframe} />,
       Failed: (message) => <Error>{message}</Error>,
-      _: () => <Loading />
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }

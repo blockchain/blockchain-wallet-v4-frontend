@@ -3,30 +3,28 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
-import { RemoteData } from 'blockchain-wallet-v4/src'
-import { identity } from 'ramda'
-
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class BitcoinBalance extends React.Component {
   componentWillMount () {
-    RemoteData.caseOf(this.props.data.value, {
-      NotAsked: () => this.props.actions.fetchData(this.props.context),
-      _: identity
-    })
+    if (Remote.NotAsked.is(this.props.data)) {
+      this.props.actions.fetchData(this.props.context)
+    }
   }
 
   render () {
     const { data } = this.props
 
-    return RemoteData.caseOf(data.value, {
+    return data.cata({
       Success: (value) => <Success balance={value} />,
       Failed: (message) => <Error>{message}</Error>,
-      _: () => <Loading />
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }

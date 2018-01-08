@@ -1,5 +1,3 @@
 import { selectors } from 'data'
 
-export const getData = (state) => ({
-  value: selectors.core.data.bitcoin.getBalance(state)
-})
+export const getData = selectors.core.data.bitcoin.getBalance

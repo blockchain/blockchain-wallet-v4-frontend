@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import { RemoteData } from 'blockchain-wallet-v4/src'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -25,11 +24,11 @@ class Balance extends React.Component {
 
   render () {
     const { data } = this.props
-
-    return RemoteData.caseOf(data.value, {
-      Success: (value) => <Success bitcoinContext={value[0]} etherContext={value[1]} handleCoinDisplay={this.handleCoinDisplay} />,
+    return data.cata({
+      Success: (value) => <Success bitcoinContext={value.bitcoinContext} etherContext={value.etherContext} handleCoinDisplay={this.handleCoinDisplay} />,
       Failed: (message) => <Error>{message}</Error>,
-      _: () => <Loading />
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }

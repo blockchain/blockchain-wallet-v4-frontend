@@ -4,14 +4,11 @@ import { delay } from 'redux-saga'
 import { delayAjax } from '../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
-import * as S from './selectors'
 import * as selectors from '../selectors'
 
 export default ({ api } = {}) => {
   const fetchSettings = function * () {
     try {
-      const settings = yield select(S.getSettings)
-      if (settings.status !== 'NotAsked') return
       const guid = yield select(selectors.wallet.getGuid)
       const sharedKey = yield select(selectors.wallet.getSharedKey)
       yield put(A.fetchSettingsLoading())

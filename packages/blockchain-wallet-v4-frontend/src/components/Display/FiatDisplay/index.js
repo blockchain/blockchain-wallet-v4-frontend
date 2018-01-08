@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { RemoteData } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -12,20 +12,23 @@ import Success from './template.success'
 
 class FiatDisplayContainer extends React.Component {
   componentWillMount () {
-    this.props.settingsActions.fetchSettings()
-    switch (this.props.coin) {
-      case 'BTC': return this.props.bitcoinActions.fetchRates()
-      case 'ETH': return this.props.ethereumActions.fetchRates()
+    if (Remote.NotAsked.is(this.props.data)) {
+      this.props.settingsActions.fetchSettings()
+      switch (this.props.coin) {
+        case 'BTC': return this.props.bitcoinActions.fetchRates()
+        case 'ETH': return this.props.ethereumActions.fetchRates()
+      }
     }
   }
 
   render () {
     const { data, ...rest } = this.props
 
-    return RemoteData.caseOf(data.value, {
+    return data.cata({
       Success: (value) => <Success {...rest}>{value}</Success>,
       Failed: (message) => <Error>{message}</Error>,
-      _: () => <Loading />
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }

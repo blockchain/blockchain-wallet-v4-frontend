@@ -3,7 +3,7 @@ import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes.js'
 import * as actions from '../../actions'
 import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound } from '../../../coinSelection'
-import * as RD from '../../remoteData'
+import Remote from '../../../remote'
 
 const EMPTY_SELECTION = {
   fee: undefined,
@@ -12,17 +12,17 @@ const EMPTY_SELECTION = {
 }
 
 const INITIAL_STATE = {
-  addresses: RD.NotAsked(),
-  fee: RD.NotAsked(),
-  info: RD.NotAsked(),
-  latest_block: RD.NotAsked(),
+  addresses: Remote.NotAsked,
+  fee: Remote.NotAsked,
+  info: Remote.NotAsked,
+  latest_block: Remote.NotAsked,
   payment: {
-    coins: RD.NotAsked(),
+    coins: Remote.NotAsked,
     selection: EMPTY_SELECTION,
     effectiveBalance: undefined
   },
-  rates: RD.NotAsked(),
-  transactions: RD.NotAsked()
+  rates: Remote.NotAsked,
+  transactions: Remote.NotAsked
 }
 
 const bitcoinReducer = (state = INITIAL_STATE, action) => {
@@ -65,85 +65,85 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     // }
     case AT.FETCH_BITCOIN_DATA_LOADING: {
       const data = {
-        addresses: RD.Loading(),
-        info: RD.Loading(),
-        latest_block: RD.Loading()
+        addresses: Remote.Loading,
+        info: Remote.Loading,
+        latest_block: Remote.Loading
       }
       return merge(state, data)
     }
     case AT.FETCH_BITCOIN_DATA_SUCCESS: {
       const { addresses, info, latest_block } = payload
       const data = {
-        addresses: RD.Success(addresses),
-        info: RD.Success(info),
-        latest_block: RD.Success(latest_block)
+        addresses: Remote.Success(addresses),
+        info: Remote.Success(info),
+        latest_block: Remote.Success(latest_block)
       }
       return merge(state, data)
     }
     case AT.FETCH_BITCOIN_DATA_FAILURE: {
       const { addresses, info, latest_block } = payload
       const data = {
-        addresses: RD.Failed(addresses),
-        info: RD.Failed(info),
-        latest_block: RD.Failed(latest_block)
+        addresses: Remote.Failure(addresses),
+        info: Remote.Failure(info),
+        latest_block: Remote.Failure(latest_block)
       }
       return merge(state, data)
     }
     case AT.FETCH_BITCOIN_FEE_LOADING: {
-      return assoc('fee', RD.Loading(), state)
+      return assoc('fee', Remote.Loading, state)
     }
     case AT.FETCH_BITCOIN_FEE_SUCCESS: {
-      return assoc('fee', RD.Success(payload), state)
+      return assoc('fee', Remote.Success(payload), state)
     }
     case AT.FETCH_BITCOIN_FEE_FAILURE: {
-      return assoc('fee', RD.Failed(payload), state)
+      return assoc('fee', Remote.Failure(payload), state)
     }
     case AT.FETCH_BITCOIN_RATES_LOADING: {
-      return assoc('rates', RD.Loading(), state)
+      return assoc('rates', Remote.Loading, state)
     }
     case AT.FETCH_BITCOIN_RATES_SUCCESS: {
-      return assoc('rates', RD.Success(payload), state)
+      return assoc('rates', Remote.Success(payload), state)
     }
     case AT.FETCH_BITCOIN_RATES_FAILURE: {
-      return assoc('rates', RD.Failed(payload), state)
+      return assoc('rates', Remote.Failure(payload), state)
     }
     case AT.FETCH_BITCOIN_SELECTION_LOADING: {
-      return assocPath(['payment', 'selection'], RD.Loading(), state)
+      return assocPath(['payment', 'selection'], Remote.Loading, state)
     }
     case AT.FETCH_BITCOIN_SELECTION_SUCCESS: {
-      return assocPath(['payment', 'selection'], RD.Success(payload), state)
+      return assocPath(['payment', 'selection'], Remote.Success(payload), state)
     }
     case AT.FETCH_BITCOIN_SELECTION_FAILURE: {
-      return assocPath(['payment', 'selection'], RD.Failed(payload), state)
+      return assocPath(['payment', 'selection'], Remote.Failure(payload), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_LOADING: {
-      return assoc('transactions', RD.Loading(), state)
+      return assoc('transactions', Remote.Loading, state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS: {
       return payload.reset
-        ? assoc('transactions', RD.Success(payload), state)
-        : assoc('transactions', RD.Success(concat(path('transactions', state), payload)), state)
+        ? assoc('transactions', Remote.Success(payload), state)
+        : assoc('transactions', Remote.Success(concat(path('transactions', state), payload)), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE: {
-      return assoc('transactions', RD.Failed(payload), state)
+      return assoc('transactions', Remote.Failure(payload), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_LOADING: {
-      return assoc('transaction_history', RD.Loading(), state)
+      return assoc('transaction_history', Remote.Loading, state)
     }
     case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_SUCCESS: {
-      return assoc('transaction_history', RD.Success(payload), state)
+      return assoc('transaction_history', Remote.Success(payload), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_FAILURE: {
-      return assoc('transaction_history', RD.Failed(payload), state)
+      return assoc('transaction_history', Remote.Failure(payload), state)
     }
     case AT.FETCH_BITCOIN_UNSPENT_LOADING: {
-      return assocPath(['payment', 'coins'], RD.Loading(), state)
+      return assocPath(['payment', 'coins'], Remote.Loading, state)
     }
     case AT.FETCH_BITCOIN_UNSPENT_SUCCESS: {
-      return assocPath(['payment', 'coins'], RD.Success(payload), state)
+      return assocPath(['payment', 'coins'], Remote.Success(payload), state)
     }
     case AT.FETCH_BITCOIN_UNSPENT_FAILURE: {
-      return assocPath(['payment', 'coins'], RD.Failed(payload), state)
+      return assocPath(['payment', 'coins'], Remote.Failure(payload), state)
     }
     default:
       return state

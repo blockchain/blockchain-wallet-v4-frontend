@@ -1,6 +1,5 @@
 import { path } from 'ramda'
 import { dataPath } from '../../paths'
-import * as RemoteData from '../../remoteData'
 
 export const getAddresses = path([dataPath, 'bitcoin', 'addresses'])
 
@@ -15,25 +14,25 @@ export const getRates = path([dataPath, 'bitcoin', 'rates'])
 export const getTransactions = path([dataPath, 'bitcoin', 'transactions'])
 
 // Specific
-export const getChangeIndex = state => RemoteData.map(x => path(['xpub', 'change_index'], x), getAddresses(state))
+export const getChangeIndex = state => getAddresses(state).map(path(['xpub', 'change_index']))
 
-export const getReceiveIndex = state => RemoteData.map(x => path(['xpub', 'account_index'], x), getAddresses(state))
+export const getReceiveIndex = state => getAddresses(state).map(path(['xpub', 'account_index']))
 
-export const getFeeRegular = state => RemoteData.map(x => path(['regular'], x), getFee(state))
+export const getFeeRegular = state => getFee(state).map(path(['regular']))
 
-export const getFeePriority = state => RemoteData.map(x => path(['priority'], x), getFee(state))
+export const getFeePriority = state => getFee(state).map(path(['priority']))
 
-export const getBalance = state => RemoteData.map(x => path(['final_balance'], x), getInfo(state))
+export const getBalance = state => getInfo(state).map(path(['final_balance']))
 
-export const getNumberTransactions = state => RemoteData.map(x => path(['n_tx'], x), getInfo(state))
+export const getNumberTransactions = state => getInfo(state).map(path(['n_tx']))
 
-export const getHeight = state => RemoteData.map(x => path(['height'], x), getLatestBlock(state))
+export const getHeight = state => getLatestBlock(state).map(path(['height']))
 
-export const getTime = state => RemoteData.map(x => path(['time'], x), getLatestBlock(state))
+export const getTime = state => getLatestBlock(state).map(path(['time']))
 
-export const getHash = state => RemoteData.map(x => path(['hash'], x), getLatestBlock(state))
+export const getHash = state => getLatestBlock(state).map(path(['hash']))
 
-export const getIndex = state => RemoteData.map(x => path(['block_index'], x), getLatestBlock(state))
+export const getIndex = state => getLatestBlock(state).map(path(['block_index']))
 
 // export const getCoins = path([dataPath, 'bitcoin', 'payment', 'coins'])
 

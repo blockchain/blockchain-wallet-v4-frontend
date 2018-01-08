@@ -1,12 +1,12 @@
 import { assoc } from 'ramda'
-import * as RD from '../../remoteData'
+import Remote from '../../../remote'
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
-  btc_eth: RD.NotAsked(),
-  eth_btc: RD.NotAsked(),
-  order: RD.NotAsked(),
-  trades: RD.NotAsked()
+  btc_eth: Remote.NotAsked,
+  eth_btc: Remote.NotAsked,
+  order: Remote.NotAsked,
+  trades: Remote.NotAsked
 }
 
 const shapeShiftReducer = (state = INITIAL_STATE, action) => {
@@ -14,22 +14,22 @@ const shapeShiftReducer = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.FETCH_BTC_ETH_LOADING: {
-      return assoc('btc_eth', RD.Loading(), state)
+      return assoc('btc_eth', Remote.Loading, state)
     }
     case AT.FETCH_BTC_ETH_SUCCESS: {
-      return assoc('btc_eth', RD.Success(payload), state)
+      return assoc('btc_eth', Remote.Success(payload), state)
     }
     case AT.FETCH_BTC_ETH_FAILURE: {
-      return assoc('btc_eth', RD.Failed(payload), state)
+      return assoc('btc_eth', Remote.Failure(payload), state)
     }
     case AT.FETCH_ETH_BTC_LOADING: {
-      return assoc('eth_btc', RD.Loading(), state)
+      return assoc('eth_btc', Remote.Loading, state)
     }
     case AT.FETCH_ETH_BTC_SUCCESS: {
-      return assoc('eth_btc', RD.Success(payload), state)
+      return assoc('eth_btc', Remote.Success(payload), state)
     }
     case AT.FETCH_ETH_BTC_FAILURE: {
-      return assoc('eth_btc', RD.Failed(payload), state)
+      return assoc('eth_btc', Remote.Failure(payload), state)
     }
 
     // case AT.SET_ORDER: {

@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { RemoteData } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -17,10 +16,11 @@ class ActivityListContainer extends React.Component {
   render () {
     const { data } = this.props
 
-    return RemoteData.caseOf(data.value, {
+    return data.cata({
       Success: (value) => <Success activities={value} />,
       Failed: (message) => <Error>{message}</Error>,
-      _: () => <Loading />
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }

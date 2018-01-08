@@ -62,7 +62,6 @@ class FirstStepContainer extends React.Component {
           !equals(this.props.bitcoinFeeValues, bitcoinFeeValues))) {
           if (this.timeout) { clearTimeout(this.timeout) }
           this.timeout = setTimeout(() => {
-            console.log({ from, amount, fee: bitcoinFeeValues.regular, seed: this.seed })
             this.props.sendBitcoinActions.getSelection({ from, amount, fee: bitcoinFeeValues.regular, seed: this.seed })
           }, 1000)
         }

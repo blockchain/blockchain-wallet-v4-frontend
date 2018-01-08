@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals } from 'ramda'
 
-import { RemoteData } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
+
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -23,11 +24,11 @@ class AdvertContainer extends React.Component {
 
   render () {
     const { data } = this.props
-
-    return RemoteData.caseOf(data.value, {
+    return data.cata({
       Success: (value) => <Success adverts={value} />,
-      Failed: (message) => <Error>{message}</Error>,
-      _: () => <Loading />
+      Failure: (message) => <Error>{message}</Error>,
+      NotAsked: () => <Loading />,
+      Loading: () => <Loading />
     })
   }
 }

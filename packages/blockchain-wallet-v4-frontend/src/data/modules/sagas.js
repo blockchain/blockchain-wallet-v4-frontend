@@ -9,7 +9,6 @@ import settings from './settings/sagas'
 import transactionBitcoin from './transactionBitcoin/sagas'
 import transactionEther from './transactionEther/sagas'
 import transferEther from './transferEther/sagas'
-import whatsNew from './whatsNew/sagas'
 
 export default function * () {
   yield all([
@@ -21,7 +20,6 @@ export default function * () {
     call(settings),
     call(transactionBitcoin),
     call(transactionEther),
-    call(transferEther),
-    call(whatsNew)
+    call(transferEther)
   ])
 }
