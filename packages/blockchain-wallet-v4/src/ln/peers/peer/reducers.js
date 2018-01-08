@@ -1,5 +1,18 @@
 import * as T from './actionTypes.js'
 
+// Button (connect to node X)
+// ACTION_CONNECT
+// -> sagas
+//       connect
+//       do the handshake
+//       ACTION_ADD
+
+// SET_PING_TIME
+// ACTION_ERROR
+// ACTION_SEND_MESSAGE
+// -> sagas
+//        send message
+
 // The state is a mapping of public key to
 const INITIAL_STATE = {
   conn: undefined,
@@ -26,14 +39,8 @@ export const peerReducer = (state = INITIAL_STATE, action) => {
     case T.REMOVE: {
       return undefined
     }
-    case T.CONNECTED: {
-      let copy = Object.assign({}, state)
-      copy[peer] = PEER_INITIAL_STATE
-      return copy
-    }
-    case T.DISCONNECTED: {
-      return undefined
-    }
+    // TODO add other action types as one progresses with sagas
+
     default: return state
   }
 }
