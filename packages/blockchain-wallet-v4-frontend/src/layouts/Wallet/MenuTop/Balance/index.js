@@ -26,7 +26,7 @@ class Balance extends React.Component {
     const { data } = this.props
     return data.cata({
       Success: (value) => <Success bitcoinContext={value.bitcoinContext} etherContext={value.etherContext} handleCoinDisplay={this.handleCoinDisplay} />,
-      Failed: (message) => <Error>{message}</Error>,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

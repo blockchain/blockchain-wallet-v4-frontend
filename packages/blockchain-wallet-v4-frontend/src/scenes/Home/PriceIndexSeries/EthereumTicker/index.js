@@ -21,7 +21,7 @@ class EthereumTicker extends React.Component {
 
     return data.cata({
       Success: (value) => <Success selected={coin === 'ETH'} {...this.props}>{value}</Success>,
-      Failed: (message) => <Error>{message}</Error>,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
