@@ -21,7 +21,7 @@ class BitcoinTicker extends React.Component {
 
     return data.cata({
       Success: (value) => <Success selected={coin === 'BTC'} {...this.props}>{value}</Success>,
-      Failed: (message) => <Error>{message}</Error>,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

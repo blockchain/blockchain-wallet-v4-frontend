@@ -45,7 +45,7 @@ class Chart extends React.Component {
         selectCoin={this.selectCoin}
         selectTimeframe={this.selectTimeframe}
       />,
-      Failed: (message) => <Error>{message}</Error>,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
