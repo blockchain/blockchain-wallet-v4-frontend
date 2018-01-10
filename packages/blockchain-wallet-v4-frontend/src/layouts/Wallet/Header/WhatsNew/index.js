@@ -10,7 +10,7 @@ import Success from './template.success'
 
 class WhatsNewContainer extends React.Component {
   componentWillMount () {
-    this.props.actions.fetchMetadataWhatsnew()
+    // this.props.actions.fetchMetadataWhatsnew()
   }
 
   render () {
