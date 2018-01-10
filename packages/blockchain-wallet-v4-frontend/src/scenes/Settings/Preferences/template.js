@@ -26,14 +26,14 @@ const Preferences = () => {
         <FormattedMessage id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
       </InfoWell>
       <EmailAddress />
-      <MobileNumber />
+      {/* <MobileNumber />
       <WalletLanguage />
       <LocalCurrency />
       <BitcoinUnit />
       <Notifications />
       <BitcoinLinkHandling />
       <AutoLogout />
-      <Themes />
+      <Themes /> */}
     </Wrapper>
   )
 }
