@@ -1,19 +1,24 @@
-// import React from 'react'
-// import styled from 'styled-components'
-// import { Link } from 'blockchain-info-components'
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-// const Wrapper = styled.div`
-//   padding-right: 5px;
-// `
+import Empty from './Empty'
+import List from './List'
 
-// export default props => {
-//   const { selected, children, ...rest } = props
+const Wrapper = styled.div`
+  display: flex;
+`
 
-//   return (
-//     <Wrapper>
-//       <Link size='24px' weight={300} color={selected ? 'brand-primary' : 'gray-1'} {...rest}>
-//         {`BTC = ${children}`}
-//       </Link>
-//     </Wrapper>
-//   )
-// }
+const Success = props => (
+  <Wrapper>
+    {props.isEmpty && <Empty />}
+    {!props.isEmpty && <List transactions={props.transactions} />}
+  </Wrapper>
+)
+
+Success.propTypes = {
+  isEmpty: PropTypes.bool.isRequired,
+  transactions: PropTypes.array.isRequired
+}
+
+export default Success
