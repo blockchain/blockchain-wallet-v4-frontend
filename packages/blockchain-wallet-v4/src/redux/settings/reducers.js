@@ -1,6 +1,6 @@
 import Remote from '../../remote'
 import * as AT from './actionTypes'
-
+import { assoc, compose } from 'ramda'
 // const INITIAL_STATE = RD.NotAsked({
 //   btc_unit: 'BTC',
 //   eth_unit: 'ETH',
@@ -29,7 +29,8 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     // }
     case AT.SET_EMAIL: {
       const { email } = payload
-      return Object.assign({}, state, { email: email, email_verified: 0 })
+      // return Object.assign({}, state, { email: email, email_verified: 0 })
+      return state.map(compose(assoc('email', email), assoc('email_verified', 0)))
     }
     case AT.SET_EMAIL_VERIFIED: {
       return Object.assign({}, state, { email_verified: 1 })

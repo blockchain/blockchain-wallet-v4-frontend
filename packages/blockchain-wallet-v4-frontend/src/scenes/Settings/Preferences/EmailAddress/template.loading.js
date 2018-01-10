@@ -1,23 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary, SettingStatus } from 'components/Setting'
-import Settings from './Settings'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import { FlatLoader } from 'blockchain-info-components'
 
 const EmailAddress = (props) => {
-  const { emailVerified } = props
-  const isVerified = emailVerified === 1
-
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage id='scenes.preferences.email.title' defaultMessage='Email address' />
-          <SettingStatus active={isVerified}>
-            { isVerified
-              ? <FormattedMessage id='scenes.preferences.email.verified' defaultMessage='Verified' />
-              : <FormattedMessage id='scenes.preferences.email.unverified' defaultMessage='Unverified' />
-            }
-          </SettingStatus>
+          <FlatLoader width='50px' height='14px' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage id='scenes.preferences.email.description' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected,' />
@@ -26,7 +18,7 @@ const EmailAddress = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Settings />
+        <FlatLoader width='50px' height='14px' />
       </SettingComponent>
     </SettingContainer>
   )

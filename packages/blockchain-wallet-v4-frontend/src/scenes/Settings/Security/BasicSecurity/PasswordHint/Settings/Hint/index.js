@@ -1,13 +1,17 @@
+
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { getData } from './selectors'
+import { actions } from 'data'
+// import Settings from './template.js'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
+import { getData } from './selectors'
 
-class EmailAddressContainer extends React.Component {
+class HintContainer extends React.Component {
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       this.props.actions.fetchSettings()
@@ -19,7 +23,7 @@ class EmailAddressContainer extends React.Component {
 
     return data.cata({
       Success: (value) => <Success {...rest}
-        data={value} />,
+        currentHint={value} />,
       Failure: (message) => <Error {...rest}
         message={message} />,
       Loading: () => <Loading {...rest} />,
@@ -32,4 +36,12 @@ const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-export default connect(mapStateToProps)(EmailAddressContainer)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions.core.settings, dispatch)
+})
+
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(HintContainer)
