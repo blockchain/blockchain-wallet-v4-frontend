@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { isNil, equals } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.Component {
@@ -25,7 +25,6 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  currency: selectors.core.settings.getCurrency(state),
   newCurrency: formValueSelector('settingCurrency')(state, 'currency')
 })
 
