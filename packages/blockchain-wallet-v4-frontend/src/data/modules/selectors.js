@@ -5,7 +5,6 @@ import * as sendBitcoin from './sendBitcoin/selectors'
 import * as sendEther from './sendEther/selectors'
 import * as settings from './settings/selectors'
 import * as transactionBitcoin from './transactionBitcoin/selectors'
-import * as transactionEther from './transactionEther/selectors'
 import * as transferEther from './transferEther/selectors'
 
 export {
@@ -16,6 +15,5 @@ export {
   sendEther,
   settings,
   transactionBitcoin,
-  transactionEther,
   transferEther
 }

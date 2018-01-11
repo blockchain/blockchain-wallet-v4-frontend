@@ -3,15 +3,12 @@ import { compose } from 'ramda'
 import * as A from '../actions'
 import * as T from '../actionTypes'
 import { Wrapper } from '../../types'
-import { commonSagasFactory } from '../common/sagas.js'
 import * as walletSelectors from '../wallet/selectors'
 // import * as transSelectors from '../data/transactions/selectors'
 import { Socket } from '../../network'
 
 export const webSocketSaga = ({ api, socket } = {}) => {
   const send = socket.send.bind(socket)
-
-  const commonSagas = commonSagasFactory({ api })
 
   const onOpen = function * (action) {
     const subscribeInfo = yield select(walletSelectors.getInitialSocketContext)

@@ -7,7 +7,6 @@ import sendBitcoin from './sendBitcoin/sagas'
 import sendEther from './sendEther/sagas'
 import settings from './settings/sagas'
 import transactionBitcoin from './transactionBitcoin/sagas'
-import transactionEther from './transactionEther/sagas'
 import transferEther from './transferEther/sagas'
 
 export default function * () {
@@ -19,7 +18,6 @@ export default function * () {
     call(sendEther),
     call(settings),
     call(transactionBitcoin),
-    call(transactionEther),
     call(transferEther)
   ])
 }
