@@ -33,68 +33,68 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       return state.map(compose(assoc('email', email), assoc('email_verified', 0)))
     }
     case AT.SET_EMAIL_VERIFIED: {
-      return Object.assign({}, state, { email_verified: 1 })
+      return state.map(assoc('email_verified', 1))
     }
     case AT.SET_MOBILE: {
       const { mobile } = payload
-      return Object.assign({}, state, { sms_number: mobile, sms_verified: 0 })
+      return state.map(compose(assoc('sms_number', mobile), assoc('sms_verified', 0)))
     }
     case AT.SET_MOBILE_VERIFIED: {
-      return Object.assign({}, state, { sms_verified: 1 })
+      return state.map(assoc('sms_verified', 1))
     }
     case AT.SET_LANGUAGE: {
       const { language } = payload
-      return Object.assign({}, state, { language: language })
+      return state.map(assoc('language', language))
     }
     case AT.SET_CURRENCY: {
       const { currency } = payload
-      return Object.assign({}, state, { currency: currency })
+      return state.map(assoc('currency', currency))
     }
     case AT.SET_BITCOIN_UNIT: {
       const { unit } = payload
-      return Object.assign({}, state, { btc_currency: unit })
+      return state.map(assoc('btc_currency', unit))
     }
     case AT.SET_AUTO_LOGOUT: {
       const { autoLogout } = payload
-      return Object.assign({}, state, { auto_logout: autoLogout })
+      return state.map(assoc('auto_logout', autoLogout))
     }
     case AT.SET_LOGGING_LEVEL: {
       const { loggingLevel } = payload
-      return Object.assign({}, state, { logging_level: loggingLevel })
+      return state.map(assoc('logging_level', loggingLevel))
     }
     case AT.SET_IP_LOCK: {
       const { ipLock } = payload
       if (ipLock === '') {
-        return Object.assign({}, state, { ip_lock: ipLock, ip_lock_on: 0 })
+        return state.map(compose(assoc('ip_lock', ipLock), assoc('ip_lock_on', 0)))
       } else {
-        return Object.assign({}, state, { ip_lock: ipLock })
+        return state.map(assoc('ip_lock', ipLock))
       }
     }
     case AT.SET_IP_LOCK_ON: {
       const { ipLockOn } = payload
-      return Object.assign({}, state, { ip_lock_on: ipLockOn })
+      return state.map(assoc('ip_lock_on', ipLockOn))
     }
     case AT.SET_BLOCK_TOR_IPS: {
       const { blockTorIps } = payload
-      return Object.assign({}, state, { block_tor_ips: blockTorIps })
+      return state.map(assoc('block_tor_ips', blockTorIps))
     }
     case AT.SET_HINT: {
       const { hint } = payload
-      return Object.assign({}, state, { password_hint1: hint })
+      return state.map(assoc('password_hint1', hint))
     }
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
-      return Object.assign({}, state, { auth_type: authType })
+      return state.map(assoc('auth_type', authType))
     }
     case AT.SET_AUTH_TYPE_NEVER_SAVE: {
       const { authTypeNeverSave } = payload
-      return Object.assign({}, state, { never_save_auth_type: authTypeNeverSave })
+      return state.map(assoc('never_save_auth_type', authTypeNeverSave))
     }
     case AT.SET_GOOGLE_AUTHENTICATOR: {
-      return Object.assign({}, state, { auth_type: 4 })
+      return state.map(assoc('auth_type', 4))
     }
     case AT.SET_YUBIKEY: {
-      return Object.assign({}, state, { auth_type: 2 })
+      return state.map(assoc('auth_type', 2))
     }
     case AT.FETCH_SETTINGS_LOADING: {
       return Remote.Loading

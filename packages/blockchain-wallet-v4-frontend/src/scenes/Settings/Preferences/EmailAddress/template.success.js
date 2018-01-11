@@ -5,9 +5,7 @@ import Settings from './Settings'
 
 const EmailAddress = (props) => {
   const { data } = props
-  console.log(props)
   const { email, verified } = data
-  console.log(email)
   const isVerified = verified === 1
 
   return (
