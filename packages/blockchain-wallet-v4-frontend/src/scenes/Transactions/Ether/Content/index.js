@@ -3,21 +3,28 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals } from 'ramda'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
-import { getData } from './selectors'
+import { getContext, getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class ContentContainer extends React.Component {
   componentWillMount () {
-    this.props.dataEthereumActions.fetchData()
-    // this.props.kvStoreEthereumActions.fetchMetadataEthereum()
+    const { context, data } = this.props
+    console.log(context, data)
+    // if (Remote.NotAsked.is(data)) {
+      this.props.dataEthereumActions.fetchData(context.data)
+    // }
   }
 
   render () {
-    return this.props.data.cata({
-      Success: (value) => <Success isEmpty={equals(value.total, 0)} transactions={value.transactions} />, // !isEmpty(this.props.txs) ? <List transactions={txlist} /> : <Empty />,
+    const { data } = this.props
+    console.log('render', data)
+
+    return data.cata({
+      Success: (value) => <Success isEmpty={equals(value.total, 0)} transactions={value.transactions} />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -26,7 +33,8 @@ class ContentContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  context: getContext(state)
   // scroll: selectors.scroll.selectScroll(state)
 })
 

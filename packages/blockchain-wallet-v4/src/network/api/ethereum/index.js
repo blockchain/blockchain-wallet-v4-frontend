@@ -10,9 +10,9 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: `eth/account/${Array.isArray(context) ? context.join() : context}/balance`
   })
 
-  const getEthereumData = (context) => get({
+  const getEthereumData = (context, page = 1) => get({
     url: apiUrl,
-    endPoint: `eth/account/${Array.isArray(context) ? context.join() : context}`
+    endPoint: `eth/account/${Array.isArray(context) ? context.join() : context}?page=${page}`
   })
 
   const getEthereumFee = () => get({
