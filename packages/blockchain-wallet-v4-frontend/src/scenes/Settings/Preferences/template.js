@@ -28,12 +28,12 @@ const Preferences = () => {
       <EmailAddress />
       <MobileNumber />
       <WalletLanguage />
-      {/* <LocalCurrency />
+      <LocalCurrency />
       <BitcoinUnit />
       <Notifications />
       <BitcoinLinkHandling />
       <AutoLogout />
-      <Themes /> */}
+      <Themes />
     </Wrapper>
   )
 }
