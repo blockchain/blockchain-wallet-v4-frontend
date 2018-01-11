@@ -7,7 +7,6 @@ export const getData = state => {
   const emailVerified = selectors.core.settings.getEmailVerified(state)
   const f = (e, v) => ({ email: e, verified: v })
 
-  console.log(email, emailVerified)
   // return sequence(Remote.of, [email, emailVerified])
   return lift(f)(email, emailVerified)
 }
