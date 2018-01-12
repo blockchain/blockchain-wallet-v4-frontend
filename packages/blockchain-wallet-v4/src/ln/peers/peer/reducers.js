@@ -30,7 +30,7 @@ const INITIAL_STATE = {
   error: null
 }
 
-const peerReducer = (state = INITIAL_STATE, action) => {
+export const peerReducer = (state = INITIAL_STATE, action) => {
   const { type, peer } = action
   switch (type) {
     case T.ADD: {
@@ -44,5 +44,3 @@ const peerReducer = (state = INITIAL_STATE, action) => {
     default: return state
   }
 }
-
-export default peerReducer

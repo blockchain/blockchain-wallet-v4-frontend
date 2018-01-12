@@ -2,7 +2,7 @@ import { compose } from 'ramda'
 import * as A from './actions'
 import * as T from './actionTypes'
 
-const socket = ({ tcp }) => (store) => {
+const socket = (tcp) => (store) => {
   return (next) => (action) => {
     const { type } = action
 

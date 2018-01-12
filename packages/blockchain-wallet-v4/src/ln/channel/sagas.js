@@ -24,9 +24,10 @@ export const channelSagas = (tcpConn) => {
   const getChannel = channelId => state => state.ln.channel[channelId]
 
   const onOpen = function * ({options}) {
+    console.info('ON_OPEN')
     const staticRemote = options.staticRemote
 
-    yield call(tcpConn.connectToNodePromise, staticRemote)
+    yield call(tcpConn.connectToNodePromise.bind(tcpConn), staticRemote)
     // TODO initiate handshake and wait for completion
     let response = createOpenChannel(staticRemote, options, options.value)
 

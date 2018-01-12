@@ -86,7 +86,8 @@ class TCP {
         onClose()
         reject(new Error('Connection closed'))
       }
-      this.connectToNode(node, resolve, onData, close)
+      console.info(this)
+      this.connectToNode(node.toString('hex'), resolve, onData, close)
     })
   }
 
@@ -117,18 +118,11 @@ class TCP {
     // console.info('ws [<-]: ', msg.data)
     let m = JSON.parse(msg.data)
 
+    const node = TCP.extractNode(msg)
+
     if (m.op === 'pong') {
       this.onPong(msg)
-      return
-    }
-
-    const node = TCP.extractNode(msg)
-    const payload = TCP.extractPayload(msg)
-
-    if (m.op === 'msg') {
-      connections[node].onData(payload)
-      this.onNodeMessage(node, payload)
-    } if (m.op === 'event') {
+    } else if (m.op === 'event') {
       console.info('ws [<-]: ', msg.data)
       if (m.event === 'open') {
         connections[node].onOpen()
@@ -138,10 +132,17 @@ class TCP {
         connections[node] = undefined
         this.onNodeDisconnected(node)
       }
+    } else {
+      if (m.op === 'msg') {
+        const payload = TCP.extractPayload(msg)
+        connections[node].onData(payload)
+        this.onNodeMessage(node, payload)
+      }
     }
   }
 
   static extractPayload (msg) {
+    console.info(msg)
     return Buffer.from(JSON.parse(msg.data).msg, 'base64')
   }
 

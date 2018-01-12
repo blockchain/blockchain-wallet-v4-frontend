@@ -2,6 +2,7 @@ import { all, call, fork } from 'redux-saga/effects'
 
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
+import { tcpRelay } from 'services/TcpRelay'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import alerts from './alerts/sagas.js'
 import auth from './auth/sagas.js'
@@ -11,7 +12,7 @@ import payment from './payment/sagas.js'
 import settings from './settings/sagas.js'
 import wallet from './wallet/sagas.js'
 
-export const sagas = { core: coreSagasFactory({ api, socket }) }
+export const sagas = { core: coreSagasFactory({ api, socket, tcpRelay }) }
 
 const welcomeSaga = function * () {
   if (console) {

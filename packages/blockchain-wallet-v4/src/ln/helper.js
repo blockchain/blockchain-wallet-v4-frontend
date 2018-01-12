@@ -35,10 +35,9 @@ export let copy = obj => Object.assign({}, obj)
 
 export function makeActionCreator (type, ...argNames) {
   return function (...args) {
-    let payload = {}
-    let action = { type, payload }
+    let action = { type }
     argNames.forEach((arg, index) => {
-      payload[argNames[index]] = args[index]
+      action[argNames[index]] = args[index]
     })
     return action
   }

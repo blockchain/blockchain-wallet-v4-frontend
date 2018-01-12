@@ -7,7 +7,7 @@ import { walletOptionsSaga } from './walletOptions/sagas.js'
 import { kvStoreSagasFactory } from './kvStore/sagas.js'
 import { lnSagasFactory } from './../ln/sagas'
 
-export const coreSagasFactory = ({ api, socket } = {}) => ({
+export const coreSagasFactory = ({ api, socket, tcpRelay } = {}) => ({
   common: commonSagasFactory({ api, socket }),
   data: dataSagasFactory({ api, socket }),
   settings: settingsSaga({ api, socket }),
@@ -15,5 +15,5 @@ export const coreSagasFactory = ({ api, socket } = {}) => ({
   walletOptions: walletOptionsSaga({ api, socket }),
   webSocket: webSocketSaga({ api, socket }),
   kvStore: kvStoreSagasFactory({ api }),
-  ln: lnSagasFactory()
+  ln: lnSagasFactory(tcpRelay)
 })
