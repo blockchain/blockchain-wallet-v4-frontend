@@ -15,6 +15,8 @@ const channelReducer = (state = INITIAL_STATE, action) => {
     case T.REMOVE:
       copy[action.channelId] = undefined
       return copy
+    default:
+      return INITIAL_STATE
   }
 }
 

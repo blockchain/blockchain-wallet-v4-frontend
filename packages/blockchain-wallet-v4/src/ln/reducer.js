@@ -1,9 +1,10 @@
-import peersReducer from './peers/reducers.js'
-import peerReducer from './peers/peer/reducers.js'
-import channelReducer from './channel/reducers.js'
+import peer from './peers/reducers.js'
+import channel from './channel/reducers.js'
+import {combineReducers} from "redux";
 
-export {
-  peersReducer,
-  peerReducer,
-  channelReducer
-}
+const lnReducer = combineReducers({
+  peer,
+  channel
+})
+
+export default lnReducer
