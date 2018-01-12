@@ -12,16 +12,20 @@ import Success from './template.success'
 
 class ContentContainer extends React.Component {
   componentWillMount () {
-    const { context, data } = this.props
-    console.log(context, data)
-    // if (Remote.NotAsked.is(data)) {
-      this.props.dataEthereumActions.fetchData(context.data)
-    // }
+    const { context, data } = this.prop
+    if (Remote.Success.is(context) && Remote.NotAsked.is(data)) {
+      context.map(this.props.dataEthereumActions.fetchData)
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.context, nextProps.context)) {
+      nextProps.context.map(this.props.dataEthereumActions.fetchData)
+    }
   }
 
   render () {
     const { data } = this.props
-    console.log('render', data)
 
     return data.cata({
       Success: (value) => <Success isEmpty={equals(value.total, 0)} transactions={value.transactions} />,

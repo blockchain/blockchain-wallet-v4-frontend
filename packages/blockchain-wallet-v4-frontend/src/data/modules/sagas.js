@@ -12,7 +12,7 @@ import transferEther from './transferEther/sagas'
 export default function * () {
   yield all([
     call(coinConvertor),
-    call(exchange),
+    // call(exchange),
     call(exchangeHistory),
     call(sendBitcoin),
     call(sendEther),

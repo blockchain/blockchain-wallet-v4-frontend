@@ -4,10 +4,10 @@ import { getAccounts } from '../../kvStore/ethereum/selectors.js'
 import * as transactions from '../../../transactions'
 
 export const getAccountBalances = (state) => {
-  const addBalance = (addresess, account) => ({
+  const addBalance = (addresses, account) => ({
     coin: 'ETH',
     label: account.label,
-    balance: path([account.addr, 'balance'], addresess),
+    balance: path([account.addr, 'balance'], addresses),
     address: account.addr
   })
   return map(lift(addBalance)(getAddresses(state)), getAccounts(state))
