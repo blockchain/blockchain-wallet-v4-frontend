@@ -9,6 +9,7 @@ import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { serializer } from 'blockchain-wallet-v4/src/types'
+import TCP from "../../../blockchain-wallet-v4/src/ln/tcprelay/TCP";
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -36,6 +37,8 @@ const configureStore = () => {
   const kvStorePath = settings.WALLET_KVSTORE_PATH
   const isAuthenticated = selectors.auth.isAuthenticated
 
+  const tcp = new TCP()
+
   const store = createStore(
     connectRouter(history)(rootReducer),
     composeEnhancers(
@@ -44,6 +47,7 @@ const configureStore = () => {
         coreMiddleware.kvStore({isAuthenticated, api, kvStorePath}),
         coreMiddleware.socket({ socket, walletPath, isAuthenticated }),
         coreMiddleware.walletSync({isAuthenticated, api, walletPath}),
+        coreMiddleware.ln({ tcp }),
         sagaMiddleware
       ),
       autoRehydrate()
