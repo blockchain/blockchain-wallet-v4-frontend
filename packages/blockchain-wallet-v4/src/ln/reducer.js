@@ -1,7 +1,9 @@
-import peer from './peers/reducers.js'
-import channel from './channel/reducers.js'
+import peersReducer from './peers/reducers.js'
+import peerReducer from './peers/peer/reducers.js'
+import channelReducer from './channel/reducers.js'
 
 export {
-  peer,
-  channel
+  peersReducer,
+  peerReducer,
+  channelReducer
 }

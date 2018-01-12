@@ -12,6 +12,7 @@ import preferencesReducer from './preferences/reducers.js'
 import scrollReducer from './scroll/reducers.js'
 import sessionReducer from './session/reducers.js'
 import wizardReducer from './wizard/reducers.js'
+import * as lnReducers from 'blockchain-wallet-v4/src/ln/reducer.js'
 
 const rootReducer = combineReducers({
   alerts: alertsReducer,
@@ -30,7 +31,7 @@ const rootReducer = combineReducers({
   [paths.settingsPath]: coreReducers.settings,
   [paths.walletOptionsPath]: coreReducers.walletOptions,
   [paths.kvStorePath]: coreReducers.kvStore,
-  ln : lnReducers
+  ln : lnReducers.channelReducer
 })
 
 export default rootReducer
