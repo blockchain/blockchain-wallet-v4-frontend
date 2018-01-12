@@ -57,6 +57,7 @@ class TCP {
         this.socket.on('close', pipe(this.onClose, onClose))
 
         this.onNodeConnected = onNodeConnected
+
         this.onNodeMessage = onNodeMessage
         this.onNodeDisconnected = onNodeDisconnected
 
@@ -115,6 +116,11 @@ class TCP {
   onMessage (msg) {
     // console.info('ws [<-]: ', msg.data)
     let m = JSON.parse(msg.data)
+
+    if (m.op === 'pong') {
+      this.onPong(msg)
+      return
+    }
 
     const node = TCP.extractNode(msg)
     const payload = TCP.extractPayload(msg)
