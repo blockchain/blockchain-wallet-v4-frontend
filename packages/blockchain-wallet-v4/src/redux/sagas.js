@@ -5,6 +5,7 @@ import { walletSaga } from './wallet/sagas.js'
 import { webSocketSaga } from './webSocket/sagas.js'
 import { walletOptionsSaga } from './walletOptions/sagas.js'
 import { kvStoreSagasFactory } from './kvStore/sagas.js'
+import { lnSagasFactory } from './../ln/sagas'
 
 export const coreSagasFactory = ({ api, socket } = {}) => ({
   common: commonSagasFactory({ api, socket }),
@@ -13,5 +14,6 @@ export const coreSagasFactory = ({ api, socket } = {}) => ({
   wallet: walletSaga({ api, socket }),
   walletOptions: walletOptionsSaga({ api, socket }),
   webSocket: webSocketSaga({ api, socket }),
-  kvStore: kvStoreSagasFactory({ api })
+  kvStore: kvStoreSagasFactory({ api }),
+  ln: lnSagasFactory()
 })

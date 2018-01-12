@@ -11,7 +11,7 @@ import {copy} from '../helper'
 import TYPE from '../messages/types'
 import {sendMessage} from '../peers/peer/actions'
 
-export const peerSagas = (tcpConn) => {
+export const channelSagas = (tcpConn) => {
   const getChannelId = msg => {
     if (msg.channelId !== undefined) {
       return msg.channelId

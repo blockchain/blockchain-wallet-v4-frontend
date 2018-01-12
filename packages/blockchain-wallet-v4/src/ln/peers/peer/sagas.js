@@ -1,4 +1,4 @@
-import {SOCKET_OPENED} from "../../tcprelay/actionTypes";
+import {SOCKET_OPENED} from '../../tcprelay/actionTypes'
 
 export const peerSagas = (tcpConn) => {
   const connect = function * (action) {
