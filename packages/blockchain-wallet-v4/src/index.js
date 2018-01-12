@@ -12,6 +12,7 @@ import * as crypto from './walletCrypto'
 import * as pairing from './pairing'
 import * as transactions from './transactions'
 import * as Types from './types'
+import * as LN from './ln'
 
 export {
   coreActions,
@@ -27,5 +28,6 @@ export {
   crypto,
   pairing,
   transactions,
-  Types
+  Types,
+  LN
 }

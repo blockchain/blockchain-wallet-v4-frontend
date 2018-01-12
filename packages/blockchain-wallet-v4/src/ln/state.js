@@ -51,7 +51,7 @@ export let TransactionOutpoint = (hash, n) =>
                           fromJS({hash, n})
 
 export let ChannelParams = (fundingKey, dustLimitSatoshis, maxHtlcValueInFlightMsat, channelReserveSatoshis, htlcMinimumMsat, feeRatePerKw, toSelfDelay, maxAcceptedHtlcs, revocationBasepoint, paymentBasepoint, delayedPaymentBasepoint, htlcBasepoint, shutdownScriptpubkey, globalFeatures, localFeatures) =>
-                    fromJS({fundingKey, dustLimitSatoshis, maxHtlcValueInFlightMsat, channelReserveSatoshis, htlcMinimumMsat, feeRatePerKw, toSelfDelay, maxAcceptedHtlcs, revocationBasepoint, paymentBasepoint, delayedPaymentBasepoint, htlcBasepoint, shutdownScriptpubkey, globalFeatures, localFeatures})
+                          ({fundingKey, dustLimitSatoshis, maxHtlcValueInFlightMsat, channelReserveSatoshis, htlcMinimumMsat, feeRatePerKw, toSelfDelay, maxAcceptedHtlcs, revocationBasepoint, paymentBasepoint, delayedPaymentBasepoint, htlcBasepoint, shutdownScriptpubkey, globalFeatures, localFeatures})
 
 export let ChannelUpdateTypes = {
   ADD: 1,
@@ -67,9 +67,9 @@ export let Funded = {
   LOCAL_FUNDED: 1,
   REMOTE_FUNDED: 2
 }
-export let ChannelUpdateWrapper = (type, direction, index, msg) => fromJS({type, direction, index, msg})
+export let ChannelUpdateWrapper = (type, direction, index, msg) => ({type, direction, index, msg})
 
-export let ChannelState = () => fromJS({
+export let ChannelState = () => ({
   amountMsatLocal: null,
   amountMsatRemote: null,
 
@@ -92,7 +92,7 @@ export let ChannelState = () => fromJS({
   commitmentNumber: 0
 })
 
-export let Channel = () => fromJS({
+export let Channel = () => ({
   channelId: null,
   staticRemote: null,
 

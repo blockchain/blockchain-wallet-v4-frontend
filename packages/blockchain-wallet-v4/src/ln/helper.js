@@ -30,3 +30,16 @@ export let fromDER = sig => secp.fromDER(sig)
 export let sigToBitcoin = sig => addSighash(toDER(sig))
 
 export let identity = a => a
+
+export let copy = obj => Object.assign({}, obj)
+
+export function makeActionCreator (type, ...argNames) {
+  return function (...args) {
+    let payload = {}
+    let action = { type, payload }
+    argNames.forEach((arg, index) => {
+      payload[argNames[index]] = args[index]
+    })
+    return action
+  }
+}

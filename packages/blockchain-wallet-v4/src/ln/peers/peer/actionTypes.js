@@ -3,6 +3,8 @@ export const CONNECT = '@LN.PEER.CONNECT'
 export const ADD = '@LN.PEERS.ADD'
 export const REMOVE = '@LN.PEERS.REMOVE'
 
+export const SEND_MESSAGE = '@LN.PEERS.SEND_MESSAGE'
+
 export const HANDSHAKE_COMPLETE = '@LN.PEERS.HANDSHAKE_COMPLETE'
 
 export const CONNECTED = '@LN.PEER.CONNECTED'
