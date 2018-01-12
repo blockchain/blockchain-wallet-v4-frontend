@@ -147,7 +147,7 @@ let applyFail = (channelState, msg, direction) => {
 let applyMalformed = (channelState, fail, direction) => applyFail(channelState, fail, direction)
 
 let applyWrapper = (channelState, wrapper) => {
-  let {type, direction, msg} = wrapper.toJS()
+  let {type, direction, msg} = wrapper
 
   if (type === ChannelUpdateTypes.ADD) {
     return applyAdd(channelState, msg, direction)
@@ -326,7 +326,7 @@ export function createOpenChannel (peer, options, value) {
     Buffer.alloc(35), // TODO generate shutdown script
     options.gf,
     options.lf)
-  let paramsJS = paramsLocal.toJS()
+  let paramsJS = paramsLocal
 
   let nextCommitmentPoint = generatePerCommitmentPoint(commitmentSecret, Math.pow(2, 48) - 1)
 

@@ -40,7 +40,8 @@ let options = {
   toSelfDelay: 60,
   maxAcceptedHtlcs: 100,
 
-  staticRemote: Buffer.from('02064792bfd15aa44906c8d20da44adc095c57cd0aeb3a8c4a29662fb814eb8d08')
+  staticRemote: Buffer.from('02064792bfd15aa44906c8d20da44adc095c57cd0aeb3a8c4a29662fb814eb8d08'),
+  value: Long.fromNumber(100000)
 }
 
 

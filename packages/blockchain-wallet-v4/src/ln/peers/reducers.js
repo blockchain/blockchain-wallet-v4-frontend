@@ -12,13 +12,11 @@ const peersReducer = (state = INITIAL_STATE, action) => {
   if (oldState === undefined && type !== ADD) {
     return state
   } else {
-
     let newState = peerReducer(oldState, action)
     console.info(oldState)
     console.info(newState)
 
     if (oldState === newState) {
-
       return state
     } else {
       let copy = Object.assign({}, state)
