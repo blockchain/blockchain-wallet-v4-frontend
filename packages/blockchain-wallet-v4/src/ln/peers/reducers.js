@@ -4,9 +4,13 @@ import {peerReducer} from './peer/reducers.js'
 const INITIAL_STATE = {}
 
 const peersReducer = (state = INITIAL_STATE, action) => {
-  // const { type, publicKey } = action
-  //
-  // let oldState = state[publicKey]
+  const { type, publicKey } = action
+
+  let oldState = state[publicKey]
+  switch (type) {
+    default: return state
+  }
+
   // let newState = peerReducer(oldState, action)
   //
   // if (oldState === newState) {
@@ -16,6 +20,7 @@ const peersReducer = (state = INITIAL_STATE, action) => {
   //   copy[publicKey] = oldState
   //   return copy
   // }
+
 }
 
 export default peersReducer
