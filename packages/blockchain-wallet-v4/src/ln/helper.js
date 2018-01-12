@@ -1,5 +1,5 @@
 const assert = require('assert')
-const secp = require('bcoin/lib/bcoin-browser').secp256k1
+const secp = require('bcoin/lib/crypto/secp256k1')
 const Long = require('long')
 
 export let assertPubKey = pubKey => {

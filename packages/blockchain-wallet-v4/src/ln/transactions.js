@@ -7,10 +7,12 @@ import {getP2PKHScript} from './scripts'
 import {getP2WPKHRedeemScript} from './scripts'
 import {assertBuffer, assertPubKey, sigToBitcoin, wrapHex} from './helper'
 
-let bcoin = require('bcoin/lib/bcoin-browser')
-let Tx = bcoin.tx
-let ScriptBcoin = bcoin.script
-let ecBcoin = bcoin.secp256k1
+let Tx = require('bcoin/lib/primitives/tx')
+let MTx = require('bcoin/lib/primitives/mtx')
+let Outpoint = require('bcoin/lib/primitives/outpoint')
+let Witness = require('bcoin/lib/script/witness')
+let ScriptBcoin = require('bcoin/lib/script')
+let ecBcoin = require('bcoin/lib/crypto/secp256k1')
 let ec = require('secp256k1')
 let Long = require('long')
 
@@ -61,8 +63,8 @@ let obscureTransactionNumber = (transactionNumber, obscuredHash) => {
 }
 
 export let addWitness = (tx, index, script) => {
-  let t = new bcoin.mtx.fromRaw(tx)
-  t.inputs[index].witness = new bcoin.witness(script)
+  let t = new MTx.fromRaw(tx)
+  t.inputs[index].witness = new Witness(script)
   return t.toTX().toRaw()
 }
 
@@ -153,11 +155,11 @@ let getPaymentOutputScriptP2SH = (revocationKey, remoteHtlcKey, localHtlcKey, p)
 
 export let getFundingTransaction =
   (inputs, remoteKey, localKey, amount, feeRatePerKw) => {
-    let txBuilder = new bcoin.mtx()
+    let txBuilder = new MTx()
 
     let totalIn = 0
     for (let input of inputs) {
-      txBuilder.addInput({prevout: new bcoin.outpoint(input.hash.reverse().toString('hex'), input.n)})
+      txBuilder.addInput({prevout: new Outpoint(input.hash.reverse().toString('hex'), input.n)})
       totalIn += input.value
     }
 
@@ -178,7 +180,7 @@ export let getFundingTransaction =
       let inputScript = ScriptBcoin.fromRaw(getP2PKHScript(pubkey))
       let hash = txBuilder.toTX().signatureHash(i, inputScript, input.value, 1, 1)
       let sig = ec.sign(hash, input.privKey).signature
-      txBuilder.inputs[0].witness = new bcoin.witness(getP2WPKHRedeemScript(pubkey, sig))
+      txBuilder.inputs[0].witness = new Witness(getP2WPKHRedeemScript(pubkey, sig))
 
       i++
     }
@@ -189,12 +191,12 @@ export let getFundingTransaction =
 export let getCommitmentTransaction =
   (input, obscuredHash, payments, commitmentNumber, amountMsatLocal, amountMsatRemote,
    feeRate, dustLimit, toSelfDelay, keySet, funded) => {
-    let commitmentBuilder = new bcoin.mtx()
+    let commitmentBuilder = new MTx()
 
     let sequence = getCommitmentSequence(obscureTransactionNumber(commitmentNumber, obscuredHash))
     let locktime = getCommitmentLocktime(obscureTransactionNumber(commitmentNumber, obscuredHash))
 
-    let prevOut = new bcoin.outpoint(input.hash.toString('hex'), input.n)
+    let prevOut = new Outpoint(input.hash.toString('hex'), input.n)
 
     commitmentBuilder.version = 2
     commitmentBuilder.addInput({prevout: prevOut, sequence: sequence})
@@ -261,7 +263,7 @@ export let getCommitmentTransaction =
 
     for (let i = 0; i < paymentsTrimmed.length; i++) {
       let payment = paymentsTrimmed[i]
-      let paymentPrevOut = new bcoin.outpoint(commitmentBuilder.hash().toString('hex'), i)
+      let paymentPrevOut = new Outpoint(commitmentBuilder.hash().toString('hex'), i)
       let paymentTx = getPaymentTransaction(paymentPrevOut, feeRate, toSelfDelay, keySet, payment)
 
       paymentTxsSigs.push(signPaymentTransaction(paymentTx, payment, revocationKey, remoteHtlcKeyPub, keySet.localHtlcKey))
@@ -278,6 +280,8 @@ export let getCommitmentTransaction =
   }
 
 export let signCommitmentTransaction = (inputValue, tx, keySign, keyRemote) => {
+  console.info(keySign)
+  console.info(keyRemote)
   let t = Tx.fromRaw(tx)
   let inputScript = ScriptBcoin.fromRaw(Script.getFundingOutputScript(keySign.pub, keyRemote.pub))
   let hash = t.signatureHash(0, inputScript, inputValue, 1, 1)
@@ -308,7 +312,7 @@ export let sortPayments = (revocationKey, remoteKey, localKey) => (a, b) => {
 export let getPaymentTransaction = (outpoint, feeRate, toSelfDelay, keySet, p) => {
   let {direction, _, payment} = p.toJS()
 
-  let builder = new bcoin.mtx()
+  let builder = new MTx()
   builder.version = 2
 
   builder.addInput({
