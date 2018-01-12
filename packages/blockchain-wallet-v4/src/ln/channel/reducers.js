@@ -5,7 +5,7 @@ import * as T from './actionTypes.js'
 // The state is a mapping of channel id to channel
 const INITIAL_STATE = {}
 
-export const peersReducer = (state = INITIAL_STATE, action) => {
+export const channelReducer = (state = INITIAL_STATE, action) => {
   const { type } = action
 
   let copy = Object.assign({}, state)
@@ -19,3 +19,5 @@ export const peersReducer = (state = INITIAL_STATE, action) => {
       return copy
   }
 }
+
+export default channelReducer

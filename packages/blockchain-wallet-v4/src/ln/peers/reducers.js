@@ -17,3 +17,5 @@ export const peersReducer = (state = INITIAL_STATE, action) => {
     return copy
   }
 }
+
+export default peerReducer
