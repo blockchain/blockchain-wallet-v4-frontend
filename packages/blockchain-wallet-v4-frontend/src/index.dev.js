@@ -6,6 +6,8 @@ import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
 import {startSocket} from '../../blockchain-wallet-v4/src/ln/tcprelay/actions'
 import {open} from '../../blockchain-wallet-v4/src/ln/channel/actions'
+import {wrapPubKey} from "../../blockchain-wallet-v4/src/ln/channel";
+import {wrapHex} from "../../blockchain-wallet-v4/lib/ln/helper";
 
 const { store, history } = configureStore()
 
@@ -40,7 +42,7 @@ let options = {
   toSelfDelay: 60,
   maxAcceptedHtlcs: 100,
 
-  staticRemote: Buffer.from('02064792bfd15aa44906c8d20da44adc095c57cd0aeb3a8c4a29662fb814eb8d08'),
+  staticRemote: wrapPubKey(wrapHex('02064792bfd15aa44906c8d20da44adc095c57cd0aeb3a8c4a29662fb814eb8d08')),
   value: Long.fromNumber(100000)
 }
 
