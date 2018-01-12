@@ -2,6 +2,7 @@
 import {List} from 'immutable'
 import {getSerializer} from '../messages/parser'
 import {wrapHex} from "../helper";
+import * as random from 'crypto'
 
 let ec = require('bcoin/lib/crypto/secp256k1-browser')
 let crypto = require('bcoin/lib/crypto')
@@ -23,10 +24,12 @@ function Connection (options, staticRemote) {
   this.staticLocal = options.staticLocal
   this.staticRemote = staticRemote
 
+  console.info(ec)
+
   // Handshake data
   this.tempLocal = {}
   this.tempRemote = {}
-  this.tempLocal.priv = ec.generatePrivateKey()
+  this.tempLocal.priv = random.randomBytes(32)
   this.tempLocal.pub = ec.publicKeyCreate(this.tempLocal.priv, true)
 
   this.ck = null
@@ -68,6 +71,12 @@ Connection.prototype.error = function error (err) {
   throw err
 }
 
+Connection.prototype.connectPromise = function connectPromise (tcp) {
+  return new Promise((resolve, reject) => {
+    this.connect(tcp, () => {}, resolve, () => {}, reject)
+  })
+}
+
 Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb, onMessageCb, onCloseCb) {
   this.tcp = tcp
 
@@ -97,7 +106,7 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
     onCloseCb()
   }
 
-  tcp.connectToNode(this.staticRemote.pub.toString('base64'), onConnect, onData, onClose)
+  tcp.connectToNode(this.staticRemote.toString('hex'), onConnect, onData, onClose)
 
   this.tcp = tcp
 }
@@ -195,6 +204,8 @@ Connection.prototype.sendHandshakePart3 = function () {
 }
 
 Connection.prototype._appendToHash = function _appendToHash (data) {
+  console.info(this.h)
+  console.info(data)
   let v = [this.h, data]
   this.h = crypto.sha256(Buffer.concat(v))
 }

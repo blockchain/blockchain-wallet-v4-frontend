@@ -1,15 +1,15 @@
 'use strict'
 
 import {fromJS} from 'immutable'
-import * as Parse from './messages/parser'
-import TYPE from './messages/types'
-import * as Message from './messages/serializer'
+import * as Parse from '../../messages/parser'
+import TYPE from '../../messages/types'
+import * as Message from '../../messages/serializer'
 import * as Time from 'unix-timestamp'
-import * as State from './state'
+import * as State from '../../state'
 import * as Long from 'long'
-import {openChannel, readAcceptChannel, sendFundingCreated, readFundingSigned} from './channel'
-import {identity, wrapHex} from './helper';
-import {Connection} from './peers/connection'
+import {openChannel, readAcceptChannel, sendFundingCreated, readFundingSigned} from '../../channel'
+import {identity, wrapHex} from '../../helper';
+import {Connection} from '../connection'
 
 let updateState = (stateHolder) => (fun) => {
   stateHolder.update(s => fun(s))

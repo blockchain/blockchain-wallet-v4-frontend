@@ -10,6 +10,7 @@ import {refresh} from './actions'
 import {copy} from '../helper'
 import TYPE from '../messages/types'
 import {sendMessage} from '../peers/peer/actions'
+import {Connection} from '../peers/connection'
 
 export const channelSagas = (tcpConn) => {
   const getChannelId = msg => {
@@ -27,7 +28,11 @@ export const channelSagas = (tcpConn) => {
     console.info('ON_OPEN')
     const staticRemote = options.staticRemote
 
-    yield call(tcpConn.connectToNodePromise.bind(tcpConn), staticRemote)
+    // yield call(tcpConn.connectToNodePromise.bind(tcpConn), staticRemote)
+
+    const conn = new Connection(options, staticRemote)
+    yield call(conn.connectPromise.bind(conn), tcpConn)
+
     // TODO initiate handshake and wait for completion
     let response = createOpenChannel(staticRemote, options, options.value)
 

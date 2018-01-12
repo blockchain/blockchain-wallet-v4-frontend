@@ -1,6 +1,6 @@
 
 import TCP from './TCP'
-import Peer from './peer'
+import Peer from './peers/peer/peer'
 import {State, StateHolder} from './state'
 import {wrapHex} from './helper'
 import {sendOutAllMessages} from './peers/connection'
