@@ -9,5 +9,4 @@ export const peerSagas = (tcpConn) => {
   return function * () {
     yield takeEvery(SOCKET_OPENED, connect)
   }
-  // TODO how do we wire up the sagas?
 }

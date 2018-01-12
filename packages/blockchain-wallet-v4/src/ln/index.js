@@ -18,6 +18,7 @@ export const startUp = (options) => {
 }
 
 export const connect = (options, stateHolder, tcp, key) => {
+  console.log('connecting')
   let staticRemote = {}
   staticRemote.pub = wrapHex(key)
 
