@@ -5,8 +5,9 @@ import Task from 'data.task'
 import * as A from './actions'
 import * as T from './actionTypes'
 import * as C from './config'
+import { kvStorePath } from '../paths'
 
-const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, api } = {}) => (store) => (next) => (action) => {
+const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) => (action) => {
   const prevKVStore = store.getState()[kvStorePath]
   const wasAuth = isAuthenticated(store.getState())
   const result = next(action)
@@ -17,6 +18,7 @@ const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, api } = {}) => (store
 
   switch (true) {
     case (wasAuth && isAuth &&
+          action.type !== T.root.SET_ROOT &&
           action.type !== T.whatsNew.SET_WHATS_NEW &&
           action.type !== T.buySell.SET_BUYSELL &&
           action.type !== T.contacts.SET_CONTACTS &&
@@ -26,6 +28,7 @@ const kvStoreMiddleware = ({ isAuthenticated, kvStorePath, api } = {}) => (store
 
       const actionCreators = {
         // [GUID]: 0,
+        [C.ROOT]: A.root.set,
         [C.WHATSNEW]: A.whatsNew.setWhatsNew,
         [C.BUYSELL]: A.buySell.setBuySell,
         [C.CONTACTS]: A.contacts.setContacts,

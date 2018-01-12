@@ -3,7 +3,7 @@ import { Socket } from '../../network'
 import * as A from '../actions'
 import * as T from '../actionTypes'
 
-const socket = ({ socket, walletPath }) => (store) => {
+const socket = ({ socket }) => (store) => {
   const send = socket.send.bind(socket)
   return (next) => (action) => {
     const { type } = action
