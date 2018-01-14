@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   adverts: Remote.NotAsked,
   captcha: Remote.NotAsked,
   logs: Remote.NotAsked,
-  price_index_series: Remote.NotAsked
+  price_index_series: Remote.NotAsked,
+  pairing_code: Remote.NotAsked
 }
 
 const miscReducer = (state = INITIAL_STATE, action) => {
@@ -48,6 +49,15 @@ const miscReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_PRICE_INDEX_SERIES_FAILURE: {
       return assoc('price_index_series', Remote.Failure(payload), state)
+    }
+    case AT.ENCODE_PAIRING_CODE_LOADING: {
+      return assoc('pairing_code', Remote.Loading, state)
+    }
+    case AT.ENCODE_PAIRING_CODE_SUCCESS: {
+      return assoc('pairing_code', Remote.Success(payload), state)
+    }
+    case AT.ENCODE_PAIRING_CODE_FAILURE: {
+      return assoc('pairing_code', Remote.Failure(payload), state)
     }
     default:
       return state

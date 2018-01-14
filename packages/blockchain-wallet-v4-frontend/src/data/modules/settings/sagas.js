@@ -31,12 +31,7 @@ export const initSettingsSecurity = function * () {
 }
 
 export const showPairingCode = function * (action) {
-  try {
-    const encryptionPhrase = yield call(sagas.core.settings.encodePairingCode)
-    yield put(actions.modals.showModal('PairingCode', { data: encryptionPhrase }))
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not fetch pairing code.'))
-  }
+  yield put(actions.modals.showModal('PairingCode'))
 }
 
 const showBackupRecovery = function * (action) {
