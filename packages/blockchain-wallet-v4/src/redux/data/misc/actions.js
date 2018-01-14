@@ -23,3 +23,9 @@ export const fetchPriceIndexSeries = (coin, currency, start, scale) => ({ type: 
 export const fetchPriceIndexSeriesLoading = () => ({ type: AT.FETCH_PRICE_INDEX_SERIES_LOADING })
 export const fetchPriceIndexSeriesSuccess = (data) => ({ type: AT.FETCH_PRICE_INDEX_SERIES_SUCCESS, payload: data })
 export const fetchPriceIndexSeriesFailure = (error) => ({ type: AT.FETCH_PRICE_INDEX_SERIES_FAILURE, payload: error })
+
+// ENCODE_PAIRING_CODE
+export const encodePairingCode = () => ({ type: AT.ENCODE_PAIRING_CODE })
+export const encodePairingCodeLoading = () => ({ type: AT.ENCODE_PAIRING_CODE_LOADING })
+export const encodePairingCodeSuccess = (data) => ({ type: AT.ENCODE_PAIRING_CODE_SUCCESS, payload: data })
+export const encodePairingCodeFailure = (error) => ({ type: AT.ENCODE_PAIRING_CODE_FAILURE, payload: error })
