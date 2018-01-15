@@ -7,7 +7,7 @@ import * as Message from '../../messages/serializer'
 import * as Time from 'unix-timestamp'
 import * as State from '../../state'
 import * as Long from 'long'
-import {openChannel, readAcceptChannel, sendFundingCreated, readFundingSigned} from '../../channel'
+import {openChannel, readAcceptChannel, sendFundingCreated, readFundingSigned} from '../../channel/channel'
 import {identity, wrapHex} from '../../helper';
 import {Connection} from '../connection'
 
