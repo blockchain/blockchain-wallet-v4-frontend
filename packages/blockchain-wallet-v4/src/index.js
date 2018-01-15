@@ -29,5 +29,5 @@ export {
   crypto,
   pairing,
   transactions,
-  Types,
+  Types
 }

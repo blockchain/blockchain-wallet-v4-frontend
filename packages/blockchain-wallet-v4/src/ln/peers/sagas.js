@@ -10,7 +10,6 @@ import { wrapPubKey } from '../channel/channel'
 
 var ec = require('bcoin/lib/crypto/secp256k1-browser')
 
-
 export const peerSagas = (tcpConn) => {
 
   let options = {

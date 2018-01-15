@@ -104,6 +104,10 @@ export let Channel = () => ({
   remote: ChannelState(),
   local: ChannelState(),
 
+  fundingTx: null,
+  fundingLockedSent: false,
+  fundingLockedReceived: false,
+
   commitmentInput: {},
   commitmentObscureHash: null,
 

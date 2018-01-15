@@ -24,8 +24,6 @@ function Connection (options, staticRemote) {
   this.staticLocal = options.staticLocal
   this.staticRemote = staticRemote
 
-  console.info(ec)
-
   // Handshake data
   this.tempLocal = {}
   this.tempRemote = {}
