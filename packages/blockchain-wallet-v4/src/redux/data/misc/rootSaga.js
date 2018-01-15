@@ -6,7 +6,8 @@ import { delayAjax } from '../../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as selectors from '../../selectors'
-import * as sagas from '../../settings/sagas'
+import * as wS from '../../wallet/selectors'
+import * as pairing from '../../../pairing'
 
 export default ({ api } = {}) => {
   const fetchAdverts = function * (action) {
@@ -63,7 +64,11 @@ export default ({ api } = {}) => {
   const encodePairingCode = function * () {
     try {
       yield put(A.encodePairingCodeLoading())
-      const encryptionPhrase = yield call(sagas.settingsSaga({api: api}).encodePairingCode)
+      const guid = yield select(wS.getGuid)
+      const sharedKey = yield select(wS.getSharedKey)
+      const password = yield select(wS.getMainPassword)
+      const pairingPassword = yield call(api.getPairingPassword, guid)
+      const encryptionPhrase = pairing.encode(guid, sharedKey, password, pairingPassword)
       yield put(A.encodePairingCodeSuccess(encryptionPhrase))
     } catch (e) {
       yield put(A.encodePairingCodeFailure(e.message))
