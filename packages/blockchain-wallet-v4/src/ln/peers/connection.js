@@ -106,7 +106,7 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
     onCloseCb()
   }
 
-  tcp.connectToNode(this.staticRemote.toString('hex'), onConnect, onData, onClose)
+  tcp.connectToNode(this.staticRemote.pub.toString('hex'), onConnect, onData, onClose)
 
   this.tcp = tcp
 }
@@ -204,8 +204,6 @@ Connection.prototype.sendHandshakePart3 = function () {
 }
 
 Connection.prototype._appendToHash = function _appendToHash (data) {
-  console.info(this.h)
-  console.info(data)
   let v = [this.h, data]
   this.h = crypto.sha256(Buffer.concat(v))
 }
