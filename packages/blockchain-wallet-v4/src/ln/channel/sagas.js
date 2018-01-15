@@ -10,7 +10,7 @@ import {
 import {refresh} from './actions'
 import {copy} from '../helper'
 import TYPE from '../messages/types'
-import {sendMessage} from '../peers/peer/actions'
+import {sendMessage} from '../peers/actions'
 import {Connection} from '../peers/connection'
 import {getChannelDir, getChannel} from './selectors'
 
