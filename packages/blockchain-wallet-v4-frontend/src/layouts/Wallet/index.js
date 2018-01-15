@@ -12,7 +12,6 @@ import Success from './template.success'
 
 class WalletLayout extends React.Component {
   componentWillMount () {
-    console.log('componentWillMount')
     this.props.kvStoreEthereumActions.fetchMetadataEthereum()
     this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
     this.props.optionsActions.fetchOptions()

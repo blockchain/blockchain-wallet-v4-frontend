@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { contains, equals, isEmpty, isNil, map } from 'ramda'
+// import { contains, equals, isEmpty, isNil, map } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
+// import { Exchange } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors'
 import SelectBox from '../SelectBox'
 
@@ -25,16 +25,20 @@ class SelectBoxBitcoinAddresses extends React.Component {
   }
 
   render () {
-    console.log('render', this.props.data)
-    // const { accounts, legacyAddresses, includeAll, ...rest } = this.props
-    // const allWallets = { text: 'All Wallets', value: '' }
-    // const elements = []
-    // elements.push({ group: '', items: includeAll ? [allWallets, ...accounts] : accounts })
-    // if (!isEmpty(legacyAddresses)) {
-    //   elements.push({ group: 'Imported addresses', items: legacyAddresses })
-    // }
-    // return <SelectBox elements={elements} {...rest} />
-    return <div />
+    const { data, ...rest } = this.props
+
+    return data.cata({
+      Success: (value) => {
+        const elements = [{
+          group: '',
+          items: value.bitcoin
+        }]
+        return <SelectBox elements={elements} {...rest} />
+      },
+      Failure: (message) => <div>{message}</div>,
+      Loading: () => <div />,
+      NotAsked: () => <div />
+    })
   }
 }
 

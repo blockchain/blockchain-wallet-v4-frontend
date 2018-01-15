@@ -14,9 +14,13 @@ class ActionsContainer extends React.Component {
 
   handleSend () {
     const { pathname } = this.props.router.location
+    // switch (pathname) {
+    //   case '/eth/transactions': return this.props.sendEtherActions.initSendEther()
+    //   default: return this.props.sendBitcoinActions.initSendBitcoin()
+    // }
     switch (pathname) {
-      case '/eth/transactions': return this.props.sendEtherActions.initSendEther()
-      default: return this.props.sendBitcoinActions.initSendBitcoin()
+      case '/eth/transactions': return this.props.modalActions.showModal('SendEther')
+      default: return this.props.modalActions.showModal('SendBitcoin')
     }
   }
 
