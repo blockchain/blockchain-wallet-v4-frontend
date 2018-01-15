@@ -11,6 +11,7 @@ import {openChannel, readAcceptChannel, sendFundingCreated, readFundingSigned} f
 import {identity, wrapHex} from '../../helper';
 import {Connection} from '../connection'
 
+
 let updateState = (stateHolder) => (fun) => {
   stateHolder.update(s => fun(s))
 }
@@ -101,18 +102,14 @@ function Peer (options, tcp, staticRemote) {
   this.conn = new Connection(options, staticRemote)
 }
 
-Peer.prototype.connect = function connect (state, handshakeCb) {
-  let update = updateState(state)
-  let updateConnection = updateConnectionState(this.staticRemote)
-  let messageHandler = getMessageHandler(this.staticRemote, handshakeCb)
-
-  this.conn.connect(
-    this.tcp,
-    () => {},
-    () => update(updateConnection(onHandshake(this))),
-    (msg) => { update(messageHandler(msg)) },
-    onClose)
+Peer.prototype.connect = function connect (tcp) {
+  // let update = updateState(state)
+  // let updateConnection = updateConnectionState(this.staticRemote)
+  // let messageHandler = getMessageHandler(this.staticRemote, handshakeCb)
+  console.log(this)
+  this.conn.connectPromise(tcp)
 }
+
 
 Peer.prototype.createPaymentChannel = function createPaymentChannel (state, amount) {
   return openChannel(state, this.staticRemote, this.options, Long.fromNumber(amount))
