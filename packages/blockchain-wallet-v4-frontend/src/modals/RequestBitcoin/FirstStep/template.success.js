@@ -33,10 +33,10 @@ const CoinSelector = styled.div`
 `
 
 const FirstStep = props => {
-  const { submitting, invalid, onSubmit, handleClickQRCode, receiveAddress } = props
+  const { submitting, invalid, handleSubmit, handleClickQRCode, receiveAddress } = props
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <CoinSelector>
         <Text size='14px' weight={500}>
           <FormattedMessage id='modals.sendbitcoin.firststep.coin' defaultMessage='Currency:' />
@@ -84,11 +84,8 @@ const FirstStep = props => {
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired,
   receiveAddress: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   handleClickQRCode: PropTypes.func.isRequired
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { equals } from 'ramda'
+import { equals, prop } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
@@ -28,16 +28,12 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // if (!equals(this.props.initialValues, nextProps.initialValues)) {
-    //   this.props.formActions.change('requestBitcoin', this.props.initialValues)
-    // }
-    // const { coin } = nextProps
-    // Replace the bitcoin modal to the ethereum modal
-    // if (coin === 'ETH') {
-    //   this.props.modalActions.closeAllModals()
-    //   this.props.modalActions.showModal('RequestEther')
-    // }
-
+    // nextProps.data.map(x => {
+    //   if (equals(prop('coin', x), 'ETH')) {
+    //     this.props.modalActions.closeAllModals()
+    //     this.props.modalActions.showModal('RequestEther')
+    //   }
+    // })
   }
 
   handleClickQRCode (address) {
