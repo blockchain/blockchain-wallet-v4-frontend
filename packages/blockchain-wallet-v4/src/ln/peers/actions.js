@@ -1,4 +1,4 @@
-import {ADD, CONNECT, CONNECTED, DISCONNECTED} from './actionTypes';
+import {ADD, CONNECT, CONNECTED, DISCONNECTED, SEND_MESSAGE} from './actionTypes';
 
 export const addPeer = (publicKey) => ({type: ADD, publicKey})
 export const removePeer = (peer) => ({type: REMOVE, peer})
