@@ -19,7 +19,7 @@ const tcpRelay = (tcpConn) => {
 
   }
 
-  return function * {
-    yield takeEvery()
+  return function * (){
+    //yield takeEvery()
   }
 }
