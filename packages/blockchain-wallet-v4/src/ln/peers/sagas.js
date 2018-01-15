@@ -50,12 +50,17 @@ export const peerSagas = (tcpConn) => {
     //let handshakeCb = (state) => peer.createPaymentChannel(state, 100000)
     // undefined for state holder
     yield call(peer.connectPromise.bind(peer), tcpConn)
+    console.log('done!!! connected ')
   }
 
   const disconnect = function * (action) {
   }
 
   const sendMessage = function * (action) {
+    console.log('send message ')
+    let {publicKey, message} = action
+    let connection = peers[publicKey.toString('hex')]
+    connection.write(message)
   }
 
   return function * () {
