@@ -40,4 +40,4 @@ export const getIndex = state => getLatestBlock(state).map(path(['block_index'])
 
 // export const getEffectiveBalance = path([dataPath, 'bitcoin', 'payment', 'effectiveBalance'])
 
-// export const getTransactionFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))
+export const getFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))

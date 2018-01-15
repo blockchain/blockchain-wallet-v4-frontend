@@ -1,5 +1,5 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
-import { prop, compose, assoc, map, path, curry, split, values, sequence } from 'ramda'
+import { prop, compose, assoc, map, path, curry, split, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
 import * as transactions from '../../../transactions'
@@ -60,11 +60,12 @@ export const getAddressesBalances = state => map(map(digestAddress), getActiveAd
 
 // walletSelectors.getWalletTransactions :: state -> [Tx]
 export const getWalletTransactions = memoize(state => {
-  const wallet = walletSelectors.getWallet(state)
-  const currentBlockHeight = getHeight(state)
-  return compose(
-    map(mTransformTx.bind(undefined, wallet, currentBlockHeight)),
-    getTransactions)(state)
+  const walletR = Remote.of(walletSelectors.getWallet(state))
+  const blockHeightR = getHeight(state)
+  const txListR = getTransactions(state)
+  const processTxs = (wallet, blockHeight, txs) =>
+    map(mTransformTx.bind(undefined, wallet, blockHeight), txs)
+  return lift(processTxs)(walletR, blockHeightR, txListR)
 })
 
 // path is: accountIndex/chainIndex/addressIndex
