@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop } from 'ramda'
+import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop, lift, not } from 'ramda'
 
 import { selectors, actions } from 'data'
 import Empty from './Empty'
@@ -18,27 +18,26 @@ import { getContext, getData } from './selectors'
 const threshold = 250
 
 class ContentContainer extends React.Component {
-  // constructor (props) {
-    // super(props)
-    // this.filteredTransactions = []
-    // this.fetchTransactions = this.fetchTransactions.bind(this)
-    // this.filterTransactions = this.filterTransactions.bind(this)
-  // }
-
   componentWillMount () {
     // if (isEmpty(this.props.transactions)) {
     //   this.fetchTransactions(this.props.source)
     // } else {
     //   this.filterTransactions(this.props.status, this.props.search, this.props.transactions)
     // }
-    this.props.dataBitcoinActions.fetchTransactions(this.props.context, true, 0)
+    if (Remote.NotAsked.is(this.props.data)) {
+      this.props.dataBitcoinActions.fetchTransactions(this.props.context, true, 0)
+    }
   }
 
-  // componentWillReceiveProps (nextProps) {
-  //   if (!equals(this.props.source, nextProps.source)) {
-  //     this.fetchTransactions(nextProps.source)
-  //     return
-  //   }
+  componentWillReceiveProps (nextProps) {
+    console.log(this.props)
+    const update = (currentData, nextData) => {
+      console.log(currentData, nextData)
+      if (currentData.source !== nextData.source) {
+        this.props.dataBitcoinActions.fetchTransactions(nextData.source, true, 0)
+      }
+    }
+    lift(update)(this.props.data, nextProps.data)
 
   //   if (!equals(this.props.status, nextProps.status) ||
   //     !equals(this.props.search, nextProps.search) ||
@@ -52,19 +51,7 @@ class ContentContainer extends React.Component {
   //       this.fetchTransactions(nextProps.source)
   //     }
   //   }
-  // }
-
-  // fetchTransactions (source) {
-  //   this.props.actions.initBitcoinTransactions(source)
-  // }
-
-  // filterTransactions (status, criteria, transactions) {
-  //   const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
-  //   const search = curry((text, property, tx) => compose(contains(toUpper(text || '')), toUpper, prop(property))(tx))
-  //   const searchPredicate = anyPass(map(search(criteria), ['description', 'from', 'to']))
-  //   const fullPredicate = allPass([isOfType(status), searchPredicate])
-  //   this.filteredTransactions = filter(fullPredicate, transactions)
-  // }
+  }
 
   // shouldComponentUpdate (nextProps) {
   //   if (!equals(this.props.source, nextProps.source)) return true
@@ -74,14 +61,9 @@ class ContentContainer extends React.Component {
   //   return false
   // }
 
-  // render () {
-  //   return !isEmpty(this.filteredTransactions)
-  //     ? <List transactions={this.filteredTransactions} currency={this.props.currency} />
-  //     : <Empty />
-  // }
   render () {
     const { data } = this.props
-    console.log(data)
+
     return data.cata({
       Success: (value) => <Success isEmpty={equals(value.total, 0)} transactions={value.transactions} />,
       Failure: (message) => <Error>{message}</Error>,
@@ -96,13 +78,7 @@ class ContentContainer extends React.Component {
 //   const initialSource = selector(state, 'source')
 
 //   return {
-//     currency: selectors.core.settings.getCurrency(state),
 //     source: initialSource ? (initialSource.xpub ? initialSource.xpub : initialSource.address) : '',
-//     status: selector(state, 'status') || '',
-//     search: selector(state, 'search') || '',
-//     transactions: selectors.core.common.bitcoin.getWalletTransactions(state),
-//     totalTransactions: selectors.core.data.bitcoin.getNumberTransactions(state),
-//     scroll: selectors.scroll.selectScroll(state)
 //   }
 // }
 
