@@ -1,7 +1,7 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
 import { prop, compose, assoc, map, path, curry, split, values, sequence } from 'ramda'
 import memoize from 'fast-memoize'
-import * as bitcoinSelectors from '../../data/bitcoin/selectors.js'
+import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
@@ -10,7 +10,7 @@ const mTransformTx = memoize(transactions.bitcoin.transformTx)
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
-  const balancesRD = bitcoinSelectors.getAddresses(state)
+  const balancesRD = getAddresses(state)
   const addInfo = account => balancesRD.map(prop(prop('xpub', account)))
                                        .map(x => assoc('info', x, account))
   const objectOfRemotes = compose(map(addInfo), HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
@@ -19,7 +19,7 @@ export const getActiveHDAccounts = state => {
 
 // getActiveAddresses :: state -> Remote ([AddresseswithInfo])
 export const getActiveAddresses = state => {
-  const balancesRD = bitcoinSelectors.getAddresses(state)
+  const balancesRD = getAddresses(state)
   const addInfo = address => balancesRD.map(prop(prop('addr', address)))
                                        .map(x => assoc('info', x, address))
   const objectOfRemotes = compose(map(addInfo), values, walletSelectors.getActiveAddresses)(state)
@@ -61,10 +61,10 @@ export const getAddressesBalances = state => map(map(digestAddress), getActiveAd
 // walletSelectors.getWalletTransactions :: state -> [Tx]
 export const getWalletTransactions = memoize(state => {
   const wallet = walletSelectors.getWallet(state)
-  const currentBlockHeight = bitcoinSelectors.getHeight(state)
+  const currentBlockHeight = getHeight(state)
   return compose(
     map(mTransformTx.bind(undefined, wallet, currentBlockHeight)),
-    bitcoinSelectors.getTransactions)(state)
+    getTransactions)(state)
 })
 
 // path is: accountIndex/chainIndex/addressIndex
@@ -80,13 +80,14 @@ const getAddress = curry((network, path, state) => {
 export const getNextAvailableChangeAddress = curry((network, accountIndex, state) => {
   const account = compose(HDWallet.selectAccount(accountIndex), walletSelectors.getDefaultHDWallet)(state)
   const xpub = HDAccount.selectXpub(account)
-  const index = bitcoinSelectors.getChangeIndex(xpub)(state)
+  const index = getChangeIndex(xpub)(state)
+  console.log('getNextAvailableChangeAddress', account, xpub, index)
   return getAddress(network, `${accountIndex}/${1}/${index}`, state)
 })
 
 export const getNextAvailableReceiveAddress = curry((network, accountIndex, state) => {
   const account = compose(HDWallet.selectAccount(accountIndex), walletSelectors.getDefaultHDWallet)(state)
   const xpub = HDAccount.selectXpub(account)
-  const index = bitcoinSelectors.getReceiveIndex(xpub)(state)
-  return getAddress(network, `${accountIndex}/${0}/${index}`, state)
+  const index = getReceiveIndex(xpub)(state)
+  return index.map(x => getAddress(network, `${accountIndex}/${0}/${x}`, state))
 })
