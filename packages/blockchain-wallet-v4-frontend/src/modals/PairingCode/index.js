@@ -6,8 +6,21 @@ import { actions } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
 
 import modalEnhancer from 'providers/ModalEnhancer'
+
+const QRCodeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  width: 100;
+  height: 256px;
+  padding: 30px 0;
+`
 
 class PairingCodeContainer extends React.Component {
   componentWillMount () {
@@ -15,14 +28,33 @@ class PairingCodeContainer extends React.Component {
   }
 
   render () {
-    const { data } = this.props
+    const { data, position, total, close, closeAll } = this.props
 
-    return data.cata({
-      Success: (val) => <Success val={val} {...this.props} />,
-      Failure: (message) => <Error {...this.props}>{message}</Error>,
-      Loading: () => <Loading {...this.props} />,
-      NotAsked: () => <Loading {...this.props} />
+    let PairingCode = data.cata({
+      Success: (val) => <Success val={val} />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
+
+    return (
+      <Modal size='large' position={position} total={total}>
+        <ModalHeader icon='request' onClose={closeAll}>
+          <FormattedMessage id='modals.pairingcode.title' defaultMessage='Pairing code' />
+        </ModalHeader>
+        <ModalBody>
+          <FormattedMessage id='modals.pairingcode.scan' defaultMessage='Scan Pairing Code' />
+          <QRCodeContainer>
+            {PairingCode}
+          </QRCodeContainer>
+        </ModalBody>
+        <ModalFooter>
+          <Button nature='primary' fullwidth onClick={close}>
+            <FormattedMessage id='modals.pairingcode.close' defaultMessage='Close' />
+          </Button>
+        </ModalFooter>
+      </Modal>
+    )
   }
 }
 
