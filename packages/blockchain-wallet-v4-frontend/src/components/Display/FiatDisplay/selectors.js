@@ -7,8 +7,10 @@ export const getData = (state, coin, amount) => {
   const rates = coin === 'BTC'
     ? selectors.core.data.bitcoin.getRates(state)
     : selectors.core.data.ethereum.getRates(state)
+
   const convert = (s, r, c, a) => c === 'BTC'
-    ? Exchange.displayBitcoinToFiat({ value: a, fromUnit: 'SAT', toCurrency: s.btc_currency, rates: r })
-    : Exchange.displayEtherToFiat({ value: a, fromUnit: 'WEI', toCurrency: 'ETH', rates: r })
+    ? Exchange.displayBitcoinToFiat({ value: a, fromUnit: 'SAT', toCurrency: s.currency, rates: r })
+    : Exchange.displayEtherToFiat({ value: a, fromUnit: 'WEI', toCurrency: s.currency, rates: r })
+
   return lift(convert)(settings, rates, Remote.of(coin), Remote.of(amount))
 }
