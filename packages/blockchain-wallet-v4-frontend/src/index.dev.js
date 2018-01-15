@@ -6,12 +6,9 @@ import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
 import {startSocket} from '../../blockchain-wallet-v4/src/ln/tcprelay/actions'
 import {open} from '../../blockchain-wallet-v4/src/ln/channel/actions'
-<<<<<<< HEAD
 import {addPeer} from '../../blockchain-wallet-v4/src/ln/peers/actions'
-=======
 import {wrapPubKey} from "../../blockchain-wallet-v4/src/ln/channel";
 import {wrapHex} from "../../blockchain-wallet-v4/lib/ln/helper";
->>>>>>> 19cab43b0d4272b371a38c123f0e74efcf61e8dd
 
 const { store, history } = configureStore()
 
