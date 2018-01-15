@@ -6,15 +6,28 @@ import {
   createFundingCreated, createOpenChannel, createRevokeAck,
   readAcceptChannel, readCommitmentSigned, readFundingSigned, readRevokeAck,
   readUpdateAddHtlc, createFundingLocked, readFundingLocked
-} from './channel';
+} from './channel'
 import {refresh} from './actions'
 import {copy} from '../helper'
 import TYPE from '../messages/types'
 import {sendMessage} from '../peers/actions'
-import {Connection} from '../peers/connection'
 import {getChannelDir, getChannel} from './selectors'
+import {connect} from './../peers/sagas'
 
-export const channelSagas = ({api, tcpConn}) => {
+const Long = require('long')
+
+let options = {
+  chainHash: Buffer.from('06226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910f', 'hex'),
+  dustLimitSatoshis: Long.fromNumber(546),
+  maxHtlcValueInFlightMsat: Long.fromNumber(100000),
+  channelReserveSatoshis: Long.fromNumber(1000),
+  feeRatePerKw: 10000,
+  htlcMinimumMsat: 1,
+  toSelfDelay: 60,
+  maxAcceptedHtlcs: 100
+}
+
+export const channelSagas = (api, peersSaga) => {
   const getChannelId = msg => {
     if (msg.channelId !== undefined) {
       return msg.channelId
@@ -25,8 +38,11 @@ export const channelSagas = ({api, tcpConn}) => {
     }
   }
 
-  const onOpen = function * ({options}) {
-    // TODO make yield call to tcpRelay to open connection and make handshake if necessary
+  const onOpenChannel = function * ({peer}) {
+    console.info(peersSaga)
+    console.info(JSON.stringify(peersSaga))
+    yield call(peersSaga.connect, {publicKey: peer.toString('hex')})
+    console.info('abc')
     yield call(openChannel, ({options}))
   }
 
@@ -50,7 +66,7 @@ export const channelSagas = ({api, tcpConn}) => {
         // TODO get confirmations
         const confirmations = 5
 
-        if (confirmations >= channel.paramsLocal.minimumDepth && confirmations >= channel.paramsRemote.minimumDepth) {
+        if (confirmations >= channel.paramsLocal.minimumDepth) {
           // TODO I THINK that we can resend FUNDING_LOCKED as often as we want, so we just fire and forget here
           let response = createFundingLocked(channel)
 
@@ -118,8 +134,16 @@ export const channelSagas = ({api, tcpConn}) => {
   }
 
   // TODO how do we wire up the sagas?
-  return function * () {
-    yield takeEvery(AT.OPEN, onOpen)
+  const takeSagas = function * () {
+    yield takeEvery(AT.OPEN, onOpenChannel)
     yield takeEvery(AT.MESSAGE, onMessage)
+    yield takeEvery(AT.ON_BLOCK, onBlock)
+  }
+
+  return {
+    onOpenChannel,
+    onMessage,
+    onBlock,
+    takeSagas
   }
 }

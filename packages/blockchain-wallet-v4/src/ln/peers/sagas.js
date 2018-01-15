@@ -58,7 +58,7 @@ export const peerSagas = (tcpConn) => {
   const sendMessage = function * (action) {
   }
 
-  return function * () {
+  const takeSagas = function * () {
     console.log('creating saga')
     let staticLocal = {}
     staticLocal.priv = random.randomBytes(32)
@@ -68,5 +68,13 @@ export const peerSagas = (tcpConn) => {
     yield takeEvery(CONNECT, connect)
     yield takeEvery(DISCONNECT, disconnect)
     yield takeEvery(SEND_MESSAGE, sendMessage)
+  }
+
+  return {
+    connectToAllPeers,
+    connect,
+    disconnect,
+    sendMessage,
+    takeSagas
   }
 }
