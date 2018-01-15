@@ -27,28 +27,25 @@ export const peerSagas = (tcpConn) => {
 
   const connectToAllPeers = function * (action) {
     console.log('socket opened')
-    console.log(action)
     let staticRemotes = yield select(peerStaticRemote)
 
     for (let staticRemoteString in staticRemotes) {
-      let staticRemote = wrapPubKey(Buffer.from(staticRemoteString, 'hex'))
-      //console.log(options)
-      let peer = new Connection(options, staticRemote)
-      peers[staticRemoteString] = peer
       yield call(connect, {type: CONNECT, publicKey: staticRemoteString})
     }
-    // TODO use tcpConn to connect, wait for callback and then go through full handshake, then fire another event again
   }
 
   const connect = function * (action) {
     console.log('connect')
     let {type, publicKey} = action
-    // console.log(type)
-    // console.log(publicKey)
-    let peer = peers[publicKey]
+     console.log(type)
+     console.log(publicKey)
+    let staticRemote = wrapPubKey(Buffer.from(publicKey, 'hex'))
+    let peer = new Connection(options, staticRemote)
+    if (peers[publicKey] !== undefined) {
+      return;
+    }
 
-    //let handshakeCb = (state) => peer.createPaymentChannel(state, 100000)
-    // undefined for state holder
+    peers[publicKey] = peer
     yield call(peer.connectPromise.bind(peer), tcpConn)
     console.log('done!!! connected ')
   }

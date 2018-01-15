@@ -52,9 +52,9 @@ let options = {
 setTimeout(() => {
   store.dispatch(startSocket())
   // store.dispatch(open(options))
-  setTimeout(() => {
-    console.log('create payment channel')
-    store.dispatch(open(options))
-  }, 3000)
+  // setTimeout(() => {
+  //   console.log('create payment channel')
+  //   store.dispatch(open(options))
+  // }, 3000)
 
 }, 100)
