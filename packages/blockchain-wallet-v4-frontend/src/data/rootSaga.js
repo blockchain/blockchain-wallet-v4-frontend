@@ -36,7 +36,7 @@ const rootSaga = function * () {
     fork(auth),
     fork(data),
     fork(goals),
-    fork(payment),
+    // fork(payment),
     fork(settings),
     fork(wallet),
     fork(sagas.core.webSocket),
