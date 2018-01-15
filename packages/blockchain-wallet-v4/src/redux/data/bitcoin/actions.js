@@ -19,10 +19,10 @@ export const fetchFeeSuccess = (data) => ({ type: AT.FETCH_BITCOIN_FEE_SUCCESS, 
 export const fetchFeeFailure = (error) => ({ type: AT.FETCH_BITCOIN_FEE_FAILURE, payload: error })
 
 // FETCH_BITCOIN_FIAT_AT_TIME
-export const fetchFiat = () => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME })
-export const fetchFiatLoading = () => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_LOADING })
-export const fetchFiatSuccess = (data) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_SUCCESS, payload: data })
-export const fetchFiatFailure = (error) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_FAILURE, payload: error })
+export const fetchFiatAtTime = (hash, amount, time, currency) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME, payload: {hash, amount, time, currency} })
+export const fetchFiatAtTimeLoading = () => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_LOADING })
+export const fetchFiatAtTimeSuccess = (data) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_SUCCESS, payload: data })
+export const fetchFiatAtTimeFailure = (error) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_FAILURE, payload: error })
 
 // FETCH_BITCOIN_RATES
 export const fetchRates = () => ({ type: AT.FETCH_BITCOIN_RATES })
@@ -37,9 +37,9 @@ export const fetchSelectionSuccess = (data) => ({ type: AT.FETCH_BITCOIN_SELECTI
 export const fetchSelectionFailure = (error) => ({ type: AT.FETCH_BITCOIN_SELECTION_FAILURE, payload: error })
 
 // FETCH_BITCOIN_TRANSACTIONS
-export const fetchTransactions = (address, reset) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS, payload: { address, reset } })
+export const fetchTransactions = (address, reset, offset = 0) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS, payload: { address, reset, offset } })
 export const fetchTransactionsLoading = () => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_LOADING })
-export const fetchTransactionsSuccess = (data) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS, payload: data })
+export const fetchTransactionsSuccess = (transactions, reset) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS, payload: {transactions, reset} })
 export const fetchTransactionsFailure = (error) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE, payload: error })
 
 // FETCH_BITCOIN_TRANSACTION_HISTORY

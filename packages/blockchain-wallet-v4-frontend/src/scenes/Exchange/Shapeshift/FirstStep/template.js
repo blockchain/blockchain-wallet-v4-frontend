@@ -54,7 +54,6 @@ const AmountLabels = styled.div`
 `
 
 const FirstStep = (props) => {
-  console.log(props)
   const { sourceCoin, targetCoin, sourceAmount, max, handleSubmit, invalid, submitting } = props
 
   return (
