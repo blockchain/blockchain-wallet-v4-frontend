@@ -1,5 +1,5 @@
 import { call, put, select, spawn, cancel } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import {delay, takeEvery} from 'redux-saga'
 import { futurizeP } from 'futurize'
 import { equals, prop, is, compose } from 'ramda'
 import Task from 'data.task'
@@ -11,6 +11,7 @@ import { getCurrency } from '../../settings/selectors'
 import { sign } from '../../../signer'
 import * as Coin from '../../../coinSelection/coin'
 import * as CoinSelection from '../../../coinSelection'
+import {PUSH_TX} from './actionTypes'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -50,6 +51,11 @@ export const bitcoin = ({ api } = {}) => {
     return yield call(signAndPublish, selection, password)
   }
 
+  const pushTx = function * ({payload}) {
+    let tx = payload.txHex
+    return yield call(api.pushTx, tx)
+  }
+
   const refreshRatesDelay = 600000
   let bitcoinRatesTask
 
@@ -86,15 +92,21 @@ export const bitcoin = ({ api } = {}) => {
     yield put(A.setBitcoinTransactions(address, data.txs, reset))
   }
 
+  const sagas = function * () {
+    yield takeEvery(PUSH_TX, pushTx)
+  }
+
   return {
     fetchFee,
     fetchTransactions,
     fetchTransactionFiatAtTime,
     fetchUnspent,
+    sagas,
     refreshSelection,
     refreshEffectiveBalance,
     signAndPublish,
     startRates,
-    stopRates
+    stopRates,
+    pushTx
   }
 }

@@ -12,7 +12,6 @@ import * as crypto from './walletCrypto'
 import * as pairing from './pairing'
 import * as transactions from './transactions'
 import * as Types from './types'
-import * as LN from './ln'
 import * as paths from './redux/paths'
 
 export {
@@ -30,6 +29,5 @@ export {
   crypto,
   pairing,
   transactions,
-  Types,
-  LN
+  Types
 }

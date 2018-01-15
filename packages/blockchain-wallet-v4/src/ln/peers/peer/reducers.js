@@ -23,8 +23,6 @@ const INITIAL_STATE = {
   gfRemote: [],
   lfRemote: [],
 
-  channels: [],
-
   lastPing: 0,
 
   error: null

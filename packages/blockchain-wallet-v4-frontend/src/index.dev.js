@@ -6,8 +6,8 @@ import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
 import {startSocket} from '../../blockchain-wallet-v4/src/ln/tcprelay/actions'
 import {open} from '../../blockchain-wallet-v4/src/ln/channel/actions'
-import {wrapPubKey} from "../../blockchain-wallet-v4/src/ln/channel";
-import {wrapHex} from "../../blockchain-wallet-v4/lib/ln/helper";
+import {wrapPubKey} from '../../blockchain-wallet-v4/src/ln/channel/channel'
+import {wrapHex} from '../../blockchain-wallet-v4/lib/ln/helper'
 
 const { store, history } = configureStore()
 
@@ -30,8 +30,6 @@ if (module.hot) {
   module.hot.accept('scenes/app.js', () => render(require('scenes/app.js').default))
 }
 
-
-
 let options = {
   chainHash: Buffer.from('06226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910f', 'hex'),
   dustLimitSatoshis: Long.fromNumber(546),
@@ -46,15 +44,10 @@ let options = {
   value: Long.fromNumber(100000)
 }
 
-
-
+// TODO move to bootstrap section
 store.dispatch(startSocket())
 
-
-
-
-
-
+// TODO this is simulating the user opening a payment channel
 setTimeout(() => {
   store.dispatch(open(options))
 }, 100)

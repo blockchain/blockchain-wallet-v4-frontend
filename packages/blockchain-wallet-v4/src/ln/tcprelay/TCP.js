@@ -7,6 +7,7 @@ function WS (uri, protocols, opts) {
 }
 
 let connections = []
+let conn = {}
 
 if (WebSocket) {
   WS.prototype = WebSocket.prototype

@@ -1,18 +1,20 @@
 import * as AT from './actionTypes'
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 import {
+  phase,
   createCommitmentSigned,
   createFundingCreated, createOpenChannel, createRevokeAck,
   readAcceptChannel, readCommitmentSigned, readFundingSigned, readRevokeAck,
-  readUpdateAddHtlc
-} from './channel'
+  readUpdateAddHtlc, createFundingLocked, readFundingLocked
+} from './channel';
 import {refresh} from './actions'
 import {copy} from '../helper'
 import TYPE from '../messages/types'
 import {sendMessage} from '../peers/peer/actions'
 import {Connection} from '../peers/connection'
+import {getChannelDir, getChannel} from './selectors'
 
-export const channelSagas = (tcpConn) => {
+export const channelSagas = ({api, tcpConn}) => {
   const getChannelId = msg => {
     if (msg.channelId !== undefined) {
       return msg.channelId
@@ -22,22 +24,41 @@ export const channelSagas = (tcpConn) => {
       throw Error('Message doesnt have channelId defined ' + msg)
     }
   }
-  const getChannel = channelId => state => state.ln.channel[channelId]
 
   const onOpen = function * ({options}) {
-    console.info('ON_OPEN')
+    // TODO make yield call to tcpRelay to open connection and make handshake if necessary
+    yield call(openChannel, ({options}))
+  }
+
+  const openChannel = function * ({options}) {
+    // Opening the channel
     const staticRemote = options.staticRemote
 
-    // yield call(tcpConn.connectToNodePromise.bind(tcpConn), staticRemote)
-
-    const conn = new Connection(options, staticRemote)
-    yield call(conn.connectPromise.bind(conn), tcpConn)
-
-    // TODO initiate handshake and wait for completion
     let response = createOpenChannel(staticRemote, options, options.value)
 
     yield put(sendMessage(staticRemote, response.msg))
     yield put(refresh(response.channel))
+  }
+
+  const onBlock = function * () {
+    let channels = yield select(getChannelDir)
+
+    for (const channelId in channels) {
+      const channel = channels[channelId]
+
+      if (channel.phase === phase.FUNDING_BROADCASTED || channel.phase === phase.SENT_FUNDING_LOCKED) {
+        // TODO get confirmations
+        const confirmations = 5
+
+        if (confirmations >= channel.paramsLocal.minimumDepth && confirmations >= channel.paramsRemote.minimumDepth) {
+          // TODO I THINK that we can resend FUNDING_LOCKED as often as we want, so we just fire and forget here
+          let response = createFundingLocked(channel)
+
+          yield put(sendMessage(channel.staticRemote, response.msg))
+          yield put(refresh(response.channel))
+        }
+      }
+    }
   }
 
   const onMessage = function * ({peer, msg}) {
@@ -53,7 +74,12 @@ export const channelSagas = (tcpConn) => {
 
       case TYPE.FUNDING_SIGNED:
         channel = readFundingSigned(channel, msg)
-        // TODO send action for broadcasting transaction
+        yield call(api.pushTx, channel.fundingTx.toString('hex'))
+        break
+
+      case TYPE.FUNDING_LOCKED:
+        channel = readFundingLocked(channel, msg)
+        // TODO shall we send out an event if the channel is open now, or is it enough if the state reflects that change?
         break
 
       case TYPE.UPDATE_ADD_HTLC:

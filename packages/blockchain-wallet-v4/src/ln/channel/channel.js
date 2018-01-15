@@ -1,4 +1,7 @@
-import {CommitmentSigned, FundingCreated, OpenChannel, RevokeAndAck, UpdateAddHtlc} from '../messages/serializer'
+import {
+  CommitmentSigned, FundingCreated, FundingLocked, OpenChannel, RevokeAndAck,
+  UpdateAddHtlc
+} from '../messages/serializer'
 import * as random from 'crypto'
 import assert from 'assert'
 import {
@@ -41,9 +44,7 @@ export let handleChannelMessage = (channel, peer, msg) => {
 
 export let phase = {
   SENT_OPEN: 1,
-  SENT_FUNDING_CREATED: 2,
-  FUNDING_CONFIRMING: 3,
-  SENT_FUNDING_LOCKED: 4,
+  FUNDING_BROADCASTED: 2,
   OPEN: 5
 }
 
@@ -254,6 +255,15 @@ export function readFundingSigned (channel, msg) {
   return channel
 }
 
+export function readFundingLocked (channel, msg) {
+  channel.local.nextCommitmentPoint = msg.nextCommitmentPoint
+  channel.fundingLockedReceived = true
+
+  if (channel.fundingLockedSent === true) {
+    channel.phase = phase.OPEN
+  }
+}
+
 export let readUpdateAddHtlc = (channel, msg) => {
   // checkChannel(channel, ) //TODO check channel
   channel = increment(remotePaymentIndexPath)(channel)
@@ -384,6 +394,8 @@ export function createFundingCreated (channel, wallet) {
   channel.commitmentInput.n = 0
 
   console.info('Created funding transaction: \n' + fundingTx.toRaw().toString('hex'))
+  channel.fundingTx = fundingTx.toRaw()
+  channel.phase = phase.FUNDING_BROADCASTED
 
   let keySet = createSigCreateKeySet(channel)
 
@@ -407,6 +419,19 @@ export function createFundingCreated (channel, wallet) {
     fundingHash,
     0,
     commitment.commitmentSig
+  )
+
+  return {channel, msg}
+}
+
+export function createFundingLocked (channel) {
+  channel.fundingLockedSent = true
+  if (channel.fundingLockedReceived === true) {
+    channel.phase = phase.OPEN
+  }
+  let msg = FundingLocked(
+    channel.channelId,
+    Buffer.create(33) // TODO
   )
 
   return {channel, msg}
