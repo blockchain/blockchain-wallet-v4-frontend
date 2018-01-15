@@ -70,6 +70,7 @@ class TCP {
   }
 
   connectToNode (node, onOpen = identity, onData = identity, onClose = identity) {
+    node = Buffer.from(node, 'hex').toString('base64')
     console.log('Connect to ', node)
 
     connections[node] = {}

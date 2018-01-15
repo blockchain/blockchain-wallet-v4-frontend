@@ -15,5 +15,5 @@ export const coreSagasFactory = ({ api, socket, tcpRelay } = {}) => ({
   walletOptions: walletOptionsSaga({ api, socket }),
   webSocket: webSocketSaga({ api, socket }),
   kvStore: kvStoreSagasFactory({ api }),
-  ln: lnSagasFactory(tcpRelay)
+  ln: lnSagasFactory(api, tcpRelay)
 })
