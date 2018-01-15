@@ -88,5 +88,4 @@ export default function * () {
   yield takeEvery(AT.GET_SELECTION, getSelection)
   yield takeEvery(AT.GET_EFFECTIVE_BALANCE, getEffectiveBalance)
   yield takeEvery(AT.SEND_BITCOIN, sendBitcoin)
-  yield takeEvery()
 }
