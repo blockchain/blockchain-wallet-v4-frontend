@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import Parser from '../../src/ln/payment_parser.js'
+import Parser from '../../src/ln/crypto/payment_parser.js'
 
 const assert = require('assert')
 

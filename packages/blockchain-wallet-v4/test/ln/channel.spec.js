@@ -1,6 +1,6 @@
 import chai from 'chai'
 import * as Channel from '../../src/ln/channel'
-import * as State from './../../src/ln/state'
+import * as State from '../../src/ln/channel/state'
 import {fromJS} from 'immutable'
 const { expect } = chai
 

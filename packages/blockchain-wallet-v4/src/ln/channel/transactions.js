@@ -1,11 +1,11 @@
 /* eslint-disable new-cap */
-import * as Script from './scripts'
+import * as Script from '../scripts'
 import xor from 'buffer-xor'
 import {Direction, Funded} from './state'
-import {deriveKey, derivePubKey, deriveRevocationPubKey} from './key_derivation'
-import {getP2PKHScript} from './scripts'
-import {getP2WPKHRedeemScript} from './scripts'
-import {assertBuffer, assertPubKey, sigToBitcoin, wrapHex} from './helper'
+import {deriveKey, derivePubKey, deriveRevocationPubKey} from '../key_derivation'
+import {getP2PKHScript} from '../scripts'
+import {getP2WPKHRedeemScript} from '../scripts'
+import {assertBuffer, assertPubKey, sigToBitcoin, wrapHex} from '../helper'
 
 let Tx = require('bcoin/lib/primitives/tx')
 let MTx = require('bcoin/lib/primitives/mtx')

@@ -24,6 +24,7 @@ export let assertBuffer = buf => {
 
 export let addSighash = sig => Buffer.concat([sig, wrapHex('01')])
 export let wrapHex = hex => Buffer.from(hex, 'hex')
+export let wrapPubKey = (pub) => ({pub, priv: null})
 
 export let toDER = sig => secp.toDER(sig)
 export let fromDER = sig => secp.fromDER(sig)

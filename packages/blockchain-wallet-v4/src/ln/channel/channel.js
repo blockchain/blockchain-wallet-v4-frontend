@@ -7,14 +7,14 @@ import assert from 'assert'
 import {
   Channel, ChannelParams, ChannelUpdateTypes, ChannelUpdateWrapper, Direction, Funded, Payment,
   PaymentWrapper
-} from '../state'
+} from './state'
 
 import {fromJS} from 'immutable'
 import {generatePerCommitmentPoint} from '../key_derivation'
 import {
   checkCommitmentSignature, createSigCheckKeySet, createSigCreateKeySet, getCommitmentTransaction,
   getFundingTransaction
-} from '../transactions'
+} from './transactions'
 import xor from 'buffer-xor'
 import {copy, wrapHex} from '../helper'
 import TYPE from '../messages/types'
