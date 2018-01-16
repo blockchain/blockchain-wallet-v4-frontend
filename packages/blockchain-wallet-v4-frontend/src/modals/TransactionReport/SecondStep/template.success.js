@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { CSVLink } from 'react-csv-2'
-import { Text } from 'blockchain-info-components'
 
 const DownloadContainer = styled.div`
   display: flex;
@@ -26,7 +25,6 @@ const TransactionReport = (props) => {
 
   return (
     <DownloadContainer>
-      <Text>Hello</Text>
       <DownloadLink data={data} filename={filename} target='_blank'>
         <FormattedMessage id='modals.secondstep.transactionreport.download' defaultMessage='Download' />
       </DownloadLink>
