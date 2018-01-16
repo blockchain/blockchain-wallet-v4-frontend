@@ -1,4 +1,4 @@
-import {ADD_PRIVATE_KEY, START_UP} from './actionTypes';
+import {STORE_OPTIONS, START_UP} from './actionTypes';
 
-export const addPrivateKey = (key) => ({type: ADD_PRIVATE_KEY, key})
+export const storeOptions = (options) => ({type: STORE_OPTIONS, options})
 export const startUp = () => ({type: START_UP})

@@ -12,6 +12,7 @@ import {readMessage, writeMessage} from '../messages/parser'
 import {wrapHex} from '../helper'
 import * as AT_CHANNEL from '../channel/actions'
 import * as TYPE from '../../../lib/ln/messages/serializer'
+import { rootOptions } from '../root/selectors'
 
 
 var ec = require('bcoin/lib/crypto/secp256k1-browser')
@@ -20,26 +21,10 @@ export const encodePeer = publicKey => publicKey.toString('base64')
 export const decodePeer = publicKey => Buffer.from(publicKey, 'base64')
 
 export const peerSagas = (tcpConn) => {
-  let options = {
-    chainHash: Buffer.from('06226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910f', 'hex'),
-    dustLimitSatoshis: Long.fromNumber(546),
-    maxHtlcValueInFlightMsat: Long.fromNumber(100000),
-    channelReserveSatoshis: Long.fromNumber(1000),
-    feeRatePerKw: 10000,
-    htlcMinimumMsat: 1,
-    toSelfDelay: 60,
-    maxAcceptedHtlcs: 100
-  }
 
   let peers = {}
 
   const connectToAllPeers = function * (action) {
-    console.log('creating saga')
-    let staticLocal = {}
-    console.log(yield select(privateKeyPath))
-    staticLocal.priv = Buffer.from(yield select(privateKeyPath), 'hex')
-    staticLocal.pub = ec.publicKeyCreate(staticLocal.priv, true)
-    options.staticLocal = staticLocal
     console.log('socket opened')
     let staticRemotes = yield select(peerStaticRemote)
 
@@ -49,11 +34,11 @@ export const peerSagas = (tcpConn) => {
   }
 
   const connect = function * (action) {
-    console.log('connect')
     let {type, publicKey} = action
     console.log(type)
     console.log(publicKey)
     let staticRemote = wrapPubKey(Buffer.from(publicKey, 'hex'))
+    let options = yield select(rootOptions)
     let peer = new Connection(options, staticRemote)
     if (peers[publicKey] !== undefined) {
       console.info('already exists...')
@@ -71,8 +56,6 @@ export const peerSagas = (tcpConn) => {
   }
 
   const onMessage = function * ({peer, msg}) {
-
-
     let pubKey = decodePeer(peer).toString('hex')
 
     if (peers[pubKey] === undefined) {

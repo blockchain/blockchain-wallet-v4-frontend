@@ -3,11 +3,11 @@ import * as T from './actionTypes'
 let INITIAL_STATE = {}
 
 const LNRootReducer = (state = INITIAL_STATE, action) => {
-  const { type, key } = action
+  const { type, options } = action
   switch (type) {
-    case T.ADD_PRIVATE_KEY: {
+    case T.STORE_OPTIONS: {
       let copy = Object.assign({}, state)
-      copy['private_key'] = key
+      copy['options'] = options
       return copy
     }
     default: return state

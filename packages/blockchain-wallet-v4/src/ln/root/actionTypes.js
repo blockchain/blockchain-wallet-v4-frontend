@@ -1,3 +1,3 @@
-export const ADD_PRIVATE_KEY = '@LN.ROOT.ADD_PRIVATE_KEY'
+export const STORE_OPTIONS = '@LN.ROOT.STORE_OPTIONS'
 export const START_UP = '@LN.ROOT.START_UP'
 
