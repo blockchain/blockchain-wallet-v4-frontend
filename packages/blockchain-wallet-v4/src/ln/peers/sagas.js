@@ -7,6 +7,9 @@ import * as Long from 'long'
 import * as random from 'crypto'
 import {Connection} from './connection'
 import { wrapPubKey } from '../channel/channel'
+import {Init} from "../messages/serializer";
+import {writeMessage} from "../messages/parser";
+import {wrapHex} from "../helper";
 
 var ec = require('bcoin/lib/crypto/secp256k1-browser')
 
@@ -48,6 +51,8 @@ export const peerSagas = (tcpConn) => {
     peers[publicKey] = peer
     yield call(peer.connectPromise.bind(peer), tcpConn)
     console.log('done!!! connected ')
+    // TODO this should happen somewhere else IMO and we need to wait for the response ideally before returning
+    yield call(sendMessage, {publicKey, message: Init(wrapHex('00'), wrapHex('00'))})
   }
 
   const disconnect = function * (action) {
