@@ -1,13 +1,10 @@
+
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-
+import { NavigatorIOS, StatusBar, StyleSheet, TabBarIOS, Text, View } from 'react-native'
 import { Network, Types } from 'blockchain-wallet-v4/src'
-
-const api = Network.createWalletApi({
-  rootUrl: 'https://blockchain.info/',
-  apiUrl: 'https://api.blockchain.info/',
-  apiCode: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-})
+import { NavigationBar } from './components'
+import { Dashboard, Pin, Request, Send, Transactions } from './scenes'
+import images from '@assets/images'
 
 const styles = StyleSheet.create({
   container: {
@@ -28,7 +25,8 @@ export default class App extends Component {
     super(props)
     this.state = {
       wallet: null,
-      loading: true
+      loading: true,
+      selectedTab: 0
     }
   }
 
@@ -46,20 +44,54 @@ export default class App extends Component {
     })
   }
 
-  render () {
-    let { wallet, loading } = this.state
+  setSelectedTab(idx) {
+    this.setState({ selectedTab: idx })
+  }
+
+  render() {
+    let { loading, selectedTab, wallet } = this.state
+    StatusBar.setBarStyle('light-content', true)
     return (
+      (!wallet ? <Pin /> :
       <View style={styles.container}>
-        {loading ? (
-          <Text style={styles.welcome}>
-            Loading...
-          </Text>
-        ) : (
-          <Text style={styles.welcome}>
-            Loaded: {JSON.stringify(Types.Wrapper.toJS(wallet), null, 2)}
-          </Text>
-        )}
-      </View>
+        <NavigationBar />
+        <TabBarIOS
+          barTintColor="#FFF"
+          tintColor="#004A7C"
+          translucent={false}
+          >
+          <TabBarIOS.Item
+            icon={images.home}
+            onPress={() => this.setSelectedTab(0)}
+            selected={selectedTab === 0}
+            selectedIcon={images.home_selected}
+            title="Dashboard">
+              <Dashboard />
+          </TabBarIOS.Item>
+          <TabBarIOS.Item
+            icon={require('../assets/img/send.png')}
+            onPress={() => this.setSelectedTab(1)}
+            selected={selectedTab === 1}
+            title="Send">
+              <Send />
+          </TabBarIOS.Item>
+          <TabBarIOS.Item
+            icon={require('../assets/img/request.png')}
+            onPress={() => this.setSelectedTab(2)}
+            selected={selectedTab === 2}
+            title="Request">
+              <Request />
+          </TabBarIOS.Item>
+          <TabBarIOS.Item
+            icon={images.transactions}
+            onPress={() => this.setSelectedTab(3)}
+            selected={selectedTab === 3}
+            selectedIcon={images.transactions_selected}
+            title="Transactions">
+              <Transactions />
+          </TabBarIOS.Item>
+        </TabBarIOS>
+      </View>)
     )
   }
 }
