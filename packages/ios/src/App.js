@@ -9,15 +9,15 @@ import images from '@assets/images'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    justifyContent: 'flex-start'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  }
+  navigator: { flex: 1 }
+})
+
+const api = Network.createWalletApi({
+  rootUrl: 'https://blockchain.info/',
+  apiUrl: 'https://api.blockchain.info/',
+  apiCode: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 })
 
 export default class App extends Component {
