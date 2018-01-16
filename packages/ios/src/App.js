@@ -21,7 +21,7 @@ const api = Network.createWalletApi({
 })
 
 export default class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       wallet: null,
@@ -30,11 +30,11 @@ export default class App extends Component {
     }
   }
 
-  componentWillMount () {
-    this.loadWallet()
+  componentWillMount() {
+    // this.loadWallet()
   }
 
-  loadWallet () {
+  loadWallet() {
     let guid = '3d197b76-f8a3-49b7-8862-ec6191707f07'
     let pw = 'password123'
     let sk = '87aec1ef-5c6e-4dff-8b67-890545fa31f8'
