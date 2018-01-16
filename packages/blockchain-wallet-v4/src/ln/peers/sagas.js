@@ -57,7 +57,7 @@ export const peerSagas = (tcpConn) => {
     console.log('send message ')
     let {publicKey, message} = action
     let connection = peers[publicKey.toString('hex')]
-    connection.write(message)
+    connection.write(writeMessage(message))
   }
 
   const takeSagas = function * () {
