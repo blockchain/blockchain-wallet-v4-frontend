@@ -1,12 +1,13 @@
 import {SOCKET_OPENED} from '../tcprelay/actionTypes'
 import { CONNECT, DISCONNECT, SEND_MESSAGE } from './actionTypes'
 import { takeEvery} from 'redux-saga'
-import { peerStaticRemote } from './selectors'
+import { peerStaticRemote, privateKeyPath} from './selectors'
 import { call, put, select } from 'redux-saga/effects'
 import * as Long from 'long'
 import * as random from 'crypto'
 import {Connection} from './connection'
 import { wrapPubKey } from '../channel/channel'
+
 
 var ec = require('bcoin/lib/crypto/secp256k1-browser')
 
@@ -26,6 +27,12 @@ export const peerSagas = (tcpConn) => {
   let peers = {}
 
   const connectToAllPeers = function * (action) {
+    console.log('creating saga')
+    let staticLocal = {}
+    console.log(yield select(privateKeyPath))
+    staticLocal.priv = Buffer.from(yield select(privateKeyPath), 'hex')
+    staticLocal.pub = ec.publicKeyCreate(staticLocal.priv, true)
+    options.staticLocal = staticLocal
     console.log('socket opened')
     let staticRemotes = yield select(peerStaticRemote)
 
@@ -61,11 +68,7 @@ export const peerSagas = (tcpConn) => {
   }
 
   const takeSagas = function * () {
-    console.log('creating saga')
-    let staticLocal = {}
-    staticLocal.priv = random.randomBytes(32)
-    staticLocal.pub = ec.publicKeyCreate(staticLocal.priv, true)
-    options.staticLocal = staticLocal
+    console.log('creating sagas and private key is ', yield select(privateKeyPath))
     yield takeEvery(SOCKET_OPENED, connectToAllPeers)
     yield takeEvery(CONNECT, connect)
     yield takeEvery(DISCONNECT, disconnect)

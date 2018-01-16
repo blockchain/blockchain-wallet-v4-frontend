@@ -32,14 +32,15 @@ if (module.hot) {
 
 store.dispatch(startUp())
 
-store.dispatch(addPeer(wrapHex('02c39955c1579afe4824dc0ef4493fdf7f3660b158cf6d367d8570b9f19683afb5')))
 const peer = '02c39955c1579afe4824dc0ef4493fdf7f3660b158cf6d367d8570b9f19683afb5'
-store.dispatch(addPeer(wrapHex(peer)))
+setTimeout(() => {
+  store.dispatch(addPeer(wrapHex(peer)))
 
 // TODO move to bootstrap section
-store.dispatch(startSocket())
+  store.dispatch(startSocket())
+}, 500)
 
 // TODO this is simulating the user opening a payment channel
 setTimeout(() => {
   store.dispatch(open(peer, Long.fromNumber(1000)))
-}, 100)
+}, 1000)
