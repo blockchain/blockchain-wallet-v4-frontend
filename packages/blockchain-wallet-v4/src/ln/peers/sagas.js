@@ -1,20 +1,24 @@
-import {SOCKET_OPENED} from '../tcprelay/actionTypes'
+import {PEER_MESSAGE, SOCKET_OPENED} from '../tcprelay/actionTypes'
 import { CONNECT, DISCONNECT, SEND_MESSAGE } from './actionTypes'
-import { takeEvery} from 'redux-saga'
+import { takeEvery, delay} from 'redux-saga'
 import { peerStaticRemote } from './selectors'
 import { call, put, select } from 'redux-saga/effects'
 import * as Long from 'long'
 import * as random from 'crypto'
 import {Connection} from './connection'
 import { wrapPubKey } from '../channel/channel'
-import {Init} from "../messages/serializer";
-import {writeMessage} from "../messages/parser";
-import {wrapHex} from "../helper";
+import {Init} from '../messages/serializer'
+import {readMessage, writeMessage} from '../messages/parser'
+import {wrapHex} from '../helper'
+import * as AT_CHANNEL from '../channel/actions'
+import * as TYPE from '../../../lib/ln/messages/serializer'
 
 var ec = require('bcoin/lib/crypto/secp256k1-browser')
 
-export const peerSagas = (tcpConn) => {
+export const encodePeer = publicKey => publicKey.toString('base64')
+export const decodePeer = publicKey => Buffer.from(publicKey, 'base64')
 
+export const peerSagas = (tcpConn) => {
   let options = {
     chainHash: Buffer.from('06226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910f', 'hex'),
     dustLimitSatoshis: Long.fromNumber(546),
@@ -40,12 +44,13 @@ export const peerSagas = (tcpConn) => {
   const connect = function * (action) {
     console.log('connect')
     let {type, publicKey} = action
-     console.log(type)
-     console.log(publicKey)
+    console.log(type)
+    console.log(publicKey)
     let staticRemote = wrapPubKey(Buffer.from(publicKey, 'hex'))
     let peer = new Connection(options, staticRemote)
     if (peers[publicKey] !== undefined) {
-      return;
+      console.info('already exists...')
+      return
     }
 
     peers[publicKey] = peer
@@ -53,6 +58,46 @@ export const peerSagas = (tcpConn) => {
     console.log('done!!! connected ')
     // TODO this should happen somewhere else IMO and we need to wait for the response ideally before returning
     yield call(sendMessage, {publicKey, message: Init(wrapHex('00'), wrapHex('00'))})
+
+    yield delay(1000)
+    console.info('delay done..')
+  }
+
+  const onMessage = function * ({peer, msg}) {
+
+
+    let pubKey = decodePeer(peer).toString('hex')
+
+    if (peers[pubKey] === undefined) {
+      console.info('No handler for message')
+      return
+    }
+
+    let conn = peers[pubKey]
+    let decryptedMsg = conn.feed(msg)
+    if (decryptedMsg === undefined) {
+      console.info('received internal message')
+      return
+    }
+    let parsedMsg = readMessage(decryptedMsg)
+
+    if (parsedMsg.type === 16) {
+      console.info('received init message')
+      return
+    }
+
+    if (parsedMsg.type === 17) {
+      console.info('received error message ' + parsedMsg.data.toString('ascii'))
+      // TODO should throw an error or something here..
+      return
+    }
+
+    if (parsedMsg.type === 18) {
+      console.info('received ping message')
+      return
+    }
+
+    yield put(AT_CHANNEL.onMessage(pubKey, parsedMsg))
   }
 
   const disconnect = function * (action) {
@@ -71,9 +116,10 @@ export const peerSagas = (tcpConn) => {
     staticLocal.priv = random.randomBytes(32)
     staticLocal.pub = ec.publicKeyCreate(staticLocal.priv, true)
     options.staticLocal = staticLocal
-    yield takeEvery(SOCKET_OPENED, connectToAllPeers)
+    // yield takeEvery(SOCKET_OPENED, connectToAllPeers)
     yield takeEvery(CONNECT, connect)
     yield takeEvery(DISCONNECT, disconnect)
+    yield takeEvery(PEER_MESSAGE, onMessage)
     yield takeEvery(SEND_MESSAGE, sendMessage)
   }
 

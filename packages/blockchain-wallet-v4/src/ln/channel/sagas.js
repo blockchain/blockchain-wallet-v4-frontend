@@ -16,7 +16,7 @@ import {getChannelDir, getChannel} from './selectors'
 const Long = require('long')
 
 let options = {
-  chainHash: Buffer.from('06226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910f', 'hex'),
+  chainHash: Buffer.from('000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943', 'hex').reverse(),
   dustLimitSatoshis: Long.fromNumber(546),
   maxHtlcValueInFlightMsat: Long.fromNumber(100000),
   channelReserveSatoshis: Long.fromNumber(1000),
@@ -74,6 +74,7 @@ export const channelSagas = (api, peersSaga) => {
   }
 
   const onMessage = function * ({peer, msg}) {
+    let state = yield select((state) => state.ln)
     let channel = yield select(getChannel(getChannelId(msg).toString('hex')))
     let response
     channel = copy(channel)
