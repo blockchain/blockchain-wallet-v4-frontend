@@ -70,7 +70,7 @@ export default ({ api } = {}) => {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
-        const data = yield call(api.getTransactionHistory, address, currency, start, end)
+        const data = yield call(api.getTransactionHistory, address, currency.getOrElse('USD'), start, end)
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
         const context = yield select(selectors.wallet.getWalletContext)

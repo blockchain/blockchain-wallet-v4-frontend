@@ -33,7 +33,7 @@ class SecondStepContainer extends React.Component {
   }
 
   transformToCsvData (data) {
-    const headers = [['date', 'time', 'amount_btc', 'value_then', 'value_now', 'exchange_rate_then', 'tx']]
+    const headers = [['date', 'time', 'status', 'amount_btc', 'value_then', 'value_now', 'exchange_rate_then', 'tx']]
     const records = map((record) => [record.date, record.time, record.type, record.amount_btc, record.value_then, record.value_now, record.exchange_rate_then, record.tx], data)
     return headers.concat(records)
   }
