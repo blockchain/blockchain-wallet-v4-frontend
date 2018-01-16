@@ -8,11 +8,10 @@ import {
   readUpdateAddHtlc, createFundingLocked, readFundingLocked
 } from './channel'
 import {refresh} from './actions'
-import {copy} from '../helper'
+import {copy, wrapHex, wrapPubKey} from '../helper';
 import TYPE from '../messages/types'
 import {sendMessage} from '../peers/actions'
 import {getChannelDir, getChannel} from './selectors'
-import {connect} from './../peers/sagas'
 
 const Long = require('long')
 
@@ -38,21 +37,18 @@ export const channelSagas = (api, peersSaga) => {
     }
   }
 
-  const onOpenChannel = function * ({peer}) {
-    console.info(peersSaga)
-    console.info(JSON.stringify(peersSaga))
-    yield call(peersSaga.connect, {publicKey: peer.toString('hex')})
-    console.info('abc')
-    yield call(openChannel, ({options}))
+  const onOpenChannel = function * ({publicKey, value}) {
+    yield call(peersSaga.connect, {publicKey})
+    yield call(openChannel, ({options, publicKey, value}))
   }
 
-  const openChannel = function * ({options}) {
+  const openChannel = function * ({options, publicKey, value}) {
     // Opening the channel
-    const staticRemote = options.staticRemote
+    const staticRemote = wrapPubKey(wrapHex(publicKey))
 
-    let response = createOpenChannel(staticRemote, options, options.value)
+    let response = createOpenChannel(staticRemote, options, value)
 
-    yield put(sendMessage(staticRemote, response.msg))
+    yield put(sendMessage(wrapHex(publicKey), response.msg))
     yield put(refresh(response.channel))
   }
 
@@ -78,7 +74,7 @@ export const channelSagas = (api, peersSaga) => {
   }
 
   const onMessage = function * ({peer, msg}) {
-    let channel = yield select(getChannel(getChannelId(msg)))
+    let channel = yield select(getChannel(getChannelId(msg).toString('hex')))
     let response
     channel = copy(channel)
 
