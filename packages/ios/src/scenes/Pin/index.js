@@ -1,6 +1,6 @@
 
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import images from '@assets/images'
 
@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
 })
 
 export default class Pin extends Component {
-
   constructor(props) {
     super(props)
   }

@@ -41,9 +41,9 @@ RCT_EXPORT_METHOD(stretchPassword:(NSString *)_password salt:(id)_salt iteration
   
   const char *passwordUTF8String = [_password UTF8String];
   
-  if (PKCS5_PBKDF2_HMAC_SHA1(passwordUTF8String, (int)strlen(passwordUTF8String), _saltBuff, (int)_saltBuffLen, iterations, keylength, finalOut) == 0) {
-    callback(@[[[NSData new] hexadecimalString]]);
-  };
+//  if (PKCS5_PBKDF2_HMAC_SHA1(passwordUTF8String, (int)strlen(passwordUTF8String), _saltBuff, (int)_saltBuffLen, iterations, keylength, finalOut) == 0) {
+//    callback(@[[[NSData new] hexadecimalString]]);
+//  };
   
   callback(@[[[NSData dataWithBytesNoCopy:finalOut length:keylength] hexadecimalString]]);
 }

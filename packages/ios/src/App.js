@@ -1,10 +1,11 @@
 
 import React, { Component } from 'react'
-import { NavigatorIOS, StatusBar, StyleSheet, TabBarIOS, Text, View } from 'react-native'
+import { AppState, NavigatorIOS, StatusBar, StyleSheet, TabBarIOS, Text, View } from 'react-native'
 import { Network, Types } from 'blockchain-wallet-v4/src'
 import { NavigationBar } from './components'
-import { Dashboard, Pin, Request, Send, Transactions } from './scenes'
+import { Dashboard, Pin, Request, Send, Splash, Transactions } from './scenes'
 import images from '@assets/images'
+import { NativeModules } from 'react-native'
 
 const styles = StyleSheet.create({
   container: {
@@ -24,14 +25,32 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      appState: AppState.currentState,
       wallet: null,
       loading: true,
       selectedTab: 0
     }
   }
 
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange)
+    var PasswordStretcher = NativeModules.PasswordStretcher
+    // PasswordStretcher.stretchPassword("password123").then(function(){console.log('stretchPassword called');}).catch(function(e) {
+    //   console.log(e)
+    // })
+  }
+
   componentWillMount() {
-    // this.loadWallet()
+    StatusBar.setBarStyle('light-content', true)
+    this.loadWallet()
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange)
+  }
+
+  handleAppStateChange = (nextAppState) => {
+    this.setState({ appState: nextAppState })
   }
 
   loadWallet() {
@@ -49,17 +68,19 @@ export default class App extends Component {
   }
 
   render() {
-    let { loading, selectedTab, wallet } = this.state
-    StatusBar.setBarStyle('light-content', true)
+    let { appState, loading, selectedTab, wallet } = this.state
+    if (appState === 'inactive') {
+      return <Splash />
+    }
     return (
       (!wallet ? <Pin /> :
       <View style={styles.container}>
         <NavigationBar />
+        <Text>{appState}</Text>
         <TabBarIOS
           barTintColor="#FFF"
           tintColor="#004A7C"
-          translucent={false}
-          >
+          translucent={false} >
           <TabBarIOS.Item
             icon={images.home}
             onPress={() => this.setSelectedTab(0)}
