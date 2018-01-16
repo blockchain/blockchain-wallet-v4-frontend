@@ -4,5 +4,6 @@ import {makeActionCreator} from '../helper'
 export const refresh = makeActionCreator(AT.REFRESH, 'payload')
 export const remove = makeActionCreator(AT.REMOVE, 'channelId')
 
-export const open = makeActionCreator(AT.OPEN, 'peer', 'options')
+// Open a payment channel with `publicKey` for `value` amount
+export const open = makeActionCreator(AT.OPEN, 'publicKey', 'value')
 export const onMessage = makeActionCreator(AT.MESSAGE, 'peer', 'msg')

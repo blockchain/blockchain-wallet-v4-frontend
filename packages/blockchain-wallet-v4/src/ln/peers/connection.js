@@ -1,7 +1,7 @@
 'use strict'
 import {List} from 'immutable'
 import {getSerializer} from '../messages/parser'
-import {wrapHex} from "../helper";
+import {wrapHex} from '../helper'
 import * as random from 'crypto'
 
 let ec = require('bcoin/lib/crypto/secp256k1-browser')
@@ -61,7 +61,6 @@ function Connection (options, staticRemote) {
 
   // Callback functions
   this.onHandshakeCb = null
-  this.onMessage = null
 }
 
 Connection.prototype.error = function error (err) {
@@ -71,31 +70,17 @@ Connection.prototype.error = function error (err) {
 
 Connection.prototype.connectPromise = function connectPromise (tcp) {
   return new Promise((resolve, reject) => {
-    this.connect(tcp, () => {}, resolve, () => {}, reject)
+    this.connect(tcp, resolve, reject)
   })
 }
 
-Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb, onMessageCb, onCloseCb) {
+Connection.prototype.connect = function connect (tcp, onHandshakeCb, onCloseCb) {
   this.tcp = tcp
 
   this.onHandshakeCb = onHandshakeCb
-  this.onMessage = onMessageCb
 
   let onConnect = () => {
-    onConnectCb()
     this.sendHandshakePart1()
-  }
-
-  let onData = (data) => {
-    try {
-      this.feed(data)
-    } catch (e) {
-      // TODO close channel
-      console.info(e)
-      this.authed = false
-      tcp.close()
-      onCloseCb()
-    }
   }
 
   let onClose = () => {
@@ -104,7 +89,7 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
     onCloseCb()
   }
 
-  tcp.connectToNode(this.staticRemote.pub.toString('hex'), onConnect, onData, onClose)
+  tcp.connectToNode(this.staticRemote.pub.toString('hex'), onConnect, () => {}, onClose)
 
   this.tcp = tcp
 }
@@ -296,42 +281,39 @@ Connection.prototype.feed = function feed (data) {
   // Not sure how to handle corrupted bytes - for now we just fail the connection completely
   this.dataBuffer = Buffer.concat([this.dataBuffer, data])
 
-  // Loop as long as there are enough bytes in dataBuffer for more messages
   // TODO try catch block to fail connection on corrupted bytes
-  while (true) {
-    if (!this.hasSize && this.dataBuffer.length < 18) {
-      return
-    }
+  if (!this.hasSize && this.dataBuffer.length < 18) {
+    return
+  }
 
     // The handshake is already complete - retrieve the size and the payload
-    if (!this.hasSize) {
-      let sizeBuffer = this.dataBuffer.slice(0, 2)
-      let sizeTag = this.dataBuffer.slice(2, 18)
+  if (!this.hasSize) {
+    let sizeBuffer = this.dataBuffer.slice(0, 2)
+    let sizeTag = this.dataBuffer.slice(2, 18)
 
-      sizeBuffer = this.decryptIn(sizeBuffer, sizeTag)
-      this.size = sizeBuffer.readInt16BE(0)
-      this.hasSize = true
+    sizeBuffer = this.decryptIn(sizeBuffer, sizeTag)
+    this.size = sizeBuffer.readInt16BE(0)
+    this.hasSize = true
 
-      this.dataBuffer = this.dataBuffer.slice(18)
-    }
+    this.dataBuffer = this.dataBuffer.slice(18)
+  }
 
-    if (this.dataBuffer.length < (this.size + 16)) {
-      return
-    }
+  if (this.dataBuffer.length < (this.size + 16)) {
+    return
+  }
 
-    let encryptedData = this.dataBuffer.slice(0, this.size)
-    let encryptedTag = this.dataBuffer.slice(this.size, this.size + 16)
+  let encryptedData = this.dataBuffer.slice(0, this.size)
+  let encryptedTag = this.dataBuffer.slice(this.size, this.size + 16)
 
-    let decryptedData = this.decryptIn(encryptedData, encryptedTag)
+  let decryptedData = this.decryptIn(encryptedData, encryptedTag)
 
     // Re-initialise our fields after completely retrieving a full message
-    this.dataBuffer = this.dataBuffer.slice(this.size + 16)
-    this.size = 0
-    this.hasSize = false
+  this.dataBuffer = this.dataBuffer.slice(this.size + 16)
+  this.size = 0
+  this.hasSize = false
 
-    console.info('[<-] ' + decryptedData.toString('hex'))
-    this.onMessage(decryptedData)
-  }
+  console.info('[<-] ' + decryptedData.toString('hex'))
+  return decryptedData
 }
 
 Connection.prototype.encryptOut = function (payload) {
@@ -363,6 +345,7 @@ Connection.prototype.decryptIn = function (payload, tag) {
 }
 
 Connection.prototype.write = function (payload) {
+  console.info(payload)
   console.info('[->] ' + payload)
   assert(payload.length < 65535)
 

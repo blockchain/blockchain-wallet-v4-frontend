@@ -52,7 +52,7 @@ let createKey = () => {
   let key = {}
   key.priv = Buffer.from(random.randomBytes(32))
   key.pub = ec.publicKeyCreate(key.priv, true)
-  return fromJS(key)
+  return key
 }
 
 export let wrapPubKey = (pub) => ({pub, priv: null})
