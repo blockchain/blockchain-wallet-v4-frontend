@@ -56,6 +56,8 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		BC916E8A4BA04A44BA15772A /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D2078FE61054380BB27AA5F /* Montserrat-SemiBold.ttf */; };
 		BFBE1C68B6E24E40A870682F /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D07254A6E354857B7D678C7 /* Montserrat-Medium.ttf */; };
+		C73EF93F200E9174003E6D89 /* PasswordStretcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C73EF93E200E9174003E6D89 /* PasswordStretcher.m */; };
+		C73EF948200E944C003E6D89 /* NSData+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C73EF947200E944C003E6D89 /* NSData+Hex.m */; };
 		CFC4FC6524684F178D532731 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA8EB18C11AD4D25918AECCA /* Montserrat-Bold.ttf */; };
 		E9CEB55C4E474600A050056C /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A0048737605416283A5A2AB /* Montserrat-ExtraBold.ttf */; };
 		EED737242322478ABADB42BE /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9607ED34B0EF4C7B8D7008EC /* Montserrat-ExtraBoldItalic.ttf */; };
@@ -400,6 +402,10 @@
 		BEA281A5D8B2434798926B41 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.ttf"; path = "../assets/fonts/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
 		C24C0FDDC1BE4A27840A60AB /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		C4C6ED6E3061488A8BD0B7E7 /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.ttf"; path = "../assets/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		C73EF93D200E9174003E6D89 /* PasswordStretcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasswordStretcher.h; sourceTree = "<group>"; };
+		C73EF93E200E9174003E6D89 /* PasswordStretcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PasswordStretcher.m; sourceTree = "<group>"; };
+		C73EF946200E944C003E6D89 /* NSData+Hex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Hex.h"; sourceTree = "<group>"; };
+		C73EF947200E944C003E6D89 /* NSData+Hex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Hex.m"; sourceTree = "<group>"; };
 		D92917CBB276455E81041691 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		EA8EB18C11AD4D25918AECCA /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		FBC357FD3F454AA5986E3AE5 /* RNOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNOS.xcodeproj; path = "../node_modules/react-native-os/ios/RNOS.xcodeproj"; sourceTree = "<group>"; };
@@ -552,6 +558,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				C73EF945200E942F003E6D89 /* Categories */,
+				C73EF915200E9158003E6D89 /* Modules */,
 			);
 			name = Blockchain;
 			sourceTree = "<group>";
@@ -685,6 +693,24 @@
 				4195834247FD4162A1E2B039 /* Montserrat-ThinItalic.ttf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		C73EF915200E9158003E6D89 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				C73EF93D200E9174003E6D89 /* PasswordStretcher.h */,
+				C73EF93E200E9174003E6D89 /* PasswordStretcher.m */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		C73EF945200E942F003E6D89 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				C73EF946200E944C003E6D89 /* NSData+Hex.h */,
+				C73EF947200E944C003E6D89 /* NSData+Hex.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		FC079BFC2003C422004A6B9D /* Recovered References */ = {
@@ -1289,6 +1315,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				C73EF93F200E9174003E6D89 /* PasswordStretcher.m in Sources */,
+				C73EF948200E944C003E6D89 /* NSData+Hex.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1415,6 +1443,10 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-udp/ios/**",
+					"$(SRCROOT)/Submodules/OpenSSL-for-iPhone/include",
+					"$(SRCROOT)/../React",
+					"$(SRCROOT)/../react-native/Libraries",
+					"$(SRCROOT)/../react-native/React",
 				);
 				INFOPLIST_FILE = Blockchain/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1439,6 +1471,10 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-udp/ios/**",
+					"$(SRCROOT)/Submodules/OpenSSL-for-iPhone/include",
+					"$(SRCROOT)/../React",
+					"$(SRCROOT)/../react-native/Libraries",
+					"$(SRCROOT)/../react-native/React",
 				);
 				INFOPLIST_FILE = Blockchain/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
