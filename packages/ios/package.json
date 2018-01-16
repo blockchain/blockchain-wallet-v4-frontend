@@ -101,5 +101,8 @@
     "tty": "tty-browserify",
     "vm": "vm-browserify",
     "tls": false
+  },
+  "rnpm": {
+    "assets": ["./assets/fonts/"]
   }
 }
