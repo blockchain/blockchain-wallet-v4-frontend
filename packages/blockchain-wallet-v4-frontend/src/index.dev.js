@@ -7,6 +7,7 @@ import configureLocales from 'services/LocalesService'
 import {startSocket} from '../../blockchain-wallet-v4/src/ln/tcprelay/actions'
 import {wrapHex} from '../../blockchain-wallet-v4/lib/ln/helper'
 import {addPeer} from '../../blockchain-wallet-v4/src/ln/peers/actions'
+import {startUp} from '../../blockchain-wallet-v4/src/ln/root/actions'
 import {open} from '../../blockchain-wallet-v4/src/ln/channel/actions'
 import Long from 'long'
 
@@ -29,6 +30,7 @@ if (module.hot) {
   module.hot.accept('scenes/app.js', () => render(require('scenes/app.js').default))
 }
 
+store.dispatch(startUp())
 
 store.dispatch(addPeer(wrapHex('02c39955c1579afe4824dc0ef4493fdf7f3660b158cf6d367d8570b9f19683afb5')))
 

@@ -1,0 +1,3 @@
+export const ADD_PRIVATE_KEY = '@LN.ROOT.ADD_PRIVATE_KEY'
+export const START_UP = '@LN.ROOT.START_UP'
+
