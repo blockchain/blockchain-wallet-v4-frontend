@@ -37,19 +37,6 @@ const transferEtherSaga = function * () {
   }
 }
 
-// =============================================================================
-// ================================= Generic ===================================
-// =============================================================================
-// const manageWalletData = function * () {
-//   const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
-//   const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
-//   yield all([
-//     call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext }),
-//     call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext }),
-//     call(sagas.core.data.ethereum.fetchLatestBlock)
-//   ])
-// }
-
 const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
   try {
     // If needed, the user should upgrade its wallet before being able to open the wallet

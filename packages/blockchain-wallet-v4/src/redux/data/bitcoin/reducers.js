@@ -1,7 +1,5 @@
-import { append, assoc, assocPath, concat, merge, path } from 'ramda'
+import { assoc, assocPath, concat, merge, lensProp, over, map } from 'ramda'
 import * as AT from './actionTypes'
-import * as actionTypes from '../../actionTypes.js'
-import * as actions from '../../actions'
 import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound } from '../../../coinSelection'
 import Remote from '../../../remote'
 
@@ -117,9 +115,10 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       return assoc('transactions', Remote.Loading, state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS: {
-      return payload.reset
-        ? assoc('transactions', Remote.Success(payload), state)
-        : assoc('transactions', Remote.Success(concat(path('transactions', state), payload)), state)
+      const { reset, transactions } = payload
+      return reset
+        ? assoc('transactions', Remote.Success(transactions), state)
+        : over(lensProp('transactions'), map((previousTxs) => concat(previousTxs, transactions)), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE: {
       return assoc('transactions', Remote.Failure(payload), state)

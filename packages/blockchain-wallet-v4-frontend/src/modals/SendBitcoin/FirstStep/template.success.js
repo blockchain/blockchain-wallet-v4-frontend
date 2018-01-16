@@ -11,77 +11,72 @@ import { FiatConvertor, Form, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBo
 import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
-const ColOne = styled.div`
-  width: 50%;
-  margin-right: 5px;
-  @media(min-width: 992px) { width: 30%; }
-`
-const ColTwo = styled.div`
-  width: 50%;
-  @media(min-width: 992px) { width: 70%; }
-`
-const ColLeft = styled.div`
-  width: 50%;
-`
-const ColRight = ColLeft.extend`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-`
-const AddressButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
+// const Row = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   width: 100%;
+// `
+// const ColOne = styled.div`
+//   width: 50%;
+//   margin-right: 5px;
+//   @media(min-width: 992px) { width: 30%; }
+// `
+// const ColTwo = styled.div`
+//   width: 50%;
+//   @media(min-width: 992px) { width: 70%; }
+// `
+// const ColLeft = styled.div`
+//   width: 50%;
+// `
+// const ColRight = ColLeft.extend`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: flex-end;
+// `
+// const AddressButton = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   width: 40px;
+//   height: 40px;
+//   box-sizing: border-box;
+//   border: 1px solid ${props => props.theme['gray-2']};
 
-  &:hover { background-color: ${props => props.theme['gray-1']}; }
-`
-const ButtonRow = styled(ButtonGroup)`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  & > button:first-child { width: 100%; }
-  & > button:last-child: { width: 200px; }
-`
-const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
-  if (initialRender) { return true }
-  return (
-    initialRender ||
-    !structure.deepEqual(values, nextProps.values) ||
-    props.effectiveBalance !== nextProps.effectiveBalance
-  )
-}
+//   &:hover { background-color: ${props => props.theme['gray-1']}; }
+// `
+// const ButtonRow = styled(ButtonGroup)`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: flex-start;
+//   align-items: center;
+//   width: 100%;
+//   & > button:first-child { width: 100%; }
+//   & > button:last-child: { width: 200px; }
+// `
+// const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+//   if (initialRender) { return true }
+//   return (
+//     initialRender ||
+//     !structure.deepEqual(values, nextProps.values) ||
+//     props.effectiveBalance !== nextProps.effectiveBalance
+//   )
+// }
 
-const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
+// const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
 
-const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
+// const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = (props) => {
-  const { invalid, submitting, position, total, closeAll, loading, ...rest } = props
-  const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, ...rest2 } = rest
-  const { onSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest2
+  // const { invalid, submitting, position, total, closeAll, loading, ...rest } = props
+  // const { addressSelectToggled, addressSelectOpened, feeEditToggled, selection, ...rest2 } = rest
+  // const { onSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest2
 
   return (
-    <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='send' onClose={closeAll}>
-        <FormattedMessage id='modals.sendbitcoin.firststep.title' defaultMessage='Send Bitcoin' />
-      </ModalHeader>
-      <ModalBody loading={loading}>
-        <Form onSubmit={onSubmit}>
+        /* <Form onSubmit={onSubmit}>
           <Row>
             <ColOne>
               <Text size='14px' weight={500}>
@@ -100,7 +95,7 @@ const FirstStep = (props) => {
             <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
           </Text>
           <Row>
-            { addressSelectToggled
+            {addressSelectToggled
               ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
               : <Field name='to2' component={TextBox} validate={[required]} />
             }
@@ -136,7 +131,7 @@ const FirstStep = (props) => {
               }
             </ColLeft>
             <ColRight>
-              { selection.fee
+              {selection.fee
                 ? <ComboDisplay coin='BTC'>{selection.fee}</ComboDisplay>
                 : <div />
               }
@@ -153,9 +148,8 @@ const FirstStep = (props) => {
               <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
             </Button>
           </ButtonRow>
-        </Form>
-      </ModalBody>
-    </Modal>
+        </Form> */
+    <div> Yea Success !!! </div>
   )
 }
 
@@ -174,4 +168,4 @@ FirstStep.propTypes = {
   handleClickFeeToggler: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false, shouldValidate: shouldValidate })(FirstStep)
+export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false })(FirstStep)

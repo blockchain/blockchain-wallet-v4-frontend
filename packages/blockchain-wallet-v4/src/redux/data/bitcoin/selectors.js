@@ -1,4 +1,4 @@
-import { path } from 'ramda'
+import { curry, path } from 'ramda'
 import { dataPath } from '../../paths'
 
 export const getAddresses = path([dataPath, 'bitcoin', 'addresses'])
@@ -14,9 +14,9 @@ export const getRates = path([dataPath, 'bitcoin', 'rates'])
 export const getTransactions = path([dataPath, 'bitcoin', 'transactions'])
 
 // Specific
-export const getChangeIndex = state => getAddresses(state).map(path(['xpub', 'change_index']))
+export const getChangeIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'change_index'])))
 
-export const getReceiveIndex = state => getAddresses(state).map(path(['xpub', 'account_index']))
+export const getReceiveIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'account_index'])))
 
 export const getFeeRegular = state => getFee(state).map(path(['regular']))
 
@@ -40,4 +40,4 @@ export const getIndex = state => getLatestBlock(state).map(path(['block_index'])
 
 // export const getEffectiveBalance = path([dataPath, 'bitcoin', 'payment', 'effectiveBalance'])
 
-// export const getTransactionFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))
+export const getFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))

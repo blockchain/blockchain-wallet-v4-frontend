@@ -1,4 +1,3 @@
-import * as common from './common/actionTypes.js'
 import * as data from './data/actionTypes.js'
 import * as wallet from './wallet/actionTypes.js'
 import * as settings from './settings/actionTypes.js'
@@ -8,7 +7,6 @@ import * as webSocket from './webSocket/actionTypes.js'
 import * as kvStore from './kvStore/actionTypes.js'
 
 export {
-  common,
   data,
   kvStore,
   settings,
