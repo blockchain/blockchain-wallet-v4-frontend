@@ -8,6 +8,7 @@ import kvStoreContactsSaga from './kvStore/contacts/rootSaga'
 import kvStoreEthereumSaga from './kvStore/ethereum/rootSaga'
 import kvStoreShapeshiftSaga from './kvStore/shapeShift/rootSaga'
 import kvStoreWhatsnewSaga from './kvStore/whatsNew/rootSaga'
+import optionsSaga from './walletOptions/rootSaga'
 import settingsSaga from './settings/rootSaga'
 
 export const rootSaga = ({ api, socket } = {}) => {
@@ -22,6 +23,7 @@ export const rootSaga = ({ api, socket } = {}) => {
       fork(kvStoreEthereumSaga({ api })),
       fork(kvStoreShapeshiftSaga({ api })),
       fork(kvStoreWhatsnewSaga({ api })),
+      fork(optionsSaga({ api })),
       fork(settingsSaga({ api }))
     ])
   }

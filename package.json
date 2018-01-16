@@ -13,6 +13,7 @@
     "test3": "cd packages/blockchain-wallet-v4-frontend && npm run test && cd ../blockchain-wallet-v4 && npm run test"
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^1.4.0",
     "lerna": "^2.1.2"
   },
   "dependencies": {}

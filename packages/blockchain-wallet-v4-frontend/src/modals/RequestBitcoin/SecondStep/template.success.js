@@ -31,7 +31,7 @@ const LinkContainer = styled.div`
 
 const SecondStep = (props) => {
   const { previousStep, position, total, closeAll, ...rest } = props
-  const { onSubmit, satoshis, message, link, active } = rest
+  const { handleSubmit, satoshis, message, link, active } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -39,7 +39,7 @@ const SecondStep = (props) => {
         <FormattedMessage id='modals.requestbitcoin.secondstep.title' defaultMessage='Request' />
       </ModalHeader>
       <ModalBody>
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Text size='14px' weight={300}>
             <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' />
           </Text>
@@ -51,7 +51,7 @@ const SecondStep = (props) => {
               <CoinDisplay coin='BTC'>{satoshis}</CoinDisplay>
             </Text>
             <Text size='20px' weight={600} color='transferred'>
-              <FiatDisplay>{satoshis}</FiatDisplay>
+              <FiatDisplay coin='BTC'>{satoshis}</FiatDisplay>
             </Text>
             <Text size='16px'>{message}</Text>
             <LinkContainer>

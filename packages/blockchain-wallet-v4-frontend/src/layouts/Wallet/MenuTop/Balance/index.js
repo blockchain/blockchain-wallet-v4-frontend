@@ -15,7 +15,7 @@ class Balance extends React.Component {
   }
 
   componentWillMount () {
-    this.props.actions.fetchMetadataEthereum()
+    // this.props.actions.fetchMetadataEthereum()
   }
 
   handleCoinDisplay () {
