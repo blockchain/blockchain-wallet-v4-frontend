@@ -6,7 +6,6 @@ const LNRootReducer = (state = INITIAL_STATE, action) => {
   const { type, key } = action
   switch (type) {
     case T.ADD_PRIVATE_KEY: {
-      console.log('adding a private key')
       let copy = Object.assign({}, state)
       copy['private_key'] = key
       return copy

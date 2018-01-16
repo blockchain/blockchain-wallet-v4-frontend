@@ -8,9 +8,7 @@ import { path } from 'ramda'
 
 export const LNRootSagas = () => {
   const startUp = function * (action) {
-    //console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', action)
-    let privateKey = yield select(path(['ln', 'root', 'private_key']))
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', privateKey)
+    let privateKey = yield select(path(['ln', 'root']))
     if (privateKey !== undefined) {
       return
     }
