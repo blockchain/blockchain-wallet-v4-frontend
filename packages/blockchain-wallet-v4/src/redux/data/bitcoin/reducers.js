@@ -20,7 +20,8 @@ const INITIAL_STATE = {
     effectiveBalance: undefined
   },
   rates: Remote.NotAsked,
-  transactions: Remote.NotAsked
+  transactions: Remote.NotAsked,
+  transaction_history: Remote.NotAsked
 }
 
 const bitcoinReducer = (state = INITIAL_STATE, action) => {

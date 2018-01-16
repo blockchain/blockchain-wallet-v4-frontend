@@ -13,6 +13,8 @@ export const getRates = path([dataPath, 'bitcoin', 'rates'])
 
 export const getTransactions = path([dataPath, 'bitcoin', 'transactions'])
 
+export const getTransactionHistory = path([dataPath, 'bitcoin', 'transaction_history'])
+
 // Specific
 export const getChangeIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'change_index'])))
 
