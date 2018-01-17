@@ -82,8 +82,7 @@ export const getNextAvailableChangeAddress = curry((network, accountIndex, state
   const account = compose(HDWallet.selectAccount(accountIndex), walletSelectors.getDefaultHDWallet)(state)
   const xpub = HDAccount.selectXpub(account)
   const index = getChangeIndex(xpub)(state)
-  console.log('getNextAvailableChangeAddress', account, xpub, index)
-  return getAddress(network, `${accountIndex}/${1}/${index}`, state)
+  return index.map(x => getAddress(network, `${accountIndex}/${1}/${x}`, state))
 })
 
 export const getNextAvailableReceiveAddress = curry((network, accountIndex, state) => {

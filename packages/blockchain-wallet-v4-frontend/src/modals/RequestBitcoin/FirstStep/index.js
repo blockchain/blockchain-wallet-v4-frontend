@@ -28,12 +28,12 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // nextProps.data.map(x => {
-    //   if (equals(prop('coin', x), 'ETH')) {
-    //     this.props.modalActions.closeAllModals()
-    //     this.props.modalActions.showModal('RequestEther')
-    //   }
-    // })
+    nextProps.data.map(x => {
+      if (equals(prop('coin', x), 'ETH')) {
+        this.props.modalActions.closeAllModals()
+        this.props.modalActions.showModal('RequestEther')
+      }
+    })
   }
 
   handleClickQRCode (address) {

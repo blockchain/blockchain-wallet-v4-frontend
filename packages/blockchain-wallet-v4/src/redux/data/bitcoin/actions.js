@@ -49,7 +49,7 @@ export const fetchTransactionHistorySuccess = (data) => ({ type: AT.FETCH_BITCOI
 export const fetchTransactionHistoryFailure = (error) => ({ type: AT.FETCH_BITCOIN_TRANSACTION_HISTORY_FAILURE, payload: error })
 
 // FETCH_BITCOIN_UNSPENT
-export const fetchUnspent = () => ({ type: AT.FETCH_BITCOIN_UNSPENT })
+export const fetchUnspent = (source) => ({ type: AT.FETCH_BITCOIN_UNSPENT, payload: { source } })
 export const fetchUnspentLoading = () => ({ type: AT.FETCH_BITCOIN_UNSPENT_LOADING })
 export const fetchUnspentSuccess = (data) => ({ type: AT.FETCH_BITCOIN_UNSPENT_SUCCESS, payload: data })
 export const fetchUnspentFailure = (error) => ({ type: AT.FETCH_BITCOIN_UNSPENT_FAILURE, payload: error })
