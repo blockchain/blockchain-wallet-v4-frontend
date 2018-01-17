@@ -4,7 +4,7 @@ import { compose, bindActionCreators } from 'redux'
 import ui from 'redux-ui'
 import { equals } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import List from './template.js'
 
 class ListContainer extends React.Component {
@@ -12,10 +12,6 @@ class ListContainer extends React.Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleClickPage = this.handleClickPage.bind(this)
-  }
-
-  componentWillMount () {
-    this.props.exchangeHistoryActions.initExchangeHistory(1)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -49,10 +45,6 @@ class ListContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  exchangeHistory: selectors.modules.exchangeHistory.getExchangeHistory(state)
-})
-
 const mapDispatchToProps = dispatch => ({
   exchangeHistoryActions: bindActionCreators(actions.modules.exchangeHistory, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
@@ -60,7 +52,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   ui({ state: { page: 1 } }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(ListContainer)
