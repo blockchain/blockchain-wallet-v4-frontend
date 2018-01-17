@@ -6,8 +6,8 @@ import * as random from 'crypto'
 import assert from 'assert'
 import {
   Channel, ChannelParams, ChannelUpdateTypes, ChannelUpdateWrapper, Direction, Funded, Payment,
-  PaymentWrapper
-} from './state'
+  PaymentWrapper, Wallet
+} from './state';
 
 import {fromJS} from 'immutable'
 import {generatePerCommitmentPoint} from '../key_derivation'
@@ -378,7 +378,7 @@ export function createOpenChannel (peer, options, value) {
   return {channel, msg}
 }
 
-export function createFundingCreated (channel, wallet) {
+export function createFundingCreated (channel, wallet = Wallet()) {
   checkChannel(channel, phase.SENT_OPEN)
 
   let fundingTx = getFundingTransaction(
