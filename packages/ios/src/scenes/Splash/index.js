@@ -16,11 +16,6 @@ const styles = StyleSheet.create({
 })
 
 export default class Splash extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  componentWillMount() {}
 
   render() {
     return (
