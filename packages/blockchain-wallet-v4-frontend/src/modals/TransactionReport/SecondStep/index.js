@@ -40,7 +40,6 @@ class SecondStepContainer extends React.Component {
 
   render () {
     const { data, ...rest } = this.props
-    console.log(data)
 
     return data.cata({
       Success: (value) => <Success {...rest} data={this.transformToCsvData(value)} filename={this.state.filename} />,

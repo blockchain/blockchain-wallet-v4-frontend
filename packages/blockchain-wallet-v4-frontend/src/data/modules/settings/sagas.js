@@ -6,30 +6,6 @@ import * as selectors from '../../selectors.js'
 
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 
-export const initSettingsInfo = function * () {
-  try {
-    yield call(sagas.core.settings.fetchSettings)
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not init settings info.'))
-  }
-}
-
-export const initSettingsPreferences = function * () {
-  try {
-    yield call(sagas.core.settings.fetchSettings)
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not init settings security.'))
-  }
-}
-
-export const initSettingsSecurity = function * () {
-  try {
-    yield call(sagas.core.settings.fetchSettings)
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not init settings security.'))
-  }
-}
-
 export const showPairingCode = function * (action) {
   try {
     const encryptionPhrase = yield call(sagas.core.settings.encodePairingCode)
@@ -233,9 +209,6 @@ export const enableTwoStepYubikey = function * (action) {
 }
 
 export default function * () {
-  yield takeLatest(AT.INIT_SETTINGS_INFO, initSettingsInfo)
-  yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, initSettingsPreferences)
-  yield takeLatest(AT.INIT_SETTINGS_SECURITY, initSettingsSecurity)
   yield takeLatest(AT.SHOW_PAIRING_CODE, showPairingCode)
   yield takeLatest(AT.SHOW_BACKUP_RECOVERY, showBackupRecovery)
   yield takeLatest(AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL, showGoogleAuthenticatorSecretUrl)

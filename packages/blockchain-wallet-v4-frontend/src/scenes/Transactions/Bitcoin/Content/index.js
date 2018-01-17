@@ -30,9 +30,7 @@ class ContentContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log(this.props)
     const update = (currentData, nextData) => {
-      console.log(currentData, nextData)
       if (currentData.source !== nextData.source) {
         this.props.dataBitcoinActions.fetchTransactions(nextData.source, true, 0)
       }
