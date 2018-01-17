@@ -8,9 +8,11 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
-  logo: { marginTop: 100 },
+  logo: {
+    marginTop: 100
+  },
   numberPad: {
     alignContent: 'center',
     backgroundColor: '#004A7C',
@@ -19,18 +21,18 @@ const styles = StyleSheet.create({
     flex: 1,
     maxHeight: 280,
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
   },
   numberPadButton: {
     alignItems: 'center',
     flexBasis: '33.33%',
     justifyContent: 'center',
-    height: 65
+    height: 65,
   },
   numberPadButtonTitle: {
     color: '#FFF',
     fontSize: 25,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   pinEntry: {
     borderColor: '#004A7C',
@@ -38,19 +40,19 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     height: 30,
     margin: 10,
-    width: 30
+    width: 30,
   },
   pinEntryField: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 8
+    marginTop: 8,
   },
   pinLabel: {
     color: '#004A7C',
     fontFamily: 'Montserrat',
     fontSize: 16,
     fontWeight: '500',
-    marginTop: 50
+    marginTop: 50,
   },
   swipeToRequest: {
     alignSelf: 'flex-end',
@@ -58,15 +60,17 @@ const styles = StyleSheet.create({
     flex: 0.2,
     flexDirection: 'row',
     marginBottom: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   swipeToRequestLabel: {
     color: '#004A7C',
     fontFamily: 'Montserrat',
     fontSize: 14,
-    fontWeight: '500'
+    fontWeight: '500',
   },
-  swipeToRequestArrow: { marginLeft: 10 }
+  swipeToRequestArrow: {
+    marginLeft: 10
+  },
 })
 
 export default class Pin extends Component {
