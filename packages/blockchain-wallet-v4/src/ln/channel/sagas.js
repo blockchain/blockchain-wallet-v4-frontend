@@ -33,7 +33,9 @@ export const channelSagas = (api, peersSaga) => {
     } else if (msg.temporaryChannelId !== undefined) {
       return msg.temporaryChannelId
     } else {
-      throw Error('Message doesnt have channelId defined ' + msg)
+      // TODO this needs some cleaning up..
+      return ''
+      // throw Error('Message doesnt have channelId defined ' + msg)
     }
   }
 
@@ -74,7 +76,7 @@ export const channelSagas = (api, peersSaga) => {
   }
 
   const onMessage = function * ({peer, msg}) {
-    let state = yield select((state) => state.ln)
+    console.info(msg)
     let channel = yield select(getChannel(getChannelId(msg).toString('hex')))
     let response
     channel = copy(channel)
@@ -115,7 +117,7 @@ export const channelSagas = (api, peersSaga) => {
       case TYPE.CHANNEL_ANNOUNCEMENT:
       case TYPE.NODE_ANNOUNCEMENT:
       case TYPE.CHANNEL_UPDATE:
-        break
+        return
 
       default: throw new Error('No message handler for ' + JSON.stringify(msg))
     }
