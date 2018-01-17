@@ -282,8 +282,6 @@ export let getCommitmentTransaction =
   }
 
 export let signCommitmentTransaction = (inputValue, tx, keySign, keyRemote) => {
-  console.info(keySign)
-  console.info(keyRemote)
   let t = Tx.fromRaw(tx)
   let inputScript = ScriptBcoin.fromRaw(Script.getFundingOutputScript(keySign.pub, keyRemote.pub))
   let hash = t.signatureHash(0, inputScript, inputValue, 1, 1)
