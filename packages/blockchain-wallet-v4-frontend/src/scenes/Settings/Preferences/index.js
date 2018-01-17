@@ -1,22 +1,41 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { actions } from 'data'
-import Info from './template.js'
+import InfoWell from 'components/InfoWell'
+import EmailAddress from './EmailAddress'
+import MobileNumber from './MobileNumber'
+import WalletLanguage from './WalletLanguage'
+import LocalCurrency from './LocalCurrency'
+import BitcoinUnit from './BitcoinUnit'
+import Notifications from './Notifications'
+import BitcoinLinkHandling from './BitcoinLinkHandling'
+import AutoLogout from './AutoLogout'
+import Themes from './Themes'
 
-class PreferencesContainer extends React.Component {
-  componentWillMount () {
-    this.props.settingsActions.initSettingsPreferences()
-  }
+const Wrapper = styled.section`
+  padding: 30px;
+  margin-bottom: 80px;
+  box-sizing: border-box;
+`
 
-  render () {
-    return <Info />
-  }
+const Preferences = () => {
+  return (
+    <Wrapper>
+      <InfoWell>
+        <FormattedMessage id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
+      </InfoWell>
+      <EmailAddress />
+      <MobileNumber />
+      <WalletLanguage />
+      <LocalCurrency />
+      <BitcoinUnit />
+      <Notifications />
+      <BitcoinLinkHandling />
+      <AutoLogout />
+      <Themes />
+    </Wrapper>
+  )
 }
 
-const mapDispatchToProps = dispatch => ({
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-})
-
-export default connect(undefined, mapDispatchToProps)(PreferencesContainer)
+export default Preferences
