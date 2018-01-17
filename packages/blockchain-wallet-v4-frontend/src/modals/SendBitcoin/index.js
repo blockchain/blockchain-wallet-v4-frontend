@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { compose } from 'redux'
 
 import wizardProvider from 'providers/WizardProvider'
@@ -13,15 +14,21 @@ class SendBitcoinContainer extends React.Component {
   }
 
   render () {
-    const { step } = this.props
+    const { step, position, total, closeAll, ...rest } = this.props
 
     return (
-      <SendBitcoin>
-        {step === 1 && <FirstStep {...this.props} />}
-        {step === 2 && <SecondStep {...this.props} />}
+      <SendBitcoin position={position} total={total} closeAll={closeAll}>
+        {step === 1 && <FirstStep {...rest} />}
+        {step === 2 && <SecondStep {...rest} />}
       </SendBitcoin>
     )
   }
+}
+
+SendBitcoinContainer.propTypes = {
+  position: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  closeAll: PropTypes.func.isRequired
 }
 
 const enhance = compose(

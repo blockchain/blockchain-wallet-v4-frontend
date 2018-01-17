@@ -95,11 +95,11 @@ export default ({ api } = {}) => {
     }
   }
 
-  // refactor this saga arguments 
-  const fetchUnspent = function * (index, address) {
+  const fetchUnspent = function * (action) {
     try {
+      // source can be the hd account index / or a legacy address
+      const { source } = action.payload
       yield put(A.fetchUnspentLoading())
-      const source = is(Number, index) ? index : address
       const wrapper = yield select(selectors.wallet.getWrapper)
       const data = yield call(api.getWalletUnspents, wrapper, source)
       yield put(A.fetchUnspentSuccess(data))

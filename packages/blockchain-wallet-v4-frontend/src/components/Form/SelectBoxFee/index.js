@@ -6,20 +6,22 @@ import SelectBox from '../SelectBox'
 
 class SelectBoxFeeContainer extends React.Component {
   render () {
-    const { fee, regularFee, priorityFee, ...rest } = this.props
+    const { data, ...rest } = this.props
 
-    const elements = [{
-      group: '',
-      items: [{ text: 'Regular', value: regularFee }, { text: 'Priority', value: priorityFee }]
-    }]
-
-    return <SelectBox elements={elements} searchEnabled={false} {...rest} />
+    return data.cata({
+      Success: (value) => <SelectBox elements={value} searchEnabled={false} {...rest} />,
+      Failure: (message) => <div />,
+      Loading: () => <div />,
+      NotAsked: () => <div />
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
-  regularFee: selectors.core.data.bitcoin.getFeeRegular(state),
-  priorityFee: selectors.core.data.bitcoin.getFeePriority(state)
+  data: selectors.core.data.bitcoin.getFee(state).map(x => [{
+    group: '',
+    items: [{ text: 'Regular', value: x.regular }, { text: 'Priority', value: x.priority }]
+  }])
 })
 
 export default connect(mapStateToProps)(SelectBoxFeeContainer)
