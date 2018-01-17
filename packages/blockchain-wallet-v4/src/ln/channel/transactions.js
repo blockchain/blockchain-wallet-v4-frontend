@@ -108,8 +108,8 @@ export let createSigCreateKeySet = (channel) => {
     paramsLocal.delayedPaymentBasepoint,
     paramsRemote.htlcBasepoint,
     paramsLocal.htlcBasepoint,
-    paramsRemote.fundingKey,
-    paramsLocal.fundingKey)
+    paramsLocal.fundingKey,
+    paramsRemote.fundingKey)
 }
 
 let createKeySetInternal = (
