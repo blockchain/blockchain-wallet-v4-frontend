@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingContainer extends React.Component {
@@ -26,13 +26,8 @@ class SettingContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  smsNumber: selectors.core.settings.getSmsNumber(state),
-  smsVerified: selectors.core.settings.getSmsVerified(state)
-})
-
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer)
+export default connect(null, mapDispatchToProps)(SettingContainer)

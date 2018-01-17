@@ -1,25 +1,35 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Settings from './Settings'
+import { connect } from 'react-redux'
 
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import { Remote } from 'blockchain-wallet-v4/src'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
+import { getData } from './selectors'
 
-const WalletLanguage = (props) => {
-  return (
-    <SettingContainer>
-      <SettingSummary>
-        <SettingHeader>
-          <FormattedMessage id='scenes.preferences.language.title' defaultMessage='Wallet language' />
-        </SettingHeader>
-        <SettingDescription>
-          <FormattedMessage id='scenes.preferences.language.description' defaultMessage='Set your preferred language.' />
-        </SettingDescription>
-      </SettingSummary>
-      <SettingComponent>
-        <Settings />
-      </SettingComponent>
-    </SettingContainer>
-  )
+class WalletLanguageContainer extends React.Component {
+  componentWillMount () {
+    if (Remote.NotAsked.is(this.props.data)) {
+      this.props.actions.fetchSettings()
+    }
+  }
+
+  render () {
+    const { data, ...rest } = this.props
+
+    return data.cata({
+      Success: (value) => <Success {...rest}
+        language={value} />,
+      Failure: (message) => <Error {...rest}
+        message={message} />,
+      Loading: () => <Loading {...rest} />,
+      NotAsked: () => <Loading {...rest} />
+    })
+  }
 }
 
-export default WalletLanguage
+const mapStateToProps = (state) => ({
+  data: getData(state)
+})
+
+export default connect(mapStateToProps)(WalletLanguageContainer)

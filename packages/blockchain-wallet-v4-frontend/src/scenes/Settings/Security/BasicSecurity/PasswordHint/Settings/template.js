@@ -6,12 +6,13 @@ import { Field, reduxForm } from 'redux-form'
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
+import Hint from './Hint'
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, submitting, invalid, currentHint } = props
+  const { updateToggled, handleToggle, handleClick, submitting, invalid } = props
   return (
     <SettingWrapper>
-      { currentHint && <Text>{currentHint || ''}</Text> }
+      <Hint />
       <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.change' defaultMessage='Change' />
       </Button>

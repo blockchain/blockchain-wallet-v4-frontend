@@ -4,8 +4,9 @@ import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, 
 import Settings from './Settings'
 
 const EmailAddress = (props) => {
-  const { emailVerified } = props
-  const isVerified = emailVerified === 1
+  const { data } = props
+  const { email, verified } = data
+  const isVerified = verified === 1
 
   return (
     <SettingContainer>
@@ -13,7 +14,7 @@ const EmailAddress = (props) => {
         <SettingHeader>
           <FormattedMessage id='scenes.preferences.email.title' defaultMessage='Email address' />
           <SettingStatus active={isVerified}>
-            { isVerified
+            {isVerified
               ? <FormattedMessage id='scenes.preferences.email.verified' defaultMessage='Verified' />
               : <FormattedMessage id='scenes.preferences.email.unverified' defaultMessage='Unverified' />
             }
@@ -26,7 +27,7 @@ const EmailAddress = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Settings />
+        <Settings email={email} emailVerified={verified} />
       </SettingComponent>
     </SettingContainer>
   )
