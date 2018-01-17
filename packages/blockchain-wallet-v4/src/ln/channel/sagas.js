@@ -124,7 +124,7 @@ export const channelSagas = (api, peersSaga) => {
       channel = response.channel
 
       // TODO should this be a direct call or a put?
-      yield put(sendMessage(channel.staticRemote, response.msg))
+      yield put(sendMessage(channel.staticRemote.pub, response.msg))
     }
 
     yield put(refresh(channel))

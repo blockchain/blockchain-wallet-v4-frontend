@@ -144,7 +144,6 @@ class TCP {
   }
 
   static extractPayload (msg) {
-    console.info(msg)
     return Buffer.from(JSON.parse(msg.data).msg, 'base64')
   }
 

@@ -11,7 +11,7 @@ let Tx = require('bcoin/lib/primitives/tx')
 let MTx = require('bcoin/lib/primitives/mtx')
 let Outpoint = require('bcoin/lib/primitives/outpoint')
 let Witness = require('bcoin/lib/script/witness')
-let ScriptBcoin = require('bcoin/lib/script')
+let ScriptBcoin = require('bcoin/lib/script/script')
 let ecBcoin = require('bcoin/lib/crypto/secp256k1')
 let ec = require('secp256k1')
 let Long = require('long')
@@ -77,31 +77,37 @@ export let trimPredicate = (feePerKw, dustLimit) => p => {
 }
 
 export let createSigCheckKeySet = (channel) => {
-  let stateRemote = channel.get('remote').toJS()
-  let paramsLocal = channel.get('paramsLocal').toJS()
-  let paramsRemote = channel.get('paramsRemote').toJS()
+  let stateRemote = channel.remote
+  let paramsLocal = channel.paramsLocal
+  let paramsRemote = channel.paramsRemote
 
   return createKeySetInternal(
     stateRemote.nextCommitmentPoint,
     paramsLocal.revocationBasepoint,
     paramsRemote.paymentBasepoint,
-    paramsLocal.paymentBasepoint,
     paramsRemote.delayedPaymentBasepoint,
+    paramsLocal.htlcBasepoint,
+    paramsRemote.htlcBasepoint,
     paramsLocal.fundingKey,
     paramsRemote.fundingKey)
 }
 
 export let createSigCreateKeySet = (channel) => {
-  let stateLocal = channel.get('local').toJS()
-  let paramsLocal = channel.get('paramsLocal').toJS()
-  let paramsRemote = channel.get('paramsRemote').toJS()
+  let stateLocal = channel.local
+  let paramsLocal = channel.paramsLocal
+  let paramsRemote = channel.paramsRemote
+
+  console.info(stateLocal)
+  console.info(paramsLocal)
+  console.info(paramsRemote)
 
   return createKeySetInternal(
     stateLocal.nextCommitmentPoint,
     paramsRemote.revocationBasepoint,
     paramsLocal.paymentBasepoint,
-    paramsRemote.paymentBasepoint,
     paramsLocal.delayedPaymentBasepoint,
+    paramsRemote.htlcBasepoint,
+    paramsLocal.htlcBasepoint,
     paramsRemote.fundingKey,
     paramsLocal.fundingKey)
 }
@@ -116,11 +122,11 @@ let createKeySetInternal = (
   localFundingKey,
   remoteFundingKey) => {
   assertPubKey(commitmentPoint)
-  assertPubKey(revocationPaymentBasepoint)
-  assertPubKey(paymentBasepoint)
-  assertPubKey(delayedPaymentBasepoint)
-  assertPubKey(localHtlcBasepoint)
-  assertPubKey(remoteHtlcBasepoint)
+  assertPubKey(revocationPaymentBasepoint.pub)
+  assertPubKey(paymentBasepoint.pub)
+  assertPubKey(delayedPaymentBasepoint.pub)
+  assertPubKey(localHtlcBasepoint.pub)
+  assertPubKey(remoteHtlcBasepoint.pub)
 
   assertPubKey(localFundingKey.pub)
   assertPubKey(remoteFundingKey.pub)
@@ -128,7 +134,7 @@ let createKeySetInternal = (
   // If we generate a transaction for the other party, we need the secret to generate the corresponding signatures
   // If we just want to check signatures from the other party, all we need are the public keys
   return {
-    revocationKey: deriveRevocationPubKey(revocationPaymentBasepoint, commitmentPoint),
+    revocationKey: deriveRevocationPubKey(revocationPaymentBasepoint.pub, commitmentPoint),
     remoteKey: deriveKey(paymentBasepoint, commitmentPoint),
     delayedKey: deriveKey(delayedPaymentBasepoint, commitmentPoint),
     localHtlcKey: deriveKey(localHtlcBasepoint, commitmentPoint),
