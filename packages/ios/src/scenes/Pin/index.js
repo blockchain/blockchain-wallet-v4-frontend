@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   numberPadButton: {
+    alignItems: 'center',
     flexBasis: '33.33%',
     justifyContent: 'center',
     height: 65
@@ -133,7 +134,7 @@ class NumberPad extends Component {
         ))}
         <NumberPadButton />
         <NumberPadButton content="0" />
-        <NumberPadButton image={images.delete} />
+        <NumberPadButton image={images.back} />
       </View>
     )
   }
