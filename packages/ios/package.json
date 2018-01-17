@@ -104,6 +104,8 @@
     "tls": false
   },
   "rnpm": {
-    "assets": ["./assets/fonts/"]
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }
