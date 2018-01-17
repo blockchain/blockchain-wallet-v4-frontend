@@ -66,9 +66,9 @@ export const peerSagas = (tcpConn) => {
     let conn = peers[pubKey]
     let decryptedMsg = conn.feed(msg)
     if (decryptedMsg === undefined) {
-      console.info('received internal message')
       return
     }
+
     let parsedMsg = readMessage(decryptedMsg)
 
     if (parsedMsg.type === 16) {

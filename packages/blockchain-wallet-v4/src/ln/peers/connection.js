@@ -345,8 +345,7 @@ Connection.prototype.decryptIn = function (payload, tag) {
 }
 
 Connection.prototype.write = function (payload) {
-  console.info(payload)
-  console.info('[->] ' + payload)
+  console.info('[->] ' + payload.toString('hex'))
   assert(payload.length < 65535)
 
   let size = Buffer.alloc(2)
