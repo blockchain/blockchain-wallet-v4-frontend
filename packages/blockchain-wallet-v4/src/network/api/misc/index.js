@@ -1,4 +1,4 @@
-import { toUpper, toLower } from 'ramda'
+import { map, toUpper, toLower } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getCaptchaImage = (timestamp, sessionToken) => get({
