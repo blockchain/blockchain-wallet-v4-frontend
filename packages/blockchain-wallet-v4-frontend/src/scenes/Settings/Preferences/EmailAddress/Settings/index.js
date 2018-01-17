@@ -7,7 +7,7 @@ import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 import { equals, isEmpty } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingContainer extends React.Component {
@@ -61,8 +61,6 @@ class SettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  email: selectors.core.settings.getEmail(state),
-  emailVerified: selectors.core.settings.getEmailVerified(state),
   emailAddress: formValueSelector('settingEmailAddress')(state, 'emailAddress'),
   code: formValueSelector('settingEmailAddress')(state, 'code')
 })

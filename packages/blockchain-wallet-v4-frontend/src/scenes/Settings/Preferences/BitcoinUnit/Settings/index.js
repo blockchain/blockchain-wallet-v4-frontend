@@ -25,7 +25,6 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  unit: selectors.core.settings.getBtcUnit(state),
   newUnit: formValueSelector('settingUnit')(state, 'unit')
 })
 
