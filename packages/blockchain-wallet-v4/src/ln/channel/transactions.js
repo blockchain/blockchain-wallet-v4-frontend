@@ -97,10 +97,6 @@ export let createSigCreateKeySet = (channel) => {
   let paramsLocal = channel.paramsLocal
   let paramsRemote = channel.paramsRemote
 
-  console.info(stateLocal)
-  console.info(paramsLocal)
-  console.info(paramsRemote)
-
   return createKeySetInternal(
     stateLocal.nextCommitmentPoint,
     paramsRemote.revocationBasepoint,

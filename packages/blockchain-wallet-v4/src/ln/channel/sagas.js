@@ -76,7 +76,6 @@ export const channelSagas = (api, peersSaga) => {
   }
 
   const onMessage = function * ({peer, msg}) {
-    console.info(msg)
     let channel = yield select(getChannel(getChannelId(msg).toString('hex')))
     let response
     channel = copy(channel)
