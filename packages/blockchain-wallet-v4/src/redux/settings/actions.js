@@ -1,6 +1,5 @@
 import * as AT from './actionTypes'
 
-export const encodePairingCode = () => ({ type: AT.ENCODE_PAIRING_CODE })
 export const decodePairingCode = (data) => ({ type: AT.DECODE_PAIRING_CODE, payload: { data } })
 export const requestGoogleAuthenticatorSecretUrl = () => ({ type: AT.REQUEST_GOOGLE_AUTHENTICATOR_SECRET_URL })
 // SETTERS
