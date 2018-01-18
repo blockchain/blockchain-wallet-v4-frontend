@@ -24,10 +24,6 @@ class PriceIndexSeries extends React.Component {
     this.setState({ timeframe: value })
   }
 
-  componentWillMount () {
-    this.props.settingsActions.fetchSettings()
-  }
-
   render () {
     const { data } = this.props
     const { coin, timeframe } = this.state
