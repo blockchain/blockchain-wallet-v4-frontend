@@ -1,6 +1,7 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 import { compose } from 'ramda'
 import * as A from '../actions'
+import * as A_WS from './actions'
 import * as T from '../actionTypes'
 import { Wrapper } from '../../types'
 import { commonSagasFactory } from '../common/sagas.js'
@@ -38,6 +39,7 @@ export const webSocketSaga = ({ api, socket } = {}) => {
       case 'block':
         const newBlock = message.x
         yield put(A.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
+        yield put(A_WS.onBlock, newBlock)
         yield call(refreshTransactionList)
         break
       case 'pong':

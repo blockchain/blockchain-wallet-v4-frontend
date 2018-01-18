@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import * as AT_WS from '../../redux/webSocket/actionTypes'
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 import {
   phase,
@@ -135,7 +136,7 @@ export const channelSagas = (api, peersSaga) => {
   const takeSagas = function * () {
     yield takeEvery(AT.OPEN, onOpenChannel)
     yield takeEvery(AT.MESSAGE, onMessage)
-    yield takeEvery(AT.ON_BLOCK, onBlock)
+    yield takeEvery(AT_WS.ON_BLOCK, onBlock)
   }
 
   return {

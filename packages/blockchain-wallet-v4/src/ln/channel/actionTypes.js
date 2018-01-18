@@ -5,5 +5,3 @@ export const REMOVE = '@LN.CHANNEL.REMOVE'
 // Actions caught by sagas
 export const OPEN = '@LN.CHANNEL.OPEN'
 export const MESSAGE = '@LN.CHANNEL.MESSAGE'
-
-export const ON_BLOCK = '@CORE.WEBSOCKET.BLOCK' //TODO move
