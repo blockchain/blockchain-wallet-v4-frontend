@@ -116,7 +116,7 @@ const Navigation = (props) => {
             <SecurityGauge />
           </MenuItem>
         </LinkContainer>
-        <LinkContainer to='/settings' activeClassName='active' onClick={handleOpenSettings}>
+        <LinkContainer to='/settings/info' onClick={handleOpenSettings}>
           <MenuItem>
             <Icon name='settings' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.settings' defaultMessage='Settings' smaller uppercase />

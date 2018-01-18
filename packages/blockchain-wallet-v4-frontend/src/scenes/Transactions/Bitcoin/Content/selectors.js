@@ -1,7 +1,6 @@
 import { formValueSelector } from 'redux-form'
 import { selectors } from 'data'
 import { curry, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter, length, lift } from 'ramda'
-// import { Remote } from 'blockchain-wallet-v4/src'
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
@@ -19,7 +18,6 @@ export const getData = state => {
   const filtered = transactions.map(filterTransactions(status, search))
   const total = transactions.map(length)
   return lift((transactions, total) => ({ transactions, total, source: source.address || source.xpub }))(filtered, total)
-  // return lift((transactions, total) => ({ transactions, total }))(filtered, total)
 }
 
 export const getContext = selectors.core.wallet.getWalletContext
