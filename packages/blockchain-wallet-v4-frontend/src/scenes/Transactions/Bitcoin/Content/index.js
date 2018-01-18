@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop, lift, not } from 'ramda'
+import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop, lift, not, length } from 'ramda'
 
 import { selectors, actions } from 'data'
 import Empty from './Empty'
@@ -30,25 +30,26 @@ class ContentContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const update = (currentData, nextData) => {
+    // const fetchTransactions = curry((reset, ntx, currentData, nextData) =>
+    //   this.props.dataBitcoinActions.fetchTransactions(nextData.source, reset, ntx)
+    // )
+    const update = curry((reset, ntx, currentData, nextData) => {
       if (currentData.source !== nextData.source) {
-        this.props.dataBitcoinActions.fetchTransactions(nextData.source, true, 0)
+        this.props.dataBitcoinActions.fetchTransactions(nextData.source, reset, ntx)
       }
-    }
-    lift(update)(this.props.data, nextProps.data)
+    })
+    // Initialize the first transactions
+    lift(update(true, 0))(this.props.data, nextProps.data)
 
-  //   if (!equals(this.props.status, nextProps.status) ||
-  //     !equals(this.props.search, nextProps.search) ||
-  //     !equals(this.props.transactions, nextProps.transactions)) {
-  //     this.filterTransactions(nextProps.status, nextProps.search, nextProps.transactions)
-  //     return
-  //   }
-
-  //   if (!equals(this.props.scroll.yOffset, nextProps.scroll.yOffset)) {
-  //     if (nextProps.scroll.yMax - nextProps.scroll.yOffset < threshold) {
-  //       this.fetchTransactions(nextProps.source)
-  //     }
-  //   }
+    // Appends more transactions depending on the scroll position
+    // if (!equals(this.props.scroll.yOffset, nextProps.scroll.yOffset)) {
+    //   if (nextProps.scroll.yMax - nextProps.scroll.yOffset < threshold) {
+    //     console.log('ask for more')
+    //     const nbTransactions = nextProps.data.map(compose(length, prop('transactions')))
+    //     nbTransactions.map(console.log)
+    //     lift(fetchTransactions(false))(nbTransactions, this.props.data, nextProps.data)
+    //   }
+    // }
   }
 
   // shouldComponentUpdate (nextProps) {
@@ -80,10 +81,10 @@ class ContentContainer extends React.Component {
 //   }
 // }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state),
-  context: getContext(state)
-  // scroll: selectors.scroll.selectScroll(state)
+  context: getContext(state),
+  scroll: selectors.scroll.selectScroll(state)
 })
 
 // const mapDispatchToProps = (dispatch) => ({
