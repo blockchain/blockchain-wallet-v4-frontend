@@ -40,7 +40,6 @@ class RequestEtherContainer extends React.Component {
   render () {
     const { data, closeAll, selection, coins } = this.props
 
-    console.log('render method', this.props, data)
     return data.cata({
       Success: (val) => <Success
         {...this.props}
