@@ -4,22 +4,24 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { actions } from 'data'
-import { getSecurityGauge } from './selectors'
+import { getData } from './selectors'
 import { SecurityGauge } from 'blockchain-info-components'
 
 class SecurityGaugeContainer extends React.Component {
-  componentWillMount () {
-    this.props.actions.fetchSettings()
-  }
-
   render () {
-    // return <SecurityGauge score={this.props.securityGauge.score} />
-    return <div />
+    const { data } = this.props
+
+    return data.cata({
+      Success: (value) => <SecurityGauge score={value} />,
+      Failure: (message) => <div />,
+      Loading: () => <div />,
+      NotAsked: () => <div />
+    })
   }
 }
 
 const mapStateToProps = state => ({
-  securityGauge: getSecurityGauge(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = dispatch => ({
