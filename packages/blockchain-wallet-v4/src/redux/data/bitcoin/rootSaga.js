@@ -55,7 +55,7 @@ export default ({ api } = {}) => {
   const fetchTransactions = function * ({type, payload}) {
     const { address, reset, offset } = payload
     try {
-      yield put(A.fetchTransactionsLoading())
+      yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 50, onlyShow: address, offset })
       yield put(A.fetchTransactionsSuccess(data.txs, reset))
