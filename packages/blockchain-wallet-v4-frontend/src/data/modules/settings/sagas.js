@@ -30,10 +30,6 @@ export const initSettingsSecurity = function * () {
   }
 }
 
-export const showPairingCode = function * (action) {
-  yield put(actions.modals.showModal('PairingCode'))
-}
-
 const showBackupRecovery = function * (action) {
   const recoverySaga = function * ({ password }) {
     const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
@@ -231,7 +227,6 @@ export default function * () {
   yield takeLatest(AT.INIT_SETTINGS_INFO, initSettingsInfo)
   yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, initSettingsPreferences)
   yield takeLatest(AT.INIT_SETTINGS_SECURITY, initSettingsSecurity)
-  yield takeLatest(AT.SHOW_PAIRING_CODE, showPairingCode)
   yield takeLatest(AT.SHOW_BACKUP_RECOVERY, showBackupRecovery)
   yield takeLatest(AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL, showGoogleAuthenticatorSecretUrl)
   yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
