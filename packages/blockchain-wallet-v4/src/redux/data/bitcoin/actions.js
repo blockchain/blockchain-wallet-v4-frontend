@@ -28,7 +28,7 @@ export const fetchRatesFailure = (error) => ({ type: AT.FETCH_BITCOIN_RATES_FAIL
 
 // FETCH_BITCOIN_TRANSACTIONS
 export const fetchTransactions = (address, reset, offset = 0) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS, payload: { address, reset, offset } })
-export const fetchTransactionsLoading = () => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_LOADING })
+export const fetchTransactionsLoading = (reset) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_LOADING, payload: { reset } })
 export const fetchTransactionsSuccess = (transactions, reset) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS, payload: {transactions, reset} })
 export const fetchTransactionsFailure = (error) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE, payload: error })
 
