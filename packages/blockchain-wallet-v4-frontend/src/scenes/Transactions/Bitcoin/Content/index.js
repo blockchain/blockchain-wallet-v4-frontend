@@ -16,21 +16,18 @@ const threshold = 250
 class ContentContainer extends React.Component {
   componentWillMount () {
     // if (Remote.NotAsked.is(this.props.data)) {
-      // this.props.dataBitcoinActions.fetchTransactions(this.props.context, true, 0)
+    this.props.dataBitcoinActions.fetchTransactions(this.props.context, true, 0)
     // }
   }
 
   componentWillReceiveProps (nextProps) {
+    if (this.props.data.source !== nextProps.data.source) {
+      this.props.dataBitcoinActions.fetchTransactions(nextProps.data.source, true, 0)
+    }
+    
     // const fetchTransactions = curry((reset, ntx, currentData, nextData) =>
     //   this.props.dataBitcoinActions.fetchTransactions(nextData.source, reset, ntx)
     // )
-    // const update = curry((reset, ntx, currentData, nextData) => {
-    //   if (currentData.source !== nextData.source) {
-    //     this.props.dataBitcoinActions.fetchTransactions(nextData.source, reset, ntx)
-    //   }
-    // })
-    // // Initialize the first transactions
-    // lift(update(true, 0))(this.props.data, nextProps.data)
 
     // Appends more transactions depending on the scroll position
     // if (!equals(this.props.scroll.yOffset, nextProps.scroll.yOffset)) {
