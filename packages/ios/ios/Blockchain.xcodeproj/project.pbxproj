@@ -50,6 +50,7 @@
 		CFC4FC6524684F178D532731 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA8EB18C11AD4D25918AECCA /* Montserrat-Bold.ttf */; };
 		E9CEB55C4E474600A050056C /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A0048737605416283A5A2AB /* Montserrat-ExtraBold.ttf */; };
 		EED737242322478ABADB42BE /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9607ED34B0EF4C7B8D7008EC /* Montserrat-ExtraBoldItalic.ttf */; };
+		FC34F3D0201145BB00B9AB18 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC34F3CF201145BB00B9AB18 /* libcrypto.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -398,6 +399,7 @@
 		D92917CBB276455E81041691 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		EA8EB18C11AD4D25918AECCA /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		FBC357FD3F454AA5986E3AE5 /* RNOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNOS.xcodeproj; path = "../node_modules/react-native-os/ios/RNOS.xcodeproj"; sourceTree = "<group>"; };
+		FC34F3CF201145BB00B9AB18 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "Submodules/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -413,6 +415,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC34F3D0201145BB00B9AB18 /* libcrypto.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -613,6 +616,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				B45A27D0A24B47BDBEA15204 /* Resources */,
 				FC079BFC2003C422004A6B9D /* Recovered References */,
+				FC34F3CE201145BB00B9AB18 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -730,6 +734,14 @@
 				FC34F347200FD31A00B9AB18 /* libRCTCamera.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FC34F3CE201145BB00B9AB18 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F3CF201145BB00B9AB18 /* libcrypto.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1352,7 +1364,7 @@
 				INFOPLIST_FILE = Blockchain/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1386,7 +1398,7 @@
 				INFOPLIST_FILE = Blockchain/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
