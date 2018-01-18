@@ -14,6 +14,8 @@ class WalletLayout extends React.Component {
   componentWillMount () {
     this.props.kvStoreEthereumActions.fetchMetadataEthereum()
     this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
+    this.props.optionsActions.fetchOptions()
+    this.props.settingsActions.fetchSettings()
   }
 
   render () {
@@ -46,7 +48,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   kvStoreEthereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
-  kvStoreWhatsnewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch)
+  kvStoreWhatsnewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch),
+  optionsActions: bindActionCreators(actions.core.walletOptions, dispatch),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 const enhance = compose(

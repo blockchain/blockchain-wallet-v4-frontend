@@ -6,7 +6,7 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.Component {
@@ -28,23 +28,21 @@ class SettingsContainer extends React.Component {
   render () {
     const { ui, ...rest } = this.props
 
-    return <Settings
-      {...rest}
+    return <Settings {...rest}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
-      handleClick={this.handleClick}
-    />
+      handleClick={this.handleClick} />
   }
 }
 
 const mapStateToProps = (state) => ({
-  passwordHintValue: formValueSelector('settingPasswordHint')(state, 'passwordHint'),
-  currentHint: selectors.core.settings.getHint(state)
+  passwordHintValue: formValueSelector('settingPasswordHint')(state, 'passwordHint')
 })
 
 const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  actions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 const enhance = compose(

@@ -51,12 +51,12 @@ class App extends React.Component {
                 <WalletLayout path='/exchange/history' component={ExchangeHistory} />
                 <WalletLayout path='/exchange' component={Exchange} exact />
                 <WalletLayout path='/security-center' component={SecurityCenter} />
-                <WalletLayout path='/settings/info' component={Info} />
                 <WalletLayout path='/settings/preferences' component={Preferences} />
                 <WalletLayout path='/settings/security' component={Security} />
                 <WalletLayout path='/settings/addresses' component={Addresses} />
+                <WalletLayout path='/settings/info' component={Info} />
                 <WalletLayout path='/faq' component={Faq} />
-                <Redirect from='/settings' to='/settings/info' />
+                {/* <Redirect from='/settings' to='/settings/info' /> */}
                 <Redirect from='/' to='/login' />
               </Switch>
             </ConnectedRouter>

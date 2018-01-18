@@ -1,8 +1,7 @@
-import { append, assoc, assocPath, concat, merge, path } from 'ramda'
+import { assoc, assocPath, concat, merge, lensProp, over, map, prop, head } from 'ramda'
 import * as AT from './actionTypes'
-import * as actionTypes from '../../actionTypes.js'
-import * as actions from '../../actions'
-import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound } from '../../../coinSelection'
+import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound, selectAll } from '../../../coinSelection'
+import * as Coin from '../../../coinSelection/coin'
 import Remote from '../../../remote'
 
 const EMPTY_SELECTION = {
@@ -22,7 +21,8 @@ const INITIAL_STATE = {
     effectiveBalance: undefined
   },
   rates: Remote.NotAsked,
-  transactions: Remote.NotAsked
+  transactions: Remote.NotAsked,
+  transaction_history: Remote.NotAsked
 }
 
 const bitcoinReducer = (state = INITIAL_STATE, action) => {
@@ -32,32 +32,24 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     // case AT.SET_BITCOIN_LATEST_BLOCK: {
     //   return assocPath(['latest_block'], payload, state)
     // }
-    case AT.SET_BITCOIN_EFFECTIVE_BALANCE: {
-      const { effectiveBalance } = payload
+    case AT.REFRESH_BITCOIN_EFFECTIVE_BALANCE: {
+      const { coins, feePerByte } = payload
+      const { outputs } = selectAll(feePerByte, coins)
+      const effectiveBalance = prop('value', head(outputs)) || 0
       return assocPath(['payment', 'effectiveBalance'], effectiveBalance, state)
     }
-    case AT.SET_BITCOIN_SELECTION: {
-      const { coins, target, feePerByte, change, algorithm, seed } = action.payload
+    case AT.REFRESH_BITCOIN_SELECTION: {
+      const { feePerByte, coins, amount, receive, change, algorithm, seed } = payload
+      const target = Coin.fromJS({ address: receive, value: amount })
 
       let selection
       switch (algorithm) {
-        case 'ascentDraw':
-          selection = ascentDraw([target], feePerByte, coins, change)
-          break
-        case 'descentDraw':
-          selection = descentDraw([target], feePerByte, coins, change)
-          break
-        case 'singleRandomDraw':
-          selection = singleRandomDraw([target], feePerByte, coins, change, seed)
-          break
-        case 'branchAndBound':
-          selection = branchAndBound([target], feePerByte, coins, change, seed)
-          break
-        default:
-          selection = EMPTY_SELECTION
-          break
+        case 'ascentDraw': selection = ascentDraw([target], feePerByte, coins, change); break
+        case 'descentDraw': selection = descentDraw([target], feePerByte, coins, change); break
+        case 'singleRandomDraw': selection = singleRandomDraw([target], feePerByte, coins, change, seed); break
+        case 'branchAndBound':selection = branchAndBound([target], feePerByte, coins, change, seed); break
+        default: selection = EMPTY_SELECTION
       }
-
       return assocPath(['payment', 'selection'], selection, state)
     }
     case AT.FETCH_BITCOIN_DATA_LOADING: {
@@ -104,22 +96,14 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BITCOIN_RATES_FAILURE: {
       return assoc('rates', Remote.Failure(payload), state)
     }
-    // case AT.FETCH_BITCOIN_SELECTION_LOADING: {
-    //   return assocPath(['payment', 'selection'], Remote.Loading, state)
-    // }
-    // case AT.FETCH_BITCOIN_SELECTION_SUCCESS: {
-    //   return assocPath(['payment', 'selection'], Remote.Success(payload), state)
-    // }
-    // case AT.FETCH_BITCOIN_SELECTION_FAILURE: {
-    //   return assocPath(['payment', 'selection'], Remote.Failure(payload), state)
-    // }
     case AT.FETCH_BITCOIN_TRANSACTIONS_LOADING: {
       return assoc('transactions', Remote.Loading, state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS: {
-      return payload.reset
-        ? assoc('transactions', Remote.Success(payload), state)
-        : assoc('transactions', Remote.Success(concat(path('transactions', state), payload)), state)
+      const { reset, transactions } = payload
+      return reset
+        ? assoc('transactions', Remote.Success(transactions), state)
+        : over(lensProp('transactions'), map((previousTxs) => concat(previousTxs, transactions)), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE: {
       return assoc('transactions', Remote.Failure(payload), state)

@@ -49,4 +49,13 @@ Remote.prototype.chain = function (f) {
   })
 }
 
+Remote.prototype.getOrElse = function (defaultValue) {
+  return this.cata({
+    Success: (value) => value,
+    Failure: () => defaultValue,
+    Loading: () => defaultValue,
+    NotAsked: () => defaultValue
+  })
+}
+
 export default Remote

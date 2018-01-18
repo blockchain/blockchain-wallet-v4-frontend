@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { FlatLoader2 } from 'blockchain-info-components'
+import { BlockchainLoader } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 export default (props) => {
   return (
     <Wrapper>
-      <FlatLoader2 width='100px' height='100px' />
+      <BlockchainLoader width='300px' height='300px' />
     </Wrapper>
   )
 }
