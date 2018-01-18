@@ -4,10 +4,15 @@ import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { head, prop } from 'ramda'
 
+import { getAddress } from './selectors'
+
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import { actions, selectors } from 'data'
-import RequestEther from './template'
+import { actions } from 'data'
+
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class RequestEtherContainer extends React.Component {
   constructor (props) {
@@ -33,15 +38,22 @@ class RequestEtherContainer extends React.Component {
   }
 
   render () {
-    const { closeAll, selection, coins } = this.props
+    const { data, closeAll, selection, coins } = this.props
 
-    return <RequestEther
-      {...this.props}
-      closeAll={closeAll}
-      coins={coins}
-      selection={selection}
-      onSubmit={this.onSubmit}
-    />
+    console.log('render method', this.props, data)
+    return data.cata({
+      Success: (val) => <Success
+        {...this.props}
+        address={prop('addr', head(val))}
+        closeAll={closeAll}
+        coins={coins}
+        selection={selection}
+        onSubmit={this.onSubmit}
+      />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
@@ -49,7 +61,7 @@ const mapStateToProps = (state, ownProps) => ({
   initialValues: {
     coin: 'ETH'
   },
-  receiveAddress: prop('addr', head(selectors.core.kvStore.ethereum.getAccounts(state) || [])),
+  data: getAddress(state),
   coin: formValueSelector('requestEther')(state, 'coin')
 })
 
