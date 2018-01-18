@@ -60,11 +60,7 @@ const ButtonRow = styled(ButtonGroup)`
 
 const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }
-  return (
-    initialRender ||
-    !structure.deepEqual(values, nextProps.values) ||
-    props.effectiveBalance !== nextProps.effectiveBalance
-  )
+  return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
 }
 
 const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
@@ -164,4 +160,4 @@ FirstStep.propTypes = {
   handleClickFeeToggler: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'sendBitcoin', shouldValidate, destroyOnUnmount: false })(FirstStep)

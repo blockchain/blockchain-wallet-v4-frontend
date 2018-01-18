@@ -2,10 +2,6 @@ import * as AT from './actionTypes'
 
 // export const setBitcoinLatestBlock = (block_index, hash, height, time) => ({ type: AT.SET_BITCOIN_LATEST_BLOCK, payload: { block_index, hash, height, time } })
 
-// export const setBitcoinEffectiveBalance = (effectiveBalance) => ({ type: AT.SET_BITCOIN_EFFECTIVE_BALANCE, payload: { effectiveBalance } })
-
-// export const setBitcoinSelection = (feePerByte, target, coins, change, algorithm, seed) => ({ type: AT.SET_BITCOIN_SELECTION, payload: { feePerByte, target, coins, change, algorithm, seed } })
-
 // FETCH_BITCOIN_DATA
 export const fetchData = (context) => ({ type: AT.FETCH_BITCOIN_DATA, payload: { context } })
 export const fetchDataLoading = () => ({ type: AT.FETCH_BITCOIN_DATA_LOADING })
@@ -30,12 +26,6 @@ export const fetchRatesLoading = () => ({ type: AT.FETCH_BITCOIN_RATES_LOADING }
 export const fetchRatesSuccess = (data) => ({ type: AT.FETCH_BITCOIN_RATES_SUCCESS, payload: data })
 export const fetchRatesFailure = (error) => ({ type: AT.FETCH_BITCOIN_RATES_FAILURE, payload: error })
 
-// FETCH_BITCOIN_SELECTION
-export const fetchSelection = () => ({ type: AT.FETCH_BITCOIN_SELECTION })
-export const fetchSelectionLoading = () => ({ type: AT.FETCH_BITCOIN_SELECTION_LOADING })
-export const fetchSelectionSuccess = (data) => ({ type: AT.FETCH_BITCOIN_SELECTION_SUCCESS, payload: data })
-export const fetchSelectionFailure = (error) => ({ type: AT.FETCH_BITCOIN_SELECTION_FAILURE, payload: error })
-
 // FETCH_BITCOIN_TRANSACTIONS
 export const fetchTransactions = (address, reset, offset = 0) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS, payload: { address, reset, offset } })
 export const fetchTransactionsLoading = () => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_LOADING })
@@ -56,3 +46,9 @@ export const fetchUnspentFailure = (error) => ({ type: AT.FETCH_BITCOIN_UNSPENT_
 
 // PUBLISH_BITCOIN_TRANSACTION
 export const publishTransaction = () => ({ type: AT.PUBLISH_BITCOIN_TRANSACTION })
+
+// REFRESH_BITCOIN_EFFECTIVE_BALANCE
+export const refreshEffectiveBalance = (coins, feePerByte) => ({ type: AT.REFRESH_BITCOIN_EFFECTIVE_BALANCE, payload: { coins, feePerByte } })
+
+// REFRESH_BITCOIN_SELECTION
+export const refreshSelection = (feePerByte, coins, amount, receive, change, algorithm, seed) => ({ type: AT.REFRESH_BITCOIN_SELECTION, payload: { feePerByte, coins, amount, receive, change, algorithm, seed } })
