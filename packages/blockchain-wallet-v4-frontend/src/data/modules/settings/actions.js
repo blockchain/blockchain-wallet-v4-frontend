@@ -8,8 +8,6 @@ export const initSettingsSecurity = () => ({ type: AT.INIT_SETTINGS_SECURITY })
 
 export const showGoogleAuthenticatorSecretUrl = () => ({ type: AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL })
 
-export const showPairingCode = () => ({ type: AT.SHOW_PAIRING_CODE })
-
 export const showBackupRecovery = () => ({ type: AT.SHOW_BACKUP_RECOVERY })
 
 export const updateEmail = (email) => ({ type: AT.UPDATE_EMAIL, payload: { email } })
