@@ -18,8 +18,8 @@ export const getData = state => {
   const source = formValueSelector('bitcoinTransaction')(state, 'source') || {}
   const filtered = transactions.map(filterTransactions(status, search))
   const total = transactions.map(length)
-  // return lift((transactions, total) => ({ transactions, total, source: source.address || source.xpub }))(filtered, total)
-  return lift((transactions, total) => ({ transactions, total }))(filtered, total)
+  return lift((transactions, total) => ({ transactions, total, source: source.address || source.xpub }))(filtered, total)
+  // return lift((transactions, total) => ({ transactions, total }))(filtered, total)
 }
 
 export const getContext = selectors.core.wallet.getWalletContext
