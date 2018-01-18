@@ -4,7 +4,6 @@ import exchangeHistory from './exchangeHistory/sagas'
 import sendBitcoin from './sendBitcoin/sagas'
 import sendEther from './sendEther/sagas'
 import settings from './settings/sagas'
-import transactionBitcoin from './transactionBitcoin/sagas'
 import transferEther from './transferEther/sagas'
 
 export default function * () {
@@ -13,7 +12,6 @@ export default function * () {
     call(sendBitcoin),
     call(sendEther),
     call(settings),
-    call(transactionBitcoin),
     call(transferEther)
   ])
 }

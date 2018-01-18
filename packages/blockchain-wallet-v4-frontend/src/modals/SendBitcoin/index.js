@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'redux'
+import { compose, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import wizardProvider from 'providers/WizardProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
+import { actions } from 'data'
 import SendBitcoin from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
@@ -11,6 +13,10 @@ import SecondStep from './SecondStep'
 class SendBitcoinContainer extends React.Component {
   componentWillMount () {
     this.props.resetStep()
+  }
+
+  componentWillUnmount () {
+    this.props.formActions.destroy('sendBitcoin')
   }
 
   render () {
@@ -31,7 +37,12 @@ SendBitcoinContainer.propTypes = {
   closeAll: PropTypes.func.isRequired
 }
 
+const mapDispatchToProps = dispatch => ({
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
 const enhance = compose(
+  connect(undefined, mapDispatchToProps),
   modalEnhancer('SendBitcoin'),
   wizardProvider('sendBitcoin', 2)
 )
