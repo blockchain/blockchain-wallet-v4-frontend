@@ -13,7 +13,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.settingsActions.showPairingCode()
+    this.props.actions.showModal('PairingCode')
   }
 
   render () {
@@ -22,7 +22,7 @@ class SettingsContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
+  actions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(undefined, mapDispatchToProps)(SettingsContainer)
