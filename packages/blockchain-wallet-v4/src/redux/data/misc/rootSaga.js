@@ -6,6 +6,8 @@ import { delayAjax } from '../../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as selectors from '../../selectors'
+import * as wS from '../../wallet/selectors'
+import * as pairing from '../../../pairing'
 
 export default ({ api } = {}) => {
   const fetchAdverts = function * (action) {
@@ -59,10 +61,25 @@ export default ({ api } = {}) => {
     }
   }
 
+  const encodePairingCode = function * () {
+    try {
+      yield put(A.encodePairingCodeLoading())
+      const guid = yield select(wS.getGuid)
+      const sharedKey = yield select(wS.getSharedKey)
+      const password = yield select(wS.getMainPassword)
+      const pairingPassword = yield call(api.getPairingPassword, guid)
+      const encryptionPhrase = pairing.encode(guid, sharedKey, password, pairingPassword)
+      yield put(A.encodePairingCodeSuccess(encryptionPhrase))
+    } catch (e) {
+      yield put(A.encodePairingCodeFailure(e.message))
+    }
+  }
+
   return function * () {
     yield takeLatest(AT.FETCH_ADVERTS, fetchAdverts)
     yield takeLatest(AT.FETCH_CAPTCHA, fetchCaptcha)
     yield takeLatest(AT.FETCH_LOGS, fetchLogs)
     yield takeLatest(AT.FETCH_PRICE_INDEX_SERIES, fetchPriceIndexSeries)
+    yield takeLatest(AT.ENCODE_PAIRING_CODE, encodePairingCode)
   }
 }

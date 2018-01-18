@@ -7,14 +7,6 @@ import * as pairing from '../../pairing'
 
 export const settingsSaga = ({ api } = {}) => {
   // Utilities
-  const encodePairingCode = function * () {
-    const guid = yield select(wS.getGuid)
-    const sharedKey = yield select(wS.getSharedKey)
-    const password = yield select(wS.getMainPassword)
-    const pairingPassword = yield call(api.getPairingPassword, guid)
-    return pairing.encode(guid, sharedKey, password, pairingPassword)
-  }
-
   const decodePairingCode = function * ({ data }) {
     const parsedDataE = pairing.parseQRcode(data)
     if (parsedDataE.isRight) {
@@ -173,7 +165,6 @@ export const settingsSaga = ({ api } = {}) => {
   }
 
   return {
-    encodePairingCode,
     decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
     // fetchSettings,
