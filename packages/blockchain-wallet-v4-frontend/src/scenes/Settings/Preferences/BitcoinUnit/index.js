@@ -1,25 +1,28 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Settings from './Settings'
+import { connect } from 'react-redux'
 
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
+import { getData } from './selectors'
 
-const BitcoinUnit = (props) => {
-  return (
-    <SettingContainer>
-      <SettingSummary>
-        <SettingHeader>
-          <FormattedMessage id='scenes.preferences.unit.title' defaultMessage='Bitcoin unit' />
-        </SettingHeader>
-        <SettingDescription>
-          <FormattedMessage id='scenes.preferences.unit.description' defaultMessage='Adjust the precision you would prefer bitcoin values to be displayed in.' />
-        </SettingDescription>
-      </SettingSummary>
-      <SettingComponent>
-        <Settings />
-      </SettingComponent>
-    </SettingContainer>
-  )
+class BitcoinUnitContainer extends React.Component {
+  render () {
+    const { data, ...rest } = this.props
+
+    return data.cata({
+      Success: (value) => <Success {...rest}
+        unit={value} />,
+      Failure: (message) => <Error {...rest}
+        message={message} />,
+      Loading: () => <Loading {...rest} />,
+      NotAsked: () => <Loading {...rest} />
+    })
+  }
 }
 
-export default BitcoinUnit
+const mapStateToProps = (state) => ({
+  data: getData(state)
+})
+
+export default connect(mapStateToProps)(BitcoinUnitContainer)

@@ -18,7 +18,6 @@ export default ({ api } = {}) => {
     try {
       yield put(A.fetchDataLoading())
       const { context } = action.payload
-      // const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
       const bitcoinData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
@@ -50,28 +49,28 @@ export default ({ api } = {}) => {
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
-     }
+    }
   }
 
-  const fetchTransactions = function * ({ address, reset }) {
+  const fetchTransactions = function * ({type, payload}) {
+    const { address, reset, offset } = payload
     try {
       yield put(A.fetchTransactionsLoading())
       const context = yield select(selectors.wallet.getWalletContext)
-      const transactions = yield select(S.getTransactions)
-      const offset = reset ? 0 : transactions.data.length
-      const data = yield call(api.fetchBlockchainData, context, { n: 50, onlyShow: address, offset: offset })
-      yield put(A.fetchTransactionsSuccess(data, reset))
+      const data = yield call(api.fetchBlockchainData, context, { n: 50, onlyShow: address, offset })
+      yield put(A.fetchTransactionsSuccess(data.txs, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
 
-  const fetchTransactionHistory = function * ({ address, start, end }) {
+  const fetchTransactionHistory = function * ({ type, payload }) {
+    const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
-        const data = yield call(api.getTransactionHistory, address, currency, start, end)
+        const data = yield call(api.getTransactionHistory, address, currency.getOrElse('USD'), start, end)
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
         const context = yield select(selectors.wallet.getWalletContext)
@@ -84,21 +83,23 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchFiatAtTime = function * ({ hash, amount, time }) {
+  const fetchFiatAtTime = function * ({ type, payload }) {
+    const { hash, amount, time, currency } = payload
     try {
       yield put(A.fetchFiatAtTimeLoading())
-      const currency = yield select(selectors.settings.getCurrency)
-      const data = yield call(api.getBitcoinFiatAtTime, amount, currency, time)
+      // const currency = yield select(selectors.settings.getCurrency)
+      const data = yield call(api.getBitcoinFiatAtTime, amount, time)
       yield put(A.fetchFiatAtTimeSuccess({ currency: { hash: data } }))
     } catch (e) {
       yield put(A.fetchFiatAtTimeFailure(e.message))
     }
   }
 
-  const fetchUnspent = function * (index, address) {
+  const fetchUnspent = function * (action) {
     try {
+      // source can be the hd account index / or a legacy address
+      const { source } = action.payload
       yield put(A.fetchUnspentLoading())
-      const source = is(Number, index) ? index : address
       const wrapper = yield select(selectors.wallet.getWrapper)
       const data = yield call(api.getWalletUnspents, wrapper, source)
       yield put(A.fetchUnspentSuccess(data))
@@ -107,7 +108,8 @@ export default ({ api } = {}) => {
     }
   }
 
-  const publishTransaction = function * ({ network, selection, password }) {
+  const publishTransaction = function * ({ type, payload }) {
+    const { network, selection, password } = payload
     try {
       const wrapper = yield select(selectors.wallet.getWrapper)
       const signAndPublish = (sel, pass) => taskToPromise(sign(network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushTx)))

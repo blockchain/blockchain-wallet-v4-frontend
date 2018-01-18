@@ -1,22 +1,27 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { actions } from 'data'
-import Info from './template.js'
+import InfoWell from 'components/InfoWell'
+import WalletId from './WalletId'
+import PairingCode from './PairingCode'
 
-class InfoContainer extends React.Component {
-  componentWillMount () {
-    this.props.settingsActions.initSettingsInfo()
-  }
+const Wrapper = styled.section`
+  padding: 30px;
+  box-sizing: border-box;
+`
 
-  render () {
-    return <Info />
-  }
+const Info = () => {
+  return (
+    <Wrapper>
+      <InfoWell>
+        <FormattedMessage id='scenes.info.explain' defaultMessage='Use your Wallet ID to log in using our web client,' />
+        <FormattedMessage id='scenes.info.explain2' defaultMessage='or simply scan the code below (click on `Show Pairing Code`) with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices.' />
+      </InfoWell>
+      <WalletId />
+      <PairingCode />
+    </Wrapper>
+  )
 }
 
-const mapDispatchToProps = dispatch => ({
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-})
-
-export default connect(undefined, mapDispatchToProps)(InfoContainer)
+export default Info

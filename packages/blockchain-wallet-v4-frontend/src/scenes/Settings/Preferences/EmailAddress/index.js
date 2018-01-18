@@ -1,17 +1,28 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { selectors } from 'data'
-import EmailAddress from './template.js'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class EmailAddressContainer extends React.Component {
   render () {
-    return <EmailAddress {...this.props} />
+    const { data, ...rest } = this.props
+
+    return data.cata({
+      Success: (value) => <Success {...rest}
+        data={value} />,
+      Failure: (message) => <Error {...rest}
+        message={message} />,
+      Loading: () => <Loading {...rest} />,
+      NotAsked: () => <Loading {...rest} />
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
-  emailVerified: selectors.core.settings.getEmailVerified(state)
+  data: getData(state)
 })
 
 export default connect(mapStateToProps)(EmailAddressContainer)

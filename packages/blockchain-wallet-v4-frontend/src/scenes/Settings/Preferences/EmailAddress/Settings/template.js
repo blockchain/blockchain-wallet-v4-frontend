@@ -13,7 +13,7 @@ const Settings = (props) => {
 
   return (
     <SettingWrapper>
-      <Text>{email}</Text>
+      <Text>{email || ''}</Text>
       <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.preferences.email.settings.updateform.change' defaultMessage='Change' />
       </Button>

@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   padding: 10px 0;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   cursor: pointer;
 `
 

@@ -3,7 +3,7 @@ import { compose } from 'redux'
 
 import wizardProvider from 'providers/WizardProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
-
+import RequestBitcoin from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
@@ -13,11 +13,14 @@ class RequestBitcoinContainer extends React.Component {
   }
 
   render () {
-    switch (this.props.step) {
-      case 1: return <FirstStep {...this.props} />
-      case 2: return <SecondStep {...this.props} />
-      default: return null
-    }
+    const { step, position, total, closeAll, ...rest } = this.props
+
+    return (
+      <RequestBitcoin position={position} total={total} closeAll={closeAll}>
+        {step === 1 && <FirstStep {...rest} />}
+        {step === 2 && <SecondStep {...rest} />}
+      </RequestBitcoin>
+    )
   }
 }
 

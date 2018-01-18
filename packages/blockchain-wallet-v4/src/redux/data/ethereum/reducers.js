@@ -1,6 +1,5 @@
 import { assoc, merge, prop } from 'ramda'
 import * as AT from './actionTypes'
-import * as actionTypes from '../../actionTypes.js'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = {
@@ -12,13 +11,10 @@ const INITIAL_STATE = {
   transactions: Remote.NotAsked
 }
 
-const ethereumReducer = (state = INITIAL_STATE, action) => {
+export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case actionTypes.common.ethereum.SET_ETHEREUM_DATA: {
-      return merge(state, payload)
-    }
     case AT.FETCH_ETHEREUM_DATA_LOADING: {
       const newState = {
         addresses: Remote.Loading,
@@ -83,5 +79,3 @@ const ethereumReducer = (state = INITIAL_STATE, action) => {
       return state
   }
 }
-
-export default ethereumReducer

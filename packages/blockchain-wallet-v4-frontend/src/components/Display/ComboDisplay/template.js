@@ -12,14 +12,23 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
 `
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10px;
+`
 
 const ComboDisplay = props => {
   return (
     <Wrapper>
       <CoinDisplay {...props} />
-      <Text>(</Text>
-      <FiatDisplay {...props} />
-      <Text>)</Text>
+      <Container>
+        <Text>(</Text>
+        <FiatDisplay {...props} />
+        <Text>)</Text>
+      </Container>
     </Wrapper>
   )
 }

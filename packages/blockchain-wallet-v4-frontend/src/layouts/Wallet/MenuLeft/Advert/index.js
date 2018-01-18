@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'

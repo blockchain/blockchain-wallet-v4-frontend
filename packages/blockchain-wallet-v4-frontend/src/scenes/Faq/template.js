@@ -7,12 +7,14 @@ import FaqRow from './FaqRow'
 import * as Questions from './Questions'
 
 const Wrapper = styled.section`
+  width: 100%;
   padding: 30px;
   box-sizing: border-box;
 `
 const Header = styled.div`
   width: 100%;
   padding: 10px 0;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 20px;
   font-weight: 300;
   text-transform: capitalize;

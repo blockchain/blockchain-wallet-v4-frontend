@@ -226,7 +226,6 @@ export const enableTwoStepYubikey = function * (action) {
 export default function * () {
   yield takeLatest(AT.INIT_SETTINGS_INFO, initSettingsInfo)
   yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, initSettingsPreferences)
-  yield takeLatest(AT.INIT_SETTINGS_SECURITY, initSettingsSecurity)
   yield takeLatest(AT.SHOW_BACKUP_RECOVERY, showBackupRecovery)
   yield takeLatest(AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL, showGoogleAuthenticatorSecretUrl)
   yield takeLatest(AT.UPDATE_EMAIL, updateEmail)

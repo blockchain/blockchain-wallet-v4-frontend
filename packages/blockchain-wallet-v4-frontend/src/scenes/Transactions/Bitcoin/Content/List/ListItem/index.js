@@ -27,9 +27,9 @@ class ListItemContainer extends React.Component {
   }
 
   render () {
-    const { fiatAtTime } = this.props
-
+    const { fiatAtTime, transaction } = this.props
     return <ListItem
+      transaction={transaction}
       fiatAtTime={fiatAtTime}
       toggled={this.state.toggled}
       handleToggle={this.handleToggle}
@@ -39,11 +39,10 @@ class ListItemContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  transaction: selectors.modules.transactionBitcoin.getTransactionBitcoin(state, ownProps.transaction.hash, ownProps.currency)
+  // transaction: selectors.modules.transactionBitcoin.getTransactionBitcoin(state, ownProps.transaction.hash, ownProps.currency)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  bitcoinTransactionsActions: bindActionCreators(actions.modules.transactionBitcoin),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 

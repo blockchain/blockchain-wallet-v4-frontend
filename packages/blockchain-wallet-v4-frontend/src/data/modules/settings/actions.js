@@ -1,11 +1,5 @@
 import * as AT from './actionTypes'
 
-export const initSettingsInfo = () => ({ type: AT.INIT_SETTINGS_INFO })
-
-export const initSettingsPreferences = () => ({ type: AT.INIT_SETTINGS_PREFERENCES })
-
-export const initSettingsSecurity = () => ({ type: AT.INIT_SETTINGS_SECURITY })
-
 export const showGoogleAuthenticatorSecretUrl = () => ({ type: AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL })
 
 export const showBackupRecovery = () => ({ type: AT.SHOW_BACKUP_RECOVERY })
