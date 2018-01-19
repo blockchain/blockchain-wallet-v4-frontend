@@ -1,10 +1,13 @@
-import {ADD, CONNECT, CONNECTED, DISCONNECTED, SEND_MESSAGE} from './actionTypes';
+import {ADD, CONNECT, REMOVE, CONNECTED, DISCONNECTED, SEND_MESSAGE, PING_RECEIVED, INIT_MESSAGE_RECEIVED} from './actionTypes';
 
 export const addPeer = (publicKey) => ({type: ADD, publicKey})
-export const removePeer = (peer) => ({type: REMOVE, peer})
+export const removePeer = (publicKey) => ({type: REMOVE, publicKey})
 
-export const connected = (peer) => ({type: CONNECTED, peer})
-export const disconnected = (peer) => ({type: DISCONNECTED, peer})
+export const connected = (publicKey) => ({type: CONNECTED, publicKey})
+export const disconnected = (publicKey) => ({type: DISCONNECTED, publicKey})
+export const updateLastPing = (publicKey) => ({type: PING_RECEIVED, publicKey})
+export const initMessageReceived = (publicKey) => ({type: INIT_MESSAGE_RECEIVED, publicKey})
+
 
 // other update state actions????
 

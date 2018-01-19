@@ -5,6 +5,8 @@ export const ADD = '@LN.PEERS.ADD'
 export const REMOVE = '@LN.PEERS.REMOVE'
 export const CONNECTED = '@LN.PEER.CONNECTED'
 export const DISCONNECTED = '@LN.PEER.DISCONNECTED'
+export const PING_RECEIVED = '@LN.PEER.PING_RECEIVED'
+export const INIT_MESSAGE_RECEIVED = '@LN.PEER.INIT_MESSAGE_RECEIVED'
 
 // sagas
 export const CONNECT = '@LN.PEER.CONNECT'
