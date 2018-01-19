@@ -26,10 +26,14 @@ const Actions = props => {
         <IconButton name='request' onClick={handleRequest}>
           <FormattedMessage id='layouts.wallet.menutop.request' defaultMessage='Request' />
         </IconButton>
-        <IconButton name='clipboard' />
       </ButtonGroup>
     </Wrapper>
   )
+}
+
+Actions.propTypes = {
+  handleSend: PropTypes.func.isRequired,
+  handleRequest: PropTypes.func.isRequired
 }
 
 export default Actions
