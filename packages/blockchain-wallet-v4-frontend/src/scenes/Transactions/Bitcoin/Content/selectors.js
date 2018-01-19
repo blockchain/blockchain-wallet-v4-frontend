@@ -21,7 +21,7 @@ export const getData = state => {
   const total = transactions.map(map(length)) // Remote [ Int ]
   // console.log(total)
   // return lift((transactions, total) => ({ transactions, total, source: source.address || source.xpub }))(filtered, total)
-  return {filtered: [Remote.Success([]), Remote.Success([]), Remote.Loading], total: Remote.of(10), source: source.address || source.xpub}
+  return {transactions: [Remote.Success([]), Remote.Success([]), Remote.Loading], total: Remote.of(10)}
 }
 
 export const getContext = selectors.core.wallet.getWalletContext

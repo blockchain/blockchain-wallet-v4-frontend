@@ -1,9 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { equals, curry, lift } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import { getContext, getData } from './selectors'
 import { selectors, actions } from 'data'
 // import Error from './template.error'
@@ -42,15 +40,15 @@ class ContentContainer extends React.Component {
 
   render () {
     const { data } = this.props
-
+    console.log(data)
     // return data.cata({
     //   Success: (value) => <div />, // <Success isEmpty={equals(value.total, 0)} transactions={value.transactions} />,
     //   Failure: (message) => <Error>{message}</Error>,
     //   Loading: () => <Loading />,
     //   NotAsked: () => <Loading />
     // })
-    // return <Content {...data} />
-    return <div />
+    return <Content {...data} />
+    // return <div />
   }
 }
 

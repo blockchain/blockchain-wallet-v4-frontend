@@ -11,7 +11,7 @@ class WalletLayoutContainer extends React.Component {
   constructor (props) {
     super(props)
     this.timeout = undefined
-    this.scrollUpdateDelay = 500
+    this.scrollUpdateDelay = 200
     this.handleScroll = this.handleScroll.bind(this)
   }
 
