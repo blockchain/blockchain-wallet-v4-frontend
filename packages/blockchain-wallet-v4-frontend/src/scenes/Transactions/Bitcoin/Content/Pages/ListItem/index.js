@@ -28,6 +28,7 @@ class ListItemContainer extends React.Component {
 
   render () {
     const { fiatAtTime, transaction } = this.props
+
     return <ListItem
       transaction={transaction}
       fiatAtTime={fiatAtTime}
