@@ -125,7 +125,7 @@ class TCP {
     if (m.op === 'pong') {
       this.onPong(msg)
     } else if (m.op === 'event') {
-      console.info('ws [<-]: ', msg.data)
+      console.debug('ws [<-]: ', msg.data)
       if (m.event === 'open') {
         connections[node].onOpen()
         this.onNodeConnected(node)
@@ -144,7 +144,6 @@ class TCP {
   }
 
   static extractPayload (msg) {
-    console.info(msg)
     return Buffer.from(JSON.parse(msg.data).msg, 'base64')
   }
 
@@ -164,7 +163,7 @@ class TCP {
   }
 
   send (message) {
-    console.info('ws [->]: ', message)
+    console.debug('ws [->]: ', message)
     if (this.socket && this.socket.readyState === 1) {
       this.socket.send(message)
     }

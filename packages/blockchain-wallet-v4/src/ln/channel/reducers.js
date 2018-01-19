@@ -10,13 +10,13 @@ const channelReducer = (state = INITIAL_STATE, action) => {
   switch (type) {
     case T.REFRESH:
       let channel = action.payload
-      copy[channel.channelId] = channel
+      copy[channel.channelId.toString('hex')] = channel
       return copy
     case T.REMOVE:
-      copy[action.channelId] = undefined
+      copy[action.channelId.toString('hex')] = undefined
       return copy
     default:
-      return INITIAL_STATE
+      return state
   }
 }
 

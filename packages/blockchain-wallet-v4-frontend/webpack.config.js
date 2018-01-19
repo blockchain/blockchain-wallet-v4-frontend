@@ -182,8 +182,9 @@ module.exports = {
           'https://api.sfox.com',
           'https://quotes.sfox.com',
           'https://sfox-kyc.s3.amazonaws.com',
-          'https://testnet5.blockchain.info',
+          'https://testnet.blockchain.info',
           'https://api.testnet.blockchain.info',
+          'https://api-testnet.blockchain.info',
           'wss://ws.testnet.blockchain.info/inv',
           'https://shapeshift.io'
         ].join(' '),

@@ -59,17 +59,17 @@ const manageWalletMetadata = function * () {
   yield call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
   yield call(sagas.core.kvStore.ethereum.fetchEthereum)
   yield call(sagas.core.kvStore.shapeShift.fetchShapeShift)
-  // yield call(sagas.core.kvStore.buySell.fetchBuySell)
-  // yield call(sagas.core.kvStore.contacts.fetchContacts)
+  yield call(sagas.core.kvStore.buySell.fetchBuySell)
+  yield call(sagas.core.kvStore.contacts.fetchContacts)
 }
 
 const manageWalletData = function * () {
   const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
   const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
   yield all([
-    call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext }),
-    call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext }),
-    call(sagas.core.data.ethereum.fetchLatestBlock)
+    call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext })
+    // call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext }),
+    // call(sagas.core.data.ethereum.fetchLatestBlock)
   ])
 }
 

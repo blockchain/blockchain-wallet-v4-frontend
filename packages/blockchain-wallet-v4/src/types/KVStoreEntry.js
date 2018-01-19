@@ -55,7 +55,7 @@ export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
     VERSION: 1,
     typeId: isNil(typeId) ? -1 : typeId,
     magicHash: null,
-    address: entryECKey.getAddress(),
+    address: entryECKey.getAddress(Bitcoin.networks.testnet),
     signKey: entryECKey.toWIF(),
     encKeyBuffer: encKeyBuffer,
     value: void 0
@@ -65,7 +65,7 @@ export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
 export const fromCredentials = curry((guid, sharedKey, password) => {
   const entropy = crypto.sha256(Buffer.from(guid + sharedKey + password))
   const d = BigInteger.fromBuffer(entropy)
-  const key = new Bitcoin.ECPair(d, null)
+  const key = new Bitcoin.ECPair(d, null, {network: Bitcoin.networks.testnet})
   const enc = key.d.toBuffer(32)
   // const enc = crypto.stringToKey(password + sharedKey, 5000)
   return fromKeys(key, enc)
@@ -74,7 +74,7 @@ export const fromCredentials = curry((guid, sharedKey, password) => {
 export const getMasterHDNode = (seedHex) => {
   const mnemonic = BIP39.entropyToMnemonic(seedHex)
   const masterhex = BIP39.mnemonicToSeed(mnemonic)
-  return Bitcoin.HDNode.fromSeedBuffer(masterhex)
+  return Bitcoin.HDNode.fromSeedBuffer(masterhex, Bitcoin.networks.testnet)
 }
 
 export const deriveMetadataNode = (masterHDNode) => {
@@ -86,7 +86,7 @@ export const deriveMetadataNode = (masterHDNode) => {
 }
 
 export const fromMetadataXpriv = curry((xpriv, typeId) =>
-  fromMetadataHDNode(Bitcoin.HDNode.fromBase58(xpriv), typeId))
+  fromMetadataHDNode(Bitcoin.HDNode.fromBase58(xpriv, Bitcoin.networks.testnet), typeId))
 
 export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
   let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
@@ -141,7 +141,7 @@ export const sign = curry((keyPair, msg) =>
 
 // computeSignature :: keypair -> buffer -> buffer -> base64
 export const computeSignature = curry((keyWIF, payloadBuff, magicHash) => {
-  const key = Bitcoin.ECPair.fromWIF(keyWIF)
+  const key = Bitcoin.ECPair.fromWIF(keyWIF, Bitcoin.networks.testnet)
   return sign(key, message(payloadBuff, magicHash))
 })
 

@@ -45,6 +45,11 @@ export let getDeserializer = (data) => {
     case TYPE.UPDATE_FEE: return Reader.readUpdateFee
     case TYPE.CHANNEL_REESTABLISH: return Reader.readChannelReestablish
 
+    case TYPE.ANNOUNCEMENT_SIGNATURES: return Reader.readAnnouncementSignatures
+    case TYPE.CHANNEL_ANNOUNCEMENT: return Reader.readChannelAnnouncement
+    case TYPE.NODE_ANNOUNCEMENT: return Reader.readNodeAnnouncement
+    case TYPE.CHANNEL_UPDATE: return Reader.readChannelUpdate
+
     default: throw new Error('Unknown message: ' + getType(data) + ':' + getPayload(data).toString('hex'))
   }
 }

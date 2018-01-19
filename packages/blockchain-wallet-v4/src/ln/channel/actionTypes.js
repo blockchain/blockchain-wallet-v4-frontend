@@ -6,4 +6,4 @@ export const REMOVE = '@LN.CHANNEL.REMOVE'
 export const OPEN = '@LN.CHANNEL.OPEN'
 export const MESSAGE = '@LN.CHANNEL.MESSAGE'
 
-export const ON_BLOCK = '@CORE.WEBSOCKET.BLOCK' //TODO move
+export const OPENED = '@LN.CHANNEL.OPENED'

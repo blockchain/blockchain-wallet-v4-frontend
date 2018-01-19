@@ -1,7 +1,10 @@
+import * as random from 'crypto'
+
 const assert = require('assert')
 const secp = require('bcoin/lib/crypto/secp256k1')
 const Long = require('long')
 
+const ec = require('secp256k1')
 export let assertPubKey = pubKey => {
   assert.equal(pubKey.length, 33)
 }
@@ -42,4 +45,11 @@ export function makeActionCreator (type, ...argNames) {
     })
     return action
   }
+}
+
+export let createKey = () => {
+  let key = {}
+  key.priv = Buffer.from(random.randomBytes(32))
+  key.pub = ec.publicKeyCreate(key.priv, true)
+  return key
 }

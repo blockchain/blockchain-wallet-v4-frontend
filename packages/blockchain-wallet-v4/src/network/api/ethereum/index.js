@@ -26,7 +26,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   const getEthereumTicker = () => get({
-    url: rootUrl,
+    url: 'https://blockchain.info/',
     endPoint: 'ticker',
     data: { format: 'json', currency: 'USD', base: 'ETH' }
   })
