@@ -49,7 +49,7 @@ export const fromJS = (x, i) => {
   if (is(HDAccount, x)) { return x }
   const accountCons = a => {
     const xpub = selectXpub(a)
-    const node = isEmpty(xpub) || isNil(xpub) ? null : Bitcoin.HDNode.fromBase58(xpub) // TODO :: network
+    const node = isEmpty(xpub) || isNil(xpub) ? null : Bitcoin.HDNode.fromBase58(xpub, Bitcoin.networks.testnet) // TODO :: network
     const cacheCons = (c) => c || isNil(node) ? Cache.fromJS(c) : Cache.fromJS(Cache.js(node))
     return compose(
       over(addressLabels, AddressLabelMap.fromJS),

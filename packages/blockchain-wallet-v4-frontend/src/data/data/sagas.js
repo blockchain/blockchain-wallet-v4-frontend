@@ -6,7 +6,7 @@ import * as sagas from '../sagas.js'
 
 export const getAdverts = function * (action) {
   try {
-    yield call(sagas.core.data.misc.fetchAdverts, action.payload)
+    // yield call(sagas.core.data.misc.fetchAdverts, action.payload)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch adverts.'))
   }

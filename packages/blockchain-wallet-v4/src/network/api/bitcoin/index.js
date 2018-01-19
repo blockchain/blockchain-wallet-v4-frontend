@@ -2,7 +2,7 @@ import { toUpper } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getBitcoinTicker = () => get({
-    url: rootUrl,
+    url: 'https://blockchain.info/',
     endPoint: 'ticker',
     data: { format: 'json' }
   })
