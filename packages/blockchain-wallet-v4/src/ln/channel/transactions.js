@@ -2,17 +2,14 @@
 import * as Script from '../scripts'
 import xor from 'buffer-xor'
 import {Direction, Funded} from './state'
-import {deriveKey, derivePubKey, deriveRevocationPubKey} from '../key_derivation'
-import {getP2PKHScript} from '../scripts'
-import {getP2WPKHRedeemScript} from '../scripts'
-import {assertBuffer, assertPubKey, sigToBitcoin, wrapHex} from '../helper'
+import {deriveKey, deriveRevocationPubKey} from '../key_derivation'
+import {assertPubKey, sigToBitcoin, wrapHex} from '../helper'
 
 let Tx = require('bcoin/lib/primitives/tx')
 let MTx = require('bcoin/lib/primitives/mtx')
 let Outpoint = require('bcoin/lib/primitives/outpoint')
 let Witness = require('bcoin/lib/script/witness')
 let ScriptBcoin = require('bcoin/lib/script/script')
-let ecBcoin = require('bcoin/lib/crypto/secp256k1')
 let ec = require('secp256k1')
 let Long = require('long')
 
@@ -179,10 +176,10 @@ export let getFundingTransaction =
     let i = 0
     for (let input of inputs) {
       let pubkey = ec.publicKeyCreate(input.privKey, true)
-      let inputScript = ScriptBcoin.fromRaw(getP2PKHScript(pubkey))
+      let inputScript = ScriptBcoin.fromRaw(Script.getP2PKHScript(pubkey))
       let hash = txBuilder.toTX().signatureHash(i, inputScript, input.value, 1, 1)
       let sig = ec.sign(hash, input.privKey).signature
-      txBuilder.inputs[0].witness = new Witness(getP2WPKHRedeemScript(pubkey, sig))
+      txBuilder.inputs[0].witness = new Witness(Script.getP2WPKHRedeemScript(pubkey, sig))
 
       i++
     }

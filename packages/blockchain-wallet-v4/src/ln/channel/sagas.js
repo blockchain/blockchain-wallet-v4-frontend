@@ -8,7 +8,7 @@ import {
   readAcceptChannel, readCommitmentSigned, readFundingSigned, readRevokeAck,
   readUpdateAddHtlc, createFundingLocked, readFundingLocked
 } from './channel'
-import {refresh} from './actions'
+import {opened, refresh} from './actions';
 import {copy, wrapHex, wrapPubKey} from '../helper';
 import TYPE from '../messages/types'
 import {sendMessage} from '../peers/actions'
@@ -34,9 +34,7 @@ export const channelSagas = (api, peersSaga) => {
     } else if (msg.temporaryChannelId !== undefined) {
       return msg.temporaryChannelId
     } else {
-      // TODO this needs some cleaning up..
-      return ''
-      // throw Error('Message doesnt have channelId defined ' + msg)
+      throw Error('Message doesnt have channelId defined ' + msg)
     }
   }
 
@@ -66,17 +64,26 @@ export const channelSagas = (api, peersSaga) => {
         const confirmations = 5
 
         if (confirmations >= channel.paramsLocal.minimumDepth) {
-          // TODO I THINK that we can resend FUNDING_LOCKED as often as we want, so we just fire and forget here
           let response = createFundingLocked(channel)
 
           yield put(sendMessage(channel.staticRemote, response.msg))
           yield put(refresh(response.channel))
+          yield call(checkChannelOpen, channel)
         }
       }
     }
   }
 
   const onMessage = function * ({peer, msg}) {
+    if (
+      msg.type === TYPE.ANNOUNCEMENT_SIGNATURES ||
+      msg.type === TYPE.CHANNEL_ANNOUNCEMENT ||
+      msg.type === TYPE.NODE_ANNOUNCEMENT ||
+      msg.type === TYPE.CHANNEL_UPDATE
+    ) {
+      return
+    }
+
     let channel = yield select(getChannel(getChannelId(msg).toString('hex')))
     let response
     channel = copy(channel)
@@ -94,13 +101,11 @@ export const channelSagas = (api, peersSaga) => {
 
       case TYPE.FUNDING_LOCKED:
         channel = readFundingLocked(channel, msg)
-        // TODO shall we send out an event if the channel is open now, or is it enough if the state reflects that change?
+        yield call(checkChannelOpen, channel)
         break
 
       case TYPE.UPDATE_ADD_HTLC:
         channel = readUpdateAddHtlc(channel, msg)
-        // TODO probably not the best to send commitments every time..
-        response = createCommitmentSigned(channel)
         break
 
       case TYPE.COMMITMENT_SIGNED:
@@ -110,29 +115,28 @@ export const channelSagas = (api, peersSaga) => {
 
       case TYPE.REVOKE_AND_ACK:
         channel = readRevokeAck(channel, msg)
-        // TODO not sure, I think sometimes we want to send back a commitment signed message after this
+        if (channel.local.ack.length + channel.local.unack.length > 0) {
+          response = createCommitmentSigned(channel)
+        }
         break
-
-      case TYPE.ANNOUNCEMENT_SIGNATURES:
-      case TYPE.CHANNEL_ANNOUNCEMENT:
-      case TYPE.NODE_ANNOUNCEMENT:
-      case TYPE.CHANNEL_UPDATE:
-        return
 
       default: throw new Error('No message handler for ' + JSON.stringify(msg))
     }
 
     if (response !== undefined) {
       channel = response.channel
-
-      // TODO should this be a direct call or a put?
       yield put(sendMessage(channel.staticRemote.pub, response.msg))
     }
 
     yield put(refresh(channel))
   }
 
-  // TODO how do we wire up the sagas?
+  const checkChannelOpen = function * (channel) {
+    if (channel.fundingLockedSent && channel.fundingLockedReceived) {
+      yield put(opened(channel.channelId))
+    }
+  }
+
   const takeSagas = function * () {
     yield takeEvery(AT.OPEN, onOpenChannel)
     yield takeEvery(AT.MESSAGE, onMessage)
@@ -140,9 +144,6 @@ export const channelSagas = (api, peersSaga) => {
   }
 
   return {
-    onOpenChannel,
-    onMessage,
-    onBlock,
     takeSagas
   }
 }

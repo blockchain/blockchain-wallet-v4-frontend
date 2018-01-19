@@ -9,53 +9,22 @@ import {
   PaymentWrapper, Wallet
 } from './state';
 
-import {fromJS} from 'immutable'
 import {generatePerCommitmentPoint} from '../key_derivation'
 import {
   checkCommitmentSignature, createSigCheckKeySet, createSigCreateKeySet, getCommitmentTransaction,
   getFundingTransaction
 } from './transactions'
 import xor from 'buffer-xor'
-import {copy, wrapHex} from '../helper'
-import TYPE from '../messages/types'
+import {copy, createKey, wrapHex, wrapPubKey} from '../helper';
 
-const ec = require('secp256k1')
 const Long = require('long')
 const sha = require('sha256')
-
-export let handleChannelMessage = (channel, peer, msg) => {
-  channel = copy(channel)
-  switch (msg.type) {
-    case TYPE.ACCEPT_CHANNEL: return readAcceptChannel(channel, msg, peer)
-    case TYPE.FUNDING_SIGNED: return readFundingSigned(channel, msg)
-
-    case TYPE.UPDATE_ADD_HTLC: return readUpdateAddHtlc(channel, msg)
-    case TYPE.COMMITMENT_SIGNED: return readCommitmentSigned(channel, msg)
-    case TYPE.REVOKE_AND_ACK: return readRevokeAck(channel, msg)
-
-    case TYPE.ANNOUNCEMENT_SIGNATURES: return channel
-    case TYPE.CHANNEL_ANNOUNCEMENT: return channel
-    case TYPE.NODE_ANNOUNCEMENT: return channel
-    case TYPE.CHANNEL_UPDATE: return channel
-
-    default: throw new Error('No message handler for ' + JSON.stringify(msg))
-  }
-}
 
 export let phase = {
   SENT_OPEN: 1,
   FUNDING_BROADCASTED: 2,
   OPEN: 5
 }
-
-let createKey = () => {
-  let key = {}
-  key.priv = Buffer.from(random.randomBytes(32))
-  key.pub = ec.publicKeyCreate(key.priv, true)
-  return key
-}
-
-export let wrapPubKey = (pub) => ({pub, priv: null})
 
 let checkChannel = (channel, phase) => {
   assert(channel !== undefined)
@@ -165,14 +134,6 @@ let applyWrapper = (channelState, wrapper) => {
 
 let applyWrapperList = (list, state) => list.reduce((s, w) => applyWrapper(s, w), state)
 
-let localPaymentIndexPath = ['local', 'indexes', 'inU']
-let localUpdateCounterPath = ['local', 'updateCounter']
-
-let remotePaymentIndexPath = ['remote', 'indexes', 'inU']
-let remoteUpdateCounterPath = ['remote', 'updateCounter']
-
-let increment = path => c => c.updateIn(path, i => i.add(1))
-
 let addWrapper = (channel, list, type, direction, msg) => {
   channel = copy(channel)
   let commitIndex = channel.index.updateCounter
@@ -266,8 +227,8 @@ export function readFundingLocked (channel, msg) {
 
 export let readUpdateAddHtlc = (channel, msg) => {
   // checkChannel(channel, ) //TODO check channel
-  channel = increment(remotePaymentIndexPath)(channel)
-  channel = increment(localUpdateCounterPath)(channel)
+  channel.remote.indexes.inU = channel.remote.indexes.inU.add(1)
+  channel.local.updateCounter = channel.local.updateCounter.add(1)
   channel = addWrapper(channel, 'local', ChannelUpdateTypes.ADD, Direction.OFFERED, msg)
 
   // TODO check index
@@ -440,8 +401,8 @@ export function createFundingLocked (channel) {
 export function createUpdateAddHtlc (channel, payment) {
   // checkChannel(channel, ) //TODO check channel
   channel = copy(channel)
-  channel = increment(localPaymentIndexPath)(channel)
-  channel = increment(remoteUpdateCounterPath)(channel)
+  channel.local.indexes.inU = channel.local.indexes.inU.add(1)
+  channel.remote.updateCounter = channel.remote.updateCounter.add(1)
 
   // TODO check if we actually have enough money to make this payment
   let paymentIndex = channel.local.indexes.inU

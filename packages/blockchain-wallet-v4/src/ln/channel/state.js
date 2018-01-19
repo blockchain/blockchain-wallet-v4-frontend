@@ -1,6 +1,4 @@
-import {fromJS} from 'immutable'
 import {wrapHex} from '../helper'
-import {sendOutAllMessages} from '../peers/connection'
 
 const Long = require('long')
 
@@ -32,10 +30,10 @@ export let ChannelParams = (fundingKey, dustLimitSatoshis, maxHtlcValueInFlightM
                           ({fundingKey, dustLimitSatoshis, maxHtlcValueInFlightMsat, channelReserveSatoshis, htlcMinimumMsat, feeRatePerKw, toSelfDelay, maxAcceptedHtlcs, revocationBasepoint, paymentBasepoint, delayedPaymentBasepoint, htlcBasepoint, shutdownScriptpubkey, globalFeatures, localFeatures})
 
 export let PaymentWrapper = (direction, id, payment) =>
-                     fromJS({direction, id, payment})
+                           ({direction, id, payment})
 
 export let Payment = (amount, paymentHash, onionRoutingPackage, cltvTimeout, paymentPreImage) =>
-              fromJS({amount, paymentHash, onionRoutingPackage, cltvTimeout, paymentPreImage})
+                    ({amount, paymentHash, onionRoutingPackage, cltvTimeout, paymentPreImage})
 
 export let ChannelState = () => ({
   amountMsatLocal: null,
