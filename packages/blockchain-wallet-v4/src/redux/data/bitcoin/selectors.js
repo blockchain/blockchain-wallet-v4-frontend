@@ -22,6 +22,8 @@ export const getChangeIndex = curry((xpub, state) => getAddresses(state).map(pat
 
 export const getReceiveIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'account_index'])))
 
+export const getTotalTxPerAccount = curry((xpubOrAddress, state) => getAddresses(state).map(path([xpubOrAddress, 'n_tx'])))
+
 export const getFeeRegular = state => getFee(state).map(path(['regular']))
 
 export const getFeePriority = state => getFee(state).map(path(['priority']))
