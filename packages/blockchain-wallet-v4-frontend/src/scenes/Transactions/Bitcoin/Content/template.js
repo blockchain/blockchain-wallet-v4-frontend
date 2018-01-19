@@ -1,24 +1,26 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { isEmpty } from 'ramda'
 
 import Empty from './Empty'
-import List from './List'
+import Pages from './Pages'
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
 `
 
 const Success = props => (
   <Wrapper>
-    {props.isEmpty && <Empty />}
-    {!props.isEmpty && <List transactions={props.transactions} />}
+    {
+      !isEmpty(props.pages)
+        ? props.pages.map((value, index) => <Pages key={index} data={value} />)
+        : <Empty />
+    }
   </Wrapper>
 )
-
-Success.propTypes = {
-  isEmpty: PropTypes.bool.isRequired,
-  transactions: PropTypes.array.isRequired
-}
 
 export default Success

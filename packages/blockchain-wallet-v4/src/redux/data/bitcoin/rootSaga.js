@@ -1,7 +1,7 @@
 
-import { call, put, select, takeLatest } from 'redux-saga/effects'
+import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { indexBy, is, path, prop } from 'ramda'
+import { indexBy, length, path, prop, last, map } from 'ramda'
 import { futurizeP } from 'futurize'
 import Task from 'data.task'
 import { sign } from '../../../signer'
@@ -52,12 +52,25 @@ export default ({ api } = {}) => {
     }
   }
 
+  const watchTransactions = function * () {
+    while (true) {
+      const action = yield take(AT.FETCH_BITCOIN_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
   const fetchTransactions = function * ({type, payload}) {
-    const { address, reset, offset } = payload
+    const { address, reset } = payload
+    const TX_PER_PAGE = 50
     try {
+      const pages = yield select(S.getTransactions)
+      const lastPage = last(pages)
+      // if last page failed, loading, notAsked or Success([])
+      if (lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
+      const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.wallet.getWalletContext)
-      const data = yield call(api.fetchBlockchainData, context, { n: 50, onlyShow: address, offset })
+      const data = yield call(api.fetchBlockchainData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
       yield put(A.fetchTransactionsSuccess(data.txs, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
@@ -123,7 +136,8 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.FETCH_BITCOIN_FEE, fetchFee)
     yield takeLatest(AT.FETCH_BITCOIN_FIAT_AT_TIME, fetchFiatAtTime)
     yield takeLatest(AT.FETCH_BITCOIN_RATES, fetchRates)
-    yield takeLatest(AT.FETCH_BITCOIN_TRANSACTIONS, fetchTransactions)
+    // yield takeLatest(AT.FETCH_BITCOIN_TRANSACTIONS, fetchTransactions)
+    yield fork(watchTransactions)
     yield takeLatest(AT.FETCH_BITCOIN_TRANSACTION_HISTORY, fetchTransactionHistory)
     yield takeLatest(AT.FETCH_BITCOIN_UNSPENT, fetchUnspent)
     yield takeLatest(AT.PUBLISH_BITCOIN_TRANSACTION, publishTransaction)

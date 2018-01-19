@@ -58,13 +58,13 @@ export const getAddressesBalances = state => map(map(digestAddress), getActiveAd
 // const search = curry((text, property, tx) =>
 //   compose(contains(toUpper(text)), toUpper, prop(property))(tx))
 
-// walletSelectors.getWalletTransactions :: state -> [Tx]
+// walletSelectors.getWalletTransactions :: state -> [Remote[Tx]]
 export const getWalletTransactions = memoize(state => {
   const walletR = Remote.of(walletSelectors.getWallet(state))
   const blockHeightR = getHeight(state)
   const txListR = getTransactions(state)
   const processTxs = (wallet, blockHeight, txs) =>
-    map(mTransformTx.bind(undefined, wallet, blockHeight), txs)
+    map(map(mTransformTx.bind(undefined, wallet, blockHeight)), txs)
   return lift(processTxs)(walletR, blockHeightR, txListR)
 })
 
