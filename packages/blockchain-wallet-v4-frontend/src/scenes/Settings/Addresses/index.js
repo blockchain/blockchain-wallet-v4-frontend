@@ -1,13 +1,33 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+import { actions } from 'data'
 
-import Addresses from './template.js'
+import Menu from './Menu'
+
+const Wrapper = styled.div`
+  width: 100%;
+`
 
 class AddressesContainer extends React.Component {
+  componentWillMount () {
+    this.props.formActions.initialize('addresses', { status: 'bitcoin' })
+  }
+
   render () {
     return (
-      <Addresses />
+      <Wrapper>
+        <Menu />
+      </Wrapper>
     )
   }
 }
 
-export default AddressesContainer
+const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const enhance = connect(undefined, mapDispatchToProps)
+
+export default enhance(AddressesContainer)

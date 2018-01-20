@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { Icon } from 'blockchain-info-components'
-import { SelectBoxBitcoinAddresses, TextBox, TabMenuTransactionStatus } from 'components/Form'
+import { SelectBoxBitcoinAddresses, TextBox, TabMenuStatus } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -82,7 +82,7 @@ const Menu = (props) => {
             <Field name='source' component={SelectBoxBitcoinAddresses} />
           </Addresses>
           <Status>
-            <Field name='status' component={TabMenuTransactionStatus} />
+            <Field name='status' component={TabMenuStatus} statuses={['', 'sent', 'received', 'transferred']} />
           </Status>
         </Controls>
         <Controls>
