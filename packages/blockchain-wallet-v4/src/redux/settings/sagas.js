@@ -85,9 +85,6 @@ export const settingsSaga = ({ api } = {}) => {
   }
 
   const setAutoLogout = function * ({ autoLogout }) {
-    const guid = yield select(wS.getGuid)
-    const sharedKey = yield select(wS.getSharedKey)
-    yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
     yield put(walletActions.setAutoLogout(autoLogout))
   }
 
