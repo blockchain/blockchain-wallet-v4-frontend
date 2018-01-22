@@ -35,6 +35,7 @@ class FiatConvertorContainer extends React.Component {
   handleCoinChange (event) {
     this.convertFiat(event.target.value)
     if (this.props.input.onChange) { this.props.input.onChange(event.target.value) }
+    this.convertFiat(event.target.value)
   }
 
   handleFiatChange (event) {
@@ -69,10 +70,10 @@ class FiatConvertorContainer extends React.Component {
   }
 
   isEnabled () {
-    const { coin, country, currency, bitcoinRates, ethereumRates, bitcoinOptions, ethereumOptions } = this.props
+    const { coin, country, currency, bitcoinRates, ethereumRates, ethereumOptions } = this.props
 
     switch (coin) {
-      case 'BTC': return isBitcoinFiatAvailable(country, currency, bitcoinRates, bitcoinOptions)
+      case 'BTC': return isBitcoinFiatAvailable(country, currency, bitcoinRates)
       case 'ETH': return isEthereumFiatAvailable(country, currency, ethereumRates, ethereumOptions)
     }
   }
