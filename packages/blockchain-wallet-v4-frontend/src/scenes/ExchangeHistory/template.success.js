@@ -7,10 +7,11 @@ import List from './List'
 import Empty from './Empty'
 
 const ExchangeHistory = props => {
-  const { trades } = props
+  const { exchangeHistory } = props
+  const trades = exchangeHistory
   return (
     <ExchangeLayout>
-      {!isNil(trades) ? <List trades={trades} /> : <Empty />}
+      {!isNil(trades) ? <List exchangeHistory={exchangeHistory} /> : <Empty />}
     </ExchangeLayout>
   )
 }
