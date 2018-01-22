@@ -1,13 +1,25 @@
 import * as AT from './actionTypes'
 
-export const setAdverts = (data) => ({ type: AT.SET_ADVERTS, payload: data })
+// FETCH_ADVERTS
+export const fetchAdverts = (number) => ({ type: AT.FETCH_ADVERTS, payload: { number } })
+export const fetchAdvertsLoading = () => ({ type: AT.FETCH_ADVERTS_LOADING })
+export const fetchAdvertsSuccess = (data) => ({ type: AT.FETCH_ADVERTS_SUCCESS, payload: data })
+export const fetchAdvertsFailure = (error) => ({ type: AT.FETCH_ADVERTS_FAILURE, payload: error })
 
-export const setCaptcha = (url, sessionToken) => ({ type: AT.SET_CAPTCHA, payload: { url, sessionToken } })
+// FETCH_CAPTCHA
+export const fetchCaptcha = () => ({ type: AT.FETCH_CAPTCHA })
+export const fetchCaptchaLoading = () => ({ type: AT.FETCH_CAPTCHA_LOADING })
+export const fetchCaptchaSuccess = (data) => ({ type: AT.FETCH_CAPTCHA_SUCCESS, payload: data })
+export const fetchCaptchaFailure = (error) => ({ type: AT.FETCH_CAPTCHA_FAILURE, payload: error })
 
-export const deleteCaptcha = () => ({ type: AT.DELETE_CAPTCHA })
+// FETCH_LOGS
+export const fetchLogs = () => ({ type: AT.FETCH_LOGS })
+export const fetchLogsLoading = () => ({ type: AT.FETCH_LOGS_LOADING })
+export const fetchLogsSuccess = (data) => ({ type: AT.FETCH_LOGS_SUCCESS, payload: data })
+export const fetchLogsFailure = (error) => ({ type: AT.FETCH_LOGS_FAILURE, payload: error })
 
-export const setPriceIndexSeries = (data) => ({ type: AT.SET_PRICE_INDEX_SERIES, payload: { data } })
-
-export const setLogs = (data) => ({ type: AT.SET_LOGS, payload: data })
-
-export const setTransactionHistory = (data) => ({ type: AT.SET_TRANSACTION_HISTORY, payload: { data } })
+// FETCH_PRICE_INDEX_SERIES
+export const fetchPriceIndexSeries = (coin, currency, start, scale) => ({ type: AT.FETCH_PRICE_INDEX_SERIES, payload: { coin, currency, start, scale } })
+export const fetchPriceIndexSeriesLoading = () => ({ type: AT.FETCH_PRICE_INDEX_SERIES_LOADING })
+export const fetchPriceIndexSeriesSuccess = (data) => ({ type: AT.FETCH_PRICE_INDEX_SERIES_SUCCESS, payload: data })
+export const fetchPriceIndexSeriesFailure = (error) => ({ type: AT.FETCH_PRICE_INDEX_SERIES_FAILURE, payload: error })

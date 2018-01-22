@@ -1,73 +1,73 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
+import { equals, prop } from 'ramda'
 
-import settings from 'config'
-import { actions, selectors } from 'data'
-import FirstStep from './template.js'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
+import { getData, getInitialValues } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClickQRCode = this.handleClickQRCode.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillMount () {
-    this.props.formActions.initialize('requestBitcoin', this.props.initialValues)
-  }
+    this.props.initialValues.map(x => {
+      this.props.formActions.initialize('requestBitcoin', x)
+    })
 
-  componentWillReceiveProps (nextProps) {
-    const { coin } = nextProps
-    // Replace the bitcoin modal to the ethereum modal
-    if (coin === 'ETH') {
-      this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestEther')
+    if (Remote.NotAsked.is(this.props.data)) {
+      this.props.bitcoinDataActions.fetchData()
     }
   }
 
-  handleClickQRCode () {
-    this.props.modalActions.showModal('QRCode', { address: this.props.receiveAddress })
+  componentWillReceiveProps (nextProps) {
+    // nextProps.data.map(x => {
+    //   if (equals(prop('coin', x), 'ETH')) {
+    //     this.props.modalActions.closeAllModals()
+    //     this.props.modalActions.showModal('RequestEther')
+    //   }
+    // })
   }
 
-  onSubmit (e) {
+  handleClickQRCode (address) {
+    this.props.modalActions.showModal('QRCode', { address })
+  }
+
+  handleSubmit (e) {
     e.preventDefault()
     this.props.nextStep()
   }
 
   render () {
-    return <FirstStep {...this.props} handleClickQRCode={this.handleClickQRCode} onSubmit={this.onSubmit} />
+    const { data } = this.props
+
+    return data.cata({
+      Success: (value) => <Success
+        receiveAddress={value.receiveAddress}
+        handleClickQRCode={() => this.handleClickQRCode(value.receiveAddress)}
+        handleSubmit={this.handleSubmit}
+      />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
-const extractAddress = (value, selectorFunction) =>
-  value
-    ? value.address
-      ? value.address
-      : selectorFunction(value.index)
-    : undefined
-
-const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
-  const initialValues = {
-    coin: 'BTC',
-    to: {
-      xpub: selectors.core.wallet.getDefaultAccountXpub(state),
-      index: selectors.core.wallet.getDefaultAccountIndex(state)
-    }
-  }
-  const to = formValueSelector('requestBitcoin')(state, 'to')
-  const receiveAddress = extractAddress(to || initialValues.to, getReceive)
-
-  return {
-    initialValues,
-    receiveAddress,
-    coin: formValueSelector('requestBitcoin')(state, 'coin')
-  }
-}
+const mapStateToProps = (state) => ({
+  initialValues: getInitialValues(state),
+  data: getData(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
+  bitcoinDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

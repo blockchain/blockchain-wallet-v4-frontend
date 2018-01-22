@@ -1,20 +1,15 @@
-import { prepend, compose, head, map, path, prop, isNil } from 'ramda'
+import { compose, head, path, prop } from 'ramda'
 import { ETHEREUM } from '../config'
 import { kvStorePath } from '../../paths'
 
-export const getAccounts = path([kvStorePath, ETHEREUM, 'value', 'ethereum', 'accounts'])
+export const getMetadata = path([kvStorePath, ETHEREUM])
 
-export const getDefaultAccount = compose(head, getAccounts)
+export const getAccounts = state => getMetadata(state).map(path(['value', 'ethereum', 'accounts']))
 
-export const getLegacyAccount = path([kvStorePath, ETHEREUM, 'value', 'ethereum', 'legacy_account'])
+export const getContext = state => getAccounts(state).map(compose(prop('addr'), head))
 
-export const getLegacyAccountAddress = compose(prop('addr'), getLegacyAccount)
+export const getDefaultAccount = state => getAccounts(state).map(head)
 
-export const getDefaultAccountAddress = compose(prop('addr'), head, getAccounts)
+export const getLegacyAccount = state => getMetadata(state).map(path(['value', 'ethereum', 'legacy_account']))
 
-export const getContext = state => {
-  const legacyAccount = getLegacyAccount(state)
-  const accounts = getAccounts(state)
-  const allAccounts = !isNil(legacyAccount) ? prepend(legacyAccount, accounts) : accounts
-  return map(prop('addr'), allAccounts)
-}
+export const getLegacyAccountAddress = state => getLegacyAccount(state).map(prop('addr'))

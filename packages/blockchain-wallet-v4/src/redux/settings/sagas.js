@@ -37,12 +37,12 @@ export const settingsSaga = ({ api } = {}) => {
   }
 
   // SETTERS
-  const fetchSettings = function * () {
-    const guid = yield select(wS.getGuid)
-    const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.getSettings, guid, sharedKey)
-    yield put(actions.setSettings(response))
-  }
+  // const fetchSettings = function * () {
+  //   const guid = yield select(wS.getGuid)
+  //   const sharedKey = yield select(wS.getSharedKey)
+  //   const response = yield call(api.getSettings, guid, sharedKey)
+  //   yield put(actions.setSettings(response))
+  // }
 
   const setEmail = function * ({ email }) {
     const guid = yield select(wS.getGuid)
@@ -176,7 +176,7 @@ export const settingsSaga = ({ api } = {}) => {
     encodePairingCode,
     decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
-    fetchSettings,
+    // fetchSettings,
     setEmail,
     setMobile,
     setMobileVerified,

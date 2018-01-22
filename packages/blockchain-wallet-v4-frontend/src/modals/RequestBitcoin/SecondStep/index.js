@@ -1,67 +1,46 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
 
-import settings from 'config'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { actions, selectors } from 'data'
-import SecondStep from './template.js'
+import { actions } from 'data'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.timeout = undefined
     this.state = { active: false }
-    this.onSubmit = this.onSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillUnmount () {
     clearTimeout(this.timeout)
   }
 
-  onSubmit (e) {
+  handleSubmit (e) {
     e.preventDefault()
     this.setState({ active: true })
     this.timeout = setTimeout(() => { this.setState({ active: false }) }, 2000)
   }
 
   render () {
-    const { amount, message, receiveAddress, unit } = this.props
-    const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'SAT' }).value
-    const btc = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'BTC' }).value
-    const link = `https://blockchain.info/payment_request?address=${receiveAddress}&amount=${btc}&message=${message}`
+    const { data, ...rest } = this.props
 
-    return <SecondStep {...this.props}
-      satoshis={satoshis}
-      link={link}
-      active={this.state.active}
-      onSubmit={this.onSubmit}
-    />
+    return data.cata({
+      Success: (value) => <Success handleSubmit={this.handleSubmit} {...value} active={this.state.active} {...rest} />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
-const extractAddress = (value, selectorFunction) =>
-  value
-    ? value.address
-      ? value.address
-      : selectorFunction(value.index)
-    : undefined
 
-const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
-  const unit = selectors.core.settings.getBtcUnit(state)
-  const amount = formValueSelector('requestBitcoin')(state, 'amount')
-  const to = formValueSelector('requestBitcoin')(state, 'to')
-  const message = formValueSelector('requestBitcoin')(state, 'message')
-  const receiveAddress = extractAddress(to, getReceive)
-
-  return {
-    amount,
-    message,
-    receiveAddress,
-    unit
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)

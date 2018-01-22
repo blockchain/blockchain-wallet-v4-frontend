@@ -33,7 +33,7 @@ ExchangeDetailsContainer.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   trade: selectors.core.kvStore.shapeShift.getTrade(state, ownProps.address),
-  tradeStatus: selectors.core.data.shapeShift.getTradeStatus(state, ownProps.address)
+  tradeStatus: selectors.core.data.shapeShift.getTrade(state, ownProps.address)
 })
 
 const enhance = compose(

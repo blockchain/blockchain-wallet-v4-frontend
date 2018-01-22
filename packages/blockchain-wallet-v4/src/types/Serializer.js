@@ -15,6 +15,7 @@ import * as TXNotes from './TXNotes'
 import * as TXNames from './TXNames'
 import * as Options from './Options'
 import * as KVStoreEntry from './KVStoreEntry'
+import Remote from '../remote'
 
 const serializer = {
   reviver: function (key, value) {
@@ -38,6 +39,10 @@ const serializer = {
         case 'TXNames': return TXNames.reviver(data)
         case 'Options': return Options.reviver(data)
         case 'KVStoreEntry': return KVStoreEntry.reviver(data)
+        case 'Success': return Remote.Success(data)
+        case 'Failure': return Remote.Failure(data)
+        case 'Loading': return Remote.Loading
+        case 'NotAsked': return Remote.NotAsked
         default: return data
       }
     }
