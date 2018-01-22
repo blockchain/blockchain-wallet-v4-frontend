@@ -1,12 +1,16 @@
 import { Remote } from 'blockchain-wallet-v4/src'
+import { Color } from 'blockchain-info-components'
 
 const categories = ['Bitcoin', 'Ether', 'Bitcoin Cash']
 const data = [{
-  y: 56.33
+  y: 56.33,
+  color: Color('brand-primary')
 }, {
-  y: 10.38
+  y: 10.38,
+  color: Color('brand-secondary')
 }, {
-  y: 24.03
+  y: 24.03,
+  color: Color('brand-tertiary')
 }]
 const coinData = []
 const dataLen = data.length

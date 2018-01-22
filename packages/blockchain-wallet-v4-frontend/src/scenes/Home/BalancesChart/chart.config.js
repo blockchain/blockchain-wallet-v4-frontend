@@ -3,7 +3,7 @@ export default (coinData) => ({
     type: 'pie'
   },
   title: {
-    text: 'Your balances'
+    text: ''
   },
   plotOptions: {
     pie: {
