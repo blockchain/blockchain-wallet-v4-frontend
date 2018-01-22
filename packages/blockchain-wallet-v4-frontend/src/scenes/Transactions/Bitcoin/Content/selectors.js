@@ -18,5 +18,3 @@ export const getData = state => {
   const transactions = txs.map(map(filterTransactions(status, search)))
   return { pages: transactions, source: source.address || source.xpub }
 }
-
-export const getContext = selectors.core.wallet.getWalletContext

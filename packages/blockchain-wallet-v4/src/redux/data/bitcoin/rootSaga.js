@@ -65,8 +65,7 @@ export default ({ api } = {}) => {
     try {
       const pages = yield select(S.getTransactions)
       const lastPage = last(pages)
-      // if last page failed, loading, notAsked or Success([])
-      if (lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
+      if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.wallet.getWalletContext)

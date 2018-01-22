@@ -7,7 +7,6 @@ import Success from './template.success'
 class Pages extends React.Component {
   render () {
     const { data } = this.props
-
     return data.cata({
       Success: (value) => <Success transactions={value} />,
       Failure: (message) => <Error>{message}</Error>,
