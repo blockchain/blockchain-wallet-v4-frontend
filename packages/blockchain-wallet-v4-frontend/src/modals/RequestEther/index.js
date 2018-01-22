@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { head, prop } from 'ramda'
 
-import { getAddress } from './selectors'
+import { getData } from './selectors'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -43,7 +43,7 @@ class RequestEtherContainer extends React.Component {
     return data.cata({
       Success: (val) => <Success
         {...this.props}
-        address={prop('addr', head(val))}
+        address={val}
         closeAll={closeAll}
         coins={coins}
         selection={selection}
@@ -60,7 +60,7 @@ const mapStateToProps = (state, ownProps) => ({
   initialValues: {
     coin: 'ETH'
   },
-  data: getAddress(state),
+  data: getData(state),
   coin: formValueSelector('requestEther')(state, 'coin')
 })
 
