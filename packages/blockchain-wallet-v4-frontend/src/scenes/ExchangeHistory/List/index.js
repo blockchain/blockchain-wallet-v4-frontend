@@ -1,66 +1,63 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
-import ui from 'redux-ui'
-import { equals } from 'ramda'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { actions, selectors } from 'data'
-import List from './template.js'
+import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
+import TradeItem from './TradeItem'
 
-class ListContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleClickPage = this.handleClickPage.bind(this)
-  }
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding: 30px;
+  box-sizing: border-box;
 
-  componentWillMount () {
-    this.props.exchangeHistoryActions.initExchangeHistory(1)
-  }
+  & > :first-child { margin-bottom: 10px; }
+`
 
-  componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.ui.page, nextProps.ui.page)) {
-      this.props.exchangeHistoryActions.initExchangeHistory(nextProps.ui.page)
-    }
-  }
-
-  handleClick (address) {
-    this.props.modalActions.showModal('ExchangeDetails', { address })
-  }
-
-  handleClickPage (value) {
-    this.props.updateUI({ page: value })
-  }
-
-  render () {
-    const { trades, tradesTotal } = this.props.exchangeHistory
-    const pageSize = 10
-    const pageTotal = Math.trunc((tradesTotal / pageSize)) + 1
-    const pageNumber = this.props.ui.page
-
-    return <List
-      trades={trades}
-      pageNumber={pageNumber}
-      pageSize={pageSize}
-      pageTotal={pageTotal}
-      handleClick={this.handleClick}
-      handleClickPage={this.handleClickPage}
-     />
-  }
-}
-
-const mapStateToProps = state => ({
-  exchangeHistory: selectors.modules.exchangeHistory.getExchangeHistory(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  exchangeHistoryActions: bindActionCreators(actions.modules.exchangeHistory, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const enhance = compose(
-  ui({ state: { page: 1 } }),
-  connect(mapStateToProps, mapDispatchToProps)
+const List = props => (
+  <Wrapper>
+    <Text size='16px' weight={500} capitalize>
+      <FormattedMessage id='scenes.exchangehistory.list.exchanges' defaultMessage='Completed exchanges' />
+    </Text>
+    <Table>
+      <TableHeader>
+        <TableCell width='15%'>
+          <Text size='13px' weight={500} capitalize>
+            <FormattedMessage id='scenes.exchangehistory.list.status' defaultMessage='Status' />
+          </Text>
+        </TableCell>
+        <TableCell width='15%' />
+        <TableCell width='30%'>
+          <Text size='13px' weight={500} capitalize>
+            <FormattedMessage id='scenes.exchangehistory.list.date' defaultMessage='Date' />
+          </Text>
+        </TableCell>
+        <TableCell width='20%'>
+          <Text size='13px' weight={500} capitalize>
+            <FormattedMessage id='scenes.exchangehistory.list.exchanged' defaultMessage='Exchanged' />
+          </Text>
+        </TableCell>
+        <TableCell width='20%'>
+          <Text size='13px' weight={500} capitalize>
+            <FormattedMessage id='scenes.exchangehistory.list.received' defaultMessage='Received' />
+          </Text>
+        </TableCell>
+      </TableHeader>
+      {props.trades.map((trade, index) => <TradeItem key={index} trade={trade} />)}
+    </Table>
+  </Wrapper>
 )
 
-export default enhance(ListContainer)
+List.propTypes = {
+  trades: PropTypes.array
+}
+
+List.defaultProps = {
+  trades: []
+}
+
+export default List

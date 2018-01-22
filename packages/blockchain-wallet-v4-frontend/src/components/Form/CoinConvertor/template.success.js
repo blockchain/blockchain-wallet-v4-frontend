@@ -122,7 +122,7 @@ CoinConvertor.propTypes = {
   fiat2: PropTypes.string.isRequired,
   coin1Unit: PropTypes.string.isRequired,
   coin2Unit: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
+  // currency: PropTypes.string.isRequired,
   handleChangeCoin1: PropTypes.func.isRequired,
   handleChangeCoin2: PropTypes.func.isRequired,
   handleChangeFiat1: PropTypes.func.isRequired,

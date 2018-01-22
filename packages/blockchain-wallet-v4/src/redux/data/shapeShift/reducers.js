@@ -1,12 +1,13 @@
-import { assoc } from 'ramda'
+import { assoc, assocPath, mergeAll, path } from 'ramda'
 import Remote from '../../../remote'
 import * as AT from './actionTypes'
+import * as actionTypes from '../../actionTypes'
 
 const INITIAL_STATE = {
   btc_eth: Remote.NotAsked,
   eth_btc: Remote.NotAsked,
   order: Remote.NotAsked,
-  trades: Remote.NotAsked
+  trades: {}
 }
 
 const shapeShiftReducer = (state = INITIAL_STATE, action) => {
@@ -31,14 +32,25 @@ const shapeShiftReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETH_BTC_FAILURE: {
       return assoc('eth_btc', Remote.Failure(payload), state)
     }
+    case actionTypes.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS: {
+      const addresses = path(['value', 'trades'], payload).map(t => ({ [path(['quote', 'deposit'], t)]: Remote.NotAsked }))
+      return assocPath(['trades'], mergeAll(addresses), state)
+    }
+    case AT.FETCH_TRADE_STATUS_LOADING: {
+      const { address } = payload
+      return assocPath(['trades', address], Remote.Loading, state)
+    }
+    case AT.FETCH_TRADE_STATUS_SUCCESS: {
+      const { data, address } = payload
+      return assocPath(['trades', address], Remote.Success(data), state)
+    }
+    case AT.FETCH_TRADE_STATUS_FAILURE: {
+      const { error, address } = payload
+      return assocPath(['trades', address], Remote.Failure(error), state)
+    }
 
     // case AT.SET_ORDER: {
     //   return assoc('order', payload, state)
-    // }
-    // case AT.SET_TRADE_STATUS: {
-    //   const { data } = payload
-    //   const { address } = data
-    //   return assocPath(['trades', address], data, state)
     // }
     default:
       return state
