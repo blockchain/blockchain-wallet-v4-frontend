@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { equals } from 'ramda'
-import { getContext, getData } from './selectors'
+import { getData } from './selectors'
 import { selectors, actions } from 'data'
 import Content from './template'
 
@@ -35,7 +35,6 @@ class ContentContainer extends React.Component {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  context: getContext(state),
   scroll: selectors.scroll.selectScroll(state)
 })
 

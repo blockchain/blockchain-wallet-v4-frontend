@@ -45,26 +45,22 @@ export const getAccountsBalances = state => map(map(digestAccount), getActiveHDA
 
 export const getAddressesBalances = state => map(map(digestAddress), getActiveAddresses(state))
 
-// export const getAggregatedAddressesBalances = state => {
-//   const ls = getAddressesBalances(state)
-//   const adder = (a, b) => ({ amount: (a.amount + b.amount) })
-//   return assoc('label', 'Imported Addresses', reduce(adder, { amount: 0 }, ls))
-// }
-
-// // search :: String -> Object -> Boolean
-// const isOfType = curry((filter, tx) =>
-//   propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
-// // search :: String -> String -> Object -> Boolean
-// const search = curry((text, property, tx) =>
-//   compose(contains(toUpper(text)), toUpper, prop(property))(tx))
-
-// walletSelectors.getWalletTransactions :: state -> [Remote[Tx]]
+// getWalletTransactions :: state -> [Page]
 export const getWalletTransactions = memoize(state => {
+  // Page == Remote ([Tx])
+  // Remote(wallet)
   const walletR = Remote.of(walletSelectors.getWallet(state))
+  // Remote(blockHeight)
   const blockHeightR = getHeight(state)
-  const txListR = getTransactions(state)
-  const processTxs = (wallet, blockHeight, txs) => map(map(mTransformTx.bind(undefined, wallet, blockHeight)), txs)
-  return lift(processTxs)(walletR, blockHeightR, txListR)
+  // [Remote([tx])] == [Page] == Pages
+  const pages = getTransactions(state)
+  // mTransformTx :: wallet -> blockHeight -> Tx
+  // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
+  const ProcessTxs = (wallet, block, txList) =>
+    map(mTransformTx.bind(undefined, wallet, block), txList)
+  // ProcessRemotePage :: Page -> Page
+  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
+  return map(ProcessPage, pages)
 })
 
 // path is: accountIndex/chainIndex/addressIndex
