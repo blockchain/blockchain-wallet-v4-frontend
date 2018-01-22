@@ -13,7 +13,7 @@ const TabMenuStatus = props => {
         statuses.map((status, i) => {
           return (
             <TabMenuItem key={i} selected={value === status} onClick={() => handleClick(status)}>
-              <FormattedMessage id={'components.form.TabMenuStatus' + status} defaultMessage={status === '' ? 'all' : status} />
+              <FormattedMessage id={'components.form.TabMenuStatus.' + status} />
             </TabMenuItem>
           )
         })

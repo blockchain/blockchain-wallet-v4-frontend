@@ -24,7 +24,7 @@ const Menu = (props) => {
     <Wrapper>
       <Container>
         <Status>
-          <Field name='status' component={TabMenuStatus} statuses={['bitcoin', 'bitcoin cash']} />
+          <Field name='status' component={TabMenuStatus} statuses={['bitcoin', 'bitcoin_cash']} />
         </Status>
       </Container>
     </Wrapper>

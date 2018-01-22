@@ -1,8 +1,8 @@
-import fs from 'fs'
-import path from 'path'
-import glob from 'glob'
-import { reduce, merge, curry, flatten, filter, not, isNil, compose, traverse, map } from 'ramda'
-import Task from 'data.task'
+const fs = require('fs')
+const path = require('path')
+const glob = require('glob')
+const { reduce, merge, curry, flatten, filter, not, isNil, compose, traverse, map } = require('ramda')
+const Task = require('data.task')
 
 const rootPath = path.resolve(`${__dirname}/../src`)
 const outputPath = rootPath + '/assets/locales'
@@ -40,13 +40,13 @@ const writeFile = curry((filename, content) =>
 )
 
 // readFiles :: [String] => Task(Error, [String])
-export const readFiles = traverse(Task.of, readFile)
+const readFiles = traverse(Task.of, readFile)
 
-export const elements = data => data.match(regexIntlComponent)
+const elements = data => data.match(regexIntlComponent)
 // const hasImport = data => not(isNil(data.match(regexIntlImport)))
 
 // toKeyValue :: String -> {key: value}
-export const toKeyValue = element => {
+const toKeyValue = element => {
   const id = element.match(regexIntlId)
   const message = element.match(regexIntlMessage)
   if (isNotNil(id) && isNotNil(message)) {
@@ -57,17 +57,19 @@ export const toKeyValue = element => {
   }
 }
 
-export const toString = object => JSON.stringify(object, null, 2)
+const toString = object => JSON.stringify(object, null, 2)
 
-export const mapReducer = curry((acc, string) => merge(acc, toKeyValue(string)))
+const mapReducer = curry((acc, string) => merge(acc, toKeyValue(string)))
 
 // script
-filenames(rootPath + '/**/*.js')
+readFile(rootPath + '/assets/locales/en-human.json').fork(console.warn, (defaults) => {
+  filenames(rootPath + '/**/*.js')
   .chain(readFiles)
   .map(map(elements))
   .map(filter(isNotNil))
   .map(flatten)
-  .map(reduce(mapReducer, {}))
+  .map(reduce(mapReducer, JSON.parse(defaults)))
   .map(toString)
   .chain(writeFile(outputPath + '/' + outputFilename))
   .fork(console.warn, console.log)
+})

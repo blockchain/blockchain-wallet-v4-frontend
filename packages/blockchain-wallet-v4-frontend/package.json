@@ -8,7 +8,7 @@
     "build:prod": "lerna bootstrap && webpack -p --config webpack.config.js --progress --colors",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
-    "generate": "babel-node ./tools/generateDefaultLocale.js",
+    "generate": "babel-node --inspect ./tools/generateDefaultLocale.js",
     "test": "jest --watch"
   },
   "repository": {
@@ -101,6 +101,7 @@
     "connected-react-router": "^4.2.3",
     "data.either": "~1.5.1",
     "data.maybe": "^1.2.2",
+    "data.task": "^3.1.1",
     "es6-promise": "^4.1.0",
     "fast-memoize": "^2.2.8",
     "libphonenumber-js": "^0.4.40",
