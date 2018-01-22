@@ -14,12 +14,12 @@ const isGuid = value => guidRegex.test(value)
 
 const isIpList = value => ipListRegex.test(value)
 
-const isBitcoinFiatAvailable = (country, currency, rates, bitcoinOptions) => {
+const isBitcoinFiatAvailable = (country, currency, rates) => {
   if (isNil(country)) return false
   if (isNil(currency)) return false
-  if (isNil(bitcoinOptions)) return false
-  if (!bitcoinOptions.availability.fiat) return false
-  if (!equals(bitcoinOptions.countries, '*') && !contains(bitcoinOptions.countries, country)) return false
+  // if (isNil(bitcoinOptions)) return false
+  // if (!bitcoinOptions.availability.fiat) return false
+  // if (!equals(bitcoinOptions.countries, '*') && !contains(bitcoinOptions.countries, country)) return false
   // if (!equals(bitcoinOptions.states, '*') && equals(country, 'US') && !contains(bitcoinOptions.states, state)) return false
   if (isEmpty(rates)) return false
   return true

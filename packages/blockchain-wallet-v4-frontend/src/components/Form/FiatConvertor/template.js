@@ -36,11 +36,13 @@ const Unit = styled.span`
   color: ${props => props.theme['gray-4']};
 `
 const ArrowLeft = styled(Icon)`
-  margin-left: 5px;
+  margin-left: 10px;
+  color: #DDD;
 `
 const ArrowRight = styled(Icon)`
   margin-left: -10px;
-  margin-right: 5px;
+  margin-right: 10px;
+  color: #DDD;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -62,13 +64,13 @@ const FiatConvertor = (props) => {
       <FiatConvertorInput>
         <Container>
           <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={value} errorState={errorState} />
-          <Unit>{unit}</Unit>
+          <Unit>{unit.data}</Unit>
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
         <ArrowRight size='16px' name='right-arrow' />
         <Container>
           <TextInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiat} errorState={errorState} />
-          <Unit>{currency}</Unit>
+          <Unit>{currency.data}</Unit>
         </Container>
       </FiatConvertorInput>
       {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
