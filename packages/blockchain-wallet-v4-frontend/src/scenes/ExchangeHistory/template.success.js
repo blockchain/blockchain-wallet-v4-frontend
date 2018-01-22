@@ -3,20 +3,24 @@ import PropTypes from 'prop-types'
 import { isNil } from 'ramda'
 
 import ExchangeLayout from 'layouts/Exchange'
-import List from './List'
 import Empty from './Empty'
+import List from './List'
 
-const ExchangeHistory = props => {
+const Success = props => {
   const { trades } = props
+
   return (
     <ExchangeLayout>
-      {!isNil(trades) ? <List trades={trades} /> : <Empty />}
+      {!isNil(trades)
+        ? <List trades={trades} />
+        : <Empty />
+      }
     </ExchangeLayout>
   )
 }
 
-ExchangeHistory.propTypes = {
+Success.propTypes = {
   trades: PropTypes.array
 }
 
-export default ExchangeHistory
+export default Success

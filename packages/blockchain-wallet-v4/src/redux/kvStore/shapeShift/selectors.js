@@ -10,8 +10,12 @@
 //   getTrades
 // )(state)
 
-import { path } from 'ramda'
+import { compose, filter, head, path } from 'ramda'
 import { SHAPESHIFT } from '../config'
 import { kvStorePath } from '../../paths'
 
 export const getMetadata = path([kvStorePath, SHAPESHIFT])
+
+export const getTrades = state => getMetadata(state).map(path(['value', 'trades']))
+
+export const getTrade = (state, address) => getTrades(state).map(compose(head, filter(x => address)))

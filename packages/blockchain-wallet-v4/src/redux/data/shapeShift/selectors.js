@@ -30,4 +30,4 @@ export const getEthBtcMinimum = state => getEthBtc(state).map(path(['minimum']))
 
 export const getEthBtcRate = state => getEthBtc(state).map(path(['rate']))
 
-export const getTrade = (state, address) => getTrades(state).map(path([address]))
+export const getTrade = (state, address) => path([dataPath, 'shapeShift', 'trades', address], state)

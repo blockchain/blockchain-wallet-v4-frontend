@@ -63,8 +63,7 @@ export const getWalletTransactions = memoize(state => {
   const walletR = Remote.of(walletSelectors.getWallet(state))
   const blockHeightR = getHeight(state)
   const txListR = getTransactions(state)
-  const processTxs = (wallet, blockHeight, txs) =>
-    map(map(mTransformTx.bind(undefined, wallet, blockHeight)), txs)
+  const processTxs = (wallet, blockHeight, txs) => map(map(mTransformTx.bind(undefined, wallet, blockHeight)), txs)
   return lift(processTxs)(walletR, blockHeightR, txListR)
 })
 

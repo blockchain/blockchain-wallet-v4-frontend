@@ -3,7 +3,6 @@ import * as alerts from './alerts/selectors'
 import * as auth from './auth/selectors'
 import * as goals from './goals/selectors'
 import * as modals from './modals/selectors'
-import * as modules from './modules/selectors'
 import * as preferences from './preferences/selectors'
 import * as scroll from './scroll/selectors'
 import * as session from './session/selectors'
@@ -15,7 +14,6 @@ export {
   core,
   goals,
   modals,
-  modules,
   preferences,
   scroll,
   session,

@@ -99,7 +99,7 @@ const selectStyle = status => {
   }
 }
 
-const ExchangeDetails = (props) => {
+const Success = (props) => {
   const { position, total, close, trade } = props
   const { status, exchangeRate, transactionFee, orderId, incomingCoin, incomingType, outgoingCoin, outgoingType } = trade
   const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
@@ -143,7 +143,7 @@ const ExchangeDetails = (props) => {
             <Line color={color2} />
           </TimelineLines>
         </Timeline>
-        { status === 'complete' &&
+        {status === 'complete' &&
           <Notice>
             <Text size='13px' weight={300}>
               <FormattedMessage id='modals.exchangedetails.explain' defaultMessage='Your exchange is complete.' />
@@ -169,7 +169,7 @@ const ExchangeDetails = (props) => {
             </Text>
           </InfoRow>
           <InfoRow>
-            <Text size='13px' weight={400} capitalize>
+            <Text size='13px' weight={400}>
               <FormattedMessage id='modals.exchangedetails.received' defaultMessage='Exchange rate:' />
               <Tooltip>
                 <FormattedMessage id='modals.exchangedetails.exchangetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
@@ -180,7 +180,7 @@ const ExchangeDetails = (props) => {
             </Text>
           </InfoRow>
           <InfoRow>
-            <Text size='13px' weight={400} capitalize>
+            <Text size='13px' weight={400}>
               <FormattedMessage id='modals.exchangedetails.fee' defaultMessage='Transaction fee:' />
               <Tooltip>
                 <FormattedMessage id='modals.exchangedetails.feetooltip' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
@@ -209,8 +209,8 @@ const ExchangeDetails = (props) => {
   )
 }
 
-ExchangeDetails.propTypes = {
+Success.propTypes = {
   trade: PropTypes.object.isRequired
 }
 
-export default ExchangeDetails
+export default Success
