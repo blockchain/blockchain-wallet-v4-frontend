@@ -16,7 +16,7 @@ export const switchToEtherModal = nextProps => {
   const coin = prop('coin', data)
   if (equals(coin, 'ETH')) {
     nextProps.modalActions.closeAllModals()
-    nextProps.modalActions.showModal('RequestEther')
+    nextProps.modalActions.showModal('SendEther')
   }
 }
 

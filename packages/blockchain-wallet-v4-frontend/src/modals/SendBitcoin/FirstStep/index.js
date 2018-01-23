@@ -5,7 +5,7 @@ import ui from 'redux-ui'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { generateSeed, initializeForm, switchToEtherModal, updateUnspent, updateEffectiveBalance, updateSelection } from './services'
-import { getInitialValues, getData } from './selectors'
+import { getData } from './selectors'
 import { actions, selectors } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
@@ -79,7 +79,6 @@ class FirstStep extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  initialValues: getInitialValues(state),
   data: getData(state),
   defaultAccountIndex: selectors.core.wallet.getDefaultAccountIndex(state)
 })
