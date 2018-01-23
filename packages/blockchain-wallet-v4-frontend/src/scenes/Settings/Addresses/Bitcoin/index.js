@@ -8,7 +8,7 @@ class BitcoinAddressesContainer extends React.Component {
     const { data, ...rest } = this.props
     return (
       data.cata({
-        Success: (value) => <Success wallets={value} {...rest} />,
+        Success: (value) => <Success data={value} {...rest} />,
         Failure: (message) => <div>{message}</div>,
         Loading: () => <div />,
         NotAsked: () => <div />
