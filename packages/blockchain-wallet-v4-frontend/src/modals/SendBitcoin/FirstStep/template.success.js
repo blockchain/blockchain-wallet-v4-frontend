@@ -58,6 +58,10 @@ const ButtonRow = styled(ButtonGroup)`
   & > button:last-child: { width: 200px; }
 `
 
+const DescriptionText = styled.div`
+  margin-top: 20px;
+`
+
 const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
@@ -105,13 +109,15 @@ const FirstStep = props => {
         <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
       </Text>
       <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' maxAvailable={props.effectiveBalance} />
-      <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
-        <Tooltip>
-          <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-          <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
-        </Tooltip>
-      </Text>
+      <DescriptionText>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
+          <Tooltip>
+            <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
+            <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
+          </Tooltip>
+        </Text>
+      </DescriptionText>
       <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
       <Text size='14px' weight={500}>
         <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee (sat/b) :' />
