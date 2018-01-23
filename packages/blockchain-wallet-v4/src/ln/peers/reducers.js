@@ -6,8 +6,6 @@ const INITIAL_STATE = {}
 
 const INITIAL_PEER_STATE = {
   connected: false,
-  initSent: true,
-  initReceived: false,
 
   gfRemote: [],
   lfRemote: [],
@@ -58,14 +56,6 @@ const peersReducer = (state = INITIAL_STATE, action) => {
       }
       let copy = Object.assign({}, state)
       copy[publicKey].lastPing = 7 // now
-    }
-    case T.INIT_MESSAGE_RECEIVED: {
-      if (state[publicKey] === undefined) {
-        return state
-      }
-      let copy = Object.assign({}, state)
-      copy[publicKey].initReceived = true
-      return copy
     }
 
     default: return state

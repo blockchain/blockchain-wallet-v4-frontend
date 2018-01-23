@@ -43,7 +43,10 @@ export const peerSagas = (tcpConn) => {
     peers[publicKey] = peer
     yield call(peer.connectPromise.bind(peer), tcpConn)
     yield put(connected(publicKey))
-    yield take(INIT_MESSAGE_RECEIVED)
+    let initMessageAction = {}
+    while (publicKey !== initMessageAction.publicKey) {
+      initMessageAction = yield take(INIT_MESSAGE_RECEIVED)
+    }
     console.info('done!!! connected ')
   }
 
