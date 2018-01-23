@@ -63,7 +63,7 @@ const shouldValidate = ({ values, nextProps, props, initialRender, structure }) 
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
 }
 
-const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
+const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
 
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
@@ -104,7 +104,7 @@ const FirstStep = props => {
       <Text size='14px' weight={500}>
         <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
       </Text>
-      <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' />
+      <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' maxAvailable={props.effectiveBalance} />
       <Text size='14px' weight={500}>
         <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
         <Tooltip>

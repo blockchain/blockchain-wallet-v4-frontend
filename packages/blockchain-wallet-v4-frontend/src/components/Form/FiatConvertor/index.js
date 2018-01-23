@@ -19,6 +19,8 @@ class FiatConvertorContainer extends React.Component {
     this.handleCoinChange = this.handleCoinChange.bind(this)
     this.handleFiatChange = this.handleFiatChange.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+    this.handleErrorClick = this.handleErrorClick.bind(this)
+    this.useMaxAvailable = this.useMaxAvailable.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -35,7 +37,6 @@ class FiatConvertorContainer extends React.Component {
   handleCoinChange (event) {
     this.convertFiat(event.target.value)
     if (this.props.input.onChange) { this.props.input.onChange(event.target.value) }
-    this.convertFiat(event.target.value)
   }
 
   handleFiatChange (event) {
@@ -50,12 +51,23 @@ class FiatConvertorContainer extends React.Component {
     if (this.props.input.onFocus) { this.props.input.onFocus(this.state.value) }
   }
 
+  handleErrorClick () {
+    this.useMaxAvailable()
+  }
+
+  useMaxAvailable () {
+    const { unit, currency, bitcoinRates } = this.props
+
+    const conversion = Exchange.convertBitcoinToFiat({ value: this.props.maxAvailable, fromUnit: unit.data, toCurrency: currency.data, rates: bitcoinRates.data })
+    this.setState({ value: this.props.maxAvailable, fiat: conversion.value })
+  }
+
   convertCoin (value) {
     const { coin, unit, currency, bitcoinRates, ethereumRates } = this.props
 
     const conversion = coin === 'BTC'
-      ? Exchange.convertFiatToBitcoin({ value: value, fromCurrency: currency, toUnit: unit, rates: bitcoinRates })
-      : Exchange.convertFiatToEther({ value: value, fromCurrency: currency, toUnit: unit, rates: ethereumRates })
+      ? Exchange.convertFiatToBitcoin({ value: value, fromCurrency: currency.data, toUnit: unit.data, rates: bitcoinRates.data })
+      : Exchange.convertFiatToEther({ value: value, fromUnit: currency.data, toCurrency: unit.data, rates: ethereumRates.data })
     this.setState({ value: conversion.value, fiat: value })
   }
 
@@ -63,7 +75,7 @@ class FiatConvertorContainer extends React.Component {
     const { coin, unit, currency, bitcoinRates, ethereumRates } = this.props
 
     const conversion = coin === 'BTC'
-      ? Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates: bitcoinRates })
+      ? Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit.data, toCurrency: currency.data, rates: bitcoinRates.data })
       : Exchange.convertEtherToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates: ethereumRates })
 
     this.setState({ value: value, fiat: conversion.value })
@@ -86,6 +98,7 @@ class FiatConvertorContainer extends React.Component {
       handleCoinChange={this.handleCoinChange}
       handleFiatChange={this.handleFiatChange}
       handleFocus={this.handleFocus}
+      handleErrorClick={this.handleErrorClick}
       enabled={this.isEnabled()}
       {...this.props}
     />
