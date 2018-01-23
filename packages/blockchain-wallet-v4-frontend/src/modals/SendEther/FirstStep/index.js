@@ -1,78 +1,60 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-import { equals } from 'ramda'
 
-import { transactions } from 'blockchain-wallet-v4/src'
-import { actions, selectors } from 'data'
-import FirstStep from './template.js'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { getData } from './selectors'
+import { initializeForm, switchToBitcoinModal } from './services'
+import { actions } from 'data'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.timeout = undefined
-    this.onSubmit = this.onSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillMount () {
-    this.props.formActions.initialize('sendEther', this.props.initialValues)
+    // this.props.dataEthereumActions.fetchData()
+    this.props.dataEthereumActions.fetchFee()
   }
 
   componentWillReceiveProps (nextProps) {
-    const { coin, feeRegular, gasLimit, fee } = nextProps
-    // Replace the bitcoin modal to the ethereum modal
-    if (!equals(this.props.coin, coin) && coin === 'BTC') { this.props.sendBitcoinActions.initSendBitcoin() }
-
-    // Update fee when feeRegular or gasLimit change
-    if (!equals(this.props.feeRegular, feeRegular) ||
-        !equals(this.props.gasLimit, gasLimit) ||
-        (feeRegular && gasLimit && !fee)
-      ) {
-      const fee = transactions.ethereum.calculateFee(feeRegular, gasLimit)
-      this.props.formActions.change('sendEther', 'fee', fee)
+    if (Remote.Success.is(nextProps.data)) {
+      // We initialize the form if form is not initialized yet
+      initializeForm(this.props, nextProps)
+      // We open the RequestEther modal if coin equals 'ETH'
+      switchToBitcoinModal(nextProps)
     }
   }
 
-  onSubmit (e) {
+  handleSubmit (e) {
     e.preventDefault()
     this.props.nextStep()
   }
 
   render () {
-    const { position, total, closeAll, loading, etherBalance, fee } = this.props
-    const effectiveBalance = etherBalance - fee > 0 ? etherBalance - fee : 0
+    const { data } = this.props
 
-    return <FirstStep
-      position={position}
-      total={total}
-      loading={loading}
-      closeAll={closeAll}
-      fee={fee}
-      effectiveBalance={effectiveBalance}
-      onSubmit={this.onSubmit}
-    />
+    return data.cata({
+      Success: (value) => <Success fee={value.fee} effectiveBalance={value.effectiveBalance} handleSubmit={this.handleSubmit} />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  initialValues: {
-    coin: 'ETH'
-  },
-  coin: formValueSelector('sendEther')(state, 'coin'),
-  to: formValueSelector('sendEther')(state, 'to'),
-  amount: formValueSelector('sendEther')(state, 'amount'),
-  message: formValueSelector('sendEther')(state, 'message'),
-  fee: formValueSelector('sendEther')(state, 'fee'),
-  feeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
-  gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0,
-  etherBalance: selectors.core.data.ethereum.getBalance(state)
+const mapStateToProps = state => ({
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
