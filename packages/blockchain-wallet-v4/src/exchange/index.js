@@ -37,7 +37,6 @@ const transformBitcoinToFiat = ({ value, fromUnit, toCurrency, rates }) => {
   const targetCurrencyCode = prop('code', targetCurrency)
   const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
   const sourceUnit = path(['units', fromUnit], BTC)
-  console.log('transformBitcoinToFiat', Currency.fromUnit({ value, unit: sourceUnit }))
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convert(pairs, targetCurrency))
     .chain(Currency.toUnit(targetCurrencyUnit))

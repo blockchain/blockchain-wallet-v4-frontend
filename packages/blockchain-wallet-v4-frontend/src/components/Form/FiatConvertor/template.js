@@ -20,6 +20,7 @@ const FiatConvertorInput = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  margin-bottom: 0px;
 `
 const Container = styled.div`
   position: relative;
@@ -37,26 +38,27 @@ const Unit = styled.span`
 `
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
-  color: #DDD;
+  color: #bbb;
 `
 const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
-  color: #DDD;
+  color: #bbb;
 `
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: -18px;
-  right: 0;
+  top: 40px;
+  left: 0px;
   height: 15px;
+  cursor: pointer;
 `
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
 const FiatConvertor = (props) => {
-  const { enabled, value, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, meta } = props
+  const { enabled, value, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta } = props
   const errorState = getErrorState(meta)
 
   return enabled ? (
@@ -73,7 +75,7 @@ const FiatConvertor = (props) => {
           <Unit>{currency.data}</Unit>
         </Container>
       </FiatConvertorInput>
-      {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
+      {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>}
     </Wrapper>
   ) : (
     <TextBox {...props} />
@@ -88,7 +90,8 @@ FiatConvertor.propTypes = {
   handleBlur: PropTypes.func.isRequired,
   handleCoinChange: PropTypes.func.isRequired,
   handleFiatChange: PropTypes.func.isRequired,
-  handleFocus: PropTypes.func.isRequired
+  handleFocus: PropTypes.func.isRequired,
+  handleErrorClick: PropTypes.func
 }
 
 export default FiatConvertor
