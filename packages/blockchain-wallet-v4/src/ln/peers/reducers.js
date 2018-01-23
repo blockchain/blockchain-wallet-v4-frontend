@@ -6,16 +6,10 @@ const INITIAL_STATE = {}
 
 const INITIAL_PEER_STATE = {
   connected: false,
-
-  gfRemote: [],
-  lfRemote: [],
-
-  //  TODO do we need this? channels: [],
-
   lastPing: 0,
-
   error: null
 }
+
 const peersReducer = (state = INITIAL_STATE, action) => {
   //console.log(action)
   const { type, publicKey } = action

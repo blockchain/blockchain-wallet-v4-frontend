@@ -26,7 +26,12 @@ function Connection (options, staticRemote) {
   this.staticLocal = options.staticLocal
   this.staticRemote = staticRemote
 
-  // Handshake data
+  // Features that peer supports
+  this.gfRemote = []
+  this.lfRemote = []
+
+
+    // Handshake data
   this.tempLocal = {}
   this.tempRemote = {}
   this.tempLocal.priv = random.randomBytes(32)

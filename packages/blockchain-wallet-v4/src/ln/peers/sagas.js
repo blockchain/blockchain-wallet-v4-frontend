@@ -67,8 +67,9 @@ export const peerSagas = (tcpConn) => {
     let parsedMsg = readMessage(decryptedMsg)
 
     if (parsedMsg.type === 16) {
+      conn.gfRemote = parsedMsg.gf
+      conn.lfRemote = parsedMsg.lf
       yield put(initMessageReceived(pubKey))
-      // set gf lf as well
       return
     }
 
