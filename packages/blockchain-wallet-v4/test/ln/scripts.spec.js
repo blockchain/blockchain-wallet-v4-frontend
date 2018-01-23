@@ -1,8 +1,5 @@
 import chai from 'chai'
 import * as Script from '../../src/ln/scripts'
-import { map } from 'ramda'
-import { List } from 'immutable-ext'
-import * as Coin from '../../src/coinSelection/coin.js'
 const { expect } = chai
 
 describe('LN Script Generation', () => {

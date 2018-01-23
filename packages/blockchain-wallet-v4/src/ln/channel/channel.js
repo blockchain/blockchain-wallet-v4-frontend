@@ -136,7 +136,8 @@ let applyWrapperList = (list, state) => list.reduce((s, w) => applyWrapper(s, w)
 
 let addWrapper = (channel, list, type, direction, msg) => {
   channel = copy(channel)
-  let commitIndex = channel.index.updateCounter
+  console.info(channel)
+  let commitIndex = channel[list].updateCounter
   channel[list].unack.push(ChannelUpdateWrapper(type, direction, commitIndex, msg))
   return channel
 }
@@ -269,7 +270,7 @@ export function readRevokeAck (channel, msg) {
   let updatesToCommit = channelState.unack.filter(filter)
   channel.remote = channelState
   channel.local.ack.push(...updatesToCommit)
-  channel.remote.unack = channel.remote.unack.filterNot(filter)
+  channel.remote.unack = channel.remote.unack.filter(a => !filter(a))
   channel.remote.ack = []
 
   return channel
@@ -457,7 +458,7 @@ export function createRevokeAck (channel) {
 
   channel.local = channelState
   channel.remote.ack.push(...updatesToCommit)
-  channel.local.unack = channel.local.unack.filterNot(filter)
+  channel.local.unack = channel.local.unack.filter(a => !filter(a))
   channel.local.ack = []
 
   return {channel, msg}

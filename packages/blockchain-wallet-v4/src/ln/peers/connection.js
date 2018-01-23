@@ -68,6 +68,7 @@ function Connection (options, staticRemote) {
 
   // Callback functions
   this.onHandshakeCb = null
+  this.onCloseCb = null
 }
 
 Connection.prototype.error = function error (err) {
@@ -85,6 +86,7 @@ Connection.prototype.connect = function connect (tcp, onHandshakeCb, onCloseCb) 
   this.tcp = tcp
 
   this.onHandshakeCb = onHandshakeCb
+  this.onCloseCb = onCloseCb
 
   let onConnect = () => {
     this.sendHandshakePart1()
@@ -267,6 +269,16 @@ const decryptAEAD = function (key, ad, nonce, data, tag) {
   }
 
   return decrypted
+}
+
+Connection.prototype.newData = function newData (data) {
+  try {
+    return this.feed(data)
+  } catch (e) {
+    console.info('Connection closed', e)
+    this.authed = false
+    this.onCloseCb()
+  }
 }
 
 Connection.prototype.feed = function feed (data) {

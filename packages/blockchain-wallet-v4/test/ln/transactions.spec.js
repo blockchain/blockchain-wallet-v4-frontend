@@ -2,9 +2,9 @@ import chai from 'chai'
 import * as Script from '../../src/ln/scripts'
 import {Direction, Funded, Payment, PaymentWrapper} from '../../src/ln/channel/state'
 import {addWitness, getCommitmentTransaction, getPaymentInputScript} from '../../src/ln/channel/transactions'
-import {obscureHash, wrapPubKey} from '../../src/ln/channel'
 import * as hash from 'bcoin/lib/crypto/digest'
-import {fromDER, wrapHex} from '../../src/ln/helper'
+import {fromDER, wrapHex, wrapPubKey} from '../../src/ln/helper'
+import {obscureHash} from '../../src/ln/channel/channel'
 
 const { expect } = chai
 const Long = require('long')

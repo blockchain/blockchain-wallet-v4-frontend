@@ -8,8 +8,8 @@ import {
   readAcceptChannel, readCommitmentSigned, readFundingSigned, readRevokeAck,
   readUpdateAddHtlc, createFundingLocked, readFundingLocked
 } from './channel'
-import {opened, refresh} from './actions';
-import {copy, wrapHex, wrapPubKey} from '../helper';
+import {opened, refresh} from './actions'
+import {copy, wrapHex, wrapPubKey} from '../helper'
 import TYPE from '../messages/types'
 import {sendMessage} from '../peers/actions'
 import {getChannelDir, getChannel} from './selectors'
@@ -71,6 +71,7 @@ export const channelSagas = (api, peersSaga) => {
           yield call(checkChannelOpen, channel)
         }
       }
+      // TODO add other checks for existing channels here
     }
   }
 
