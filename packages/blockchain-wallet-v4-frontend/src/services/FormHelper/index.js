@@ -1,8 +1,9 @@
-import { isEmpty } from 'ramda'
+import { isEmpty, equals, or } from 'ramda'
 import bip39 from 'bip39'
 import { isNumeric, isEmail, isGuid, isIpList } from 'services/ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
+import { address, networks } from 'bitcoinjs-lib'
 
 const required = value => value ? undefined : 'Required'
 
@@ -24,4 +25,24 @@ const validIpList = value => isIpList(value) ? undefined : 'Invalid IP list'
 
 const validPasswordStretchingNumber = value => (value > 1 && value <= 20000) ? undefined : 'Please ensure 1 < PBKDF2 <= 20000'
 
-export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList, validPasswordStretchingNumber }
+const validBitcoinAddress = value => {
+  try {
+    const addr = address.fromBase58Check(value)
+    const n = networks.bitcoin
+    const valid = or(equals(addr.version, n.pubKeyHash), equals(addr.version, n.scriptHash))
+    return !valid
+  } catch (e) { return 'Invalid Bitcoin Address' }
+}
+
+export {
+  required,
+  requiredNumber,
+  validBitcoinAddress,
+  validNumber,
+  validEmail,
+  validMmemonic,
+  validWalletId,
+  validMobileNumber,
+  validStrongPassword,
+  validIpList,
+  validPasswordStretchingNumber }

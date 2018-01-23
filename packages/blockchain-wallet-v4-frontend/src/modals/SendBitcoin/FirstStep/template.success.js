@@ -5,7 +5,7 @@ import { isEmpty } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required } from 'services/FormHelper'
+import { required, validBitcoinAddress } from 'services/FormHelper'
 import { Button, ButtonGroup, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -62,6 +62,10 @@ const DescriptionText = styled.div`
   margin-top: 20px;
 `
 
+const AmountText = styled.div`
+  margin-top: 20px;
+`
+
 const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
@@ -97,7 +101,7 @@ const FirstStep = props => {
       <Row>
         {addressSelectToggled
           ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
-          : <Field name='to2' component={TextBox} validate={[required]} />
+          : <Field name='to2' component={TextBox} validate={[required, validBitcoinAddress]} />
         }
         <QRCodeCapture coin='BTC' />
         {addressSelectToggled
@@ -105,9 +109,11 @@ const FirstStep = props => {
           : <AddressButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' cursor /></AddressButton>
         }
       </Row>
-      <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
-      </Text>
+      <AmountText>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
+        </Text>
+      </AmountText>
       <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' maxAvailable={props.effectiveBalance} />
       <DescriptionText>
         <Text size='14px' weight={500}>
