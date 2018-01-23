@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
@@ -13,5 +14,11 @@ const SendBitcoin = props => (
     </ModalBody>
   </Modal>
 )
+
+SendBitcoin.propTypes = {
+  position: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  onClose: PropTypes.func.isRequired
+}
 
 export default SendBitcoin

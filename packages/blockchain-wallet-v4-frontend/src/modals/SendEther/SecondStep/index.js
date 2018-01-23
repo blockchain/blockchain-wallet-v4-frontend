@@ -1,49 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-import { Exchange } from 'blockchain-wallet-v4/src'
 
 import { actions } from 'data'
-import SecondStep from './template.js'
+import { getData } from './selectors'
+import SecondStep from './template'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  onSubmit (e) {
+  handleSubmit (e) {
     e.preventDefault()
+    // TODO: See how to use the message for the transaction
+    const { from, to, message, amount, fee } = this.props.data
+    // this.props.sendEtherActions.sendEther(from, to, amount, fee)
   }
 
   render () {
-    const { amount, ...rest } = this.props
-    const amountWei = Exchange.convertEtherToEther({ value: amount, fromUnit: 'ETH', toUnit: 'WEI' }).value
-
-    return <SecondStep {...rest} amount={amountWei} onSubmit={this.onSubmit} />
+    const { data, ...rest } = this.props
+    return <SecondStep {...data} {...rest} handleSubmit={this.handleSubmit} />
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const to = formValueSelector('sendEther')(state, 'to')
-  const message = formValueSelector('sendEther')(state, 'message')
-  const amount = formValueSelector('sendEther')(state, 'amount')
-  const fee = formValueSelector('sendEther')(state, 'fee')
-
-  return {
-    fee,
-    message,
-    to,
-    amount
-  }
-}
+const mapStateToProps = state => ({
+  data: getData(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
+  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)
