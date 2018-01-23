@@ -1,11 +1,11 @@
 import {PEER_MESSAGE, SOCKET_OPENED} from '../tcprelay/actionTypes'
-import { CONNECT, DISCONNECT, SEND_MESSAGE } from './actionTypes'
+import { CONNECT, DISCONNECT, INIT_MESSAGE_RECEIVED, SEND_MESSAGE } from './actionTypes'
 import { peerStaticRemote, privateKeyPath} from './selectors'
 import { takeEvery, delay} from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import {Connection} from './connection'
 import { connected, updateLastPing, initMessageReceived} from './actions'
-import { wrapPubKey } from '../channel/channel'
+import { wrapPubKey } from '../helper.js'
 import {readMessage, writeMessage} from '../messages/parser'
 import * as AT_CHANNEL from '../channel/actions'
 import { rootOptions } from '../root/selectors'
@@ -42,13 +42,9 @@ export const peerSagas = (tcpConn) => {
 
     peers[publicKey] = peer
     yield call(peer.connectPromise.bind(peer), tcpConn)
-    console.log('done!!! connected ')
     yield put(connected(publicKey))
-    // TODO this should happen somewhere else IMO and we need to wait for the response ideally before returning
-    // yield call(sendMessage, {publicKey, message: Init(wrapHex('00'), wrapHex('00'))})
-    //
-    // yield delay(1000)
-    // console.info('delay done..')
+    yield take(INIT_MESSAGE_RECEIVED)
+    console.info('done!!! connected ')
   }
 
   const onMessage = function * ({peer, msg}) {
@@ -68,7 +64,6 @@ export const peerSagas = (tcpConn) => {
     let parsedMsg = readMessage(decryptedMsg)
 
     if (parsedMsg.type === 16) {
-      console.info('received init message')
       yield put(initMessageReceived(pubKey))
       // set gf lf as well
       return

@@ -3,6 +3,8 @@ import {List} from 'immutable'
 import {getSerializer} from '../messages/parser'
 import {wrapHex} from '../helper'
 import * as random from 'crypto'
+import * as Message from '../messages/serializer'
+import * as Parse from '../messages/parser'
 
 let ec = require('bcoin/lib/crypto/secp256k1-browser')
 let crypto = require('bcoin/lib/crypto')
@@ -273,8 +275,8 @@ Connection.prototype.feed = function feed (data) {
     this.readHandshakePart2(data)
     this.sendHandshakePart3()
     console.info('Handshake completed with ' + this.staticRemote.pub.toString('hex'))
+    this.write(Parse.writeMessage(new Message.Init(Buffer.alloc(0), wrapHex('08'))))
     this.onHandshakeCb()
-
     return
   }
 

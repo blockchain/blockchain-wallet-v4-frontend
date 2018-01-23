@@ -1,7 +1,6 @@
 // Internal resources
 import {Map} from 'immutable'
-import {assertPubKey} from './helper'
-import {wrapPubKey} from './channel/channel'
+import {assertPubKey, wrapPubKey} from './helper'
 
 let sha = require('sha256')
 let ec = require('secp256k1')
