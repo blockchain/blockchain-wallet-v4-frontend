@@ -59,6 +59,7 @@ class FiatConvertorContainer extends React.Component {
     const { unit, currency, bitcoinRates } = this.props
 
     const conversion = Exchange.convertBitcoinToFiat({ value: this.props.maxAvailable, fromUnit: unit.data, toCurrency: currency.data, rates: bitcoinRates.data })
+    if (this.props.input.onChange) this.props.input.onChange(this.props.maxAvailable)
     this.setState({ value: this.props.maxAvailable, fiat: conversion.value })
   }
 
