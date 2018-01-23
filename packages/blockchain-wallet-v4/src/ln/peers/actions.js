@@ -1,4 +1,4 @@
-import {ADD, CONNECT, REMOVE, CONNECTED, DISCONNECTED, SEND_MESSAGE, PING_RECEIVED, INIT_MESSAGE_RECEIVED} from './actionTypes';
+import {ADD, CONNECT, REMOVE, DISCONNECT, CONNECTED, DISCONNECTED, SEND_MESSAGE, PING_RECEIVED, INIT_MESSAGE_RECEIVED} from './actionTypes';
 
 export const addPeer = (publicKey) => ({type: ADD, publicKey})
 export const removePeer = (publicKey) => ({type: REMOVE, publicKey})
@@ -12,5 +12,5 @@ export const initMessageReceived = (publicKey) => ({type: INIT_MESSAGE_RECEIVED,
 // other update state actions????
 
 export const connect = (publicKey, ip, port) => ({type: CONNECT, publicKey, ip, port})
-export const disconnect = (publicKey, ip, port) => ({type: CONNECT, publicKey, ip, port})
+export const disconnect = (publicKey, ip, port) => ({type: DISCONNECT, publicKey, ip, port})
 export const sendMessage = (publicKey, message) => ({type: SEND_MESSAGE, publicKey, message})

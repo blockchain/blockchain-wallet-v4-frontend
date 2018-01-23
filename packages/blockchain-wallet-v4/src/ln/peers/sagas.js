@@ -4,7 +4,7 @@ import { peerStaticRemote, privateKeyPath} from './selectors'
 import { takeEvery, delay} from 'redux-saga'
 import { call, put, select, take } from 'redux-saga/effects'
 import {Connection} from './connection'
-import { connected, updateLastPing, initMessageReceived} from './actions'
+import { connected, updateLastPing, initMessageReceived, disconnected} from './actions'
 import { wrapPubKey } from '../helper.js'
 import {readMessage, writeMessage} from '../messages/parser'
 import * as AT_CHANNEL from '../channel/actions'
@@ -89,6 +89,14 @@ export const peerSagas = (tcpConn) => {
   }
 
   const disconnect = function * (action) {
+    let {type, publicKey} = action
+    if (peers[publicKey] === undefined) {
+      console.info('nothing to disconnect')
+      return
+    }
+
+    delete peers[publicKey]
+    yield put(disconnected(publicKey))
   }
 
   const sendMessage = function * (action) {
