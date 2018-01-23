@@ -18,7 +18,7 @@ import SelectBoxFee from './SelectBoxFee'
 import SelectBoxLanguages from './SelectBoxLanguages'
 import SelectBoxTheme from './SelectBoxTheme'
 import SelectBoxUSState from './SelectBoxUSState'
-import TabMenuTransactionStatus from './TabMenuTransactionStatus'
+import TabMenuStatus from './TabMenuStatus'
 import TextArea from './TextArea'
 import TextBox from './TextBox'
 
@@ -42,7 +42,7 @@ export {
   SelectBoxLanguages,
   SelectBoxTheme,
   SelectBoxUSState,
-  TabMenuTransactionStatus,
+  TabMenuStatus,
   TextArea,
   TextBox
 }

@@ -1,0 +1,8 @@
+{
+  "components.form.TabMenuStatus.": "All",
+  "components.form.TabMenuStatus.sent": "Sent",
+  "components.form.TabMenuStatus.received": "Received",
+  "components.form.TabMenuStatus.transferred": "Transferred",
+  "components.form.TabMenuStatus.bitcoin": "Bitcoin",
+  "components.form.TabMenuStatus.bitcoin_cash": "Bitcoin Cash"
+}
