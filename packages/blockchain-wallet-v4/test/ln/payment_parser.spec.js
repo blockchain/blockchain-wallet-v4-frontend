@@ -39,6 +39,24 @@ describe('Payment parser', () => {
       expect(Parser.encode(expectedResult)).to.equal(testMsg)
     })
 
+    it('parses min final exprity time', () => {
+      var testMsg = 'lnbc2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jscqptaztrnwngzn3kdzw5hydlzf03qdgm2hdq27cqv3agm2awhz5se903vruatfhq77w3ls4evs3ch9zw97j25emudupq63nyw24cg27h2rspfj9srp'
+      var expectedResult = {
+        'prefix': 'lnbc',
+        'timestamp': 1496314658,
+        'amount': 0.0025,
+        'tags': {
+          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
+          'description': '1 cup coffee',
+          'min_cltv_expiry_time': 11
+        },
+        'signature': [232, 150, 57, 186, 104, 20, 227, 102, 137, 212, 185, 27, 241, 37, 241, 3, 81, 181, 93, 160, 87, 176, 6, 71, 168, 218, 186, 235, 138, 144, 201, 95, 22, 15, 157, 90, 110, 15, 121, 209, 252, 43, 150, 66, 56, 185, 68, 226, 250, 74, 166, 119, 198, 240, 32, 212, 102, 71, 42, 184, 66, 189, 117, 14, 1],
+        'checksum': 'fj9srp'
+      }
+      expect(Parser.parse(testMsg)).to.deep.equal(expectedResult)
+      expect(Parser.encode(expectedResult)).to.equal(testMsg)
+    })
+
     it('parses hash of description', () => {
       var testMsg = 'lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqscc6gd6ql3jrc5yzme8v4ntcewwz5cnw92tz0pc8qcuufvq7khhr8wpald05e92xw006sq94mg8v2ndf4sefvf9sygkshp5zfem29trqq2yxxz7'
       var expectedResult = {
