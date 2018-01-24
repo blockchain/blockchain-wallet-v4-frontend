@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import { FormattedMessage } from 'react-intl'
 import { Color, Text } from 'blockchain-info-components'
+import configure from './chart.config.js'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -25,31 +28,39 @@ const ColourBar = styled.div`
   background-color: ${props => props.color};
 `
 
-export default props => (
-  <Wrapper>
-    <Text uppercase>
-      <FormattedMessage id='scenes.home.balanceschart.yourbalances' defaultMessage='Your Balances' />
-    </Text>
-    <ReactHighcharts config={props.config} isPureConfig />
-    <ChartInfo>
-      <Column>
-        <ColourBar color={Color('brand-primary')} />
-        <Text>
-          <FormattedMessage id='scenes.home.balanceschart.btc' defaultMessage='Bitcoin' />
-        </Text>
-      </Column>
-      <Column>
-        <ColourBar color={Color('brand-secondary')} />
-        <Text>
-          <FormattedMessage id='scenes.home.balanceschart.eth' defaultMessage='Ether' />
-        </Text>
-      </Column>
-      <Column>
-        <ColourBar color={Color('brand-tertiary')} />
-        <Text>
-          <FormattedMessage id='scenes.home.balanceschart.bch' defaultMessage='Bitcoin Cash' />
-        </Text>
-      </Column>
-    </ChartInfo>
-  </Wrapper>
-)
+const BalancesChart = (props) => {
+  const { bitcoinBalance, etherBalance, chartData } = props.balances
+
+  return (
+    <Wrapper>
+      <Text uppercase>
+        <FormattedMessage id='scenes.home.balanceschart.yourbalances' defaultMessage='Your Balances' />
+      </Text>
+      <ReactHighcharts config={configure(chartData)} isPureConfig />
+      <ChartInfo>
+        <Column>
+          <ColourBar color={Color('brand-primary')} />
+          <Text>
+            <FormattedMessage id='scenes.home.balanceschart.btc' defaultMessage='Bitcoin' />
+          </Text>
+          <CoinDisplay coin='BTC'>{bitcoinBalance}</CoinDisplay>
+        </Column>
+        <Column>
+          <ColourBar color={Color('brand-secondary')} />
+          <Text>
+            <FormattedMessage id='scenes.home.balanceschart.eth' defaultMessage='Ether' />
+          </Text>
+          <CoinDisplay coin='ETH'>{etherBalance}</CoinDisplay>
+        </Column>
+        <Column>
+          <ColourBar color={Color('brand-tertiary')} />
+          <Text>
+            <FormattedMessage id='scenes.home.balanceschart.bch' defaultMessage='Bitcoin Cash' />
+          </Text>
+        </Column>
+      </ChartInfo>
+    </Wrapper>
+  )
+}
+
+export default BalancesChart
