@@ -38,7 +38,7 @@ export const getData = (state) => {
       })
     }
 
-    return ({ bitcoinBalance, etherBalance, chartData })
+    return ({ bitcoinBalance, etherBalance, chartData, symbol: bitcoinFiatBalance.unit.symbol })
   }
 
   return lift(transform)(bitcoinBalance, etherBalance, bitcoinRates, ethereumRates, settings)

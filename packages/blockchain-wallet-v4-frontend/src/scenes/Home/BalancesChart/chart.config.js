@@ -1,4 +1,4 @@
-export default (coinData) => ({
+export default (coinData, symbol) => ({
   chart: {
     type: 'pie'
   },
@@ -12,7 +12,7 @@ export default (coinData) => ({
     }
   },
   tooltip: {
-    valueSuffix: ' fiat'
+    valueSuffix: ` ${symbol}`
   },
   series: [{
     name: 'Balances',
