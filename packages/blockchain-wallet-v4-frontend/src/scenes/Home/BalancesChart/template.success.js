@@ -29,14 +29,14 @@ const ColourBar = styled.div`
 `
 
 const BalancesChart = (props) => {
-  const { bitcoinBalance, etherBalance, chartData } = props.balances
+  const { bitcoinBalance, etherBalance, chartData, symbol } = props.balances
 
   return (
     <Wrapper>
       <Text uppercase>
         <FormattedMessage id='scenes.home.balanceschart.yourbalances' defaultMessage='Your Balances' />
       </Text>
-      <ReactHighcharts config={configure(chartData)} isPureConfig />
+      <ReactHighcharts config={configure(chartData, symbol)} isPureConfig />
       <ChartInfo>
         <Column>
           <ColourBar color={Color('brand-primary')} />
