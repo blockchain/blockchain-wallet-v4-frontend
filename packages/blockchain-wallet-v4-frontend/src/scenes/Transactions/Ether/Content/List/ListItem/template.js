@@ -9,6 +9,7 @@ import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { Transaction, TransactionRow, TransactionRowAddresses, TransactionRowAmount, TransactionRowDescription,
   TransactionRowStatus, TransactionRowToggler, TransactionDetails, TransactionDetailsAddresses,
   TransactionDetailsDescription, TransactionDetailsStatus, TransactionDetailsValue } from 'components/TransactionItem'
+import EditDescription from 'components/EditDescription'
 
 const TransactionTooltip = styled.div`
   display: flex;
@@ -54,7 +55,7 @@ const TransactionListItem = (props) => {
           </Text>
         </TransactionRowAddresses>
         <TransactionRowDescription>
-          { transaction.description !== ''
+          {/* { transaction.description !== ''
             ? <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.transactions.ether.content.list.listitem.description' defaultMessage='Description: {description}' values={{ description: transaction.description }} />
               <Icon name='pencil' size='14px' />
@@ -63,7 +64,8 @@ const TransactionListItem = (props) => {
               <FormattedMessage id='scenes.transactions.ether.content.list.listitem.adddescription' defaultMessage='Add a description' />
               <Icon name='pencil' size='14px' />
             </Text>
-          }
+          } */}
+          <EditDescription />
         </TransactionRowDescription>
         <TransactionRowAmount>
           <Button nature={transaction.type.toLowerCase()} onClick={handleClick} fullwidth>
