@@ -1,6 +1,6 @@
 import { selectors } from 'data'
-import { lift } from 'ramda'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { join, lift } from 'ramda'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = (state) => {
   const bitcoinBalance = selectors.core.data.bitcoin.getBalance(state)
@@ -12,7 +12,7 @@ export const getData = (state) => {
   const transform = (bitcoinBalance, etherBalance, bitcoinRates, ethereumRates, settings) => {
     const bitcoinFiatBalance = Exchange.convertBitcoinToFiat({ value: bitcoinBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bitcoinRates })
     const etherFiatBalance = Exchange.convertEtherToFiat({ value: etherBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethereumRates })
-    const totalFiatBalance = bitcoinFiatBalance.value + etherFiatBalance.value
+    const totalFiatBalance = Number(bitcoinFiatBalance.value) + Number(etherFiatBalance.value)
     const { symbol } = bitcoinFiatBalance.unit
 
     // console.log(bitcoinBalance)
@@ -24,4 +24,6 @@ export const getData = (state) => {
   return lift(transform)(bitcoinBalance, etherBalance, bitcoinRates, ethereumRates, settings)
 }
 
-export const getContext = selectors.core.kvStore.ethereum.getContext
+export const getBitcoinContext = (state) => Remote.of(join('|', selectors.core.wallet.getWalletContext(state)))
+
+export const getEthereumContext = selectors.core.kvStore.ethereum.getContext

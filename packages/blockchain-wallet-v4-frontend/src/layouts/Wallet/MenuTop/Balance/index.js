@@ -5,7 +5,7 @@ import { equals } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
-import { getContext, getData } from './selectors'
+import { getBitcoinContext, getEthereumContext, getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -14,12 +14,14 @@ class Balance extends React.Component {
   componentWillMount () {
     // this.props.actions.fetchMetadataEthereum()
 
-    const { context, data } = this.props
-    if (Remote.Success.is(context) && Remote.NotAsked.is(data)) {
-      context.map(x => this.props.ethereumActions.fetchData(x))
+    const { bitcoinContext, ethereumContext, data } = this.props
+    if (Remote.Success.is(ethereumContext) && Remote.NotAsked.is(data)) {
+      ethereumContext.map(x => this.props.ethereumActions.fetchData(x))
+    }
+    if (Remote.Success.is(bitcoinContext) && Remote.NotAsked.is(data)) {
+      bitcoinContext.map(x => this.props.bitcoinActions.fetchData(x))
     }
     if (Remote.NotAsked.is(this.props.data)) {
-      this.props.bitcoinActions.fetchData()
       this.props.bitcoinActions.fetchRates()
       this.props.ethereumActions.fetchRates()
     }
@@ -44,7 +46,8 @@ class Balance extends React.Component {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  context: getContext(state)
+  bitcoinContext: getBitcoinContext(state),
+  ethereumContext: getEthereumContext(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
