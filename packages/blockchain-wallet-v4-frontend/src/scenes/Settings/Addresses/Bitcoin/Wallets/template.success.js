@@ -6,7 +6,6 @@ import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
-  padding: 30px;
   box-sizing: border-box;
 `
 const BitcoinWalletsAddressesSettingHeader = SettingHeader.extend`
@@ -15,13 +14,9 @@ const BitcoinWalletsAddressesSettingHeader = SettingHeader.extend`
 const AddressesSettingDescription = SettingDescription.extend`
   margin-bottom: 10px;
 `
-const ImportedAddressesSettingHeader = SettingHeader.extend`
-  justify-content: flex-start;
-  margin-top: 30px;
-`
 
 const Success = (props) => {
-  const { wallets, importedAddresses } = props.data
+  const { wallets } = props
 
   const walletTableRows = wallets.map((wallet, i) => {
     return (
@@ -31,19 +26,6 @@ const Success = (props) => {
         </TableCell>
         <TableCell width='30%'>
           <Text size='13px'><SwitchableDisplay coin='BTC'>{wallet.value.balance}</SwitchableDisplay></Text>
-        </TableCell>
-      </TableRow>
-    )
-  })
-
-  const importedAddressesTableRows = importedAddresses.map((address, i) => {
-    return (
-      <TableRow key={i}>
-        <TableCell width='30%'>
-          <Text size='13px'>{address.addr}</Text>
-        </TableCell>
-        <TableCell width='30%'>
-          <Text size='13px'><SwitchableDisplay coin='BTC'>{address.info.final_balance}</SwitchableDisplay></Text>
         </TableCell>
       </TableRow>
     )
@@ -71,27 +53,6 @@ const Success = (props) => {
           </TableCell>
         </TableHeader>
         { walletTableRows }
-      </Table>
-      <ImportedAddressesSettingHeader>
-        <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs' defaultMessage='Imported Bitcoin Addresses' />
-      </ImportedAddressesSettingHeader>
-      <AddressesSettingDescription>
-        <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs_desc' defaultMessage='⚠️ Not backed up by your Recovery Phrase. Transfer into a wallet to secure funds.' />
-      </AddressesSettingDescription>
-      <Table>
-        <TableHeader>
-          <TableCell width='30%'>
-            <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
-            </Text>
-          </TableCell>
-          <TableCell width='30%'>
-            <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
-            </Text>
-          </TableCell>
-        </TableHeader>
-        { importedAddressesTableRows }
       </Table>
     </Wrapper>
   )

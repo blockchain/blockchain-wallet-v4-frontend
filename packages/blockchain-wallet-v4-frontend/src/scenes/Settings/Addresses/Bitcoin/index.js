@@ -1,24 +1,22 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { getData } from './selectors'
-import Success from './template.success'
+import styled from 'styled-components'
+import Wallets from './Wallets'
+import ArchivedAddresses from './ArchivedAddresses'
+import ImportedAddresses from './ImportedAddresses'
 
-class BitcoinAddressesContainer extends React.Component {
+const Wrapper = styled.section`
+  padding: 30px;
+  box-sizing: border-box;
+`
+
+export default class BitcoinAddressesContainer extends React.Component {
   render () {
-    const { data, ...rest } = this.props
     return (
-      data.cata({
-        Success: (value) => <Success data={value} {...rest} />,
-        Failure: (message) => <div>{message}</div>,
-        Loading: () => <div />,
-        NotAsked: () => <div />
-      })
+      <Wrapper>
+        <Wallets />
+        <ImportedAddresses />
+        <ArchivedAddresses />
+      </Wrapper>
     )
   }
 }
-
-const mapStateToProps = (state) => ({
-  data: getData(state)
-})
-
-export default connect(mapStateToProps)(BitcoinAddressesContainer)
