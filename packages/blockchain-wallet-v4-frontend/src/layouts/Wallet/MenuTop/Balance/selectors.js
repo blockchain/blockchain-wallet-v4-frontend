@@ -14,8 +14,9 @@ export const getData = (state) => {
     const etherFiatBalance = Exchange.convertEtherToFiat({ value: etherBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethereumRates })
     const totalFiatBalance = bitcoinFiatBalance.value + etherFiatBalance.value
     const { symbol } = bitcoinFiatBalance.unit
-    console.log(symbol)
-    console.log(totalFiatBalance)
+
+    // console.log(bitcoinBalance)
+
     // const bitcoinContext = Remote.of(join('|', selectors.core.wallet.getWalletContext(state)))
     // const etherContext = selectors.core.kvStore.ethereum.getContext(state)
     return ({ bitcoinBalance, etherBalance, bitcoinFiatBalance, etherFiatBalance, totalFiatBalance, symbol })
