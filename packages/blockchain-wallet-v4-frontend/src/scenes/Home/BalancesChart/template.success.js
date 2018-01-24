@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import { Color, Text } from 'blockchain-info-components'
 import configure from './chart.config.js'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
 
 const Wrapper = styled.div`
   width: 100%;
