@@ -5,7 +5,7 @@ import { isEmpty } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required } from 'services/FormHelper'
+import { required, validEtherAddress } from 'services/FormHelper'
 import { Button, ButtonGroup, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import QRCodeCapture from 'components/QRCodeCapture'
@@ -50,7 +50,7 @@ const FirstStep = props => {
         <FormattedMessage id='modals.sendether.firststep.to' defaultMessage='To:' />
       </Text>
       <Row>
-        <Field name='to' component={TextBox} validate={[required]} />
+        <Field name='to' component={TextBox} validate={[required, validEtherAddress]} />
         <QRCodeCapture coin='ETH' />
       </Row>
       <Text size='14px' weight={500}>
