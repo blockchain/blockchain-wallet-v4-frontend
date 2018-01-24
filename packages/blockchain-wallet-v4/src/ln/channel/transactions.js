@@ -30,7 +30,7 @@ let roundDown = (num) => num.div(1000).toNumber()
 let htlcTimeoutFee = fee => weightToFee(htlcTimeoutWeight, fee)
 let htlcSuccessFee = fee => weightToFee(htlcSuccessWeight, fee)
 
-let getPaymentAmount = p => p.getIn(['payment', 'amount'])
+let getPaymentAmount = p => p.payment.amount
 
 let getCommitmentLocktime = obscuredTxNum => {
   let b = wrapHex('20000000')
@@ -66,7 +66,7 @@ export let addWitness = (tx, index, script) => {
 }
 
 export let trimPredicate = (feePerKw, dustLimit) => p => {
-  let {direction, _, payment} = p.toJS()
+  let {direction, _, payment} = p
   dustLimit = Long.fromNumber(dustLimit)
 
   let fee = direction === Direction.OFFERED ? htlcTimeoutFee(feePerKw) : htlcSuccessFee(feePerKw)
@@ -138,7 +138,7 @@ let createKeySetInternal = (
 }
 
 let getPaymentOutputScript = (revocationKey, remoteHtlcKey, localHtlcKey, p) => {
-  let {direction, _, payment} = p.toJS()
+  let {direction, _, payment} = p
   if (direction === Direction.OFFERED) {
     return Script.getOfferedHTLCOutput(revocationKey, remoteHtlcKey, localHtlcKey, payment.paymentHash)
   } else {
@@ -293,8 +293,8 @@ export let checkCommitmentSignature = (inputValue, tx, keyLocal, keyRemote, sig)
 }
 
 export let sortPayments = (revocationKey, remoteKey, localKey) => (a, b) => {
-  let cmp = a.getIn(['payment', 'amount']).div(1000).sub(
-    b.getIn(['payment', 'amount']).div(1000)).toNumber()
+  let cmp = a.payment.amount.div(1000).sub(
+    b.payment.amount.div(1000)).toNumber()
 
   if (cmp !== 0) {
     return cmp
@@ -307,7 +307,7 @@ export let sortPayments = (revocationKey, remoteKey, localKey) => (a, b) => {
 }
 
 export let getPaymentTransaction = (outpoint, feeRate, toSelfDelay, keySet, p) => {
-  let {direction, _, payment} = p.toJS()
+  let {direction, _, payment} = p
 
   let builder = new MTx()
   builder.version = 2
@@ -339,14 +339,14 @@ export let getPaymentTransaction = (outpoint, feeRate, toSelfDelay, keySet, p) =
 export let signPaymentTransaction = (tx, p, revocationKey, remoteKey, localKey) => {
   let t = Tx.fromRaw(tx)
   let inputScript = ScriptBcoin.fromRaw(getPaymentOutputScript(revocationKey, remoteKey, localKey.pub, p))
-  let hash = t.signatureHash(0, inputScript, p.getIn(['payment', 'amount']).div(1000).toNumber(), 1, 1)
+  let hash = t.signatureHash(0, inputScript, p.payment.amount.div(1000).toNumber(), 1, 1)
   let sig = ec.sign(hash, localKey.priv)
   return sig.signature
 }
 
 export let getPaymentInputScript = (revocationKey, remoteKey, localKey, p, sigRemote, sigLocal) => {
   let inputScript = getPaymentOutputScript(revocationKey, remoteKey.pub, localKey.pub, p)
-  let direction = p.get('direction')
+  let direction = p.direction
   if (direction === Direction.OFFERED) {
     // This is the timeout transaction
     return [
@@ -358,7 +358,7 @@ export let getPaymentInputScript = (revocationKey, remoteKey, localKey, p, sigRe
     ]
   } else {
     // This is trying to redeem this transaction
-    let paymentPreImage = p.getIn(['payment', 'paymentPreImage'])
+    let paymentPreImage = p.payment.paymentPreImage
 
     return [
       [],

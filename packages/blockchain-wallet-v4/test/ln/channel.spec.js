@@ -1,5 +1,5 @@
 import chai from 'chai'
-import * as Channel from '../../src/ln/channel'
+import * as Channel from '../../src/ln/channel/channel'
 import * as State from '../../src/ln/channel/state'
 import {fromJS} from 'immutable'
 const { expect } = chai
@@ -13,111 +13,99 @@ let checkPaymentMessage = (payment, msg) => {
   expect(msg.onionRoutingPackage).to.deep.equal(payment.onionRoutingPackage)
 }
 
-let createState = () => {
-  let state = State.State()
+let createChannel = () => {
   let channel = State.Channel()
-    .set('phase', Channel.phase.OPEN)
-    .setIn(['local', 'amountMsatLocal'], new Long(10000000))
-    .setIn(['local', 'amountMsatRemote'], new Long(10000000))
-    .setIn(['remote', 'amountMsatLocal'], new Long(10000000))
-    .setIn(['remote', 'amountMsatRemote'], new Long(10000000))
+  channel.phase = Channel.phase.OPEN
+  channel.local.amountMsatLocal = new Long(10000000)
+  channel.local.amountMsatRemote = new Long(10000000)
+  channel.remote.amountMsatLocal = new Long(10000000)
+  channel.remote.amountMsatRemote = new Long(10000000)
+  channel.channelId = Buffer.alloc(32)
 
-  let channelId = Buffer.alloc(32)
-
-  state = state.setIn(['channels', channelId], channel)
-  return state
+  return channel
 }
 
 describe('Channel State Machine', () => {
   let channelId = Buffer.alloc(32)
-  let state1, state2, payment
+  let channel1, channel2, payment
 
   let getMsg = (state, index) => state.getIn(['channels', channelId, 'messageOut', index])
 
   beforeEach(() => {
-    state1 = createState()
-    state2 = createState()
+    channel1 = createChannel()
+    channel2 = createChannel()
     payment = State.Payment(new Long('100000'), Buffer.alloc(20), Buffer.alloc(1360), 100)
   })
 
   describe('Update ADD', () => {
     it('Send', () => {
-      state1 = Channel.createUpdateAddHtlc(channelId, state1, payment)
+      let {channel, msg} = Channel.createUpdateAddHtlc(channel1, payment)
 
-      // The ADD update should be in remote unack
-      let msgAdd = getMsg(state1, 0)
-      expect(state1.getIn(['channels', channelId, 'remote', 'unack', 0, 'msg'])).to.deep.equal(fromJS(msgAdd))
+      expect(channel.remote.unack[0].msg).to.deep.equal(msg)
 
-      checkPaymentMessage(payment.toJS(), msgAdd)
-      expect(msgAdd.id).to.deep.equal(new Long('1'))
+      checkPaymentMessage(payment, msg)
+      expect(msg.id).to.deep.equal(new Long('1'))
     })
 
     it('Receive', () => {
-      state1 = Channel.createUpdateAddHtlc(channelId, state1, payment)
+      let response1 = Channel.createUpdateAddHtlc(channel1, payment)
 
-      let msgAdd = getMsg(state1, 0)
-      state2 = Channel.onUpdateAddHtlc(state2, msgAdd)
+      channel2 = Channel.readUpdateAddHtlc(channel2, response1.msg)
 
       // The ADD update should be in local unack
-      expect(state2.getIn(['channels', channelId, 'local', 'unack', 0, 'msg'])).to.deep.equal(fromJS(msgAdd))
+      expect(channel2.local.unack[0].msg).to.deep.equal(response1.msg)
 
-      checkPaymentMessage(payment.toJS(), msgAdd)
-      expect(msgAdd.id).to.deep.equal(new Long('1'))
+      checkPaymentMessage(payment, response1.msg)
+      expect(response1.msg.id).to.deep.equal(new Long('1'))
     })
   })
 
   describe('Commit', () => {
     it('Send', () => {
-      state1 = Channel.createUpdateAddHtlc(channelId, state1, payment)
-      state1 = Channel.createCommitmentSigned(channelId, state1, payment)
+      let response1 = Channel.createUpdateAddHtlc(channel1, payment)
+      let response2 = Channel.createCommitmentSigned(response1.channel)
 
-      let msgAdd = getMsg(state1, 0)
-      expect(state1.getIn(['channels', channelId, 'remote', 'unack', 0, 'msg'])).to.deep.equal(fromJS(msgAdd))
+      expect(response2.channel.remote.unack[0].msg).to.deep.equal(response1.msg)
       // TODO check validity of signatures
     })
 
     it('Receive', () => {
-      state1 = Channel.createUpdateAddHtlc(channelId, state1, payment)
-      state1 = Channel.createCommitmentSigned(channelId, state1, payment)
+      let response1 = Channel.createUpdateAddHtlc(channel1, payment)
+      let response2 = Channel.createCommitmentSigned(response1.channel)
 
-      let msgAdd = getMsg(state1, 0)
-      let msgCommit = getMsg(state1, 1)
+      expect(response2.channel.remote.unack[0].msg).to.deep.equal(response1.msg)
       // TODO check validity of signatures
 
-      state2 = Channel.onUpdateAddHtlc(state2, msgAdd)
-      state2 = Channel.onCommitmentSigned(state2, msgCommit)
-      expect(state2.getIn(['channels', channelId, 'local', 'unack', 0, 'msg'])).to.deep.equal(fromJS(msgAdd))
+      channel2 = Channel.readUpdateAddHtlc(channel2, response1.msg)
+      channel2 = Channel.readCommitmentSigned(channel2, response2.msg)
+      expect(channel2.local.unack[0].msg).to.deep.equal(response1.msg)
     })
   })
 
   describe('RevokeAck', () => {
     it('Send', () => {
-      state1 = Channel.createUpdateAddHtlc(channelId, state1, payment)
-      state1 = Channel.createCommitmentSigned(channelId, state1, payment)
-      let msgAdd = getMsg(state1, 0)
-      let msgCommit = getMsg(state1, 1)
+      let response1 = Channel.createUpdateAddHtlc(channel1, payment)
+      let response2 = Channel.createCommitmentSigned(response1.channel)
 
-      state2 = Channel.onUpdateAddHtlc(state2, msgAdd)
-      state2 = Channel.onCommitmentSigned(state2, msgCommit)
-      state2 = Channel.createRevokeAck(state2, channelId)
+      expect(response2.channel.remote.unack[0].msg).to.deep.equal(response1.msg)
 
-      let msgRevoke = getMsg(state2, 0)
+      channel2 = Channel.readUpdateAddHtlc(channel2, response1.msg)
+      channel2 = Channel.readCommitmentSigned(channel2, response2.msg)
+      let response3 = Channel.createRevokeAck(channel2)
       // TODO actually test something here
     })
 
     it('Receive', () => {
-      state1 = Channel.createUpdateAddHtlc(channelId, state1, payment)
-      state1 = Channel.createCommitmentSigned(channelId, state1, payment)
-      let msgAdd = getMsg(state1, 0)
-      let msgCommit = getMsg(state1, 1)
+      let response1 = Channel.createUpdateAddHtlc(channel1, payment)
+      let response2 = Channel.createCommitmentSigned(response1.channel)
 
-      state2 = Channel.onUpdateAddHtlc(state2, msgAdd)
-      state2 = Channel.onCommitmentSigned(state2, msgCommit)
-      state2 = Channel.createRevokeAck(state2, channelId)
+      expect(response2.channel.remote.unack[0].msg).to.deep.equal(response1.msg)
 
-      let msgRevoke = getMsg(state2, 0)
+      channel2 = Channel.readUpdateAddHtlc(channel2, response1.msg)
+      channel2 = Channel.readCommitmentSigned(channel2, response2.msg)
+      let response3 = Channel.createRevokeAck(channel2)
 
-      state1 = Channel.onRevokeAck(state1, msgRevoke)
+      channel1 = Channel.readRevokeAck(channel1, response3.msg)
       // TODO actually test something here
     })
   })
