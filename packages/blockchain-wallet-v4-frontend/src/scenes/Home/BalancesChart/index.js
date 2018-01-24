@@ -2,14 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import configure from './chart.config.js'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class BalancesChart extends React.Component {
+class BalancesChartContainer extends React.Component {
   componentWillMount () {
   }
 
@@ -21,7 +20,7 @@ class BalancesChart extends React.Component {
 
     return data.cata({
       Success: (value) => <Success
-        config={configure(value)}
+        balances={value}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -38,4 +37,4 @@ const mapDispatchToProps = (dispatch) => ({
   dataMiscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BalancesChart)
+export default connect(mapStateToProps, mapDispatchToProps)(BalancesChartContainer)
