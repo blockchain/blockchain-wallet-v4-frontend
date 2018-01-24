@@ -36,16 +36,16 @@ const Unit = styled.span`
   padding: 0 15px;
   color: ${props => props.theme['gray-4']};
 `
-const ArrowLeft = styled(Icon) `
+const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
 `
-const ArrowRight = styled(Icon) `
+const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
   color: #bbb;
 `
-const Error = styled(Text) `
+const Error = styled(Text)`
   position: absolute;
   display: block;
   top: 40px;
@@ -58,7 +58,8 @@ const getErrorState = (meta) => {
 }
 
 const FiatConvertor = (props) => {
-  const { value, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta } = props
+  const { value, fiat, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta } = props
+  const { currency, unit } = props.data.data
   const errorState = getErrorState(meta)
 
   return (
