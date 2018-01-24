@@ -14,6 +14,7 @@ import * as pairing from './pairing'
 import * as transactions from './transactions'
 import * as Types from './types'
 import * as paths from './redux/paths'
+import * as utils from './utils'
 import Remote from './remote'
 
 export {
@@ -33,5 +34,6 @@ export {
   pairing,
   transactions,
   Types,
-  Remote
+  Remote,
+  utils
 }
