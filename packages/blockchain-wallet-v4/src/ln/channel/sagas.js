@@ -53,15 +53,18 @@ export const channelSagas = (api, peersSaga) => {
     yield put(refresh(response.channel))
   }
 
-  const onBlock = function * () {
+  const onBlock = function * (action) {
+    let {actionType, latestBlock} = action
+
     let channels = yield select(getChannelDir)
 
     for (const channelId in channels) {
       const channel = channels[channelId]
 
       if (channel.phase === phase.FUNDING_BROADCASTED || channel.phase === phase.SENT_FUNDING_LOCKED) {
-        // TODO get confirmations
-        const confirmations = 5
+
+        let rawTx = yield call(api.getRawTx(channel.fundingTx.toString('hex')))
+        const confirmations = latestBlock.height - rawTx.block_height
 
         if (confirmations >= channel.paramsLocal.minimumDepth) {
           let response = createFundingLocked(channel)

@@ -44,37 +44,11 @@ export class BlockchainPoller {
     })
   }
 
-  getLatestBlockHeight =  function () {
-    return this.api.getLatestBlock().then((response) => {
-      let block_height = response.height
-      return Promise.resolve(block_height)
-    })
-  }
 
   getTransactionHeight =  function (tx) {
     return this.api.getRawTx(tx).then((response) => {
       let block_height = response.block_height
       return Promise.resolve(block_height)
     })
-  }
-
-
-  pushTx =  function (tx) {
-    this.api.pushTx(tx).then(() => {
-      this.state = this.state.setIn(['transactions', tx, 'status'], WAITING_FOR_CONFIRMATIONS)
-    }).catch((e) => {
-      console.error('error pushing a transaction ', e)
-    })
-  }
-
-  addTransaction =  function (txHex, required_confirmation_number) {
-    this.state = this.state.setIn(['transactions', txHex, 'status'], NOT_PUSHED)
-      .setIn(['transactions', txHex, 'required_confirmation_number'], required_confirmation_number)
-
-    this.pushTx(txHex)
-  }
-
-  isTransactionConfirmed =  function (txHex) {
-    return this.state.get('transactions').get(txHex).get('status') === CONFIRMED
   }
 }

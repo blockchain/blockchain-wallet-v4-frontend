@@ -1,3 +1,3 @@
 import { path } from 'ramda'
 
-export const transactions = path(['ln', 'transactions'])
+export const transactionsPath = path(['ln', 'transactions'])
