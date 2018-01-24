@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { selectors } from 'data'
-import { equals } from 'ramda'
+import { getData } from './selectors'
+import { equals, test } from 'ramda'
+import { convertFiatToCoin, convertCoinToFiat } from './conversion'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { isBitcoinFiatAvailable, isEthereumFiatAvailable } from 'services/ValidationHelper'
-import FiatConvertor from './template.js'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class FiatConvertorContainer extends React.Component {
   constructor (props) {
@@ -30,17 +31,29 @@ class FiatConvertorContainer extends React.Component {
     if (!equals(value, nextProps.input.value) ||
       (coin === 'BTC' && !equals(bitcoinRates, nextProps.bitcoinRates)) ||
       (coin === 'ETH' && !equals(ethereumRates, nextProps.ethereumRates))) {
-      this.convertFiat(nextProps.input.value)
+      convertFiatToCoin(nextProps.input.value, nextProps.data, nextProps.coin)
     }
   }
 
+  update (data) {
+    this.setState(data)
+    this.props.input.onChange(data.value)
+  }
+
   handleCoinChange (event) {
-    this.convertFiat(event.target.value)
-    if (this.props.input.onChange) { this.props.input.onChange(event.target.value) }
+    event.preventDefault()
+    const val = event.target.value
+    const conversion = convertCoinToFiat(val, this.props.data, this.props.coin)
+
+    this.update({ fiat: conversion.fiat, value: val })
   }
 
   handleFiatChange (event) {
-    this.convertCoin(event.target.value)
+    event.preventDefault()
+    const val = event.target.value
+    const conversion = convertFiatToCoin(val, this.props.data, this.props.coin)
+
+    this.update({ fiat: val, value: conversion.coin })
   }
 
   handleBlur () {
@@ -52,57 +65,33 @@ class FiatConvertorContainer extends React.Component {
   }
 
   handleErrorClick () {
-    this.useMaxAvailable()
+    const err = this.props.meta.error
+    if (test(/Use total available/, err)) this.useMaxAvailable()
   }
 
   useMaxAvailable () {
-    const { unit, currency, bitcoinRates } = this.props
-
-    const conversion = Exchange.convertBitcoinToFiat({ value: this.props.maxAvailable, fromUnit: unit.data, toCurrency: currency.data, rates: bitcoinRates.data })
-    if (this.props.input.onChange) this.props.input.onChange(this.props.maxAvailable)
-    this.setState({ value: this.props.maxAvailable, fiat: conversion.value })
-  }
-
-  convertCoin (value) {
-    const { coin, unit, currency, bitcoinRates, ethereumRates } = this.props
-
-    const conversion = coin === 'BTC'
-      ? Exchange.convertFiatToBitcoin({ value: value, fromCurrency: currency.data, toUnit: unit.data, rates: bitcoinRates.data })
-      : Exchange.convertFiatToEther({ value: value, fromUnit: currency.data, toCurrency: unit.data, rates: ethereumRates.data })
-    this.setState({ value: conversion.value, fiat: value })
-  }
-
-  convertFiat (value) {
-    const { coin, unit, currency, bitcoinRates, ethereumRates } = this.props
-
-    const conversion = coin === 'BTC'
-      ? Exchange.convertBitcoinToFiat({ value: value, fromUnit: unit.data, toCurrency: currency.data, rates: bitcoinRates.data })
-      : Exchange.convertEtherToFiat({ value: value, fromUnit: unit, toCurrency: currency, rates: ethereumRates })
-
-    this.setState({ value: value, fiat: conversion.value })
-  }
-
-  isEnabled () {
-    const { coin, country, currency, bitcoinRates, ethereumRates, ethereumOptions } = this.props
-
-    switch (coin) {
-      case 'BTC': return isBitcoinFiatAvailable(country, currency, bitcoinRates)
-      case 'ETH': return isEthereumFiatAvailable(country, currency, ethereumRates, ethereumOptions)
-    }
+    const maxAvail = this.props.maxAvailable
+    const conversion = convertCoinToFiat(maxAvail, this.props.data, this.props.coin)
+    this.update({ value: maxAvail, fiat: conversion.fiat })
   }
 
   render () {
-    return <FiatConvertor
-      value={this.state.value}
-      fiat={this.state.fiat}
-      handleBlur={this.handleBlur}
-      handleCoinChange={this.handleCoinChange}
-      handleFiatChange={this.handleFiatChange}
-      handleFocus={this.handleFocus}
-      handleErrorClick={this.handleErrorClick}
-      enabled={this.isEnabled()}
-      {...this.props}
-    />
+    const { data } = this.props
+    return data.cata({
+      Success: (value) => <Success
+        value={this.state.value}
+        fiat={this.state.fiat}
+        handleBlur={this.handleBlur}
+        handleCoinChange={this.handleCoinChange}
+        handleFiatChange={this.handleFiatChange}
+        handleFocus={this.handleFocus}
+        handleErrorClick={this.handleErrorClick}
+        {...this.props}
+        />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
@@ -117,13 +106,7 @@ FiatConvertorContainer.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  unit: ownProps.coin === 'BTC' ? selectors.core.settings.getBtcUnit(state) : 'ETH',
-  country: selectors.core.settings.getCountryCode(state),
-  currency: selectors.core.settings.getCurrency(state),
-  bitcoinRates: selectors.core.data.bitcoin.getRates(state),
-  ethereumRates: selectors.core.data.ethereum.getRates(state),
-  // bitcoinOptions: selectors.core.bitcoin.selectOptions(state),
-  // ethereumOptions: selectors.core.walletOptions.selectEthereum(state)
+  data: getData(state, ownProps)
 })
 
 export default connect(mapStateToProps)(FiatConvertorContainer)

@@ -36,16 +36,16 @@ const Unit = styled.span`
   padding: 0 15px;
   color: ${props => props.theme['gray-4']};
 `
-const ArrowLeft = styled(Icon)`
+const ArrowLeft = styled(Icon) `
   margin-left: 10px;
   color: #bbb;
 `
-const ArrowRight = styled(Icon)`
+const ArrowRight = styled(Icon) `
   margin-left: -10px;
   margin-right: 10px;
   color: #bbb;
 `
-const Error = styled(Text)`
+const Error = styled(Text) `
   position: absolute;
   display: block;
   top: 40px;
@@ -58,27 +58,25 @@ const getErrorState = (meta) => {
 }
 
 const FiatConvertor = (props) => {
-  const { enabled, value, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta } = props
+  const { value, fiat, unit, currency, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta } = props
   const errorState = getErrorState(meta)
 
-  return enabled ? (
+  return (
     <Wrapper>
       <FiatConvertorInput>
         <Container>
           <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={value} errorState={errorState} />
-          <Unit>{unit.data}</Unit>
+          <Unit>{unit}</Unit>
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
         <ArrowRight size='16px' name='right-arrow' />
         <Container>
           <TextInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiat} errorState={errorState} />
-          <Unit>{currency.data}</Unit>
+          <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
       {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>}
     </Wrapper>
-  ) : (
-    <TextBox {...props} />
   )
 }
 
