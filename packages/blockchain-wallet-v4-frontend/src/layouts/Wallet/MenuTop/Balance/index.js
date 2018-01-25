@@ -9,19 +9,6 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class Balance extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleCoinDisplay = this.handleCoinDisplay.bind(this)
-  }
-
-  componentWillMount () {
-    // this.props.actions.fetchMetadataEthereum()
-  }
-
-  handleCoinDisplay () {
-    this.props.preferencesActions.toggleCoinDisplayed()
-  }
-
   render () {
     const { data } = this.props
     return data.cata({
