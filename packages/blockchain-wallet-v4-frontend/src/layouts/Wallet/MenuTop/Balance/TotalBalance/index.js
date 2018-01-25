@@ -7,7 +7,7 @@ class TotalBalance extends React.Component {
     const { data } = this.props
     return (
       data.cata({
-        Success: (value) => <div>{value.totalFiatBalance}</div>,
+        Success: (value) => <div>{value.symbol + value.totalFiatBalance.toFixed(2)}</div>,
         Failure: (msg) => <div>{msg}</div>,
         Loading: () => <div>loading</div>,
         NotAsked: () => <div>not asked</div>
