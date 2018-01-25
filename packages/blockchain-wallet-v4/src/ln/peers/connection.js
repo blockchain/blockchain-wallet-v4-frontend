@@ -331,7 +331,7 @@ Connection.prototype.feed = function feed (data) {
   this.size = 0
   this.hasSize = false
 
-  console.info('[<-] ' + decryptedData.toString('hex'))
+  console.debug('[<-] ' + decryptedData.toString('hex'))
   return decryptedData
 }
 
@@ -364,7 +364,7 @@ Connection.prototype.decryptIn = function (payload, tag) {
 }
 
 Connection.prototype.write = function (payload) {
-  console.info('[->] ' + payload.toString('hex'))
+  console.debug('[->] ' + payload.toString('hex'))
   assert(payload.length < 65535)
 
   let size = Buffer.alloc(2)

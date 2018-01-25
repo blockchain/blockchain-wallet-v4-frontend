@@ -7,6 +7,7 @@ import {Connection} from './connection'
 import { connected, updateLastPing, initMessageReceived, disconnected} from './actions'
 import { wrapPubKey } from '../helper.js'
 import {readMessage, writeMessage} from '../messages/parser'
+import TYPE from '../messages/types'
 import * as AT_CHANNEL from '../channel/actions'
 import { rootOptions } from '../root/selectors'
 
@@ -16,7 +17,6 @@ export const encodePeer = publicKey => publicKey.toString('base64')
 export const decodePeer = publicKey => Buffer.from(publicKey, 'base64')
 
 export const peerSagas = (tcpConn) => {
-
   let peers = {}
 
   const connectToAllPeers = function * (action) {
@@ -65,6 +65,7 @@ export const peerSagas = (tcpConn) => {
     }
 
     let parsedMsg = readMessage(decryptedMsg)
+    console.info('[<-] ' + TYPE.extractName(parsedMsg.type) + ': ', parsedMsg)
 
     if (parsedMsg.type === 16) {
       conn.gfRemote = parsedMsg.gf
@@ -100,8 +101,8 @@ export const peerSagas = (tcpConn) => {
   }
 
   const sendMessage = function * (action) {
-    console.log('send message ')
     let {publicKey, message} = action
+    console.info('[<-] ' + TYPE.extractName(message.type) + ': ', message)
     let connection = peers[publicKey.toString('hex')]
     connection.write(writeMessage(message))
   }
