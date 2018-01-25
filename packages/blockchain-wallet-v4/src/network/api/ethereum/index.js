@@ -10,7 +10,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: `eth/account/${Array.isArray(context) ? context.join() : context}/balance`
   })
 
-  const getEthereumData = (context, page = 1) => get({
+  const getEthereumData = (context) => get({
     url: apiUrl,
     endPoint: `eth/account/${Array.isArray(context) ? context.join() : context}`
   })
@@ -40,7 +40,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     url: apiUrl,
     endPoint: 'eth/pushtx',
     contentType: 'application/json',
-    data: JSON.stringify({ rawTx })
+    data: { rawTx }
   })
 
   return {

@@ -13,7 +13,7 @@ const extractAddress = (selectorFunction, value) =>
     : Remote.of(undefined)
 
 export const getData = state => {
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
+  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
   const coin = formValueSelector('requestBitcoin')(state, 'coin')
   const to = formValueSelector('requestBitcoin')(state, 'to')
   const receiveAddressR = extractAddress(getReceive, to)

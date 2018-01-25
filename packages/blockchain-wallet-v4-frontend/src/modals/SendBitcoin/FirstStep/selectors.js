@@ -14,8 +14,8 @@ const extractAddress = (selector, value) => {
 }
 
 export const getData = state => {
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
-  const getChange = index => selectors.core.common.bitcoin.getNextAvailableChangeAddress(settings.NETWORK, index, state)
+  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
+  const getChange = index => selectors.core.common.bitcoin.getNextAvailableChangeAddress(settings.NETWORK_BITCOIN, index, state)
 
   const toDropdown = map(x => ({ text: x.label, value: x }))
   const balancesR = selectors.core.common.bitcoin.getAccountsBalances(state).map(toDropdown)

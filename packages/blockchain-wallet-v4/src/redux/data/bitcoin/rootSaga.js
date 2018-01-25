@@ -120,16 +120,6 @@ export default ({ api } = {}) => {
     }
   }
 
-  const publishTransaction = function * ({ type, payload }) {
-    const { network, selection, password } = payload
-    try {
-      const wrapper = yield select(selectors.wallet.getWrapper)
-      const signAndPublish = (sel, pass) => taskToPromise(sign(network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushTx)))
-      return yield call(signAndPublish, selection, password)
-    } catch (e) {
-    }
-  }
-
   return function * () {
     yield takeLatest(AT.FETCH_BITCOIN_DATA, fetchData)
     yield takeLatest(AT.FETCH_BITCOIN_FEE, fetchFee)
@@ -139,6 +129,5 @@ export default ({ api } = {}) => {
     yield fork(watchTransactions)
     yield takeLatest(AT.FETCH_BITCOIN_TRANSACTION_HISTORY, fetchTransactionHistory)
     yield takeLatest(AT.FETCH_BITCOIN_UNSPENT, fetchUnspent)
-    yield takeLatest(AT.PUBLISH_BITCOIN_TRANSACTION, publishTransaction)
   }
 }
