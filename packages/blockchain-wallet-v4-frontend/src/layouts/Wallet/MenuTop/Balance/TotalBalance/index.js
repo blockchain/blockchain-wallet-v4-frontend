@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+import Success from './template.success'
 
 class TotalBalance extends React.Component {
   render () {
     const { data } = this.props
     return (
       data.cata({
-        Success: (value) => <div>{value.symbol + value.totalFiatBalance.toFixed(2)}</div>,
+        Success: (value) => <Success symbol={value.symbol} totalFiatBalance={value.totalFiatBalance} />,
         Failure: (msg) => <div>{msg}</div>,
         Loading: () => <div>loading</div>,
         NotAsked: () => <div>not asked</div>

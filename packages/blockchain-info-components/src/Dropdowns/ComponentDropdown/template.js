@@ -69,17 +69,21 @@ const DropdownItem = styled.li`
 `
 
 const Dropdown = props => {
-  const { color, down, uppercase, toggled, selectedItem, items, handleClick, handleCallback } = props
+  const { color, down, uppercase, toggled, selectedComponent, components, handleClick, handleCallback } = props
 
   return (
     <Wrapper uppercase={uppercase}>
       <DropdownList toggled={toggled} down={down}>
-        { items.map((item, index) => {
-          return (<DropdownItem key={index} onClick={handleCallback.bind(null, item)}>{ item.text }</DropdownItem>)
+        { components.map((comp, index) => {
+          return (
+            <DropdownItem key={index} onClick={handleCallback.bind(null, comp)}>
+              { comp }
+            </DropdownItem>
+          )
         })}
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>
-        <Button>{selectedItem.text}</Button>
+        <Button>{selectedComponent}</Button>
         <DropdownIcon name='down-arrow' size='8px' />
       </ButtonContainer>
     </Wrapper>
@@ -96,10 +100,6 @@ Dropdown.defaultProps = {
 
 Dropdown.PropTypes = {
   selectedValue: PropTypes.number,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
-  })),
   callback: PropTypes.func.isRequired,
   toggled: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),
