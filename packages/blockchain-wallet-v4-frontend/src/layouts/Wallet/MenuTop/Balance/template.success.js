@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import TotalBalance from './TotalBalance'
 import BitcoinBalance from './BitcoinBalance'
 import EtherBalance from './EtherBalance'
-import { Text } from 'blockchain-info-components'
+import { SimpleDropdown } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,11 +22,14 @@ const Wrapper = styled.div`
 const Success = props => {
   const { bitcoinContext, etherContext, handleCoinDisplay } = props
 
+  const getComponentOrder = () => {
+    return [<BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />]
+  }
+
   return (
     <Wrapper onClick={handleCoinDisplay}>
-      <BitcoinBalance context={bitcoinContext} />
-      <Text weight={200} size='24px' >|</Text>
-      <EtherBalance context={etherContext} />
+      <TotalBalance />
+      <SimpleDropdown down items={getComponentOrder()} callback={console.log('')} />
     </Wrapper>
   )
 }
