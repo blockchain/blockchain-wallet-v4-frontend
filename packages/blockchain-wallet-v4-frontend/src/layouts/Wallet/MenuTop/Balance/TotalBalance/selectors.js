@@ -15,7 +15,8 @@ export const getData = (state) => {
     const bitcoinFiatBalance = Exchange.convertBitcoinToFiat({ value: bitcoinBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bitcoinRates })
     const etherFiatBalance = Exchange.convertEtherToFiat({ value: etherBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethereumRates })
     const totalFiatBalance = Number(bitcoinFiatBalance.value) + Number(etherFiatBalance.value)
-    return ({ totalFiatBalance })
+    const symbol = bitcoinRates[settings.currency].symbol
+    return ({ symbol, totalFiatBalance })
   }
 
   return lift(transform)(bitcoinRates, ethereumRates, settings)
