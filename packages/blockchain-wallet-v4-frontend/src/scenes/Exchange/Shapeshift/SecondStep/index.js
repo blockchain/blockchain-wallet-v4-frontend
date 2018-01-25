@@ -91,7 +91,7 @@ const extractAddress = (value, selectorFunction) =>
     : undefined
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
+  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
   const exchangeAccounts = formValueSelector('exchange')(state, 'accounts')
   const { source, target } = exchangeAccounts
 

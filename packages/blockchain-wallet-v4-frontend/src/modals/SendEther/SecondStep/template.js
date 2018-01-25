@@ -47,7 +47,7 @@ const SecondStep = props => {
         <Text size='16px' weight={500}>
           <FormattedMessage id='modals.sendether.secondstep.from' defaultMessage='From:' />
         </Text>
-        <Text size='16px' weight={300}>{from}</Text>
+        <Text size='16px' weight={300}>{from.address}</Text>
       </Row>
       <Row>
         <Text size='16px' weight={500}>

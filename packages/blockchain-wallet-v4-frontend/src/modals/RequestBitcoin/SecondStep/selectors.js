@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { lift, equals, head, filter, map, prop } from 'ramda'
+import { lift } from 'ramda'
 import settings from 'config'
 import { selectors } from 'data'
 import { Remote, Exchange } from 'blockchain-wallet-v4/src'
@@ -13,7 +13,7 @@ const extractAddress = (selectorFunction, value) =>
     : Remote.of(undefined)
 
 export const getData = state => {
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK, index, state)
+  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
   const unitR = selectors.core.settings.getBtcUnit(state)
   const amount = formValueSelector('requestBitcoin')(state, 'amount')
   const to = formValueSelector('requestBitcoin')(state, 'to')
