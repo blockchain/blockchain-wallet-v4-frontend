@@ -10,7 +10,6 @@ const Wrapper = styled.div`
 `
 
 const TotalFiatBalance = styled.span`
-  padding-right: 25px;
 `
 
 const Success = props => {
