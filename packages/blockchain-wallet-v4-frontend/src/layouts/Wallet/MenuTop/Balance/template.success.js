@@ -56,23 +56,35 @@ const BalanceDropdown = styled.div`
 `
 
 const Success = props => {
-  const { bitcoinContext, etherContext } = props
+  const { bitcoinContext, etherContext, path } = props
 
   const getComponentOrder = () => {
-    return [<TotalBalance />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />]
+    switch (path) {
+      case '/btc/transactions': return [<BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />, <TotalBalance />]
+      case '/eth/transactions': return [<EtherBalance context={etherContext} />, <BitcoinBalance context={bitcoinContext} />, <TotalBalance />]
+      default: return [<TotalBalance />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />]
+    }
+  }
+
+  const getBalanceMessage = () => {
+    switch (path) {
+      case '/btc/transactions': return <FormattedMessage id='scenes.wallet.menutop.balance.bitcoinbalance' defaultMessage='Bitcoin Balance' />
+      case '/eth/transactions': return <FormattedMessage id='scenes.wallet.menutop.balance.etherbalance' defaultMessage='Ether Balance' />
+      default: return <FormattedMessage id='scenes.wallet.menutop.balance.totalbalance' defaultMessage='Total Balance' />
+    }
   }
 
   return (
     <Wrapper>
       <Text size={'20px'} weight={300}>
-        <FormattedMessage id='scenes.wallet.menutop.balance.totalbalance' defaultMessage='Total Balance' />
+        {getBalanceMessage()}
       </Text>
       <BalanceDropdown>
         <ComponentDropdown
           down
           forceSelected
           color={'gray-5'}
-          selectedComponent={<TotalBalance />}
+          selectedComponent={getComponentOrder()[0]}
           components={getComponentOrder()}
           callback={() => {}} />
       </BalanceDropdown>

@@ -10,13 +10,14 @@ export const getData = (state) => {
   const bitcoinRates = selectors.core.data.bitcoin.getRates(state)
   const ethereumRates = selectors.core.data.ethereum.getRates(state)
   const settings = selectors.core.settings.getSettings(state)
+  const path = state.router.location.pathname
 
   const transform = (bitcoinRates, ethereumRates, settings) => {
     const bitcoinFiatBalance = Exchange.convertBitcoinToFiat({ value: bitcoinBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bitcoinRates })
     const etherFiatBalance = Exchange.convertEtherToFiat({ value: etherBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethereumRates })
     const totalFiatBalance = Number(bitcoinFiatBalance.value) + Number(etherFiatBalance.value)
     const symbol = bitcoinRates[settings.currency].symbol
-    return ({ symbol, totalFiatBalance })
+    return ({ symbol, bitcoinBalance, etherBalance, bitcoinFiatBalance, etherFiatBalance, totalFiatBalance, path })
   }
 
   return lift(transform)(bitcoinRates, ethereumRates, settings)
