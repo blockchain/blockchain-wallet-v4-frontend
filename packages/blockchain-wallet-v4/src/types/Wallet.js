@@ -65,6 +65,7 @@ export const selectAddresses = view(addresses)
 export const selectHdWallets = view(hdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
+export const selectArchivedContext = compose(AddressMap.selectContext, AddressMap.selectActive, selectAddresses)
 export const selectAddrContext = compose(AddressMap.selectContext, AddressMap.selectActive, selectAddresses)
 export const selectXpubsContext = compose(HDWallet.selectContext, HDWalletList.selectHDWallet, selectHdWallets)
 export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
