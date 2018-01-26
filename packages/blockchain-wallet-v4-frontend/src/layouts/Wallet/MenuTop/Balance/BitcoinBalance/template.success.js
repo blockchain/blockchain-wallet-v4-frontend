@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -21,10 +22,12 @@ const Success = props => {
   const { large, balance } = props
 
   return (
-    <Wrapper large={large}>
-      <CoinDisplay coin='BTC' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</CoinDisplay>
-      <FiatDisplay coin='BTC' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</FiatDisplay>
-    </Wrapper>
+    <LinkContainer to='/btc/transactions'>
+      <Wrapper large={large}>
+        <CoinDisplay coin='BTC' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</CoinDisplay>
+        <FiatDisplay coin='BTC' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</FiatDisplay>
+      </Wrapper>
+    </LinkContainer>
   )
 }
 
