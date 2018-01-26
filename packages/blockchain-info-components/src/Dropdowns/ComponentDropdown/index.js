@@ -11,9 +11,7 @@ class ComponentDropdown extends React.Component {
     super(props)
 
     this.state = {
-      toggled: props.opened,
-      forceSelected: props.forceSelected,
-      selectedComponent: props.selectedComponent
+      toggled: props.opened
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleCallback = this.handleCallback.bind(this)
@@ -28,7 +26,7 @@ class ComponentDropdown extends React.Component {
   }
 
   handleCallback (item) {
-    this.setState({ toggled: false, selectedComponent: this.state.forceSelected ? this.state.selectedComponent : item })
+    this.setState({ toggled: false, selectedComponent: this.props.forceSelected ? this.props.selectedComponent : item })
     if (this.props.callback) { this.props.callback(item) }
   }
 
@@ -39,7 +37,7 @@ class ComponentDropdown extends React.Component {
       handleClick={this.handleClick}
       handleCallback={this.handleCallback}
       toggled={this.state.toggled}
-      selectedComponent={this.state.selectedComponent}
+      selectedComponent={this.props.selectedComponent}
     />
   }
 }
