@@ -37,7 +37,8 @@
   },
   "dependencies": {
     "polished": "^1.9.0",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "react-onclickoutside": "^6.7.1"
   },
   "peerDependencies": {
     "prop-types": "^15.5.10",
