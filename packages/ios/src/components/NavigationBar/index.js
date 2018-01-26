@@ -1,12 +1,11 @@
 
 import React, { Component } from 'react'
-import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native'
+import PropTypes from 'prop-types'
+import { StyleSheet, Text, View } from 'react-native'
+import { BarButtonItem } from '../BarButtonItem'
 import images from '@assets/images'
 
 const styles = StyleSheet.create({
-  barButton: {
-    tintColor: "#FFF"
-  },
   container: {
     alignItems: "center",
     backgroundColor: "#004A7C",
@@ -16,45 +15,21 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16
   },
-  title: {
-    fontSize: 30,
-    fontFamily: "Montserrat-Light",
-    fontWeight: "300",
-    color: "#FFF",
-    textAlign: "center"
-  }
 })
 
 export default class NavigationBar extends Component {
-
-  revealMenu() {}
-
-  scanQRCode() {}
-
   render() {
-    return(
+    const { leftItem, rightItem, title } = this.props
+    return (
       <View style={styles.container}>
-        <BarButtonItem icon={images.menu} onPress={this.revealMenu} />
-        <Text style={styles.title}>$0.00</Text>
-        <TouchableHighlight onPress={this.scanQRCode}>
-          <BarButtonItem icon={images.QRCode} onPress={this.scanQRCode} />
-        </TouchableHighlight>
+        {leftItem}{title}{rightItem}
       </View>
     )
   }
 }
 
-class BarButtonItem extends Component {
-  setNativeProps = (nativeProps) => {
-    this._root.setNativeProps(nativeProps)
-  }
-
-  render() {
-    const { icon, onPress } = this.props
-    return(
-      <TouchableHighlight onPress={onPress}>
-        <Image source={icon} style={styles.barButton} />
-      </TouchableHighlight>
-    )
-  }
+NavigationBar.propTypes = {
+  leftItem: PropTypes.element,
+  rightItem: PropTypes.element,
+  title: PropTypes.element,
 }
