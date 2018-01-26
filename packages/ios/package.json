@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "react-native run-ios",
+    "start": "react-native run-ios --simulator=\"iPhone X\"",
     "test": "jest"
   },
   "dependencies": {
@@ -20,8 +20,10 @@
     "path-browserify": "0.0.0",
     "process": "~0.11.10",
     "querystring-es3": "~0.2.1",
+    "ramda": "^0.25.0",
     "react": "16.0.0",
     "react-native": "0.51.0",
+    "react-native-camera": "^0.13.0",
     "react-native-crypto": "~2.1.1",
     "react-native-http": "0.0.3",
     "react-native-level-fs": "~3.0.0",
@@ -29,8 +31,11 @@
     "react-native-randombytes": "~3.0.0",
     "react-native-tcp": "~3.3.0",
     "react-native-udp": "~2.3.1",
+    "react-redux": "^5.0.6",
     "read-blob": "~1.1.0",
     "readable-stream": "~1.0.33",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
     "stream-browserify": "~1.0.0",
     "string_decoder": "~0.10.25",
     "timers-browserify": "~1.4.2",
@@ -101,5 +106,10 @@
     "tty": "tty-browserify",
     "vm": "vm-browserify",
     "tls": false
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }
