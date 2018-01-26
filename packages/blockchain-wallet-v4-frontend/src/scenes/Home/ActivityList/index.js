@@ -1,29 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { isEmpty, take } from 'ramda'
 
-import ActivityList from './template.js'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
-class ActivityContainer extends React.Component {
+class ActivityListContainer extends React.Component {
   componentWillMount () {
-    if (isEmpty(this.props.logs)) { this.props.dataActions.getLogs() }
+    this.props.actions.fetchLogs()
   }
 
   render () {
-    const lastLogs = take(8, this.props.logs)
+    const { data } = this.props
 
-    return <ActivityList activities={lastLogs} />
+    return data.cata({
+      Success: (value) => <Success activities={value} />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  logs: selectors.core.data.misc.getLogs(state)
+  data: getData(state, 8)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
+  actions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActivityContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityListContainer)

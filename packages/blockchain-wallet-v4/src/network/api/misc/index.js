@@ -1,4 +1,4 @@
-import { toUpper, toLower } from 'ramda'
+import { map, toUpper, toLower } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getCaptchaImage = (timestamp, sessionToken) => get({
@@ -29,7 +29,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getPriceIndexSeries = (coin, currency, start, scale) => get({
     url: apiUrl,
     endPoint: 'price/index-series',
-    data: { base: toLower(coin), quote: toLower(currency), start: start, scale: scale }
+    data: { base: coin, quote: currency, start: start, scale: scale }
   })
 
   return {

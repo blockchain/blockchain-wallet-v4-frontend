@@ -1,33 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { selectors } from 'data'
+import { bindActionCreators } from 'redux'
 
-import CoinDisplay from './template.js'
+import { actions } from 'data'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class CoinDisplayContainer extends React.Component {
   render () {
-    const { coin, unit, children } = this.props
-
-    switch (coin) {
-      case 'BTC': return <CoinDisplay {...this.props}>{Exchange.displayBitcoinToBitcoin({ value: children, fromUnit: 'SAT', toUnit: unit })}</CoinDisplay>
-      case 'ETH': return <CoinDisplay {...this.props}>{Exchange.displayEtherToEther({ value: children, fromUnit: 'WEI', toUnit: 'ETH' })}</CoinDisplay>
-      default: return <div />
-    }
+    const { data, ...rest } = this.props
+    return data.cata({
+      Success: (value) => <Success {...rest}>{value}</Success>,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
 CoinDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired,
-  country: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired
 }
 
-const mapStateToProps = (state) => ({
-  country: selectors.core.settings.getCountryCode(state),
-  unit: selectors.core.settings.getBtcUnit(state)
+CoinDisplayContainer.defaultProps = {
+  children: 0
+}
+
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps.coin, ownProps.children)
 })
 
-export default connect(mapStateToProps)(CoinDisplayContainer)
+const mapDispatchToProps = dispatch => ({
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoinDisplayContainer)

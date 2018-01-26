@@ -1,35 +1,29 @@
 import { coreActions as core } from 'blockchain-wallet-v4/src'
-import * as alerts from './alerts/actions.js'
-import * as application from './application/actions.js'
-import * as auth from './auth/actions.js'
-import * as data from './data/actions.js'
-import * as goals from './goals/actions.js'
-import * as modals from './modals/actions.js'
+import * as alerts from './alerts/actions'
+import * as auth from './auth/actions'
+import * as goals from './goals/actions'
+import * as modals from './modals/actions'
+import * as modules from './modules/actions'
 import { actions as form } from 'redux-form'
-import * as payment from './payment/actions.js'
-import * as preferences from './preferences/actions.js'
+import * as preferences from './preferences/actions'
 import { routerActions as router } from 'connected-react-router'
-import * as scroll from './scroll/actions.js'
-import * as session from './session/actions.js'
-import * as settings from './settings/actions.js'
-import * as wizard from './wizard/actions.js'
-import * as wallet from './wallet/actions.js'
+import * as scroll from './scroll/actions'
+import * as session from './session/actions'
+import * as wizard from './wizard/actions'
+import * as wallet from './wallet/actions'
 
 export {
   core,
   alerts,
-  application,
   auth,
-  data,
   goals,
   form,
   modals,
-  payment,
+  modules,
   preferences,
   router,
   scroll,
   session,
-  settings,
   wizard,
   wallet
 }

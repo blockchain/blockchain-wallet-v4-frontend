@@ -1,57 +1,35 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
 
-import { filter, isNil } from 'ramda'
-import { actions, selectors } from 'data'
+import { getData } from './selectors'
+import { actions } from 'data'
 import SecondStep from './template.js'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  onSubmit (e) {
+  handleSubmit (e) {
     e.preventDefault()
-    this.props.paymentBitcoinActions.sendBitcoin(this.props.selection)
+    const { selection } = this.props.data
+    this.props.sendBitcoinActions.sendBitcoin(selection)
   }
 
   render () {
-    return <SecondStep {...this.props} onSubmit={this.onSubmit} />
+    const { data, ...rest } = this.props
+    return <SecondStep {...rest} {...data} handleSubmit={this.handleSubmit} />
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const to = formValueSelector('sendBitcoin')(state, 'to')
-  const to2 = formValueSelector('sendBitcoin')(state, 'to2')
-  const from = formValueSelector('sendBitcoin')(state, 'from')
-  const message = formValueSelector('sendBitcoin')(state, 'message')
-  const f = selectors.core.wallet.getAccountLabel(state)
-  const g = selectors.core.wallet.getLegacyAddressLabel(state)
-  const toAddress = !isNil(to2) ? to2 : (to.address || g(to.address) || f(to.index))
-  const fromAddress = from.address || g(from.address) || f(from.index)
-  const selection = selectors.core.data.bitcoin.getSelection(state)
-  const targetCoin = filter(x => !x.change, selection.outputs)[0]
-  const satoshis = targetCoin.value
-  const fee = selection.fee
-
-  return {
-    fee,
-    message,
-    fromAddress,
-    toAddress,
-    satoshis,
-    selection
-  }
-}
+const mapStateToProps = state => ({
+  data: getData(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  paymentBitcoinActions: bindActionCreators(actions.payment.bitcoin, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
+  sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

@@ -11,7 +11,7 @@ class WalletLayoutContainer extends React.Component {
   constructor (props) {
     super(props)
     this.timeout = undefined
-    this.scrollUpdateDelay = 500
+    this.scrollUpdateDelay = 200
     this.handleScroll = this.handleScroll.bind(this)
   }
 
@@ -48,8 +48,7 @@ class WalletLayoutContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  scroll: selectors.scroll.selectScroll(state),
-  isFetching: selectors.application.selectIsFetching(state)
+  scroll: selectors.scroll.selectScroll(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

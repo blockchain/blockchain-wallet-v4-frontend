@@ -1,20 +1,25 @@
 // import { set } from 'ramda-lens'
 // import { KVStoreEntry } from '../../../types'
-import * as T from './actionTypes.js'
+import * as AT from './actionTypes'
+import Remote from '../../../remote'
 
 // initial state should be a kvstore object
-const INITIAL_STATE = {}
+const INITIAL_STATE = Remote.NotAsked
 
-export const buySellReducer = (state = INITIAL_STATE, action) => {
+export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
+
   switch (type) {
-    case T.SET_BUYSELL: {
-      const { data } = payload
-      return data
+    case AT.FETCH_METADATA_BUYSELL_LOADING: {
+      return Remote.Loading
+    }
+    case AT.FETCH_METADATA_BUYSELL_SUCCESS: {
+      return Remote.Success(payload)
+    }
+    case AT.FETCH_METADATA_BUYSELL_FAILURE: {
+      return Remote.Failure(payload)
     }
     default:
       return state
   }
 }
-
-export default buySellReducer

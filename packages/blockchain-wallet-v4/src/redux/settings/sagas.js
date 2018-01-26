@@ -7,14 +7,6 @@ import * as pairing from '../../pairing'
 
 export const settingsSaga = ({ api } = {}) => {
   // Utilities
-  const encodePairingCode = function * () {
-    const guid = yield select(wS.getGuid)
-    const sharedKey = yield select(wS.getSharedKey)
-    const password = yield select(wS.getMainPassword)
-    const pairingPassword = yield call(api.getPairingPassword, guid)
-    return pairing.encode(guid, sharedKey, password, pairingPassword)
-  }
-
   const decodePairingCode = function * ({ data }) {
     const parsedDataE = pairing.parseQRcode(data)
     if (parsedDataE.isRight) {
@@ -37,12 +29,12 @@ export const settingsSaga = ({ api } = {}) => {
   }
 
   // SETTERS
-  const fetchSettings = function * () {
-    const guid = yield select(wS.getGuid)
-    const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.getSettings, guid, sharedKey)
-    yield put(actions.setSettings(response))
-  }
+  // const fetchSettings = function * () {
+  //   const guid = yield select(wS.getGuid)
+  //   const sharedKey = yield select(wS.getSharedKey)
+  //   const response = yield call(api.getSettings, guid, sharedKey)
+  //   yield put(actions.setSettings(response))
+  // }
 
   const setEmail = function * ({ email }) {
     const guid = yield select(wS.getGuid)
@@ -93,9 +85,6 @@ export const settingsSaga = ({ api } = {}) => {
   }
 
   const setAutoLogout = function * ({ autoLogout }) {
-    const guid = yield select(wS.getGuid)
-    const sharedKey = yield select(wS.getSharedKey)
-    yield call(api.updateAutoLogout, guid, sharedKey, autoLogout)
     yield put(walletActions.setAutoLogout(autoLogout))
   }
 
@@ -173,10 +162,9 @@ export const settingsSaga = ({ api } = {}) => {
   }
 
   return {
-    encodePairingCode,
     decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
-    fetchSettings,
+    // fetchSettings,
     setEmail,
     setMobile,
     setMobileVerified,

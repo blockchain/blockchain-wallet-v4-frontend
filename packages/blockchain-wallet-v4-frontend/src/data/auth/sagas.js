@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { takeEvery, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
+import { takeLatest, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
@@ -37,58 +37,18 @@ const transferEtherSaga = function * () {
   }
 }
 
-// =============================================================================
-// ================================= Generic ===================================
-// =============================================================================
-const manageWalletOptions = function * () {
-  yield call(sagas.core.walletOptions.fetchWalletOptions)
-  const bitcoin = yield select(selectors.core.walletOptions.selectBitcoinAvailability)
-  const ethereum = yield select(selectors.core.walletOptions.selectEthereumAvailability)
-
-  let tasks = []
-  if (bitcoin.fiat) { tasks.push(call(sagas.core.data.bitcoin.startRates)) }
-  if (ethereum.fiat) { tasks.push(call(sagas.core.data.ethereum.startRates)) }
-  yield all(tasks)
-}
-
-const manageWalletSettings = function * () {
-  yield call(sagas.core.settings.fetchSettings)
-}
-
-const manageWalletMetadata = function * () {
-  yield call(sagas.core.kvStore.whatsNew.fetchWhatsNew)
-  yield call(sagas.core.kvStore.ethereum.fetchEthereum)
-  yield call(sagas.core.kvStore.shapeShift.fetchShapeShift)
-  // yield call(sagas.core.kvStore.buySell.fetchBuySell)
-  // yield call(sagas.core.kvStore.contacts.fetchContacts)
-}
-
-const manageWalletData = function * () {
-  const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
-  const etherContext = yield select(selectors.core.kvStore.ethereum.getContext)
-  yield all([
-    call(sagas.core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext }),
-    call(sagas.core.common.ethereum.fetchEthereumData, { context: etherContext }),
-    call(sagas.core.data.ethereum.fetchLatestBlock)
-  ])
-}
-
 const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
   try {
     // If needed, the user should upgrade its wallet before being able to open the wallet
-    if (shouldUpgrade) { yield call(upgradeWalletSaga) }
+    // if (shouldUpgrade) { yield call(upgradeWalletSaga) }
     yield put(actions.auth.authenticate())
-    yield put(actions.core.webSocket.startSocket())
+    // yield put(actions.core.webSocket.startSocket())
     yield call(sagas.core.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-    yield call(manageWalletOptions)
-    yield call(manageWalletSettings)
-    yield call(manageWalletMetadata)
-    yield call(manageWalletData)
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
     // ETHER - Fix derivation
-    yield call(transferEtherSaga)
+    // yield call(transferEtherSaga)
   } catch (e) {
     // Redirect to error page instead of notification
     yield put(actions.alerts.displayError('Critical error while fetching essential data !' + e.message))
@@ -266,13 +226,13 @@ export const resetLogoutTimer = function * () {
 }
 
 export default function * () {
-  yield takeEvery(AT.LOGIN, login)
-  yield takeEvery(AT.MOBILE_LOGIN, mobileLogin)
-  yield takeEvery(AT.REGISTER, register)
-  yield takeEvery(AT.RESTORE, restore)
-  yield takeEvery(AT.REMIND_GUID, remindGuid)
-  yield takeEvery(AT.AUTHENTICATE, startLogoutTimer)
-  yield takeEvery(AT.LOGOUT, logout)
-  yield takeEvery(AT.LOGOUT_RESET_TIMER, resetLogoutTimer)
-  yield takeEvery(AT.RESET_2FA, reset2fa)
+  yield takeLatest(AT.LOGIN, login)
+  yield takeLatest(AT.MOBILE_LOGIN, mobileLogin)
+  yield takeLatest(AT.REGISTER, register)
+  yield takeLatest(AT.RESTORE, restore)
+  yield takeLatest(AT.REMIND_GUID, remindGuid)
+  // yield takeLatest(AT.AUTHENTICATE, startLogoutTimer)
+  yield takeLatest(AT.LOGOUT, logout)
+  yield takeLatest(AT.LOGOUT_RESET_TIMER, resetLogoutTimer)
+  yield takeLatest(AT.RESET_2FA, reset2fa)
 }

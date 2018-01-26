@@ -1,95 +1,45 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop } from 'ramda'
 
+import { equals } from 'ramda'
+import { getData } from './selectors'
 import { selectors, actions } from 'data'
-import Empty from './Empty'
-import List from './List'
+import Content from './template'
 
 const threshold = 250
 
 class ContentContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.filteredTransactions = []
-    this.fetchTransactions = this.fetchTransactions.bind(this)
-    this.filterTransactions = this.filterTransactions.bind(this)
-  }
-
   componentWillMount () {
-    if (isEmpty(this.props.transactions)) {
-      this.fetchTransactions(this.props.source)
-    } else {
-      this.filterTransactions(this.props.status, this.props.search, this.props.transactions)
-    }
+    this.props.dataBitcoinActions.fetchTransactions('', true)
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.source, nextProps.source)) {
-      this.fetchTransactions(nextProps.source)
-      return
+    // Refresh the list if we change the source
+    if (this.props.data.source !== nextProps.data.source) {
+      this.props.dataBitcoinActions.fetchTransactions(nextProps.data.source, true)
     }
 
-    if (!equals(this.props.status, nextProps.status) ||
-      !equals(this.props.search, nextProps.search) ||
-      !equals(this.props.transactions, nextProps.transactions)) {
-      this.filterTransactions(nextProps.status, nextProps.search, nextProps.transactions)
-      return
-    }
-
+    // Appends more transactions depending on the scroll position
     if (!equals(this.props.scroll.yOffset, nextProps.scroll.yOffset)) {
       if (nextProps.scroll.yMax - nextProps.scroll.yOffset < threshold) {
-        this.fetchTransactions(nextProps.source)
+        this.props.dataBitcoinActions.fetchTransactions(nextProps.data.source, false)
       }
     }
   }
 
-  fetchTransactions (source) {
-    this.props.dataActions.getBitcoinTransactions(source, 50)
-  }
-
-  filterTransactions (status, criteria, transactions) {
-    const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
-    const search = curry((text, property, tx) => compose(contains(toUpper(text || '')), toUpper, prop(property))(tx))
-    const searchPredicate = anyPass(map(search(criteria), ['description', 'from', 'to']))
-    const fullPredicate = allPass([isOfType(status), searchPredicate])
-    this.filteredTransactions = filter(fullPredicate, transactions)
-  }
-
-  shouldComponentUpdate (nextProps) {
-    if (!equals(this.props.source, nextProps.source)) return true
-    if (!equals(this.props.status, nextProps.status)) return true
-    if (!equals(this.props.search, nextProps.search)) return true
-    if (!equals(this.props.transactions, nextProps.transactions)) return true
-    return false
-  }
-
   render () {
-    return !isEmpty(this.filteredTransactions)
-      ? <List transactions={this.filteredTransactions} currency={this.props.currency} />
-      : <Empty />
+    return <Content {...this.props.data} />
   }
 }
 
-const mapStateToProps = (state) => {
-  const selector = formValueSelector('bitcoinTransaction')
-  const initialSource = selector(state, 'source')
-
-  return {
-    currency: selectors.core.settings.getCurrency(state),
-    source: initialSource ? (initialSource.xpub ? initialSource.xpub : initialSource.address) : '',
-    status: selector(state, 'status') || '',
-    search: selector(state, 'search') || '',
-    transactions: selectors.core.common.bitcoin.getWalletTransactions(state),
-    totalTransactions: selectors.core.data.bitcoin.getNumberTransactions(state),
-    scroll: selectors.scroll.selectScroll(state)
-  }
-}
+const mapStateToProps = state => ({
+  data: getData(state),
+  scroll: selectors.scroll.selectScroll(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
+  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer)

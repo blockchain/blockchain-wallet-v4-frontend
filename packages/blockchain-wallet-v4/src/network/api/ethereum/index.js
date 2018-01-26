@@ -40,7 +40,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     url: apiUrl,
     endPoint: 'eth/pushtx',
     contentType: 'application/json',
-    data: JSON.stringify({ rawTx })
+    data: { rawTx }
   })
 
   return {

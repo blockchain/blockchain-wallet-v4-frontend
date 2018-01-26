@@ -1,63 +1,50 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-import { isEmpty, equals, anyPass, allPass, map, compose, filter, curry, propSatisfies, contains, toUpper, prop } from 'ramda'
+import { equals } from 'ramda'
 
-import { selectors, actions } from 'data'
-import Empty from './Empty'
-import List from './List'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
+import { getContext, getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class ContentContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.filteredTransactions = []
-    this.filterTransactions = this.filterTransactions.bind(this)
-  }
-
   componentWillMount () {
-    this.filterTransactions(this.props.status, this.props.search, this.props.transactions)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.status, nextProps.status) ||
-        !equals(this.props.search, nextProps.search) ||
-        !equals(this.props.transactions, nextProps.transactions)) {
-      this.filterTransactions(nextProps.status, nextProps.search, nextProps.transactions)
+    const { context, data } = this.props
+    if (Remote.Success.is(context) && Remote.NotAsked.is(data)) {
+      context.map(x => this.props.dataEthereumActions.fetchData(x))
     }
   }
 
-  filterTransactions (status, criteria, transactions) {
-    const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
-    const search = curry((text, property, tx) => compose(contains(toUpper(text || '')), toUpper, prop(property))(tx))
-    const searchPredicate = anyPass(map(search(criteria), ['description', 'from', 'to']))
-    const fullPredicate = allPass([isOfType(status), searchPredicate])
-    this.filteredTransactions = filter(fullPredicate, transactions)
-  }
-
-  shouldComponentUpdate (nextProps) {
-    if (!equals(this.props.status, nextProps.status)) return true
-    if (!equals(this.props.search, nextProps.search)) return true
-    if (!equals(this.props.transactions, nextProps.transactions)) return true
-    return false
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.context, nextProps.context)) {
+      nextProps.context.map(x => this.props.dataEthereumActions.fetchData(x))
+    }
   }
 
   render () {
-    return !isEmpty(this.filteredTransactions)
-      ? <List transactions={this.filteredTransactions} />
-      : <Empty />
+    const { data } = this.props
+
+    return data.cata({
+      Success: (value) => <Success isEmpty={equals(value.total, 0)} transactions={value.transactions} />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
-  status: formValueSelector('etherTransaction')(state, 'status') || '',
-  search: formValueSelector('etherTransaction')(state, 'search') || '',
-  transactions: selectors.core.common.ethereum.getTransactions(state),
-  scroll: selectors.scroll.selectScroll(state)
+  data: getData(state),
+  context: getContext(state)
+  // scroll: selectors.scroll.selectScroll(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataActions: bindActionCreators(actions.data, dispatch)
+  dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  kvStoreEthereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer)

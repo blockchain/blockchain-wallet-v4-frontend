@@ -1,17 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectors } from 'data'
-import WhatsNew from './template.js'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class WhatsNewContainer extends React.Component {
+  componentWillMount () {
+    // this.props.actions.fetchMetadataWhatsnew()
+  }
+
   render () {
-    const { lastViewed } = this.props
-    return <WhatsNew lastViewed={lastViewed} />
+    const { data } = this.props
+
+    return data.cata({
+      Success: (value) => <Success lastViewed={value} />,
+      Failure: (message) => <Error>{message}</Error>,
+      NotAsked: () => <Loading />,
+      Loading: () => <Loading />
+    })
   }
 }
 
-const mapStateToProps = (state) => ({
-  lastViewed: selectors.core.kvStore.whatsNew.getLastViewed(state)
+const mapStateToProps = state => ({
+  data: getData(state)
 })
 
-export default connect(mapStateToProps)(WhatsNewContainer)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(WhatsNewContainer)

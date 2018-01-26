@@ -22,15 +22,15 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'mempool/fees'
   })
 
-  const pushTx = (txHex) => post({
+  const pushBitcoinTx = (txHex) => post({
     url: rootUrl,
     endPoint: 'pushtx',
     data: { tx: txHex, format: 'plain' }
   })
 
-  const getTransactionFiatAtTime = (coin, amount, currency, time) => get({
+  const getBitcoinFiatAtTime = (amount, currency, time) => get({
     url: apiUrl,
-    endPoint: coin === 'bitcoin' ? 'frombtc' : 'frometh',
+    endPoint: 'frombtc',
     data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
   })
 
@@ -48,8 +48,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getBitcoinTicker,
     getBitcoinUnspents,
     getBitcoinFee,
-    pushTx,
-    getTransactionFiatAtTime,
+    pushBitcoinTx,
+    getBitcoinFiatAtTime,
     getLatestBlock,
     getRawTx
   }
