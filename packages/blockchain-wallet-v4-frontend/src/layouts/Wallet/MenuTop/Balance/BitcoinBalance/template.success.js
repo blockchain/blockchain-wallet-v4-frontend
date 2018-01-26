@@ -7,8 +7,8 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 const Wrapper = styled.div`
   display: inline-flex;
   flex-direction: row;
-  padding-right: 25px;
   padding-left: 5px;
+  padding-right: ${props => props.large ? '15px' : '25px'};
   > div:last-child {
     margin-left: 10px;
     > div {
@@ -18,10 +18,12 @@ const Wrapper = styled.div`
 `
 
 const Success = props => {
+  const { large, balance } = props
+
   return (
-    <Wrapper>
-      <CoinDisplay coin='BTC' size='12px' weight={300}>{props.balance}</CoinDisplay>
-      <FiatDisplay coin='BTC' size='12px' weight={300}>{props.balance}</FiatDisplay>
+    <Wrapper large={large}>
+      <CoinDisplay coin='BTC' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</CoinDisplay>
+      <FiatDisplay coin='BTC' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</FiatDisplay>
     </Wrapper>
   )
 }

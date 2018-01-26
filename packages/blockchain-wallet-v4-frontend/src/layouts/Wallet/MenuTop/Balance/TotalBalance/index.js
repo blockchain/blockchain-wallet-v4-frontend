@@ -5,10 +5,10 @@ import Success from './template.success'
 
 class TotalBalance extends React.Component {
   render () {
-    const { data } = this.props
+    const { data, large } = this.props
     return (
       data.cata({
-        Success: (value) => <Success symbol={value.symbol} totalFiatBalance={value.totalFiatBalance} />,
+        Success: (value) => <Success symbol={value.symbol} totalFiatBalance={value.totalFiatBalance} large={large} />,
         Failure: (msg) => <div>{msg}</div>,
         Loading: () => <div>loading</div>,
         NotAsked: () => <div>not asked</div>

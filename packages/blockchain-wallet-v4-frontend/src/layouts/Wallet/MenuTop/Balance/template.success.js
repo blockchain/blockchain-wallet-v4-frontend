@@ -35,16 +35,13 @@ const BalanceDropdown = styled.div`
       background: ${props => props.theme['white']};
       &:first-child {
         margin-bottom: 3px;
-        padding-right: 30px;
+        padding-right: 15px;
         background: transparent;
       }
       &:last-child {
         padding-bottom: 2px;
       }
     }
-  }
-  > div > div > div:first-child span {
-    padding-right: 15px;
   }
   > div > div > span:last-child {
     top: 1px;
@@ -60,9 +57,9 @@ const Success = props => {
 
   const getComponentOrder = () => {
     switch (path) {
-      case '/btc/transactions': return [<BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />, <TotalBalance />]
-      case '/eth/transactions': return [<EtherBalance context={etherContext} />, <BitcoinBalance context={bitcoinContext} />, <TotalBalance />]
-      default: return [<TotalBalance />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />]
+      case '/btc/transactions': return [<BitcoinBalance large context={bitcoinContext} />, <EtherBalance context={etherContext} />, <TotalBalance />]
+      case '/eth/transactions': return [<EtherBalance large context={etherContext} />, <BitcoinBalance context={bitcoinContext} />, <TotalBalance />]
+      default: return [<TotalBalance large />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />]
     }
   }
 
