@@ -43,7 +43,8 @@ const rootSaga = function * () {
     fork(sagas.core.ln.channel),
     fork(sagas.core.data.bitcoin.sagas),
     fork(sagas.core.ln.peer),
-    fork(sagas.core.ln.root)
+    fork(sagas.core.ln.root),
+    fork(sagas.core.ln.payment)
   ])
 }
 
