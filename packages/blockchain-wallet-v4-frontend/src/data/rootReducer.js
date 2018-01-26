@@ -4,7 +4,6 @@ import { reducer as reduxUiReducer } from 'redux-ui'
 import { reducer as formReducer } from 'redux-form'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import alertsReducer from './alerts/reducers.js'
-import applicationReducer from './application/reducers.js'
 import authReducer from './auth/reducers.js'
 import goalsReducer from './goals/reducers.js'
 import modalsReducer from './modals/reducers.js'
@@ -15,7 +14,6 @@ import wizardReducer from './wizard/reducers.js'
 
 const rootReducer = combineReducers({
   alerts: alertsReducer,
-  application: applicationReducer,
   auth: authReducer,
   form: formReducer,
   goals: goalsReducer,

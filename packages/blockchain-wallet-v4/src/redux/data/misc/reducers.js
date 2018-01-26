@@ -1,44 +1,63 @@
-import { assoc, assocPath } from 'ramda'
+import { assoc } from 'ramda'
 import * as AT from './actionTypes.js'
+import Remote from '../../../remote'
 
 const INITIAL_STATE = {
-  adverts: [],
-  captcha: {},
-  charts: {
-    price_index_series: []
-  },
-  logs: [],
-  reports: {
-    transactions: []
-  }
+  adverts: Remote.NotAsked,
+  captcha: Remote.NotAsked,
+  logs: Remote.NotAsked,
+  price_index_series: Remote.NotAsked,
+  pairing_code: Remote.NotAsked
 }
 
 const miscReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.SET_ADVERTS: {
-      return assoc('adverts', payload, state)
+    case AT.FETCH_ADVERTS_LOADING: {
+      return assoc('adverts', Remote.Loading, state)
     }
-    case AT.SET_CAPTCHA: {
-      return assoc('captcha', payload, state)
+    case AT.FETCH_ADVERTS_SUCCESS: {
+      return assoc('adverts', Remote.Success(payload), state)
     }
-    case AT.DELETE_CAPTCHA: {
-      return assoc('captcha', {}, state)
+    case AT.FETCH_ADVERTS_FAILURE: {
+      return assoc('adverts', Remote.Failure(payload), state)
     }
-    case AT.SET_PRICE_INDEX_SERIES: {
-      const { data } = payload
-      return assocPath(['charts', 'price_index_series'], data, state)
+    case AT.FETCH_CAPTCHA_LOADING: {
+      return assoc('captcha', Remote.Loading, state)
     }
-    case AT.SET_LOGS: {
-      return assoc('logs', payload, state)
+    case AT.FETCH_CAPTCHA_SUCCESS: {
+      return assoc('captcha', Remote.Success(payload), state)
     }
-    case AT.DELETE_LOGS: {
-      return assoc('logs', {}, state)
+    case AT.FETCH_CAPTCHA_FAILURE: {
+      return assoc('captcha', Remote.Failure(payload), state)
     }
-    case AT.SET_TRANSACTION_HISTORY: {
-      const { data } = payload
-      return assocPath(['reports', 'transactions'], data, state)
+    case AT.FETCH_LOGS_LOADING: {
+      return assoc('logs', Remote.Loading, state)
+    }
+    case AT.FETCH_LOGS_SUCCESS: {
+      return assoc('logs', Remote.Success(payload), state)
+    }
+    case AT.FETCH_LOGS_FAILURE: {
+      return assoc('logs', Remote.Failure(payload), state)
+    }
+    case AT.FETCH_PRICE_INDEX_SERIES_LOADING: {
+      return assoc('price_index_series', Remote.Loading, state)
+    }
+    case AT.FETCH_PRICE_INDEX_SERIES_SUCCESS: {
+      return assoc('price_index_series', Remote.Success(payload), state)
+    }
+    case AT.FETCH_PRICE_INDEX_SERIES_FAILURE: {
+      return assoc('price_index_series', Remote.Failure(payload), state)
+    }
+    case AT.ENCODE_PAIRING_CODE_LOADING: {
+      return assoc('pairing_code', Remote.Loading, state)
+    }
+    case AT.ENCODE_PAIRING_CODE_SUCCESS: {
+      return assoc('pairing_code', Remote.Success(payload), state)
+    }
+    case AT.ENCODE_PAIRING_CODE_FAILURE: {
+      return assoc('pairing_code', Remote.Failure(payload), state)
     }
     default:
       return state

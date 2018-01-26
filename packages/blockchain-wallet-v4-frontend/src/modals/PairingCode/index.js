@@ -1,46 +1,74 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { getData } from './selectors'
+import { actions } from 'data'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 import { FormattedMessage } from 'react-intl'
-import QRCodeReact from 'qrcode.react'
-
+import styled from 'styled-components'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
+
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const QRCodeContainer = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
+  align-items: center;
   width: 100;
+  height: 256px;
   padding: 30px 0;
 `
 
-const PairingCode = (props) => {
-  const { data, position, total, close, closeAll } = props
+class PairingCodeContainer extends React.Component {
+  componentWillMount () {
+    this.props.actions.encodePairingCode()
+  }
 
-  return (
-    <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='request' onClose={closeAll}>
-        <FormattedMessage id='modals.pairingcode.title' defaultMessage='Pairing code' />
-      </ModalHeader>
-      <ModalBody>
-        <FormattedMessage id='modals.pairingcode.scan' defaultMessage='Scan Pairing Code' />
-        <QRCodeContainer>
-          <QRCodeReact value={data} size={256} />
-        </QRCodeContainer>
-      </ModalBody>
-      <ModalFooter>
-        <Button nature='primary' fullwidth onClick={close}>
-          <FormattedMessage id='modals.pairingcode.close' defaultMessage='Close' />
-        </Button>
-      </ModalFooter>
-    </Modal>
-  )
+  render () {
+    const { data, position, total, close, closeAll } = this.props
+
+    let PairingCode = data.cata({
+      Success: (val) => <Success val={val} />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
+
+    return (
+      <Modal size='large' position={position} total={total}>
+        <ModalHeader icon='request' onClose={closeAll}>
+          <FormattedMessage id='modals.pairingcode.title' defaultMessage='Pairing code' />
+        </ModalHeader>
+        <ModalBody>
+          <FormattedMessage id='modals.pairingcode.scan' defaultMessage='Scan Pairing Code' />
+          <QRCodeContainer>
+            {PairingCode}
+          </QRCodeContainer>
+        </ModalBody>
+        <ModalFooter>
+          <Button nature='primary' fullwidth onClick={close}>
+            <FormattedMessage id='modals.pairingcode.close' defaultMessage='Close' />
+          </Button>
+        </ModalFooter>
+      </Modal>
+    )
+  }
 }
 
-PairingCode.propTypes = {
-  data: PropTypes.string.isRequired,
-  handleClose: PropTypes.func
-}
+const mapStateToProps = (state) => ({
+  data: getData(state)
+})
 
-export default modalEnhancer('PairingCode')(PairingCode)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.core.data.misc, dispatch)
+})
+
+const enhance = compose(
+  modalEnhancer('PairingCode'),
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(PairingCodeContainer)

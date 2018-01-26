@@ -16,11 +16,7 @@ class AlertsContainer extends React.Component {
   }
 
   render () {
-    const { alerts } = this.props
-
-    return (
-      <Alerts alerts={alerts} handleClose={this.handleClose} />
-    )
+    return <Alerts alerts={this.props.alerts} handleClose={this.handleClose} />
   }
 }
 

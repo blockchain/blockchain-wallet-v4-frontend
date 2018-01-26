@@ -107,8 +107,8 @@ const mapStateToProps = (state, ownProps) => ({
   currency: selectors.core.settings.getCurrency(state),
   bitcoinRates: selectors.core.data.bitcoin.getRates(state),
   ethereumRates: selectors.core.data.ethereum.getRates(state),
-  bitcoinOptions: selectors.core.walletOptions.selectBitcoin(state),
-  ethereumOptions: selectors.core.walletOptions.selectEthereum(state)
+  // bitcoinOptions: selectors.core.bitcoin.selectOptions(state),
+  // ethereumOptions: selectors.core.walletOptions.selectEthereum(state)
 })
 
 export default connect(mapStateToProps)(FiatConvertorContainer)

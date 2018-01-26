@@ -13,8 +13,6 @@ export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
   }
 
   const request = (method, endpoint, data) => {
-    console.log('Making shapeshift request ' + endpoint)
-
     let url = shapeShiftRootUrl + endpoint
     let options = {
       method,

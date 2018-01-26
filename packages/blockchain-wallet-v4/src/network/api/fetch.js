@@ -18,15 +18,19 @@ const extractData = (r) => {
   }
 }
 
+const encodeData = (contentType, data) => {
+  switch (contentType) {
+    case 'application/json': return JSON.stringify(data)
+    default: return queryString.stringify(data)
+  }
+}
+
 export default ({ apiCode }) => {
   // Generic request object
   const request = ({ method, url, endPoint, data, sessionToken, contentType = 'application/x-www-form-urlencoded' }) => {
     const defaultHeaders = { 'Content-Type': contentType }
 
-    const formEncodedData = queryString.stringify({
-      ...data,
-      api_code: apiCode
-    })
+    const formEncodedData = encodeData(contentType, { ...data })
 
     const finalHeaders = isNil(sessionToken)
       ? defaultHeaders
@@ -51,10 +55,10 @@ export default ({ apiCode }) => {
   }
 
   // Get request
-  const get = ({ url, endPoint, data, sessionToken }) => request({ method: 'GET', url, endPoint, data, sessionToken })
+  const get = ({ url, endPoint, data, sessionToken, contentType }) => request({ method: 'GET', url, endPoint, data, sessionToken, contentType })
 
   // Post request
-  const post = ({ url, endPoint, data, sessionToken }) => request({ method: 'POST', url, endPoint, data, sessionToken })
+  const post = ({ url, endPoint, data, sessionToken, contentType }) => request({ method: 'POST', url, endPoint, data, sessionToken, contentType })
 
   return {
     get,

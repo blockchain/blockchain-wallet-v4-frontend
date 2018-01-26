@@ -1,31 +1,31 @@
-import { path } from 'ramda'
+import { head, path, prop } from 'ramda'
 import { dataPath } from '../../paths'
-
-export const getBalance = path([dataPath, 'ethereum', 'info', 'final_balance'])
-
-export const getFee = path([dataPath, 'ethereum', 'fee'])
-
-export const getFeeRegular = path([dataPath, 'ethereum', 'fee', 'regular'])
-
-export const getFeePriority = path([dataPath, 'ethereum', 'fee', 'priority'])
-
-export const getGasLimit = path([dataPath, 'ethereum', 'fee', 'gasLimit'])
 
 export const getAddresses = path([dataPath, 'ethereum', 'addresses'])
 
-export const getAddressDetails = (state, address) => path([dataPath, 'ethereum', 'addresses', address])(state)
+export const getFee = path([dataPath, 'ethereum', 'fee'])
+
+export const getInfo = path([dataPath, 'ethereum', 'info'])
+
+export const getLatestBlock = path([dataPath, 'ethereum', 'latest_block'])
 
 export const getRates = path([dataPath, 'ethereum', 'rates'])
 
-export const getRate = currencyCode => path([dataPath, 'ethereum', 'rates', currencyCode])
-
 export const getTransactions = path([dataPath, 'ethereum', 'transactions'])
 
-export const getTransactionsByAddress = (state, address) => path([dataPath, 'ethereum', 'transactions', address])(state)
+// Specific
+export const getBalance = state => getInfo(state).map(prop('final_balance'))
 
-// Legacy stuff
-export const getLegacyAccount = path([dataPath, 'ethereum', 'legacy'])
+export const getFeeRegular = state => getFee(state).map(prop('regular'))
 
-export const getLegacyAccountAddress = path([dataPath, 'ethereum', 'legacy', 'addr'])
+export const getFeePriority = state => getFee(state).map(prop('priority'))
 
-export const getLegacyAccountBalance = path([dataPath, 'ethereum', 'legacy', 'balance'])
+export const getGasLimit = state => getFee(state).map(prop('gasLimit'))
+
+export const getDefaultAddress = state => getAddresses(state).map(head)
+
+export const getAddress = (state, address) => getAddresses(state).map(prop(address))
+
+export const getNonce = (state, address) => getAddresses(state).map(path([address, 'nonce']))
+
+export const getTransactionsByAddress = (state, address) => getTransactions(state).map(prop(address))
