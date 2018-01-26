@@ -1,3 +1,5 @@
+import TYPE from './types'
+
 export default {
   INIT: 16,
   ERROR: 17,
@@ -27,5 +29,13 @@ export default {
   ANNOUNCEMENT_SIGNATURES: 259,
   CHANNEL_ANNOUNCEMENT: 256,
   NODE_ANNOUNCEMENT: 257,
-  CHANNEL_UPDATE: 258
+  CHANNEL_UPDATE: 258,
+
+  extractName: (type) => {
+    for (let a in TYPE) {
+      if (TYPE[a] === type) {
+        return a
+      }
+    }
+  }
 }
