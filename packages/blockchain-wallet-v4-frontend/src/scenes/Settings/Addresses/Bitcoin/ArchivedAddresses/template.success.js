@@ -23,10 +23,7 @@ const Success = (props) => {
     return (
       <TableRow key={i}>
         <TableCell width='30%'>
-          <Text size='13px'>{address.addr}</Text>
-        </TableCell>
-        <TableCell width='30%'>
-          <Text size='13px'><SwitchableDisplay coin='BTC'>{address.info.final_balance}</SwitchableDisplay></Text>
+          <Text size='13px'>{address}</Text>
         </TableCell>
       </TableRow>
     )
