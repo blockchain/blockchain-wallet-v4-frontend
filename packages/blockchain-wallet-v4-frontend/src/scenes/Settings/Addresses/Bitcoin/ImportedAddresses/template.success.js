@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { IconButton, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -15,9 +15,12 @@ const ImportedAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
 `
+const ButtonWrapper = styled.div`
+  margin-top: 10px;
+`
 
 const Success = (props) => {
-  const { importedAddresses } = props
+  const { importedAddresses, handleClick } = props
 
   const importedAddressesTableRows = importedAddresses.map((address, i) => {
     return (
@@ -55,6 +58,11 @@ const Success = (props) => {
         </TableHeader>
         { importedAddressesTableRows }
       </Table>
+      <ButtonWrapper>
+        <IconButton name='up-arrow-in-circle' onClick={handleClick}>
+          <FormattedMessage id='scenes.settings.imported_addresses.import_bitcoin_addr' defaultMessage='Import Bitcoin Address' />
+        </IconButton>
+      </ButtonWrapper>
     </Wrapper>
   )
 }
