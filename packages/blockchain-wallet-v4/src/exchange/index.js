@@ -191,6 +191,12 @@ const displayCoinToFiat = ({ fromCoin, value, fromUnit, toCurrency, rates }) => 
   }
 }
 
+const getSymbol = currency => {
+  const data = Currencies[currency]
+  const tradeUnit = prop('trade', data)
+  return path(['units', tradeUnit, 'symbol'], data)
+}
+
 export {
   DefaultConversion,
   DefaultDisplay,
@@ -212,5 +218,6 @@ export {
   displayBitcoinToEther,
   displayEtherToBitcoin,
   displayCoinToCoin,
-  displayCoinToFiat
+  displayCoinToFiat,
+  getSymbol
 }

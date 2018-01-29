@@ -4,9 +4,10 @@ import {
 } from '../types'
 import {
   prop, compose, curry, mapAccum, isNil, not, findIndex, view, allPass,
-  propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex
+  propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex, equals, toLower
 } from 'ramda'
 import memoize from 'fast-memoize'
+import moment from 'moment'
 
 const unpackInput = prop('prev_out')
 const isLegacy = (wallet, coin) => compose(not, isNil, AddressMap.selectAddress(prop('addr', coin)), Wallet.selectAddresses)(wallet)
@@ -174,13 +175,22 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
   )(tx)
   const [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)
   const { from, to } = selectFromAndto(inputs, outputs, type)
+
+  const formattedDate = time => {
+    const date = moment.utc(time * 1000)
+    return equals(date.year(), moment().year())
+    ? date.format('MMMM D @kk:mm')
+    : date.format('MMMM D YYYY @kk:mm')
+  }
+
   return ({
     double_spend: tx.double_spend,
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
-    type: type,
+    type: toLower(type),
     description: TXNotes.selectNote(tx.hash, txNotes) || '',
     time: tx.time,
+    timeFormatted: formattedDate(tx.time),
     fee: tx.fee,
     confirmations: confirmations,
     inputs: inputs,

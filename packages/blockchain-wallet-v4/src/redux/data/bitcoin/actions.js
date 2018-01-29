@@ -16,9 +16,9 @@ export const fetchFeeFailure = (error) => ({ type: AT.FETCH_BITCOIN_FEE_FAILURE,
 
 // FETCH_BITCOIN_FIAT_AT_TIME
 export const fetchFiatAtTime = (hash, amount, time, currency) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME, payload: {hash, amount, time, currency} })
-export const fetchFiatAtTimeLoading = () => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_LOADING })
-export const fetchFiatAtTimeSuccess = (data) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_SUCCESS, payload: data })
-export const fetchFiatAtTimeFailure = (error) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_FAILURE, payload: error })
+export const fetchFiatAtTimeLoading = (hash, currency) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_LOADING, payload: { hash, currency } })
+export const fetchFiatAtTimeSuccess = (hash, currency, data) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_SUCCESS, payload: { hash, currency, data } })
+export const fetchFiatAtTimeFailure = (hash, currency, error) => ({ type: AT.FETCH_BITCOIN_FIAT_AT_TIME_FAILURE, payload: { hash, currency, error } })
 
 // FETCH_BITCOIN_RATES
 export const fetchRates = () => ({ type: AT.FETCH_BITCOIN_RATES })
