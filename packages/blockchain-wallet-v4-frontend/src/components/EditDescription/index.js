@@ -8,14 +8,19 @@ import EditDescription from './template'
 class EditDescriptionContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { 'toggled': false }
+    this.state = { value: props.value, toggled: false }
     this.handleCancel = this.handleCancel.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     this.handleConfirm = this.handleConfirm.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
   handleCancel () {
     this.setState({ toggled: false })
+  }
+
+  handleChange (e) {
+    this.setState({ value: e.target.value })
   }
 
   handleConfirm () {
@@ -27,12 +32,13 @@ class EditDescriptionContainer extends React.Component {
   }
 
   render () {
-    const { toggled } = this.state
+    const { value, toggled } = this.state
 
     return <EditDescription
-      value={this.props.value}
+      value={value}
       toggled={toggled}
       handleCancel={this.handleCancel}
+      handleChange={this.handleChange}
       handleConfirm={this.handleConfirm}
       handleToggle={this.handleToggle}
     />
