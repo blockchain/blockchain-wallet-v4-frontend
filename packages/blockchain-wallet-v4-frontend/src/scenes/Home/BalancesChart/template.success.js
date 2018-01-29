@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Color, Text } from 'blockchain-info-components'
 import configure from './chart.config.js'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -26,9 +27,13 @@ const ColourBar = styled.div`
   height: 5px;
   background-color: ${props => props.color};
 `
+const CoinBalance = styled.div`
+  cursor: pointer;
+`
 
 const BalancesChart = (props) => {
-  const { bitcoinBalance, etherBalance, chartData, symbol } = props.balances
+  const { balances, handleCoinDisplay } = props
+  const { bitcoinBalance, etherBalance, chartData, symbol } = balances
 
   return (
     <Wrapper>
@@ -42,14 +47,18 @@ const BalancesChart = (props) => {
           <Text>
             <FormattedMessage id='scenes.home.balanceschart.btc' defaultMessage='Bitcoin' />
           </Text>
-          <CoinDisplay coin='BTC'>{bitcoinBalance}</CoinDisplay>
+          <CoinBalance onClick={handleCoinDisplay}>
+            <SwitchableDisplay coin='BTC'>{bitcoinBalance}</SwitchableDisplay>
+          </CoinBalance>
         </Column>
         <Column>
           <ColourBar color={Color('brand-secondary')} />
           <Text>
             <FormattedMessage id='scenes.home.balanceschart.eth' defaultMessage='Ether' />
           </Text>
-          <CoinDisplay coin='ETH'>{etherBalance}</CoinDisplay>
+          <CoinBalance onClick={handleCoinDisplay}>
+            <SwitchableDisplay coin='ETH'>{etherBalance}</SwitchableDisplay>
+          </CoinBalance>
         </Column>
         <Column>
           <ColourBar color={Color('brand-tertiary')} />
