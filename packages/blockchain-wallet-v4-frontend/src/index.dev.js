@@ -38,9 +38,10 @@ setTimeout(() => {
 
 // TODO move to bootstrap section
   store.dispatch(startSocket())
+  store.dispatch({type: 'LOGIN', payload: {guid: '2d2e974b-c148-404a-a704-99e51f0bf36d', password: '1234567890a'}})
 }, 500)
 
 // TODO this is simulating the user opening a payment channel
 setTimeout(() => {
-  store.dispatch(open(peer, Long.fromNumber(1000)))
-}, 1000)
+  store.dispatch(open(peer, Long.fromNumber(100000)))
+}, 2500)
