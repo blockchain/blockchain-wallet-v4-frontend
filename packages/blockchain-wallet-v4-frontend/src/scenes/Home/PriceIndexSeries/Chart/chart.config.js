@@ -1,6 +1,6 @@
 export default (start, interval, currency, data) => ({
   chart: {
-    height: 300
+    height: 230
   },
   title: {
     text: null
@@ -39,7 +39,7 @@ export default (start, interval, currency, data) => ({
     }
   },
   tooltip: {
-    pointFormat: '{series.name}(' + currency + '): {point.y}'
+    pointFormat: currency + ' {point.y}'
   },
   credits: {
     enabled: false

@@ -7,12 +7,12 @@ const Wrapper = styled.div`
 `
 
 export default props => {
-  const { selected, children, ...rest } = props
+  const { selected, children, coin, ...rest } = props
 
   return (
     <Wrapper>
-      <Link size='24px' weight={300} color={selected ? 'brand-primary' : 'gray-1'} {...rest}>
-        {`ETH = ${children}`}
+      <Link size='14px' weight={300} color={selected ? 'brand-secondary' : 'gray-1'} {...rest}>
+        {`${coin} = ${children}`}
       </Link>
     </Wrapper>
   )
