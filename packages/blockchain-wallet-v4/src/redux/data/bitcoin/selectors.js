@@ -44,4 +44,4 @@ export const getSelection = path([dataPath, 'bitcoin', 'payment', 'selection'])
 
 export const getEffectiveBalance = path([dataPath, 'bitcoin', 'payment', 'effectiveBalance'])
 
-export const getFiatAtTime = curry((state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))
+export const getFiatAtTime = (state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state)
