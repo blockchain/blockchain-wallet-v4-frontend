@@ -9,10 +9,13 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class BalancesChartContainer extends React.Component {
-  componentWillMount () {
+  constructor (props) {
+    super(props)
+    this.handleCoinDisplay = this.handleCoinDisplay.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
+  handleCoinDisplay () {
+    this.props.preferencesActions.toggleCoinDisplayed()
   }
 
   render () {
@@ -21,6 +24,7 @@ class BalancesChartContainer extends React.Component {
     return data.cata({
       Success: (value) => <Success
         balances={value}
+        handleCoinDisplay={this.handleCoinDisplay}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -34,7 +38,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataMiscActions: bindActionCreators(actions.core.data.misc, dispatch)
+  dataMiscActions: bindActionCreators(actions.core.data.misc, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BalancesChartContainer)

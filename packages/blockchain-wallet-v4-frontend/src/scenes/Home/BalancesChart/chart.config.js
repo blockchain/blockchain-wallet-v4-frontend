@@ -32,7 +32,8 @@ export default (chartData, symbol) => {
     },
     tooltip: {
       enabled: total > 0,
-      valuePrefix: `${symbol}`
+      valuePrefix: `${symbol}`,
+      pointFormat: '{point.y}'
     },
     series: [{
       type: 'pie',
