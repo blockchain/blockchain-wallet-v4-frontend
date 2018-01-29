@@ -102,7 +102,7 @@ export const peerSagas = (tcpConn) => {
 
   const sendMessage = function * (action) {
     let {publicKey, message} = action
-    console.info('[<-] ' + TYPE.extractName(message.type) + ': ', message)
+    console.info('[->] ' + TYPE.extractName(message.type) + ': ', message)
     let connection = peers[publicKey.toString('hex')]
     connection.write(writeMessage(message))
   }
