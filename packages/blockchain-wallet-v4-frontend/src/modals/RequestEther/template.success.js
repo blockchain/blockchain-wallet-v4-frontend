@@ -34,7 +34,7 @@ const ScanMessage = styled.div`
 
 const RequestEther = (props) => {
   const { position, total, closeAll, ...rest } = props
-  const { onSubmit, receiveAddress } = rest
+  const { onSubmit, address } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -56,7 +56,7 @@ const RequestEther = (props) => {
             </Tooltip>
           </Text>
           <AddressContainer>
-            <CopyClipboard address={receiveAddress} />
+            <CopyClipboard address={address} />
           </AddressContainer>
           <Separator>
             <Text size='14px' weight={300} uppercase>
@@ -72,7 +72,7 @@ const RequestEther = (props) => {
                 </Tooltip>
               </Text>
             </ScanMessage>
-            <QRCodeReact value={receiveAddress} size={150} />
+            <QRCodeReact value={address} size={150} />
           </QRCodeContainer>
           <Button type='submit' nature='primary' fullwidth uppercase>
             <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
@@ -86,7 +86,7 @@ const RequestEther = (props) => {
 RequestEther.propTypes = {
   position: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired,
-  receiveAddress: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 

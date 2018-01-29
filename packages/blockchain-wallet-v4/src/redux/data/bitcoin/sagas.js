@@ -10,7 +10,7 @@ const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resol
 export const bitcoin = ({ api } = {}) => {
   const signAndPublish = function * ({ network, selection, password }) {
     const wrapper = yield select(wS.getWrapper)
-    const signAndPublish = (sel, pass) => taskToPromise(sign(network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushTx)))
+    const signAndPublish = (sel, pass) => taskToPromise(sign(network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushBitcoinTx)))
     return yield call(signAndPublish, selection, password)
   }
 
