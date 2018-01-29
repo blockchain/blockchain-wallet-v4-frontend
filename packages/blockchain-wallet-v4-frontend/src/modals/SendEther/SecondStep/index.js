@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+import settings from 'config'
 import { getData } from './selectors'
 import SecondStep from './template'
 
@@ -15,8 +16,10 @@ class SecondStepContainer extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     // TODO: See how to use the message for the transaction
-    const { from, to, message, amount, fee } = this.props.data
-    // this.props.sendEtherActions.sendEther(from, to, amount, fee)
+    const { from, to, message, amount, gasPrice, gasLimit, nonce } = this.props.data
+    const network = settings.NETWORK_ETHEREUM
+    const data = { from, to, message, amount, gasPrice, gasLimit, nonce }
+    this.props.sendEtherActions.sendEther(network, data)
   }
 
   render () {

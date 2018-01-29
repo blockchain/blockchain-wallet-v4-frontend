@@ -1,9 +1,13 @@
 import { curry, compose, lensProp, map, forEach, addIndex } from 'ramda'
 import { traversed, traverseOf } from 'ramda-lens'
 import Bitcoin from 'bitcoinjs-lib'
+import BigNumber from 'bignumber.js'
+import EthereumTx from 'ethereumjs-tx'
 import Task from 'data.task'
 import { Wrapper, Wallet } from '../types'
 import * as Coin from '../coinSelection/coin.js'
+import * as eth from '../utils/ethereum'
+import * as btc from '../utils/bitcoin'
 // import memoize from 'fast-memoize'
 // import shuffle from 'fisher-yates'
 // import { List } from 'immutable-ext'
@@ -39,3 +43,38 @@ export const sign = curry((network, secondPassword, wrapper, selection) => {
 //   const selectionWithKeys = Task.of(set(compose(lensProp('inputs'), mapped, Coin.priv), mykey, selection))
 //   return map(signSelection(network), selectionWithKeys)
 // })
+// //////////////////////////////////////////////////////////////////////////////
+
+// Ethereum (we must organize eth/btc folders)
+/**
+ * @param {integer} network - The ethereum network
+ * @param {string} secondPassword - The second password
+ * @param {object} wrapper - The wallet payload
+ * @param {object} data - The ethereum transaction data (from, index, to, amount, nonce, gasPrice, gasLimit)
+ */
+export const signETH = curry((network, mnemonic, data) => {
+  const { nonce, gasPrice, gasLimit, to, amount, from } = data
+  const privateKey = eth.getPrivateKey(mnemonic, from.index).getWallet().getPrivateKey()
+  const txParams = {
+    to,
+    nonce: toHex(nonce),
+    gasPrice: toHex(gasPrice),
+    gasLimit: toHex(gasLimit),
+    value: toHex(amount),
+    chainId: network || 1
+  }
+  const tx = new EthereumTx(txParams)
+  tx.sign(privateKey)
+  const rawTx = '0x' + tx.serialize().toString('hex')
+  return Task.of(rawTx)
+})
+
+const isOdd = str => str.length % 2 !== 0
+
+/**
+ * @param {string|number} value - The number to convert
+ */
+const toHex = value => {
+  const hex = new BigNumber(value).toString(16)
+  return isOdd(hex) ? `0x0${hex}` : `0x${hex}`
+}

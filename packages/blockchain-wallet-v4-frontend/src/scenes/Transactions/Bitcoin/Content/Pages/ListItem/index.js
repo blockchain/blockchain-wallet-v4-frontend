@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import ListItem from './template.js'
 
 class ListItemContainer extends React.Component {
@@ -14,11 +14,6 @@ class ListItemContainer extends React.Component {
   }
 
   handleToggle () {
-    // const { transaction, fiatAtTime } = this.props
-    // if (!this.state.toggled && !fiatAtTime) {
-    //   this.props.bitcoinTransactionsActions.getBitcoinFiatAtTime('bitcoin', transaction.hash, transaction.amount, transaction.time * 1000)
-    // }
-
     this.setState({ toggled: !this.state.toggled })
   }
 
@@ -27,24 +22,12 @@ class ListItemContainer extends React.Component {
   }
 
   render () {
-    const { fiatAtTime, transaction } = this.props
-
-    return <ListItem
-      transaction={transaction}
-      fiatAtTime={fiatAtTime}
-      toggled={this.state.toggled}
-      handleToggle={this.handleToggle}
-      handleClick={this.handleCoinToggle}
-    />
+    return <ListItem transaction={this.props.transaction} toggled={this.state.toggled} handleToggle={this.handleToggle} handleClick={this.handleCoinToggle} />
   }
 }
-
-const mapStateToProps = (state, ownProps) => ({
-  // transaction: selectors.modules.transactionBitcoin.getTransactionBitcoin(state, ownProps.transaction.hash, ownProps.currency)
-})
 
 const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListItemContainer)
+export default connect(undefined, mapDispatchToProps)(ListItemContainer)

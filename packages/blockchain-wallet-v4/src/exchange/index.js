@@ -1,6 +1,6 @@
 import { path, prop } from 'ramda'
-import * as Currency from './Currency'
-import * as Pairs from './Pairs'
+import * as Currency from './currency'
+import * as Pairs from './pairs'
 import * as Currencies from './currencies'
 
 const { BTC, ETH } = Currencies
@@ -184,6 +184,19 @@ const displayCoinToCoin = ({ value, coin, baseToStandard }) => {
   }
 }
 
+const displayCoinToFiat = ({ fromCoin, value, fromUnit, toCurrency, rates }) => {
+  switch (fromCoin) {
+    case 'BTC': return displayBitcoinToFiat({ value, fromUnit, toCurrency, rates })
+    case 'ETH': return displayEtherToFiat({ value, fromUnit, toCurrency, rates })
+  }
+}
+
+const getSymbol = currency => {
+  const data = Currencies[currency]
+  const tradeUnit = prop('trade', data)
+  return path(['units', tradeUnit, 'symbol'], data)
+}
+
 export {
   DefaultConversion,
   DefaultDisplay,
@@ -204,5 +217,7 @@ export {
   displayEtherToEther,
   displayBitcoinToEther,
   displayEtherToBitcoin,
-  displayCoinToCoin
+  displayCoinToCoin,
+  displayCoinToFiat,
+  getSymbol
 }
