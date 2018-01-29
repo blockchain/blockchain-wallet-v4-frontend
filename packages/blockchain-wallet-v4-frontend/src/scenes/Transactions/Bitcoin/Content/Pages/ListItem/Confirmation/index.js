@@ -24,7 +24,7 @@ const TransactionTooltip = styled.div`
   & > :last-child { width: 20px; margin-left: 10px; }
 `
 
-const Confirmation = props => props.confirmations < 3
+const Confirmation = props => props.confirmations > 3
 ? (
   <Wrapper>
     <Link href={`${settings.ROOT_URL}tx/${props.hash}`} target='_blank'>
