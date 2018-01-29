@@ -8,7 +8,7 @@ import { Icon, Text } from 'blockchain-info-components'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 200px;
   height: 50px;
@@ -43,13 +43,13 @@ const EditButtons = styled.div`
 `
 
 const EditDescription = props => {
-  const { toggled, handleCancel, handleConfirm, handleToggle } = props
+  const { value, toggled, handleCancel, handleChange, handleConfirm, handleToggle } = props
 
   return (
     <Wrapper onClick={handleToggle}>
       {toggled ? (
         <Container>
-          <EditArea />
+          <EditArea value={value} onChange={handleChange} />
           <EditButtons>
             <Icon name='checkmark' size='14px' weight={500} color='success' cursor onMouseDown={handleConfirm} />
             <Icon name='close' size='14px' weight={500} color='sent' cursor onMouseDown={handleCancel} />
@@ -57,11 +57,20 @@ const EditDescription = props => {
         </Container>
       ) : (
         <Text size='14px' weight={300} italic cursor>
-          <FormattedMessage id='components.editdescription.add' defaultMessage='Add a description' />
+          { props.value || <FormattedMessage id='components.editdescription.add' defaultMessage='Add a description' />}
         </Text>
       )}
     </Wrapper>
   )
+}
+
+EditDescription.propTypes = {
+  value: PropTypes.string.isRequired,
+  toggled: PropTypes.bool.isRequired,
+  handleCancel: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleConfirm: PropTypes.func.isRequired,
+  handleToggle: PropTypes.func.isRequired
 }
 
 export default EditDescription

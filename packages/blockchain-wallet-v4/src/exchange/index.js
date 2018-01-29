@@ -184,6 +184,12 @@ const displayCoinToCoin = ({ value, coin, baseToStandard }) => {
   }
 }
 
+const getSymbol = currency => {
+  const data = Currencies[currency]
+  const tradeUnit = prop('trade', data)
+  return path(['units', tradeUnit, 'symbol'], data)
+}
+
 export {
   DefaultConversion,
   DefaultDisplay,
@@ -204,5 +210,6 @@ export {
   displayEtherToEther,
   displayBitcoinToEther,
   displayEtherToBitcoin,
-  displayCoinToCoin
+  displayCoinToCoin,
+  getSymbol
 }
