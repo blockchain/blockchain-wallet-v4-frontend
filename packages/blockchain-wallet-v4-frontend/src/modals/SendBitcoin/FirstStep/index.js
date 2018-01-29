@@ -70,6 +70,7 @@ class FirstStep extends React.Component {
         handleSubmit={this.handleSubmit}
         handleClickAddressToggler={this.handleClickAddressToggler}
         handleClickFeeToggler={this.handleClickFeeToggler}
+        fee={data.data.fee}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
