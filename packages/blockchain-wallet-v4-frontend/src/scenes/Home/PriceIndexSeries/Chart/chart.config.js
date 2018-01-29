@@ -1,3 +1,5 @@
+import { Color } from 'blockchain-info-components'
+
 export default (start, interval, currency, data) => ({
   chart: {
     height: 230
@@ -12,6 +14,9 @@ export default (start, interval, currency, data) => ({
     labels: {
       formatter: function () {
         return (currency + this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+      },
+      style: {
+        color: Color('black')
       }
     },
     lineWidth: 1,
@@ -22,13 +27,13 @@ export default (start, interval, currency, data) => ({
     tickWidth: 0,
     labels: {
       style: {
-        color: 'gray'
+        color: Color('black')
       }
     }
   },
   plotOptions: {
     series: {
-      color: '#10ADE4',
+      color: Color('brand-secondary'),
       pointStart: start,
       pointInterval: interval
     },
