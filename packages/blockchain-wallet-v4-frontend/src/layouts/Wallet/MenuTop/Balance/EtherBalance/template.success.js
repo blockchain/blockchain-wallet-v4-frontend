@@ -23,7 +23,7 @@ const Success = props => {
 
   return (
     <LinkContainer to='/eth/transactions'>
-      <Wrapper>
+      <Wrapper large={large}>
         <CoinDisplay coin='ETH' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</CoinDisplay>
         <FiatDisplay coin='ETH' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</FiatDisplay>
       </Wrapper>
