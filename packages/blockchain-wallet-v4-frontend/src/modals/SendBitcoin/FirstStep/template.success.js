@@ -76,7 +76,7 @@ const validAmount = (value, allValues, props) => parseFloat(value) <= props.effe
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = props => {
-  const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, selection, ...rest } = props
+  const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, selection, fee, ...rest } = props
   const { handleSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest
 
   return (
@@ -139,10 +139,7 @@ const FirstStep = props => {
           }
         </ColLeft>
         <ColRight>
-          {/* {selection.fee
-            ? <ComboDisplay coin='BTC'>{selection.fee}</ComboDisplay>
-            : <div />
-          } */}
+          <ComboDisplay coin='BTC'>{fee}</ComboDisplay>
           <Link onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
             {feeEditToggled
               ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
@@ -167,6 +164,7 @@ FirstStep.propTypes = {
   addressSelectOpened: PropTypes.bool.isRequired,
   feeEditToggled: PropTypes.bool.isRequired,
   // selection: PropTypes.object.isRequired,
+  fee: PropTypes.number.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,
   handleClickFeeToggler: PropTypes.func.isRequired
