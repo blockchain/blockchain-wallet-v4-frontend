@@ -13,11 +13,11 @@ const Wrapper = styled.div`
   width: 200px;
   height: 50px;
 `
-const Container = styled.div`
+const EditContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   height: 100%;
   border: 1px solid ${props => props.theme['gray-2']};
@@ -34,12 +34,21 @@ const EditArea = styled.textarea`
 const EditButtons = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   height: 100%;
   padding: 5px;
+  box-sizing: border-box;
 
   & > * { height: 50%; }
+`
+const DisplayContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `
 
 const EditDescription = props => {
@@ -48,17 +57,20 @@ const EditDescription = props => {
   return (
     <Wrapper onClick={handleToggle}>
       {toggled ? (
-        <Container>
+        <EditContainer>
           <EditArea value={value} onChange={handleChange} />
           <EditButtons>
             <Icon name='checkmark' size='14px' weight={500} color='success' cursor onMouseDown={handleConfirm} />
             <Icon name='close' size='14px' weight={500} color='sent' cursor onMouseDown={handleCancel} />
           </EditButtons>
-        </Container>
+        </EditContainer>
       ) : (
-        <Text size='14px' weight={300} italic cursor>
-          { props.value || <FormattedMessage id='components.editdescription.add' defaultMessage='Add a description' />}
-        </Text>
+        <DisplayContainer>
+          <Text size='14px' weight={300} italic>
+            {props.value || <FormattedMessage id='components.editdescription.add' defaultMessage='Add a description' />}
+          </Text>
+          <Icon name='pencil' cursor />
+        </DisplayContainer>
       )}
     </Wrapper>
   )

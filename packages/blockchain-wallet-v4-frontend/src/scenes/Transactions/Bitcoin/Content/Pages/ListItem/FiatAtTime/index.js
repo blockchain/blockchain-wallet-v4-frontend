@@ -17,7 +17,6 @@ class FiatAtTime extends React.Component {
 
   render () {
     const { data } = this.props
-    console.log(data)
 
     return data.cata({
       Success: (value) => <Success currency={value.currency} fiatAtTime={value.fiatAtTime} />,
