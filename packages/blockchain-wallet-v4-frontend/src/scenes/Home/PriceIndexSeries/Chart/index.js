@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import { selectPriceIndexSeriesOptions } from 'services/ChartService'
 import configure from './chart.config.js'
@@ -14,9 +15,11 @@ import Success from './template.success'
 
 class Chart extends React.Component {
   componentWillMount () {
-    const { coin, currency, timeframe } = this.props
-    const { start, scale } = selectPriceIndexSeriesOptions(coin, timeframe)
-    this.props.dataMiscActions.fetchPriceIndexSeries(coin, currency, start, scale)
+    if (Remote.NotAsked.is(this.props.data)) {
+      const { coin, currency, timeframe } = this.props
+      const { start, scale } = selectPriceIndexSeriesOptions(coin, timeframe)
+      this.props.dataMiscActions.fetchPriceIndexSeries(coin, currency, start, scale)
+    }
   }
 
   componentWillReceiveProps (nextProps) {
