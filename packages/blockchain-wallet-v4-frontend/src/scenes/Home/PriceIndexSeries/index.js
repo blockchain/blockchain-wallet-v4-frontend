@@ -28,6 +28,7 @@ class PriceIndexSeries extends React.Component {
     const { data } = this.props
     const { coin, timeframe } = this.state
 
+    console.log(data)
     return data.cata({
       Success: (value) => <Success currency={value.currency} coin={coin} timeframe={timeframe} selectCoin={this.selectCoin} selectTimeframe={this.selectTimeframe} />,
       Failure: (message) => <Error>{message}</Error>,
