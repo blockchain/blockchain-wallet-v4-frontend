@@ -4,6 +4,7 @@ import ActivityList from './ActivityList'
 import BalanceSummary from './BalanceSummary'
 import DidYouKnow from './DidYouKnow'
 import PriceIndexSeries from './PriceIndexSeries'
+import BalancesChartContainer from './BalancesChart'
 
 const Wrapper = styled.section`
   display: flex;
@@ -34,6 +35,7 @@ const Home = (props) => {
   return (
     <Wrapper>
       <ColumnLeft>
+        <BalancesChartContainer />
         <BalanceSummary />
         <ActivityList />
       </ColumnLeft>
