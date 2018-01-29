@@ -1,7 +1,7 @@
 import * as AT from './actionTypes'
 
 // update
-export const updateWhatsNew = (lastViewed) => ({ type: AT.UPDATE_WHATS_NEW, payload: { lastViewed } })
+export const updateMetadataWhatsNew = (lastViewed) => ({ type: AT.UPDATE_METADATA_WHATSNEW, payload: { lastViewed } })
 
 // FETCH_METADATA_WHATSNEW
 export const fetchMetadataWhatsnew = () => ({ type: AT.FETCH_METADATA_WHATSNEW })
