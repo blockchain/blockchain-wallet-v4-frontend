@@ -95,15 +95,14 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchFiatAtTime = function * ({ type, payload }) {
-    const { hash, amount, time, currency } = payload
+  const fetchFiatAtTime = function * (action) {
+    const { hash, amount, time, currency } = action.payload
     try {
-      yield put(A.fetchFiatAtTimeLoading())
-      // const currency = yield select(selectors.settings.getCurrency)
-      const data = yield call(api.getBitcoinFiatAtTime, amount, time)
-      yield put(A.fetchFiatAtTimeSuccess({ currency: { hash: data } }))
+      yield put(A.fetchFiatAtTimeLoading(hash, currency))
+      const data = yield call(api.getBitcoinFiatAtTime, amount, currency, time)
+      yield put(A.fetchFiatAtTimeSuccess(hash, currency, data))
     } catch (e) {
-      yield put(A.fetchFiatAtTimeFailure(e.message))
+      yield put(A.fetchFiatAtTimeFailure(hash, currency, e.message))
     }
   }
 
@@ -120,16 +119,6 @@ export default ({ api } = {}) => {
     }
   }
 
-  const publishTransaction = function * ({ type, payload }) {
-    const { network, selection, password } = payload
-    try {
-      const wrapper = yield select(selectors.wallet.getWrapper)
-      const signAndPublish = (sel, pass) => taskToPromise(sign(network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushTx)))
-      return yield call(signAndPublish, selection, password)
-    } catch (e) {
-    }
-  }
-
   return function * () {
     yield takeLatest(AT.FETCH_BITCOIN_DATA, fetchData)
     yield takeLatest(AT.FETCH_BITCOIN_FEE, fetchFee)
@@ -139,6 +128,5 @@ export default ({ api } = {}) => {
     yield fork(watchTransactions)
     yield takeLatest(AT.FETCH_BITCOIN_TRANSACTION_HISTORY, fetchTransactionHistory)
     yield takeLatest(AT.FETCH_BITCOIN_UNSPENT, fetchUnspent)
-    yield takeLatest(AT.PUBLISH_BITCOIN_TRANSACTION, publishTransaction)
   }
 }

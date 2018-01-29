@@ -22,7 +22,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'mempool/fees'
   })
 
-  const pushTx = (txHex) => post({
+  const pushBitcoinTx = (txHex) => post({
     url: rootUrl,
     endPoint: 'pushtx',
     data: { tx: txHex, format: 'plain' }
@@ -48,7 +48,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getBitcoinTicker,
     getBitcoinUnspents,
     getBitcoinFee,
-    pushTx,
+    pushBitcoinTx,
     getBitcoinFiatAtTime,
     getLatestBlock,
     getRawTx

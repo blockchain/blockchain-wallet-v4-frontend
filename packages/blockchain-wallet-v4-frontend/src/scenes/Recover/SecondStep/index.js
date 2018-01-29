@@ -16,7 +16,7 @@ class RecoverContainer extends React.Component {
   onSubmit (e) {
     e.preventDefault()
     const { mnemonic, email, password } = this.props
-    const network = settings.NETWORK
+    const network = settings.NETWORK_BITCOIN
     this.props.authActions.restore(mnemonic, email, password, network)
   }
 
