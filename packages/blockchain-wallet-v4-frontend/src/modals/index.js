@@ -20,6 +20,7 @@ import TwoStepSetup from './TwoStepSetup'
 import TwoStepYubico from './TwoStepYubico'
 import UpgradeWallet from './UpgradeWallet'
 import Welcome from './Welcome'
+import SendConfirm from './SendConfirm'
 
 const Modals = props => (
   <div>
@@ -43,6 +44,7 @@ const Modals = props => (
     <TwoStepYubico />
     <UpgradeWallet />
     <Welcome />
+    <SendConfirm />
   </div>
 )
 

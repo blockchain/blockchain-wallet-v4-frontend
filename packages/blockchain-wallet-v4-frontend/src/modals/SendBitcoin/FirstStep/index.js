@@ -55,7 +55,9 @@ class FirstStep extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    this.props.nextStep()
+    // this.props.nextStep()
+    this.props.modalActions.closeAllModals()
+    this.props.modalActions.showModal('SendConfirm', { sendData: this.props, coin: 'BTC' })
   }
 
   render () {
