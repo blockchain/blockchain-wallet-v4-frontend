@@ -1,48 +1,43 @@
-
 import React, { Component } from 'react'
-import { AppState, NavigatorIOS, StatusBar, StyleSheet, TabBarIOS, Text, View } from 'react-native'
-import { Network, Types } from 'blockchain-wallet-v4/src'
-import { NavigationBar } from './components'
-import { Dashboard, Pin, Request, Send, Splash, Transactions } from './scenes'
+import { compose, createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import { Provider } from 'react-redux'
+import { AppState, NativeModules, NavigatorIOS, StatusBar, StyleSheet, TabBarIOS, Text, View } from 'react-native'
+import { BarButtonItem, NavigationBar } from './components'
+import { Dashboard, Pin, Request, Scan, Send, Splash, Transactions } from './scenes'
 import images from '@assets/images'
-import { NativeModules } from 'react-native'
+import { log } from 'util'
+import { rootReducer, rootSaga } from './data'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start'
-  },
-  navigator: { flex: 1 }
-})
+const sagaMiddleWare = createSagaMiddleware()
 
-const api = Network.createWalletApi({
-  rootUrl: 'https://blockchain.info/',
-  apiUrl: 'https://api.blockchain.info/',
-  apiCode: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-})
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+let store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(sagaMiddleWare))
+)
+
+sagaMiddleWare.run(rootSaga)
 
 export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      appState: AppState.currentState,
-      wallet: null,
-      loading: true,
-      selectedTab: 0
+      activeScene: null, // the currently active scene
+      appState: AppState.currentState, // active, inactive or background
+      wallet: null, // the wallet payload
+      loading: true, // is the wallet loading?
+      selectedTab: 0, // currently selected tab in the tab bar
     }
   }
 
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange)
-    var PasswordStretcher = NativeModules.PasswordStretcher
-    // PasswordStretcher.stretchPassword("password123").then(function(){console.log('stretchPassword called');}).catch(function(e) {
-    //   console.log(e)
-    // })
   }
 
   componentWillMount() {
     StatusBar.setBarStyle('light-content', true)
-    this.loadWallet()
   }
 
   componentWillUnmount() {
@@ -63,56 +58,84 @@ export default class App extends Component {
     })
   }
 
+  // Tab Bar item events
+
   setSelectedTab(idx) {
     this.setState({ selectedTab: idx })
   }
 
+  // Navigation Bar item events
+
+  revealMenu() {}
+
+  scanQRCode() {
+    console.log("Scanning qr code");
+  }
+
   render() {
-    let { appState, loading, selectedTab, wallet } = this.state
+    const { appState, loading, selectedTab, wallet } = this.state
     if (appState === 'inactive') {
       return <Splash />
     }
     return (
-      (!wallet ? <Pin /> :
-      <View style={styles.container}>
-        <NavigationBar />
-        <Text>{appState}</Text>
-        <TabBarIOS
-          barTintColor="#FFF"
-          tintColor="#004A7C"
-          translucent={false} >
-          <TabBarIOS.Item
-            icon={images.home}
-            onPress={() => this.setSelectedTab(0)}
-            selected={selectedTab === 0}
-            selectedIcon={images.home_selected}
-            title="Dashboard">
-              <Dashboard />
-          </TabBarIOS.Item>
-          <TabBarIOS.Item
-            icon={require('../assets/img/send.png')}
-            onPress={() => this.setSelectedTab(1)}
-            selected={selectedTab === 1}
-            title="Send">
-              <Send />
-          </TabBarIOS.Item>
-          <TabBarIOS.Item
-            icon={require('../assets/img/request.png')}
-            onPress={() => this.setSelectedTab(2)}
-            selected={selectedTab === 2}
-            title="Request">
-              <Request />
-          </TabBarIOS.Item>
-          <TabBarIOS.Item
-            icon={images.transactions}
-            onPress={() => this.setSelectedTab(3)}
-            selected={selectedTab === 3}
-            selectedIcon={images.transactions_selected}
-            title="Transactions">
-              <Transactions />
-          </TabBarIOS.Item>
-        </TabBarIOS>
-      </View>)
+      <Provider store={store}>
+        <View style={styles.container}>
+          <NavigationBar
+            leftItem={<BarButtonItem icon={images.menu} onPress={() => this.revealMenu()} tintColor="#FFF" />}
+            rightItem={<BarButtonItem icon={images.QRCode} onPress={() => this.scanQRCode()} tintColor="#FFF" />}
+            title={<Text style={styles.navigationBarTitle}>$0.00</Text>}
+          />
+          <TabBarIOS
+            barTintColor="#FFF"
+            tintColor="#004A7C"
+            translucent={false}>
+            <TabBarIOS.Item
+              icon={images.home}
+              onPress={() => this.setSelectedTab(0)}
+              selected={selectedTab === 0}
+              selectedIcon={images.home_selected}
+              title="Dashboard">
+                <Dashboard />
+            </TabBarIOS.Item>
+            <TabBarIOS.Item
+              icon={images.send}
+              onPress={() => this.setSelectedTab(1)}
+              selected={selectedTab === 1}
+              title="Send">
+                <Send />
+            </TabBarIOS.Item>
+            <TabBarIOS.Item
+              icon={images.request}
+              onPress={() => this.setSelectedTab(2)}
+              selected={selectedTab === 2}
+              title="Request">
+                <Request />
+            </TabBarIOS.Item>
+            <TabBarIOS.Item
+              icon={images.transactions}
+              onPress={() => this.setSelectedTab(3)}
+              selected={selectedTab === 3}
+              selectedIcon={images.transactions_selected}
+              title="Transactions">
+                <Transactions />
+            </TabBarIOS.Item>
+          </TabBarIOS>
+        </View>
+      </Provider>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start'
+  },
+  navigationBarTitle: {
+    fontSize: 30,
+    fontFamily: "Montserrat-Light",
+    fontWeight: "300",
+    color: "#FFF",
+    textAlign: "center"
+  },
+})
