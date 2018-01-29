@@ -73,29 +73,22 @@ export let trimPredicate = (feePerKw, dustLimit) => p => {
   return payment.amount.div(1000).sub(fee).greaterThanOrEqual(dustLimit)
 }
 
-export let createSigCheckKeySet = (channel) => {
-  let stateRemote = channel.remote
-  let paramsLocal = channel.paramsLocal
-  let paramsRemote = channel.paramsRemote
+export let createSigCheckKeySet = ({local, paramsRemote, paramsLocal}) => {
 
   return createKeySetInternal(
-    stateRemote.nextCommitmentPoint,
-    paramsLocal.revocationBasepoint,
+    local.nextCommitmentPoint,
+    paramsRemote.revocationBasepoint,
     paramsRemote.paymentBasepoint,
-    paramsRemote.delayedPaymentBasepoint,
+    paramsLocal.delayedPaymentBasepoint,
     paramsLocal.htlcBasepoint,
     paramsRemote.htlcBasepoint,
     paramsLocal.fundingKey,
     paramsRemote.fundingKey)
 }
 
-export let createSigCreateKeySet = (channel) => {
-  let stateLocal = channel.local
-  let paramsLocal = channel.paramsLocal
-  let paramsRemote = channel.paramsRemote
-
+export let createSigCreateKeySet = ({remote, paramsRemote, paramsLocal}) => {
   return createKeySetInternal(
-    stateLocal.nextCommitmentPoint,
+    remote.nextCommitmentPoint,
     paramsRemote.revocationBasepoint,
     paramsLocal.paymentBasepoint,
     paramsLocal.delayedPaymentBasepoint,
