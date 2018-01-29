@@ -6,28 +6,19 @@ import {
   createCommitmentSigned,
   createFundingCreated, createOpenChannel, createRevokeAck,
   readAcceptChannel, readCommitmentSigned, readFundingSigned, readRevokeAck,
-  readUpdateAddHtlc, createFundingLocked, readFundingLocked
-} from './channel'
+  readUpdateAddHtlc, createFundingLocked, readFundingLocked, createFundingOutput
+} from './channel';
 import {opened, refresh} from './actions'
 import {copy, wrapHex, wrapPubKey} from '../helper'
 import TYPE from '../messages/types'
 import {sendMessage} from '../peers/actions'
 import {getChannelDir, getChannel} from './selectors'
-
-const Long = require('long')
-
-let options = {
-  chainHash: Buffer.from('000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943', 'hex').reverse(),
-  dustLimitSatoshis: Long.fromNumber(546),
-  maxHtlcValueInFlightMsat: Long.fromNumber(100000),
-  channelReserveSatoshis: Long.fromNumber(1000),
-  feeRatePerKw: 10000,
-  htlcMinimumMsat: 1,
-  toSelfDelay: 60,
-  maxAcceptedHtlcs: 100
-}
+import {rootOptions} from '../root/selectors'
+import {createApiWallet} from './walletAbstraction'
 
 export const channelSagas = (api, peersSaga) => {
+  const wallet = createApiWallet(api)
+
   const getChannelId = msg => {
     if (msg.channelId !== undefined) {
       return msg.channelId
@@ -39,6 +30,7 @@ export const channelSagas = (api, peersSaga) => {
   }
 
   const onOpenChannel = function * ({publicKey, value}) {
+    const options = yield select(rootOptions)
     yield call(peersSaga.connect, {publicKey})
     yield call(openChannel, ({options, publicKey, value}))
   }
@@ -46,15 +38,14 @@ export const channelSagas = (api, peersSaga) => {
   const openChannel = function * ({options, publicKey, value}) {
     // Opening the channel
     const staticRemote = wrapPubKey(wrapHex(publicKey))
-
     let response = createOpenChannel(staticRemote, options, value)
 
-    yield put(sendMessage(wrapHex(publicKey), response.msg))
     yield put(refresh(response.channel))
+    yield put(sendMessage(wrapHex(publicKey), response.msg))
   }
 
   const onBlock = function * (action) {
-    let {actionType, latestBlock} = action
+    let {latestBlock} = action
 
     let channels = yield select(getChannelDir)
 
@@ -62,7 +53,6 @@ export const channelSagas = (api, peersSaga) => {
       const channel = channels[channelId]
 
       if (channel.phase === phase.FUNDING_BROADCASTED || channel.phase === phase.SENT_FUNDING_LOCKED) {
-
         let rawTx = yield call(api.getRawTx(channel.fundingTx.toString('hex')))
         const confirmations = latestBlock.height - rawTx.block_height
 
@@ -95,7 +85,11 @@ export const channelSagas = (api, peersSaga) => {
     switch (msg.type) {
       case TYPE.ACCEPT_CHANNEL:
         channel = readAcceptChannel(channel, msg, peer)
-        response = createFundingCreated(channel, undefined)
+
+        const output = createFundingOutput(channel)
+        channel.fundingTx = yield call(wallet.send, [output], 10)
+
+        response = createFundingCreated(channel)
         break
 
       case TYPE.FUNDING_SIGNED:
@@ -124,7 +118,9 @@ export const channelSagas = (api, peersSaga) => {
         }
         break
 
-      default: throw new Error('No message handler for ' + JSON.stringify(msg))
+      default:
+        log.info('No message handler for ', msg)
+        return
     }
 
     if (response !== undefined) {

@@ -7,7 +7,7 @@ import assert from 'assert'
 import {
   Channel, ChannelParams, ChannelUpdateTypes, ChannelUpdateWrapper, Direction, Funded, Payment,
   PaymentWrapper, Wallet
-} from './state';
+} from './state'
 
 import {generatePerCommitmentPoint} from '../key_derivation'
 import {
@@ -15,14 +15,18 @@ import {
   getFundingTransaction
 } from './transactions'
 import xor from 'buffer-xor'
-import {copy, createKey, wrapHex, wrapPubKey} from '../helper';
+import {copy, createKey, wrapHex, wrapPubKey} from '../helper'
+import {wrapP2WSH} from '../scripts'
+import * as Script from '../scripts'
 
+let Tx = require('bcoin/lib/primitives/tx')
 const Long = require('long')
 const sha = require('sha256')
 
 export let phase = {
   SENT_OPEN: 1,
-  FUNDING_BROADCASTED: 2,
+  SENT_FUNDING_CREATED: 2,
+  FUNDING_BROADCASTED: 3,
   OPEN: 5
 }
 
@@ -136,7 +140,6 @@ let applyWrapperList = (list, state) => list.reduce((s, w) => applyWrapper(s, w)
 
 let addWrapper = (channel, list, type, direction, msg) => {
   channel = copy(channel)
-  console.info(channel)
   let commitIndex = channel[list].updateCounter
   channel[list].unack.push(ChannelUpdateWrapper(type, direction, commitIndex, msg))
   return channel
@@ -183,7 +186,7 @@ export function readAcceptChannel (channel, msg, peer) {
 }
 
 export function readFundingSigned (channel, msg) {
-  checkChannel(channel, phase.SENT_OPEN)
+  checkChannel(channel, phase.SENT_FUNDING_CREATED)
 
   let keySet = createSigCheckKeySet(channel)
 
@@ -210,10 +213,7 @@ export function readFundingSigned (channel, msg) {
     msg.signature
   )
 
-  console.info('Signature Check: ' + sigCheck)
   assert(sigCheck)
-  // TODO need to wire up somehow with broadcasting transaction and keeping track of confirmations
-
   return channel
 }
 
@@ -340,24 +340,25 @@ export function createOpenChannel (peer, options, value) {
   return {channel, msg}
 }
 
-export function createFundingCreated (channel, wallet = Wallet()) {
+export function createFundingOutput (channel) {
+  return {
+    address: Script.wrapP2WSH(
+    Script.getFundingOutputScript(
+      channel.paramsRemote.fundingKey.pub,
+      channel.paramsLocal.fundingKey.pub)),
+    value: channel.local.amountMsatLocal.div(1000).toNumber()
+  }
+}
+
+export function createFundingCreated (channel) {
   checkChannel(channel, phase.SENT_OPEN)
 
-  let fundingTx = getFundingTransaction(
-    wallet.unspents,
-    channel.paramsRemote.fundingKey.pub,
-    channel.paramsLocal.fundingKey.pub,
-    channel.local.amountMsatLocal.div(1000).toNumber(),
-    1000)
-
+  let fundingTx = Tx.fromRaw(wrapHex(channel.fundingTx))
   let fundingHash = fundingTx.hash()
 
   channel.commitmentInput.hash = fundingHash
-  channel.commitmentInput.n = 0
-
-  console.info('Created funding transaction: \n' + fundingTx.toRaw().toString('hex'))
-  channel.fundingTx = fundingTx.toRaw()
-  channel.phase = phase.FUNDING_BROADCASTED
+  channel.commitmentInput.n = 0 // TODO need to check which output pays to the script..
+  channel.phase = phase.SENT_FUNDING_CREATED
 
   let keySet = createSigCreateKeySet(channel)
 
@@ -375,13 +376,13 @@ export function createFundingCreated (channel, wallet = Wallet()) {
     Funded.REMOTE_FUNDED
   )
 
-  channel.channelId = calculateChannelId(channel.commitmentInput)
   let msg = FundingCreated(
     channel.channelId,
     fundingHash,
     0,
     commitment.commitmentSig
   )
+  channel.channelId = calculateChannelId(channel.commitmentInput)
 
   return {channel, msg}
 }

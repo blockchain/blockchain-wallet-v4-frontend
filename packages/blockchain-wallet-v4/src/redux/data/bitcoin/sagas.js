@@ -27,6 +27,7 @@ export const bitcoin = ({ api } = {}) => {
     try {
       const coins = yield call(api.getWalletUnspents, wrapper, source)
       yield put(A.setBitcoinUnspent(coins))
+      return coins
     } catch (e) {
       yield put(A.setBitcoinUnspent([]))
       throw e
