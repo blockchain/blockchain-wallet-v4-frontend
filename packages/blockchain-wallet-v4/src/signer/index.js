@@ -12,7 +12,6 @@ import * as btc from '../utils/bitcoin'
 // import shuffle from 'fisher-yates'
 // import { List } from 'immutable-ext'
 // import seedrandom from 'seedrandom'
-console.log('ethereumjsTx', EthereumTx)
 
 export const isFromAccount = selection => selection.inputs[0] ? selection.inputs[0].isFromAccount : false
 export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[0].isFromLegacy : false
