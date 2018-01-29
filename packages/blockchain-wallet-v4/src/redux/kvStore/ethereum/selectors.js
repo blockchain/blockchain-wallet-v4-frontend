@@ -1,4 +1,4 @@
-import { compose, head, path, prop } from 'ramda'
+import { compose, head, findIndex, propEq, path, prop } from 'ramda'
 import { ETHEREUM } from '../config'
 import { kvStorePath } from '../../paths'
 
@@ -9,6 +9,8 @@ export const getAccounts = state => getMetadata(state).map(path(['value', 'ether
 export const getContext = state => getAccounts(state).map(compose(prop('addr'), head))
 
 export const getDefaultAccount = state => getAccounts(state).map(head)
+
+export const getAccountIndex = (state, address) => getAccounts(state).map(findIndex(propEq('addr', address)))
 
 export const getLegacyAccount = state => getMetadata(state).map(path(['value', 'ethereum', 'legacy_account']))
 
