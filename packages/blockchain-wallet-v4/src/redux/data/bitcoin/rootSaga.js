@@ -95,15 +95,14 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchFiatAtTime = function * ({ type, payload }) {
-    const { hash, amount, time, currency } = payload
+  const fetchFiatAtTime = function * (action) {
+    const { hash, amount, time, currency } = action.payload
     try {
-      yield put(A.fetchFiatAtTimeLoading())
-      // const currency = yield select(selectors.settings.getCurrency)
-      const data = yield call(api.getBitcoinFiatAtTime, amount, time)
-      yield put(A.fetchFiatAtTimeSuccess({ currency: { hash: data } }))
+      yield put(A.fetchFiatAtTimeLoading(hash, currency))
+      const data = yield call(api.getBitcoinFiatAtTime, amount, currency, time)
+      yield put(A.fetchFiatAtTimeSuccess(hash, currency, data))
     } catch (e) {
-      yield put(A.fetchFiatAtTimeFailure(e.message))
+      yield put(A.fetchFiatAtTimeFailure(hash, currency, e.message))
     }
   }
 
