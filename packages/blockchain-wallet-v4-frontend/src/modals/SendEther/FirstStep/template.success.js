@@ -31,7 +31,7 @@ const Row = styled.div`
   width: 100%;
 `
 
-const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
+const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
 
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
@@ -56,7 +56,7 @@ const FirstStep = props => {
       <Text size='14px' weight={500}>
         <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
       </Text>
-      <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' />
+      <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' maxAvailable={props.effectiveBalance} />
       <Text size='14px' weight={500}>
         <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description:' />
         <Tooltip>
