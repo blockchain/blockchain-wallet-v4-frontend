@@ -24,7 +24,7 @@ export default {
   ROOT_URL: 'https://testnet.blockchain.info/',
   API_BLOCKCHAIN_INFO: 'https://api-testnet.blockchain.info/',
   API_CODE: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
-  WEB_SOCKET_URL: 'wss://ws.blockchain.info/inv',
+  WEB_SOCKET_URL: 'wss://ws.blockchain.info/testnet3/inv',
   WALLET_DATA_PATH: 'wallet.data',
   WALLET_PAYLOAD_PATH: 'wallet.payload',
   WALLET_SETTINGS_PATH: 'wallet.settings',
