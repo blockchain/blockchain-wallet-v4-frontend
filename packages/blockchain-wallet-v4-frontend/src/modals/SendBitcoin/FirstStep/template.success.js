@@ -79,12 +79,11 @@ display: flex;
 flex-direction: column;
 `
 
-const FeeLink = styled.a`
-
-`
-
 const RowFlexEnd = Row.extend`
   justify-content: flex-end;
+  a:first-child {
+    padding-right: 8px;
+  }
 `
 
 const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
@@ -159,9 +158,10 @@ const FirstStep = props => {
           {feeEditToggled
             ? <FeeContainer>
               <RowFlexEnd>
-                <Link weight={300} size={12} onClick={() => props.customFeeHandler(regular)}>Reg: {regular}</Link>
-                <Link weight={300} size={12} onClick={() => props.customFeeHandler(priority)}>Priority: {priority}</Link>
+                <Link weight={300} size={'12px'} onClick={() => props.customFeeHandler(regular)}>Reg: {regular}</Link>
+                <Link weight={300} size={'12px'} onClick={() => props.customFeeHandler(priority)}>Priority: {priority}</Link>
               </RowFlexEnd>
+              {/* TODO: high and low limits for fee input */}
               <Field name='fee' component={TextBox} validate={[required]} />
               <Unit>sat/b</Unit>
             </FeeContainer>
