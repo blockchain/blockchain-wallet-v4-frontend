@@ -1,6 +1,9 @@
 'use strict'
 var bech32 = require('bech32')
+var secp256k1 = require('secp256k1')
+var sha256 = require('sha256')
 let ALPHABET = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
+var GENERATOR = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3];
 
 // pre-compute lookup table
 let ALPHABET_MAP = {}
@@ -18,7 +21,7 @@ let P2PKH_TAG = 17
 let P2SH_TAG = 18
 let DEFAULT_MIN_FINAL_EXPIRY_TIME = 9
 
-const parse = (message) => {
+const parse = (message, pubKey) => {
   var parts = message.split('1')
   var prefix = parts[0]
   var data = parts[1]
@@ -54,7 +57,65 @@ const parse = (message) => {
   }
 
   parseDataPart(data, result)
+  let signature = bech32.fromWords(decodeData(data.slice(data.length - 110, data.length - 6)))
+  let dataToSign = getDataToSign(prefix, data.slice(0, data.length - 110))
+
+  if (!secp256k1.verify(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), pubKey)) {
+    throw new Error('Not a valid signature')
+  }
+
+  let checksum  = data.slice(data.length - 6, data.length)
+
+  if (!verifyChecksum(prefix, decodeData(data))) {
+    throw new Error('Not a valid checksum')
+  }
   return result
+}
+
+function polymod (values) {
+  var chk = 1;
+  for (var p = 0; p < values.length; ++p) {
+    var top = chk >> 25;
+    chk = (chk & 0x1ffffff) << 5 ^ values[p];
+    for (var i = 0; i < 5; ++i) {
+      if ((top >> i) & 1) {
+        chk ^= GENERATOR[i];
+      }
+    }
+  }
+  return chk;
+}
+
+function hrpExpand (hrp) {
+  var ret = [];
+  var p;
+  for (p = 0; p < hrp.length; ++p) {
+    ret.push(hrp.charCodeAt(p) >> 5);
+  }
+  ret.push(0);
+  for (p = 0; p < hrp.length; ++p) {
+    ret.push(hrp.charCodeAt(p) & 31);
+  }
+  return ret;
+}
+
+function verifyChecksum (hrp, data) {
+  return polymod(hrpExpand(hrp).concat(data)) === 1;
+}
+
+function createChecksum (hrp, data) {
+  var values = hrpExpand(hrp).concat(data).concat([0, 0, 0, 0, 0, 0]);
+  var mod = polymod(values) ^ 1;
+  var ret = [];
+  for (var p = 0; p < 6; ++p) {
+    ret.push((mod >> 5 * (5 - p)) & 31);
+  }
+  return ret;
+}
+
+function getDataToSign(prefix, data) {
+  let dataToSign = getUTF8(prefix).concat(wordsToBytes(decodeData(data), 5, 8))
+  return Buffer.from(sha256(dataToSign), 'hex')
 }
 
 function bechToInt (data) {
@@ -68,8 +129,6 @@ function bechToInt (data) {
 function parseDataPart (data, result) {
   result.timestamp = bechToInt(data.slice(0, 7))
   result.tags = parseTags(data.slice(7, data.length - 110))
-  result.signature = bech32.fromWords(decodeData(data.slice(data.length - 110, data.length - 6)))
-  result.checksum = data.slice(data.length - 6, data.length)
 }
 
 function parseTags (tags) {
@@ -125,8 +184,9 @@ function convert (data, fixedDataSize) {
   return result
 }
 
-function encode (payment) {
-  var result = payment.prefix
+function encode (payment, privateKey) {
+  var prefixPart = payment.prefix
+
   var amountStr = ''
   let multiplierStr = ''
   if (typeof (payment.amount) !== 'undefined') {
@@ -160,12 +220,48 @@ function encode (payment) {
     }
   }
 
-  result = result.concat(amountStr + multiplierStr + '1')
+  prefixPart = prefixPart.concat(amountStr + multiplierStr)
+  let result = prefixPart.concat('1')
 
-  result = result.concat(convert(payment.timestamp))
-  result = result.concat(encodeTags(payment.tags))
-  result = result.concat(encodeData(bech32.toWords(payment.signature)))
-  result = result.concat(payment.checksum)
+  let dataPart = convert(payment.timestamp)
+  dataPart = dataPart.concat(encodeTags(payment.tags))
+
+  let signature = secp256k1.sign(getDataToSign(prefixPart, dataPart), privateKey)
+  dataPart = dataPart.concat(encodeData(bech32.toWords(signature.signature)) + ALPHABET[signature.recovery])
+
+  let checksum = createChecksum(prefixPart, decodeData(dataPart))
+
+  result = result.concat(dataPart)
+  result = result.concat(encodeData(checksum))
+  return result
+}
+function wordsToBytes (data, inBits, outBits) {
+  let value = 0
+  let bits = 0
+  let maxV = (1 << outBits) - 1
+
+  let result = []
+  for (let i = 0; i < data.length; ++i) {
+    value = (value << inBits) | data[i]
+    bits += inBits
+
+    while (bits >= outBits) {
+      bits -= outBits
+      result.push((value >> bits) & maxV)
+    }
+  }
+    if (bits > 0) {
+      result.push((value << (outBits - bits)) & maxV)
+    }
+
+  return result
+}
+
+function getUTF8(prefix) {
+  let result = []
+  for (let i in prefix) {
+    result.push(prefix[i].charCodeAt())
+  }
   return result
 }
 
@@ -175,6 +271,12 @@ function encodeTags (tags) {
   if (typeof (tags.payment_hash) === 'undefined') {
     console.error('There should be exactly one payment hash tag')
   }
+
+  if (typeof (tags.purpose_of_payment) !== 'undefined') {
+    result = result.concat('h' + getDataLength(HASH_DATA_LENGTH) +
+      encodeData(bech32.toWords(tags.purpose_of_payment)))
+  }
+
   result = result.concat('p' + getDataLength(HASH_DATA_LENGTH))
   result = result.concat(encodeData(bech32.toWords(tags.payment_hash)))
 
@@ -187,19 +289,19 @@ function encodeTags (tags) {
     result = result.concat('d' + getDataLength(description.length) + description)
   }
 
+  if (typeof (tags.public_key) !== 'undefined') {
+    result = result.concat('n' + getDataLength(PUBLIC_KEY_DATA_LENGTH) +
+      encodeData(bech32.toWords(tags.public_key)))
+  }
+
   if (typeof (tags.expiry_time) !== 'undefined' && tags.expiry_time !== DEFAULT_EXPIRY_TIME) {
     let expiryTime = convert(tags.expiry_time)
     result = result.concat('x' + getDataLength(expiryTime.length) + expiryTime)
   }
 
-  if (typeof (tags.public_key) !== 'undefined') {
-    result = result.concat('n' + getDataLength(PUBLIC_KEY_DATA_LENGTH) +
-                           encodeData(bech32.toWords(tags.public_key)))
-  }
-
-  if (typeof (tags.purpose_of_payment) !== 'undefined') {
-    result = result.concat('h' + getDataLength(HASH_DATA_LENGTH) +
-                           encodeData(bech32.toWords(tags.purpose_of_payment)))
+  if (typeof (tags.min_cltv_expiry_time) !== 'undefined' && tags.min_cltv_expiry_time !== DEFAULT_MIN_FINAL_EXPIRY_TIME) {
+    let minExpiryTime = convert(tags.min_cltv_expiry_time)
+    result = result.concat('c' + getDataLength(minExpiryTime.length) + minExpiryTime)
   }
 
   if (typeof (tags.P2PKH) !== 'undefined') {
@@ -224,17 +326,13 @@ function encodeTags (tags) {
       let node = tags.route[i]
       bytes = bytes.concat(node.pubkey)
       bytes = bytes.concat(node.short_channel_id)
-      bytes = bytes.concat(node.fee)
+      bytes = bytes.concat(node.fee_base_msat)
+      bytes = bytes.concat(node.fee_proportional_millionths)
       bytes.push(node.cltv_expiry_delta >> 8)
       bytes.push(node.cltv_expiry_delta & 255)
     }
     var routeStr = encodeData(bech32.toWords(bytes))
     result = result.concat('r', getDataLength(routeStr.length) + routeStr)
-  }
-
-  if (typeof (tags.min_cltv_expiry_time) !== 'undefined' && tags.min_cltv_expiry_time !== DEFAULT_MIN_FINAL_EXPIRY_TIME) {
-    let minExpiryTime = convert(tags.min_cltv_expiry_time)
-    result = result.concat('c' + getDataLength(minExpiryTime.length) + minExpiryTime)
   }
 
   return result
@@ -346,7 +444,8 @@ function parseTag (type, dataLength, data, result) {
         result.route.push({
           'pubkey': next.slice(0, 33),
           'short_channel_id': next.slice(33, 41),
-          'fee': next.slice(41, 49),
+          'fee_base_msat': next.slice(41, 45),
+          'fee_proportional_millionths': next.slice(45, 49),
           'cltv_expiry_delta': (next[49] << 5) + next[50]
         })
       }
