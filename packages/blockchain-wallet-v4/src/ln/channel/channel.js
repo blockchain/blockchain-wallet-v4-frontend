@@ -15,7 +15,7 @@ import {
   getFundingTransaction
 } from './transactions'
 import xor from 'buffer-xor'
-import {copy, createKey, wrapHex, wrapPubKey} from '../helper'
+import {copy, createKey, getRandomBytes, wrapHex, wrapPubKey} from '../helper'
 import {wrapP2WSH} from '../scripts'
 import * as Script from '../scripts'
 
@@ -394,7 +394,7 @@ export function createFundingLocked (channel) {
   }
   let msg = FundingLocked(
     channel.channelId,
-    Buffer.create(33) // TODO
+    Buffer.alloc(33) // TODO
   )
 
   return {channel, msg}

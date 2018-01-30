@@ -237,7 +237,6 @@ export let getCommitmentTransaction =
     })
 
     commitmentBuilder.sortMembers()
-    console.info('Built commitment Tx: ' + commitmentBuilder.toTX().toRaw().toString('hex'))
     let commitmentTx = commitmentBuilder.toTX().toRaw()
 
     let commitmentSig

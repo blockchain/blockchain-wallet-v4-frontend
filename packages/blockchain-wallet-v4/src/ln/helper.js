@@ -3,6 +3,7 @@ import * as random from 'crypto'
 const assert = require('assert')
 const secp = require('bcoin/lib/crypto/secp256k1')
 const Long = require('long')
+const randomGen = require('random-seed')
 
 const ec = require('secp256k1')
 export let assertPubKey = pubKey => {
@@ -47,9 +48,32 @@ export function makeActionCreator (type, ...argNames) {
   }
 }
 
+let RANDOM_SEED
+let SEED = '8q42FvHJH6e#'
+let RANDOM
+
+export let setStaticSeed = () => {
+  RANDOM_SEED = 0
+  RANDOM = randomGen.create(SEED)
+}
+export let getRandomBytes = (count) => {
+  if (RANDOM) {
+    let str = RANDOM.string(count)
+    let t = Buffer.from(str)
+    return t
+  } else {
+    if (RANDOM_SEED === 0) {
+      RANDOM = randomGen.create(SEED)
+    } else {
+      RANDOM = randomGen.create(random.randomBytes(32))
+    }
+    return getRandomBytes(count)
+  }
+}
+
 export let createKey = () => {
   let key = {}
-  key.priv = Buffer.from(random.randomBytes(32))
+  key.priv = Buffer.from(getRandomBytes(32))
   key.pub = ec.publicKeyCreate(key.priv, true)
   return key
 }

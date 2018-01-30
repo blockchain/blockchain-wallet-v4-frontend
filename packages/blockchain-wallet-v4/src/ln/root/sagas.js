@@ -7,7 +7,7 @@ import * as random from 'crypto'
 import { path } from 'ramda'
 import {rootOptions} from './selectors'
 import Long from 'long'
-
+import {getRandomBytes, setStaticSeed, wrapHex} from '../helper'
 
 var ec = require('bcoin/lib/crypto/secp256k1-browser')
 
@@ -30,7 +30,7 @@ export const LNRootSagas = () => {
     }
     options = INITIAL_OPTIONS
     let staticLocal = {}
-    staticLocal.priv = random.randomBytes(32)
+    staticLocal.priv = getRandomBytes(32)
     staticLocal.pub = ec.publicKeyCreate(staticLocal.priv, true)
     options.staticLocal = staticLocal
 

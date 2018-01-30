@@ -7,7 +7,7 @@ import {
   createFundingCreated, createOpenChannel, createRevokeAck,
   readAcceptChannel, readCommitmentSigned, readFundingSigned, readRevokeAck,
   readUpdateAddHtlc, createFundingLocked, readFundingLocked, createFundingOutput
-} from './channel';
+} from './channel'
 import {opened, refresh} from './actions'
 import {copy, wrapHex, wrapPubKey} from '../helper'
 import TYPE from '../messages/types'
@@ -119,7 +119,7 @@ export const channelSagas = (api, peersSaga) => {
         break
 
       default:
-        log.info('No message handler for ', msg)
+        console.info('No message handler for ', msg)
         return
     }
 
