@@ -20,7 +20,8 @@ export const LNRootSagas = () => {
     feeRatePerKw: 10000,
     htlcMinimumMsat: 1,
     toSelfDelay: 60,
-    maxAcceptedHtlcs: 100
+    maxAcceptedHtlcs: 100,
+    minimumDepth: 1
   }
   const startUp = function * (action) {
     let options = yield select(rootOptions)

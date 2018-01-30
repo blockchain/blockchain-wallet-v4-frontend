@@ -175,10 +175,10 @@ export function readAcceptChannel (channel, msg, peer) {
     wrapPubKey(msg.htlcBasepoint),
     msg.shutdownScriptpubkey,
     peer.gf,
-    peer.lf)
+    peer.lf,
+    msg.minimumDepth)
 
   channel.paramsRemote = paramsRemote
-  channel.minimumDepth = msg.minimumDepth
   channel.commitmentObscureHash = obscureHash(channel.paramsLocal.paymentBasepoint.pub, msg.paymentBasepoint)
   channel.remote.nextCommitmentPoint = msg.firstPerCommitmentPoint
 
