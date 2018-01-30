@@ -55,9 +55,7 @@ class FirstStep extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    // this.props.nextStep()
-    this.props.modalActions.closeAllModals()
-    this.props.modalActions.showModal('SendConfirm', { sendData: this.props, coin: 'BTC' })
+    this.props.nextStep()
   }
 
   render () {
@@ -88,7 +86,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  // modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

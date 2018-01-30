@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Link, Text, Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
-import { Form } from 'components/Form'
+// import { Form } from 'components/Form'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -42,10 +42,19 @@ const Footer = styled.div`
 `
 
 const SendConfirm = props => {
-  const { previousStep, handleSubmit, message, coin, data, sendData } = props
-  const { satoshis, fee } = data
-  const toAddress = sendData.data.data.to
-  const fromAddress = sendData.data.data.from.label
+  const { previousStep, handleSubmit, message, coin, data, fee } = props
+  let amount, fromAddress, toAddress
+  console.log('send confirm template', props)
+  if (coin === 'BTC') {
+    amount = props.satoshis
+    fromAddress = props.fromAddress
+    toAddress = props.toAddress
+  }
+  if (coin === 'ETH') {
+    amount = props.amount
+    fromAddress = 'My Ether Wallet'
+    toAddress = props.to
+  }
 
   return (
     <Modal size='large' position={1} total={props.total} >
@@ -69,7 +78,7 @@ const SendConfirm = props => {
         {message &&
           <Row>
             <Text size='16px' weight={500}>
-              <FormattedMessage id='modals.sendconfirm.for' defaultMessage='For:' />
+              <FormattedMessage id='modals.sendconfirm.note' defaultMessage='Note:' />
             </Text>
             <Text size='16px' weight={300}>{message}</Text>
           </Row>
@@ -79,7 +88,7 @@ const SendConfirm = props => {
             <FormattedMessage id='modals.sendconfirm.payment' defaultMessage='Payment:' />
           </Text>
           <Text size='16px' weight={300}>
-            <ComboDisplay coin='BTC'>{satoshis}</ComboDisplay>
+            <ComboDisplay coin={coin}>{amount}</ComboDisplay>
           </Text>
         </Row>
         <Row>
@@ -87,19 +96,20 @@ const SendConfirm = props => {
             <FormattedMessage id='modals.sendconfirm.fee' defaultMessage='Fee:' />
           </Text>
           <Text size='16px' weight={300}>
-            <ComboDisplay coin='BTC'>{fee}</ComboDisplay>
+            <ComboDisplay coin={coin}>{fee}</ComboDisplay>
           </Text>
         </Row>
         <Summary>
-          <Text size='16px' weight={300} color='transferred'>
+          <Text size='16px' weight={300} color='sent'>
             <FormattedMessage id='modals.sendconfirm.total' defaultMessage='Total' />
           </Text>
-          <CoinDisplay coin='BTC' size='30px' weight={600} color='transferred'>{satoshis}</CoinDisplay>
-          <FiatDisplay coin='BTC' size='20px' weight={300} color='transferred'>{satoshis + fee}</FiatDisplay>
+          <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>{Number(amount) + Number(fee)}</CoinDisplay>
+          <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>{Number(amount) + Number(fee)}</FiatDisplay>
         </Summary>
         <Footer>
           <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
-            <FormattedMessage id='modals.sendconfirm.send' defaultMessage='Send bitcoin' />
+            {coin === 'BTC' && <FormattedMessage id='modals.sendconfirm.send' defaultMessage='Send Bitcoin' />}
+            {coin === 'ETH' && <FormattedMessage id='modals.sendconfirm.send' defaultMessage='Send Ether' />}
           </Button>
           <Link onClick={previousStep} size='13px' weight={300}>
             <FormattedMessage id='scenes.sendconfirm.back' defaultMessage='Go back' />
