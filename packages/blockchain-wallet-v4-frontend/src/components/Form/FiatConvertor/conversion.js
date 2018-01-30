@@ -5,8 +5,7 @@ export const convertFiatToCoin = (value, data, coin) => {
 
   const conversion = coin === 'BTC'
   ? Exchange.convertFiatToBitcoin({ value: value, fromCurrency: currency, toUnit: unit, rates: bitcoinRates })
-  : Exchange.convertFiatToEther({ value: value, fromUnit: currency, toCurrency: unit, rates: ethereumRates })
-
+  : Exchange.convertFiatToEther({ value: value, fromCurrency: currency, toUnit: unit, rates: ethereumRates })
   return { coin: conversion.value, fiat: value }
 }
 
