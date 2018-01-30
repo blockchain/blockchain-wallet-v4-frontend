@@ -1,10 +1,9 @@
 
-import { START_UP} from './actionTypes'
-import {storeOptions} from './actions'
-import { takeEvery} from 'redux-saga'
+import { START_UP } from './actionTypes'
+import { storeOptions } from './actions'
+import { takeEvery } from 'redux-saga'
 import { put, select } from 'redux-saga/effects'
 import * as random from 'crypto'
-import { path } from 'ramda'
 import {rootOptions} from './selectors'
 import Long from 'long'
 import {getRandomBytes, setStaticSeed, wrapHex} from '../helper'

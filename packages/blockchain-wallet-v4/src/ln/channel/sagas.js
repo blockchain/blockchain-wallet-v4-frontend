@@ -17,9 +17,7 @@ import {rootOptions} from '../root/selectors'
 import {createApiWallet} from './walletAbstraction'
 import {getTransactionHash} from "./transactions";
 
-export const channelSagas = (api, peersSaga) => {
-  const wallet = createApiWallet(api)
-
+export const channelSagas = (api, wallet, peersSaga) => {
   const getChannelId = msg => {
     if (msg.channelId !== undefined) {
       return msg.channelId
@@ -96,6 +94,8 @@ export const channelSagas = (api, peersSaga) => {
       case TYPE.FUNDING_SIGNED:
         channel = readFundingSigned(channel, msg)
         yield call(api.pushTx, channel.fundingTx.toString('hex'))
+        console.info('Broadcasted funding tx ' + getTransactionHash(channel.fundingTx).toString('hex'))
+        channel.phase = phase.FUNDING_BROADCASTED
         break
 
       case TYPE.FUNDING_LOCKED:
@@ -145,6 +145,10 @@ export const channelSagas = (api, peersSaga) => {
   }
 
   return {
-    takeSagas
+    takeSagas,
+    openChannel,
+    onOpenChannel,
+    onMessage,
+    onBlock
   }
 }

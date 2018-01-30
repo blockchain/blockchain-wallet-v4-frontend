@@ -224,6 +224,7 @@ export function readFundingLocked (channel, msg) {
   if (channel.fundingLockedSent === true) {
     channel.phase = phase.OPEN
   }
+  return channel
 }
 
 export let readUpdateAddHtlc = (channel, msg) => {
@@ -278,11 +279,9 @@ export function readRevokeAck (channel, msg) {
 
 // Methods accepting a channel object, and returning a new mutated version of it (needs defensive copying)
 //     and the message to be sent to other peer
-export function createOpenChannel (peer, options, value) {
-  let channelId = random.randomBytes(32) // TODO
-  let commitmentSecret = random.randomBytes(32)
 
-  let paramsLocal = ChannelParams(
+export function createChannelParams (options) {
+  return ChannelParams(
     createKey(),
     options.dustLimitSatoshis,
     options.maxHtlcValueInFlightMsat,
@@ -297,45 +296,52 @@ export function createOpenChannel (peer, options, value) {
     createKey(),
     Buffer.alloc(35), // TODO generate shutdown script
     options.gf,
-    options.lf)
-  let paramsJS = paramsLocal
+    options.lf,
+    options.minimumDepth)
+}
 
-  let nextCommitmentPoint = generatePerCommitmentPoint(commitmentSecret, Math.pow(2, 48) - 1)
-
-  let msg = OpenChannel(
-    options.chainHash,
-    channelId,
-    value,
-    new Long(0),
-    paramsJS.dustLimitSatoshis,
-    value,
-    new Long(0),
-    new Long(0),
-    paramsJS.feeRatePerKw,
-    paramsJS.toSelfDelay,
-    paramsJS.maxAcceptedHtlcs,
-    paramsJS.fundingKey.pub,
-    paramsJS.revocationBasepoint.pub,
-    paramsJS.paymentBasepoint.pub,
-    paramsJS.delayedPaymentBasepoint.pub,
-    paramsJS.htlcBasepoint.pub,
-    nextCommitmentPoint,
-    Buffer.alloc(1),
-    paramsJS.shutdownScriptpubkey
-  )
-
+export function createChannel (peer, options, value) {
   let channel = Channel()
   channel.staticRemote = peer
-  channel.channelId = channelId
+  channel.channelId = getRandomBytes(32)
   channel.commitmentInput.value = value.toNumber()
-  channel.paramsLocal = paramsLocal
+  channel.paramsLocal = createChannelParams(options)
   channel.phase = phase.SENT_OPEN
-  channel.commitmentSecretSeed = commitmentSecret
-  channel.local.nextCommitmentPoint = nextCommitmentPoint
+  channel.commitmentSecretSeed = getRandomBytes(32)
+  channel.local.nextCommitmentPoint = generatePerCommitmentPoint(channel.commitmentSecretSeed, Math.pow(2, 48) - 1)
   channel.local.amountMsatLocal = Long.fromNumber(value).mul(1000)
   channel.local.amountMsatRemote = Long.fromNumber(0)
   channel.remote.amountMsatRemote = Long.fromNumber(value).mul(1000)
   channel.remote.amountMsatLocal = Long.fromNumber(0)
+
+  return channel
+}
+
+export function createOpenChannel (peer, options, value) {
+  let channel = createChannel(peer, options, value)
+  let params = channel.paramsLocal
+
+  let msg = OpenChannel(
+    options.chainHash,
+    channel.channelId,
+    value,
+    new Long(0),
+    params.dustLimitSatoshis,
+    value,
+    new Long(0),
+    new Long(0),
+    params.feeRatePerKw,
+    params.toSelfDelay,
+    params.maxAcceptedHtlcs,
+    params.fundingKey.pub,
+    params.revocationBasepoint.pub,
+    params.paymentBasepoint.pub,
+    params.delayedPaymentBasepoint.pub,
+    params.htlcBasepoint.pub,
+    channel.local.nextCommitmentPoint,
+    Buffer.alloc(1),
+    params.shutdownScriptpubkey
+  )
 
   return {channel, msg}
 }

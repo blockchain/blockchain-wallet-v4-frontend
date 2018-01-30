@@ -285,7 +285,7 @@ export let checkCommitmentSignature = (inputValue, tx, keyLocal, keyRemote, sig)
 }
 
 export const getTransactionHash = (tx) => {
-  return Tx.fromRaw(wrapHex(tx)).hash()
+  return Tx.fromRaw(wrapHex(tx)).txid()
 }
 
 export let sortPayments = (revocationKey, remoteKey, localKey) => (a, b) => {
