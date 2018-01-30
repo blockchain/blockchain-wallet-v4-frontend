@@ -49,7 +49,7 @@ const peersReducer = (state = INITIAL_STATE, action) => {
         return state
       }
       let copy = Object.assign({}, state)
-      copy[publicKey].lastPing = 7 // now
+      copy[publicKey].lastPing = Date.now()
     }
 
     default: return state
