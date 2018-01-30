@@ -15,6 +15,7 @@ import {sendMessage} from '../peers/actions'
 import {getChannelDir, getChannel} from './selectors'
 import {rootOptions} from '../root/selectors'
 import {createApiWallet} from './walletAbstraction'
+import {getTransactionHash} from "./transactions";
 
 export const channelSagas = (api, peersSaga) => {
   const wallet = createApiWallet(api)
@@ -45,21 +46,21 @@ export const channelSagas = (api, peersSaga) => {
   }
 
   const onBlock = function * (action) {
-    let {latestBlock} = action
+    let {block} = action
 
     let channels = yield select(getChannelDir)
 
     for (const channelId in channels) {
       const channel = channels[channelId]
 
-      if (channel.phase === phase.FUNDING_BROADCASTED || channel.phase === phase.SENT_FUNDING_LOCKED) {
-        let rawTx = yield call(api.getRawTx(channel.fundingTx.toString('hex')))
-        const confirmations = latestBlock.height - rawTx.block_height
+      if (channel.phase === phase.FUNDING_BROADCASTED) {
+        let rawTx = yield call(api.getRawTx, getTransactionHash(channel.fundingTx).toString('hex'))
+        const confirmations = block.height - rawTx.block_height
 
         if (confirmations >= channel.paramsLocal.minimumDepth) {
           let response = createFundingLocked(channel)
 
-          yield put(sendMessage(channel.staticRemote, response.msg))
+          yield put(sendMessage(channel.staticRemote.pub, response.msg))
           yield put(refresh(response.channel))
           yield call(checkChannelOpen, channel)
         }

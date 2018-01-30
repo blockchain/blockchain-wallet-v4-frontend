@@ -284,6 +284,10 @@ export let checkCommitmentSignature = (inputValue, tx, keyLocal, keyRemote, sig)
   return ec.verify(hash, sig, keyRemote.pub)
 }
 
+export const getTransactionHash = (tx) => {
+  return Tx.fromRaw(wrapHex(tx)).hash()
+}
+
 export let sortPayments = (revocationKey, remoteKey, localKey) => (a, b) => {
   let cmp = a.payment.amount.div(1000).sub(
     b.payment.amount.div(1000)).toNumber()
