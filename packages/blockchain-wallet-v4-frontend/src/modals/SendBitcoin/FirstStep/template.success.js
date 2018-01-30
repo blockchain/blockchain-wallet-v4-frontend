@@ -66,6 +66,27 @@ const AmountText = styled.div`
   margin-top: 20px;
 `
 
+const Unit = styled.span`
+  position: absolute;
+  padding: 0 15px;
+  color: ${props => props.theme['gray-4']};
+  bottom: 95px;
+  left: 240px;
+`
+
+const FeeContainer = styled.div`
+display: flex;  
+flex-direction: column;
+`
+
+const FeeLink = styled.a`
+
+`
+
+const RowFlexEnd = Row.extend`
+  justify-content: flex-end;
+`
+
 const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
@@ -76,8 +97,10 @@ const validAmount = (value, allValues, props) => parseFloat(value) <= props.effe
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = props => {
-  const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, selection, fee, ...rest } = props
+  const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, selection, fee, totalFee, ...rest } = props
   const { handleSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest
+  const priority = props.fees.priority.data
+  const regular = props.fees.regular.data
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -126,7 +149,7 @@ const FirstStep = props => {
       </DescriptionText>
       <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
       <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee (sat/b) :' />
+        <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
         <Tooltip>
           <FormattedMessage id='modals.sendbitcoin.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
         </Tooltip>
@@ -134,12 +157,19 @@ const FirstStep = props => {
       <Row>
         <ColLeft>
           {feeEditToggled
-            ? <Field name='fee' component={TextBox} validate={[required]} />
+            ? <FeeContainer>
+              <RowFlexEnd>
+                <Link weight={300} size={12} onClick={() => props.customFeeHandler(regular)}>Reg: {regular}</Link>
+                <Link weight={300} size={12} onClick={() => props.customFeeHandler(priority)}>Priority: {priority}</Link>
+              </RowFlexEnd>
+              <Field name='fee' component={TextBox} validate={[required]} />
+              <Unit>sat/b</Unit>
+            </FeeContainer>
             : <Field name='fee' component={SelectBoxFee} validate={[required]} />
           }
         </ColLeft>
         <ColRight>
-          <ComboDisplay coin='BTC'>{fee}</ComboDisplay>
+          <ComboDisplay coin='BTC'>{totalFee}</ComboDisplay>
           <Link onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
             {feeEditToggled
               ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
@@ -163,7 +193,7 @@ FirstStep.propTypes = {
   addressSelectToggled: PropTypes.bool.isRequired,
   addressSelectOpened: PropTypes.bool.isRequired,
   feeEditToggled: PropTypes.bool.isRequired,
-  // selection: PropTypes.object.isRequired,
+  totalFee: PropTypes.number,
   fee: PropTypes.number.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,
