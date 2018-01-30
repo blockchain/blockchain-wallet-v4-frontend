@@ -19,6 +19,7 @@ class FirstStep extends React.Component {
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.customFeeHandler = this.customFeeHandler.bind(this)
   }
 
   componentWillMount () {
@@ -39,6 +40,10 @@ class FirstStep extends React.Component {
       // update selection
       updateSelection(this.props, nextProps, this.seed)
     }
+  }
+
+  customFeeHandler (fee) {
+    this.props.formActions.change('sendBitcoin', 'fee', fee)
   }
 
   handleClickAddressToggler () {
@@ -71,6 +76,10 @@ class FirstStep extends React.Component {
         handleClickAddressToggler={this.handleClickAddressToggler}
         handleClickFeeToggler={this.handleClickFeeToggler}
         fee={data.data.fee}
+        totalFee={data.data.selection.fee}
+        regularFeeHandler={this.regularFeeHandler}
+        fees={data.data.fees}
+        customFeeHandler={this.customFeeHandler}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,

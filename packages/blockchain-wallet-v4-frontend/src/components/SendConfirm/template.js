@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-// import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Link, Text, Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
-// import { Form } from 'components/Form'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -42,9 +40,9 @@ const Footer = styled.div`
 `
 
 const SendConfirm = props => {
-  const { previousStep, handleSubmit, message, coin, data, fee } = props
+  const { previousStep, handleSubmit, message, coin, fee } = props
   let amount, fromAddress, toAddress
-  console.log('send confirm template', props)
+
   if (coin === 'BTC') {
     amount = props.satoshis
     fromAddress = props.fromAddress
