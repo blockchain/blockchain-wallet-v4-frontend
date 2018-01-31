@@ -1,5 +1,6 @@
 import bitcoin from './bitcoin'
 import ethereum from './ethereum'
+import bch from './bch'
 import kvStore from './kvStore'
 import misc from './misc'
 import options from './options'
@@ -21,6 +22,7 @@ export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCo
   return {
     ...bitcoin({ rootUrl, apiUrl, get, post }),
     ...ethereum({ rootUrl, apiUrl, get, post }),
+    ...bch({ rootUrl, apiUrl, get, post }),
     ...kvStore({ apiUrl }),
     ...misc({ rootUrl, apiUrl, get, post }),
     ...options({ rootUrl, apiUrl, get, post }),
