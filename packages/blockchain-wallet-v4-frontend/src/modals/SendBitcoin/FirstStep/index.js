@@ -21,7 +21,6 @@ class FirstStep extends React.Component {
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.customFeeHandler = this.customFeeHandler.bind(this)
-    this.renderFeeConfirmationTime = this.renderFeeConfirmationTime.bind(this)
   }
 
   componentWillMount () {
@@ -60,13 +59,6 @@ class FirstStep extends React.Component {
     this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
   }
 
-  renderFeeConfirmationTime () {
-    const { data } = this.props.data
-    if (data.fee === data.fees.regular.data) {
-      return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
-    } else return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />)
-  }
-
   handleSubmit (e) {
     e.preventDefault()
     this.props.nextStep()
@@ -89,7 +81,6 @@ class FirstStep extends React.Component {
         regularFeeHandler={this.regularFeeHandler}
         fees={data.data.fees}
         customFeeHandler={this.customFeeHandler}
-        renderFeeConfirmationTime={this.renderFeeConfirmationTime}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
