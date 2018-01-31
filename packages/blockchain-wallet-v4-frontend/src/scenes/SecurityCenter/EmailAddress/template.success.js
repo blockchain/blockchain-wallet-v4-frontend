@@ -15,7 +15,7 @@ const EmailAddress = (props) => {
 
   return (
     <SecurityContainer>
-      <SecurityIcon name='email' />
+      <SecurityIcon name='email' enabled={isVerified} />
       {isVerified
         ? <SecuritySummary>
           <SecurityHeader>

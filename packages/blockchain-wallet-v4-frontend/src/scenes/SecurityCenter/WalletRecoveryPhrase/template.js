@@ -10,16 +10,14 @@ const WalletRecoveryPhrase = (props) => {
 
   return (
     <SecurityContainer>
-      <SecurityIcon name='pencil' />
+      <SecurityIcon name='pencil' enabled={isMnemonicVerified} />
       <SecuritySummary>
         <SecurityHeader>
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.title' defaultMessage='Wallet Recovery Phrase' />
+          <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.title' defaultMessage='Backup Phrase' />
         </SecurityHeader>
         <SecurityDescription>
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description' defaultMessage='Your recovery phrase can be used to restore all your funds in the case of a lost password or a loss of service at Blockchain.' />
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description2' defaultMessage='Note, that the recovery phrase never changes and recovers all of your existing bitcoins as well as newly received funds in this wallet.' />
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description3' defaultMessage='Please note that imported addresses are not backed up by the wallet recovery phrase.' />
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description4' defaultMessage='We strongly recommend to transfer funds from imported addresses into this wallet.' />
+          <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description' defaultMessage='Your Backup Phrase contains all of the private keys in your wallet, allowing you (or anyone who has it) to restore your wallet and access your funds. Since this is meant for your eyes only, write down your Backup Phrase and keep it somewhere safe offline.' />
+          <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description2' defaultMessage='If you ever lose your password or our service is unavailable, your Backup Phrase is how you regain access to your funds.' />
         </SecurityDescription>
       </SecuritySummary>
       <SecurityComponent>
