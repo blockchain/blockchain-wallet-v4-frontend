@@ -1,17 +1,28 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { selectors } from 'data'
-import TwoStepVerification from './template.js'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class TwoStepVerificationContainer extends React.Component {
   render () {
-    return <TwoStepVerification {...this.props} />
+    const { data, ...rest } = this.props
+
+    return data.cata({
+      Success: (value) => <Success {...rest}
+        authType={value} />,
+      Failure: (message) => <Error {...rest}
+        message={message} />,
+      Loading: () => <Loading {...rest} />,
+      NotAsked: () => <Loading {...rest} />
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
-  authType: selectors.core.settings.getAuthType(state)
+  data: getData(state)
 })
 
 export default connect(mapStateToProps)(TwoStepVerificationContainer)
