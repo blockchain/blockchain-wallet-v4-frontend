@@ -6,13 +6,12 @@ import Dropdown from './template.js'
 import { Color, Palette } from '../../'
 import { keysIn } from 'ramda'
 
-class SimpleDropdown extends React.Component {
+class ComponentDropdown extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      toggled: props.opened,
-      selectedItem: props.items.filter(item => item.value === props.selectedValue)[0] || props.items[0]
+      toggled: props.opened
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleCallback = this.handleCallback.bind(this)
@@ -21,13 +20,13 @@ class SimpleDropdown extends React.Component {
   handleClick () {
     this.setState({ toggled: !this.state.toggled })
   }
-
+  
   handleClickOutside () {
     this.setState({ toggled: false })
   }
 
   handleCallback (item) {
-    this.setState({ toggled: false, selectedItem: item })
+    this.setState({ toggled: false, selectedComponent: this.props.forceSelected ? this.props.selectedComponent : item })
     if (this.props.callback) { this.props.callback(item) }
   }
 
@@ -38,25 +37,19 @@ class SimpleDropdown extends React.Component {
       handleClick={this.handleClick}
       handleCallback={this.handleCallback}
       toggled={this.state.toggled}
-      selectedItem={this.state.selectedItem}
+      selectedComponent={this.props.selectedComponent}
     />
   }
 }
 
-SimpleDropdown.defaultProps = {
+ComponentDropdown.defaultProps = {
   color: 'brand-secondary',
   opened: false,
-  selectedValue: 0,
   uppercase: true,
   down: false
 }
 
-SimpleDropdown.PropTypes = {
-  selectedValue: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
-  })),
+ComponentDropdown.PropTypes = {
   callback: PropTypes.func.isRequired,
   opened: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),
@@ -64,4 +57,4 @@ SimpleDropdown.PropTypes = {
   down: PropTypes.bool
 }
 
-export default onClickOutside(SimpleDropdown)
+export default onClickOutside(ComponentDropdown)
