@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import settings from 'config'
 import { getData } from './selectors'
-import SendConfirm from '../../SendConfirm/template'
+import SendConfirm from 'components/SendConfirm'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
