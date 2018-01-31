@@ -112,10 +112,16 @@ const validAmount = (value, allValues, props) => parseFloat(value) <= props.effe
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = props => {
-  const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, selection, fee, totalFee, renderFeeConfirmationTime, ...rest } = props
+  const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, selection, fee, totalFee, ...rest } = props
   const { handleSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest
   const priority = props.fees.priority.data
   const regular = props.fees.regular.data
+
+  const renderFeeConfirmationTime = () => {
+    if (fee === regular) {
+      return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
+    } else return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />)
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
