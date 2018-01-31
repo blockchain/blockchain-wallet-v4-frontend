@@ -195,7 +195,7 @@ const FirstStep = props => {
           </div>
           {feeEditToggled
           ? ''
-          : <Text size='12px'>
+          : <Text size={'12px'} weight={300}>
             {renderFeeConfirmationTime()}
           </Text>}
         </ColLeft>
