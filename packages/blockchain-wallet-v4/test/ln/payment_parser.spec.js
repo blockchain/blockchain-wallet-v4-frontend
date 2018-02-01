@@ -40,21 +40,21 @@ describe('Payment parser', () => {
       expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
     })
 
-    // it('parses min final exprity time', () => {
-    //   var testMsg = 'lnbc2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpquwpc4curk03c9wlrswe78q4eyqc7d8d0xqzpuyk0sg5g70me25alkluzd2x62aysf2pyy8edtjeevuv4p2d5p76r4zkmneet7uvyakky2zr4cusd45tftc9c5fh0nnqpnl2jfll544esqchsrny'
-    //   var expectedResult = {
-    //     'prefix': 'lnbc',
-    //     'timestamp': 1496314658,
-    //     'amount': 0.0025,
-    //     'tags': {
-    //       'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
-    //       'description': 'ナンセンス 1杯',
-    //       'expiry_time': 60
-    //     }
-    //   }
-    //   expect(Parser.parse(testMsg)).to.deep.equal(expectedResult)
-    //   expect(Parser.encode(expectedResult, 'pfj9srp')).to.equal(testMsg)
-    // })
+    it('parses min final exprity time', () => {
+      var testMsg = 'lnbc2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpquwpc4curk03c9wlrswe78q4eyqc7d8d0xqzpuyk0sg5g70me25alkluzd2x62aysf2pyy8edtjeevuv4p2d5p76r4zkmneet7uvyakky2zr4cusd45tftc9c5fh0nnqpnl2jfll544esqchsrny'
+      var expectedResult = {
+        'prefix': 'lnbc',
+        'timestamp': 1496314658,
+        'amount': 0.0025,
+        'tags': {
+          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
+          'description': 'ナンセンス 1杯',
+          'expiry_time': 60
+        }
+      }
+      expect(Parser.parse(testMsg, privateKey)).to.deep.equal(expectedResult)
+      expect(Parser.encode(expectedResult, pubKey)).to.equal(testMsg)
+    })
 
    it('parses hash of description', () => {
       var testMsg = 'lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqscc6gd6ql3jrc5yzme8v4ntcewwz5cnw92tz0pc8qcuufvq7khhr8wpald05e92xw006sq94mg8v2ndf4sefvf9sygkshp5zfem29trqq2yxxz7'

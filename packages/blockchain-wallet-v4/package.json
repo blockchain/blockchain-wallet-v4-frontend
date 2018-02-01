@@ -90,6 +90,7 @@
     "sha256": "0.2.0",
     "chacha20": "0.1.4",
     "redux-saga": "^0.16.0",
-    "seedrandom": "^2.4.3"
+    "seedrandom": "^2.4.3",
+    "text-encoding-utf-8": "1.0.2 "
   }
 }

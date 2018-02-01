@@ -2,6 +2,7 @@
 var bech32 = require('bech32')
 var secp256k1 = require('secp256k1')
 var sha256 = require('sha256')
+var utf = require('text-encoding-utf-8')
 let ALPHABET = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
 var GENERATOR = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3];
 
@@ -281,11 +282,7 @@ function encodeTags (tags) {
   result = result.concat(encodeData(bech32.toWords(tags.payment_hash)))
 
   if (typeof (tags.description) !== 'undefined') {
-    var bytes = []
-    for (let i = 0; i < tags.description.length; i++) {
-      bytes.push(tags.description[i].charCodeAt())
-    }
-    var description = encodeData(bech32.toWords(bytes))
+    var description = encodeData(bech32.toWords(utf.TextEncoder('utf-8').encode(tags.description)))
     result = result.concat('d' + getDataLength(description.length) + description)
   }
 
@@ -367,11 +364,8 @@ function parseTag (type, dataLength, data, result) {
           typeof (result.purpose_of_payment) !== 'undefined') {
         throw new Error('There should be either exactly one d or one h field')
       }
-      result.description = ''
       var a = bech32.fromWords(decodeData(data))
-      for (var i = 0; i < a.length; i++) {
-        result.description = result.description.concat(String.fromCharCode(a[i]))
-      }
+      result.description = utf.TextDecoder('utf-8').decode(a)
       break
     case 'n':
       if (dataLength !== PUBLIC_KEY_DATA_LENGTH) {
