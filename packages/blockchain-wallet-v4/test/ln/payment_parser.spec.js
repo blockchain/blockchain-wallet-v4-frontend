@@ -2,7 +2,9 @@ import { expect } from 'chai'
 import Parser from '../../src/ln/crypto/payment_parser.js'
 
 var secp256k1 = require('secp256k1')
-
+const bech32 = require('bech32')
+var sha = require('sha256')
+var base58 = require('bs58')
 const assert = require('assert')
 
 describe('Payment parser', () => {
@@ -16,7 +18,7 @@ describe('Payment parser', () => {
         'prefix': 'lnbc',
         'timestamp': 1496314658,
         'tags': {
-          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
+          'payment_hash': Buffer.from('0001020304050607080900010203040506070809000102030405060708090102', 'hex'),
           'description': 'Please consider supporting this project'
         }
       }
@@ -31,7 +33,7 @@ describe('Payment parser', () => {
         'timestamp': 1496314658,
         'amount': 0.0025,
         'tags': {
-          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
+          'payment_hash': Buffer.from('0001020304050607080900010203040506070809000102030405060708090102', 'hex'),
           'description': '1 cup coffee',
           'expiry_time': 60
         }
@@ -47,7 +49,7 @@ describe('Payment parser', () => {
         'timestamp': 1496314658,
         'amount': 0.0025,
         'tags': {
-          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
+          'payment_hash': Buffer.from('0001020304050607080900010203040506070809000102030405060708090102', 'hex'),
           'description': 'ナンセンス 1杯',
           'expiry_time': 60
         }
@@ -56,31 +58,33 @@ describe('Payment parser', () => {
       expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
     })
 
-   it('parses hash of description', () => {
+    it('parses hash of description', () => {
       var testMsg = 'lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqscc6gd6ql3jrc5yzme8v4ntcewwz5cnw92tz0pc8qcuufvq7khhr8wpald05e92xw006sq94mg8v2ndf4sefvf9sygkshp5zfem29trqq2yxxz7'
       var expectedResult = {
         'prefix': 'lnbc',
         'timestamp': 1496314658,
         'amount': 0.02,
         'tags': {
-          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
-          'purpose_of_payment': [57, 37, 182, 246, 126, 44, 52, 0, 54, 237, 18, 9, 61, 212, 78, 3, 104, 223, 27, 110, 162, 108, 83, 219, 228, 129, 31, 88, 253, 93, 184, 193]
+          'payment_hash': Buffer.from('0001020304050607080900010203040506070809000102030405060708090102', 'hex'),
+          'purpose_of_payment': Buffer.from(sha("One piece of chocolate cake, one icecream cone, one pickle, one slice of swiss cheese, one slice of salami, one lollypop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon"), 'hex'),
         }
       }
       expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
-      //expect(Parser.encode(expectedResult, '2yxxz7')).to.equal(testMsg)
+      expect(Parser.parse(Parser.encode(expectedResult, privateKey), pubKey)).to.deep.equal(expectedResult)
     })
 
     it('parses p2pkh', () => {
       var testMsg = 'lntb20m1pvjluezhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqspp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqfpp3x9et2e20v6pu37c5d9vax37wxq72un98kmzzhznpurw9sgl2v0nklu2g4d0keph5t7tj9tcqd8rexnd07ux4uv2cjvcqwaxgj7v4uwn5wmypjd5n69z2xm3xgksg28nwht7f6zspwp3f9t'
+      var p2pkh = base58.decode("mk2QpYatsKicvFVuTAQLBryyccRXMUaGHP")
+      p2pkh = p2pkh.slice(1, p2pkh.length - 4)
       var expectedResult = {
         'prefix': 'lntb',
         'timestamp': 1496314658,
         'amount': 0.02,
         'tags': {
-          'P2PKH': [49, 114, 181, 101, 79, 102, 131, 200, 251, 20, 105, 89, 211, 71, 206, 48, 60, 174, 76, 167],
-          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
-          'purpose_of_payment': [57, 37, 182, 246, 126, 44, 52, 0, 54, 237, 18, 9, 61, 212, 78, 3, 104, 223, 27, 110, 162, 108, 83, 219, 228, 129, 31, 88, 253, 93, 184, 193]
+          'P2PKH': p2pkh,
+          'payment_hash': Buffer.from('0001020304050607080900010203040506070809000102030405060708090102', 'hex'),
+          'purpose_of_payment': Buffer.from(sha("One piece of chocolate cake, one icecream cone, one pickle, one slice of swiss cheese, one slice of salami, one lollypop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon"), 'hex'),
         }
       }
       expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
@@ -94,40 +98,41 @@ describe('Payment parser', () => {
         'timestamp': 1496314658,
         'amount': 0.02,
         'tags': {
-          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
-          'P2PKH': [4, 182, 31, 125, 193, 234, 13, 201, 148, 36, 70, 76, 196, 6, 77, 197, 100, 217, 30, 137],
-          'purpose_of_payment': [57, 37, 182, 246, 126, 44, 52, 0, 54, 237, 18, 9, 61, 212, 78, 3, 104, 223, 27, 110, 162, 108, 83, 219, 228, 129, 31, 88, 253, 93, 184, 193],
+          'payment_hash': Buffer.from('0001020304050607080900010203040506070809000102030405060708090102', 'hex'),
+          'P2PKH': Buffer.from([4, 182, 31, 125, 193, 234, 13, 201, 148, 36, 70, 76, 196, 6, 77, 197, 100, 217, 30, 137]),
+          'purpose_of_payment': Buffer.from(sha("One piece of chocolate cake, one icecream cone, one pickle, one slice of swiss cheese, one slice of salami, one lollypop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon"), 'hex'),
           'route': [{
-            'pubkey': [2, 158, 3, 169, 1, 184, 85, 52, 255, 30, 146, 196, 60, 116, 67, 31, 124, 231, 32, 70, 6, 15, 207, 122, 149, 195, 126, 20, 143, 120, 199, 114, 85],
-            'short_channel_id': [1, 2, 3, 4, 5, 6, 7, 8],
-            'fee_base_msat': [0, 0, 0, 1],
-            'fee_proportional_millionths': [ 0, 0, 0, 20],
+            'pubkey': Buffer.from('029e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255', 'hex'),
+            'short_channel_id': Buffer.from("0102030405060708", 'hex'),
+            'fee_base_msat': 1,
+            'fee_proportional_millionths': 20,
             'cltv_expiry_delta': 3
           },
             {
-              'pubkey': [3, 158, 3, 169, 1, 184, 85, 52, 255, 30, 146, 196, 60, 116, 67, 31, 124, 231, 32, 70, 6, 15, 207, 122, 149, 195, 126, 20, 143, 120, 199, 114, 85],
-              'short_channel_id': [3, 4, 5, 6, 7, 8, 9, 10],
-              'fee_base_msat': [0, 0, 0, 2],
-              'fee_proportional_millionths': [0, 0, 0, 30],
+              'pubkey': Buffer.from('039e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255', 'hex'),
+              'short_channel_id': Buffer.from('030405060708090a', 'hex'),
+              'fee_base_msat': 2,
+              'fee_proportional_millionths': 30,
               'cltv_expiry_delta': 4
             }]
         }
       }
       expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
-      //expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
+      expect(Parser.parse(Parser.encode(expectedResult, privateKey), pubKey)).to.deep.equal(expectedResult)
     })
     it('parses p2sh', () => {
       var testMsg = 'lnbc20m1pvjluezhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqspp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqfppj3a24vwu6r8ejrss3axul8rxldph2q7z9kmrgvr7xlaqm47apw3d48zm203kzcq357a4ls9al2ea73r8jcceyjtya6fu5wzzpe50zrge6ulk4nvjcpxlekvmxl6qcs9j3tz0469gq5g658y'
+      var p2sh = base58.decode("3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX")
+      p2sh = p2sh.slice(1, p2sh.length - 4)
       var expectedResult = {
         'prefix': 'lnbc',
         'timestamp': 1496314658,
         'amount': 0.02,
         'tags': {
-          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
-          'purpose_of_payment': [57, 37, 182, 246, 126, 44, 52, 0, 54, 237, 18, 9, 61, 212, 78, 3, 104, 223, 27, 110, 162, 108, 83, 219, 228, 129, 31, 88, 253, 93, 184, 193],
-          'P2SH': [143, 85, 86, 59, 154, 25, 243, 33, 194, 17, 233, 185, 243, 140, 223, 104, 110, 160, 120, 69]
-        },
-
+          'payment_hash': Buffer.from('0001020304050607080900010203040506070809000102030405060708090102', 'hex'),
+          'purpose_of_payment': Buffer.from(sha("One piece of chocolate cake, one icecream cone, one pickle, one slice of swiss cheese, one slice of salami, one lollypop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon"), 'hex'),
+          'P2SH': p2sh
+        }
       }
       expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
       expect(Parser.parse(Parser.encode(expectedResult, privateKey), pubKey)).to.deep.equal(expectedResult)
@@ -139,12 +144,12 @@ describe('Payment parser', () => {
         'timestamp': 1496314658,
         'amount': 0.02,
         'tags': {
-          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
-          'purpose_of_payment': [57, 37, 182, 246, 126, 44, 52, 0, 54, 237, 18, 9, 61, 212, 78, 3, 104, 223, 27, 110, 162, 108, 83, 219, 228, 129, 31, 88, 253, 93, 184, 193],
+          'payment_hash': Buffer.from('0001020304050607080900010203040506070809000102030405060708090102', 'hex'),
+          'purpose_of_payment': Buffer.from(sha("One piece of chocolate cake, one icecream cone, one pickle, one slice of swiss cheese, one slice of salami, one lollypop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon"), 'hex'),
           'segwit': {
             'version': 0,
-            'payload': [117, 30, 118, 232, 25, 145, 150, 212, 84, 148, 28, 69, 209, 179, 163, 35, 241, 67, 59, 214]
-          },
+            'payload': Buffer.from(bech32.fromWords(bech32.decode("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4").words.slice(1)))
+          }
         }
       }
       expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
@@ -157,12 +162,12 @@ describe('Payment parser', () => {
         'timestamp': 1496314658,
         'amount': 0.02,
         'tags': {
-          'payment_hash': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
-          'purpose_of_payment': [57, 37, 182, 246, 126, 44, 52, 0, 54, 237, 18, 9, 61, 212, 78, 3, 104, 223, 27, 110, 162, 108, 83, 219, 228, 129, 31, 88, 253, 93, 184, 193],
+          'payment_hash': Buffer.from('0001020304050607080900010203040506070809000102030405060708090102', 'hex'),
+          'purpose_of_payment': Buffer.from(sha("One piece of chocolate cake, one icecream cone, one pickle, one slice of swiss cheese, one slice of salami, one lollypop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon"), 'hex'),
           'segwit': {
             'version': 0,
-            'payload': [24, 99, 20, 60, 20, 197, 22, 104, 4, 189, 25, 32, 51, 86, 218, 19, 108, 152, 86, 120, 205, 77, 39, 161, 184, 198, 50, 150, 4, 144, 50, 98]
-          },
+            'payload': Buffer.from(bech32.fromWords(bech32.decode("bc1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qccfmv3").words.slice(1)))
+          }
         }
       }
       expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)

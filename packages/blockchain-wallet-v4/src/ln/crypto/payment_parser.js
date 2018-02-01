@@ -318,15 +318,21 @@ function encodeTags (tags) {
   }
 
   if (typeof (tags.route) !== 'undefined') {
-    var bytes = []
+    var bytes = Buffer.from([])
     for (var i = 0; i < tags.route.length; i++) {
       let node = tags.route[i]
-      bytes = bytes.concat(node.pubkey)
-      bytes = bytes.concat(node.short_channel_id)
-      bytes = bytes.concat(node.fee_base_msat)
-      bytes = bytes.concat(node.fee_proportional_millionths)
-      bytes.push(node.cltv_expiry_delta >> 8)
-      bytes.push(node.cltv_expiry_delta & 255)
+      bytes = Buffer.concat([bytes, node.pubkey, node.short_channel_id])
+      let a = []
+      for (let i = 3; i >= 0; i--) {
+        a.push((node.fee_base_msat >> (8 * i)) & 255)
+      }
+      for (let i = 3; i >= 0; i--) {
+        a.push((node.fee_proportional_millionths >> (8 * i)) & 255)
+      }
+      for (let i = 1; i >= 0; i--) {
+        a.push((node.cltv_expiry_delta >> (8 * i)) & 255)
+      }
+      bytes = Buffer.concat([bytes, Buffer.from(a)])
     }
     var routeStr = encodeData(bech32.toWords(bytes))
     result = result.concat('r', getDataLength(routeStr.length) + routeStr)
@@ -357,7 +363,7 @@ function parseTag (type, dataLength, data, result) {
       if (data[51] !== 's' && data[51] !== 'q') {
         throw new Error('No padding 0')
       }
-      result.payment_hash = bech32.fromWords(decodeData(data))
+      result.payment_hash = Buffer.from(bech32.fromWords(decodeData(data)))
       break
     case 'd':
       if (typeof (result.description) !== 'undefined' ||
@@ -379,7 +385,7 @@ function parseTag (type, dataLength, data, result) {
       if (ALPHABET_MAP[data[PUBLIC_KEY_DATA_LENGTH - 1]] % 2 !== 0) {
         throw new Error('No padding 0')
       }
-      result.public_key = bech32.fromWords(decodeData(data))
+      result.public_key = Buffer.from(bech32.fromWords(decodeData(data)))
       break
     case 'h':
       if (typeof (result.description) !== 'undefined' ||
@@ -393,7 +399,7 @@ function parseTag (type, dataLength, data, result) {
       if (data[51] !== 's' && data[HASH_DATA_LENGTH - 1] !== 'q') {
         throw new Error('No padding 0')
       }
-      result.purpose_of_payment = bech32.fromWords(decodeData(data))
+      result.purpose_of_payment = Buffer.from(bech32.fromWords(decodeData(data)))
       break
     case 'x':
       if (typeof (result.expiry_time) !== 'undefined') {
@@ -410,7 +416,7 @@ function parseTag (type, dataLength, data, result) {
       break
     case 'f':
       var version = ALPHABET_MAP[data[0]]
-      var payload = bech32.fromWords(decodeData(data.slice(1, data.length)))
+      var payload = Buffer.from(bech32.fromWords(decodeData(data.slice(1, data.length))))
       switch (version) {
         case 0:
           result.segwit = {}
@@ -435,11 +441,19 @@ function parseTag (type, dataLength, data, result) {
         if (typeof (result.route) === 'undefined') {
           result.route = []
         }
+        let fee_base_msat = 0
+        for (let i = 41; i < 45; i++) {
+          fee_base_msat = (fee_base_msat << 5) + next[i]
+        }
+        let fee_proportional_millionths = 0
+        for (let i = 45; i < 49; i++) {
+          fee_proportional_millionths = (fee_proportional_millionths << 5) + next[i]
+        }
         result.route.push({
-          'pubkey': next.slice(0, 33),
-          'short_channel_id': next.slice(33, 41),
-          'fee_base_msat': next.slice(41, 45),
-          'fee_proportional_millionths': next.slice(45, 49),
+          'pubkey': Buffer.from(next.slice(0, 33)),
+          'short_channel_id': Buffer.from(next.slice(33, 41)),
+          'fee_base_msat': fee_base_msat,
+          'fee_proportional_millionths': fee_proportional_millionths,
           'cltv_expiry_delta': (next[49] << 5) + next[50]
         })
       }
