@@ -258,7 +258,7 @@ describe('LN Transaction Generation', () => {
 
     delayedKey: wrapPubKey(wrapHex('03fd5960528dc152014952efdb702a88f71e3c1653b2314431701ec77e57fde83c')),
 
-    revocationKey: wrapHex('0212a140cd0c6539d07cd08dfe09984dec3251ea808b892efeac3ede9402bf2b19'),
+    revocationPubKey: wrapHex('0212a140cd0c6539d07cd08dfe09984dec3251ea808b892efeac3ede9402bf2b19'),
 
     localFundingKey: {
       pub: wrapHex('023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb'),
@@ -304,7 +304,7 @@ describe('LN Transaction Generation', () => {
           let paymentSigLocal = commitment.paymentSigs[i]
           let paymentSigRemote = test.paymentSigs[i]
 
-          let paymentInputScript = getPaymentInputScript(keySet.revocationKey, keySet.remoteKey, keySet.localKey, payment, paymentSigRemote, paymentSigLocal)
+          let paymentInputScript = getPaymentInputScript(keySet.revocationPubKey, keySet.remoteKey, keySet.localKey, payment, paymentSigRemote, paymentSigLocal)
           paymentTx = addWitness(paymentTx, 0, paymentInputScript)
 
           expect(bcoin.tx.fromRaw(test.paymentTxs[i]))

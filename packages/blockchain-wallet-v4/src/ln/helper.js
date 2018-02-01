@@ -6,6 +6,16 @@ const Long = require('long')
 const randomGen = require('random-seed')
 
 const ec = require('secp256k1')
+
+export let assertKey = key => {
+  if (key.priv) {
+    let pub = secp.publicKeyCreate(key.priv, true)
+    assert(key.pub.equals(pub))
+  } else {
+    assertPubKey(key.pub)
+  }
+}
+
 export let assertPubKey = pubKey => {
   assert.equal(pubKey.length, 33)
 }

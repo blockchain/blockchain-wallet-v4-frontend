@@ -97,7 +97,7 @@ export let getFundingRedeemScript = (key1, key2, sig1, sig2) => {
   return chunks
 }
 
-export let getToLocalOutputScript = (revocationKey, toSelfDelay, localDelayedKey) => {
+export let getToLocalOutputScript = (revocationPubKey, toSelfDelay, localDelayedKey) => {
   // OP_IF
   //   # Penalty transaction
   //   <revocationkey>
@@ -108,14 +108,14 @@ export let getToLocalOutputScript = (revocationKey, toSelfDelay, localDelayedKey
   //   <local_delayedkey>
   // OP_ENDIF
   // OP_CHECKSIG
-  assertPubKey(revocationKey)
+  assertPubKey(revocationPubKey)
   assertPubKey(localDelayedKey)
   assertNumber(toSelfDelay)
 
   let chunks = []
 
   chunks.push(OPS.OP_IF)
-  chunks.push(revocationKey)
+  chunks.push(revocationPubKey)
   chunks.push(OPS.OP_ELSE)
   chunks.push(intToNum(toSelfDelay))
   chunks.push(OP_CSV)
@@ -147,7 +147,7 @@ export let hash160 = (data) => {
   return hash.ripemd160(sha)
 }
 
-export let getOfferedHTLCOutput = (revocationKey, remoteHtlcKey, localHtlcKey, paymentHash) => {
+export let getOfferedHTLCOutput = (revocationPubKey, remoteHtlcKey, localHtlcKey, paymentHash) => {
   // # To you with revocation key
   //   OP_DUP OP_HASH160 <RIPEMD160(SHA256(revocationkey))> OP_EQUAL
   //   OP_IF
@@ -165,14 +165,14 @@ export let getOfferedHTLCOutput = (revocationKey, remoteHtlcKey, localHtlcKey, p
   //   OP_ENDIF
   assertPubKey(remoteHtlcKey)
   assertPubKey(localHtlcKey)
-  assertPubKey(revocationKey)
+  assertPubKey(revocationPubKey)
   assert.equal(paymentHash.length, 20)
 
   let chunks = []
 
   chunks.push(OPS.OP_DUP)
   chunks.push(OPS.OP_HASH160)
-  chunks.push(hash160(revocationKey))
+  chunks.push(hash160(revocationPubKey))
   chunks.push(OPS.OP_EQUAL)
 
   chunks.push(OPS.OP_IF)
@@ -209,7 +209,7 @@ export let getOfferedHTLCOutput = (revocationKey, remoteHtlcKey, localHtlcKey, p
   return SCRIPT.compile(chunks)
 }
 
-export let getReceivedHTLCOutput = (revocationKey, remoteHtlcKey, localHtlcKey, paymentHash, cltvTimeout) => {
+export let getReceivedHTLCOutput = (revocationPubKey, remoteHtlcKey, localHtlcKey, paymentHash, cltvTimeout) => {
   // # To you with revocation key
   // OP_DUP OP_HASH160 <RIPEMD160(SHA256(revocationkey))> OP_EQUAL
   // OP_IF
@@ -229,7 +229,7 @@ export let getReceivedHTLCOutput = (revocationKey, remoteHtlcKey, localHtlcKey, 
   // OP_ENDIF
   assertPubKey(remoteHtlcKey)
   assertPubKey(localHtlcKey)
-  assertPubKey(revocationKey)
+  assertPubKey(revocationPubKey)
   assertNumber(cltvTimeout)
   assert.equal(paymentHash.length, 20)
 
@@ -237,7 +237,7 @@ export let getReceivedHTLCOutput = (revocationKey, remoteHtlcKey, localHtlcKey, 
 
   chunks.push(OPS.OP_DUP)
   chunks.push(OPS.OP_HASH160)
-  chunks.push(hash160(revocationKey))
+  chunks.push(hash160(revocationPubKey))
   chunks.push(OPS.OP_EQUAL)
 
   chunks.push(OPS.OP_IF)
@@ -277,7 +277,7 @@ export let getReceivedHTLCOutput = (revocationKey, remoteHtlcKey, localHtlcKey, 
   return SCRIPT.compile(chunks)
 }
 
-export let getHTLCFollowUpTx = (revocationKey, toSelfDelay, delayedKeyLocal) => {
+export let getHTLCFollowUpTx = (revocationPubKey, toSelfDelay, delayedKeyLocal) => {
   // OP_IF
   //   # Penalty transaction
   //   <revocationkey>
@@ -288,7 +288,7 @@ export let getHTLCFollowUpTx = (revocationKey, toSelfDelay, delayedKeyLocal) => 
   //   <local_delayedkey>
   // OP_ENDIF
   // OP_CHECKSIG
-  assertPubKey(revocationKey)
+  assertPubKey(revocationPubKey)
   assertPubKey(delayedKeyLocal)
   assertNumber(toSelfDelay)
 
@@ -296,7 +296,7 @@ export let getHTLCFollowUpTx = (revocationKey, toSelfDelay, delayedKeyLocal) => 
 
   chunks.push(OPS.OP_IF)
 
-  chunks.push(revocationKey)
+  chunks.push(revocationPubKey)
 
   chunks.push(OPS.OP_ELSE)
 
