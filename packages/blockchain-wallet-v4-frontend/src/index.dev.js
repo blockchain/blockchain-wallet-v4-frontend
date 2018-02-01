@@ -30,7 +30,7 @@ if (module.hot) {
 
 store.dispatch(startUp())
 
-//const peer = '02c39955c1579afe4824dc0ef4493fdf7f3660b158cf6d367d8570b9f19683afb5'
+const peer = '02c39955c1579afe4824dc0ef4493fdf7f3660b158cf6d367d8570b9f19683afb5'
 setTimeout(() => {
 // TODO move to bootstrap section
   store.dispatch(startSocket())
