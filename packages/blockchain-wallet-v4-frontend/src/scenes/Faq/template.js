@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Button, Link } from 'blockchain-info-components'
 import FaqRow from './FaqRow'
-import * as Questions from './Questions'
+// import Questions from './Questions'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -35,14 +35,11 @@ const Faq = props => (
     <Header>
       <FormattedMessage id='scenes.faq.title' defaultMessage='Frequently asked questions' />
     </Header>
-    <FaqRow title={Questions.title1} description={Questions.description1} />
-    <FaqRow title={Questions.title2} description={Questions.description2} />
-    <FaqRow title={Questions.title3} description={Questions.description3} />
-    <FaqRow title={Questions.title4} description={Questions.description4} />
-    <FaqRow title={Questions.title5} description={Questions.description5} />
-    <FaqRow title={Questions.title6} description={Questions.description6} />
-    <FaqRow title={Questions.title7} description={Questions.description7} />
-    <FaqRow title={Questions.title8} description={Questions.description8} />
+    {
+      props.questions.map((q, i) => {
+        return <FaqRow title={q.title} description={q.description} key={i} />
+      })
+    }
     <Footer>
       <FormattedMessage id='scenes.faq.needmorehelp' defaultMessage="Can't find what you're looking for?" />
       <Link href='https://blockchain.zendesk.com' target='_blank'>
