@@ -365,7 +365,7 @@ function parseTag (type, dataLength, data, result) {
         throw new Error('There should be either exactly one d or one h field')
       }
       var a = bech32.fromWords(decodeData(data))
-      result.description = utf.TextDecoder('utf-8').decode(a)
+      result.description = utf.TextDecoder('utf-8').decode(Buffer.from(a))
       break
     case 'n':
       if (dataLength !== PUBLIC_KEY_DATA_LENGTH) {

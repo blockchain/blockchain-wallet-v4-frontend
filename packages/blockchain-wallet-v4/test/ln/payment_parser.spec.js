@@ -52,8 +52,8 @@ describe('Payment parser', () => {
           'expiry_time': 60
         }
       }
-      expect(Parser.parse(testMsg, privateKey)).to.deep.equal(expectedResult)
-      expect(Parser.encode(expectedResult, pubKey)).to.equal(testMsg)
+      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
+      expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
     })
 
    it('parses hash of description', () => {
