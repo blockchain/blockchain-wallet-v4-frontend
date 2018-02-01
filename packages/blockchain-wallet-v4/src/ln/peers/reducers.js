@@ -12,44 +12,44 @@ const INITIAL_PEER_STATE = {
 
 const peersReducer = (state = INITIAL_STATE, action) => {
   //console.log(action)
-  const { type, publicKey } = action
+  const { type, pubKey } = action
 
   switch (type) {
     case T.ADD: {
-      console.log(publicKey.toString('hex'))
+      console.log(pubKey.toString('hex'))
       let copy = Object.assign({}, state)
-      copy[publicKey.toString('hex')] = Object.assign({}, INITIAL_PEER_STATE)
+      copy[pubKey.toString('hex')] = Object.assign({}, INITIAL_PEER_STATE)
       return copy
     }
     case T.REMOVE: {
       let copy = Object.assign({}, state)
-      copy[publicKey.toString('hex')] = undefined
+      copy[pubKey.toString('hex')] = undefined
       return copy
     }
     case T.DISCONNECTED: {
-      if (state[publicKey] === undefined) {
+      if (state[pubKey] === undefined) {
         return state
       }
       let copy = Object.assign({}, state)
-      copy[publicKey].connected = false
+      copy[pubKey].connected = false
       return copy
     }
 
     case T.CONNECTED: {
-      if (state[publicKey] === undefined) {
+      if (state[pubKey] === undefined) {
         return state
       }
       let copy = Object.assign({}, state)
-      copy[publicKey].connected = true
+      copy[pubKey].connected = true
       return copy
     }
 
     case T.PING_RECEIVED: {
-      if (state[publicKey] === undefined) {
+      if (state[pubKey] === undefined) {
         return state
       }
       let copy = Object.assign({}, state)
-      copy[publicKey].lastPing = Date.now()
+      copy[pubKey].lastPing = Date.now()
     }
 
     default: return state

@@ -7,11 +7,12 @@
     - Whose data is it?
     - What is the encoding of the data?
     - Ex.
-        - pubKeyLocalHex (right)
-        - localPubKey (wrong)
+        - pubKeyLocHex (right)
+        - locPubKey (wrong)
     - All names should be abbreviated
         - public -> pub
         - private -> priv
         - transaction -> tx
         - ...
  - Peers should always be referenced by their `pubKey`
+ - Key pairs should just be called `key`, compared to `pubKey`/`privKey`

@@ -24,7 +24,7 @@ function Connection (options, staticRemote) {
   if (!(this instanceof Connection)) { return new Connection() }
 
   this.staticLocal = options.staticLocal
-  this.staticRemote = staticRemote
+  this.keyRemote = staticRemote
 
   // Features that peer supports
   this.gfRemote = []
@@ -98,7 +98,7 @@ Connection.prototype.connect = function connect (tcp, onHandshakeCb, onCloseCb) 
     onCloseCb()
   }
 
-  tcp.connectToNode(this.staticRemote.pub.toString('hex'), onConnect, () => {}, onClose)
+  tcp.connectToNode(this.keyRemote.pub.toString('hex'), onConnect, () => {}, onClose)
 
   this.tcp = tcp
 }
@@ -109,10 +109,10 @@ Connection.prototype.sendHandshakePart1 = function () {
   this.h = crypto.sha256(Buffer.from('Noise_XK_secp256k1_ChaChaPoly_SHA256', 'ascii'))
   this.ck = this.h
   this._appendToHash(Buffer.from('lightning', 'ascii'))
-  this._appendToHash(this.staticRemote.pub)
+  this._appendToHash(this.keyRemote.pub)
   this._appendToHash(this.tempLocal.pub)
 
-  let ss = ecdh(this.staticRemote.pub, this.tempLocal.priv)
+  let ss = ecdh(this.keyRemote.pub, this.tempLocal.priv)
 
   console.debug('ss = 0x' + ss.toString('hex'))
   console.debug('ck = 0x' + this.ck.toString('hex'))
@@ -291,7 +291,7 @@ Connection.prototype.feed = function feed (data) {
 
     this.readHandshakePart2(data)
     this.sendHandshakePart3()
-    console.info('Handshake completed with ' + this.staticRemote.pub.toString('hex'))
+    console.info('Handshake completed with ' + this.keyRemote.pub.toString('hex'))
     this.write(Parse.writeMessage(new Message.Init(Buffer.alloc(0), wrapHex('08'))))
     this.onHandshakeCb()
     return
@@ -377,7 +377,7 @@ Connection.prototype.write = function (payload) {
 }
 
 Connection.prototype.writeRaw = function writeRaw (data) {
-  this.tcp.sendToNode(this.staticRemote.pub, data)
+  this.tcp.sendToNode(this.keyRemote.pub, data)
 }
 
 let sendOutAllMessages = function (state) {
@@ -386,7 +386,7 @@ let sendOutAllMessages = function (state) {
   // TODO what do we do when it's not connected? Discard or keep?
 
   state.get('channels').forEach(c => c.get('messageOut').forEach(m => {
-    let staticRemote = c.get('staticRemote').pub
+    let staticRemote = c.get('keyRemote').pub
     let conn = state.getIn(['connections', staticRemote, 'conn'])
     if (conn !== undefined) {
       let msg = getSerializer(m)(m)

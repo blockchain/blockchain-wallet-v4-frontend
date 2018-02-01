@@ -57,7 +57,7 @@ describe('Channel Saga', () => {
   it('Should open connection and channel', () => {
     return sagaUnderTest
       .dispatch(A.open(peer, Long.fromNumber(1000000)))
-      .call(peerSagas.connect, {publicKey: peer})
+      .call(peerSagas.connect, {pubKey: peer})
       .silentRun()
   })
 
@@ -65,7 +65,7 @@ describe('Channel Saga', () => {
     return sagaUnderTest
       .withState(state)
       .dispatch(A.open(peer, Long.fromNumber(100000)))
-      .call(peerSagas.connect, {publicKey: peer})
+      .call(peerSagas.connect, {pubKey: peer})
       .put.like(wrapAction(sendMessage(peer, {type: TYPE.OPEN_CHANNEL})))
       .silentRun()
   })

@@ -7,9 +7,9 @@
 This action MUST be dispatched before interacting with the plugin in any way. This will initialise it's internal state and
  recreate connections
 
-### OPEN_CHANNEL (publicKey, value)
+### OPEN_CHANNEL (pubKey, value)
 
-Will try to open a payment channel over `value` with the node owning `publicKey`.
+Will try to open a payment channel over `value` with the node owning `pubKey`.
  After broadcasting the funding transaction, `CHANNEL_FUNDING_BROADCASTED` will get dispatched. TODO
 
 Once the channel is ready to be used for payments, `CHANNEL_OPENED` will get dispatched.

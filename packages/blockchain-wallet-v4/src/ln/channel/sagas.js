@@ -28,24 +28,22 @@ export const channelSagas = (api, wallet, peersSaga) => {
     }
   }
 
-  const onOpenChannel = function * ({publicKey, value}) {
+  const onOpenChannel = function * ({pubKey, value}) {
     const options = yield select(rootOptions)
-    yield call(peersSaga.connect, {publicKey})
-    yield call(openChannel, ({options, publicKey, value}))
+    yield call(peersSaga.connect, {pubKey})
+    yield call(openChannel, ({options, pubKey, value}))
   }
 
-  const openChannel = function * ({options, publicKey, value}) {
+  const openChannel = function * ({options, pubKey, value}) {
     // Opening the channel
-    const staticRemote = wrapPubKey(wrapHex(publicKey))
-    let response = createOpenChannel(staticRemote, options, value)
+    const key = wrapPubKey(pubKey)
+    let response = createOpenChannel(key, options, value)
 
     yield put(refresh(response.channel))
-    yield put(sendMessage(wrapHex(publicKey), response.msg))
+    yield put(sendMessage(pubKey, response.msg))
   }
 
-  const onBlock = function * (action) {
-    let {block} = action
-
+  const onBlock = function * ({block}) {
     let channels = yield select(getChannelDir)
 
     for (const channelId in channels) {
@@ -55,10 +53,10 @@ export const channelSagas = (api, wallet, peersSaga) => {
         let rawTx = yield call(api.getRawTx, getTransactionHash(channel.fundingTx).toString('hex'))
         const confirmations = block.height - rawTx.block_height
 
-        if (confirmations >= channel.paramsLocal.minimumDepth) {
+        if (confirmations >= channel.paramsLoc.minimumDepth) {
           let response = createFundingLocked(channel)
 
-          yield put(sendMessage(channel.staticRemote.pub, response.msg))
+          yield put(sendMessage(channel.keyRemote.pub, response.msg))
           yield put(refresh(response.channel))
           yield call(checkChannelOpen, channel)
         }
@@ -79,8 +77,8 @@ export const channelSagas = (api, wallet, peersSaga) => {
     let response2 = createCommitmentSigned(response1.channel)
 
     yield put(refresh(response2.channel))
-    yield put(sendMessage(channel.staticRemote.pub, response1.msg))
-    yield put(sendMessage(channel.staticRemote.pub, response2.msg))
+    yield put(sendMessage(channel.keyRemote.pub, response1.msg))
+    yield put(sendMessage(channel.keyRemote.pub, response2.msg))
   }
 
   const getNodeForPayment = function * (amount) {
@@ -89,9 +87,9 @@ export const channelSagas = (api, wallet, peersSaga) => {
     // Which of our channels has enough funds to make this payment?
     for (const channelId in channels) {
       const channel = channels[channelId]
-      if (channel.local.amountMsatLocal > amount) {
+      if (channel.stateLoc.amountMsatLoc > amount) {
         // Check if we have a connection to the peer currently
-        const pubKeyHex = channel.staticRemote.pub.toString('hex')
+        const pubKeyHex = channel.keyRemote.pub.toString('hex')
         const peers = yield (peerStaticRemote)
         const peer = peers[pubKeyHex]
         if (peer.connected) {
@@ -148,7 +146,7 @@ export const channelSagas = (api, wallet, peersSaga) => {
 
       case TYPE.REVOKE_AND_ACK:
         channel = readRevokeAck(channel, msg)
-        if (channel.local.ack.length + channel.local.unack.length > 0) {
+        if (channel.stateLoc.ack.length + channel.stateLoc.unack.length > 0) {
           response = createCommitmentSigned(channel)
         }
         break
@@ -160,7 +158,7 @@ export const channelSagas = (api, wallet, peersSaga) => {
 
     if (response !== undefined) {
       channel = response.channel
-      yield put(sendMessage(channel.staticRemote.pub, response.msg))
+      yield put(sendMessage(channel.keyRemote.pub, response.msg))
     }
 
     yield put(refresh(channel))

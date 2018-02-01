@@ -74,10 +74,10 @@ let applyAdd = (channelState, msg, direction) => {
   // We need to remove balance and add it to the commitment tx
   channelState = copy(channelState)
   if (direction === Direction.RECEIVED) {
-    channelState.amountMsatRemote = channelState.amountMsatRemote.sub(msg.amountMsat)
+    channelState.amountMsatRem = channelState.amountMsatRem.sub(msg.amountMsat)
     channelState.committed.push(wrapPayment(msg, direction))
   } else {
-    channelState.amountMsatLocal = channelState.amountMsatLocal.sub(msg.amountMsat)
+    channelState.amountMsatLoc = channelState.amountMsatLoc.sub(msg.amountMsat)
     channelState.committed.push(wrapPayment(msg, direction))
   }
   return channelState
@@ -91,11 +91,11 @@ let applyFulfill = (channelState, msg, direction) => {
   channelState = copy(channelState)
   if (direction === Direction.RECEIVED) {
     let payment = getPaymentO(channelState, msg.id)
-    channelState.amountMsatRemote = channelState.amountMsatRemote.add(payment.amount)
+    channelState.amountMsatRem = channelState.amountMsatRem.add(payment.amount)
     channelState.committed = channelState.committed.filter(filterPayment(msg.id))
   } else {
     let payment = getPaymentI(channelState, msg.id)
-    channelState.amountMsatLocal = channelState.amountMsatLocal.add(payment.amount)
+    channelState.amountMsatLoc = channelState.amountMsatLoc.add(payment.amount)
     channelState.committed = channelState.committed.filter(filterPayment(msg.id))
   }
   return channelState
@@ -107,11 +107,11 @@ let applyFail = (channelState, msg, direction) => {
   channelState = copy(channelState)
   if (direction === Direction.RECEIVED) {
     let payment = getPaymentO(channelState, msg.id)
-    channelState.amountMsatLocal = channelState.amountMsatLocal.add(payment.amount)
+    channelState.amountMsatLoc = channelState.amountMsatLoc.add(payment.amount)
     channelState.committed = channelState.committed.filter(filterPayment(msg.id))
   } else {
     let payment = getPaymentI(channelState, msg.id)
-    channelState.amountMsatRemote = channelState.amountMsatLocal.add(payment.amount)
+    channelState.amountMsatRem = channelState.amountMsatLoc.add(payment.amount)
     channelState.committed = channelState.committed.filter(filterPayment(msg.id))
   }
   return channelState
@@ -166,7 +166,7 @@ export function readAcceptChannel (channel, msg, peer) {
     msg.maxHtlcValueInFlightMsat,
     msg.channelReserveSatoshis,
     msg.htlcMinimumMsat,
-    channel.paramsLocal.feeRatePerKw,
+    channel.paramsLoc.feeRatePerKw,
     msg.toSelfDelay,
     msg.maxAcceptedHtlcs,
     wrapPubKey(msg.revocationBasepoint),
@@ -178,9 +178,9 @@ export function readAcceptChannel (channel, msg, peer) {
     peer.lf,
     msg.minimumDepth)
 
-  channel.paramsRemote = paramsRemote
-  channel.commitmentObscureHash = obscureHash(channel.paramsLocal.paymentBasepoint.pub, msg.paymentBasepoint)
-  channel.remote.nextCommitmentPoint = msg.firstPerCommitmentPoint
+  channel.paramsRem = paramsRemote
+  channel.commitmentObscureHash = obscureHash(channel.paramsLoc.paymentBasepoint.pub, msg.paymentBasepoint)
+  channel.stateRem.nextCommitmentPoint = msg.firstPerCommitmentPoint
 
   return channel
 }
@@ -195,12 +195,12 @@ export function readFundingSigned (channel, msg) {
     input,
     channel.commitmentObscureHash,
     [],
-    channel.local.commitmentNumber,
-    channel.local.amountMsatLocal,
-    channel.local.amountMsatRemote,
-    channel.paramsLocal.feeRatePerKw,
-    channel.paramsLocal.dustLimitSatoshis,
-    channel.paramsRemote.toSelfDelay,
+    channel.stateLoc.commitmentNumber,
+    channel.stateLoc.amountMsatLoc,
+    channel.stateLoc.amountMsatRem,
+    channel.paramsLoc.feeRatePerKw,
+    channel.paramsLoc.dustLimitSatoshis,
+    channel.paramsRem.toSelfDelay,
     keySet,
     Funded.LOCAL_FUNDED
   )
@@ -208,8 +208,8 @@ export function readFundingSigned (channel, msg) {
   let sigCheck = checkCommitmentSignature(
     input.value,
     commitment.commitmentTx,
-    channel.paramsLocal.fundingKey,
-    channel.paramsRemote.fundingKey,
+    channel.paramsLoc.fundingKey,
+    channel.paramsRem.fundingKey,
     msg.signature
   )
 
@@ -218,7 +218,7 @@ export function readFundingSigned (channel, msg) {
 }
 
 export function readFundingLocked (channel, msg) {
-  channel.local.nextCommitmentPoint = msg.nextCommitmentPoint
+  channel.stateLoc.nextCommitmentPoint = msg.nextCommitmentPoint
   channel.fundingLockedReceived = true
 
   if (channel.fundingLockedSent === true) {
@@ -229,9 +229,9 @@ export function readFundingLocked (channel, msg) {
 
 export let readUpdateAddHtlc = (channel, msg) => {
   // checkChannel(channel, ) //TODO check channel
-  channel.remote.indexes.inU = channel.remote.indexes.inU.add(1)
-  channel.local.updateCounter = channel.local.updateCounter.add(1)
-  channel = addWrapper(channel, 'local', ChannelUpdateTypes.ADD, Direction.OFFERED, msg)
+  channel.stateRem.indexes.inU = channel.stateRem.indexes.inU.add(1)
+  channel.stateLoc.updateCounter = channel.stateLoc.updateCounter.add(1)
+  channel = addWrapper(channel, 'stateLoc', ChannelUpdateTypes.ADD, Direction.OFFERED, msg)
 
   // TODO check index
   // assert.deepEqual(msg.id, channel.remote.indexes.inU.add(1))
@@ -242,7 +242,7 @@ export let readUpdateAddHtlc = (channel, msg) => {
 }
 
 export function readCommitmentSigned (channel, msg) {
-  let channelStateComm = copy(channel.local)
+  let channelStateComm = copy(channel.stateLoc)
 
   // We received a commitment message from the other party
   // We need to apply all the local diffs
@@ -253,13 +253,13 @@ export function readCommitmentSigned (channel, msg) {
   // TODO create commitment transaction
   // TODO check commitment signature
 
-  channel.local.commitIndex = channel.local.updateCounter
+  channel.stateLoc.commitIndex = channel.stateLoc.updateCounter
   return channel
 }
 
 export function readRevokeAck (channel, msg) {
   // TODO check commitments and compact our commitment store
-  let channelState = copy(channel.remote)
+  let channelState = copy(channel.stateRem)
 
   channelState = applyWrapperList(channelState.ack, channelState)
   channelState = applyWrapperList(channelState.unack, channelState)
@@ -269,10 +269,10 @@ export function readRevokeAck (channel, msg) {
   let filter = a => a.index.lte(commitIndex)
 
   let updatesToCommit = channelState.unack.filter(filter)
-  channel.remote = channelState
-  channel.local.ack.push(...updatesToCommit)
-  channel.remote.unack = channel.remote.unack.filter(a => !filter(a))
-  channel.remote.ack = []
+  channel.stateRem = channelState
+  channel.stateLoc.ack.push(...updatesToCommit)
+  channel.stateRem.unack = channel.stateRem.unack.filter(a => !filter(a))
+  channel.stateRem.ack = []
 
   return channel
 }
@@ -302,24 +302,24 @@ export function createChannelParams (options) {
 
 export function createChannel (peer, options, value) {
   let channel = Channel()
-  channel.staticRemote = peer
+  channel.keyRemote = peer
   channel.channelId = getRandomBytes(32)
   channel.commitmentInput.value = value.toNumber()
-  channel.paramsLocal = createChannelParams(options)
+  channel.paramsLoc = createChannelParams(options)
   channel.phase = phase.SENT_OPEN
   channel.commitmentSecretSeed = getRandomBytes(32)
-  channel.local.nextCommitmentPoint = generatePerCommitmentPoint(channel.commitmentSecretSeed, Math.pow(2, 48) - 1)
-  channel.local.amountMsatLocal = Long.fromNumber(value).mul(1000)
-  channel.local.amountMsatRemote = Long.fromNumber(0)
-  channel.remote.amountMsatRemote = Long.fromNumber(value).mul(1000)
-  channel.remote.amountMsatLocal = Long.fromNumber(0)
+  channel.stateLoc.nextCommitmentPoint = generatePerCommitmentPoint(channel.commitmentSecretSeed, Math.pow(2, 48) - 1)
+  channel.stateLoc.amountMsatLoc = Long.fromNumber(value).mul(1000)
+  channel.stateLoc.amountMsatRem = Long.fromNumber(0)
+  channel.stateRem.amountMsatRem = Long.fromNumber(value).mul(1000)
+  channel.stateRem.amountMsatLoc = Long.fromNumber(0)
 
   return channel
 }
 
 export function createOpenChannel (peer, options, value) {
   let channel = createChannel(peer, options, value)
-  let params = channel.paramsLocal
+  let params = channel.paramsLoc
 
   let msg = OpenChannel(
     options.chainHash,
@@ -338,7 +338,7 @@ export function createOpenChannel (peer, options, value) {
     params.paymentBasepoint.pub,
     params.delayedPaymentBasepoint.pub,
     params.htlcBasepoint.pub,
-    channel.local.nextCommitmentPoint,
+    channel.stateLoc.nextCommitmentPoint,
     Buffer.alloc(1),
     params.shutdownScriptpubkey
   )
@@ -350,9 +350,9 @@ export function createFundingOutput (channel) {
   return {
     address: Script.wrapP2WSH(
     Script.getFundingOutputScript(
-      channel.paramsRemote.fundingKey.pub,
-      channel.paramsLocal.fundingKey.pub)),
-    value: channel.local.amountMsatLocal.div(1000).toNumber()
+      channel.paramsRem.fundingKey.pub,
+      channel.paramsLoc.fundingKey.pub)),
+    value: channel.stateLoc.amountMsatLoc.div(1000).toNumber()
   }
 }
 
@@ -372,12 +372,12 @@ export function createFundingCreated (channel) {
     channel.commitmentInput,
     channel.commitmentObscureHash,
     [],
-    channel.remote.commitmentNumber,
-    channel.remote.amountMsatLocal,
-    channel.remote.amountMsatRemote,
-    channel.paramsRemote.feeRatePerKw,
-    channel.paramsRemote.dustLimitSatoshis.toNumber(),
-    channel.paramsLocal.toSelfDelay,
+    channel.stateRem.commitmentNumber,
+    channel.stateRem.amountMsatLoc,
+    channel.stateRem.amountMsatRem,
+    channel.paramsRem.feeRatePerKw,
+    channel.paramsRem.dustLimitSatoshis.toNumber(),
+    channel.paramsLoc.toSelfDelay,
     keySet,
     Funded.REMOTE_FUNDED
   )
@@ -409,21 +409,21 @@ export function createFundingLocked (channel) {
 export function createUpdateAddHtlc (channel, payment) {
   // checkChannel(channel, ) //TODO check channel
   channel = copy(channel)
-  channel.local.indexes.inU = channel.local.indexes.inU.add(1)
-  channel.remote.updateCounter = channel.remote.updateCounter.add(1)
+  channel.stateLoc.indexes.inU = channel.stateLoc.indexes.inU.add(1)
+  channel.stateRem.updateCounter = channel.stateRem.updateCounter.add(1)
 
   // TODO check if we actually have enough money to make this payment
-  let paymentIndex = channel.local.indexes.inU
+  let paymentIndex = channel.stateLoc.indexes.inU
   let msg = createAddMessage(channel.channelId, paymentIndex, payment)
 
-  channel = addWrapper(channel, 'remote', ChannelUpdateTypes.ADD, Direction.RECEIVED, msg)
+  channel = addWrapper(channel, 'stateRem', ChannelUpdateTypes.ADD, Direction.RECEIVED, msg)
 
   return {channel, msg}
 }
 
 export function createCommitmentSigned (channel) {
   channel = copy(channel)
-  let channelStateComm = copy(channel.remote)
+  let channelStateComm = copy(channel.stateRem)
 
   channelStateComm = applyWrapperList(channelStateComm.ack, channelStateComm)
   channelStateComm = applyWrapperList(channelStateComm.unack, channelStateComm)
@@ -436,7 +436,7 @@ export function createCommitmentSigned (channel) {
 
   let msg = CommitmentSigned(channel.channelId, null, 0, null)
 
-  channel.remote.commitIndex = channel.remote.updateCounter
+  channel.stateRem.commitIndex = channel.stateRem.updateCounter
   return {channel, msg}
 }
 
@@ -450,7 +450,7 @@ export function createRevokeAck (channel) {
   // After sending this message, the comm list will be merged to the committed list
   // This message also serves as an ack message for all the staged updates, such that
   // we can safely merge them into our counterparties ack list.
-  let channelState = copy(channel.local)
+  let channelState = copy(channel.stateLoc)
 
   channelState = applyWrapperList(channelState.ack, channelState)
   channelState = applyWrapperList(channelState.unack, channelState)
@@ -463,10 +463,10 @@ export function createRevokeAck (channel) {
     .filter(filter)
     .map(reverseWrapper)
 
-  channel.local = channelState
-  channel.remote.ack.push(...updatesToCommit)
-  channel.local.unack = channel.local.unack.filter(a => !filter(a))
-  channel.local.ack = []
+  channel.stateLoc = channelState
+  channel.stateRem.ack.push(...updatesToCommit)
+  channel.stateLoc.unack = channel.stateLoc.unack.filter(a => !filter(a))
+  channel.stateLoc.ack = []
 
   return {channel, msg}
 }

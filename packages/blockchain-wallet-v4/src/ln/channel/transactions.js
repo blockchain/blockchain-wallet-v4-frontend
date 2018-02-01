@@ -73,29 +73,29 @@ export let trimPredicate = (feePerKw, dustLimit) => p => {
   return payment.amount.div(1000).sub(fee).greaterThanOrEqual(dustLimit)
 }
 
-export let createSigCheckKeySet = ({local, paramsRemote, paramsLocal}) => {
+export let createSigCheckKeySet = ({stateLoc, paramsRem, paramsLoc}) => {
 
   return createKeySetInternal(
-    local.nextCommitmentPoint,
-    paramsRemote.revocationBasepoint,
-    paramsRemote.paymentBasepoint,
-    paramsLocal.delayedPaymentBasepoint,
-    paramsLocal.htlcBasepoint,
-    paramsRemote.htlcBasepoint,
-    paramsLocal.fundingKey,
-    paramsRemote.fundingKey)
+    stateLoc.nextCommitmentPoint,
+    paramsRem.revocationBasepoint,
+    paramsRem.paymentBasepoint,
+    paramsLoc.delayedPaymentBasepoint,
+    paramsLoc.htlcBasepoint,
+    paramsRem.htlcBasepoint,
+    paramsLoc.fundingKey,
+    paramsRem.fundingKey)
 }
 
-export let createSigCreateKeySet = ({remote, paramsRemote, paramsLocal}) => {
+export let createSigCreateKeySet = ({stateRem, paramsRem, paramsLoc}) => {
   return createKeySetInternal(
-    remote.nextCommitmentPoint,
-    paramsRemote.revocationBasepoint,
-    paramsLocal.paymentBasepoint,
-    paramsLocal.delayedPaymentBasepoint,
-    paramsRemote.htlcBasepoint,
-    paramsLocal.htlcBasepoint,
-    paramsLocal.fundingKey,
-    paramsRemote.fundingKey)
+    stateRem.nextCommitmentPoint,
+    paramsRem.revocationBasepoint,
+    paramsLoc.paymentBasepoint,
+    paramsLoc.delayedPaymentBasepoint,
+    paramsRem.htlcBasepoint,
+    paramsLoc.htlcBasepoint,
+    paramsLoc.fundingKey,
+    paramsRem.fundingKey)
 }
 
 let createKeySetInternal = (

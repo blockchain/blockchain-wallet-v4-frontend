@@ -13,8 +13,8 @@ import { rootOptions } from '../root/selectors'
 
 var ec = require('bcoin/lib/crypto/secp256k1-browser')
 
-export const encodePeer = publicKey => publicKey.toString('base64')
-export const decodePeer = publicKey => Buffer.from(publicKey, 'base64')
+export const encodePeer = pubKey => pubKey.toString('base64')
+export const decodePeer = pubKey => Buffer.from(pubKey, 'base64')
 
 export const peerSagas = (tcpConn) => {
   let peers = {}
@@ -24,27 +24,27 @@ export const peerSagas = (tcpConn) => {
     let staticRemotes = yield select(peerStaticRemote)
 
     for (let staticRemoteString in staticRemotes) {
-      yield call(connect, {type: CONNECT, publicKey: staticRemoteString})
+      yield call(connect, {type: CONNECT, pubKey: staticRemoteString})
     }
   }
 
   const connect = function * (action) {
-    let {type, publicKey} = action
+    let {type, pubKey} = action
     console.log(type)
-    console.log(publicKey)
-    let staticRemote = wrapPubKey(Buffer.from(publicKey, 'hex'))
+    console.log(pubKey)
+    let staticRemote = wrapPubKey(Buffer.from(pubKey, 'hex'))
     let options = yield select(rootOptions)
     let peer = new Connection(options, staticRemote)
-    if (peers[publicKey] !== undefined) {
+    if (peers[pubKey] !== undefined) {
       console.info('already exists...')
       return
     }
 
-    peers[publicKey] = peer
+    peers[pubKey] = peer
     yield call(peer.connectPromise.bind(peer), tcpConn)
-    yield put(connected(publicKey))
+    yield put(connected(pubKey))
     let initMessageAction = {}
-    while (publicKey !== initMessageAction.publicKey) {
+    while (pubKey !== initMessageAction.pubKey) {
       initMessageAction = yield take(INIT_MESSAGE_RECEIVED)
     }
     console.info('done!!! connected ')
@@ -90,20 +90,20 @@ export const peerSagas = (tcpConn) => {
   }
 
   const disconnect = function * (action) {
-    let {type, publicKey} = action
-    if (peers[publicKey] === undefined) {
+    let {type, pubKey} = action
+    if (peers[pubKey] === undefined) {
       console.info('nothing to disconnect')
       return
     }
 
-    delete peers[publicKey]
-    yield put(disconnected(publicKey))
+    delete peers[pubKey]
+    yield put(disconnected(pubKey))
   }
 
   const sendMessage = function * (action) {
-    let {publicKey, message} = action
+    let {pubKey, message} = action
     console.info('[->] ' + TYPE.extractName(message.type) + ': ', message)
-    let connection = peers[publicKey.toString('hex')]
+    let connection = peers[pubKey.toString('hex')]
     connection.write(writeMessage(message))
   }
 
