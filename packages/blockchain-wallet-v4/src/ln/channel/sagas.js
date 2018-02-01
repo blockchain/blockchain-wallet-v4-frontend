@@ -6,7 +6,7 @@ import {
   createCommitmentSigned,
   createFundingCreated, createOpenChannel, createRevokeAck,
   readAcceptChannel, readCommitmentSigned, readFundingSigned, readRevokeAck,
-  readUpdateAddHtlc, createFundingLocked, readFundingLocked, createFundingOutput
+  readUpdateAddHtlc, createFundingLocked, readFundingLocked, createFundingOutput, createUpdateAddHtlc
 } from './channel'
 import {opened, refresh} from './actions'
 import {copy, wrapHex, wrapPubKey} from '../helper'
@@ -14,8 +14,8 @@ import TYPE from '../messages/types'
 import {sendMessage} from '../peers/actions'
 import {getChannelDir, getChannel} from './selectors'
 import {rootOptions} from '../root/selectors'
-import {createApiWallet} from './walletAbstraction'
-import {getTransactionHash} from "./transactions";
+import {getTransactionHash} from './transactions'
+import {peerStaticRemote} from '../peers/selectors'
 
 export const channelSagas = (api, wallet, peersSaga) => {
   const getChannelId = msg => {
@@ -64,6 +64,40 @@ export const channelSagas = (api, wallet, peersSaga) => {
         }
       }
       // TODO add other checks for existing channels here
+    }
+  }
+
+  const makePayment = function * (paymentRequest) {
+    // TODO which channel do we chose to route this payment with?
+
+    const route = yield call(routingEndpoint)
+    const onionObject = calculateOnionObject(route)
+    const channelId = yield call(getNodeForPayment, paymentRequest.amount)
+    const channel = yield select(getChannel(channelId))
+
+    let response1 = createUpdateAddHtlc(channel, paymentRequest)
+    let response2 = createCommitmentSigned(response1.channel)
+
+    yield put(refresh(response2.channel))
+    yield put(sendMessage(channel.staticRemote.pub, response1.msg))
+    yield put(sendMessage(channel.staticRemote.pub, response2.msg))
+  }
+
+  const getNodeForPayment = function * (amount) {
+    const channels = yield select(getChannelDir)
+
+    // Which of our channels has enough funds to make this payment?
+    for (const channelId in channels) {
+      const channel = channels[channelId]
+      if (channel.local.amountMsatLocal > amount) {
+        // Check if we have a connection to the peer currently
+        const pubKeyHex = channel.staticRemote.pub.toString('hex')
+        const peers = yield (peerStaticRemote)
+        const peer = peers[pubKeyHex]
+        if (peer.connected) {
+          return channelId
+        }
+      }
     }
   }
 
