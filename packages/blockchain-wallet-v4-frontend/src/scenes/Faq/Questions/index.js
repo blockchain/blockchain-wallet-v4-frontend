@@ -103,16 +103,45 @@ const description9 = () => (
   </TextGroup>
 )
 
+const title10 = () => <FormattedMessage id='scenes.faq.item10.question' defaultMessage='How do I buy or sell bitcoin?' />
+
+const description10 = () => (
+  <TextGroup>
+    <FormattedMessage id='scenes.faq.item10.answer' defaultMessage='We partner with exchanges across the world to make buying and selling bitcoin easier for you. You can get started now by creating an account with our partner. Once your account has been verified, you can begin buying or selling bitcoin with a credit card or bank transfer.' />
+    <LinkContainer to='/buy-sell'>
+      <Link size='14px' weight={300}>
+        <FormattedMessage id='scenes.faq.item10.answer2' defaultMessage='Click here to get started' />
+      </Link>
+    </LinkContainer>
+  </TextGroup>
+)
+
+const title11 = () => <FormattedMessage id='scenes.faq.item11.question' defaultMessage='How do I buy ether or Bitcoin Cash?
+' />
+
+const description11 = () => (
+  <TextGroup>
+    <FormattedMessage id='scenes.faq.item11.answer' defaultMessage='We’re working on that! In the meantime, you can exchange bitcoin for ether or Bitcoin Cash in the Exchange tab of your wallet.' />
+    <LinkContainer to='/exchange'>
+      <Link size='14px' weight={300}>
+        <FormattedMessage id='scenes.faq.item2.answer4' defaultMessage='Click here to get started' />
+      </Link>
+    </LinkContainer>
+  </TextGroup>
+)
+
 const Questions = [
   { title: title1(), description: description1() },
   { title: title2(), description: description2() },
-  // { title: title3(), description: description3() },
-  // { title: title4, description: description4 },
-  // { title: title5, description: description5 },
-  // { title: title6, description: description6 },
-  // { title: title7, description: description7 },
-  // { title: title8, description: description8 },
-  { title: title9(), description: description9(), country: 'US' }
+  { title: title3(), description: description3() },
+  { title: title4(), description: description4() },
+  { title: title5(), description: description5() },
+  { title: title6(), description: description6() },
+  { title: title7(), description: description7() },
+  { title: title8(), description: description8() },
+  { title: title9(), description: description9(), filter: 'exchange' },
+  { title: title10(), description: description10(), filter: 'buy' },
+  { title: title11(), description: description11(), filter: 'exchange' }
 ]
 
 export default Questions
