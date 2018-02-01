@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { selectors } from 'data'
 import Questions from './Questions/index'
 
+import { and, equals, filter } from 'ramda'
+
 import Faq from './template.js'
 
 class FaqContainer extends React.Component {
@@ -13,16 +15,18 @@ class FaqContainer extends React.Component {
   }
 
   filterFaq (questions) {
-    // imagine canBuy and canAccessExchange are from this.props, which came from mapStateToProps
-    const canBuy = true
+    // canBuy, canAccessExchange, etc.. will eventually come from this.props
+    const canBuy = false
     const canAccessExchange = true
 
-    return questions.filter(q => {
-      if (!canAccessExchange && q.filter === 'exchange') return
-      if (!canBuy && q.filter === 'buy') return
-      if (this.props.countryCode.data === 'US' && q.filter === 'exchange') return
+    const filterQuestion = q => {
+      if (and(!canAccessExchange, equals(q.filter, 'exchange'))) return
+      if (and(!canBuy, equals(q.filter, 'buy'))) return
+      if (and(equals(this.props.countryCode.data, 'US'), equals(q.filter, 'exchange'))) return
       return q
-    })
+    }
+
+    return filter(filterQuestion, questions)
   }
 
   render () {
