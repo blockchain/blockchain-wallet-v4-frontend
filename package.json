@@ -45,6 +45,7 @@
     "redux-saga": "^0.16.0",
     "secp256k1": "^3.4.0",
     "sha256": "^0.2.0",
+    "text-encoding-utf-8": "^1.0.2",
     "unix-timestamp": "^0.2.0"
   }
 }
