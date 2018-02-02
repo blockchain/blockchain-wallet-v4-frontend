@@ -1,21 +1,18 @@
-
+// -- EXPOSE THE ROOT SAGA -- //
 import { all, call, fork } from 'redux-saga/effects'
-import time from './time/sagas'
-import { api } from '../services/ApiService'
-import { socket } from '../services/SocketService'
-import { coreSagasFactory, rootSaga } from 'blockchain-wallet-v4/src'
-
-const sagas = { core: coreSagasFactory({ api, socket }) }
-// const coreRootSaga = rootSaga({ api, socket })
+import login from './auth/sagas'
 
 const welcomeSaga = function * () {
-  console.log('Hello from rootsaga ')
+  if (console) {
+    const version = '4.0.0.0'
+    const style = 'background: #16B5E7; color: #FFF; font-size: 14px;'
+    console.log(`%c Blockchain iOS Wallet ${version} `, style)
+  }
 }
 
 export default function * () {
   yield all([
     call(welcomeSaga),
-    fork(time)
-    // fork(coreRootSaga)
+    fork(login)
   ])
 }
