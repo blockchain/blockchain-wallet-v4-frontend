@@ -2,17 +2,14 @@ import React, { Component } from 'react'
 import { compose, createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { Provider } from 'react-redux'
+import { rootReducer, rootSaga } from './data'
 import { AppState, NativeModules, NavigatorIOS, StatusBar, StyleSheet, TabBarIOS, Text, View } from 'react-native'
 import { BarButtonItem, NavigationBar } from './components'
 import { Dashboard, Pin, Request, Scan, Send, Splash, Transactions } from './scenes'
 import images from '@assets/images'
-import { log } from 'util'
-import { rootReducer, rootSaga } from './data'
 
 const sagaMiddleWare = createSagaMiddleware()
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
 let store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(sagaMiddleWare))
@@ -26,7 +23,6 @@ export default class App extends Component {
     this.state = {
       activeScene: null, // the currently active scene
       appState: AppState.currentState, // active, inactive or background
-      wallet: null, // the wallet payload
       loading: true, // is the wallet loading?
       selectedTab: 0, // currently selected tab in the tab bar
     }
@@ -48,16 +44,6 @@ export default class App extends Component {
     this.setState({ appState: nextAppState })
   }
 
-  loadWallet() {
-    let guid = '3d197b76-f8a3-49b7-8862-ec6191707f07'
-    let pw = 'password123'
-    let sk = '87aec1ef-5c6e-4dff-8b67-890545fa31f8'
-
-    api.fetchWallet(guid, sk, void 0, pw).then((wallet) => {
-      this.setState({ wallet, loading: false })
-    })
-  }
-
   // Tab Bar item events
 
   setSelectedTab(idx) {
@@ -73,7 +59,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { appState, loading, selectedTab, wallet } = this.state
+    const { appState, loading, selectedTab } = this.state
     if (appState === 'inactive') {
       return <Splash />
     }
