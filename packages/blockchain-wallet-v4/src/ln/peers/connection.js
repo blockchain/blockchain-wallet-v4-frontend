@@ -98,7 +98,7 @@ Connection.prototype.connect = function connect (tcp, onHandshakeCb, onCloseCb) 
     onCloseCb()
   }
 
-  tcp.connectToNode(this.keyRemote.pub.toString('hex'), onConnect, () => {}, onClose)
+  tcp.connectToNode(this.keyRemote.pub, onConnect, () => {}, onClose)
 
   this.tcp = tcp
 }

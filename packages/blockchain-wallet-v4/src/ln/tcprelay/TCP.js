@@ -71,7 +71,7 @@ class TCP {
 
   connectToNode (pubKey, onOpen = identity, onData = identity, onClose = identity) {
     const pubKeyB64 = pubKey.toString('base64')
-    console.log('Connect to ', pubKeyB64)
+    console.log('Connect to ' + pubKeyB64)
 
     connections[pubKeyB64] = {}
     connections[pubKeyB64].onOpen = onOpen
@@ -89,7 +89,7 @@ class TCP {
         reject(new Error('Connection closed'))
       }
       console.info(this)
-      this.connectToNode(node.toString('hex'), resolve, onData, close)
+      this.connectToNode(node, resolve, onData, close)
     })
   }
 
