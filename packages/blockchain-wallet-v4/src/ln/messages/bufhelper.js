@@ -46,10 +46,16 @@ export function BufHelper (buffer) {
     return v
   }
 
+  // TODO there should be some different methods here, depending on what we're expecting, instead of blindly returning EITHER long or number
   this.read64 = () => {
     let hi = this.read32()
     let lo = this.read32()
-    return Long.fromBits(lo, hi, true)
+    let num64 = Long.fromBits(lo, hi, true)
+    if (num64.gte(Math.pow(2, 52))) {
+      return num64
+    } else {
+      return num64.toNumber()
+    }
   }
 
   this.write = (data) => {
@@ -90,7 +96,13 @@ export function BufHelper (buffer) {
   }
 
   this.write64 = (num) => {
-    assertLong(num)
-    return this.write32(num.high).write32(num.low)
+    if (Long.isLong(num)) {
+      assertLong(num)
+      return this.write32(num.high).write32(num.low)
+    } else {
+      assertNumber(num)
+      const num64 = Long.fromNumber(num)
+      return this.write32(num64.high).write32(num64.low)
+    }
   }
 }

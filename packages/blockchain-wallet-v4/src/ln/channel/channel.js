@@ -74,10 +74,10 @@ let applyAdd = (channelState, msg, direction) => {
   // We need to remove balance and add it to the commitment tx
   channelState = copy(channelState)
   if (direction === Direction.RECEIVED) {
-    channelState.amountMsatRemote = channelState.amountMsatRemote.sub(msg.amountMsat)
+    channelState.amountMsatRemote -= msg.amountMsat
     channelState.committed.push(wrapPayment(msg, direction))
   } else {
-    channelState.amountMsatLocal = channelState.amountMsatLocal.sub(msg.amountMsat)
+    channelState.amountMsatLocal -= msg.amountMsat
     channelState.committed.push(wrapPayment(msg, direction))
   }
   return channelState
@@ -91,11 +91,11 @@ let applyFulfill = (channelState, msg, direction) => {
   channelState = copy(channelState)
   if (direction === Direction.RECEIVED) {
     let payment = getPaymentO(channelState, msg.id)
-    channelState.amountMsatRemote = channelState.amountMsatRemote.add(payment.amount)
+    channelState.amountMsatRemote += payment.amount
     channelState.committed = channelState.committed.filter(filterPayment(msg.id))
   } else {
     let payment = getPaymentI(channelState, msg.id)
-    channelState.amountMsatLocal = channelState.amountMsatLocal.add(payment.amount)
+    channelState.amountMsatLocal += payment.amount
     channelState.committed = channelState.committed.filter(filterPayment(msg.id))
   }
   return channelState
@@ -107,11 +107,11 @@ let applyFail = (channelState, msg, direction) => {
   channelState = copy(channelState)
   if (direction === Direction.RECEIVED) {
     let payment = getPaymentO(channelState, msg.id)
-    channelState.amountMsatLocal = channelState.amountMsatLocal.add(payment.amount)
+    channelState.amountMsatLocal += payment.amount
     channelState.committed = channelState.committed.filter(filterPayment(msg.id))
   } else {
     let payment = getPaymentI(channelState, msg.id)
-    channelState.amountMsatRemote = channelState.amountMsatLocal.add(payment.amount)
+    channelState.amountMsatRemote += payment.amount
     channelState.committed = channelState.committed.filter(filterPayment(msg.id))
   }
   return channelState
@@ -229,8 +229,8 @@ export function readFundingLocked (channel, msg) {
 
 export let readUpdateAddHtlc = (channel, msg) => {
   // checkChannel(channel, ) //TODO check channel
-  channel.stateRemote.indexes.inU = channel.stateRemote.indexes.inU.add(1)
-  channel.stateLocal.updateCounter = channel.stateLocal.updateCounter.add(1)
+  channel.stateRemote.indexes.inU++
+  channel.stateLocal.updateCounter++
   channel = addWrapper(channel, 'stateLocal', ChannelUpdateTypes.ADD, Direction.OFFERED, msg)
 
   // TODO check index
@@ -266,7 +266,7 @@ export function readRevokeAck (channel, msg) {
 
   // We also need to copy the remote unack list
   let commitIndex = channelState.commitIndex
-  let filter = a => a.index.lte(commitIndex)
+  let filter = a => a.index <= commitIndex
 
   let updatesToCommit = channelState.unack.filter(filter)
   channel.stateRemote = channelState
@@ -304,15 +304,13 @@ export function createChannel (peer, options, value) {
   let channel = Channel()
   channel.keyRemote = peer
   channel.channelId = getRandomBytes(32)
-  channel.commitmentInput.value = value.toNumber()
+  channel.commitmentInput.value = value
   channel.paramsLocal = createChannelParams(options)
   channel.phase = phase.SENT_OPEN
   channel.commitmentSecretSeed = getRandomBytes(32)
   channel.stateLocal.nextCommitmentPoint = generatePerCommitmentPoint(channel.commitmentSecretSeed, Math.pow(2, 48) - 1)
-  channel.stateLocal.amountMsatLocal = Long.fromNumber(value).mul(1000)
-  channel.stateLocal.amountMsatRemote = Long.fromNumber(0)
-  channel.stateRemote.amountMsatRemote = Long.fromNumber(value).mul(1000)
-  channel.stateRemote.amountMsatLocal = Long.fromNumber(0)
+  channel.stateLocal.amountMsatLocal = value * 1000
+  channel.stateRemote.amountMsatRemote = value * 1000
 
   return channel
 }
@@ -325,11 +323,11 @@ export function createOpenChannel (peer, options, value) {
     options.chainHash,
     channel.channelId,
     value,
-    new Long(0),
+    0,
     params.dustLimitSatoshis,
     value,
-    new Long(0),
-    new Long(0),
+    0,
+    0,
     params.feeRatePerKw,
     params.toSelfDelay,
     params.maxAcceptedHtlcs,
@@ -352,7 +350,7 @@ export function createFundingOutput (channel) {
     Script.getFundingOutputScript(
       channel.paramsRemote.fundingKey.pub,
       channel.paramsLocal.fundingKey.pub)),
-    value: channel.stateLocal.amountMsatLocal.div(1000).toNumber()
+    value: Math.floor(channel.stateLocal.amountMsatLocal / 1000)
   }
 }
 
@@ -376,7 +374,7 @@ export function createFundingCreated (channel) {
     channel.stateRemote.amountMsatLocal,
     channel.stateRemote.amountMsatRemote,
     channel.paramsRemote.feeRatePerKw,
-    channel.paramsRemote.dustLimitSatoshis.toNumber(),
+    channel.paramsRemote.dustLimitSatoshis,
     channel.paramsLocal.toSelfDelay,
     keySet,
     Funded.REMOTE_FUNDED
@@ -409,8 +407,8 @@ export function createFundingLocked (channel) {
 export function createUpdateAddHtlc (channel, payment) {
   // checkChannel(channel, ) //TODO check channel
   channel = copy(channel)
-  channel.stateLocal.indexes.inU = channel.stateLocal.indexes.inU.add(1)
-  channel.stateRemote.updateCounter = channel.stateRemote.updateCounter.add(1)
+  channel.stateLocal.indexes.inU++
+  channel.stateRemote.updateCounter++
 
   // TODO check if we actually have enough money to make this payment
   let paymentIndex = channel.stateLocal.indexes.inU
@@ -457,7 +455,7 @@ export function createRevokeAck (channel) {
 
   // We also need to copy the local unack list
   let commitIndex = channelState.commitIndex
-  let filter = a => a.index.lte(commitIndex)
+  let filter = a => a.index <= commitIndex
 
   let updatesToCommit = channelState.unack
     .filter(filter)

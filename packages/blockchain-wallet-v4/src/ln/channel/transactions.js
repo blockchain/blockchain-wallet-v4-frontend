@@ -31,6 +31,7 @@ let htlcTimeoutFee = fee => weightToFee(htlcTimeoutWeight, fee)
 let htlcSuccessFee = fee => weightToFee(htlcSuccessWeight, fee)
 
 let getPaymentAmount = p => p.payment.amount
+let msatToSat = msat => Math.floor(msat / 1000)
 
 let getCommitmentLocktime = obscuredTxNum => {
   let b = wrapHex('20000000')
@@ -67,10 +68,9 @@ export let addWitness = (tx, index, script) => {
 
 export let trimPredicate = (feePerKw, dustLimit) => p => {
   let {direction, _, payment} = p
-  dustLimit = Long.fromNumber(dustLimit)
 
   let fee = direction === Direction.OFFERED ? htlcTimeoutFee(feePerKw) : htlcSuccessFee(feePerKw)
-  return payment.amount.div(1000).sub(fee).greaterThanOrEqual(dustLimit)
+  return msatToSat(payment.amount) - fee >= dustLimit
 }
 
 export let createSigCheckKeySet = ({stateLocal, paramsRemote, paramsLocal}) => {
@@ -144,43 +144,8 @@ let getPaymentOutputScriptP2SH = (revocationPubKey, remoteHtlcKey, localHtlcKey,
         getPaymentOutputScript(revocationPubKey, remoteHtlcKey, localHtlcKey, p)))
 }
 
-export let getFundingTransaction =
-  (inputs, remoteKey, localKey, amount, feeRatePerKw) => {
-    let txBuilder = new MTx()
-
-    let totalIn = 0
-    for (let input of inputs) {
-      txBuilder.addInput({prevout: new Outpoint(input.hash.reverse().toString('hex'), input.n)})
-      totalIn += input.value
-    }
-
-    txBuilder.version = 2
-    txBuilder.addOutput(
-      ScriptBcoin.fromRaw(
-        Script.wrapP2WSH(
-          Script.getFundingOutputScript(localKey, remoteKey))
-      ), amount)
-
-    // TODO add change output
-    // TODO calculate fee
-    // ^ these TODOs can be solved by using our JS wallet instead
-
-    let i = 0
-    for (let input of inputs) {
-      let pubkey = ec.publicKeyCreate(input.privKey, true)
-      let inputScript = ScriptBcoin.fromRaw(Script.getP2PKHScript(pubkey))
-      let hash = txBuilder.toTX().signatureHash(i, inputScript, input.value, 1, 1)
-      let sig = ec.sign(hash, input.privKey).signature
-      txBuilder.inputs[0].witness = new Witness(Script.getP2WPKHRedeemScript(pubkey, sig))
-
-      i++
-    }
-
-    return txBuilder.toTX()
-  }
-
 export let getCommitmentTransaction =
-  (input, obscuredHash, payments, commitmentNumber, amountMsatLocalal, amountMsatRemoteote,
+  (input, obscuredHash, payments, commitmentNumber, amountMsatLocal, amountMsatRemote,
    feeRate, dustLimit, toSelfDelay, keySet, funded) => {
     let commitmentBuilder = new MTx()
 
@@ -206,8 +171,8 @@ export let getCommitmentTransaction =
     // Calculate the total fee for the commitment transaction
     let fee = baseFee(paymentsTrimmed.length, feeRate)
 
-    let amountLocal = amountMsatLocalal.div(1000).toNumber()
-    let amountRemote = amountMsatRemoteote.div(1000).toNumber()
+    let amountLocal = msatToSat(amountMsatLocal)
+    let amountRemote = msatToSat(amountMsatRemote)
 
     // Substract fee from whoever funded the channel
     if (funded === Funded.LOCAL_FUNDED) {
@@ -288,8 +253,7 @@ export const getTransactionHash = (tx) => {
 }
 
 export let sortPayments = (revocationPubKey, remoteKey, localKey) => (a, b) => {
-  let cmp = a.payment.amount.div(1000).sub(
-    b.payment.amount.div(1000)).toNumber()
+  let cmp = msatToSat(a.payment.amount) - msatToSat(b.payment.amount)
 
   if (cmp !== 0) {
     return cmp
@@ -334,7 +298,7 @@ export let getPaymentTransaction = (outpoint, feeRate, toSelfDelay, keySet, p) =
 export let signPaymentTransaction = (tx, p, revocationPubKey, remoteKey, localKey) => {
   let t = Tx.fromRaw(tx)
   let inputScript = ScriptBcoin.fromRaw(getPaymentOutputScript(revocationPubKey, remoteKey, localKey.pub, p))
-  let hash = t.signatureHash(0, inputScript, p.payment.amount.div(1000).toNumber(), 1, 1)
+  let hash = t.signatureHash(0, inputScript, msatToSat(p.payment.amount), 1, 1)
   let sig = ec.sign(hash, localKey.priv)
   return sig.signature
 }

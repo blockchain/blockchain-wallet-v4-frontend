@@ -19,12 +19,12 @@ const getState = (peer, options, value) => {
 }
 
 const peer = wrapPubKey(wrapHex('030fd5c1bd67fe4627ac5e046129790fadd83ba1e050ce591316891980a97ebf0b'))
-const state = getState(peer, options, Long.fromNumber(100000))
+const state = getState(peer, options, 100000)
 const channelId = Object.keys(state.ln.channel)[0]
 const channel = state.ln.channel[channelId]
 
 export const getTestState = () => ({
-  state: getState(peer, options, Long.fromNumber(100000)),
+  state: getState(peer, options, 100000),
   channelId,
   channel,
   peer

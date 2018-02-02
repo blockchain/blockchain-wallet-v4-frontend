@@ -380,29 +380,4 @@ Connection.prototype.writeRaw = function writeRaw (data) {
   this.tcp.sendToNode(this.keyRemote.pub, data)
 }
 
-let sendOutAllMessages = function (state) {
-  // We go through every channel in our state and check if we have a proper connection
-  // If we do, we send the message and remove the entry in the channel
-  // TODO what do we do when it's not connected? Discard or keep?
-
-  state.get('channels').forEach(c => c.get('messageOut').forEach(m => {
-    let staticRemote = c.get('keyRemote').pub
-    let conn = state.getIn(['connections', staticRemote, 'conn'])
-    if (conn !== undefined) {
-      let msg = getSerializer(m)(m)
-      conn.write(msg.buffer)
-    } else {
-      console.info('Discard message: ')
-      console.info(m)
-    }
-  }))
-
-  return state.update('channels',
-    c => {
-      return c.map(m => {
-        return m.set('messageOut', List())
-      })
-    })
-}
-
-export {Connection, sendOutAllMessages}
+export {Connection}

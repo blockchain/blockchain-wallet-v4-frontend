@@ -69,17 +69,17 @@ class TCP {
     }
   }
 
-  connectToNode (node, onOpen = identity, onData = identity, onClose = identity) {
-    node = Buffer.from(node, 'hex').toString('base64')
-    console.log('Connect to ', node)
+  connectToNode (pubKey, onOpen = identity, onData = identity, onClose = identity) {
+    const pubKeyB64 = pubKey.toString('base64')
+    console.log('Connect to ', pubKeyB64)
 
-    connections[node] = {}
-    connections[node].onOpen = onOpen
-    connections[node].onData = onData
-    connections[node].onClose = onClose
+    connections[pubKeyB64] = {}
+    connections[pubKeyB64].onOpen = onOpen
+    connections[pubKeyB64].onData = onData
+    connections[pubKeyB64].onClose = onClose
 
-    this.send(this.open(node))
-    return connections[node]
+    this.send(this.open(pubKeyB64))
+    return connections[pubKeyB64]
   }
 
   connectToNodePromise (node, onData = identity, onClose = identity) {

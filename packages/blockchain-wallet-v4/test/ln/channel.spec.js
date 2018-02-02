@@ -44,7 +44,7 @@ describe('Channel State Machine', () => {
       expect(channel.stateRemote.unack[0].msg).to.deep.equal(msg)
 
       checkPaymentMessage(payment, msg)
-      expect(msg.id).to.deep.equal(new Long('1'))
+      expect(msg.id).to.deep.equal(1)
     })
 
     it('Receive', () => {
@@ -56,7 +56,7 @@ describe('Channel State Machine', () => {
       expect(channel2.stateLocal.unack[0].msg).to.deep.equal(response1.msg)
 
       checkPaymentMessage(payment, response1.msg)
-      expect(response1.msg.id).to.deep.equal(new Long('1'))
+      expect(response1.msg.id).to.deep.equal(1)
     })
   })
 

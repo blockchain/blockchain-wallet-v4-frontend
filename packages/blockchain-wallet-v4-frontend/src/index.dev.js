@@ -39,5 +39,5 @@ setTimeout(() => {
 
 // TODO this is simulating the user opening a payment channel
 setTimeout(() => {
-  store.dispatch(open(peer, Long.fromNumber(100000)))
+  store.dispatch(open(peer, 100000))
 }, 4000)

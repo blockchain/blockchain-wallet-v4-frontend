@@ -36,12 +36,12 @@ export let Payment = (amount, paymentHash, onionRoutingPackage, cltvTimeout, pay
   ({amount, paymentHash, onionRoutingPackage, cltvTimeout, paymentPreImage})
 
 export let ChannelState = () => ({
-  amountMsatLocal: null,
-  amountMsatRemote: null,
+  amountMsatLocal: 0,
+  amountMsatRemote: 0,
 
   indexes: {
-    in: new Long(0),
-    inU: new Long(0)
+    in: 0,
+    inU: 0
   },
 
   committed: [],
@@ -50,8 +50,8 @@ export let ChannelState = () => ({
 
   // This is the index of the update this state was on before a commit message
   // Upon an ack message, we move all unack messages into the other ack state, which are <= this index
-  updateCounter: new Long(0),
-  commitIndex: new Long(0),
+  updateCounter: 0,
+  commitIndex: 0,
 
   currentCommitmentPoint: null,
   nextCommitmentPoint: null,
@@ -78,5 +78,5 @@ export let Channel = () => ({
   commitmentObscureHash: null,
 
   commitmentSecretSeed: null,
-  commitmentStorage: [],
+  commitmentStorage: []
 })
