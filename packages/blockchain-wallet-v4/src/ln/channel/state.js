@@ -36,8 +36,8 @@ export let Payment = (amount, paymentHash, onionRoutingPackage, cltvTimeout, pay
   ({amount, paymentHash, onionRoutingPackage, cltvTimeout, paymentPreImage})
 
 export let ChannelState = () => ({
-  amountMsatLoc: null,
-  amountMsatRem: null,
+  amountMsatLocal: null,
+  amountMsatRemote: null,
 
   indexes: {
     in: new Long(0),
@@ -64,11 +64,11 @@ export let Channel = () => ({
 
   outpoint: null,
 
-  paramsLoc: null,
-  paramsRem: null,
+  paramsLocal: null,
+  paramsRemote: null,
 
-  stateRem: ChannelState(),
-  stateLoc: ChannelState(),
+  stateRemote: ChannelState(),
+  stateLocal: ChannelState(),
 
   fundingTx: null,
   fundingLockedSent: false,

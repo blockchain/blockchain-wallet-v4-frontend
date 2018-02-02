@@ -7,8 +7,8 @@
     - Whose data is it?
     - What is the encoding of the data?
     - Ex.
-        - pubKeyLocHex (right)
-        - locPubKey (wrong)
+        - pubKeyLocalHex (right)
+        - localPubKey (wrong)
     - All names should be abbreviated
         - public -> pub
         - private -> priv

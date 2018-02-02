@@ -73,28 +73,28 @@ export let trimPredicate = (feePerKw, dustLimit) => p => {
   return payment.amount.div(1000).sub(fee).greaterThanOrEqual(dustLimit)
 }
 
-export let createSigCheckKeySet = ({stateLoc, paramsRem, paramsLoc}) => {
+export let createSigCheckKeySet = ({stateLocal, paramsRemote, paramsLocal}) => {
   return createKeySetInternal(
-    stateLoc.nextCommitmentPoint,
-    paramsRem.revocationBasepoint,
-    paramsRem.paymentBasepoint,
-    paramsLoc.delayedPaymentBasepoint,
-    paramsLoc.htlcBasepoint,
-    paramsRem.htlcBasepoint,
-    paramsLoc.fundingKey,
-    paramsRem.fundingKey)
+    stateLocal.nextCommitmentPoint,
+    paramsRemote.revocationBasepoint,
+    paramsRemote.paymentBasepoint,
+    paramsLocal.delayedPaymentBasepoint,
+    paramsLocal.htlcBasepoint,
+    paramsRemote.htlcBasepoint,
+    paramsLocal.fundingKey,
+    paramsRemote.fundingKey)
 }
 
-export let createSigCreateKeySet = ({stateRem, paramsRem, paramsLoc}) => {
+export let createSigCreateKeySet = ({stateRemote, paramsRemote, paramsLocal}) => {
   return createKeySetInternal(
-    stateRem.nextCommitmentPoint,
-    paramsRem.revocationBasepoint,
-    paramsLoc.paymentBasepoint,
-    paramsLoc.delayedPaymentBasepoint,
-    paramsRem.htlcBasepoint,
-    paramsLoc.htlcBasepoint,
-    paramsLoc.fundingKey,
-    paramsRem.fundingKey)
+    stateRemote.nextCommitmentPoint,
+    paramsRemote.revocationBasepoint,
+    paramsLocal.paymentBasepoint,
+    paramsLocal.delayedPaymentBasepoint,
+    paramsRemote.htlcBasepoint,
+    paramsLocal.htlcBasepoint,
+    paramsLocal.fundingKey,
+    paramsRemote.fundingKey)
 }
 
 let createKeySetInternal = (
@@ -180,7 +180,7 @@ export let getFundingTransaction =
   }
 
 export let getCommitmentTransaction =
-  (input, obscuredHash, payments, commitmentNumber, amountMsatLocal, amountMsatRemote,
+  (input, obscuredHash, payments, commitmentNumber, amountMsatLocalal, amountMsatRemoteote,
    feeRate, dustLimit, toSelfDelay, keySet, funded) => {
     let commitmentBuilder = new MTx()
 
@@ -206,8 +206,8 @@ export let getCommitmentTransaction =
     // Calculate the total fee for the commitment transaction
     let fee = baseFee(paymentsTrimmed.length, feeRate)
 
-    let amountLocal = amountMsatLocal.div(1000).toNumber()
-    let amountRemote = amountMsatRemote.div(1000).toNumber()
+    let amountLocal = amountMsatLocalal.div(1000).toNumber()
+    let amountRemote = amountMsatRemoteote.div(1000).toNumber()
 
     // Substract fee from whoever funded the channel
     if (funded === Funded.LOCAL_FUNDED) {

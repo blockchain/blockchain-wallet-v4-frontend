@@ -53,7 +53,7 @@ export const channelSagas = (api, wallet, peersSaga) => {
         let rawTx = yield call(api.getRawTx, getTransactionHash(channel.fundingTx).toString('hex'))
         const confirmations = block.height - rawTx.block_height
 
-        if (confirmations >= channel.paramsLoc.minimumDepth) {
+        if (confirmations >= channel.paramsLocal.minimumDepth) {
           let response = createFundingLocked(channel)
 
           yield put(sendMessage(channel.keyRemote.pub, response.msg))
@@ -87,7 +87,7 @@ export const channelSagas = (api, wallet, peersSaga) => {
     // Which of our channels has enough funds to make this payment?
     for (const channelId in channels) {
       const channel = channels[channelId]
-      if (channel.stateLoc.amountMsatLoc > amount) {
+      if (channel.stateLocal.amountMsatLocal > amount) {
         // Check if we have a connection to the peer currently
         const pubKeyHex = channel.keyRemote.pub.toString('hex')
         const peers = yield (peerStaticRemote)
@@ -146,7 +146,7 @@ export const channelSagas = (api, wallet, peersSaga) => {
 
       case TYPE.REVOKE_AND_ACK:
         channel = readRevokeAck(channel, msg)
-        if (channel.stateLoc.ack.length + channel.stateLoc.unack.length > 0) {
+        if (channel.stateLocal.ack.length + channel.stateLocal.unack.length > 0) {
           response = createCommitmentSigned(channel)
         }
         break

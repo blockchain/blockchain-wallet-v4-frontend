@@ -16,10 +16,10 @@ let checkPaymentMessage = (payment, msg) => {
 let createChannel = () => {
   let channel = State.Channel()
   channel.phase = Channel.phase.OPEN
-  channel.stateLoc.amountMsatLoc = new Long(10000000)
-  channel.stateLoc.amountMsatRem = new Long(10000000)
-  channel.stateRem.amountMsatLoc = new Long(10000000)
-  channel.stateRem.amountMsatRem = new Long(10000000)
+  channel.stateLocal.amountMsatLocal = new Long(10000000)
+  channel.stateLocal.amountMsatRemote = new Long(10000000)
+  channel.stateRemote.amountMsatLocal = new Long(10000000)
+  channel.stateRemote.amountMsatRemote = new Long(10000000)
   channel.channelId = Buffer.alloc(32)
 
   return channel
@@ -41,7 +41,7 @@ describe('Channel State Machine', () => {
     it('Send', () => {
       let {channel, msg} = Channel.createUpdateAddHtlc(channel1, payment)
 
-      expect(channel.stateRem.unack[0].msg).to.deep.equal(msg)
+      expect(channel.stateRemote.unack[0].msg).to.deep.equal(msg)
 
       checkPaymentMessage(payment, msg)
       expect(msg.id).to.deep.equal(new Long('1'))
@@ -53,7 +53,7 @@ describe('Channel State Machine', () => {
       channel2 = Channel.readUpdateAddHtlc(channel2, response1.msg)
 
       // The ADD update should be in local unack
-      expect(channel2.stateLoc.unack[0].msg).to.deep.equal(response1.msg)
+      expect(channel2.stateLocal.unack[0].msg).to.deep.equal(response1.msg)
 
       checkPaymentMessage(payment, response1.msg)
       expect(response1.msg.id).to.deep.equal(new Long('1'))
@@ -65,7 +65,7 @@ describe('Channel State Machine', () => {
       let response1 = Channel.createUpdateAddHtlc(channel1, payment)
       let response2 = Channel.createCommitmentSigned(response1.channel)
 
-      expect(response2.channel.stateRem.unack[0].msg).to.deep.equal(response1.msg)
+      expect(response2.channel.stateRemote.unack[0].msg).to.deep.equal(response1.msg)
       // TODO check validity of signatures
     })
 
@@ -73,12 +73,12 @@ describe('Channel State Machine', () => {
       let response1 = Channel.createUpdateAddHtlc(channel1, payment)
       let response2 = Channel.createCommitmentSigned(response1.channel)
 
-      expect(response2.channel.stateRem.unack[0].msg).to.deep.equal(response1.msg)
+      expect(response2.channel.stateRemote.unack[0].msg).to.deep.equal(response1.msg)
       // TODO check validity of signatures
 
       channel2 = Channel.readUpdateAddHtlc(channel2, response1.msg)
       channel2 = Channel.readCommitmentSigned(channel2, response2.msg)
-      expect(channel2.stateLoc.unack[0].msg).to.deep.equal(response1.msg)
+      expect(channel2.stateLocal.unack[0].msg).to.deep.equal(response1.msg)
     })
   })
 
@@ -87,7 +87,7 @@ describe('Channel State Machine', () => {
       let response1 = Channel.createUpdateAddHtlc(channel1, payment)
       let response2 = Channel.createCommitmentSigned(response1.channel)
 
-      expect(response2.channel.stateRem.unack[0].msg).to.deep.equal(response1.msg)
+      expect(response2.channel.stateRemote.unack[0].msg).to.deep.equal(response1.msg)
 
       channel2 = Channel.readUpdateAddHtlc(channel2, response1.msg)
       channel2 = Channel.readCommitmentSigned(channel2, response2.msg)
@@ -99,7 +99,7 @@ describe('Channel State Machine', () => {
       let response1 = Channel.createUpdateAddHtlc(channel1, payment)
       let response2 = Channel.createCommitmentSigned(response1.channel)
 
-      expect(response2.channel.stateRem.unack[0].msg).to.deep.equal(response1.msg)
+      expect(response2.channel.stateRemote.unack[0].msg).to.deep.equal(response1.msg)
 
       channel2 = Channel.readUpdateAddHtlc(channel2, response1.msg)
       channel2 = Channel.readCommitmentSigned(channel2, response2.msg)
