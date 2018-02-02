@@ -1,3 +1,4 @@
+// -- EXPOSE ACTIONS, ACTION TYPES, SELECTORS, ROOT REDUCER & ROOT SAGA -- //
 import * as actions from './actions'
 import * as actionTypes from './actionTypes'
 import * as selectors from './selectors'
