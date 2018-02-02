@@ -1,18 +1,16 @@
-import * as AT from './actionTypes'
+// -- EXPOSE ALL REDUCERS (INCLUDING REDUCERS FROM THE CORE) -- //
 import { assoc } from 'ramda'
 import { combineReducers } from 'redux'
-
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
-import timeReducer from './time/reducers'
+import authReducer from './auth/reducers'
 
 const rootReducer = combineReducers({
-  time: timeReducer,
+  auth: authReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,
   [paths.walletOptionsPath]: coreReducers.walletOptions,
   [paths.kvStorePath]: coreReducers.kvStore,
 })
-console.log('hey im the rootReducer', rootReducer)
 
 export default rootReducer
