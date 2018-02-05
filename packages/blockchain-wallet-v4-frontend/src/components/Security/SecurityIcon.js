@@ -16,7 +16,7 @@ const StyledIcon = styled(Icon)`
 `
 
 const SecurityIcon = (props) => (
-  <Circle>
+  <Circle enabled={props.enabled}>
     <StyledIcon size='40px' color={props.enabled ? 'brand-primary' : 'gray-3'} name={props.name} />
   </Circle>
 )

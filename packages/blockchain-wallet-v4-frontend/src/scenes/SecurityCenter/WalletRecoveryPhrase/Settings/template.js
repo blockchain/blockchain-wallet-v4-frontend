@@ -8,7 +8,7 @@ const Settings = (props) => {
 
   return (
     <Button nature='primary' onClick={handleClick}>
-      <FormattedMessage id='cenes.securitysettings.basicsecurity.recoveryphrase.settings.backup' defaultMessage='Backup phrase' />
+      <FormattedMessage id='cenes.securitysettings.basicsecurity.recoveryphrase.settings.backup' defaultMessage='Backup funds' />
     </Button>
   )
 }

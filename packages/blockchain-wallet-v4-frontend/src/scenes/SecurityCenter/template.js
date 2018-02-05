@@ -23,6 +23,14 @@ const IntroContainer = styled.div`
   justify-content: space-around;
   width: 40%;
 `
+const BodyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  & > * {
+    margin-top: 20px;
+  }
+`
 const Title = styled(Text)`
 `
 const IntroText = styled(Text)`
@@ -41,9 +49,11 @@ const SecurityCenter = () => {
         </IntroContainer>
         <SecuritySteps />
       </TopContainer>
-      <EmailAddress />
-      <TwoStepVerification />
-      <WalletRecoveryPhrase />
+      <BodyContainer>
+        <EmailAddress />
+        <TwoStepVerification />
+        <WalletRecoveryPhrase />
+      </BodyContainer>
     </Wrapper>
   )
 }
