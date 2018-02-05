@@ -35,7 +35,7 @@ const RadioButton = ({ ...field, children }) => {
   return (
     <Wrapper>
       <Container>
-        <RadioButtonInput {...field.input} props={{id: field.id}} errorState={errorState}>
+        <RadioButtonInput {...field.input} props={{id: field.id}} value={field.value} errorState={errorState}>
           { children }
         </RadioButtonInput>
       </Container>

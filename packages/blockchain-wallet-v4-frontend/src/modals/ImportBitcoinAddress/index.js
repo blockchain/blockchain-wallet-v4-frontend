@@ -23,7 +23,8 @@ class ImportBitcoinAddressContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  address: formValueSelector('importBitcoinAddress')(state, 'address')
+  address: formValueSelector('importBitcoinAddress')(state, 'address'),
+  addressType: formValueSelector('importBitcoinAddress')(state, 'address-type')
 })
 
 const mapDispatchToProps = (dispatch) => ({

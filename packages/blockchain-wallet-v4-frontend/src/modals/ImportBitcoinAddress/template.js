@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { validBitcoinAddress } from 'services/FormHelper'
-import { RadioButton, Form, TextBox } from 'components/Form'
+import { RadioButton, Form } from 'components/Form'
+import ImportInternalBitcoinAddress from './ImportInternalBitcoinAddress'
+import ImportExternalBitcoinAddress from './ImportExternalBitcoinAddress'
 
 const Wrapper = styled.div`
   font-weight: 300;
@@ -14,7 +15,7 @@ const Wrapper = styled.div`
 const Title = styled.div`
   font-size: 14px;
   font-weight: 400;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `
 const RadioContainer = styled.div`
   font-size: 12px;
@@ -22,8 +23,9 @@ const RadioContainer = styled.div`
 `
 
 const ImportBitcoinAddress = (props) => {
-  const { position, close, submitting, invalid, ...rest } = props
+  const { position, close, submitting, invalid, addressType, ...rest } = props
   const { onSubmit } = rest
+  debugger
 
   return (
     <Modal size='large' position={position}>
@@ -37,22 +39,27 @@ const ImportBitcoinAddress = (props) => {
               <FormattedMessage id='modals.importbitcoinaddress.import_type' defaultMessage='What do you want to import?' />
             </Title>
             <RadioContainer>
-              <Field name='address-type' props={{id: 'internal'}} validate={[]} component={RadioButton}>
+              <Field name='address-type' value='internal' props={{id: 'internal', value: 'internal'}} validate={[]} component={RadioButton}>
                 <FormattedHTMLMessage id='modals.importbitcoinaddress.generated_in_wallet' defaultMessage='Existing address generated in <span style="font-weight: bold;">this wallet</span>.' />
               </Field>
             </RadioContainer>
             <RadioContainer>
-              <Field name='address-type' props={{id: 'external'}} validate={[]} component={RadioButton}>
+              <Field name='address-type' value='external' props={{id: 'external', value: 'external'}} validate={[]} component={RadioButton}>
                 <FormattedHTMLMessage id='modals.importbitcoinaddress.generated_outside_wallet' defaultMessage='Existing address generated <span style="font-weight: bold;">outside this wallet</span>.' />
               </Field>
             </RadioContainer>
-            <Field name='address' validate={[validBitcoinAddress]} component={TextBox} />
+            { addressType === 'internal' && <ImportInternalBitcoinAddress /> }
+            { addressType === 'external' && <ImportExternalBitcoinAddress /> }
           </ModalBody>
-          <ModalFooter align='right'>
-            <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
-              <FormattedMessage id='modals.importbitcoinaddress.button' defaultMessage='Import' />
-            </Button>
-          </ModalFooter>
+          {
+            addressType === 'external' && (
+              <ModalFooter align='right'>
+                <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
+                  <FormattedMessage id='modals.importbitcoinaddress.button' defaultMessage='Import' />
+                </Button>
+              </ModalFooter>
+            )
+          }
         </Wrapper>
       </Form>
     </Modal>

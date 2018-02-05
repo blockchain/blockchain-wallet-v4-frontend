@@ -5,6 +5,8 @@ import CoinConvertor from './CoinConvertor'
 import DateBox from './DateBox'
 import FiatConvertor from './FiatConvertor'
 import Form from './Form'
+import FormGroup from './FormGroup'
+import FormItem from './FormItem'
 import NumberBox from './NumberBox'
 import PasswordBox from './PasswordBox'
 import PlaceHolder from './PlaceHolder'
@@ -31,6 +33,8 @@ export {
   DateBox,
   FiatConvertor,
   Form,
+  FormGroup,
+  FormItem,
   NumberBox,
   PasswordBox,
   PlaceHolder,
