@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "react-native run-ios --simulator=\"iPhone X\"",
+    "start": "ENVFILE=.env.staging react-native run-ios --simulator=\"iPhone X\"",
     "postinstall": "rndebugger-open",
     "test": "jest"
   },
