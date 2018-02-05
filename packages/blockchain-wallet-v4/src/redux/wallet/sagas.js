@@ -33,6 +33,20 @@ export const walletSaga = ({ api } = {}) => {
     }
   }
 
+  const setArchivedAddress = function * ({ address }) {
+    // const archived1 = yield select(S.getArchivedAddresses)
+    // const walletContext1 = yield select(S.getWalletContext)
+    // console.log('archived1', archived1)
+    // console.log('walletContext1', walletContext1)
+    const a = Address.fromJS({addr: address})
+    Address.archive(a)
+    const walletContext = yield select(S.getWalletContext)
+    const archived = yield select(S.getArchivedAddresses)
+    console.log(`archived`, archived)
+    console.log(`walletContext`, walletContext)
+    yield put(fetchData(walletContext))
+  }
+
   const createLegacyAddress = function * ({address, password}) {
     const wrapper = yield select(S.getWrapper)
     const a = Address.fromJS(address)
@@ -129,6 +143,7 @@ export const walletSaga = ({ api } = {}) => {
     createWalletSaga,
     restoreWalletSaga,
     createLegacyAddress,
+    setArchivedAddress,
     updatePbkdf2Iterations,
     remindWalletGuidSaga,
     fetchWalletSaga,

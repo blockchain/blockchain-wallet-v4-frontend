@@ -6,11 +6,21 @@ import { getData } from './selectors'
 import Success from './template.success'
 
 class ImportedAddressesContainer extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.handleArchive = this.handleArchive.bind(this)
+  }
+  handleArchive () {
+    console.log('handle archive click', this.props)
+    this.props.walletActions.setArchivedAddress(this.props.data.data[0].addr)
+  }
+
   render () {
     const { data, ...rest } = this.props
     return (
       data.cata({
-        Success: (value) => <Success importedAddresses={value} handleClick={() => this.props.actions.showModal('ImportBitcoinAddress')} {...rest} />,
+        Success: (value) => <Success importedAddresses={value} handleClick={() => this.props.actions.showModal('ImportBitcoinAddress')} archiveAddress={this.handleArchive} {...rest} />,
         Failure: (message) => <div>{message}</div>,
         Loading: () => <div />,
         NotAsked: () => <div />
@@ -20,7 +30,8 @@ class ImportedAddressesContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modals, dispatch)
+  actions: bindActionCreators(actions.modals, dispatch),
+  walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const mapStateToProps = (state) => ({

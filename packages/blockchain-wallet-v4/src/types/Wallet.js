@@ -140,6 +140,14 @@ export const isValidSecondPwd = curry((password, wallet) => {
   }
 })
 
+// // archiveAddress :: Wallet -> Address -> String -> Either Error Wallet
+// export const archiveAddress = curry((wallet, address) => {
+  
+//   console.log('Wallet.archiveAddress', wallet, address)
+  
+//   return Either.of(append(wallet, address))
+// })
+
 // addAddress :: Wallet -> Address -> String -> Either Error Wallet
 export const addAddress = curry((wallet, address, password) => {
   let it = selectIterations(wallet)

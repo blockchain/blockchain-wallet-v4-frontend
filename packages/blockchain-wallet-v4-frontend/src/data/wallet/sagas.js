@@ -14,6 +14,17 @@ export const createLegacyAddress = function * (action) {
   }
 }
 
+export const setArchivedAddress = function * (action) {
+  const saga = sagas.core.wallet.setArchivedAddress
+  try {
+    yield call(saga, action.payload)
+    yield put(actions.alerts.displaySuccess('Address archived succesfully.'))
+  } catch (error) {
+    console.error('frontend setArchivedAddress Error', error)
+    yield put(actions.alerts.displayError('Error archiving address.'))
+  }
+}
+
 export const updatePbkdf2Iterations = function * (action) {
   const saga = askSecondPasswordEnhancer(sagas.core.wallet.updatePbkdf2Iterations)
   try {
@@ -45,4 +56,5 @@ export default function * () {
   yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
   yield takeEvery(AT.CREATE_LEGACY_ADDRESS, createLegacyAddress)
   yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
+  yield takeEvery(AT.SET_ARCHIVED_ADDRESS, setArchivedAddress)
 }

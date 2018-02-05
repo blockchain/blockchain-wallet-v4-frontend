@@ -20,7 +20,7 @@ const ButtonWrapper = styled.div`
 `
 
 const Success = (props) => {
-  const { importedAddresses, handleClick } = props
+  const { importedAddresses, handleClick, archiveAddress } = props
 
   const importedAddressesTableRows = importedAddresses.map((address, i) => {
     return (
@@ -30,6 +30,9 @@ const Success = (props) => {
         </TableCell>
         <TableCell width='30%'>
           <Text size='13px'><SwitchableDisplay coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay></Text>
+        </TableCell>
+        <TableCell width='30%'>
+          <button onClick={archiveAddress}>Archive Address</button>
         </TableCell>
       </TableRow>
     )

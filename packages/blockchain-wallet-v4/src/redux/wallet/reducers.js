@@ -2,7 +2,7 @@ import { over, set } from 'ramda-lens'
 import { compose } from 'ramda'
 
 import * as T from './actionTypes.js'
-import { Wrapper, Wallet, Options, HDWallet, HDWalletList } from '../../types'
+import { Wrapper, Wallet, Options, HDWallet, HDWalletList, Address, AddressMap } from '../../types'
 
 export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(Wrapper.createNewReadOnly('', ''))
 
@@ -27,6 +27,16 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     case T.SET_AUTOLOGOUT: {
       const { time } = action.payload
       return over(compose(Wrapper.wallet, Wallet.options), Options.setLogoutTime(time), state)
+    }
+    case T.SET_ARCHIVED_ADDRESS: {
+      console.log('Reducer: set archived address', action, Address, state)
+      const { address } = action.payload.address
+      // console.log('addr', Address.fromJS({address}), addrType)
+      // console.log(AddressMap.address(address.address))
+      const addr = Address.fromJS({ addr: address })
+      console.log('addr', addr)
+      Address.archive(addr)
+      // return over(addr, Address.archive(addr), state)
     }
     case T.DELETE_LEGACY_ADDRESS: {
       const address = action.payload
