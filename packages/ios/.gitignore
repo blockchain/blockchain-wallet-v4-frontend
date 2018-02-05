@@ -27,3 +27,6 @@ project.xcworkspace
 node_modules/
 npm-debug.log
 yarn-error.log
+
+# Environment files (MUST NEVER BE REMOVED)
+.env.*
