@@ -2,6 +2,7 @@ import { all, fork } from 'redux-saga/effects'
 import dataBitcoinSaga from './data/bitcoin/rootSaga'
 import dataEthereumSaga from './data/ethereum/rootSaga'
 import dataMiscSaga from './data/misc/rootSaga'
+import dataSfoxSaga from './data/sfox/rootSaga'
 import dataShapeShiftSaga from './data/shapeShift/rootSaga'
 import kvStoreBuysellSaga from './kvStore/buySell/rootSaga'
 import kvStoreContactsSaga from './kvStore/contacts/rootSaga'
@@ -17,6 +18,7 @@ export const rootSaga = ({ api, socket } = {}) => {
       fork(dataBitcoinSaga({ api })),
       fork(dataEthereumSaga({ api })),
       fork(dataMiscSaga({ api })),
+      fork(dataSfoxSaga({ api })),
       fork(dataShapeShiftSaga({ api })),
       fork(kvStoreBuysellSaga({ api })),
       fork(kvStoreContactsSaga({ api })),
