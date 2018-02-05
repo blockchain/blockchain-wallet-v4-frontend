@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import TotalBalance from './TotalBalance'
 import BitcoinBalance from './BitcoinBalance'
 import EtherBalance from './EtherBalance'
+import BchBalance from './BchBalance'
+
 import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Text } from 'blockchain-info-components'
 
@@ -53,13 +55,14 @@ const BalanceDropdown = styled.div`
 `
 
 const Success = props => {
-  const { bitcoinContext, etherContext, path } = props
+  const { bitcoinContext, etherContext, bchContext, path } = props
 
   const getComponentOrder = () => {
     switch (path) {
-      case '/btc/transactions': return [<BitcoinBalance large context={bitcoinContext} />, <EtherBalance context={etherContext} />, <TotalBalance />]
-      case '/eth/transactions': return [<EtherBalance large context={etherContext} />, <BitcoinBalance context={bitcoinContext} />, <TotalBalance />]
-      default: return [<TotalBalance large />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />]
+      case '/btc/transactions': return [<BitcoinBalance large context={bitcoinContext} />, <EtherBalance context={etherContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
+      case '/eth/transactions': return [<EtherBalance large context={etherContext} />, <BitcoinBalance context={bitcoinContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
+      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BitcoinBalance large context={bitcoinContext} />, <EtherBalance context={etherContext} />, <TotalBalance />]
+      default: return [<TotalBalance large />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />, <BchBalance context={bchContext} />]
     }
   }
 
@@ -67,6 +70,7 @@ const Success = props => {
     switch (path) {
       case '/btc/transactions': return <FormattedMessage id='scenes.wallet.menutop.balance.bitcoinbalance' defaultMessage='Bitcoin Balance' />
       case '/eth/transactions': return <FormattedMessage id='scenes.wallet.menutop.balance.etherbalance' defaultMessage='Ether Balance' />
+      case '/bch/transactions': return <FormattedMessage id='scenes.wallet.menutop.balance.bchbalance' defaultMessage='Bitcoin Cash Balance' />
       default: return <FormattedMessage id='scenes.wallet.menutop.balance.totalbalance' defaultMessage='Total Balance' />
     }
   }
