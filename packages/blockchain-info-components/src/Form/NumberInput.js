@@ -26,10 +26,10 @@ const BaseNumberInput = styled.input.attrs({
 
 const selectBorderColor = (state) => {
   switch (state) {
-    case 'initial': return 'gray-2'
+    case 'initial': return 'gray-1'
     case 'invalid': return 'error'
     case 'valid': return 'success'
-    default: return 'gray-2'
+    default: return 'gray-1'
   }
 }
 
