@@ -30,11 +30,11 @@ const StepText = styled(Text)`
 `
 
 const SecuritySteps = (props) => {
-  const { stepsDone } = props
+  const { stepsDone, emailVerified } = props
   return (
     <Wrapper>
       <Circle>
-        {stepsDone > 0 && <Icon name='checkmark' color='success' size='30px' />}
+        {emailVerified && <Icon name='checkmark' color='success' size='30px' />}
       </Circle>
       <StepText color='brand-primary' size='12px' weight={300}>
         <FormattedMessage id='scenes.securitycenter.step1' defaultMessage='Verify Email Address' />

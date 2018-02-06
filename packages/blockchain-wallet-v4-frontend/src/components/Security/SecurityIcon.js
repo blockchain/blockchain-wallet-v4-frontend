@@ -13,6 +13,7 @@ const Circle = styled.div`
   border-radius: 74px;
 `
 const StyledIcon = styled(Icon)`
+  display: flex;
 `
 
 const SecurityIcon = (props) => (
