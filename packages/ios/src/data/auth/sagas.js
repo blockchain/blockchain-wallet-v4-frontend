@@ -12,7 +12,7 @@ import * as selectors from '../selectors.js'
 
 const manageWalletData = function * () {
   const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
-  const blockchainData = yield call(api.fetchBlockchainData, bitcoinContext)
+  yield call(core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext })
 }
 
 const loginRoutineSaga = function * () {
