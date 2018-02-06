@@ -44,6 +44,24 @@ export const settingsSaga = ({ api } = {}) => {
     yield put(actions.setEmail(email))
   }
 
+  const sendConfirmationCodeEmail = function * ({ email }) {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    const response = yield call(api.sendConfirmationCodeEmail, guid, sharedKey, email)
+    console.log('core sagas: sendConfirmationCodeEmail', response)
+    if (!response.success) { throw new Error(response) }
+    yield put(actions.sentConfirmationCodeSuccess(email))
+  }
+
+  const verifyEmailCode = function * ({ code }) {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    const response = yield call(api.verifyEmail, guid, sharedKey, code)
+    console.log('core sagas: verifyEmailConfirmationCode', response, code)
+    if (!response.success) { throw new Error(response) }
+    yield put(actions.setEmailVerified())
+  }
+
   const setMobile = function * ({ mobile }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
@@ -180,6 +198,8 @@ export const settingsSaga = ({ api } = {}) => {
     setAuthType,
     setAuthTypeNeverSave,
     setGoogleAuthenticator,
-    setYubikey
+    setYubikey,
+    sendConfirmationCodeEmail,
+    verifyEmailCode
   }
 }

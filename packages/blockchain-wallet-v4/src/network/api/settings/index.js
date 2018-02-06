@@ -13,6 +13,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   const updateEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
 
+  const sendConfirmationCodeEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'send-verify-email-mail', email)
+
   const sendEmailConfirmation = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
 
   const verifyEmail = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'verify-email-code', code)
@@ -66,6 +68,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     updateAuthTypeNeverSave,
     getGoogleAuthenticatorSecretUrl,
     enableGoogleAuthenticator,
-    enableYubikey
+    enableYubikey,
+    sendConfirmationCodeEmail
   }
 }

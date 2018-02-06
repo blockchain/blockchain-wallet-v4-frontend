@@ -2,11 +2,11 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Button, Text } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
 
 import { Field, reduxForm } from 'redux-form'
 
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySection, SecuritySummary } from 'components/Security'
-// import Settings from './Settings'
 
 const EmailExplanation = styled.div`
 `
@@ -14,12 +14,26 @@ const ChangeEmailText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
 `
+const EmailCodeWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  button {
+    margin-left: 100px;
+  }
+`
+const ChangeEmailWrapper = EmailCodeWrapper.extend`
+  align-items: center;
+  input {
+    margin-right: 25px;
+  }
+`
 
 const EmailAddress = (props) => {
   const { data, ui } = props
   const { email, verified } = data
   const isVerified = verified === 1
-  console.log('render success template', props)
+  console.log('render email', props)
 
   const renderVerificationSteps = () => {
     return (
@@ -32,7 +46,33 @@ const EmailAddress = (props) => {
           {email}
           <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='. Please open the email and enter the code below to complete the verification process.' />
         </SecurityDescription>
-        <Field name='emailAddress' validate={[validEmail]} component={TextBox} />
+        <EmailCodeWrapper>
+          <Field name='emailCode' validate={[]} component={TextBox} placeholder='123AB' />
+          <Button nature='primary' onClick={props.handleSubmitVerification}>
+            <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Verify Code' />
+          </Button>
+          <Text onClick={props.handleResend}>Resend email</Text>
+        </EmailCodeWrapper>
+      </SecuritySummary>
+    )
+  }
+
+  const renderChangeEmailSteps = () => {
+    return (
+      <SecuritySummary>
+        <SecurityHeader>
+          <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Change Email Address' />
+        </SecurityHeader>
+        <SecurityDescription>
+          <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.' />
+        </SecurityDescription>
+        <ChangeEmailWrapper>
+          <Field name='changeEmail' validate={[]} component={TextBox} placeholder='email@email.com' />
+          <Text onClick={props.handleEmailChangeCancel}>Cancel</Text>
+          <Button nature='primary' onClick={props.handleEmailChangeSubmit}>
+            <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Change' />
+          </Button>
+        </ChangeEmailWrapper>
       </SecuritySummary>
     )
   }
@@ -73,15 +113,17 @@ const EmailAddress = (props) => {
     <SecurityContainer>
       <SecurityIcon name='email' enabled={isVerified} />
       {
-        !ui.verifyToggled
+        !ui.verifyToggled && !ui.changeEmailToggled
           ? renderInitial()
-          : renderVerificationSteps()
+          : ui.changeEmailToggled
+            ? renderChangeEmailSteps()
+            : renderVerificationSteps()
       }
       <SecurityComponent>
         <Button nature='primary' onClick={props.handleVerifyClick}>
           <FormattedMessage id='scenes.preferences.email.settings.updateform.change' defaultMessage='Enter Code' />
         </Button>
-        <ChangeEmailText color='brand-secondary' size='12px' weight={300}>
+        <ChangeEmailText color='brand-secondary' size='12px' weight={300} onClick={props.handleChangeEmailView}>
           <FormattedMessage id='scenes.securitycenter.email.upateform.changetext' defaultMessage='Change Your Email' />
         </ChangeEmailText>
       </SecurityComponent>
@@ -89,5 +131,4 @@ const EmailAddress = (props) => {
   )
 }
 
-// export default reduxForm({ form: 'securityEmailAddress' })(EmailAddress)
-export default EmailAddress
+export default reduxForm({ form: 'securityEmailAddress' })(EmailAddress)
