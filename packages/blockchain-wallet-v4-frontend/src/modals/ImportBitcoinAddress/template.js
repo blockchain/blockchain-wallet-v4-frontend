@@ -25,7 +25,6 @@ const RadioContainer = styled.div`
 const ImportBitcoinAddress = (props) => {
   const { position, close, submitting, invalid, addressType, ...rest } = props
   const { onSubmit } = rest
-  debugger
 
   return (
     <Modal size='large' position={position}>

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
-import { validBitcoinAddress } from 'services/FormHelper'
+import { validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
 import { Banner } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -47,7 +47,7 @@ class ImportExternalBitcoinAddress extends React.Component {
             <Label for='private-key'>
               <FormattedMessage id='modals.importbitcoinaddress.import_external_bitcoin_address.prv_key' defaultMessage='Enter Private Key' />
             </Label>
-            <Field name='prv' validate={[]} component={TextBox} />
+            <Field name='prv' validate={[validBitcoinPrivateKey]} component={TextBox} />
           </FormItem>
           <FormItem width={'40%'}>
             <Label for='wallets'>
