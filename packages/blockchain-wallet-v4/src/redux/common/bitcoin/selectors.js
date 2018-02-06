@@ -1,5 +1,5 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
-import { prop, compose, assoc, map, path, curry, split, values, sequence, lift } from 'ramda'
+import { prop, keys, compose, assoc, map, path, curry, split, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
 import * as transactions from '../../../transactions'
@@ -24,6 +24,11 @@ export const getActiveAddresses = state => {
                                        .map(x => assoc('info', x, address))
   const objectOfRemotes = compose(map(addInfo), values, walletSelectors.getActiveAddresses)(state)
   return sequence(Remote.of, objectOfRemotes)
+}
+
+export const getArchivedAddresses = state => {
+  const archivedAddresses = compose(keys, walletSelectors.getArchivedAddresses)(state)
+  return Remote.of(archivedAddresses)
 }
 
 const digestAddress = x => ({

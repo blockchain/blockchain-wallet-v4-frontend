@@ -1,13 +1,14 @@
 import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
-import { prop, compose, endsWith, repeat, range, map, propSatisfies,
-         dropLastWhile, not, length, concat, propEq, is, find, isEmpty } from 'ramda'
+import { prop, compose, endsWith, repeat, range, map, propSatisfies, indexBy,
+         length, path, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import Task from 'data.task'
 import Either from 'data.either'
 import * as A from './actions'
 import * as S from './selectors'
+import { fetchData } from '../data/bitcoin/actions'
 
 import { Wrapper, Wallet, Address, HDWalletList } from '../../types'
 
@@ -38,6 +39,8 @@ export const walletSaga = ({ api } = {}) => {
     const addAddress = wallet => Wallet.addAddress(wallet, a, password)
     const task = eitherToTask(Wrapper.traverseWallet(Either.of, addAddress, wrapper))
     yield call(runTask, task, A.setWrapper)
+    const walletContext = yield select(S.getWalletContext)
+    yield put(fetchData(walletContext))
   }
 
   const createWalletSaga = function * ({ password, email }) {
