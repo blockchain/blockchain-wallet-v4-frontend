@@ -1,9 +1,18 @@
 import React from 'react'
+import styled from 'styled-components'
 import { getData } from './selectors'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import FirstStep from './FirstStep'
+import SfoxCheckout from './SfoxCheckout'
+
+const Wrapper = styled.div`
+  padding: 30px;
+  font-size: 13px;
+  font-weight: 300;
+  color: ${props => props.theme['gray-5']};
+  font-family: 'Montserrat', Helvetica, sans-serif;
+`
 
 class BuySellContainer extends React.Component {
   componentWillMount () {
@@ -12,13 +21,18 @@ class BuySellContainer extends React.Component {
 
   render () {
     const { data } = this.props
+
+    let buySell = data.cata({
+      Success: () => <SfoxCheckout />,
+      Failure: (message) => <div>{message}</div>,
+      Loading: () => <div>Loading...</div>,
+      NotAsked: () => <div />
+    })
+
     return (
-      data.cata({
-        Success: (value) => <FirstStep />,
-        Failure: (message) => <div>{message}</div>,
-        Loading: () => <div>Loading...</div>,
-        NotAsked: () => <div />
-      })
+      <Wrapper>
+        { buySell }
+      </Wrapper>
     )
   }
 }
@@ -28,6 +42,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
   kvStoreBuySellActions: bindActionCreators(actions.core.kvStore.buySell, dispatch)
 })
 
