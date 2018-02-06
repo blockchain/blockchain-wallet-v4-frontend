@@ -5,6 +5,8 @@ export const requestGoogleAuthenticatorSecretUrl = () => ({ type: AT.REQUEST_GOO
 // SETTERS
 export const setSettings = (data) => ({ type: AT.SET_SETTINGS, payload: { data } })
 export const setEmail = (email) => ({ type: AT.SET_EMAIL, payload: { email } })
+export const sentConfirmationCodeSuccess = (email) => ({ type: AT.SENT_CONFIRMATION_CODE_SUCCESS, payload: { email } })
+export const verifyEmailCodeSuccess = (code) => ({ type: AT.VERIFY_EMAIL_CODE_SUCCESS, payload: { code } })
 export const setEmailVerified = () => ({ type: AT.SET_EMAIL_VERIFIED })
 export const setMobile = (mobile) => ({ type: AT.SET_MOBILE, payload: { mobile } })
 export const setMobileVerified = () => ({ type: AT.SET_MOBILE_VERIFIED })
