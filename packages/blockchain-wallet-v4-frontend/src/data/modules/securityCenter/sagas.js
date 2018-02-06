@@ -7,7 +7,9 @@ import * as sagas from '../../sagas.js'
 export const updateEmail = function * (action) {
   try {
     yield call(sagas.core.settings.setEmail, action.payload)
-    yield put(actions.alerts.displaySuccess('Email address has been successfully updated. Confirmation email has been sent.'))
+    yield put(actions.alerts.displaySuccess('Your email has been updated. An email with your confirmation code has been sent.'))
+    // TODO: I believe the backend should do this next step
+    yield call(sagas.core.settings.sendConfirmationCodeEmail, action.payload)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update email address.'))
   }
@@ -27,14 +29,12 @@ export const sendConfirmationCodeEmail = function * (action) {
     yield call(sagas.core.settings.sendConfirmationCodeEmail, action.payload)
     yield put(actions.alerts.displaySuccess('Sent Confirmation Code Successfully.'))
   } catch (e) {
-    console.warn(e)
     yield put(actions.alerts.displayError('Error sending confirmation code email.'))
   }
 }
 
 export const verifyEmailCode = function * (action) {
   try {
-    console.log('verifyEmailCode', action)
     yield call(sagas.core.settings.verifyEmailCode, action.payload)
     yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
   } catch (e) {

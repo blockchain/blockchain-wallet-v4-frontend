@@ -1,6 +1,6 @@
 import { isEmpty, equals, or } from 'ramda'
 import bip39 from 'bip39'
-import { isNumeric, isEmail, isGuid, isIpList } from 'services/ValidationHelper'
+import { isNumeric, isEmail, isGuid, isIpList, isAlphaNumeric } from 'services/ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -29,4 +29,6 @@ const validEtherAddress = value => utils.ethereum.isValidAddress(value) ? undefi
 
 const validBitcoinAddress = value => utils.bitcoin.isValidBitcoinAddress(value) ? undefined : 'Invalid Bitcoin Address'
 
-export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList, validPasswordStretchingNumber, validBitcoinAddress, validEtherAddress }
+const validEmailCode = value => isAlphaNumeric(value) ? undefined : 'Invalid Email Code'
+
+export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList, validPasswordStretchingNumber, validBitcoinAddress, validEtherAddress, validEmailCode }
