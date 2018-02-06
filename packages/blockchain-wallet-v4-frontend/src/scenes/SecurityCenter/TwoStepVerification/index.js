@@ -14,9 +14,16 @@ class TwoStepVerificationContainer extends React.Component {
     super(props)
 
     this.handleClick = this.handleClick.bind(this)
+    this.chooseMethod = this.chooseMethod.bind(this)
+
+    this.state = { authMethod: '' }
   }
   handleClick () {
     this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled })
+  }
+
+  chooseMethod (method) {
+    this.setState({ authMethod: method })
   }
 
   render () {
@@ -26,6 +33,8 @@ class TwoStepVerificationContainer extends React.Component {
       Success: (value) => <Success {...rest}
         authType={value}
         handleClick={this.handleClick}
+        chooseMethod={this.chooseMethod}
+        twoStepChoice={this.state.authMethod}
         />,
       Failure: (message) => <Error {...rest}
         message={message} />,

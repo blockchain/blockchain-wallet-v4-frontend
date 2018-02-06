@@ -10,7 +10,6 @@ import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
-import { SubmissionError } from 'redux-form'
 
 class EmailAddressContainer extends React.Component {
   constructor (props) {
@@ -22,7 +21,6 @@ class EmailAddressContainer extends React.Component {
     this.handleChangeEmailView = this.handleChangeEmailView.bind(this)
     this.handleEmailChangeCancel = this.handleEmailChangeCancel.bind(this)
     this.handleEmailChangeSubmit = this.handleEmailChangeSubmit.bind(this)
-    this.handleEmailCodePaste = this.handleEmailCodePaste.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -57,10 +55,6 @@ class EmailAddressContainer extends React.Component {
     this.props.updateUI({ changeEmailToggled: false, verifyToggled: true })
   }
 
-  handleEmailCodePaste () {
-    console.log('email code paste')
-  }
-
   render () {
     const { data, ...rest } = this.props
 
@@ -73,7 +67,6 @@ class EmailAddressContainer extends React.Component {
         handleChangeEmailView={this.handleChangeEmailView}
         handleEmailChangeCancel={this.handleEmailChangeCancel}
         handleEmailChangeSubmit={this.handleEmailChangeSubmit}
-        handleEmailCodePaste={this.handleEmailCodePaste}
         />,
       Failure: (message) => <Error {...rest}
         message={message} />,
