@@ -48,6 +48,7 @@
 		C73EF93F200E9174003E6D89 /* PasswordStretcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C73EF93E200E9174003E6D89 /* PasswordStretcher.m */; };
 		C73EF948200E944C003E6D89 /* NSData+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C73EF947200E944C003E6D89 /* NSData+Hex.m */; };
 		CFC4FC6524684F178D532731 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA8EB18C11AD4D25918AECCA /* Montserrat-Bold.ttf */; };
+		E0CA4486948C49FF83C6BD12 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F14CB43EBB9480CA3C12F6D /* libReactNativeConfig.a */; };
 		E9CEB55C4E474600A050056C /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A0048737605416283A5A2AB /* Montserrat-ExtraBold.ttf */; };
 		EED737242322478ABADB42BE /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9607ED34B0EF4C7B8D7008EC /* Montserrat-ExtraBoldItalic.ttf */; };
 		FC34F3D0201145BB00B9AB18 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC34F3CF201145BB00B9AB18 /* libcrypto.a */; };
@@ -207,6 +208,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
 			remoteInfo = "jschelpers-tvOS";
+		};
+		51CBDDD62028B3D800899A71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D146E42DAD1F41A8B5196F66 /* ReactNativeConfig.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
+			remoteInfo = ReactNativeConfig;
 		};
 		5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -376,6 +384,7 @@
 		4A0048737605416283A5A2AB /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../assets/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
 		4D07254A6E354857B7D678C7 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
 		4D2078FE61054380BB27AA5F /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		4F14CB43EBB9480CA3C12F6D /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		55EF311F58F14FA897080A3F /* Montserrat-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLightItalic.ttf"; path = "../assets/fonts/Montserrat-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		65CCA251C81E4943B91CE3DB /* UdpSockets.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = UdpSockets.xcodeproj; path = "../node_modules/react-native-udp/ios/UdpSockets.xcodeproj"; sourceTree = "<group>"; };
@@ -396,6 +405,7 @@
 		C73EF93E200E9174003E6D89 /* PasswordStretcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PasswordStretcher.m; sourceTree = "<group>"; };
 		C73EF946200E944C003E6D89 /* NSData+Hex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Hex.h"; sourceTree = "<group>"; };
 		C73EF947200E944C003E6D89 /* NSData+Hex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Hex.m"; sourceTree = "<group>"; };
+		D146E42DAD1F41A8B5196F66 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		D92917CBB276455E81041691 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		EA8EB18C11AD4D25918AECCA /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		FBC357FD3F454AA5986E3AE5 /* RNOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNOS.xcodeproj; path = "../node_modules/react-native-os/ios/RNOS.xcodeproj"; sourceTree = "<group>"; };
@@ -434,6 +444,7 @@
 				58B1B13429B541FBB8AF0C62 /* libTcpSockets.a in Frameworks */,
 				6A39947801DD4F6EBE0F63E4 /* libUdpSockets.a in Frameworks */,
 				4F0631EEC7084DF6BB1CB1B0 /* libRCTCamera.a in Frameworks */,
+				E0CA4486948C49FF83C6BD12 /* libReactNativeConfig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,6 +567,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		51CBDDD32028B3D800899A71 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				51CBDDD72028B3D800899A71 /* libReactNativeConfig.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,6 +613,7 @@
 				6AF5E8453DB049A7B0334E81 /* TcpSockets.xcodeproj */,
 				65CCA251C81E4943B91CE3DB /* UdpSockets.xcodeproj */,
 				786510A2A7664E18816F8BEA /* RCTCamera.xcodeproj */,
+				D146E42DAD1F41A8B5196F66 /* ReactNativeConfig.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -692,6 +712,7 @@
 				20943DCEEF514D9CB1453988 /* libTcpSockets.a */,
 				2B61BB3528FE4219A189E46B /* libUdpSockets.a */,
 				AECBB754785A4E469C867E11 /* libRCTCamera.a */,
+				4F14CB43EBB9480CA3C12F6D /* libReactNativeConfig.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -867,6 +888,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 51CBDDD32028B3D800899A71 /* Products */;
+					ProjectRef = D146E42DAD1F41A8B5196F66 /* ReactNativeConfig.xcodeproj */;
+				},
+				{
 					ProductGroup = FC079C1A2003C42C004A6B9D /* Products */;
 					ProjectRef = FBC357FD3F454AA5986E3AE5 /* RNOS.xcodeproj */;
 				},
@@ -1037,6 +1062,13 @@
 			fileType = archive.ar;
 			path = libjschelpers.a;
 			remoteRef = 3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		51CBDDD72028B3D800899A71 /* libReactNativeConfig.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeConfig.a;
+			remoteRef = 51CBDDD62028B3D800899A71 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
@@ -1287,12 +1319,14 @@
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-udp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 				);
 				INFOPLIST_FILE = BlockchainTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1321,12 +1355,14 @@
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-udp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 				);
 				INFOPLIST_FILE = BlockchainTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1360,6 +1396,7 @@
 					"$(SRCROOT)/../react-native/Libraries",
 					"$(SRCROOT)/../react-native/React",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 				);
 				INFOPLIST_FILE = Blockchain/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1394,6 +1431,7 @@
 					"$(SRCROOT)/../react-native/Libraries",
 					"$(SRCROOT)/../react-native/React",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 				);
 				INFOPLIST_FILE = Blockchain/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

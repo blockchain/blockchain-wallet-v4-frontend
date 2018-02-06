@@ -1,15 +1,16 @@
 // -- DASHBOARD SCENE -- //
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import Config from 'react-native-config'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Button, StyleSheet, Text, View } from 'react-native'
 import { actions, selectors } from '../../data'
 
-let guid = ''
-let pw = ''
+let guid = Config.GUID
+let pw = Config.PASSWORD
 let code = null
-let sk = ''
+let sk = Config.SHARED_KEY
 
 class Dashboard extends Component {
   render() {
