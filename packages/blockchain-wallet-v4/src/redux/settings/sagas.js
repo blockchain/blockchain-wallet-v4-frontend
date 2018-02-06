@@ -48,7 +48,6 @@ export const settingsSaga = ({ api } = {}) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.sendConfirmationCodeEmail, guid, sharedKey, email)
-    console.log('core sagas: sendConfirmationCodeEmail', response)
     if (!response.success) { throw new Error(response) }
     yield put(actions.sentConfirmationCodeSuccess(email))
   }
@@ -57,8 +56,10 @@ export const settingsSaga = ({ api } = {}) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyEmail, guid, sharedKey, code)
-    console.log('core sagas: verifyEmailConfirmationCode', response, code)
-    if (!response.success) { throw new Error(response) }
+    if (!response.success) {
+      yield put(actions.setEmailVerifiedFailed())
+      throw new Error(response)
+    }
     yield put(actions.setEmailVerified())
   }
 

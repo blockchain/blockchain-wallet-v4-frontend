@@ -1,8 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Text, Link } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
+
+import { validEmail, validEmailCode } from 'services/FormHelper'
 
 import { Field, reduxForm } from 'redux-form'
 
@@ -14,7 +16,7 @@ const ChangeEmailText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
 `
-const EmailCodeWrapper = styled.div`
+const EmailCodeWrapper = styled.form`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -24,16 +26,25 @@ const EmailCodeWrapper = styled.div`
 `
 const ChangeEmailWrapper = EmailCodeWrapper.extend`
   align-items: center;
-  input {
-    margin-right: 25px;
+  div:first-of-type {
+    width: 45%;
   }
+  button {
+    margin-left: 0px;
+  }
+  justify-content: space-between;
+`
+const CancelText = ChangeEmailText.extend`
+  margin-top: 0px;
+`
+const EmailChangeWarning = styled(Text)`
+  margin-top: 25px;
 `
 
 const EmailAddress = (props) => {
   const { data, ui } = props
-  const { email, verified } = data
+  const { email, verified, failed } = data
   const isVerified = verified === 1
-  console.log('render email', props)
 
   const renderVerificationSteps = () => {
     return (
@@ -46,13 +57,20 @@ const EmailAddress = (props) => {
           {email}
           <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='. Please open the email and enter the code below to complete the verification process.' />
         </SecurityDescription>
-        <EmailCodeWrapper>
-          <Field name='emailCode' validate={[]} component={TextBox} placeholder='123AB' />
-          <Button nature='primary' onClick={props.handleSubmitVerification}>
+        <EmailCodeWrapper onSubmit={props.handleSubmitVerification}>
+          <Field name='emailCode' validate={[validEmailCode]} component={TextBox} placeholder='123AB' onPaste={props.handleEmailCodePaste} />
+          <Button nature='primary' type='submit'>
             <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Verify Code' />
           </Button>
-          <Text onClick={props.handleResend}>Resend email</Text>
         </EmailCodeWrapper>
+        {
+          failed
+            ? <EmailChangeWarning size='12px' color='error'>
+              <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='Your verification code is incorrect. Please double check your email and try again.' />
+              <Link size='12px' onClick={props.handleResend}>Get a new verification code</Link>
+            </EmailChangeWarning>
+            : null
+        }
       </SecuritySummary>
     )
   }
@@ -67,12 +85,15 @@ const EmailAddress = (props) => {
           <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.' />
         </SecurityDescription>
         <ChangeEmailWrapper>
-          <Field name='changeEmail' validate={[]} component={TextBox} placeholder='email@email.com' />
-          <Text onClick={props.handleEmailChangeCancel}>Cancel</Text>
+          <Field name='changeEmail' validate={[validEmail]} component={TextBox} placeholder='email@email.com' />
+          <CancelText weight={300} size='12px' onClick={props.handleEmailChangeCancel}>Cancel</CancelText >
           <Button nature='primary' onClick={props.handleEmailChangeSubmit}>
             <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Change' />
           </Button>
         </ChangeEmailWrapper>
+        <EmailChangeWarning size='12px' weight={400} color='error'>
+          <FormattedMessage id='scenes.security.email.changeemail' defaultMessage='This will change your wallets email address, but the email address you signed up to Buy Bitcoin with will remain the same.' />
+        </EmailChangeWarning>
       </SecuritySummary>
     )
   }
@@ -120,12 +141,20 @@ const EmailAddress = (props) => {
             : renderVerificationSteps()
       }
       <SecurityComponent>
-        <Button nature='primary' onClick={props.handleVerifyClick}>
-          <FormattedMessage id='scenes.preferences.email.settings.updateform.change' defaultMessage='Enter Code' />
-        </Button>
-        <ChangeEmailText color='brand-secondary' size='12px' weight={300} onClick={props.handleChangeEmailView}>
-          <FormattedMessage id='scenes.securitycenter.email.upateform.changetext' defaultMessage='Change Your Email' />
-        </ChangeEmailText>
+        {
+          !verified && !ui.verifyToggled && !ui.changeEmailToggled
+            ? <Button nature='primary' onClick={props.handleVerifyClick}>
+              <FormattedMessage id='scenes.preferences.email.settings.updateform.change' defaultMessage='Enter Code' />
+            </Button>
+            : null
+        }
+        {
+          !ui.verifyToggled && !ui.changeEmailToggled
+            ? <ChangeEmailText color='brand-secondary' size='12px' weight={300} onClick={props.handleChangeEmailView}>
+              <FormattedMessage id='scenes.securitycenter.email.upateform.changetext' defaultMessage='Change Your Email' />
+            </ChangeEmailText>
+            : null
+        }
       </SecurityComponent>
     </SecurityContainer>
   )

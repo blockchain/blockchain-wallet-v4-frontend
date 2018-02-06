@@ -10,6 +10,7 @@ import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
+import { SubmissionError } from 'redux-form'
 
 class EmailAddressContainer extends React.Component {
   constructor (props) {
@@ -19,6 +20,15 @@ class EmailAddressContainer extends React.Component {
     this.handleSubmitVerification = this.handleSubmitVerification.bind(this)
     this.handleResend = this.handleResend.bind(this)
     this.handleChangeEmailView = this.handleChangeEmailView.bind(this)
+    this.handleEmailChangeCancel = this.handleEmailChangeCancel.bind(this)
+    this.handleEmailChangeSubmit = this.handleEmailChangeSubmit.bind(this)
+    this.handleEmailCodePaste = this.handleEmailCodePaste.bind(this)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.data.data.verified && !this.props.data.data.verified) {
+      this.props.updateUI({ verifyToggled: false })
+    }
   }
 
   handleVerifyClick () {
@@ -26,17 +36,29 @@ class EmailAddressContainer extends React.Component {
   }
 
   handleResend () {
-    console.log('handleResend', this.props.data)
     this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.data.data.email)
   }
 
-  handleSubmitVerification () {
-    console.log('handleSUbmitVerification', this.props)
+  handleSubmitVerification (e) {
+    e.preventDefault()
     this.props.securityCenterActions.verifyEmailCode(this.props.code)
   }
 
   handleChangeEmailView () {
     this.props.updateUI({ changeEmailToggled: !this.props.ui.changeEmailToggled })
+  }
+
+  handleEmailChangeCancel () {
+    this.props.updateUI({ changeEmailToggled: !this.props.ui.changeEmailToggled })
+  }
+
+  handleEmailChangeSubmit () {
+    this.props.securityCenterActions.updateEmail(this.props.updatedEmail)
+    this.props.updateUI({ changeEmailToggled: false, verifyToggled: true })
+  }
+
+  handleEmailCodePaste () {
+    console.log('email code paste')
   }
 
   render () {
@@ -49,6 +71,9 @@ class EmailAddressContainer extends React.Component {
         handleResend={this.handleResend}
         handleSubmitVerification={this.handleSubmitVerification}
         handleChangeEmailView={this.handleChangeEmailView}
+        handleEmailChangeCancel={this.handleEmailChangeCancel}
+        handleEmailChangeSubmit={this.handleEmailChangeSubmit}
+        handleEmailCodePaste={this.handleEmailCodePaste}
         />,
       Failure: (message) => <Error {...rest}
         message={message} />,
@@ -60,7 +85,8 @@ class EmailAddressContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  code: formValueSelector('securityEmailAddress')(state, 'emailCode')
+  code: formValueSelector('securityEmailAddress')(state, 'emailCode'),
+  updatedEmail: formValueSelector('securityEmailAddress')(state, 'changeEmail')
 })
 
 const mapDispatchToProps = (dispatch) => ({
