@@ -1,7 +1,20 @@
 import React from 'react'
+import styled from 'styled-components'
 
-const Bch = () => (
-  <span>Bitcoin Cash transactions</span>
-)
+import Menu from './Menu'
+import Content from './Content'
 
-export default Bch
+const Wrapper = styled.div`
+  width: 100%;
+`
+
+const BchTransactionsContainer = (props) => {
+  return (
+    <Wrapper>
+      <Menu />
+      <Content />
+    </Wrapper>
+  )
+}
+
+export default BchTransactionsContainer
