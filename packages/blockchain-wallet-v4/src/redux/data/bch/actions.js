@@ -8,6 +8,12 @@ export const fetchDataLoading = () => ({ type: AT.FETCH_BCH_DATA_LOADING })
 export const fetchDataSuccess = (data) => ({ type: AT.FETCH_BCH_DATA_SUCCESS, payload: data })
 export const fetchDataFailure = (error) => ({ type: AT.FETCH_BCH_DATA_FAILURE, payload: error })
 
+// FETCH_BCH_FEE
+export const fetchFee = () => ({ type: AT.FETCH_BCH_FEE })
+export const fetchFeeLoading = () => ({ type: AT.FETCH_BCH_FEE_LOADING })
+export const fetchFeeSuccess = (data) => ({ type: AT.FETCH_BCH_FEE_SUCCESS, payload: data })
+export const fetchFeeFailure = (error) => ({ type: AT.FETCH_BCH_FEE_FAILURE, payload: error })
+
 // FETCH_BCH_FIAT_AT_TIME
 export const fetchFiatAtTime = (hash, amount, time, currency) => ({ type: AT.FETCH_BCH_FIAT_AT_TIME, payload: { hash, amount, time, currency } })
 export const fetchFiatAtTimeLoading = (hash, currency) => ({ type: AT.FETCH_BCH_FIAT_AT_TIME_LOADING, payload: { hash, currency } })

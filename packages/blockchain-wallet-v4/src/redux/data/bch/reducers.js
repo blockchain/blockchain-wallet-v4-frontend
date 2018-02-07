@@ -79,6 +79,15 @@ const bchReducer = (state = INITIAL_STATE, action) => {
       }
       return merge(state, data)
     }
+    case AT.FETCH_BCH_FEE_LOADING: {
+      return assoc('fee', Remote.Loading, state)
+    }
+    case AT.FETCH_BCH_FEE_SUCCESS: {
+      return assoc('fee', Remote.Success(payload), state)
+    }
+    case AT.FETCH_BCH_FEE_FAILURE: {
+      return assoc('fee', Remote.Failure(payload), state)
+    }
     case AT.FETCH_BCH_RATES_LOADING: {
       return assoc('rates', Remote.Loading, state)
     }

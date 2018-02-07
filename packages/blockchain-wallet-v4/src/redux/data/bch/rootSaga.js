@@ -31,6 +31,17 @@ export default ({ api } = {}) => {
     }
   }
 
+  const fetchFee = function * () {
+    try {
+      yield put(A.fetchFeeLoading())
+      const data = 2 // yield call(api.getBitcoinFee)
+      yield call(delay, delayAjax)
+      yield put(A.fetchFeeSuccess(data))
+    } catch (e) {
+      yield put(A.fetchFeeFailure(e.message))
+    }
+  }
+
   const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
@@ -52,6 +63,7 @@ export default ({ api } = {}) => {
   const fetchTransactions = function * ({ type, payload }) {
     const { address, reset } = payload
     const TX_PER_PAGE = 50
+    const BCH_FORK_TIME = 1501590000
     try {
       const pages = yield select(S.getTransactions)
       const lastPage = last(pages)
@@ -60,7 +72,7 @@ export default ({ api } = {}) => {
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBchData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
-      yield put(A.fetchTransactionsSuccess(data.txs, reset))
+      yield put(A.fetchTransactionsSuccess(data.txs.filter(tx => tx.time > BCH_FORK_TIME), reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
@@ -113,6 +125,7 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.FETCH_BCH_DATA, fetchData)
     yield takeLatest(AT.FETCH_BCH_FIAT_AT_TIME, fetchFiatAtTime)
     yield takeLatest(AT.FETCH_BCH_RATES, fetchRates)
+    yield takeLatest(AT.FETCH_BCH_FEE, fetchFee)
     // yield takeLatest(AT.FETCH_BCH_TRANSACTIONS, fetchTransactions)
     yield fork(watchTransactions)
     yield takeLatest(AT.FETCH_BCH_TRANSACTION_HISTORY, fetchTransactionHistory)
