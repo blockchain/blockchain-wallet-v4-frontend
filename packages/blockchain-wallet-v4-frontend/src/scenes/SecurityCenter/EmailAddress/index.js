@@ -5,7 +5,7 @@ import { actions } from 'data'
 import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+// import { Remote } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'

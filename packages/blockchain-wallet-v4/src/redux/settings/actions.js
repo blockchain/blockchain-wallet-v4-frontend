@@ -3,6 +3,7 @@ import * as AT from './actionTypes'
 export const decodePairingCode = (data) => ({ type: AT.DECODE_PAIRING_CODE, payload: { data } })
 export const requestGoogleAuthenticatorSecretUrl = () => ({ type: AT.REQUEST_GOOGLE_AUTHENTICATOR_SECRET_URL })
 // SETTERS
+export const setGoogleAuthenticatorSecretUrl = (url) => ({ type: AT.SET_GOOGLE_AUTHENTICATOR_SECRET_URL, payload: { url } })
 export const setSettings = (data) => ({ type: AT.SET_SETTINGS, payload: { data } })
 export const setEmail = (email) => ({ type: AT.SET_EMAIL, payload: { email } })
 export const sentConfirmationCodeSuccess = (email) => ({ type: AT.SENT_CONFIRMATION_CODE_SUCCESS, payload: { email } })

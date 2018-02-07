@@ -108,6 +108,11 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_SETTINGS_FAILURE: {
       return Remote.Failure(payload)
     }
+    case AT.SET_GOOGLE_AUTHENTICATOR_SECRET_URL: {
+      const { url } = payload
+      console.log('set google auth reducer', payload)
+      return state.map(assoc('google_authenticator_secret_url', url))
+    }
     default:
       return state
   }

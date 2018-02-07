@@ -20,3 +20,4 @@ export const getBlockTorIps = state => getSettings(state).map(prop('block_tor_ip
 export const getHint = state => getSettings(state).map(prop('password_hint1'))
 export const getAuthType = state => getSettings(state).map(prop('auth_type'))
 export const getAuthTypeNeverSave = state => getSettings(state).map(prop('never_save_auth_type'))
+export const getGoogleAuthSecretUrl = state => getSettings(state).map(prop('google_authenticator_secret_url'))
