@@ -24,8 +24,10 @@ export const settingsSaga = ({ api } = {}) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.getGoogleAuthenticatorSecretUrl, guid, sharedKey)
+    console.log('core sagas: requestGoogleAuth', response)
     if (!contains('secret', response)) { throw new Error(response) }
-    return response
+    yield put(actions.setGoogleAuthenticatorSecretUrl(response))
+    // return response
   }
 
   // SETTERS

@@ -15,6 +15,19 @@ export const updateEmail = function * (action) {
   }
 }
 
+const getGoogleAuthenticatorSecretUrl = function * (action) {
+  try {
+    console.log('#1 getGoogleAuthSecret frontend saga', action)
+    const googleAuthenticatorSecretUrl = yield call(sagas.core.settings.requestGoogleAuthenticatorSecretUrl)
+    console.log('frontend sagas: getGoogleAuthSecretUrl', googleAuthenticatorSecretUrl)
+    return googleAuthenticatorSecretUrl
+    // yield put(actions.modals.showModal('TwoStepGoogleAuthenticator', { googleAuthenticatorSecretUrl }))
+  } catch (e) {
+    console.warn('frontend saga catch', e)
+    yield put(actions.alerts.displayError('Could not fetch google authenticator secret.'))
+  }
+}
+
 export const verifyEmail = function * (action) {
   try {
     yield call(sagas.core.settings.setEmailVerified, action.payload)
@@ -47,4 +60,5 @@ export default function * () {
   yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
   yield takeLatest(AT.SEND_CONFIRMATION_CODE_EMAIL, sendConfirmationCodeEmail)
   yield takeLatest(AT.VERIFY_EMAIL_CODE, verifyEmailCode)
+  yield takeLatest(AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, getGoogleAuthenticatorSecretUrl)
 }

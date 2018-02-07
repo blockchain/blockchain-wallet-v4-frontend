@@ -43,7 +43,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   const updateAuthTypeNeverSave = (guid, sharedKey, authTypeNeverSave) => updateSettings(guid, sharedKey, 'update-never-save-auth-type', authTypeNeverSave)
 
-  const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret')
+  const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret', '')
 
   const enableGoogleAuthenticator = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
 

@@ -50,7 +50,6 @@ const TwoStepVerification = (props) => {
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
-      console.log('choice is google')
       return (
         <GoogleAuth />
       )
@@ -73,10 +72,10 @@ const TwoStepVerification = (props) => {
           <Choice onClick={() => props.chooseMethod('google')}>
             <Icon name='lock' size='18px' weight={400} />
             <ChoiceDescription>
-              <Text weight='300' size='16px'>
+              <Text weight={300} size='16px'>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Authenticator App' />
               </Text>
-              <Text weight='200' size='12px'>
+              <Text weight={200} size='12px'>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Use App generated codes' />
               </Text>
             </ChoiceDescription>
@@ -84,10 +83,10 @@ const TwoStepVerification = (props) => {
           <Choice>
             <Icon name='yubikey' />
             <ChoiceDescription>
-              <Text weight='300' size='16px'>
+              <Text weight={300} size='16px'>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Yubikey' />
               </Text>
-              <Text weight='200' size='12px'>
+              <Text weight={200} size='12px'>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Pair with your Yubikey' />
               </Text>
             </ChoiceDescription>
@@ -95,10 +94,10 @@ const TwoStepVerification = (props) => {
           <Choice>
             <Icon name='mobile' size='18px' weight={400} />
             <ChoiceDescription>
-              <Text weight='300' size='16px'>
+              <Text weight={300} size='16px'>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Mobile Phone Number' />
               </Text>
-              <Text weight='200' size='12px'>
+              <Text weight={200} size='12px'>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Use codes sent via SMS' />
               </Text>
             </ChoiceDescription>
