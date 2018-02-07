@@ -1,7 +1,7 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
 import { prop, compose, assoc, map, path, curry, split, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
-import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
+import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bch/selectors.js'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'

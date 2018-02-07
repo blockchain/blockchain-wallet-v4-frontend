@@ -62,9 +62,6 @@ const Search = styled.div`
   width: 100%;
   @media(min-width: 1200px) { width: auto; }
 `
-const ReportingIcon = styled(Icon)`
-  width: 40px;
-`
 const SearchIcon = styled(Icon)`
   position: absolute;
   top: 10px;
@@ -72,8 +69,6 @@ const SearchIcon = styled(Icon)`
 `
 
 const Menu = (props) => {
-  const { handleClickReporting } = props
-
   return (
     <Wrapper>
       <Container>
@@ -87,7 +82,6 @@ const Menu = (props) => {
         </Controls>
         <Controls>
           <Search>
-            <ReportingIcon name='up-arrow-in-circle' size='28px' cursor onClick={handleClickReporting} />
             <Field name='search' component={TextBox} />
             <SearchIcon name='search' size='20px' />
           </Search>
