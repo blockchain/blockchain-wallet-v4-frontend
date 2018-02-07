@@ -3,7 +3,7 @@ import { equals } from 'ramda'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { Button } from 'blockchain-info-components'
+import { Button, Tooltip } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
 const Wrapper = styled.div`
@@ -26,7 +26,13 @@ const Label = styled.label`
   font-weight: 500;
 `
 const Rate = styled.span`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`
+const Amount = styled.span`
   font-size: 12px;
+  margin-right: 5px;
 `
 
 class ExchangeCheckout extends React.Component {
@@ -64,7 +70,14 @@ class ExchangeCheckout extends React.Component {
             <Label>
               <FormattedMessage id='scenes.buysell.exchangecheckout.enter_amount' defaultMessage='Enter Amount:' />
             </Label>
-            { rate && <Rate>1 { crypto } = { rate } { fiat }</Rate> }
+            { rate &&
+              <Rate>
+                <Amount>1 { crypto } = { rate } { fiat }</Amount>
+                <Tooltip>
+                  <FormattedMessage id='scenes.buysell.exchangecheckout.rate' defaultMessage="The rate offered by your region's exchange partner. May include fees." />
+                </Tooltip>
+              </Rate>
+            }
           </LabelWrapper>
           <FormGroup inline>
             <FormItem width='50%'>
