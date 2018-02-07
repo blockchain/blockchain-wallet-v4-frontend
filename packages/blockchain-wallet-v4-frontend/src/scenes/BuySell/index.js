@@ -42,7 +42,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
   kvStoreBuySellActions: bindActionCreators(actions.core.kvStore.buySell, dispatch)
 })
 

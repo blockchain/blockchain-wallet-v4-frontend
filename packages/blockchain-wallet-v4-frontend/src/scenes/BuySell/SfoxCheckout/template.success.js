@@ -20,14 +20,20 @@ const ContinueMessage = props => {
 }
 
 const Success = props => {
-  const { fetchQuote, quote, base } = props
+  const { fetchQuote, quote, base, showModal } = props
   const { profile, verificationStatus } = props.value
   const step = determineStep(profile, verificationStatus)
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    showModal('SfoxExchangeData', { step: step })
+  }
 
   return (
     <ExchangeCheckout
       base={base}
       quote={quote}
+      onSubmit={onSubmit}
       fetchQuote={fetchQuote}
       continueMsg={<ContinueMessage step={step} />}
       continueButton={<ContinueButton step={step} />}

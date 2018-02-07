@@ -56,7 +56,7 @@ const Modal = props => {
   const isLast = total === position
 
   return (
-    <ModalBackground isLast={isLast} position={position} {...rest}>
+    <ModalBackground isLast={isLast} position={position}>
       <BaseModal isLast={isLast} position={position} width={width} {...rest}>
         {children}
       </BaseModal>
