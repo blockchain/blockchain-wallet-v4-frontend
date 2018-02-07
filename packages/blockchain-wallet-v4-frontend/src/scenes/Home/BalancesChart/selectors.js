@@ -15,7 +15,7 @@ export const getData = (state) => {
   const bchRates = selectors.core.data.bch.getRates(state)
   const settings = selectors.core.settings.getSettings(state)
 
-  const transform = (bitcoinRates, ethereumRates, settings) => {
+  const transform = (bitcoinRates, ethereumRates, bchRates, settings) => {
     const bitcoinFiatBalance = Exchange.convertBitcoinToFiat({ value: bitcoinBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bitcoinRates })
     const etherFiatBalance = Exchange.convertEtherToFiat({ value: etherBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethereumRates })
     const bchFiatBalance = Exchange.convertBchToFiat({ value: bchBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bchRates })
@@ -44,8 +44,8 @@ export const getData = (state) => {
       })
     }
 
-    return ({ bitcoinBalance, etherBalance, chartData, symbol: bitcoinFiatBalance.unit.symbol })
+    return ({ bitcoinBalance, etherBalance, bchBalance, chartData, symbol: bitcoinFiatBalance.unit.symbol })
   }
 
-  return lift(transform)(bitcoinRates, ethereumRates, settings)
+  return lift(transform)(bitcoinRates, ethereumRates, bchRates, settings)
 }

@@ -2,7 +2,7 @@ import { toUpper } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const fetchBchData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
-    url: rootUrl,
+    url: apiUrl,
     endPoint: 'bch/multiaddr',
     data: {
       active: (Array.isArray(context) ? context : [context]).join('|'),
@@ -18,9 +18,9 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   const getBchTicker = () => get({
-    url: rootUrl,
+    url: apiUrl,
     endPoint: 'ticker',
-    data: { format: 'json', base: 'BCH' }
+    data: { base: 'BCH' }
   })
 
   const getBchUnspents = (fromAddresses, confirmations = 0) => get({
