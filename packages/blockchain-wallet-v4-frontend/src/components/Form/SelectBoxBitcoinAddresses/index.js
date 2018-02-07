@@ -25,13 +25,13 @@ class SelectBoxBitcoinAddresses extends React.Component {
   }
 
   render () {
-    const { data, ...rest } = this.props
-
+    const { data, coin, ...rest } = this.props
+    console.log(coin)
     return data.cata({
       Success: (value) => {
         const elements = [{
           group: '',
-          items: value.bitcoin
+          items: value.data
         }]
         return <SelectBox elements={elements} {...rest} />
       },
@@ -76,7 +76,7 @@ const mapStateToProps = (state, ownProps) => {
   //   coinDisplayed
   // }
   return {
-    data: getData(state)
+    data: getData(state, ownProps.coin)
   }
 }
 

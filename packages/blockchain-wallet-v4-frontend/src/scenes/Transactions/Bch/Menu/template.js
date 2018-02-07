@@ -74,7 +74,7 @@ const Menu = (props) => {
       <Container>
         <Controls>
           <Addresses>
-            <Field name='source' component={SelectBoxBitcoinAddresses} />
+            <Field name='source' component={SelectBoxBitcoinAddresses} props={{ coin: 'BCH' }} />
           </Addresses>
           <Status>
             <Field name='status' component={TabMenuTransactionStatus} />

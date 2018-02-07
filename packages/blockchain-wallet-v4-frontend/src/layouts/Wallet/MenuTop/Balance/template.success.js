@@ -61,7 +61,7 @@ const Success = props => {
     switch (path) {
       case '/btc/transactions': return [<BitcoinBalance large context={bitcoinContext} />, <EtherBalance context={etherContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
       case '/eth/transactions': return [<EtherBalance large context={etherContext} />, <BitcoinBalance context={bitcoinContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BitcoinBalance large context={bitcoinContext} />, <EtherBalance context={etherContext} />, <TotalBalance />]
+      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />, <TotalBalance />]
       default: return [<TotalBalance large />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />, <BchBalance context={bchContext} />]
     }
   }
