@@ -3,6 +3,7 @@ import * as AT from './actionTypes.js'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = {
+  quote: Remote.NotAsked,
   profile: Remote.NotAsked,
   trades: Remote.NotAsked
 }
