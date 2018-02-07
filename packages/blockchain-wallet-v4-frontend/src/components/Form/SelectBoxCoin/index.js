@@ -14,7 +14,8 @@ class SelectBoxCoin extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   coins: [
     { text: 'Bitcoin', value: 'BTC' },
-    { text: 'Ether', value: 'ETH' }
+    { text: 'Ether', value: 'ETH' },
+    { text: 'Bitcoin Cash', value: 'BCH' }
   ]
 })
 

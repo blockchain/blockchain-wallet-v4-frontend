@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { generateSeed, initializeForm, switchToEtherOrBchModal, updateUnspent, updateEffectiveBalance, updateSelection } from './services'
+import { generateSeed, initializeForm, switchToEtherOrBitcoinModal, updateUnspent, updateEffectiveBalance, updateSelection } from './services'
 import { getData } from './selectors'
 import { actions, selectors } from 'data'
 import Error from './template.error'
@@ -22,8 +22,8 @@ class FirstStep extends React.Component {
   }
 
   componentWillMount () {
-    this.props.dataBitcoinActions.fetchFee()
-    this.props.dataBitcoinActions.fetchUnspent(this.props.defaultAccountIndex)
+    this.props.dataBchActions.fetchFee()
+    this.props.dataBchActions.fetchUnspent(this.props.defaultAccountIndex)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -31,7 +31,7 @@ class FirstStep extends React.Component {
       // We initialize the form if form is not initialized yet
       initializeForm(this.props, nextProps)
       // We open the RequestEther modal if coin equals 'ETH'
-      switchToEtherOrBchModal(nextProps)
+      switchToEtherOrBitcoinModal(nextProps)
       // We fetch the unspent
       updateUnspent(this.props, nextProps)
       // update effective Balance
@@ -45,8 +45,8 @@ class FirstStep extends React.Component {
     // We toggle the dropdown 'to' display
     this.props.updateUI({ addressSelectToggled: !this.props.ui.addressSelectToggled })
     // /!\ CAREFUL: We reset field 'to' or 'to2' to make sure we only have 1 of those fields filled at a time.
-    this.props.formActions.change('sendBitcoin', 'to', '')
-    this.props.formActions.change('sendBitcoin', 'to2', '')
+    this.props.formActions.change('sendBch', 'to', '')
+    this.props.formActions.change('sendBch', 'to2', '')
   }
 
   handleClickFeeToggler () {
@@ -85,7 +85,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  dataBchActions: bindActionCreators(actions.core.data.bch, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
