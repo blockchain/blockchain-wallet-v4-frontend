@@ -8,6 +8,7 @@ import Success from './template.success'
 class Checkout extends React.Component {
   componentWillMount () {
     this.props.sfoxDataActions.fetchProfile()
+    this.props.sfoxDataActions.fetchQuote({ amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' })
   }
 
   render () {
