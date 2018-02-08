@@ -11,8 +11,6 @@ import TYPE from '../messages/types'
 import * as AT_CHANNEL from '../channel/actions'
 import { rootOptions } from '../root/selectors'
 
-var ec = require('bcoin/lib/crypto/secp256k1-browser')
-
 export const encodePeer = pubKey => pubKey.toString('base64')
 export const decodePeer = pubKey => Buffer.from(pubKey, 'base64')
 
@@ -20,7 +18,6 @@ export const peerSagas = (tcpConn) => {
   let peers = {}
 
   const connectToAllPeers = function * (action) {
-    console.log('socket opened')
     let staticRemotes = yield select(peerStaticRemote)
 
     for (let staticRemoteString in staticRemotes) {
@@ -28,15 +25,11 @@ export const peerSagas = (tcpConn) => {
     }
   }
 
-  const connect = function * (action) {
-    let {type, pubKey} = action
-    console.log(type)
-    console.log(pubKey)
+  const connect = function * ({pubKey}) {
     let staticRemote = wrapPubKey(Buffer.from(pubKey, 'hex'))
     let options = yield select(rootOptions)
     let peer = new Connection(options, staticRemote)
     if (peers[pubKey] !== undefined) {
-      console.info('already exists...')
       return
     }
 
@@ -47,7 +40,6 @@ export const peerSagas = (tcpConn) => {
     while (pubKey !== initMessageAction.pubKey) {
       initMessageAction = yield take(INIT_MESSAGE_RECEIVED)
     }
-    console.info('done!!! connected ')
   }
 
   const onMessage = function * ({peer, msg}) {
@@ -75,13 +67,12 @@ export const peerSagas = (tcpConn) => {
     }
 
     if (parsedMsg.type === 17) {
-      console.info('received error message ' + parsedMsg.data.toString('ascii'))
+      console.info('Received error message ' + parsedMsg.data.toString('ascii'))
       // TODO should throw an error or something here..
       return
     }
 
     if (parsedMsg.type === 18) {
-      console.info('received ping message')
       yield put(updateLastPing(pubKey))
       return
     }
@@ -90,7 +81,7 @@ export const peerSagas = (tcpConn) => {
   }
 
   const disconnect = function * (action) {
-    let {type, pubKey} = action
+    let {pubKey} = action
     if (peers[pubKey] === undefined) {
       console.info('nothing to disconnect')
       return

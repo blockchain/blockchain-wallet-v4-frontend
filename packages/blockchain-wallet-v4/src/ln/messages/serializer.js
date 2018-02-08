@@ -216,7 +216,6 @@ export let AcceptChannel =
    type: TYPE.ACCEPT_CHANNEL})
 
 export function readAcceptChannel (buf) {
-  console.info(buf.buffer.length)
   return AcceptChannel(
     buf.read(32),
     buf.read64(),

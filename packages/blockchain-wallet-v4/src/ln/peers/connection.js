@@ -291,7 +291,7 @@ Connection.prototype.feed = function feed (data) {
 
     this.readHandshakePart2(data)
     this.sendHandshakePart3()
-    console.info('Handshake completed with ' + this.keyRemote.pub.toString('hex'))
+    console.debug('Handshake completed with ' + this.keyRemote.pub.toString('hex'))
     this.write(Parse.writeMessage(new Message.Init(Buffer.alloc(0), wrapHex('08'))))
     this.onHandshakeCb()
     return

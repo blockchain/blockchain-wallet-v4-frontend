@@ -71,7 +71,6 @@ class TCP {
 
   connectToNode (pubKey, onOpen = identity, onData = identity, onClose = identity) {
     const pubKeyB64 = pubKey.toString('base64')
-    console.log('Connect to ' + pubKeyB64)
 
     connections[pubKeyB64] = {}
     connections[pubKeyB64].onOpen = onOpen
