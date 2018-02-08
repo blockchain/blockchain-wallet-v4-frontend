@@ -17,7 +17,7 @@ import {rootOptions} from '../root/selectors'
 import {getTransactionHash} from './transactions'
 import {peerStaticRemote} from '../peers/selectors'
 
-export const channelSagas = (api, wallet, peersSaga) => {
+export const channelSagas = (api, wallet, peersSaga, routeSaga) => {
   const getChannelId = msg => {
     if (msg.channelId !== undefined) {
       return msg.channelId
@@ -28,19 +28,23 @@ export const channelSagas = (api, wallet, peersSaga) => {
     }
   }
 
-  const onOpenChannel = function * ({pubKey, value}) {
-    const options = yield select(rootOptions)
-    yield call(peersSaga.connect, {pubKey})
-    yield call(openChannel, ({options, pubKey, value}))
-  }
-
-  const openChannel = function * ({options, pubKey, value}) {
+  const sendOpenChannel = function * ({options, pubKey, value}) {
     // Opening the channel
     const key = wrapPubKey(pubKey)
     let response = createOpenChannel(key, options, value)
 
     yield put(refresh(response.channel))
     yield put(sendMessage(pubKey, response.msg))
+
+    return response.channel.channelId
+  }
+
+  const closeChannelMutual = function * ({channelId}) {
+
+  }
+
+  const closeChannelUnilateral = function * ({channelId}) {
+
   }
 
   const onBlock = function * ({block}) {
@@ -67,7 +71,6 @@ export const channelSagas = (api, wallet, peersSaga) => {
 
   const makePayment = function * (paymentRequest) {
     // TODO which channel do we chose to route this payment with?
-
     const route = yield call(routingEndpoint)
     const onionObject = calculateOnionObject(route)
     const channelId = yield call(getNodeForPayment, paymentRequest.amount)
@@ -171,15 +174,15 @@ export const channelSagas = (api, wallet, peersSaga) => {
   }
 
   const takeSagas = function * () {
-    yield takeEvery(AT.OPEN, onOpenChannel)
     yield takeEvery(AT.MESSAGE, onMessage)
     yield takeEvery(AT_WS.ON_BLOCK, onBlock)
   }
 
   return {
     takeSagas,
-    openChannel,
-    onOpenChannel,
+    sendOpenChannel,
+    closeChannelMutual,
+    closeChannelUnilateral,
     onMessage,
     onBlock
   }
