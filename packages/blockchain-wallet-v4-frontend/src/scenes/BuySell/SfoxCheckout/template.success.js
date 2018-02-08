@@ -26,7 +26,7 @@ const Success = props => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    showModal('SfoxExchangeData', { step: step })
+    showModal('SfoxExchangeData', { step })
   }
 
   return (

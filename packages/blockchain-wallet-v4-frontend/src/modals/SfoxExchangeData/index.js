@@ -6,9 +6,22 @@ import Tray from 'components/Tray'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class SfoxExchangeData extends React.Component {
+  constructor () {
+    super()
+    this.state = { show: false }
+  }
+
+  componentDidMount () {
+    this.setState({ show: true })
+  }
+
+  componentWillLeave () {
+    this.setState({ show: false })
+  }
+
   render () {
     return (
-      <Tray>
+      <Tray show={this.state.show}>
         <ModalHeader onClose={this.props.close}>
           sfox
         </ModalHeader>
