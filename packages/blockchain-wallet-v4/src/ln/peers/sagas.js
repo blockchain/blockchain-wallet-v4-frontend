@@ -44,7 +44,6 @@ export const peerSagas = (tcpConn) => {
 
   const onMessage = function * ({peer, msg}) {
     let pubKey = decodePeer(peer).toString('hex')
-
     if (peers[pubKey] === undefined) {
       console.info('No handler for message')
       return
@@ -57,6 +56,11 @@ export const peerSagas = (tcpConn) => {
     }
 
     let parsedMsg = readMessage(decryptedMsg)
+
+    if(parsedMsg.type === TYPE.NODE_ANNOUNCEMENT || parsedMsg.type === TYPE.CHANNEL_ANNOUNCEMENT) {
+      return
+    }
+
     console.info('[<-] ' + TYPE.extractName(parsedMsg.type) + ': ', parsedMsg)
 
     if (parsedMsg.type === 16) {
