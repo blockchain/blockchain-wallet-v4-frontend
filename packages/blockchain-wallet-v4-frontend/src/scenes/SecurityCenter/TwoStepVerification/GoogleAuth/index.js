@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import Google from './template.js'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -26,18 +26,11 @@ class GoogleAuthContainer extends React.Component {
   }
 
   handleSubmit () {
-    // TODO: create the below
-    this.props.securityCenterActions.verifyGoogleAuthenticator()
+    this.props.securityCenterActions.verifyGoogleAuthenticator(this.props.authCode)
   }
 
   render () {
-    console.log('render google auth', this.props)
     const { data, ...rest } = this.props
-    // return <Google
-    //   {...this.props}
-    //   handleClick={this.handleClick}
-    //   handleSubmit={this.handleSubmit}
-    // />
 
     return data.cata({
       Success: (value) => <Google {...rest}
@@ -54,8 +47,7 @@ class GoogleAuthContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  // authType: selectors.core.settings.getAuthType(state),
-  // googleAuthSecretUrl: selectors.core.settings.getGoogleAuthSecretUrl(state)
+  authCode: formValueSelector('securityGoogleAuthenticator')(state, 'authCode'),
   data: getData(state)
 })
 
@@ -71,4 +63,3 @@ const enhance = compose(
 )
 
 export default enhance(GoogleAuthContainer)
-// export default connect(mapStateToProps, mapDispatchToProps)(GoogleAuthContainer)

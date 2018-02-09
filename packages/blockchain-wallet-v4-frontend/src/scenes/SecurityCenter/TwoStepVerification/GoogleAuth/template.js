@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text, Link } from 'blockchain-info-components'
+import { Button, Text, Link, Icon } from 'blockchain-info-components'
 import styled from 'styled-components'
 import QRCodeReact from 'qrcode.react'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox } from 'components/Form'
-import { validEmailCode } from 'services/FormHelper'
 
-import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecuritySummary } from 'components/Security'
+import { SecurityDescription, SecurityHeader } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
   width: 90%;
@@ -30,14 +29,37 @@ const QRCodeContainer = styled.div`
   justify-content: center;
   align-items: center;
 `
+const QRInputWrapper = styled.div`
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  button {
+    margin-top: 10px;
+  }
+`
+const SuccessOverlay = styled.div`
+  width: 90%;
+  padding: 0px 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: ${props => props.authType === 0 ? 'flex' : 'none'}
+`
 
 const Google = props => {
-  console.log('template.js', props)
   const { data } = props
   const { googleSecret } = data
   return (
     <form onSubmit={props.handleSubmit}>
-      <AuthenticatorSummary>
+      {/* <SuccessOverlay authType={data.authType}>
+        <Icon name='checkmark-in-circle' size='150px' color='success' />
+        <Text size='14px' weight={300} color='success'>
+          <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up Google Authenticator." />
+        </Text>
+      </SuccessOverlay> */}
+      <AuthenticatorSummary authType={data.authType}>
         <Header>
           <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Authenticator App' />
           <Link size='14px'>Change</Link>
@@ -61,19 +83,21 @@ const Google = props => {
           <Text size='14px' weight={200}>
             <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Enter the random number presented below' />
           </Text>
-          <Field name='authCode' validate={[validEmailCode]} component={TextBox} placeholder='123AB' />
+          <QRInputWrapper>
+            <Field name='authCode' validate={[]} component={TextBox} placeholder='123AB' />
+            <Button nature='primary' onClick={props.handleSubmit}>Verify Code</Button>
+          </QRInputWrapper>
         </QRCodeContainer>
       </AuthenticatorSummary>
     </form>
   )
 }
 
-// Google.propTypes = {
-//   authType: PropTypes.number.isRequired,
-//   handleClick: PropTypes.func.isRequired
-// }
+Google.propTypes = {
+  authType: PropTypes.number.isRequired,
+  handleSubmit: PropTypes.func.isRequired
+}
 
-// export default Google
 export default reduxForm({
   form: 'securityGoogleAuthenticator'
 })(Google)
