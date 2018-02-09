@@ -55,10 +55,20 @@ export const verifyEmailCode = function * (action) {
   }
 }
 
+export const verifyGoogleAuthenticator = function * (action) {
+  try {
+    yield call(sagas.core.settings.setGoogleAuthenticator, action.payload)
+    yield put(actions.alerts.displaySuccess('Google auth verified!'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not verify google auth code.'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
   yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
   yield takeLatest(AT.SEND_CONFIRMATION_CODE_EMAIL, sendConfirmationCodeEmail)
   yield takeLatest(AT.VERIFY_EMAIL_CODE, verifyEmailCode)
   yield takeLatest(AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, getGoogleAuthenticatorSecretUrl)
+  yield takeLatest(AT.VERIFY_GOOGLE_AUTHENTICATOR, verifyGoogleAuthenticator)
 }

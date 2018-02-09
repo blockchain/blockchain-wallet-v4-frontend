@@ -45,7 +45,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret', '')
 
-  const enableGoogleAuthenticator = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
+  const enableGoogleAuthenticator = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', '4', `code=${code}`)
 
   const enableYubikey = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-yubikey', code)
 
