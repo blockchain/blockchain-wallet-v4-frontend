@@ -9,7 +9,7 @@ import * as A_OPTIONS from '../root/actions'
 import { take, takeEvery, call, put, select } from 'redux-saga/effects'
 import {rootOptions} from '../root/selectors'
 
-export const lnApiSagas = (channelSagas, peerSagas) => {
+export const lnApiSagas = (channelSagas, peerSagas, routeSagas) => {
 
   const startUp = function * () {
     const action = A.startup
@@ -63,7 +63,7 @@ export const lnApiSagas = (channelSagas, peerSagas) => {
     }
   }
 
-  const send = function * () {
+  const send = function * ({address, value}) {
     const action = A.send
     try {
       // const route = yield call(routingEndpoint)

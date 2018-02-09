@@ -67,14 +67,11 @@ export const routeSagas = (apiUrl) => {
   }
 
   const queryRoute = (start, end, amount, cltvEnd) => {
-    return fetch(apiUrl,
+    return fetch(apiUrl + '/route',
       {
         method: 'POST',
         body: JSON.stringify({
-          id: 1,
-          jsonrpc: '2.0',
-          method: 'getroute',
-          params: [end.toString('hex'), amount.toString(), '1', cltvEnd.toString(), start.toString('hex')]
+          from: start.toString('hex'), to: end.toString('hex'), amount, cltvEnd
         })
       }).then(r => r.json())
   }

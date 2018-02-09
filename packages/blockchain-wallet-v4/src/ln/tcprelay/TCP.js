@@ -70,15 +70,15 @@ class TCP {
   }
 
   connectToNode (pubKey, onOpen = identity, onData = identity, onClose = identity) {
-    const pubKeyB64 = pubKey.toString('base64')
+    const pubKeyHex = pubKey.toString('hex')
 
-    connections[pubKeyB64] = {}
-    connections[pubKeyB64].onOpen = onOpen
-    connections[pubKeyB64].onData = onData
-    connections[pubKeyB64].onClose = onClose
+    connections[pubKeyHex] = {}
+    connections[pubKeyHex].onOpen = onOpen
+    connections[pubKeyHex].onData = onData
+    connections[pubKeyHex].onClose = onClose
 
-    this.send(this.open(pubKeyB64))
-    return connections[pubKeyB64]
+    this.send(this.open(pubKeyHex))
+    return connections[pubKeyHex]
   }
 
   connectToNodePromise (node, onData = identity, onClose = identity) {
@@ -169,7 +169,7 @@ class TCP {
   }
 
   static sendData (node, data) {
-    return JSON.stringify({op: 'msg', node: node.toString('base64'), msg: data.toString('base64')})
+    return JSON.stringify({op: 'msg', node: node.toString('hex'), msg: data.toString('base64')})
   }
 
   open (node) {

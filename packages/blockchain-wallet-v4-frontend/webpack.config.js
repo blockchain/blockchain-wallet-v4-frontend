@@ -171,6 +171,7 @@ module.exports = {
           "'self'",
           'ws://localhost:8080',
           'ws://localhost:8081',
+          'http://localhost:8081',
           'https://blockchain.info',
           'wss://ws.blockchain.info',
           'https://api.blockchain.info',

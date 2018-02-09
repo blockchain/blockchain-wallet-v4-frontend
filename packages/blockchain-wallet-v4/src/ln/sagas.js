@@ -7,7 +7,7 @@ import {routeSagas} from './route/sagas';
 import { lnApiSagas } from './api/sagas'
 
 export const lnSagasFactory = (api, tcp) => {
-  let routeSaga = routeSagas('http://localhost:8090')
+  let routeSaga = routeSagas('http://localhost:8081')
   let peerSaga = peerSagas(tcp)
   let channelSaga = channelSagas(api, createApiWallet(api), peerSaga, routeSaga)
   let rootSaga = LNRootSagas()

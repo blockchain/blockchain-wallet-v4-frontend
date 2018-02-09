@@ -11,8 +11,8 @@ import TYPE from '../messages/types'
 import * as AT_CHANNEL from '../channel/actions'
 import { rootOptions } from '../root/selectors'
 
-export const encodePeer = pubKey => pubKey.toString('base64')
-export const decodePeer = pubKey => Buffer.from(pubKey, 'base64')
+export const encodePeer = pubKey => pubKey.toString('hex')
+export const decodePeer = pubKey => Buffer.from(pubKey, 'hex')
 
 export const peerSagas = (tcpConn) => {
   let peers = {}
