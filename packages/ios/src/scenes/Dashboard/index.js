@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Button, StyleSheet, Text, View } from 'react-native'
 import { actions, selectors } from '../../data'
+import { CoinDisplay } from '../../components'
 
 let guid = Config.GUID
 let pw = Config.PASSWORD
@@ -14,12 +15,13 @@ let sk = Config.SHARED_KEY
 
 class Dashboard extends Component {
   render() {
-    const { actions, wallet } = this.props
+    const { actions, bitcoinBalance, transactions, wallet } = this.props
     console.log("Wallet payload: ", wallet)
+    console.log("Transactions: ", transactions)
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Dashboard</Text>
-        <Text style={styles.welcome}>{wallet}</Text>
+        <CoinDisplay value={bitcoinBalance} />
         <Button
           onPress={() => actions.login(guid, pw, code, sk)}
           title="Login"
@@ -43,6 +45,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
+  bitcoinBalance: selectors.core.data.bitcoin.getBalance(state),
+  transactions: selectors.core.common.bitcoin.getWalletTransactions(state),
   wallet: selectors.auth.wallet(state)
 })
 

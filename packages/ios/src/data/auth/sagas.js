@@ -10,6 +10,21 @@ import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
 import * as selectors from '../selectors.js'
 
+const manageWalletOptions = function * () {
+  yield call(core.walletOptions.fetchWalletOptions)
+  const bitcoin = yield select(selectors.core.walletOptions.selectBitcoinAvailability)
+
+  let tasks = []
+  if (bitcoin.fiat) { tasks.push(call(core.data.bitcoin.startRates)) }
+  yield all(tasks)
+}
+
+const manageWalletSettings = function * () {
+  yield call(sagas.core.settings.fetchSettings)
+}
+
+const manageWalletMetadata = function * () {}
+
 const manageWalletData = function * () {
   const bitcoinContext = yield select(selectors.core.wallet.getWalletContext)
   yield call(core.common.bitcoin.fetchBlockchainData, { context: bitcoinContext })
@@ -17,6 +32,9 @@ const manageWalletData = function * () {
 
 const loginRoutineSaga = function * () {
   try {
+    yield call(manageWalletOptions)
+    // yield call(manageWalletSettings)
+    // yield call(manageWalletMetadata)
     yield call(manageWalletData)
   } catch (e) {
     console.log(e)
