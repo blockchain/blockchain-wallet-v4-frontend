@@ -23,7 +23,8 @@ const QRCode = styled.div`
   width: 100%;
   padding: 30px 0;
 `
-const QRCodeContainer = styled.div`
+const YubikeyContainer = styled.div`
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -47,10 +48,33 @@ const SuccessOverlay = styled.div`
   flex-direction: column;
   display: ${props => props.authType === 0 ? 'flex' : 'none'}
 `
+const YubikeyInput = styled.input`
+  display: block;
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.42;
+  color: ${props => props.theme['gray-5']};
+  background-color: ${props => props.theme['white']};
+  background-image: none;
+  outline-width: 0;
+  user-select: text;
+  border: 1px solid  ${props => props.theme[props.borderColor]};
 
-const Google = props => {
+  &::-webkit-input-placeholder {
+    color: ${props => props.theme['gray-2']};
+  }
+`
+
+const Yubikey = props => {
   const { data } = props
   const { googleSecret } = data
+  const { authType } = data
+
   return (
     <form onSubmit={props.handleSubmit}>
       {/* <SuccessOverlay authType={data.authType}>
@@ -61,15 +85,15 @@ const Google = props => {
       </SuccessOverlay> */}
       <AuthenticatorSummary authType={data.authType}>
         <Header>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Authenticator App' />
-          <Link size='14px'>Change</Link>
+          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Yubikey' />
+          <Link size='14px' onClick={props.goBack}>Change</Link>
         </Header>
         <SecurityDescription>
           <Text size='14px' weight={200}>
             <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-step Verification helps prevent unauthorized access to your wallet by requiring a one-time password after every login attempt. Enabling this option helps keep unauthorized users from being able to access your wallet.' />
           </Text>
         </SecurityDescription>
-        <QRCodeContainer>
+        <YubikeyContainer>
           {
             googleSecret
               ? <QRCode>
@@ -78,26 +102,29 @@ const Google = props => {
               : null
           }
           <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Scan this QR code with your Authenticator app' />
+            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Inser the Yubikey into an available USB port.' />
           </Text>
           <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Enter the random number presented below' />
+            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Pair your Yubikey' />
           </Text>
           <QRInputWrapper>
-            <Field name='authCode' validate={[]} component={TextBox} placeholder='123AB' />
-            <Button nature='primary' onClick={props.handleSubmit}>Verify Code</Button>
+            <YubikeyInput type='password' name='yubikeyCode' value={props.value} onChange={props.handleInput} />
+            {/* <Field name='yubikeyCode' validate={[]} component={TextBox} /> */}
+            <Button nature='primary' onClick={props.handleSubmit}>
+              <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Pair Yubikey' />
+            </Button>
           </QRInputWrapper>
-        </QRCodeContainer>
+        </YubikeyContainer>
       </AuthenticatorSummary>
     </form>
   )
 }
 
-Google.propTypes = {
+Yubikey.propTypes = {
   authType: PropTypes.number.isRequired,
   handleSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({
-  form: 'securityGoogleAuthenticator'
-})(Google)
+  form: 'securityYubikey'
+})(Yubikey)

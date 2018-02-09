@@ -11,3 +11,5 @@ export const sendConfirmationCodeEmail = (email) => ({ type: AT.SEND_CONFIRMATIO
 export const getGoogleAuthenticatorSecretUrl = () => ({ type: AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL })
 
 export const verifyGoogleAuthenticator = (code) => ({ type: AT.VERIFY_GOOGLE_AUTHENTICATOR, payload: { code } })
+
+export const setYubikey = (code) => ({ type: AT.SET_YUBIKEY, payload: { code } })

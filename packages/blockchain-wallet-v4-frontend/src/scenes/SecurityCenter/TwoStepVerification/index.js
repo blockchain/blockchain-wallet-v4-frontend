@@ -15,6 +15,7 @@ class TwoStepVerificationContainer extends React.Component {
 
     this.handleClick = this.handleClick.bind(this)
     this.chooseMethod = this.chooseMethod.bind(this)
+    this.handleGoBack = this.handleGoBack.bind(this)
 
     this.state = { authMethod: '' }
   }
@@ -26,6 +27,10 @@ class TwoStepVerificationContainer extends React.Component {
     this.setState({ authMethod: method })
   }
 
+  handleGoBack () {
+    this.setState({ authMethod: '' })
+  }
+
   render () {
     const { data, ...rest } = this.props
 
@@ -35,6 +40,7 @@ class TwoStepVerificationContainer extends React.Component {
         handleClick={this.handleClick}
         chooseMethod={this.chooseMethod}
         twoStepChoice={this.state.authMethod}
+        handleGoBack={this.handleGoBack}
         />,
       Failure: (message) => <Error {...rest}
         message={message} />,
