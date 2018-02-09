@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary } from 'components/Security'
 import Settings from './Settings'
 import GoogleAuth from './GoogleAuth'
+import Yubikey from './Yubikey'
 
 const TwoStepChoicesWapper = styled.div`
   display: flex;
@@ -46,17 +47,17 @@ const TwoStepVerification = (props) => {
   const { authType, ui, twoStepChoice } = props
   const twoFAEnabled = authType === 1
 
-  console.log('2step', props)
-
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
       return (
-        <GoogleAuth />
+        <GoogleAuth goBack={props.handleGoBack} />
       )
     }
-    // if (twoStepChoice === 'yubikey') {
-    //   return
-    // }
+    if (twoStepChoice === 'yubikey') {
+      return (
+        <Yubikey goBack={props.handleGoBack} />
+      )
+    }
     // if (twoStepChoice === 'sms') {
     //   return
     // }
@@ -80,7 +81,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice>
+          <Choice onClick={() => props.chooseMethod('yubikey')}>
             <Icon name='yubikey' />
             <ChoiceDescription>
               <Text weight={300} size='16px'>

@@ -64,6 +64,15 @@ export const verifyGoogleAuthenticator = function * (action) {
   }
 }
 
+export const setYubikey = function * (action) {
+  try {
+    yield call(sagas.core.settings.setYubikey, action.payload)
+    yield put(actions.alerts.displaySuccess('Yubikey verified!'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not verify yubikey.'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
   yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
@@ -71,4 +80,5 @@ export default function * () {
   yield takeLatest(AT.VERIFY_EMAIL_CODE, verifyEmailCode)
   yield takeLatest(AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, getGoogleAuthenticatorSecretUrl)
   yield takeLatest(AT.VERIFY_GOOGLE_AUTHENTICATOR, verifyGoogleAuthenticator)
+  yield takeLatest(AT.SET_YUBIKEY, setYubikey)
 }

@@ -3,45 +3,57 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
-import Google from './template.success'
+import Yubikey from './template.success'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
 
-class GoogleAuthContainer extends React.Component {
+class YubikeyContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleInput = this.handleInput.bind(this)
+
+    this.state = { yubikeyCode: '' }
   }
 
   componentWillMount () {
-    this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
+
   }
 
   handleClick () {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  handleSubmit () {
-    this.props.securityCenterActions.verifyGoogleAuthenticator(this.props.authCode)
+  handleSubmit (e) {
+    e.preventDefault()
+    this.props.securityCenterActions.setYubikey(this.state.yubikeyCode)
   }
 
-  // goBack () {
-  //   this.props.goBack()
-  // }
+  handleInput (e) {
+    e.preventDefault()
+    this.setState({ yubikeyCode: e.target.value })
+  }
 
   render () {
     const { data, ...rest } = this.props
+    console.log(
+      'render yubi',
+      this.props
+    )
 
     return data.cata({
-      Success: (value) => <Google {...rest}
+      Success: (value) => <Yubikey
         data={value}
         handleClick={this.handleClick}
         handleSubmit={this.handleSubmit}
         goBack={this.props.goBack}
+        handleInput={this.handleInput}
+        value={this.state.yubikeyCode}
+        {...rest}
       />,
       Failure: (message) => <Error {...rest}
         message={message} />,
@@ -52,7 +64,6 @@ class GoogleAuthContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  authCode: formValueSelector('securityGoogleAuthenticator')(state, 'authCode'),
   data: getData(state)
 })
 
@@ -67,4 +78,4 @@ const enhance = compose(
   ui({ key: 'Security_TwoFactor', state: { updateToggled: false } })
 )
 
-export default enhance(GoogleAuthContainer)
+export default enhance(YubikeyContainer)
