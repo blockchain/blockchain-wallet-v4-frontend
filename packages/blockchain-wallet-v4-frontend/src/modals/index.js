@@ -1,5 +1,6 @@
 import React from 'react'
 
+import AddBitcoinWallet from './AddBitcoinWallet'
 import AutoDisconnection from './AutoDisconnection'
 import ExchangeDetails from './ExchangeDetails'
 import ImportBitcoinAddress from './ImportBitcoinAddress'
@@ -24,6 +25,7 @@ import Welcome from './Welcome'
 
 const Modals = props => (
   <div>
+    <AddBitcoinWallet />
     <AutoDisconnection />
     <ExchangeDetails />
     <ImportBitcoinAddress />
