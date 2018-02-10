@@ -47,7 +47,7 @@ class ImportExternalBitcoinAddress extends React.Component {
             <Label for='private-key'>
               <FormattedMessage id='modals.importbitcoinaddress.import_external_bitcoin_address.prv_key' defaultMessage='Enter Private Key' />
             </Label>
-            <Field name='prv' validate={[validBitcoinPrivateKey]} component={TextBox} />
+            <Field name='priv' validate={[validBitcoinPrivateKey]} component={TextBox} />
           </FormItem>
           <FormItem width={'40%'}>
             <Label for='wallets'>

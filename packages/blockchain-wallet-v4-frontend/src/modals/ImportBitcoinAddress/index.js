@@ -14,7 +14,7 @@ class ImportBitcoinAddressContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.walletActions.createLegacyAddress({addr: this.props.address})
+    this.props.walletActions.createLegacyAddress({addr: this.props.address, priv: this.props.priv})
   }
 
   render () {
@@ -23,6 +23,7 @@ class ImportBitcoinAddressContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  priv: formValueSelector('importBitcoinAddress')(state, 'priv'),
   address: formValueSelector('importBitcoinAddress')(state, 'address'),
   addressType: formValueSelector('importBitcoinAddress')(state, 'address-type')
 })
