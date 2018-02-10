@@ -15,14 +15,15 @@ class SfoxExchangeData extends React.Component {
     this.setState({ show: true })
   }
 
-  componentWillLeave () {
+  handleClose () {
     this.setState({ show: false })
+    setTimeout(this.props.close, 500)
   }
 
   render () {
     return (
-      <Tray show={this.state.show}>
-        <ModalHeader onClose={this.props.close}>
+      <Tray in={this.state.show} class='tray'>
+        <ModalHeader onClose={this.handleClose.bind(this)}>
           sfox
         </ModalHeader>
         <ModalBody>

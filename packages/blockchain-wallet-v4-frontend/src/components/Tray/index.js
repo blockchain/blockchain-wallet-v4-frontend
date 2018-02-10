@@ -3,20 +3,19 @@ import styled from 'styled-components'
 import { Modal } from 'blockchain-info-components'
 import Transition from 'react-transition-group/Transition'
 
-const duration = 300
+const duration = 500
 
 const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0
+  transition: `top ${duration}ms`,
+  top: '100%'
 }
 
 const transitionStyles = {
-  entering: { opacity: 0 },
-  entered: { opacity: 1 }
+  entering: { top: '100%' },
+  entered: { top: '60px' }
 }
 
 const TrayModal = styled(Modal)`
-  top: 60px;
   left: 270px;
   position: absolute;
   width: calc(100% - 270px);
@@ -26,9 +25,9 @@ const TrayModal = styled(Modal)`
 const Tray = props => {
   const { children, ...rest } = props
   return (
-    <Transition in={props.show} timeout={duration}>
+    <Transition in={props.in} timeout={0}>
       {(status) => (
-        <TrayModal {...rest} className={status} style={{...defaultStyle, ...transitionStyles[status]}}>
+        <TrayModal {...rest} type={'tray'} style={{...defaultStyle, ...transitionStyles[status]}}>
           {children}
         </TrayModal>
       )}
