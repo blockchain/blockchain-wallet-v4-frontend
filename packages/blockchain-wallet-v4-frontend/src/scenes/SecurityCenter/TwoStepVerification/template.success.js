@@ -50,7 +50,7 @@ const IconContainer = styled.div`
 
 const TwoStepVerification = (props) => {
   const { authType, ui, twoStepChoice } = props
-  const twoFAEnabled = authType === 1
+  const twoFAEnabled = authType > 0
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
