@@ -40,6 +40,11 @@ const CancelText = ChangeEmailText.extend`
 const EmailChangeWarning = styled(Text)`
   margin-top: 25px;
 `
+const IconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+`
 
 const EmailAddress = (props) => {
   const { data, ui } = props
@@ -132,7 +137,9 @@ const EmailAddress = (props) => {
 
   return (
     <SecurityContainer>
-      <SecurityIcon name='email' enabled={isVerified} />
+      <IconContainer>
+        <SecurityIcon name='email' enabled={isVerified} />
+      </IconContainer>
       {
         !ui.verifyToggled && !ui.changeEmailToggled
           ? renderInitial()

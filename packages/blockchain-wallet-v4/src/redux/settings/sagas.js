@@ -177,7 +177,7 @@ export const settingsSaga = ({ api } = {}) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.enableYubikey, guid, sharedKey, code)
-    yield call(api.updateAuthType, guid, sharedKey, 1)
+    yield call(api.updateAuthType, guid, sharedKey, '1')
     if (!contains('updated', response)) { throw new Error(response) }
     yield put(actions.setYubikey())
   }

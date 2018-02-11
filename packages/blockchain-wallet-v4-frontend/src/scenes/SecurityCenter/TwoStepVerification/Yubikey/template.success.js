@@ -16,13 +16,6 @@ const AuthenticatorSummary = styled.div`
 const Header = SecurityHeader.extend`
   justify-content: flex-start;
 `
-const QRCode = styled.div`
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  width: 100%;
-  padding: 30px 0;
-`
 const YubikeyContainer = styled.div`
   margin-top: 25px;
   display: flex;
@@ -72,7 +65,6 @@ const YubikeyInput = styled.input`
 
 const Yubikey = props => {
   const { data } = props
-  const { googleSecret } = data
   const { authType } = data
 
   return (
@@ -94,13 +86,6 @@ const Yubikey = props => {
           </Text>
         </SecurityDescription>
         <YubikeyContainer>
-          {
-            googleSecret
-              ? <QRCode>
-                <QRCodeReact value={googleSecret} size={115} />
-              </QRCode>
-              : null
-          }
           <Text size='14px' weight={200}>
             <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Inser the Yubikey into an available USB port.' />
           </Text>
