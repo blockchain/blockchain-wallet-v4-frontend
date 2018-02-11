@@ -43,7 +43,7 @@ const EmailChangeWarning = styled(Text)`
 const IconContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
+  margin-top: 25px;
 `
 
 const EmailAddress = (props) => {
