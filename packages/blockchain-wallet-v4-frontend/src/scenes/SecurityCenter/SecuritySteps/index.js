@@ -7,15 +7,16 @@ import SecuritySteps from './template.js'
 
 class SecurityStepsContainer extends React.Component {
   render () {
-    const { emailVerified } = this.props
+    const { emailVerified, authType } = this.props
     return (
-      <SecuritySteps emailVerified={emailVerified} />
+      <SecuritySteps emailVerified={emailVerified} authType={authType.data} />
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  emailVerified: selectors.core.settings.getEmailVerified(state)
+  emailVerified: selectors.core.settings.getEmailVerified(state),
+  authType: selectors.core.settings.getAuthType(state)
 })
 
 const enhance = compose(
