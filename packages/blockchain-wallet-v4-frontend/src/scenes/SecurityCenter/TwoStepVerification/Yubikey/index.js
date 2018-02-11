@@ -29,6 +29,7 @@ class YubikeyContainer extends React.Component {
   }
 
   handleSubmit (e) {
+    console.log('handleSubmit', this.state)
     e.preventDefault()
     this.props.securityCenterActions.setYubikey(this.state.yubikeyCode)
   }

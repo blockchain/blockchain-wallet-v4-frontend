@@ -12,7 +12,7 @@ const SecurityComponent = styled.div`
 
   @media (min-width: 992px) {
     align-items: flex-end;
-    width: 30%;
+    width: 100%;
   }
 `
 

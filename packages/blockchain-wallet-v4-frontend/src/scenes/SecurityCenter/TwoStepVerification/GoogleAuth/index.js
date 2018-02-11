@@ -29,10 +29,6 @@ class GoogleAuthContainer extends React.Component {
     this.props.securityCenterActions.verifyGoogleAuthenticator(this.props.authCode)
   }
 
-  // goBack () {
-  //   this.props.goBack()
-  // }
-
   render () {
     const { data, ...rest } = this.props
 

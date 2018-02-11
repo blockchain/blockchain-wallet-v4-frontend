@@ -29,7 +29,7 @@ const ChoiceDescription = styled.div`
   padding-left: 10px;
 `
 const SecuritySummaryChoice = styled(SecuritySummary)`
-  width: 80%;
+  width: 120%;
 `
 const SecurityTip = styled.div`
   border-left: 1px solid #CCCCCC;
@@ -41,6 +41,11 @@ const SecurityTip = styled.div`
 const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
+`
+const IconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
 `
 
 const TwoStepVerification = (props) => {
@@ -128,7 +133,9 @@ const TwoStepVerification = (props) => {
   return (
     <div>
       <SecurityTwoStepContainer>
-        <SecurityIcon name='lock' enabled={twoFAEnabled} />
+        <IconContainer>
+          <SecurityIcon name='lock' enabled={twoFAEnabled} />
+        </IconContainer>
         {
           !ui.verifyToggled
             ? renderInitial()
