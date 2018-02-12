@@ -72,7 +72,7 @@ const Yubikey = props => {
       <SuccessOverlay authType={data.authType}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up Google Authenticator." />
+          <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up your Yubikey!" />
         </Text>
       </SuccessOverlay>
       <AuthenticatorSummary authType={data.authType}>

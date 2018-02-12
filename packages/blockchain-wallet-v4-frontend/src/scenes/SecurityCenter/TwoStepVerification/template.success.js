@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Text, Button, Icon } from 'blockchain-info-components'
+import { Text, Button, Icon, Link, ButtonGroup } from 'blockchain-info-components'
 import styled from 'styled-components'
-
+import { Field, reduxForm } from 'redux-form'
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary } from 'components/Security'
-import Settings from './Settings'
+import { PhoneNumberBox } from 'components/Form'
 import GoogleAuth from './GoogleAuth'
 import Yubikey from './Yubikey'
 import SmsAuth from './SMS'
@@ -48,6 +48,45 @@ const IconContainer = styled.div`
   flex-direction: column;
   margin-top: 25px;
 `
+const DisableContainer = styled.div`
+  width: 100%;
+  margin: 10px 0px 20px 0px;
+  a {
+    margin-left: 10px;
+  }
+  div:first-of-type {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+`
+const WeightedText = styled.span`
+  font-weight: 400;
+  font-size: 14px;
+`
+const ChangeMobileContainer = styled.form`
+  display: flex;
+  margin-left: 10px;
+  flex-direction: column;
+  input {
+    min-height: 15px;
+    padding: 0px 5px;
+  }
+  button {
+    height: 25px;
+    font-size: 12px;
+    padding: 0px;
+  }
+`
+const FlexRow = styled.span`
+  display: flex;
+  flex-direction: row;
+`
+const Buttons = styled(ButtonGroup)`
+  button {
+    margin-left: 10px;
+  }
+`
 
 const TwoStepVerification = (props) => {
   const { ui, twoStepChoice, data } = props
@@ -75,6 +114,30 @@ const TwoStepVerification = (props) => {
         <SecurityDescription>
           <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification helps prevent unauthorized access to your wallet by requiring a one-time passsword after every login attempt. Enabling this option helps keep unauthorized users form being able to access your wallet.' />
         </SecurityDescription>
+        {
+          (data.authType === 4 || data.authType === 1) && data.smsVerified
+            ? <DisableContainer>
+              <Text weight={200} size='14px'>
+                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with' />
+                <WeightedText>{props.authName}&nbsp;</WeightedText>
+                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage=' for number ' />
+                {
+                  !ui.changeNumberToggled
+                    ? <FlexRow><WeightedText>&nbsp;{data.smsNumber}</WeightedText>
+                      <Link size='14px' onClick={props.handleChangeNumber}>Change Mobile Number</Link>
+                    </FlexRow>
+                    : <ChangeMobileContainer>
+                      <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder='212-555-5555' />
+                      <Buttons>
+                        <Text cursor='pointer' weight={200} size='12px' onClick={props.cancelMobileChange} height='25px'>Cancel</Text>
+                        <Button nature='primary' onClick={props.submitMobileChange} height='25px'>Change</Button>
+                      </Buttons>
+                    </ChangeMobileContainer>
+                }
+              </Text>
+            </DisableContainer>
+            : null
+        }
         <TwoStepChoicesWapper>
           <Choice onClick={() => props.chooseMethod('google')}>
             <Icon name='lock' size='18px' weight={400} />
@@ -171,8 +234,12 @@ const TwoStepVerification = (props) => {
   )
 }
 
-// TwoStepVerification.propTypes = {
-//   authType: PropTypes.number.isRequired
-// }
+TwoStepVerification.propTypes = {
+  authType: PropTypes.number,
+  twoStepChoice: PropTypes.string,
+  smsVerified: PropTypes.number
+}
 
-export default TwoStepVerification
+export default reduxForm({
+  form: 'twoStepVerification'
+})(TwoStepVerification)
