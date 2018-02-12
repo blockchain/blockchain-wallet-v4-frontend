@@ -1,8 +1,8 @@
 import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
-import { prop, compose, endsWith, repeat, range, map, propSatisfies, indexBy,
-         length, path, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
+import { prop, compose, endsWith, repeat, range, map, propSatisfies,
+         length, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import Task from 'data.task'
 import Either from 'data.either'
@@ -53,11 +53,7 @@ export const walletSaga = ({ api } = {}) => {
       const i = hdwallets[0].accounts.length
       if (eitherMnemonic.isRight) {
         const mnemonic = eitherMnemonic.value
-        const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
-        const masterNode = mnemonic ? Bitcoin.HDNode.fromSeedBuffer(seed, undefined) : undefined
-        const parentNode = mnemonic ? masterNode.deriveHardened(44).deriveHardened(0) : undefined
-        const node = i => mnemonic ? parentNode.deriveHardened(i) : undefined
-        const account = i => HDAccount.js(label, node(i), undefined)
+        const account = i => HDAccount.js(label, HDAccount.fromMnemonic(mnemonic, undefined, label)(i), undefined)
         const addHDAccount = hdw => HDWallet.addHDAccount(hdw, account(i), i)
         const wallet = addHDAccount(hdwallet)
         const newWrapper = set(compose(Wrapper.wallet, Wallet.hdWallets), HDWalletList.fromJS([wallet.value]), wrapper)
