@@ -12,7 +12,7 @@ const BaseButton = styled.button.attrs({
   align-items: center;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
   min-width: 140px;
-  height: 40px;
+  height: ${props => props.height};
   padding: 10px 15px;
   box-sizing: border-box;
   user-select: none;
@@ -93,7 +93,8 @@ Button.defaultProps = {
   rounded: false,
   bold: false,
   uppercase: false,
-  capitalize: false
+  capitalize: false,
+  height: '40px'
 }
 
 export default Button
