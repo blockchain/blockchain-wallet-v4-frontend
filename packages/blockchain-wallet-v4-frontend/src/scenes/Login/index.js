@@ -33,7 +33,7 @@ const mapStateToProps = (state) => ({
   guid: formValueSelector('login')(state, 'guid'),
   password: formValueSelector('login')(state, 'password'),
   code: formValueSelector('login')(state, 'code'),
-  authType: selectors.auth.getAuthType(state)
+  authType: selectors.core.settings.getAuthType(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
