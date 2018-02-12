@@ -8,6 +8,7 @@ import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHead
 import Settings from './Settings'
 import GoogleAuth from './GoogleAuth'
 import Yubikey from './Yubikey'
+import SmsAuth from './SMS'
 
 const TwoStepChoicesWapper = styled.div`
   display: flex;
@@ -49,8 +50,8 @@ const IconContainer = styled.div`
 `
 
 const TwoStepVerification = (props) => {
-  const { authType, ui, twoStepChoice } = props
-  const twoFAEnabled = authType > 0
+  const { ui, twoStepChoice, data } = props
+  const twoFAEnabled = data.authType > 0 || data.smsVerified > 0
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
@@ -63,9 +64,9 @@ const TwoStepVerification = (props) => {
         <Yubikey goBack={props.handleGoBack} />
       )
     }
-    // if (twoStepChoice === 'sms') {
-    //   return
-    // }
+    if (twoStepChoice === 'sms') {
+      return <SmsAuth goBack={props.handleGoBack} />
+    }
     return (
       <SecuritySummaryChoice>
         <SecurityHeader>
@@ -97,7 +98,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice>
+          <Choice onClick={() => props.chooseMethod('sms')}>
             <Icon name='mobile' size='18px' weight={400} />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
@@ -145,7 +146,7 @@ const TwoStepVerification = (props) => {
           !ui.verifyToggled
             ? <SecurityComponent>
               <Button nature='primary' onClick={props.handleClick}>
-                {authType === 0
+                {!twoFAEnabled
                   ? <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Enable' />
                   : <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Disable' />
                 }
@@ -170,8 +171,8 @@ const TwoStepVerification = (props) => {
   )
 }
 
-TwoStepVerification.propTypes = {
-  authType: PropTypes.number.isRequired
-}
+// TwoStepVerification.propTypes = {
+//   authType: PropTypes.number.isRequired
+// }
 
 export default TwoStepVerification

@@ -13,3 +13,7 @@ export const getGoogleAuthenticatorSecretUrl = () => ({ type: AT.GET_GOOGLE_AUTH
 export const verifyGoogleAuthenticator = (code) => ({ type: AT.VERIFY_GOOGLE_AUTHENTICATOR, payload: { code } })
 
 export const setYubikey = (code) => ({ type: AT.SET_YUBIKEY, payload: { code } })
+
+export const sendMobileVerificationCode = (mobile) => ({ type: AT.SEND_MOBILE_VERIFICATION_CODE, payload: { mobile } })
+
+export const verifyMobile = (code) => ({ type: AT.VERIFY_MOBILE, payload: { code } })
