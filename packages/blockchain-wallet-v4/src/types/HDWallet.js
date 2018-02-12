@@ -1,6 +1,7 @@
 import { shift, shiftIProp } from './util'
-import { pipe, compose, curry, is, range, map } from 'ramda'
+import { append, pipe, compose, curry, is, range, map } from 'ramda'
 import { view, over } from 'ramda-lens'
+import Either from 'data.either'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
@@ -34,6 +35,12 @@ export const selectDefaultAccount = (hdwallet) => selectAccount(selectDefaultAcc
 export const selectContext = compose(HDAccountList.selectContext, selectAccounts)
 
 const shiftHDWallet = compose(shiftIProp('seed_hex', 'seedHex'), shift)
+
+export const addHDAccount = curry((hdw, hdaccount, i) => {
+  let set = curry((hda, as) => as.set(i, HDAccount.fromJS(hda)))
+  let ap = curry((hdw, hda) => over(accounts, set(hda), hdw))
+  return Either.of(ap(hdw, hdaccount))
+})
 
 export const fromJS = (x) => {
   if (is(HDWallet, x)) { return x }
