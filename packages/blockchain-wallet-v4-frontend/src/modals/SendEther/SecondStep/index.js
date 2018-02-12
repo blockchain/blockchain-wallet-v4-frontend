@@ -24,6 +24,7 @@ class SecondStepContainer extends React.Component {
 
   render () {
     const { data, ...rest } = this.props
+    console.log('Total', data.total)
     return <SecondStep {...data} {...rest} handleSubmit={this.handleSubmit} />
   }
 }

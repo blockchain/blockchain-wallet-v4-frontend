@@ -40,7 +40,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = props => {
-  const { previousStep, handleSubmit, fromAddress, toAddress, message, fee, satoshis } = props
+  const { previousStep, handleSubmit, fromAddress, toAddress, message, fee, satoshis, total } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -69,7 +69,7 @@ const SecondStep = props => {
           <FormattedMessage id='modals.sendbch.secondstep.payment' defaultMessage='Payment:' />
         </Text>
         <Text size='16px' weight={300}>
-          <ComboDisplay coin='BTC'>{satoshis}</ComboDisplay>
+          <ComboDisplay coin='BCH'>{satoshis}</ComboDisplay>
         </Text>
       </Row>
       <Row>
@@ -77,19 +77,19 @@ const SecondStep = props => {
           <FormattedMessage id='modals.sendbch.secondstep.fee' defaultMessage='Fee:' />
         </Text>
         <Text size='16px' weight={300}>
-          <ComboDisplay coin='BTC'>{fee}</ComboDisplay>
+          <ComboDisplay coin='BCH'>{fee}</ComboDisplay>
         </Text>
       </Row>
       <Summary>
         <Text size='16px' weight={300} color='transferred'>
           <FormattedMessage id='modals.sendbch.secondstep.total' defaultMessage='Total' />
         </Text>
-        <CoinDisplay coin='BTC' size='30px' weight={600} color='transferred'>{satoshis}</CoinDisplay>
-        <FiatDisplay coin='BTC' size='20px' weight={300} color='transferred'>{satoshis}</FiatDisplay>
+        <CoinDisplay coin='BCH' size='30px' weight={600} color='transferred'>{total}</CoinDisplay>
+        <FiatDisplay coin='BCH' size='20px' weight={300} color='transferred'>{total}</FiatDisplay>
       </Summary>
       <Footer>
         <Button type='submit' nature='primary' fullwidth uppercase>
-          <FormattedMessage id='modals.sendbch.secondstep.send' defaultMessage='Send bch' />
+          <FormattedMessage id='modals.sendbch.secondstep.send' defaultMessage='Send Bitcoin Cash' />
         </Button>
         <Link onClick={previousStep} size='13px' weight={300}>
           <FormattedMessage id='scenes.sendbch.secondstep.back' defaultMessage='Go back' />
