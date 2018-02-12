@@ -41,6 +41,7 @@ const SuccessOverlay = styled.div`
   display: ${props => props.authType !== 0 ? 'flex' : 'none'};
   position: absolute;
   left: 0px;
+  z-index: 1;
 `
 const YubikeyInput = styled.input`
   display: block;
