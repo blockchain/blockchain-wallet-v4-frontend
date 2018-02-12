@@ -14,10 +14,7 @@ class ActionsContainer extends React.Component {
 
   handleSend () {
     const { pathname } = this.props.router.location
-    // switch (pathname) {
-    //   case '/eth/transactions': return this.props.sendEtherActions.initSendEther()
-    //   default: return this.props.sendBitcoinActions.initSendBitcoin()
-    // }
+
     switch (pathname) {
       case '/eth/transactions': return this.props.modalActions.showModal('SendEther')
       case '/bch/transactions': return this.props.modalActions.showModal('SendBch')
@@ -28,6 +25,7 @@ class ActionsContainer extends React.Component {
   handleRequest () {
     const { pathname } = this.props.router.location
     switch (pathname) {
+      case '/bch/transactions': return this.props.modalActions.showModal('RequestBch')
       case '/eth/transactions': return this.props.modalActions.showModal('RequestEther')
       default: return this.props.modalActions.showModal('RequestBitcoin')
     }
@@ -43,9 +41,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch),
-  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActionsContainer)

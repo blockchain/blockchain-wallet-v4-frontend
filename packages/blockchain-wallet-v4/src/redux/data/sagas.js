@@ -7,7 +7,7 @@ import { shapeShift } from './shapeShift/sagas.js'
 export const dataSagasFactory = ({ api, socket } = {}) => ({
   bitcoin: bitcoin({ api, socket }),
   ethereum: ethereum({ api, socket }),
-  // bch: bch({ api, socket }),
+  bch: bch({ api, socket }),
   misc: misc({ api, socket }),
   shapeShift: shapeShift({ api, socket })
 })
