@@ -17,7 +17,6 @@ class FirstStep extends React.Component {
     // this.timeout = undefined
     this.seed = generateSeed()
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
-    this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -49,10 +48,6 @@ class FirstStep extends React.Component {
     this.props.formActions.change('sendBch', 'to2', '')
   }
 
-  handleClickFeeToggler () {
-    this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
-  }
-
   handleSubmit (e) {
     e.preventDefault()
     this.props.nextStep()
@@ -66,10 +61,8 @@ class FirstStep extends React.Component {
         effectiveBalance={value.effectiveBalanceScaled}
         addressSelectToggled={ui.addressSelectToggled}
         addressSelectOpened={ui.addressSelectOpened}
-        feeEditToggled={ui.feeEditToggled}
         handleSubmit={this.handleSubmit}
         handleClickAddressToggler={this.handleClickAddressToggler}
-        handleClickFeeToggler={this.handleClickFeeToggler}
         fee={data.data.fee}
       />,
       Failure: (message) => <Error>{message}</Error>,

@@ -6,8 +6,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validBitcoinAddress } from 'services/FormHelper'
-import { Button, ButtonGroup, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
-import { FiatConvertor, Form, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
+import { Button, ButtonGroup, Icon, Text, Tooltip } from 'blockchain-info-components'
+import { FiatConvertor, Form, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
 
@@ -103,7 +103,7 @@ const FirstStep = props => {
           ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
           : <Field name='to2' component={TextBox} validate={[required, validBitcoinAddress]} />
         }
-        <QRCodeCapture coin='BTC' />
+        <QRCodeCapture coin='BCH' />
         {addressSelectToggled
           ? <AddressButton onClick={handleClickAddressToggler}><Icon name='pencil' size='16px' cursor /></AddressButton>
           : <AddressButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' cursor /></AddressButton>
@@ -114,7 +114,7 @@ const FirstStep = props => {
           <FormattedMessage id='modals.sendbch.firststep.amount' defaultMessage='Enter amount:' />
         </Text>
       </AmountText>
-      <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' maxAvailable={props.effectiveBalance} />
+      <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BCH' maxAvailable={props.effectiveBalance} />
       <DescriptionText>
         <Text size='14px' weight={500}>
           <FormattedMessage id='modals.sendbch.firststep.description' defaultMessage='Description:' />
@@ -154,8 +154,7 @@ FirstStep.propTypes = {
   // selection: PropTypes.object.isRequired,
   fee: PropTypes.number.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  handleClickAddressToggler: PropTypes.func.isRequired,
-  handleClickFeeToggler: PropTypes.func.isRequired
+  handleClickAddressToggler: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'sendBch', shouldValidate, destroyOnUnmount: false })(FirstStep)
