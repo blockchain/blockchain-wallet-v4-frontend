@@ -1,4 +1,5 @@
 // setters
+export const ADD_WALLET = '@CORE.ADD_WALLET'
 export const SET_WRAPPER = '@CORE.SET_WRAPPER'
 export const REFRESH_WRAPPER = '@CORE.REFRESH_WRAPPER'
 export const SET_MAIN_PASSWORD = '@CORE.SET_MAIN_PASSWORD'

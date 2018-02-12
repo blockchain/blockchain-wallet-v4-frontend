@@ -14,7 +14,7 @@ class AddBitcoinWalletContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    window.alert('Add wallet ' + this.props.wallet)
+    this.props.walletActions.addWallet(this.props.wallet)
   }
 
   render () {

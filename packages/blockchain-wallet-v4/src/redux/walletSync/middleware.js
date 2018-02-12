@@ -21,7 +21,7 @@ const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (acti
 
   const sync = (apiCall) => {
     const encEither = Wrapper.toEncJSON(nextWallet)
-    
+
     encEither.map(Wrapper.computeChecksum)
       .fold(e => console.log('ERROR(sync middleware): computeChecksum'),
             compose(store.dispatch, A.wallet.setPayloadChecksum))

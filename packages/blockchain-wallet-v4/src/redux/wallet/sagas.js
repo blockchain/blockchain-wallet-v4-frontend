@@ -10,7 +10,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
 
-import { Wrapper, Wallet, Address, HDWalletList } from '../../types'
+import { Wrapper, Wallet, Address, HDAccount, HDWallet, HDWalletList } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -41,6 +41,32 @@ export const walletSaga = ({ api } = {}) => {
     yield call(runTask, task, A.setWrapper)
     const walletContext = yield select(S.getWalletContext)
     yield put(fetchData(walletContext))
+  }
+
+  const addWallet = function * ({ label, password }) {
+    try {
+      const wrapper = yield select(S.getWrapper)
+      const hdwallet = yield select(S.getDefaultHDWallet)
+      const getMnemonic = state => S.getMnemonic(state, password)
+      const eitherMnemonic = yield select(getMnemonic)
+      const hdwallets = compose(i => i.toJS(), Wallet.selectHdWallets, Wrapper.selectWallet)(wrapper)
+      const i = hdwallets[0].accounts.length
+      if (eitherMnemonic.isRight) {
+        const mnemonic = eitherMnemonic.value
+        const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
+        const masterNode = mnemonic ? Bitcoin.HDNode.fromSeedBuffer(seed, undefined) : undefined
+        const parentNode = mnemonic ? masterNode.deriveHardened(44).deriveHardened(0) : undefined
+        const node = i => mnemonic ? parentNode.deriveHardened(i) : undefined
+        const account = i => HDAccount.js(label, node(i), undefined)
+        const addHDAccount = hdw => HDWallet.addHDAccount(hdw, account(i), i)
+        const wallet = yield call(addHDAccount, hdwallet)
+        console.log(wallet)
+      } else {
+        throw new Error('Could not get mnemonic.')
+      }
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 
   const createWalletSaga = function * ({ password, email }) {
@@ -125,6 +151,7 @@ export const walletSaga = ({ api } = {}) => {
   }
 
   return {
+    addWallet,
     toggleSecondPassword,
     createWalletSaga,
     restoreWalletSaga,
