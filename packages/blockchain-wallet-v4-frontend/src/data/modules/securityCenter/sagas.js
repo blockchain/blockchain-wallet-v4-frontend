@@ -8,7 +8,6 @@ export const updateEmail = function * (action) {
   try {
     yield call(sagas.core.settings.setEmail, action.payload)
     yield put(actions.alerts.displaySuccess('Your email has been updated. An email with your confirmation code has been sent.'))
-    // TODO: I believe the backend should do this next step
     yield call(sagas.core.settings.sendConfirmationCodeEmail, action.payload)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update email address.'))
@@ -17,13 +16,9 @@ export const updateEmail = function * (action) {
 
 const getGoogleAuthenticatorSecretUrl = function * (action) {
   try {
-    console.log('#1 getGoogleAuthSecret frontend saga', action)
     const googleAuthenticatorSecretUrl = yield call(sagas.core.settings.requestGoogleAuthenticatorSecretUrl)
-    console.log('frontend sagas: getGoogleAuthSecretUrl', googleAuthenticatorSecretUrl)
     return googleAuthenticatorSecretUrl
-    // yield put(actions.modals.showModal('TwoStepGoogleAuthenticator', { googleAuthenticatorSecretUrl }))
   } catch (e) {
-    console.warn('frontend saga catch', e)
     yield put(actions.alerts.displayError('Could not fetch google authenticator secret.'))
   }
 }
@@ -73,6 +68,24 @@ export const setYubikey = function * (action) {
   }
 }
 
+export const sendMobileVerificationCode = function * (action) {
+  try {
+    yield call(sagas.core.settings.setMobile, action.payload)
+    yield put(actions.alerts.displaySuccess('Mobile verification code sent!'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not send mobile verification code.'))
+  }
+}
+
+export const verifyMobile = function * (action) {
+  try {
+    yield call(sagas.core.settings.setMobileVerified, action.payload)
+    yield put(actions.alerts.displaySuccess('Mobile number has been successfully verified.'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not verify mobile number.'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
   yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
@@ -81,4 +94,6 @@ export default function * () {
   yield takeLatest(AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, getGoogleAuthenticatorSecretUrl)
   yield takeLatest(AT.VERIFY_GOOGLE_AUTHENTICATOR, verifyGoogleAuthenticator)
   yield takeLatest(AT.SET_YUBIKEY, setYubikey)
+  yield takeLatest(AT.SEND_MOBILE_VERIFICATION_CODE, sendMobileVerificationCode)
+  yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
 }

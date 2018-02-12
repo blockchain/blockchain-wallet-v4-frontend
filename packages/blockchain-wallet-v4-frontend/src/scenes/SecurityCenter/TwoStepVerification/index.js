@@ -36,7 +36,7 @@ class TwoStepVerificationContainer extends React.Component {
 
     return data.cata({
       Success: (value) => <Success {...rest}
-        authType={value}
+        data={value}
         handleClick={this.handleClick}
         chooseMethod={this.chooseMethod}
         twoStepChoice={this.state.authMethod}
@@ -65,4 +65,3 @@ const enhance = compose(
 )
 
 export default enhance(TwoStepVerificationContainer)
-// export default connect(mapStateToProps)(TwoStepVerificationContainer)

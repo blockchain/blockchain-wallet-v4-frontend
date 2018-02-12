@@ -1,28 +1,26 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
-import Yubikey from './template.success'
+import SmsAuth from './template.success'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import ui from 'redux-ui'
+import { formValueSelector } from 'redux-form'
 
-class YubikeyContainer extends React.Component {
+class SmsAuthContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleInput = this.handleInput.bind(this)
-
-    this.state = { yubikeyCode: '' }
+    this.handleVerifyCode = this.handleVerifyCode.bind(this)
+    this.handleGetCode = this.handleGetCode.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
     const next = nextProps.data.data
     const prev = this.props.data.data
-    if (next.authType !== prev.authType && next.authType === 2) {
+    if (next.smsVerified !== prev.smsVerified) {
       setTimeout(function () {
         nextProps.goBack()
       }, 1500)
@@ -33,27 +31,27 @@ class YubikeyContainer extends React.Component {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  handleSubmit (e) {
+  handleVerifyCode (e) {
     e.preventDefault()
-    this.props.securityCenterActions.setYubikey(this.state.yubikeyCode)
+    console.log('handleVerifyCode', this.props.verificationCode)
+    this.props.securityCenterActions.verifyMobile(this.props.verificationCode)
   }
 
-  handleInput (e) {
-    e.preventDefault()
-    this.setState({ yubikeyCode: e.target.value })
+  handleGetCode () {
+    console.log('handleGetCode', this.props.mobileNumber)
+    this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
   }
 
   render () {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Yubikey
+      Success: (value) => <SmsAuth
         data={value}
         handleClick={this.handleClick}
-        handleSubmit={this.handleSubmit}
+        handleVerifyCode={this.handleVerifyCode}
         goBack={this.props.goBack}
-        handleInput={this.handleInput}
-        value={this.state.yubikeyCode}
+        handleGetCode={this.handleGetCode}
         {...rest}
       />,
       Failure: (message) => <Error {...rest}
@@ -65,6 +63,8 @@ class YubikeyContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  mobileNumber: formValueSelector('securitySms')(state, 'mobileNumber'),
+  verificationCode: formValueSelector('securitySms')(state, 'verificationCode'),
   data: getData(state)
 })
 
@@ -79,4 +79,4 @@ const enhance = compose(
   ui({ key: 'Security_TwoFactor', state: { updateToggled: false } })
 )
 
-export default enhance(YubikeyContainer)
+export default enhance(SmsAuthContainer)
