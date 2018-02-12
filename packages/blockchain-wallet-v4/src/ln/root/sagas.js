@@ -12,7 +12,7 @@ var ec = require('bcoin/lib/crypto/secp256k1-browser')
 
 export const LNRootSagas = () => {
   let INITIAL_OPTIONS = {
-    chainHash: Buffer.from('06226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910f', 'hex'),
+    chainHash: Buffer.from('43497fd7f826957108f4a30fd9cec3aeba79972084e90ead01ea330900000000', 'hex'),
     dustLimitSatoshis: 546,
     maxHtlcValueInFlightMsat: 100000,
     channelReserveSatoshis: 1000,
