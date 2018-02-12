@@ -33,6 +33,9 @@ const QRInputWrapper = styled.div`
   button {
     margin-top: 10px;
   }
+  a {
+    margin-top: 20px;
+  }
 `
 const SuccessOverlay = styled.div`
   width: 90%;
@@ -43,10 +46,11 @@ const SuccessOverlay = styled.div`
   display: ${props => props.smsVerified === 1 ? 'flex' : 'none'};
   position: absolute;
   left: 0px;
+  z-index: 1;
 `
 
 const SmsAuth = props => {
-  const { data } = props
+  const { data, ui } = props
 
   return (
     <form onSubmit={props.handleSubmit}>
@@ -69,7 +73,7 @@ const SmsAuth = props => {
 
         <SmsAuthContainer>
           {
-            !data.smsNumber && !data.smsVerified
+            (!data.smsNumber && !data.smsVerified) || ui.changeNumberToggled
               ? <span>
                 <Text size='14px' weight={200}>
                   <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.' />
@@ -85,7 +89,8 @@ const SmsAuth = props => {
                 </Text>
                 <QRInputWrapper>
                   <Field name='verificationCode' validate={[]} component={TextBox} />
-                  <Button nature='primary' onClick={props.handleVerifyCode}>Submit</Button>
+                  <Link weight={200} size='12px' onClick={props.changeMobileNumber}>Change mobile number</Link>
+                  <Button nature='primary' onClick={props.handleVerifyCode}>Submit Code</Button>
                 </QRInputWrapper>
               </span>
           }

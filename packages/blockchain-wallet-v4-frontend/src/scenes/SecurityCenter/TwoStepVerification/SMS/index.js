@@ -15,12 +15,13 @@ class SmsAuthContainer extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleVerifyCode = this.handleVerifyCode.bind(this)
     this.handleGetCode = this.handleGetCode.bind(this)
+    this.showChangeMobileNumber = this.showChangeMobileNumber.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
     const next = nextProps.data.data
     const prev = this.props.data.data
-    if (next.smsVerified !== prev.smsVerified) {
+    if (next.smsVerified !== prev.smsVerified && next.smsNumber === prev.smsNumber) {
       setTimeout(function () {
         nextProps.goBack()
       }, 1500)
@@ -33,13 +34,15 @@ class SmsAuthContainer extends React.Component {
 
   handleVerifyCode (e) {
     e.preventDefault()
-    console.log('handleVerifyCode', this.props.verificationCode)
     this.props.securityCenterActions.verifyMobile(this.props.verificationCode)
   }
 
   handleGetCode () {
-    console.log('handleGetCode', this.props.mobileNumber)
     this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
+  }
+
+  showChangeMobileNumber () {
+    this.props.updateUI({ changeNumberToggled: !this.props.changeNumberToggled })
   }
 
   render () {
@@ -52,6 +55,7 @@ class SmsAuthContainer extends React.Component {
         handleVerifyCode={this.handleVerifyCode}
         goBack={this.props.goBack}
         handleGetCode={this.handleGetCode}
+        changeMobileNumber={this.showChangeMobileNumber}
         {...rest}
       />,
       Failure: (message) => <Error {...rest}
@@ -76,7 +80,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoFactor', state: { updateToggled: false } })
+  ui({ key: 'Security_TwoFactor', state: { changeNumberToggled: false } })
 )
 
 export default enhance(SmsAuthContainer)
