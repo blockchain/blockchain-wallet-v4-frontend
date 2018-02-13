@@ -101,7 +101,9 @@ SelectInputContainer.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired]),
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
-  onFocus: PropTypes.func
+  onFocus: PropTypes.func,
+  templateHeader: PropTypes.func,
+  templateItem: PropTypes.func
 }
 
 SelectInputContainer.defaultProps = {

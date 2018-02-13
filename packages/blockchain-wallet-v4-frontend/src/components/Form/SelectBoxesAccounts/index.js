@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { assoc, concat, compose, equals, filter, groupBy, head, map, mapObjIndexed, path, prop, values } from 'ramda'
-import { selectors } from 'data'
-import { Icon } from 'blockchain-info-components'
 
+import { selectors } from 'data'
 import { getData } from './selectors'
 import Success from './template.js'
 
@@ -22,9 +21,9 @@ class SelectBoxesAccountsContainer extends React.Component {
     //   targetItems: generateAccounts(accounts, targetCoin)
     // }
 
-    // this.handleSelectSource = this.handleSelectSource.bind(this)
-    // this.handleSelectTarget = this.handleSelectTarget.bind(this)
-    // this.handleSwap = this.handleSwap.bind(this)
+    this.handleChangeSource = this.handleChangeSource.bind(this)
+    this.handleChangeTarget = this.handleChangeTarget.bind(this)
+    this.handleSwap = this.handleSwap.bind(this)
   }
 
   // handleSelectSource (value) {
@@ -43,45 +42,38 @@ class SelectBoxesAccountsContainer extends React.Component {
   //   this.props.input.onChange(newState)
   // }
 
-  // handleSwap () {
-  //   const newState = { source: this.state.target, target: this.state.source }
-  //   this.setState(newState)
-  //   this.props.input.onChange(newState)
-  // }
+  handleChangeSource (value) {
+    console.log('handleChangeSource')
+    console.log(value)
+  }
+
+  handleChangeTarget (value) {
+    console.log('handleChangeTarget')
+    console.log(value)
+  }
+
+  handleSwap () {
+    const newState = { source: this.state.target, target: this.state.source }
+    this.setState(newState)
+    this.props.input.onChange(newState)
+  }
 
   render () {
-    // const { source, target, sourceItems, targetItems } = this.state
     const { data } = this.props
 
     return data.cata({
-      Success: (value) => {
-        const elements = [{
-          group: 'Bitcoin',
-          items: value.bitcoin
-        }, {
-          group: 'Ethereum',
-          items: value.ethereum
-        }]
-        return <Success
-          source={value.bitcoinDefault}
-          sourceElements={elements}
-          target={value.ethereumDefault}
-          targetElements={elements} />
-      },
+      Success: (value) => <Success
+        source={value.sourceDefault}
+        target={value.targetDefault}
+        elements={value.elements}
+        handleChangeSource={this.handleChangeSource}
+        handleChangeTarget={this.handleChangeTarget}
+        handleSwap={this.handleSwap}
+      />,
       Failure: (message) => <div />,
       Loading: () => <div />,
       NotAsked: () => <div />
     })
-      // <SelectBoxesAccounts
-      //   source={source}
-      //   target={target}
-      //   sourceItems={sourceItems}
-      //   targetItems={targetItems}
-      //   handleSelectSource={this.handleSelectSource}
-      //   handleSelectTarget={this.handleSelectTarget}
-      //   handleSwap={this.handleSwap}
-      //   {...this.props}
-      // />
   }
 }
 

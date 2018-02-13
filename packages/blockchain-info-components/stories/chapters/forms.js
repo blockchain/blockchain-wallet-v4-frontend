@@ -21,3 +21,5 @@ storiesOf('Forms', module)
     .add('Invalid text input', () => <TextInput errorState='invalid' />)
     .add('Valid text input', () => <NumberInput errorState='valid' />)
     .add('Select input', () => <SelectInput elements={[{ group: '', items: [{ text: 'First item', value: 0 }, { text: 'Second item', value: 1 }, { text: 'Third item', value: 2 }] }]} />)
+    .add('Select input with template', () => <SelectInput elements={[{ group: '', items: [{ text: 'First item', value: 0 }, { text: 'Second item', value: 1 }, { text: 'Third item', value: 2 }] }]} template={item => <div>{`!!! ${item.text} !!!`}</div>} />)
+

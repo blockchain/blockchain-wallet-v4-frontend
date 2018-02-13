@@ -24,7 +24,7 @@ const Button = styled.button.attrs({
   transition: all 0.2s ease-in-out;
   color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 300;
   cursor: pointer;
@@ -35,12 +35,11 @@ const Button = styled.button.attrs({
     outline: none;
   }
 `
-const Search = styled.input.attrs({
-  type: 'text'
-})`
+const Search = styled.input.attrs({ type: 'text' })`
   color: ${props => props.theme['gray-3']};
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: normal;
   box-shadow: none;
@@ -53,6 +52,22 @@ const Search = styled.input.attrs({
     border: 1px solid ${props => props.theme['gray-2']};
     outline: none;
   }
+`
+const Header = styled.div`
+  width: 100%;
+`
+const DefaultHeader = styled.div`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: ${props => props.theme['gray-4']};
+  background-color: ${props => props.theme['gray-2']};
+  cursor: not-allowed;
+
+  &:hover { color: ${props => props.theme['gray-4']}; }
 `
 const List = styled.div`
   position: absolute;
@@ -71,10 +86,14 @@ const List = styled.div`
   box-sizing: border-box;
   z-index: 10;
 `
-const ListItem = styled.div`
-  display: block;
+const Item = styled.div`
+  width: 100%;
+`
+const DefaultItem = styled.div`
   width: 100%;
   padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 300;
   font-size: 14px;
   color: ${props => props.theme['gray-4']};
@@ -85,15 +104,6 @@ const ListItem = styled.div`
     background-color: ${props => props.theme['gray-1']};
   }
 `
-const Header = styled.div`
-  width: 100%;
-  padding: 0.5rem 1rem;
-  color: ${props => props.theme['gray-4']};
-  background-color: ${props => props.theme['gray-2']};
-  cursor: not-allowed;
-
-  &:hover { color: ${props => props.theme['gray-4']}; }
-`
 const Arrow = styled(Icon)`
   position: absolute;
   top: 15px;
@@ -101,19 +111,19 @@ const Arrow = styled(Icon)`
 `
 
 const SelectInput = (props) => {
-  const { items, display, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus } = props
-
+  const { items, display, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, templateHeader, templateItem } = props
+  console.log(items)
   return (
     <SelectBoxInput onBlur={handleBlur} onFocus={handleFocus}>
       {!expanded || !searchEnabled
-        ? (<Button>{display}</Button>)
-        : (<Search autoFocus={expanded} onChange={handleChange} />)
+        ? <Button>{display}</Button>
+        : <Search autoFocus={expanded} onChange={handleChange} />
       }
       <Arrow name='down-arrow' size='10px' />
       <List expanded={expanded}>
         { items.map((item, index) => item.value == null
-          ? (<Header key={index}>{item.text}</Header>)
-          : (<ListItem key={index} onMouseDown={() => handleClick(item.value)}>{item.text}</ListItem>))
+          ? <Header key={index}>{templateHeader ? templateHeader(item.text) : <DefaultHeader>{item.text}</DefaultHeader>}</Header>
+          : <Item key={index} onMouseDown={() => handleClick(item.value)}>{templateItem ? templateItem(item) : <DefaultItem>{item.text}</DefaultItem>}</Item>)
         }
       </List>
     </SelectBoxInput>
@@ -132,7 +142,9 @@ SelectInput.propTypes = {
   handleBlur: PropTypes.func,
   handleChange: PropTypes.func,
   handleClick: PropTypes.func,
-  handleFocus: PropTypes.func
+  handleFocus: PropTypes.func,
+  templateHeader: PropTypes.func,
+  templateItem: PropTypes.func
 }
 
 export default SelectInput
