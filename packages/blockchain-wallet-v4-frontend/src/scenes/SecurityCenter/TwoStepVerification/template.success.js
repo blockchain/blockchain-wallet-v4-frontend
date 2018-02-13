@@ -96,14 +96,10 @@ const TwoStepVerification = (props) => {
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
-      return (
-        <GoogleAuth goBack={props.handleGoBack} />
-      )
+      return <GoogleAuth goBack={props.handleGoBack} />
     }
     if (twoStepChoice === 'yubikey') {
-      return (
-        <Yubikey goBack={props.handleGoBack} />
-      )
+      return <Yubikey goBack={props.handleGoBack} />
     }
     if (twoStepChoice === 'sms') {
       return <SmsAuth goBack={props.handleGoBack} />
@@ -150,7 +146,7 @@ const TwoStepVerification = (props) => {
             : null
         }
         <TwoStepChoicesWapper>
-          <Choice selected={data.authType === 4} onClick={() => props.chooseMethod('google')}>
+          <Choice selected={props.disabling && data.authType === 4} onClick={() => props.chooseMethod('google')}>
             <Icon name='lock' size='18px' weight={400} />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
@@ -161,7 +157,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice selected={data.authType === 1} onClick={() => props.chooseMethod('yubikey')}>
+          <Choice selected={props.disabling && data.authType === 1} onClick={() => props.chooseMethod('yubikey')}>
             <Icon name='yubikey' />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
@@ -172,7 +168,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice selected={data.smsVerified} onClick={() => props.chooseMethod('sms')}>
+          <Choice selected={props.disabling && data.smsVerified} onClick={() => props.chooseMethod('sms')}>
             <Icon name='mobile' size='18px' weight={400} />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
@@ -219,12 +215,15 @@ const TwoStepVerification = (props) => {
         {
           !ui.verifyToggled
             ? <SecurityComponent>
-              <Button nature='primary' onClick={props.handleClick}>
-                {!twoFAEnabled
-                  ? <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Enable' />
-                  : <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Disable' />
-                }
-              </Button>
+              {
+                !twoFAEnabled
+                  ? <Button nature='primary' onClick={props.handleClick} >
+                    <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Enable' />
+                  </Button>
+                  : <Button nature='primary' onClick={props.handleDisableClick} >
+                    <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Disable' />
+                  </Button>
+              }
             </SecurityComponent>
             : null
         }

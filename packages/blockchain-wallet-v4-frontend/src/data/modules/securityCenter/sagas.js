@@ -86,6 +86,17 @@ export const verifyMobile = function * (action) {
   }
 }
 
+export const disableTwoStep = function * (action) {
+  try {
+    yield call(sagas.core.settings.setAuthType, action.payload)
+    yield put(actions.alerts.displaySuccess('2-step verification has been successfully updated.'))
+    yield put(actions.modals.closeAllModals())
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+    yield put(actions.modals.closeModal())
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
   yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
@@ -96,4 +107,5 @@ export default function * () {
   yield takeLatest(AT.SET_YUBIKEY, setYubikey)
   yield takeLatest(AT.SEND_MOBILE_VERIFICATION_CODE, sendMobileVerificationCode)
   yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
+  yield takeLatest(AT.DISABLE_TWO_STEP, disableTwoStep)
 }

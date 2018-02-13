@@ -20,8 +20,9 @@ class TwoStepVerificationContainer extends React.Component {
     this.handleChangeNumber = this.handleChangeNumber.bind(this)
     this.cancelMobileChange = this.cancelMobileChange.bind(this)
     this.submitMobileChange = this.submitMobileChange.bind(this)
+    this.handleDisableClick = this.handleDisableClick.bind(this)
 
-    this.state = { authMethod: '', authName: '' }
+    this.state = { authMethod: '', authName: '', disabling: false }
   }
   componentWillMount () {
     if (this.props.data.data.authType === 4) this.setState({ authName: 'Authenticator App' })
@@ -30,6 +31,11 @@ class TwoStepVerificationContainer extends React.Component {
 
   handleClick () {
     this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled })
+  }
+
+  handleDisableClick () {
+    this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled })
+    this.setState({ disabling: true })
   }
 
   chooseMethod (method) {
@@ -53,6 +59,10 @@ class TwoStepVerificationContainer extends React.Component {
     this.setState({ authMethod: 'sms' })
   }
 
+  handleDisableTwoStep () {
+    this.props.securityCenterActions.disableTwoStep()
+  }
+
   render () {
     const { data, ...rest } = this.props
 
@@ -61,12 +71,14 @@ class TwoStepVerificationContainer extends React.Component {
         data={value}
         handleClick={this.handleClick}
         chooseMethod={this.chooseMethod}
-        twoStepChoice={this.state.authMethod}
         handleGoBack={this.handleGoBack}
         handleChangeNumber={this.handleChangeNumber}
+        handleDisableClick={this.handleDisableClick}
         cancelMobileChange={this.cancelMobileChange}
         submitMobileChange={this.submitMobileChange}
+        twoStepChoice={this.state.authMethod}
         authName={this.state.authName}
+        disabling={this.state.disabling}
         />,
       Failure: (message) => <Error {...rest}
         message={message} />,

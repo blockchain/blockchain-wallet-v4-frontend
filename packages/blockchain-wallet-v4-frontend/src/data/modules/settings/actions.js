@@ -28,8 +28,6 @@ export const updateBlockTorIps = (blockTorIps) => ({ type: AT.UPDATE_BLOCK_TOR_I
 
 export const updateHint = (hint) => ({ type: AT.UPDATE_HINT, payload: { hint } })
 
-export const disableTwoStep = () => ({ type: AT.DISABLE_TWO_STEP, payload: { authType: 0 } })
-
 export const enableTwoStepMobile = () => ({ type: AT.ENABLE_TWO_STEP_MOBILE, payload: { authType: 5 } })
 
 export const enableTwoStepGoogleAuthenticator = (code) => ({ type: AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, payload: { code } })
