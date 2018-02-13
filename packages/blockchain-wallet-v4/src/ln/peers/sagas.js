@@ -35,11 +35,11 @@ export const peerSagas = (tcpConn) => {
 
     peers[pubKey] = peer
     yield call(peer.connectPromise.bind(peer), tcpConn)
-    yield put(connected(pubKey))
     let initMessageAction = {}
     while (pubKey !== initMessageAction.pubKey) {
       initMessageAction = yield take(INIT_MESSAGE_RECEIVED)
     }
+    yield put(connected(pubKey))
   }
 
   const onMessage = function * ({peer, msg}) {
