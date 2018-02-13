@@ -100,7 +100,7 @@ const FirstStep = (props) => {
         <Button nature='primary' onClick={nextStep}>
           <FormattedMessage id='modals.recoveryphrase.firststep.logout' defaultMessage='Start Backup Phrase' />
         </Button>
-        <Link size='13px' weight={300} onClick={handleClose}>
+        <Link size='12px' weight={300} onClick={handleClose}>
           <FormattedMessage id='modals.recoveryphrase.firststep.cancel' defaultMessage="Skip for now, I'll do this later" />
         </Link>
       </Buttons>
