@@ -3,23 +3,34 @@ import ui from 'redux-ui'
 
 import SecondStep from './template.js'
 
+import { compose, values, pickAll } from 'ramda'
+
 const SecondStepContainer = props => {
   console.log('second step container', props)
   const { ui, updateUI, mnemonic } = props
 
-  const handleClickPrevious = () => { updateUI({ index: ui.index - 1 }) }
+  const handleClickPrevious = () => { updateUI({ step: ui.step - 1 }) }
 
-  const handleClickNext = () => { updateUI({ index: ui.index + 1 }) }
+  const handleClickNext = () => { updateUI({ step: ui.step + 1 }) }
+
+  const getWordsAtStep = (step) => {
+    const pickIndexes = compose(values, pickAll)
+    switch (step) {
+      case 1: return pickIndexes([0, 1, 2, 3], props.phrase)
+      case 2: return pickIndexes([4, 5, 6, 7], props.phrase)
+      case 3: return pickIndexes([8, 9, 10, 11], props.phrase)
+    }
+  }
 
   return (
     <SecondStep
       {...props}
-      index={ui.index}
-      // word={mnemonic[ui.index]}
+      step={ui.step}
+      words={getWordsAtStep(ui.step)}
       handleClickPrevious={handleClickPrevious}
       handleClickNext={handleClickNext}
     />
   )
 }
 
-export default ui({ key: 'RecoveryPhraseMnemonic', state: { index: 0 } })(SecondStepContainer)
+export default ui({ key: 'RecoveryPhraseMnemonic', state: { step: 1 } })(SecondStepContainer)
