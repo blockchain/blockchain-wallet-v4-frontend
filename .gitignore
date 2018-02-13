@@ -1,15 +1,29 @@
+# OS X
+.DS_Store
+
+# Editors
+*.swp
+*~
+.idea/
+.vscode
+
+# Node
+node_modules
+npm-debug.log
+npm-shrinkwrap.json
+
+# Yarn
+.yarnclean
+yarn-error.log
+
+# Generated Files
 *.log
 lib
 coverage
-.idea/
-node_modules
 dist
 build
-.DS_Store
-.idea/
-.yarnclean
-yarn-error.log
-.vscode
+
+# Packages
 packages/blockchain-info-components/lib
 packages/blockchain-info-components/node_modules
 packages/blockchain-wallet-v4/lib
