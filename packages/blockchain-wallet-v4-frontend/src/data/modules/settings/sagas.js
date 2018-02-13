@@ -36,7 +36,7 @@ const showBackupRecovery = function * (action) {
     const eitherMnemonic = yield select(getMnemonic)
     if (eitherMnemonic.isRight) {
       const mnemonic = eitherMnemonic.value.split(' ')
-      yield put(actions.modals.showModal('RecoveryPhrase', { mnemonic }))
+      yield put(actions.modules.settings.addMnemonic({ mnemonic }))
     } else {
       yield put(actions.alerts.displayError('Could not read mnemonic.'))
     }
@@ -160,8 +160,6 @@ export const updateHint = function * (action) {
     yield put(actions.alerts.displayError('Could not update hint.'))
   }
 }
-
-
 
 export const updateTwoStepRemember = function * (action) {
   try {

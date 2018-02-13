@@ -35,3 +35,5 @@ export const enableTwoStepGoogleAuthenticator = (code) => ({ type: AT.ENABLE_TWO
 export const enableTwoStepYubikey = (code) => ({ type: AT.ENABLE_TWO_STEP_YUBIKEY, payload: { code } })
 
 export const updateTwoStepRemember = (authTypeNeverSave) => ({ type: AT.UPDATE_TWO_STEP_REMEMBER, payload: { authTypeNeverSave } })
+
+export const addMnemonic = (phrase) => ({ type: AT.ADD_MNEMONIC, payload: { phrase } })
