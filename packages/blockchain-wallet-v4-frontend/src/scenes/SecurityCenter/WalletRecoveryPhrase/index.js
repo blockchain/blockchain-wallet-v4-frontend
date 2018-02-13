@@ -14,6 +14,7 @@ class WalletRecoveryPhraseContainer extends React.Component {
 
     this.toggleNextStep = this.toggleNextStep.bind(this)
     this.closeSteps = this.closeSteps.bind(this)
+    this.changeDescription = this.changeDescription.bind(this)
     this.state = {}
   }
 
@@ -29,6 +30,10 @@ class WalletRecoveryPhraseContainer extends React.Component {
     this.props.updateUI({ nextStepToggled: false })
   }
 
+  changeDescription () {
+    this.props.updateUI({ descriptionToggled: true })
+  }
+
   render () {
     const { data, ...rest } = this.props
     return <Success
@@ -36,6 +41,7 @@ class WalletRecoveryPhraseContainer extends React.Component {
       data={data}
       toggleNextStep={this.toggleNextStep}
       handleClose={this.closeSteps}
+      changeDescription={this.changeDescription}
       recoveryPhrase={this.props.recoveryPhrase}
     />
   }
@@ -54,7 +60,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoStep', state: { nextStepToggled: false, changeNumberToggled: false } })
+  ui({ key: 'Security_TwoStep', state: { nextStepToggled: false, descriptionToggled: false } })
 )
 
 export default enhance(WalletRecoveryPhraseContainer)

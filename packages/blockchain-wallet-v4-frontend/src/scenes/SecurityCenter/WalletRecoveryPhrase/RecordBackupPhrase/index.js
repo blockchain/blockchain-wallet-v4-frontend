@@ -12,12 +12,17 @@ class RecoveryPhraseContainer extends React.Component {
     this.props.resetStep()
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.step === 3) {
+      this.props.triggerCopyChange()
+    }
+  }
+
   onClose () {
     this.props.handleClose()
   }
 
   render () {
-    console.log('render', this.props)
     switch (this.props.step) {
       case 1: return <FirstStep {...this.props} />
       case 2: return <SecondStep {...this.props} />
