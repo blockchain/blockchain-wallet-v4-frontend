@@ -10,15 +10,12 @@ import { take, takeEvery, call, put, select } from 'redux-saga/effects'
 import {rootOptions} from '../root/selectors'
 
 export const lnApiSagas = (channelSagas, peerSagas, routeSagas) => {
-
   const startUp = function * () {
     const action = A.startup
     try {
       yield put(A_OPTIONS.startUp())
       yield put(A_SOCKET.startSocket())
-      console.info('wait for socket to open..')
       yield take(AT_SOCKET.SOCKET_OPENED)
-      console.info('socket opened..')
       yield put(action.SUCCESS())
     } catch (e) {
       yield put(action.ERROR(e))

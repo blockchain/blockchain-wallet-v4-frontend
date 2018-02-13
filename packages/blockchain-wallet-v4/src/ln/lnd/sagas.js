@@ -1,8 +1,9 @@
 import {wrapHex} from '../helper'
 import * as assert from 'assert'
 import {BufHelper} from '../messages/bufhelper'
+import {call} from 'redux-saga/effects'
 
-export const routeSagas = (apiUrl) => {
+export const lndSagas = (apiUrl) => {
   // The server returns
   // {
   //   error: "..."
@@ -66,22 +67,30 @@ export const routeSagas = (apiUrl) => {
     }
   }
 
-  const queryRoute = (start, end, amount, cltvEnd) => {
-    return fetch(apiUrl + '/route',
+  const query = (endpoint, body = {}) => {
+    return fetch(apiUrl + '/' + endpoint,
       {
         method: 'POST',
-        body: JSON.stringify({
-          from: start.toString('hex'), to: end.toString('hex'), amount, cltvEnd
-        })
+        body: JSON.stringify({body})
       }).then(r => r.json())
   }
 
+  const queryRoute = (start, end, amount, cltvEnd) => {
+    return query('route', { from: start.toString('hex'), to: end.toString('hex'), amount, cltvEnd })
+  }
+
   const retrieveRoute = function * (start, end, amount, cltvEnd) {
-    const response = yield queryRoute(start, end, amount, cltvEnd)
+    const response = yield call(queryRoute, start, end, amount, cltvEnd)
     return parseServerResponse(response)
   }
 
+  const retrieveNodes = function * () {
+    const response = yield call(query, 'nodes')
+    return response
+  }
+
   return {
-    retrieveRoute
+    retrieveRoute,
+    retrieveNodes
   }
 }
