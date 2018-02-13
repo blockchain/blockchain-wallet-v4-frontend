@@ -161,16 +161,7 @@ export const updateHint = function * (action) {
   }
 }
 
-export const disableTwoStep = function * (action) {
-  try {
-    yield call(sagas.core.settings.setAuthType, action.payload)
-    yield put(actions.alerts.displaySuccess('2-step verification has been successfully updated.'))
-    yield put(actions.modals.closeAllModals())
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not update 2-step verification.'))
-    yield put(actions.modals.closeModal())
-  }
-}
+
 
 export const updateTwoStepRemember = function * (action) {
   try {
@@ -231,7 +222,6 @@ export default function * () {
   yield takeLatest(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
   yield takeLatest(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
   yield takeLatest(AT.UPDATE_HINT, updateHint)
-  yield takeLatest(AT.DISABLE_TWO_STEP, disableTwoStep)
   yield takeLatest(AT.UPDATE_TWO_STEP_REMEMBER, updateTwoStepRemember)
   yield takeLatest(AT.ENABLE_TWO_STEP_MOBILE, enableTwoStepMobile)
   yield takeLatest(AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, enableTwoStepGoogleAuthenticator)
