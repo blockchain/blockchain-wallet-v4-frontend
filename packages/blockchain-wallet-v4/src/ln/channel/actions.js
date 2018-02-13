@@ -8,4 +8,5 @@ export const remove = makeActionCreator(AT.REMOVE, 'channelId')
 export const open = makeActionCreator(AT.OPEN, 'pubKey', 'value')
 export const onMessage = makeActionCreator(AT.MESSAGE, 'peer', 'msg')
 
+export const broadcasted = makeActionCreator(AT.BROADCASTED, 'channelIdTemporary', 'channelId')
 export const opened = makeActionCreator(AT.OPENED, 'channelId')

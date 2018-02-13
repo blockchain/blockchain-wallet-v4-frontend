@@ -6,4 +6,5 @@ export const REMOVE = '@LN.CHANNEL.REMOVE'
 export const OPEN = '@LN.CHANNEL.OPEN'
 export const MESSAGE = '@LN.CHANNEL.MESSAGE'
 
+export const BROADCASTED = '@LN.CHANNEL.BROADCASTED'
 export const OPENED = '@LN.CHANNEL.OPENED'
