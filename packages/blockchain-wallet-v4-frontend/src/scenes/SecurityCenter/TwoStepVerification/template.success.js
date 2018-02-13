@@ -23,6 +23,7 @@ const Choice = styled.div`
   border-radius: 6px;
   padding: 15px;
   cursor: pointer;
+  opacity: ${props => props.selected ? 1 : 0.4}
 `
 const ChoiceDescription = styled.div`
   display: flex;
@@ -51,8 +52,9 @@ const IconContainer = styled.div`
 const DisableContainer = styled.div`
   width: 100%;
   margin: 10px 0px 20px 0px;
-  a {
-    margin-left: 10px;
+  a:last-of-type {
+    margin-top: 20px;
+    margin-left: 0px;
   }
   div:first-of-type {
     display: flex;
@@ -135,11 +137,20 @@ const TwoStepVerification = (props) => {
                     </ChangeMobileContainer>
                 }
               </Text>
+              <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Change Two-factor Authentication</Link>
             </DisableContainer>
+            : data.authType === 4 || data.authType === 1
+              ? <DisableContainer>
+                <Text weight={200} size='14px'>
+                  <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with' />
+                  <WeightedText>{props.authName}</WeightedText>
+                </Text>
+                <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Change Two-factor Authentication</Link>
+              </DisableContainer>
             : null
         }
         <TwoStepChoicesWapper>
-          <Choice onClick={() => props.chooseMethod('google')}>
+          <Choice selected={data.authType === 4} onClick={() => props.chooseMethod('google')}>
             <Icon name='lock' size='18px' weight={400} />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
@@ -150,7 +161,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice onClick={() => props.chooseMethod('yubikey')}>
+          <Choice selected={data.authType === 1} onClick={() => props.chooseMethod('yubikey')}>
             <Icon name='yubikey' />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
@@ -161,7 +172,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice onClick={() => props.chooseMethod('sms')}>
+          <Choice selected={data.smsVerified} onClick={() => props.chooseMethod('sms')}>
             <Icon name='mobile' size='18px' weight={400} />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
