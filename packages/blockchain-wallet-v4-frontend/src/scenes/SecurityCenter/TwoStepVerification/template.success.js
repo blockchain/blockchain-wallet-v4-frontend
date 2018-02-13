@@ -122,7 +122,7 @@ const TwoStepVerification = (props) => {
                 {
                   !ui.changeNumberToggled
                     ? <FlexRow><WeightedText>&nbsp;{data.smsNumber}</WeightedText>
-                      <Link size='14px' onClick={props.handleChangeNumber}>Change Mobile Number</Link>
+                      <Text color='brand-secondary' cursor='pointer' size='14px' onClick={props.handleChangeNumber}>Change Mobile Number</Text>
                     </FlexRow>
                     : <ChangeMobileContainer>
                       <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder='212-555-5555' />
