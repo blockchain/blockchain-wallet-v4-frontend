@@ -39,13 +39,12 @@ const Buttons = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { previousStep, nextStep, position, total, close, index, word, handleClickPrevious, handleClickNext, phrase, handleClose } = props
-  console.log('second step', props)
+  const { nextStep, handleClickNext, handleClose, step, words } = props
   return (
     <Wrapper>
       <Container>
         {
-          props.words.map((word, index) => {
+          words.map((word, index) => {
             return (
               <Word key={index}>
                 {word}
@@ -55,11 +54,19 @@ const SecondStep = (props) => {
         }
       </Container>
       <Buttons>
-        <Button onClick={handleClickNext} nature='dark'>
-          <Text color='white' weight={300} cursor='pointer'>
-            <FormattedMessage id='modals.recoveryphrase.firststep.nextfourwords' defaultMessage='Next 4 Words' />
-          </Text>
-        </Button>
+        {
+          step === 3
+            ? <Button onClick={nextStep} nature='primary'>
+              <Text color='white' weight={300} cursor='pointer'>
+                <FormattedMessage id='modals.recoveryphrase.firststep.finishandcheckphrase' defaultMessage='Finish & Check your Backup Phrase' />
+              </Text>
+            </Button>
+            : <Button onClick={handleClickNext} nature='dark'>
+              <Text color='white' weight={300} cursor='pointer'>
+                <FormattedMessage id='modals.recoveryphrase.firststep.nextfourwords' defaultMessage='Next 4 Words' />
+              </Text>
+            </Button>
+        }
         <Link size='12px' weight={300} onClick={handleClose}>
           <FormattedMessage id='modals.recoveryphrase.firststep.cancel' defaultMessage="Skip for now, I'll do this later" />
         </Link>
