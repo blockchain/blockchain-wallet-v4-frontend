@@ -22,7 +22,9 @@ describe('Payment parser', () => {
           'description': 'Please consider supporting this project'
         }
       }
-      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
+      var result = Parser.parse(testMsg)
+      expect(result.message).to.deep.equal(expectedResult)
+      expect(result.pubKey).to.deep.equal(pubKey)
       expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
     })
 
@@ -38,7 +40,9 @@ describe('Payment parser', () => {
           'expiry_time': 60
         }
       }
-      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
+      var result = Parser.parse(testMsg)
+      expect(result.message).to.deep.equal(expectedResult)
+      expect(result.pubKey).to.deep.equal(pubKey)
       expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
     })
 
@@ -54,7 +58,9 @@ describe('Payment parser', () => {
           'expiry_time': 60
         }
       }
-      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
+      var result = Parser.parse(testMsg)
+      expect(result.message).to.deep.equal(expectedResult)
+      expect(result.pubKey).to.deep.equal(pubKey)
       expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
     })
 
@@ -69,8 +75,10 @@ describe('Payment parser', () => {
           'purpose_of_payment': Buffer.from(sha("One piece of chocolate cake, one icecream cone, one pickle, one slice of swiss cheese, one slice of salami, one lollypop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon"), 'hex'),
         }
       }
-      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
-      expect(Parser.parse(Parser.encode(expectedResult, privateKey), pubKey)).to.deep.equal(expectedResult)
+      var result = Parser.parse(testMsg)
+      expect(result.message).to.deep.equal(expectedResult)
+      expect(result.pubKey).to.deep.equal(pubKey)
+      expect(Parser.parse(Parser.encode(expectedResult, privateKey)).message).to.deep.equal(expectedResult)
     })
 
     it('parses p2pkh', () => {
@@ -87,7 +95,9 @@ describe('Payment parser', () => {
           'purpose_of_payment': Buffer.from(sha("One piece of chocolate cake, one icecream cone, one pickle, one slice of swiss cheese, one slice of salami, one lollypop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon"), 'hex'),
         }
       }
-      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
+      var result = Parser.parse(testMsg)
+      expect(result.message).to.deep.equal(expectedResult)
+      expect(result.pubKey).to.deep.equal(pubKey)
       expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
     })
 
@@ -117,8 +127,10 @@ describe('Payment parser', () => {
             }]
         }
       }
-      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
-      expect(Parser.parse(Parser.encode(expectedResult, privateKey), pubKey)).to.deep.equal(expectedResult)
+      var result = Parser.parse(testMsg)
+      expect(result.message).to.deep.equal(expectedResult)
+      expect(result.pubKey).to.deep.equal(pubKey)
+      expect(Parser.parse(Parser.encode(expectedResult, privateKey)).message).to.deep.equal(expectedResult)
     })
     it('parses p2sh', () => {
       var testMsg = 'lnbc20m1pvjluezhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqspp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqfppj3a24vwu6r8ejrss3axul8rxldph2q7z9kmrgvr7xlaqm47apw3d48zm203kzcq357a4ls9al2ea73r8jcceyjtya6fu5wzzpe50zrge6ulk4nvjcpxlekvmxl6qcs9j3tz0469gq5g658y'
@@ -134,8 +146,10 @@ describe('Payment parser', () => {
           'P2SH': p2sh
         }
       }
-      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
-      expect(Parser.parse(Parser.encode(expectedResult, privateKey), pubKey)).to.deep.equal(expectedResult)
+      var result = Parser.parse(testMsg)
+      expect(result.message).to.deep.equal(expectedResult)
+      expect(result.pubKey).to.deep.equal(pubKey)
+      expect(Parser.parse(Parser.encode(expectedResult, privateKey)).message).to.deep.equal(expectedResult)
     })
     it('parses P2WPKH', () => {
       var testMsg = 'lnbc20m1pvjluezhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqspp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqfppqw508d6qejxtdg4y5r3zarvary0c5xw7kepvrhrm9s57hejg0p662ur5j5cr03890fa7k2pypgttmh4897d3raaq85a293e9jpuqwl0rnfuwzam7yr8e690nd2ypcq9hlkdwdvycqa0qza8'
@@ -152,7 +166,9 @@ describe('Payment parser', () => {
           }
         }
       }
-      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
+      var result = Parser.parse(testMsg)
+      expect(result.message).to.deep.equal(expectedResult)
+      expect(result.pubKey).to.deep.equal(pubKey)
       expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
     })
     it('parses P2WSH', () => {
@@ -170,7 +186,9 @@ describe('Payment parser', () => {
           }
         }
       }
-      expect(Parser.parse(testMsg, pubKey)).to.deep.equal(expectedResult)
+      var result = Parser.parse(testMsg)
+      expect(result.message).to.deep.equal(expectedResult)
+      expect(result.pubKey).to.deep.equal(pubKey)
       expect(Parser.encode(expectedResult, privateKey)).to.equal(testMsg)
     })
   })
@@ -178,35 +196,35 @@ describe('Payment parser', () => {
   describe('Check requirements', () => {
     it ('fails when no public key hash', ()=> {
       var testMsg = 'lnbc1pvjluezdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaq8rkx3yf5tcsyz3d73gafnh3cax9rn449d9p5uxz9ezhhypd0elx87sjle52x86fux2ypatgddc6k63n7erqz25le42c4u4ecky03ylcqca784w'
-      assert.throws(() => Parser.parse(testMsg, pubKey), Error)
+      assert.throws(() => Parser.parse(testMsg), Error)
     })
 
     it ('fails when two public key hash', ()=> {
       var testMsg = 'lnbc1pvjluezlnbc1pvjluezdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaq8rkx3yf5tcsyz3d73gafnh3cax9rn449d9p5uxz9ezhhypd0elx87sjle52x86fux2ypatgddc6k63n7erqz25le42c4u4ecky03ylcqca784wlnbc1pvjluezdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaq8rkx3yf5tcsyz3d73gafnh3cax9rn449d9p5uxz9ezhhypd0elx87sjle52x86fux2ypatgddc6k63n7erqz25le42c4u4ecky03ylcqca784wdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaq8rkx3yf5tcsyz3d73gafnh3cax9rn449d9p5uxz9ezhhypd0elx87sjle52x86fux2ypatgddc6k63n7erqz25le42c4u4ecky03ylcqca784w'
-      assert.throws(() => Parser.parse(testMsg, pubKey), Error)
+      assert.throws(() => Parser.parse(testMsg), Error)
     })
 
     it ('skips over bad tags', ()=> {
       var testMsg = 'lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp98yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqscc6gd6ql3jrc5yzme8v4ntcewwz5cnw92tz0pc8qcuufvq7khhr8wpald05e92xw006sq94mg8v2ndf4sefvf9sygkshp5zfem29trqq2yxxz7'
-      assert.throws(() => Parser.parse(testMsg, pubKey), Error)
+      assert.throws(() => Parser.parse(testMsg), Error)
     })
 
     it ('fails when tags have incorrect padding', ()=> {
       var testMsg = 'lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqpcc6gd6ql3jrc5yzme8v4ntcewwz5cnw92tz0pc8qcuufvq7khhr8wpald05e92xw006sq94mg8v2ndf4sefvf9sygkshp5zfem29trqq2yxxz7'
-      assert.throws(() => Parser.parse(testMsg, pubKey), Error)
+      assert.throws(() => Parser.parse(testMsg), Error)
     })
 
     it ('has short description and hash of description both', ()=> {
       var testMsg = 'lnbc1pvjluezhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqspp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaq8rkx3yf5tcsyz3d73gafnh3cax9rn449d9p5uxz9ezhhypd0elx87sjle52x86fux2ypatgddc6k63n7erqz25le42c4u4ecky03ylcqca784w'
-      assert.throws(() => Parser.parse(testMsg, pubKey), Error)
+      assert.throws(() => Parser.parse(testMsg), Error)
     })
     it ('signature is invalid', ()=> {
       var testMsg = 'lnbc1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaq8rkx3yf5tcsyz3d73gafnh3cax9rn449d9p5uxz9ezhhypd0elx87sjle52x86fux2ypatgddc6k63n7erqz25le42c4u4ecky03lcqca784w'
-      assert.throws(() => Parser.parse(testMsg, pubKey), Error)
+      assert.throws(() => Parser.parse(testMsg), Error)
     })
     it ('checksum is invalid', ()=> {
       var testMsg = 'lnbc1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaq8rkx3yf5tcsyz3d73gafnh3cax9rn449d9p5uxz9ezhhypd0elx87sjle52x86fux2ypatgddc6k63n7erqz25le42c4u4ecky03ylcqca784a'
-      assert.throws(() => Parser.parse(testMsg, pubKey), Error)
+      assert.throws(() => Parser.parse(testMsg), Error)
     })
 
   })
