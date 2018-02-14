@@ -26,7 +26,7 @@ class ThirdStepContainer extends React.Component {
 
   render () {
     const { ui, ...rest } = this.props
-    console.log('third step container', this.props)
+
     return (
       <ThirdStep {...rest} indexes={ui.indexes} onSubmit={this.onSubmit} />
     )

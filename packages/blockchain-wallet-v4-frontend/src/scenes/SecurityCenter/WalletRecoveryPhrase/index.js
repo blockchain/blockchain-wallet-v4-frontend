@@ -27,7 +27,7 @@ class WalletRecoveryPhraseContainer extends React.Component {
   }
 
   closeSteps () {
-    this.props.updateUI({ nextStepToggled: false })
+    this.props.updateUI({ nextStepToggled: false, descriptionToggled: false })
   }
 
   changeDescription () {
@@ -35,6 +35,7 @@ class WalletRecoveryPhraseContainer extends React.Component {
   }
 
   render () {
+    console.log('render backup phrase', this.props)
     const { data, ...rest } = this.props
     return <Success
       {...rest}
