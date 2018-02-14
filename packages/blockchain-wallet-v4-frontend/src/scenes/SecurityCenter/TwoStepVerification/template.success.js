@@ -93,7 +93,7 @@ const Buttons = styled(ButtonGroup)`
 const TwoStepVerification = (props) => {
   const { ui, twoStepChoice, data } = props
   const twoFAEnabled = data.authType > 0 || data.smsVerified > 0
-
+  console.log('2fa template', data)
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
       return <GoogleAuth goBack={props.handleGoBack} />
