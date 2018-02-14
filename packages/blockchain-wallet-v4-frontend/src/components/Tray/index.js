@@ -17,9 +17,23 @@ const transitionStyles = {
 
 const TrayModal = styled(Modal)`
   left: 270px;
+  font-weight: 300;
   position: absolute;
   width: calc(100% - 270px);
   height: calc(100% - 60px);
+  color: ${props => props.theme['gray-5']};
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  > div:first-child {
+    padding: 70px 40px 40px 40px;
+    > span:last-child {
+      top: 30px;
+      right: 40px;
+      position: absolute;
+    }
+  }
+  > div:last-child {
+    padding: 40px 40px;
+  }
 `
 
 const Tray = props => {
