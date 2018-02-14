@@ -60,25 +60,20 @@ const parse = (message) => {
   parseDataPart(data, result)
   let signature = bech32.fromWords(decodeData(data.slice(data.length - 110, data.length - 6)))
   let dataToSign = getDataToSign(prefix, data.slice(0, data.length - 110))
-  // TODO if n field present
-  let pubKey
-  if (result.public_key !== undefined) {
-    pubKey = Buffer.from(result.public_key)
-    if (!secp256k1.verify(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), pubKey)) {
-       throw new Error('Not a valid signature')
+  if (result.tags.public_key !== undefined) {
+    if (!secp256k1.verify(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), result.tags.public_key)) {
+      throw new Error('Not a valid signature')
     }
+  } else {
+    result.tags.public_key = secp256k1.recover(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), signature[signature.length - 1], true)
   }
-  pubKey = secp256k1.recover(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), signature[signature.length - 1], true)
 
   let checksum  = data.slice(data.length - 6, data.length)
 
   if (!verifyChecksum(prefix, decodeData(data))) {
     throw new Error('Not a valid checksum')
   }
-  return {
-    message: result,
-    pubKey: pubKey
-  }
+  return result
 }
 
 function polymod (values) {
