@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 
 import Layout from '../components/layout'
-import { CheckBoxInput, DateInput, NumberInput, PasswordInput, PlaceHolder, SelectInput, TextAreaInput, TextInput } from '../../src'
+import { CheckBoxInput, DateInput, NumberInput, PasswordInput, PlaceHolder, RadioButtonInput, SelectInput, TextAreaInput, TextInput } from '../../src'
 
 storiesOf('Forms', module)
     .addDecorator(story => (<Layout>{story()}</Layout>))
@@ -11,6 +11,7 @@ storiesOf('Forms', module)
     .add('CheckBox input checked', () => <CheckBoxInput name='myCheckbox' checked>Label for myCheckbox</CheckBoxInput>)
     .add('CheckBox input unchecked', () => <CheckBoxInput name='myCheckbox'>Label for Checkbox</CheckBoxInput>)
     .add('CheckBox input disabled', () => <CheckBoxInput name='myCheckbox' disabled={`disabled`}>Disabled Checkbox</CheckBoxInput>)
+    .add('RadioButton input', () => <RadioButtonInput name='myRadioButton' props={{id: 'myRadioButton'}}>Label for myRadioButton</RadioButtonInput>)
     .add('Number input', () => <NumberInput />)
     .add('Password input', () => <PasswordInput />)
     .add('PlaceHolder', () => <div><TextInput /><PlaceHolder>Enter text here</PlaceHolder></div>)
