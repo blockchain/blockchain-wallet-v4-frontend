@@ -43,17 +43,17 @@ const VerificationContainer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, position, total, close, submitting, invalid, phrase, handleClose, ...rest } = props
+  const { previousStep, position, showSuccess, close, submitting, invalid, phrase, handleClose, ...rest } = props
   const { indexes, onSubmit, isMnemonicVerified } = rest
   return (
     <Form onSubmit={onSubmit}>
-      <SuccessOverlay authType={isMnemonicVerified}>
+      <SuccessOverlay authType={showSuccess && isMnemonicVerified}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up your Yubikey!" />
+          <FormattedMessage id='scenes.security.backupphrase.verified' defaultMessage="Congrats! You've successfully verified your Backup Phrase!" />
         </Text>
       </SuccessOverlay>
-      <VerificationContainer authType={isMnemonicVerified}>
+      <VerificationContainer authType={showSuccess && isMnemonicVerified}>
         <Container>
           {indexes.indexOf(0) > -1 && <WordInput index={0} phrase={phrase} />}
           {indexes.indexOf(1) > -1 && <WordInput index={1} phrase={phrase} />}
@@ -75,10 +75,10 @@ const ThirdStep = (props) => {
           {
             invalid
             ? <Link size='12px' weight={300} onClick={previousStep}>
-                <FormattedMessage id='modals.recoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
-              </Link>
-              : null
-            }
+              <FormattedMessage id='modals.recoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
+            </Link>
+            : null
+          }
           <Link size='12px' weight={300} onClick={handleClose}>
             <FormattedMessage id='modals.recoveryphrase.thirdstep.skipfornow' defaultMessage="Skip for now, I'll do this later" />
           </Link>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
 import { take, map, sortBy, prop, range } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import ThirdStep from './template.js'
 
 class ThirdStepContainer extends React.Component {
@@ -20,30 +20,29 @@ class ThirdStepContainer extends React.Component {
     updateUI({ indexes })
   }
 
-  onSubmit () {
+  onSubmit (e) {
+    e.preventDefault()
     this.props.walletActions.verifyMnemonic()
+    setTimeout(() => {
+      this.props.updateUI({ showSuccess: true })
+    }, 1000)
   }
 
   render () {
     const { ui, ...rest } = this.props
-    console.log('render', this.props)
     return (
-      <ThirdStep {...rest} indexes={ui.indexes} onSubmit={this.onSubmit} />
+      <ThirdStep {...rest} indexes={ui.indexes} onSubmit={this.onSubmit} showSuccess={ui.showSuccess} />
     )
   }
 }
-
-const mapStateToProps = state => ({
-  // isMnemonicVerified: selectors.core.wallet.isMnemonicVerified(state)
-})
 
 const mapDispatchToProps = (dispatch) => ({
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const enhance = compose(
-  ui({ key: 'RecoveryPhraseVerification', state: { indexes: [] } }),
-  connect(mapStateToProps, mapDispatchToProps)
+  ui({ key: 'RecoveryPhraseVerification', state: { indexes: [], showSuccess: false } }),
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(ThirdStepContainer)

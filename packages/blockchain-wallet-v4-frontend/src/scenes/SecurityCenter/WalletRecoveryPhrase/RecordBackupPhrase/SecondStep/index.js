@@ -6,7 +6,7 @@ import SecondStep from './template.js'
 import { compose, values, pickAll } from 'ramda'
 
 const SecondStepContainer = props => {
-  const { ui, updateUI, mnemonic } = props
+  const { ui, updateUI } = props
 
   const handleClickPrevious = () => { updateUI({ step: ui.step - 1 }) }
 

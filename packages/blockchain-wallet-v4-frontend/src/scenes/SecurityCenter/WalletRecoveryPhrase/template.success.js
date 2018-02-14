@@ -34,10 +34,10 @@ const WalletRecoveryPhrase = (props) => {
           <SecurityIcon name='pencil' enabled={isMnemonicVerified} />
         </IconContainer>
         <SecuritySummary>
-          <SecurityHeader greyOut={isMnemonicVerified}>
+          <SecurityHeader greyOut={isMnemonicVerified && ui.nextStepToggled}>
             <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.title' defaultMessage='Backup Phrase' />
           </SecurityHeader>
-          <SecurityDescription greyOut={isMnemonicVerified}>
+          <SecurityDescription greyOut={isMnemonicVerified && ui.nextStepToggled}>
             {
               !ui.descriptionToggled
                 ? <span>
@@ -50,7 +50,7 @@ const WalletRecoveryPhrase = (props) => {
           </SecurityDescription>
           {
             ui.nextStepToggled
-              ? <RecordBackupPhrase handleClose={props.handleClose} phrase={recoveryPhrase} triggerCopyChange={changeDescription} />
+              ? <RecordBackupPhrase handleClose={props.handleClose} phrase={recoveryPhrase} triggerCopyChange={changeDescription} isMnemonicVerified={isMnemonicVerified} />
               : null
           }
         </SecuritySummary>
@@ -58,9 +58,13 @@ const WalletRecoveryPhrase = (props) => {
           !ui.nextStepToggled
             ? <SecurityComponent>
               {
-                <Button nature='primary' onClick={props.toggleNextStep} >
-                  <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Backup Funds' />
-                </Button>
+                isMnemonicVerified
+                  ? <Button nature='primary' onClick={props.toggleNextStep} >
+                    <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Backup Again' />
+                  </Button>
+                  : <Button nature='primary' onClick={props.toggleNextStep} >
+                    <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Backup Funds' />
+                  </Button>
               }
             </SecurityComponent>
             : null
