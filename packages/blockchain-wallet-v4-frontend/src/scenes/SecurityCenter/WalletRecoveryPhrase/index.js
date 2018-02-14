@@ -35,7 +35,6 @@ class WalletRecoveryPhraseContainer extends React.Component {
   }
 
   render () {
-    console.log('render backup phrase', this.props)
     const { data, ...rest } = this.props
     return <Success
       {...rest}
