@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { compose } from 'redux'
 import Tray from 'components/Tray'
+import Verify from './Verify'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class SfoxExchangeData extends React.Component {
@@ -20,14 +21,24 @@ class SfoxExchangeData extends React.Component {
     setTimeout(this.props.close, 500)
   }
 
+  getStepComponent (step) {
+    switch (step) {
+      case 'verify': return <Verify />
+    }
+  }
+
   render () {
+    const { step } = this.props
+    const { show } = this.state
+
     return (
-      <Tray in={this.state.show} class='tray'>
+      <Tray in={show} class='tray'>
         <ModalHeader onClose={this.handleClose.bind(this)}>
-          sfox
+          <div>sfox</div>
+          {/* <GenericStepIndicator steps=this.props.steps step=this.prop.step> */}
         </ModalHeader>
         <ModalBody>
-          { this.props.step }
+          { this.getStepComponent(step) }
         </ModalBody>
       </Tray>
     )
@@ -35,7 +46,7 @@ class SfoxExchangeData extends React.Component {
 }
 
 SfoxExchangeData.PropTypes = {
-  step: PropTypes.string.isRequired
+  step: PropTypes.oneOf(['verify'])
 }
 
 const enhance = compose(modalEnhancer('SfoxExchangeData'))
