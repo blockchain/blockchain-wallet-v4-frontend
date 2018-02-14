@@ -32,6 +32,9 @@ class FirstStepContainer extends React.Component {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestEther')
+      } else if (equals(prop('coin', x), 'BCH')) {
+        this.props.modalActions.closeAllModals()
+        this.props.modalActions.showModal('RequestBch')
       }
     })
   }
