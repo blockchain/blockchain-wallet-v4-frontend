@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 
-import { Button, Link } from 'blockchain-info-components'
+import { Button, Link, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import WordInput from './WordInput'
 
@@ -27,13 +27,33 @@ const Buttons = styled.div`
     margin-bottom: 10px;
   }
 `
+const SuccessOverlay = styled.div`
+  width: 90%;
+  padding: 0px 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: ${props => props.authType ? 'flex' : 'none'};
+  position: absolute;
+  left: 0px;
+  z-index: 1;
+`
+const VerificationContainer = styled.div`
+  opacity: ${props => props.authType ? 0.3 : 1};
+`
 
 const ThirdStep = (props) => {
   const { previousStep, position, total, close, submitting, invalid, phrase, handleClose, ...rest } = props
-  const { indexes, onSubmit } = rest
+  const { indexes, onSubmit, isMnemonicVerified } = rest
   return (
     <Form onSubmit={onSubmit}>
-      <div>
+      <SuccessOverlay authType={isMnemonicVerified}>
+        <Icon name='checkmark-in-circle' size='150px' color='success' />
+        <Text size='14px' weight={300} color='success'>
+          <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up your Yubikey!" />
+        </Text>
+      </SuccessOverlay>
+      <VerificationContainer authType={isMnemonicVerified}>
         <Container>
           {indexes.indexOf(0) > -1 && <WordInput index={0} phrase={phrase} />}
           {indexes.indexOf(1) > -1 && <WordInput index={1} phrase={phrase} />}
@@ -48,22 +68,22 @@ const ThirdStep = (props) => {
           {indexes.indexOf(10) > -1 && <WordInput index={10} phrase={phrase} />}
           {indexes.indexOf(11) > -1 && <WordInput index={11} phrase={phrase} />}
         </Container>
-      </div>
-      <Buttons>
-        <Button type='submit' nature='primary' disabled={submitting || invalid}>
-          <FormattedMessage id='modals.recoveryphrase.thirdstep.confirm' defaultMessage='Confirm' />
-        </Button>
-        {
-          invalid
+        <Buttons>
+          <Button type='submit' nature='primary' disabled={submitting || invalid}>
+            <FormattedMessage id='modals.recoveryphrase.thirdstep.confirm' defaultMessage='Confirm' />
+          </Button>
+          {
+            invalid
             ? <Link size='12px' weight={300} onClick={previousStep}>
-              <FormattedMessage id='modals.recoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
-            </Link>
-            : null
-        }
-        <Link size='12px' weight={300} onClick={handleClose}>
-          <FormattedMessage id='modals.recoveryphrase.thirdstep.skipfornow' defaultMessage="Skip for now, I'll do this later" />
-        </Link>
-      </Buttons>
+                <FormattedMessage id='modals.recoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
+              </Link>
+              : null
+            }
+          <Link size='12px' weight={300} onClick={handleClose}>
+            <FormattedMessage id='modals.recoveryphrase.thirdstep.skipfornow' defaultMessage="Skip for now, I'll do this later" />
+          </Link>
+        </Buttons>
+      </VerificationContainer>
     </Form>
   )
 }
