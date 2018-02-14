@@ -26,12 +26,16 @@ class ThirdStepContainer extends React.Component {
 
   render () {
     const { ui, ...rest } = this.props
-
+    console.log('render', this.props)
     return (
       <ThirdStep {...rest} indexes={ui.indexes} onSubmit={this.onSubmit} />
     )
   }
 }
+
+const mapStateToProps = state => ({
+  // isMnemonicVerified: selectors.core.wallet.isMnemonicVerified(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   walletActions: bindActionCreators(actions.wallet, dispatch)
@@ -39,7 +43,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   ui({ key: 'RecoveryPhraseVerification', state: { indexes: [] } }),
-  connect(undefined, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(ThirdStepContainer)

@@ -34,10 +34,10 @@ const WalletRecoveryPhrase = (props) => {
           <SecurityIcon name='pencil' enabled={isMnemonicVerified} />
         </IconContainer>
         <SecuritySummary>
-          <SecurityHeader>
+          <SecurityHeader greyOut={isMnemonicVerified}>
             <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.title' defaultMessage='Backup Phrase' />
           </SecurityHeader>
-          <SecurityDescription>
+          <SecurityDescription greyOut={isMnemonicVerified}>
             {
               !ui.descriptionToggled
                 ? <span>
