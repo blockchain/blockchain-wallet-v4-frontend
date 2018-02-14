@@ -22,6 +22,7 @@ const IntroContainer = styled.div`
   flex-direction: column;
   justify-content: space-around;
   width: 40%;
+  width: ${props => props.progress === 3 ? '100%' : '40%'};
 `
 const BodyContainer = styled.div`
   display: flex;
@@ -37,17 +38,20 @@ const IntroText = styled(Text)`
   padding: 20px 0px
 `
 
-const SecurityCenter = () => {
+const SecurityCenter = (props) => {
   return (
     <Wrapper>
       <TopContainer>
-        <IntroContainer>
+        <IntroContainer progress={props.progress}>
           <Title size='24px' weight={300} color='black'><FormattedMessage id='scenes.securitycenter.title' defaultMessage='Security Center' /></Title>
           <IntroText size='14px' weight={300}>
-            <FormattedMessage id='scenes.securitycenter.text' defaultMessage='Welcome to your Security Center! Complete the following three steps to help prevent unauthorized access to your wallet and ensure you can access your funds at any time.' />
+            { props.progress < 1 && <FormattedMessage id='scenes.securitycenter.introtextnone' defaultMessage='Welcome to your Security Center! Complete the following three steps to help prevent unauthorized access to your wallet and ensure you can access your funds at any time.' />}
+            { props.progress === 1 && <FormattedMessage id='scenes.securitycenter.introtextone' defaultMessage='Welcome to your Security Center! You have completed 1 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.' /> }
+            { props.progress === 2 && <FormattedMessage id='scenes.securitycenter.introtexttwo' defaultMessage='Welcome to your Security Center! You have completed 2 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.' />}
+            { props.progress === 3 && <FormattedMessage id='scenes.securitycenter.introtextthree' defaultMessage='Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.' />}
           </IntroText>
         </IntroContainer>
-        <SecuritySteps />
+        {props.progress < 3 && <SecuritySteps data={props.data} /> }
       </TopContainer>
       <BodyContainer>
         <EmailAddress />
