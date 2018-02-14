@@ -3,7 +3,7 @@ import React from 'react'
 import AddBitcoinWallet from './AddBitcoinWallet'
 import AutoDisconnection from './AutoDisconnection'
 import ExchangeDetails from './ExchangeDetails'
-import ImportBitcoinAddress from './ImportBitcoinAddress'
+import ImportBtcAddress from './ImportBtcAddress'
 import MobileNumberChange from './MobileNumberChange'
 import MobileNumberVerify from './MobileNumberVerify'
 import MobileLogin from './MobileLogin'
@@ -30,7 +30,7 @@ const Modals = props => (
     <AddBitcoinWallet />
     <AutoDisconnection />
     <ExchangeDetails />
-    <ImportBitcoinAddress />
+    <ImportBtcAddress />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
