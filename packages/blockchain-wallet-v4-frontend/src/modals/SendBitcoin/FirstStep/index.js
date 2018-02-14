@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
-import { FormattedMessage } from 'react-intl'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { generateSeed, initializeForm, switchToEtherModal, updateUnspent, updateEffectiveBalance, updateSelection } from './services'
@@ -15,7 +14,6 @@ import Success from './template.success'
 class FirstStep extends React.Component {
   constructor (props) {
     super(props)
-    // this.timeout = undefined
     this.seed = generateSeed()
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
     this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
