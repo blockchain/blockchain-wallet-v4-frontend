@@ -76,7 +76,7 @@ const validAmount = (value, allValues, props) => parseFloat(value) <= props.effe
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = props => {
-  const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, selection, fee, ...rest } = props
+  const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, fee, ...rest } = props
   const { handleSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest
 
   return (
@@ -163,7 +163,6 @@ FirstStep.propTypes = {
   addressSelectToggled: PropTypes.bool.isRequired,
   addressSelectOpened: PropTypes.bool.isRequired,
   feeEditToggled: PropTypes.bool.isRequired,
-  // selection: PropTypes.object.isRequired,
   fee: PropTypes.number.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,

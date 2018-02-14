@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Icon, SelectInput } from 'blockchain-info-components'
-import { renderHeader, renderItem } from './services'
+import { renderDisplay, renderHeader, renderItem } from './services'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,9 +23,9 @@ const SelectBoxesAccounts = (props) => {
 
   return (
     <Wrapper>
-      <SelectInput elements={elements} value={source} onChange={handleChangeSource} templateHeader={renderHeader} templateItem={renderItem} {...rest} />
+      <SelectInput elements={elements} value={source} onChange={handleChangeSource} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} {...rest} />
       <SwapIcon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
-      <SelectInput elements={elements} value={target} onChange={handleChangeTarget} templateHeader={renderHeader} templateItem={renderItem} {...rest} />
+      <SelectInput elements={elements} value={target} onChange={handleChangeTarget} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} {...rest} />
     </Wrapper>
   )
 }

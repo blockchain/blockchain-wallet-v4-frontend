@@ -44,12 +44,10 @@ class SelectBoxesAccountsContainer extends React.Component {
 
   handleChangeSource (value) {
     console.log('handleChangeSource')
-    console.log(value)
   }
 
   handleChangeTarget (value) {
     console.log('handleChangeTarget')
-    console.log(value)
   }
 
   handleSwap () {
