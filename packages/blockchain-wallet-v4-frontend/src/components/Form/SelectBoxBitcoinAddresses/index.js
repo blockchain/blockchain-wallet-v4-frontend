@@ -26,7 +26,7 @@ class SelectBoxBitcoinAddresses extends React.Component {
 
   render () {
     const { data, ...rest } = this.props
-
+    console.log('data', data)
     return data.cata({
       Success: (value) => {
         const elements = [{
