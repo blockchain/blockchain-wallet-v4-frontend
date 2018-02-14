@@ -6,8 +6,8 @@ import { formValueSelector } from 'redux-form'
 import modalEnhancer from 'providers/ModalEnhancer'
 import ImportBtcAddress from './template.js'
 import { getData } from './selectors'
-import { updateUnspent, updateEffectiveBalance, updateSelection } from '../SendBitcoin/FirstStep/services'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { updateUnspent, updateEffectiveBalance, updateSelection } from './services'
 
 class ImportBtcAddressContainer extends React.Component {
   constructor (props) {
@@ -47,6 +47,7 @@ const mapStateToProps = (state) => ({
   data: getData(state),
   to: formValueSelector('importBtcAddress')(state, 'to'),
   priv: formValueSelector('importBtcAddress')(state, 'priv'),
+  selection: selectors.core.data.bitcoin.getSelection(state),
   defaultAccountIndex: selectors.core.wallet.getDefaultAccountIndex(state),
   addressType: formValueSelector('importBtcAddress')(state, 'address-type')
 })
