@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class BitcoinBalance extends React.Component {
+class BchBalance extends React.Component {
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       this.props.actions.fetchData(this.props.context)
@@ -29,7 +29,7 @@ class BitcoinBalance extends React.Component {
   }
 }
 
-BitcoinBalance.propTypes = {
+BchBalance.propTypes = {
   context: PropTypes.string.isRequired
 }
 
@@ -41,4 +41,4 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.core.data.bch, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BitcoinBalance)
+export default connect(mapStateToProps, mapDispatchToProps)(BchBalance)
