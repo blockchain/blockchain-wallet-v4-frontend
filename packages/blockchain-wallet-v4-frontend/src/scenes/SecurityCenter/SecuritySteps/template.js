@@ -30,7 +30,7 @@ const StepText = styled(Text)`
 `
 
 const SecuritySteps = (props) => {
-  const { stepsDone, emailVerified, authType } = props
+  const { emailVerified, authType, isMnemonicVerified } = props
   return (
     <Wrapper>
       <Circle>
@@ -46,7 +46,7 @@ const SecuritySteps = (props) => {
         <FormattedMessage id='scenes.securitycenter.step2' defaultMessage='Two-Step Verification' />
       </StepText>
       <Circle>
-        {stepsDone > 2 && <Icon name='checkmark' color='success' size='30px' />}
+        {isMnemonicVerified && <Icon name='checkmark' color='success' size='30px' />}
       </Circle>
       <StepText color='brand-primary' size='12px' weight={300}>
         <FormattedMessage id='scenes.securitycenter.step3' defaultMessage='Backup Phrase' />
