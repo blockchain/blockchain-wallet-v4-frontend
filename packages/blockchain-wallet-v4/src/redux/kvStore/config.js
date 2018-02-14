@@ -5,6 +5,7 @@ export const BUYSELL = 'buySell'
 export const CONTACTS = 'contacts'
 export const ETHEREUM = 'ethereum'
 export const SHAPESHIFT = 'shapeshift'
+export const BCH = 'bch'
 
 export const derivationMap = {
   [ROOT]: -1,
@@ -13,5 +14,6 @@ export const derivationMap = {
   [BUYSELL]: 3,
   [CONTACTS]: 4,
   [ETHEREUM]: 5,
-  [SHAPESHIFT]: 6
+  [SHAPESHIFT]: 6,
+  [BCH]: 7
 }
