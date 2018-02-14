@@ -4,7 +4,6 @@ import ReactHighcharts from 'react-highcharts'
 import { FormattedMessage } from 'react-intl'
 import { Color, Text } from 'blockchain-info-components'
 import configure from './chart.config.js'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.div`
@@ -33,7 +32,7 @@ const CoinBalance = styled.div`
 
 const BalancesChart = (props) => {
   const { balances, handleCoinDisplay } = props
-  const { bitcoinBalance, etherBalance, chartData, symbol } = balances
+  const { bitcoinBalance, etherBalance, bchBalance, chartData, symbol } = balances
 
   return (
     <Wrapper>
@@ -65,6 +64,9 @@ const BalancesChart = (props) => {
           <Text>
             <FormattedMessage id='scenes.home.balanceschart.bch' defaultMessage='Bitcoin Cash' />
           </Text>
+          <CoinBalance onClick={handleCoinDisplay}>
+            <SwitchableDisplay coin='BCH'>{bchBalance}</SwitchableDisplay>
+          </CoinBalance>
         </Column>
       </ChartInfo>
     </Wrapper>

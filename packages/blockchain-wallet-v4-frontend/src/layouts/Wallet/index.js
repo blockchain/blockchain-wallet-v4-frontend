@@ -12,6 +12,7 @@ import Success from './template.success'
 
 class WalletLayout extends React.Component {
   componentWillMount () {
+    this.props.kvStoreBchActions.fetchMetadataBch()
     this.props.kvStoreEthereumActions.fetchMetadataEthereum()
     this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
     this.props.optionsActions.fetchOptions()
@@ -47,6 +48,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  kvStoreBchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   kvStoreEthereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
   kvStoreWhatsnewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch),
   optionsActions: bindActionCreators(actions.core.walletOptions, dispatch),

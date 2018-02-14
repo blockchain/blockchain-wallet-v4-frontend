@@ -20,6 +20,9 @@ class CoinTicker extends React.Component {
         case 'ETH':
           this.props.ethereumActions.fetchRates()
           break
+        case 'BCH':
+          this.props.bchActions.fetchRates()
+          break
       }
     }
   }
@@ -42,7 +45,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   bitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  ethereumActions: bindActionCreators(actions.core.data.ethereum, dispatch)
+  ethereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  bchActions: bindActionCreators(actions.core.data.bch, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinTicker)
