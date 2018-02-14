@@ -48,7 +48,6 @@ const TransactionListItem = (props) => {
             <EditDescription value={transaction.description} />
           </TransactionDetailsDescription>
           <TransactionDetailsValue>
-            <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} />
             <Fee fee={transaction.fee} />
           </TransactionDetailsValue>
         </TransactionDetails>
