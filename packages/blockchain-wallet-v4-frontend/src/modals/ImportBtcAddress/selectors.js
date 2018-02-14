@@ -20,7 +20,12 @@ export const getData = state => {
   const feeR = selectors.core.data.bitcoin.getFee(state)
   const defaultFeeR = feeR.map(path(['regular']))
   const coinsR = selectors.core.data.bitcoin.getCoins(state)
-  const from = { address: formValueSelector('importBtcAddress')(state, 'from') }
+  const from = {
+    address: {
+      address: formValueSelector('importBtcAddress')(state, 'from'),
+      priv: formValueSelector('importBtcAddress')(state, 'priv')
+    }
+  }
   const to = formValueSelector('importBtcAddress')(state, 'to')
   const receiveAddressR = extractAddress(getReceive, to)
   const changeAddressR = extractAddress(getChange, from)
