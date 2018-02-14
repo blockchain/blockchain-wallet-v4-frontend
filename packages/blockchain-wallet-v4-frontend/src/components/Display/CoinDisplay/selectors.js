@@ -5,9 +5,13 @@ import { lift } from 'ramda'
 
 export const getData = (state, coin, amount) => {
   const settings = selectors.core.settings.getSettings(state)
-  const convert = (s, c, a) => c === 'BTC'
-    ? Exchange.displayBitcoinToBitcoin({ value: a, fromUnit: 'SAT', toUnit: s.btc_currency })
-    : displayEtherFixed({ value: a, fromUnit: 'WEI', toUnit: 'ETH' })
+  const convert = (s, c, a) => {
+    switch (c) {
+      case 'ETH': return displayEtherFixed({ value: a, fromUnit: 'WEI', toUnit: 'ETH' })
+      case 'BCH': return Exchange.displayBchToBch({ value: a, fromUnit: 'SAT', toUnit: 'BCH' })
+      case 'BTC': return Exchange.displayBitcoinToBitcoin({ value: a, fromUnit: 'SAT', toUnit: s.btc_currency })
+    }
+  }
   return lift(convert)(settings, Remote.of(coin), Remote.of(amount))
 }
 

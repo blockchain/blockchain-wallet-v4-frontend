@@ -5,6 +5,7 @@ import shapeShift from './shapeShift/reducers.js'
 import buySell from './buySell/reducers.js'
 import contacts from './contacts/reducers.js'
 import root from './root/reducers.js'
+import bch from './bch/reducers.js'
 import * as C from './config'
 
 const kvStoreReducer = combineReducers({
@@ -13,7 +14,8 @@ const kvStoreReducer = combineReducers({
   [C.ETHEREUM]: ethereum,
   [C.SHAPESHIFT]: shapeShift,
   [C.BUYSELL]: buySell,
-  [C.CONTACTS]: contacts
+  [C.CONTACTS]: contacts,
+  [C.BCH]: bch
 })
 
 export default kvStoreReducer
