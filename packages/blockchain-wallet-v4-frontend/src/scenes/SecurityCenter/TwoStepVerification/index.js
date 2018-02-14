@@ -21,6 +21,7 @@ class TwoStepVerificationContainer extends React.Component {
     this.cancelMobileChange = this.cancelMobileChange.bind(this)
     this.submitMobileChange = this.submitMobileChange.bind(this)
     this.handleDisableClick = this.handleDisableClick.bind(this)
+    this.handleTwoFactorChange = this.handleTwoFactorChange.bind(this)
 
     this.state = { authMethod: '', authName: '', disabling: false }
   }
@@ -63,6 +64,10 @@ class TwoStepVerificationContainer extends React.Component {
     this.props.securityCenterActions.disableTwoStep()
   }
 
+  handleTwoFactorChange () {
+    this.props.modalActions.showModal('ConfirmDisable2FA', { authName: this.state.authName })
+  }
+
   render () {
     const { data, ...rest } = this.props
 
@@ -76,6 +81,7 @@ class TwoStepVerificationContainer extends React.Component {
         handleDisableClick={this.handleDisableClick}
         cancelMobileChange={this.cancelMobileChange}
         submitMobileChange={this.submitMobileChange}
+        handleTwoFactorChange={this.handleTwoFactorChange}
         twoStepChoice={this.state.authMethod}
         authName={this.state.authName}
         disabling={this.state.disabling}
@@ -96,7 +102,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
