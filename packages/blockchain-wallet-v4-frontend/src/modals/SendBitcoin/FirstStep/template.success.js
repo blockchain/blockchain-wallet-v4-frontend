@@ -174,9 +174,6 @@ const FirstStep = props => {
           <div>
             <Text size='14px' weight={500}>
               <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
-              {/* <Tooltip>
-                <FormattedMessage id='modals.sendbitcoin.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
-              </Tooltip> */}
             </Text>
             {feeEditToggled
               ? <FeeContainer>

@@ -18,7 +18,6 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillMount () {
-    // this.props.dataEthereumActions.fetchData()
     this.props.dataEthereumActions.fetchFee()
   }
 
