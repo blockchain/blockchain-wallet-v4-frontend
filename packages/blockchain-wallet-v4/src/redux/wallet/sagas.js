@@ -57,7 +57,7 @@ export const walletSaga = ({ api } = {}) => {
         const addHDAccount = hdw => HDWallet.addHDAccount(hdw, account(i), i)
         const wallet = addHDAccount(hdwallet)
         const newWrapper = set(compose(Wrapper.wallet, Wallet.hdWallets), HDWalletList.fromJS([wallet.value]), wrapper)
-        yield put(A.setWrapper(newWrapper))
+        yield put(A.refreshWrapper(newWrapper))
       } else {
         throw new Error('Could not get mnemonic.')
       }
