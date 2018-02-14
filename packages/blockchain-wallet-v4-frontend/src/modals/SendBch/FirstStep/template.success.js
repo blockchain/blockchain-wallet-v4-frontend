@@ -92,7 +92,7 @@ const FirstStep = props => {
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.sendbch.firststep.from' defaultMessage='From:' />
           </Text>
-          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
+          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false, coin: 'BCH' }} />
         </ColTwo>
       </Row>
       <Text size='14px' weight={500}>
@@ -100,7 +100,7 @@ const FirstStep = props => {
       </Text>
       <Row>
         {addressSelectToggled
-          ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
+          ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false, coin: 'BCH' }} />
           : <Field name='to2' component={TextBox} validate={[required]} />
         }
         <QRCodeCapture coin='BCH' />

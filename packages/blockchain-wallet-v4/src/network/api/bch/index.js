@@ -39,12 +39,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { tx: txHex, format: 'plain' }
   })
 
-  const getBchFiatAtTime = (amount, currency, time) => get({
-    url: apiUrl,
-    endPoint: 'frombch',
-    data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
-  })
-
   const getLatestBlock = () => get({
     url: rootUrl,
     endPoint: 'bch/latestblock'
@@ -60,7 +54,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getBchTicker,
     getBchUnspents,
     pushBchTx,
-    getBchFiatAtTime,
     getLatestBlock,
     getRawTx
   }

@@ -5,16 +5,18 @@ import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactio
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-// import { getAccounts, getAddress } from '../../kvStore/bch/selectors.js'
+import { getAccounts } from '../../kvStore/bch/selectors.js'
 
 const mTransformTx = memoize(transactions.bitcoin.transformTx)
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
   const balancesRD = getAddresses(state)
+  const bchAccounts = getAccounts(state).getOrElse([])
   const addInfo = account => balancesRD.map(prop(prop('xpub', account)))
     .map(x => assoc('info', x, account))
-  const objectOfRemotes = compose(map(addInfo), HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
+  const addBchLabel = account => account.map(a => assoc('label', prop('label', bchAccounts[prop('index', a)]), a)) // bchAccountsR.map(prop(prop('label', account))).map(x => assoc('label', x, account))
+  const objectOfRemotes = compose(map(addBchLabel), map(addInfo), HDAccountList.toJSwithIndex, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
   return sequence(Remote.of, objectOfRemotes)
 }
 
@@ -27,7 +29,7 @@ export const getActiveAddresses = state => {
   return sequence(Remote.of, objectOfRemotes)
 }
 
-const digestAddress = x => ({
+const digestAddress = (x) => ({
   coin: 'BCH',
   label: prop('label', x) ? prop('label', x) : prop('addr', x),
   balance: path(['info', 'final_balance'], x),
