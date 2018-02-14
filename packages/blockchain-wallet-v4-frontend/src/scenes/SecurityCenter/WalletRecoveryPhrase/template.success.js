@@ -24,7 +24,8 @@ const IconContainer = styled.div`
 `
 
 const WalletRecoveryPhrase = (props) => {
-  const { isMnemonicVerified, ui, recoveryPhrase, changeDescription } = props
+  const { ui, recoveryPhrase, changeDescription, data } = props
+  const { isMnemonicVerified } = data
 
   return (
     <div>
@@ -82,6 +83,3 @@ const WalletRecoveryPhrase = (props) => {
 }
 
 export default WalletRecoveryPhrase
-// export default reduxForm({
-//   form: 'walletRecovery'
-// })(WalletRecoveryPhrase)

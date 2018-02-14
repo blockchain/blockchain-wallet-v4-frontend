@@ -28,6 +28,7 @@ const BaseButton = styled.button.attrs({
   font-size: 14px;
   font-weight: ${props => props.bold ? '700' : '300'};
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  opacity: ${props => props.disabled ? 0.5 : 1};
   color: ${props => props.theme[props.color]};
   background-color: ${props => props.theme[props.backgroundColor]};
   border-radius: ${props => props.rounded ? '20px' : '3px'};

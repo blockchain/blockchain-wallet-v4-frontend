@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 
-import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Link } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import WordInput from './WordInput'
 
@@ -14,11 +14,23 @@ const Container = styled.div`
   justify-content: space-around;
   align-items: center;
 `
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  button {
+    margin-bottom: 40px;
+  }
+  a:first-of-type {
+    margin-bottom: 10px;
+  }
+`
 
 const ThirdStep = (props) => {
-  const { previousStep, position, total, close, submitting, invalid, phrase, ...rest } = props
-  const { indexes, mnemonic, onSubmit } = rest
-
+  const { previousStep, position, total, close, submitting, invalid, phrase, handleClose, ...rest } = props
+  const { indexes, onSubmit } = rest
   return (
     <Form onSubmit={onSubmit}>
       <div>
@@ -37,20 +49,31 @@ const ThirdStep = (props) => {
           {indexes.indexOf(11) > -1 && <WordInput index={11} phrase={phrase} />}
         </Container>
       </div>
-      <Link size='13px' weight={300} onClick={previousStep}>
-        <FormattedMessage id='modals.recoveryphrase.thirdstep.back' defaultMessage='Back' />
-      </Link>
-      <Button type='submit' nature='primary' disabled={submitting || invalid}>
-        <FormattedMessage id='modals.recoveryphrase.thirdstep.finish' defaultMessage='Finish' />
-      </Button>
+      <Buttons>
+        <Button type='submit' nature='primary' disabled={submitting || invalid}>
+          <FormattedMessage id='modals.recoveryphrase.thirdstep.confirm' defaultMessage='Confirm' />
+        </Button>
+        {
+          invalid
+            ? <Link size='12px' weight={300} onClick={previousStep}>
+              <FormattedMessage id='modals.recoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
+            </Link>
+            : null
+        }
+        <Link size='12px' weight={300} onClick={handleClose}>
+          <FormattedMessage id='modals.recoveryphrase.thirdstep.skipfornow' defaultMessage="Skip for now, I'll do this later" />
+        </Link>
+      </Buttons>
     </Form>
   )
 }
 
 ThirdStep.propTypes = {
   indexes: PropTypes.array.isRequired,
-  mnemonic: PropTypes.array.isRequired,
-  previousStep: PropTypes.func.isRequired
+  phrase: PropTypes.array.isRequired,
+  previousStep: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  invalid: PropTypes.bool.isRequired
 }
 
 export default reduxForm({ form: 'recoveryPhrase' })(ThirdStep)

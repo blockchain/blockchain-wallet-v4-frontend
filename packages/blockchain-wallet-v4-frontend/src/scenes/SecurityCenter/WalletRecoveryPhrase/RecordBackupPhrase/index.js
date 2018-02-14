@@ -26,7 +26,7 @@ class RecoveryPhraseContainer extends React.Component {
     switch (this.props.step) {
       case 1: return <FirstStep {...this.props} />
       case 2: return <SecondStep {...this.props} />
-      case 3: return <ThirdStep {...this.props} />
+      case 3: return <ThirdStep handleGoToSecondStep={this.handleGoToSecondStep} {...this.props} />
       default: return <div />
     }
   }
