@@ -1,7 +1,7 @@
 import { shift, shiftIProp } from './util'
 import { pipe, compose, curry, is, range, map } from 'ramda'
 import { view, over } from 'ramda-lens'
-import Bitcoin from 'bitcoinjs-lib'
+import Either from 'data.either'
 import BIP39 from 'bip39'
 
 import Type from './Type'
@@ -35,6 +35,12 @@ export const selectContext = compose(HDAccountList.selectContext, selectAccounts
 
 const shiftHDWallet = compose(shiftIProp('seed_hex', 'seedHex'), shift)
 
+export const addHDAccount = curry((hdw, hdaccount, i) => {
+  let set = curry((hda, as) => as.set(i, HDAccount.fromJS(hda)))
+  let append = curry((hdw, hda) => over(accounts, set(hda), hdw))
+  return Either.of(append(hdw, hdaccount))
+})
+
 export const fromJS = (x) => {
   if (is(HDWallet, x)) { return x }
   const hdwalletCons = compose(
@@ -57,12 +63,8 @@ export const reviver = (jsObject) => {
 }
 
 export const js = (label, mnemonic, xpub, nAccounts, network) => {
-  const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
-  const masterNode = mnemonic ? Bitcoin.HDNode.fromSeedBuffer(seed, network) : undefined
-  const parentNode = mnemonic ? masterNode.deriveHardened(44).deriveHardened(0) : undefined
-  const node = i => mnemonic ? parentNode.deriveHardened(i) : undefined
-  const account = i => HDAccount.js(`${label} ${i + 1}`, node(i), xpub)
+  const account = i => HDAccount.js(`${label} ${i + 1}`, HDAccount.fromMnemonic(mnemonic, network, label)(i), xpub)
   return {
     seed_hex: seedHex,
     passphrase: '',

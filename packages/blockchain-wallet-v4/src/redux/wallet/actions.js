@@ -1,6 +1,8 @@
 import * as T from './actionTypes'
 
 // setters
+export const addWallet = (payload) =>
+  ({ type: T.ADD_WALLET, payload: payload })
 export const setWrapper = (payload) =>
   ({ type: T.SET_WRAPPER, payload: payload })
 export const setArchivedAddress = (address) =>

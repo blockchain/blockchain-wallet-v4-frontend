@@ -5,10 +5,13 @@ import CoinConvertor from './CoinConvertor'
 import DateBox from './DateBox'
 import FiatConvertor from './FiatConvertor'
 import Form from './Form'
+import FormGroup from './FormGroup'
+import FormItem from './FormItem'
 import NumberBox from './NumberBox'
 import PasswordBox from './PasswordBox'
 import PlaceHolder from './PlaceHolder'
 import PhoneNumberBox from './PhoneNumberBox'
+import RadioButton from './RadioButton'
 import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCoin from './SelectBoxCoin'
@@ -30,10 +33,13 @@ export {
   DateBox,
   FiatConvertor,
   Form,
+  FormGroup,
+  FormItem,
   NumberBox,
   PasswordBox,
   PlaceHolder,
   PhoneNumberBox,
+  RadioButton,
   SelectBoxBitcoinAddresses,
   SelectBoxBitcoinUnit,
   SelectBoxCoin,

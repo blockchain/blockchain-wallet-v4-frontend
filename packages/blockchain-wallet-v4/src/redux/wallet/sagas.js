@@ -1,8 +1,8 @@
 import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
-import { prop, compose, endsWith, repeat, range, map, propSatisfies, indexBy,
-         length, path, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
+import { prop, compose, endsWith, repeat, range, map, propSatisfies,
+         length, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import Task from 'data.task'
 import Either from 'data.either'
@@ -10,7 +10,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
 
-import { Wrapper, Wallet, Address, HDWalletList } from '../../types'
+import { Wrapper, Wallet, Address, HDAccount, HDWallet, HDWalletList } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -55,6 +55,29 @@ export const walletSaga = ({ api } = {}) => {
     yield call(runTask, task, A.setWrapper)
     const walletContext = yield select(S.getWalletContext)
     yield put(fetchData(walletContext))
+  }
+
+  const addWallet = function * ({ label, password }) {
+    try {
+      const wrapper = yield select(S.getWrapper)
+      const hdwallet = yield select(S.getDefaultHDWallet)
+      const getMnemonic = state => S.getMnemonic(state, password)
+      const eitherMnemonic = yield select(getMnemonic)
+      const hdwallets = compose(i => i.toJS(), Wallet.selectHdWallets, Wrapper.selectWallet)(wrapper)
+      const i = hdwallets[0].accounts.length
+      if (eitherMnemonic.isRight) {
+        const mnemonic = eitherMnemonic.value
+        const account = i => HDAccount.js(label, HDAccount.fromMnemonic(mnemonic, undefined, label)(i), undefined)
+        const addHDAccount = hdw => HDWallet.addHDAccount(hdw, account(i), i)
+        const wallet = addHDAccount(hdwallet)
+        const newWrapper = set(compose(Wrapper.wallet, Wallet.hdWallets), HDWalletList.fromJS([wallet.value]), wrapper)
+        yield put(A.refreshWrapper(newWrapper))
+      } else {
+        throw new Error('Could not get mnemonic.')
+      }
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 
   const createWalletSaga = function * ({ password, email }) {
@@ -139,6 +162,7 @@ export const walletSaga = ({ api } = {}) => {
   }
 
   return {
+    addWallet,
     toggleSecondPassword,
     createWalletSaga,
     restoreWalletSaga,

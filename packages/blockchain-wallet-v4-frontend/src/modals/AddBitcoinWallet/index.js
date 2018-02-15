@@ -4,9 +4,9 @@ import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
 import { formValueSelector } from 'redux-form'
 import modalEnhancer from 'providers/ModalEnhancer'
-import ImportBitcoinAddress from './template.js'
+import AddBitcoinWallet from './template.js'
 
-class ImportBitcoinAddressContainer extends React.Component {
+class AddBitcoinWalletContainer extends React.Component {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
@@ -14,22 +14,22 @@ class ImportBitcoinAddressContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.walletActions.createLegacyAddress({addr: this.props.address})
+    this.props.walletActions.addWallet(this.props.wallet)
   }
 
   render () {
-    return <ImportBitcoinAddress {...this.props} onSubmit={this.onSubmit} />
+    return <AddBitcoinWallet {...this.props} onSubmit={this.onSubmit} />
   }
 }
 
 const mapStateToProps = (state) => ({
-  address: formValueSelector('importBitcoinAddress')(state, 'address')
+  wallet: formValueSelector('addBitcoinWallet')(state, 'wallet')
 })
 
 const mapDispatchToProps = (dispatch) => ({
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps), modalEnhancer('ImportBitcoinAddress'))
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), modalEnhancer('AddBitcoinWallet'))
 
-export default enhance(ImportBitcoinAddressContainer)
+export default enhance(AddBitcoinWalletContainer)

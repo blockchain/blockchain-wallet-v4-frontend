@@ -1,10 +1,11 @@
 import Bitcoin from 'bitcoinjs-lib'
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete that wallet test fail - idk why
-import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split, isEmpty, merge } from 'ramda'
-import { view, over, set } from 'ramda-lens'
+import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split, isEmpty } from 'ramda'
+import { view, over } from 'ramda-lens'
 import Type from './Type'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as Cache from './Cache'
+import BIP39 from 'bip39'
 
 /* HDAccount :: {
   label :: String
@@ -43,6 +44,13 @@ export const getAddress = (account, path, network) => {
   const c = parseInt(chain)
   const derive = (acc) => Cache.getAddress(selectCache(acc), c, i, network)
   return pipe(HDAccount.guard, derive)(account)
+}
+
+export const fromMnemonic = (mnemonic, network, i) => {
+  const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
+  const masterNode = mnemonic ? Bitcoin.HDNode.fromSeedBuffer(seed, network) : undefined
+  const parentNode = mnemonic ? masterNode.deriveHardened(44).deriveHardened(0) : undefined
+  return i => mnemonic ? parentNode.deriveHardened(i) : undefined
 }
 
 export const fromJS = (x, i) => {

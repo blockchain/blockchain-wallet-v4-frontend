@@ -1,5 +1,7 @@
 import * as AT from './actionTypes'
 
+export const addWallet = (label) => ({ type: AT.ADD_WALLET, payload: { label } })
+
 export const toggleSecondPassword = (password) => ({ type: AT.TOGGLE_SECOND_PASSWORD, payload: { password } })
 
 export const updatePbkdf2Iterations = (iterations) => ({ type: AT.UPDATE_PBKDF2_ITERATIONS, payload: { iterations } })
