@@ -1,14 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
+// import { formValueSelector } from 'redux-form'
 import { assoc, equals, path, prop } from 'ramda'
 import * as crypto from 'crypto'
+import { getData } from './selectors'
 
 import { transactions } from 'blockchain-wallet-v4/src'
-import { actions, selectors } from 'data'
-import { initializeForm } from './services' 
-import FirstStep from './template.js'
+import { actions } from 'data'
+import { initializeForm } from './services'
+// import FirstStep from './template.js'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class FirstStepContainer extends React.Component {
   constructor (props) {
@@ -23,6 +27,7 @@ class FirstStepContainer extends React.Component {
 
     this.state = { sourceCoin, targetCoin, amount }
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSwap = this.handleSwap.bind(this)
   }
 
   componentWillReceiveProps () {
@@ -80,6 +85,10 @@ class FirstStepContainer extends React.Component {
     this.props.nextStep()
   }
 
+  handleSwap () {
+    console.log('swap')
+  }
+
   render () {
     // const { accounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
     // const { ethFee } = this.state
@@ -88,18 +97,29 @@ class FirstStepContainer extends React.Component {
     //                             ? etherBalance - ethFee
     //                             : 0)
     //                           : bitcoinEffectiveBalance
+    // console.log('data', this.props.data)
+    // const { sourceCoin, targetCoin, amount } = this.state
 
-    const { sourceCoin, targetCoin, amount } = this.state
+    // return (
+    //   <FirstStep
+    //     sourceCoin={sourceCoin}
+    //     targetCoin={targetCoin}
+    //     sourceAmount={amount} />
+    //     // handleSubmit={this.handleSubmit}
+    //     // max={effectiveBalance}
+    //     // {...rest} />
+    // )
+    const { data } = this.props
 
-    return (
-      <FirstStep
-        sourceCoin={sourceCoin}
-        targetCoin={targetCoin}
-        sourceAmount={amount} />
-        // handleSubmit={this.handleSubmit}
-        // max={effectiveBalance}
-        // {...rest} />
-    )
+    return data.cata({
+      Success: (value) => <Success
+        elements={value.elements}
+        handleSwap={this.handleSwap}
+      />,
+      Failure: (message) => <Error />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
@@ -111,6 +131,7 @@ const mapStateToProps = (state) => ({
   // bitcoinFeeValues: selectors.core.data.bitcoin.getFee(state),
   // etherBalance: selectors.core.data.ethereum.getBalance(state),
   // bitcoinEffectiveBalance: selectors.core.data.bitcoin.getEffectiveBalance(state) || 0
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
