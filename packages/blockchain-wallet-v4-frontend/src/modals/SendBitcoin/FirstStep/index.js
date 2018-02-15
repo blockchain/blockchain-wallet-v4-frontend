@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { generateSeed, initializeForm, switchToEtherModal, updateUnspent, updateEffectiveBalance, updateSelection } from './services'
+import { generateSeed, initializeForm, switchToEtherOrBchModal, updateUnspent, updateEffectiveBalance, updateSelection } from './services'
 import { getData } from './selectors'
 import { actions, selectors } from 'data'
 import Error from './template.error'
@@ -31,7 +31,7 @@ class FirstStep extends React.Component {
       // We initialize the form if form is not initialized yet
       initializeForm(this.props, nextProps)
       // We open the RequestEther modal if coin equals 'ETH'
-      switchToEtherModal(nextProps)
+      switchToEtherOrBchModal(nextProps)
       // We fetch the unspent
       updateUnspent(this.props, nextProps)
       // update effective Balance
