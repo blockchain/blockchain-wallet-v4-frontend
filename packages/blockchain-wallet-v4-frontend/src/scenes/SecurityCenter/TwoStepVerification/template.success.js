@@ -23,7 +23,11 @@ const Choice = styled.div`
   border-radius: 6px;
   padding: 15px;
   cursor: pointer;
-  opacity: ${props => props.selected ? 1 : 0.4}
+  opacity: ${props => props.selected ? 1 : 1};
+  div * {
+    cursor: pointer;
+  }
+  
 `
 const ChoiceDescription = styled.div`
   display: flex;
@@ -92,8 +96,8 @@ const Buttons = styled(ButtonGroup)`
 
 const TwoStepVerification = (props) => {
   const { ui, twoStepChoice, data } = props
-  const twoFAEnabled = data.authType > 0 || data.smsVerified > 0
-  console.log('2fa template', data)
+  const twoFAEnabled = data.authType > 0
+
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
       return <GoogleAuth goBack={props.handleGoBack} />
@@ -113,7 +117,7 @@ const TwoStepVerification = (props) => {
           <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification helps prevent unauthorized access to your wallet by requiring a one-time passsword after every login attempt. Enabling this option helps keep unauthorized users form being able to access your wallet.' />
         </SecurityDescription>
         {
-          (data.authType === 4 || data.authType === 1) && data.smsVerified
+          data.authType === 5 && data.smsVerified
             ? <DisableContainer>
               <Text weight={200} size='14px'>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with' />
@@ -135,7 +139,7 @@ const TwoStepVerification = (props) => {
               </Text>
               <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Change Two-factor Authentication</Link>
             </DisableContainer>
-            : data.authType === 4 || data.authType === 1
+            : data.authType === 4 || data.authType === 1 || data.authType === 2
               ? <DisableContainer>
                 <Text weight={200} size='14px'>
                   <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with' />
@@ -168,7 +172,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice selected={props.disabling && data.smsVerified} onClick={() => props.chooseMethod('sms')}>
+          <Choice selected={props.disabling && data.authType === '5'} onClick={() => props.chooseMethod('sms')}>
             <Icon name='mobile' size='18px' weight={400} />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
@@ -221,7 +225,7 @@ const TwoStepVerification = (props) => {
                     <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Enable' />
                   </Button>
                   : <Button nature='primary' onClick={props.handleDisableClick} >
-                    <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Disable' />
+                    <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Edit' />
                   </Button>
               }
             </SecurityComponent>

@@ -1,8 +1,7 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects'
+import { takeLatest, put, call } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
-// import { sendConfirmationCodeEmail } from './actions';
 
 export const updateEmail = function * (action) {
   try {
@@ -81,6 +80,7 @@ export const verifyMobile = function * (action) {
   try {
     yield call(sagas.core.settings.setMobileVerified, action.payload)
     yield put(actions.alerts.displaySuccess('Mobile number has been successfully verified.'))
+    yield call(sagas.core.settings.setAuthType, { authType: '5' })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not verify mobile number.'))
   }

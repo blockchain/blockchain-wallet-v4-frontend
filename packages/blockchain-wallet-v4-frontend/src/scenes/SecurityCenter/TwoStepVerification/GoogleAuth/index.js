@@ -17,6 +17,19 @@ class GoogleAuthContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    const next = nextProps.data.data
+    const prev = this.props.data.data
+    if (next.authType !== prev.authType) {
+      setTimeout(() => {
+        this.props.updateUI({ successToggled: true })
+      }, 250)
+      setTimeout(function () {
+        nextProps.goBack()
+      }, 2000)
+    }
+  }
+
   componentWillMount () {
     this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
   }
@@ -25,7 +38,8 @@ class GoogleAuthContainer extends React.Component {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  handleSubmit () {
+  handleSubmit (e) {
+    e.preventDefault()
     this.props.securityCenterActions.verifyGoogleAuthenticator(this.props.authCode)
   }
 
@@ -60,7 +74,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoFactor', state: { updateToggled: false } })
+  ui({ key: 'Security_TwoFactor', state: { updateToggled: false, successToggled: false } })
 )
 
 export default enhance(GoogleAuthContainer)

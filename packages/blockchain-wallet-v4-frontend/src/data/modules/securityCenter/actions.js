@@ -18,4 +18,4 @@ export const sendMobileVerificationCode = (mobile) => ({ type: AT.SEND_MOBILE_VE
 
 export const verifyMobile = (code) => ({ type: AT.VERIFY_MOBILE, payload: { code } })
 
-export const disableTwoStep = () => ({ type: AT.DISABLE_TWO_STEP, payload: { authType: 0 } })
+export const disableTwoStep = () => ({ type: AT.DISABLE_TWO_STEP, payload: { authType: '0' } })

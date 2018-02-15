@@ -11,7 +11,7 @@ import { SecurityDescription, SecurityHeader } from 'components/Security'
 const AuthenticatorSummary = styled.div`
   width: 90%;
   padding: 0px 20px;
-  opacity: ${props => props.smsVerified === 1 ? 0.3 : 1};
+  opacity: ${props => props.verified ? 0.3 : 1};
 `
 const Header = SecurityHeader.extend`
   justify-content: flex-start;
@@ -43,7 +43,7 @@ const SuccessOverlay = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  display: ${props => props.smsVerified === 1 ? 'flex' : 'none'};
+  display: ${props => props.verified ? 'flex' : 'none'};
   position: absolute;
   left: 0px;
   z-index: 1;
@@ -54,13 +54,13 @@ const SmsAuth = props => {
 
   return (
     <form onSubmit={props.handleSubmit}>
-      <SuccessOverlay verified={data.smsVerified}>
+      <SuccessOverlay verified={data.smsVerified && data.authType === '5'}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up Google Authenticator." />
+          <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up SMS Codes." />
         </Text>
       </SuccessOverlay>
-      <AuthenticatorSummary verified={data.smsVerified}>
+      <AuthenticatorSummary verified={data.smsVerified && data.authType === '5'}>
         <Header>
           <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Mobile Phone Number' />
           <Link size='14px' onClick={props.goBack}>Change</Link>

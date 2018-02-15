@@ -10,7 +10,7 @@ import { SecurityDescription, SecurityHeader } from 'components/Security'
 const AuthenticatorSummary = styled.div`
   width: 90%;
   padding: 0px 20px;
-  opacity: ${props => props.authType !== 0 ? 0.3 : 1};
+  opacity: ${props => props.success ? 0.3 : 1};
 `
 const Header = SecurityHeader.extend`
   justify-content: flex-start;
@@ -38,7 +38,7 @@ const SuccessOverlay = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  display: ${props => props.authType !== 0 ? 'flex' : 'none'};
+  display: ${props => props.success ? 'flex' : 'none'};
   position: absolute;
   left: 0px;
   z-index: 1;
@@ -66,17 +66,15 @@ const YubikeyInput = styled.input`
 `
 
 const Yubikey = props => {
-  const { data } = props
-
   return (
     <form onSubmit={props.handleSubmit}>
-      <SuccessOverlay authType={data.authType}>
+      <SuccessOverlay success={props.ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
           <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up your Yubikey!" />
         </Text>
       </SuccessOverlay>
-      <AuthenticatorSummary authType={data.authType}>
+      <AuthenticatorSummary success={props.ui.successToggled}>
         <Header>
           <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Yubikey' />
           <Link size='14px' onClick={props.goBack}>Change</Link>
@@ -106,7 +104,6 @@ const Yubikey = props => {
 }
 
 Yubikey.propTypes = {
-  // authType: PropTypes.number.isRequired,
   handleSubmit: PropTypes.func.isRequired
 }
 

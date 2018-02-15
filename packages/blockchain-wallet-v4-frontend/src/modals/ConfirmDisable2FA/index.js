@@ -13,11 +13,10 @@ class ConfirmDisable2FAContainer extends React.Component {
   }
 
   handleContinue () {
-    this.props.modalActions.clickWelcomeContinue()
+    this.props.securityCenterActions.disableTwoStep()
   }
 
   render () {
-    console.log('confirmdisable2fa', this.props)
     return (
       <ConfirmDisable2FA {...this.props} handleContinue={this.handleContinue} />
     )
@@ -25,7 +24,7 @@ class ConfirmDisable2FAContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
 const enhance = compose(

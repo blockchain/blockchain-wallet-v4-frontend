@@ -22,7 +22,8 @@ class YubikeyContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     const next = nextProps.data.data
     const prev = this.props.data.data
-    if (next.authType !== prev.authType && next.authType === 2) {
+    if (next.authType !== prev.authType) {
+      this.props.updateUI({ successToggled: true })
       setTimeout(function () {
         nextProps.goBack()
       }, 1500)
@@ -76,7 +77,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoFactor', state: { updateToggled: false } })
+  ui({ key: 'Security_TwoFactor', state: { updateToggled: false, successToggled: false } })
 )
 
 export default enhance(YubikeyContainer)
