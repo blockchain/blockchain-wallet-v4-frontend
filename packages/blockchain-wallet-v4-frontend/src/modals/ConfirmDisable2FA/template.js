@@ -28,7 +28,7 @@ const Buttons = styled(ButtonGroup)`
 `
 
 const ConfirmDisable2FA = (props) => {
-  const { position, total, close, handleDisable, ...rest } = props
+  const { position, total, close, handleContinue, ...rest } = props
   const { closeAll } = rest
 
   return (
@@ -52,7 +52,7 @@ const ConfirmDisable2FA = (props) => {
           <Text size='12px' weight={200} cursor='pointer' onClick={closeAll}>
             Close
           </Text>
-          <Button nature='logout' onClick={handleDisable}>
+          <Button nature='logout' onClick={handleContinue}>
             <FormattedMessage id='modals.disable2fa.disable' defaultMessage='Disable' />
           </Button>
         </Buttons>

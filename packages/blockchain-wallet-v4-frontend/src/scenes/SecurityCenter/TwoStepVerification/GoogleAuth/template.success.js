@@ -12,6 +12,7 @@ import { SecurityDescription, SecurityHeader } from 'components/Security'
 const AuthenticatorSummary = styled.div`
   width: 90%;
   padding: 0px 20px;
+  opacity: ${props => props.success ? 0.3 : 1};
 `
 const Header = SecurityHeader.extend`
   justify-content: flex-start;
@@ -45,7 +46,10 @@ const SuccessOverlay = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  display: ${props => props.authType === 0 ? 'flex' : 'none'}
+  display: ${props => props.success ? 'flex' : 'none'};
+  position: absolute;
+  left: 0px;
+  z-index: 1;
 `
 
 const Google = props => {
@@ -53,13 +57,13 @@ const Google = props => {
   const { googleSecret } = data
   return (
     <form onSubmit={props.handleSubmit}>
-      {/* <SuccessOverlay authType={data.authType}>
+      <SuccessOverlay success={props.ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
           <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up Google Authenticator." />
         </Text>
-      </SuccessOverlay> */}
-      <AuthenticatorSummary authType={data.authType}>
+      </SuccessOverlay>
+      <AuthenticatorSummary success={props.ui.successToggled}>
         <Header>
           <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Authenticator App' />
           <Link size='14px' onClick={props.goBack}>Change</Link>

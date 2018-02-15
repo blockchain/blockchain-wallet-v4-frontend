@@ -21,10 +21,10 @@ class SmsAuthContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     const next = nextProps.data.data
     const prev = this.props.data.data
-    if (next.smsVerified !== prev.smsVerified && next.smsNumber === prev.smsNumber) {
+    if (next.authType !== prev.authType) {
       setTimeout(function () {
         nextProps.goBack()
-      }, 1500)
+      }, 2000)
     }
   }
 
@@ -39,6 +39,7 @@ class SmsAuthContainer extends React.Component {
 
   handleGetCode () {
     this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
+    this.props.updateUI({ changeNumberToggled: false })
   }
 
   showChangeMobileNumber () {
@@ -80,7 +81,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoFactor', state: { changeNumberToggled: false } })
+  ui({ key: 'Security_TwoFactor', state: { changeNumberToggled: false, verifyMobileNumberStep: false } })
 )
 
 export default enhance(SmsAuthContainer)
