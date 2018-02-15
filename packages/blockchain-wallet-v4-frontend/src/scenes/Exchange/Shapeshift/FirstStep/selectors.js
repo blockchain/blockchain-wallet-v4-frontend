@@ -1,44 +1,33 @@
-import { sequence, concat, map, head, lift, nth, reduce } from 'ramda'
+import { concat, lift, head } from 'ramda'
 import { selectors } from 'data'
-// import { Remote } from 'blockchain-wallet-v4/src'
-
-console.log('selectors', selectors)
+import { formValueSelector } from 'redux-form'
 
 export const getData = state => {
-  const defaultBitcoinAccountIndex = selectors.core.wallet.getDefaultAccountIndex(state)
-  const defaultEthereumAccountIndex = 0
   const bitcoinAccountsBalancesR = selectors.core.common.bitcoin.getAccountsBalances(state)
   const bitcoinAddressesBalancesR = selectors.core.common.bitcoin.getAddressesBalances(state)
   const bitcoinBalancesR = lift((btcAccounts, btcAddresses) => concat(btcAccounts, btcAddresses))(bitcoinAccountsBalancesR, bitcoinAddressesBalancesR)
   const ethereumBalancesR = selectors.core.common.ethereum.getAccountBalances(state)
-  // const defaultBitcoinAccount = head(bitcoin)
 
   const transform = (bitcoinAccountsBalances, bitcoinAddressesBalances, bitcoinBalances, ethereumBalances) => {
-    const defaultBitcoinAccount = nth(defaultBitcoinAccountIndex, bitcoinAccountsBalances)
-    const defaultEthereumAccount = nth(defaultEthereumAccountIndex, ethereumBalances)
+    const defaultBitcoinAccount = head(bitcoinAccountsBalances)
+    const defaultEthereumAccount = head(ethereumBalances)
 
     return {
-      initialValues: { source: defaultBitcoinAccount, target: defaultEthereumAccount },
+      initialValues: { source: defaultBitcoinAccount, target: defaultEthereumAccount, amount: 1 },
       elements: [{
         group: 'Bitcoin',
         items: bitcoinBalances.map(x => ({ text: x.label, value: x }))
       }, {
         group: 'Ethereum',
         items: ethereumBalances.map(x => ({ text: x.label, value: x }))
-      }]
+      }],
+      bitcoinBalances,
+      ethereumBalances,
+      source: formValueSelector('exchange')(state, 'source'),
+      target: formValueSelector('exchange')(state, 'target'),
+      amount: formValueSelector('exchange')(state, 'amount')
     }
   }
 
   return lift(transform)(bitcoinAccountsBalancesR, bitcoinAddressesBalancesR, bitcoinBalancesR, ethereumBalancesR)
 }
-
-// export const getData = state => {
-//   const toDropdown = map(x => ({ text: x.label, value: x || x.xpub }))
-//   const toElements = (bitcoin, ethereum) => [{ group: 'Bitcoin', items: bitcoin }, { group: 'Ethereum', items: ethereum }]
-
-//   return sequence(Remote.of, [
-//     selectors.core.common.ethereum.getAccountBalances(state).map(toDropdown),
-//     selectors.core.common.bitcoin.getAccountsBalances(state).map(toDropdown),
-//     selectors.core.common.bitcoin.getAddressesBalances(state).map(toDropdown)
-//   ]).map(([e, b1, b2]) => ({ elements: toElements(concat(b1, b2), e), sourceDefault: head(e), targetDefault: head(b1) }))
-// }
