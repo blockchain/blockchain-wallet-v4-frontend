@@ -120,7 +120,7 @@ const renderItem = item => (
 )
 
 const FirstStep = props => {
-  const { elements, sourceCoin, targetCoin, sourceAmount, max, handleSubmit, handleSwap, invalid, submitting } = props
+  const { sourceCoin, targetCoin, elements, max, handleSubmit, handleSwap, invalid, submitting } = props
 
   return (
     <Wrapper>
@@ -152,7 +152,7 @@ const FirstStep = props => {
             <Text size='16px' weight={500}>
               <FormattedMessage id='scenes.exchange.shapeshift.firststep.amount' defaultMessage='Enter amount:' />
             </Text>
-            <Field name='amount' component={CoinConvertor} validate={[required]} sourceCoin={sourceCoin} targetCoin={targetCoin} sourceAmount={sourceAmount} max={max} />
+            <Field name='amount' component={CoinConvertor} validate={[required]} sourceCoin={sourceCoin} targetCoin={targetCoin} max={max} />
           </Cell>
         </Row>
         <Row>

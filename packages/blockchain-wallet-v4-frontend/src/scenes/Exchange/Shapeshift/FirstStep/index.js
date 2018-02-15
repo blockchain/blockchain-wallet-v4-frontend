@@ -1,14 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-// import { formValueSelector } from 'redux-form'
-import { assoc, equals, path, prop } from 'ramda'
 import * as crypto from 'crypto'
-import { getData } from './selectors'
 
-import { transactions } from 'blockchain-wallet-v4/src'
+import { getData } from './selectors'
 import { actions } from 'data'
-import { initializeForm } from './services'
+import { initializeForm, changeSource, changeTarget } from './services'
 // import FirstStep from './template.js'
 import Error from './template.error'
 import Loading from './template.loading'
@@ -20,18 +17,22 @@ class FirstStepContainer extends React.Component {
 
     this.timeout = undefined
     this.seed = crypto.randomBytes(16).toString('hex')
-    const { accounts } = this.props
-    const amount = this.props.amount || 0
-    const sourceCoin = path(['source', 'coin'], accounts) || 'BTC'
-    const targetCoin = path(['target', 'coin'], accounts) || 'ETH'
 
-    this.state = { sourceCoin, targetCoin, amount }
+    this.state = { sourceCoin: 'BTC', targetCoin: 'ETH' }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleSwap = this.handleSwap.bind(this)
   }
 
-  componentWillReceiveProps () {
-    
+  componentWillUpdate (nextProps, nextState) {
+    // Initialize form
+    initializeForm(this.props, nextProps)
+    // Update target if source changed
+    changeSource(this.props, nextProps)
+    // Update source if target changed
+    changeTarget(this.props, nextProps)
+    // Swap coins if needed
+    console.log('componentWillUpdate', nextState)
+    // swapCoin(this.props, nextProps, nextState.sourceCoin, nextState.targetCoin)
   }
 
   // componentWillReceiveProps (nextProps) {
@@ -86,7 +87,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleSwap () {
-    console.log('swap')
+    this.setState({ sourceCoin: this.state.targetCoin, targetCoin: this.state.sourceCoin })
   }
 
   render () {
@@ -110,9 +111,12 @@ class FirstStepContainer extends React.Component {
     //     // {...rest} />
     // )
     const { data } = this.props
+    const { sourceCoin, targetCoin } = this.state
 
     return data.cata({
       Success: (value) => <Success
+        sourceCoin={sourceCoin}
+        targetCoin={targetCoin}
         elements={value.elements}
         handleSwap={this.handleSwap}
       />,
