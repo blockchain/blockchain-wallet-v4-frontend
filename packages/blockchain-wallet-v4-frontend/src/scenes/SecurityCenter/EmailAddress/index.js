@@ -5,7 +5,6 @@ import { actions } from 'data'
 import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
 
-// import { Remote } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
@@ -26,11 +25,13 @@ class EmailAddressContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.data.data.verified && !this.props.data.data.verified) {
       this.props.updateUI({ verifyToggled: false })
+      this.props.alone && this.props.goBackOnSuccess()
     }
   }
 
   handleVerifyClick () {
-    this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled })
+    this.props.handleEnable()
+    this.props.updateUI({ verifyToggled: true })
   }
 
   handleResend () {
@@ -43,11 +44,11 @@ class EmailAddressContainer extends React.Component {
   }
 
   handleChangeEmailView () {
-    this.props.updateUI({ changeEmailToggled: !this.props.ui.changeEmailToggled })
+    this.props.updateUI({ changeEmailToggled: true })
   }
 
   handleEmailChangeCancel () {
-    this.props.updateUI({ changeEmailToggled: !this.props.ui.changeEmailToggled })
+    this.props.updateUI({ changeEmailToggled: false })
   }
 
   handleEmailChangeSubmit () {

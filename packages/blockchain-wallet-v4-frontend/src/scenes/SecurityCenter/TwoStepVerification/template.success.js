@@ -95,19 +95,19 @@ const Buttons = styled(ButtonGroup)`
 `
 
 const TwoStepVerification = (props) => {
-  const { ui, twoStepChoice, data, editing } = props
+  const { ui, twoStepChoice, data, editing, ...rest } = props
   const { smsVerified, authType, smsNumber } = data
   const twoFAEnabled = authType > 0
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
-      return <GoogleAuth goBack={props.handleGoBack} />
+      return <GoogleAuth goBack={props.handleGoBack} {...rest} />
     }
     if (twoStepChoice === 'yubikey') {
-      return <Yubikey goBack={props.handleGoBack} />
+      return <Yubikey goBack={props.handleGoBack} {...rest} />
     }
     if (twoStepChoice === 'sms') {
-      return <SmsAuth goBack={props.handleGoBack} />
+      return <SmsAuth goBack={props.handleGoBack} {...rest} />
     }
     return (
       <SecuritySummaryChoice>
@@ -213,12 +213,12 @@ const TwoStepVerification = (props) => {
           <SecurityIcon name='lock' enabled={twoFAEnabled} />
         </IconContainer>
         {
-          !ui.verifyToggled
+          !ui.verifyToggled && !props.alone
             ? renderInitial()
             : renderVerificationChoice()
         }
         {
-          !ui.verifyToggled
+          !ui.verifyToggled && !props.alone
             ? <SecurityComponent>
               {
                 !twoFAEnabled
@@ -234,7 +234,7 @@ const TwoStepVerification = (props) => {
         }
       </SecurityTwoStepContainer>
       {
-        ui.verifyToggled
+        ui.verifyToggled || props.alone
           ? <SecurityTip>
             <Text color='brand-primary' size='12px' weight={500}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />

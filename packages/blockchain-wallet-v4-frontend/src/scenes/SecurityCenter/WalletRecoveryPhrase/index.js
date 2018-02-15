@@ -23,7 +23,8 @@ class WalletRecoveryPhraseContainer extends React.Component {
   }
 
   toggleNextStep () {
-    this.props.updateUI({ nextStepToggled: !this.props.nextStepToggled })
+    this.props.updateUI({ nextStepToggled: true })
+    this.props.handleEnable()
   }
 
   closeSteps () {
