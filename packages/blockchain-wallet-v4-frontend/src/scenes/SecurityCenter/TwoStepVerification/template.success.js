@@ -23,7 +23,7 @@ const Choice = styled.div`
   border-radius: 6px;
   padding: 15px;
   cursor: pointer;
-  opacity: ${props => props.selected ? 1 : 1};
+  opacity: ${props => props.selected && props.editing ? 1 : !props.editing ? 1 : 0.3};
   div * {
     cursor: pointer;
   }
@@ -95,8 +95,9 @@ const Buttons = styled(ButtonGroup)`
 `
 
 const TwoStepVerification = (props) => {
-  const { ui, twoStepChoice, data } = props
-  const twoFAEnabled = data.authType > 0
+  const { ui, twoStepChoice, data, editing } = props
+  const { smsVerified, authType, smsNumber } = data
+  const twoFAEnabled = authType > 0
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
@@ -117,7 +118,7 @@ const TwoStepVerification = (props) => {
           <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification helps prevent unauthorized access to your wallet by requiring a one-time passsword after every login attempt. Enabling this option helps keep unauthorized users form being able to access your wallet.' />
         </SecurityDescription>
         {
-          data.authType === 5 && data.smsVerified
+          authType === 5 && smsVerified
             ? <DisableContainer>
               <Text weight={200} size='14px'>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with' />
@@ -125,7 +126,7 @@ const TwoStepVerification = (props) => {
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage=' for number ' />
                 {
                   !ui.changeNumberToggled
-                    ? <FlexRow><WeightedText>&nbsp;{data.smsNumber}</WeightedText>
+                    ? <FlexRow><WeightedText>&nbsp;{smsNumber}</WeightedText>
                       <Text color='brand-secondary' cursor='pointer' size='14px' onClick={props.handleChangeNumber}>Change Mobile Number</Text>
                     </FlexRow>
                     : <ChangeMobileContainer>
@@ -139,7 +140,7 @@ const TwoStepVerification = (props) => {
               </Text>
               <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Change Two-factor Authentication</Link>
             </DisableContainer>
-            : data.authType === 4 || data.authType === 1 || data.authType === 2
+            : authType === 4 || authType === 1 || authType === 2
               ? <DisableContainer>
                 <Text weight={200} size='14px'>
                   <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with' />
@@ -150,7 +151,7 @@ const TwoStepVerification = (props) => {
             : null
         }
         <TwoStepChoicesWapper>
-          <Choice selected={props.disabling && data.authType === 4} onClick={() => props.chooseMethod('google')}>
+          <Choice editing={editing} selected={authType === 4} onClick={() => props.chooseMethod('google')}>
             <Icon name='lock' size='18px' weight={400} />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
@@ -161,7 +162,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice selected={props.disabling && data.authType === 1} onClick={() => props.chooseMethod('yubikey')}>
+          <Choice editing={editing} selected={authType === 1} onClick={() => props.chooseMethod('yubikey')}>
             <Icon name='yubikey' />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
@@ -172,7 +173,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice selected={props.disabling && data.authType === '5'} onClick={() => props.chooseMethod('sms')}>
+          <Choice editing={editing} selected={authType === 5} onClick={() => props.chooseMethod('sms')}>
             <Icon name='mobile' size='18px' weight={400} />
             <ChoiceDescription>
               <Text weight={300} size='16px'>

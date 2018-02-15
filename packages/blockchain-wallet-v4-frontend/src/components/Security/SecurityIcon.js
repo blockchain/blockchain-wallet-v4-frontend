@@ -9,7 +9,7 @@ const Circle = styled.div`
   align-items: center;
   width: 74px;
   height: 74px;
-  border: 2px solid ${props => props.enabled ? props.theme['brand-primary'] : props.theme['gray-3']};
+  border: 2px solid ${props => props.enabled ? props.theme['brand-primary'] : props.theme['gray-2']};
   border-radius: 74px;
 `
 const StyledIcon = styled(Icon)`
@@ -18,7 +18,7 @@ const StyledIcon = styled(Icon)`
 
 const SecurityIcon = (props) => (
   <Circle enabled={props.enabled}>
-    <StyledIcon size='40px' color={props.enabled ? 'brand-primary' : 'gray-3'} name={props.name} />
+    <StyledIcon size='40px' color={props.enabled ? 'brand-primary' : 'gray-2'} name={props.name} />
   </Circle>
 )
 
