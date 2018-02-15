@@ -14,19 +14,26 @@ const Wrapper = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
-
-  & > :first-child { width: 45%; }
-  & > :last-child { width: 45%; }
 `
-const Column = styled.div`
+const Cell = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: ${props => props.center ? 'center' : 'flex-start'};
+  justify-content: flex-start;
   align-items: flex-start;
-  height: auto;
+  width: 45%;
+  flex-grow: 2;
+`
+const CellMiddle = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 80px;
+  flex-grow: 1;
 `
 const Container = styled.div`
   position: relative;
@@ -39,6 +46,7 @@ const Container = styled.div`
   border-bottom: 1px solid ${props => props.theme['gray-2']};
   border-left: 1px solid ${props => props.theme['gray-2']};
   border-right: 1px solid ${props => props.theme['gray-2']};
+  box-sizing: border-box;
   ${props => props.fiat && 'border-top: none;'}
 
   & > input { border: none; }
@@ -73,7 +81,7 @@ const CoinConvertor = (props) => {
   return (
     <Wrapper>
       <Row>
-        <Column>
+        <Cell>
           <Container>
             <TextInput onChange={handleChangeCoin1} value={coin1} errorState={errorState} />
             <Unit>{coin1Unit}</Unit>
@@ -82,11 +90,11 @@ const CoinConvertor = (props) => {
             <Unit>{currency}</Unit>
             <TextInput onChange={handleChangeFiat1} value={fiat1} />
           </Container>
-        </Column>
-        <Column center>
+        </Cell>
+        <CellMiddle>
           <Icon name='right-arrow' size='24px' />
-        </Column>
-        <Column>
+        </CellMiddle>
+        <Cell>
           <Container>
             <TextInput onChange={handleChangeCoin2} value={coin2} errorState={errorState} />
             <Unit>{coin2Unit}</Unit>
@@ -95,7 +103,7 @@ const CoinConvertor = (props) => {
             <Unit>{currency}</Unit>
             <TextInput onChange={handleChangeFiat2} value={fiat2} />
           </Container>
-        </Column>
+        </Cell>
       </Row>
       {/* {canExchange
         ? <MinMaxText weight={300} size='12px'>

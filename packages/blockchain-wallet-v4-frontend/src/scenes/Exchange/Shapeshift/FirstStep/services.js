@@ -1,4 +1,4 @@
-import { equals, isNil, prop } from 'ramda'
+import { isNil, prop } from 'ramda'
 
 export const initializeForm = (prevProps, nextProps) => {
   const prevData = prevProps.data.getOrElse({})
