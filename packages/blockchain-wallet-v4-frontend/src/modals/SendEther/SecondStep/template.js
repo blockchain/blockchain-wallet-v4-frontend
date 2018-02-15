@@ -39,7 +39,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = props => {
-  const { previousStep, handleSubmit, from, to, message, amount, fee } = props
+  const { previousStep, handleSubmit, from, to, message, amount, fee, total } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -79,8 +79,8 @@ const SecondStep = props => {
         <Text size='16px' weight={300} color='transferred'>
           <FormattedMessage id='modals.sendether.secondstep.total' defaultMessage='Total' />
         </Text>
-        <CoinDisplay coin='ETH' size='34px' weight={600} color='transferred'>{amount}</CoinDisplay>
-        <FiatDisplay coin='ETH' size='20px' weight={300} color='transferred'>{amount}</FiatDisplay>
+        <CoinDisplay coin='ETH' size='34px' weight={600} color='transferred'>{total}</CoinDisplay>
+        <FiatDisplay coin='ETH' size='20px' weight={300} color='transferred'>{total}</FiatDisplay>
       </Summary>
       <Footer>
         <Button type='submit' nature='primary' fullwidth uppercase>
