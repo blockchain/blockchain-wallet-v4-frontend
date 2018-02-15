@@ -25,14 +25,9 @@ export const createLegacyAddress = function * (action) {
 }
 
 export const setArchivedAddress = function * (action) {
-  const saga = sagas.core.wallet.setArchivedAddress
-  try {
-    yield call(saga, action.payload)
-    yield put(actions.alerts.displaySuccess('Address archived succesfully.'))
-  } catch (error) {
-    console.error('frontend setArchivedAddress Error', error)
-    yield put(actions.alerts.displayError('Error archiving address.'))
-  }
+  const { address } = action.payload
+  yield put(actions.core.wallet.setArchivedAddress(address))
+  yield put(actions.alerts.displaySuccess('Address archived succesfully.'))
 }
 
 export const updatePbkdf2Iterations = function * (action) {
@@ -58,7 +53,7 @@ export const toggleSecondPassword = function * (action) {
 export const verifyMmenonic = function * (action) {
   yield put(actions.core.wallet.verifyMnemonic())
   yield put(actions.modals.closeModal())
-  yield put(actions.alerts.displaySuccess('Your mnemonic has been verified !'))
+  yield put(actions.alerts.displaySuccess('Your mnemonic has been verified.'))
 }
 
 export default function * () {

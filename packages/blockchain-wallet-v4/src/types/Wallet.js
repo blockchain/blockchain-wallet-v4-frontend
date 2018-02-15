@@ -14,7 +14,7 @@ import * as HDWallet from './HDWallet'
 import * as HDAccount from './HDAccount'
 import * as Address from './Address'
 import * as AddressMap from './AddressMap'
-import * as AddressLabel from './AddressLabel'
+// import * as AddressLabel from './AddressLabel'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as HDWalletList from './HDWalletList'
 import * as HDAccountList from './HDAccountList'
@@ -162,12 +162,11 @@ export const setLegacyAddressLabel = curry((address, label, wallet) => {
   return eitherW.getOrElse(wallet)
 })
 
-// setArchivedAddress
-// archiveAddress :: Wallet -> Address -> String -> Either Error Wallet
+// archiveAddress :: String -> Wallet -> Wallet
 export const archiveAddress = curry((address, wallet) => {
-  const newWallet = over(addresses, AddressMap.archiveAddress(address), wallet)
-  debugger
-  return newWallet
+  const addressLens = compose(addresses, AddressMap.address(address))
+  const eitherW = Either.try(over(addressLens, Address.archive))(wallet)
+  return eitherW.getOrElse(wallet)
 })
 
 // deleteLegacyAddress :: String -> Wallet -> Wallet
