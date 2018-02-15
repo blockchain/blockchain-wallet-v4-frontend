@@ -5,6 +5,23 @@ import { selectors } from 'data'
 import SecurityCenter from './template.js'
 
 class SecurityCenterContainer extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.handleEnable = this.handleEnable.bind(this)
+    this.onClose = this.onClose.bind(this)
+
+    this.state = { enabling: false, editing: false }
+  }
+
+  handleEnable (step) {
+    this.setState({ enabling: step })
+  }
+
+  onClose () {
+    this.setState({ enabling: false })
+  }
+
   determineProgress () {
     const { authType, emailVerified, isMnemonicVerified } = this.props
     let progress = 0
@@ -16,7 +33,13 @@ class SecurityCenterContainer extends React.Component {
 
   render () {
     return (
-      <SecurityCenter progress={this.determineProgress()} data={this.props} />
+      <SecurityCenter progress={this.determineProgress()}
+        data={this.props}
+        editing={this.state.editing}
+        enabling={this.state.enabling}
+        handleEnable={this.handleEnable}
+        onClose={this.onClose}
+      />
     )
   }
 }

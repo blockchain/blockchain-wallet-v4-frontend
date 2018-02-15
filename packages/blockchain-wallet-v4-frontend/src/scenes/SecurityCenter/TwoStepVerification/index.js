@@ -33,7 +33,8 @@ class TwoStepVerificationContainer extends React.Component {
   }
 
   handleClick () {
-    this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled })
+    this.props.updateUI({ verifyToggled: true })
+    this.props.handleEnable()
   }
 
   handleDisableClick () {
@@ -73,7 +74,7 @@ class TwoStepVerificationContainer extends React.Component {
 
   render () {
     const { data, ...rest } = this.props
-
+    console.log('render 2fa', this.props, this.props.ui.verifyToggled, this.state.enabling)
     return data.cata({
       Success: (value) => <Success {...rest}
         data={value}

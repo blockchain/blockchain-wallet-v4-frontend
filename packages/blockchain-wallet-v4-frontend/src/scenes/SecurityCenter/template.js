@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
+import { Text, Icon } from 'blockchain-info-components'
 
 import SecuritySteps from './SecuritySteps'
 import EmailAddress from './EmailAddress'
@@ -37,10 +37,37 @@ const Title = styled(Text)`
 const IntroText = styled(Text)`
   padding: 20px 0px
 `
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+`
 
 const SecurityCenter = (props) => {
+  const { enabling } = props
+
+  const renderSteps = () => {
+    if (enabling === 'email') return <BodyContainer><EmailAddress alone={1} goBackOnSuccess={props.onClose} /></BodyContainer>
+    if (enabling === '2fa') return <BodyContainer><TwoStepVerification alone={1} goBackOnSuccess={props.onClose} /></BodyContainer>
+    if (enabling === 'recovery') return <BodyContainer><WalletRecoveryPhrase alone={1} /></BodyContainer>
+    return (
+      <BodyContainer>
+        <EmailAddress handleEnable={() => props.handleEnable('email')} alone={0} />
+        <TwoStepVerification handleEnable={() => props.handleEnable('2fa')} alone={0} />
+        <WalletRecoveryPhrase handleEnable={() => props.handleEnable('recovery')} alone={0} />
+      </BodyContainer>
+    )
+  }
+
   return (
     <Wrapper>
+      {
+        enabling
+          ? <IconContainer>
+            <Icon name='close' size='20px' weight={300} color='gray-5' cursor onClick={props.onClose} />
+          </IconContainer>
+          : null
+      }
       <TopContainer>
         <IntroContainer progress={props.progress}>
           <Title size='24px' weight={300} color='black'><FormattedMessage id='scenes.securitycenter.title' defaultMessage='Security Center' /></Title>
@@ -53,11 +80,7 @@ const SecurityCenter = (props) => {
         </IntroContainer>
         {props.progress < 3 && <SecuritySteps data={props.data} /> }
       </TopContainer>
-      <BodyContainer>
-        <EmailAddress />
-        <TwoStepVerification />
-        <WalletRecoveryPhrase />
-      </BodyContainer>
+      {renderSteps()}
     </Wrapper>
   )
 }

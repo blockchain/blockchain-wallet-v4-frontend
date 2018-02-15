@@ -8,7 +8,7 @@ import { validEmail, validEmailCode } from 'services/FormHelper'
 
 import { Field, reduxForm } from 'redux-form'
 
-import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySection, SecuritySummary } from 'components/Security'
+import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary } from 'components/Security'
 
 const EmailExplanation = styled.div`
 `
@@ -141,7 +141,7 @@ const EmailAddress = (props) => {
         <SecurityIcon name='email' enabled={isVerified} />
       </IconContainer>
       {
-        !ui.verifyToggled && !ui.changeEmailToggled
+        (!ui.verifyToggled && !ui.changeEmailToggled) && !props.alone
           ? renderInitial()
           : ui.changeEmailToggled
             ? renderChangeEmailSteps()
@@ -149,7 +149,7 @@ const EmailAddress = (props) => {
       }
       <SecurityComponent>
         {
-          !verified && !ui.verifyToggled && !ui.changeEmailToggled
+          !verified && !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
             ? <Button nature='primary' onClick={props.handleVerifyClick}>
               <FormattedMessage id='scenes.preferences.email.settings.updateform.change' defaultMessage='Enter Code' />
             </Button>
