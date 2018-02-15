@@ -31,7 +31,6 @@ export default ({ api } = {}) => {
 
   const fetchMetadataBch = function * () {
     try {
-      console.log('fetch metadata bch')
       const typeId = derivationMap[BCH]
       const mxpriv = yield select(getMetadataXpriv)
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
