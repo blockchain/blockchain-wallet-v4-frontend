@@ -1,6 +1,7 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { compose, isNil } from 'ramda'
+import { set } from 'ramda-lens'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { KVStoreEntry } from '../../../types'
@@ -15,13 +16,14 @@ export default ({ api } = {}) => {
   }
 
   const createShapeshift = function * (kv) {
-    // TOOD : empty shapeshift implementation
-    // const newEntry = {}
-    // const newkv = set(KVStoreEntry.value, newEntry, kv)
-    // yield put(A.createMetadataShapeshift(newkv))
+    const newShapeshiftEntry = {
+      trades: [],
+      USAState: ''
+    }
+    const newkv = set(KVStoreEntry.value, newShapeshiftEntry, kv)
+    yield put(A.createMetadataShapeshift(newkv))
   }
 
-  // TODO :: Missing shapeshift creation if does not exist (copy buy-sell or ether)
   const fetchMetadataShapeshift = function * () {
     try {
       const typeId = derivationMap[SHAPESHIFT]

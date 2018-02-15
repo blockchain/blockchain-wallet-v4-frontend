@@ -1,6 +1,7 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { compose, isNil } from 'ramda'
+import { set } from 'ramda-lens'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { KVStoreEntry } from '../../../types'
@@ -15,10 +16,13 @@ export default ({ api } = {}) => {
   }
 
   const createBuysell = function * (kv) {
-    // TOOD : empty buy-sell implementation
-    // const newBuysellEntry = {}
-    // const newkv = set(KVStoreEntry.value, newBuysellEntry, kv)
-    // yield put(A.createMetadataBuysell(newkv))
+    const newBuysellEntry = {
+      sfox: {},
+      coinify: {},
+      unocoin: {}
+    }
+    const newkv = set(KVStoreEntry.value, newBuysellEntry, kv)
+    yield put(A.createMetadataBuysell(newkv))
   }
 
   const fetchMetadataBuysell = function * () {

@@ -20,7 +20,7 @@ export default ({ api } = {}) => {
       default_account_idx: 0,
       accounts: [
         {
-          label: 'My first Bitcoin Cash',
+          label: 'My Bitcoin Cash Wallet',
           archived: false
         }
       ]
