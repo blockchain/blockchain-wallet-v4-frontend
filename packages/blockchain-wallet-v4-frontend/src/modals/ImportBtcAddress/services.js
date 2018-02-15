@@ -38,11 +38,12 @@ export const updateSelection = (prevProps, nextProps, seed) => {
   const nextUnit = prop('unit', nextData)
   const nextChangeAddress = prop('changeAddress', nextData)
   const nextReceiveAddress = prop('receiveAddress', nextData)
+  const value = nextCoins[0] ? nextCoins[0].value : 0
 
   if (!equals(prevCoins, nextCoins) ||
       !equals(prevTo, nextTo) ||
       !equals(prevFee, nextFee)) {
-    const satoshis = Exchange.convertBitcoinToBitcoin({ value: nextCoins[0].value, fromUnit: nextUnit, toUnit: 'SAT' }).value
+    const satoshis = Exchange.convertBitcoinToBitcoin({ value: value, fromUnit: nextUnit, toUnit: 'SAT' }).value
     const algorithm = 'selectAll'
     nextProps.dataBitcoinActions.refreshSelection(nextFee, nextCoins, satoshis, nextReceiveAddress, nextChangeAddress, algorithm, seed)
   }
