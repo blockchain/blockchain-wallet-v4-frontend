@@ -49,7 +49,7 @@ const WalletRecoveryPhrase = (props) => {
             }
           </SecurityDescription>
           {
-            ui.nextStepToggled && props.alone
+            props.alone
               ? <RecordBackupPhrase handleClose={props.handleClose} phrase={recoveryPhrase} triggerCopyChange={changeDescription} isMnemonicVerified={isMnemonicVerified} />
               : null
           }
