@@ -12,8 +12,11 @@ class ImportedAddressesContainer extends React.Component {
 
     this.handleArchive = this.handleArchive.bind(this)
   }
+
   handleArchive () {
     this.props.walletActions.setArchivedAddress(this.props.data.data[0].addr)
+  }
+
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
@@ -22,7 +25,7 @@ class ImportedAddressesContainer extends React.Component {
     const { data, ...rest } = this.props
     return (
       data.cata({
-        Success: (value) => <Success importedAddresses={value} handleClick={() => this.props.actions.showModal('ImportBtcAddress')} {...rest} />,
+        Success: (value) => <Success importedAddresses={value} handleArchive={() => this.handleArchive()} handleClick={() => this.props.actions.showModal('ImportBtcAddress')} {...rest} />,
         Failure: (message) => <div>{message}</div>,
         Loading: () => <div />,
         NotAsked: () => <div />

@@ -140,14 +140,6 @@ export const isValidSecondPwd = curry((password, wallet) => {
   }
 })
 
-// // archiveAddress :: Wallet -> Address -> String -> Either Error Wallet
-// export const archiveAddress = curry((wallet, address) => {
-  
-//   console.log('Wallet.archiveAddress', wallet, address)
-  
-//   return Either.of(append(wallet, address))
-// })
-
 // addAddress :: Wallet -> Address -> String -> Either Error Wallet
 export const addAddress = curry((wallet, address, password) => {
   let it = selectIterations(wallet)
@@ -168,6 +160,14 @@ export const setLegacyAddressLabel = curry((address, label, wallet) => {
   const addressLens = compose(addresses, AddressMap.address(address))
   const eitherW = Either.try(over(addressLens, Address.setLabel(label)))(wallet)
   return eitherW.getOrElse(wallet)
+})
+
+// setArchivedAddress
+// archiveAddress :: Wallet -> Address -> String -> Either Error Wallet
+export const archiveAddress = curry((address, wallet) => {
+  const newWallet = over(addresses, AddressMap.archiveAddress(address), wallet)
+  debugger
+  return newWallet
 })
 
 // deleteLegacyAddress :: String -> Wallet -> Wallet

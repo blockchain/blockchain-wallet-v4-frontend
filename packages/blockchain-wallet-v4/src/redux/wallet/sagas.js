@@ -10,7 +10,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
 
-import { Wrapper, Wallet, Address, HDAccount, HDWallet, HDWalletList } from '../../types'
+import { Wrapper, Wallet, Address, AddressMap, HDAccount, HDWallet, HDWalletList } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -34,16 +34,13 @@ export const walletSaga = ({ api } = {}) => {
   }
 
   const setArchivedAddress = function * ({ address }) {
-    // const archived1 = yield select(S.getArchivedAddresses)
-    // const walletContext1 = yield select(S.getWalletContext)
-    // console.log('archived1', archived1)
-    // console.log('walletContext1', walletContext1)
-    const a = Address.fromJS({addr: address})
-    Address.archive(a)
+    const wrapper = yield select(S.getWrapper)
+    const wallet = yield select(S.getWallet)
+    const addr = compose(AddressMap.selectAddress(address), Wallet.selectAddresses)(wallet)
+    const archiveAddress = wallet => Wallet.archiveAddress(addr, wallet)
+    const task = eitherToTask(Wrapper.traverseWallet(Either.of, archiveAddress, wrapper))
+    yield call(runTask, task, A.refreshWrapper)
     const walletContext = yield select(S.getWalletContext)
-    const archived = yield select(S.getArchivedAddresses)
-    console.log(`archived`, archived)
-    console.log(`walletContext`, walletContext)
     yield put(fetchData(walletContext))
   }
 

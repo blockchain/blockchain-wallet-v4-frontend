@@ -23,6 +23,10 @@ export const deleteAddress = curry((string, addressMap) =>
   pipe(AddressMap.guard, amap => amap.delete(string))(addressMap)
 )
 
+export const archiveAddress = curry((addr, addressMap) => {
+  return addressMap.update(addr.addr, (a) => Address.archive(addr))
+})
+
 // to/from js
 export const toJS = pipe(AddressMap.guard, (addressMap) => {
   const addressList = addressMap.toList()
