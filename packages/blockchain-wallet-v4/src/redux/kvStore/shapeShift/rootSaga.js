@@ -1,6 +1,6 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { compose } from 'ramda'
+import { compose, isNil } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { KVStoreEntry } from '../../../types'
@@ -14,6 +14,14 @@ export default ({ api } = {}) => {
     return yield call(compose(taskToPromise, () => task))
   }
 
+  const createShapeshift = function * (kv) {
+    // TOOD : empty shapeshift implementation
+    // const newEntry = {}
+    // const newkv = set(KVStoreEntry.value, newEntry, kv)
+    // yield put(A.createMetadataShapeshift(newkv))
+  }
+
+  // TODO :: Missing shapeshift creation if does not exist (copy buy-sell or ether)
   const fetchMetadataShapeshift = function * () {
     try {
       const typeId = derivationMap[SHAPESHIFT]
@@ -22,6 +30,11 @@ export default ({ api } = {}) => {
       yield put(A.fetchMetadataShapeshiftLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       yield put(A.fetchMetadataShapeshiftSuccess(newkv))
+      if (isNil(newkv.value)) {
+        yield call(createShapeshift, newkv)
+      } else {
+        yield put(A.fetchMetadataShapeshiftSuccess(newkv))
+      }
     } catch (e) {
       yield put(A.fetchMetadataShapeshiftFailure(e.message))
     }
