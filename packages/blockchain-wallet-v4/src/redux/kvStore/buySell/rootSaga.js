@@ -1,6 +1,6 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { compose } from 'ramda'
+import { compose, isNil } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { KVStoreEntry } from '../../../types'
@@ -14,6 +14,13 @@ export default ({ api } = {}) => {
     return yield call(compose(taskToPromise, () => task))
   }
 
+  const createBuysell = function * (kv) {
+    // TOOD : empty buy-sell implementation
+    // const newBuysellEntry = {}
+    // const newkv = set(KVStoreEntry.value, newBuysellEntry, kv)
+    // yield put(A.createMetadataBuysell(newkv))
+  }
+
   const fetchMetadataBuysell = function * () {
     try {
       const typeId = derivationMap[BUYSELL]
@@ -21,7 +28,11 @@ export default ({ api } = {}) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataBuysellLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      yield put(A.fetchMetadataBuysellSuccess(newkv))
+      if (isNil(newkv.value)) {
+        yield call(createBuysell, newkv)
+      } else {
+        yield put(A.fetchMetadataBuysellSuccess(newkv))
+      }
     } catch (e) {
       yield put(A.fetchMetadataBuysellFailure(e.message))
     }

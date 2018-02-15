@@ -32,11 +32,11 @@ export const root = ({ api } = {}) => {
       yield put(A.fetchMetadataRootLoading())
       const kv = KVStoreEntry.fromCredentials(guid, sharedKey, mainPassword)
       const newkv = yield callTask(api.fetchKVStore(kv))
+      yield put(A.fetchMetadataRootSuccess(newkv))
       if (isNil(prop('metadata', newkv.value))) { // no metadata node saved
         const createRootenhanced = secondPasswordSagaEnhancer(createRoot)
         yield call(createRootenhanced, {})
       }
-      yield put(A.fetchMetadataRootSuccess(newkv))
     } catch (e) {
       yield put(A.fetchMetadataRootFailure(e.message))
     }

@@ -16,18 +16,19 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
   const isAuth = isAuthenticated(store.getState())
   const hasChanged = (value, key) =>
     prevKVStore[key] !== nextKVStore[key] &&
-    Remote.Success.is(prevKVStore[key]) &&
+    // Remote.Success.is(prevKVStore[key]) &&
     Remote.Success.is(nextKVStore[key]) // this is to avoid detecting loading/notasked to success changes
   const changes = mapObjIndexed(hasChanged, nextKVStore)
 
   switch (true) {
     case (wasAuth && isAuth &&
-          action.type !== T.root.FETCH_METADATA_ROOT &&
+          action.type !== T.root.FETCH_METADATA_ROOT_SUCCESS &&
           action.type !== T.whatsNew.FETCH_METADATA_WHATSNEW_SUCCESS &&
-          action.type !== T.buySell.FETCH_METADATA_BUYSELL &&
-          action.type !== T.contacts.FETCH_METADATA_CONTACTS &&
-          action.type !== T.ethereum.FETCH_METADATA_ETHEREUM &&
-          action.type !== T.shapeShift.FETCH_METADATA_SHAPESHIFT &&
+          action.type !== T.buySell.FETCH_METADATA_BUYSELL_SUCCESS &&
+          action.type !== T.contacts.FETCH_METADATA_CONTACTS_SUCCESS &&
+          action.type !== T.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS &&
+          action.type !== T.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS &&
+          action.type !== T.bch.FETCH_METADATA_BCH_SUCCESS &&
           any(identity, values(changes))):
 
       const actionCreators = {
@@ -36,7 +37,8 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
         [C.BUYSELL]: A.buySell.fetchMetadataBuysellSuccess,
         [C.CONTACTS]: A.contacts.fetchMetadataContactsSuccess,
         [C.ETHEREUM]: A.ethereum.fetchMetadataEthereumSuccess,
-        [C.SHAPESHIFT]: A.shapeShift.fetchMetadataShapeshiftSuccess
+        [C.SHAPESHIFT]: A.shapeShift.fetchMetadataShapeshiftSuccess,
+        [C.BCH]: A.bch.fetchMetadataBchSuccess
       }
 
       const saveTasks = (value, key) => {

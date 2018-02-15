@@ -14,6 +14,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_METADATA_WHATSNEW_LOADING: {
       return Remote.Loading
     }
+    case AT.CREATE_METADATA_WHATSNEW:
     case AT.FETCH_METADATA_WHATSNEW_SUCCESS: {
       return Remote.Success(payload)
     }
