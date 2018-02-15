@@ -86,14 +86,14 @@ const Login = (props) => {
           <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
         </Text>
         <Field name='password' validate={[required]} component={PasswordBox} />
-        { authType &&
+        { authType > 0 &&
           <Text size='14px' weight={500}>
             { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
             { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
             { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
           </Text>
         }
-        { authType &&
+        { authType > 0 &&
           <Field name='code' validate={[required]} component={TextBox} />
         }
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>

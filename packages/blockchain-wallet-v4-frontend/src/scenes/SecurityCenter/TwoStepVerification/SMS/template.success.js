@@ -54,13 +54,13 @@ const SmsAuth = props => {
 
   return (
     <form onSubmit={props.handleSubmit}>
-      <SuccessOverlay verified={data.smsVerified && data.authType === '5'}>
+      <SuccessOverlay verified={data.smsVerified && data.authType === 5}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
           <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up SMS Codes." />
         </Text>
       </SuccessOverlay>
-      <AuthenticatorSummary verified={data.smsVerified && data.authType === '5'}>
+      <AuthenticatorSummary verified={data.smsVerified && data.authType === 5}>
         <Header>
           <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Mobile Phone Number' />
           <Link size='14px' onClick={props.goBack}>Change</Link>

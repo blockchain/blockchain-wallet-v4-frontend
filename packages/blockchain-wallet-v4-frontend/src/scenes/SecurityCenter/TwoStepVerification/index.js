@@ -23,12 +23,13 @@ class TwoStepVerificationContainer extends React.Component {
     this.handleDisableClick = this.handleDisableClick.bind(this)
     this.handleTwoFactorChange = this.handleTwoFactorChange.bind(this)
 
-    this.state = { authMethod: '', authName: '', disabling: false }
+    this.state = { authMethod: '', authName: '', editing: false }
   }
   componentWillMount () {
-    if (this.props.data.data.authType === 4) this.setState({ authName: 'Authenticator App' })
-    if (this.props.data.data.authType === 1) this.setState({ authName: 'Yubikey' })
-    if (this.props.data.data.authType === 5) this.setState({ authName: 'SMS Codes' })
+    const data = this.props.data.data
+    if (data.authType === 4) this.setState({ authName: 'Authenticator App' })
+    if (data.authType === 5) this.setState({ authName: 'SMS Codes' })
+    if (data.authType === 1 || data.authType === 2) this.setState({ authName: 'Yubikey' })
   }
 
   handleClick () {
@@ -37,7 +38,7 @@ class TwoStepVerificationContainer extends React.Component {
 
   handleDisableClick () {
     this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled })
-    this.setState({ disabling: true })
+    this.setState({ editing: true })
   }
 
   chooseMethod (method) {
@@ -67,6 +68,7 @@ class TwoStepVerificationContainer extends React.Component {
 
   handleTwoFactorChange () {
     this.props.modalActions.showModal('ConfirmDisable2FA', { authName: this.state.authName })
+    this.setState({ editing: false })
   }
 
   render () {
@@ -85,7 +87,7 @@ class TwoStepVerificationContainer extends React.Component {
         handleTwoFactorChange={this.handleTwoFactorChange}
         twoStepChoice={this.state.authMethod}
         authName={this.state.authName}
-        disabling={this.state.disabling}
+        editing={this.state.editing}
         />,
       Failure: (message) => <Error {...rest}
         message={message} />,
