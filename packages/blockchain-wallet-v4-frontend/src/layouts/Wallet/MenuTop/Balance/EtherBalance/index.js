@@ -18,9 +18,10 @@ class EtherBalance extends React.Component {
   }
 
   render () {
-    const { data } = this.props
+    const { data, large } = this.props
+
     return data.cata({
-      Success: (value) => <Success balance={value} />,
+      Success: (value) => <Success balance={value} large={large} />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

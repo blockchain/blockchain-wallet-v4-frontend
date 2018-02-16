@@ -75,7 +75,7 @@ const Dropdown = props => {
     <Wrapper uppercase={uppercase}>
       <DropdownList toggled={toggled} down={down}>
         { items.map((item, index) => {
-          return <DropdownItem key={index} onClick={handleCallback.bind(null, item)}>{item.text}</DropdownItem>
+          return (<DropdownItem key={index} onClick={handleCallback.bind(null, item)}>{ item.text }</DropdownItem>)
         })}
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>

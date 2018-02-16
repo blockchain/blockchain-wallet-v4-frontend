@@ -9,13 +9,18 @@ import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class WalletLayout extends React.Component {
   componentWillMount () {
-    this.props.kvStoreEthereumActions.fetchMetadataEthereum()
-    this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
-    this.props.optionsActions.fetchOptions()
-    this.props.settingsActions.fetchSettings()
+    if (!Remote.Success.is(this.props.data)) {
+      // this is needed because otherwise sign up calls two times component will mount (investigate why)
+      this.props.kvStoreBchActions.fetchMetadataBch()
+      this.props.kvStoreEthereumActions.fetchMetadataEthereum()
+      this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
+      this.props.optionsActions.fetchOptions()
+      this.props.settingsActions.fetchSettings()
+    }
   }
 
   render () {
@@ -47,6 +52,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  kvStoreBchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   kvStoreEthereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
   kvStoreWhatsnewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch),
   optionsActions: bindActionCreators(actions.core.walletOptions, dispatch),
