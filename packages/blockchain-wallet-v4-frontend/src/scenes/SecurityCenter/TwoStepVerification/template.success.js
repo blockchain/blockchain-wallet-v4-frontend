@@ -12,7 +12,7 @@ import SmsAuth from './SMS'
 
 // import { shake } from 'react-animations'
 
-import Choices from './Components/Choices/index'
+import Choices from '../Components/Choices/index'
 
 // const shakeAnimation = keyframes`${shake}`
 
@@ -148,6 +148,7 @@ const TwoStepVerification = (props) => {
               </DisableLinkContainer>
             : null
         }
+        {/* component for the three 2FA choices */}
         <Choices authType={authType} editing={editing} chooseMethod={props.chooseMethod} />
       </SecuritySummaryChoice>
     )
