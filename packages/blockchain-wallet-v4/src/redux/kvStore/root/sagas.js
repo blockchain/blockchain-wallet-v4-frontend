@@ -18,22 +18,27 @@ export const root = ({ api } = {}) => {
       const getMetadataNode = compose(KVStoreEntry.deriveMetadataNode, KVStoreEntry.getMasterHDNode)
       const metadataNode = getMetadataNode(seedHex)
       const metadata = metadataNode.toBase58()
-      yield put(A.update({ metadata }))
+      yield put(A.updateMetadataRoot({ metadata }))
     } else {
       throw new Error('create root Metadata :: Error decrypting mnemonic')
     }
   }
 
   const fetchRoot = function * (secondPasswordSagaEnhancer) {
-    const guid = yield select(getGuid)
-    const sharedKey = yield select(getSharedKey)
-    const mainPassword = yield select(getMainPassword)
-    const kv = KVStoreEntry.fromCredentials(guid, sharedKey, mainPassword)
-    const newkv = yield callTask(api.fetchKVStore(kv))
-    yield put(A.set(newkv))
-    if (isNil(prop('metadata', newkv.value))) { // no metadata node saved
-      const createRootenhanced = secondPasswordSagaEnhancer(createRoot)
-      yield call(createRootenhanced, {})
+    try {
+      const guid = yield select(getGuid)
+      const sharedKey = yield select(getSharedKey)
+      const mainPassword = yield select(getMainPassword)
+      yield put(A.fetchMetadataRootLoading())
+      const kv = KVStoreEntry.fromCredentials(guid, sharedKey, mainPassword)
+      const newkv = yield callTask(api.fetchKVStore(kv))
+      yield put(A.fetchMetadataRootSuccess(newkv))
+      if (isNil(prop('metadata', newkv.value))) { // no metadata node saved
+        const createRootenhanced = secondPasswordSagaEnhancer(createRoot)
+        yield call(createRootenhanced, {})
+      }
+    } catch (e) {
+      yield put(A.fetchMetadataRootFailure(e.message))
     }
   }
 
