@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Button, Text, Link } from 'blockchain-info-components'
+import { Button, Text, Link, Icon } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 
 import { validEmail, validEmailCode } from 'services/FormHelper'
@@ -39,6 +39,12 @@ const CancelText = ChangeEmailText.extend`
 `
 const EmailChangeWarning = styled(Text)`
   margin-top: 25px;
+  background: #FFCF62;
+  padding: 5px;
+  width: 130%;
+  span:first-of-type {
+    padding-right: 5px;
+  }
 `
 const IconContainer = styled.div`
   display: flex;
@@ -96,7 +102,8 @@ const EmailAddress = (props) => {
             <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Change' />
           </Button>
         </ChangeEmailWrapper>
-        <EmailChangeWarning size='12px' weight={400} color='error'>
+        <EmailChangeWarning size='12px' weight={200}>
+          <Icon name='alert' />
           <FormattedMessage id='scenes.security.email.changeemail' defaultMessage='This will change your wallets email address, but the email address you signed up to Buy Bitcoin with will remain the same.' />
         </EmailChangeWarning>
       </SecuritySummary>
