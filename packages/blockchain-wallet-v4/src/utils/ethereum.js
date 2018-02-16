@@ -25,4 +25,7 @@ export const getLegacyPrivateKey = mnemonic => {
 }
 
 export const privateKeyToAddress = pk =>
-  EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex'))
+  EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex')).toLowerCase()
+
+export const deriveAddress = (mnemonic, index) =>
+  privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())

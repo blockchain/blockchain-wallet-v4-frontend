@@ -18,7 +18,6 @@ const Wrapper = styled.div`
   font-size: 13px;
   text-transform: uppercase;
   color: ${props => props.theme['gray-4']};
-  overflow-y: scroll;
 `
 const Menu = styled.ul`
   list-style: none;
