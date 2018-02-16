@@ -13,6 +13,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_METADATA_SHAPESHIFT_LOADING: {
       return Remote.Loading
     }
+    case AT.CREATE_METADATA_SHAPESHIFT:
     case AT.FETCH_METADATA_SHAPESHIFT_SUCCESS: {
       return Remote.Success(payload)
     }

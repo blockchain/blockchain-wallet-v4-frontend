@@ -13,6 +13,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_METADATA_BCH_LOADING: {
       return Remote.Loading
     }
+    case AT.CREATE_METADATA_BCH:
     case AT.FETCH_METADATA_BCH_SUCCESS: {
       return Remote.Success(payload)
     }
