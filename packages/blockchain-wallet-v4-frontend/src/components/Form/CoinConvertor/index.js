@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { equals } from 'ramda'
 
 import { convertCoin1, convertCoin2, convertFiat1, convertFiat2 } from './conversion'
 import { actions } from 'data'
@@ -25,11 +26,10 @@ class CoinConvertorContainer extends React.Component {
     this.handleClickMaximum = this.handleClickMaximum.bind(this)
   }
 
-  componentWillMount () {
-    this.props.bitcoinDataActions.fetchFee()
-    this.props.ethereumDataActions.fetchFee()
-    this.props.shapeshiftDataActions.fetchBtcEth()
-    this.props.shapeshiftDataActions.fetchEthBtc()
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.sourceCoin, nextProps.sourceCoin)) {
+      this.setState({ coin1: '', coin2: '', fiat1: '', fiat2: '' })
+    }
   }
 
   update (data) {
@@ -90,6 +90,7 @@ class CoinConvertorContainer extends React.Component {
       fiat2={fiat2}
       coin1Unit={coin1Unit}
       coin2Unit={coin2Unit}
+      currency={value.currency}
       handleChangeCoin1={this.handleChangeCoin1}
       handleChangeCoin2={this.handleChangeCoin2}
       handleChangeFiat1={this.handleChangeFiat1}

@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux'
 import * as crypto from 'crypto'
 
 import { getData } from './selectors'
-import { actions } from 'data'
-import { initializeForm, changeCoin, swapCoin } from './services'
+import { actions, selectors } from 'data'
+import { initializeForm, changeCoin, swapCoin, updateEffectiveBalance } from './services'
 // import FirstStep from './template.js'
 import Error from './template.error'
 import Loading from './template.loading'
@@ -20,27 +20,28 @@ class FirstStepContainer extends React.Component {
     this.handleSwap = this.handleSwap.bind(this)
   }
 
+  componentWillMount () {
+    this.props.dataBitcoinActions.fetchFee()
+    this.props.dataBitcoinActions.fetchRates()
+    this.props.dataEthereumActions.fetchFee()
+    this.props.dataEthereumActions.fetchRates()
+    this.props.shapeshiftDataActions.fetchBtcEth()
+    this.props.shapeshiftDataActions.fetchEthBtc()
+  }
+
   componentWillUpdate (nextProps, nextState) {
     // Initialize form
     initializeForm(this.props, nextProps)
     // // Update target/source if source/target has changed
     changeCoin(this.props, nextProps)
+    // Update effective balance
+    updateEffectiveBalance(this.props, nextProps)
   }
 
   // componentWillReceiveProps (nextProps) {
   //   const { accounts, amount, ethFeeRegular, gasLimit, bitcoinFeeValues } = nextProps
 
   //   if (accounts) {
-  //     const sourceCoin = path(['source', 'coin'], accounts)
-  //     const targetCoin = path(['target', 'coin'], accounts)
-
-  //     if (!equals(this.props.accounts, accounts)) {
-  //       this.setState({
-  //         sourceCoin,
-  //         targetCoin
-  //       })
-  //     }
-
   //     if (!equals(this.props.ethFeeRegular, ethFeeRegular) ||
   //       !equals(this.props.gasLimit, gasLimit) ||
   //       (ethFeeRegular && gasLimit)
@@ -66,13 +67,6 @@ class FirstStepContainer extends React.Component {
   //       }
   //     }
   //   }
-
-  //   if (amount && !equals(this.props.amount, amount)) {
-  //     this.setState({
-  //       amount
-  //     })
-  //   }
-  // }
 
   handleSubmit () {
     this.props.nextStep()
@@ -110,10 +104,14 @@ class FirstStepContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  coins: selectors.core.data.bitcoin.getCoins(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  shapeshiftDataActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

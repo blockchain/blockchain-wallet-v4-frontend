@@ -31,6 +31,8 @@ const Row = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+
+  margin-bottom: 20px;
 `
 const Cell = styled.div`
   display: flex;
@@ -132,7 +134,7 @@ const FirstStep = props => {
       <Form onSubmit={handleSubmit}>
         <Row>
           <Cell>
-            <Text size='16px' weight={500}>
+            <Text size='14px' weight={400}>
               <FormattedMessage id='scenes.exchange.shapeshift.firststep.from' defaultMessage='Exchange:' />
             </Text>
             <Field name='source' component={SelectBox} elements={elements} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} />
@@ -141,7 +143,7 @@ const FirstStep = props => {
             <Icon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
           </CellMiddle>
           <Cell>
-            <Text size='16px' weight={500}>
+            <Text size='14px' weight={400}>
               <FormattedMessage id='scenes.exchange.shapeshift.firststep.to' defaultMessage='Receive:' />
             </Text>
             <Field name='target' component={SelectBox} elements={elements} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} />
@@ -149,7 +151,7 @@ const FirstStep = props => {
         </Row>
         <Row>
           <Cell fullwidth>
-            <Text size='16px' weight={500}>
+            <Text size='14px' weight={400}>
               <FormattedMessage id='scenes.exchange.shapeshift.firststep.amount' defaultMessage='Enter amount:' />
             </Text>
             <Field name='amount' component={CoinConvertor} validate={[required]} sourceCoin={sourceCoin} targetCoin={targetCoin} max={max} />

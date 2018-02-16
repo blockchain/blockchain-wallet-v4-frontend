@@ -29,15 +29,6 @@ export default ({ api } = {}) => {
     }
   }
 
-  // const getTradeStatus = function * (address) {
-  //   const response = yield call(api.getTradeStatus, address)
-  //   yield put(A.setTradeStatus(response))
-  // }
-
-  // const fetchTradesStatuses = function * ({ addresses }) {
-  //   yield all(map(a => call(getTradeStatus, a), addresses))
-  // }
-
   const fetchTradeStatus = function * (action) {
     const { address } = action.payload
     try {
@@ -50,10 +41,35 @@ export default ({ api } = {}) => {
     }
   }
 
+  const fetchShapeshiftOrder = function * (action) {
+    try {
+      const { depositAmount, pair, returnAddress, withdrawal } = action.payload
+      const data = yield call(api.createQuote, depositAmount, pair, returnAddress, withdrawal)
+      yield put(A.fetchShapeshiftOrderLoading())
+      yield call(delay, delayAjax)
+      yield put(A.fetchShapeshiftOrderSuccess(data))
+    } catch (e) {
+      yield put(A.fetchShapeshiftOrderFailure(e.message))
+    }
+  }
+
+  const fetchShapeshiftQuotation = function * (action) {
+    try {
+      const { depositAmount, pair } = action.payload
+      const data = yield call(api.createQuote, depositAmount, pair)
+      yield put(A.fetchShapeshiftQuotationLoading())
+      yield call(delay, delayAjax)
+      yield put(A.fetchShapeshiftQuotationSuccess(data))
+    } catch (e) {
+      yield put(A.fetchShapeshiftQuotationFailure(e.message))
+    }
+  }
+
   return function * () {
     yield takeLatest(AT.FETCH_BTC_ETH, fetchBtcEth)
     yield takeLatest(AT.FETCH_ETH_BTC, fetchEthBtc)
-    // yield takeLatest(AT.FETCH_TRADES_STATUSES, fetchTradesStatuses)
     yield takeEvery(AT.FETCH_TRADE_STATUS, fetchTradeStatus)
+    yield takeEvery(AT.FETCH_SHAPESHIFT_ORDER, fetchShapeshiftOrder)
+    yield takeEvery(AT.FETCH_SHAPESHIFT_QUOTATION, fetchShapeshiftQuotation)
   }
 }
