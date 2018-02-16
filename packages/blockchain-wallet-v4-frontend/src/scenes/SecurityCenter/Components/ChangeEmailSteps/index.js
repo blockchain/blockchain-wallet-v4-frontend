@@ -25,7 +25,7 @@ const CancelText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
 `
-const EmailChangeWarning = styled(Text) `
+const EmailChangeWarning = styled(Text)`
   margin-top: 25px;
   background: #FFCF62;
   padding: 5px;

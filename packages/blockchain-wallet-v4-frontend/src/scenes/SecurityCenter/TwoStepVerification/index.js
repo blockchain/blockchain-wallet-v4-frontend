@@ -31,6 +31,9 @@ class TwoStepVerificationContainer extends React.Component {
     if (data.authType === 4) this.setState({ authName: 'Authenticator App' })
     if (data.authType === 5) this.setState({ authName: 'SMS Codes' })
     if (data.authType === 1 || data.authType === 2) this.setState({ authName: 'Yubikey' })
+    if (data.authType > 0 && this.props.data.data.authType === 0) {
+      this.setState({ editing: true })
+    }
   }
 
   handleClick () {
