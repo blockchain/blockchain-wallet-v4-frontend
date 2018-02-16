@@ -43,7 +43,7 @@ const VerificationContainer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, position, showSuccess, close, submitting, invalid, phrase, handleClose, ...rest } = props
+  const { previousStep, position, showSuccess, close, submitting, invalid, phrase, goBackOnSuccess, ...rest } = props
   const { indexes, onSubmit, isMnemonicVerified } = rest
   return (
     <Form onSubmit={onSubmit}>
@@ -79,7 +79,7 @@ const ThirdStep = (props) => {
             </Link>
             : null
           }
-          <Link size='12px' weight={300} onClick={handleClose}>
+          <Link size='12px' weight={300} onClick={goBackOnSuccess}>
             <FormattedMessage id='modals.recoveryphrase.thirdstep.skipfornow' defaultMessage="Skip for now, I'll do this later" />
           </Link>
         </Buttons>
@@ -92,7 +92,7 @@ ThirdStep.propTypes = {
   indexes: PropTypes.array.isRequired,
   phrase: PropTypes.array.isRequired,
   previousStep: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired,
+  goBackOnSuccess: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired
 }
 

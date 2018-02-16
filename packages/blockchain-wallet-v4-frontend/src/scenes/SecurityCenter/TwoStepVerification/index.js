@@ -25,8 +25,9 @@ class TwoStepVerificationContainer extends React.Component {
 
     this.state = { authMethod: '', authName: '', editing: false }
   }
-  componentWillMount () {
-    const data = this.props.data.data
+
+  componentWillReceiveProps (nextProps) {
+    const data = nextProps.data.data
     if (data.authType === 4) this.setState({ authName: 'Authenticator App' })
     if (data.authType === 5) this.setState({ authName: 'SMS Codes' })
     if (data.authType === 1 || data.authType === 2) this.setState({ authName: 'Yubikey' })
