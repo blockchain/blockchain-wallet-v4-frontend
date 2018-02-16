@@ -162,7 +162,7 @@ const TwoStepVerification = (props) => {
               </Text>
             </ChoiceDescription>
           </Choice>
-          <Choice editing={editing} selected={authType === 1} onClick={() => props.chooseMethod('yubikey')}>
+          <Choice editing={editing} selected={authType === 1 || authType === 2} onClick={() => props.chooseMethod('yubikey')}>
             <Icon name='yubikey' />
             <ChoiceDescription>
               <Text weight={300} size='16px'>
