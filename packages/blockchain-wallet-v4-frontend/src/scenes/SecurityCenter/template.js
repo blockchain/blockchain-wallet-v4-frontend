@@ -49,7 +49,7 @@ const SecurityCenter = (props) => {
   const renderSteps = () => {
     if (enabling === 'email') return <BodyContainer><EmailAddress alone={1} goBackOnSuccess={props.onClose} /></BodyContainer>
     if (enabling === '2fa') return <BodyContainer><TwoStepVerification alone={1} goBackOnSuccess={props.onClose} /></BodyContainer>
-    if (enabling === 'recovery') return <BodyContainer><WalletRecoveryPhrase alone={1} /></BodyContainer>
+    if (enabling === 'recovery') return <BodyContainer><WalletRecoveryPhrase alone={1} goBackOnSuccess={props.onClose} /></BodyContainer>
     return (
       <BodyContainer>
         <EmailAddress handleEnable={() => props.handleEnable('email')} alone={0} />

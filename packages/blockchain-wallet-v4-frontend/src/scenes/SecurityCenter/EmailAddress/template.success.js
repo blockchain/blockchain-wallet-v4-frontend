@@ -114,9 +114,9 @@ const EmailAddress = (props) => {
             <EmailExplanation>
               <FormattedMessage id='scenes.security.email.verifieddescription' defaultMessage='You’ve verified ' />
               {email}
-              <FormattedMessage id='scenes.security.email.verifieddescription2' defaultMessage='. If you’d like to update your email, click ‘Change’ on the right to get started with your new email.' />
+              <FormattedMessage id='scenes.security.email.verifieddescription2' defaultMessage='. If you’d like to update your email, click ‘Change’ on the right to get started with your new email. ' />
             </EmailExplanation>
-            <FormattedMessage id='scenes.security.email.verifieddescription3' defaultMessage='We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
+            <FormattedMessage id='scenes.security.email.verifieddescription3' defaultMessage=' We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
           </SecurityDescription>
         </SecuritySummary>
         : <SecuritySummary>
@@ -156,7 +156,7 @@ const EmailAddress = (props) => {
             : null
         }
         {
-          !ui.verifyToggled && !ui.changeEmailToggled
+          !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
             ? <ChangeEmailText color='brand-secondary' size='12px' weight={300} onClick={props.handleChangeEmailView}>
               <FormattedMessage id='scenes.securitycenter.email.upateform.changetext' defaultMessage='Change Your Email' />
             </ChangeEmailText>

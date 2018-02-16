@@ -31,7 +31,7 @@ class EmailAddressContainer extends React.Component {
 
   handleVerifyClick () {
     this.props.handleEnable()
-    this.props.updateUI({ verifyToggled: true })
+    // this.props.updateUI({ verifyToggled: true })
   }
 
   handleResend () {

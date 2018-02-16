@@ -34,7 +34,7 @@ const Buttons = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { nextStep, handleClose } = props
+  const { nextStep, goBackOnSuccess } = props
 
   return (
     <FirstStepContainer>
@@ -52,7 +52,7 @@ const FirstStep = (props) => {
         <Button nature='primary' onClick={nextStep}>
           <FormattedMessage id='modals.recoveryphrase.firststep.logout' defaultMessage='Start Backup Phrase' />
         </Button>
-        <Link size='12px' weight={300} onClick={handleClose}>
+        <Link size='12px' weight={300} onClick={goBackOnSuccess}>
           <FormattedMessage id='modals.recoveryphrase.firststep.cancel' defaultMessage="Skip for now, I'll do this later" />
         </Link>
       </Buttons>

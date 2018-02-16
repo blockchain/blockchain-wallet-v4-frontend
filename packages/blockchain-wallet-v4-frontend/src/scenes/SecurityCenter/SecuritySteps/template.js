@@ -27,6 +27,7 @@ const StepText = styled(Text)`
   display: flex;
   flex-direction: column;
   max-width: 86px;
+  margin-left: 5px;
 `
 
 const SecuritySteps = (props) => {
@@ -34,7 +35,7 @@ const SecuritySteps = (props) => {
   return (
     <Wrapper>
       <Circle>
-        {emailVerified && <Icon name='checkmark' color='success' size='30px' />}
+        {emailVerified > 0 && <Icon name='checkmark' color='success' size='30px' />}
       </Circle>
       <StepText color='brand-primary' size='12px' weight={300}>
         <FormattedMessage id='scenes.securitycenter.step1' defaultMessage='Verify Email Address' />

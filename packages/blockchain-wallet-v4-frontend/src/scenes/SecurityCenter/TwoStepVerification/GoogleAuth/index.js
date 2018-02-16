@@ -44,14 +44,15 @@ class GoogleAuthContainer extends React.Component {
   }
 
   render () {
-    const { data, ...rest } = this.props
+    const { data, ui, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Google {...rest}
+      Success: (value) => <Google
         data={value}
         handleClick={this.handleClick}
         handleSubmit={this.handleSubmit}
         goBack={this.props.goBack}
+        ui={ui}
       />,
       Failure: (message) => <Error {...rest}
         message={message} />,

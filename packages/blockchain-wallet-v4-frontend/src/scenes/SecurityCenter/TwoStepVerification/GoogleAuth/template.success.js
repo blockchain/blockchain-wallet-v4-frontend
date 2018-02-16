@@ -88,7 +88,7 @@ const Google = props => {
             <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Enter the random number presented below' />
           </Text>
           <QRInputWrapper>
-            <Field name='authCode' validate={[]} component={TextBox} placeholder='123AB' />
+            <Field name='authCode' component={TextBox} placeholder='123AB' />
             <Button nature='primary' onClick={props.handleSubmit}>Verify Code</Button>
           </QRInputWrapper>
         </QRCodeContainer>

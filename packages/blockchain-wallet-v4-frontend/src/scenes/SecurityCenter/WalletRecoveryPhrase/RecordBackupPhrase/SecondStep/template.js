@@ -39,7 +39,7 @@ const Buttons = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { nextStep, handleClickNext, handleClose, step, words } = props
+  const { nextStep, handleClickNext, goBackOnSuccess, step, words } = props
   return (
     <Wrapper>
       <Container>
@@ -67,7 +67,7 @@ const SecondStep = (props) => {
               </Text>
             </Button>
         }
-        <Link size='12px' weight={300} onClick={handleClose}>
+        <Link size='12px' weight={300} onClick={goBackOnSuccess}>
           <FormattedMessage id='modals.recoveryphrase.firststep.cancel' defaultMessage="Skip for now, I'll do this later" />
         </Link>
       </Buttons>
