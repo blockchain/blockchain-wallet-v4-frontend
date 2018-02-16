@@ -44,7 +44,7 @@ function Choices (props) {
           </Text>
         </ChoiceDescription>
       </Choice>
-      <Choice editing={editing} selected={authType === 1 || authType === 2} onClick={() => props.chooseMethod('yubikey')}>
+      <Choice editing={editing} selected={authType === 1 || authType === 2} onClick={editing && authType > 0 ? null : () => props.chooseMethod('yubikey')}>
         <Icon name='yubikey' />
         <ChoiceDescription>
           <Text weight={300} size='16px'>
@@ -55,7 +55,7 @@ function Choices (props) {
           </Text>
         </ChoiceDescription>
       </Choice>
-      <Choice editing={editing} selected={authType === 5} onClick={() => props.chooseMethod('sms')}>
+      <Choice editing={editing} selected={authType === 5} onClick={editing && authType > 0 ? null : () => props.chooseMethod('sms')}>
         <Icon name='mobile' size='18px' weight={400} />
         <ChoiceDescription>
           <Text weight={300} size='16px'>
