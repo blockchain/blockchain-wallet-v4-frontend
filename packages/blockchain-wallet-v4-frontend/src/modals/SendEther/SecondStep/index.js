@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import settings from 'config'
 import { getData } from './selectors'
-import SecondStep from './template'
+import SendConfirm from 'components/SendConfirm'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
@@ -23,9 +23,8 @@ class SecondStepContainer extends React.Component {
   }
 
   render () {
-    const { data, ...rest } = this.props
-    console.log('Total', data.total)
-    return <SecondStep {...data} {...rest} handleSubmit={this.handleSubmit} />
+    const { data, modalActions, ...rest } = this.props
+    return <SendConfirm {...data} {...rest} handleSubmit={this.handleSubmit} coin='ETH' closeAll={modalActions.closeAllModals} />
   }
 }
 
@@ -34,7 +33,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch)
+  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)
