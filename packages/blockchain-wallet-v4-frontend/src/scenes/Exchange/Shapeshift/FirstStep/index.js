@@ -5,7 +5,7 @@ import * as crypto from 'crypto'
 
 import { getData } from './selectors'
 import { actions } from 'data'
-import { initializeForm, changeSource, changeTarget } from './services'
+import { initializeForm, changeCoin, swapCoin } from './services'
 // import FirstStep from './template.js'
 import Error from './template.error'
 import Loading from './template.loading'
@@ -14,11 +14,8 @@ import Success from './template.success'
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
-
     this.timeout = undefined
     this.seed = crypto.randomBytes(16).toString('hex')
-
-    this.state = { sourceCoin: 'BTC', targetCoin: 'ETH' }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleSwap = this.handleSwap.bind(this)
   }
@@ -26,13 +23,8 @@ class FirstStepContainer extends React.Component {
   componentWillUpdate (nextProps, nextState) {
     // Initialize form
     initializeForm(this.props, nextProps)
-    // Update target if source changed
-    changeSource(this.props, nextProps)
-    // Update source if target changed
-    changeTarget(this.props, nextProps)
-    // Swap coins if needed
-    console.log('componentWillUpdate', nextState)
-    // swapCoin(this.props, nextProps, nextState.sourceCoin, nextState.targetCoin)
+    // // Update target/source if source/target has changed
+    changeCoin(this.props, nextProps)
   }
 
   // componentWillReceiveProps (nextProps) {
@@ -87,7 +79,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleSwap () {
-    this.setState({ sourceCoin: this.state.targetCoin, targetCoin: this.state.sourceCoin })
+    swapCoin(this.props)
   }
 
   render () {
@@ -101,22 +93,12 @@ class FirstStepContainer extends React.Component {
     // console.log('data', this.props.data)
     // const { sourceCoin, targetCoin, amount } = this.state
 
-    // return (
-    //   <FirstStep
-    //     sourceCoin={sourceCoin}
-    //     targetCoin={targetCoin}
-    //     sourceAmount={amount} />
-    //     // handleSubmit={this.handleSubmit}
-    //     // max={effectiveBalance}
-    //     // {...rest} />
-    // )
     const { data } = this.props
-    const { sourceCoin, targetCoin } = this.state
 
     return data.cata({
       Success: (value) => <Success
-        sourceCoin={sourceCoin}
-        targetCoin={targetCoin}
+        sourceCoin={value.sourceCoin}
+        targetCoin={value.targetCoin}
         elements={value.elements}
         handleSwap={this.handleSwap}
       />,
@@ -128,20 +110,11 @@ class FirstStepContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  // accounts: formValueSelector('exchange')(state, 'accounts'),
-  // amount: formValueSelector('exchange')(state, 'amount'),
-  // ethFeeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
-  // gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0,
-  // bitcoinFeeValues: selectors.core.data.bitcoin.getFee(state),
-  // etherBalance: selectors.core.data.ethereum.getBalance(state),
-  // bitcoinEffectiveBalance: selectors.core.data.bitcoin.getEffectiveBalance(state) || 0
   data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  // exchangeActions: bindActionCreators(actions.modules.exchange, dispatch),
-  // sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)

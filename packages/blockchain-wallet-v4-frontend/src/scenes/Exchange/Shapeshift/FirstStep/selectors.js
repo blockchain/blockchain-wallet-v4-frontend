@@ -1,4 +1,4 @@
-import { concat, lift, head } from 'ramda'
+import { concat, lift, head, prop } from 'ramda'
 import { selectors } from 'data'
 import { formValueSelector } from 'redux-form'
 
@@ -11,7 +11,9 @@ export const getData = state => {
   const transform = (bitcoinAccountsBalances, bitcoinAddressesBalances, bitcoinBalances, ethereumBalances) => {
     const defaultBitcoinAccount = head(bitcoinAccountsBalances)
     const defaultEthereumAccount = head(ethereumBalances)
-
+    const source = formValueSelector('exchange')(state, 'source')
+    const target = formValueSelector('exchange')(state, 'target')
+    const amount = formValueSelector('exchange')(state, 'amount')
     return {
       initialValues: { source: defaultBitcoinAccount, target: defaultEthereumAccount, amount: 1 },
       elements: [{
@@ -23,9 +25,11 @@ export const getData = state => {
       }],
       bitcoinBalances,
       ethereumBalances,
-      source: formValueSelector('exchange')(state, 'source'),
-      target: formValueSelector('exchange')(state, 'target'),
-      amount: formValueSelector('exchange')(state, 'amount')
+      source,
+      target,
+      amount,
+      sourceCoin: prop('coin', source),
+      targetCoin: prop('coin', target)
     }
   }
 

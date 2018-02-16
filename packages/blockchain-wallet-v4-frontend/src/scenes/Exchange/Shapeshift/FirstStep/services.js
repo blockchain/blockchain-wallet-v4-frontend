@@ -9,30 +9,30 @@ export const initializeForm = (prevProps, nextProps) => {
   }
 }
 
-export const changeSource = (prevProps, nextProps) => {
+export const changeCoin = (prevProps, nextProps) => {
   const prevData = prevProps.data.getOrElse({})
   const nextData = nextProps.data.getOrElse({})
   const bitcoinBalances = prop('bitcoinBalances', nextData)
   const ethereumBalances = prop('ethereumBalances', nextData)
   const prevSourceCoin = path(['source', 'coin'], prevData)
   const nextSourceCoin = path(['source', 'coin'], nextData)
-  if (!isNil(prevSourceCoin) && !equals(prevSourceCoin, nextSourceCoin)) {
+  const prevTargetCoin = path(['target', 'coin'], prevData)
+  const nextTargetCoin = path(['target', 'coin'], nextData)
+  if (!isNil(prevSourceCoin) && !equals(prevSourceCoin, nextSourceCoin) && equals(prevTargetCoin, nextTargetCoin)) {
     const nextTarget = selectDefaultAccount(prevSourceCoin, bitcoinBalances, ethereumBalances)
     nextProps.formActions.change('exchange', 'target', nextTarget)
   }
-}
-
-export const changeTarget = (prevProps, nextProps) => {
-  const prevData = prevProps.data.getOrElse({})
-  const nextData = nextProps.data.getOrElse({})
-  const bitcoinBalances = prop('bitcoinBalances', nextData)
-  const ethereumBalances = prop('ethereumBalances', nextData)
-  const prevTargetCoin = path(['target', 'coin'], prevData)
-  const nextTargetCoin = path(['target', 'coin'], nextData)
-  if (!isNil(prevTargetCoin) && !equals(prevTargetCoin, nextTargetCoin)) {
+  if (!isNil(prevTargetCoin) && !equals(prevTargetCoin, nextTargetCoin) && equals(prevSourceCoin, nextSourceCoin)) {
     const nextTarget = selectDefaultAccount(prevTargetCoin, bitcoinBalances, ethereumBalances)
     nextProps.formActions.change('exchange', 'source', nextTarget)
   }
+}
+
+export const swapCoin = (props) => {
+  const data = props.data.getOrElse({})
+  const source = prop('source', data)
+  const target = prop('target', data)
+  props.formActions.initialize('exchange', { source: target, target: source })
 }
 
 const selectDefaultAccount = (coin, bitcoinBalances, ethereumBalances) => {
