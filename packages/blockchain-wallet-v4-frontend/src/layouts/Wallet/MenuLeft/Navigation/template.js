@@ -18,7 +18,6 @@ const Wrapper = styled.div`
   font-size: 13px;
   text-transform: uppercase;
   color: ${props => props.theme['gray-4']};
-  overflow-y: scroll;
 `
 const Menu = styled.ul`
   list-style: none;
@@ -92,6 +91,12 @@ const Navigation = (props) => {
           <MenuItem>
             <Icon name='ethereum' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.ether' defaultMessage='Ether' smaller uppercase />
+          </MenuItem>
+        </LinkContainer>
+        <LinkContainer to='/bch/transactions' activeClassName='active' onClick={handleCloseSettings}>
+          <MenuItem>
+            <Icon name='bitcoin' />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.bch' defaultMessage='Bitcoin Cash' smaller uppercase />
           </MenuItem>
         </LinkContainer>
         <MenuItem>

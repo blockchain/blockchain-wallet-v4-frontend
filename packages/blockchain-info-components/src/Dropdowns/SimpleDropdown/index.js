@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import onClickOutside from 'react-onclickoutside'
 
 import Dropdown from './template.js'
 import { Color, Palette } from '../../'
@@ -19,6 +20,10 @@ class SimpleDropdown extends React.Component {
 
   handleClick () {
     this.setState({ toggled: !this.state.toggled })
+  }
+
+  handleClickOutside () {
+    this.setState({ toggled: false })
   }
 
   handleCallback (item) {
@@ -59,4 +64,4 @@ SimpleDropdown.PropTypes = {
   down: PropTypes.bool
 }
 
-export default SimpleDropdown
+export default onClickOutside(SimpleDropdown)

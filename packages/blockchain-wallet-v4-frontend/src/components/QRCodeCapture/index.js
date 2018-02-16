@@ -21,6 +21,7 @@ class QRCodeCaptureContainer extends React.Component {
     switch (this.props.coin) {
       case 'BTC': return this.props.updateUI({ bitcoin: { toggled: !this.props.ui.bitcoin.toggled } })
       case 'ETH': return this.props.updateUI({ ethereum: { toggled: !this.props.ui.ethereum.toggled } })
+      case 'BCH': return this.props.updateUI({ bch: { toggled: !this.props.ui.bch.toggled } })
     }
   }
 
@@ -35,6 +36,17 @@ class QRCodeCaptureContainer extends React.Component {
     }
   }
 
+  handleScanBch (data) {
+    if (!isNil(data) && !isEmpty(data)) {
+      const { address, options } = bip21.decode(data)
+      const { amount, message } = options
+      this.props.formActions.change('sendBch', 'to2', address)
+      this.props.formActions.change('sendBch', 'amount', amount)
+      this.props.formActions.change('sendBch', 'message', message)
+      this.props.updateUI({ bch: { toggled: false } })
+    }
+  }
+
   handleScanEthereum (data) {
     if (!isNil(data) && !isEmpty(data)) {
       this.props.formActions.change('sendEther', 'to', data)
@@ -46,6 +58,7 @@ class QRCodeCaptureContainer extends React.Component {
     switch (this.props.coin) {
       case 'BTC': return this.handleScanBitcoin(data)
       case 'ETH': return this.handleScanEthereum(data)
+      case 'BCH': return this.handleScanBch(data)
     }
   }
 
@@ -57,7 +70,7 @@ class QRCodeCaptureContainer extends React.Component {
 
   render () {
     const { ui, coin } = this.props
-    const toggled = coin === 'BTC' ? ui.bitcoin.toggled : ui.ethereum.toggled
+    const toggled = coin === 'BTC' ? ui.bitcoin.toggled : coin === 'ETH' ? ui.ethereum.toggled : ui.bch.toggled
 
     return <QRCodeCapture
       toggled={toggled}
@@ -75,12 +88,12 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  ui({ key: 'QRCodeCapture', state: { bitcoin: { toggled: false }, ethereum: { toggled: false } } }),
+  ui({ key: 'QRCodeCapture', state: { bitcoin: { toggled: false }, ethereum: { toggled: false }, bch: { toggled: false } } }),
   connect(undefined, mapDispatchToProps)
 )
 
 QRCodeCaptureContainer.defaultProps = {
-  coin: PropTypes.oneOf(['BTC', 'ETH'])
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH'])
 }
 
 export default enhance(QRCodeCaptureContainer)

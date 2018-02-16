@@ -34,7 +34,7 @@ const ComboDisplay = props => {
 }
 
 ComboDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
   children: PropTypes.string.isRequired
 }
 
