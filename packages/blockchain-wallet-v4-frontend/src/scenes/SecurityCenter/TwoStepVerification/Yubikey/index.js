@@ -45,7 +45,7 @@ class YubikeyContainer extends React.Component {
   }
 
   render () {
-    const { data, ...rest } = this.props
+    const { data, ui, ...rest } = this.props
 
     return data.cata({
       Success: (value) => <Yubikey
@@ -55,7 +55,7 @@ class YubikeyContainer extends React.Component {
         goBack={this.props.goBack}
         handleInput={this.handleInput}
         value={this.state.yubikeyCode}
-        {...rest}
+        ui={ui}
       />,
       Failure: (message) => <Error {...rest}
         message={message} />,

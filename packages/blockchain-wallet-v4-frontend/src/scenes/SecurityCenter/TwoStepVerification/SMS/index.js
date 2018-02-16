@@ -47,7 +47,7 @@ class SmsAuthContainer extends React.Component {
   }
 
   render () {
-    const { data, ...rest } = this.props
+    const { data, ui, ...rest } = this.props
 
     return data.cata({
       Success: (value) => <SmsAuth
@@ -57,7 +57,7 @@ class SmsAuthContainer extends React.Component {
         goBack={this.props.goBack}
         handleGetCode={this.handleGetCode}
         changeMobileNumber={this.showChangeMobileNumber}
-        {...rest}
+        ui={ui}
       />,
       Failure: (message) => <Error {...rest}
         message={message} />,
