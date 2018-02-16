@@ -93,9 +93,6 @@ const Yubikey = props => {
           </Text>
           <QRInputWrapper>
             <YubikeyInput type='password' name='yubikeyCode' value={props.value} onChange={props.handleInput} />
-            {/* <Button nature='primary' onClick={props.handleSubmit}>
-              <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Pair Yubikey' />
-            </Button> */}
           </QRInputWrapper>
         </YubikeyContainer>
       </AuthenticatorSummary>

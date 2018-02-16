@@ -1,14 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Button, Text, Link, Icon } from 'blockchain-info-components'
+import { Button, Text, Link } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 
-import { validEmail, validEmailCode } from 'services/FormHelper'
-
+import { validEmailCode } from 'services/FormHelper'
 import { Field, reduxForm } from 'redux-form'
-
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary } from 'components/Security'
+
+import ChangeEmailSteps from '../Components/ChangeEmailSteps'
 
 const EmailExplanation = styled.div`
 `
@@ -24,18 +24,10 @@ const EmailCodeWrapper = styled.form`
     margin-left: 100px;
   }
 `
-const ChangeEmailWrapper = EmailCodeWrapper.extend`
-  align-items: center;
-  div:first-of-type {
-    width: 45%;
-  }
-  button {
-    margin-left: 0px;
-  }
-  justify-content: space-between;
-`
-const CancelText = ChangeEmailText.extend`
-  margin-top: 0px;
+const IconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
 `
 const EmailChangeWarning = styled(Text)`
   margin-top: 25px;
@@ -45,11 +37,6 @@ const EmailChangeWarning = styled(Text)`
   span:first-of-type {
     padding-right: 5px;
   }
-`
-const IconContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 25px;
 `
 
 const EmailAddress = (props) => {
@@ -88,25 +75,7 @@ const EmailAddress = (props) => {
 
   const renderChangeEmailSteps = () => {
     return (
-      <SecuritySummary>
-        <SecurityHeader>
-          <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Change Email Address' />
-        </SecurityHeader>
-        <SecurityDescription>
-          <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.' />
-        </SecurityDescription>
-        <ChangeEmailWrapper>
-          <Field name='changeEmail' validate={[validEmail]} component={TextBox} placeholder='email@email.com' />
-          <CancelText weight={300} size='12px' onClick={props.handleEmailChangeCancel}>Cancel</CancelText >
-          <Button nature='primary' onClick={props.handleEmailChangeSubmit}>
-            <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Change' />
-          </Button>
-        </ChangeEmailWrapper>
-        <EmailChangeWarning size='12px' weight={200}>
-          <Icon name='alert' />
-          <FormattedMessage id='scenes.security.email.changeemail' defaultMessage='This will change your wallets email address, but the email address you signed up to Buy Bitcoin with will remain the same.' />
-        </EmailChangeWarning>
-      </SecuritySummary>
+      <ChangeEmailSteps handleEmailChangeCancel={props.handleEmailChangeCancel} handleEmailChangeSubmit={props.handleEmailChangeSubmit} />
     )
   }
 
