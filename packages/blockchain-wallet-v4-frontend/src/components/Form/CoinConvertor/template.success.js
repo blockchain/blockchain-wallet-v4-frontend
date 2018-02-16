@@ -57,7 +57,8 @@ const Unit = styled.span`
   justify-content: center;
   align-items: center;
   width: 60px;
-  font-size: 13px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
   font-weight: 300;
   color: ${props => props.theme['gray-4']};
 `
