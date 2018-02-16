@@ -38,10 +38,6 @@ const IconContainer = styled.div`
 const DisableContainer = styled.div`
   width: 100%;
   margin: 10px 0px 20px 0px;
-  a:last-of-type {
-    margin-top: 20px;
-    margin-left: 0px;
-  }
   div:first-of-type {
     display: flex;
     flex-direction: row;
@@ -60,6 +56,9 @@ const DisableLinkText = styled(Text)`
   a {
     padding-left: 3px;
   }
+`
+const DisableSMSLinkText = DisableLinkText.extend`
+  margin-top: 20px;
 `
 const WeightedText = styled.span`
   font-weight: 400;
@@ -117,12 +116,12 @@ const TwoStepVerification = (props) => {
             ? <DisableContainer>
               <Text weight={200} size='14px'>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with' />
-                <WeightedText>{props.authName}&nbsp;</WeightedText>
+                <WeightedText>&nbsp;{props.authName}&nbsp;</WeightedText>
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage=' for number ' />
                 {
                   !ui.changeNumberToggled
                     ? <FlexRow><WeightedText>&nbsp;{smsNumber}</WeightedText>
-                      <Text color='brand-secondary' cursor='pointer' size='14px' onClick={props.handleChangeNumber}>Change Mobile Number</Text>
+                      <Text color='brand-secondary' cursor='pointer' size='14px' onClick={props.handleChangeNumber}>&nbsp;Change Mobile Number</Text>
                     </FlexRow>
                     : <ChangeMobileContainer>
                       <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder='212-555-5555' />
@@ -133,7 +132,10 @@ const TwoStepVerification = (props) => {
                     </ChangeMobileContainer>
                 }
               </Text>
-              <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Change Two-factor Authentication</Link>
+              <DisableSMSLinkText size='14px' weight={200} flexRow='true'>
+                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first.' />
+                <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Disable {props.authName}</Link>
+              </DisableSMSLinkText>
             </DisableContainer>
             : authType === 4 || authType === 1 || authType === 2
               ? <DisableLinkContainer>

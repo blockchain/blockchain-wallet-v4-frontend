@@ -41,7 +41,7 @@ const ConfirmDisable2FA = (props) => {
           <Container>
             <Text size='14px' weight={300}>
               <FormattedMessage id='modals.disable2fa.sure' defaultMessage='Are you sure you wish to disable the' />
-              {`${props.authName}?`}
+              {` ${props.authName}?`}
             </Text>
             <Icon name='alert' size='40px' color='error' />
           </Container>
