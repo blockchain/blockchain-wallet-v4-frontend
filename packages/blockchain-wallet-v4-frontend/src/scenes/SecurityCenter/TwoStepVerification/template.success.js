@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Text, Button, Icon, Link, ButtonGroup } from 'blockchain-info-components'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary } from 'components/Security'
 import { PhoneNumberBox } from 'components/Form'
@@ -10,30 +10,12 @@ import GoogleAuth from './GoogleAuth'
 import Yubikey from './Yubikey'
 import SmsAuth from './SMS'
 
-const TwoStepChoicesWapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-`
-const Choice = styled.div`
-  display: flex;
-  flex-direction: row;
-  border: 1px solid #E5E5E5;
-  border-radius: 6px;
-  padding: 15px;
-  cursor: pointer;
-  opacity: ${props => props.selected && props.editing ? 1 : !props.editing ? 1 : 0.3};
-  div * {
-    cursor: pointer;
-  }
-  
-`
-const ChoiceDescription = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 10px;
-`
+// import { shake } from 'react-animations'
+
+import Choices from './Components/Choices/index'
+
+// const shakeAnimation = keyframes`${shake}`
+
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 120%;
 `
@@ -64,6 +46,19 @@ const DisableContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+  }
+`
+const DisableLinkContainer = styled.div`
+  flex-direction: row;
+  width: 100%;
+`
+const DisableLinkText = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+  margin-top: 10px;
+  a {
+    padding-left: 3px;
   }
 `
 const WeightedText = styled.span`
@@ -141,50 +136,19 @@ const TwoStepVerification = (props) => {
               <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Change Two-factor Authentication</Link>
             </DisableContainer>
             : authType === 4 || authType === 1 || authType === 2
-              ? <DisableContainer>
-                <Text weight={200} size='14px'>
+              ? <DisableLinkContainer>
+                {/* <Text weight={200} size='14px'>
                   <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with' />
                   <WeightedText>{props.authName}</WeightedText>
-                </Text>
-                <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Change Two-factor Authentication</Link>
-              </DisableContainer>
+                </Text> */}
+                <DisableLinkText size='14px' weight={300} flexRow='true'>
+                  <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first.' />
+                  <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Disable {props.authName}</Link>
+                </DisableLinkText>
+              </DisableLinkContainer>
             : null
         }
-        <TwoStepChoicesWapper>
-          <Choice editing={editing} selected={authType === 4} onClick={() => props.chooseMethod('google')}>
-            <Icon name='lock' size='18px' weight={400} />
-            <ChoiceDescription>
-              <Text weight={300} size='16px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Authenticator App' />
-              </Text>
-              <Text weight={200} size='12px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Use App generated codes' />
-              </Text>
-            </ChoiceDescription>
-          </Choice>
-          <Choice editing={editing} selected={authType === 1 || authType === 2} onClick={() => props.chooseMethod('yubikey')}>
-            <Icon name='yubikey' />
-            <ChoiceDescription>
-              <Text weight={300} size='16px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Yubikey' />
-              </Text>
-              <Text weight={200} size='12px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Pair with your Yubikey' />
-              </Text>
-            </ChoiceDescription>
-          </Choice>
-          <Choice editing={editing} selected={authType === 5} onClick={() => props.chooseMethod('sms')}>
-            <Icon name='mobile' size='18px' weight={400} />
-            <ChoiceDescription>
-              <Text weight={300} size='16px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Mobile Phone Number' />
-              </Text>
-              <Text weight={200} size='12px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Use codes sent via SMS' />
-              </Text>
-            </ChoiceDescription>
-          </Choice>
-        </TwoStepChoicesWapper>
+        <Choices authType={authType} editing={editing} chooseMethod={props.chooseMethod} />
       </SecuritySummaryChoice>
     )
   }

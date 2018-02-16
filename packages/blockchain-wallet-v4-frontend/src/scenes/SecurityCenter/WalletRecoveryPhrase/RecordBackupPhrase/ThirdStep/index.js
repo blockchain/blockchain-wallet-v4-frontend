@@ -27,7 +27,7 @@ class ThirdStepContainer extends React.Component {
       this.props.updateUI({ showSuccess: true })
     }, 250)
     setTimeout(() => {
-      this.props.handleClose()
+      this.props.goBackOnSuccess()
     }, 2000)
   }
 
