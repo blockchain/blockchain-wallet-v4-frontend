@@ -162,6 +162,14 @@ export const setLegacyAddressLabel = curry((address, label, wallet) => {
   return eitherW.getOrElse(wallet)
 })
 
+// setArchivedAddress
+// archiveAddress :: Wallet -> Address -> String -> Either Error Wallet
+export const archiveAddress = curry((address, wallet) => {
+  const newWallet = over(addresses, AddressMap.archiveAddress(address), wallet)
+  debugger
+  return newWallet
+})
+
 // deleteLegacyAddress :: String -> Wallet -> Wallet
 export const deleteLegacyAddress = curry((address, wallet) => {
   return over(addresses, AddressMap.deleteAddress(address), wallet)

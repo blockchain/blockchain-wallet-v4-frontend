@@ -6,6 +6,7 @@ import Success from './template.success'
 class ArchivedAddressesContainer extends React.Component {
   render () {
     const { data, ...rest } = this.props
+    console.log('render archived', this.props)
     return (
       data.cata({
         Success: (value) => <Success archivedAddresses={value} {...rest} />,

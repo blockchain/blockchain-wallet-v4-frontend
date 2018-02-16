@@ -10,7 +10,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
 
-import { Wrapper, Wallet, Address, HDAccount, HDWallet, HDWalletList } from '../../types'
+import { Wrapper, Wallet, Address, AddressMap, HDAccount, HDWallet, HDWalletList } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -31,6 +31,17 @@ export const walletSaga = ({ api } = {}) => {
       const task = Wrapper.traverseWallet(Task.of, Wallet.encrypt(password), wrapper)
       yield call(runTask, task, A.setWrapper)
     }
+  }
+
+  const setArchivedAddress = function * ({ address }) {
+    const wrapper = yield select(S.getWrapper)
+    const wallet = yield select(S.getWallet)
+    const addr = compose(AddressMap.selectAddress(address), Wallet.selectAddresses)(wallet)
+    const archiveAddress = wallet => Wallet.archiveAddress(addr, wallet)
+    const task = eitherToTask(Wrapper.traverseWallet(Either.of, archiveAddress, wrapper))
+    yield call(runTask, task, A.refreshWrapper)
+    const walletContext = yield select(S.getWalletContext)
+    yield put(fetchData(walletContext))
   }
 
   const createLegacyAddress = function * ({address, password}) {
@@ -153,6 +164,7 @@ export const walletSaga = ({ api } = {}) => {
     createWalletSaga,
     restoreWalletSaga,
     createLegacyAddress,
+    setArchivedAddress,
     updatePbkdf2Iterations,
     remindWalletGuidSaga,
     fetchWalletSaga,

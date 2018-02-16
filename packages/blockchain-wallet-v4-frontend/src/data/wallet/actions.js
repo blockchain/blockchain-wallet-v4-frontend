@@ -10,4 +10,6 @@ export const submitSecondPassword = (password) => ({ type: AT.SUBMIT_SECOND_PASS
 
 export const createLegacyAddress = (address) => ({ type: AT.CREATE_LEGACY_ADDRESS, payload: { address } })
 
+export const setArchivedAddress = (address) => ({ type: AT.SET_ARCHIVED_ADDRESS, payload: { address } })
+
 export const verifyMnemonic = () => ({ type: AT.VERIFY_MNEMONIC })

@@ -5,6 +5,8 @@ export const addWallet = (payload) =>
   ({ type: T.ADD_WALLET, payload: payload })
 export const setWrapper = (payload) =>
   ({ type: T.SET_WRAPPER, payload: payload })
+export const setArchivedAddress = (address) =>
+({ type: T.SET_ARCHIVED_ADDRESS, payload: {address} })
 // ignored by the sync middleware and used by websocket middleware
 export const refreshWrapper = (payload) =>
   ({ type: T.REFRESH_WRAPPER, payload: payload })
