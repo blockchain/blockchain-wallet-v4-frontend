@@ -14,7 +14,7 @@ class AddBitcoinWalletContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.walletActions.addWallet(this.props.wallet)
+    this.props.walletActions.createHdAccount(this.props.wallet)
   }
 
   render () {

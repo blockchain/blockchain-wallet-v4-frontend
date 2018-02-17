@@ -59,7 +59,7 @@ const Success = (props) => {
       </Table>
       <ButtonWrapper>
         <IconButton name='up-arrow-in-circle' onClick={handleClick}>
-          <FormattedMessage id='scenes.settings.addresses.add_wallet' defaultMessage='Add New Wallet' />
+          <FormattedMessage id='scenes.settings.addresses.add_new_wallet' defaultMessage='Add New Wallet' />
         </IconButton>
       </ButtonWrapper>
     </Wrapper>

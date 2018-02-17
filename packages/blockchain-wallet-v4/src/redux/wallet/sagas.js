@@ -43,27 +43,13 @@ export const walletSaga = ({ api } = {}) => {
     yield put(fetchData(walletContext))
   }
 
-  const addWallet = function * ({ label, password }) {
-    try {
-      const wrapper = yield select(S.getWrapper)
-      const hdwallet = yield select(S.getDefaultHDWallet)
-      const getMnemonic = state => S.getMnemonic(state, password)
-      const eitherMnemonic = yield select(getMnemonic)
-      const hdwallets = compose(i => i.toJS(), Wallet.selectHdWallets, Wrapper.selectWallet)(wrapper)
-      const i = hdwallets[0].accounts.length
-      if (eitherMnemonic.isRight) {
-        const mnemonic = eitherMnemonic.value
-        const account = i => HDAccount.js(label, HDAccount.fromMnemonic(mnemonic, undefined, label)(i), undefined)
-        const addHDAccount = hdw => HDWallet.addHDAccount(hdw, account(i), i)
-        const wallet = addHDAccount(hdwallet)
-        const newWrapper = set(compose(Wrapper.wallet, Wallet.hdWallets), HDWalletList.fromJS([wallet.value]), wrapper)
-        yield put(A.refreshWrapper(newWrapper))
-      } else {
-        throw new Error('Could not get mnemonic.')
-      }
-    } catch (e) {
-      throw new Error(e)
-    }
+  const createHdAccount = function * ({label, password}) {
+    const wrapper = yield select(S.getWrapper)
+    const addAccount = wallet => Wallet.addHdAccount(wallet, label, password)
+    const task = eitherToTask(Wrapper.traverseWallet(Either.of, addAccount, wrapper))
+    yield call(runTask, task, A.setWrapper)
+    const walletContext = yield select(S.getWalletContext)
+    yield put(fetchData(walletContext))
   }
 
   const createWalletSaga = function * ({ password, email }) {
@@ -150,6 +136,7 @@ export const walletSaga = ({ api } = {}) => {
   return {
     addWallet,
     toggleSecondPassword,
+    createHdAccount,
     createWalletSaga,
     restoreWalletSaga,
     createLegacyAddress,
