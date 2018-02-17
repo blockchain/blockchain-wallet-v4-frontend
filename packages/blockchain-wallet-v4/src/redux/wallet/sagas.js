@@ -134,7 +134,6 @@ export const walletSaga = ({ api } = {}) => {
   }
 
   return {
-    addWallet,
     toggleSecondPassword,
     createHdAccount,
     createWalletSaga,
