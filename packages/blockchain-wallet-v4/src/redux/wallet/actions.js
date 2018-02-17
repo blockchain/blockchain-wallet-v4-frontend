@@ -1,8 +1,6 @@
 import * as T from './actionTypes'
 
 // setters
-export const addWallet = (payload) =>
-  ({ type: T.ADD_WALLET, payload: payload })
 export const setWrapper = (payload) =>
   ({ type: T.SET_WRAPPER, payload: payload })
 // ignored by the sync middleware and used by websocket middleware
@@ -16,6 +14,8 @@ export const setLegacyAddressLabel = (address, label) =>
   ({ type: T.SET_LEGACY_ADDRESS_LABEL, payload: {address, label} })
 export const setHdAddressLabel = (accountIdx, addressIdx, label) =>
   ({ type: T.SET_HD_ADDRESS_LABEL, payload: { accountIdx, addressIdx, label } })
+export const createHdAccount = (payload) =>
+  ({ type: T.CREATE_HD_ACCOUNT, payload: payload })
 export const createLegacyAddress = (address) =>
   ({ type: T.CREATE_LEGACY_ADDRESS, payload: address })
 

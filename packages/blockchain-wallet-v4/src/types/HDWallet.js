@@ -35,12 +35,6 @@ export const selectContext = compose(HDAccountList.selectContext, selectAccounts
 
 const shiftHDWallet = compose(shiftIProp('seed_hex', 'seedHex'), shift)
 
-export const addHDAccount = curry((hdw, hdaccount, i) => {
-  let set = curry((hda, as) => as.set(i, HDAccount.fromJS(hda)))
-  let append = curry((hdw, hda) => over(accounts, set(hda), hdw))
-  return Either.of(append(hdw, hdaccount))
-})
-
 export const fromJS = (x) => {
   if (is(HDWallet, x)) { return x }
   const hdwalletCons = compose(

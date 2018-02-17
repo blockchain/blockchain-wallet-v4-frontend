@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const addWallet = (label) => ({ type: AT.ADD_WALLET, payload: { label } })
+export const createHdAccount = (label) => ({ type: AT.CREATE_HD_ACCOUNT, payload: { label } })
 
 export const toggleSecondPassword = (password) => ({ type: AT.TOGGLE_SECOND_PASSWORD, payload: { password } })
 
