@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { BlockchainLoader, Image, SkeletonCircle, SkeletonRectangle } from 'blockchain-info-components'
+import { BlockchainLoader, Image, SkeletonRectangle } from 'blockchain-info-components'
 
 import MenuTop from './MenuTop'
 import { Navbar, NavbarBrand, NavbarHeader } from 'components/Navbar'

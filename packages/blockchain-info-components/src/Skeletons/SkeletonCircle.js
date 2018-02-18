@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   width: ${props => props.width};
   height: ${props => props.height};
   border-radius: ${props => parseFloat(props.width) / 2 + 'px'};
-  background-color: ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme[props.bgColor]};
 `
 
 const SkeletonRectangle = props => (
@@ -16,7 +16,8 @@ const SkeletonRectangle = props => (
 
 SkeletonRectangle.propTypes = {
   width: PropTypes.string.isRequired,
-  height: PropTypes.string.isRequired
+  height: PropTypes.string.isRequired,
+  bgColor: PropTypes.string.isRequired
 }
 
 export default SkeletonRectangle
