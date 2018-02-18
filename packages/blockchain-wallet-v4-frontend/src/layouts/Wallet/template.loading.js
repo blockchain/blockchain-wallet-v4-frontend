@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
+import BalancesChartSkeleton from '../../scenes/Home/BalancesChart/template.loading'
+import ActivityListSkeleton from '../../scenes/Home/ActivityList/template.loading'
+import PriceIndexSeriesSkeleton from '../../scenes/Home/PriceIndexSeries/template.loading'
 import { BlockchainLoader, Image, SkeletonRectangle } from 'blockchain-info-components'
 
 import MenuTop from './MenuTop'
@@ -59,6 +62,7 @@ const LeftItem = styled.div`
 const Content = styled.div`
   position: relative;
   display: flex;
+  overflow: scroll;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -94,8 +98,6 @@ const ColumnRight = styled(Column)`
   @media(min-width: 992px) { padding: 30px 30px 30px 15px; }
 `
 const Top = styled.div`
-  display: flex;
-  height: 115px;
   width: 100%;
 `
 
@@ -133,11 +135,11 @@ const WalletLayout = (props) => {
           </Top>
           <Page>
             <ColumnLeft>
-              <SkeletonRectangle width='100%' height='370px' bgColor='white-blue' />
-              <SkeletonRectangle width='100%' height='150px' bgColor='white-blue' />
+              <BalancesChartSkeleton />
+              <ActivityListSkeleton />
             </ColumnLeft>
             <ColumnRight>
-              <SkeletonRectangle width='100%' height='370px' bgColor='white-blue' />
+              <PriceIndexSeriesSkeleton />
               <SkeletonRectangle width='100%' height='150px' bgColor='white-blue' />
             </ColumnRight>
           </Page>
