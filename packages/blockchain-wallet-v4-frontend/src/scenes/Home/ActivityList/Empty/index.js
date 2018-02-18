@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 500px;
 `
 const Container = styled.div`
   display: flex;

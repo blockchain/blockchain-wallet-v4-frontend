@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Link, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import CoinTicker from './CoinTicker'
 import Chart from './Chart'
 
@@ -13,8 +13,9 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   padding: 15px;
+  height: 370px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
+  border: 1px solid ${props => props.theme['gray-1']};
 
   & > * { margin-bottom: 10px; }
 `

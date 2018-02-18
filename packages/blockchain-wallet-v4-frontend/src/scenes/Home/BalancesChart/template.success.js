@@ -8,8 +8,9 @@ import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.div`
   width: 100%;
-  border: 1px solid ${props => props.theme['gray-2']};
+  height: 370px;
   padding: 10px 0px;
+  border: 1px solid ${props => props.theme['gray-1']};
 `
 const ChartInfo = styled.div`
   display: flex;

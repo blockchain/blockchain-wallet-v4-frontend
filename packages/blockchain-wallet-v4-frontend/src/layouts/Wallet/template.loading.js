@@ -85,11 +85,13 @@ const Column = styled.div`
 `
 const ColumnLeft = styled(Column)`
   padding: 30px;
-  @media(min-width: 992px) { padding: 30px 5px 30px 30px; }
+  > div:last-child { margin-top: 15px; }
+  @media(min-width: 992px) { padding: 30px 0px 30px 30px; }
 `
 const ColumnRight = styled(Column)`
   padding: 30px;
-  @media(min-width: 992px) { padding: 30px 30px 30px 5px; }
+  > div:last-child { margin-top: 15px; }
+  @media(min-width: 992px) { padding: 30px 30px 30px 15px; }
 `
 const Top = styled.div`
   display: flex;
@@ -131,10 +133,12 @@ const WalletLayout = (props) => {
           </Top>
           <Page>
             <ColumnLeft>
-              <SkeletonRectangle width='100%' height='300px' bgColor='white-blue' />
+              <SkeletonRectangle width='100%' height='370px' bgColor='white-blue' />
+              <SkeletonRectangle width='100%' height='150px' bgColor='white-blue' />
             </ColumnLeft>
             <ColumnRight>
-              <SkeletonRectangle width='100%' height='300px' bgColor='white-blue' />
+              <SkeletonRectangle width='100%' height='370px' bgColor='white-blue' />
+              <SkeletonRectangle width='100%' height='150px' bgColor='white-blue' />
             </ColumnRight>
           </Page>
         </Content>
