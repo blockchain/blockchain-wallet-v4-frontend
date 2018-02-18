@@ -1,24 +1,39 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { FlatLoader2 } from 'blockchain-info-components'
+import { SkeletonCircle, SkeletonRectangle } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
+const ActivityListSkeleton = styled(SkeletonRectangle)`
+  display: flex;
+  padding: 15px;
+  margin-top: 15px;
+  flex-direction: column;
+  box-sizing: border-box;
+`
+const ActivitySkeleton = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 400px;
-  padding: 5px;
-  box-sizing: border-box;
-  border: 1px solid ${prop => prop.theme['gray-2']};
+  margin-top: 15px;
+  > div:first-child { margin-right: 20px; }
 `
 
 export default (props) => {
   return (
-    <Wrapper>
-      <FlatLoader2 width='100px' height='100px' />
-    </Wrapper>
+    <ActivityListSkeleton width='100%' height='300px' bgColor='white-blue'>
+      <SkeletonRectangle width='100%' height='30px' bgColor='white' />
+      <ActivitySkeleton>
+        <SkeletonCircle width='30px' height='30px' bgColor='white' />
+        <SkeletonRectangle width='calc(100% - 50px)' height='30px' bgColor='white' />
+      </ActivitySkeleton>
+      <ActivitySkeleton>
+        <SkeletonCircle width='30px' height='30px' bgColor='white' />
+        <SkeletonRectangle width='calc(100% - 50px)' height='30px' bgColor='white' />
+      </ActivitySkeleton>
+      <ActivitySkeleton>
+        <SkeletonCircle width='30px' height='30px' bgColor='white' />
+        <SkeletonRectangle width='calc(100% - 50px)' height='30px' bgColor='white' />
+      </ActivitySkeleton>
+    </ActivityListSkeleton>
   )
 }
