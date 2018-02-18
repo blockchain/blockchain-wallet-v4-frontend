@@ -24,11 +24,11 @@ const Column = styled.div`
 `
 const ColumnLeft = styled(Column)`
   padding: 30px;
-  @media(min-width: 992px) { padding: 30px 5px 30px 30px; }
+  @media(min-width: 992px) { padding: 30px 0px 30px 30px; }
 `
 const ColumnRight = styled(Column)`
   padding: 30px;
-  @media(min-width: 992px) { padding: 30px 30px 30px 5px; }
+  @media(min-width: 992px) { padding: 30px 30px 30px 15px; }
 `
 
 const Home = (props) => {
