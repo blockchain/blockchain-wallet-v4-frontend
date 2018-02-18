@@ -9,7 +9,7 @@ import Chart from './Chart'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   padding: 15px;
@@ -25,7 +25,6 @@ const Row = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  padding: 15px;
   box-sizing: border-box;
 `
 const FilterText = styled(Text)`
@@ -40,7 +39,6 @@ const TitleFiltersRow = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 15px;
   box-sizing: border-box;
 `
 const TimeFilters = styled.div`
