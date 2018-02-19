@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const TabsWrapper = styled.div`
   display: flex;
@@ -23,18 +23,19 @@ const TabList = styled.div`
 const Tab = styled(Text)`
   cursor: pointer;
   border-bottom: 1px solid black;
-  opacity: ${props => props.active ? 1 : 0.3}
+  opacity: ${props => props.active ? 1 : 0.3};
+  text-transform: uppercase;
 `
 
 const SecurityTabs = (props) => {
   return (
     <TabsWrapper>
       <TabList>
-        <Tab active={props.active === 'security'} onClick={() => props.setActive('security')}>
-          Security
+        <Tab active={props.active === 'security'} onClick={() => { props.setActive('security'); props.setView('security') }}>
+          <FormattedMessage id='scenes.securitycenter.tabssecurity' defaultMessage='Security' />
         </Tab>
-        <Tab active={props.active === 'advanced'} onClick={() => props.setActive('advanced')}>
-          Advanced Security
+        <Tab active={props.active === 'advanced'} onClick={() => { props.setActive('advanced'); props.setView('advanced') }}>
+          <FormattedMessage id='scenes.securitycenter.tabsadvanced' defaultMessage='Advanced Security' />
         </Tab>
       </TabList>
     </TabsWrapper>
