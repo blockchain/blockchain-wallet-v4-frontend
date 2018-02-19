@@ -3,31 +3,23 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as crypto from 'crypto'
 
-import { getData } from './selectors'
 import { actions } from 'data'
-import Error from './template.error'
-import Loading from './template.loading'
-import ExchangeForm from './ExchangeForm'
+import { getData } from './selectors'
+import { initializeForm, changeCoin } from './services'
+import ExchangeForm from './template'
 
-class FirstStepContainer extends React.Component {
+class ExchangeFormContainer extends React.Component {
   constructor (props) {
     super(props)
     this.timeout = undefined
     this.seed = crypto.randomBytes(16).toString('hex')
   }
 
-  componentWillMount () {
-    this.props.dataBitcoinActions.fetchFee()
-    this.props.dataBitcoinActions.fetchRates()
-    this.props.dataEthereumActions.fetchFee()
-    this.props.dataEthereumActions.fetchRates()
-    this.props.shapeshiftDataActions.fetchBtcEth()
-    this.props.shapeshiftDataActions.fetchEthBtc()
-  }
-
-  componentWillUpdate (nextProps, nextState) {
+  componentWillReceiveProps (nextProps) {
     // Initialize form
-    // initializeForm(this.props, nextProps)
+    initializeForm(this.props, nextProps)
+    // Update target/source if source/target has changed
+    // changeCoin(this.props, nextProps)
   }
 
   // componentWillReceiveProps (nextProps) {
@@ -59,6 +51,11 @@ class FirstStepContainer extends React.Component {
   //       }
   //     }
   //   }
+
+  handleSubmit () {
+    this.props.nextStep()
+  }
+
   render () {
     // const { accounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
     // const { ethFee } = this.state
@@ -69,19 +66,12 @@ class FirstStepContainer extends React.Component {
     //                           : bitcoinEffectiveBalance
     // console.log('data', this.props.data)
     // const { sourceCoin, targetCoin, amount } = this.state
-
     const { data, ...rest } = this.props
-
-    return data.cata({
-      Success: (value) => <ExchangeForm {...value} {...rest} />,
-      Failure: (message) => <Error />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
+    return <ExchangeForm {...data} {...rest} handleSubmit={this.handleSubmit} />
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
@@ -92,4 +82,4 @@ const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeFormContainer)

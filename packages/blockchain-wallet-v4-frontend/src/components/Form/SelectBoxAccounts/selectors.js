@@ -1,4 +1,4 @@
-import { concat, lift, head } from 'ramda'
+import { concat, lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
@@ -6,20 +6,15 @@ export const getData = state => {
   const btcAddressesBalancesR = selectors.core.common.bitcoin.getAddressesBalances(state)
   const btcBalancesR = lift((btcAccounts, btcAddresses) => concat(btcAccounts, btcAddresses))(btcAccountsBalancesR, btcAddressesBalancesR)
   const ethBalancesR = selectors.core.common.ethereum.getAccountBalances(state)
-  const btcFeeR = selectors.core.data.bitcoin.getFee(state)
-  const ethFeeR = selectors.core.data.ethereum.getFee(state)
 
-  const transform = (btcAccountsBalances, btcAddressesBalances, btcBalances, ethBalances, btcFee, ethFee) => ({
-    initialValues: { accounts: { source: head(btcAccountsBalances), target: head(ethBalances) }, amount: 0 },
+  const transform = (btcBalances, ethBalances) => ({
     elements: [
       { group: 'Bitcoin', items: btcBalances.map(x => ({ text: x.label, value: x })) },
       { group: 'Ethereum', items: ethBalances.map(x => ({ text: x.label, value: x })) }
     ],
     btcBalances,
-    ethBalances,
-    btcFee,
-    ethFee
+    ethBalances
   })
 
-  return lift(transform)(btcAccountsBalancesR, btcAddressesBalancesR, btcBalancesR, ethBalancesR, btcFeeR, ethFeeR)
+  return lift(transform)(btcBalancesR, ethBalancesR)
 }
