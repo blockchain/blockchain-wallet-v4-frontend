@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import { changeSource, changeTarget } from './services'
+import { changeSource, changeTarget, initUnspent, updateUnspent } from './services'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -20,13 +20,16 @@ class SuccessContainer extends React.Component {
     this.handleChangeTarget = this.handleChangeTarget.bind(this)
   }
 
-  // componentWillReceiveProps (nextProps) {
-  //   // Update source/target when target/source has changed
-  //   changeCoin(this.props, nextProps)
-  // }
-
   componentWillMount () {
-    console.log(this.props)
+    // Init unspent
+    initUnspent(this.props)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    // Update unspent if new source is BTC
+    updateUnspent(this.props, nextProps)
+    // Update effectiveBalance if coins have changed
+    // updateEffectiveBalance(this.props, nextProps)
   }
 
   handleSwap () {
