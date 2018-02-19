@@ -2,14 +2,10 @@ import React from 'react'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
-import { head, prop } from 'ramda'
 
 import { getData } from './selectors'
-
 import modalEnhancer from 'providers/ModalEnhancer'
-
 import { actions } from 'data'
-
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -29,6 +25,9 @@ class RequestEtherContainer extends React.Component {
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('RequestBitcoin')
+    } else if (coin === 'BCH') {
+      this.props.modalActions.closeAllModals()
+      this.props.modalActions.showModal('RequestBch')
     }
   }
 

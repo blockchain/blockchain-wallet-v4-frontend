@@ -93,6 +93,12 @@ const Navigation = (props) => {
             <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.ether' defaultMessage='Ether' smaller uppercase />
           </MenuItem>
         </LinkContainer>
+        <LinkContainer to='/bch/transactions' activeClassName='active' onClick={handleCloseSettings}>
+          <MenuItem>
+            <Icon name='bitcoin' />
+            <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.bch' defaultMessage='Bitcoin Cash' smaller uppercase />
+          </MenuItem>
+        </LinkContainer>
         <MenuItem>
           <Separator />
         </MenuItem>
