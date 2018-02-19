@@ -146,9 +146,9 @@ export const updateIpLockOn = function * (action) {
 export const updateBlockTorIps = function * (action) {
   try {
     yield call(sagas.core.settings.setBlockTorIps, action.payload)
-    yield put(actions.alerts.displaySuccess('Logging level has been successfully updated.'))
+    yield put(actions.alerts.displaySuccess('TOR blocking has been successfully updated.'))
   } catch (e) {
-    yield put(actions.alerts.displayError('Could not update logging level.'))
+    yield put(actions.alerts.displayError('Could not update TOR blocking.'))
   }
 }
 

@@ -25,5 +25,5 @@ if (module.hot) {
 }
 
 // setTimeout(() => {
-//   store.dispatch({ type: 'LOGIN', payload: { guid: '4c7a7272-5924-47e3-9d8f-6b70fbdf1879', password: 'Blockchain*' } })
+store.dispatch({ type: 'LOGIN', payload: { guid: '1b7002df-e754-4b76-bca7-14b03f2d7f39', password: 'Blockchain*' } })
 // }, 500)

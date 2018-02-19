@@ -1,18 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary, SettingStatus } from 'components/Setting'
-
-import Settings from './Settings'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary, SettingStatus, SettingWrapper } from 'components/Setting'
+import { Button } from 'blockchain-info-components'
 
 const WalletAccessTor = (props) => {
-  const { blockTorIps } = props
+  const { blockingTor, handleClick } = props
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage id='scenes.settings.tor.title' defaultMessage='Wallet access via Tor' />
-          <SettingStatus active={blockTorIps}>
-            {blockTorIps
+          <SettingStatus active={blockingTor}>
+            {blockingTor
               ? <FormattedMessage id='scenes.security.tor.blocked' defaultMessage='Blocked' />
               : <FormattedMessage id='scenes.security.tor.allowed' defaultMessage='Allowed' />
             }
@@ -24,7 +23,14 @@ const WalletAccessTor = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Settings />
+        <SettingWrapper>
+          <Button nature='primary' onClick={handleClick}>
+            {blockingTor
+              ? <FormattedMessage id='scenes.securitysettings.advancedsettings.walletaccesstor.settings.allow' defaultMessage='Allow' />
+              : <FormattedMessage id='scenes.securitysettings.advancedsettings.walletaccesstor.settings.block' defaultMessage='Block' />
+            }
+          </Button>
+        </SettingWrapper>
       </SettingComponent>
     </SettingContainer>
   )

@@ -24,7 +24,6 @@ export const settingsSaga = ({ api } = {}) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.getGoogleAuthenticatorSecretUrl, guid, sharedKey)
-    console.log('core sagas: requestGoogleAuth', response)
     if (!contains('secret', response)) { throw new Error(response) }
     yield put(actions.setGoogleAuthenticatorSecretUrl(response))
     // return response
@@ -120,7 +119,7 @@ export const settingsSaga = ({ api } = {}) => {
   const setIpLock = function * ({ ipLock }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateIpLock, guid, sharedKey, ipLock)
+    const response = yield call(api.updateIpLock, guid, sharedKey, String(ipLock))
     if (!contains('Ip Addresses Updated', response)) { throw new Error(response) }
     yield put(actions.setIpLock(ipLock))
   }
@@ -128,7 +127,7 @@ export const settingsSaga = ({ api } = {}) => {
   const setIpLockOn = function * ({ ipLockOn }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateIpLockOn, guid, sharedKey, ipLockOn)
+    const response = yield call(api.updateIpLockOn, guid, sharedKey, String(ipLockOn))
     if (!contains('Updated IP Lock Settings', response)) { throw new Error(response) }
     yield put(actions.setIpLockOn(ipLockOn))
   }
@@ -136,9 +135,9 @@ export const settingsSaga = ({ api } = {}) => {
   const setBlockTorIps = function * ({ blockTorIps }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateBlockTorIps, guid, sharedKey, blockTorIps)
-    if (contains('Tor IP address settings updated.', response)) { throw new Error(response) }
-    yield put(actions.setIpLockOn(blockTorIps))
+    const response = yield call(api.updateBlockTorIps, guid, sharedKey, String(blockTorIps))
+    if (!contains('Tor IP address settings updated.', response)) { throw new Error(response) }
+    yield put(actions.setBlockTorIps(blockTorIps))
   }
 
   const setHint = function * ({ hint }) {
