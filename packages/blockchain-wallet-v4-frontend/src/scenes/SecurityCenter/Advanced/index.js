@@ -19,7 +19,7 @@ const Advanced = () => (
     <PasswordHint />
     <SecondPasswordWallet />
     <ActivityLogging />
-    {/* <IPWhitelist /> */}
+    <IPWhitelist />
     <LoginIpRestriction />
     <WalletAccessTor />
     <PasswordStretching />

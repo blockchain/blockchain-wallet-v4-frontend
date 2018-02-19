@@ -13,7 +13,7 @@ const Settings = (props) => {
 
   return (
     <SettingWrapper>
-      <Text>{currentWhitelist}</Text>
+      <Text>{currentWhitelist.data}</Text>
       <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change' defaultMessage='Change' />
       </Button>
