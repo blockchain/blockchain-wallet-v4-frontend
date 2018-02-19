@@ -9,6 +9,8 @@ import EmailAddress from './EmailAddress'
 import TwoStepVerification from './TwoStepVerification'
 import WalletRecoveryPhrase from './WalletRecoveryPhrase'
 
+import Advanced from './Advanced'
+
 const Wrapper = styled.div`
   padding: 30px;
   padding: ${props => props.tabs ? `0px 30px 30px 30px` : `30px`}
@@ -95,7 +97,7 @@ const SecurityCenter = (props) => {
           </Wrapper>
           : <Wrapper>
             <BodyContainer>
-              advanced
+              <Advanced />
             </BodyContainer>
           </Wrapper>
       }
