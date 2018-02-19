@@ -80,4 +80,4 @@ export const fromUnit = ({value, unit}) => {
     }))
 }
 
-export const unitToString = ({value, unit}) => `${value} ${unit.symbol}`
+export const unitToString = ({value, unit}) => `${unit.symbol}${value}`
