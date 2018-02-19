@@ -14,7 +14,7 @@ const ChangeEmailWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   div:first-of-type {
-    width: 45%;
+    width: 50%;
   }
   button {
     margin-left: 0px;
@@ -39,7 +39,7 @@ function ChangeEmailSteps (props) {
       <ChangeEmailWrapper>
         <Field name='changeEmail' validate={[validEmail]} component={TextBox} placeholder='email@email.com' />
         <CancelText weight={300} size='12px' onClick={props.handleEmailChangeCancel}>Cancel</CancelText >
-        <Button nature='primary' onClick={props.handleEmailChangeSubmit}>
+        <Button nature='primary' onClick={props.handleEmailChangeSubmit} disabled={props.invalid}>
           <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Change' />
         </Button>
       </ChangeEmailWrapper>
