@@ -40,63 +40,63 @@ const Footer = styled.div`
 `
 
 const SecondStep = props => {
-  const { previousStep, handleSubmit, fromAddress, toAddress, message, fee, satoshis } = props
+  const { previousStep, handleSubmit, fromAddress, toAddress, message, fee, satoshis, total } = props
 
   return (
     <Form onSubmit={handleSubmit}>
       <Row>
         <Text size='16px' weight={500}>
-          <FormattedMessage id='modals.sendbitcoin.secondstep.from' defaultMessage='From:' />
+          <FormattedMessage id='modals.sendbch.secondstep.from' defaultMessage='From:' />
         </Text>
         <Text size='16px' weight={300}>{fromAddress}</Text>
       </Row>
       <Row>
         <Text size='16px' weight={500}>
-          <FormattedMessage id='modals.sendbitcoin.secondstep.to' defaultMessage='To:' />
+          <FormattedMessage id='modals.sendbch.secondstep.to' defaultMessage='To:' />
         </Text>
         <Text size='16px' weight={300}>{toAddress}</Text>
       </Row>
       { message &&
         <Row>
           <Text size='16px' weight={500}>
-            <FormattedMessage id='modals.sendbitcoin.secondstep.for' defaultMessage='For:' />
+            <FormattedMessage id='modals.sendbch.secondstep.for' defaultMessage='For:' />
           </Text>
           <Text size='16px' weight={300}>{message}</Text>
         </Row>
       }
       <Row>
         <Text size='16px' weight={500}>
-          <FormattedMessage id='modals.sendbitcoin.secondstep.payment' defaultMessage='Payment:' />
+          <FormattedMessage id='modals.sendbch.secondstep.payment' defaultMessage='Payment:' />
         </Text>
         <Text size='16px' weight={300}>
-          <ComboDisplay coin='BTC'>{satoshis}</ComboDisplay>
+          <ComboDisplay coin='BCH'>{satoshis}</ComboDisplay>
         </Text>
       </Row>
       <Row>
         <Text size='16px' weight={500}>
-          <FormattedMessage id='modals.sendbitcoin.secondstep.fee' defaultMessage='Fee:' />
+          <FormattedMessage id='modals.sendbch.secondstep.fee' defaultMessage='Fee:' />
         </Text>
         <Text size='16px' weight={300}>
-          <ComboDisplay coin='BTC'>{fee}</ComboDisplay>
+          <ComboDisplay coin='BCH'>{fee}</ComboDisplay>
         </Text>
       </Row>
       <Summary>
         <Text size='16px' weight={300} color='transferred'>
-          <FormattedMessage id='modals.sendbitcoin.secondstep.total' defaultMessage='Total' />
+          <FormattedMessage id='modals.sendbch.secondstep.total' defaultMessage='Total' />
         </Text>
-        <CoinDisplay coin='BTC' size='30px' weight={600} color='transferred'>{satoshis}</CoinDisplay>
-        <FiatDisplay coin='BTC' size='20px' weight={300} color='transferred'>{satoshis}</FiatDisplay>
+        <CoinDisplay coin='BCH' size='30px' weight={600} color='transferred'>{total}</CoinDisplay>
+        <FiatDisplay coin='BCH' size='20px' weight={300} color='transferred'>{total}</FiatDisplay>
       </Summary>
       <Footer>
         <Button type='submit' nature='primary' fullwidth uppercase>
-          <FormattedMessage id='modals.sendbitcoin.secondstep.send' defaultMessage='Send bitcoin' />
+          <FormattedMessage id='modals.sendbch.secondstep.send' defaultMessage='Send Bitcoin Cash' />
         </Button>
         <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.sendbitcoin.secondstep.back' defaultMessage='Go back' />
+          <FormattedMessage id='scenes.sendbch.secondstep.back' defaultMessage='Go back' />
         </Link>
       </Footer>
     </Form>
   )
 }
 
-export default reduxForm({ form: 'sendBitcoin', destroyOnUnmount: false })(SecondStep)
+export default reduxForm({ form: 'sendBch', destroyOnUnmount: false })(SecondStep)

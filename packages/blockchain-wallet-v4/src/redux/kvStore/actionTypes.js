@@ -4,6 +4,7 @@ import * as shapeShift from './shapeShift/actionTypes'
 import * as buySell from './buySell/actionTypes'
 import * as contacts from './contacts/actionTypes'
 import * as root from './root/actionTypes'
+import * as bch from './bch/actionTypes'
 
 export {
   root,
@@ -11,5 +12,6 @@ export {
   ethereum,
   shapeShift,
   buySell,
-  contacts
+  contacts,
+  bch
 }
