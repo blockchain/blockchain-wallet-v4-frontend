@@ -6,10 +6,10 @@ import { Text } from 'blockchain-info-components'
 const TabsWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme['white-blue']};
   width: 100%;
   height: 50px;
-  border-bottom: 1px solid #CCCCCC;
+  border-bottom: 1px solid #EAEAEA;;
   padding: 0px 30px;
 `
 const TabList = styled.div`
