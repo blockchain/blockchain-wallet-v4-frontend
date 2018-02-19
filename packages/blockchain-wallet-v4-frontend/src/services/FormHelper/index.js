@@ -31,4 +31,6 @@ const validBitcoinAddress = value => utils.bitcoin.isValidBitcoinAddress(value) 
 
 const validEmailCode = value => isAlphaNumeric(value) ? undefined : 'Invalid Email Code'
 
-export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList, validPasswordStretchingNumber, validBitcoinAddress, validEtherAddress, validEmailCode }
+const validBitcoinPrivateKey = value => utils.bitcoin.isValidBitcoinPrivateKey(value) ? undefined : 'Invalid Bitcoin Private Key'
+
+export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList, validPasswordStretchingNumber, validBitcoinAddress, validBitcoinPrivateKey, validEmailCode, validEtherAddress }

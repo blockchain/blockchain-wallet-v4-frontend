@@ -23,7 +23,7 @@ class CoinDisplayContainer extends React.Component {
 
 CoinDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
 }
 
 CoinDisplayContainer.defaultProps = {

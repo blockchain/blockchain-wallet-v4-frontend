@@ -33,8 +33,8 @@ const Left = styled.div`
   height: 100%;
   padding: 15px;
   box-sizing: border-box;
-  background: ${props => props.theme['gray-1']};
-  border-right: 1px solid ${props => props.theme['gray-2']};
+  background: ${props => props.theme['white-blue']};
+  border-right: 1px solid ${props => props.theme['gray-1']};
   z-index: 2;
   transition: left .3s ease-in-out;
 

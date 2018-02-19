@@ -14,6 +14,7 @@ export const getData = state => {
   const selection = selectors.core.data.bitcoin.getSelection(state)
   const fee = prop('fee', selection)
   const satoshis = prop('value', head(filter(x => !x.change, prop('outputs', selection))))
+  const total = satoshis + fee
 
   return {
     fee,
@@ -21,6 +22,7 @@ export const getData = state => {
     fromAddress,
     toAddress,
     satoshis,
-    selection
+    selection,
+    total
   }
 }

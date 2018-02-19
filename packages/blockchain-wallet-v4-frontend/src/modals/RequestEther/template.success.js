@@ -39,7 +39,7 @@ const RequestEther = (props) => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='request' onClose={closeAll}>
-        <FormattedMessage id='modals.requestether.title' defaultMessage='Request' />
+        <FormattedMessage id='modals.requestether.title' defaultMessage='Request Ether' />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={onSubmit}>

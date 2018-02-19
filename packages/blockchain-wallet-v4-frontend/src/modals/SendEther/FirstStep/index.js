@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors'
-import { initializeForm, switchToBitcoinModal } from './services'
+import { initializeForm, switchToBitcoinOrBchModal } from './services'
 import { actions } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
@@ -17,7 +18,6 @@ class FirstStepContainer extends React.Component {
   }
 
   componentWillMount () {
-    // this.props.dataEthereumActions.fetchData()
     this.props.dataEthereumActions.fetchFee()
   }
 
@@ -26,7 +26,7 @@ class FirstStepContainer extends React.Component {
       // We initialize the form if form is not initialized yet
       initializeForm(this.props, nextProps)
       // We open the RequestEther modal if coin equals 'ETH'
-      switchToBitcoinModal(nextProps)
+      switchToBitcoinOrBchModal(nextProps)
     }
   }
 

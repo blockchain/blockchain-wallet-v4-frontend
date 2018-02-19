@@ -17,6 +17,7 @@ export const selectContext = pipe(AddressMap.guard, (addressMap) => {
   return addressMap.keySeq()
 })
 export const selectActive = pipe(AddressMap.guard, filter(Address.isActive))
+export const selectArchived = pipe(AddressMap.guard, filter(Address.isArchived))
 
 export const deleteAddress = curry((string, addressMap) =>
   pipe(AddressMap.guard, amap => amap.delete(string))(addressMap)

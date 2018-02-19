@@ -16,6 +16,7 @@ class FiatDisplayContainer extends React.Component {
       switch (this.props.coin) {
         case 'BTC': return this.props.bitcoinActions.fetchRates()
         case 'ETH': return this.props.ethereumActions.fetchRates()
+        case 'BCH': return this.props.bchActions.fetchRates()
       }
     }
   }
@@ -34,7 +35,7 @@ class FiatDisplayContainer extends React.Component {
 
 FiatDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -44,6 +45,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   bitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   ethereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 

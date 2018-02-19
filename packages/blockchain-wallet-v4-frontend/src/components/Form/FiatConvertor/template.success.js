@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Icon, TextInput, Text } from 'blockchain-info-components'
-import { TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   position: relative;
