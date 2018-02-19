@@ -112,9 +112,9 @@ export const settingsSaga = ({ api } = {}) => {
   const setLoggingLevel = function * ({ loggingLevel }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateLoggingLevel, guid, sharedKey, loggingLevel)
+    const response = yield call(api.updateLoggingLevel, guid, sharedKey, String(loggingLevel))
     if (!contains('Logging level updated.', response)) { throw new Error(response) }
-    yield put(actions.setAutoLogout(loggingLevel))
+    yield put(actions.setLoggingLevel(loggingLevel))
   }
 
   const setIpLock = function * ({ ipLock }) {
