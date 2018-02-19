@@ -22,7 +22,7 @@ const TabList = styled.div`
 `
 const Tab = styled(Text)`
   cursor: pointer;
-  border-bottom: 1px solid black;
+  border-bottom: ${props => props.active ? '1px solid black' : null};
   opacity: ${props => props.active ? 1 : 0.3};
   text-transform: uppercase;
 `

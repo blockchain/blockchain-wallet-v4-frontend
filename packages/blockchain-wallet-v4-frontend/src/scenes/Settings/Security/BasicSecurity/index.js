@@ -6,7 +6,7 @@ import InfoWell from 'components/InfoWell'
 import PasswordHint from './PasswordHint'
 import SecondPasswordWallet from './SecondPasswordWallet'
 import TwoStepVerificationRemember from './TwoStepVerificationRemember'
-import WalletPassword from './WalletPassword'
+// import WalletPassword from './WalletPassword'
 
 const Wrapper = styled.div``
 
@@ -16,7 +16,7 @@ const BasicSecurity = () => (
       <FormattedMessage id='scenes.settings.basicsecurity.explain' defaultMessage='Basic security: Make sure your details are accurate and up to date to keep your wallet safe from unauthorized access' />
       <FormattedMessage id='scenes.settings.basicsecurity.explain2' defaultMessage='and to help you restore access to your wallet in the case of a Wallet ID or password loss.' />
     </InfoWell>
-    <WalletPassword />
+    {/* <WalletPassword /> */}
     <PasswordHint />
     <SecondPasswordWallet />
     <TwoStepVerificationRemember />

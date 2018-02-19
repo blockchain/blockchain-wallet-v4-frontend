@@ -7,14 +7,20 @@ import IPWhitelist from './IPWhitelist'
 import LoginIpRestriction from './LoginIpRestriction'
 import PasswordStretching from './PasswordStretching'
 import WalletAccessTor from './WalletAccessTor'
+import PasswordHint from './PasswordHint'
+import WalletPassword from './WalletPassword'
+import SecondPasswordWallet from './SecondPasswordWallet'
 
 const Wrapper = styled.div``
 
 const Advanced = () => (
   <Wrapper>
+    <WalletPassword />
+    <PasswordHint />
+    <SecondPasswordWallet />
     <ActivityLogging />
-    <LoginIpRestriction />
     {/* <IPWhitelist /> */}
+    <LoginIpRestriction />
     <WalletAccessTor />
     <PasswordStretching />
     <APIAccess />

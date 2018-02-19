@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary, SettingStatus } from 'components/Setting'
-
-import Settings from './Settings'
+import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary, SettingStatus, SettingWrapper } from 'components/Setting'
+import { Button } from 'blockchain-info-components'
 
 const LoginIpRestriction = (props) => {
-  const { ipLockOn } = props
+  const { ipLockOn, handleClick } = props
+
   return (
     <SettingContainer>
       <SettingSummary>
@@ -25,7 +25,14 @@ const LoginIpRestriction = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Settings />
+        <SettingWrapper>
+          <Button nature='primary' onClick={handleClick}>
+            {ipLockOn
+              ? <FormattedMessage id='scenes.securitysettings.advancedsettings.loginiprestriction.settings.disable' defaultMessage='Disable' />
+              : <FormattedMessage id='scenes.securitysettings.advancedsettings.loginiprestriction.settings.enable' defaultMessage='Enable' />
+            }
+          </Button>
+        </SettingWrapper>
       </SettingComponent>
     </SettingContainer>
   )
