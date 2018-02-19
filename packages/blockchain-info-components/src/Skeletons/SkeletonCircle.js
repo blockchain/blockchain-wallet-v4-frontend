@@ -9,15 +9,19 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme[props.bgColor]};
 `
 
-const SkeletonRectangle = props => (
+const SkeletonCircle = props => (
   <Wrapper {...props}>
   </Wrapper>
 )
 
-SkeletonRectangle.propTypes = {
+SkeletonCircle.defaultProps = {
+  bgColor: 'gray-1'
+}
+
+SkeletonCircle.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   bgColor: PropTypes.string.isRequired
 }
 
-export default SkeletonRectangle
+export default SkeletonCircle

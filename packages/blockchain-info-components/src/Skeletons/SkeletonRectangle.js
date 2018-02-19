@@ -15,6 +15,10 @@ const SkeletonRectangle = props => (
   </Wrapper>
 )
 
+SkeletonRectangle.defaultProps = {
+  bgColor: 'gray-1'
+}
+
 SkeletonRectangle.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
