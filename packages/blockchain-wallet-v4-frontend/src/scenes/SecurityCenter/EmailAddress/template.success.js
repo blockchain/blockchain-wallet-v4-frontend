@@ -22,7 +22,7 @@ const IconContainer = styled.div`
 `
 
 const EmailAddress = (props) => {
-  const { data, ui, handleSubmitVerification, handleResend } = props
+  const { data, ui, handleSubmitVerification, handleResend, invalid } = props
   const { email, verified, failed } = data
   const isVerified = verified === 1
 
@@ -67,7 +67,7 @@ const EmailAddress = (props) => {
         (!ui.verifyToggled && !ui.changeEmailToggled) && !props.alone
           ? renderInitial()
           : ui.changeEmailToggled
-            ? <ChangeEmailSteps handleEmailChangeCancel={props.handleEmailChangeCancel} handleEmailChangeSubmit={props.handleEmailChangeSubmit} />
+            ? <ChangeEmailSteps handleEmailChangeCancel={props.handleEmailChangeCancel} handleEmailChangeSubmit={props.handleEmailChangeSubmit} invalid={invalid} />
             : <EmailVerificationSteps failed={failed} email={email} handleSubmitVerification={handleSubmitVerification} handleResend={handleResend} />
       }
       <SecurityComponent>
