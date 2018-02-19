@@ -16,6 +16,7 @@ const Container = styled.div`
   padding: 5px 10px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  width: ${props => props.width ? props.width : `initial`};
 
   & > :first-child { margin-right: 8px; }
 `
@@ -25,19 +26,20 @@ const selectStyle = type => {
     case 'success': return { color: 'success', uppercase: false, icon: 'checkmark-in-circle' }
     case 'warning': return { color: 'error', uppercase: true, icon: 'alert' }
     case 'alert': return { color: 'brand-secondary', uppercase: false, icon: 'bell' }
+    case 'caution': return { color: 'brand-yellow', uppercase: false, icon: 'alert' }
     default: return { color: 'brand-secondary', uppercase: false, icon: null }
   }
 }
 
 const Banner = props => {
-  const { type, children } = props
+  const { type, children, width } = props
   const style = selectStyle(type)
   const { color, uppercase, icon } = style
 
   return (
-    <Container color={color}>
+    <Container color={color} width={width}>
       { icon && <Icon name={icon} size='12px' weight={700} color={color} /> }
-      <Text size='12px' weight={400} color={color} uppercase={uppercase}>
+      <Text size='12px' weight={400} color={color} uppercase={uppercase} color='black'>
         { children }
       </Text>
     </Container>
@@ -45,8 +47,9 @@ const Banner = props => {
 }
 
 Banner.propTypes = {
-  type: PropTypes.oneOf(['success', 'warning', 'alert']),
-  children: PropTypes.node.isRequired
+  type: PropTypes.oneOf(['success', 'warning', 'alert', 'caution']),
+  children: PropTypes.node.isRequired,
+  width: PropTypes.string
 }
 
 export default Banner

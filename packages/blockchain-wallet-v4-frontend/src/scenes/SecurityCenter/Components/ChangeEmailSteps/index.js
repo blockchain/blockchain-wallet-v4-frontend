@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text, Icon, Button } from 'blockchain-info-components'
+import { Text, Button, Banner } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { SecurityDescription, SecurityHeader, SecuritySummary } from 'components/Security'
 import { Field } from 'redux-form'
@@ -20,19 +20,11 @@ const ChangeEmailWrapper = styled.div`
     margin-left: 0px;
   }
   justify-content: space-between;
+  margin-bottom: 15px;
 `
 const CancelText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
-`
-const EmailChangeWarning = styled(Text)`
-  margin-top: 25px;
-  background: #FFCF62;
-  padding: 5px;
-  width: 130%;
-  span:first-of-type {
-    padding-right: 5px;
-  }
 `
 
 function ChangeEmailSteps (props) {
@@ -51,10 +43,9 @@ function ChangeEmailSteps (props) {
           <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Change' />
         </Button>
       </ChangeEmailWrapper>
-      <EmailChangeWarning size='12px' weight={200}>
-        <Icon name='alert' />
+      <Banner type='caution' size='12px' weight={200} width='130%'>
         <FormattedMessage id='scenes.security.email.changeemail' defaultMessage='This will change your wallets email address, but the email address you signed up to Buy Bitcoin with will remain the same.' />
-      </EmailChangeWarning>
+      </Banner>
     </SecuritySummary>
   )
 }
