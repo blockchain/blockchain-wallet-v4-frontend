@@ -16,7 +16,7 @@ class SecurityTabsContainer extends React.Component {
   render () {
     // const { data } = this.props
     return (
-      <SecurityTabs setActive={this.setActive} active={this.state.active} />
+      <SecurityTabs setActive={this.setActive} active={this.state.active} setView={this.props.setView} />
     )
   }
 }

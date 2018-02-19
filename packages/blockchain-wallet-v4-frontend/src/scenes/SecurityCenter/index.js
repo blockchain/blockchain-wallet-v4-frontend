@@ -10,8 +10,9 @@ class SecurityCenterContainer extends React.Component {
 
     this.handleEnable = this.handleEnable.bind(this)
     this.onClose = this.onClose.bind(this)
+    this.setView = this.setView.bind(this)
 
-    this.state = { enabling: false, editing: false }
+    this.state = { enabling: false, editing: false, viewing: 'security' }
   }
 
   handleEnable (step) {
@@ -31,6 +32,10 @@ class SecurityCenterContainer extends React.Component {
     return progress
   }
 
+  setView (tab) {
+    this.setState({ viewing: tab })
+  }
+
   render () {
     return (
       <SecurityCenter progress={this.determineProgress()}
@@ -39,6 +44,8 @@ class SecurityCenterContainer extends React.Component {
         enabling={this.state.enabling}
         handleEnable={this.handleEnable}
         onClose={this.onClose}
+        viewing={this.state.viewing}
+        setView={this.setView}
       />
     )
   }
