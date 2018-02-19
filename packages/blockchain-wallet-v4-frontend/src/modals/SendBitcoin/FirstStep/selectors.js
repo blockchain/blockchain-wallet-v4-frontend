@@ -22,6 +22,7 @@ export const getData = state => {
   const xpub = selectors.core.wallet.getDefaultAccountXpub(state)
   const defaultFromR = balancesR.map(x => prop('value', head(filter(y => equals(y.value.xpub, xpub), x))))
   const feeR = selectors.core.data.bitcoin.getFee(state)
+  const fees = { regular: feeR.map(path(['regular'])), priority: feeR.map(path(['priority'])) }
   const defaultFeeR = feeR.map(path(['regular']))
   const coinsR = selectors.core.data.bitcoin.getCoins(state)
   const coin = formValueSelector('sendBitcoin')(state, 'coin')
@@ -33,6 +34,7 @@ export const getData = state => {
   const receiveAddressR = extractAddress(getReceive, to)
   const changeAddressR = extractAddress(getChange, from)
   const unitR = selectors.core.settings.getBtcUnit(state)
+  const selection = selectors.core.data.bitcoin.getSelection(state)
 
   const transform = (defaultFrom, defaultFee, coins, receiveAddress, changeAddress, unit) => ({
     initialValues: {
@@ -43,6 +45,7 @@ export const getData = state => {
     coin,
     from,
     fee,
+    fees,
     to,
     amount,
     effectiveBalance,
@@ -50,7 +53,8 @@ export const getData = state => {
     coins,
     receiveAddress,
     changeAddress,
-    unit
+    unit,
+    selection
   })
 
   return lift(transform)(defaultFromR, defaultFeeR, coinsR, receiveAddressR, changeAddressR, unitR)
