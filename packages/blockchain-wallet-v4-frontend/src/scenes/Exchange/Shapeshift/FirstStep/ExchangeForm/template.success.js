@@ -121,9 +121,9 @@ const renderItem = item => (
   </ItemWrapper>
 )
 
-const FirstStep = props => {
+const Success = props => {
   const { sourceCoin, targetCoin, elements, max, handleSubmit, handleSwap, invalid, submitting } = props
-
+  console.log('success')
   return (
     <Wrapper>
       <Header>
@@ -167,4 +167,4 @@ const FirstStep = props => {
   )
 }
 
-export default reduxForm({ form: 'exchange', destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'exchange', destroyOnUnmount: false })(Success)
