@@ -19,7 +19,7 @@ class SettingsContainer extends React.Component {
 
   componentWillMount () {
     if (!isEmpty(this.props.currentWhitelist)) {
-      this.props.formActions.initialize('settingIPWhitelist', { IPWhitelist: this.props.currentWhitelist })
+      this.props.formActions.initialize('settingIPWhitelist', { IPWhitelist: this.props.currentWhitelist.data })
     }
   }
 
@@ -40,7 +40,6 @@ class SettingsContainer extends React.Component {
 
   render () {
     const { ui, ...rest } = this.props
-
     return <Settings
       {...rest}
       updateToggled={ui.updateToggled}
