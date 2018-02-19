@@ -2,10 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
 import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components'
 import { PasswordBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
+
+const SecondPasswordWrapper = styled(SettingWrapper)`
+  width: ${props => props.toggled ? '150%' : 'initial'};
+`
 
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, submitting, invalid, secondPasswordEnabled } = props
@@ -35,7 +40,7 @@ const Settings = (props) => {
     )
   } else {
     return (
-      <SettingWrapper>
+      <SecondPasswordWrapper toggled={updateToggled}>
         <Button nature='primary' onClick={handleToggle}>
           <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.set' defaultMessage='Set Second Password' />
         </Button>
@@ -51,10 +56,10 @@ const Settings = (props) => {
               <Text size='14px' weight={300} color='error'>
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.warning3' defaultMessage='For your security, we do not keep any passwords on file.' />
               </Text>
-              <Text size='14px' weight={300}>
-                <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.label2' defaultMessage='Second Password' />
-              </Text>
             </TextGroup>
+            <Text size='14px' weight={300}>
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.label2' defaultMessage='Second Password' />
+            </Text>
             <Field name='secondPassword' component={PasswordBox} />
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.explain' defaultMessage='Confirm Second Password' />
@@ -70,7 +75,7 @@ const Settings = (props) => {
             </ButtonGroup>
           </SettingForm>
         }
-      </SettingWrapper>
+      </SecondPasswordWrapper>
     )
   }
 }
