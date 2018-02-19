@@ -13,10 +13,11 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  height: 300px;
   padding: 15px;
   margin-top: 15px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
+  border: 1px solid ${props => props.theme['gray-1']};
 `
 const Header = styled.div`
   width: 100%;

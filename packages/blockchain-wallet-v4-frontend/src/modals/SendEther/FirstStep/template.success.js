@@ -31,7 +31,15 @@ const Row = styled.div`
   width: 100%;
 `
 
-const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Invalid amount. Available : ${props.effectiveBalance}`
+const DescriptionText = styled.div`
+  margin-top: 20px;
+`
+
+const AmountText = styled.div`
+  margin-top: 20px;
+`
+
+const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
 
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
@@ -53,17 +61,21 @@ const FirstStep = props => {
         <Field name='to' component={TextBox} validate={[required, validEtherAddress]} />
         <QRCodeCapture coin='ETH' />
       </Row>
-      <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
-      </Text>
-      <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' />
-      <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description:' />
-        <Tooltip>
-          <FormattedMessage id='modals.sendether.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-          <FormattedMessage id='modals.sendether.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
-        </Tooltip>
-      </Text>
+      <AmountText>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
+        </Text>
+      </AmountText>
+      <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' maxAvailable={props.effectiveBalance} />
+      <DescriptionText>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description:' />
+          <Tooltip>
+            <FormattedMessage id='modals.sendether.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
+            <FormattedMessage id='modals.sendether.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
+          </Tooltip>
+        </Text>
+      </DescriptionText>
       <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
       <Text size='14px' weight={500}>
         <FormattedMessage id='modals.sendether.firststep.fee' defaultMessage='Transaction fee :' />
