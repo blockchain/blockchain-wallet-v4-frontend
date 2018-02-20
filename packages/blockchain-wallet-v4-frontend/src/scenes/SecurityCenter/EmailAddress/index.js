@@ -31,7 +31,6 @@ class EmailAddressContainer extends React.Component {
 
   handleVerifyClick () {
     this.props.handleEnable()
-    // this.props.updateUI({ verifyToggled: true })
   }
 
   handleResend () {
@@ -45,6 +44,8 @@ class EmailAddressContainer extends React.Component {
 
   handleChangeEmailView () {
     this.props.updateUI({ changeEmailToggled: true })
+    const email = this.props.data.data.email
+    this.props.formActions.change('securityEmailAddress', 'changeEmail', email)
   }
 
   handleEmailChangeCancel () {

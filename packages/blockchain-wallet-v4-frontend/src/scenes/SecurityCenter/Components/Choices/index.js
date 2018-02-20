@@ -26,6 +26,8 @@ const TwoStepChoicesWapper = styled.div`
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `
 
 function Choices (props) {

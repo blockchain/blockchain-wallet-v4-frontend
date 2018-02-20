@@ -20,6 +20,12 @@ const IconContainer = styled.div`
   flex-direction: column;
   margin-top: 25px;
 `
+const EmailSecurityComponent = styled(SecurityComponent)`
+  align-items: center;
+  button:first-of-type {
+    margin-bottom: 5px;
+  }
+`
 
 const EmailAddress = (props) => {
   const { data, ui, handleSubmitVerification, handleResend, invalid } = props
@@ -67,10 +73,10 @@ const EmailAddress = (props) => {
         (!ui.verifyToggled && !ui.changeEmailToggled) && !props.alone
           ? renderInitial()
           : ui.changeEmailToggled
-            ? <ChangeEmailSteps handleEmailChangeCancel={props.handleEmailChangeCancel} handleEmailChangeSubmit={props.handleEmailChangeSubmit} invalid={invalid} />
+            ? <ChangeEmailSteps handleEmailChangeCancel={props.handleEmailChangeCancel} handleEmailChangeSubmit={props.handleEmailChangeSubmit} invalid={invalid} email={email} />
             : <EmailVerificationSteps failed={failed} email={email} handleSubmitVerification={handleSubmitVerification} handleResend={handleResend} />
       }
-      <SecurityComponent>
+      <EmailSecurityComponent>
         {
           !verified && !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
             ? <Button nature='primary' onClick={props.handleVerifyClick}>
@@ -85,7 +91,7 @@ const EmailAddress = (props) => {
             </ChangeEmailText>
             : null
         }
-      </SecurityComponent>
+      </EmailSecurityComponent>
     </SecurityContainer>
   )
 }
