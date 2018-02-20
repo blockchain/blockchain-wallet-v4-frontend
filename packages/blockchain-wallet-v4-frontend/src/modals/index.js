@@ -14,7 +14,7 @@ import RequestBitcoin from './RequestBitcoin'
 import RequestEther from './RequestEther'
 import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
-import SendBitcoin from './SendBitcoin'
+import SendBtc from './SendBtc'
 import SendEther from './SendEther'
 import TransactionReport from './TransactionReport'
 import TransferEther from './TransferEther'
@@ -40,7 +40,7 @@ const Modals = props => (
     <RequestEther />
     <SecondPassword />
     <SendBch />
-    <SendBitcoin />
+    <SendBtc />
     <SendEther />
     <TransactionReport />
     <TransferEther />

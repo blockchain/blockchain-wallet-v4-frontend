@@ -5,18 +5,18 @@ import * as selectors from '../selectors'
 import * as sagas from '../sagas'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
-const sendBitcoinGoalSaga = function * (goal) {
+const sendBtcGoalSaga = function * (goal) {
   const { id, data } = goal
   const { amount, address, message } = data
   // Goal work
   const unit = yield select(selectors.core.settings.getBtcUnit)
   const scaledAmount = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: 'SAT', toUnit: unit }).value
-  yield call(sagas.modules.sendBitcoin.initSendBitcoin)
-  yield put(actions.form.startAsyncValidation('sendBitcoin'))
-  yield put(actions.form.change('sendBitcoin', 'to2', address))
-  yield put(actions.form.change('sendBitcoin', 'amount', scaledAmount))
-  yield put(actions.form.change('sendBitcoin', 'message', message))
-  yield put(actions.form.touch('sendBitcoin', 'to2', 'amount', 'message'))
+  yield call(sagas.modules.sendBtc.initSendBtc)
+  yield put(actions.form.startAsyncValidation('sendBtc'))
+  yield put(actions.form.change('sendBtc', 'to2', address))
+  yield put(actions.form.change('sendBtc', 'amount', scaledAmount))
+  yield put(actions.form.change('sendBtc', 'message', message))
+  yield put(actions.form.touch('sendBtc', 'to2', 'amount', 'message'))
   // Goal removed from state
   yield put(actions.goals.deleteGoal(id))
 }
@@ -26,7 +26,7 @@ const goalSaga = function * () {
 
   yield all(goals.map((goal) => {
     switch (goal.name) {
-      case 'payment': return call(sendBitcoinGoalSaga, goal)
+      case 'payment': return call(sendBtcGoalSaga, goal)
     }
   }))
 }

@@ -19,7 +19,7 @@ export const switchToEtherOrBitcoinModal = nextProps => {
     nextProps.modalActions.showModal('SendEther')
   } else if (equals(coin, 'BTC')) {
     nextProps.modalActions.closeAllModals()
-    nextProps.modalActions.showModal('SendBitcoin')
+    nextProps.modalActions.showModal('SendBtc')
   }
 }
 

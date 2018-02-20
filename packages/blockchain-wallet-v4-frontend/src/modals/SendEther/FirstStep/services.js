@@ -14,7 +14,7 @@ export const switchToBitcoinOrBchModal = nextProps => {
   const coin = prop('coin', data)
   if (equals(coin, 'BTC')) {
     nextProps.modalActions.closeAllModals()
-    nextProps.modalActions.showModal('SendBitcoin')
+    nextProps.modalActions.showModal('SendBtc')
   } else if (equals(coin, 'BCH')) {
     nextProps.modalActions.closeAllModals()
     nextProps.modalActions.showModal('SendBch')

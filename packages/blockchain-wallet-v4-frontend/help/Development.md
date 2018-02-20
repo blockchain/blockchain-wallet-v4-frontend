@@ -78,7 +78,7 @@ This directory contains different modals
 * `QRCodeCapture`
 * `RequestBitcoin`
 * `SecondPassword`
-* `SendBitcoin`
+* `SendBtc`
 
 ### Providers
 
@@ -104,4 +104,3 @@ This directory contains the redux store configuration and the different middlewa
 ### Themes
 
 This directory contains the theme class (to discuss)
-

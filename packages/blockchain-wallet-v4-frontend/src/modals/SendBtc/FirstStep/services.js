@@ -7,7 +7,7 @@ export const initializeForm = (prevProps, nextProps) => {
   const prevInitialValues = prop('initialValues', prevData)
   const prevCoin = prop('coin', prevData)
   if (!isNil(prevInitialValues) && isNil(prevCoin)) {
-    nextProps.formActions.initialize('sendBitcoin', prevInitialValues)
+    nextProps.formActions.initialize('sendBtc', prevInitialValues)
   }
 }
 

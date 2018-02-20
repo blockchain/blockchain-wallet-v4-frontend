@@ -4,11 +4,11 @@ import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 
-export const sendBitcoin = function * (action) {
+export const sendBtc = function * (action) {
   try {
     const saga = askSecondPasswordEnhancer(sagas.core.data.bitcoin.signAndPublish)
     yield call(saga, action.payload)
-    yield put(actions.form.destroy('sendBitcoin'))
+    yield put(actions.form.destroy('sendBtc'))
     yield put(actions.modals.closeModal())
     yield put(actions.router.push('/btc/transactions'))
     yield put(actions.alerts.displaySuccess('Your transaction is being confirmed'))
@@ -18,5 +18,5 @@ export const sendBitcoin = function * (action) {
 }
 
 export default function * () {
-  yield takeEvery(AT.SEND_BITCOIN, sendBitcoin)
+  yield takeEvery(AT.SEND_BTC, sendBtc)
 }

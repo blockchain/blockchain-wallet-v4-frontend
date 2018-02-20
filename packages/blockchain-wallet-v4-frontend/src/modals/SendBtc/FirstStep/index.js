@@ -42,15 +42,15 @@ class FirstStep extends React.Component {
   }
 
   customFeeHandler (fee) {
-    this.props.formActions.change('sendBitcoin', 'fee', fee)
+    this.props.formActions.change('sendBtc', 'fee', fee)
   }
 
   handleClickAddressToggler () {
     // We toggle the dropdown 'to' display
     this.props.updateUI({ addressSelectToggled: !this.props.ui.addressSelectToggled })
     // /!\ CAREFUL: We reset field 'to' or 'to2' to make sure we only have 1 of those fields filled at a time.
-    this.props.formActions.change('sendBitcoin', 'to', '')
-    this.props.formActions.change('sendBitcoin', 'to2', '')
+    this.props.formActions.change('sendBtc', 'to', '')
+    this.props.formActions.change('sendBtc', 'to2', '')
   }
 
   handleClickFeeToggler () {

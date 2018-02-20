@@ -39,7 +39,7 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <CoinSelector>
         <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.sendbitcoin.firststep.coin' defaultMessage='Currency:' />
+          <FormattedMessage id='modals.sendbtc.firststep.coin' defaultMessage='Currency:' />
         </Text>
         <Field name='coin' component={SelectBoxCoin} validate={[required]} />
       </CoinSelector>

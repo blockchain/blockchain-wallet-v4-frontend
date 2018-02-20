@@ -119,8 +119,8 @@ const FirstStep = props => {
 
   const renderFeeConfirmationTime = () => {
     if (fee === regular) {
-      return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
-    } else return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />)
+      return (<FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
+    } else return (<FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />)
   }
 
   return (
@@ -128,19 +128,19 @@ const FirstStep = props => {
       <Row>
         <ColOne>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.sendbitcoin.firststep.coin' defaultMessage='Currency:' />
+            <FormattedMessage id='modals.sendbtc.firststep.coin' defaultMessage='Currency:' />
           </Text>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </ColOne>
         <ColTwo>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
+            <FormattedMessage id='modals.sendbtc.firststep.from' defaultMessage='From:' />
           </Text>
           <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
         </ColTwo>
       </Row>
       <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
+        <FormattedMessage id='modals.sendbtc.firststep.to' defaultMessage='To:' />
       </Text>
       <Row>
         {addressSelectToggled
@@ -155,16 +155,16 @@ const FirstStep = props => {
       </Row>
       <AmountText>
         <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.sendbitcoin.firststep.amount' defaultMessage='Enter amount:' />
+          <FormattedMessage id='modals.sendbtc.firststep.amount' defaultMessage='Enter amount:' />
         </Text>
       </AmountText>
       <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' maxAvailable={props.effectiveBalance} />
       <DescriptionText>
         <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:' />
+          <FormattedMessage id='modals.sendbtc.firststep.description' defaultMessage='Description:' />
           <Tooltip>
-            <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-            <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
+            <FormattedMessage id='modals.sendbtc.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
+            <FormattedMessage id='modals.sendbtc.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
           </Tooltip>
         </Text>
       </DescriptionText>
@@ -173,7 +173,7 @@ const FirstStep = props => {
         <ColLeft>
           <div>
             <Text size='14px' weight={500}>
-              <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
+              <FormattedMessage id='modals.sendbtc.firststep.fee' defaultMessage='Transaction fee:' />
             </Text>
             {feeEditToggled
               ? <FeeContainer>
@@ -200,15 +200,15 @@ const FirstStep = props => {
           <ComboDisplay coin='BTC'>{totalFee}</ComboDisplay>
           <CustomizeFeeLink onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
             {feeEditToggled
-              ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
-              : <FormattedMessage id='modals.sendbitcoin.firststep.edit' defaultMessage='Customize fee' />
+              ? <FormattedMessage id='modals.sendbtc.firststep.cancel' defaultMessage='Cancel' />
+              : <FormattedMessage id='modals.sendbtc.firststep.edit' defaultMessage='Customize fee' />
             }
           </CustomizeFeeLink>
         </ColRight>
       </Row>
       <ButtonRow>
         <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
+          <FormattedMessage id='modals.sendbtc.firststep.continue' defaultMessage='Continue' />
         </Button>
       </ButtonRow>
     </Form>
@@ -228,4 +228,4 @@ FirstStep.propTypes = {
   handleClickFeeToggler: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendBitcoin', shouldValidate, destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'sendBtc', shouldValidate, destroyOnUnmount: false })(FirstStep)

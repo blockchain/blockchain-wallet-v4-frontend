@@ -15,7 +15,7 @@ class SecondStepContainer extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     const { selection } = this.props.data
-    this.props.sendBitcoinActions.sendBitcoin(selection)
+    this.props.sendBtcActions.sendBtc(selection)
   }
 
   render () {
@@ -29,7 +29,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch),
+  sendBtcActions: bindActionCreators(actions.modules.sendBtc, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
