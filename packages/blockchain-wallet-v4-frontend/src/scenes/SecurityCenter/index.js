@@ -46,6 +46,7 @@ class SecurityCenterContainer extends React.Component {
         onClose={this.onClose}
         viewing={this.state.viewing}
         setView={this.setView}
+        isMnemonicVerified={this.props.isMnemonicVerified}
       />
     )
   }

@@ -49,8 +49,8 @@ const WalletRecoveryPhrase = (props) => {
             }
           </SecurityDescription>
           {
-            alone
-              ? <RecordBackupPhrase handleClose={props.handleClose} phrase={recoveryPhrase} triggerCopyChange={changeDescription} isMnemonicVerified={isMnemonicVerified} goBackOnSuccess={props.goBackOnSuccess} />
+            alone || ui.nextStepToggled
+              ? <RecordBackupPhrase handleClose={props.handleClose} phrase={recoveryPhrase} triggerCopyChange={changeDescription} isMnemonicVerified={isMnemonicVerified} goBackOnSuccess={props.goBackOnSuccess} inline={!alone} />
               : null
           }
         </SecuritySummary>
@@ -59,7 +59,7 @@ const WalletRecoveryPhrase = (props) => {
             ? <SecurityComponent>
               {
                 !alone && isMnemonicVerified
-                  ? <Button nature='primary' onClick={props.toggleNextStep} >
+                  ? <Button nature='primary' onClick={props.toggleBackupAgain} >
                     <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Backup Again' />
                   </Button>
                   : alone
