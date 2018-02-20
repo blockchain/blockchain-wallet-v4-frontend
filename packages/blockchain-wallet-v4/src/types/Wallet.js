@@ -6,7 +6,7 @@ import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import BIP39 from 'bip39'
 import { compose, curry, map, is, pipe, __, concat, split, isNil } from 'ramda'
-import { traversed, traverseOf, over, view, set } from 'ramda-lens'
+import { traversed, traverseOf, over, view } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
 import Type from './Type'
@@ -14,7 +14,6 @@ import * as HDWallet from './HDWallet'
 import * as HDAccount from './HDAccount'
 import * as Address from './Address'
 import * as AddressMap from './AddressMap'
-import * as AddressLabel from './AddressLabel'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as HDWalletList from './HDWalletList'
 import * as HDAccountList from './HDAccountList'
@@ -144,12 +143,37 @@ export const isValidSecondPwd = curry((password, wallet) => {
 export const addAddress = curry((wallet, address, password) => {
   let it = selectIterations(wallet)
   let sk = view(sharedKey, wallet)
-  let set = curry((a, as) => as.set(a.addr, a))
-  let append = curry((w, a) => over(addresses, set(a), w))
+  let appendAddress = curry((w, a) => over(addresses, (addrs) => addrs.set(a.addr, a), w))
   if (!isDoubleEncrypted(wallet)) {
-    return Either.of(append(wallet, address))
+    return Either.of(appendAddress(wallet, address))
   } else if (isValidSecondPwd(password, wallet)) {
-    return Address.encryptSync(it, sk, password, address).map(append(wallet))
+    return Address.encryptSync(it, sk, password, address).map(appendAddress(wallet))
+  } else {
+    return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
+  }
+})
+
+// newHDAccount :: String -> String? -> Wallet -> Either Error Wallet
+export const newHDAccount = curry((label, password, wallet) => {
+  let it = selectIterations(wallet)
+  let sk = view(sharedKey, wallet)
+  let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
+  let index = hdWallet.accounts.size
+
+  let appendAccount = curry((w, account) => {
+    let accountsLens = compose(hdWallets, HDWalletList.hdwallet, HDWallet.accounts)
+    return over(accountsLens, (accounts) => accounts.push(account), w)
+  })
+
+  if (!isDoubleEncrypted(wallet)) {
+    return Either.of(hdWallet.seedHex)
+      .map(HDWallet.generateAccount(index, label))
+      .map(appendAccount(wallet))
+  } else if (isValidSecondPwd(password, wallet)) {
+    return crypto.decryptSecPassSync(sk, it, password, hdWallet.seedHex)
+      .map(HDWallet.generateAccount(index, label))
+      .chain(HDAccount.encryptSync(it, sk, password))
+      .map(appendAccount(wallet))
   } else {
     return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
   }
@@ -274,7 +298,6 @@ export const getHDPrivateKey = curry((keypath, secondPassword, network, wallet) 
     return Task.of(xpriv).map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
   }
 })
-
 
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, network) =>
