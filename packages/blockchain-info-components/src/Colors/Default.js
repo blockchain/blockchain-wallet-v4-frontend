@@ -26,6 +26,7 @@ export default {
   'gray-6': '#383838',
   // New Color
   'white': '#FFFFFF',
+  'white-blue': '#F5F7F9',
   'red': '#FF0000',
   'black': '#000000',
   halftransparentgrey: 'rgba(0, 0, 0, 0.5)'

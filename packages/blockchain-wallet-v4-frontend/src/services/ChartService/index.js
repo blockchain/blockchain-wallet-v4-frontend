@@ -11,38 +11,45 @@ const SCALES = {
   DAY: 24 * 60 * 60,
   FIVEDAY: 5 * 24 * 60 * 60
 }
+
 const BTCSTART = 1282089600
 const ETHSTART = 1438992000
+const BCHSTART = 1500854400
+const start = { 'BTC': BTCSTART, 'ETH': ETHSTART, 'BCH': BCHSTART }
 
 const selectPriceIndexSeriesOptions = (coin, timeframe) => {
   switch (timeframe) {
     case 'year':
+      const yearStart = moment().subtract(1, 'year')
       return {
-        start: moment().subtract(1, 'year').format('X'),
+        start: yearStart > start.coin ? yearStart.format('X') : start.coin,
         scale: SCALES.DAY,
         interval: INTERVALS.DAY
       }
     case 'month':
+      const monthStart = moment().subtract(1, 'month')
       return {
-        start: moment().subtract(1, 'month').format('X'),
+        start: monthStart > start.coin ? monthStart.format('X') : start.coin,
         scale: SCALES.TWOHOUR,
         interval: INTERVALS.DAY
       }
     case 'week':
+      const weekStart = moment().subtract(7, 'day')
       return {
-        start: moment().subtract(7, 'day').format('X'),
+        start: weekStart > start.coin ? weekStart.format('X') : start.coin,
         scale: SCALES.HOUR,
         interval: INTERVALS.HOUR
       }
     case 'day':
+      const dayStart = moment().subtract(1, 'day')
       return {
-        start: moment().subtract(1, 'day').format('X'),
+        start: dayStart > start.coin ? dayStart.format('X') : start.coin,
         scale: SCALES.FIFTEENMIN,
         interval: INTERVALS.HOUR
       }
     default:
       return {
-        start: coin === 'BTC' ? BTCSTART : ETHSTART,
+        start: start.coin,
         scale: SCALES.FIVEDAY,
         interval: INTERVALS.DAY
       }

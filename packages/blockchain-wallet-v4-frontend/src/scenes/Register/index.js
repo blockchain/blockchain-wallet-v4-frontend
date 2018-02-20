@@ -15,7 +15,6 @@ class RegisterContainer extends React.Component {
   onSubmit (e) {
     e.preventDefault()
     const { email, password } = this.props
-    this.props.alertActions.displayInfo('Creating wallet...')
     this.props.authActions.register(email, password)
   }
 
