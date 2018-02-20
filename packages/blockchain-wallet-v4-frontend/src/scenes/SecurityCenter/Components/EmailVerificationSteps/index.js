@@ -12,6 +12,7 @@ const EmailCodeWrapper = styled.form`
   width: 100%;
   display: flex;
   flex-direction: row;
+  margin: 30px 0px 20px 0px;
   button {
     margin-left: 100px;
   }

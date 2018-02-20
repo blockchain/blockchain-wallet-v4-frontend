@@ -22,12 +22,12 @@ const YubikeyContainer = styled.div`
   justify-content: center;
   align-items: center;
 `
-const QRInputWrapper = styled.div`
+const YubikeyInputWrapper = styled.div`
   width: 30%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin: 30px 0px 20px 0px;
   button {
     margin-top: 10px;
   }
@@ -89,11 +89,11 @@ const Yubikey = props => {
             <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Inser the Yubikey into an available USB port.' />
           </Text>
           <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Pair your Yubikey' />
+            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Yubikey will be paired automatically' />
           </Text>
-          <QRInputWrapper>
+          <YubikeyInputWrapper>
             <YubikeyInput type='password' name='yubikeyCode' value={props.value} onChange={props.handleInput} />
-          </QRInputWrapper>
+          </YubikeyInputWrapper>
         </YubikeyContainer>
       </AuthenticatorSummary>
     </form>

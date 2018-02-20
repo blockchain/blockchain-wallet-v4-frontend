@@ -25,18 +25,10 @@ const validateWord = index => (value, allValues, props) => {
 
 const languageHelper = (num) => {
   switch (num) {
-    case 0: return '1st'
-    case 1: return '2nd'
-    case 2: return '3rd'
-    case 3: return '4th'
-    case 4: return '5th'
-    case 5: return '6th'
-    case 6: return '7th'
-    case 7: return '8th'
-    case 8: return '9th'
-    case 9: return '10th'
-    case 10: return '11th'
-    case 11: return '12th'
+    case 0: return `${num + 1}st`
+    case 1: return `${num + 1}nd`
+    case 2: return `${num + 1}rd`
+    default: return `${num + 1}th`
   }
 }
 
@@ -48,7 +40,7 @@ const WordInput = props => {
       <Text size='13px' weight={300}>
         {`${languageHelper(index)} word`}
       </Text>
-      <Field name={`word${index}`} component={TextBox} validate={[required, validateWord(index)]} />
+      <Field name={`word${index}`} component={TextBox} validate={[required, validateWord(index)]} center />
     </Container>
   )
 }

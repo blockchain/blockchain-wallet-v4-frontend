@@ -35,7 +35,7 @@ const QRInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin: 20px 0px;
   button {
     margin-top: 10px;
   }

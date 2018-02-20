@@ -87,6 +87,10 @@ const Buttons = styled(ButtonGroup)`
     margin-left: 10px;
   }
 `
+const TipText = styled(Text)`
+  display: flex;
+  flex-direction: row;
+`
 
 const TwoStepVerification = (props) => {
   const { ui, twoStepChoice, data, editing, ...rest } = props
@@ -139,10 +143,6 @@ const TwoStepVerification = (props) => {
             </DisableContainer>
             : authType === 4 || authType === 1 || authType === 2
               ? <DisableLinkContainer>
-                {/* <Text weight={200} size='14px'>
-                  <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with' />
-                  <WeightedText>{props.authName}</WeightedText>
-                </Text> */}
                 <DisableLinkText size='14px' weight={300} flexRow='true'>
                   <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first.' />
                   <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Disable {props.authName}</Link>
@@ -163,7 +163,7 @@ const TwoStepVerification = (props) => {
           <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification' />
         </SecurityHeader>
         <SecurityDescription>
-          <Text>
+          <Text size='14px'>
             <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Use Google Authenticator, Yubikey, or SMS Codes' />
           </Text>
           <br />
@@ -206,9 +206,13 @@ const TwoStepVerification = (props) => {
             <Text color='brand-primary' size='12px' weight={500}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />
             </Text>
-            <Text weight={200} size='12px'>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for <make into links> iOS and Android).' />
-            </Text>
+            <TipText weight={200} size='12px'>
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for' />
+              <Link weight={200} size='12px' href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8' _target='blank' rel='noopener noreferrer'>&nbsp;iOS&nbsp;</Link>
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.and' defaultMessage='and' />
+              <Link weight={200} size='12px' href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en' _target='blank' rel='noopener noreferrer'>&nbsp;Android</Link>
+              <FormattedMessage id='none' defaultMessage=').' />
+            </TipText>
           </SecurityTip>
           : null
       }

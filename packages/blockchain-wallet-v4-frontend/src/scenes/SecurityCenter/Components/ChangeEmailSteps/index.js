@@ -21,11 +21,13 @@ const ChangeEmailWrapper = styled.div`
   }
   justify-content: space-between;
   margin-bottom: 15px;
+  margin-top: 20px;
 `
 const CancelText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
 `
+const PaddingBottom = styled.div` margin-bottom: 10px; `
 
 function ChangeEmailSteps (props) {
   return (
@@ -46,6 +48,7 @@ function ChangeEmailSteps (props) {
       <Banner type='caution' size='12px' weight={200} width='130%'>
         <FormattedMessage id='scenes.security.email.changeemail' defaultMessage='This will change your wallets email address, but the email address you signed up to Buy Bitcoin with will remain the same.' />
       </Banner>
+      <PaddingBottom />
     </SecuritySummary>
   )
 }

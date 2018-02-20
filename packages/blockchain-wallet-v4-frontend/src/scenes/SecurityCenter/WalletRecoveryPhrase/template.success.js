@@ -24,7 +24,7 @@ const IconContainer = styled.div`
 `
 
 const WalletRecoveryPhrase = (props) => {
-  const { ui, recoveryPhrase, changeDescription, data } = props
+  const { ui, recoveryPhrase, changeDescription, data, alone } = props
   const { isMnemonicVerified } = data
 
   return (
@@ -49,7 +49,7 @@ const WalletRecoveryPhrase = (props) => {
             }
           </SecurityDescription>
           {
-            props.alone
+            alone
               ? <RecordBackupPhrase handleClose={props.handleClose} phrase={recoveryPhrase} triggerCopyChange={changeDescription} isMnemonicVerified={isMnemonicVerified} goBackOnSuccess={props.goBackOnSuccess} />
               : null
           }
@@ -58,11 +58,11 @@ const WalletRecoveryPhrase = (props) => {
           !ui.nextStepToggled
             ? <SecurityComponent>
               {
-                !props.alone && isMnemonicVerified
+                !alone && isMnemonicVerified
                   ? <Button nature='primary' onClick={props.toggleNextStep} >
                     <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Backup Again' />
                   </Button>
-                  : props.alone
+                  : alone
                     ? null
                     : <Button nature='primary' onClick={props.toggleNextStep} >
                       <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Backup Funds' />
@@ -73,7 +73,7 @@ const WalletRecoveryPhrase = (props) => {
         }
       </SecurityTwoStepContainer>
       {
-        ui.nextStepToggled
+        alone
           ? <SecurityTip>
             <Text color='brand-primary' size='12px' weight={500}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />

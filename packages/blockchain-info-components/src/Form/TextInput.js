@@ -19,6 +19,7 @@ const BaseTextInput = styled.input.attrs({
   outline-width: 0;
   user-select: text;
   border: 1px solid  ${props => props.theme[props.borderColor]};
+  text-align: ${props => props.center ? 'center' : 'left'};
 
   &::-webkit-input-placeholder {
     color: ${props => props.theme['gray-2']};
