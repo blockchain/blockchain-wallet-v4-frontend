@@ -67,7 +67,7 @@ const SecondStep = (props) => {
               </Text>
             </Button>
         }
-        <Link size='12px' weight={300} onClick={goBackOnSuccess}>
+        <Link size='12px' weight={300} onClick={props.inline ? props.handleClose : goBackOnSuccess}>
           <FormattedMessage id='modals.recoveryphrase.firststep.cancel' defaultMessage="Skip for now, I'll do this later" />
         </Link>
       </Buttons>

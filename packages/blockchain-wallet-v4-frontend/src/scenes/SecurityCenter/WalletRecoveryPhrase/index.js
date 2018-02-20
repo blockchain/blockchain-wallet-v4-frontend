@@ -13,6 +13,7 @@ class WalletRecoveryPhraseContainer extends React.Component {
     super(props)
 
     this.toggleNextStep = this.toggleNextStep.bind(this)
+    this.toggleBackupAgain = this.toggleBackupAgain.bind(this)
     this.closeSteps = this.closeSteps.bind(this)
     this.changeDescription = this.changeDescription.bind(this)
     this.state = {}
@@ -32,7 +33,11 @@ class WalletRecoveryPhraseContainer extends React.Component {
   }
 
   changeDescription () {
-    this.props.updateUI({ descriptionToggled: true })
+    this.props.updateUI({ descriptionToggled: !this.props.ui.descriptionToggled })
+  }
+
+  toggleBackupAgain () {
+    this.props.updateUI({ nextStepToggled: true })
   }
 
   render () {
@@ -44,6 +49,7 @@ class WalletRecoveryPhraseContainer extends React.Component {
       handleClose={this.closeSteps}
       changeDescription={this.changeDescription}
       recoveryPhrase={this.props.recoveryPhrase}
+      toggleBackupAgain={this.toggleBackupAgain}
     />
   }
 }

@@ -43,7 +43,7 @@ const VerificationContainer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, position, showSuccess, close, submitting, invalid, phrase, goBackOnSuccess, ...rest } = props
+  const { previousStep, position, showSuccess, close, submitting, invalid, phrase, goBackOnSuccess, inline, handleClose, ...rest } = props
   const { indexes, onSubmit, isMnemonicVerified } = rest
   return (
     <Form onSubmit={onSubmit}>
@@ -79,7 +79,7 @@ const ThirdStep = (props) => {
             </Link>
             : null
           }
-          <Link size='12px' weight={300} onClick={goBackOnSuccess}>
+          <Link size='12px' weight={300} onClick={inline ? handleClose : goBackOnSuccess}>
             <FormattedMessage id='modals.recoveryphrase.thirdstep.skipfornow' defaultMessage="Skip for now, I'll do this later" />
           </Link>
         </Buttons>
@@ -92,8 +92,10 @@ ThirdStep.propTypes = {
   indexes: PropTypes.array.isRequired,
   phrase: PropTypes.array.isRequired,
   previousStep: PropTypes.func.isRequired,
-  goBackOnSuccess: PropTypes.func.isRequired,
-  invalid: PropTypes.bool.isRequired
+  goBackOnSuccess: PropTypes.func,
+  invalid: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func,
+  inline: PropTypes.bool.isRequired
 }
 
 export default reduxForm({ form: 'recoveryPhrase' })(ThirdStep)
