@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { actions } from 'data'
 
-import Bitcoin from './Bitcoin'
+import Btc from './Btc'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,7 +20,7 @@ class AddressesContainer extends React.Component {
     return (
       <Wrapper>
         <Menu />
-        <Bitcoin />
+        <Btc />
       </Wrapper>
     )
   }

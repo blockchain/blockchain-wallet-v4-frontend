@@ -4,7 +4,7 @@ import { getData } from './selectors'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-class BitcoinWalletsContainer extends React.Component {
+class BtcWalletsContainer extends React.Component {
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
@@ -26,4 +26,4 @@ const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-export default connect(mapStateToProps)(BitcoinWalletsContainer)
+export default connect(mapStateToProps)(BtcWalletsContainer)

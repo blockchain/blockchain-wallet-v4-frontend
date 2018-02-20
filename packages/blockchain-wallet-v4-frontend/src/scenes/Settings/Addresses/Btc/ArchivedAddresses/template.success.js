@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
 
