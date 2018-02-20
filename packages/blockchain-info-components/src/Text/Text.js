@@ -21,6 +21,7 @@ const BaseText = styled.div`
 `
 
 const Text = ({ ...props, children }) => {
+
   return (
     <BaseText {...props}>
       {children}

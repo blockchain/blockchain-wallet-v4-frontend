@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text, Link, Button } from 'blockchain-info-components'
+import { Text, Link, Button, Banner } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { SecurityDescription, SecurityHeader, SecuritySummary } from 'components/Security'
 import { Field } from 'redux-form'
@@ -15,15 +15,6 @@ const EmailCodeWrapper = styled.form`
   margin: 30px 0px 20px 0px;
   button {
     margin-left: 100px;
-  }
-`
-const EmailChangeWarning = styled(Text)`
-  margin-top: 25px;
-  background: #FFCF62;
-  padding: 5px;
-  width: 130%;
-  span:first-of-type {
-    padding-right: 5px;
   }
 `
 
@@ -48,10 +39,10 @@ function EmailVerificationSteps (props) {
       </EmailCodeWrapper>
       {
         failed
-          ? <EmailChangeWarning size='12px' color='error'>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='Your verification code is incorrect. Please double check your email and try again.' />
+          ? <Banner type='warning' size='12px' weight={200} width='130%' row>
+            <FormattedMessage id='scenes.security.email.verificationwrong' defaultMessage='Your verification code is incorrect. Please double check your email and try again.' />
             <Link size='12px' onClick={handleResend}>Get a new verification code</Link>
-          </EmailChangeWarning>
+          </Banner>
           : null
       }
     </SecuritySummary>

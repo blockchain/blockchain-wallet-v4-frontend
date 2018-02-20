@@ -21,6 +21,12 @@ const Container = styled.div`
   & > :first-child { margin-right: 8px; }
 `
 
+const BannerContent = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  & a:last-of-type { margin-left: 5px; }
+`
+
 const selectStyle = type => {
   switch (type) {
     case 'success': return { color: 'success', uppercase: false, icon: 'checkmark-in-circle' }
@@ -39,9 +45,9 @@ const Banner = props => {
   return (
     <Container color={color} width={width}>
       { icon && <Icon name={icon} size='12px' weight={700} color={color} /> }
-      <Text size='12px' weight={400} color={color} uppercase={uppercase} color='black'>
+      <BannerContent size='12px' weight={400} color={color} uppercase={uppercase} color='black'>
         { children }
-      </Text>
+      </BannerContent>
     </Container>
   )
 }
