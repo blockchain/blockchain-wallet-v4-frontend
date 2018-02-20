@@ -32,27 +32,27 @@ const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
 
-const RequestEther = (props) => {
+const RequestEth = (props) => {
   const { position, total, closeAll, ...rest } = props
   const { onSubmit, address } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='request' onClose={closeAll}>
-        <FormattedMessage id='modals.requestether.title' defaultMessage='Request Ether' />
+        <FormattedMessage id='modals.requesteth.title' defaultMessage='Request Ether' />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={onSubmit}>
           <CoinSelector>
             <Text size='14px' weight={500}>
-              <FormattedMessage id='modals.requestether.coin' defaultMessage='Currency:' />
+              <FormattedMessage id='modals.requesteth.coin' defaultMessage='Currency:' />
             </Text>
             <Field name='coin' component={SelectBoxCoin} validate={[required]} />
           </CoinSelector>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.requestether.share' defaultMessage='Copy & share address:' />
+            <FormattedMessage id='modals.requesteth.share' defaultMessage='Copy & share address:' />
             <Tooltip>
-              <FormattedMessage id='modals.requestether.share_tooltip' defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.' />
+              <FormattedMessage id='modals.requesteth.share_tooltip' defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.' />
             </Tooltip>
           </Text>
           <AddressContainer>
@@ -60,22 +60,22 @@ const RequestEther = (props) => {
           </AddressContainer>
           <Separator>
             <Text size='14px' weight={300} uppercase>
-              <FormattedMessage id='modals.requestether.or' defaultMessage='Or' />
+              <FormattedMessage id='modals.requesteth.or' defaultMessage='Or' />
             </Text>
           </Separator>
           <QRCodeContainer>
             <ScanMessage>
               <Text size='14px'>
-                <FormattedMessage id='modals.requestether.scan' defaultMessage='Scan QR Code:' />
+                <FormattedMessage id='modals.requesteth.scan' defaultMessage='Scan QR Code:' />
                 <Tooltip>
-                  <FormattedMessage id='modals.requestether.scan_tooltip' defaultMessage='Ask the sender to scan this QR code with their ether wallet' />
+                  <FormattedMessage id='modals.requesteth.scan_tooltip' defaultMessage='Ask the sender to scan this QR code with their ether wallet' />
                 </Tooltip>
               </Text>
             </ScanMessage>
             <QRCodeReact value={address} size={150} />
           </QRCodeContainer>
           <Button type='submit' nature='primary' fullwidth uppercase>
-            <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
+            <FormattedMessage id='modals.requesteth.done' defaultMessage='Done' />
           </Button>
         </Form>
       </ModalBody>
@@ -83,11 +83,11 @@ const RequestEther = (props) => {
   )
 }
 
-RequestEther.propTypes = {
+RequestEth.propTypes = {
   position: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired,
   address: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestEther', destroyOnUnmount: false })(RequestEther)
+export default reduxForm({ form: 'requestEth', destroyOnUnmount: false })(RequestEth)

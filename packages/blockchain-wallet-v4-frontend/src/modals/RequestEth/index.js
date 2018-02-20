@@ -10,14 +10,14 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class RequestEtherContainer extends React.Component {
+class RequestEthContainer extends React.Component {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentWillMount () {
-    this.props.formActions.initialize('requestEther', this.props.initialValues)
+    this.props.formActions.initialize('requestEth', this.props.initialValues)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -60,7 +60,7 @@ const mapStateToProps = (state, ownProps) => ({
     coin: 'ETH'
   },
   data: getData(state),
-  coin: formValueSelector('requestEther')(state, 'coin')
+  coin: formValueSelector('requestEth')(state, 'coin')
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('RequestEther')
+  modalEnhancer('RequestEth')
 )
 
-export default enhance(RequestEtherContainer)
+export default enhance(RequestEthContainer)

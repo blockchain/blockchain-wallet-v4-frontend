@@ -25,7 +25,7 @@ class FirstStepContainer extends React.Component {
     if (Remote.Success.is(nextProps.data)) {
       // We initialize the form if form is not initialized yet
       initializeForm(this.props, nextProps)
-      // We open the RequestEther modal if coin equals 'ETH'
+      // We open the RequestEth modal if coin equals 'ETH'
       switchToBitcoinOrBchModal(nextProps)
     }
   }

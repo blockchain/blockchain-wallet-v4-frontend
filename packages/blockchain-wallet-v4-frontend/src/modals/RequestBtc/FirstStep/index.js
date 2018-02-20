@@ -31,7 +31,7 @@ class FirstStepContainer extends React.Component {
     nextProps.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestEther')
+        this.props.modalActions.showModal('RequestEth')
       } else if (equals(prop('coin', x), 'BCH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestBch')
