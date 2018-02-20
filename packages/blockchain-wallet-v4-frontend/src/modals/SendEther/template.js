@@ -18,7 +18,7 @@ const SendEther = props => (
 SendEther.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
-  onClose: PropTypes.func.isRequired
+  closeAll: PropTypes.func.isRequired
 }
 
 export default SendEther

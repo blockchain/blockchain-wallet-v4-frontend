@@ -26,6 +26,7 @@ import Preferences from './Settings/Preferences'
 import Security from './Settings/Security'
 import BitcoinTransactions from './Transactions/Bitcoin'
 import EtherTransactions from './Transactions/Ether'
+import BchTransactions from './Transactions/Bch'
 
 class App extends React.Component {
   render () {
@@ -48,6 +49,7 @@ class App extends React.Component {
                 <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
                 <WalletLayout path='/eth/transactions' component={EtherTransactions} />
                 <WalletLayout path='/buy-sell' component={BuySell} />
+                <WalletLayout path='/bch/transactions' component={BchTransactions} />
                 <WalletLayout path='/exchange/history' component={ExchangeHistory} />
                 <WalletLayout path='/exchange' component={Exchange} exact />
                 <WalletLayout path='/security-center' component={SecurityCenter} />

@@ -1,6 +1,6 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { compose } from 'ramda'
+import { compose, isNil } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { KVStoreEntry } from '../../../types'
@@ -14,6 +14,14 @@ export default ({ api } = {}) => {
     return yield call(compose(taskToPromise, () => task))
   }
 
+  const createContacts = function * (kv) {
+    // TOOD : empty contacts implementation
+    // const newEntry = {}
+    // const newkv = set(KVStoreEntry.value, newEntry, kv)
+    // yield put(A.createMetadataContacts(newkv))
+  }
+
+  // TODO :: Missing contacts creation if does not exist (copy buy-sell or ether)
   const fetchMetadataContacts = function * () {
     try {
       const typeId = derivationMap[CONTACTS]
@@ -21,7 +29,11 @@ export default ({ api } = {}) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataContactsLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      yield put(A.fetchMetadataContactsSuccess(newkv))
+      if (isNil(newkv.value)) {
+        yield call(createContacts, newkv)
+      } else {
+        yield put(A.fetchMetadataContactsSuccess(newkv))
+      }
     } catch (e) {
       yield put(A.fetchMetadataContactsFailure(e.message))
     }

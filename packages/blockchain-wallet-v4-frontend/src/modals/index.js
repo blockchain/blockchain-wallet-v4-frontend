@@ -9,9 +9,11 @@ import MobileLogin from './MobileLogin'
 import PairingCode from './PairingCode'
 import QRCode from './QRCode'
 import RecoveryPhrase from './RecoveryPhrase'
+import RequestBch from './RequestBch'
 import RequestBitcoin from './RequestBitcoin'
 import RequestEther from './RequestEther'
 import SecondPassword from './SecondPassword'
+import SendBch from './SendBch'
 import SendBitcoin from './SendBitcoin'
 import SendEther from './SendEther'
 import SfoxExchangeData from './SfoxExchangeData'
@@ -34,9 +36,11 @@ const Modals = props => (
     <PairingCode />
     <QRCode />
     <RecoveryPhrase />
+    <RequestBch />
     <RequestBitcoin />
     <RequestEther />
     <SecondPassword />
+    <SendBch />
     <SendBitcoin />
     <SendEther />
     <SfoxExchangeData />
