@@ -11,12 +11,15 @@ export const initializeForm = (prevProps, nextProps) => {
   }
 }
 
-export const switchToEtherModal = nextProps => {
+export const switchToEtherOrBchModal = nextProps => {
   const data = nextProps.data.getOrElse({})
   const coin = prop('coin', data)
   if (equals(coin, 'ETH')) {
     nextProps.modalActions.closeAllModals()
     nextProps.modalActions.showModal('SendEther')
+  } else if (equals(coin, 'BCH')) {
+    nextProps.modalActions.closeAllModals()
+    nextProps.modalActions.showModal('SendBch')
   }
 }
 

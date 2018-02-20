@@ -18,13 +18,14 @@ const FiatDisplay = props => {
     <Wrapper>
       {showIcon && coin === 'BTC' && <Icon name='bitcoin' size={size} weight={weight} color={color} />}
       {showIcon && coin === 'ETH' && <Icon name='ethereum' size={size} weight={weight} color={color} />}
+      {showIcon && coin === 'BCH' && <Icon name='bitcoin' size={size} weight={weight} color={color} />}
       <Text size={size} weight={weight} color={color}>{children}</Text>
     </Wrapper>
   )
 }
 
 FiatDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
   children: PropTypes.string.isRequired,
   showIcon: PropTypes.bool,
   size: PropTypes.string,

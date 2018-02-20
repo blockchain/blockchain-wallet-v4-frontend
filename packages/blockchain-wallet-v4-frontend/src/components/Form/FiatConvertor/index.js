@@ -25,12 +25,13 @@ class FiatConvertorContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { coin, input, bitcoinRates, ethereumRates } = this.props
+    const { coin, input, bitcoinRates, ethereumRates, bchRates } = this.props
     const { value } = input
 
     if (!equals(value, nextProps.input.value) ||
       (coin === 'BTC' && !equals(bitcoinRates, nextProps.bitcoinRates)) ||
-      (coin === 'ETH' && !equals(ethereumRates, nextProps.ethereumRates))) {
+      (coin === 'ETH' && !equals(ethereumRates, nextProps.ethereumRates)) ||
+      (coin === 'BCH' && !equals(bchRates, nextProps.bchRates))) {
       convertFiatToCoin(nextProps.input.value, nextProps.data, nextProps.coin)
     }
   }
@@ -102,7 +103,7 @@ FiatConvertorContainer.propTypes = {
     onFocus: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
   }).isRequired,
-  coin: PropTypes.oneOf(['BTC', 'ETH']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
