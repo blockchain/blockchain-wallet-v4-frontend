@@ -16,9 +16,9 @@ class ActionsContainer extends React.Component {
     const { pathname } = this.props.router.location
 
     switch (pathname) {
-      case '/eth/transactions': return this.props.modalActions.showModal('SendEther')
+      case '/eth/transactions': return this.props.modalActions.showModal('SendEth')
       case '/bch/transactions': return this.props.modalActions.showModal('SendBch')
-      default: return this.props.modalActions.showModal('SendBitcoin')
+      default: return this.props.modalActions.showModal('SendBtc')
     }
   }
 
@@ -26,8 +26,8 @@ class ActionsContainer extends React.Component {
     const { pathname } = this.props.router.location
     switch (pathname) {
       case '/bch/transactions': return this.props.modalActions.showModal('RequestBch')
-      case '/eth/transactions': return this.props.modalActions.showModal('RequestEther')
-      default: return this.props.modalActions.showModal('RequestBitcoin')
+      case '/eth/transactions': return this.props.modalActions.showModal('RequestEth')
+      default: return this.props.modalActions.showModal('RequestBtc')
     }
   }
 

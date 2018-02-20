@@ -10,12 +10,12 @@ import PairingCode from './PairingCode'
 import QRCode from './QRCode'
 import RecoveryPhrase from './RecoveryPhrase'
 import RequestBch from './RequestBch'
-import RequestBitcoin from './RequestBitcoin'
-import RequestEther from './RequestEther'
+import RequestBtc from './RequestBtc'
+import RequestEth from './RequestEth'
 import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
-import SendBitcoin from './SendBitcoin'
-import SendEther from './SendEther'
+import SendBtc from './SendBtc'
+import SendEth from './SendEth'
 import TransactionReport from './TransactionReport'
 import TransferEther from './TransferEther'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
@@ -36,12 +36,12 @@ const Modals = props => (
     <QRCode />
     <RecoveryPhrase />
     <RequestBch />
-    <RequestBitcoin />
-    <RequestEther />
+    <RequestBtc />
+    <RequestEth />
     <SecondPassword />
     <SendBch />
-    <SendBitcoin />
-    <SendEther />
+    <SendBtc />
+    <SendEth />
     <TransactionReport />
     <TransferEther />
     <TwoStepGoogleAuthenticator />

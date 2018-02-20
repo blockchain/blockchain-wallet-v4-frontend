@@ -25,13 +25,13 @@ class QRCodeCaptureContainer extends React.Component {
     }
   }
 
-  handleScanBitcoin (data) {
+  handleScanBtc (data) {
     if (!isNil(data) && !isEmpty(data)) {
       const { address, options } = bip21.decode(data)
       const { amount, message } = options
-      this.props.formActions.change('sendBitcoin', 'to2', address)
-      this.props.formActions.change('sendBitcoin', 'amount', amount)
-      this.props.formActions.change('sendBitcoin', 'message', message)
+      this.props.formActions.change('sendBtc', 'to2', address)
+      this.props.formActions.change('sendBtc', 'amount', amount)
+      this.props.formActions.change('sendBtc', 'message', message)
       this.props.updateUI({ bitcoin: { toggled: false } })
     }
   }
@@ -49,14 +49,14 @@ class QRCodeCaptureContainer extends React.Component {
 
   handleScanEthereum (data) {
     if (!isNil(data) && !isEmpty(data)) {
-      this.props.formActions.change('sendEther', 'to', data)
+      this.props.formActions.change('sendEth', 'to', data)
       this.props.updateUI({ ethereum: { toggled: false } })
     }
   }
 
   handleScan (data) {
     switch (this.props.coin) {
-      case 'BTC': return this.handleScanBitcoin(data)
+      case 'BTC': return this.handleScanBtc(data)
       case 'ETH': return this.handleScanEthereum(data)
       case 'BCH': return this.handleScanBch(data)
     }

@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { equals, prop } from 'ramda'
 
-import modalEnhancer from 'providers/ModalEnhancer'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData, getInitialValues } from './selectors'
@@ -11,19 +10,20 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class RequestBchContainer extends React.Component {
+class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
+    this.handleClickQRCode = this.handleClickQRCode.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillMount () {
     this.props.initialValues.map(x => {
-      this.props.formActions.initialize('requestBch', x)
+      this.props.formActions.initialize('requestBtc', x)
     })
 
     if (Remote.NotAsked.is(this.props.data)) {
-      this.props.bchDataActions.fetchData()
+      this.props.bitcoinDataActions.fetchData()
     }
   }
 
@@ -32,26 +32,30 @@ class RequestBchContainer extends React.Component {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestEth')
-      } else if (equals(prop('coin', x), 'BTC')) {
+      } else if (equals(prop('coin', x), 'BCH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestBtc')
+        this.props.modalActions.showModal('RequestBch')
       }
     })
   }
 
+  handleClickQRCode (address) {
+    this.props.modalActions.showModal('QRCode', { address })
+  }
+
   handleSubmit (e) {
     e.preventDefault()
-    this.props.modalActions.closeAllModals()
+    this.props.nextStep()
   }
 
   render () {
-    const { data, closeAll } = this.props
+    const { data } = this.props
 
     return data.cata({
       Success: (value) => <Success
         receiveAddress={value.receiveAddress}
+        handleClickQRCode={() => this.handleClickQRCode(value.receiveAddress)}
         handleSubmit={this.handleSubmit}
-        closeAll={closeAll}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -66,14 +70,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  bchDataActions: bindActionCreators(actions.core.data.bch, dispatch),
+  bitcoinDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('RequestBch')
-)
-
-export default enhance(RequestBchContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)

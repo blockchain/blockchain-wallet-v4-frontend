@@ -7,19 +7,19 @@ export const initializeForm = (prevProps, nextProps) => {
   const prevInitialValues = prop('initialValues', prevData)
   const prevCoin = prop('coin', prevData)
   if (!isNil(prevInitialValues) && isNil(prevCoin)) {
-    nextProps.formActions.initialize('sendBch', prevInitialValues)
+    nextProps.formActions.initialize('sendBtc', prevInitialValues)
   }
 }
 
-export const switchToEtherOrBitcoinModal = nextProps => {
+export const switchToEtherOrBchModal = nextProps => {
   const data = nextProps.data.getOrElse({})
   const coin = prop('coin', data)
   if (equals(coin, 'ETH')) {
     nextProps.modalActions.closeAllModals()
     nextProps.modalActions.showModal('SendEth')
-  } else if (equals(coin, 'BTC')) {
+  } else if (equals(coin, 'BCH')) {
     nextProps.modalActions.closeAllModals()
-    nextProps.modalActions.showModal('SendBtc')
+    nextProps.modalActions.showModal('SendBch')
   }
 }
 
@@ -30,7 +30,7 @@ export const updateUnspent = (prevProps, nextProps) => {
   const nextFrom = prop('from', nextData)
 
   if (!isNil(prevFrom) && !isNil(nextFrom) && !equals(prevFrom, nextFrom)) {
-    nextProps.dataBchActions.fetchUnspent(nextFrom.index || nextFrom.address)
+    nextProps.dataBitcoinActions.fetchUnspent(nextFrom.index || nextFrom.address)
   }
 }
 
@@ -43,7 +43,7 @@ export const updateEffectiveBalance = (prevProps, nextProps) => {
   const nextFee = prop('fee', nextData)
 
   if (!equals(prevCoins, nextCoins) || !equals(prevFee, nextFee)) {
-    nextProps.dataBchActions.refreshEffectiveBalance(nextCoins, nextFee)
+    nextProps.dataBitcoinActions.refreshEffectiveBalance(nextCoins, nextFee)
   }
 }
 
@@ -67,9 +67,9 @@ export const updateSelection = (prevProps, nextProps, seed) => {
       !equals(prevAmount, nextAmount) ||
       !equals(prevTo, nextTo) ||
       !equals(prevFee, nextFee)) {
-    const satoshis = Exchange.convertBchToBch({ value: nextAmount, fromUnit: nextUnit, toUnit: 'SAT' }).value
+    const satoshis = Exchange.convertBitcoinToBitcoin({ value: nextAmount, fromUnit: nextUnit, toUnit: 'SAT' }).value
     const algorithm = 'singleRandomDraw'
-    nextProps.dataBchActions.refreshSelection(nextFee, nextCoins, satoshis, nextReceiveAddress, nextChangeAddress, algorithm, seed)
+    nextProps.dataBitcoinActions.refreshSelection(nextFee, nextCoins, satoshis, nextReceiveAddress, nextChangeAddress, algorithm, seed)
   }
 }
 

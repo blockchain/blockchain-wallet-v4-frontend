@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { generateSeed, initializeForm, switchToEtherOrBitcoinModal, updateUnspent, updateEffectiveBalance, updateSelection } from './services'
+import { generateSeed, initializeForm, switchToEtherOrBchModal, updateUnspent, updateEffectiveBalance, updateSelection } from './services'
 import { getData } from './selectors'
 import { actions, selectors } from 'data'
 import Error from './template.error'
@@ -14,15 +14,16 @@ import Success from './template.success'
 class FirstStep extends React.Component {
   constructor (props) {
     super(props)
-    // this.timeout = undefined
     this.seed = generateSeed()
     this.handleClickAddressToggler = this.handleClickAddressToggler.bind(this)
+    this.handleClickFeeToggler = this.handleClickFeeToggler.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.customFeeHandler = this.customFeeHandler.bind(this)
   }
 
   componentWillMount () {
-    this.props.dataBchActions.fetchFee()
-    this.props.dataBchActions.fetchUnspent(this.props.defaultAccountIndex)
+    this.props.dataBitcoinActions.fetchFee()
+    this.props.dataBitcoinActions.fetchUnspent(this.props.defaultAccountIndex)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -30,7 +31,7 @@ class FirstStep extends React.Component {
       // We initialize the form if form is not initialized yet
       initializeForm(this.props, nextProps)
       // We open the RequestEth modal if coin equals 'ETH'
-      switchToEtherOrBitcoinModal(nextProps)
+      switchToEtherOrBchModal(nextProps)
       // We fetch the unspent
       updateUnspent(this.props, nextProps)
       // update effective Balance
@@ -40,12 +41,20 @@ class FirstStep extends React.Component {
     }
   }
 
+  customFeeHandler (fee) {
+    this.props.formActions.change('sendBtc', 'fee', fee)
+  }
+
   handleClickAddressToggler () {
     // We toggle the dropdown 'to' display
     this.props.updateUI({ addressSelectToggled: !this.props.ui.addressSelectToggled })
     // /!\ CAREFUL: We reset field 'to' or 'to2' to make sure we only have 1 of those fields filled at a time.
-    this.props.formActions.change('sendBch', 'to', '')
-    this.props.formActions.change('sendBch', 'to2', '')
+    this.props.formActions.change('sendBtc', 'to', '')
+    this.props.formActions.change('sendBtc', 'to2', '')
+  }
+
+  handleClickFeeToggler () {
+    this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
   }
 
   handleSubmit (e) {
@@ -61,9 +70,15 @@ class FirstStep extends React.Component {
         effectiveBalance={value.effectiveBalanceScaled}
         addressSelectToggled={ui.addressSelectToggled}
         addressSelectOpened={ui.addressSelectOpened}
+        feeEditToggled={ui.feeEditToggled}
         handleSubmit={this.handleSubmit}
         handleClickAddressToggler={this.handleClickAddressToggler}
+        handleClickFeeToggler={this.handleClickFeeToggler}
         fee={data.data.fee}
+        totalFee={data.data.selection.fee}
+        regularFeeHandler={this.regularFeeHandler}
+        fees={data.data.fees}
+        customFeeHandler={this.customFeeHandler}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -78,7 +93,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataBchActions: bindActionCreators(actions.core.data.bch, dispatch),
+  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
