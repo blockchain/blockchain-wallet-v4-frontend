@@ -9,11 +9,14 @@ export const initializeForm = (prevProps, nextProps) => {
   }
 }
 
-export const switchToBitcoinModal = nextProps => {
+export const switchToBitcoinOrBchModal = nextProps => {
   const data = nextProps.data.getOrElse({})
   const coin = prop('coin', data)
   if (equals(coin, 'BTC')) {
     nextProps.modalActions.closeAllModals()
     nextProps.modalActions.showModal('SendBitcoin')
+  } else if (equals(coin, 'BCH')) {
+    nextProps.modalActions.closeAllModals()
+    nextProps.modalActions.showModal('SendBch')
   }
 }

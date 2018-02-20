@@ -2,15 +2,15 @@ import React from 'react'
 import { Faq, FaqContent, FaqHeader } from 'components/FaqItem'
 
 const FaqRow = props => {
-  const { title: Title, description: Description, toggled, handleToggle } = props
+  const { toggled, handleToggle } = props
 
   return (
     <Faq>
       <FaqHeader toggled={toggled} handleToggle={handleToggle}>
-        <Title />
+        {props.title}
       </FaqHeader>
       <FaqContent toggled={toggled}>
-        <Description />
+        {props.description}
       </FaqContent>
     </Faq>
   )

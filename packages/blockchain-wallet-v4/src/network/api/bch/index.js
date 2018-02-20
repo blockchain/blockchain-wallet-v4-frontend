@@ -1,12 +1,67 @@
+import { toUpper } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
+  const fetchBchData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
+    url: apiUrl,
+    endPoint: 'bch/multiaddr',
+    data: {
+      active: (Array.isArray(context) ? context : [context]).join('|'),
+      onlyShow: onlyShow,
+      format: 'json',
+      offset: offset,
+      no_compact: true,
+      ct: new Date().getTime(),
+      n: n,
+      language: 'en',
+      no_buttons: true
+    }
+  })
+
   const getBchTicker = () => get({
-    url: rootUrl,
+    url: apiUrl,
     endPoint: 'ticker',
-    data: { format: 'json', base: 'BCH' }
+    data: { base: 'BCH' }
+  })
+
+  const getBchUnspents = (fromAddresses, confirmations = 0) => get({
+    url: rootUrl,
+    endPoint: 'bch/unspent',
+    data: {
+      active: fromAddresses.join('|'),
+      confirmations: Math.max(confirmations, -1),
+      format: 'json'
+    }
+  })
+
+  const pushBchTx = (txHex) => post({
+    url: rootUrl,
+    endPoint: 'bch/pushtx',
+    data: { tx: txHex, format: 'plain' }
+  })
+
+  const getBchFiatAtTime = (amount, currency, time) => get({
+    url: apiUrl,
+    endPoint: 'frombch',
+    data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
+  })
+
+  const getLatestBlock = () => get({
+    url: rootUrl,
+    endPoint: 'bch/latestblock'
+  })
+
+  const getRawTx = (txHex) => get({
+    url: rootUrl,
+    endPoint: 'bch/rawtx/' + txHex
   })
 
   return {
-    getBchTicker
+    fetchBchData,
+    getBchTicker,
+    getBchUnspents,
+    pushBchTx,
+    getBchFiatAtTime,
+    getLatestBlock,
+    getRawTx
   }
 }

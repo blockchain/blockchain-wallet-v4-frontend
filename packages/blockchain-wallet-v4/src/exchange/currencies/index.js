@@ -1,5 +1,6 @@
 import EUR from './EUR'
 import USD from './USD'
+import BCH from './BCH'
 import BTC from './BTC'
 import ETH from './ETH'
 import AUD from './AUD'
@@ -26,6 +27,7 @@ import TWD from './TWD'
 export {
   EUR,
   USD,
+  BCH,
   BTC,
   ETH,
   AUD,
