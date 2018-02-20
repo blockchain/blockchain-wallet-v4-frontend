@@ -1,8 +1,10 @@
 import React from 'react'
-import Menu from './Menu'
 import styled from 'styled-components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
+import { TabMenuAddressesStatus } from 'components/Form'
+import HorizontalMenu from 'components/HorizontalMenu'
 import { actions } from 'data'
 
 import Bitcoin from './Bitcoin'
@@ -10,6 +12,8 @@ import Bitcoin from './Bitcoin'
 const Wrapper = styled.div`
   width: 100%;
 `
+
+const Menu = reduxForm({ form: 'addresses' })(HorizontalMenu)
 
 class AddressesContainer extends React.Component {
   componentWillMount () {
@@ -19,7 +23,9 @@ class AddressesContainer extends React.Component {
   render () {
     return (
       <Wrapper>
-        <Menu />
+        <Menu>
+          <Field name='status' component={TabMenuAddressesStatus} />
+        </Menu>
         <Bitcoin />
       </Wrapper>
     )

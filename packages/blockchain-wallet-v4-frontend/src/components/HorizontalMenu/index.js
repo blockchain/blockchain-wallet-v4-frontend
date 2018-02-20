@@ -1,8 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
-
-import { TabMenuAddressesStatus } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -28,16 +25,14 @@ const Status = styled.div`
   @media(min-width: 1200px) { width: 360px; }
 `
 
-const Menu = (props) => {
-  return (
-    <Wrapper>
-      <Container>
-        <Status>
-          <Field name='status' component={TabMenuAddressesStatus} />
-        </Status>
-      </Container>
-    </Wrapper>
-  )
-}
+const HorizontalMenu = ({ children }) => (
+  <Wrapper>
+    <Container>
+      <Status>
+        {children}
+      </Status>
+    </Container>
+  </Wrapper>
+)
 
-export default reduxForm({ form: 'addresses' })(Menu)
+export default HorizontalMenu
