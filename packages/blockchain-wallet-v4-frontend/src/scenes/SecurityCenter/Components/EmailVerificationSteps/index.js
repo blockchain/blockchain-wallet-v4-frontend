@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text, Link, Button, Banner } from 'blockchain-info-components'
+import { Link, Button, Banner } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { SecurityDescription, SecurityHeader, SecuritySummary } from 'components/Security'
 import { Field } from 'redux-form'

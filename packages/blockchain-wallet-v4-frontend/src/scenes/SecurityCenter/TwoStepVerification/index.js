@@ -22,8 +22,9 @@ class TwoStepVerificationContainer extends React.Component {
     this.submitMobileChange = this.submitMobileChange.bind(this)
     this.handleDisableClick = this.handleDisableClick.bind(this)
     this.handleTwoFactorChange = this.handleTwoFactorChange.bind(this)
+    this.pulseText = this.pulseText.bind(this)
 
-    this.state = { authMethod: '', authName: '', editing: false }
+    this.state = { authMethod: '', authName: '', editing: false, pulse: false }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -76,6 +77,11 @@ class TwoStepVerificationContainer extends React.Component {
     this.setState({ editing: false })
   }
 
+  pulseText () {
+    this.setState({ pulse: true })
+    setTimeout(() => { this.setState({ pulse: false }) }, 500)
+  }
+
   render () {
     const { data, ...rest } = this.props
 
@@ -93,6 +99,8 @@ class TwoStepVerificationContainer extends React.Component {
         twoStepChoice={this.state.authMethod}
         authName={this.state.authName}
         editing={this.state.editing}
+        pulseText={this.pulseText}
+        pulse={this.state.pulse}
         />,
       Failure: (message) => <Error {...rest}
         message={message} />,

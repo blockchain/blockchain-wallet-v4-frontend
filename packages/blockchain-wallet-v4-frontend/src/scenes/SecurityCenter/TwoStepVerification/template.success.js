@@ -2,19 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Text, Button, Link, ButtonGroup } from 'blockchain-info-components'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary } from 'components/Security'
 import { PhoneNumberBox } from 'components/Form'
 import GoogleAuth from './GoogleAuth'
 import Yubikey from './Yubikey'
 import SmsAuth from './SMS'
-
-// import { shake } from 'react-animations'
-
+import { pulse } from 'react-animations'
 import Choices from '../Components/Choices/index'
 
-// const shakeAnimation = keyframes`${shake}`
+const pulseAnimation = keyframes`${pulse}`
+
 
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 120%;
@@ -56,6 +55,7 @@ const DisableLinkText = styled(Text)`
   a {
     padding-left: 3px;
   }
+  animation: 0.5s ${props => props.pulse ? `${pulseAnimation}` : null};
 `
 const DisableSMSLinkText = DisableLinkText.extend`
   margin-top: 20px;
@@ -143,7 +143,7 @@ const TwoStepVerification = (props) => {
             </DisableContainer>
             : authType === 4 || authType === 1 || authType === 2
               ? <DisableLinkContainer>
-                <DisableLinkText size='14px' weight={300} flexRow='true'>
+                <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
                   <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first.' />
                   <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Disable {props.authName}</Link>
                 </DisableLinkText>
@@ -151,7 +151,7 @@ const TwoStepVerification = (props) => {
             : null
         }
         {/* component for the three 2FA choices */}
-        <Choices authType={authType} editing={editing} chooseMethod={props.chooseMethod} />
+        <Choices authType={authType} editing={editing} chooseMethod={props.chooseMethod} pulseText={props.pulseText} />
       </SecuritySummaryChoice>
     )
   }
