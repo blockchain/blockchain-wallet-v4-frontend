@@ -49,7 +49,7 @@ class QRCodeCaptureContainer extends React.Component {
 
   handleScanEthereum (data) {
     if (!isNil(data) && !isEmpty(data)) {
-      this.props.formActions.change('sendEther', 'to', data)
+      this.props.formActions.change('sendEth', 'to', data)
       this.props.updateUI({ ethereum: { toggled: false } })
     }
   }

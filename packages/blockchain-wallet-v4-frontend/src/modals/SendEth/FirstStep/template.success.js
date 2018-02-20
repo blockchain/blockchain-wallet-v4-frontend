@@ -50,12 +50,12 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <Currency>
         <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.sendether.firststep.coin' defaultMessage='Currency:' />
+          <FormattedMessage id='modals.sendeth.firststep.coin' defaultMessage='Currency:' />
         </Text>
         <Field name='coin' component={SelectBoxCoin} validate={[required]} />
       </Currency>
       <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendether.firststep.to' defaultMessage='To:' />
+        <FormattedMessage id='modals.sendeth.firststep.to' defaultMessage='To:' />
       </Text>
       <Row>
         <Field name='to' component={TextBox} validate={[required, validEtherAddress]} />
@@ -63,29 +63,29 @@ const FirstStep = props => {
       </Row>
       <AmountText>
         <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
+          <FormattedMessage id='modals.sendeth.firststep.amount' defaultMessage='Enter amount:' />
         </Text>
       </AmountText>
       <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' maxAvailable={props.effectiveBalance} />
       <DescriptionText>
         <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description:' />
+          <FormattedMessage id='modals.sendeth.firststep.description' defaultMessage='Description:' />
           <Tooltip>
-            <FormattedMessage id='modals.sendether.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-            <FormattedMessage id='modals.sendether.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
+            <FormattedMessage id='modals.sendeth.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
+            <FormattedMessage id='modals.sendeth.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
           </Tooltip>
         </Text>
       </DescriptionText>
       <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
       <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendether.firststep.fee' defaultMessage='Transaction fee :' />
+        <FormattedMessage id='modals.sendeth.firststep.fee' defaultMessage='Transaction fee :' />
       </Text>
       <Text weight={300}>
         <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
       </Text>
       <ButtonRow>
         <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='modals.sendether.firststep.continue' defaultMessage='Continue' />
+          <FormattedMessage id='modals.sendeth.firststep.continue' defaultMessage='Continue' />
         </Button>
       </ButtonRow>
     </Form>
@@ -99,4 +99,4 @@ FirstStep.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendEther', destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'sendEth', destroyOnUnmount: false })(FirstStep)

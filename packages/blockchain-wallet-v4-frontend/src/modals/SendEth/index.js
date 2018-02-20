@@ -5,27 +5,27 @@ import { connect } from 'react-redux'
 import wizardProvider from 'providers/WizardProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
-import SendEther from './template'
+import SendEth from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendEtherContainer extends React.Component {
+class SendEthContainer extends React.Component {
   componentWillMount () {
     this.props.resetStep()
   }
 
   componentWillUnmount () {
-    this.props.formActions.destroy('sendEther')
+    this.props.formActions.destroy('sendEth')
   }
 
   render () {
     const { step, position, total, closeAll, ...rest } = this.props
 
     return (
-      <SendEther position={position} total={total} closeAll={closeAll}>
+      <SendEth position={position} total={total} closeAll={closeAll}>
         {step === 1 && <FirstStep {...rest} />}
         {step === 2 && <SecondStep {...rest} />}
-      </SendEther>
+      </SendEth>
     )
   }
 }
@@ -36,8 +36,8 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   connect(undefined, mapDispatchToProps),
-  modalEnhancer('SendEther'),
-  wizardProvider('sendEther', 2)
+  modalEnhancer('SendEth'),
+  wizardProvider('sendEth', 2)
 )
 
-export default enhance(SendEtherContainer)
+export default enhance(SendEthContainer)

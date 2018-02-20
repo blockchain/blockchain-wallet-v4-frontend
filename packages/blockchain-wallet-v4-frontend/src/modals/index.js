@@ -15,7 +15,7 @@ import RequestEther from './RequestEther'
 import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
 import SendBtc from './SendBtc'
-import SendEther from './SendEther'
+import SendEth from './SendEth'
 import TransactionReport from './TransactionReport'
 import TransferEther from './TransferEther'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
@@ -41,7 +41,7 @@ const Modals = props => (
     <SecondPassword />
     <SendBch />
     <SendBtc />
-    <SendEther />
+    <SendEth />
     <TransactionReport />
     <TransferEther />
     <TwoStepGoogleAuthenticator />

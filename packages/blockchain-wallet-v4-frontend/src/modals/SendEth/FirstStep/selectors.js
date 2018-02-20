@@ -8,8 +8,8 @@ export const getData = state => {
   const balanceR = selectors.core.data.ethereum.getBalance(state)
   const feeRegularR = selectors.core.data.ethereum.getFeeRegular(state)
   const gasLimitR = selectors.core.data.ethereum.getGasLimit(state)
-  const coin = formValueSelector('sendEther')(state, 'coin')
-  const fee = formValueSelector('sendEther')(state, 'fee')
+  const coin = formValueSelector('sendEth')(state, 'coin')
+  const fee = formValueSelector('sendEth')(state, 'fee')
 
   const transform = (defaultAccountAddress, balance, feeRegular, gasLimit) => {
     const transactionFee = transactions.ethereum.calculateFee(feeRegular, gasLimit)

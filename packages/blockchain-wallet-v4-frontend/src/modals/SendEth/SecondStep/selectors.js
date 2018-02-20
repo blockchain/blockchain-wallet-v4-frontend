@@ -4,13 +4,13 @@ import { selectors } from 'data'
 
 export const getData = state => {
   const from = {
-    address: formValueSelector('sendEther')(state, 'from'),
+    address: formValueSelector('sendEth')(state, 'from'),
     index: 0
   }
-  const to = formValueSelector('sendEther')(state, 'to')
-  const message = formValueSelector('sendEther')(state, 'message')
-  const amount = formValueSelector('sendEther')(state, 'amount')
-  const fee = formValueSelector('sendEther')(state, 'fee')
+  const to = formValueSelector('sendEth')(state, 'to')
+  const message = formValueSelector('sendEth')(state, 'message')
+  const amount = formValueSelector('sendEth')(state, 'amount')
+  const fee = formValueSelector('sendEth')(state, 'fee')
   const nonce = selectors.core.data.ethereum.getNonce(state, from.address).getOrElse(undefined)
   const gasPrice = selectors.core.data.ethereum.getFeeRegular(state).getOrElse(undefined)
   const gasLimit = selectors.core.data.ethereum.getGasLimit(state).getOrElse(undefined)

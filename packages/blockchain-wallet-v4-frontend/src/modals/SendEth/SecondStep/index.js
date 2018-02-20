@@ -19,7 +19,7 @@ class SecondStepContainer extends React.Component {
     const { from, to, message, amount, gasPrice, gasLimit, nonce } = this.props.data
     const network = settings.NETWORK_ETHEREUM
     const data = { from, to, message, amount, gasPrice, gasLimit, nonce }
-    this.props.sendEtherActions.sendEther(network, data)
+    this.props.sendEthActions.sendEth(network, data)
   }
 
   render () {
@@ -33,7 +33,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch),
+  sendEthActions: bindActionCreators(actions.modules.sendEth, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
