@@ -11,8 +11,8 @@ const filterTransactions = curry((status, criteria, transactions) => {
 })
 
 export const getData = (state) => {
-  const status = formValueSelector('etherTransaction')(state, 'status') || ''
-  const search = formValueSelector('etherTransaction')(state, 'search') || ''
+  const status = formValueSelector('ethTransaction')(state, 'status') || ''
+  const search = formValueSelector('ethTransaction')(state, 'search') || ''
   const transactions = selectors.core.common.ethereum.getTransactions(state)
   const filtered = transactions.map(filterTransactions(status, search))
   const total = transactions.map(length)

@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const EtherTransactionsContainer = (props) => {
+const EthTransactionsContainer = (props) => {
   return (
     <Wrapper>
       <Menu />
@@ -17,4 +17,4 @@ const EtherTransactionsContainer = (props) => {
   )
 }
 
-export default EtherTransactionsContainer
+export default EthTransactionsContainer

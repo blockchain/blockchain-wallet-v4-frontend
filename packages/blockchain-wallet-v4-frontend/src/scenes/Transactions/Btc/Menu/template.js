@@ -96,4 +96,4 @@ const Menu = (props) => {
   )
 }
 
-export default reduxForm({ form: 'bitcoinTransaction' })(Menu)
+export default reduxForm({ form: 'btcTransaction' })(Menu)

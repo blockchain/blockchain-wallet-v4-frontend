@@ -24,8 +24,8 @@ import Addresses from './Settings/Addresses'
 import Info from './Settings/Info'
 import Preferences from './Settings/Preferences'
 import Security from './Settings/Security'
-import BitcoinTransactions from './Transactions/Bitcoin'
-import EtherTransactions from './Transactions/Ether'
+import BtcTransactions from './Transactions/Btc'
+import EthTransactions from './Transactions/Eth'
 import BchTransactions from './Transactions/Bch'
 
 class App extends React.Component {
@@ -46,8 +46,8 @@ class App extends React.Component {
                 <PublicLayout path='/reset2fa' component={Reset2FA} />
                 <PublicLayout path='/register' component={Register} />
                 <WalletLayout path='/wallet' component={Home} />
-                <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
-                <WalletLayout path='/eth/transactions' component={EtherTransactions} />
+                <WalletLayout path='/btc/transactions' component={BtcTransactions} />
+                <WalletLayout path='/eth/transactions' component={EthTransactions} />
                 <WalletLayout path='/bch/transactions' component={BchTransactions} />
                 <WalletLayout path='/buy-sell' component={Buy} />
                 <WalletLayout path='/exchange/history' component={ExchangeHistory} />
