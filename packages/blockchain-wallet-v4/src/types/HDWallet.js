@@ -56,6 +56,17 @@ export const reviver = (jsObject) => {
   return new HDWallet(jsObject)
 }
 
+export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
+  let seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
+  let masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
+  return masterNode.deriveHardened(44).deriveHardened(0).deriveHardened(index)
+}
+
+export const generateAccount = curry((index, label, seedHex) => {
+  let node = deriveAccountNodeAtIndex(seedHex, index, Bitcoin.networks.bitcoin)
+  return HDAccount.fromJS(HDAccount.js(`${label} ${index + 1}`, node))
+})
+
 export const js = (label, mnemonic, xpub, nAccounts, network) => {
   const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
