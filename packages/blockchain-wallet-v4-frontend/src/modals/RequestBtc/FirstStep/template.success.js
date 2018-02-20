@@ -44,38 +44,38 @@ const FirstStep = props => {
         <Field name='coin' component={SelectBoxCoin} validate={[required]} />
       </CoinSelector>
       <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & share address:' />
+        <FormattedMessage id='modals.requestbtc.firststep.share' defaultMessage='Copy & share address:' />
         <Tooltip>
-          <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip1' defaultMessage='Share this address with others, and they can send you BTC directly to your wallet.' />
-          <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip2' defaultMessage='Your address changes with every payment.' />
-          <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip3' defaultMessage='You can also create a request by attaching an amount below.' />
+          <FormattedMessage id='modals.requestbtc.firststep.share_tooltip1' defaultMessage='Share this address with others, and they can send you BTC directly to your wallet.' />
+          <FormattedMessage id='modals.requestbtc.firststep.share_tooltip2' defaultMessage='Your address changes with every payment.' />
+          <FormattedMessage id='modals.requestbtc.firststep.share_tooltip3' defaultMessage='You can also create a request by attaching an amount below.' />
         </Tooltip>
       </Text>
       <AddressContainer>
         <CopyClipboard address={receiveAddress} />
         <QRCodeButton onClick={handleClickQRCode}>
-          <FormattedMessage id='modals.requestbitcoin.firststep.qrcode' defaultMessage='QR Code' />
+          <FormattedMessage id='modals.requestbtc.firststep.qrcode' defaultMessage='QR Code' />
         </QRCodeButton>
       </AddressContainer>
       <Separator>
         <Text size='14px' weight={300} uppercase>
-          <FormattedMessage id='modals.requestbitcoin.firststep.or' defaultMessage='Or' />
+          <FormattedMessage id='modals.requestbtc.firststep.or' defaultMessage='Or' />
         </Text>
       </Separator>
       <Text size='14px' weight={500} capitalize>
-        <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter amount:' />
+        <FormattedMessage id='modals.requestbtc.firststep.amount' defaultMessage='Enter amount:' />
       </Text>
       <Field name='amount' component={FiatConvertor} validate={[required]} coin='BTC' />
       <Text size='14px' weight={500} capitalize>
-        <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive to:' />
+        <FormattedMessage id='modals.requestbtc.firststep.to' defaultMessage='Receive to:' />
       </Text>
       <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
       <Text size='14px' weight={500} capitalize>
-        <FormattedMessage id='modals.requestbitcoin.firststep.description' defaultMessage='Description:' />
+        <FormattedMessage id='modals.requestbtc.firststep.description' defaultMessage='Description:' />
       </Text>
       <Field name='message' component={TextArea} validate={[required]} placeholder="What's this transaction for?" />
       <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
-        <FormattedMessage id='modals.requestbitcoin.firststep.next' defaultMessage='Next' />
+        <FormattedMessage id='modals.requestbtc.firststep.next' defaultMessage='Next' />
       </Button>
     </Form>
   )
@@ -89,4 +89,4 @@ FirstStep.propTypes = {
   handleClickQRCode: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'requestBtc', destroyOnUnmount: false })(FirstStep)

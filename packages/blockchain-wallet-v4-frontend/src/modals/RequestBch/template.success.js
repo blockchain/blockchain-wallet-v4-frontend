@@ -60,7 +60,7 @@ const RequestBch = props => {
             </CoinSelector>
             <AddressSelector>
               <Text size='14px' weight={500} capitalize>
-                <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive to:' />
+                <FormattedMessage id='modals.requestbtc.firststep.to' defaultMessage='Receive to:' />
               </Text>
               <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
             </AddressSelector>

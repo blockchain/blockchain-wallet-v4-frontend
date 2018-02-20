@@ -19,7 +19,7 @@ class FirstStepContainer extends React.Component {
 
   componentWillMount () {
     this.props.initialValues.map(x => {
-      this.props.formActions.initialize('requestBitcoin', x)
+      this.props.formActions.initialize('requestBtc', x)
     })
 
     if (Remote.NotAsked.is(this.props.data)) {

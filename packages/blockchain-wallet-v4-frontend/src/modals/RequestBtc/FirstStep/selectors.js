@@ -14,8 +14,8 @@ const extractAddress = (selectorFunction, value) =>
 
 export const getData = state => {
   const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
-  const coin = formValueSelector('requestBitcoin')(state, 'coin')
-  const to = formValueSelector('requestBitcoin')(state, 'to')
+  const coin = formValueSelector('requestBtc')(state, 'coin')
+  const to = formValueSelector('requestBtc')(state, 'to')
   const receiveAddressR = extractAddress(getReceive, to)
   return receiveAddressR.map(receiveAddress => ({ coin, receiveAddress }))
 }

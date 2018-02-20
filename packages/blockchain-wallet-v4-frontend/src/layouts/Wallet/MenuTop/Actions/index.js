@@ -27,7 +27,7 @@ class ActionsContainer extends React.Component {
     switch (pathname) {
       case '/bch/transactions': return this.props.modalActions.showModal('RequestBch')
       case '/eth/transactions': return this.props.modalActions.showModal('RequestEther')
-      default: return this.props.modalActions.showModal('RequestBitcoin')
+      default: return this.props.modalActions.showModal('RequestBtc')
     }
   }
 

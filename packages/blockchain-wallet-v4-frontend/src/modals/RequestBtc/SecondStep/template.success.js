@@ -36,15 +36,15 @@ const SecondStep = (props) => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader icon='request' onClose={closeAll}>
-        <FormattedMessage id='modals.requestbitcoin.secondstep.title' defaultMessage='Request' />
+        <FormattedMessage id='modals.requestbtc.secondstep.title' defaultMessage='Request' />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' />
+            <FormattedMessage id='modals.requestbtc.secondstep.explain' defaultMessage='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' />
           </Text>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment request:' />
+            <FormattedMessage id='modals.requestbtc.secondstep.payment' defaultMessage='Payment request:' />
           </Text>
           <Container>
             <Text size='24px' weight={600} color='transferred'>
@@ -61,8 +61,8 @@ const SecondStep = (props) => {
           <CopyToClipBoard text={link}>
             <Button type='submit' nature={active ? 'copy' : 'primary'} fullwidth uppercase>
               { active
-                ? <FormattedMessage id='modals.requestbitcoin.secondstep.copied' defaultMessage='Copied!' />
-                : <FormattedMessage id='modals.requestbitcoin.secondstep.copy' defaultMessage='Copy link' />
+                ? <FormattedMessage id='modals.requestbtc.secondstep.copied' defaultMessage='Copied!' />
+                : <FormattedMessage id='modals.requestbtc.secondstep.copy' defaultMessage='Copy link' />
               }
             </Button>
           </CopyToClipBoard>
@@ -70,7 +70,7 @@ const SecondStep = (props) => {
       </ModalBody>
       <ModalFooter>
         <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.requestbitcoin.secondstep.back' defaultMessage='Go back' />
+          <FormattedMessage id='scenes.requestbtc.secondstep.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>
     </Modal>
@@ -89,4 +89,4 @@ SecondStep.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(SecondStep)
+export default reduxForm({ form: 'requestBtc', destroyOnUnmount: false })(SecondStep)

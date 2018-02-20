@@ -17,7 +17,7 @@ class EmptyContainer extends React.Component {
   }
 
   handleRequest () {
-    this.props.modalActions.showModal('RequestBitcoin')
+    this.props.modalActions.showModal('RequestBtc')
   }
 
   render () {

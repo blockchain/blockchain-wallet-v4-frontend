@@ -34,7 +34,7 @@ class RequestBchContainer extends React.Component {
         this.props.modalActions.showModal('RequestEther')
       } else if (equals(prop('coin', x), 'BTC')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestBitcoin')
+        this.props.modalActions.showModal('RequestBtc')
       }
     })
   }

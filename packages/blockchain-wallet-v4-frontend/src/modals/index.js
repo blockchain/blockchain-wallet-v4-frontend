@@ -10,7 +10,7 @@ import PairingCode from './PairingCode'
 import QRCode from './QRCode'
 import RecoveryPhrase from './RecoveryPhrase'
 import RequestBch from './RequestBch'
-import RequestBitcoin from './RequestBitcoin'
+import RequestBtc from './RequestBtc'
 import RequestEther from './RequestEther'
 import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
@@ -36,7 +36,7 @@ const Modals = props => (
     <QRCode />
     <RecoveryPhrase />
     <RequestBch />
-    <RequestBitcoin />
+    <RequestBtc />
     <RequestEther />
     <SecondPassword />
     <SendBch />

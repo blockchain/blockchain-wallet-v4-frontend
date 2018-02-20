@@ -15,9 +15,9 @@ const extractAddress = (selectorFunction, value) =>
 export const getData = state => {
   const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
   const unitR = selectors.core.settings.getBtcUnit(state)
-  const amount = formValueSelector('requestBitcoin')(state, 'amount')
-  const to = formValueSelector('requestBitcoin')(state, 'to')
-  const message = formValueSelector('requestBitcoin')(state, 'message')
+  const amount = formValueSelector('requestBtc')(state, 'amount')
+  const to = formValueSelector('requestBtc')(state, 'to')
+  const message = formValueSelector('requestBtc')(state, 'message')
   const receiveAddressR = extractAddress(getReceive, to)
   const transform = lift((unit, receiveAddress) => {
     const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'SAT' }).value

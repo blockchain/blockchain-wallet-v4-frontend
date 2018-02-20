@@ -3,11 +3,11 @@ import { compose } from 'redux'
 
 import wizardProvider from 'providers/WizardProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
-import RequestBitcoin from './template'
+import RequestBtc from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class RequestBitcoinContainer extends React.Component {
+class RequestBtcContainer extends React.Component {
   componentWillMount () {
     this.props.resetStep()
   }
@@ -16,17 +16,17 @@ class RequestBitcoinContainer extends React.Component {
     const { step, position, total, closeAll, ...rest } = this.props
 
     return (
-      <RequestBitcoin position={position} total={total} closeAll={closeAll}>
+      <RequestBtc position={position} total={total} closeAll={closeAll}>
         {step === 1 && <FirstStep {...rest} />}
         {step === 2 && <SecondStep {...rest} />}
-      </RequestBitcoin>
+      </RequestBtc>
     )
   }
 }
 
 const enhance = compose(
-  modalEnhancer('RequestBitcoin'),
-  wizardProvider('requestBitcoin', 2)
+  modalEnhancer('RequestBtc'),
+  wizardProvider('requestBtc', 2)
 )
 
-export default enhance(RequestBitcoinContainer)
+export default enhance(RequestBtcContainer)

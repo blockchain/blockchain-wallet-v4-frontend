@@ -24,7 +24,7 @@ class RequestEtherContainer extends React.Component {
     const { coin } = nextProps
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestBitcoin')
+      this.props.modalActions.showModal('RequestBtc')
     } else if (coin === 'BCH') {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('RequestBch')
