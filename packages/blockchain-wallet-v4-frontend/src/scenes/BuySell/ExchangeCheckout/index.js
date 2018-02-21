@@ -82,17 +82,18 @@ class ExchangeCheckout extends React.Component {
   }
 
   setMax () {
-    this.props.dispatch(focus('exchangeCheckout', 'fiat'))
-    this.props.dispatch(change('exchangeCheckout', 'fiat', this.props.limit))
-    this.props.fetchQuote({ amt: this.props.limit * 100, baseCurr: 'USD', quoteCurr: 'BTC' })
+    let field = this.props.fiatLimits ? 'fiat' : 'crypto'
+    let baseCurr = this.props.fiatLimits ? this.props.fiat : this.props.crypto
+    let quoteCurr = this.props.fiatLimits ? this.props.crypto : this.props.fiat
+
+    this.props.dispatch(focus('exchangeCheckout', field))
+    this.props.dispatch(change('exchangeCheckout', field, this.props.limit))
+    this.props.fetchQuote({ amt: this.props.limit * 100, baseCurr: baseCurr, quoteCurr: quoteCurr })
   }
 
   render () {
     const { rate } = this.state
-    const { accounts, continueButton, requiredMsg, reasonMsg, fetchQuote, onSubmit, showRequiredMsg, showReasonMsg } = this.props
-    // TODO: Currenices need to be dynamic
-    const fiat = 'USD'
-    const crypto = 'BTC'
+    const { accounts, continueButton, requiredMsg, reasonMsg, fiat, crypto, fetchQuote, onSubmit, showRequiredMsg, showReasonMsg } = this.props
 
     return (
       <Wrapper>
