@@ -16,6 +16,8 @@ export const setHdAddressLabel = (accountIdx, addressIdx, label) =>
   ({ type: T.SET_HD_ADDRESS_LABEL, payload: { accountIdx, addressIdx, label } })
 export const createLegacyAddress = (address) =>
   ({ type: T.CREATE_LEGACY_ADDRESS, payload: address })
+export const setAccountLabel = (accountIdx, label) =>
+  ({ type: T.SET_ACCOUNT_LABEL, payload: { accountIdx, label } })
 
 // deletes
 export const deleteWrapper = () =>

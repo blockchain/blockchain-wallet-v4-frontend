@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
-import { Icon, TabMenu, TabMenuItem, Text, IconButton } from 'blockchain-info-components'
+import { Icon, TabMenu, TabMenuItem, Text, IconButton, Link, ComponentDropdown } from 'blockchain-info-components'
 import HorizontalMenu from 'components/HorizontalMenu'
 import AddressesTable from './AddressesTable'
 import AddressesTableEntry from './AddressesTableEntry'
@@ -14,7 +14,19 @@ const InnerWrapper = styled.div`
   padding: 40px 30px;
 `
 
-const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel }) => (
+const MoreOptions = () => (
+  <Link weight={200} size='small'>
+    <FormattedMessage id='scenes.settings.manage_addresses.more_options' defaultMessage='More Options' />
+  </Link>
+)
+
+const OptionItem = ({ id, text, onClick }) => (
+  <Text size='small' onClick={onClick}>
+    <FormattedMessage id={id} defaultMessage={text} />
+  </Text>
+)
+
+const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel }) => (
   <Wrapper>
     <HorizontalMenu>
       <TabMenu>
@@ -26,9 +38,20 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress,
       </TabMenu>
     </HorizontalMenu>
     <InnerWrapper>
-      <Text weight={400}>
-        {account.label}
-      </Text>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text weight={400}>
+          {account.label}
+        </Text>
+        <ComponentDropdown
+          down
+          forceSelected
+          color={'gray-5'}
+          selectedComponent={<MoreOptions />}
+          components={[
+            <OptionItem id='scenes.settings.manage_addresses.edit_name' text='Edit Name' onClick={onEditAccountLabel} />,
+            <OptionItem id='scenes.settings.manage_addresses.make_default' text='Show xPub' onClick={() => console.log('show xpub')} />
+          ]} />
+      </div>
       <Text weight={400} size='small' style={{ marginTop: 25 }}>
         <FormattedMessage id='scenes.settings.manage_addresses.unused_addresses' defaultMessage='Unused Addresses' />
       </Text>

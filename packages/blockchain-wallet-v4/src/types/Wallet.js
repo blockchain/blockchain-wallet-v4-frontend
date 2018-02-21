@@ -6,7 +6,7 @@ import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import BIP39 from 'bip39'
 import { compose, curry, map, is, pipe, __, concat, split, isNil } from 'ramda'
-import { traversed, traverseOf, over, view } from 'ramda-lens'
+import { traversed, traverseOf, over, view, set } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
 import Type from './Type'
@@ -50,6 +50,7 @@ export const hdWallets = Wallet.define('hd_wallets')
 export const txNotes = Wallet.define('tx_notes')
 export const txNames = Wallet.define('tx_names')
 export const addressBook = Wallet.define('address_book')
+export const accounts = compose(hdWallets, HDWalletList.hdwallet, HDWallet.accounts)
 
 export const selectGuid = view(guid)
 export const selectSharedKey = view(sharedKey)
@@ -211,6 +212,12 @@ export const setHdAddressLabel = curry((accountIdx, addressIdx, label, wallet) =
                        HDAccount.addressLabels)
   const eitherW = Either.try(over(lens, AddressLabelMap.setLabel(addressIdx, label)))(wallet)
   return eitherW.getOrElse(wallet)
+})
+
+// setAccountLabel :: Number -> String -> Wallet -> Wallet
+export const setAccountLabel = curry((accountIdx, label, wallet) => {
+  let lens = compose(accounts, HDAccountList.account(accountIdx), HDAccount.label)
+  return set(lens, label, wallet)
 })
 
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
