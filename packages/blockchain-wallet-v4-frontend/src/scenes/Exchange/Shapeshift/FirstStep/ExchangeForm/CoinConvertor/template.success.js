@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import CoinInput from './CoinInput'
-import CoinLoading from './CoinLoading'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,6 +23,25 @@ const Row = styled.div`
   & > :last-child { width: 45%; }
   & > :not(:first-child):not(:last-child) { width: 10%; }
 `
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: ${props => props.fullwidth ? '100%' : '45%'};
+  flex-grow: 2;
+`
+const ContainerMiddle = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  flex-grow: 1;
+
+  & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
+`
 const Error = styled(Text)`
   position: absolute;
   display: block;
@@ -36,33 +54,43 @@ const Error = styled(Text)`
 //   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 // }
 
-const CoinConvertorComponent = (props) => {
+const CoinConvertor = (props) => {
   const { coinSource, coinTarget, coinSourceValue, coinTargetValue, coinSourceUnit, coinTargetUnit, currency, btcRates, ethRates, meta, ...rest } = props
-  const { handleChangeCoinSource, handleChangeCoinTarget } = rest
+  const { handleChangeCoinSource, handleChangeCoinTarget, loading } = rest
   // const errorState = getErrorState(meta)
+  console.log('loading', loading)
 
   return (
     <Wrapper>
       <Row>
-        <CoinInput
-          coin={coinSource}
-          coinValue={coinSourceValue}
-          coinUnit={coinSourceUnit}
-          currency={currency}
-          btcRates={btcRates}
-          ethRates={ethRates}
-          handleChange={handleChangeCoinSource}
-        />
-        <CoinLoading loading={false} />
-        <CoinInput
-          coin={coinTarget}
-          coinValue={coinTargetValue}
-          coinUnit={coinTargetUnit}
-          currency={currency}
-          btcRates={btcRates}
-          ethRate={ethRates}
-          handleChange={handleChangeCoinTarget}
-        />
+        <Container>
+          <CoinInput
+            coin={coinSource}
+            coinValue={coinSourceValue}
+            coinUnit={coinSourceUnit}
+            currency={currency}
+            btcRates={btcRates}
+            ethRates={ethRates}
+            handleChange={handleChangeCoinSource}
+          />
+        </Container>
+        <ContainerMiddle>
+          {loading
+            ? <HeartbeatLoader width='20px' height='20px' />
+            : <Icon name='right-arrow' size='24px' weight={500} cursor />
+          }
+        </ContainerMiddle>
+        <Container>
+          <CoinInput
+            coin={coinTarget}
+            coinValue={coinTargetValue}
+            coinUnit={coinTargetUnit}
+            currency={currency}
+            btcRates={btcRates}
+            ethRate={ethRates}
+            handleChange={handleChangeCoinTarget}
+          />
+        </Container>
       </Row>
       {/* {canExchange
         ? <MinMaxText weight={300} size='12px'>
@@ -82,7 +110,7 @@ const CoinConvertorComponent = (props) => {
   )
 }
 
-CoinConvertorComponent.propTypes = {
+CoinConvertor.propTypes = {
   coinSource: PropTypes.string.isRequired,
   coinTarget: PropTypes.string.isRequired,
   coinSourceValue: PropTypes.string.isRequired,
@@ -96,4 +124,4 @@ CoinConvertorComponent.propTypes = {
   handleChangeCoinTarget: PropTypes.func.isRequired
 }
 
-export default CoinConvertorComponent
+export default CoinConvertor

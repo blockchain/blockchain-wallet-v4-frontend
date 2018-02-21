@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { path, prop } from 'ramda'
 
-import { Icon, Separator, SelectInput, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon, Separator, SelectInput, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -102,24 +102,43 @@ const renderItem = item => (
 )
 
 const Success = props => {
-  const { elements, source, target, handleSwap, handleChangeSource, handleChangeTarget } = props
-
+  const { elements, source, target, handleSwap, handleChangeSource, handleChangeTarget, loading } = props
+  console.log('Success', loading)
   return (
     <Wrapper>
       <Container>
         <Text size='14px' weight={400}>
           <FormattedMessage id='scenes.exchange.shapeshift.firststep.from' defaultMessage='Exchange:' />
         </Text>
-        <SelectInput elements={elements} value={source} onChange={handleChangeSource} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} />
+        <SelectInput
+          elements={elements}
+          value={source}
+          onChange={handleChangeSource}
+          templateDisplay={renderDisplay}
+          templateHeader={renderHeader}
+          templateItem={renderItem}
+          disabled={loading}
+        />
       </Container>
       <ContainerMiddle>
-        <Icon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
+        {loading
+          ? <HeartbeatLoader width='20px' height='20px' />
+          : <Icon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
+        }
       </ContainerMiddle>
       <Container>
         <Text size='14px' weight={400}>
           <FormattedMessage id='scenes.exchange.shapeshift.firststep.to' defaultMessage='Receive:' />
         </Text>
-        <SelectInput elements={elements} value={target} onChange={handleChangeTarget} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} />
+        <SelectInput
+          elements={elements}
+          value={target}
+          onChange={handleChangeTarget}
+          templateDisplay={renderDisplay}
+          templateHeader={renderHeader}
+          templateItem={renderItem}
+          disabled={loading}
+        />
       </Container>
     </Wrapper>
   )
