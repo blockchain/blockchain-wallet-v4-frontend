@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox } from 'components/Form'
 import { Text } from 'blockchain-info-components'
-import { required } from 'services/FormHelper'
+import { required, normalizeSocialSecurity, normalizeDateOfBirth } from 'services/FormHelper'
 
 const Row = styled.div`
   display: flex;
@@ -34,7 +34,12 @@ const Info = styled.div`
   font-size: 14px;
   margin-bottom: 10px;
 `
+const FormRow = Row.extend`
+  margin-bottom: 15px;
+`
 const FieldContainer = styled.div`
+  width: 33%;
+  padding: 0px 15px;
   display: flex;
   flex-direction: column;
 `
@@ -62,14 +67,41 @@ const Verify = (props) => {
       </ColLeft>
       <ColRight>
         <form onSubmit={handleSubmit}>
-          <Row>
+          <FormRow>
             <FieldContainer>
-              <Text size='14px'>
+              <Text size='13px'>
                 <FormattedMessage id='sfoxexchangedata.verify.firstname' defaultMessage='First Name' />
               </Text>
               <Field name='firstName' validate={[required]} component={TextBox} />
             </FieldContainer>
-          </Row>
+            <FieldContainer>
+              <Text size='13px'>
+                <FormattedMessage id='sfoxexchangedata.verify.middlename' defaultMessage='Middle Name' />
+              </Text>
+              <Field name='middleName' component={TextBox} />
+            </FieldContainer>
+            <FieldContainer>
+              <Text size='13px'>
+                <FormattedMessage id='sfoxexchangedata.verify.lastname' defaultMessage='Last Name' />
+              </Text>
+              <Field name='lastName' validate={[required]} component={TextBox} />
+            </FieldContainer>
+          </FormRow>
+          <FormRow>
+            <FieldContainer>
+              <Text size='13px'>
+                <FormattedMessage id='sfoxexchangedata.verify.ssn' defaultMessage='Social Security Number' />
+              </Text>
+              <Field name='ssn' validate={[required]} component={TextBox} placeholder='___-__-___' normalize={normalizeSocialSecurity} />
+            </FieldContainer>
+            <FieldContainer>
+              <Text size='13px'>
+                <FormattedMessage id='sfoxexchangedata.verify.dateofbirth' defaultMessage='Date of Birth' />
+              </Text>
+              <Field name='dob' component={TextBox} placeholder='mm/dd/yyyy' normalize={normalizeDateOfBirth} />
+            </FieldContainer>
+            <FieldContainer />
+          </FormRow>
         </form>
       </ColRight>
     </Row>

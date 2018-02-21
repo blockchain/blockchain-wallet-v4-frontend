@@ -1,6 +1,6 @@
 import { isEmpty, equals, or } from 'ramda'
 import bip39 from 'bip39'
-import { isNumeric, isEmail, isGuid, isIpList } from 'services/ValidationHelper'
+import { isNumeric, isEmail, isGuid, isIpList, formatSSN, formatDOB } from 'services/ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -31,4 +31,24 @@ const validBitcoinAddress = value => utils.bitcoin.isValidBitcoinAddress(value) 
 
 const validBitcoinPrivateKey = value => utils.bitcoin.isValidBitcoinPrivateKey(value) ? undefined : 'Invalid Bitcoin Private Key'
 
-export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList, validPasswordStretchingNumber, validBitcoinAddress, validBitcoinPrivateKey, validEtherAddress }
+const normalizeSocialSecurity = (val, prevVal) => formatSSN(val, prevVal)
+
+const normalizeDateOfBirth = (val, prevVal) => formatDOB(val, prevVal)
+
+export {
+  required,
+  requiredNumber,
+  validNumber,
+  validEmail,
+  validMmemonic,
+  validWalletId,
+  validMobileNumber,
+  validStrongPassword,
+  validIpList,
+  validPasswordStretchingNumber,
+  validBitcoinAddress,
+  validBitcoinPrivateKey,
+  validEtherAddress,
+  normalizeSocialSecurity,
+  normalizeDateOfBirth
+}
