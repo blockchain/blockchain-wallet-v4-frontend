@@ -22,8 +22,6 @@ class FirstStepContainer extends React.Component {
     this.props.dataBitcoinActions.fetchUnspent(this.props.defaultBtcAccountIndex)
     this.props.dataEthereumActions.fetchFee()
     this.props.dataEthereumActions.fetchRates()
-    this.props.shapeshiftDataActions.fetchBtcEth()
-    this.props.shapeshiftDataActions.fetchEthBtc()
   }
 
   // componentWillReceiveProps (nextProps) {

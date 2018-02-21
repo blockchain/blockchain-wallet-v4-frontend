@@ -20,17 +20,10 @@ export const changeTarget = (currentTarget, newTarget, currentSource, btcBalance
   return { source: currentSource, target: newTarget }
 }
 
-export const initUnspent = (props) => {
-  const source = path(['value', 'source'], props)
-  const sourceCoin = prop('coin', source)
-  if (equals(sourceCoin, 'BTC')) {
-    props.dataBitcoinActions.fetchUnspent(prop('index', source) || prop('address', source))
-  }
-}
-
 export const updateUnspent = (prevProps, nextProps) => {
-  const prevSource = path(['value', 'source'], prevProps)
-  const nextSource = path(['value', 'source'], nextProps)
+  const prevSource = path(['input', 'value', 'source'], prevProps)
+  const nextSource = path(['input', 'value', 'source'], nextProps)
+
   const nextSourceCoin = prop('coin', nextSource)
   if (!equals(prevSource, nextSource) && equals(nextSourceCoin, 'BTC')) {
     nextProps.dataBitcoinActions.fetchUnspent(prop('index', nextSource) || prop('address', nextSource))
