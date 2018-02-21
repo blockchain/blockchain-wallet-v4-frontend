@@ -48,6 +48,10 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const { accountIdx, label } = action.payload
       return over(Wrapper.wallet, Wallet.setAccountLabel(accountIdx, label), state)
     }
+    case T.SET_DEFAULT_ACCOUNT: {
+      const { index } = action.payload
+      return over(Wrapper.wallet, Wallet.setDefaultAccountIdx(index), state)
+    }
     case T.VERIFY_MNEMONIC: {
       const mvLens = compose(Wrapper.wallet,
                              Wallet.hdWallets,

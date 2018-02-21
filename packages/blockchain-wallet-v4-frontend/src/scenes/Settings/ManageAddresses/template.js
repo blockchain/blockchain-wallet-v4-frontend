@@ -26,7 +26,7 @@ const OptionItem = ({ id, text, onClick }) => (
   </Text>
 )
 
-const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel, onShowXPub }) => (
+const ManageAddressesTemplate = ({ account, labels, receiveIndex, isDefault, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel, onShowXPub, onMakeDefault }) => (
   <Wrapper>
     <HorizontalMenu>
       <TabMenu>
@@ -39,8 +39,13 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress,
     </HorizontalMenu>
     <InnerWrapper>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text weight={400}>
+        <Text style={{ display: 'flex' }} weight={400}>
           {account.label}
+          {isDefault && (
+            <Text size='small' weight={300} style={{ marginLeft: 15 }}>
+              <FormattedMessage id='scene.settings.manage_addresses.is_default' defaultMessage='Default' />
+            </Text>
+          )}
         </Text>
         <ComponentDropdown
           down
@@ -49,8 +54,9 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress,
           selectedComponent={<MoreOptions />}
           components={[
             <OptionItem id='scenes.settings.manage_addresses.edit_name' text='Edit Name' onClick={onEditAccountLabel} />,
-            <OptionItem id='scenes.settings.manage_addresses.make_default' text='Show xPub' onClick={onShowXPub} />
-          ]} />
+            (!isDefault && <OptionItem id='scenes.settings.manage_addresses.make_default' text='Make Default' onClick={onMakeDefault} />),
+            <OptionItem id='scenes.settings.manage_addresses.show_xpub' text='Show xPub' onClick={onShowXPub} />
+          ].filter(x => x)} />
       </div>
       <Text weight={400} size='small' style={{ marginTop: 25 }}>
         <FormattedMessage id='scenes.settings.manage_addresses.unused_addresses' defaultMessage='Unused Addresses' />
