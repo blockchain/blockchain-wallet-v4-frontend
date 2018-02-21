@@ -223,6 +223,15 @@ export const enableTwoStepYubikey = function * (action) {
   }
 }
 
+export const newHDAccount = function * (action) {
+  try {
+    yield call(askSecondPasswordEnhancer(sagas.core.wallet.newHDAccount), { label: 'My Bitcoin Wallet' })
+    yield put(actions.alerts.displaySuccess('Successfully created new wallet.'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not create new wallet.'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.INIT_SETTINGS_INFO, initSettingsInfo)
   yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, initSettingsPreferences)
@@ -246,4 +255,5 @@ export default function * () {
   yield takeLatest(AT.ENABLE_TWO_STEP_MOBILE, enableTwoStepMobile)
   yield takeLatest(AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, enableTwoStepGoogleAuthenticator)
   yield takeLatest(AT.ENABLE_TWO_STEP_YUBIKEY, enableTwoStepYubikey)
+  yield takeLatest(AT.NEW_HD_ACCOUNT, newHDAccount)
 }

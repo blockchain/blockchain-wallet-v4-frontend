@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from 'data'
 import { getData } from './selectors'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -26,4 +28,8 @@ const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-export default connect(mapStateToProps)(BitcoinWalletsContainer)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions.modules.settings, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(BitcoinWalletsContainer)
