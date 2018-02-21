@@ -40,8 +40,20 @@ export default ({ api } = {}) => {
     }
   }
 
+  const fetchAccounts = function * () {
+    try {
+      yield put(A.fetchAccountsLoading())
+      const methods = yield apply(sfox, sfox.getBuyMethods)
+      const accounts = yield apply(sfox, methods.ach.getAccounts)
+      yield put(A.fetchAccountsSuccess(accounts))
+    } catch (e) {
+      yield put(A.fetchAccountsFailure(e))
+    }
+  }
+
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
+    yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)
     yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
   }

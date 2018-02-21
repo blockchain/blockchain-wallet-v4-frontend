@@ -2,17 +2,42 @@ import React from 'react'
 import { equals } from 'ramda'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { Button, Tooltip } from 'blockchain-info-components'
+import { change, Field, reduxForm, focus } from 'redux-form'
+import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
 const Wrapper = styled.div`
   padding: 20px;
   border: 1px solid ${props => props.theme['gray-1']};
 `
-const MessageContainer = styled.div`
+const RequiredMessage = styled.div`
   padding: 15px 0;
   border-top: 1px solid ${props => props.theme['gray-1']};
+`
+const ReasonMessage = styled.div`
+  font-size: 12px;
+  margin-top: 3px;
+  .link {
+    cursor: pointer;
+    color: ${props => props.theme['brand-secondary']};
+  }
+`
+const AccountsContainer = styled.div`
+`
+const CheckoutInput = styled(FormGroup)`
+  margin-bottom: 0px;
+`
+const Account = styled.div`
+  display: flex;
+  padding: 5px 10px;
+  align-items: center;
+  border: 1px solid ${props => props.theme['gray-1']};
+`
+const AccountDetails = styled.div`
+  display: flex;
+  margin-left: 10px;
+  flex-direction: column;
+  span:first-child { text-transform: capitalize; }
 `
 const LabelWrapper = styled.div`
   display: flex;
@@ -56,13 +81,19 @@ class ExchangeCheckout extends React.Component {
     }
   }
 
+  setMax () {
+    this.props.dispatch(focus('exchangeCheckout', 'fiat'))
+    this.props.dispatch(change('exchangeCheckout', 'fiat', this.props.limit))
+    this.props.fetchQuote({ amt: this.props.limit * 100, baseCurr: 'USD', quoteCurr: 'BTC' })
+  }
+
   render () {
     const { rate } = this.state
-    const { continueButton, continueMsg, fetchQuote, onSubmit } = this.props
-    // Currenices need to be dynamic
+    const { accounts, continueButton, requiredMsg, reasonMsg, fetchQuote, onSubmit, showRequiredMsg, showReasonMsg } = this.props
+    // TODO: Currenices need to be dynamic
     const fiat = 'USD'
     const crypto = 'BTC'
-    // Currenices need to be dynamic
+
     return (
       <Wrapper>
         <Form onSubmit={onSubmit}>
@@ -79,7 +110,7 @@ class ExchangeCheckout extends React.Component {
               </Rate>
             }
           </LabelWrapper>
-          <FormGroup inline>
+          <CheckoutInput inline>
             <FormItem width='50%'>
               <Field
                 name='fiat'
@@ -94,10 +125,28 @@ class ExchangeCheckout extends React.Component {
                 onChange={event => fetchQuote({ amt: event.target.value * 1e8, baseCurr: crypto, quoteCurr: fiat })}
               />
             </FormItem>
-          </FormGroup>
-          <MessageContainer>
-            { continueMsg }
-          </MessageContainer>
+          </CheckoutInput>
+          { showReasonMsg && <ReasonMessage onClick={this.setMax.bind(this)}> { reasonMsg } </ReasonMessage> }
+          { showRequiredMsg && <RequiredMessage> { requiredMsg } </RequiredMessage> }
+          {
+            accounts &&
+            <AccountsContainer>
+              <Text size='14px' weight={300} style={{'margin-bottom': '5px'}}>
+                <FormattedMessage id='scenes.buysell.exchangecheckout.synced' defaultMessage='Synced Bank Account:' />
+              </Text>
+              { accounts.map((account) => {
+                return (
+                  <Account>
+                    <Icon size='24px' name='bank' />
+                    <AccountDetails>
+                      <span>{account.accountType} ({account.routingNumber})</span>
+                      <span>Account Holder: {account.name}</span>
+                    </AccountDetails>
+                  </Account>
+                )
+              }) }
+            </AccountsContainer>
+          }
           <Button type='submit' nature='primary' fullwidth>
             { continueButton }
           </Button>

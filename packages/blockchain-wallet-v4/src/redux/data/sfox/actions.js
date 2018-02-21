@@ -9,3 +9,8 @@ export const fetchProfile = (data) => ({ type: AT.FETCH_PROFILE, payload: data }
 export const fetchProfileLoading = () => ({ type: AT.FETCH_PROFILE_LOADING })
 export const fetchProfileSuccess = (data) => ({ type: AT.FETCH_PROFILE_SUCCESS, payload: data })
 export const fetchProfileFailure = (error) => ({ type: AT.FETCH_PROFILE_FAILURE, payload: error })
+
+export const fetchAccounts = () => ({ type: AT.FETCH_ACCOUNTS, payload: {} })
+export const fetchAccountsLoading = () => ({ type: AT.FETCH_ACCOUNTS_LOADING })
+export const fetchAccountsSuccess = (data) => ({ type: AT.FETCH_ACCOUNTS_SUCCESS, payload: data })
+export const fetchAccountsFailure = (error) => ({ type: AT.FETCH_ACCOUNTS_FAILURE, payload: error })

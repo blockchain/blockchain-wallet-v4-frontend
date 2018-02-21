@@ -22,6 +22,7 @@ class BuySellContainer extends React.Component {
   render () {
     const { data } = this.props
 
+    // TODO: determine partner to load
     let buySell = data.cata({
       Success: () => <SfoxCheckout />,
       Failure: (message) => <div>{message}</div>,
