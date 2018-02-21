@@ -53,18 +53,11 @@ export default ({ api } = {}) => {
     }
   }
 
-  const watchShapeshiftQuotation = function * () {
-    while (true) {
-      const action = yield take(AT.FETCH_SHAPESHIFT_QUOTATION)
-      yield call(fetchShapeshiftQuotation, action)
-    }
-  }
-
   const fetchShapeshiftQuotation = function * (action) {
     try {
       const { depositAmount, pair } = action.payload
-      const data = yield call(api.createQuote, depositAmount, pair)
       yield put(A.fetchShapeshiftQuotationLoading())
+      const data = yield call(api.createQuote, depositAmount, pair)
       yield call(delay, delayAjax)
       if (has('error', data)) throw new Error(prop('error', data))
       yield put(A.fetchShapeshiftQuotationSuccess(data))
@@ -78,6 +71,6 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.FETCH_ETH_BTC, fetchEthBtc)
     yield takeEvery(AT.FETCH_TRADE_STATUS, fetchTradeStatus)
     yield takeEvery(AT.FETCH_SHAPESHIFT_ORDER, fetchShapeshiftOrder)
-    yield fork(watchShapeshiftQuotation)
+    yield takeEvery(AT.FETCH_SHAPESHIFT_QUOTATION, fetchShapeshiftQuotation)
   }
 }
