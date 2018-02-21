@@ -15,7 +15,14 @@ class BitcoinWalletsContainer extends React.Component {
     const { data, ...rest } = this.props
     return (
       data.cata({
-        Success: (value) => <Success wallets={value} handleClick={() => this.props.actions.showModal('AddBitcoinWallet')} {...rest} />,
+        Success: (value) => (
+          <Success
+            wallets={value}
+            handleClick={() => this.props.actions.showModal('AddBitcoinWallet')}
+            onUnarchive={(i) => this.props.coreActions.setAccountArchived(i, false)}
+            {...rest}
+          />
+        ),
         Failure: (message) => <div>{message}</div>,
         Loading: () => <div />,
         NotAsked: () => <div />
@@ -25,7 +32,8 @@ class BitcoinWalletsContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modals, dispatch)
+  actions: bindActionCreators(actions.modals, dispatch),
+  coreActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 
 const mapStateToProps = (state) => ({

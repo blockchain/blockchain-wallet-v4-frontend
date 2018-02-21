@@ -26,7 +26,7 @@ const OptionItem = ({ id, text, onClick }) => (
   </Text>
 )
 
-const ManageAddressesTemplate = ({ account, labels, receiveIndex, isDefault, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel, onShowXPub, onMakeDefault }) => (
+const ManageAddressesTemplate = ({ account, labels, receiveIndex, isDefault, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel, onShowXPub, onMakeDefault, onSetArchived }) => (
   <Wrapper>
     <HorizontalMenu>
       <TabMenu>
@@ -55,6 +55,7 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
           components={[
             <OptionItem id='scenes.settings.manage_addresses.edit_name' text='Edit Name' onClick={onEditAccountLabel} />,
             (!isDefault && <OptionItem id='scenes.settings.manage_addresses.make_default' text='Make Default' onClick={onMakeDefault} />),
+            (!isDefault && <OptionItem id='scenes.settings.manage_addresses.archive' text='Archive' onClick={onSetArchived} />),
             <OptionItem id='scenes.settings.manage_addresses.show_xpub' text='Show xPub' onClick={onShowXPub} />
           ].filter(x => x)} />
       </div>
