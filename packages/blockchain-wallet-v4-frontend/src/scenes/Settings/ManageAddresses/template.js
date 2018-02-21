@@ -26,7 +26,7 @@ const OptionItem = ({ id, text, onClick }) => (
   </Text>
 )
 
-const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel }) => (
+const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel, onShowXPub }) => (
   <Wrapper>
     <HorizontalMenu>
       <TabMenu>
@@ -49,7 +49,7 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress,
           selectedComponent={<MoreOptions />}
           components={[
             <OptionItem id='scenes.settings.manage_addresses.edit_name' text='Edit Name' onClick={onEditAccountLabel} />,
-            <OptionItem id='scenes.settings.manage_addresses.make_default' text='Show xPub' onClick={() => console.log('show xpub')} />
+            <OptionItem id='scenes.settings.manage_addresses.make_default' text='Show xPub' onClick={onShowXPub} />
           ]} />
       </div>
       <Text weight={400} size='small' style={{ marginTop: 25 }}>

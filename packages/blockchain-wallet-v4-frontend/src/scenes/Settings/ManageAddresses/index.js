@@ -8,7 +8,7 @@ import ManageAddressesTemplate from './template'
 
 class ManageAddressesContainer extends React.Component {
   render () {
-    let { account, labels, receiveIndex, coreActions, walletActions } = this.props
+    let { account, labels, receiveIndex, coreActions, walletActions, modalsActions } = this.props
 
     let deriveAddress = (i) => Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN)
 
@@ -16,8 +16,9 @@ class ManageAddressesContainer extends React.Component {
     let onEditLabel = (i) => walletActions.editHdLabel(account.index, i)
     let onDeleteLabel = (i) => coreActions.deleteHdAddressLabel(account.index, i)
     let onEditAccountLabel = () => walletActions.editAccountLabel(account.index, account.label)
+    let onShowXPub = () => modalsActions.showModal('ShowXPub', { xpub: account.xpub })
 
-    let props = { account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel }
+    let props = { account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel, onShowXPub }
     return <ManageAddressesTemplate {...props} />
   }
 }
@@ -34,7 +35,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
-  walletActions: bindActionCreators(actions.wallet, dispatch)
+  walletActions: bindActionCreators(actions.wallet, dispatch),
+  modalsActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageAddressesContainer)
