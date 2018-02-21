@@ -1,7 +1,5 @@
 import * as AT from './actionTypes'
 
-export const createHdAccount = (label) => ({ type: AT.CREATE_HD_ACCOUNT, payload: { label } })
-
 export const toggleSecondPassword = (password) => ({ type: AT.TOGGLE_SECOND_PASSWORD, payload: { password } })
 
 export const updatePbkdf2Iterations = (iterations) => ({ type: AT.UPDATE_PBKDF2_ITERATIONS, payload: { iterations } })

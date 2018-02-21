@@ -1,7 +1,9 @@
 import Bitcoin from 'bitcoinjs-lib'
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete that wallet test fail - idk why
-import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split, isEmpty } from 'ramda'
-import { view, over } from 'ramda-lens'
+import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split, isEmpty, merge } from 'ramda'
+import { view, over, set, traverseOf } from 'ramda-lens'
+import * as crypto from '../walletCrypto'
+import Either from 'data.either'
 import Type from './Type'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as Cache from './Cache'
@@ -88,4 +90,16 @@ export const js = (label, node, xpub) => ({
   xpub: node ? node.neutered().toBase58() : xpub,
   address_labels: [],
   cache: Cache.js(node)
+})
+
+// encryptSync :: Number -> String -> String -> Account -> Either Error Account
+export const encryptSync = curry((iterations, sharedKey, password, account) => {
+  const cipher = crypto.encryptSecPassSync(sharedKey, iterations, password)
+  return traverseOf(xpriv, Either.of, cipher, account)
+})
+
+// decryptSync :: Number -> String -> String -> Account -> Either Error Account
+export const decryptSync = curry((iterations, sharedKey, password, account) => {
+  const cipher = crypto.decryptSecPassSync(sharedKey, iterations, password)
+  return traverseOf(xpriv, Either.of, cipher, account)
 })

@@ -14,7 +14,7 @@ class AddBitcoinWalletContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.walletActions.createHdAccount(this.props.wallet)
+    this.props.actions.newHDAccount(this.props.wallet)
   }
 
   render () {
@@ -27,7 +27,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  walletActions: bindActionCreators(actions.wallet, dispatch)
+  actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(connect(mapStateToProps, mapDispatchToProps), modalEnhancer('AddBitcoinWallet'))

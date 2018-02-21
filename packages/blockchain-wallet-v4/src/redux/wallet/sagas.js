@@ -10,7 +10,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
 
-import { Wrapper, Wallet, Address, HDAccount, HDWallet, HDWalletList } from '../../types'
+import { Wrapper, Wallet, Address, HDWalletList } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -43,12 +43,11 @@ export const walletSaga = ({ api } = {}) => {
     yield put(fetchData(walletContext))
   }
 
-  const createHdAccount = function * ({label, password}) {
-    const wrapper = yield select(S.getWrapper)
-    const addAccount = wallet => Wallet.addHdAccount(wallet, label, password)
-    const task = eitherToTask(Wrapper.traverseWallet(Either.of, addAccount, wrapper))
-    yield call(runTask, task, A.setWrapper)
-    const walletContext = yield select(S.getWalletContext)
+  const newHDAccount = function * ({label, password}) {
+    let wrapper = yield select(S.getWrapper)
+    let nextWrapper = Wrapper.traverseWallet(Either.of, Wallet.newHDAccount(label, password), wrapper)
+    yield call(runTask, eitherToTask(nextWrapper), A.setWrapper)
+    let walletContext = yield select(S.getWalletContext)
     yield put(fetchData(walletContext))
   }
 
@@ -135,10 +134,10 @@ export const walletSaga = ({ api } = {}) => {
 
   return {
     toggleSecondPassword,
-    createHdAccount,
     createWalletSaga,
     restoreWalletSaga,
     createLegacyAddress,
+    newHDAccount,
     updatePbkdf2Iterations,
     remindWalletGuidSaga,
     fetchWalletSaga,

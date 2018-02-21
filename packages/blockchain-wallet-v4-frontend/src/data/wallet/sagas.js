@@ -4,16 +4,6 @@ import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
 import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
 
-export const createHdAccount = function * (action) {
-  const saga = askSecondPasswordEnhancer(sagas.core.wallet.createHdAccount)
-  try {
-    yield call(saga, action.payload)
-    yield put(actions.alerts.displaySuccess('Wallet added succesfully.'))
-  } catch (error) {
-    yield put(actions.alerts.displayError('Error adding wallet.'))
-  }
-}
-
 export const createLegacyAddress = function * (action) {
   const saga = askSecondPasswordEnhancer(sagas.core.wallet.createLegacyAddress)
   try {
@@ -54,6 +44,5 @@ export default function * () {
   yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
   yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
   yield takeEvery(AT.CREATE_LEGACY_ADDRESS, createLegacyAddress)
-  yield takeEvery(AT.CREATE_HD_ACCOUNT, createHdAccount)
   yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
 }
