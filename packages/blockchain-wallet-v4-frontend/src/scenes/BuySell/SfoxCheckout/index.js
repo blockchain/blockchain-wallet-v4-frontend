@@ -8,6 +8,7 @@ import Success from './template.success'
 class Checkout extends React.Component {
   componentWillMount () {
     this.props.sfoxDataActions.fetchProfile()
+    this.props.sfoxDataActions.fetchAccounts()
     this.props.sfoxDataActions.fetchQuote({ amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' })
   }
 
@@ -15,7 +16,7 @@ class Checkout extends React.Component {
     const { data, quote, base } = this.props
 
     return data.cata({
-      Success: (value) => <Success value={value} base={base} quote={quote} showModal={this.props.modalActions.showModal} fetchQuote={this.props.sfoxDataActions.fetchQuote} />,
+      Success: (value) => <Success base={base} value={value} quote={quote} showModal={this.props.modalActions.showModal} fetchQuote={this.props.sfoxDataActions.fetchQuote} />,
       Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div />
