@@ -1,7 +1,7 @@
 import { shift, shiftIProp } from './util'
 import { pipe, compose, curry, is, range, map } from 'ramda'
 import { view, over } from 'ramda-lens'
-import Either from 'data.either'
+import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
 import Type from './Type'
@@ -55,6 +55,17 @@ export const toJS = pipe(HDWallet.guard, (hd) => {
 export const reviver = (jsObject) => {
   return new HDWallet(jsObject)
 }
+
+export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
+  let seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
+  let masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
+  return masterNode.deriveHardened(44).deriveHardened(0).deriveHardened(index)
+}
+
+export const generateAccount = curry((index, label, seedHex) => {
+  let node = deriveAccountNodeAtIndex(seedHex, index, Bitcoin.networks.bitcoin)
+  return HDAccount.fromJS(HDAccount.js(`${label} ${index + 1}`, node))
+})
 
 export const js = (label, mnemonic, xpub, nAccounts, network) => {
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
