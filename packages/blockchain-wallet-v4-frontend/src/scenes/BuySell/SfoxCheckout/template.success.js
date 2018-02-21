@@ -44,8 +44,11 @@ const Success = props => {
 
   return (
     <ExchangeCheckout
+      fiatLimits
       base={base}
       quote={quote}
+      fiat={'USD'}
+      crypto={'BTC'}
       accounts={accounts}
       onSubmit={onSubmit}
       fetchQuote={fetchQuote}
