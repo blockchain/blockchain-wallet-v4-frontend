@@ -13,11 +13,15 @@ const BaseText = styled.div`
     : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => props.italic ? 'italic' : 'normal'};
   color: ${props => props.theme[props.color]};
+  cursor: ${props => props.cursor};
+  display: ${props => props.flexRow ? 'flex' : 'initial'}
+  flex-direction: ${props => props.flexRow ? 'row' : null}
 
   & > :first-child { margin-right: 5px; }
 `
 
 const Text = ({ ...props, children }) => {
+
   return (
     <BaseText {...props}>
       {children}
@@ -32,7 +36,8 @@ Text.propTypes = {
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),
-  altFont: PropTypes.bool
+  altFont: PropTypes.bool,
+  cursor: PropTypes.string
 }
 
 Text.defaultProps = {
@@ -42,7 +47,8 @@ Text.defaultProps = {
   capitalize: false,
   italic: false,
   color: 'gray-5',
-  altFont: false
+  altFont: false,
+  cursor: 'default'
 }
 
 export default Text

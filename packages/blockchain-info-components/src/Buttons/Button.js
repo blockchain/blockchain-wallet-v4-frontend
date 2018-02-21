@@ -12,7 +12,7 @@ const BaseButton = styled.button.attrs({
   align-items: center;
   width: ${props => props.fullwidth ? '100%' : 'auto'};
   min-width: 140px;
-  height: 40px;
+  height: ${props => props.height};
   padding: 10px 15px;
   box-sizing: border-box;
   user-select: none;
@@ -28,6 +28,7 @@ const BaseButton = styled.button.attrs({
   font-size: 14px;
   font-weight: ${props => props.bold ? '700' : '300'};
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  opacity: ${props => props.disabled ? 0.5 : 1};
   color: ${props => props.theme[props.color]};
   background-color: ${props => props.theme[props.backgroundColor]};
   border-radius: ${props => props.rounded ? '20px' : '3px'};
@@ -93,7 +94,8 @@ Button.defaultProps = {
   rounded: false,
   bold: false,
   uppercase: false,
-  capitalize: false
+  capitalize: false,
+  height: '40px'
 }
 
 export default Button
