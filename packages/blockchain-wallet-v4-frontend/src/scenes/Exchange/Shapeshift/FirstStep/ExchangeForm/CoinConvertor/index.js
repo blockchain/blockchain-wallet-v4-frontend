@@ -7,8 +7,6 @@ import { equals } from 'ramda'
 import { actions } from 'data'
 import { getData } from './selectors'
 import { getPairFromCoin } from './services'
-import Error from './template.error'
-import Loading from './template.loading'
 import Success from './template.success'
 
 class CoinConvertorContainer extends React.Component {

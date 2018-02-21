@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { path } from 'ramda'
+import { equals, path } from 'ramda'
 import * as crypto from 'crypto'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { initializeForm } from './services'
 import ExchangeForm from './template'
 
@@ -71,15 +71,21 @@ class ExchangeFormContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const accounts = formValueSelector('exchange')(state, 'accounts')
   const amount = formValueSelector('exchange')(state, 'amount')
+  const coinSource = path(['source', 'coin'], accounts)
+  const coinTarget = path(['target', 'coin'], accounts)
+  const coinSourceUnit = equals(coinSource, 'BTC') ? ownProps.btcUnit : ownProps.ethUnit
+  const coinTargetUnit = equals(coinTarget, 'BTC') ? ownProps.btcUnit : ownProps.ethUnit
 
   return {
     accounts,
     amount,
-    coinSource: path(['source', 'coin'], accounts),
-    coinTarget: path(['target', 'coin'], accounts)
+    coinSource,
+    coinSourceUnit,
+    coinTarget,
+    coinTargetUnit
   }
 }
 
