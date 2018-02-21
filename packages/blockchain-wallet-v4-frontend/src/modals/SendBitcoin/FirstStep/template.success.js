@@ -221,15 +221,12 @@ FirstStep.propTypes = {
   addressSelectToggled: PropTypes.bool.isRequired,
   addressSelectOpened: PropTypes.bool.isRequired,
   feeEditToggled: PropTypes.bool.isRequired,
-<<<<<<< HEAD
-  fee: PropTypes.number.isRequired,
-=======
   totalFee: PropTypes.number,
   fee: PropTypes.string.isRequired,
->>>>>>> master
   handleSubmit: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired,
   handleClickFeeToggler: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'sendBitcoin', shouldValidate, destroyOnUnmount: false })(FirstStep)
+ 

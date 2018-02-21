@@ -36,11 +36,9 @@ export default (props) => {
       <Row>
         <Container>
           <SkeletonRectangle width='100%' height='40px' color='gray-2' />
-          <SkeletonRectangle width='100%' height='40px' color='gray-2' />
         </Container>
-        <Icon name='right-arrow' size='24px' />
+        <Icon name='exchange-2' size='24px' />
         <Container>
-          <SkeletonRectangle width='100%' height='40px' color='gray-2' />
           <SkeletonRectangle width='100%' height='40px' color='gray-2' />
         </Container>
       </Row>

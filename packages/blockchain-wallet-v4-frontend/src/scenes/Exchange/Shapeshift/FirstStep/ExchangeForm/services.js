@@ -22,7 +22,6 @@ export const changeCoin = (prevProps, nextProps) => {
   const nextSourceCoin = selectSourceCoin(nextProps)
   const prevTargetCoin = selectTargetCoin(prevProps)
   const nextTargetCoin = selectTargetCoin(nextProps)
-  console.log('test', prevSourceCoin, nextSourceCoin, prevTargetCoin, nextTargetCoin)
 
   // If the source coin has changed, we select a new target coin
   if (!isNil(prevSourceCoin) && !equals(prevSourceCoin, nextSourceCoin)) {

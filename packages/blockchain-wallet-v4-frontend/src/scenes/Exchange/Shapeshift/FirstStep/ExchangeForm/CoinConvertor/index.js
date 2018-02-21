@@ -19,11 +19,6 @@ class CoinConvertorContainer extends React.Component {
     this.handleChangeCoinTarget = this.handleChangeCoinTarget.bind(this)
   }
 
-  componentWillMount () {
-    this.props.dataBitcoinActions.fetchRates()
-    this.props.dataEthereumActions.fetchRates()
-  }
-
   componentWillReceiveProps (nextProps) {
     // Reset coin values when source coin has changed
     if (!equals(this.props.sourceCoin, nextProps.sourceCoin)) {
@@ -54,7 +49,6 @@ class CoinConvertorContainer extends React.Component {
   }
 
   renderComponent (value) {
-    console.log('CoinConvertor container', this.props, value)
     return <Success
       coinSourceValue={this.state.coinSourceValue}
       coinTargetValue={this.state.coinTargetValue}
