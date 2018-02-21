@@ -9,9 +9,13 @@ import ManageAddressesTemplate from './template'
 class ManageAddressesContainer extends React.Component {
   render () {
     let { account, labels, receiveIndex, actions } = this.props
+
     let deriveAddress = (i) => Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN)
-    let onNewLabel = (i) => actions.setHdAddressLabel(account.index, i, 'New Address')
-    let props = { account, labels, receiveIndex, deriveAddress, onNewLabel }
+
+    let onSetLabel = (i) => actions.setHdAddressLabel(account.index, i, 'New Address')
+    let onDeleteLabel = (i) => actions.deleteHdAddressLabel(account.index, i)
+
+    let props = { account, labels, receiveIndex, deriveAddress, onSetLabel, onDeleteLabel }
     return <ManageAddressesTemplate {...props} />
   }
 }

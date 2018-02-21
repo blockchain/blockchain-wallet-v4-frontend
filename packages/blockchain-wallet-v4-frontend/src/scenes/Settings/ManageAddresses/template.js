@@ -12,7 +12,7 @@ const InnerWrapper = styled.div`
   padding: 40px 30px;
 `
 
-const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress, onNewLabel }) => (
+const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress, onSetLabel, onDeleteLabel }) => (
   <Wrapper>
     <HorizontalMenu>
       <TabMenu>
@@ -35,7 +35,7 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress,
       </Text>
       {receiveIndex.cata({
         Success: (index) => (
-          <Button onClick={() => onNewLabel(index)}>
+          <Button onClick={() => onSetLabel(index)}>
             Add label
           </Button>
         ),
@@ -63,6 +63,9 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress,
             </TableCell>
             <TableCell width='30%'>
               <Text size='13px'>{entry.label}</Text>
+            </TableCell>
+            <TableCell width='30%'>
+              <Icon name='trash' onClick={() => onDeleteLabel(entry.index)} />
             </TableCell>
           </TableRow>
         ))}
