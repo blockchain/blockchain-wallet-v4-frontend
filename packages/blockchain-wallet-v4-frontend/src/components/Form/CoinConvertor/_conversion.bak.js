@@ -1,5 +1,35 @@
-import { equals } from 'ramda'
+import { contains, equals } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
+
+export const getPair = (sourceCoin, targetCoin) => {
+  console.log('getPair', sourceCoin, targetCoin)
+  const availableCoins = ['BTC', 'BCH', 'ETH']
+  if (!contains(sourceCoin, availableCoins) || !contains(targetCoin, availableCoins)) return undefined
+
+  switch (sourceCoin) {
+    case 'BTC': {
+      switch (targetCoin) {
+        case 'ETH': return 'btc_eth'
+        case 'BCH': return 'btc_bch'
+      }
+      break
+    }
+    case 'BCH': {
+      switch (targetCoin) {
+        case 'BTC': return 'bch_btc'
+        case 'ETH': return 'bch_eth'
+      }
+      break
+    }
+    case 'ETH': {
+      switch (targetCoin) {
+        case 'BTC': return 'eth_btc'
+        case 'BCH': return 'eth_bch'
+      }
+      break
+    }
+  }
+}
 
 export const convertCoin1 = (value, fromCoin, toCoin, data) => data.map(x => {
   let coin2, fiat1, fiat2

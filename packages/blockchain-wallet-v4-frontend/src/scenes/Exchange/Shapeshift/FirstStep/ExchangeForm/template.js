@@ -5,7 +5,9 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
-import { CoinConvertor, Form, SelectBoxAccounts } from 'components/Form'
+import { Form } from 'components/Form'
+import CoinConvertor from './CoinConvertor'
+import SelectBoxAccounts from './SelectBoxAccounts'
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,7 +37,7 @@ const Row = styled.div`
 `
 
 const ExchangeForm = props => {
-  const { sourceCoin, targetCoin, max, handleSubmit, invalid, submitting } = props
+  const { coinSource, coinTarget, max, handleSubmit, invalid, submitting } = props
 
   return (
     <Wrapper>
@@ -52,7 +54,7 @@ const ExchangeForm = props => {
           <Text size='14px' weight={400}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[required]} sourceCoin={sourceCoin} targetCoin={targetCoin} max={max} />
+          <Field name='amount' component={CoinConvertor} validate={[required]} coinSource={coinSource} coinTarget={coinTarget} max={max} />
         </Row>
         <Row>
           <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>

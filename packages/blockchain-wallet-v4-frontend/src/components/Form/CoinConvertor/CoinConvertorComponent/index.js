@@ -2,34 +2,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { equals } from 'ramda'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import { getPairFromCoin } from './services'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class CoinConvertorContainer extends React.Component {
+class CoinConvertorComponentContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { coinSourceValue: this.props.input.value || '', coinTargetValue: '' }
+    this.state = { coinSourceValue: '', coinTargetValue: '' }
     this.handleChangeCoinSource = this.handleChangeCoinSource.bind(this)
     this.handleChangeCoinTarget = this.handleChangeCoinTarget.bind(this)
   }
 
   componentWillMount () {
-    this.props.dataBitcoinActions.fetchRates()
-    this.props.dataEthereumActions.fetchRates()
+    console.log('componentWillMount', this.props)
+    // this.props.shapeshiftDataActions.fetchShapeshiftQuotation(this.props.coinSourceValue, this.props.pair)
   }
 
-  componentWillReceiveProps (nextProps) {
-    // Reset coin values when source coin has changed
-    if (!equals(this.props.sourceCoin, nextProps.sourceCoin)) {
-      this.setState({ coin1Value: '', coin2Value: '' })
-    }
-  }
+  // componentWillReceiveProps (nextProps) {
+  //   // Reset coin values when source coin has changed
+  //   // if (!equals(this.props.sourceCoin, nextProps.sourceCoin)) {
+  //   //   this.setState({ coin1Value: '', coin2Value: '' })
+  //   // }
+  // }
 
   update (data) {
     this.setState(data)
@@ -54,10 +52,12 @@ class CoinConvertorContainer extends React.Component {
   }
 
   renderComponent (value) {
-    console.log('CoinConvertor container', this.props, value)
+    const { coinSourceValue, coinTargetValue } = this.state
+    console.log('CoinConvertorComponentContainer', this.props)
+
     return <Success
-      coinSourceValue={this.state.coinSourceValue}
-      coinTargetValue={this.state.coinTargetValue}
+      coinSourceValue={coinSourceValue}
+      coinTargetValue={coinTargetValue}
       handleChangeCoinSource={this.handleChangeCoinSource}
       handleChangeCoinTarget={this.handleChangeCoinTarget}
       {...value}
@@ -66,7 +66,7 @@ class CoinConvertorContainer extends React.Component {
   }
 }
 
-CoinConvertorContainer.propTypes = {
+CoinConvertorComponentContainer.propTypes = {
   input: PropTypes.shape({
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -77,9 +77,8 @@ CoinConvertorContainer.propTypes = {
   coinTarget: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.coinSource, ownProps.coinTarget),
-  pair: getPairFromCoin(ownProps.coinSource, ownProps.coinTarget)
+const mapStateToProps = state => ({
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -88,4 +87,4 @@ const mapDispatchToProps = (dispatch) => ({
   shapeshiftDataActions: bindActionCreators(actions.core.data.shapeShift, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinConvertorContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CoinConvertorComponentContainer)

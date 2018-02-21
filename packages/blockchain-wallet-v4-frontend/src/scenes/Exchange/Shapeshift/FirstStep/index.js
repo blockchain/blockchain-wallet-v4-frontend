@@ -1,33 +1,29 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as crypto from 'crypto'
+// import * as crypto from 'crypto'
 
 import { getData } from './selectors'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import ExchangeForm from './ExchangeForm'
 
 class FirstStepContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.timeout = undefined
-    this.seed = crypto.randomBytes(16).toString('hex')
-  }
+  // constructor (props) {
+  //   super(props)
+  //   this.timeout = undefined
+  //   this.seed = crypto.randomBytes(16).toString('hex')
+  // }
 
   componentWillMount () {
     this.props.dataBitcoinActions.fetchFee()
     this.props.dataBitcoinActions.fetchRates()
+    this.props.dataBitcoinActions.fetchUnspent(this.props.defaultBtcAccountIndex)
     this.props.dataEthereumActions.fetchFee()
     this.props.dataEthereumActions.fetchRates()
     this.props.shapeshiftDataActions.fetchBtcEth()
     this.props.shapeshiftDataActions.fetchEthBtc()
-  }
-
-  componentWillUpdate (nextProps, nextState) {
-    // Initialize form
-    // initializeForm(this.props, nextProps)
   }
 
   // componentWillReceiveProps (nextProps) {
@@ -82,7 +78,8 @@ class FirstStepContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  defaultBtcAccountIndex: selectors.core.wallet.getDefaultAccountIndex(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

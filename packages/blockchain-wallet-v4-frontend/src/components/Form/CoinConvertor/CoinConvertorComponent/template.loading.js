@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, SkeletonRectangle } from 'blockchain-info-components'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import CoinLoading from './CoinLoading'
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,20 +32,20 @@ const Container = styled.div`
   & > * { margin-bottom: 5px; }
 `
 
-export default (props) => {
-  return (
-    <Wrapper>
-      <Row>
-        <Container>
-          <SkeletonRectangle width='100%' height='40px' color='gray-2' />
-          <SkeletonRectangle width='100%' height='40px' color='gray-2' />
-        </Container>
-        <Icon name='right-arrow' size='24px' />
-        <Container>
-          <SkeletonRectangle width='100%' height='40px' color='gray-2' />
-          <SkeletonRectangle width='100%' height='40px' color='gray-2' />
-        </Container>
-      </Row>
-    </Wrapper>
-  )
-}
+const Loading = (props) => (
+  <Wrapper>
+    <Row>
+      <Container>
+        <SkeletonRectangle width='100%' height='40px' color='gray-2' />
+        <SkeletonRectangle width='100%' height='40px' color='gray-2' />
+      </Container>
+      <CoinLoading loading />
+      <Container>
+        <SkeletonRectangle width='100%' height='40px' color='gray-2' />
+        <SkeletonRectangle width='100%' height='40px' color='gray-2' />
+      </Container>
+    </Row>
+  </Wrapper>
+)
+
+export default Loading

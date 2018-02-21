@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import CoinConvertorComponent from './CoinConvertorComponent'
+import ExchangeForm from './ExchangeForm'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,16 +24,9 @@ const Error = styled(Text)`
 //   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 // }
 
-const CoinConvertor = props => {
-  console.log('CoinConvertor template', props)
-  return (
-    <Wrapper>
-      <CoinConvertorComponent {...this.props} />
-    </Wrapper>
-  )
-}
+const Success = props => <ExchangeForm {...this.props} />
 
-CoinConvertor.propTypes = {
+Success.propTypes = {
   coinSource: PropTypes.string.isRequired,
   coinTarget: PropTypes.string.isRequired,
   coinSourceValue: PropTypes.string.isRequired,
@@ -47,4 +40,4 @@ CoinConvertor.propTypes = {
   handleChangeCoinTarget: PropTypes.func.isRequired
 }
 
-export default CoinConvertor
+export default Success
