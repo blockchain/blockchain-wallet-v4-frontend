@@ -31,7 +31,7 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { fetchQuote, quote, base, showModal } = props
+  const { fetchQuote, quote, base, errors, showModal } = props
   const { accounts, profile, verificationStatus } = props.value
   const type = 'buy'
   const step = determineStep(profile, verificationStatus)
@@ -42,17 +42,29 @@ const Success = props => {
     showModal('SfoxExchangeData', { step })
   }
 
+  const limits = {
+    buy: {
+      min: 10,
+      max: profile.limits.buy
+    },
+    sell: {
+      min: 10,
+      max: profile.limits.sell
+    }
+  }
+
   return (
     <ExchangeCheckout
       fiatLimits
       base={base}
       quote={quote}
+      errors={errors}
       fiat={'USD'}
       crypto={'BTC'}
       accounts={accounts}
       onSubmit={onSubmit}
       fetchQuote={fetchQuote}
-      limit={profile.limits[type]}
+      limits={limits[type]}
       showReasonMsg={reason}
       showContinueMsg={step !== 'verified'}
       requiredMsg={<RequiredMsg step={step} type={type} />}
