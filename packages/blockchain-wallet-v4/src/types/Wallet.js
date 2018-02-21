@@ -222,6 +222,12 @@ export const setAccountLabel = curry((accountIdx, label, wallet) => {
   return set(lens, label, wallet)
 })
 
+// setAccountArchived :: Number -> Bool -> Wallet -> Wallet
+export const setAccountArchived = curry((index, archived, wallet) => {
+  let lens = compose(accounts, HDAccountList.account(index), HDAccount.archived)
+  return set(lens, archived, wallet)
+})
+
 // setDefaultAccountIdx :: Number -> Wallet -> Wallet
 export const setDefaultAccountIdx = curry((index, wallet) => {
   return set(compose(hdwallet, HDWallet.defaultAccountIdx), index, wallet)

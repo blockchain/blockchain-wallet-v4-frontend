@@ -13,7 +13,7 @@ export const getActiveHDAccounts = state => {
   const balancesRD = getAddresses(state)
   const addInfo = account => balancesRD.map(prop(prop('xpub', account)))
                                        .map(x => assoc('info', x, account))
-  const objectOfRemotes = compose(map(addInfo), HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
+  const objectOfRemotes = compose(map(addInfo), HDAccountList.toJSwithIndex, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
   return sequence(Remote.of, objectOfRemotes)
 }
 
@@ -43,6 +43,7 @@ const digestAccount = x => ({
   label: prop('label', x) ? prop('label', x) : prop('xpub', x),
   balance: path(['info', 'final_balance'], x),
   xpub: prop('xpub', x),
+  archived: prop('archived', x),
   index: prop('index', x)
 })
 
