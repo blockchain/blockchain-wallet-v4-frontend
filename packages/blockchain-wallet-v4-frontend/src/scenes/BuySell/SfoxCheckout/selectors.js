@@ -19,3 +19,8 @@ export const getQuote = (state) => {
 export const getBase = (state) => {
   return state.form.exchangeCheckout && state.form.exchangeCheckout.active
 }
+
+export const getErrors = (state) => {
+  const exchangeCheckoutForm = state.form && state.form.exchangeCheckout
+  return exchangeCheckoutForm && exchangeCheckoutForm.syncErrors
+}

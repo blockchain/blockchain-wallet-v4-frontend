@@ -7,6 +7,7 @@ import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
 const Wrapper = styled.div`
+  width: 90%;
   padding: 20px;
   border: 1px solid ${props => props.theme['gray-1']};
 `
@@ -15,7 +16,6 @@ const RequiredMessage = styled.div`
   border-top: 1px solid ${props => props.theme['gray-1']};
 `
 const ReasonMessage = styled.div`
-  font-size: 12px;
   margin-top: 3px;
   .link {
     cursor: pointer;
@@ -42,7 +42,7 @@ const AccountDetails = styled.div`
 const LabelWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
 `
 const Label = styled.label`
@@ -59,6 +59,9 @@ const Amount = styled.span`
   font-size: 12px;
   margin-right: 5px;
 `
+
+const belowMaxAmount = (value, allValues, props) => value > props.limits.max ? 'max' : undefined
+const aboveMinAmount = (value, allValues, props) => value < props.limits.min ? 'min' : undefined
 
 class ExchangeCheckout extends React.Component {
   constructor () {
@@ -87,13 +90,16 @@ class ExchangeCheckout extends React.Component {
     let quoteCurr = this.props.fiatLimits ? this.props.crypto : this.props.fiat
 
     this.props.dispatch(focus('exchangeCheckout', field))
-    this.props.dispatch(change('exchangeCheckout', field, this.props.limit))
-    this.props.fetchQuote({ amt: this.props.limit * 100, baseCurr: baseCurr, quoteCurr: quoteCurr })
+    this.props.dispatch(change('exchangeCheckout', field, this.props.limits.max))
+    this.props.fetchQuote({ amt: this.props.limits.max * 100, baseCurr: baseCurr, quoteCurr: quoteCurr })
   }
 
   render () {
     const { rate } = this.state
-    const { accounts, continueButton, requiredMsg, reasonMsg, fiat, crypto, fetchQuote, onSubmit, showRequiredMsg, showReasonMsg } = this.props
+    const { accounts, continueButton, errors, requiredMsg, limits, reasonMsg, fiat, crypto, fetchQuote, onSubmit, showRequiredMsg, showReasonMsg } = this.props
+
+    const minError = (errors && errors.fiat && errors.fiat === 'min') || (errors && errors.crypto && errors.crypto === 'min')
+    const maxError = (errors && errors.fiat && errors.fiat === 'max') || (errors && errors.crypto && errors.crypto === 'max')
 
     return (
       <Wrapper>
@@ -102,7 +108,7 @@ class ExchangeCheckout extends React.Component {
             <Label>
               <FormattedMessage id='scenes.buysell.exchangecheckout.enter_amount' defaultMessage='Enter Amount:' />
             </Label>
-            { rate &&
+            { rate && !minError &&
               <Rate>
                 <Amount>1 { crypto } = { rate } { fiat }</Amount>
                 <Tooltip>
@@ -110,24 +116,41 @@ class ExchangeCheckout extends React.Component {
                 </Tooltip>
               </Rate>
             }
+            {
+              minError &&
+              <Rate>
+                <Text size='12px' color={'error'} weight={300} >
+                  <FormattedMessage id='scenes.buysell.exchangecheckout.synced' defaultMessage='Please enter an amount greater than {min} {curr}.' values={{ min: limits.min, curr: this.props.fiatLimits ? fiat : crypto }} />
+                </Text>
+              </Rate>
+            }
           </LabelWrapper>
           <CheckoutInput inline>
             <FormItem width='50%'>
               <Field
                 name='fiat'
+                hideErrors
                 component={NumberBox}
+                validate={[belowMaxAmount, aboveMinAmount]}
                 onChange={event => fetchQuote({ amt: event.target.value * 100, baseCurr: fiat, quoteCurr: crypto })}
               />
             </FormItem>
             <FormItem width='50%'>
               <Field
                 name='crypto'
+                hideErrors
                 component={NumberBox}
                 onChange={event => fetchQuote({ amt: event.target.value * 1e8, baseCurr: crypto, quoteCurr: fiat })}
               />
             </FormItem>
           </CheckoutInput>
-          { showReasonMsg && <ReasonMessage onClick={this.setMax.bind(this)}> { reasonMsg } </ReasonMessage> }
+          { showReasonMsg &&
+            <ReasonMessage onClick={this.setMax.bind(this)}>
+              <Text size='12px' weight={300} color={maxError && 'error'}>
+                { reasonMsg }
+              </Text>
+            </ReasonMessage>
+          }
           { showRequiredMsg && <RequiredMessage> { requiredMsg } </RequiredMessage> }
           {
             accounts &&
