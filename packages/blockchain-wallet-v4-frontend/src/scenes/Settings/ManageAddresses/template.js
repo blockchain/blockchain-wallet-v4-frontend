@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
-import { Icon, TabMenu, TabMenuItem, Text, Table, TableHeader, TableCell, TableRow, Button } from 'blockchain-info-components'
+import settings from 'config'
+import { Icon, TabMenu, TabMenuItem, Text, Table, TableHeader, TableCell, TableRow, Button, Link } from 'blockchain-info-components'
 import HorizontalMenu from 'components/HorizontalMenu'
 
 const Wrapper = styled.div`
@@ -12,7 +13,7 @@ const InnerWrapper = styled.div`
   padding: 40px 30px;
 `
 
-const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress, onSetLabel, onDeleteLabel }) => (
+const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel }) => (
   <Wrapper>
     <HorizontalMenu>
       <TabMenu>
@@ -35,8 +36,8 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress,
       </Text>
       {receiveIndex.cata({
         Success: (index) => (
-          <Button onClick={() => onSetLabel(index)}>
-            Add label
+          <Button onClick={() => onSetLabel(index, 'New Address')}>
+            <FormattedMessage id='scenes.settings.manage_addresses.add_label' defaultMessage='Add Next Address' />
           </Button>
         ),
         Failure: () => null,
@@ -59,10 +60,15 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, deriveAddress,
         {labels.map(entry => (
           <TableRow key={entry.index}>
             <TableCell width='30%'>
-              <Text size='13px'>{deriveAddress(entry.index)}</Text>
+              <Link href={`${settings.ROOT_URL}address/${deriveAddress(entry.index)}`} size='small' weight={300} target='_blank'>
+                {deriveAddress(entry.index)}
+              </Link>
             </TableCell>
             <TableCell width='30%'>
               <Text size='13px'>{entry.label}</Text>
+            </TableCell>
+            <TableCell width='30%'>
+              <Icon name='pencil' onClick={() => onEditLabel(entry.index)} />
             </TableCell>
             <TableCell width='30%'>
               <Icon name='trash' onClick={() => onDeleteLabel(entry.index)} />
