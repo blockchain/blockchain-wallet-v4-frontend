@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+import { path } from 'ramda'
 import * as crypto from 'crypto'
 
-import { actions } from 'data'
-import { getData } from './selectors'
-import { initializeForm, changeCoin } from './services'
+import { actions, selectors } from 'data'
+import { initializeForm } from './services'
 import ExchangeForm from './template'
 
 class ExchangeFormContainer extends React.Component {
@@ -66,14 +67,21 @@ class ExchangeFormContainer extends React.Component {
     //                           : bitcoinEffectiveBalance
     // console.log('data', this.props.data)
     // const { sourceCoin, targetCoin, amount } = this.state
-    const { data, ...rest } = this.props
-    return <ExchangeForm {...data} {...rest} handleSubmit={this.handleSubmit} />
+    return <ExchangeForm {...this.props} handleSubmit={this.handleSubmit} />
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
-})
+const mapStateToProps = state => {
+  const accounts = formValueSelector('exchange')(state, 'accounts')
+  const amount = formValueSelector('exchange')(state, 'amount')
+
+  return {
+    accounts,
+    amount,
+    coinSource: path(['source', 'coin'], accounts),
+    coinTarget: path(['target', 'coin'], accounts)
+  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),

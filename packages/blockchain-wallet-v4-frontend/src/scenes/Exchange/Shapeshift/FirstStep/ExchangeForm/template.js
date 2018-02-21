@@ -35,9 +35,9 @@ const Row = styled.div`
 
   margin-bottom: 10px;
 `
-
 const ExchangeForm = props => {
-  const { coinSource, coinTarget, max, handleSubmit, invalid, submitting } = props
+  console.log('ExchangeForm', props)
+  const { handleSubmit, invalid, submitting, ...rest } = props
 
   return (
     <Wrapper>
@@ -48,13 +48,13 @@ const ExchangeForm = props => {
       </Header>
       <Form onSubmit={handleSubmit}>
         <Row>
-          <Field name='accounts' component={SelectBoxAccounts} />
+          <Field name='accounts' component={SelectBoxAccounts} {...rest} />
         </Row>
         <Row>
           <Text size='14px' weight={400}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          <Field name='amount' component={CoinConvertor} validate={[required]} coinSource={coinSource} coinTarget={coinTarget} max={max} />
+          <Field name='amount' component={CoinConvertor} validate={[required]} {...rest} />
         </Row>
         <Row>
           <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>

@@ -30,18 +30,16 @@ const Container = styled.div`
   & > * { margin-bottom: 5px; }
 `
 
-export default (props) => {
-  return (
-    <Wrapper>
-      <Row>
-        <Container>
-          <SkeletonRectangle width='100%' height='40px' color='gray-2' />
-        </Container>
-        <Icon name='exchange-2' size='24px' />
-        <Container>
-          <SkeletonRectangle width='100%' height='40px' color='gray-2' />
-        </Container>
-      </Row>
-    </Wrapper>
-  )
-}
+export default (props) => (
+  <Wrapper>
+    <Row>
+      <Container>
+        <SkeletonRectangle width='100%' height='40px' color='gray-2' />
+      </Container>
+      <Icon name='exchange-2' size='24px' />
+      <Container>
+        <SkeletonRectangle width='100%' height='40px' color='gray-2' />
+      </Container>
+    </Row>
+  </Wrapper>
+)

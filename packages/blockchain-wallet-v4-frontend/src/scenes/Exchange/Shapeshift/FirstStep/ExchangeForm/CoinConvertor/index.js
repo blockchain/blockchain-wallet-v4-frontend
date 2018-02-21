@@ -22,7 +22,7 @@ class CoinConvertorContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     // Reset coin values when source coin has changed
     if (!equals(this.props.sourceCoin, nextProps.sourceCoin)) {
-      this.setState({ coin1Value: '', coin2Value: '' })
+      this.setState({ coinSourceValue: '', coinTargetValue: '' })
     }
   }
 
@@ -41,19 +41,22 @@ class CoinConvertorContainer extends React.Component {
 
   render () {
     return this.props.data.cata({
-      Success: (value) => this.renderComponent(value),
-      Failure: (message) => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      Success: (value) => this.renderComponent(false, value),
+      Failure: (message) => this.renderComponent(false, undefined, message),
+      Loading: () => this.renderComponent(true),
+      NotAsked: () => this.renderComponent(false)
     })
   }
 
-  renderComponent (value) {
+  renderComponent (loading, value, message) {
+    console.log('renderComponent', loading, value, message)
+
     return <Success
       coinSourceValue={this.state.coinSourceValue}
       coinTargetValue={this.state.coinTargetValue}
       handleChangeCoinSource={this.handleChangeCoinSource}
       handleChangeCoinTarget={this.handleChangeCoinTarget}
+      loading={loading}
       {...value}
       {...this.props}
     />

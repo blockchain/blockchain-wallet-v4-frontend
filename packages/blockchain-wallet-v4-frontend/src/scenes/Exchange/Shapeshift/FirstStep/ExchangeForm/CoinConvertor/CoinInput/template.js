@@ -45,16 +45,16 @@ const Unit = styled.div`
 `
 
 const CoinInput = props => {
-  const { coinValue, fiatValue, coinUnit, fiatUnit, handleChangeCoin, handleChangeFiat } = props
+  const { coinValue, fiatValue, coinUnit, fiatUnit, handleChangeCoin, handleChangeFiat, disabled } = props
 
   return (
     <Wrapper>
       <CoinContainer>
-        <TextInput onChange={handleChangeCoin} value={coinValue} />
+        <TextInput onChange={handleChangeCoin} value={coinValue} disabled={disabled} />
         <Unit>{coinUnit}</Unit>
       </CoinContainer>
       <FiatContainer>
-        <TextInput onChange={handleChangeFiat} value={fiatValue} />
+        <TextInput onChange={handleChangeFiat} value={fiatValue} disabled={disabled} />
         <Unit>{fiatUnit}</Unit>
       </FiatContainer>
     </Wrapper>

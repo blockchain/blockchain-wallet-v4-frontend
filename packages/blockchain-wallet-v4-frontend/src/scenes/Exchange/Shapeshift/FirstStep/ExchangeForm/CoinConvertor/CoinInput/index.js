@@ -20,9 +20,9 @@ class CoinInputContainer extends React.Component {
   handleChangeCoin (e) {
     const coinValue = e.target.value
     const { coin, coinUnit, currency, btcRates, ethRates } = this.props
-    console.log('handleChangeCoin', coin, coinUnit, currency, btcRates, ethRates)
+    // console.log('handleChangeCoin', coin, coinUnit, currency, btcRates, ethRates)
     const fiatValue = convertCoinToFiat(coinValue, coin, coinUnit, currency, btcRates, ethRates)
-    console.log('handleChangeCoin', coinValue, fiatValue)
+    // console.log('handleChangeCoin', coinValue, fiatValue)
     this.update({ coinValue, fiatValue })
   }
 
@@ -30,7 +30,7 @@ class CoinInputContainer extends React.Component {
     const fiatValue = e.target.value
     const { coin, coinUnit, currency, btcRates, ethRates } = this.props
     const coinValue = convertFiatToCoin(fiatValue, coin, coinUnit, currency, btcRates, ethRates)
-    console.log('handleChangeFiat', coinValue, fiatValue)
+    // console.log('handleChangeFiat', coinValue, fiatValue)
     this.update({ coinValue, fiatValue })
   }
 
