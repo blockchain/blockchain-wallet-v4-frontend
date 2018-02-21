@@ -15,7 +15,7 @@ class ImportedAddressesContainer extends React.Component {
     const { data, ...rest } = this.props
     return (
       data.cata({
-        Success: (value) => <Success importedAddresses={value} handleClick={() => this.props.actions.showModal('ImportBitcoinAddress')} {...rest} />,
+        Success: (value) => <Success importedAddresses={value} handleClick={() => this.props.actions.showModal('ImportBtcAddress')} {...rest} />,
         Failure: (message) => <div>{message}</div>,
         Loading: () => <div />,
         NotAsked: () => <div />

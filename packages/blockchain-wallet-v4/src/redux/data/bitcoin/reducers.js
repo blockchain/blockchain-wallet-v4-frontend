@@ -48,7 +48,8 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
         case 'ascentDraw': selection = ascentDraw([target], feePerByte, coins, change); break
         case 'descentDraw': selection = descentDraw([target], feePerByte, coins, change); break
         case 'singleRandomDraw': selection = singleRandomDraw([target], feePerByte, coins, change, seed); break
-        case 'branchAndBound':selection = branchAndBound([target], feePerByte, coins, change, seed); break
+        case 'branchAndBound': selection = branchAndBound([target], feePerByte, coins, change, seed); break
+        case 'selectAll': selection = selectAll(5, coins, target.address); break
         default: selection = EMPTY_SELECTION
       }
       return assocPath(['payment', 'selection'], selection, state)

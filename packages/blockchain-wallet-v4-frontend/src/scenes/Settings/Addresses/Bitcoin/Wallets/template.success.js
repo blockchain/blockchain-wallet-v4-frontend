@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { Table, TableHeader, TableCell, TableRow, Text, IconButton } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -15,9 +15,7 @@ const AddressesSettingDescription = SettingDescription.extend`
   margin-bottom: 10px;
 `
 
-const Success = (props) => {
-  const { wallets } = props
-
+const Success = ({ wallets, handleClick }) => {
   const walletTableRows = wallets.map((wallet, i) => {
     return (
       <TableRow key={i}>
@@ -54,6 +52,9 @@ const Success = (props) => {
         </TableHeader>
         { walletTableRows }
       </Table>
+      <IconButton style={{ marginTop: 10 }} name='up-arrow-in-circle' onClick={handleClick}>
+        <FormattedMessage id='scenes.settings.wallets.new_hd_account' defaultMessage='New Wallet' />
+      </IconButton>
     </Wrapper>
   )
 }
