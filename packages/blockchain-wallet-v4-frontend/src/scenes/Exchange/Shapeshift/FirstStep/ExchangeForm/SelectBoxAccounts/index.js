@@ -6,8 +6,6 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { getData } from './selectors'
 import { changeSource, changeTarget, updateUnspent } from './services'
-import Error from './template.error'
-import Loading from './template.loading'
 import Success from './template.success'
 
 class SelectBoxAccountsContainer extends React.Component {

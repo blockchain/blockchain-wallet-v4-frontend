@@ -54,12 +54,11 @@ const Error = styled(Text)`
 //   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 // }
 
-const CoinConvertor = (props) => {
+const CoinConvertor = props => {
   const { coinSource, coinTarget, coinSourceValue, coinTargetValue, coinSourceUnit, coinTargetUnit, currency, btcRates, ethRates, meta, ...rest } = props
   const { handleChangeCoinSource, handleChangeCoinTarget, loading } = rest
   // const errorState = getErrorState(meta)
-  console.log('loading', loading)
-
+  console.log('CoinConvertor', props)
   return (
     <Wrapper>
       <Row>

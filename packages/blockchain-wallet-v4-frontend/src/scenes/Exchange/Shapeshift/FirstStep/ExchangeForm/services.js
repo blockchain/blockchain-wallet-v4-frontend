@@ -3,7 +3,6 @@ import { compose, equals, head, isNil, path, prop } from 'ramda'
 export const initializeForm = (prevProps, nextProps) => {
   const prevInitialValues = prop('initialValues', prevProps)
   const nextInitialValues = prop('initialValues', nextProps)
-  console.log('initializeForm', nextProps)
   if (isNil(prevInitialValues) && !isNil(nextInitialValues)) {
     nextProps.formActions.initialize('exchange', prevInitialValues)
   }

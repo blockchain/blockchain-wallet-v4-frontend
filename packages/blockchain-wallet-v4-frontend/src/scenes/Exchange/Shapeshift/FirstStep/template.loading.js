@@ -2,9 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
-import CoinConvertorLoading from './ExchangeForm/CoinConvertor/template.loading'
-import SelectBoxAccountsLoading from './ExchangeForm/SelectBoxAccounts/template.loading'
+import { Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,6 +30,14 @@ const Row = styled.div`
 
   margin-bottom: 20px;
 `
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  & > * { margin-bottom: 5px; }
+`
 
 export default (props) => (
   <Wrapper>
@@ -41,10 +47,24 @@ export default (props) => (
       </Text>
     </Header>
     <Row>
-      <SelectBoxAccountsLoading />
+      <Container>
+        <SkeletonRectangle width='100%' height='40px' color='gray-1' />
+      </Container>
+      <Icon name='exchange-2' size='24px' />
+      <Container>
+        <SkeletonRectangle width='100%' height='40px' color='gray-1' />
+      </Container>
     </Row>
     <Row>
-      <CoinConvertorLoading />
+      <Container>
+        <SkeletonRectangle width='100%' height='40px' color='gray-1' />
+        <SkeletonRectangle width='100%' height='40px' color='gray-1' />
+      </Container>
+      <Icon name='right-arrow' size='24px' />
+      <Container>
+        <SkeletonRectangle width='100%' height='40px' color='gray-1' />
+        <SkeletonRectangle width='100%' height='40px' color='gray-1' />
+      </Container>
     </Row>
     <Row>
       <SkeletonRectangle width='100%' height='40px' color='gray-1' />

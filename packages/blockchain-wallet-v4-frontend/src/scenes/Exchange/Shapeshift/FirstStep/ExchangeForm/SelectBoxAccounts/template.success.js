@@ -103,7 +103,7 @@ const renderItem = item => (
 
 const Success = props => {
   const { elements, source, target, handleSwap, handleChangeSource, handleChangeTarget, loading } = props
-  console.log('Success', loading)
+
   return (
     <Wrapper>
       <Container>

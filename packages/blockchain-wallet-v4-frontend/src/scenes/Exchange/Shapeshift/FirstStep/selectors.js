@@ -10,8 +10,11 @@ export const getData = state => {
   const ethFeeR = selectors.core.data.ethereum.getFee(state)
   const btcRatesR = selectors.core.data.bitcoin.getRates(state)
   const ethRatesR = selectors.core.data.ethereum.getRates(state)
+  const btcUnitR = selectors.core.settings.getBtcUnit(state)
+  const ethUnit = 'ETH'
+  const currencyR = selectors.core.settings.getCurrency(state)
 
-  const transform = (btcAccountsBalances, btcAddressesBalances, btcBalances, ethBalances, btcFee, ethFee, btcRates, ethRates) => ({
+  const transform = (btcAccountsBalances, btcAddressesBalances, btcBalances, ethBalances, btcFee, ethFee, btcRates, ethRates, btcUnit, currency) => ({
     initialValues: { accounts: { source: head(btcAccountsBalances), target: head(ethBalances) }, amount: 0 },
     elements: [
       { group: 'Bitcoin', items: btcBalances.map(x => ({ text: x.label, value: x })) },
@@ -22,8 +25,11 @@ export const getData = state => {
     btcFee,
     ethFee,
     btcRates,
-    ethRates
+    ethRates,
+    btcUnit,
+    ethUnit,
+    currency
   })
 
-  return lift(transform)(btcAccountsBalancesR, btcAddressesBalancesR, btcBalancesR, ethBalancesR, btcFeeR, ethFeeR, btcRatesR, ethRatesR)
+  return lift(transform)(btcAccountsBalancesR, btcAddressesBalancesR, btcBalancesR, ethBalancesR, btcFeeR, ethFeeR, btcRatesR, ethRatesR, btcUnitR, currencyR)
 }
