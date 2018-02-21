@@ -49,8 +49,6 @@ class CoinConvertorContainer extends React.Component {
   }
 
   renderComponent (loading, value, message) {
-    console.log('renderComponent', loading, value, message)
-
     return <Success
       coinSourceValue={this.state.coinSourceValue}
       coinTargetValue={this.state.coinTargetValue}
