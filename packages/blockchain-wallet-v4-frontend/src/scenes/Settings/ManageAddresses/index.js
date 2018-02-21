@@ -15,8 +15,9 @@ class ManageAddressesContainer extends React.Component {
     let onSetLabel = (i, label) => coreActions.setHdAddressLabel(account.index, i, label)
     let onEditLabel = (i) => walletActions.editHdLabel(account.index, i)
     let onDeleteLabel = (i) => coreActions.deleteHdAddressLabel(account.index, i)
+    let onEditAccountLabel = () => walletActions.editAccountLabel(account.index, account.label)
 
-    let props = { account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel }
+    let props = { account, labels, receiveIndex, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditAccountLabel }
     return <ManageAddressesTemplate {...props} />
   }
 }

@@ -13,3 +13,5 @@ export const verifyMnemonic = () => ({ type: AT.VERIFY_MNEMONIC })
 export const editHdLabel = (accountIdx, addressIdx) => ({ type: AT.EDIT_HD_LABEL, payload: { accountIdx, addressIdx } })
 
 export const submitPromptInput = (value) => ({ type: AT.SUBMIT_PROMPT_INPUT, payload: { value } })
+
+export const editAccountLabel = (index, label) => ({ type: AT.EDIT_ACCOUNT_LABEL, payload: { index, label } })
