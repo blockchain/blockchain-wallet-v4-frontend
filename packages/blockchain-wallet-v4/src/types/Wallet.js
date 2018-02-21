@@ -139,30 +139,6 @@ export const isValidSecondPwd = curry((password, wallet) => {
   }
 })
 
-export const addHdAccount = curry((wallet, label, password) => {
-  // TODO handle second password
-  // let it = selectIterations(wallet)
-  // let sk = view(sharedKey, wallet)
-  let eitherMnemonic = getMnemonic(password, wallet)
-  const lens = compose(hdWallets, HDWalletList.hdwallet, HDWallet.accounts)
-  if (eitherMnemonic.isRight) {
-    let mnemonic = eitherMnemonic.value
-    const newAccount = i => HDAccount.js(label, HDAccount.fromMnemonic(mnemonic, undefined, label)(i), undefined)
-    if (!isDoubleEncrypted(wallet)) {
-      const set = curry((a, as) => as.set(as.size, HDAccount.fromJS(newAccount(as.size))))
-      const append = curry((w, a) => over(lens, set(a), w))
-      return Either.of(append(wallet, newAccount))
-    } else if (isValidSecondPwd(password, wallet)) {
-      // TODO handle second password
-      return Either.Left(new Error('NEED_SECOND_PASSWORD'))
-    } else {
-      return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
-    }
-  } else {
-    return Either.left(new Error('COULD_NOT_GET_MNEMONIC'))
-  }
-})
-
 // addAddress :: Wallet -> Address -> String -> Either Error Wallet
 export const addAddress = curry((wallet, address, password) => {
   let it = selectIterations(wallet)
