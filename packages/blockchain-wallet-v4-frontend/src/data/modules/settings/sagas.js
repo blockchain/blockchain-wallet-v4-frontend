@@ -225,7 +225,7 @@ export const enableTwoStepYubikey = function * (action) {
 
 export const newHDAccount = function * (action) {
   try {
-    yield call(askSecondPasswordEnhancer(sagas.core.wallet.newHDAccount), { label: 'My Bitcoin Wallet' })
+    yield call(askSecondPasswordEnhancer(sagas.core.wallet.newHDAccount), action.payload)
     yield put(actions.alerts.displaySuccess('Successfully created new wallet.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not create new wallet.'))

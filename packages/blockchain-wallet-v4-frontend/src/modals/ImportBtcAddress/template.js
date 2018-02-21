@@ -4,8 +4,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-i
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { RadioButton, Form } from 'components/Form'
-import ImportInternalBitcoinAddress from './ImportInternalBitcoinAddress'
-import ImportExternalBitcoinAddress from './ImportExternalBitcoinAddress'
+import ImportInternalBtcAddress from './ImportInternalBtcAddress'
+import ImportExternalBtcAddress from './ImportExternalBtcAddress'
 
 const Wrapper = styled.div`
   font-weight: 300;
@@ -22,7 +22,7 @@ const RadioContainer = styled.div`
   margin-bottom: 10px;
 `
 
-const ImportBitcoinAddress = (props) => {
+const ImportBtcAddress = (props) => {
   const { position, close, submitting, invalid, addressType, ...rest } = props
   const { onSubmit } = rest
 
@@ -31,30 +31,30 @@ const ImportBitcoinAddress = (props) => {
       <Form onSubmit={onSubmit}>
         <Wrapper>
           <ModalHeader icon='up-arrow-in-circle' onClose={close}>
-            <FormattedMessage id='modals.importbitcoinaddress.title' defaultMessage='Import Existing Bitcoin Address' />
+            <FormattedMessage id='modals.importbtcaddress.title' defaultMessage='Import Existing Bitcoin Address' />
           </ModalHeader>
           <ModalBody>
             <Title>
-              <FormattedMessage id='modals.importbitcoinaddress.import_type' defaultMessage='What do you want to import?' />
+              <FormattedMessage id='modals.importbtcaddress.import_type' defaultMessage='What do you want to import?' />
             </Title>
             <RadioContainer>
               <Field name='address-type' value='internal' props={{id: 'internal', value: 'internal'}} validate={[]} component={RadioButton}>
-                <FormattedHTMLMessage id='modals.importbitcoinaddress.generated_in_wallet' defaultMessage='Existing address generated in <span style="font-weight: bold;">this wallet</span>.' />
+                <FormattedHTMLMessage id='modals.importbtcaddress.generated_in_wallet' defaultMessage='Existing address generated in <span style="font-weight: bold;">this wallet</span>.' />
               </Field>
             </RadioContainer>
             <RadioContainer>
               <Field name='address-type' value='external' props={{id: 'external', value: 'external'}} validate={[]} component={RadioButton}>
-                <FormattedHTMLMessage id='modals.importbitcoinaddress.generated_outside_wallet' defaultMessage='Existing address generated <span style="font-weight: bold;">outside this wallet</span>.' />
+                <FormattedHTMLMessage id='modals.importbtcaddress.generated_outside_wallet' defaultMessage='Existing address generated <span style="font-weight: bold;">outside this wallet</span>.' />
               </Field>
             </RadioContainer>
-            { addressType === 'internal' && <ImportInternalBitcoinAddress /> }
-            { addressType === 'external' && <ImportExternalBitcoinAddress /> }
+            { addressType === 'internal' && <ImportInternalBtcAddress /> }
+            { addressType === 'external' && <ImportExternalBtcAddress /> }
           </ModalBody>
           {
             addressType === 'external' && (
               <ModalFooter align='right'>
                 <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
-                  <FormattedMessage id='modals.importbitcoinaddress.button' defaultMessage='Import' />
+                  <FormattedMessage id='modals.importbtcaddress.button' defaultMessage='Import' />
                 </Button>
               </ModalFooter>
             )
@@ -65,4 +65,4 @@ const ImportBitcoinAddress = (props) => {
   )
 }
 
-export default reduxForm({ form: 'importBitcoinAddress' })(ImportBitcoinAddress)
+export default reduxForm({ form: 'importBtcAddress' })(ImportBtcAddress)
