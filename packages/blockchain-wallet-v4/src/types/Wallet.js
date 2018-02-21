@@ -50,7 +50,9 @@ export const hdWallets = Wallet.define('hd_wallets')
 export const txNotes = Wallet.define('tx_notes')
 export const txNames = Wallet.define('tx_names')
 export const addressBook = Wallet.define('address_book')
-export const accounts = compose(hdWallets, HDWalletList.hdwallet, HDWallet.accounts)
+
+export const hdwallet = compose(hdWallets, HDWalletList.hdwallet)
+export const accounts = compose(hdwallet, HDWallet.accounts)
 
 export const selectGuid = view(guid)
 export const selectSharedKey = view(sharedKey)
@@ -218,6 +220,11 @@ export const setHdAddressLabel = curry((accountIdx, addressIdx, label, wallet) =
 export const setAccountLabel = curry((accountIdx, label, wallet) => {
   let lens = compose(accounts, HDAccountList.account(accountIdx), HDAccount.label)
   return set(lens, label, wallet)
+})
+
+// setDefaultAccountIdx :: Number -> Wallet -> Wallet
+export const setDefaultAccountIdx = curry((index, wallet) => {
+  return set(compose(hdwallet, HDWallet.defaultAccountIdx), index, wallet)
 })
 
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
