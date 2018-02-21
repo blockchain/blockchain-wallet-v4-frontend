@@ -7,6 +7,7 @@ import Either from 'data.either'
 import Type from './Type'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as Cache from './Cache'
+import BIP39 from 'bip39'
 
 /* HDAccount :: {
   label :: String

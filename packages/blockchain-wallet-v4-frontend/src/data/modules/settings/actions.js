@@ -40,4 +40,4 @@ export const enableTwoStepYubikey = (code) => ({ type: AT.ENABLE_TWO_STEP_YUBIKE
 
 export const updateTwoStepRemember = (authTypeNeverSave) => ({ type: AT.UPDATE_TWO_STEP_REMEMBER, payload: { authTypeNeverSave } })
 
-export const newHDAccount = () => ({ type: AT.NEW_HD_ACCOUNT, payload: {} })
+export const newHDAccount = (label) => ({ type: AT.NEW_HD_ACCOUNT, payload: { label } })
