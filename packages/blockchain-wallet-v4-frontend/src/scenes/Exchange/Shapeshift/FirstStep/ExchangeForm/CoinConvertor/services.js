@@ -25,7 +25,7 @@ export const getPairFromCoin = (coinSource, coinTarget) => {
   }
 }
 
-export const getCoinFromPair = (pair) => {
+export const getCoinFromPair = pair => {
   switch (pair) {
     case 'btc_eth': return { coinSource: 'BTC', targetCoin: 'ETH' }
     case 'btc_bch': return { coinSource: 'BTC', targetCoin: 'BCH' }

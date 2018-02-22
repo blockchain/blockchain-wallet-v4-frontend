@@ -1,46 +1,51 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { equals } from 'ramda'
 import { convertCoinToFiat, convertFiatToCoin } from './services'
 import CoinInput from './template'
 
 class CoinInputContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { coinValue: this.props.coinValue, fiatValue: '' }
+    const { coinName, coin, currency, btcRates, ethRates } = this.props
+    const fiat = convertCoinToFiat(coin, coinName, coinName, currency, btcRates, ethRates)
+    this.state = { coin, fiat }
     this.handleChangeCoin = this.handleChangeCoin.bind(this)
     this.handleChangeFiat = this.handleChangeFiat.bind(this)
   }
 
-  update (value) {
-    this.setState(value)
-    this.props.handleChange(value.coinValue)
+  componentWillReceiveProps (nextProps) {
+    // Update state if coinValue changed
+    const { coinName, coin, currency, btcRates, ethRates } = nextProps
+    if (!equals(this.props.coin, coin)) {
+      const fiat = convertCoinToFiat(coin, coinName, coinName, currency, btcRates, ethRates)
+      this.setState({ coin, fiat })
+    }
   }
 
   handleChangeCoin (e) {
-    const coinValue = e.target.value
-    const { coin, coinUnit, currency, btcRates, ethRates } = this.props
-    // console.log('handleChangeCoin', coin, coinUnit, currency, btcRates, ethRates)
-    const fiatValue = convertCoinToFiat(coinValue, coin, coinUnit, currency, btcRates, ethRates)
-    // console.log('handleChangeCoin', coinValue, fiatValue)
-    this.update({ coinValue, fiatValue })
+    const coin = e.target.value
+    const { coinName, currency, btcRates, ethRates } = this.props
+    const fiat = convertCoinToFiat(coin, coinName, coinName, currency, btcRates, ethRates)
+    this.setState({ coin, fiat })
+    this.props.handleChange(coin)
   }
 
   handleChangeFiat (e) {
-    const fiatValue = e.target.value
-    const { coin, coinUnit, currency, btcRates, ethRates } = this.props
-    const coinValue = convertFiatToCoin(fiatValue, coin, coinUnit, currency, btcRates, ethRates)
-    // console.log('handleChangeFiat', coinValue, fiatValue)
-    this.update({ coinValue, fiatValue })
+    const fiat = e.target.value
+    const { coinName, currency, btcRates, ethRates } = this.props
+    const coin = convertFiatToCoin(fiat, coinName, coinName, currency, btcRates, ethRates)
+    this.setState({ coin, fiat })
   }
 
   render () {
     const { coinUnit, currency, disabled } = this.props
-    const { coinValue, fiatValue } = this.state
+    const { coin, fiat } = this.state
 
     return <CoinInput
-      coinValue={coinValue}
-      fiatValue={fiatValue}
+      coinValue={coin}
+      fiatValue={fiat}
       coinUnit={coinUnit}
       fiatUnit={currency}
       disabled={disabled}
@@ -51,9 +56,8 @@ class CoinInputContainer extends React.Component {
 }
 
 CoinInputContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
-  coinValue: PropTypes.string.isRequired,
-  coinUnit: PropTypes.string.isRequired,
+  coinName: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
+  coin: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   btcRates: PropTypes.object.isRequired,
   ethRates: PropTypes.object.isRequired,

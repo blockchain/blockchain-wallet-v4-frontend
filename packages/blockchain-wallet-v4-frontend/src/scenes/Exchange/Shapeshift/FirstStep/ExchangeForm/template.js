@@ -36,7 +36,6 @@ const Row = styled.div`
   margin-bottom: 10px;
 `
 const ExchangeForm = props => {
-  console.log('ExchangeForm', props)
   const { handleSubmit, invalid, submitting, ...rest } = props
 
   return (

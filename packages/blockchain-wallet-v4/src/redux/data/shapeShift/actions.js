@@ -26,7 +26,7 @@ export const fetchTradeStatusSuccess = (data, address) => ({ type: AT.FETCH_TRAD
 export const fetchTradeStatusFailure = (error, address) => ({ type: AT.FETCH_TRADE_STATUS_FAILURE, payload: { error, address } })
 
 // FETCH_SHAPESHIFT_QUOTATION
-export const fetchShapeshiftQuotation = (depositAmount, pair) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION, payload: { depositAmount, pair } })
+export const fetchShapeshiftQuotation = (amount, pair, isDeposit) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION, payload: { amount, pair, isDeposit } })
 export const fetchShapeshiftQuotationLoading = () => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION_LOADING })
 export const fetchShapeshiftQuotationSuccess = (data) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION_SUCCESS, payload: data })
 export const fetchShapeshiftQuotationFailure = (error) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION_FAILURE, payload: error })

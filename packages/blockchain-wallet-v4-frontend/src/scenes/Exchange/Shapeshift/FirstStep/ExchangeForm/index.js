@@ -6,7 +6,7 @@ import { equals, path } from 'ramda'
 import * as crypto from 'crypto'
 
 import { actions } from 'data'
-import { initializeForm } from './services'
+// import { initializeForm } from './services'
 import ExchangeForm from './template'
 
 class ExchangeFormContainer extends React.Component {
@@ -18,7 +18,7 @@ class ExchangeFormContainer extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     // Initialize form
-    initializeForm(this.props, nextProps)
+    // initializeForm(this.props, nextProps)
     // Update target/source if source/target has changed
     // changeCoin(this.props, nextProps)
   }
@@ -74,18 +74,18 @@ class ExchangeFormContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const accounts = formValueSelector('exchange')(state, 'accounts')
   const amount = formValueSelector('exchange')(state, 'amount')
-  const coinSource = path(['source', 'coin'], accounts)
-  const coinTarget = path(['target', 'coin'], accounts)
-  const coinSourceUnit = equals(coinSource, 'BTC') ? ownProps.btcUnit : ownProps.ethUnit
-  const coinTargetUnit = equals(coinTarget, 'BTC') ? ownProps.btcUnit : ownProps.ethUnit
+  const sourceCoin = path(['source', 'coin'], accounts)
+  const targetCoin = path(['target', 'coin'], accounts)
+  const sourceUnit = equals(sourceCoin, 'BTC') ? ownProps.btcUnit : ownProps.ethUnit
+  const targetUnit = equals(targetCoin, 'BTC') ? ownProps.btcUnit : ownProps.ethUnit
 
   return {
     accounts,
     amount,
-    coinSource,
-    coinSourceUnit,
-    coinTarget,
-    coinTargetUnit
+    sourceCoin,
+    sourceUnit,
+    targetCoin,
+    targetUnit
   }
 }
 

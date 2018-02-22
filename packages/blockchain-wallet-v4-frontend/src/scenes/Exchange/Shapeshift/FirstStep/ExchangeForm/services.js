@@ -1,12 +1,15 @@
 import { compose, equals, head, isNil, path, prop } from 'ramda'
 
-export const initializeForm = (prevProps, nextProps) => {
-  const prevInitialValues = prop('initialValues', prevProps)
-  const nextInitialValues = prop('initialValues', nextProps)
-  if (isNil(prevInitialValues) && !isNil(nextInitialValues)) {
-    nextProps.formActions.initialize('exchange', prevInitialValues)
-  }
-}
+// export const initializeForm = (prevProps, nextProps) => {
+//   console.log('initializeForm', prevProps.initialValues, nextProps.initialValues)
+//   const nextAccounts = prop('accounts', nextProps)
+//   const nextAmount = prop('amount', nextProps)
+//   const nextInitialValues = prop('initialValues', nextProps)
+//   if (isNil(nextAccounts) || isNil(nextAmount)) {
+//     console.log('initializeForm YEAAAA', nextInitialValues)
+//     nextProps.formActions.initialize('exchange', nextInitialValues)
+//   }
+// }
 
 // export const changeCoin = (prevProps, nextProps) => {
 //   const selectSource = props => path(['data', 'accounts', 'source'], props)
