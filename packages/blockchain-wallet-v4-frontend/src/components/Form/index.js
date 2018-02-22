@@ -1,7 +1,6 @@
 
 import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
-import CoinConvertor from './CoinConvertor'
 import DateBox from './DateBox'
 import FiatConvertor from './FiatConvertor'
 import Form from './Form'
@@ -13,7 +12,6 @@ import PlaceHolder from './PlaceHolder'
 import PhoneNumberBox from './PhoneNumberBox'
 import RadioButton from './RadioButton'
 import SelectBox from './SelectBox'
-import SelectBoxAccounts from './SelectBoxAccounts'
 import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCoin from './SelectBoxCoin'
@@ -30,7 +28,6 @@ import TextBox from './TextBox'
 export {
   CaptchaBox,
   CheckBox,
-  CoinConvertor,
   DateBox,
   FiatConvertor,
   Form,
@@ -42,7 +39,6 @@ export {
   PhoneNumberBox,
   RadioButton,
   SelectBox,
-  SelectBoxAccounts,
   SelectBoxBitcoinAddresses,
   SelectBoxBitcoinUnit,
   SelectBoxCoin,

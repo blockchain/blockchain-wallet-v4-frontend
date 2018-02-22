@@ -55,22 +55,21 @@ const Error = styled(Text)`
 // }
 
 const CoinConvertor = props => {
-  const { coinSource, coinTarget, coinSourceValue, coinTargetValue, coinSourceUnit, coinTargetUnit, currency, btcRates, ethRates, meta, ...rest } = props
-  const { handleChangeCoinSource, handleChangeCoinTarget, loading } = rest
+  const { sourceCoin, targetCoin, source, target, currency, btcRates, ethRates, meta, ...rest } = props
+  const { handleChangeSource, handleChangeTarget, loading } = rest
   // const errorState = getErrorState(meta)
-  console.log('CoinConvertor', props)
   return (
     <Wrapper>
       <Row>
         <Container>
           <CoinInput
-            coin={coinSource}
-            coinValue={coinSourceValue}
-            coinUnit={coinSourceUnit}
+            coinName={sourceCoin}
+            coin={source}
             currency={currency}
             btcRates={btcRates}
             ethRates={ethRates}
-            handleChange={handleChangeCoinSource}
+            handleChange={handleChangeSource}
+            disabled={loading}
           />
         </Container>
         <ContainerMiddle>
@@ -81,13 +80,13 @@ const CoinConvertor = props => {
         </ContainerMiddle>
         <Container>
           <CoinInput
-            coin={coinTarget}
-            coinValue={coinTargetValue}
-            coinUnit={coinTargetUnit}
+            coinName={targetCoin}
+            coin={target}
             currency={currency}
             btcRates={btcRates}
-            ethRate={ethRates}
-            handleChange={handleChangeCoinTarget}
+            ethRates={ethRates}
+            handleChange={handleChangeTarget}
+            disabled={loading}
           />
         </Container>
       </Row>
@@ -110,17 +109,17 @@ const CoinConvertor = props => {
 }
 
 CoinConvertor.propTypes = {
-  coinSource: PropTypes.string.isRequired,
-  coinTarget: PropTypes.string.isRequired,
-  coinSourceValue: PropTypes.string.isRequired,
-  coinTargetValue: PropTypes.string.isRequired,
-  coinSourceUnit: PropTypes.string.isRequired,
-  coinTargetUnit: PropTypes.string.isRequired,
+  sourceCoin: PropTypes.string.isRequired,
+  targetCoin: PropTypes.string.isRequired,
+  source: PropTypes.string.isRequired,
+  target: PropTypes.string.isRequired,
+  sourceUnit: PropTypes.string.isRequired,
+  targetUnit: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   btcRates: PropTypes.object.isRequired,
   ethRates: PropTypes.object.isRequired,
-  handleChangeCoinSource: PropTypes.func.isRequired,
-  handleChangeCoinTarget: PropTypes.func.isRequired
+  handleChangeSource: PropTypes.func.isRequired,
+  handleChangeTarget: PropTypes.func.isRequired
 }
 
 export default CoinConvertor

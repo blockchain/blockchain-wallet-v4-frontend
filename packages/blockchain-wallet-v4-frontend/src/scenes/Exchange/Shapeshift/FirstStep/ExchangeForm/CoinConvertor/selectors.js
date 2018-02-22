@@ -1,5 +1,5 @@
+import { path } from 'ramda'
 import { selectors } from 'data'
-
 // export const getData = (state, coinSource, coinTarget) => {
 //   const btcUnitR = selectors.core.settings.getBtcUnit(state)
 //   const ethUnitR = Remote.of('ETH')
@@ -16,4 +16,4 @@ import { selectors } from 'data'
 //   return lift(transform)(btcUnitR, ethUnitR, currencyR, btcRatesR, ethRatesR)
 // }
 
-export const getData = state => selectors.core.data.shapeShift.getShapeshiftQuotation(state)
+export const getData = selectors.core.data.shapeShift.getShapeshiftQuotation
