@@ -18,7 +18,13 @@ class PromptContainer extends React.Component {
   }
 
   render () {
-    return <PromptTemplate {...this.props} onSubmit={this.onSubmit} />
+    return (
+      <PromptTemplate
+        {...this.props}
+        initialValues={{ value: this.props.initial }}
+        onSubmit={this.onSubmit}
+      />
+    )
   }
 }
 

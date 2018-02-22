@@ -50,10 +50,21 @@ export const editHdLabel = function * (action) {
   }
 }
 
+export const editAccountLabel = function * (action) {
+  try {
+    let { index, label } = action.payload
+    let newLabel = yield call(promptForInput, { title: 'Rename Wallet', initial: label })
+    yield put(actions.core.wallet.setAccountLabel(index, newLabel))
+    yield put(actions.alerts.displaySuccess('Wallet name updated.'))
+  } catch (e) {
+  }
+}
+
 export default function * () {
   yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
   yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
   yield takeEvery(AT.CREATE_LEGACY_ADDRESS, createLegacyAddress)
   yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
   yield takeEvery(AT.EDIT_HD_LABEL, editHdLabel)
+  yield takeEvery(AT.EDIT_ACCOUNT_LABEL, editAccountLabel)
 }

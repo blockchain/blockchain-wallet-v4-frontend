@@ -6,7 +6,7 @@ import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import BIP39 from 'bip39'
 import { compose, curry, map, is, pipe, __, concat, split, isNil } from 'ramda'
-import { traversed, traverseOf, over, view } from 'ramda-lens'
+import { traversed, traverseOf, over, view, set } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
 import Type from './Type'
@@ -50,6 +50,9 @@ export const hdWallets = Wallet.define('hd_wallets')
 export const txNotes = Wallet.define('tx_notes')
 export const txNames = Wallet.define('tx_names')
 export const addressBook = Wallet.define('address_book')
+
+export const hdwallet = compose(hdWallets, HDWalletList.hdwallet)
+export const accounts = compose(hdwallet, HDWallet.accounts)
 
 export const selectGuid = view(guid)
 export const selectSharedKey = view(sharedKey)
@@ -162,7 +165,8 @@ export const newHDAccount = curry((label, password, wallet) => {
 
   let appendAccount = curry((w, account) => {
     let accountsLens = compose(hdWallets, HDWalletList.hdwallet, HDWallet.accounts)
-    return over(accountsLens, (accounts) => accounts.push(account), w)
+    let accountWithIndex = set(HDAccount.index, index, account)
+    return over(accountsLens, (accounts) => accounts.push(accountWithIndex), w)
   })
 
   if (!isDoubleEncrypted(wallet)) {
@@ -211,6 +215,23 @@ export const setHdAddressLabel = curry((accountIdx, addressIdx, label, wallet) =
                        HDAccount.addressLabels)
   const eitherW = Either.try(over(lens, AddressLabelMap.setLabel(addressIdx, label)))(wallet)
   return eitherW.getOrElse(wallet)
+})
+
+// setAccountLabel :: Number -> String -> Wallet -> Wallet
+export const setAccountLabel = curry((accountIdx, label, wallet) => {
+  let lens = compose(accounts, HDAccountList.account(accountIdx), HDAccount.label)
+  return set(lens, label, wallet)
+})
+
+// setAccountArchived :: Number -> Bool -> Wallet -> Wallet
+export const setAccountArchived = curry((index, archived, wallet) => {
+  let lens = compose(accounts, HDAccountList.account(index), HDAccount.archived)
+  return set(lens, archived, wallet)
+})
+
+// setDefaultAccountIdx :: Number -> Wallet -> Wallet
+export const setDefaultAccountIdx = curry((index, wallet) => {
+  return set(compose(hdwallet, HDWallet.defaultAccountIdx), index, wallet)
 })
 
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
