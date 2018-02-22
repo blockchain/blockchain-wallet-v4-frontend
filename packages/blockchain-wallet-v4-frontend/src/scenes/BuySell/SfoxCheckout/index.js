@@ -13,10 +13,12 @@ class Checkout extends React.Component {
   }
 
   render () {
-    const { data, errors, quote, base } = this.props
+    const { data, errors, quote, base, modalActions, sfoxDataActions } = this.props
+    const { handleTrade, fetchQuote } = sfoxDataActions
+    const { showModal } = modalActions
 
     return data.cata({
-      Success: (value) => <Success base={base} value={value} errors={errors} quote={quote} showModal={this.props.modalActions.showModal} fetchQuote={this.props.sfoxDataActions.fetchQuote} />,
+      Success: (value) => <Success base={base} value={value} errors={errors} quote={quote} handleTrade={handleTrade} showModal={showModal} fetchQuote={fetchQuote} />,
       Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div />
