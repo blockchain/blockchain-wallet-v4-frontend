@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import CoinInput from './CoinInput'
 
 const Wrapper = styled.div`
@@ -18,17 +19,13 @@ const Row = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-
-  & > :first-child { width: 45%; }
-  & > :last-child { width: 45%; }
-  & > :not(:first-child):not(:last-child) { width: 10%; }
 `
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: ${props => props.fullwidth ? '100%' : '45%'};
+  width: 45%};
   flex-grow: 2;
 `
 const ContainerMiddle = styled.div`
@@ -36,11 +33,17 @@ const ContainerMiddle = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  width: 50px;
+  width: 10%;
   height: 50px;
   flex-grow: 1;
 
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
+`
+const LinkContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -56,7 +59,7 @@ const Error = styled(Text)`
 
 const CoinConvertor = props => {
   const { sourceCoin, targetCoin, source, target, currency, btcRates, ethRates, meta, ...rest } = props
-  const { handleChangeSource, handleChangeTarget, loading } = rest
+  const { handleChangeSource, handleChangeTarget, handleClickMinimum, handleClickMaximum, loading } = rest
   // const errorState = getErrorState(meta)
   return (
     <Wrapper>
@@ -90,17 +93,20 @@ const CoinConvertor = props => {
           />
         </Container>
       </Row>
-      {/* {canExchange
-        ? <MinMaxText weight={300} size='12px'>
+      <Row>
+        <Text weight={300} size='12px'>
           <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
-          <Link size='12px' weight={300} onClick={enterMin}><FormattedMessage id='scenes.exchangebox.firststep.min' defaultMessage='minimum' /></Link>
+        </Text>
+        <Link size='12px' weight={300} onClick={handleClickMinimum}>
+          <FormattedMessage id='scenes.exchangebox.firststep.min' defaultMessage='minimum' />
+        </Link>
+        <Text weight={300} size='12px'>
           <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
-          <Link size='12px' weight={300} onclick={enterMax}><FormattedMessage id='scenes.exchangebox.firststep.max' defaultMessage='maximum' /></Link>
-        </MinMaxText>
-        : <MinMaxText color='error' weight={300} size='12px'>
-          <FormattedMessage id='scenes.exchange.exchangebox.firststep.fee' defaultMessage={`x ${fromCoin} needed to exchange.`} />
-        </MinMaxText>
-      } */}
+        </Text>
+        <Link size='12px' weight={300} onClick={handleClickMaximum}>
+          <FormattedMessage id='scenes.exchangebox.firststep.max' defaultMessage='maximum' />
+        </Link>
+      </Row>
       {/* <Row>
         {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
       </Row> */}

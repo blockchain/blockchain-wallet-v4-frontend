@@ -40,13 +40,13 @@ class CoinInputContainer extends React.Component {
   }
 
   render () {
-    const { coinUnit, currency, disabled } = this.props
+    const { coinName, currency, disabled } = this.props
     const { coin, fiat } = this.state
 
     return <CoinInput
       coinValue={coin}
       fiatValue={fiat}
-      coinUnit={coinUnit}
+      coinUnit={coinName}
       fiatUnit={currency}
       disabled={disabled}
       handleChangeCoin={this.handleChangeCoin}
