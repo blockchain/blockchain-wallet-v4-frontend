@@ -1,6 +1,7 @@
 import React from 'react'
 import { equals } from 'ramda'
 import styled from 'styled-components'
+import { required } from 'services/FormHelper'
 import { FormattedMessage } from 'react-intl'
 import { change, Field, reduxForm, focus } from 'redux-form'
 import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
@@ -8,7 +9,7 @@ import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 90%;
-  padding: 20px;
+  padding: 30px;
   border: 1px solid ${props => props.theme['gray-1']};
 `
 const RequiredMessage = styled.div`
@@ -23,6 +24,8 @@ const ReasonMessage = styled.div`
   }
 `
 const AccountsContainer = styled.div`
+  margin-top: 20px;
+  margin-bottom: 15px;
 `
 const CheckoutInput = styled(FormGroup)`
   margin-bottom: 0px;
@@ -41,6 +44,7 @@ const AccountDetails = styled.div`
 `
 const LabelWrapper = styled.div`
   display: flex;
+  margin-top: 0px;
   flex-direction: row;
   align-items: flex-end;
   justify-content: space-between;
@@ -131,7 +135,7 @@ class ExchangeCheckout extends React.Component {
                 name='fiat'
                 hideErrors
                 component={NumberBox}
-                validate={[belowMaxAmount, aboveMinAmount]}
+                validate={[belowMaxAmount, aboveMinAmount, required]}
                 onChange={event => fetchQuote({ amt: event.target.value * 100, baseCurr: fiat, quoteCurr: crypto })}
               />
             </FormItem>
@@ -140,6 +144,7 @@ class ExchangeCheckout extends React.Component {
                 name='crypto'
                 hideErrors
                 component={NumberBox}
+                validate={[required]}
                 onChange={event => fetchQuote({ amt: event.target.value * 1e8, baseCurr: crypto, quoteCurr: fiat })}
               />
             </FormItem>
@@ -171,7 +176,7 @@ class ExchangeCheckout extends React.Component {
               }) }
             </AccountsContainer>
           }
-          <Button type='submit' nature='primary' fullwidth>
+          <Button type='submit' nature='primary' fullwidth disabled={this.props.invalid}>
             { continueButton }
           </Button>
         </Form>
