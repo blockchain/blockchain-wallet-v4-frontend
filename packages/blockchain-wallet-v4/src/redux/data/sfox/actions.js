@@ -14,3 +14,8 @@ export const fetchAccounts = () => ({ type: AT.FETCH_ACCOUNTS, payload: {} })
 export const fetchAccountsLoading = () => ({ type: AT.FETCH_ACCOUNTS_LOADING })
 export const fetchAccountsSuccess = (data) => ({ type: AT.FETCH_ACCOUNTS_SUCCESS, payload: data })
 export const fetchAccountsFailure = (error) => ({ type: AT.FETCH_ACCOUNTS_FAILURE, payload: error })
+
+export const handleTrade = (data) => ({ type: AT.HANDLE_TRADE, payload: data })
+export const handleTradeLoading = () => ({ type: AT.HANDLE_TRADE_LOADING })
+export const handleTradeSuccess = (data) => ({ type: AT.HANDLE_TRADE_SUCCESS, payload: data })
+export const handleTradeFailure = (error) => ({ type: AT.HANDLE_TRADE_FAILURE, payload: error })

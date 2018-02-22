@@ -1,9 +1,10 @@
-import { apply, put, select, takeLatest } from 'redux-saga/effects'
+import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import * as delegate from '../../../exchange/delegate'
 import SFOX from 'bitcoin-sfox-client'
 import * as AT from './actionTypes'
+import * as S from './selectors'
 import * as A from './actions'
 let sfox
 
@@ -51,10 +52,24 @@ export default ({ api } = {}) => {
     }
   }
 
+  const handleTrade = function * (data) {
+    try {
+      yield put(A.handleTradeLoading())
+      const quote = data.payload
+      const accounts = yield select(S.getAccounts)
+      const methods = yield apply(quote, quote.getPaymentMediums)
+      const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
+      yield put(A.handleTradeSuccess(trade))
+    } catch (e) {
+      yield put(A.handleTradeFailure(e))
+    }
+  }
+
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)
+    yield takeLatest(AT.HANDLE_TRADE, handleTrade)
     yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
   }
 }

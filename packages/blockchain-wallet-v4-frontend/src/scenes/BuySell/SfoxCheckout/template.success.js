@@ -31,7 +31,7 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { fetchQuote, quote, base, errors, showModal } = props
+  const { fetchQuote, handleTrade, quote, base, errors, showModal } = props
   const { accounts, profile, verificationStatus } = props.value
   const type = 'buy'
   const step = determineStep(profile, verificationStatus)
@@ -39,7 +39,7 @@ const Success = props => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    showModal('SfoxExchangeData', { step })
+    step === 'verified' ? handleTrade(quote) : showModal('SfoxExchangeData', { step })
   }
 
   const limits = {
