@@ -4,7 +4,7 @@ import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
 import * as selectors from '../../selectors.js'
 
-import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
+import { askSecondPasswordEnhancer } from 'services/SagaService'
 
 export const initSettingsInfo = function * () {
   try {

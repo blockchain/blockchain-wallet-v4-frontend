@@ -9,6 +9,7 @@ import MobileNumberChange from './MobileNumberChange'
 import MobileNumberVerify from './MobileNumberVerify'
 import MobileLogin from './MobileLogin'
 import PairingCode from './PairingCode'
+import PromptInput from './PromptInput'
 import QRCode from './QRCode'
 import RecoveryPhrase from './RecoveryPhrase'
 import RequestBch from './RequestBch'
@@ -37,6 +38,7 @@ const Modals = props => (
     <MobileNumberVerify />
     <MobileLogin />
     <PairingCode />
+    <PromptInput />
     <QRCode />
     <RecoveryPhrase />
     <RequestBch />

@@ -191,7 +191,7 @@ export const deleteLegacyAddress = curry((address, wallet) => {
   return over(addresses, AddressMap.deleteAddress(address), wallet)
 })
 
-// setHdAddressLabel :: Number -> Number -> Wallet -> Wallet
+// deleteHdAddressLabel :: Number -> Number -> Wallet -> Wallet
 export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
   const lens = compose(hdWallets,
                        HDWalletList.hdwallet,
