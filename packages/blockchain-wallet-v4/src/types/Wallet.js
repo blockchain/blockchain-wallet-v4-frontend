@@ -165,7 +165,8 @@ export const newHDAccount = curry((label, password, wallet) => {
 
   let appendAccount = curry((w, account) => {
     let accountsLens = compose(hdWallets, HDWalletList.hdwallet, HDWallet.accounts)
-    return over(accountsLens, (accounts) => accounts.push(account), w)
+    let accountWithIndex = set(HDAccount.index, index, account)
+    return over(accountsLens, (accounts) => accounts.push(accountWithIndex), w)
   })
 
   if (!isDoubleEncrypted(wallet)) {
