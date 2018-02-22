@@ -1,8 +1,8 @@
-import { takeEvery, call, put, take, race } from 'redux-saga/effects'
+import { takeEvery, call, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
-import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
+import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
 
 export const createLegacyAddress = function * (action) {
   const saga = askSecondPasswordEnhancer(sagas.core.wallet.createLegacyAddress)
@@ -38,20 +38,6 @@ export const verifyMmenonic = function * (action) {
   yield put(actions.core.wallet.verifyMnemonic())
   yield put(actions.modals.closeModal())
   yield put(actions.alerts.displaySuccess('Your mnemonic has been verified !'))
-}
-
-export const promptForInput = function * ({ title }) {
-  yield put(actions.modals.showModal('PromptInput', { title }))
-  let { response, canceled } = yield race({
-    response: take(AT.SUBMIT_PROMPT_INPUT),
-    canceled: take('CLOSE_MODAL')
-  })
-  if (canceled) {
-    throw new Error('PROMPT_INPUT_CANCEL')
-  } else {
-    yield put(actions.modals.closeModal())
-    return response.payload.value
-  }
 }
 
 export const editHdLabel = function * (action) {

@@ -2,7 +2,7 @@ import { takeEvery, put, call } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
-import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
+import { askSecondPasswordEnhancer } from 'services/SagaService'
 
 export const sendBitcoin = function * (action) {
   try {
