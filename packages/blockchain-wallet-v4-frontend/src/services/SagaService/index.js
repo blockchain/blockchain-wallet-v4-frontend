@@ -16,8 +16,8 @@ export const askSecondPasswordEnhancer = (coreSaga) =>
     yield call(coreSaga, enhancedArgs)
   }
 
-export const promptForInput = function * ({ title }) {
-  yield put(actions.modals.showModal('PromptInput', { title }))
+export const promptForInput = function * ({ title, initial = '' }) {
+  yield put(actions.modals.showModal('PromptInput', { title, initial }))
   let { response, canceled } = yield race({
     response: take(actionTypes.wallet.SUBMIT_PROMPT_INPUT),
     canceled: take(actionTypes.modals.CLOSE_MODAL)
