@@ -9,3 +9,7 @@ export const submitSecondPassword = (password) => ({ type: AT.SUBMIT_SECOND_PASS
 export const createLegacyAddress = (address) => ({ type: AT.CREATE_LEGACY_ADDRESS, payload: { address } })
 
 export const verifyMnemonic = () => ({ type: AT.VERIFY_MNEMONIC })
+
+export const editHdLabel = (accountIdx, addressIdx) => ({ type: AT.EDIT_HD_LABEL, payload: { accountIdx, addressIdx } })
+
+export const submitPromptInput = (value) => ({ type: AT.SUBMIT_PROMPT_INPUT, payload: { value } })

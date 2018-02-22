@@ -2,7 +2,7 @@ import { takeEvery, call, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
-import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
+import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
 
 export const createLegacyAddress = function * (action) {
   const saga = askSecondPasswordEnhancer(sagas.core.wallet.createLegacyAddress)
@@ -40,9 +40,20 @@ export const verifyMmenonic = function * (action) {
   yield put(actions.alerts.displaySuccess('Your mnemonic has been verified !'))
 }
 
+export const editHdLabel = function * (action) {
+  try {
+    let { accountIdx, addressIdx } = action.payload
+    let newLabel = yield call(promptForInput, { title: 'Rename Address Label' })
+    yield put(actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, newLabel))
+    yield put(actions.alerts.displaySuccess('Address label updated.'))
+  } catch (e) {
+  }
+}
+
 export default function * () {
   yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
   yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
   yield takeEvery(AT.CREATE_LEGACY_ADDRESS, createLegacyAddress)
   yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
+  yield takeEvery(AT.EDIT_HD_LABEL, editHdLabel)
 }
