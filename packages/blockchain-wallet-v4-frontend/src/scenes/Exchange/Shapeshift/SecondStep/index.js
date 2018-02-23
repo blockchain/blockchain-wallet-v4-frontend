@@ -105,7 +105,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  // exchangeActions: bindActionCreators(actions.modules.exchange, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 
