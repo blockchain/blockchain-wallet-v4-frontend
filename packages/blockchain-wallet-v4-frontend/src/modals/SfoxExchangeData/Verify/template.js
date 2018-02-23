@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { TextBox } from 'components/Form'
-import { Text } from 'blockchain-info-components'
-import { required, normalizeSocialSecurity, normalizeDateOfBirth } from 'services/FormHelper'
+import { TextBox, SelectBoxUSState, Form } from 'components/Form'
+import { Text, Button, Icon } from 'blockchain-info-components'
+import { required, normalizeSocialSecurity, normalizeDateOfBirth, normalizeUSZipcode, ageOverEighteen } from 'services/FormHelper'
 
 const Row = styled.div`
   display: flex;
@@ -43,9 +43,22 @@ const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
+const SingleFieldContainer = FieldContainer.extend`
+  width: 100%;
+`
+const AddressLabel = styled(Text)`
+  span:last-of-type {
+    color: ${props => props.theme['gray-3']};
+  }
+`
+const BottomFormRow = FormRow.extend`
+  button {
+    margin: 0px 15px;
+  }
+`
 
 const Verify = (props) => {
-  const { handleSubmit } = props
+  const { handleSubmit, invalid, pristine, submitting } = props
 
   return (
     <Row>
@@ -63,10 +76,16 @@ const Verify = (props) => {
           <Info>
             <FormattedMessage id='sfoxexchangedata.verify.info2' defaultMessage='This information will be sent directly to SFOX and will not be saved to your Blockchain wallet. Any information provided is secure and safe.' />
           </Info>
+          <Info>
+            <Text weight={400}>
+              <Icon name='alert' size='18px' color='error' />
+              <FormattedMessage id='sfoxexchangedata.verify.info3' defaultMessage='P.O. boxes are not sufficient for verifying your address information.' />
+            </Text>
+          </Info>
         </ColLeftInner>
       </ColLeft>
       <ColRight>
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <FormRow>
             <FieldContainer>
               <Text size='13px'>
@@ -98,14 +117,56 @@ const Verify = (props) => {
               <Text size='13px'>
                 <FormattedMessage id='sfoxexchangedata.verify.dateofbirth' defaultMessage='Date of Birth' />
               </Text>
-              <Field name='dob' component={TextBox} placeholder='mm/dd/yyyy' normalize={normalizeDateOfBirth} />
+              <Field name='dob' validate={[required, ageOverEighteen]} component={TextBox} placeholder='mm/dd/yyyy' normalize={normalizeDateOfBirth} />
             </FieldContainer>
             <FieldContainer />
           </FormRow>
-        </form>
+          <FormRow>
+            <SingleFieldContainer>
+              <AddressLabel size='13px'>
+                <FormattedMessage id='sfoxexchangedata.verify.address' defaultMessage='Address Line 1' />
+                <FormattedMessage id='sfoxexchangedata.verify.addressdetail' defaultMessage='(Please use your primary billing address.)' />
+              </AddressLabel>
+              <Field name='address1' validate={[required]} component={TextBox} placeholder='Street Address' />
+            </SingleFieldContainer>
+          </FormRow>
+          <FormRow>
+            <SingleFieldContainer>
+              <Text size='13px'>
+                <FormattedMessage id='sfoxexchangedata.verify.address2' defaultMessage='Address Line 2' />
+              </Text>
+              <Field name='address2' component={TextBox} placeholder='Apartment, unit, floor, etc..' />
+            </SingleFieldContainer>
+          </FormRow>
+          <FormRow>
+            <FieldContainer>
+              <Text size='13px'>
+                <FormattedMessage id='sfoxexchangedata.verify.city' defaultMessage='City' />
+              </Text>
+              <Field name='city' validate={[required]} component={TextBox} />
+            </FieldContainer>
+            <FieldContainer>
+              <Text size='13px'>
+                <FormattedMessage id='sfoxexchangedata.verify.state' defaultMessage='State' />
+              </Text>
+              <Field name='state' validate={[required]} component={SelectBoxUSState} />
+            </FieldContainer>
+            <FieldContainer>
+              <Text size='13px'>
+                <FormattedMessage id='sfoxexchangedata.verify.zip' defaultMessage='Zipcode' />
+              </Text>
+              <Field name='zipcode' validate={[required]} component={TextBox} normalize={normalizeUSZipcode} />
+            </FieldContainer>
+          </FormRow>
+          <BottomFormRow>
+            <Button nature='primary' fullwidth type='submit' disabled={invalid || pristine || submitting}>
+              <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
+            </Button>
+          </BottomFormRow>
+        </Form>
       </ColRight>
     </Row>
   )
 }
 
-export default reduxForm({ form: 'settingPasswordHint' })(Verify)
+export default reduxForm({ form: 'sfoxVerify' })(Verify)
