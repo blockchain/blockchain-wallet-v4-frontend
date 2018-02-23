@@ -17,12 +17,12 @@ class ExchangeFormContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    // Initialize form
-    // initializeForm(this.props, nextProps)
-    // Update target/source if source/target has changed
-    // changeCoin(this.props, nextProps)
-  }
+  // componentWillReceiveProps (nextProps) {
+  //   // Initialize form
+  //   // initializeForm(this.props, nextProps)
+  //   // Update target/source if source/target has changed
+  //   // changeCoin(this.props, nextProps)
+  // }
 
   // componentWillReceiveProps (nextProps) {
   //   const { accounts, amount, ethFeeRegular, gasLimit, bitcoinFeeValues } = nextProps
@@ -61,6 +61,7 @@ class ExchangeFormContainer extends React.Component {
   }
 
   render () {
+    console.log('ExchangeForm', this.props)
     // const { accounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
     // const { ethFee } = this.state
     // const effectiveBalance = this.state.sourceCoin === 'ETH'
@@ -91,7 +92,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => ({
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
-  shapeshiftDataActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
+  dataShapshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

@@ -22,6 +22,8 @@ class FirstStepContainer extends React.Component {
     this.props.dataBitcoinActions.fetchUnspent(this.props.defaultBtcAccountIndex)
     this.props.dataEthereumActions.fetchFee()
     this.props.dataEthereumActions.fetchRates()
+    this.props.dataShapeshiftActions.fetchBtcEth()
+    this.props.dataShapeshiftActions.fetchEthBtc()
   }
 
   // componentWillReceiveProps (nextProps) {
@@ -63,6 +65,7 @@ class FirstStepContainer extends React.Component {
     //                           : bitcoinEffectiveBalance
     // console.log('data', this.props.data)
     // const { sourceCoin, targetCoin, amount } = this.state
+    console.log(this.props.data)
 
     return this.props.data.cata({
       Success: (value) => <ExchangeForm {...value} {...this.props} />,
@@ -81,7 +84,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
-  shapeshiftDataActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
+  dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
