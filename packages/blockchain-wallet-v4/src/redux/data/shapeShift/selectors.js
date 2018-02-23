@@ -11,6 +11,8 @@ export const getTrades = path([dataPath, 'shapeShift', 'trades'])
 
 export const getShapeshiftQuotation = path([dataPath, 'shapeShift', 'quotation'])
 
+export const getShapeshiftOrder = path([dataPath, 'shapeShift', 'order'])
+
 // Specific
 export const getBtcEthLimit = state => getBtcEth(state).map(path(['limit']))
 

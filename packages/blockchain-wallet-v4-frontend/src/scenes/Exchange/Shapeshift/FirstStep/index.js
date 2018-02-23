@@ -65,17 +65,7 @@ class FirstStepContainer extends React.Component {
     // const { sourceCoin, targetCoin, amount } = this.state
 
     return this.props.data.cata({
-      Success: (value) => <ExchangeForm
-        initialValues={value.initialValues}
-        elements={value.elements}
-        btcBalances={value.btcBalances}
-        ethBalances={value.ethBalances}
-        btcFee={value.btcFee}
-        ethFee={value.ethFee}
-        btcRates={value.btcRates}
-        ethRates={value.ethRates}
-        currency={value.currency}
-      />,
+      Success: (value) => <ExchangeForm {...value} {...this.props} />,
       Failure: (message) => <Error />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

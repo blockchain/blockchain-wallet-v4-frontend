@@ -14,6 +14,7 @@ class ExchangeFormContainer extends React.Component {
     super(props)
     this.timeout = undefined
     this.seed = crypto.randomBytes(16).toString('hex')
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -54,6 +55,8 @@ class ExchangeFormContainer extends React.Component {
   //   }
 
   handleSubmit () {
+    console.log('handleSubmit')
+    console.log(this.props)
     this.props.nextStep()
   }
 
@@ -76,16 +79,12 @@ const mapStateToProps = (state, ownProps) => {
   const amount = formValueSelector('exchange')(state, 'amount')
   const sourceCoin = path(['source', 'coin'], accounts)
   const targetCoin = path(['target', 'coin'], accounts)
-  const sourceUnit = equals(sourceCoin, 'BTC') ? ownProps.btcUnit : ownProps.ethUnit
-  const targetUnit = equals(targetCoin, 'BTC') ? ownProps.btcUnit : ownProps.ethUnit
 
   return {
     accounts,
     amount,
     sourceCoin,
-    sourceUnit,
-    targetCoin,
-    targetUnit
+    targetCoin
   }
 }
 

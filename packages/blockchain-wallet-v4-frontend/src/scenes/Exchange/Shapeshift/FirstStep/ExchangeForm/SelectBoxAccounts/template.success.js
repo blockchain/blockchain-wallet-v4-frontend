@@ -11,15 +11,13 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-
-  margin-bottom: 20px;
 `
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: ${props => props.fullwidth ? '100%' : '45%'};
+  width: 45%;
   flex-grow: 2;
 `
 const ContainerMiddle = styled.div`
@@ -27,8 +25,8 @@ const ContainerMiddle = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  width: 50px;
-  height: 50px;
+  width: 10%;
+  min-width: 50px;
   flex-grow: 1;
 
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
@@ -107,9 +105,6 @@ const Success = props => {
   return (
     <Wrapper>
       <Container>
-        <Text size='14px' weight={400}>
-          <FormattedMessage id='scenes.exchange.shapeshift.firststep.from' defaultMessage='Exchange:' />
-        </Text>
         <SelectInput
           elements={elements}
           value={source}
@@ -127,9 +122,6 @@ const Success = props => {
         }
       </ContainerMiddle>
       <Container>
-        <Text size='14px' weight={400}>
-          <FormattedMessage id='scenes.exchange.shapeshift.firststep.to' defaultMessage='Receive:' />
-        </Text>
         <SelectInput
           elements={elements}
           value={target}
