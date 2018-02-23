@@ -1,6 +1,6 @@
-import { isEmpty, equals, or } from 'ramda'
+import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
-import { isNumeric, isEmail, isGuid, isIpList, formatSSN, formatDOB } from 'services/ValidationHelper'
+import { isNumeric, isEmail, isGuid, isIpList, formatSSN, formatDOB, formatUSZipcode, isOverEighteen } from 'services/ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -35,6 +35,10 @@ const normalizeSocialSecurity = (val, prevVal) => formatSSN(val, prevVal)
 
 const normalizeDateOfBirth = (val, prevVal) => formatDOB(val, prevVal)
 
+const normalizeUSZipcode = value => formatUSZipcode(value)
+
+const ageOverEighteen = value => isOverEighteen(value) ? undefined : 'Must be 18 or older'
+
 export {
   required,
   requiredNumber,
@@ -50,5 +54,7 @@ export {
   validBitcoinPrivateKey,
   validEtherAddress,
   normalizeSocialSecurity,
-  normalizeDateOfBirth
+  normalizeDateOfBirth,
+  normalizeUSZipcode,
+  ageOverEighteen
 }

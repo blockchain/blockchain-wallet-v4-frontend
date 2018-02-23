@@ -1,5 +1,4 @@
 import { contains, equals, isNil, isEmpty } from 'ramda'
-import { log } from 'util';
 
 const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
 
@@ -57,7 +56,6 @@ const formatSSN = (val, prevVal) => {
 }
 
 const formatDOB = (val, prevVal) => {
-  console.log('formatDOB', val, prevVal)
   const nums = val.replace(/[^\d]/g, '')
   if (!prevVal || val.length > prevVal.length) {
     if (nums.length === 2) {
@@ -76,6 +74,18 @@ const formatDOB = (val, prevVal) => {
   return nums.slice(0, 2) + '/' + nums.slice(2, 4) + '/' + nums.slice(4, 8)
 }
 
+const formatUSZipcode = val => {
+  if (val.length > 5) return val.slice(0, 5)
+  return val
+}
+
+const isOverEighteen = val => {
+  const dob = new Date(val)
+  const now = new Date()
+  const eighteenYearsAgo = now.setFullYear(now.getFullYear() - 18)
+  return dob < eighteenYearsAgo
+}
+
 export {
   isNumeric,
   isEmail,
@@ -84,5 +94,7 @@ export {
   isBitcoinFiatAvailable,
   isEthereumFiatAvailable,
   formatSSN,
-  formatDOB
+  formatDOB,
+  formatUSZipcode,
+  isOverEighteen
 }
