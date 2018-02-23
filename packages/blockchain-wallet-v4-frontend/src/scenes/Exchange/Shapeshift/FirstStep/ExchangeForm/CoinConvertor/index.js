@@ -24,7 +24,6 @@ class CoinConvertorContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     // Props have been updated
     if (!equals(this.props.input.value, nextProps.input.value)) {
-      console.log('input.value has changed: ', nextProps.input.value)
       this.setState(nextProps.input.value)
     }
 
@@ -32,10 +31,7 @@ class CoinConvertorContainer extends React.Component {
     if (Remote.Success.is(nextProps.data)) {
       const depositAmount = nextProps.data.map(x => path(['success', 'depositAmount'], x)).getOrElse(this.state.source)
       const withdrawalAmount = nextProps.data.map(x => path(['success', 'withdrawalAmount'], x)).getOrElse(this.state.target)
-      console.log('remote success', depositAmount, withdrawalAmount)
-      // if (!isNil(depositAmount) && !isNil(withdrawalAmount)) {
       nextProps.formActions.change('exchange', 'amount', { source: depositAmount || 0, target: withdrawalAmount || 0 })
-      // }
     }
   }
 
@@ -70,11 +66,10 @@ class CoinConvertorContainer extends React.Component {
     const { source, target } = this.state
 
     return this.props.data.cata({
-      Success: (value) => <Success {...value} {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource}
-        handleChangeTarget={this.handleChangeTarget} handleClickMinimum={this.handleClickMinimum} handleClickMaximum={this.handleClickMaximum} loading={false} />,
-      Failure: (message) => <Success {...this.props} source={source} target={target} loading={false} />,
+      Success: (value) => <Success {...value} {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleClickMinimum={this.handleClickMinimum} handleClickMaximum={this.handleClickMaximum} loading={false} />,
+      Failure: (message) => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleClickMinimum={this.handleClickMinimum} handleClickMaximum={this.handleClickMaximum} loading={false} />,
       Loading: () => <Success {...this.props} source={source} target={target} loading />,
-      NotAsked: () => <Success {...this.props} source={source} target={target} loading={false} />
+      NotAsked: () => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleClickMinimum={this.handleClickMinimum} handleClickMaximum={this.handleClickMaximum} loading={false} />
     })
   }
 }

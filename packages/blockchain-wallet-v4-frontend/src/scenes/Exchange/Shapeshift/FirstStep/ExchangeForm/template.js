@@ -28,13 +28,33 @@ const Header = styled.div`
 `
 const Row = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
 
   margin-bottom: 10px;
 `
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 45%;
+  flex-grow: 2;
+`
+const ContainerMiddle = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 10%;
+  min-width: 50px;
+  flex-grow: 1;
+
+  & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
+`
+
 const ExchangeForm = props => {
   const { handleSubmit, invalid, submitting, ...rest } = props
 
@@ -42,22 +62,37 @@ const ExchangeForm = props => {
     <Wrapper>
       <Header>
         <Text size='12px' weight={300}>
-          <FormattedMessage id='scenes.exchange.shapeshift.firststep.step' defaultMessage='Step 1 of 2' />
+          <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.step' defaultMessage='Step 1 of 2' />
         </Text>
       </Header>
       <Form onSubmit={handleSubmit}>
+        <Row>
+          <Container>
+            <Text size='14px' weight={400}>
+              <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.from' defaultMessage='Exchange:' />
+            </Text>
+          </Container>
+          <ContainerMiddle />
+          <Container>
+            <Text size='14px' weight={400}>
+              <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.to' defaultMessage='Receive:' />
+            </Text>
+          </Container>
+        </Row>
         <Row>
           <Field name='accounts' component={SelectBoxAccounts} {...rest} />
         </Row>
         <Row>
           <Text size='14px' weight={400}>
-            <FormattedMessage id='scenes.exchange.shapeshift.firststep.amount' defaultMessage='Enter amount:' />
+            <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.amount' defaultMessage='Enter amount:' />
           </Text>
+        </Row>
+        <Row>
           <Field name='amount' component={CoinConvertor} validate={[required]} {...rest} />
         </Row>
         <Row>
           <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>
-            <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
+            <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.next' defaultMessage='Next' />
           </Button>
         </Row>
       </Form>

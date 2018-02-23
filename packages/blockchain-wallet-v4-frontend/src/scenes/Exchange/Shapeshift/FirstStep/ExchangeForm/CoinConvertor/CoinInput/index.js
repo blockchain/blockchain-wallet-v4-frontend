@@ -16,9 +16,9 @@ class CoinInputContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // Update state if coinValue changed
+    // Update state if coin value has changed
     const { coinName, coin, currency, btcRates, ethRates } = nextProps
-    if (!equals(this.props.coin, coin)) {
+    if (!equals(this.props.coin, coin) || !equals(this.props.coinName, coinName)) {
       const fiat = convertCoinToFiat(coin, coinName, coinName, currency, btcRates, ethRates)
       this.setState({ coin, fiat })
     }
@@ -37,6 +37,7 @@ class CoinInputContainer extends React.Component {
     const { coinName, currency, btcRates, ethRates } = this.props
     const coin = convertFiatToCoin(fiat, coinName, coinName, currency, btcRates, ethRates)
     this.setState({ coin, fiat })
+    this.props.handleChange(coin)
   }
 
   render () {

@@ -25,25 +25,20 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 45%};
+  width: 45%;
   flex-grow: 2;
 `
 const ContainerMiddle = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   width: 10%;
-  height: 50px;
+  min-width: 50px;
   flex-grow: 1;
+  margin-top: 20px;
 
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
-`
-const LinkContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -53,14 +48,15 @@ const Error = styled(Text)`
   height: 15px;
 `
 
-// const getErrorState = (meta) => {
-//   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
-// }
+const getErrorState = (meta) => {
+  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+}
 
 const CoinConvertor = props => {
   const { sourceCoin, targetCoin, source, target, currency, btcRates, ethRates, meta, ...rest } = props
   const { handleChangeSource, handleChangeTarget, handleClickMinimum, handleClickMaximum, loading } = rest
-  // const errorState = getErrorState(meta)
+  const errorState = getErrorState(meta)
+
   return (
     <Wrapper>
       <Row>
@@ -119,8 +115,6 @@ CoinConvertor.propTypes = {
   targetCoin: PropTypes.string.isRequired,
   source: PropTypes.string.isRequired,
   target: PropTypes.string.isRequired,
-  sourceUnit: PropTypes.string.isRequired,
-  targetUnit: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   btcRates: PropTypes.object.isRequired,
   ethRates: PropTypes.object.isRequired,

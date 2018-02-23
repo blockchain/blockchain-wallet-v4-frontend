@@ -6,8 +6,11 @@ import { formValueSelector } from 'redux-form'
 import { equals, prop, toLower } from 'ramda'
 
 import settings from 'config'
+import { getData } from './selectors'
 import { actions, selectors } from 'data'
-import SecondStep from './template.js'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class SecondStepContainer extends React.Component {
   constructor (props) {
@@ -17,28 +20,24 @@ class SecondStepContainer extends React.Component {
 
   componentWillMount () {
     // Make request to shapeShift to create order
-    const { exchangeAccounts, amount, sourceAddress, targetAddress } = this.props
-    const { source, target } = exchangeAccounts
-    const sourceCoin = source.coin
-    const targetCoin = target.coin
-    const pair = toLower(sourceCoin + '_' + targetCoin)
+    const { accounts, amount } = this.props
 
-    this.props.exchangeActions.createOrder({
-      depositAmount: this.props.amount,
-      pair,
-      returnAddress: sourceAddress,
-      withdrawal: targetAddress
-    })
+    // this.props.exchangeActions.createOrder({
+    //   depositAmount: this.props.amount,
+    //   pair,
+    //   returnAddress: sourceAddress,
+    //   withdrawal: targetAddress
+    // })
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.order, nextProps.order)) {
-      const error = prop('error', nextProps.order)
-      if (error) {
-        this.props.alertActions.displayError(error)
-        this.props.previousStep()
-      }
-    }
+    // if (!equals(this.props.order, nextProps.order)) {
+    //   const error = prop('error', nextProps.order)
+    //   if (error) {
+    //     this.props.alertActions.displayError(error)
+    //     this.props.previousStep()
+    //   }
+    // }
   }
 
   onSubmit () {
@@ -46,67 +45,67 @@ class SecondStepContainer extends React.Component {
   }
 
   render () {
-    const { exchangeAccounts, amount, sourceAddress, targetAddress, ...rest } = this.props
-    const { source, target } = exchangeAccounts
-    const { success } = this.props.order
-    if (success) {
-      const { expiration, minerFee, quotedRate, withdrawalAmount } = success
-      const timeLeft = expiration - new Date().getTime()
-      const txFee = 0 // To be computed
-      const sourceAmount = prop('value', Exchange.convertCoinToCoin({ value: amount, coin: source.coin, baseToStandard: false }))
-      const minerFeeBase = prop('value', Exchange.convertCoinToCoin({ value: minerFee, coin: target.coin, baseToStandard: false }))
-      const received = prop('value', Exchange.convertCoinToCoin({ value: withdrawalAmount, coin: target.coin, baseToStandard: false }))
-      return (
-        <SecondStep
-          {...rest}
-          isLoading={false}
-          sourceAddress={sourceAddress}
-          targetAddress={targetAddress}
-          sourceAmount={sourceAmount}
-          sourceCoin={source.coin}
-          targetCoin={target.coin}
-          onSubmit={this.onSubmit}
-          minerFee={minerFeeBase}
-          txFee={txFee}
-          rate={quotedRate}
-          received={received}
-          timeLeft={timeLeft}
-          source />
-      )
-    } else {
-      return (
-        <SecondStep
-          isLoading
-        />
-      )
-    }
+    // const { exchangeAccounts, amount, sourceAddress, targetAddress, ...rest } = this.props
+    // const { source, target } = exchangeAccounts
+    // const { success } = this.props.order
+    // if (success) {
+    //   const { expiration, minerFee, quotedRate, withdrawalAmount } = success
+    //   const timeLeft = expiration - new Date().getTime()
+    //   const txFee = 0 // To be computed
+    //   const sourceAmount = prop('value', Exchange.convertCoinToCoin({ value: amount, coin: source.coin, baseToStandard: false }))
+    //   const minerFeeBase = prop('value', Exchange.convertCoinToCoin({ value: minerFee, coin: target.coin, baseToStandard: false }))
+    //   const received = prop('value', Exchange.convertCoinToCoin({ value: withdrawalAmount, coin: target.coin, baseToStandard: false }))
+    //   return (
+    //     <SecondStep
+    //       {...rest}
+    //       isLoading={false}
+    //       sourceAddress={sourceAddress}
+    //       targetAddress={targetAddress}
+    //       sourceAmount={sourceAmount}
+    //       sourceCoin={source.coin}
+    //       targetCoin={target.coin}
+    //       onSubmit={this.onSubmit}
+    //       minerFee={minerFeeBase}
+    //       txFee={txFee}
+    //       rate={quotedRate}
+    //       received={received}
+    //       timeLeft={timeLeft}
+    //       source />
+    //   )
+    // }
+    return this.props.data.cata({
+      Success: (value) => <Success />,
+      Error: (message) => <Error />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Success />
+    })
   }
 }
 
-const extractAddress = (value, selectorFunction) =>
-  value
-    ? value.addr
-      ? value.addr
-      : selectorFunction(value.index)
-    : undefined
+// const extractAddress = (value, selectorFunction) =>
+//   value
+//     ? value.addr
+//       ? value.addr
+//       : selectorFunction(value.index)
+//     : undefined
 
 const mapStateToProps = (state, ownProps) => {
-  const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
-  const exchangeAccounts = formValueSelector('exchange')(state, 'accounts')
-  const { source, target } = exchangeAccounts
+  // const getReceive = index => selectors.core.common.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
+  // const accounts = formValueSelector('exchange')(state, 'accounts')
+  // const { source, target } = exchangeAccounts
 
   return {
-    exchangeAccounts,
-    amount: formValueSelector('exchange')(state, 'amount'),
-    order: selectors.core.data.shapeShift.getOrder(state),
-    targetAddress: prop('addr', target) || extractAddress(exchangeAccounts.target, getReceive),
-    sourceAddress: prop('addr', source) || extractAddress(exchangeAccounts.source, getReceive)
-
+    // exchangeAccounts,
+    // amount: formValueSelector('exchange')(state, 'amount'),
+    // order: selectors.core.data.shapeShift.getOrder(state),
+    // targetAddress: prop('addr', target) || extractAddress(exchangeAccounts.target, getReceive),
+    // sourceAddress: prop('addr', source) || extractAddress(exchangeAccounts.source, getReceive),
+    data: getData(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  exchangeActions: bindActionCreators(actions.modules.exchange, dispatch),
+  // exchangeActions: bindActionCreators(actions.modules.exchange, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 
