@@ -4,8 +4,9 @@ import Remote from '../../../remote'
 
 const INITIAL_STATE = {
   quote: Remote.NotAsked,
+  trades: Remote.NotAsked,
   profile: Remote.NotAsked,
-  trades: Remote.NotAsked
+  accounts: Remote.NotAsked
 }
 
 const sfoxReducer = (state = INITIAL_STATE, action) => {
@@ -29,6 +30,24 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_QUOTE_FAILURE: {
       return assoc('quote', Remote.Failure(payload), state)
+    }
+    case AT.FETCH_ACCOUNTS_LOADING: {
+      return assoc('accounts', Remote.Loading, state)
+    }
+    case AT.FETCH_ACCOUNTS_SUCCESS: {
+      return assoc('accounts', Remote.Success(payload), state)
+    }
+    case AT.FETCH_ACCOUNTS_FAILURE: {
+      return assoc('accounts', Remote.Failure(payload), state)
+    }
+    case AT.HANDLE_TRADE_LOADING: {
+      return assoc('trade', Remote.Loading, state)
+    }
+    case AT.HANDLE_TRADE_SUCCESS: {
+      return assoc('trade', Remote.Success(payload), state)
+    }
+    case AT.HANDLE_TRADE_FAILURE: {
+      return assoc('trade', Remote.Failure(payload), state)
     }
     default:
       return state

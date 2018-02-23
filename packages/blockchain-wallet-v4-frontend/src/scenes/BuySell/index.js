@@ -7,11 +7,15 @@ import { bindActionCreators } from 'redux'
 import SfoxCheckout from './SfoxCheckout'
 
 const Wrapper = styled.div`
+  width: 100%;
   padding: 30px;
   font-size: 13px;
   font-weight: 300;
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
+`
+const CheckoutWrapper = styled.div`
+  width: 50%;
 `
 
 class BuySellContainer extends React.Component {
@@ -22,7 +26,8 @@ class BuySellContainer extends React.Component {
   render () {
     const { data } = this.props
 
-    let buySell = data.cata({
+    // TODO: determine partner to load
+    let checkout = data.cata({
       Success: () => <SfoxCheckout />,
       Failure: (message) => <div>{message}</div>,
       Loading: () => <div>Loading...</div>,
@@ -31,7 +36,9 @@ class BuySellContainer extends React.Component {
 
     return (
       <Wrapper>
-        { buySell }
+        <CheckoutWrapper>
+          { checkout }
+        </CheckoutWrapper>
       </Wrapper>
     )
   }
