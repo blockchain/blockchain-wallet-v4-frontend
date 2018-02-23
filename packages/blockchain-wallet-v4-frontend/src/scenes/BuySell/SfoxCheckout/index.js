@@ -2,20 +2,23 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getBase, getData, getQuote } from './selectors'
+import { getBase, getData, getErrors, getQuote } from './selectors'
 import Success from './template.success'
 
 class Checkout extends React.Component {
   componentWillMount () {
     this.props.sfoxDataActions.fetchProfile()
+    this.props.sfoxDataActions.fetchAccounts()
     this.props.sfoxDataActions.fetchQuote({ amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' })
   }
 
   render () {
-    const { data, quote, base } = this.props
+    const { data, errors, quote, base, modalActions, sfoxDataActions } = this.props
+    const { handleTrade, fetchQuote } = sfoxDataActions
+    const { showModal } = modalActions
 
     return data.cata({
-      Success: (value) => <Success value={value} base={base} quote={quote} showModal={this.props.modalActions.showModal} fetchQuote={this.props.sfoxDataActions.fetchQuote} />,
+      Success: (value) => <Success base={base} value={value} errors={errors} quote={quote} handleTrade={handleTrade} showModal={showModal} fetchQuote={fetchQuote} />,
       Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div />
@@ -26,7 +29,8 @@ class Checkout extends React.Component {
 const mapStateToProps = state => ({
   base: getBase(state),
   data: getData(state),
-  quote: getQuote(state)
+  quote: getQuote(state),
+  errors: getErrors(state)
 })
 
 const mapDispatchToProps = dispatch => ({
