@@ -6,6 +6,8 @@ const guidRegex = new RegExp(/(^([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4
 
 const ipListRegex = new RegExp(/(^$)|(^(\s?(?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\s?)(,(\s?(?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\s?)*)?$)/)
 
+const emailCodeRegex = new RegExp(/^[a-z0-9]{5}$/i)
+
 const isNumeric = value => (value - 0) === value && ('' + value).trim().length > 0
 
 const isEmail = value => emailRegex.test(value)
@@ -13,6 +15,8 @@ const isEmail = value => emailRegex.test(value)
 const isGuid = value => guidRegex.test(value)
 
 const isIpList = value => ipListRegex.test(value)
+
+const isAlphaNumeric = value => emailCodeRegex.test(value)
 
 const isBitcoinFiatAvailable = (country, currency, rates) => {
   if (isNil(country)) return false
@@ -91,6 +95,7 @@ export {
   isEmail,
   isGuid,
   isIpList,
+  isAlphaNumeric,
   isBitcoinFiatAvailable,
   isEthereumFiatAvailable,
   formatSSN,

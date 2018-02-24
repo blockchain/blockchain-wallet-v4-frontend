@@ -4,6 +4,7 @@ import sendBitcoin from './sendBitcoin/sagas'
 import sendEther from './sendEther/sagas'
 import sendBch from './sendBch/sagas'
 import settings from './settings/sagas'
+import securityCenter from './securityCenter/sagas'
 import transferEther from './transferEther/sagas'
 
 export default function * () {
@@ -12,6 +13,7 @@ export default function * () {
     call(sendEther),
     call(sendBch),
     call(settings),
+    call(securityCenter),
     call(transferEther)
   ])
 }

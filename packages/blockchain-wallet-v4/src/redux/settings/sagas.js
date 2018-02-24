@@ -25,7 +25,8 @@ export const settingsSaga = ({ api } = {}) => {
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.getGoogleAuthenticatorSecretUrl, guid, sharedKey)
     if (!contains('secret', response)) { throw new Error(response) }
-    return response
+    yield put(actions.setGoogleAuthenticatorSecretUrl(response))
+    // return response
   }
 
   // SETTERS
@@ -42,6 +43,25 @@ export const settingsSaga = ({ api } = {}) => {
     const response = yield call(api.updateEmail, guid, sharedKey, email)
     if (!contains('updated', toLower(response))) { throw new Error(response) }
     yield put(actions.setEmail(email))
+  }
+
+  const sendConfirmationCodeEmail = function * ({ email }) {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    const response = yield call(api.sendConfirmationCodeEmail, guid, sharedKey, email)
+    if (!response.success) { throw new Error(response) }
+    yield put(actions.sentConfirmationCodeSuccess(email))
+  }
+
+  const verifyEmailCode = function * ({ code }) {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    const response = yield call(api.verifyEmail, guid, sharedKey, code)
+    if (!response.success) {
+      yield put(actions.setEmailVerifiedFailed())
+      throw new Error(response)
+    }
+    yield put(actions.setEmailVerified())
   }
 
   const setMobile = function * ({ mobile }) {
@@ -91,15 +111,15 @@ export const settingsSaga = ({ api } = {}) => {
   const setLoggingLevel = function * ({ loggingLevel }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateLoggingLevel, guid, sharedKey, loggingLevel)
+    const response = yield call(api.updateLoggingLevel, guid, sharedKey, String(loggingLevel))
     if (!contains('Logging level updated.', response)) { throw new Error(response) }
-    yield put(actions.setAutoLogout(loggingLevel))
+    yield put(actions.setLoggingLevel(loggingLevel))
   }
 
   const setIpLock = function * ({ ipLock }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateIpLock, guid, sharedKey, ipLock)
+    const response = yield call(api.updateIpLock, guid, sharedKey, String(ipLock))
     if (!contains('Ip Addresses Updated', response)) { throw new Error(response) }
     yield put(actions.setIpLock(ipLock))
   }
@@ -107,7 +127,7 @@ export const settingsSaga = ({ api } = {}) => {
   const setIpLockOn = function * ({ ipLockOn }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateIpLockOn, guid, sharedKey, ipLockOn)
+    const response = yield call(api.updateIpLockOn, guid, sharedKey, String(ipLockOn))
     if (!contains('Updated IP Lock Settings', response)) { throw new Error(response) }
     yield put(actions.setIpLockOn(ipLockOn))
   }
@@ -115,9 +135,9 @@ export const settingsSaga = ({ api } = {}) => {
   const setBlockTorIps = function * ({ blockTorIps }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateBlockTorIps, guid, sharedKey, blockTorIps)
-    if (contains('Tor IP address settings updated.', response)) { throw new Error(response) }
-    yield put(actions.setIpLockOn(blockTorIps))
+    const response = yield call(api.updateBlockTorIps, guid, sharedKey, String(blockTorIps))
+    if (!contains('Tor IP address settings updated.', response)) { throw new Error(response) }
+    yield put(actions.setBlockTorIps(blockTorIps))
   }
 
   const setHint = function * ({ hint }) {
@@ -156,7 +176,7 @@ export const settingsSaga = ({ api } = {}) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.enableYubikey, guid, sharedKey, code)
-    yield call(api.updateAuthType, guid, sharedKey, 1)
+    yield call(api.updateAuthType, guid, sharedKey, '1')
     if (!contains('updated', response)) { throw new Error(response) }
     yield put(actions.setYubikey())
   }
@@ -180,6 +200,8 @@ export const settingsSaga = ({ api } = {}) => {
     setAuthType,
     setAuthTypeNeverSave,
     setGoogleAuthenticator,
-    setYubikey
+    setYubikey,
+    sendConfirmationCodeEmail,
+    verifyEmailCode
   }
 }

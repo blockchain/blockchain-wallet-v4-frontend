@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import InfoWell from 'components/InfoWell'
-import EmailAddress from './EmailAddress'
 import MobileNumber from './MobileNumber'
 import WalletLanguage from './WalletLanguage'
 import LocalCurrency from './LocalCurrency'
@@ -25,7 +24,6 @@ const Preferences = () => {
       <InfoWell>
         <FormattedMessage id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
       </InfoWell>
-      <EmailAddress />
       <MobileNumber />
       <WalletLanguage />
       <LocalCurrency />
