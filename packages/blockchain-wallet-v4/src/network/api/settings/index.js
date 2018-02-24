@@ -13,6 +13,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   const updateEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
 
+  const sendConfirmationCodeEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'send-verify-email-mail', email)
+
   const sendEmailConfirmation = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
 
   const verifyEmail = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'verify-email-code', code)
@@ -41,9 +43,9 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   const updateAuthTypeNeverSave = (guid, sharedKey, authTypeNeverSave) => updateSettings(guid, sharedKey, 'update-never-save-auth-type', authTypeNeverSave)
 
-  const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret')
+  const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) => updateSettings(guid, sharedKey, 'generate-google-secret', '')
 
-  const enableGoogleAuthenticator = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', 4, `?code=${code}`)
+  const enableGoogleAuthenticator = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-auth-type', '4', `code=${code}`)
 
   const enableYubikey = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-yubikey', code)
 
@@ -66,6 +68,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     updateAuthTypeNeverSave,
     getGoogleAuthenticatorSecretUrl,
     enableGoogleAuthenticator,
-    enableYubikey
+    enableYubikey,
+    sendConfirmationCodeEmail
   }
 }
