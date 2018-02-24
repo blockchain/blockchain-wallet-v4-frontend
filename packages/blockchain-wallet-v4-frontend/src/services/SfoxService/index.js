@@ -7,14 +7,15 @@ const isActiveAccount = (accounts) => {
   return accounts[0] && accounts[0].status === 'active'
 }
 
-export const determineStep = (profile, verificationStatus) => {
+export const determineStep = (profile, verificationStatus, accounts) => {
   if (!profile) {
     return 'create'
   } else {
     if (!isVerified(verificationStatus)) {
       if (!profile.setupComplete && !verificationStatus.required_docs.length) return 'verify'
       else if (verificationStatus.required_docs.length) return 'upload'
-      else return 'link'
+    } else if (!accounts.length || !isActiveAccount(accounts)) {
+      return 'link'
     } else {
       return 'verified'
     }
