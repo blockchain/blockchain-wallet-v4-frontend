@@ -3,6 +3,7 @@ import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CoinConvertor from './CoinConvertor'
 import DateBox from './DateBox'
+import CodeInputBoxes from './CodeInputBoxes'
 import FiatConvertor from './FiatConvertor'
 import Form from './Form'
 import FormGroup from './FormGroup'
@@ -31,6 +32,7 @@ export {
   CheckBox,
   CoinConvertor,
   DateBox,
+  CodeInputBoxes,
   FiatConvertor,
   Form,
   FormGroup,
