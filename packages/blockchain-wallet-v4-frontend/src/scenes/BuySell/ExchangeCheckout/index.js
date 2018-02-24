@@ -100,7 +100,7 @@ class ExchangeCheckout extends React.Component {
 
   render () {
     const { rate } = this.state
-    const { accounts, continueButton, errors, requiredMsg, limits, reasonMsg, fiat, crypto, fetchQuote, onSubmit, showRequiredMsg, showReasonMsg } = this.props
+    const { accounts, continueButton, errors, requiredMsg, limits, reasonMsg, fiat, crypto, fetchQuote, onSubmit, showRequiredMsg } = this.props
 
     const minError = (errors && errors.fiat && errors.fiat === 'min') || (errors && errors.crypto && errors.crypto === 'min')
     const maxError = (errors && errors.fiat && errors.fiat === 'max') || (errors && errors.crypto && errors.crypto === 'max')
@@ -149,16 +149,14 @@ class ExchangeCheckout extends React.Component {
               />
             </FormItem>
           </CheckoutInput>
-          { showReasonMsg &&
-            <ReasonMessage onClick={this.setMax.bind(this)}>
-              <Text size='12px' weight={300} color={maxError && 'error'}>
-                { reasonMsg }
-              </Text>
-            </ReasonMessage>
-          }
+          <ReasonMessage onClick={this.setMax.bind(this)}>
+            <Text size='12px' weight={300} color={maxError ? 'error' : ''}>
+              { reasonMsg }
+            </Text>
+          </ReasonMessage>
           { showRequiredMsg && <RequiredMessage> { requiredMsg } </RequiredMessage> }
           {
-            accounts &&
+            accounts.length > 0 &&
             <AccountsContainer>
               <Text size='14px' weight={300} style={{'margin-bottom': '5px'}}>
                 <FormattedMessage id='scenes.buysell.exchangecheckout.synced' defaultMessage='Synced Bank Account:' />
@@ -176,7 +174,7 @@ class ExchangeCheckout extends React.Component {
               }) }
             </AccountsContainer>
           }
-          <Button type='submit' nature='primary' fullwidth disabled={this.props.invalid}>
+          <Button type='submit' nature='primary' fullwidth>
             { continueButton }
           </Button>
         </Form>

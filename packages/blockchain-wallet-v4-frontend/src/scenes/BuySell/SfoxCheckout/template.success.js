@@ -27,6 +27,7 @@ const ReasonMsg = props => {
 
   switch (true) {
     case reason === 'has_remaining_buy_limit': return <FormattedHTMLMessage id='scenes.buysell.sfoxcheckout.buy.remaining_limit' defaultMessage='Your remaining buy limit is <span class="link">{limit} USD.</span>' values={{limit}} />
+    default: return <FormattedHTMLMessage id='placeholder' defaultMessage='&nbsp;' />
   }
 }
 
@@ -65,8 +66,7 @@ const Success = props => {
       onSubmit={onSubmit}
       fetchQuote={fetchQuote}
       limits={limits[type]}
-      showReasonMsg={reason}
-      showContinueMsg={step !== 'verified'}
+      showRequiredMsg={step !== 'verified'}
       requiredMsg={<RequiredMsg step={step} type={type} />}
       continueButton={<ContinueButton step={step} type={type} />}
       reasonMsg={<ReasonMsg reason={reason} limit={profile.limits[type]} />}
