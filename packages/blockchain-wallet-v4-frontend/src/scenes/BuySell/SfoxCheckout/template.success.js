@@ -8,6 +8,8 @@ const ContinueButton = props => {
 
   switch (true) {
     case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.button' defaultMessage='Continue Where You Left Off' />
+    case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.button' defaultMessage='Continue Where You Left Off' />
+    case step === 'link': return <FormattedMessage id='scenes.buysell.sfoxcheckout.link.button' defaultMessage='Continue Where You Left Off' />
     case step === 'verified' && type === 'buy': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verified.buy_bitcoin_button' defaultMessage='Buy Bitcoin' />
     default: return null
   }
@@ -17,7 +19,9 @@ const RequiredMsg = props => {
   const { step } = props
 
   switch (true) {
-    case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.message' defaultMessage='You need to finish verifying your account before you can start trading.' />
+    case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.message' defaultMessage='You need to finish verifying your account before you can buy and sell.' />
+    case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.message' defaultMessage='You need to finish verifying your account before you can buy and sell.' />
+    case step === 'link': return <FormattedMessage id='scenes.buysell.sfoxcheckout.link.message' defaultMessage='You need to finish linking your bank account before you can buy and sell.' />
     default: return null
   }
 }
@@ -35,7 +39,7 @@ const Success = props => {
   const { fetchQuote, handleTrade, quote, base, errors, showModal } = props
   const { accounts, profile, verificationStatus } = props.value
   const type = 'buy'
-  const step = determineStep(profile, verificationStatus)
+  const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
 
   const onSubmit = (e) => {
