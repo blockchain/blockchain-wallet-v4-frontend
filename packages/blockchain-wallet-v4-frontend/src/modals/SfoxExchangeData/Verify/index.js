@@ -1,60 +1,51 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+import ui from 'redux-ui'
+import Verify from './template'
+import { actions } from 'data'
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-`
-const ColLeft = styled.div`
-  width: 40%;
-`
-const ColRight = styled.div`
-  width: 60%;
-`
-const ColLeftInner = styled.div`
-  width: 80%;
-`
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`
-const Subtitle = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 15px;
-`
-const Info = styled.div`
-  font-size: 14px;
-  margin-bottom: 10px;
-`
+class VerifyContainer extends Component {
+  constructor (props) {
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
 
-const Verify = () => {
-  return (
-    <Row>
-      <ColLeft>
-        <ColLeftInner>
-          <Title>
-            <FormattedMessage id='sfoxexchangedata.verify.title' defaultMessage='Verify Identity' />
-          </Title>
-          <Subtitle>
-            <FormattedMessage id='sfoxexchangedata.verify.subtitle' defaultMessage='Setup your profile' />
-          </Subtitle>
-          <Info>
-            <FormattedMessage id='sfoxexchangedata.verify.info' defaultMessage='To verify your identity we need to collect some personal information.' />
-          </Info>
-          <Info>
-            <FormattedMessage id='sfoxexchangedata.verify.info2' defaultMessage='This information will be sent directly to SFOX and will not be saved to your Blockchain wallet. Any information provided is secure and safe.' />
-          </Info>
-        </ColLeftInner>
-      </ColLeft>
-      <ColRight>
-        Form
-      </ColRight>
-    </Row>
-  )
+  handleSubmit (e) {
+    e.preventDefault()
+    console.log('handleSubmit', this.props)
+  }
+
+  render () {
+    return <Verify
+      handleSubmit={this.handleSubmit}
+    />
+  }
 }
 
-export default Verify
+const mapStateToProps = (state) => ({
+  firstName: formValueSelector('sfoxVerify')(state, 'firstName'),
+  middleName: formValueSelector('sfoxVerify')(state, 'middleName'),
+  lastName: formValueSelector('sfoxVerify')(state, 'lastName'),
+  ssn: formValueSelector('sfoxVerify')(state, 'ssn'),
+  dob: formValueSelector('sfoxVerify')(state, 'dob'),
+  address1: formValueSelector('sfoxVerify')(state, 'address1'),
+  address2: formValueSelector('sfoxVerify')(state, 'address2'),
+  city: formValueSelector('sfoxVerify')(state, 'city'),
+  state: formValueSelector('sfoxVerify')(state, 'state'),
+  zipcode: formValueSelector('sfoxVerify')(state, 'zipcode')
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: {} })
+)
+
+export default enhance(VerifyContainer)
