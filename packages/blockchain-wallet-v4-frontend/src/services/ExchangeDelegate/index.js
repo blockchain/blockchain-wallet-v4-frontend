@@ -1,3 +1,7 @@
+import store from 'store'
+import settings from 'config'
+import { selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
 var fetch = require('isomorphic-fetch')
 
 let email, walletIdentifier, sharedKey, receiveAddress
@@ -43,6 +47,10 @@ var delegate = {
     return receiveAddress
   },
   reserveReceiveAddress: () => {
+    const state = store().store.getState()
+    const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
+    // extract receiveAddress
+    // commit the address by saving a label
     return {
       receiveAddress: receiveAddress,
       commit: () => {}
@@ -53,4 +61,4 @@ var delegate = {
   deserializeExtraFields: (obj, trade) => {}
 }
 
-module.exports = delegate
+export default delegate
