@@ -49,6 +49,12 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.HANDLE_TRADE_FAILURE: {
       return assoc('trade', Remote.Failure(payload), state)
     }
+    case AT.SET_PROFILE_SUCCESS: {
+      return assoc('profile', Remote.Success(payload), state)
+    }
+    case AT.SET_PROFILE_FAILURE: {
+      return assoc('profile', Remote.Failure(payload), state)
+    }
     default:
       return state
   }

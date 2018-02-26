@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
@@ -17,6 +15,8 @@ class VerifyContainer extends Component {
   handleSubmit (e) {
     e.preventDefault()
     console.log('handleSubmit', this.props)
+
+    this.props.sfoxDataActions.setProfile(this.props.user)
   }
 
   render () {
@@ -27,20 +27,23 @@ class VerifyContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  firstName: formValueSelector('sfoxVerify')(state, 'firstName'),
-  middleName: formValueSelector('sfoxVerify')(state, 'middleName'),
-  lastName: formValueSelector('sfoxVerify')(state, 'lastName'),
-  ssn: formValueSelector('sfoxVerify')(state, 'ssn'),
-  dob: formValueSelector('sfoxVerify')(state, 'dob'),
-  address1: formValueSelector('sfoxVerify')(state, 'address1'),
-  address2: formValueSelector('sfoxVerify')(state, 'address2'),
-  city: formValueSelector('sfoxVerify')(state, 'city'),
-  state: formValueSelector('sfoxVerify')(state, 'state'),
-  zipcode: formValueSelector('sfoxVerify')(state, 'zipcode')
+  user: {
+    firstName: formValueSelector('sfoxVerify')(state, 'firstName'),
+    middleName: formValueSelector('sfoxVerify')(state, 'middleName'),
+    lastName: formValueSelector('sfoxVerify')(state, 'lastName'),
+    ssn: formValueSelector('sfoxVerify')(state, 'ssn'),
+    dob: formValueSelector('sfoxVerify')(state, 'dob'),
+    address1: formValueSelector('sfoxVerify')(state, 'address1'),
+    address2: formValueSelector('sfoxVerify')(state, 'address2'),
+    city: formValueSelector('sfoxVerify')(state, 'city'),
+    state: formValueSelector('sfoxVerify')(state, 'state'),
+    zipcode: formValueSelector('sfoxVerify')(state, 'zipcode')
+  }
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
 const enhance = compose(

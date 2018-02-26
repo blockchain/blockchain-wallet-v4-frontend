@@ -28,7 +28,6 @@ const RequiredMsg = props => {
 
 const ReasonMsg = props => {
   const { reason, limit } = props
-
   switch (true) {
     case reason === 'has_remaining_buy_limit': return <FormattedHTMLMessage id='scenes.buysell.sfoxcheckout.buy.remaining_limit' defaultMessage='Your remaining buy limit is <span class="link">{limit} USD.</span>' values={{limit}} />
     default: return <FormattedHTMLMessage id='placeholder' defaultMessage='&nbsp;' />
