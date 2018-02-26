@@ -35,7 +35,7 @@ class ImportBtcAddressContainer extends React.Component {
     e.preventDefault()
     const { to, priv, from, selection } = this.props
     if (to) this.props.sendBitcoinActions.sendBitcoin(selection)
-    else this.props.walletActions.createLegacyAddress({addr: from.address, priv: priv})
+    else this.props.walletActions.createLegacyAddress({addr: this.props.data.data.changeAddress.address, priv: priv})
   }
 
   render () {
