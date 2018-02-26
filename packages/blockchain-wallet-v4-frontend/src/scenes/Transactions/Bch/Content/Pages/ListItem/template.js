@@ -10,7 +10,6 @@ import Addresses from './Addresses'
 import EditDescription from 'components/EditDescription'
 import Confirmation from './Confirmation'
 import Fee from './Fee'
-import FiatAtTime from './FiatAtTime'
 import Status from './Status'
 
 const TransactionListItem = (props) => {
