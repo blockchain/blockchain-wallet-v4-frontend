@@ -65,11 +65,46 @@ export default ({ api } = {}) => {
     }
   }
 
+  const setProfile = function * (data) {
+    const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = data.payload
+    const { profile } = sfox
+    
+    try {
+      profile.firstName = firstName
+      profile.middleName = middleName || ''
+      profile.lastName = lastName
+      profile.dateOfBirth = new Date(dob)
+      profile.setSSN(ssn)
+      profile.setAddress(
+        address1,
+        address2,
+        city,
+        state,
+        zipcode
+      )
+      console.log('setProfile saga', data, sfox, sfox.profile)
+      // call verify() here
+      const verify = yield apply(sfox, profile.verify)
+      console.log('after verify', verify)
+
+      // yield put(A.handleTradeLoading())
+      // const quote = data.payload
+      // const accounts = yield select(S.getAccounts)
+      // const methods = yield apply(quote, quote.getPaymentMediums)
+      // const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
+      // yield put(A.handleTradeSuccess(trade))
+    } catch (e) {
+      console.warn('setProfile saga', e)
+      yield put(A.handleTradeFailure(e))
+    }
+  }
+
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)
     yield takeLatest(AT.HANDLE_TRADE, handleTrade)
     yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
+    yield takeLatest(AT.SET_PROFILE, setProfile)
   }
 }

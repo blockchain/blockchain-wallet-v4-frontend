@@ -19,3 +19,7 @@ export const handleTrade = (data) => ({ type: AT.HANDLE_TRADE, payload: data })
 export const handleTradeLoading = () => ({ type: AT.HANDLE_TRADE_LOADING })
 export const handleTradeSuccess = (data) => ({ type: AT.HANDLE_TRADE_SUCCESS, payload: data })
 export const handleTradeFailure = (error) => ({ type: AT.HANDLE_TRADE_FAILURE, payload: error })
+
+export const setProfile = (data) => ({ type: AT.SET_PROFILE, payload: data })
+export const setProfileSuccess = (data) => ({ type: AT.SET_PROFILE_SUCCESS, payload: data })
+export const setProfileFailure = (error) => ({ type: AT.SET_PROFILE_FAILURE, payload: error })
