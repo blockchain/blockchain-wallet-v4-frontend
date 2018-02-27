@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
-import Verify from './template'
+import Upload from './template'
 import { actions } from 'data'
+import { getData } from './selectors'
 
 class UploadContainer extends Component {
   constructor (props) {
@@ -12,13 +12,19 @@ class UploadContainer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.onDrop = this.onDrop.bind(this)
     this.onClickUpload = this.onClickUpload.bind(this)
+    this.toggleCamera = this.toggleCamera.bind(this)
+    this.setPhoto = this.setPhoto.bind(this)
 
-    this.state = { file: null }
+    this.state = { file: null, camera: false, photo: '' }
   }
 
   handleSubmit (e) {
     e.preventDefault()
-    // this.props.sfoxDataActions.setProfile(this.props.user)
+  }
+
+  setPhoto (data) {
+    console.log('setPhoto')
+    this.setState({ photo: data })
   }
 
   onDrop (file) {
@@ -28,23 +34,36 @@ class UploadContainer extends Component {
 
   onClickUpload (e) {
     e.preventDefault()
-    console.log('onclick')
+  }
+
+  toggleCamera () {
+    this.setState({ camera: true })
   }
 
   render () {
-    return <Verify
-      handleSubmit={this.handleSubmit}
-      onDrop={this.onDrop}
-      onClickUpload={this.onClickUpload}
-      file={this.state.file}
-    />
+    const { data } = this.props
+
+    return data.cata({
+      Success: (value) => <Upload
+        data={value}
+        handleSubmit={this.handleSubmit}
+        onDrop={this.onDrop}
+        onClickUpload={this.onClickUpload}
+        toggleCamera={this.toggleCamera}
+        file={this.state.file}
+        showCamera={this.state.camera}
+        photo={this.state.photo}
+        setPhoto={this.setPhoto}
+      />,
+      Failure: (msg) => <div>{msg.error}</div>,
+      Loading: () => <div>Loading...</div>,
+      NotAsked: () => <div />
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
-  initial: {
-    hello: 'world'
-  }
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
