@@ -1,3 +1,3 @@
-import Spacing from './Spacing'
+import injectSpacing from './injectSpacing'
 
-export { Spacing }
+export { injectSpacing }
