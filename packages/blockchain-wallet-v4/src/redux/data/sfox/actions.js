@@ -19,3 +19,5 @@ export const handleTrade = (data) => ({ type: AT.HANDLE_TRADE, payload: data })
 export const handleTradeLoading = () => ({ type: AT.HANDLE_TRADE_LOADING })
 export const handleTradeSuccess = (data) => ({ type: AT.HANDLE_TRADE_SUCCESS, payload: data })
 export const handleTradeFailure = (error) => ({ type: AT.HANDLE_TRADE_FAILURE, payload: error })
+
+export const setNextAddress = (data) => ({ type: AT.SET_NEXT_ADDRESS, payload: data })

@@ -1,4 +1,4 @@
-class ExchangeDelegate {
+export class ExchangeDelegate {
   constructor (state) {
     this._trades = []
     this._debug = false
@@ -40,7 +40,7 @@ class ExchangeDelegate {
   }
 
   checkAddress (address) {
-    // TODO: implement chek address
+    // TODO: implement check address
   }
 
   getReceiveAddress (trade) {
@@ -53,19 +53,8 @@ class ExchangeDelegate {
 
   reserveReceiveAddress () {
     return {
-      _reservation: reservation,
-      receiveAddress: reservation.receiveAddress,
-      commit: (trade) => {
-        /* istanbul ignore if */
-        if (self.debug) {
-          console.info('Set label for receive index', reservation.receiveIndex)
-        }
-        trade._account_index = account.index
-        trade._receive_index = reservation.receiveIndex
-        let id = trade.tradeSubscriptionId || trade.id
-        let label = trade.tradeSubscriptionId ? 'Recurring Order' : self.labelBase
-        reservation.commit(`${label} #${id}`)
-      }
+      receiveAddress: this.state.dataPath.sfox.nextAddress,
+      commit: (trade) => {}
     }
   }
 
