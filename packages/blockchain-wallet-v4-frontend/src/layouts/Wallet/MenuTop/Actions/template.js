@@ -22,7 +22,7 @@ const Actions = props => {
       <IconButton name='send' onClick={handleSend}>
         <FormattedMessage id='layouts.wallet.menutop.send' defaultMessage='Send' />
       </IconButton>
-      <IconButton spacing='ml-15' name='request' onClick={handleRequest}>
+      <IconButton className='ml-15' name='request' onClick={handleRequest}>
         <FormattedMessage id='layouts.wallet.menutop.request' defaultMessage='Request' />
       </IconButton>
     </Wrapper>

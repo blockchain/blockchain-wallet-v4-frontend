@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { darken } from 'polished'
 
-import { Spacing } from '../Spacing'
-
-const BaseButton = Spacing.extend.attrs({
+const BaseButton = styled.button.attrs({
   type: props => props.type ? props.type : 'button'
 })`
   display: flex;
@@ -44,7 +42,7 @@ const BaseButton = Spacing.extend.attrs({
   }
 
   &:focus { outline:0; }
- `.withComponent('button')
+ `
 
 const selectColor = (nature, disabled) => {
   if (disabled) { return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' } }
