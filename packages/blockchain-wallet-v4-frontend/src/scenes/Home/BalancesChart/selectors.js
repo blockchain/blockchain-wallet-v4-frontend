@@ -15,6 +15,9 @@ export const getData = (state) => {
   const bchRates = selectors.core.data.bch.getRates(state)
   const settings = selectors.core.settings.getSettings(state)
 
+  const btcAccountsLength = selectors.core.common.bitcoin.getActiveHDAccounts(state).getOrElse([]).length
+  const bchAccountsLength = selectors.core.kvStore.bch.getAccounts(state).getOrElse([]).length
+
   const transform = (bitcoinRates, ethereumRates, bchRates, settings) => {
     const bitcoinFiatBalance = Exchange.convertBitcoinToFiat({ value: bitcoinBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bitcoinRates })
     const etherFiatBalance = Exchange.convertEtherToFiat({ value: etherBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethereumRates })
@@ -44,7 +47,7 @@ export const getData = (state) => {
       })
     }
 
-    return ({ bitcoinBalance, etherBalance, bchBalance, chartData, symbol: bitcoinFiatBalance.unit.symbol })
+    return ({ bitcoinBalance, etherBalance, bchBalance, chartData, symbol: bitcoinFiatBalance.unit.symbol, btcAccountsLength, bchAccountsLength })
   }
 
   return lift(transform)(bitcoinRates, ethereumRates, bchRates, settings)
