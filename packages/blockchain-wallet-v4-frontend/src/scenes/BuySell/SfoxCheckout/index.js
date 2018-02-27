@@ -9,7 +9,7 @@ class Checkout extends React.Component {
   componentWillMount () {
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.fetchAccounts()
-    this.props.sfoxDataActions.fetchQuote({ amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' })
+    this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
   }
 
   render () {
@@ -18,7 +18,7 @@ class Checkout extends React.Component {
     const { showModal } = modalActions
 
     return data.cata({
-      Success: (value) => <Success base={base} value={value} errors={errors} quote={quote} handleTrade={handleTrade} showModal={showModal} fetchQuote={fetchQuote} />,
+      Success: (value) => <Success base={base} value={value} errors={errors} quote={quote} handleTrade={handleTrade} showModal={showModal} fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })} />,
       Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div />
