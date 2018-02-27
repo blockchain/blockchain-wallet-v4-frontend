@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import { getPairFromCoin } from './services'
 import Success from './template.success'
-import { isNil } from 'ramda'
+import { equals, isNil } from 'ramda'
 
 class CoinConvertorContainer extends React.Component {
   constructor (props) {
@@ -22,6 +23,14 @@ class CoinConvertorContainer extends React.Component {
   update (data) {
     this.setState(data)
     this.props.input.onChange(data.coinSourceValue)
+  }
+  componentWillReceiveProps (nextProps) {
+    const { source, target } = nextProps.data.getOrElse({ success: { depositAmount: 0, withdrawalAmount: 0 } })
+    console.log('componentWillReceiveProps', source, target)
+    if (!equals(this.state.source, source) || !equals(this.state.target, target)) {
+      console.log('equalssss', source, target)
+      this.update({ source, target })
+    }
   }
 
   handleChangeSource (value) {
@@ -66,7 +75,7 @@ CoinConvertorContainer.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.input.value),
+  data: getData(state),
   pair: getPairFromCoin(ownProps.sourceCoin, ownProps.targetCoin)
 })
 

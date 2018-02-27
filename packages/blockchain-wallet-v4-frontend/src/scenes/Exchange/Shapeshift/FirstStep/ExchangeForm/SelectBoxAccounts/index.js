@@ -8,7 +8,7 @@ class SelectBoxAccountsContainer extends React.Component {
   constructor (props) {
     super(props)
     const { source, target } = this.props.input.value
-    console.log(source, target)
+
     this.state = { source, target }
     this.handleSwap = this.handleSwap.bind(this)
     this.handleChangeSource = this.handleChangeSource.bind(this)

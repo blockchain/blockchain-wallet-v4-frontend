@@ -18,6 +18,8 @@ const Display = styled.button.attrs({ type: 'button' })`
   cursor: pointer;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
   border-radius: 0;
+  background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
 
   &:focus { outline: none; }
 `
@@ -30,8 +32,7 @@ const DefaultDisplay = styled.div`
   font-weight: 300;
   text-align: left;
   color: ${props => props.theme['gray-5']};
-  background-color: ${props => props.theme['white']};
-  cursor: pointer;
+
 `
 const Search = styled.input.attrs({ type: 'text' })`
   width: 100%;
@@ -109,13 +110,13 @@ const Arrow = styled(Icon)`
 `
 
 const SelectInput = (props) => {
-  const { items, selected, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, templateDisplay, templateHeader, templateItem } = props
+  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, templateDisplay, templateHeader, templateItem } = props
   const display = selected || { text: defaultDisplay, value: undefined }
-
+  console.log('disabled', disabled)
   return (
     <SelectBoxInput>
       {!expanded || !searchEnabled
-        ? <Display onBlur={handleBlur} onFocus={handleFocus}>
+        ? <Display onBlur={handleBlur} onFocus={handleFocus} disabled={disabled}>
             {templateDisplay ? templateDisplay(display) : <DefaultDisplay>{display.text}</DefaultDisplay>}
           </Display>
         : <Search autoFocus={expanded} onChange={handleChange} />
@@ -143,6 +144,7 @@ SelectInput.propTypes = {
   expanded: PropTypes.bool,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
+  disabled: PropTypes.bool,
   handleBlur: PropTypes.func,
   handleChange: PropTypes.func,
   handleClick: PropTypes.func,
