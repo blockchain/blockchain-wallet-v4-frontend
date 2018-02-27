@@ -1,33 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { getData } from './selectors'
-import { changeSource, changeTarget, updateUnspent } from './services'
-import Success from './template.success'
+import SelectBoxAccounts from './template'
+import { changeSource, changeTarget } from './services'
 
 class SelectBoxAccountsContainer extends React.Component {
   constructor (props) {
     super(props)
     const { source, target } = this.props.input.value
+    console.log(source, target)
     this.state = { source, target }
     this.handleSwap = this.handleSwap.bind(this)
     this.handleChangeSource = this.handleChangeSource.bind(this)
     this.handleChangeTarget = this.handleChangeTarget.bind(this)
-  }
-
-  componentWillMount () {
-    // Init unspent
-    // initUnspent(this.props)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    // Update unspent if new source is BTC
-    updateUnspent(this.props, nextProps)
-    // Update effectiveBalance if coins have changed
-    // updateEffectiveBalance(this.props, nextProps)
   }
 
   handleSwap () {
@@ -37,27 +22,23 @@ class SelectBoxAccountsContainer extends React.Component {
   }
 
   handleChangeSource (value) {
-    const { btcBalances, ethBalances } = this.props
-    const { source, target } = this.state
-    const newState = changeSource(source, value, target, btcBalances, ethBalances)
+    const newState = changeSource(this.state.source, value, this.state.target, this.props.defaultAccounts)
     this.setState(newState)
     this.props.input.onChange(newState)
   }
 
   handleChangeTarget (value) {
-    const { btcBalances, ethBalances } = this.props
-    const { source, target } = this.state
-    const newState = changeTarget(target, value, source, btcBalances, ethBalances)
+    const newState = changeTarget(this.state.target, value, this.state.source, this.props.defaultAccounts)
     this.setState(newState)
     this.props.input.onChange(newState)
   }
 
   render () {
     return this.props.data.cata({
-      Success: (value) => this.renderComponent(false),
+      Success: (value) => this.renderComponent(false || this.props.loading),
       Failure: (message) => <Error />,
       Loading: () => this.renderComponent(true),
-      NotAsked: () => this.renderComponent(false)
+      NotAsked: () => this.renderComponent(false || this.props.loading)
     })
   }
 
@@ -65,7 +46,7 @@ class SelectBoxAccountsContainer extends React.Component {
     const { data, ...rest } = this.props
     const { source, target } = this.state
 
-    return <Success
+    return <SelectBoxAccounts
       {...rest}
       source={source}
       target={target}
@@ -77,7 +58,7 @@ class SelectBoxAccountsContainer extends React.Component {
   }
 }
 
-SelectBoxAccountsContainer.defaultProps = {
+SelectBoxAccountsContainer.propTypes = {
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
     value: PropTypes.shape({
@@ -86,16 +67,10 @@ SelectBoxAccountsContainer.defaultProps = {
     })
   }),
   elements: PropTypes.array.isRequired,
-  defaultSourceCoin: PropTypes.string.isRequired,
-  defaultTargetCoin: PropTypes.string.isRequired
+  defaultAccounts: PropTypes.shape({
+    BTC: PropTypes.object.isRequired,
+    ETH: PropTypes.object.isRequired
+  }).isRequired
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectBoxAccountsContainer)
+export default SelectBoxAccountsContainer

@@ -1,12 +1,12 @@
-// import { equals, head, isNil, path, prop } from 'ramda'
+import { equals, head, isNil, path, prop } from 'ramda'
 
 // export const initializeForm = (prevProps, nextProps) => {
-//   const prevData = prevProps.data.getOrElse({})
-//   const prevInitialValues = prop('initialValues', prevData)
-//   const prevSource = prop('source', prevData)
+//   // const prevInitialValues = prop('initialValues', prevProps)
+//   const nextInitialValues = prop('initialValues', nextProps)
+//   const prevSource = prop('source', prevProps)
 
-//   if (!isNil(prevInitialValues) && isNil(prevSource)) {
-//     nextProps.formActions.initialize('exchange', prevInitialValues)
+//   if (isNil(prevInitialValues) && isNil(prevSource)) {
+
 //   }
 // }
 
