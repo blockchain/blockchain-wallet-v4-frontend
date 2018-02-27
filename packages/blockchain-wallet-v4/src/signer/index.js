@@ -15,6 +15,7 @@ import * as btc from '../utils/bitcoin'
 
 export const isFromAccount = selection => selection.inputs[0] ? selection.inputs[0].isFromAccount : false
 export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[0].isFromLegacy : false
+export const hasPrivateKey = selection => selection.inputs[0] ? btc.isValidBitcoinPrivateKey(selection.inputs[0].priv) : false
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
@@ -32,7 +33,8 @@ export const sign = curry((network, secondPassword, wrapper, selection) => {
   const wallet = Wrapper.selectWallet(wrapper)
   const pathToKey = keypath => Wallet.getHDPrivateKey(keypath, secondPassword, network, wallet)
   const getPriv = address => Wallet.getLegacyPrivateKey(address, secondPassword, network, wallet)
-  const getKeys = isFromAccount(selection) ? pathToKey : getPriv
+  const mapPriv = priv => Task.of(priv).map(pk => btc.privateKeyStringToKey(pk, btc.detectPrivateKeyFormat(pk)))
+  const getKeys = hasPrivateKey(selection) ? mapPriv : isFromAccount(selection) ? pathToKey : getPriv
   const selectionWithKeys = traverseOf(compose(lensProp('inputs'), traversed, Coin.priv), Task.of, getKeys, selection)
   return map(signSelection(network), selectionWithKeys)
 })
