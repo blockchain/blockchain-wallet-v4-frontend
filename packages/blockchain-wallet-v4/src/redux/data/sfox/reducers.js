@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   quote: Remote.NotAsked,
   trades: Remote.NotAsked,
   profile: Remote.NotAsked,
-  accounts: Remote.NotAsked
+  accounts: Remote.NotAsked,
+  nextAddress: null
 }
 
 const sfoxReducer = (state = INITIAL_STATE, action) => {
@@ -54,6 +55,9 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_PROFILE_FAILURE: {
       return assoc('profile', Remote.Failure(payload), state)
+    }
+    case AT.SET_NEXT_ADDRESS: {
+      return assoc('nextAddress', payload, state)
     }
     default:
       return state
