@@ -3,6 +3,8 @@ import { dataPath } from '../../paths'
 
 export const getQuote = path([dataPath, 'sfox', 'quote'])
 
+export const getTrades = path([dataPath, 'sfox', 'trades'])
+
 export const getProfile = path([dataPath, 'sfox', 'profile'])
 
 export const getAccounts = path([dataPath, 'sfox', 'accounts'])
