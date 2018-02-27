@@ -34,7 +34,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   const pushBchTx = (txHex) => post({
-    url: rootUrl,
+    url: apiUrl,
     endPoint: 'bch/pushtx',
     data: { tx: txHex, format: 'plain' }
   })
