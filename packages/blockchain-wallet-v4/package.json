@@ -9,7 +9,7 @@
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --watch test/**/*.spec.js",
     "coverage": "./node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- test/**/*.spec.js",
     "watch": "./node_modules/.bin/npm-watch",
-    "compile": "babel --presets es2015,stage-2 -d lib/ src/",
+    "compile": "babel --presets es2015,stage-2 -d lib/ src/ --copy-files",
     "lint": "./node_modules/.bin/standard",
     "prepublish": "npm run compile"
   },
@@ -87,7 +87,8 @@
     "pbkdf2": "~3.0.12",
     "query-string": "^5.0.1",
     "ramda": "^0.25",
-    "ramda-lens": "https://github.com/ramda/ramda-lens.git",
+    "ramda-lens": "git+https://github.com/ramda/ramda-lens.git",
+    "read-blob": "~1.1.0",
     "redux": "^3.6.0",
     "redux-immutable": "^3.1.0",
     "redux-saga": "^0.16.0",
