@@ -1,11 +1,13 @@
 import { lift } from 'ramda'
+import settings from 'config'
 import { selectors } from 'data'
 
 export const getData = (state) => {
   const profile = selectors.core.data.sfox.getProfile(state)
   const accounts = selectors.core.data.sfox.getAccounts(state)
   const verificationStatus = selectors.core.data.sfox.getVerificationStatus(state).data
-  return lift((profile, accounts) => ({ profile, accounts, verificationStatus }))(profile, accounts)
+  const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
+  return lift((profile, accounts, nextAddress) => ({ profile, accounts, verificationStatus, nextAddress }))(profile, accounts, nextAddress)
 }
 
 export const getQuote = (state) => {
