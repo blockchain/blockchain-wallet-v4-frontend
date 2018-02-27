@@ -4,6 +4,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { compose } from 'redux'
 import Tray from 'components/Tray'
 import Verify from './Verify'
+import Upload from './Upload'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class SfoxExchangeData extends React.Component {
@@ -22,15 +23,16 @@ class SfoxExchangeData extends React.Component {
   }
 
   getStepComponent (step) {
+    console.log('sfoxExchange render', this.props)
     switch (step) {
       case 'verify': return <Verify />
+      case 'upload': return <Upload />
     }
   }
 
   render () {
     const { step } = this.props
     const { show } = this.state
-
     return (
       <Tray in={show} class='tray'>
         <ModalHeader onClose={this.handleClose.bind(this)}>
