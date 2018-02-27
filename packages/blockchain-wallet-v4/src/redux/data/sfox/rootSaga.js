@@ -67,35 +67,25 @@ export default ({ api } = {}) => {
 
   const setProfile = function * (data) {
     const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = data.payload
-    const { profile } = sfox
-    
     try {
-      profile.firstName = firstName
-      profile.middleName = middleName || ''
-      profile.lastName = lastName
-      profile.dateOfBirth = new Date(dob)
-      profile.setSSN(ssn)
-      profile.setAddress(
+      sfox.profile.firstName = firstName
+      sfox.profile.middleName = middleName || ''
+      sfox.profile.lastName = lastName
+      sfox.profile.dateOfBirth = new Date(dob)
+      sfox.profile.setSSN(ssn)
+      sfox.profile.setAddress(
         address1,
         address2,
         city,
         state,
         zipcode
       )
-      console.log('setProfile saga', data, sfox, sfox.profile)
-      // call verify() here
-      const verify = yield apply(sfox, profile.verify)
+      const verify = yield apply(sfox.profile, sfox.profile.verify)
       console.log('after verify', verify)
-
-      // yield put(A.handleTradeLoading())
-      // const quote = data.payload
-      // const accounts = yield select(S.getAccounts)
-      // const methods = yield apply(quote, quote.getPaymentMediums)
-      // const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
-      // yield put(A.handleTradeSuccess(trade))
+      yield put(A.setProfileSuccess())
     } catch (e) {
       console.warn('setProfile saga', e)
-      yield put(A.handleTradeFailure(e))
+      yield put(A.setProfileFailure(e))
     }
   }
 
