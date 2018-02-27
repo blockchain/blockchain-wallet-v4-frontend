@@ -26,13 +26,16 @@ export const getData = (state) => {
     const categories = ['Bitcoin', 'Ether', 'Bitcoin Cash']
     const data = [{
       y: Number(bitcoinFiatBalance.value),
-      color: Color('brand-primary')
+      color: Color('brand-primary'),
+      id: 'btc'
     }, {
       y: Number(etherFiatBalance.value),
-      color: Color('brand-secondary')
+      color: Color('brand-secondary'),
+      id: 'eth'
     }, {
       y: Number(bchFiatBalance.value),
-      color: Color('brand-tertiary')
+      color: Color('brand-tertiary'),
+      id: 'bch'
     }]
     const chartData = []
     const dataLen = data.length
@@ -43,7 +46,8 @@ export const getData = (state) => {
       chartData.push({
         name: categories[i],
         y: data[i].y,
-        color: data[i].color
+        color: data[i].color,
+        id: data[i].id
       })
     }
 
