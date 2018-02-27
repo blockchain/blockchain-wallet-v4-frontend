@@ -6,36 +6,44 @@ import ui from 'redux-ui'
 import Verify from './template'
 import { actions } from 'data'
 
-class VerifyContainer extends Component {
+class UploadContainer extends Component {
   constructor (props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.onDrop = this.onDrop.bind(this)
+    this.onClickUpload = this.onClickUpload.bind(this)
+
+    this.state = { file: null }
   }
 
   handleSubmit (e) {
     e.preventDefault()
-    this.props.sfoxDataActions.setProfile(this.props.user)
+    // this.props.sfoxDataActions.setProfile(this.props.user)
+  }
+
+  onDrop (file) {
+    this.setState({ file: file[0] })
+    console.log('ondrop ', file, this.state)
+  }
+
+  onClickUpload (e) {
+    e.preventDefault()
+    console.log('onclick')
   }
 
   render () {
     return <Verify
       handleSubmit={this.handleSubmit}
+      onDrop={this.onDrop}
+      onClickUpload={this.onClickUpload}
+      file={this.state.file}
     />
   }
 }
 
 const mapStateToProps = (state) => ({
-  user: {
-    firstName: formValueSelector('sfoxVerify')(state, 'firstName'),
-    middleName: formValueSelector('sfoxVerify')(state, 'middleName'),
-    lastName: formValueSelector('sfoxVerify')(state, 'lastName'),
-    ssn: formValueSelector('sfoxVerify')(state, 'ssn'),
-    dob: formValueSelector('sfoxVerify')(state, 'dob'),
-    address1: formValueSelector('sfoxVerify')(state, 'address1'),
-    address2: formValueSelector('sfoxVerify')(state, 'address2'),
-    city: formValueSelector('sfoxVerify')(state, 'city'),
-    state: formValueSelector('sfoxVerify')(state, 'state'),
-    zipcode: formValueSelector('sfoxVerify')(state, 'zipcode')
+  initial: {
+    hello: 'world'
   }
 })
 
@@ -49,4 +57,4 @@ const enhance = compose(
   ui({ state: {} })
 )
 
-export default enhance(VerifyContainer)
+export default enhance(UploadContainer)
