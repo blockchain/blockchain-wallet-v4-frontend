@@ -1,5 +1,5 @@
-import delegate from '../../../../../../../blockchain-wallet-v4-frontend/src/services/ExchangeDelegate'
-import { apply, put, select, takeLatest } from 'redux-saga/effects'
+import ExchangeDelegate from '../../../exchange/delegate'
+import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import SFOX from 'bitcoin-sfox-client'
@@ -9,12 +9,18 @@ import * as A from './actions'
 let sfox
 
 export default ({ api } = {}) => {
+  const refreshSFOX = function * () {
+    const state = yield select()
+    const delegate = new ExchangeDelegate(state)
+    const value = yield select(buySellSelectors.getMetadata)
+    sfox = new SFOX(value.data.value.sfox, delegate)
+    sfox.api.production = true
+    sfox.api.apiKey = 'f31614a7-5074-49f2-8c2a-bfb8e55de2bd'
+  }
+
   const init = function * () {
     try {
-      const value = yield select(buySellSelectors.getMetadata)
-      sfox = new SFOX(value.data.value.sfox, delegate)
-      sfox.api.production = true
-      sfox.api.apiKey = 'f31614a7-5074-49f2-8c2a-bfb8e55de2bd'
+      yield call(refreshSFOX)
     } catch (e) {
       throw new Error(e)
     }
@@ -33,7 +39,10 @@ export default ({ api } = {}) => {
   const fetchQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
-      const { amt, baseCurr, quoteCurr } = data.payload
+      const nextAddress = data.payload.nextAddress
+      yield put(A.setNextAddress(nextAddress))
+      yield call(refreshSFOX)
+      const { amt, baseCurr, quoteCurr } = data.payload.quote
       const quote = yield apply(sfox, sfox.getBuyQuote, [amt, baseCurr, quoteCurr])
       yield put(A.fetchQuoteSuccess(quote))
     } catch (e) {
@@ -55,6 +64,7 @@ export default ({ api } = {}) => {
   const handleTrade = function * (data) {
     try {
       yield put(A.handleTradeLoading())
+      yield call(refreshSFOX)
       const quote = data.payload
       const accounts = yield select(S.getAccounts)
       const methods = yield apply(quote, quote.getPaymentMediums)
