@@ -33,7 +33,7 @@ export const sign = curry((network, secondPassword, wrapper, selection) => {
   const wallet = Wrapper.selectWallet(wrapper)
   const pathToKey = keypath => Wallet.getHDPrivateKey(keypath, secondPassword, network, wallet)
   const getPriv = address => Wallet.getLegacyPrivateKey(address, secondPassword, network, wallet)
-  const mapPriv = priv) => Task.of(priv).map(pk => btc.privateKeyStringToKey(pk, 'compsipa'))
+  const mapPriv = priv => Task.of(priv).map(pk => btc.privateKeyStringToKey(pk, btc.detectPrivateKeyFormat(pk)))
   const getKeys = hasPrivateKey(selection) ? mapPriv : isFromAccount(selection) ? pathToKey : getPriv
   const selectionWithKeys = traverseOf(compose(lensProp('inputs'), traversed, Coin.priv), Task.of, getKeys, selection)
   return map(signSelection(network), selectionWithKeys)
