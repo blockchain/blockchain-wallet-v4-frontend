@@ -3,9 +3,12 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { } from 'components/Form'
-import { Text, Button, IconButton, Icon } from 'blockchain-info-components'
+import { Text, Button, IconButton, Icon, Link } from 'blockchain-info-components'
 import { } from 'services/FormHelper'
 import Dropzone from 'react-dropzone'
+
+import CameraContainer from './camera'
+import TitleStrings from './strings'
 
 const Row = styled.div`
   display: flex;
@@ -17,23 +20,6 @@ const ColLeft = styled.div`
 `
 const ColRight = styled.div`
   width: 60%;
-`
-const ColLeftInner = styled.div`
-  width: 80%;
-`
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`
-const Subtitle = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 15px;
-`
-const Info = styled.div`
-  font-size: 14px;
-  margin-bottom: 10px;
 `
 const InputContainer = styled.div`
   border: 1px solid #ebebeb;
@@ -76,19 +62,32 @@ const UploadSuccess = styled.div`
   justify-content: center;
   height: 100%;
 `
-const IdInfo = Info.extend`margin-bottom: 3px;`
-const AlertInfo = Info.extend`margin-top: 10px;`
+const UploadStatus = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const SubmitContainer = styled.div`
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  button {
+    margin-bottom: 10px;
+  }
+`
+const SuccessText = styled(Text)`margin: 30px 0px; `
 
 const Verify = (props) => {
-  const { onDrop, onClickUpload, file } = props
-  let dropzoneRef
+  console.log('verify template', props)
+  const { onDrop, onClickUpload, file, data, toggleCamera, showCamera, setPhoto, photo } = props
+  const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
     return (
       <CustomDropzone accept='image/jpeg, image/png' onDrop={onDrop} disableClick>
         <InputForm>
           <ButtonContainer>
-            <IconButton nature='primary' name='camera'>
+            <IconButton nature='primary' name='camera' onClick={toggleCamera}>
               <FormattedMessage id='sfoxexchangedata.upload.camera' defaultMessage='Capture Using Camera' />
             </IconButton>
             <OrHorizontalLine>
@@ -108,46 +107,51 @@ const Verify = (props) => {
   return (
     <Row>
       <ColLeft>
-        <ColLeftInner>
-          <Title>
-            <FormattedMessage id='sfoxexchangedata.upload.title' defaultMessage='Upload Documents' />
-          </Title>
-          <Subtitle>
-            <FormattedMessage id='sfoxexchangedata.upload.subtitle' defaultMessage='Photo ID Verification' />
-          </Subtitle>
-          <Info>
-            <FormattedMessage id='sfoxexchangedata.upload.info' defaultMessage='To verify your identity and confirm your country of residence, please upload one of the following government-issued forms of ID:' />
-          </Info>
-          <IdInfo>
-            <FormattedMessage id='sfoxexchangedata.upload.license' defaultMessage='- State-issued driver’s license' />
-          </IdInfo>
-          <IdInfo>
-            <FormattedMessage id='sfoxexchangedata.upload.passport' defaultMessage='- Passport' />
-          </IdInfo>
-          <IdInfo>
-            <FormattedMessage id='sfoxexchangedata.upload.govid' defaultMessage='- State or government-issued identification card' />
-          </IdInfo>
-          <AlertInfo>
-            <Text weight={400}>
-              <Icon name='alert' size='18px' color='error' />
-              <FormattedMessage id='sfoxexchangedata.upload.selfies' defaultMessage='Selfies are not a valid form of ID Verification' />
-            </Text>
-          </AlertInfo>
-        </ColLeftInner>
+        <TitleStrings idType={idType} />
       </ColLeft>
       <ColRight>
-        <Text size='14px'>
-          <FormattedMessage id='sfoxexchangedata.upload.selectmethod' defaultMessage='Select Upload Method' />
-        </Text>
+        <UploadStatus>
+          <Text size='14px'>
+            <FormattedMessage id='sfoxexchangedata.upload.selectmethod' defaultMessage='Select Upload Method' />
+          </Text>
+          <Text size='14px'>
+            <FormattedMessage id='sfoxexchangedata.upload.selectmethod' defaultMessage='Upload Step ' />
+            { 1 }
+            <FormattedMessage id='sfoxexchangedata.upload.of' defaultMessage=' of ' />
+            { data.verificationStatus.required_docs.length }
+          </Text>
+        </UploadStatus>
         <InputContainer>
           {
             file
               ? <UploadSuccess>
-                <img style={{ height: '250px', width: 'auto' }} src={file.preview} />
+                <Text size='20px' color='success'>
+                  <FormattedMessage id='sfoxexchangedata.upload.uploadsuccess' defaultMessage='Successfully Uploaded!' />
+                </Text>
+                <SuccessText size='16px'>
+                  <FormattedMessage id='sfoxexchangedata.upload.sentforreview' defaultMessage='Document will be sent for review.' />
+                </SuccessText>
+                <img style={{ height: '180px' }} src={file.preview} />
               </UploadSuccess>
-              : renderInputOptions()
+              : photo
+                ? <img src={photo} id='photo' alt='Your photo' />
+                : showCamera
+                  ? <CameraContainer setPhoto={setPhoto} />
+                  : renderInputOptions()
           }
         </InputContainer>
+        {
+          file || photo
+            ? <SubmitContainer>
+              <Button fullwidth nature='primary'>
+                <FormattedMessage id='sfoxexchangedata.upload.submitforreview' defaultMessage='Submit For Review' />
+              </Button>
+              <Link size='13px'>
+                <FormattedMessage id='sfoxexchangedata.upload.tryagain' defaultMessage='Try Again' />
+              </Link>
+            </SubmitContainer>
+            : null
+        }
       </ColRight>
     </Row>
   )

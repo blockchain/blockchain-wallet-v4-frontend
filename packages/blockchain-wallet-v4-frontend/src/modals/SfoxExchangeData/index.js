@@ -23,7 +23,6 @@ class SfoxExchangeData extends React.Component {
   }
 
   getStepComponent (step) {
-    console.log('sfoxExchange render', this.props)
     switch (step) {
       case 'verify': return <Verify />
       case 'upload': return <Upload />
