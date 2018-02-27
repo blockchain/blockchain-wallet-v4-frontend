@@ -45,7 +45,7 @@ const ViewAllText = styled(Text)`
 `
 
 const BalancesChart = (props) => {
-  const { balances, handleCoinDisplay } = props
+  const { balances, handleCoinDisplay, history } = props
   const { bitcoinBalance, etherBalance, bchBalance, chartData, symbol, btcAccountsLength, bchAccountsLength } = balances
 
   return (
@@ -53,7 +53,7 @@ const BalancesChart = (props) => {
       <Text uppercase color='brand-primary' weight={300} size='24px'>
         <FormattedMessage id='scenes.home.balanceschart.yourbalances' defaultMessage='Your Balances' />
       </Text>
-      <ReactHighcharts config={configure(chartData, symbol)} isPureConfig />
+      <ReactHighcharts config={configure(chartData, symbol, history)} isPureConfig />
       <ChartInfo>
         <Column>
           <ColourBar color={Color('brand-primary')} />

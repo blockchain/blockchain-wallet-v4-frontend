@@ -1,4 +1,7 @@
-export default (chartData, symbol) => {
+import React from 'react'
+import { Redirect } from 'react-router'
+
+export default (chartData, symbol, history) => {
   const total = chartData.reduce((acc, item) => (acc + Number(item.y)), 0).toFixed(2)
   return (
   {
@@ -15,7 +18,16 @@ export default (chartData, symbol) => {
       pie: {
         allowPointSelect: true,
         animation: { duration: 0 },
-        dataLabels: { enabled: false }
+        dataLabels: { enabled: false },
+        events: {
+          click: (evt) => {
+            if (total > 0) {
+              console.log('Hello')
+              const txsPage = `/${evt.point.id}/transactions`
+              history.push(txsPage)
+            }
+          }
+        }
       },
       line: {
         marker: {
@@ -38,6 +50,7 @@ export default (chartData, symbol) => {
     series: [{
       type: 'pie',
       name: 'Amount',
+      cursor: 'pointer',
       data: total > 0
       ? chartData : [
         {
