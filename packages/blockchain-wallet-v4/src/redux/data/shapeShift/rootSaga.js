@@ -8,8 +8,8 @@ import * as A from './actions'
 export default ({ api } = {}) => {
   const fetchBtcEth = function * () {
     try {
-      const data = yield call(api.getBtcEth)
       yield put(A.fetchBtcEthLoading())
+      const data = yield call(api.getBtcEth)
       yield call(delay, delayAjax)
       yield put(A.fetchBtcEthSuccess(data))
     } catch (e) {
@@ -19,8 +19,8 @@ export default ({ api } = {}) => {
 
   const fetchEthBtc = function * () {
     try {
-      const data = yield call(api.getEthBtc)
       yield put(A.fetchEthBtcLoading())
+      const data = yield call(api.getEthBtc)
       yield call(delay, delayAjax)
       yield put(A.fetchEthBtcSuccess(data))
     } catch (e) {
@@ -31,8 +31,8 @@ export default ({ api } = {}) => {
   const fetchTradeStatus = function * (action) {
     const { address } = action.payload
     try {
-      const data = yield call(api.getTradeStatus, address)
       yield put(A.fetchTradeStatusLoading(address))
+      const data = yield call(api.getTradeStatus, address)
       yield call(delay, delayAjax)
       yield put(A.fetchTradeStatusSuccess(data, address))
     } catch (e) {
@@ -43,8 +43,8 @@ export default ({ api } = {}) => {
   const fetchShapeshiftOrder = function * (action) {
     try {
       const { depositAmount, pair, returnAddress, withdrawal } = action.payload
-      const data = yield call(api.createQuote, depositAmount, pair, returnAddress, withdrawal)
       yield put(A.fetchShapeshiftOrderLoading())
+      const data = yield call(api.createQuote, depositAmount, pair, returnAddress, withdrawal)
       yield call(delay, delayAjax)
       yield put(A.fetchShapeshiftOrderSuccess(data))
     } catch (e) {

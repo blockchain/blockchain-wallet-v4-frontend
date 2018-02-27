@@ -1,13 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-import { equals, path } from 'ramda'
+import { equals, prop } from 'ramda'
 import * as crypto from 'crypto'
 
+import { getData } from './selectors'
 import { actions } from 'data'
 // import { initializeForm } from './services'
-import ExchangeForm from './template'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class ExchangeFormContainer extends React.Component {
   constructor (props) {
@@ -17,12 +19,34 @@ class ExchangeFormContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  // componentWillReceiveProps (nextProps) {
-  //   // Initialize form
-  //   // initializeForm(this.props, nextProps)
-  //   // Update target/source if source/target has changed
-  //   // changeCoin(this.props, nextProps)
-  // }
+  componentWillMount () {
+    this.props.dataBitcoinActions.fetchFee()
+    this.props.dataBitcoinActions.fetchUnspent(this.props.defaultAccounts.BTC)
+    this.props.dataShapshiftActions.fetchBtcEth()
+  }
+
+  componentWillReceiveProps (nextProps) {
+    // Fetch fee if sourceCoin has changed
+    if (!equals(this.props.sourceCoin, nextProps.sourceCoin)) {
+      if (equals('BTC', nextProps.sourceCoin)) {
+        this.props.dataBitcoinActions.fetchFee()
+        const source = nextProps.accounts.source
+        this.props.dataBitcoinActions.fetchUnspent(source.addr || source.index)
+      }
+      if (equals('ETH', nextProps.sourceCoin)) {
+        this.props.dataEthereumActions.fetchFee()
+      }
+    }
+    // Fetch pair if source or target coins have changed
+    if (!equals(this.props.sourceCoin, nextProps.sourceCoin) || !equals(this.props.targetCoin, nextProps.targetCoin)) {
+      if (equals('BTC', nextProps.sourceCoin) && equals('ETH', nextProps.targetCoin)) {
+        this.props.dataShapshiftActions.fetchBtcEth()
+      }
+      if (equals('ETH', nextProps.sourceCoin) && equals('BTC', nextProps.targetCoin)) {
+        this.props.dataShapshiftActions.fetchEthBtc()
+      }
+    }
+  }
 
   // componentWillReceiveProps (nextProps) {
   //   const { accounts, amount, ethFeeRegular, gasLimit, bitcoinFeeValues } = nextProps
@@ -61,8 +85,16 @@ class ExchangeFormContainer extends React.Component {
   }
 
   render () {
-    console.log('ExchangeForm', this.props)
-    // const { accounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
+    // console.log('ExchangeFormContainer render', this.props)
+
+    return this.props.data.cata({
+      Success: (value) => <Success {...value} {...this.props} loading={false} />,
+      Failure: (message) => <Error />,
+      Loading: () => <Success {...this.props} loading />,
+      NotAsked: () => <Success {...this.props} loading={false} />
+    })
+
+    /* // const { accounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
     // const { ethFee } = this.state
     // const effectiveBalance = this.state.sourceCoin === 'ETH'
     //                           ? (etherBalance - this.state.ethFee > 0
@@ -71,23 +103,13 @@ class ExchangeFormContainer extends React.Component {
     //                           : bitcoinEffectiveBalance
     // console.log('data', this.props.data)
     // const { sourceCoin, targetCoin, amount } = this.state
-    return <ExchangeForm {...this.props} handleSubmit={this.handleSubmit} />
+    return <ExchangeForm {...this.props} handleSubmit={this.handleSubmit} /> */
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const accounts = formValueSelector('exchange')(state, 'accounts')
-  const amount = formValueSelector('exchange')(state, 'amount')
-  const sourceCoin = path(['source', 'coin'], accounts)
-  const targetCoin = path(['target', 'coin'], accounts)
-
-  return {
-    accounts,
-    amount,
-    sourceCoin,
-    targetCoin
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps.accounts)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),

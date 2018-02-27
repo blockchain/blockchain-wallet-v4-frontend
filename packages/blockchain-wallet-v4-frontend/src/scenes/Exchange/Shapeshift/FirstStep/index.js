@@ -4,9 +4,7 @@ import { bindActionCreators } from 'redux'
 // import * as crypto from 'crypto'
 
 import { getData } from './selectors'
-import { actions, selectors } from 'data'
-import Error from './template.error'
-import Loading from './template.loading'
+import { actions } from 'data'
 import ExchangeForm from './ExchangeForm'
 
 class FirstStepContainer extends React.Component {
@@ -15,16 +13,6 @@ class FirstStepContainer extends React.Component {
   //   this.timeout = undefined
   //   this.seed = crypto.randomBytes(16).toString('hex')
   // }
-
-  componentWillMount () {
-    this.props.dataBitcoinActions.fetchFee()
-    this.props.dataBitcoinActions.fetchRates()
-    this.props.dataBitcoinActions.fetchUnspent(this.props.defaultBtcAccountIndex)
-    this.props.dataEthereumActions.fetchFee()
-    this.props.dataEthereumActions.fetchRates()
-    this.props.dataShapeshiftActions.fetchBtcEth()
-    this.props.dataShapeshiftActions.fetchEthBtc()
-  }
 
   // componentWillReceiveProps (nextProps) {
   //   const { accounts, amount, ethFeeRegular, gasLimit, bitcoinFeeValues } = nextProps
@@ -55,6 +43,10 @@ class FirstStepContainer extends React.Component {
   //       }
   //     }
   //   }
+  // componentWillMount () {
+  //   this.props.formActions.initialize('exchange', this.props.initialValues)
+  // }
+
   render () {
     // const { accounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
     // const { ethFee } = this.state
@@ -65,21 +57,15 @@ class FirstStepContainer extends React.Component {
     //                           : bitcoinEffectiveBalance
     // console.log('data', this.props.data)
     // const { sourceCoin, targetCoin, amount } = this.state
-    console.log(this.props.data)
-
-    return this.props.data.cata({
-      Success: (value) => <ExchangeForm {...value} {...this.props} />,
-      Failure: (message) => <Error />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
+    // console.log('FirstStepContainer render', this.props)
+    return <ExchangeForm {...this.props} />
   }
 }
 
-const mapStateToProps = (state) => ({
-  data: getData(state),
-  defaultBtcAccountIndex: selectors.core.wallet.getDefaultAccountIndex(state)
-})
+const mapStateToProps = (state) => {
+  const data = getData(state)
+  return {...data}
+}
 
 const mapDispatchToProps = (dispatch) => ({
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),

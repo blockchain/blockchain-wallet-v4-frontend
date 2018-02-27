@@ -54,7 +54,7 @@ const getErrorState = (meta) => {
 
 const CoinConvertor = props => {
   const { sourceCoin, targetCoin, source, target, currency, btcRates, ethRates, meta, ...rest } = props
-  const { handleChangeSource, handleChangeTarget, handleClickMinimum, handleClickMaximum, loading } = rest
+  const { handleChangeSource, handleChangeTarget, loading } = rest
   const errorState = getErrorState(meta)
 
   return (
@@ -88,20 +88,6 @@ const CoinConvertor = props => {
             disabled={loading}
           />
         </Container>
-      </Row>
-      <Row>
-        <Text weight={300} size='12px'>
-          <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
-        </Text>
-        <Link size='12px' weight={300} onClick={handleClickMinimum}>
-          <FormattedMessage id='scenes.exchangebox.firststep.min' defaultMessage='minimum' />
-        </Link>
-        <Text weight={300} size='12px'>
-          <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
-        </Text>
-        <Link size='12px' weight={300} onClick={handleClickMaximum}>
-          <FormattedMessage id='scenes.exchangebox.firststep.max' defaultMessage='maximum' />
-        </Link>
       </Row>
       {/* <Row>
         {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}

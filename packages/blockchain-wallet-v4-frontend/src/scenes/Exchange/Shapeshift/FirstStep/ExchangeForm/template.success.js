@@ -8,6 +8,7 @@ import { Button, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import CoinConvertor from './CoinConvertor'
 import SelectBoxAccounts from './SelectBoxAccounts'
+import MinimumMaximum from './MinimumMaximum'
 
 const Wrapper = styled.div`
   display: flex;
@@ -89,6 +90,9 @@ const ExchangeForm = props => {
         </Row>
         <Row>
           <Field name='amount' component={CoinConvertor} validate={[required]} {...rest} />
+        </Row>
+        <Row>
+          <MinimumMaximum />
         </Row>
         <Row>
           <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>
