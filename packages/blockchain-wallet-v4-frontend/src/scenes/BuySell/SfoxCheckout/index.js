@@ -2,7 +2,7 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getBase, getData, getErrors, getQuote } from './selectors'
+import { getBase, getData, getErrors, getQuote, getTrades } from './selectors'
 import Success from './template.success'
 
 class Checkout extends React.Component {
@@ -13,9 +13,10 @@ class Checkout extends React.Component {
   }
 
   render () {
-    const { data, errors, quote, base, modalActions, sfoxDataActions } = this.props
+    const { data, errors, quote, base, trades, modalActions, sfoxDataActions } = this.props
     const { handleTrade, fetchQuote } = sfoxDataActions
     const { showModal } = modalActions
+    console.log(trades)
 
     return data.cata({
       Success: (value) => <Success base={base} value={value} errors={errors} quote={quote} handleTrade={handleTrade} showModal={showModal} fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })} />,
@@ -30,6 +31,7 @@ const mapStateToProps = state => ({
   base: getBase(state),
   data: getData(state),
   quote: getQuote(state),
+  trades: getTrades(state),
   errors: getErrors(state)
 })
 

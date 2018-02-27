@@ -50,6 +50,16 @@ export default ({ api } = {}) => {
     }
   }
 
+  const fetchTrades = function * () {
+    try {
+      yield put(A.fetchTradesLoading())
+      const trades = yield apply(sfox, sfox.getTrades)
+      yield put(A.fetchTradesSuccess(trades))
+    } catch (e) {
+      yield put(A.fetchTradesFailure(e))
+    }
+  }
+
   const fetchAccounts = function * () {
     try {
       yield put(A.fetchAccountsLoading())
@@ -64,12 +74,12 @@ export default ({ api } = {}) => {
   const handleTrade = function * (data) {
     try {
       yield put(A.handleTradeLoading())
-      yield call(refreshSFOX)
       const quote = data.payload
       const accounts = yield select(S.getAccounts)
       const methods = yield apply(quote, quote.getPaymentMediums)
       const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
       yield put(A.handleTradeSuccess(trade))
+      yield call(fetchTrades)
     } catch (e) {
       yield put(A.handleTradeFailure(e))
     }
@@ -78,7 +88,7 @@ export default ({ api } = {}) => {
   const setProfile = function * (data) {
     const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = data.payload
     const { profile } = sfox
-    
+
     try {
       profile.firstName = firstName
       profile.middleName = middleName || ''
@@ -114,6 +124,7 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)
     yield takeLatest(AT.HANDLE_TRADE, handleTrade)
+    yield takeLatest(AT.FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.SET_PROFILE, setProfile)
   }
