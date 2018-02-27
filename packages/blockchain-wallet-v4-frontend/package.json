@@ -96,6 +96,7 @@
     "base-64": "^0.1.0",
     "bip21": "^2.0.1",
     "bip39": "^2.3.1",
+    "bitcoincashjs": "^0.1.10",
     "bitcoinjs-lib": "^3.1.1",
     "blockchain-info-components": "^0.0.1",
     "blockchain-wallet-v4": "^1.0.1",
