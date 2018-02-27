@@ -20,13 +20,7 @@ export default (chartData, symbol, history) => {
         animation: { duration: 0 },
         dataLabels: { enabled: false },
         events: {
-          click: (evt) => {
-            if (total > 0) {
-              console.log('Hello')
-              const txsPage = `/${evt.point.id}/transactions`
-              history.push(txsPage)
-            }
-          }
+          click: (evt) => total > 0 && history.push(`/${evt.point.id}/transactions`)
         }
       },
       line: {
