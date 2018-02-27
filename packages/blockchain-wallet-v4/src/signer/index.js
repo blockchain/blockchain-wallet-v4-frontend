@@ -15,7 +15,7 @@ import * as btc from '../utils/bitcoin'
 
 export const isFromAccount = selection => selection.inputs[0] ? selection.inputs[0].isFromAccount : false
 export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[0].isFromLegacy : false
-export const hasPrivateKey = selection => selection.inputs[0] ? btc.isValidBitcoinPrivateKey(selection.inputs[0].toJSON().data.priv) : false
+export const hasPrivateKey = selection => selection.inputs[0] ? btc.isValidBitcoinPrivateKey(selection.inputs[0].priv) : false
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
