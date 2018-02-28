@@ -5,7 +5,7 @@ export const getData = state => {
   const quotation = selectors.core.data.shapeShift.getShapeshiftQuotation(state)
 
   return quotation.map(x => ({
-    source: path(['success', 'depositAmount'], x),
-    target: path(['success', 'withdrawalAmount'], x)
+    source: path(['depositAmount'], x),
+    target: path(['withdrawalAmount'], x)
   }))
 }

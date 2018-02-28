@@ -66,7 +66,7 @@ CoinInputContainer.propTypes = {
   btcRates: PropTypes.object.isRequired,
   ethRates: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func
 }
 
 CoinInputContainer.defaultProps = {

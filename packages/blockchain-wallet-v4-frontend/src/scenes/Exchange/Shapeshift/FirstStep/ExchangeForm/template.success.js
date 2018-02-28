@@ -57,26 +57,44 @@ const ContainerMiddle = styled.div`
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
 `
 
-const isAboveShapeshiftMinimum = (value, allValues, props) => {
-  // console.log('isWithinShapeshiftLimits', value, allValues, props)
+const isAboveShapeshitMimimum = (value, allValues, props) => {
+  console.log('isAboveShapeshitMimimum', value, allValues, props)
   const source = Number(prop('source', value))
-  console.log('value', value)
-  if (equals('BTC', prop('sourceCoin', props)) && equals('ETH', prop('targetCoin', props))) {
-    const minimum = path(['btcEth', 'minimum'], props)
-    console.log('below minimum', source, minimum, source < minimum)
-    if (source < minimum) return `Value is below the minimum limit (${minimum})`
+  const sourceCoin = prop('sourceCoin', props)
+  const targetCoin = prop('targetCoin', props)
+  const btcEthMinimum = path(['btcEth', 'minimum'], props)
+  const ethBtcMinimum = path(['ethBtc', 'minimum'], props)
+  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
+    if (source < btcEthMinimum) return `Value is below the minimum limit (${btcEthMinimum})`
   }
-  if (equals('ETH', prop('sourceCoin', props)) && equals('BTC', prop('targetCoin', props))) {
-    const minimum = path(['ethBtc', 'minimum'], props)
-    console.log('below minimum')
-    if (source < minimum) return `Value is below the minimum limit (${minimum})`
+  if (equals('ETH', targetCoin) && equals('BTC', sourceCoin)) {
+    if (source < ethBtcMinimum) return `Value is below the minimum limit (${ethBtcMinimum})`
   }
-  console.log('above minimum')
   return undefined
 }
 
+const isBelowShapeshiftMaximum = (value, allValues, props) => {
+  console.log('isBelowShapeshiftMaximum', value, allValues, props)
+  const source = Number(prop('source', value))
+  const sourceCoin = prop('sourceCoin', props)
+  const targetCoin = prop('targetCoin', props)
+  const btcEthMaximum = path(['btcEth', 'maxLimit'], props)
+  const ethBtcMaximum = path(['ethBtc', 'maxLimit'], props)
+  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
+    if (source > btcEthMaximum) return `Value is above the maximum limit (${btcEthMaximum})`
+  }
+  if (equals('ETH', targetCoin) && equals('BTC', sourceCoin)) {
+    if (source > ethBtcMaximum) return `Value is above the maximum limit (${ethBtcMaximum})`
+  }
+  return undefined
+}
+
+const isWithinEffectiveBalance = (value, allValues, props) => {
+
+}
+
 const shouldFail = (value, allValues, props) => {
-  console.log('shouldFail', value)
+  // console.log('shouldFail', value)
   return 'An error has occured'
   // return undefined
 }
@@ -114,7 +132,7 @@ const ExchangeForm = props => {
           </Text>
         </Row>
         <Row>
-          <Field name='amount' component={CoinConvertor} validate={[shouldFail]} {...rest} />
+          <Field name='amount' component={CoinConvertor} validate={[isAboveShapeshitMimimum, isBelowShapeshiftMaximum]} {...rest} />
         </Row>
         <Row>
           <MinimumMaximum />

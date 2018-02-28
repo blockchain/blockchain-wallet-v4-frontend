@@ -7,7 +7,8 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import { getPairFromCoin } from './services'
 import Success from './template.success'
-import { equals, isNil } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { equals, isNil, path } from 'ramda'
 
 class CoinConvertorContainer extends React.Component {
   constructor (props) {
@@ -20,9 +21,10 @@ class CoinConvertorContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { source, target } = nextProps.data.getOrElse({ success: { depositAmount: 0, withdrawalAmount: 0 } })
-    // console.log('componentWillReceiveProps', source, target)
-    if (!equals(this.state.source, source) || !equals(this.state.target, target)) {
+    if (equals(this.props.data, nextProps.data)) return
+    // Update value if quotation is successful
+    if (Remote.Success.is(nextProps.data)) {
+      const { source, target } = nextProps.data.getOrElse({ source: undefined, target: undefined })
       this.update({ source, target })
     }
   }
@@ -35,19 +37,26 @@ class CoinConvertorContainer extends React.Component {
   handleChangeSource (value) {
     if (!isNil(value)) {
       if (this.timeout) clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => this.props.dataShapeshiftActions.fetchShapeshiftQuotation(value, this.props.pair, true), 1000)
+      this.timeout = setTimeout(() => {
+        this.update({ source: value, target: this.state.target })
+        this.props.dataShapeshiftActions.fetchShapeshiftQuotation(value, this.props.pair, true)
+      }, 1000)
     }
   }
 
   handleChangeTarget (value) {
     if (!isNil(value)) {
       if (this.timeout) clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => this.props.dataShapeshiftActions.fetchShapeshiftQuotation(value, this.props.pair, false), 1000)
+      this.timeout = setTimeout(() => {
+        this.update({ source: this.state.source, target: value })
+        this.props.dataShapeshiftActions.fetchShapeshiftQuotation(value, this.props.pair, false)
+      }, 1000)
     }
   }
 
   render () {
     // console.log('CoinConvertor Container', this.props)
+    console.log('renderrrrrr', this.props)
     const { source, target } = this.state
 
     return this.props.data.cata({
