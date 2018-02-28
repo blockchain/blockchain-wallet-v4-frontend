@@ -29,7 +29,8 @@ const rootReducer = combineReducers({
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,
   [paths.walletOptionsPath]: coreReducers.walletOptions,
-  [paths.kvStorePath]: coreReducers.kvStore
+  [paths.kvStorePath]: coreReducers.kvStore,
+  [paths.refresh]: coreReducers.refresh
 })
 
 export default rootReducer
