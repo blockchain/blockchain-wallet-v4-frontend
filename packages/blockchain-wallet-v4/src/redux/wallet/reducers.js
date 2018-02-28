@@ -24,6 +24,10 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const { address, label } = action.payload
       return over(Wrapper.wallet, Wallet.setLegacyAddressLabel(address, label), state)
     }
+    case T.SET_ADDRESS_ARCHIVED: {
+      const { address, archived } = action.payload
+      return over(Wrapper.wallet, Wallet.setAddressArchived(address, archived), state)
+    }
     case T.SET_AUTOLOGOUT: {
       const { time } = action.payload
       return over(compose(Wrapper.wallet, Wallet.options), Options.setLogoutTime(time), state)

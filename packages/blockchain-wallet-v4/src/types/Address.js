@@ -59,6 +59,10 @@ export const archive = set(tag, 2)
 // unArchive :: Address -> Address
 export const unArchive = set(tag, 0)
 
+export const setArchived = curry((archived, address) =>
+  set(tag, archived ? 2 : 0, address)
+)
+
 // encryptSync :: Number -> String -> String -> Address -> Either Error Address
 export const encryptSync = curry((iterations, sharedKey, password, address) => {
   const cipher = crypto.encryptSecPassSync(sharedKey, iterations, password)

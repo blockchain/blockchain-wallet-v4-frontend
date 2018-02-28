@@ -12,6 +12,8 @@ export const setPayloadChecksum = (checksum) =>
   ({ type: T.SET_PAYLOAD_CHECKSUM, payload: checksum })
 export const setLegacyAddressLabel = (address, label) =>
   ({ type: T.SET_LEGACY_ADDRESS_LABEL, payload: {address, label} })
+export const setAddressArchived = (address, archived) =>
+  ({ type: T.SET_ADDRESS_ARCHIVED, payload: { address, archived } })
 export const setHdAddressLabel = (accountIdx, addressIdx, label) =>
   ({ type: T.SET_HD_ADDRESS_LABEL, payload: { accountIdx, addressIdx, label } })
 export const createLegacyAddress = (address) =>
