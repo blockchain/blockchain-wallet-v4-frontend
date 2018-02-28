@@ -1,21 +1,36 @@
 import React from 'react'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 class ImportedAddressesContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleClickImport = this.handleClickImport.bind(this)
+    this.handleToggleArchived = this.handleToggleArchived.bind(this)
+  }
+
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
+  handleClickImport () {
+    this.props.modalsActions.showModal('ImportBtcAddress')
+  }
+
+  handleToggleArchived (address) {
+    let isArchived = address.tag === 2
+    this.props.coreActions.setAddressArchived(address.addr, !isArchived)
+  }
+
   render () {
-    const { data, ...rest } = this.props
     return (
-      data.cata({
-        Success: (value) => <Success importedAddresses={value} handleClick={() => this.props.actions.showModal('ImportBtcAddress')} {...rest} />,
+      this.props.activeAddresses.cata({
+        Success: (value) => (
+          <Success importedAddresses={value} onClickImport={this.handleClickImport} onToggleArchived={this.handleToggleArchived} />
+        ),
         Failure: (message) => <div>{message}</div>,
         Loading: () => <div />,
         NotAsked: () => <div />
@@ -24,12 +39,13 @@ class ImportedAddressesContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modals, dispatch)
+const mapStateToProps = (state) => ({
+  activeAddresses: selectors.core.common.bitcoin.getActiveAddresses(state)
 })
 
-const mapStateToProps = (state) => ({
-  data: getData(state)
+const mapDispatchToProps = (dispatch) => ({
+  coreActions: bindActionCreators(actions.core.wallet, dispatch),
+  modalsActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportedAddressesContainer)

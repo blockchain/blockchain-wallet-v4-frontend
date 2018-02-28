@@ -186,6 +186,12 @@ export const setLegacyAddressLabel = curry((address, label, wallet) => {
   return eitherW.getOrElse(wallet)
 })
 
+// setLegacyAddressLabel :: String -> Bool -> Wallet -> Wallet
+export const setAddressArchived = curry((address, archived, wallet) => {
+  const addressLens = compose(addresses, AddressMap.address(address))
+  return over(addressLens, Address.setArchived(archived), wallet)
+})
+
 // deleteLegacyAddress :: String -> Wallet -> Wallet
 export const deleteLegacyAddress = curry((address, wallet) => {
   return over(addresses, AddressMap.deleteAddress(address), wallet)
