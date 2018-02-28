@@ -77,6 +77,7 @@ export default ({ api } = {}) => {
 
   const setProfile = function * (data) {
     const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = data.payload
+    yield call(fetchProfile)
     try {
       sfox.profile.firstName = firstName
       sfox.profile.middleName = middleName || ''
@@ -99,6 +100,18 @@ export default ({ api } = {}) => {
     }
   }
 
+  const uploadDoc = function * (data) {
+    const { idType, file } = data.payload
+    const profile = yield select(S.getProfile)
+    // get signed url from profile then put request to signed url with file object
+    // profile.getSignedURL(idType, filename)
+    console.log('uploadDoc core saga', data, api, sfox, profile)
+    const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
+    console.log('sfoxUrl', sfoxUrl)
+    const upload = yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
+    console.log('upload ', upload)
+  }
+
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
@@ -106,5 +119,6 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.HANDLE_TRADE, handleTrade)
     yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.SET_PROFILE, setProfile)
+    yield takeLatest(AT.UPLOAD, uploadDoc)
   }
 }

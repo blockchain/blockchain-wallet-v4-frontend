@@ -19,19 +19,13 @@ const Camera = (props) => (
   </div>
 )
 
-const Photo = (props) => (
-  <div>
-    <img id='photo' alt='Your photo' />
-    {/* <a id='saveButton' onClick={props.handleSaveClick}>Save Photo</a> */}
-  </div>
-)
-
 class CameraContainer extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      constraints: { audio: false, video: { width: 400, height: 300 } }
+      constraints: { audio: false, video: { width: 400, height: 300 } },
+      stream: false
     }
 
     this.handleStartClick = this.handleStartClick.bind(this)
@@ -49,17 +43,23 @@ class CameraContainer extends Component {
 
     getUserMedia(constraints)
       .then((stream) => {
+        this.setState({ stream })
         const video = document.querySelector('video')
         const vendorURL = window.URL || window.webkitURL
 
-        video.src = vendorURL.createObjectURL(stream)
+        video.src = vendorURL.createObjectURL(this.state.stream)
         video.play()
       })
       .catch((err) => {
         console.log(err)
       })
+  }
 
-    this.clearPhoto()
+  componentWillUnmount () {
+    if (this.state.stream.stop) this.state.stream.stop()
+    else {
+      this.state.stream.getVideoTracks().map(track => track.stop())
+    }
   }
 
   clearPhoto () {
@@ -74,8 +74,7 @@ class CameraContainer extends Component {
     photo.setAttribute('src', data)
   }
 
-  handleStartClick (e) {
-    e.preventDefault()
+  handleStartClick () {
     this.takePicture()
   }
 
@@ -83,7 +82,6 @@ class CameraContainer extends Component {
     const canvas = document.querySelector('canvas')
     const context = canvas.getContext('2d')
     const video = document.querySelector('video')
-    const photo = document.getElementById('photo')
     const { width, height } = this.state.constraints.video
 
     canvas.width = width
@@ -93,7 +91,6 @@ class CameraContainer extends Component {
     const data = canvas.toDataURL('image/png')
     console.log('takePicture', this.props)
     this.props.setPhoto(data)
-    // photo.setAttribute('src', data)
   }
 
   render () {
@@ -102,8 +99,7 @@ class CameraContainer extends Component {
         <Camera
           handleStartClick={this.handleStartClick}
         />
-        <canvas id="canvas" hidden />
-        <Photo />
+        <canvas id='canvas' hidden />
       </div>
     )
   }

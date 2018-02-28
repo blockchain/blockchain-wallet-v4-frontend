@@ -79,7 +79,7 @@ const SuccessText = styled(Text)`margin: 30px 0px; `
 
 const Verify = (props) => {
   console.log('verify template', props)
-  const { onDrop, onClickUpload, file, data, toggleCamera, showCamera, setPhoto, photo } = props
+  const { onDrop, onClickUpload, file, data, toggleCamera, showCamera, setPhoto, photo, resetUpload, submitForUpload, handleStartClick } = props
   const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
@@ -94,7 +94,7 @@ const Verify = (props) => {
               <FormattedMessage id='sfoxexchangedata.upload.or' defaultMessage='OR' />
             </OrHorizontalLine>
             <Dropzone style={{ border: 'none', height: 'initial' }} onDrop={onDrop}>
-              <IconButton nature='' name='up-arrow-in-circle'>
+              <IconButton name='up-arrow-in-circle'>
                 <FormattedMessage id='sfoxexchangedata.upload.uploadfromdevice' defaultMessage='Upload From Device' />
               </IconButton>
             </Dropzone>
@@ -136,25 +136,31 @@ const Verify = (props) => {
               : photo
                 ? <img src={photo} id='photo' alt='Your photo' />
                 : showCamera
-                  ? <CameraContainer setPhoto={setPhoto} />
+                  ? <CameraContainer setPhoto={setPhoto} ref={instance => { this.camera = instance }} />
                   : renderInputOptions()
           }
         </InputContainer>
         {
           file || photo
             ? <SubmitContainer>
-              <Button fullwidth nature='primary'>
+              <Button fullwidth nature='primary' onClick={submitForUpload}>
                 <FormattedMessage id='sfoxexchangedata.upload.submitforreview' defaultMessage='Submit For Review' />
               </Button>
-              <Link size='13px'>
+              <Link size='13px' onClick={resetUpload}>
                 <FormattedMessage id='sfoxexchangedata.upload.tryagain' defaultMessage='Try Again' />
               </Link>
             </SubmitContainer>
-            : null
+            : showCamera
+              ? <SubmitContainer>
+                <IconButton name='camera' fullwidth nature='primary' onClick={() => { this.camera.handleStartClick() }}>
+                  <FormattedMessage id='sfoxexchangedata.upload.capture' defaultMessage='Capture' />
+                </IconButton>
+              </SubmitContainer>
+              : null
         }
       </ColRight>
     </Row>
   )
 }
 
-export default reduxForm({ form: 'sfoxVerify' })(Verify)
+export default reduxForm({ form: 'sfoxUpload' })(Verify)

@@ -24,4 +24,8 @@ export const setProfile = (data) => ({ type: AT.SET_PROFILE, payload: data })
 export const setProfileSuccess = () => ({ type: AT.SET_PROFILE_SUCCESS })
 export const setProfileFailure = (error) => ({ type: AT.SET_PROFILE_FAILURE, payload: error })
 
+export const upload = (data) => ({ type: AT.UPLOAD, payload: data })
+export const uploadSuccess = () => ({ type: AT.UPLOAD_SUCCESS })
+export const uploadFailure = (error) => ({ type: AT.UPLOAD_FAILURE, payload: error })
+
 export const setNextAddress = (data) => ({ type: AT.SET_NEXT_ADDRESS, payload: data })
