@@ -34,11 +34,15 @@ class SfoxExchangeData extends React.Component {
       case 'verify': return <Verify />
       case 'upload': return <Upload />
       case 'link': return <Link />
+      case 'verified': {
+        this.handleClose()
+        break
+      }
     }
   }
 
   render () {
-    const { step } = this.props
+    // const { step } = this.props
     const { show } = this.state
     return (
       <Tray in={show} class='tray'>

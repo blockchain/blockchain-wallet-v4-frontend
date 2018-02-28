@@ -78,6 +78,12 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.GET_BANK_ACCOUNTS_FAILURE: {
       return assoc('bankAccounts', Remote.Failure(payload), state)
     }
+    case AT.SET_BANK_ACCOUNT_SUCCESS: {
+      return state
+    }
+    case AT.SET_BANK_ACCOUNT_FAILURE: {
+      return state
+    }
     case AT.SET_NEXT_ADDRESS: {
       return assoc('nextAddress', payload, state)
     }

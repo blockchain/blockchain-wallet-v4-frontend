@@ -131,16 +131,25 @@ export default ({ api } = {}) => {
   }
 
   const getBankAccounts = function * (data) {
-    console.log('start getBankAccounts saga', data)
     const token = data.payload
     try {
-      console.log('getBankAccounts saga', sfox, token)
       const bankAccounts = yield apply(sfox.bankLink, sfox.bankLink.getAccounts, [token])
-      console.log('after getAccounts', bankAccounts)
       yield put(A.getBankAccountsSuccess(bankAccounts))
     } catch (e) {
       console.warn('getBankAccounts core saga', e)
       yield put(A.getBankAccountsFailure(e))
+    }
+  }
+
+  const setBankAccount = function * (data) {
+    const bank = data.payload
+    try {
+      yield apply(sfox.bankLink, sfox.bankLink.setAccount, [bank])
+      yield call(fetchAccounts)
+      yield put(A.setBankAccountSuccess())
+    } catch (e) {
+      console.warn('setBankAccount core saga', e)
+      yield put(A.setBankAccountFailure(e))
     }
   }
 
@@ -154,5 +163,6 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.SET_PROFILE, setProfile)
     yield takeLatest(AT.UPLOAD, uploadDoc)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
+    yield takeLatest(AT.SET_BANK_ACCOUNT, setBankAccount)
   }
 }
