@@ -14,6 +14,9 @@ class UploadContainer extends Component {
     this.onClickUpload = this.onClickUpload.bind(this)
     this.toggleCamera = this.toggleCamera.bind(this)
     this.setPhoto = this.setPhoto.bind(this)
+    this.submitForUpload = this.submitForUpload.bind(this)
+    this.resetUpload = this.resetUpload.bind(this)
+    this.handleStartClick = this.handleStartClick.bind(this)
 
     this.state = { file: null, camera: false, photo: '' }
   }
@@ -40,6 +43,22 @@ class UploadContainer extends Component {
     this.setState({ camera: true })
   }
 
+  resetUpload () {
+    this.setState({ file: null, camera: false, photo: '' })
+  }
+
+  handleStartClick (e) {
+    e.preventDefault()
+    this.takePicture()
+  }
+
+  submitForUpload () {
+    const file = this.state.file || this.state.photo
+    const idType = this.props.data.data.verificationStatus.required_docs[0]
+    console.log('submitForUpload', file, idType, this.props.sfoxDataActions)
+    this.props.sfoxDataActions.upload({file, idType})
+  }
+
   render () {
     const { data } = this.props
 
@@ -54,6 +73,9 @@ class UploadContainer extends Component {
         showCamera={this.state.camera}
         photo={this.state.photo}
         setPhoto={this.setPhoto}
+        resetUpload={this.resetUpload}
+        submitForUpload={this.submitForUpload}
+        handleStartClick={this.handleStartClick}
       />,
       Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,
