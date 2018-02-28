@@ -5,6 +5,10 @@
   "scripts": {
     "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
+    "lint": "eslint './packages/*/src/**/*.js'",
+    "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
+    "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
+    "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
     "start": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start",
     "start:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:prod",
     "storybook": "lerna exec --scope blockchain-info-components -- npm run storybook:start",
@@ -12,7 +16,11 @@
     "test:components": "lerna exec --scope blockchain-info-components -- npm run test",
     "test:core": "lerna exec --scope blockchain-wallet-v4 -- npm run test",
     "test:coverage": "lerna exec -- npm run test:coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
-    "test:frontend": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run test"
+    "test:frontend": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run test",
+    "vet": "npm run lint && npm run test",
+    "vet:components": "npm run lint:components && npm run test:components",
+    "vet:core": "npm run lint:core && npm run test:core",
+    "vet:frontend": "npm run lint:frontend && npm run test:frontend"
   },
   "dependencies": {},
   "devDependencies": {
