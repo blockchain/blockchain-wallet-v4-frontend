@@ -50,12 +50,12 @@
     "collectCoverageFrom": [
       "src/**/*.js"
     ],
-    "coverageDirectory": "<rootDir>/../../coverage/v4",
+    "coverageReporters": ["json", "html"],
+    "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4",
     "modulePathIgnorePatterns": [
       "<rootDir>/lib"
     ],
     "testPathIgnorePatterns": [
-      "<rootDir>/test",
       "<rootDir>/lib"
     ]
   },

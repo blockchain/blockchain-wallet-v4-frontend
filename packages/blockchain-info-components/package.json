@@ -17,7 +17,14 @@
     "collectCoverageFrom": [
       "src/**/*.js"
     ],
-    "coverageDirectory": "<rootDir>/../../coverage/v4-components",
+    "coverageDirectory": "<rootDir>/../../coverage/blockchain-info-components",
+    "coverageReporters": ["json", "html"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/lib"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/lib"
+    ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|scss)$": "identity-obj-proxy"

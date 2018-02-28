@@ -39,7 +39,8 @@
     "collectCoverageFrom": [
       "src/**/*.js"
     ],
-    "coverageDirectory": "<rootDir>/../../coverage/v4-frontend",
+    "coverageReporters": ["json", "html"],
+    "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|scss)$": "identity-obj-proxy",
