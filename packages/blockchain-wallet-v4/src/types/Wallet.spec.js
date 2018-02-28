@@ -1,16 +1,9 @@
-import chai from 'chai'
-import chaiImmutable from 'chai-immutable'
-import spies from 'chai-spies'
 import * as R from 'ramda'
-import { Address, Wallet, HDWallet, HDAccount, AddressMap, serializer } from '../../src/types'
-import * as crypto from '../../src/walletCrypto'
-chai.use(chaiImmutable)
-chai.use(spies)
-const { expect } = chai
+import { Address, Wallet, AddressMap, serializer } from './index'
+import * as crypto from '../walletCrypto/index'
 
-const walletFixture = require('../_fixtures/Wallet/wallet.v3')
-const walletNewFixture = require('../_fixtures/Wallet/wallet-new.v3')
-const walletFixtureSecpass = require('../_fixtures/Wallet/wallet.v3-secpass')
+const walletFixture = require('./__mocks__/wallet.v3')
+const walletFixtureSecpass = require('./__mocks__/wallet.v3-secpass')
 const secpass = 'secret'
 
 describe('Wallet', () => {
@@ -22,32 +15,32 @@ describe('Wallet', () => {
   describe('toJS', () => {
     it('should return the correct object', () => {
       let result = Wallet.toJS(wallet)
-      expect(result).to.deep.equal(walletFixture)
+      expect(result).toEqual(walletFixture)
     })
   })
 
   describe('selectors', () => {
     it('should throw if it does not receive a Wallet instance', () => {
-      expect(() => Wallet.select(Wallet.guid, {})).to.throw(TypeError)
+      expect(() => Wallet.select(Wallet.guid, {})).toThrow(TypeError)
     })
 
     it('should select guid', () => {
-      expect(wallet.guid).to.equal(walletFixture.guid)
-      expect(Wallet.selectGuid(wallet)).to.equal(walletFixture.guid)
+      expect(wallet.guid).toEqual(walletFixture.guid)
+      expect(Wallet.selectGuid(wallet)).toEqual(walletFixture.guid)
     })
 
     it('should select iterations', () => {
-      expect(Wallet.selectIterations(wallet)).to.equal(walletFixture.options.pbkdf2_iterations)
+      expect(Wallet.selectIterations(wallet)).toEqual(walletFixture.options.pbkdf2_iterations)
     })
 
     it('should select addresses', () => {
       let addressesJS = R.compose(AddressMap.toJS, Wallet.selectAddresses)(wallet)
-      expect(addressesJS).to.deep.equal(walletFixture.keys)
+      expect(addressesJS).toEqual(walletFixture.keys)
     })
 
     it('should select if is double encrypted', () => {
-      expect(Wallet.isDoubleEncrypted(wallet)).to.equal(false)
-      expect(Wallet.isDoubleEncrypted(walletSecpass)).to.equal(true)
+      expect(Wallet.isDoubleEncrypted(wallet)).toEqual(false)
+      expect(Wallet.isDoubleEncrypted(walletSecpass)).toEqual(true)
     })
   })
 
@@ -56,22 +49,22 @@ describe('Wallet', () => {
       let n = walletFixture.keys.length
       let address = Address.fromJS({ addr: 'address', priv: '5abc' })
       let withNewAddress = Wallet.addAddress(wallet, address, null)
-      expect(withNewAddress.isRight).to.equal(true)
+      expect(withNewAddress.isRight).toEqual(true)
       let addresses = Wallet.selectAddresses(withNewAddress.value)
-      expect(addresses.size).to.equal(n + 1)
+      expect(addresses.size).toEqual(n + 1)
       const newAddr = R.compose(AddressMap.selectAddress('address'), Wallet.selectAddresses)(withNewAddress.value)
-      expect(newAddr).to.equal(address)
+      expect(newAddr).toEqual(address)
     })
 
     it('should add a double encrypted address', () => {
       let n = walletFixture.keys.length
       let address = Address.fromJS({ priv: '5abc', addr: '1asdf' })
       let withNewAddress = Wallet.addAddress(walletSecpass, address, 'secret')
-      expect(withNewAddress.isRight).to.equal(true)
+      expect(withNewAddress.isRight).toEqual(true)
       let as = Wallet.selectAddresses(withNewAddress.value)
-      expect(as.size).to.equal(n + 1)
+      expect(as.size).toEqual(n + 1)
       const encPriv = R.compose(Address.selectPriv, AddressMap.selectAddress('1asdf'), Wallet.selectAddresses)(withNewAddress.value)
-      expect(encPriv).to.equal('enc<5abc>')
+      expect(encPriv).toEqual('enc<5abc>')
     })
   })
 
@@ -79,26 +72,26 @@ describe('Wallet', () => {
     it('should set a new address label', () => {
       let addr = '14mQxLtEagsS8gYsdWJbzthFFuPDqDgtxQ'
       let withNewLabel = Wallet.setLegacyAddressLabel(addr, 'new_label', wallet)
-      expect(wallet.addresses.get(addr).label).to.equal('labeled_imported')
-      expect(withNewLabel.addresses.get(addr).label).to.equal('new_label')
+      expect(wallet.addresses.get(addr).label).toEqual('labeled_imported')
+      expect(withNewLabel.addresses.get(addr).label).toEqual('new_label')
     })
   })
 
   describe('isValidSecondPwd', () => {
     it('should be valid for an unencrypted wallet', () => {
       let isValid = Wallet.isValidSecondPwd(null, wallet)
-      expect(isValid).to.equal(true)
+      expect(isValid).toEqual(true)
     })
 
     it('should detect a valid second password', () => {
       let isValid = Wallet.isValidSecondPwd(secpass, walletSecpass)
-      expect(isValid).to.equal(true)
+      expect(isValid).toEqual(true)
     })
 
     it('should detect an invalid second password', () => {
       let secpass = 'wrong_secpass'
       let isValid = Wallet.isValidSecondPwd(secpass, walletSecpass)
-      expect(isValid).to.equal(false)
+      expect(isValid).toEqual(false)
     })
   })
 
@@ -108,7 +101,7 @@ describe('Wallet', () => {
         let [before, after] = [wallet, encrypted].map(Wallet.selectAddresses)
         let enc = crypto.encryptDataWithKey
         let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
-        expect(success).to.equal(true)
+        expect(success).toEqual(true)
         done()
       })
     })
@@ -120,22 +113,22 @@ describe('Wallet', () => {
       let [before, after] = [wallet, encrypted].map(Wallet.selectAddresses)
       let enc = crypto.encryptDataWithKey
       let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
-      expect(success).to.equal(true)
+      expect(success).toEqual(true)
     })
   })
 
   describe('decrypt', () => {
     it('should decrypt', (done) => {
       Wallet.decrypt('secret', walletSecpass).fork(done, (decrypted) => {
-        expect(Wallet.toJS(decrypted)).to.deep.equal(walletFixture)
+        expect(Wallet.toJS(decrypted)).toEqual(walletFixture)
         done()
       })
     })
 
     it('should fail when given an incorrect password', (done) => {
       Wallet.decrypt('wrong', walletSecpass).fork((error) => {
-        expect(R.is(Error, error)).to.equal(true)
-        expect(error.message).to.equal('INVALID_SECOND_PASSWORD')
+        expect(R.is(Error, error)).toEqual(true)
+        expect(error.message).toEqual('INVALID_SECOND_PASSWORD')
         done()
       }, done)
     })
@@ -144,13 +137,13 @@ describe('Wallet', () => {
   describe('decryptSync', () => {
     it('should decrypt', () => {
       let decrypted = Wallet.decryptSync('secret', walletSecpass).value
-      expect(Wallet.toJS(decrypted)).to.deep.equal(walletFixture)
+      expect(Wallet.toJS(decrypted)).toEqual(walletFixture)
     })
 
     it('should fail when given an incorrect password', () => {
       let decrypted = Wallet.decryptSync('wrong', walletSecpass).value
-      expect(R.is(Error, decrypted)).to.equal(true)
-      expect(decrypted.message).to.equal('INVALID_SECOND_PASSWORD')
+      expect(R.is(Error, decrypted)).toEqual(true)
+      expect(decrypted.message).toEqual('INVALID_SECOND_PASSWORD')
     })
   })
 
@@ -158,13 +151,13 @@ describe('Wallet', () => {
     it('compose(reviver, replacer) should be identity', () => {
       const string = JSON.stringify(wallet)
       const newWallet = JSON.parse(string, serializer.reviver)
-      expect(newWallet).to.deep.equal(wallet)
+      expect(newWallet).toEqual(wallet)
     })
     it('compose(replacer, reviver) should be identity', () => {
       const string = JSON.stringify(wallet)
       const newWallet = JSON.parse(string, serializer.reviver)
       const string2 = JSON.stringify(newWallet)
-      expect(string2).to.equal(string)
+      expect(string2).toEqual(string)
     })
   })
 
@@ -174,7 +167,7 @@ describe('Wallet', () => {
   //   it('should create a new wallet', () => {
   //     let { guid, sharedKey } = walletNewFixture.wallet
   //     let wallet = Wallet.createNew(guid, sharedKey, mnemonic)
-  //     expect(Wallet.toJS(wallet)).to.deep.equal(walletNewFixture.wallet)
+  //     expect(Wallet.toJS(wallet)).toEqual(walletNewFixture.wallet)
   //   })
   // })
 })
