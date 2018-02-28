@@ -1,5 +1,6 @@
-// import { set } from 'ramda-lens'
-// import { KVStoreEntry } from '../../../types'
+import { set, mapped } from 'ramda-lens'
+import { compose } from 'ramda'
+import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
@@ -10,6 +11,9 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
+    case AT.UPDATE_METADATA_BUYSELL: {
+      return set(compose(mapped, KVStoreEntry.value), payload, state)
+    }
     case AT.FETCH_METADATA_BUYSELL_LOADING: {
       return Remote.Loading
     }

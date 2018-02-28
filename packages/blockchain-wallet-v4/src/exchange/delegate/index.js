@@ -15,8 +15,7 @@ export class ExchangeDelegate {
   }
 
   save () {
-    // TODO: implement save
-    return Promise.resolve()
+    return Promise.resolve() // CHEAT: save metadata in rootSaga
   }
 
   email () {
