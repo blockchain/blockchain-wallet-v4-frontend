@@ -133,7 +133,7 @@ export function encryptDataWithPasswordSync (data, password, iterations) {
 // key: AES key (256 bit Buffer)
 // iv: optional initialization vector
 // returns: concatenated and Base64 encoded iv + payload
-export const encryptDataWithKey = curry((data, key, iv) => {
+export var encryptDataWithKey = curry((data, key, iv) => {
   let IV = iv || crypto.randomBytes(U.SALT_BYTES)
   let dataBytes = Buffer.from(data, 'utf8')
   let options = { mode: U.AES.CBC, padding: U.Iso10126 }
