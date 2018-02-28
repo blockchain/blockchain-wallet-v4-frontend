@@ -2,16 +2,36 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { TextInput } from 'blockchain-info-components'
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   width: 100%;
+  border: 1px solid  ${props => props.theme[props.borderColor]};
 `
-const CoinContainer = styled.div`
+const TextInput = styled.input.attrs({ type: 'text' })`
+  display: block;
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.42;
+  color: ${props => props.theme['gray-5']};
+  background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
+  background-image: none;
+  outline-width: 0;
+  user-select: text;
+  cursor: ${props => props.disabled ? 'pointer' : 'not-allowed'};
+
+  &::-webkit-input-placeholder {
+    color: ${props => props.theme['gray-2']};
+  }
+`
+const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -19,15 +39,11 @@ const CoinContainer = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 40px;
-`
-const FiatContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-  height: 40px;
+
+  & > input { 
+    border: none;
+    border-bottom: 1px solid ${props => props.theme['gray-1']};
+  }
 `
 const Unit = styled.div`
   position: absolute;
@@ -44,19 +60,29 @@ const Unit = styled.div`
   color: ${props => props.theme['gray-4']};
 `
 
+const selectBorderColor = (state) => {
+  switch (state) {
+    case 'initial': return 'gray-2'
+    case 'invalid': return 'error'
+    case 'valid': return 'success'
+    default: return 'gray-2'
+  }
+}
+
 const CoinInput = props => {
-  const { coinValue, fiatValue, coinUnit, fiatUnit, handleChangeCoin, handleChangeFiat, disabled } = props
+  const { coinValue, fiatValue, coinUnit, fiatUnit, handleChangeCoin, handleChangeFiat, disabled, errorState } = props
+  const borderColor = selectBorderColor(errorState)
 
   return (
-    <Wrapper>
-      <CoinContainer>
+    <Wrapper borderColor={borderColor}>
+      <Container>
         <TextInput onChange={handleChangeCoin} value={coinValue} disabled={disabled} />
         <Unit>{coinUnit}</Unit>
-      </CoinContainer>
-      <FiatContainer>
+      </Container>
+      <Container>
         <TextInput onChange={handleChangeFiat} value={fiatValue} disabled={disabled} />
         <Unit>{fiatUnit}</Unit>
-      </FiatContainer>
+      </Container>
     </Wrapper>
   )
 }
