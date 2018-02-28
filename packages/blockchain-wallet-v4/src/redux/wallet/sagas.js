@@ -33,10 +33,10 @@ export const walletSaga = ({ api } = {}) => {
     }
   }
 
-  const createLegacyAddress = function * ({address, password}) {
+  const createLegacyAddress = function * ({ key, network, password }) {
     const wrapper = yield select(S.getWrapper)
-    const a = Address.fromJS(address)
-    const addAddress = wallet => Wallet.addAddress(wallet, a, password)
+    const address = yield call(Address.fromString, key, null, null, { network, api })
+    const addAddress = (wallet) => Wallet.addAddress(wallet, address, password)
     const task = eitherToTask(Wrapper.traverseWallet(Either.of, addAddress, wrapper))
     yield call(runTask, task, A.setWrapper)
     const walletContext = yield select(S.getWalletContext)

@@ -1,4 +1,4 @@
-import { address, crypto, networks, ECPair } from 'bitcoinjs-lib'
+import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { equals, or } from 'ramda'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
@@ -9,7 +9,7 @@ export const isValidBitcoinAddress = value => {
     const n = networks.bitcoin
     const valid = or(equals(addr.version, n.pubKeyHash), equals(addr.version, n.scriptHash))
     return valid
-  } catch (e) { console.log(e); return false }
+  } catch (e) { return false }
 }
 
 export const detectPrivateKeyFormat = key => {
@@ -83,4 +83,8 @@ export const isValidBitcoinPrivateKey = value => {
   } catch (e) {
     return false
   }
+}
+
+export const isKey = function (bitcoinKey) {
+  return bitcoinKey instanceof ECPair
 }

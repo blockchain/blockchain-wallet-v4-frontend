@@ -3,19 +3,10 @@ import styled from 'styled-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { SelectBoxBitcoinAddresses, FormGroup, FormItem, TextBox } from 'components/Form'
-import { required, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
-import { Banner } from 'blockchain-info-components'
+import { optional, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
+import { Banner, Text } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
-  margin-top: 15px;
-`
-const Info = styled.div`
-  font-size: 12px;
-  margin-bottom: 15px;
-`
-const Message = styled.div`
-  margin-bottom: 15px;
-`
 const Label = styled.label`
   display: block;
   font-size: 12px;
@@ -25,15 +16,15 @@ const Label = styled.label`
 class ImportExternalBitcoinAddress extends React.Component {
   render () {
     return (
-      <Wrapper>
-        <Info>
+      <div style={spacing('mt-15')}>
+        <Text style={spacing('mb-15')} size='small' weight={300}>
           <FormattedMessage id='modals.importbtcaddress.import.info' defaultMessage='Your wallet automatically creates new bitcoin addresses as it needs them. You can optionally import an existing address generated outside of this wallet and transfer the funds to your wallet if you have the corresponding Private Key.' />
-        </Info>
-        <Message>
+        </Text>
+        <div style={spacing('mb-15')}>
           <Banner type='alert'>
             <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.message' defaultMessage='This is an advanced functionality and only suggested for advanced users.' />
           </Banner>
-        </Message>
+        </div>
         <FormGroup>
           <FormItem>
             <Label for='from'>
@@ -47,7 +38,7 @@ class ImportExternalBitcoinAddress extends React.Component {
             <Label for='private-key'>
               <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.prv_key' defaultMessage='Enter Private Key' />
             </Label>
-            <Field name='priv' validate={[validBitcoinPrivateKey]} component={TextBox} />
+            <Field name='priv' validate={[optional(validBitcoinPrivateKey)]} component={TextBox} />
           </FormItem>
           <FormItem width={'40%'}>
             <Label for='wallets'>
@@ -56,7 +47,7 @@ class ImportExternalBitcoinAddress extends React.Component {
             <Field name='to' component={SelectBoxBitcoinAddresses} validate={[]} props={{ includeAll: false }} />
           </FormItem>
         </FormGroup>
-      </Wrapper>
+      </div>
     )
   }
 }

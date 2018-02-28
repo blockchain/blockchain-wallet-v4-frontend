@@ -6,7 +6,7 @@ export const updatePbkdf2Iterations = (iterations) => ({ type: AT.UPDATE_PBKDF2_
 
 export const submitSecondPassword = (password) => ({ type: AT.SUBMIT_SECOND_PASSWORD, payload: { password } })
 
-export const createLegacyAddress = (address) => ({ type: AT.CREATE_LEGACY_ADDRESS, payload: { address } })
+export const createLegacyAddress = (addr, priv, to) => ({ type: AT.CREATE_LEGACY_ADDRESS, payload: { addr, priv, to } })
 
 export const verifyMnemonic = () => ({ type: AT.VERIFY_MNEMONIC })
 
