@@ -27,6 +27,7 @@ const ContainerMiddle = styled.div`
   width: 10%;
   min-width: 50px;
   flex-grow: 1;
+  margin-top: 8px;
 
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
 `
@@ -102,15 +103,11 @@ const renderItem = item => (
   </ItemWrapper>
 )
 
-const getErrorState = (meta) => {
-  console.log('getErrorState', meta)
-  return meta.invalid ? 'invalid' : 'valid'
-}
+const getErrorState = (meta) => meta.invalid ? 'invalid' : 'valid'
 
 const Success = props => {
   const { elements, source, target, handleSwap, handleChangeSource, handleChangeTarget, loading, meta } = props
   const errorState = getErrorState(meta)
-  console.log('errorState', errorState)
 
   return (
     <Wrapper>

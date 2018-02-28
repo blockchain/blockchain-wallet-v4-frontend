@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { equals, path, prop } from 'ramda'
+import { isAboveShapeshiftMinimum, isBelowShapeshiftMaximum } from './services'
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
@@ -57,48 +57,6 @@ const ContainerMiddle = styled.div`
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
 `
 
-const isAboveShapeshitMimimum = (value, allValues, props) => {
-  console.log('isAboveShapeshitMimimum', value, allValues, props)
-  const source = Number(prop('source', value))
-  const sourceCoin = prop('sourceCoin', props)
-  const targetCoin = prop('targetCoin', props)
-  const btcEthMinimum = path(['btcEth', 'minimum'], props)
-  const ethBtcMinimum = path(['ethBtc', 'minimum'], props)
-  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
-    if (source < btcEthMinimum) return `Value is below the minimum limit (${btcEthMinimum})`
-  }
-  if (equals('ETH', targetCoin) && equals('BTC', sourceCoin)) {
-    if (source < ethBtcMinimum) return `Value is below the minimum limit (${ethBtcMinimum})`
-  }
-  return undefined
-}
-
-const isBelowShapeshiftMaximum = (value, allValues, props) => {
-  console.log('isBelowShapeshiftMaximum', value, allValues, props)
-  const source = Number(prop('source', value))
-  const sourceCoin = prop('sourceCoin', props)
-  const targetCoin = prop('targetCoin', props)
-  const btcEthMaximum = path(['btcEth', 'maxLimit'], props)
-  const ethBtcMaximum = path(['ethBtc', 'maxLimit'], props)
-  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
-    if (source > btcEthMaximum) return `Value is above the maximum limit (${btcEthMaximum})`
-  }
-  if (equals('ETH', targetCoin) && equals('BTC', sourceCoin)) {
-    if (source > ethBtcMaximum) return `Value is above the maximum limit (${ethBtcMaximum})`
-  }
-  return undefined
-}
-
-const isWithinEffectiveBalance = (value, allValues, props) => {
-
-}
-
-const shouldFail = (value, allValues, props) => {
-  // console.log('shouldFail', value)
-  return 'An error has occured'
-  // return undefined
-}
-
 const ExchangeForm = props => {
   const { handleSubmit, invalid, submitting, ...rest } = props
 
@@ -124,7 +82,7 @@ const ExchangeForm = props => {
           </Container>
         </Row>
         <Row>
-          <Field name='accounts' component={SelectBoxAccounts} {...rest} validate={[shouldFail]} />
+          <Field name='accounts' component={SelectBoxAccounts} {...rest} />
         </Row>
         <Row>
           <Text size='14px' weight={400}>
@@ -132,10 +90,10 @@ const ExchangeForm = props => {
           </Text>
         </Row>
         <Row>
-          <Field name='amount' component={CoinConvertor} validate={[isAboveShapeshitMimimum, isBelowShapeshiftMaximum]} {...rest} />
+          <Field name='amount' component={CoinConvertor} validate={[required, isAboveShapeshiftMinimum, isBelowShapeshiftMaximum]} {...rest} />
         </Row>
         <Row>
-          <MinimumMaximum />
+          <MinimumMaximum {...rest} />
         </Row>
         <Row>
           <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>

@@ -1,5 +1,5 @@
 
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, fork, put, take, takeLatest } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { delayAjax } from '../../paths'
 import { has, prop } from 'ramda'
@@ -53,6 +53,13 @@ export default ({ api } = {}) => {
     }
   }
 
+  // const watchShapeshiftQuotation = function * (action) {
+  //   while (true) {
+  //     const action = yield take(AT.FETCH_SHAPESHIFT_QUOTATION)
+  //     yield call(fetchShapeshiftQuotation, action)
+  //   }
+  // }
+
   const fetchShapeshiftQuotation = function * (action) {
     try {
       const { amount, pair, isDeposit } = action.payload
@@ -74,5 +81,6 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.FETCH_TRADE_STATUS, fetchTradeStatus)
     yield takeLatest(AT.FETCH_SHAPESHIFT_ORDER, fetchShapeshiftOrder)
     yield takeLatest(AT.FETCH_SHAPESHIFT_QUOTATION, fetchShapeshiftQuotation)
+    // yield fork(watchShapeshiftQuotation)
   }
 }

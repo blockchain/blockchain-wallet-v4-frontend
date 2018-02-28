@@ -1,26 +1,6 @@
-import { concat, lift, head, mergeAll, path } from 'ramda'
+import { concat, head, path } from 'ramda'
 import { selectors } from 'data'
 import { formValueSelector } from 'redux-form'
-
-// export const getBitcoinData = state => {
-//   const btcFeeR = selectors.core.data.bitcoin.getFee(state)
-//   const btcRatesR = selectors.core.data.bitcoin.getRates(state)
-//   const btcEthR = selectors.core.data.shapeShift.getBtcEth(state)
-
-//   const transform = (btcFee, btcRates, btcEth) => ({ btcFee, btcRates, btcEth })
-
-//   return lift(transform)(btcFeeR, btcRatesR, btcEthR)
-// }
-
-// export const getEthereumData = state => {
-//   const ethFeeR = selectors.core.data.ethereum.getFee(state)
-//   const ethRatesR = selectors.core.data.ethereum.getRates(state)
-//   const ethBtcR = selectors.core.data.shapeShift.getEthBtc(state)
-
-//   const transform = (ethFee, ethRates, ethBtc) => ({ ethFee, ethRates, ethBtc })
-
-//   return lift(transform)(ethFeeR, ethRatesR, ethBtcR)
-// }
 
 export const getData = state => {
   const btcHDAccountsInfo = selectors.core.common.bitcoin.getAccountsInfo(state)
@@ -58,5 +38,3 @@ export const getData = state => {
     targetCoin
   })
 }
-
-// export const getData = state => lift((a, b, c) => mergeAll([a, b, c]))(getCommonData(state), getBitcoinData(state), getEthereumData(state))
