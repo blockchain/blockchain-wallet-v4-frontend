@@ -1,5 +1,5 @@
-import { set, mapped } from 'ramda-lens'
-import { compose } from 'ramda'
+import { over, set, mapped } from 'ramda-lens'
+import { assocPath, compose } from 'ramda'
 import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
@@ -13,6 +13,11 @@ export default (state = INITIAL_STATE, action) => {
   switch (type) {
     case AT.UPDATE_METADATA_BUYSELL: {
       return set(compose(mapped, KVStoreEntry.value), payload, state)
+    }
+    case AT.SET_TRADES_BUYSELL: {
+      let valueLens = compose(mapped, KVStoreEntry.value)
+      let setTrades = assocPath(['sfox', 'trades'], payload)
+      return over(valueLens, setTrades, state)
     }
     case AT.FETCH_METADATA_BUYSELL_LOADING: {
       return Remote.Loading

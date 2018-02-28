@@ -1,4 +1,3 @@
-import { assocPath } from 'ramda'
 import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
@@ -83,9 +82,7 @@ export default ({ api } = {}) => {
       yield put(A.handleTradeSuccess(trade))
       yield call(fetchTrades)
       const trades = yield select(S.getTrades)
-      const value = yield select(buySellSelectors.getMetadata)
-      const newValue = assocPath(['sfox', 'trades'], trades.data, value.data.value)
-      yield put(buySellA.updateMetadataBuySell(newValue))
+      yield put(buySellA.setTradesBuySell(trades.data))
     } catch (e) {
       yield put(A.handleTradeFailure(e))
     }
