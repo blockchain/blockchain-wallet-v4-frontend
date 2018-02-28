@@ -5,7 +5,7 @@ import { equals, prop } from 'ramda'
 import * as crypto from 'crypto'
 
 import { getData } from './selectors'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 // import { initializeForm } from './services'
 import Error from './template.error'
 import Loading from './template.loading'

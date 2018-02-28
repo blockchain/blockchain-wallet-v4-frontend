@@ -2,6 +2,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { delayAjax } from '../../paths'
+import { has, prop } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'
 
@@ -57,8 +58,11 @@ export default ({ api } = {}) => {
       const { amount, pair, isDeposit } = action.payload
       yield put(A.fetchShapeshiftQuotationLoading())
       const data = yield call(api.createQuote, amount, pair, isDeposit)
-      yield call(delay, delayAjax)
-      yield put(A.fetchShapeshiftQuotationSuccess(data))
+      if (has('error', data)) {
+        yield put(A.fetchShapeshiftQuotationFailure(prop('error', data)))
+      } else {
+        yield put(A.fetchShapeshiftQuotationSuccess(prop('success', data)))
+      }
     } catch (e) {
       yield put(A.fetchShapeshiftQuotationFailure(e.message))
     }

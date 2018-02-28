@@ -25,7 +25,7 @@ const TextInput = styled.input.attrs({ type: 'text' })`
   background-image: none;
   outline-width: 0;
   user-select: text;
-  cursor: ${props => props.disabled ? 'pointer' : 'not-allowed'};
+  cursor: ${props => props.disabled ? 'not-allowed' : 'cursor'};
 
   &::-webkit-input-placeholder {
     color: ${props => props.theme['gray-2']};

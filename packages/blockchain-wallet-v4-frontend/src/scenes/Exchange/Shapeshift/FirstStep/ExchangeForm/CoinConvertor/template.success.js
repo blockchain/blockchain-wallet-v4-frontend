@@ -81,7 +81,7 @@ const CoinConvertor = props => {
           errorState={errorState}
         />
       </Container>
-      {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
+      {meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
     </Wrapper>
   )
 }
@@ -94,8 +94,8 @@ CoinConvertor.propTypes = {
   currency: PropTypes.string.isRequired,
   btcRates: PropTypes.object.isRequired,
   ethRates: PropTypes.object.isRequired,
-  handleChangeSource: PropTypes.func.isRequired,
-  handleChangeTarget: PropTypes.func.isRequired
+  handleChangeSource: PropTypes.func,
+  handleChangeTarget: PropTypes.func
 }
 
 export default CoinConvertor
