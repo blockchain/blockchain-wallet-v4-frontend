@@ -5,7 +5,7 @@ import Task from 'data.task'
 import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import BIP39 from 'bip39'
-import { compose, curry, map, is, pipe, __, concat, split, isNil } from 'ramda'
+import { compose, curry, map, is, pipe, __, concat, split, isNil, flip } from 'ramda'
 import { traversed, traverseOf, over, view, set } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
@@ -142,24 +142,27 @@ export const isValidSecondPwd = curry((password, wallet) => {
   }
 })
 
-// addAddress :: Wallet -> Address -> String -> Either Error Wallet
-export const addAddress = curry((wallet, address, password) => {
+// applyCipher :: Wallet -> String -> Cipher -> a -> Either Error a
+const applyCipher = curry((wallet, password, f, value) => {
   let it = selectIterations(wallet)
   let sk = view(sharedKey, wallet)
-  let appendAddress = curry((w, a) => over(addresses, (addrs) => addrs.set(a.addr, a), w))
-  if (!isDoubleEncrypted(wallet)) {
-    return Either.of(appendAddress(wallet, address))
-  } else if (isValidSecondPwd(password, wallet)) {
-    return Address.encryptSync(it, sk, password, address).map(appendAddress(wallet))
-  } else {
-    return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
+  switch (true) {
+    case !isDoubleEncrypted(wallet): return Either.of(value)
+    case isValidSecondPwd(password, wallet): return f(it, sk, password, value)
+    default: return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
   }
+})
+
+// addAddress :: Wallet -> Address -> String -> Either Error Wallet
+export const addAddress = curry((wallet, address, password) => {
+  let appendAddress = curry((w, a) => over(addresses, (as) => as.set(a.addr, a), w))
+  return Either.of(address)
+    .chain(applyCipher(wallet, password, Address.encryptSync))
+    .map(appendAddress(wallet))
 })
 
 // newHDAccount :: String -> String? -> Wallet -> Either Error Wallet
 export const newHDAccount = curry((label, password, wallet) => {
-  let it = selectIterations(wallet)
-  let sk = view(sharedKey, wallet)
   let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
   let index = hdWallet.accounts.size
 
@@ -169,18 +172,11 @@ export const newHDAccount = curry((label, password, wallet) => {
     return over(accountsLens, (accounts) => accounts.push(accountWithIndex), w)
   })
 
-  if (!isDoubleEncrypted(wallet)) {
-    return Either.of(hdWallet.seedHex)
-      .map(HDWallet.generateAccount(index, label))
-      .map(appendAccount(wallet))
-  } else if (isValidSecondPwd(password, wallet)) {
-    return crypto.decryptSecPassSync(sk, it, password, hdWallet.seedHex)
-      .map(HDWallet.generateAccount(index, label))
-      .chain(HDAccount.encryptSync(it, sk, password))
-      .map(appendAccount(wallet))
-  } else {
-    return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
-  }
+  return Either.of(hdWallet.seedHex)
+    .chain(applyCipher(wallet, password, flip(crypto.decryptSecPassSync)))
+    .map(HDWallet.generateAccount(index, label))
+    .chain(applyCipher(wallet, password, HDAccount.encryptSync))
+    .map(appendAccount(wallet))
 })
 
 // setLegacyAddressLabel :: String -> String -> Wallet -> Wallet
