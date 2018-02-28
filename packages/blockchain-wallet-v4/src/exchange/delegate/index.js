@@ -10,8 +10,12 @@ export class ExchangeDelegate {
     return this._state
   }
 
+  get trades () {
+    return this._trades
+  }
+
   save () {
-    // TODO: implement save
+    return Promise.resolve() // CHEAT: save metadata in rootSaga
   }
 
   email () {

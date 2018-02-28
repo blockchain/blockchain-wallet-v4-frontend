@@ -3,6 +3,7 @@ import * as AT from './actionTypes.js'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = {
+  trade: null,
   quote: Remote.NotAsked,
   trades: Remote.NotAsked,
   profile: Remote.NotAsked,
@@ -31,6 +32,15 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_QUOTE_FAILURE: {
       return assoc('quote', Remote.Failure(payload), state)
+    }
+    case AT.FETCH_TRADES_LOADING: {
+      return assoc('trades', Remote.Loading, state)
+    }
+    case AT.FETCH_TRADES_SUCCESS: {
+      return assoc('trades', Remote.Success(payload), state)
+    }
+    case AT.FETCH_TRADES_FAILURE: {
+      return assoc('trades', Remote.Failure(payload), state)
     }
     case AT.FETCH_ACCOUNTS_LOADING: {
       return assoc('accounts', Remote.Loading, state)

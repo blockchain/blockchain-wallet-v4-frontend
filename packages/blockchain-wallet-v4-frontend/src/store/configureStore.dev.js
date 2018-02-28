@@ -36,7 +36,7 @@ const configureStore = () => {
   const kvStorePath = settings.WALLET_KVSTORE_PATH
   const isAuthenticated = selectors.auth.isAuthenticated
 
-  const store = createStore(
+  const store = window.store = createStore(
     connectRouter(history)(rootReducer),
     composeEnhancers(
       applyMiddleware(
