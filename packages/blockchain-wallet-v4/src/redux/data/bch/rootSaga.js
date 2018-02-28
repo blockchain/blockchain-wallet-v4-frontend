@@ -2,9 +2,6 @@
 import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { indexBy, length, path, prop, last } from 'ramda'
-import { futurizeP } from 'futurize'
-import Task from 'data.task'
-import { sign } from '../../../signer'
 import { delayAjax } from '../../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
@@ -103,7 +100,7 @@ export default ({ api } = {}) => {
       const { source } = action.payload
       yield put(A.fetchUnspentLoading())
       const wrapper = yield select(selectors.wallet.getWrapper)
-      const data = yield call(api.getWalletUnspents, wrapper, source)
+      const data = yield call(api.getWalletUnspents, 'BCH', wrapper, source)
       yield put(A.fetchUnspentSuccess(data))
     } catch (e) {
       yield put(A.fetchUnspentSuccess([]))
