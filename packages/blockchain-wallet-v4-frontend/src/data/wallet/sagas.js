@@ -5,11 +5,17 @@ import * as sagas from '../sagas.js'
 import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
 
 export const createLegacyAddress = function * (action) {
+  const { addr, priv, to } = action.payload
+  const key = priv == null ? addr : priv
   const saga = askSecondPasswordEnhancer(sagas.core.wallet.createLegacyAddress)
   try {
-    yield call(saga, action.payload)
+    yield call(saga, { key })
     yield put(actions.alerts.displaySuccess('Address added succesfully.'))
+    if (to) {
+      yield put(actions.alerts.displaySuccess('Send to address now'))
+    }
   } catch (error) {
+    console.log(error)
     yield put(actions.alerts.displayError('Error adding address.'))
   }
 }

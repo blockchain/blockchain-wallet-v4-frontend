@@ -1,9 +1,12 @@
 import { compose, is, equals, not, pipe, curry, isNil } from 'ramda'
 import { view, set, traverseOf } from 'ramda-lens'
+import Base58 from 'bs58'
+import { ECPair } from 'bitcoinjs-lib'
 import * as crypto from '../walletCrypto'
 import Either from 'data.either'
 import Type from './Type'
 import { iToJS } from './util'
+import * as utils from '../utils'
 
 /* Address :: {
   priv :: String
@@ -67,3 +70,85 @@ export const decryptSync = curry((iterations, sharedKey, password, address) => {
   const cipher = crypto.decryptSecPassSync(sharedKey, iterations, password)
   return traverseOf(priv, Either.of, cipher, address)
 })
+
+export const importAddress = (key, label, network) => {
+  let object = {
+    priv: null,
+    addr: null,
+    label: label,
+    tag: 0,
+    created_time: Date.now(),
+    created_device_name: 'wallet-web',
+    created_device_version: 'v4'
+  }
+
+  switch (true) {
+    case utils.bitcoin.isValidBitcoinAddress(key):
+      object.addr = key
+      object.priv = null
+      break
+    case utils.bitcoin.isKey(key):
+      object.addr = key.getAddress()
+      object.priv = Base58.encode(key.d.toBuffer(32))
+      break
+    case utils.bitcoin.isValidBitcoinPrivateKey(key):
+      key = ECPair.fromWIF(key, network)
+      object.addr = key.getAddress()
+      object.priv = Base58.encode(key.d.toBuffer(32))
+      break
+    default:
+      throw new Error('unsupported_address_import_format')
+  }
+
+  return fromJS(object)
+}
+
+export const fromString = (keyOrAddr, label, bipPass, { network, api }) => {
+  if (utils.bitcoin.isValidBitcoinAddress(keyOrAddr)) {
+    return Promise.resolve(importAddress(keyOrAddr, label, network))
+  } else {
+    // Import private key
+    let format = utils.bitcoin.detectPrivateKeyFormat(keyOrAddr)
+    let okFormats = ['base58', 'base64', 'hex', 'mini', 'sipa', 'compsipa']
+    if (format === 'bip38') {
+      return Promise.reject(new Error('needs_bip_38'))
+      // if (bipPass === undefined || bipPass === null || bipPass === '') {
+      //   return Promise.reject('needsBip38')
+      // }
+      //
+      // let parseBIP38Wrapper = function (resolve, reject) {
+      //   ImportExport.parseBIP38toECPair(keyOrAddr, bipPass,
+      //     function (key) { resolve(import(key, label)); },
+      //     function () { reject('wrongBipPass'); },
+      //     function () { reject('importError'); }
+      //   )
+      // }
+      // return new Promise(parseBIP38Wrapper)
+    } else if (format === 'mini' || format === 'base58') {
+      let key
+      try {
+        key = utils.bitcoin.privateKeyStringToKey(keyOrAddr, format)
+      } catch (e) {
+        return Promise.reject(e)
+      }
+      key.compressed = true
+      let cad = key.getAddress()
+      key.compressed = false
+      let uad = key.getAddress()
+      return api.getBalances([cad, uad]).then((o) => {
+        let compBalance = o[cad].final_balance
+        let ucompBalance = o[uad].final_balance
+        key.compressed = !(compBalance === 0 && ucompBalance > 0)
+        return importAddress(key, label, network)
+      }).catch((e) => {
+        key.compressed = true
+        return Promise.resolve(importAddress(key, label, network))
+      })
+    } else if (okFormats.indexOf(format) > -1) {
+      let key = utils.bitcoin.privateKeyStringToKey(keyOrAddr, format)
+      return Promise.resolve(importAddress(key, label, network))
+    } else {
+      return Promise.reject(new Error('unknown_key_format'))
+    }
+  }
+}
