@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text } from 'blockchain-info-components'
+import { Text, Link } from 'blockchain-info-components'
 
 import PlaidFrame from './iframe.js'
 import BankAccounts from './bankAccounts.js'
@@ -41,7 +41,7 @@ const LinkContainer = styled.div`
   justify-content: center;
 `
 
-const Link = (props) => {
+const BankLink = (props) => {
   const { plaidUrl, enablePlaid, bankAccounts, onSetBankAccount } = props
 
   return (
@@ -73,9 +73,15 @@ const Link = (props) => {
             : <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
           }
         </LinkContainer>
+        <Text>
+          <Link>
+            <FormattedMessage id='sfoxexchangedata.link.manuallyenter' defaultMessage='Manually Enter Account & Routing Information' />
+          </Link>
+          <FormattedMessage id='sfoxexchangedata.link.fourbusinessdays' defaultMessage='(This can take up to 4 business days)' />
+        </Text>
       </ColRight>
     </Row>
   )
 }
 
-export default reduxForm({ form: 'sfoxUpload' })(Link)
+export default reduxForm({ form: 'sfoxUpload' })(BankLink)
