@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import { getPairFromCoin } from './services'
@@ -20,17 +19,17 @@ class CoinConvertorContainer extends React.Component {
     this.handleChangeTarget = this.handleChangeTarget.bind(this)
   }
 
-  update (data) {
-    this.setState(data)
-    this.props.input.onChange(data.coinSourceValue)
-  }
   componentWillReceiveProps (nextProps) {
     const { source, target } = nextProps.data.getOrElse({ success: { depositAmount: 0, withdrawalAmount: 0 } })
-    console.log('componentWillReceiveProps', source, target)
+    // console.log('componentWillReceiveProps', source, target)
     if (!equals(this.state.source, source) || !equals(this.state.target, target)) {
-      console.log('equalssss', source, target)
       this.update({ source, target })
     }
+  }
+
+  update (data) {
+    this.setState(data)
+    this.props.input.onChange(data)
   }
 
   handleChangeSource (value) {
@@ -66,8 +65,8 @@ CoinConvertorContainer.propTypes = {
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
     value: PropTypes.shape({
-      source: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
-      target: PropTypes.oneOf([PropTypes.string, PropTypes.number])
+      source: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      target: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })
   }).isRequired,
   sourceCoin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,

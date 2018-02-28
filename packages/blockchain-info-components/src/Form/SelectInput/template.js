@@ -110,13 +110,13 @@ const Arrow = styled(Icon)`
 `
 
 const SelectInput = (props) => {
-  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, templateDisplay, templateHeader, templateItem } = props
+  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, templateDisplay, templateHeader, templateItem, errorState } = props
   const display = selected || { text: defaultDisplay, value: undefined }
-  console.log('disabled', disabled)
+  console.log('errorState', errorState)
   return (
     <SelectBoxInput>
       {!expanded || !searchEnabled
-        ? <Display onBlur={handleBlur} onFocus={handleFocus} disabled={disabled}>
+        ? <Display onBlur={handleBlur} onFocus={handleFocus} disabled={disabled} errorState={errorState}>
             {templateDisplay ? templateDisplay(display) : <DefaultDisplay>{display.text}</DefaultDisplay>}
           </Display>
         : <Search autoFocus={expanded} onChange={handleChange} />

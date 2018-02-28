@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 import { path, prop } from 'ramda'
 
 import { HeartbeatLoader, Icon, Separator, SelectInput, Text } from 'blockchain-info-components'
@@ -75,7 +74,13 @@ const ItemWrapper = styled.div`
     background-color: ${props => props.theme['gray-1']};
   }
 `
-
+const Error = styled(Text)`
+  position: absolute;
+  display: block;
+  top: -18px;
+  right: 0;
+  height: 15px;
+`
 const renderDisplay = item => (
   <DisplayWrapper>
     {path(['value', 'coin'], item) === 'BTC' && <Icon name='bitcoin' size='14px' weight={300} />}
@@ -83,7 +88,6 @@ const renderDisplay = item => (
     <Text size='14px' weight={300}>{item.text}</Text>
   </DisplayWrapper>
 )
-
 const renderHeader = item => (
   <HeaderWrapper>
     {prop('text', item) === 'Bitcoin' && <Icon name='bitcoin' size='14px' weight={300} />}
@@ -92,15 +96,21 @@ const renderHeader = item => (
     <Separator />
   </HeaderWrapper>
 )
-
 const renderItem = item => (
   <ItemWrapper>
     <Text size='14px' weight={300}>{item.text}</Text>
   </ItemWrapper>
 )
 
+const getErrorState = (meta) => {
+  console.log('getErrorState', meta)
+  return meta.invalid ? 'invalid' : 'valid'
+}
+
 const Success = props => {
-  const { elements, source, target, handleSwap, handleChangeSource, handleChangeTarget, loading } = props
+  const { elements, source, target, handleSwap, handleChangeSource, handleChangeTarget, loading, meta } = props
+  const errorState = getErrorState(meta)
+  console.log('errorState', errorState)
 
   return (
     <Wrapper>
@@ -113,6 +123,7 @@ const Success = props => {
           templateHeader={renderHeader}
           templateItem={renderItem}
           disabled={loading}
+          errorState={errorState}
         />
       </Container>
       <ContainerMiddle>
@@ -130,8 +141,10 @@ const Success = props => {
           templateHeader={renderHeader}
           templateItem={renderItem}
           disabled={loading}
+          errorState={errorState}
         />
       </Container>
+      {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
     </Wrapper>
   )
 }
