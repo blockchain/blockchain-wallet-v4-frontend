@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 
+export const setTradesBuySell = (payload) => ({ type: AT.SET_TRADES_BUYSELL, payload })
 export const updateMetadataBuySell = (payload = {}) => ({ type: AT.UPDATE_METADATA_BUYSELL, payload })
 // FETCH_METADATA_BUYSELL
 export const fetchMetadataBuySell = () => ({ type: AT.FETCH_METADATA_BUYSELL })
