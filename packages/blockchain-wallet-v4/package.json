@@ -60,7 +60,6 @@
     "babel-preset-stage-2": "^6.22.0",
     "jest": "^21.2.1",
     "jest-cli": "^21.2.1",
-    "mocha": "~3.2.0",
     "npm-watch": "^0.3.0",
     "standard": "^10.0.2"
   },
