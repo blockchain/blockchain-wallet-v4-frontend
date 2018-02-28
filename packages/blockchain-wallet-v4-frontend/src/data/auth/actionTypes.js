@@ -17,6 +17,3 @@ export const LOGOUT_RESET_TIMER = 'LOGOUT_RESET_TIMER'
 export const SET_AUTH_TYPE = 'SET_AUTH_TYPE'
 
 export const RESET_2FA = 'RESET_2FA'
-
-// TODO this doesn't belong here
-export const REFRESH = 'REFRESH'
