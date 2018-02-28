@@ -7,10 +7,39 @@
   "scripts": {
     "prepublish": "rm -rf lib && babel --out-dir lib --copy-files src",
     "storybook:start": "start-storybook -p 6006",
-    "storybook:build": "build-storybook"
+    "storybook:build": "build-storybook",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "author": "(Dream Team) Blockchain.info",
   "license": "ISC",
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageDirectory": "<rootDir>/../../coverage/v4-components",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "identity-obj-proxy"
+    },
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    }
+  },
+  "standard": {
+    "globals": [
+      "jest",
+      "test",
+      "describe",
+      "context",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect"
+    ]
+  },
   "devDependencies": {
     "@storybook/addon-actions": "^3.2.16",
     "@storybook/addon-info": "^3.2.16",
@@ -27,9 +56,13 @@
     "babel-preset-es2015": "~6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "enzyme": "^3.3.0",
     "eslint-import-resolver-webpack": "^0.8.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^7.0.1",
+    "jest": "^21.2.1",
+    "jest-cli": "^21.2.1",
+    "jest-css-modules": "^1.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
