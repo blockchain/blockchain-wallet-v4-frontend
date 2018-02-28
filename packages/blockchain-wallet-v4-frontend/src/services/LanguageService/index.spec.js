@@ -11,7 +11,7 @@ describe('getLanguageName', () => {
   ]
 
   testCases.forEach(function (testCase) {
-    test('Get correct language name from culture code: ' + testCase.cultureCode, () => {
+    it('Get correct language name from culture code: ' + testCase.cultureCode, () => {
       expect(getLanguageName(testCase.cultureCode)).toEqual(testCase.value)
     })
   })
@@ -27,7 +27,7 @@ describe('convertLanguageToCultureCode', () => {
   ]
 
   testCases.forEach(function (testCase) {
-    test('Convert culture code to language name: ' + testCase.language, () => {
+    it('Convert culture code to language name: ' + testCase.language, () => {
       expect(convertLanguageToCultureCode(testCase.language)).toEqual(testCase.value)
     })
   })
