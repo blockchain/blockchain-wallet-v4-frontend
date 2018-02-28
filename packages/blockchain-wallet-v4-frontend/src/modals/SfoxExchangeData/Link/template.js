@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { TextBox, SelectBoxUSState, Form } from 'components/Form'
-import { Text, Button, Icon } from 'blockchain-info-components'
-import { required, normalizeSocialSecurity, normalizeDateOfBirth, normalizeUSZipcode, ageOverEighteen } from 'services/FormHelper'
+import { reduxForm } from 'redux-form'
+import { Text } from 'blockchain-info-components'
 
 import PlaidFrame from './iframe.js'
 import BankAccounts from './bankAccounts.js'
@@ -44,9 +42,8 @@ const LinkContainer = styled.div`
 `
 
 const Link = (props) => {
-  const { plaidUrl, enablePlaid, bankAccounts } = props
+  const { plaidUrl, enablePlaid, bankAccounts, onSetBankAccount } = props
 
-  console.log('Link template', props)
   return (
     <Row>
       <ColLeft>
@@ -67,12 +64,12 @@ const Link = (props) => {
       </ColLeft>
       <ColRight>
         <LinkContainer>
-          <Text>
+          <Text size='14px'>
             <FormattedMessage id='sfoxexchangedata.link.selectmethod' defaultMessage='Select Method To Link Your Bank Account' />
           </Text>
           {
             bankAccounts
-            ? <BankAccounts data={bankAccounts.data} />
+            ? <BankAccounts data={bankAccounts.data} onSetBankAccount={onSetBankAccount} />
             : <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
           }
         </LinkContainer>

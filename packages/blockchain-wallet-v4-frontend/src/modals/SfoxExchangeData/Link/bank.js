@@ -16,13 +16,16 @@ const BankInfo = styled.div`
     height: 16px;
     background-color: #004a7c;
   }
+  margin: 0px;
 `
 const BankName = styled(Text)`
   text-transform: capitalize;
+  cursor: pointer;
 `
 const BankLabel = styled.label`
   display: flex;
   flex-direction: row;
+  cursor: pointer;
   ::before {
     content: '';
     width: 16px;
@@ -40,11 +43,12 @@ const BankMeta = styled.div`
   margin-left: 15px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 `
 
-const Bank = ({bank}) => (
+const Bank = ({bank, onInputClick}) => (
   <BankInfo key={bank._id}>
-    <input type='radio' name='bank' value={bank} id={bank._id} />
+    <input type='radio' name='bank' value={bank} id={bank._id} onClick={() => onInputClick(bank._id)} />
     <BankLabel htmlFor={bank._id}>
       <BankMeta>
         <Text size='16px'>
