@@ -10,13 +10,19 @@ const CamHelp = styled.span`
   position: absolute;
   background: rgba(0, 0, 0, 0.44);
 `
+const VideoContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const Camera = (props) => (
-  <div>
+  <VideoContainer>
     <video id='video' />
-    {/* <CamHelp>Help text here!</CamHelp> */}
-    <a id='startButton' onClick={props.handleStartClick}>Take photo</a>
-  </div>
+    {/* <CamHelp>Help text here</CamHelp> */}
+  </VideoContainer>
 )
 
 class CameraContainer extends Component {
@@ -36,8 +42,8 @@ class CameraContainer extends Component {
   componentDidMount () {
     const constraints = this.state.constraints
     const getUserMedia = (params) => (
-      new Promise((resolve, errorCallback) => {
-        navigator.webkitGetUserMedia.call(navigator, params, resolve, errorCallback)
+      new Promise((resolve, reject) => {
+        navigator.webkitGetUserMedia.call(navigator, params, resolve, reject)
       })
     )
 
@@ -89,18 +95,15 @@ class CameraContainer extends Component {
     context.drawImage(video, 0, 0, width, height)
 
     const data = canvas.toDataURL('image/png')
-    console.log('takePicture', this.props)
     this.props.setPhoto(data)
   }
 
   render () {
     return (
-      <div>
-        <Camera
-          handleStartClick={this.handleStartClick}
-        />
+      <span>
+        <Camera handleStartClick={this.handleStartClick} />
         <canvas id='canvas' hidden />
-      </div>
+      </span>
     )
   }
 }

@@ -26,13 +26,11 @@ class UploadContainer extends Component {
   }
 
   setPhoto (data) {
-    console.log('setPhoto')
     this.setState({ photo: data })
   }
 
   onDrop (file) {
     this.setState({ file: file[0] })
-    console.log('ondrop ', file, this.state)
   }
 
   onClickUpload (e) {
@@ -55,7 +53,6 @@ class UploadContainer extends Component {
   submitForUpload () {
     const file = this.state.file || this.state.photo
     const idType = this.props.data.data.verificationStatus.required_docs[0]
-    console.log('submitForUpload', file, idType, this.props.sfoxDataActions)
     this.props.sfoxDataActions.upload({file, idType})
   }
 

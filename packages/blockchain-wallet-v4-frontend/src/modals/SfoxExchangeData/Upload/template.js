@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { } from 'components/Form'
-import { Text, Button, IconButton, Icon, Link } from 'blockchain-info-components'
+import { reduxForm } from 'redux-form'
+import { Text, Button, IconButton, Link } from 'blockchain-info-components'
 import { } from 'services/FormHelper'
 import Dropzone from 'react-dropzone'
 
@@ -79,7 +78,7 @@ const SuccessText = styled(Text)`margin: 30px 0px; `
 
 const Verify = (props) => {
   console.log('verify template', props)
-  const { onDrop, onClickUpload, file, data, toggleCamera, showCamera, setPhoto, photo, resetUpload, submitForUpload, handleStartClick } = props
+  const { onDrop, file, data, toggleCamera, showCamera, setPhoto, photo, resetUpload, submitForUpload } = props
   const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
@@ -131,10 +130,18 @@ const Verify = (props) => {
                 <SuccessText size='16px'>
                   <FormattedMessage id='sfoxexchangedata.upload.sentforreview' defaultMessage='Document will be sent for review.' />
                 </SuccessText>
-                <img style={{ height: '180px' }} src={file.preview} />
+                <img style={{ height: '180px' }} src={file.preview} alt='Your document' />
               </UploadSuccess>
               : photo
-                ? <img src={photo} id='photo' alt='Your photo' />
+                ? <UploadSuccess>
+                  <Text size='20px' color='success'>
+                    <FormattedMessage id='sfoxexchangedata.upload.uploadsuccess' defaultMessage='Successfully Uploaded!' />
+                  </Text>
+                  <SuccessText size='16px'>
+                    <FormattedMessage id='sfoxexchangedata.upload.imgsentforreview' defaultMessage='Image will be sent for review.' />
+                  </SuccessText>
+                  <img style={{ height: '180px' }} src={photo} id='photo' alt='Your photo' />
+                </UploadSuccess>
                 : showCamera
                   ? <CameraContainer setPhoto={setPhoto} ref={instance => { this.camera = instance }} />
                   : renderInputOptions()
