@@ -1,6 +1,6 @@
-import { isEmpty, equals, or } from 'ramda'
+import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
-import { isNumeric, isEmail, isGuid, isIpList, isAlphaNumeric } from 'services/ValidationHelper'
+import { isNumeric, isEmail, isGuid, isIpList, isAlphaNumeric } from './../ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -13,7 +13,7 @@ const requiredNumber = value => isNumeric(value) && value > 0 ? undefined : 'Inv
 
 const validEmail = value => isEmail(value) ? undefined : 'Invalid email address'
 
-const validMmemonic = value => bip39.validateMnemonic(value) ? undefined : 'Invalid passphrase'
+const validateMnemonic = value => bip39.validateMnemonic(value) ? undefined : 'Invalid passphrase'
 
 const validWalletId = value => isGuid(value) ? undefined : 'Invalid wallet identifier'
 
@@ -33,4 +33,19 @@ const validEmailCode = value => isAlphaNumeric(value) ? undefined : 'Invalid Ema
 
 const validBitcoinPrivateKey = value => utils.bitcoin.isValidBitcoinPrivateKey(value) ? undefined : 'Invalid Bitcoin Private Key'
 
-export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList, validPasswordStretchingNumber, validBitcoinAddress, validBitcoinPrivateKey, validEmailCode, validEtherAddress }
+export {
+  required,
+  requiredNumber,
+  validNumber,
+  validEmail,
+  validateMnemonic,
+  validWalletId,
+  validMobileNumber,
+  validStrongPassword,
+  validIpList,
+  validPasswordStretchingNumber,
+  validBitcoinAddress,
+  validBitcoinPrivateKey,
+  validEmailCode,
+  validEtherAddress
+}
