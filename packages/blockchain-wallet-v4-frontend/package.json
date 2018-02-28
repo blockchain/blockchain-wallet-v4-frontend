@@ -115,6 +115,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-csv-2": "^1.0.9",
     "react-dom": "^16.1.1",
+    "react-dropzone": "^4.2.8",
     "react-highcharts": "^13.0.0",
     "react-intl": "^2.3.0",
     "react-qr-reader": "^2.0.0",
