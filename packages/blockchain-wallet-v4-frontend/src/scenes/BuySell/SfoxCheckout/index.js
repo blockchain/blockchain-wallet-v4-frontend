@@ -16,7 +16,6 @@ class Checkout extends React.Component {
     const { data, errors, quote, base, trades, modalActions, sfoxDataActions } = this.props
     const { handleTrade, fetchQuote } = sfoxDataActions
     const { showModal } = modalActions
-    console.log(trades)
 
     return data.cata({
       Success: (value) => <Success base={base} value={value} errors={errors} quote={quote} handleTrade={handleTrade} showModal={showModal} fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })} />,
