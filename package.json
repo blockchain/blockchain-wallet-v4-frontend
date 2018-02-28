@@ -3,19 +3,19 @@
   "name": "blockchain-wallet-v4",
   "version": "0.1.0",
   "scripts": {
-    "start": "cd packages/blockchain-wallet-v4-frontend && npm run start",
-    "start:prod": "cd packages/blockchain-wallet-v4-frontend && npm run start:prod",
-    "build": "cd packages/blockchain-wallet-v4-frontend && npm run build",
-    "build:prod": "cd packages/blockchain-wallet-v4-frontend && npm run build:prod",
-    "storybook": "cd packages/blockchain-info-components && npm run storybook:start",
+    "start": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start",
+    "start:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:prod",
+    "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build",
+    "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
+    "storybook": "lerna exec --scope blockchain-info-components -- npm run storybook:start",
     "test": "lerna exec -- npm run test",
-    "test:coverage": "lerna exec -- npm run test:coverage",
+    "test:coverage": "lerna exec -- npm run test:coverage && istanbul report --root ./coverage --dir ./coverage/ html",
     "test:frontend": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run test",
     "test:core": "lerna exec --scope blockchain-wallet-v4 -- npm run test",
     "test:components": "lerna exec --scope blockchain-info-components -- npm run test"
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.4.0",
+    "istanbul": "^0.4.4",
     "lerna": "^2.1.2"
   },
   "dependencies": {}
