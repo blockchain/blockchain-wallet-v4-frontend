@@ -19,7 +19,6 @@ class SfoxExchangeData extends React.Component {
 
   componentDidMount () {
     this.setState({ show: true })
-    console.log('did mount', this.props)
   }
 
   handleClose () {
@@ -27,7 +26,7 @@ class SfoxExchangeData extends React.Component {
     setTimeout(this.props.close, 500)
   }
 
-  getStepComponent () { //TODO: 
+  getStepComponent () {
     const { profile, verificationStatus, accounts } = this.props.data.getOrElse({})
     const step = determineStep(profile, verificationStatus, accounts)
 

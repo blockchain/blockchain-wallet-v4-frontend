@@ -91,25 +91,41 @@ export default ({ api } = {}) => {
         state,
         zipcode
       )
-      const verify = yield apply(sfox.profile, sfox.profile.verify)
-      console.log('after verify', verify)
+      yield apply(sfox.profile, sfox.profile.verify)
+      // TODO: try refresh profile here to smooth out btwn steps
       yield put(A.setProfileSuccess())
     } catch (e) {
-      console.warn('setProfile saga', e)
+      console.warn('setProfile core saga', e)
       yield put(A.setProfileFailure(e))
     }
   }
 
   const uploadDoc = function * (data) {
     const { idType, file } = data.payload
-    const profile = yield select(S.getProfile)
-    // get signed url from profile then put request to signed url with file object
-    // profile.getSignedURL(idType, filename)
-    console.log('uploadDoc core saga', data, api, sfox, profile)
-    const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
-    console.log('sfoxUrl', sfoxUrl)
-    const upload = yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
-    console.log('upload ', upload)
+    try {
+      const profile = yield select(S.getProfile)
+      const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
+      yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
+      yield call(fetchProfile)
+      yield put(A.uploadSuccess())
+    } catch (e) {
+      console.warn('uploadDoc core saga', e)
+      yield put(A.uploadFailure(e))
+    }
+  }
+
+  const getBankAccounts = function * (data) {
+    console.log('start getBankAccounts saga', data)
+    const token = data.payload
+    try {
+      console.log('getBankAccounts saga', sfox, token)
+      const bankAccounts = yield apply(sfox.bankLink, sfox.bankLink.getAccounts, [token])
+      console.log('after getAccounts', bankAccounts)
+      yield put(A.getBankAccountsSuccess(bankAccounts))
+    } catch (e) {
+      console.warn('getBankAccounts core saga', e)
+      yield put(A.getBankAccountsFailure(e))
+    }
   }
 
   return function * () {
@@ -120,5 +136,6 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.SET_PROFILE, setProfile)
     yield takeLatest(AT.UPLOAD, uploadDoc)
+    yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
   }
 }

@@ -145,8 +145,8 @@ module.exports = {
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
-        'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
-        'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info',
+        'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
+        'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
         "worker-src 'self' 'unsafe-eval' blob:",
@@ -166,7 +166,9 @@ module.exports = {
           'https://api.dev.blockchain.info',
           'https://app-api.coinify.com',
           'https://api.sfox.com',
+          'https://api.staging.sfox.com',
           'https://quotes.sfox.com',
+          `https://quotes.staging.sfox.com`,
           'https://sfox-kyc.s3.amazonaws.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',

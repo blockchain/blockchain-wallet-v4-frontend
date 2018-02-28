@@ -28,4 +28,8 @@ export const upload = (data) => ({ type: AT.UPLOAD, payload: data })
 export const uploadSuccess = () => ({ type: AT.UPLOAD_SUCCESS })
 export const uploadFailure = (error) => ({ type: AT.UPLOAD_FAILURE, payload: error })
 
+export const getBankAccounts = (token) => ({ type: AT.GET_BANK_ACCOUNTS, payload: token })
+export const getBankAccountsSuccess = (accounts) => ({ type: AT.GET_BANK_ACCOUNTS_SUCCESS, payload: accounts })
+export const getBankAccountsFailure = (error) => ({ type: AT.GET_BANK_ACCOUNTS_FAILURE, payload: error })
+
 export const setNextAddress = (data) => ({ type: AT.SET_NEXT_ADDRESS, payload: data })
