@@ -1,7 +1,9 @@
+import { assocPath } from 'ramda'
 import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
+import * as buySellA from '../../kvStore/buySell/actions'
 import SFOX from 'bitcoin-sfox-client'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -50,6 +52,16 @@ export default ({ api } = {}) => {
     }
   }
 
+  const fetchTrades = function * () {
+    try {
+      yield put(A.fetchTradesLoading())
+      const trades = yield apply(sfox, sfox.getTrades)
+      yield put(A.fetchTradesSuccess(trades))
+    } catch (e) {
+      yield put(A.fetchTradesFailure(e))
+    }
+  }
+
   const fetchAccounts = function * () {
     try {
       yield put(A.fetchAccountsLoading())
@@ -64,12 +76,16 @@ export default ({ api } = {}) => {
   const handleTrade = function * (data) {
     try {
       yield put(A.handleTradeLoading())
-      yield call(refreshSFOX)
       const quote = data.payload
       const accounts = yield select(S.getAccounts)
       const methods = yield apply(quote, quote.getPaymentMediums)
       const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
       yield put(A.handleTradeSuccess(trade))
+      yield call(fetchTrades)
+      const trades = yield select(S.getTrades)
+      const value = yield select(buySellSelectors.getMetadata)
+      const newValue = assocPath(['sfox', 'trades'], trades.data, value.data.value)
+      yield put(buySellA.updateMetadataBuySell(newValue))
     } catch (e) {
       yield put(A.handleTradeFailure(e))
     }
@@ -133,6 +149,7 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)
     yield takeLatest(AT.HANDLE_TRADE, handleTrade)
+    yield takeLatest(AT.FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.SET_PROFILE, setProfile)
     yield takeLatest(AT.UPLOAD, uploadDoc)
