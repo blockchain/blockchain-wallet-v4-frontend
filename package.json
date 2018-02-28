@@ -8,9 +8,11 @@
     "build": "cd packages/blockchain-wallet-v4-frontend && npm run build",
     "build:prod": "cd packages/blockchain-wallet-v4-frontend && npm run build:prod",
     "storybook": "cd packages/blockchain-info-components && npm run storybook:start",
-    "test": "cd packages/blockchain-wallet-v4-frontend && npm run test",
-    "test-core": "cd packages/blockchain-wallet-v4 && npm run test",
-    "test3": "cd packages/blockchain-wallet-v4-frontend && npm run test && cd ../blockchain-wallet-v4 && npm run test"
+    "test": "lerna exec -- npm run test",
+    "test:coverage": "lerna exec -- npm run test:coverage",
+    "test:frontend": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run test",
+    "test:core": "lerna exec --scope blockchain-wallet-v4 -- npm run test",
+    "test:components": "lerna exec --scope blockchain-info-components -- npm run test"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.4.0",

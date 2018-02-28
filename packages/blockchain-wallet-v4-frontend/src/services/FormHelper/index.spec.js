@@ -108,10 +108,6 @@ describe('validEtherAddress()', () => {
 })
 
 describe('validBitcoinAddress()', () => {
-  it('returns correct string if invalid bitcoin addr passed', () => {
-    expect(FormHelper.validBitcoinAddress('notanaddress')).toEqual('Invalid Bitcoin Address')
-  })
-
   it('returns undefined if valid bitcoin addr is given', () => {
     expect(FormHelper.validBitcoinAddress('1cKtTucHyhVrg8zRzMg7KJrvsYbxeX2eP')).toBeUndefined()
   })

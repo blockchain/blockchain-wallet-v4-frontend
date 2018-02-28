@@ -19,7 +19,7 @@ yarn-error.log
 # Generated Files
 *.log
 lib
-coverage
+coverage/
 dist
 build
 
