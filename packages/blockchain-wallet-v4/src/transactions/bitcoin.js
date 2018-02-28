@@ -47,7 +47,7 @@ const tagCoin = curry((wallet, coin) => {
         coinType: accountPath(index, coin),
         label: HDAccount.selectLabel(account),
         isWatchOnly: HDAccount.isWatchOnly(account),
-        receiveIndex: receiveIndex(coin) //only if change?
+        receiveIndex: receiveIndex(coin) // only if change?
       }
     default:
       const bookEntry = compose(AddressBook.selectAddressLabel(coin.addr), Wallet.selectAddressBook)(wallet)
@@ -197,7 +197,7 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
     outputs: outputs,
     formWatchOnly: inputData.isWatchOnly,
     toWatchOnly: outputData.isWatchOnly,
-    from: from, // based on inputs 
+    from: from, // based on inputs
     to: to,  // based on outputs
     // properties that frontend should compute
     status: null, // based on confirmations

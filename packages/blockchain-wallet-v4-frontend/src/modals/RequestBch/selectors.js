@@ -20,10 +20,10 @@ const extractAddress = (selectorFunction, value) =>
 
 export const getData = state => {
   // TODO: USE BCH network
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
+  const getReceive = index => selectors.core.common.bch.getNextAvailableReceiveAddress(settings.NETWORK_BCH, index, state)
   const coin = formValueSelector('requestBch')(state, 'coin')
   const to = formValueSelector('requestBch')(state, 'to')
-  const receiveAddressR = extractAddress(getReceive, to).map(addr => addr && toCashAddr(addr))
+  const receiveAddressR = extractAddress(getReceive, to)// .map(addr => addr && toCashAddr(addr))
   return receiveAddressR.map(receiveAddress => ({ coin, receiveAddress }))
 }
 

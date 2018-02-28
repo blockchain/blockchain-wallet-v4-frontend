@@ -1,5 +1,6 @@
 import { formValueSelector } from 'redux-form'
 import { equals, filter, head, lift, map, prop, is, has } from 'ramda'
+import { Address } from 'bitcoincashjs'
 import settings from 'config'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -15,8 +16,8 @@ const extractAddress = (selector, value) => {
 
 export const getData = state => {
   // TODO: Use BCH instead of BITCOIN network
-  const getReceive = index => selectors.core.common.bch.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
-  const getChange = index => selectors.core.common.bch.getNextAvailableChangeAddress(settings.NETWORK_BITCOIN, index, state)
+  const getReceive = index => selectors.core.common.bch.getNextAvailableReceiveAddress(settings.NETWORK_BCH, index, state)
+  const getChange = index => selectors.core.common.bch.getNextAvailableChangeAddress(settings.NETWORK_BCH, index, state)
 
   const toDropdown = map(x => ({ text: x.label, value: x }))
   const balancesR = selectors.core.common.bch.getAccountsBalances(state).map(toDropdown)
@@ -45,7 +46,7 @@ export const getData = state => {
     effectiveBalance,
     effectiveBalanceScaled: Exchange.convertBchToBch({ value: effectiveBalance, fromUnit: 'SAT', toUnit: 'BCH' }).value,
     coins,
-    receiveAddress,
+    receiveAddress, // : receiveAddress && Address.fromString('bitcoincash:' + receiveAddress, 'livenet', 'pubkeyhash', Address.CashAddrFormat).toString(),
     changeAddress,
     unit: 'BCH'
   })
