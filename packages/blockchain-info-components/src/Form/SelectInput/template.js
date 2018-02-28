@@ -112,7 +112,7 @@ const Arrow = styled(Icon)`
 const SelectInput = (props) => {
   const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, templateDisplay, templateHeader, templateItem, errorState } = props
   const display = selected || { text: defaultDisplay, value: undefined }
-  console.log('errorState', errorState)
+
   return (
     <SelectBoxInput>
       {!expanded || !searchEnabled

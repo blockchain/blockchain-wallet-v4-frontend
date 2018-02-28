@@ -6,6 +6,7 @@ import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import CoinInput from './CoinInput'
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -28,7 +29,7 @@ const ContainerMiddle = styled.div`
   width: 10%;
   min-width: 50px;
   flex-grow: 1;
-  margin-top: 20px;
+  margin-top: 25px;
 
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
 `

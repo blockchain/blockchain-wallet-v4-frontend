@@ -1,52 +1,38 @@
-import { compose, equals, head, isNil, path, prop } from 'ramda'
+import { equals, path, prop } from 'ramda'
+import BigNumber from 'bignumber.js'
 
-// export const initializeForm = (prevProps, nextProps) => {
-//   console.log('initializeForm', prevProps.initialValues, nextProps.initialValues)
-//   const nextAccounts = prop('accounts', nextProps)
-//   const nextAmount = prop('amount', nextProps)
-//   const nextInitialValues = prop('initialValues', nextProps)
-//   if (isNil(nextAccounts) || isNil(nextAmount)) {
-//     console.log('initializeForm YEAAAA', nextInitialValues)
-//     nextProps.formActions.initialize('exchange', nextInitialValues)
-//   }
-// }
+export const isAboveShapeshiftMinimum = (value, allValues, props) => {
+  console.log('isAboveShapeshitMimimum', value, allValues, props)
+  const sourceCoin = prop('sourceCoin', props)
+  const targetCoin = prop('targetCoin', props)
+  const source = prop('source', value)
+  const btcEthMinimum = path(['btcEth', 'minimum'], props)
+  const ethBtcMinimum = path(['ethBtc', 'minimum'], props)
+  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
+    if (new BigNumber(source).lessThan(new BigNumber(btcEthMinimum))) return `Value is below the minimum limit (${btcEthMinimum})`
+  }
+  if (equals('ETH', sourceCoin) && equals('BTC', targetCoin)) {
+    if (new BigNumber(source).lessThan(new BigNumber(ethBtcMinimum))) return `Value is below the minimum limit (${ethBtcMinimum})`
+  }
+  return undefined
+}
 
-// export const changeCoin = (prevProps, nextProps) => {
-//   const selectSource = props => path(['data', 'accounts', 'source'], props)
-//   const selectSourceCoin = compose(prop('coin'), selectSource)
-//   const selectTarget = props => path(['data', 'accounts', 'target'], props)
-//   const selectTargetCoin = compose(prop('coin'), selectTarget)
+export const isBelowShapeshiftMaximum = (value, allValues, props) => {
+  console.log('isBelowShapeshiftMaximum', value, allValues, props)
+  const sourceCoin = prop('sourceCoin', props)
+  const targetCoin = prop('targetCoin', props)
+  const source = prop('source', value)
+  const btcEthMaximum = path(['btcEth', 'maxLimit'], props)
+  const ethBtcMaximum = path(['ethBtc', 'maxLimit'], props)
+  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
+    if (new BigNumber(source).greaterThan(new BigNumber(btcEthMaximum))) return `Value is above the maximum limit (${btcEthMaximum})`
+  }
+  if (equals('ETH', sourceCoin) && equals('BTC', targetCoin)) {
+    if (new BigNumber(source).greaterThan(new BigNumber(ethBtcMaximum))) return `Value is above the maximum limit (${ethBtcMaximum})`
+  }
+  return undefined
+}
 
-//   const btcBalances = prop('btcBalances', nextProps)
-//   const ethBalances = prop('ethBalances', nextProps)
-//   const prevSource = selectSource(prevProps)
-//   const prevSourceCoin = selectSourceCoin(prevProps)
-//   const nextSource = selectSource(nextProps)
-//   const nextSourceCoin = selectSourceCoin(nextProps)
-//   const prevTargetCoin = selectTargetCoin(prevProps)
-//   const nextTargetCoin = selectTargetCoin(nextProps)
+export const isWithinEffectiveBalance = (value, allValues, props) => {
 
-//   // If the source coin has changed, we select a new target coin
-//   if (!isNil(prevSourceCoin) && !equals(prevSourceCoin, nextSourceCoin)) {
-//     const nextSource = selectDefaultAccount(prevSourceCoin, btcBalances, ethBalances)
-//     nextProps.formActions.change('exchange', 'target', nextSource)
-//   }
-
-//   // If the target coin has changed, we select a new source coin
-//   if (!isNil(prevTargetCoin) && !equals(prevSourceCoin, nextSourceCoin)) {
-//     const nextTarget = selectDefaultAccount(prevTargetCoin, btcBalances, ethBalances)
-//     nextProps.formActions.change('exchange', 'source', nextTarget)
-//   }
-
-//   // Update unspent if needed (BTC)
-//   if (!equals(prevSource, nextSource) && !isNil(prevSourceCoin) && equals(nextSourceCoin, 'BTC')) {
-//     nextProps.dataBitcoinActions.fetchUnspent(prop('index', prevSource) || prop('address', prevSource))
-//   }
-// }
-
-// const selectDefaultAccount = (coin, btcBalances, ethBalances) => {
-//   switch (coin) {
-//     case 'BTC': return head(btcBalances)
-//     case 'ETH': return head(ethBalances)
-//   }
-// }
+}

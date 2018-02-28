@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { equals, prop } from 'ramda'
+import { equals } from 'ramda'
 import * as crypto from 'crypto'
 
 import { getData } from './selectors'
-import { actions, selectors } from 'data'
-// import { initializeForm } from './services'
+import { actions } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -88,10 +87,10 @@ class ExchangeFormContainer extends React.Component {
     // console.log('ExchangeFormContainer render', this.props)
 
     return this.props.data.cata({
-      Success: (value) => <Success {...value} {...this.props} loading={false} />,
+      Success: (value) => <Success {...value} {...this.props} />,
       Failure: (message) => <Error />,
-      Loading: () => <Success {...this.props} loading />,
-      NotAsked: () => <Success {...this.props} loading={false} />
+      Loading: () => <Loading {...this.props} />,
+      NotAsked: () => <Loading {...this.props} />
     })
 
     /* // const { accounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
