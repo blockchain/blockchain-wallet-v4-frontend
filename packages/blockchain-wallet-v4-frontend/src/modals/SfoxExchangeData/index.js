@@ -2,9 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { compose } from 'redux'
+import { connect } from 'react-redux'
 import Tray from 'components/Tray'
 import Verify from './Verify'
+import Upload from './Upload'
+import Link from './Link'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
+import { getData } from './selectors'
+import { determineStep } from 'services/SfoxService'
 
 class SfoxExchangeData extends React.Component {
   constructor () {
@@ -21,16 +26,24 @@ class SfoxExchangeData extends React.Component {
     setTimeout(this.props.close, 500)
   }
 
-  getStepComponent (step) {
+  getStepComponent () {
+    const { profile, verificationStatus, accounts } = this.props.data.getOrElse({})
+    const step = determineStep(profile, verificationStatus, accounts)
+
     switch (step) {
       case 'verify': return <Verify />
+      case 'upload': return <Upload />
+      case 'link': return <Link />
+      case 'verified': {
+        this.handleClose()
+        break
+      }
     }
   }
 
   render () {
-    const { step } = this.props
+    // const { step } = this.props
     const { show } = this.state
-
     return (
       <Tray in={show} class='tray'>
         <ModalHeader onClose={this.handleClose.bind(this)}>
@@ -38,7 +51,7 @@ class SfoxExchangeData extends React.Component {
           {/* <GenericStepIndicator steps=this.props.steps step=this.prop.step> */}
         </ModalHeader>
         <ModalBody>
-          { this.getStepComponent(step) }
+          { this.getStepComponent() }
         </ModalBody>
       </Tray>
     )
@@ -46,9 +59,16 @@ class SfoxExchangeData extends React.Component {
 }
 
 SfoxExchangeData.PropTypes = {
-  step: PropTypes.oneOf(['verify'])
+  step: PropTypes.oneOf(['verify', 'upload', 'link'])
 }
 
-const enhance = compose(modalEnhancer('SfoxExchangeData'))
+const mapStateToProps = (state) => ({
+  data: getData(state)
+})
+
+const enhance = compose(
+  connect(mapStateToProps, undefined),
+  modalEnhancer('SfoxExchangeData')
+)
 
 export default enhance(SfoxExchangeData)

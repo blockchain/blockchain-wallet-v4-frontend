@@ -93,35 +93,63 @@ export default ({ api } = {}) => {
 
   const setProfile = function * (data) {
     const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = data.payload
-    const { profile } = sfox
-
+    yield call(fetchProfile)
     try {
-      profile.firstName = firstName
-      profile.middleName = middleName || ''
-      profile.lastName = lastName
-      profile.dateOfBirth = new Date(dob)
-      profile.setSSN(ssn)
-      profile.setAddress(
+      sfox.profile.firstName = firstName
+      sfox.profile.middleName = middleName || ''
+      sfox.profile.lastName = lastName
+      sfox.profile.dateOfBirth = new Date(dob)
+      sfox.profile.setSSN(ssn)
+      sfox.profile.setAddress(
         address1,
         address2,
         city,
         state,
         zipcode
       )
-      console.log('setProfile saga', data, sfox, sfox.profile)
-      // call verify() here
-      const verify = yield apply(sfox, profile.verify)
-      console.log('after verify', verify)
-
-      // yield put(A.handleTradeLoading())
-      // const quote = data.payload
-      // const accounts = yield select(S.getAccounts)
-      // const methods = yield apply(quote, quote.getPaymentMediums)
-      // const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
-      // yield put(A.handleTradeSuccess(trade))
+      yield apply(sfox.profile, sfox.profile.verify)
+      // TODO: try refresh profile here to smooth out btwn steps
+      yield put(A.setProfileSuccess())
     } catch (e) {
-      console.warn('setProfile saga', e)
-      yield put(A.handleTradeFailure(e))
+      console.warn('setProfile core saga', e)
+      yield put(A.setProfileFailure(e))
+    }
+  }
+
+  const uploadDoc = function * (data) {
+    const { idType, file } = data.payload
+    try {
+      const profile = yield select(S.getProfile)
+      const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
+      yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
+      yield call(fetchProfile)
+      yield put(A.uploadSuccess())
+    } catch (e) {
+      console.warn('uploadDoc core saga', e)
+      yield put(A.uploadFailure(e))
+    }
+  }
+
+  const getBankAccounts = function * (data) {
+    const token = data.payload
+    try {
+      const bankAccounts = yield apply(sfox.bankLink, sfox.bankLink.getAccounts, [token])
+      yield put(A.getBankAccountsSuccess(bankAccounts))
+    } catch (e) {
+      console.warn('getBankAccounts core saga', e)
+      yield put(A.getBankAccountsFailure(e))
+    }
+  }
+
+  const setBankAccount = function * (data) {
+    const bank = data.payload
+    try {
+      yield apply(sfox.bankLink, sfox.bankLink.setAccount, [bank])
+      yield call(fetchAccounts)
+      yield put(A.setBankAccountSuccess())
+    } catch (e) {
+      console.warn('setBankAccount core saga', e)
+      yield put(A.setBankAccountFailure(e))
     }
   }
 
@@ -133,5 +161,8 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.SET_PROFILE, setProfile)
+    yield takeLatest(AT.UPLOAD, uploadDoc)
+    yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
+    yield takeLatest(AT.SET_BANK_ACCOUNT, setBankAccount)
   }
 }
