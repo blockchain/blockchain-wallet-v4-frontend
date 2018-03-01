@@ -15,7 +15,8 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.js"
+      "src/**/*.js",
+      "!src/**/index.js"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-info-components",
     "coverageReporters": [
