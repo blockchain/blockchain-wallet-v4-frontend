@@ -72,16 +72,16 @@ class SelectBoxesAccountsContainer extends React.Component {
       Loading: () => <div />,
       NotAsked: () => <div />
     })
-      // <SelectBoxesAccounts
-      //   source={source}
-      //   target={target}
-      //   sourceItems={sourceItems}
-      //   targetItems={targetItems}
-      //   handleSelectSource={this.handleSelectSource}
-      //   handleSelectTarget={this.handleSelectTarget}
-      //   handleSwap={this.handleSwap}
-      //   {...this.props}
-      // />
+    // <SelectBoxesAccounts
+    //   source={source}
+    //   target={target}
+    //   sourceItems={sourceItems}
+    //   targetItems={targetItems}
+    //   handleSelectSource={this.handleSelectSource}
+    //   handleSelectTarget={this.handleSelectTarget}
+    //   handleSwap={this.handleSwap}
+    //   {...this.props}
+    // />
   }
 }
 

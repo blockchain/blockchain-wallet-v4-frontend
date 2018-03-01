@@ -74,10 +74,10 @@ const ThirdStep = (props) => {
           </Button>
           {
             invalid
-            ? <Link size='12px' weight={300} onClick={previousStep}>
-              <FormattedMessage id='modals.recoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
-            </Link>
-            : null
+              ? <Link size='12px' weight={300} onClick={previousStep}>
+                <FormattedMessage id='modals.recoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
+              </Link>
+              : null
           }
           <Link size='12px' weight={300} onClick={inline ? handleClose : goBackOnSuccess}>
             <FormattedMessage id='modals.recoveryphrase.thirdstep.skipfornow' defaultMessage="Skip for now, I'll do this later" />

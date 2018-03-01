@@ -85,8 +85,8 @@ const BankLink = (props) => {
           </Text>
           {
             bankAccounts
-            ? <BankAccounts data={bankAccounts.data} onSetBankAccount={onSetBankAccount} />
-            : <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
+              ? <BankAccounts data={bankAccounts.data} onSetBankAccount={onSetBankAccount} />
+              : <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
           }
         </LinkContainer>
         <ManualLinkText>

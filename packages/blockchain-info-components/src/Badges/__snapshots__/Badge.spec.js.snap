@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Badge component applestore renders correctly 1`] = `
+<a
+  class="sc-bdVaJa bLdDwz"
+  color="brand-secondary"
+  href="https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309"
+  target="_blank"
+>
+  <img
+    class="sc-htpNat chbhfk"
+    height="40px"
+    src="[object Object]"
+    width="auto"
+  />
+</a>
+`;
+
+exports[`Badge component googleplay renders correctly 1`] = `
+<a
+  class="sc-bdVaJa bLdDwz"
+  color="brand-secondary"
+  href="https://play.google.com/store/apps/details?id=piuk.blockchain.android"
+  target="_blank"
+>
+  <img
+    class="sc-htpNat chbhfk"
+    height="40px"
+    src="[object Object]"
+    width="auto"
+  />
+</a>
+`;
