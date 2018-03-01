@@ -5,7 +5,7 @@ import { isEmpty } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required } from 'services/FormHelper'
+import { required, validBitcoinCashAddress } from 'services/FormHelper'
 import { Button, ButtonGroup, Icon, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -101,7 +101,7 @@ const FirstStep = props => {
       <Row>
         {addressSelectToggled
           ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false, coin: 'BCH' }} />
-          : <Field name='to2' component={TextBox} validate={[required]} />
+          : <Field name='to2' component={TextBox} validate={[required, validBitcoinCashAddress]} />
         }
         <QRCodeCapture coin='BCH' />
         {addressSelectToggled
