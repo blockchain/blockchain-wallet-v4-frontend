@@ -12,7 +12,7 @@ class MenuContainer extends React.Component {
   }
 
   handleClickReporting () {
-    this.props.modalActions.showModal('TransactionReport')
+    this.props.modalActions.showModal('TransactionReport', {coin: 'BTC'})
   }
 
   render () {
