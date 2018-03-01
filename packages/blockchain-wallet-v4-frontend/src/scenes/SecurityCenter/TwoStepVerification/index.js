@@ -101,7 +101,7 @@ class TwoStepVerificationContainer extends React.Component {
         editing={this.state.editing}
         pulseText={this.pulseText}
         pulse={this.state.pulse}
-        />,
+      />,
       Failure: (message) => <Error {...rest}
         message={message} />,
       Loading: () => <Loading {...rest} />,

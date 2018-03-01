@@ -1,13 +1,13 @@
 import { compose, map, curry, ifElse, always, isNil, prop } from 'ramda'
 import { Wallet
-       , Wrapper
-       , HDAccount
-       , Address
-       , HDWalletList
-       , HDWallet
-       , Options
-       , AddressMap
-      } from '../../types'
+  , Wrapper
+  , HDAccount
+  , Address
+  , HDWalletList
+  , HDWallet
+  , Options
+  , AddressMap
+} from '../../types'
 import { walletPath } from '../paths'
 
 const ImtoJS = i => i.toJS()
