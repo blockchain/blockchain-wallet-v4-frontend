@@ -1,7 +1,13 @@
 import React from 'react'
-import ExchangeCheckout from '../ExchangeCheckout'
+import styled from 'styled-components'
+import ExchangeHistory from '../../OrderHistory'
+import ExchangeCheckout from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+
+const CheckoutWrapper = styled.div`
+  width: 50%;
+`
 
 const ContinueButton = props => {
   const { step, type } = props
@@ -35,9 +41,9 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { fetchQuote, handleTrade, quote, base, errors, showModal } = props
+  const { fetchQuote, handleTrade, quote, base, errors, showModal, ...rest } = props
   const { accounts, profile, verificationStatus } = props.value
-  const type = 'buy'
+  const { trades, type } = rest
   const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
 
@@ -57,24 +63,53 @@ const Success = props => {
     }
   }
 
-  return (
-    <ExchangeCheckout
-      fiatLimits
-      base={base}
-      quote={quote}
-      errors={errors}
-      fiat={'USD'}
-      crypto={'BTC'}
-      accounts={accounts}
-      onSubmit={onSubmit}
-      fetchQuote={fetchQuote}
-      limits={limits[type]}
-      showRequiredMsg={step !== 'verified'}
-      requiredMsg={<RequiredMsg step={step} type={type} />}
-      continueButton={<ContinueButton step={step} type={type} />}
-      reasonMsg={<ReasonMsg reason={reason} limit={profile.limits[type]} />}
-    />
-  )
+  if (type === 'buy') {
+    return (
+      <CheckoutWrapper>
+        <ExchangeCheckout
+          fiatLimits
+          base={base}
+          quote={quote}
+          errors={errors}
+          fiat={'USD'}
+          crypto={'BTC'}
+          accounts={accounts}
+          onSubmit={onSubmit}
+          fetchQuote={fetchQuote}
+          limits={limits[type]}
+          showRequiredMsg={step !== 'verified'}
+          requiredMsg={<RequiredMsg step={step} type={type} />}
+          continueButton={<ContinueButton step={step} type={type} />}
+          reasonMsg={<ReasonMsg reason={reason} limit={profile.limits[type]} />}
+        />
+      </CheckoutWrapper>
+    )
+  } else if (type === 'sell') {
+    return (
+      <CheckoutWrapper>
+        <ExchangeCheckout
+          fiatLimits
+          base={base}
+          quote={quote}
+          errors={errors}
+          fiat={'USD'}
+          crypto={'BTC'}
+          accounts={accounts}
+          onSubmit={onSubmit}
+          fetchQuote={fetchQuote}
+          limits={limits[type]}
+          showRequiredMsg={step !== 'verified'}
+          requiredMsg={<RequiredMsg step={step} type={type} />}
+          continueButton={<ContinueButton step={step} type={type} />}
+          reasonMsg={<ReasonMsg reason={reason} limit={profile.limits[type]} />}
+        />
+      </CheckoutWrapper>
+    )
+  } else {
+    return (
+      <ExchangeHistory trades={trades} />
+    )
+  }
 }
 
 export default Success
