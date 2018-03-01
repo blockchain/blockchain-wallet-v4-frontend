@@ -23,7 +23,13 @@ const Container = styled.div`
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  button {
+    margin-top: 0px; 
+  }
+`
+const AddAccountButton = styled(Button)`
+  margin-top: 0px !important;
 `
 
 class AddManually extends Component {
@@ -41,10 +47,16 @@ class AddManually extends Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    this.props.onSetBankManually({})
+    this.props.onSetBankManually(
+      this.props.routingNumber,
+      this.props.accountNumber,
+      this.props.fullName,
+      this.props.type
+    )
   }
 
   render () {
+    console.log('render add manual', this.props)
     return (
       <Form onSubmit={this.handleSubmit}>
         <Container>
@@ -72,6 +84,9 @@ class AddManually extends Component {
             </Text>
             <Field name='type' component={SelectBoxBankAccountType} validate={[required]} />
           </InputContainer>
+          <AddAccountButton type='submit' fullwidth nature='primary' disabled={this.props.invalid || this.props.submitting}>
+            Add Account
+          </AddAccountButton>
         </Container>
       </Form>
     )
