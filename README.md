@@ -44,9 +44,9 @@ The following commands are available:
 ### Unit Tests
 The following commands are available:
  * `yarn test` Runs unit tests for all the 3 packages.
- * `yarn test:components` Runs unit test for only [blockchain-info-components](./packages/blockchain-info-components).
- * `yarn test:core` Runs unit test for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4).
- * `yarn test:frontend` Runs unit test for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend).
+ * `yarn test:components` Runs unit tests for only [blockchain-info-components](./packages/blockchain-info-components).
+ * `yarn test:core` Runs unit tests for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4).
+ * `yarn test:frontend` Runs unit tests for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend).
 
 ### Code Coverage
 To generate code coverage reports, the following commands are available:
