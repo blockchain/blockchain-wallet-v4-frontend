@@ -66,6 +66,7 @@
     "jest": "^21.2.1",
     "jest-cli": "^21.2.1",
     "jest-css-modules": "^1.1.0",
+    "jest-styled-components": "^5.0.0",
     "lerna": "^2.1.2",
     "npm-watch": "^0.3.0",
     "prop-types": "^15.6.0",
