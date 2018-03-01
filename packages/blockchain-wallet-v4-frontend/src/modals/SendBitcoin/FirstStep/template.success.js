@@ -191,10 +191,10 @@ const FirstStep = props => {
             }
           </div>
           {feeEditToggled
-          ? ''
-          : <Text size={'12px'} weight={300}>
-            {renderFeeConfirmationTime()}
-          </Text>}
+            ? ''
+            : <Text size={'12px'} weight={300}>
+              {renderFeeConfirmationTime()}
+            </Text>}
         </ColLeft>
         <ColRight>
           <ComboDisplay coin='BTC'>{totalFee}</ComboDisplay>

@@ -23,8 +23,8 @@ export const deleteLabel = curry((index, addressLabelMap) =>
 
 export const setLabel = curry((index, label, addressLabelMap) =>
   pipe(AddressLabelMap.guard,
-       amap => amap.set(index.toString(),
-                   AddressLabel.fromJS({ index, label }))
+    amap => amap.set(index.toString(),
+      AddressLabel.fromJS({ index, label }))
   )(addressLabelMap)
 )
 

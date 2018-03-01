@@ -1,6 +1,6 @@
 import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
-import { isNumeric, isEmail, isGuid, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen } from 'services/ValidationHelper'
+import { isNumeric, isEmail, isGuid, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen } from './../ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -13,7 +13,7 @@ const requiredNumber = value => isNumeric(value) && value > 0 ? undefined : 'Inv
 
 const validEmail = value => isEmail(value) ? undefined : 'Invalid email address'
 
-const validMmemonic = value => bip39.validateMnemonic(value) ? undefined : 'Invalid passphrase'
+const validMnemonic = value => bip39.validateMnemonic(value) ? undefined : 'Invalid passphrase'
 
 const validWalletId = value => isGuid(value) ? undefined : 'Invalid wallet identifier'
 
@@ -47,7 +47,7 @@ export {
   validNumber,
   validEmail,
   validEmailCode,
-  validMmemonic,
+  validMnemonic,
   validWalletId,
   validMobileNumber,
   validStrongPassword,

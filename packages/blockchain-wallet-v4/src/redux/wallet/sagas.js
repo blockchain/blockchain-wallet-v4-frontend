@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import { prop, compose, endsWith, repeat, range, map, propSatisfies,
-         length, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
+  length, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import Task from 'data.task'
 import Either from 'data.either'
@@ -111,9 +111,9 @@ export const walletSaga = ({ api } = {}) => {
       const isEncrypted = yield select(S.isSecondPasswordOn)
       if (isEncrypted) {
         const task = Task.of(wrapper)
-                    .chain(Wrapper.traverseWallet(Task.of, Wallet.decrypt(password)))
-                    .map(Wrapper.setBothPbkdf2Iterations(iterations))
-                    .chain(Wrapper.traverseWallet(Task.of, Wallet.encrypt(password)))
+          .chain(Wrapper.traverseWallet(Task.of, Wallet.decrypt(password)))
+          .map(Wrapper.setBothPbkdf2Iterations(iterations))
+          .chain(Wrapper.traverseWallet(Task.of, Wallet.encrypt(password)))
         yield call(runTask, task, A.setWrapper)
       } else {
         const newWrapper = Wrapper.setBothPbkdf2Iterations(iterations, wrapper)

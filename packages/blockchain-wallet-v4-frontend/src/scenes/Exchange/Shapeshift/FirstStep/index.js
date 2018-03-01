@@ -95,9 +95,9 @@ class FirstStepContainer extends React.Component {
         sourceCoin={sourceCoin}
         targetCoin={targetCoin}
         sourceAmount={amount} />
-        // handleSubmit={this.handleSubmit}
-        // max={effectiveBalance}
-        // {...rest} />
+    // handleSubmit={this.handleSubmit}
+    // max={effectiveBalance}
+    // {...rest} />
     )
   }
 }
@@ -113,7 +113,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
   // exchangeActions: bindActionCreators(actions.modules.exchange, dispatch),
   // sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch)
 })

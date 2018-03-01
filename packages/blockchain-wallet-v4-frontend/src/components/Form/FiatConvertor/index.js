@@ -88,7 +88,7 @@ class FiatConvertorContainer extends React.Component {
         handleFocus={this.handleFocus}
         handleErrorClick={this.handleErrorClick}
         {...this.props}
-        />,
+      />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
