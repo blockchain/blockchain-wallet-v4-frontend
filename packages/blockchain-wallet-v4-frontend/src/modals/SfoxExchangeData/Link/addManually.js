@@ -56,7 +56,6 @@ class AddManually extends Component {
   }
 
   render () {
-    console.log('render add manual', this.props)
     return (
       <Form onSubmit={this.handleSubmit}>
         <Container>
