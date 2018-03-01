@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
+import { bindActionCreators } from 'redux'
 import Upload from './template'
 import { actions } from 'data'
 import { getData } from './selectors'
@@ -90,9 +89,4 @@ const mapDispatchToProps = (dispatch) => ({
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: {} })
-)
-
-export default enhance(UploadContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(UploadContainer)

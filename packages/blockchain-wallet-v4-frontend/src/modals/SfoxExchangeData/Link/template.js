@@ -2,10 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Link } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 import PlaidFrame from './iframe.js'
 import BankAccounts from './bankAccounts.js'
+import AddManually from './addManually.js'
 
 const Row = styled.div`
   display: flex;
@@ -40,9 +41,24 @@ const LinkContainer = styled.div`
   flex-direction: column;
   justify-content: center;
 `
+const ManualLinkText = styled.span`
+  display: flex;
+  flex-direction: row;
+  font-size: 13px;
+  align-items: center;
+  margin-top: 10px;
+  a:first-of-type {
+    color: ${props => props.theme['brand-secondary']};
+    cursor: pointer;
+    span {
+      color: #545456;
+      cursor: default;
+    }
+  }
+`
 
 const BankLink = (props) => {
-  const { plaidUrl, enablePlaid, bankAccounts, onSetBankAccount } = props
+  const { plaidUrl, enablePlaid, bankAccounts, onSetBankAccount, ui, toggleManual, setBankManually } = props
 
   return (
     <Row>
@@ -73,12 +89,16 @@ const BankLink = (props) => {
             : <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
           }
         </LinkContainer>
-        <Text>
-          <Link>
-            <FormattedMessage id='sfoxexchangedata.link.manuallyenter' defaultMessage='Manually Enter Account & Routing Information' />
-          </Link>
-          <FormattedMessage id='sfoxexchangedata.link.fourbusinessdays' defaultMessage='(This can take up to 4 business days)' />
-        </Text>
+        <ManualLinkText>
+          <a onClick={toggleManual}>Or Manually Enter Account & Routing Information&nbsp;
+            <span>(This can take up to 4 business days)</span>
+          </a>
+        </ManualLinkText>
+        {
+          ui.toggleManual
+          ? <AddManually onSetBankManually={setBankManually} />
+          : null
+        }
       </ColRight>
     </Row>
   )

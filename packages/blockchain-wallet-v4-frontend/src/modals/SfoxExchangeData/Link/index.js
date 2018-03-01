@@ -11,6 +11,8 @@ class LinkContainer extends Component {
   constructor (props) {
     super(props)
     this.onSetBankAccount = this.onSetBankAccount.bind(this)
+    this.toggleManual = this.toggleManual.bind(this)
+    this.setBankManually = this.setBankManually.bind(this)
     this.state = { enablePlaid: false }
   }
 
@@ -38,14 +40,25 @@ class LinkContainer extends Component {
     this.props.sfoxDataActions.setBankAccount(bankChoice)
   }
 
+  toggleManual () {
+    this.props.updateUI({ toggleManual: !this.props.ui.toggleManual })
+  }
+
+  setBankManually (data) {
+    console.log('set bank manually', data)
+  }
+
   render () {
-    const { plaidUrl, bankAccounts } = this.props
+    const { plaidUrl, bankAccounts, ui } = this.props
     return <Link
       handleSubmit={this.handleSubmit}
       plaidUrl={plaidUrl}
       enablePlaid={this.state.enablePlaid}
       bankAccounts={bankAccounts}
       onSetBankAccount={this.onSetBankAccount}
+      toggleManual={this.toggleManual}
+      setBankManually={this.setBankManually}
+      ui={ui}
     />
   }
 }
@@ -62,7 +75,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: {} })
+  ui({ state: { toggleManual: false } })
 )
 
 export default enhance(LinkContainer)
