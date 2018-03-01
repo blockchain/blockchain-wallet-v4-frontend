@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getTrades } from './selectors'
 import Success from './template.success'
+import Failure from './template.failure'
 
 class Checkout extends React.Component {
   componentWillMount () {
@@ -13,15 +14,15 @@ class Checkout extends React.Component {
   }
 
   render () {
-    const { data, errors, quote, base, trades, modalActions, sfoxDataActions } = this.props
+    const { data, errors, quote, base, trades, modalActions, sfoxDataActions, sfox } = this.props
     const { handleTrade, fetchQuote } = sfoxDataActions
     const { showModal } = modalActions
-
+    console.log('sfox checkout render', sfox)
     return data.cata({
-      Success: (value) => <Success base={base} value={value} errors={errors} quote={quote} handleTrade={handleTrade} showModal={showModal} fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })} />,
-      Failure: (msg) => <div>{msg.error}</div>,
+      Success: (value) => <Success user={sfox.user} base={base} value={value} errors={errors} quote={quote} handleTrade={handleTrade} showModal={showModal} fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })} />,
+      Failure: (msg) => <Failure user={sfox.user} showModal={showModal} msg={msg} />,
       Loading: () => <div>Loading...</div>,
-      NotAsked: () => <div />
+      NotAsked: () => <div>not asked</div>
     })
   }
 }
