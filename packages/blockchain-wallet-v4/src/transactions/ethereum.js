@@ -17,8 +17,9 @@ const getType = (tx, addresses) => {
 export const calculateFee = (gasRegular, gasLimit) => `${(gasRegular * gasLimit)}000000000` // Convert gwei => wei
 
 export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, network = 1) => {
+  let tx;
   try {
-    let tx = new EthereumTx(null, network)
+    tx = new EthereumTx(null, network)
     tx.nonce = fromAccount.nonce
     // let feeBN =
 
@@ -29,8 +30,7 @@ export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, net
     //   _amount: '',
     //   _available: ''
     // }
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e)
   }
   return tx

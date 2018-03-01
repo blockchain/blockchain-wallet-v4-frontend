@@ -69,7 +69,7 @@ class EmailAddressContainer extends React.Component {
         handleChangeEmailView={this.handleChangeEmailView}
         handleEmailChangeCancel={this.handleEmailChangeCancel}
         handleEmailChangeSubmit={this.handleEmailChangeSubmit}
-        />,
+      />,
       Failure: (message) => <Error {...rest}
         message={message} />,
       Loading: () => <Loading {...rest} />,

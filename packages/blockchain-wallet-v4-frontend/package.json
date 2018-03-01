@@ -2,24 +2,16 @@
   "name": "blockchain-wallet-v4-frontend",
   "version": "0.0.1",
   "description": "Wallet user interface",
-  "main": "index.js",
-  "scripts": {
-    "build": "lerna bootstrap && webpack --config webpack.config.js --progress --colors",
-    "build:prod": "lerna bootstrap && webpack -p --config webpack.config.js --progress --colors",
-    "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
-    "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
-    "generate": "babel-node ./tools/generateDefaultLocale.js",
-    "test": "jest --watch"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blockchain/blockchain-wallet-v4-frontend.git"
-  },
   "keywords": [
+    "blockchain",
     "react",
-    "wallet",
-    "blockchain"
+    "wallet"
   ],
+  "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend#readme",
+  "bugs": {
+    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
+  },
+  "license": "ISC",
   "author": {
     "name": "(Dream Team) Blockchain.info",
     "url": "https://blockchain.info"
@@ -29,66 +21,47 @@
     "Jaume Pernas",
     "Guillaume Marquilly"
   ],
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blockchain/blockchain-wallet-v4-frontend.git"
   },
-  "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend#readme",
+  "scripts": {
+    "build": "lerna bootstrap && webpack --config webpack.config.js --progress --colors",
+    "build:prod": "lerna bootstrap && webpack -p --config webpack.config.js --progress --colors",
+    "coverage": "jest --coverage",
+    "generate": "babel-node ./tools/generateDefaultLocale.js",
+    "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
+    "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
+    "test": "jest"
+  },
   "jest": {
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
-    },
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
+    "coverageReporters": [
+      "json",
+      "html"
+    ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|scss)$": "identity-obj-proxy",
+      "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy",
       "^locales(.*)$": "<rootDir>/src/assets/locales/$1"
-    }
-  },
-  "standard": {
-    "globals": [
-      "jest",
-      "test",
-      "describe",
-      "context",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect"
+    },
+    "setupFiles": [
+      "<rootDir>/../../jest.shim.js", "<rootDir>/../../jest.config.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/../../node_modules/enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.jsx$": "<rootDir>/../../node_modules/babel-jest",
+      "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"
     ]
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
-    "babel-eslint": "^8.0.2",
-    "babel-jest": "^21.2.0",
-    "babel-loader": "^7.0.0",
-    "babel-plugin-module-resolver": "^3.0.0",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "clean-webpack-plugin": "^0.1.17",
-    "copy-webpack-plugin": "^4.2.0",
-    "eslint": "^4.11.0",
-    "eslint-import-resolver-webpack": "^0.8.1",
-    "eslint-loader": "^1.7.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-react": "^7.4.0",
-    "eslint-watch": "^3.1.3",
-    "file-loader": "^1.1.5",
-    "html-webpack-plugin": "^2.28.0",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^21.2.1",
-    "jest-cli": "^21.2.1",
-    "jest-css-modules": "^1.1.0",
-    "react-hot-loader": "^3.1.3",
-    "react-test-renderer": "^16.1.1",
-    "redux-mock-store": "^1.3.0",
-    "standard": "^10.0.2",
-    "webpack": "^2.5.1",
-    "webpack-dev-server": "^2.9.4"
   },
   "dependencies": {
     "babel-plugin-react-html-attrs": "^2.1.0",
@@ -133,5 +106,19 @@
     "styled-components": "^2.2.3",
     "webpack-bundle-analyzer": "^2.9.1",
     "zxcvbn": "^4.4.2"
+  },
+  "standard": {
+    "globals": [
+      "jest",
+      "test",
+      "describe",
+      "context",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect"
+    ]
   }
 }

@@ -60,7 +60,7 @@ describe('convertFiatToBitcoin', () => {
       toUnit: '',
       rates: bitcoinRates
     }
-    debugger;
+    
     const result = Conversion.convertFiatToBitcoin(input)
     expect(result).toEqual(Conversion.DefaultConversion)
   })
