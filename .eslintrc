@@ -15,19 +15,23 @@
     "es6": true,
     "jest": true
   },
+  "globals": {
+    "fetch": true
+  },
   // 0 = off, 1 = warn, 2 = error
   // these rules get extended in each packages own .eslintrc
   "rules": {
-    "quotes": 0,
+    "camelcase": 0,
+    "eol-last": 0,
     "no-console": 0,
     "no-var": 0,
-    "semi": 0,
     "no-trailing-spaces": 0,
-    "eol-last": 0,
     "no-unused-vars": 0,
     "no-underscore-dangle": 0,
     "no-alert": 0,
     "no-lone-blocks": 0,
+    "quotes": 0,
+    "semi": 0,
     "react/display-name": [1, { "ignoreTranspilerName": false }],
     "react/forbid-prop-types": [1, { "forbid": ["any"] }],
     "react/jsx-boolean-value": 1,
