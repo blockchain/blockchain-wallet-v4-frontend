@@ -48,6 +48,10 @@ The following commands are available:
  * `yarn test:core` Runs unit tests for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4).
  * `yarn test:frontend` Runs unit tests for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend).
 
+We are using Jest Snapshots for some UI components. Here are the commands to update them when necessary:
+ * `yarn test:components:update` Updates component snapshots for only [blockchain-info-components](./packages/blockchain-info-components).
+ * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend).
+
 ### Code Coverage
 To generate code coverage reports, the following commands are available:
  * `yarn coverage` Generates, and merges together, a coverage report for all the 3 packages. 
