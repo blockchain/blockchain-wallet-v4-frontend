@@ -17,6 +17,7 @@ const ContinueButton = props => {
     case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.button' defaultMessage='Continue Where You Left Off' />
     case step === 'link': return <FormattedMessage id='scenes.buysell.sfoxcheckout.link.button' defaultMessage='Continue Where You Left Off' />
     case step === 'verified' && type === 'buy': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verified.buy_bitcoin_button' defaultMessage='Buy Bitcoin' />
+    case step === 'verified' && type === 'sell': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verified.sell_bitcoin_button' defaultMessage='Sell Bitcoin' />
     default: return null
   }
 }
@@ -36,6 +37,7 @@ const ReasonMsg = props => {
   const { reason, limit } = props
   switch (true) {
     case reason === 'has_remaining_buy_limit': return <FormattedHTMLMessage id='scenes.buysell.sfoxcheckout.buy.remaining_limit' defaultMessage='Your remaining buy limit is <span class="link">{limit} USD.</span>' values={{limit}} />
+    case reason === 'has_remaining_sell_limit': return <FormattedHTMLMessage id='scenes.buysell.sfoxcheckout.sell.remaining_limit' defaultMessage='Your remaining sell limit is <span class="link">{limit} USD.</span>' values={{limit}} />
     default: return <FormattedHTMLMessage id='placeholder' defaultMessage='&nbsp;' />
   }
 }
