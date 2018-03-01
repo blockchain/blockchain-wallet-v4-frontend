@@ -1,6 +1,5 @@
 import { formValueSelector } from 'redux-form'
 import { equals, filter, head, lift, map, prop, is, has } from 'ramda'
-import { Address } from 'bitcoincashjs'
 import settings from 'config'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'

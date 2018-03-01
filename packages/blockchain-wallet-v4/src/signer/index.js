@@ -8,6 +8,7 @@ import Task from 'data.task'
 import { Wrapper, Wallet } from '../types'
 import * as Coin from '../coinSelection/coin.js'
 import * as eth from '../utils/ethereum'
+import { fromCashAddr, isCashAddr } from '../utils/bch'
 // import memoize from 'fast-memoize'
 // import shuffle from 'fisher-yates'
 // import { List } from 'immutable-ext'
@@ -34,7 +35,7 @@ export const signBchSelection = curry((network, selection) => {
   tx.enableBitcoinCash(true)
 
   const addInput = coin => tx.addInput(coin.txHash, coin.index, BitcoinCash.Transaction.DEFAULT_SEQUENCE, new Buffer(coin.script, 'hex'))
-  const addOutput = coin => tx.addOutput(coin.address, coin.value)
+  const addOutput = coin => tx.addOutput(isCashAddr(coin.address) ? fromCashAddr(coin.address) : coin.address, coin.value)
   const sign = (coin, i) => tx.sign(i, coin.priv, null, hashType, coin.value)
 
   forEach(addInput, selection.inputs)
