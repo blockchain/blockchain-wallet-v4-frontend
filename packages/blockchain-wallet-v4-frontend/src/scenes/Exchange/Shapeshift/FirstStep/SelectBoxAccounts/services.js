@@ -1,4 +1,4 @@
-import { equals, head, path, prop } from 'ramda'
+import { equals, prop } from 'ramda'
 
 export const changeSource = (currentSource, newSource, currentTarget, defaultAccounts) => {
   const currentCoin = prop('coin', currentSource)
@@ -19,40 +19,6 @@ export const changeTarget = (currentTarget, newTarget, currentSource, defaultAcc
   }
   return { source: currentSource, target: newTarget }
 }
-
-// export const updateUnspent = (prevProps, nextProps) => {
-//   const prevSource = path(['input', 'value', 'source'], prevProps)
-//   const nextSource = path(['input', 'value', 'source'], nextProps)
-
-//   const nextSourceCoin = prop('coin', nextSource)
-//   if (!equals(prevSource, nextSource) && equals(nextSourceCoin, 'BTC')) {
-//     nextProps.dataBitcoinActions.fetchUnspent(prop('index', nextSource) || prop('address', nextSource))
-//   }
-// }
-
-// // export const initEffectiveBalance = (props) => {
-// //   const updateBalance = (data) => {
-// //     const feePerBytes = prop('btcFee', data)
-// //     props.dataBitcoinActions.refreshEffectiveBalance(coins, feePerBytes)
-// //   }
-// //   props.data.map(x => updateBalance(x))
-// // }
-
-// // export const updateEffectiveBalance = (prevProps, nextProps) => {
-// //   const coins = prop('btcFee', props)
-// //   const updateBalance = (data) => {
-// //     const feePerBytes = prop('btcFee', data)
-// //     props.dataBitcoinActions.refreshEffectiveBalance(coins, feePerBytes)
-// //   }
-// //   props.data.map(x => updateBalance(x))
-// // }
-
-// export const selectDefaultAccount = (coin, btcBalances, ethBalances) => {
-//   switch (coin) {
-//     case 'BTC': return head(btcBalances)
-//     case 'ETH': return head(ethBalances)
-//   }
-// }
 
 // // const updateSelection = (prevProps, nextProps, seed) => {
 // //   const prevData = prevProps.data.getOrElse({})

@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { isAboveShapeshiftMinimum, isBelowShapeshiftMaximum } from './services'
-import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import CoinConvertor from './CoinConvertor'

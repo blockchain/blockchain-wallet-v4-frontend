@@ -1,10 +1,15 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
+// import * as crypto from 'crypto'
 
 import wizardProvider from 'providers/WizardProvider'
+import { getData } from './selectors'
+import { actions } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class ExchangeBoxContainer extends React.Component {
+class ShapeshiftContainer extends React.Component {
   componentWillMount () {
     this.props.resetStep()
   }
@@ -18,4 +23,21 @@ class ExchangeBoxContainer extends React.Component {
   }
 }
 
-export default wizardProvider('exchange', 2)(ExchangeBoxContainer)
+const mapStateToProps = (state) => {
+  const data = getData(state)
+  return { ...data }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const enhance = compose(
+  wizardProvider('exchange', 2),
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(ShapeshiftContainer)
