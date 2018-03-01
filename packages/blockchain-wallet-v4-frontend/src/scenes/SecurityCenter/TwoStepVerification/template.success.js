@@ -14,7 +14,6 @@ import Choices from '../Components/Choices/index'
 
 const pulseAnimation = keyframes`${pulse}`
 
-
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 120%;
 `
@@ -148,7 +147,7 @@ const TwoStepVerification = (props) => {
                   <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Disable {props.authName}</Link>
                 </DisableLinkText>
               </DisableLinkContainer>
-            : null
+              : null
         }
         {/* component for the three 2FA choices */}
         <Choices authType={authType} editing={editing} chooseMethod={props.chooseMethod} pulseText={props.pulseText} />

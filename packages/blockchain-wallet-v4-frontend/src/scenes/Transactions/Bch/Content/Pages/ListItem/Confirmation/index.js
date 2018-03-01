@@ -25,25 +25,25 @@ const TransactionTooltip = styled.div`
 `
 
 const Confirmation = props => props.confirmations > 3
-? (
-  <Wrapper>
-    <Link href={`${settings.ROOT_URL}tx/${props.hash}`} target='_blank'>
-      <Icon name='globe' color='received' cursor />
-    </Link>
-    <Text size='13px' weight={300} color='received'>
-      <FormattedMessage id='scenes.transactions.bch.content.pages.listitem.confirmation.confirmed' defaultMessage='Transaction confirmed' />
-    </Text>
-    <Icon name='checkmark' color='received' />
-  </Wrapper>
-) : (
-  <TransactionTooltip>
-    <ConfirmationGauge nbConfirmations={props.confirmations} />
-    <Tooltip>
-      <FormattedMessage id='scenes.transactions.bch.content.list.listitem.transaction_unconfirmed' defaultMessage='Your transaction will be complete after it has 3 confirmations.' />
-      <Link href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-' target='_blank' size='12px' weight={300} altFont>Learn more.</Link>
-    </Tooltip>
-  </TransactionTooltip>
-)
+  ? (
+    <Wrapper>
+      <Link href={`${settings.ROOT_URL}tx/${props.hash}`} target='_blank'>
+        <Icon name='globe' color='received' cursor />
+      </Link>
+      <Text size='13px' weight={300} color='received'>
+        <FormattedMessage id='scenes.transactions.bch.content.pages.listitem.confirmation.confirmed' defaultMessage='Transaction confirmed' />
+      </Text>
+      <Icon name='checkmark' color='received' />
+    </Wrapper>
+  ) : (
+    <TransactionTooltip>
+      <ConfirmationGauge nbConfirmations={props.confirmations} />
+      <Tooltip>
+        <FormattedMessage id='scenes.transactions.bch.content.list.listitem.transaction_unconfirmed' defaultMessage='Your transaction will be complete after it has 3 confirmations.' />
+        <Link href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-' target='_blank' size='12px' weight={300} altFont>Learn more.</Link>
+      </Tooltip>
+    </TransactionTooltip>
+  )
 
 Confirmation.propTypes = {
   confirmations: PropTypes.number.isRequired,
