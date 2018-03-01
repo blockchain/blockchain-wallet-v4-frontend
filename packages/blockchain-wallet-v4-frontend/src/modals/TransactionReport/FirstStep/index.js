@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 import moment from 'moment'
-import { map } from 'ramda'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -49,8 +48,10 @@ const mapStateToProps = (state) => ({
   end: formValueSelector('transactionReport')(state, 'end')
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  transactionHistoryActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  transactionHistoryActions: ownProps.coin === 'BTC'
+    ? bindActionCreators(actions.core.data.bitcoin, dispatch)
+    : bindActionCreators(actions.core.data.bch, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

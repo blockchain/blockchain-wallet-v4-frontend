@@ -81,12 +81,12 @@ export default ({ api } = {}) => {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
-        const data = yield call(api.getTransactionHistory, address, currency.getOrElse('USD'), start, end)
+        const data = yield call(api.getTransactionHistory, 'BCH', address, currency.getOrElse('USD'), start, end)
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
         const context = yield select(selectors.wallet.getWalletContext)
         const active = context.join('|')
-        const data = yield call(api.getTransactionHistory, active, currency, start, end)
+        const data = yield call(api.getTransactionHistory, 'BCH', active, currency, start, end)
         yield put(A.fetchTransactionHistorySuccess(data))
       }
     } catch (e) {
