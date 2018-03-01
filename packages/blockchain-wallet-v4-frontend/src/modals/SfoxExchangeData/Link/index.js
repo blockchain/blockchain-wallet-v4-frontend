@@ -44,8 +44,8 @@ class LinkContainer extends Component {
     this.props.updateUI({ toggleManual: !this.props.ui.toggleManual })
   }
 
-  setBankManually (data) {
-    console.log('set bank manually', data)
+  setBankManually (routing, account, name, type) {
+    this.props.sfoxFrontendActions.setBankManually(routing, account, name, type)
   }
 
   render () {
@@ -70,7 +70,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(

@@ -6,13 +6,14 @@ import * as buySellA from '../../kvStore/buySell/actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as A from './actions'
+let sfox
 
-export default ({ api, sfox } = {}) => {
+export default ({ api, sfoxService } = {}) => {
   const refreshSFOX = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state)
     const value = yield select(buySellSelectors.getMetadata)
-    sfox = sfox.refresh(value, delegate)
+    sfox = sfoxService.refresh(value, delegate)
   }
 
   const init = function * () {
@@ -104,7 +105,6 @@ export default ({ api, sfox } = {}) => {
       // TODO: try refresh profile here to smooth out btwn steps
       yield put(A.setProfileSuccess())
     } catch (e) {
-      console.warn('setProfile core saga', e)
       yield put(A.setProfileFailure(e))
     }
   }
@@ -118,7 +118,6 @@ export default ({ api, sfox } = {}) => {
       yield call(fetchProfile)
       yield put(A.uploadSuccess())
     } catch (e) {
-      console.warn('uploadDoc core saga', e)
       yield put(A.uploadFailure(e))
     }
   }
@@ -129,7 +128,6 @@ export default ({ api, sfox } = {}) => {
       const bankAccounts = yield apply(sfox.bankLink, sfox.bankLink.getAccounts, [token])
       yield put(A.getBankAccountsSuccess(bankAccounts))
     } catch (e) {
-      console.warn('getBankAccounts core saga', e)
       yield put(A.getBankAccountsFailure(e))
     }
   }
@@ -141,7 +139,6 @@ export default ({ api, sfox } = {}) => {
       yield call(fetchAccounts)
       yield put(A.setBankAccountSuccess())
     } catch (e) {
-      console.warn('setBankAccount core saga', e)
       yield put(A.setBankAccountFailure(e))
     }
   }
