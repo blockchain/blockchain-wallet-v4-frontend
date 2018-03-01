@@ -11,7 +11,7 @@ export class Currency extends Type {
     return `Currency(${this.value} ${this.currency.code}-${this.currency.base})`
   }
   toUnit (unit) {
-    if (unit.currency === this.currency.code) {
+    if (unit && unit.currency === this.currency.code) {
       return Maybe.Just({
         value: this.value.multiply(BigRational(unit.rate).reciprocate()).toDecimal(unit.decimal_digits),
         unit: unit
