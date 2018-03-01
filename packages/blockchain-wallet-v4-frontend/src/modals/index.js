@@ -19,6 +19,7 @@ import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
 import SendBitcoin from './SendBitcoin'
 import SendEther from './SendEther'
+import SfoxExchangeData from './SfoxExchangeData'
 import ShowXPub from './ShowXPub'
 import TransactionReport from './TransactionReport'
 import TransferEther from './TransferEther'
@@ -49,6 +50,7 @@ const Modals = props => (
     <SendBch />
     <SendBitcoin />
     <SendEther />
+    <SfoxExchangeData />
     <ShowXPub />
     <TransactionReport />
     <TransferEther />

@@ -9,7 +9,6 @@ import Type from './Type'
 import BigInteger from 'bigi'
 // import { shift, shiftIProp } from './util'
 
-
 /*
 Payload types:
 0: reserved (guid)

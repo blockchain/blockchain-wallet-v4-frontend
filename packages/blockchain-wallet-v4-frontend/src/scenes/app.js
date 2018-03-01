@@ -7,7 +7,7 @@ import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
-import Buy from './Buy'
+import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
 import Faq from './Faq'
@@ -49,8 +49,8 @@ class App extends React.Component {
                 <WalletLayout path='/wallet' component={Home} />
                 <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
                 <WalletLayout path='/eth/transactions' component={EtherTransactions} />
+                <WalletLayout path='/buy-sell' component={BuySell} />
                 <WalletLayout path='/bch/transactions' component={BchTransactions} />
-                <WalletLayout path='/buy-sell' component={Buy} />
                 <WalletLayout path='/exchange/history' component={ExchangeHistory} />
                 <WalletLayout path='/exchange' component={Exchange} exact />
                 <WalletLayout path='/security-center' component={SecurityCenter} />
