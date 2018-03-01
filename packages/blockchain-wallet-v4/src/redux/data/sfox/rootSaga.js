@@ -3,20 +3,16 @@ import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import * as buySellA from '../../kvStore/buySell/actions'
-import SFOX from 'bitcoin-sfox-client'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as A from './actions'
-let sfox
 
-export default ({ api } = {}) => {
+export default ({ api, sfox } = {}) => {
   const refreshSFOX = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state)
     const value = yield select(buySellSelectors.getMetadata)
-    sfox = new SFOX(value.data.value.sfox, delegate)
-    sfox.api.production = true
-    sfox.api.apiKey = 'f31614a7-5074-49f2-8c2a-bfb8e55de2bd'
+    sfox = sfox.refresh(value, delegate)
   }
 
   const init = function * () {
