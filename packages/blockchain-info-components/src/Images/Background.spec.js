@@ -2,11 +2,11 @@ import React from 'react';
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json';
 
-import HeartbeatLoader from './HeartbeatLoader';
+import Background from './Background';
 
-describe('HeartbeatLoader component', () => {
+describe('Background component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<HeartbeatLoader height='10px' width='10px' color='brand-primary'></HeartbeatLoader>);
+    const component = shallow(<Background name='testing' width='10px' height='10px'></Background>);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

@@ -6,19 +6,19 @@ exports[`FlatLoader2 component default renders correctly 1`] = `
   width="10px"
 >
   <Styled(styled.div)
-    color="grey-1"
+    color="brand-primary"
   />
   <Styled(styled.div)
-    color="grey-1"
+    color="brand-primary"
   />
   <Styled(styled.div)
-    color="grey-1"
+    color="brand-primary"
   />
   <Styled(styled.div)
-    color="grey-1"
+    color="brand-primary"
   />
   <Styled(styled.div)
-    color="grey-1"
+    color="brand-primary"
   />
 </styled.div>
 `;

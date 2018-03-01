@@ -6,10 +6,10 @@ exports[`HeartbeatLoader component default renders correctly 1`] = `
   width="10px"
 >
   <styled.div
-    color="grey-1"
+    color="brand-primary"
   />
   <Styled(styled.div)
-    color="grey-1"
+    color="brand-primary"
   />
 </styled.div>
 `;
