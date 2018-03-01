@@ -63,6 +63,13 @@ Depending upon which coverage report was ran, the results can be found in the fo
 
 Simply open the `index.html` file in your browser to view.
 
+### CI Build Vetting
+To run both unit tests and linting, the following commands are available:
+ * `yarn vet` Lints and unit tests all the 3 packages. 
+ * `yarn vet:components` Lints and unit tests only [blockchain-info-components](./packages/blockchain-info-components).
+ * `yarn vet:core` Lints and unit tests only [blockchain-wallet-v4](./packages/blockchain-wallet-v4).
+ * `yarn vet:frontend` Lints and unit tests only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend).
+
 ## Contribute
 Bug fixes and feedback on our code is always appreciated.
 
