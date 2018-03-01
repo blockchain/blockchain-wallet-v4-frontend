@@ -40,6 +40,56 @@ const isEthereumFiatAvailable = (country, currency, rates, ethereumOptions) => {
   return true
 }
 
+const formatSSN = (val, prevVal) => {
+  const nums = val.replace(/[^\d]/g, '')
+  if (!prevVal || val.length > prevVal.length) {
+    if (nums.length === 3) {
+      return nums + '-'
+    }
+    if (nums.length === 5) {
+      return nums.slice(0, 3) + '-' + nums.slice(3) + '-'
+    }
+  }
+  if (nums.length <= 3) {
+    return nums
+  }
+  if (nums.length <= 5) {
+    return nums.slice(0, 3) + '-' + nums.slice(3)
+  }
+  return nums.slice(0, 3) + '-' + nums.slice(3, 5) + '-' + nums.slice(5, 9)
+}
+
+const formatDOB = (val, prevVal) => {
+  const nums = val.replace(/[^\d]/g, '')
+  if (!prevVal || val.length > prevVal.length) {
+    if (nums.length === 2) {
+      return nums + '/'
+    }
+    if (nums.length === 4) {
+      return nums.slice(0, 2) + '/' + nums.slice(2, 4) + '/'
+    }
+  }
+  if (nums.length <= 2) {
+    return nums
+  }
+  if (nums.length <= 4) {
+    return nums.slice(0, 2) + '/' + nums.slice(2)
+  }
+  return nums.slice(0, 2) + '/' + nums.slice(2, 4) + '/' + nums.slice(4, 8)
+}
+
+const formatUSZipcode = val => {
+  if (val.length > 5) return val.slice(0, 5)
+  return val
+}
+
+const isOverEighteen = val => {
+  const dob = new Date(val)
+  const now = new Date()
+  const eighteenYearsAgo = now.setFullYear(now.getFullYear() - 18)
+  return dob < eighteenYearsAgo
+}
+
 export {
   isNumeric,
   isEmail,
@@ -47,5 +97,9 @@ export {
   isIpList,
   isAlphaNumeric,
   isBitcoinFiatAvailable,
-  isEthereumFiatAvailable
+  isEthereumFiatAvailable,
+  formatSSN,
+  formatDOB,
+  formatUSZipcode,
+  isOverEighteen
 }

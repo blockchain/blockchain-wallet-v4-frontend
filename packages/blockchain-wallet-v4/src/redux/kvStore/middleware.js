@@ -34,7 +34,7 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
       const actionCreators = {
         [C.ROOT]: A.root.fetchMetadataRootSuccess,
         [C.WHATSNEW]: A.whatsNew.fetchMetadataWhatsnewSuccess,
-        [C.BUYSELL]: A.buySell.fetchMetadataBuysellSuccess,
+        [C.BUYSELL]: A.buySell.fetchMetadataBuySellSuccess,
         [C.CONTACTS]: A.contacts.fetchMetadataContactsSuccess,
         [C.ETHEREUM]: A.ethereum.fetchMetadataEthereumSuccess,
         [C.SHAPESHIFT]: A.shapeShift.fetchMetadataShapeshiftSuccess,

@@ -1,6 +1,6 @@
-import { isEmpty, equals, or } from 'ramda'
+import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
-import { isNumeric, isEmail, isGuid, isIpList, isAlphaNumeric } from 'services/ValidationHelper'
+import { isNumeric, isEmail, isGuid, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen } from 'services/ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -33,4 +33,31 @@ const validEmailCode = value => isAlphaNumeric(value) ? undefined : 'Invalid Ema
 
 const validBitcoinPrivateKey = value => utils.bitcoin.isValidBitcoinPrivateKey(value) ? undefined : 'Invalid Bitcoin Private Key'
 
-export { required, requiredNumber, validNumber, validEmail, validMmemonic, validWalletId, validMobileNumber, validStrongPassword, validIpList, validPasswordStretchingNumber, validBitcoinAddress, validBitcoinPrivateKey, validEmailCode, validEtherAddress }
+const normalizeSocialSecurity = (val, prevVal) => formatSSN(val, prevVal)
+
+const normalizeDateOfBirth = (val, prevVal) => formatDOB(val, prevVal)
+
+const normalizeUSZipcode = value => formatUSZipcode(value)
+
+const ageOverEighteen = value => isOverEighteen(value) ? undefined : 'Must be 18 or older'
+
+export {
+  required,
+  requiredNumber,
+  validNumber,
+  validEmail,
+  validEmailCode,
+  validMmemonic,
+  validWalletId,
+  validMobileNumber,
+  validStrongPassword,
+  validIpList,
+  validPasswordStretchingNumber,
+  validBitcoinAddress,
+  validBitcoinPrivateKey,
+  validEtherAddress,
+  normalizeSocialSecurity,
+  normalizeDateOfBirth,
+  normalizeUSZipcode,
+  ageOverEighteen
+}
