@@ -1,6 +1,6 @@
 import { curry, unfold, last, filter, is,
-         head, map, isNil, isEmpty, tail,
-         clamp, sort, length } from 'ramda'
+  head, map, isNil, isEmpty, tail,
+  clamp, sort, length } from 'ramda'
 import memoize from 'fast-memoize'
 import shuffle from 'fisher-yates'
 import { List } from 'immutable-ext'
@@ -13,7 +13,7 @@ export const transactionBytes = (inputs, outputs) =>
 
 export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
   List(inputs).fold(Coin.empty)
-              .overValue(v => clamp(0, Infinity, v - transactionBytes(inputs, outputs) * feePerByte))
+    .overValue(v => clamp(0, Infinity, v - transactionBytes(inputs, outputs) * feePerByte))
 )
 
 // findTarget :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection

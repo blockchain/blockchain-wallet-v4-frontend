@@ -2,38 +2,46 @@
   "name": "blockchain-info-components",
   "version": "0.0.1",
   "description": "Website containing the components documentation",
+  "license": "ISC",
+  "author": "(Dream Team) Blockchain.info",
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
-    "prepublish": "rm -rf lib && babel --out-dir lib --copy-files src",
+    "coverage": "jest --coverage",
+    "prepublish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
+    "storybook:build": "build-storybook",
     "storybook:start": "start-storybook -p 6006",
-    "storybook:build": "build-storybook"
+    "test": "jest"
   },
-  "author": "(Dream Team) Blockchain.info",
-  "license": "ISC",
-  "devDependencies": {
-    "@storybook/addon-actions": "^3.2.16",
-    "@storybook/addon-info": "^3.2.16",
-    "@storybook/cli": "^3.2.4",
-    "@storybook/react": "^3.2.4",
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "^20.0.3",
-    "babel-loader": "^7.0.0",
-    "babel-plugin-module-resolver": "^2.7.1",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-es2015": "~6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "eslint-import-resolver-webpack": "^0.8.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-react": "^7.0.1",
-    "prop-types": "^15.6.0",
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
-    "styled-components": "^2.2.3"
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageDirectory": "<rootDir>/../../coverage/blockchain-info-components",
+    "coverageReporters": [
+      "json",
+      "html"
+    ],
+    "moduleNameMapper": {
+      "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
+    },
+    "modulePathIgnorePatterns": [
+      "<rootDir>/lib"
+    ],
+    "setupFiles": [
+      "<rootDir>/../../jest.shim.js", "<rootDir>/../../jest.config.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/../../node_modules/enzyme-to-json/serializer"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/lib"
+    ],
+    "transform": {
+      "^.+\\.jsx$": "<rootDir>/../../node_modules/babel-jest",
+      "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
+    }
   },
   "dependencies": {
     "polished": "^1.9.0",
@@ -44,5 +52,19 @@
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "styled-components": "^2.1.0"
+  },
+  "standard": {
+    "globals": [
+      "jest",
+      "test",
+      "describe",
+      "context",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect"
+    ]
   }
 }

@@ -2,7 +2,7 @@ import { getLanguageName, convertCultureCodeToLanguage, convertLanguageToCulture
 import Maybe from 'data.maybe'
 
 describe('getLanguageName', () => {
-  var testCases = [
+  let testCases = [
     { cultureCode: 'en-GB', value: Maybe.Just('English') },
     { cultureCode: 'fr-FR', value: Maybe.Just('French') },
     { cultureCode: 'fr', value: Maybe.Nothing() },
@@ -11,14 +11,14 @@ describe('getLanguageName', () => {
   ]
 
   testCases.forEach(function (testCase) {
-    test('Get the correct language name related to a specific culture code', () => {
+    it('Get correct language name from culture code: ' + testCase.cultureCode, () => {
       expect(getLanguageName(testCase.cultureCode)).toEqual(testCase.value)
     })
   })
 })
 
 describe('convertLanguageToCultureCode', () => {
-  var testCases = [
+  let testCases = [
     { language: 'en', value: Maybe.Just('en-GB') },
     { language: 'fr', value: Maybe.Just('fr-FR') },
     { language: 'fr-FR', value: Maybe.Nothing() },
@@ -27,14 +27,14 @@ describe('convertLanguageToCultureCode', () => {
   ]
 
   testCases.forEach(function (testCase) {
-    test('Convert the culture code to the right language name', () => {
+    it('Convert culture code to language name: ' + testCase.language, () => {
       expect(convertLanguageToCultureCode(testCase.language)).toEqual(testCase.value)
     })
   })
 })
 
 describe('convertCultureCodeToLanguage', () => {
-  var testCases = [
+  let testCases = [
     { cultureCode: 'en-GB', value: Maybe.Just('en') },
     { cultureCode: 'fr-FR', value: Maybe.Just('fr') },
     { cultureCode: 'fr', value: Maybe.Nothing() },
@@ -43,7 +43,7 @@ describe('convertCultureCodeToLanguage', () => {
   ]
 
   testCases.forEach(function (testCase) {
-    test('Convert the language to the right culture code', () => {
+    test('Convert language to culture code: ' + testCase.cultureCode, () => {
       expect(convertCultureCodeToLanguage(testCase.cultureCode)).toEqual(testCase.value)
     })
   })

@@ -77,19 +77,19 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
     if (is(Number, source)) {
       const selectXpub = Either.try(
         compose(HDAccount.selectXpub, HDWallet.selectAccount(source),
-                HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet))
+          HDWalletList.selectHDWallet, Wallet.selectHdWallets, Wrapper.selectWallet))
       return eitherToTask(selectXpub(wrapper))
-            .chain(xpub => promiseToTask(ApiPromise.getBitcoinUnspents)([xpub], confirmations))
-            .map(prop('unspent_outputs'))
-            .map(over(compose(mapped, lensProp('xpub')), assoc('index', source)))
-            .map(map(Coin.fromJS))
+        .chain(xpub => promiseToTask(ApiPromise.getBitcoinUnspents)([xpub], confirmations))
+        .map(prop('unspent_outputs'))
+        .map(over(compose(mapped, lensProp('xpub')), assoc('index', source)))
+        .map(map(Coin.fromJS))
     } else { // legacy address
       const { address, priv } = source
       return promiseToTask(ApiPromise.getBitcoinUnspents)([address], confirmations)
-            .map(prop('unspent_outputs'))
-            .map(over(mapped, assoc('priv', priv)))
-            .map(over(mapped, assoc('address', address)))
-            .map(map(Coin.fromJS))
+        .map(prop('unspent_outputs'))
+        .map(over(mapped, assoc('priv', priv)))
+        .map(over(mapped, assoc('address', address)))
+        .map(map(Coin.fromJS))
     }
   }
   const getWalletUnspents = compose(taskToPromise, getWalletUnspentsTask)

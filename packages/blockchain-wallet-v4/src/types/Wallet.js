@@ -198,10 +198,10 @@ export const deleteLegacyAddress = curry((address, wallet) => {
 // deleteHdAddressLabel :: Number -> Number -> Wallet -> Wallet
 export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
   const lens = compose(hdWallets,
-                       HDWalletList.hdwallet,
-                       HDWallet.accounts,
-                       HDAccountList.account(accountIdx),
-                       HDAccount.addressLabels)
+    HDWalletList.hdwallet,
+    HDWallet.accounts,
+    HDAccountList.account(accountIdx),
+    HDAccount.addressLabels)
   const eitherW = Either.try(over(lens, AddressLabelMap.deleteLabel(addressIdx)))(wallet)
   return eitherW.getOrElse(wallet)
 })
@@ -209,10 +209,10 @@ export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
 // setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
 export const setHdAddressLabel = curry((accountIdx, addressIdx, label, wallet) => {
   const lens = compose(hdWallets,
-                       HDWalletList.hdwallet,
-                       HDWallet.accounts,
-                       HDAccountList.account(accountIdx),
-                       HDAccount.addressLabels)
+    HDWalletList.hdwallet,
+    HDWallet.accounts,
+    HDAccountList.account(accountIdx),
+    HDAccount.addressLabels)
   const eitherW = Either.try(over(lens, AddressLabelMap.setLabel(addressIdx, label)))(wallet)
   return eitherW.getOrElse(wallet)
 })
@@ -313,8 +313,8 @@ export const getHDPrivateKey = curry((keypath, secondPassword, network, wallet) 
   let xpriv = compose(HDAccount.selectXpriv, HDWallet.selectAccount(accId), HDWalletList.selectHDWallet, selectHdWallets)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
-           .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, xpriv))
-           .map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
+      .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, xpriv))
+      .map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
   } else {
     return Task.of(xpriv).map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
   }
@@ -328,8 +328,8 @@ export const getLegacyPrivateKey = curry((address, secondPassword, network, wall
   let priv = compose(Address.selectPriv, AddressMap.selectAddress(address), selectAddresses)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
-           .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, priv))
-           .map(pk => fromBase58toKey(pk, network))
+      .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, priv))
+      .map(pk => fromBase58toKey(pk, network))
   } else {
     return Task.of(priv).map(pk => fromBase58toKey(pk, network))
   }
@@ -340,8 +340,8 @@ export const getMnemonic = curry((secondPassword, wallet) => {
   let seedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, selectHdWallets)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Either.of, Either.Left)(secondPassword, wallet)
-           .chain(() => crypto.decryptSecPassSync(selectSharedKey(wallet), selectIterations(wallet), secondPassword, seedHex))
-           .chain(entropyToMnemonic)
+      .chain(() => crypto.decryptSecPassSync(selectSharedKey(wallet), selectIterations(wallet), secondPassword, seedHex))
+      .chain(entropyToMnemonic)
   } else {
     return entropyToMnemonic(seedHex)
   }
