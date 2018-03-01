@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ExchangeHistory from '../../OrderHistory'
+import OrderHistory from '../../OrderHistory'
 import ExchangeCheckout from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
@@ -107,7 +107,7 @@ const Success = props => {
     )
   } else {
     return (
-      <ExchangeHistory trades={trades} />
+      <OrderHistory trades={trades} conversion={1e8} />
     )
   }
 }
