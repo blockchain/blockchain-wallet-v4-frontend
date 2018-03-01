@@ -4,6 +4,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import Tray from 'components/Tray'
+import Create from './Create'
 import Verify from './Verify'
 import Upload from './Upload'
 import Link from './Link'
@@ -31,6 +32,7 @@ class SfoxExchangeData extends React.Component {
     const step = determineStep(profile, verificationStatus, accounts)
 
     switch (step) {
+      case 'create': return <Create />
       case 'verify': return <Verify />
       case 'upload': return <Upload />
       case 'link': return <Link />
