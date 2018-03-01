@@ -48,20 +48,29 @@ const selectWidth = (size, position) => {
 const Modal = props => {
   const { children, ...rest } = props
 
+  const type = rest.type
   const size = rest.size || 'medium'
   const position = rest.position || 1
   const total = rest.total || 1
   // Props above not defaulted on purpose, so we can see when we forgot to pass them.
   const width = selectWidth(size, position)
   const isLast = total === position
-
-  return (
-    <ModalBackground isLast={isLast} position={position} {...rest}>
+  
+  if (type === 'tray') {
+    return (
       <BaseModal isLast={isLast} position={position} width={width} {...rest}>
         {children}
       </BaseModal>
-    </ModalBackground>
-  )
+    )
+  } else {
+    return (
+      <ModalBackground isLast={isLast} position={position} className={rest.class}>
+        <BaseModal isLast={isLast} position={position} width={width} {...rest}>
+          {children}
+        </BaseModal>
+      </ModalBackground>
+    )
+  }
 }
 
 Modal.propTypes = {
