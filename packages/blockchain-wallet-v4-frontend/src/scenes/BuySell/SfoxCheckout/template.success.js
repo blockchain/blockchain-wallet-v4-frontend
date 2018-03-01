@@ -56,7 +56,7 @@ const Success = props => {
       max: profile.limits.sell
     }
   }
-
+  console.log('success template', profile)
   return (
     <ExchangeCheckout
       fiatLimits

@@ -17,9 +17,15 @@ export default ({ api } = {}) => {
 
   const createBuysell = function * (kv) {
     const newBuysellEntry = {
-      sfox: {},
-      coinify: {},
-      unocoin: {}
+      sfox: {
+        trades: []
+      },
+      coinify: {
+        trades: []
+      },
+      unocoin: {
+        trades: []
+      }
     }
     const newkv = set(KVStoreEntry.value, newBuysellEntry, kv)
     yield put(A.createMetadataBuysell(newkv))
