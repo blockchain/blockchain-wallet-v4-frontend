@@ -13,7 +13,6 @@ class VerifyContainer extends Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    console.log('verify handle submit', this.props.user)
     this.props.sfoxDataActions.setProfile(this.props.user)
   }
 
