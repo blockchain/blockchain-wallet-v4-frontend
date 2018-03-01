@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { equals, isNil } from 'ramda'
+import { equals, isNil, path, prop } from 'ramda'
 // import * as crypto from 'crypto'
-
+import { utils } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors'
 import { actions, selectors } from 'data'
-import { calculateEffectiveBalance } from './services'
+// import { calculateEffectiveBalance } from './services'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -18,40 +18,52 @@ class FirstStepContainer extends React.Component {
     this.timeout = undefined
     // this.seed = crypto.randomBytes(16).toString('hex')
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.state = { effectiveBalance: 0 }
   }
 
   componentWillMount () {
     this.props.dataBitcoinActions.fetchFee()
-    this.props.dataBitcoinActions.fetchUnspent(this.props.defaultAccounts.BTC)
+    const defaultAccount = this.props.defaultAccounts.BTC
+    this.props.dataBitcoinActions.fetchUnspent(prop('address', defaultAccount) || prop('index', defaultAccount))
     this.props.dataShapshiftActions.fetchBtcEth()
   }
 
   componentWillReceiveProps (nextProps) {
+    console.log('nextProps', nextProps)
+    console.log('source/target', this.props.sourceCoin, nextProps.sourceCoin, this.props.targetCoin, nextProps.targetCoin)
+
     // Fetch fee if sourceCoin has changed
     if (!equals(this.props.sourceCoin, nextProps.sourceCoin)) {
-      if (equals('BTC', nextProps.sourceCoin)) {
-        this.props.dataBitcoinActions.fetchFee()
-      }
-      if (equals('ETH', nextProps.sourceCoin)) {
-        this.props.dataEthereumActions.fetchFee()
-      }
+      if (equals('BTC', nextProps.sourceCoin)) this.props.dataBitcoinActions.fetchFee()
+      if (equals('ETH', nextProps.sourceCoin)) this.props.dataEthereumActions.fetchFee()
     }
-    // Update if source account
+    // Update if source account has changed
     if (!isNil(this.props.accounts) && !isNil(nextProps.accounts) && !equals(this.props.accounts.source, nextProps.accounts.source)) {
       // Fetch unspent if coin is BTC
       if (equals('BTC', nextProps.sourceCoin)) {
-        const source = nextProps.accounts.source
-        this.props.dataBitcoinActions.fetchUnspent(source.addr || source.index)
+        const source = path(['accounts', 'source'], nextProps)
+        this.props.dataBitcoinActions.fetchUnspent(prop('address', source) || prop('index', source))
+      }
+      // ETH Calculate effectiveBalance
+      if (equals('ETH', nextProps.sourceCoin)) {
+        const ethAccount = path(['source', 'address'], nextProps.accounts)
+        const { ethFee } = nextProps.data.getOrElse({ ethFee: { priority: 0, gasLimit: 21000 } })
+        const ethBalance = path([ethAccount, 'balance'], nextProps.ethAddresses)
+        const effectiveBalance = utils.ethereum.calculateEffectiveBalanceEther(ethFee.priority, ethFee.gasLimit, ethBalance)
+        this.setState({ effectiveBalance })
       }
     }
     // Fetch pair if source or target coins have changed
     if (!equals(this.props.sourceCoin, nextProps.sourceCoin) || !equals(this.props.targetCoin, nextProps.targetCoin)) {
-      if (equals('BTC', nextProps.sourceCoin) && equals('ETH', nextProps.targetCoin)) {
-        this.props.dataShapshiftActions.fetchBtcEth()
-      }
-      if (equals('ETH', nextProps.sourceCoin) && equals('BTC', nextProps.targetCoin)) {
-        this.props.dataShapshiftActions.fetchEthBtc()
-      }
+      if (equals('BTC', nextProps.sourceCoin) && equals('ETH', nextProps.targetCoin)) console.log('btcEth'); this.props.dataShapshiftActions.fetchBtcEth()
+      if (equals('ETH', nextProps.sourceCoin) && equals('BTC', nextProps.targetCoin)) console.log('ethBtc'); this.props.dataShapshiftActions.fetchEthBtc()
+    }
+
+    // BTC Calculate effectiveBalance
+    if (!equals(this.props.coins, nextProps.coins)) {
+      const { btcFee } = nextProps.data.getOrElse({ btcFee: { priority: 0 } })
+      const effectiveBalance = utils.bitcoin.calculateEffectiveBalanceBitcoin(nextProps.coins, btcFee.priority)
+      this.setState({ effectiveBalance })
     }
   }
 
@@ -62,13 +74,8 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    // console.log('ExchangeFormContainer render', this.props)
-    // Calculate effective balance
-    const effectiveBalance = calculateEffectiveBalance(this.props)
-    console.log('render effectiveBalance', effectiveBalance)
-
     return this.props.data.cata({
-      Success: (value) => <Success {...value} {...this.props} effectiveBalance={effectiveBalance} />,
+      Success: (value) => <Success {...value} {...this.props} effectiveBalance={this.state.effectiveBalance} />,
       Failure: (message) => <Error />,
       Loading: () => <Loading {...this.props} />,
       NotAsked: () => <Loading {...this.props} />

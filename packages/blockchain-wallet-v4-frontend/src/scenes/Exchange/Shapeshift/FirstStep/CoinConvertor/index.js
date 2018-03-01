@@ -20,10 +20,6 @@ class CoinConvertorContainer extends React.Component {
     this.handleChangeTarget = this.handleChangeTarget.bind(this)
   }
 
-  componentWillMount () {
-    console.log('CoinConvertorContainer componentWillMount')
-  }
-
   componentWillReceiveProps (nextProps) {
     // console.log('CoinConvertorContainer componentWillReceiveProps', nextProps)
 
@@ -38,28 +34,26 @@ class CoinConvertorContainer extends React.Component {
     // Update state if source has changed
     const prevSource = path(['input', 'value', 'source'], this.props)
     const nextSource = path(['input', 'value', 'source'], nextProps)
-    if (!isNil(nextSource) && !equals(prevSource, nextSource) && !equals(this.state.source, nextSource)) {
-      // console.log('fetchQuotation from componentWillReceiveProps SOURCE', this.state.source, nextSource)
+    if (!isNil(nextSource) && !equals(prevSource, nextSource) && !equals(nextSource, this.state.source)) {
       this.fetchQuotation(nextSource, true)
     }
 
     // Update state if target has changed
     const prevTarget = path(['input', 'value', 'target'], this.props)
     const nextTarget = path(['input', 'value', 'target'], nextProps)
-    if (!isNil(nextTarget) && !equals(prevTarget, nextTarget) && !equals(this.state.target, nextTarget)) {
-      // console.log('fetchQuotation from componentWillReceiveProps TARGET', this.state.target, nextTarget)
+    if (!isNil(nextTarget) && !equals(prevTarget, nextTarget) && !equals(nextTarget, this.state.target)) {
       this.fetchQuotation(nextTarget, false)
     }
   }
 
   handleChangeSource (value) {
-    // console.log('handleChangeSource fetchQuotation')
-    this.fetchQuotation(value, true)
+    const data = { source: value, target: this.state.target }
+    this.props.input.onChange(data)
   }
 
   handleChangeTarget (value) {
-    // console.log('handleChangeTarget fetchQuotation')
-    this.fetchQuotation(value, false)
+    const data = { source: this.state.source, target: value }
+    this.props.input.onChange(data)
   }
 
   fetchQuotation (value, isDeposit) {
@@ -72,10 +66,7 @@ class CoinConvertorContainer extends React.Component {
   }
 
   render () {
-    // console.log('CoinConvertorContainer render', this.props)
     const { source, target } = this.state
-    console.log('source', source)
-    console.log('target', target)
 
     return this.props.data.cata({
       Success: (value) => <Success {...value} {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} loading={false} />,
