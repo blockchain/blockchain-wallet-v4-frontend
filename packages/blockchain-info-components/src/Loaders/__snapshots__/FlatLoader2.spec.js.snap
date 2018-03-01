@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FlatLoader2 component default renders correctly 1`] = `
+<styled.div
+  height="10px"
+  width="10px"
+>
+  <Styled(styled.div)
+    color="grey-1"
+  />
+  <Styled(styled.div)
+    color="grey-1"
+  />
+  <Styled(styled.div)
+    color="grey-1"
+  />
+  <Styled(styled.div)
+    color="grey-1"
+  />
+  <Styled(styled.div)
+    color="grey-1"
+  />
+</styled.div>
+`;
