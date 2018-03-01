@@ -1,18 +1,45 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
+import { takeEvery, call, put, select } from 'redux-saga/effects'
+import { map, set } from 'ramda'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
-import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
+import * as selectors from '../selectors'
+import { askSecondPasswordEnhancer, promptForSecondPassword, promptForInput } from 'services/SagaService'
+import { CoinSelection, Coin } from 'blockchain-wallet-v4/src'
 
 export const createLegacyAddress = function * (action) {
-  const { addr, priv, to } = action.payload
-  const key = priv == null ? addr : priv
-  const saga = askSecondPasswordEnhancer(sagas.core.wallet.createLegacyAddress)
-  try {
-    yield call(saga, { key })
+  let { addr, priv, to } = action.payload
+  let key = priv == null ? addr : priv
+  let password = yield call(promptForSecondPassword)
+
+  let importAddress = function * () {
+    yield call(sagas.core.wallet.createLegacyAddress, { key, password })
     yield put(actions.alerts.displaySuccess('Address added succesfully.'))
+  }
+
+  try {
     if (to) {
-      yield put(actions.alerts.displaySuccess('Send to address now'))
+      try {
+        let network
+        let feePerByte = 15
+        let receiveAddress = yield select(selectors.core.common.bitcoin.getNextAvailableReceiveAddress(network, to.index))
+
+        yield importAddress()
+
+        let coins = yield sagas.core.data.bitcoin.fetchUnspent([addr])
+        let coinsWithPriv = map(set(Coin.priv, priv), coins)
+        let selection = receiveAddress.map(a => CoinSelection.selectAll(feePerByte, coinsWithPriv, a)).getOrElse(null)
+
+        if (selection) {
+          yield sagas.core.data.bitcoin.signAndPublish({ network, selection, password })
+          yield put(actions.alerts.displaySuccess(`Swept address funds to ${to.label}`))
+        }
+      } catch (error) {
+        console.log(error)
+        yield put(actions.alerts.displayError('Could not sweep address.'))
+      }
+    } else {
+      yield importAddress()
     }
   } catch (error) {
     console.log(error)
