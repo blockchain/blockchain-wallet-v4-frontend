@@ -6,6 +6,8 @@ import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { getAccounts } from '../../kvStore/bch/selectors.js'
+import { toCashAddr } from '../../../utils/bch'
+import { isValidBitcoinAddress } from '../../../utils/bitcoin'
 
 const mTransformTx = memoize(transactions.bitcoin.transformTx)
 
@@ -48,6 +50,25 @@ export const getAccountsBalances = state => map(map(digestAccount), getActiveHDA
 
 export const getAddressesBalances = state => map(map(digestAddress), getActiveAddresses(state))
 
+const addFromToBch = (wallet, bchAccounts, txList) => {
+  const hdWallets = wallet.hd_wallets
+  map(tx => hdWallets.map(hdWallet => hdWallet.accounts.map((account, index) => {
+    if (account) {
+      if (account.label === tx.from) {
+        tx.from = bchAccounts[index].label
+      } else if (isValidBitcoinAddress(tx.from)) {
+        try { tx.from = toCashAddr(tx.from, true) } catch (e) {}
+      }
+      if (account.label === tx.to) {
+        tx.to = bchAccounts[index].label
+      } else if (isValidBitcoinAddress(tx.to)) {
+        try { tx.to = toCashAddr(tx.to, true) } catch (e) {}
+      }
+    }
+  })), txList)
+  return txList
+}
+
 // getWalletTransactions :: state -> [Page]
 export const getWalletTransactions = memoize(state => {
   // Page == Remote ([Tx])
@@ -63,7 +84,8 @@ export const getWalletTransactions = memoize(state => {
     map(mTransformTx.bind(undefined, wallet, block), txList)
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
-  return map(ProcessPage, pages)
+  const txs = map(ProcessPage, pages)
+  return map(txListR => lift(addFromToBch)(walletR, getAccounts(state), txListR), txs)
 })
 
 // path is: accountIndex/chainIndex/addressIndex
