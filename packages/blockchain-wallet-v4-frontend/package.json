@@ -29,11 +29,11 @@
   "scripts": {
     "build": "lerna bootstrap && webpack --config webpack.config.js --progress --colors",
     "build:prod": "lerna bootstrap && webpack -p --config webpack.config.js --progress --colors",
+    "coverage": "jest --coverage",
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
-    "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test": "jest"
   },
   "jest": {
     "collectCoverageFrom": [

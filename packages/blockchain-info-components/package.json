@@ -7,11 +7,11 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
+    "coverage": "jest --coverage",
     "prepublish": "rm -rf lib && babel --out-dir lib --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:start": "start-storybook -p 6006",
-    "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test": "jest"
   },
   "jest": {
     "collectCoverageFrom": [
