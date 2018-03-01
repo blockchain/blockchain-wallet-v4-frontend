@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { IconButton, Table, TableHeader, TableCell, TableRow, Text, Link } from 'blockchain-info-components'
+import { IconButton, Table, TableHeader, TableCell, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
+import OptionItem from '../OptionItem'
+import AddressRow from '../AddressRow'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -15,26 +16,11 @@ const ImportedAddressesSettingHeader = SettingHeader.extend`
 `
 
 const Success = ({ importedAddresses, onClickImport, onToggleArchived }) => {
-  const importedAddressesTableRows = importedAddresses.map((address, i) => {
-    return (
-      <TableRow key={i}>
-        <TableCell width='40%' style={{ display: 'flex' }}>
-          <Text size='13px'>{address.addr}</Text>
-          {address.priv == null && (
-            <Text size='13px' weight={300} style={spacing('ml-10')}>Watch Only</Text>
-          )}
-        </TableCell>
-        <TableCell width='40%'>
-          <Text size='13px'><SwitchableDisplay coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay></Text>
-        </TableCell>
-        <TableCell width='20%'>
-          <Link weight={200} size='small' onClick={() => onToggleArchived(address)}>
-            <FormattedMessage id='scenes.settings.addresses.archive' defaultMessage='Archive' />
-          </Link>
-        </TableCell>
-      </TableRow>
-    )
-  })
+  const importedAddressesTableRows = importedAddresses.map((address) => (
+    <AddressRow key={address.addr} address={address} renderOptions={() => [
+      <OptionItem id='scens.settings.addresses.archive' defaultMessage='Archive' onClick={() => onToggleArchived(address)} />
+    ]} />
+  ))
 
   return (
     <Wrapper>
