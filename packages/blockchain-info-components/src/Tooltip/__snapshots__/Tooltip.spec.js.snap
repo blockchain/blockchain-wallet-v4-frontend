@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tooltip component renders correctly 1`] = `
+<styled.div>
+  <styled.div
+    colors={
+      Object {
+        "backgroundColor": "white",
+        "borderColor": "gray-2",
+        "foreColor": "gray-5",
+      }
+    }
+    displayed={false}
+    onClick={[Function]}
+  >
+    ?
+  </styled.div>
+  <Styled(TextGroup)
+    displayed={false}
+    onClick={[Function]}
+  >
+    <span>
+      Default
+    </span>
+  </Styled(TextGroup)>
+</styled.div>
+`;
