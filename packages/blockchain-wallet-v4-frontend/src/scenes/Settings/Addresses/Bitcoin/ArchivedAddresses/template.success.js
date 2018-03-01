@@ -2,8 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Table, TableHeader, TableCell, TableRow, Text, Link } from 'blockchain-info-components'
+import { Table, TableHeader, TableCell, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
+import OptionItem from '../OptionItem'
+import AddressRow from '../AddressRow'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -14,23 +16,11 @@ const ArchivedAddressesContainer = SettingHeader.extend`
 `
 
 const Success = ({ archivedAddresses, onToggleArchived }) => {
-  const archivedAddressesTableRows = archivedAddresses.toArray().map((address, i) => {
-    return (
-      <TableRow key={i}>
-        <TableCell width='80%' style={{ display: 'flex' }}>
-          <Text size='13px'>{address.addr}</Text>
-          {address.priv == null && (
-            <Text size='13px' weight={300} style={spacing('ml-10')}>Watch Only</Text>
-          )}
-        </TableCell>
-        <TableCell width='20%'>
-          <Link weight={200} size='small' onClick={() => onToggleArchived(address)}>
-            <FormattedMessage id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' />
-          </Link>
-        </TableCell>
-      </TableRow>
-    )
-  })
+  const archivedAddressesTableRows = archivedAddresses.map((address) => (
+    <AddressRow key={address.addr} address={address} renderOptions={() => [
+      <OptionItem id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' onClick={() => onToggleArchived(address)} />
+    ]} />
+  ))
 
   return (
     <Wrapper>

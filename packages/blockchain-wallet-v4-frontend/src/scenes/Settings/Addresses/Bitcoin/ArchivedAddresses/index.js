@@ -26,7 +26,7 @@ class ArchivedAddressesContainer extends React.Component {
 const selectArchived = compose(Types.AddressMap.selectArchived, Types.Wallet.selectAddresses, selectors.core.wallet.getWallet)
 
 const mapStateToProps = (state) => ({
-  archivedAddresses: selectArchived(state)
+  archivedAddresses: selectArchived(state).toArray()
 })
 
 const mapDispatchToProps = (dispatch) => ({
