@@ -58,9 +58,9 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     }
     case T.VERIFY_MNEMONIC: {
       const mvLens = compose(Wrapper.wallet,
-                             Wallet.hdWallets,
-                             HDWalletList.hdwallet,
-                             HDWallet.mnemonicVerified)
+        Wallet.hdWallets,
+        HDWalletList.hdwallet,
+        HDWallet.mnemonicVerified)
       return set(mvLens, true, state)
     }
     default:

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { required, validMmemonic } from 'services/FormHelper'
+import { required, validMnemonic } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
 
@@ -57,7 +57,7 @@ const FirstStep = (props) => {
         <Text size='12px' weight={300}>
           <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
         </Text>
-        <Field name='mnemonic' validate={[required, validMmemonic]} component={TextBox} />
+        <Field name='mnemonic' validate={[required, validateMnemonic]} component={TextBox} />
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
         </Button>

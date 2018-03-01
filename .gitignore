@@ -19,9 +19,10 @@ yarn-error.log
 # Generated Files
 *.log
 lib
-coverage
+coverage/
 dist
 build
+*.lerna_backup
 
 # Packages
 packages/blockchain-info-components/lib
