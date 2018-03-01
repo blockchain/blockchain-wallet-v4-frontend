@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import ui from 'redux-ui'
 import Verify from './template'
 import { actions } from 'data'
 
@@ -45,9 +44,4 @@ const mapDispatchToProps = (dispatch) => ({
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: {} })
-)
-
-export default enhance(VerifyContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyContainer)

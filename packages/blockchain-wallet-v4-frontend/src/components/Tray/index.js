@@ -20,7 +20,8 @@ const TrayModal = styled(Modal)`
   font-weight: 300;
   position: absolute;
   width: calc(100% - 270px);
-  height: calc(100% - 60px);
+  height: 100vh;
+  overflow: auto;
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   > div:first-child {
