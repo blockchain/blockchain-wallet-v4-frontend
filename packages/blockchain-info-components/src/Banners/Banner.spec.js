@@ -1,12 +1,12 @@
 import React from 'react';
-import { render } from 'enzyme'
+import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json';
 
-import Badge from './Badge';
+import Banner from './Banner';
 
-describe('Badge component', () => {
+describe('Banner component', () => {
   it('renders correctly', () => {
-    const component = render(<Badge />);
+    const component = shallow(<Banner />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   })
