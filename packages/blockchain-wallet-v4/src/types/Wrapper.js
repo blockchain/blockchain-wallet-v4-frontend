@@ -112,9 +112,9 @@ export const fromEncPayload = curry((password, payload) => {
   const version = prop('version', temp)
   const wrapper = { password, payload, pbkdf2Iterations, version }
   return traverseOf(lensProp('payload'), Either.of, Wallet.fromEncryptedPayload(password), wrapper)
-   .map(o => assoc('wallet', o.payload, o))
-   .map(dissoc('payload'))
-   .map(fromJS)
+    .map(o => assoc('wallet', o.payload, o))
+    .map(dissoc('payload'))
+    .map(fromJS)
 })
 
 // toEncJSON :: Wrapper -> Either Error JSON
@@ -130,8 +130,8 @@ export const toEncJSON = wrapper => {
   const encrypt = Wallet.toEncryptedPayload(selectPassword(wrapper))
   const hash = (x) => crypto.sha256(x).toString('hex')
   return traverseOf(plens, Either.of, encrypt, response)
-         .map((r) => assoc('length', view(plens, r).length, r))
-         .map((r) => assoc('checksum', hash(view(plens, r)), r))
+    .map((r) => assoc('length', view(plens, r).length, r))
+    .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }
 
 export const js = (password, guid, sharedKey, label, mnemonic, xpub, nAccounts = 1, network) => ({
