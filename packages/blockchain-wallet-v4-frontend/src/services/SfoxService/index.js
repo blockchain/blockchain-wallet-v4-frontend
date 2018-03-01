@@ -1,3 +1,13 @@
+import SFOX from 'bitcoin-sfox-client'
+
+export const sfox = {
+  refresh: (value, delegate) => new SFOX(value.data.value.sfox, delegate),
+  api: {
+    production: true,
+    apiKey: 'f31614a7-5074-49f2-8c2a-bfb8e55de2bd'
+  }
+}
+
 export const isVerified = (verificationStatus) => {
   const { level } = verificationStatus
   return level === 'verified' || (level === 'pending' && verificationStatus.required_docs.length === 0)
