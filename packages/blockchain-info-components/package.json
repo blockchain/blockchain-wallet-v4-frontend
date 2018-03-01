@@ -8,7 +8,7 @@
   "module": "src/index.js",
   "scripts": {
     "coverage": "jest --coverage",
-    "prepublish": "rm -rf lib && babel --out-dir lib --copy-files src",
+    "prepublish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:start": "start-storybook -p 6006",
     "test": "jest"
@@ -23,16 +23,23 @@
       "html"
     ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|scss)$": "identity-obj-proxy"
+      "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
     },
     "modulePathIgnorePatterns": [
       "<rootDir>/lib"
+    ],
+    "setupFiles": [
+      "<rootDir>/../../jest.shim.js", "<rootDir>/../../jest.config.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/../../node_modules/enzyme-to-json/serializer"
     ],
     "testPathIgnorePatterns": [
       "<rootDir>/lib"
     ],
     "transform": {
+      "^.+\\.jsx$": "<rootDir>/../../node_modules/babel-jest",
       "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
     }
   },

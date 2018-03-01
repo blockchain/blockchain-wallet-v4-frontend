@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Link } from '../Links'
 import { Image } from '../Images'
 
-const Badge = ({ ...props, children }) => {
+const Badge = ({ ...props }) => {
   const { type } = props
   switch (type) {
     case 'applestore':
