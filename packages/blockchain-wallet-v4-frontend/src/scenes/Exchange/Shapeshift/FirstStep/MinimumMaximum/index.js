@@ -1,10 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { equals, prop } from 'ramda'
 
 import { actions } from 'data'
+import { calculateMinimum, calculateMaximum } from './services'
 import MinimumMaximum from './template'
 
 class MinimumMaximumContainer extends React.Component {
@@ -16,24 +15,17 @@ class MinimumMaximumContainer extends React.Component {
 
   handleClickMinimum () {
     console.log('handleClickMinimum')
-    const { sourceCoin, targetCoin } = this.props
-    const btcEthMinimum = prop('minimum', this.props.btcEth)
-    const ethBtcMinimum = prop('minimum', this.props.ethBtc)
-    console.log(sourceCoin, targetCoin)
-    if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
-      this.props.formActions.change('exchange', 'amount', { source: `${btcEthMinimum}`, target: undefined })
-    }
-    if (equals('ETH', sourceCoin) && equals('BTC', targetCoin)) {
-      this.props.formActions.change('exchange', 'amount', { source: `${ethBtcMinimum}`, target: undefined })
-    }
+    const minimum = calculateMinimum(this.props)
+    this.props.formActions.change('exchange', 'amount', { source: `${minimum}`, target: undefined })
   }
 
   handleClickMaximum () {
     console.log('handleClickMaximum')
+    const maximum = calculateMaximum(this.props)
+    this.props.formActions.change('exchange', 'amount', { source: `${maximum}`, target: undefined })
   }
 
   render () {
-    // console.log('MinimumMaximum render', this.props)
     return <MinimumMaximum handleClickMinimum={this.handleClickMinimum} handleClickMaximum={this.handleClickMaximum} />
   }
 }

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { equals, isNil, path, prop } from 'ramda'
+import { equals, isNil, path } from 'ramda'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { getData } from './selectors'
 import { getPairFromCoin } from './services'
 import Success from './template.success'
@@ -18,6 +18,10 @@ class CoinConvertorContainer extends React.Component {
     this.state = { source, target }
     this.handleChangeSource = this.handleChangeSource.bind(this)
     this.handleChangeTarget = this.handleChangeTarget.bind(this)
+  }
+
+  componentWillMount () {
+    console.log('CoinConvertorContainer componentWillMount')
   }
 
   componentWillReceiveProps (nextProps) {
@@ -49,29 +53,19 @@ class CoinConvertorContainer extends React.Component {
   }
 
   handleChangeSource (value) {
-    console.log('handleChangeSource fetchQuotation')
+    // console.log('handleChangeSource fetchQuotation')
     this.fetchQuotation(value, true)
-    // this.props.input.onChange({ source: value, target: this.state.target })
-    // this.setState({ source: value, target: this.state.target })
   }
 
   handleChangeTarget (value) {
-    console.log('handleChangeTarget fetchQuotation')
+    // console.log('handleChangeTarget fetchQuotation')
     this.fetchQuotation(value, false)
-    // this.props.input.onChange({ source: this.state.source, target: value })
-    // this.setState({ source: this.state.source, target: value })
   }
 
   fetchQuotation (value, isDeposit) {
-    console.log('FETCH QUOTATION =======================')
     if (!isNil(value)) {
       if (this.timeout) clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
-        // const data = isDeposit
-        //   ? { source: value, target: this.state.target }
-        //   : { source: this.state.source, target: value }
-        // this.setState(data)
-        // this.props.input.onChange(data)
         this.props.dataShapeshiftActions.fetchShapeshiftQuotation(value, this.props.pair, isDeposit)
       }, 1000)
     }
@@ -80,6 +74,8 @@ class CoinConvertorContainer extends React.Component {
   render () {
     // console.log('CoinConvertorContainer render', this.props)
     const { source, target } = this.state
+    console.log('source', source)
+    console.log('target', target)
 
     return this.props.data.cata({
       Success: (value) => <Success {...value} {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} loading={false} />,
@@ -106,6 +102,7 @@ CoinConvertorContainer.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   data: getData(state),
+  coins: selectors.core.data.bitcoin.getCoins(state).getOrElse([]),
   pair: getPairFromCoin(ownProps.sourceCoin, ownProps.targetCoin)
 })
 

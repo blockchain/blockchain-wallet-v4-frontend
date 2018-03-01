@@ -12,8 +12,6 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 export default ({ api } = {}) => {
-  const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
-
   const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())

@@ -1,40 +1,20 @@
-import { concat, head, path } from 'ramda'
 import { selectors } from 'data'
-import { formValueSelector } from 'redux-form'
+import { equals, lift, path } from 'ramda'
 
-export const getData = state => {
-  const btcHDAccountsInfo = selectors.core.common.bitcoin.getAccountsInfo(state)
-  const btcAddressesInfo = selectors.core.common.bitcoin.getAddressesInfo(state)
-  const btcAccountsInfo = concat(btcHDAccountsInfo, btcAddressesInfo)
-  const ethAccountsInfo = selectors.core.common.ethereum.getAccountsInfo(state).getOrElse([])
-  const defaultBtcAccount = head(btcAccountsInfo)
-  const defaultEthAccount = head(ethAccountsInfo)
-  const currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
-  const accounts = formValueSelector('exchange')(state, 'accounts')
-  const amount = formValueSelector('exchange')(state, 'amount')
+export const getData = (state, accounts) => {
   const sourceCoin = path(['source', 'coin'], accounts) || 'BTC'
   const targetCoin = path(['target', 'coin'], accounts) || 'ETH'
-  const defaultAccounts = {
-    BTC: defaultBtcAccount,
-    ETH: defaultEthAccount
-  }
+  const btcRatesR = selectors.core.data.bitcoin.getRates(state)
+  const ethRatesR = selectors.core.data.ethereum.getRates(state)
+  const btcFeeR = selectors.core.data.bitcoin.getFee(state)
+  const ethFeeR = selectors.core.data.ethereum.getFee(state)
+  const btcEthR = selectors.core.data.shapeShift.getBtcEth(state)
+  const ethBtcR = selectors.core.data.shapeShift.getEthBtc(state)
 
-  return ({
-    defaultAccounts,
-    initialValues: {
-      accounts: { source: defaultBtcAccount, target: defaultEthAccount },
-      amount: { source: 0, target: 0 }
-    },
-    elements: [
-      { group: 'Bitcoin', items: btcAccountsInfo.map(x => ({ text: x.label, value: x })) },
-      { group: 'Ethereum', items: ethAccountsInfo.map(x => ({ text: x.label, value: x })) }
-    ],
-    btcAccountsInfo,
-    ethAccountsInfo,
-    currency,
-    accounts,
-    amount,
-    sourceCoin,
-    targetCoin
-  })
+  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
+    return lift((btcFee, btcEth, btcRates, ethRates) => ({ btcFee, btcEth, btcRates, ethRates }))(btcFeeR, btcEthR, btcRatesR, ethRatesR)
+  }
+  if (equals('ETH', sourceCoin) && equals('BTC', targetCoin)) {
+    return lift((ethFee, ethBtc, btcRates, ethRates) => ({ ethFee, ethBtc, btcRates, ethRates }))(ethFeeR, ethBtcR, btcRatesR, ethRatesR)
+  }
 }

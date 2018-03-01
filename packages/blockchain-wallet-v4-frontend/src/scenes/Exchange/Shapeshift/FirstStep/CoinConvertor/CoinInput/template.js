@@ -92,8 +92,8 @@ CoinInput.propTypes = {
   fiatValue: PropTypes.string.isRequired,
   coinUnit: PropTypes.string.isRequired,
   fiatUnit: PropTypes.string.isRequired,
-  handleCoinChange: PropTypes.func.isRequired,
-  handleFiatChange: PropTypes.func.isRequired
+  handleChangeCoin: PropTypes.func.isRequired,
+  handleChangeFiat: PropTypes.func.isRequired
 }
 
 export default CoinInput
