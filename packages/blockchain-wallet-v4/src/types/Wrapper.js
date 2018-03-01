@@ -8,17 +8,17 @@ import * as Wallet from './Wallet'
 import * as Options from './Options'
 
 /* Wrapper :: {
-     wallet             :: Wallet
-     war_checksum       :: String
-     password           :: String
-     clientTimeDiff     :: Number
-     sync_pubkeys       :: Boolean
-     serverTime         :: Number
-     real_auth_type     :: Number
-     auth_type          :: Number
-     payload_checksum   :: String
-     language           :: String
-     version            :: String
+  wallet             :: Wallet
+  war_checksum       :: String
+  password           :: String
+  clientTimeDiff     :: Number
+  sync_pubkeys       :: Boolean
+  serverTime         :: Number
+  real_auth_type     :: Number
+  auth_type          :: Number
+  payload_checksum   :: String
+  language           :: String
+  version            :: String
 } */
 
 export class Wrapper extends Type {}
@@ -91,30 +91,30 @@ export const fromEncJSON = curry((password, json) => {
   const assocVersion = wrapper =>
     EitherVer.map(v => assoc('version', v, wrapper))
   return traverseOf(plens, Either.of, Wallet.fromEncryptedPayload(password), json)
-         .chain(assocVersion)
-         .chain(assocIterations)
-         .map(o => assoc('wallet', o.payload, o))
-         .map(dissoc('payload'))
-         .map(assoc('password', password))
-         .map(dissoc('extra_seed'))
-         .map(dissoc('symbol_btc'))
-         .map(dissoc('symbol_local'))
-         .map(dissoc('guid'))
-         .map(dissoc('initial_success'))
-         .map(fromJS)
+    .chain(assocVersion)
+    .chain(assocIterations)
+    .map(o => assoc('wallet', o.payload, o))
+    .map(dissoc('payload'))
+    .map(assoc('password', password))
+    .map(dissoc('extra_seed'))
+    .map(dissoc('symbol_btc'))
+    .map(dissoc('symbol_local'))
+    .map(dissoc('guid'))
+    .map(dissoc('initial_success'))
+    .map(fromJS)
 })
 
 // This is needed because the 2FA login hits a different endpoint to login (review that)
 // fromEncPayload :: String -> JSON -> Either Error Wrapper
 export const fromEncPayload = curry((password, payload) => {
   const temp = JSON.parse(payload)
-  const pbkdf2_iterations = prop('pbkdf2_iterations', temp)
+  const pbkdf2Iterations = prop('pbkdf2_iterations', temp)
   const version = prop('version', temp)
-  const wrapper = { password, payload, pbkdf2_iterations, version }
+  const wrapper = { password, payload, pbkdf2Iterations, version }
   return traverseOf(lensProp('payload'), Either.of, Wallet.fromEncryptedPayload(password), wrapper)
-         .map(o => assoc('wallet', o.payload, o))
-         .map(dissoc('payload'))
-         .map(fromJS)
+   .map(o => assoc('wallet', o.payload, o))
+   .map(dissoc('payload'))
+   .map(fromJS)
 })
 
 // toEncJSON :: Wrapper -> Either Error JSON
