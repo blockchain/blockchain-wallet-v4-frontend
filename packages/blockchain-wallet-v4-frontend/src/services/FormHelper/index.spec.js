@@ -43,11 +43,11 @@ describe('validEmail()', () => {
 
 describe('validateMnemonic()', () => {
   it('returns correct string if invalid mnemonic passed', () => {
-    expect(FormHelper.validateMnemonic('zz')).toEqual('Invalid passphrase')
+    expect(FormHelper.validMnemonic('zz')).toEqual('Invalid passphrase')
   })
 
   it('returns undefined if valid mnemonic given', () => {
-    expect(FormHelper.validateMnemonic(bip39.generateMnemonic())).toBeUndefined()
+    expect(FormHelper.validMnemonic(bip39.generateMnemonic())).toBeUndefined()
   })
 })
 
