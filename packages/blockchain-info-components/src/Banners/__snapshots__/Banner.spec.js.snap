@@ -1,6 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Banner component renders correctly 1`] = `
+exports[`Banner component type alert renders correctly 1`] = `
+<styled.div
+  color="brand-secondary"
+>
+  <Icon
+    color="brand-secondary"
+    cursor={false}
+    name="bell"
+    size="12px"
+    weight={700}
+  />
+  <Styled(Text)
+    color="black"
+    size="12px"
+    uppercase={false}
+    weight={400}
+  >
+    ALERT
+  </Styled(Text)>
+</styled.div>
+`;
+
+exports[`Banner component type caution renders correctly 1`] = `
+<styled.div
+  color="brand-yellow"
+  width="130%"
+>
+  <Icon
+    color="brand-yellow"
+    cursor={false}
+    name="alert"
+    size="12px"
+    weight={700}
+  />
+  <Styled(Text)
+    color="black"
+    size="12px"
+    uppercase={false}
+    weight={400}
+  >
+    ALERT
+  </Styled(Text)>
+</styled.div>
+`;
+
+exports[`Banner component type standard renders correctly 1`] = `
 <styled.div
   color="brand-secondary"
 >
@@ -9,6 +54,52 @@ exports[`Banner component renders correctly 1`] = `
     size="12px"
     uppercase={false}
     weight={400}
+  >
+    STANDARD
+  </Styled(Text)>
+</styled.div>
+`;
+
+exports[`Banner component type success renders correctly 1`] = `
+<styled.div
+  color="success"
+>
+  <Icon
+    color="success"
+    cursor={false}
+    name="checkmark-in-circle"
+    size="12px"
+    weight={700}
   />
+  <Styled(Text)
+    color="black"
+    size="12px"
+    uppercase={false}
+    weight={400}
+  >
+    SUCCESS
+  </Styled(Text)>
+</styled.div>
+`;
+
+exports[`Banner component type warning renders correctly 1`] = `
+<styled.div
+  color="error"
+>
+  <Icon
+    color="error"
+    cursor={false}
+    name="alert"
+    size="12px"
+    weight={700}
+  />
+  <Styled(Text)
+    color="black"
+    size="12px"
+    uppercase={true}
+    weight={400}
+  >
+    WARNING
+  </Styled(Text)>
 </styled.div>
 `;
