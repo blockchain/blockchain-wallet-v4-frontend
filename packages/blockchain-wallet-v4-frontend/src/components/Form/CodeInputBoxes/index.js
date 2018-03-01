@@ -12,7 +12,7 @@ const Container = styled.div`
   width: 100%;
   height: 40px;
 `
-const Error = styled(Text) `
+const Error = styled(Text)`
   position: absolute;
   display: block;
   top: 40px;
