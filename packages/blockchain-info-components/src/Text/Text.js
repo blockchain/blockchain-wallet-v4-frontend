@@ -10,7 +10,7 @@ const BaseText = styled.div`
   font-size: ${props => props.size};
   text-transform: ${props =>
     props.uppercase ? 'uppercase'
-    : props.capitalize ? 'capitalize' : 'none'};
+      : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => props.italic ? 'italic' : 'normal'};
   color: ${props => props.theme[props.color]};
   cursor: ${props => props.cursor};
@@ -21,7 +21,6 @@ const BaseText = styled.div`
 `
 
 const Text = ({ ...props, children }) => {
-
   return (
     <BaseText {...props}>
       {children}

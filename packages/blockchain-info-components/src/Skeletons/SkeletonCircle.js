@@ -10,8 +10,7 @@ const Wrapper = styled.div`
 `
 
 const SkeletonCircle = props => (
-  <Wrapper {...props}>
-  </Wrapper>
+  <Wrapper {...props} />
 )
 
 SkeletonCircle.defaultProps = {
