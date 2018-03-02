@@ -2,8 +2,10 @@
 Be Your Own Bank at [blockchain.info/wallet](https://blockchain.info/wallet). 
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
+## About
+This repo contains the three codebases/packages listed below that are combined into one via [Lerna](https://github.com/lerna/lerna).
 
-## Included Packages
+### Packages
 * [blockchain-info-components](./packages/blockchain-info-components)
     - The shared UI components library.
 * [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
@@ -27,22 +29,22 @@ Notes:
    * `yarn i --save-dev [package-name]`
 3. To test bitcoin handling in dev mode: run this javascript command in the browser console:
    * `window.navigator.registerProtocolHandler('bitcoin', http://localhost:8080/a/%s, 'Blockchain')`
-   
-   
+
+
 ## Production Builds
 To build the frontend application for production: `npm run build:prod`
 
 
 ## Code Quality
 ### Linting
-The following commands are available:
+Code linting is handled by [ESLint](https://eslint.org/). The following commands are available:
  * `yarn lint` Lints all the 3 packages.
  * `yarn lint:components` Lints only [blockchain-info-components](./packages/blockchain-info-components).
  * `yarn lint:core` Lints only [blockchain-wallet-v4](./packages/blockchain-wallet-v4).
  * `yarn lint:frontend` Lints only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend).
 
 ### Unit Tests
-The following commands are available:
+Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/). The following commands are available:
  * `yarn test` Runs unit tests for all the 3 packages.
  * `yarn test:components` Runs unit tests for only [blockchain-info-components](./packages/blockchain-info-components).
  * `yarn test:core` Runs unit tests for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4).
@@ -53,7 +55,7 @@ We are using Jest Snapshots for some UI components. Here are the commands to upd
  * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend).
 
 ### Code Coverage
-To generate code coverage reports, the following commands are available:
+To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
  * `yarn coverage` Generates, and merges together, a coverage report for all the 3 packages. 
  * `yarn coverage:components` Generates coverage report for only [blockchain-info-components](./packages/blockchain-info-components).
  * `yarn coverage:core` Generates coverage report for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4).
@@ -73,6 +75,13 @@ To run both unit tests and linting, the following commands are available:
  * `yarn vet:components` Lints and unit tests only [blockchain-info-components](./packages/blockchain-info-components).
  * `yarn vet:core` Lints and unit tests only [blockchain-wallet-v4](./packages/blockchain-wallet-v4).
  * `yarn vet:frontend` Lints and unit tests only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend).
+ 
+ 
+## Storybook
+[Storybook](https://github.com/storybooks/storybook) is used by the [blockchain-info-components](./packages/blockchain-info-components) package to interactively view, develop and test components.  
+The following commands are available:
+ * `storybook:build`: Builds the static storybook assets.
+ * `storybook:serve` Builds storybook assets and then serves them locally at `localhost:6006`.
 
 ## Contribute
 Bug fixes and feedback on our code is always appreciated.
