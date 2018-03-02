@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox, Form } from 'components/Form'
@@ -22,7 +22,7 @@ const ColRight = styled.div`
 `
 
 const Create = (props) => {
-  const { handleSignup, emailVerification, smsVerified, resendSMSCode, ui, smsNumber } = props
+  const { handleSignup, emailVerification, smsVerified, smsNumber } = props
   const emailVerified = emailVerification === 1
   const mobileVerified = smsVerified === 1
   console.log('verified', emailVerified, mobileVerified)
@@ -38,8 +38,6 @@ const Create = (props) => {
                 ? <VerifyMobile smsNumber={smsNumber} />
                 : <VerifyEmail />
           }
-
-
 
           {/*
           <InputWrapper>
@@ -109,7 +107,10 @@ const Create = (props) => {
 }
 
 Create.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
+  handleSignup: PropTypes.func.isRequired,
+  emailVerification: PropTypes.number,
+  smsVerified: PropTypes.number,
+  smsNumber: PropTypes.string
 };
 
 export default reduxForm({ form: 'sfoxCreate' })(Create)

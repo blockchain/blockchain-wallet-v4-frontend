@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
@@ -52,7 +53,6 @@ const CheckWrapper = styled.div`
   align-items: center;
   margin-right: 5px;
 `
-
 
 class AcceptTerms extends Component {
   constructor (props) {
@@ -117,14 +117,23 @@ class AcceptTerms extends Component {
   }
 }
 
+AcceptTerms.propTypes = {
+  handleSignup: PropTypes.func.isRequired,
+  formActions: PropTypes.obj,
+  invalid: PropTypes.bool,
+  ui: PropTypes.obj,
+  email: PropTypes.string.isRequired,
+  smsNumber: PropTypes.string.isRequired
+}
+
 const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).data,
-  smsNumber: selectors.core.settings.getSmsNumber(state).data,
+  smsNumber: selectors.core.settings.getSmsNumber(state).data
 })
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
