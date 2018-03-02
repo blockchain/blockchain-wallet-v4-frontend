@@ -1,9 +1,10 @@
 export class ExchangeDelegate {
-  constructor (state) {
+  constructor (state, token) {
     this._trades = []
     this._debug = false
     this.labelBase = 'Exchange order'
     this._state = state
+    this._token = token
   }
 
   get state () {
@@ -14,28 +15,37 @@ export class ExchangeDelegate {
     return this._trades
   }
 
+  get token () {
+    return this._token
+  }
+
+  set token (token) {
+    this._token = token
+  }
+
   save () {
     return Promise.resolve() // CHEAT: save metadata in rootSaga
   }
 
   email () {
-    // TODO: implement email
+    return this._state.settingsPath.data.email
   }
 
   mobile () {
-    // TODO: implement mobile
+    return this._state.settingsPath.data.sms_number
   }
 
   isEmailVerified () {
-    // TODO: implement isEmailVerified
+    return this._state.settingsPath.data.email_verified
   }
 
   isMobileVerified () {
-    // TODO: implement isMobileVerified
+    return this._state.settingsPath.data.sms_verified
   }
 
   getToken (partner, options) {
-    // TODO: implement getToken
+    // token is previously set by sfox signup saga
+    return this.token
   }
 
   monitorAddress (address, callback) {
