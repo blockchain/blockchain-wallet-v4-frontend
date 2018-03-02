@@ -215,6 +215,7 @@ const logoutTimer = function * () {
 export const logout = function * () {
   // yield put(actions.core.webSocket.stopSocket()
   window.location.reload(true)
+  yield console.log('logout')
 }
 
 export const startLogoutTimer = function * () {

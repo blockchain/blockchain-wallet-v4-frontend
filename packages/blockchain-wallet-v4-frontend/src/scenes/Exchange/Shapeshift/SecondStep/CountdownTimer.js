@@ -11,15 +11,15 @@ class CountdownTimer extends React.Component {
     this.interval = setInterval(this.tick, 1000)
   }
 
+  componentWillUnmount () {
+    clearInterval(this.interval)
+  }
+
   tick () {
     this.setState({ time: this.state.time - 1000 })
     if (this.state.time <= 0) {
       clearInterval(this.interval)
     }
-  }
-
-  componentWillUnmount () {
-    clearInterval(this.interval)
   }
 
   render () {
