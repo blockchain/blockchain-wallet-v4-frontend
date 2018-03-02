@@ -52,11 +52,13 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
 
 
       // TODO get token here and pass it to delegate for sfox.signup
-      yield apply(sfox, sfox.signup)
-      // yield put(A.setBankManuallySuccess(addedBankAccount))
+      const signupResponse = yield apply(sfox, sfox.signup)
+
+      console.log('signupResponse', signupResponse)
+      yield put(A.signupSuccess(signupResponse))
     } catch (e) {
+      yield put(A.signupFailure(e))
       console.warn('signup core saga error', e)
-      // yield put(A.setBankAccountFailure(e))
     }
   }
 
