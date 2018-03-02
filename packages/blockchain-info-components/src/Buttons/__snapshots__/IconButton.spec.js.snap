@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IconButton component default renders correctly 1`] = `
+<Styled(Button)>
+  <Icon
+    color="gray-6"
+    cursor={false}
+    name="test"
+    size="16px"
+    weight={400}
+  />
+</Styled(Button)>
+`;
