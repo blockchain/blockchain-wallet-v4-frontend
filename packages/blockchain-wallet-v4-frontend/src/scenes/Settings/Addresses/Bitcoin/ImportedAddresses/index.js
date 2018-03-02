@@ -10,6 +10,7 @@ class ImportedAddressesContainer extends React.Component {
     super(props)
     this.handleClickImport = this.handleClickImport.bind(this)
     this.handleToggleArchived = this.handleToggleArchived.bind(this)
+    this.handleShowPriv = this.handleShowPriv.bind(this)
   }
 
   shouldComponentUpdate (nextProps) {
@@ -18,6 +19,11 @@ class ImportedAddressesContainer extends React.Component {
 
   handleClickImport () {
     this.props.modalsActions.showModal('ImportBtcAddress')
+  }
+
+  handleShowPriv (address) {
+    let props = { addr: address.addr, priv: address.priv }
+    this.props.modalsActions.showModal('ShowPrivateKey', props)
   }
 
   handleToggleArchived (address) {
@@ -29,7 +35,12 @@ class ImportedAddressesContainer extends React.Component {
     return (
       this.props.activeAddresses.cata({
         Success: (value) => (
-          <Success importedAddresses={value} onClickImport={this.handleClickImport} onToggleArchived={this.handleToggleArchived} />
+          <Success
+            importedAddresses={value}
+            onClickImport={this.handleClickImport}
+            onToggleArchived={this.handleToggleArchived}
+            onShowPriv={this.handleShowPriv}
+          />
         ),
         Failure: (message) => <div>{message}</div>,
         Loading: () => <div />,
