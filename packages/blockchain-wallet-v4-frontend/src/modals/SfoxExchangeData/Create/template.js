@@ -7,61 +7,18 @@ import { TextBox, Form } from 'components/Form'
 import { Text, Button, Icon } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 
+import ColumnLeft from './ColumnLeft'
+import AcceptTerms from './AcceptTerms'
+import VerifyEmail from './VerifyEmail'
+import VerifyMobile from './VerifyMobile'
+
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
 `
-const ColLeft = styled.div`
-  width: 40%;
-`
 const ColRight = styled.div`
   width: 60%;
-`
-const ColLeftInner = styled.div`
-  width: 80%;
-`
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`
-const Subtitle = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 15px;
-`
-const InputWrapper = styled.div`
-  width: 55%;
-  padding: 0px 15px;
-  margin-bottom: 25px;
-  display: flex;
-  flex-direction: column;
-`
-const FieldWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 275px;
-`
-const VerifiedWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 15px;
-`
-const AcceptTerms = styled.div`
-  margin: 25px 0px;
-  padding: 0px 15px;
-  display: flex;
-  flex-direction: row;
-`
-const TermsText = styled.span`
-  a {
-    cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
-  }
-`
-const ButtonWrapper = styled.div`
-  margin: 0px 15px;
 `
 const CheckWrapper = styled.div`
   display: flex;
@@ -70,24 +27,30 @@ const CheckWrapper = styled.div`
 `
 
 const Create = (props) => {
-  const { handleSubmit, emailVerification, smsVerified } = props
+  const { handleSignup, emailVerification, smsVerified, resendSMSCode, ui, smsNumber } = props
   const emailVerified = emailVerification === 1
   const mobileVerified = smsVerified === 1
   console.log('verified', emailVerified, mobileVerified)
   return (
     <Row>
-      <ColLeft>
-        <ColLeftInner>
-          <Title>
-            <FormattedMessage id='sfoxexchangedata.verify.title' defaultMessage='Create Your SFOX Account' />
-          </Title>
-          <Subtitle>
-            <FormattedMessage id='sfoxexchangedata.verify.subtitle' defaultMessage='Accept Terms & Conditions to create your SFOX account.' />
-          </Subtitle>
-        </ColLeftInner>
-      </ColLeft>
+      <ColumnLeft emailVerified={emailVerified} mobileVerified={mobileVerified} />
       <ColRight>
-        <Form onSubmit={handleSubmit}>
+        <div>
+          {
+            emailVerified && mobileVerified
+              ? <AcceptTerms handleSignup={handleSignup} />
+              : !mobileVerified
+                ? <VerifyMobile smsNumber={smsNumber} />
+                : <VerifyEmail />
+          }
+
+
+
+
+
+
+
+          {/*
           <InputWrapper>
             <Text>
               Email Address
@@ -104,34 +67,51 @@ const Create = (props) => {
             </FieldWrapper>
           </InputWrapper>
           <InputWrapper>
-            <Text>
-              Phone Number
-            </Text>
+            {
+              mobileVerified
+                ? <Text>
+                  Phone Number
+                </Text>
+                : <Text>
+                  Enter verification code sent to your mobile phone:
+                </Text>
+            }
             <FieldWrapper>
               <Field name='phone' component={TextBox} validate={[required]} />
               {
                 mobileVerified
-                  ? <VerifiedWrapper>
-                    <Icon size='26px' name='checkmark-in-circle' />
-                  </VerifiedWrapper>
-                  : null
+                  ? null
+                  : <TermsText>
+                    Didn't receive the code? { ui.smsCodeSent ? <a>Sent!</a> : <a onClick={resendSMSCode}>Resend</a> }
+                  </TermsText>
               }
             </FieldWrapper>
+            {
+              mobileVerified
+              ? <VerifiedWrapper>
+                <Icon size='26px' name='checkmark-in-circle' />
+              </VerifiedWrapper>
+              : null
+            }
           </InputWrapper>
-          <AcceptTerms>
-            <CheckWrapper>
-              <input type='checkbox'  />
-            </CheckWrapper>
-            <TermsText>
-              I accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>.
-            </TermsText>
-          </AcceptTerms>
+          {
+            mobileVerified && emailVerified
+              ? <AcceptTerms>
+                <CheckWrapper>
+                  <input type='checkbox'  />
+                </CheckWrapper>
+                <TermsText>
+                  I accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>.
+                </TermsText>
+              </AcceptTerms>
+              : null
+          }
           <ButtonWrapper>
             <Button nature='primary' fullwidth>
               Continue
             </Button>
-          </ButtonWrapper>
-        </Form>
+          </ButtonWrapper> */}
+        </div>
       </ColRight>
     </Row>
   )
