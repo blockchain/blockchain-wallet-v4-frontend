@@ -27,7 +27,7 @@ class EditDescriptionContainer extends React.Component {
   handleConfirm () {
     const val = this.state.editValue
     this.setState({ value: val, toggled: false })
-    this.dispatchConfirm(this.state.value)
+    this.dispatchConfirm(this.state.editValue)
 
   }
 
