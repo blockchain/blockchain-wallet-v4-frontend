@@ -57,7 +57,9 @@ const CheckWrapper = styled.div`
 class AcceptTerms extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = { acceptedTerms: false }
+
+    this.acceptTerms = this.acceptTerms.bind(this)
   }
 
   componentDidMount () {
@@ -65,9 +67,12 @@ class AcceptTerms extends Component {
     this.props.formActions.change('sfoxCreateAcceptTerms', 'phone', this.props.smsNumber)
   }
 
+  acceptTerms () {
+    this.setState({ acceptedTerms: !this.state.acceptedTerms })
+  }
+
   render () {
     const { ui, invalid } = this.props
-    console.log('render accept terms', this.props);
     return (
       <Wrapper>
         <form>
@@ -95,14 +100,14 @@ class AcceptTerms extends Component {
           </InputWrapper>
           <AcceptTermsContainer>
             <CheckWrapper>
-              <input type='checkbox'  />
+              <input type='checkbox' onClick={this.acceptTerms} />
             </CheckWrapper>
             <MixedText>
               I accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>.
             </MixedText>
           </AcceptTermsContainer>
           <ButtonWrapper>
-            <Button onClick={this.props.handleSignup} nature='primary' fullwidth>
+            <Button onClick={this.props.handleSignup} nature='primary' fullwidth disabled={!this.state.acceptedTerms}>
               Continue
             </Button>
           </ButtonWrapper>
@@ -119,7 +124,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  // sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
 })
 

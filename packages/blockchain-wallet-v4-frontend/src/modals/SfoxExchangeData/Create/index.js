@@ -14,7 +14,7 @@ class CreateContainer extends Component {
   }
 
   handleSignup () {
-    console.log('handle signup', this.props)
+    this.props.sfoxFrontendActions.signup()
   }
 
   render () {
@@ -31,8 +31,6 @@ class CreateContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  // emailAddress: formValueSelector('sfoxCreate')(state, 'email'),
-  // mobileNumber: formValueSelector('sfoxCreate')(state, 'phone'),
   email: selectors.core.settings.getEmail(state).data,
   emailVerified: selectors.core.settings.getEmailVerified(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,

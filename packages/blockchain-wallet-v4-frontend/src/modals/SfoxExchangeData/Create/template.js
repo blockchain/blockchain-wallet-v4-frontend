@@ -20,11 +20,6 @@ const Row = styled.div`
 const ColRight = styled.div`
   width: 60%;
 `
-const CheckWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 5px;
-`
 
 const Create = (props) => {
   const { handleSignup, emailVerification, smsVerified, resendSMSCode, ui, smsNumber } = props
@@ -43,10 +38,6 @@ const Create = (props) => {
                 ? <VerifyMobile smsNumber={smsNumber} />
                 : <VerifyEmail />
           }
-
-
-
-
 
 
 
