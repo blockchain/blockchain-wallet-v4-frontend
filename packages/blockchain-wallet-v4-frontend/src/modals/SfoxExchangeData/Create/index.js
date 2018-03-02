@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
@@ -6,7 +7,7 @@ import Create from './template'
 import { actions, selectors } from 'data'
 import ui from 'redux-ui'
 
-class CreateContainer extends Component {
+class CreateContainer extends React.Component {
   constructor (props) {
     super(props)
 
@@ -18,7 +19,7 @@ class CreateContainer extends Component {
   }
 
   render () {
-    const { emailVerified, smsVerified, ui, smsNumber} = this.props
+    const { emailVerified, smsVerified, ui, smsNumber } = this.props
     return <Create
       emailVerification={emailVerified}
       smsVerified={smsVerified}
@@ -30,11 +31,19 @@ class CreateContainer extends Component {
   }
 }
 
+CreateContainer.propTypes = {
+  sfoxFrontendActions: PropTypes.object,
+  emailVerified: PropTypes.number.isRequired,
+  smsVerified: PropTypes.number.isRequired,
+  ui: PropTypes.object,
+  smsNumber: PropTypes.string
+}
+
 const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).data,
   emailVerified: selectors.core.settings.getEmailVerified(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
-  smsVerified: selectors.core.settings.getSmsVerified(state).data,
+  smsVerified: selectors.core.settings.getSmsVerified(state).data
 })
 
 const mapDispatchToProps = (dispatch) => ({
