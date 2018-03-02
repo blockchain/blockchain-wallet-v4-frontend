@@ -51,7 +51,7 @@ const Label = styled.label`
 `
 
 const CheckBoxInput = props => {
-  const { name, errorState, children, checked, disabled, ...rest } = props
+  const { name, children, checked, disabled, ...rest } = props
 
   return (
     <Wrapper>
