@@ -33,6 +33,7 @@
     "no-alert": 0,
     "no-lone-blocks": 0,
     "quotes": 0,
+    "require-yield": 0,
     "semi": 0,
     "react/display-name": 0,
     "react/forbid-prop-types": [1, { "forbid": ["any"] }],

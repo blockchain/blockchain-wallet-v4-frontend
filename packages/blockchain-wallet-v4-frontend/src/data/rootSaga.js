@@ -24,8 +24,6 @@ const welcomeSaga = function * () {
     console.log('%c This browser feature is intended for developers.', style2)
     console.log('%c If someone told you to copy-paste something here,', style2)
     console.log('%c it is a scam and will give them access to your money!', style2)
-  } else {
-    yield
   }
 }
 
