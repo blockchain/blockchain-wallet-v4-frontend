@@ -45,4 +45,7 @@ export const setBankManually = (data) => ({ type: AT.SET_BANK_MANUALLY, payload:
 export const setBankManuallySuccess = () => ({ type: AT.SET_BANK_MANUALLY_SUCCESS })
 export const setBankManuallyFailure = (error) => ({ type: AT.SET_BANK_MANUALLY_FAILURE, payload: error })
 
+export const signupSuccess = (data) => ({ type: AT.SIGNUP_SUCCESS, payload: data })
+export const signupFailure = (error) => ({ type: AT.SIGNUP_FAILURE, payload: error })
+
 export const setNextAddress = (data) => ({ type: AT.SET_NEXT_ADDRESS, payload: data })
