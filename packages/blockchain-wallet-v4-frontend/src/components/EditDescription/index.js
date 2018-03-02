@@ -9,6 +9,7 @@ class EditDescriptionContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = { value: props.value, toggled: false }
+    this.dispatchConfirm = props.handleConfirm
     this.handleCancel = this.handleCancel.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleConfirm = this.handleConfirm.bind(this)
@@ -25,6 +26,8 @@ class EditDescriptionContainer extends React.Component {
 
   handleConfirm () {
     this.setState({ toggled: false })
+    this.dispatchConfirm(this.state.value)
+
   }
 
   handleToggle () {

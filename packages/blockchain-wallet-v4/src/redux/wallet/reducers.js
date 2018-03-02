@@ -56,6 +56,10 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const { index } = action.payload
       return over(Wrapper.wallet, Wallet.setDefaultAccountIdx(index), state)
     }
+    case T.SET_TRANSACTION_NOTE: {
+      const { txHash, txNote } = action.payload
+      return over(Wrapper.wallet, Wallet.setTxNote(txHash, txNote), state)
+    }
     case T.VERIFY_MNEMONIC: {
       const mvLens = compose(Wrapper.wallet,
         Wallet.hdWallets,
