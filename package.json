@@ -5,7 +5,7 @@
   "scripts": {
     "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
-    "coverage": "lerna exec -- npm run test:coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
+    "coverage": "lerna exec -- npm run coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "coverage:components": "lerna exec --scope blockchain-info-components -- npm run coverage",
     "coverage:core": "lerna exec --scope blockchain-wallet-v4 -- npm run coverage",
     "coverage:frontend": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run coverage",
