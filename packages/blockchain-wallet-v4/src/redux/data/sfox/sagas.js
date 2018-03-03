@@ -32,28 +32,18 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
 
   const signup = function * () {
     try {
-      let sfox = yield call(getSfox)
+      // let sfox = yield call(getSfox)
       const sharedKey = yield select(walletSelectors.getSharedKey)
       const guid = yield select(walletSelectors.getGuid)
-      // console.log('sfox', sfox, sharedKey, guid)
-      let data ={
+      const data = {
         parter: 'sfox',
         guid: guid,
         sharedKey: sharedKey,
         fields: `email|mobile`
       }
-      // console.log('before get token', data)
       const response = yield call(api.getTokenForDelegate, data)
-      // console.log('after response', response)
-      sfox = yield call(getSfox, response.token)
-      // console.log('new sfox', sfox)
-      // return self.delegate.getToken.bind(self.delegate)('sfox', {mobile: true});
-      // `email${options.mobile ? '|mobile' : ''}${options.walletAge ? '|wallet_age' : ''}`
-
-
-      // TODO get token here and pass it to delegate for sfox.signup
+      const sfox = yield call(getSfox, response.token)
       const signupResponse = yield apply(sfox, sfox.signup)
-
       console.log('signupResponse', signupResponse)
       yield put(A.signupSuccess(signupResponse))
     } catch (e) {

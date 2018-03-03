@@ -60,6 +60,7 @@ class AcceptTerms extends Component {
     this.state = { acceptedTerms: false }
 
     this.acceptTerms = this.acceptTerms.bind(this)
+    this.changeEmail = this.changeEmail.bind(this)
   }
 
   componentDidMount () {
@@ -67,12 +68,37 @@ class AcceptTerms extends Component {
     this.props.formActions.change('sfoxCreateAcceptTerms', 'phone', this.props.smsNumber)
   }
 
+  componentWillReceiveProps (nextProps) {
+    console.log('will receive props', nextProps)
+    if (typeof nextProps.sfoxProfile.error === 'string') {
+      console.log('nextProps', nextProps.sfoxProfile)
+      // const error = JSON.parse(`'${nextProps.sfoxProfile.error}'`)
+      this.props.updateUI({ error: true })
+      this.setState({error: 'nonsense'})
+    }
+  }
+
   acceptTerms () {
     this.setState({ acceptedTerms: !this.state.acceptedTerms })
   }
 
+  changeEmail () {
+    console.log('changeEmail')
+    // this.props.handleChangeEmail()
+  }
+
   render () {
     const { ui, invalid } = this.props
+
+    const handleError = (msg) => {
+      switch (msg) {
+        case 'user is already registered':
+          return <MixedText>That email is already in use. <a onClick={this.changeEmail}>Change the email that will be associated with your SFOX account to continue</a></MixedText>
+        default:
+          return <MixedText>There has been an error creating your account. Please refresh and try again or contact support.</MixedText>
+      }
+    }
+
     return (
       <Wrapper>
         <form>
@@ -82,6 +108,12 @@ class AcceptTerms extends Component {
             </Text>
             <FieldWrapper>
               <Field name='email' component={TextBox} validate={[required]} />
+              {
+                ui.error
+                  ? handleError(this.state.error)
+                  // ? <MixedText>Account already registered for that email. <a onClick={this.changeEmail}>Please change your email.</a></MixedText>
+                  : null
+              }
               <VerifiedWrapper>
                 <Icon size='26px' name='checkmark-in-circle' />
               </VerifiedWrapper>
@@ -119,16 +151,19 @@ class AcceptTerms extends Component {
 
 AcceptTerms.propTypes = {
   handleSignup: PropTypes.func.isRequired,
-  formActions: PropTypes.obj,
+  formActions: PropTypes.object,
   invalid: PropTypes.bool,
-  ui: PropTypes.obj,
+  ui: PropTypes.object,
   email: PropTypes.string.isRequired,
-  smsNumber: PropTypes.string.isRequired
+  smsNumber: PropTypes.string.isRequired,
+  sfoxProfile: PropTypes.object,
+  updateUI: PropTypes.function
 }
 
 const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).data,
-  smsNumber: selectors.core.settings.getSmsNumber(state).data
+  smsNumber: selectors.core.settings.getSmsNumber(state).data,
+  sfoxProfile: selectors.core.data.sfox.getProfile(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -138,7 +173,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { smsCodeSent: false } })
+  ui({ state: { smsCodeSent: false, error: false } })
 )
 
 export default reduxForm({ form: 'sfoxCreateAcceptTerms' })(enhance(AcceptTerms))
