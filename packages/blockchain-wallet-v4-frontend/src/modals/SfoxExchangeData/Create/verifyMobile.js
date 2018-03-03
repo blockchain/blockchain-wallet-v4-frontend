@@ -57,7 +57,6 @@ class VerifyMobile extends Component {
     }
   }
 
-
   resendSMSCode () {
     console.log('resendSMSCode', this.props.mobileNumber)
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
@@ -105,13 +104,12 @@ class VerifyMobile extends Component {
 
 const mapStateToProps = (state) => ({
   mobileNumber: formValueSelector('sfoxCreateVerifyMobile')(state, 'mobileNumber'),
-  mobileCode: formValueSelector('sfoxCreateVerifyMobile')(state, 'mobileCode'),
+  mobileCode: formValueSelector('sfoxCreateVerifyMobile')(state, 'mobileCode')
 })
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  // sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
