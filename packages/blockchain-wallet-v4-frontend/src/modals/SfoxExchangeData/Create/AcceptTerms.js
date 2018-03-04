@@ -69,12 +69,9 @@ class AcceptTerms extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log('will receive props', nextProps)
     if (typeof nextProps.sfoxProfile.error === 'string') {
-      console.log('nextProps', nextProps.sfoxProfile)
-      // const error = JSON.parse(`'${nextProps.sfoxProfile.error}'`)
       this.props.updateUI({ error: true })
-      this.setState({error: 'nonsense'})
+      this.setState({error: nextProps.sfoxProfile.error})
     }
   }
 
@@ -84,19 +81,17 @@ class AcceptTerms extends Component {
 
   changeEmail () {
     console.log('changeEmail')
-    // this.props.handleChangeEmail()
+    this.props.handleEmailInUse()
   }
 
   render () {
     const { ui, invalid } = this.props
 
     const handleError = (msg) => {
-      switch (msg) {
-        case 'user is already registered':
-          return <MixedText>That email is already in use. <a onClick={this.changeEmail}>Change the email that will be associated with your SFOX account to continue</a></MixedText>
-        default:
-          return <MixedText>There has been an error creating your account. Please refresh and try again or contact support.</MixedText>
+      if (/user is already registered/.test(msg)) {
+        return <MixedText error>That email is already in use. <a onClick={this.changeEmail}>Change the email associated with your SFOX account.</a></MixedText>
       }
+      return <MixedText>There has been an error creating your account. Please refresh and try again or contact support.</MixedText>
     }
 
     return (
@@ -111,7 +106,6 @@ class AcceptTerms extends Component {
               {
                 ui.error
                   ? handleError(this.state.error)
-                  // ? <MixedText>Account already registered for that email. <a onClick={this.changeEmail}>Please change your email.</a></MixedText>
                   : null
               }
               <VerifiedWrapper>

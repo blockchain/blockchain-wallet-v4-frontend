@@ -11,11 +11,18 @@ class CreateContainer extends React.Component {
   constructor (props) {
     super(props)
 
+    this.state = { uniqueEmail: true }
+
     this.handleSignup = this.handleSignup.bind(this)
+    this.handleEmailInUse = this.handleEmailInUse.bind(this)
   }
 
   handleSignup () {
     this.props.sfoxFrontendActions.signup()
+  }
+
+  handleEmailInUse () {
+    this.setState({ uniqueEmail: false })
   }
 
   render () {
@@ -26,6 +33,8 @@ class CreateContainer extends React.Component {
       handleSignup={this.handleSignup}
       ui={ui}
       smsNumber={smsNumber}
+      uniqueEmail={this.state.uniqueEmail}
+      handleEmailInUse={this.handleEmailInUse}
 
     />
   }
