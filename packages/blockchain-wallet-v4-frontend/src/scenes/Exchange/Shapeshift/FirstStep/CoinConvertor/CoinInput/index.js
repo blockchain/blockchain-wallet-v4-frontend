@@ -18,6 +18,7 @@ class CoinInputContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     // Update state if coin value has changed
     const { coinName, coin, currency, btcRates, ethRates } = nextProps
+    // console.log('componentWillReceiveProps', this.props.coin, nextProps.coin, this.props.coinName, nextProps.coinName)
     if (!equals(this.props.coin, coin) || !equals(this.props.coinName, coinName)) {
       const fiat = convertCoinToFiat(coin, coinName, coinName, currency, btcRates, ethRates)
       this.setState({ coin, fiat })
@@ -41,7 +42,8 @@ class CoinInputContainer extends React.Component {
   }
 
   render () {
-    const { coinName, currency, disabled } = this.props
+    // console.log('CoinInput Container', this.props)
+    const { coinName, currency, disabled, errorState } = this.props
     const { coin, fiat } = this.state
 
     return <CoinInput
@@ -52,6 +54,7 @@ class CoinInputContainer extends React.Component {
       disabled={disabled}
       handleChangeCoin={this.handleChangeCoin}
       handleChangeFiat={this.handleChangeFiat}
+      errorState={errorState}
     />
   }
 }
@@ -60,10 +63,10 @@ CoinInputContainer.propTypes = {
   coinName: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
   coin: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  btcRates: PropTypes.object.isRequired,
-  ethRates: PropTypes.object.isRequired,
+  btcRates: PropTypes.object,
+  ethRates: PropTypes.object,
   disabled: PropTypes.bool,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func
 }
 
 CoinInputContainer.defaultProps = {

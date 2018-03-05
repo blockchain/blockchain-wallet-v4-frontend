@@ -64,7 +64,7 @@ class SelectInputContainer extends React.Component {
 
   render () {
     const { search, value, expanded } = this.state
-    const { elements, label, searchEnabled, ...rest } = this.props
+    const { elements, label, searchEnabled, disabled, ...rest } = this.props
     const items = this.transform(elements, search)
     const selected = this.getSelected(items, value)
 
@@ -74,6 +74,7 @@ class SelectInputContainer extends React.Component {
         selected={selected}
         defaultDisplay={label}
         expanded={expanded}
+        disabled={disabled}
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleClick={this.handleClick}
@@ -96,6 +97,7 @@ SelectInputContainer.propTypes = {
   label: PropTypes.string,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
+  disabled: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired]),
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
@@ -108,7 +110,8 @@ SelectInputContainer.propTypes = {
 SelectInputContainer.defaultProps = {
   label: 'Select a value',
   searchEnabled: true,
-  opened: false
+  opened: false,
+  disabled: false
 }
 
 export default SelectInputContainer
