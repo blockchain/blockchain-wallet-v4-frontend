@@ -64,7 +64,7 @@ export const updateEmail = function * (action) {
 
 export const verifyEmail = function * (action) {
   try {
-    yield call(sagas.core.settings.setEmailVerified, action.payload)
+    yield call(sagas.core.settings.verifyEmailCode, action.payload)
     yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not verify email address.'))

@@ -60,8 +60,9 @@ class SfoxExchangeData extends React.Component {
   }
 }
 
-SfoxExchangeData.PropTypes = {
-  step: PropTypes.oneOf(['verify', 'upload', 'link'])
+SfoxExchangeData.propTypes = {
+  step: PropTypes.oneOf(['create', 'verify', 'upload', 'link']),
+  close: PropTypes.function
 }
 
 const mapStateToProps = (state) => ({

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import ui from 'redux-ui'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { reduxForm, formValueSelector, Field } from 'redux-form'
 
 import { TextBox, Form } from 'components/Form'
@@ -46,23 +47,39 @@ class VerifyEmail extends Component {
     super(props)
     this.state = {}
 
-    this.sendEmailCode = this.sendEmailCode.bind(this)
+    this.resendCode = this.resendCode.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.toChangeEmailStep = this.toChangeEmailStep.bind(this)
   }
 
   componentDidMount () {
-    // if (this.props.smsNumber.length > 4) {
-    //   this.props.formActions.change('sfoxCreateVerifyEmail', 'mobileNumber', this.props.smsNumber)
-    // }
+    this.props.formActions.change('sfoxCreateVerifyEmail', 'emailAddress', this.props.oldEmail)
   }
 
-  sendEmailCode () {
+  resendCode () {
+    this.props.settingsActions.updateEmail(this.props.emailAddress)
+    this.props.updateUI({ codeSent: true })
+  }
+
+  toChangeEmailStep () {
+    this.props.updateUI({ enterCode: false })
+  }
+
+  toAcceptTerms () {
 
   }
 
   onSubmit (e) {
     e.preventDefault()
-    // this.props.settingsActions.verifyMobile(this.props.mobileCode)
+    if (this.props.ui.enterCode) {
+      console.log('verifyEmail', this.props.emailCode)
+      this.props.settingsActions.verifyEmail(this.props.emailCode)
+      this.props.doneChangingEmail()
+    } else {
+      console.log('updateEmail', this.props.emailAddress)
+      this.props.settingsActions.updateEmail(this.props.emailAddress)
+      this.props.updateUI({ enterCode: true })
+    }
   }
 
   render () {
@@ -71,35 +88,57 @@ class VerifyEmail extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <Wrapper>
-          <MobileInput>
-            <Text size='14px' weight={400}>
-              Add phone number:
-            </Text>
-            <Field name='mobileNumber' component={TextBox} validate={[required]} />
-          </MobileInput>
-          <MobileCodeContainer>
-            <Text size='14px' weight={400}>Enter verification code sent to your mobile phone:</Text>
-            <FieldWrapper>
-              <Field name='mobileCode' component={TextBox} validate={[required]} />
-              <MixedText>
-                Didn't receive the code? { ui.smsCodeSent ? <a>Sent!</a> : <a onClick={this.sendEmailCode}>Resend</a> }
-              </MixedText>
-            </FieldWrapper>
-          </MobileCodeContainer>
-          <ButtonWrapper>
-            <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-              Continue
-            </Button>
-          </ButtonWrapper>
+          {
+            ui.enterCode
+              ? <MobileInput>
+                <Text size='14px' weight={400}>
+                  Verification code:
+                </Text>
+                <Field name='emailCode' component={TextBox} validate={[required]} />
+                <MixedText>
+                  Didn't receive the email? { ui.codeSent ? <a>Sent!</a> : <span><a onClick={this.resendCode}>Resend</a> or <a onClick={this.toChangeEmailStep}>change email</a></span> }
+                </MixedText>
+                <ButtonWrapper>
+                  <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+                    Continue
+                  </Button>
+                </ButtonWrapper>
+              </MobileInput>
+              : <MobileInput>
+                <Text size='14px' weight={400}>
+                  Confirm email:
+                </Text>
+                <Field name='emailAddress' component={TextBox} validate={[required]} />
+                <ButtonWrapper>
+                  <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+                    Send Verification Email
+                  </Button>
+                  <p onClick={this.toAcceptTerms}>Cancel</p>
+                </ButtonWrapper>
+              </MobileInput>
+          }
         </Wrapper>
       </form>
     )
   }
 }
 
+VerifyEmail.propTypes = {
+  ui: PropTypes.object,
+  invalid: PropTypes.boolean,
+  updateUI: PropTypes.function,
+  settingsActions: PropTypes.object,
+  emailAddress: PropTypes.string,
+  formActions: PropTypes.object,
+  emailCode: PropTypes.string,
+  doneChangingEmail: PropTypes.function,
+  oldEmail: PropTypes.string
+}
+
 const mapStateToProps = (state) => ({
-  mobileNumber: formValueSelector('sfoxCreateVerifyEmail')(state, 'mobileNumber'),
-  mobileCode: formValueSelector('sfoxCreateVerifyEmail')(state, 'mobileCode')
+  oldEmail: selectors.core.settings.getEmail(state).data,
+  emailAddress: formValueSelector('sfoxCreateVerifyEmail')(state, 'emailAddress'),
+  emailCode: formValueSelector('sfoxCreateVerifyEmail')(state, 'emailCode')
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -109,7 +148,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { smsCodeSent: false } })
+  ui({ state: { codeSent: false, enterCode: false } })
 )
 
 export default reduxForm({ form: 'sfoxCreateVerifyEmail' })(enhance(VerifyEmail))

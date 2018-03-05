@@ -15,6 +15,7 @@ class CreateContainer extends React.Component {
 
     this.handleSignup = this.handleSignup.bind(this)
     this.handleEmailInUse = this.handleEmailInUse.bind(this)
+    this.doneChangingEmail = this.doneChangingEmail.bind(this)
   }
 
   handleSignup () {
@@ -23,6 +24,11 @@ class CreateContainer extends React.Component {
 
   handleEmailInUse () {
     this.setState({ uniqueEmail: false })
+    this.props.updateUI({ changingEmail: true })
+  }
+
+  doneChangingEmail () {
+    this.props.updateUI({ changingEmail: false })
   }
 
   render () {
@@ -35,7 +41,7 @@ class CreateContainer extends React.Component {
       smsNumber={smsNumber}
       uniqueEmail={this.state.uniqueEmail}
       handleEmailInUse={this.handleEmailInUse}
-
+      doneChangingEmail={this.doneChangingEmail}
     />
   }
 }
@@ -45,7 +51,8 @@ CreateContainer.propTypes = {
   emailVerified: PropTypes.number.isRequired,
   smsVerified: PropTypes.number.isRequired,
   ui: PropTypes.object,
-  smsNumber: PropTypes.string
+  smsNumber: PropTypes.string,
+  updateUI: PropTypes.function
 }
 
 const mapStateToProps = (state) => ({
@@ -64,7 +71,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { smsCodeSent: false } })
+  ui({ state: { smsCodeSent: false, changingEmail: false } })
 )
 
 export default enhance(CreateContainer)
