@@ -1,7 +1,6 @@
 
 import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
-import CoinConvertor from './CoinConvertor'
 import DateBox from './DateBox'
 import CodeInputBoxes from './CodeInputBoxes'
 import FiatConvertor from './FiatConvertor'
@@ -13,11 +12,11 @@ import PasswordBox from './PasswordBox'
 import PlaceHolder from './PlaceHolder'
 import PhoneNumberBox from './PhoneNumberBox'
 import RadioButton from './RadioButton'
+import SelectBox from './SelectBox'
 import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCoin from './SelectBoxCoin'
 import SelectBoxCurrency from './SelectBoxCurrency'
-import SelectBoxesAccounts from './SelectBoxesAccounts'
 import SelectBoxFee from './SelectBoxFee'
 import SelectBoxLanguages from './SelectBoxLanguages'
 import SelectBoxTheme from './SelectBoxTheme'
@@ -31,7 +30,6 @@ import TextBox from './TextBox'
 export {
   CaptchaBox,
   CheckBox,
-  CoinConvertor,
   DateBox,
   CodeInputBoxes,
   FiatConvertor,
@@ -43,11 +41,11 @@ export {
   PlaceHolder,
   PhoneNumberBox,
   RadioButton,
+  SelectBox,
   SelectBoxBitcoinAddresses,
   SelectBoxBitcoinUnit,
   SelectBoxCoin,
   SelectBoxCurrency,
-  SelectBoxesAccounts,
   SelectBoxFee,
   SelectBoxLanguages,
   SelectBoxTheme,

@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   btc_eth: Remote.NotAsked,
   eth_btc: Remote.NotAsked,
   order: Remote.NotAsked,
+  quotation: Remote.NotAsked,
   trades: {}
 }
 
@@ -48,10 +49,24 @@ const shapeShiftReducer = (state = INITIAL_STATE, action) => {
       const { error, address } = payload
       return assocPath(['trades', address], Remote.Failure(error), state)
     }
-
-    // case AT.SET_ORDER: {
-    //   return assoc('order', payload, state)
-    // }
+    case AT.FETCH_SHAPESHIFT_ORDER_LOADING: {
+      return assoc('order', Remote.Loading, state)
+    }
+    case AT.FETCH_SHAPESHIFT_ORDER_SUCCESS: {
+      return assoc('order', Remote.Success(payload), state)
+    }
+    case AT.FETCH_SHAPESHIFT_ORDER_FAILURE: {
+      return assoc('order', Remote.Failure(payload), state)
+    }
+    case AT.FETCH_SHAPESHIFT_QUOTATION_LOADING: {
+      return assoc('quotation', Remote.Loading, state)
+    }
+    case AT.FETCH_SHAPESHIFT_QUOTATION_SUCCESS: {
+      return assoc('quotation', Remote.Success(payload), state)
+    }
+    case AT.FETCH_SHAPESHIFT_QUOTATION_FAILURE: {
+      return assoc('quotation', Remote.Failure(payload), state)
+    }
     default:
       return state
   }
