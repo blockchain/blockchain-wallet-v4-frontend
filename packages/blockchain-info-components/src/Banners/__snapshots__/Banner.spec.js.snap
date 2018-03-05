@@ -12,7 +12,7 @@ exports[`Banner component type alert renders correctly 1`] = `
     weight={700}
   />
   <Styled(Text)
-    color="black"
+    color="brand-secondary"
     size="12px"
     uppercase={false}
     weight={400}
@@ -35,7 +35,7 @@ exports[`Banner component type caution renders correctly 1`] = `
     weight={700}
   />
   <Styled(Text)
-    color="black"
+    color="brand-yellow"
     size="12px"
     uppercase={false}
     weight={400}
@@ -50,7 +50,7 @@ exports[`Banner component type standard renders correctly 1`] = `
   color="brand-secondary"
 >
   <Styled(Text)
-    color="black"
+    color="brand-secondary"
     size="12px"
     uppercase={false}
     weight={400}
@@ -72,7 +72,7 @@ exports[`Banner component type success renders correctly 1`] = `
     weight={700}
   />
   <Styled(Text)
-    color="black"
+    color="success"
     size="12px"
     uppercase={false}
     weight={400}
@@ -94,7 +94,7 @@ exports[`Banner component type warning renders correctly 1`] = `
     weight={700}
   />
   <Styled(Text)
-    color="black"
+    color="error"
     size="12px"
     uppercase={true}
     weight={400}

@@ -9,7 +9,6 @@ const RefreshContainer = ({ coreActions }) => (
   <Refresh handleRefresh={coreActions.refresh} />
 )
 
-
 const mapDispatchToProps = dispatch => ({
   coreActions: bindActionCreators(actions.core.refresh, dispatch)
 })
