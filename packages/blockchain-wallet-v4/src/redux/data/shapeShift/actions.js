@@ -26,13 +26,13 @@ export const fetchTradeStatusSuccess = (data, address) => ({ type: AT.FETCH_TRAD
 export const fetchTradeStatusFailure = (error, address) => ({ type: AT.FETCH_TRADE_STATUS_FAILURE, payload: { error, address } })
 
 // FETCH_SHAPESHIFT_QUOTATION
-export const fetchShapeshiftQuotation = (amount, pair, isDeposit) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION, payload: { amount, pair, isDeposit } })
-export const fetchShapeshiftQuotationLoading = () => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION_LOADING })
-export const fetchShapeshiftQuotationSuccess = (data) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION_SUCCESS, payload: data })
-export const fetchShapeshiftQuotationFailure = (error) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION_FAILURE, payload: error })
+export const fetchQuotation = (amount, pair, isDeposit) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION, payload: { amount, pair, isDeposit } })
+export const fetchQuotationLoading = () => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION_LOADING })
+export const fetchQuotationSuccess = (data) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION_SUCCESS, payload: data })
+export const fetchQuotationFailure = (error) => ({ type: AT.FETCH_SHAPESHIFT_QUOTATION_FAILURE, payload: error })
 
 // FETCH_SHAPESHIFT_ORDER
-export const fetchShapeshiftOrder = () => ({ type: AT.FETCH_SHAPESHIFT_ORDER })
-export const fetchShapeshiftOrderLoading = () => ({ type: AT.FETCH_SHAPESHIFT_ORDER_LOADING })
-export const fetchShapeshiftOrderSuccess = (data) => ({ type: AT.FETCH_SHAPESHIFT_ORDER_SUCCESS, payload: data })
-export const fetchShapeshiftOrderFailure = (error) => ({ type: AT.FETCH_SHAPESHIFT_ORDER_FAILURE, payload: error })
+export const fetchOrder = (depositAmount, pair, returnAddress, withdrawal) => ({ type: AT.FETCH_SHAPESHIFT_ORDER, payload: { depositAmount, pair, returnAddress, withdrawal } })
+export const fetchOrderLoading = () => ({ type: AT.FETCH_SHAPESHIFT_ORDER_LOADING })
+export const fetchOrderSuccess = (data) => ({ type: AT.FETCH_SHAPESHIFT_ORDER_SUCCESS, payload: data })
+export const fetchOrderFailure = (error) => ({ type: AT.FETCH_SHAPESHIFT_ORDER_FAILURE, payload: error })

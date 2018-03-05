@@ -3,11 +3,13 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
+import { isAboveShapeshiftMinimum, isBelowShapeshiftMaximum, isBelowEffectiveBalance } from './services'
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import CoinConvertor from './CoinConvertor'
 import SelectBoxAccounts from './SelectBoxAccounts'
+import MinimumMaximum from './MinimumMaximum'
 
 const Wrapper = styled.div`
   display: flex;
@@ -54,6 +56,13 @@ const ContainerMiddle = styled.div`
 
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
 `
+const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+  if (initialRender) { return true }
+  return initialRender ||
+    !structure.deepEqual(values, nextProps.values) ||
+    props.effectiveBalance !== nextProps.effectiveBalance ||
+    props.coins !== nextProps.coins
+}
 
 const ExchangeForm = props => {
   const { handleSubmit, invalid, submitting, ...rest } = props
@@ -88,7 +97,10 @@ const ExchangeForm = props => {
           </Text>
         </Row>
         <Row>
-          <Field name='amount' component={CoinConvertor} validate={[required]} {...rest} />
+          <Field name='amount' component={CoinConvertor} validate={[required, isAboveShapeshiftMinimum, isBelowShapeshiftMaximum, isBelowEffectiveBalance]} {...rest} />
+        </Row>
+        <Row>
+          <MinimumMaximum {...rest} />
         </Row>
         <Row>
           <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>
@@ -100,4 +112,4 @@ const ExchangeForm = props => {
   )
 }
 
-export default reduxForm({ form: 'exchange', destroyOnUnmount: false })(ExchangeForm)
+export default reduxForm({ form: 'exchange', destroyOnUnmount: false, shouldValidate })(ExchangeForm)

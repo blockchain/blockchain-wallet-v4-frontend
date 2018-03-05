@@ -1,93 +1,58 @@
-// import { equals, head, isNil, path, prop } from 'ramda'
+import { equals, path, prop } from 'ramda'
+import BigNumber from 'bignumber.js'
+import { Remote, utils } from 'blockchain-wallet-v4/src'
 
-// export const initializeForm = (prevProps, nextProps) => {
-//   const prevData = prevProps.data.getOrElse({})
-//   const prevInitialValues = prop('initialValues', prevData)
-//   const prevSource = prop('source', prevData)
+export const isAboveShapeshiftMinimum = (value, allValues, props) => {
+  // console.log('isAboveShapeshitMimimum', value, allValues, props)
+  const sourceCoin = prop('sourceCoin', props)
+  const targetCoin = prop('targetCoin', props)
+  const source = prop('source', value)
+  const btcEthMinimum = path(['btcEth', 'minimum'], props)
+  const ethBtcMinimum = path(['ethBtc', 'minimum'], props)
+  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
+    if (new BigNumber(source).lessThan(new BigNumber(btcEthMinimum))) return `Value is below the minimum limit (${btcEthMinimum})`
+  }
+  if (equals('ETH', sourceCoin) && equals('BTC', targetCoin)) {
+    if (new BigNumber(source).lessThan(new BigNumber(ethBtcMinimum))) return `Value is below the minimum limit (${ethBtcMinimum})`
+  }
+  return undefined
+}
 
-//   if (!isNil(prevInitialValues) && isNil(prevSource)) {
-//     nextProps.formActions.initialize('exchange', prevInitialValues)
-//   }
-// }
+export const isBelowShapeshiftMaximum = (value, allValues, props) => {
+  // console.log('isBelowShapeshiftMaximum', value, allValues, props)
+  const sourceCoin = prop('sourceCoin', props)
+  const targetCoin = prop('targetCoin', props)
+  const source = prop('source', value)
+  const btcEthMaximum = path(['btcEth', 'limit'], props)
+  const ethBtcMaximum = path(['ethBtc', 'limit'], props)
+  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) {
+    if (new BigNumber(source).greaterThan(new BigNumber(btcEthMaximum))) return `Value is above the maximum limit (${btcEthMaximum})`
+  }
+  if (equals('ETH', sourceCoin) && equals('BTC', targetCoin)) {
+    if (new BigNumber(source).greaterThan(new BigNumber(ethBtcMaximum))) return `Value is above the maximum limit (${ethBtcMaximum})`
+  }
+  return undefined
+}
 
-// export const changeCoin = (prevProps, nextProps) => {
-//   const prevData = prevProps.data.getOrElse({})
-//   const nextData = nextProps.data.getOrElse({})
-//   const btcBalances = prop('btcBalances', nextData)
-//   const ethBalances = prop('ethBalances', nextData)
-//   const prevSource = prop('source', prevData)
-//   const prevSourceCoin = prop('coin', prevSource)
-//   const nextSource = prop('source', nextData)
-//   const nextSourceCoin = path(['source', 'coin'], nextData)
-//   const prevTargetCoin = path(['target', 'coin'], prevData)
-//   const nextTargetCoin = path(['target', 'coin'], nextData)
+export const isBelowEffectiveBalance = (value, allValues, props) => {
+  // console.log('isBelowEffectiveBalance', value, props)
+  const source = prop('source', value)
+  const effectiveBalance = props.effectiveBalance
+  return new BigNumber(source).lessThanOrEqualTo(new BigNumber(effectiveBalance)) ? undefined : `Value is above your account effective balance (${effectiveBalance})`
+}
 
-//   // If the source coin has changed, we select a new target coin
-//   if (!isNil(prevSourceCoin) && !equals(prevSourceCoin, nextSourceCoin) && equals(prevTargetCoin, nextTargetCoin)) {
-//     const nextTarget = selectDefaultAccount(prevSourceCoin, btcBalances, ethBalances)
-//     nextProps.formActions.change('exchange', 'target', nextTarget)
-//   }
+export const calculateEffectiveBalance = (props) => {
+  if (!Remote.Success.is(props.data)) return 0
 
-//   // If the target coin has changed, we select a new source coin
-//   if (!isNil(prevTargetCoin) && !equals(prevTargetCoin, nextTargetCoin) && equals(prevSourceCoin, nextSourceCoin)) {
-//     const nextTarget = selectDefaultAccount(prevTargetCoin, btcBalances, ethBalances)
-//     nextProps.formActions.change('exchange', 'source', nextTarget)
-//   }
-
-//   // Update unspent if needed (BTC)
-//   if (!equals(prevSource, nextSource) && !isNil(prevSourceCoin) && equals(nextSourceCoin, 'BTC')) {
-//     nextProps.dataBitcoinActions.fetchUnspent(prop('index', prevSource) || prop('address', prevSource))
-//   }
-// }
-
-// export const swapCoin = (props) => {
-//   const data = props.data.getOrElse({})
-//   props.formActions.initialize('exchange', { source: prop('target', data), target: prop('source', data) })
-// }
-
-// export const updateEffectiveBalance = (prevProps, nextProps) => {
-//   const prevData = prevProps.data.getOrElse({})
-//   const nextData = nextProps.data.getOrElse({})
-//   const prevCoins = prop('coins', prevData)
-//   const nextCoins = prop('coins', nextData)
-//   const prevFee = prop('fee', prevData)
-//   const nextFee = prop('fee', nextData)
-
-//   if (!equals(prevCoins, nextCoins) || !equals(prevFee, nextFee)) {
-//     console.log('updateEffectiveBalanceeee')
-//     nextProps.dataBitcoinActions.refreshEffectiveBalance(nextCoins, nextFee)
-//   }
-// }
-
-// const selectDefaultAccount = (coin, btcBalances, ethBalances) => {
-//   switch (coin) {
-//     case 'BTC': return head(btcBalances)
-//     case 'ETH': return head(ethBalances)
-//   }
-// }
-
-// // const updateSelection = (prevProps, nextProps, seed) => {
-// //   const prevData = prevProps.data.getOrElse({})
-// //   const nextData = nextProps.data.getOrElse({})
-// //   const prevCoins = prop('coins', prevData)
-// //   const nextCoins = prop('coins', nextData)
-// //   const prevFee = prop('fee', prevData)
-// //   const nextFee = prop('fee', nextData)
-// //   const prevAmount = prop('amount', prevData)
-// //   const nextAmount = prop('amount', nextData)
-// //   const prevTo = prop('to', prevData) || prop('to2', prevData)
-// //   const nextTo = prop('to', nextData) || prop('to2', nextData)
-// //   // const nextFrom = prop('from', prevData)
-// //   const nextUnit = prop('unit', nextData)
-// //   const nextChangeAddress = prop('changeAddress', nextData)
-// //   const nextReceiveAddress = prop('receiveAddress', nextData)
-
-// //   if (!equals(prevCoins, nextCoins) ||
-// //     !equals(prevAmount, nextAmount) ||
-// //     !equals(prevTo, nextTo) ||
-// //     !equals(prevFee, nextFee)) {
-// //     const satoshis = Exchange.convertBitcoinToBitcoin({ value: nextAmount, fromUnit: nextUnit, toUnit: 'SAT' }).value
-// //     const algorithm = 'singleRandomDraw'
-// //     nextProps.dataBitcoinActions.refreshSelection(nextFee, nextCoins, satoshis, nextReceiveAddress, nextChangeAddress, algorithm, seed)
-// //   }
-// // }
+  const { sourceCoin, accounts, coins, ethAddresses, data } = props
+  switch (sourceCoin) {
+    case 'BTC':
+      const { btcFee } = data.getOrElse({ btcFee: { priority: 0 } })
+      return utils.bitcoin.calculateEffectiveBalanceBitcoin(coins, btcFee.priority)
+    case 'ETH':
+      const ethAccount = path(['source', 'address'], accounts)
+      const { ethFee } = data.getOrElse({ ethFee: { priority: 0, gasLimit: 21000 } })
+      const ethBalance = path([ethAccount, 'balance'], ethAddresses)
+      return utils.ethereum.calculateEffectiveBalanceEther(ethFee.priority, ethFee.gasLimit, ethBalance)
+  }
+}
