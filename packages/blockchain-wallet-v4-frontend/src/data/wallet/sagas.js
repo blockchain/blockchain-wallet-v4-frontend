@@ -1,48 +1,29 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects'
-import { map, set } from 'ramda'
+import { takeEvery, call, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
-import * as selectors from '../selectors'
 import { askSecondPasswordEnhancer, promptForSecondPassword, promptForInput } from 'services/SagaService'
-import { CoinSelection, Coin } from 'blockchain-wallet-v4/src'
 
-export const createLegacyAddress = function * (action) {
+export const importLegacyAddress = function * (action) {
   let { addr, priv, to } = action.payload
-  let key = priv == null ? addr : priv
   let password = yield call(promptForSecondPassword)
 
-  let importAddress = function * () {
+  try {
+    let key = priv == null ? addr : priv
     yield call(sagas.core.wallet.createLegacyAddress, { key, password })
     yield put(actions.alerts.displaySuccess('Address added succesfully.'))
-  }
 
-  try {
-    if (to) {
+    if (to && priv) {
       try {
-        let network
-        let feePerByte = 15
-        let receiveAddress = yield select(selectors.core.common.bitcoin.getNextAvailableReceiveAddress(network, to.index))
-
-        yield importAddress()
-
-        let coins = yield sagas.core.data.bitcoin.fetchUnspent([addr])
-        let coinsWithPriv = map(set(Coin.priv, priv), coins)
-        let selection = receiveAddress.map(a => CoinSelection.selectAll(feePerByte, coinsWithPriv, a)).getOrElse(null)
-
-        if (selection) {
-          yield sagas.core.data.bitcoin.signAndPublish({ network, selection, password })
-          yield put(actions.alerts.displaySuccess(`Swept address funds to ${to.label}`))
-        }
+        yield sagas.core.data.bitcoin.sweepAddress(addr, priv, { index: to.index, password })
+        yield put(actions.alerts.displaySuccess(`Swept address funds to ${to.label}`))
       } catch (error) {
-        console.log(error)
         yield put(actions.alerts.displayError('Could not sweep address.'))
       }
-    } else {
-      yield importAddress()
     }
+
+    yield call(sagas.core.wallet.refetchContextData)
   } catch (error) {
-    console.log(error)
     yield put(actions.alerts.displayError('Error adding address.'))
   }
 }
@@ -96,7 +77,7 @@ export const editAccountLabel = function * (action) {
 export default function * () {
   yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
   yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
-  yield takeEvery(AT.CREATE_LEGACY_ADDRESS, createLegacyAddress)
+  yield takeEvery(AT.IMPORT_LEGACY_ADDRESS, importLegacyAddress)
   yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
   yield takeEvery(AT.EDIT_HD_LABEL, editHdLabel)
   yield takeEvery(AT.EDIT_ACCOUNT_LABEL, editAccountLabel)
