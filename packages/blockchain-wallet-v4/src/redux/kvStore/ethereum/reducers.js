@@ -25,8 +25,8 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_TRANSACTION_NOTE_ETHEREUM: {
       let valueLens = compose(mapped, KVStoreEntry.value)
-      let setTrades = assocPath(['ethereum', 'tx_notes', payload.txHash], payload.txNote)
-      return over(valueLens, setTrades, state)
+      let setNote = assocPath(['ethereum', 'tx_notes', payload.txHash], payload.txNote)
+      return over(valueLens, setNote, state)
     }
     default:
       return state
