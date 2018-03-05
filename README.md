@@ -6,12 +6,9 @@ Please [contact support](https://support.blockchain.com) if you have any issues 
 This repo contains the three codebases/packages listed below that are combined into one via [Lerna](https://github.com/lerna/lerna).
 
 ### Packages
-* [blockchain-info-components](./packages/blockchain-info-components)
-    - The shared UI components library.
-* [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
-    - The functional library for handling Blockchain.info wallets.
-* [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
-    - The frontend application built with React/Redux.
+ * [blockchain-info-components](./packages/blockchain-info-components) The shared UI components library.
+ * [blockchain-wallet-v4](./packages/blockchain-wallet-v4) The functional library for handling wallets.
+ * [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend) The frontend application built with React/Redux.
 
 
 ## Local Development
@@ -31,8 +28,8 @@ This repo contains the three codebases/packages listed below that are combined i
    * `window.navigator.registerProtocolHandler('bitcoin', http://localhost:8080/a/%s, 'Blockchain')`
 
 ### Useful Chrome Extensions
-* [React Developer Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en): Inspect the React component tree.
-* [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en): View/Debug Redux state changes.
+ * [React Developer Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) Inspect the React component tree.
+ * [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) View/debug Redux state changes.
 
 
 ## Production Builds
