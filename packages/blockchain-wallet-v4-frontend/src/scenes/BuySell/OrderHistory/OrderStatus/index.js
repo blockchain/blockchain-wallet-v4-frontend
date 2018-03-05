@@ -5,10 +5,10 @@ import { Text } from 'blockchain-info-components'
 
 const selectStyle = status => {
   switch (status) {
-    case 'processing': return { color: 'brand-tertiary', italic: true }
-    case 'completed': return { color: 'success', italic: false }
-    case 'rejected': return { color: 'error', italic: false }
-    case 'failed': return { color: 'gray-6', italic: true }
+    case 'processing': return { color: 'marketing-secondary' }
+    case 'completed': return { color: 'success' }
+    case 'rejected': return { color: 'error' }
+    case 'failed': return { color: 'error' }
   }
 }
 
