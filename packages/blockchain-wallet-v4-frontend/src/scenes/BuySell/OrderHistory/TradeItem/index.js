@@ -22,10 +22,10 @@ const TradeItem = props => {
         <Text size='14px' weight={300}>{trade.createdAt.toLocaleString()}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size='14px' weight={300}>{`${trade.receiveAmount} ${trade.outCurrency}`}</Text>
+        <Text size='14px' weight={300}>{`${trade.sendAmount / conversion} ${trade.inCurrency}`}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size='14px' weight={300}>{`${trade.sendAmount / conversion} ${trade.inCurrency}`}</Text>
+        <Text size='14px' weight={300}>{`${trade.receiveAmount} ${trade.outCurrency}`}</Text>
       </TableCell>
     </TableRow>
   )
