@@ -15,3 +15,5 @@ export const getAccountIndex = (state, address) => getAccounts(state).map(findIn
 export const getLegacyAccount = state => getMetadata(state).map(path(['value', 'ethereum', 'legacy_account']))
 
 export const getLegacyAccountAddress = state => getLegacyAccount(state).map(prop('addr'))
+
+export const getEthereumTxNote = (state, txHash) => getMetadata(state).map(path(['value', 'ethereum', 'tx_notes', txHash]))
