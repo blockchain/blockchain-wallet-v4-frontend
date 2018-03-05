@@ -1,7 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import TradeItem from './TradeItem'
 import { FormattedMessage } from 'react-intl'
+import { filter, prop, reverse, sortBy } from 'ramda'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
 class OrderHistory extends React.Component {
@@ -12,6 +12,11 @@ class OrderHistory extends React.Component {
 
   render () {
     const { conversion, trades } = this.props
+
+    const isValid = (t) => t.createdAt
+    const validTrades = filter(isValid, trades)
+    const sortByCreated = sortBy(prop('createdAt'))
+    const sortedTrades = reverse(sortByCreated(validTrades))
 
     return (
       <Table>
@@ -38,7 +43,7 @@ class OrderHistory extends React.Component {
             </Text>
           </TableCell>
         </TableHeader>
-        {trades.map((trade, index) => <TradeItem key={index} trade={trade} conversion={conversion} />)}
+        {sortedTrades.map((trade, index) => <TradeItem key={index} trade={trade} conversion={conversion} />)}
       </Table>
     )
   }

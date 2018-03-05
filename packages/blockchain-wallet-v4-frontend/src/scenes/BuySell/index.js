@@ -26,9 +26,6 @@ const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 class BuySellContainer extends React.Component {
   componentWillMount () {
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
-  }
-
-  componentDidMount () {
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
   }
 
