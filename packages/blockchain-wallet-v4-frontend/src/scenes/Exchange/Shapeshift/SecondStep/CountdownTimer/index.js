@@ -21,7 +21,7 @@ class CountdownTimerContainer extends React.Component {
     const elapsed = moment.duration(moment(this.state.expiration).diff(moment()))
     this.setState({ elapsed })
     // If we reach the end of the timer, we execute the expiry callback
-    if (elapsed <= 0) {
+    if (this.state.elapsed.as('milliseconds') <= 0) {
       clearInterval(this.interval)
       if (handleExpiry) { handleExpiry() }
     }
