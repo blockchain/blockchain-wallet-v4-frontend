@@ -7,7 +7,7 @@ export class TXNotes extends Type {}
 
 export const isTXNotes = is(TXNotes)
 
-export const note = txhash => TXNotes.define(txhash)
+export const note = iLensProp
 
 export const selectNote = curry((txhash, txnotes) => pipe(TXNotes.guard, view(iLensProp(txhash)))(txnotes))
 
