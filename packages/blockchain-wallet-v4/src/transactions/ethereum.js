@@ -1,7 +1,5 @@
 import { contains, map, toLower } from 'ramda'
 import EthereumTx from 'ethereumjs-tx'
-import EthereumUtil from 'ethereumjs-util'
-import EthereumWallet from 'ethereumjs-wallet'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
