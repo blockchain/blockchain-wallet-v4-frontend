@@ -11,6 +11,8 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+
+  & > * { margin-left: 5px; }
 `
 
 const MinimumMaximum = props => {
