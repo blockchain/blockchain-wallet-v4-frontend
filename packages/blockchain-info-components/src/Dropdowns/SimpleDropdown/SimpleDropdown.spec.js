@@ -9,7 +9,7 @@ describe('SimpleDropdown component', () => {
     const items = [
       { text: 'test', value: 'value' }
     ];
-    const component = shallow(<SimpleDropdown items={items} selectedItem={{text: 'test'}} callback={()=>{}} handleClick={()=>{}} handleCallback={()=>{}}></SimpleDropdown>);
+    const component = shallow(<SimpleDropdown items={items} selectedItem={{text: 'test'}} callback={() => {}} handleClick={() => {}} handleCallback={() => {}} />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

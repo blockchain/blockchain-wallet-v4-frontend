@@ -6,7 +6,7 @@ import NumberInput from './NumberInput';
 
 describe('NumberInput component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<NumberInput borderColor='red'></NumberInput>);
+    const component = shallow(<NumberInput borderColor='red' />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

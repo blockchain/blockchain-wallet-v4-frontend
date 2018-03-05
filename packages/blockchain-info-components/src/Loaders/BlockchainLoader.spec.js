@@ -6,7 +6,7 @@ import BlockchainLoader from './BlockchainLoader';
 
 describe('BlockchainLoader component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<BlockchainLoader height='10px' width='10px'></BlockchainLoader>);
+    const component = shallow(<BlockchainLoader height='10px' width='10px' />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

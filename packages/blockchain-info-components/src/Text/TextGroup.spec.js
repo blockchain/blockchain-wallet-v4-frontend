@@ -6,7 +6,7 @@ import TextGroup from './TextGroup';
 
 describe('TextGroup component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<TextGroup nowrap={true} inline={true}><span>Hello World</span></TextGroup>);
+    const component = shallow(<TextGroup nowrap inline><span>Hello World</span></TextGroup>);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

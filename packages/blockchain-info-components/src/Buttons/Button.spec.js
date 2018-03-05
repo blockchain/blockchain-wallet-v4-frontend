@@ -6,7 +6,7 @@ import Button from './Button';
 
 describe('Button component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<Button></Button>);
+    const component = shallow(<Button />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });
