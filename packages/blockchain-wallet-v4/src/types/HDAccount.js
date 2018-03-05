@@ -1,5 +1,4 @@
 import Bitcoin from 'bitcoinjs-lib'
-import { fromJS as iFromJS } from 'immutable-ext' // if we delete that wallet test fail - idk why
 import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split, isEmpty } from 'ramda'
 import { view, over, traverseOf } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
@@ -7,7 +6,9 @@ import Either from 'data.either'
 import Type from './Type'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as Cache from './Cache'
-import BIP39 from 'bip39'
+/* eslint-disable */
+import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
+/* eslint-enable */
 
 /* HDAccount :: {
   label :: String
@@ -15,9 +16,7 @@ import BIP39 from 'bip39'
 } */
 
 export class HDAccount extends Type {}
-
 export const isHDAccount = is(HDAccount)
-
 export const label = HDAccount.define('label')
 export const archived = HDAccount.define('archived')
 export const xpriv = HDAccount.define('xpriv')
@@ -25,7 +24,6 @@ export const xpub = HDAccount.define('xpub')
 export const addressLabels = HDAccount.define('address_labels')
 export const cache = HDAccount.define('cache')
 export const index = HDAccount.define('index')
-
 export const selectLabel = view(label)
 export const selectCache = view(cache)
 export const selectArchived = view(archived)
@@ -33,11 +31,9 @@ export const selectXpriv = view(xpriv)
 export const selectXpub = view(xpub)
 export const selectAddressLabels = view(addressLabels)
 export const selectIndex = view(index)
-
 export const isArchived = compose(Boolean, view(archived))
 export const isActive = compose(not, isArchived)
 export const isWatchOnly = compose(isNil, view(xpriv))
-
 export const isXpub = curry((myxpub, account) => compose(equals(myxpub), view(xpub))(account))
 
 export const getAddress = (account, path, network) => {

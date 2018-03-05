@@ -47,6 +47,7 @@ export const editHdLabel = function * (action) {
     yield put(actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, newLabel))
     yield put(actions.alerts.displaySuccess('Address label updated.'))
   } catch (e) {
+    console.log('error in editHdLabel generator')
   }
 }
 
@@ -57,6 +58,7 @@ export const editAccountLabel = function * (action) {
     yield put(actions.core.wallet.setAccountLabel(index, newLabel))
     yield put(actions.alerts.displaySuccess('Wallet name updated.'))
   } catch (e) {
+    console.log('error in editAccountLabel generator')
   }
 }
 

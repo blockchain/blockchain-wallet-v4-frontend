@@ -1,10 +1,10 @@
-import { call, put, select } from 'redux-saga/effects'
-import { compose, prop } from 'ramda'
-import { Wrapper, Wallet } from '../../../types'
-import { getCurrency } from '../../settings/selectors'
-import { getGuid, getSharedKey, getWalletContext } from '../../wallet/selectors'
-import readBlob from 'read-blob'
-import * as A from './actions'
+// import { call, put, select } from 'redux-saga/effects'
+// import { compose, prop } from 'ramda'
+// import { Wrapper, Wallet } from '../../../types'
+// import { getCurrency } from '../../settings/selectors'
+// import { getGuid, getSharedKey, getWalletContext } from '../../wallet/selectors'
+// import readBlob from 'read-blob'
+// import * as A from './actions'
 
 export const misc = ({ api } = {}) => {
   // const fetchAdverts = function * ({ number }) {

@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 
-import { Link, Icon} from 'blockchain-info-components'
-
+import { Link, Icon } from 'blockchain-info-components'
 
 const Refresh = (props) => {
   const { handleRefresh } = props

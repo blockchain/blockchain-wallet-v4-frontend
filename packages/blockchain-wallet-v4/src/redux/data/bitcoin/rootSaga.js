@@ -1,10 +1,6 @@
-
 import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { indexBy, length, path, prop, last, map } from 'ramda'
-import { futurizeP } from 'futurize'
-import Task from 'data.task'
-import { sign } from '../../../signer'
+import { indexBy, length, path, prop, last } from 'ramda'
 import { delayAjax } from '../../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
