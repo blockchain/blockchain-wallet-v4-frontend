@@ -7,7 +7,7 @@ import { equals, isNil, path } from 'ramda'
 
 import { actions, selectors } from 'data'
 import { getData } from './selectors'
-import { getPairFromCoin } from './services'
+import { getPairFromCoin } from '../../services'
 import Success from './template.success'
 
 class CoinConvertorContainer extends React.Component {
@@ -21,8 +21,6 @@ class CoinConvertorContainer extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // console.log('CoinConvertorContainer componentWillReceiveProps', nextProps)
-
     // Update value if quotation is successful
     if (Remote.Success.is(nextProps.data) && !equals(this.props.data, nextProps.data)) {
       const data = nextProps.data.getOrElse({ source: undefined, target: undefined })
@@ -30,14 +28,13 @@ class CoinConvertorContainer extends React.Component {
       this.props.input.onChange(data)
       return
     }
-
     // Update state if source has changed
     const prevSource = path(['input', 'value', 'source'], this.props)
     const nextSource = path(['input', 'value', 'source'], nextProps)
     if (!isNil(nextSource) && !equals(prevSource, nextSource) && !equals(nextSource, this.state.source)) {
+      console.log('nextSource', nextSource)
       this.fetchQuotation(nextSource, true)
     }
-
     // Update state if target has changed
     const prevTarget = path(['input', 'value', 'target'], this.props)
     const nextTarget = path(['input', 'value', 'target'], nextProps)
@@ -60,7 +57,7 @@ class CoinConvertorContainer extends React.Component {
     if (!isNil(value)) {
       if (this.timeout) clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
-        this.props.dataShapeshiftActions.fetchShapeshiftQuotation(value, this.props.pair, isDeposit)
+        this.props.dataShapeshiftActions.fetchQuotation(value, this.props.pair, isDeposit)
       }, 1000)
     }
   }

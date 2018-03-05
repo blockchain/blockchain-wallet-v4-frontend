@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
 
 export const isAboveShapeshiftMinimum = (value, allValues, props) => {
-  console.log('isAboveShapeshitMimimum', value, allValues, props)
+  // console.log('isAboveShapeshitMimimum', value, allValues, props)
   const sourceCoin = prop('sourceCoin', props)
   const targetCoin = prop('targetCoin', props)
   const source = prop('source', value)
@@ -19,7 +19,7 @@ export const isAboveShapeshiftMinimum = (value, allValues, props) => {
 }
 
 export const isBelowShapeshiftMaximum = (value, allValues, props) => {
-  console.log('isBelowShapeshiftMaximum', value, allValues, props)
+  // console.log('isBelowShapeshiftMaximum', value, allValues, props)
   const sourceCoin = prop('sourceCoin', props)
   const targetCoin = prop('targetCoin', props)
   const source = prop('source', value)
@@ -35,7 +35,7 @@ export const isBelowShapeshiftMaximum = (value, allValues, props) => {
 }
 
 export const isBelowEffectiveBalance = (value, allValues, props) => {
-  console.log('isBelowEffectiveBalance', value, props)
+  // console.log('isBelowEffectiveBalance', value, props)
   const source = prop('source', value)
   const effectiveBalance = props.effectiveBalance
   return new BigNumber(source).lessThanOrEqualTo(new BigNumber(effectiveBalance)) ? undefined : `Value is above your account effective balance (${effectiveBalance})`
