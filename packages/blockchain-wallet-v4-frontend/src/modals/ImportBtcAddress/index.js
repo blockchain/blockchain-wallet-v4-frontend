@@ -15,7 +15,7 @@ class ImportBtcAddressContainer extends React.Component {
   onSubmit (e) {
     e.preventDefault()
     let { addr, priv, to } = this.props
-    this.props.walletActions.createLegacyAddress(addr, priv, to)
+    this.props.walletActions.importLegacyAddress(addr, priv, to)
   }
 
   render () {

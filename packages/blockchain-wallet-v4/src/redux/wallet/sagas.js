@@ -39,16 +39,13 @@ export const walletSaga = ({ api } = {}) => {
     const addAddress = (wallet) => Wallet.addAddress(wallet, address, password)
     const task = eitherToTask(Wrapper.traverseWallet(Either.of, addAddress, wrapper))
     yield call(runTask, task, A.setWrapper)
-    const walletContext = yield select(S.getWalletContext)
-    yield put(fetchData(walletContext))
   }
 
   const newHDAccount = function * ({label, password}) {
     let wrapper = yield select(S.getWrapper)
     let nextWrapper = Wrapper.traverseWallet(Either.of, Wallet.newHDAccount(label, password), wrapper)
     yield call(runTask, eitherToTask(nextWrapper), A.setWrapper)
-    let walletContext = yield select(S.getWalletContext)
-    yield put(fetchData(walletContext))
+    yield refetchContextData()
   }
 
   const createWalletSaga = function * ({ password, email }) {
@@ -132,6 +129,11 @@ export const walletSaga = ({ api } = {}) => {
     return yield call(api.reset2fa, guid, email, newEmail, secretPhrase, message, code, sessionToken)
   }
 
+  const refetchContextData = function * () {
+    const walletContext = yield select(S.getWalletContext)
+    yield put(fetchData(walletContext))
+  }
+
   return {
     toggleSecondPassword,
     createWalletSaga,
@@ -141,6 +143,7 @@ export const walletSaga = ({ api } = {}) => {
     updatePbkdf2Iterations,
     remindWalletGuidSaga,
     fetchWalletSaga,
-    resetWallet2fa
+    resetWallet2fa,
+    refetchContextData
   }
 }
