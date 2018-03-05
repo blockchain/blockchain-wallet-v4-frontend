@@ -1,4 +1,4 @@
-import { address, crypto, networks, ECPair } from 'bitcoinjs-lib'
+import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { equals, or } from 'ramda'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'

@@ -1,6 +1,6 @@
-import { all, call, put } from 'redux-saga/effects'
-import { map } from 'ramda'
-import * as A from './actions'
+// import { all, call, put } from 'redux-saga/effects'
+// import { map } from 'ramda'
+// import * as A from './actions'
 
 export const shapeShift = ({ api } = {}) => {
   // const fetchBtcEth = function * () {

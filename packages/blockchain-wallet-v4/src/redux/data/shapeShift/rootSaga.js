@@ -1,8 +1,6 @@
-
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { delayAjax } from '../../paths'
-import { all, map } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'
 
