@@ -229,3 +229,4 @@ FirstStep.propTypes = {
 }
 
 export default reduxForm({ form: 'sendBitcoin', shouldValidate, destroyOnUnmount: false })(FirstStep)
+ 

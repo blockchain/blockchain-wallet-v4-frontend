@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, SelectInput } from 'blockchain-info-components'
+import { SelectInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;

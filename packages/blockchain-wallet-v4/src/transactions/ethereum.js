@@ -12,7 +12,7 @@ const getType = (tx, addresses) => {
   }
 }
 
-export const calculateFee = (gasRegular, gasLimit) => `${(gasRegular * gasLimit)}000000000` // Convert gwei => wei
+export const calculateFee = (gasPrice, gasLimit) => `${(gasPrice * gasLimit)}000000000` // Convert gwei => wei
 
 export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, network = 1) => {
   let tx
