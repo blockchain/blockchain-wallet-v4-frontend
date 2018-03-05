@@ -39,7 +39,7 @@ export const getAccountsBalances = state => {
     xpub: prop('xpub', x),
     index: prop('index', x)
   })
-  map(map(digest), getActiveHDAccounts(state))
+  return map(map(digest), getActiveHDAccounts(state))
 }
 // getAddressesBalances :: state => Remote([])
 export const getAddressesBalances = state => {
@@ -49,7 +49,7 @@ export const getAddressesBalances = state => {
     balance: path(['info', 'final_balance'], x),
     address: prop('addr', x)
   })
-  map(map(digest), getActiveAddresses(state))
+  return map(map(digest), getActiveAddresses(state))
 }
 // getAccountsInfo :: state => []
 export const getAccountsInfo = state => {
