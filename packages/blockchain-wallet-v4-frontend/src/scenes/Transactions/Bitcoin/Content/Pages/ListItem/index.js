@@ -21,7 +21,7 @@ class ListItemContainer extends React.Component {
   handleCoinToggle () {
     this.props.preferencesActions.toggleCoinDisplayed()
   }
-  handleEditDescription(value) {
+  handleEditDescription (value) {
     this.props.walletActions.setTransactionNote(this.props.transaction.hash, value)
   }
 
