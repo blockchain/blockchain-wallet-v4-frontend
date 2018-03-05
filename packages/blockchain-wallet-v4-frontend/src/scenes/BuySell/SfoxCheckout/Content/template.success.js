@@ -1,6 +1,8 @@
 import React from 'react'
+import { filter } from 'ramda'
 import styled from 'styled-components'
 import OrderHistory from '../../OrderHistory'
+import { Text } from 'blockchain-info-components'
 import ExchangeCheckout from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
@@ -8,6 +10,23 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 const CheckoutWrapper = styled.div`
   width: 50%;
 `
+const OrderHistoryWrapper = styled.div`
+  width: 100%;
+  > div:last-child > div:last-child {
+    margin-bottom: 0px;
+  }
+`
+const OrderHistoryContent = styled.div`
+  > div:first-child {
+    margin-bottom: 10px;
+  }
+  > div:last-child {
+    margin-bottom: 20px;
+  }
+`
+
+const isPending = (t) => t.state === 'processing'
+const isCompleted = (t) => t.state !== 'processing'
 
 const ContinueButton = props => {
   const { step, type } = props
@@ -107,10 +126,25 @@ const Success = props => {
         />
       </CheckoutWrapper>
     )
-  } else {
+  } else if (trades) {
     return (
-      <OrderHistory trades={trades} conversion={1e8} />
+      <OrderHistoryWrapper>
+        <OrderHistoryContent>
+          <Text size={'16px'} weight={500}>
+            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Trades' />
+          </Text>
+          <OrderHistory trades={filter(isPending, trades)} conversion={1e8} />
+        </OrderHistoryContent>
+        <OrderHistoryContent>
+          <Text size={'16px'} weight={500}>
+            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Trades' />
+          </Text>
+          <OrderHistory trades={filter(isCompleted, trades)} conversion={1e8} />
+        </OrderHistoryContent>
+      </OrderHistoryWrapper>
     )
+  } else {
+    return null
   }
 }
 
