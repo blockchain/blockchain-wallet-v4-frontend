@@ -1,6 +1,7 @@
-import { concat, head, path } from 'ramda'
+import { concat, head, prop } from 'ramda'
 import { selectors } from 'data'
 import { formValueSelector } from 'redux-form'
+import { getPairFromCoin } from './services'
 
 export const getData = state => {
   const btcHDAccountsInfo = selectors.core.common.bitcoin.getAccountsInfo(state)
@@ -12,8 +13,13 @@ export const getData = state => {
   const currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
   const accounts = formValueSelector('exchange')(state, 'accounts')
   const amount = formValueSelector('exchange')(state, 'amount')
-  const sourceCoin = path(['source', 'coin'], accounts) || 'BTC'
-  const targetCoin = path(['target', 'coin'], accounts) || 'ETH'
+  const source = prop('source', accounts)
+  const sourceAmount = prop('source', amount)
+  const sourceCoin = prop('coin', source) || 'BTC'
+  const target = prop('target', accounts)
+  const targetAmount = prop('target', amount)
+  const targetCoin = prop('coin', target) || 'ETH'
+  const pair = getPairFromCoin(sourceCoin, targetCoin)
   const defaultAccounts = {
     BTC: defaultBtcAccount,
     ETH: defaultEthAccount
@@ -32,9 +38,12 @@ export const getData = state => {
     btcAccountsInfo,
     ethAccountsInfo,
     currency,
-    accounts,
-    amount,
+    source,
     sourceCoin,
-    targetCoin
+    sourceAmount,
+    target,
+    targetCoin,
+    targetAmount,
+    pair
   })
 }
