@@ -29,6 +29,7 @@ const ButtonWrapper = styled.div`
 const MixedText = styled.span`
   margin-top: 10px;
   font-size: 14px;
+  color: ${props => props.error ? props.theme['error'] : 'initial'};
   a {
     cursor: pointer;
     color: ${props => props.theme['brand-secondary']};
@@ -89,7 +90,7 @@ class AcceptTerms extends Component {
 
     const handleError = (msg) => {
       if (/user is already registered/.test(msg)) {
-        return <MixedText error>That email is already in use. <a onClick={this.changeEmail}>Change the email associated with your SFOX account.</a></MixedText>
+        return <MixedText error>Sorry, this email is already registered with SFOX. <a onClick={this.changeEmail}>Change Email</a></MixedText>
       }
       return <MixedText>There has been an error creating your account. Please refresh and try again or contact support.</MixedText>
     }
