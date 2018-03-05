@@ -14,7 +14,7 @@ describe('Wrapper', () => {
     it('compose(reviver, replacer) should be identity', () => {
       const string = JSON.stringify(myWrapper)
       const newWrapper = JSON.parse(string, serializer.reviver)
-      expect(true).toBe(true);
+      expect(true).toBe(true)
       // expect(newWrapper).toEqualImmutable(myWrapper)
     })
     it('compose(replacer, reviver) should be identity', () => {
