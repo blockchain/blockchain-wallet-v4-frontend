@@ -1,10 +1,10 @@
 export class ExchangeDelegate {
-  constructor (state, token) {
+  constructor (state, api) {
     this._trades = []
     this._debug = false
     this.labelBase = 'Exchange order'
     this._state = state
-    this._token = token
+    this._api = api
   }
 
   get state () {
@@ -15,12 +15,8 @@ export class ExchangeDelegate {
     return this._trades
   }
 
-  get token () {
-    return this._token
-  }
-
-  set token (token) {
-    this._token = token
+  get api () {
+    return this._api
   }
 
   save () {
@@ -44,8 +40,29 @@ export class ExchangeDelegate {
   }
 
   getToken (partner, options) {
-    // token is previously set by sfox signup saga
-    return this.token
+    options = options || {};
+
+    const guid = this.state.walletPath.wallet.guid
+    const sharedKey = this.state.walletPath.wallet.sharedKey
+
+    let fields = {
+      guid: guid,
+      sharedKey: sharedKey,
+      fields: `email${options.mobile ? '|mobile' : ''}${options.walletAge ? '|wallet_age' : ''}`
+    };
+
+    if (partner) {
+      fields.partner = partner;
+    }
+
+    return this.api.getTokenForDelegate(fields)
+      .then(function (res) {
+        if (res.success) {
+          return res.token
+        } else {
+          throw new Error('Unable to obtain email & mobile verification proof')
+        }
+      })
   }
 
   monitorAddress (address, callback) {

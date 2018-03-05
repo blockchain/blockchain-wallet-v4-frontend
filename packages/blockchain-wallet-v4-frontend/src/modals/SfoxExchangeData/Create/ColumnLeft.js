@@ -71,7 +71,6 @@ function whichText (data) {
   }
 }
 
-
 const ColumnLeft = (props) => (
   <ColLeft>
     {whichText(props)}
@@ -80,8 +79,8 @@ const ColumnLeft = (props) => (
 
 ColumnLeft.propTypes = {
   emailVerified: PropTypes.number.isRequired,
-  mobileVerified: PropTypes.number.isRequired,
-  changingEmail: PropTypes.boolean
+  mobileVerified: PropTypes.bool.isRequired,
+  changingEmail: PropTypes.bool
 }
 
 export default ColumnLeft

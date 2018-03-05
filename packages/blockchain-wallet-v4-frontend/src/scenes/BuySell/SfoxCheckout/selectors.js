@@ -7,7 +7,7 @@ export const getData = (state) => {
   const accounts = selectors.core.data.sfox.getAccounts(state)
   const verificationStatus = selectors.core.data.sfox.getVerificationStatus(state).data
   const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
-  return lift((profile, accounts, nextAddress) => ({ profile, accounts, verificationStatus, nextAddress }))(profile, accounts, nextAddress)
+  return lift((profile, nextAddress) => ({ profile, verificationStatus, nextAddress }))(profile, nextAddress)
 }
 
 export const getQuote = (state) => {

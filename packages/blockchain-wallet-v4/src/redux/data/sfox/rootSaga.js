@@ -11,7 +11,7 @@ let sfox
 export default ({ api, sfoxService } = {}) => {
   const refreshSFOX = function * () {
     const state = yield select()
-    const delegate = new ExchangeDelegate(state)
+    const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
     sfox = sfoxService.refresh(value, delegate)
   }
@@ -143,6 +143,10 @@ export default ({ api, sfoxService } = {}) => {
     }
   }
 
+  const resetProfile = function * () {
+    yield put(A.resetProfile())
+  }
+
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
@@ -154,5 +158,6 @@ export default ({ api, sfoxService } = {}) => {
     yield takeLatest(AT.UPLOAD, uploadDoc)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.SET_BANK_ACCOUNT, setBankAccount)
+    yield takeLatest(AT.RESET_PROFILE, resetProfile)
   }
 }

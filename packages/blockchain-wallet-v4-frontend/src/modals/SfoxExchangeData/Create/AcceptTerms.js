@@ -81,7 +81,7 @@ class AcceptTerms extends Component {
   }
 
   changeEmail () {
-    console.log('changeEmail')
+    this.props.updateUI({ error: false })
     this.props.handleEmailInUse()
   }
 
@@ -152,7 +152,7 @@ AcceptTerms.propTypes = {
   email: PropTypes.string.isRequired,
   smsNumber: PropTypes.string.isRequired,
   sfoxProfile: PropTypes.object,
-  updateUI: PropTypes.function
+  handleEmailInUse: PropTypes.function
 }
 
 const mapStateToProps = (state) => ({

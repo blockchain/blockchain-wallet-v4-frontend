@@ -5,11 +5,12 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as walletSelectors from '../../wallet/selectors'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
+import * as buySellA from '../../kvStore/buySell/actions'
 
 export const sfoxSaga = ({ api, sfoxService } = {}) => {
-  const getSfox = function * (token) {
+  const getSfox = function * () {
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, token)
+    const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
     const sfox = sfoxService.refresh(value, delegate)
     return sfox
@@ -32,19 +33,10 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
 
   const signup = function * () {
     try {
-      // let sfox = yield call(getSfox)
-      const sharedKey = yield select(walletSelectors.getSharedKey)
-      const guid = yield select(walletSelectors.getGuid)
-      const data = {
-        parter: 'sfox',
-        guid: guid,
-        sharedKey: sharedKey,
-        fields: `email|mobile`
-      }
-      const response = yield call(api.getTokenForDelegate, data)
-      const sfox = yield call(getSfox, response.token)
+      const sfox = yield call(getSfox)
       const signupResponse = yield apply(sfox, sfox.signup)
-      console.log('signupResponse', signupResponse)
+
+      yield put(buySellA.setProfileBuySell(signupResponse))
       yield put(A.signupSuccess(signupResponse))
     } catch (e) {
       yield put(A.signupFailure(e))

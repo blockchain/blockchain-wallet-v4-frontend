@@ -8,9 +8,12 @@ import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, BUYSELL } from '../config'
 
+import ExchangeDelegate from '../../../exchange/delegate'
+
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api } = {}) => {
+export default ({ api, sfoxService } = {}) => {
+
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }

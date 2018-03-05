@@ -49,3 +49,7 @@ export const signupSuccess = (data) => ({ type: AT.SIGNUP_SUCCESS, payload: data
 export const signupFailure = (error) => ({ type: AT.SIGNUP_FAILURE, payload: error })
 
 export const setNextAddress = (data) => ({ type: AT.SET_NEXT_ADDRESS, payload: data })
+
+export const resetProfile = () => ({ type: AT.RESET_PROFILE })
+
+export const getDelegateTokenSuccess = (token) => ({ type: AT.GET_DELEGATE_TOKEN_SUCCESS, token })
