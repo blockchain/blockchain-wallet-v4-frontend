@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 
 import { actions } from 'data'
 import { getData } from './selectors'
@@ -19,12 +20,13 @@ class BalancesChartContainer extends React.Component {
   }
 
   render () {
-    const { data } = this.props
+    const { data, history } = this.props
 
     return data.cata({
       Success: (value) => <Success
         balances={value}
         handleCoinDisplay={this.handleCoinDisplay}
+        history={history}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -42,4 +44,4 @@ const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BalancesChartContainer)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BalancesChartContainer))

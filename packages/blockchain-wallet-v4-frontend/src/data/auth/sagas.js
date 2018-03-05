@@ -9,7 +9,7 @@ import * as actionTypes from '../actionTypes.js'
 import * as selectors from '../selectors.js'
 import * as sagas from '../sagas.js'
 import { api } from 'services/ApiService'
-import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
+import { askSecondPasswordEnhancer } from 'services/SagaService'
 
 // =============================================================================
 // ================================== Addons ===================================

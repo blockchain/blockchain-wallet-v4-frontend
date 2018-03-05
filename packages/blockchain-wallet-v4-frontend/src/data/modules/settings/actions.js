@@ -10,8 +10,6 @@ export const verifyEmail = (code) => ({ type: AT.VERIFY_EMAIL, payload: { code }
 
 export const updateMobile = (mobile) => ({ type: AT.UPDATE_MOBILE, payload: { mobile } })
 
-export const verifyMobile = (code) => ({ type: AT.VERIFY_MOBILE, payload: { code } })
-
 export const updateLanguage = (language) => ({ type: AT.UPDATE_LANGUAGE, payload: { language } })
 
 export const updateCurrency = (currency) => ({ type: AT.UPDATE_CURRENCY, payload: { currency } })
@@ -30,8 +28,6 @@ export const updateBlockTorIps = (blockTorIps) => ({ type: AT.UPDATE_BLOCK_TOR_I
 
 export const updateHint = (hint) => ({ type: AT.UPDATE_HINT, payload: { hint } })
 
-export const disableTwoStep = () => ({ type: AT.DISABLE_TWO_STEP, payload: { authType: 0 } })
-
 export const enableTwoStepMobile = () => ({ type: AT.ENABLE_TWO_STEP_MOBILE, payload: { authType: 5 } })
 
 export const enableTwoStepGoogleAuthenticator = (code) => ({ type: AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, payload: { code } })
@@ -39,3 +35,7 @@ export const enableTwoStepGoogleAuthenticator = (code) => ({ type: AT.ENABLE_TWO
 export const enableTwoStepYubikey = (code) => ({ type: AT.ENABLE_TWO_STEP_YUBIKEY, payload: { code } })
 
 export const updateTwoStepRemember = (authTypeNeverSave) => ({ type: AT.UPDATE_TWO_STEP_REMEMBER, payload: { authTypeNeverSave } })
+
+export const addMnemonic = (phrase) => ({ type: AT.ADD_MNEMONIC, payload: { phrase } })
+
+export const newHDAccount = (label) => ({ type: AT.NEW_HD_ACCOUNT, payload: { label } })

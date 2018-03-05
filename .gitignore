@@ -19,13 +19,15 @@ yarn-error.log
 # Generated Files
 *.log
 lib
-coverage
+coverage/
 dist
 build
+*.lerna_backup
 
 # Packages
 packages/blockchain-info-components/lib
 packages/blockchain-info-components/node_modules
+packages/blockchain-info-components/storybook-static
 packages/blockchain-wallet-v4/lib
 packages/blockchain-wallet-v4/node_modules
 packages/blockchain-wallet-v4-frontend/build

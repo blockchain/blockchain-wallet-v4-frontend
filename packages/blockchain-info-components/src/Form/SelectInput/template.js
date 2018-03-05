@@ -78,7 +78,6 @@ const List = styled.div`
   width: 100%;
   height: auto;
   max-height: 140px;
-  overflow-y: scroll;
   overflow-x: hidden;
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};

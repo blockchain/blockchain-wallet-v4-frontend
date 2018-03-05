@@ -2,6 +2,7 @@
 import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import DateBox from './DateBox'
+import CodeInputBoxes from './CodeInputBoxes'
 import FiatConvertor from './FiatConvertor'
 import Form from './Form'
 import FormGroup from './FormGroup'
@@ -29,6 +30,7 @@ export {
   CaptchaBox,
   CheckBox,
   DateBox,
+  CodeInputBoxes,
   FiatConvertor,
   Form,
   FormGroup,

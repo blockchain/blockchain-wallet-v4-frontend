@@ -1,8 +1,9 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import { FormattedMessage } from 'react-intl'
-import { Color, Text } from 'blockchain-info-components'
+import { Color, Link, Text } from 'blockchain-info-components'
 import configure from './chart.config.js'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
@@ -36,17 +37,23 @@ const CoinBalance = styled.div`
   cursor: pointer;
   font-size: 14px;
 `
+const ViewAllText = styled(Text)`
+  color: ${props => props.theme['brand-secondary']};
+  text-decoration: underline;
+  text-decoration-color: ${props => props.theme['brand-secondary']};
+  cursor: pointer;
+`
 
 const BalancesChart = (props) => {
-  const { balances, handleCoinDisplay } = props
-  const { bitcoinBalance, etherBalance, bchBalance, chartData, symbol } = balances
+  const { balances, handleCoinDisplay, history } = props
+  const { bitcoinBalance, etherBalance, bchBalance, chartData, symbol, btcAccountsLength, bchAccountsLength } = balances
 
   return (
     <Wrapper>
       <Text uppercase color='brand-primary' weight={300} size='24px'>
         <FormattedMessage id='scenes.home.balanceschart.yourbalances' defaultMessage='Your Balances' />
       </Text>
-      <ReactHighcharts config={configure(chartData, symbol)} isPureConfig />
+      <ReactHighcharts config={configure(chartData, symbol, history)} isPureConfig />
       <ChartInfo>
         <Column>
           <ColourBar color={Color('brand-primary')} />
@@ -56,6 +63,13 @@ const BalancesChart = (props) => {
           <CoinBalance onClick={handleCoinDisplay}>
             <SwitchableDisplay coin='BTC' size='14px' weight={200}>{bitcoinBalance}</SwitchableDisplay>
           </CoinBalance>
+          {btcAccountsLength > 1 &&
+            <NavLink to='/settings/addresses'>
+              <ViewAllText weight={300} size='10px'>
+                <FormattedMessage id='scenes.home.balanceschart.btc.viewall' defaultMessage='View All Balances' />
+              </ViewAllText>
+            </NavLink>
+          }
         </Column>
         <Column>
           <ColourBar color={Color('brand-secondary')} />
@@ -74,6 +88,13 @@ const BalancesChart = (props) => {
           <CoinBalance onClick={handleCoinDisplay}>
             <SwitchableDisplay coin='BCH' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
           </CoinBalance>
+          {bchAccountsLength > 1 &&
+            <NavLink to='/settings/addresses'>
+              <ViewAllText weight={300} size='10px'>
+                <FormattedMessage id='scenes.home.balanceschart.bch.viewall' defaultMessage='View All Balances' />
+              </ViewAllText>
+            </NavLink>
+          }
         </Column>
       </ChartInfo>
     </Wrapper>

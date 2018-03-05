@@ -12,8 +12,8 @@ const mTransformTx = memoize(transactions.bitcoin.transformTx)
 export const getActiveHDAccounts = state => {
   const balancesRD = getAddresses(state)
   const addInfo = account => balancesRD.map(prop(prop('xpub', account)))
-                                       .map(x => assoc('info', x, account))
-  const objectOfRemotes = compose(map(addInfo), HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
+    .map(x => assoc('info', x, account))
+  const objectOfRemotes = compose(map(addInfo), HDAccountList.toJSwithIndex, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
   return sequence(Remote.of, objectOfRemotes)
 }
 
@@ -21,7 +21,7 @@ export const getActiveHDAccounts = state => {
 export const getActiveAddresses = state => {
   const balancesRD = getAddresses(state)
   const addInfo = address => balancesRD.map(prop(prop('addr', address)))
-                                       .map(x => assoc('info', x, address))
+    .map(x => assoc('info', x, address))
   const objectOfRemotes = compose(map(addInfo), values, walletSelectors.getActiveAddresses)(state)
   return sequence(Remote.of, objectOfRemotes)
 }
