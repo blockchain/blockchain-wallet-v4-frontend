@@ -186,6 +186,12 @@ export const setLegacyAddressLabel = curry((address, label, wallet) => {
   return eitherW.getOrElse(wallet)
 })
 
+// getPrivateKeyForAddress :: Wallet -> String? -> String -> Either Error String
+export const getPrivateKeyForAddress = curry((wallet, password, addr) => {
+  let address = AddressMap.selectAddress(addr, selectAddresses(wallet))
+  return applyCipher(wallet, password, Address.decryptSync, address).map(a => a.priv)
+})
+
 // setLegacyAddressLabel :: String -> Bool -> Wallet -> Wallet
 export const setAddressArchived = curry((address, archived, wallet) => {
   const addressLens = compose(addresses, AddressMap.address(address))

@@ -22,8 +22,7 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   handleShowPriv (address) {
-    let props = { addr: address.addr, priv: address.priv }
-    this.props.modalsActions.showModal('ShowPrivateKey', props)
+    this.props.modalsActions.showModal('ShowPrivateKey', { addr: address.addr })
   }
 
   handleToggleArchived (address) {
