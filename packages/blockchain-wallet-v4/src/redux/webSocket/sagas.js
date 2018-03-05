@@ -69,11 +69,10 @@ export const webSocketSaga = ({ api, socket } = {}) => {
   }
 
   const refreshBlockchainData = function * () {
-    const context = yield select(walletSelectors.getWalletContext)
     try {
       // yield call(commonSagas.fetchBlockchainData, { context })
     } catch (e) {
-      console.log('REFRESH BLOCKCHAIN DATA FAILED (WEBSOCKET) :: should dispatch error action ?')
+      yield console.log('REFRESH BLOCKCHAIN DATA FAILED (WEBSOCKET) :: should dispatch error action ?')
     }
   }
 

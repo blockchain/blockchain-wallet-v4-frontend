@@ -4,7 +4,6 @@ import assert from 'assert'
 import Task from 'data.task'
 import * as U from './utils'
 import { curry } from 'ramda'
-import { traverseOf } from 'ramda-lens'
 import Either from 'data.either'
 
 export const parseDecrypted = (json) => (
