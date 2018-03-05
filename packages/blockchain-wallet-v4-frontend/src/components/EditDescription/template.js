@@ -52,13 +52,13 @@ const DisplayContainer = styled.div`
 `
 
 const EditDescription = props => {
-  const { value, toggled, handleCancel, handleChange, handleConfirm, handleToggle } = props
+  const { value, editValue, toggled, handleCancel, handleChange, handleConfirm, handleToggle } = props
 
   return (
     <Wrapper onClick={handleToggle}>
       {toggled ? (
         <EditContainer>
-          <EditArea value={value} onChange={handleChange} />
+          <EditArea value={editValue} onChange={handleChange} />
           <EditButtons>
             <Icon name='checkmark' size='14px' weight={500} color='success' cursor onMouseDown={handleConfirm} />
             <Icon name='close' size='14px' weight={500} color='sent' cursor onMouseDown={handleCancel} />
