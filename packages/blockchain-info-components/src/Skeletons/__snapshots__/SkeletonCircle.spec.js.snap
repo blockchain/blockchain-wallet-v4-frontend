@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkeletonCircle component default renders correctly 1`] = `
+<styled.div
+  bgColor="gray-1"
+  height="10px"
+  width="10px"
+/>
+`;

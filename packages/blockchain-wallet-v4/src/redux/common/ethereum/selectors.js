@@ -27,7 +27,7 @@ export const getTransactions = (state) => {
   const accountsR = getAccounts(state)
   const addressesR = accountsR.map(map(prop('addr')))
   const rawTxsR = accountsR.map(head).map(prop('addr'))
-                           .chain(curry(getTransactionsByAddress)(state))
+    .chain(curry(getTransactionsByAddress)(state))
   const objectR = lift((addrs, txs) => ({addrs, txs}))(addressesR, rawTxsR)
   const transform = curry(transactions.ethereum.transformTx)
   return objectR.map(o => o.txs.map(transform(o.addrs)))

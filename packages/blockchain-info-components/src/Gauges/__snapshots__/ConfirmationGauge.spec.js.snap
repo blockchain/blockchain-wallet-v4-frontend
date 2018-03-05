@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfirmationGauge component default renders correctly 1`] = `
+<styled.div>
+  <styled.div
+    color="brand-yellow-lighter"
+  />
+  <styled.div
+    color="white"
+  />
+  <styled.div
+    color="white"
+  />
+</styled.div>
+`;

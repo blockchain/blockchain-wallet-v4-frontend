@@ -94,7 +94,7 @@ Dropdown.defaultProps = {
   down: false
 }
 
-Dropdown.PropTypes = {
+Dropdown.propTypes = {
   selectedValue: PropTypes.number,
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,

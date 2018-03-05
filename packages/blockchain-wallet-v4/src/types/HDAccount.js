@@ -1,10 +1,13 @@
 import Bitcoin from 'bitcoinjs-lib'
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete that wallet test fail - idk why
-import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split, isEmpty, merge } from 'ramda'
-import { view, over, set } from 'ramda-lens'
+import { pipe, curry, compose, not, is, equals, assoc, dissoc, isNil, split, isEmpty } from 'ramda'
+import { view, over, traverseOf } from 'ramda-lens'
+import * as crypto from '../walletCrypto'
+import Either from 'data.either'
 import Type from './Type'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as Cache from './Cache'
+import BIP39 from 'bip39'
 
 /* HDAccount :: {
   label :: String
@@ -38,11 +41,16 @@ export const isWatchOnly = compose(isNil, view(xpriv))
 export const isXpub = curry((myxpub, account) => compose(equals(myxpub), view(xpub))(account))
 
 export const getAddress = (account, path, network) => {
-  const [_, chain, index] = split('/', path)
+  const [, chain, index] = split('/', path)
   const i = parseInt(index)
   const c = parseInt(chain)
   const derive = (acc) => Cache.getAddress(selectCache(acc), c, i, network)
   return pipe(HDAccount.guard, derive)(account)
+}
+
+export const getReceiveAddress = (account, receiveIndex, network) => {
+  HDAccount.guard(account)
+  return Cache.getAddress(selectCache(account), 0, receiveIndex, network)
 }
 
 export const fromJS = (x, i) => {
@@ -80,4 +88,16 @@ export const js = (label, node, xpub) => ({
   xpub: node ? node.neutered().toBase58() : xpub,
   address_labels: [],
   cache: Cache.js(node)
+})
+
+// encryptSync :: Number -> String -> String -> Account -> Either Error Account
+export const encryptSync = curry((iterations, sharedKey, password, account) => {
+  const cipher = crypto.encryptSecPassSync(sharedKey, iterations, password)
+  return traverseOf(xpriv, Either.of, cipher, account)
+})
+
+// decryptSync :: Number -> String -> String -> Account -> Either Error Account
+export const decryptSync = curry((iterations, sharedKey, password, account) => {
+  const cipher = crypto.decryptSecPassSync(sharedKey, iterations, password)
+  return traverseOf(xpriv, Either.of, cipher, account)
 })

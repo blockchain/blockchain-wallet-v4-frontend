@@ -4,6 +4,7 @@ import { walletSaga } from './wallet/sagas.js'
 import { webSocketSaga } from './webSocket/sagas.js'
 import { walletOptionsSaga } from './walletOptions/sagas.js'
 import { kvStoreSagasFactory } from './kvStore/sagas.js'
+import { refreshSaga } from './refresh/sagas.js'
 
 export const coreSagasFactory = ({ api, socket } = {}) => ({
   data: dataSagasFactory({ api, socket }),
@@ -11,5 +12,6 @@ export const coreSagasFactory = ({ api, socket } = {}) => ({
   wallet: walletSaga({ api, socket }),
   walletOptions: walletOptionsSaga({ api, socket }),
   webSocket: webSocketSaga({ api, socket }),
-  kvStore: kvStoreSagasFactory({ api })
+  kvStore: kvStoreSagasFactory({ api }),
+  refresh: refreshSaga({api})
 })

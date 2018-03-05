@@ -37,6 +37,12 @@ const Footer = styled.div`
     align-items: center;
   }
 `
+const LoginButton = styled(Button)`
+  margin-top: 20px;
+`
+const LoginTextGroup = styled(TextGroup)`
+  margin: 10px 0px 15px 0px;
+`
 
 const Login = (props) => {
   const { submitting, invalid, ...rest } = props
@@ -71,7 +77,7 @@ const Login = (props) => {
           <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
         </Text>
         <Field name='guid' validate={[required]} component={TextBox} />
-        <TextGroup inline>
+        <LoginTextGroup inline>
           <Text size='14px' weight={300} altFont>
             <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
           </Text>
@@ -81,24 +87,24 @@ const Login = (props) => {
           <Text size='14px' weight={300} altFont>
             <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
           </Text>
-        </TextGroup>
+        </LoginTextGroup>
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
         </Text>
         <Field name='password' validate={[required]} component={PasswordBox} />
-        { authType &&
+        { authType > 0 &&
           <Text size='14px' weight={500}>
             { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
             { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
             { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
           </Text>
         }
-        { authType &&
+        { authType > 0 &&
           <Field name='code' validate={[required]} component={TextBox} />
         }
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
+        <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
-        </Button>
+        </LoginButton>
       </Form>
       <Footer>
         <Link size='13px' weight={300} onClick={handleMobile}>

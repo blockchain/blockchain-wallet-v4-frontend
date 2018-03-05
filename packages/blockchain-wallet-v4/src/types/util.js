@@ -1,7 +1,6 @@
 import { is, curry, identity, reduceRight, compose } from 'ramda'
 import { lens } from 'ramda-lens'
 
-
 export const iRename = curry((from, to, i) => i.set(to, i.get(from)).delete(from))
 
 export const iLensProp = (key) => lens(
