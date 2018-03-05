@@ -40,12 +40,19 @@ To build the frontend application for production: `npm run build:prod`
 
 ## Code Quality
 ### Linting
+We follow the rules outlined by the [Javascript Standard Style](https://standardjs.com/rules.html) as well as a few React specfic rules.
+ 
 Code linting is handled by [ESLint](https://eslint.org/). The following commands are available:
  * `yarn lint` Lints all the 3 packages
  * `yarn lint:components` Lints only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn lint:core` Lints only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn lint:frontend` Lints only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
  * `yarn lint:fix` Automatically resolves fixable issues via ESLint
+
+These IDE plugins/packages assist with complying with these lint rules while developing:
+ * [Atom](https://atom.io/packages/linter-js-standard)
+ * [VS Code](https://marketplace.visualstudio.com/items?itemName=chenxsan.vscode-standardjs)
+ * [WebStorm](https://blog.jetbrains.com/webstorm/2017/04/using-javascript-standard-style/)
 
 ### Unit Tests
 Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/). The following commands are available:

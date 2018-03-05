@@ -6,6 +6,9 @@ import Either from 'data.either'
 import Type from './Type'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as Cache from './Cache'
+/* eslint-disable */
+import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
+/* eslint-enable */
 
 /* HDAccount :: {
   label :: String
