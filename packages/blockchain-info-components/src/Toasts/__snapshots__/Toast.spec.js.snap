@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Toast component default renders correctly 1`] = `
+<styled.div>
+  <styled.div
+    color="brand-secondary"
+  >
+    <styled.div>
+      <span>
+        Default
+      </span>
+    </styled.div>
+    <Styled(Icon)
+      color="brand-secondary"
+      cursor={true}
+      name="close"
+      onClick={[Function]}
+      size="20px"
+      weight={300}
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`Toast component error renders correctly 1`] = `
+<styled.div>
+  <styled.div
+    color="error"
+  >
+    <styled.div>
+      <span>
+        Default
+      </span>
+    </styled.div>
+    <Styled(Icon)
+      color="error"
+      cursor={true}
+      name="close"
+      onClick={[Function]}
+      size="20px"
+      weight={300}
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`Toast component success renders correctly 1`] = `
+<styled.div>
+  <styled.div
+    color="success"
+  >
+    <styled.div>
+      <span>
+        Default
+      </span>
+    </styled.div>
+    <Styled(Icon)
+      color="success"
+      cursor={true}
+      name="close"
+      onClick={[Function]}
+      size="20px"
+      weight={300}
+    />
+  </styled.div>
+</styled.div>
+`;

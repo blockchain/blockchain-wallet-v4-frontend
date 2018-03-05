@@ -35,7 +35,7 @@ const BaseModal = styled.div`
   }
 `
 
-const selectWidth = (size, position) => {
+const selectWidth = (size) => {
   switch (size) {
     case 'small': return '400px'
     case 'medium': return '500px'
@@ -47,7 +47,6 @@ const selectWidth = (size, position) => {
 
 const Modal = props => {
   const { children, ...rest } = props
-
   const type = rest.type
   const size = rest.size || 'medium'
   const position = rest.position || 1

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
 
 import Dropdown from './template.js'
-import { Color, Palette } from '../../'
+import { Palette } from '../../'
 import { keysIn } from 'ramda'
 
 class SimpleDropdown extends React.Component {
@@ -32,7 +32,7 @@ class SimpleDropdown extends React.Component {
   }
 
   render () {
-    const { opened, ...rest } = this.props
+    const { ...rest } = this.props
 
     return <Dropdown {...rest}
       handleClick={this.handleClick}
@@ -51,7 +51,7 @@ SimpleDropdown.defaultProps = {
   down: false
 }
 
-SimpleDropdown.PropTypes = {
+SimpleDropdown.propTypes = {
   selectedValue: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
