@@ -6,7 +6,7 @@ import ConfirmationGauge from './ConfirmationGauge';
 
 describe('ConfirmationGauge component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<ConfirmationGauge nbConfirmations={1}></ConfirmationGauge>);
+    const component = shallow(<ConfirmationGauge nbConfirmations={1} />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

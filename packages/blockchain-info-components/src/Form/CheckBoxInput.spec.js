@@ -6,7 +6,7 @@ import CheckBoxInput from './CheckBoxInput';
 
 describe('CheckBoxInput component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<CheckBoxInput name='check' checked={true} disabled='false'><span>test</span></CheckBoxInput>);
+    const component = shallow(<CheckBoxInput name='check' checked disabled='false'><span>test</span></CheckBoxInput>);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

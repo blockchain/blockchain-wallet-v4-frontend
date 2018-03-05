@@ -9,9 +9,8 @@ describe('SelectInput component', () => {
     const items = [
       { text: 'test', value: 'value' }
     ];
-    const component = shallow(<SelectInput items={items} display='inherit'></SelectInput>);
+    const component = shallow(<SelectInput items={items} display='inherit' />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });
 });
-

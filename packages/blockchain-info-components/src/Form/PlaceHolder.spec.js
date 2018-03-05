@@ -6,7 +6,7 @@ import PlaceHolder from './PlaceHolder';
 
 describe('PlaceHolder component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<PlaceHolder visible={true} handleClick={()=>{}}></PlaceHolder>);
+    const component = shallow(<PlaceHolder visible handleClick={() => {}} />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

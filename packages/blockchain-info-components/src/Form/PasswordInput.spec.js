@@ -6,7 +6,7 @@ import PasswordInput from './PasswordInput';
 
 describe('PasswordInput component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<PasswordInput borderColor='red'></PasswordInput>);
+    const component = shallow(<PasswordInput borderColor='red' />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

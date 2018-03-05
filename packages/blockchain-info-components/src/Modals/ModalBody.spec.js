@@ -6,7 +6,7 @@ import ModalBody from './ModalBody';
 
 describe('ModalBody component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<ModalBody loading={true}></ModalBody>);
+    const component = shallow(<ModalBody loading />);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });

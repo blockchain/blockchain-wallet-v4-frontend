@@ -6,7 +6,7 @@ import Text from './Text';
 
 describe('Text component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<Text color='gray-1' altFont={true}><span>Hello World</span></Text>);
+    const component = shallow(<Text color='gray-1' altFont><span>Hello World</span></Text>);
     const tree = toJson(component);
     expect(tree).toMatchSnapshot();
   });
