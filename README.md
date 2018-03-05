@@ -21,7 +21,7 @@ This repo contains the three codebases/packages listed below that are combined i
 4. Start application in dev mode: `yarn start`
 5. The frontend will now be accessible via browser at `localhost:8080`
 
-Notes:
+### Important Notes
 1. After installing or uninstalling a NPM package, run the following node command at the root of the project:
    * `lerna bootstrap`
 2. All developer specific dependencies should be installed in the top level `package.json`. This helps reduce duplicate 
@@ -29,6 +29,10 @@ Notes:
    * `yarn i --save-dev [package-name]`
 3. To test bitcoin handling in dev mode: run this javascript command in the browser console:
    * `window.navigator.registerProtocolHandler('bitcoin', http://localhost:8080/a/%s, 'Blockchain')`
+
+### Useful Chrome Extensions
+* [React Developer Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en): Inspect the React component tree.
+* [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en): View/Debug Redux state changes.
 
 
 ## Production Builds
