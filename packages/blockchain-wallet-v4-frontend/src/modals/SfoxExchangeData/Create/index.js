@@ -28,7 +28,7 @@ class CreateContainer extends React.Component {
   }
 
   doneChangingEmail () {
-    this.props.updateUI({ changingEmail: false })
+    this.setState({ uniqueEmail: true })
   }
 
   render () {

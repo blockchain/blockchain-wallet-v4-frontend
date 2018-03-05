@@ -10,3 +10,5 @@ export const fetchMetadataBuySellFailure = (error) => ({ type: AT.FETCH_METADATA
 
 // create
 export const createMetadataBuysell = (data) => ({ type: AT.CREATE_METADATA_BUYSELL, payload: data })
+
+export const setProfileBuySell = (payload) => ({ type: AT.SET_PROFILE_BUYSELL, payload })

@@ -69,14 +69,13 @@ class VerifyEmail extends Component {
 
   }
 
-  onSubmit (e) {
+  onSubmit (e) { //TODO need a resetSfoxProfile action to dispatch
     e.preventDefault()
     if (this.props.ui.enterCode) {
-      console.log('verifyEmail', this.props.emailCode)
       this.props.settingsActions.verifyEmail(this.props.emailCode)
       this.props.doneChangingEmail()
+      this.props.sfoxDataActions.resetProfile()
     } else {
-      console.log('updateEmail', this.props.emailAddress)
       this.props.settingsActions.updateEmail(this.props.emailAddress)
       this.props.updateUI({ enterCode: true })
     }
@@ -143,7 +142,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
+  sfoxDataActions: bindActionCreators(actions.core)
 })
 
 const enhance = compose(

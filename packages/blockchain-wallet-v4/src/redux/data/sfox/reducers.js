@@ -91,7 +91,6 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('accounts', Remote.Failure(payload), state)
     }
     case AT.SIGNUP_SUCCESS: {
-      console.log('signup success reducer', payload)
       return assoc('profile', Remote.Success(payload), state)
     }
     case AT.SIGNUP_FAILURE: {
@@ -99,6 +98,12 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_NEXT_ADDRESS: {
       return assoc('nextAddress', payload, state)
+    }
+    case AT.RESET_PROFILE: {
+      return assoc('profile', null)
+    }
+    case AT.GET_DELEGATE_TOKEN_SUCCESS: {
+      return assoc('delegateToken', payload, state)
     }
     default:
       return state
