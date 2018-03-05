@@ -43,7 +43,7 @@ class CameraContainer extends Component {
     const constraints = this.state.constraints
     const getUserMedia = (params) => (
       new Promise((resolve, reject) => {
-        navigator.webkitGetUserMedia.call(navigator, params, resolve, reject)
+        navigator.webkitGetUserMedia(params, resolve, reject)
       })
     )
 

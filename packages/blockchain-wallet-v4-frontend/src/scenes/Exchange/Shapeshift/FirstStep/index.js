@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { assoc, equals, path, prop } from 'ramda'
 import * as crypto from 'crypto'
-
 import { actions, selectors } from 'data'
 import { transactions } from 'blockchain-wallet-v4/src'
 import FirstStep from './template.js'

@@ -1,7 +1,5 @@
 import { contains, map, toLower } from 'ramda'
 import EthereumTx from 'ethereumjs-tx'
-import EthereumUtil from 'ethereumjs-util'
-import EthereumWallet from 'ethereumjs-wallet'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
@@ -17,7 +15,7 @@ const getType = (tx, addresses) => {
 export const calculateFee = (gasRegular, gasLimit) => `${(gasRegular * gasLimit)}000000000` // Convert gwei => wei
 
 export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, network = 1) => {
-  let tx;
+  let tx
   try {
     tx = new EthereumTx(null, network)
     tx.nonce = fromAccount.nonce

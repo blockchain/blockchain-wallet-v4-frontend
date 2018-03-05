@@ -28,7 +28,6 @@ class EditDescriptionContainer extends React.Component {
     const val = this.state.editValue
     this.setState({ value: val, toggled: false })
     this.dispatchConfirm(this.state.editValue)
-
   }
 
   handleToggle () {
