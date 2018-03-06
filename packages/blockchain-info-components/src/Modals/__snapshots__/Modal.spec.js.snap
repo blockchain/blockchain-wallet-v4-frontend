@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal component default renders correctly 1`] = `
+<styled.div
+  isLast={true}
+  position={1}
+>
+  <styled.div
+    closeButton={true}
+    isLast={true}
+    position={1}
+    size="large"
+    total={1}
+    width="600px"
+  />
+</styled.div>
+`;

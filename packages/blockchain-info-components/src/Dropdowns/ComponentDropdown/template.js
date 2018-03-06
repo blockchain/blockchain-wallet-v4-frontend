@@ -98,7 +98,7 @@ Dropdown.defaultProps = {
   down: false
 }
 
-Dropdown.PropTypes = {
+Dropdown.propTypes = {
   selectedValue: PropTypes.number,
   callback: PropTypes.func.isRequired,
   toggled: PropTypes.bool,

@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
@@ -17,6 +16,10 @@ class GoogleAuthContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentWillMount () {
+    this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
+  }
+
   componentWillReceiveProps (nextProps) {
     const next = nextProps.data.data
     const prev = this.props.data.data
@@ -28,10 +31,6 @@ class GoogleAuthContainer extends React.Component {
         nextProps.goBack()
       }, 2000)
     }
-  }
-
-  componentWillMount () {
-    this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
   }
 
   handleClick () {
