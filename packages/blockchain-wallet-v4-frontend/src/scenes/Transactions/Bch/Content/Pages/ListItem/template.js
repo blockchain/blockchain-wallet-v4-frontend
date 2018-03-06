@@ -14,7 +14,7 @@ import FiatAtTime from './FiatAtTime'
 import Status from './Status'
 
 const TransactionListItem = (props) => {
-  const { toggled, handleToggle, handleClick, transaction } = props
+  const { toggled, handleToggle, handleClick, transaction, handleEditDescription } = props
 
   return (
     <Transaction>
@@ -28,7 +28,7 @@ const TransactionListItem = (props) => {
           <Addresses to={transaction.to} from={transaction.from} />
         </TransactionRowAddresses>
         <TransactionRowDescription>
-          <EditDescription value={transaction.description} />
+          <EditDescription value={transaction.description} handleConfirm={handleEditDescription} />
         </TransactionRowDescription>
         <TransactionRowAmount>
           <Button nature={transaction.type} onClick={handleClick} fullwidth>
