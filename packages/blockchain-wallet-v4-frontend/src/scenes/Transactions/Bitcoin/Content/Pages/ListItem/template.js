@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 
 import { Button, Text } from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { Transaction, TransactionRow, TransactionRowAddresses, TransactionRowAmount, TransactionRowDescription,
-  TransactionRowStatus, TransactionRowToggler, TransactionDetails, TransactionDetailsAddresses,
-  TransactionDetailsDescription, TransactionDetailsStatus, TransactionDetailsValue } from 'components/TransactionItem'
+  TransactionRowStatus, TransactionDetails, TransactionDetailsAddresses, TransactionDetailsDescription, TransactionDetailsStatus, TransactionDetailsValue } from 'components/TransactionItem'
 import Addresses from './Addresses'
 import EditDescription from 'components/EditDescription'
 import Confirmation from './Confirmation'
@@ -15,52 +13,37 @@ import FiatAtTime from './FiatAtTime'
 import Status from './Status'
 
 const TransactionListItem = (props) => {
-  const { toggled, handleToggle, handleClick, transaction, handleEditDescription } = props
+  const { handleClick, transaction, handleEditDescription } = props
 
   return (
     <Transaction>
       <TransactionRow>
-        <TransactionRowToggler toggled={toggled} onClick={handleToggle} />
         <TransactionRowStatus>
           <Status type={transaction.type} />
-          <Text size='12px' weight={300} italic>{transaction.timeFormatted}</Text>
+          <Text size='14px' weight={300}>{transaction.timeFormatted}</Text>
         </TransactionRowStatus>
         <TransactionRowAddresses>
           <Addresses to={transaction.to} from={transaction.from} />
-        </TransactionRowAddresses>
-        <TransactionRowDescription>
           <EditDescription value={transaction.description} handleConfirm={handleEditDescription} />
-        </TransactionRowDescription>
+        </TransactionRowAddresses>
+        <TransactionDetailsStatus>
+          <Confirmation confirmations={transaction.confirmations} hash={transaction.hash} />
+        </TransactionDetailsStatus>
         <TransactionRowAmount>
-          <Button nature={transaction.type} onClick={handleClick} fullwidth>
-            <SwitchableDisplay coin='BTC' size='16px' weight={300} color='white'>{transaction.amount}</SwitchableDisplay>
+          <Button nature={transaction.type} onClick={handleClick}>
+            <SwitchableDisplay coin='BTC' size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
           </Button>
-        </TransactionRowAmount>
-      </TransactionRow>
-      { toggled &&
-        <TransactionDetails toggled={toggled}>
-          <TransactionDetailsStatus>
-            <Confirmation confirmations={transaction.confirmations} hash={transaction.hash} />
-          </TransactionDetailsStatus>
-          <TransactionDetailsAddresses>
-            <Addresses to={transaction.to} from={transaction.from} />
-          </TransactionDetailsAddresses>
-          <TransactionDetailsDescription>
-            <EditDescription value={transaction.description} />
-          </TransactionDetailsDescription>
           <TransactionDetailsValue>
             <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} />
             <Fee fee={transaction.fee} />
           </TransactionDetailsValue>
-        </TransactionDetails>
-      }
+        </TransactionRowAmount>
+      </TransactionRow>
     </Transaction>
   )
 }
 
 TransactionListItem.propTypes = {
-  toggled: PropTypes.bool.isRequired,
-  handleToggle: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
   transaction: PropTypes.shape({
     type: PropTypes.string.isRequired,
@@ -73,5 +56,22 @@ TransactionListItem.propTypes = {
     initial_value: PropTypes.string
   })
 }
+
+//  {/*{ toggled &&*/}
+// {/*<TransactionDetails toggled={toggled}>*/}
+// {/*<TransactionDetailsStatus>*/}
+// {/*<Confirmation confirmations={transaction.confirmations} hash={transaction.hash} />*/}
+// {/*</TransactionDetailsStatus>*/}
+// {/*<TransactionDetailsAddresses>*/}
+// {/*<Addresses to={transaction.to} from={transaction.from} />*/}
+// {/*</TransactionDetailsAddresses>*/}
+// {/*<TransactionDetailsDescription>*/}
+// {/*<EditDescription value={transaction.description} />*/}
+// {/*</TransactionDetailsDescription>*/}
+// {/*<TransactionDetailsValue>*/}
+// {/*<FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} />*/}
+// {/*<Fee fee={transaction.fee} />*/}
+// {/*</TransactionDetailsValue>*/}
+// /*</TransactionDetails>*/
 
 export default TransactionListItem
