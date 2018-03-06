@@ -2,6 +2,7 @@ import Bigi from 'bigi'
 import Base58 from 'bs58'
 import Either from 'data.either'
 import Task from 'data.task'
+import Maybe from 'data.maybe'
 import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import BIP39 from 'bip39'
@@ -75,6 +76,8 @@ export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
+const eitherToTask = (e) => e.fold(Task.rejected, Task.of)
+
 export const fromJS = (x) => {
   if (is(Wallet, x)) { return x }
   const walletCons = compose(
@@ -142,6 +145,12 @@ export const isValidSecondPwd = curry((password, wallet) => {
   }
 })
 
+// getAddress :: String -> Wallet -> Maybe Address
+export const getAddress = (addr, wallet) => {
+  let address = AddressMap.selectAddress(addr, wallet.addresses)
+  return Maybe.fromNullable(address)
+}
+
 // applyCipher :: Wallet -> String -> Cipher -> a -> Either Error a
 const applyCipher = curry((wallet, password, f, value) => {
   let it = selectIterations(wallet)
@@ -153,12 +162,26 @@ const applyCipher = curry((wallet, password, f, value) => {
   }
 })
 
-// addAddress :: Wallet -> Address -> String -> Either Error Wallet
-export const addAddress = curry((wallet, address, password) => {
-  let appendAddress = curry((w, a) => over(addresses, (as) => as.set(a.addr, a), w))
-  return Either.of(address)
-    .chain(applyCipher(wallet, password, Address.encryptSync))
-    .map(appendAddress(wallet))
+// importLegacyAddress :: Wallet -> String -> Number -> String? -> { Network, Api } -> Either Error Wallet
+export const importLegacyAddress = curry((wallet, key, createdTime, password, { network, api }) => {
+  let checkIfExists = (address) =>
+    getAddress(address.addr, wallet)
+      .map(existing =>
+        Address.isWatchOnly(existing) && !Address.isWatchOnly(address)
+          ? Either.of(existing)
+          : Either.Left(new Error('present_in_wallet')))
+      .map(aE => aE.map(set(Address.priv, address.priv)))
+      .getOrElse(Either.of(address))
+
+  let appendAddress = (address) =>
+    over(addresses, (as) => as.set(address.addr, address), wallet)
+
+  return Address.fromString(key, createdTime, null, null, { network, api })
+    .map(Either.of)
+    .map(aE => aE.chain(checkIfExists))
+    .map(aE => aE.chain(applyCipher(wallet, password, Address.encryptSync)))
+    .map(aE => aE.map(appendAddress))
+    .chain(eitherToTask)
 })
 
 // newHDAccount :: String -> String? -> Wallet -> Either Error Wallet
