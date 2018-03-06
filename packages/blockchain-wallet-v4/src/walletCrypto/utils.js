@@ -6,6 +6,20 @@ export const SALT_BYTES = 16
 export const KEY_BIT_LEN = 256
 export const BLOCK_BIT_LEN = 128
 
+export const NoPadding = {
+  /*
+  *   Does nothing
+  */
+
+  pad: function (dataBytes) {
+    return dataBytes
+  },
+
+  unpad: function (dataBytes) {
+    return dataBytes
+  }
+}
+
 export const Iso10126 = {
   /*
   *   Fills remaining block space with random byte values, except for the

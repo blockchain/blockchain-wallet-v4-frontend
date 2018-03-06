@@ -3,11 +3,15 @@ import { view, set, traverseOf } from 'ramda-lens'
 import Base58 from 'bs58'
 import { ECPair } from 'bitcoinjs-lib'
 import * as crypto from '../walletCrypto'
+import { parseBIP38toECPair } from '../walletCrypto/ImportExport'
 import Either from 'data.either'
 import Task from 'data.task'
 import Type from './Type'
 import { iToJS } from './util'
 import * as utils from '../utils'
+
+const eitherToTask = (e) => e.fold(Task.rejected, Task.of)
+const wrapPromiseInTask = (fP) => new Task((reject, resolve) => fP().then(resolve, reject))
 
 /* Address :: {
   priv :: String
@@ -113,23 +117,15 @@ export const fromString = (keyOrAddr, createdTime, label, bipPass, { network, ap
   if (utils.bitcoin.isValidBitcoinAddress(keyOrAddr)) {
     return Task.of(importAddress(keyOrAddr, createdTime, label, network))
   } else {
-    // Import private key
     let format = utils.bitcoin.detectPrivateKeyFormat(keyOrAddr)
     let okFormats = ['base58', 'base64', 'hex', 'mini', 'sipa', 'compsipa']
     if (format === 'bip38') {
-      return Task.rejected(new Error('needs_bip_38'))
-      // if (bipPass === undefined || bipPass === null || bipPass === '') {
-      //   return Promise.reject('needsBip38')
-      // }
-      //
-      // let parseBIP38Wrapper = function (resolve, reject) {
-      //   ImportExport.parseBIP38toECPair(keyOrAddr, bipPass,
-      //     function (key) { resolve(import(key, label)); },
-      //     function () { reject('wrongBipPass'); },
-      //     function () { reject('importError'); }
-      //   )
-      // }
-      // return new Promise(parseBIP38Wrapper)
+      if (bipPass == null || bipPass === '') {
+        return Task.rejected(new Error('needs_bip38'))
+      }
+      let tryParseBIP38toECPair = Either.try(parseBIP38toECPair)
+      let keyE = tryParseBIP38toECPair(keyOrAddr, bipPass, network)
+      return eitherToTask(keyE).map(key => importAddress(key, createdTime, label, network))
     } else if (format === 'mini' || format === 'base58') {
       let key
       try {
@@ -141,15 +137,18 @@ export const fromString = (keyOrAddr, createdTime, label, bipPass, { network, ap
       let cad = key.getAddress()
       key.compressed = false
       let uad = key.getAddress()
-      return api.getBalances([cad, uad]).then((o) => {
-        let compBalance = o[cad].final_balance
-        let ucompBalance = o[uad].final_balance
-        key.compressed = !(compBalance === 0 && ucompBalance > 0)
-        return importAddress(key, createdTime, label, network)
-      }).catch((e) => {
-        key.compressed = true
-        return Task.of(importAddress(key, createdTime, label, network))
-      })
+      return wrapPromiseInTask(() => api.getBalances([cad, uad])).fold(
+        (e) => {
+          key.compressed = true
+          return importAddress(key, createdTime, label, network)
+        },
+        (o) => {
+          let compBalance = o[cad].final_balance
+          let ucompBalance = o[uad].final_balance
+          key.compressed = !(compBalance === 0 && ucompBalance > 0)
+          return importAddress(key, createdTime, label, network)
+        }
+      )
     } else if (okFormats.indexOf(format) > -1) {
       let key = utils.bitcoin.privateKeyStringToKey(keyOrAddr, format)
       return Task.of(importAddress(key, createdTime, label, network))
