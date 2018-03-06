@@ -22,6 +22,7 @@ const Wrapper = styled.div`
 const FieldWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 80%;
 `
 const ButtonWrapper = styled.div`
   margin: 25px 0px;
@@ -37,17 +38,19 @@ const MixedText = styled.span`
 `
 const AcceptTermsContainer = styled.div`
   margin: 25px 0px;
-  padding: 0px 15px;
   display: flex;
   flex-direction: row;
 `
 const InputWrapper = styled.div`
-
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 25px;
 `
 const VerifiedWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-left: 15px;
+  padding-top: 20px;
 `
 const CheckWrapper = styled.div`
   display: flex;
@@ -99,26 +102,26 @@ class AcceptTerms extends Component {
       <Wrapper>
         <form>
           <InputWrapper>
-            <Text>
-              Email Address
-            </Text>
             <FieldWrapper>
+              <Text>
+                Email Address
+              </Text>
               <Field name='email' component={TextBox} validate={[required]} />
               {
                 ui.error
                   ? handleError(this.state.error)
                   : null
               }
-              <VerifiedWrapper>
-                <Icon size='26px' name='checkmark-in-circle' />
-              </VerifiedWrapper>
             </FieldWrapper>
+            <VerifiedWrapper>
+              <Icon size='26px' name='checkmark-in-circle' />
+            </VerifiedWrapper>
           </InputWrapper>
           <InputWrapper>
-            <Text>
-              Phone Number
-            </Text>
             <FieldWrapper>
+              <Text>
+                Phone Number
+              </Text>
               <Field name='phone' component={TextBox} validate={[required]} />
             </FieldWrapper>
             <VerifiedWrapper>

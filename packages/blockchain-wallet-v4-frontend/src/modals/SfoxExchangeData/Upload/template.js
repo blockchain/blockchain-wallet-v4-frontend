@@ -77,7 +77,6 @@ const SubmitContainer = styled.div`
 const SuccessText = styled(Text)`margin: 30px 0px; `
 
 const Verify = (props) => {
-  console.log('verify template', props)
   const { onDrop, file, data, toggleCamera, showCamera, setPhoto, photo, resetUpload, submitForUpload } = props
   const idType = data.verificationStatus.required_docs[0]
 

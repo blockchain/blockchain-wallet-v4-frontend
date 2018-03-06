@@ -13,11 +13,8 @@ import PasswordBox from './PasswordBox'
 import PlaceHolder from './PlaceHolder'
 import PhoneNumberBox from './PhoneNumberBox'
 import RadioButton from './RadioButton'
-<<<<<<< HEAD
 import SelectBoxBankAccountType from './SelectBoxBankAccountType'
-=======
 import SelectBox from './SelectBox'
->>>>>>> master
 import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCoin from './SelectBoxCoin'
@@ -47,11 +44,8 @@ export {
   PlaceHolder,
   PhoneNumberBox,
   RadioButton,
-<<<<<<< HEAD
   SelectBoxBankAccountType,
-=======
   SelectBox,
->>>>>>> master
   SelectBoxBitcoinAddresses,
   SelectBoxBitcoinUnit,
   SelectBoxCoin,

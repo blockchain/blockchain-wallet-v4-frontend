@@ -147,6 +147,19 @@ export default ({ api, sfoxService } = {}) => {
     yield put(A.resetProfile())
   }
 
+  const signup = function * () {
+    try {
+      const sfox = yield call(refreshSFOX)
+      const signupResponse = yield apply(sfox, sfox.signup)
+
+      yield put(buySellA.setProfileBuySell(signupResponse))
+      yield put(A.signupSuccess(signupResponse))
+    } catch (e) {
+      yield put(A.signupFailure(e))
+      console.warn('signup rootsaga error', e)
+    }
+  }
+
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
@@ -159,5 +172,6 @@ export default ({ api, sfoxService } = {}) => {
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.SET_BANK_ACCOUNT, setBankAccount)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
+    yield takeLatest(AT.SIGNUP, signup)
   }
 }
