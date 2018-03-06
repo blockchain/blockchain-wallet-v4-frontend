@@ -15,9 +15,6 @@ export const getData = state => {
   const gasPrice = selectors.core.data.ethereum.getFeeRegular(state).getOrElse(undefined)
   const gasLimit = selectors.core.data.ethereum.getGasLimit(state).getOrElse(undefined)
   const amountWei = Exchange.convertEtherToEther({ value: amount, fromUnit: 'ETH', toUnit: 'WEI' }).value
-  console.log('fee', fee)
-  console.log('amount', amount)
-  console.log('amountWei', amountWei)
   const total = Number(amountWei) + Number(fee)
 
   return {
