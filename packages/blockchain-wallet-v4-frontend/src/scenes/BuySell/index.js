@@ -34,10 +34,10 @@ class BuySellContainer extends React.Component {
 
     // TODO: determine partner to load
     let checkout = data.cata({
-      Success: () => <SfoxCheckout type={type} />,
-      Failure: (message) => <div>{message}</div>,
+      Success: (value) => <SfoxCheckout type={type} value={value} />,
+      Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <div>Loading...</div>,
-      NotAsked: () => <div />
+      NotAsked: () => <div>not asked...</div>
     })
 
     return (

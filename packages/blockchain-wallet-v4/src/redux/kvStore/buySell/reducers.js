@@ -32,7 +32,7 @@ export default (state = INITIAL_STATE, action) => {
 
     case AT.SET_PROFILE_BUYSELL: {
       let valueLens = compose(mapped, KVStoreEntry.value)
-      let setProfile = assocPath(['sfox', 'account_token'], payload)
+      let setProfile = assocPath(['sfox', 'account_token'], payload.token)
       console.log('set profile buysell kvstore reducer', payload)
       return over(valueLens, setProfile, state)
     }

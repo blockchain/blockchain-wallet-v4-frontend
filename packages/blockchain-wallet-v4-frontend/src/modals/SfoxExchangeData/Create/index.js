@@ -13,14 +13,16 @@ class CreateContainer extends React.Component {
 
     this.state = { uniqueEmail: true }
 
-    this.handleSignup = this.handleSignup.bind(this)
+    // this.handleSignup = this.handleSignup.bind(this)
     this.handleEmailInUse = this.handleEmailInUse.bind(this)
     this.doneChangingEmail = this.doneChangingEmail.bind(this)
   }
 
-  handleSignup () {
-    this.props.sfoxFrontendActions.signup()
-  }
+  // handleSignup () {
+  //   this.props.sfoxDataActions.setBankAccount()
+  //   // debugger
+  //   console.log('called sfox signup()', this.props.sfoxFrontendActions, this.props.sfoxDataActions)
+  // }
 
   handleEmailInUse () {
     this.setState({ uniqueEmail: false })
@@ -36,7 +38,7 @@ class CreateContainer extends React.Component {
     return <Create
       emailVerification={emailVerified}
       smsVerified={smsVerified}
-      handleSignup={this.handleSignup}
+      handleSignup={() => this.props.sfoxFrontendActions.signup()}
       ui={ui}
       smsNumber={smsNumber}
       uniqueEmail={this.state.uniqueEmail}
@@ -63,7 +65,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)

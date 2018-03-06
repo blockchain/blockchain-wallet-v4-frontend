@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { compose } from 'redux'
+import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Tray from 'components/Tray'
 import Create from './Create'
@@ -11,11 +11,17 @@ import Link from './Link'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { getData } from './selectors'
 import { determineStep } from 'services/SfoxService'
+import { actions } from 'data'
 
 class SfoxExchangeData extends React.Component {
   constructor () {
     super()
     this.state = { show: false }
+  }
+
+  componentWillMount () {
+    this.props.sfoxDataActions.fetchProfile()
+    // this.props.sfoxDataActions.fetchAccounts()
   }
 
   componentDidMount () {
@@ -27,8 +33,9 @@ class SfoxExchangeData extends React.Component {
     setTimeout(this.props.close, 500)
   }
 
-  getStepComponent () {
-    const { profile, verificationStatus, accounts } = this.props.data.getOrElse({})
+  getStepComponent (val) {
+    const { profile, verificationStatus, accounts } = val.getOrElse({})
+    console.log('getStepComponent in SfoxExchangeData', this.props.data)
     const step = determineStep(profile, verificationStatus, accounts)
 
     switch (step) {
@@ -46,17 +53,45 @@ class SfoxExchangeData extends React.Component {
   render () {
     // const { step } = this.props
     const { show } = this.state
-    return (
-      <Tray in={show} class='tray'>
+    const { data } = this.props
+    // return (
+    //   <Tray in={show} class='tray'>
+    //     <ModalHeader onClose={this.handleClose.bind(this)}>
+    //       <div>sfox</div>
+    //       {/* <GenericStepIndicator steps=this.props.steps step=this.prop.step> */}
+    //     </ModalHeader>
+    //     <ModalBody>
+    //       { this.getStepComponent() }
+    //     </ModalBody>
+    //   </Tray>
+    // )
+
+    // return data.cata({
+    //   Success: (value) => <Success {...this.props}
+    //     value={value}
+    //     handleTrade={handleTrade}
+    //     showModal={showModal}
+    //     fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
+    //   />,
+    //   Failure: (msg) => <div>Failure: {msg.error}</div>,
+    //   Loading: () => <div>Loading...</div>,
+    //   NotAsked: () => <div>Not Asked</div>
+    // })
+    console.log('render SfoxExchangeData index', this.props)
+    return data.cata({
+      Success: (value) => <Tray in={show} class='tray'>
         <ModalHeader onClose={this.handleClose.bind(this)}>
           <div>sfox</div>
           {/* <GenericStepIndicator steps=this.props.steps step=this.prop.step> */}
         </ModalHeader>
         <ModalBody>
-          { this.getStepComponent() }
+          { this.getStepComponent(value) }
         </ModalBody>
-      </Tray>
-    )
+      </Tray>,
+      Failure: (msg) => <div>Failure: {msg}</div>,
+      Loading: () => <div>Loading...</div>,
+      NotAsked: () => <div>Not asked...</div>
+    })
   }
 }
 
@@ -69,8 +104,12 @@ const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
+const mapDispatchToProps = (dispatch) => ({
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+})
+
 const enhance = compose(
-  connect(mapStateToProps, undefined),
+  connect(mapStateToProps, mapDispatchToProps),
   modalEnhancer('SfoxExchangeData')
 )
 

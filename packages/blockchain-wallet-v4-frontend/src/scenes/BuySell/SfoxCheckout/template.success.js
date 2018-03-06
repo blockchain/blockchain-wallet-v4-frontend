@@ -37,7 +37,6 @@ const ReasonMsg = props => {
 const Success = props => {
   const { fetchQuote, handleTrade, quote, base, errors, showModal } = props
   const { accounts, profile, verificationStatus } = props.value
-  console.log('sfoxcheckout sucess props.value', props.value)
   const type = 'buy'
   const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
@@ -57,7 +56,7 @@ const Success = props => {
       max: profile.limits.sell
     }
   }
-  console.log('success template', profile)
+
   return (
     <ExchangeCheckout
       fiatLimits

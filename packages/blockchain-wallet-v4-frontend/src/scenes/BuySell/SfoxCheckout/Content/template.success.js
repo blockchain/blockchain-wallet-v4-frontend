@@ -63,6 +63,7 @@ const ReasonMsg = props => {
 
 const Success = props => {
   const { fetchQuote, handleTrade, quote, base, errors, showModal, ...rest } = props
+
   const { accounts, profile, verificationStatus } = props.value
   const { trades, type } = rest
   const step = determineStep(profile, verificationStatus, accounts)
@@ -84,7 +85,7 @@ const Success = props => {
     }
   }
 
-  if (type === 'buy') {
+  if (type === 'buy' || !type) {
     return (
       <CheckoutWrapper>
         <ExchangeCheckout

@@ -52,13 +52,12 @@ class VerifyMobile extends Component {
   }
 
   componentDidMount () {
-    if (this.props.smsNumber.length > 4) {
+    if (this.props.smsNumber) {
       this.props.formActions.change('sfoxCreateVerifyMobile', 'mobileNumber', this.props.smsNumber)
     }
   }
 
   resendSMSCode () {
-    console.log('resendSMSCode', this.props.mobileNumber)
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
     this.props.updateUI({ smsCodeSent: !this.props.ui.smsCodeSent })
     setTimeout(() => { this.props.updateUI({ smsCodeSent: !this.props.ui.smsCodeSent }) }, 10000)
@@ -66,13 +65,11 @@ class VerifyMobile extends Component {
 
   onSubmit (e) {
     e.preventDefault()
-    console.log('onSubmit', this.props);
     this.props.settingsActions.verifyMobile(this.props.mobileCode)
   }
 
   render () {
     const { ui, invalid } = this.props
-    console.log('render verify mobile', this.props);
     return (
       <form onSubmit={this.onSubmit}>
         <Wrapper>
