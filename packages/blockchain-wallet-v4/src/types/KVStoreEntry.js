@@ -89,8 +89,19 @@ export const fromMetadataXpriv = curry((xpriv, typeId) =>
   fromMetadataHDNode(Bitcoin.HDNode.fromBase58(xpriv, Bitcoin.networks.testnet), typeId))
 
 export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
-  let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
-  let node = payloadTypeNode.deriveHardened(0)
+  let payloadTypeNode, node
+  if (Array.isArray(typeId)) {
+    payloadTypeNode = metadataHDNode
+    for (let i in typeId) {
+      let index = typeId[i]
+      payloadTypeNode = payloadTypeNode.deriveHardened(index)
+    }
+    node = payloadTypeNode.deriveHardened(0)
+  } else {
+    payloadTypeNode = metadataHDNode.deriveHardened(typeId)
+    node = payloadTypeNode.deriveHardened(0)
+  }
+
   let privateKeyBuffer = payloadTypeNode.deriveHardened(1).keyPair.d.toBuffer()
   let encryptionKey = crypto.sha256(privateKeyBuffer)
   return fromKeys(node.keyPair, encryptionKey, typeId)
