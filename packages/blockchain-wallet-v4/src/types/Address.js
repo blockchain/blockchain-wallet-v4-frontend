@@ -4,6 +4,7 @@ import Base58 from 'bs58'
 import { ECPair } from 'bitcoinjs-lib'
 import * as crypto from '../walletCrypto'
 import Either from 'data.either'
+import Task from 'data.task'
 import Type from './Type'
 import { iToJS } from './util'
 import * as utils from '../utils'
@@ -75,13 +76,13 @@ export const decryptSync = curry((iterations, sharedKey, password, address) => {
   return traverseOf(priv, Either.of, cipher, address)
 })
 
-export const importAddress = (key, label, network) => {
+export const importAddress = (key, label, createdTime, network) => {
   let object = {
     priv: null,
     addr: null,
     label: label,
     tag: 0,
-    created_time: Date.now(),
+    created_time: createdTime,
     created_device_name: 'wallet-web',
     created_device_version: 'v4'
   }
@@ -107,15 +108,16 @@ export const importAddress = (key, label, network) => {
   return fromJS(object)
 }
 
-export const fromString = (keyOrAddr, label, bipPass, { network, api }) => {
+// fromString :: String -> Number -> String? -> String? -> { Network, API } -> Task Error Address
+export const fromString = (keyOrAddr, createdTime, label, bipPass, { network, api }) => {
   if (utils.bitcoin.isValidBitcoinAddress(keyOrAddr)) {
-    return Promise.resolve(importAddress(keyOrAddr, label, network))
+    return Task.of(importAddress(keyOrAddr, createdTime, label, network))
   } else {
     // Import private key
     let format = utils.bitcoin.detectPrivateKeyFormat(keyOrAddr)
     let okFormats = ['base58', 'base64', 'hex', 'mini', 'sipa', 'compsipa']
     if (format === 'bip38') {
-      return Promise.reject(new Error('needs_bip_38'))
+      return Task.rejected(new Error('needs_bip_38'))
       // if (bipPass === undefined || bipPass === null || bipPass === '') {
       //   return Promise.reject('needsBip38')
       // }
@@ -133,7 +135,7 @@ export const fromString = (keyOrAddr, label, bipPass, { network, api }) => {
       try {
         key = utils.bitcoin.privateKeyStringToKey(keyOrAddr, format)
       } catch (e) {
-        return Promise.reject(e)
+        return Task.rejected(e)
       }
       key.compressed = true
       let cad = key.getAddress()
@@ -143,16 +145,16 @@ export const fromString = (keyOrAddr, label, bipPass, { network, api }) => {
         let compBalance = o[cad].final_balance
         let ucompBalance = o[uad].final_balance
         key.compressed = !(compBalance === 0 && ucompBalance > 0)
-        return importAddress(key, label, network)
+        return importAddress(key, createdTime, label, network)
       }).catch((e) => {
         key.compressed = true
-        return Promise.resolve(importAddress(key, label, network))
+        return Task.of(importAddress(key, createdTime, label, network))
       })
     } else if (okFormats.indexOf(format) > -1) {
       let key = utils.bitcoin.privateKeyStringToKey(keyOrAddr, format)
-      return Promise.resolve(importAddress(key, label, network))
+      return Task.of(importAddress(key, createdTime, label, network))
     } else {
-      return Promise.reject(new Error('unknown_key_format'))
+      return Task.rejected(new Error('unknown_key_format'))
     }
   }
 }

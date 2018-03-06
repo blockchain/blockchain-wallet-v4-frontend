@@ -10,7 +10,7 @@ export const importLegacyAddress = function * (action) {
 
   try {
     let key = priv == null ? addr : priv
-    yield call(sagas.core.wallet.createLegacyAddress, { key, password })
+    yield call(sagas.core.wallet.importLegacyAddress, { key, password })
     yield put(actions.alerts.displaySuccess('Address added succesfully.'))
 
     if (to && priv) {
@@ -24,7 +24,16 @@ export const importLegacyAddress = function * (action) {
 
     yield call(sagas.core.wallet.refetchContextData)
   } catch (error) {
-    yield put(actions.alerts.displayError('Error adding address.'))
+    switch (error.message) {
+      case 'present_in_wallet':
+        yield put(actions.alerts.displayError('This address already exists in your wallet.'))
+        break
+      case 'unknown_key_format':
+        yield put(actions.alerts.displayError('This address format is not supported.'))
+        break
+      default:
+        yield put(actions.alerts.displayError('Error adding address.'))
+    }
   }
 }
 
