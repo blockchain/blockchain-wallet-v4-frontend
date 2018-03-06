@@ -1,5 +1,5 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
-import { prop, compose, assoc, map, path, curry, split, values, sequence, lift } from 'ramda'
+import { prop, compose, assoc, keys, map, path, curry, split, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bch/selectors.js'
 import * as transactions from '../../../transactions'
@@ -27,7 +27,8 @@ export const getActiveAddresses = state => {
   const balancesRD = getAddresses(state)
   const addInfo = address => balancesRD.map(prop(prop('addr', address)))
     .map(x => assoc('info', x, address))
-  const objectOfRemotes = compose(map(addInfo), values, walletSelectors.getActiveAddresses)(state)
+  const convertToCashAddr = address => assoc('addr', toCashAddr(address.addr, true), address)
+  const objectOfRemotes = compose(map(lift(convertToCashAddr)), map(addInfo), values, walletSelectors.getActiveAddresses)(state)
   return sequence(Remote.of, objectOfRemotes)
 }
 
