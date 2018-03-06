@@ -22,7 +22,7 @@ let P2PKH_TAG = 17
 let P2SH_TAG = 18
 let DEFAULT_MIN_FINAL_EXPIRY_TIME = 9
 
-const parse = (message, pubKey) => {
+const parse = (message) => {
   var parts = message.split('1')
   var prefix = parts[0]
   var data = parts[1]
@@ -60,9 +60,12 @@ const parse = (message, pubKey) => {
   parseDataPart(data, result)
   let signature = bech32.fromWords(decodeData(data.slice(data.length - 110, data.length - 6)))
   let dataToSign = getDataToSign(prefix, data.slice(0, data.length - 110))
-
-  if (!secp256k1.verify(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), pubKey)) {
-    throw new Error('Not a valid signature')
+  if (result.tags.public_key !== undefined) {
+    if (!secp256k1.verify(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), result.tags.public_key)) {
+      throw new Error('Not a valid signature')
+    }
+  } else {
+    result.tags.public_key = secp256k1.recover(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), signature[signature.length - 1], true)
   }
 
   let checksum  = data.slice(data.length - 6, data.length)
