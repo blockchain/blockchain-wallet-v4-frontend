@@ -4,9 +4,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { Button, Link, Text, Tooltip } from 'blockchain-info-components'
-import { CheckBox, Form } from 'components/Form'
+import { CheckBox, CountdownTimer, Form } from 'components/Form'
 import Terms from 'components/Terms'
-import CountdownTimer from './CountdownTimer'
 
 const Wrapper = styled.div`
   display: flex;
