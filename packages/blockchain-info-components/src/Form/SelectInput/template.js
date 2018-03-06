@@ -9,43 +9,41 @@ const SelectBoxInput = styled.div`
   display: block;
   width: 100%;
 `
-const Button = styled.button.attrs({
-  type: 'button'
-})`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+const Display = styled.button.attrs({ type: 'button' })`
   width: 100%;
   height: 40px;
+  cursor: inherit;
   white-space: nowrap;
   user-select: none;
-  padding: 0.5rem 1rem;
-  transition: all 0.2s ease-in-out;
-  color: ${props => props.theme['gray-5']};
-  background-color: ${props => props.theme['white']};
-  font-family: 'Montserrat', sans-serif !important;
-  font-size: 14px;
-  font-weight: 300;
   cursor: pointer;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
   border-radius: 0;
-  
-  &:focus {
-    outline: none;
-  }
+  background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+
+  &:focus { outline: none; }
 `
-const Search = styled.input.attrs({
-  type: 'text'
-})`
-  color: ${props => props.theme['gray-3']};
-  background-color: ${props => props.theme['white']};
-  border: 1px solid ${props => props.theme['gray-2']};
+const DefaultDisplay = styled.div`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  text-align: left;
+  color: ${props => props.theme['gray-5']};
+
+`
+const Search = styled.input.attrs({ type: 'text' })`
+  width: 100%;
+  height: 40px;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: normal;
   box-shadow: none;
-  width: 100%;
-  height: 40px;
+  color: ${props => props.theme['gray-3']};
+  background-color: ${props => props.theme['white']};
+  border: 1px solid ${props => props.theme['gray-2']};
   box-sizing: border-box;
 
   &:focus {
@@ -53,6 +51,22 @@ const Search = styled.input.attrs({
     border: 1px solid ${props => props.theme['gray-2']};
     outline: none;
   }
+`
+const Header = styled.div`
+  width: 100%;
+`
+const DefaultHeader = styled.div`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: ${props => props.theme['gray-4']};
+  background-color: ${props => props.theme['gray-2']};
+  cursor: not-allowed;
+
+  &:hover { color: ${props => props.theme['gray-4']}; }
 `
 const List = styled.div`
   position: absolute;
@@ -64,17 +78,20 @@ const List = styled.div`
   width: 100%;
   height: auto;
   max-height: 140px;
-  overflow-y: scroll;
   overflow-x: hidden;
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
   box-sizing: border-box;
   z-index: 10;
 `
-const ListItem = styled.div`
-  display: block;
+const Item = styled.div`
+  width: 100%;
+`
+const DefaultItem = styled.div`
   width: 100%;
   padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 300;
   font-size: 14px;
   color: ${props => props.theme['gray-4']};
@@ -85,15 +102,6 @@ const ListItem = styled.div`
     background-color: ${props => props.theme['gray-1']};
   }
 `
-const Header = styled.div`
-  width: 100%;
-  padding: 0.5rem 1rem;
-  color: ${props => props.theme['gray-4']};
-  background-color: ${props => props.theme['gray-2']};
-  cursor: not-allowed;
-
-  &:hover { color: ${props => props.theme['gray-4']}; }
-`
 const Arrow = styled(Icon)`
   position: absolute;
   top: 15px;
@@ -101,19 +109,22 @@ const Arrow = styled(Icon)`
 `
 
 const SelectInput = (props) => {
-  const { items, display, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus } = props
+  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, templateDisplay, templateHeader, templateItem, errorState } = props
+  const display = selected || { text: defaultDisplay, value: undefined }
 
   return (
-    <SelectBoxInput onBlur={handleBlur} onFocus={handleFocus}>
+    <SelectBoxInput>
       {!expanded || !searchEnabled
-        ? (<Button>{display}</Button>)
-        : (<Search autoFocus={expanded} onChange={handleChange} />)
+        ? <Display onBlur={handleBlur} onFocus={handleFocus} disabled={disabled} errorState={errorState}>
+            {templateDisplay ? templateDisplay(display) : <DefaultDisplay>{display.text}</DefaultDisplay>}
+          </Display>
+        : <Search autoFocus={expanded} onChange={handleChange} />
       }
       <Arrow name='down-arrow' size='10px' />
       <List expanded={expanded}>
         { items.map((item, index) => item.value == null
-          ? (<Header key={index}>{item.text}</Header>)
-          : (<ListItem key={index} onMouseDown={() => handleClick(item.value)}>{item.text}</ListItem>))
+          ? <Header key={index}>{templateHeader ? templateHeader(item) : <DefaultHeader>{item.text}</DefaultHeader>}</Header>
+          : <Item key={index} onMouseDown={() => handleClick(item)}>{templateItem ? templateItem(item) : <DefaultItem>{item.text}</DefaultItem>}</Item>)
         }
       </List>
     </SelectBoxInput>
@@ -125,14 +136,20 @@ SelectInput.propTypes = {
     text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
     value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
   })).isRequired,
-  display: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  selected: PropTypes.shape({
+    text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
+    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
+  }),
   expanded: PropTypes.bool,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
+  disabled: PropTypes.bool,
   handleBlur: PropTypes.func,
   handleChange: PropTypes.func,
   handleClick: PropTypes.func,
-  handleFocus: PropTypes.func
+  handleFocus: PropTypes.func,
+  templateHeader: PropTypes.func,
+  templateItem: PropTypes.func
 }
 
 export default SelectInput

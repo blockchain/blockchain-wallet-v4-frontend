@@ -1,4 +1,3 @@
-
 import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { indexBy, length, path, prop, last } from 'ramda'
@@ -9,8 +8,6 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 export default ({ api } = {}) => {
-  const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
-
   const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())

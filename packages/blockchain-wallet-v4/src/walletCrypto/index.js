@@ -3,8 +3,7 @@ import { pbkdf2, pbkdf2Sync } from 'pbkdf2'
 import assert from 'assert'
 import Task from 'data.task'
 import * as U from './utils'
-import { curry, compose, lensProp, assoc, dissoc, view } from 'ramda'
-import { traverseOf } from 'ramda-lens'
+import { curry } from 'ramda'
 import Either from 'data.either'
 
 export const parseDecrypted = (json) => (
@@ -42,8 +41,8 @@ function stretchPassword (password, salt, iterations, keyLenBits) {
   assert(typeof iterations === 'number' && iterations > 0, 'positive iterations number required')
   assert(keyLenBits == null || keyLenBits % 8 === 0, 'key length must be evenly divisible into bytes')
 
-  var saltBuffer = Buffer.from(salt, 'hex')
-  var keyLenBytes = (keyLenBits || 256) / 8
+  const saltBuffer = Buffer.from(salt, 'hex')
+  const keyLenBytes = (keyLenBits || 256) / 8
 
   return new Task((reject, resolve) => {
     pbkdf2(password, saltBuffer, iterations, keyLenBytes, 'sha1', (error, key) => {
@@ -60,8 +59,9 @@ function stretchPasswordSync (password, salt, iterations, keyLenBits) {
   assert(typeof iterations === 'number' && iterations > 0, 'positive iterations number required')
   assert(keyLenBits == null || keyLenBits % 8 === 0, 'key length must be evenly divisible into bytes')
 
-  var saltBuffer = Buffer.from(salt, 'hex')
-  var keyLenBytes = (keyLenBits || 256) / 8
+  const saltBuffer = Buffer.from(salt, 'hex')
+  const keyLenBytes = (keyLenBits || 256) / 8
+
   return pbkdf2Sync(password, saltBuffer, iterations, keyLenBytes, 'sha1')
 }
 
@@ -70,10 +70,12 @@ function decryptDataWithPassword (data, password, iterations, options) {
   if (!data) return Task.of(data)
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')
-  var dataHex = Buffer.from(data, 'base64')
-  var iv = dataHex.slice(0, U.SALT_BYTES)
-  var payload = dataHex.slice(U.SALT_BYTES)
-  var salt = iv
+
+  let dataHex = Buffer.from(data, 'base64')
+  let iv = dataHex.slice(0, U.SALT_BYTES)
+  let payload = dataHex.slice(U.SALT_BYTES)
+  let salt = iv
+
   return stretchPassword(password, salt, iterations, U.KEY_BIT_LEN).map((key) => {
     return decryptBufferWithKey(payload, iv, key, options)
   })
@@ -84,13 +86,15 @@ export function decryptDataWithPasswordSync (data, password, iterations, options
   if (!data) { return data }
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')
-  var dataHex = Buffer.from(data, 'base64')
-  var iv = dataHex.slice(0, U.SALT_BYTES)
-  var payload = dataHex.slice(U.SALT_BYTES)
+
+  let dataHex = Buffer.from(data, 'base64')
+  let iv = dataHex.slice(0, U.SALT_BYTES)
+  let payload = dataHex.slice(U.SALT_BYTES)
   //  AES initialization vector is also used as the salt in password stretching
-  var salt = iv
+  let salt = iv
   // Expose stretchPassword for iOS to override
-  var key = stretchPasswordSync(password, salt, iterations, U.KEY_BIT_LEN)
+  let key = stretchPasswordSync(password, salt, iterations, U.KEY_BIT_LEN)
+
   return decryptBufferWithKey(payload, iv, key, options)
 }
 
@@ -105,7 +109,8 @@ function decryptBufferWithKey (payload, iv, key, options) {
   options = options || {}
   options.padding = options.padding || U.Iso10126
 
-  var decryptedBytes = U.AES.decrypt(payload, key, iv, options)
+  let decryptedBytes = U.AES.decrypt(payload, key, iv, options)
+
   return decryptedBytes.toString('utf8')
 }
 
@@ -113,7 +118,8 @@ function encryptDataWithPassword (data, password, iterations) {
   if (!data) return Task.of(data)
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')
-  var salt = crypto.randomBytes(U.SALT_BYTES)
+  let salt = crypto.randomBytes(U.SALT_BYTES)
+
   return stretchPassword(password, salt, iterations, U.KEY_BIT_LEN).map((key) => {
     return exports.encryptDataWithKey(data, key, salt)
   })
@@ -124,8 +130,9 @@ export function encryptDataWithPasswordSync (data, password, iterations) {
   assert(password, 'password missing')
   assert(iterations, 'iterations missing')
 
-  var salt = crypto.randomBytes(U.SALT_BYTES)
-  var key = stretchPasswordSync(password, salt, iterations, U.KEY_BIT_LEN)
+  let salt = crypto.randomBytes(U.SALT_BYTES)
+  let key = stretchPasswordSync(password, salt, iterations, U.KEY_BIT_LEN)
+
   return exports.encryptDataWithKey(data, key, salt)
 }
 
@@ -133,7 +140,7 @@ export function encryptDataWithPasswordSync (data, password, iterations) {
 // key: AES key (256 bit Buffer)
 // iv: optional initialization vector
 // returns: concatenated and Base64 encoded iv + payload
-export const encryptDataWithKey = curry((data, key, iv) => {
+export var encryptDataWithKey = curry((data, key, iv) => {
   let IV = iv || crypto.randomBytes(U.SALT_BYTES)
   let dataBytes = Buffer.from(data, 'utf8')
   let options = { mode: U.AES.CBC, padding: U.Iso10126 }

@@ -4,7 +4,6 @@ import * as A from '../actions'
 import * as T from '../actionTypes'
 import { Wrapper } from '../../types'
 import * as walletSelectors from '../wallet/selectors'
-// import * as transSelectors from '../data/transactions/selectors'
 import { Socket } from '../../network'
 
 export const webSocketSaga = ({ api, socket } = {}) => {
@@ -54,7 +53,7 @@ export const webSocketSaga = ({ api, socket } = {}) => {
   }
 
   const onClose = function * (action) {
-    console.log('websocket closed')
+    yield console.log('websocket closed')
   }
 
   const refreshWrapper = function * () {
@@ -70,11 +69,10 @@ export const webSocketSaga = ({ api, socket } = {}) => {
   }
 
   const refreshBlockchainData = function * () {
-    const context = yield select(walletSelectors.getWalletContext)
     try {
       // yield call(commonSagas.fetchBlockchainData, { context })
     } catch (e) {
-      console.log('REFRESH BLOCKCHAIN DATA FAILED (WEBSOCKET) :: should dispatch error action ?')
+      yield console.log('REFRESH BLOCKCHAIN DATA FAILED (WEBSOCKET) :: should dispatch error action ?')
     }
   }
 

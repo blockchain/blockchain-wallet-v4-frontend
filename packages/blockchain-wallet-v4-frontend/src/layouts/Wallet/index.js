@@ -9,14 +9,18 @@ import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class WalletLayout extends React.Component {
   componentWillMount () {
-    this.props.kvStoreBchActions.fetchMetadataBch()
-    this.props.kvStoreEthereumActions.fetchMetadataEthereum()
-    this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
-    this.props.optionsActions.fetchOptions()
-    this.props.settingsActions.fetchSettings()
+    if (!Remote.Success.is(this.props.data)) {
+      // this is needed because otherwise sign up calls two times component will mount (investigate why)
+      this.props.kvStoreBchActions.fetchMetadataBch()
+      this.props.kvStoreEthereumActions.fetchMetadataEthereum()
+      this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
+      this.props.optionsActions.fetchOptions()
+      this.props.settingsActions.fetchSettings()
+    }
   }
 
   render () {
@@ -57,7 +61,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-   ui({ key: 'WalletLayout', persist: true, state: { menuLeftToggled: false } })
+  ui({ key: 'WalletLayout', persist: true, state: { menuLeftToggled: false } })
 )
 
 export default enhance(WalletLayout)

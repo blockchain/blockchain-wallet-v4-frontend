@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectInput component default renders correctly 1`] = `
+<styled.div>
+  <styled.button>
+    inherit
+  </styled.button>
+  <Styled(Icon)
+    name="down-arrow"
+    size="10px"
+  />
+  <styled.div>
+    <styled.div
+      key="0"
+      onMouseDown={[Function]}
+    >
+      test
+    </styled.div>
+  </styled.div>
+</styled.div>
+`;

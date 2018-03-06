@@ -11,7 +11,7 @@ export class Currency extends Type {
     return `Currency(${this.value} ${this.currency.code}-${this.currency.base})`
   }
   toUnit (unit) {
-    if (unit.currency === this.currency.code) {
+    if (unit && unit.currency === this.currency.code) {
       return Maybe.Just({
         value: this.value.multiply(BigRational(unit.rate).reciprocate()).toDecimal(unit.decimal_digits),
         unit: unit
@@ -24,21 +24,21 @@ export class Currency extends Type {
     const pairsM = Maybe.fromNullable(pairs)
 
     return sequence(Maybe.of, [toCurrencyM, pairsM])
-    .chain(([toCurrency, pairs]) => {
-      if (this.currency.code === toCurrency.code) {
-        return Maybe.Just(this)
-      } else if (this.currency.code === pairs.code) {
-        ratio = prop(toCurrency.code, pairs.table)
-      } else {
-        ratio = prop(this.currency.code, pairs.table).reciprocate()
-      }
+      .chain(([toCurrency, pairs]) => {
+        if (this.currency.code === toCurrency.code) {
+          return Maybe.Just(this)
+        } else if (this.currency.code === pairs.code) {
+          ratio = prop(toCurrency.code, pairs.table)
+        } else {
+          ratio = prop(this.currency.code, pairs.table).reciprocate()
+        }
 
-      return this.toUnit(this.currency.units[this.currency.trade])
-            .chain(o => fromUnit({
-              value: BigRational(o.value).multiply(ratio),
-              unit: toCurrency.units[toCurrency.trade]
-            }))
-    })
+        return this.toUnit(this.currency.units[this.currency.trade])
+          .chain(o => fromUnit({
+            value: BigRational(o.value).multiply(ratio),
+            unit: toCurrency.units[toCurrency.trade]
+          }))
+      })
   }
 
   convertWithRate (toCurrency, rate, reverse) {
@@ -80,4 +80,6 @@ export const fromUnit = ({value, unit}) => {
     }))
 }
 
-export const unitToString = ({value, unit}) => `${value} ${unit.symbol}`
+export const fiatToString = ({ value, unit }) => `${unit.symbol}${value}`
+
+export const coinToString = ({ value, unit }) => `${value} ${unit.symbol}`

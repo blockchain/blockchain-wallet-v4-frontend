@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { equals, isNil, contains, toUpper, filter, prop } from 'ramda'
+import { equals, head, isEmpty, isNil, contains, toUpper, filter, prop } from 'ramda'
 
 import SelectInput from './template.js'
 
@@ -24,9 +24,9 @@ class SelectInputContainer extends React.Component {
     }
   }
 
-  handleClick (value) {
-    if (this.props.onChange) { this.props.onChange(value) }
-    this.setState({ value: value, opened: false })
+  handleClick (item) {
+    this.setState({ value: item.value, expanded: false })
+    if (this.props.onChange) { this.props.onChange(item.value) }
   }
 
   handleChange (event) {
@@ -34,22 +34,20 @@ class SelectInputContainer extends React.Component {
   }
 
   handleBlur () {
+    this.setState({ expanded: false })
     if (this.props.onBlur) { this.props.onBlur() }
     if (this.props.onChange) { this.props.onChange(this.state.value) }
-    this.setState({ expanded: false })
   }
 
   handleFocus () {
-    if (this.props.onFocus) { this.props.onFocus() }
     this.setState({ expanded: true })
+    if (this.props.onFocus) { this.props.onFocus() }
   }
 
   transform (elements, search) {
     let items = []
     elements.map(element => {
-      if (!search && element.group !== '') {
-        items.push({ text: element.group })
-      }
+      if (!search && element.group !== '') { items.push({ text: element.group }) }
       element.items.map(item => {
         if (!search || (search && contains(toUpper(search), toUpper(item.text)))) {
           items.push({ text: item.text, value: item.value })
@@ -59,23 +57,24 @@ class SelectInputContainer extends React.Component {
     return items
   }
 
-  getText (items) {
-    const { value } = this.state
-    if (isNil(value)) return this.props.label
-    const selectedItems = filter(x => equals(x.value, value), items)
-    return selectedItems.length === 1 ? prop('text', selectedItems[0]) : this.props.label
+  getSelected (items, value) {
+    if (isNil(value)|| isEmpty(value)) return undefined
+    return head(filter(x => equals(x.value, value), items))
   }
 
   render () {
-    const { elements, searchEnabled, ...rest } = this.props
-    const items = this.transform(elements, this.state.search)
-    const display = this.getText(items)
+    const { search, value, expanded } = this.state
+    const { elements, label, searchEnabled, disabled, ...rest } = this.props
+    const items = this.transform(elements, search)
+    const selected = this.getSelected(items, value)
 
     return (
       <SelectInput
         items={items}
-        display={display}
-        expanded={this.state.expanded}
+        selected={selected}
+        defaultDisplay={label}
+        expanded={expanded}
+        disabled={disabled}
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleClick={this.handleClick}
@@ -98,16 +97,21 @@ SelectInputContainer.propTypes = {
   label: PropTypes.string,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
+  disabled: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired]),
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
-  onFocus: PropTypes.func
+  onFocus: PropTypes.func,
+  templateDisplay: PropTypes.func,
+  templateHeader: PropTypes.func,
+  templateItem: PropTypes.func
 }
 
 SelectInputContainer.defaultProps = {
   label: 'Select a value',
   searchEnabled: true,
-  opened: false
+  opened: false,
+  disabled: false
 }
 
 export default SelectInputContainer

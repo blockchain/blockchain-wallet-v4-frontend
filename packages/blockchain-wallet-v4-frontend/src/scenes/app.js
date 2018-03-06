@@ -7,7 +7,7 @@ import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
-import Buy from './Buy'
+import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
 import Faq from './Faq'
@@ -21,6 +21,7 @@ import Reset2FA from './Reset2FA'
 import Register from './Register'
 import SecurityCenter from './SecurityCenter'
 import Addresses from './Settings/Addresses'
+import ManageAddresses from './Settings/ManageAddresses'
 import Info from './Settings/Info'
 import Preferences from './Settings/Preferences'
 import Security from './Settings/Security'
@@ -48,13 +49,14 @@ class App extends React.Component {
                 <WalletLayout path='/wallet' component={Home} />
                 <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
                 <WalletLayout path='/eth/transactions' component={EtherTransactions} />
+                <WalletLayout path='/buy-sell' component={BuySell} />
                 <WalletLayout path='/bch/transactions' component={BchTransactions} />
-                <WalletLayout path='/buy-sell' component={Buy} />
                 <WalletLayout path='/exchange/history' component={ExchangeHistory} />
                 <WalletLayout path='/exchange' component={Exchange} exact />
                 <WalletLayout path='/security-center' component={SecurityCenter} />
                 <WalletLayout path='/settings/preferences' component={Preferences} />
                 <WalletLayout path='/settings/security' component={Security} />
+                <WalletLayout path='/settings/addresses/:index' component={ManageAddresses} />
                 <WalletLayout path='/settings/addresses' component={Addresses} />
                 <WalletLayout path='/settings/info' component={Info} />
                 <WalletLayout path='/faq' component={Faq} />

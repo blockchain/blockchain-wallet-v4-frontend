@@ -29,7 +29,7 @@ const NumberBox = (field) => {
   return (
     <Container>
       <NumberInput {...field.input} errorState={errorState} placeholder={field.placeholder} />
-      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='error'>{field.meta.error}</Error>}
+      {field.meta.touched && field.meta.error && !field.hideErrors && <Error size='13px' weight={300} color='error'>{field.meta.error}</Error>}
     </Container>
   )
 }
