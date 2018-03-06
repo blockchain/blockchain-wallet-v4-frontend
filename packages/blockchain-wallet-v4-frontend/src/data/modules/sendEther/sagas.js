@@ -8,8 +8,8 @@ export const sendEther = function * (action) {
   try {
     const saga = askSecondPasswordEnhancer(sagas.core.data.ethereum.signAndPublish)
     yield call(saga, action.payload)
-    yield put(actions.form.destroy('sendEther'))
     yield put(actions.modals.closeModal())
+    yield put(actions.form.destroy('sendEther'))
     yield put(actions.router.push('/eth/transactions'))
     yield put(actions.alerts.displaySuccess('Your transaction is being confirmed'))
   } catch (e) {
