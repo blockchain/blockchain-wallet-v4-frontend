@@ -1,8 +1,6 @@
-import React from 'react'
-import { Redirect } from 'react-router'
-
 export default (chartData, symbol, history) => {
   const total = chartData.reduce((acc, item) => (acc + Number(item.y)), 0).toFixed(2)
+
   return (
     {
       chart: {

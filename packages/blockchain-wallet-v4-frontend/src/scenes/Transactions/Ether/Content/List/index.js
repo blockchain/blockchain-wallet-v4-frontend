@@ -23,6 +23,7 @@ TransactionList.propTypes = {
     time: PropTypes.number.isRequired,
     to: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
+    hash: PropTypes.string.isRequired,
     description: PropTypes.string
   }))
 }

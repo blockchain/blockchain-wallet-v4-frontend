@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { prop, compose } from 'ramda'
+import { compose } from 'ramda'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
