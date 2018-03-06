@@ -1,6 +1,6 @@
 import { head, map, path, prop, curry, lift } from 'ramda'
 import { getTransactionsByAddress, getAddresses } from '../../data/ethereum/selectors.js'
-import { getAccounts } from '../../kvStore/ethereum/selectors.js'
+import { getAccounts} from '../../kvStore/ethereum/selectors.js'
 import * as transactions from '../../../transactions'
 
 export const getAccountBalances = (state) => {
@@ -30,5 +30,5 @@ export const getTransactions = (state) => {
     .chain(curry(getTransactionsByAddress)(state))
   const objectR = lift((addrs, txs) => ({addrs, txs}))(addressesR, rawTxsR)
   const transform = curry(transactions.ethereum.transformTx)
-  return objectR.map(o => o.txs.map(transform(o.addrs)))
+  return objectR.map(o => o.txs.map(transform(o.addrs, state)))
 }

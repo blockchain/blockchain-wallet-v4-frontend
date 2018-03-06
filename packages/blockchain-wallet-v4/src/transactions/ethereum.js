@@ -1,5 +1,6 @@
 import { contains, map, toLower } from 'ramda'
 import EthereumTx from 'ethereumjs-tx'
+import {getEthereumTxNote } from '../redux/kvStore/ethereum/selectors.js'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
@@ -39,12 +40,13 @@ export const signTx = (transaction, ptrivateKey) => {
 }
 
 // transformTx :: [String] -> Tx -> ProcessedTx
-export const transformTx = (addresses, tx) => ({
+export const transformTx = (addresses, state, tx) => ({
   type: getType(tx, addresses),
+  hash: tx.hash,
   amount: parseInt(tx.value),
   to: tx.to,
   from: tx.from,
-  description: tx.description || '',
+  description: getEthereumTxNote(state, tx.hash).data || '',
   time: tx.timeStamp,
   status: ''
 })
