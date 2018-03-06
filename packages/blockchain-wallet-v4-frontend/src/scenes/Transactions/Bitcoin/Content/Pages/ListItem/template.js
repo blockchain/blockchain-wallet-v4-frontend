@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
-import { Transaction, TransactionRow, TransactionRowAddresses, TransactionRowAmount, TransactionRowDescription,
-  TransactionRowStatus, TransactionDetails, TransactionDetailsAddresses, TransactionDetailsDescription, TransactionDetailsStatus, TransactionDetailsValue } from 'components/TransactionItem'
+import { Transaction, TransactionRow, TransactionRowAddresses, TransactionRowAmount,
+  TransactionRowStatus, TransactionDetailsStatus, TransactionDetailsValue } from 'components/TransactionItem'
 import Addresses from './Addresses'
 import EditDescription from 'components/EditDescription'
 import Confirmation from './Confirmation'
@@ -12,7 +13,12 @@ import Fee from './Fee'
 import FiatAtTime from './FiatAtTime'
 import Status from './Status'
 
+const ToggleButton = styled(Button)`
+  align-self: flex-end;
+`
+
 const TransactionListItem = (props) => {
+  console.info(props)
   const { handleClick, transaction, handleEditDescription } = props
 
   return (
@@ -30,9 +36,9 @@ const TransactionListItem = (props) => {
           <Confirmation confirmations={transaction.confirmations} hash={transaction.hash} />
         </TransactionDetailsStatus>
         <TransactionRowAmount>
-          <Button nature={transaction.type} onClick={handleClick}>
+          <ToggleButton nature={transaction.type} onClick={handleClick}>
             <SwitchableDisplay coin='BTC' size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
-          </Button>
+          </ToggleButton>
           <TransactionDetailsValue>
             <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} />
             <Fee fee={transaction.fee} />
@@ -56,22 +62,5 @@ TransactionListItem.propTypes = {
     initial_value: PropTypes.string
   })
 }
-
-//  {/*{ toggled &&*/}
-// {/*<TransactionDetails toggled={toggled}>*/}
-// {/*<TransactionDetailsStatus>*/}
-// {/*<Confirmation confirmations={transaction.confirmations} hash={transaction.hash} />*/}
-// {/*</TransactionDetailsStatus>*/}
-// {/*<TransactionDetailsAddresses>*/}
-// {/*<Addresses to={transaction.to} from={transaction.from} />*/}
-// {/*</TransactionDetailsAddresses>*/}
-// {/*<TransactionDetailsDescription>*/}
-// {/*<EditDescription value={transaction.description} />*/}
-// {/*</TransactionDetailsDescription>*/}
-// {/*<TransactionDetailsValue>*/}
-// {/*<FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} />*/}
-// {/*<Fee fee={transaction.fee} />*/}
-// {/*</TransactionDetailsValue>*/}
-// /*</TransactionDetails>*/
 
 export default TransactionListItem

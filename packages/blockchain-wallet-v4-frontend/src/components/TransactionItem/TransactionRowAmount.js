@@ -5,8 +5,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: flex-end;
-  width: 10%;
+  //align-items: flex-end;
+  width: 20%;
   min-width: 200px;
 `
 

@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 40%;
+  width: 35%;
 
   @media(min-width: 992px) { display: flex; }
 `

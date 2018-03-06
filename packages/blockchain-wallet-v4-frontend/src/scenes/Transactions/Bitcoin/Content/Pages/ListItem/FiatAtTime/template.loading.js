@@ -1,23 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { FlatLoader } from 'blockchain-info-components'
+import { FlatLoader, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 50px;
-  padding: 5px;
+  height: 20px;
+  padding: 5px 0;
   box-sizing: border-box;
 `
 
 export default (props) => {
   return (
     <Wrapper>
-      <FlatLoader width='75px' height='20px' />
+      <Text size='12px' weight={300}>
+        <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.initial' defaultMessage='Value when sent: ' />
+      </Text>
+      <FlatLoader width='40px' height='10px' />
     </Wrapper>
   )
 }
