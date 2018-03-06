@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { takeLatest, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
+import { takeLatest, call, put, select, take, cancel, cancelled, fork, race } from 'redux-saga/effects'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 

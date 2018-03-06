@@ -1,5 +1,5 @@
 import { selectAll } from '../coinSelection'
-import { address, crypto, networks, ECPair } from 'bitcoinjs-lib'
+import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { equals, head, or, prop } from 'ramda'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
