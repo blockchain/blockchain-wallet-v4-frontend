@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 20px 30px 20px 50px;
+  padding: 15px 30px;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
 `

@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Text, Button } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-  width: 200px;
-  height: 50px;
+  align-items: flex-start;
+  width: 100%;
+  padding-top: 10px;
 `
 const EditContainer = styled.div`
   display: flex;
@@ -19,28 +19,27 @@ const EditContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 25px;
+`
+const EditInputContainer = styled.div`
+  width: 75%;
+  height: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   border: 1px solid ${props => props.theme['gray-2']};
 `
-const EditArea = styled.textarea`
+const EditInputArea = styled.textarea`
   width: 100%;
-  height: 100%;
   resize: none;
   outline: none;
   border: none;
-  padding: 5px;
   box-sizing: border-box;
+  padding-top: 4px;
+  font-size: 14px;
 `
-const EditButtons = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  height: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-
-  & > * { height: 50%; }
+const EditCancelButton = styled.div`
+  padding: 2px 6px;
 `
 const DisplayContainer = styled.div`
   display: flex;
@@ -50,28 +49,44 @@ const DisplayContainer = styled.div`
   width: 100%;
   height: 100%;
 `
+const SaveButton = styled(Button)`
+  margin-left: 10px;
+`
+const PencilIcon = styled(Icon)`
+  padding-left: 10px;
+`
 
 const EditDescription = props => {
-  const { value, editValue, toggled, handleCancel, handleChange, handleConfirm, handleToggle } = props
+  const { editValue, toggled, handleCancel, handleChange, handleConfirm, handleToggle } = props
 
   return (
     <Wrapper onClick={handleToggle}>
       {toggled ? (
         <EditContainer>
-          <EditArea value={editValue} onChange={handleChange} />
-          <EditButtons>
-            <Icon name='checkmark' size='14px' weight={500} color='success' cursor onMouseDown={handleConfirm} />
-            <Icon name='close' size='14px' weight={500} color='sent' cursor onMouseDown={handleCancel} />
-          </EditButtons>
+          <EditInputContainer>
+            <EditInputArea value={editValue} onChange={handleChange}/>
+            <EditCancelButton>
+              <Icon name='close' size='10px' weight={500} color='gray-5' cursor onMouseDown={handleCancel} />
+            </EditCancelButton>
+          </EditInputContainer>
+          <SaveButton name='checkmark' height='25px' width='40px' nature='primary' padding='0px' onMouseDown={handleConfirm}>
+            <Text size='12px' weight={200} cursor='pointer' color='white'>
+              <FormattedMessage id='components.editdescription.save' defaultMessage='Save' />
+            </Text>
+          </SaveButton>
         </EditContainer>
+      ) : (props.value ? (
+        <DisplayContainer>
+          <Text size='12px' weight={200}>{ props.value }</Text>
+          <PencilIcon name='pencil' color='received' size='14px' cursor />
+        </DisplayContainer>
       ) : (
         <DisplayContainer>
-          <Text size='14px' weight={300} italic>
-            {props.value || <FormattedMessage id='components.editdescription.add' defaultMessage='Add a description' />}
+          <Text size='12px' weight={200} cursor='pointer'>
+            <FormattedMessage id='components.editdescription.add' defaultMessage='Add a description' />
           </Text>
-          <Icon name='pencil' cursor />
         </DisplayContainer>
-      )}
+      ))}
     </Wrapper>
   )
 }

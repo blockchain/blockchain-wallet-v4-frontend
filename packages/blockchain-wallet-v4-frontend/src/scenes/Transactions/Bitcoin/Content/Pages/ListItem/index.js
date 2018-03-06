@@ -8,14 +8,8 @@ import ListItem from './template.js'
 class ListItemContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { toggled: false }
-    this.handleToggle = this.handleToggle.bind(this)
     this.handleCoinToggle = this.handleCoinToggle.bind(this)
     this.handleEditDescription = this.handleEditDescription.bind(this)
-  }
-
-  handleToggle () {
-    this.setState({ toggled: !this.state.toggled })
   }
 
   handleCoinToggle () {
@@ -26,7 +20,7 @@ class ListItemContainer extends React.Component {
   }
 
   render () {
-    return <ListItem transaction={this.props.transaction} toggled={this.state.toggled} handleToggle={this.handleToggle} handleClick={this.handleCoinToggle} handleEditDescription={this.handleEditDescription} />
+    return <ListItem transaction={this.props.transaction} handleClick={this.handleCoinToggle} handleEditDescription={this.handleEditDescription} />
   }
 }
 
