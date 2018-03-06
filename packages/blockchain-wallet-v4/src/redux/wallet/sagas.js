@@ -33,10 +33,10 @@ export const walletSaga = ({ api } = {}) => {
     }
   }
 
-  const importLegacyAddress = function * ({ key, network, password }) {
+  const importLegacyAddress = function * ({ key, network, password, bipPass }) {
     const wallet = yield select(S.getWallet)
     const wrapper = yield select(S.getWrapper)
-    const walletT = Wallet.importLegacyAddress(wallet, key, Date.now(), password, { network, api })
+    const walletT = Wallet.importLegacyAddress(wallet, key, Date.now(), password, bipPass, { network, api })
     const wrapperT = walletT.map(wallet => set(Wrapper.wallet, wallet, wrapper))
     yield call(runTask, wrapperT, A.setWrapper)
   }

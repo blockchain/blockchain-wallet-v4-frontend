@@ -162,8 +162,8 @@ const applyCipher = curry((wallet, password, f, value) => {
   }
 })
 
-// importLegacyAddress :: Wallet -> String -> Number -> String? -> { Network, Api } -> Either Error Wallet
-export const importLegacyAddress = curry((wallet, key, createdTime, password, { network, api }) => {
+// importLegacyAddress :: Wallet -> String -> Number -> String? -> { Network, Api } -> Task Error Wallet
+export const importLegacyAddress = curry((wallet, key, createdTime, password, bipPass, { network, api }) => {
   let checkIfExists = (address) =>
     getAddress(address.addr, wallet)
       .map(existing =>
@@ -176,7 +176,7 @@ export const importLegacyAddress = curry((wallet, key, createdTime, password, { 
   let appendAddress = (address) =>
     over(addresses, (as) => as.set(address.addr, address), wallet)
 
-  return Address.fromString(key, createdTime, null, null, { network, api })
+  return Address.fromString(key, createdTime, null, bipPass, { network, api })
     .map(Either.of)
     .map(aE => aE.chain(checkIfExists))
     .map(aE => aE.chain(applyCipher(wallet, password, Address.encryptSync)))
