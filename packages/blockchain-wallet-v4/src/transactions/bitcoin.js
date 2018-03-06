@@ -179,8 +179,8 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
   const formattedDate = time => {
     const date = moment.utc(time * 1000)
     return equals(date.year(), moment().year())
-    ? date.format('MMMM D @kk:mm')
-    : date.format('MMMM D YYYY @kk:mm')
+      ? date.format('MMMM D @kk:mm')
+      : date.format('MMMM D YYYY @kk:mm')
   }
 
   return ({
@@ -199,6 +199,7 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
     toWatchOnly: outputData.isWatchOnly,
     from: from, // based on inputs
     to: to,  // based on outputs
+
     // properties that frontend should compute
     status: null, // based on confirmations
     initial_value: null // when the user opens the modal

@@ -1,6 +1,7 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { compose } from 'ramda'
+import { compose, isNil } from 'ramda'
+import { set } from 'ramda-lens'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { KVStoreEntry } from '../../../types'
@@ -14,6 +15,20 @@ export default ({ api } = {}) => {
     return yield call(compose(taskToPromise, () => task))
   }
 
+  const createBch = function * (kv) {
+    const newBchEntry = {
+      default_account_idx: 0,
+      accounts: [
+        {
+          label: 'My Bitcoin Cash Wallet',
+          archived: false
+        }
+      ]
+    }
+    const newkv = set(KVStoreEntry.value, newBchEntry, kv)
+    yield put(A.createMetadataBch(newkv))
+  }
+
   const fetchMetadataBch = function * () {
     try {
       const typeId = derivationMap[BCH]
@@ -21,7 +36,11 @@ export default ({ api } = {}) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataBchLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      yield put(A.fetchMetadataBchSuccess(newkv))
+      if (isNil(newkv.value)) {
+        yield call(createBch, newkv)
+      } else {
+        yield put(A.fetchMetadataBchSuccess(newkv))
+      }
     } catch (e) {
       yield put(A.fetchMetadataBchFailure(e.message))
     }

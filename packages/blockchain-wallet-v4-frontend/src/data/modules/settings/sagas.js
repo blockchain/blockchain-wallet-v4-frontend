@@ -4,7 +4,7 @@ import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
 import * as selectors from '../../selectors.js'
 
-import { askSecondPasswordEnhancer } from 'services/SecondPasswordService'
+import { askSecondPasswordEnhancer } from 'services/SagaService'
 
 export const initSettingsInfo = function * () {
   try {
@@ -36,7 +36,7 @@ const showBackupRecovery = function * (action) {
     const eitherMnemonic = yield select(getMnemonic)
     if (eitherMnemonic.isRight) {
       const mnemonic = eitherMnemonic.value.split(' ')
-      yield put(actions.modals.showModal('RecoveryPhrase', { mnemonic }))
+      yield put(actions.modules.settings.addMnemonic({ mnemonic }))
     } else {
       yield put(actions.alerts.displayError('Could not read mnemonic.'))
     }
@@ -77,15 +77,6 @@ export const updateMobile = function * (action) {
     yield put(actions.alerts.displaySuccess('Mobile number has been successfully updated. Verification SMS has been sent.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update mobile number.'))
-  }
-}
-
-export const verifyMobile = function * (action) {
-  try {
-    yield call(sagas.core.settings.setMobileVerified, action.payload)
-    yield put(actions.alerts.displaySuccess('Mobile number has been successfully verified.'))
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not verify mobile number.'))
   }
 }
 
@@ -155,9 +146,9 @@ export const updateIpLockOn = function * (action) {
 export const updateBlockTorIps = function * (action) {
   try {
     yield call(sagas.core.settings.setBlockTorIps, action.payload)
-    yield put(actions.alerts.displaySuccess('Logging level has been successfully updated.'))
+    yield put(actions.alerts.displaySuccess('TOR blocking has been successfully updated.'))
   } catch (e) {
-    yield put(actions.alerts.displayError('Could not update logging level.'))
+    yield put(actions.alerts.displayError('Could not update TOR blocking.'))
   }
 }
 
@@ -167,17 +158,6 @@ export const updateHint = function * (action) {
     yield put(actions.alerts.displaySuccess('Hint has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update hint.'))
-  }
-}
-
-export const disableTwoStep = function * (action) {
-  try {
-    yield call(sagas.core.settings.setAuthType, action.payload)
-    yield put(actions.alerts.displaySuccess('2-step verification has been successfully updated.'))
-    yield put(actions.modals.closeAllModals())
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not update 2-step verification.'))
-    yield put(actions.modals.closeModal())
   }
 }
 
@@ -223,6 +203,15 @@ export const enableTwoStepYubikey = function * (action) {
   }
 }
 
+export const newHDAccount = function * (action) {
+  try {
+    yield call(askSecondPasswordEnhancer(sagas.core.wallet.newHDAccount), action.payload)
+    yield put(actions.alerts.displaySuccess('Successfully created new wallet.'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not create new wallet.'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.INIT_SETTINGS_INFO, initSettingsInfo)
   yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, initSettingsPreferences)
@@ -231,7 +220,6 @@ export default function * () {
   yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
   yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
   yield takeLatest(AT.UPDATE_MOBILE, updateMobile)
-  yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
   yield takeLatest(AT.UPDATE_LANGUAGE, updateLanguage)
   yield takeLatest(AT.UPDATE_CURRENCY, updateCurrency)
   yield takeLatest(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
@@ -241,9 +229,9 @@ export default function * () {
   yield takeLatest(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
   yield takeLatest(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
   yield takeLatest(AT.UPDATE_HINT, updateHint)
-  yield takeLatest(AT.DISABLE_TWO_STEP, disableTwoStep)
   yield takeLatest(AT.UPDATE_TWO_STEP_REMEMBER, updateTwoStepRemember)
   yield takeLatest(AT.ENABLE_TWO_STEP_MOBILE, enableTwoStepMobile)
   yield takeLatest(AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, enableTwoStepGoogleAuthenticator)
   yield takeLatest(AT.ENABLE_TWO_STEP_YUBIKEY, enableTwoStepYubikey)
+  yield takeLatest(AT.NEW_HD_ACCOUNT, newHDAccount)
 }

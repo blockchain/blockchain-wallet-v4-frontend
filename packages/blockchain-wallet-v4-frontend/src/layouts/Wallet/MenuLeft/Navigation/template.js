@@ -18,7 +18,6 @@ const Wrapper = styled.div`
   font-size: 13px;
   text-transform: uppercase;
   color: ${props => props.theme['gray-4']};
-  overflow-y: scroll;
 `
 const Menu = styled.ul`
   list-style: none;
@@ -138,11 +137,6 @@ const Navigation = (props) => {
             <LinkContainer to='/settings/preferences' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubMenuItem>
                 <FormattedMessage id='layouts.wallet.menuleft.navigation.preferences' defaultMessage='Preferences' smaller />
-              </SubMenuItem>
-            </LinkContainer>
-            <LinkContainer to='/settings/security' activeClassName='active' onClick={handleCloseMenuLeft}>
-              <SubMenuItem>
-                <FormattedMessage id='layouts.wallet.menuleft.navigation.security' defaultMessage='Security' smaller />
               </SubMenuItem>
             </LinkContainer>
             <LinkContainer to='/settings/addresses' activeClassName='active' onClick={handleCloseMenuLeft}>

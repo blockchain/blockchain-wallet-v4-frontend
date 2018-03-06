@@ -1,121 +1,95 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-import { assoc, equals, path, prop } from 'ramda'
-import * as crypto from 'crypto'
-
+import { equals, isNil, path, prop } from 'ramda'
+// import * as crypto from 'crypto'
+import { utils } from 'blockchain-wallet-v4/src'
+import { getData } from './selectors'
 import { actions, selectors } from 'data'
-import { transactions } from 'blockchain-wallet-v4/src'
-import FirstStep from './template.js'
+// import { calculateEffectiveBalance } from './services'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
+//   this.seed = crypto.randomBytes(16).toString('hex')
 
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
-
     this.timeout = undefined
-    this.seed = crypto.randomBytes(16).toString('hex')
-    const { accounts } = this.props
-    const amount = this.props.amount || 0
-    const sourceCoin = path(['source', 'coin'], accounts) || 'BTC'
-    const targetCoin = path(['target', 'coin'], accounts) || 'ETH'
-
-    this.state = { sourceCoin, targetCoin, amount }
+    // this.seed = crypto.randomBytes(16).toString('hex')
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.state = { effectiveBalance: 0 }
   }
 
   componentWillMount () {
-    // this.props.exchangeActions.initExchange()
+    this.props.dataBitcoinActions.fetchFee()
+    const defaultAccount = this.props.defaultAccounts.BTC
+    this.props.dataBitcoinActions.fetchUnspent(prop('address', defaultAccount) || prop('index', defaultAccount))
+    this.props.dataShapshiftActions.fetchBtcEth()
   }
 
-  // componentWillReceiveProps (nextProps) {
-  //   const { accounts, amount, ethFeeRegular, gasLimit, bitcoinFeeValues } = nextProps
-
-  //   if (accounts) {
-  //     const sourceCoin = path(['source', 'coin'], accounts)
-  //     const targetCoin = path(['target', 'coin'], accounts)
-
-  //     if (!equals(this.props.accounts, accounts)) {
-  //       this.setState({
-  //         sourceCoin,
-  //         targetCoin
-  //       })
-  //     }
-
-  //     if (!equals(this.props.ethFeeRegular, ethFeeRegular) ||
-  //       !equals(this.props.gasLimit, gasLimit) ||
-  //       (ethFeeRegular && gasLimit)
-  //     ) {
-  //       // const ethFee = transactions.ethereum.calculateFee(ethFeeRegular, gasLimit)
-  //       // this.setState({ ethFee })
-  //     }
-
-  //     if (equals(sourceCoin, 'BTC')) {
-  //       const source = prop('source', accounts)
-  //       const from = { xpub: source.xpub, index: source.index }
-  //       if (!equals(source, prop('source', this.props.accounts))) {
-  //         // this.props.sendBitcoinActions.getUnspent(from)
-  //       }
-
-  //       if (amount && (!equals(this.props.source, source) ||
-  //         !equals(this.props.amount, amount) ||
-  //         !equals(this.props.bitcoinFeeValues, bitcoinFeeValues))) {
-  //         if (this.timeout) { clearTimeout(this.timeout) }
-  //         this.timeout = setTimeout(() => {
-  //           // this.props.sendBitcoinActions.getSelection({ from, amount, fee: bitcoinFeeValues.regular, seed: this.seed })
-  //         }, 1000)
-  //       }
-  //     }
-  //   }
-
-  //   if (amount && !equals(this.props.amount, amount)) {
-  //     this.setState({
-  //       amount
-  //     })
-  //   }
-  // }
+  componentWillReceiveProps (nextProps) {
+    // Fetch fee if sourceCoin has changed
+    if (!equals(this.props.sourceCoin, nextProps.sourceCoin)) {
+      if (equals('BTC', nextProps.sourceCoin)) this.props.dataBitcoinActions.fetchFee()
+      if (equals('ETH', nextProps.sourceCoin)) this.props.dataEthereumActions.fetchFee()
+    }
+    // Update if source account has changed
+    if (!isNil(this.props.accounts) && !isNil(nextProps.accounts) && !equals(this.props.accounts.source, nextProps.accounts.source)) {
+      // Fetch unspent if coin is BTC
+      if (equals('BTC', nextProps.sourceCoin)) {
+        const source = path(['accounts', 'source'], nextProps)
+        this.props.dataBitcoinActions.fetchUnspent(prop('address', source) || prop('index', source))
+      }
+      // ETH Calculate effectiveBalance
+      if (equals('ETH', nextProps.sourceCoin)) {
+        const ethAccount = path(['source', 'address'], nextProps.accounts)
+        const { ethFee } = nextProps.data.getOrElse({ ethFee: { priority: 0, gasLimit: 21000 } })
+        const ethBalance = path([ethAccount, 'balance'], nextProps.ethAddresses)
+        const effectiveBalance = utils.ethereum.calculateEffectiveBalanceEther(ethFee.priority, ethFee.gasLimit, ethBalance)
+        this.setState({ effectiveBalance })
+      }
+    }
+    // Fetch pair if source or target coins have changed
+    if (!equals(this.props.sourceCoin, nextProps.sourceCoin) || !equals(this.props.targetCoin, nextProps.targetCoin)) {
+      if (equals('BTC', nextProps.sourceCoin) && equals('ETH', nextProps.targetCoin)) this.props.dataShapshiftActions.fetchBtcEth()
+      if (equals('ETH', nextProps.sourceCoin) && equals('BTC', nextProps.targetCoin)) this.props.dataShapshiftActions.fetchEthBtc()
+    }
+    // BTC Calculate effectiveBalance
+    if (!equals(this.props.coins, nextProps.coins)) {
+      const { btcFee } = nextProps.data.getOrElse({ btcFee: { priority: 0 } })
+      const effectiveBalance = utils.bitcoin.calculateEffectiveBalanceBitcoin(nextProps.coins, btcFee.priority)
+      this.setState({ effectiveBalance })
+    }
+  }
 
   handleSubmit () {
+    console.log('handleSubmit')
+    console.log(this.props)
     this.props.nextStep()
   }
 
   render () {
-    // const { accounts, etherBalance, bitcoinEffectiveBalance, ...rest } = this.props
-    // const { ethFee } = this.state
-    // const effectiveBalance = this.state.sourceCoin === 'ETH'
-    //                           ? (etherBalance - this.state.ethFee > 0
-    //                             ? etherBalance - ethFee
-    //                             : 0)
-    //                           : bitcoinEffectiveBalance
-
-    const { sourceCoin, targetCoin, amount } = this.state
-
-    return (
-      <FirstStep
-        sourceCoin={sourceCoin}
-        targetCoin={targetCoin}
-        sourceAmount={amount} />
-        // handleSubmit={this.handleSubmit}
-        // max={effectiveBalance}
-        // {...rest} />
-    )
+    return this.props.data.cata({
+      Success: (value) => <Success {...value} {...this.props} effectiveBalance={this.state.effectiveBalance} handleSubmit={this.handleSubmit} />,
+      Failure: (message) => <Error />,
+      Loading: () => <Loading {...this.props} />,
+      NotAsked: () => <Loading {...this.props} />
+    })
   }
 }
 
-const mapStateToProps = (state) => ({
-  // accounts: formValueSelector('exchange')(state, 'accounts'),
-  // amount: formValueSelector('exchange')(state, 'amount'),
-  // ethFeeRegular: selectors.core.data.ethereum.getFeeRegular(state) || 0,
-  // gasLimit: selectors.core.data.ethereum.getGasLimit(state) || 0,
-  // bitcoinFeeValues: selectors.core.data.bitcoin.getFee(state),
-  // etherBalance: selectors.core.data.ethereum.getBalance(state),
-  // bitcoinEffectiveBalance: selectors.core.data.bitcoin.getEffectiveBalance(state) || 0
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps.accounts),
+  ethAddresses: selectors.core.data.ethereum.getAddresses(state).getOrElse({}),
+  coins: selectors.core.data.bitcoin.getCoins(state).getOrElse([])
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  // exchangeActions: bindActionCreators(actions.modules.exchange, dispatch),
-  // sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch)
+  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  dataShapshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)

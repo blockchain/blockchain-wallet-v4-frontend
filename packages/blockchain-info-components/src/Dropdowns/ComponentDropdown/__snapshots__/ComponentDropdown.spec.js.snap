@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ComponentDropdown component default renders correctly 1`] = `
+<styled.div
+  uppercase={true}
+>
+  <styled.ul
+    down={false}
+    toggled={false}
+  >
+    <styled.li
+      key="0"
+      onClick={[Function]}
+    />
+  </styled.ul>
+  <styled.div
+    color="brand-secondary"
+    onClick={[Function]}
+  >
+    <styled.div />
+    <Styled(Icon)
+      name="down-arrow"
+      size="8px"
+    />
+  </styled.div>
+</styled.div>
+`;

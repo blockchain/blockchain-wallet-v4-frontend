@@ -6,6 +6,7 @@ import misc from './misc'
 import options from './options'
 import settings from './settings'
 import shapeShift from './shapeShift'
+import sfox from './sfox'
 import wallet from './wallet'
 import fetchService from './fetch'
 
@@ -26,6 +27,7 @@ export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCo
     ...kvStore({ apiUrl }),
     ...misc({ rootUrl, apiUrl, get, post }),
     ...options({ rootUrl, apiUrl, get, post }),
+    ...sfox({ rootUrl }),
     ...settings({ rootUrl, apiUrl, get, post }),
     ...shapeShift({ shapeShiftRootUrl, shapeShiftApiKey }),
     ...wallet({ rootUrl, apiUrl, get, post })

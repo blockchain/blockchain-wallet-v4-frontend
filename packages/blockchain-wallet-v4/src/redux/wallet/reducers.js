@@ -44,11 +44,27 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const { accountIdx, addressIdx } = action.payload
       return over(Wrapper.wallet, Wallet.deleteHdAddressLabel(accountIdx, addressIdx), state)
     }
+    case T.SET_ACCOUNT_LABEL: {
+      const { accountIdx, label } = action.payload
+      return over(Wrapper.wallet, Wallet.setAccountLabel(accountIdx, label), state)
+    }
+    case T.SET_ACCOUNT_ARCHIVED: {
+      const { accountIdx, archived } = action.payload
+      return over(Wrapper.wallet, Wallet.setAccountArchived(accountIdx, archived), state)
+    }
+    case T.SET_DEFAULT_ACCOUNT: {
+      const { index } = action.payload
+      return over(Wrapper.wallet, Wallet.setDefaultAccountIdx(index), state)
+    }
+    case T.SET_TRANSACTION_NOTE: {
+      const { txHash, txNote } = action.payload
+      return over(Wrapper.wallet, Wallet.setTxNote(txHash, txNote), state)
+    }
     case T.VERIFY_MNEMONIC: {
       const mvLens = compose(Wrapper.wallet,
-                             Wallet.hdWallets,
-                             HDWalletList.hdwallet,
-                             HDWallet.mnemonicVerified)
+        Wallet.hdWallets,
+        HDWalletList.hdwallet,
+        HDWallet.mnemonicVerified)
       return set(mvLens, true, state)
     }
     default:

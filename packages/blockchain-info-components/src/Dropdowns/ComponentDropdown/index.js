@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
 
 import Dropdown from './template.js'
-import { Color, Palette } from '../../'
+import { Palette } from '../../'
 import { keysIn } from 'ramda'
 
 class ComponentDropdown extends React.Component {
@@ -20,7 +20,7 @@ class ComponentDropdown extends React.Component {
   handleClick () {
     this.setState({ toggled: !this.state.toggled })
   }
-  
+
   handleClickOutside () {
     this.setState({ toggled: false })
   }
@@ -31,7 +31,7 @@ class ComponentDropdown extends React.Component {
   }
 
   render () {
-    const { opened, ...rest } = this.props
+    const { ...rest } = this.props
 
     return <Dropdown {...rest}
       handleClick={this.handleClick}
@@ -49,7 +49,7 @@ ComponentDropdown.defaultProps = {
   down: false
 }
 
-ComponentDropdown.PropTypes = {
+ComponentDropdown.propTypes = {
   callback: PropTypes.func.isRequired,
   opened: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),

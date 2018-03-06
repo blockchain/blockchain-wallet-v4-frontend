@@ -1,7 +1,6 @@
 import { contains, map, toLower } from 'ramda'
 import EthereumTx from 'ethereumjs-tx'
-import EthereumUtil from 'ethereumjs-util'
-import EthereumWallet from 'ethereumjs-wallet'
+import {getEthereumTxNote } from '../redux/kvStore/ethereum/selectors.js'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
@@ -14,11 +13,12 @@ const getType = (tx, addresses) => {
   }
 }
 
-export const calculateFee = (gasRegular, gasLimit) => `${(gasRegular * gasLimit)}000000000` // Convert gwei => wei
+export const calculateFee = (gasPrice, gasLimit) => `${(gasPrice * gasLimit)}000000000` // Convert gwei => wei
 
 export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, network = 1) => {
+  let tx
   try {
-    let tx = new EthereumTx(null, network)
+    tx = new EthereumTx(null, network)
     tx.nonce = fromAccount.nonce
     // let feeBN =
 
@@ -29,8 +29,7 @@ export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, net
     //   _amount: '',
     //   _available: ''
     // }
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e)
   }
   return tx
@@ -41,12 +40,13 @@ export const signTx = (transaction, ptrivateKey) => {
 }
 
 // transformTx :: [String] -> Tx -> ProcessedTx
-export const transformTx = (addresses, tx) => ({
+export const transformTx = (addresses, state, tx) => ({
   type: getType(tx, addresses),
+  hash: tx.hash,
   amount: parseInt(tx.value),
   to: tx.to,
   from: tx.from,
-  description: tx.description || '',
+  description: getEthereumTxNote(state, tx.hash).data || '',
   time: tx.timeStamp,
   status: ''
 })

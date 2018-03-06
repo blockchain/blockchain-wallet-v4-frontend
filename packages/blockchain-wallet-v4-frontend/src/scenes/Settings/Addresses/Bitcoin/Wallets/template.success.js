@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { Table, TableHeader, TableCell, TableRow, Text, IconButton, Link } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -15,17 +16,31 @@ const AddressesSettingDescription = SettingDescription.extend`
   margin-bottom: 10px;
 `
 
-const Success = (props) => {
-  const { wallets } = props
-
-  const walletTableRows = wallets.map((wallet, i) => {
+const Success = ({ wallets, handleClick, onUnarchive }) => {
+  const walletTableRows = wallets.map((wallet) => {
     return (
-      <TableRow key={i}>
-        <TableCell width='50%'>
+      <TableRow key={wallet.value.index}>
+        <TableCell width='30%' style={{ display: 'flex' }}>
           <Text size='13px'>{wallet.label}</Text>
+          {wallet.value.archived && (
+            <Text size='13px' weight={300} style={{ marginLeft: 10 }}>Archived</Text>
+          )}
         </TableCell>
-        <TableCell width='30%'>
+        <TableCell width='50%'>
           <Text size='13px'><SwitchableDisplay coin='BTC'>{wallet.value.balance}</SwitchableDisplay></Text>
+        </TableCell>
+        <TableCell width='20%'>
+          {wallet.value.archived ? (
+            <Link weight={200} size='small' onClick={() => onUnarchive(wallet.value.index)}>
+              <FormattedMessage id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' />
+            </Link>
+          ) : (
+            <LinkContainer to={`/settings/addresses/${wallet.value.index}`}>
+              <Link weight={200} size='small'>
+                <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage' />
+              </Link>
+            </LinkContainer>
+          )}
         </TableCell>
       </TableRow>
     )
@@ -41,7 +56,7 @@ const Success = (props) => {
       </AddressesSettingDescription>
       <Table>
         <TableHeader>
-          <TableCell width='50%'>
+          <TableCell width='30%'>
             <Text size='13px' weight={500} capitalize>
               <FormattedMessage id='scenes.settings.addresses.wallet_name' defaultMessage='Wallet Name' />
             </Text>
@@ -54,6 +69,9 @@ const Success = (props) => {
         </TableHeader>
         { walletTableRows }
       </Table>
+      <IconButton style={{ marginTop: 10 }} name='up-arrow-in-circle' onClick={handleClick}>
+        <FormattedMessage id='scenes.settings.wallets.new_hd_account' defaultMessage='New Wallet' />
+      </IconButton>
     </Wrapper>
   )
 }

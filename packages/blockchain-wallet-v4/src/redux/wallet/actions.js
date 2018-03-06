@@ -16,6 +16,14 @@ export const setHdAddressLabel = (accountIdx, addressIdx, label) =>
   ({ type: T.SET_HD_ADDRESS_LABEL, payload: { accountIdx, addressIdx, label } })
 export const createLegacyAddress = (address) =>
   ({ type: T.CREATE_LEGACY_ADDRESS, payload: address })
+export const setAccountLabel = (accountIdx, label) =>
+  ({ type: T.SET_ACCOUNT_LABEL, payload: { accountIdx, label } })
+export const setAccountArchived = (accountIdx, archived) =>
+  ({ type: T.SET_ACCOUNT_ARCHIVED, payload: { accountIdx, archived } })
+export const setDefaultAccountIdx = (index) =>
+  ({ type: T.SET_DEFAULT_ACCOUNT, payload: { index } })
+export const setTransactionNote = (txHash, txNote) =>
+  ({ type: T.SET_TRANSACTION_NOTE, payload: {txHash, txNote}})
 
 // deletes
 export const deleteWrapper = () =>
