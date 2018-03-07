@@ -75,7 +75,7 @@ const ColumnLeft = (props) => (
 )
 
 ColumnLeft.propTypes = {
-  emailVerified: PropTypes.number.isRequired,
+  emailVerified: PropTypes.bool.isRequired,
   mobileVerified: PropTypes.bool.isRequired,
   changingEmail: PropTypes.bool
 }
