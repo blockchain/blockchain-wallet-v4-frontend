@@ -1,5 +1,4 @@
-import { is, curry, identity, reduceRight, compose, prop, assoc, ifElse } from 'ramda'
-import { lens } from 'ramda-lens'
+import { is, curry, identity, reduceRight, compose, prop, assoc, ifElse, lens } from 'ramda'
 import { Map } from 'immutable'
 import * as Task from 'data.task'
 

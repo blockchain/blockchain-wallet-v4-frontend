@@ -5,7 +5,7 @@ import {multiply, range, modulo, dissoc, concat, reduce, view, over, prop, __,
   isNil, pipe, set, divide} from 'ramda'
 import {traverseOf} from 'ramda-lens'
 import * as Task from 'data.task'
-import {lensProp, whenTask, taskChain} from 'util'
+import {lensProp, whenTask, taskChain} from './util'
 
 const count = o => Object.keys(o).length
 const maxKey = o => Math.max(Object.keys(o).map(parseInt))
@@ -45,6 +45,26 @@ export const create = (xpriv, typeId, entriesPerChild) => {
     entriesPerChild: entriesPerChild,
     childEntries: {}
   }
+}
+
+// selectEntry :: KVStoreList -> Int -> Entry
+export const selectEntry = (list, entryId) => {
+  const childId = Math.floor(entryId / selectEntriesPerChild(list))
+  const idWithinChild = entryId % selectEntriesPerChild(list)
+
+  return compose(
+    set(lensEntryId, entryId),
+    prop(idWithinChild),
+    view(lensChildValue(childId))
+  )(list)
+}
+
+// selectEntries :: KVStoreList ->
+export const selectEntries = (list, from, to) => {
+  return reduce(
+    (entries, entryId) => concat(entries, [selectEntry(list, entryId)]),
+    [],
+    range(from, to))
 }
 
 export const createListApi = (api) => {
@@ -193,39 +213,25 @@ export const createListApi = (api) => {
       .chain(updateChildEntry(childId))
   }
 
-  // loadChildForEntry :: KVStoreList -> Int -> Task KVStoreList
-  const loadChildForEntry = curry((list, entryId) => {
+  // loadForEntry :: KVStoreList -> Int -> Task KVStoreList
+  const loadForEntry = curry((list, entryId) => {
     const childId = Math.floor(entryId / selectEntriesPerChild(list))
     return loadChild(childId, list)
   })
 
   const get = (list, entryId) => {
-    const childId = Math.floor(entryId / selectEntriesPerChild(list))
-    const idWithinChild = entryId % selectEntriesPerChild(list)
-
-    const loadEntry = compose(set(lensEntryId, entryId), prop(idWithinChild), view(lensChildValue(childId)))
-
-    return loadChildForEntry(list, entryId)
-      .map(l => ({list: l, obj: loadEntry(l)}))
+    return loadForEntry(list, entryId)
+      .map(l => ({list: l, obj: selectEntry(l, entryId)}))
   }
 
+  // TODO Pretty sure we can do this in parallel somehow?
+  // loadForEntries :: Int -> Int -> Task KVStoreList
+  const loadForEntries = (list, from, to) =>
+    reduce((task, entryId) => task.chain(l => loadForEntry(l, entryId)), Task.of(list), range(from, to))(list)
+
   const getList = (list, from, to) => {
-    // loadAllChildren :: Int -> Int -> Task KVStoreList
-    // TODO Pretty sure we can do this in parallel somehow?
-    const loadAllChildren = list =>
-      reduce((task, entryId) => task.chain(list => loadChildForEntry(list, entryId)), Task.of(list), range(from, to))
-
-    const extractEntry = (list, entryId) => {
-      const childId = Math.floor(entryId / selectEntriesPerChild(list))
-      const idWithinChild = entryId % selectEntriesPerChild(list)
-      return compose(set(lensEntryId, entryId), prop(idWithinChild), view(lensChildValue(childId)))(list)
-    }
-
-    const extractAllEntries = list =>
-      reduce((entries, entryId) => concat(entries, [extractEntry(list, entryId)]), [], range(from, to))
-
-    return loadAllChildren(list)
-      .map(l => ({list: l, obj: extractAllEntries(l)}))
+    return loadForEntries(list, from, to)
+      .map(l => ({list: l, obj: selectEntries(l, from, to)}))
   }
 
   return {
@@ -233,6 +239,8 @@ export const createListApi = (api) => {
     initialize,
     update,
     get,
-    getList
+    getList,
+    loadForEntry,
+    loadForEntries
   }
 }
