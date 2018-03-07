@@ -33,18 +33,20 @@ export const deriveAddress = (mnemonic, index) =>
 
 export const calculateFee = (gasPrice, gasLimit) => Exchange.convertEtherToEther({ value: (gasPrice * gasLimit), fromUnit: 'GWEI', toUnit: 'WEI' }).value
 
-export const calculateFeeAndEffectiveBalanceWei = (gasPrice, gasLimit, balanceWei) => {
+export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   const transactionFee = calculateFee(gasPrice, gasLimit)
   return {
+    balance: balanceWei,
     fee: transactionFee,
     effectiveBalance: balanceWei - transactionFee
   }
 }
 
-export const calculateFeeAndEffectiveBalanceEther = (gasPrice, gasLimit, balanceWei) => {
-  const data = calculateFeeAndEffectiveBalanceWei(gasPrice, gasLimit, balanceWei)
+export const calculateBalanceEther = (gasPrice, gasLimit, balanceWei) => {
+  const data = calculateBalanceWei(gasPrice, gasLimit, balanceWei)
   return {
-    fee: data.fee,
+    balance: Exchange.convertEtherToEther({ value: data.balance, fromUnit: 'WEI', toUnit: 'ETH' }).value,
+    fee: Exchange.convertEtherToEther({ value: data.fee, fromUnit: 'WEI', toUnit: 'ETH' }).value,
     effectiveBalance: Exchange.convertEtherToEther({ value: data.effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
   }
 }

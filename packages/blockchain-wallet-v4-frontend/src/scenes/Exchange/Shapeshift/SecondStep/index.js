@@ -18,8 +18,8 @@ class SecondStepContainer extends React.Component {
   componentWillMount () {
     // Make request to shapeShift to create order
     const { pair, sourceAddress, sourceAmount, targetAddress } = this.props
+    console.log('order', pair, sourceAddress, sourceAmount, targetAddress)
     this.props.dataShapeshiftActions.fetchOrder(sourceAmount, pair, sourceAddress, targetAddress)
-    // this.props.dataBitcoinActions.refreshSelection(feePerByte, coins, amount, receive, change, algorithm, seed)
   }
 
   handleSubmit () {
@@ -50,7 +50,7 @@ class SecondStepContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.source, ownProps.target)
+  data: getData(state, ownProps.source, ownProps.target, ownProps.balance)
 })
 
 const mapDispatchToProps = (dispatch) => ({

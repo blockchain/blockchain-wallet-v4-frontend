@@ -3,6 +3,7 @@ import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { equals, head, or, prop } from 'ramda'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
+import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 
 export const isValidBitcoinAddress = value => {
@@ -87,16 +88,18 @@ export const isValidBitcoinPrivateKey = value => {
   }
 }
 
-export const calculateFeeAndEffectiveBalanceSatoshi = (coins, feePerByte) => {
+export const calculateBalanceSatoshi = (coins, feePerByte) => {
   const { outputs, fee } = selectAll(feePerByte, coins)
   const effectiveBalance = prop('value', head(outputs)) || 0
-  return { fee, effectiveBalance }
+  const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
+  return { balance, fee, effectiveBalance }
 }
 
-export const calculateFeeAndEffectiveBalanceBitcoin = (coins, feePerByte) => {
-  const data = calculateFeeAndEffectiveBalanceSatoshi(coins, feePerByte)
+export const calculateBalanceBitcoin = (coins, feePerByte) => {
+  const data = calculateBalanceSatoshi(coins, feePerByte)
   return {
-    fee: data.fee,
+    balance: Exchange.convertBitcoinToBitcoin({ value: data.balance, fromUnit: 'SAT', toUnit: 'BTC' }).value,
+    fee: Exchange.convertBitcoinToBitcoin({ value: data.fee, fromUnit: 'SAT', toUnit: 'BTC' }).value,
     effectiveBalance: Exchange.convertBitcoinToBitcoin({ value: data.effectiveBalance, fromUnit: 'SAT', toUnit: 'BTC' }).value
   }
 }
