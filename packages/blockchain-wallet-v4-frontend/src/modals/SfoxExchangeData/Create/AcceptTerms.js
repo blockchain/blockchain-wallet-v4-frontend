@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { FormattedMessage } from 'react-intl'
 import ui from 'redux-ui'
 import { actions, selectors } from 'data'
 import { reduxForm, formValueSelector, Field } from 'redux-form'
-
-import { TextBox, Form } from 'components/Form'
+import { path } from 'ramda'
+import { TextBox } from 'components/Form'
 import { Text, Button, Icon } from 'blockchain-info-components'
 
 import { required } from 'services/FormHelper'
@@ -73,9 +72,11 @@ class AcceptTerms extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (typeof nextProps.sfoxProfile.error === 'string') {
+    if (nextProps.signupError) {
       this.props.updateUI({ error: true })
-      this.setState({error: nextProps.sfoxProfile.error})
+      this.setState({ error: nextProps.signupError })
+    } else {
+      this.props.updateUI({ error: false })
     }
   }
 
@@ -89,7 +90,7 @@ class AcceptTerms extends Component {
   }
 
   render () {
-    const { ui, invalid } = this.props
+    const { ui } = this.props
 
     const handleError = (msg) => {
       if (/user is already registered/.test(msg)) {
@@ -161,7 +162,8 @@ AcceptTerms.propTypes = {
 const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
-  sfoxProfile: selectors.core.data.sfox.getProfile(state)
+  sfoxProfile: selectors.core.data.sfox.getProfile(state),
+  signupError: path(['sfoxSignup', 'signupError'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

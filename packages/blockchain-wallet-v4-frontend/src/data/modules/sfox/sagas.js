@@ -1,8 +1,9 @@
-import { takeLatest, put, call } from 'redux-saga/effects'
+import { takeLatest, put, call, select } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as sagas from '../../sagas.js'
 import { actions } from 'data'
+import * as selectors from '../../selectors.js'
 
 export const setBankManually = function * (action) { // will have to call this by dispatching action
   try {
@@ -15,13 +16,18 @@ export const setBankManually = function * (action) { // will have to call this b
   }
 }
 
-export const signup = function * () {
+export const sfoxSignup = function * () {
   try {
     yield call(sagas.core.data.sfox.signup)
-    yield put(A.nextStep('verify'))
-    yield put(actions.alerts.displaySuccess('Account successfully created!'))
+    const profile = yield select(selectors.core.data.sfox.getProfile)
+
+    if (!profile.error) {
+      yield put(A.nextStep('verify'))
+      yield put(actions.alerts.displaySuccess('Account successfully created!'))
+    } else {
+      yield put(A.signupFailure(profile.error))
+    }
   } catch (e) {
-    console.warn(e)
     yield put(actions.alerts.displayError('Error creating account'))
   }
 }
@@ -29,30 +35,32 @@ export const signup = function * () {
 export const setProfile = function * (payload) {
   try {
     yield call(sagas.core.data.sfox.setProfile, payload)
-    console.log('FE setProfile saga', payload)
     yield put(A.nextStep('upload'))
     yield put(actions.alerts.displaySuccess('Profile submitted successfully for verification!'))
   } catch (e) {
-    console.warn(e)
     yield put(actions.alerts.displayError('Error verifying profile'))
   }
 }
 
 export const upload = function * (payload) {
   try {
-    yield call(sagas.core.data.sfox.upload, payload)
-    console.log('FE upload saga', payload)
-    yield put(A.nextStep('link'))
-    yield put(actions.alerts.displaySuccess('Profile submitted successfully for verification!'))
+    yield call(sagas.core.data.sfox.uploadDoc, payload)
+
+    const profile = yield select(selectors.core.data.sfox.getProfile)
+    if (profile.data._verification_status.required_docs.length) {
+      yield put(actions.alerts.displaySuccess('Document uploaded successfully!'))
+    } else {
+      yield put(actions.alerts.displaySuccess('Document uploaded successfully!'))
+      yield put(A.nextStep('link'))
+    }
   } catch (e) {
-    console.warn(e)
-    yield put(actions.alerts.displayError('Error verifying profile'))
+    yield put(actions.alerts.displayError('Error uploading'))
   }
 }
 
 export default function * () {
   yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
-  yield takeLatest(AT.SIGNUP, signup)
+  yield takeLatest(AT.SIGNUP, sfoxSignup)
   yield takeLatest(AT.SET_PROFILE, setProfile)
   yield takeLatest(AT.UPLOAD, upload)
 }

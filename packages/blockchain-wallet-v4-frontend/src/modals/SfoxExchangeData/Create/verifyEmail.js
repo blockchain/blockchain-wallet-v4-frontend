@@ -3,12 +3,11 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
-import { FormattedMessage } from 'react-intl'
 import ui from 'redux-ui'
 import { actions, selectors } from 'data'
 import { reduxForm, formValueSelector, Field } from 'redux-form'
 
-import { TextBox, Form } from 'components/Form'
+import { TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
 
 import { required } from 'services/FormHelper'
@@ -20,13 +19,6 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `
 const MobileInput = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const MobileCodeContainer = MobileInput.extend`
-  margin-top: 45px;
-`
-const FieldWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
@@ -69,12 +61,12 @@ class VerifyEmail extends Component {
 
   }
 
-  onSubmit (e) { //TODO need a resetSfoxProfile action to dispatch
+  onSubmit (e) {
     e.preventDefault()
     if (this.props.ui.enterCode) {
       this.props.settingsActions.verifyEmail(this.props.emailCode)
       this.props.doneChangingEmail()
-      this.props.sfoxDataActions.resetProfile()
+      this.props.sfoxFrontendActions.clearSignupError()
     } else {
       this.props.settingsActions.updateEmail(this.props.emailAddress)
       this.props.updateUI({ enterCode: true })
@@ -83,7 +75,7 @@ class VerifyEmail extends Component {
 
   render () {
     const { ui, invalid } = this.props
-    console.log('render verify email', this.props);
+
     return (
       <form onSubmit={this.onSubmit}>
         <Wrapper>
@@ -143,7 +135,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(
