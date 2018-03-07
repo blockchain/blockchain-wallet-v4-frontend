@@ -77,7 +77,9 @@
     "redux": "^3.6.0",
     "redux-immutable": "^3.1.0",
     "redux-saga": "^0.16.0",
-    "seedrandom": "^2.4.3"
+    "scryptsy": "~2.0.0",
+    "seedrandom": "^2.4.3",
+    "unorm": "~1.4.1"
   },
   "standard": {
     "globals": [
