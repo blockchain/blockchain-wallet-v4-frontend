@@ -31,14 +31,20 @@ export const privateKeyToAddress = pk =>
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())
 
-export const calculateFee = (gasPrice, gasLimit) => `${(gasPrice * gasLimit)}000000000` // Convert gwei => wei
+export const calculateFee = (gasPrice, gasLimit) => Exchange.convertEtherToEther({ value: (gasPrice * gasLimit), fromUnit: 'GWEI', toUnit: 'WEI' }).value
 
-export const calculateEffectiveBalanceWei = (gasPrice, gasLimit, balanceWei) => {
+export const calculateFeeAndEffectiveBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   const transactionFee = calculateFee(gasPrice, gasLimit)
-  return balanceWei - transactionFee
+  return {
+    fee: transactionFee,
+    effectiveBalance: balanceWei - transactionFee
+  }
 }
 
-export const calculateEffectiveBalanceEther = (gasPrice, gasLimit, balanceWei) => {
-  const effectiveBalanceWei = calculateEffectiveBalanceWei(gasPrice, gasLimit, balanceWei)
-  return Exchange.convertEtherToEther({ value: effectiveBalanceWei, fromUnit: 'WEI', toUnit: 'ETH' }).value
+export const calculateFeeAndEffectiveBalanceEther = (gasPrice, gasLimit, balanceWei) => {
+  const data = calculateFeeAndEffectiveBalanceWei(gasPrice, gasLimit, balanceWei)
+  return {
+    fee: data.fee,
+    effectiveBalance: Exchange.convertEtherToEther({ value: data.effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
+  }
 }

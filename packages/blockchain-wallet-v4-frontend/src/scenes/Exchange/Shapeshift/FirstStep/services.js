@@ -1,6 +1,6 @@
 import { equals, isEmpty, isNil, path, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
-import { Remote, utils } from 'blockchain-wallet-v4/src'
+// import { utils } from 'blockchain-wallet-v4/src'
 
 export const isRequired = (value) => !isEmpty(prop('source', value)) ? undefined : 'Invalid amount'
 
@@ -42,19 +42,17 @@ export const isBelowEffectiveBalance = (value, allValues, props) => {
   return new BigNumber(source).lessThanOrEqualTo(new BigNumber(effectiveBalance)) ? undefined : `Value is above your account effective balance (${effectiveBalance})`
 }
 
-export const calculateEffectiveBalance = (props) => {
-  if (!Remote.Success.is(props.data)) return 0
-
-  const { sourceCoin, accounts, coins, ethAddresses, btcFee, ethFee } = props
-  switch (sourceCoin) {
-    case 'BTC':
-      return utils.bitcoin.calculateEffectiveBalanceBitcoin(coins, btcFee.priority)
-    case 'ETH':
-      const ethAccount = path(['source', 'address'], accounts)
-      const ethBalance = path([ethAccount, 'balance'], ethAddresses)
-      return utils.ethereum.calculateEffectiveBalanceEther(ethFee.priority, ethFee.gasLimit, ethBalance)
-  }
-}
+// export const calculateEffectiveBalance = (props) => {
+//   const { sourceCoin, accounts, coins, ethAddresses, btcFee, ethFee } = props
+//   switch (sourceCoin) {
+//     case 'BTC':
+//       return utils.bitcoin.calculateFeeAndEffectiveBalanceBitcoin(coins, btcFee.priority)
+//     case 'ETH':
+//       const ethAccount = path(['source', 'address'], accounts)
+//       const ethBalance = path([ethAccount, 'balance'], ethAddresses)
+//       return utils.ethereum.calculateFeeAndEffectiveBalanceEther(ethFee.priority, ethFee.gasLimit, ethBalance)
+//   }
+// }
 
 export const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
   return initialRender ||

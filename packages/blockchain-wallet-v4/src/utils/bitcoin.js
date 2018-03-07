@@ -1,5 +1,5 @@
 import { selectAll } from '../coinSelection'
-import { address, crypto, networks, ECPair } from 'bitcoinjs-lib'
+import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { equals, head, or, prop } from 'ramda'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
@@ -87,12 +87,16 @@ export const isValidBitcoinPrivateKey = value => {
   }
 }
 
-export const calculateEffectiveBalanceSatoshis = (coins, feePerByte) => {
-  const { outputs } = selectAll(feePerByte, coins)
-  return prop('value', head(outputs)) || 0
+export const calculateFeeAndEffectiveBalanceSatoshi = (coins, feePerByte) => {
+  const { outputs, fee } = selectAll(feePerByte, coins)
+  const effectiveBalance = prop('value', head(outputs)) || 0
+  return { fee, effectiveBalance }
 }
 
-export const calculateEffectiveBalanceBitcoin = (coins, feePerByte) => {
-  const effectiveBalanceSatoshis = calculateEffectiveBalanceSatoshis(coins, feePerByte)
-  return Exchange.convertBitcoinToBitcoin({ value: effectiveBalanceSatoshis, fromUnit: 'SAT', toUnit: 'BTC' }).value
+export const calculateFeeAndEffectiveBalanceBitcoin = (coins, feePerByte) => {
+  const data = calculateFeeAndEffectiveBalanceSatoshi(coins, feePerByte)
+  return {
+    fee: data.fee,
+    effectiveBalance: Exchange.convertBitcoinToBitcoin({ value: data.effectiveBalance, fromUnit: 'SAT', toUnit: 'BTC' }).value
+  }
 }

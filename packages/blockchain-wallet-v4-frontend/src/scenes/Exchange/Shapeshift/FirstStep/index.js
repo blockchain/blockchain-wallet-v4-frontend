@@ -38,8 +38,8 @@ class FirstStepContainer extends React.Component {
       if (equals('ETH', nextProps.sourceCoin)) {
         const ethAccount = prop('address', nextProps.source)
         const ethBalance = path([ethAccount, 'balance'], nextProps.ethAddresses)
-        const effectiveBalance = utils.ethereum.calculateEffectiveBalanceEther(nextProps.ethFee.priority, nextProps.ethFee.gasLimit, ethBalance).toString()
-        this.setState({ effectiveBalance })
+        const data = utils.ethereum.calculateFeeAndEffectiveBalanceEther(nextProps.ethFee.priority, nextProps.ethFee.gasLimit, ethBalance)
+        this.setState({ effectiveBalance: data.effectiveBalance.toString() })
       }
     }
     // Update if source or target have changed
@@ -54,8 +54,8 @@ class FirstStepContainer extends React.Component {
     // BTC Calculate effectiveBalance
     if (equals('BTC', nextProps.sourceCoin) && Remote.Success.is(nextProps.coins)) {
       const coins = nextProps.coins.getOrElse([])
-      const effectiveBalance = utils.bitcoin.calculateEffectiveBalanceBitcoin(coins, nextProps.btcFee.priority).toString()
-      this.setState({ effectiveBalance })
+      const data = utils.bitcoin.calculateFeeAndEffectiveBalanceBitcoin(coins, nextProps.btcFee.priority)
+      this.setState({ effectiveBalance: data.effectiveBalance.toString() })
     }
   }
 
@@ -64,6 +64,7 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
+    console.log('STATE', this.state.effectiveBalance)
     return this.props.data.cata({
       Success: (value) => <Success {...value} {...this.props} effectiveBalance={this.state.effectiveBalance} handleSubmit={this.handleSubmit} />,
       Failure: (message) => <Error />,
