@@ -45,8 +45,32 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
     }
   }
 
+  const setProfile = function * (user) {
+    const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = user
+    const sfox = yield call(getSfox)
+    try {
+      sfox.profile.firstName = firstName
+      sfox.profile.middleName = middleName || ''
+      sfox.profile.lastName = lastName
+      sfox.profile.dateOfBirth = new Date(dob)
+      sfox.profile.setSSN(ssn)
+      sfox.profile.setAddress(
+        address1,
+        address2,
+        city,
+        state,
+        zipcode
+      )
+      yield apply(sfox.profile, sfox.profile.verify)
+      yield put(A.setProfileSuccess())
+    } catch (e) {
+      yield put(A.setProfileFailure(e))
+    }
+  }
+
   return {
     setBankManually,
-    signup
+    signup,
+    setProfile
   }
 }

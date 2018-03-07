@@ -13,7 +13,7 @@ class VerifyContainer extends Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    this.props.sfoxDataActions.setProfile(this.props.user)
+    this.props.sfoxFrontendActions.setProfile(this.props.user)
   }
 
   render () {
@@ -40,7 +40,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyContainer)
