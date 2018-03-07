@@ -38,8 +38,21 @@ export const setProfile = function * (payload) {
   }
 }
 
+export const upload = function * (payload) {
+  try {
+    yield call(sagas.core.data.sfox.upload, payload)
+    console.log('FE upload saga', payload)
+    yield put(A.nextStep('link'))
+    yield put(actions.alerts.displaySuccess('Profile submitted successfully for verification!'))
+  } catch (e) {
+    console.warn(e)
+    yield put(actions.alerts.displayError('Error verifying profile'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
   yield takeLatest(AT.SIGNUP, signup)
   yield takeLatest(AT.SET_PROFILE, setProfile)
+  yield takeLatest(AT.UPLOAD, upload)
 }

@@ -52,7 +52,7 @@ class UploadContainer extends Component {
   submitForUpload () {
     const file = this.state.file || this.state.photo
     const idType = this.props.data.data.verificationStatus.required_docs[0]
-    this.props.sfoxDataActions.upload({file, idType})
+    this.props.sfoxFrontendActions.upload({file, idType})
   }
 
   render () {
@@ -86,7 +86,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UploadContainer)

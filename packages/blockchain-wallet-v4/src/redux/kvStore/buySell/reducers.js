@@ -36,6 +36,12 @@ export default (state = INITIAL_STATE, action) => {
       console.log('set profile buysell kvstore reducer', payload)
       return over(valueLens, setProfile, state)
     }
+    case AT.WIPE: {
+      let valueLens = compose(mapped, KVStoreEntry.value)
+      let wipe = assocPath(['sfox'], { trades: [] })
+      console.log('wipe buy sell metadata', KVStoreEntry)
+      return over(valueLens, wipe, state)
+    }
     default:
       return state
   }

@@ -7,3 +7,5 @@ export const signup = () => ({ type: AT.SIGNUP })
 export const nextStep = (step) => ({ type: AT.NEXT_STEP, payload: step })
 
 export const setProfile = (user) => ({ type: AT.SET_PROFILE, payload: user })
+
+export const upload = (uploadData) => ({ type: AT.UPLOAD, payload: uploadData })
