@@ -9,6 +9,7 @@ class ArchivedAddressesContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleToggleArchived = this.handleToggleArchived.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   handleToggleArchived (address) {
@@ -16,9 +17,13 @@ class ArchivedAddressesContainer extends React.Component {
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
   }
 
+  handleDelete (address) {
+    this.props.coreActions.deleteLegacyAddress(address.addr)
+  }
+
   render () {
     return (
-      <Success archivedAddresses={this.props.archivedAddresses} onToggleArchived={this.handleToggleArchived} />
+      <Success archivedAddresses={this.props.archivedAddresses} onToggleArchived={this.handleToggleArchived} onDelete={this.handleDelete} />
     )
   }
 }
