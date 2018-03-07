@@ -1,56 +1,11 @@
 import * as KVStoreEntry from './KVStoreEntry'
 import * as R from 'ramda'
-import {multiply, range, modulo, dissoc, concat, reduce, view, over, lens, assoc, prop, __,
-  compose, curry, converge, dec, inc, lensIndex, ifElse, is, always, identity, complement,
-  isNil, pipe, when, evolve, set, divide} from 'ramda'
-import {mapped, traverseOf, traversed} from 'ramda-lens'
+import {multiply, range, modulo, dissoc, concat, reduce, view, over, prop, __,
+  compose, curry, converge, dec, inc, always, identity,
+  isNil, pipe, set, divide} from 'ramda'
+import {traverseOf} from 'ramda-lens'
 import * as Task from 'data.task'
-import {Map, fromJS} from 'immutable'
-
-const lensProp = key =>
-  lens(
-    (x) => {
-      console.debug('GET ', key, ' from ', x)
-      if (Map.isMap(x)) {
-        return x.get(key)
-      } else {
-        return prop(key, x)
-      }
-    },
-    (val, x) => {
-      console.debug('SET ', key, ' TO ', val, ' in ', x)
-      if (Map.isMap(x)) {
-        return x.set(key, val)
-      } else {
-        return assoc(key, val, x)
-      }
-    }
-)
-
-const whenTask = curry((con, c) => ifElse(con, c, Task.of))
-
-const map = curry((fun, task) => {
-  return task.map(obj => {
-    console.debug('MAP ', obj)
-    return fun(obj)
-  })
-})
-const chain = curry((fun, task) => {
-  return task.chain(obj => {
-    console.debug('CHAIN ', obj)
-    return fun(obj)
-  })
-})
-
-const log = (a) => {
-  console.info('LOG: ', a)
-  return a
-}
-
-const logWithComment = curry((comment, a) => {
-  console.info('LOG: ', comment, ' ', a)
-  return a
-})
+import {lensProp, whenTask, taskChain} from 'util'
 
 const count = o => Object.keys(o).length
 const maxKey = o => Math.max(Object.keys(o).map(parseInt))
@@ -116,7 +71,7 @@ export const createListApi = (api) => {
     // loadChild :: KVStoreEntry -> Task KVStoreEntry
     const loadChild = pipe(
       fetchChildNode,
-      chain(initialiseChildNode))
+      taskChain(initialiseChildNode))
 
     return traverseOf(
       lensChild(childId),
@@ -147,7 +102,7 @@ export const createListApi = (api) => {
       )
 
     const loadParent = compose(
-      chain(initialiseParentNode),
+      taskChain(initialiseParentNode),
       api.fetchKVStore,
       always(createMasterNode(list)))
 
