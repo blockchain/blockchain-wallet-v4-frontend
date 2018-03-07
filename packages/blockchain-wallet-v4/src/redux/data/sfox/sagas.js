@@ -2,8 +2,8 @@ import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select } from 'redux-saga/effects'
 import * as S from './selectors'
 import * as A from './actions'
-import * as AT from './actionTypes'
-import * as walletSelectors from '../../wallet/selectors'
+// import * as AT from './actionTypes'
+// import * as walletSelectors from '../../wallet/selectors'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 
@@ -69,9 +69,23 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
     }
   }
 
+  const uploadDoc = function * (data) {
+    const { idType, file } = data.payload
+    try {
+      const profile = yield select(S.getProfile)
+      const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
+      yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
+      yield put(A.fetchProfile())
+      yield put(A.uploadSuccess())
+    } catch (e) {
+      yield put(A.uploadFailure(e))
+    }
+  }
+
   return {
     setBankManually,
     signup,
-    setProfile
+    setProfile,
+    uploadDoc
   }
 }

@@ -5,3 +5,5 @@ export const SIGNUP = '@COMPONENT.SIGNUP'
 export const NEXT_STEP = '@COMPONENT.NEXT_STEP'
 
 export const SET_PROFILE = '@COMPONENT.SET_PROFILE'
+
+export const UPLOAD = '@COMPONENT.UPLOAD'

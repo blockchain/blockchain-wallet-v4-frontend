@@ -85,42 +85,42 @@ export default ({ api, sfoxService } = {}) => {
     }
   }
 
-  const setProfile = function * (data) {
-    const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = data.payload
-    yield call(fetchProfile)
-    try {
-      sfox.profile.firstName = firstName
-      sfox.profile.middleName = middleName || ''
-      sfox.profile.lastName = lastName
-      sfox.profile.dateOfBirth = new Date(dob)
-      sfox.profile.setSSN(ssn)
-      sfox.profile.setAddress(
-        address1,
-        address2,
-        city,
-        state,
-        zipcode
-      )
-      yield apply(sfox.profile, sfox.profile.verify)
-      // TODO: try refresh profile here to smooth out btwn steps
-      yield put(A.setProfileSuccess())
-    } catch (e) {
-      yield put(A.setProfileFailure(e))
-    }
-  }
+  // const setProfile = function * (data) {
+  //   const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = data.payload
+  //   yield call(fetchProfile)
+  //   try {
+  //     sfox.profile.firstName = firstName
+  //     sfox.profile.middleName = middleName || ''
+  //     sfox.profile.lastName = lastName
+  //     sfox.profile.dateOfBirth = new Date(dob)
+  //     sfox.profile.setSSN(ssn)
+  //     sfox.profile.setAddress(
+  //       address1,
+  //       address2,
+  //       city,
+  //       state,
+  //       zipcode
+  //     )
+  //     yield apply(sfox.profile, sfox.profile.verify)
+  //     // TODO: try refresh profile here to smooth out btwn steps
+  //     yield put(A.setProfileSuccess())
+  //   } catch (e) {
+  //     yield put(A.setProfileFailure(e))
+  //   }
+  // }
 
-  const uploadDoc = function * (data) {
-    const { idType, file } = data.payload
-    try {
-      const profile = yield select(S.getProfile)
-      const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
-      yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
-      yield call(fetchProfile)
-      yield put(A.uploadSuccess())
-    } catch (e) {
-      yield put(A.uploadFailure(e))
-    }
-  }
+  // const uploadDoc = function * (data) {
+  //   const { idType, file } = data.payload
+  //   try {
+  //     const profile = yield select(S.getProfile)
+  //     const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
+  //     yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
+  //     yield call(fetchProfile)
+  //     yield put(A.uploadSuccess())
+  //   } catch (e) {
+  //     yield put(A.uploadFailure(e))
+  //   }
+  // }
 
   const getBankAccounts = function * (data) {
     const token = data.payload
@@ -167,8 +167,8 @@ export default ({ api, sfoxService } = {}) => {
     yield takeLatest(AT.HANDLE_TRADE, handleTrade)
     yield takeLatest(AT.FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
-    yield takeLatest(AT.SET_PROFILE, setProfile)
-    yield takeLatest(AT.UPLOAD, uploadDoc)
+    // yield takeLatest(AT.SET_PROFILE, setProfile)
+    // yield takeLatest(AT.UPLOAD, uploadDoc)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.SET_BANK_ACCOUNT, setBankAccount)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
