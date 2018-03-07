@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import ListItem from './ListItem'
+import ListItem from 'components/TransactionListItem'
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,14 +15,13 @@ const Wrapper = styled.div`
 const Success = props => {
   return (
     <Wrapper>
-      {props.transactions.map((transaction, index) => <ListItem key={index} transaction={transaction} currency={props.currency} coin='BTC' minConfirmations={300}/>)}
+      {props.transactions.map((transaction, index) => <ListItem key={index} transaction={transaction} coin='BTC' minConfirmations={300}/>)}
     </Wrapper>
   )
 }
 
 Success.propTypes = {
-  // isEmpty: PropTypes.bool.isRequired,
-  // transactions: PropTypes.array.isRequired
+  transactions: PropTypes.array.isRequired
 }
 
 export default Success
