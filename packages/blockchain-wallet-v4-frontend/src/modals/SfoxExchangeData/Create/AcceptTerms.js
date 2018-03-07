@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import { reduxForm, formValueSelector, Field } from 'redux-form'
 import { path } from 'ramda'
 import { TextBox } from 'components/Form'
-import { Text, Button, Icon } from 'blockchain-info-components'
+import { Text, Button, Icon, HeartbeatLoader } from 'blockchain-info-components'
 
 import { required } from 'services/FormHelper'
 
@@ -84,6 +84,7 @@ class AcceptTerms extends Component {
     if (nextProps.signupError) {
       this.props.updateUI({ error: true })
       this.setState({ error: nextProps.signupError })
+      this.props.setBusyOff()
     } else {
       this.props.updateUI({ error: false })
     }
@@ -148,7 +149,11 @@ class AcceptTerms extends Component {
           </AcceptTermsContainer>
           <ButtonWrapper>
             <Button onClick={this.props.handleSignup} nature='primary' fullwidth disabled={!this.state.acceptedTerms}>
-              Continue
+              {
+                !this.props.busy
+                  ? <span>Continue</span>
+                  : <HeartbeatLoader height='20px' width='20px' color='white' />
+              }
             </Button>
           </ButtonWrapper>
         </form>
