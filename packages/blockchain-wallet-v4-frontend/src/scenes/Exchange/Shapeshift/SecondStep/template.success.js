@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { Button, Link, Text, Tooltip } from 'blockchain-info-components'
+import { Button, Link, Text, TextGroup, Tooltip } from 'blockchain-info-components'
 import { CheckBox, Form } from 'components/Form'
 import Terms from 'components/Terms'
 import CountdownTimer from './CountdownTimer'
@@ -73,7 +73,7 @@ const TableCell = styled.div`
 
 const Success = (props) => {
   const { handleCancel, position, total, close, submitting, invalid, ...rest } = props
-  const { sourceCoin, targetCoin, sendAmount, sendFee, sendTotal, exchangeRate, receiveAmount, receiveFee, expiration, handleSubmit } = rest
+  const { sourceCoin, targetCoin, depositAmount, depositFee, depositTotal, exchangeRate, withdrawalAmount, withdrawalFee, expiration, handleSubmit } = rest
 
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
@@ -89,13 +89,17 @@ const Success = (props) => {
       </Header>
       <Body>
         <Row>
-          <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.exchange.secondstep.recap' defaultMessage="Review the details below and click 'Confirm' to begin your exchange." />
-            <FormattedMessage id='scenes.exchange.secondstep.recap2' defaultMessage='The exchanged funds will be deposited directly into {depositLabel}' values={{ depositLabel: 'My Ether Wallet' }} />
-          </Text>
+          <TextGroup>
+            <Text size='13px' weight={300}>
+              <FormattedMessage id='scenes.exchange.secondstep.recap' defaultMessage="Review the details below and click 'Confirm' to begin your exchange." />
+            </Text>
+            <Text size='13px' weight={300}>
+              <FormattedMessage id='scenes.exchange.secondstep.recap2' defaultMessage='The exchanged funds will be deposited directly into {depositLabel}' values={{ depositLabel: 'My Ether Wallet' }} />
+            </Text>
+          </TextGroup>
         </Row>
         <Row align='right'>
-          <CountdownTimer expiryDate={expiration} />
+          <CountdownTimer expiryDate={expiration} handleExpiry={handleCancel} />
         </Row>
         <Row>
           <Table>
@@ -106,7 +110,7 @@ const Success = (props) => {
                 </Text>
               </TableCell>
               <TableCell>
-                <Text size='13px' weight={300}>{`${sendAmount} ${sourceCoin}`}</Text>
+                <Text size='13px' weight={300}>{`${depositAmount} ${sourceCoin}`}</Text>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -119,7 +123,7 @@ const Success = (props) => {
                 </Tooltip>
               </TableCell>
               <TableCell>
-                <Text size='13px' weight={300}>{`${sendFee} ${sourceCoin}`}</Text>
+                <Text size='13px' weight={300}>{`${depositFee} ${sourceCoin}`}</Text>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -129,7 +133,7 @@ const Success = (props) => {
                 </Text>
               </TableCell>
               <TableCell>
-                <Text size='13px' weight={300}>{`${sendTotal} ${sourceCoin}`}</Text>
+                <Text size='13px' weight={300}>{`${depositTotal} ${sourceCoin}`}</Text>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -155,7 +159,7 @@ const Success = (props) => {
                 </Tooltip>
               </TableCell>
               <TableCell>
-                <Text size='13px' weight={300}>{`${receiveFee} ${targetCoin}`}</Text>
+                <Text size='13px' weight={300}>{`${withdrawalFee} ${targetCoin}`}</Text>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -165,7 +169,7 @@ const Success = (props) => {
                 </Text>
               </TableCell>
               <TableCell>
-                <Text size='13px' weight={300}>{`${receiveAmount} ${targetCoin}`}</Text>
+                <Text size='13px' weight={300}>{`${withdrawalAmount} ${targetCoin}`}</Text>
               </TableCell>
             </TableRow>
           </Table>
@@ -192,4 +196,4 @@ const Success = (props) => {
   )
 }
 
-export default reduxForm({ form: 'exchange' })(Success)
+export default reduxForm({ form: 'exchange', destroyOnUnmount: false })(Success)

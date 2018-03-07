@@ -7,8 +7,9 @@ class CountdownTimerContainer extends React.Component {
   constructor (props) {
     super(props)
     this.interval = undefined
-    const { expiryDate } = this.props
-    this.state = { expiration: moment(expiryDate), elapsed: moment.duration(moment(expiryDate).diff(moment())) }
+    const now = moment()
+    const expiryDate = this.props.expiryDate ? moment(this.props.expiryDate) : now.add('minute', 10)
+    this.state = { expiration: expiryDate, elapsed: moment.duration(expiryDate.diff(moment())) }
     this.tick = this.tick.bind(this)
   }
 
@@ -18,10 +19,10 @@ class CountdownTimerContainer extends React.Component {
 
   tick () {
     const { handleExpiry } = this.props
-    const elapsed = moment.duration(moment(this.state.expiration).diff(moment()))
+    const elapsed = moment.duration(this.state.expiration.diff(moment()))
     this.setState({ elapsed })
     // If we reach the end of the timer, we execute the expiry callback
-    if (this.state.elapsed.as('milliseconds') <= 0) {
+    if (this.state.elapsed.minutes() <= 0) {
       clearInterval(this.interval)
       if (handleExpiry) { handleExpiry() }
     }
@@ -32,9 +33,7 @@ class CountdownTimerContainer extends React.Component {
   }
 
   render () {
-    console.log('state', this.state)
     const timeLeft = moment.utc(this.state.elapsed.as('milliseconds')).format('mm:ss')
-
     return <CountdownTimer timeLeft={timeLeft} />
   }
 }

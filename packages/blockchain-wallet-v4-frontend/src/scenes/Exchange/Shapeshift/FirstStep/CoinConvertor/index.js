@@ -32,7 +32,6 @@ class CoinConvertorContainer extends React.Component {
     const prevSource = path(['input', 'value', 'source'], this.props)
     const nextSource = path(['input', 'value', 'source'], nextProps)
     if (!isNil(nextSource) && !equals(prevSource, nextSource) && !equals(nextSource, this.state.source)) {
-      console.log('nextSource', nextSource)
       this.fetchQuotation(nextSource, true)
     }
     // Update state if target has changed

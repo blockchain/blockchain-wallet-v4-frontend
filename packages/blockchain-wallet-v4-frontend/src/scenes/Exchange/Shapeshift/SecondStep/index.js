@@ -2,7 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { getData, getAddresses } from './selectors'
+import { getData } from './selectors'
 import { actions } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
@@ -19,6 +19,7 @@ class SecondStepContainer extends React.Component {
     // Make request to shapeShift to create order
     const { pair, sourceAddress, sourceAmount, targetAddress } = this.props
     this.props.dataShapeshiftActions.fetchOrder(sourceAmount, pair, sourceAddress, targetAddress)
+    // this.props.dataBitcoinActions.refreshSelection(feePerByte, coins, amount, receive, change, algorithm, seed)
   }
 
   handleSubmit () {
@@ -49,13 +50,12 @@ class SecondStepContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  ...getAddresses(state, ownProps.source, ownProps.target),
-  data: getData(state, ownProps.sourceCoin, ownProps.targetCoin)
+  data: getData(state, ownProps.source, ownProps.target)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch)
 })
 

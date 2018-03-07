@@ -7,6 +7,7 @@ const TooltipWrapper = styled.div`
   display: inline-flex;
   position: relative;
   width: 22px;
+  margin: 2px;
 `
 const TooltipIcon = styled.div`
   display: inline-flex;
