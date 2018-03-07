@@ -6,8 +6,8 @@ import { walletOptionsSaga } from './walletOptions/sagas.js'
 import { kvStoreSagasFactory } from './kvStore/sagas.js'
 import { refreshSaga } from './refresh/sagas.js'
 
-export const coreSagasFactory = ({ api, socket } = {}) => ({
-  data: dataSagasFactory({ api, socket }),
+export const coreSagasFactory = ({ api, socket, sfoxService } = {}) => ({
+  data: dataSagasFactory({ api, socket, sfoxService }),
   settings: settingsSaga({ api, socket }),
   wallet: walletSaga({ api, socket }),
   walletOptions: walletOptionsSaga({ api, socket }),

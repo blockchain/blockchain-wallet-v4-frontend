@@ -10,6 +10,8 @@ export const verifyEmail = (code) => ({ type: AT.VERIFY_EMAIL, payload: { code }
 
 export const updateMobile = (mobile) => ({ type: AT.UPDATE_MOBILE, payload: { mobile } })
 
+export const verifyMobile = (code) => ({ type: AT.VERIFY_MOBILE, payload: { code } })
+
 export const updateLanguage = (language) => ({ type: AT.UPDATE_LANGUAGE, payload: { language } })
 
 export const updateCurrency = (currency) => ({ type: AT.UPDATE_CURRENCY, payload: { currency } })

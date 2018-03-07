@@ -1,15 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { compose } from 'redux'
+import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Tray from 'components/Tray'
+import Create from './Create'
 import Verify from './Verify'
 import Upload from './Upload'
 import Link from './Link'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { getData } from './selectors'
-import { determineStep } from 'services/SfoxService'
+import { actions } from 'data'
+import { path } from 'ramda'
 
 class SfoxExchangeData extends React.Component {
   constructor () {
@@ -27,10 +29,9 @@ class SfoxExchangeData extends React.Component {
   }
 
   getStepComponent () {
-    const { profile, verificationStatus, accounts } = this.props.data.getOrElse({})
-    const step = determineStep(profile, verificationStatus, accounts)
-
+    const step = this.props.signupStep || this.props.step
     switch (step) {
+      case 'create': return <Create />
       case 'verify': return <Verify />
       case 'upload': return <Upload />
       case 'link': return <Link />
@@ -42,8 +43,8 @@ class SfoxExchangeData extends React.Component {
   }
 
   render () {
-    // const { step } = this.props
     const { show } = this.state
+    const { data } = this.props
     return (
       <Tray in={show} class='tray'>
         <ModalHeader onClose={this.handleClose.bind(this)}>
@@ -58,16 +59,22 @@ class SfoxExchangeData extends React.Component {
   }
 }
 
-SfoxExchangeData.PropTypes = {
-  step: PropTypes.oneOf(['verify', 'upload', 'link'])
+SfoxExchangeData.propTypes = {
+  step: PropTypes.oneOf(['create', 'verify', 'upload', 'link']),
+  close: PropTypes.function
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  signupStep: path(['sfoxSignup', 'signupStep'], state)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, undefined),
+  connect(mapStateToProps, mapDispatchToProps),
   modalEnhancer('SfoxExchangeData')
 )
 

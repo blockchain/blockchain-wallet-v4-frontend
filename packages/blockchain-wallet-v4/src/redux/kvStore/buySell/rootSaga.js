@@ -1,4 +1,3 @@
-
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { compose, isNil } from 'ramda'
 import { set } from 'ramda-lens'
@@ -10,16 +9,22 @@ import { derivationMap, BUYSELL } from '../config'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api } = {}) => {
+export default ({ api, sfoxService } = {}) => {
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }
 
   const createBuysell = function * (kv) {
     const newBuysellEntry = {
-      sfox: {},
-      coinify: {},
-      unocoin: {}
+      sfox: {
+        trades: []
+      },
+      coinify: {
+        trades: []
+      },
+      unocoin: {
+        trades: []
+      }
     }
     const newkv = set(KVStoreEntry.value, newBuysellEntry, kv)
     yield put(A.createMetadataBuysell(newkv))
