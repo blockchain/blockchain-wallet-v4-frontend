@@ -2,8 +2,6 @@ import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select } from 'redux-saga/effects'
 import * as S from './selectors'
 import * as A from './actions'
-// import * as AT from './actionTypes'
-// import * as walletSelectors from '../../wallet/selectors'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 
@@ -41,7 +39,6 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
       yield put(A.signupSuccess(signupResponse))
     } catch (e) {
       yield put(A.signupFailure(e))
-      console.warn('signup core saga error', e)
     }
   }
 

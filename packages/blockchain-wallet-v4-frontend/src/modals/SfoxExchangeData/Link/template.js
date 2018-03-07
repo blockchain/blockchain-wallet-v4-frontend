@@ -91,13 +91,13 @@ const BankLink = (props) => {
         </LinkContainer>
         <ManualLinkText>
           <a onClick={toggleManual}>Or Manually Enter Account & Routing Information&nbsp;
-            <span>(This can take up to 4 business days)</span>
+          <span>(This can take up to 4 business days)</span>
           </a>
         </ManualLinkText>
         {
           ui.toggleManual
-          ? <AddManually onSetBankManually={setBankManually} />
-          : null
+            ? <AddManually onSetBankManually={setBankManually} />
+            : null
         }
       </ColRight>
     </Row>

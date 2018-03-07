@@ -87,8 +87,7 @@ const Verify = (props) => {
     resetUpload,
     submitForUpload,
     requiredDocs,
-    uploadStepNumber,
-    ui } = props
+    uploadStepNumber } = props
   const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
@@ -161,11 +160,7 @@ const Verify = (props) => {
           file || photo
             ? <SubmitContainer>
               <Button fullwidth nature='primary' onClick={submitForUpload}>
-                {
-                  ui.busy
-                    ? <HeartbeatLoader width='20px' height='20px' color='white' />
-                    : <FormattedMessage id='sfoxexchangedata.upload.submitforreview' defaultMessage='Submit For Review' />
-                }
+                <FormattedMessage id='sfoxexchangedata.upload.submitforreview' defaultMessage='Submit For Review' />
               </Button>
               <Link size='13px' onClick={resetUpload}>
                 <FormattedMessage id='sfoxexchangedata.upload.tryagain' defaultMessage='Try Again' />

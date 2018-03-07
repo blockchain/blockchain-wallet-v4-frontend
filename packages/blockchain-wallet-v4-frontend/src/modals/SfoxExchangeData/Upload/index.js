@@ -36,7 +36,6 @@ class UploadContainer extends Component {
     const nextVerificiationStatus = nextProps.data.data.verificationStatus
     if (nextVerificiationStatus.required_docs.length < this.state.requiredDocs) {
       this.setState({ uploadStepNumber: 2 })
-      this.props.updateUI({ busy: false })
     }
   }
 
@@ -74,7 +73,6 @@ class UploadContainer extends Component {
     const idType = this.props.data.data.verificationStatus.required_docs[0]
     this.props.sfoxFrontendActions.upload({file, idType})
     this.resetUpload() // TODO replace with setting to busy and show loader
-    // this.props.updateUI({ busy: true })
   }
 
   render () {
@@ -96,7 +94,6 @@ class UploadContainer extends Component {
         handleStartClick={this.handleStartClick}
         requiredDocs={this.state.requiredDocs}
         uploadStepNumber={this.state.uploadStepNumber}
-        ui={this.props.ui}
       />,
       Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,

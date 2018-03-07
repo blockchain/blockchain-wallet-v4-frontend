@@ -108,7 +108,6 @@ export default ({ api, sfoxService } = {}) => {
       yield put(A.signupSuccess(signupResponse))
     } catch (e) {
       yield put(A.signupFailure(e))
-      console.warn('signup rootsaga error', e)
     }
   }
 
