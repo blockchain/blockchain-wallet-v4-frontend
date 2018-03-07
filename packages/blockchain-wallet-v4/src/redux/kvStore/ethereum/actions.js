@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { txHash } from '../../../coinSelection/coin'
 
 export const updateMetadataEthereum = (payload = {}) => ({ type: AT.UPDATE_METADATA_ETHEREUM, payload })
 
@@ -10,3 +11,5 @@ export const fetchMetadataEthereumFailure = (error) => ({ type: AT.FETCH_METADAT
 
 // create
 export const createMetadataEthereum = (data) => ({ type: AT.CREATE_METADATA_ETHEREUM, payload: data })
+
+export const setTxNotesEthereum = (txHash, txNote) => ({type: AT.SET_TRANSACTION_NOTE_ETHEREUM, payload: {txHash, txNote}})

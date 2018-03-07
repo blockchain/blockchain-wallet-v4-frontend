@@ -10,12 +10,13 @@
     "coverage": "jest --coverage",
     "prepublish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
-    "storybook:start": "start-storybook -p 6006",
+    "storybook:serve": "start-storybook -p 6006",
     "test": "jest"
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.js"
+      "src/**/*.js",
+      "!src/**/index.js"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-info-components",
     "coverageReporters": [

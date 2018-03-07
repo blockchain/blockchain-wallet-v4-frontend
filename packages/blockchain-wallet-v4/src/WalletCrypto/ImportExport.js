@@ -5,8 +5,6 @@ import Base58 from 'bs58'
 import Unorm from 'unorm'
 import * as WalletCrypto from './utils'
 
-console.log('WalletCrypto', WalletCrypto)
-
 const hash256 = Bitcoin.crypto.hash256
 
 export const parseBIP38toECPair = function (base58Encrypted, passphrase, network) {

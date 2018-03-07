@@ -80,4 +80,6 @@ export const fromUnit = ({value, unit}) => {
     }))
 }
 
-export const unitToString = ({value, unit}) => `${unit.symbol}${value}`
+export const fiatToString = ({ value, unit }) => `${unit.symbol}${value}`
+
+export const coinToString = ({ value, unit }) => `${value} ${unit.symbol}`

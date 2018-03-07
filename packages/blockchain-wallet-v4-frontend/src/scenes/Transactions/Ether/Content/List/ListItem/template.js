@@ -27,7 +27,7 @@ const selectColors = type => {
 }
 
 const TransactionListItem = (props) => {
-  const { toggled, handleToggle, handleClick, transaction } = props
+  const { toggled, handleToggle, handleClick, transaction, handleEditDescription } = props
   const now = moment()
   const date = moment.utc(transaction.time * 1000)
   const formattedDate = (date.year() === now.year())
@@ -65,7 +65,7 @@ const TransactionListItem = (props) => {
               <Icon name='pencil' size='14px' />
             </Text>
           } */}
-          <EditDescription />
+          <EditDescription value={transaction.description} handleConfirm={handleEditDescription}/>
         </TransactionRowDescription>
         <TransactionRowAmount>
           <Button nature={transaction.type.toLowerCase()} onClick={handleClick} fullwidth>

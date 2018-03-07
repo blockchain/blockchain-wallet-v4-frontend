@@ -4,24 +4,6 @@ import styled from 'styled-components'
 import { Icon } from '../Icons'
 import { Color } from '../Colors'
 
-const Container = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: hidden;
-  width: 52px;
-  height: 8px;
-  margin-left: 10px;
-  border-radius: 10px;
-  border: 1px solid ${props => props.theme['gray-2']};
-`
-const Bar = styled.div`
-  overflow: hidden;
-  display: inline-flex;
-  width: 15%;
-  height: 100%;
-  background-color: ${props => props.theme[props.color]};
-`
 const Empty = styled.div`
   height: 13px;
   width: 13px;

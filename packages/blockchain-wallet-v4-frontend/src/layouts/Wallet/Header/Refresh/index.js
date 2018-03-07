@@ -1,7 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { Icon } from 'blockchain-info-components'
+import { actions } from 'data'
+import Refresh from './template.js'
 
-const Refresh = () => <Icon name='refresh' color='white' />
+const RefreshContainer = ({ coreActions }) => (
+  <Refresh handleRefresh={coreActions.refresh} />
+)
 
-export default Refresh
+const mapDispatchToProps = dispatch => ({
+  coreActions: bindActionCreators(actions.core.refresh, dispatch)
+})
+
+export default connect(undefined, mapDispatchToProps)(RefreshContainer)

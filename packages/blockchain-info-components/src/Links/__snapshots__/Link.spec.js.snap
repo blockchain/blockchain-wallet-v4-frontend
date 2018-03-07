@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link component default renders correctly 1`] = `
+<styled.a
+  bold={false}
+  color="brand-secondary"
+  size="16px"
+  uppercase={false}
+  weight={400}
+>
+  <span>
+    tab
+  </span>
+</styled.a>
+`;

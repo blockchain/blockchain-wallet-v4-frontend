@@ -264,6 +264,9 @@ export const setAccountArchived = curry((index, archived, wallet) => {
 export const setDefaultAccountIdx = curry((index, wallet) => {
   return set(compose(hdwallet, HDWallet.defaultAccountIdx), index, wallet)
 })
+export const setTxNote = curry((txHash, txNote, wallet) => {
+  return set(compose(txNotes, TXNotes.note(txHash)), txNote, wallet)
+})
 
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
 export const traverseKeyValues = curry((of, f, wallet) => {

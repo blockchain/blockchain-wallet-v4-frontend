@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlaceHolder component default renders correctly 1`] = `
+<styled.div
+  onClick={[Function]}
+  visible={true}
+/>
+`;
