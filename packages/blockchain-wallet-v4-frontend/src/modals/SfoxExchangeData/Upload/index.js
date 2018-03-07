@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import Upload from './template'
 import { actions } from 'data'
 import { getData } from './selectors'
+import ui from 'redux-ui'
 
 class UploadContainer extends Component {
   constructor (props) {
@@ -35,6 +36,7 @@ class UploadContainer extends Component {
     const nextVerificiationStatus = nextProps.data.data.verificationStatus
     if (nextVerificiationStatus.required_docs.length < this.state.requiredDocs) {
       this.setState({ uploadStepNumber: 2 })
+      this.props.updateUI({ busy: false })
     }
   }
 
@@ -71,7 +73,8 @@ class UploadContainer extends Component {
     const file = this.state.file || this.state.photo
     const idType = this.props.data.data.verificationStatus.required_docs[0]
     this.props.sfoxFrontendActions.upload({file, idType})
-    this.resetUpload()
+    this.resetUpload() // TODO replace with setting to busy and show loader
+    // this.props.updateUI({ busy: true })
   }
 
   render () {
@@ -93,6 +96,7 @@ class UploadContainer extends Component {
         handleStartClick={this.handleStartClick}
         requiredDocs={this.state.requiredDocs}
         uploadStepNumber={this.state.uploadStepNumber}
+        ui={this.props.ui}
       />,
       Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,
@@ -110,4 +114,9 @@ const mapDispatchToProps = (dispatch) => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(UploadContainer)
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: { busy: false } })
+)
+
+export default enhance(UploadContainer)
