@@ -77,7 +77,7 @@ const SubmitContainer = styled.div`
 const SuccessText = styled(Text)`margin: 30px 0px; `
 
 const Verify = (props) => {
-  const { onDrop, file, data, toggleCamera, showCamera, setPhoto, photo, resetUpload, submitForUpload } = props
+  const { onDrop, file, data, toggleCamera, showCamera, setPhoto, photo, resetUpload, submitForUpload, requiredDocs, uploadStepNumber } = props
   const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
@@ -114,9 +114,9 @@ const Verify = (props) => {
           </Text>
           <Text size='14px'>
             <FormattedMessage id='sfoxexchangedata.upload.selectmethod' defaultMessage='Upload Step ' />
-            { 1 }
+            { uploadStepNumber }
             <FormattedMessage id='sfoxexchangedata.upload.of' defaultMessage=' of ' />
-            { data.verificationStatus.required_docs.length }
+            { requiredDocs }
           </Text>
         </UploadStatus>
         <InputContainer>
