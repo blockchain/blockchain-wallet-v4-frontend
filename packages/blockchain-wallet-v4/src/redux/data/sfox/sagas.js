@@ -72,11 +72,14 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
   const uploadDoc = function * (data) {
     const { idType, file } = data.payload
     try {
+      const sfox = yield call(getSfox)
       const profile = yield select(S.getProfile)
       const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
+
       yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
-      yield put(A.fetchProfile())
-      yield put(A.uploadSuccess())
+
+      const profileAfterUpload = yield apply(sfox, sfox.fetchProfile)
+      yield put(A.fetchProfileSuccess(profileAfterUpload))
     } catch (e) {
       yield put(A.uploadFailure(e))
     }

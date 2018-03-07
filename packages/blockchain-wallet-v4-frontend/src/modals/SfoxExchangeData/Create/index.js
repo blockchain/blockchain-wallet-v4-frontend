@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { formValueSelector } from 'redux-form'
+// import { formValueSelector } from 'redux-form'
 import Create from './template'
 import { actions, selectors } from 'data'
 import ui from 'redux-ui'
 
-class CreateContainer extends React.Component {
+class CreateContainer extends Component {
   constructor (props) {
     super(props)
 
@@ -29,9 +29,10 @@ class CreateContainer extends React.Component {
   render () {
     const { emailVerified, smsVerified, ui, smsNumber } = this.props
     return <Create
+      {...this.props}
       emailVerification={emailVerified}
       smsVerified={smsVerified}
-      handleSignup={() => this.props.sfoxFrontendActions.signup()}
+      handleSignup={() => this.props.sfoxFrontendActions.sfoxSignup()}
       ui={ui}
       smsNumber={smsNumber}
       uniqueEmail={this.state.uniqueEmail}

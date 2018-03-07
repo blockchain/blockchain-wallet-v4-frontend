@@ -10,7 +10,6 @@ import Upload from './Upload'
 import Link from './Link'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { getData } from './selectors'
-import { determineStep } from 'services/SfoxService'
 import { actions } from 'data'
 import { path } from 'ramda'
 

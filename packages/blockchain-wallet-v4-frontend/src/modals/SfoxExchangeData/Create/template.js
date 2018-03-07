@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { TextBox, Form } from 'components/Form'
-import { Text, Button, Icon } from 'blockchain-info-components'
-import { required } from 'services/FormHelper'
+// import { FormattedMessage } from 'react-intl'
+// import { Field, reduxForm } from 'redux-form'
+// import { TextBox, Form } from 'components/Form'
+// import { Text, Button, Icon } from 'blockchain-info-components'
+// import { required } from 'services/FormHelper'
 
 import ColumnLeft from './ColumnLeft'
 import AcceptTerms from './AcceptTerms'
@@ -22,7 +22,7 @@ const ColRight = styled.div`
 `
 
 const Create = (props) => {
-  const { handleSignup, emailVerification, smsVerified, smsNumber, uniqueEmail, handleEmailInUse, ui, doneChangingEmail } = props
+  const { handleSignup, emailVerification, smsVerified, smsNumber, uniqueEmail, handleEmailInUse, ui, doneChangingEmail, signupError } = props
   const emailVerified = emailVerification === 1
   const mobileVerified = smsVerified === 1
 
@@ -33,7 +33,7 @@ const Create = (props) => {
         <div>
           {
             emailVerified && mobileVerified && uniqueEmail
-              ? <AcceptTerms handleSignup={handleSignup} handleEmailInUse={handleEmailInUse} uniqueEmail={uniqueEmail} />
+              ? <AcceptTerms handleSignup={handleSignup} handleEmailInUse={handleEmailInUse} uniqueEmail={uniqueEmail} signupError={signupError} />
               : !mobileVerified
                 ? <VerifyMobile smsNumber={smsNumber} />
                 : <VerifyEmail doneChangingEmail={doneChangingEmail} />

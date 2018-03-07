@@ -6,9 +6,6 @@ import PropTypes from 'prop-types'
 const ColLeft = styled.div`
   width: 40%;
 `
-const ColLeftInner = styled.div`
-  width: 80%;
-`
 const Title = styled.div`
   font-size: 20px;
   font-weight: 500;
