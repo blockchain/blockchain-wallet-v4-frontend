@@ -19,9 +19,9 @@ class FiatAtTime extends React.Component {
     const { data } = this.props
 
     return data.cata({
-      Success: (value) => <Success currency={value.currency} fiatAtTime={value.fiatAtTime} />,
+      Success: (value) => <Success currency={value.currency} fiatAtTime={value.fiatAtTime} type={this.props.type}/>,
       Failure: (message) => <Error>{message}</Error>,
-      Loading: () => <Loading />,
+      Loading: () => <Loading type={this.props.type}/>,
       NotAsked: () => <Loading />
     })
   }
@@ -39,7 +39,8 @@ const mapDispatchToProps = (dispatch) => ({
 FiatAtTime.propTypes = {
   amount: PropTypes.number.isRequired,
   hash: PropTypes.string.isRequired,
-  time: PropTypes.number.isRequired
+  time: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FiatAtTime)

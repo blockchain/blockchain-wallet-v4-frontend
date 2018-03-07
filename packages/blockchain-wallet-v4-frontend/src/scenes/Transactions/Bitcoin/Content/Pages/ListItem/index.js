@@ -20,7 +20,13 @@ class ListItemContainer extends React.Component {
   }
 
   render () {
-    return <ListItem transaction={this.props.transaction} handleClick={this.handleCoinToggle} handleEditDescription={this.handleEditDescription} />
+    return <ListItem
+      coin={this.props.coin}
+      minConfirmations={this.props.minConfirmations}
+      transaction={this.props.transaction}
+      handleClick={this.handleCoinToggle}
+      handleEditDescription={this.handleEditDescription}
+    />
   }
 }
 

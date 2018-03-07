@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 const Success = props => (
   <Wrapper>
     <Text size='12px' weight={300}>
-      <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.initial' defaultMessage='Value when sent: ' />
+      <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.initial' defaultMessage={`Value when ${props.type}: `} />
     </Text>
     <Text size='12px' weight={200}>{`${props.currency}${props.fiatAtTime}`}</Text>
   </Wrapper>
@@ -24,7 +24,8 @@ const Success = props => (
 
 Success.propTypes = {
   currency: PropTypes.string.isRequired,
-  fiatAtTime: PropTypes.string.isRequired
+  fiatAtTime: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
 }
 
 export default Success

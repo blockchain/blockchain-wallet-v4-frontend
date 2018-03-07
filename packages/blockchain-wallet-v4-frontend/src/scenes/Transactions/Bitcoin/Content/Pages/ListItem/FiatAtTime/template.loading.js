@@ -15,10 +15,11 @@ const Wrapper = styled.div`
 `
 
 export default (props) => {
+  console.log(props)
   return (
     <Wrapper>
       <Text size='12px' weight={300}>
-        <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.initial' defaultMessage='Value when sent: ' />
+        <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.initial' defaultMessage={`Value when ${props.type}: `} />
       </Text>
       <FlatLoader width='40px' height='10px' />
     </Wrapper>

@@ -18,8 +18,7 @@ const ToggleButton = styled(Button)`
 `
 
 const TransactionListItem = (props) => {
-  console.info(props)
-  const { handleClick, transaction, handleEditDescription } = props
+  const { handleClick, transaction, handleEditDescription, coin, minConfirmations } = props
 
   return (
     <Transaction>
@@ -33,15 +32,15 @@ const TransactionListItem = (props) => {
           <EditDescription value={transaction.description} handleConfirm={handleEditDescription} />
         </TransactionRowAddresses>
         <TransactionDetailsStatus>
-          <Confirmation confirmations={transaction.confirmations} hash={transaction.hash} />
+          <Confirmation confirmations={transaction.confirmations} minConfirmations={minConfirmations} hash={transaction.hash} />
         </TransactionDetailsStatus>
         <TransactionRowAmount>
           <ToggleButton nature={transaction.type} onClick={handleClick}>
-            <SwitchableDisplay coin='BTC' size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
+            <SwitchableDisplay coin={coin} size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
           </ToggleButton>
           <TransactionDetailsValue>
-            <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} />
-            <Fee fee={transaction.fee} />
+            <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} type={transaction.type} />
+            <Fee fee={transaction.fee} coin={coin} />
           </TransactionDetailsValue>
         </TransactionRowAmount>
       </TransactionRow>
@@ -50,6 +49,8 @@ const TransactionListItem = (props) => {
 }
 
 TransactionListItem.propTypes = {
+  coin: PropTypes.string.isRequired,
+  minConfirmations: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
   transaction: PropTypes.shape({
     type: PropTypes.string.isRequired,
