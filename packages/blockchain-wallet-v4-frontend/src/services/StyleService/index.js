@@ -23,3 +23,35 @@ export const spacing = (value) => mergeAll(
     return valid ? templates[tmpl](types[type], parseInt(size)) : {}
   })
 )
+
+let flexDirections = {
+  row: 'row',
+  col: 'column'
+}
+
+let flexProperties = {
+  align: 'alignItems',
+  justify: 'justifyContent'
+}
+
+let flexRules = {
+  'center': 'center',
+  'end': 'flex-end',
+  'start': 'flex-start',
+  'base': 'baseline',
+  'around': 'space-around',
+  'between': 'space-between',
+  'evenly': 'space-evenly'
+}
+
+export const flex = (value) => {
+  let [directions, ...params] = value.split(' ')
+  let base = {
+    display: 'flex',
+    flexDirection: flexDirections[directions]
+  }
+  return mergeAll([base].concat(params.map(p => {
+    let [property, rule] = p.split('/')
+    return { [flexProperties[property]]: flexRules[rule] }
+  })))
+}

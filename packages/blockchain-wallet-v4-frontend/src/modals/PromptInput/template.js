@@ -4,7 +4,7 @@ import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
+import { Form, FormGroup, FormItem, TextBox, PasswordBox } from 'components/Form'
 
 const Wrapper = styled.div`
   font-weight: 300;
@@ -12,8 +12,8 @@ const Wrapper = styled.div`
   font-family: 'Montserrat', Helvetica, sans-serif;
 `
 
-const PromptTemplate = ({ position, close, submitting, invalid, title, onSubmit }) => (
-  <Modal size='large' position={position}>
+const PromptTemplate = ({ position, total, close, submitting, invalid, title, secret = false, onSubmit }) => (
+  <Modal size='large' position={position} total={total}>
     <Form onSubmit={onSubmit}>
       <Wrapper>
         <ModalHeader icon='pencil' onClose={close}>
@@ -22,7 +22,7 @@ const PromptTemplate = ({ position, close, submitting, invalid, title, onSubmit 
         <ModalBody>
           <FormGroup>
             <FormItem>
-              <Field name='value' validate={[required]} component={TextBox} />
+              <Field name='value' validate={[required]} component={secret ? PasswordBox : TextBox} />
             </FormItem>
           </FormGroup>
         </ModalBody>
