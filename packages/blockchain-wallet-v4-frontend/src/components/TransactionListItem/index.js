@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import ListItem from './template.js'
+import TransactionListItem from './template.js'
 
 class ListItemContainer extends React.Component {
   constructor (props) {
@@ -20,7 +20,7 @@ class ListItemContainer extends React.Component {
   }
 
   render () {
-    return <ListItem
+    return <TransactionListItem
       coin={this.props.coin}
       minConfirmations={this.props.minConfirmations}
       transaction={this.props.transaction}
