@@ -4,6 +4,7 @@ import QRCodeReact from 'qrcode.react'
 import { merge } from 'ramda'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Text, Button, SelectInput } from 'blockchain-info-components'
 import { spacing, flex } from 'services/StyleService'
+import { utils } from 'blockchain-wallet-v4/src'
 
 const FirstStep = () => (
   <div>
@@ -26,7 +27,7 @@ const DetailRow = ({ id, defaultMessage, children }) => (
   </div>
 )
 
-const SecondStep = ({ addr, priv, onChangeFormat = (value) => console.log(value) }) => (
+const SecondStep = ({ addr, priv, format, formats, onChangeFormat }) => (
   <div style={flex('row')}>
     <div style={spacing('mr-25')}>
       <QRCodeReact value={priv} size={120} />
@@ -39,34 +40,31 @@ const SecondStep = ({ addr, priv, onChangeFormat = (value) => console.log(value)
         <Text size='14px' weight={300}>{0}</Text>
       </DetailRow>
       <DetailRow id='modals.show_priv.priv_key' defaultMessage='Private Key'>
-        <Text size='14px' weight={300}>{priv}</Text>
+        {utils.bitcoin.formatPrivateKeyString(priv, format).fold(
+          error => (<Text size='14px' weight={300} color='error'>{error.message}</Text>),
+          keyString => (<Text size='14px' weight={300}>{keyString}</Text>)
+        )}
       </DetailRow>
       <DetailRow id='modals.show_priv.priv_key_format' defaultMessage='Private Key Format'>
         <SelectInput
           label='Export Format'
-          value='wif'
+          value={format}
           searchEnabled={false}
           onChange={onChangeFormat}
-          elements={[{
-            group: '',
-            items: [
-              { text: 'WIF', value: 'wif' },
-              { text: 'Base-58', value: 'base58' }
-            ]
-          }]}
+          elements={formats}
         />
       </DetailRow>
     </div>
   </div>
 )
 
-const ShowPrivateKeyTemplate = ({ position, total, close, step, addr, priv, onContinue }) => (
+const ShowPrivateKeyTemplate = ({ position, total, close, step, onContinue, ...rest }) => (
   <Modal size='large' position={position} total={total}>
     <ModalHeader icon='lock' closeButton={false}>
       <FormattedMessage id='modals.show_priv.title' defaultMessage='Private Key' />
     </ModalHeader>
     <ModalBody>
-      {step === 0 ? <FirstStep /> : <SecondStep addr={addr} priv={priv} />}
+      {step === 0 ? <FirstStep /> : <SecondStep {...rest} />}
     </ModalBody>
     <ModalFooter align='right'>
       <Text size='small' weight={300} style={spacing('mr-15')} onClick={close}>
