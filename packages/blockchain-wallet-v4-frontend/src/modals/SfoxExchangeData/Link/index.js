@@ -37,7 +37,7 @@ class LinkContainer extends Component {
 
   onSetBankAccount (data) {
     const bankChoice = merge(data, {token: this.state.token})
-    this.props.sfoxDataActions.setBankAccount(bankChoice)
+    this.props.sfoxFrontendActions.setBankAccount(bankChoice)
   }
 
   toggleManual () {
