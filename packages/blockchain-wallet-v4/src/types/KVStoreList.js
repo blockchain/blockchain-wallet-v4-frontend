@@ -1,12 +1,12 @@
 import * as KVStoreEntry from './KVStoreEntry'
 import * as R from 'ramda'
-import {view, over, lens, assoc, prop, __, compose, curry, converge, dec, inc, lensIndex, ifElse, is, add, always, identity, complement, isNil, pipe, when, evolve, set, divide} from 'ramda'
+import {multiply, range, modulo, dissoc, concat, reduce, view, over, lens, assoc, prop, __,
+  compose, curry, converge, dec, inc, lensIndex, ifElse, is, always, identity, complement,
+  isNil, pipe, when, evolve, set, divide} from 'ramda'
 import {mapped, traverseOf, traversed} from 'ramda-lens'
 import * as Task from 'data.task'
-import Type from './Type'
 import {Map, fromJS} from 'immutable'
 
-const isNonNill = compose(complement, isNil)
 const lensProp = key =>
   lens(
     (x) => {
@@ -18,7 +18,7 @@ const lensProp = key =>
       }
     },
     (val, x) => {
-      console.info('SET ', key, ' TO ', val, ' in ', x)
+      console.debug('SET ', key, ' TO ', val, ' in ', x)
       if (Map.isMap(x)) {
         return x.set(key, val)
       } else {
@@ -27,15 +27,15 @@ const lensProp = key =>
     }
 )
 
-const whenTask = R.curry((con, c) => R.ifElse(con, c, Task.of))
+const whenTask = curry((con, c) => ifElse(con, c, Task.of))
 
-const map = R.curry((fun, task) => {
+const map = curry((fun, task) => {
   return task.map(obj => {
     console.debug('MAP ', obj)
     return fun(obj)
   })
 })
-const chain = R.curry((fun, task) => {
+const chain = curry((fun, task) => {
   return task.chain(obj => {
     console.debug('CHAIN ', obj)
     return fun(obj)
@@ -47,7 +47,7 @@ const log = (a) => {
   return a
 }
 
-const logWithComment = R.curry((comment, a) => {
+const logWithComment = curry((comment, a) => {
   console.info('LOG: ', comment, ' ', a)
   return a
 })
@@ -79,6 +79,9 @@ export const selectChild = i => view(lensChild(i))
 export const selectChildCount = view(lensChildCount)
 export const selectLastChild = list => view(lensLastChild(list), list)
 
+export const lensEntryId = lensProp('entryId')
+export const selectEntryId = view(lensEntryId)
+
 export const create = (xpriv, typeId, entriesPerChild) => {
   return {
     VERSION: 1,
@@ -91,14 +94,14 @@ export const create = (xpriv, typeId, entriesPerChild) => {
 
 export const createListApi = (api) => {
   const createMasterNode = (list) => KVStoreEntry.fromMetadataXpriv(selectXpriv(list), selectTypeId(list))
-  const createChildNode = R.curry((childId, list) => KVStoreEntry.fromMetadataXpriv(selectXpriv(list), [selectTypeId(list), childId]))
+  const createChildNode = curry((childId, list) => KVStoreEntry.fromMetadataXpriv(selectXpriv(list), [selectTypeId(list), childId]))
 
   // loadChild :: childId -> KVStoreList -> Task KVStoreList
   // If necessary, loads the correct child into memory from KV store and appends it into the list
-  const loadChild = R.curry((childId, list) => {
+  const loadChild = curry((childId, list) => {
     // fetchChildNode :: KVStoreEntry -> Task KVStoreEntry
     const fetchChildNode = whenTask(
-      isNonNill,
+      isNil,
       pipe(
         always(createChildNode(childId, list)),
         api.fetchKVStore))
@@ -122,7 +125,14 @@ export const createListApi = (api) => {
     )(list)
   })
 
-  // loadEntryCount :: KVStoreList -> Task KVStoreList
+  // updateChildEntry :: Int -> KVStoreList -> Task KVStoreList
+  const updateChildEntry = curry((childId, list) => traverseOf(
+    lensChild(childId),
+    Task.of,
+    api.updateKVStore
+  )(list))
+
+  // loadLastChild :: KVStoreList -> Task KVStoreList
   const loadLastChild = converge(
       loadChild,
       [ compose(dec, view(lensChildCount)), identity ])
@@ -147,15 +157,15 @@ export const createListApi = (api) => {
       Task.of,
       loadParent)
 
-    const calculateTotalCount = R.converge(
+    const calculateTotalCount = converge(
       R.add,
-      [ compose(count, selectValue, log, selectLastChild, log),
-        R.converge(
-          R.multiply,
-          [ selectEntriesPerChild, compose(R.dec, log, selectChildCount, log) ])])
+      [ compose(count, selectValue, selectLastChild),
+        converge(
+          multiply,
+          [ selectEntriesPerChild, compose(dec, selectChildCount) ])])
 
     const setTotalCount = (list) => {
-      return R.set(
+      return set(
         lensEntryCount,
         calculateTotalCount(list))(list)
     }
@@ -166,34 +176,20 @@ export const createListApi = (api) => {
   }
 
   const add = (list, entry) => {
-    const needNewPage = (list) => list.entryCount % list.entriesPerChild === 0
+    const needNewPage = (list) => selectEntryCount(list) % selectEntriesPerChild(list) === 0
     const childId = Math.floor(list.entryCount / list.entriesPerChild)
-
-    console.info('SAVE ENTRY IN ',childId)
-
-    const valueLens = compose(
-        lensChild(childId),
-        lensValue)
 
     // idWithinChild :: KVStoreList -> Int
     const idWithinChild = compose(
-      R.inc,
       count,
-      view(valueLens)
+      view(lensChildValue(childId))
     )
 
     // saveEntryInChild :: KVStoreList -> Object -> KVStoreList
     const saveEntryInChild = curry((entry, list) => {
-      const l = compose(valueLens, lensProp(idWithinChild(list)))
+      const l = compose(lensChildValue(childId), lensProp(idWithinChild(list)))
       return set(l, entry, list)
     })
-
-    // updateChildEntry :: KVStoreList -> Task KVStoreList
-    const updateChildEntry = traverseOf(
-      lensChild(childId),
-      Task.of,
-      api.updateKVStore
-    )
 
     const incrementCount = over(lensEntryCount, inc)
 
@@ -205,22 +201,83 @@ export const createListApi = (api) => {
           lensProp('parentEntry'),
           Task.of,
           api.updateKVStore),
-        R.over(
+        over(
           compose(
             lensProp('parentEntry'),
             lensProp('value'),
             lensProp('childCount')),
-          R.inc)))
+          inc)))
 
     return loadChild(childId, list)
+      .map(incrementCount)
       .chain(incrementChildCount)
       .map(saveEntryInChild(entry))
-      .chain(updateChildEntry)
-      .map(incrementCount)
+      .chain(updateChildEntry(childId))
+  }
+
+  const update = (list, entry) => {
+    const entriesPerChild = selectEntriesPerChild(list)
+    const childId = compose(
+      Math.floor,
+      divide(__, entriesPerChild),
+      selectEntryId)(entry)
+
+    const idWithinChild = compose(
+      modulo(__, entriesPerChild),
+      selectEntryId
+    )
+
+    // saveEntryInChild :: KVStoreList -> Object -> KVStoreList
+    const saveEntryInChild = curry((entry, list) => {
+      const l = compose(lensChildValue(childId), lensProp(idWithinChild(entry)))
+      return set(l, dissoc('entryId', entry), list)
+    })
+
+    return loadChild(childId, list)
+      .map(saveEntryInChild(entry))
+      .chain(updateChildEntry(childId))
+  }
+
+  // loadChildForEntry :: KVStoreList -> Int -> Task KVStoreList
+  const loadChildForEntry = curry((list, entryId) => {
+    const childId = Math.floor(entryId / selectEntriesPerChild(list))
+    return loadChild(childId, list)
+  })
+
+  const get = (list, entryId) => {
+    const childId = Math.floor(entryId / selectEntriesPerChild(list))
+    const idWithinChild = entryId % selectEntriesPerChild(list)
+
+    const loadEntry = compose(set(lensEntryId, entryId), prop(idWithinChild), view(lensChildValue(childId)))
+
+    return loadChildForEntry(list, entryId)
+      .map(l => ({list: l, obj: loadEntry(l)}))
+  }
+
+  const getList = (list, from, to) => {
+    // loadAllChildren :: Int -> Int -> Task KVStoreList
+    // TODO Pretty sure we can do this in parallel somehow?
+    const loadAllChildren = list =>
+      reduce((task, entryId) => task.chain(list => loadChildForEntry(list, entryId)), Task.of(list), range(from, to))
+
+    const extractEntry = (list, entryId) => {
+      const childId = Math.floor(entryId / selectEntriesPerChild(list))
+      const idWithinChild = entryId % selectEntriesPerChild(list)
+      return compose(set(lensEntryId, entryId), prop(idWithinChild), view(lensChildValue(childId)))(list)
+    }
+
+    const extractAllEntries = list =>
+      reduce((entries, entryId) => concat(entries, [extractEntry(list, entryId)]), [], range(from, to))
+
+    return loadAllChildren(list)
+      .map(l => ({list: l, obj: extractAllEntries(l)}))
   }
 
   return {
     add,
-    initialize
+    initialize,
+    update,
+    get,
+    getList
   }
 }
