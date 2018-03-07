@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
 
-import EditDescription from './template'
+import EditableDescription from './template'
 
 class EditDescriptionContainer extends React.Component {
   constructor (props) {
@@ -37,7 +35,7 @@ class EditDescriptionContainer extends React.Component {
   render () {
     const { value, editValue, toggled } = this.state
 
-    return <EditDescription
+    return <EditableDescription
       value={value}
       editValue={editValue}
       toggled={toggled}
@@ -53,13 +51,4 @@ EditDescriptionContainer.propTypes = {
   value: PropTypes.string
 }
 
-// const mapStateToProps = state => ({
-
-// })
-
-// const mapDispatchToProps = dispatch => ({
-
-// })
-
-// export default connect(mapStateToProps, mapDispatchToProps)(EditDescriptionContainer)
 export default EditDescriptionContainer

@@ -24,7 +24,7 @@ const IconWrapper = styled.div`
   & > :last-child { margin-left: 4px; }
 `
 
-const Confirmation = (props) => {
+const Confirmations = (props) => {
   return (
     <Wrapper>
       {props.confirmations >= props.minConfirmations ? (
@@ -50,10 +50,10 @@ const Confirmation = (props) => {
     </Wrapper>
   )
 }
-Confirmation.propTypes = {
+Confirmations.propTypes = {
   confirmations: PropTypes.number.isRequired,
   hash: PropTypes.string.isRequired,
   minConfirmations: PropTypes.number.isRequired
 }
 
-export default Confirmation
+export default Confirmations

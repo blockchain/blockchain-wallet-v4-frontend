@@ -56,7 +56,7 @@ const PencilIcon = styled(Icon)`
   padding-left: 10px;
 `
 
-const EditDescription = props => {
+const EditableDescription = props => {
   const { editValue, toggled, handleCancel, handleChange, handleConfirm, handleToggle } = props
 
   return (
@@ -91,7 +91,7 @@ const EditDescription = props => {
   )
 }
 
-EditDescription.propTypes = {
+EditableDescription.propTypes = {
   value: PropTypes.string.isRequired,
   toggled: PropTypes.bool.isRequired,
   handleCancel: PropTypes.func.isRequired,
@@ -100,4 +100,4 @@ EditDescription.propTypes = {
   handleToggle: PropTypes.func.isRequired
 }
 
-export default EditDescription
+export default EditableDescription
