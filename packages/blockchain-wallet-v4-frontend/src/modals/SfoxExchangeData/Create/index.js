@@ -11,19 +11,30 @@ class CreateContainer extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { uniqueEmail: true }
+    this.state = { uniqueEmail: true, busy: false }
 
     this.handleEmailInUse = this.handleEmailInUse.bind(this)
+    this.handleSignup = this.handleSignup.bind(this)
     this.doneChangingEmail = this.doneChangingEmail.bind(this)
+    this.setBusyOff = this.setBusyOff.bind(this)
   }
 
   handleEmailInUse () {
-    this.setState({ uniqueEmail: false })
+    this.setState({ uniqueEmail: false, busy: false })
     this.props.updateUI({ changingEmail: true })
   }
 
   doneChangingEmail () {
     this.setState({ uniqueEmail: true })
+  }
+
+  setBusyOff () {
+    this.setState({ busy: false })
+  }
+
+  handleSignup () {
+    this.props.sfoxFrontendActions.sfoxSignup()
+    this.setState({ busy: true })
   }
 
   render () {
@@ -32,12 +43,14 @@ class CreateContainer extends Component {
       {...this.props}
       emailVerification={emailVerified}
       smsVerified={smsVerified}
-      handleSignup={() => this.props.sfoxFrontendActions.sfoxSignup()}
+      handleSignup={this.handleSignup}
       ui={ui}
       smsNumber={smsNumber}
       uniqueEmail={this.state.uniqueEmail}
       handleEmailInUse={this.handleEmailInUse}
       doneChangingEmail={this.doneChangingEmail}
+      busy={this.state.busy}
+      setBusyOff={this.setBusyOff}
     />
   }
 }
