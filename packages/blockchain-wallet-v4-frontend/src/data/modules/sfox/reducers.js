@@ -16,6 +16,9 @@ const sfoxSignup = (state = INITIAL_STATE, action) => {
     case AT.CLEAR_SIGNUP_ERROR: {
       return assoc('signupError', null, state)
     }
+    case AT.SET_VERIFY_ERROR: {
+      return assoc('verifyError', payload, state)
+    }
     default:
       return state
   }

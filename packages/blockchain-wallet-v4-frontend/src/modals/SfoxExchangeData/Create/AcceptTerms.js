@@ -35,6 +35,15 @@ const MixedText = styled.span`
     color: ${props => props.theme['brand-secondary']};
   }
 `
+const MixedTermsText = styled.label`
+  margin-top: 10px;
+  font-size: 14px;
+  color: ${props => props.error ? props.theme['error'] : 'initial'};
+  a {
+    cursor: pointer;
+    color: ${props => props.theme['brand-secondary']};
+  }
+`
 const AcceptTermsContainer = styled.div`
   margin: 25px 0px;
   display: flex;
@@ -115,7 +124,7 @@ class AcceptTerms extends Component {
               }
             </FieldWrapper>
             <VerifiedWrapper>
-              <Icon size='26px' name='checkmark-in-circle' />
+              { !this.state.error && <Icon size='26px' name='checkmark-in-circle' /> }
             </VerifiedWrapper>
           </InputWrapper>
           <InputWrapper>
@@ -131,11 +140,11 @@ class AcceptTerms extends Component {
           </InputWrapper>
           <AcceptTermsContainer>
             <CheckWrapper>
-              <input type='checkbox' onClick={this.acceptTerms} />
+              <input id='terms' type='checkbox' onClick={this.acceptTerms} />
             </CheckWrapper>
-            <MixedText>
+            <MixedTermsText htmlFor='terms'>
               I accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>.
-            </MixedText>
+            </MixedTermsText>
           </AcceptTermsContainer>
           <ButtonWrapper>
             <Button onClick={this.props.handleSignup} nature='primary' fullwidth disabled={!this.state.acceptedTerms}>

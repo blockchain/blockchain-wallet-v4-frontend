@@ -36,10 +36,17 @@ export const sfoxSignup = function * () {
 export const setProfile = function * (payload) {
   try {
     yield call(sagas.core.data.sfox.setProfile, payload)
-    yield put(A.nextStep('upload'))
-    yield put(actions.alerts.displaySuccess('Profile submitted successfully for verification!'))
+
+    const profile = yield select(selectors.core.data.sfox.getProfile)
+    if (profile.error) {
+      throw new Error(profile.error)
+    } else {
+      yield put(actions.alerts.displaySuccess('Profile submitted successfully for verification!'))
+      yield put(A.nextStep('upload'))
+    }
   } catch (e) {
-    yield put(actions.alerts.displayError('Error verifying profile'))
+    yield put(A.setVerifyError(e))
+    yield put(actions.alerts.displayError(`Error verifying profile: ${e}`))
   }
 }
 

@@ -14,3 +14,5 @@ export const setProfile = (user) => ({ type: AT.SET_PROFILE, payload: user })
 export const upload = (uploadData) => ({ type: AT.UPLOAD, payload: uploadData })
 
 export const clearSignupError = () => ({ type: AT.CLEAR_SIGNUP_ERROR })
+
+export const setVerifyError = (error) => ({ type: AT.SET_VERIFY_ERROR, payload: error })

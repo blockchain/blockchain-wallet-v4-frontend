@@ -68,10 +68,10 @@ const Success = props => {
   const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} } })
   const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
+
   const { trades, type } = rest
   const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
-  console.log('step decider values and step', profile, verificationStatus, step)
 
   const onSubmit = (e) => {
     e.preventDefault()
