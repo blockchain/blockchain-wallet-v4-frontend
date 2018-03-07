@@ -6,6 +6,7 @@ import { Text } from 'blockchain-info-components'
 import ExchangeCheckout from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
@@ -63,7 +64,11 @@ const ReasonMsg = props => {
 
 const Success = props => {
   const { fetchQuote, handleTrade, quote, base, errors, showModal, ...rest } = props
-  const { accounts, profile, verificationStatus } = props.value
+
+  const accounts = Remote.of(props.value.accounts).getOrElse([])
+  const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
+  const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
+
   const { trades, type } = rest
   const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
@@ -84,7 +89,7 @@ const Success = props => {
     }
   }
 
-  if (type === 'buy') {
+  if (type === 'buy' || !type) {
     return (
       <CheckoutWrapper>
         <ExchangeCheckout
@@ -101,7 +106,7 @@ const Success = props => {
           showRequiredMsg={step !== 'verified'}
           requiredMsg={<RequiredMsg step={step} type={type} />}
           continueButton={<ContinueButton step={step} type={type} />}
-          reasonMsg={<ReasonMsg reason={reason} limit={profile.limits[type]} />}
+          reasonMsg={<ReasonMsg reason={reason} limit={limits[type]} />}
         />
       </CheckoutWrapper>
     )

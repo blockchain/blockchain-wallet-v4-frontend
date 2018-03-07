@@ -4,6 +4,7 @@ import * as sendBch from './sendBch/actions'
 import * as settings from './settings/actions'
 import * as securityCenter from './securityCenter/actions'
 import * as transferEther from './transferEther/actions'
+import * as sfox from './sfox/actions'
 
 export {
   sendBitcoin,
@@ -11,5 +12,6 @@ export {
   sendBch,
   settings,
   securityCenter,
-  transferEther
+  transferEther,
+  sfox
 }

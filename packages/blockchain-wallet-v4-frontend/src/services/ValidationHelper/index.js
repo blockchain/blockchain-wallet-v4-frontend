@@ -90,6 +90,30 @@ const isOverEighteen = val => {
   return dob < eighteenYearsAgo
 }
 
+const isSSN = val => {
+  if (val && val.length) {
+    const cleaned = val.replace(/[^\d]/g, '')
+    return cleaned.length === 9
+  }
+  return val
+}
+
+const isDOB = val => {
+  if (val && val.length) {
+    const cleaned = val.replace(/[^\d]/g, '')
+    return cleaned.length === 8
+  }
+  return val
+}
+
+const isUsZipcode = val => {
+  if (val && val.length) {
+    const cleaned = val.replace(/[^\d]/g, '')
+    return cleaned.length === 5
+  }
+  return val
+}
+
 export {
   isNumeric,
   isEmail,
@@ -97,7 +121,10 @@ export {
   isIpList,
   isAlphaNumeric,
   isBitcoinFiatAvailable,
+  isDOB,
   isEthereumFiatAvailable,
+  isSSN,
+  isUsZipcode,
   formatSSN,
   formatDOB,
   formatUSZipcode,

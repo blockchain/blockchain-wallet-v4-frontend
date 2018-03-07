@@ -6,7 +6,6 @@ export default ({ url }) => {
       'Content-Type': 'application/octet-stream'
     })
   }).then(res => {
-    console.log('res', res)
     return res
   })
 

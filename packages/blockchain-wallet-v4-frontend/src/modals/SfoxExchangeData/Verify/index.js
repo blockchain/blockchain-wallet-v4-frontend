@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import ui from 'redux-ui'
 import Verify from './template'
 import { actions } from 'data'
+import { path } from 'ramda'
+import ui from 'redux-ui'
 
 class VerifyContainer extends Component {
   constructor (props) {
@@ -12,14 +13,23 @@ class VerifyContainer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.verificationError) {
+      this.props.updateUI({ error: true })
+      this.props.updateUI({ busy: false })
+    }
+  }
+
   handleSubmit (e) {
     e.preventDefault()
-    console.log('verify handle submit', this.props.user)
-    this.props.sfoxDataActions.setProfile(this.props.user)
+    this.props.updateUI({ error: false })
+    this.props.sfoxFrontendActions.setProfile(this.props.user)
+    this.props.updateUI({ busy: true })
   }
 
   render () {
     return <Verify
+      {...this.props}
       handleSubmit={this.handleSubmit}
     />
   }
@@ -37,17 +47,18 @@ const mapStateToProps = (state) => ({
     city: formValueSelector('sfoxVerify')(state, 'city'),
     state: formValueSelector('sfoxVerify')(state, 'state'),
     zipcode: formValueSelector('sfoxVerify')(state, 'zipcode')
-  }
+  },
+  verificationError: path(['sfoxSignup', 'verifyError'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: {} })
+  ui({ state: { error: false, busy: false } })
 )
 
 export default enhance(VerifyContainer)
