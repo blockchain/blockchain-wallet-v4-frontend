@@ -25,7 +25,7 @@ class LoginContainer extends React.Component {
 
   render () {
     const { authType } = this.props
-    return <Login authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} />
+    return <Login initialValues={{ guid: 'adf873cb-8179-419a-9db7-7436eae347ae', password: 'asdf' }} authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} />
   }
 }
 

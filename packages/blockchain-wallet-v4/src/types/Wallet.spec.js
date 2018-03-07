@@ -44,7 +44,7 @@ describe('Wallet', () => {
     })
   })
 
-  describe('addAddress', () => {
+  describe.skip('addAddress', () => {
     it('should add an unencrypted address', () => {
       let n = walletFixture.keys.length
       let address = Address.fromJS({ addr: 'address', priv: '5abc' })
