@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, IconButton, Link } from 'blockchain-info-components'
+import { Text, Button, IconButton, Link, HeartbeatLoader } from 'blockchain-info-components'
 import { } from 'services/FormHelper'
 import Dropzone from 'react-dropzone'
 
@@ -77,7 +77,18 @@ const SubmitContainer = styled.div`
 const SuccessText = styled(Text)`margin: 30px 0px; `
 
 const Verify = (props) => {
-  const { onDrop, file, data, toggleCamera, showCamera, setPhoto, photo, resetUpload, submitForUpload, requiredDocs, uploadStepNumber } = props
+  const { onDrop,
+    file,
+    data,
+    toggleCamera,
+    showCamera,
+    setPhoto,
+    photo,
+    resetUpload,
+    submitForUpload,
+    requiredDocs,
+    uploadStepNumber,
+    ui } = props
   const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
@@ -150,7 +161,11 @@ const Verify = (props) => {
           file || photo
             ? <SubmitContainer>
               <Button fullwidth nature='primary' onClick={submitForUpload}>
-                <FormattedMessage id='sfoxexchangedata.upload.submitforreview' defaultMessage='Submit For Review' />
+                {
+                  ui.busy
+                    ? <HeartbeatLoader width='20px' height='20px' color='white' />
+                    : <FormattedMessage id='sfoxexchangedata.upload.submitforreview' defaultMessage='Submit For Review' />
+                }
               </Button>
               <Link size='13px' onClick={resetUpload}>
                 <FormattedMessage id='sfoxexchangedata.upload.tryagain' defaultMessage='Try Again' />
