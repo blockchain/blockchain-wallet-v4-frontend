@@ -11,9 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: row;
 `
-const TransactionText = styled(Text)`
-  
-`
+
 const TransactionTooltip = styled.div`
   position: relative;
   display: flex;
@@ -29,9 +27,15 @@ const IconWrapper = styled.div`
 const Confirmation = (props) => {
   return (
     <Wrapper>
-      <TransactionText size='13px' weight={300} color='received'>
-        <FormattedMessage id='scenes.transactions.bitcoin.content.pages.listitem.confirmation.confirmed' defaultMessage='Transaction confirmed' />
-      </TransactionText>
+      {props.confirmations >= props.minConfirmations ? (
+        <Text size='12px' weight={300} color='received'>
+          <FormattedMessage id='scenes.transactions.bitcoin.content.pages.listitem.confirmation.confirmed' defaultMessage='Transaction confirmed' />
+        </Text>
+      ) : (
+        <Text size='12px' weight={300} color='gray-3'>
+          <FormattedMessage id='scenes.transactions.bitcoin.content.pages.listitem.confirmation.unconfirmed' defaultMessage={`Pending: ${props.confirmations}/${props.minConfirmations} confirmations`} />
+        </Text>
+      )}
       <IconWrapper>
         <TransactionTooltip>
           <Tooltip>
@@ -48,7 +52,8 @@ const Confirmation = (props) => {
 }
 Confirmation.propTypes = {
   confirmations: PropTypes.number.isRequired,
-  hash: PropTypes.string.isRequired
+  hash: PropTypes.string.isRequired,
+  minConfirmations: PropTypes.number.isRequired
 }
 
 export default Confirmation

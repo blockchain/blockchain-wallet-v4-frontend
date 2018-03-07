@@ -19,25 +19,18 @@ const Wrapper = styled.div`
   // }
 `
 
-const Label = styled(Text)`
-
-`
-
-const Value = styled(CoinDisplay)`
-
-`
-
 const Fee = props => (
   <Wrapper>
-    <Label size='12px' weight={300}>
-      <FormattedMessage id='scenes.transactions.bitcoin.content.pages.listitem.fee.label' defaultMessage='Transaction Fee: {value}' values={{ value: props.amount }} />
-    </Label>
-    <Value coin='BTC' size='12px' weight={200}>{props.fee}</Value>
+    <Text size='12px' weight={300}>
+      <FormattedMessage id='scenes.transactions.bitcoin.content.pages.listitem.fee.label' defaultMessage='Transaction fee: {value}' values={{ value: props.amount }} />
+    </Text>
+    <CoinDisplay coin={props.coin} size='12px' weight={200}>{props.fee}</CoinDisplay>
   </Wrapper>
 )
 
 Fee.propTypes = {
-  fee: PropTypes.number.isRequired
+  fee: PropTypes.number.isRequired,
+  coin: PropTypes.string.isRequired
 }
 
 export default Fee
