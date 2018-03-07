@@ -4,6 +4,7 @@ import { equals, head, or, prop } from 'ramda'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
 import * as Exchange from '../exchange'
+import Either from 'data.either'
 
 export const isValidBitcoinAddress = value => {
   try {
@@ -76,6 +77,17 @@ export const privateKeyStringToKey = function (value, format) {
     var d = BigInteger.fromBuffer(keyBuffer)
     return new ECPair(d, null, { network: networks.bitcoin })
   }
+}
+
+// formatPrivateKeyString :: String -> String -> String
+export const formatPrivateKeyString = (keyString, format) => {
+  let keyFormat = detectPrivateKeyFormat(keyString)
+  let eitherKey = Either.try(privateKeyStringToKey)(keyString, keyFormat)
+  return eitherKey.chain(key => {
+    if (format === 'wif') return Either.of(key.toWIF())
+    if (format === 'base58') return Either.of(Base58.encode(key.d.toBuffer(32)))
+    return Either.Left(new Error('Unsupported Key Format'))
+  })
 }
 
 export const isValidBitcoinPrivateKey = value => {
