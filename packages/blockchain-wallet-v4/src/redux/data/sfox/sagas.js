@@ -46,8 +46,9 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
   }
 
   const setProfile = function * (user) {
-    const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = user
+    const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = user.payload
     const sfox = yield call(getSfox)
+    yield apply(sfox, sfox.fetchProfile)
     try {
       sfox.profile.firstName = firstName
       sfox.profile.middleName = middleName || ''
@@ -62,7 +63,7 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
         zipcode
       )
       yield apply(sfox.profile, sfox.profile.verify)
-      yield put(A.setProfileSuccess())
+      yield put(A.setProfileSuccess(sfox.profile))
     } catch (e) {
       yield put(A.setProfileFailure(e))
     }
