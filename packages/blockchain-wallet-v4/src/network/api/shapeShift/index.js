@@ -43,11 +43,11 @@ export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
     endPoint: `txStat/${address}`
   })
 
-  const createQuote = ({ depositAmount, pair }) => post({
-    endPoint: 'sendamount', apiKey: shapeShiftApiKey, depositAmount, pair
-  })
+  const createQuote = (amount, pair, isDeposit) => isDeposit
+    ? post({ endPoint: 'sendamount', apiKey: shapeShiftApiKey, depositAmount: amount, pair })
+    : post({ endPoint: 'sendamount', apiKey: shapeShiftApiKey, withdrawalAmount: amount, pair })
 
-  const createOrder = ({ depositAmount, pair, returnAddress, withdrawal }) => post({
+  const createOrder = (depositAmount, pair, returnAddress, withdrawal) => post({
     endPoint: 'sendamount', apiKey: shapeShiftApiKey, depositAmount, pair, returnAddress, withdrawal
   })
 

@@ -24,13 +24,13 @@ export const determineStep = (profile, verificationStatus, accounts) => {
 
 export const determineReason = (type, profile, verificationStatus, accounts) => {
   let reason
-  if (type === 'buy') {
-    if (!profile) reason = 'needs_account'
-    else if (!isVerified(verificationStatus)) reason = 'needs_id'
-    else if (!accounts.length) reason = 'needs_bank'
-    else if (!isActiveAccount(accounts)) reason = 'needs_bank_active'
-    else reason = 'has_remaining_buy_limit'
-  }
+  if (!profile) reason = 'needs_account'
+  else if (!isVerified(verificationStatus)) reason = 'needs_id'
+  else if (!accounts.length) reason = 'needs_bank'
+  else if (!isActiveAccount(accounts)) reason = 'needs_bank_active'
+  else if (type === 'buy') reason = 'has_remaining_buy_limit'
+  else if (type === 'sell') reason = 'has_remaining_sell_limit'
+  else reason = 'unknown'
 
   return reason
 }

@@ -26,13 +26,15 @@ export const Iso10126 = {
   *   final byte, which denotes the byte length of the padding
   */
   pad: function (dataBytes, nBytesPerBlock) {
-    var nPaddingBytes = nBytesPerBlock - dataBytes.length % nBytesPerBlock
-    var paddingBytes = crypto.randomBytes(nPaddingBytes - 1)
-    var endByte = Buffer.from([ nPaddingBytes ])
+    let nPaddingBytes = nBytesPerBlock - dataBytes.length % nBytesPerBlock
+    let paddingBytes = crypto.randomBytes(nPaddingBytes - 1)
+    let endByte = Buffer.from([ nPaddingBytes ])
+
     return Buffer.concat([ dataBytes, paddingBytes, endByte ])
   },
   unpad: function (dataBytes) {
-    var nPaddingBytes = dataBytes[dataBytes.length - 1]
+    let nPaddingBytes = dataBytes[dataBytes.length - 1]
+
     return dataBytes.slice(0, -nPaddingBytes)
   }
 }
@@ -54,11 +56,11 @@ export const AES = {
     assert(Buffer.isBuffer(key), 'expected `key` to be a Buffer')
     assert(Buffer.isBuffer(salt) || salt === null, 'expected `salt` to be a Buffer or null')
 
-    var cipher = crypto.createCipheriv(options.mode || AES.CBC, key, salt || '')
+    let cipher = crypto.createCipheriv(options.mode || AES.CBC, key, salt || '')
     cipher.setAutoPadding(!options.padding)
 
     if (options.padding) dataBytes = options.padding.pad(dataBytes, BLOCK_BIT_LEN / 8)
-    var encryptedBytes = Buffer.concat([ cipher.update(dataBytes), cipher.final() ])
+    let encryptedBytes = Buffer.concat([ cipher.update(dataBytes), cipher.final() ])
 
     return encryptedBytes
   },
@@ -69,10 +71,10 @@ export const AES = {
     assert(Buffer.isBuffer(key), 'expected `key` to be a Buffer')
     assert(Buffer.isBuffer(salt) || salt === null, 'expected `salt` to be a Buffer or null')
 
-    var decipher = crypto.createDecipheriv(options.mode || AES.CBC, key, salt || '')
+    let decipher = crypto.createDecipheriv(options.mode || AES.CBC, key, salt || '')
     decipher.setAutoPadding(!options.padding)
 
-    var decryptedBytes = Buffer.concat([ decipher.update(dataBytes), decipher.final() ])
+    let decryptedBytes = Buffer.concat([ decipher.update(dataBytes), decipher.final() ])
     if (options.padding) decryptedBytes = options.padding.unpad(decryptedBytes)
 
     return decryptedBytes

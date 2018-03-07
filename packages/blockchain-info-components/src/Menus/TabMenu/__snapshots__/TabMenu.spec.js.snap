@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TabMenu component default renders correctly 1`] = `
+<styled.div>
+  <span>
+    tab
+  </span>
+</styled.div>
+`;

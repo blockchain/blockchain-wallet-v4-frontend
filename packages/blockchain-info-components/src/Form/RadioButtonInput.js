@@ -51,7 +51,7 @@ const Label = styled.label`
 `
 
 const RadioButtonInput = props => {
-  const { name, errorState, children, checked, disabled, ...rest } = props
+  const { name, children, checked, disabled, ...rest } = props
   const { id } = props.props
 
   return (
