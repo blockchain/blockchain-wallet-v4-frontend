@@ -15,11 +15,11 @@ const ArchivedAddressesContainer = SettingHeader.extend`
   margin-top: 30px;
 `
 
-const Success = ({ archivedAddresses, onToggleArchived }) => {
+const Success = ({ archivedAddresses, onToggleArchived, onDelete }) => {
   const archivedAddressesTableRows = archivedAddresses.map((address) => (
     <AddressRow key={address.addr} address={address} renderOptions={() => [
       <OptionItem id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' onClick={() => onToggleArchived(address)} />,
-      <OptionItem id='scenes.settings.addresses.delete_address' defaultMessage='Delete' onClick={() => console.log('delete')} />
+      <OptionItem id='scenes.settings.addresses.delete_address' defaultMessage='Delete' onClick={() => onDelete(address)} />
     ]} />
   ))
 
