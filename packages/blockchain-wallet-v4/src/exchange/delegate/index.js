@@ -40,7 +40,7 @@ export class ExchangeDelegate {
   }
 
   getToken (partner, options) {
-    options = options || {};
+    options = options || {}
 
     const guid = this.state.walletPath.wallet.guid
     const sharedKey = this.state.walletPath.wallet.sharedKey
@@ -49,10 +49,10 @@ export class ExchangeDelegate {
       guid: guid,
       sharedKey: sharedKey,
       fields: `email${options.mobile ? '|mobile' : ''}${options.walletAge ? '|wallet_age' : ''}`
-    };
+    }
 
     if (partner) {
-      fields.partner = partner;
+      fields.partner = partner
     }
 
     return this.api.getTokenForDelegate(fields)
