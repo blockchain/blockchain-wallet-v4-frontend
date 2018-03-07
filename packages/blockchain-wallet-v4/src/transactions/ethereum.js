@@ -1,6 +1,8 @@
-import { contains, map, toLower } from 'ramda'
+import { contains, equals, map, toLower } from 'ramda'
+import moment from 'moment'
+
 import EthereumTx from 'ethereumjs-tx'
-import {getEthereumTxNote } from '../redux/kvStore/ethereum/selectors.js'
+import { getEthereumTxNote } from '../redux/kvStore/ethereum/selectors.js'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
@@ -35,18 +37,38 @@ export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, net
   return tx
 }
 
-export const signTx = (transaction, ptrivateKey) => {
+export const signTx = (transaction, privateKey) => {
 
 }
 
 // transformTx :: [String] -> Tx -> ProcessedTx
-export const transformTx = (addresses, state, tx) => ({
-  type: getType(tx, addresses),
-  hash: tx.hash,
-  amount: parseInt(tx.value),
-  to: tx.to,
-  from: tx.from,
-  description: getEthereumTxNote(state, tx.hash).data || '',
-  time: tx.timeStamp,
-  status: ''
-})
+export const transformTx = (addresses, state, tx) => {
+  console.info(tx)
+  // TODO: fetch current eth block height!
+  // TODO: calculate tx fee correctly
+  const currentBlockHeight = 5232919
+  const conf = currentBlockHeight - tx.blockNumber + 1
+  const confirmations = conf > 0 ? conf : 0
+
+  const formattedDate = time => {
+    const date = moment.utc(time * 1000)
+
+    return equals(date.year(), moment().year())
+      ? date.format('MMMM D @ h:mm A')
+      : date.format('MMMM D YYYY @ h:mm A')
+  }
+
+  return ({
+    type: toLower(getType(tx, addresses)),
+    hash: tx.hash,
+    amount: parseInt(tx.value),
+    to: tx.to,
+    from: tx.from,
+    confirmations: confirmations,
+    fee: calculateFee(tx.gasPrice, tx.gasUsed),
+    description: getEthereumTxNote(state, tx.hash).data || '',
+    time: tx.timeStamp,
+    timeFormatted: formattedDate(tx.timeStamp),
+    status: ''
+  })
+}

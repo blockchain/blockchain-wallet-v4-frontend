@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-export default (props) => {
+export default () => {
   return (
     <Wrapper>
       <FlatLoader width='75px' height='20px' />

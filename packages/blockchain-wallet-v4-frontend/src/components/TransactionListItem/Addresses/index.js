@@ -12,15 +12,18 @@ const Wrapper = styled.div`
   align-items: flex-start;
 `
 
-// TODO: use formatted messages!
 const Addresses = props => (
   <Wrapper>
     <TextGroup inline>
-      <Text size='13px' weight={500}>To: </Text>
+      <Text size='13px' weight={500}>
+        <FormattedMessage id='scenes.transactions.ether.content.list.listitem.to' defaultMessage='To: '/>
+      </Text>
       <Text size='13px' weight={300} id='scenes.transactions.bitcoin.content.list.listitem.to'>{props.to}</Text>
     </TextGroup>
     <TextGroup inline>
-      <Text size='13px' weight={500}>From: </Text>
+      <Text size='13px' weight={500}>
+        <FormattedMessage id='scenes.transactions.ether.content.list.listitem.to' defaultMessage='From: '/>
+      </Text>
       <Text size='13px' weight={300} id='scenes.transactions.bitcoin.content.list.listitem.from'>{props.from}</Text>
     </TextGroup>
   </Wrapper>

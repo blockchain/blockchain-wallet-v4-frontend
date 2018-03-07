@@ -15,7 +15,6 @@ const Wrapper = styled.div`
 `
 
 export default (props) => {
-  console.log(props)
   return (
     <Wrapper>
       <Text size='12px' weight={300}>

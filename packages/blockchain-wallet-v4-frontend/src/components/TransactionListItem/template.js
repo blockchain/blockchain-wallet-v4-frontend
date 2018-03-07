@@ -80,7 +80,7 @@ const TransactionListItem = (props) => {
       <TransactionRow>
         <StatusColumn>
           <Status type={transaction.type} />
-          <Text size='14px' weight={300}>{transaction.timeFormatted}</Text>
+          <Text size='13px' weight={300}>{transaction.timeFormatted}</Text>
         </StatusColumn>
         <DetailsColumn>
           <Addresses to={transaction.to} from={transaction.from} />
@@ -95,7 +95,7 @@ const TransactionListItem = (props) => {
           </ToggleButton>
           <TransactionValues>
             <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} type={transaction.type} />
-            <Fee fee={transaction.fee} coin={coin} />
+            { transaction.type !== 'received' && <Fee fee={transaction.fee} coin={coin} /> }
           </TransactionValues>
         </AmountColumn>
       </TransactionRow>

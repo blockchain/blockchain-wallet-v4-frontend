@@ -16,7 +16,11 @@ class ListItemContainer extends React.Component {
     this.props.preferencesActions.toggleCoinDisplayed()
   }
   handleEditDescription (value) {
-    this.props.walletActions.setTransactionNote(this.props.transaction.hash, value)
+    if (this.props.coin === 'ETH') {
+      this.props.ethereumActions.setTxNotesEthereum(this.props.transaction.hash, value)
+    } else {
+      this.props.walletActions.setTransactionNote(this.props.transaction.hash, value)
+    }
   }
 
   render () {
@@ -32,7 +36,8 @@ class ListItemContainer extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
-  walletActions: bindActionCreators(actions.core.wallet, dispatch)
+  walletActions: bindActionCreators(actions.core.wallet, dispatch),
+  ethereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch)
 })
 
 export default connect(undefined, mapDispatchToProps)(ListItemContainer)
