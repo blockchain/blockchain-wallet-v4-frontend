@@ -21,7 +21,7 @@ class SecondStepContainer extends React.Component {
     const data = { from, to, message, amount, gasPrice, gasLimit, nonce }
     this.props.sendEtherActions.sendEther(network, data)
   }
-  
+
   render () {
     const { data, modalActions, ...rest } = this.props
     return <SendConfirm {...data} {...rest} handleSubmit={this.handleSubmit} coin='ETH' closeAll={modalActions.closeAllModals} />

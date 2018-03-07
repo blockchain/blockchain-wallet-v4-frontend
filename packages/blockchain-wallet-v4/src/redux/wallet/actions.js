@@ -23,7 +23,7 @@ export const setAccountArchived = (accountIdx, archived) =>
 export const setDefaultAccountIdx = (index) =>
   ({ type: T.SET_DEFAULT_ACCOUNT, payload: { index } })
 export const setTransactionNote = (txHash, txNote) =>
-  ({ type: T.SET_TRANSACTION_NOTE, payload: {txHash, txNote}})
+  ({ type: T.SET_TRANSACTION_NOTE, payload: {txHash, txNote} })
 
 // deletes
 export const deleteWrapper = () =>
