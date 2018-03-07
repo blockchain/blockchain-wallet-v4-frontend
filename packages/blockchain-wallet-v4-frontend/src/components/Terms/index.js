@@ -5,7 +5,10 @@ import { FormattedMessage } from 'react-intl'
 import { Link, Text } from 'blockchain-info-components'
 
 const TermsContainer = styled.div`
-  & > * { display: inline-block; }
+  & > * {
+    display: inline-block;
+    margin-right: 3px;
+  }
 `
 const Terms = (props) => {
   const { company } = props

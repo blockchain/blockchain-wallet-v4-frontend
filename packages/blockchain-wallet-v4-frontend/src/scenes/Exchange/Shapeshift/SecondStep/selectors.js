@@ -11,37 +11,37 @@ const extractAddress = (selector, value) => {
   return undefined
 }
 
-export const getAddresses = (state, source, target) => {
+export const getData = (state, source, target) => {
+  const orderR = selectors.core.data.shapeShift.getOrder(state)
   const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
   const sourceAddress = extractAddress(getReceive, source)
+  const sourceCoin = prop('coin', source)
   const targetAddress = extractAddress(getReceive, target)
-
-  return {
-    sourceAddress,
-    targetAddress
-  }
-}
-
-export const getData = (state, sourceCoin, targetCoin) => {
-  const orderR = selectors.core.data.shapeShift.getOrder(state)
+  const targetCoin = prop('coin', target)
 
   const transform = (order) => {
-    const sendAmount = prop('depositAmount', order)
-    const sendFee = 0
-    const sendTotal = 0
+    const depositAddress = prop('deposit', order)
+    const depositAmount = prop('depositAmount', order)
+    const depositFee = 0
+    const depositTotal = 0
     const exchangeRate = `1 ${sourceCoin} = ${prop('quotedRate', order)} ${targetCoin}`
-    const receiveAmount = prop('withdrawalAmount', order)
-    const receiveFee = prop('minerFee', order)
+    const withdrawalAmount = prop('withdrawalAmount', order)
+    const withdrawalFee = prop('minerFee', order)
     const expiration = prop('expiration', order)
 
     return {
-      sendAmount,
-      sendFee,
-      sendTotal,
+      depositAddress,
+      depositAmount,
+      depositFee,
+      depositTotal,
       exchangeRate,
-      receiveAmount,
-      receiveFee,
-      expiration
+      withdrawalAmount,
+      withdrawalFee,
+      expiration,
+      sourceAddress,
+      sourceCoin,
+      targetAddress,
+      targetCoin
     }
   }
 
