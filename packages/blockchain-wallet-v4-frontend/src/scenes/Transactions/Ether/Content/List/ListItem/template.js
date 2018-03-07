@@ -9,7 +9,7 @@ import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { Transaction, TransactionRow, TransactionRowAddresses, TransactionRowAmount, TransactionRowDescription,
   TransactionRowStatus, TransactionRowToggler, TransactionDetails, TransactionDetailsAddresses,
   TransactionDetailsDescription, TransactionDetailsStatus, TransactionDetailsValue } from 'components/TransactionItem'
-import EditDescription from 'components/EditDescription'
+//import EditDescription from 'components/EditDescription'
 
 const TransactionTooltip = styled.div`
   display: flex;
