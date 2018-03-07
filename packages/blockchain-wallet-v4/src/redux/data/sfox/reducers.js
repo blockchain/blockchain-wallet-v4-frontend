@@ -100,7 +100,6 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('nextAddress', payload, state)
     }
     case AT.RESET_PROFILE: {
-      console.log('reset profile reducer')
       return assoc('profile', null)
     }
     case AT.GET_DELEGATE_TOKEN_SUCCESS: {
