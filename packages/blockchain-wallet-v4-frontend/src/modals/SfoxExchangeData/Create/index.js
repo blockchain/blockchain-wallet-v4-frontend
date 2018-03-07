@@ -13,16 +13,9 @@ class CreateContainer extends React.Component {
 
     this.state = { uniqueEmail: true }
 
-    // this.handleSignup = this.handleSignup.bind(this)
     this.handleEmailInUse = this.handleEmailInUse.bind(this)
     this.doneChangingEmail = this.doneChangingEmail.bind(this)
   }
-
-  // handleSignup () {
-  //   this.props.sfoxDataActions.setBankAccount()
-  //   // debugger
-  //   console.log('called sfox signup()', this.props.sfoxFrontendActions, this.props.sfoxDataActions)
-  // }
 
   handleEmailInUse () {
     this.setState({ uniqueEmail: false })
@@ -66,7 +59,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 

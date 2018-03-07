@@ -12,16 +12,12 @@ import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { getData } from './selectors'
 import { determineStep } from 'services/SfoxService'
 import { actions } from 'data'
+import { path } from 'ramda'
 
 class SfoxExchangeData extends React.Component {
   constructor () {
     super()
     this.state = { show: false }
-  }
-
-  componentWillMount () {
-    this.props.sfoxDataActions.fetchProfile()
-    // this.props.sfoxDataActions.fetchAccounts()
   }
 
   componentDidMount () {
@@ -33,11 +29,8 @@ class SfoxExchangeData extends React.Component {
     setTimeout(this.props.close, 500)
   }
 
-  getStepComponent (val) {
-    const { profile, verificationStatus, accounts } = val.getOrElse({})
-    console.log('getStepComponent in SfoxExchangeData', this.props.data)
-    const step = determineStep(profile, verificationStatus, accounts)
-
+  getStepComponent () {
+    const step = this.props.signupStep || this.props.step
     switch (step) {
       case 'create': return <Create />
       case 'verify': return <Verify />
@@ -51,47 +44,19 @@ class SfoxExchangeData extends React.Component {
   }
 
   render () {
-    // const { step } = this.props
     const { show } = this.state
     const { data } = this.props
-    // return (
-    //   <Tray in={show} class='tray'>
-    //     <ModalHeader onClose={this.handleClose.bind(this)}>
-    //       <div>sfox</div>
-    //       {/* <GenericStepIndicator steps=this.props.steps step=this.prop.step> */}
-    //     </ModalHeader>
-    //     <ModalBody>
-    //       { this.getStepComponent() }
-    //     </ModalBody>
-    //   </Tray>
-    // )
-
-    // return data.cata({
-    //   Success: (value) => <Success {...this.props}
-    //     value={value}
-    //     handleTrade={handleTrade}
-    //     showModal={showModal}
-    //     fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
-    //   />,
-    //   Failure: (msg) => <div>Failure: {msg.error}</div>,
-    //   Loading: () => <div>Loading...</div>,
-    //   NotAsked: () => <div>Not Asked</div>
-    // })
-    console.log('render SfoxExchangeData index', this.props)
-    return data.cata({
-      Success: (value) => <Tray in={show} class='tray'>
+    return (
+      <Tray in={show} class='tray'>
         <ModalHeader onClose={this.handleClose.bind(this)}>
           <div>sfox</div>
           {/* <GenericStepIndicator steps=this.props.steps step=this.prop.step> */}
         </ModalHeader>
         <ModalBody>
-          { this.getStepComponent(value) }
+          { this.getStepComponent() }
         </ModalBody>
-      </Tray>,
-      Failure: (msg) => <div>Failure: {msg}</div>,
-      Loading: () => <div>Loading...</div>,
-      NotAsked: () => <div>Not asked...</div>
-    })
+      </Tray>
+    )
   }
 }
 
@@ -101,7 +66,8 @@ SfoxExchangeData.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  signupStep: path(['sfoxSignup', 'signupStep'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -49,6 +49,6 @@ Create.propTypes = {
   emailVerification: PropTypes.number,
   smsVerified: PropTypes.number,
   smsNumber: PropTypes.string
-};
+}
 
 export default reduxForm({ form: 'sfoxCreate' })(Create)
