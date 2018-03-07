@@ -64,7 +64,7 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('profile', Remote.Success(payload), state)
     }
     case AT.SET_PROFILE_FAILURE: {
-      return state
+      return assoc('profile', Remote.Failure(payload), state)
     }
     case AT.UPLOAD_SUCCESS: {
       return state

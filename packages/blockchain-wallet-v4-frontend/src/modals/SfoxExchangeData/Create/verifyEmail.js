@@ -33,6 +33,10 @@ const MixedText = styled.span`
     color: ${props => props.theme['brand-secondary']};
   }
 `
+const CancelText = styled.p`
+  text-align: center;
+  cursor: pointer;
+`
 
 class VerifyEmail extends Component {
   constructor (props) {
@@ -55,10 +59,6 @@ class VerifyEmail extends Component {
 
   toChangeEmailStep () {
     this.props.updateUI({ enterCode: false })
-  }
-
-  toAcceptTerms () {
-
   }
 
   onSubmit (e) {
@@ -104,7 +104,7 @@ class VerifyEmail extends Component {
                   <Button type='submit' nature='primary' fullwidth disabled={invalid}>
                     Send Verification Email
                   </Button>
-                  <p onClick={this.toAcceptTerms}>Cancel</p>
+                  <CancelText onClick={() => this.props.doneChangingEmail()}>Cancel</CancelText>
                 </ButtonWrapper>
               </MobileInput>
           }

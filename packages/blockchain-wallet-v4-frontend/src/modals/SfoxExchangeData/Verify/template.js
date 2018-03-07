@@ -4,7 +4,15 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox, SelectBoxUSState, Form } from 'components/Form'
 import { Text, Button, Icon } from 'blockchain-info-components'
-import { required, normalizeSocialSecurity, normalizeDateOfBirth, normalizeUSZipcode, ageOverEighteen } from 'services/FormHelper'
+import {
+  required,
+  requiredSSN,
+  requiredDOB,
+  requiredUsZipcode,
+  normalizeSocialSecurity,
+  normalizeDateOfBirth,
+  normalizeUSZipcode,
+  ageOverEighteen } from 'services/FormHelper'
 
 const Row = styled.div`
   display: flex;
@@ -58,8 +66,8 @@ const BottomFormRow = FormRow.extend`
 `
 
 const Verify = (props) => {
-  const { handleSubmit, invalid, pristine, submitting } = props
-
+  const { handleSubmit, invalid, pristine, submitting, verificationError } = props
+  // TODO decide where to put verificationError
   return (
     <Row>
       <ColLeft>
@@ -111,13 +119,13 @@ const Verify = (props) => {
               <Text size='13px'>
                 <FormattedMessage id='sfoxexchangedata.verify.ssn' defaultMessage='Social Security Number' />
               </Text>
-              <Field name='ssn' validate={[required]} component={TextBox} placeholder='___-__-___' normalize={normalizeSocialSecurity} />
+              <Field name='ssn' validate={[requiredSSN]} component={TextBox} placeholder='___-__-___' normalize={normalizeSocialSecurity} />
             </FieldContainer>
             <FieldContainer>
               <Text size='13px'>
                 <FormattedMessage id='sfoxexchangedata.verify.dateofbirth' defaultMessage='Date of Birth' />
               </Text>
-              <Field name='dob' validate={[required, ageOverEighteen]} component={TextBox} placeholder='mm/dd/yyyy' normalize={normalizeDateOfBirth} />
+              <Field name='dob' validate={[requiredDOB, ageOverEighteen]} component={TextBox} placeholder='mm/dd/yyyy' normalize={normalizeDateOfBirth} />
             </FieldContainer>
             <FieldContainer />
           </FormRow>
@@ -155,7 +163,7 @@ const Verify = (props) => {
               <Text size='13px'>
                 <FormattedMessage id='sfoxexchangedata.verify.zip' defaultMessage='Zipcode' />
               </Text>
-              <Field name='zipcode' validate={[required]} component={TextBox} normalize={normalizeUSZipcode} />
+              <Field name='zipcode' validate={[requiredUsZipcode]} component={TextBox} normalize={normalizeUSZipcode} />
             </FieldContainer>
           </FormRow>
           <BottomFormRow>
