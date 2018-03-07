@@ -8,3 +8,18 @@ export const fetchMetadataBchFailure = (error) => ({ type: AT.FETCH_METADATA_BCH
 
 // create
 export const createMetadataBch = (data) => ({ type: AT.CREATE_METADATA_BCH, payload: data })
+
+export const setAccountLabel = (accountIdx, label) =>
+  ({ type: AT.SET_BCH_ACCOUNT_LABEL, payload: { accountIdx, label } })
+
+export const setAccountArchived = (accountIdx, archived) =>
+  ({ type: AT.SET_BCH_ACCOUNT_ARCHIVED, payload: { accountIdx, archived } })
+
+export const setDefaultAccountIdx = (index) =>
+  ({ type: AT.SET_DEFAULT_BCH_ACCOUNT, payload: { index } })
+
+export const setHdAddressLabel = (accountIdx, addressIdx, label) =>
+  ({ type: AT.SET_BCH_HD_ADDRESS_LABEL, payload: { accountIdx, addressIdx, label } })
+
+export const deleteHdAddressLabel = (accountIdx, addressIdx) =>
+  ({ type: AT.DELETE_BCH_HD_ADDRESS_LABEL, payload: { accountIdx, addressIdx } })

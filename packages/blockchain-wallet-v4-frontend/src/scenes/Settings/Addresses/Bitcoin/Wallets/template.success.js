@@ -20,13 +20,13 @@ const Success = ({ wallets, handleClick, onUnarchive }) => {
   const walletTableRows = wallets.map((wallet) => {
     return (
       <TableRow key={wallet.value.index}>
-        <TableCell width='30%' style={{ display: 'flex' }}>
+        <TableCell width='50%' style={{ display: 'flex' }}>
           <Text size='13px'>{wallet.label}</Text>
           {wallet.value.archived && (
             <Text size='13px' weight={300} style={{ marginLeft: 10 }}>Archived</Text>
           )}
         </TableCell>
-        <TableCell width='50%'>
+        <TableCell width='30%'>
           <Text size='13px'><SwitchableDisplay coin='BTC'>{wallet.value.balance}</SwitchableDisplay></Text>
         </TableCell>
         <TableCell width='20%'>
@@ -35,7 +35,7 @@ const Success = ({ wallets, handleClick, onUnarchive }) => {
               <FormattedMessage id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' />
             </Link>
           ) : (
-            <LinkContainer to={`/settings/addresses/${wallet.value.index}`}>
+            <LinkContainer to={`/settings/addresses/btc/${wallet.value.index}`}>
               <Link weight={200} size='small'>
                 <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage' />
               </Link>
@@ -56,7 +56,7 @@ const Success = ({ wallets, handleClick, onUnarchive }) => {
       </AddressesSettingDescription>
       <Table>
         <TableHeader>
-          <TableCell width='30%'>
+          <TableCell width='50%'>
             <Text size='13px' weight={500} capitalize>
               <FormattedMessage id='scenes.settings.addresses.wallet_name' defaultMessage='Wallet Name' />
             </Text>

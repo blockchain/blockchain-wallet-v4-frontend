@@ -21,7 +21,7 @@ class ListItemContainer extends React.Component {
   handleCoinDisplay () {
     this.props.actions.toggleCoinDisplayed()
   }
-  handleEditDescription(value) {
+  handleEditDescription (value) {
     this.props.ethereumActions.setTxNotesEthereum(this.props.transaction.hash, value)
   }
 

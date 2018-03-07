@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -26,6 +27,13 @@ const Success = (props) => {
         </TableCell>
         <TableCell width='30%'>
           <Text size='13px'><SwitchableDisplay coin='BCH'>{wallet.value.balance}</SwitchableDisplay></Text>
+        </TableCell>
+        <TableCell width='20%'>
+          <LinkContainer to={`/settings/addresses/bch/${wallet.value.index}`}>
+            <Link weight={200} size='small'>
+              <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage' />
+            </Link>
+          </LinkContainer>
         </TableCell>
       </TableRow>
     )

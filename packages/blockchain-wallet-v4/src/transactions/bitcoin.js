@@ -198,7 +198,7 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
     formWatchOnly: inputData.isWatchOnly,
     toWatchOnly: outputData.isWatchOnly,
     from: from, // based on inputs
-    to: to,  // based on outputs
+    to: to, // based on outputs
 
     // properties that frontend should compute
     status: null, // based on confirmations
