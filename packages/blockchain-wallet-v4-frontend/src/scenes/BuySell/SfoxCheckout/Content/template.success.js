@@ -66,7 +66,7 @@ const Success = props => {
   const { fetchQuote, handleTrade, quote, base, errors, showModal, ...rest } = props
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
-  const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} } })
+  const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
   const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
 
   const { trades, type } = rest
@@ -81,11 +81,11 @@ const Success = props => {
   const limits = {
     buy: {
       min: 10,
-      max: 100 // TODO figure out limits for when there is no account
+      max: profile.limits.buy
     },
     sell: {
       min: 10,
-      max: 100
+      max: profile.limits.sell
     }
   }
 
