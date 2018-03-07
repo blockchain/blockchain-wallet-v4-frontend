@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox, SelectBoxUSState, Form } from 'components/Form'
-import { Text, Button, Icon } from 'blockchain-info-components'
+import { Text, Button, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import {
   required,
   requiredSSN,
@@ -67,7 +67,8 @@ const BottomFormRow = FormRow.extend`
 
 const Verify = (props) => {
   const { handleSubmit, invalid, pristine, submitting, verificationError } = props
-  // TODO decide where to put verificationError
+  const { busy, error } = props.ui
+  // TODO decide where to put verificationError/error
   return (
     <Row>
       <ColLeft>
@@ -168,7 +169,11 @@ const Verify = (props) => {
           </FormRow>
           <BottomFormRow>
             <Button nature='primary' fullwidth type='submit' disabled={invalid || pristine || submitting}>
-              <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
+              {
+                !busy
+                  ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
+                  : <HeartbeatLoader height='20px' width='20px' color='white' />
+              }
             </Button>
           </BottomFormRow>
         </Form>

@@ -16,6 +16,7 @@ class VerifyContainer extends Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.verificationError) {
       this.props.updateUI({ error: true })
+      this.props.updateUI({ busy: false })
     }
   }
 
@@ -23,6 +24,7 @@ class VerifyContainer extends Component {
     e.preventDefault()
     this.props.updateUI({ error: false })
     this.props.sfoxFrontendActions.setProfile(this.props.user)
+    this.props.updateUI({ busy: true })
   }
 
   render () {
@@ -56,7 +58,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { error: false } })
+  ui({ state: { error: false, busy: false } })
 )
 
 export default enhance(VerifyContainer)
