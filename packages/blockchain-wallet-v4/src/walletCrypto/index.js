@@ -6,20 +6,97 @@ import * as U from './utils'
 import { curry } from 'ramda'
 import Either from 'data.either'
 
-export const parseDecrypted = (json) => (
-  Either.try(JSON.parse)(json).leftMap(() => new Error('WRONG_PASSWORD'))
-)
+const SUPPORTED_ENCRYPTION_VERSION = 3
+
+// export const parseDecrypted = (json) => (
+//   Either.try(JSON.parse)(json).leftMap(() => new Error('WRONG_PASSWORD'))
+// )
 
 export const sha256 = (data) => crypto.createHash('sha256').update(data).digest()
 
+// decryptWallet :: Password -> PayloadJSON -> Either Error JSON
+export const decryptWallet = curry((password, data) => Either.try(decryptWalletSync)(password, data))
+
 // decryptWallet :: Password -> payload JSON -> Either Error JSON
-export const decryptWallet = curry(
-  (password, data) => decryptWrapper(password, data).chain(parseDecrypted))
+// export const decryptWallet = curry(
+//   (password, data) => decryptWrapper(password, data).chain(parseDecrypted))
 
 // decryptWrapper :: Password -> JSON -> Either Error String
-const decryptWrapper = curry((password, wrapper) =>
-  Either.try(() => decryptDataWithPasswordSync(wrapper.payload, password, wrapper.pbkdf2_iterations))()
-)
+// const decryptWrapper = curry((password, wrapper) =>
+//   Either.try(() => decryptDataWithPasswordSync(wrapper.payload, password, wrapper.pbkdf2_iterations))()
+// )
+
+export const decryptWalletSync = (password, data) => {
+  assert(data, 'function `decryptWallet` requires encrypted wallet data')
+  assert(password, 'function `decryptWallet` requires a password')
+
+  let wrapper, version, decrypted
+
+  if (typeof data === 'object') {
+    wrapper = data
+  } else if (typeof data === 'string') {
+    version = 1
+  }
+
+  if (wrapper) {
+    assert(wrapper.payload, 'v2 Wallet error: missing payload')
+    assert(wrapper.pbkdf2_iterations, 'v2 Wallet error: missing pbkdf2 iterations')
+    assert(wrapper.version, 'v2 Wallet error: missing version')
+    version = wrapper.version
+  }
+
+  if (version > SUPPORTED_ENCRYPTION_VERSION) {
+    throw new Error('Wallet version ' + version + ' not supported.')
+  }
+
+  try {
+    // v2/v3: CBC, ISO10126, iterations in wrapper
+    decrypted = decryptDataWithPasswordSync(wrapper.payload, password, wrapper.pbkdf2_iterations)
+    decrypted = JSON.parse(decrypted)
+  } catch (e) {
+    decrypted = decryptWalletV1(data, password)
+  } finally {
+    assert(decrypted, 'Error decrypting wallet, please check that your password is correct')
+  }
+
+  return decrypted
+}
+
+export const decryptWalletV1 = (data, password) => {
+  // Possible decryption methods for v1 wallets
+  let decryptFns = [
+    // v1: CBC, ISO10126, 10 iterations
+    decryptDataWithPasswordSync.bind(null, data, password, 10),
+
+    // v1: OFB, nopad, 1 iteration
+    decryptDataWithPasswordSync.bind(null, data, password, 1, {
+      mode: U.AES.OFB,
+      padding: U.NoPadding
+    }),
+
+    // v1: OFB, ISO7816, 1 iteration
+    // ISO/IEC 9797-1 Padding method 2 is the same as ISO/IEC 7816-4:2005
+    decryptDataWithPasswordSync.bind(null, data, password, 1, {
+      mode: U.AES.OFB,
+      padding: U.Iso97971
+    }),
+
+    // v1: CBC, ISO10126, 1 iteration
+    decryptDataWithPasswordSync.bind(null, data, password, 1, {
+      mode: U.AES.CBC,
+      padding: U.Iso10126
+    })
+  ]
+
+  return decryptFns.reduce((acc, decrypt) => {
+    if (acc) return acc
+    try {
+      return JSON.parse(decrypt())
+    } catch (e) {
+      return null
+    }
+  }, null)
+}
 
 export const encryptWallet = curry((data, password, pbkdf2Iterations, version) => {
   assert(data, 'data missing')
@@ -140,7 +217,7 @@ export function encryptDataWithPasswordSync (data, password, iterations) {
 // key: AES key (256 bit Buffer)
 // iv: optional initialization vector
 // returns: concatenated and Base64 encoded iv + payload
-export var encryptDataWithKey = curry((data, key, iv) => {
+export let encryptDataWithKey = curry((data, key, iv) => {
   let IV = iv || crypto.randomBytes(U.SALT_BYTES)
   let dataBytes = Buffer.from(data, 'utf8')
   let options = { mode: U.AES.CBC, padding: U.Iso10126 }

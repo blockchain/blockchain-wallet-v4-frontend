@@ -20,7 +20,7 @@
     "lint": "./node_modules/.bin/standard",
     "prepublish": "npm run compile",
     "start": "babel-node src/index.js",
-    "test": "jest",
+    "test": "jest --watch",
     "watch": "./node_modules/.bin/npm-watch"
   },
   "babel": {
