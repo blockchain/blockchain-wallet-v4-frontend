@@ -7,6 +7,8 @@ import { utils } from 'blockchain-wallet-v4/src'
 
 const required = value => value ? undefined : 'Required'
 
+const optional = validator => value => value === undefined || value === '' ? undefined : validator(value)
+
 const validNumber = value => isNumeric(value) ? undefined : 'Invalid number'
 
 const requiredNumber = value => isNumeric(value) && value > 0 ? undefined : 'Invalid number'
@@ -43,6 +45,7 @@ const ageOverEighteen = value => isOverEighteen(value) ? undefined : 'Must be 18
 
 export {
   required,
+  optional,
   requiredNumber,
   validNumber,
   validEmail,

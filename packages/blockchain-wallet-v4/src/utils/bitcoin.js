@@ -1,9 +1,10 @@
 import { selectAll } from '../coinSelection'
-import { address, crypto, networks, ECPair } from 'bitcoinjs-lib'
+import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { equals, head, or, prop } from 'ramda'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
 import * as Exchange from '../exchange'
+import Either from 'data.either'
 
 export const isValidBitcoinAddress = value => {
   try {
@@ -11,7 +12,7 @@ export const isValidBitcoinAddress = value => {
     const n = networks.bitcoin
     const valid = or(equals(addr.version, n.pubKeyHash), equals(addr.version, n.scriptHash))
     return valid
-  } catch (e) { console.log(e); return false }
+  } catch (e) { return false }
 }
 
 export const detectPrivateKeyFormat = key => {
@@ -78,6 +79,17 @@ export const privateKeyStringToKey = function (value, format) {
   }
 }
 
+// formatPrivateKeyString :: String -> String -> String
+export const formatPrivateKeyString = (keyString, format) => {
+  let keyFormat = detectPrivateKeyFormat(keyString)
+  let eitherKey = Either.try(privateKeyStringToKey)(keyString, keyFormat)
+  return eitherKey.chain(key => {
+    if (format === 'wif') return Either.of(key.toWIF())
+    if (format === 'base58') return Either.of(Base58.encode(key.d.toBuffer(32)))
+    return Either.Left(new Error('Unsupported Key Format'))
+  })
+}
+
 export const isValidBitcoinPrivateKey = value => {
   try {
     let format = detectPrivateKeyFormat(value)
@@ -85,6 +97,10 @@ export const isValidBitcoinPrivateKey = value => {
   } catch (e) {
     return false
   }
+}
+
+export const isKey = function (bitcoinKey) {
+  return bitcoinKey instanceof ECPair
 }
 
 export const calculateEffectiveBalanceSatoshis = (coins, feePerByte) => {
