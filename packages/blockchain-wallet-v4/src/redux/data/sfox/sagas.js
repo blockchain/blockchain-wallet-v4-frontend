@@ -85,10 +85,25 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
     }
   }
 
+  const setBankAccount = function * (data) {
+    const bank = data.payload
+    try {
+      const sfox = yield call(getSfox)
+      yield apply(sfox.bankLink, sfox.bankLink.setAccount, [bank])
+
+      const methods = yield apply(sfox, sfox.getBuyMethods)
+      const accounts = yield apply(sfox, methods.ach.getAccounts)
+      yield put(A.fetchAccountsSuccess(accounts))
+    } catch (e) {
+      yield put(A.setBankAccountFailure(e))
+    }
+  }
+
   return {
     setBankManually,
     signup,
     setProfile,
-    uploadDoc
+    uploadDoc,
+    setBankAccount
   }
 }

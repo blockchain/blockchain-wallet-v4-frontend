@@ -4,6 +4,7 @@ import * as A from './actions'
 import * as sagas from '../../sagas.js'
 import { actions } from 'data'
 import * as selectors from '../../selectors.js'
+import * as MODALS_ACTIONS from '../../modals/actions'
 
 export const setBankManually = function * (action) { // will have to call this by dispatching action
   try {
@@ -58,8 +59,19 @@ export const upload = function * (payload) {
   }
 }
 
+export const setBank = function * (payload) {
+  try {
+    yield call(sagas.core.data.sfox.setBankAccount, payload)
+    yield put(actions.alerts.displaySuccess('Bank account set successfully!'))
+    yield put(MODALS_ACTIONS.closeAllModals())
+  } catch (e) {
+    yield put(actions.alerts.displayError('Error setting bank'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
+  yield takeLatest(AT.SET_BANK, setBank)
   yield takeLatest(AT.SIGNUP, sfoxSignup)
   yield takeLatest(AT.SET_PROFILE, setProfile)
   yield takeLatest(AT.UPLOAD, upload)

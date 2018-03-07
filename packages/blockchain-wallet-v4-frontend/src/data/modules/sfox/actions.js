@@ -2,6 +2,8 @@ import * as AT from './actionTypes'
 
 export const setBankManually = (routing, account, name, type) => ({ type: AT.SET_BANK_MANUALLY, payload: { routing, account, name, type } })
 
+export const setBankAccount = (bank) => ({ type: AT.SET_BANK, payload: bank })
+
 export const sfoxSignup = () => ({ type: AT.SIGNUP })
 export const signupFailure = (error) => ({ type: AT.SIGNUP_FAILURE, payload: error })
 
