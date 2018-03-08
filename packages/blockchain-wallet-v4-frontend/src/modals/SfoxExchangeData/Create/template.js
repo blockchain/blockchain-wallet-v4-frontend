@@ -18,18 +18,18 @@ const ColRight = styled.div`
 `
 
 const Create = (props) => {
-  const { handleSignup, mobileVerified, emailVerified, smsNumber, uniqueEmail, handleEmailInUse, ui, doneChangingEmail, signupError, busy } = props
+  const { handleSignup, emailVerified, smsNumber, smsVerified, uniqueEmail, handleEmailInUse, ui, doneChangingEmail, signupError, busy } = props
 
   return (
     <Row>
-      <ColumnLeft emailVerified={emailVerified} mobileVerified={mobileVerified} changingEmail={ui.changingEmail} />
+      <ColumnLeft emailVerified={emailVerified} smsVerified={smsVerified} changingEmail={ui.changingEmail} />
       <ColRight>
         <div>
           {
-            emailVerified && mobileVerified && uniqueEmail
+            emailVerified && smsVerified && uniqueEmail
               ? <AcceptTerms handleSignup={handleSignup} handleEmailInUse={handleEmailInUse} uniqueEmail={uniqueEmail} signupError={signupError} busy={busy} setBusyOff={props.setBusyOff} />
-              : !emailVerified
-                ? <VerifyEmail doneChangingEmail={doneChangingEmail} />
+              : !emailVerified || !uniqueEmail
+                ? <VerifyEmail doneChangingEmail={doneChangingEmail} uniqueEmail={uniqueEmail} />
                 : <VerifyMobile smsNumber={smsNumber} />
           }
         </div>

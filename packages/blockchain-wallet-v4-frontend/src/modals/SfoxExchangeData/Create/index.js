@@ -24,6 +24,7 @@ class CreateContainer extends Component {
   }
 
   doneChangingEmail () {
+    this.setState({ uniqueEmail: true })
     this.props.updateUI({ changingEmail: false })
   }
 
@@ -41,6 +42,7 @@ class CreateContainer extends Component {
       {...this.props}
       setBusyOff={this.setBusyOff}
       handleSignup={this.handleSignup}
+      uniqueEmail={this.state.uniqueEmail}
       handleEmailInUse={this.handleEmailInUse}
       doneChangingEmail={this.doneChangingEmail}
     />

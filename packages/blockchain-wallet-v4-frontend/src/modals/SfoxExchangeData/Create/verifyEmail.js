@@ -46,12 +46,16 @@ class VerifyEmail extends Component {
 
     this.onSubmit = this.onSubmit.bind(this)
     this.resendCode = this.resendCode.bind(this)
-    this.toChangeEmailStep = this.toChangeEmailStep.bind(this)
+    this.changeEmail = this.changeEmail.bind(this)
   }
 
   componentDidMount () {
-    this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
-    this.props.formActions.change('sfoxCreateVerifyEmail', 'emailAddress', this.props.oldEmail)
+    if (this.props.uniqueEmail) {
+      this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
+      this.props.formActions.change('sfoxCreateVerifyEmail', 'emailAddress', this.props.oldEmail)
+    } else {
+      this.changeEmail()
+    }
   }
 
   resendCode () {
@@ -59,7 +63,7 @@ class VerifyEmail extends Component {
     this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
   }
 
-  toChangeEmailStep () {
+  changeEmail () {
     this.props.updateUI({ changingEmail: true })
   }
 
@@ -80,7 +84,7 @@ class VerifyEmail extends Component {
     let emailHelper = () => {
       switch (true) {
         case ui.codeSent: return <FormattedMessage id='sfoxexchangedata.create.verifyemail.helper.sentanothercode' defaultMessage='Another code has been sent!' />
-        case !ui.codeSent: return <FormattedMessage id='sfoxexchangedata.create.verifyemail.helper.didntreceive' defaultMessage="Didn't receive your email? {resend} or {changeEmail}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeEmail: <a onClick={this.toChangeEmailStep}>change email</a> }} />
+        case !ui.codeSent: return <FormattedMessage id='sfoxexchangedata.create.verifyemail.helper.didntreceive' defaultMessage="Didn't receive your email? {resend} or {changeEmail}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeEmail: <a onClick={this.changeEmail}>change email</a> }} />
       }
     }
 
