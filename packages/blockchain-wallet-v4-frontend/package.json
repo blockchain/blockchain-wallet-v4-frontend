@@ -70,6 +70,7 @@
     "bignumber.js": "^5.0.0",
     "bip21": "^2.0.1",
     "bip39": "^2.3.1",
+    "bitcoin-sfox-client": "^0.2.6",
     "bitcoinjs-lib": "^3.1.1",
     "blockchain-info-components": "^0.0.1",
     "blockchain-wallet-v4": "^1.0.1",

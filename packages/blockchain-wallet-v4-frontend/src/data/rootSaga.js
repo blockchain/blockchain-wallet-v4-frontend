@@ -2,6 +2,7 @@ import { all, call, fork } from 'redux-saga/effects'
 
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
+import { sfoxService } from 'services/SfoxService'
 import { coreSagasFactory, rootSaga } from 'blockchain-wallet-v4/src'
 import alerts from './alerts/sagas'
 import auth from './auth/sagas'
@@ -9,8 +10,8 @@ import modules from './modules/sagas'
 import goals from './goals/sagas'
 import wallet from './wallet/sagas'
 
-export const sagas = { core: coreSagasFactory({ api, socket }) }
-const coreRootSaga = rootSaga({ api, socket })
+export const sagas = { core: coreSagasFactory({ api, socket, sfoxService }) }
+const coreRootSaga = rootSaga({ api, socket, sfoxService })
 
 const welcomeSaga = function * () {
   if (console) {

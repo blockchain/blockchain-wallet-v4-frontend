@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
 import Upload from './template'
 import { actions } from 'data'
 import { getData } from './selectors'
+import ui from 'redux-ui'
 
 class UploadContainer extends Component {
   constructor (props) {
@@ -18,7 +18,25 @@ class UploadContainer extends Component {
     this.resetUpload = this.resetUpload.bind(this)
     this.handleStartClick = this.handleStartClick.bind(this)
 
-    this.state = { file: null, camera: false, photo: '' }
+    this.state = { file: null,
+      camera: false,
+      photo: '',
+      requiredDocs: '',
+      uploadStepNumber: ''
+    }
+  }
+
+  componentWillMount () {
+    const requiredDocs = this.props.data.data.verificationStatus.required_docs.length
+    this.setState({ requiredDocs })
+    this.setState({ uploadStepNumber: 1 })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const nextVerificiationStatus = nextProps.data.data.verificationStatus
+    if (nextVerificiationStatus.required_docs.length < this.state.requiredDocs) {
+      this.setState({ uploadStepNumber: 2 })
+    }
   }
 
   handleSubmit (e) {
@@ -53,7 +71,8 @@ class UploadContainer extends Component {
   submitForUpload () {
     const file = this.state.file || this.state.photo
     const idType = this.props.data.data.verificationStatus.required_docs[0]
-    this.props.sfoxDataActions.upload({file, idType})
+    this.props.sfoxFrontendActions.upload({file, idType})
+    this.resetUpload() // TODO replace with setting to busy and show loader
   }
 
   render () {
@@ -73,6 +92,8 @@ class UploadContainer extends Component {
         resetUpload={this.resetUpload}
         submitForUpload={this.submitForUpload}
         handleStartClick={this.handleStartClick}
+        requiredDocs={this.state.requiredDocs}
+        uploadStepNumber={this.state.uploadStepNumber}
       />,
       Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,
@@ -87,12 +108,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: {} })
+  ui({ state: { busy: false } })
 )
 
 export default enhance(UploadContainer)

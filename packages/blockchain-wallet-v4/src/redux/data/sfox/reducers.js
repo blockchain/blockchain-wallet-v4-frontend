@@ -61,10 +61,10 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('trade', Remote.Failure(payload), state)
     }
     case AT.SET_PROFILE_SUCCESS: {
-      return state
+      return assoc('profile', Remote.Success(payload), state)
     }
     case AT.SET_PROFILE_FAILURE: {
-      return state
+      return assoc('profile', Remote.Failure(payload), state)
     }
     case AT.UPLOAD_SUCCESS: {
       return state
@@ -84,8 +84,29 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.SET_BANK_ACCOUNT_FAILURE: {
       return state
     }
+    case AT.SET_BANK_MANUALLY_SUCCESS: {
+      return assoc('accounts', Remote.Success(payload), state)
+    }
+    case AT.SET_BANK_MANUALLY_FAILURE: {
+      return assoc('accounts', Remote.Failure(payload), state)
+    }
+    case AT.SIGNUP_SUCCESS: {
+      return assoc('profile', Remote.Success(payload), state)
+    }
+    case AT.SIGNUP_FAILURE: {
+      return assoc('profile', Remote.Failure(payload), state)
+    }
     case AT.SET_NEXT_ADDRESS: {
       return assoc('nextAddress', payload, state)
+    }
+    case AT.RESET_PROFILE: {
+      return assoc('profile', null)
+    }
+    case AT.GET_DELEGATE_TOKEN_SUCCESS: {
+      return assoc('delegateToken', payload, state)
+    }
+    case AT.SET_TOKEN: {
+      return assoc('accountToken', payload.token, state)
     }
     default:
       return state

@@ -13,6 +13,7 @@ import PasswordBox from './PasswordBox'
 import PlaceHolder from './PlaceHolder'
 import PhoneNumberBox from './PhoneNumberBox'
 import RadioButton from './RadioButton'
+import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBox from './SelectBox'
 import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
@@ -43,6 +44,7 @@ export {
   PlaceHolder,
   PhoneNumberBox,
   RadioButton,
+  SelectBoxBankAccountType,
   SelectBox,
   SelectBoxBitcoinAddresses,
   SelectBoxBitcoinUnit,
