@@ -29,7 +29,7 @@ const Fee = props => (
 )
 
 Fee.propTypes = {
-  fee: PropTypes.number.isRequired,
+  fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   coin: PropTypes.string.isRequired
 }
 
