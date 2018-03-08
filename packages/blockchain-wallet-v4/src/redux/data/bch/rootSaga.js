@@ -91,17 +91,6 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchFiatAtTime = function * (action) {
-    const { hash, amount, time, currency } = action.payload
-    try {
-      yield put(A.fetchFiatAtTimeLoading(hash, currency))
-      const data = yield call(api.getBchFiatAtTime, amount, currency, time)
-      yield put(A.fetchFiatAtTimeSuccess(hash, currency, data))
-    } catch (e) {
-      yield put(A.fetchFiatAtTimeFailure(hash, currency, e.message))
-    }
-  }
-
   const fetchUnspent = function * (action) {
     try {
       // source can be the hd account index / or a legacy address
@@ -117,7 +106,6 @@ export default ({ api } = {}) => {
 
   return function * () {
     yield takeLatest(AT.FETCH_BCH_DATA, fetchData)
-    yield takeEvery(AT.FETCH_BCH_FIAT_AT_TIME, fetchFiatAtTime)
     yield takeLatest(AT.FETCH_BCH_RATES, fetchRates)
     yield takeLatest(AT.FETCH_BCH_FEE, fetchFee)
     // yield takeLatest(AT.FETCH_BCH_TRANSACTIONS, fetchTransactions)

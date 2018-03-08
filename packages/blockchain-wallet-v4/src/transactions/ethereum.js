@@ -43,7 +43,6 @@ export const signTx = (transaction, privateKey) => {
 
 // transformTx :: [String] -> Tx -> ProcessedTx
 export const transformTx = (addresses, state, tx) => {
-  console.info(tx)
   // TODO: fetch current eth block height!
   // TODO: calculate tx fee correctly
   const currentBlockHeight = 5232919

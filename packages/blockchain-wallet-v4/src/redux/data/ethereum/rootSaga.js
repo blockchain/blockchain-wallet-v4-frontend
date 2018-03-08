@@ -80,22 +80,9 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchFiatAtTime = function * (action) {
-    const { hash, amount, time, currency } = action.payload
-    try {
-      yield put(A.fetchFiatAtTimeLoading(hash, currency))
-      // TODO: finish implementation
-      //const data = yield call(api.getBchFiatAtTime, amount, currency, time)
-      //yield put(A.fetchFiatAtTimeSuccess(hash, currency, data))
-    } catch (e) {
-      yield put(A.fetchFiatAtTimeFailure(hash, currency, e.message))
-    }
-  }
-
   return function * () {
     yield takeLatest(AT.FETCH_ETHEREUM_DATA, fetchData)
     yield takeLatest(AT.FETCH_ETHEREUM_FEE, fetchFee)
-    yield takeEvery(AT.FETCH_ETHEREUM_FIAT_AT_TIME, fetchFiatAtTime)
     yield takeLatest(AT.FETCH_ETHEREUM_LATEST_BLOCK, fetchLatestBlock)
     yield takeLatest(AT.FETCH_ETHEREUM_RATES, fetchRates)
     yield takeLatest(AT.FETCH_ETHEREUM_TRANSACTIONS, fetchTransactions)

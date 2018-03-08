@@ -12,14 +12,9 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 class FiatAtTime extends React.Component {
   componentWillMount () {
-    console.log('COMPONENT WILL MOUNT')
     const { currency, amount, time, hash } = this.props
     if (Remote.NotAsked.is(this.props.data)) {
-      switch (this.props.coin) {
-        case 'BTC': return this.props.btcActions.fetchFiatAtTime(hash, amount, time * 1000, currency)
-        case 'ETH': return this.props.ethActions.fetchFiatAtTime(hash, amount, time * 1000, currency)
-        case 'BCH': return this.props.bchActions.fetchFiatAtTime(hash, amount, time * 1000, currency)
-      }
+      this.props.btcActions.fetchFiatAtTime(hash, amount, time * 1000, currency)
     }
   }
 
@@ -37,21 +32,18 @@ class FiatAtTime extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   currency: getCurrency(state),
-  data: getData(state, ownProps.hash, ownProps.coin)
+  data: getData(state, ownProps.hash)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  btcActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  ethActions: bindActionCreators(actions.core.data.ethereum, dispatch),
-  bchActions: bindActionCreators(actions.core.data.bch, dispatch)
+  btcActions: bindActionCreators(actions.core.data.bitcoin, dispatch)
 })
 
 FiatAtTime.propTypes = {
   amount: PropTypes.number.isRequired,
   hash: PropTypes.string.isRequired,
   time: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-  coin: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FiatAtTime)

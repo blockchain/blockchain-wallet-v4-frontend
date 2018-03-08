@@ -75,18 +75,6 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_TRANSACTION_FAILURE: {
       return assoc('transactions', Remote.Failure(payload), state)
     }
-    case AT.FETCH_ETHEREUM_FIAT_AT_TIME_LOADING: {
-      const { hash, currency } = payload
-      return assocPath(['transactions_fiat', hash, currency], Remote.Loading, state)
-    }
-    case AT.FETCH_ETHEREUM_FIAT_AT_TIME_SUCCESS: {
-      const { hash, currency, data } = payload
-      return assocPath(['transactions_fiat', hash, currency], Remote.Success(data), state)
-    }
-    case AT.FETCH_ETHEREUM_FIAT_AT_TIME_FAILURE: {
-      const { hash, currency, error } = payload
-      return assocPath(['transactions_fiat', hash, currency], Remote.Success(error), state)
-    }
     default:
       return state
   }
