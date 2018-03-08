@@ -60,18 +60,17 @@ class VerifyEmail extends Component {
   }
 
   toChangeEmailStep () {
-    this.props.updateUI({ enterCode: false })
+    this.props.updateUI({ changingEmail: true })
   }
 
   onSubmit (e) {
     e.preventDefault()
-    if (this.props.ui.enterCode) {
+    if (!this.props.ui.changingEmail) {
       this.props.settingsActions.verifyEmail(this.props.emailCode)
-      this.props.doneChangingEmail()
       this.props.sfoxFrontendActions.clearSignupError()
     } else {
+      this.props.doneChangingEmail()
       this.props.settingsActions.updateEmail(this.props.emailAddress)
-      this.props.updateUI({ enterCode: true })
     }
   }
 
@@ -89,7 +88,7 @@ class VerifyEmail extends Component {
       <form onSubmit={this.onSubmit}>
         <Wrapper>
           {
-            ui.enterCode
+            !ui.changingEmail
               ? <EmailInput>
                 <Text size='14px' weight={400}>
                   <FormattedMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='Verification Code:' />
@@ -150,7 +149,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { codeSent: false, enterCode: true } })
+  ui({ state: { codeSent: false } })
 )
 
 export default reduxForm({ form: 'sfoxCreateVerifyEmail' })(enhance(VerifyEmail))
