@@ -18,9 +18,7 @@ const ColRight = styled.div`
 `
 
 const Create = (props) => {
-  const { handleSignup, emailVerification, smsVerified, smsNumber, uniqueEmail, handleEmailInUse, ui, cancel, signupError, busy } = props
-  const emailVerified = emailVerification === 1
-  const mobileVerified = smsVerified === 1
+  const { handleSignup, mobileVerified, emailVerified, smsNumber, uniqueEmail, handleEmailInUse, ui, doneChangingEmail, signupError, busy } = props
 
   return (
     <Row>
@@ -31,7 +29,7 @@ const Create = (props) => {
             emailVerified && mobileVerified && uniqueEmail
               ? <AcceptTerms handleSignup={handleSignup} handleEmailInUse={handleEmailInUse} uniqueEmail={uniqueEmail} signupError={signupError} busy={busy} setBusyOff={props.setBusyOff} />
               : !emailVerified
-                ? <VerifyEmail cancel={cancel} />
+                ? <VerifyEmail doneChangingEmail={doneChangingEmail} />
                 : <VerifyMobile smsNumber={smsNumber} />
           }
         </div>
@@ -42,7 +40,6 @@ const Create = (props) => {
 
 Create.propTypes = {
   handleSignup: PropTypes.func.isRequired,
-  emailVerification: PropTypes.number,
   smsVerified: PropTypes.number,
   smsNumber: PropTypes.string
 }

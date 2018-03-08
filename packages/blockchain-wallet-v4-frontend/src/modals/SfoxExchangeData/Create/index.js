@@ -21,11 +21,10 @@ class CreateContainer extends Component {
 
   handleEmailInUse () {
     this.setState({ uniqueEmail: false, busy: false })
-    this.props.updateUI({ changingEmail: true })
   }
 
   doneChangingEmail () {
-    this.props.updateUI({ enterCode: false })
+    this.props.updateUI({ changingEmail: false })
   }
 
   setBusyOff () {
@@ -38,19 +37,12 @@ class CreateContainer extends Component {
   }
 
   render () {
-    const { emailVerified, smsVerified, ui, smsNumber } = this.props
     return <Create
       {...this.props}
-      emailVerification={emailVerified}
-      smsVerified={smsVerified}
+      setBusyOff={this.setBusyOff}
       handleSignup={this.handleSignup}
-      ui={ui}
-      smsNumber={smsNumber}
-      uniqueEmail={this.state.uniqueEmail}
       handleEmailInUse={this.handleEmailInUse}
       doneChangingEmail={this.doneChangingEmail}
-      busy={this.state.busy}
-      setBusyOff={this.setBusyOff}
     />
   }
 }
