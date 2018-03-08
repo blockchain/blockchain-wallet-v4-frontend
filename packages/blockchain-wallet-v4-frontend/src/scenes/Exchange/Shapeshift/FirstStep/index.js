@@ -9,13 +9,12 @@ import { actions, selectors } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
-// import * as crypto from 'crypto'
-//   this.seed = crypto.randomBytes(16).toString('hex')
 
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
     this.timeout = undefined
+    this.state = { effectiveBalance: 0 }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -37,9 +36,7 @@ class FirstStepContainer extends React.Component {
         const ethAccount = prop('address', nextProps.source)
         const ethBalance = path([ethAccount, 'balance'], nextProps.ethAddresses)
         const data = utils.ethereum.calculateBalanceEther(nextProps.ethFee.priority, nextProps.ethFee.gasLimit, ethBalance)
-        if (!equals(this.props.balance, data)) {
-          this.props.formActions.change('exchange', 'balance', data)
-        }
+        this.setState({ effectiveBalance: data.effectiveBalance })
       }
     }
     // Update if source or target have changed
@@ -55,9 +52,7 @@ class FirstStepContainer extends React.Component {
     if (equals('BTC', nextProps.sourceCoin) && Remote.Success.is(nextProps.coins)) {
       const coins = nextProps.coins.getOrElse([])
       const data = utils.bitcoin.calculateBalanceBitcoin(coins, nextProps.btcFee.priority)
-      if (!equals(this.props.balance, data)) {
-        this.props.formActions.change('exchange', 'balance', data)
-      }
+      this.setState({ effectiveBalance: data.effectiveBalance })
     }
   }
 
@@ -67,7 +62,7 @@ class FirstStepContainer extends React.Component {
 
   render () {
     return this.props.data.cata({
-      Success: (value) => <Success {...value} {...this.props} handleSubmit={this.handleSubmit} />,
+      Success: (value) => <Success {...value} {...this.props} effectiveBalance={this.state.effectiveBalance} handleSubmit={this.handleSubmit} />,
       Failure: (message) => <Error />,
       Loading: () => <Loading {...this.props} />,
       NotAsked: () => <Loading {...this.props} />
