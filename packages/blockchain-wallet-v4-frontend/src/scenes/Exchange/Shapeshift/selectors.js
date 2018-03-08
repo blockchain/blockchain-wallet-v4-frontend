@@ -15,6 +15,7 @@ const extractAddress = (selector, value) => {
 
 export const getData = state => {
   const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
+  const getChange = index => selectors.core.common.bitcoin.getNextAvailableChangeAddress(settings.NETWORK_BITCOIN, index, state)
 
   const btcFee = selectors.core.data.bitcoin.getFee(state).getOrElse({ regular: 10, priority: 20 })
   const ethFee = selectors.core.data.ethereum.getFee(state).getOrElse({ regular: 10, priority: 20, gasLimit: 21000 })
@@ -27,13 +28,14 @@ export const getData = state => {
   const currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
   const accounts = formValueSelector('exchange')(state, 'accounts')
   const amount = formValueSelector('exchange')(state, 'amount')
-  const balance = formValueSelector('exchange')(state, 'balance')
   const source = prop('source', accounts)
-  const sourceAddress = extractAddress(getReceive, source)
+  const sourceReceiveAddress = extractAddress(getReceive, source)
+  const sourceChangeAddress = extractAddress(getChange, source)
   const sourceAmount = prop('source', amount)
   const sourceCoin = prop('coin', source)
   const target = prop('target', accounts)
-  const targetAddress = extractAddress(getReceive, target)
+  const targetReceiveAddress = extractAddress(getReceive, target)
+  const targetChangeAddress = extractAddress(getChange, target)
   const targetAmount = prop('target', amount)
   const targetCoin = prop('coin', target)
   const pair = getPairFromCoin(sourceCoin, targetCoin)
@@ -46,7 +48,7 @@ export const getData = state => {
     initialValues: {
       accounts: { source: defaultBtcAccount, target: defaultEthAccount },
       amount: { source: '', target: '' },
-      balance: { balance: 0, fee: 0, effectiveBalance: 0 }
+      balance: { balance: 0, fee: 0 }
     },
     elements: [
       { group: 'Bitcoin', items: btcAccountsInfo.map(x => ({ text: x.label, value: x })) },
@@ -57,13 +59,14 @@ export const getData = state => {
     currency,
     source,
     sourceCoin,
-    sourceAddress,
+    sourceReceiveAddress,
+    sourceChangeAddress,
     sourceAmount,
     target,
     targetCoin,
-    targetAddress,
+    targetReceiveAddress,
+    targetChangeAddress,
     targetAmount,
-    pair,
-    balance
+    pair
   }
 }

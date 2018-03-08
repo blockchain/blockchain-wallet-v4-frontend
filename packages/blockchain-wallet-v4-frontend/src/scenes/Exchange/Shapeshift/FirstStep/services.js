@@ -37,7 +37,7 @@ export const isBelowShapeshiftMaximum = (value, allValues, props) => {
 
 export const isBelowEffectiveBalance = (value, allValues, props) => {
   const source = prop('source', value)
-  const effectiveBalance = path(['balance', 'effectiveBalance'], allValues)
+  const effectiveBalance = prop('effectiveBalance', props)
   return new BigNumber(source).lessThanOrEqualTo(new BigNumber(effectiveBalance)) ? undefined : `Value is above your account effective balance (${effectiveBalance})`
 }
 
