@@ -20,18 +20,23 @@ const ColRight = styled.div`
 const Create = (props) => {
   const { handleSignup, emailVerified, smsNumber, smsVerified, uniqueEmail, handleEmailInUse, ui, doneChangingEmail, signupError, busy } = props
 
+  const determineStep = () => {
+    switch (true) {
+      case emailVerified && smsVerified && uniqueEmail: return 'terms'
+      case !emailVerified || !uniqueEmail: return 'email'
+      case !smsVerified: return 'mobile'
+      default: return 'terms'
+    }
+  }
+
   return (
     <Row>
       <ColumnLeft emailVerified={emailVerified} smsVerified={smsVerified} changingEmail={ui.changingEmail} />
       <ColRight>
         <div>
-          {
-            emailVerified && smsVerified && uniqueEmail
-              ? <AcceptTerms handleSignup={handleSignup} handleEmailInUse={handleEmailInUse} uniqueEmail={uniqueEmail} signupError={signupError} busy={busy} setBusyOff={props.setBusyOff} />
-              : !emailVerified || !uniqueEmail
-                ? <VerifyEmail doneChangingEmail={doneChangingEmail} uniqueEmail={uniqueEmail} />
-                : <VerifyMobile smsNumber={smsNumber} />
-          }
+          { determineStep() === 'email' && <VerifyEmail doneChangingEmail={doneChangingEmail} uniqueEmail={uniqueEmail} /> }
+          { determineStep() === 'mobile' && <VerifyMobile smsNumber={smsNumber} /> }
+          { determineStep() === 'terms' && <AcceptTerms handleSignup={handleSignup} handleEmailInUse={handleEmailInUse} uniqueEmail={uniqueEmail} signupError={signupError} busy={busy} setBusyOff={props.setBusyOff} /> }
         </div>
       </ColRight>
     </Row>
