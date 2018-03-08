@@ -11,6 +11,8 @@ class LinkContainer extends Component {
   constructor (props) {
     super(props)
     this.onSetBankAccount = this.onSetBankAccount.bind(this)
+    this.toggleManual = this.toggleManual.bind(this)
+    this.setBankManually = this.setBankManually.bind(this)
     this.state = { enablePlaid: false }
   }
 
@@ -35,17 +37,28 @@ class LinkContainer extends Component {
 
   onSetBankAccount (data) {
     const bankChoice = merge(data, {token: this.state.token})
-    this.props.sfoxDataActions.setBankAccount(bankChoice)
+    this.props.sfoxFrontendActions.setBankAccount(bankChoice)
+  }
+
+  toggleManual () {
+    this.props.updateUI({ toggleManual: !this.props.ui.toggleManual })
+  }
+
+  setBankManually (routing, account, name, type) {
+    this.props.sfoxFrontendActions.setBankManually(routing, account, name, type)
   }
 
   render () {
-    const { plaidUrl, bankAccounts } = this.props
+    const { plaidUrl, bankAccounts, ui } = this.props
     return <Link
       handleSubmit={this.handleSubmit}
       plaidUrl={plaidUrl}
       enablePlaid={this.state.enablePlaid}
       bankAccounts={bankAccounts}
       onSetBankAccount={this.onSetBankAccount}
+      toggleManual={this.toggleManual}
+      setBankManually={this.setBankManually}
+      ui={ui}
     />
   }
 }
@@ -57,12 +70,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: {} })
+  ui({ state: { toggleManual: false } })
 )
 
 export default enhance(LinkContainer)

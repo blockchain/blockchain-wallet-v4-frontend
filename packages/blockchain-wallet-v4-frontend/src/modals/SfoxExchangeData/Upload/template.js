@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, IconButton, Link } from 'blockchain-info-components'
+import { Text, Button, IconButton, Link, HeartbeatLoader } from 'blockchain-info-components'
 import { } from 'services/FormHelper'
 import Dropzone from 'react-dropzone'
 
@@ -77,8 +77,17 @@ const SubmitContainer = styled.div`
 const SuccessText = styled(Text)`margin: 30px 0px; `
 
 const Verify = (props) => {
-  console.log('verify template', props)
-  const { onDrop, file, data, toggleCamera, showCamera, setPhoto, photo, resetUpload, submitForUpload } = props
+  const { onDrop,
+    file,
+    data,
+    toggleCamera,
+    showCamera,
+    setPhoto,
+    photo,
+    resetUpload,
+    submitForUpload,
+    requiredDocs,
+    uploadStepNumber } = props
   const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
@@ -115,9 +124,9 @@ const Verify = (props) => {
           </Text>
           <Text size='14px'>
             <FormattedMessage id='sfoxexchangedata.upload.selectmethod' defaultMessage='Upload Step ' />
-            { 1 }
+            { uploadStepNumber }
             <FormattedMessage id='sfoxexchangedata.upload.of' defaultMessage=' of ' />
-            { data.verificationStatus.required_docs.length }
+            { requiredDocs }
           </Text>
         </UploadStatus>
         <InputContainer>

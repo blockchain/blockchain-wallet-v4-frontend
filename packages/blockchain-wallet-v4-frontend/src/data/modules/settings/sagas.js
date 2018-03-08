@@ -65,7 +65,7 @@ export const updateEmail = function * (action) {
 
 export const verifyEmail = function * (action) {
   try {
-    yield call(sagas.core.settings.setEmailVerified, action.payload)
+    yield call(sagas.core.settings.verifyEmailCode, action.payload)
     yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not verify email address.'))
@@ -78,6 +78,15 @@ export const updateMobile = function * (action) {
     yield put(actions.alerts.displaySuccess('Mobile number has been successfully updated. Verification SMS has been sent.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update mobile number.'))
+  }
+}
+
+export const verifyMobile = function * (action) {
+  try {
+    yield call(sagas.core.settings.setMobileVerified, action.payload)
+    yield put(actions.alerts.displaySuccess('Mobile number has been verified!'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not verify mobile number.'))
   }
 }
 
@@ -234,6 +243,7 @@ export default function * () {
   yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
   yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
   yield takeLatest(AT.UPDATE_MOBILE, updateMobile)
+  yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
   yield takeLatest(AT.UPDATE_LANGUAGE, updateLanguage)
   yield takeLatest(AT.UPDATE_CURRENCY, updateCurrency)
   yield takeLatest(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
