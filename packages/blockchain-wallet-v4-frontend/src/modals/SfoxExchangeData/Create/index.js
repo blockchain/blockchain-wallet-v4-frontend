@@ -25,7 +25,7 @@ class CreateContainer extends Component {
   }
 
   doneChangingEmail () {
-    this.setState({ uniqueEmail: true })
+    this.props.updateUI({ enterCode: false })
   }
 
   setBusyOff () {

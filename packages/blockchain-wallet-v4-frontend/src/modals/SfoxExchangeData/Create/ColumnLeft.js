@@ -17,60 +17,28 @@ const Subtitle = styled.div`
   margin-bottom: 15px;
 `
 
-function whichText (data) {
-  if (data.emailVerified && data.mobileVerified && !data.changingEmail) {
-    return (
-      <span>
-        <Title>
-          <FormattedMessage id='sfoxexchangedata.create.titlecreate' defaultMessage='Create Your SFOX Account' />
-        </Title>
-        <Subtitle>
-          <FormattedMessage id='sfoxexchangedata.create.subtitleaccept' defaultMessage='Accept Terms & Conditions to create your SFOX account.' />
-        </Subtitle>
-      </span>
-    )
+function header (data) {
+  switch (true) {
+    case data.changingEmail: return <FormattedMessage id='sfoxexchangedata.create.titlechangeemail' defaultMessage='Change Email' />
+    case !data.emailVerified: return <FormattedMessage id='sfoxexchangedata.create.titleemail' defaultMessage='Verify Email Address' />
+    case !data.mobileVerified: return <FormattedMessage id='sfoxexchangedata.create.titlephone' defaultMessage='Verify Phone Number' />
+    default: return <FormattedMessage id='sfoxexchangedata.create.titlecreate' defaultMessage='Create Your SFOX Account' />
   }
-  if (!data.mobileVerified && !data.changingEmail) {
-    return (
-      <span>
-        <Title>
-          <FormattedMessage id='sfoxexchangedata.create.titlephone' defaultMessage='Verify Phone Number' />
-        </Title>
-        <Subtitle>
-          <FormattedMessage id='sfoxexchangedata.create.subtitlemobile' defaultMessage='We just sent a verification code to your phone. Please enter the verification code to continue creating your SFOX exchange account.' />
-        </Subtitle>
-      </span>
-    )
-  }
-  if (!data.emailVerified) {
-    return (
-      <span>
-        <Title>
-          <FormattedMessage id='sfoxexchangedata.create.titleemail' defaultMessage='Verify Email Address' />
-        </Title>
-        <Subtitle>
-          <FormattedMessage id='sfoxexchangedata.create.subtitleemail' defaultMessage='We just sent a verification code to your email address. Please enter the verification code to continue creating your SFOX exchange account.' />
-        </Subtitle>
-      </span>
-    )
-  }
-  if (data.changingEmail) {
-    return (
-      <span>
-        <Title>
-          <FormattedMessage id='sfoxexchangedata.create.titlechangeemail' defaultMessage='Change Email' />
-        </Title>
-        <Subtitle>
-          <FormattedMessage id='sfoxexchangedata.create.subtitlechangeemail' defaultMessage='Updating your email will also change the email associated with your wallet.' />
-        </Subtitle>
-      </span>
-    )
+}
+
+function copy (data) {
+  switch (true) {
+    case data.changingEmail: return <FormattedMessage id='sfoxexchangedata.create.subtitlechangeemail' defaultMessage='Updating your email will also change the email associated with your wallet.' />
+    case !data.emailVerified: return <FormattedMessage id='sfoxexchangedata.create.subtitleemail' defaultMessage='We just sent a verification code to your email address. Please enter the verification code to continue creating your SFOX exchange account.' />
+    case !data.mobileVerified: return <FormattedMessage id='sfoxexchangedata.create.subtitlemobile' defaultMessage='We just sent a verification code to your phone. Please enter the verification code to continue creating your SFOX exchange account.' />
+    default: return <FormattedMessage id='sfoxexchangedata.create.subtitleaccept' defaultMessage='Accept Terms & Conditions to create your SFOX account.' />
   }
 }
 
 const ColumnLeft = (props) => (
   <ColLeft>
-    {whichText(props)}
+    <Title>{header(props)}</Title>
+    <Subtitle>{copy(props)}</Subtitle>
   </ColLeft>
 )
 

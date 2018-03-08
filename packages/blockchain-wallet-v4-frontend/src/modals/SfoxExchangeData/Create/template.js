@@ -18,7 +18,7 @@ const ColRight = styled.div`
 `
 
 const Create = (props) => {
-  const { handleSignup, emailVerification, smsVerified, smsNumber, uniqueEmail, handleEmailInUse, ui, doneChangingEmail, signupError, busy } = props
+  const { handleSignup, emailVerification, smsVerified, smsNumber, uniqueEmail, handleEmailInUse, ui, cancel, signupError, busy } = props
   const emailVerified = emailVerification === 1
   const mobileVerified = smsVerified === 1
 
@@ -30,9 +30,9 @@ const Create = (props) => {
           {
             emailVerified && mobileVerified && uniqueEmail
               ? <AcceptTerms handleSignup={handleSignup} handleEmailInUse={handleEmailInUse} uniqueEmail={uniqueEmail} signupError={signupError} busy={busy} setBusyOff={props.setBusyOff} />
-              : !mobileVerified
-                ? <VerifyMobile smsNumber={smsNumber} />
-                : <VerifyEmail doneChangingEmail={doneChangingEmail} />
+              : !emailVerified
+                ? <VerifyEmail cancel={cancel} />
+                : <VerifyMobile smsNumber={smsNumber} />
           }
         </div>
       </ColRight>

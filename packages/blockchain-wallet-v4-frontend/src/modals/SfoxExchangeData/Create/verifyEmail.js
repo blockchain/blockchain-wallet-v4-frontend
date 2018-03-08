@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
 import { actions, selectors } from 'data'
+import { FormattedMessage } from 'react-intl'
 import { reduxForm, formValueSelector, Field } from 'redux-form'
 
 import { TextBox } from 'components/Form'
@@ -18,7 +19,7 @@ const Wrapper = styled.div`
   width: 75%;
   margin: 0 auto;
 `
-const MobileInput = styled.div`
+const EmailInput = styled.div`
   display: flex;
   flex-direction: column;
 `
@@ -43,18 +44,19 @@ class VerifyEmail extends Component {
     super(props)
     this.state = {}
 
-    this.resendCode = this.resendCode.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.resendCode = this.resendCode.bind(this)
     this.toChangeEmailStep = this.toChangeEmailStep.bind(this)
   }
 
   componentDidMount () {
+    this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
     this.props.formActions.change('sfoxCreateVerifyEmail', 'emailAddress', this.props.oldEmail)
   }
 
   resendCode () {
-    this.props.settingsActions.updateEmail(this.props.emailAddress)
     this.props.updateUI({ codeSent: true })
+    this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
   }
 
   toChangeEmailStep () {
@@ -76,37 +78,44 @@ class VerifyEmail extends Component {
   render () {
     const { ui, invalid } = this.props
 
+    let emailHelper = () => {
+      switch (true) {
+        case ui.codeSent: return <FormattedMessage id='sfoxexchangedata.create.verifyemail.helper.sentanothercode' defaultMessage='Another code has been sent!' />
+        case !ui.codeSent: return <FormattedMessage id='sfoxexchangedata.create.verifyemail.helper.didntreceive' defaultMessage="Didn't receive your email? {resend} or {changeEmail}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeEmail: <a onClick={this.toChangeEmailStep}>change email</a> }} />
+      }
+    }
+
     return (
       <form onSubmit={this.onSubmit}>
         <Wrapper>
           {
             ui.enterCode
-              ? <MobileInput>
+              ? <EmailInput>
                 <Text size='14px' weight={400}>
-                  Verification code:
+                  <FormattedMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='Verification Code:' />
                 </Text>
                 <Field name='emailCode' component={TextBox} validate={[required]} />
                 <MixedText>
-                  Didn't receive the email? { ui.codeSent ? <a>Sent!</a> : <span><a onClick={this.resendCode}>Resend</a> or <a onClick={this.toChangeEmailStep}>change email</a></span> }
+                  { emailHelper() }
                 </MixedText>
                 <ButtonWrapper>
                   <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-                    Continue
+                    <FormattedMessage id='sfoxexchangedata.create.verifyemail.continue' defaultMessage='Continue' />
                   </Button>
                 </ButtonWrapper>
-              </MobileInput>
-              : <MobileInput>
+              </EmailInput>
+              : <EmailInput>
                 <Text size='14px' weight={400}>
-                  Confirm email:
+                  <FormattedMessage id='sfoxexchangedata.create.verifyemail.confirm' defaultMessage='Confirm Email:' />
                 </Text>
                 <Field name='emailAddress' component={TextBox} validate={[required]} />
                 <ButtonWrapper>
                   <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-                    Send Verification Email
+                    <FormattedMessage id='sfoxexchangedata.create.verifyemail.sendverificationemail' defaultMessage='Send Verification Code Email' />
                   </Button>
                   <CancelText onClick={() => this.props.doneChangingEmail()}>Cancel</CancelText>
                 </ButtonWrapper>
-              </MobileInput>
+              </EmailInput>
           }
         </Wrapper>
       </form>
@@ -128,19 +137,20 @@ VerifyEmail.propTypes = {
 
 const mapStateToProps = (state) => ({
   oldEmail: selectors.core.settings.getEmail(state).data,
-  emailAddress: formValueSelector('sfoxCreateVerifyEmail')(state, 'emailAddress'),
-  emailCode: formValueSelector('sfoxCreateVerifyEmail')(state, 'emailCode')
+  emailCode: formValueSelector('sfoxCreateVerifyEmail')(state, 'emailCode'),
+  emailAddress: formValueSelector('sfoxCreateVerifyEmail')(state, 'emailAddress')
 })
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
-  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { codeSent: false, enterCode: false } })
+  ui({ state: { codeSent: false, enterCode: true } })
 )
 
 export default reduxForm({ form: 'sfoxCreateVerifyEmail' })(enhance(VerifyEmail))
