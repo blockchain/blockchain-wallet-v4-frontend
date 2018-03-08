@@ -7,7 +7,7 @@ import ui from 'redux-ui'
 import { actions } from 'data'
 import { reduxForm, formValueSelector, Field } from 'redux-form'
 
-import { TextBox, Form } from 'components/Form'
+import { TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
 
 import { required } from 'services/FormHelper'
@@ -23,7 +23,7 @@ const MobileInput = styled.div`
   flex-direction: column;
 `
 const MobileCodeContainer = MobileInput.extend`
-  margin-top: 45px;
+  margin-top: 25px;
 `
 const FieldWrapper = styled.div`
   display: flex;
@@ -41,14 +41,14 @@ const MixedText = styled.span`
   }
 `
 
-
 class VerifyMobile extends Component {
   constructor (props) {
     super(props)
     this.state = {}
 
-    this.resendSMSCode = this.resendSMSCode.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.resendCode = this.resendCode.bind(this)
+    this.updateMobileNumber = this.updateMobileNumber.bind(this)
   }
 
   componentDidMount () {
@@ -57,42 +57,71 @@ class VerifyMobile extends Component {
     }
   }
 
-  resendSMSCode () {
+  updateMobileNumber () {
+    this.props.updateUI({ smsCodeSent: true })
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
-    this.props.updateUI({ smsCodeSent: !this.props.ui.smsCodeSent })
-    setTimeout(() => { this.props.updateUI({ smsCodeSent: !this.props.ui.smsCodeSent }) }, 10000)
+  }
+
+  resendCode () {
+    this.props.updateUI({ smsCodeResent: true })
+    this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.settingsActions.verifyMobile(this.props.mobileCode)
+    if (!this.props.ui.smsCodeSent) {
+      this.updateMobileNumber()
+    } else {
+      this.props.settingsActions.verifyMobile(this.props.mobileCode)
+    }
   }
 
   render () {
     const { ui, invalid } = this.props
+
+    let smsHelper = () => {
+      switch (true) {
+        case ui.smsCodeResent: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.sentanothercode' defaultMessage='Another code has been sent!' />
+        case !ui.smsCodeResent: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.didntreceive' defaultMessage="Didn't receive your code? {resend}." values={{ resend: <a onClick={this.resendCode}>Resend</a> }} />
+      }
+    }
+
     return (
       <form onSubmit={this.onSubmit}>
         <Wrapper>
           <MobileInput>
             <Text size='14px' weight={400}>
-              Add phone number:
+              <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Add Phone Number:' />
             </Text>
             <Field name='mobileNumber' component={TextBox} validate={[required]} />
+            {
+              !ui.smsCodeSent && <ButtonWrapper>
+                <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+                  <FormattedMessage id='sfoxexchangedata.create.mobile.textcode' defaultMessage='Text Verification Code' />
+                </Button>
+              </ButtonWrapper>
+            }
           </MobileInput>
-          <MobileCodeContainer>
-            <Text size='14px' weight={400}>Enter verification code sent to your mobile phone:</Text>
-            <FieldWrapper>
-              <Field name='mobileCode' component={TextBox} validate={[required]} />
-              <MixedText>
-                Didn't receive the code? { ui.smsCodeSent ? <a>Sent!</a> : <a onClick={this.resendSMSCode}>Resend</a> }
-              </MixedText>
-            </FieldWrapper>
-          </MobileCodeContainer>
-          <ButtonWrapper>
-            <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-              Continue
-            </Button>
-          </ButtonWrapper>
+          {
+            ui.smsCodeSent && <MobileCodeContainer>
+              <Text size='14px' weight={400}>
+                <FormattedMessage id='sfoxexchangedata.create.mobile.entercode' defaultMessage='Enter Verification Code:' />
+              </Text>
+              <FieldWrapper>
+                <Field name='mobileCode' component={TextBox} validate={[required]} />
+                <MixedText>
+                  { smsHelper() }
+                </MixedText>
+              </FieldWrapper>
+            </MobileCodeContainer>
+          }
+          {
+            ui.smsCodeSent && <ButtonWrapper>
+              <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+                Continue
+              </Button>
+            </ButtonWrapper>
+          }
         </Wrapper>
       </form>
     )
@@ -111,7 +140,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { smsCodeSent: false } })
+  ui({ state: { smsCodeSent: false, smsCodeResent: false } })
 )
 
 export default reduxForm({ form: 'sfoxCreateVerifyMobile' })(enhance(VerifyMobile))
