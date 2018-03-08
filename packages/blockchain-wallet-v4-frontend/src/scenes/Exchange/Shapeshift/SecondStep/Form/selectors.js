@@ -23,12 +23,8 @@ export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
 
   const feeR = equals('BTC', sourceCoin) ? calculateBtcFee(selection) : calculateEthFee(ethAddressesR)
 
-  const transform = (fee) => ({
+  return lift((fee) => ({
     depositFee: fee,
     depositTotal: new BigNumber(depositAmount).add(new BigNumber(fee)).toString()
-  })
-
-  const result = lift(transform)(feeR)
-  console.log('result', result)
-  return result
+  }))(feeR)
 }

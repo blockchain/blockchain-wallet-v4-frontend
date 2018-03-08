@@ -63,7 +63,7 @@ const Top = styled.div`
   width: 100%;
 `
 
-const WalletLayout = (props) => {
+const Success = (props) => {
   const { location, menuLeftToggled, handleToggleMenuLeft, handleCloseMenuLeft, children } = props
 
   return (
@@ -90,8 +90,8 @@ const WalletLayout = (props) => {
   )
 }
 
-WalletLayout.propTypes = {
-  location: PropTypes.object.isRequired
+Success.propTypes = {
+  location: PropTypes.object
 }
 
-export default WalletLayout
+export default Success

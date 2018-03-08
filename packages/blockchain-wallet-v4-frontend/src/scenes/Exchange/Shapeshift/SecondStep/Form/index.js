@@ -27,8 +27,10 @@ class FormContainer extends React.Component {
     }
   }
 
-  handleSubmit () {
+  handleSubmit (e) {
+    e.preventDefault()
     // Submit exchange
+    this.props.sendShapeshiftActions.sendShapeshiftDeposit()
     console.log('Submit to exchange')
   }
 
@@ -62,6 +64,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  sendShapeshiftActions: bindActionCreators(actions.modules.sendShapeshift, dispatch),
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch)
 })
 
