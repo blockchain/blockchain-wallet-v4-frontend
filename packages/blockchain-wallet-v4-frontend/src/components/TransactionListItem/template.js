@@ -115,7 +115,8 @@ TransactionListItem.propTypes = {
     from: PropTypes.string.isRequired,
     description: PropTypes.string,
     status: PropTypes.string,
-    initial_value: PropTypes.string
+    initial_value: PropTypes.string,
+    fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })
 }
 

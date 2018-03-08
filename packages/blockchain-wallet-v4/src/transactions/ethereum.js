@@ -1,5 +1,6 @@
 import { contains, equals, map, toLower } from 'ramda'
 import moment from 'moment'
+import BigNumber from 'bignumber.js'
 
 import EthereumTx from 'ethereumjs-tx'
 import { getEthereumTxNote } from '../redux/kvStore/ethereum/selectors.js'
@@ -43,8 +44,7 @@ export const signTx = (transaction, privateKey) => {
 
 // transformTx :: [String] -> Tx -> ProcessedTx
 export const transformTx = (addresses, state, tx) => {
-  // TODO: fetch current eth block height!
-  // TODO: calculate tx fee correctly
+  // TODO: fetch current eth block height for confirmations!
   const currentBlockHeight = 5232919
   const conf = currentBlockHeight - tx.blockNumber + 1
   const confirmations = conf > 0 ? conf : 0
@@ -64,7 +64,7 @@ export const transformTx = (addresses, state, tx) => {
     to: tx.to,
     from: tx.from,
     confirmations: confirmations,
-    fee: calculateFee(tx.gasPrice, tx.gasUsed),
+    fee: new BigNumber(tx.gasPrice).mul(tx.gasUsed || tx.gas).toString(),
     description: getEthereumTxNote(state, tx.hash).data || '',
     time: tx.timeStamp,
     timeFormatted: formattedDate(tx.timeStamp),
