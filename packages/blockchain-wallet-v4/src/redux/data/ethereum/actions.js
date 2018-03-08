@@ -31,9 +31,3 @@ export const fetchTransactions = () => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_R
 export const fetchTransactionsLoading = () => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_RATES_LOADING })
 export const fetchTransactionsSuccess = (data) => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_SUCCESS, payload: data })
 export const fetchTransactionsFailure = (error) => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE, payload: error })
-
-// FETCH_ETHEREUM_FIAT_AT_TIME
-export const fetchFiatAtTime = (hash, amount, time, currency) => ({ type: AT.FETCH_ETHEREUM_FIAT_AT_TIME, payload: {hash, amount, time, currency} })
-export const fetchFiatAtTimeLoading = (hash, currency) => ({ type: AT.FETCH_ETHEREUM_FIAT_AT_TIME_LOADING, payload: { hash, currency } })
-export const fetchFiatAtTimeSuccess = (hash, currency, data) => ({ type: AT.FETCH_ETHEREUM_FIAT_AT_TIME_SUCCESS, payload: { hash, currency, data } })
-export const fetchFiatAtTimeFailure = (hash, currency, error) => ({ type: AT.FETCH_ETHEREUM_FIAT_AT_TIME_FAILURE, payload: { hash, currency, error } })
