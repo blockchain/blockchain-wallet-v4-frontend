@@ -94,7 +94,7 @@ const TransactionListItem = (props) => {
             <SwitchableDisplay coin={coin} size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
           </ToggleButton>
           <TransactionValues>
-            <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} type={transaction.type} />
+            <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} type={transaction.type} coin={coin}/>
             { transaction.type !== 'received' && <Fee fee={transaction.fee} coin={coin} /> }
           </TransactionValues>
         </AmountColumn>
