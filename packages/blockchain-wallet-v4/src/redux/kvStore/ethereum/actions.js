@@ -1,5 +1,4 @@
 import * as AT from './actionTypes'
-import { txHash } from '../../../coinSelection/coin'
 
 export const updateMetadataEthereum = (payload = {}) => ({ type: AT.UPDATE_METADATA_ETHEREUM, payload })
 
