@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import onClickOutside from 'react-onclickoutside'
 import { Modal } from 'blockchain-info-components'
 import Transition from 'react-transition-group/Transition'
 
@@ -37,17 +38,23 @@ const TrayModal = styled(Modal)`
   }
 `
 
-const Tray = props => {
-  const { children, ...rest } = props
-  return (
-    <Transition in={props.in} timeout={0}>
-      {(status) => (
-        <TrayModal {...rest} type={'tray'} style={{...defaultStyle, ...transitionStyles[status]}}>
-          {children}
-        </TrayModal>
-      )}
-    </Transition>
-  )
+class Tray extends React.Component {
+  handleClickOutside () {
+    this.props.onClose()
+  }
+
+  render () {
+    const { children, ...rest } = this.props
+    return (
+      <Transition in={this.props.in} timeout={0}>
+        {(status) => (
+          <TrayModal {...rest} type={'tray'} style={{...defaultStyle, ...transitionStyles[status]}}>
+            {children}
+          </TrayModal>
+        )}
+      </Transition>
+    )
+  }
 }
 
-export default Tray
+export default onClickOutside(Tray)

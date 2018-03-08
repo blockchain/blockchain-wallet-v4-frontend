@@ -44,9 +44,9 @@ class SfoxExchangeData extends React.Component {
 
   render () {
     const { show } = this.state
-    const { data } = this.props
+
     return (
-      <Tray in={show} class='tray'>
+      <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader onClose={this.handleClose.bind(this)}>
           <div>sfox</div>
           {/* <GenericStepIndicator steps=this.props.steps step=this.prop.step> */}
