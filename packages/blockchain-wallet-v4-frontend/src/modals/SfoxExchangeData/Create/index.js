@@ -14,7 +14,6 @@ class CreateContainer extends Component {
     this.state = { busy: false }
 
     this.handleSignup = this.handleSignup.bind(this)
-    this.setBusyOff = this.setBusyOff.bind(this)
   }
 
   componentDidMount () {
@@ -23,13 +22,9 @@ class CreateContainer extends Component {
     else this.props.updateUI({ create: 'enter_email_code' })
   }
 
-  setBusyOff () {
-    this.setState({ busy: false })
-  }
-
-  handleSignup () {
+  handleSignup (e) {
+    e.preventDefault()
     this.props.sfoxFrontendActions.sfoxSignup()
-    this.setState({ busy: true })
   }
 
   render () {
