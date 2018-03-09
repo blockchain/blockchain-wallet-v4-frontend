@@ -48,16 +48,16 @@ class VerifyEmail extends Component {
     this.resendCode = this.resendCode.bind(this)
   }
 
-  componentWillReceiveProps (props, nextProps) {
-    if (nextProps.emailVerified) {
-      this.props.updateUI({ create: 'change_mobile' })
-    }
-  }
-
   componentDidMount () {
     if (this.props.ui.create === 'enter_email_code') {
       this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
       this.props.formActions.change('sfoxCreate', 'emailAddress', this.props.oldEmail)
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.emailVerified && nextProps.ui.uniqueEmail) {
+      this.props.updateUI({ create: 'change_mobile' })
     }
   }
 
@@ -96,7 +96,7 @@ class VerifyEmail extends Component {
                 <Text size='14px' weight={400}>
                   <FormattedMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='Verification Code:' />
                 </Text>
-                <Field name='emailCode' component={TextBox} validate={[required]} />
+                <Field name='emailCode' onChange={() => this.props.updateUI({ uniqueEmail: true })} component={TextBox} validate={[required]} />
                 <MixedText>
                   { emailHelper() }
                 </MixedText>
