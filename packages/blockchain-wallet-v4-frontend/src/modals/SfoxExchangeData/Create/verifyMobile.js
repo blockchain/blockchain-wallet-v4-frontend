@@ -7,7 +7,7 @@ import ui from 'redux-ui'
 import { actions, selectors } from 'data'
 import { formValueSelector, Field } from 'redux-form'
 
-import { TextBox } from 'components/Form'
+import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
 
 import { required } from 'services/FormHelper'
@@ -120,7 +120,7 @@ class VerifyMobile extends Component {
               <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
                 <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Add Phone Number:' />
               </Text>
-              <Field name='mobileNumber' component={TextBox} validate={[required]} />
+              <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} />
             </MobileInput>
             {
               ui.create === 'enter_mobile_code' && <MobileCodeContainer>

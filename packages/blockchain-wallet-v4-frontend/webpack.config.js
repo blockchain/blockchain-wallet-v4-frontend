@@ -90,6 +90,12 @@ module.exports = {
             name: 'resources/[name]-[hash].[ext]'
           }
         }
+      }, {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' }
+        ]
       }
     ]
   },

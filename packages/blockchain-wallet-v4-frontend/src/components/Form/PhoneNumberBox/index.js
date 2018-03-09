@@ -1,39 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains } from 'ramda'
 
-import { TextInput, Text } from 'blockchain-info-components'
+import IntlTelInput from 'react-intl-tel-input'
+import 'react-intl-tel-input/dist/libphonenumber.js'
+import 'react-intl-tel-input/dist/main.css'
 
 const Container = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  width: 100%;
-  height: 40px;
+  > div {
+    width: 100%;
+  }
+  .iti-arrow {
+    right: -8px;
+  }
+  input {
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+  }
 `
-const Error = styled(Text)`
-  position: absolute;
-  display: block;
-  top: -18px;
-  right: 0;
-  height: 15px;
-`
-const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
-}
-
-const authorizedKeys = [' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+']
-const handleKeyPress = event => { if (!contains(event.key, authorizedKeys)) { event.preventDefault() } }
 
 const PhoneNumberBox = (field) => {
-  const errorState = getErrorState(field.meta)
+  const handler = (status, value, countryData, number, id) => {
+    console.log(status, value, countryData, number, id)
+    field.input.onChange(value)
+  }
 
   return (
     <Container>
-      <TextInput {...field.input} errorState={errorState} placeholder={field.placeholder} onKeyPress={handleKeyPress} />
-      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='error'>{field.meta.error}</Error>}
+      <IntlTelInput onPhoneNumberChange={handler} format preferredCountries={['us', 'gb']} css={['intl-tel-input', 'form-control']} utilsScript={'libphonenumber.js'} />
     </Container>
   )
 }
