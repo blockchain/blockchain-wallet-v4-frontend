@@ -15,8 +15,8 @@ const MenuTooltipIcon = styled(Icon)`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
+  width: 12px;
+  height: 12px;
   border-radius: 10px;
   background-color: ${props => props.theme['brand-primary']};
   color: ${props => props.theme['white']};

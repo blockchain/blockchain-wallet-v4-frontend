@@ -42,5 +42,3 @@ export const getIndex = state => getLatestBlock(state).map(path(['block_index'])
 export const getSelection = path([dataPath, 'bch', 'payment', 'selection'])
 
 export const getEffectiveBalance = path([dataPath, 'bch', 'payment', 'effectiveBalance'])
-
-export const getFiatAtTime = (state, hash, currency) => path([dataPath, 'bch', 'transactions_fiat', hash, currency], state)
