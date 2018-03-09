@@ -2,68 +2,45 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
-import { actions, selectors } from 'data'
-import { Field } from 'redux-form'
+import { compose } from 'redux'
 import { path } from 'ramda'
-import { TextBox } from 'components/Form'
-import { Text, Button, Icon, HeartbeatLoader } from 'blockchain-info-components'
+import { Field } from 'redux-form'
+import { selectors } from 'data'
+import { CheckBox } from 'components/Form'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { Button, HeartbeatLoader } from 'blockchain-info-components'
 
-import { required } from 'services/FormHelper'
+const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
-const Wrapper = styled.div`
+const Form = styled.form`
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  width: 75%;
-  margin: 0 auto;
+  flex-direction: row;
 `
-const FieldWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+const ColLeft = styled.div`
+  width: 50%;
+`
+const ColRight = styled.div`
+  width: 50%;
+`
+const InputWrapper = styled.div`
   width: 80%;
+`
+const PartnerHeader = styled.div`
+  font-size: 30px;
+  font-weight: 600;
+`
+const PartnerSubHeader = styled.div`
+  margin-top: 5px;
+  font-size: 14px;
 `
 const ButtonWrapper = styled.div`
   margin: 25px 0px;
-`
-const MixedText = styled.span`
-  margin-top: 10px;
-  font-size: 14px;
-  color: ${props => props.error ? props.theme['error'] : 'initial'};
-  a {
-    cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
-  }
-`
-const MixedTermsText = styled.label`
-  margin-top: 10px;
-  font-size: 14px;
-  color: ${props => props.error ? props.theme['error'] : 'initial'};
-  a {
-    cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
-  }
 `
 const AcceptTermsContainer = styled.div`
   margin: 25px 0px;
   display: flex;
   flex-direction: row;
-`
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 25px;
-`
-const VerifiedWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 15px;
-  padding-top: 20px;
-`
-const CheckWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 5px;
 `
 
 class AcceptTerms extends Component {
@@ -71,13 +48,7 @@ class AcceptTerms extends Component {
     super(props)
     this.state = { acceptedTerms: false }
 
-    this.acceptTerms = this.acceptTerms.bind(this)
     this.changeEmail = this.changeEmail.bind(this)
-  }
-
-  componentDidMount () {
-    this.props.formActions.change('sfoxCreate', 'email', this.props.email)
-    this.props.formActions.change('sfoxCreate', 'phone', this.props.smsNumber)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -88,64 +59,33 @@ class AcceptTerms extends Component {
     }
   }
 
-  acceptTerms () {
-    this.setState({ acceptedTerms: !this.state.acceptedTerms })
-  }
-
   changeEmail () {
     this.props.updateUI({ create: 'change_email' })
   }
 
   render () {
-    const { ui } = this.props
-
-    const handleError = (msg) => {
-      if (/user is already registered/.test(msg)) {
-        return <MixedText error>Sorry, this email is already registered with SFOX. <a onClick={this.changeEmail}>Change Email</a></MixedText>
-      }
-      return <MixedText>There has been an error creating your account. Please refresh and try again or contact support.</MixedText>
-    }
+    const { invalid } = this.props
 
     return (
-      <Wrapper>
-        <form>
+      <Form onSubmit={this.props.handleSignup}>
+        <ColLeft>
           <InputWrapper>
-            <FieldWrapper>
-              <Text>
-                Email Address
-              </Text>
-              <Field name='email' component={TextBox} validate={[required]} />
-              {
-                !ui.uniqueEmail
-                  ? handleError(this.state.error)
-                  : null
-              }
-            </FieldWrapper>
-            <VerifiedWrapper>
-              { !this.state.error && <Icon size='26px' name='checkmark-in-circle' /> }
-            </VerifiedWrapper>
+            <PartnerHeader>
+              <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.header.enter_email_code' defaultMessage='Blockchain + SFOX' />
+            </PartnerHeader>
+            <PartnerSubHeader>
+              <FormattedMessage id='sfoxexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='Accept the terms and conditions to create your SFOX account.' />
+            </PartnerSubHeader>
+            <AcceptTermsContainer>
+              <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
+                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>." />
+              </Field>
+            </AcceptTermsContainer>
           </InputWrapper>
-          <InputWrapper>
-            <FieldWrapper>
-              <Text>
-                Phone Number
-              </Text>
-              <Field name='phone' component={TextBox} validate={[required]} />
-            </FieldWrapper>
-            <VerifiedWrapper>
-              <Icon size='26px' name='checkmark-in-circle' />
-            </VerifiedWrapper>
-          </InputWrapper>
-          <AcceptTermsContainer>
-            <CheckWrapper>
-              <input id='terms' type='checkbox' onClick={this.acceptTerms} />
-            </CheckWrapper>
-            <MixedTermsText htmlFor='terms'>
-              I accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>.
-            </MixedTermsText>
-          </AcceptTermsContainer>
+        </ColLeft>
+        <ColRight>
           <ButtonWrapper>
-            <Button onClick={this.props.handleSignup} nature='primary' fullwidth disabled={!this.state.acceptedTerms}>
+            <Button type='submit' nature='primary' fullwidth disabled={invalid}>
               {
                 !this.props.busy
                   ? <span>Continue</span>
@@ -153,38 +93,26 @@ class AcceptTerms extends Component {
               }
             </Button>
           </ButtonWrapper>
-        </form>
-      </Wrapper>
+        </ColRight>
+      </Form>
     )
   }
 }
 
 AcceptTerms.propTypes = {
   handleSignup: PropTypes.func.isRequired,
-  formActions: PropTypes.object,
   invalid: PropTypes.bool,
   ui: PropTypes.object,
   email: PropTypes.string.isRequired,
-  smsNumber: PropTypes.string.isRequired,
-  sfoxProfile: PropTypes.object,
-  handleEmailInUse: PropTypes.function
+  smsNumber: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
-  sfoxProfile: selectors.core.data.sfox.getProfile(state),
   signupError: path(['sfoxSignup', 'signupError'], state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-})
-
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { smsCodeSent: false, error: false } })
-)
+const enhance = compose(connect(mapStateToProps))
 
 export default enhance(AcceptTerms)
