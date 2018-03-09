@@ -29,9 +29,31 @@ class FormContainer extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    // Submit exchange
-    this.props.sendShapeshiftActions.sendShapeshiftDeposit()
     console.log('Submit to exchange')
+    // Submit exchange
+    switch (this.props.sourceCoin) {
+      case 'BTC': {
+        const payment = { selection: this.props.selection }
+        console.log('handleSubmit BTC', payment)
+        this.props.sendShapeshiftActions.sendShapeshiftDeposit('BTC', payment)
+        break
+      }
+      case 'ETH': {
+        const { sourceAmount, sourceChangeAddress, depositAddress } = this.props
+        const payment = {
+          from: sourceChangeAddress,
+          to: depositAddress,
+          message: 'Shapeshift order',
+          amount: sourceAmount,
+          gasPrice: this.props.gasPrice,
+          gasLimit: this.props.gasLimit,
+          nonce: this.props.nonce
+        }
+        console.log('handleSubmit ETH', payment)
+        this.props.sendShapeshiftActions.sendShapeshiftDeposit('ETH', payment)
+        break
+      }
+    }
   }
 
   handleCancel () {
