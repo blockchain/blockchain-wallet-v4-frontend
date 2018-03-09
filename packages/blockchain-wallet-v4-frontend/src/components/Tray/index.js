@@ -34,7 +34,11 @@ const TrayModal = styled(Modal)`
     }
   }
   > div:last-child {
-    padding: 40px 40px;
+    padding: 70px 70px;
+  }
+  @media (max-width: 767px) {
+    width: 100%;
+    left: 0px;
   }
 `
 
