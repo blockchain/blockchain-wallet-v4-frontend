@@ -23,7 +23,7 @@ export const sfoxSignup = function * () {
     const profile = yield select(selectors.core.data.sfox.getProfile)
 
     if (!profile.error) {
-      yield put(A.nextStep('verify'))
+      yield put(A.nextStep('personal'))
       yield put(actions.alerts.displaySuccess('Account successfully created!'))
     } else {
       yield put(A.signupFailure(profile.error))
@@ -42,7 +42,7 @@ export const setProfile = function * (payload) {
       throw new Error(profile.error)
     } else {
       yield put(actions.alerts.displaySuccess('Profile submitted successfully for verification!'))
-      yield put(A.nextStep('upload'))
+      yield put(A.nextStep('funding'))
     }
   } catch (e) {
     yield put(A.setVerifyError(e))
