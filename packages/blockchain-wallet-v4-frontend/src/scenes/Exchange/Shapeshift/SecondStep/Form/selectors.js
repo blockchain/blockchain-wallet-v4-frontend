@@ -6,6 +6,9 @@ import BigNumber from 'bignumber.js'
 export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
   const ethAddressesR = selectors.core.data.ethereum.getAddresses(state)
   const selection = selectors.core.data.bitcoin.getSelection(state)
+  const nonce = selectors.core.data.ethereum.getNonce(state, prop('address', source)).getOrElse(undefined)
+  const gasPrice = prop('priority', ethFee)
+  const gasLimit = prop('gasLimit', ethFee)
 
   const calculateBtcFee = selection => {
     const feeBitcoin = Exchange.convertBitcoinToBitcoin({ value: prop('fee', selection), fromUnit: 'SAT', toUnit: 'BTC' }).value
@@ -15,7 +18,7 @@ export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
   const calculateEthFee = ethAddresses => {
     const transform = ethAddresses => {
       const ethBalance = path([prop('address', source), 'balance'], ethAddresses)
-      const data = utils.ethereum.calculateBalanceEther(ethFee.priority, ethFee.gasLimit, ethBalance)
+      const data = utils.ethereum.calculateBalanceEther(gasPrice, gasLimit, ethBalance)
       return prop('fee', data)
     }
     return lift(transform)(ethAddresses)
@@ -24,6 +27,10 @@ export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
   const feeR = equals('BTC', sourceCoin) ? calculateBtcFee(selection) : calculateEthFee(ethAddressesR)
 
   return lift((fee) => ({
+    selection,
+    gasPrice,
+    gasLimit,
+    nonce,
     depositFee: fee,
     depositTotal: new BigNumber(depositAmount).add(new BigNumber(fee)).toString()
   }))(feeR)
