@@ -6,7 +6,7 @@ import Maybe from 'data.maybe'
 import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import BIP39 from 'bip39'
-import { compose, curry, map, is, pipe, __, concat, split, isNil, flip } from 'ramda'
+import { compose, curry, map, is, pipe, __, concat, split, isNil, flip, append } from 'ramda'
 import { traversed, traverseOf, over, view, set } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
@@ -111,11 +111,7 @@ export const reviver = (jsObject) => {
 
 // fromEncryptedPayload :: String -> String -> Either Error Wallet
 export const fromEncryptedPayload = curry((password, payload) => {
-  let decryptWallet = compose(
-    map(fromJS),
-    crypto.decryptWallet(password),
-    JSON.parse
-  )
+  let decryptWallet = compose(map(fromJS), crypto.decryptWallet(password))
   return Either.of(payload).chain(decryptWallet)
 })
 
@@ -182,6 +178,24 @@ export const importLegacyAddress = curry((wallet, key, createdTime, password, bi
     .map(aE => aE.chain(applyCipher(wallet, password, Address.encryptSync)))
     .map(aE => aE.map(appendAddress))
     .chain(eitherToTask)
+})
+
+// upgradeToHd :: String -> String -> String? -> Either Error Wallet
+export const upgradeToHd = curry((mnemonic, firstLabel, password, wallet) => {
+  return Either.of(wallet)
+    .chain(newHDWallet(mnemonic, password))
+    .chain(newHDAccount(firstLabel, password))
+})
+
+// newHDWallet :: String -> String? -> Wallet -> Either Error Wallet
+export const newHDWallet = curry((mnemonic, password, wallet) => {
+  let hdWallet = HDWallet.createNew(mnemonic)
+
+  let appendHdWallet = curry((w, hd) => over(hdWallets, list => list.push(hd), w))
+
+  return Either.of(hdWallet)
+    .chain(applyCipher(wallet, password, HDWallet.encryptSync))
+    .map(appendHdWallet(wallet))
 })
 
 // newHDAccount :: String -> String? -> Wallet -> Either Error Wallet

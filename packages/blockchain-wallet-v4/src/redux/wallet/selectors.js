@@ -1,4 +1,4 @@
-import { compose, map, curry, ifElse, always, isNil, prop } from 'ramda'
+import { compose, map, curry, ifElse, always, isNil, prop, not } from 'ramda'
 import { Wallet
   , Wrapper
   , HDAccount
@@ -37,3 +37,4 @@ export const isSecondPasswordOn = compose(Wallet.isDoubleEncrypted, getWallet)
 export const isMnemonicVerified = compose(HDWallet.selectMnemonicVerified, getDefaultHDWallet)
 export const getMainPassword = compose(Wrapper.selectPassword, getWrapper)
 export const getPbkdf2Iterations = compose(Wrapper.selectPbkdf2Iterations, getWrapper)
+export const isHdWallet = compose(wallets => wallets.size > 0, Wallet.selectHdWallets, getWallet)

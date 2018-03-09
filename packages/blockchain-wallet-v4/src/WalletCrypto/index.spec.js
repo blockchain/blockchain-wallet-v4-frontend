@@ -1,7 +1,7 @@
 import * as WalletCrypto from './'
 import data from './wallet-data.json'
 
-describe.only('WalletCrypto', () => {
+describe('WalletCrypto', () => {
   describe('decryptWallet', () => {
     it('should decrypt a v3 wallet', () => {
       let decrypted = WalletCrypto.decryptWallet('mypassword', data.v3)

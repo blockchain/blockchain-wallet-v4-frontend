@@ -31,3 +31,14 @@ export const promptForInput = function * ({ title, secret, initial = '' }) {
     return response.payload.value
   }
 }
+
+export const forceSyncWallet = function * () {
+  yield put(actions.core.walletSync.forceSync())
+  const { error } = yield race({
+    success: take(actionTypes.core.walletSync.SYNC_SUCCESS),
+    error: take(actionTypes.core.walletSync.SYNC_ERROR)
+  })
+  if (error) {
+    throw new Error('Sync failed')
+  }
+}

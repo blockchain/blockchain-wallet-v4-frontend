@@ -78,21 +78,23 @@ export const computeChecksum = compose(
 
 // fromEncJSON :: String -> JSON -> Either Error Wrapper
 export const fromEncJSON = curry((password, json) => {
-  const plens = lensProp('payload')
-  const ilens = lensProp('pbkdf2_iterations')
-  const vlens = lensProp('version')
-  const EitherPayload = Either.try(JSON.parse)(view(compose(plens), json))
-  const EitherIter = EitherPayload.map(view(ilens))
-  const EitherVer = EitherPayload.map(view(vlens))
+  // return Either.Left(new Error('nah'))
+  const payloadL = lensProp('payload')
+  // const ilens = lensProp('pbkdf2_iterations')
+  // const vlens = lensProp('version')
+  // const payloadE = crypto.decryptWallet(password, json.payload)
+  // return eitherPayload.chain(crypto.decryptWallet(password))
+  // const eitherIter = eitherPayload.map(view(ilens))
+  // const eitherVer = eitherPayload.map(view(vlens))
   // assocIterations :: Number => Either Error Wrapper
-  const assocIterations = wrapper =>
-    EitherIter.map(it => assoc('pbkdf2_iterations', it, wrapper))
+  // const assocIterations = wrapper =>
+  //   eitherIter.map(it => assoc('pbkdf2_iterations', it, wrapper))
   // assocVersion :: Number => Either Error Wrapper
-  const assocVersion = wrapper =>
-    EitherVer.map(v => assoc('version', v, wrapper))
-  return traverseOf(plens, Either.of, Wallet.fromEncryptedPayload(password), json)
-    .chain(assocVersion)
-    .chain(assocIterations)
+  // const assocVersion = wrapper =>
+  //   eitherVer.map(v => assoc('version', v, wrapper))
+  return traverseOf(payloadL, Either.of, Wallet.fromEncryptedPayload(password), json)
+    // .chain(assocVersion)
+    // .chain(assocIterations)
     .map(o => assoc('wallet', o.payload, o))
     .map(dissoc('payload'))
     .map(assoc('password', password))
