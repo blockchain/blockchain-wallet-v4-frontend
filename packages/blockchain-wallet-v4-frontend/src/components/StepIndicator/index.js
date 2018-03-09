@@ -34,10 +34,13 @@ const Steps = styled.div`
 
 const Step = styled.span`
   font-size: 14px;
-  min-width: 60px;
+  min-width: 70px;
+  max-width: 70px;
   margin-left: 50px;
   margin-right: 50px;
+  overflow: hidden;
   text-align: center;
+  white-space: nowrap;
   color: ${props => props.theme['brand-primary']};
 `
 
