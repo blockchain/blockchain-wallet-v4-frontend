@@ -65,12 +65,6 @@ class VerifyMobile extends Component {
     this.updateMobileNumber = this.updateMobileNumber.bind(this)
   }
 
-  componentDidMount () {
-    if (this.props.smsNumber) {
-      this.props.formActions.change('sfoxCreate', 'mobileNumber', this.props.smsNumber)
-    }
-  }
-
   componentWillReceiveProps (nextProps) {
     if (nextProps.smsVerified) {
       this.props.updateUI({ create: 'create_account' })
@@ -120,7 +114,7 @@ class VerifyMobile extends Component {
               <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
                 <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Add Phone Number:' />
               </Text>
-              <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} />
+              <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required]} />
             </MobileInput>
             {
               ui.create === 'enter_mobile_code' && <MobileCodeContainer>

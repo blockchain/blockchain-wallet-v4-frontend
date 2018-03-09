@@ -21,13 +21,12 @@ const Container = styled.div`
 
 const PhoneNumberBox = (field) => {
   const handler = (status, value, countryData, number, id) => {
-    console.log(status, value, countryData, number, id)
     field.input.onChange(value)
   }
 
   return (
     <Container>
-      <IntlTelInput onPhoneNumberChange={handler} format preferredCountries={['us', 'gb']} css={['intl-tel-input', 'form-control']} utilsScript={'libphonenumber.js'} />
+      <IntlTelInput defaultValue={field.defaultValue || ''} onPhoneNumberChange={handler} format preferredCountries={['us', 'gb']} css={['intl-tel-input', 'form-control']} utilsScript={'libphonenumber.js'} />
     </Container>
   )
 }
