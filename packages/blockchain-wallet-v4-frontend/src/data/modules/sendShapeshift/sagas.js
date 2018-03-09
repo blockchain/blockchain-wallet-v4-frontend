@@ -15,7 +15,7 @@ export const sendShapeshiftDeposit = function * (action) {
 
     switch (coin) {
       case 'BTC': {
-        const network = settings.NEWORK_BITCOIN
+        const network = settings.NETWORK_BITCOIN
         const { selection } = payment
         console.log('Saga BTC', network, selection)
         // const saga = askSecondPasswordEnhancer(sagas.core.data.bitcoin.signAndPublish)
