@@ -32,9 +32,9 @@ export const decryptWalletSync = (password, data) => {
 
   let wrapper, version, decrypted
 
-  if (typeof data === 'object') {
-    wrapper = data
-  } else if (typeof data === 'string') {
+  try {
+    wrapper = JSON.parse(data)
+  } catch (e) {
     version = 1
   }
 

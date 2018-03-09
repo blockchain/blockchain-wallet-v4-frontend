@@ -1,0 +1,25 @@
+{
+  "guid": "40f09ca9-4a94-47ad-b9c8-47d4bbacef5e",
+  "sharedKey": "f222bfab-5775-459f-8da3-285fed0441e8",
+  "options": {
+    "pbkdf2_iterations": 10,
+    "fee_policy": 0,
+    "html5_notifications": false,
+    "logout_time": 1800000,
+    "tx_display": 1,
+    "always_keep_local_backup": false,
+    "transactions_per_page": 30,
+    "additional_seeds": []
+  },
+  "keys": [
+    {
+      "addr": "1EGW5YZs4EXExhLiCVvRXTRVmfLjs69bZc",
+      "priv": "3jqZaXvzgV9Zp8BqJHovefNZ8nc1BHsLrbZRFuQPrZtG",
+      "created_time": 0,
+      "created_device_name": "javascript_iphone_app",
+      "created_device_version": "0.1 BETA",
+      "tag": 2,
+      "label": "Aaaa"
+    }
+  ]
+}
