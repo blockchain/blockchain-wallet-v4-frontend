@@ -1,6 +1,8 @@
-import { curry, is, drop, clamp, split, length } from 'ramda'
+import {curry, is, drop, clamp, split, length, add, compose,
+  isNil, ifElse, always, complement, either, tryCatch} from 'ramda'
 import { over, view } from 'ramda-lens'
 import Type from '../types/Type'
+import {addressToScript} from '../utils/bitcoin'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -55,7 +57,7 @@ export const selectChange = view(change)
 export const fromJS = (o) => {
   return new Coin({
     value: parseInt(o.value),
-    script: o.script,
+    script: o.script ? o.script : addressToScript(o.address),
     txHash: o.tx_hash_big_endian,
     index: o.tx_output_n,
     change: o.change || false,
@@ -72,11 +74,13 @@ export const inputBytes = input => {
   return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
 }
 
-export const outputBytes = output => {
-  // const coin = isCoin(output) ? output : new Coin(output)
-  // return TX_OUTPUT_BASE + (isNil(coin.script) ? TX_OUTPUT_PUBKEYHASH : coin.script.length)
-  return TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH
-}
+export const outputBytes = ifElse(either(complement(isCoin), compose(isNil, selectAddress)),
+  always(TX_INPUT_BASE + TX_OUTPUT_PUBKEYHASH),
+  compose(
+    add(TX_OUTPUT_BASE),
+    tryCatch(
+      compose(s => s.length, selectScript),
+      always(TX_OUTPUT_PUBKEYHASH))))
 
 export const effectiveValue = curry((feePerByte, coin) =>
   clamp(0, Infinity, coin.value - feePerByte * inputBytes(coin)))

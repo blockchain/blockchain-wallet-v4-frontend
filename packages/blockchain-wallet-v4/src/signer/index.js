@@ -1,4 +1,4 @@
-import { curry, compose, lensProp, map, forEach, addIndex } from 'ramda'
+import { curry, compose, lensProp, map, forEach, addIndex, defaultTo } from 'ramda'
 import { traversed, traverseOf } from 'ramda-lens'
 import Bitcoin from 'bitcoinjs-lib'
 import BigNumber from 'bignumber.js'
@@ -20,7 +20,7 @@ export const hasPrivateKey = selection => selection.inputs[0] ? btc.isValidBitco
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
   const addInput = coin => tx.addInput(coin.txHash, coin.index)
-  const addOutput = coin => tx.addOutput(coin.address, coin.value)
+  const addOutput = coin => tx.addOutput(defaultTo(coin.address, coin.script), coin.value)
   const sign = (coin, i) => tx.sign(i, coin.priv)
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)
