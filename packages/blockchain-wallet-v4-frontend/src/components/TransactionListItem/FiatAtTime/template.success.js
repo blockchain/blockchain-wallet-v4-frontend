@@ -8,29 +8,24 @@ import { Text } from 'blockchain-info-components'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  padding: 5px 0;
-
-  @media(min-width: 1200px) {
-    justify-content: flex-end;
-    padding: 0;
-  }
+  height: 20px;
 `
 
 const Success = props => (
   <Wrapper>
-    <Text size='13px' weight={300}>
-      <FormattedMessage id='scenes.transactions.bch.content.list.listitem.initial' defaultMessage='Value when sent: ' />
+    <Text size='12px' weight={300}>
+      <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.initial' defaultMessage={`Value when ${props.type}: `} />
     </Text>
-    <Text size='13px' weight={500}>{`${props.currency}${props.fiatAtTime}`}</Text>
+    <Text size='12px' weight={200}>{`${props.currency}${props.fiatAtTime}`}</Text>
   </Wrapper>
 )
 
 Success.propTypes = {
   currency: PropTypes.string.isRequired,
-  fiatAtTime: PropTypes.string.isRequired
+  fiatAtTime: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
 }
 
 export default Success
