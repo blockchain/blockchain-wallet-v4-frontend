@@ -53,7 +53,7 @@ class VerifyMobile extends Component {
 
   componentDidMount () {
     if (this.props.smsNumber) {
-      this.props.formActions.change('sfoxCreateVerifyMobile', 'mobileNumber', this.props.smsNumber)
+      this.props.formActions.change('sfoxCreate', 'mobileNumber', this.props.smsNumber)
     }
   }
 
@@ -129,8 +129,8 @@ class VerifyMobile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  mobileNumber: formValueSelector('sfoxCreateVerifyMobile')(state, 'mobileNumber'),
-  mobileCode: formValueSelector('sfoxCreateVerifyMobile')(state, 'mobileCode')
+  mobileNumber: formValueSelector('sfoxCreate')(state, 'mobileNumber'),
+  mobileCode: formValueSelector('sfoxCreate')(state, 'mobileCode')
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -143,4 +143,4 @@ const enhance = compose(
   ui({ state: { smsCodeSent: false, smsCodeResent: false } })
 )
 
-export default reduxForm({ form: 'sfoxCreateVerifyMobile' })(enhance(VerifyMobile))
+export default enhance(VerifyMobile)

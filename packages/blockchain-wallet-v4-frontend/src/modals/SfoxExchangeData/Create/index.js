@@ -11,21 +11,21 @@ class CreateContainer extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { uniqueEmail: true, busy: false }
+    this.state = { busy: false }
 
     this.handleEmailInUse = this.handleEmailInUse.bind(this)
     this.handleSignup = this.handleSignup.bind(this)
-    this.doneChangingEmail = this.doneChangingEmail.bind(this)
     this.setBusyOff = this.setBusyOff.bind(this)
+  }
+
+  componentDidMount () {
+    if (this.props.emailVerified && this.props.smsVerified) this.props.updateUI({ create: 'create_account' })
+    else if (this.props.emailVerified) this.props.updateUI({ create: 'change_mobile' })
+    else this.props.updateUI({ create: 'enter_email_code' })
   }
 
   handleEmailInUse () {
     this.setState({ uniqueEmail: false, busy: false })
-  }
-
-  doneChangingEmail () {
-    this.setState({ uniqueEmail: true })
-    this.props.updateUI({ changingEmail: false })
   }
 
   setBusyOff () {
@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { smsCodeSent: false, changingEmail: false } })
+  ui({ state: { create: '' } })
 )
 
 export default enhance(CreateContainer)

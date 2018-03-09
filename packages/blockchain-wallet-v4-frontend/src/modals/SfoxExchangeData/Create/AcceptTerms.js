@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
 import { actions, selectors } from 'data'
-import { reduxForm, formValueSelector, Field } from 'redux-form'
+import { Field } from 'redux-form'
 import { path } from 'ramda'
 import { TextBox } from 'components/Form'
 import { Text, Button, Icon, HeartbeatLoader } from 'blockchain-info-components'
@@ -76,8 +76,8 @@ class AcceptTerms extends Component {
   }
 
   componentDidMount () {
-    this.props.formActions.change('sfoxCreateAcceptTerms', 'email', this.props.email)
-    this.props.formActions.change('sfoxCreateAcceptTerms', 'phone', this.props.smsNumber)
+    this.props.formActions.change('sfoxCreate', 'email', this.props.email)
+    this.props.formActions.change('sfoxCreate', 'phone', this.props.smsNumber)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -95,8 +95,7 @@ class AcceptTerms extends Component {
   }
 
   changeEmail () {
-    this.props.updateUI({ error: false })
-    this.props.handleEmailInUse()
+    this.props.updateUI({ create: 'change_email' })
   }
 
   render () {
@@ -190,4 +189,4 @@ const enhance = compose(
   ui({ state: { smsCodeSent: false, error: false } })
 )
 
-export default reduxForm({ form: 'sfoxCreateAcceptTerms' })(enhance(AcceptTerms))
+export default enhance(AcceptTerms)
