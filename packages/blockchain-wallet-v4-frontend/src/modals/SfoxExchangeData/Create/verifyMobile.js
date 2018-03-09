@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import ui from 'redux-ui'
-import { actions } from 'data'
-import { reduxForm, formValueSelector, Field } from 'redux-form'
+import { actions, selectors } from 'data'
+import { formValueSelector, Field } from 'redux-form'
 
 import { TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
@@ -57,8 +57,14 @@ class VerifyMobile extends Component {
     }
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.smsVerified) {
+      this.props.updateUI({ create: 'create_account' })
+    }
+  }
+
   updateMobileNumber () {
-    this.props.updateUI({ smsCodeSent: true })
+    this.props.updateUI({ create: 'enter_mobile_code' })
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
@@ -69,7 +75,7 @@ class VerifyMobile extends Component {
 
   onSubmit (e) {
     e.preventDefault()
-    if (!this.props.ui.smsCodeSent) {
+    if (this.props.ui.create !== 'enter_mobile_code') {
       this.updateMobileNumber()
     } else {
       this.props.settingsActions.verifyMobile(this.props.mobileCode)
@@ -95,7 +101,7 @@ class VerifyMobile extends Component {
             </Text>
             <Field name='mobileNumber' component={TextBox} validate={[required]} />
             {
-              !ui.smsCodeSent && <ButtonWrapper>
+              ui.create !== 'enter_mobile_code' && <ButtonWrapper>
                 <Button type='submit' nature='primary' fullwidth disabled={invalid}>
                   <FormattedMessage id='sfoxexchangedata.create.mobile.textcode' defaultMessage='Text Verification Code' />
                 </Button>
@@ -103,7 +109,7 @@ class VerifyMobile extends Component {
             }
           </MobileInput>
           {
-            ui.smsCodeSent && <MobileCodeContainer>
+            ui.create === 'enter_mobile_code' && <MobileCodeContainer>
               <Text size='14px' weight={400}>
                 <FormattedMessage id='sfoxexchangedata.create.mobile.entercode' defaultMessage='Enter Verification Code:' />
               </Text>
@@ -116,7 +122,7 @@ class VerifyMobile extends Component {
             </MobileCodeContainer>
           }
           {
-            ui.smsCodeSent && <ButtonWrapper>
+            ui.create === 'enter_mobile_code' && <ButtonWrapper>
               <Button type='submit' nature='primary' fullwidth disabled={invalid}>
                 Continue
               </Button>
@@ -130,7 +136,8 @@ class VerifyMobile extends Component {
 
 const mapStateToProps = (state) => ({
   mobileNumber: formValueSelector('sfoxCreate')(state, 'mobileNumber'),
-  mobileCode: formValueSelector('sfoxCreate')(state, 'mobileCode')
+  mobileCode: formValueSelector('sfoxCreate')(state, 'mobileCode'),
+  smsNumber: selectors.core.settings.getSmsNumber(state).data
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -140,7 +147,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { smsCodeSent: false, smsCodeResent: false } })
+  ui({ state: { smsCodeResent: false } })
 )
 
 export default enhance(VerifyMobile)

@@ -13,7 +13,6 @@ class CreateContainer extends Component {
 
     this.state = { busy: false }
 
-    this.handleEmailInUse = this.handleEmailInUse.bind(this)
     this.handleSignup = this.handleSignup.bind(this)
     this.setBusyOff = this.setBusyOff.bind(this)
   }
@@ -22,10 +21,6 @@ class CreateContainer extends Component {
     if (this.props.emailVerified && this.props.smsVerified) this.props.updateUI({ create: 'create_account' })
     else if (this.props.emailVerified) this.props.updateUI({ create: 'change_mobile' })
     else this.props.updateUI({ create: 'enter_email_code' })
-  }
-
-  handleEmailInUse () {
-    this.setState({ uniqueEmail: false, busy: false })
   }
 
   setBusyOff () {
@@ -42,27 +37,21 @@ class CreateContainer extends Component {
       {...this.props}
       setBusyOff={this.setBusyOff}
       handleSignup={this.handleSignup}
-      uniqueEmail={this.state.uniqueEmail}
-      handleEmailInUse={this.handleEmailInUse}
-      doneChangingEmail={this.doneChangingEmail}
     />
   }
 }
 
 CreateContainer.propTypes = {
-  sfoxFrontendActions: PropTypes.object,
-  emailVerified: PropTypes.number.isRequired,
-  smsVerified: PropTypes.number.isRequired,
   ui: PropTypes.object,
-  smsNumber: PropTypes.string,
-  updateUI: PropTypes.function
+  updateUI: PropTypes.function,
+  sfoxFrontendActions: PropTypes.object,
+  smsVerified: PropTypes.number.isRequired,
+  emailVerified: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  email: selectors.core.settings.getEmail(state).data,
-  emailVerified: selectors.core.settings.getEmailVerified(state).data,
-  smsNumber: selectors.core.settings.getSmsNumber(state).data,
-  smsVerified: selectors.core.settings.getSmsVerified(state).data
+  smsVerified: selectors.core.settings.getSmsVerified(state).data,
+  emailVerified: selectors.core.settings.getEmailVerified(state).data
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -72,7 +61,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { create: '' } })
+  ui({ state: { create: '', uniqueEmail: true } })
 )
 
 export default enhance(CreateContainer)

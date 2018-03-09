@@ -82,11 +82,9 @@ class AcceptTerms extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.signupError) {
-      this.props.updateUI({ error: true })
+      this.props.updateUI({ uniqueEmail: false })
       this.setState({ error: nextProps.signupError })
       this.props.setBusyOff()
-    } else {
-      this.props.updateUI({ error: false })
     }
   }
 
@@ -118,7 +116,7 @@ class AcceptTerms extends Component {
               </Text>
               <Field name='email' component={TextBox} validate={[required]} />
               {
-                ui.error
+                !ui.uniqueEmail
                   ? handleError(this.state.error)
                   : null
               }
