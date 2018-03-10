@@ -3,16 +3,11 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
-import { Text, Button, Icon, HeartbeatLoader } from 'blockchain-info-components'
+import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
 import {
   required,
-  requiredSSN,
-  requiredDOB,
   requiredUsZipcode,
-  normalizeSocialSecurity,
-  normalizeDateOfBirth,
-  normalizeUSZipcode,
-  ageOverEighteen } from 'services/FormHelper'
+  normalizeUSZipcode } from 'services/FormHelper'
 
 const Form = styled.form`
   width: 100%;
@@ -46,10 +41,15 @@ const AddressLabel = styled(Text)`
   }
 `
 
-const Verify = (props) => {
-  const { handleSubmit, invalid, pristine, submitting, verificationError } = props
-  const { busy, error } = props.ui
-  // TODO decide where to put verificationError/error
+const Address = (props) => {
+  const { invalid, submitting } = props
+  const { busy } = props.ui
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    props.updateUI({ verify: 'identity' })
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
       <ColLeft>
@@ -118,7 +118,7 @@ const Verify = (props) => {
         </InputWrapper>
       </ColLeft>
       <ColRight>
-        <Button nature='primary' fullwidth type='submit' disabled={invalid || pristine || submitting}>
+        <Button nature='primary' fullwidth type='submit' disabled={invalid || submitting || busy}>
           {
             !busy
               ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
@@ -130,4 +130,4 @@ const Verify = (props) => {
   )
 }
 
-export default reduxForm({ form: 'sfoxVerify' })(Verify)
+export default reduxForm({ form: 'sfoxAddress', destroyOnUnmount: false })(Address)
