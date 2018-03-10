@@ -26,7 +26,7 @@ const TrayModal = styled(Modal)`
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   > div:first-child {
-    padding: 70px 40px 40px 40px;
+    padding: 70px 40px 40px 70px;
     > span:last-child {
       top: 30px;
       right: 40px;

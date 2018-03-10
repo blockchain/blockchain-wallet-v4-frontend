@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Image } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -44,6 +45,10 @@ const Step = styled.span`
   color: ${props => props.theme['brand-primary']};
 `
 
+const Logo = styled(Image)`
+  margin-right: 60px;
+`
+
 const StepIndicator = (props) => {
   const { step, stepMap } = props
   const steps = Object.keys(stepMap)
@@ -52,6 +57,7 @@ const StepIndicator = (props) => {
 
   return (
     <Wrapper>
+      <Logo name='blue-logo' height='50px' />
       <Steps width={width - 0.1}>
         { steps.map((s) => <Step>{stepMap[s]}</Step>) }
       </Steps>
