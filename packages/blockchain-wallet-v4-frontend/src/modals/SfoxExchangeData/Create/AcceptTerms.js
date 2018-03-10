@@ -8,7 +8,7 @@ import { Field } from 'redux-form'
 import { selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
@@ -35,12 +35,23 @@ const PartnerSubHeader = styled.div`
   font-size: 14px;
 `
 const ButtonWrapper = styled.div`
-  margin: 25px 0px;
+  margin-top: 25px;
 `
 const AcceptTermsContainer = styled.div`
-  margin: 25px 0px;
   display: flex;
   flex-direction: row;
+  margin: 25px 0px;
+  font-size: 12px;
+  a {
+    color: ${props => props.theme['brand-secondary']}
+  }
+`
+const ErrorWrapper = styled.div`
+  margin-top: 5px;
+  a {
+    cursor: pointer;
+    color: ${props => props.theme['brand-secondary']}
+  }
 `
 
 class AcceptTerms extends Component {
@@ -54,8 +65,6 @@ class AcceptTerms extends Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.signupError) {
       this.props.updateUI({ uniqueEmail: false })
-      this.setState({ error: nextProps.signupError })
-      this.props.setBusyOff()
     }
   }
 
@@ -64,7 +73,7 @@ class AcceptTerms extends Component {
   }
 
   render () {
-    const { invalid } = this.props
+    const { busy, invalid, email, smsNumber, signupError } = this.props
 
     return (
       <Form onSubmit={this.props.handleSignup}>
@@ -74,7 +83,7 @@ class AcceptTerms extends Component {
               <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.header.enter_email_code' defaultMessage='Blockchain + SFOX' />
             </PartnerHeader>
             <PartnerSubHeader>
-              <FormattedMessage id='sfoxexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='Accept the terms and conditions to create your SFOX account.' />
+              <FormattedHTMLMessage id='sfoxexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='Thank you for verifying your email ({email}) and phone number ({mobile})! Please accept the terms and conditions to create your SFOX account.' values={{email: email, mobile: smsNumber}} />
             </PartnerSubHeader>
             <AcceptTermsContainer>
               <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
@@ -85,14 +94,21 @@ class AcceptTerms extends Component {
         </ColLeft>
         <ColRight>
           <ButtonWrapper>
-            <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+            <Button type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError}>
               {
-                !this.props.busy
+                !busy
                   ? <span>Continue</span>
                   : <HeartbeatLoader height='20px' width='20px' color='white' />
               }
             </Button>
           </ButtonWrapper>
+          <ErrorWrapper>
+            {
+              signupError && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
+                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
+              </Text>
+            }
+          </ErrorWrapper>
         </ColRight>
       </Form>
     )
