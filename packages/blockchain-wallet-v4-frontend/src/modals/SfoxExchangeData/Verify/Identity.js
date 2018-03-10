@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import {
   requiredSSN,
   requiredDOB,
@@ -29,6 +29,10 @@ const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
 `
+const LockIcon = styled(Icon)`
+  font-size: 24px;
+  margin-left: 7px;
+`
 const PartnerSubHeader = styled.div`
   margin-top: 5px;
   font-size: 14px;
@@ -53,7 +57,8 @@ const Identity = (props) => {
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
-            <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage='Personal Information' />
+            <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage='Verify Identity' />
+            <LockIcon name='lock' />
           </PartnerHeader>
           <PartnerSubHeader>
             <FormattedMessage id='sfoxexchangedata.verify.partner.subheader' defaultMessage='We are required to collect this information to open your exchange account. This information will be sent directly to SFOX and will not be saved to your Blockchain wallet.' />
@@ -79,7 +84,7 @@ const Identity = (props) => {
         </InputWrapper>
       </ColLeft>
       <ColRight>
-        <Button nature='primary' fullwidth type='submit' disabled={busy || invalid || pristine || submitting || verificationError}>
+        <Button uppercase nature='primary' fullwidth type='submit' disabled={busy || invalid || pristine || submitting || verificationError}>
           {
             !busy
               ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />

@@ -118,7 +118,7 @@ const Address = (props) => {
         </InputWrapper>
       </ColLeft>
       <ColRight>
-        <Button nature='primary' fullwidth type='submit' disabled={invalid || submitting || busy}>
+        <Button uppercase nature='primary' fullwidth type='submit' disabled={invalid || submitting || busy}>
           {
             !busy
               ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
