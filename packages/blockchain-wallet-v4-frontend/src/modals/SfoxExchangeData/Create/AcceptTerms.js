@@ -101,7 +101,7 @@ class AcceptTerms extends Component {
         </ColLeft>
         <ColRight>
           <ButtonWrapper>
-            <Button type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError}>
+            <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError}>
               {
                 !busy
                   ? <span>Continue</span>

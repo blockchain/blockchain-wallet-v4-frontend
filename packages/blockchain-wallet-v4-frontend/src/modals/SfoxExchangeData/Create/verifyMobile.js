@@ -132,7 +132,7 @@ class VerifyMobile extends Component {
         <ColRight>
           {
             ui.create === 'enter_mobile_code' && <ButtonWrapper>
-              <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
                 Continue
               </Button>
             </ButtonWrapper>

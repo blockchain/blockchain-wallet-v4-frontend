@@ -154,12 +154,12 @@ class VerifyEmail extends Component {
           {
             ui.create === 'enter_email_code'
               ? <ButtonWrapper>
-                <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+                <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
                   <FormattedMessage id='sfoxexchangedata.create.verifyemail.continue' defaultMessage='Continue' />
                 </Button>
               </ButtonWrapper>
               : <ButtonWrapper>
-                <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+                <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
                   <FormattedMessage id='sfoxexchangedata.create.verifyemail.sendverificationemail' defaultMessage='Send Verification Code Email' />
                 </Button>
                 <CancelText onClick={() => this.props.updateUI({create: 'enter_email_code'})}>Cancel</CancelText>
