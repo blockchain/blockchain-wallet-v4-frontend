@@ -40,7 +40,7 @@ const ButtonWrapper = styled.div`
 const AcceptTermsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 25px 0px;
+  margin-top: 25px;
   font-size: 12px;
   a {
     color: ${props => props.theme['brand-secondary']}

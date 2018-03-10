@@ -19,10 +19,10 @@ const transitionStyles = {
 const TrayModal = styled(Modal)`
   left: 270px;
   font-weight: 300;
+  overflow: hidden;
   position: absolute;
   width: calc(100% - 270px);
-  height: 100vh;
-  overflow: auto;
+  height: calc(100vh - 60px);
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   > div:first-child {
@@ -34,7 +34,9 @@ const TrayModal = styled(Modal)`
     }
   }
   > div:last-child {
+    overflow: auto;
     padding: 70px 70px;
+    height: calc(100% - 160px);
   }
   @media (max-width: 767px) {
     width: 100%;
