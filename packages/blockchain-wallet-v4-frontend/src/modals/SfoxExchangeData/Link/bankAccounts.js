@@ -8,7 +8,7 @@ import { actions } from 'data'
 import { reduxForm, formValueSelector, Field } from 'redux-form'
 
 import { TextBox, Form } from 'components/Form'
-import { Text, Button } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 
 import { required } from 'services/FormHelper'
 
@@ -38,6 +38,7 @@ class BankAccounts extends Component {
 
   handleSubmit (e) {
     e.preventDefault()
+    this.setState({ busy: true })
     this.props.onSetBankAccount({
       id: this.state.id,
       name: this.props.holderName
@@ -59,8 +60,12 @@ class BankAccounts extends Component {
             <FormattedMessage id='sfoxexchangedata.link.accountholdername' defaultMessage="Account Holder's Name" />
           </Text>
           <Field name='accountHolder' component={TextBox} validate={required} />
-          <Button type='submit' fullwidth nature='primary' disabled={this.props.submitting || this.props.invalid || !this.state.id}>
-            <FormattedMessage id='sfoxexchangedata.link.addaccount' defaultMessage='Add Account' />
+          <Button type='submit' fullwidth nature='primary' disabled={this.state.busy || this.props.submitting || this.props.invalid || !this.state.id}>
+            {
+              !this.state.busy
+                ? <FormattedMessage id='sfoxexchangedata.link.addaccount' defaultMessage='Add Account' />
+                : <HeartbeatLoader height='20px' width='20px' color='white' />
+            }
           </Button>
         </Form>
       </Container>
