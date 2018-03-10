@@ -10,10 +10,10 @@ const BaseButton = styled.button.attrs({
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: ${props => props.fullwidth ? '100%' : 'auto'};
-  min-width: 140px;
+  width: ${props => props.fullwidth ? '100%' : props.width ? props.width : 'auto'};
+  min-width: ${props => props.width ? props.width : '140px'};
   height: ${props => props.height};
-  padding: 10px 15px;
+  padding: ${props => props.padding ? props.padding : '10px 15px'};
   box-sizing: border-box;
   user-select: none;
   text-align: center;
@@ -63,7 +63,7 @@ const selectColor = (nature, disabled) => {
 }
 
 const Button = (props) => {
-  const { children, nature, theme, disabled, ...rest } = props
+  const { children, nature, disabled, ...rest } = props
   const { color, backgroundColor, borderColor } = selectColor(nature, disabled)
 
   return (
@@ -85,7 +85,9 @@ Button.propTypes = {
   rounded: PropTypes.bool,
   bold: PropTypes.bool,
   uppercase: PropTypes.bool,
-  capitalize: PropTypes.bool
+  capitalize: PropTypes.bool,
+  width: PropTypes.string,
+  padding: PropTypes.string
 }
 
 Button.defaultProps = {

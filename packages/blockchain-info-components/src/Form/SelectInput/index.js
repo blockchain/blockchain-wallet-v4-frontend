@@ -58,7 +58,7 @@ class SelectInputContainer extends React.Component {
   }
 
   getSelected (items, value) {
-    if (isNil(value)|| isEmpty(value)) return undefined
+    if (isNil(value) || isEmpty(value)) return undefined
     return head(filter(x => equals(x.value, value), items))
   }
 
