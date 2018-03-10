@@ -1,4 +1,4 @@
-import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
+import { call, put, select, take, takeLatest, takeEvery, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { indexBy, length, path, prop, last } from 'ramda'
 import { delayAjax } from '../../paths'
@@ -116,7 +116,7 @@ export default ({ api } = {}) => {
   return function * () {
     yield takeLatest(AT.FETCH_BITCOIN_DATA, fetchData)
     yield takeLatest(AT.FETCH_BITCOIN_FEE, fetchFee)
-    yield takeLatest(AT.FETCH_BITCOIN_FIAT_AT_TIME, fetchFiatAtTime)
+    yield takeEvery(AT.FETCH_BITCOIN_FIAT_AT_TIME, fetchFiatAtTime)
     yield takeLatest(AT.FETCH_BITCOIN_RATES, fetchRates)
     // yield takeLatest(AT.FETCH_BITCOIN_TRANSACTIONS, fetchTransactions)
     yield fork(watchTransactions)

@@ -112,18 +112,6 @@ const bchReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BCH_TRANSACTIONS_FAILURE: {
       return over(lensProp('transactions'), dropLast(1), state)
     }
-    case AT.FETCH_BCH_FIAT_AT_TIME_LOADING: {
-      const { hash, currency } = payload
-      return assocPath(['transactions_fiat', hash, currency], Remote.Loading, state)
-    }
-    case AT.FETCH_BCH_FIAT_AT_TIME_SUCCESS: {
-      const { hash, currency, data } = payload
-      return assocPath(['transactions_fiat', hash, currency], Remote.Success(data), state)
-    }
-    case AT.FETCH_BCH_FIAT_AT_TIME_FAILURE: {
-      const { hash, currency, error } = payload
-      return assocPath(['transactions_fiat', hash, currency], Remote.Success(error), state)
-    }
     case AT.FETCH_BCH_TRANSACTION_HISTORY_LOADING: {
       return assoc('transaction_history', Remote.Loading, state)
     }

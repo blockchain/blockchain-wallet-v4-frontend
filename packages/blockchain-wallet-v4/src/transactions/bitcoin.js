@@ -178,9 +178,10 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
 
   const formattedDate = time => {
     const date = moment.utc(time * 1000)
+
     return equals(date.year(), moment().year())
-      ? date.format('MMMM D @kk:mm')
-      : date.format('MMMM D YYYY @kk:mm')
+      ? date.format('MMMM D @ h:mm A')
+      : date.format('MMMM D YYYY @ h:mm A')
   }
 
   return ({
