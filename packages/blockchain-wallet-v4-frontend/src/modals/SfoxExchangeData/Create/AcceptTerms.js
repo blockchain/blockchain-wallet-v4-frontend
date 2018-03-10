@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { path } from 'ramda'
 import { Field } from 'redux-form'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
@@ -57,26 +57,33 @@ const ErrorWrapper = styled.div`
 class AcceptTerms extends Component {
   constructor (props) {
     super(props)
-    this.state = { acceptedTerms: false }
+    this.state = {
+      busy: false,
+      acceptedTerms: false
+    }
 
-    this.changeEmail = this.changeEmail.bind(this)
+    this.handleSignup = this.handleSignup.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.signupError) {
+      this.setState({ busy: false })
       this.props.updateUI({ uniqueEmail: false })
     }
   }
 
-  changeEmail () {
-    this.props.updateUI({ create: 'change_email' })
+  handleSignup (e) {
+    e.preventDefault()
+    this.setState({ busy: true })
+    this.props.sfoxFrontendActions.sfoxSignup()
   }
 
   render () {
-    const { busy, invalid, email, smsNumber, signupError } = this.props
+    const { busy } = this.state
+    const { invalid, email, smsNumber, signupError } = this.props
 
     return (
-      <Form onSubmit={this.props.handleSignup}>
+      <Form onSubmit={this.handleSignup}>
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
@@ -129,6 +136,10 @@ const mapStateToProps = (state) => ({
   signupError: path(['sfoxSignup', 'signupError'], state)
 })
 
-const enhance = compose(connect(mapStateToProps))
+const mapDispatchToProps = (dispatch) => ({
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
+})
+
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
 
 export default enhance(AcceptTerms)
