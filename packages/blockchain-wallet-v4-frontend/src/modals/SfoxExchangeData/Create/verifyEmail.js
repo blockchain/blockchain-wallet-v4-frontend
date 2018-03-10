@@ -70,8 +70,9 @@ class VerifyEmail extends Component {
   componentDidMount () {
     if (this.props.ui.create === 'enter_email_code') {
       this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
-      this.props.formActions.change('sfoxCreate', 'emailAddress', this.props.oldEmail)
     }
+
+    this.props.formActions.change('sfoxCreate', 'emailAddress', this.props.oldEmail)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -159,7 +160,7 @@ class VerifyEmail extends Component {
                 </Button>
               </ButtonWrapper>
               : <ButtonWrapper>
-                <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
+                <Button type='submit' nature='primary' fullwidth disabled={invalid}>
                   <FormattedMessage id='sfoxexchangedata.create.verifyemail.sendverificationemail' defaultMessage='Send Verification Code Email' />
                 </Button>
                 <CancelText onClick={() => this.props.updateUI({create: 'enter_email_code'})}>Cancel</CancelText>
