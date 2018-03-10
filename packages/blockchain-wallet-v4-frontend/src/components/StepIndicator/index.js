@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   width: 100%;
 
   @media(max-width: 991px) {
-    flex-direction: column;
+    flex-direction: row-reverse;
   }
 `
 
@@ -27,9 +27,23 @@ const Steps = styled.div`
     height: 8px;
     bottom: -8px;
     position: absolute;
-    transition: width 0.3s;
+    transition: width 0.3s, height .3s;
     width: ${props => props.width * 100}%;
     background: ${props => props.theme['brand-primary']};
+  }
+  @media (max-width: 991px) {
+    border-bottom: 0;
+    padding-bottom: 0px;
+    flex-direction: column;
+    border-left: 8px solid ${props => props.theme['gray-2']};
+    &:after {
+      top: 0;
+      left: -8px;
+      width: 8px;
+      bottom: initial;
+      height: ${props => props.width * 100}%;
+      background: ${props => props.theme['brand-primary']};
+    }
   }
 `
 
@@ -43,10 +57,20 @@ const Step = styled.span`
   text-align: center;
   white-space: nowrap;
   color: ${props => props.theme['brand-primary']};
+  @media (max-width: 991px) {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
 `
 
 const Logo = styled(Image)`
   margin-right: 60px;
+  @media (max-width: 991px) {
+    margin-right: 0px;
+    margin-left: 30px;
+  }
 `
 
 const StepIndicator = (props) => {
