@@ -90,10 +90,10 @@ class VerifyEmail extends Component {
     e.preventDefault()
     if (this.props.ui.create === 'enter_email_code') {
       this.props.sfoxFrontendActions.clearSignupError()
-      this.props.settingsActions.verifyEmail(this.props.emailCode)
+      this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
-      this.props.settingsActions.updateEmail(this.props.emailAddress)
+      this.props.securityCenterActions.updateEmail(this.props.emailAddress)
     }
   }
 
@@ -176,7 +176,6 @@ VerifyEmail.propTypes = {
   ui: PropTypes.object,
   invalid: PropTypes.boolean,
   updateUI: PropTypes.function,
-  settingsActions: PropTypes.object,
   emailAddress: PropTypes.string,
   formActions: PropTypes.object,
   emailCode: PropTypes.string,
@@ -191,7 +190,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
