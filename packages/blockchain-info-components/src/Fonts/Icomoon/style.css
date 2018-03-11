@@ -1,0 +1,386 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?kwehd9');
+  src:  url('fonts/icomoon.eot?kwehd9#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?kwehd9') format('truetype'),
+    url('fonts/icomoon.woff?kwehd9') format('woff'),
+    url('fonts/icomoon.svg?kwehd9#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bitcoin-cash:before {
+  content: "\e977";
+}
+.icon-alert-filled:before {
+  content: "\e900";
+}
+.icon-bank-filled:before {
+  content: "\e901";
+}
+.icon-bell-filled:before {
+  content: "\e902";
+}
+.icon-bitcoin-filled:before {
+  content: "\e903";
+}
+.icon-bitcoin-in-circle-filled:before {
+  content: "\e904";
+}
+.icon-bitcoin-receipt-filled:before {
+  content: "\e905";
+}
+.icon-build-filled:before {
+  content: "\e906";
+}
+.icon-camera-filled:before {
+  content: "\e907";
+}
+.icon-cart-filled:before {
+  content: "\e908";
+}
+.icon-chart-filled:before {
+  content: "\e909";
+}
+.icon-checkmark-filled:before {
+  content: "\e90a";
+}
+.icon-checkmark-in-circle-filled:before {
+  content: "\e90b";
+}
+.icon-clipboard-filled:before {
+  content: "\e90c";
+}
+.icon-close-filled:before {
+  content: "\e90d";
+}
+.icon-credit-card-filled:before {
+  content: "\e90e";
+}
+.icon-dollars-filled:before {
+  content: "\e910";
+}
+.icon-down-arrow-filled:before {
+  content: "\e911";
+}
+.icon-down-arrow-in-circle-filled:before {
+  content: "\e912";
+}
+.icon-download-filled:before {
+  content: "\e913";
+}
+.icon-email-filled:before {
+  content: "\e914";
+}
+.icon-ethereum-filled:before {
+  content: "\e915";
+}
+.icon-exchange-2-filled:before {
+  content: "\e916";
+}
+.icon-exchange-filled:before {
+  content: "\e917";
+}
+.icon-gears-filled:before {
+  content: "\e918";
+}
+.icon-hamburger-menu:before {
+  content: "\e919";
+}
+.icon-home-filled:before {
+  content: "\e91a";
+}
+.icon-left-arrow-filled:before {
+  content: "\e91b";
+}
+.icon-lightbulb-filled:before {
+  content: "\e91c";
+}
+.icon-lock-filled:before {
+  content: "\e91d";
+}
+.icon-map-pin-filled:before {
+  content: "\e91e";
+}
+.icon-mobile-filled:before {
+  content: "\e91f";
+}
+.icon-open-source-filled:before {
+  content: "\e920";
+}
+.icon-paper-airplane-filled-2:before {
+  content: "\e921";
+}
+.icon-paper-airplane-filled:before {
+  content: "\e922";
+}
+.icon-pencil-filled:before {
+  content: "\e923";
+}
+.icon-phone-filled:before {
+  content: "\e924";
+}
+.icon-phone-in-circle-filled:before {
+  content: "\e925";
+}
+.icon-present-filled:before {
+  content: "\e926";
+}
+.icon-question-filled:before {
+  content: "\e927";
+}
+.icon-question-in-circle-filled:before {
+  content: "\e928";
+}
+.icon-refresh-filled:before {
+  content: "\e929";
+}
+.icon-request-filled:before {
+  content: "\e92a";
+}
+.icon-right-arrow-filled:before {
+  content: "\e90f";
+}
+.icon-safe-filled:before {
+  content: "\e92c";
+}
+.icon-search-filled:before {
+  content: "\e92d";
+}
+.icon-send-filled:before {
+  content: "\e92e";
+}
+.icon-settings-filled:before {
+  content: "\e92f";
+}
+.icon-stack-of-coins-filled:before {
+  content: "\e930";
+}
+.icon-support-filled:before {
+  content: "\e931";
+}
+.icon-transactions-2-filled:before {
+  content: "\e932";
+}
+.icon-transactions-filled:before {
+  content: "\e933";
+}
+.icon-trash-filled:before {
+  content: "\e934";
+}
+.icon-up-arrow-filled:before {
+  content: "\e935";
+}
+.icon-up-arrow-in-circle-filled:before {
+  content: "\e936";
+}
+.icon-user-filled:before {
+  content: "\e937";
+}
+.icon-user-id-filled:before {
+  content: "\e938";
+}
+.icon-wallet-filled:before {
+  content: "\e939";
+}
+.icon-alert:before {
+  content: "\e92b";
+}
+.icon-bank:before {
+  content: "\e93a";
+}
+.icon-bell:before {
+  content: "\e93b";
+}
+.icon-bitcoin-cart:before {
+  content: "\e93c";
+}
+.icon-bitcoin-in-circle:before {
+  content: "\e93d";
+}
+.icon-bitcoin-receipt:before {
+  content: "\e93e";
+}
+.icon-bitcoin:before {
+  content: "\e957";
+}
+.icon-build:before {
+  content: "\e958";
+}
+.icon-camera:before {
+  content: "\e959";
+}
+.icon-cart:before {
+  content: "\e95a";
+}
+.icon-chart:before {
+  content: "\e95b";
+}
+.icon-checkmark-in-circle:before {
+  content: "\e95c";
+}
+.icon-checkmark:before {
+  content: "\e95d";
+}
+.icon-clipboard:before {
+  content: "\e95e";
+}
+.icon-close:before {
+  content: "\e93f";
+}
+.icon-club-mate:before {
+  content: "\e940";
+}
+.icon-credit-card:before {
+  content: "\e941";
+}
+.icon-dollars:before {
+  content: "\e942";
+}
+.icon-down-arrow-in-circle:before {
+  content: "\e943";
+}
+.icon-down-arrow:before {
+  content: "\e944";
+}
+.icon-down-triangle:before {
+  content: "\e95f";
+}
+.icon-download:before {
+  content: "\e960";
+}
+.icon-email:before {
+  content: "\e961";
+}
+.icon-ethereum-cart:before {
+  content: "\e962";
+}
+.icon-ethereum:before {
+  content: "\e963";
+}
+.icon-exchange-2:before {
+  content: "\e964";
+}
+.icon-exchange:before {
+  content: "\e965";
+}
+.icon-gears:before {
+  content: "\e966";
+}
+.icon-globe:before {
+  content: "\e945";
+}
+.icon-home:before {
+  content: "\e946";
+}
+.icon-left-arrow:before {
+  content: "\e947";
+}
+.icon-lightbulb:before {
+  content: "\e948";
+}
+.icon-lock:before {
+  content: "\e949";
+}
+.icon-map-pin:before {
+  content: "\e94a";
+}
+.icon-mobile:before {
+  content: "\e967";
+}
+.icon-open-source:before {
+  content: "\e968";
+}
+.icon-paper-airplane:before {
+  content: "\e969";
+}
+.icon-pencil:before {
+  content: "\e96a";
+}
+.icon-phone-in-circle:before {
+  content: "\e96b";
+}
+.icon-phone:before {
+  content: "\e96c";
+}
+.icon-present:before {
+  content: "\e96d";
+}
+.icon-question-in-circle:before {
+  content: "\e96e";
+}
+.icon-question:before {
+  content: "\e94b";
+}
+.icon-refresh:before {
+  content: "\e94c";
+}
+.icon-request:before {
+  content: "\e94d";
+}
+.icon-right-arrow:before {
+  content: "\e94e";
+}
+.icon-safe:before {
+  content: "\e94f";
+}
+.icon-search:before {
+  content: "\e950";
+}
+.icon-send:before {
+  content: "\e96f";
+}
+.icon-settings:before {
+  content: "\e970";
+}
+.icon-sophisticated:before {
+  content: "\e971";
+}
+.icon-stack-of-coins-2:before {
+  content: "\e972";
+}
+.icon-stack-of-coins:before {
+  content: "\e973";
+}
+.icon-support:before {
+  content: "\e974";
+}
+.icon-transactions-2:before {
+  content: "\e975";
+}
+.icon-transactions:before {
+  content: "\e976";
+}
+.icon-trash:before {
+  content: "\e951";
+}
+.icon-up-arrow-in-circle:before {
+  content: "\e952";
+}
+.icon-up-arrow:before {
+  content: "\e953";
+}
+.icon-user-id:before {
+  content: "\e954";
+}
+.icon-user:before {
+  content: "\e955";
+}
+.icon-wallet:before {
+  content: "\e956";
+}
