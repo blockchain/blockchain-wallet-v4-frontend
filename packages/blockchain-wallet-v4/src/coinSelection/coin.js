@@ -75,7 +75,7 @@ export const inputBytes = input => {
 }
 
 export const outputBytes = ifElse(either(complement(isCoin), compose(isNil, selectAddress)),
-  always(TX_INPUT_BASE + TX_OUTPUT_PUBKEYHASH),
+  always(TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH),
   compose(
     add(TX_OUTPUT_BASE),
     tryCatch(
