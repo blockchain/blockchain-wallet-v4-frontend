@@ -44,9 +44,7 @@ export const webSocketSaga = ({ api, socket } = {}) => {
         // Do nothing
         break
       case 'email_verified':
-        console.log('email_verified ', message)
-        //   MyWallet.wallet.accountInfo.isEmailVerified = Boolean(obj.x);
-        //   WalletStore.sendEvent('on_email_verified', obj.x);
+        yield put(A.settings.setEmailVerified())
         break
       case 'wallet_logout':
         // WalletStore.sendEvent('wallet_logout', obj.x);
