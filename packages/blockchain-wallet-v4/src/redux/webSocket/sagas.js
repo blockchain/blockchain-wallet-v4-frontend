@@ -1,10 +1,11 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 import { compose } from 'ramda'
 import * as A from '../actions'
-import * as T from '../actionTypes'
+import * as AT from './actionTypes'
 import { Wrapper } from '../../types'
 import * as walletSelectors from '../wallet/selectors'
 import { Socket } from '../../network'
+import * as btcActions from '../data/bitcoin/actions'
 
 export const webSocketSaga = ({ api, socket } = {}) => {
   const send = socket.send.bind(socket)
@@ -24,22 +25,26 @@ export const webSocketSaga = ({ api, socket } = {}) => {
         const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
         if (oldChecksum !== newChecksum) {
           yield call(refreshWrapper)
-          yield call(refreshBlockchainData)
+          const walletContext = yield select(walletSelectors.getWalletContext)
+          yield put(btcActions.fetchData(walletContext))
         }
         break
       case 'utx':
-        yield call(refreshTransactionList)
-        yield call(refreshBlockchainData)
+        const walletContext = yield select(walletSelectors.getWalletContext)
+        yield put(btcActions.fetchData(walletContext))
+        yield put(btcActions.fetchTransactions('', true))
         break
       case 'block':
         const newBlock = message.x
         yield put(A.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
-        yield call(refreshTransactionList)
+        yield put(btcActions.fetchTransactions('', true))
         break
       case 'pong':
+        console.log('pong ', message)
         // Do nothing
         break
       case 'email_verified':
+        console.log('email_verified ', message)
         //   MyWallet.wallet.accountInfo.isEmailVerified = Boolean(obj.x);
         //   WalletStore.sendEvent('on_email_verified', obj.x);
         break
@@ -48,12 +53,12 @@ export const webSocketSaga = ({ api, socket } = {}) => {
         break
 
       default:
+        console.log('unknows type for ', message)
         break
     }
   }
 
   const onClose = function * (action) {
-    yield console.log('websocket closed')
   }
 
   const refreshWrapper = function * () {
@@ -68,23 +73,9 @@ export const webSocketSaga = ({ api, socket } = {}) => {
     }
   }
 
-  const refreshBlockchainData = function * () {
-    try {
-      // yield call(commonSagas.fetchBlockchainData, { context })
-    } catch (e) {
-      yield console.log('REFRESH BLOCKCHAIN DATA FAILED (WEBSOCKET) :: should dispatch error action ?')
-    }
-  }
-
-  const refreshTransactionList = function * () {
-    // const addressFilter = yield select(compose(transSelectors.getAddressFilter, prop(dataPath)))
-    // yield put(A.transactions.deleteTransactions())
-    // yield put(A.transactions.fetchTransactions(addressFilter, 50))
-  }
-
   return function * () {
-    yield takeEvery(T.webSocket.OPEN_SOCKET, onOpen)
-    yield takeEvery(T.webSocket.MESSAGE_SOCKET, onMessage)
-    yield takeEvery(T.webSocket.CLOSE_SOCKET, onClose)
+    yield takeEvery(AT.OPEN_SOCKET, onOpen)
+    yield takeEvery(AT.MESSAGE_SOCKET, onMessage)
+    yield takeEvery(AT.CLOSE_SOCKET, onClose)
   }
 }
