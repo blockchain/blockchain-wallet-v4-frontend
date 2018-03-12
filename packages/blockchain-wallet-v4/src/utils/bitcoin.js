@@ -1,6 +1,9 @@
 import { selectAll } from '../coinSelection'
 import { address, networks, ECPair } from 'bitcoinjs-lib'
-import { equals, head, or, prop } from 'ramda'
+import { decode, fromWords } from 'bech32'
+import { equals, head, or, prop, compose } from 'ramda'
+import { compile } from 'bitcoinjs-lib/src/script'
+import * as OP from 'bitcoin-ops'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
 import * as Exchange from '../exchange'
@@ -10,9 +13,52 @@ export const isValidBitcoinAddress = value => {
   try {
     const addr = address.fromBase58Check(value)
     const n = networks.bitcoin
-    const valid = or(equals(addr.version, n.pubKeyHash), equals(addr.version, n.scriptHash))
-    return valid
-  } catch (e) { return false }
+    return or(equals(addr.version, n.pubKeyHash), equals(addr.version, n.scriptHash))
+  } catch (e) {
+    try {
+      const decoded = decode(value)
+
+      // TODO how do we know which network we are on here?
+      if (decoded.prefix !== 'bc') {
+        return false
+      }
+
+      // We only validate version 0 scripts
+      // TODO Should we fail other scripts? This would make upgrading harder in the future
+      if (decoded.words[0] === 0) {
+        const remainder = Buffer.from(fromWords(decoded.words.slice(1)))
+        if (remainder.length !== 20 && remainder.length !== 32) {
+          return false
+        }
+      }
+      return true
+    } catch (e1) {
+      return false
+    }
+  }
+}
+
+export const addressToScript = value => {
+  // TODO do we need to check for cash address here too?
+  // TODO which network?
+  const n = networks.bitcoin
+
+  try {
+    if (value.toLowerCase().startsWith('bc')) {
+      const words = decode(value).words
+      const version = words[0]
+      const program = compose(
+        Buffer.from,
+        fromWords,
+        w => w.slice(1))(words)
+
+      return compile([OP[`OP_${version}`], program])
+    } else {
+      return address.toOutputScript(value, n)
+    }
+  } catch (e) {
+    return undefined
+  }
 }
 
 export const detectPrivateKeyFormat = key => {
