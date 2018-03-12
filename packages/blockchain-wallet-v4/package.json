@@ -46,6 +46,7 @@
     ]
   },
   "dependencies": {
+    "bech32": "^1.1.3",
     "big-rational": "^0.10.7",
     "bigi": "^1.4.2",
     "bignumber.js": "^5.0.0",
