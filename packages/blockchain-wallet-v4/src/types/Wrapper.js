@@ -1,4 +1,4 @@
-import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from 'ramda'
+import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop, tap } from 'ramda'
 import { traverseOf, view, over, set } from 'ramda-lens'
 import Either from 'data.either'
 
@@ -78,23 +78,22 @@ export const computeChecksum = compose(
 
 // fromEncJSON :: String -> JSON -> Either Error Wrapper
 export const fromEncJSON = curry((password, json) => {
-  // return Either.Left(new Error('nah'))
-  const payloadL = lensProp('payload')
-  // const ilens = lensProp('pbkdf2_iterations')
-  // const vlens = lensProp('version')
-  // const payloadE = crypto.decryptWallet(password, json.payload)
-  // return eitherPayload.chain(crypto.decryptWallet(password))
-  // const eitherIter = eitherPayload.map(view(ilens))
-  // const eitherVer = eitherPayload.map(view(vlens))
-  // assocIterations :: Number => Either Error Wrapper
-  // const assocIterations = wrapper =>
-  //   eitherIter.map(it => assoc('pbkdf2_iterations', it, wrapper))
-  // assocVersion :: Number => Either Error Wrapper
-  // const assocVersion = wrapper =>
-  //   eitherVer.map(v => assoc('version', v, wrapper))
+  let payloadL = lensProp('payload')
+  let payloadJsonE = Either.try(JSON.parse)(json.payload)
+
+  // assocIterations :: Number -> Wrapper
+  let assocIterations = (wrapper) => payloadJsonE
+    .map(payload => assoc('pbkdf2_iterations', payload.pbkdf2_iterations, wrapper))
+    .getOrElse(wrapper)
+
+  // assocVersion :: Wrapper -> Wrapper
+  let assocVersion = (wrapper) => payloadJsonE
+    .map(payload => assoc('version', payload.version, wrapper))
+    .getOrElse(wrapper)
+
   return traverseOf(payloadL, Either.of, Wallet.fromEncryptedPayload(password), json)
-    // .chain(assocVersion)
-    // .chain(assocIterations)
+    .map(assocVersion)
+    .map(assocIterations)
     .map(o => assoc('wallet', o.payload, o))
     .map(dissoc('payload'))
     .map(assoc('password', password))
@@ -129,7 +128,7 @@ export const toEncJSON = wrapper => {
     old_checksum: selectPayloadChecksum(wrapper),
     language: selectLanguage(wrapper)
   }
-  const encrypt = Wallet.toEncryptedPayload(selectPassword(wrapper))
+  const encrypt = Wallet.toEncryptedPayload(selectPassword(wrapper), selectPbkdf2Iterations(wrapper) || 5000)
   const hash = (x) => crypto.sha256(x).toString('hex')
   return traverseOf(plens, Either.of, encrypt, response)
     .map((r) => assoc('length', view(plens, r).length, r))
