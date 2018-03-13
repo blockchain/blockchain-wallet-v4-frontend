@@ -8,7 +8,7 @@ import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
-import Success from './template.success'
+import SelectPartner from './template.success'
 import ui from 'redux-ui'
 
 const Wrapper = styled.div`
@@ -28,26 +28,26 @@ const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 class BuySellContainer extends React.Component {
   constructor (props) {
     super(props)
-
     this.onSubmit = this.onSubmit.bind(this)
-    this.determinePartner = this.determinePartner.bind(this)
+    this.renderPartner = this.renderPartner.bind(this)
   }
+
   componentWillMount () {
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
   }
 
-  determinePartner (kvStore, type) {
-    if (kvStore.sfox.account_token) {
-      return <SfoxCheckout type={type} value={kvStore} />
+  renderPartner (kvStoreValue, type) {
+    if (kvStoreValue.sfox.account_token) {
+      return <SfoxCheckout type={type} value={kvStoreValue} />
     }
-    if (kvStore.unocoin) {
+    if (kvStoreValue.unocoin) {
       return <span>Unocoin</span>
     }
-    if (kvStore.coinity) {
+    if (kvStoreValue.coinify) {
       return <span>Coinify</span>
     }
-    return <span>just hodl</span>
+    return <SelectPartner type={type} value={kvStoreValue} onSubmit={this.onSubmit} {...this.props} {...this.state} />
   }
 
   onSubmit (e) {
@@ -58,8 +58,8 @@ class BuySellContainer extends React.Component {
   render () {
     const { data, type } = this.props
 
-    let checkout = data.cata({
-      Success: (value) => <Success type={type} value={value} onSubmit={this.onSubmit} {...this.props} {...this.state} />,
+    let view = data.cata({
+      Success: (value) => this.renderPartner(value, type),
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>not asked...</div>
@@ -71,11 +71,7 @@ class BuySellContainer extends React.Component {
           <Field name='status' component={TabMenuBuySellStatus} />
         </Menu>
         <CheckoutWrapper>
-          {
-            data.data && data.data.value.sfox.account_token
-              ? this.determinePartner(data.data.value, type)
-              : checkout
-          }
+          {view}
         </CheckoutWrapper>
       </Wrapper>
     )
