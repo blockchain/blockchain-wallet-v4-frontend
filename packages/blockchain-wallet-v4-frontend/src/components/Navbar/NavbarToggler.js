@@ -13,10 +13,9 @@ const BaseToggler = styled.button`
 `
 const BaseTogglerBar = styled.span`
   display: block;
-  width: 22px;
   height: 2px;
-  border-radius: 1px;
   margin-top: 4px;
+  border-radius: 1px;
   background-color: ${props => props.theme['white']};
 `
 
