@@ -5,8 +5,8 @@ import { reduxForm } from 'redux-form'
 import { Text } from 'blockchain-info-components'
 
 import PlaidFrame from './iframe.js'
-import BankAccounts from './bankAccounts.js'
-import AddManually from './addManually.js'
+import BankAccounts from './BankAccounts'
+import AddManually from './AddManually'
 import { Row, ColLeft, ColRight, ColLeftInner, Info, Title, Subtitle } from '../styled'
 
 const LinkContainer = styled.div`
