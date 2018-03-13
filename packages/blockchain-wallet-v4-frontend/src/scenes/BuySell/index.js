@@ -4,12 +4,12 @@ import { getData } from './selectors'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import SfoxCheckout from './SfoxCheckout'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
-import ui from 'redux-ui'
+import * as buySell from 'services/BuySellService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -52,7 +52,15 @@ class BuySellContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
+    if (buySell.sfoxCountries.indexOf(this.props.country) >= 0) {
+      this.props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
+    }
+    if (buySell.unocoinCountries.indexOf(this.props.country) >= 0) {
+      console.log('start unocoin')
+    }
+    if (buySell.coinifyCountries.indexOf(this.props.country) >= 0) {
+      console.log('start coinify')
+    }
   }
 
   render () {
