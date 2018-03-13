@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { getData } from './selectors'
@@ -20,12 +19,8 @@ class ThirdStep extends React.Component {
   }
 }
 
-ThirdStep.propTypes = {
-  address: PropTypes.string.isRequired
-}
-
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.address)
+  data: getData(state)
 })
 
 export default connect(mapStateToProps)(ThirdStep)

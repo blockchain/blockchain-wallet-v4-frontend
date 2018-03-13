@@ -1,5 +1,6 @@
-import { is, curry, identity, reduceRight, compose } from 'ramda'
+import { is, curry, identity, reduceRight, compose, prop, assoc } from 'ramda'
 import { lens } from 'ramda-lens'
+import { Map } from 'immutable'
 
 export const iRename = curry((from, to, i) => i.set(to, i.get(from)).delete(from))
 
@@ -40,3 +41,23 @@ export const typeLens = (Type) => lens(
   typeGuard(Type),
   (val) => new Type(val)
 )
+
+export const lensProp = key =>
+  lens(
+    (x) => {
+      console.debug('GET ', key, ' from ', x)
+      if (Map.isMap(x)) {
+        return x.get(key)
+      } else {
+        return prop(key, x)
+      }
+    },
+    (val, x) => {
+      console.debug('SET ', key, ' TO ', val, ' in ', x)
+      if (Map.isMap(x)) {
+        return x.set(key, val)
+      } else {
+        return assoc(key, val, x)
+      }
+    }
+  )

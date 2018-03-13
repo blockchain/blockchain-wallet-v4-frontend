@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { lift, prop } from 'ramda'
+import { prop } from 'ramda'
 
 export const getData = (state, source, target, fee) => {
   const orderR = selectors.core.data.shapeShift.getOrder(state)
@@ -8,6 +8,7 @@ export const getData = (state, source, target, fee) => {
     const depositAmount = prop('depositAmount', order)
 
     return {
+      order,
       depositAddress: prop('deposit', order),
       depositAmount,
       exchangeRate: `1 ${prop('coin', source)} = ${prop('quotedRate', order)} ${prop('coin', target)}`,
@@ -17,5 +18,5 @@ export const getData = (state, source, target, fee) => {
     }
   }
 
-  return lift(transform)(orderR)
+  return orderR.map(transform)
 }

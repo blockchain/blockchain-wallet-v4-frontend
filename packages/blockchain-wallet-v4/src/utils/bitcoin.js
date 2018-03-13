@@ -104,7 +104,4 @@ export const calculateBalanceBitcoin = (coins, feePerByte) => {
   }
 }
 
-export const txHexToHashHex = txHex => {
-  const tx = Transaction.fromHex(txHex)
-  return tx.getId()
-}
+export const txHexToHashHex = txHex => Transaction.fromHex(txHex).getId()

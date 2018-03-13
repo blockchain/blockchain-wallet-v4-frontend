@@ -8,6 +8,7 @@ import { getData } from './selectors'
 import { actions } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
+import ThirdStep from './ThirdStep'
 
 class ShapeshiftContainer extends React.Component {
   componentWillMount () {
@@ -31,6 +32,7 @@ class ShapeshiftContainer extends React.Component {
     switch (this.props.step) {
       case 1: return <FirstStep {...this.props} />
       case 2: return <SecondStep {...this.props} />
+      case 3: return <ThirdStep {...this.props} />
       default: return <div />
     }
   }

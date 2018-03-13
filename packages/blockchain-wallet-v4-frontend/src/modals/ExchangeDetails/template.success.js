@@ -101,7 +101,7 @@ const selectStyle = status => {
 
 const Success = (props) => {
   const { position, total, close, trade } = props
-  const { status, exchangeRate, transactionFee, orderId, incomingCoin, incomingType, outgoingCoin, outgoingType } = trade
+  const { status, exchangeRate, transactionFee, orderId, incomingAmount, incomingCoin, outgoingAmount, outgoingCoin } = trade
   const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
 
   return (
@@ -154,18 +154,18 @@ const Success = (props) => {
         <Info>
           <InfoRow>
             <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: incomingType }} />
+              <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: incomingCoin }} />
             </Text>
             <Text size='13px' weight={300} uppercase>
-              {`${incomingCoin} ${incomingType}`}
+              {`${incomingAmount} ${incomingCoin}`}
             </Text>
           </InfoRow>
           <InfoRow>
             <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: outgoingType }} />
+              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: outgoingCoin }} />
             </Text>
             <Text size='13px' weight={300} uppercase>
-              {`${outgoingCoin} ${outgoingType}`}
+              {`${outgoingAmount} ${outgoingCoin}`}
             </Text>
           </InfoRow>
           <InfoRow>
@@ -176,7 +176,7 @@ const Success = (props) => {
               </Tooltip>
             </Text>
             <Text size='13px' weight={300} uppercase>
-              {`1 ${incomingType} = ${exchangeRate} ${outgoingType}`}
+              {`1 ${incomingCoin} = ${exchangeRate} ${outgoingCoin}`}
             </Text>
           </InfoRow>
           <InfoRow>

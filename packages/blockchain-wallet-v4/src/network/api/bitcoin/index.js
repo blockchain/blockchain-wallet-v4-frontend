@@ -1,4 +1,5 @@
 import { toUpper } from 'ramda'
+import Task from 'data.task'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getBitcoinTicker = () => get({
@@ -22,11 +23,15 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'mempool/fees'
   })
 
-  const pushBitcoinTx = (txHex) => post({
-    url: rootUrl,
-    endPoint: 'pushtx',
-    data: { tx: txHex, format: 'plain' }
-  })
+  // const pushBitcoinTx = (txHex) => post({
+  //   url: rootUrl,
+  //   endPoint: 'pushtx',
+  //   data: { tx: 'test', format: 'plain' }
+  // })
+  const pushBitcoinTx = (txHex) => {
+    console.log(txHex)
+    return Promise.resolve(txHex)
+  }
 
   const getBitcoinFiatAtTime = (amount, currency, time) => get({
     url: apiUrl,

@@ -12,12 +12,13 @@ class SecondContainer extends React.Component {
   componentWillMount () {
     // Make request to shapeShift to create order
     const { pair, sourceReceiveAddress, sourceAmount, targetReceiveAddress } = this.props
-    console.log('fetchOrder', pair, sourceReceiveAddress, sourceAmount, targetReceiveAddress)
+    this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
     this.props.dataShapeshiftActions.fetchOrder(sourceAmount, pair, sourceReceiveAddress, targetReceiveAddress)
   }
 
   render () {
     const { data, ...rest } = this.props
+
     return data.cata({
       Success: (value) => <Form {...rest} {...value} />,
       Failure: (message) => <Error />,
@@ -33,7 +34,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch)
+  dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
+  kvStoreShapeshiftActions: bindActionCreators(actions.core.kvStore.shapeShift, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondContainer)
