@@ -31,8 +31,6 @@ class BuySellContainer extends React.Component {
 
     this.onSubmit = this.onSubmit.bind(this)
     this.determinePartner = this.determinePartner.bind(this)
-
-    this.state = { stateSelectionError: false }
   }
   componentWillMount () {
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
@@ -42,6 +40,12 @@ class BuySellContainer extends React.Component {
   determinePartner (kvStore, type) {
     if (kvStore.sfox.account_token) {
       return <SfoxCheckout type={type} value={kvStore} />
+    }
+    if (kvStore.unocoin) {
+      return <span>Unocoin</span>
+    }
+    if (kvStore.coinity) {
+      return <span>Coinify</span>
     }
     return <span>just hodl</span>
   }
