@@ -7,6 +7,7 @@ import { Text, Button } from 'blockchain-info-components'
 import PlaidFrame from './iframe.js'
 import BankAccounts from './bankAccounts.js'
 import AddManually from './addManually.js'
+import Helper from './Helper.js'
 
 const Form = styled.form`
   width: 100%;
@@ -60,6 +61,9 @@ const ButtonContainer = styled.div`
 `
 
 const BankLink = (props) => {
+  const question1 = 'How will my payment method be used?'
+  const answer1 = 'Answer placeholder text here blah blah just hodl'
+  const questionId = 'sfoxsignup.link.helper.identity.usedquestion'
   const {
     plaidUrl,
     enablePlaid,
@@ -94,6 +98,7 @@ const BankLink = (props) => {
         <Button disabled={invalid || pristine} nature='primary' uppercase>
           Continue
         </Button>
+        <Helper question={question1} answer={answer1} questionId={questionId} />
         {/* <LinkContainer>
           <Text size='14px'>
             <FormattedMessage id='sfoxexchangedata.link.selectmethod' defaultMessage='Select Method To Link Your Bank Account' />
