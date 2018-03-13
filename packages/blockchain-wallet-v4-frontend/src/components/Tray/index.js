@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import onClickOutside from 'react-onclickoutside'
 import { Modal } from 'blockchain-info-components'
 import Transition from 'react-transition-group/Transition'
 
@@ -18,36 +19,52 @@ const transitionStyles = {
 const TrayModal = styled(Modal)`
   left: 270px;
   font-weight: 300;
+  overflow: hidden;
   position: absolute;
   width: calc(100% - 270px);
-  height: 100vh;
-  overflow: auto;
+  height: calc(100vh - 60px);
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   > div:first-child {
-    padding: 70px 40px 40px 40px;
+    padding: 70px 40px 40px 70px;
     > span:last-child {
       top: 30px;
       right: 40px;
       position: absolute;
     }
+    @media (max-width: 991px) {
+      padding: 50px;
+      justify-content: center;
+    }
   }
   > div:last-child {
-    padding: 40px 40px;
+    overflow: auto;
+    padding: 70px 70px;
+    height: calc(100% - 160px);
+  }
+  @media (max-width: 767px) {
+    width: 100%;
+    left: 0px;
   }
 `
 
-const Tray = props => {
-  const { children, ...rest } = props
-  return (
-    <Transition in={props.in} timeout={0}>
-      {(status) => (
-        <TrayModal {...rest} type={'tray'} style={{...defaultStyle, ...transitionStyles[status]}}>
-          {children}
-        </TrayModal>
-      )}
-    </Transition>
-  )
+class Tray extends React.Component {
+  handleClickOutside () {
+    this.props.onClose()
+  }
+
+  render () {
+    const { children, ...rest } = this.props
+    return (
+      <Transition in={this.props.in} timeout={0}>
+        {(status) => (
+          <TrayModal {...rest} type={'tray'} style={{...defaultStyle, ...transitionStyles[status]}}>
+            {children}
+          </TrayModal>
+        )}
+      </Transition>
+    )
+  }
 }
 
-export default Tray
+export default onClickOutside(Tray)

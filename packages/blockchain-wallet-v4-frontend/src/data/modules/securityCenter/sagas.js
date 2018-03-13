@@ -80,7 +80,6 @@ export const verifyMobile = function * (action) {
   try {
     yield call(sagas.core.settings.setMobileVerified, action.payload)
     yield put(actions.alerts.displaySuccess('Mobile number has been successfully verified.'))
-    yield call(sagas.core.settings.setAuthType, { authType: '5' })
   } catch (e) {
     yield put(actions.alerts.displayError('Could not verify mobile number.'))
   }
