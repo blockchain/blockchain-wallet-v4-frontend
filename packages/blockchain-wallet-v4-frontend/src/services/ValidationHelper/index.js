@@ -1,4 +1,5 @@
 import { contains, equals, isNil, isEmpty } from 'ramda'
+import { partnerCountryWhitelist, sfoxWhitelist } from '../BuySellService'
 
 const emailRegex = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
 
@@ -114,23 +115,9 @@ const isUsZipcode = val => {
   return val
 }
 
-const isOnSfoxWhitelist = val => {
-  const sfoxWhitelist = ['AR', 'AZ', 'CA', 'CO', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'MI', 'MN',
-    'MO', 'MT', 'NE', 'NV', 'OK', 'PA', 'SC', 'SD', 'TN', 'TX', 'VA', 'WI', 'WV']
+const isOnSfoxWhitelist = val => val && sfoxWhitelist.indexOf(val) >= 0
 
-  if (val && sfoxWhitelist.indexOf(val) >= 0) {
-    return true
-  }
-  return false
-}
-
-const isOnPartnerCountryWhitelist = val => {
-  const partnerWhitelist = ['US', 'IN']
-  if (val && partnerWhitelist.indexOf(val) >= 0) {
-    return true
-  }
-  return false
-}
+const isOnPartnerCountryWhitelist = val => val && partnerCountryWhitelist().indexOf(val) >= 0
 
 export {
   isNumeric,
