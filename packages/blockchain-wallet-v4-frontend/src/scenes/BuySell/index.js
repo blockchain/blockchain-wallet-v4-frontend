@@ -41,13 +41,13 @@ class BuySellContainer extends React.Component {
     if (kvStoreValue.sfox.account_token) {
       return <SfoxCheckout type={type} value={kvStoreValue} />
     }
-    if (kvStoreValue.unocoin) {
+    if (kvStoreValue.unocoin.token) { // TODO replace token
       return <span>Unocoin</span>
     }
-    if (kvStoreValue.coinify) {
+    if (kvStoreValue.coinify.token) { // TODO replace token
       return <span>Coinify</span>
     }
-    return <SelectPartner type={type} value={kvStoreValue} onSubmit={this.onSubmit} {...this.props} {...this.state} />
+    return <SelectPartner type={type} value={kvStoreValue} onSubmit={this.onSubmit} {...this.props} />
   }
 
   onSubmit (e) {
@@ -59,7 +59,7 @@ class BuySellContainer extends React.Component {
     const { data, type } = this.props
 
     let view = data.cata({
-      Success: (value) => this.renderPartner(value, type),
+      Success: (value) => this.renderPartner(value.value, type),
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>not asked...</div>
@@ -91,9 +91,4 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { stateSelectionError: false } })
-)
-
-export default enhance(BuySellContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(BuySellContainer)
