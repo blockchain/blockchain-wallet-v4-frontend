@@ -37,12 +37,15 @@ const Footer = styled.div`
     align-items: center;
   }
 `
+const LoginForm = styled(Form)`
+  margin: 20px 0;
+`
 const LoginButton = styled(Button)`
-  margin-top: 10px;
+  margin-top: 20px;
 `
 const LoginTextGroup = styled(TextGroup)`
   line-height: 1;
-  margin: 3px 0px 15px 0px;
+  margin-top: 3px;
 `
 
 const Login = (props) => {
@@ -73,8 +76,8 @@ const Login = (props) => {
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
-      <Form override onSubmit={onSubmit}>
-        <FormItem style={{'margin-top': '20px'}}>
+      <LoginForm override onSubmit={onSubmit}>
+        <FormItem>
           <FormLabel for='guid'>
             <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
           </FormLabel>
@@ -110,7 +113,7 @@ const Login = (props) => {
         <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
         </LoginButton>
-      </Form>
+      </LoginForm>
       <Footer>
         <Link size='13px' weight={300} onClick={handleMobile}>
           <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via mobile' />
