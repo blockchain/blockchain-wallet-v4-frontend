@@ -4,8 +4,44 @@ import styled, { keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { merge } from 'ramda'
 
-import { Button, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Text, Tooltip } from 'blockchain-info-components'
+import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  border: 1px solid ${props => props.theme['gray-2']};
+`
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 15px 30px;
+  box-sizing: border-box;
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
+`
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 15px 30px 5px 30px;
+  box-sizing: border-box;
+`
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: ${props => props.align === 'right' ? 'flex-end' : 'flex-start'};
+  align-items: center;
+  width: 100%;
+
+  margin-bottom: 10px;
+`
 const bounceAnimation = keyframes`
   0%, 100% { transform: scale(0.9); }
   50% { transform: scale(1.1); }
@@ -99,113 +135,117 @@ const selectStyle = status => {
   }
 }
 
-const Success = (props) => {
+const Success = props => {
   const { close, trade } = props
-  const { status, exchangeRate, transactionFee, orderId, incomingCoin, incomingType, outgoingCoin, outgoingType } = trade
+  const { status, exchangeRate, transactionFee, orderId, incomingAmount, incomingCoin, outgoingAmount, outgoingCoin } = trade
   const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
 
   return (
-    <Modal size='large' position={0} total={0}>
-      <ModalHeader closeButton={false}>
+    <Wrapper>
+      <Header>
         {status === 'complete' && <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success ! Your exchange is complete' />}
         {status !== 'complete' && <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />}
-      </ModalHeader>
-      <ModalBody>
-        <Timeline>
-          <TimelineItems>
-            <TimelineItem>
-              <Circle color={color1} animation={animation1}>
-                <Icon name='paper-airplane' size='28px' color={color1} />
-              </Circle>
-              <Text size='13px' weight={500} capitalize>
-                <FormattedMessage id='modals.exchangedetails.send' defaultMessage='Funds sent' />
+      </Header>
+      <Body>
+        <Row>
+          <Timeline>
+            <TimelineItems>
+              <TimelineItem>
+                <Circle color={color1} animation={animation1}>
+                  <Icon name='paper-airplane' size='28px' color={color1} />
+                </Circle>
+                <Text size='13px' weight={500} capitalize>
+                  <FormattedMessage id='modals.exchangedetails.send' defaultMessage='Funds sent' />
+                </Text>
+              </TimelineItem>
+              <TimelineItem>
+                <Circle color={color2} animation={animation2}>
+                  <Icon name='exchange' size='28px' color={color2} />
+                </Circle>
+                <Text size='13px' weight={500} capitalize>
+                  <FormattedMessage id='modals.exchangedetails.inprogress' defaultMessage='Exchange In Progress' />
+                </Text>
+              </TimelineItem>
+              <TimelineItem>
+                <Circle color={color3} animation={animation3}>
+                  <Icon name={icon3} size='28px' color={color3} />
+                </Circle>
+                <Text size='13px' weight={500} capitalize>
+                  <FormattedMessage id='modals.exchangedetails.complete' defaultMessage='Trade Complete' />
+                </Text>
+              </TimelineItem>
+            </TimelineItems>
+            <TimelineLines>
+              <Line color={color1} />
+              <Line color={color2} />
+            </TimelineLines>
+          </Timeline>
+        </Row>
+        <Row>
+          {status === 'complete' &&
+            <Notice>
+              <Text size='13px' weight={300}>
+                <FormattedMessage id='modals.exchangedetails.explain' defaultMessage='Your exchange is complete.' />
+                <FormattedMessage id='modals.exchangedetails.explain2' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
               </Text>
-            </TimelineItem>
-            <TimelineItem>
-              <Circle color={color2} animation={animation2}>
-                <Icon name='exchange' size='28px' color={color2} />
-              </Circle>
-              <Text size='13px' weight={500} capitalize>
-                <FormattedMessage id='modals.exchangedetails.inprogress' defaultMessage='Exchange In Progress' />
+            </Notice>
+          }
+          <Info>
+            <InfoRow>
+              <Text size='13px' weight={400} capitalize>
+                <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: incomingCoin }} />
               </Text>
-            </TimelineItem>
-            <TimelineItem>
-              <Circle color={color3} animation={animation3}>
-                <Icon name={icon3} size='28px' color={color3} />
-              </Circle>
-              <Text size='13px' weight={500} capitalize>
-                <FormattedMessage id='modals.exchangedetails.complete' defaultMessage='Trade Complete' />
+              <Text size='13px' weight={300} uppercase>
+                {`${incomingAmount} ${incomingCoin}`}
               </Text>
-            </TimelineItem>
-          </TimelineItems>
-          <TimelineLines>
-            <Line color={color1} />
-            <Line color={color2} />
-          </TimelineLines>
-        </Timeline>
-        {status === 'complete' &&
-          <Notice>
-            <Text size='13px' weight={300}>
-              <FormattedMessage id='modals.exchangedetails.explain' defaultMessage='Your exchange is complete.' />
-              <FormattedMessage id='modals.exchangedetails.explain2' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
-            </Text>
-          </Notice>
-        }
-        <Info>
-          <InfoRow>
-            <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: incomingType }} />
-            </Text>
-            <Text size='13px' weight={300} uppercase>
-              {`${incomingCoin} ${incomingType}`}
-            </Text>
-          </InfoRow>
-          <InfoRow>
-            <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: outgoingType }} />
-            </Text>
-            <Text size='13px' weight={300} uppercase>
-              {`${outgoingCoin} ${outgoingType}`}
-            </Text>
-          </InfoRow>
-          <InfoRow>
-            <Text size='13px' weight={400}>
-              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='Exchange rate:' />
-              <Tooltip>
-                <FormattedMessage id='modals.exchangedetails.exchangetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
-              </Tooltip>
-            </Text>
-            <Text size='13px' weight={300} uppercase>
-              {`1 ${incomingType} = ${exchangeRate} ${outgoingType}`}
-            </Text>
-          </InfoRow>
-          <InfoRow>
-            <Text size='13px' weight={400}>
-              <FormattedMessage id='modals.exchangedetails.fee' defaultMessage='Transaction fee:' />
-              <Tooltip>
-                <FormattedMessage id='modals.exchangedetails.feetooltip' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
-              </Tooltip>
-            </Text>
-            <Text size='13px' weight={300} uppercase>
-              {transactionFee}
-            </Text>
-          </InfoRow>
-          <InfoRow>
-            <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.orderid' defaultMessage='Order ID:' />
-            </Text>
-            <Text size='13px' weight={300} uppercase>
-              {orderId}
-            </Text>
-          </InfoRow>
-        </Info>
-      </ModalBody>
-      <ModalFooter align='right'>
-        <Button nature='primary' size='13px' weight={300} onClick={close}>
-          <FormattedMessage id='modals.exchangedetails.close' defaultMessage='Close' />
-        </Button>
-      </ModalFooter>
-    </Modal>
+            </InfoRow>
+            <InfoRow>
+              <Text size='13px' weight={400} capitalize>
+                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: outgoingCoin }} />
+              </Text>
+              <Text size='13px' weight={300} uppercase>
+                {`${outgoingAmount} ${outgoingCoin}`}
+              </Text>
+            </InfoRow>
+            <InfoRow>
+              <Text size='13px' weight={400}>
+                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='Exchange rate:' />
+                <Tooltip>
+                  <FormattedMessage id='modals.exchangedetails.exchangetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
+                </Tooltip>
+              </Text>
+              <Text size='13px' weight={300} uppercase>
+                {`1 ${incomingCoin} = ${exchangeRate} ${outgoingCoin}`}
+              </Text>
+            </InfoRow>
+            <InfoRow>
+              <Text size='13px' weight={400}>
+                <FormattedMessage id='modals.exchangedetails.fee' defaultMessage='Transaction fee:' />
+                <Tooltip>
+                  <FormattedMessage id='modals.exchangedetails.feetooltip' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
+                </Tooltip>
+              </Text>
+              <Text size='13px' weight={300} uppercase>
+                {transactionFee}
+              </Text>
+            </InfoRow>
+            <InfoRow>
+              <Text size='13px' weight={400} capitalize>
+                <FormattedMessage id='modals.exchangedetails.orderid' defaultMessage='Order ID:' />
+              </Text>
+              <Text size='13px' weight={300} uppercase>
+                {orderId}
+              </Text>
+            </InfoRow>
+          </Info>
+        </Row>
+        <Row align='right'>
+          <Button nature='primary' size='13px' weight={300} onClick={close}>
+            <FormattedMessage id='modals.exchangedetails.close' defaultMessage='Close' />
+          </Button>
+        </Row>
+      </Body>
+    </Wrapper>
   )
 }
 

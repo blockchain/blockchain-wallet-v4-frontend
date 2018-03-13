@@ -18,9 +18,14 @@ export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[
 export const hasPrivateKey = selection => selection.inputs[0] ? btc.isValidBitcoinPrivateKey(selection.inputs[0].priv) : false
 
 export const signSelection = curry((network, selection) => {
+  console.info(network)
+  console.info(selection)
   const tx = new Bitcoin.TransactionBuilder(network)
   const addInput = coin => tx.addInput(coin.txHash, coin.index)
-  const addOutput = coin => tx.addOutput(coin.address, coin.value)
+  const addOutput = coin => {
+    console.info('out', coin)
+    return tx.addOutput(coin.address, coin.value)
+  }
   const sign = (coin, i) => tx.sign(i, coin.priv)
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)

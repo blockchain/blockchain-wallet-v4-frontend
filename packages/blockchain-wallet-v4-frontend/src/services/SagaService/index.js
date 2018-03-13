@@ -13,7 +13,7 @@ export const askSecondPasswordEnhancer = (coreSaga) =>
       const secPass = secPassAct.payload.password
       enhancedArgs = assoc('password', secPass, args)
     }
-    yield call(coreSaga, enhancedArgs)
+    return yield call(coreSaga, enhancedArgs)
   }
 
 export const promptForInput = function * ({ title, initial = '' }) {

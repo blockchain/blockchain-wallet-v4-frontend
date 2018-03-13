@@ -22,10 +22,10 @@ const TradeItem = props => {
         <Text size='14px' weight={300}>{trade.date}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size='14px' weight={300}>{`${trade.incomingCoin} ${trade.incomingType}`}</Text>
+        <Text size='14px' weight={300}>{`${trade.incomingAmount} ${trade.incomingCoin}`}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size='14px' weight={300}>{`${trade.outgoingCoin} ${trade.outgoingType}`}</Text>
+        <Text size='14px' weight={300}>{`${trade.outgoingAmount} ${trade.outgoingCoin}`}</Text>
       </TableCell>
     </TableRow>
   )

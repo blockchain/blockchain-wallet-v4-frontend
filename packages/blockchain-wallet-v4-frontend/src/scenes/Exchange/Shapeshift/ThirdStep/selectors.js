@@ -1,20 +1,20 @@
-import { lift, prop, path } from 'ramda'
+import { prop, path } from 'ramda'
 import { selectors } from 'data'
 
-export const getData = (state, address) => {
-  const tradeR = selectors.core.kvStore.shapeShift.getTrade(state, address)
-  const tradeStatusR = selectors.core.data.shapeShift.getTrade(state, address)
+export const getData = (state, sourceCoin, targetCoin, sourceAmount, targetAmount) => {
+  const depositAddress = selectors.core.data.shapeShift.getOrder(state).map(x => prop('deposit', x)).getOrElse('')
+  const tradeR = selectors.core.kvStore.shapeShift.getTrade(state, depositAddress)
 
   const transform = (trade, tradeStatus) => ({
     status: prop('status', trade),
     exchangeRate: path(['quote', 'quotedRate'], trade),
     transactionFee: path(['quote', 'minerFee'], trade),
     orderId: path(['quote', 'orderId'], trade),
-    incomingCoin: prop('incomingCoin', tradeStatus),
-    incomingType: prop('incomingType', tradeStatus),
-    outgoingCoin: prop('outgoingCoin', tradeStatus),
-    outgoingType: prop('outgoingType', tradeStatus)
+    incomingAmount: sourceAmount,
+    incomingType: sourceCoin,
+    outgoingCoin: targetAmount,
+    outgoingType: targetCoin
   })
 
-  return lift((trade, tradeStatus) => transform(trade, tradeStatus))(tradeR, tradeStatusR)
+  return tradeR.map(transform)
 }

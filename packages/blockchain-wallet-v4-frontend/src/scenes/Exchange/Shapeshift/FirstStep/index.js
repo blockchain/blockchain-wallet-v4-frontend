@@ -62,7 +62,12 @@ class FirstStepContainer extends React.Component {
 
   render () {
     return this.props.data.cata({
-      Success: (value) => <Success {...value} {...this.props} effectiveBalance={this.state.effectiveBalance} handleSubmit={this.handleSubmit} />,
+      Success: (value) => <Success
+        {...value}
+        {...this.props}
+        effectiveBalance={this.state.effectiveBalance}
+        handleSubmit={this.handleSubmit}
+      />,
       Failure: (message) => <Error />,
       Loading: () => <Loading {...this.props} />,
       NotAsked: () => <Loading {...this.props} />

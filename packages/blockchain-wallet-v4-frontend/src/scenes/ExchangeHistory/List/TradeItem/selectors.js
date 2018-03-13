@@ -12,10 +12,10 @@ export const getData = (state, trade) => {
     status,
     address,
     date,
-    incomingCoin: tradeStatus.incomingCoin,
-    incomingType: tradeStatus.incomingType,
-    outgoingCoin: tradeStatus.outgoingCoin,
-    outgoingType: tradeStatus.outgoingType
+    incomingAmount: tradeStatus.incomingCoin,
+    incomingCoin: tradeStatus.incomingType,
+    outgoingAmount: tradeStatus.outgoingCoin,
+    outgoingCoin: tradeStatus.outgoingType
   })
 
   return tradeStatus.map(transform)
