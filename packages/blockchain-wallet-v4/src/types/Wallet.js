@@ -116,11 +116,10 @@ export const fromEncryptedPayload = curry((password, payload) => {
 })
 
 // toEncryptedPayload :: String -> Wallet -> Either Error String
-export const toEncryptedPayload = curry((password, wallet) => {
+export const toEncryptedPayload = curry((password, pbkdf2Iterations, wallet) => {
   Wallet.guard(wallet)
-  let iters = selectIterations(wallet)
   let encryptWallet = compose(
-    Either.try(crypto.encryptWallet(__, password, iters, 3.0)),
+    Either.try(crypto.encryptWallet(__, password, pbkdf2Iterations, 3.0)),
     JSON.stringify,
     toJS
   )
