@@ -114,6 +114,24 @@ const isUsZipcode = val => {
   return val
 }
 
+const isOnSfoxWhitelist = val => {
+  const sfoxWhitelist = ['AR', 'AZ', 'CA', 'CO', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'MI', 'MN',
+    'MO', 'MT', 'NE', 'NV', 'OK', 'PA', 'SC', 'SD', 'TN', 'TX', 'VA', 'WI', 'WV']
+
+  if (val && sfoxWhitelist.indexOf(val) >= 0) {
+    return true
+  }
+  return false
+}
+
+const isOnPartnerCountryWhitelist = val => {
+  const partnerWhitelist = ['US', 'IN']
+  if (val && partnerWhitelist.indexOf(val) >= 0) {
+    return true
+  }
+  return false
+}
+
 export {
   isNumeric,
   isEmail,
@@ -123,6 +141,8 @@ export {
   isBitcoinFiatAvailable,
   isDOB,
   isEthereumFiatAvailable,
+  isOnSfoxWhitelist,
+  isOnPartnerCountryWhitelist,
   isSSN,
   isUsZipcode,
   formatSSN,
