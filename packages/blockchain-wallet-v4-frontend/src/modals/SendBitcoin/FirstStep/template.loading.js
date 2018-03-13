@@ -5,7 +5,7 @@ import { SkeletonRectangle } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 475px;
+  height: 470px;
   box-sizing: border-box;
 `
 

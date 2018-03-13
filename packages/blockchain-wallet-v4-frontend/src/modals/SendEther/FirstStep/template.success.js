@@ -6,37 +6,17 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validEtherAddress } from 'services/FormHelper'
-import { Button, ButtonGroup, Text, Tooltip } from 'blockchain-info-components'
-import { FiatConvertor, Form, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
+import { Button, Tooltip } from 'blockchain-info-components'
+import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 
-const Currency = styled.div`
-  width: 30%;
-`
-const ButtonRow = styled(ButtonGroup)`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  & > button:first-child { width: 100%; }
-  & > button:last-child: { width: 200px; }
-`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;
-`
-
-const DescriptionText = styled.div`
-  margin-top: 20px;
-`
-
-const AmountText = styled.div`
-  margin-top: 20px;
 `
 
 const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
@@ -48,46 +28,58 @@ const FirstStep = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Currency>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.sendether.firststep.coin' defaultMessage='Currency:' />
-        </Text>
-        <Field name='coin' component={SelectBoxCoin} validate={[required]} />
-      </Currency>
-      <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendether.firststep.to' defaultMessage='To:' />
-      </Text>
-      <Row>
-        <Field name='to' component={TextBox} validate={[required, validEtherAddress]} />
-        <QRCodeCapture coin='ETH' />
-      </Row>
-      <AmountText>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
-        </Text>
-      </AmountText>
-      <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' maxAvailable={props.effectiveBalance} />
-      <DescriptionText>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description:' />
-          <Tooltip>
-            <FormattedMessage id='modals.sendether.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-            <FormattedMessage id='modals.sendether.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
-          </Tooltip>
-        </Text>
-      </DescriptionText>
-      <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
-      <Text size='14px' weight={500}>
-        <FormattedMessage id='modals.sendether.firststep.fee' defaultMessage='Transaction fee :' />
-      </Text>
-      <Text weight={300}>
-        <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
-      </Text>
-      <ButtonRow>
+      <FormGroup inline margin={'15px'}>
+        <FormItem width={'40%'}>
+          <FormLabel for='coin'>
+            <FormattedMessage id='modals.sendether.firststep.coin' defaultMessage='Currency:' />
+          </FormLabel>
+          <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+        </FormItem>
+      </FormGroup>
+      <FormGroup margin={'15px'}>
+        <FormItem>
+          <FormLabel for='to'>
+            <FormattedMessage id='modals.sendether.firststep.to' defaultMessage='To:' />
+          </FormLabel>
+          <Row>
+            <Field name='to' component={TextBox} validate={[required, validEtherAddress]} />
+            <QRCodeCapture coin='ETH' />
+          </Row>
+        </FormItem>
+      </FormGroup>
+      <FormGroup margin={'15px'}>
+        <FormItem>
+          <FormLabel for='amount'>
+            <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
+          </FormLabel>
+          <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' maxAvailable={props.effectiveBalance} />
+        </FormItem>
+      </FormGroup>
+      <FormGroup margin={'15px'}>
+        <FormItem>
+          <FormLabel for='message'>
+            <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description:&nbsp;' />
+            <Tooltip>
+              <FormattedMessage id='modals.sendether.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
+              <FormattedMessage id='modals.sendether.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
+            </Tooltip>
+          </FormLabel>
+          <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
+        </FormItem>
+      </FormGroup>
+      <FormGroup margin={'30px'}>
+        <FormItem>
+          <FormLabel>
+            <FormattedMessage id='modals.sendether.firststep.fee' defaultMessage='Transaction fee :' />
+          </FormLabel>
+          <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
+        </FormItem>
+      </FormGroup>
+      <FormGroup>
         <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
           <FormattedMessage id='modals.sendether.firststep.continue' defaultMessage='Continue' />
         </Button>
-      </ButtonRow>
+      </FormGroup>
     </Form>
   )
 }
