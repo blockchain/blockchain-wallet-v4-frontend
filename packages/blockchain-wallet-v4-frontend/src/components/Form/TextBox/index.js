@@ -15,9 +15,9 @@ const Container = styled.div`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: 40px;
-  left: 0;
   height: 15px;
+  top: -22px;
+  right: 0;
 `
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')

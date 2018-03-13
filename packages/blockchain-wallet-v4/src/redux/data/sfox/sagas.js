@@ -43,12 +43,11 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
   }
 
   const setProfile = function * (user) {
-    const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = user.payload
+    const { firstName, lastName, dob, address1, address2, city, ssn, state, zipcode } = user.payload
     const sfox = yield call(getSfox)
     yield apply(sfox, sfox.fetchProfile)
     try {
       sfox.profile.firstName = firstName
-      sfox.profile.middleName = middleName || ''
       sfox.profile.lastName = lastName
       sfox.profile.dateOfBirth = new Date(dob)
       sfox.profile.setSSN(ssn)

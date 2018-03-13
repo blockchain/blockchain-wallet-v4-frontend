@@ -50,7 +50,8 @@
       "^locales(.*)$": "<rootDir>/src/assets/locales/$1"
     },
     "setupFiles": [
-      "<rootDir>/../../jest.shim.js", "<rootDir>/../../jest.config.js"
+      "<rootDir>/../../jest.shim.js",
+      "<rootDir>/../../jest.config.js"
     ],
     "snapshotSerializers": [
       "<rootDir>/../../node_modules/enzyme-to-json/serializer"
@@ -93,6 +94,7 @@
     "react-dropzone": "^4.2.8",
     "react-highcharts": "^13.0.0",
     "react-intl": "^2.3.0",
+    "react-intl-tel-input": "^5.0.1",
     "react-qr-reader": "^2.0.0",
     "react-redux": "^5.0.5",
     "react-router-bootstrap": "^0.24.4",
@@ -122,5 +124,9 @@
       "it",
       "expect"
     ]
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.10",
+    "style-loader": "^0.20.3"
   }
 }

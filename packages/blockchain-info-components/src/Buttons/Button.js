@@ -34,7 +34,7 @@ const BaseButton = styled.button.attrs({
   border-radius: ${props => props.rounded ? '20px' : '3px'};
   border-style: solid;
   border-width: ${props => props.rounded ? '2px' : '1px'};
-  border-color: ${props => props.disabled ? 'none' : props.theme[props.borderColor]};
+  border-color: ${props => props.theme[props.borderColor]};
   opacity: ${props => props.disabled ? 0.5 : 1};
 
   &:hover {
