@@ -4,10 +4,12 @@ import { getData } from './selectors'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import SfoxCheckout from './SfoxCheckout'
-import { bindActionCreators } from 'redux'
-import { Field, reduxForm } from 'redux-form'
+import { bindActionCreators, compose } from 'redux'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
+import Success from './template.success'
+import ui from 'redux-ui'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -24,17 +26,36 @@ const CheckoutWrapper = styled.div`
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
 class BuySellContainer extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.onSubmit = this.onSubmit.bind(this)
+    this.determinePartner = this.determinePartner.bind(this)
+
+    this.state = { stateSelectionError: false }
+  }
   componentWillMount () {
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
   }
 
+  determinePartner (kvStore, type) {
+    if (kvStore.sfox.account_token) {
+      return <SfoxCheckout type={type} value={kvStore} />
+    }
+    return <span>just hodl</span>
+  }
+
+  onSubmit (e) {
+    e.preventDefault()
+    this.props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
+  }
+
   render () {
     const { data, type } = this.props
 
-    // TODO: determine partner to load
     let checkout = data.cata({
-      Success: (value) => <SfoxCheckout type={type} value={value} />,
+      Success: (value) => <Success type={type} value={value} onSubmit={this.onSubmit} {...this.props} {...this.state} />,
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>not asked...</div>
@@ -46,7 +67,11 @@ class BuySellContainer extends React.Component {
           <Field name='status' component={TabMenuBuySellStatus} />
         </Menu>
         <CheckoutWrapper>
-          { checkout }
+          {
+            data.data && data.data.value.sfox.account_token
+              ? this.determinePartner(data.data.value, type)
+              : checkout
+          }
         </CheckoutWrapper>
       </Wrapper>
     )
@@ -55,12 +80,20 @@ class BuySellContainer extends React.Component {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status
+  type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status,
+  country: formValueSelector('selectPartner')(state, 'country'),
+  stateSelection: formValueSelector('selectPartner')(state, 'state')
 })
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  kvStoreBuySellActions: bindActionCreators(actions.core.kvStore.buySell, dispatch)
+  kvStoreBuySellActions: bindActionCreators(actions.core.kvStore.buySell, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BuySellContainer)
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: { stateSelectionError: false } })
+)
+
+export default enhance(BuySellContainer)

@@ -1,6 +1,6 @@
 import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
-import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN } from './../ValidationHelper'
+import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN, isOnSfoxWhitelist, isOnPartnerCountryWhitelist } from './../ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -49,9 +49,15 @@ const requiredDOB = value => isDOB(value) ? undefined : 'Must be valid date'
 
 const requiredUsZipcode = value => isUsZipcode(value) ? undefined : 'Must be valid zipcode'
 
+const onSfoxWhitelist = value => isOnSfoxWhitelist(value) ? undefined : 'Feature is not available in your state.'
+
+const onPartnerCountryWhitelist = value => isOnPartnerCountryWhitelist(value) ? undefined : 'Feature is not available in your country.'
+
 export {
   required,
   requiredDOB,
+  onPartnerCountryWhitelist,
+  onSfoxWhitelist,
   optional,
   requiredNumber,
   requiredSSN,
