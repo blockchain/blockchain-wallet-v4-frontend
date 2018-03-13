@@ -1,25 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Text, Icon } from 'blockchain-info-components'
+import { ColLeftInner, Info, Title, Subtitle } from '../styled'
 
-const ColLeftInner = styled.div`
-  width: 80%;
-`
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`
-const Subtitle = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 15px;
-`
-const Info = styled.div`
-  font-size: 14px;
-  margin-bottom: 10px;
-`
 const IdInfo = Info.extend`margin-bottom: 3px;`
 const AlertInfo = Info.extend`margin-top: 10px;`
 
