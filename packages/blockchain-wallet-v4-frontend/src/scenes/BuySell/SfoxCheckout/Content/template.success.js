@@ -33,7 +33,7 @@ const ContinueButton = props => {
   const { step, type } = props
 
   switch (true) {
-    case step === 'personal': return <FormattedMessage id='scenes.buysell.sfoxcheckout.personal.button' defaultMessage='Continue Where You Left Off' />
+    case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.button' defaultMessage='Continue Where You Left Off' />
     case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.button' defaultMessage='Continue Where You Left Off' />
     case step === 'funding': return <FormattedMessage id='scenes.buysell.sfoxcheckout.funding.button' defaultMessage='Continue Where You Left Off' />
     case step === 'verified' && type === 'buy': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verified.buy_bitcoin_button' defaultMessage='Buy Bitcoin' />
@@ -46,7 +46,7 @@ const RequiredMsg = props => {
   const { step } = props
 
   switch (true) {
-    case step === 'personal': return <FormattedMessage id='scenes.buysell.sfoxcheckout.personal.message' defaultMessage='You need to finish personaling your account before you can buy and sell.' />
+    case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.message' defaultMessage='You need to finish personaling your account before you can buy and sell.' />
     case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.message' defaultMessage='You need to finish personaling your account before you can buy and sell.' />
     case step === 'funding': return <FormattedMessage id='scenes.buysell.sfoxcheckout.funding.message' defaultMessage='You need to finish linking your bank account before you can buy and sell.' />
     default: return null
