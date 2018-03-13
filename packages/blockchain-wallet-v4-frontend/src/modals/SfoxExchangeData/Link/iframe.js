@@ -2,23 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 
 const ButtonContainer = styled.div`
-  border: 1px solid #DDD;
-  padding: 35px;
-  margin-top: 15px;
+  margin-bottom: 10px;
 `
 
 const plaidStyled = {
-  position: 'fixed',
-  top: '0px',
-  left: '0px',
-  right: '0px',
-  bottom: '0px',
-  display: 'block',
-  zIndex: 99999999,
-  overflowX: 'hidden',
-  overflowY: 'auto',
-  height: '100%',
-  width: '100%'
+  // position: 'fixed',
+  // top: '0px',
+  // left: '0px',
+  // right: '0px',
+  // bottom: '0px',
+  // display: 'block',
+  // zIndex: 99999999,
+  // overflowX: 'hidden',
+  // overflowY: 'auto',
+  // height: '100%',
+  // width: '100%'
 }
 
 const iframe = (props) => (
