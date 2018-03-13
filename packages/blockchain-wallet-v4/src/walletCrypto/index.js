@@ -8,23 +8,10 @@ import Either from 'data.either'
 
 const SUPPORTED_ENCRYPTION_VERSION = 3
 
-// export const parseDecrypted = (json) => (
-//   Either.try(JSON.parse)(json).leftMap(() => new Error('WRONG_PASSWORD'))
-// )
-
 export const sha256 = (data) => crypto.createHash('sha256').update(data).digest()
 
 // decryptWallet :: Password -> PayloadJSON -> Either Error JSON
 export const decryptWallet = curry((password, data) => Either.try(decryptWalletSync)(password, data))
-
-// decryptWallet :: Password -> payload JSON -> Either Error JSON
-// export const decryptWallet = curry(
-//   (password, data) => decryptWrapper(password, data).chain(parseDecrypted))
-
-// decryptWrapper :: Password -> JSON -> Either Error String
-// const decryptWrapper = curry((password, wrapper) =>
-//   Either.try(() => decryptDataWithPasswordSync(wrapper.payload, password, wrapper.pbkdf2_iterations))()
-// )
 
 export const decryptWalletSync = (password, data) => {
   assert(data, 'function `decryptWallet` requires encrypted wallet data')
