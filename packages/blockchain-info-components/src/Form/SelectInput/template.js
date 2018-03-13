@@ -45,6 +45,7 @@ const Search = styled.input.attrs({ type: 'text' })`
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
   box-sizing: border-box;
+  padding: 0.5rem 1rem;
 
   &:focus {
     border-radius: none;

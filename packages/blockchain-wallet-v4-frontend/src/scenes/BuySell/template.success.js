@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { Text, Button, IconButton, Link, HeartbeatLoader } from 'blockchain-info-components'
+import { Text, Button } from 'blockchain-info-components'
 import { required, onSfoxWhitelist, onPartnerCountryWhitelist } from 'services/FormHelper'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry } from 'components/Form'
 
