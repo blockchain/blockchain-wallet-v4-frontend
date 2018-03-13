@@ -1,5 +1,5 @@
 import { selectAll } from '../coinSelection'
-import { address, networks, ECPair } from 'bitcoinjs-lib'
+import { address, networks, ECPair, Transaction } from 'bitcoinjs-lib'
 import { equals, head, or, prop } from 'ramda'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
@@ -102,4 +102,9 @@ export const calculateBalanceBitcoin = (coins, feePerByte) => {
     fee: Exchange.convertBitcoinToBitcoin({ value: data.fee, fromUnit: 'SAT', toUnit: 'BTC' }).value,
     effectiveBalance: Exchange.convertBitcoinToBitcoin({ value: data.effectiveBalance, fromUnit: 'SAT', toUnit: 'BTC' }).value
   }
+}
+
+export const txHexToHashHex = txHex => {
+  const tx = Transaction.fromHex(txHex)
+  return tx.getId()
 }
