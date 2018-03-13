@@ -6,13 +6,10 @@ import { FormattedMessage } from 'react-intl'
 import ui from 'redux-ui'
 import { actions } from 'data'
 import { reduxForm, formValueSelector, Field } from 'redux-form'
-
 import { TextBox, Form } from 'components/Form'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-
 import { required } from 'services/FormHelper'
-
-import Bank from './bank'
+import Bank from './Bank'
 
 const Container = styled.div`
   display: flex;
