@@ -17,8 +17,6 @@ const Wrapper = styled.div`
   cursor: pointer;
   position: relative;
 
-  & > * { margin-right: 5px; }
-
   @media(min-width: 850px) { align-items: flex-end; }
 `
 
