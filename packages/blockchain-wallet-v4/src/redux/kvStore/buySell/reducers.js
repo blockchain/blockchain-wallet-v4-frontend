@@ -35,7 +35,7 @@ export default (state = INITIAL_STATE, action) => {
       let setProfile = assocPath(['sfox', 'account_token'], payload.token)
       return over(valueLens, setProfile, state)
     }
-    case AT.WIPE: {
+    case AT.WIPE_EXTERNAL: {
       let valueLens = compose(mapped, KVStoreEntry.value)
       let wipe = assocPath(['sfox'], { trades: [] })
       return over(valueLens, wipe, state)
