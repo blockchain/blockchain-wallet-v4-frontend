@@ -18,7 +18,7 @@ const BaseSeparator = styled.div`
   width: 100%;
   height: 1px;
   background-color: ${props => props.theme['gray-2']};
-  margin: 10px 0;
+  margin: ${props => props.margin ? props.margin : '10px 0'};
 `
 
 const Separator = props => {
@@ -27,9 +27,9 @@ const Separator = props => {
   return children
     ? (
       <Wrapper>
-        {align !== 'right' && <BaseSeparator />}
+        {align !== 'right' && <BaseSeparator margin={props.margin} />}
         <Content align={align}>{children}</Content>
-        {align !== 'left' && <BaseSeparator />}
+        {align !== 'left' && <BaseSeparator margin={props.margin} />}
       </Wrapper>
     ) : (
       <BaseSeparator />

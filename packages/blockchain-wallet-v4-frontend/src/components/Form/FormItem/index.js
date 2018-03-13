@@ -3,9 +3,6 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: ${props => props.width || '100%'};
-  &:not(:first-child) {
-    margin-top: 10px;
-  }
 `
 
 const FormGroup = props => {

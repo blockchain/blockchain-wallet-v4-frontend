@@ -17,11 +17,13 @@ const Wrapper = styled.div`
 `
 const AddressBox = styled.span`
   display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   height: 36px;
   font-size: 16px;
+  font-weight: 300;
+  padding-left: 10px;
+  align-items: center;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   background-color: ${props => props.theme['gray-1']};
 
   @media(min-width:768px) { font-size: 14px; }
