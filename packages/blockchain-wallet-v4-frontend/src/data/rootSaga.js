@@ -35,7 +35,7 @@ export default function * () {
     fork(modules),
     fork(goals),
     fork(wallet),
-    fork(sagas.core.webSocket),
+    fork(sagas.core.webSocket.bitcoin),
     fork(sagas.core.refresh),
     fork(coreRootSaga)
   ])
