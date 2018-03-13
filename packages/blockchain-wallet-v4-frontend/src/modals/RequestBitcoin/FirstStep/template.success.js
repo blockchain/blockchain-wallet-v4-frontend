@@ -22,10 +22,13 @@ const QRCodeButton = styled.div`
   align-items: center;
   width: 100px;
   height: 36px;
-  background-color: ${props => props.theme['brand-secondary']};
-  color: ${props => props.theme['white']};
   font-weight: 300;
+  font-size: 14px;
   cursor: pointer;
+  padding: 0px 4px;
+  color: ${props => props.theme['white']};
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  background-color: ${props => props.theme['brand-secondary']};
 `
 const CoinSelector = styled(FormGroup)`
   width: 50%;
