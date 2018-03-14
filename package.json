@@ -98,7 +98,7 @@
     "jest-cli": "^22.4.2",
     "jest-css-modules": "^1.1.0",
     "jest-styled-components": "^5.0.0",
-    "lerna": "^2.1.2",
+    "lerna": "^2.9.0",
     "npm-watch": "^0.3.0",
     "prop-types": "^15.6.0",
     "react": "^16.1.1",
