@@ -1,13 +1,13 @@
 language: node_js
 node_js: 9.5
-cache:
-  directories:
-    - node_modules
-    - packages/blockchain-info-components/node_modules
-    - packages/blockchain-wallet-v4/node_modules
-    - packages/blockchain-wallet-v4-frontend/node_modules
+#cache:
+#  directories:
+#    - node_modules
+#    - packages/blockchain-info-components/node_modules
+#    - packages/blockchain-wallet-v4/node_modules
+#    - packages/blockchain-wallet-v4-frontend/node_modules
 before_install: npm install -g lerna yarn
 install: yarn && lerna bootstrap
-before_script: yarn vet
+before_script: yarn lint
 script: yarn build:prod
 after_success: yarn coverage
