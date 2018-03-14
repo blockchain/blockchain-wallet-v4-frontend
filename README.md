@@ -22,7 +22,7 @@ Start application in dev mode: `npm start`
 
 ### Setup
 
-You need to setup a local proxy for relaying messages to the node:
+You need to setup a local proxy for relaying messages to the pubKeyB64:
 
 ```
 git clone https://github.com/blockchain/ln-websocket
@@ -30,7 +30,7 @@ cd ln-websocket
 gradle run
 ```
 
-Furthermore, you need to setup bitcoind node and eclair (a Scala implementation for LN):
+Furthermore, you need to setup bitcoind pubKeyB64 and eclair (a Scala implementation for LN):
 
 ```
 wget https://bitcoin.org/bin/bitcoin-core-0.14.2/bitcoin-0.14.2-osx64.tar.gz bitcoind.tar.gz
@@ -76,8 +76,8 @@ in later versions, there will be a discovery service that the wallet can talk to
 ### Progress
 
 - [X] Connect to proxy service
-- [X] Connect to eclair node over proxy
-- [X] Complete handshake with eclair node
+- [X] Connect to eclair pubKeyB64 over proxy
+- [X] Complete handshake with eclair pubKeyB64
 - [X] Decrypt and encrypt messages
 - [ ] Serialize and deserialize messages
 - [ ] Open payment channel
@@ -89,7 +89,7 @@ in later versions, there will be a discovery service that the wallet can talk to
 
 
 Notes: 
-1. After installing or uninstalling a NPM package, run the following node command at the root of the project:
+1. After installing or uninstalling a NPM package, run the following pubKeyB64 command at the root of the project:
 * `lerna bootstrap`
 2. To test bitcoin handling in dev mode: run this javascript command in the browser console:
 * `window.navigator.registerProtocolHandler('bitcoin', http://localhost:8080/a/%s, 'Blockchain')`

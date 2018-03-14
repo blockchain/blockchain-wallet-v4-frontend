@@ -107,8 +107,10 @@ export let OpenChannel =
    revocationBasepoint,
    paymentBasepoint,
    delayedPaymentBasepoint,
+   htlcBasepoint,
    firstPerCommitmentPoint,
-   channelFlags) => {
+   channelFlags,
+   shutdownScriptpubkey) => {
     return ({
       chainHash,
       temporaryChannelId,
@@ -125,8 +127,10 @@ export let OpenChannel =
       revocationBasepoint,
       paymentBasepoint,
       delayedPaymentBasepoint,
+      htlcBasepoint,
       firstPerCommitmentPoint,
       channelFlags,
+      shutdownScriptpubkey,
       type: TYPE.OPEN_CHANNEL
     })
   }
@@ -149,11 +153,13 @@ export function readOpenChannel (buf) {
     buf.read(33),
     buf.read(33),
     buf.read(33),
-    buf.read(1))
+    buf.read(33),
+    buf.read(1),
+    buf.readWithLen())
 }
 
 export function writeOpenChannel (msg) {
-  return createMessageBuffer(msg, 286)
+  return createMessageBuffer(msg, 321 + msg.shutdownScriptpubkey.length)
     .write(msg.chainHash)
     .write(msg.temporaryChannelId)
     .write64(msg.fundingSatoshi)
@@ -169,8 +175,10 @@ export function writeOpenChannel (msg) {
     .write(msg.revocationBasepoint)
     .write(msg.paymentBasepoint)
     .write(msg.delayedPaymentBasepoint)
+    .write(msg.htlcBasepoint)
     .write(msg.firstPerCommitmentPoint)
     .write(msg.channelFlags)
+    .writeWithLen(msg.shutdownScriptpubkey)
 }
 
 // Accept channel
@@ -187,7 +195,9 @@ export let AcceptChannel =
  revocationBasepoint,
  paymentBasepoint,
  delayedPaymentBasepoint,
- firstPerCommitmentPoint) => ({
+ htlcBasepoint,
+ firstPerCommitmentPoint,
+ shutdownScriptpubkey) => ({
    temporaryChannelId,
    dustLimitSatoshis,
    maxHtlcValueInFlightMsat,
@@ -200,7 +210,9 @@ export let AcceptChannel =
    revocationBasepoint,
    paymentBasepoint,
    delayedPaymentBasepoint,
+   htlcBasepoint,
    firstPerCommitmentPoint,
+   shutdownScriptpubkey,
    type: TYPE.ACCEPT_CHANNEL})
 
 export function readAcceptChannel (buf) {
@@ -217,10 +229,12 @@ export function readAcceptChannel (buf) {
     buf.read(33),
     buf.read(33),
     buf.read(33),
-    buf.read(33))
+    buf.read(33),
+    buf.read(33),
+    buf.optionalReadWithLen())
 }
 export function writeAcceptChannel (msg) {
-  return createMessageBuffer(msg, 237)
+  return createMessageBuffer(msg, 272 + msg.shutdownScriptpubkey)
     .write(msg.channelId)
     .write64(msg.dustLimitSatoshis)
     .write64(msg.maxHtlcValueInFlightMsat)
@@ -233,7 +247,9 @@ export function writeAcceptChannel (msg) {
     .write(msg.revocationBasepoint)
     .write(msg.paymentBasepoint)
     .write(msg.delayedPaymentBasepoint)
+    .write(msg.htlcBasepoint)
     .write(msg.firstPerCommitmentPoint)
+    .writeWithLen(msg.shutdownScriptpubkey)
 }
 
 // FundingCreated
@@ -469,4 +485,109 @@ export function writeChannelReestablish (msg) {
     .write(msg.channelId)
     .write(msg.nextLocalCommitmentNumber)
     .write(msg.nextRemoteRevocationNumber)
+}
+
+export let AnnouncementSignatures = (channelId, shortChannelId, nodeSignature, bitcoinSignature) =>
+                                  ({ channelId, shortChannelId, nodeSignature, bitcoinSignature, type: TYPE.ANNOUNCEMENT_SIGNATURES })
+
+export function readAnnouncementSignatures (buf) {
+  return AnnouncementSignatures(
+    buf.read(32),
+    buf.read64(),
+    buf.read(64),
+    buf.read(64))
+}
+
+export function writeAnnouncementSignatures (msg) {
+  return createMessageBuffer(msg, 168)
+    .write(msg.channelId)
+    .write64(msg.shortChannelId)
+    .write(msg.nodeSignature)
+    .write(msg.bitcoinSignature)
+}
+
+export let ChannelAnnouncement = (nodeSignature1, nodeSignature2, bitcoinSignature1, bitcoinSignature2, features, chainHash, shortChannelId, nodeId1, nodeId2, bitcoinKey1, bitcoinKey2) =>
+                                ({nodeSignature1, nodeSignature2, bitcoinSignature1, bitcoinSignature2, features, chainHash, shortChannelId, nodeId1, nodeId2, bitcoinKey1, bitcoinKey2, type: TYPE.CHANNEL_ANNOUNCEMENT})
+
+export function readChannelAnnouncement (buf) {
+  return ChannelAnnouncement(
+    buf.read(64),
+    buf.read(64),
+    buf.read(64),
+    buf.read(64),
+    buf.readWithLen(),
+    buf.read(32),
+    buf.read64(),
+    buf.read(33),
+    buf.read(33),
+    buf.read(33),
+    buf.read(33))
+}
+
+export function writeChannelAnnouncement (msg) {
+  return createMessageBuffer(msg, 430 + msg.features.length)
+    .write(msg.nodeSignature1)
+    .write(msg.nodeSignature2)
+    .write(msg.bitcoinSignature1)
+    .write(msg.bitcoinSignature2)
+    .writeWithLen(msg.features)
+    .write64(msg.shortChannelId)
+    .write(msg.nodeId1)
+    .write(msg.nodeId2)
+    .write(msg.bitcoinKey1)
+    .write(msg.bitcoinKey2)
+}
+
+export let NodeAnnouncement = (signature, features, timestamp, nodeId, rgbColor, alias, addresses) =>
+                             ({signature, features, timestamp, nodeId, rgbColor, alias, addresses, type: TYPE.NODE_ANNOUNCEMENT})
+
+export function readNodeAnnouncement (buf) {
+  return NodeAnnouncement(
+    buf.read(64),
+    buf.readWithLen(),
+    buf.read32(),
+    buf.read(33),
+    buf.read(3),
+    buf.read(32),
+    buf.readWithLen())
+}
+
+export function writeNodeAnnouncement (msg) {
+  return createMessageBuffer(msg, 140 + msg.features.length + msg.addresses.length)
+    .write(msg.signature)
+    .writeWithLen(msg.features)
+    .write32(msg.timestamp)
+    .write(msg.nodeId)
+    .write(msg.rgbColor)
+    .write(msg.alias)
+    .writeWithLen(msg.addresses)
+}
+
+export let ChannelUpdate = (signature, chainHash, shortChannelId, timestamp, flags, cltvExpiryDelta, htlcMinimumMsat, feeBaseMsat, feeProportionalMillionths) =>
+                          ({signature, chainHash, shortChannelId, timestamp, flags, cltvExpiryDelta, htlcMinimumMsat, feeBaseMsat, feeProportionalMillionths, type: TYPE.CHANNEL_UPDATE})
+
+export function readChannelUpdate (buf) {
+  return NodeAnnouncement(
+    buf.read(64),
+    buf.read(32),
+    buf.read64(),
+    buf.read32(),
+    buf.read(2),
+    buf.read16(),
+    buf.read64(),
+    buf.read32(),
+    buf.read32())
+}
+
+export function writeChannelUpdate (msg) {
+  return createMessageBuffer(msg, 128)
+    .write(msg.signature)
+    .write(msg.chainHash)
+    .write64(msg.shortChannelId)
+    .write32(msg.timestamp)
+    .write(msg.flags)
+    .write16(msg.cltvExpiryDelta)
+    .write64(msg.htlcMinimumMsat)
+    .write32(msg.feeBaseMsat)
+    .write32(msg.feeProportionalMillionths)
 }

@@ -14,12 +14,16 @@ export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
+  if (selection.version !== undefined) {
+    tx.setVersion(selection.version)
+  }
   const addInput = coin => tx.addInput(coin.txHash, coin.index)
   const addOutput = coin => tx.addOutput(coin.address, coin.value)
   const sign = (coin, i) => tx.sign(i, coin.priv)
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)
   addIndex(forEach)(sign, selection.inputs)
+
   return tx.build().toHex()
 })
 

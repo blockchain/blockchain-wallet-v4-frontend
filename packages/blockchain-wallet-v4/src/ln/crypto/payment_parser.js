@@ -1,6 +1,10 @@
 'use strict'
 var bech32 = require('bech32')
+var secp256k1 = require('secp256k1')
+var sha256 = require('sha256')
+var utf = require('text-encoding-utf-8')
 let ALPHABET = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
+var GENERATOR = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3];
 
 // pre-compute lookup table
 let ALPHABET_MAP = {}
@@ -54,7 +58,68 @@ const parse = (message) => {
   }
 
   parseDataPart(data, result)
+  let signature = bech32.fromWords(decodeData(data.slice(data.length - 110, data.length - 6)))
+  let dataToSign = getDataToSign(prefix, data.slice(0, data.length - 110))
+  if (result.tags.public_key !== undefined) {
+    if (!secp256k1.verify(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), result.tags.public_key)) {
+      throw new Error('Not a valid signature')
+    }
+  } else {
+    result.tags.public_key = secp256k1.recover(dataToSign, Buffer.from(signature.slice(0, signature.length - 1)), signature[signature.length - 1], true)
+  }
+
+  let checksum  = data.slice(data.length - 6, data.length)
+
+  if (!verifyChecksum(prefix, decodeData(data))) {
+    throw new Error('Not a valid checksum')
+  }
   return result
+}
+
+function polymod (values) {
+  var chk = 1;
+  for (var p = 0; p < values.length; ++p) {
+    var top = chk >> 25;
+    chk = (chk & 0x1ffffff) << 5 ^ values[p];
+    for (var i = 0; i < 5; ++i) {
+      if ((top >> i) & 1) {
+        chk ^= GENERATOR[i];
+      }
+    }
+  }
+  return chk;
+}
+
+function hrpExpand (hrp) {
+  var ret = [];
+  var p;
+  for (p = 0; p < hrp.length; ++p) {
+    ret.push(hrp.charCodeAt(p) >> 5);
+  }
+  ret.push(0);
+  for (p = 0; p < hrp.length; ++p) {
+    ret.push(hrp.charCodeAt(p) & 31);
+  }
+  return ret;
+}
+
+function verifyChecksum (hrp, data) {
+  return polymod(hrpExpand(hrp).concat(data)) === 1;
+}
+
+function createChecksum (hrp, data) {
+  var values = hrpExpand(hrp).concat(data).concat([0, 0, 0, 0, 0, 0]);
+  var mod = polymod(values) ^ 1;
+  var ret = [];
+  for (var p = 0; p < 6; ++p) {
+    ret.push((mod >> 5 * (5 - p)) & 31);
+  }
+  return ret;
+}
+
+function getDataToSign(prefix, data) {
+  let dataToSign = getUTF8(prefix).concat(wordsToBytes(decodeData(data), 5, 8))
+  return Buffer.from(sha256(dataToSign), 'hex')
 }
 
 function bechToInt (data) {
@@ -68,8 +133,6 @@ function bechToInt (data) {
 function parseDataPart (data, result) {
   result.timestamp = bechToInt(data.slice(0, 7))
   result.tags = parseTags(data.slice(7, data.length - 110))
-  result.signature = bech32.fromWords(decodeData(data.slice(data.length - 110, data.length - 6)))
-  result.checksum = data.slice(data.length - 6, data.length)
 }
 
 function parseTags (tags) {
@@ -125,8 +188,9 @@ function convert (data, fixedDataSize) {
   return result
 }
 
-function encode (payment) {
-  var result = payment.prefix
+function encode (payment, privateKey) {
+  var prefixPart = payment.prefix
+
   var amountStr = ''
   let multiplierStr = ''
   if (typeof (payment.amount) !== 'undefined') {
@@ -160,12 +224,48 @@ function encode (payment) {
     }
   }
 
-  result = result.concat(amountStr + multiplierStr + '1')
+  prefixPart = prefixPart.concat(amountStr + multiplierStr)
+  let result = prefixPart.concat('1')
 
-  result = result.concat(convert(payment.timestamp))
-  result = result.concat(encodeTags(payment.tags))
-  result = result.concat(encodeData(bech32.toWords(payment.signature)))
-  result = result.concat(payment.checksum)
+  let dataPart = convert(payment.timestamp)
+  dataPart = dataPart.concat(encodeTags(payment.tags))
+
+  let signature = secp256k1.sign(getDataToSign(prefixPart, dataPart), privateKey)
+  dataPart = dataPart.concat(encodeData(bech32.toWords(signature.signature)) + ALPHABET[signature.recovery])
+
+  let checksum = createChecksum(prefixPart, decodeData(dataPart))
+
+  result = result.concat(dataPart)
+  result = result.concat(encodeData(checksum))
+  return result
+}
+function wordsToBytes (data, inBits, outBits) {
+  let value = 0
+  let bits = 0
+  let maxV = (1 << outBits) - 1
+
+  let result = []
+  for (let i = 0; i < data.length; ++i) {
+    value = (value << inBits) | data[i]
+    bits += inBits
+
+    while (bits >= outBits) {
+      bits -= outBits
+      result.push((value >> bits) & maxV)
+    }
+  }
+    if (bits > 0) {
+      result.push((value << (outBits - bits)) & maxV)
+    }
+
+  return result
+}
+
+function getUTF8(prefix) {
+  let result = []
+  for (let i in prefix) {
+    result.push(prefix[i].charCodeAt())
+  }
   return result
 }
 
@@ -175,16 +275,23 @@ function encodeTags (tags) {
   if (typeof (tags.payment_hash) === 'undefined') {
     console.error('There should be exactly one payment hash tag')
   }
+
+  if (typeof (tags.purpose_of_payment) !== 'undefined') {
+    result = result.concat('h' + getDataLength(HASH_DATA_LENGTH) +
+      encodeData(bech32.toWords(tags.purpose_of_payment)))
+  }
+
   result = result.concat('p' + getDataLength(HASH_DATA_LENGTH))
   result = result.concat(encodeData(bech32.toWords(tags.payment_hash)))
 
   if (typeof (tags.description) !== 'undefined') {
-    var bytes = []
-    for (let i = 0; i < tags.description.length; i++) {
-      bytes.push(tags.description[i].charCodeAt())
-    }
-    var description = encodeData(bech32.toWords(bytes))
+    var description = encodeData(bech32.toWords(utf.TextEncoder('utf-8').encode(tags.description)))
     result = result.concat('d' + getDataLength(description.length) + description)
+  }
+
+  if (typeof (tags.public_key) !== 'undefined') {
+    result = result.concat('n' + getDataLength(PUBLIC_KEY_DATA_LENGTH) +
+      encodeData(bech32.toWords(tags.public_key)))
   }
 
   if (typeof (tags.expiry_time) !== 'undefined' && tags.expiry_time !== DEFAULT_EXPIRY_TIME) {
@@ -192,14 +299,9 @@ function encodeTags (tags) {
     result = result.concat('x' + getDataLength(expiryTime.length) + expiryTime)
   }
 
-  if (typeof (tags.public_key) !== 'undefined') {
-    result = result.concat('n' + getDataLength(PUBLIC_KEY_DATA_LENGTH) +
-                           encodeData(bech32.toWords(tags.public_key)))
-  }
-
-  if (typeof (tags.purpose_of_payment) !== 'undefined') {
-    result = result.concat('h' + getDataLength(HASH_DATA_LENGTH) +
-                           encodeData(bech32.toWords(tags.purpose_of_payment)))
+  if (typeof (tags.min_cltv_expiry_time) !== 'undefined' && tags.min_cltv_expiry_time !== DEFAULT_MIN_FINAL_EXPIRY_TIME) {
+    let minExpiryTime = convert(tags.min_cltv_expiry_time)
+    result = result.concat('c' + getDataLength(minExpiryTime.length) + minExpiryTime)
   }
 
   if (typeof (tags.P2PKH) !== 'undefined') {
@@ -219,22 +321,24 @@ function encodeTags (tags) {
   }
 
   if (typeof (tags.route) !== 'undefined') {
-    var bytes = []
+    var bytes = Buffer.from([])
     for (var i = 0; i < tags.route.length; i++) {
       let node = tags.route[i]
-      bytes = bytes.concat(node.pubkey)
-      bytes = bytes.concat(node.short_channel_id)
-      bytes = bytes.concat(node.fee)
-      bytes.push(node.cltv_expiry_delta >> 8)
-      bytes.push(node.cltv_expiry_delta & 255)
+      bytes = Buffer.concat([bytes, node.pubkey, node.short_channel_id])
+      let a = []
+      for (let i = 3; i >= 0; i--) {
+        a.push((node.fee_base_msat >> (8 * i)) & 255)
+      }
+      for (let i = 3; i >= 0; i--) {
+        a.push((node.fee_proportional_millionths >> (8 * i)) & 255)
+      }
+      for (let i = 1; i >= 0; i--) {
+        a.push((node.cltv_expiry_delta >> (8 * i)) & 255)
+      }
+      bytes = Buffer.concat([bytes, Buffer.from(a)])
     }
     var routeStr = encodeData(bech32.toWords(bytes))
     result = result.concat('r', getDataLength(routeStr.length) + routeStr)
-  }
-
-  if (typeof (tags.min_cltv_expiry_time) !== 'undefined' && tags.min_cltv_expiry_time !== DEFAULT_MIN_FINAL_EXPIRY_TIME) {
-    let minExpiryTime = convert(tags.min_cltv_expiry_time)
-    result = result.concat('c' + getDataLength(minExpiryTime.length) + minExpiryTime)
   }
 
   return result
@@ -262,18 +366,15 @@ function parseTag (type, dataLength, data, result) {
       if (data[51] !== 's' && data[51] !== 'q') {
         throw new Error('No padding 0')
       }
-      result.payment_hash = bech32.fromWords(decodeData(data))
+      result.payment_hash = Buffer.from(bech32.fromWords(decodeData(data)))
       break
     case 'd':
       if (typeof (result.description) !== 'undefined' ||
           typeof (result.purpose_of_payment) !== 'undefined') {
         throw new Error('There should be either exactly one d or one h field')
       }
-      result.description = ''
       var a = bech32.fromWords(decodeData(data))
-      for (var i = 0; i < a.length; i++) {
-        result.description = result.description.concat(String.fromCharCode(a[i]))
-      }
+      result.description = utf.TextDecoder('utf-8').decode(Buffer.from(a))
       break
     case 'n':
       if (dataLength !== PUBLIC_KEY_DATA_LENGTH) {
@@ -287,7 +388,7 @@ function parseTag (type, dataLength, data, result) {
       if (ALPHABET_MAP[data[PUBLIC_KEY_DATA_LENGTH - 1]] % 2 !== 0) {
         throw new Error('No padding 0')
       }
-      result.public_key = bech32.fromWords(decodeData(data))
+      result.public_key = Buffer.from(bech32.fromWords(decodeData(data)))
       break
     case 'h':
       if (typeof (result.description) !== 'undefined' ||
@@ -301,7 +402,7 @@ function parseTag (type, dataLength, data, result) {
       if (data[51] !== 's' && data[HASH_DATA_LENGTH - 1] !== 'q') {
         throw new Error('No padding 0')
       }
-      result.purpose_of_payment = bech32.fromWords(decodeData(data))
+      result.purpose_of_payment = Buffer.from(bech32.fromWords(decodeData(data)))
       break
     case 'x':
       if (typeof (result.expiry_time) !== 'undefined') {
@@ -318,7 +419,7 @@ function parseTag (type, dataLength, data, result) {
       break
     case 'f':
       var version = ALPHABET_MAP[data[0]]
-      var payload = bech32.fromWords(decodeData(data.slice(1, data.length)))
+      var payload = Buffer.from(bech32.fromWords(decodeData(data.slice(1, data.length))))
       switch (version) {
         case 0:
           result.segwit = {}
@@ -343,10 +444,19 @@ function parseTag (type, dataLength, data, result) {
         if (typeof (result.route) === 'undefined') {
           result.route = []
         }
+        let fee_base_msat = 0
+        for (let i = 41; i < 45; i++) {
+          fee_base_msat = (fee_base_msat << 5) + next[i]
+        }
+        let fee_proportional_millionths = 0
+        for (let i = 45; i < 49; i++) {
+          fee_proportional_millionths = (fee_proportional_millionths << 5) + next[i]
+        }
         result.route.push({
-          'pubkey': next.slice(0, 33),
-          'short_channel_id': next.slice(33, 41),
-          'fee': next.slice(41, 49),
+          'pubkey': Buffer.from(next.slice(0, 33)),
+          'short_channel_id': Buffer.from(next.slice(33, 41)),
+          'fee_base_msat': fee_base_msat,
+          'fee_proportional_millionths': fee_proportional_millionths,
           'cltv_expiry_delta': (next[49] << 5) + next[50]
         })
       }

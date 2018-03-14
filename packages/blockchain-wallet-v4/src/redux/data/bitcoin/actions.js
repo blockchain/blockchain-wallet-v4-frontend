@@ -15,3 +15,5 @@ export const setBitcoinRates = (data) => ({ type: AT.SET_BITCOIN_RATES, payload:
 export const setBitcoinFiatAtTime = (coin, currency, hash, value) => ({ type: AT.SET_BITCOIN_FIAT_AT_TIME, payload: { coin, currency, hash, value } })
 
 export const setBitcoinTransactions = (address, txs, reset) => ({ type: AT.SET_BITCOIN_TRANSACTIONS, payload: { address, txs, reset } })
+
+export const pushTx = (txHex) => ({type: AT.PUSH_TX, payload: {txHex}})

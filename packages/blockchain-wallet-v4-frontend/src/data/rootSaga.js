@@ -1,8 +1,8 @@
 import { all, call, fork } from 'redux-saga/effects'
 
-import config from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
+import { tcpRelay } from 'services/TcpRelay'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import alerts from './alerts/sagas.js'
 import auth from './auth/sagas.js'
@@ -12,21 +12,7 @@ import payment from './payment/sagas.js'
 import settings from './settings/sagas.js'
 import wallet from './wallet/sagas.js'
 
-const dataPath = config.WALLET_DATA_PATH
-const settingsPath = config.WALLET_SETTINGS_PATH
-const walletPath = config.WALLET_PAYLOAD_PATH
-const kvStorePath = config.WALLET_KVSTORE_PATH
-
-export const sagas = {
-  core: coreSagasFactory({
-    api,
-    dataPath,
-    walletPath,
-    settingsPath,
-    kvStorePath,
-    socket
-  })
-}
+export const sagas = { core: coreSagasFactory({ api, socket, tcpRelay }) }
 
 const welcomeSaga = function * () {
   if (console) {
@@ -50,10 +36,16 @@ const rootSaga = function * () {
     fork(auth),
     fork(data),
     fork(goals),
-    fork(payment),
+    // fork(payment),
     fork(settings),
     fork(wallet),
-    fork(sagas.core.webSocket)
+    fork(sagas.core.webSocket),
+    fork(sagas.core.ln.channel),
+    fork(sagas.core.data.bitcoin.sagas),
+    fork(sagas.core.ln.peer),
+    fork(sagas.core.ln.api),
+    fork(sagas.core.ln.root),
+    fork(sagas.core.ln.payment)
   ])
 }
 

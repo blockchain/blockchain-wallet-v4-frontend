@@ -1,10 +1,10 @@
 import chai from 'chai'
 import * as Script from '../../src/ln/scripts'
-import {Direction, Funded, Payment, PaymentWrapper} from '../../src/ln/state'
-import {addWitness, getCommitmentTransaction, getPaymentInputScript} from '../../src/ln/transactions'
-import {obscureHash, wrapPubKey} from '../../src/ln/channel'
+import {Direction, Funded, Payment, PaymentWrapper} from '../../src/ln/channel/state'
+import {addWitness, getCommitmentTransaction, getPaymentInputScript} from '../../src/ln/channel/transactions'
 import * as hash from 'bcoin/lib/crypto/digest'
-import {fromDER, wrapHex} from "../../src/ln/helper";
+import {fromDER, wrapHex, wrapPubKey} from '../../src/ln/helper'
+import {obscureHash} from '../../src/ln/channel/channel'
 
 const { expect } = chai
 const Long = require('long')
@@ -248,14 +248,23 @@ describe('LN Transaction Generation', () => {
       priv: wrapHex('bb13b121cdc357cd2e608b0aea294afca36e2b34cf958e2e6451a2f274694491')
     },
     remoteKey: wrapPubKey(wrapHex('0394854aa6eab5b2a8122cc726e9dded053a2184d88256816826d6231c068d4a5b')),
-    delayedKey: wrapHex('03fd5960528dc152014952efdb702a88f71e3c1653b2314431701ec77e57fde83c'),
-    revocationKey: wrapHex('0212a140cd0c6539d07cd08dfe09984dec3251ea808b892efeac3ede9402bf2b19'),
 
-    fundingLocalKey: {
+    // TODO change when the spec uses correct keys again..
+    localHtlcKey: {
+      pub: wrapHex('030d417a46946384f88d5f3337267c5e579765875dc4daca813e21734b140639e7'),
+      priv: wrapHex('bb13b121cdc357cd2e608b0aea294afca36e2b34cf958e2e6451a2f274694491')
+    },
+    remoteHtlcKey: wrapPubKey(wrapHex('0394854aa6eab5b2a8122cc726e9dded053a2184d88256816826d6231c068d4a5b')),
+
+    delayedKey: wrapPubKey(wrapHex('03fd5960528dc152014952efdb702a88f71e3c1653b2314431701ec77e57fde83c')),
+
+    revocationPubKey: wrapHex('0212a140cd0c6539d07cd08dfe09984dec3251ea808b892efeac3ede9402bf2b19'),
+
+    localFundingKey: {
       pub: wrapHex('023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb'),
       priv: wrapHex('30ff4956bbdd3222d44cc5e8a1261dab1e07957bdac5ae88fe3261ef321f3749')
     },
-    fundingRemoteKey: wrapPubKey(wrapHex('030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c1'))
+    remoteFundingKey: wrapPubKey(wrapHex('030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c1'))
   }
 
   describe('Commitments', () => {
@@ -266,8 +275,8 @@ describe('LN Transaction Generation', () => {
           obscuredHash,
           test.payments,
           42,
-          Long.fromNumber(test.valueLocal),
-          Long.fromNumber(test.valueRemote),
+          test.valueLocal,
+          test.valueRemote,
           test.feeRate,
           546,
           144,
@@ -295,7 +304,7 @@ describe('LN Transaction Generation', () => {
           let paymentSigLocal = commitment.paymentSigs[i]
           let paymentSigRemote = test.paymentSigs[i]
 
-          let paymentInputScript = getPaymentInputScript(keySet.revocationKey, keySet.remoteKey, keySet.localKey, payment, paymentSigRemote, paymentSigLocal)
+          let paymentInputScript = getPaymentInputScript(keySet.revocationPubKey, keySet.remoteKey, keySet.localKey, payment, paymentSigRemote, paymentSigLocal)
           paymentTx = addWitness(paymentTx, 0, paymentInputScript)
 
           expect(bcoin.tx.fromRaw(test.paymentTxs[i]))

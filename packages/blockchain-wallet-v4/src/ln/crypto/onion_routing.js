@@ -78,7 +78,7 @@ function generateHopsParams (hopEphemeralPubKeys, hopSharedSecrets, hopBlindingF
 // this field is not filled in before the method called
 // we generate this here.
 // total 65 bytes == HOP_DATA_SIZE
-function constructPacket (paymentPath, sessionKey, hopsData, associatedData) {
+function constructPacket (paymentPath, sessionKey = crypto.randomBytes(32), hopsData, associatedData) {
   let hopEphemeralPubKeys = []
   let hopSharedSecrets = []
   let hopBlindingFactors = []
@@ -134,7 +134,6 @@ function unwrapPacket (packet, privateKey, associatedData) {
   if (version !== 0) {
     return generateErrorMessage(INVALID_ONION_VERSION, packet)
   }
-
 
   let pubKey = packet.slice(1, 34)
   if (!ec.publicKeyVerify(pubKey)) { //  check pub key

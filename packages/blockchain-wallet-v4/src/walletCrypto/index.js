@@ -94,6 +94,8 @@ export function decryptDataWithPasswordSync (data, password, iterations, options
   return decryptBufferWithKey(payload, iv, key, options)
 }
 
+export const stringToKey = (string, iterations) => stretchPasswordSync(string, 'salt', iterations, U.KEY_BIT_LEN)
+
 // payload: (Buffer)
 // iv: initialization vector (Buffer)
 // key: AES key (256 bit Buffer)

@@ -30,7 +30,7 @@ let toArrayFormat = (a) => Array.isArray(a) ? a : [a]
 class Socket {
   constructor (options = {}) {
     let {
-      wsUrl = 'wss://ws.blockchain.info/inv'
+      wsUrl = 'wss://ws.blockchain.info/testnet3/inv'
     } = options
     this.wsUrl = wsUrl
     this.headers = { 'Origin': 'https://blockchain.info' }

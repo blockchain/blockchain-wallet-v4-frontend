@@ -1,9 +1,6 @@
 import { expect } from 'chai'
-import Parser from '../../src/ln/payment_parser.js'
-import {Connection} from '../../src/ln/connection'
+import {Connection} from '../../src/ln/peers/connection'
 import {TCP} from './tcp_mock'
-
-const assert = require('assert')
 
 describe('Connection Handshake', () => {
   let staticRemote = {}
@@ -40,12 +37,12 @@ describe('Connection Handshake', () => {
       let conn = new Connection({staticLocal}, staticRemote)
       conn.tempLocal = tempLocal
 
-      conn.connect(tcp, identity, handshakeCompletedCb, messageCb, closedCb)
+      conn.connect(tcp, handshakeCompletedCb, closedCb)
 
       expect(tcp.messages[0].toString('hex'))
         .to.equal('00036360e856310ce5d294e8be33fc807077dc56ac80d95d9cd4ddbd21325eff73f70df6086551151f58b8afe6c195782c6a')
 
-      tcp.onData(Buffer.from('0002466d7fcae563e5cb09a0d1870bb580344804617879a14949cf22285f1bae3f276e2470b93aac583c9ef6eafca3f730ae', 'hex'))
+      conn.newData(Buffer.from('0002466d7fcae563e5cb09a0d1870bb580344804617879a14949cf22285f1bae3f276e2470b93aac583c9ef6eafca3f730ae', 'hex'))
 
       expect(tcp.messages[1].toString('hex'))
         .to.equal('00b9e3a702e93e3a9948c2ed6e5fd7590a6e1c3a0344cfc9d5b57357049aa22355361aa02e55a8fc28fef5bd6d71ad0c38228dc68b1c466263b47fdf31e560e139ba')
@@ -59,12 +56,12 @@ describe('Connection Handshake', () => {
       let conn = new Connection({staticLocal}, staticRemote)
       conn.tempLocal = tempLocal
 
-      conn.connect(tcp, identity, handshakeCompletedCb, messageCb, closedCb)
+      conn.connect(tcp, handshakeCompletedCb, closedCb)
 
       expect(tcp.messages[0].toString('hex'))
         .to.equal('00036360e856310ce5d294e8be33fc807077dc56ac80d95d9cd4ddbd21325eff73f70df6086551151f58b8afe6c195782c6a')
 
-      tcp.onData(Buffer.from('0102466d7fcae563e5cb09a0d1870bb580344804617879a14949cf22285f1bae3f276e2470b93aac583c9ef6eafca3f730ae', 'hex'))
+      conn.newData(Buffer.from('0102466d7fcae563e5cb09a0d1870bb580344804617879a14949cf22285f1bae3f276e2470b93aac583c9ef6eafca3f730ae', 'hex'))
 
       expect(handshakeCompleted).to.equal(false)
       expect(closed).to.equal(true)
@@ -75,12 +72,12 @@ describe('Connection Handshake', () => {
       let conn = new Connection({staticLocal}, staticRemote)
       conn.tempLocal = tempLocal
 
-      conn.connect(tcp, identity, handshakeCompletedCb, messageCb, closedCb)
+      conn.connect(tcp, handshakeCompletedCb, closedCb)
 
       expect(tcp.messages[0].toString('hex'))
         .to.equal('00036360e856310ce5d294e8be33fc807077dc56ac80d95d9cd4ddbd21325eff73f70df6086551151f58b8afe6c195782c6a')
 
-      tcp.onData(Buffer.from('0004466d7fcae563e5cb09a0d1870bb580344804617879a14949cf22285f1bae3f276e2470b93aac583c9ef6eafca3f730ae', 'hex'))
+      conn.newData(Buffer.from('0004466d7fcae563e5cb09a0d1870bb580344804617879a14949cf22285f1bae3f276e2470b93aac583c9ef6eafca3f730ae', 'hex'))
 
       expect(handshakeCompleted).to.equal(false)
       expect(closed).to.equal(true)
@@ -91,12 +88,12 @@ describe('Connection Handshake', () => {
       let conn = new Connection({staticLocal}, staticRemote)
       conn.tempLocal = tempLocal
 
-      conn.connect(tcp, identity, handshakeCompletedCb, messageCb, closedCb)
+      conn.connect(tcp, handshakeCompletedCb, closedCb)
 
       expect(tcp.messages[0].toString('hex'))
         .to.equal('00036360e856310ce5d294e8be33fc807077dc56ac80d95d9cd4ddbd21325eff73f70df6086551151f58b8afe6c195782c6a')
 
-      tcp.onData(Buffer.from('0002466d7fcae563e5cb09a0d1870bb580344804617879a14949cf22285f1bae3f276e2470b93aac583c9ef6eafca3f730af', 'hex'))
+      conn.newData(Buffer.from('0002466d7fcae563e5cb09a0d1870bb580344804617879a14949cf22285f1bae3f276e2470b93aac583c9ef6eafca3f730af', 'hex'))
 
       expect(handshakeCompleted).to.equal(false)
       expect(closed).to.equal(true)
@@ -112,7 +109,7 @@ describe('Connection Handshake', () => {
       conn.sk = Buffer.from('969ab31b4d288cedf6218839b27a3e2140827047f2c0f01bf5c04435d43511a9', 'hex')
       conn.rk = Buffer.from('bb9020b8965f4df047e07f955f3c4b88418984aadc5cdb35096b9ea8fa5c3442', 'hex')
 
-      for(let i=0; i<1002; i++) {
+      for (let i = 0; i < 1002; i++) {
         conn.write(Buffer.from('68656c6c6f', 'hex'))
       }
 

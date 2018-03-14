@@ -8,6 +8,7 @@ import { rootSaga, rootReducer, selectors } from 'data'
 import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
+import { tcpRelay } from 'services/TcpRelay'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 
 const devToolsConfig = {
@@ -44,6 +45,7 @@ const configureStore = () => {
         coreMiddleware.kvStore({isAuthenticated, api, kvStorePath}),
         coreMiddleware.socket({ socket, walletPath, isAuthenticated }),
         coreMiddleware.walletSync({isAuthenticated, api, walletPath}),
+        coreMiddleware.ln(tcpRelay),
         sagaMiddleware
       ),
       autoRehydrate()

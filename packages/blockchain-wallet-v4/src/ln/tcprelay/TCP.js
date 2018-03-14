@@ -1,13 +1,13 @@
 import { compose, prop, propEq, identity, pipe } from 'ramda'
 
 const WebSocket = global.WebSocket || global.MozWebSocket
-let Base64 = require('js-base64').Base64
 
 function WS (uri, protocols, opts) {
   return protocols ? new WebSocket(uri, protocols) : new WebSocket(uri)
 }
 
 let connections = []
+let conn = {}
 
 if (WebSocket) {
   WS.prototype = WebSocket.prototype
@@ -41,9 +41,13 @@ class TCP {
     this.reconnect = null
   }
 
-  connectToMaster (onOpen = identity, onClose = identity) {
-    console.log(WebSocket)
-
+  connectToMaster (
+    onOpen = identity,
+    onClose = identity,
+    onNodeConnected = identity,
+    onNodeMessage = identity,
+    onNodeDisconnected = identity
+  ) {
     if (!this.socket || this.socket.readyState === 3) {
       try {
         this.pingIntervalPID = setInterval(this.ping.bind(this), this.pingInterval)
@@ -53,6 +57,11 @@ class TCP {
         this.socket.on('message', this.onMessage.bind(this))
         this.socket.on('close', pipe(this.onClose, onClose))
 
+        this.onNodeConnected = onNodeConnected
+
+        this.onNodeMessage = onNodeMessage
+        this.onNodeDisconnected = onNodeDisconnected
+
         this.reconnect = this.connectToMaster.bind(this, onOpen, onClose)
       } catch (e) {
         console.info('Failed to connect to websocket', e)
@@ -60,16 +69,27 @@ class TCP {
     }
   }
 
-  connectToNode (node, onOpen = identity, onData = identity, onClose = identity) {
-    console.log('Connect to ', node)
+  connectToNode (pubKey, onOpen = identity, onData = identity, onClose = identity) {
+    const pubKeyHex = pubKey.toString('hex')
 
-    connections[node] = {}
-    connections[node].onOpen = onOpen
-    connections[node].onData = onData
-    connections[node].onClose = onClose
+    connections[pubKeyHex] = {}
+    connections[pubKeyHex].onOpen = onOpen
+    connections[pubKeyHex].onData = onData
+    connections[pubKeyHex].onClose = onClose
 
-    this.send(this.open(node))
-    return connections[node]
+    this.send(this.open(pubKeyHex))
+    return connections[pubKeyHex]
+  }
+
+  connectToNodePromise (node, onData = identity, onClose = identity) {
+    return new Promise((resolve, reject) => {
+      let close = () => {
+        onClose()
+        reject(new Error('Connection closed'))
+      }
+      console.info(this)
+      this.connectToNode(node, resolve, onData, close)
+    })
   }
 
   sendToNode (node, data) {
@@ -96,17 +116,28 @@ class TCP {
   }
 
   onMessage (msg) {
-    console.info('ws [<-]: ', msg.data)
+    // console.info('ws [<-]: ', msg.data)
     let m = JSON.parse(msg.data)
 
-    if (m.op === 'msg') {
-      connections[TCP.extractNode(msg)].onData(TCP.extractPayload(msg))
-    } if (m.op === 'event') {
+    const node = TCP.extractNode(msg)
+
+    if (m.op === 'pong') {
+      this.onPong(msg)
+    } else if (m.op === 'event') {
+      console.debug('ws [<-]: ', msg.data)
       if (m.event === 'open') {
-        connections[TCP.extractNode(msg)].onOpen()
+        connections[node].onOpen()
+        this.onNodeConnected(node)
       } else if (m.event === 'close') {
-        connections[TCP.extractNode(msg)].onClose()
-        connections[TCP.extractNode(msg)] = undefined
+        connections[node].onClose()
+        connections[node] = undefined
+        this.onNodeDisconnected(node)
+      }
+    } else {
+      if (m.op === 'msg') {
+        const payload = TCP.extractPayload(msg)
+        connections[node].onData(payload)
+        this.onNodeMessage(node, payload)
       }
     }
   }
@@ -131,14 +162,14 @@ class TCP {
   }
 
   send (message) {
-    console.info('ws [->]: ', message)
+    console.debug('ws [->]: ', message)
     if (this.socket && this.socket.readyState === 1) {
       this.socket.send(message)
     }
   }
 
   static sendData (node, data) {
-    return JSON.stringify({op: 'msg', node: node.toString('base64'), msg: data.toString('base64')})
+    return JSON.stringify({op: 'msg', node: node.toString('hex'), msg: data.toString('base64')})
   }
 
   open (node) {

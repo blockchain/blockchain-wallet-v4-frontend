@@ -1,8 +1,8 @@
 import { expect } from 'chai'
-import * as onionRouting from '../../src/ln/onion_routing'
-import {Map} from 'immutable'
-var ec = require('secp256k1')
-var random = require('crypto')
+import * as onionRouting from '../../src/ln/crypto/onion_routing'
+
+const ec = require('secp256k1')
+const random = require('crypto')
 
 describe('Onion Routing Test', () => {
   describe('Packet generation and forwarding', () => {

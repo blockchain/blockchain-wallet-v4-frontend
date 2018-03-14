@@ -1,13 +1,16 @@
 'use strict'
 import {List} from 'immutable'
-import {getSerializer} from './messages/parser'
-import {wrapHex} from "./helper";
+import {getSerializer} from '../messages/parser'
+import {wrapHex} from '../helper'
+import * as random from 'crypto'
+import * as Message from '../messages/serializer'
+import * as Parse from '../messages/parser'
 
 let ec = require('bcoin/lib/crypto/secp256k1-browser')
 let crypto = require('bcoin/lib/crypto')
 let hkdf = require('bcoin/lib/crypto/hkdf')
 let assert = require('assert')
-let AEAD = require('./crypto/aead')
+let AEAD = require('../crypto/aead')
 const elliptic = require('elliptic')
 const secp256k1 = elliptic.ec('secp256k1')
 
@@ -21,12 +24,17 @@ function Connection (options, staticRemote) {
   if (!(this instanceof Connection)) { return new Connection() }
 
   this.staticLocal = options.staticLocal
-  this.staticRemote = staticRemote
+  this.keyRemote = staticRemote
 
-  // Handshake data
+  // Features that peer supports
+  this.gfRemote = []
+  this.lfRemote = []
+
+
+    // Handshake data
   this.tempLocal = {}
   this.tempRemote = {}
-  this.tempLocal.priv = ec.generatePrivateKey()
+  this.tempLocal.priv = random.randomBytes(32)
   this.tempLocal.pub = ec.publicKeyCreate(this.tempLocal.priv, true)
 
   this.ck = null
@@ -60,7 +68,7 @@ function Connection (options, staticRemote) {
 
   // Callback functions
   this.onHandshakeCb = null
-  this.onMessage = null
+  this.onCloseCb = null
 }
 
 Connection.prototype.error = function error (err) {
@@ -68,27 +76,20 @@ Connection.prototype.error = function error (err) {
   throw err
 }
 
-Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb, onMessageCb, onCloseCb) {
+Connection.prototype.connectPromise = function connectPromise (tcp) {
+  return new Promise((resolve, reject) => {
+    this.connect(tcp, resolve, reject)
+  })
+}
+
+Connection.prototype.connect = function connect (tcp, onHandshakeCb, onCloseCb) {
   this.tcp = tcp
 
   this.onHandshakeCb = onHandshakeCb
-  this.onMessage = onMessageCb
+  this.onCloseCb = onCloseCb
 
   let onConnect = () => {
-    onConnectCb()
     this.sendHandshakePart1()
-  }
-
-  let onData = (data) => {
-    try {
-      this.feed(data)
-    } catch (e) {
-      // TODO close channel
-      console.info(e)
-      this.authed = false
-      tcp.close()
-      onCloseCb()
-    }
   }
 
   let onClose = () => {
@@ -97,7 +98,7 @@ Connection.prototype.connect = function connect (tcp, onConnectCb, onHandshakeCb
     onCloseCb()
   }
 
-  tcp.connectToNode(this.staticRemote.pub.toString('base64'), onConnect, onData, onClose)
+  tcp.connectToNode(this.keyRemote.pub, onConnect, () => {}, onClose)
 
   this.tcp = tcp
 }
@@ -108,10 +109,10 @@ Connection.prototype.sendHandshakePart1 = function () {
   this.h = crypto.sha256(Buffer.from('Noise_XK_secp256k1_ChaChaPoly_SHA256', 'ascii'))
   this.ck = this.h
   this._appendToHash(Buffer.from('lightning', 'ascii'))
-  this._appendToHash(this.staticRemote.pub)
+  this._appendToHash(this.keyRemote.pub)
   this._appendToHash(this.tempLocal.pub)
 
-  let ss = ecdh(this.staticRemote.pub, this.tempLocal.priv)
+  let ss = ecdh(this.keyRemote.pub, this.tempLocal.priv)
 
   console.debug('ss = 0x' + ss.toString('hex'))
   console.debug('ck = 0x' + this.ck.toString('hex'))
@@ -270,6 +271,16 @@ const decryptAEAD = function (key, ad, nonce, data, tag) {
   return decrypted
 }
 
+Connection.prototype.newData = function newData (data) {
+  try {
+    return this.feed(data)
+  } catch (e) {
+    console.info('Connection closed', e)
+    this.authed = false
+    this.onCloseCb()
+  }
+}
+
 Connection.prototype.feed = function feed (data) {
   if (!this.authed) {
     if (data.length !== 50) {
@@ -280,51 +291,48 @@ Connection.prototype.feed = function feed (data) {
 
     this.readHandshakePart2(data)
     this.sendHandshakePart3()
-    console.info('Handshake completed with ' + this.staticRemote.pub.toString('hex'))
+    console.debug('Handshake completed with ' + this.keyRemote.pub.toString('hex'))
+    this.write(Parse.writeMessage(new Message.Init(Buffer.alloc(0), wrapHex('00'))))
     this.onHandshakeCb()
-
     return
   }
 
   // Not sure how to handle corrupted bytes - for now we just fail the connection completely
   this.dataBuffer = Buffer.concat([this.dataBuffer, data])
 
-  // Loop as long as there are enough bytes in dataBuffer for more messages
   // TODO try catch block to fail connection on corrupted bytes
-  while (true) {
-    if (!this.hasSize && this.dataBuffer.length < 18) {
-      return
-    }
+  if (!this.hasSize && this.dataBuffer.length < 18) {
+    return
+  }
 
     // The handshake is already complete - retrieve the size and the payload
-    if (!this.hasSize) {
-      let sizeBuffer = this.dataBuffer.slice(0, 2)
-      let sizeTag = this.dataBuffer.slice(2, 18)
+  if (!this.hasSize) {
+    let sizeBuffer = this.dataBuffer.slice(0, 2)
+    let sizeTag = this.dataBuffer.slice(2, 18)
 
-      sizeBuffer = this.decryptIn(sizeBuffer, sizeTag)
-      this.size = sizeBuffer.readInt16BE(0)
-      this.hasSize = true
+    sizeBuffer = this.decryptIn(sizeBuffer, sizeTag)
+    this.size = sizeBuffer.readInt16BE(0)
+    this.hasSize = true
 
-      this.dataBuffer = this.dataBuffer.slice(18)
-    }
+    this.dataBuffer = this.dataBuffer.slice(18)
+  }
 
-    if (this.dataBuffer.length < (this.size + 16)) {
-      return
-    }
+  if (this.dataBuffer.length < (this.size + 16)) {
+    return
+  }
 
-    let encryptedData = this.dataBuffer.slice(0, this.size)
-    let encryptedTag = this.dataBuffer.slice(this.size, this.size + 16)
+  let encryptedData = this.dataBuffer.slice(0, this.size)
+  let encryptedTag = this.dataBuffer.slice(this.size, this.size + 16)
 
-    let decryptedData = this.decryptIn(encryptedData, encryptedTag)
+  let decryptedData = this.decryptIn(encryptedData, encryptedTag)
 
     // Re-initialise our fields after completely retrieving a full message
-    this.dataBuffer = this.dataBuffer.slice(this.size + 16)
-    this.size = 0
-    this.hasSize = false
+  this.dataBuffer = this.dataBuffer.slice(this.size + 16)
+  this.size = 0
+  this.hasSize = false
 
-    console.info('[<-] ' + decryptedData.toString('hex'))
-    this.onMessage(decryptedData)
-  }
+  console.debug('[<-] ' + decryptedData.toString('hex'))
+  return decryptedData
 }
 
 Connection.prototype.encryptOut = function (payload) {
@@ -356,7 +364,7 @@ Connection.prototype.decryptIn = function (payload, tag) {
 }
 
 Connection.prototype.write = function (payload) {
-  console.info('[->] ' + payload)
+  console.debug('[->] ' + payload.toString('hex'))
   assert(payload.length < 65535)
 
   let size = Buffer.alloc(2)
@@ -369,32 +377,7 @@ Connection.prototype.write = function (payload) {
 }
 
 Connection.prototype.writeRaw = function writeRaw (data) {
-  this.tcp.sendToNode(this.staticRemote.pub, data)
+  this.tcp.sendToNode(this.keyRemote.pub, data)
 }
 
-let sendOutAllMessages = function (state) {
-  // We go through every channel in our state and check if we have a proper connection
-  // If we do, we send the message and remove the entry in the channel
-  // TODO what do we do when it's not connected? Discard or keep?
-
-  state.get('channels').forEach(c => c.get('messageOut').forEach(m => {
-    let staticRemote = c.get('staticRemote').pub
-    let conn = state.getIn(['connections', staticRemote, 'conn'])
-    if (conn !== undefined) {
-      let msg = getSerializer(m)(m)
-      conn.write(msg.buffer)
-    } else {
-      console.info('Discard message: ')
-      console.info(m)
-    }
-  }))
-
-  return state.update('channels',
-    c => {
-      return c.map(m => {
-        return m.set('messageOut', List())
-      })
-    })
-}
-
-export {Connection, sendOutAllMessages}
+export {Connection}

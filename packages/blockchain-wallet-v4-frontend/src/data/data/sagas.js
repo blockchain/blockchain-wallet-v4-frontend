@@ -6,7 +6,7 @@ import * as sagas from '../sagas.js'
 
 export const getAdverts = function * (action) {
   try {
-    yield call(sagas.core.data.misc.fetchAdverts, action.payload)
+    // yield call(sagas.core.data.misc.fetchAdverts, action.payload)
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch adverts.'))
   }
@@ -39,9 +39,7 @@ export const getLogs = function * (action) {
 export const getBitcoinTransactions = function * (action) {
   const { address } = action.payload
   try {
-    yield put(actions.application.startRequest())
     yield call(sagas.core.data.bitcoin.fetchTransactions, { address })
-    yield put(actions.application.stopRequest())
   } catch (e) {
     yield put(actions.alerts.displayError('Could not fetch bitcoin transactions.'))
   }

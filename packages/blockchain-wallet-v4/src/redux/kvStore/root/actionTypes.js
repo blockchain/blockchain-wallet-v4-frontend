@@ -1,0 +1,3 @@
+export const SET_ROOT = '@CORE.KVSTORE.SET_ROOT'
+
+export const UPDATE_ROOT = '@CORE.KVSTORE.UPDATE_ROOT'

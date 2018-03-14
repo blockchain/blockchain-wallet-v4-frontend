@@ -101,6 +101,12 @@ module.exports = {
     new Webpack.DefinePlugin({
       'process.env': { 'NODE_ENV': JSON.stringify(ENV) }
     }),
+    new Webpack.ContextReplacementPlugin(
+      // The (\\|\/) piece accounts for path separators in *nix and Windows
+      /bindings/,
+      ('./src'), // location of your src
+      { }
+    ),
     ...(PROD ? [
       new CleanWebpackPlugin(PATHS.dist),
       new Webpack.LoaderOptionsPlugin({
@@ -165,6 +171,7 @@ module.exports = {
           "'self'",
           'ws://localhost:8080',
           'ws://localhost:8081',
+          'http://localhost:8081',
           'https://blockchain.info',
           'wss://ws.blockchain.info',
           'https://api.blockchain.info',
@@ -176,8 +183,9 @@ module.exports = {
           'https://api.sfox.com',
           'https://quotes.sfox.com',
           'https://sfox-kyc.s3.amazonaws.com',
-          'https://testnet5.blockchain.info',
+          'https://testnet.blockchain.info',
           'https://api.testnet.blockchain.info',
+          'https://api-testnet.blockchain.info',
           'wss://ws.testnet.blockchain.info/inv',
           'https://shapeshift.io'
         ].join(' '),

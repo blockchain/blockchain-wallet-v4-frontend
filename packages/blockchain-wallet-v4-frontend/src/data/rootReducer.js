@@ -1,9 +1,8 @@
 
 import { combineReducers } from 'redux'
-import settings from 'config'
 import { reducer as reduxUiReducer } from 'redux-ui'
 import { reducer as formReducer } from 'redux-form'
-import { coreReducers } from 'blockchain-wallet-v4/src'
+import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import alertsReducer from './alerts/reducers.js'
 import applicationReducer from './application/reducers.js'
 import authReducer from './auth/reducers.js'
@@ -13,6 +12,7 @@ import preferencesReducer from './preferences/reducers.js'
 import scrollReducer from './scroll/reducers.js'
 import sessionReducer from './session/reducers.js'
 import wizardReducer from './wizard/reducers.js'
+import lnReducer from 'blockchain-wallet-v4/src/ln/reducer'
 
 const rootReducer = combineReducers({
   alerts: alertsReducer,
@@ -26,11 +26,12 @@ const rootReducer = combineReducers({
   session: sessionReducer,
   ui: reduxUiReducer,
   wizard: wizardReducer,
-  [settings.WALLET_DATA_PATH]: coreReducers.data,
-  [settings.WALLET_PAYLOAD_PATH]: coreReducers.wallet,
-  [settings.WALLET_SETTINGS_PATH]: coreReducers.settings,
-  [settings.WALLET_OPTIONS_PATH]: coreReducers.walletOptions,
-  [settings.WALLET_KVSTORE_PATH]: coreReducers.kvStore
+  [paths.dataPath]: coreReducers.data,
+  [paths.walletPath]: coreReducers.wallet,
+  [paths.settingsPath]: coreReducers.settings,
+  [paths.walletOptionsPath]: coreReducers.walletOptions,
+  [paths.kvStorePath]: coreReducers.kvStore,
+  ln: lnReducer
 })
 
 export default rootReducer

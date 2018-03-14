@@ -34,10 +34,10 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: merge({ method: 'update', format: 'plain' }, data)
   }).then(() => data.checksum)
 
-  const createPayload = data => post({
+  const createPayload = (email, data) => post({
     url: rootUrl,
     endPoint: 'wallet',
-    data: merge({ method: 'insert', format: 'plain' }, data)
+    data: merge({ method: 'insert', format: 'plain', email }, data)
   }).then(() => data.checksum)
 
   const fetchBlockchainData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
