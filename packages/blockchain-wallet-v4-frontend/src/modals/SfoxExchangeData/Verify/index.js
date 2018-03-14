@@ -36,8 +36,8 @@ class VerifyContainer extends Component {
 
   render () {
     return this.props.ui.verify === 'address'
-    ? <Address {...this.props} />
-    : <Identity {...this.props} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
+      ? <Address {...this.props} />
+      : <Identity {...this.props} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
   }
 }
 
