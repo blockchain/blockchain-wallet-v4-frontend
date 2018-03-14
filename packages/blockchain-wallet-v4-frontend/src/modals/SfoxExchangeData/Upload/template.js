@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, IconButton, Link, HeartbeatLoader } from 'blockchain-info-components'
+import { Text, Button, IconButton, Link } from 'blockchain-info-components'
 import { } from 'services/FormHelper'
 import Dropzone from 'react-dropzone'
 

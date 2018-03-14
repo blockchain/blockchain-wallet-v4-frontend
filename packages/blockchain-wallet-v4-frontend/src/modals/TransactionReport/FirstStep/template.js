@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
-import { CSVLink } from 'react-csv-2'
 
-import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip } from 'blockchain-info-components'
+import { Button, Link, ModalBody, ModalFooter } from 'blockchain-info-components'
 import { DateBox, SelectBoxBitcoinAddresses, Form } from 'components/Form'
 
 const Container = styled.div`
