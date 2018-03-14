@@ -19,12 +19,9 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
     try {
       const sfox = yield call(getSfox)
       const methods = yield apply(sfox, sfox.getBuyMethods)
-      // console.log('setbankmanually core saga', methods.ach, sfox)
-      const addedBankAccount = yield apply(sfox, methods.ach.addAccount, [routing, account, name, type])
-      // console.log('setbankmanually core saga2', addedBankAccount)
+      const addedBankAccount = yield apply(methods.ach, methods.ach.addAccount, [routing, account, name, type])
       yield put(A.setBankManuallySuccess(addedBankAccount))
     } catch (e) {
-      console.warn('setBankManually core saga', e)
       yield put(A.setBankAccountFailure(e))
     }
   }
