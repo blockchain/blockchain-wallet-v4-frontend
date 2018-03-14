@@ -7,7 +7,7 @@ import { Text, Button } from 'blockchain-info-components'
 import PlaidFrame from './iframe.js'
 import BankAccounts from './bankAccounts.js'
 import AddManually from './addManually.js'
-import Helper from './Helper.js'
+import { Helper1, Helper2, Helper3 } from './helpers.js'
 
 const Form = styled.form`
   width: 100%;
@@ -98,7 +98,9 @@ const BankLink = (props) => {
         <Button disabled={invalid || pristine} nature='primary' uppercase>
           Continue
         </Button>
-        <Helper question={question1} answer={answer1} questionId={questionId} />
+        <Helper1 />
+        <Helper2 />
+        { enablePlaid ? <Helper3 /> : null }
         {/* <LinkContainer>
           <Text size='14px'>
             <FormattedMessage id='sfoxexchangedata.link.selectmethod' defaultMessage='Select Method To Link Your Bank Account' />
