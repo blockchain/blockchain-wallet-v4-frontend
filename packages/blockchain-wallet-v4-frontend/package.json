@@ -125,9 +125,5 @@
       "it",
       "expect"
     ]
-  },
-  "devDependencies": {
-    "css-loader": "^0.28.10",
-    "style-loader": "^0.20.3"
   }
 }
