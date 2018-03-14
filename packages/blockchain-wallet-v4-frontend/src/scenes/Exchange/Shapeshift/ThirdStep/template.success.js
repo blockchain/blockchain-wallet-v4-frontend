@@ -190,6 +190,8 @@ const Success = props => {
               </Text>
             </Notice>
           }
+        </Row>
+        <Row>
           <Info>
             <InfoRow>
               <Text size='13px' weight={400} capitalize>
