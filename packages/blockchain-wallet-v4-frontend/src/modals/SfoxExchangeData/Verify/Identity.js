@@ -10,6 +10,7 @@ import {
   normalizeSocialSecurity,
   normalizeDateOfBirth,
   ageOverEighteen } from 'services/FormHelper'
+import { Helper1, Helper2 } from './helpers.js'
 
 const Form = styled.form`
   width: 100%;
@@ -91,6 +92,8 @@ const Identity = (props) => {
               : <HeartbeatLoader height='20px' width='20px' color='white' />
           }
         </Button>
+        <Helper1 />
+        <Helper2 />
         <ErrorWrapper>
           {
             verificationError && <Text size='12px' color='error' weight={300} onClick={handleReset}>
