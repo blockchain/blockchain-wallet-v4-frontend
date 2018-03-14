@@ -11,9 +11,10 @@ class LinkContainer extends Component {
   constructor (props) {
     super(props)
     this.onSetBankAccount = this.onSetBankAccount.bind(this)
-    this.toggleManual = this.toggleManual.bind(this)
     this.setBankManually = this.setBankManually.bind(this)
-    this.state = { enablePlaid: false }
+    this.onSubmit = this.onSubmit.bind(this)
+
+    this.state = { enablePlaid: false, id: '' }
   }
 
   componentDidMount () {
@@ -30,6 +31,7 @@ class LinkContainer extends Component {
       if (e.data.command === 'getBankAccounts' && e.data.msg) {
         this.props.sfoxDataActions.getBankAccounts(e.data.msg)
         this.setState({ enablePlaid: false, token: e.data.msg })
+        this.props.updateUI({ selectBank: true })
       }
     }
     window.addEventListener('message', receiveMessage, false)
@@ -40,25 +42,41 @@ class LinkContainer extends Component {
     this.props.sfoxFrontendActions.setBankAccount(bankChoice)
   }
 
-  toggleManual () {
-    this.props.updateUI({ toggleManual: !this.props.ui.toggleManual })
+  setBankManually () {
+    console.log('set bank manually', this.state)
+    // this.props.sfoxFrontendActions.setBankManually(routing, account, name, type)
   }
 
-  setBankManually (routing, account, name, type) {
-    this.props.sfoxFrontendActions.setBankManually(routing, account, name, type)
+  onSubmit (e) {
+    e.preventDefault()
+    if (this.props.ui.toggleManual && this.state.fullName && this.state.routingNumber) {
+      this.setBankManually()
+    } else {
+      const bankChoice = merge({ id: this.state.id, name: this.state.holderName }, {token: this.state.token})
+      this.props.sfoxFrontendActions.setBankAccount(bankChoice)
+      this.setState({ busy: true })
+    }
   }
 
   render () {
     const { plaidUrl, bankAccounts, ui } = this.props
+
     return <Link
-      handleSubmit={this.handleSubmit}
+      onSubmit={this.onSubmit}
       plaidUrl={plaidUrl}
       enablePlaid={this.state.enablePlaid}
       bankAccounts={bankAccounts}
       onSetBankAccount={this.onSetBankAccount}
-      toggleManual={this.toggleManual}
+      toggleManual={() => this.props.updateUI({ toggleManual: true })}
       setBankManually={this.setBankManually}
       ui={ui}
+      busy={this.state.busy}
+      handleBankSelection={(id) => this.setState({ id })}
+      onNameChange={(name) => this.setState({ holderName: name })}
+      handleFullName={(e) => this.setState({ fullName: e.target.value })}
+      handleRoutingNumber={(e) => this.setState({ routingNumber: e.target.value })}
+      handleAccountNumber={(e) => this.setState({ accountNumber: e.target.value })}
+      handleAccountType={(e, val) => this.setState({ accountType: val })}
     />
   }
 }
@@ -76,7 +94,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { toggleManual: false } })
+  ui({ state: { toggleManual: false, selectBank: false } })
 )
 
 export default enhance(LinkContainer)
