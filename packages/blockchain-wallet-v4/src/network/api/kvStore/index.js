@@ -38,6 +38,7 @@ export default ({ apiUrl }) => {
       : compose(KV.StringToBuffer, JSON.stringify)
 
     let encPayloadBuffer = createEncPayloadBuffer(kv.value)
+    let typeId = Array.isArray(kv.typeId) ? parseInt(kv.typeId[0]) : kv.typeId
     let signatureBuffer = KV.computeSignature(kv.signKey, encPayloadBuffer, kv.magicHash)
 
     let body = {
@@ -45,7 +46,7 @@ export default ({ apiUrl }) => {
       'payload': encPayloadBuffer.toString('base64'),
       'signature': signatureBuffer.toString('base64'),
       'prev_magic_hash': kv.magicHash ? kv.magicHash.toString('hex') : null,
-      'type_id': kv.typeId
+      'type_id': typeId
     }
 
     return request('PUT', kv.address, body).map((res) => {

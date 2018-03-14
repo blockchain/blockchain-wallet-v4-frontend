@@ -1,7 +1,7 @@
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import BIP39 from 'bip39'
-import { assoc, curry, compose, prop, is, isNil } from 'ramda'
+import { assoc, curry, compose, prop, is, isNil, reduce } from 'ramda'
 import { view } from 'ramda-lens'
 import Either from 'data.either'
 import * as crypto from '../walletCrypto'
@@ -89,8 +89,15 @@ export const fromMetadataXpriv = curry((xpriv, typeId) =>
   fromMetadataHDNode(Bitcoin.HDNode.fromBase58(xpriv, Bitcoin.networks.testnet), typeId))
 
 export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
-  let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
-  let node = payloadTypeNode.deriveHardened(0)
+  let payloadTypeNode, node
+  if (Array.isArray(typeId)) {
+    payloadTypeNode = reduce((node, i) => node.deriveHardened(i), metadataHDNode, typeId)
+    node = payloadTypeNode.deriveHardened(0)
+  } else {
+    payloadTypeNode = metadataHDNode.deriveHardened(typeId)
+    node = payloadTypeNode.deriveHardened(0)
+  }
+
   let privateKeyBuffer = payloadTypeNode.deriveHardened(1).keyPair.d.toBuffer()
   let encryptionKey = crypto.sha256(privateKeyBuffer)
   return fromKeys(node.keyPair, encryptionKey, typeId)
