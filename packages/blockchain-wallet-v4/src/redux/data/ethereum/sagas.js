@@ -1,8 +1,7 @@
 import { call, select } from 'redux-saga/effects'
-import { futurizeP } from 'futurize'
-import Task from 'data.task'
 import * as wS from '../../wallet/selectors'
 import { signETH } from '../../../signer'
+import {txHexToHashHex} from "../../../utils/ethereum";
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -12,7 +11,11 @@ export const ethereum = ({ api } = {}) => {
     const eitherMnemonic = yield select(getMnemonic)
     if (eitherMnemonic.isRight) {
       const mnemonic = eitherMnemonic.value
-      const signAndPublish = (data, pass) => taskToPromise(signETH(network, mnemonic, data).chain(futurizeP(Task)(api.pushEthereumTx)))
+      const signAndPublish = (data, pass) =>
+        taskToPromise(signETH(network, mnemonic, data)
+          .then(txHex => api.pushEthereumTx
+            .then(() => txHexToHashHex(txHex))))
+
       return yield call(signAndPublish, data, password)
     } else {
       throw new Error('Could not read mnemonic')

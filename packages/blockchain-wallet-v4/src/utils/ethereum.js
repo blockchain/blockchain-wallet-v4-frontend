@@ -2,6 +2,7 @@ import * as Exchange from '../exchange'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import EthHd from 'ethereumjs-wallet/hdkey'
+import EthTx from 'ethereumjs-tx'
 import EthUtil from 'ethereumjs-util'
 
 /**
@@ -50,3 +51,5 @@ export const calculateBalanceEther = (gasPrice, gasLimit, balanceWei) => {
     effectiveBalance: Exchange.convertEtherToEther({ value: data.effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
   }
 }
+
+export const txHexToHashHex = txHex => new EthTx(txHex).hash().toString('hex')
