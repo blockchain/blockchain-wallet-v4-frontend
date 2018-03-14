@@ -7,7 +7,7 @@ import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, Separator, Text, Tooltip } from 'blockchain-info-components'
-import { Form, SelectBoxCoin } from 'components/Form'
+import { Form, FormGroup, FormItem, FormLabel, SelectBoxCoin } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
 const AddressContainer = styled.div`
@@ -21,12 +21,12 @@ const QRCodeContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 25px;
+  margin-top: 5px;
   width: 100%;
-  padding: 30px 0;
 `
-const CoinSelector = styled.div`
+const CoinSelector = styled(FormGroup)`
   width: 50%;
-  margin-bottom: 20px;
 `
 const ScanMessage = styled.div`
   padding-bottom: 20px;
@@ -42,23 +42,29 @@ const RequestEther = (props) => {
         <FormattedMessage id='modals.requestether.title' defaultMessage='Request Ether' />
       </ModalHeader>
       <ModalBody>
-        <Form onSubmit={onSubmit}>
-          <CoinSelector>
-            <Text size='14px' weight={500}>
-              <FormattedMessage id='modals.requestether.coin' defaultMessage='Currency:' />
-            </Text>
-            <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+        <Form override onSubmit={onSubmit}>
+          <CoinSelector margin={'20px'}>
+            <FormItem>
+              <FormLabel for='coin'>
+                <FormattedMessage id='modals.requestether.coin' defaultMessage='Currency:' />
+              </FormLabel>
+              <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+            </FormItem>
           </CoinSelector>
-          <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.requestether.share' defaultMessage='Copy & share address:' />
-            <Tooltip>
-              <FormattedMessage id='modals.requestether.share_tooltip' defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.' />
-            </Tooltip>
-          </Text>
-          <AddressContainer>
-            <CopyClipboard address={address} />
-          </AddressContainer>
-          <Separator>
+          <FormGroup>
+            <FormItem>
+              <FormLabel>
+                <FormattedMessage id='modals.requestether.share' defaultMessage='Copy & share address:' />
+                <Tooltip>
+                  <FormattedMessage id='modals.requestether.share_tooltip' defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.' />
+                </Tooltip>
+              </FormLabel>
+            </FormItem>
+            <AddressContainer>
+              <CopyClipboard address={address} />
+            </AddressContainer>
+          </FormGroup>
+          <Separator margin={'20px 0'}>
             <Text size='14px' weight={300} uppercase>
               <FormattedMessage id='modals.requestether.or' defaultMessage='Or' />
             </Text>
