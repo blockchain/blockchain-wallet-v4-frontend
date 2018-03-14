@@ -55,16 +55,21 @@ These IDE plugins/packages assist with complying with these lint rules while dev
  * [WebStorm](https://blog.jetbrains.com/webstorm/2017/04/using-javascript-standard-style/)
 
 ### Unit Tests
-Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/). The following commands are available:
+Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/).
+
+#### Running Tests
  * `yarn test` Runs unit tests for all packages
  * `yarn test:components` Runs unit tests for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:core` Runs unit tests for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn test:frontend` Runs unit tests for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
-
-We are using Jest Snapshots for UI components. Here are the commands to update them when necessary:
- * `yarn test:components:update` Updates component snapshots for only [blockchain-info-components](./packages/blockchain-info-components)
- * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
  
+#### Running Tests via Watch
+ * `yarn test:watch` Watches and then runs desired tests
+ * `yarn test:components:watch` Watches and then runs desired tests for only [blockchain-info-components](./packages/blockchain-info-components)
+ * `yarn test:core:watch` Watches and then runs desired tests for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
+ * `yarn test:frontend:watch` Watches and then runs desired tests for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
+
+#### Debugging Tests
 To enable debugging for unit tests via the Chrome browser, run the following commands:
  * `yarn test:components:debug` Debugs unit tests for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:core:debug` Debugs unit tests for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
@@ -72,8 +77,14 @@ To enable debugging for unit tests via the Chrome browser, run the following com
 
 After running one of the above commands, Node will wait for a debugger to attach before starting the tests.
 To attach, simply open your browser and go to `chrome://inspect` and click on "Open Dedicated DevTools for Node", 
-which will give you a list of available node instances you can connect to. Click on the address displayed in the terminal (usually localhost:9229) 
-and you will be able to debug tests using Chrome's DevTools.
+which will give you a list of available node instances you can connect to. Click on the address displayed in the terminal 
+(usually localhost:9229) and you will be able to debug tests using Chrome's DevTools.
+
+#### Updating Snapshot Tests
+We are snapshot testing UI some components. Here are the commands to update them when necessary:
+ * `yarn test:components:update` Updates component snapshots for only [blockchain-info-components](./packages/blockchain-info-components)
+ * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
+
 
 ### Code Coverage
 To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
