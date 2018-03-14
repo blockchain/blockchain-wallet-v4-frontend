@@ -20,7 +20,7 @@ class SfoxExchangeData extends React.Component {
     this.state = { show: false }
     this.stepMap = {
       account: <FormattedMessage id='modals.sfoxexchangedata.steps.account' defaultMessage='Account' />,
-      personal: <FormattedMessage id='modals.sfoxexchangedata.steps.personal' defaultMessage='Personal' />,
+      verify: <FormattedMessage id='modals.sfoxexchangedata.steps.verify' defaultMessage='Verify' />,
       funding: <FormattedMessage id='modals.sfoxexchangedata.steps.funding' defaultMessage='Funding' />,
       order: <FormattedMessage id='modals.sfoxexchangedata.steps.order' defaultMessage='Order' />,
       submit: <FormattedMessage id='modals.sfoxexchangedata.steps.submit' defaultMessage='Submit' />
@@ -39,7 +39,7 @@ class SfoxExchangeData extends React.Component {
   getStepComponent (step) {
     switch (step) {
       case 'account': return <Create />
-      case 'personal': return <Verify />
+      case 'verify': return <Verify />
       case 'funding': return <Link />
       case 'verified': {
         this.handleClose()
@@ -66,7 +66,7 @@ class SfoxExchangeData extends React.Component {
 }
 
 SfoxExchangeData.propTypes = {
-  step: PropTypes.oneOf(['account', 'personal', 'upload', 'funding']),
+  step: PropTypes.oneOf(['account', 'verify', 'upload', 'funding']),
   close: PropTypes.function
 }
 
