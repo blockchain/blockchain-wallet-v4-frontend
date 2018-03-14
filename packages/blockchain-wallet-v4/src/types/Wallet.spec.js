@@ -45,27 +45,27 @@ describe('Wallet', () => {
   })
 
   describe('addAddress', () => {
-    // it('should add an unencrypted address', () => {
-    //   let n = walletFixture.keys.length
-    //   let address = Address.fromJS({ addr: 'address', priv: '5abc' })
-    //   let withNewAddress = Wallet.addAddress(wallet, address, null)
-    //   expect(withNewAddress.isRight).toEqual(true)
-    //   let addresses = Wallet.selectAddresses(withNewAddress.value)
-    //   expect(addresses.size).toEqual(n + 1)
-    //   const newAddr = R.compose(AddressMap.selectAddress('address'), Wallet.selectAddresses)(withNewAddress.value)
-    //   expect(newAddr).toEqual(address)
-    // })
-    //
-    // it('should add a double encrypted address', () => {
-    //   let n = walletFixture.keys.length
-    //   let address = Address.fromJS({ priv: '5abc', addr: '1asdf' })
-    //   let withNewAddress = Wallet.addAddress(walletSecpass, address, 'secret')
-    //   expect(withNewAddress.isRight).toEqual(true)
-    //   let as = Wallet.selectAddresses(withNewAddress.value)
-    //   expect(as.size).toEqual(n + 1)
-    //   const encPriv = R.compose(Address.selectPriv, AddressMap.selectAddress('1asdf'), Wallet.selectAddresses)(withNewAddress.value)
-    //   expect(encPriv).toEqual('enc<5abc>')
-    // })
+    it('should add an unencrypted address', () => {
+      let n = walletFixture.keys.length
+      let address = Address.fromJS({ addr: 'address', priv: '5abc' })
+      let withNewAddress = Wallet.addAddress(wallet, address, null)
+      expect(withNewAddress.isRight).toEqual(true)
+      let addresses = Wallet.selectAddresses(withNewAddress.value)
+      expect(addresses.size).toEqual(n + 1)
+      const newAddr = R.compose(AddressMap.selectAddress('address'), Wallet.selectAddresses)(withNewAddress.value)
+      expect(newAddr).toEqual(address)
+    })
+
+    it('should add a double encrypted address', () => {
+      let n = walletFixture.keys.length
+      let address = Address.fromJS({ priv: '5abc', addr: '1asdf' })
+      let withNewAddress = Wallet.addAddress(walletSecpass, address, 'secret')
+      expect(withNewAddress.isRight).toEqual(true)
+      let as = Wallet.selectAddresses(withNewAddress.value)
+      expect(as.size).toEqual(n + 1)
+      const encPriv = R.compose(Address.selectPriv, AddressMap.selectAddress('1asdf'), Wallet.selectAddresses)(withNewAddress.value)
+      expect(encPriv).toEqual('enc<5abc>')
+    })
   })
 
   describe('setAddressLabel', () => {
