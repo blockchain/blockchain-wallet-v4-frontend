@@ -12,6 +12,11 @@ const SelectBar = styled.div`
     border-top: 1px solid ${props => props.theme['brand-primary']};
     border-left: 1px solid ${props => props.theme['brand-primary']};
     border-bottom: 1px solid ${props => props.theme['brand-primary']};
+
+    :hover {
+      color: ${props => props.selection ? null : 'white'};
+      background: ${props => props.selection ? null : props.theme['brand-primary']};
+    }
   }
 
   >:first-child {
