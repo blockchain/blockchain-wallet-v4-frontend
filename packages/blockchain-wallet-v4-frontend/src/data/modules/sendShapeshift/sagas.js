@@ -1,6 +1,6 @@
-import { cancel, cancelled, call, fork, select, takeLatest, put } from 'redux-saga/effects'
+import { all, cancel, cancelled, call, fork, select, takeLatest, put } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { compose, equals, filter, head, path, prop } from 'ramda'
+import { equals, is, path, prop } from 'ramda'
 import * as AT from './actionTypes'
 import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
@@ -8,30 +8,33 @@ import * as selectors from '../../selectors'
 import { askSecondPasswordEnhancer } from 'services/SagaService'
 import settings from 'config'
 
-let updateTradeStatusTask
+let refreshTradesTask
 
-const log = a => {
-  console.info(a)
-  return a
+const updateTrade = function * (trade) {
+  const metadataStatus = prop('status', trade)
+  if (equals('complete', metadataStatus) || equals('failed', metadataStatus)) {
+    return
+  }
+  const depositAddress = path(['quote', 'deposit'], trade)
+  const data = yield call(sagas.core.data.shapeShift.fetchTradeStatus, depositAddress)
+  const shapeshiftStatus = prop('status', data)
+  if (!equals(shapeshiftStatus, metadataStatus)) {
+    yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
+  }
 }
 
-const updateTradeStatus = function * (depositAddress) {
+const refreshTrades = function * (selector) {
   try {
     while (true) {
-      yield call(delay, 1000)
+      const selectedTrades = yield select(selector)
+      const trades = selectedTrades.getOrElse([])
+      if (is(Array, trades)) {
+        yield all(trades.map(updateTrade))
+      } else {
+        yield call(updateTrade, trades)
+      }
 
-      yield put(actions.core.data.shapeShift.fetchTradeStatus(depositAddress))
-      const shapeshiftTrades = yield select(selectors.core.data.shapeShift.getTrades)
-      const shapeshiftStatus = prop(depositAddress, shapeshiftTrades).map(x => prop('status', x)).getOrElse('no_deposits')
-      const metadataTrades = yield select(selectors.core.kvStore.shapeShift.getTrades)
-      const metadataTrade = metadataTrades.map(
-          compose(head, filter(
-            compose(equals(depositAddress), path(['quote', 'deposit'])))))
-      const metadataStatus = metadataTrade.map(prop('status')).getOrElse('no_deposits')
-      // if (equals(shapeshiftStatus, metadataStatus)) {
-      yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, 'no_deposits'))
       yield call(delay, 10000)
-      // }
     }
   } catch (e) {
     console.log('exception', e)
@@ -42,8 +45,8 @@ const updateTradeStatus = function * (depositAddress) {
   }
 }
 
-export const cancelUpdateTradeStatus = function * () {
-  yield cancel(updateTradeStatusTask)
+export const cancelRefreshShapeshiftTrades = function * () {
+  yield cancel(refreshTradesTask)
 }
 
 export const sendShapeshiftDeposit = function * (action) {
@@ -86,14 +89,12 @@ export const sendShapeshiftDeposit = function * (action) {
         withdrawalAmount: prop('withdrawalAmount', order)
       }
     }
-    console.log(trade)
-
     // Update metadata with order details
     yield put(actions.core.kvStore.shapeShift.addTradeMetadataShapeshift(trade))
     // Redirect to step 3
     yield put(actions.wizard.setStep('exchange', 3))
     // Start polling saga
-    updateTradeStatusTask = yield fork(updateTradeStatus, depositAddress)
+    refreshTradesTask = yield fork(refreshTrades, selectors.core.kvStore.shapeShift.getTrade(depositAddress))
     // Display notification
     yield put(actions.alerts.displaySuccess('Your deposit has been sent to ShapeShift.'))
   } catch (e) {
@@ -101,6 +102,16 @@ export const sendShapeshiftDeposit = function * (action) {
   }
 }
 
+export const refreshShapeshiftTrades = function * () {
+  try {
+    refreshTradesTask = yield fork(refreshTrades, selectors.core.kvStore.shapeShift.getTrades)
+  } catch (e) {
+    throw e
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.SEND_SHAPESHIFT_DEPOSIT, sendShapeshiftDeposit)
+  yield takeLatest(AT.REFRESH_SHAPESHIFT_TRADES, refreshShapeshiftTrades)
+  yield takeLatest(AT.CANCEL_REFRESH_SHAPESHIFT_TRADES, cancelRefreshShapeshiftTrades)
 }

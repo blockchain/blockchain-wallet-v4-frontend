@@ -7,7 +7,7 @@ import { equals, isNil, path } from 'ramda'
 
 import { actions, selectors } from 'data'
 import { getData } from './selectors'
-import { getPairFromCoin } from '../../services'
+import { getPairFromCoin } from 'services/ShapeshiftService'
 import Success from './template.success'
 
 class CoinConvertorContainer extends React.Component {

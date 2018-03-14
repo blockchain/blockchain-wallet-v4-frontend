@@ -3,7 +3,7 @@ import { selectors } from 'data'
 
 export const getData = (state) => {
   const depositAddress = selectors.core.data.shapeShift.getOrder(state).map(x => prop('deposit', x)).getOrElse('')
-  const tradeR = selectors.core.kvStore.shapeShift.getTrade(state, depositAddress)
+  const tradeR = selectors.core.kvStore.shapeShift.getTrade(depositAddress, state)
 
   const transform = (trade) => ({
     status: prop('status', trade),

@@ -130,7 +130,7 @@ const selectStyle = status => {
     case 'received': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', animation2: true })
     case 'failed': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', color3: 'error', animation3: true, icon3: 'close' })
     case 'complete': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', color3: 'success', animation3: true })
-    case 'resolved': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', color3: 'brand-secondary', animation3: true, icon3: 'build' })
+    // case 'resolved': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', color3: 'brand-secondary', animation3: true, icon3: 'build' })
     default: return initial
   }
 }

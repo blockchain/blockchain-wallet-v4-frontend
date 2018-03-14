@@ -14,7 +14,11 @@ const threshold = 250
 
 class ExchangeHistoryContainer extends React.Component {
   componentWillMount () {
-    this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
+    this.props.dataShapeshiftActions.refreshShapeshiftTrades()
+  }
+
+  componentWillUnmount () {
+    this.props.dataShapeshiftActions.cancelRefreshShapeshiftTrades()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -44,7 +48,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  kvStoreShapeshiftActions: bindActionCreators(actions.core.kvStore.shapeShift, dispatch)
+  dataShapeshiftActions: bindActionCreators(actions.modules.sendShapeshift, dispatch)
 })
 
 const enhance = compose(

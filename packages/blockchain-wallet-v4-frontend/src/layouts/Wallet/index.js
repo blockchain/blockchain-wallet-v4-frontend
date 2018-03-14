@@ -18,6 +18,7 @@ class WalletLayout extends React.Component {
       this.props.kvStoreBchActions.fetchMetadataBch()
       this.props.kvStoreEthereumActions.fetchMetadataEthereum()
       this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
+      this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
       this.props.optionsActions.fetchOptions()
       this.props.settingsActions.fetchSettings()
     }
@@ -54,6 +55,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   kvStoreBchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   kvStoreEthereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
+  kvStoreShapeshiftActions: bindActionCreators(actions.core.kvStore.shapeShift, dispatch),
   kvStoreWhatsnewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch),
   optionsActions: bindActionCreators(actions.core.walletOptions, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch)
