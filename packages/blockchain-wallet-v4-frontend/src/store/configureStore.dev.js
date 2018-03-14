@@ -9,6 +9,7 @@ import settings from 'config'
 import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { serializer } from 'blockchain-wallet-v4/src/types'
+import { autoDisconnection } from '../middleware'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -44,6 +45,7 @@ const configureStore = () => {
         coreMiddleware.kvStore({isAuthenticated, api, kvStorePath}),
         coreMiddleware.socket.bitcoin({ socket, walletPath, isAuthenticated }),
         coreMiddleware.walletSync({isAuthenticated, api, walletPath}),
+        autoDisconnection(),
         sagaMiddleware
       ),
       autoRehydrate()

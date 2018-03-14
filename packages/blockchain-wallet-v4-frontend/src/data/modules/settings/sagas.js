@@ -102,6 +102,7 @@ export const updateBitcoinUnit = function * (action) {
 export const updateAutoLogout = function * (action) {
   try {
     yield call(sagas.core.settings.setAutoLogout, action.payload)
+    yield put(actions.auth.startLogoutTimer())
     yield put(actions.alerts.displaySuccess('Auto logout has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update auto logout.'))
