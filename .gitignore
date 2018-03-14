@@ -19,6 +19,7 @@ yarn-error.log
 *.log
 *.lerna_backup
 package-lock.json
+yarn.lock
 coverage/
 dist/
 
