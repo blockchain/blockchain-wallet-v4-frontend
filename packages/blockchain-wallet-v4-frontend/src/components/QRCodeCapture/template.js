@@ -1,8 +1,6 @@
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import BrowserDetection from 'react-browser-detection'
 import QRReader from '../QRReader'
 
 import { Image, HeartbeatLoader } from 'blockchain-info-components'
