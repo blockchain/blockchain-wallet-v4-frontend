@@ -1,17 +1,12 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "1.0.1",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Functional library for handling Blockchain.info wallets.",
   "license": "ISC",
   "author": {
-    "name": "(Dream Team) Blockchain.info",
+    "name": "Blockchain.info",
     "url": "https://blockchain.info"
   },
-  "contributors": [
-    "Justin Tormey",
-    "Jaume Pernas",
-    "Guillaume Marquilly"
-  ],
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
@@ -23,12 +18,6 @@
     "test": "./../../node_modules/.bin/jest",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-2"
-    ]
   },
   "jest": {
     "collectCoverageFrom": [
@@ -82,20 +71,6 @@
     "scryptsy": "~2.0.0",
     "seedrandom": "^2.4.3",
     "unorm": "~1.4.1"
-  },
-  "standard": {
-    "globals": [
-      "jest",
-      "test",
-      "describe",
-      "context",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect"
-    ]
   },
   "watch": {
     "compile": "src/**/*.js"

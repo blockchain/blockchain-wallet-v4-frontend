@@ -1,11 +1,30 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1",
+  "license": "ISC",
+  "author": {
+    "name": "Blockchain.info",
+    "url": "https://blockchain.info"
+  },
+  "description": "The frontend wallet application built with React/Redux.",
+  "keywords": [
+    "blockchain",
+    "blockchain.info",
+    "react",
+    "redux",
+    "wallet"
+  ],
+  "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend",
+  "bugs": {
+    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
+  },
+  "engines": {
+    "node": ">= 9.5"
+  },
   "scripts": {
     "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
-    "coverage": "lerna exec -- npm run coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
+    "coverage": "lerna exec --concurrency 1 -- npm run coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "coverage:components": "lerna exec --scope blockchain-info-components -- npm run coverage",
     "coverage:core": "lerna exec --scope blockchain-wallet-v4 -- npm run coverage",
     "coverage:frontend": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run coverage",
@@ -18,7 +37,7 @@
     "start:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:prod",
     "storybook:build": "lerna exec --scope blockchain-info-components -- npm run storybook:build",
     "storybook:serve": "lerna exec --scope blockchain-info-components -- npm run storybook:serve",
-    "test": "lerna exec -- npm run test",
+    "test": "lerna exec --concurrency 1 -- npm run test",
     "test:components": "lerna exec --scope blockchain-info-components -- npm run test",
     "test:components:debug": "lerna exec --scope blockchain-info-components -- npm run test:debug",
     "test:components:update": "lerna exec --scope blockchain-info-components -- npm run test -- -u",
