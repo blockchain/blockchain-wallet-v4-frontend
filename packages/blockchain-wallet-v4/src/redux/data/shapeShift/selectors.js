@@ -7,8 +7,6 @@ export const getEthBtc = path([dataPath, 'shapeShift', 'eth_btc'])
 
 export const getOrder = path([dataPath, 'shapeShift', 'order'])
 
-export const getTrades = path([dataPath, 'shapeShift', 'trades'])
-
 export const getShapeshiftQuotation = path([dataPath, 'shapeShift', 'quotation'])
 
 export const getShapeshiftOrder = path([dataPath, 'shapeShift', 'order'])
@@ -33,5 +31,3 @@ export const getEthBtcMinerFee = state => getEthBtc(state).map(path(['minerFee']
 export const getEthBtcMinimum = state => getEthBtc(state).map(path(['minimum']))
 
 export const getEthBtcRate = state => getEthBtc(state).map(path(['rate']))
-
-export const getTrade = (state, address) => path([dataPath, 'shapeShift', 'trades', address], state)

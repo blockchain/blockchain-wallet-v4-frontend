@@ -1,7 +1,7 @@
 import { has, is, concat, head, prop } from 'ramda'
 import { selectors } from 'data'
 import { formValueSelector } from 'redux-form'
-import { getPairFromCoin } from './services'
+import { getPairFromCoin } from 'services/ShapeshiftService'
 import settings from 'config'
 
 // extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)

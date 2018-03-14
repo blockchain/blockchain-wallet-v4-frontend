@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as crypto from 'crypto'
 
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors'
 import { actions, selectors } from 'data'
 import Error from './template.error'
@@ -22,8 +23,9 @@ class FormContainer extends React.Component {
     if (this.props.sourceCoin === 'BTC') {
       const { sourceAmount, sourceChangeAddress, btcFee, coins, depositAddress } = this.props
       const feePerByte = btcFee.priority
-      console.log('refreshSelection', feePerByte, coins, sourceAmount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
-      this.props.dataBitcoinActions.refreshSelection(feePerByte, coins, sourceAmount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
+      const amount = Exchange.convertBitcoinToBitcoin({ value: sourceAmount, fromUnit: 'BTC', toUnit: 'SAT' }).value
+      console.log('refreshSelection', feePerByte, coins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
+      this.props.dataBitcoinActions.refreshSelection(feePerByte, coins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
     }
   }
 

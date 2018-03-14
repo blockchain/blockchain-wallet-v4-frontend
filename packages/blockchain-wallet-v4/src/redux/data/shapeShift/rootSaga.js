@@ -25,17 +25,6 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchTradeStatus = function * (action) {
-    const { address } = action.payload
-    try {
-      yield put(A.fetchTradeStatusLoading(address))
-      const data = yield call(api.getTradeStatus, address)
-      yield put(A.fetchTradeStatusSuccess(data, address))
-    } catch (e) {
-      yield put(A.fetchTradeStatusFailure(e.message, address))
-    }
-  }
-
   const fetchOrder = function * (action) {
     try {
       const { depositAmount, pair, returnAddress, withdrawal } = action.payload
@@ -77,7 +66,6 @@ export default ({ api } = {}) => {
   return function * () {
     yield takeLatest(AT.FETCH_BTC_ETH, fetchBtcEth)
     yield takeLatest(AT.FETCH_ETH_BTC, fetchEthBtc)
-    yield takeLatest(AT.FETCH_TRADE_STATUS, fetchTradeStatus)
     yield takeLatest(AT.FETCH_SHAPESHIFT_ORDER, fetchOrder)
     yield takeLatest(AT.FETCH_SHAPESHIFT_QUOTATION, fetchQuotation)
     // yield fork(watchShapeshiftQuotation)

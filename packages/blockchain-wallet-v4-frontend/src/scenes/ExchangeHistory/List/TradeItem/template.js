@@ -7,25 +7,27 @@ import OrderStatus from './OrderStatus'
 
 const TradeItem = props => {
   const { trade, handleClick } = props
+  const { status, date, sourceCoin, targetCoin, quote } = trade
+  const { depositAmount, withdrawalAmount, deposit } = quote
 
   return (
     <TableRow>
       <TableCell width='15%'>
-        <OrderStatus status={trade.status} />
+        <OrderStatus status={status} />
       </TableCell>
       <TableCell width='15%'>
-        <Link size='14px' weight={300} capitalize onClick={() => handleClick(trade.address)}>
-          <FormattedMessage id='scenes.exchangehistory.list.details' defaultMessage='View details' />
+        <Link size='14px' weight={300} capitalize onClick={() => handleClick(deposit)}>
+          <FormattedMessage id='scenes.exchangehistory.list.tradeitem' defaultMessage='View details' />
         </Link>
       </TableCell>
       <TableCell width='30%'>
-        <Text size='14px' weight={300}>{trade.date}</Text>
+        <Text size='14px' weight={300}>{date}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size='14px' weight={300}>{`${trade.incomingAmount} ${trade.incomingCoin}`}</Text>
+        <Text size='14px' weight={300}>{`${depositAmount} ${sourceCoin}`}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size='14px' weight={300}>{`${trade.outgoingAmount} ${trade.outgoingCoin}`}</Text>
+        <Text size='14px' weight={300}>{`${withdrawalAmount} ${targetCoin}`}</Text>
       </TableCell>
     </TableRow>
   )

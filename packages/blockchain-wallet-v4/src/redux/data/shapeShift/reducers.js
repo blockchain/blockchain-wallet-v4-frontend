@@ -7,8 +7,7 @@ const INITIAL_STATE = {
   btc_eth: Remote.NotAsked,
   eth_btc: Remote.NotAsked,
   order: Remote.NotAsked,
-  quotation: Remote.NotAsked,
-  trades: {}
+  quotation: Remote.NotAsked
 }
 
 const shapeShiftReducer = (state = INITIAL_STATE, action) => {
@@ -32,22 +31,6 @@ const shapeShiftReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ETH_BTC_FAILURE: {
       return assoc('eth_btc', Remote.Failure(payload), state)
-    }
-    case actionTypes.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS: {
-      const addresses = path(['value', 'trades'], payload).map(t => ({ [path(['quote', 'deposit'], t)]: Remote.NotAsked }))
-      return assocPath(['trades'], mergeAll(addresses), state)
-    }
-    case AT.FETCH_TRADE_STATUS_LOADING: {
-      const { address } = payload
-      return assocPath(['trades', address], Remote.Loading, state)
-    }
-    case AT.FETCH_TRADE_STATUS_SUCCESS: {
-      const { data, address } = payload
-      return assocPath(['trades', address], Remote.Success(data), state)
-    }
-    case AT.FETCH_TRADE_STATUS_FAILURE: {
-      const { error, address } = payload
-      return assocPath(['trades', address], Remote.Failure(error), state)
     }
     case AT.FETCH_SHAPESHIFT_ORDER_LOADING: {
       return assoc('order', Remote.Loading, state)

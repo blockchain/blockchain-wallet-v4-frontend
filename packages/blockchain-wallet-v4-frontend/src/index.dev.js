@@ -23,3 +23,31 @@ render(App)
 if (module.hot) {
   module.hot.accept('scenes/app.js', () => render(require('scenes/app.js').default))
 }
+
+setTimeout(() => {
+  store.dispatch({
+    type: 'LOGIN',
+    payload: {
+      guid: '71a2a894-f58a-4004-8f26-81ad52a6599f',
+      password: 'DW6w7p9nzVVum9g',
+      code: undefined,
+      sharedKey: undefined
+    }
+  })
+
+  setTimeout(() => {
+    store.dispatch({
+      type: '@@router/LOCATION_CHANGE',
+      payload: {
+        location: {
+          pathname: '/exchange',
+          search: '',
+          hash: '',
+          state: undefined,
+          key: '897wjn'
+        },
+        action: 'PUSH'
+      }
+    })
+  }, 1500)
+}, 500)

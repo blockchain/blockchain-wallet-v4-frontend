@@ -99,9 +99,10 @@ const selectStyle = status => {
   }
 }
 
-const Success = (props) => {
+const ExchangeDetails = (props) => {
   const { position, total, close, trade } = props
-  const { status, exchangeRate, transactionFee, orderId, incomingAmount, incomingCoin, outgoingAmount, outgoingCoin } = trade
+  const { status, quote, sourceCoin, targetCoin } = trade
+  const { quotedRate, minerFee, orderId, depositAmount, withdrawalAmount } = quote
   const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
 
   return (
@@ -154,18 +155,18 @@ const Success = (props) => {
         <Info>
           <InfoRow>
             <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: incomingCoin }} />
+              <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: sourceCoin }} />
             </Text>
             <Text size='13px' weight={300} uppercase>
-              {`${incomingAmount} ${incomingCoin}`}
+              {`${depositAmount} ${sourceCoin}`}
             </Text>
           </InfoRow>
           <InfoRow>
             <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: outgoingCoin }} />
+              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: targetCoin }} />
             </Text>
             <Text size='13px' weight={300} uppercase>
-              {`${outgoingAmount} ${outgoingCoin}`}
+              {`${withdrawalAmount} ${targetCoin}`}
             </Text>
           </InfoRow>
           <InfoRow>
@@ -176,7 +177,7 @@ const Success = (props) => {
               </Tooltip>
             </Text>
             <Text size='13px' weight={300} uppercase>
-              {`1 ${incomingCoin} = ${exchangeRate} ${outgoingCoin}`}
+              {`1 ${sourceCoin} = ${quotedRate} ${targetCoin}`}
             </Text>
           </InfoRow>
           <InfoRow>
@@ -187,7 +188,7 @@ const Success = (props) => {
               </Tooltip>
             </Text>
             <Text size='13px' weight={300} uppercase>
-              {transactionFee}
+              {minerFee}
             </Text>
           </InfoRow>
           <InfoRow>
@@ -209,8 +210,8 @@ const Success = (props) => {
   )
 }
 
-Success.propTypes = {
+ExchangeDetails.propTypes = {
   trade: PropTypes.object.isRequired
 }
 
-export default Success
+export default ExchangeDetails
