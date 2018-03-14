@@ -9,7 +9,7 @@ import { formValueSelector, Field } from 'redux-form'
 
 import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
-
+import Helper from './helpers.js'
 import { required } from 'services/FormHelper'
 
 const Form = styled.form`
@@ -144,6 +144,7 @@ class VerifyMobile extends Component {
               </Button>
             </ButtonWrapper>
           }
+          <Helper />
         </ColRight>
       </Form>
     )
