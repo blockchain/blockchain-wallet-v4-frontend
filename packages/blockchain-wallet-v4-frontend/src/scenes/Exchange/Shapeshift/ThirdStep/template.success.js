@@ -126,7 +126,7 @@ const InfoRow = styled.div`
 const selectStyle = status => {
   const initial = { color1: 'gray-4', animation1: false, color2: 'gray-4', animation2: false, color3: 'gray-4', animation3: false, icon3: 'checkmark' }
   switch (status) {
-    case 'no_deposit': return merge(initial, { color1: 'brand-primary', animation1: true })
+    case 'no_deposits': return merge(initial, { color1: 'brand-primary', animation1: true })
     case 'received': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', animation2: true })
     case 'failed': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', color3: 'error', animation3: true, icon3: 'close' })
     case 'complete': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', color3: 'success', animation3: true })
@@ -136,8 +136,8 @@ const selectStyle = status => {
 }
 
 const Success = props => {
-  const { close, trade } = props
-  const { status, exchangeRate, transactionFee, orderId, incomingAmount, incomingCoin, outgoingAmount, outgoingCoin } = trade
+  const { close, trade, sourceCoin, targetCoin } = props
+  const { status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount } = trade
   const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
 
   return (
@@ -193,18 +193,18 @@ const Success = props => {
           <Info>
             <InfoRow>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: incomingCoin }} />
+                <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: sourceCoin }} />
               </Text>
               <Text size='13px' weight={300} uppercase>
-                {`${incomingAmount} ${incomingCoin}`}
+                {`${depositAmount} ${sourceCoin}`}
               </Text>
             </InfoRow>
             <InfoRow>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: outgoingCoin }} />
+                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: targetCoin }} />
               </Text>
               <Text size='13px' weight={300} uppercase>
-                {`${outgoingAmount} ${outgoingCoin}`}
+                {`${withdrawalAmount} ${targetCoin}`}
               </Text>
             </InfoRow>
             <InfoRow>
@@ -215,7 +215,7 @@ const Success = props => {
                 </Tooltip>
               </Text>
               <Text size='13px' weight={300} uppercase>
-                {`1 ${incomingCoin} = ${exchangeRate} ${outgoingCoin}`}
+                {`1 ${sourceCoin} = ${exchangeRate} ${targetCoin}`}
               </Text>
             </InfoRow>
             <InfoRow>

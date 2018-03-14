@@ -1,19 +1,37 @@
-import { cancel, cancelled, call, fork, takeLatest, put } from 'redux-saga/effects'
+import { cancel, cancelled, call, fork, select, takeLatest, put } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { prop } from 'ramda'
+import { compose, equals, filter, head, path, prop } from 'ramda'
 import * as AT from './actionTypes'
 import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
+import * as selectors from '../../selectors'
 import { askSecondPasswordEnhancer } from 'services/SagaService'
 import settings from 'config'
 
 let updateTradeStatusTask
 
+const log = a => {
+  console.info(a)
+  return a
+}
+
 const updateTradeStatus = function * (depositAddress) {
   try {
     while (true) {
-      yield call(delay, 3000)
+      yield call(delay, 1000)
+
       yield put(actions.core.data.shapeShift.fetchTradeStatus(depositAddress))
+      const shapeshiftTrades = yield select(selectors.core.data.shapeShift.getTrades)
+      const shapeshiftStatus = prop(depositAddress, shapeshiftTrades).map(x => prop('status', x)).getOrElse('no_deposits')
+      const metadataTrades = yield select(selectors.core.kvStore.shapeShift.getTrades)
+      const metadataTrade = metadataTrades.map(
+          compose(head, filter(
+            compose(equals(depositAddress), path(['quote', 'deposit'])))))
+      const metadataStatus = metadataTrade.map(prop('status')).getOrElse('no_deposits')
+      // if (equals(shapeshiftStatus, metadataStatus)) {
+      yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, 'no_deposits'))
+      yield call(delay, 10000)
+      // }
     }
   } catch (e) {
     console.log('exception', e)
@@ -42,7 +60,6 @@ export const sendShapeshiftDeposit = function * (action) {
         console.log('Saga BTC', network, selection)
         const saga = askSecondPasswordEnhancer(sagas.core.data.bitcoin.signAndPublish)
         hashIn = yield call(saga, { network, selection })
-        console.log('hashIn', hashIn)
         break
       }
       case 'ETH': {

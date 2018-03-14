@@ -45,7 +45,7 @@ export const typeLens = (Type) => lens(
 export const lensProp = key =>
   lens(
     (x) => {
-      console.debug('GET ', key, ' from ', x)
+      console.info('GET ', key, ' from ', x)
       if (Map.isMap(x)) {
         return x.get(key)
       } else {
@@ -53,7 +53,7 @@ export const lensProp = key =>
       }
     },
     (val, x) => {
-      console.debug('SET ', key, ' TO ', val, ' in ', x)
+      console.info('SET ', key, ' TO ', val, ' in ', x)
       if (Map.isMap(x)) {
         return x.set(key, val)
       } else {
