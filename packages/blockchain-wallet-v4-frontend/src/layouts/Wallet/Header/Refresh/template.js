@@ -8,7 +8,7 @@ const Refresh = (props) => {
 
   return (
     <Link size='14px' weight={300} color='white' uppercase onClick={handleRefresh}>
-      <Icon name='refresh' color='white'/>
+      <Icon name='refresh-filled' color='white'/>
     </Link>
   )
 }
