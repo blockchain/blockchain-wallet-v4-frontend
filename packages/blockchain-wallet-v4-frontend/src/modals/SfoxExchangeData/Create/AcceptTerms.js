@@ -9,47 +9,16 @@ import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper } from '../styled'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-`
-const ColLeft = styled.div`
-  width: 50%;
-`
-const ColRight = styled.div`
-  width: 50%;
-`
-const InputWrapper = styled.div`
-  width: 80%;
-`
-const PartnerHeader = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-`
-const PartnerSubHeader = styled.div`
-  margin-top: 5px;
-  font-size: 14px;
-`
-const ButtonWrapper = styled.div`
-  margin-top: 25px;
-`
 const AcceptTermsContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 25px;
   font-size: 12px;
   a {
-    color: ${props => props.theme['brand-secondary']}
-  }
-`
-const ErrorWrapper = styled.div`
-  margin-top: 5px;
-  a {
-    cursor: pointer;
     color: ${props => props.theme['brand-secondary']}
   }
 `

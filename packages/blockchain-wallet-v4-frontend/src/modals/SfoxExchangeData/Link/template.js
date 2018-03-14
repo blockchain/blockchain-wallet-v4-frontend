@@ -5,37 +5,10 @@ import { reduxForm } from 'redux-form'
 import { Text } from 'blockchain-info-components'
 
 import PlaidFrame from './iframe.js'
-import BankAccounts from './bankAccounts.js'
-import AddManually from './addManually.js'
+import BankAccounts from './BankAccounts'
+import AddManually from './AddManually'
+import { Row, ColLeft, ColRight, ColLeftInner, Info, Title, Subtitle } from '../styled'
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-`
-const ColLeft = styled.div`
-  width: 40%;
-`
-const ColRight = styled.div`
-  width: 60%;
-`
-const ColLeftInner = styled.div`
-  width: 80%;
-`
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`
-const Subtitle = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 15px;
-`
-const Info = styled.div`
-  font-size: 14px;
-  margin-bottom: 10px;
-`
 const LinkContainer = styled.div`
   display: flex;
   flex-direction: column;
