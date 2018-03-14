@@ -43,8 +43,8 @@ class LinkContainer extends Component {
   }
 
   setBankManually () {
-    console.log('set bank manually', this.state)
-    // this.props.sfoxFrontendActions.setBankManually(routing, account, name, type)
+    const { fullName, routingNumber, accountNumber, accountType } = this.state
+    this.props.sfoxFrontendActions.setBankManually(routingNumber, accountNumber, fullName, accountType)
   }
 
   onSubmit (e) {

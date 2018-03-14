@@ -6,7 +6,7 @@ import { actions } from 'data'
 import * as selectors from '../../selectors.js'
 import * as MODALS_ACTIONS from '../../modals/actions'
 
-export const setBankManually = function * (action) { // will have to call this by dispatching action
+export const setBankManually = function * (action) {
   try {
     yield call(sagas.core.data.sfox.setBankManually, action.payload)
     yield put(actions.alerts.displaySuccess('Bank has been added!'))
