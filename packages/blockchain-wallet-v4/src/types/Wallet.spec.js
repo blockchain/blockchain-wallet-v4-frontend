@@ -44,27 +44,34 @@ describe('Wallet', () => {
     })
   })
 
-  describe('addAddress', () => {
+  describe('importLegacyAddress', () => {
+    const n = walletFixture.keys.length
+    const address = Address.fromJS({ addr: '1CC3X2gu58d6wXUWMffpuzN9JAfTUWu4Kj', priv: '5Kb8kLf9zgWQnogidDA76MzPL6TsZZY36hWXMssSzNydYXYB9KF' })
+
     it('should add an unencrypted address', () => {
-      let n = walletFixture.keys.length
-      let address = Address.fromJS({ addr: 'address', priv: '5abc' })
-      let withNewAddress = Wallet.addAddress(wallet, address, null)
-      expect(withNewAddress.isRight).toEqual(true)
-      let addresses = Wallet.selectAddresses(withNewAddress.value)
-      expect(addresses.size).toEqual(n + 1)
-      const newAddr = R.compose(AddressMap.selectAddress('address'), Wallet.selectAddresses)(withNewAddress.value)
-      expect(newAddr).toEqual(address)
+      Wallet.importLegacyAddress(wallet, address.priv, 0, undefined, undefined, {})
+        .fork(
+          failure => expect(failure).toEqual(undefined),
+          withNewAddress => {
+            let addresses = Wallet.selectAddresses(withNewAddress)
+            expect(addresses.size).toEqual(n + 1)
+            const newAddr = R.compose(AddressMap.selectAddress('1CC3X2gu58d6wXUWMffpuzN9JAfTUWu4Kj'), Wallet.selectAddresses)(withNewAddress)
+            expect(newAddr.addr).toEqual(address.addr)
+            expect(newAddr.priv).toEqual('GibbqZhygNfhbfz4fb2vDg19Ym5v696w52iqZEQySHTw')
+          })
     })
 
     it('should add a double encrypted address', () => {
-      let n = walletFixture.keys.length
-      let address = Address.fromJS({ priv: '5abc', addr: '1asdf' })
-      let withNewAddress = Wallet.addAddress(walletSecpass, address, 'secret')
-      expect(withNewAddress.isRight).toEqual(true)
-      let as = Wallet.selectAddresses(withNewAddress.value)
-      expect(as.size).toEqual(n + 1)
-      const encPriv = R.compose(Address.selectPriv, AddressMap.selectAddress('1asdf'), Wallet.selectAddresses)(withNewAddress.value)
-      expect(encPriv).toEqual('enc<5abc>')
+      Wallet.importLegacyAddress(wallet, address.priv, 0, 'secret', undefined, {})
+        .fork(
+          failure => expect(failure).toEqual(undefined),
+          withNewAddress => {
+            let addresses = Wallet.selectAddresses(withNewAddress)
+            expect(addresses.size).toEqual(n + 1)
+            const newAddr = R.compose(AddressMap.selectAddress('1CC3X2gu58d6wXUWMffpuzN9JAfTUWu4Kj'), Wallet.selectAddresses)(withNewAddress)
+            expect(newAddr.addr).toEqual(address.addr)
+            expect(newAddr.priv).toEqual('GibbqZhygNfhbfz4fb2vDg19Ym5v696w52iqZEQySHTw') // << TODO this is not encrypted?
+          })
     })
   })
 
