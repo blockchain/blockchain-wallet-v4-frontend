@@ -9,9 +9,9 @@ Please [contact support](https://support.blockchain.com) if you have any issues 
 This repo contains the three codebases/packages listed below that are combined into one via [Lerna](https://github.com/lerna/lerna).
 
 ### Packages
- * [blockchain-info-components](./packages/blockchain-info-components) The shared UI components library
- * [blockchain-wallet-v4](./packages/blockchain-wallet-v4) The functional library for handling wallets
- * [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend) The frontend application built with React/Redux
+ * [blockchain-info-components](./packages/blockchain-info-components) The shared UI components library.
+ * [blockchain-wallet-v4](./packages/blockchain-wallet-v4) The functional library for handling wallets.
+ * [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend) The frontend application built with React/Redux.
 
 
 ## Local Development

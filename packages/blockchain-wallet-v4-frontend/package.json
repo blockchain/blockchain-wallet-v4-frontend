@@ -1,31 +1,13 @@
 {
   "name": "blockchain-wallet-v4-frontend",
   "version": "0.0.1",
-  "description": "Wallet user interface",
-  "keywords": [
-    "blockchain",
-    "react",
-    "wallet"
-  ],
-  "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend#readme",
-  "bugs": {
-    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
-  },
+  "description": "Frontend wallet application.",
   "license": "ISC",
   "author": {
-    "name": "(Dream Team) Blockchain.info",
+    "name": "Blockchain.info",
     "url": "https://blockchain.info"
   },
-  "contributors": [
-    "Justin Tormey",
-    "Jaume Pernas",
-    "Guillaume Marquilly"
-  ],
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blockchain/blockchain-wallet-v4-frontend.git"
-  },
   "scripts": {
     "build": "lerna bootstrap && webpack --config webpack.config.js --progress --colors",
     "build:prod": "lerna bootstrap && NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.config.js --progress --colors",
@@ -113,19 +95,5 @@
     "styled-components": "^2.2.3",
     "webpack-bundle-analyzer": "^2.9.1",
     "zxcvbn": "^4.4.2"
-  },
-  "standard": {
-    "globals": [
-      "jest",
-      "test",
-      "describe",
-      "context",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect"
-    ]
   }
 }
