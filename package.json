@@ -1,7 +1,26 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1",
+  "license": "ISC",
+  "author": {
+    "name": "Blockchain.info",
+    "url": "https://blockchain.info"
+  },
+  "description": "The frontend wallet application built with React/Redux.",
+  "keywords": [
+    "blockchain",
+    "blockchain.info",
+    "react",
+    "redux",
+    "wallet"
+  ],
+  "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend",
+  "bugs": {
+    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
+  },
+  "engines": {
+    "node": ">= 9.5"
+  },
   "scripts": {
     "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",

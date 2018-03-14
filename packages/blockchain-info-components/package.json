@@ -1,9 +1,12 @@
 {
   "name": "blockchain-info-components",
   "version": "0.0.1",
-  "description": "Website containing the components documentation",
+  "description": "A shared UI components library for blockchain.info applications.",
   "license": "ISC",
-  "author": "(Dream Team) Blockchain.info",
+  "author": {
+    "name": "Blockchain.info",
+    "url": "https://blockchain.info"
+  },
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
@@ -55,19 +58,5 @@
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "styled-components": "^2.1.0"
-  },
-  "standard": {
-    "globals": [
-      "jest",
-      "test",
-      "describe",
-      "context",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect"
-    ]
   }
 }
