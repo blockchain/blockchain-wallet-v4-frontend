@@ -12,6 +12,7 @@ const threshold = 250
 class ContentContainer extends React.Component {
   componentWillMount () {
     this.props.dataBitcoinActions.fetchTransactions('', true)
+   // this.props.dataBuySell.fetchTrades()
   }
 
   componentWillReceiveProps (nextProps) {

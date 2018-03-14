@@ -26,6 +26,8 @@ export const getDefaultAddress = state => getAddresses(state).map(head)
 
 export const getAddress = (state, address) => getAddresses(state).map(prop(address))
 
+export const getHeight = state => getLatestBlock(state).map(path(['number']))
+
 export const getNonce = (state, address) => getAddresses(state).map(path([address, 'nonce']))
 
 export const getTransactionsByAddress = (state, address) => getTransactions(state).map(prop(address))

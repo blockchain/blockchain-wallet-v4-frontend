@@ -43,7 +43,7 @@ To build the frontend application for production: `npm run build:prod`
 We follow the rules outlined by the [Javascript Standard Style](https://standardjs.com/rules.html) as well as a few React specfic rules.
  
 Code linting is handled by [ESLint](https://eslint.org/). The following commands are available:
- * `yarn lint` Lints all the 3 packages
+ * `yarn lint` Lints all packages
  * `yarn lint:components` Lints only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn lint:core` Lints only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn lint:frontend` Lints only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
@@ -56,7 +56,7 @@ These IDE plugins/packages assist with complying with these lint rules while dev
 
 ### Unit Tests
 Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/). The following commands are available:
- * `yarn test` Runs unit tests for all the 3 packages
+ * `yarn test` Runs unit tests for all packages
  * `yarn test:components` Runs unit tests for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:core` Runs unit tests for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn test:frontend` Runs unit tests for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
@@ -67,7 +67,7 @@ We are using Jest Snapshots for some UI components. Here are the commands to upd
 
 ### Code Coverage
 To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
- * `yarn coverage` Generates, and merges together, a coverage report for all the 3 packages.
+ * `yarn coverage` Generates, and merges together, a coverage report for all packages.
  * `yarn coverage:components` Generates coverage report for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn coverage:core` Generates coverage report for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn coverage:frontend` Generates coverage report for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
@@ -82,7 +82,7 @@ Simply open the `index.html` file in your browser to view.
 
 ### CI Build Vetting
 To run both unit tests and linting, the following commands are available:
- * `yarn vet` Lints and unit tests all the 3 packages
+ * `yarn vet` Lints and unit tests all packages
  * `yarn vet:components` Lints and unit tests only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn vet:core` Lints and unit tests only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn vet:frontend` Lints and unit tests only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
