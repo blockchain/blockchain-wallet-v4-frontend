@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
-import { Text, TextInput } from 'blockchain-info-components'
+// import { Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -12,19 +11,19 @@ const Container = styled.div`
   width: 100%;
   height: 40px;
 `
-const Error = styled(Text)`
-  position: absolute;
-  display: block;
-  top: 40px;
-  left: 0;
-  height: 15px;
-`
-const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
-}
+// const Error = styled(Text)`
+//   position: absolute;
+//   display: block;
+//   top: 40px;
+//   left: 0;
+//   height: 15px;
+// `
+// const getErrorState = (meta) => {
+//   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+// }
 
 const CodeInputBoxes = (field) => {
-  const errorState = getErrorState(field.meta)
+  // const errorState = getErrorState(field.meta)
 
   return (
     <Container>

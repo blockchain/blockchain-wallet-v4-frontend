@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { takeLatest, call, put, select, take, cancel, cancelled, fork, all, race } from 'redux-saga/effects'
+import { takeLatest, call, put, select, take, race } from 'redux-saga/effects'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
@@ -30,12 +30,12 @@ const upgradeWalletSaga = function * () {
   }
 }
 
-const transferEtherSaga = function * () {
-  const legacyAccountBalance = yield select(selectors.core.data.ethereum.getLegacyAccountBalance)
-  if (parseFloat(legacyAccountBalance) > 0) {
-    // yield put(actions.payment.ethereum.initTransferEther())
-  }
-}
+// const transferEtherSaga = function * () {
+//   const legacyAccountBalance = yield select(selectors.core.data.ethereum.getLegacyAccountBalance)
+//   if (parseFloat(legacyAccountBalance) > 0) {
+//     // yield put(actions.payment.ethereum.initTransferEther())
+//   }
+// }
 
 const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
   try {
