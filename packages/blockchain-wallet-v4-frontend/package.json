@@ -95,6 +95,7 @@
     "react-highcharts": "^13.0.0",
     "react-intl": "^2.3.0",
     "react-intl-tel-input": "^5.0.1",
+    "react-onclickoutside": "^6.7.1",
     "react-qr-reader": "^2.0.0",
     "react-redux": "^5.0.5",
     "react-router-bootstrap": "^0.24.4",
