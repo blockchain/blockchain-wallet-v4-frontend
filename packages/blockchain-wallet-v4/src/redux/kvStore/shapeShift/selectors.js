@@ -18,4 +18,5 @@ export const getMetadata = path([kvStorePath, SHAPESHIFT])
 
 export const getTrades = state => getMetadata(state).map(path(['value', 'trades']))
 
-export const getTrade = (state, address) => getTrades(state).map(compose(head, filter(x => address)))
+export const getTrade = (state, address) => getTrades(state)
+.map(compose(head, filter(x => path(['quote', 'deposit'], x) === address)))
