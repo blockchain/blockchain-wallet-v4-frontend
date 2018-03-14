@@ -42,7 +42,7 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     // If needed, the user should upgrade its wallet before being able to open the wallet
     // if (shouldUpgrade) { yield call(upgradeWalletSaga) }
     yield put(actions.auth.authenticate())
-    // yield put(actions.core.webSocket.startSocket())
+    yield put(actions.core.webSocket.bitcoin.startSocket())
     yield call(sagas.core.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
@@ -213,7 +213,7 @@ const logoutTimer = function * () {
 }
 
 export const logout = function * () {
-  // yield put(actions.core.webSocket.stopSocket()
+  yield put(actions.core.webSocket.bitcoin.stopSocket())
   window.location.reload(true)
 }
 
