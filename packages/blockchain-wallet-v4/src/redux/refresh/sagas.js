@@ -17,7 +17,7 @@ export const refreshSaga = ({ api } = {}) => {
     yield put(btcActions.fetchRates())
     yield put(bchActions.fetchRates())
     yield put(ethActions.fetchRates())
-    yield put(ethActions.fetchLatestBlock())
+    //yield put(ethActions.fetchLatestBlock())
   }
 
   return function * () {
