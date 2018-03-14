@@ -9,6 +9,7 @@ import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import Helper from './helpers.js'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
@@ -109,6 +110,7 @@ class AcceptTerms extends Component {
               }
             </Button>
           </ButtonWrapper>
+          <Helper />
           <ErrorWrapper>
             {
               signupError && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
