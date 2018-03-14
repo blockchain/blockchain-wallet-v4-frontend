@@ -7,12 +7,13 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
-    "coverage": "jest --coverage",
+    "coverage": "./../../node_modules/.bin/jest --coverage",
     "prepublish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
-    "test": "jest",
-    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand"
+    "test": "./../../node_modules/.bin/jest",
+    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [
