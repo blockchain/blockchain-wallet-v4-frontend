@@ -1,0 +1,38 @@
+language: node_js
+node_js: 9.5
+cache:
+  directories:
+    - node_modules
+    - packages/blockchain-info-components/node_modules
+    - packages/blockchain-wallet-v4/node_modules
+    - packages/blockchain-wallet-v4-frontend/node_modules
+before_install: npm install -g lerna yarn
+install: yarn && lerna bootstrap
+before_script:
+- yarn vet
+script:
+- make build
+- make test
+- grunt coveralls
+before_deploy:
+  - make pgp
+  - export VERSION=$TRAVIS_TAG
+  - make dist
+  - export RELEASE_LANDING_JS=$(ls dist/js/landing*.min.js)
+  - export RELEASE_MY_WALLET_JS=$(ls dist/js/my-wallet*.min.js)
+  - export RELEASE_WALLET_JS=$(ls dist/js/wallet*.min.js)
+  - npm shrinkwrap --dev
+  - zip -r bower_resolution.zip bower_components/*/.bower.json
+deploy:
+  provider: releases
+  api_key:
+    secure: D/2tLzwf4pIdKmOiOduerzJVDWEhnLRKXjfv0t0ulpHrnIaeRBK4KmempRCqhGt/F7KNaYKJXPgQRL8Fefjrr5jANqi7gpk5Mw6rhdahCPsIQp46mEfJRBF1MlphJoiDWeteGQHpifv5CmvE5fdCpQUF+WDuLojfug15Pu0kpiiM2WKz2Yo0xJg253qxgM8jgz1CIxxVjHivvGhw7733w1QwFbBktYo4bVpuJl9fxKcUbo13miX1yUSZStJaElJtiI3JRqyvLW7tRAcW7Az5qkQ4FsmDma9oLXbgOccYAqLqmO9DKZ7b6BlV2kgZRNxH0acZmymIxRzU8n/hgHJkNO6GPeawdrlQBY2sxchFsS8ofDfG3QFbIabxz66gusHu2n1duCGkXCbbwFi+/JpggDYHPDvh7CP+w6z/Dwoy2p4UmZFmuvMTe9Xr2LSBjWIo7mO4VbS5cr1hDjmet5EGfNBMVce4lEwhGjVcQnGhArkeYlC0bTq6Yr/6IgOZ6e7Q15k0HeeOZ9SRNpl6qXtnBzqqrbsS/8i4eWhnhTir5fztk2/XmXvMvlvPjHISVQMY9Q33P3Z+/BNSVcJRvjkse30IAt54PsG7qyBST72nvHNQrIVcxJPWbbeI8QsuKeDj+KJkLS6yQlE0J9codWLRXETmgxeeZJ/6LS2FQ7h42tU=
+  file:
+  - "${RELEASE_LANDING_JS}"
+  - "${RELEASE_MY_WALLET_JS}"
+  - "${RELEASE_WALLET_JS}"
+  - npm-shrinkwrap.json
+  - bower_resolution.zip
+  on:
+    repo: blockchain/My-Wallet-V3-Frontend
+    tags: true
