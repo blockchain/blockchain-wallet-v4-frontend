@@ -3,6 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { Info } from '../styled'
 import SelectBar from './SelectBar'
 import SelectBarOption from './SelectBarOption'
+import SelectBarHeader from './SelectBarHeader'
+
+const TRANSITION_TIME = '250ms'
 
 const decisions = {
   buy: (selection, onSelect) => (
@@ -72,8 +75,10 @@ class DecisionForm extends Component {
 
     let selections = [
       <Info>
-        <FormattedMessage id='placeholder' defaultMessage='What would you like to do?' />
-        <SelectBar selection={method}>
+        <SelectBarHeader selected={!!method} timing={TRANSITION_TIME}>
+          <FormattedMessage id='placeholder' defaultMessage='What would you like to do?' />
+        </SelectBarHeader>
+        <SelectBar selection={method} timing={TRANSITION_TIME}>
           {this.methodOptions.map(m => decisions[m](method, this.handleSelectMethod))}
         </SelectBar>
       </Info>
@@ -82,10 +87,12 @@ class DecisionForm extends Component {
     if (method) {
       selections = selections.concat(
         <Info>
-          {method === 'buy'
-            ? <FormattedMessage id='placeholder' defaultMessage='What would you like to buy?' />
-            : <FormattedMessage id='placeholder' defaultMessage='What would you like to sell?' />}
-          <SelectBar selection={input}>
+          <SelectBarHeader selected={!!input} timing={TRANSITION_TIME}>
+            {method === 'buy'
+              ? <FormattedMessage id='placeholder' defaultMessage='What would you like to buy?' />
+              : <FormattedMessage id='placeholder' defaultMessage='What would you like to sell?' />}
+          </SelectBarHeader>
+          <SelectBar selection={input} timing={TRANSITION_TIME}>
             {this.inputOptions
                 .map(m => decisions[m](input, this.handleSelectCrypto))}
           </SelectBar>
@@ -96,10 +103,12 @@ class DecisionForm extends Component {
     if (input) {
       selections = selections.concat(
         <Info>
-          {method === 'buy'
-            ? <FormattedMessage id='placeholder' defaultMessage='What will you use to buy?' />
-            : <FormattedMessage id='placeholder' defaultMessage='What will you receive in exchange?' />}
-          <SelectBar selection={output}>
+          <SelectBarHeader selected={!!output} timing={TRANSITION_TIME}>
+            {method === 'buy'
+              ? <FormattedMessage id='placeholder' defaultMessage='What will you use to buy?' />
+              : <FormattedMessage id='placeholder' defaultMessage='What will you receive in exchange?' />}
+          </SelectBarHeader>
+          <SelectBar selection={output} timing={TRANSITION_TIME}>
             {this.outputOptions
                 .filter(output => output !== input)
                 .map(m => decisions[m](output, this.handleSelectFiat, fiat))}
