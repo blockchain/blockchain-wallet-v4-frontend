@@ -33,7 +33,8 @@
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
-    "test": "jest"
+    "test": "jest",
+    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand"
   },
   "jest": {
     "collectCoverageFrom": [

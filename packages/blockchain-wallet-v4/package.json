@@ -21,6 +21,7 @@
     "prepublish": "npm run compile",
     "start": "babel-node src/index.js",
     "test": "jest",
+    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "watch": "./node_modules/.bin/npm-watch"
   },
   "babel": {
