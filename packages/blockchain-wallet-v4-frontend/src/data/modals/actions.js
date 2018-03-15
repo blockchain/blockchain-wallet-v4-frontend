@@ -10,3 +10,5 @@ export const showModal = (type, props = {}, options = {}) => ({ type: AT.SHOW_MO
 export const replaceModal = (type, props = {}, options = {}) => ({ type: AT.REPLACE_MODAL, payload: { type, props, options } })
 // Update the last modal added in the stack
 export const updateModalOptions = (options = {}) => ({ type: AT.UPDATE_MODAL, payload: { options } })
+
+export const showOnTop = (type, props = {}, options = {}) => ({ type: AT.SHOW_ON_TOP, payload: { type, props, options } })

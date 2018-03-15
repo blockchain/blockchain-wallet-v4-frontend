@@ -43,19 +43,18 @@ class LinkContainer extends Component {
   }
 
   setBankManually () {
-    const { fullName, routingNumber, accountNumber, accountType } = this.state
-    this.props.sfoxFrontendActions.setBankManually(routingNumber, accountNumber, fullName, accountType)
+    this.props.modalActions.showOnTop('SfoxAddBankManually')
   }
 
   onSubmit (e) {
     e.preventDefault()
-    if (this.props.ui.toggleManual && this.state.fullName && this.state.routingNumber) {
-      this.setBankManually()
-    } else {
-      const bankChoice = merge({ id: this.state.id, name: this.state.holderName }, {token: this.state.token})
-      this.props.sfoxFrontendActions.setBankAccount(bankChoice)
-      this.setState({ busy: true })
-    }
+    // if (this.props.ui.toggleManual && this.state.fullName && this.state.routingNumber) {
+    //   this.setBankManually()
+    // } else {
+    const bankChoice = merge({ id: this.state.id, name: this.state.holderName }, {token: this.state.token})
+    this.props.sfoxFrontendActions.setBankAccount(bankChoice)
+    this.setState({ busy: true })
+    // }
   }
 
   render () {
@@ -67,16 +66,12 @@ class LinkContainer extends Component {
       enablePlaid={this.state.enablePlaid}
       bankAccounts={bankAccounts}
       onSetBankAccount={this.onSetBankAccount}
-      toggleManual={() => this.props.updateUI({ toggleManual: true })}
-      setBankManually={this.setBankManually}
+      toggleManual={this.setBankManually}
+      // setBankManually={this.setBankManually}
       ui={ui}
       busy={this.state.busy}
       handleBankSelection={(id) => this.setState({ id })}
       onNameChange={(name) => this.setState({ holderName: name })}
-      handleFullName={(e) => this.setState({ fullName: e.target.value })}
-      handleRoutingNumber={(e) => this.setState({ routingNumber: e.target.value })}
-      handleAccountNumber={(e) => this.setState({ accountNumber: e.target.value })}
-      handleAccountType={(e, val) => this.setState({ accountType: val })}
     />
   }
 }
@@ -89,7 +84,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
-  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
