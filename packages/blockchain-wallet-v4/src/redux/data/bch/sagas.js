@@ -1,10 +1,8 @@
-import { call, select } from 'redux-saga/effects'
-import { futurizeP } from 'futurize'
-import Task from 'data.task'
+import { select } from 'redux-saga/effects'
 
 import * as wS from '../../wallet/selectors'
 import { sign } from '../../../signer'
-import {txHexToHashHex} from "../../../utils/bitcoin";
+import { txHexToHashHex } from '../../../utils/bitcoin'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 

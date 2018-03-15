@@ -10,6 +10,8 @@ export const verifyEmail = (code) => ({ type: AT.VERIFY_EMAIL, payload: { code }
 
 export const updateMobile = (mobile) => ({ type: AT.UPDATE_MOBILE, payload: { mobile } })
 
+export const verifyMobile = (code) => ({ type: AT.VERIFY_MOBILE, payload: { code } })
+
 export const updateLanguage = (language) => ({ type: AT.UPDATE_LANGUAGE, payload: { language } })
 
 export const updateCurrency = (currency) => ({ type: AT.UPDATE_CURRENCY, payload: { currency } })
@@ -39,3 +41,9 @@ export const updateTwoStepRemember = (authTypeNeverSave) => ({ type: AT.UPDATE_T
 export const addMnemonic = (phrase) => ({ type: AT.ADD_MNEMONIC, payload: { phrase } })
 
 export const newHDAccount = (label) => ({ type: AT.NEW_HD_ACCOUNT, payload: { label } })
+
+export const showPrivateKey = (addr) => ({ type: AT.SHOW_PRIV_KEY, payload: { addr } })
+
+export const addShownPrivateKey = (priv) => ({ type: AT.ADD_SHOWN_PRIV_KEY, payload: { priv } })
+
+export const clearShownPrivateKey = (priv) => ({ type: AT.CLEAR_SHOWN_PRIV_KEY, payload: {} })

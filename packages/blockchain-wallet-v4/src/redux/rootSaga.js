@@ -14,14 +14,14 @@ import kvStoreWhatsnewSaga from './kvStore/whatsNew/rootSaga'
 import optionsSaga from './walletOptions/rootSaga'
 import settingsSaga from './settings/rootSaga'
 
-export const rootSaga = ({ api, socket } = {}) => {
+export const rootSaga = ({ api, socket, sfoxService } = {}) => {
   return function * () {
     yield all([
       fork(dataBitcoinSaga({ api })),
       fork(dataEthereumSaga({ api })),
       fork(dataBchSaga({ api })),
       fork(dataMiscSaga({ api })),
-      fork(dataSfoxSaga({ api })),
+      fork(dataSfoxSaga({ api, sfoxService })),
       fork(dataShapeShiftSaga({ api })),
       fork(kvStoreBchSaga({ api })),
       fork(kvStoreBuysellSaga({ api })),

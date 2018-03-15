@@ -29,6 +29,17 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_METADATA_BUYSELL_FAILURE: {
       return Remote.Failure(payload)
     }
+
+    case AT.SET_PROFILE_BUYSELL: {
+      let valueLens = compose(mapped, KVStoreEntry.value)
+      let setProfile = assocPath(['sfox', 'account_token'], payload.token)
+      return over(valueLens, setProfile, state)
+    }
+    case AT.WIPE_EXTERNAL: {
+      let valueLens = compose(mapped, KVStoreEntry.value)
+      let wipe = assocPath(['sfox'], { trades: [] })
+      return over(valueLens, wipe, state)
+    }
     default:
       return state
   }

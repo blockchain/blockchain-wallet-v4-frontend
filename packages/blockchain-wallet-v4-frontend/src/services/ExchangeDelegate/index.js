@@ -52,6 +52,8 @@ class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
+    // TODO: define reservation and then remove eslint disable comments
+    /* eslint-disable no-undef */
     return {
       _reservation: reservation,
       receiveAddress: reservation.receiveAddress,
@@ -67,6 +69,7 @@ class ExchangeDelegate {
         reservation.commit(`${label} #${id}`)
       }
     }
+    /* eslint-enable */
   }
 
   releaseReceiveAddress (trade) {

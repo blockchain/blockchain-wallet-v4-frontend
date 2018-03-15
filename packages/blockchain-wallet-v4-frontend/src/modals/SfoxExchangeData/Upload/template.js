@@ -8,18 +8,8 @@ import Dropzone from 'react-dropzone'
 
 import CameraContainer from './camera'
 import TitleStrings from './strings'
+import { Row, ColLeft, ColRight } from '../styled'
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-`
-const ColLeft = styled.div`
-  width: 40%;
-`
-const ColRight = styled.div`
-  width: 60%;
-`
 const InputContainer = styled.div`
   border: 1px solid #ebebeb;
   max-height: 360px;
@@ -77,8 +67,17 @@ const SubmitContainer = styled.div`
 const SuccessText = styled(Text)`margin: 30px 0px; `
 
 const Verify = (props) => {
-  console.log('verify template', props)
-  const { onDrop, file, data, toggleCamera, showCamera, setPhoto, photo, resetUpload, submitForUpload } = props
+  const { onDrop,
+    file,
+    data,
+    toggleCamera,
+    showCamera,
+    setPhoto,
+    photo,
+    resetUpload,
+    submitForUpload,
+    requiredDocs,
+    uploadStepNumber } = props
   const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
@@ -115,9 +114,9 @@ const Verify = (props) => {
           </Text>
           <Text size='14px'>
             <FormattedMessage id='sfoxexchangedata.upload.selectmethod' defaultMessage='Upload Step ' />
-            { 1 }
+            { uploadStepNumber }
             <FormattedMessage id='sfoxexchangedata.upload.of' defaultMessage=' of ' />
-            { data.verificationStatus.required_docs.length }
+            { requiredDocs }
           </Text>
         </UploadStatus>
         <InputContainer>

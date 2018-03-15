@@ -45,6 +45,7 @@ const Search = styled.input.attrs({ type: 'text' })`
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
   box-sizing: border-box;
+  padding: 0.5rem 1rem;
 
   &:focus {
     border-radius: none;
@@ -116,8 +117,8 @@ const SelectInput = (props) => {
     <SelectBoxInput>
       {!expanded || !searchEnabled
         ? <Display onBlur={handleBlur} onFocus={handleFocus} disabled={disabled} errorState={errorState}>
-            {templateDisplay ? templateDisplay(display) : <DefaultDisplay>{display.text}</DefaultDisplay>}
-          </Display>
+          {templateDisplay ? templateDisplay(display) : <DefaultDisplay>{display.text}</DefaultDisplay>}
+        </Display>
         : <Search autoFocus={expanded} onChange={handleChange} />
       }
       <Arrow name='down-arrow' size='10px' />

@@ -7,7 +7,7 @@ const ENV = PROD ? 'production' : 'development'
 
 const PATHS = {
   build: `${__dirname}/build`,
-  dist: `${__dirname}/dist`,
+  dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`
 }
 
@@ -90,6 +90,12 @@ module.exports = {
             name: 'resources/[name]-[hash].[ext]'
           }
         }
+      }, {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' }
+        ]
       }
     ]
   },
@@ -102,7 +108,7 @@ module.exports = {
       'process.env': { 'NODE_ENV': JSON.stringify(ENV) }
     }),
     ...(PROD ? [
-      new CleanWebpackPlugin(PATHS.dist),
+      new CleanWebpackPlugin(PATHS.dist, { allowExternal: true }),
       new Webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false

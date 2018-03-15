@@ -12,7 +12,6 @@ const filterTransactions = curry((status, criteria, transactions) => {
 // getData :: state -> {filtered: Remote(), total: Remote(Int)}
 export const getData = state => {
   const txs = selectors.core.common.bitcoin.getWalletTransactions(state)
-  console.log('txs', txs)
   const status = formValueSelector('bitcoinTransaction')(state, 'status') || ''
   const search = formValueSelector('bitcoinTransaction')(state, 'search') || ''
   const source = formValueSelector('bitcoinTransaction')(state, 'source') || {}

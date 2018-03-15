@@ -156,23 +156,24 @@ class ExchangeCheckout extends React.Component {
           </ReasonMessage>
           { showRequiredMsg && <RequiredMessage> { requiredMsg } </RequiredMessage> }
           {
-            accounts.length > 0 &&
-            <AccountsContainer>
-              <Text size='14px' weight={300} style={{'margin-bottom': '5px'}}>
-                <FormattedMessage id='scenes.buysell.exchangecheckout.synced' defaultMessage='Synced Bank Account:' />
-              </Text>
-              { accounts.map((account) => {
-                return (
-                  <Account>
-                    <Icon size='24px' name='bank' />
-                    <AccountDetails>
-                      <span>{account.accountType} ({account.routingNumber})</span>
-                      <span>Account Holder: {account.name}</span>
-                    </AccountDetails>
-                  </Account>
-                )
-              }) }
-            </AccountsContainer>
+            accounts && accounts.length > 0
+              ? <AccountsContainer>
+                <Text size='14px' weight={300} style={{'margin-bottom': '5px'}}>
+                  <FormattedMessage id='scenes.buysell.exchangecheckout.synced' defaultMessage='Synced Bank Account:' />
+                </Text>
+                { accounts.map((account) => {
+                  return (
+                    <Account>
+                      <Icon size='24px' name='bank' />
+                      <AccountDetails>
+                        <span>{account.accountType} ({account.routingNumber})</span>
+                        <span>Account Holder: {account.name}</span>
+                      </AccountDetails>
+                    </Account>
+                  )
+                }) }
+              </AccountsContainer>
+              : null
           }
           <Button type='submit' nature='primary' fullwidth>
             { continueButton }

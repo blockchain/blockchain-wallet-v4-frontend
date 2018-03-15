@@ -3,41 +3,83 @@ import styled from 'styled-components'
 import { getData } from './selectors'
 import { actions } from 'data'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import SfoxCheckout from './SfoxCheckout'
+import { bindActionCreators } from 'redux'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { TabMenuBuySellStatus } from 'components/Form'
+import HorizontalMenu from 'components/HorizontalMenu'
+import SelectPartner from './template.success'
+import * as buySell from 'services/BuySellService'
 
 const Wrapper = styled.div`
+  width: 100%;
+`
+const CheckoutWrapper = styled.div`
   width: 100%;
   padding: 30px;
   font-size: 13px;
   font-weight: 300;
+  box-sizing: border-box;
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
 `
-const CheckoutWrapper = styled.div`
-  width: 50%;
-`
+const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
 class BuySellContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.onSubmit = this.onSubmit.bind(this)
+    this.renderPartner = this.renderPartner.bind(this)
+  }
+
   componentWillMount () {
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
+    this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
+  }
+
+  renderPartner (kvStoreValue, type) {
+    if (kvStoreValue.sfox.account_token) {
+      return <SfoxCheckout type={type} value={kvStoreValue} />
+    }
+    if (kvStoreValue.unocoin.token) { // TODO replace token
+      return <span>Unocoin</span>
+    }
+    if (kvStoreValue.coinify.token) { // TODO replace token
+      return <span>Coinify</span>
+    }
+    return <SelectPartner type={type} value={kvStoreValue} onSubmit={this.onSubmit} {...this.props} />
+  }
+
+  onSubmit (e) {
+    e.preventDefault()
+    if (buySell.sfoxCountries.indexOf(this.props.country) >= 0) {
+      this.props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
+    }
+    if (buySell.unocoinCountries.indexOf(this.props.country) >= 0) {
+      console.log('start unocoin')
+    }
+    if (buySell.coinifyCountries.indexOf(this.props.country) >= 0) {
+      console.log('start coinify')
+    }
   }
 
   render () {
-    const { data } = this.props
+    const { data, type } = this.props
 
-    // TODO: determine partner to load
-    let checkout = data.cata({
-      Success: () => <SfoxCheckout />,
-      Failure: (message) => <div>{message}</div>,
+    let view = data.cata({
+      Success: (value) => this.renderPartner(value.value, type),
+      Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <div>Loading...</div>,
-      NotAsked: () => <div />
+      NotAsked: () => <div>not asked...</div>
     })
 
     return (
       <Wrapper>
+        <Menu>
+          <Field name='status' component={TabMenuBuySellStatus} />
+        </Menu>
         <CheckoutWrapper>
-          { checkout }
+          {view}
         </CheckoutWrapper>
       </Wrapper>
     )
@@ -45,11 +87,16 @@ class BuySellContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  data: getData(state),
+  type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status,
+  country: formValueSelector('selectPartner')(state, 'country'),
+  stateSelection: formValueSelector('selectPartner')(state, 'state')
 })
 
 const mapDispatchToProps = dispatch => ({
-  kvStoreBuySellActions: bindActionCreators(actions.core.kvStore.buySell, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  kvStoreBuySellActions: bindActionCreators(actions.core.kvStore.buySell, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuySellContainer)
