@@ -1,4 +1,4 @@
-import {assoc, assocPath, merge, prop} from 'ramda'
+import {assoc, merge, prop} from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 

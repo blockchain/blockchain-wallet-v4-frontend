@@ -26,7 +26,7 @@ const resetTimer = () => {
   counter = timer
 }
 
-const refreshTimer = (store)  => {
+const refreshTimer = (store) => {
   if (counter === 0) {
     if (interval) { clearInterval(interval) }
     store.dispatch(actions.modals.showModal('AutoDisconnection', { duration: timer / 60 }))

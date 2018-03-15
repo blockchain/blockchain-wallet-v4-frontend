@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 import moment from 'moment'
-import { map } from 'ramda'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
