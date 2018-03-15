@@ -15,9 +15,9 @@ class Order extends Component {
     super(props)
     this.state = {
       spec: {
-        method: 'buy',
-        output: 'btc',
-        input: 'fiat'
+        method: null,
+        output: null,
+        input: null
       },
       info: {
         toggledCurrs: false,
