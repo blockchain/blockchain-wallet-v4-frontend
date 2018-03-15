@@ -1,7 +1,9 @@
-import { contains, map, toLower } from 'ramda'
+import { contains, equals, map, toLower } from 'ramda'
+import moment from 'moment'
+import BigNumber from 'bignumber.js'
+
 import EthereumTx from 'ethereumjs-tx'
-import EthereumUtil from 'ethereumjs-util'
-import EthereumWallet from 'ethereumjs-wallet'
+import { getEthereumTxNote } from '../redux/kvStore/ethereum/selectors.js'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
@@ -17,7 +19,7 @@ const getType = (tx, addresses) => {
 export const calculateFee = (gasPrice, gasLimit) => `${(gasPrice * gasLimit)}000000000` // Convert gwei => wei
 
 export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, network = 1) => {
-  let tx;
+  let tx
   try {
     tx = new EthereumTx(null, network)
     tx.nonce = fromAccount.nonce
@@ -36,17 +38,36 @@ export const createTx = (fromAccount, toAddress, amount, gasPrice, gasLimit, net
   return tx
 }
 
-export const signTx = (transaction, ptrivateKey) => {
+export const signTx = (transaction, privateKey) => {
 
 }
 
 // transformTx :: [String] -> Tx -> ProcessedTx
-export const transformTx = (addresses, tx) => ({
-  type: getType(tx, addresses),
-  amount: parseInt(tx.value),
-  to: tx.to,
-  from: tx.from,
-  description: tx.description || '',
-  time: tx.timeStamp,
-  status: ''
-})
+export const transformTx = (addresses, state, tx) => {
+  // TODO: fetch current eth block height for confirmations!
+  const currentBlockHeight = 5232919
+  const conf = currentBlockHeight - tx.blockNumber + 1
+  const confirmations = conf > 0 ? conf : 0
+
+  const formattedDate = time => {
+    const date = moment.utc(time * 1000)
+
+    return equals(date.year(), moment().year())
+      ? date.format('MMMM D @ h:mm A')
+      : date.format('MMMM D YYYY @ h:mm A')
+  }
+
+  return ({
+    type: toLower(getType(tx, addresses)),
+    hash: tx.hash,
+    amount: parseInt(tx.value),
+    to: tx.to,
+    from: tx.from,
+    confirmations: confirmations,
+    fee: new BigNumber(tx.gasPrice).mul(tx.gasUsed || tx.gas).toString(),
+    description: getEthereumTxNote(state, tx.hash).data || '',
+    time: tx.timeStamp,
+    timeFormatted: formattedDate(tx.timeStamp),
+    status: ''
+  })
+}

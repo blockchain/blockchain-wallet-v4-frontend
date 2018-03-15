@@ -20,7 +20,7 @@ class ComponentDropdown extends React.Component {
   handleClick () {
     this.setState({ toggled: !this.state.toggled })
   }
-  
+
   handleClickOutside () {
     this.setState({ toggled: false })
   }

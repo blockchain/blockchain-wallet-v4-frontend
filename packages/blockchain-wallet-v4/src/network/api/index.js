@@ -1,4 +1,5 @@
 import bitcoin from './bitcoin'
+import delegate from './delegate'
 import ethereum from './ethereum'
 import bch from './bch'
 import kvStore from './kvStore'
@@ -22,6 +23,7 @@ export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCo
 
   return {
     ...bitcoin({ rootUrl, apiUrl, get, post }),
+    ...delegate({ rootUrl, apiUrl, get, post }),
     ...ethereum({ rootUrl, apiUrl, get, post }),
     ...bch({ rootUrl, apiUrl, get, post }),
     ...kvStore({ apiUrl }),

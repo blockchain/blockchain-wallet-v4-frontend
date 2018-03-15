@@ -54,7 +54,7 @@ const Modal = props => {
   // Props above not defaulted on purpose, so we can see when we forgot to pass them.
   const width = selectWidth(size, position)
   const isLast = total === position
-  
+
   if (type === 'tray') {
     return (
       <BaseModal isLast={isLast} position={position} width={width} {...rest}>

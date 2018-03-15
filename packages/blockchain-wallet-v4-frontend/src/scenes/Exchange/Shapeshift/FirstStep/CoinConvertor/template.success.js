@@ -86,7 +86,7 @@ const CoinConvertor = props => {
           errorState={errorState}
         />
       </Container>
-      {meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
+      {meta.error && <Error size='12px' weight={300} color='error'>{meta.error}</Error>}
     </Wrapper>
   )
 }

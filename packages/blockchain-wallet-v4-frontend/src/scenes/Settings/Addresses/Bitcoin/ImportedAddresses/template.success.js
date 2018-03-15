@@ -1,56 +1,48 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { IconButton, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { IconButton, Table, TableHeader, TableCell, Text } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import OptionItem from '../OptionItem'
+import AddressRow from '../AddressRow'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
-`
-const AddressesSettingDescription = SettingDescription.extend`
-  margin-bottom: 10px;
 `
 const ImportedAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
 `
-const ButtonWrapper = styled.div`
-  margin-top: 10px;
-`
 
-const Success = (props) => {
-  const { importedAddresses, handleClick } = props
-
-  const importedAddressesTableRows = importedAddresses.map((address, i) => {
-    return (
-      <TableRow key={i}>
-        <TableCell width='30%'>
-          <Text size='13px'>{address.addr}</Text>
-        </TableCell>
-        <TableCell width='30%'>
-          <Text size='13px'><SwitchableDisplay coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay></Text>
-        </TableCell>
-      </TableRow>
-    )
-  })
+const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv }) => {
+  const importedAddressesTableRows = importedAddresses.map((address) => (
+    <AddressRow key={address.addr} address={address} renderOptions={() => [
+      <OptionItem id='scens.settings.addresses.archive' defaultMessage='Archive' onClick={() => onToggleArchived(address)} />
+    ].concat(
+      !address.priv ? [] : [
+        <OptionItem id='scens.settings.addresses.show_priv' defaultMessage='Private Key' onClick={() => onShowPriv(address)} />,
+        <OptionItem id='scens.settings.addresses.sign_message' defaultMessage='Sign Message' onClick={() => console.log('sign_message')} />
+      ]
+    )} />
+  ))
 
   return (
     <Wrapper>
       <ImportedAddressesSettingHeader>
         <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs' defaultMessage='Imported Bitcoin Addresses' />
       </ImportedAddressesSettingHeader>
-      <AddressesSettingDescription>
+      <SettingDescription style={spacing('mb-10')}>
         <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs_desc' defaultMessage='⚠️ Not backed up by your Recovery Phrase. Transfer into a wallet to secure funds.' />
-      </AddressesSettingDescription>
+      </SettingDescription>
       <Table>
         <TableHeader>
-          <TableCell width='30%'>
+          <TableCell width='40%'>
             <Text size='13px' weight={500} capitalize>
               <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
             </Text>
           </TableCell>
-          <TableCell width='30%'>
+          <TableCell width='40%'>
             <Text size='13px' weight={500} capitalize>
               <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
             </Text>
@@ -58,11 +50,11 @@ const Success = (props) => {
         </TableHeader>
         { importedAddressesTableRows }
       </Table>
-      <ButtonWrapper>
-        <IconButton name='up-arrow-in-circle' onClick={handleClick}>
+      <div style={spacing('mt-10')}>
+        <IconButton name='up-arrow-in-circle' onClick={onClickImport}>
           <FormattedMessage id='scenes.settings.imported_addresses.import_bitcoin_addr' defaultMessage='Import Bitcoin Address' />
         </IconButton>
-      </ButtonWrapper>
+      </div>
     </Wrapper>
   )
 }

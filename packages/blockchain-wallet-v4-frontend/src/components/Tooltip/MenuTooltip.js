@@ -9,20 +9,17 @@ import { Icon, Text, TextGroup } from 'blockchain-info-components'
 const MenuTooltipWrapper = styled.div`
   display: inline-flex;
   position: relative;
-  width: 22px;
 `
 const MenuTooltipIcon = styled(Icon)`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
-  background-color: ${props => props.theme['brand-primary']};
-  color: ${props => props.theme['white']};
-  border: 1px solid ${props => props.theme['brand-primary']};
   cursor: pointer;
   font-weight: 300;
+  border-radius: 10px;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  color: ${props => props.theme['white']};
+  background-color: ${props => props.theme['brand-primary']};
+  border: 1px solid ${props => props.theme['brand-primary']};
 `
 const MenuTooltipBox = styled(TextGroup)`
   position: absolute;
@@ -130,7 +127,7 @@ class MenuTooltip extends React.Component {
 }
 
 MenuTooltip.defaultProps = {
-  icon: 'bell'
+  icon: 'bell-filled'
 }
 
 const mapDispatchToProps = (dispatch) => ({

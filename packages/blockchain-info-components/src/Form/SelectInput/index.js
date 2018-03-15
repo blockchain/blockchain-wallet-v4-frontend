@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { equals, head, isEmpty, isNil, contains, toUpper, filter, prop } from 'ramda'
+import { equals, head, isEmpty, isNil, contains, toUpper, filter } from 'ramda'
 
 import SelectInput from './template.js'
 
@@ -58,7 +58,7 @@ class SelectInputContainer extends React.Component {
   }
 
   getSelected (items, value) {
-    if (isNil(value)|| isEmpty(value)) return undefined
+    if (isNil(value) || isEmpty(value)) return undefined
     return head(filter(x => equals(x.value, value), items))
   }
 

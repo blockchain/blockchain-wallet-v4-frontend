@@ -2,29 +2,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import ListItem from './ListItem'
+import TransactionListItem from 'components/TransactionListItem'
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
 `
 
 const TransactionList = (props) => {
   return (
     <Wrapper>
-      { props.transactions.map((transaction, index) => <ListItem key={index} transaction={transaction} />)}
+      { props.transactions.map((transaction, index) => <TransactionListItem key={index} transaction={transaction} coin='ETH' minConfirmations={12}/>)}
     </Wrapper>
   )
 }
 
 TransactionList.propTypes = {
-  transactions: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    amount: PropTypes.number.isRequired,
-    time: PropTypes.number.isRequired,
-    to: PropTypes.string.isRequired,
-    from: PropTypes.string.isRequired,
-    description: PropTypes.string
-  }))
+  transactions: PropTypes.array.isRequired
 }
 
 export default TransactionList

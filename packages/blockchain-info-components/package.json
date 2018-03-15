@@ -1,17 +1,22 @@
 {
   "name": "blockchain-info-components",
   "version": "0.0.1",
-  "description": "Website containing the components documentation",
+  "description": "A shared UI components library for blockchain.info applications.",
   "license": "ISC",
-  "author": "(Dream Team) Blockchain.info",
+  "author": {
+    "name": "Blockchain.info",
+    "url": "https://blockchain.info"
+  },
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
-    "coverage": "jest --coverage",
+    "coverage": "./../../node_modules/.bin/jest --coverage",
     "prepublish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
-    "test": "jest"
+    "test": "./../../node_modules/.bin/jest",
+    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -53,19 +58,5 @@
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "styled-components": "^2.1.0"
-  },
-  "standard": {
-    "globals": [
-      "jest",
-      "test",
-      "describe",
-      "context",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect"
-    ]
   }
 }

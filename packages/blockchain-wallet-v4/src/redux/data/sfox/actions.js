@@ -26,7 +26,7 @@ export const handleTradeSuccess = (data) => ({ type: AT.HANDLE_TRADE_SUCCESS, pa
 export const handleTradeFailure = (error) => ({ type: AT.HANDLE_TRADE_FAILURE, payload: error })
 
 export const setProfile = (data) => ({ type: AT.SET_PROFILE, payload: data })
-export const setProfileSuccess = () => ({ type: AT.SET_PROFILE_SUCCESS })
+export const setProfileSuccess = (data) => ({ type: AT.SET_PROFILE_SUCCESS, payload: data })
 export const setProfileFailure = (error) => ({ type: AT.SET_PROFILE_FAILURE, payload: error })
 
 export const upload = (data) => ({ type: AT.UPLOAD, payload: data })
@@ -41,4 +41,18 @@ export const setBankAccount = (data) => ({ type: AT.SET_BANK_ACCOUNT, payload: d
 export const setBankAccountSuccess = () => ({ type: AT.SET_BANK_ACCOUNT_SUCCESS })
 export const setBankAccountFailure = (error) => ({ type: AT.SET_BANK_ACCOUNT_FAILURE, payload: error })
 
+export const setBankManually = (data) => ({ type: AT.SET_BANK_MANUALLY, payload: data })
+export const setBankManuallySuccess = () => ({ type: AT.SET_BANK_MANUALLY_SUCCESS })
+export const setBankManuallyFailure = (error) => ({ type: AT.SET_BANK_MANUALLY_FAILURE, payload: error })
+
+export const signup = () => ({ type: AT.SIGNUP })
+export const signupSuccess = (data) => ({ type: AT.SIGNUP_SUCCESS, payload: data })
+export const signupFailure = (error) => ({ type: AT.SIGNUP_FAILURE, payload: error })
+
 export const setNextAddress = (data) => ({ type: AT.SET_NEXT_ADDRESS, payload: data })
+
+export const resetProfile = () => ({ type: AT.RESET_PROFILE })
+
+export const getDelegateTokenSuccess = (token) => ({ type: AT.GET_DELEGATE_TOKEN_SUCCESS, token })
+
+export const setToken = (token) => ({ type: AT.SET_TOKEN, payload: token })

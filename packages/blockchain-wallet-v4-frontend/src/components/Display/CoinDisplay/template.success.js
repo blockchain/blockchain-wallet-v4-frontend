@@ -11,13 +11,13 @@ const Wrapper = styled.div`
 `
 
 const CoinDisplay = props => {
-  const { showIcon, coin, children, size, weight, color } = props
+  const { showIcon, coin, children, size, weight, color, cursor } = props
   return (
     <Wrapper>
       {showIcon && coin === 'BTC' && <Icon name='bitcoin' size={size} weight={weight} color={color} />}
       {showIcon && coin === 'ETH' && <Icon name='ethereum' size={size} weight={weight} color={color} />}
       {showIcon && coin === 'BCH' && <Icon name='bitcoin' size={size} weight={weight} color={color} />}
-      <Text size={size} weight={weight} color={color}>{children}</Text>
+      <Text size={size} weight={weight} color={color} cursor={cursor}>{children}</Text>
     </Wrapper>
   )
 }
@@ -28,14 +28,16 @@ CoinDisplay.propTypes = {
   showIcon: PropTypes.bool,
   size: PropTypes.string,
   weight: PropTypes.number,
-  color: PropTypes.string
+  color: PropTypes.string,
+  cursor: PropTypes.string
 }
 
 CoinDisplay.defaultProps = {
   showIcon: false,
   size: '16px',
   weight: 300,
-  color: 'gray-5'
+  color: 'gray-5',
+  cursor: 'auto'
 }
 
 export default CoinDisplay

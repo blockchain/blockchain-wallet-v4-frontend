@@ -1,6 +1,7 @@
 import { contains, equals, isNil, isEmpty } from 'ramda'
+import { partnerCountryWhitelist, sfoxWhitelist } from '../BuySellService'
 
-const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+const emailRegex = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
 
 const guidRegex = new RegExp(/(^([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})$)/)
 
@@ -90,6 +91,34 @@ const isOverEighteen = val => {
   return dob < eighteenYearsAgo
 }
 
+const isSSN = val => {
+  if (val && val.length) {
+    const cleaned = val.replace(/[^\d]/g, '')
+    return cleaned.length === 9
+  }
+  return val
+}
+
+const isDOB = val => {
+  if (val && val.length) {
+    const cleaned = val.replace(/[^\d]/g, '')
+    return cleaned.length === 8
+  }
+  return val
+}
+
+const isUsZipcode = val => {
+  if (val && val.length) {
+    const cleaned = val.replace(/[^\d]/g, '')
+    return cleaned.length === 5
+  }
+  return val
+}
+
+const isOnSfoxWhitelist = val => val && sfoxWhitelist.indexOf(val) >= 0
+
+const isOnPartnerCountryWhitelist = val => val && partnerCountryWhitelist().indexOf(val) >= 0
+
 export {
   isNumeric,
   isEmail,
@@ -97,7 +126,12 @@ export {
   isIpList,
   isAlphaNumeric,
   isBitcoinFiatAvailable,
+  isDOB,
   isEthereumFiatAvailable,
+  isOnSfoxWhitelist,
+  isOnPartnerCountryWhitelist,
+  isSSN,
+  isUsZipcode,
   formatSSN,
   formatDOB,
   formatUSZipcode,

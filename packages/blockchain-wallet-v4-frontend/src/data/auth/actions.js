@@ -16,6 +16,6 @@ export const authenticate = () => ({ type: AT.AUTHENTICATE })
 
 export const logout = () => ({ type: AT.LOGOUT })
 
-export const logoutResetTimer = () => ({ type: AT.LOGOUT_RESET_TIMER })
+export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
 
 export const reset2fa = (guid, email, newEmail, secretPhrase, message, code, sessionToken) => ({ type: AT.RESET_2FA, payload: { guid, email, newEmail, secretPhrase, message, code, sessionToken } })

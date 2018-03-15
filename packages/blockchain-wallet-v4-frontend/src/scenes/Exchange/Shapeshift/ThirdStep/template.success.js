@@ -143,8 +143,10 @@ const Success = props => {
   return (
     <Wrapper>
       <Header>
-        {status === 'complete' && <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success ! Your exchange is complete' />}
-        {status !== 'complete' && <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />}
+        <Text size='13px' weight={500} capitalize>
+          {status === 'complete' && <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success ! Your exchange is complete' />}
+          {status !== 'complete' && <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />}
+        </Text>
       </Header>
       <Body>
         <Row>

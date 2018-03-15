@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json';
+import toJson from 'enzyme-to-json'
 
-import PasswordInput from './PasswordInput';
+import PasswordInput from './PasswordInput'
 
 describe('PasswordInput component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<PasswordInput borderColor='red'></PasswordInput>);
-    const tree = toJson(component);
-    expect(tree).toMatchSnapshot();
-  });
-});
+    const component = shallow(<PasswordInput borderColor='red' />)
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
+})

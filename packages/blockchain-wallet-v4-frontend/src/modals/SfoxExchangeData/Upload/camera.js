@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-const CamHelp = styled.span`
-  left: 0px;
-  bottom: 0px;
-  width: 100%;
-  color: white;
-  height: 35px;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.44);
-`
+// const CamHelp = styled.span`
+//   left: 0px;
+//   bottom: 0px;
+//   width: 100%;
+//   color: white;
+//   height: 35px;
+//   position: absolute;
+//   background: rgba(0, 0, 0, 0.44);
+// `
 const VideoContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -43,7 +43,7 @@ class CameraContainer extends Component {
     const constraints = this.state.constraints
     const getUserMedia = (params) => (
       new Promise((resolve, reject) => {
-        navigator.webkitGetUserMedia.call(navigator, params, resolve, reject)
+        navigator.webkitGetUserMedia(params, resolve, reject)
       })
     )
 

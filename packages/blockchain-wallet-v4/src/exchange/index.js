@@ -282,6 +282,10 @@ const displayCoinToFiat = ({ fromCoin, value, fromUnit, toCurrency, rates }) => 
   }
 }
 
+const displayFiatToFiat = ({ value }) => {
+  return (value).toFixed(2)
+}
+
 const getSymbol = currency => {
   const data = Currencies[currency]
   const tradeUnit = prop('trade', data)
@@ -320,5 +324,6 @@ export {
   displayBchToBitcoin,
   displayCoinToCoin,
   displayCoinToFiat,
+  displayFiatToFiat,
   getSymbol
 }

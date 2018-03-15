@@ -57,7 +57,7 @@ const FirstStep = (props) => {
         <Text size='12px' weight={300}>
           <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
         </Text>
-        <Field name='mnemonic' validate={[required, validateMnemonic]} component={TextBox} />
+        <Field name='mnemonic' validate={[required, validMnemonic]} component={TextBox} />
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
           <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
         </Button>

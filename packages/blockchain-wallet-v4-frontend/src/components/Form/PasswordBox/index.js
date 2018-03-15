@@ -12,14 +12,13 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  height: 55px;
 `
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: 40px;
-  left: 0;
   height: 15px;
+  top: -20px;
+  right: 0;
 `
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
@@ -33,7 +32,7 @@ const PasswordBox = (field) => {
     <Container>
       <PasswordInput {...field.input} errorState={errorState} />
       { scoreVisible ? <PasswordScore value={field.input.value} /> : <div /> }
-      {field.meta.touched && field.meta.error && <Error size='13px' weight={300} color='error'>{field.meta.error}</Error>}
+      {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error'>{field.meta.error}</Error>}
     </Container>
   )
 }

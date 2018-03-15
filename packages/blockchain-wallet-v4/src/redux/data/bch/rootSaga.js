@@ -1,10 +1,6 @@
-
 import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { indexBy, length, path, prop, last, map } from 'ramda'
-import { futurizeP } from 'futurize'
-import Task from 'data.task'
-import { sign } from '../../../signer'
+import { indexBy, length, path, prop, last } from 'ramda'
 import { delayAjax } from '../../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
@@ -12,8 +8,6 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 export default ({ api } = {}) => {
-  const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
-
   const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())
@@ -97,17 +91,6 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchFiatAtTime = function * (action) {
-    const { hash, amount, time, currency } = action.payload
-    try {
-      yield put(A.fetchFiatAtTimeLoading(hash, currency))
-      const data = yield call(api.getBchFiatAtTime, amount, currency, time)
-      yield put(A.fetchFiatAtTimeSuccess(hash, currency, data))
-    } catch (e) {
-      yield put(A.fetchFiatAtTimeFailure(hash, currency, e.message))
-    }
-  }
-
   const fetchUnspent = function * (action) {
     try {
       // source can be the hd account index / or a legacy address
@@ -123,7 +106,6 @@ export default ({ api } = {}) => {
 
   return function * () {
     yield takeLatest(AT.FETCH_BCH_DATA, fetchData)
-    yield takeLatest(AT.FETCH_BCH_FIAT_AT_TIME, fetchFiatAtTime)
     yield takeLatest(AT.FETCH_BCH_RATES, fetchRates)
     yield takeLatest(AT.FETCH_BCH_FEE, fetchFee)
     // yield takeLatest(AT.FETCH_BCH_TRANSACTIONS, fetchTransactions)
