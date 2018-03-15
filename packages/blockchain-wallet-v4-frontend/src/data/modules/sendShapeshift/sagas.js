@@ -66,11 +66,11 @@ export const sendShapeshiftDeposit = function * (action) {
         break
       }
       case 'ETH': {
-        // const network = settings.NETWORK_ETHEREUM
-        // const { from, to, message, amount, gasPrice, gasLimit, nonce } = payment
-        // console.log('Saga ETH', network, from, to, message, amount, gasPrice, gasLimit, nonce)
-        // const saga = askSecondPasswordEnhancer(sagas.core.data.ethereum.signAndPublish)
-        // hashIn = yield call(saga, { network, from, to, message, amount, gasPrice, gasLimit, nonce })
+        const network = settings.NETWORK_ETHEREUM
+        const { fromIndex, to, message, amount, gasPrice, gasLimit, nonce } = payment
+        console.log('Saga ETH', network, fromIndex, to, message, amount, gasPrice, gasLimit, nonce)
+        const saga = askSecondPasswordEnhancer(sagas.core.data.ethereum.signAndPublish)
+        hashIn = yield call(saga, { network, data: { fromIndex, to, message, amount, gasPrice, gasLimit, nonce } })
         break
       }
     }
@@ -98,6 +98,7 @@ export const sendShapeshiftDeposit = function * (action) {
     // Display notification
     yield put(actions.alerts.displaySuccess('Your deposit has been sent to ShapeShift.'))
   } catch (e) {
+    console.log(e)
     yield put(actions.alerts.displayError('Your deposit could not be sent.'))
   }
 }

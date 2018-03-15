@@ -1,7 +1,7 @@
 import { call, select } from 'redux-saga/effects'
 import * as wS from '../../wallet/selectors'
 import { signETH } from '../../../signer'
-import {txHexToHashHex} from "../../../utils/ethereum";
+import { txHexToHashHex } from '../../../utils/ethereum'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -12,9 +12,9 @@ export const ethereum = ({ api } = {}) => {
     if (eitherMnemonic.isRight) {
       const mnemonic = eitherMnemonic.value
       const signAndPublish = (data, pass) =>
-        taskToPromise(signETH(network, mnemonic, data)
-          .then(txHex => api.pushEthereumTx
-            .then(() => txHexToHashHex(txHex))))
+        taskToPromise(signETH(network, mnemonic, data))
+          .then(txHex => api.pushEthereumTx(txHex)
+            .then(() => txHexToHashHex(txHex)))
 
       return yield call(signAndPublish, data, password)
     } else {

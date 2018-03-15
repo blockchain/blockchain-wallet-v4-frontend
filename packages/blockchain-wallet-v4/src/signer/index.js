@@ -55,8 +55,10 @@ export const sign = curry((network, secondPassword, wrapper, selection) => {
  * @param {object} data - The ethereum transaction data (from, index, to, amount, nonce, gasPrice, gasLimit)
  */
 export const signETH = curry((network, mnemonic, data) => {
-  const { nonce, gasPrice, gasLimit, to, amount, from } = data
-  const privateKey = eth.getPrivateKey(mnemonic, from.index).getWallet().getPrivateKey()
+  const { nonce, gasPrice, gasLimit, to, amount, fromIndex } = data
+  console.log('signETH', network, mnemonic, data)
+  const privateKey = eth.getPrivateKey(mnemonic, fromIndex).getWallet().getPrivateKey()
+  console.log('privateKey', privateKey)
   const txParams = {
     to,
     nonce: toHex(nonce),

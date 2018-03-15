@@ -1,6 +1,6 @@
 import { utils, Remote, Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { equals, lift, path, prop } from 'ramda'
+import { lift, path, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
 
 export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
@@ -24,7 +24,13 @@ export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
     return lift(transform)(ethAddresses)
   }
 
-  const feeR = equals('BTC', sourceCoin) ? calculateBtcFee(selection) : calculateEthFee(ethAddressesR)
+  const feeR = () => {
+    switch (sourceCoin) {
+      case 'BTC': return calculateBtcFee(selection)
+      case 'ETH': return calculateEthFee(ethAddressesR)
+      default: return 0
+    }
+  }
 
   return lift((fee) => ({
     selection,
@@ -33,5 +39,5 @@ export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
     nonce,
     depositFee: fee,
     depositTotal: new BigNumber(depositAmount).add(new BigNumber(fee)).toString()
-  }))(feeR)
+  }))(feeR())
 }
