@@ -28,7 +28,9 @@ class SfoxExchangeData extends React.Component {
   }
 
   componentDidMount () {
+    /* eslint-disable */
     this.setState({ show: true })
+    /* eslint-enable */
   }
 
   handleClose () {

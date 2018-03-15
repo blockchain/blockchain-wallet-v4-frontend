@@ -1,4 +1,4 @@
-import {call, put, takeEvery, takeLatest} from 'redux-saga/effects'
+import {call, put, takeLatest} from 'redux-saga/effects'
 import { compose, dissoc, mapObjIndexed, negate, prop, sortBy, sum, values } from 'ramda'
 import { delay } from 'redux-saga'
 import { delayAjax } from '../../paths'
