@@ -8,6 +8,6 @@ cache:
     - packages/blockchain-wallet-v4-frontend/node_modules
 before_install: npm install -g lerna yarn
 install: yarn && lerna bootstrap
-before_script: yarn lint
+before_script: yarn vet
 script: yarn build:prod
 #after_success: yarn coverage
