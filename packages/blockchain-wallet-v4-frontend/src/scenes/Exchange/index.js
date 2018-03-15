@@ -1,9 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { equals } from 'ramda'
 
-import { selectors } from 'data'
-import Exchange from './template.js'
+import { actions, selectors } from 'data'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 import StateSelect from './StateSelect'
 
 class ExchangeContainer extends React.Component {
@@ -13,20 +17,40 @@ class ExchangeContainer extends React.Component {
     this.onHandleNextStep = this.onHandleNextStep.bind(this)
   }
 
+  componentWillMount () {
+    this.props.dataBitcoinActions.fetchFee()
+    this.props.dataEthereumActions.fetchFee()
+  }
+
   onHandleNextStep () {
     // TODO store state selection in metadata
     this.setState({ storedState: true })
   }
 
-  render () {
+  renderComponent (value) {
     return equals(this.props.countryCode, 'US') && !this.state.storedState
       ? <StateSelect handleNextStep={this.onHandleNextStep} />
-      : <Exchange />
+      : <Success {...value} />
+  }
+
+  render () {
+    return this.props.data.cata({
+      Success: value => this.renderComponent(value),
+      Failure: message => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
+  data: getData(state),
   countryCode: selectors.core.settings.getCountryCode(state)
 })
 
-export default connect(mapStateToProps)(ExchangeContainer)
+const mapDispatchToProps = dispatch => ({
+  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeContainer)

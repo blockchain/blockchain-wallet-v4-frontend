@@ -18,6 +18,8 @@ class CoinConvertorContainer extends React.Component {
     this.state = { source, target }
     this.handleChangeSource = this.handleChangeSource.bind(this)
     this.handleChangeTarget = this.handleChangeTarget.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -52,6 +54,14 @@ class CoinConvertorContainer extends React.Component {
     this.props.input.onChange(data)
   }
 
+  handleFocus () {
+    this.props.input.onFocus(this.state)
+  }
+
+  handleBlur () {
+    this.props.input.onBlur(this.state)
+  }
+
   fetchQuotation (value, isDeposit) {
     if (!isNil(value)) {
       if (this.timeout) clearTimeout(this.timeout)
@@ -65,10 +75,10 @@ class CoinConvertorContainer extends React.Component {
     const { source, target } = this.state
 
     return this.props.data.cata({
-      Success: (value) => <Success {...value} {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} loading={false} />,
-      Failure: (message) => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} loading={false} />,
+      Success: (value) => <Success {...value} {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false} />,
+      Failure: (message) => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false} />,
       Loading: () => <Success {...this.props} source={source} target={target} loading />,
-      NotAsked: () => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} loading={false} />
+      NotAsked: () => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false} />
     })
   }
 }

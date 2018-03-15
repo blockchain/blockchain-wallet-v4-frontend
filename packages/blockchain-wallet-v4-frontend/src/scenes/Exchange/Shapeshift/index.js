@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
-import { equals } from 'ramda'
+// import { equals } from 'ramda'
 
 import wizardProvider from 'providers/WizardProvider'
 import { getData } from './selectors'
@@ -13,19 +13,10 @@ import ThirdStep from './ThirdStep'
 class ShapeshiftContainer extends React.Component {
   componentWillMount () {
     this.props.resetStep()
-    if (equals('BTC', this.props.sourceCoin)) { this.props.dataBitcoinActions.fetchFee() }
-    if (equals('ETH', this.props.sourceCoin)) { this.props.dataEthereumActions.fetchFee() }
-    this.props.formActions.initialize('exchange', this.props.initialValues)
   }
 
-  componentWillReceiveProps (nextProps) {
-    // Fetch fee if sourceCoin has changed
-    if (!equals(this.props.sourceCoin, nextProps.sourceCoin) && equals('BTC', nextProps.sourceCoin)) {
-      this.props.dataBitcoinActions.fetchFee()
-    }
-    if (!equals(this.props.sourceCoin, nextProps.sourceCoin) && equals('ETH', nextProps.sourceCoin)) {
-      this.props.dataEthereumActions.fetchFee()
-    }
+  componentWillUnmount () {
+    this.props.formActions.destroy('exchange')
   }
 
   render () {

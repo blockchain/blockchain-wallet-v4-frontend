@@ -42,7 +42,6 @@ export const isBelowEffectiveBalance = (value, allValues, props) => {
 }
 
 export const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
-  return initialRender ||
-         !isNil(nextProps.values) ||
-         !structure.deepEqual(props.values, nextProps.values)
+  return !nextProps.pristine &&
+         (!isNil(nextProps.values) || !structure.deepEqual(props.values, nextProps.values))
 }

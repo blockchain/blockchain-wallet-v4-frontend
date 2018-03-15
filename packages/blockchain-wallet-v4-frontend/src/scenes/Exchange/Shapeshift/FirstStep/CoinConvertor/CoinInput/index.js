@@ -42,8 +42,7 @@ class CoinInputContainer extends React.Component {
   }
 
   render () {
-    // console.log('CoinInput Container', this.props)
-    const { coinName, currency, disabled, errorState } = this.props
+    const { coinName, currency, disabled, errorState, handleBlur, handleFocus } = this.props
     const { coin, fiat } = this.state
 
     return <CoinInput
@@ -54,6 +53,8 @@ class CoinInputContainer extends React.Component {
       disabled={disabled}
       handleChangeCoin={this.handleChangeCoin}
       handleChangeFiat={this.handleChangeFiat}
+      handleBlur={handleBlur}
+      handleFocus={handleFocus}
       errorState={errorState}
     />
   }
