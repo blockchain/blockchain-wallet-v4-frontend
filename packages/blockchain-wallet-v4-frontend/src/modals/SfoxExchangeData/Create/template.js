@@ -1,17 +1,11 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 
 import AcceptTerms from './AcceptTerms'
 import VerifyEmail from './VerifyEmail'
 import VerifyMobile from './VerifyMobile'
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-`
+import { Row } from '../styled'
 
 const Create = (props) => {
   const { ui } = props

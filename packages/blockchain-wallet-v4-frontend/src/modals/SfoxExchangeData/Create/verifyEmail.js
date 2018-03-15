@@ -13,36 +13,12 @@ import { Text, Button } from 'blockchain-info-components'
 import Helper from './helpers.js'
 
 import { required } from 'services/FormHelper'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper } from '../styled'
 
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-`
-const ColLeft = styled.div`
-  width: 50%;
-`
-const ColRight = styled.div`
-  width: 50%;
-`
-const InputWrapper = styled.div`
-  width: 80%;
-`
-const PartnerHeader = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-`
-const PartnerSubHeader = styled.div`
-  margin-top: 5px;
-  font-size: 14px;
-`
 const EmailInput = styled.div`
   display: flex;
   margin-top: 25px;
   flex-direction: column;
-`
-const ButtonWrapper = styled.div`
-  margin: 25px 0px;
 `
 const EmailHelper = styled.span`
   margin-top: 5px;
