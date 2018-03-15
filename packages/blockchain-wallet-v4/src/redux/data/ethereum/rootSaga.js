@@ -3,6 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { compose, dissoc, mapObjIndexed, negate, prop, sortBy, sum, values } from 'ramda'
 import { delay } from 'redux-saga'
 import { delayAjax } from '../../paths'
+import { convertFeeToWei } from '../../../utils/ethereum'
 import * as AT from './actionTypes'
 import * as A from './actions'
 
@@ -42,7 +43,8 @@ export default ({ api } = {}) => {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getEthereumFee)
       yield call(delay, delayAjax)
-      yield put(A.fetchFeeSuccess(data))
+      const weiData = convertFeeToWei(data)
+      yield put(A.fetchFeeSuccess(weiData))
     } catch (e) {
       yield put(A.fetchFeeFailure(e.message))
     }

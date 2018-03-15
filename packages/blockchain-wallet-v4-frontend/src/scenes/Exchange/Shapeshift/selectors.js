@@ -17,8 +17,8 @@ export const getData = state => {
   const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
   const getChange = index => selectors.core.common.bitcoin.getNextAvailableChangeAddress(settings.NETWORK_BITCOIN, index, state)
 
-  const btcFee = selectors.core.data.bitcoin.getFee(state).getOrElse({ regular: 10, priority: 20 })
-  const ethFee = selectors.core.data.ethereum.getFee(state).getOrElse({ regular: 10, priority: 20, gasLimit: 21000 })
+  const btcFee = selectors.core.data.bitcoin.getFee(state).getOrElse({ regular: '5', priority: '12' })
+  const ethFee = selectors.core.data.ethereum.getFee(state).getOrElse({ regular: '20000000000', priority: '20000000000', gasLimit: '21000' })
   const btcHDAccountsInfo = selectors.core.common.bitcoin.getAccountsInfo(state)
   const btcAddressesInfo = selectors.core.common.bitcoin.getAddressesInfo(state)
   const btcAccountsInfo = concat(btcHDAccountsInfo, btcAddressesInfo)

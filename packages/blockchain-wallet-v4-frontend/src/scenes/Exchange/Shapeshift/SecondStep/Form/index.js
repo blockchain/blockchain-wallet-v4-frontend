@@ -31,28 +31,25 @@ class FormContainer extends React.Component {
 
   handleSubmit (e, value) {
     e.preventDefault()
-    console.log('submittt2', value)
     // Submit exchange
     switch (this.props.sourceCoin) {
       case 'BTC': {
-        console.log('selection', this.props)
         const payment = { selection: value.selection }
-        console.log('handleSubmit BTC', payment)
         this.props.sendShapeshiftActions.sendShapeshiftDeposit('BTC', payment, this.props.order)
         break
       }
       case 'ETH': {
-        const { sourceAmount, sourceChangeAddress, depositAddress } = this.props
+        const { sourceAmount, depositAddress } = this.props
+        const amount = Exchange.convertEtherToEther({ value: sourceAmount, fromUnit: 'ETH', toUnit: 'WEI' }).value
         const payment = {
-          from: sourceChangeAddress,
+          fromIndex: 0,
           to: depositAddress,
           message: 'Shapeshift order',
-          amount: sourceAmount,
+          amount: amount,
           gasPrice: value.gasPrice,
           gasLimit: value.gasLimit,
           nonce: value.nonce
         }
-        console.log('handleSubmit ETH', payment)
         this.props.sendShapeshiftActions.sendShapeshiftDeposit('ETH', payment, this.props.order)
         break
       }
@@ -69,18 +66,13 @@ class FormContainer extends React.Component {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => {
-        return <Success
-          {...rest}
-          {...value}
-          handleSubmit={(e) => {
-            console.log('submitttt', value)
-            this.handleSubmit(e, value)
-          }}
-          handleCancel={this.handleCancel}
-          handleExpiry={this.handleCancel}
-        />
-      },
+      Success: (value) => <Success
+        {...rest}
+        {...value}
+        handleSubmit={(e) => this.handleSubmit(e, value)}
+        handleCancel={this.handleCancel}
+        handleExpiry={this.handleCancel}
+      />,
       Failure: (message) => <Error />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

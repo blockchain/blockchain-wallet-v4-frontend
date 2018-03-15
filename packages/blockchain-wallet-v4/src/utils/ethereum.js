@@ -1,9 +1,12 @@
 import * as Exchange from '../exchange'
+import { prop, path } from 'ramda'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import EthHd from 'ethereumjs-wallet/hdkey'
 import EthTx from 'ethereumjs-tx'
 import EthUtil from 'ethereumjs-util'
+
+const convertFromGweiToWei = value => Exchange.convertEtherToEther({ value, fromUnit: 'GWEI', toUnit: 'WEI' }).value
 
 /**
  * @param {string} address - The ethereum address
@@ -32,7 +35,7 @@ export const privateKeyToAddress = pk =>
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())
 
-export const calculateFee = (gasPrice, gasLimit) => Exchange.convertEtherToEther({ value: (gasPrice * gasLimit), fromUnit: 'GWEI', toUnit: 'WEI' }).value
+export const calculateFee = (gasPrice, gasLimit) => gasPrice * gasLimit
 
 export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   const transactionFee = calculateFee(gasPrice, gasLimit)
@@ -43,13 +46,27 @@ export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   }
 }
 
+export const convertFeeToWei = fees => ({
+  gasLimit: prop('gasLimit', fees),
+  priority: convertFromGweiToWei(prop('priority', fees)),
+  regular: convertFromGweiToWei(prop('regular', fees)),
+  limits: {
+    min: convertFromGweiToWei(path(['limits', 'min'], fees)),
+    max: convertFromGweiToWei(path(['limits', 'max'], fees))
+  }
+})
+
 export const calculateBalanceEther = (gasPrice, gasLimit, balanceWei) => {
+  console.log('LOL', gasPrice, gasLimit, balanceWei)
   const data = calculateBalanceWei(gasPrice, gasLimit, balanceWei)
-  return {
+  console.log('balanceWei', data)
+  const result = {
     balance: Exchange.convertEtherToEther({ value: data.balance, fromUnit: 'WEI', toUnit: 'ETH' }).value,
     fee: Exchange.convertEtherToEther({ value: data.fee, fromUnit: 'WEI', toUnit: 'ETH' }).value,
     effectiveBalance: Exchange.convertEtherToEther({ value: data.effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
   }
+  console.log('balanceEther', result)
+  return result
 }
 
 export const txHexToHashHex = txHex => new EthTx(txHex).hash().toString('hex')
