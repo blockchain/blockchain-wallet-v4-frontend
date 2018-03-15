@@ -101,7 +101,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CaseSensitivePathsPlugin()
+    new CaseSensitivePathsPlugin(),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'

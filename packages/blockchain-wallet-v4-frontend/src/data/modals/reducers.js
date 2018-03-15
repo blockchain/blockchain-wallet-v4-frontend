@@ -26,6 +26,9 @@ const modals = (state = INITIAL_STATE, action) => {
       const updatedModal = merge(lastModal, payload)
       return update(lastIndex, updatedModal, state)
     }
+    case AT.SHOW_ON_TOP: {
+      return update(0, payload, state)
+    }
     default:
       return state
   }
