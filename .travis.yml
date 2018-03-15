@@ -10,6 +10,8 @@ before_install: npm install -g lerna yarn
 install: yarn && lerna bootstrap
 before_script:
   - yarn lint
-  - yarn coverage
+  - yarn coverage:ci
 script: yarn build:prod
-after_success: istanbul-coveralls
+#after_success: istanbul-coveralls
+after_success: ./node_modules/.bin/istanbul-coveralls
+
