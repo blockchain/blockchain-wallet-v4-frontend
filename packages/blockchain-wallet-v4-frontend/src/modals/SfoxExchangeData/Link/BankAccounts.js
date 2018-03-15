@@ -5,7 +5,7 @@ import { reduxForm, Field } from 'redux-form'
 import { TextBox, Form } from 'components/Form'
 import { Text } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
-import Bank from './bank'
+import Bank from './Bank'
 
 const Container = styled.div`
   display: flex;

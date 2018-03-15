@@ -23,7 +23,7 @@ export const determineStep = (profile, verificationStatus, accounts) => {
     return 'account'
   } else {
     if (!isVerified(verificationStatus)) {
-      return 'personal'
+      return 'verify'
     } else if (!accounts.length || !isActiveAccount(accounts)) {
       return 'funding'
     } else {

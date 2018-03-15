@@ -1,39 +1,23 @@
 {
   "name": "blockchain-wallet-v4-frontend",
   "version": "0.0.1",
-  "description": "Wallet user interface",
-  "keywords": [
-    "blockchain",
-    "react",
-    "wallet"
-  ],
-  "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend#readme",
-  "bugs": {
-    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
-  },
+  "description": "Frontend wallet application.",
   "license": "ISC",
   "author": {
-    "name": "(Dream Team) Blockchain.info",
+    "name": "Blockchain.info",
     "url": "https://blockchain.info"
   },
-  "contributors": [
-    "Justin Tormey",
-    "Jaume Pernas",
-    "Guillaume Marquilly"
-  ],
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blockchain/blockchain-wallet-v4-frontend.git"
-  },
   "scripts": {
     "build": "lerna bootstrap && webpack --config webpack.config.js --progress --colors",
-    "build:prod": "lerna bootstrap && webpack -p --config webpack.config.js --progress --colors",
-    "coverage": "jest --coverage",
+    "build:prod": "lerna bootstrap && NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.config.js --progress --colors",
+    "coverage": "./../../node_modules/.bin/jest --coverage",
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
-    "test": "jest"
+    "test": "./../../node_modules/.bin/jest",
+    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -73,8 +57,8 @@
     "bip39": "^2.3.1",
     "bitcoin-sfox-client": "^0.2.6",
     "bitcoinjs-lib": "^3.1.1",
-    "blockchain-info-components": "^0.0.1",
-    "blockchain-wallet-v4": "^1.0.1",
+    "blockchain-info-components": "link:../blockchain-info-components",
+    "blockchain-wallet-v4": "link:../blockchain-wallet-v4",
     "connected-react-router": "^4.2.3",
     "data.either": "~1.5.1",
     "data.maybe": "^1.2.2",
@@ -111,19 +95,5 @@
     "styled-components": "^2.2.3",
     "webpack-bundle-analyzer": "^2.9.1",
     "zxcvbn": "^4.4.2"
-  },
-  "standard": {
-    "globals": [
-      "jest",
-      "test",
-      "describe",
-      "context",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect"
-    ]
   }
 }

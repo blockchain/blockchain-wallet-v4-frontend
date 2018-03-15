@@ -7,14 +7,10 @@ import Success from './template.success'
 
 class Checkout extends React.Component {
   componentWillMount () {
-    if (!this.props.value.value.sfox.account_token) {
-      this.props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
-    } else {
-      this.props.sfoxDataActions.fetchTrades()
-      this.props.sfoxDataActions.fetchProfile()
-      this.props.sfoxDataActions.fetchAccounts()
-      this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
-    }
+    this.props.sfoxDataActions.fetchTrades()
+    this.props.sfoxDataActions.fetchProfile()
+    this.props.sfoxDataActions.fetchAccounts()
+    this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
   }
 
   render () {

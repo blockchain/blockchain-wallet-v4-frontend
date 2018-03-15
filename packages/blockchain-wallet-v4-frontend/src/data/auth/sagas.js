@@ -42,11 +42,12 @@ const loginRoutineSaga = function * ({ shouldUpgrade } = {}) {
     // If needed, the user should upgrade its wallet before being able to open the wallet
     // if (shouldUpgrade) { yield call(upgradeWalletSaga) }
     yield put(actions.auth.authenticate())
-    // yield put(actions.core.webSocket.startSocket())
+    yield put(actions.core.webSocket.bitcoin.startSocket())
     yield call(sagas.core.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     yield put(actions.alerts.displaySuccess('Login successful'))
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
+    yield put(actions.auth.startLogoutTimer())
     // ETHER - Fix derivation
     // yield call(transferEtherSaga)
   } catch (e) {
@@ -182,47 +183,10 @@ const reset2fa = function * (action) {
 
 // =============================================================================
 // ================================== Logout ===================================
-// =============================================================================
-let timerTask
-
-const logoutTimer = function * () {
-  try {
-    const autoLogout = yield select(selectors.core.wallet.getLogoutTime)
-    let elapsed = 0
-    const total = parseInt(autoLogout / 1000)
-    const threshold = 10
-
-    while (elapsed < total) {
-      // When we reach the threshold value, we show the auto-disconnection modal
-      if (total - elapsed === threshold) {
-        yield put(actions.modals.showModal('AutoDisconnection', { duration: threshold }))
-      }
-      yield call(delay, 1000)
-      elapsed++
-    }
-  } finally {
-    if (yield cancelled()) {
-      // If the task has been cancelled (reset timer), we restart the timer
-      yield put(actions.modals.closeModal())
-      yield put(actions.auth.startLogoutTimer())
-    } else {
-      // If the timer reaches the end, we logout
-      yield put(actions.auth.logout())
-    }
-  }
-}
 
 export const logout = function * () {
-  // yield put(actions.core.webSocket.stopSocket()
+  yield put(actions.core.webSocket.bitcoin.stopSocket())
   window.location.reload(true)
-}
-
-export const startLogoutTimer = function * () {
-  timerTask = yield fork(logoutTimer)
-}
-
-export const resetLogoutTimer = function * () {
-  yield cancel(timerTask)
 }
 
 export default function * () {
@@ -231,8 +195,6 @@ export default function * () {
   yield takeLatest(AT.REGISTER, register)
   yield takeLatest(AT.RESTORE, restore)
   yield takeLatest(AT.REMIND_GUID, remindGuid)
-  // yield takeLatest(AT.AUTHENTICATE, startLogoutTimer)
   yield takeLatest(AT.LOGOUT, logout)
-  yield takeLatest(AT.LOGOUT_RESET_TIMER, resetLogoutTimer)
   yield takeLatest(AT.RESET_2FA, reset2fa)
 }

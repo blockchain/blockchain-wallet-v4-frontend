@@ -3,30 +3,17 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
-
+import BankAccounts from './BankAccounts'
+import AddManually from './AddManually'
 import PlaidFrame from './iframe.js'
-import BankAccounts from './bankAccounts.js'
-import AddManually from './addManually.js'
+
 import { Helper1, Helper2, Helper3, Helper4 } from './helpers.js'
+import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader } from '../styled'
 
 const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: row;
-`
-const ColLeft = styled.div`
-  width: 50%;
-`
-const ColRight = styled.div`
-  width: 50%;
-`
-const PartnerHeader = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-`
-const PartnerSubHeader = styled.div`
-  margin-top: 5px;
-  font-size: 14px;
 `
 const HeaderContainer = styled.div`
   display: flex;

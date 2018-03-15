@@ -4,34 +4,11 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
 import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
-import {
-  required,
-  requiredUsZipcode,
-  normalizeUSZipcode } from 'services/FormHelper'
+
+import { required, requiredUsZipcode, normalizeUSZipcode } from 'services/FormHelper'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader } from '../styled'
 import { Helper1, Helper2 } from './helpers.js'
 
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-`
-const ColLeft = styled.div`
-  width: 50%;
-`
-const ColRight = styled.div`
-  width: 50%;
-`
-const InputWrapper = styled.div`
-  width: 80%;
-`
-const PartnerHeader = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-`
-const PartnerSubHeader = styled.div`
-  margin-top: 5px;
-  font-size: 14px;
-`
 const FormContainer = styled.div`
   margin-top: 25px;
 `
