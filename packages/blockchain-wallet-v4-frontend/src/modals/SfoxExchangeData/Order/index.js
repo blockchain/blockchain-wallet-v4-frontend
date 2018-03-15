@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { dissoc } from 'ramda'
+import { merge } from 'ramda'
 import { actions, selectors } from 'data'
 import { Row, ColLeft, ColRight, ColLeftInner, Title, Subtitle } from '../styled'
 import DecisionForm from './DecisionForm'
 import QuoteInput from './QuoteInput'
+import { Button } from 'blockchain-info-components'
+import { Faq, FaqHeader, FaqContent } from 'components/FaqItem'
 
 class Order extends Component {
   constructor (props) {
@@ -15,9 +17,18 @@ class Order extends Component {
         method: null,
         output: null,
         input: null
+      },
+      info: {
+        toggledCurrs: false,
+        toggledLimits: false
       }
     }
     this.handleChangeSpec = this.handleChangeSpec.bind(this)
+    this.handleToggleInfo = this.handleToggleInfo.bind(this)
+  }
+
+  componentWillMount () {
+    this.props.clearQuote()
   }
 
   isSpecComplete () {
@@ -29,9 +40,17 @@ class Order extends Component {
     this.setState({ spec })
   }
 
+  handleToggleInfo (name) {
+    return () => this.setState({
+      info: merge(this.state.info, {
+        [name]: !this.state.info[name]
+      })
+    })
+  }
+
   render () {
     let { quoteR, fetchQuote } = this.props
-    let { spec } = this.state
+    let { spec, info } = this.state
 
     return (
       <Row>
@@ -50,11 +69,25 @@ class Order extends Component {
           </ColLeftInner>
         </ColLeft>
         <ColRight>
-          <span>Implement Ordering</span>
-          <pre>{JSON.stringify(spec, null, 2)}</pre>
-          {quoteR.map(q => (
-            <pre>{JSON.stringify(dissoc('_delegate', q), null, 2)}</pre>
-          )).getOrElse(null)}
+          <Button nature='primary' fullwidth disabled={quoteR.map(() => false).getOrElse(true)}>
+            <FormattedMessage id='continue' defaultMessage='Continue' />
+          </Button>
+          <Faq>
+            <FaqHeader toggled={info.toggledCurrs} handleToggle={this.handleToggleInfo('toggledCurrs')}>
+              <FormattedMessage id='placeholder' defaultMessage='Which currencies can I buy?' />
+            </FaqHeader>
+            <FaqContent toggled={info.toggledCurrs}>
+              <FormattedMessage id='placeholder' defaultMessage='All of them!' />
+            </FaqContent>
+          </Faq>
+          <Faq>
+            <FaqHeader toggled={info.toggledLimits} handleToggle={this.handleToggleInfo('toggledLimits')}>
+              <FormattedMessage id='placeholder' defaultMessage='How do I raise my limits?' />
+            </FaqHeader>
+            <FaqContent toggled={info.toggledLimits}>
+              <FormattedMessage id='placeholder' defaultMessage='KYC!' />
+            </FaqContent>
+          </Faq>
         </ColRight>
       </Row>
     )
