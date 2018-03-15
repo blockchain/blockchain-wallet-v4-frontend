@@ -47,7 +47,7 @@ const getErrorState = (meta) => {
 
 const CoinConvertor = props => {
   const { sourceCoin, targetCoin, source, target, currency, btcRates, ethRates, meta, ...rest } = props
-  const { handleChangeSource, handleChangeTarget, loading } = rest
+  const { handleChangeSource, handleChangeTarget, handleBlur, handleFocus, loading } = rest
   const errorState = getErrorState(meta)
 
   return (
@@ -60,6 +60,8 @@ const CoinConvertor = props => {
           btcRates={btcRates}
           ethRates={ethRates}
           handleChange={handleChangeSource}
+          handleBlur={handleBlur}
+          handleFocus={handleFocus}
           disabled={loading}
           errorState={errorState}
         />
@@ -78,6 +80,8 @@ const CoinConvertor = props => {
           btcRates={btcRates}
           ethRates={ethRates}
           handleChange={handleChangeTarget}
+          handleBlur={handleBlur}
+          handleFocus={handleFocus}
           disabled={loading}
           errorState={errorState}
         />
@@ -96,7 +100,9 @@ CoinConvertor.propTypes = {
   btcRates: PropTypes.object,
   ethRates: PropTypes.object,
   handleChangeSource: PropTypes.func,
-  handleChangeTarget: PropTypes.func
+  handleChangeTarget: PropTypes.func,
+  handleBlur: PropTypes.func,
+  handleFocus: PropTypes.func
 }
 
 export default CoinConvertor

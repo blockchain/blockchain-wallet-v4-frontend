@@ -46,11 +46,11 @@ const ColumnRight = styled(Column)`
     width: 40%;
   }
 `
-const Exchange = () => (
+const Exchange = props => (
   <ExchangeLayout>
     <Wrapper>
       <ColumnLeft>
-        <Shapeshift />
+        <Shapeshift {...props} />
         <Support />
       </ColumnLeft>
       <ColumnRight>

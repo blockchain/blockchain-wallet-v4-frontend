@@ -31,14 +31,8 @@ class FirstStepContainer extends React.Component {
       if (equals('BTC', nextProps.sourceCoin)) {
         this.props.dataBitcoinActions.fetchUnspent(prop('address', nextProps.source) || prop('index', nextProps.source))
       }
-      // ETH Calculate effectiveBalance
-      if (equals('ETH', nextProps.sourceCoin)) {
-        const ethAccount = prop('address', nextProps.source)
-        const ethBalance = path([ethAccount, 'balance'], nextProps.ethAddresses)
-        const data = utils.ethereum.calculateBalanceEther(nextProps.ethFee.priority, nextProps.ethFee.gasLimit, ethBalance)
-        this.setState({ effectiveBalance: data.effectiveBalance })
-      }
     }
+
     // Update if source or target have changed
     if (!equals(this.props.sourceCoin, nextProps.sourceCoin) || !equals(this.props.targetCoin, nextProps.targetCoin)) {
       // Fetch rates
@@ -48,8 +42,15 @@ class FirstStepContainer extends React.Component {
       if (equals('BTC', nextProps.sourceCoin) && equals('ETH', nextProps.targetCoin)) this.props.dataShapeshiftActions.fetchBtcEth()
       if (equals('ETH', nextProps.sourceCoin) && equals('BTC', nextProps.targetCoin)) this.props.dataShapeshiftActions.fetchEthBtc()
     }
+    // ETH Calculate effectiveBalance
+    if (equals('ETH', nextProps.sourceCoin) || !equals(this.props.ethFee, nextProps.ethFee)) {
+      const ethAccount = prop('address', nextProps.source)
+      const ethBalance = path([ethAccount, 'balance'], nextProps.ethAddresses)
+      const data = utils.ethereum.calculateBalanceEther(nextProps.ethFee.priority, nextProps.ethFee.gasLimit, ethBalance)
+      this.setState({ effectiveBalance: data.effectiveBalance })
+    }
     // BTC Calculate effectiveBalance
-    if (equals('BTC', nextProps.sourceCoin) && Remote.Success.is(nextProps.coins)) {
+    if ((equals('BTC', nextProps.sourceCoin) || !equals(this.props.btcFee, nextProps.btcFee)) && Remote.Success.is(nextProps.coins)) {
       const coins = nextProps.coins.getOrElse([])
       const data = utils.bitcoin.calculateBalanceBitcoin(coins, nextProps.btcFee.priority)
       this.setState({ effectiveBalance: data.effectiveBalance })

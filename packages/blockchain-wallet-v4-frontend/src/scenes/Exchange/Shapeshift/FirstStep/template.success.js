@@ -57,7 +57,7 @@ const ContainerMiddle = styled.div`
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
 `
 const Success = props => {
-  const { handleSubmit, invalid, submitting, ...rest } = props
+  const { handleSubmit, pristine, invalid, submitting, ...rest } = props
 
   return (
     <Wrapper>
@@ -95,7 +95,7 @@ const Success = props => {
           <MinimumMaximum {...rest} />
         </Row>
         <Row>
-          <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>
+          <Button type='submit' nature='primary' fullwidth disabled={pristine || invalid || submitting}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.next' defaultMessage='Next' />
           </Button>
         </Row>
