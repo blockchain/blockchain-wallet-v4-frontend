@@ -1,14 +1,9 @@
 import { selectAll } from '../coinSelection'
-<<<<<<< HEAD
 import { address, networks, ECPair, Transaction } from 'bitcoinjs-lib'
-import { equals, head, or, prop } from 'ramda'
-=======
-import { address, networks, ECPair } from 'bitcoinjs-lib'
-import { decode, fromWords } from 'bech32'
 import { equals, head, or, prop, compose } from 'ramda'
+import { decode, fromWords } from 'bech32'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
->>>>>>> master
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
 import BigNumber from 'bignumber.js'
@@ -151,21 +146,15 @@ export const isValidBitcoinPrivateKey = value => {
   }
 }
 
-<<<<<<< HEAD
 export const calculateBalanceSatoshi = (coins, feePerByte) => {
   const { outputs, fee } = selectAll(feePerByte, coins)
   const effectiveBalance = prop('value', head(outputs)) || 0
   const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
   return { balance, fee, effectiveBalance }
-=======
-export const isKey = function (bitcoinKey) {
-  return bitcoinKey instanceof ECPair
 }
 
-export const calculateEffectiveBalanceSatoshis = (coins, feePerByte) => {
-  const { outputs } = selectAll(feePerByte, coins)
-  return prop('value', head(outputs)) || 0
->>>>>>> master
+export const isKey = function (bitcoinKey) {
+  return bitcoinKey instanceof ECPair
 }
 
 export const calculateBalanceBitcoin = (coins, feePerByte) => {
