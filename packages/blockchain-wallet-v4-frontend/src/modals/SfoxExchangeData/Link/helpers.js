@@ -1,26 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Icon } from 'blockchain-info-components'
 import { FormattedHTMLMessage } from 'react-intl'
 
-const Container = styled.div`
-  border-bottom: 1px solid #979797;
-  padding: 20px 0px;
-  font-size: 14px;
-  font-weight: 300;
-`
-const Question = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  cursor: pointer;
-  padding: 0px 10px;
-`
-const Answer = styled.div`
-  margin-top: 15px;
-  font-size: 12px;
-  padding: 0px 10px;
-`
+import { Container, Question, Answer } from '../styled'
 
 class Helper1 extends React.Component {
   constructor (props) {

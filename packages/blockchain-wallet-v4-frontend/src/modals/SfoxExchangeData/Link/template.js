@@ -8,7 +8,7 @@ import AddManually from './AddManually'
 import PlaidFrame from './iframe.js'
 
 import { Helper1, Helper2, Helper3, Helper4 } from './helpers.js'
-import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader } from '../styled'
+import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from '../styled'
 
 const Form = styled.form`
   width: 100%;
@@ -25,11 +25,6 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 75%;
-`
-const ColRightInner = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 5rem;
 `
 
 const BankLink = (props) => {
