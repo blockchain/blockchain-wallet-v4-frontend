@@ -1,9 +1,8 @@
 import { call, select } from 'redux-saga/effects'
 import { map, set } from 'ramda'
-import { futurizeP } from 'futurize'
-import Task from 'data.task'
 
 import * as S from '../../selectors'
+import * as wS from '../../wallet/selectors'
 import { sign } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
@@ -12,7 +11,6 @@ import { txHexToHashHex } from '../../../utils/bitcoin'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export const bitcoin = ({ api } = {}) => {
-  const pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
   const addPrivToCoins = (priv, coins) => map(set(Coin.priv, priv), coins)
 
   const fetchUnspent = function * (addresses) {

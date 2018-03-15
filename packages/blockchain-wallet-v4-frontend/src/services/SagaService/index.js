@@ -14,6 +14,8 @@ export const askSecondPasswordEnhancer = (coreSaga) =>
       enhancedArgs = assoc('password', secPass, args)
     }
     return yield call(coreSaga, enhancedArgs)
+  }
+
 export const promptForSecondPassword = function * () {
   const wallet = yield select(selectors.core.wallet.getWallet)
   if (Types.Wallet.isDoubleEncrypted(wallet)) {
@@ -21,12 +23,6 @@ export const promptForSecondPassword = function * () {
     const secPassAct = yield take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD)
     return secPassAct.payload.password
   }
-}
-
-export const askSecondPasswordEnhancer = (coreSaga) => function * (args) {
-  let secPass = yield call(promptForSecondPassword)
-  let enhancedArgs = assoc('password', secPass, args)
-  yield call(coreSaga, enhancedArgs)
 }
 
 export const promptForInput = function * ({ title, secret, initial = '' }) {
