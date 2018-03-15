@@ -1,6 +1,7 @@
 const Webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 
 const PROD = process.argv.indexOf('-p') !== -1
 const ENV = PROD ? 'production' : 'development'
@@ -100,6 +101,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new CaseSensitivePathsPlugin()
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
