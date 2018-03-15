@@ -1,5 +1,4 @@
 import * as utils from './bitcoin'
-import { all } from 'ramda'
 
 const fromHex = (hex) => Buffer.from(hex, 'hex')
 
