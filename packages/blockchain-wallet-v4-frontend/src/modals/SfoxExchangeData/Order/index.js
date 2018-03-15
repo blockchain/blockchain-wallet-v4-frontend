@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { merge } from 'ramda'
@@ -14,9 +15,9 @@ class Order extends Component {
     super(props)
     this.state = {
       spec: {
-        method: null,
-        output: null,
-        input: null
+        method: 'buy',
+        output: 'btc',
+        input: 'fiat'
       },
       info: {
         toggledCurrs: false,
@@ -24,11 +25,12 @@ class Order extends Component {
       }
     }
     this.handleChangeSpec = this.handleChangeSpec.bind(this)
+    this.handleContinue = this.handleContinue.bind(this)
     this.handleToggleInfo = this.handleToggleInfo.bind(this)
   }
 
   componentWillMount () {
-    this.props.clearQuote()
+    this.props.sfoxCore.clearQuote()
   }
 
   isSpecComplete () {
@@ -40,6 +42,10 @@ class Order extends Component {
     this.setState({ spec })
   }
 
+  handleContinue () {
+    this.props.sfox.nextStep('submit')
+  }
+
   handleToggleInfo (name) {
     return () => this.setState({
       info: merge(this.state.info, {
@@ -49,7 +55,7 @@ class Order extends Component {
   }
 
   render () {
-    let { quoteR, fetchQuote } = this.props
+    let { quoteR, sfoxCore } = this.props
     let { spec, info } = this.state
 
     return (
@@ -64,12 +70,12 @@ class Order extends Component {
             </Subtitle>
             <DecisionForm fiat='USD' spec={spec} onChange={this.handleChangeSpec} />
             {this.isSpecComplete() && (
-              <QuoteInput quoteR={quoteR} spec={spec} debounce={500} onFetchQuote={fetchQuote} />
+              <QuoteInput quoteR={quoteR} spec={spec} debounce={500} onFetchQuote={sfoxCore.fetchQuote} />
             )}
           </ColLeftInner>
         </ColLeft>
         <ColRight>
-          <Button nature='primary' fullwidth disabled={quoteR.map(() => false).getOrElse(true)}>
+          <Button nature='primary' fullwidth disabled={quoteR.map(() => false).getOrElse(true)} onClick={this.handleContinue}>
             <FormattedMessage id='continue' defaultMessage='Continue' />
           </Button>
           <Faq>
@@ -98,6 +104,9 @@ const mapState = (state) => ({
   quoteR: selectors.core.data.sfox.getQuote(state)
 })
 
-const mapDispatch = actions.core.data.sfox
+const mapDispatch = (dispatch) => ({
+  sfox: bindActionCreators(actions.modules.sfox, dispatch),
+  sfoxCore: bindActionCreators(actions.core.data.sfox, dispatch)
+})
 
 export default connect(mapState, mapDispatch)(Order)

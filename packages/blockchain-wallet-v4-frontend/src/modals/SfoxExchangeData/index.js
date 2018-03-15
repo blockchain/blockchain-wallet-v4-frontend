@@ -9,6 +9,7 @@ import Create from './Create'
 import Verify from './Verify'
 import Link from './Link'
 import Order from './Order'
+import Submit from './Submit'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
@@ -43,6 +44,7 @@ class SfoxExchangeData extends React.Component {
       case 'personal': return <Verify />
       case 'funding': return <Link />
       case 'order': return <Order />
+      case 'submit': return <Submit />
       case 'verified': {
         this.handleClose()
         break
@@ -68,7 +70,7 @@ class SfoxExchangeData extends React.Component {
 }
 
 SfoxExchangeData.propTypes = {
-  step: PropTypes.oneOf(['account', 'personal', 'upload', 'funding', 'order']),
+  step: PropTypes.oneOf(['account', 'personal', 'upload', 'funding', 'order', 'submit']),
   close: PropTypes.function
 }
 
