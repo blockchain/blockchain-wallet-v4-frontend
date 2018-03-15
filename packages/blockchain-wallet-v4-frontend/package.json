@@ -10,7 +10,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js --progress --colors",
-    "build:prod": "NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.config.js --progress --colors",
+    "build:prod": "NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.config.js --display-error-details --colors",
     "coverage": "./../../node_modules/.bin/jest --coverage",
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
