@@ -25,6 +25,7 @@
     "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
     "coverage": "npm run coverage:clean && lerna exec -- npm run coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
+    "coverage:ci": "lerna exec --scope blockchain-info-components -- npm run coverage && istanbul report --root ./coverage --dir ./coverage/ lcov",
     "coverage:clean": "rm -rf coverage",
     "coverage:components": "npm run coverage:clean && lerna exec --scope blockchain-info-components -- npm run coverage",
     "coverage:core": "npm run coverage:clean && lerna exec --scope blockchain-wallet-v4 -- npm run coverage",
