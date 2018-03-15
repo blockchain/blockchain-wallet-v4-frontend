@@ -6,7 +6,7 @@ import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
 import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
 
 import { required, requiredUsZipcode, normalizeUSZipcode } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader } from '../styled'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from '../styled'
 import { Helper1, Helper2 } from './helpers.js'
 
 const FormContainer = styled.div`
@@ -96,15 +96,17 @@ const Address = (props) => {
         </InputWrapper>
       </ColLeft>
       <ColRight>
-        <Button uppercase nature='primary' fullwidth type='submit' disabled={invalid || submitting || busy}>
-          {
-            !busy
-              ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
-              : <HeartbeatLoader height='20px' width='20px' color='white' />
-          }
-        </Button>
-        <Helper1 />
-        <Helper2 />
+        <ColRightInner>
+          <Button uppercase nature='primary' fullwidth type='submit' disabled={invalid || submitting || busy}>
+            {
+              !busy
+                ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
+                : <HeartbeatLoader height='20px' width='20px' color='white' />
+            }
+          </Button>
+          <Helper1 />
+          <Helper2 />
+        </ColRightInner>
       </ColRight>
     </Form>
   )

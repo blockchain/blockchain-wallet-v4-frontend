@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
-
+import { FormattedMessage } from 'react-intl'
 import { TextBox, SelectBoxBankAccountType, Form } from 'components/Form'
 import { Text } from 'blockchain-info-components'
-
 import { required } from 'services/FormHelper'
 
 const Container = styled.div`
@@ -32,25 +31,25 @@ class AddManually extends Component {
         <Container>
           <InputContainer>
             <Text size='14px' weight={500}>
-              Full Name of Primary Account Holder
+              <FormattedMessage id='sfoxexchangedata.link.addmanually.accountholdername' defaultMessage="Full Name of Primary Account Holder" />
             </Text>
             <Field name='fullName' component={TextBox} validate={[required]} onChange={(e) => this.props.handleFullName(e)} />
           </InputContainer>
           <InputContainer>
             <Text size='14px' weight={500}>
-              Routing Number
+              <FormattedMessage id='sfoxexchangedata.link.addmanually.routingnumber' defaultMessage="Routing Number" />
             </Text>
             <Field name='routingNumber' component={TextBox} validate={[required]} onChange={(e) => this.props.handleRoutingNumber(e)} />
           </InputContainer>
           <InputContainer>
             <Text size='14px' weight={500}>
-              Account Number
+              <FormattedMessage id='sfoxexchangedata.link.addmanually.accountnumber' defaultMessage="Account Number" />
             </Text>
             <Field name='accountNumber' component={TextBox} validate={[required]} onChange={(e) => this.props.handleAccountNumber(e)} />
           </InputContainer>
           <InputContainer>
             <Text size='14px' weight={500}>
-              Account Type
+              <FormattedMessage id='sfoxexchangedata.link.addmanually.accounttype' defaultMessage="Account Type" />
             </Text>
             <Field name='type' component={SelectBoxBankAccountType} validate={[required]} onChange={(e, val) => this.props.handleAccountType(e, val)} />
           </InputContainer>

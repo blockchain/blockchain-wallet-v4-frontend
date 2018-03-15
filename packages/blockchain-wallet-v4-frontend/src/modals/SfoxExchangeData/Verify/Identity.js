@@ -6,7 +6,7 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 
 import { requiredSSN, requiredDOB, normalizeSocialSecurity, normalizeDateOfBirth, ageOverEighteen } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper } from '../styled'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from '../styled'
 import { Helper1, Helper2 } from './helpers.js'
 
 const LockIcon = styled(Icon)`
@@ -53,22 +53,24 @@ const Identity = (props) => {
         </InputWrapper>
       </ColLeft>
       <ColRight>
-        <Button uppercase nature='primary' fullwidth type='submit' disabled={busy || invalid || pristine || submitting || verificationError}>
-          {
-            !busy
-              ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
-              : <HeartbeatLoader height='20px' width='20px' color='white' />
-          }
-        </Button>
-        <Helper1 />
-        <Helper2 />
-        <ErrorWrapper>
-          {
-            verificationError && <Text size='12px' color='error' weight={300} onClick={handleReset}>
-              <FormattedHTMLMessage id='sfoxexchangedata.verify.identity.error' defaultMessage='Unfortunately there was a problem verifying your identity. <a>Click here</a> to start over.' />
-            </Text>
-          }
-        </ErrorWrapper>
+        <ColRightInner>
+          <Button uppercase nature='primary' fullwidth type='submit' disabled={busy || invalid || pristine || submitting || verificationError}>
+            {
+              !busy
+                ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
+                : <HeartbeatLoader height='20px' width='20px' color='white' />
+            }
+          </Button>
+          <ErrorWrapper>
+            {
+              verificationError && <Text size='12px' color='error' weight={300} onClick={handleReset}>
+                <FormattedHTMLMessage id='sfoxexchangedata.verify.identity.error' defaultMessage='Unfortunately there was a problem verifying your identity. <a>Click here</a> to start over.' />
+              </Text>
+            }
+          </ErrorWrapper>
+          <Helper1 />
+          <Helper2 />
+        </ColRightInner>
       </ColRight>
     </Form>
   )
