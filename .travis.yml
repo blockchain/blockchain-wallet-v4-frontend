@@ -37,7 +37,6 @@ before_deploy:
       echo "*** ZIP ARTIFACTS ***";
       zip -r build.zip ./dist
     fi
-deploy:
-  - if [ $TRAVIS_EVENT_TYPE == "push" ] && [ $TRAVIS_BRANCH == "master" ]; then
-      echo "*** DEPLOY ***";
-    fi
+#deploy:
+#  - echo "*** DEPLOY ***"
+
