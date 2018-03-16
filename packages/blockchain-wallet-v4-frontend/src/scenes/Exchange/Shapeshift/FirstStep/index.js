@@ -55,6 +55,12 @@ class FirstStepContainer extends React.Component {
       const data = utils.bitcoin.calculateBalanceBitcoin(coins, nextProps.btcFee.priority)
       this.setState({ effectiveBalance: data.effectiveBalance })
     }
+    // BTC Calculate effectiveBalance
+    if ((equals('BCH', nextProps.sourceCoin) || !equals(this.props.bchFee, nextProps.bchFee)) && Remote.Success.is(nextProps.coins)) {
+      const coins = nextProps.coins.getOrElse([])
+      const data = utils.bitcoin.calculateBalanceBitcoin(coins, nextProps.btcFee.priority)
+      this.setState({ effectiveBalance: data.effectiveBalance })
+    }
   }
 
   handleSubmit () {
@@ -79,6 +85,7 @@ class FirstStepContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   data: getData(state),
   coins: selectors.core.data.bitcoin.getCoins(state),
+  bchCoins: selectors.core.data.bch.getCoins(state),
   ethAddresses: selectors.core.data.ethereum.getAddresses(state).getOrElse({})
 })
 
