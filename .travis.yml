@@ -13,7 +13,7 @@ before_install:
 install:
   - yarn && lerna bootstrap
 script:
-  - if [ $TRAVIS_EVENT_TYPE != "cron" ]; then
+  - 'if [ "$TRAVIS_EVENT_TYPE" != "cron" ]; then
       # normal build
       yarn lint;
       yarn ci:test;
@@ -22,11 +22,8 @@ script:
       # cron job build to update unit test coverage
       yarn ci:coverage;
       ./node_modules/.bin/istanbul-coveralls;
-    fi
+    fi;'
 before_deploy:
-  - if [ $TRAVIS_EVENT_TYPE != "cron" ]; then
+  - 'if [ "$TRAVIS_EVENT_TYPE" != "cron" ]; then
       zip -r build.zip ./dist
-    fi
-#deploy:
-#  - echo "*** DEPLOY ***"
-
+    fi;'
