@@ -19,6 +19,7 @@ class ExchangeContainer extends React.Component {
 
   componentWillMount () {
     this.props.dataBitcoinActions.fetchFee()
+    this.props.dataBchActions.fetchFee()
     this.props.dataEthereumActions.fetchFee()
   }
 
@@ -50,6 +51,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  dataBchActions: bindActionCreators(actions.core.data.bch, dispatch),
   dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch)
 })
 
