@@ -14,27 +14,19 @@ install:
   - yarn && lerna bootstrap
 script:
   - if [ $TRAVIS_EVENT_TYPE == "push" ] && [ $TRAVIS_BRANCH == "master" ]; then
-      echo "*** RUNNING FULL BUILD ***";
-      echo "*** LINT ***";
+      # full build with test coverage reporting for merges into master
       yarn lint;
-      echo "*** UNIT TESTS W/ COVERAGE ***";
       yarn ci:coverage;
-      echo "*** REPORTING COVERAGE ***";
       ./node_modules/.bin/istanbul-coveralls;
-      echo "*** BUILD PROD ***";
       yarn ci:build:prod;
     else
-      echo "*** RUNNING QUICK BUILD ***";
-      echo "*** LINT ***";
+      # quick build for commits and PRs
       yarn lint;
-      echo "*** UNIT TESTS ***";
       yarn ci:test;
-      echo "*** BUILD DEV ***";
       yarn ci:build;
     fi
 before_deploy:
   - if [ $TRAVIS_EVENT_TYPE == "push" ] && [ $TRAVIS_BRANCH == "master" ]; then
-      echo "*** ZIP ARTIFACTS ***";
       zip -r build.zip ./dist
     fi
 #deploy:
