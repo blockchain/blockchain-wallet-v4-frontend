@@ -1,8 +1,6 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import readBlob from 'read-blob'
-import { delayAjax } from '../../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as selectors from '../../selectors'
@@ -15,7 +13,6 @@ export default ({ api } = {}) => {
       const { number } = action.payload
       yield put(A.fetchAdvertsLoading())
       const data = yield call(api.getAdverts, number)
-      yield call(delay, delayAjax)
       yield put(A.fetchAdvertsSuccess(data))
     } catch (e) {
       yield put(A.fetchAdvertsFailure(e.message))
@@ -29,7 +26,6 @@ export default ({ api } = {}) => {
       yield put(A.fetchCaptchaLoading())
       const data = yield call(api.getCaptchaImage, timestamp, sessionToken)
       const url = yield call(readBlob, data, 'dataurl')
-      yield call(delay, delayAjax)
       yield put(A.fetchCaptchaSuccess({ url, sessionToken }))
     } catch (e) {
       yield put(A.fetchCaptchaFailure(e.message))
@@ -41,7 +37,6 @@ export default ({ api } = {}) => {
       const { coin, currency, start, scale } = action.payload
       yield put(A.fetchPriceIndexSeriesLoading())
       const data = yield call(api.getPriceIndexSeries, coin, currency, start, scale)
-      yield call(delay, delayAjax)
       yield put(A.fetchPriceIndexSeriesSuccess(data))
     } catch (e) {
       yield put(A.fetchPriceIndexSeriesFailure(e.message))
@@ -54,7 +49,6 @@ export default ({ api } = {}) => {
       const sharedKey = yield select(selectors.wallet.getSharedKey)
       yield put(A.fetchLogsLoading())
       const data = yield call(api.getLogs, guid, sharedKey)
-      yield call(delay, delayAjax)
       yield put(A.fetchLogsSuccess(data.results))
     } catch (e) {
       yield put(A.fetchLogsFailure(e.message))

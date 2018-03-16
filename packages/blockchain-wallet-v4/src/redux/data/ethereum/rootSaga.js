@@ -1,7 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects'
 import { compose, dissoc, mapObjIndexed, negate, prop, sortBy, sum, values } from 'ramda'
-import { delay } from 'redux-saga'
-import { delayAjax } from '../../paths'
 import { convertFeeToWei } from '../../../utils/ethereum'
 import * as AT from './actionTypes'
 import * as A from './actions'
@@ -30,7 +28,6 @@ export default ({ api } = {}) => {
         },
         transactions
       }
-      yield call(delay, delayAjax)
       yield put(A.fetchDataSuccess(ethereumData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
@@ -41,7 +38,6 @@ export default ({ api } = {}) => {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getEthereumFee)
-      yield call(delay, delayAjax)
       const weiData = convertFeeToWei(data)
       yield put(A.fetchFeeSuccess(weiData))
     } catch (e) {
@@ -53,7 +49,6 @@ export default ({ api } = {}) => {
     try {
       yield put(A.fetchLatestBlockLoading())
       const data = yield call(api.getEthereumLatestBlock)
-      yield call(delay, delayAjax)
       yield put(A.fetchLatestBlockSuccess(data))
     } catch (e) {
       yield put(A.fetchLatestBlockFailure(e.message))
@@ -64,7 +59,6 @@ export default ({ api } = {}) => {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getEthereumTicker)
-      yield call(delay, delayAjax)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
@@ -75,7 +69,6 @@ export default ({ api } = {}) => {
     try {
       yield put(A.fetchTransactionsLoading())
       const data = yield call(api.getEthereumData, address)
-      yield call(delay, delayAjax)
       yield put(A.fetchTransactionsSuccess(data))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
