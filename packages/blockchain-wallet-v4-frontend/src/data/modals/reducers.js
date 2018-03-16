@@ -14,6 +14,9 @@ const modals = (state = INITIAL_STATE, action) => {
     case AT.CLOSE_ALL_MODALS:
       return []
     case AT.SHOW_MODAL: {
+      const test = state.filter(x => x.type === payload.type).length === 0
+
+      console.log('show modal', test, payload, nextIndex)
       return state.filter(x => x.type === payload.type).length === 0
         ? insert(nextIndex, payload, state)
         : state
@@ -27,7 +30,9 @@ const modals = (state = INITIAL_STATE, action) => {
       return update(lastIndex, updatedModal, state)
     }
     case AT.SHOW_ON_TOP: {
-      return update(0, payload, state)
+      // console.log('show on top', state, insert(0, payload, state))
+      // return insert(0, payload, state)
+      break
     }
     default:
       return state

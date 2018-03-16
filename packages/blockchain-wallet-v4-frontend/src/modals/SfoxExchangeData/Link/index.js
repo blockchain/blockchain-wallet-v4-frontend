@@ -43,18 +43,14 @@ class LinkContainer extends Component {
   }
 
   setBankManually () {
-    this.props.modalActions.showOnTop('SfoxAddBankManually')
+    this.props.modalActions.showModal('SfoxAddBankManually')
   }
 
   onSubmit (e) {
     e.preventDefault()
-    // if (this.props.ui.toggleManual && this.state.fullName && this.state.routingNumber) {
-    //   this.setBankManually()
-    // } else {
     const bankChoice = merge({ id: this.state.id, name: this.state.holderName }, {token: this.state.token})
     this.props.sfoxFrontendActions.setBankAccount(bankChoice)
     this.setState({ busy: true })
-    // }
   }
 
   render () {
@@ -67,7 +63,6 @@ class LinkContainer extends Component {
       bankAccounts={bankAccounts}
       onSetBankAccount={this.onSetBankAccount}
       toggleManual={this.setBankManually}
-      // setBankManually={this.setBankManually}
       ui={ui}
       busy={this.state.busy}
       handleBankSelection={(id) => this.setState({ id })}

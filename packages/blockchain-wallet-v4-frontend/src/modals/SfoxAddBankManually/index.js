@@ -25,7 +25,6 @@ class SfoxAddBankManuallyContainer extends Component {
   }
 
   render () {
-    console.log('add bank manually render', this.props)
     return (
       <Template
         {...this.props}
