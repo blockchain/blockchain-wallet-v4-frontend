@@ -1,5 +1,4 @@
 import { toUpper } from 'ramda'
-import Task from 'data.task'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getBitcoinTicker = () => get({

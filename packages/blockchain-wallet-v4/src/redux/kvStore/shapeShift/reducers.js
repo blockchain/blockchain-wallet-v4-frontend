@@ -1,6 +1,5 @@
 import { over, mapped, set, view } from 'ramda-lens'
-import { append, compose, findIndex, curry, path, equals, lensIndex } from 'ramda'
-import { KVStoreEntry } from '../../../types'
+import { append, compose, findIndex, path, equals, lensIndex } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
@@ -8,17 +7,6 @@ import { lensProp } from '../../../types/util'
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked
 
-// tradeLens :: [Trade] -> String -> Lens [Trade]
-// const tradeIndex = curry((trades, addr) => {
-//   console.log('d', trades, addr)
-//   const index = findIndex(compose(equal(addr), path(['quote', 'deposit'])), trades)
-//   console.log('e', index)
-//   return index
-// })
-const log = c => a => {
-  console.info('LOG: ', c, a)
-  return a
-}
 export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
