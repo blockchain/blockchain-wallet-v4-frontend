@@ -34,5 +34,8 @@ script:
     fi
 before_deploy:
   - if [ $TRAVIS_EVENT_TYPE == "push" ] && [ $TRAVIS_BRANCH == "master" ]; then
-      zip -r build.zip bower_components/*/.bower.json
+      echo "*** ZIP ARTIFACTS ***";
+      zip -r build.zip ./dist
     fi
+deploy:
+  - echo "*** DEPLOY ***";
