@@ -50,7 +50,7 @@ const TrayModal = styled(Modal)`
 
 class Tray extends React.Component {
   handleClickOutside () {
-    // this.props.onClose()
+    this.props.onClose()
     // TODO: may need to check something about the modal stack here
   }
 
