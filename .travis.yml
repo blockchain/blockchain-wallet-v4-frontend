@@ -18,7 +18,7 @@ install:
   - yarn && lerna bootstrap
 
 stages:
-  - name: commit-build
+  - name: branch-commit-build
     if: type IN (push) AND NOT branch = master
 
   - name: coverage-build
@@ -27,33 +27,29 @@ stages:
   - name: pr-build
     if: type IN (pull_request)
 
-  - name: prod-deploy-build
+  - name: master-commit-build
     if: type IN (push) AND branch = master
 
 jobs:
   include:
-    - stage: commit-build
+    - stage: branch-commit-build
       script:
-        - echo "** COMMIT BUILD **"
         - yarn lint
         - yarn ci:test
 
     - stage: coverage-build
       script:
-        - echo "** COVERAGE BUILD **"
         - yarn ci:coverage
         - ./node_modules/.bin/istanbul-coveralls
 
     - stage: pr-build
       script:
-        - echo "** PR BUILD **"
         - yarn lint
         - yarn ci:test
         - yarn ci:build:prod
 
-    - stage: prod-deploy-build
+    - stage: master-commit-build
       script:
-        - echo "** PROD DEPLOY BUILD **"
         - yarn lint
         - yarn ci:test
         - yarn ci:build:prod
