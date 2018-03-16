@@ -13,20 +13,18 @@ before_install:
 install:
   - yarn && lerna bootstrap
 script:
-  - if [ $TRAVIS_EVENT_TYPE == "push" ] && [ $TRAVIS_BRANCH == "master" ]; then
-      # full build with test coverage reporting for merges into master
-      yarn lint;
-      yarn ci:coverage;
-      ./node_modules/.bin/istanbul-coveralls;
-      yarn ci:build:prod;
-    else
-      # quick build for commits and PRs
+  - if [ $TRAVIS_EVENT_TYPE != "cron" ]; then
+      # normal build
       yarn lint;
       yarn ci:test;
-      yarn ci:build;
+      yarn ci:build:prod;
+    else
+      # cron job build to update unit test coverage
+      yarn ci:coverage;
+      ./node_modules/.bin/istanbul-coveralls;
     fi
 before_deploy:
-  - if [ $TRAVIS_EVENT_TYPE == "push" ] && [ $TRAVIS_BRANCH == "master" ]; then
+  - if [ $TRAVIS_EVENT_TYPE != "cron" ]; then
       zip -r build.zip ./dist
     fi
 #deploy:
