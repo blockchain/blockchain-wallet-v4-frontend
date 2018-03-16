@@ -1,7 +1,6 @@
-import { assoc, assocPath, mergeAll, path } from 'ramda'
+import { assoc } from 'ramda'
 import Remote from '../../../remote'
 import * as AT from './actionTypes'
-import * as actionTypes from '../../actionTypes'
 
 const INITIAL_STATE = {
   btc_eth: Remote.NotAsked,
