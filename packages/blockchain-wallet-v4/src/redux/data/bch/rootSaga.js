@@ -28,7 +28,7 @@ export default ({ api } = {}) => {
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
-      const data = 2 // yield call(api.getBitcoinFee)
+      const data = yield call(api.getBchFee)
       yield call(delay, delayAjax)
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
