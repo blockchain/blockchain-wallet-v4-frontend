@@ -7,10 +7,5 @@ export const shapeShift = ({ api } = {}) => {
 
   return {
     fetchTradeStatus
-  //   fetchBtcEth,
-  //   fetchEthBtc,
-  //   createOrder,
-  //   getTradeStatus,
-  //   getTradesStatus
   }
 }

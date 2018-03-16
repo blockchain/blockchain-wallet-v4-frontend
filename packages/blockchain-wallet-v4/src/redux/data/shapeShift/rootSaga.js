@@ -4,23 +4,14 @@ import * as AT from './actionTypes'
 import * as A from './actions'
 
 export default ({ api } = {}) => {
-  const fetchBtcEth = function * () {
+  const fetchPair = function * (action) {
+    const { pair } = action.payload
     try {
-      yield put(A.fetchBtcEthLoading())
-      const data = yield call(api.getBtcEth)
-      yield put(A.fetchBtcEthSuccess(data))
+      yield put(A.fetchPairLoading(pair))
+      const data = yield call(api.getPair, pair)
+      yield put(A.fetchPairSuccess(pair, data))
     } catch (e) {
-      yield put(A.fetchBtcEthFailure(e.message))
-    }
-  }
-
-  const fetchEthBtc = function * () {
-    try {
-      yield put(A.fetchEthBtcLoading())
-      const data = yield call(api.getEthBtc)
-      yield put(A.fetchEthBtcSuccess(data))
-    } catch (e) {
-      yield put(A.fetchEthBtcFailure(e.message))
+      yield put(A.fetchPairFailure(pair, e.message))
     }
   }
 
@@ -29,7 +20,6 @@ export default ({ api } = {}) => {
       const { depositAmount, pair, returnAddress, withdrawal } = action.payload
       yield put(A.fetchOrderLoading())
       const data = yield call(api.createOrder, depositAmount, pair, returnAddress, withdrawal)
-      // yield call(delay, 30000)
       if (has('error', data)) {
         yield put(A.fetchOrderFailure(prop('error', data)))
       } else {
@@ -63,8 +53,7 @@ export default ({ api } = {}) => {
   }
 
   return function * () {
-    yield takeLatest(AT.FETCH_BTC_ETH, fetchBtcEth)
-    yield takeLatest(AT.FETCH_ETH_BTC, fetchEthBtc)
+    yield takeLatest(AT.FETCH_PAIR, fetchPair)
     yield takeLatest(AT.FETCH_SHAPESHIFT_ORDER, fetchOrder)
     yield takeLatest(AT.FETCH_SHAPESHIFT_QUOTATION, fetchQuotation)
     // yield fork(watchShapeshiftQuotation)

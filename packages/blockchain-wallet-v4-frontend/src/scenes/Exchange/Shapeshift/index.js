@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
-// import { equals } from 'ramda'
 
 import wizardProvider from 'providers/WizardProvider'
 import { getData } from './selectors'
