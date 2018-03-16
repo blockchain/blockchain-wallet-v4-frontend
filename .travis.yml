@@ -12,10 +12,29 @@ before_install:
   - npm install -g lerna yarn
 install:
   - yarn && lerna bootstrap
-script:
-  # commit quick build
-  - if [ $TRAVIS_EVENT_TYPE == "push"]; then yarn lint; yarn ci:test; fi
-  # pull request build
-  - if [ $TRAVIS_EVENT_TYPE == "pull_request" ]; then yarn lint; yarn ci:test; yarn ci:build:prod; fi
-  # coverage report build
-  - if [ $TRAVIS_EVENT_TYPE == "cron"]; then yarn ci:coverage; ./node_modules/.bin/istanbul-coveralls; fi
+
+stages:
+  - name: commit-build
+    if: type IN (push)
+  - name: pr-build
+    if: type IN (pull_request)
+  - name: coverage-build
+    if: type IN (cron)
+
+jobs:
+  include:
+    - stage: commit-build
+      script:
+        - yarn lint
+        - yarn ci:test
+
+    - stage: pr-build
+      script:
+        - yarn lint
+        - yarn ci:test
+        - yarn ci:build:prod
+
+    - stage: coverage-build
+      script:
+        - yarn ci:coverage
+        - ./node_modules/.bin/istanbul-coveralls
