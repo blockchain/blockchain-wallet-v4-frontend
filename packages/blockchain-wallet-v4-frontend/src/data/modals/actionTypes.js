@@ -8,5 +8,3 @@ export const SHOW_MODAL = 'SHOW_MODAL'
 export const REPLACE_MODAL = 'REPLACE_MODAL'
 
 export const UPDATE_MODAL = 'UPDATE_MODAL'
-
-export const SHOW_ON_TOP = 'SHOW_ON_TOP'
