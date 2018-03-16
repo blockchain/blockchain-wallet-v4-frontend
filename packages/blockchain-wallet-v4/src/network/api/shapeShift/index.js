@@ -31,12 +31,8 @@ export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
   const get = ({ endPoint }) => request('GET', endPoint, {})
   const post = ({ endPoint, ...data }) => request('POST', endPoint, data)
 
-  const getBtcEth = () => get({
-    endPoint: `marketinfo/btc_eth`
-  })
-
-  const getEthBtc = () => get({
-    endPoint: `marketinfo/eth_btc`
+  const getPair = (pair) => get({
+    endPoint: `marketinfo/${pair}`
   })
 
   const getTradeStatus = (address) => get({
@@ -52,8 +48,7 @@ export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
   })
 
   return {
-    getBtcEth,
-    getEthBtc,
+    getPair,
     getTradeStatus,
     createQuote,
     createOrder

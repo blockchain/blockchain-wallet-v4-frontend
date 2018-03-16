@@ -3,7 +3,11 @@ import Remote from '../../../remote'
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
+  bch_btc: Remote.NotAsked,
+  bch_eth: Remote.NotAsked,
+  btc_bch: Remote.NotAsked,
   btc_eth: Remote.NotAsked,
+  eth_bch: Remote.NotAsked,
   eth_btc: Remote.NotAsked,
   order: Remote.NotAsked,
   quotation: Remote.NotAsked
@@ -30,6 +34,18 @@ const shapeShiftReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ETH_BTC_FAILURE: {
       return assoc('eth_btc', Remote.Failure(payload), state)
+    }
+    case AT.FETCH_PAIR_LOADING: {
+      const { pair } = payload
+      return assoc(pair, Remote.Loading, state)
+    }
+    case AT.FETCH_PAIR_SUCCESS: {
+      const { pair, data } = payload
+      return assoc(pair, Remote.Success(data), state)
+    }
+    case AT.FETCH_PAIR_FAILURE: {
+      const { pair, error } = payload
+      return assoc(pair, Remote.Failure(error), state)
     }
     case AT.FETCH_SHAPESHIFT_ORDER_LOADING: {
       return assoc('order', Remote.Loading, state)
