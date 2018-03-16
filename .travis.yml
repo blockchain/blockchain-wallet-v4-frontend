@@ -13,17 +13,9 @@ before_install:
 install:
   - yarn && lerna bootstrap
 script:
-  - 'if [ "$TRAVIS_EVENT_TYPE" != "cron" ]; then
-      # normal build
-      yarn lint;
-      yarn ci:test;
-      yarn ci:build:prod;
-    else
-      # cron job build to update unit test coverage
-      yarn ci:coverage;
-      ./node_modules/.bin/istanbul-coveralls;
-    fi;'
-before_deploy:
-  - 'if [ "$TRAVIS_EVENT_TYPE" != "cron" ]; then
-      zip -r build.zip ./dist
-    fi;'
+  # commit quick build
+  - if [ $TRAVIS_EVENT_TYPE == "push"]; then yarn lint; yarn ci:test; fi
+  # pull request build
+  - if [ $TRAVIS_EVENT_TYPE == "pull_request" ]; then yarn lint; yarn ci:test; yarn ci:build:prod; fi
+  # coverage report build
+  - if [ $TRAVIS_EVENT_TYPE == "cron"]; then yarn ci:coverage; ./node_modules/.bin/istanbul-coveralls; fi
