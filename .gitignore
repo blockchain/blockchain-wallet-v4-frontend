@@ -18,7 +18,6 @@ yarn-error.log
 # Generated Files
 *.log
 *.lerna_backup
-package-lock.json
 yarn.lock
 coverage/
 dist/
