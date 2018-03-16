@@ -13,7 +13,7 @@ before_install:
 install:
   - yarn && lerna bootstrap
 script:
-  - if [$TRAVIS_EVENT_TYPE == "push"] && [$TRAVIS_BRANCH == "master"]; then
+  - if [ $TRAVIS_EVENT_TYPE == "push" ] && [ $TRAVIS_BRANCH == "master" ]; then
       echo "RUNNING FULL BUILD";
       yarn lint;
       yarn ci:coverage;
@@ -21,6 +21,9 @@ script:
       yarn ci:build:prod;
     else
       echo "RUNNING QUICK BUILD";
-      yarn vet;
+      yarn lint;
+      yarn test:components;
+      yarn test:frontend;
+      yarn test:core;
       yarn ci:build;
     fi
