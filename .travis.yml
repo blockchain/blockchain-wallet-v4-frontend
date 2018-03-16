@@ -1,17 +1,26 @@
-language: node_js
-node_js: 9.5
+language:
+  - node_js
+node_js:
+  - 9.5
 cache:
   directories:
     - node_modules
     - packages/blockchain-info-components/node_modules
     - packages/blockchain-wallet-v4/node_modules
     - packages/blockchain-wallet-v4-frontend/node_modules
-before_install: npm install -g lerna yarn
-install: yarn && lerna bootstrap
-before_script:
-  - yarn lint
-  - yarn coverage:ci
-script: yarn build:prod
-#after_success: istanbul-coveralls
-after_success: ./node_modules/.bin/istanbul-coveralls
-
+before_install:
+  - npm install -g lerna yarn
+install:
+  - yarn && lerna bootstrap
+script:
+  - if [$TRAVIS_EVENT_TYPE == "push"] && [$TRAVIS_BRANCH == "master"]; then
+      echo "RUNNING FULL BUILD";
+      yarn lint;
+      yarn ci:coverage;
+      ./node_modules/.bin/istanbul-coveralls;
+      yarn ci:build:prod;
+    else
+      echo "RUNNING QUICK BUILD";
+      yarn vet;
+      yarn ci:build;
+    fi
