@@ -19,12 +19,20 @@ const Row = styled.div`
   width: 100%;
 `
 
-const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
+const validAmount = (value, allValues, props) => {
+  console.log('validAmount', props.effectiveBalance)
+  return parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
+}
 
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
+const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+  if (initialRender) { return true }
+  return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
+}
+
 const FirstStep = props => {
-  const { invalid, submitting, fee, handleSubmit } = props
+  const { pristine, invalid, submitting, fee, handleSubmit } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -76,7 +84,7 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
+        <Button type='submit' nature='primary' uppercase disabled={pristine || submitting || invalid}>
           <FormattedMessage id='modals.sendether.firststep.continue' defaultMessage='Continue' />
         </Button>
       </FormGroup>
@@ -87,8 +95,8 @@ const FirstStep = props => {
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  fee: PropTypes.string,
+  fee: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendEther', destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'sendEther', destroyOnUnmount: false, shouldValidate })(FirstStep)

@@ -35,10 +35,10 @@ export const privateKeyToAddress = pk =>
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())
 
-export const calculateFee = (gasPrice, gasLimit) => gasPrice * gasLimit
+export const calculateFeeWei = (gasPrice, gasLimit) => gasPrice * gasLimit
 
 export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
-  const transactionFee = calculateFee(gasPrice, gasLimit)
+  const transactionFee = calculateFeeWei(gasPrice, gasLimit)
   return {
     balance: balanceWei,
     fee: transactionFee,
@@ -57,16 +57,12 @@ export const convertFeeToWei = fees => ({
 })
 
 export const calculateBalanceEther = (gasPrice, gasLimit, balanceWei) => {
-  console.log('LOL', gasPrice, gasLimit, balanceWei)
   const data = calculateBalanceWei(gasPrice, gasLimit, balanceWei)
-  console.log('balanceWei', data)
-  const result = {
+  return {
     balance: Exchange.convertEtherToEther({ value: data.balance, fromUnit: 'WEI', toUnit: 'ETH' }).value,
     fee: Exchange.convertEtherToEther({ value: data.fee, fromUnit: 'WEI', toUnit: 'ETH' }).value,
     effectiveBalance: Exchange.convertEtherToEther({ value: data.effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
   }
-  console.log('balanceEther', result)
-  return result
 }
 
 export const txHexToHashHex = txHex => new EthTx(txHex).hash().toString('hex')
