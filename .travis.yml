@@ -22,8 +22,6 @@ script:
     else
       echo "RUNNING QUICK BUILD";
       yarn lint;
-      yarn test:components;
-      yarn test:frontend;
-      yarn test:core;
+      yarn ci:test
       yarn ci:build;
     fi
