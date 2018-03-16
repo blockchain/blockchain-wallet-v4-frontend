@@ -14,13 +14,14 @@ npm-shrinkwrap.json
 # Yarn
 .yarnclean
 yarn-error.log
+yarn.lock
 
 # Generated Files
 *.log
 *.lerna_backup
-yarn.lock
 coverage/
 dist/
+build/
 
 # Package Files
 packages/blockchain-info-components/lib
