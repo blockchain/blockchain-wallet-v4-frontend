@@ -7,7 +7,7 @@ const PROD = process.argv.indexOf('-p') !== -1
 const ENV = PROD ? 'production' : 'development'
 
 const PATHS = {
-  build: `${__dirname}/build`,
+  build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`
 }

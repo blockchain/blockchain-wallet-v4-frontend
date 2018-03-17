@@ -55,7 +55,7 @@ class SfoxExchangeData extends React.Component {
     const step = this.props.signupStep || this.props.step
 
     return (
-      <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
+      <Tray position={this.props.position} total={this.props.total} in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader onClose={this.handleClose.bind(this)}>
           <StepIndicator step={step} stepMap={this.stepMap} />
         </ModalHeader>

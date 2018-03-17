@@ -9,9 +9,9 @@ import { formValueSelector, Field } from 'redux-form'
 
 import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
-
+import Helper from './helpers.js'
 import { required } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper } from '../styled'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner } from '../styled'
 
 const MobileInput = styled.div`
   display: flex;
@@ -106,20 +106,23 @@ class VerifyMobile extends Component {
           </InputWrapper>
         </ColLeft>
         <ColRight>
-          {
-            ui.create === 'enter_mobile_code' && <ButtonWrapper>
-              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
-                Continue
-              </Button>
-            </ButtonWrapper>
-          }
-          {
-            ui.create !== 'enter_mobile_code' && <ButtonWrapper>
-              <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-                <FormattedMessage id='sfoxexchangedata.create.mobile.textcode' defaultMessage='Text Verification Code' />
-              </Button>
-            </ButtonWrapper>
-          }
+          <ColRightInner>
+            {
+              ui.create === 'enter_mobile_code' && <ButtonWrapper>
+                <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
+                  Continue
+                </Button>
+              </ButtonWrapper>
+            }
+            {
+              ui.create !== 'enter_mobile_code' && <ButtonWrapper>
+                <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+                  <FormattedMessage id='sfoxexchangedata.create.mobile.textcode' defaultMessage='Text Verification Code' />
+                </Button>
+              </ButtonWrapper>
+            }
+            <Helper />
+          </ColRightInner>
         </ColRight>
       </Form>
     )
