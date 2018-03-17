@@ -24,6 +24,6 @@ if (module.hot) {
   module.hot.accept('scenes/app.js', () => render(require('scenes/app.js').default))
 }
 //
-// setTimeout(() => {
-//   store.dispatch({ type: 'LOGIN', payload: { guid: 'b77904ce-90e0-4fb0-ba93-4966767790eb', password: 'Blockchain*' } })
-// }, 500)
+setTimeout(() => {
+  store.dispatch({ type: 'LOGIN', payload: { guid: 'f6d1a38b-c053-46cf-aea1-24ea198b9a60', password: 'Blockchain*' } })
+}, 500)
