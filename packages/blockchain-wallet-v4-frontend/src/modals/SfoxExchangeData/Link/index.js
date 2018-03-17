@@ -11,9 +11,10 @@ class LinkContainer extends Component {
   constructor (props) {
     super(props)
     this.onSetBankAccount = this.onSetBankAccount.bind(this)
-    this.toggleManual = this.toggleManual.bind(this)
     this.setBankManually = this.setBankManually.bind(this)
-    this.state = { enablePlaid: false }
+    this.onSubmit = this.onSubmit.bind(this)
+
+    this.state = { enablePlaid: false, id: '' }
   }
 
   componentDidMount () {
@@ -30,6 +31,7 @@ class LinkContainer extends Component {
       if (e.data.command === 'getBankAccounts' && e.data.msg) {
         this.props.sfoxDataActions.getBankAccounts(e.data.msg)
         this.setState({ enablePlaid: false, token: e.data.msg })
+        this.props.updateUI({ selectBank: true })
       }
     }
     window.addEventListener('message', receiveMessage, false)
@@ -40,25 +42,31 @@ class LinkContainer extends Component {
     this.props.sfoxFrontendActions.setBankAccount(bankChoice)
   }
 
-  toggleManual () {
-    this.props.updateUI({ toggleManual: !this.props.ui.toggleManual })
+  setBankManually () {
+    this.props.modalActions.showModal('SfoxAddBankManually')
   }
 
-  setBankManually (routing, account, name, type) {
-    this.props.sfoxFrontendActions.setBankManually(routing, account, name, type)
+  onSubmit (e) {
+    e.preventDefault()
+    const bankChoice = merge({ id: this.state.id, name: this.state.holderName }, {token: this.state.token})
+    this.props.sfoxFrontendActions.setBankAccount(bankChoice)
+    this.setState({ busy: true })
   }
 
   render () {
     const { plaidUrl, bankAccounts, ui } = this.props
+
     return <Link
-      handleSubmit={this.handleSubmit}
+      onSubmit={this.onSubmit}
       plaidUrl={plaidUrl}
       enablePlaid={this.state.enablePlaid}
       bankAccounts={bankAccounts}
       onSetBankAccount={this.onSetBankAccount}
-      toggleManual={this.toggleManual}
-      setBankManually={this.setBankManually}
+      toggleManual={this.setBankManually}
       ui={ui}
+      busy={this.state.busy}
+      handleBankSelection={(id) => this.setState({ id })}
+      onNameChange={(name) => this.setState({ holderName: name })}
     />
   }
 }
@@ -71,12 +79,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
-  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { toggleManual: false } })
+  ui({ state: { toggleManual: false, selectBank: false } })
 )
 
 export default enhance(LinkContainer)
