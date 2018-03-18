@@ -66,3 +66,9 @@ export const ErrorWrapper = styled.div`
     color: ${props => props.theme['brand-secondary']}
   }
 `
+
+export const ColRightInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 20%;
+`
