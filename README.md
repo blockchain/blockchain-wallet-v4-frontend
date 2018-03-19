@@ -90,7 +90,7 @@ We are snapshot testing UI some components. Here are the commands to update them
 
 ### Code Coverage
 To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
- * `yarn coverage` Generates, and merges together, a coverage report for all packages.
+ * `yarn coverage` Generates a coverage report for all packages
  * `yarn coverage:components` Generates coverage report for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn coverage:core` Generates coverage report for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn coverage:frontend` Generates coverage report for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
