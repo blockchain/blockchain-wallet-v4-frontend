@@ -30,9 +30,14 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
 
-    case AT.SET_PROFILE_BUYSELL: {
+    case AT.SFOX_SET_PROFILE_BUYSELL: {
       let valueLens = compose(mapped, KVStoreEntry.value)
       let setProfile = assocPath(['sfox', 'account_token'], payload.token)
+      return over(valueLens, setProfile, state)
+    }
+    case AT.COINIFY_SET_PROFILE_BUYSELL: {
+      let valueLens = compose(mapped, KVStoreEntry.value)
+      let setProfile = assocPath(['coinify', 'account_token'], payload.offlineToken)
       return over(valueLens, setProfile, state)
     }
     case AT.WIPE_EXTERNAL: {

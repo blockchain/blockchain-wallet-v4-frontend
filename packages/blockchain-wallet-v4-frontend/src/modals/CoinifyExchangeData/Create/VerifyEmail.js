@@ -65,8 +65,9 @@ class VerifyEmail extends Component {
   onSubmit (e) {
     e.preventDefault()
     if (this.props.ui.create === 'enter_email_code') {
-      this.props.sfoxFrontendActions.clearSignupError()
+      this.props.coinifyFrontendActions.coinifyClearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
+      this.props.updateUI({ create: 'create_account' })
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
@@ -78,14 +79,14 @@ class VerifyEmail extends Component {
 
     let partnerHeader = () => {
       switch (ui.create) {
-        case 'enter_email_code': return <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.enter_email_code' defaultMessage='Blockchain + SFOX' />
+        case 'enter_email_code': return <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.enter_email_code' defaultMessage='Blockchain + Coinify' />
         case 'change_email': return <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.change_email' defaultMessage='Change Email' />
       }
     }
 
     let partnerSubHeader = () => {
       switch (ui.create) {
-        case 'enter_email_code': return <FormattedHTMLMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enter_email_code' defaultMessage='We teamed up with SFOX’s exchange platform to offer buy and sell to our customers in the United States. We just sent a verification code to your <b>{email}</b> email address.' values={{email: this.props.emailAddress}} />
+        case 'enter_email_code': return <FormattedHTMLMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your <b>{email}</b> email address.' values={{email: this.props.emailAddress}} />
         case 'change_email': return <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.change_email' defaultMessage='Updating your email will also change the email associated with your wallet.' />
       }
     }

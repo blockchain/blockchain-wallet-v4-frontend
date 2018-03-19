@@ -45,7 +45,7 @@ class AcceptTerms extends Component {
   handleSignup (e) {
     e.preventDefault()
     this.setState({ busy: true })
-    this.props.coinifyFrontendActions.sfoxSignup()
+    this.props.coinifyFrontendActions.coinifySignup()
   }
 
   render () {
@@ -103,8 +103,8 @@ AcceptTerms.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  email: selectors.core.settings.getEmail(state).data
-  // signupError: path(['sfoxSignup', 'signupError'], state)
+  email: selectors.core.settings.getEmail(state).data,
+  signupError: path(['coinifySignup', 'signupError'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

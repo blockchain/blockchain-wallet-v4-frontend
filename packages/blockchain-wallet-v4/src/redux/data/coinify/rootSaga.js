@@ -6,19 +6,19 @@ import * as buySellA from '../../kvStore/buySell/actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as A from './actions'
-let sfox
+let coinify
 
-export default ({ api, sfoxService } = {}) => {
-  const refreshSFOX = function * () {
+export default ({ api, coinifyService } = {}) => {
+  const refreshCoinify = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    sfox = sfoxService.refresh(value, delegate)
+    coinify = coinifyService.refresh(value, delegate)
   }
 
   const init = function * () {
     try {
-      yield call(refreshSFOX)
+      yield call(refreshCoinify)
     } catch (e) {
       throw new Error(e)
     }
@@ -27,7 +27,7 @@ export default ({ api, sfoxService } = {}) => {
   const fetchProfile = function * () {
     try {
       yield put(A.fetchProfileLoading())
-      const profile = yield apply(sfox, sfox.fetchProfile)
+      const profile = yield apply(coinify, coinify.fetchProfile)
       yield put(A.fetchProfileSuccess(profile))
     } catch (e) {
       yield put(A.fetchProfileFailure(e))
@@ -39,9 +39,9 @@ export default ({ api, sfoxService } = {}) => {
       yield put(A.fetchQuoteLoading())
       const nextAddress = data.payload.nextAddress
       yield put(A.setNextAddress(nextAddress))
-      yield call(refreshSFOX)
+      yield call(refreshCoinify)
       const { amt, baseCurr, quoteCurr } = data.payload.quote
-      const quote = yield apply(sfox, sfox.getBuyQuote, [amt, baseCurr, quoteCurr])
+      const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurr, quoteCurr])
       yield put(A.fetchQuoteSuccess(quote))
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
@@ -51,7 +51,7 @@ export default ({ api, sfoxService } = {}) => {
   const fetchTrades = function * () {
     try {
       yield put(A.fetchTradesLoading())
-      const trades = yield apply(sfox, sfox.getTrades)
+      const trades = yield apply(coinify, coinify.getTrades)
       yield put(A.fetchTradesSuccess(trades))
     } catch (e) {
       yield put(A.fetchTradesFailure(e))
@@ -61,8 +61,8 @@ export default ({ api, sfoxService } = {}) => {
   const fetchAccounts = function * () {
     try {
       yield put(A.fetchAccountsLoading())
-      const methods = yield apply(sfox, sfox.getBuyMethods)
-      const accounts = yield apply(sfox, methods.ach.getAccounts)
+      const methods = yield apply(coinify, coinify.getBuyMethods)
+      const accounts = yield apply(coinify, methods.ach.getAccounts)
       yield put(A.fetchAccountsSuccess(accounts))
     } catch (e) {
       yield put(A.fetchAccountsFailure(e))
@@ -88,7 +88,7 @@ export default ({ api, sfoxService } = {}) => {
   const getBankAccounts = function * (data) {
     const token = data.payload
     try {
-      const bankAccounts = yield apply(sfox.bankLink, sfox.bankLink.getAccounts, [token])
+      const bankAccounts = yield apply(coinify.bankLink, coinify.bankLink.getAccounts, [token])
       yield put(A.getBankAccountsSuccess(bankAccounts))
     } catch (e) {
       yield put(A.getBankAccountsFailure(e))
