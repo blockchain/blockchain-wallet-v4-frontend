@@ -13,6 +13,7 @@ const PATHS = {
 }
 
 module.exports = {
+  mode: PROD ? 'production' : 'development',
   entry: {
     app: [
       'babel-polyfill',
@@ -111,23 +112,7 @@ module.exports = {
     }),
     ...(PROD ? [
       new CleanWebpackPlugin(PATHS.dist, { allowExternal: true }),
-      new Webpack.LoaderOptionsPlugin({
-        minimize: true,
-        debug: false
-      }),
-      new Webpack.optimize.UglifyJsPlugin({
-        warnings: false,
-        compress: {
-          warnings: false,
-          keep_fnames: true
-        },
-        mangle: {
-          keep_fnames: true
-        },
-        nameCache: null,
-        toplevel: false,
-        ie8: false
-      })
+      new Webpack.LoaderOptionsPlugin({ minimize: true, debug: false })
     ] : [
       new Webpack.NamedModulesPlugin(),
       new Webpack.HotModuleReplacementPlugin()
