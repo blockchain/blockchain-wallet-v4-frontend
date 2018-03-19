@@ -2,8 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 const BaseNavItem = styled.li`
-  padding: 10px 15px;
   box-sizing: border-box;
+  margin-right: 20px;
+  cursor: pointer;
+  &:last-child {
+    margin-right: 0px;
+  }
 
   & > a {
     font-size: 14px;

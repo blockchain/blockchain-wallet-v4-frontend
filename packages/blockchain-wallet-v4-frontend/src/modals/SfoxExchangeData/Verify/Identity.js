@@ -4,48 +4,17 @@ import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import {
-  requiredSSN,
-  requiredDOB,
-  normalizeSocialSecurity,
-  normalizeDateOfBirth,
-  ageOverEighteen } from 'services/FormHelper'
 
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-`
-const ColLeft = styled.div`
-  width: 50%;
-`
-const ColRight = styled.div`
-  width: 50%;
-`
-const InputWrapper = styled.div`
-  width: 80%;
-`
-const PartnerHeader = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-`
+import { requiredSSN, requiredDOB, normalizeSocialSecurity, normalizeDateOfBirth, ageOverEighteen } from 'services/FormHelper'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from '../styled'
+import { Helper1, Helper2 } from './helpers.js'
+
 const LockIcon = styled(Icon)`
   font-size: 24px;
   margin-left: 7px;
 `
-const PartnerSubHeader = styled.div`
-  margin-top: 5px;
-  font-size: 14px;
-`
 const FormContainer = styled.div`
   margin-top: 25px;
-`
-const ErrorWrapper = styled.div`
-  margin-top: 5px;
-  a {
-    cursor: pointer;
-    color: ${props => props.theme['brand-secondary']}
-  }
 `
 
 const Identity = (props) => {
@@ -84,20 +53,24 @@ const Identity = (props) => {
         </InputWrapper>
       </ColLeft>
       <ColRight>
-        <Button uppercase nature='primary' fullwidth type='submit' disabled={busy || invalid || pristine || submitting || verificationError}>
-          {
-            !busy
-              ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
-              : <HeartbeatLoader height='20px' width='20px' color='white' />
-          }
-        </Button>
-        <ErrorWrapper>
-          {
-            verificationError && <Text size='12px' color='error' weight={300} onClick={handleReset}>
-              <FormattedHTMLMessage id='sfoxexchangedata.verify.identity.error' defaultMessage='Unfortunately there was a problem verifying your identity. <a>Click here</a> to start over.' />
-            </Text>
-          }
-        </ErrorWrapper>
+        <ColRightInner>
+          <Button uppercase nature='primary' fullwidth type='submit' disabled={busy || invalid || pristine || submitting || verificationError}>
+            {
+              !busy
+                ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
+                : <HeartbeatLoader height='20px' width='20px' color='white' />
+            }
+          </Button>
+          <ErrorWrapper>
+            {
+              verificationError && <Text size='12px' color='error' weight={300} onClick={handleReset}>
+                <FormattedHTMLMessage id='sfoxexchangedata.verify.identity.error' defaultMessage='Unfortunately there was a problem verifying your identity. <a>Click here</a> to start over.' />
+              </Text>
+            }
+          </ErrorWrapper>
+          <Helper1 />
+          <Helper2 />
+        </ColRightInner>
       </ColRight>
     </Form>
   )

@@ -20,7 +20,7 @@ class SfoxExchangeData extends React.Component {
     this.state = { show: false }
     this.stepMap = {
       account: <FormattedMessage id='modals.sfoxexchangedata.steps.account' defaultMessage='Account' />,
-      personal: <FormattedMessage id='modals.sfoxexchangedata.steps.personal' defaultMessage='Personal' />,
+      verify: <FormattedMessage id='modals.sfoxexchangedata.steps.verify' defaultMessage='Verify' />,
       funding: <FormattedMessage id='modals.sfoxexchangedata.steps.funding' defaultMessage='Funding' />,
       order: <FormattedMessage id='modals.sfoxexchangedata.steps.order' defaultMessage='Order' />,
       submit: <FormattedMessage id='modals.sfoxexchangedata.steps.submit' defaultMessage='Submit' />
@@ -28,7 +28,9 @@ class SfoxExchangeData extends React.Component {
   }
 
   componentDidMount () {
+    /* eslint-disable */
     this.setState({ show: true })
+    /* eslint-enable */
   }
 
   handleClose () {
@@ -39,7 +41,7 @@ class SfoxExchangeData extends React.Component {
   getStepComponent (step) {
     switch (step) {
       case 'account': return <Create />
-      case 'personal': return <Verify />
+      case 'verify': return <Verify />
       case 'funding': return <Link />
       case 'verified': {
         this.handleClose()
@@ -53,7 +55,7 @@ class SfoxExchangeData extends React.Component {
     const step = this.props.signupStep || this.props.step
 
     return (
-      <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
+      <Tray position={this.props.position} total={this.props.total} in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader onClose={this.handleClose.bind(this)}>
           <StepIndicator step={step} stepMap={this.stepMap} />
         </ModalHeader>
@@ -66,7 +68,7 @@ class SfoxExchangeData extends React.Component {
 }
 
 SfoxExchangeData.propTypes = {
-  step: PropTypes.oneOf(['account', 'personal', 'upload', 'funding']),
+  step: PropTypes.oneOf(['account', 'verify', 'upload', 'funding']),
   close: PropTypes.function
 }
 

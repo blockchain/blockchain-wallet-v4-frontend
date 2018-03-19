@@ -26,6 +26,7 @@ const welcomeSaga = function * () {
     console.log('%c If someone told you to copy-paste something here,', style2)
     console.log('%c it is a scam and will give them access to your money!', style2)
   }
+  yield
 }
 
 export default function * () {
@@ -36,7 +37,7 @@ export default function * () {
     fork(modules),
     fork(goals),
     fork(wallet),
-    fork(sagas.core.webSocket),
+    fork(sagas.core.webSocket.bitcoin),
     fork(sagas.core.refresh),
     fork(coreRootSaga)
   ])

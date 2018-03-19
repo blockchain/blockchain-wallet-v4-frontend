@@ -9,31 +9,10 @@ import { formValueSelector, Field } from 'redux-form'
 
 import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
-
+import Helper from './helpers.js'
 import { required } from 'services/FormHelper'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner } from '../styled'
 
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-`
-const ColLeft = styled.div`
-  width: 50%;
-`
-const ColRight = styled.div`
-  width: 50%;
-`
-const InputWrapper = styled.div`
-  width: 80%;
-`
-const PartnerHeader = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-`
-const PartnerSubHeader = styled.div`
-  margin-top: 5px;
-  font-size: 14px;
-`
 const MobileInput = styled.div`
   display: flex;
   margin-top: 25px;
@@ -41,9 +20,6 @@ const MobileInput = styled.div`
 `
 const MobileCodeContainer = MobileInput.extend`
   margin-top: 25px;
-`
-const ButtonWrapper = styled.div`
-  margin: 25px 0px;
 `
 const MixedText = styled.span`
   margin-top: 10px;
@@ -130,20 +106,23 @@ class VerifyMobile extends Component {
           </InputWrapper>
         </ColLeft>
         <ColRight>
-          {
-            ui.create === 'enter_mobile_code' && <ButtonWrapper>
-              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
-                Continue
-              </Button>
-            </ButtonWrapper>
-          }
-          {
-            ui.create !== 'enter_mobile_code' && <ButtonWrapper>
-              <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-                <FormattedMessage id='sfoxexchangedata.create.mobile.textcode' defaultMessage='Text Verification Code' />
-              </Button>
-            </ButtonWrapper>
-          }
+          <ColRightInner>
+            {
+              ui.create === 'enter_mobile_code' && <ButtonWrapper>
+                <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
+                  Continue
+                </Button>
+              </ButtonWrapper>
+            }
+            {
+              ui.create !== 'enter_mobile_code' && <ButtonWrapper>
+                <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+                  <FormattedMessage id='sfoxexchangedata.create.mobile.textcode' defaultMessage='Text Verification Code' />
+                </Button>
+              </ButtonWrapper>
+            }
+            <Helper />
+          </ColRightInner>
         </ColRight>
       </Form>
     )

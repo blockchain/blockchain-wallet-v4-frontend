@@ -1,39 +1,25 @@
 {
   "name": "blockchain-wallet-v4-frontend",
-  "version": "0.0.1",
-  "description": "Wallet user interface",
-  "keywords": [
-    "blockchain",
-    "react",
-    "wallet"
-  ],
-  "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend#readme",
-  "bugs": {
-    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
-  },
+  "version": "0.1.0",
+  "description": "Frontend wallet application.",
   "license": "ISC",
   "author": {
-    "name": "(Dream Team) Blockchain.info",
+    "name": "Blockchain.info",
     "url": "https://blockchain.info"
   },
-  "contributors": [
-    "Justin Tormey",
-    "Jaume Pernas",
-    "Guillaume Marquilly"
-  ],
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blockchain/blockchain-wallet-v4-frontend.git"
-  },
   "scripts": {
-    "build": "lerna bootstrap && webpack --config webpack.config.js --progress --colors",
-    "build:prod": "lerna bootstrap && webpack -p --config webpack.config.js --progress --colors",
-    "coverage": "jest --coverage",
+    "build": "webpack --config webpack.config.js --progress --colors",
+    "build:prod": "NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.config.js --progress --colors",
+    "ci:build": "webpack --config webpack.config.js --display-error-details",
+    "ci:build:prod": "NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.config.js --display-error-details",
+    "coverage": "./../../node_modules/.bin/jest --coverage",
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
-    "test": "jest"
+    "test": "./../../node_modules/.bin/jest",
+    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -111,19 +97,5 @@
     "styled-components": "^2.2.3",
     "webpack-bundle-analyzer": "^2.9.1",
     "zxcvbn": "^4.4.2"
-  },
-  "standard": {
-    "globals": [
-      "jest",
-      "test",
-      "describe",
-      "context",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect"
-    ]
   }
 }

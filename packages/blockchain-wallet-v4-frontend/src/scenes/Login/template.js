@@ -7,13 +7,13 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
-import { Form, PasswordBox, TextBox } from 'components/Form'
+import { Form, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 40px;
+  padding: 35px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
@@ -29,7 +29,7 @@ const Footer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 5px 0;
+  margin-top: 15px;
 
   @media(min-width: 768px) {
     flex-direction: row;
@@ -37,11 +37,15 @@ const Footer = styled.div`
     align-items: center;
   }
 `
+const LoginForm = styled(Form)`
+  margin: 20px 0;
+`
 const LoginButton = styled(Button)`
-  margin-top: 20px;
+  margin-top: 15px;
 `
 const LoginTextGroup = styled(TextGroup)`
-  margin: 10px 0px 15px 0px;
+  line-height: 1;
+  margin-top: 3px;
 `
 
 const Login = (props) => {
@@ -55,7 +59,7 @@ const Login = (props) => {
       </Modals>
       <Header>
         <Text size='24px' weight={300} capitalize>
-          <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back !' />
+          <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
         </Text>
         <TextGroup inline>
           <Text size='13px' weight={300}>
@@ -72,40 +76,50 @@ const Login = (props) => {
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
-      <Form onSubmit={onSubmit}>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
-        </Text>
-        <Field name='guid' validate={[required]} component={TextBox} />
-        <LoginTextGroup inline>
-          <Text size='14px' weight={300} altFont>
-            <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
-          </Text>
-          <Text size='14px' weight={300} altFont>
-            <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
-          </Text>
-          <Text size='14px' weight={300} altFont>
-            <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
-          </Text>
-        </LoginTextGroup>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
-        </Text>
-        <Field name='password' validate={[required]} component={PasswordBox} />
-        { authType > 0 &&
-          <Text size='14px' weight={500}>
-            { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
-            { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
-            { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
-          </Text>
-        }
-        { authType > 0 &&
-          <Field name='code' validate={[required]} component={TextBox} />
-        }
-        <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
-        </LoginButton>
-      </Form>
+      <LoginForm override onSubmit={onSubmit}>
+        <FormGroup>
+          <FormItem>
+            <FormLabel for='guid'>
+              <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
+            </FormLabel>
+            <Field name='guid' validate={[required]} component={TextBox} />
+          </FormItem>
+          <LoginTextGroup inline>
+            <Text size='13px' color={'gray-3'} weight={300} altFont>
+              <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
+            </Text>
+            <Text size='13px' color={'gray-3'} weight={300} altFont>
+              <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
+            </Text>
+            <Text size='13px' color={'gray-3'} weight={300} altFont>
+              <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
+            </Text>
+          </LoginTextGroup>
+        </FormGroup>
+        <FormGroup>
+          <FormItem>
+            <FormLabel for='password'>
+              <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
+            </FormLabel>
+            <Field name='password' validate={[required]} component={PasswordBox} />
+          </FormItem>
+          { authType > 0 &&
+            <Text size='14px' weight={500}>
+              { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
+              { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
+              { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
+            </Text>
+          }
+          { authType > 0 &&
+            <Field name='code' validate={[required]} component={TextBox} />
+          }
+        </FormGroup>
+        <FormGroup>
+          <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
+            <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
+          </LoginButton>
+        </FormGroup>
+      </LoginForm>
       <Footer>
         <Link size='13px' weight={300} onClick={handleMobile}>
           <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via mobile' />

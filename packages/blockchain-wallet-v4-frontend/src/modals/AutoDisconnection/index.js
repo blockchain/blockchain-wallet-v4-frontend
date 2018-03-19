@@ -12,6 +12,7 @@ class AutoDisconnectionContainer extends React.Component {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
+    this.timeout = setTimeout(this.onSubmit, 10000)
   }
 
   onSubmit () {
@@ -20,7 +21,8 @@ class AutoDisconnectionContainer extends React.Component {
   }
 
   handleCancel () {
-    this.props.authActions.logoutResetTimer()
+    clearTimeout(this.timeout)
+    this.props.authActions.startLogoutTimer()
     this.props.modalActions.closeModal()
   }
 

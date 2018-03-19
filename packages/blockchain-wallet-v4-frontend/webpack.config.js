@@ -1,13 +1,14 @@
 const Webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 
 const PROD = process.argv.indexOf('-p') !== -1
 const ENV = PROD ? 'production' : 'development'
 
 const PATHS = {
-  build: `${__dirname}/build`,
-  dist: `${__dirname}/dist`,
+  build: `${__dirname}/../../build`,
+  dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`
 }
 
@@ -100,6 +101,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new CaseSensitivePathsPlugin(),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
@@ -108,7 +110,7 @@ module.exports = {
       'process.env': { 'NODE_ENV': JSON.stringify(ENV) }
     }),
     ...(PROD ? [
-      new CleanWebpackPlugin(PATHS.dist),
+      new CleanWebpackPlugin(PATHS.dist, { allowExternal: true }),
       new Webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false

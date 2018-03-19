@@ -9,47 +9,17 @@ import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import Helper from './helpers.js'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from '../styled'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-`
-const ColLeft = styled.div`
-  width: 50%;
-`
-const ColRight = styled.div`
-  width: 50%;
-`
-const InputWrapper = styled.div`
-  width: 80%;
-`
-const PartnerHeader = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-`
-const PartnerSubHeader = styled.div`
-  margin-top: 5px;
-  font-size: 14px;
-`
-const ButtonWrapper = styled.div`
-  margin-top: 25px;
-`
 const AcceptTermsContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 25px;
   font-size: 12px;
   a {
-    color: ${props => props.theme['brand-secondary']}
-  }
-`
-const ErrorWrapper = styled.div`
-  margin-top: 5px;
-  a {
-    cursor: pointer;
     color: ${props => props.theme['brand-secondary']}
   }
 `
@@ -100,22 +70,25 @@ class AcceptTerms extends Component {
           </InputWrapper>
         </ColLeft>
         <ColRight>
-          <ButtonWrapper>
-            <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError}>
+          <ColRightInner>
+            <ButtonWrapper>
+              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError}>
+                {
+                  !busy
+                    ? <span>Continue</span>
+                    : <HeartbeatLoader height='20px' width='20px' color='white' />
+                }
+              </Button>
+            </ButtonWrapper>
+            <ErrorWrapper>
               {
-                !busy
-                  ? <span>Continue</span>
-                  : <HeartbeatLoader height='20px' width='20px' color='white' />
+                signupError && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
+                  <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
+                </Text>
               }
-            </Button>
-          </ButtonWrapper>
-          <ErrorWrapper>
-            {
-              signupError && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
-                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
-              </Text>
-            }
-          </ErrorWrapper>
+            </ErrorWrapper>
+            <Helper />
+          </ColRightInner>
         </ColRight>
       </Form>
     )

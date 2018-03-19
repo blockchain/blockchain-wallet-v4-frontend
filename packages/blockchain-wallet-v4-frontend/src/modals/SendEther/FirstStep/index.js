@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors'

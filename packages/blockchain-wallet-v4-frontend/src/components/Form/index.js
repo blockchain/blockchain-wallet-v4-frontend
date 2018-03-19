@@ -8,6 +8,7 @@ import FiatConvertor from './FiatConvertor'
 import Form from './Form'
 import FormGroup from './FormGroup'
 import FormItem from './FormItem'
+import FormLabel from './FormLabel'
 import NumberBox from './NumberBox'
 import PasswordBox from './PasswordBox'
 import PlaceHolder from './PlaceHolder'
@@ -18,6 +19,7 @@ import SelectBox from './SelectBox'
 import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCoin from './SelectBoxCoin'
+import SelectBoxCountry from './SelectBoxCountry'
 import SelectBoxCurrency from './SelectBoxCurrency'
 import SelectBoxFee from './SelectBoxFee'
 import SelectBoxLanguages from './SelectBoxLanguages'
@@ -39,6 +41,7 @@ export {
   Form,
   FormGroup,
   FormItem,
+  FormLabel,
   NumberBox,
   PasswordBox,
   PlaceHolder,
@@ -49,6 +52,7 @@ export {
   SelectBoxBitcoinAddresses,
   SelectBoxBitcoinUnit,
   SelectBoxCoin,
+  SelectBoxCountry,
   SelectBoxCurrency,
   SelectBoxFee,
   SelectBoxLanguages,
