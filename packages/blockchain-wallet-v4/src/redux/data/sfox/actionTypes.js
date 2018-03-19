@@ -1,8 +1,14 @@
+import { toUpper } from 'ramda'
+
 export const FETCH_QUOTE = '@CORE.FETCH_QUOTE'
 export const FETCH_QUOTE_LOADING = '@CORE.FETCH_QUOTE_LOADING'
 export const FETCH_QUOTE_SUCCESS = '@CORE.FETCH_QUOTE_SUCCESS'
 export const FETCH_QUOTE_FAILURE = '@CORE.FETCH_QUOTE_FAILURE'
-export const CLEAR_QUOTE = '@CORE.SFOX.CLEAR_QUOTE'
+
+export const FETCH_BARE_QUOTE = '@CORE.FETCH_BARE_QUOTE'
+export const FETCH_BARE_QUOTE_LOADING = '@CORE.FETCH_BARE_QUOTE_LOADING'
+export const FETCH_BARE_QUOTE_SUCCESS = '@CORE.FETCH_BARE_QUOTE_SUCCESS'
+export const FETCH_BARE_QUOTE_FAILURE = '@CORE.FETCH_BARE_QUOTE_FAILURE'
 
 export const FETCH_TRADES = '@CORE.FETCH_TRADES'
 export const FETCH_TRADES_LOADING = '@CORE.FETCH_TRADES_LOADING'
@@ -55,3 +61,11 @@ export const RESET_PROFILE = '@CORE.RESET_PROFILE'
 export const GET_DELEGATE_TOKEN_SUCCESS = '@CORE.GET_DELEGATE_TOKEN_SUCCESS'
 
 export const SET_TOKEN = '@CORE.SET_TOKEN'
+
+export const SUBMIT_QUOTE = '@CORE/SFOX.SUBMIT_QUOTE'
+
+export const SUBMIT_TRADE = '@CORE/SFOX.SUBMIT_TRADE'
+
+export const createTradeOutputAction = (code) => '@CORE/SFOX.TRADE_OUTPUT_' + toUpper(code)
+
+export const createTradeInputAction = (code) => '@CORE/SFOX.TRADE_INPUT_' + toUpper(code)

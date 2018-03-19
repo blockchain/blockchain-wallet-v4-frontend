@@ -1,16 +1,11 @@
 import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import { merge, identity } from 'ramda'
+import { merge, toUpper } from 'ramda'
 import FiatConvertor from 'components/Form/FiatConvertor/template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Text } from 'blockchain-info-components'
 import { flex, spacing } from 'services/StyleService'
-
-const toCents = (x) => parseFloat(x) * 100
-// const fromCents = (x) => (x / 100).toString()
-const toSatoshi = (x) => parseFloat(x) * 1e8
-const fromSatoshi = (x) => (x / 1e8).toString()
 
 const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, onChangeLeft, onChangeRight }) => (
   <FiatConvertor
@@ -35,9 +30,9 @@ class QuoteInput extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      side: 'left',
-      left: '0',
-      right: '0'
+      side: 'input',
+      input: '0',
+      output: '0'
     }
     this.fetchQuote = this.fetchQuote.bind(this)
     this.handleChangeLeft = this.handleChangeLeft.bind(this)
@@ -49,33 +44,31 @@ class QuoteInput extends Component {
   }
 
   componentWillReceiveProps (props) {
-    let quoteAmount = props.quoteR.map(q => (q.quoteCurrency === 'USD' ? identity : fromSatoshi)(q.quoteAmount)).getOrElse(0)
-    this.setState({ [this.getQuoteSide()]: quoteAmount })
-  }
-
-  getQuoteSide () {
-    return this.state.side === 'left' ? 'right' : 'left'
+    let changeState = props.quoteR
+      .map(q => ({ input: q.quote_amount, output: q.base_amount }))
+      .getOrElse({})
+    this.setState(changeState)
   }
 
   getQuoteValues () {
     let { spec } = this.props
     let { side } = this.state
-    let convert = side === 'left' ? toCents : toSatoshi
-    let toCurrCode = (c) => c === 'fiat' ? 'USD' : c.toUpperCase()
     return {
-      amt: convert(this.state[side]),
-      baseCurr: toCurrCode(side === 'left' ? spec.input : spec.output),
-      quoteCurr: toCurrCode(side === 'left' ? spec.output : spec.input)
+      action: spec.method,
+      amount: this.state[side],
+      amountCurrency: spec[side],
+      baseCurrency: spec.output,
+      quoteCurrency: spec.input
     }
   }
 
   handleChangeLeft (event) {
-    this.setState({ side: 'left', left: event.target.value })
+    this.setState({ side: 'input', input: event.target.value })
     this.fetchQuoteDebounced()
   }
 
   handleChangeRight (event) {
-    this.setState({ side: 'right', right: event.target.value })
+    this.setState({ side: 'output', output: event.target.value })
     this.fetchQuoteDebounced()
   }
 
@@ -86,17 +79,17 @@ class QuoteInput extends Component {
 
   fetchQuote () {
     let quote = this.getQuoteValues()
-    if (isNaN(quote.amt) || quote.amt <= 0) return
-    this.props.onFetchQuote({ quote: this.getQuoteValues() })
+    if (isNaN(quote.amount) || quote.amount <= 0) return
+    this.props.onFetchQuote(quote)
   }
 
   render () {
     let { spec, quoteR } = this.props
-    let { left, right } = this.state
+    let { input, output } = this.state
 
     let rateView = quoteR.map(q => (
       <Text size='12px' weight={300}>
-        {parseFloat(q.rate).toFixed(2)} {q.quoteCurrency} = 1 {q.baseCurrency}
+        {parseFloat(q.rate).toFixed(2)} {toUpper(q.quote_currency)} = 1 {toUpper(q.base_currency)}
       </Text>
     ))
 
@@ -109,11 +102,11 @@ class QuoteInput extends Component {
           {rateView.getOrElse(null)}
         </div>
         <WrappedFiatConverter
-          leftVal={left}
-          leftUnit={spec.input === 'fiat' ? 'USD' : spec.input.toUpperCase()}
+          leftVal={input}
+          leftUnit={toUpper(spec.input)}
           onChangeLeft={this.handleChangeLeft}
-          rightVal={right}
-          rightUnit={spec.output.toUpperCase()}
+          rightVal={output}
+          rightUnit={toUpper(spec.output)}
           onChangeRight={this.handleChangeRight}
         />
       </div>

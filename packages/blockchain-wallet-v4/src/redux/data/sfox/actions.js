@@ -4,7 +4,6 @@ export const fetchQuote = (data) => ({ type: AT.FETCH_QUOTE, payload: data })
 export const fetchQuoteLoading = () => ({ type: AT.FETCH_QUOTE_LOADING })
 export const fetchQuoteSuccess = (data) => ({ type: AT.FETCH_QUOTE_SUCCESS, payload: data })
 export const fetchQuoteFailure = (error) => ({ type: AT.FETCH_QUOTE_FAILURE, payload: error })
-export const clearQuote = () => ({ type: AT.CLEAR_QUOTE })
 
 export const fetchTrades = (data) => ({ type: AT.FETCH_TRADES, payload: data })
 export const fetchTradesLoading = () => ({ type: AT.FETCH_TRADES_LOADING })
@@ -57,3 +56,32 @@ export const resetProfile = () => ({ type: AT.RESET_PROFILE })
 export const getDelegateTokenSuccess = (token) => ({ type: AT.GET_DELEGATE_TOKEN_SUCCESS, token })
 
 export const setToken = (token) => ({ type: AT.SET_TOKEN, payload: token })
+
+export const fetchBareQuote = ({ action, amount, amountCurrency, baseCurrency, quoteCurrency }) => ({
+  type: AT.FETCH_BARE_QUOTE,
+  payload: { action, amount, amountCurrency, baseCurrency, quoteCurrency }
+})
+
+export const fetchBareQuoteLoading = () => ({ type: AT.FETCH_BARE_QUOTE_LOADING })
+export const fetchBareQuoteSuccess = (quote) => ({ type: AT.FETCH_BARE_QUOTE_SUCCESS, payload: quote })
+export const fetchBareQuoteFailure = (error) => ({ type: AT.FETCH_BARE_QUOTE_FAILURE, payload: error })
+
+export const submitQuote = (quote) => ({
+  type: AT.SUBMIT_QUOTE,
+  payload: quote
+})
+
+export const submitTrade = (trade) => ({
+  type: AT.SUBMIT_TRADE,
+  payload: trade
+})
+
+export const relayToTradeOutput = (payload, outputCode) => ({
+  type: AT.createTradeOutputAction(outputCode),
+  payload
+})
+
+export const relayToTradeInput = (payload, inputCode) => ({
+  type: AT.createTradeInputAction(inputCode),
+  payload
+})

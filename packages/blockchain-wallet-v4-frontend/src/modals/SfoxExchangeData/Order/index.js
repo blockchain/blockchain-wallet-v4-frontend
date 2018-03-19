@@ -29,10 +29,6 @@ class Order extends Component {
     this.handleToggleInfo = this.handleToggleInfo.bind(this)
   }
 
-  componentWillMount () {
-    this.props.sfoxCore.clearQuote()
-  }
-
   isSpecComplete () {
     let { spec } = this.state
     return spec.method && spec.output && spec.input
@@ -70,7 +66,7 @@ class Order extends Component {
             </Subtitle>
             <DecisionForm fiat='USD' spec={spec} onChange={this.handleChangeSpec} />
             {this.isSpecComplete() && (
-              <QuoteInput quoteR={quoteR} spec={spec} debounce={500} onFetchQuote={sfoxCore.fetchQuote} />
+              <QuoteInput quoteR={quoteR} spec={spec} debounce={500} onFetchQuote={sfoxCore.fetchBareQuote} />
             )}
           </ColLeftInner>
         </ColLeft>
@@ -101,7 +97,7 @@ class Order extends Component {
 }
 
 const mapState = (state) => ({
-  quoteR: selectors.core.data.sfox.getQuote(state)
+  quoteR: selectors.core.data.sfox.getBareQuote(state)
 })
 
 const mapDispatch = (dispatch) => ({

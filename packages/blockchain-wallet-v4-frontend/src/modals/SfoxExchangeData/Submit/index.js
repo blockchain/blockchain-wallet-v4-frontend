@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { merge } from 'ramda'
+import { actions, selectors } from 'data'
 import { Row, ColLeft, ColRight, ColLeftInner, Title, Subtitle } from '../styled'
 import { Button, Text } from 'blockchain-info-components'
 import { Faq, FaqHeader, FaqContent } from 'components/FaqItem'
@@ -17,9 +19,11 @@ class Submit extends Component {
       }
     }
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.renderButton = this.renderButton.bind(this)
   }
 
-  handleSubmit () {
+  handleSubmit (quote) {
+    this.props.submitQuote(quote)
   }
 
   handleToggleInfo (name) {
@@ -39,7 +43,16 @@ class Submit extends Component {
     )
   }
 
+  renderButton (quote) {
+    return (
+      <Button nature='primary' fullwidth onClick={() => this.handleSubmit(quote)}>
+        <FormattedMessage id='continue' defaultMessage='Submit' />
+      </Button>
+    )
+  }
+
   render () {
+    let { quoteR } = this.props
     let { info } = this.state
     return (
       <Row>
@@ -61,9 +74,7 @@ class Submit extends Component {
           </ColLeftInner>
         </ColLeft>
         <ColRight>
-          <Button nature='primary' fullwidth onClick={this.handleSubmit}>
-            <FormattedMessage id='continue' defaultMessage='Submit' />
-          </Button>
+          {quoteR.map(this.renderButton).getOrElse(null)}
           <Faq>
             <FaqHeader toggled={info.toggledOrderTime} handleToggle={this.handleToggleInfo('toggledOrderTime')}>
               <FormattedMessage id='placeholder' defaultMessage='How long will the buy order take?' />
@@ -94,4 +105,8 @@ class Submit extends Component {
   }
 }
 
-export default Submit
+const mapState = (state) => ({
+  quoteR: selectors.core.data.sfox.getBareQuote(state)
+})
+
+export default connect(mapState, actions.core.data.sfox)(Submit)

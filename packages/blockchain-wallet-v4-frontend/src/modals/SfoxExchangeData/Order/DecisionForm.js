@@ -10,7 +10,7 @@ const TRANSITION_TIME = '250ms'
 
 const methodOptions = ['buy', 'sell']
 const outputOptions = ['btc', 'eth', 'bch']
-const inputOptions = ['fiat'].concat(outputOptions)
+const inputOptions = ['usd'].concat(outputOptions)
 
 const decisions = {
   buy: (selection, onSelect) => (
@@ -38,9 +38,9 @@ const decisions = {
       <FormattedMessage id='placeholder' defaultMessage='Bitcoin Cash' />
     </SelectBarOption>
   ),
-  fiat: (selection, onSelect, fiat) => (
-    <SelectBarOption key='fiat' id='fiat' selection={selection} onClick={onSelect}>
-      <span>{fiat}</span>
+  usd: (selection, onSelect) => (
+    <SelectBarOption key='usd' id='usd' selection={selection} onClick={onSelect}>
+      <FormattedMessage id='placeholder' defaultMessage='USD' />
     </SelectBarOption>
   )
 }
@@ -70,7 +70,7 @@ class DecisionForm extends Component {
   }
 
   render () {
-    let { fiat, spec } = this.props
+    let { spec } = this.props
     let { method, output, input } = spec
 
     let selections = [
@@ -112,7 +112,7 @@ class DecisionForm extends Component {
           <SelectBar selection={input} timing={TRANSITION_TIME}>
             {inputOptions
                 .filter(input => input !== output)
-                .map(m => decisions[m](input, this.handleSelectFiat, fiat))}
+                .map(m => decisions[m](input, this.handleSelectFiat))}
           </SelectBar>
         </Info>
       )
@@ -123,7 +123,6 @@ class DecisionForm extends Component {
 }
 
 DecisionForm.propTypes = {
-  fiat: PropTypes.string.isRequired,
   spec: PropTypes.shape({
     method: PropTypes.oneOf(methodOptions),
     output: PropTypes.oneOf(outputOptions),
