@@ -21,10 +21,10 @@ stages:
   - name: branch-commit-build
     if: type IN (push) AND NOT branch = master
 
-  - name: coverage-build
+  - name: test-coverage-build
     if: type IN (cron)
 
-  - name: pr-build
+  - name: pull-request-build
     if: type IN (pull_request)
 
   - name: master-commit-build
@@ -34,22 +34,16 @@ jobs:
   include:
     - stage: branch-commit-build
       script:
-        - yarn lint
-        - yarn ci:test
+        - yarn lint && yarn ci:test
 
-    - stage: coverage-build
+    - stage: test-coverage-build
       script:
-        - yarn ci:coverage
-        - ./node_modules/.bin/istanbul-coveralls
+        - yarn ci:coverage && ./node_modules/.bin/istanbul-coveralls
 
-    - stage: pr-build
+    - stage: pull-request-build
       script:
-        - yarn lint
-        - yarn ci:test
-        - yarn ci:build:prod
+        - yarn lint && yarn ci:test && yarn ci:build:prod
 
     - stage: master-commit-build
       script:
-        - yarn lint
-        - yarn ci:test
-        - yarn ci:build:prod
+        - yarn lint && yarn ci:test && yarn ci:build:prod
