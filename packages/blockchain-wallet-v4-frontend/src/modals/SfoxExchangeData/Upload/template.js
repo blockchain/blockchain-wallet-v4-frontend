@@ -2,24 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, IconButton, Link, HeartbeatLoader } from 'blockchain-info-components'
+import { Text, Button, IconButton, Link } from 'blockchain-info-components'
 import { } from 'services/FormHelper'
 import Dropzone from 'react-dropzone'
 
 import CameraContainer from './camera'
 import TitleStrings from './strings'
+import { Row, ColLeft, ColRight } from '../styled'
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-`
-const ColLeft = styled.div`
-  width: 40%;
-`
-const ColRight = styled.div`
-  width: 60%;
-`
 const InputContainer = styled.div`
   border: 1px solid #ebebeb;
   max-height: 360px;

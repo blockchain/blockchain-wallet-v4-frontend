@@ -1,5 +1,4 @@
 import { put, select, throttle } from 'redux-saga/effects'
-import { set } from 'ramda-lens'
 import * as AT from './actionTypes'
 import * as btcActions from '../data/bitcoin/actions'
 import * as bchActions from '../data/bch/actions'

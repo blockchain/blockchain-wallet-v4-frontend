@@ -1,13 +1,9 @@
-# Blockchain Info Components
+# Blockchain-Info-Components
 
-## Commands
+A shared UI components library for blockchain.info applications.
 
-1. `yarn build`: build the release
-2. `yarn watch`: build the release and watch for changes
-3. `yarn storybook`: start the storybook website at http://localhost:6006
-4. `yarn build-storybook`: rebuild the storybook
 
-## Adding Icons
+## Adding New Icons
 
 1. Open an incognito window
 2. Navigate to https://icomoon.io/app/#/select
