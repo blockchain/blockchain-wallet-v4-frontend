@@ -9,7 +9,6 @@ import ui from 'redux-ui'
 class CreateContainer extends Component {
   componentDidMount () {
     if (this.props.emailVerified) this.props.updateUI({ create: 'create_account' })
-    // else if (this.props.emailVerified) this.props.updateUI({ create: 'change_mobile' })
     else this.props.updateUI({ create: 'enter_email_code' })
   }
 
@@ -26,13 +25,11 @@ CreateContainer.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  // smsVerified: selectors.core.settings.getSmsVerified(state).data,
   emailVerified: selectors.core.settings.getEmailVerified(state).data
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  // coinifyFrontendActions: bindActionCreators(actions.modules.coinify, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
