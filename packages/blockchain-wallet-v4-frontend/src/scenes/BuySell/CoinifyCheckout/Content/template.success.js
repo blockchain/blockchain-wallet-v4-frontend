@@ -63,7 +63,9 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  <div>Coinify Success Template</div>
+  return (
+    <div>Coinify Success Template</div>
+  )
   // const { fetchQuote, handleTrade, quote, base, errors, showModal, ...rest } = props
   //
   // const accounts = Remote.of(props.value.accounts).getOrElse([])

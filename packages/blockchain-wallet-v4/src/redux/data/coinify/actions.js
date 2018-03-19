@@ -1,19 +1,19 @@
 import * as AT from './actionTypes'
 
-export const fetchQuote = (data) => ({ type: AT.FETCH_QUOTE, payload: data })
-export const fetchQuoteLoading = () => ({ type: AT.FETCH_QUOTE_LOADING })
-export const fetchQuoteSuccess = (data) => ({ type: AT.FETCH_QUOTE_SUCCESS, payload: data })
-export const fetchQuoteFailure = (error) => ({ type: AT.FETCH_QUOTE_FAILURE, payload: error })
+export const fetchQuote = (data) => ({ type: AT.COINIFY_FETCH_QUOTE, payload: data })
+export const fetchQuoteLoading = () => ({ type: AT.COINIFY_FETCH_QUOTE_LOADING })
+export const fetchQuoteSuccess = (data) => ({ type: AT.COINIFY_FETCH_QUOTE_SUCCESS, payload: data })
+export const fetchQuoteFailure = (error) => ({ type: AT.COINIFY_FETCH_QUOTE_FAILURE, payload: error })
 
 export const fetchTrades = (data) => ({ type: AT.FETCH_TRADES, payload: data })
 export const fetchTradesLoading = () => ({ type: AT.FETCH_TRADES_LOADING })
 export const fetchTradesSuccess = (data) => ({ type: AT.FETCH_TRADES_SUCCESS, payload: data })
 export const fetchTradesFailure = (error) => ({ type: AT.FETCH_TRADES_FAILURE, payload: error })
 
-export const fetchProfile = (data) => ({ type: AT.FETCH_PROFILE, payload: data })
-export const fetchProfileLoading = () => ({ type: AT.FETCH_PROFILE_LOADING })
-export const fetchProfileSuccess = (data) => ({ type: AT.FETCH_PROFILE_SUCCESS, payload: data })
-export const fetchProfileFailure = (error) => ({ type: AT.FETCH_PROFILE_FAILURE, payload: error })
+export const fetchProfile = () => ({ type: AT.COINIFY_FETCH_PROFILE })
+export const fetchProfileLoading = () => ({ type: AT.COINIFY_FETCH_PROFILE_LOADING })
+export const fetchProfileSuccess = (data) => ({ type: AT.COINIFY_FETCH_PROFILE_SUCCESS, payload: data })
+export const fetchProfileFailure = (error) => ({ type: AT.COINIFY_FETCH_PROFILE_FAILURE, payload: error })
 
 export const fetchAccounts = () => ({ type: AT.FETCH_ACCOUNTS, payload: {} })
 export const fetchAccountsLoading = () => ({ type: AT.FETCH_ACCOUNTS_LOADING })

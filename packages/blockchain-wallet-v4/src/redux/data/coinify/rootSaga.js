@@ -6,9 +6,10 @@ import * as buySellA from '../../kvStore/buySell/actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as A from './actions'
-let coinify
 
 export default ({ api, coinifyService } = {}) => {
+  let coinify
+
   const refreshCoinify = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
@@ -27,8 +28,8 @@ export default ({ api, coinifyService } = {}) => {
   const fetchProfile = function * () {
     try {
       yield put(A.fetchProfileLoading())
-      const profile = yield apply(coinify, coinify.fetchProfile)
-      yield put(A.fetchProfileSuccess(profile))
+      yield apply(coinify, coinify.fetchProfile)
+      yield put(A.fetchProfileSuccess(coinify.profile))
     } catch (e) {
       yield put(A.fetchProfileFailure(e))
     }
@@ -37,10 +38,9 @@ export default ({ api, coinifyService } = {}) => {
   const fetchQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
-      const nextAddress = data.payload.nextAddress
-      yield put(A.setNextAddress(nextAddress))
       yield call(refreshCoinify)
       const { amt, baseCurr, quoteCurr } = data.payload.quote
+
       const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurr, quoteCurr])
       yield put(A.fetchQuoteSuccess(quote))
     } catch (e) {
@@ -102,10 +102,10 @@ export default ({ api, coinifyService } = {}) => {
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
-    yield takeLatest(AT.FETCH_PROFILE, fetchProfile)
+    yield takeLatest(AT.COINIFY_FETCH_PROFILE, fetchProfile)
     yield takeLatest(AT.HANDLE_TRADE, handleTrade)
     yield takeLatest(AT.FETCH_TRADES, fetchTrades)
-    yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
+    yield takeLatest(AT.COINIFY_FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
   }

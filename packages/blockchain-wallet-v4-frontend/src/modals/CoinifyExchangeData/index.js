@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import StepIndicator from 'components/StepIndicator'
 import Tray from 'components/Tray'
 import Create from './Create'
+import Payment from './Payment'
 // import Verify from './Verify'
 // import Link from './Link'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
@@ -38,16 +39,18 @@ class SfoxExchangeData extends React.Component {
   }
 
   getStepComponent (step) {
-    return <Create />
-    // switch (step) {
-    //   case 'account': return <Create />
-    //   case 'verify': return <Verify />
-    //   case 'payment': return <Link />
-    //   case 'verified': {
-    //     this.handleClose()
-    //     break
-    //   }
-    // }
+    // return <Create />
+    return <Payment />
+    switch (step) {
+      case 'account': return <Create />
+      case 'payment': return <Payment />
+      // case 'verify': return <Verify />
+      // case 'payment': return <Link />
+      case 'verified': {
+        this.handleClose()
+        break
+      }
+    }
   }
 
   render () {
@@ -73,7 +76,7 @@ SfoxExchangeData.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  // data: getData(state),
+  data: getData(state),
   // signupStep: path(['coinifySignup', 'signupStep'], state)
 })
 
