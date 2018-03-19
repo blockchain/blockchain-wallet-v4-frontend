@@ -16,7 +16,5 @@ export const getData = state => {
   const search = formValueSelector('bitcoinTransaction')(state, 'search') || ''
   const source = formValueSelector('bitcoinTransaction')(state, 'source') || {}
   const transactions = txs.map(map(filterTransactions(status, search)))
-  // TODO: fetch trades here!
-  //const trades = selectors..getOrElse([])
   return { pages: transactions, source: source.address || source.xpub }
 }

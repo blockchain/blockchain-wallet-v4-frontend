@@ -3,7 +3,6 @@ import moment from 'moment'
 import BigNumber from 'bignumber.js'
 
 import EthereumTx from 'ethereumjs-tx'
-import { getHeight } from '../redux/data/ethereum/selectors'
 import { getEthereumTxNote } from '../redux/kvStore/ethereum/selectors.js'
 
 // getType :: TX -> [String] -> String
@@ -44,20 +43,9 @@ export const signTx = (transaction, privateKey) => {
 }
 
 // transformTx :: [String] -> Tx -> ProcessedTx
-export const transformTx = (addresses, state, tx) => {
-  const latestBlockR = getHeight(state)
-  //const conf = latestBlock.map(blockNumber => )
-  //const conf = latestBlock - tx.blockNumber + 1
-  //const confirmations = conf > 0 ? conf : 0
-
-  //conf.getOrElse(-1)
-
-  const confirmationsText = latestBlock
-    .map(blockHeight => blockHeight - tx.blockNumber + 1)
-    .getOrElse()
-
-  console.info(latestBlock, conf, confirmations)
-
+export const transformTx = (addresses, state, latestBlock, tx) => {
+  const conf = latestBlock - tx.blockNumber + 1
+  const confirmations = conf > 0 ? conf : 0
   const formattedDate = time => {
     const date = moment.utc(time * 1000)
 
@@ -72,7 +60,7 @@ export const transformTx = (addresses, state, tx) => {
     amount: parseInt(tx.value),
     to: tx.to,
     from: tx.from,
-    confirmations: 3, //confirmations,
+    confirmations: confirmations,
     fee: new BigNumber(tx.gasPrice).mul(tx.gasUsed || tx.gas).toString(),
     description: getEthereumTxNote(state, tx.hash).data || '',
     time: tx.timeStamp,
