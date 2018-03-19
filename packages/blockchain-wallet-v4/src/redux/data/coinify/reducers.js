@@ -15,22 +15,22 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.FETCH_PROFILE_LOADING: {
+    case AT.COINIFY_FETCH_PROFILE_LOADING: {
       return assoc('profile', Remote.Loading, state)
     }
-    case AT.FETCH_PROFILE_SUCCESS: {
+    case AT.COINIFY_FETCH_PROFILE_SUCCESS: {
       return assoc('profile', Remote.Success(payload), state)
     }
-    case AT.FETCH_PROFILE_FAILURE: {
+    case AT.COINIFY_FETCH_PROFILE_FAILURE: {
       return assoc('profile', Remote.Failure(payload), state)
     }
-    case AT.FETCH_QUOTE_LOADING: {
+    case AT.COINIFY_FETCH_QUOTE_LOADING: {
       return assoc('quote', Remote.Loading, state)
     }
-    case AT.FETCH_QUOTE_SUCCESS: {
+    case AT.COINIFY_FETCH_QUOTE_SUCCESS: {
       return assoc('quote', Remote.Success(payload), state)
     }
-    case AT.FETCH_QUOTE_FAILURE: {
+    case AT.COINIFY_FETCH_QUOTE_FAILURE: {
       return assoc('quote', Remote.Failure(payload), state)
     }
     case AT.FETCH_TRADES_LOADING: {
@@ -106,7 +106,7 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('delegateToken', payload, state)
     }
     case AT.COINIFY_SET_TOKEN: {
-      return assoc('accountToken', payload.token, state)
+      return assoc('offlineToken', payload.token, state)
     }
     default:
       return state

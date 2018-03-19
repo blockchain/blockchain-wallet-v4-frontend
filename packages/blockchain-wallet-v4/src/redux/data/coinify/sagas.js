@@ -23,7 +23,6 @@ export const coinifySaga = ({ api, coinifyService } = {}) => {
 
       yield put(buySellA.coinifySetProfileBuySell(signupResponse))
       yield put(A.coinifySetToken(signupResponse))
-      yield put(A.coinifySignupSuccess(signupResponse))
     } catch (e) {
       yield put(A.coinifySignupFailure(e))
     }
