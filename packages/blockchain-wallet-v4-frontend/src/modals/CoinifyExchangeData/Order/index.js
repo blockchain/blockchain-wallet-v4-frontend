@@ -17,6 +17,7 @@ class OrderContainer extends Component {
   }
   nextStep () {
     this.props.coinifyActions.saveQuote(this.props.quote.data)
+    this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
     this.props.coinifyActions.coinifyNextStep('payment')
   }
 
