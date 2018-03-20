@@ -55,8 +55,16 @@ export const sendShapeshiftDeposit = function * (action) {
     const depositAddress = prop('deposit', order)
     let hashIn = ''
 
-    console.log('sendShapeshiftDeposit', coin, payment, order, depositAddress)
     switch (coin) {
+      case 'BCH': {
+        // const network = settings.NETWORK_BITCOIN
+        // const { selection } = payment
+        // console.log('Saga BCH', network, selection)
+        // const saga = askSecondPasswordEnhancer(sagas.core.data.bch.signAndPublish)
+        // hashIn = yield call(saga, { network, selection })
+        // break
+        throw new Error('Not implemented exception')
+      }
       case 'BTC': {
         const network = settings.NETWORK_BITCOIN
         const { selection } = payment
