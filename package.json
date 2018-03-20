@@ -22,6 +22,7 @@
     "node": ">= 9.5"
   },
   "scripts": {
+    "analyze": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run analyze",
     "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
     "ci:build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run ci:build",
@@ -116,6 +117,7 @@
     "style-loader": "^0.20.3",
     "styled-components": "^2.2.3",
     "webpack": "^4.1.1",
+    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.12",
     "webpack-dev-server": "^3.1.1"
   }
