@@ -5,10 +5,16 @@ import BigNumber from 'bignumber.js'
 
 export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
   const ethAddressesR = selectors.core.data.ethereum.getAddresses(state)
-  const selection = selectors.core.data.bitcoin.getSelection(state)
+  const bchSelection = selectors.core.data.bch.getSelection(state)
+  const btcSelection = selectors.core.data.bitcoin.getSelection(state)
   const nonce = selectors.core.data.ethereum.getNonce(state, prop('address', source)).getOrElse(undefined)
   const gasPrice = prop('priority', ethFee)
   const gasLimit = prop('gasLimit', ethFee)
+
+  const calculateBchFee = selection => {
+    const feeBch = Exchange.convertBchToBch({ value: prop('fee', selection), fromUnit: 'SAT', toUnit: 'BTC' }).value
+    return Remote.of(feeBch)
+  }
 
   const calculateBtcFee = selection => {
     const feeBitcoin = Exchange.convertBitcoinToBitcoin({ value: prop('fee', selection), fromUnit: 'SAT', toUnit: 'BTC' }).value
@@ -26,14 +32,16 @@ export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
 
   const feeR = () => {
     switch (sourceCoin) {
-      case 'BTC': return calculateBtcFee(selection)
+      case 'BCH': return calculateBchFee(bchSelection)
+      case 'BTC': return calculateBtcFee(btcSelection)
       case 'ETH': return calculateEthFee(ethAddressesR)
       default: return 0
     }
   }
 
   return lift((fee) => ({
-    selection,
+    bchSelection,
+    btcSelection,
     gasPrice,
     gasLimit,
     nonce,

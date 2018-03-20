@@ -21,11 +21,19 @@ class FormContainer extends React.Component {
   componentWillMount () {
     // If sourceCoin is BTC, refreshSelection to get final fee
     if (this.props.sourceCoin === 'BTC') {
-      const { sourceAmount, sourceChangeAddress, btcFee, coins, depositAddress } = this.props
+      const { sourceAmount, sourceChangeAddress, btcFee, btcCoins, depositAddress } = this.props
       const feePerByte = btcFee.priority
       const amount = Exchange.convertBitcoinToBitcoin({ value: sourceAmount, fromUnit: 'BTC', toUnit: 'SAT' }).value
-      console.log('refreshSelection', feePerByte, coins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
-      this.props.dataBitcoinActions.refreshSelection(feePerByte, coins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
+      console.log('refreshSelection', feePerByte, btcCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
+      this.props.dataBitcoinActions.refreshSelection(feePerByte, btcCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
+    }
+    // If sourceCoin is BTC, refreshSelection to get final fee
+    if (this.props.sourceCoin === 'BCH') {
+      const { sourceAmount, sourceChangeAddress, bchFee, bchCoins, depositAddress } = this.props
+      const feePerByte = bchFee.priority
+      const amount = Exchange.convertBitcoinToBitcoin({ value: sourceAmount, fromUnit: 'BTC', toUnit: 'SAT' }).value
+      console.log('refreshSelection', feePerByte, bchCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
+      this.props.dataBitcoinActions.refreshSelection(feePerByte, bchCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
     }
   }
 
@@ -33,6 +41,11 @@ class FormContainer extends React.Component {
     e.preventDefault()
     // Submit exchange
     switch (this.props.sourceCoin) {
+      case 'BCH': {
+        const payment = { selection: value.selection }
+        this.props.sendShapeshiftActions.sendShapeshiftDeposit('BCH', payment, this.props.order)
+        break
+      }
       case 'BTC': {
         const payment = { selection: value.selection }
         this.props.sendShapeshiftActions.sendShapeshiftDeposit('BTC', payment, this.props.order)
@@ -82,7 +95,8 @@ class FormContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps.sourceCoin, ownProps.source, ownProps.ethFee, ownProps.depositAmount),
-  coins: selectors.core.data.bitcoin.getCoins(state).getOrElse([])
+  bchCoins: selectors.core.data.bch.getCoins(state).getOrElse([]),
+  btcCoins: selectors.core.data.bitcoin.getCoins(state).getOrElse([])
 })
 
 const mapDispatchToProps = (dispatch) => ({
