@@ -327,11 +327,7 @@ export default ({ api, sfoxService } = {}) => {
     yield takeLatest(AT.createTradeInputAction('USD'), sfoxTradeActorInputUsd)
     yield takeLatest(AT.createTradeInputAction('BTC'), sfoxTradeActorInputBtc)
     yield takeLatest(AT.SUBMIT_TRADE, sfoxSubmitTrade)
-
     yield takeLatest(AT.FETCH_BARE_QUOTE, fetchBareQuote)
-
-    // END TEST
-
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)

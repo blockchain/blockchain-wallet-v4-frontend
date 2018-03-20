@@ -62,10 +62,10 @@ export const GET_DELEGATE_TOKEN_SUCCESS = '@CORE.GET_DELEGATE_TOKEN_SUCCESS'
 
 export const SET_TOKEN = '@CORE.SET_TOKEN'
 
-export const SUBMIT_QUOTE = '@CORE/SFOX.SUBMIT_QUOTE'
+export const SUBMIT_QUOTE = '@CORE.SFOX.SUBMIT_QUOTE'
 
-export const SUBMIT_TRADE = '@CORE/SFOX.SUBMIT_TRADE'
+export const SUBMIT_TRADE = '@CORE.SFOX.SUBMIT_TRADE'
 
-export const createTradeOutputAction = (code) => '@CORE/SFOX.TRADE_OUTPUT_' + toUpper(code)
+export const createTradeOutputAction = (code) => '@CORE.SFOX.TRADE_OUTPUT_' + toUpper(code)
 
-export const createTradeInputAction = (code) => '@CORE/SFOX.TRADE_INPUT_' + toUpper(code)
+export const createTradeInputAction = (code) => '@CORE.SFOX.TRADE_INPUT_' + toUpper(code)
