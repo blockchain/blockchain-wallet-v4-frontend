@@ -5,13 +5,22 @@ export const getData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
   const limits = selectors.core.data.coinify.getLimits(state)
   const level = selectors.core.data.coinify.getLevel(state)
+  const mediums = selectors.core.data.coinify.getMediums(state)
 
-  return lift((profile, limits, level) => ({ profile, limits, level }))(profile, limits, level)
+  return lift((profile, limits, level, mediums) => ({ profile, limits, level, mediums }))(profile, limits, level, mediums)
 }
 
 export const getQuote = (state) => {
   try {
     return selectors.core.data.coinify.getQuote(state).data
+  } catch (e) {
+    return null
+  }
+}
+
+export const getMediums = (state) => {
+  try {
+    return selectors.core.data.coinify.getMediums(state)
   } catch (e) {
     return null
   }

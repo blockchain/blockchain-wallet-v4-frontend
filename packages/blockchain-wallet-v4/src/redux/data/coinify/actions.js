@@ -52,4 +52,6 @@ export const getDelegateTokenSuccess = (token) => ({ type: AT.GET_DELEGATE_TOKEN
 export const coinifySetToken = (token) => ({ type: AT.COINIFY_SET_TOKEN, payload: token })
 
 export const getPaymentMediums = (quote) => ({ type: AT.GET_PAYMENT_MEDIUMS, payload: quote })
+export const getPaymentMediumsLoading = () => ({ type: AT.GET_PAYMENT_MEDIUMS_LOADING })
 export const getPaymentMediumsSuccess = (mediums) => ({ type: AT.GET_PAYMENT_MEDIUMS_SUCCESS, payload: mediums })
+export const getPaymentMediumsFailure = (error) => ({ type: AT.GET_PAYMENT_MEDIUMS_FAILURE, payload: error })

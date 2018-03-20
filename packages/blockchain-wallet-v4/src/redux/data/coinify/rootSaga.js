@@ -105,10 +105,10 @@ export default ({ api, coinifyService } = {}) => {
   const getPaymentMediums = function * (data) {
     const quote = data.payload
     try {
+      yield put(A.getPaymentMediumsLoading())
       const mediums = yield apply(quote, quote.getPaymentMediums)
       yield put(A.getPaymentMediumsSuccess(mediums))
     } catch (e) {
-      console.warn('getPaymentMediums error', e)
       yield put(A.getPaymentMediumsFailure(e))
     }
   }
