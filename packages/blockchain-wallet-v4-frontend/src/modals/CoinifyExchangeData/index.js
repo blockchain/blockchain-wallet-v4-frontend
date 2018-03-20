@@ -8,6 +8,7 @@ import Tray from 'components/Tray'
 import Create from './Create'
 import Order from './Order'
 import Payment from './Payment'
+import Confirm from './Confirm'
 // import Verify from './Verify'
 // import Link from './Link'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
@@ -44,6 +45,7 @@ class SfoxExchangeData extends React.Component {
       case 'account': return <Create />
       case 'order': return <Order />
       case 'payment': return <Payment />
+      case 'confirm': return <Confirm />
       // case 'verify': return <Verify />
       // case 'payment': return <Link />
       case 'verified': {
@@ -71,7 +73,7 @@ class SfoxExchangeData extends React.Component {
 }
 
 SfoxExchangeData.propTypes = {
-  step: PropTypes.oneOf(['account', 'verify', 'order', 'payment']),
+  step: PropTypes.oneOf(['account', 'confirm', 'order', 'payment']),
   close: PropTypes.function
 }
 

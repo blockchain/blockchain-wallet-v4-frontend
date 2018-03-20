@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
 import ui from 'redux-ui'
-import { getData } from './selectors'
+import { getData, getMediums } from './selectors'
 import { path } from 'ramda'
 import Success from './template.success'
 
@@ -20,13 +20,12 @@ class PaymentContainer extends Component {
   }
 
   render () {
-    const { data, mediums } = this.props
-
+    const { data } = this.props
+    console.log('render payment', this.props)
     return data.cata({
       Success: (value) =>
         <Success
           value={value}
-          mediums={mediums}
         />,
       Failure: (msg) => <div>{msg}</div>,
       Loading: () => <div>Loading...</div>,
@@ -44,8 +43,8 @@ PaymentContainer.propTypes = {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  userQuote: path(['coinify', 'quote'], state),
-  mediums: selectors.core.data.coinify.getMediums(state)
+  userQuote: path(['coinify', 'quote'], state)
+  // mediums: getMediums(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

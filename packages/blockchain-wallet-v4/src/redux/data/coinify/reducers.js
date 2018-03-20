@@ -110,8 +110,14 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_SET_TOKEN: {
       return assoc('offlineToken', payload.token, state)
     }
+    case AT.GET_PAYMENT_MEDIUMS_LOADING: {
+      return assoc('mediums', Remote.Loading, state)
+    }
     case AT.GET_PAYMENT_MEDIUMS_SUCCESS: {
-      return assoc('mediums', payload, state)
+      return assoc('mediums', Remote.Success(payload), state)
+    }
+    case AT.GET_PAYMENT_MEDIUMS_FAILURE: {
+      return assoc('mediums', Remote.Failure(payload), state)
     }
     default:
       return state
