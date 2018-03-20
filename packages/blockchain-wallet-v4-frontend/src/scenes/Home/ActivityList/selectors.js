@@ -1,4 +1,4 @@
-import { take, map, sequence, prop, takeLast, curry, compose, descend, sort } from 'ramda'
+import { take, map, sequence, prop, curry, compose, descend, sort } from 'ramda'
 import { selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 
