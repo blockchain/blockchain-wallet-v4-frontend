@@ -38,6 +38,33 @@ export const getPairFromCoin = (sourceCoin, targetCoin) => {
   }
 }
 
+export const getPairFromCoinCamel = (sourceCoin, targetCoin) => {
+  switch (sourceCoin) {
+    case 'BTC': {
+      switch (targetCoin) {
+        case 'ETH': return 'btcEth'
+        case 'BCH': return 'btcBch'
+        default: return ''
+      }
+    }
+    case 'BCH': {
+      switch (targetCoin) {
+        case 'BTC': return 'bchBtc'
+        case 'ETH': return 'bchEth'
+        default: return ''
+      }
+    }
+    case 'ETH': {
+      switch (targetCoin) {
+        case 'BTC': return 'ethBtc'
+        case 'BCH': return 'ethBch'
+        default: return ''
+      }
+    }
+    default: return ''
+  }
+}
+
 export const getCoinFromPair = pair => {
   switch (pair) {
     case 'btc_eth': return { sourceCoin: 'BTC', targetCoin: 'ETH' }

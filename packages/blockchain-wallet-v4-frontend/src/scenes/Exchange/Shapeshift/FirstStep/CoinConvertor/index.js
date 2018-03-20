@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { BigNumber } from 'bignumber.js'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { equals, isNil, path } from 'ramda'
 
@@ -63,7 +64,7 @@ class CoinConvertorContainer extends React.Component {
   }
 
   fetchQuotation (value, isDeposit) {
-    if (!isNil(value)) {
+    if (!isNil(value) && !new BigNumber(value).equals(0)) {
       if (this.timeout) clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
         this.props.dataShapeshiftActions.fetchQuotation(value, this.props.pair, isDeposit)
