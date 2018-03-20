@@ -37,7 +37,7 @@ const Success = props => (
     <Content>
       { (props.activities.length === 0)
         ? <Empty />
-        : props.activities.map((activity, index) => <ListItem action={activity.action} time={activity.time} key={index} />)
+        : props.activities.map((activity, index) => <ListItem action={activity.action} type={activity.type} amount={activity.amount} time={activity.time} coin={activity.coin} key={index} />)
       }
     </Content>
   </Wrapper>
@@ -46,7 +46,10 @@ const Success = props => (
 Success.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
     action: PropTypes.string.isRequired,
-    time: PropTypes.number.isRequired
+    time: PropTypes.number.isRequired,
+    amount: PropTypes.number,
+    type: PropTypes.string,
+    coin: PropTypes.string
   })).isRequired
 }
 
