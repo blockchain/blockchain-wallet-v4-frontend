@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 
 const Payment = (props) => {
-  const { ui, value } = props
+  const { ui, value, getAccounts } = props
   const { profile, limits, level, mediums } = value
 
   return (
@@ -18,7 +18,7 @@ const Payment = (props) => {
         <p>Card</p>
         {mediums.card.name}
         <p>minimumInAmounts in EUR {mediums.card.minimumInAmounts['EUR']}</p>
-
+        <button onClick={() => getAccounts(mediums.card)}>get accounts</button>
       </div>
     </div>
   )

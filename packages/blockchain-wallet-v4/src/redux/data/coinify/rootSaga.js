@@ -113,6 +113,17 @@ export default ({ api, coinifyService } = {}) => {
     }
   }
 
+  const getMediumAccounts = function * (data) {
+    const medium = data.payload
+    try {
+      console.log('getAccounts', data)
+      const account = yield apply(medium, medium.getAccounts)
+      console.log('getAccounts account', account)
+    } catch (e) {
+      console.warn('getAccounts fail', e)
+    }
+  }
+
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
@@ -123,5 +134,6 @@ export default ({ api, coinifyService } = {}) => {
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
     yield takeLatest(AT.GET_PAYMENT_MEDIUMS, getPaymentMediums)
+    yield takeLatest(AT.COINIFY_GET_MEDIUM_ACCOUNTS, getMediumAccounts)
   }
 }

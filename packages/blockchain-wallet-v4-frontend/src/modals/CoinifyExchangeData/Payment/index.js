@@ -11,12 +11,16 @@ import Success from './template.success'
 class PaymentContainer extends Component {
   constructor (props) {
     super(props)
-
+    this.getAccounts = this.getAccounts.bind(this)
     this.state = {}
   }
 
-  componentWillMount () {
-    this.props.coinifyDataActions.getPaymentMediums(this.props.userQuote)
+  componentDidMount () {
+    // this.props.coinifyDataActions.getPaymentMediums(this.props.userQuote)
+  }
+
+  getAccounts (medium) {
+    this.props.coinifyDataActions.getMediumAccounts(medium)
   }
 
   render () {
@@ -26,6 +30,7 @@ class PaymentContainer extends Component {
       Success: (value) =>
         <Success
           value={value}
+          getAccounts={this.getAccounts}
         />,
       Failure: (msg) => <div>{msg}</div>,
       Loading: () => <div>Loading...</div>,
