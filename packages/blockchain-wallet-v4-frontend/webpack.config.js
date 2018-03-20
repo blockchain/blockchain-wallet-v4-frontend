@@ -28,7 +28,7 @@ module.exports = {
   },
   output: {
     path: isProdBuild ? (PATHS.dist) : (PATHS.build),
-    filename: '[name]-[hash].js',
+    chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/'
   },
   resolve: {
@@ -115,15 +115,18 @@ module.exports = {
       new CleanWebpackPlugin(PATHS.dist, {allowExternal: true}),
       new Webpack.LoaderOptionsPlugin({minimize: true, debug: false})
     ] : [
+      new CleanWebpackPlugin(PATHS.build, {allowExternal: true}),
       new Webpack.HotModuleReplacementPlugin()
     ]),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
     namedModules: true,
-    runtimeChunk: false,
     minimize: isProdBuild,
     concatenateModules: isProdBuild,
+    runtimeChunk: {
+      name: 'manifest'
+    },
     splitChunks: {
       cacheGroups: {
         default: {
