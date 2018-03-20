@@ -13,21 +13,21 @@ const PATHS = {
 }
 
 module.exports = {
-  mode: PROD ? 'production' : 'development',
+  mode: ENV,
   entry: {
+    vendor: ['babel-polyfill'],
     app: [
-      'babel-polyfill',
+      PATHS.src + '/index.js',
       ...(PROD ? [] : [
         'react-hot-loader/patch',
         'webpack-dev-server/client?http://localhost:8080',
         'webpack/hot/only-dev-server'
-      ]),
-      PATHS.src + '/index.js'
+      ])
     ]
   },
   output: {
     path: PROD ? (PATHS.dist) : (PATHS.build),
-    filename: 'bundle-[hash].js',
+    filename: '[name].[hash].js',
     publicPath: '/'
   },
   resolve: {
@@ -114,10 +114,29 @@ module.exports = {
       new CleanWebpackPlugin(PATHS.dist, { allowExternal: true }),
       new Webpack.LoaderOptionsPlugin({ minimize: true, debug: false })
     ] : [
-      new Webpack.NamedModulesPlugin(),
       new Webpack.HotModuleReplacementPlugin()
     ])
   ],
+  optimization: {
+    namedModules: true,
+    runtimeChunk: false,
+    splitChunks: {
+      cacheGroups: {
+        default: {
+          chunks: 'initial',
+          name: 'app',
+          priority: -20,
+          reuseExistingChunk: true
+        },
+        vendor: {
+          chunks: 'initial',
+          name: 'vendor',
+          priority: -10,
+          test: /[\\/]node_modules[\\/]/
+        }
+      }
+    }
+  },
   devServer: {
     contentBase: PATHS.src,
     host: 'localhost',
