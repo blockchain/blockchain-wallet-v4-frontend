@@ -64,7 +64,12 @@ const ReasonMsg = props => {
 
 const Success = props => {
   return (
-    <div>Coinify Success Template</div>
+    <div>
+      <p>Coinify Success Template - user has profile</p>
+      <button>Create Buy Trade</button>
+      <button>Create Sell Trade</button>
+      <button onClick={() => props.showModal('CoinifyExchangeData', { step: 'order' })}>open modal at order step</button>
+    </div>
   )
   // const { fetchQuote, handleTrade, quote, base, errors, showModal, ...rest } = props
   //

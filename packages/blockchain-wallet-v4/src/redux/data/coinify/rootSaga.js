@@ -14,7 +14,9 @@ export default ({ api, coinifyService } = {}) => {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    coinify = coinifyService.refresh(value, delegate)
+    coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate])
+    yield apply(coinify, coinify.profile.fetch)
+    yield put(A.fetchProfileSuccess(coinify))
   }
 
   const init = function * () {
@@ -28,7 +30,7 @@ export default ({ api, coinifyService } = {}) => {
   const fetchProfile = function * () {
     try {
       yield put(A.fetchProfileLoading())
-      yield apply(coinify, coinify.fetchProfile)
+      yield apply(coinify, coinify.profile.fetch)
       yield put(A.fetchProfileSuccess(coinify.profile))
     } catch (e) {
       yield put(A.fetchProfileFailure(e))
@@ -38,12 +40,13 @@ export default ({ api, coinifyService } = {}) => {
   const fetchQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
-      yield call(refreshCoinify)
       const { amt, baseCurr, quoteCurr } = data.payload.quote
 
       const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurr, quoteCurr])
+
       yield put(A.fetchQuoteSuccess(quote))
     } catch (e) {
+      console.warn('quote fail', e)
       yield put(A.fetchQuoteFailure(e))
     }
   }
@@ -99,6 +102,17 @@ export default ({ api, coinifyService } = {}) => {
     yield put(A.resetProfile())
   }
 
+  const getPaymentMediums = function * (data) {
+    const quote = data.payload
+    try {
+      const mediums = yield apply(quote, quote.getPaymentMediums)
+      yield put(A.getPaymentMediumsSuccess(mediums))
+    } catch (e) {
+      console.warn('getPaymentMediums error', e)
+      yield put(A.getPaymentMediumsFailure(e))
+    }
+  }
+
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
@@ -108,5 +122,6 @@ export default ({ api, coinifyService } = {}) => {
     yield takeLatest(AT.COINIFY_FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
+    yield takeLatest(AT.GET_PAYMENT_MEDIUMS, getPaymentMediums)
   }
 }

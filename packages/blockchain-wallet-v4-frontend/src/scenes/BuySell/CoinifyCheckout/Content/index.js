@@ -7,9 +7,6 @@ import Success from './template.success'
 
 class Checkout extends React.Component {
   componentWillMount () {
-    // this.props.coinifyDataActions.fetchTrades()
-    this.props.coinifyDataActions.fetchProfile()
-    // this.props.coinifyDataActions.fetchAccounts()
     this.props.coinifyDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'EUR' }})
   }
 
@@ -36,7 +33,7 @@ const mapStateToProps = state => ({
   base: getBase(state),
   data: getData(state),
   quote: getQuote(state),
-  // trades: getTrades(state),
+  trades: getTrades(state),
   errors: getErrors(state)
 })
 

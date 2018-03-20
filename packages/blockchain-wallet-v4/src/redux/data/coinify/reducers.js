@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   trades: Remote.NotAsked,
   profile: Remote.NotAsked,
   accounts: Remote.NotAsked,
+  mediums: Remote.NotAsked,
   nextAddress: null
 }
 
@@ -19,6 +20,7 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('profile', Remote.Loading, state)
     }
     case AT.COINIFY_FETCH_PROFILE_SUCCESS: {
+      console.log('coinify fetch profile success', payload, payload._limits, payload._level, payload._currentLimits)
       return assoc('profile', Remote.Success(payload), state)
     }
     case AT.COINIFY_FETCH_PROFILE_FAILURE: {
@@ -107,6 +109,9 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_SET_TOKEN: {
       return assoc('offlineToken', payload.token, state)
+    }
+    case AT.GET_PAYMENT_MEDIUMS_SUCCESS: {
+      return assoc('mediums', payload, state)
     }
     default:
       return state

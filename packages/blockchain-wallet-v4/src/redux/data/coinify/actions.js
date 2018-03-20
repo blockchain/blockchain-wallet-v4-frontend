@@ -29,10 +29,6 @@ export const setProfile = (data) => ({ type: AT.SET_PROFILE, payload: data })
 export const setProfileSuccess = (data) => ({ type: AT.SET_PROFILE_SUCCESS, payload: data })
 export const setProfileFailure = (error) => ({ type: AT.SET_PROFILE_FAILURE, payload: error })
 
-export const upload = (data) => ({ type: AT.UPLOAD, payload: data })
-export const uploadSuccess = () => ({ type: AT.UPLOAD_SUCCESS })
-export const uploadFailure = (error) => ({ type: AT.UPLOAD_FAILURE, payload: error })
-
 export const getBankAccounts = (token) => ({ type: AT.GET_BANK_ACCOUNTS, payload: token })
 export const getBankAccountsSuccess = (accounts) => ({ type: AT.GET_BANK_ACCOUNTS_SUCCESS, payload: accounts })
 export const getBankAccountsFailure = (error) => ({ type: AT.GET_BANK_ACCOUNTS_FAILURE, payload: error })
@@ -49,10 +45,11 @@ export const signup = () => ({ type: AT.SIGNUP })
 export const coinifySignupSuccess = (data) => ({ type: AT.COINIFY_SIGNUP_SUCCESS, payload: data })
 export const coinifySignupFailure = (error) => ({ type: AT.COINIFY_SIGNUP_FAILURE, payload: error })
 
-export const setNextAddress = (data) => ({ type: AT.SET_NEXT_ADDRESS, payload: data })
-
 export const resetProfile = () => ({ type: AT.RESET_PROFILE })
 
 export const getDelegateTokenSuccess = (token) => ({ type: AT.GET_DELEGATE_TOKEN_SUCCESS, token })
 
 export const coinifySetToken = (token) => ({ type: AT.COINIFY_SET_TOKEN, payload: token })
+
+export const getPaymentMediums = (quote) => ({ type: AT.GET_PAYMENT_MEDIUMS, payload: quote })
+export const getPaymentMediumsSuccess = (mediums) => ({ type: AT.GET_PAYMENT_MEDIUMS_SUCCESS, payload: mediums })

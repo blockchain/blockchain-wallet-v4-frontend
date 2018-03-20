@@ -19,13 +19,13 @@ export const getQuote = (state) => {
   }
 }
 
-// export const getTrades = (state) => {
-//   try {
-//     return selectors.core.data.coinify.getTrades(state).data
-//   } catch (e) {
-//     return null
-//   }
-// }
+export const getTrades = (state) => {
+  try {
+    return selectors.core.data.coinify.getTrades(state).data
+  } catch (e) {
+    return null
+  }
+}
 
 export const getBase = (state) => {
   return state.form.exchangeCheckout && state.form.exchangeCheckout.active

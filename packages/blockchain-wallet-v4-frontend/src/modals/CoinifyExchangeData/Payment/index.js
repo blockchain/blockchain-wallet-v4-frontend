@@ -4,14 +4,34 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
 import ui from 'redux-ui'
+import { getData } from './selectors'
+import { path } from 'ramda'
+import Success from './template.success'
 
 class PaymentContainer extends Component {
-  componentDidMount () {
+  constructor (props) {
+    super(props)
 
+    this.state = {}
+  }
+
+  componentWillMount () {
+    this.props.coinifyDataActions.getPaymentMediums(this.props.userQuote)
   }
 
   render () {
-    return <div>Payment Step</div>
+    const { data, mediums } = this.props
+
+    return data.cata({
+      Success: (value) =>
+        <Success
+          value={value}
+          mediums={mediums}
+        />,
+      Failure: (msg) => <div>{msg}</div>,
+      Loading: () => <div>Loading...</div>,
+      NotAsked: () => <div>Not asked...</div>
+    })
   }
 }
 
@@ -22,19 +42,20 @@ PaymentContainer.propTypes = {
   emailVerified: PropTypes.number.isRequired
 }
 
-// const mapStateToProps = (state) => ({
-//   hello: 'world'
-// })
-//
-// const mapDispatchToProps = (dispatch) => ({
-//   formActions: bindActionCreators(actions.form, dispatch)
-// })
-//
-// const enhance = compose(
-//   connect(mapStateToProps, mapDispatchToProps),
-//   ui({ state: {} })
-// )
-//
-// export default enhance(PaymentContainer)
+const mapStateToProps = (state) => ({
+  data: getData(state),
+  userQuote: path(['coinify', 'quote'], state),
+  mediums: selectors.core.data.coinify.getMediums(state)
+})
 
-export default PaymentContainer
+const mapDispatchToProps = (dispatch) => ({
+  coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: {} })
+)
+
+export default enhance(PaymentContainer)

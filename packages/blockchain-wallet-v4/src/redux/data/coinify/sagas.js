@@ -10,7 +10,9 @@ export const coinifySaga = ({ api, coinifyService } = {}) => {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    const coinify = coinifyService.refresh(value, delegate)
+    let coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate])
+    yield apply(coinify, coinify.profile.fetch)
+    yield put(A.fetchProfileSuccess(coinify))
     return coinify
   }
 
