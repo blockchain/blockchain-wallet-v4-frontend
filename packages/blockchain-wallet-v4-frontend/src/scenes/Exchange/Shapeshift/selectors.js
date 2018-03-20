@@ -23,10 +23,12 @@ export const getData = state => {
   const ethAccountsInfo = selectors.core.common.ethereum.getAccountsInfo(state).getOrElse([])
   const bchHDAccountsInfo = selectors.core.common.bch.getAccountsInfo(state).getOrElse([])
   const bchAddressesInfo = selectors.core.common.bch.getAddressesInfo(state)
-  const bchAccountsInfo = concat(bchHDAccountsInfo, bchAddressesInfo) 
+  const bchAccountsInfo = concat(bchHDAccountsInfo, bchAddressesInfo)
 
+  const defaultBchAccount = head(bchAccountsInfo)
   const defaultBtcAccount = head(btcAccountsInfo)
   const defaultEthAccount = head(ethAccountsInfo)
+
   const currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
   const accounts = formValueSelector('exchange')(state, 'accounts')
   const amount = formValueSelector('exchange')(state, 'amount')
@@ -44,6 +46,7 @@ export const getData = state => {
 
   return {
     defaultAccounts: {
+      BCH: defaultBchAccount,
       BTC: defaultBtcAccount,
       ETH: defaultEthAccount
     },

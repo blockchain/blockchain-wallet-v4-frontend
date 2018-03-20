@@ -28,7 +28,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   const getBchUnspents = (fromAddresses, confirmations = 0) => get({
-    url: rootUrl,
+    url: apiUrl,
     endPoint: 'bch/unspent',
     data: {
       active: fromAddresses.join('|'),
@@ -38,7 +38,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   const pushBchTx = (txHex) => post({
-    url: rootUrl,
+    url: apiUrl,
     endPoint: 'bch/pushtx',
     data: { tx: txHex, format: 'plain' }
   })

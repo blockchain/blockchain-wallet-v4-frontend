@@ -64,6 +64,7 @@ CoinInputContainer.propTypes = {
   coinName: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
   coin: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
+  bchRates: PropTypes.object,
   btcRates: PropTypes.object,
   ethRates: PropTypes.object,
   disabled: PropTypes.bool,

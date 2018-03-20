@@ -46,8 +46,7 @@ Text.defaultProps = {
   capitalize: false,
   italic: false,
   color: 'gray-5',
-  altFont: false,
-  cursor: 'default'
+  altFont: false
 }
 
 export default Text

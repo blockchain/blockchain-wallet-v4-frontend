@@ -28,7 +28,10 @@ class FirstStepContainer extends React.Component {
   componentWillReceiveProps (nextProps) {
     // Update if source account has changed
     if (!equals(this.props.source, nextProps.source)) {
-      // Fetch unspent if coin is BTC
+      // Fetch unspent if coin is BCH or BTC
+      if (equals('BCH', nextProps.sourceCoin)) {
+        this.props.dataBchActions.fetchUnspent(prop('address', nextProps.source) || prop('index', nextProps.source))
+      }
       if (equals('BTC', nextProps.sourceCoin)) {
         this.props.dataBitcoinActions.fetchUnspent(prop('address', nextProps.source) || prop('index', nextProps.source))
       }
@@ -58,7 +61,7 @@ class FirstStepContainer extends React.Component {
     // BTC Calculate effectiveBalance
     if ((equals('BCH', nextProps.sourceCoin) || !equals(this.props.bchFee, nextProps.bchFee)) && Remote.Success.is(nextProps.bchCoins)) {
       const coins = nextProps.bchCoins.getOrElse([])
-      const data = utils.bitcoin.calculateBalanceBitcoin(coins, nextProps.btcFee.priority)
+      const data = utils.bch.calculateBalanceBitcoin(coins, nextProps.bchFee.priority)
       this.setState({ effectiveBalance: data.effectiveBalance })
     }
   }

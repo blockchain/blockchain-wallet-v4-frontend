@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { equals, lift, path } from 'ramda'
+import { lift, path } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import { getPairFromCoin } from 'services/ShapeshiftService'
 import { Remote } from 'blockchain-wallet-v4/src'

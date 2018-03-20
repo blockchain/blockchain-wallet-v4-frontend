@@ -92,7 +92,7 @@ export default ({ api } = {}) => {
       const { source } = action.payload
       yield put(A.fetchUnspentLoading())
       const wrapper = yield select(selectors.wallet.getWrapper)
-      const data = yield call(api.getWalletUnspents, wrapper, source)
+      const data = yield call(api.getWalletBchUnspents, wrapper, source)
       yield put(A.fetchUnspentSuccess(data))
     } catch (e) {
       yield put(A.fetchUnspentSuccess([]))

@@ -11,8 +11,10 @@ export const changeSource = (currentSource, newSource, currentTarget, defaultAcc
 }
 
 export const changeTarget = (currentTarget, newTarget, currentSource, defaultAccounts) => {
+  console.log(currentTarget, newTarget, currentSource, defaultAccounts)
   const currentCoin = prop('coin', currentTarget)
   const newCoin = prop('coin', newTarget)
+  console.log(currentCoin, newCoin)
   if (!equals(currentCoin, newCoin)) {
     const newSource = prop(currentCoin, defaultAccounts)
     return { source: newSource, target: newTarget }
