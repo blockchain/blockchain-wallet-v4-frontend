@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import StepIndicator from 'components/StepIndicator'
 import Tray from 'components/Tray'
 import Create from './Create'
+import Order from './Order'
 import Payment from './Payment'
 // import Verify from './Verify'
 // import Link from './Link'
@@ -39,10 +40,9 @@ class SfoxExchangeData extends React.Component {
   }
 
   getStepComponent (step) {
-    // return <Create />
-    return <Payment />
     switch (step) {
       case 'account': return <Create />
+      case 'order': return <Order />
       case 'payment': return <Payment />
       // case 'verify': return <Verify />
       // case 'payment': return <Link />
@@ -77,7 +77,7 @@ SfoxExchangeData.propTypes = {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  // signupStep: path(['coinifySignup', 'signupStep'], state)
+  signupStep: path(['coinify', 'signupStep'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

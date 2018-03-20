@@ -3,7 +3,7 @@ import { assoc } from 'ramda'
 
 const INITIAL_STATE = []
 
-const coinifySignup = (state = INITIAL_STATE, action) => {
+const coinify = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
@@ -16,9 +16,12 @@ const coinifySignup = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_CLEAR_SIGNUP_ERROR: {
       return assoc('signupError', null, state)
     }
+    case AT.COINIFY_SAVE_QUOTE: {
+      return assoc('quote', payload, state)
+    }
     default:
       return state
   }
 }
 
-export default coinifySignup
+export default coinify

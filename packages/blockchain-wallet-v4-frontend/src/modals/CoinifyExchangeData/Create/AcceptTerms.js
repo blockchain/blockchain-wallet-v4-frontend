@@ -104,7 +104,7 @@ AcceptTerms.propTypes = {
 
 const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).data,
-  signupError: path(['coinifySignup', 'signupError'], state)
+  signupError: path(['coinify', 'signupError'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

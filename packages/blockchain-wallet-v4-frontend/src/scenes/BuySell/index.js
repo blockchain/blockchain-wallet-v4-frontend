@@ -51,7 +51,7 @@ class BuySellContainer extends React.Component {
     if (kvStoreValue.unocoin.token) { // TODO replace token
       return <span>Unocoin</span>
     }
-    if (kvStoreValue.coinify.account_token) {
+    if (kvStoreValue.coinify.offline_token) {
       return <CoinifyCheckout type={type} value={kvStoreValue} />
     }
     return <SelectPartner type={type} value={kvStoreValue} onSubmit={this.onSubmit} {...this.props} />
