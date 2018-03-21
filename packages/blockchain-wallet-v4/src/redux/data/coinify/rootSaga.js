@@ -73,21 +73,21 @@ export default ({ api, coinifyService } = {}) => {
     }
   }
 
-  const handleTrade = function * (data) {
-    try {
-      yield put(A.handleTradeLoading())
-      const quote = data.payload
-      const accounts = yield select(S.getAccounts)
-      const methods = yield apply(quote, quote.getPaymentMediums)
-      const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
-      yield put(A.handleTradeSuccess(trade))
-      yield call(fetchTrades)
-      const trades = yield select(S.getTrades)
-      yield put(buySellA.setTradesBuySell(trades.data))
-    } catch (e) {
-      yield put(A.handleTradeFailure(e))
-    }
-  }
+  // const handleTrade = function * (data) {
+  //   try {
+  //     yield put(A.handleTradeLoading())
+  //     const quote = data.payload
+  //     const accounts = yield select(S.getAccounts)
+  //     const methods = yield apply(quote, quote.getPaymentMediums)
+  //     const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
+  //     yield put(A.handleTradeSuccess(trade))
+  //     yield call(fetchTrades)
+  //     const trades = yield select(S.getTrades)
+  //     yield put(buySellA.setTradesBuySell(trades.data))
+  //   } catch (e) {
+  //     yield put(A.handleTradeFailure(e))
+  //   }
+  // }
 
   const getBankAccounts = function * (data) {
     const token = data.payload
@@ -118,10 +118,21 @@ export default ({ api, coinifyService } = {}) => {
     const medium = data.payload
     try {
       const account = yield apply(medium, medium.getAccounts)
-      console.log('medium account success', account)
       yield put(A.getMediumAccountsSuccess(account))
     } catch (e) {
       yield put(A.getMediumAccountsFailure(e))
+    }
+  }
+
+  const buy = function * (data) {
+    const { quote, medium } = data.payload
+    try {
+      const mediums = yield apply(quote, quote.getPaymentMediums)
+      const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
+      const buyResult = yield apply(accounts[0], accounts[0].buy)
+      console.log('coinify buy result in core', buyResult)
+    } catch (e) {
+      console.warn('buy failed in core', e)
     }
   }
 
@@ -129,12 +140,13 @@ export default ({ api, coinifyService } = {}) => {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.COINIFY_FETCH_PROFILE, fetchProfile)
-    yield takeLatest(AT.HANDLE_TRADE, handleTrade)
+    // yield takeLatest(AT.HANDLE_TRADE, handleTrade)
     yield takeLatest(AT.FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.COINIFY_FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
     yield takeLatest(AT.GET_PAYMENT_MEDIUMS, getPaymentMediums)
     yield takeLatest(AT.COINIFY_GET_MEDIUM_ACCOUNTS, getMediumAccounts)
+    yield takeLatest(AT.COINIFY_BUY, buy)
   }
 }

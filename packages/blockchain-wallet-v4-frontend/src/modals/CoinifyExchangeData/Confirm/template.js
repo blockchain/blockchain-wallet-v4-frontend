@@ -27,7 +27,7 @@ const Confirm = (props) => {
   const { ui, onSubmit, busy, invalid, submitting, quote, medium } = props
   const { quoteAmount, baseAmount, baseCurrency, paymentMediums } = quote
   const { total, fee } = paymentMediums[medium]
-  console.log('Confirm Template', props)
+
   return (
     <Form onSubmit={onSubmit}>
       <ColLeft>

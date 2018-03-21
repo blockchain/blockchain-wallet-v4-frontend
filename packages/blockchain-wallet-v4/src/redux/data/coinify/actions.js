@@ -59,3 +59,5 @@ export const getPaymentMediumsFailure = (error) => ({ type: AT.GET_PAYMENT_MEDIU
 export const getMediumAccounts = (medium) => ({ type: AT.COINIFY_GET_MEDIUM_ACCOUNTS, payload: medium })
 export const getMediumAccountsSuccess = (accounts) => ({ type: AT.COINIFY_GET_MEDIUM_ACCOUNTS_SUCCESS, payload: accounts })
 export const getMediumAccountsFailure = (error) => ({ type: AT.COINIFY_GET_MEDIUM_ACCOUNTS_FAILURE, payload: error })
+
+export const initiateBuy = (data) => ({ type: AT.COINIFY_BUY, payload: data })
