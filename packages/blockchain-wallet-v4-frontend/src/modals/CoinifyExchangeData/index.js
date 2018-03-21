@@ -9,8 +9,6 @@ import Create from './Create'
 import Order from './Order'
 import Payment from './Payment'
 import Confirm from './Confirm'
-// import Verify from './Verify'
-// import Link from './Link'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
@@ -46,12 +44,6 @@ class SfoxExchangeData extends React.Component {
       case 'order': return <Order />
       case 'payment': return <Payment />
       case 'confirm': return <Confirm />
-      // case 'verify': return <Verify />
-      // case 'payment': return <Link />
-      case 'verified': {
-        this.handleClose()
-        break
-      }
     }
   }
 
