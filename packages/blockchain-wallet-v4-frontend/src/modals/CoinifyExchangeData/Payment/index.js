@@ -4,31 +4,46 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
 import ui from 'redux-ui'
-import { getData, getMediums } from './selectors'
+import { getData } from './selectors'
 import { path } from 'ramda'
 import Success from './template.success'
 
 class PaymentContainer extends Component {
   constructor (props) {
     super(props)
-    this.getAccounts = this.getAccounts.bind(this)
+
     this.toConfirmStep = this.toConfirmStep.bind(this)
-    this.state = {}
+    this.onSubmit = this.onSubmit.bind(this)
+    this.handlePaymentClick = this.handlePaymentClick.bind(this)
+
+    this.state = { medium: '' }
   }
 
   toConfirmStep () {
     this.props.coinifyActions.coinifyNextStep('confirm')
   }
 
+  handlePaymentClick (medium) {
+    this.setState({ medium })
+  }
+
+  onSubmit (e) {
+    e.preventDefault()
+    console.log('Payment onSubmit')
+  }
+
   render () {
     const { data } = this.props
-    console.log('render payment', this.props)
+
     return data.cata({
       Success: (value) =>
         <Success
           value={value}
           getAccounts={this.getAccounts}
           toConfirmStep={this.toConfirmStep}
+          onSubmit={this.onSubmit}
+          handlePaymentClick={this.handlePaymentClick}
+          medium={this.state.medium}
         />,
       Failure: (msg) => <div>{msg}</div>,
       Loading: () => <div>Loading...</div>,

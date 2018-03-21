@@ -11,6 +11,7 @@ export default ({ api, coinifyService } = {}) => {
   let coinify
 
   const refreshCoinify = function * () {
+    yield put(A.fetchProfileLoading())
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
