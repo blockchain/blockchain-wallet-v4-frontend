@@ -6,8 +6,9 @@ export const getData = (state) => {
   const limits = selectors.core.data.coinify.getLimits(state)
   const level = selectors.core.data.coinify.getLevel(state)
   const mediums = selectors.core.data.coinify.getMediums(state)
+  const kycs = selectors.core.data.coinify.getKycs(state)
 
-  return lift((profile, limits, level, mediums) => ({ profile, limits, level, mediums }))(profile, limits, level, mediums)
+  return lift((profile, limits, level, mediums, kycs) => ({ profile, limits, level, mediums, kycs }))(profile, limits, level, mediums, kycs)
 }
 
 export const getQuote = (state) => {

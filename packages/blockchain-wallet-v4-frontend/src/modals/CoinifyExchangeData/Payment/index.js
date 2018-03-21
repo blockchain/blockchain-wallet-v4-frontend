@@ -29,11 +29,13 @@ class PaymentContainer extends Component {
 
   onSubmit (e) {
     e.preventDefault()
-    console.log('Payment onSubmit')
+    // TODO save medium in state --> go to confirm step
+    console.log('Payment onSubmit', this.state)
+    this.props.coinifyActions.saveMedium(this.state.medium)
   }
 
   render () {
-    const { data } = this.props
+    const { data, userQuote } = this.props
 
     return data.cata({
       Success: (value) =>
@@ -44,6 +46,7 @@ class PaymentContainer extends Component {
           onSubmit={this.onSubmit}
           handlePaymentClick={this.handlePaymentClick}
           medium={this.state.medium}
+          quote={userQuote}
         />,
       Failure: (msg) => <div>{msg}</div>,
       Loading: () => <div>Loading...</div>,

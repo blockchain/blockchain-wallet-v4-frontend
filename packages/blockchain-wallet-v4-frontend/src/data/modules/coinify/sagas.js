@@ -4,7 +4,6 @@ import * as A from './actions'
 import * as sagas from '../../sagas.js'
 import { actions } from 'data'
 import * as selectors from '../../selectors.js'
-import * as MODALS_ACTIONS from '../../modals/actions'
 
 export const coinifySignup = function * () {
   try {

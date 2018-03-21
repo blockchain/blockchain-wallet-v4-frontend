@@ -9,3 +9,5 @@ export const coinifyNextStep = (step) => ({ type: AT.COINIFY_NEXT_STEP, payload:
 export const coinifyClearSignupError = () => ({ type: AT.COINIFY_CLEAR_SIGNUP_ERROR })
 
 export const saveQuote = (quote) => ({ type: AT.COINIFY_SAVE_QUOTE, payload: quote })
+
+export const saveMedium = (medium) => ({ type: AT.COINIFY_SAVE_MEDIUM, payload: medium })
