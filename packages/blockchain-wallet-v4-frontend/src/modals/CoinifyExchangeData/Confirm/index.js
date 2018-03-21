@@ -4,25 +4,29 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
 import ui from 'redux-ui'
+import { path } from 'ramda'
+import Template from './template'
 
 class ConfirmContainer extends Component {
   constructor (props) {
     super(props)
 
-    this.state = {}
+    this.state = { medium: 'card' }
   }
 
   render () {
-    return (
-      <div>
-        <h3>Confirm Step</h3>
-      </div>
-    )
+    const { ui, userQuote, ...rest } = this.props
+    return <Template
+      {...rest}
+      ui={ui}
+      quote={userQuote}
+      medium={this.state.medium}
+    />
   }
 }
 
 const mapStateToProps = (state) => ({
-  quote: selectors.core.data.coinify.getQuote(state)
+  userQuote: path(['coinify', 'quote'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

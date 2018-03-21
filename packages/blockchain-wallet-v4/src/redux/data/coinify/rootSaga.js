@@ -117,6 +117,7 @@ export default ({ api, coinifyService } = {}) => {
     const medium = data.payload
     try {
       const account = yield apply(medium, medium.getAccounts)
+      console.log('medium account success', account)
       yield put(A.getMediumAccountsSuccess(account))
     } catch (e) {
       yield put(A.getMediumAccountsFailure(e))

@@ -18,3 +18,5 @@ export const getLevel = state => getProfile(state).map(path(['_level']))
 export const getCurrentLimits = state => getProfile(state).map(path(['currentLimits']))
 
 export const getKycs = state => getProfile(state).map(path(['_kycs']))
+
+export const getMediumAccounts = path([dataPath, 'coinify', 'accounts'])

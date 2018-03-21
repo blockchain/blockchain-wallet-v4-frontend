@@ -12,15 +12,12 @@ class PaymentContainer extends Component {
   constructor (props) {
     super(props)
     this.getAccounts = this.getAccounts.bind(this)
+    this.toConfirmStep = this.toConfirmStep.bind(this)
     this.state = {}
   }
 
-  componentDidMount () {
-    // this.props.coinifyDataActions.getPaymentMediums(this.props.userQuote)
-  }
-
-  getAccounts (medium) {
-    this.props.coinifyDataActions.getMediumAccounts(this.props.data.data.mediums.card)
+  toConfirmStep () {
+    this.props.coinifyActions.coinifyNextStep('confirm')
   }
 
   render () {
@@ -31,6 +28,7 @@ class PaymentContainer extends Component {
         <Success
           value={value}
           getAccounts={this.getAccounts}
+          toConfirmStep={this.toConfirmStep}
         />,
       Failure: (msg) => <div>{msg}</div>,
       Loading: () => <div>Loading...</div>,
@@ -49,12 +47,12 @@ PaymentContainer.propTypes = {
 const mapStateToProps = (state) => ({
   data: getData(state),
   userQuote: path(['coinify', 'quote'], state)
-  // mediums: getMediums(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
 const enhance = compose(
