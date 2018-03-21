@@ -103,6 +103,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin([PATHS.dist, PATHS.build], {allowExternal: true}),
     new CaseSensitivePathsPlugin(),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
@@ -111,13 +112,7 @@ module.exports = {
     new Webpack.DefinePlugin({
       'process.env': { 'NODE_ENV': JSON.stringify(buildEnvString) }
     }),
-    ...(isProdBuild ? [
-      new CleanWebpackPlugin(PATHS.dist, {allowExternal: true}),
-      new Webpack.LoaderOptionsPlugin({minimize: true, debug: false})
-    ] : [
-      new CleanWebpackPlugin(PATHS.build, {allowExternal: true}),
-      new Webpack.HotModuleReplacementPlugin()
-    ]),
+    ...(isProdBuild ? [ new Webpack.LoaderOptionsPlugin({minimize: true, debug: false}) ] : [ new Webpack.HotModuleReplacementPlugin() ]),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
@@ -139,7 +134,16 @@ module.exports = {
           chunks: 'initial',
           name: 'vendor',
           priority: -10,
-          test: /[\\/]node_modules[\\/]/
+          test: function (module) {
+            // ensure other packages in mono repo don't get put into vendor bundle
+            // TODO: test this more!
+            return module.resource &&
+              module.resource.indexOf('blockchain-wallet-v4-frontend/src') === -1 &&
+              module.resource.indexOf('node_modules/blockchain-info-components/src') === -1 &&
+              module.resource.indexOf('node_modules/blockchain-wallet-v4/src') === -1 &&
+            module.resource.indexOf('node_modules/blockchain-info-components/lib') === -1 &&
+            module.resource.indexOf('node_modules/blockchain-wallet-v4/lib') === -1
+          }
         }
       }
     }
