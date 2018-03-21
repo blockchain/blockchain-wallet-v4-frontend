@@ -11,7 +11,12 @@ class ConfirmContainer extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { medium: 'card' }
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  onSubmit (e) {
+    e.preventDefault()
+    this.props.coinifyDataActions.initiateBuy({ quote: this.props.userQuote, medium: this.props.medium })
   }
 
   render () {
@@ -20,13 +25,14 @@ class ConfirmContainer extends Component {
       {...rest}
       ui={ui}
       quote={userQuote}
-      medium={this.state.medium}
+      onSubmit={this.onSubmit}
     />
   }
 }
 
 const mapStateToProps = (state) => ({
-  userQuote: path(['coinify', 'quote'], state)
+  userQuote: path(['coinify', 'quote'], state),
+  medium: path(['coinify', 'medium'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

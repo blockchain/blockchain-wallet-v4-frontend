@@ -6,9 +6,9 @@ export const getData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
   // const accounts = selectors.core.data.coinify.getAccounts(state)
   // const verificationStatus = selectors.core.data.coinify.getVerificationStatus(state).data
-  // const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
+  const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
   // return lift((profile, accounts, nextAddress) => ({ profile, accounts, verificationStatus, nextAddress }))(profile, accounts, nextAddress)
-  return lift(profile => ({ profile }))(profile)
+  return lift((profile, nextAddress) => ({ profile, nextAddress }))(profile, nextAddress)
 }
 
 export const getQuote = (state) => {

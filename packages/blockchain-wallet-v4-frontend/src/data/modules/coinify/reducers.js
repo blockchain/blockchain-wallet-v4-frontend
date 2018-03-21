@@ -19,7 +19,7 @@ const coinify = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_SAVE_QUOTE: {
       return assoc('quote', payload, state)
     }
-    case AT.COINIFY_SAVE_MEDIUM: {
+    case AT.COINIFY_SAVE_MEDIUM_SUCCESS: {
       return assoc('medium', payload, state)
     }
     default:

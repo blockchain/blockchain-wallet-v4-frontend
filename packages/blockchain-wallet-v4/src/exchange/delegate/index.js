@@ -1,3 +1,6 @@
+import { selectors } from 'data'
+import settings from 'config'
+
 export class ExchangeDelegate {
   constructor (state, api) {
     this._trades = []
@@ -83,8 +86,9 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
+    const receiveAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, this.state)
     return {
-      receiveAddress: this.state.dataPath.sfox.nextAddress,
+      receiveAddress: receiveAddress,
       commit: (trade) => {}
     }
   }

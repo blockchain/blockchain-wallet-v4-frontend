@@ -11,3 +11,4 @@ export const coinifyClearSignupError = () => ({ type: AT.COINIFY_CLEAR_SIGNUP_ER
 export const saveQuote = (quote) => ({ type: AT.COINIFY_SAVE_QUOTE, payload: quote })
 
 export const saveMedium = (medium) => ({ type: AT.COINIFY_SAVE_MEDIUM, payload: medium })
+export const saveMediumSuccess = (medium) => ({ type: AT.COINIFY_SAVE_MEDIUM_SUCCESS, payload: medium })

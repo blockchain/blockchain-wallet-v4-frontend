@@ -20,6 +20,13 @@ export const coinifySignup = function * () {
   }
 }
 
+export const coinifySaveMedium = function * (data) {
+  const medium = data.payload
+  yield put(A.saveMediumSuccess(medium))
+  yield put(A.coinifyNextStep('confirm'))
+}
+
 export default function * () {
   yield takeLatest(AT.SIGNUP, coinifySignup)
+  yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySaveMedium)
 }
