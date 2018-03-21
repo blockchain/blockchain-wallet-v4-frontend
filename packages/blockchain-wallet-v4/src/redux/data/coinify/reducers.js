@@ -120,10 +120,10 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('mediums', Remote.Failure(payload), state)
     }
     case AT.COINIFY_GET_MEDIUM_ACCOUNTS_SUCCESS: {
-      return assoc('accounts', Remote.Success(payload), state)
+      return assoc('accounts', payload, state)
     }
     case AT.COINIFY_GET_MEDIUM_ACCOUNTS_FAILURE: {
-      return assoc('accounts', Remote.Failure(payload), state)
+      return assoc('accounts', payload, state)
     }
     default:
       return state
