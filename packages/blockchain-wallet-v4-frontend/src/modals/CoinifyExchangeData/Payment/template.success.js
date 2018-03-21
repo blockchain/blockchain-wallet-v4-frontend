@@ -18,7 +18,7 @@ const Payment = (props) => {
         <p>Card</p>
         {mediums.card.name}
         <p>minimumInAmounts in EUR {mediums.card.minimumInAmounts['EUR']}</p>
-        <button onClick={() => getAccounts(mediums.card)}>get accounts</button>
+        <button onClick={getAccounts}>get accounts</button>
       </div>
     </div>
   )

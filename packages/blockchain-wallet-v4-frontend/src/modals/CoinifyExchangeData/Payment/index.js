@@ -20,7 +20,7 @@ class PaymentContainer extends Component {
   }
 
   getAccounts (medium) {
-    this.props.coinifyDataActions.getMediumAccounts(medium)
+    this.props.coinifyDataActions.getMediumAccounts(this.props.data.data.mediums.card)
   }
 
   render () {
