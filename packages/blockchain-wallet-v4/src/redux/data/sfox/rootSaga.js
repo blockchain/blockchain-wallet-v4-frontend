@@ -147,14 +147,14 @@ export default ({ api, sfoxService } = {}) => {
   // TEST
 
   const mockApi = {
-    getPaymentMethod: function * () {
-      console.log('-> Getting payment method...')
-      yield delay(1000)
-      return {
-        'type': 'payment_method',
-        'payment_method_id': 'payment123'
-      }
-    },
+    // getPaymentMethod: function * () {
+    //   console.log('-> Getting payment method...')
+    //   yield delay(1000)
+    //   return {
+    //     'type': 'payment_method',
+    //     'payment_method_id': 'payment123'
+    //   }
+    // },
     submitTrade: function * (data, type) {
       console.log(`-> Creating ${type} trade...`, data)
       yield delay(1000)
@@ -264,7 +264,8 @@ export default ({ api, sfoxService } = {}) => {
     //   'status': 'pending'
     // }
 
-    let destination = yield mockApi.getPaymentMethod()
+    let accounts = yield select(S.getAccounts)
+    let destination = { type: 'payment_method', payment_method_id: accounts[0].id }
     let tradeReq = { quote_id: action.payload.quote_id, destination }
     let tradeResult = yield mockApi.submitTrade(tradeReq, 'sell')
 
@@ -290,8 +291,9 @@ export default ({ api, sfoxService } = {}) => {
     //   "status": "pending"
     // }
 
-    let { payment_method_id } = yield mockApi.getPaymentMethod()
-    let tradeReq = Object.assign({}, action.payload, { payment_method_id })
+    let accounts = yield select(S.getAccounts)
+    let paymentMethodId = accounts[0].id
+    let tradeReq = Object.assign({}, action.payload, { payment_method_id: paymentMethodId })
     let tradeResult = yield mockApi.submitTrade(tradeReq, 'buy')
 
     yield put(A.submitTrade(tradeResult))
