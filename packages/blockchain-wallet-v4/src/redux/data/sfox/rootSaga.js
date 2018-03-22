@@ -2,9 +2,12 @@ import ExchangeDelegate from '../../../exchange/delegate'
 import { delay } from 'redux-saga'
 import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
 import { assoc, compose, where, equals, or, is, converge } from 'ramda'
+import { HDAccount } from '../../../types'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import * as buySellA from '../../kvStore/buySell/actions'
+import * as bitcoinSelectors from '../bitcoin/selectors'
+import * as walletSelectors from '../../wallet/selectors'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as A from './actions'
@@ -194,14 +197,14 @@ export default ({ api, sfoxService } = {}) => {
   // }
 
   const mockWallet = {
-    generateBtcDestination: function * () {
-      console.log('-> Generating bitcoin receive address...')
-      yield delay(1000)
-      return {
-        'type': 'address',
-        'address': '1EyTupDgqm5ETjwTn29QPWCkmTCoEv1WbT'
-      }
-    },
+    // generateBtcDestination: function * () {
+    //   console.log('-> Generating bitcoin receive address...')
+    //   yield delay(1000)
+    //   return {
+    //     'type': 'address',
+    //     'address': '1EyTupDgqm5ETjwTn29QPWCkmTCoEv1WbT'
+    //   }
+    // },
     publishPayment: function * (to) {
       console.log('-> Publishing bitcoin payment...', 'to=', to)
       yield delay(1000)
@@ -209,6 +212,17 @@ export default ({ api, sfoxService } = {}) => {
         success: true
       }
     }
+  }
+
+  const generateBtcDestination = function * () {
+    let defaultAccount = yield select(walletSelectors.getDefaultAccount)
+    let receiveIndexR = yield select(bitcoinSelectors.getReceiveIndex)
+
+    let address = receiveIndexR
+      .map((index) => HDAccount.getReceiveAddrss(defaultAccount, index))
+      .getOrFail(new Error('receive_index_not_found'))
+
+    return { type: 'address', address }
   }
 
   /*
@@ -327,7 +341,7 @@ export default ({ api, sfoxService } = {}) => {
     console.log('-> OUTPUT=BTC')
 
     // Here we generate the bitcoin address to receive to
-    let destination = yield mockWallet.generateBtcDestination()
+    let destination = yield generateBtcDestination()
     let trade = { quote_id: action.payload.quote_id, destination }
 
     yield put(A.relayToTradeInput(trade, action.payload.input))
