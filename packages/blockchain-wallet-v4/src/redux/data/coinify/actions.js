@@ -5,6 +5,11 @@ export const fetchQuoteLoading = () => ({ type: AT.COINIFY_FETCH_QUOTE_LOADING }
 export const fetchQuoteSuccess = (data) => ({ type: AT.COINIFY_FETCH_QUOTE_SUCCESS, payload: data })
 export const fetchQuoteFailure = (error) => ({ type: AT.COINIFY_FETCH_QUOTE_FAILURE, payload: error })
 
+export const fetchRateQuote = (curr) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE, payload: curr })
+export const fetchRateQuoteLoading = () => ({ type: AT.COINIFY_FETCH_RATE_QUOTE_LOADING })
+export const fetchRateQuoteSuccess = (data) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE_SUCCESS, payload: data })
+export const fetchRateQuoteFailure = (error) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE_FAILURE, payload: error })
+
 export const fetchTrades = (data) => ({ type: AT.FETCH_TRADES, payload: data })
 export const fetchTradesLoading = () => ({ type: AT.FETCH_TRADES_LOADING })
 export const fetchTradesSuccess = (data) => ({ type: AT.FETCH_TRADES_SUCCESS, payload: data })
