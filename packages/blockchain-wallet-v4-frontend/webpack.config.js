@@ -136,13 +136,10 @@ module.exports = {
           priority: -10,
           test: function (module) {
             // ensure other packages in mono repo don't get put into vendor bundle
-            // TODO: test this more!
             return module.resource &&
               module.resource.indexOf('blockchain-wallet-v4-frontend/src') === -1 &&
               module.resource.indexOf('node_modules/blockchain-info-components/src') === -1 &&
-              module.resource.indexOf('node_modules/blockchain-wallet-v4/src') === -1 &&
-            module.resource.indexOf('node_modules/blockchain-info-components/lib') === -1 &&
-            module.resource.indexOf('node_modules/blockchain-wallet-v4/lib') === -1
+              module.resource.indexOf('node_modules/blockchain-wallet-v4/src') === -1
           }
         }
       }

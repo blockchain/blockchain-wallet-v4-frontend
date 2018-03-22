@@ -71,7 +71,7 @@
     "moment": "^2.19.2",
     "prop-types": "^15.6.0",
     "qrcode.react": "^0.7.2",
-    "ramda": "^0.25",
+    "ramda": "^0.25.0",
     "react": "^16.1.1",
     "react-animations": "^1.0.0",
     "react-browser-detection": "^1.0.4",
