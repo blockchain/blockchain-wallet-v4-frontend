@@ -42,13 +42,21 @@ export default ({ api, coinifyService } = {}) => {
     try {
       yield put(A.fetchQuoteLoading())
       const { amt, baseCurr, quoteCurr } = data.payload.quote
-
       const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurr, quoteCurr])
-
       yield put(A.fetchQuoteSuccess(quote))
     } catch (e) {
-      console.warn('quote fail', e)
       yield put(A.fetchQuoteFailure(e))
+    }
+  }
+
+  const fetchRateQuote = function * (data) {
+    try {
+      yield put(A.fetchRateQuoteLoading())
+      const quoteCurr = data.payload
+      const quote = yield apply(coinify, coinify.getBuyQuote, [1e8, 'BTC', quoteCurr])
+      yield put(A.fetchRateQuoteSuccess(quote))
+    } catch (e) {
+      yield put(A.fetchRateQuoteFailure(e))
     }
   }
 
@@ -143,6 +151,7 @@ export default ({ api, coinifyService } = {}) => {
     // yield takeLatest(AT.HANDLE_TRADE, handleTrade)
     yield takeLatest(AT.FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.COINIFY_FETCH_QUOTE, fetchQuote)
+    yield takeLatest(AT.COINIFY_FETCH_RATE_QUOTE, fetchRateQuote)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
     yield takeLatest(AT.GET_PAYMENT_MEDIUMS, getPaymentMediums)

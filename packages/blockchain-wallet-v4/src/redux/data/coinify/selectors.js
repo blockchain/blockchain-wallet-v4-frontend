@@ -5,6 +5,8 @@ export const getCoinify = path([dataPath, 'coinify'])
 
 export const getQuote = path([dataPath, 'coinify', 'quote'])
 
+export const getRateQuote = path([dataPath, 'coinify', 'rateQuote'])
+
 export const getTrades = path([dataPath, 'coinify', 'trades'])
 
 export const getProfile = path([dataPath, 'coinify', 'profile'])
