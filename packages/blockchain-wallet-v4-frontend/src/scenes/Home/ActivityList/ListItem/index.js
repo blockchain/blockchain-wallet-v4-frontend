@@ -77,7 +77,7 @@ ActivityListItem.propTypes = {
   time: PropTypes.number.isRequired,
   type: PropTypes.string,
   amount: PropTypes.number,
-  cion: PropTypes.coin
+  coin: PropTypes.string
 }
 
 ActivityListItem.defaultProps = {
