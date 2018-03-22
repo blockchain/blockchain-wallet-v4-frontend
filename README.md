@@ -16,9 +16,9 @@ This repo contains the three codebases/packages listed below that are combined i
 
 
 ## Local Development
-1. Ensure `npm@5` is installed. Node version >= 8.0.0
+1. Ensure Node version >= 8.0 is installed
 2. Ensure `lerna` and `yarn` are installed globally: `npm install -g lerna yarn`
-3. Install and link packages: `yarn && lerna bootstrap`
+3. Install and link packages: `yarn bootstrap`
 4. Start application in dev mode: `yarn start`
 5. The frontend will now be accessible via browser at `localhost:8080`
 
@@ -37,7 +37,7 @@ This repo contains the three codebases/packages listed below that are combined i
 
 
 ## Production Builds
-To build the frontend application for production: `npm run build:prod`
+To build the frontend application for production: `yarn build:prod`
 
 
 ## Code Quality
@@ -100,7 +100,6 @@ Depending upon which coverage report was ran, the results can be found in the fo
  * `coverage/blockchain-info-components/index.html`
  * `coverage/blockchain-wallet-v4/index.html`
  * `coverage/blockchain-wallet-v4-frontend/index.html`
-
 Simply open the `index.html` file in your browser to view.
 
 ### CI Build Vetting
@@ -110,6 +109,10 @@ To run both unit tests and linting, the following commands are available:
  * `yarn vet:core` Lints and unit tests only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn vet:frontend` Lints and unit tests only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
  
+### Bundle Reports
+To visualize and interact with the treemap of the production code bundles files:
+ * `yarn analyze`
+Once completed, a browser will automatically open with the results.
  
 ## Storybook
 [Storybook](https://github.com/storybooks/storybook) is used by the [blockchain-info-components](./packages/blockchain-info-components) package to interactively view, develop and test components.  
