@@ -88,7 +88,7 @@ export class ExchangeDelegate {
   reserveReceiveAddress () {
     const receiveAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, this.state)
     return {
-      receiveAddress: receiveAddress,
+      receiveAddress: receiveAddress.data,
       commit: (trade) => {}
     }
   }
