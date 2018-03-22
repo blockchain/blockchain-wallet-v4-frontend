@@ -41,9 +41,23 @@ export default ({ api, coinifyService } = {}) => {
   const fetchQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
-      const { amt, baseCurr, quoteCurr } = data.payload.quote
-      const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurr, quoteCurr])
+      const { amt, baseCurrency, quoteCurrency } = data.payload
+      const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
+    } catch (e) {
+      yield put(A.fetchQuoteFailure(e))
+    }
+  }
+
+  const fetchQuoteAndMediums = function * (data) {
+    try {
+      const { amt, baseCurrency, quoteCurrency, medium } = data.payload
+      const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurrency, quoteCurrency])
+      const mediums = yield apply(quote, quote.getPaymentMediums)
+      const account = yield apply(mediums[medium], mediums[medium].getAccounts)
+      yield put(A.fetchQuoteSuccess(quote))
+      yield put(A.getPaymentMediumsSuccess(mediums))
+      yield put(A.getMediumAccountsSuccess(account))
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
     }
@@ -157,5 +171,6 @@ export default ({ api, coinifyService } = {}) => {
     yield takeLatest(AT.GET_PAYMENT_MEDIUMS, getPaymentMediums)
     yield takeLatest(AT.COINIFY_GET_MEDIUM_ACCOUNTS, getMediumAccounts)
     yield takeLatest(AT.COINIFY_BUY, buy)
+    yield takeLatest(AT.COINIFY_FETCH_QUOTE_AND_MEDIUMS, fetchQuoteAndMediums)
   }
 }
