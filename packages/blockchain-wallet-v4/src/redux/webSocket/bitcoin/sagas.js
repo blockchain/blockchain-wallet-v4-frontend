@@ -1,4 +1,5 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import { compose } from 'ramda'
 import * as A from '../../actions'
 import * as AT from './actionTypes'
@@ -6,9 +7,11 @@ import { Wrapper } from '../../../types/index'
 import * as walletSelectors from '../../wallet/selectors'
 import { Socket } from '../../../network/index'
 import * as btcActions from '../../data/bitcoin/actions'
+import { actions } from 'data'
 
 export const bitcoinWebSocketSaga = ({ api, socket } = {}) => {
   const send = socket.send.bind(socket)
+  let lastPongTimestamp = 0
 
   const onOpen = function * (action) {
     const subscribeInfo = yield select(walletSelectors.getInitialSocketContext)
@@ -40,13 +43,18 @@ export const bitcoinWebSocketSaga = ({ api, socket } = {}) => {
         yield put(btcActions.fetchTransactions('', true))
         break
       case 'pong':
-        // Do nothing
+        lastPongTimestamp = Date.now()
+        yield call(delay, 120000)
+        if (lastPongTimestamp < Date.now() - 120000) {
+          yield put(A.webSocket.stopSocket())
+          yield put(A.webSocket.startSocket())
+        }
         break
       case 'email_verified':
         yield put(A.settings.setEmailVerified())
         break
       case 'wallet_logout':
-        // WalletStore.sendEvent('wallet_logout', obj.x);
+        yield put(actions.auth.logout())
         break
 
       default:
