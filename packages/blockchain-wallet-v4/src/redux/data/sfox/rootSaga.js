@@ -1,7 +1,7 @@
 import ExchangeDelegate from '../../../exchange/delegate'
 import { delay } from 'redux-saga'
 import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
-import { assoc, compose } from 'ramda'
+import { assoc, compose, where, equals, or, is, converge } from 'ramda'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import * as buySellA from '../../kvStore/buySell/actions'
@@ -81,6 +81,30 @@ export default ({ api, sfoxService } = {}) => {
     }
   }
 
+  const buyShape = where({
+    quote_id: is(String),
+    destination: where({
+      type: equals('address'),
+      address: is(String)
+    }),
+    payment_method_id: is(String)
+  })
+
+  const sellShape = where({
+    quote_id: is(String),
+    destination: where({
+      type: equals('payment_method'),
+      payment_method_id: is(String)
+    })
+  })
+
+  const tradeShape = converge(or, [buyShape, sellShape])
+
+  const submitTrade = function * (trade) {
+    if (!tradeShape(trade)) throw new Error('invalid_trade_shape')
+    return yield call(() => sfox._api.authPOST('transaction', trade))
+  }
+
   const fetchTrades = function * () {
     try {
       yield put(A.fetchTradesLoading())
@@ -146,28 +170,28 @@ export default ({ api, sfoxService } = {}) => {
 
   // TEST
 
-  const mockApi = {
-    // getPaymentMethod: function * () {
-    //   console.log('-> Getting payment method...')
-    //   yield delay(1000)
-    //   return {
-    //     'type': 'payment_method',
-    //     'payment_method_id': 'payment123'
-    //   }
-    // },
-    submitTrade: function * (data, type) {
-      console.log(`-> Creating ${type} trade...`, data)
-      yield delay(1000)
-      return type === 'sell' ? {
-        'transaction_id': '8bc2172a-5b5f-11e6-b9e0-14109fd9ceb9',
-        'address': '3EyTupDgqm5ETjwTn29QPWCkmTCoEv1WbT',
-        'status': 'pending'
-      } : {
-        'transaction_id': 'e8ae8ed9-e7f4-43b3-8d87-417c1f19b0f9',
-        'status': 'pending'
-      }
-    }
-  }
+  // const mockApi = {
+  //   getPaymentMethod: function * () {
+  //     console.log('-> Getting payment method...')
+  //     yield delay(1000)
+  //     return {
+  //       'type': 'payment_method',
+  //       'payment_method_id': 'payment123'
+  //     }
+  //   },
+  //   submitTrade: function * (data, type) {
+  //     console.log(`-> Creating ${type} trade...`, data)
+  //     yield delay(1000)
+  //     return type === 'sell' ? {
+  //       'transaction_id': '8bc2172a-5b5f-11e6-b9e0-14109fd9ceb9',
+  //       'address': '3EyTupDgqm5ETjwTn29QPWCkmTCoEv1WbT',
+  //       'status': 'pending'
+  //     } : {
+  //       'transaction_id': 'e8ae8ed9-e7f4-43b3-8d87-417c1f19b0f9',
+  //       'status': 'pending'
+  //     }
+  //   }
+  // }
 
   const mockWallet = {
     generateBtcDestination: function * () {
@@ -267,7 +291,7 @@ export default ({ api, sfoxService } = {}) => {
     let accounts = yield select(S.getAccounts)
     let destination = { type: 'payment_method', payment_method_id: accounts[0].id }
     let tradeReq = { quote_id: action.payload.quote_id, destination }
-    let tradeResult = yield mockApi.submitTrade(tradeReq, 'sell')
+    let tradeResult = yield submitTrade(tradeReq)
 
     yield put(A.relayToTradeInput(tradeResult, action.payload.input))
   }
@@ -294,7 +318,7 @@ export default ({ api, sfoxService } = {}) => {
     let accounts = yield select(S.getAccounts)
     let paymentMethodId = accounts[0].id
     let tradeReq = Object.assign({}, action.payload, { payment_method_id: paymentMethodId })
-    let tradeResult = yield mockApi.submitTrade(tradeReq, 'buy')
+    let tradeResult = yield submitTrade(tradeReq)
 
     yield put(A.submitTrade(tradeResult))
   }
