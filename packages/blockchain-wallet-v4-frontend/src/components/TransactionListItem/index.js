@@ -10,8 +10,6 @@ class ListItemContainer extends React.Component {
     super(props)
     this.handleCoinToggle = this.handleCoinToggle.bind(this)
     this.handleEditDescription = this.handleEditDescription.bind(this)
-
-    console.info(props.transaction)
   }
 
   handleCoinToggle () {

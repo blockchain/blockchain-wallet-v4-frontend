@@ -11,6 +11,7 @@ export default ({ api } = {}) => {
       yield put(A.fetchDataLoading())
       const { context } = action.payload
       const data = yield call(api.getEthereumData, context)
+      const latestBlock = yield call(api.getEthereumLatestBlock)
       // Accounts treatments
       const finalBalance = sum(values(data).map(obj => obj.balance))
       const totalReceived = sum(values(data).map(obj => obj.totalReceived))
@@ -27,6 +28,7 @@ export default ({ api } = {}) => {
           total_sent: totalSent,
           final_balance: finalBalance
         },
+        latest_block: latestBlock,
         transactions
       }
       yield call(delay, delayAjax)
