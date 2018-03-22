@@ -7,16 +7,9 @@ export const getData = (state) => {
   const level = selectors.core.data.coinify.getLevel(state)
   const mediums = selectors.core.data.coinify.getMediums(state)
   const kycs = selectors.core.data.coinify.getKycs(state)
+  const quote = selectors.core.data.coinify.getQuote(state)
 
-  return lift((profile, limits, level, mediums, kycs) => ({ profile, limits, level, mediums, kycs }))(profile, limits, level, mediums, kycs)
-}
-
-export const getQuote = (state) => {
-  try {
-    return selectors.core.data.coinify.getQuote(state).data
-  } catch (e) {
-    return null
-  }
+  return lift((profile, limits, level, mediums, kycs, quote) => ({ profile, limits, level, mediums, kycs, quote }))(profile, limits, level, mediums, kycs, quote)
 }
 
 export const getMediums = (state) => {

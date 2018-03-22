@@ -13,10 +13,9 @@ class OrderContainer extends Component {
     this.nextStep = this.nextStep.bind(this)
   }
   getBuyQuote () {
-    this.props.coinifyDataActions.fetchQuote({quote: { amt: 15000, baseCurr: 'EUR', quoteCurr: 'BTC' }})
+    this.props.coinifyDataActions.fetchQuote({ amt: 15000, baseCurrency: 'EUR', quoteCurrency: 'BTC' })
   }
   nextStep () {
-    this.props.coinifyActions.saveQuote(this.props.quote.data)
     this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
     this.props.coinifyActions.coinifyNextStep('payment')
   }

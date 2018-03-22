@@ -66,7 +66,11 @@ const Success = props => {
   return (
     <div>
       <p>Coinify Success Template - user has profile</p>
-      <p>Rate: 1 BTC = {props.value.rateQuote.quoteAmount} {props.value.rateQuote.quoteCurrency}</p>
+      {
+        props.rateQuote
+          ? <p>Rate: 1 BTC = {props.rateQuote.quoteAmount} {props.rateQuote.quoteCurrency}</p>
+          : <p>Rate Loading..</p>
+      }
       <button onClick={() => props.showModal('CoinifyExchangeData', { step: 'order' })}>open modal at order step</button>
     </div>
   )

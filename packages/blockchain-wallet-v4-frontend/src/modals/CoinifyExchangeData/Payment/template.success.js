@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 
-import { Button, HeartbeatLoader, Text, Icon } from 'blockchain-info-components'
+import { Button, HeartbeatLoader } from 'blockchain-info-components'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight } from 'components/BuySell/Signup'
 
 import { required } from 'services/FormHelper'
@@ -18,12 +18,11 @@ const PaymentWrapper = styled.div`
 `
 
 const Payment = (props) => {
-  const { ui, value, busy, onSubmit, checked, handlePaymentClick, medium, quote } = props
-  const { profile, limits, level, mediums } = value
+  const { ui, value, busy, onSubmit, checked, handlePaymentClick, medium } = props
+  const { limits, quote } = value
 
   const isChecked = (type) => medium === type
 
-  console.log('payment template', props)
   return (
     <Form onSubmit={onSubmit}>
       <ColLeft>

@@ -11,7 +11,7 @@ class Checkout extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyDataActions } = this.props
+    const { data, modalActions, coinifyDataActions, rateQuote } = this.props
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
 
@@ -20,6 +20,7 @@ class Checkout extends React.Component {
         value={value}
         handleTrade={handleTrade}
         showModal={showModal}
+        rateQuote={rateQuote}
         fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
@@ -32,6 +33,7 @@ class Checkout extends React.Component {
 const mapStateToProps = state => ({
   base: getBase(state),
   data: getData(state),
+  rateQuote: getRateQuote(state),
   trades: getTrades(state),
   errors: getErrors(state)
 })

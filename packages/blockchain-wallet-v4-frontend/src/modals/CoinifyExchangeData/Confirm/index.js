@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 import { actions, selectors } from 'data'
 import ui from 'redux-ui'
 import { path } from 'ramda'
 import Template from './template'
+import { getData, getMediums } from './selectors'
 
 class ConfirmContainer extends Component {
   constructor (props) {
@@ -14,25 +16,52 @@ class ConfirmContainer extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.data.data && this.props.data.data) { // so it doesn't complain when hot reloading
+      if (nextProps.data.data.quote.baseAmount !== this.props.data.data.quote.baseAmount) this.props.updateUI({ editing: false })
+    }
+  }
+
   onSubmit (e) {
     e.preventDefault()
-    this.props.coinifyDataActions.initiateBuy({ quote: this.props.userQuote, medium: this.props.medium })
+    if (this.props.ui.editing) {
+      const { baseCurrency, quoteCurrency } = this.props.data.data.quote
+      const amt = +this.props.editingAmount * 100
+      const medium = this.props.medium
+      this.props.coinifyDataActions.fetchQuoteAndMediums({ amt, baseCurrency, quoteCurrency, medium })
+    } else {
+      // start buy
+      this.props.coinifyDataActions.initiateBuy({ quote: this.props.quote, medium: this.props.medium })
+    }
   }
 
   render () {
-    const { ui, userQuote, ...rest } = this.props
-    return <Template
-      {...rest}
-      ui={ui}
-      quote={userQuote}
-      onSubmit={this.onSubmit}
-    />
+    const { ui, data, medium, editingAmount } = this.props
+
+    return data.cata({
+      Success: (value) =>
+        <Template
+          value={value}
+          ui={ui}
+          medium={medium}
+          // mediums={this.props.mediums}
+          rateQuote={this.props.rateQuote}
+          onSubmit={this.onSubmit}
+          editingAmount={editingAmount}
+          toggleEdit={() => this.props.updateUI({ editing: !this.props.ui.editing })}
+        />,
+      Failure: (msg) => <div>ERROR: {console.warn('ERR', msg)}</div>,
+      Loading: () => <div>Loading...</div>,
+      NotAsked: () => <div>Not asked...</div>
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
-  userQuote: path(['coinify', 'quote'], state),
-  medium: path(['coinify', 'medium'], state)
+  data: getData(state),
+  rateQuote: selectors.core.data.coinify.getRateQuote(state),
+  medium: path(['coinify', 'medium'], state),
+  editingAmount: formValueSelector('coinifyConfirm')(state, 'amount')
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -43,7 +72,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { editing: false } })
+  ui({ state: { editing: false, limitsError: '' } })
 )
 
 export default enhance(ConfirmContainer)

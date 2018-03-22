@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
 import ui from 'redux-ui'
-import { getData } from './selectors'
+import { getData, getQuote } from './selectors'
 import { path } from 'ramda'
 import Success from './template.success'
 
@@ -30,12 +30,11 @@ class PaymentContainer extends Component {
   onSubmit (e) {
     e.preventDefault()
     // TODO save medium in state --> go to confirm step
-    console.log('Payment onSubmit', this.state)
     this.props.coinifyActions.saveMedium(this.state.medium)
   }
 
   render () {
-    const { data, userQuote } = this.props
+    const { data } = this.props
 
     return data.cata({
       Success: (value) =>
@@ -46,9 +45,9 @@ class PaymentContainer extends Component {
           onSubmit={this.onSubmit}
           handlePaymentClick={this.handlePaymentClick}
           medium={this.state.medium}
-          quote={userQuote}
+          quote={this.props.quote}
         />,
-      Failure: (msg) => <div>{msg}</div>,
+      Failure: (msg) => <div>ERROR: {console.warn('ERR', msg)}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>Not asked...</div>
     })
@@ -63,8 +62,7 @@ PaymentContainer.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state),
-  userQuote: path(['coinify', 'quote'], state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

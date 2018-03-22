@@ -40,7 +40,7 @@ export const PartnerHeader = styled.div`
 
 export const PartnerSubHeader = styled.div`
   margin-top: 5px;
-  font-size: 14px;
+  font-size: 16px;
 `
 
 export const ButtonWrapper = styled.div`
