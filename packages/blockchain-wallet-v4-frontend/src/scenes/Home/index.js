@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
-import PriceIndexSeries from './PriceIndexSeries'
+// import PriceIndexSeries from './PriceIndexSeries'
+import PriceIndexSeries from './PriceIndexSeries2'
 import BalancesChartContainer from './BalancesChart'
 
 const Wrapper = styled.section`

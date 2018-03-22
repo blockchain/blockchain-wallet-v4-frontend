@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import { reducer as reduxUiReducer } from 'redux-ui'
 import { reducer as formReducer } from 'redux-form'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
+import * as adapter from 'blockchain-wallet-v4-adapter/src'
 import alertsReducer from './alerts/reducers.js'
 import authReducer from './auth/reducers.js'
 import goalsReducer from './goals/reducers.js'
@@ -14,7 +15,10 @@ import wizardReducer from './wizard/reducers.js'
 import settingsReducer from './modules/settings/reducers.js'
 import sfoxSignupReducer from './modules/sfox/reducers.js'
 
+console.log('adapter', adapter)
+
 const rootReducer = combineReducers({
+  adapter: adapter.rootReducer,
   alerts: alertsReducer,
   auth: authReducer,
   form: formReducer,

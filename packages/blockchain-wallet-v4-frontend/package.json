@@ -61,6 +61,7 @@
     "bitcoinjs-lib": "^3.1.1",
     "blockchain-info-components": "^0.0.1",
     "blockchain-wallet-v4": "^1.0.1",
+    "blockchain-wallet-v4-adapter": "^1.0.1",
     "connected-react-router": "^4.2.3",
     "data.either": "~1.5.1",
     "data.maybe": "^1.2.2",

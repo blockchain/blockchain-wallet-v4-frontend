@@ -4,11 +4,14 @@ import { api } from 'services/ApiService'
 import { socket } from 'services/Socket'
 import { sfoxService } from 'services/SfoxService'
 import { coreSagasFactory, rootSaga } from 'blockchain-wallet-v4/src'
+import * as adapter from 'blockchain-wallet-v4-adapter/src'
 import alerts from './alerts/sagas'
 import auth from './auth/sagas'
 import modules from './modules/sagas'
 import goals from './goals/sagas'
 import wallet from './wallet/sagas'
+
+console.log('rootSaga', rootSaga)
 
 export const sagas = { core: coreSagasFactory({ api, socket, sfoxService }) }
 const coreRootSaga = rootSaga({ api, socket, sfoxService })
@@ -39,6 +42,7 @@ export default function * () {
     fork(wallet),
     fork(sagas.core.webSocket.bitcoin),
     fork(sagas.core.refresh),
-    fork(coreRootSaga)
+    fork(coreRootSaga),
+    fork(adapter.rootSaga)
   ])
 }
