@@ -2,6 +2,7 @@ const Webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const isProdBuild = process.env.NODE_ENV === 'production'
@@ -117,7 +118,23 @@ module.exports = {
   ],
   optimization: {
     namedModules: true,
-    minimize: false, // TODO: fix this!  isProdBuild,
+    minimizer: isProdBuild && [
+      new UglifyJSPlugin({
+        uglifyOptions: {
+          warnings: false,
+          compress: {
+            warnings: false,
+            keep_fnames: true
+          },
+          mangle: {
+            keep_fnames: true
+          },
+          nameCache: null,
+          toplevel: false,
+          ie8: false
+        }
+      })
+    ],
     concatenateModules: isProdBuild,
     runtimeChunk: {
       name: 'manifest'
