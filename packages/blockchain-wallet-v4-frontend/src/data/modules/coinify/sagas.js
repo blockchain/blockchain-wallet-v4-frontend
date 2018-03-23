@@ -29,8 +29,8 @@ export const coinifySaveMedium = function * (data) {
 export const buy = function * (payload) {
   try {
     yield call(sagas.core.data.coinify.buy, payload)
-    yield put(A.coinifyNextStep('isx'))
     yield put(actions.alerts.displaySuccess('Buy trade successfully created!'))
+    yield put(A.coinifyNextStep('isx'))
   } catch (e) {
     yield put(actions.alerts.displayError('Error buying.'))
   }

@@ -23,14 +23,14 @@ class ConfirmContainer extends Component {
 
   onSubmit (e) {
     e.preventDefault()
+    const medium = this.props.medium
     if (this.props.ui.editing) {
       const { baseCurrency, quoteCurrency } = this.props.data.data.quote
       const amt = +this.props.editingAmount * 100
-      const medium = this.props.medium
       this.props.coinifyDataActions.fetchQuoteAndMediums({ amt, baseCurrency, quoteCurrency, medium })
     } else {
-      // start buy
-      this.props.coinifyActions.initiateBuy({ quote: this.props.quote, medium: this.props.medium })
+      const quote = this.props.data.data.quote
+      this.props.coinifyActions.initiateBuy({ quote, medium })
     }
   }
 
