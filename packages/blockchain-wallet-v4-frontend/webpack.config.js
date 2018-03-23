@@ -112,12 +112,12 @@ module.exports = {
     new Webpack.DefinePlugin({
       'process.env': { 'NODE_ENV': JSON.stringify(buildEnvString) }
     }),
-    ...(isProdBuild ? [ new Webpack.LoaderOptionsPlugin({minimize: true, debug: false}) ] : [ new Webpack.HotModuleReplacementPlugin() ]),
+    ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
     namedModules: true,
-    minimize: isProdBuild,
+    minimize: false, // TODO: fix this!  isProdBuild,
     concatenateModules: isProdBuild,
     runtimeChunk: {
       name: 'manifest'
