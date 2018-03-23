@@ -1,7 +1,10 @@
+// @flow
 import { toUpper } from 'ramda'
+import type {ApiContext} from "../index";
 
-export default ({ rootUrl, apiUrl, get, post }) => {
-  const fetchBchData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
+const api = ({ rootUrl, apiUrl, fetchFn }: ApiContext) => {
+  const { get, post, getString, postString } = fetchFn
+  const fetchBchData = (context: any, { n = 50, offset = 0, onlyShow = '' }: any = {}) => post({
     url: apiUrl,
     endPoint: 'bch/multiaddr',
     data: {
@@ -23,7 +26,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { base: 'BCH' }
   })
 
-  const getBchUnspents = (fromAddresses, confirmations = 0) => get({
+  const getBchUnspents = (fromAddresses: string[], confirmations: number = 0) => get({
     url: rootUrl,
     endPoint: 'bch/unspent',
     data: {
@@ -33,13 +36,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     }
   })
 
-  const pushBchTx = (txHex) => post({
+  const pushBchTx = (txHex: string) => postString({
     url: rootUrl,
     endPoint: 'bch/pushtx',
     data: { tx: txHex, format: 'plain' }
   })
 
-  const getBchFiatAtTime = (amount, currency, time) => get({
+  const getBchFiatAtTime = (amount: number, currency: string, time: number) => getString({
     url: apiUrl,
     endPoint: 'frombch',
     data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
@@ -50,7 +53,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'bch/latestblock'
   })
 
-  const getRawTx = (txHex) => get({
+  const getRawTx = (txHex: string) => get({
     url: rootUrl,
     endPoint: 'bch/rawtx/' + txHex
   })
@@ -65,3 +68,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getRawTx
   }
 }
+
+export type BchApi = $Call<typeof api, ApiContext>
+export default api

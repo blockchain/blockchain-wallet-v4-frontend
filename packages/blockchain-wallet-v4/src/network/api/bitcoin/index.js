@@ -1,13 +1,16 @@
+// @flow
 import { toUpper } from 'ramda'
+import type {ApiContext} from '../index';
 
-export default ({ rootUrl, apiUrl, get, post }) => {
+const api = ({ rootUrl, apiUrl, fetchFn }: ApiContext) => {
+  const { get, getString, postString, post } = fetchFn
   const getBitcoinTicker = () => get({
     url: apiUrl,
     endPoint: 'ticker',
     data: { base: 'BTC' }
   })
 
-  const getBitcoinUnspents = (fromAddresses, confirmations = 0) => get({
+  const getBitcoinUnspents = (fromAddresses: string[], confirmations: number = 0) => get({
     url: rootUrl,
     endPoint: 'unspent',
     data: {
@@ -22,13 +25,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'mempool/fees'
   })
 
-  const pushBitcoinTx = (txHex) => post({
+  const pushBitcoinTx = (txHex: string) => postString({
     url: rootUrl,
     endPoint: 'pushtx',
     data: { tx: txHex, format: 'plain' }
   })
 
-  const getBitcoinFiatAtTime = (amount, currency, time) => get({
+  const getBitcoinFiatAtTime = (amount: number, currency: string, time: number) => get({
     url: apiUrl,
     endPoint: 'frombtc',
     data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
@@ -39,12 +42,12 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'latestblock'
   })
 
-  const getRawTx = (txHex) => get({
+  const getRawTx = (txHex: string) => get({
     url: rootUrl,
     endPoint: 'rawtx/' + txHex
   })
 
-  const getBalances = (addresses) => post({
+  const getBalances = (addresses: string[]) => post({
     url: rootUrl,
     endPoint: 'balance',
     data: {
@@ -64,3 +67,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getBalances
   }
 }
+
+export type BitcoinApi = $Call<typeof api, ApiContext>
+export default api

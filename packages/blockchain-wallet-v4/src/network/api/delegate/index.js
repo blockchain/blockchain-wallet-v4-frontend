@@ -1,5 +1,8 @@
-export default ({ rootUrl, apiUrl, get, post }) => {
-  const getTokenForDelegate = (data) => get({
+// @flow
+import type {ApiContext} from "../index";
+
+const api = ({ rootUrl, apiUrl, fetchFn }: ApiContext) => {
+  const getTokenForDelegate = (data: any) => fetchFn.get({
     url: rootUrl,
     endPoint: 'wallet/signed-token',
     data: data
@@ -9,3 +12,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getTokenForDelegate
   }
 }
+
+export type DelegateApi = $Call<typeof api, ApiContext>
+export default api

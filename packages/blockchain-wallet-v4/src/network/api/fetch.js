@@ -1,21 +1,43 @@
+// @flow
 import 'isomorphic-fetch'
-import Promise from 'es6-promise'
 import queryString from 'query-string'
 import { isNil, merge } from 'ramda'
 
-Promise.polyfill()
+interface Converter<T> {
+  convert(value: Response): Promise<T> }
+export const StringConverter : Converter<string> = {
+  convert: (value: Response) => value.text()}
+export const ObjConverter: Converter<Object> = {
+  convert: (value: Response) => value.json()}
+export const ImgConverter: Converter<Blob> = {
+  convert: (value: Response) => value.blob()}
+
+type Method = 'GET' | 'POST'
+export type ContentType = 'application/json' | 'text/plain' | 'image/jpeg' | 'application/x-www-form-urlencoded'
+export type Request = {|
+  url: string,
+  endPoint: string,
+  data?: Object,
+  sessionToken?: ?string,
+  contentType?: ContentType
+|}
+
+export type RequestFn = {|
+  get: (Request) => Promise<Object>,
+  post: (Request) => Promise<Object>,
+  request: <T>(Method, Request, Converter<T>) => Promise<T>,
+  getString: (Request) => Promise<*>,
+  getImage: (Request) => Promise<*>,
+  postString: (Request) => Promise<*>,
+  postImage: (Request) => Promise<*>
+|}
+
+
+// Promise.polyfill()
 
 // checkStatus :: Response -> Promise Response
-const checkStatus = (r) => r.ok ? Promise.resolve(r) : r.text().then(j => Promise.reject(j))
-
-// extractData :: Response -> Promise (JSON | BLOB | TEXT)
-const extractData = (r) => {
-  const responseOfType = (t) => r.headers.get('content-type') && r.headers.get('content-type').indexOf(t) > -1
-  switch (true) {
-    case responseOfType('application/json'): return r.json()
-    case responseOfType('image/jpeg'): return r.blob()
-    default: return r.text()
-  }
+function checkStatus <T>(r: Response): Promise<Response> {
+  return r.ok ? Promise.resolve(r) : r.text().then(j => Promise.reject(j))
 }
 
 const encodeData = (contentType, data) => {
@@ -25,9 +47,12 @@ const encodeData = (contentType, data) => {
   }
 }
 
-export default ({ apiCode }) => {
+export default (apiCode: string): RequestFn => {
   // Generic request object
-  const request = ({ method, url, endPoint, data, sessionToken, contentType = 'application/x-www-form-urlencoded' }) => {
+  const request = <T>(
+    method: Method,
+    { url, endPoint, data, sessionToken, contentType = 'application/x-www-form-urlencoded' }: Request,
+    converter: Converter<T>) : Promise<T> => {
     const defaultHeaders = { 'Content-Type': contentType }
 
     const formEncodedData = encodeData(contentType, { ...data })
@@ -51,17 +76,28 @@ export default ({ apiCode }) => {
       ? `${url}${endPoint}?${formEncodedData}`
       : `${url}${endPoint}`
 
-    return fetch(finalUrl, finalOptions).then(checkStatus).then(extractData)
+    return fetch(finalUrl, finalOptions).then(checkStatus).then(converter.convert)
   }
 
   // Get request
-  const get = ({ url, endPoint, data, sessionToken, contentType }) => request({ method: 'GET', url, endPoint, data, sessionToken, contentType })
+  const getInt = <T>(req: Request, converter: Converter<T>): Promise<T> => request('GET', req, converter)
+  const postInt = <T>(req: Request, converter: Converter<T>): Promise<T> => request('POST', req, converter)
 
-  // Post request
-  const post = ({ url, endPoint, data, sessionToken, contentType }) => request({ method: 'POST', url, endPoint, data, sessionToken, contentType })
+  const get = (req: Request) => getInt(req, ObjConverter)
+  const getString = (req: Request) => getInt(req, StringConverter)
+  const getImage = (req: Request) => getInt(req, ImgConverter)
+
+  const post = (req: Request) => postInt(req, ObjConverter)
+  const postString = (req: Request) => postInt(req, StringConverter)
+  const postImage = (req: Request) => postInt(req, ImgConverter)
 
   return {
     get,
-    post
+    post,
+    request,
+    getString,
+    getImage,
+    postString,
+    postImage
   }
 }
