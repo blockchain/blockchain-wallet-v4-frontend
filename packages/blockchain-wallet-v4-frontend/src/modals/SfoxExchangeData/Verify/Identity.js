@@ -6,8 +6,8 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 
 import { requiredSSN, requiredDOB, normalizeSocialSecurity, normalizeDateOfBirth, ageOverEighteen } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from '../styled'
-import { Helper1, Helper2 } from './helpers.js'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
+import { FAQ1, FAQ2 } from './faq.js'
 
 const LockIcon = styled(Icon)`
   font-size: 24px;
@@ -68,8 +68,8 @@ const Identity = (props) => {
               </Text>
             }
           </ErrorWrapper>
-          <Helper1 />
-          <Helper2 />
+          <FAQ1 />
+          <FAQ2 />
         </ColRightInner>
       </ColRight>
     </Form>
