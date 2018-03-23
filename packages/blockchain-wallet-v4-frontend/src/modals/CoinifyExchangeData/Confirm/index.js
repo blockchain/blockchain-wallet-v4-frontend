@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
@@ -7,7 +6,7 @@ import { actions, selectors } from 'data'
 import ui from 'redux-ui'
 import { path } from 'ramda'
 import Template from './template'
-import { getData, getMediums } from './selectors'
+import { getData } from './selectors'
 
 class ConfirmContainer extends Component {
   constructor (props) {

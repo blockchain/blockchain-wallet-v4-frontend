@@ -2,9 +2,7 @@ import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
-import * as buySellA from '../../kvStore/buySell/actions'
 import * as AT from './actionTypes'
-import * as S from './selectors'
 import * as A from './actions'
 
 export default ({ api, coinifyService } = {}) => {
