@@ -44,7 +44,6 @@ class ConfirmContainer extends Component {
           value={value}
           ui={ui}
           medium={medium}
-          // mediums={this.props.mediums}
           rateQuote={this.props.rateQuote}
           onSubmit={this.onSubmit}
           editingAmount={editingAmount}

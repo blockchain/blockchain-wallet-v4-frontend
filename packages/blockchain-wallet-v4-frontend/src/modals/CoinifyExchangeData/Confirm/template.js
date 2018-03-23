@@ -136,8 +136,8 @@ const Confirm = (props) => {
                 : <HeartbeatLoader height='20px' width='20px' color='white' />
           }
         </Button>
-        {/* <Helper1 />
-        <Helper2 /> */}
+        {/* <FAQ1 />
+        <FAQ2 /> */}
       </ColRight>
     </Form>
   )
