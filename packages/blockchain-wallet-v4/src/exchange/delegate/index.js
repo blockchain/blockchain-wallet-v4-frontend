@@ -1,4 +1,4 @@
-import { bitcoin } from '../../redux/data/selectors'
+import { bitcoin } from '../../redux/common/selectors'
 import Bitcoin from 'bitcoinjs-lib'
 
 export class ExchangeDelegate {
