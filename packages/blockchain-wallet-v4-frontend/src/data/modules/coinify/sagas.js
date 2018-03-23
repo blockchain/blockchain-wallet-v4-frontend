@@ -26,7 +26,18 @@ export const coinifySaveMedium = function * (data) {
   yield put(A.coinifyNextStep('confirm'))
 }
 
+export const buy = function * (payload) {
+  try {
+    yield call(sagas.core.data.coinify.buy, payload)
+    yield put(A.coinifyNextStep('isx'))
+    yield put(actions.alerts.displaySuccess('Buy trade successfully created!'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Error buying.'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.SIGNUP, coinifySignup)
   yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySaveMedium)
+  yield takeLatest(AT.COINIFY_BUY, buy)
 }

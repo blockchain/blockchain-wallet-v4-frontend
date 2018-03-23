@@ -9,10 +9,10 @@ import Create from './Create'
 import Order from './Order'
 import Payment from './Payment'
 import Confirm from './Confirm'
+import ISignThis from './ISignThis'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
-import { actions } from 'data'
 import { path } from 'ramda'
 
 class SfoxExchangeData extends React.Component {
@@ -44,6 +44,7 @@ class SfoxExchangeData extends React.Component {
       case 'order': return <Order />
       case 'payment': return <Payment />
       case 'confirm': return <Confirm />
+      case 'isx': return <ISignThis />
     }
   }
 

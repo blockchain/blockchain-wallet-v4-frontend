@@ -8,6 +8,7 @@ import Success from './template.success'
 class Checkout extends React.Component {
   componentWillMount () {
     this.props.coinifyDataActions.fetchRateQuote('EUR') // only pass quoteCurr as amt and base will always ben 1e8 and "BTC"
+    this.props.coinifyDataActions.fetchTrades()
   }
 
   render () {

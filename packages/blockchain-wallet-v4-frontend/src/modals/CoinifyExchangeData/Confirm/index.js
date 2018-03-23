@@ -31,7 +31,7 @@ class ConfirmContainer extends Component {
       this.props.coinifyDataActions.fetchQuoteAndMediums({ amt, baseCurrency, quoteCurrency, medium })
     } else {
       // start buy
-      this.props.coinifyDataActions.initiateBuy({ quote: this.props.quote, medium: this.props.medium })
+      this.props.coinifyActions.initiateBuy({ quote: this.props.quote, medium: this.props.medium })
     }
   }
 
