@@ -1,5 +1,5 @@
-import { selectors } from 'data'
-import settings from 'config'
+import { bitcoin } from '../../redux/data/selectors'
+import Bitcoin from 'bitcoinjs-lib'
 
 export class ExchangeDelegate {
   constructor (state, api) {
@@ -86,7 +86,7 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
-    const receiveAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, this.state)
+    const receiveAddress = bitcoin.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, 0, this.state)
     return {
       receiveAddress: receiveAddress.data,
       commit: (trade) => {}
