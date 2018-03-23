@@ -31,6 +31,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+      'adapter': PATHS.src + '/adapter',
       'img': PATHS.src + '/assets/img',
       'locales': PATHS.src + '/assets/locales',
       'sass': PATHS.src + '/assets/sass',

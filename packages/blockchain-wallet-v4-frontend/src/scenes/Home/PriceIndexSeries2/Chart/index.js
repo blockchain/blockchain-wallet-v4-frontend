@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'blockchain-wallet-v4-adapter/src'
+import { actions, selectors } from 'adapter'
 import { getConfig } from './services'
 import Error from './template.error'
 import Loading from './template.loading'

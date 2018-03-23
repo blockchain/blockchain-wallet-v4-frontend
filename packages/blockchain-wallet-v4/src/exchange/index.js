@@ -17,9 +17,80 @@ const DefaultConversion = {
 
 const DefaultDisplay = 'N/A'
 
+const selectCurrency = currency => {
+  switch (currency) {
+    case 'BCH': return BCH
+    case 'BTC': return BTC
+    case 'ETH': return ETH
+  }
+}
+
+const transformFiatToCoin = (value, fromCurrency, toCoin, toUnit, rates) => {
+  const cur = selectCurrency(toCoin)
+  const pairs = Pairs.create(cur.code, rates)
+  const sourceCurrency = prop(fromCurrency, Currencies)
+  const sourceCurrencyCode = prop('code', sourceCurrency)
+  const sourceCurrencyUnit = path(['units', sourceCurrencyCode], sourceCurrency)
+  const targetUnit = path(['units', toUnit], cur)
+  return Currency
+    .fromUnit({ value: value, unit: sourceCurrencyUnit })
+    .chain(Currency.convert(pairs, cur))
+    .chain(Currency.toUnit(targetUnit))
+}
+
+const transformCoinToFiat = (value, fromCoin, fromUnit, toCurrency, rates) => {
+  const cur = selectCurrency(fromCoin)
+  const pairs = Pairs.create(cur.code, rates)
+  const targetCurrency = prop(toCurrency, Currencies)
+  const targetCurrencyCode = prop('code', targetCurrency)
+  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
+  const sourceUnit = path(['units', fromUnit], cur)
+  return Currency
+    .fromUnit({ value, unit: sourceUnit })
+    .chain(Currency.convert(pairs, targetCurrency))
+    .chain(Currency.toUnit(targetCurrencyUnit))
+}
+
+const transformCoinToCoin = (value, coin, fromUnit, toUnit) => {
+  const cur = selectCurrency(coin)
+  const sourceUnit = path(['units', fromUnit], cur)
+  const targetUnit = path(['units', toUnit], cur)
+  console.log('sourceUnit', sourceUnit)
+  console.log('targetUnit', targetUnit)
+  return Currency
+    .fromUnit({ value, unit: sourceUnit })
+    .chain(Currency.toUnit(targetUnit))
+}
+
+const convertFiatToCoin = (value, fromCurrency, toCoin, toUnit, rates) => {
+  return transformFiatToCoin(value, fromCurrency, toCoin, toUnit, rates).getOrElse(DefaultConversion)
+}
+
+const convertCoinToFiat = (value, fromCoin, fromUnit, toCurrency, rates) => {
+  return transformCoinToFiat(value, fromCoin, fromUnit, toCurrency, rates).getOrElse(DefaultConversion)
+}
+
+const convertCoinToCoin2 = (value, coin, baseToStandard) => {
+  switch (coin) {
+    case 'BTC': return baseToStandard
+      ? transformCoinToCoin(value, 'BTC', 'SAT', 'BTC').getOrElse(DefaultConversion)
+      : transformCoinToCoin(value, 'BTC', 'BTC', 'SAT').getOrElse(DefaultConversion)
+    case 'ETH': return baseToStandard
+      ? transformCoinToCoin(value, 'ETH', 'WEI', 'ETH').getOrElse(DefaultConversion)
+      : transformCoinToCoin(value, 'ETH', 'ETH', 'WEI').getOrElse(DefaultConversion)
+    case 'BCH': return baseToStandard
+      ? transformCoinToCoin(value, 'BCH', 'SAT', 'BCH').getOrElse(DefaultConversion)
+      : transformCoinToCoin(value, 'BCH', 'BCH', 'SAT').getOrElse(DefaultConversion)
+  }
+}
+
+
 // =====================================================================
 // ============================ CALCULATION ============================
 // =====================================================================
+
+
+
 const transformFiatToBitcoin = ({ value, fromCurrency, toUnit, rates }) => {
   const pairs = Pairs.create(BTC.code, rates)
   const sourceCurrency = prop(fromCurrency, Currencies)
@@ -55,6 +126,22 @@ const transformEtherToBitcoin = ({ value, fromUnit, toUnit, rate, reverse }) => 
   const sourceUnit = path(['units', fromUnit], ETH)
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convertWithRate(BTC, rate, reverse))
+    .chain(Currency.toUnit(targetUnit))
+}
+
+const transformBchToEther = ({ value, fromUnit, toUnit, rate, reverse }) => {
+  const targetUnit = path(['units', toUnit], ETH)
+  const sourceUnit = path(['units', fromUnit], BCH)
+  return Currency.fromUnit({ value, unit: sourceUnit })
+    .chain(Currency.convertWithRate(ETH, rate, reverse))
+    .chain(Currency.toUnit(targetUnit))
+}
+
+const transformEtherToBch = ({ value, fromUnit, toUnit, rate, reverse }) => {
+  const targetUnit = path(['units', toUnit], BCH)
+  const sourceUnit = path(['units', fromUnit], ETH)
+  return Currency.fromUnit({ value, unit: sourceUnit })
+    .chain(Currency.convertWithRate(BCH, rate, reverse))
     .chain(Currency.toUnit(targetUnit))
 }
 
@@ -169,6 +256,14 @@ const convertBitcoinToEther = ({ value, fromUnit, toUnit, rate, reverse }) => {
 
 const convertEtherToBitcoin = ({ value, fromUnit, toUnit, rate, reverse }) => {
   return transformEtherToBitcoin({ value, fromUnit, toUnit, rate, reverse }).getOrElse(DefaultConversion)
+}
+
+const convertBchToEther = ({ value, fromUnit, toUnit, rate, reverse }) => {
+  return transformBchToEther({ value, fromUnit, toUnit, rate, reverse }).getOrElse(DefaultConversion)
+}
+
+const convertEtherToBch = ({ value, fromUnit, toUnit, rate, reverse }) => {
+  return transformEtherToBch({ value, fromUnit, toUnit, rate, reverse }).getOrElse(DefaultConversion)
 }
 
 const convertFiatToBch = ({ value, fromCurrency, toUnit, rates }) => {
@@ -303,9 +398,11 @@ export {
   convertEtherToEther,
   convertBitcoinToEther,
   convertEtherToBitcoin,
+  convertEtherToBch,
   convertFiatToBch,
   convertBchToFiat,
   convertBchToBch,
+  convertBchToEther,
   convertBitcoinToBch,
   convertBchToBitcoin,
   convertCoinToCoin,
@@ -325,5 +422,9 @@ export {
   displayCoinToCoin,
   displayCoinToFiat,
   displayFiatToFiat,
-  getSymbol
+  getSymbol,
+ 
+  convertFiatToCoin,
+  convertCoinToFiat,
+  convertCoinToCoin2
 }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
 
-import { selectors, actions } from 'blockchain-wallet-v4-adapter/src'
+import { selectors, actions } from 'adapter'
 import { Text } from 'blockchain-info-components'
 import { selectTimeStyle } from './services'
 

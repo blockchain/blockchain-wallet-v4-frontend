@@ -25,7 +25,7 @@ class Chart extends React.Component {
   render () {
     return (
       <Wrapper>
-        <ReactHighcharts config={this.state.config} domProps={{ width: '300px' }} isPureConfig />
+        <ReactHighcharts config={this.state.config} isPureConfig />
       </Wrapper>
     )
   }

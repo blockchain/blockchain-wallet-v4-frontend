@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'blockchain-wallet-v4-adapter/src'
+import { actions, selectors } from 'adapter'
 import CoinTicker from './CoinTicker'
 
 const Wrapper = styled.div`

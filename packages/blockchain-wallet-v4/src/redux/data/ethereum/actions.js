@@ -1,7 +1,5 @@
 import * as AT from './actionTypes'
 
-// export const setEthereumTransactions = (address, txs) => ({ type: AT.SET_ETHEREUM_TRANSACTIONS, payload: { address, txs } })
-
 // FETCH_ETHEREUM_DATA
 export const fetchData = (context) => ({ type: AT.FETCH_ETHEREUM_DATA, payload: { context } })
 export const fetchDataLoading = () => ({ type: AT.FETCH_ETHEREUM_DATA_LOADING })
