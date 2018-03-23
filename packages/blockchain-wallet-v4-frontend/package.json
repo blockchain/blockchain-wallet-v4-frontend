@@ -9,14 +9,15 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js --progress --colors",
-    "build:prod": "NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.config.js --progress --colors",
-    "ci:build": "webpack --config webpack.config.js --display-error-details",
-    "ci:build:prod": "NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.config.js --display-error-details",
+    "analyze": "ANALYZE=true NODE_ENV=production webpack-cli --config webpack.config.js",
+    "build": "webpack-cli --config webpack.config.js --progress --colors",
+    "build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
+    "ci:build": "webpack-cli --config webpack.config.js --display-error-details",
+    "ci:build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "./../../node_modules/.bin/jest --coverage",
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
-    "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
+    "start:prod": "NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "test": "./../../node_modules/.bin/jest",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
@@ -70,7 +71,7 @@
     "moment": "^2.19.2",
     "prop-types": "^15.6.0",
     "qrcode.react": "^0.7.2",
-    "ramda": "^0.25",
+    "ramda": "^0.25.0",
     "react": "^16.1.1",
     "react-animations": "^1.0.0",
     "react-browser-detection": "^1.0.4",
@@ -95,7 +96,6 @@
     "redux-saga": "^0.16.0",
     "redux-ui": "^0.1.1",
     "styled-components": "^2.2.3",
-    "webpack-bundle-analyzer": "^2.9.1",
     "zxcvbn": "^4.4.2"
   }
 }
