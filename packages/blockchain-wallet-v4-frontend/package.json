@@ -52,8 +52,6 @@
     ]
   },
   "dependencies": {
-    "babel-plugin-react-html-attrs": "^2.1.0",
-    "babel-polyfill": "^6.23.0",
     "base-64": "^0.1.0",
     "bignumber.js": "^5.0.0",
     "bip21": "^2.0.1",
