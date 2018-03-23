@@ -17,7 +17,7 @@ const PaymentWrapper = styled.div`
 `
 
 const Payment = (props) => {
-  const { ui, value, busy, onSubmit, handlePaymentClick, medium } = props
+  const { value, busy, onSubmit, handlePaymentClick, medium } = props
   const { limits, quote } = value
 
   const isChecked = (type) => medium === type

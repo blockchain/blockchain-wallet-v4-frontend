@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'

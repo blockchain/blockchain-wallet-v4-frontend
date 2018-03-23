@@ -1,11 +1,9 @@
 import { lift } from 'ramda'
 import settings from 'config'
 import { selectors } from 'data'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  // const accounts = selectors.core.data.coinify.getAccounts(state)
   const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
   return lift((profile, nextAddress) => ({ profile, nextAddress }))(profile, nextAddress)
 }

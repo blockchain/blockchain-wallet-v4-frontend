@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { compose, bindActionCreators } from 'redux'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import StepIndicator from 'components/StepIndicator'
 import Tray from 'components/Tray'
