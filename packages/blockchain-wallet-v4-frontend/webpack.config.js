@@ -118,7 +118,7 @@ module.exports = {
   ],
   optimization: {
     namedModules: true,
-    minimizer: isProdBuild && [
+    minimizer: [
       new UglifyJSPlugin({
         uglifyOptions: {
           warnings: false,
