@@ -12,3 +12,5 @@ export const saveQuote = (quote) => ({ type: AT.COINIFY_SAVE_QUOTE, payload: quo
 
 export const saveMedium = (medium) => ({ type: AT.COINIFY_SAVE_MEDIUM, payload: medium })
 export const saveMediumSuccess = (medium) => ({ type: AT.COINIFY_SAVE_MEDIUM_SUCCESS, payload: medium })
+
+export const initiateBuy = (data) => ({ type: AT.COINIFY_BUY, payload: data })
