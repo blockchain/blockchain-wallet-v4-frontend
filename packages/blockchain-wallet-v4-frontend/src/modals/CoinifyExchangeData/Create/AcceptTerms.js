@@ -9,7 +9,7 @@ import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-// import Helper from './helpers.js'
+import FAQ1 from './faq.js'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
@@ -87,7 +87,7 @@ class AcceptTerms extends Component {
                 </Text>
               }
             </ErrorWrapper>
-            {/* <Helper /> */}
+            <FAQ1 />
           </ColRightInner>
         </ColRight>
       </Form>
