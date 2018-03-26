@@ -6,8 +6,8 @@ import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
 import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
 
 import { required, requiredUsZipcode, normalizeUSZipcode } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from '../styled'
-import { Helper1, Helper2 } from './helpers.js'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
+import { FAQ1, FAQ2 } from './faq.js'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -104,8 +104,8 @@ const Address = (props) => {
                 : <HeartbeatLoader height='20px' width='20px' color='white' />
             }
           </Button>
-          <Helper1 />
-          <Helper2 />
+          <FAQ1 />
+          <FAQ2 />
         </ColRightInner>
       </ColRight>
     </Form>
