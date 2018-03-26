@@ -31,7 +31,7 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
       const sfox = yield call(getSfox)
       const signupResponse = yield apply(sfox, sfox.signup)
 
-      yield put(buySellA.setProfileBuySell(signupResponse))
+      yield put(buySellA.sfoxSetProfileBuySell(signupResponse))
       yield put(A.setToken(signupResponse))
       yield put(A.signupSuccess(signupResponse))
     } catch (e) {
