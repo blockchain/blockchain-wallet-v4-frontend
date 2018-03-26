@@ -2,6 +2,8 @@ import { path } from 'ramda'
 
 export const getAddresses = path(['adapter', 'data', 'eth', 'addresses'])
 
+export const getFee = path(['adapter', 'data', 'eth', 'fee'])
+
 export const getInfo = path(['adapter', 'data', 'eth', 'info'])
 
 export const getRates = path(['adapter', 'data', 'eth', 'rates'])

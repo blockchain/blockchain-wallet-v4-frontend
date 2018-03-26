@@ -40,6 +40,23 @@ const fetchData = function * (action) {
   }
 }
 
+const watchFee = function * (action) {
+  while (true) {
+    const action = yield take(AT.FETCH_ETH_FEE)
+    yield call(fetchFee, action)
+  }
+}
+
+const fetchFee = function * (action) {
+  try {
+    yield put(A.fetchFeeLoading())
+    const data = yield call(api.getEthereumFee)
+    yield put(A.fetchFeeSuccess(data))
+  } catch (e) {
+    yield put(A.fetchFeeFailure(e.message))
+  }
+}
+
 const watchRates = function * (action) {
   while (true) {
     const action = yield take(AT.FETCH_ETH_RATES)
@@ -58,6 +75,7 @@ const fetchRates = function * (action) {
 }
 
 export default function * () {
-  yield fork(fetchData)
-  yield fork(fetchRates)
+  yield fork(watchData)
+  yield fork(watchFee)
+  yield fork(watchRates)
 }

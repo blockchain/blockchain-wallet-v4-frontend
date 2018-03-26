@@ -15,13 +15,13 @@ class CoinTickerContainer extends React.Component {
   }
 
   render () {
-    const { data, selected, handleClick } = this.props
+    const { selected, handleClick } = this.props
 
     return this.props.data.cata({
       Success: value => <Success {...value} selected={selected} handleClick={handleClick} />,
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
-      NotAsked: () => <NotAsked />
+      NotAsked: () => <Loading />
     })
   }
 }

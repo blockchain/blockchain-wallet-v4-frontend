@@ -15,7 +15,6 @@ const welcomeSaga = function * () {
   //   console.log('%c If someone told you to copy-paste something here,', style2)
   //   console.log('%c it is a scam and will give them access to your money!', style2)
   // }
-  console.log('ADAPTER SAGA INIT')
 }
 
 export default function * () {

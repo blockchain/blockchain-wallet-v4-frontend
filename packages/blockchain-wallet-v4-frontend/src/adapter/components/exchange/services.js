@@ -1,4 +1,5 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { BigNumber } from 'bignumber.js';
 
 export const getPairFromCoin = (coinSource, coinTarget) => {
   switch (coinSource) {
@@ -45,3 +46,11 @@ export const selectUnit = coin => {
     case 'ETH': return 'ETH'
   }
 }
+
+export const greaterThan = (a, b) => new BigNumber(a).greaterThan(new BigNumber(b))
+
+export const greaterThanOrEqualTo = (a, b) => new BigNumber(a).greaterThanOrEqualTo(new BigNumber(b))
+
+export const lessThan = (a, b) => new BigNumber(a).lessThan(new BigNumber(b))
+
+export const lessThanOrEqualTo = (a, b) => new BigNumber(a).lessThanOrEqualTo(new BigNumber(b))

@@ -3,10 +3,11 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
-  addresses: Remote.Loading,
-  info: Remote.Loading,
+  addresses: Remote.NotAsked,
+  fee: Remote.NotAsked,
+  info: Remote.NotAsked,
   rates: Remote.NotAsked,
-  transactions: Remote.Loading
+  transactions: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -33,6 +34,15 @@ export default (state = INITIAL_STATE, action) => {
         info: Remote.Failure(prop('info', payload)),
         transactions: Remote.Failure(prop('transactions', payload))
       })
+    }
+    case AT.FETCH_ETH_FEE_LOADING: {
+      return assoc('fee', Remote.Loading, state)
+    }
+    case AT.FETCH_ETH_FEE_SUCCESS: {
+      return assoc('fee', Remote.Success(payload), state)
+    }
+    case AT.FETCH_ETH_FEE_FAILURE: {
+      return assoc('fee', Remote.Failure(payload), state)
     }
     case AT.FETCH_ETH_RATES_LOADING: {
       return assoc('rates', Remote.Loading, state)

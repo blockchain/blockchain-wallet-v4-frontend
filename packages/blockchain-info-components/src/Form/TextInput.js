@@ -37,10 +37,10 @@ const selectBorderColor = (state) => {
 }
 
 const TextInput = props => {
-  const { errorState, disabled, ...rest } = props
+  const { errorState, disabled, input, ...rest } = props
   const borderColor = selectBorderColor(errorState)
 
-  return <BaseTextInput borderColor={borderColor} disabled={disabled} {...rest} />
+  return <BaseTextInput borderColor={borderColor} disabled={disabled} {...input} {...rest} />
 }
 
 TextInput.propTypes = {

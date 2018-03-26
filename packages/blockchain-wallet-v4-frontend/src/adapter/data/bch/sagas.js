@@ -6,7 +6,7 @@ import { api } from 'services/ApiService'
 const watchRates = function * (action) {
   while (true) {
     const action = yield take(AT.FETCH_BCH_RATES)
-    yield call(fetchBchRates, action)
+    yield call(fetchRates, action)
   }
 }
 

@@ -3,10 +3,27 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import { api } from 'services/ApiService'
 
+const watchFee = function * (action) {
+  while (true) {
+    const action = yield take(AT.FETCH_BTC_FEE)
+    yield call(fetchFee, action)
+  }
+}
+
+const fetchFee = function * (action) {
+  try {
+    yield put(A.fetchFeeLoading())
+    const data = yield call(api.getBitcoinFee)
+    yield put(A.fetchFeeSuccess(data))
+  } catch (e) {
+    yield put(A.fetchFeeFailure(e.message))
+  }
+}
+
 const watchRates = function * (action) {
   while (true) {
     const action = yield take(AT.FETCH_BTC_RATES)
-    yield call(fetchBchRates, action)
+    yield call(fetchRates, action)
   }
 }
 
@@ -21,5 +38,6 @@ const fetchRates = function * (action) {
 }
 
 export default function * () {
-  yield fork(fetchRates)
+  yield fork(watchFee)
+  yield fork(watchRates)
 }

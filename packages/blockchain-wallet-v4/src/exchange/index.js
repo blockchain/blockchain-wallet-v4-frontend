@@ -55,8 +55,6 @@ const transformCoinToCoin = (value, coin, fromUnit, toUnit) => {
   const cur = selectCurrency(coin)
   const sourceUnit = path(['units', fromUnit], cur)
   const targetUnit = path(['units', toUnit], cur)
-  console.log('sourceUnit', sourceUnit)
-  console.log('targetUnit', targetUnit)
   return Currency
     .fromUnit({ value, unit: sourceUnit })
     .chain(Currency.toUnit(targetUnit))
