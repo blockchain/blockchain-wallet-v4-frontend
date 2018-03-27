@@ -7,8 +7,8 @@ import BankAccounts from './BankAccounts'
 import AddManually from './AddManually'
 import PlaidFrame from './iframe.js'
 
-import { Helper1, Helper2, Helper3, Helper4 } from './helpers.js'
-import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from '../styled'
+import { FAQ1, FAQ2, FAQ3, FAQ4 } from './faq.js'
+import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
 
 const Form = styled.form`
   width: 100%;
@@ -86,15 +86,15 @@ const BankLink = (props) => {
     if (ui.selectBank) {
       return (
         <span>
-          <Helper3 />
-          <Helper4 />
+          <FAQ3 />
+          <FAQ4 />
         </span>
       )
     }
     return (
       <span>
-        <Helper1 />
-        <Helper2 />
+        <FAQ1 />
+        <FAQ2 />
       </span>
     )
   }
