@@ -33,188 +33,210 @@ const initialized = function * (action) {
     yield put(actions.data.shapeshift.fetchShapeshiftPair('eth_bch'))
     yield put(actions.data.shapeshift.fetchShapeshiftPair('eth_btc'))
   } catch (e) {
-    console.log(e)
     // yield put(actions.alerts.displayError('Price index series chart could not be initialized.'))
+    console.log(e)
   }
 }
 
 const swapClicked = function * () {
-  const form = yield select(selectors2.modules.form.getFormValues('exchange'))
-  const source = prop('source', form)
-  const target = prop('target', form)
-  yield call(updateForm, { source: target, target: source })
+  try {
+    const form = yield select(selectors2.modules.form.getFormValues('exchange'))
+    const source = prop('source', form)
+    const target = prop('target', form)
+    yield put(actions.modules.form.change('exchange', 'source', target))
+    yield put(actions.modules.form.change('exchange', 'target', source))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const minimumClicked = function * () {
+  try {
+    const values = yield select(selectors2.modules.form.getFormValues('exchange'))
+    const source = prop('source', values)
+    const sourceCoin = prop('coin', source)
+    const target = prop('target', values)
+    const targetCoin = prop('coin', target)
+    const pair = getPairFromCoin(sourceCoin, targetCoin)
+    const { minimum, maximum } = yield call(selectShapeshiftPair, pair)
+    yield put(actions.modules.form.change('exchange', 'sourceAmount', minimum))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const maximumClicked = function * () {
+  try {
+    const values = yield select(selectors2.modules.form.getFormValues('exchange'))
+    const source = prop('source', values)
+    const sourceCoin = prop('coin', source)
+    const target = prop('target', values)
+    const targetCoin = prop('coin', target)
+    const pair = getPairFromCoin(sourceCoin, targetCoin)
+    const { minimum, maximum } = yield call(selectShapeshiftPair, pair)
+    const effectiveBalance = yield call(calculateEffectiveBalance, values)
+    const finalMaximum = lessThan(maximum, effectiveBalance) ? maximum : effectiveBalance
+    yield put(actions.modules.form.change('exchange', 'sourceAmount', finalMaximum))
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 const change = function * (action) {
-  const form = prop('form', action.meta)
-  const field = prop('field', action.meta)
-  if (!equals('exchange', form)) return
-  yield call(delay, 500)
-  switch (field) {
-    case 'source': yield call(changeSource, action.payload); break
-    case 'target': yield call(changeTarget, action.payload); break
-    case 'sourceAmount': yield call(changeSourceAmount, action.payload); break
-    case 'targetAmount': yield call(changeTargetAmount, action.payload); break
-    case 'sourceFiat': yield call(changeSourceFiat, action.payload); break
-    case 'targetFiat': yield call(changeTargetFiat, action.payload); break
-  }
-}
-
-const changeSource = function * (payload) {
   try {
-    const source = payload
-    const { btcAccountsInfo, ethAccountsInfo } = yield call(selectAccounts)
-    const accounts = concat(btcAccountsInfo, ethAccountsInfo)
-    const target = compose(head, filter(x => !equals(prop('coin', x), prop('coin', source))))(accounts)
-    yield call(updateForm, { source, target })
+    const form = path(['meta', 'form'], action)
+    const field = path(['meta', 'field'], action)
+    const value = prop('payload', action)
+    if (!equals('exchange', form)) return
+    yield call(delay, 500)
+    switch (field) {
+      case 'source': yield call(changeSource, value); break
+      case 'target': yield call(changeTarget, value); break
+      case 'sourceAmount': yield call(changeAmount, value, field); break
+      case 'sourceFiat': yield call(changeAmount, value, field); break
+      case 'targetAmount': yield call(changeAmount, value, field); break
+      case 'targetFiat': yield call(changeAmount, value, field); break
+    }
   } catch (e) {
     console.log(e)
   }
 }
 
-const changeTarget = function * (payload) {
-  try {
-    const target = payload
-    const { btcAccountsInfo, ethAccountsInfo } = yield call(selectAccounts)
-    const accounts = concat(btcAccountsInfo, ethAccountsInfo)
-    const source = compose(head, filter(x => !equals(prop('coin', x), prop('coin', target))))(accounts)
-    yield call(updateForm, { source, target })
-  } catch (e) {
-    console.log(e)
-  }
+const changeSource = function * (value) {
+  const source = value
+  const { btcAccountsInfo, ethAccountsInfo } = yield call(selectAccounts)
+  const accounts = concat(btcAccountsInfo, ethAccountsInfo)
+  const target = compose(head, filter(x => !equals(prop('coin', x), prop('coin', source))))(accounts)
+  const formValues = yield select(selectors2.modules.form.getFormValues('exchange'))
+  const values = merge(formValues, { source, target })
+  const newValues = yield call(convertValues, values)
+  yield put(actions.modules.form.initialize('exchange', newValues))
+  yield call(validateForm, newValues)
 }
 
-const changeSourceAmount = function * (payload) {
-  try {
-    const form = yield select(selectors2.modules.form.getFormValues('exchange'))
-    const sourceCoin = path(['source', 'coin'], form)
-    const targetCoin = path(['target', 'coin'], form)
-    const sourceAmount = payload
-    const pair = getPairFromCoin(sourceCoin, targetCoin)
-    yield put(actions.components.exchange.statusLoading())
-    const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-    yield put(actions.components.exchange.statusLoaded())
-    const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
-    const sourceRates = yield call(selectRates, sourceCoin)
-    const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
-    const targetRates = yield call(selectRates, targetCoin)
-    const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
-    yield call(updateForm, { sourceAmount, sourceFiat, targetAmount, targetFiat })
-  } catch (e) {
-    console.log(e)
-  }
+const changeTarget = function * (value) {
+  const target = value
+  const { btcAccountsInfo, ethAccountsInfo } = yield call(selectAccounts)
+  const accounts = concat(btcAccountsInfo, ethAccountsInfo)
+  const source = compose(head, filter(x => !equals(prop('coin', x), prop('coin', target))))(accounts)
+  const formValues = yield select(selectors2.modules.form.getFormValues('exchange'))
+  const values = merge(formValues, { source, target })
+  const newValues = yield call(convertValues, values)
+  yield put(actions.modules.form.initialize('exchange', newValues))
+  yield call(validateForm, newValues)
 }
 
-const changeSourceFiat = function * (payload) {
-  try {
-    const form = yield select(selectors2.modules.form.getFormValues('exchange'))
-    const sourceCoin = path(['source', 'coin'], form)
-    const targetCoin = path(['target', 'coin'], form)
-    const sourceFiat = payload
-    const sourceRates = yield call(selectRates, sourceCoin)
-    const sourceAmount = Exchange.convertFiatToCoin(sourceFiat, 'USD', sourceCoin, sourceCoin, sourceRates).value
-    const pair = getPairFromCoin(sourceCoin, targetCoin)
-    yield put(actions.components.exchange.statusLoading())
-    const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-    yield put(actions.components.exchange.statusLoaded())
-    const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
-    const targetRates = yield call(selectRates, targetCoin)
-    const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
-    yield call(updateForm, { sourceAmount, sourceFiat, targetAmount, targetFiat })
-  } catch (e) {
-    console.log(e)
-  }
-}
-
-const changeTargetAmount = function * (payload) {
-  try {
-    const form = yield select(selectors2.modules.form.getFormValues('exchange'))
-    const sourceCoin = path(['source', 'coin'], form)
-    const targetCoin = path(['target', 'coin'], form)
-    const targetAmount = payload
-    const pair = getPairFromCoin(sourceCoin, targetCoin)
-    yield put(actions.components.exchange.statusLoading())
-    const quotation = yield call(api.createQuote, targetAmount, pair, false)
-    yield put(actions.components.exchange.statusLoaded())
-    const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
-    const sourceRates = yield call(selectRates, sourceCoin)
-    const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
-    const targetRates = yield call(selectRates, targetCoin)
-    const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
-    yield call(updateForm, { sourceAmount, sourceFiat, targetAmount, targetFiat })
-  } catch (e) {
-    console.log(e)
-  }
-}
-
-const changeTargetFiat = function * (payload) {
-  try {
-    const form = yield select(selectors2.modules.form.getFormValues('exchange'))
-    const sourceCoin = path(['source', 'coin'], form)
-    const targetCoin = path(['target', 'coin'], form)
-    const targetFiat = payload
-    const targetRates = yield call(selectRates, targetCoin)
-    const targetAmount = Exchange.convertFiatToCoin(targetFiat, 'USD', targetCoin, targetCoin, targetRates).value
-    const pair = getPairFromCoin(sourceCoin, targetCoin)
-    yield put(actions.components.exchange.statusLoading())
-    const quotation = yield call(api.createQuote, targetAmount, pair, false)
-    yield put(actions.components.exchange.statusLoaded())
-    const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
-    const sourceRates = yield call(selectRates, sourceCoin)
-    const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
-    yield call(updateForm, { sourceAmount, sourceFiat, targetAmount, targetFiat })
-  } catch (e) {
-    console.log(e)
-  }
-}
-
-const updateForm = function * (values) {
-  const form = yield select(selectors2.modules.form.getFormValues('exchange'))
-  const sourceCoin = path(['source', 'coin'], form)
-  const currentValues = yield select(selectors2.modules.form.getFormValues('exchange'))
-  const newValues = merge(currentValues, values)
+const changeAmount = function * (value, type) {
+  const formValues = yield select(selectors2.modules.form.getFormValues('exchange'))
+  const newValues = yield call(convertValues, formValues, type)
   yield put(actions.modules.form.initialize('exchange', newValues))
   yield call(validateForm, newValues)
 }
 
 const validateForm = function * (values) {
-  switch (path(['source', 'coin'], values)) {
-    case 'BTC': yield call(validateBtc, values); break
-    case 'ETH': yield call(validateEth, values); break
-  }
-}
-
-const validateBtc = function * (values) {
   const source = prop('source', values)
-  const address = prop('address', source) || prop('index', source)
-  const sourceAmount = prop('sourceAmount', values)
-  const feePerBytePriority = yield call(selectFee, prop('coin', source))
-  const wrapper = yield select(selectors.core.wallet.getWrapper)
-  const data = yield call(api.getWalletUnspents, wrapper, address)
-  const effectiveBalance = utils.bitcoin.calculateEffectiveBalanceBitcoin(data, feePerBytePriority)
-  if (greaterThan(sourceAmount, effectiveBalance)) {
-    return yield put(actions.components.exchange.error('effective_balance', effectiveBalance))
-  }
-  yield call(validateShapeshift, values)
-}
-
-const validateEth = function * (values) {
-
-}
-
-const validateShapeshift = function * (values) {
-  const source = prop('source', values)
-  const sourceAmount = prop('sourceAmount', values)
+  const sourceCoin = prop('coin', source)
   const target = prop('target', values)
-  const pair = getPairFromCoin(prop('coin', source), prop('coin', target))
+  const targetCoin = prop('coin', target)
+  const amount = prop('sourceAmount', values)
+  const pair = getPairFromCoin(sourceCoin, targetCoin)
+  const effectiveBalance = yield call(calculateEffectiveBalance, values)
   const { minimum, maximum } = yield call(selectShapeshiftPair, pair)
-  if (lessThan(sourceAmount, minimum)) {
-    return yield put(actions.components.exchange.error('shapeshift_minimum', minimum))
-  }
-  if (greaterThan(sourceAmount, maximum)) {
-    return yield put(actions.components.exchange.error('shapeshift_maximum', maximum))
+  switch (true) {
+    case greaterThan(amount, effectiveBalance): return yield put(actions.components.exchange.error('effective_balance', effectiveBalance))
+    case lessThan(amount, minimum): return yield put(actions.components.exchange.error('shapeshift_minimum', minimum))
+    case greaterThan(amount, maximum): return yield put(actions.components.exchange.error('shapeshift_maximum', maximum))
   }
   return yield put(actions.components.exchange.error(''))
+}
+
+const convertValues = function * (values, type) {
+  const source = prop('source', values)
+  const sourceCoin = prop('coin', source)
+  const target = prop('target', values)
+  const targetCoin = prop('coin', target)
+  const sourceRates = yield call(selectRates, sourceCoin)
+  const targetRates = yield call(selectRates, targetCoin)
+  const pair = getPairFromCoin(sourceCoin, targetCoin)
+
+  switch (type) {
+    case 'sourceAmount': {
+      const sourceAmount = prop('sourceAmount', values)
+      yield put(actions.components.exchange.statusLoading())
+      const quotation = yield call(api.createQuote, sourceAmount, pair, true)
+      yield put(actions.components.exchange.statusLoaded())
+      const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
+      const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
+      const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
+      return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
+    }
+    case 'sourceFiat': {
+      const sourceFiat = prop('sourceFiat', values)
+      const sourceAmount = Exchange.convertFiatToCoin(sourceFiat, 'USD', sourceCoin, sourceCoin, sourceRates).value
+      yield put(actions.components.exchange.statusLoading())
+      const quotation = yield call(api.createQuote, sourceAmount, pair, true)
+      yield put(actions.components.exchange.statusLoaded())
+      const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
+      const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
+      return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
+    }
+    case 'targetAmount': {
+      const targetAmount = prop('targetAmount', values)
+      yield put(actions.components.exchange.statusLoading())
+      const quotation = yield call(api.createQuote, targetAmount, pair, false)
+      yield put(actions.components.exchange.statusLoaded())
+      const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
+      const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
+      const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
+      return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
+    }
+    case 'targetFiat': {
+      const targetFiat = prop('targetFiat', values)
+      const targetAmount = Exchange.convertFiatToCoin(targetFiat, 'USD', targetCoin, targetCoin, targetRates).value
+      yield put(actions.components.exchange.statusLoading())
+      const quotation = yield call(api.createQuote, targetAmount, pair, false)
+      yield put(actions.components.exchange.statusLoaded())
+      const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
+      const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
+      return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
+    }
+    default: {
+      const sourceAmount = prop('sourceAmount', values)
+      yield put(actions.components.exchange.statusLoading())
+      const quotation = yield call(api.createQuote, sourceAmount, pair, true)
+      yield put(actions.components.exchange.statusLoaded())
+      const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
+      const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
+      const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
+      return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
+    }
+  }
+}
+
+const calculateEffectiveBalance = function * (values) {
+  const source = prop('source', values)
+  const sourceAmount = prop('sourceAmount', values)
+  const sourceCoin = prop('coin', source)
+  const fee = yield call(selectFee, sourceCoin)
+
+  switch (sourceCoin) {
+    // case 'BCH'
+    case 'BTC': {
+      const feePerBytePriority = prop('priority', fee)
+      const address = prop('address', source) || prop('index', source)
+      const wrapper = yield select(selectors.core.wallet.getWrapper)
+      const data = yield call(api.getWalletUnspents, wrapper, address)
+      return utils.bitcoin.calculateEffectiveBalanceBitcoin(data, feePerBytePriority)
+    }
+    case 'ETH': {
+      const gasPrice = prop('priority', fee)
+      const gasLimit = prop('gasLimit', fee)
+      const address = prop('address', source)
+      const addresses = yield select(selectors.core.data.ethereum.getAddresses)
+      const balance = addresses.map(path([address, 'balance'])).getOrElse(0)
+      return utils.ethereum.calculateEffectiveBalanceEther(gasPrice, gasLimit, balance)
+    }
+  }
 }
 
 const selectAccounts = function* () {
@@ -235,8 +257,8 @@ const selectFee = function * (coin) {
   const ethRatesR = yield select(selectors2.data.eth.getFee)
   switch (coin) {
     // case 'BCH': return prop('priority', bchRatesR.getOrElse({ regular: 2, priority: 10 }))
-    case 'BTC': return prop('priority', btcRatesR.getOrElse({ regular: 10, priority: 25 }))
-    case 'ETH': return prop('priority', ethRatesR.getOrElse({ regular: 21, priority: 21 }))
+    case 'BTC': return btcRatesR.getOrElse({ regular: 10, priority: 25 })
+    case 'ETH': return ethRatesR.getOrElse({ regular: 21, priority: 21, gasLimit: 23000 })
   }
 }
 
@@ -263,5 +285,7 @@ const selectShapeshiftPair = function * (pair) {
 export default function * () {
   yield takeEvery(AT.EXCHANGE_INITIALIZED, initialized)
   yield takeEvery(AT.EXCHANGE_SWAP_CLICKED, swapClicked)
+  yield takeEvery(AT.EXCHANGE_MINIMUM_CLICKED, minimumClicked)
+  yield takeEvery(AT.EXCHANGE_MAXIMUM_CLICKED, maximumClicked)
   yield takeLatest(actionTypes.modules.form.CHANGE, change)
 }
