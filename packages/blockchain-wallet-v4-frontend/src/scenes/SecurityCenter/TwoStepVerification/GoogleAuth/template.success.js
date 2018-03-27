@@ -7,7 +7,7 @@ import QRCodeReact from 'qrcode.react'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox } from 'components/Form'
 
-import { SecurityDescription, SecurityHeader } from 'components/Security'
+import { SecurityDescription, SecurityHeader, SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
   width: 90%;
@@ -39,17 +39,6 @@ const QRInputWrapper = styled.div`
   button {
     margin-top: 10px;
   }
-`
-const SuccessOverlay = styled.div`
-  width: 90%;
-  padding: 0px 20px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  display: ${props => props.success ? 'flex' : 'none'};
-  position: absolute;
-  left: 0px;
-  z-index: 1;
 `
 
 const Google = props => {
