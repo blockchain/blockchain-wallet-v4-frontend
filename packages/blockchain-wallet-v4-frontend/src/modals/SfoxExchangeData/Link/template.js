@@ -49,14 +49,14 @@ const BankLink = (props) => {
   const titleHelper = () => {
     switch (true) {
       case ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.title2' defaultMessage='Select Your Account' />
-      case !ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.title' defaultMessage='Link Your Bank' />
+      case !ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.title' defaultMessage='Connect Your Bank' />
     }
   }
 
   const subtitleHelper = () => {
     switch (true) {
       case ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.subtitle2' defaultMessage="Please select which bank account you'd like to have synced with your SFOX profile. Please note: Once this account has been added, you will not be able to change it." />
-      case !ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.subtitle1' defaultMessage='Link your bank account instantly by signing into your bank with your login details. This method is the fastest. You can also manually add your bank account by typing your routing and account number. This will take up to 4 business days.' />
+      case !ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.subtitle1' defaultMessage='There are two ways to go about this: Sync your bank account using your login details (a crowd favorite), or manually enter your routing and account number (this may take a couple days).' />
     }
   }
 

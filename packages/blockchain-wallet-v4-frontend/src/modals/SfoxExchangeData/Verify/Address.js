@@ -33,10 +33,10 @@ const Address = (props) => {
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
-            <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage='Personal Information' />
+            <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage="Let's Get to Know You" />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='sfoxexchangedata.verify.partner.subheader' defaultMessage='We are required to collect this information to open your exchange account. This information will be sent directly to SFOX and will not be saved to your Blockchain wallet.' />
+            <FormattedMessage id='sfoxexchangedata.verify.partner.subheader' defaultMessage="There's so much we'd love to know about you, but we only need a few things. Fear not, all of your personal information will be sent directly to SFOX, not saved in your Blockchain wallet." />
           </PartnerSubHeader>
           <FormContainer>
             <FormGroup inline>
