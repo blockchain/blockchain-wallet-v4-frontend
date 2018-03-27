@@ -11,6 +11,7 @@ const BaseIcon = styled.span`
   color: ${props => props.theme[props.color]};
   -webkit-font-smoothing: antialiased;
   cursor: ${props => props.cursorEnabled ? 'pointer' : 'default'};
+  display: flex;
 
   &:before {
     font-family: 'icomoon';

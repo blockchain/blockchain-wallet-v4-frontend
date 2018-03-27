@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Text, Icon } from 'blockchain-info-components'
+import { Text, Icon, Button } from 'blockchain-info-components'
 
 import SecuritySteps from './SecuritySteps'
 import SecurityTabs from './SecurityTabs'
 import EmailAddress from './EmailAddress'
 import TwoStepVerification from './TwoStepVerification'
 import WalletRecoveryPhrase from './WalletRecoveryPhrase'
+import { spacing } from 'services/StyleService'
 
 import Advanced from './Advanced'
 
@@ -50,9 +51,14 @@ const IconContainer = styled.div`
 const PageContainer = styled.div`
   width: 100%;
 `
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
 
 const SecurityCenter = (props) => {
-  const { enabling } = props
+  const { enabling, setView } = props
   const tabs = props.progress === 3
 
   const renderSteps = () => {
@@ -64,13 +70,23 @@ const SecurityCenter = (props) => {
         <EmailAddress handleEnable={() => props.handleEnable('email')} alone={0} />
         <TwoStepVerification handleEnable={() => props.handleEnable('2fa')} alone={0} />
         <WalletRecoveryPhrase handleEnable={() => props.handleEnable('recovery')} alone={0} />
+        <ButtonContainer>
+          <Button nature='empty' width='25%' onClick={() => props.setView('advanced')}>
+            <Text size='14px' weight={400}>
+              <FormattedMessage id='scenes.securitycenter.introadvancedbutton' defaultMessage='Advanced Settings' />
+            </Text>
+          </Button>
+          <Text size='14px' weight={300} style={spacing('pl-15')}>
+            <FormattedMessage id='scenes.securitycenter.introadvancedexplainer' defaultMessage='We recommend you complete these 3 steps before moving into the Advanced Security Settings.' />
+          </Text>
+        </ButtonContainer>
       </BodyContainer>
     )
   }
 
   return (
     <PageContainer>
-      {tabs && <SecurityTabs data={props.data} setView={props.setView} /> }
+      {tabs && <SecurityTabs data={props.data} setView={setView} /> }
       {
         props.viewing === 'security'
           ? <Wrapper>
@@ -97,7 +113,7 @@ const SecurityCenter = (props) => {
           </Wrapper>
           : <Wrapper>
             <BodyContainer>
-              <Advanced />
+              <Advanced  tabs={tabs} setView={setView}/>
             </BodyContainer>
           </Wrapper>
       }
