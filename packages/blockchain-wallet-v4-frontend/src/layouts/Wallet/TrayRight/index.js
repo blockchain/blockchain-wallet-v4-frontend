@@ -30,7 +30,7 @@ const TrayModal = styled(Modal)`
     }
     > span:last-child {
       top: 22px;
-      right: 25px;
+      right: 20px;
       font-size: 16px;
       position: absolute;
       font-weight: 500;
@@ -41,9 +41,10 @@ const TrayModal = styled(Modal)`
     }
   }
   > div:last-child {
-    overflow: auto;
-    padding: 20px;
-    height: calc(100% - 160px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 20px;
+    height: 100%;
   }
   @media (max-width: 767px) {
     width: 100%;
