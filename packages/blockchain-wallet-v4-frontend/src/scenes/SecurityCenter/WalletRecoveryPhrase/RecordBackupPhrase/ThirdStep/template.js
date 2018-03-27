@@ -7,6 +7,7 @@ import { reduxForm } from 'redux-form'
 import { Button, Link, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import WordInput from './WordInput'
+import { SuccessOverlay } from 'components/Security'
 
 const Container = styled.div`
   display: flex;
@@ -26,17 +27,6 @@ const Buttons = styled.div`
   a:first-of-type {
     margin-bottom: 10px;
   }
-`
-const SuccessOverlay = styled.div`
-  width: 90%;
-  padding: 0px 20px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  display: ${props => props.authType ? 'flex' : 'none'};
-  position: absolute;
-  left: 0px;
-  z-index: 1;
 `
 const VerificationContainer = styled.div`
   opacity: ${props => props.authType ? 0.3 : 1};

@@ -9,7 +9,7 @@ import SecurityWrapper from './SecurityWrapper'
 
 import styled from 'styled-components'
 
-const SuccessOverlay = styled.div`
+export const SuccessOverlay = styled.div`
   width: 90%;
   padding: 0px 20px;
   justify-content: center;
@@ -20,5 +20,12 @@ const SuccessOverlay = styled.div`
   left: 0px;
   z-index: 1;
 `
+export const SecurityTip = styled.div`
+  border-left: 1px solid #CCCCCC;
+  border-right: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCCCCC;
+  padding: 20px;
+  width: 95%;
+`
 
-export { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySection, SecuritySummary, SecurityWrapper, SuccessOverlay }
+export { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySection, SecuritySummary, SecurityWrapper }
