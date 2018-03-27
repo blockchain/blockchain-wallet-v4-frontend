@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox, PhoneNumberBox } from 'components/Form'
 
-import { SecurityDescription, SecurityHeader } from 'components/Security'
+import { SecurityDescription, SecurityHeader, SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
   width: 90%;
@@ -36,17 +36,6 @@ const QRInputWrapper = styled.div`
   a {
     margin-top: 20px;
   }
-`
-const SuccessOverlay = styled.div`
-  width: 90%;
-  padding: 0px 20px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  display: ${props => props.verified ? 'flex' : 'none'};
-  position: absolute;
-  left: 0px;
-  z-index: 1;
 `
 
 const SmsAuth = props => {
