@@ -8,6 +8,9 @@ import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 
+import TrayRight from './TrayRight'
+import { ModalHeader, ModalBody } from 'blockchain-info-components'
+
 import Page from './Page'
 
 const Wrapper = styled.div`
@@ -77,6 +80,14 @@ const WalletLayout = (props) => {
         <Left toggled={menuLeftToggled}>
           <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
         </Left>
+        <TrayRight in={true} class='tray' onClose={{}}>
+          <ModalHeader onClose={{}}>
+            <span>Frequently Asked Questions</span>
+          </ModalHeader>
+          <ModalBody>
+            <p>Body</p>
+          </ModalBody>
+        </TrayRight>
         <Content>
           <Top>
             <MenuTop />
