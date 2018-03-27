@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import Modals from 'modals'
 import Alerts from 'components/Alerts'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
+import Faq from 'scenes/Faq'
 
 import TrayRight from './TrayRight'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
@@ -81,11 +83,12 @@ const WalletLayout = (props) => {
           <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
         </Left>
         <TrayRight in={trayRightOpen} class='tray' onClose={handleTrayRightToggle}>
+          {/*TODO: put entire modal in FAQ scene */}
           <ModalHeader onClose={handleTrayRightToggle}>
-            <span>Frequently Asked Questions</span>
+            <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions'/>
           </ModalHeader>
           <ModalBody>
-            <p>Body</p>
+            <Faq />
           </ModalBody>
         </TrayRight>
         <Content>
