@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { SkeletonRectangle } from 'blockchain-info-components'
+import { SkeletonRectangle, Image } from 'blockchain-info-components'
 
 const BalancesChartSkeleton = styled(SkeletonRectangle)`
   display: flex;
@@ -26,7 +26,7 @@ export default (props) => {
     <BalancesChartSkeleton width='100%' height='370px' bgColor='white-blue'>
       <SkeletonRectangle width='230px' height='30px' bgColor='white' />
       <ChartSkeleton>
-        <SkeletonRectangle width='100%' height='200px' bgColor='white' />
+        <Image name='chart-placeholder' width='100%' height='200px' />
       </ChartSkeleton>
       <SummarySkeleton>
         <SkeletonRectangle width='25%' height='30px' bgColor='white' />
