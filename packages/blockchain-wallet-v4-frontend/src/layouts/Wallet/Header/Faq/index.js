@@ -1,16 +1,26 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Link, Icon } from 'blockchain-info-components'
 
-import { actions } from 'data'
-import Faq from './template.js'
+const FaqLink = styled(Link)`
+  & > :first-child:hover { 
+    cursor: pointer;
+  }
+`
 
-const FaqContainer = ({ authActions }) => (
-  <Faq handleFaqToggle={{}} />
-)
+const Faq = (props) => {
+  const { handleTrayRightToggle } = props
 
-const mapDispatchToProps = (dispatch) => ({
-  authActions: bindActionCreators(actions.auth, dispatch)
-})
+  return (
+    <FaqLink size='16px' weight={300} color='white' uppercase onClick={handleTrayRightToggle}>
+      <Icon name='question-in-circle-filled' size='18px' color='white'/>
+    </FaqLink>
+  )
+}
 
-export default connect(undefined, mapDispatchToProps)(FaqContainer)
+Faq.propTypes = {
+  handleTrayRightToggle: PropTypes.func.isRequired
+}
+
+export default Faq

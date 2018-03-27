@@ -16,7 +16,8 @@ const MenuLeftToggler = styled(NavbarToggler)`
 `
 
 const Header = (props) => {
-  const { navigationToggled, handleToggleNavigation, handleToggleMenuLeft } = props
+  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft, trayRightToggled } = props
+
   return (
     <Navbar height='60px'>
       <MenuLeftToggler onToggle={handleToggleMenuLeft} />
@@ -31,7 +32,7 @@ const Header = (props) => {
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <Faq />
+            <Faq handleTrayRightToggle={handleTrayRightToggle}/>
           </NavbarNavItem>
           <NavbarNavItem>
             <WhatsNew />
@@ -52,6 +53,7 @@ const Header = (props) => {
 Header.propTypes = {
   handleToggleNavigation: PropTypes.func.isRequired,
   handleToggleMenuLeft: PropTypes.func.isRequired,
+  handleTrayRightToggle: PropTypes.func.isRequired,
   navigationToggled: PropTypes.bool.isRequired
 }
 
