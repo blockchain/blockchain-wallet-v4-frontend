@@ -62,7 +62,6 @@
   },
   "dependencies": {
     "bitcoin-coinify-client": "^0.7.6",
-    "node": "^9.9.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.2.16",
@@ -121,7 +120,7 @@
     "standard": "^11.0.1",
     "style-loader": "^0.20.3",
     "styled-components": "^3.2.3",
-    "webpack": "^4.3.0",
+    "webpack": "^4.1.1",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.12",
     "webpack-dev-server": "^3.1.1"
