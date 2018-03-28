@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
+import Faq from './Faq'
 import WhatsNew from './WhatsNew'
 import Refresh from './Refresh'
 import Logout from './Logout'
@@ -15,7 +16,8 @@ const MenuLeftToggler = styled(NavbarToggler)`
 `
 
 const Header = (props) => {
-  const { navigationToggled, handleToggleNavigation, handleToggleMenuLeft } = props
+  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft } = props
+
   return (
     <Navbar height='60px'>
       <MenuLeftToggler onToggle={handleToggleMenuLeft} />
@@ -29,6 +31,9 @@ const Header = (props) => {
       <NavbarMenu toggled={navigationToggled}>
         <div />
         <NavbarNav>
+          <NavbarNavItem>
+            <Faq handleTrayRightToggle={handleTrayRightToggle}/>
+          </NavbarNavItem>
           <NavbarNavItem>
             <WhatsNew />
           </NavbarNavItem>
@@ -48,6 +53,7 @@ const Header = (props) => {
 Header.propTypes = {
   handleToggleNavigation: PropTypes.func.isRequired,
   handleToggleMenuLeft: PropTypes.func.isRequired,
+  handleTrayRightToggle: PropTypes.func.isRequired,
   navigationToggled: PropTypes.bool.isRequired
 }
 

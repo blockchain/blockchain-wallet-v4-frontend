@@ -146,12 +146,6 @@ const Navigation = (props) => {
             </LinkContainer>
           </SubMenu>
         )}
-        <LinkContainer to='/faq' activeClassName='active' onClick={handleCloseSettings}>
-          <MenuItem>
-            <Icon name='question-in-circle' />
-            <FormattedMessage id='layouts.wallet.menuleft.navigation.faq' defaultMessage='Faq' smaller uppercase />
-          </MenuItem>
-        </LinkContainer>
       </Menu>
     </Wrapper>
   )
