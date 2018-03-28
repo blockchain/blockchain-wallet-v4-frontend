@@ -17,8 +17,7 @@ const transitionStyles = {
 const TrayModal = styled(Modal)`
   right: 0;
   font-weight: 300;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow:hidden;
   position: absolute;
   width: calc(33%);
   height: calc(100vh - 60px);
@@ -45,7 +44,7 @@ const TrayModal = styled(Modal)`
   > div:last-child {
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 0 20px;
+    padding: 0px 20px 50px 20px;
     height: 100%;
   }
   @media (max-width: 767px) {
