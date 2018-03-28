@@ -1663,7 +1663,7 @@ declare module ramda {
     __: $npm$ramda$Placeholder,
     o: O
   ): (key: T) => $ElementType<O, T>;
-  declare function prop<T: string, O>(key: T, o: O): $ElementType<O, T>;
+  declare function prop<T: string, O>(key: T, o?: ?O): ?$ElementType<O, T>;
 
   declare function propOr<T, V, A: { [k: string]: V }>(
     or: T,
