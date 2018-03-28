@@ -9,6 +9,15 @@ import { Button, Text, Icon } from 'blockchain-info-components'
 import { Faq, FaqHeader, FaqContent } from 'components/FaqItem'
 import { OrderDetailsTable, OrderDetailsRow } from './OrderDetails'
 import { spacing, flex } from 'services/StyleService'
+import { Remote } from 'blockchain-wallet-v4/src'
+
+const renderRemote = (remote, cases) => remote.cata({
+  NotAsked: () => null,
+  Loading: () => null,
+  Success: () => null,
+  Failure: () => null,
+  ...cases
+})
 
 const FundingSource = ({ accounts }) => (
   <div style={flex('row align/center')}>
@@ -44,7 +53,7 @@ class Submit extends Component {
     this.renderDetailsTable = this.renderDetailsTable.bind(this)
   }
 
-  handleSubmit (quote, accounts) {
+  handleSubmit (quote) {
     this.props.submitQuote(quote)
   }
 
@@ -91,11 +100,11 @@ class Submit extends Component {
   }
 
   render () {
-    let { quoteR, accountsR } = this.props
+    let { quoteR, accountsR, tradeR } = this.props
     let { info } = this.state
 
-    let createSubmit = (quote, accounts) => () => this.handleSubmit(quote, accounts)
-    let handleSubmit = lift(createSubmit)(quoteR, accountsR).getOrElse(null)
+    let createSubmit = (quote) => () => this.handleSubmit(quote)
+    let handleSubmit = lift(createSubmit)(quoteR).getOrElse(null)
 
     return (
       <Row>
@@ -112,7 +121,7 @@ class Submit extends Component {
           </ColLeftInner>
         </ColLeft>
         <ColRight>
-          <Button nature='primary' fullwidth disabled={!handleSubmit} onClick={handleSubmit}>
+          <Button nature='primary' fullwidth disabled={!handleSubmit || Remote.Loading.is(tradeR)} onClick={handleSubmit}>
             <FormattedMessage id='continue' defaultMessage='Submit' />
           </Button>
           <Faq>
@@ -147,7 +156,8 @@ class Submit extends Component {
 
 const mapState = (state) => ({
   quoteR: selectors.core.data.sfox.getBareQuote(state),
-  accountsR: selectors.core.data.sfox.getAccounts(state)
+  accountsR: selectors.core.data.sfox.getAccounts(state),
+  tradeR: selectors.core.data.sfox.getTrade(state)
 })
 
-export default connect(mapState, actions.core.data.sfox)(Submit)
+export default connect(mapState, actions.modules.sfox)(Submit)

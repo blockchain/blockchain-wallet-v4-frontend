@@ -7,6 +7,8 @@ export const getQuote = path([dataPath, 'sfox', 'quote'])
 
 export const getBareQuote = path([dataPath, 'sfox', 'bareQuote'])
 
+export const getTrade = path([dataPath, 'sfox', 'trade'])
+
 export const getTrades = path([dataPath, 'sfox', 'trades'])
 
 export const getProfile = path([dataPath, 'sfox', 'profile'])

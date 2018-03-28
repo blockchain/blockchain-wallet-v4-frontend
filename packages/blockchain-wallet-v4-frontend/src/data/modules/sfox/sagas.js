@@ -1,8 +1,8 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects'
+import { takeLatest, put, call, select, race, take } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as sagas from '../../sagas.js'
-import { actions } from 'data'
+import { actions, actionTypes } from 'data'
 import * as selectors from '../../selectors.js'
 import * as MODALS_ACTIONS from '../../modals/actions'
 
@@ -76,10 +76,26 @@ export const setBank = function * (payload) {
   }
 }
 
+export const submitQuote = function * (action) {
+  yield put(actions.core.data.sfox.submitQuote(action.payload))
+  let { success, failure } = yield race({
+    success: take(actionTypes.core.data.sfox.HANDLE_TRADE_SUCCESS),
+    failure: take(actionTypes.core.data.sfox.HANDLE_TRADE_FAILURE)
+  })
+  if (success) {
+    yield put(actions.alerts.displaySuccess('Trade submitted successfully!'))
+    yield put(MODALS_ACTIONS.closeAllModals())
+  }
+  if (failure) {
+    yield put(actions.alerts.displayError('Error submitting trade: ' + failure.payload.message))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
   yield takeLatest(AT.SET_BANK, setBank)
   yield takeLatest(AT.SIGNUP, sfoxSignup)
   yield takeLatest(AT.SET_PROFILE, setProfile)
   yield takeLatest(AT.UPLOAD, upload)
+  yield takeLatest(AT.SUBMIT_QUOTE, submitQuote)
 }
