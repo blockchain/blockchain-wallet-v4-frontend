@@ -21,6 +21,7 @@ const TrayModal = styled(Modal)`
   position: absolute;
   width: calc(33%);
   height: calc(100vh - 60px);
+  z-index: 2;
   font-family: 'Montserrat', Helvetica, sans-serif;
   > div:first-child {
     padding: 20px;
