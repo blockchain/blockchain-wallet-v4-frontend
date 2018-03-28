@@ -1,11 +1,13 @@
 import ExchangeDelegate from '../../../exchange/delegate'
 import { delay } from 'redux-saga'
 import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
-import { assoc, compose, where, equals, or, is, converge } from 'ramda'
+import { assoc, compose, where, equals, or, is, converge, merge } from 'ramda'
 import { HDAccount } from '../../../types'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import * as buySellA from '../../kvStore/buySell/actions'
+import { bitcoin as createBitcoinSagas } from '../bitcoin/sagas'
+import { descentDraw } from '../../../coinSelection'
 import * as bitcoinSelectors from '../bitcoin/selectors'
 import * as walletSelectors from '../../wallet/selectors'
 import * as AT from './actionTypes'
@@ -14,6 +16,8 @@ import * as A from './actions'
 let sfox
 
 export default ({ api, sfoxService } = {}) => {
+  const bitcoinSagas = createBitcoinSagas({ api })
+
   const refreshSFOX = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
@@ -171,58 +175,44 @@ export default ({ api, sfoxService } = {}) => {
     }
   }
 
-  // TEST
-
-  // const mockApi = {
-  //   getPaymentMethod: function * () {
-  //     console.log('-> Getting payment method...')
-  //     yield delay(1000)
-  //     return {
-  //       'type': 'payment_method',
-  //       'payment_method_id': 'payment123'
-  //     }
-  //   },
-  //   submitTrade: function * (data, type) {
-  //     console.log(`-> Creating ${type} trade...`, data)
-  //     yield delay(1000)
-  //     return type === 'sell' ? {
-  //       'transaction_id': '8bc2172a-5b5f-11e6-b9e0-14109fd9ceb9',
-  //       'address': '3EyTupDgqm5ETjwTn29QPWCkmTCoEv1WbT',
-  //       'status': 'pending'
-  //     } : {
-  //       'transaction_id': 'e8ae8ed9-e7f4-43b3-8d87-417c1f19b0f9',
-  //       'status': 'pending'
-  //     }
-  //   }
-  // }
-
-  const mockWallet = {
-    // generateBtcDestination: function * () {
-    //   console.log('-> Generating bitcoin receive address...')
-    //   yield delay(1000)
-    //   return {
-    //     'type': 'address',
-    //     'address': '1EyTupDgqm5ETjwTn29QPWCkmTCoEv1WbT'
-    //   }
-    // },
-    publishPayment: function * (to) {
-      console.log('-> Publishing bitcoin payment...', 'to=', to)
-      yield delay(1000)
-      return {
-        success: true
-      }
-    }
-  }
-
   const generateBtcDestination = function * () {
     let defaultAccount = yield select(walletSelectors.getDefaultAccount)
-    let receiveIndexR = yield select(bitcoinSelectors.getReceiveIndex)
+    let receiveIndexR = yield select(bitcoinSelectors.getReceiveIndex(defaultAccount.xpub))
 
     let address = receiveIndexR
-      .map((index) => HDAccount.getReceiveAddrss(defaultAccount, index))
+      .map((index) => HDAccount.getReceiveAddress(defaultAccount, index))
       .getOrFail(new Error('receive_index_not_found'))
 
     return { type: 'address', address }
+  }
+
+  const generatePaymentMethodDestination = function * () {
+    let accountsR = yield select(S.getAccounts)
+
+    let id = accountsR
+      .map((accounts) => accounts[0].id)
+      .getOrFail(new Error('sfox_accounts_missing'))
+
+    return { type: 'payment_method', payment_method_id: id }
+  }
+
+  const publishPayment = function * (from, to, amount, { password, network } = {}) {
+    let defaultAccount = yield select(walletSelectors.getDefaultAccount)
+    let changeIndexR = yield select(bitcoinSelectors.getChangeIndex(defaultAccount.xpub))
+
+    let changeAddress = changeIndexR
+      .map((index) => HDAccount.getChangeAddress(defaultAccount, index, network))
+      .getOrFail(new Error('change_index_not_found'))
+
+    let feePerByte = 5
+    let coins = yield bitcoinSagas.fetchUnspent([from])
+    let selection = descentDraw([to], feePerByte, coins, changeAddress)
+
+    return yield (function * () {
+      console.log('publishing...', selection)
+      yield call(delay, 1000)
+    })()
+    // return yield call(bitcoinSagas.signAndPublish, { selection, password })
   }
 
   /*
@@ -278,7 +268,7 @@ export default ({ api, sfoxService } = {}) => {
     let payload = action.payload
 
     console.log('-> Relaying quote...')
-    yield delay(1000)
+    yield call(delay, 1000)
 
     yield put(A.relayToTradeOutput(payload, payload.output))
   }
@@ -302,10 +292,9 @@ export default ({ api, sfoxService } = {}) => {
     //   'status': 'pending'
     // }
 
-    let accounts = yield select(S.getAccounts)
-    let destination = { type: 'payment_method', payment_method_id: accounts[0].id }
+    let destination = yield call(generatePaymentMethodDestination)
     let tradeReq = { quote_id: action.payload.quote_id, destination }
-    let tradeResult = yield submitTrade(tradeReq)
+    let tradeResult = yield call(submitTrade, tradeReq)
 
     yield put(A.relayToTradeInput(tradeResult, action.payload.input))
   }
@@ -329,9 +318,8 @@ export default ({ api, sfoxService } = {}) => {
     //   "status": "pending"
     // }
 
-    let accounts = yield select(S.getAccounts)
-    let paymentMethodId = accounts[0].id
-    let tradeReq = Object.assign({}, action.payload, { payment_method_id: paymentMethodId })
+    let { payment_method_id } = yield call(generatePaymentMethodDestination)
+    let tradeReq = merge(action.payload, { payment_method_id })
     let tradeResult = yield submitTrade(tradeReq)
 
     yield put(A.submitTrade(tradeResult))
@@ -341,7 +329,7 @@ export default ({ api, sfoxService } = {}) => {
     console.log('-> OUTPUT=BTC')
 
     // Here we generate the bitcoin address to receive to
-    let destination = yield generateBtcDestination()
+    let destination = yield call(generateBtcDestination)
     let trade = { quote_id: action.payload.quote_id, destination }
 
     yield put(A.relayToTradeInput(trade, action.payload.input))
@@ -351,7 +339,7 @@ export default ({ api, sfoxService } = {}) => {
     console.log('-> INPUT=BTC')
 
     // Here we use the `address` from the SELL response to publish a payment
-    yield mockWallet.publishPayment(action.payload.address)
+    yield call(publishPayment, action.payload.address)
 
     yield put(A.submitTrade(action.payload))
   }
