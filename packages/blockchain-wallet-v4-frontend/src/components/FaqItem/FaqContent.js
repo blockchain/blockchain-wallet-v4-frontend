@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   font-family: 'Montserrat', Helvetica, sans-serif;
   font-weight: 200;
   font-size: 12px;
-  margin-bottom: 4px;
+  padding: 5px 0;
   color: ${props => props.theme['gray-5']};
 `
 
