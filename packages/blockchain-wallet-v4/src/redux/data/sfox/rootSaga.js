@@ -220,28 +220,28 @@ export default ({ api, sfoxService } = {}) => {
   }
 
   // Handle trade output kind
-  const sfoxTradeActorOutputUsd = function * (action) {
+  const sfoxTradeOutputUsd = function * (action) {
     let destination = yield call(generatePaymentMethodDestination)
     let tradeReq = { quote_id: action.payload.quote_id, destination }
     let tradeResult = yield call(submitTrade, tradeReq)
     yield put(A.relayToTradeInput(tradeResult, action.payload.input))
   }
 
-  const sfoxTradeActorOutputBtc = function * (action) {
+  const sfoxTradeOutputBtc = function * (action) {
     let destination = yield call(generateBtcDestination)
     let trade = { quote_id: action.payload.quote_id, destination }
     yield put(A.relayToTradeInput(trade, action.payload.input))
   }
 
   // Handle trade input kind
-  const sfoxTradeActorInputUsd = function * (action) {
+  const sfoxTradeInputUsd = function * (action) {
     let { payment_method_id } = yield call(generatePaymentMethodDestination)
     let tradeReq = merge(action.payload, { payment_method_id })
     let tradeResult = yield submitTrade(tradeReq)
     yield put(A.submitTrade(tradeResult))
   }
 
-  const sfoxTradeActorInputBtc = function * (action) {
+  const sfoxTradeInputBtc = function * (action) {
     yield call(publishPayment, action.payload.address)
     yield put(A.submitTrade(action.payload))
   }
@@ -251,10 +251,10 @@ export default ({ api, sfoxService } = {}) => {
     yield put(A.handleTradeSuccess(action.payload))
   }
 
-  const wrapWithTradeErrorHandler = (genf) => {
+  const wrapWithTradeErrorHandler = (saga) => {
     return function * (...args) {
       try {
-        yield call(genf, ...args)
+        yield call(saga, ...args)
       } catch (e) {
         let error = is(String, e) ? new Error(e) : e
         yield put(A.handleTradeFailure(error))
@@ -264,10 +264,10 @@ export default ({ api, sfoxService } = {}) => {
 
   return function * () {
     yield takeLatest(AT.SUBMIT_QUOTE, sfoxSubmitQuote)
-    yield takeLatest(AT.createTradeOutputAction('USD'), wrapWithTradeErrorHandler(sfoxTradeActorOutputUsd))
-    yield takeLatest(AT.createTradeOutputAction('BTC'), wrapWithTradeErrorHandler(sfoxTradeActorOutputBtc))
-    yield takeLatest(AT.createTradeInputAction('USD'), wrapWithTradeErrorHandler(sfoxTradeActorInputUsd))
-    yield takeLatest(AT.createTradeInputAction('BTC'), wrapWithTradeErrorHandler(sfoxTradeActorInputBtc))
+    yield takeLatest(AT.createTradeOutputAction('USD'), wrapWithTradeErrorHandler(sfoxTradeOutputUsd))
+    yield takeLatest(AT.createTradeOutputAction('BTC'), wrapWithTradeErrorHandler(sfoxTradeOutputBtc))
+    yield takeLatest(AT.createTradeInputAction('USD'), wrapWithTradeErrorHandler(sfoxTradeInputUsd))
+    yield takeLatest(AT.createTradeInputAction('BTC'), wrapWithTradeErrorHandler(sfoxTradeInputBtc))
     yield takeLatest(AT.SUBMIT_TRADE, sfoxSubmitTrade)
     yield takeLatest(AT.FETCH_BARE_QUOTE, fetchBareQuote)
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
