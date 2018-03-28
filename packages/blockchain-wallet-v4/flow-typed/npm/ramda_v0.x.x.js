@@ -1490,9 +1490,7 @@ declare module ramda {
     ...args: Array<void>
   ): (o: { [key: string]: A }) => { [key: string]: B };
 
-  declare type Merge = (<A, B>(a: A, b: B) => A & B) &
-    (<A, B>(a: A, ...rest: Array<void>) => (b: B) => A & B);
-
+  declare type Merge = <A, B>(A, B) => $Exact<{...A, ...B}>
   declare var merge: Merge;
 
   declare function mergeAll<T>(
