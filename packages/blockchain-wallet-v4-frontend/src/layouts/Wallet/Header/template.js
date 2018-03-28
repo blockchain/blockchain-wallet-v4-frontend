@@ -16,7 +16,7 @@ const MenuLeftToggler = styled(NavbarToggler)`
 `
 
 const Header = (props) => {
-  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft, trayRightToggled } = props
+  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft } = props
 
   return (
     <Navbar height='60px'>

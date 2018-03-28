@@ -10,8 +10,9 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px 0;
-  font-size: 14px;
+  font-weight: 300;
+  padding: 5px 0;
+  font-size: 13px;
   font-family: 'Montserrat', Helvetica, sans-serif;
   cursor: pointer;
 `

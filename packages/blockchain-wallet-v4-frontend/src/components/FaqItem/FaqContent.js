@@ -6,9 +6,9 @@ const Wrapper = styled.div`
   display: ${props => props.toggled ? 'flex' : 'none'};
   width: 100%;
   font-family: 'Montserrat', Helvetica, sans-serif;
-  font-weight: 300;
-  font-size: 14px;
-  margin-bottom: 0;
+  font-weight: 200;
+  font-size: 12px;
+  margin-bottom: 4px;
   color: ${props => props.theme['gray-5']};
 `
 
