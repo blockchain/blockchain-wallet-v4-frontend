@@ -212,24 +212,19 @@ export default ({ api, sfoxService } = {}) => {
     // return yield call(bitcoinSagas.signAndPublish, { selection, password })
   }
 
+  // Entry point
   const sfoxSubmitQuote = function * (action) {
     let quote = action.payload
     yield put(A.handleTradeLoading())
     yield put(A.relayToTradeOutput(quote, quote.output))
   }
 
+  // Handle trade output kind
   const sfoxTradeActorOutputUsd = function * (action) {
     let destination = yield call(generatePaymentMethodDestination)
     let tradeReq = { quote_id: action.payload.quote_id, destination }
     let tradeResult = yield call(submitTrade, tradeReq)
     yield put(A.relayToTradeInput(tradeResult, action.payload.input))
-  }
-
-  const sfoxTradeActorInputUsd = function * (action) {
-    let { payment_method_id } = yield call(generatePaymentMethodDestination)
-    let tradeReq = merge(action.payload, { payment_method_id })
-    let tradeResult = yield submitTrade(tradeReq)
-    yield put(A.submitTrade(tradeResult))
   }
 
   const sfoxTradeActorOutputBtc = function * (action) {
@@ -238,11 +233,20 @@ export default ({ api, sfoxService } = {}) => {
     yield put(A.relayToTradeInput(trade, action.payload.input))
   }
 
+  // Handle trade input kind
+  const sfoxTradeActorInputUsd = function * (action) {
+    let { payment_method_id } = yield call(generatePaymentMethodDestination)
+    let tradeReq = merge(action.payload, { payment_method_id })
+    let tradeResult = yield submitTrade(tradeReq)
+    yield put(A.submitTrade(tradeResult))
+  }
+
   const sfoxTradeActorInputBtc = function * (action) {
     yield call(publishPayment, action.payload.address)
     yield put(A.submitTrade(action.payload))
   }
 
+  // Exit point
   const sfoxSubmitTrade = function * (action) {
     yield put(A.handleTradeSuccess(action.payload))
   }
