@@ -30,7 +30,7 @@ class CameraContainer extends Component {
     super(props)
 
     this.state = {
-      constraints: { audio: false, video: { width: 400, height: 300 } },
+      constraints: { audio: false, video: { width: 400, height: 200 } },
       stream: false
     }
 

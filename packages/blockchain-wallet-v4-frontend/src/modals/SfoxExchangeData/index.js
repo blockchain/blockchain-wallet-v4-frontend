@@ -8,6 +8,7 @@ import Tray from 'components/Tray'
 import Create from './Create'
 import Verify from './Verify'
 import Link from './Link'
+import Upload from './Upload'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
@@ -43,6 +44,7 @@ class SfoxExchangeData extends React.Component {
       case 'account': return <Create />
       case 'verify': return <Verify />
       case 'funding': return <Link />
+      case 'upload': return <Upload />
       case 'verified': {
         this.handleClose()
         break
