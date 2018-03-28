@@ -19,7 +19,7 @@ const FaqLink = styled(Link)`
     left: -2px;
     width: 0;
     height: 0;
-    z-index: 9999;
+    z-index: 3;
     border-left: 11px solid transparent;
     border-right: 11px solid transparent;
     border-bottom: 16px solid ${props => props.theme['white-blue']};
