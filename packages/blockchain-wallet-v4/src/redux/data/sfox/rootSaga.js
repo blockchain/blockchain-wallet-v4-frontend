@@ -197,155 +197,53 @@ export default ({ api, sfoxService } = {}) => {
   }
 
   const publishPayment = function * (from, to, amount, { password, network } = {}) {
-    let defaultAccount = yield select(walletSelectors.getDefaultAccount)
-    let changeIndexR = yield select(bitcoinSelectors.getChangeIndex(defaultAccount.xpub))
-
-    let changeAddress = changeIndexR
-      .map((index) => HDAccount.getChangeAddress(defaultAccount, index, network))
-      .getOrFail(new Error('change_index_not_found'))
-
-    let feePerByte = 5
-    let coins = yield call(bitcoinSagas.fetchUnspent, [from])
-    let selection = descentDraw([to], feePerByte, coins, changeAddress)
-
-    return yield (function * () {
-      console.log('publishing...', selection)
-      yield call(delay, 1000)
-    })()
+    throw new Error('publishPayment_UNIMPLEMENTED')
+    // let defaultAccount = yield select(walletSelectors.getDefaultAccount)
+    // let changeIndexR = yield select(bitcoinSelectors.getChangeIndex(defaultAccount.xpub))
+    //
+    // let changeAddress = changeIndexR
+    //   .map((index) => HDAccount.getChangeAddress(defaultAccount, index, network))
+    //   .getOrFail(new Error('change_index_not_found'))
+    //
+    // let feePerByte = 5
+    // let coins = yield call(bitcoinSagas.fetchUnspent, [from])
+    // let selection = descentDraw([to], feePerByte, coins, changeAddress)
+    //
     // return yield call(bitcoinSagas.signAndPublish, { selection, password })
   }
 
-  /*
-    _Actor API_
-
-    quote.base* corresponds to trade.output
-    quote.quote* corresponds to trade.input
-
-    SubmitQuoteActor, expects:
-      P :: Quote
-
-    OutputActor(*), expects:
-      P :: Quote
-
-    InputActor(CRYPTO), expects:
-      P :: TradeResult
-        :: { transaction_id :: String, address :: String }
-
-    InputActor(FIAT), expects:
-      P :: PartialTradeRequest
-        :: { quote_id :: String, destination :: Destination }
-
-    SubmitTradeActor, expects:
-      P :: TradeResult
-        :: { transaction_id :: String, status :: String }
-  */
-
   const sfoxSubmitQuote = function * (action) {
-    // Buy
-    // let payload = {
-    //   'quote_id': 'a5098dd0-4cb2-4256-9cb5e871fbe672d1',
-    //   'quote_amount': '3000',
-    //   'quote_currency': 'usd',
-    //   'base_amount': '5',
-    //   'base_currency': 'btc',
-    //   'expires_on': 1257894000000,
-    //   'fee_amount': '75',
-    //   'fee_currency': 'usd'
-    // }
-
-    // Sell
-    // let payload = {
-    //   'quote_id': '5e15e347-b7d2-4b4f-8721-854fa9bb4a99',
-    //   'quote_amount': '5',
-    //   'quote_currency': 'btc',
-    //   'base_amount': '3000',
-    //   'base_currency': 'usd',
-    //   'expires_on': 1257894000000,
-    //   'fee_amount': '0.01',
-    //   'fee_currency': 'btc'
-    // }
-
-    let payload = action.payload
-
-    console.log('-> Relaying quote...')
-
+    let quote = action.payload
     yield put(A.handleTradeLoading())
-    yield put(A.relayToTradeOutput(payload, payload.output))
+    yield put(A.relayToTradeOutput(quote, quote.output))
   }
 
   const sfoxTradeActorOutputUsd = function * (action) {
-    console.log('-> OUTPUT=USD')
-
-    // Here we create a SELL transaction from the quote:
-    // -> request
-    // {
-    //   'quote_id': '5e15e347-b7d2-4b4f-8721-854fa9bb4a99',
-    //   'destination': {
-    //     'type': 'payment_method',
-    //     'payment_method_id': 'payment123'
-    //   }
-    // }
-    // <- response
-    // {
-    //   'transaction_id': '8bc2172a-5b5f-11e6-b9e0-14109fd9ceb9',
-    //   'address': '3EyTupDgqm5ETjwTn29QPWCkmTCoEv1WbT',
-    //   'status': 'pending'
-    // }
-
     let destination = yield call(generatePaymentMethodDestination)
     let tradeReq = { quote_id: action.payload.quote_id, destination }
     let tradeResult = yield call(submitTrade, tradeReq)
-
     yield put(A.relayToTradeInput(tradeResult, action.payload.input))
   }
 
   const sfoxTradeActorInputUsd = function * (action) {
-    console.log('-> INPUT=USD')
-
-    // Here we create a BUY transaction using the address and quote:
-    // -> request
-    // {
-    //   'quote_id': 'a5098dd0-4cb2-4256-9cb5e871fbe672d1',
-    //   'destination': {
-    //     'type': 'address',
-    //     'address': '1EyTupDgqm5ETjwTn29QPWCkmTCoEv1WbT'
-    //   },
-    //   'payment_method_id': 'payment123'
-    // }
-    // <- response
-    // {
-    //   "transaction_id": "e8ae8ed9-e7f4-43b3-8d87-417c1f19b0f9",
-    //   "status": "pending"
-    // }
-
     let { payment_method_id } = yield call(generatePaymentMethodDestination)
     let tradeReq = merge(action.payload, { payment_method_id })
     let tradeResult = yield submitTrade(tradeReq)
-
     yield put(A.submitTrade(tradeResult))
   }
 
   const sfoxTradeActorOutputBtc = function * (action) {
-    console.log('-> OUTPUT=BTC')
-
-    // Here we generate the bitcoin address to receive to
     let destination = yield call(generateBtcDestination)
     let trade = { quote_id: action.payload.quote_id, destination }
-
     yield put(A.relayToTradeInput(trade, action.payload.input))
   }
 
   const sfoxTradeActorInputBtc = function * (action) {
-    console.log('-> INPUT=BTC')
-
-    // Here we use the `address` from the SELL response to publish a payment
     yield call(publishPayment, action.payload.address)
-
     yield put(A.submitTrade(action.payload))
   }
 
   const sfoxSubmitTrade = function * (action) {
-    console.log('Submitted trade!', action.payload)
     yield put(A.handleTradeSuccess(action.payload))
   }
 
