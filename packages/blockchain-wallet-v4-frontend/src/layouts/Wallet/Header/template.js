@@ -16,7 +16,7 @@ const MenuLeftToggler = styled(NavbarToggler)`
 `
 
 const Header = (props) => {
-  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft } = props
+  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft, trayRightOpen } = props
 
   return (
     <Navbar height='60px'>
@@ -32,7 +32,7 @@ const Header = (props) => {
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <Faq handleTrayRightToggle={handleTrayRightToggle}/>
+            <Faq onClick={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
           </NavbarNavItem>
           <NavbarNavItem>
             <WhatsNew />
@@ -54,7 +54,8 @@ Header.propTypes = {
   handleToggleNavigation: PropTypes.func.isRequired,
   handleToggleMenuLeft: PropTypes.func.isRequired,
   handleTrayRightToggle: PropTypes.func.isRequired,
-  navigationToggled: PropTypes.bool.isRequired
+  navigationToggled: PropTypes.bool.isRequired,
+  trayRightOpen: PropTypes.bool.isRequired
 }
 
 export default Header
