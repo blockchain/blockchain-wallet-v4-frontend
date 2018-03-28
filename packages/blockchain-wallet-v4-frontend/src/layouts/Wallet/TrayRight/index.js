@@ -17,7 +17,8 @@ const transitionStyles = {
 const TrayModal = styled(Modal)`
   right: 0;
   font-weight: 300;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: absolute;
   width: calc(33%);
   height: calc(100vh - 60px);
