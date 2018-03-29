@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { SkeletonRectangle } from 'blockchain-info-components'
+import { Image } from 'blockchain-info-components'
 
 export default (props) => {
   return (
-    <SkeletonRectangle width='100%' height='230px' bgColor='white-blue' />
+    <Image name='chart-placeholder' width='100%' height='200px' />
   )
 }
