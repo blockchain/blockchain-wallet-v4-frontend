@@ -60,6 +60,6 @@ export const refreshEffectiveBalance = (coins: any, feePerByte: number) => {
 
 // REFRESH_BITCOIN_SELECTION
 const REFRESH_BITCOIN_SELECTION = '@CORE.REFRESH_BITCOIN_SELECTION'
-export function refreshSelection (feePerByte: number, coins: any[], amount: number, receive: any, change: any, algorithm: string, seed: any) {
+export function refreshSelection (feePerByte: number, coins: any[], amount: number, receive: string, change: any, algorithm: string, seed: any) {
   return { type: '@CORE.REFRESH_BITCOIN_SELECTION', payload: { feePerByte, coins, amount, receive, change, algorithm, seed } }
 }

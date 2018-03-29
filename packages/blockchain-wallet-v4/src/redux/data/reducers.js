@@ -1,3 +1,4 @@
+//@flow
 import { combineReducers } from 'redux'
 import bitcoin from './bitcoin/reducers'
 import ethereum from './ethereum/reducers'

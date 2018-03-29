@@ -3,22 +3,22 @@ import { assoc, assocPath, merge, lensProp, over, prop, head, append, compose, d
 import * as AT from './actionTypes'
 import * as A from './actions'
 import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound, selectAll } from '../../../coinSelection'
-import * as Coin from '../../../coinSelection/coin'
+import {Coin} from '../../../coinSelection/coin'
 import Remote from '../../../remote'
 import type {RemoteI} from "../../../remote";
 import type {ActionCreatorObj} from '../../../utils/types'
 
 export type ActionsT = ActionCreatorObj<typeof A>
 
-const EMPTY_SELECTION = {
-  fee: undefined,
-  inputs: [],
-  outputs: []
+export type Selection = {
+  fee: number,
+  inputs: Coin[],
+  outputs: Coin[]
 }
 
 export type Payment = {
-  coins: RemoteI<any>,
-  selection: typeof EMPTY_SELECTION,
+  coins: RemoteI<Coin[]>,
+  selection: Selection,
   effectiveBalance: ?number
 }
 
@@ -33,6 +33,12 @@ export type BitcoinStateT = {|
   transactions_fiat: Object,
   transaction_history: RemoteI<Object[]>
 |}
+
+const EMPTY_SELECTION: Selection = {
+  fee: 1, // TODO does a default even make sense? We don't want to carry over undefined everywhere
+  inputs: [],
+  outputs: []
+}
 
 const INITIAL_STATE: BitcoinStateT = {
   addresses: Remote.NotAsked,
@@ -64,7 +70,7 @@ export default (state: BitcoinStateT = INITIAL_STATE, action: ActionsT): Bitcoin
     case '@CORE.REFRESH_BITCOIN_SELECTION': {
       const payload = action.payload
       const { feePerByte, coins, amount, receive, change, algorithm, seed } = action.payload
-      const target = Coin.fromJS({ address: receive, value: amount })
+      const target = new Coin({ address: receive, value: amount })
 
       let selection
       switch (algorithm) {

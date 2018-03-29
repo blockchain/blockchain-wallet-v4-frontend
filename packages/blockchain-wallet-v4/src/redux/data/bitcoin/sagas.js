@@ -24,7 +24,7 @@ export const bitcoin = (api: Api) => {
     return result.unspent_outputs.map(Coin.fromJS)
   }
 
-  const sweepAddress = function * (addr: string, priv: string, { network, index, fee, password }: any = {}): * {
+  const sweepAddress = function * (addr: string, priv: string, { network, index, fee, password }: any = {}): Saga<void> {
     if (index == null) index = yield select(S.wallet.getDefaultAccountIndex)
     if (fee !== 'regular' && fee !== 'priority') fee = 'regular'
 
