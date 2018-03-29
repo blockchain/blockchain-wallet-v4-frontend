@@ -1,5 +1,8 @@
 {
-  "extends": ["standard"],
+  "extends": [
+	  "standard",
+    "plugin:flowtype/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -7,7 +10,11 @@
       "jsx": true
     }
   },
-  "plugins": ["babel", "react"],
+  "plugins": [
+    "babel",
+    "flowtype",
+    "react"
+  ],
   "env": {
     "es6": true,
     "jest": true
