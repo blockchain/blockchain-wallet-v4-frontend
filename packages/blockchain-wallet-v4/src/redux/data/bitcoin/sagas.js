@@ -1,6 +1,6 @@
 // @flow
 import {call, select} from 'redux-saga/effects'
-import {callP} from "../../../utils/types";
+import {callP} from '../../../utils/types'
 
 import {map, set} from 'ramda'
 import {futurizeP} from 'futurize'
@@ -10,8 +10,8 @@ import * as S from '../../selectors'
 import {sign} from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
-import type {Api} from "../../../network/api";
-import type {Saga} from "../../../utils/types";
+import type {Api} from '../../../network/api'
+import type {Saga} from '../../../utils/types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -20,7 +20,7 @@ export const bitcoin = (api: Api) => {
   const addPrivToCoins = (priv, coins) => map(set(Coin.priv, priv), coins)
 
   const fetchUnspent = function * (addresses: string[]): Saga<Object> {
-    let result = yield* callP(api.getBitcoinUnspents, addresses, -1)
+    let result = yield * callP(api.getBitcoinUnspents, addresses, -1)
     return result.unspent_outputs.map(Coin.fromJS)
   }
 
@@ -28,7 +28,7 @@ export const bitcoin = (api: Api) => {
     if (index == null) index = yield select(S.wallet.getDefaultAccountIndex)
     if (fee !== 'regular' && fee !== 'priority') fee = 'regular'
 
-    let fees = yield* callP(api.getBitcoinFee)
+    let fees = yield * callP(api.getBitcoinFee)
     let coins = addPrivToCoins(priv, yield fetchUnspent([addr]))
 
     let receiveAddress = yield select(S.common.bitcoin.getNextAvailableReceiveAddress(network, index))

@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import {curry, is, drop, clamp, split, length, add, compose, prop, view,
   isNil, ifElse, always, complement, either, tryCatch, over, lensProp} from 'ramda'
 import {addressToScript} from '../utils/bitcoin'
@@ -32,7 +32,7 @@ export class Coin {
   priv: ?string
   change: boolean
 
-  constructor(o: CoinJS) {
+  constructor (o: CoinJS) {
     this.value = parseInt(o.value),
     this.script = o.script ? o.script : addressToScript(o.address),
     this.txHash = o.tx_hash_big_endian,
@@ -57,7 +57,7 @@ export class Coin {
   ge (coin: Coin) {
     return this.value >= coin.value
   }
-  overValue <T>(f: Coin => T): T {
+  overValue <T> (f: Coin => T): T {
     return over(value, f, this)
   }
   isFromAccount (): boolean {
@@ -107,5 +107,3 @@ export const outputBytes = ifElse(either(complement(isCoin), compose(isNil, sele
 
 export const effectiveValue = curry((feePerByte, coin: Coin) =>
   clamp(0, Infinity, coin.value - feePerByte * inputBytes(coin)))
-
-const n = effectiveValue(10, new Coin({value: 10}))

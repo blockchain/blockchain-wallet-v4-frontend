@@ -2,7 +2,7 @@
 import * as AT from './actionTypes'
 
 export const setBitcoinLatestBlock = (block_index: number, hash: any, height: number, time: number) =>
- ({ type: AT.SET_BITCOIN_LATEST_BLOCK, payload: { block_index, hash, height, time } })
+  ({ type: AT.SET_BITCOIN_LATEST_BLOCK, payload: { block_index, hash, height, time } })
 
 // FETCH_BITCOIN_DATA
 export const fetchData = (context: any) => ({ type: AT.FETCH_BITCOIN_DATA, payload: { context } })

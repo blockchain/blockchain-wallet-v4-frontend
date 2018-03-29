@@ -32,11 +32,10 @@ export type RequestFn = {|
   postImage: (Request) => Promise<*>
 |}
 
-
 // Promise.polyfill()
 
 // checkStatus :: Response -> Promise Response
-function checkStatus <T>(r: Response): Promise<Response> {
+function checkStatus <T> (r: Response): Promise<Response> {
   return r.ok ? Promise.resolve(r) : r.text().then(j => Promise.reject(j))
 }
 
@@ -52,7 +51,7 @@ export default (apiCode: string): RequestFn => {
   const request = <T>(
     method: Method,
     { url, endPoint, data, sessionToken, contentType = 'application/x-www-form-urlencoded' }: Request,
-    converter: Converter<T>) : Promise<T> => {
+    converter: Converter<T>): Promise<T> => {
     const defaultHeaders = { 'Content-Type': contentType }
 
     const formEncodedData = encodeData(contentType, { ...data })

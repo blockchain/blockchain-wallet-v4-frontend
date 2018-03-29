@@ -5,7 +5,7 @@ import * as A from './actions'
 import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound, selectAll } from '../../../coinSelection'
 import {Coin} from '../../../coinSelection/coin'
 import Remote from '../../../remote'
-import type {RemoteI} from "../../../remote";
+import type {RemoteI} from '../../../remote'
 import type {ActionCreatorObj} from '../../../utils/types'
 
 export type ActionsT = ActionCreatorObj<typeof A>

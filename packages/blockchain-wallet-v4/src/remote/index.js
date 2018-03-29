@@ -33,20 +33,20 @@ class RemoteSuccess<T> {
     return new RemoteSuccess(f(this.data))
   }
 
-  getOrElse(def: T): T {
+  getOrElse (def: T): T {
     return this.data
   }
 
-  cata(fn: RemoteCataFn<T>): Object {
+  cata (fn: RemoteCataFn<T>): Object {
     return fn.Success(this.data)
   }
 
-  ap<F>(r: RemoteI<F>): RemoteI<any> {
+  ap<F> (r: RemoteI<F>): RemoteI<any> {
     const t: any = this.data // TODO implement type checking for T
     return r.map(t)
   }
 
-  chain<F>(fn: T => RemoteI<F>): RemoteI<F> {
+  chain<F> (fn: T => RemoteI<F>): RemoteI<F> {
     return fn(this.data)
   }
 }
@@ -63,15 +63,15 @@ export class RemoteFailure<T> {
     return new RemoteFailure(this.error)
   }
 
-  getOrElse(def: T): T {
+  getOrElse (def: T): T {
     return def
   }
 
-  cata(fn: RemoteCataFn<T>): Object {
+  cata (fn: RemoteCataFn<T>): Object {
     return fn.Failure(this.error)
   }
 
-  ap<F>(that: RemoteI<F>): RemoteI<any> {
+  ap<F> (that: RemoteI<F>): RemoteI<any> {
     return that.cata({
       Success: (f) => this,
       Failure: () => this,
@@ -80,28 +80,27 @@ export class RemoteFailure<T> {
     })
   }
 
-  chain<F>(fn: T => RemoteI<F>): RemoteI<F> {
+  chain<F> (fn: T => RemoteI<F>): RemoteI<F> {
     return new RemoteFailure(this.error)
   }
 }
 
 export class RemoteLoading<T> {
   state: State = 'loading'
-  constructor () {}
 
   map<F> (f: T => F): RemoteI<F> {
     return new RemoteLoading()
   }
 
-  getOrElse(def: T): T {
+  getOrElse (def: T): T {
     return def
   }
 
-  cata(fn: RemoteCataFn<T>): Object {
+  cata (fn: RemoteCataFn<T>): Object {
     return fn.Loading()
   }
 
-  ap<F>(that: RemoteI<F>): RemoteI<any> {
+  ap<F> (that: RemoteI<F>): RemoteI<any> {
     return that.cata({
       Success: (f) => this,
       Failure: () => that,
@@ -110,28 +109,27 @@ export class RemoteLoading<T> {
     })
   }
 
-  chain<F>(fn: T => RemoteI<F>): RemoteI<F> {
+  chain<F> (fn: T => RemoteI<F>): RemoteI<F> {
     return new RemoteLoading()
   }
 }
 
 export class RemoteNotAsked<T> {
   state: State = 'notasked'
-  constructor () {}
 
   map<F> (f: T => F): RemoteI<F> {
     return new RemoteNotAsked()
   }
 
-  getOrElse(def: T): T {
+  getOrElse (def: T): T {
     return def
   }
 
-  cata(fn: RemoteCataFn<T>): Object {
+  cata (fn: RemoteCataFn<T>): Object {
     return fn.NotAsked()
   }
 
-  ap<F>(that: RemoteI<F>): RemoteI<any> {
+  ap<F> (that: RemoteI<F>): RemoteI<any> {
     return that.cata({
       Success: (f) => this,
       Failure: () => that,
@@ -140,12 +138,10 @@ export class RemoteNotAsked<T> {
     })
   }
 
-  chain<F>(fn: T => RemoteI<F>): RemoteI<F> {
+  chain<F> (fn: T => RemoteI<F>): RemoteI<F> {
     return new RemoteNotAsked()
   }
 }
-
-const b: RemoteI<string> = new RemoteSuccess('foo')
 
 type RemoteW = {
   Success: (data: *) => RemoteSuccess<*>,
@@ -164,7 +160,6 @@ const Remote: RemoteW = {
   FailureIs: (remote: RemoteI<*>): boolean => remote.state === 'failure',
   LoadingIs: (remote: RemoteI<*>): boolean => remote.state === 'loading',
   NotAskedIs: (remote: RemoteI<*>): boolean => remote.state === 'notasked'
-
 }
 
 export default Remote

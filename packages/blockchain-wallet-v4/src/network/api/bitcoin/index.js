@@ -1,6 +1,6 @@
 // @flow
 import { toUpper } from 'ramda'
-import type {ApiContext} from '../index';
+import type {ApiContext} from '../index'
 
 const api = ({ rootUrl, apiUrl, fetchFn }: ApiContext) => {
   const { get, getString, postString, post } = fetchFn
