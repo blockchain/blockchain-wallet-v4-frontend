@@ -1,5 +1,7 @@
 // @flow
 
+type State = 'success' | 'failure' | 'loading' | 'notasked'
+
 export type RemoteCataFn<T> = {
   Success: T => Object,
   Failure: Object => Object,
@@ -8,6 +10,7 @@ export type RemoteCataFn<T> = {
 }
 
 export interface RemoteI<T> {
+  state: State,
   map<F>(fn: T => F): RemoteI<F>,
 
   ap<F>(r: RemoteI<F>): RemoteI<any>,
@@ -20,6 +23,7 @@ export interface RemoteI<T> {
 
 class RemoteSuccess<T> {
   data: T
+  state: State = 'success'
 
   constructor (data: T) {
     this.data = data
@@ -49,6 +53,8 @@ class RemoteSuccess<T> {
 
 export class RemoteFailure<T> {
   error: Object
+  state: State = 'failure'
+
   constructor (error: Object) {
     this.error = error
   }
@@ -80,6 +86,7 @@ export class RemoteFailure<T> {
 }
 
 export class RemoteLoading<T> {
+  state: State = 'loading'
   constructor () {}
 
   map<F> (f: T => F): RemoteI<F> {
@@ -109,6 +116,7 @@ export class RemoteLoading<T> {
 }
 
 export class RemoteNotAsked<T> {
+  state: State = 'notasked'
   constructor () {}
 
   map<F> (f: T => F): RemoteI<F> {
@@ -148,9 +156,15 @@ type RemoteW = {
 
 const Remote: RemoteW = {
   Success: (data: *): * => new RemoteSuccess(data),
+  of: (data: *): * => new RemoteSuccess(data),
   Failure: (error: *): * => new RemoteFailure(error),
   Loading: new RemoteLoading(),
-  NotAsked: new RemoteNotAsked()
+  NotAsked: new RemoteNotAsked(),
+  SuccessIs: (remote: RemoteI<*>): boolean => remote.state === 'success',
+  FailureIs: (remote: RemoteI<*>): boolean => remote.state === 'failure',
+  LoadingIs: (remote: RemoteI<*>): boolean => remote.state === 'loading',
+  NotAskedIs: (remote: RemoteI<*>): boolean => remote.state === 'notasked'
+
 }
 
 export default Remote

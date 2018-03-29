@@ -42,7 +42,7 @@ export const isBelowEffectiveBalance = (value, allValues, props) => {
 }
 
 export const calculateEffectiveBalance = (props) => {
-  if (!Remote.Success.is(props.data)) return 0
+  if (!Remote.SuccessIs(props.data)) return 0
 
   const { sourceCoin, accounts, coins, ethAddresses, data } = props
   switch (sourceCoin) {

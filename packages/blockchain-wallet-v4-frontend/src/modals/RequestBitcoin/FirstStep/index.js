@@ -22,7 +22,7 @@ class FirstStepContainer extends React.Component {
       this.props.formActions.initialize('requestBitcoin', x)
     })
 
-    if (Remote.NotAsked.is(this.props.data)) {
+    if (Remote.NotAskedIs(this.props.data)) {
       this.props.bitcoinDataActions.fetchData()
     }
   }

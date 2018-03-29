@@ -22,7 +22,7 @@ class RequestBchContainer extends React.Component {
       this.props.formActions.initialize('requestBch', x)
     })
 
-    if (Remote.NotAsked.is(this.props.data)) {
+    if (Remote.NotAskedIs(this.props.data)) {
       this.props.bchDataActions.fetchData()
     }
   }

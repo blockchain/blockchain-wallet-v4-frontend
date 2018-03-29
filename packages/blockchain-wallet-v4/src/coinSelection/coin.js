@@ -1,7 +1,7 @@
 //@flow
 import {curry, is, drop, clamp, split, length, add, compose, prop, view,
   isNil, ifElse, always, complement, either, tryCatch, over, lensProp} from 'ramda'
-import * as bitcoin from '../utils/bitcoin.js'
+import {addressToScript} from '../utils/bitcoin'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -33,9 +33,8 @@ export class Coin {
   change: boolean
 
   constructor(o: CoinJS) {
-    console.info(bitcoin)
     this.value = parseInt(o.value),
-    this.script = o.script ? o.script : bitcoin.addressToScript(o.address),
+    this.script = o.script ? o.script : addressToScript(o.address),
     this.txHash = o.tx_hash_big_endian,
     this.index = o.tx_output_n,
     this.change = o.change || false,

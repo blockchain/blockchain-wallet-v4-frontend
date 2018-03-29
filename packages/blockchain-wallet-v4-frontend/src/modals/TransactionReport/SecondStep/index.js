@@ -27,7 +27,7 @@ class SecondStepContainer extends React.Component {
     const startDate = moment(start, dateFormatUS)
     const endDate = moment(end, dateFormatUS)
     this.setState({ filename: `history-${startDate.format('DD-MM-YYYY')}-${endDate.format('DD-MM-YYYY')}.csv` })
-    if (Remote.NotAsked.is(this.props.data)) {
+    if (Remote.NotAskedIs(this.props.data)) {
       // Fetch transaction history actions?
     }
   }
