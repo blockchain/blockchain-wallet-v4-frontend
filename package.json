@@ -61,7 +61,7 @@
     "vet:frontend": "npm run lint:frontend && npm run test:frontend"
   },
   "dependencies": {
-    "bitcoin-coinify-client": "^0.7.6",
+    "bitcoin-coinify-client": "^0.7.6"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.2.16",
