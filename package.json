@@ -61,10 +61,10 @@
     "vet:frontend": "npm run lint:frontend && npm run test:frontend"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.2.16",
-    "@storybook/addon-info": "^3.2.16",
-    "@storybook/cli": "^3.2.4",
-    "@storybook/react": "^3.2.4",
+    "@storybook/addon-actions": "^4.0.0-alpha.1",
+    "@storybook/addon-info": "^4.0.0-alpha.1",
+    "@storybook/cli": "^4.0.0-alpha.1",
+    "@storybook/react": "^4.0.0-alpha.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^8.0.2",
