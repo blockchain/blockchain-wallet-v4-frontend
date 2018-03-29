@@ -78,7 +78,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
-    "flow-bin": "0.68.0",
+    "flow-bin": "^0.69.0",
     "flow-coverage-report": "^0.5.0"
   }
 }
