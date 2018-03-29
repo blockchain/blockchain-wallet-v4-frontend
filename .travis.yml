@@ -34,16 +34,16 @@ jobs:
   include:
     - stage: branch-commit-build
       script:
-        - yarn lint && yarn ci:test
+        - yarn flow && yarn lint && yarn ci:test
 
     - stage: test-coverage-build
       script:
-        - yarn ci:coverage && ./node_modules/.bin/istanbul-coveralls
+        - yarn flow && yarn ci:coverage && ./node_modules/.bin/istanbul-coveralls
 
     - stage: pull-request-build
       script:
-        - yarn lint && yarn ci:test && yarn ci:build:prod
+        - yarn flow && yarn lint && yarn ci:test && yarn ci:build:prod
 
     - stage: master-commit-build
       script:
-        - yarn lint && yarn ci:test && yarn ci:build:prod
+        - yarn flow && yarn lint && yarn ci:test && yarn ci:build:prod

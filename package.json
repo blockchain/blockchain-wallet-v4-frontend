@@ -34,6 +34,7 @@
     "coverage:components": "lerna exec --scope blockchain-info-components -- npm run coverage",
     "coverage:core": "lerna exec --scope blockchain-wallet-v4 -- npm run coverage",
     "coverage:frontend": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run coverage",
+    "flow": "lerna exec --scope blockchain-wallet-v4 -- yarn flow",
     "lint": "eslint './packages/*/src/**/*.js'",
     "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
