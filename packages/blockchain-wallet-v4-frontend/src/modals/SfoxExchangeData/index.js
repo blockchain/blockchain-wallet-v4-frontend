@@ -23,7 +23,6 @@ class SfoxExchangeData extends React.Component {
       account: <FormattedMessage id='modals.sfoxexchangedata.steps.account' defaultMessage='Account' />,
       verify: <FormattedMessage id='modals.sfoxexchangedata.steps.verify' defaultMessage='Verify' />,
       funding: <FormattedMessage id='modals.sfoxexchangedata.steps.funding' defaultMessage='Funding' />,
-      order: <FormattedMessage id='modals.sfoxexchangedata.steps.order' defaultMessage='Order' />,
       submit: <FormattedMessage id='modals.sfoxexchangedata.steps.submit' defaultMessage='Submit' />
     }
   }
