@@ -4,25 +4,8 @@ import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { TextBox, SelectBoxBankAccountType, Form } from 'components/Form'
 import { required } from 'services/FormHelper'
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   height: 100%;
-//   margin-top: 25px;
-//   button {
-//     margin-top: 20px;
-//   }
-// `
-// const InputContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   margin-bottom: 20px;
-//   button {
-//     margin-top: 0px;
-//   }
-// `
 
 const Container = styled.div`
   display: flex;
@@ -44,15 +27,10 @@ const InputContainer = styled.div`
 const CheckImage = styled(Image)`
   width: 100%;
 `
-const ButtonGroup = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
 
 class AddManually extends Component {
   render () {
-    const { handleFullName, handleAccountNumber, handleRoutingNumber, handleAccountType, pristine, invalid, busy, handleSubmit } = this.props
+    const { handleFullName, handleAccountNumber, handleRoutingNumber, handleAccountType } = this.props
     return (
       <Form>
         <Container>
@@ -77,14 +55,6 @@ class AddManually extends Component {
             <Field name='type' component={SelectBoxBankAccountType} validate={[required]} onChange={(e, val) => handleAccountType(e, val)} />
           </InputContainer>
         </Container>
-        {/* <ButtonGroup>
-          <Button onClick={close}>
-            <FormattedMessage id='sfoxexchangedata.link.addmanually.cancel' defaultMessage="Cancel" />
-          </Button>
-          <Button nature='primary' type='submit' disabled={pristine || invalid || busy} >
-            <FormattedMessage id='sfoxexchangedata.link.addmanually.addaccount' defaultMessage="Add Account" />
-          </Button>
-        </ButtonGroup> */}
       </Form>
     )
   }
