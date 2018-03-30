@@ -3,6 +3,8 @@
 exports[`ModalHeader component default renders correctly 1`] = `
 <styled.div
   closeButton={true}
+  icon="x"
+  onClose={[Function]}
 >
   <styled.div>
     <Styled(Icon)
