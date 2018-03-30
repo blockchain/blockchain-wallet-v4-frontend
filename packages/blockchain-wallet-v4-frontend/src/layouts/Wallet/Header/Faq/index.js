@@ -23,7 +23,8 @@ const FaqLink = styled(Link)`
     border-left: 11px solid transparent;
     border-right: 11px solid transparent;
     border-bottom: 16px solid ${props => props.theme['white-blue']};
-    transition: opacity ${props => props.trayRightOpen ? '1s' : '0'};
+    transition: opacity ${props => props.trayRightOpen ? '.2s' : '0'};
+    transition-delay: ${props => props.trayRightOpen ? '.3s' : '.1s'};
   }
 `
 
