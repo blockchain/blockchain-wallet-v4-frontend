@@ -32,7 +32,7 @@ const Nav = styled.div`
 const Left = styled.div`
   display: flex;
   position: absolute;
-  top: 60px;
+
   left: ${props => props.toggled ? '0' : '-270px'};
   width: 270px;
   height: 100%;
