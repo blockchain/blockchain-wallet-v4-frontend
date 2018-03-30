@@ -1,4 +1,4 @@
-import { compose, map, curry, ifElse, always, isNil, prop, not } from 'ramda'
+import { compose, map, curry, ifElse, always, isNil, prop } from 'ramda'
 import { Wallet
   , Wrapper
   , HDAccount

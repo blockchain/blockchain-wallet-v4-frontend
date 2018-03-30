@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { selectors } from 'data'
 import FaqContent from './FaqContent'
-
-import { and, equals, filter } from 'ramda'
+// import { and, equals, filter } from 'ramda'
 
 import Faq from './template.js'
 
