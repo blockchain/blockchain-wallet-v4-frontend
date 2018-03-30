@@ -1,18 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
 import Modals from 'modals'
 import Alerts from 'components/Alerts'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
-import Faq from 'scenes/Faq'
-
 import TrayRight from './TrayRight'
-import { ModalHeader, ModalBody } from 'blockchain-info-components'
-
 import Page from './Page'
 
 const Wrapper = styled.div`
@@ -82,14 +77,7 @@ const WalletLayout = (props) => {
         <Left toggled={menuLeftToggled}>
           <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
         </Left>
-        <TrayRight isOpen={trayRightOpen} class='tray' onClose={handleTrayRightToggle}>
-          <ModalHeader onClose={handleTrayRightToggle}>
-            <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions'/>
-          </ModalHeader>
-          <ModalBody>
-            <Faq />
-          </ModalBody>
-        </TrayRight>
+        <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} />
         <Content>
           <Top>
             <MenuTop />
