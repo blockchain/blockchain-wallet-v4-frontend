@@ -4,6 +4,7 @@ import onClickOutside from 'react-onclickoutside'
 import { Modal } from 'blockchain-info-components'
 import Transition from 'react-transition-group/Transition'
 
+// TODO: refactor to not use react-transition-group. then remove that dependency all together
 const duration = 500
 
 const defaultStyle = {
