@@ -7,17 +7,9 @@ import VerifyEmail from './VerifyEmail'
 import { Row } from 'components/BuySell/Signup'
 
 const Create = (props) => {
-  const { ui } = props
-  const { handleSignup, signupError } = props
+  const { handleSignup, signupError, emailVerified } = props
 
-  const determineStep = () => {
-    switch (ui.create) {
-      case 'create_account': return 'terms'
-
-      case 'change_email':
-      case 'enter_email_code': return 'email'
-    }
-  }
+  const determineStep = () => emailVerified ? 'terms' : 'email'
 
   return (
     <Row>
