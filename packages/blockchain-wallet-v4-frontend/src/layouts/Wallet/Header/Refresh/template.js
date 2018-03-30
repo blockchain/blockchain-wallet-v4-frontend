@@ -1,15 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import { Link, Icon } from 'blockchain-info-components'
+
+const RefreshLink = styled(Link)`
+  & > :first-child:hover { 
+    cursor: pointer;
+  }
+`
 
 const Refresh = (props) => {
   const { handleRefresh } = props
 
   return (
-    <Link size='14px' weight={300} color='white' uppercase onClick={handleRefresh}>
+    <RefreshLink size='14px' weight={300} color='white' uppercase onClick={handleRefresh}>
       <Icon name='refresh-filled' color='white'/>
-    </Link>
+    </RefreshLink>
   )
 }
 
