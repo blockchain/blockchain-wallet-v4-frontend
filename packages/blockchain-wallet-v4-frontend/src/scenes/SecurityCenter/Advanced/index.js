@@ -19,10 +19,10 @@ const Wrapper = styled.div``
 const Advanced = ({ tabs, setView }) => (
   <Wrapper>
     {!tabs && <IconButton name='left-arrow' onClick={() => setView('security')}>
-                <Text size='14px' weight={300}>
-                  <FormattedMessage id='scenes.securitycenter.advanced.goback' defaultMessage='Go Back' />
-                </Text>
-              </IconButton>}
+      <Text size='14px' weight={300}>
+        <FormattedMessage id='scenes.securitycenter.advanced.goback' defaultMessage='Go Back' />
+      </Text>
+    </IconButton>}
     <WalletPassword />
     <PasswordHint />
     <SecondPasswordWallet />

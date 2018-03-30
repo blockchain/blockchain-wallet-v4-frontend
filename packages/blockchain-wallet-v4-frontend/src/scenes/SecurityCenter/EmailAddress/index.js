@@ -28,7 +28,6 @@ class EmailAddressContainer extends React.Component {
       setTimeout(function () {
         nextProps.updateUI({ successToggled: false })
         nextProps.goBackOnSuccess ? nextProps.goBackOnSuccess() : nextProps.updateUI({ verifyToggled: false })
-
       }, 1500)
     }
   }
