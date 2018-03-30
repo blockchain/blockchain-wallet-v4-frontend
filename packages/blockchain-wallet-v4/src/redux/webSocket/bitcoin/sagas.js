@@ -46,8 +46,8 @@ export const bitcoinWebSocketSaga = ({ api, socket } = {}) => {
         lastPongTimestamp = Date.now()
         yield call(delay, 120000)
         if (lastPongTimestamp < Date.now() - 120000) {
-          yield put(A.webSocket.stopSocket())
-          yield put(A.webSocket.startSocket())
+          yield put(A.webSocket.bitcoin.stopSocket())
+          yield put(A.webSocket.bitcoin.startSocket())
         }
         break
       case 'email_verified':
