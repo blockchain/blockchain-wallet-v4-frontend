@@ -63,7 +63,14 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'WalletLayout', persist: true, state: { menuLeftToggled: false, trayRightOpen: false } })
+  ui({
+    key: 'WalletLayout',
+    persist: true,
+    state: {
+      menuLeftToggled: false,
+      trayRightOpen: false
+    }
+  })
 )
 
 export default enhance(WalletLayout)

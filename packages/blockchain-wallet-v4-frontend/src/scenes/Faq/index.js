@@ -11,28 +11,30 @@ class FaqContainer extends React.Component {
   constructor (props) {
     super(props)
 
-    this.filterFaq = this.filterFaq.bind(this)
-  }
-
-  // TODO: wire this up
-  filterFaq (questions) {
-    // canBuy, canAccessExchange, etc.. will eventually come from this.props
-    const canBuy = false
-    const canAccessExchange = true
-
-    const filterQuestion = q => {
-      if (and(!canAccessExchange, equals(q.filter, 'exchange'))) return
-      if (and(!canBuy, equals(q.filter, 'buy'))) return
-      if (and(equals(this.props.countryCode.data, 'US'), equals(q.filter, 'exchange'))) return
-      return q
+    this.state = {
+      filterText: ''
     }
 
-    return filter(filterQuestion, questions)
+    this.onFilter = this.onFilter.bind(this)
+  }
+
+  onFilter ({target: {value: filterText}}) {
+    console.log('')
+    this.setState({filterText})
   }
 
   render () {
-    const { faqContent } = this.props
-    return <Faq faqContent={faqContent} />
+    let t = this.props.faqContent
+
+    // Bad WIP
+    t[0].groupQuestions = this.state.filterText ? t[0].groupQuestions.filter((q) =>
+      q.question.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1 ||
+      q.answer.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1
+    ) : t[0].groupQuestions
+
+    return (
+      <Faq filteredContent={t} onFilter={this.onFilter} filterText={this.state.filterText}/>
+    )
   }
 }
 
