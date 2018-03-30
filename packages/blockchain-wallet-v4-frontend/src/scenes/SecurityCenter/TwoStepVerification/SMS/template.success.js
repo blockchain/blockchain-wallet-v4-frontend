@@ -40,7 +40,7 @@ const QRInputWrapper = styled.div`
 `
 
 const SmsAuth = props => {
-  const { data, ui, onSubmit, goBack, handleGetCode, changeMobileNumber, handleVerifyCode, invalid, code } = props
+  const { data, ui, onSubmit, goBack, handleGetCode, changeMobileNumber, invalid, code } = props
   const { authType, smsVerified, smsNumber } = data
 
   return (
@@ -100,8 +100,7 @@ SmsAuth.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   handleGetCode: PropTypes.func.isRequired,
-  changeMobileNumber: PropTypes.func.isRequired,
-  handleVerifyCode: PropTypes.func.isRequired
+  changeMobileNumber: PropTypes.func.isRequired
 }
 
 export default reduxForm({
