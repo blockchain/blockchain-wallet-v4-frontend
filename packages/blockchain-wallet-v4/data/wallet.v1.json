@@ -1,0 +1,34 @@
+{
+  "guid": "5b0e3243-1e61-40d5-bd0e-3c1e5dfcda48",
+  "sharedKey": "740cdbbb-842b-4b34-ab81-0ce94bb3fda7",
+  "double_encryption": false,
+  "options": {
+    "fee_policy": 0,
+    "html5_notifications": false,
+    "logout_time": 600000,
+    "tx_display": 0,
+    "always_keep_local_backup": false
+  },
+  "keys": [
+    {
+      "addr": "17hq3Uhs5UKqKyjhGWfdz5eEP7ZMwzNa4h",
+      "priv": "GNZXWkQhTa4nvfQMTpF41pT5zUQTTgiqj4Qbm8GqzMp5"
+    },
+    {
+      "addr": "1NUR1DM9z3f6ZW9FSUpHcyMFnXfvUd5yie",
+      "priv": "w9apjh2JQ2VdTDgDos9qRD6ir7noQQLDVr9Aqu2Nryn"
+    },
+    {
+      "addr": "14HuuiWQTpAmro59MXCiFiYRUy1tDH3DnM",
+      "priv": "C8zHKLWGCTuk4Zt1HcEBmrSduNn13VgJ3xCs6VVfgZpE"
+    },
+    {
+      "addr": "1LVMLbNFRt73W4J15QYvuqMHA2pw4Eqi1A",
+      "priv": "HoMbzd1sfUfUeXDvH2WDhYKTDfC85rA4thkk9br234jP"
+    },
+    {
+      "addr": "17RQFwi87RVj9NJUi9CBMzLdLdXCrkSdqm",
+      "priv": "7KddExJVptytZYJRQqYF9DibzYALHJK4SrUQonepX16V"
+    }
+  ]
+}

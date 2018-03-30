@@ -10,7 +10,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
 
-import { Wrapper, Wallet, HDWalletList } from '../../types'
+import { Wrapper, Wallet } from '../../types'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
@@ -58,17 +58,20 @@ export const walletSaga = ({ api } = {}) => {
 
   const fetchWalletSaga = function * ({ guid, sharedKey, session, password, code }) {
     const wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password, code)
-    const hdwallets = compose(i => i.toJS(), Wallet.selectHdWallets, Wrapper.selectWallet)(wrapper)
+    yield put(A.setWrapper(wrapper))
+  }
+
+  const upgradeToHd = function * ({ password }) {
+    let wrapper = yield select(S.getWrapper)
+    let hdwallets = compose(i => i.toJS(), Wallet.selectHdWallets, Wrapper.selectWallet)(wrapper)
+
     if (isEmpty(hdwallets)) {
-      // TODO :: if second password on should add an encrypted hdwallet (require ask second password)
-      const mnemonic = BIP39.generateMnemonic()
-      const hdwalletList = HDWalletList.createNew(guid, password, sharedKey, mnemonic)
-      const newWrapper = set(compose(Wrapper.wallet, Wallet.hdWallets), hdwalletList, wrapper)
-      yield put(A.setWrapper(newWrapper))
-      return true // upgrade need
+      let mnemonic = BIP39.generateMnemonic()
+      let upgradeWallet = Wallet.upgradeToHd(mnemonic, 'My Bitcoin Wallet', password)
+      let nextWrapper = Wrapper.traverseWallet(Either.of, upgradeWallet, wrapper)
+      yield call(runTask, eitherToTask(nextWrapper), A.setWrapper)
     } else {
-      yield put(A.setWrapper(wrapper))
-      return false
+      throw new Error('Already an HD wallet')
     }
   }
 
@@ -143,6 +146,7 @@ export const walletSaga = ({ api } = {}) => {
     updatePbkdf2Iterations,
     remindWalletGuidSaga,
     fetchWalletSaga,
+    upgradeToHd,
     resetWallet2fa,
     refetchContextData
   }
