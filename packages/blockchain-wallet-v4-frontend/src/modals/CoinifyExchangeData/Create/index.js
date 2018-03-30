@@ -5,11 +5,16 @@ import { bindActionCreators, compose } from 'redux'
 import Create from './template'
 import { actions, selectors } from 'data'
 import ui from 'redux-ui'
+import { path } from 'ramda'
 
 class CreateContainer extends Component {
   componentDidMount () {
-    if (this.props.emailVerified) this.props.updateUI({ create: 'create_account' })
-    else this.props.updateUI({ create: 'enter_email_code' })
+    if (this.props.emailVerified) {
+      this.props.updateUI({ create: 'create_account' })
+    } else {
+      this.props.updateUI({ create: 'enter_email_code' })
+      this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
+    }
   }
 
   render () {
@@ -25,11 +30,14 @@ CreateContainer.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  emailVerified: selectors.core.settings.getEmailVerified(state).data
+  oldEmail: selectors.core.settings.getEmail(state).data,
+  emailVerified: selectors.core.settings.getEmailVerified(state).data,
+  emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
 const enhance = compose(
