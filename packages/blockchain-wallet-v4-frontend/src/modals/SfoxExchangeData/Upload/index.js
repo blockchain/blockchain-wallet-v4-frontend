@@ -20,22 +20,7 @@ class UploadContainer extends Component {
 
     this.state = { file: null,
       camera: false,
-      photo: '',
-      requiredDocs: '',
-      uploadStepNumber: ''
-    }
-  }
-
-  componentWillMount () {
-    const requiredDocs = this.props.data.data.verificationStatus.required_docs.length
-    this.setState({ requiredDocs })
-    this.setState({ uploadStepNumber: 1 })
-  }
-
-  componentWillReceiveProps (nextProps) {
-    const nextVerificiationStatus = nextProps.data.data.verificationStatus
-    if (nextVerificiationStatus.required_docs.length < this.state.requiredDocs) {
-      this.setState({ uploadStepNumber: 2 })
+      photo: ''
     }
   }
 
@@ -92,8 +77,6 @@ class UploadContainer extends Component {
         resetUpload={this.resetUpload}
         submitForUpload={this.submitForUpload}
         handleStartClick={this.handleStartClick}
-        requiredDocs={this.state.requiredDocs}
-        uploadStepNumber={this.state.uploadStepNumber}
       />,
       Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,
