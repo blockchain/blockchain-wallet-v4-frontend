@@ -22,7 +22,7 @@ const TrayModal = styled(Modal)`
   overflow: hidden;
   position: absolute;
   width: 100%;
-  height: calc(100vh - 60px);
+  height: 100vh;
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   > div:first-child {
