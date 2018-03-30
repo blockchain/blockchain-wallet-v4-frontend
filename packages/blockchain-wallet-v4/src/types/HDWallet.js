@@ -1,8 +1,10 @@
 import { shift, shiftIProp } from './util'
 import { pipe, compose, curry, is, range, map } from 'ramda'
-import { view, over } from 'ramda-lens'
+import { view, over, traverseOf, traversed } from 'ramda-lens'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
+import * as crypto from '../walletCrypto'
+import Either from 'data.either'
 
 import Type from './Type'
 import * as HDAccountList from './HDAccountList'
@@ -65,6 +67,30 @@ export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
 export const generateAccount = curry((index, label, seedHex) => {
   let node = deriveAccountNodeAtIndex(seedHex, index, Bitcoin.networks.bitcoin)
   return HDAccount.fromJS(HDAccount.js(`${label} ${index + 1}`, node))
+})
+
+// encryptSync :: Number -> String -> String -> HDWallet -> Either Error HDWallet
+export const encryptSync = curry((iterations, sharedKey, password, hdWallet) => {
+  const cipher = crypto.encryptSecPassSync(sharedKey, iterations, password)
+  const traverseSeed = traverseOf(seedHex, Either.of, cipher)
+  const traverseAccounts = traverseOf(compose(accounts, traversed, HDAccount.xpriv), Either.of, cipher)
+  return Either.of(hdWallet).chain(traverseSeed).chain(traverseAccounts)
+})
+
+// decryptSync :: Number -> String -> String -> HDWallet -> Either Error HDWallet
+export const decryptSync = curry((iterations, sharedKey, password, hdWallet) => {
+  const cipher = crypto.decryptSecPassSync(sharedKey, iterations, password)
+  const traverseSeed = traverseOf(seedHex, Either.of, cipher)
+  const traverseAccounts = traverseOf(compose(accounts, traversed, HDAccount.xpriv), Either.of, cipher)
+  return Either.of(hdWallet).chain(traverseSeed).chain(traverseAccounts)
+})
+
+export const createNew = (mnemonic) => fromJS({
+  seed_hex: mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : '',
+  passphrase: '',
+  mnemonic_verified: false,
+  default_account_idx: 0,
+  accounts: []
 })
 
 export const js = (label, mnemonic, xpub, nAccounts, network) => {
