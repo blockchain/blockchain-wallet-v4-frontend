@@ -82,7 +82,7 @@ const WalletLayout = (props) => {
         <Left toggled={menuLeftToggled}>
           <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
         </Left>
-        <TrayRight in={trayRightOpen} class='tray' onClose={handleTrayRightToggle}>
+        <TrayRight isOpen={trayRightOpen} class='tray' onClose={handleTrayRightToggle}>
           <ModalHeader onClose={handleTrayRightToggle}>
             <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions'/>
           </ModalHeader>

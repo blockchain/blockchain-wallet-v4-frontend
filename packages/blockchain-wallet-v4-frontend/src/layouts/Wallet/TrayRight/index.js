@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Modal } from 'blockchain-info-components'
-import Transition from 'react-transition-group/Transition'
 import PropTypes from 'prop-types'
 
 const defaultStyle = {
@@ -10,17 +9,28 @@ const defaultStyle = {
 }
 
 const transitionStyles = {
-  entering: { right: 'calc(-33%)' },
-  entered: { right: '0' }
+  closed: { right: 'calc(-33%)' },
+  open: { right: '0' }
 }
 
-const TrayModal = styled(Modal)`
-  right: 0;
-  font-weight: 300;
-  overflow:hidden;
+const AnimationWrapper = styled.div`
   position: absolute;
   width: calc(33%);
   height: calc(100vh - 60px);
+  transition-property: right;
+  transition-duration: 500ms;
+  transition-timing-function: initial;
+  transition-delay: initial;
+  @media (max-width: 767px) {
+    width: 100%;
+    right: 0px;
+  }
+`
+const TrayModal = styled(Modal)`
+  font-weight: 300;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   font-family: 'Montserrat', Helvetica, sans-serif;
   > div:first-child {
@@ -47,29 +57,24 @@ const TrayModal = styled(Modal)`
     padding: 0px 20px 50px 20px;
     height: 100%;
   }
-  @media (max-width: 767px) {
-    width: 100%;
-    right: 0px;
-  }
 `
 
 class TrayRight extends React.Component {
   render () {
-    const { children, ...rest } = this.props
+    const { children, isOpen, ...rest } = this.props
+
     return (
-      <Transition in={this.props.in} timeout={0}>
-        {(status) => (
-          <TrayModal {...rest} type={'tray'} style={{...defaultStyle, ...transitionStyles[status]}}>
-            {children}
-          </TrayModal>
-        )}
-      </Transition>
+      <AnimationWrapper style={{...defaultStyle, ...transitionStyles[isOpen ? 'open' : 'closed']}}>
+        <TrayModal {...rest} type={'tray'}>
+          {children}
+        </TrayModal>
+      </AnimationWrapper>
     )
   }
 }
 
 TrayRight.propTypes = {
-  in: PropTypes.bool.isRequired
+  isOpen: PropTypes.bool.isRequired
 }
 
 export default TrayRight
