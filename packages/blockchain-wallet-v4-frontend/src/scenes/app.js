@@ -59,7 +59,6 @@ class App extends React.Component {
                 <WalletLayout path='/settings/addresses/:index' component={ManageAddresses} />
                 <WalletLayout path='/settings/addresses' component={Addresses} />
                 <WalletLayout path='/settings/info' component={Info} />
-                <WalletLayout path='/faq' component={Faq} />
                 {/* <Redirect from='/settings' to='/settings/info' /> */}
                 <Redirect from='/' to='/login' />
               </Switch>
