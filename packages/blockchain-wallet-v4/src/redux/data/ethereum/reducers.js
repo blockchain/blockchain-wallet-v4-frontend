@@ -1,4 +1,4 @@
-import {assoc, assocPath, merge, prop} from 'ramda'
+import {assoc, merge, prop} from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
@@ -19,6 +19,7 @@ export default (state = INITIAL_STATE, action) => {
       const newState = {
         addresses: Remote.Loading,
         info: Remote.Loading,
+        latest_block: Remote.Loading,
         transactions: Remote.Loading
       }
       return merge(state, newState)
@@ -27,6 +28,7 @@ export default (state = INITIAL_STATE, action) => {
       const newState = {
         addresses: Remote.Success(prop('addresses', payload)),
         info: Remote.Success(prop('info', payload)),
+        latest_block: Remote.Success(prop('latest_block', payload)),
         transactions: Remote.Success(prop('transactions', payload))
       }
       return merge(state, newState)
@@ -35,6 +37,7 @@ export default (state = INITIAL_STATE, action) => {
       const newState = {
         addresses: Remote.Failure(prop('addresses', payload)),
         info: Remote.Failure(prop('info', payload)),
+        latest_block: Remote.Failure(prop('latest_block', payload)),
         transactions: Remote.Failure(prop('transactions', payload))
       }
       return merge(state, newState)

@@ -45,7 +45,7 @@
         "states": "*",
         "config": {
           "availability": true,
-          "partnerId": 18,
+          "partnerId": 19,
           "iSignThisDomain": "https://stage-verify.isignthis.com",
           "surveyLinks": [
             "https://blockchain.co1.qualtrics.com/SE/?SID=SV_8pupOEQPGkXx8Kp",
@@ -78,7 +78,7 @@
       "sfox": {
         "fraction": 1,
         "countries": ["US"],
-        "states": ["AL", "AZ", "CA", "CO", "DE", "GA", "IN", "KS", "ME", "MD", "MA", "MO", "MT", "NY", "PA", "SC", "TN", "TX", "UT"],
+        "states": ["AR", "AZ", "CA", "CO", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "MI", "MN", "MO", "MT", "NE", "NV", "OK", "PA", "SC", "SD", "TN", "TX", "VA", "WI", "WV"],
         "config": {
           "availability": true,
           "apiKey": "6CD61A0E965D48A7B1883A860490DC9E",

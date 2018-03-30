@@ -3,16 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { Text, Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary } from 'components/Security'
+import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SecurityTip } from 'components/Security'
 import RecordBackupPhrase from './RecordBackupPhrase'
 
-const SecurityTip = styled.div`
-  border-left: 1px solid #CCCCCC;
-  border-right: 1px solid #CCCCCC;
-  border-bottom: 1px solid #CCCCCC;
-  padding: 20px;
-  width: 95%;
-`
 const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;

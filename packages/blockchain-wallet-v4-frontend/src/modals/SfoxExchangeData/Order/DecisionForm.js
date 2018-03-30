@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Info } from '../styled'
+import { Info } from 'components/BuySell/Signup'
 import SelectBar from './SelectBar'
 import SelectBarOption from './SelectBarOption'
 import SelectBarHeader from './SelectBarHeader'

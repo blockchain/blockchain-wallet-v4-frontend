@@ -9,7 +9,8 @@ import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper } from '../styled'
+import FAQ1 from './faq.js'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
@@ -69,22 +70,25 @@ class AcceptTerms extends Component {
           </InputWrapper>
         </ColLeft>
         <ColRight>
-          <ButtonWrapper>
-            <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError}>
+          <ColRightInner>
+            <ButtonWrapper>
+              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError}>
+                {
+                  !busy
+                    ? <span>Continue</span>
+                    : <HeartbeatLoader height='20px' width='20px' color='white' />
+                }
+              </Button>
+            </ButtonWrapper>
+            <ErrorWrapper>
               {
-                !busy
-                  ? <span>Continue</span>
-                  : <HeartbeatLoader height='20px' width='20px' color='white' />
+                signupError && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
+                  <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
+                </Text>
               }
-            </Button>
-          </ButtonWrapper>
-          <ErrorWrapper>
-            {
-              signupError && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
-                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
-              </Text>
-            }
-          </ErrorWrapper>
+            </ErrorWrapper>
+            <FAQ1 />
+          </ColRightInner>
         </ColRight>
       </Form>
     )

@@ -6,7 +6,7 @@ import { actions, actionTypes } from 'data'
 import * as selectors from '../../selectors.js'
 import * as MODALS_ACTIONS from '../../modals/actions'
 
-export const setBankManually = function * (action) { // will have to call this by dispatching action
+export const setBankManually = function * (action) {
   try {
     yield call(sagas.core.data.sfox.setBankManually, action.payload)
     yield put(actions.alerts.displaySuccess('Bank has been added!'))
@@ -23,7 +23,7 @@ export const sfoxSignup = function * () {
     const profile = yield select(selectors.core.data.sfox.getProfile)
 
     if (!profile.error) {
-      yield put(A.nextStep('personal'))
+      yield put(A.nextStep('verify'))
       yield put(actions.alerts.displaySuccess('Account successfully created!'))
     } else {
       yield put(A.signupFailure(profile.error))
@@ -91,6 +91,15 @@ export const submitQuote = function * (action) {
   }
 }
 
+export const submitMicroDeposits = function * (payload) {
+  try {
+    yield call(sagas.core.data.sfox.verifyMicroDeposits, payload)
+    yield put(actions.alerts.displaySuccess('Bank Verified!'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Unable to verify bank'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
   yield takeLatest(AT.SET_BANK, setBank)
@@ -98,4 +107,5 @@ export default function * () {
   yield takeLatest(AT.SET_PROFILE, setProfile)
   yield takeLatest(AT.UPLOAD, upload)
   yield takeLatest(AT.SUBMIT_QUOTE, submitQuote)
+  yield takeLatest(AT.SUBMIT_MICRO_DEPOSITS, submitMicroDeposits)
 }

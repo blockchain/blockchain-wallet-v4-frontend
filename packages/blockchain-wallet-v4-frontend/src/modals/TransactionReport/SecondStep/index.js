@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 import moment from 'moment'
-import { equals, map } from 'ramda'
+import { map } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'

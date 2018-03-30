@@ -10,6 +10,7 @@ import Verify from './Verify'
 import Link from './Link'
 import Order from './Order'
 import Submit from './Submit'
+import Upload from './Upload'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
@@ -22,15 +23,16 @@ class SfoxExchangeData extends React.Component {
     this.state = { show: false }
     this.stepMap = {
       account: <FormattedMessage id='modals.sfoxexchangedata.steps.account' defaultMessage='Account' />,
-      personal: <FormattedMessage id='modals.sfoxexchangedata.steps.personal' defaultMessage='Personal' />,
+      verify: <FormattedMessage id='modals.sfoxexchangedata.steps.verify' defaultMessage='Verify' />,
       funding: <FormattedMessage id='modals.sfoxexchangedata.steps.funding' defaultMessage='Funding' />,
-      order: <FormattedMessage id='modals.sfoxexchangedata.steps.order' defaultMessage='Order' />,
       submit: <FormattedMessage id='modals.sfoxexchangedata.steps.submit' defaultMessage='Submit' />
     }
   }
 
   componentDidMount () {
+    /* eslint-disable */
     this.setState({ show: true })
+    /* eslint-enable */
   }
 
   handleClose () {
@@ -41,10 +43,11 @@ class SfoxExchangeData extends React.Component {
   getStepComponent (step) {
     switch (step) {
       case 'account': return <Create />
-      case 'personal': return <Verify />
+      case 'verify': return <Verify />
       case 'funding': return <Link />
       case 'order': return <Order />
       case 'submit': return <Submit />
+      case 'upload': return <Upload />
       case 'verified': {
         this.handleClose()
         break
@@ -57,7 +60,7 @@ class SfoxExchangeData extends React.Component {
     const step = this.props.signupStep || this.props.step
 
     return (
-      <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
+      <Tray position={this.props.position} total={this.props.total} in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader onClose={this.handleClose.bind(this)}>
           <StepIndicator step={step} stepMap={this.stepMap} />
         </ModalHeader>
@@ -70,7 +73,7 @@ class SfoxExchangeData extends React.Component {
 }
 
 SfoxExchangeData.propTypes = {
-  step: PropTypes.oneOf(['account', 'personal', 'upload', 'funding', 'order', 'submit']),
+  step: PropTypes.oneOf(['account', 'verify', 'upload', 'funding', 'order', 'submit']),
   close: PropTypes.function
 }
 
