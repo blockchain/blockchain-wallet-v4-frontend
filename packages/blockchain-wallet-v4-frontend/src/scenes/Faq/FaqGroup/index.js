@@ -25,8 +25,8 @@ const FaqGroup = (props) => {
         <FormattedMessage id={groupTitleId} defaultMessage={groupTitleMsg} />
       </GroupTitle>
       {
-        groupQuestions.map((q, i) => {
-          return <FaqRow title={q.title} description={q.description} key={i} />
+        groupQuestions.length > 0 && groupQuestions.map((q, i) => {
+          return <FaqRow title={q.question} description={q.answer} key={i} />
         })
       }
     </Wrapper>
