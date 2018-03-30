@@ -30,9 +30,9 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    // case AT.SET_BITCOIN_LATEST_BLOCK: {
-    //   return assocPath(['latest_block'], payload, state)
-    // }
+    case AT.SET_BITCOIN_LATEST_BLOCK: {
+      return assocPath(['latest_block'], Remote.Success(payload), state)
+    }
     case AT.REFRESH_BITCOIN_EFFECTIVE_BALANCE: {
       const { coins, feePerByte } = payload
       const { outputs } = selectAll(feePerByte, coins)

@@ -2,6 +2,7 @@ import React from 'react'
 
 import AddBitcoinWallet from './AddBitcoinWallet'
 import AutoDisconnection from './AutoDisconnection'
+import CoinifyExchangeData from './CoinifyExchangeData'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
 import ExchangeDetails from './ExchangeDetails'
 import ImportBtcAddress from './ImportBtcAddress'
@@ -19,6 +20,7 @@ import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
 import SendBitcoin from './SendBitcoin'
 import SendEther from './SendEther'
+import SfoxAddBankManually from './SfoxAddBankManually'
 import SfoxExchangeData from './SfoxExchangeData'
 import ShowPrivateKey from './ShowPrivateKey'
 import ShowXPub from './ShowXPub'
@@ -34,6 +36,7 @@ const Modals = props => (
   <div>
     <AddBitcoinWallet />
     <AutoDisconnection />
+    <CoinifyExchangeData />
     <ConfirmDisable2FA />
     <ExchangeDetails />
     <ImportBtcAddress />
@@ -51,6 +54,7 @@ const Modals = props => (
     <SendBch />
     <SendBitcoin />
     <SendEther />
+    <SfoxAddBankManually />
     <SfoxExchangeData />
     <ShowPrivateKey />
     <ShowXPub />

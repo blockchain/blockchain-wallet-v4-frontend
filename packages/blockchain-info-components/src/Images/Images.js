@@ -3,6 +3,8 @@ import bitcoinNetwork from './img/bitcoin-network.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
 import blockchainVector from './img/blockchain-vector.svg'
 import blueLogo from './img/blue-logo.svg'
+import chartPlaceholder from './img/chart-placeholder.png'
+import checkHelper from './img/check-helper.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.png'
 import halfEther from './img/half-ether.svg'
@@ -25,6 +27,8 @@ export default {
   'blockchain-blue': blockchainBlue,
   'blockchain-vector': blockchainVector,
   'blue-logo': blueLogo,
+  'chart-placeholder': chartPlaceholder,
+  'check-helper': checkHelper,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
   'half-ether': halfEther,

@@ -2,28 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, IconButton, Link, HeartbeatLoader } from 'blockchain-info-components'
+import { Text, Button, IconButton, Link } from 'blockchain-info-components'
 import { } from 'services/FormHelper'
 import Dropzone from 'react-dropzone'
 
 import CameraContainer from './camera'
 import TitleStrings from './strings'
+import { Row, ColLeft, ColRight } from 'components/BuySell/Signup'
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-`
-const ColLeft = styled.div`
-  width: 40%;
-`
-const ColRight = styled.div`
-  width: 60%;
-`
 const InputContainer = styled.div`
-  border: 1px solid #ebebeb;
-  max-height: 360px;
-  height: 360px;
+  max-height: 300px;
+  height: 200px;
 `
 const InputForm = styled.form`
   display: flex;
@@ -31,15 +20,6 @@ const InputForm = styled.form`
   align-items: center;
   justify-content: center;
   height: 100%;
-`
-const OrHorizontalLine = styled.div`
-  span:before {
-    top: 50%;
-    width: 40%;
-    height: 1px;
-    left: 0;
-    right: initial;
-  }
 `
 const ButtonContainer = styled.div`
     display: flex;
@@ -52,7 +32,9 @@ const ButtonContainer = styled.div`
     }
 `
 const CustomDropzone = styled(Dropzone)`
-  height: 100%;
+  height: 200px;
+  border: 1px solid #5F5F5F;
+  border-radius: 2px;
 `
 const UploadSuccess = styled.div`
   display: flex;
@@ -60,10 +42,6 @@ const UploadSuccess = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-`
-const UploadStatus = styled.div`
-  display: flex;
-  justify-content: space-between;
 `
 const SubmitContainer = styled.div`
   margin-top: 15px;
@@ -74,9 +52,25 @@ const SubmitContainer = styled.div`
     margin-bottom: 10px;
   }
 `
-const SuccessText = styled(Text)`margin: 30px 0px; `
+const SuccessText = styled(Text)`margin: 20px 0px; `
+const Wrapper = styled.div`
 
-const Verify = (props) => {
+`
+const InnerDropzone = styled(Dropzone)`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px 50px;
+`
+const CameraLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 300;
+  margin-top: 15px;
+`
+
+const Upload = (props) => {
   const { onDrop,
     file,
     data,
@@ -85,98 +79,79 @@ const Verify = (props) => {
     setPhoto,
     photo,
     resetUpload,
-    submitForUpload,
-    requiredDocs,
-    uploadStepNumber } = props
+    submitForUpload } = props
   const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
     return (
-      <CustomDropzone accept='image/jpeg, image/png' onDrop={onDrop} disableClick>
-        <InputForm>
-          <ButtonContainer>
-            <IconButton nature='primary' name='camera' onClick={toggleCamera}>
-              <FormattedMessage id='sfoxexchangedata.upload.camera' defaultMessage='Capture Using Camera' />
-            </IconButton>
-            <OrHorizontalLine>
-              <FormattedMessage id='sfoxexchangedata.upload.or' defaultMessage='OR' />
-            </OrHorizontalLine>
-            <Dropzone style={{ border: 'none', height: 'initial' }} onDrop={onDrop}>
-              <IconButton name='up-arrow-in-circle'>
-                <FormattedMessage id='sfoxexchangedata.upload.uploadfromdevice' defaultMessage='Upload From Device' />
-              </IconButton>
-            </Dropzone>
-          </ButtonContainer>
-        </InputForm>
-      </CustomDropzone>
+      <Wrapper>
+        <CustomDropzone accept='image/jpeg, image/png' onDrop={onDrop} disableClick>
+          <InputForm>
+            <ButtonContainer>
+              <InnerDropzone style={{ border: 'none', height: 'initial' }} onDrop={onDrop}>
+                <Text color='gray-3' size='14px' weight={300}>
+                  <FormattedMessage id='sfoxexchangedata.upload.dragorbrowse' defaultMessage='Drag a document here or browse for a document to upload.' />
+                </Text>
+                <Button nature='primary'>
+                  <FormattedMessage id='sfoxexchangedata.upload.selectfile' defaultMessage='Select File' />
+                </Button>
+              </InnerDropzone>
+            </ButtonContainer>
+          </InputForm>
+        </CustomDropzone>
+        { !showCamera ? <CameraLink onClick={toggleCamera}> <FormattedMessage id='sfoxexchangedata.upload.usecamera' defaultMessage='Use Camera Instead' /> </CameraLink> : null }
+      </Wrapper>
     )
   }
 
+  let camera = null
   return (
     <Row>
       <ColLeft>
         <TitleStrings idType={idType} />
-      </ColLeft>
-      <ColRight>
-        <UploadStatus>
-          <Text size='14px'>
-            <FormattedMessage id='sfoxexchangedata.upload.selectmethod' defaultMessage='Select Upload Method' />
-          </Text>
-          <Text size='14px'>
-            <FormattedMessage id='sfoxexchangedata.upload.selectmethod' defaultMessage='Upload Step ' />
-            { uploadStepNumber }
-            <FormattedMessage id='sfoxexchangedata.upload.of' defaultMessage=' of ' />
-            { requiredDocs }
-          </Text>
-        </UploadStatus>
         <InputContainer>
           {
             file
               ? <UploadSuccess>
-                <Text size='20px' color='success'>
-                  <FormattedMessage id='sfoxexchangedata.upload.uploadsuccess' defaultMessage='Successfully Uploaded!' />
-                </Text>
                 <SuccessText size='16px'>
-                  <FormattedMessage id='sfoxexchangedata.upload.sentforreview' defaultMessage='Document will be sent for review.' />
+                  <FormattedMessage id='sfoxexchangedata.upload.sentforreview' defaultMessage='Click submit to send the document for approval.' />
                 </SuccessText>
                 <img style={{ height: '180px' }} src={file.preview} alt='Your document' />
               </UploadSuccess>
               : photo
                 ? <UploadSuccess>
-                  <Text size='20px' color='success'>
-                    <FormattedMessage id='sfoxexchangedata.upload.uploadsuccess' defaultMessage='Successfully Uploaded!' />
-                  </Text>
                   <SuccessText size='16px'>
-                    <FormattedMessage id='sfoxexchangedata.upload.imgsentforreview' defaultMessage='Image will be sent for review.' />
+                    <FormattedMessage id='sfoxexchangedata.upload.imgsentforreview' defaultMessage='Click submit to send the image for approval.' />
                   </SuccessText>
                   <img style={{ height: '180px' }} src={photo} id='photo' alt='Your photo' />
                 </UploadSuccess>
                 : showCamera
-                  ? <CameraContainer setPhoto={setPhoto} ref={instance => { this.camera = instance }} />
+                  ? <CameraContainer setPhoto={setPhoto} ref={instance => { camera = instance }} />
                   : renderInputOptions()
           }
-        </InputContainer>
-        {
-          file || photo
-            ? <SubmitContainer>
-              <Button fullwidth nature='primary' onClick={submitForUpload}>
-                <FormattedMessage id='sfoxexchangedata.upload.submitforreview' defaultMessage='Submit For Review' />
-              </Button>
-              <Link size='13px' onClick={resetUpload}>
-                <FormattedMessage id='sfoxexchangedata.upload.tryagain' defaultMessage='Try Again' />
-              </Link>
-            </SubmitContainer>
-            : showCamera
+          {
+            showCamera && !photo
               ? <SubmitContainer>
-                <IconButton name='camera' fullwidth nature='primary' onClick={() => { this.camera.handleStartClick() }}>
+                <IconButton name='camera' fullwidth nature='primary' onClick={() => { camera.handleStartClick() }}>
                   <FormattedMessage id='sfoxexchangedata.upload.capture' defaultMessage='Capture' />
                 </IconButton>
               </SubmitContainer>
               : null
-        }
+          }
+        </InputContainer>
+      </ColLeft>
+      <ColRight>
+        <SubmitContainer>
+          <Button fullwidth nature='primary' onClick={submitForUpload} disabled={!photo && !file}>
+            <FormattedMessage id='sfoxexchangedata.upload.submitforreview' defaultMessage='Submit For Review' />
+          </Button>
+          <Link size='13px' onClick={resetUpload}>
+            <FormattedMessage id='sfoxexchangedata.upload.tryagain' defaultMessage='Try Again' />
+          </Link>
+        </SubmitContainer>
       </ColRight>
     </Row>
   )
 }
 
-export default reduxForm({ form: 'sfoxUpload' })(Verify)
+export default reduxForm({ form: 'sfoxUpload' })(Upload)

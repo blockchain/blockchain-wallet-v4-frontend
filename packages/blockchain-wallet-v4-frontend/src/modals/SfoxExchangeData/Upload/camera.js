@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-const CamHelp = styled.span`
-  left: 0px;
-  bottom: 0px;
-  width: 100%;
-  color: white;
-  height: 35px;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.44);
-`
+// const CamHelp = styled.span`
+//   left: 0px;
+//   bottom: 0px;
+//   width: 100%;
+//   color: white;
+//   height: 35px;
+//   position: absolute;
+//   background: rgba(0, 0, 0, 0.44);
+// `
 const VideoContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -30,7 +30,7 @@ class CameraContainer extends Component {
     super(props)
 
     this.state = {
-      constraints: { audio: false, video: { width: 400, height: 300 } },
+      constraints: { audio: false, video: { width: 400, height: 200 } },
       stream: false
     }
 

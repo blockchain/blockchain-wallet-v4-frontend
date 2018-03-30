@@ -2,12 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import ui from 'redux-ui'
-import { map } from 'ramda'
 
-import { renameKeys } from 'services/RamdaCookingBook'
 import * as languageService from 'services/LanguageService'
 import { actions, selectors } from 'data'
-import { SimpleDropdown } from 'blockchain-info-components'
 
 class DropdownLanguageContainer extends React.Component {
   constructor (props) {
@@ -21,8 +18,8 @@ class DropdownLanguageContainer extends React.Component {
   }
 
   render () {
-    const { culture, ...rest } = this.props
-    const items = [...map(renameKeys({name: 'text', cultureCode: 'value'}))(this.props.languages)]
+    // const { culture, ...rest } = this.props
+    // const items = [...map(renameKeys({name: 'text', cultureCode: 'value'}))(this.props.languages)]
 
     return null
   }
@@ -43,3 +40,4 @@ const enhance = compose(
 )
 
 export default enhance(DropdownLanguageContainer)
+/**/

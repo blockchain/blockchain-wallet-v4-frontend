@@ -54,24 +54,6 @@ const showGoogleAuthenticatorSecretUrl = function * (action) {
   }
 }
 
-export const updateEmail = function * (action) {
-  try {
-    yield call(sagas.core.settings.setEmail, action.payload)
-    yield put(actions.alerts.displaySuccess('Email address has been successfully updated. Confirmation email has been sent.'))
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not update email address.'))
-  }
-}
-
-export const verifyEmail = function * (action) {
-  try {
-    yield call(sagas.core.settings.verifyEmailCode, action.payload)
-    yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not verify email address.'))
-  }
-}
-
 export const updateMobile = function * (action) {
   try {
     yield call(sagas.core.settings.setMobile, action.payload)
@@ -120,6 +102,7 @@ export const updateBitcoinUnit = function * (action) {
 export const updateAutoLogout = function * (action) {
   try {
     yield call(sagas.core.settings.setAutoLogout, action.payload)
+    yield put(actions.auth.startLogoutTimer())
     yield put(actions.alerts.displaySuccess('Auto logout has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update auto logout.'))
@@ -240,8 +223,6 @@ export default function * () {
   yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, initSettingsPreferences)
   yield takeLatest(AT.SHOW_BACKUP_RECOVERY, showBackupRecovery)
   yield takeLatest(AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL, showGoogleAuthenticatorSecretUrl)
-  yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
-  yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
   yield takeLatest(AT.UPDATE_MOBILE, updateMobile)
   yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
   yield takeLatest(AT.UPDATE_LANGUAGE, updateLanguage)

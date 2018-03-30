@@ -1,6 +1,5 @@
 import React from 'react'
-import { isEmpty, path } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getTrades } from './selectors'
@@ -8,14 +7,10 @@ import Success from './template.success'
 
 class Checkout extends React.Component {
   componentWillMount () {
-    if (!this.props.value.value.sfox.account_token) {
-      this.props.modalActions.showModal('SfoxExchangeData', { step: 'create' })
-    } else {
-      this.props.sfoxDataActions.fetchTrades()
-      this.props.sfoxDataActions.fetchProfile()
-      this.props.sfoxDataActions.fetchAccounts()
-      this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
-    }
+    this.props.sfoxDataActions.fetchTrades()
+    this.props.sfoxDataActions.fetchProfile()
+    this.props.sfoxDataActions.sfoxFetchAccounts()
+    this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
   }
 
   render () {
