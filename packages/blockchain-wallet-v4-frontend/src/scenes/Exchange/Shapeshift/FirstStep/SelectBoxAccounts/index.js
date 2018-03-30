@@ -33,15 +33,6 @@ class SelectBoxAccountsContainer extends React.Component {
     this.props.input.onChange(newState)
   }
 
-  render () {
-    return this.props.data.cata({
-      Success: (value) => this.renderComponent(false || this.props.loading),
-      Failure: (message) => <Error />,
-      Loading: () => this.renderComponent(true),
-      NotAsked: () => this.renderComponent(false || this.props.loading)
-    })
-  }
-
   renderComponent (loading) {
     const { data, ...rest } = this.props
     const { source, target } = this.state
@@ -55,6 +46,16 @@ class SelectBoxAccountsContainer extends React.Component {
       handleChangeSource={this.handleChangeSource}
       handleChangeTarget={this.handleChangeTarget}
     />
+  }
+
+  render () {
+    return this.props.data.cata({
+      Success: (value) => this.renderComponent(false || this.props.loading),
+      // TODO: what is the error component?
+      Failure: (message) => <span>ERROR</span>,
+      Loading: () => this.renderComponent(true),
+      NotAsked: () => this.renderComponent(false || this.props.loading)
+    })
   }
 }
 

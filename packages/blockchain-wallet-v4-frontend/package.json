@@ -1,39 +1,26 @@
 {
   "name": "blockchain-wallet-v4-frontend",
-  "version": "0.0.1",
-  "description": "Wallet user interface",
-  "keywords": [
-    "blockchain",
-    "react",
-    "wallet"
-  ],
-  "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend#readme",
-  "bugs": {
-    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
-  },
+  "version": "0.1.0",
+  "description": "Frontend wallet application.",
   "license": "ISC",
   "author": {
-    "name": "(Dream Team) Blockchain.info",
+    "name": "Blockchain.info",
     "url": "https://blockchain.info"
   },
-  "contributors": [
-    "Justin Tormey",
-    "Jaume Pernas",
-    "Guillaume Marquilly"
-  ],
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blockchain/blockchain-wallet-v4-frontend.git"
-  },
   "scripts": {
-    "build": "lerna bootstrap && webpack --config webpack.config.js --progress --colors",
-    "build:prod": "lerna bootstrap && webpack -p --config webpack.config.js --progress --colors",
-    "coverage": "jest --coverage",
+    "analyze": "ANALYZE=true NODE_ENV=production webpack-cli --config webpack.config.js",
+    "build": "webpack-cli --config webpack.config.js --progress --colors",
+    "build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
+    "ci:build": "webpack-cli --config webpack.config.js --display-error-details",
+    "ci:build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --display-error-details",
+    "coverage": "./../../node_modules/.bin/jest --coverage",
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
-    "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
-    "test": "jest"
+    "start:prod": "NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch",
+    "test": "./../../node_modules/.bin/jest",
+    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -50,7 +37,8 @@
       "^locales(.*)$": "<rootDir>/src/assets/locales/$1"
     },
     "setupFiles": [
-      "<rootDir>/../../jest.shim.js", "<rootDir>/../../jest.config.js"
+      "<rootDir>/../../jest.shim.js",
+      "<rootDir>/../../jest.config.js"
     ],
     "snapshotSerializers": [
       "<rootDir>/../../node_modules/enzyme-to-json/serializer"
@@ -64,12 +52,11 @@
     ]
   },
   "dependencies": {
-    "babel-plugin-react-html-attrs": "^2.1.0",
-    "babel-polyfill": "^6.23.0",
     "base-64": "^0.1.0",
     "bignumber.js": "^5.0.0",
     "bip21": "^2.0.1",
     "bip39": "^2.3.1",
+    "bitcoin-coinify-client": "^0.7.6",
     "bitcoin-sfox-client": "^0.2.6",
     "bitcoinjs-lib": "^3.1.1",
     "blockchain-info-components": "^0.0.1",
@@ -83,7 +70,7 @@
     "moment": "^2.19.2",
     "prop-types": "^15.6.0",
     "qrcode.react": "^0.7.2",
-    "ramda": "^0.25",
+    "ramda": "^0.25.0",
     "react": "^16.1.1",
     "react-animations": "^1.0.0",
     "react-browser-detection": "^1.0.4",
@@ -93,6 +80,8 @@
     "react-dropzone": "^4.2.8",
     "react-highcharts": "^13.0.0",
     "react-intl": "^2.3.0",
+    "react-intl-tel-input": "^5.0.1",
+    "react-onclickoutside": "^6.7.1",
     "react-qr-reader": "^2.0.0",
     "react-redux": "^5.0.5",
     "react-router-bootstrap": "^0.24.4",
@@ -106,21 +95,6 @@
     "redux-saga": "^0.16.0",
     "redux-ui": "^0.1.1",
     "styled-components": "^2.2.3",
-    "webpack-bundle-analyzer": "^2.9.1",
     "zxcvbn": "^4.4.2"
-  },
-  "standard": {
-    "globals": [
-      "jest",
-      "test",
-      "describe",
-      "context",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect"
-    ]
   }
 }

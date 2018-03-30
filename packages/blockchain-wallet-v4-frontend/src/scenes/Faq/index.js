@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { selectors } from 'data'
-import Questions from './Questions/index'
+import FaqContent from './FaqContent'
 
 import { and, equals, filter } from 'ramda'
 
@@ -14,6 +14,7 @@ class FaqContainer extends React.Component {
     this.filterFaq = this.filterFaq.bind(this)
   }
 
+  // TODO: wire this up
   filterFaq (questions) {
     // canBuy, canAccessExchange, etc.. will eventually come from this.props
     const canBuy = false
@@ -30,14 +31,14 @@ class FaqContainer extends React.Component {
   }
 
   render () {
-    const filteredQuestions = this.filterFaq(this.props.questions)
-    return <Faq questions={filteredQuestions} />
+    const { faqContent } = this.props
+    return <Faq faqContent={faqContent} />
   }
 }
 
 const mapStateToProps = (state) => ({
   countryCode: selectors.core.settings.getCountryCode(state),
-  questions: Questions
+  faqContent: FaqContent
 })
 
 export default connect(mapStateToProps, undefined)(FaqContainer)

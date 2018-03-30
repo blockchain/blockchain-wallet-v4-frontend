@@ -11,6 +11,7 @@ export const fetchMetadataBuySellFailure = (error) => ({ type: AT.FETCH_METADATA
 // create
 export const createMetadataBuysell = (data) => ({ type: AT.CREATE_METADATA_BUYSELL, payload: data })
 
-export const setProfileBuySell = (payload) => ({ type: AT.SET_PROFILE_BUYSELL, payload })
+export const sfoxSetProfileBuySell = (payload) => ({ type: AT.SFOX_SET_PROFILE_BUYSELL, payload })
+export const coinifySetProfileBuySell = (payload) => ({ type: AT.COINIFY_SET_PROFILE_BUYSELL, payload })
 
-export const wipe = () => ({ type: AT.WIPE })
+export const wipeExternal = () => ({ type: AT.WIPE_EXTERNAL })

@@ -28,16 +28,16 @@ const TooltipBox = styled(TextGroup)`
   left: -115px;
   width: 250px;
   display: ${props => props.displayed ? 'block' : 'none'};
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme['white-blue']};
   color: ${props => props.theme['gray-5']};
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 5px;
-  padding: 10px;
+  padding: 12px 10px;
   box-sizing: border-box;
   box-shadow: ${props => transparentize(0.65, props.theme['gray-6'])} 0px 3px 8px 0px;
   cursor: pointer;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 325;
   font-family: "GillSans", sans serif;
 
   &:before {

@@ -19,12 +19,9 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
     try {
       const sfox = yield call(getSfox)
       const methods = yield apply(sfox, sfox.getBuyMethods)
-      // console.log('setbankmanually core saga', methods.ach, sfox)
-      const addedBankAccount = yield apply(sfox, methods.ach.addAccount, [routing, account, name, type])
-      // console.log('setbankmanually core saga2', addedBankAccount)
+      const addedBankAccount = yield apply(methods.ach, methods.ach.addAccount, [routing, account, name, type])
       yield put(A.setBankManuallySuccess(addedBankAccount))
     } catch (e) {
-      console.warn('setBankManually core saga', e)
       yield put(A.setBankAccountFailure(e))
     }
   }
@@ -34,7 +31,7 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
       const sfox = yield call(getSfox)
       const signupResponse = yield apply(sfox, sfox.signup)
 
-      yield put(buySellA.setProfileBuySell(signupResponse))
+      yield put(buySellA.sfoxSetProfileBuySell(signupResponse))
       yield put(A.setToken(signupResponse))
       yield put(A.signupSuccess(signupResponse))
     } catch (e) {
@@ -43,12 +40,11 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
   }
 
   const setProfile = function * (user) {
-    const { firstName, lastName, middleName, dob, address1, address2, city, ssn, state, zipcode } = user.payload
+    const { firstName, lastName, dob, address1, address2, city, ssn, state, zipcode } = user.payload
     const sfox = yield call(getSfox)
     yield apply(sfox, sfox.fetchProfile)
     try {
       sfox.profile.firstName = firstName
-      sfox.profile.middleName = middleName || ''
       sfox.profile.lastName = lastName
       sfox.profile.dateOfBirth = new Date(dob)
       sfox.profile.setSSN(ssn)
@@ -96,11 +92,30 @@ export const sfoxSaga = ({ api, sfoxService } = {}) => {
     }
   }
 
+  const verifyMicroDeposits = function * (data) {
+    const { amount1, amount2 } = data.payload
+    try {
+      const accounts = yield select(S.getAccounts)
+      const response = yield apply(accounts.data[0], accounts.data[0].verify, [amount1, amount2])
+      console.log('deposits response', response)
+      /*
+        valid response: {payment_method_id: "69fa19d0-f045-4097-96ec-4e1c74ccc695", status: "active"}
+                        payment_method_id:"69fa19d0-f045-4097-96ec-4e1c74ccc695"
+                        status:"active"
+
+         may need to call payment methods after this resolves
+      */
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
   return {
     setBankManually,
     signup,
     setProfile,
     uploadDoc,
-    setBankAccount
+    setBankAccount,
+    verifyMicroDeposits
   }
 }
