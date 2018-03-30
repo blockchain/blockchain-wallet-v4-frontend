@@ -26,27 +26,27 @@ const Identity = (props) => {
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
-            <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage='Verify Identity' />
-            <LockIcon name='lock' />
+            <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage='The Hidden Details' />
+            <LockIcon name='lock-filled' />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='sfoxexchangedata.verify.partner.subheader' defaultMessage='We are required to collect this information to open your exchange account. This information will be sent directly to SFOX and will not be saved to your Blockchain wallet.' />
+            <FormattedMessage id='sfoxexchangedata.verify.partner.subheader' defaultMessage="We know this information is personal, but we need to make sure you're you. As always, this will be sent directly to SFOX and will not be saved in your Blockchain wallet." />
           </PartnerSubHeader>
           <FormContainer>
+            <FormGroup>
+              <FormItem>
+                <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+                  <FormattedMessage id='sfoxexchangedata.verify.dateofbirth' defaultMessage='Your Birthday (MM/DD/YYYY)' />
+                </Text>
+                <Field name='dob' validate={[requiredDOB, ageOverEighteen]} component={TextBox} placeholder='01/01/1991' normalize={normalizeDateOfBirth} />
+              </FormItem>
+            </FormGroup>
             <FormGroup>
               <FormItem>
                 <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.ssn' defaultMessage='Social Security Number' />
                 </Text>
                 <Field name='ssn' validate={[requiredSSN]} component={TextBox} placeholder='___-__-___' normalize={normalizeSocialSecurity} />
-              </FormItem>
-            </FormGroup>
-            <FormGroup>
-              <FormItem>
-                <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                  <FormattedMessage id='sfoxexchangedata.verify.dateofbirth' defaultMessage='Date of Birth' />
-                </Text>
-                <Field name='dob' validate={[requiredDOB, ageOverEighteen]} component={TextBox} placeholder='mm/dd/yyyy' normalize={normalizeDateOfBirth} />
               </FormItem>
             </FormGroup>
           </FormContainer>

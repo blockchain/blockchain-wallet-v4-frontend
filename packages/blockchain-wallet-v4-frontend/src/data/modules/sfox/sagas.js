@@ -76,10 +76,20 @@ export const setBank = function * (payload) {
   }
 }
 
+export const submitMicroDeposits = function * (payload) {
+  try {
+    yield call(sagas.core.data.sfox.verifyMicroDeposits, payload)
+    yield put(actions.alerts.displaySuccess('Bank Verified!'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Unable to verify bank'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
   yield takeLatest(AT.SET_BANK, setBank)
   yield takeLatest(AT.SIGNUP, sfoxSignup)
   yield takeLatest(AT.SET_PROFILE, setProfile)
   yield takeLatest(AT.UPLOAD, upload)
+  yield takeLatest(AT.SUBMIT_MICRO_DEPOSITS, submitMicroDeposits)
 }
