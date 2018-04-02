@@ -49,28 +49,37 @@ const SubmittedWrapper = styled.span`
 `
 
 const SelectPartner = (props) => {
-  const { onSubmit, invalid, pristine, country, submitEmail, ui, email } = props
+  const { onSubmit, invalid, pristine, country, stateSelection, submitEmail, ui, email } = props
 
   const renderUnavailable = () => {
-    if (!ui.submittedEmail) {
+    if (!pristine && ((country && onPartnerCountryWhitelist(country)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
       return (
-        <span>
-          <Field name='email' component={TextBox} placeholder='Add your email here' />
-          <Button style={spacing('mt-15')} nature='primary' onClick={submitEmail}>
-            <FormattedMessage id='selectpartner.unavailable.notifyme' defaultMessage="Notify Me When This Becomes Available" />
-          </Button>
-        </span>
-      )
-    } else {
-      return (
-        <SubmittedWrapper>
-          <Text size='16px' color='brand-primary'>
-            <FormattedMessage id='selectpartner.unavailable.thanks' defaultMessage="Thanks!" />
+        <UnavailableContainer>
+          <Text size='14px' weight={300} style={spacing('mb-15')}>
+            {
+              country === 'US'
+                ? <FormattedMessage id='selectpartner.unavailable.unfortunatelystate' defaultMessage="Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below." />
+                : <FormattedMessage id='selectpartner.unavailable.unfortunatelycountry' defaultMessage="Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below." />
+            }
           </Text>
-          <Text size='14px' weight={300}>
-            <FormattedHTMLMessage id='selectpartner.unavailable.sendemail' defaultMessage="We will send an email to <strong>{email}</strong> once buy & sell are available for your area." values={{email: email}} />
-          </Text>
-        </SubmittedWrapper>
+          {
+            !ui.submittedEmail
+              ? <span>
+                <Field name='email' component={TextBox} placeholder='Add your email here' />
+                <Button style={spacing('mt-15')} nature='primary' onClick={submitEmail}>
+                  <FormattedMessage id='selectpartner.unavailable.notifyme' defaultMessage="Notify Me When This Becomes Available" />
+                </Button>
+              </span>
+              : <SubmittedWrapper>
+                <Text size='16px' color='brand-primary'>
+                  <FormattedMessage id='selectpartner.unavailable.thanks' defaultMessage="Thanks!" />
+                </Text>
+                <Text size='14px' weight={300}>
+                  <FormattedHTMLMessage id='selectpartner.unavailable.sendemail' defaultMessage="We will send an email to <strong>{email}</strong> once buy & sell are available for your area." values={{email: email}} />
+                </Text>
+              </SubmittedWrapper>
+          }
+        </UnavailableContainer>
       )
     }
   }
@@ -79,16 +88,7 @@ const SelectPartner = (props) => {
     <Row>
       <ColLeft>
         placeholder
-        {
-          invalid && !pristine && country !== 'US'
-            ? <UnavailableContainer>
-              <Text size='14px' weight={300} style={spacing('mb-15')}>
-                <FormattedMessage id='selectpartner.unavailable.unfortunately' defaultMessage="Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your area, sign up below." />
-              </Text>
-              { renderUnavailable() }
-            </UnavailableContainer>
-            : null
-        }
+        { renderUnavailable() }
       </ColLeft>
       <ColRight>
         <Intro>
@@ -115,7 +115,7 @@ const SelectPartner = (props) => {
               </FormGroup>
               {
                 country === 'US'
-                  ? <FormGroup>
+                  ? <FormGroup style={spacing('mt-20')}>
                     <FormItem>
                       <Field name='state' validate={[required, onSfoxWhitelist]} component={SelectBoxUSState} />
                     </FormItem>
