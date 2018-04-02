@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Text, Button } from 'blockchain-info-components'
 import { required, onSfoxWhitelist, onPartnerCountryWhitelist } from 'services/FormHelper'
-import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry } from 'components/Form'
+import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from 'components/Form'
+import { spacing } from 'services/StyleService'
 
 const Row = styled.div`
   display: flex;
@@ -12,10 +13,10 @@ const Row = styled.div`
   width: 100%;
 `
 const ColLeft = styled.div`
-  width: 50%;
+  width: 55%;
 `
 const ColRight = styled.div`
-  width: 50%;
+  width: 40%;
 `
 const PartnerHeader = styled.div`
   font-size: 30px;
@@ -37,27 +38,73 @@ const FieldWrapper = Intro.extend`
   margin-top: 20px;
   width: 50%;
 `
+const UnavailableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+`
+const SubmittedWrapper = styled.span`
+  text-align: center;
+  margin-top: 35px;
+`
 
 const SelectPartner = (props) => {
-  const { onSubmit, invalid, pristine, country } = props
+  const { onSubmit, invalid, pristine, country, submitEmail, ui, email } = props
+
+  const renderUnavailable = () => {
+    if (!ui.submittedEmail) {
+      return (
+        <span>
+          <Field name='email' component={TextBox} placeholder='Add your email here' />
+          <Button style={spacing('mt-15')} nature='primary' onClick={submitEmail}>
+            <FormattedMessage id='selectpartner.unavailable.notifyme' defaultMessage="Notify Me When This Becomes Available" />
+          </Button>
+        </span>
+      )
+    } else {
+      return (
+        <SubmittedWrapper>
+          <Text size='16px' color='brand-primary'>
+            <FormattedMessage id='selectpartner.unavailable.thanks' defaultMessage="Thanks!" />
+          </Text>
+          <Text size='14px' weight={300}>
+            <FormattedHTMLMessage id='selectpartner.unavailable.sendemail' defaultMessage="We will send an email to <strong>{email}</strong> once buy & sell are available for your area." values={{email: email}} />
+          </Text>
+        </SubmittedWrapper>
+      )
+    }
+  }
 
   return (
     <Row>
       <ColLeft>
         placeholder
+        {
+          invalid && !pristine && country !== 'US'
+            ? <UnavailableContainer>
+              <Text size='14px' weight={300} style={spacing('mb-15')}>
+                <FormattedMessage id='selectpartner.unavailable.unfortunately' defaultMessage="Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your area, sign up below." />
+              </Text>
+              { renderUnavailable() }
+            </UnavailableContainer>
+            : null
+        }
       </ColLeft>
       <ColRight>
         <Intro>
           <PartnerHeader>
-            <FormattedMessage id='selectpartner.header' defaultMessage='Introducing Marketplace.' />
+            <FormattedMessage id='selectpartner.header' defaultMessage='A Better Buy & Sell' />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='selectpartner.subheader' defaultMessage='We believe that buying and selling cryptocurrency can be both secure and easy. We’ve partnered with leading exchanges to create a place where you can buy bitcoin, ethereum, and bitcoin cash with any currency – all within the Blockchain platform.' />
+            <FormattedMessage id='selectpartner.subheader' defaultMessage="We're excited to introduce an all-in-one experience. Whether you want to buy or sell using your local currency or exchange between your digital assets, you'll find everything you need right here." />
+          </PartnerSubHeader>
+          <PartnerSubHeader style={spacing('mt-15')}>
+            <FormattedMessage id='selectpartner.subheader2' defaultMessage="Select your location below, verify your identity, and before you know it, you'll be on your way to making your crypto dreams a reality!" />
           </PartnerSubHeader>
         </Intro>
         <SelectionContainer>
-          <Text>
-            <FormattedMessage id='selectpartner.residence' defaultMessage='Get started by selecting your place of residence.' />
+          <Text size='14px'>
+            <FormattedMessage id='selectpartner.selectcountry' defaultMessage='Select your country:' />
           </Text>
           <FieldWrapper>
             <form onSubmit={onSubmit}>
@@ -75,7 +122,7 @@ const SelectPartner = (props) => {
                   </FormGroup>
                   : null
               }
-              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine}>
+              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-20')}>
                 <FormattedMessage id='selectpartner.getstarted' defaultMessage='get started' />
               </Button>
             </form>
