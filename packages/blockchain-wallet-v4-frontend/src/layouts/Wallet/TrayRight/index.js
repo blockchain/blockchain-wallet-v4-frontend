@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 
 import Faq from 'scenes/Faq'
-import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
+import { Modal } from 'blockchain-info-components'
 
 const AnimationWrapper = styled.div`
   width: calc(33%);
@@ -69,12 +68,7 @@ class TrayRight extends React.Component {
     return (
       <AnimationWrapper className={isOpen ? 'open' : ''}>
         <TrayModal {...rest} type={'tray'}>
-          <ModalHeader onClose={handleTrayRightToggle}>
-            <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions'/>
-          </ModalHeader>
-          <ModalBody>
-            <Faq />
-          </ModalBody>
+          <Faq handleTrayRightToggle={handleTrayRightToggle} />
         </TrayModal>
       </AnimationWrapper>
     )
