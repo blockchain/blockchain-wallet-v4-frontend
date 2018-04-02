@@ -23,16 +23,16 @@ class FaqContainer extends React.Component {
   }
 
   render () {
-    let t = this.props.faqContent
+    const { faqContent, handleTrayRightToggle } = this.props
 
     // Bad WIP
-    t[0].groupQuestions = this.state.filterText ? t[0].groupQuestions.filter((q) =>
+    faqContent[0].groupQuestions = this.state.filterText ? faqContent[0].groupQuestions.filter((q) =>
       q.question.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1 ||
       q.answer.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1
-    ) : t[0].groupQuestions
+    ) : faqContent[0].groupQuestions
 
     return (
-      <Faq filteredContent={t} onFilter={this.onFilter} filterText={this.state.filterText}/>
+      <Faq filteredContent={faqContent} onFilter={this.onFilter} filterText={this.state.filterText} handleTrayRightToggle={handleTrayRightToggle}/>
     )
   }
 }
