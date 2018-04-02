@@ -79,13 +79,13 @@ class Submit extends Component {
   }
 
   renderDetailsTable (quote) {
+    let txFee = 0.0001
     return (
       <OrderDetailsTable style={spacing('mt-20')}>
-        {this.renderDetailsRow('orderDetails.exchangeRate', 'Exchange Rate', '1 BTC = $8,331.75')}
-        {this.renderDetailsRow('orderDetails.purchaseAmount', 'BTC Amount to Purchase', '0.2365 BTC = ($1,971.49)')}
-        {this.renderDetailsRow('orderDetails.tradingFee', 'Trading Fee', '0.001 BTC ($8.34)')}
-        {this.renderDetailsRow('orderDetails.transactionFee', 'Transaction Fee', '0.0001 ($0.83)')}
-        {this.renderDetailsRow('orderDetails.willReceiveAmount', 'Amount to be Received', '0.2354 BTC ($1,961.63)')}
+        {this.renderDetailsRow('orderDetails.exchangeRate', 'Exchange Rate', `1 BTC = $${quote.rate}`)}
+        {this.renderDetailsRow('orderDetails.tradingFee', 'Trading Fee', `${parseFloat(quote.fee_amount).toFixed(2)} ${quote.fee_currency.toUpperCase()}`)}
+        {this.renderDetailsRow('orderDetails.transactionFee', 'Transaction Fee', `${txFee} BTC ($${txFee * parseFloat(quote.rate)})`)}
+        {this.renderDetailsRow('orderDetails.willReceiveAmount', 'Amount to be Received', `${quote.base_amount} BTC ($${quote.quote_amount})`)}
       </OrderDetailsTable>
     )
   }
