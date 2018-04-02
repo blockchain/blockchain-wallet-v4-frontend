@@ -12,6 +12,7 @@ import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
 import qrCode from './img/qr-code.png'
 import rocket from './img/rocket.gif'
+import selectArrow from './img/select-arrow.png'
 import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
@@ -36,6 +37,7 @@ export default {
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
   'qr-code': qrCode,
   'rocket': rocket,
+  'select-arrow': selectArrow,
   'shapeshiftLogo': shapeshiftLogo,
   'smartphone': smartphone,
   'sophisticated': sophisticated,
