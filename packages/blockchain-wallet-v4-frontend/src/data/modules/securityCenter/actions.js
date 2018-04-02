@@ -16,6 +16,6 @@ export const setYubikey = (code) => ({ type: AT.SET_YUBIKEY, payload: { code } }
 
 export const sendMobileVerificationCode = (mobile) => ({ type: AT.SEND_MOBILE_VERIFICATION_CODE, payload: { mobile } })
 
-export const verifyMobile = (code) => ({ type: AT.VERIFY_MOBILE, payload: { code } })
+export const verifyMobile = (code) => ({ type: AT.VERIFY_MOBILE_CODE, payload: { code } })
 
 export const disableTwoStep = () => ({ type: AT.DISABLE_TWO_STEP, payload: { authType: '0' } })

@@ -34,7 +34,7 @@ class SmsAuthContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.securityCenterActions.verifyMobile(this.props.verificationCode)
+    this.props.securityCenterActions.verifyMobileCode(this.props.verificationCode)
   }
 
   handleGetCode () {
