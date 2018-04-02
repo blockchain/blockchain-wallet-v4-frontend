@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
 import { FormattedMessage } from 'react-intl'
-import ui from 'redux-ui'
-import { actions } from 'data'
-import { reduxForm, formValueSelector, Field } from 'redux-form'
+import { reduxForm, Field } from 'redux-form'
 import { TextBox, Form } from 'components/Form'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import Bank from './Bank'
 
@@ -23,29 +19,22 @@ const Container = styled.div`
 class BankAccounts extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
-
     this.onInputClick = this.onInputClick.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onInputChange = this.onInputChange.bind(this)
   }
 
   onInputClick (id) {
-    this.setState({ id })
+    this.props.onBankSelection(id)
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
-    this.setState({ busy: true })
-    this.props.onSetBankAccount({
-      id: this.state.id,
-      name: this.props.holderName
-    })
+  onInputChange (e) {
+    this.props.handleNameChange(e.target.value)
   }
 
   render () {
     return (
       <Container>
-        <Form onSubmit={this.handleSubmit}>
+        <Form>
           {
             this.props.data.map(bank => {
               return (
@@ -56,32 +45,11 @@ class BankAccounts extends Component {
           <Text size='14px'>
             <FormattedMessage id='sfoxexchangedata.link.accountholdername' defaultMessage="Account Holder's Name" />
           </Text>
-          <Field name='accountHolder' component={TextBox} validate={required} />
-          <Button type='submit' fullwidth nature='primary' disabled={this.state.busy || this.props.submitting || this.props.invalid || !this.state.id}>
-            {
-              !this.state.busy
-                ? <FormattedMessage id='sfoxexchangedata.link.addaccount' defaultMessage='Add Account' />
-                : <HeartbeatLoader height='20px' width='20px' color='white' />
-            }
-          </Button>
+          <Field name='accountHolder' component={TextBox} validate={required} onChange={this.onInputChange} />
         </Form>
       </Container>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
-  holderName: formValueSelector('sfoxLink')(state, 'accountHolder')
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
-})
-
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: {} })
-)
-
-export default reduxForm({ form: 'sfoxLink' })(enhance(BankAccounts))
+export default reduxForm({ form: 'sfoxLink' })(BankAccounts)

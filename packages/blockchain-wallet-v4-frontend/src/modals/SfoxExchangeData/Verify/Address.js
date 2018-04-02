@@ -4,8 +4,10 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
 import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
+
 import { required, requiredUsZipcode, normalizeUSZipcode } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader } from '../styled'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
+import { FAQ1, FAQ2 } from './faq.js'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -39,13 +41,13 @@ const Address = (props) => {
           <FormContainer>
             <FormGroup inline>
               <FormItem>
-                <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.firstname' defaultMessage='First Name' />
                 </Text>
                 <Field name='firstName' validate={[required]} component={TextBox} />
               </FormItem>
               <FormItem>
-                <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.lastname' defaultMessage='Last Name' />
                 </Text>
                 <Field name='lastName' validate={[required]} component={TextBox} />
@@ -53,7 +55,7 @@ const Address = (props) => {
             </FormGroup>
             <FormGroup>
               <FormItem>
-                <AddressLabel size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+                <AddressLabel size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.address' defaultMessage='Address' />
                   <FormattedMessage id='sfoxexchangedata.verify.addressdetail' defaultMessage='(Please use your primary billing address.)' />
                 </AddressLabel>
@@ -62,7 +64,7 @@ const Address = (props) => {
             </FormGroup>
             <FormGroup>
               <FormItem>
-                <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.address2' defaultMessage='Address Line 2' />
                 </Text>
                 <Field name='address2' component={TextBox} placeholder='Apartment, unit, floor, etc..' />
@@ -70,7 +72,7 @@ const Address = (props) => {
             </FormGroup>
             <FormGroup>
               <FormItem>
-                <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.city' defaultMessage='City' />
                 </Text>
                 <Field name='city' validate={[required]} component={TextBox} />
@@ -78,13 +80,13 @@ const Address = (props) => {
             </FormGroup>
             <FormGroup inline>
               <FormItem>
-                <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.state' defaultMessage='State' />
                 </Text>
                 <Field name='state' validate={[required]} component={SelectBoxUSState} />
               </FormItem>
               <FormItem>
-                <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.zip' defaultMessage='Zipcode' />
                 </Text>
                 <Field name='zipcode' validate={[requiredUsZipcode]} component={TextBox} normalize={normalizeUSZipcode} />
@@ -94,13 +96,17 @@ const Address = (props) => {
         </InputWrapper>
       </ColLeft>
       <ColRight>
-        <Button uppercase nature='primary' fullwidth type='submit' disabled={invalid || submitting || busy}>
-          {
-            !busy
-              ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
-              : <HeartbeatLoader height='20px' width='20px' color='white' />
-          }
-        </Button>
+        <ColRightInner>
+          <Button uppercase nature='primary' fullwidth type='submit' disabled={invalid || submitting || busy}>
+            {
+              !busy
+                ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
+                : <HeartbeatLoader height='20px' width='20px' color='white' />
+            }
+          </Button>
+          <FAQ1 />
+          <FAQ2 />
+        </ColRightInner>
       </ColRight>
     </Form>
   )

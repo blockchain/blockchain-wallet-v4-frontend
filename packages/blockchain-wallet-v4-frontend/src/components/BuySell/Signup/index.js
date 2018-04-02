@@ -40,7 +40,7 @@ export const PartnerHeader = styled.div`
 
 export const PartnerSubHeader = styled.div`
   margin-top: 5px;
-  font-size: 14px;
+  font-size: 16px;
 `
 
 export const ButtonWrapper = styled.div`
@@ -65,4 +65,10 @@ export const ErrorWrapper = styled.div`
     cursor: pointer;
     color: ${props => props.theme['brand-secondary']}
   }
+`
+
+export const ColRightInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 20%;
 `

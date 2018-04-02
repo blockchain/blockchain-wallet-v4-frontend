@@ -9,12 +9,15 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js --progress --colors",
-    "build:prod": "NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.config.js --progress --colors",
+    "analyze": "ANALYZE=true NODE_ENV=production webpack-cli --config webpack.config.js",
+    "build": "webpack-cli --config webpack.config.js --progress --colors",
+    "build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
+    "ci:build": "webpack-cli --config webpack.config.js --display-error-details",
+    "ci:build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "./../../node_modules/.bin/jest --coverage",
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
-    "start:prod": "webpack-dev-server -p --config webpack.config.js --progress --colors --watch",
+    "start:prod": "NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "test": "./../../node_modules/.bin/jest",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
@@ -49,16 +52,15 @@
     ]
   },
   "dependencies": {
-    "babel-plugin-react-html-attrs": "^2.1.0",
-    "babel-polyfill": "^6.23.0",
     "base-64": "^0.1.0",
     "bignumber.js": "^5.0.0",
     "bip21": "^2.0.1",
     "bip39": "^2.3.1",
+    "bitcoin-coinify-client": "^0.7.6",
     "bitcoin-sfox-client": "^0.2.6",
     "bitcoinjs-lib": "^3.1.1",
-		"blockchain-info-components": "^0.0.1",
-		"blockchain-wallet-v4": "^1.0.1",
+    "blockchain-info-components": "^0.0.1",
+    "blockchain-wallet-v4": "^1.0.1",
     "connected-react-router": "^4.2.3",
     "data.either": "~1.5.1",
     "data.maybe": "^1.2.2",
@@ -68,7 +70,7 @@
     "moment": "^2.19.2",
     "prop-types": "^15.6.0",
     "qrcode.react": "^0.7.2",
-    "ramda": "^0.25",
+    "ramda": "^0.25.0",
     "react": "^16.1.1",
     "react-animations": "^1.0.0",
     "react-browser-detection": "^1.0.4",
@@ -93,7 +95,6 @@
     "redux-saga": "^0.16.0",
     "redux-ui": "^0.1.1",
     "styled-components": "^2.2.3",
-    "webpack-bundle-analyzer": "^2.9.1",
     "zxcvbn": "^4.4.2"
   }
 }

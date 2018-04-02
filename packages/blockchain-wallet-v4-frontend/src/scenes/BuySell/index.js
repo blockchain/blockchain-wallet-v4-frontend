@@ -4,6 +4,7 @@ import { getData } from './selectors'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import SfoxCheckout from './SfoxCheckout'
+import CoinifyCheckout from './CoinifyCheckout'
 import { bindActionCreators } from 'redux'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
@@ -37,6 +38,12 @@ class BuySellContainer extends React.Component {
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
   }
 
+  /**
+   * The idea here is that we will call .cata which passes a metadata value to a renderPartner method.
+   * If there is a token (evidence of signup), show the Checkout view.
+   * If not, open the tray and send user through the signup flow.
+   */
+
   renderPartner (kvStoreValue, type) {
     if (kvStoreValue.sfox.account_token) {
       return <SfoxCheckout type={type} value={kvStoreValue} />
@@ -44,8 +51,8 @@ class BuySellContainer extends React.Component {
     if (kvStoreValue.unocoin.token) { // TODO replace token
       return <span>Unocoin</span>
     }
-    if (kvStoreValue.coinify.token) { // TODO replace token
-      return <span>Coinify</span>
+    if (kvStoreValue.coinify.offline_token) {
+      return <CoinifyCheckout type={type} value={kvStoreValue} />
     }
     return <SelectPartner type={type} value={kvStoreValue} onSubmit={this.onSubmit} {...this.props} />
   }
@@ -59,7 +66,7 @@ class BuySellContainer extends React.Component {
       console.log('start unocoin')
     }
     if (buySell.coinifyCountries.indexOf(this.props.country) >= 0) {
-      console.log('start coinify')
+      this.props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
     }
   }
 

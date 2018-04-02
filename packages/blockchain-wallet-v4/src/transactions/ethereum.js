@@ -43,12 +43,9 @@ export const signTx = (transaction, privateKey) => {
 }
 
 // transformTx :: [String] -> Tx -> ProcessedTx
-export const transformTx = (addresses, state, tx) => {
-  // TODO: fetch current eth block height for confirmations!
-  const currentBlockHeight = 5232919
-  const conf = currentBlockHeight - tx.blockNumber + 1
+export const transformTx = (addresses, state, latestBlock, tx) => {
+  const conf = latestBlock - tx.blockNumber + 1
   const confirmations = conf > 0 ? conf : 0
-
   const formattedDate = time => {
     const date = moment.utc(time * 1000)
 

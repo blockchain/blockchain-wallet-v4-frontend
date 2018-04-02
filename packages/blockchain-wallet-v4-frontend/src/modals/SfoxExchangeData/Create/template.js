@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form'
 import AcceptTerms from './AcceptTerms'
 import VerifyEmail from './VerifyEmail'
 import VerifyMobile from './VerifyMobile'
-import { Row } from '../styled'
+import { Row } from 'components/BuySell/Signup'
 
 const Create = (props) => {
   const { ui } = props
