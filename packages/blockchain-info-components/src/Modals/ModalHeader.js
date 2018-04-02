@@ -8,10 +8,10 @@ import { Text } from '../Text'
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${props => props.center ? 'center' : 'space-between'};
   align-items: center;
   width: 100%;
-  padding: 20px 30px;
+  padding: ${props => props.tray ? '60px 10%' : '20px 30px'};
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 
@@ -31,7 +31,7 @@ const ModalHeader = props => {
   const { closeButton, onClose, icon, children } = props
 
   return (
-    <Wrapper closeButton={closeButton}>
+    <Wrapper closeButton={closeButton} {...props}>
       <Header>
         {icon && <HeaderIcon name={icon} size='28px' weight={300} color='gray-5' /> }
         <Text size='20px' weight={300} color='gray-5'>

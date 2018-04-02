@@ -79,14 +79,14 @@ class VerifyEmail extends Component {
 
     let partnerHeader = () => {
       switch (ui.create) {
-        case 'enter_email_code': return <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.header.enter_email_code' defaultMessage='Blockchain + SFOX' />
-        case 'change_email': return <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.header.change_email' defaultMessage='Change Email' />
+        case 'enter_email_code': return <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.header.enter_email_code' defaultMessage='Set Up Your Account' />
+        case 'change_email': return <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.header.change_email' defaultMessage='Set Up Your Account' />
       }
     }
 
     let partnerSubHeader = () => {
       switch (ui.create) {
-        case 'enter_email_code': return <FormattedHTMLMessage id='sfoxexchangedata.create.verifyemail.partner.subheader.enter_email_code' defaultMessage='We teamed up with SFOX’s exchange platform to offer buy and sell to our customers in the United States. We just sent a verification code to your <b>{email}</b> email address.' values={{email: this.props.emailAddress}} />
+        case 'enter_email_code': return <FormattedHTMLMessage id='sfoxexchangedata.create.verifyemail.partner.subheader.enter_email_code' defaultMessage="We teamed up with SFOX to make your dreams of simply managing funds a reality.<br><br>Rest assured: there are only a few steps separating you from the good stuff. Let's start with your email." />
         case 'change_email': return <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.subheader.change_email' defaultMessage='Updating your email will also change the email associated with your wallet.' />
       }
     }
@@ -112,7 +112,7 @@ class VerifyEmail extends Component {
               ui.create === 'enter_email_code'
                 ? <EmailInput>
                   <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                    <FormattedMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='Enter your verification code to get started:' />
+                    <FormattedHTMLMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='We sent a code to {email}, enter it here:' values={{email: this.props.emailAddress}} />
                   </Text>
                   <Field name='emailCode' onChange={() => this.props.updateUI({ uniqueEmail: true })} component={TextBox} validate={[required]} />
                   <EmailHelper>

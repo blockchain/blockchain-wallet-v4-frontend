@@ -14,16 +14,16 @@ const defaultStyle = {
 
 const transitionStyles = {
   entering: { top: '100%' },
-  entered: { top: '60px' }
+  entered: { top: '0px' }
 }
 
 const TrayModal = styled(Modal)`
-  left: 270px;
+  left: 0px;
   font-weight: 300;
   overflow: hidden;
   position: absolute;
-  width: calc(100% - 270px);
-  height: calc(100vh - 60px);
+  width: 100%;
+  height: 100vh;
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   > div:first-child {
