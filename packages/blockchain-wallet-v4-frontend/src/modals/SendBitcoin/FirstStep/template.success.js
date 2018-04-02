@@ -194,7 +194,7 @@ const FirstStep = props => {
           }
         </ColLeft>
         <ColRight>
-          <ComboDisplay coin='BTC'>{totalFee}</ComboDisplay>
+          <ComboDisplay size={'14px'} coin='BTC'>{totalFee}</ComboDisplay>
           <CustomizeFeeLink onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
             {feeEditToggled
               ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
