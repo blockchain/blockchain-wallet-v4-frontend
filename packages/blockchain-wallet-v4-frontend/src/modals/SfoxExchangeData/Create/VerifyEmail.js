@@ -119,7 +119,7 @@ class VerifyEmail extends Component {
                   <Button type='submit' nature='primary' fullwidth disabled={invalid}>
                     <FormattedMessage id='sfoxexchangedata.create.verifyemail.sendverificationemail' defaultMessage='Send Verification Code Email' />
                   </Button>
-                  <CancelText onClick={() => this.props.updateUI({create: 'enter_email_code'})}>Cancel</CancelText>
+                  <CancelText onClick={() => this.props.updateUI({create: 'create_account'})}>Cancel</CancelText>
                 </ButtonWrapper>
             }
             <FAQ1 />

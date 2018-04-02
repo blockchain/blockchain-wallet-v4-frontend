@@ -12,6 +12,7 @@ import { Text, Button } from 'blockchain-info-components'
 import FAQ1 from './faq.js'
 import { required } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner } from 'components/BuySell/Signup'
+import { spacing } from 'services/StyleService'
 
 const MobileInput = styled.div`
   display: flex;
@@ -67,7 +68,7 @@ class VerifyMobile extends Component {
   }
 
   render () {
-    const { ui, invalid } = this.props
+    const { ui, invalid, mobileCode, mobileNumber } = this.props
 
     let smsHelper = () => {
       switch (true) {
@@ -91,6 +92,11 @@ class VerifyMobile extends Component {
                 <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Enter your digits here:' />
               </Text>
               <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required]} />
+              {
+                ui.create === 'change_mobile' && <Button nature='primary' type='submit' disabled={!mobileNumber} style={spacing('mt-15')}>
+                  <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Send My Code' />
+                </Button>
+              }
             </MobileInput>
             {
               ui.create === 'enter_mobile_code' && <MobileCodeContainer>
@@ -116,8 +122,8 @@ class VerifyMobile extends Component {
             }
             {
               ui.create !== 'enter_mobile_code' && <ButtonWrapper>
-                <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-                  <FormattedMessage id='sfoxexchangedata.create.mobile.textcode' defaultMessage='Text Verification Code' />
+                <Button type='submit' nature='primary' fullwidth disabled={invalid || !mobileCode}>
+                  <FormattedMessage id='sfoxexchangedata.create.mobile.continue' defaultMessage='Continue' />
                 </Button>
               </ButtonWrapper>
             }
