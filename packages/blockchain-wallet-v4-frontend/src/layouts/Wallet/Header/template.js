@@ -35,7 +35,7 @@ const Header = (props) => {
             <Faq onClick={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
           </NavbarNavItem>
           <NavbarNavItem>
-            <WhatsNew />
+            <WhatsNew onClick={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
           </NavbarNavItem>
           <NavbarNavItem>
             <Refresh />

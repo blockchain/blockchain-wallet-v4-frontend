@@ -1,36 +1,44 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Link, Icon } from 'blockchain-info-components'
 
-import { actions } from 'data'
-import { getData } from './selectors'
-import Error from './template.error'
-import Loading from './template.loading'
-import Success from './template.success'
+const WhatsNewLink = styled(Link)`
+  position: relative;
+  margin-top: 4px;
 
-class WhatsNewContainer extends React.Component {
-  componentWillMount () {
-    // this.props.actions.fetchMetadataWhatsnew()
+  & > :first-child:hover {
+    cursor: pointer;
   }
 
-  render () {
-    const { data } = this.props
-
-    return data.cata({
-      Success: (value) => <Success lastViewed={value} />,
-      Failure: (message) => <Error>{message}</Error>,
-      NotAsked: () => <Loading />,
-      Loading: () => <Loading />
-    })
+  ::after {
+    opacity: ${props => props.trayRightOpen ? '1' : '0'};
+    content: "";
+    position: absolute;
+    top: 24px;
+    left: -2px;
+    width: 0;
+    height: 0;
+    z-index: 3;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-bottom: 16px solid ${props => props.theme['white-blue']};
+    transition: opacity ${props => props.trayRightOpen ? '.2s' : '0'};
+    transition-delay: ${props => props.trayRightOpen ? '.3s' : '.1s'};
   }
+`
+
+const WhatsNew = (props) => {
+  return (
+    <WhatsNewLink {...props} size='16px' weight={300} color='white'>
+      <Icon name='bell-filled' size='18px' color='white'/>
+    </WhatsNewLink>
+  )
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
-})
+WhatsNew.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  trayRightOpen: PropTypes.bool.isRequired
+}
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(WhatsNewContainer)
+export default WhatsNew
