@@ -15,7 +15,11 @@ class CreateContainer extends Component {
   }
 
   render () {
-    return <Create {...this.props} />
+    return <Create
+      editEmail={() => this.props.updateUI({ create: 'change_email' })}
+      editMobile={() => this.props.updateUI({ create: 'change_mobile' })}
+      {...this.props}
+    />
   }
 }
 
