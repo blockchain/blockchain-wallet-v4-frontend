@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
-import { actions, selectors } from 'data'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { actions } from 'data'
+import { FormattedMessage } from 'react-intl'
 import { formValueSelector, Field } from 'redux-form'
 
 import { TextBox } from 'components/Form'
@@ -22,7 +22,7 @@ const EmailInput = styled.div`
 const EmailHelper = styled.span`
   margin-top: 5px;
   font-size: 12px;
-  color: ${props => props.theme['gray-3']};
+  color: ${props => props.error ? props.theme['error'] : props.theme['gray-3']};
   a {
     cursor: pointer;
     color: ${props => props.theme['brand-secondary']};
@@ -44,17 +44,7 @@ class VerifyEmail extends Component {
   }
 
   componentDidMount () {
-    if (this.props.ui.create === 'enter_email_code') {
-      this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
-    }
-
     this.props.formActions.change('coinifyCreate', 'emailAddress', this.props.oldEmail)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.emailVerified && nextProps.ui.uniqueEmail) {
-      this.props.updateUI({ create: 'change_mobile' })
-    }
   }
 
   resendCode () {
@@ -67,7 +57,6 @@ class VerifyEmail extends Component {
     if (this.props.ui.create === 'enter_email_code') {
       this.props.coinifyFrontendActions.coinifyClearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
-      this.props.updateUI({ create: 'create_account' })
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
@@ -75,24 +64,11 @@ class VerifyEmail extends Component {
   }
 
   render () {
-    const { ui, invalid } = this.props
-
-    let partnerHeader = () => {
-      switch (ui.create) {
-        case 'enter_email_code': return <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.enter_email_code' defaultMessage='Blockchain + Coinify' />
-        case 'change_email': return <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.change_email' defaultMessage='Change Email' />
-      }
-    }
-
-    let partnerSubHeader = () => {
-      switch (ui.create) {
-        case 'enter_email_code': return <FormattedHTMLMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your <b>{email}</b> email address.' values={{email: this.props.emailAddress}} />
-        case 'change_email': return <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.change_email' defaultMessage='Updating your email will also change the email associated with your wallet.' />
-      }
-    }
+    const { ui, invalid, emailVerifiedError } = this.props
 
     let emailHelper = () => {
       switch (true) {
+        case emailVerifiedError: return <FormattedMessage id='coinifyexchangedata.create.verifyemail.helper.error' defaultMessage="That code doesn't match. {resend} or {changeEmail}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeEmail: <a onClick={() => this.props.updateUI({ create: 'change_email' })}>change email</a> }} />
         case ui.codeSent: return <FormattedMessage id='coinifyexchangedata.create.verifyemail.helper.sentanothercode' defaultMessage='Another code has been sent!' />
         case !ui.codeSent: return <FormattedMessage id='coinifyexchangedata.create.verifyemail.helper.didntreceive' defaultMessage="Didn't receive your email? {resend} or {changeEmail}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeEmail: <a onClick={() => this.props.updateUI({ create: 'change_email' })}>change email</a> }} />
       }
@@ -103,25 +79,25 @@ class VerifyEmail extends Component {
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
-              { partnerHeader() }
+              <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.change_email' defaultMessage="What's your email?" />
             </PartnerHeader>
             <PartnerSubHeader>
-              { partnerSubHeader() }
+              <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.change_email' defaultMessage="Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours." />
             </PartnerSubHeader>
             {
               ui.create === 'enter_email_code'
                 ? <EmailInput>
                   <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                    <FormattedMessage id='coinifyexchangedata.create.verifyemail.code' defaultMessage='Enter your verification code to get started:' />
+                    <FormattedMessage id='coinifyexchangedata.create.verifyemail.code' defaultMessage='Enter your verification code:' />
                   </Text>
                   <Field name='emailCode' onChange={() => this.props.updateUI({ uniqueEmail: true })} component={TextBox} validate={[required]} />
-                  <EmailHelper>
+                  <EmailHelper error={emailVerifiedError}>
                     { emailHelper() }
                   </EmailHelper>
                 </EmailInput>
                 : <EmailInput>
                   <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                    <FormattedMessage id='coinifyexchangedata.create.verifyemail.confirm' defaultMessage='Confirm Email:' />
+                    <FormattedMessage id='coinifyexchangedata.create.verifyemail.confirm' defaultMessage="Enter the email address you'd like to verify:" />
                   </Text>
                   <Field name='emailAddress' component={TextBox} validate={[required]} />
                 </EmailInput>
@@ -160,7 +136,6 @@ VerifyEmail.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  oldEmail: selectors.core.settings.getEmail(state).data,
   emailCode: formValueSelector('coinifyCreate')(state, 'emailCode'),
   emailAddress: formValueSelector('coinifyCreate')(state, 'emailAddress')
 })

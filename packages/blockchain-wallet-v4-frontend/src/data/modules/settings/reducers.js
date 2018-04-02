@@ -13,6 +13,12 @@ const settings = (state = INITIAL_STATE, action) => {
       return assoc('shownPrivKey', payload.priv, state)
     case AT.CLEAR_SHOWN_PRIV_KEY:
       return dissoc('shownPrivKey', state)
+    case AT.VERIFY_EMAIL_CODE_FAILURE: {
+      return assoc('emailVerifiedError', true, state)
+    }
+    case AT.CLEAR_EMAIL_CODE_FAILURE: {
+      return assoc('emailVerifiedError', state)
+    }
     default:
       return state
   }

@@ -10,7 +10,7 @@ export const coinifySignup = function * () {
     yield call(sagas.core.data.coinify.signup)
     const profile = yield select(selectors.core.data.coinify.getProfile)
     if (!profile.error) {
-      yield put(A.coinifyNextStep('payment'))
+      yield put(A.coinifyNextStep('order'))
       yield put(actions.alerts.displaySuccess('Account successfully created!'))
     } else {
       yield put(A.coinifySignupFailure(profile.error))
