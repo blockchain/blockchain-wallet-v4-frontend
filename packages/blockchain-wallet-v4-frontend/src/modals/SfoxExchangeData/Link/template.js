@@ -34,6 +34,7 @@ const BankLink = (props) => {
     bankAccounts,
     onSetBankAccount,
     ui,
+    toggleManual,
     onSubmit,
     invalid,
     pristine,
@@ -80,7 +81,7 @@ const BankLink = (props) => {
       return (
         <ButtonContainer>
           <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
-          <Button onClick={ui.toggleManual}>
+          <Button onClick={toggleManual}>
             <FormattedMessage id='sfoxexchangedata.link.userouting' defaultMessage='Use Routing and Account Number' />
           </Button>
         </ButtonContainer>
