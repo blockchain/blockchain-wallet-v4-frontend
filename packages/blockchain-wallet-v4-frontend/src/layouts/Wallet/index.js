@@ -40,6 +40,7 @@ const renderLayout = ({ ui, updateUI, component: Component, ...rest }) => (
       location={props.location}
       menuLeftToggled={ui.menuLeftToggled}
       trayRightOpen={ui.trayRightOpen}
+      trayRightContent={ui.trayRightContent}
       handleTrayRightToggle={() => updateUI({ trayRightOpen: !ui.trayRightOpen })}
       handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
       handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
@@ -68,7 +69,8 @@ const enhance = compose(
     persist: true,
     state: {
       menuLeftToggled: false,
-      trayRightOpen: false
+      trayRightOpen: false,
+      trayRightContent: 'whats-new'
     }
   })
 )
