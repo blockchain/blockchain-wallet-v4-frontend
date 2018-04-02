@@ -6,8 +6,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validBitcoinAddress } from 'services/FormHelper'
-import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
-import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
+import { Button, Icon, Link, NativeSelect, Text, Tooltip } from 'blockchain-info-components'
+import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
 
@@ -63,9 +63,6 @@ const RowFlexEnd = Row.extend`
     padding-right: 8px;
   }
 `
-const SelectFeeContainer = styled.div`
-  width: 150px;
-`
 const CustomizeFeeLink = styled(Link)`
   margin-top: 10px;
   font-size: 12px;
@@ -87,7 +84,7 @@ const FirstStep = props => {
   const regular = props.fees.regular.data
 
   const renderFeeConfirmationTime = () => {
-    if (fee === regular) {
+    if (parseInt(fee) === parseInt(regular)) {
       return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
     } else return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />)
   }
@@ -149,7 +146,7 @@ const FirstStep = props => {
       <FormGroup inline margin={'30px'}>
         <ColLeft>
           <div>
-            <Text size='14px' weight={500}>
+            <Text size='14px' weight={500} style={{'white-space': 'nowrap'}}>
               <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
             </Text>
             {feeEditToggled
@@ -162,9 +159,10 @@ const FirstStep = props => {
                 <Field name='fee' component={TextBox} validate={[required]} />
                 <Unit>sat/b</Unit>
               </FeeContainer>
-              : <SelectFeeContainer>
-                <Field name='fee' component={SelectBoxFee} validate={[required]} />
-              </SelectFeeContainer>
+              : <Field name='fee' inline component={NativeSelect} validate={[required]}>
+                <option value={regular}>Regular</option>
+                <option value={priority}>Priority</option>
+              </Field>
             }
           </div>
           {feeEditToggled
