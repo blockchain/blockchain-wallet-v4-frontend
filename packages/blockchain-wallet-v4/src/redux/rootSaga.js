@@ -1,5 +1,6 @@
 import { all, fork } from 'redux-saga/effects'
 import dataBitcoinSaga from './data/bitcoin/rootSaga'
+import dataCoinifySaga from './data/coinify/rootSaga'
 import dataEthereumSaga from './data/ethereum/rootSaga'
 import dataBchSaga from './data/bch/rootSaga'
 import dataMiscSaga from './data/misc/rootSaga'
@@ -14,10 +15,11 @@ import kvStoreWhatsnewSaga from './kvStore/whatsNew/rootSaga'
 import optionsSaga from './walletOptions/rootSaga'
 import settingsSaga from './settings/rootSaga'
 
-export const rootSaga = ({ api, socket, sfoxService } = {}) => {
+export const rootSaga = ({ api, socket, sfoxService, coinifyService } = {}) => {
   return function * () {
     yield all([
       fork(dataBitcoinSaga({ api })),
+      fork(dataCoinifySaga({ api, coinifyService })),
       fork(dataEthereumSaga({ api })),
       fork(dataBchSaga({ api })),
       fork(dataMiscSaga({ api })),

@@ -1,3 +1,4 @@
+import * as coinify from './coinify/actions'
 import * as sendBitcoin from './sendBitcoin/actions'
 import * as sendEther from './sendEther/actions'
 import * as sendBch from './sendBch/actions'
@@ -8,6 +9,7 @@ import * as transferEther from './transferEther/actions'
 import * as sfox from './sfox/actions'
 
 export {
+  coinify,
   sendBitcoin,
   sendEther,
   sendBch,

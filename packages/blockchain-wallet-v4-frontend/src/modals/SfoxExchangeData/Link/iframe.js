@@ -2,9 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const ButtonContainer = styled.div`
-  border: 1px solid #DDD;
-  padding: 35px;
-  margin-top: 15px;
+  margin-bottom: 10px;
 `
 
 const plaidStyled = {

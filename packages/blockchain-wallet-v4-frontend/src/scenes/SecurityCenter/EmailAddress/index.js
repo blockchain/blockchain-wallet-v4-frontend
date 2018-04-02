@@ -24,8 +24,11 @@ class EmailAddressContainer extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.data.data.verified && !this.props.data.data.verified) {
-      this.props.updateUI({ verifyToggled: false })
-      this.props.alone && this.props.goBackOnSuccess()
+      this.props.updateUI({ successToggled: true })
+      setTimeout(function () {
+        nextProps.updateUI({ successToggled: false })
+        nextProps.goBackOnSuccess ? nextProps.goBackOnSuccess() : nextProps.updateUI({ verifyToggled: false })
+      }, 1500)
     }
   }
 
@@ -92,7 +95,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_EmailAddress', state: { updateToggled: false, verifyToggled: false, changeEmailToggled: false } })
+  ui({ key: 'Security_EmailAddress', state: { updateToggled: false, verifyToggled: false, changeEmailToggled: false, successToggled: false } })
 )
 
 export default enhance(EmailAddressContainer)

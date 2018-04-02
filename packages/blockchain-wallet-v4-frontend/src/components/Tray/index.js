@@ -26,7 +26,7 @@ const TrayModal = styled(Modal)`
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   > div:first-child {
-    padding: 60px 40px 60px 90px;
+    padding: 60px 40px 60px 60px;
     > span:last-child {
       top: 30px;
       right: 40px;
@@ -39,7 +39,7 @@ const TrayModal = styled(Modal)`
   }
   > div:last-child {
     overflow: auto;
-    padding: 60px 90px;
+    padding: 60px 60px;
     height: calc(100% - 160px);
   }
   @media (max-width: 767px) {
@@ -51,6 +51,7 @@ const TrayModal = styled(Modal)`
 class Tray extends React.Component {
   handleClickOutside () {
     this.props.onClose()
+    // TODO: may need to check something about the modal stack here
   }
 
   render () {

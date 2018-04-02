@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import Modals from 'modals'
 import Alerts from 'components/Alerts'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
+import Faq from 'scenes/Faq'
+
+import TrayRight from './TrayRight'
+import { ModalHeader, ModalBody } from 'blockchain-info-components'
 
 import Page from './Page'
 
@@ -63,20 +68,28 @@ const Top = styled.div`
   width: 100%;
 `
 
-const Success = (props) => {
-  const { location, menuLeftToggled, handleToggleMenuLeft, handleCloseMenuLeft, children } = props
+const WalletLayout = (props) => {
+  const { location, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children } = props
 
   return (
     <Wrapper>
       <Alerts />
       <Modals />
       <Nav>
-        <Header handleToggleMenuLeft={handleToggleMenuLeft} />
+        <Header handleToggleMenuLeft={handleToggleMenuLeft} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
       </Nav>
       <Container>
         <Left toggled={menuLeftToggled}>
           <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
         </Left>
+        <TrayRight in={trayRightOpen} class='tray' onClose={handleTrayRightToggle}>
+          <ModalHeader onClose={handleTrayRightToggle}>
+            <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions'/>
+          </ModalHeader>
+          <ModalBody>
+            <Faq />
+          </ModalBody>
+        </TrayRight>
         <Content>
           <Top>
             <MenuTop />
@@ -90,8 +103,13 @@ const Success = (props) => {
   )
 }
 
-Success.propTypes = {
-  location: PropTypes.object
+WalletLayout.propTypes = {
+  location: PropTypes.object.isRequired,
+  menuLeftToggled: PropTypes.bool.isRequired,
+  trayRightOpen: PropTypes.bool.isRequired,
+  handleTrayRightToggle: PropTypes.func.isRequired,
+  handleToggleMenuLeft: PropTypes.func.isRequired,
+  handleCloseMenuLeft: PropTypes.func.isRequired
 }
 
-export default Success
+export default WalletLayout
