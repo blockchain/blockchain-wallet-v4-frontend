@@ -8,9 +8,10 @@ import { Field } from 'redux-form'
 import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, Link, Icon } from 'blockchain-info-components'
 import FAQ1 from './faq.js'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
+import { spacing } from 'services/StyleService'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
@@ -22,6 +23,34 @@ const AcceptTermsContainer = styled.div`
   a {
     color: ${props => props.theme['brand-secondary']}
   }
+`
+const FieldsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+`
+const FieldContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+`
+const VerifiedContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const FieldBox = styled.div`
+  border: 1px solid #DDDDDD;
+  padding: 5px 15px;
+  display: flex;
+  flex-direction: row;
+  width: 85%;
+  justify-content: space-between;
+`
+const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
 `
 
 class AcceptTerms extends Component {
@@ -50,18 +79,59 @@ class AcceptTerms extends Component {
 
   render () {
     const { busy } = this.state
-    const { invalid, email, smsNumber, signupError } = this.props
+    const { invalid, email, smsNumber, signupError, editEmail, editMobile } = this.props
 
     return (
       <Form onSubmit={this.handleSignup}>
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
-              <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.header.enter_email_code' defaultMessage='Blockchain + SFOX' />
+              <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.header' defaultMessage='Create Your Account' />
             </PartnerHeader>
             <PartnerSubHeader>
-              <FormattedHTMLMessage id='sfoxexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='Thank you for verifying your email ({email}) and phone number ({mobile})! Please accept the terms and conditions to create your SFOX account.' values={{email: email, mobile: smsNumber}} />
+              <FormattedHTMLMessage id='sfoxexchangedata.create.createaccount.partner.subheader' defaultMessage="Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality." />
             </PartnerSubHeader>
+            <PartnerSubHeader style={spacing('mt-10')}>
+              <FormattedHTMLMessage id='sfoxexchangedata.create.createaccount.partner.subheader2' defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number." />
+            </PartnerSubHeader>
+            <FieldsContainer>
+              <FieldContainer>
+                <Text size='14px' style={spacing('mb-10')}>
+                  <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
+                </Text>
+                <VerifiedContainer>
+                  <FieldBox>
+                    <Text size='14px' weight={300}>
+                      { email }
+                    </Text>
+                    <Link onClick={editEmail} size='14px' weight={300}>
+                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                    </Link>
+                  </FieldBox>
+                  <IconContainer>
+                    <Icon name='checkmark-in-circle-filled' color='success' size='20px' />
+                  </IconContainer>
+                </VerifiedContainer>
+              </FieldContainer>
+              <FieldContainer>
+                <Text size='14px' style={spacing('mb-10')}>
+                  <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedmobile' defaultMessage='Verified Phone Number' />
+                </Text>
+                <VerifiedContainer>
+                  <FieldBox>
+                    <Text size='14px' weight={300}>
+                      { smsNumber }
+                    </Text>
+                    <Link onClick={editMobile} size='14px' weight={300}>
+                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                    </Link>
+                  </FieldBox>
+                  <IconContainer>
+                    <Icon name='checkmark-in-circle-filled' color='success' size='20px' />
+                  </IconContainer>
+                </VerifiedContainer>
+              </FieldContainer>
+            </FieldsContainer>
             <AcceptTermsContainer>
               <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
                 <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>." />
