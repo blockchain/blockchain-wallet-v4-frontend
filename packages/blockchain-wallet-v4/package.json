@@ -10,7 +10,7 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
-    "compile": "./../../node_modules/.bin/babel lib/ --ignore spec.js src/ --copy-files",
+    "compile": "babel lib/ --ignore spec.js src/ --copy-files",
     "coverage": "./../../node_modules/.bin/jest --coverage",
     "prepublish": "npm run compile",
     "start": "babel-node src/index.js",
