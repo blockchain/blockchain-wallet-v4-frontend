@@ -16,14 +16,25 @@ const AddressesSettingDescription = SettingDescription.extend`
   margin-bottom: 10px;
 `
 
+const DefaultLabel = styled.div`
+  display: block;
+  padding: 1px 5px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background-color: ${props => props.theme['brand-primary']};
+  color: ${props => props.theme['white']};
+  font-size: 12px;
+  font-weight: 400;
+`
+
 const Success = (props) => {
-  const { wallets } = props
+  const { wallets, defaultId } = props.data
 
   const walletTableRows = wallets.map((wallet, i) => {
     return (
       <TableRow key={i}>
         <TableCell width='50%'>
-          <Text size='13px'>{wallet.label}</Text>
+          <Text size='13px'>{wallet.label} {i === defaultId && <DefaultLabel>Default</DefaultLabel>}</Text>
         </TableCell>
         <TableCell width='30%'>
           <Text size='13px'><SwitchableDisplay coin='BCH'>{wallet.value.balance}</SwitchableDisplay></Text>
