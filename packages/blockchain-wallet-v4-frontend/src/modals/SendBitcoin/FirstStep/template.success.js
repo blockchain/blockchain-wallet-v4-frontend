@@ -165,8 +165,8 @@ const FirstStep = props => {
               {feeEditToggled
                 ? <FeeContainer>
                   <RowFlexEnd>
-                    <Link weight={300} size={'12px'} onClick={() => props.customFeeHandler(regular)}>Reg: {regular}</Link>
-                    <Link weight={300} size={'12px'} onClick={() => props.customFeeHandler(priority)}>Priority: {priority}</Link>
+                    <Link weight={300} size='12px' onClick={() => props.customFeeHandler(regular)}>Reg: {regular}</Link>
+                    <Link weight={300} size='12px' onClick={() => props.customFeeHandler(priority)}>Priority: {priority}</Link>
                   </RowFlexEnd>
                 </FeeContainer>
                 : <Field name='fee' inline component={NativeSelect} validate={[required]}>
@@ -180,21 +180,21 @@ const FirstStep = props => {
             feeEditToggled && <FeeField name='fee' component={NumberBox} validate={[required]} />
           }
           {
-            !feeEditToggled && <Text size={'12px'} weight={300}>{renderFeeConfirmationTime()}</Text>
+            !feeEditToggled && <Text size='12px' weight={300}>{renderFeeConfirmationTime()}</Text>
           }
           {
-            feeEditToggled && fee < limits.min && <FeeError size={'12px'} weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.min)}>
+            feeEditToggled && fee < limits.min && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.min)}>
               <FormattedMessage id='modals.sendbitcoin.firststep.feebelowmin' defaultMessage='{min} sat/b or more is recommended' values={{min: limits.min}} />
             </FeeError>
           }
           {
-            feeEditToggled && fee > limits.max && <FeeError size={'12px'} weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.max)}>
+            feeEditToggled && fee > limits.max && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.max)}>
               <FormattedMessage id='modals.sendbitcoin.firststep.feeabovemax' defaultMessage='{max} sat/b or less is recommended' values={{max: limits.max}} />
             </FeeError>
           }
         </ColLeft>
         <ColRight>
-          <ComboDisplay size={'14px'} coin='BTC'>{totalFee}</ComboDisplay>
+          <ComboDisplay size='14px' coin='BTC'>{totalFee}</ComboDisplay>
           <CustomizeFeeLink onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
             {feeEditToggled
               ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
