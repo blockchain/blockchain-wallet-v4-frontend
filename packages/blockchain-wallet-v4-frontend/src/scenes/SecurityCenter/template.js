@@ -70,16 +70,18 @@ const SecurityCenter = (props) => {
         <EmailAddress handleEnable={() => props.handleEnable('email')} alone={0} goBackOnSuccess={props.onClose} />
         <TwoStepVerification handleEnable={() => props.handleEnable('2fa')} alone={0} />
         <WalletRecoveryPhrase handleEnable={() => props.handleEnable('recovery')} alone={0} />
-        <ButtonContainer>
-          <Button nature='empty' width='25%' onClick={() => props.setView('advanced')}>
-            <Text size='14px' weight={400}>
-              <FormattedMessage id='scenes.securitycenter.introadvancedbutton' defaultMessage='Advanced Settings' />
+        {
+          !tabs && <ButtonContainer>
+            <Button nature='empty' width='25%' onClick={() => props.setView('advanced')}>
+              <Text size='14px' weight={400}>
+                <FormattedMessage id='scenes.securitycenter.introadvancedbutton' defaultMessage='Advanced Settings' />
+              </Text>
+            </Button>
+            <Text size='14px' weight={300} style={spacing('pl-15')}>
+              <FormattedMessage id='scenes.securitycenter.introadvancedexplainer' defaultMessage='We recommend you complete these 3 steps before moving into the Advanced Security Settings.' />
             </Text>
-          </Button>
-          <Text size='14px' weight={300} style={spacing('pl-15')}>
-            <FormattedMessage id='scenes.securitycenter.introadvancedexplainer' defaultMessage='We recommend you complete these 3 steps before moving into the Advanced Security Settings.' />
-          </Text>
-        </ButtonContainer>
+          </ButtonContainer>
+        }
       </BodyContainer>
     )
   }
@@ -91,11 +93,9 @@ const SecurityCenter = (props) => {
         props.viewing === 'security'
           ? <Wrapper>
             {
-              enabling
-                ? <IconContainer>
-                  <Icon name='close' size='20px' weight={300} color='gray-5' cursor onClick={props.onClose} />
-                </IconContainer>
-                : null
+              enabling && <IconContainer>
+                <Icon name='close' size='20px' weight={300} color='gray-5' cursor onClick={props.onClose} />
+              </IconContainer>
             }
             <TopContainer>
               <IntroContainer progress={props.progress}>
