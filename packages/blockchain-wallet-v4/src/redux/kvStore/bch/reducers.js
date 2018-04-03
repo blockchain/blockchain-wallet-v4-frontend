@@ -49,8 +49,7 @@ export default (state = INITIAL_STATE, action) => {
       const { accountIdx, addressIdx } = action.payload
       const valueLens = compose(mapped, KVStoreEntry.value)
       const deleteLabel = dissocPath(['accounts', accountIdx, 'addressLabels', addressIdx])
-      // const eitherW = Either.try(over(valueLens, AddressLabelMap.deleteLabel(addressIdx)))(wallet)
-      // return eitherW.getOrElse(wallet)
+
       return over(valueLens, deleteLabel)
     }
     default:

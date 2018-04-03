@@ -32,7 +32,6 @@ class CountdownTimerContainer extends React.Component {
   }
 
   render () {
-    console.log('state', this.state)
     const timeLeft = moment.utc(this.state.elapsed.as('milliseconds')).format('mm:ss')
 
     return <CountdownTimer timeLeft={timeLeft} />

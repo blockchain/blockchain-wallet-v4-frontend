@@ -6,7 +6,6 @@ import { promptForInput } from 'services/SagaService'
 export const editBchAccountLabel = function * (action) {
   try {
     const { index, label } = action.payload
-    console.log(index, label)
     const newLabel = yield call(promptForInput, { title: 'Rename Bitcoin Cash Wallet', initial: label })
     yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))
     yield put(actions.alerts.displaySuccess('BCH wallet name updated.'))
