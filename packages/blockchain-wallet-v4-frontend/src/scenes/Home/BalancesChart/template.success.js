@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import { FormattedMessage } from 'react-intl'
-import { Color, Link, Text } from 'blockchain-info-components'
+import { Color, Text } from 'blockchain-info-components'
 import configure from './chart.config.js'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 
 import { Icon, Text } from 'blockchain-info-components'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Container = styled.div`
   position: relative;
@@ -52,9 +53,10 @@ const selectIcon = type => {
 }
 
 const ActivityListItem = (props) => {
-  const { action, time, type } = props
+  const { action, time, type, amount, coin } = props
   const timeFormatted = moment(time).format('ll')
   const iconName = selectIcon(type)
+  const visibility = coin ? 'visible' : 'hidden'
 
   return (
     <Container>
@@ -64,6 +66,7 @@ const ActivityListItem = (props) => {
       <Info>
         <Text size='14px' weight={300} capitalize>{action}</Text>
         <Text size='14px' weight={300}>{timeFormatted}</Text>
+        <Text style={{visibility: visibility}} ><SwitchableDisplay size='14px' weight={300} visibility={'hidden'} coin={coin}>{amount}</SwitchableDisplay></Text>
       </Info>
     </Container>
   )
@@ -72,7 +75,9 @@ const ActivityListItem = (props) => {
 ActivityListItem.propTypes = {
   action: PropTypes.string.isRequired,
   time: PropTypes.number.isRequired,
-  type: PropTypes.string
+  type: PropTypes.string,
+  amount: PropTypes.number,
+  coin: PropTypes.string
 }
 
 ActivityListItem.defaultProps = {

@@ -44,6 +44,15 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'rawtx/' + txHex
   })
 
+  const getBalances = (addresses) => post({
+    url: rootUrl,
+    endPoint: 'balance',
+    data: {
+      active: addresses.join('|'),
+      format: 'json'
+    }
+  })
+
   return {
     getBitcoinTicker,
     getBitcoinUnspents,
@@ -51,6 +60,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     pushBitcoinTx,
     getBitcoinFiatAtTime,
     getLatestBlock,
-    getRawTx
+    getRawTx,
+    getBalances
   }
 }

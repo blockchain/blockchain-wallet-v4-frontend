@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
 import { equals } from 'ramda'
+
 import { getData } from './selectors'
 import { selectors, actions } from 'data'
 import Content from './template'

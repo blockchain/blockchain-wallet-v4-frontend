@@ -10,7 +10,6 @@ import WalletLayout from 'layouts/Wallet'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
-import Faq from './Faq'
 import Goals from './Goals'
 import Help from './Help'
 import Home from './Home'
@@ -61,7 +60,6 @@ class App extends React.Component {
                 <WalletLayout path='/settings/addresses/bch/:index' component={BchManageAddresses} />
                 <WalletLayout path='/settings/addresses' component={Addresses} />
                 <WalletLayout path='/settings/info' component={Info} />
-                <WalletLayout path='/faq' component={Faq} />
                 {/* <Redirect from='/settings' to='/settings/info' /> */}
                 <Redirect from='/' to='/login' />
               </Switch>

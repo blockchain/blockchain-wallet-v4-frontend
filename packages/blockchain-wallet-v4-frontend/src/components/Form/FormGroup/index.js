@@ -4,11 +4,14 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  margin-bottom: 15px;
   flex-direction: ${props => props.inline ? 'row' : 'column'};
+  margin-bottom: ${props => props.margin ? props.margin : '10px'};
   > div {
     margin-right: ${props => props.inline ? '15px' : '0px'};
     &:last-child { margin-right: 0px; }
+  }
+  &:last-child {
+    margin-bottom: 0px;
   }
 `
 

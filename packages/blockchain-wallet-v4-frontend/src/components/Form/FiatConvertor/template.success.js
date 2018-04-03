@@ -5,13 +5,14 @@ import styled from 'styled-components'
 import { Icon, TextInput, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  position: relative;
+  width: 100%;
+  height: 40px;
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  width: 100%;
-  height: 40px;
+  font-family: 'Montserrat', Helvetica, sans-serif;
 `
 const FiatConvertorInput = styled.div`
   display: flex;
@@ -31,8 +32,10 @@ const Container = styled.div`
   align-items: center;
 `
 const Unit = styled.span`
-  position: absolute;
   padding: 0 15px;
+  font-size: 12px;
+  font-weight: 300;
+  position: absolute;
   color: ${props => props.theme['gray-4']};
 `
 const ArrowLeft = styled(Icon)`
@@ -47,10 +50,9 @@ const ArrowRight = styled(Icon)`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: 40px;
-  left: 0px;
   height: 15px;
-  cursor: pointer;
+  top: -20px;
+  right: 0;
 `
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')

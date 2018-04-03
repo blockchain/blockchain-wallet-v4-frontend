@@ -2,83 +2,61 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Text, Icon } from 'blockchain-info-components'
+import { ColLeftInner, Info, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
+import { spacing } from 'services/StyleService'
 
-const ColLeftInner = styled.div`
-  width: 80%;
-`
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`
-const Subtitle = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 15px;
-`
-const Info = styled.div`
-  font-size: 14px;
-  margin-bottom: 10px;
-`
 const IdInfo = Info.extend`margin-bottom: 3px;`
-const AlertInfo = Info.extend`margin-top: 10px;`
+const LockIcon = styled(Icon)`
+  font-size: 24px;
+  margin-left: 7px;
+`
 
 const TitleStrings = ({idType}) => (
   idType === 'id'
     ? <ColLeftInner>
-      <Title>
-        <FormattedMessage id='sfoxexchangedata.upload.title' defaultMessage='Upload Documents' />
-      </Title>
-      <Subtitle>
-        <FormattedMessage id='sfoxexchangedata.upload.subtitle' defaultMessage='Photo ID Verification' />
-      </Subtitle>
-      <Info>
-        <FormattedMessage id='sfoxexchangedata.upload.info' defaultMessage='To verify your identity and confirm your country of residence, please upload one of the following government-issued forms of ID:' />
-      </Info>
+      <PartnerHeader>
+        <FormattedMessage id='sfoxexchangedata.upload.title' defaultMessage='The Hidden Details' />
+        <LockIcon name='lock-filled' />
+      </PartnerHeader>
+      <PartnerSubHeader>
+        <FormattedMessage id='sfoxexchangedata.upload.subtitle' defaultMessage='To further confirm your identity and ensure that you can trade at the maximum limit, we need a picture of your government issued ID. Make sure that your legal name and date of birth are clearly visible.' />
+      </PartnerSubHeader>
+      <Text weight={400} style={spacing('mt-15')}>
+        <FormattedMessage id='sfoxexchangedata.upload.info' defaultMessage='1. Photo ID Verification' />
+      </Text>
       <IdInfo>
         <FormattedMessage id='sfoxexchangedata.upload.license' defaultMessage='- State-issued driver’s license' />
       </IdInfo>
       <IdInfo>
         <FormattedMessage id='sfoxexchangedata.upload.passport' defaultMessage='- Passport' />
       </IdInfo>
-      <IdInfo>
+      <IdInfo style={spacing('mb-15')}>
         <FormattedMessage id='sfoxexchangedata.upload.govid' defaultMessage='- State or government-issued identification card' />
       </IdInfo>
-      <AlertInfo>
-        <Text weight={400}>
-          <Icon name='alert' size='18px' color='error' />
-          <FormattedMessage id='sfoxexchangedata.upload.selfies' defaultMessage='Selfies are not a valid form of ID Verification' />
-        </Text>
-      </AlertInfo>
     </ColLeftInner>
     : <ColLeftInner>
-      <Title>
-        <FormattedMessage id='sfoxexchangedata.upload.title' defaultMessage='Upload Documents' />
-      </Title>
-      <Subtitle>
-        <FormattedMessage id='sfoxexchangedata.upload.subtitle' defaultMessage='Address Verification' />
-      </Subtitle>
-      <Info>
-        <FormattedMessage id='sfoxexchangedata.upload.addressinfo' defaultMessage='To verify your billing address please upload one of the following documents. The document must be dated within the last 6 months, and should clearly display your address.' />
-      </Info>
+      <PartnerHeader>
+        <FormattedMessage id='sfoxexchangedata.upload.address.title' defaultMessage='The Hidden Details' />
+        <LockIcon name='lock-filled' />
+      </PartnerHeader>
+      <PartnerSubHeader>
+        <FormattedMessage id='sfoxexchangedata.upload.address.subtitle' defaultMessage='The document must be dated within the last 6 months, and should clearly display your address.' />
+      </PartnerSubHeader>
+      <Text weight={400} style={spacing('mt-15')}>
+        <FormattedMessage id='sfoxexchangedata.upload.info' defaultMessage='2. Proof of Address Verification' />
+      </Text>
+      <Text weight={300} size='14px' style={spacing('mt-15')}>
+        <FormattedMessage id='sfoxexchangedata.upload.address.info' defaultMessage='- Utility bill (mobile phone bills not accepted)' />
+      </Text>
       <IdInfo>
-        <FormattedMessage id='sfoxexchangedata.upload.utility' defaultMessage='- Utility bill (mobile phone bills not accepted)' />
+        <FormattedMessage id='sfoxexchangedata.upload.address.license' defaultMessage='- First and signature page of your lease or mortgage' />
       </IdInfo>
       <IdInfo>
-        <FormattedMessage id='sfoxexchangedata.upload.passport' defaultMessage='- First page and signature page of your lease' />
+        <FormattedMessage id='sfoxexchangedata.upload.address.passport' defaultMessage='- First page of your bank statement' />
       </IdInfo>
-      <IdInfo>
-        <FormattedMessage id='sfoxexchangedata.upload.govid' defaultMessage='- First page of your bank statement' />
+      <IdInfo style={spacing('mb-15')}>
+        <FormattedMessage id='sfoxexchangedata.upload.address.govid' defaultMessage='- DMV or voter registration form' />
       </IdInfo>
-      <IdInfo>
-        <FormattedMessage id='sfoxexchangedata.upload.dmv' defaultMessage='- DMV or voter registration form' />
-      </IdInfo>
-      <AlertInfo>
-        <Text weight={400}>
-          <Icon name='alert' size='18px' color='error' />
-          <FormattedMessage id='sfoxexchangedata.upload.selfies' defaultMessage="Uploading your passport or your driver's license is not sufficient to verify your address. Please upload one of the options above." />
-        </Text>
-      </AlertInfo>
     </ColLeftInner>
 )
 

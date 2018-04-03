@@ -1,9 +1,13 @@
+import { bitcoin } from '../../redux/common/selectors'
+import Bitcoin from 'bitcoinjs-lib'
+
 export class ExchangeDelegate {
-  constructor (state) {
+  constructor (state, api) {
     this._trades = []
     this._debug = false
     this.labelBase = 'Exchange order'
     this._state = state
+    this._api = api
   }
 
   get state () {
@@ -14,28 +18,54 @@ export class ExchangeDelegate {
     return this._trades
   }
 
+  get api () {
+    return this._api
+  }
+
   save () {
     return Promise.resolve() // CHEAT: save metadata in rootSaga
   }
 
   email () {
-    // TODO: implement email
+    return this._state.settingsPath.data.email
   }
 
   mobile () {
-    // TODO: implement mobile
+    return this._state.settingsPath.data.sms_number
   }
 
   isEmailVerified () {
-    // TODO: implement isEmailVerified
+    return this._state.settingsPath.data.email_verified
   }
 
   isMobileVerified () {
-    // TODO: implement isMobileVerified
+    return this._state.settingsPath.data.sms_verified
   }
 
   getToken (partner, options) {
-    // TODO: implement getToken
+    options = options || {}
+
+    const guid = this.state.walletPath.wallet.guid
+    const sharedKey = this.state.walletPath.wallet.sharedKey
+
+    let fields = {
+      guid: guid,
+      sharedKey: sharedKey,
+      fields: `email${options.mobile ? '|mobile' : ''}${options.walletAge ? '|wallet_age' : ''}`
+    }
+
+    if (partner) {
+      fields.partner = partner
+    }
+
+    return this.api.getTokenForDelegate(fields)
+      .then(function (res) {
+        if (res.success) {
+          return res.token
+        } else {
+          throw new Error('Unable to obtain email & mobile verification proof')
+        }
+      })
   }
 
   monitorAddress (address, callback) {
@@ -56,8 +86,9 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
+    const receiveAddress = bitcoin.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, 0, this.state)
     return {
-      receiveAddress: this.state.dataPath.sfox.nextAddress,
+      receiveAddress: receiveAddress.data,
       commit: (trade) => {}
     }
   }

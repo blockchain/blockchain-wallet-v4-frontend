@@ -6,6 +6,7 @@ import { Text } from 'blockchain-info-components'
 import ExchangeCheckout from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
@@ -34,7 +35,7 @@ const ContinueButton = props => {
   switch (true) {
     case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.button' defaultMessage='Continue Where You Left Off' />
     case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.button' defaultMessage='Continue Where You Left Off' />
-    case step === 'link': return <FormattedMessage id='scenes.buysell.sfoxcheckout.link.button' defaultMessage='Continue Where You Left Off' />
+    case step === 'funding': return <FormattedMessage id='scenes.buysell.sfoxcheckout.funding.button' defaultMessage='Continue Where You Left Off' />
     case step === 'verified' && type === 'buy': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verified.buy_bitcoin_button' defaultMessage='Buy Bitcoin' />
     case step === 'verified' && type === 'sell': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verified.sell_bitcoin_button' defaultMessage='Sell Bitcoin' />
     default: return null
@@ -45,9 +46,9 @@ const RequiredMsg = props => {
   const { step } = props
 
   switch (true) {
-    case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.message' defaultMessage='You need to finish verifying your account before you can buy and sell.' />
-    case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.message' defaultMessage='You need to finish verifying your account before you can buy and sell.' />
-    case step === 'link': return <FormattedMessage id='scenes.buysell.sfoxcheckout.link.message' defaultMessage='You need to finish linking your bank account before you can buy and sell.' />
+    case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.message' defaultMessage='You need to finish personaling your account before you can buy and sell.' />
+    case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.message' defaultMessage='You need to finish personaling your account before you can buy and sell.' />
+    case step === 'funding': return <FormattedMessage id='scenes.buysell.sfoxcheckout.funding.message' defaultMessage='You need to finish linking your bank account before you can buy and sell.' />
     default: return null
   }
 }
@@ -63,7 +64,11 @@ const ReasonMsg = props => {
 
 const Success = props => {
   const { fetchQuote, handleTrade, quote, base, errors, showModal, ...rest } = props
-  const { accounts, profile, verificationStatus } = props.value
+
+  const accounts = Remote.of(props.value.accounts).getOrElse([])
+  const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
+  const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
+
   const { trades, type } = rest
   const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
@@ -84,7 +89,7 @@ const Success = props => {
     }
   }
 
-  if (type === 'buy') {
+  if (type === 'buy' || !type) {
     return (
       <CheckoutWrapper>
         <ExchangeCheckout
@@ -101,7 +106,7 @@ const Success = props => {
           showRequiredMsg={step !== 'verified'}
           requiredMsg={<RequiredMsg step={step} type={type} />}
           continueButton={<ContinueButton step={step} type={type} />}
-          reasonMsg={<ReasonMsg reason={reason} limit={profile.limits[type]} />}
+          reasonMsg={<ReasonMsg reason={reason} limit={limits[type]} />}
         />
       </CheckoutWrapper>
     )

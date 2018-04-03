@@ -13,7 +13,7 @@ class SmsAuthContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleVerifyCode = this.handleVerifyCode.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleGetCode = this.handleGetCode.bind(this)
     this.showChangeMobileNumber = this.showChangeMobileNumber.bind(this)
   }
@@ -32,7 +32,7 @@ class SmsAuthContainer extends React.Component {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  handleVerifyCode (e) {
+  onSubmit (e) {
     e.preventDefault()
     this.props.securityCenterActions.verifyMobile(this.props.verificationCode)
   }
@@ -47,17 +47,18 @@ class SmsAuthContainer extends React.Component {
   }
 
   render () {
-    const { data, ui, ...rest } = this.props
+    const { data, ui, verificationCode, goBack, ...rest } = this.props
 
     return data.cata({
       Success: (value) => <SmsAuth
         data={value}
         handleClick={this.handleClick}
-        handleVerifyCode={this.handleVerifyCode}
-        goBack={this.props.goBack}
+        onSubmit={this.onSubmit}
+        goBack={goBack}
         handleGetCode={this.handleGetCode}
         changeMobileNumber={this.showChangeMobileNumber}
         ui={ui}
+        code={verificationCode}
       />,
       Failure: (message) => <Error {...rest}
         message={message} />,

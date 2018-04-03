@@ -1,5 +1,4 @@
-
-import { call, put, takeLatest, delay } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import { has, prop } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'

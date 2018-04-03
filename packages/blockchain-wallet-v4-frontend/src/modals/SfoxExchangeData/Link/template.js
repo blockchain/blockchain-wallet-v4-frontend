@@ -2,86 +2,153 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Link } from 'blockchain-info-components'
-
+import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import BankAccounts from './BankAccounts'
+import AddManually from './AddManually'
+import MicroDeposits from './MicroDeposits'
 import PlaidFrame from './iframe.js'
-import BankAccounts from './bankAccounts.js'
 
-const Row = styled.div`
+import { FAQ1, FAQ2, FAQ3, FAQ4 } from './faq.js'
+import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
+
+const Form = styled.form`
+  width: 100%;
   display: flex;
   flex-direction: row;
-  width: 100%;
 `
-const ColLeft = styled.div`
-  width: 40%;
-`
-const ColRight = styled.div`
-  width: 60%;
-`
-const ColLeftInner = styled.div`
-  width: 80%;
-`
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`
-const Subtitle = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 15px;
-`
-const Info = styled.div`
-  font-size: 14px;
-  margin-bottom: 10px;
-`
-const LinkContainer = styled.div`
+const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  width: 75%;
+`
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 75%;
 `
 
 const BankLink = (props) => {
-  const { plaidUrl, enablePlaid, bankAccounts, onSetBankAccount } = props
+  const {
+    plaidUrl,
+    enablePlaid,
+    bankAccounts,
+    onSetBankAccount,
+    ui,
+    onSubmit,
+    invalid,
+    pristine,
+    handleBankSelection,
+    onNameChange,
+    handleFullName,
+    handleRoutingNumber,
+    handleAccountNumber,
+    handleAccountType,
+    microStep,
+    goToMicroDepositStep,
+    submitMicroDeposits } = props
+
+  const titleHelper = () => {
+    switch (true) {
+      case ui.microDeposits: return null
+      case ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.title2' defaultMessage='Select Your Account' />
+      case !ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.title' defaultMessage='Connect Your Bank' />
+    }
+  }
+
+  const subtitleHelper = () => {
+    switch (true) {
+      case ui.microDeposits: return null
+      case ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.subtitle2' defaultMessage="Please select which bank account you'd like to have synced with your SFOX profile. Please note: Once this account has been added, you will not be able to change it." />
+      case !ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.subtitle1' defaultMessage='There are two ways to go about this: Sync your bank account using your login details (a crowd favorite), or manually enter your routing and account number (this may take a couple days).' />
+    }
+  }
+
+  const bankHelper = () => {
+    if (ui.toggleManual) {
+      return <AddManually
+        handleFullName={handleFullName}
+        handleRoutingNumber={handleRoutingNumber}
+        handleAccountNumber={handleAccountNumber}
+        handleAccountType={handleAccountType}
+        {...props}
+      />
+    } else if (bankAccounts) {
+      return <BankAccounts data={bankAccounts.data} onSetBankAccount={onSetBankAccount} onBankSelection={handleBankSelection} handleNameChange={onNameChange} />
+    } else if (ui.microDeposits) {
+      return <MicroDeposits onStep={microStep} />
+    } else {
+      return (
+        <ButtonContainer>
+          <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
+          <Button onClick={ui.toggleManual}>
+            <FormattedMessage id='sfoxexchangedata.link.userouting' defaultMessage='Use Routing and Account Number' />
+          </Button>
+        </ButtonContainer>
+      )
+    }
+  }
+
+  const helpersHelper = () => {
+    if (ui.selectBank) {
+      return (
+        <span>
+          <FAQ3 />
+          <FAQ4 />
+        </span>
+      )
+    }
+    return (
+      <span>
+        <FAQ1 />
+        <FAQ2 />
+      </span>
+    )
+  }
+
+  const buttonHelper = () => {
+    if (ui.microDeposits) {
+      if (microStep === 'amounts') {
+        return (
+          <Button nature='primary' uppercase fullwidth onClick={submitMicroDeposits} disabled={ui.busy || invalid}>
+            <FormattedMessage id='sfoxexchangedata.link.microdeposits.submitverification' defaultMessage='Submit for Verification' />
+          </Button>
+        )
+      }
+      return (
+        <Button nature='primary' uppercase fullwidth onClick={() => goToMicroDepositStep('amounts')}>
+          <FormattedMessage id='sfoxexchangedata.link.microdeposits.enter' defaultMessage='Enter Deposit Details' />
+        </Button>
+      )
+    }
+    if (ui.busy) return <HeartbeatLoader height='20px' width='20px' color='white' />
+    return (
+      <Button type='submit' nature='primary' uppercase fullwidth disabled={ui.busy || invalid || pristine} >
+        <FormattedMessage id='sfoxexchangedata.link.continue' defaultMessage='continue' />
+      </Button>
+    )
+  }
 
   return (
-    <Row>
+    <Form onSubmit={onSubmit}>
       <ColLeft>
-        <ColLeftInner>
-          <Title>
-            <FormattedMessage id='sfoxexchangedata.link.title' defaultMessage='Link Account' />
-          </Title>
-          <Subtitle>
-            <FormattedMessage id='sfoxexchangedata.link.subtitle' defaultMessage='Sync your bank account instantly by securely signing into your bank directly.' />
-          </Subtitle>
-          <Info>
-            <FormattedMessage id='sfoxexchangedata.link.info' defaultMessage='You can also manually add your account by typing your routing number and account information. Please note that manually adding your bank account could take up to 4 business days to process.' />
-          </Info>
-          <Info>
-            <FormattedMessage id='sfoxexchangedata.link.info2' defaultMessage='(PS: Your bank information will be sent directly to SFOX and will not be viewed by or saved to your Blockchain wallet.)' />
-          </Info>
-        </ColLeftInner>
+        <HeaderContainer>
+          <PartnerHeader>
+            { titleHelper() }
+          </PartnerHeader>
+          <PartnerSubHeader>
+            { subtitleHelper() }
+          </PartnerSubHeader>
+        </HeaderContainer>
+        { bankHelper() }
       </ColLeft>
       <ColRight>
-        <LinkContainer>
-          <Text size='14px'>
-            <FormattedMessage id='sfoxexchangedata.link.selectmethod' defaultMessage='Select Method To Link Your Bank Account' />
-          </Text>
-          {
-            bankAccounts
-              ? <BankAccounts data={bankAccounts.data} onSetBankAccount={onSetBankAccount} />
-              : <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
-          }
-        </LinkContainer>
-        <Text>
-          <Link>
-            <FormattedMessage id='sfoxexchangedata.link.manuallyenter' defaultMessage='Manually Enter Account & Routing Information' />
-          </Link>
-          <FormattedMessage id='sfoxexchangedata.link.fourbusinessdays' defaultMessage='(This can take up to 4 business days)' />
-        </Text>
+        <ColRightInner>
+          { buttonHelper() }
+          { helpersHelper() }
+        </ColRightInner>
       </ColRight>
-    </Row>
+    </Form>
   )
 }
 
-export default reduxForm({ form: 'sfoxUpload' })(BankLink)
+export default reduxForm({ form: 'sfoxLink' })(BankLink)

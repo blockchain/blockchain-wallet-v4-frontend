@@ -1,5 +1,4 @@
-
-import { call, put, takeLatest } from 'redux-saga/effects'
+import {call, put, takeLatest} from 'redux-saga/effects'
 import { compose, dissoc, mapObjIndexed, negate, prop, sortBy, sum, values } from 'ramda'
 import { delay } from 'redux-saga'
 import { delayAjax } from '../../paths'
@@ -12,6 +11,7 @@ export default ({ api } = {}) => {
       yield put(A.fetchDataLoading())
       const { context } = action.payload
       const data = yield call(api.getEthereumData, context)
+      const latestBlock = yield call(api.getEthereumLatestBlock)
       // Accounts treatments
       const finalBalance = sum(values(data).map(obj => obj.balance))
       const totalReceived = sum(values(data).map(obj => obj.totalReceived))
@@ -28,6 +28,7 @@ export default ({ api } = {}) => {
           total_sent: totalSent,
           final_balance: finalBalance
         },
+        latest_block: latestBlock,
         transactions
       }
       yield call(delay, delayAjax)

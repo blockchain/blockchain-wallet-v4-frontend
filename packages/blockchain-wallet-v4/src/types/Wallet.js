@@ -2,10 +2,11 @@ import Bigi from 'bigi'
 import Base58 from 'bs58'
 import Either from 'data.either'
 import Task from 'data.task'
+import Maybe from 'data.maybe'
 import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import BIP39 from 'bip39'
-import { compose, curry, map, is, pipe, __, concat, split, isNil } from 'ramda'
+import { compose, curry, map, is, pipe, __, concat, split, isNil, flip } from 'ramda'
 import { traversed, traverseOf, over, view, set } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
@@ -75,6 +76,8 @@ export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
+const eitherToTask = (e) => e.fold(Task.rejected, Task.of)
+
 export const fromJS = (x) => {
   if (is(Wallet, x)) { return x }
   const walletCons = compose(
@@ -108,20 +111,15 @@ export const reviver = (jsObject) => {
 
 // fromEncryptedPayload :: String -> String -> Either Error Wallet
 export const fromEncryptedPayload = curry((password, payload) => {
-  let decryptWallet = compose(
-    map(fromJS),
-    crypto.decryptWallet(password),
-    JSON.parse
-  )
+  let decryptWallet = compose(map(fromJS), crypto.decryptWallet(password))
   return Either.of(payload).chain(decryptWallet)
 })
 
 // toEncryptedPayload :: String -> Wallet -> Either Error String
-export const toEncryptedPayload = curry((password, wallet) => {
+export const toEncryptedPayload = curry((password, pbkdf2Iterations, wallet) => {
   Wallet.guard(wallet)
-  let iters = selectIterations(wallet)
   let encryptWallet = compose(
-    Either.try(crypto.encryptWallet(__, password, iters, 3.0)),
+    Either.try(crypto.encryptWallet(__, password, pbkdf2Iterations, 3.0)),
     JSON.stringify,
     toJS
   )
@@ -142,24 +140,65 @@ export const isValidSecondPwd = curry((password, wallet) => {
   }
 })
 
-// addAddress :: Wallet -> Address -> String -> Either Error Wallet
-export const addAddress = curry((wallet, address, password) => {
+// getAddress :: String -> Wallet -> Maybe Address
+export const getAddress = (addr, wallet) => {
+  let address = AddressMap.selectAddress(addr, wallet.addresses)
+  return Maybe.fromNullable(address)
+}
+
+// applyCipher :: Wallet -> String -> Cipher -> a -> Either Error a
+const applyCipher = curry((wallet, password, f, value) => {
   let it = selectIterations(wallet)
   let sk = view(sharedKey, wallet)
-  let appendAddress = curry((w, a) => over(addresses, (addrs) => addrs.set(a.addr, a), w))
-  if (!isDoubleEncrypted(wallet)) {
-    return Either.of(appendAddress(wallet, address))
-  } else if (isValidSecondPwd(password, wallet)) {
-    return Address.encryptSync(it, sk, password, address).map(appendAddress(wallet))
-  } else {
-    return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
+  switch (true) {
+    case !isDoubleEncrypted(wallet): return Either.of(value)
+    case isValidSecondPwd(password, wallet): return f(it, sk, password, value)
+    default: return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
   }
+})
+
+// importLegacyAddress :: Wallet -> String -> Number -> String? -> { Network, Api } -> Task Error Wallet
+export const importLegacyAddress = curry((wallet, key, createdTime, password, bipPass, { network, api }) => {
+  let checkIfExists = (address) =>
+    getAddress(address.addr, wallet)
+      .map(existing =>
+        Address.isWatchOnly(existing) && !Address.isWatchOnly(address)
+          ? Either.of(existing)
+          : Either.Left(new Error('present_in_wallet')))
+      .map(aE => aE.map(set(Address.priv, address.priv)))
+      .getOrElse(Either.of(address))
+
+  let appendAddress = (address) =>
+    over(addresses, (as) => as.set(address.addr, address), wallet)
+
+  return Address.fromString(key, createdTime, null, bipPass, { network, api })
+    .map(Either.of)
+    .map(aE => aE.chain(checkIfExists))
+    .map(aE => aE.chain(applyCipher(wallet, password, Address.encryptSync)))
+    .map(aE => aE.map(appendAddress))
+    .chain(eitherToTask)
+})
+
+// upgradeToHd :: String -> String -> String? -> Either Error Wallet
+export const upgradeToHd = curry((mnemonic, firstLabel, password, wallet) => {
+  return Either.of(wallet)
+    .chain(newHDWallet(mnemonic, password))
+    .chain(newHDAccount(firstLabel, password))
+})
+
+// newHDWallet :: String -> String? -> Wallet -> Either Error Wallet
+export const newHDWallet = curry((mnemonic, password, wallet) => {
+  let hdWallet = HDWallet.createNew(mnemonic)
+
+  let appendHdWallet = curry((w, hd) => over(hdWallets, list => list.push(hd), w))
+
+  return Either.of(hdWallet)
+    .chain(applyCipher(wallet, password, HDWallet.encryptSync))
+    .map(appendHdWallet(wallet))
 })
 
 // newHDAccount :: String -> String? -> Wallet -> Either Error Wallet
 export const newHDAccount = curry((label, password, wallet) => {
-  let it = selectIterations(wallet)
-  let sk = view(sharedKey, wallet)
   let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
   let index = hdWallet.accounts.size
 
@@ -169,18 +208,11 @@ export const newHDAccount = curry((label, password, wallet) => {
     return over(accountsLens, (accounts) => accounts.push(accountWithIndex), w)
   })
 
-  if (!isDoubleEncrypted(wallet)) {
-    return Either.of(hdWallet.seedHex)
-      .map(HDWallet.generateAccount(index, label))
-      .map(appendAccount(wallet))
-  } else if (isValidSecondPwd(password, wallet)) {
-    return crypto.decryptSecPassSync(sk, it, password, hdWallet.seedHex)
-      .map(HDWallet.generateAccount(index, label))
-      .chain(HDAccount.encryptSync(it, sk, password))
-      .map(appendAccount(wallet))
-  } else {
-    return Either.Left(new Error('INVALID_SECOND_PASSWORD'))
-  }
+  return Either.of(hdWallet.seedHex)
+    .chain(applyCipher(wallet, password, flip(crypto.decryptSecPassSync)))
+    .map(HDWallet.generateAccount(index, label))
+    .chain(applyCipher(wallet, password, HDAccount.encryptSync))
+    .map(appendAccount(wallet))
 })
 
 // setLegacyAddressLabel :: String -> String -> Wallet -> Wallet
@@ -188,6 +220,18 @@ export const setLegacyAddressLabel = curry((address, label, wallet) => {
   const addressLens = compose(addresses, AddressMap.address(address))
   const eitherW = Either.try(over(addressLens, Address.setLabel(label)))(wallet)
   return eitherW.getOrElse(wallet)
+})
+
+// getPrivateKeyForAddress :: Wallet -> String? -> String -> Either Error String
+export const getPrivateKeyForAddress = curry((wallet, password, addr) => {
+  let address = AddressMap.selectAddress(addr, selectAddresses(wallet))
+  return applyCipher(wallet, password, Address.decryptSync, address).map(a => a.priv)
+})
+
+// setLegacyAddressLabel :: String -> Bool -> Wallet -> Wallet
+export const setAddressArchived = curry((address, archived, wallet) => {
+  const addressLens = compose(addresses, AddressMap.address(address))
+  return over(addressLens, Address.setArchived(archived), wallet)
 })
 
 // deleteLegacyAddress :: String -> Wallet -> Wallet
