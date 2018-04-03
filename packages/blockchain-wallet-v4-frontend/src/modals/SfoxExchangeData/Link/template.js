@@ -25,6 +25,34 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 75%;
+  margin-top: 20px;
+`
+const OrText = styled.p`
+  color: rgba(151,151,151,0.5);
+  margin: 10px 0px 15px 0px;
+  line-height: 0.5;
+  text-align: center;
+  span {
+    display: inline-block;
+    position: relative;
+  }
+  span:before,
+  span:after {
+    content: "";
+    position: absolute;
+    height: 5px;
+    border-bottom: 1px solid rgba(151,151,151,0.5);
+    top: 0;
+    width: 100px;
+  }
+  span:before {
+    right: 100%;
+    margin-right: 15px;
+  }
+  span:after {
+    left: 100%;
+    margin-left: 15px;
+  }
 `
 
 const BankLink = (props) => {
@@ -81,6 +109,9 @@ const BankLink = (props) => {
       return (
         <ButtonContainer>
           <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
+          <OrText>
+            <FormattedMessage id='sfoxexchangedata.link.or' defaultMessage='or' />
+          </OrText>
           <Button onClick={toggleManual}>
             <FormattedMessage id='sfoxexchangedata.link.userouting' defaultMessage='Use Routing and Account Number' />
           </Button>
