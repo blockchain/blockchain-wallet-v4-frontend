@@ -13,7 +13,7 @@ class ManageAddressesContainer extends React.Component {
     const deriveAddress = (i) => Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BCH)
 
     const onSetLabel = (i, label) => kvStoreBchActions.setHdAddressLabel(account.index, i, label)
-    const onEditLabel = (i) => addressesBchActions.editHdLabel(account.index, i)
+    const onEditLabel = (i) => addressesBchActions.editBchHdLabel(account.index, i)
     const onDeleteLabel = (i) => kvStoreBchActions.deleteHdAddressLabel(account.index, i)
     const oneditBchAccountLabel = () => addressesBchActions.editBchAccountLabel(account.index, account.label)
     const onShowXPub = () => modalsActions.showModal('ShowXPub', { xpub: account.xpub })
