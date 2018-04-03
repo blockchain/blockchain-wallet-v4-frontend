@@ -25,9 +25,9 @@ class ThirdStepContainer extends React.Component {
     this.props.walletActions.verifyMnemonic()
     setTimeout(() => {
       this.props.updateUI({ showSuccess: true })
-    }, 250)
+    }, 100)
     setTimeout(() => {
-      this.props.goBackOnSuccess()
+      this.props.inline ? this.props.handleClose() : this.props.goBackOnSuccess()
     }, 1500)
   }
 
