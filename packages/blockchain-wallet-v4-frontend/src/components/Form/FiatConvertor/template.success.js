@@ -50,6 +50,7 @@ const ArrowRight = styled(Icon)`
 const Error = styled(Text)`
   position: absolute;
   display: block;
+  font-size: 12px;
   height: 15px;
   top: -20px;
   right: 0;

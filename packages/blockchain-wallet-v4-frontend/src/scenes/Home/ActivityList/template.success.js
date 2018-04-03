@@ -24,7 +24,9 @@ const Header = styled.div`
 `
 const Content = styled.div`
   width: 100%;
+  height: 100%;
   margin-top: 10px;
+  overflow: scroll;
 `
 
 const Success = props => (
