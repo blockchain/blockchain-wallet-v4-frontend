@@ -16,6 +16,10 @@ class CountdownTimerContainer extends React.Component {
     this.interval = setInterval(this.tick, 1000)
   }
 
+  componentWillUnmount () {
+    clearInterval(this.interval)
+  }
+
   tick () {
     const { handleExpiry } = this.props
     const elapsed = moment.duration(moment(this.state.expiration).diff(moment()))
@@ -25,10 +29,6 @@ class CountdownTimerContainer extends React.Component {
       clearInterval(this.interval)
       if (handleExpiry) { handleExpiry() }
     }
-  }
-
-  componentWillUnmount () {
-    clearInterval(this.interval)
   }
 
   render () {

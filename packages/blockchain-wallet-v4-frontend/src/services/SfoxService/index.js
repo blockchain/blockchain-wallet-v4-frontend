@@ -1,3 +1,14 @@
+import SFOX from 'bitcoin-sfox-client'
+
+export const sfoxService = {
+  refresh: (value, delegate) => {
+    let sfox = new SFOX(value.data.value.sfox, delegate)
+    sfox.api.production = true
+    sfox.api.apiKey = 'f31614a7-5074-49f2-8c2a-bfb8e55de2bd'
+    return sfox
+  }
+}
+
 export const isVerified = (verificationStatus) => {
   const { level } = verificationStatus
   return level === 'verified' || (level === 'pending' && verificationStatus.required_docs.length === 0)
@@ -9,13 +20,12 @@ const isActiveAccount = (accounts) => {
 
 export const determineStep = (profile, verificationStatus, accounts) => {
   if (!profile) {
-    return 'create'
+    return 'account'
   } else {
     if (!isVerified(verificationStatus)) {
-      if (!profile.setupComplete && !verificationStatus.required_docs.length) return 'verify'
-      else if (verificationStatus.required_docs.length) return 'upload'
+      return 'verify'
     } else if (!accounts.length || !isActiveAccount(accounts)) {
-      return 'link'
+      return 'funding'
     } else {
       return 'verified'
     }

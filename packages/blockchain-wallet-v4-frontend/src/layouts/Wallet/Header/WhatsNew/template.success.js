@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom'
 import { MenuTooltip } from 'components/Tooltip'
 
 const Container = styled.div`
- margin-top: 5px;
+  z-index: 9999;
 `
 const NewsItemWrapper = styled.div`
   padding-top: 5px;

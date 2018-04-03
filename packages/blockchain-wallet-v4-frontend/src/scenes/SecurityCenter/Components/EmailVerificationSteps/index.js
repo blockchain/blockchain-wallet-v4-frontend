@@ -18,11 +18,15 @@ const EmailCodeWrapper = styled.form`
   }
 `
 
+const Wrapper = styled(SecuritySummary)`
+  opacity: ${props => props.verified ? 0.3 : 1};
+`
+
 function EmailVerificationSteps (props) {
-  const { email, failed, handleSubmitVerification, handleResend } = props
+  const { email, failed, handleSubmitVerification, handleResend, success } = props
 
   return (
-    <SecuritySummary>
+    <Wrapper verified={success}>
       <SecurityHeader>
         <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Verify email address' />
       </SecurityHeader>
@@ -45,7 +49,7 @@ function EmailVerificationSteps (props) {
           </Banner>
           : null
       }
-    </SecuritySummary>
+    </Wrapper>
   )
 }
 

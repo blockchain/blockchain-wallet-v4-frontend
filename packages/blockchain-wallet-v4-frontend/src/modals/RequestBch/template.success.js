@@ -7,7 +7,7 @@ import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, Separator, Text, Tooltip } from 'blockchain-info-components'
-import { Form, SelectBoxBitcoinAddresses, SelectBoxCoin } from 'components/Form'
+import { Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, SelectBoxCoin } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
 const AddressContainer = styled.div`
@@ -16,29 +16,17 @@ const AddressContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
 `
-const CoinSelector = styled.div`
-  width: 40%;
-  margin-bottom: 20px;
-`
-const AddressSelector = styled.div`
-  width: 55%;
-  margin-bottom: 20px;
-`
 const QRCodeContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 25px;
+  margin-top: 5px;
   width: 100%;
-  padding: 30px 0;
 `
 const ScanMessage = styled.div`
   padding-bottom: 20px;
-`
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 `
 
 const RequestBch = props => {
@@ -50,33 +38,37 @@ const RequestBch = props => {
         <FormattedMessage id='modals.requestbch.title' defaultMessage='Request Bitcoin Cash' />
       </ModalHeader>
       <ModalBody>
-        <Form onSubmit={handleSubmit}>
-          <Row>
-            <CoinSelector>
-              <Text size='14px' weight={500}>
+        <Form override onSubmit={handleSubmit}>
+          <FormGroup inline margin={'20px'}>
+            <FormItem>
+              <FormLabel for='coin'>
                 <FormattedMessage id='modals.sendbch.coin' defaultMessage='Currency:' />
-              </Text>
+              </FormLabel>
               <Field name='coin' component={SelectBoxCoin} validate={[required]} />
-            </CoinSelector>
-            <AddressSelector>
-              <Text size='14px' weight={500} capitalize>
-                <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Request to:' />
-              </Text>
+            </FormItem>
+            <FormItem>
+              <FormLabel for='to'>
+                <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive to:' />
+              </FormLabel>
               <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false, coin: 'BCH' }} />
-            </AddressSelector>
-          </Row>
-          <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.requestbch.share' defaultMessage='Copy & share address:' />
-            <Tooltip>
-              <FormattedMessage id='modals.requestbch.share_tooltip1' defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet.' />
-              <FormattedMessage id='modals.requestbch.share_tooltip2' defaultMessage='Your address changes with every payment.' />
-              <FormattedMessage id='modals.requestbch.share_tooltip3' defaultMessage='You can also create a request by attaching an amount below.' />
-            </Tooltip>
-          </Text>
-          <AddressContainer>
-            <CopyClipboard address={receiveAddress} />
-          </AddressContainer>
-          <Separator>
+            </FormItem>
+          </FormGroup>
+          <FormGroup>
+            <FormItem>
+              <FormLabel>
+                <FormattedMessage id='modals.requestbch.share' defaultMessage='Copy & share address:&nbsp;' />
+                <Tooltip>
+                  <FormattedMessage id='modals.requestbch.share_tooltip1' defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet.' />
+                  <FormattedMessage id='modals.requestbch.share_tooltip2' defaultMessage='Your address changes with every payment.' />
+                  <FormattedMessage id='modals.requestbch.share_tooltip3' defaultMessage='You can also create a request by attaching an amount below.' />
+                </Tooltip>
+              </FormLabel>
+              <AddressContainer>
+                <CopyClipboard address={receiveAddress} />
+              </AddressContainer>
+            </FormItem>
+          </FormGroup>
+          <Separator margin={'20px 0'}>
             <Text size='14px' weight={300} uppercase>
               <FormattedMessage id='modals.requestbch.or' defaultMessage='Or' />
             </Text>

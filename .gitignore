@@ -9,22 +9,21 @@
 
 # Node
 node_modules
-npm-debug.log
 npm-shrinkwrap.json
 
 # Yarn
 .yarnclean
 yarn-error.log
+yarn.lock
 
 # Generated Files
 *.log
-lib
-coverage/
-dist
-build
 *.lerna_backup
+coverage/
+dist/
+build/
 
-# Packages
+# Package Files
 packages/blockchain-info-components/lib
 packages/blockchain-info-components/node_modules
 packages/blockchain-info-components/storybook-static

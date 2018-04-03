@@ -3,8 +3,9 @@ import * as AT from './actionTypes'
 import * as actions from '../../actions.js'
 import * as sagas from '../../sagas.js'
 import * as selectors from '../../selectors.js'
+import { Types } from 'blockchain-wallet-v4/src'
 
-import { askSecondPasswordEnhancer } from 'services/SagaService'
+import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/SagaService'
 
 export const initSettingsInfo = function * () {
   try {
@@ -53,30 +54,21 @@ const showGoogleAuthenticatorSecretUrl = function * (action) {
   }
 }
 
-export const updateEmail = function * (action) {
-  try {
-    yield call(sagas.core.settings.setEmail, action.payload)
-    yield put(actions.alerts.displaySuccess('Email address has been successfully updated. Confirmation email has been sent.'))
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not update email address.'))
-  }
-}
-
-export const verifyEmail = function * (action) {
-  try {
-    yield call(sagas.core.settings.setEmailVerified, action.payload)
-    yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
-  } catch (e) {
-    yield put(actions.alerts.displayError('Could not verify email address.'))
-  }
-}
-
 export const updateMobile = function * (action) {
   try {
     yield call(sagas.core.settings.setMobile, action.payload)
     yield put(actions.alerts.displaySuccess('Mobile number has been successfully updated. Verification SMS has been sent.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update mobile number.'))
+  }
+}
+
+export const verifyMobile = function * (action) {
+  try {
+    yield call(sagas.core.settings.setMobileVerified, action.payload)
+    yield put(actions.alerts.displaySuccess('Mobile number has been verified!'))
+  } catch (e) {
+    yield put(actions.alerts.displayError('Could not verify mobile number.'))
   }
 }
 
@@ -110,6 +102,7 @@ export const updateBitcoinUnit = function * (action) {
 export const updateAutoLogout = function * (action) {
   try {
     yield call(sagas.core.settings.setAutoLogout, action.payload)
+    yield put(actions.auth.startLogoutTimer())
     yield put(actions.alerts.displaySuccess('Auto logout has been successfully updated.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not update auto logout.'))
@@ -212,14 +205,26 @@ export const newHDAccount = function * (action) {
   }
 }
 
+export const showPrivateKey = function * (action) {
+  let { addr } = action.payload
+  let password = yield call(promptForSecondPassword)
+  let wallet = yield select(selectors.core.wallet.getWallet)
+  let priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
+
+  if (priv != null) {
+    yield put(actions.modules.settings.addShownPrivateKey(priv))
+  } else {
+    yield put(actions.alerts.displayError('Could not show private key for address.'))
+  }
+}
+
 export default function * () {
   yield takeLatest(AT.INIT_SETTINGS_INFO, initSettingsInfo)
   yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, initSettingsPreferences)
   yield takeLatest(AT.SHOW_BACKUP_RECOVERY, showBackupRecovery)
   yield takeLatest(AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL, showGoogleAuthenticatorSecretUrl)
-  yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
-  yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
   yield takeLatest(AT.UPDATE_MOBILE, updateMobile)
+  yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
   yield takeLatest(AT.UPDATE_LANGUAGE, updateLanguage)
   yield takeLatest(AT.UPDATE_CURRENCY, updateCurrency)
   yield takeLatest(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
@@ -234,4 +239,5 @@ export default function * () {
   yield takeLatest(AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, enableTwoStepGoogleAuthenticator)
   yield takeLatest(AT.ENABLE_TWO_STEP_YUBIKEY, enableTwoStepYubikey)
   yield takeLatest(AT.NEW_HD_ACCOUNT, newHDAccount)
+  yield takeLatest(AT.SHOW_PRIV_KEY, showPrivateKey)
 }

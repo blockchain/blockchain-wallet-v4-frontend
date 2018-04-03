@@ -1,23 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { BlockchainLoader } from 'blockchain-info-components'
+import { SkeletonRectangle } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  height: 400px;
-  padding: 5px;
+  height: 460px;
   box-sizing: border-box;
 `
 
 export default (props) => {
   return (
     <Wrapper>
-      <BlockchainLoader width='200px' height='200px' />
+      <SkeletonRectangle height='20px' width='30%' />
+      <SkeletonRectangle height='40px' width='100%' style={{'margin-top': '15px'}} />
+      <SkeletonRectangle height='20px' width='30%' style={{'margin-top': '30px'}} />
+      <SkeletonRectangle height='40px' width='100%' style={{'margin-top': '15px'}} />
+      <SkeletonRectangle height='20px' width='30%' style={{'margin-top': '15px'}} />
+      <SkeletonRectangle height='40px' width='100%' style={{'margin-top': '15px'}} />
+      <SkeletonRectangle height='80px' width='100%' style={{'margin-top': '40px'}} />
     </Wrapper>
   )
 }

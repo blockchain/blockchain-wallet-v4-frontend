@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
 import { take, map, sortBy, prop, range } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import ThirdStep from './template.js'
 
 class ThirdStepContainer extends React.Component {

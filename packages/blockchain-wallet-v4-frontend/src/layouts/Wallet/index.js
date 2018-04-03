@@ -39,6 +39,8 @@ const renderLayout = ({ ui, updateUI, component: Component, ...rest }) => (
     <Success
       location={props.location}
       menuLeftToggled={ui.menuLeftToggled}
+      trayRightOpen={ui.trayRightOpen}
+      handleTrayRightToggle={() => updateUI({ trayRightOpen: !ui.trayRightOpen })}
       handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
       handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
       <Component {...rest} />
@@ -61,7 +63,14 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'WalletLayout', persist: true, state: { menuLeftToggled: false } })
+  ui({
+    key: 'WalletLayout',
+    persist: true,
+    state: {
+      menuLeftToggled: false,
+      trayRightOpen: false
+    }
+  })
 )
 
 export default enhance(WalletLayout)

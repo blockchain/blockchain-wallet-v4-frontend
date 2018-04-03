@@ -1,11 +1,13 @@
 import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
-import { isNumeric, isEmail, isGuid, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen } from './../ValidationHelper'
+import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN, isOnSfoxWhitelist, isOnPartnerCountryWhitelist } from './../ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 
 const required = value => value ? undefined : 'Required'
+
+const optional = validator => value => value === undefined || value === '' ? undefined : validator(value)
 
 const validNumber = value => isNumeric(value) ? undefined : 'Invalid number'
 
@@ -43,9 +45,25 @@ const normalizeUSZipcode = value => formatUSZipcode(value)
 
 const ageOverEighteen = value => isOverEighteen(value) ? undefined : 'Must be 18 or older'
 
+const requiredSSN = value => isSSN(value) ? undefined : 'Must be valid SSN'
+
+const requiredDOB = value => isDOB(value) ? undefined : 'Must be valid date'
+
+const requiredUsZipcode = value => isUsZipcode(value) ? undefined : 'Must be valid zipcode'
+
+const onSfoxWhitelist = value => isOnSfoxWhitelist(value) ? undefined : 'Feature is not available in your state.'
+
+const onPartnerCountryWhitelist = value => isOnPartnerCountryWhitelist(value) ? undefined : 'Feature is not available in your country.'
+
 export {
   required,
+  requiredDOB,
+  onPartnerCountryWhitelist,
+  onSfoxWhitelist,
+  optional,
   requiredNumber,
+  requiredSSN,
+  requiredUsZipcode,
   validNumber,
   validEmail,
   validEmailCode,

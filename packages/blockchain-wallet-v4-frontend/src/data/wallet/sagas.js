@@ -2,15 +2,48 @@ import { takeEvery, call, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
-import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
+import { askSecondPasswordEnhancer, promptForSecondPassword, promptForInput } from 'services/SagaService'
 
-export const createLegacyAddress = function * (action) {
-  const saga = askSecondPasswordEnhancer(sagas.core.wallet.createLegacyAddress)
+export const importLegacyAddress = function * (action, password) {
+  let { addr, priv, to, bipPass } = action.payload
+  if (password == null) { password = yield call(promptForSecondPassword) }
+
   try {
-    yield call(saga, action.payload)
+    let key = priv == null ? addr : priv
+    yield call(sagas.core.wallet.importLegacyAddress, { key, password, bipPass })
     yield put(actions.alerts.displaySuccess('Address added succesfully.'))
+
+    if (to && priv) {
+      try {
+        yield sagas.core.data.bitcoin.sweepAddress(addr, priv, { index: to.index, password })
+        yield put(actions.alerts.displaySuccess(`Swept address funds to ${to.label}`))
+      } catch (error) {
+        yield put(actions.alerts.displayError('Could not sweep address.'))
+      }
+    }
+
+    yield call(sagas.core.wallet.refetchContextData)
+    yield put(actions.modals.closeModal())
   } catch (error) {
-    yield put(actions.alerts.displayError('Error adding address.'))
+    switch (error.message) {
+      case 'present_in_wallet':
+        yield put(actions.alerts.displayError('This address already exists in your wallet.'))
+        break
+      case 'unknown_key_format':
+        yield put(actions.alerts.displayError('This address format is not supported.'))
+        break
+      case 'wrong_bip38_pass':
+        yield put(actions.alerts.displayError('Incorrect BIP38 password.'))
+        break
+      case 'needs_bip38':
+        let bipPass = yield call(promptForInput, { title: 'Enter BIP38 Password', secret: true })
+        let action = actions.wallet.importLegacyAddress(addr, priv, to, bipPass)
+        yield importLegacyAddress(action, password)
+        break
+      default:
+        console.log(error)
+        yield put(actions.alerts.displayError('Error adding address.'))
+    }
   }
 }
 
@@ -64,7 +97,7 @@ export const editBtcAccountLabel = function * (action) {
 export default function * () {
   yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
   yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
-  yield takeEvery(AT.CREATE_LEGACY_ADDRESS, createLegacyAddress)
+  yield takeEvery(AT.IMPORT_LEGACY_ADDRESS, importLegacyAddress)
   yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
   yield takeEvery(AT.EDIT_HD_LABEL, editHdLabel)
   yield takeEvery(AT.EDIT_BTC_ACCOUNT_LABEL, editBtcAccountLabel)
