@@ -82,8 +82,8 @@ export const sendMobileVerificationCode = function * (action) {
 
 export const verifyMobile = function * (action) {
   try {
-    yield call(sagas.core.settings.setMobileVerified, action.payload)
-    yield put(actions.alerts.displaySuccess('Mobile number has been successfully verified.'))
+    yield call(sagas.core.settings.setMobileVerifiedAs2FA, action.payload)
+    yield put(actions.alerts.displaySuccess('SMS has been successfully verified as two factor auth method.'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not verify mobile number.'))
   }
@@ -109,6 +109,6 @@ export default function * () {
   yield takeLatest(AT.VERIFY_GOOGLE_AUTHENTICATOR, verifyGoogleAuthenticator)
   yield takeLatest(AT.SET_YUBIKEY, setYubikey)
   yield takeLatest(AT.SEND_MOBILE_VERIFICATION_CODE, sendMobileVerificationCode)
-  yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
+  yield takeLatest(AT.VERIFY_MOBILE_SECURITY_CENTER, verifyMobile)
   yield takeLatest(AT.DISABLE_TWO_STEP, disableTwoStep)
 }

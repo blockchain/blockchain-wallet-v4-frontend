@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Button, Text, Link, Icon } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { TextBox, PhoneNumberBox } from 'components/Form'
+import { TextBox, PhoneNumberBox, Form } from 'components/Form'
 import { required } from 'services/FormHelper'
 
 import { SecurityDescription, SecurityHeader, SuccessOverlay } from 'components/Security'
@@ -40,18 +40,18 @@ const QRInputWrapper = styled.div`
 `
 
 const SmsAuth = props => {
-  const { data, ui, onSubmit, goBack, handleGetCode, changeMobileNumber, invalid, code } = props
-  const { authType, smsVerified, smsNumber } = data
+  const { data, ui, onSubmit, goBack, changeMobileNumber, invalid, code } = props
+  const { smsVerified, smsNumber } = data
 
   return (
-    <form onSubmit={onSubmit}>
-      <SuccessOverlay verified={smsVerified && authType === 5}>
+    <Form onSubmit={onSubmit}>
+      <SuccessOverlay success={ui.showSuccess}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
           <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up SMS Codes." />
         </Text>
       </SuccessOverlay>
-      <AuthenticatorSummary verified={smsVerified && authType === 5}>
+      <AuthenticatorSummary verified={ui.showSuccess}>
         <Header>
           <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Mobile Phone Number' />
           <Link size='14px' onClick={goBack}>Change</Link>
@@ -65,16 +65,16 @@ const SmsAuth = props => {
         <SmsAuthContainer>
           {
             (!smsNumber && !smsVerified) || ui.changeNumberToggled
-              ? <span>
+              ? <Fragment>
                 <Text size='14px' weight={200}>
                   <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.' />
                 </Text>
                 <QRInputWrapper>
                   <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} placeholder='212-555-5555' />
-                  <Button nature='primary' disabled={invalid} onClick={handleGetCode}>Get Verification Code</Button>
+                  <Button type='submit' nature='primary' disabled={invalid}>Get Verification Code</Button>
                 </QRInputWrapper>
-              </span>
-              : <span>
+              </Fragment>
+              : <Fragment>
                 <Text size='14px' weight={200}>
                   <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Enter your verification code below and click submit.' />
                 </Text>
@@ -83,11 +83,11 @@ const SmsAuth = props => {
                   <Link weight={200} size='12px' onClick={changeMobileNumber}>Change mobile number</Link>
                   <Button type='submit' nature='primary' disabled={!code}>Submit Code</Button>
                 </QRInputWrapper>
-              </span>
+              </Fragment>
           }
         </SmsAuthContainer>
       </AuthenticatorSummary>
-    </form>
+    </Form>
   )
 }
 
