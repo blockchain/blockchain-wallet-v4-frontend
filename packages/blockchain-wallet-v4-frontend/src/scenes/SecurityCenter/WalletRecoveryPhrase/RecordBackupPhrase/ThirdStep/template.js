@@ -37,7 +37,7 @@ const ThirdStep = (props) => {
   const { indexes, onSubmit, isMnemonicVerified } = rest
   return (
     <Form onSubmit={onSubmit}>
-      <SuccessOverlay authType={showSuccess && isMnemonicVerified}>
+      <SuccessOverlay success={showSuccess && isMnemonicVerified}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
           <FormattedMessage id='scenes.security.backupphrase.verified' defaultMessage="Congrats! You've successfully verified your Backup Phrase!" />

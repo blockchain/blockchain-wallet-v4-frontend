@@ -28,7 +28,7 @@ class ThirdStepContainer extends React.Component {
     }, 250)
     setTimeout(() => {
       this.props.goBackOnSuccess()
-    }, 2000)
+    }, 1500)
   }
 
   render () {
