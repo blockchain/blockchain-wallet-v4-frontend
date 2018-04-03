@@ -42,7 +42,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.WIPE_EXTERNAL: {
       let valueLens = compose(mapped, KVStoreEntry.value)
-      let wipe = compose(assocPath(['coinify'], { trades: [] }), (assocPath(['sfox', { trades: [] }])))
+      let wipe = assocPath(['coinify'], { trades: [] })
       return over(valueLens, wipe, state)
     }
     case AT.WIPE_EXTERNAL_SFOX: {

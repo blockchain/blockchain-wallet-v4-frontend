@@ -121,10 +121,13 @@ const BankLink = (props) => {
         </Button>
       )
     }
-    if (ui.busy) return <HeartbeatLoader height='20px' width='20px' color='white' />
     return (
       <Button type='submit' nature='primary' uppercase fullwidth disabled={ui.busy || invalid || pristine} >
-        <FormattedMessage id='sfoxexchangedata.link.continue' defaultMessage='continue' />
+        {
+          ui.busy
+            ? <HeartbeatLoader height='20px' width='20px' color='white' />
+            : <FormattedMessage id='sfoxexchangedata.link.continue' defaultMessage='continue' />
+        }
       </Button>
     )
   }
