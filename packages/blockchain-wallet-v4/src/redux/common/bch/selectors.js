@@ -17,8 +17,11 @@ export const getActiveHDAccounts = state => {
   const bchAccounts = getAccounts(state).getOrElse([])
   const addInfo = account => balancesRD.map(prop(prop('xpub', account)))
     .map(x => assoc('info', x, account))
-  const addBchLabel = account => account.map(a => assoc('label', prop('label', bchAccounts[prop('index', a)]), a)) // bchAccountsR.map(prop(prop('label', account))).map(x => assoc('label', x, account))
-  const objectOfRemotes = compose(map(addBchLabel), map(addInfo), HDAccountList.toJSwithIndex, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
+  const addBchLabel = account => account.map(a => assoc('label', prop('label', bchAccounts[prop('index', a)]), a))
+
+  const objectOfRemotes = compose(map(addBchLabel), map(addInfo),
+    HDAccountList.toJSwithIndex, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
+
   return sequence(Remote.of, objectOfRemotes)
 }
 
@@ -28,7 +31,10 @@ export const getActiveAddresses = state => {
   const addInfo = address => balancesRD.map(prop(prop('addr', address)))
     .map(x => assoc('info', x, address))
   const convertToCashAddr = address => assoc('addr', toCashAddr(address.addr, true), address)
-  const objectOfRemotes = compose(map(lift(convertToCashAddr)), map(addInfo), values, walletSelectors.getActiveAddresses)(state)
+
+  const objectOfRemotes = compose(map(lift(convertToCashAddr)),
+    map(addInfo), values, walletSelectors.getActiveAddresses)(state)
+
   return sequence(Remote.of, objectOfRemotes)
 }
 
@@ -67,6 +73,7 @@ const addFromToBch = (wallet, bchAccounts, txList) => {
       }
     }
   })), txList)
+
   return txList
 }
 

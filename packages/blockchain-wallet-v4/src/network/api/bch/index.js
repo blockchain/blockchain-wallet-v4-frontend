@@ -37,16 +37,10 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { tx: txHex, format: 'plain' }
   })
 
-  // const getLatestBlock = () => get({
-  //   url: rootUrl,
-  //   endPoint: 'bch/latestblock'
-  // })
-
   return {
     fetchBchData,
     getBchTicker,
     getBchUnspents,
     pushBchTx
-    // getLatestBlock,
   }
 }

@@ -45,7 +45,7 @@ export const getData = state => {
     effectiveBalance,
     effectiveBalanceScaled: Exchange.convertBchToBch({ value: effectiveBalance, fromUnit: 'SAT', toUnit: 'BCH' }).value,
     coins,
-    receiveAddress, // : receiveAddress && Address.fromString('bitcoincash:' + receiveAddress, 'livenet', 'pubkeyhash', Address.CashAddrFormat).toString(),
+    receiveAddress,
     changeAddress,
     unit: 'BCH'
   })

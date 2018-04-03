@@ -36,7 +36,7 @@ class SecondStepContainer extends React.Component {
     switch (this.props.coin) {
       case 'BCH':
         return [['date', 'time', 'status', 'amount_bch', 'value_then', 'value_now', 'exchange_rate_then', 'tx']]
-          .concat(map((record) => [record.date, record.time, record.type, record.amount_btc, record.value_then, record.value_now, record.exchange_rate_then, record.tx], data))
+          .concat(map((record) => [record.date, record.time, record.type, record.amount_bch, record.value_then, record.value_now, record.exchange_rate_then, record.tx], data))
       default:
         return [['date', 'time', 'status', 'amount_btc', 'value_then', 'value_now', 'exchange_rate_then', 'tx']]
           .concat(map((record) => [record.date, record.time, record.type, record.amount_btc, record.value_then, record.value_now, record.exchange_rate_then, record.tx], data))
