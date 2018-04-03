@@ -1,11 +1,9 @@
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import { all, call, cancel, fork, select, take, takeEvery, takeLatest, put, race } from 'redux-saga/effects'
+import { call, cancel, fork, select, take, takeEvery, takeLatest, put } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { compose, concat, equals, filter, has, head, is, isNil, map, merge, path, prop } from 'ramda'
-import BigNumber from 'bignumber.js'
+import { compose, concat, equals, filter, has, head, merge, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import * as S from './selectors'
 import * as actions from '../../actions'
 import * as actionTypes from '../../actionTypes'
 import * as selectors2 from '../../selectors'
@@ -13,19 +11,13 @@ import { selectors } from 'data'
 import { api } from 'services/ApiService'
 import { getPairFromCoin, lessThan, greaterThan } from './services'
 import { selectAccounts, selectFee, selectRates, selectShapeshiftPair, selectReceiveAddress, selectChangeAddress } from '../utils/sagas'
-import settings from 'config'
 
 let exchangeTask = null
 
 const exchange = function * () {
-  try {
-    yield call(manageFirstStep)
-    yield call(manageSecondStep)
-    // yield call(manageThirdStep)
-    // yield put(A.thirdStepInitialized())
-  } catch (e) {
-
-  }
+  yield call(manageFirstStep)
+  yield call(manageSecondStep)
+  yield call(manageThirdStep)
 }
 
 const manageFirstStep = function * () {
@@ -67,7 +59,6 @@ const manageSecondStep = function * () {
     const pair = getPairFromCoin(sourceCoin, targetCoin)
     const returnAddress = yield call(selectReceiveAddress, source)
     const withdrawalAddress = yield call(selectReceiveAddress, target)
-
     const orderData = yield call(api.createOrder, sourceAmount, pair, returnAddress, withdrawalAddress)
     if (!has('success', orderData)) throw new Error('Shapeshift order could not be placed.')
     const order = prop('success', orderData)
@@ -80,6 +71,15 @@ const manageSecondStep = function * () {
     yield take(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED)
   } catch (e) {
     yield put(A.secondStepFailure(e.message))
+  }
+}
+
+const manageThirdStep = function * () {
+  try {
+    yield put(A.thirdStepInitialized())
+
+  } catch (e) {
+    console.log(e)
   }
 }
 
@@ -214,7 +214,6 @@ const changeAmount = function * (value, type) {
 }
 
 const validateForm = function * (values) {
-  console.log('validateForm', values)
   const source = prop('source', values)
   const sourceCoin = prop('coin', source)
   const target = prop('target', values)

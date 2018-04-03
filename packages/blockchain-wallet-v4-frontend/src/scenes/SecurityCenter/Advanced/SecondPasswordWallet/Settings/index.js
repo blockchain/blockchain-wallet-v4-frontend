@@ -15,8 +15,7 @@ class SettingsContainer extends React.Component {
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  handleClick (e) {
-    e.preventDefault()
+  handleClick () {
     const { secondPasswordValue } = this.props
     this.props.walletActions.toggleSecondPassword(secondPasswordValue)
     this.handleToggle()

@@ -43,8 +43,7 @@ class FirstStepContainer extends React.Component {
     this.props.modalActions.showModal('QRCode', { address })
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  handleSubmit () {
     this.props.nextStep()
   }
 

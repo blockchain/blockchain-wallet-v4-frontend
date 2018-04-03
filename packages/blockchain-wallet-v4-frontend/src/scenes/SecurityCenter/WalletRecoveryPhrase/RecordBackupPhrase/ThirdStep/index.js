@@ -20,8 +20,7 @@ class ThirdStepContainer extends React.Component {
     updateUI({ indexes })
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     this.props.walletActions.verifyMnemonic()
     setTimeout(() => {
       this.props.updateUI({ showSuccess: true })

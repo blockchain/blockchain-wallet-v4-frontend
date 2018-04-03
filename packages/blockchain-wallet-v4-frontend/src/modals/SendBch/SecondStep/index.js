@@ -12,8 +12,7 @@ class SecondStepContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  handleSubmit () {
     const { selection } = this.props.data
     this.props.sendBchActions.sendBch(selection)
   }

@@ -25,8 +25,7 @@ class FirstStepContainer extends React.Component {
     this.props.formActions.initialize('transactionReport', initialValues)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     const { from, start, end } = this.props
     const address = from && (from.xpub || from.address)
     const startDate = moment(start, dateFormatUS)

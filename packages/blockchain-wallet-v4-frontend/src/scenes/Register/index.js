@@ -12,8 +12,7 @@ class RegisterContainer extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     const { email, password } = this.props
     this.props.authActions.register(email, password)
   }

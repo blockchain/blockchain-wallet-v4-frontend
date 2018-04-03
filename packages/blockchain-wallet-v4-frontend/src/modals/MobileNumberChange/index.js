@@ -13,8 +13,7 @@ class MobileNumberChangeContainer extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     const { mobileNumber } = this.props
     this.props.settingsActions.updateMobile(mobileNumber)
     this.props.modalActions.closeModal()

@@ -29,8 +29,7 @@ class FirstStepContainer extends React.Component {
     }
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  handleSubmit () {
     this.props.nextStep()
   }
 

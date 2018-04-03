@@ -39,8 +39,7 @@ class RequestBchContainer extends React.Component {
     })
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  handleSubmit () {
     this.props.modalActions.closeAllModals()
   }
 

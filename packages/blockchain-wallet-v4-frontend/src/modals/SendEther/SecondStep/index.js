@@ -13,8 +13,7 @@ class SecondStepContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  handleSubmit () {
     // TODO: See how to use the message for the transaction
     const { from, to, message, amount, gasPrice, gasLimit, nonce } = this.props.data
     const network = settings.NETWORK_ETHEREUM

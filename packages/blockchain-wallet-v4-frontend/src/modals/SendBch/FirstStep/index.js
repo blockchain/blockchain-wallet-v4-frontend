@@ -48,8 +48,7 @@ class FirstStep extends React.Component {
     this.props.formActions.change('sendBch', 'to2', '')
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  handleSubmit () {
     this.props.nextStep()
   }
 

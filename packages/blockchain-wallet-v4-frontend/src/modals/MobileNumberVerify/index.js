@@ -20,8 +20,7 @@ class MobileNumberVerifyContainer extends React.Component {
     this.handleResend()
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     this.props.settingsActions.verifyMobile(this.props.code)
     this.props.modalActions.closeAllModals()
   }

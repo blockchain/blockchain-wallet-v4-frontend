@@ -42,7 +42,6 @@ class FiatConvertorContainer extends React.Component {
   }
 
   handleCoinChange (event) {
-    event.preventDefault()
     const val = event.target.value
     const conversion = convertCoinToFiat(val, this.props.data, this.props.coin)
 
@@ -50,7 +49,6 @@ class FiatConvertorContainer extends React.Component {
   }
 
   handleFiatChange (event) {
-    event.preventDefault()
     const val = event.target.value
     const conversion = convertFiatToCoin(val, this.props.data, this.props.coin)
 

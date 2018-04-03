@@ -20,8 +20,7 @@ class SecondStepContainer extends React.Component {
     clearTimeout(this.timeout)
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  handleSubmit () {
     this.setState({ active: true })
     this.timeout = setTimeout(() => { this.setState({ active: false }) }, 2000)
   }

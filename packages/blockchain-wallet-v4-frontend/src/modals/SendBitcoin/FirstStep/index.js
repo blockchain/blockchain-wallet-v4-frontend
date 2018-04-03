@@ -57,8 +57,7 @@ class FirstStep extends React.Component {
     this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  handleSubmit () {
     this.props.nextStep()
   }
 

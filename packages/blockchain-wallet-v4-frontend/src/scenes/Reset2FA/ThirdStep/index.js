@@ -12,8 +12,7 @@ class ThirdStepContainer extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (event) {
-    event.preventDefault()
+  onSubmit () {
     this.setState({ timestamp: new Date().getTime() })
     const { guid, email, newEmail, secretPhrase, message, code, captcha } = this.props
     const { sessionToken } = captcha

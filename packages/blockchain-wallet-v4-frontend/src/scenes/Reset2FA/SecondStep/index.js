@@ -7,8 +7,7 @@ class SecondStepContainer extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (event) {
-    event.preventDefault()
+  onSubmit () {
     this.props.nextStep()
   }
 
