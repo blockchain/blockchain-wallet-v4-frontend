@@ -4,7 +4,7 @@ import { selectors } from 'data'
 
 export const getData = (state, coin) => {
   const toDropdown = map(x => ({ text: x.label, value: x }))
-  const formatAddressesData = (data) => data.map(a => a.data.map(d => { d.text = `${d.text} (${Exchange.displayCoinToCoin({ value: d.value.balance, coin: d.value.coin, baseToStandard: true })})` }))
+  const formatAddressesData = (addressesData) => addressesData.map(a => a.data.map(d => { d.text = `${d.text} (${Exchange.displayCoinToCoin({ value: d.value.balance, coin: d.value.coin, baseToStandard: true })})` }))
 
   const getAddressesData = (coin) => {
     switch (coin) {
@@ -16,5 +16,9 @@ export const getData = (state, coin) => {
         ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
     }
   }
-  return formatAddressesData(getAddressesData(coin))
+
+  const addressesData = getAddressesData(coin)
+  formatAddressesData(addressesData)
+  
+  return addressesData
 }
