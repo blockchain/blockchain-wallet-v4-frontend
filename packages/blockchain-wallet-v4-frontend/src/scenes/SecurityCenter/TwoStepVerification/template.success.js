@@ -11,6 +11,7 @@ import Yubikey from './Yubikey'
 import SmsAuth from './SMS'
 import { pulse } from 'react-animations'
 import Choices from '../Components/Choices/index'
+import { spacing } from 'services/StyleService'
 
 const pulseAnimation = keyframes`${pulse}`
 
@@ -48,9 +49,6 @@ const DisableLinkText = styled(Text)`
     padding-left: 3px;
   }
   animation: 0.5s ${props => props.pulse ? `${pulseAnimation}` : null};
-`
-const DisableSMSLinkText = DisableLinkText.extend`
-  margin-top: 20px;
 `
 const WeightedText = styled.span`
   font-weight: 400;
@@ -128,10 +126,10 @@ const TwoStepVerification = (props) => {
                     </ChangeMobileContainer>
                 }
               </Text>
-              <DisableSMSLinkText size='14px' weight={200} flexRow='true'>
+              <DisableLinkText size='14px' weight={200} flexRow='true' pulse={props.pulse} style={spacing('mt-20')}>
                 <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first.' />
                 <Link weight={200} size='14px' onClick={props.handleTwoFactorChange}>Disable {props.authName}</Link>
-              </DisableSMSLinkText>
+              </DisableLinkText>
             </DisableContainer>
             : authType === 4 || authType === 1 || authType === 2
               ? <DisableLinkContainer>
