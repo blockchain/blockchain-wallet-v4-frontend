@@ -35,7 +35,7 @@ export type RequestFn = {|
 // Promise.polyfill()
 
 // checkStatus :: Response -> Promise Response
-function checkStatus <T> (r: Response): Promise<Response> {
+function checkStatus (r: Response): Promise<Response> {
   return r.ok ? Promise.resolve(r) : r.text().then(j => Promise.reject(j))
 }
 

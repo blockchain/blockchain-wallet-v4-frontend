@@ -1,3 +1,4 @@
+import { selectAll } from '../coinSelection'
 import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { decode, fromWords } from 'bech32'
 import { equals, head, or, prop, compose } from 'ramda'

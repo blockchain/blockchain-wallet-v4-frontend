@@ -12,7 +12,7 @@ import sfox from './sfox'
 import wallet from './wallet'
 import fetchService from './fetch'
 
-import type {Request, RequestFn} from './fetch'
+import type {RequestFn} from './fetch'
 import type {BitcoinApi} from './bitcoin'
 import type {BchApi} from './bch'
 import type {DelegateApi} from './delegate'
@@ -51,6 +51,7 @@ export default ({ rootUrl = BLOCKCHAIN_INFO, apiUrl = API_BLOCKCHAIN_INFO, apiCo
     ...bch(apiContext),
     ...delegate(apiContext),
 
+    // TODO add flow to other API methods
     ...ethereum({ rootUrl, apiUrl, get, post }),
     ...kvStore({ apiUrl }),
     ...misc({ rootUrl, apiUrl, get, post }),

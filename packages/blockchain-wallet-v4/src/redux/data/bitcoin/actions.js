@@ -54,12 +54,9 @@ export const fetchUnspentFailure = (error: any) => ({ type: AT.FETCH_BITCOIN_UNS
 export const publishTransaction = () => ({ type: AT.PUBLISH_BITCOIN_TRANSACTION, payload: {} })
 
 // REFRESH_BITCOIN_EFFECTIVE_BALANCE
-export const refreshEffectiveBalance = (coins: any, feePerByte: number) => {
-  return { type: AT.REFRESH_BITCOIN_EFFECTIVE_BALANCE, payload: { coins, feePerByte } }
-}
+export const refreshEffectiveBalance = (coins: any, feePerByte: number) =>
+  ({ type: AT.REFRESH_BITCOIN_EFFECTIVE_BALANCE, payload: { coins, feePerByte } })
 
 // REFRESH_BITCOIN_SELECTION
-const REFRESH_BITCOIN_SELECTION = '@CORE.REFRESH_BITCOIN_SELECTION'
-export function refreshSelection (feePerByte: number, coins: any[], amount: number, receive: string, change: any, algorithm: string, seed: any) {
-  return { type: '@CORE.REFRESH_BITCOIN_SELECTION', payload: { feePerByte, coins, amount, receive, change, algorithm, seed } }
-}
+export const refreshSelection = (feePerByte: number, coins: any[], amount: number, receive: string, change: any, algorithm: string, seed: any) =>
+  ({ type: '@CORE.REFRESH_BITCOIN_SELECTION', payload: { feePerByte, coins, amount, receive, change, algorithm, seed } })

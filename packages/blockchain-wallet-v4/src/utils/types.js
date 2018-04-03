@@ -11,6 +11,7 @@ export function * callG<Args: Array<*>, T> (fn: (...args: Args) => Generator<*, 
   return yield call(fn, ...args)
 }
 
+// eslint-disable-next-line no-unused-vars
 type Return_<R, F: (...args: Array<any>) => R> = R;
 type Return<T> = Return_<*, T>;
 

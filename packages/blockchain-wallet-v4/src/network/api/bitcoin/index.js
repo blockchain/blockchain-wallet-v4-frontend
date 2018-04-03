@@ -3,7 +3,7 @@ import { toUpper } from 'ramda'
 import type {ApiContext} from '../index'
 
 const api = ({ rootUrl, apiUrl, fetchFn }: ApiContext) => {
-  const { get, getString, postString, post } = fetchFn
+  const { get, postString, post } = fetchFn
   const getBitcoinTicker = () => get({
     url: apiUrl,
     endPoint: 'ticker',

@@ -68,7 +68,6 @@ export default (state: BitcoinStateT = INITIAL_STATE, action: ActionsT): Bitcoin
       return assocPath(['payment', 'effectiveBalance'], effectiveBalance, state)
     }
     case '@CORE.REFRESH_BITCOIN_SELECTION': {
-      const payload = action.payload
       const { feePerByte, coins, amount, receive, change, algorithm, seed } = action.payload
       const target = new Coin({ address: receive, value: amount })
 

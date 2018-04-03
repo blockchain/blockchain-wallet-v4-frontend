@@ -1,5 +1,5 @@
 // @flow
-import {curry, is, drop, clamp, split, length, add, compose, prop, view,
+import {curry, is, drop, clamp, split, length, add, compose, view,
   isNil, ifElse, always, complement, either, tryCatch, over, lensProp} from 'ramda'
 import {addressToScript} from '../utils/bitcoin'
 
@@ -33,12 +33,12 @@ export class Coin {
   change: boolean
 
   constructor (o: CoinJS) {
-    this.value = parseInt(o.value),
-    this.script = o.script ? o.script : addressToScript(o.address),
-    this.txHash = o.tx_hash_big_endian,
-    this.index = o.tx_output_n,
-    this.change = o.change || false,
-    this.priv = o.priv || (o.xpub ? `${o.xpub.index}${drop(1, o.xpub.path)}` : undefined),
+    this.value = parseInt(o.value)
+    this.script = o.script ? o.script : addressToScript(o.address)
+    this.txHash = o.tx_hash_big_endian
+    this.index = o.tx_output_n
+    this.change = o.change || false
+    this.priv = o.priv || (o.xpub ? `${o.xpub.index}${drop(1, o.xpub.path)}` : undefined)
     this.address = o.address
   }
 

@@ -31,7 +31,7 @@ const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
-const CheckBox = ({ ...field, children }) => {
+const CheckBox = ({ children, ...field }) => {
   const errorState = getErrorState(field.meta)
 
   return (
