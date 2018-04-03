@@ -43,12 +43,30 @@ const Info = styled.div`
     padding: 0 5px; 
     width: 50%;
   }
+  
+  div:nth-child(2) {
+    text-align: center;
+  }
+  
+  div:last-child {
+    > div {
+      justify-content: flex-end;
+    }
+  }
 `
 
 const selectIcon = type => {
   switch (type) {
     case 'log': return 'settings'
     default: return 'transactions'
+  }
+}
+
+const selectColor = action => {
+  switch (action) {
+    case 'received': return 'received'
+    case 'sent': return 'sent'
+    default: return ''
   }
 }
 
@@ -64,7 +82,7 @@ const ActivityListItem = (props) => {
         <Icon name={iconName} color='brand-primary' />
       </Circle>
       <Info>
-        <Text size='14px' weight={300} capitalize>{action}</Text>
+        <Text size='14px' weight={300} capitalize color={selectColor(action)}>{action}</Text>
         <Text size='14px' weight={300}>{timeFormatted}</Text>
         <Text style={{visibility: visibility}} ><SwitchableDisplay size='14px' weight={300} visibility={'hidden'} coin={coin}>{amount}</SwitchableDisplay></Text>
       </Info>
