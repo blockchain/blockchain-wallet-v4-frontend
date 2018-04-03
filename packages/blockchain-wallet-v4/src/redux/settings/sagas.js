@@ -80,6 +80,17 @@ export const settingsSaga = ({ api } = {}) => {
     yield put(actions.setMobileVerified())
   }
 
+  const setMobileVerifiedAs2FA = function * ({ code }) {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    const response = yield call(api.verifyMobile, guid, sharedKey, code)
+    if (!contains('successfully', toLower(response))) { throw new Error(response) }
+    yield put(actions.setMobileVerified())
+    const updateAuthCall = yield call(api.updateAuthType, guid, sharedKey, '5')
+    if (!contains('updated', updateAuthCall)) { throw new Error(updateAuthCall) }
+    yield put(actions.setAuthType(5))
+  }
+
   const setLanguage = function * ({ language }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
@@ -188,6 +199,7 @@ export const settingsSaga = ({ api } = {}) => {
     setEmail,
     setMobile,
     setMobileVerified,
+    setMobileVerifiedAs2FA,
     setLanguage,
     setCurrency,
     setBitcoinUnit,

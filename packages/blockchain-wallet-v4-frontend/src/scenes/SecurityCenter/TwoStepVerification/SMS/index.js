@@ -14,17 +14,15 @@ class SmsAuthContainer extends React.Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.handleGetCode = this.handleGetCode.bind(this)
     this.showChangeMobileNumber = this.showChangeMobileNumber.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    const next = nextProps.data.data
-    const prev = this.props.data.data
-    if (next.authType !== prev.authType) {
+  componentDidUpdate (prevProps) {
+    if (this.props.data.data.authType === 5 && prevProps.data.data.authType !== 5) {
+      this.props.updateUI({ showSuccess: true })
       setTimeout(function () {
-        nextProps.goBack()
-      }, 2000)
+        prevProps.goBack()
+      }, 1500)
     }
   }
 
@@ -34,12 +32,12 @@ class SmsAuthContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.securityCenterActions.verifyMobile(this.props.verificationCode)
-  }
-
-  handleGetCode () {
-    this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
-    this.props.updateUI({ changeNumberToggled: false })
+    if (this.props.ui.changeNumberToggled || (!this.props.data.data.smsNumber && !this.props.data.data.smsVerified)) {
+      this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
+      this.props.updateUI({ changeNumberToggled: false })
+    } else {
+      this.props.securityCenterActions.verifyMobile(this.props.verificationCode)
+    }
   }
 
   showChangeMobileNumber () {
@@ -55,7 +53,6 @@ class SmsAuthContainer extends React.Component {
         handleClick={this.handleClick}
         onSubmit={this.onSubmit}
         goBack={goBack}
-        handleGetCode={this.handleGetCode}
         changeMobileNumber={this.showChangeMobileNumber}
         ui={ui}
         code={verificationCode}
@@ -82,7 +79,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoFactor', state: { changeNumberToggled: false, verifyMobileNumberStep: false } })
+  ui({ key: 'Security_TwoFactor', state: { changeNumberToggled: false, verifyMobileNumberStep: false, showSuccess: false } })
 )
 
 export default enhance(SmsAuthContainer)
