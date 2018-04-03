@@ -11,7 +11,7 @@
   "module": "src/index.js",
   "scripts": {
     "coverage": "./../../node_modules/.bin/jest --coverage",
-    "prepublish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
+    "prepublish": "rm -rf lib && ./../../node_modules/.bin/babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
     "test": "./../../node_modules/.bin/jest",
