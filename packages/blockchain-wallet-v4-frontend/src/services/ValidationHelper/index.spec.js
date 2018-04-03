@@ -1,24 +1,16 @@
-// TODO: plan out dependency issue between packages and then fix these tests!
+import { isNumeric } from './index.js'
 
-describe('placeholder()', () => {
-  it('fake test', () => {
-    expect(true).toEqual(true)
+var testCases = [
+  { input: '', output: false },
+  { input: '?', output: false },
+  { input: [1, 2], output: false },
+  { input: {}, output: false },
+  { input: 1, output: true },
+  { input: 1.235, output: true }
+]
+
+testCases.forEach(function (testCase) {
+  test('Validates a number', () => {
+    expect(isNumeric(testCase.input)).toBe(testCase.output)
   })
 })
-
-// import { isNumeric } from './index.js'
-//
-// var testCases = [
-//   { input: '', output: false },
-//   { input: '?', output: false },
-//   { input: [1, 2], output: false },
-//   { input: {}, output: false },
-//   { input: 1, output: true },
-//   { input: 1.235, output: true }
-// ]
-//
-// testCases.forEach(function (testCase) {
-//   test('Validates a number', () => {
-//     expect(isNumeric(testCase.input)).toBe(testCase.output)
-//   })
-// })
