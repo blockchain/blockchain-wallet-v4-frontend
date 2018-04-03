@@ -69,7 +69,6 @@ export const toggleSecondPassword = function * (action) {
 
 export const verifyMmenonic = function * (action) {
   yield put(actions.core.wallet.verifyMnemonic())
-  console.log('frontend saga')
   yield put(actions.alerts.displaySuccess('Your mnemonic has been verified !'))
 }
 
