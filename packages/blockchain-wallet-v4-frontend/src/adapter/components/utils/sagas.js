@@ -1,13 +1,12 @@
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import { call, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
-import { compose, concat, equals, filter, has, head, is, isNil, map, merge, path, prop } from 'ramda'
+import { utils } from 'blockchain-wallet-v4/src'
+import { call, select } from 'redux-saga/effects'
+import { concat, is, isNil, prop } from 'ramda'
 import * as selectors2 from '../../selectors'
 import { selectors } from 'data'
 import { api } from 'services/ApiService'
 import settings from 'config'
 
-export const selectAccounts = function* () {
+export const selectAccounts = function * () {
   const btcHDAccountsInfo = yield select(selectors.core.common.bitcoin.getAccountsInfo)
   const btcAddressesInfo = yield select(selectors.core.common.bitcoin.getAddressesInfo)
   const btcAccountsInfo = concat(btcHDAccountsInfo, btcAddressesInfo)
@@ -19,7 +18,7 @@ export const selectAccounts = function* () {
   }
 }
 
-export const selectFee = function* (coin) {
+export const selectFee = function * (coin) {
   // const bchRatesR = yield select(selectors2.data.bch.getFee)
   const btcRatesR = yield select(selectors2.data.btc.getFee)
   const ethRatesR = yield select(selectors2.data.eth.getFee)
@@ -30,7 +29,7 @@ export const selectFee = function* (coin) {
   }
 }
 
-export const selectRates = function* (coin) {
+export const selectRates = function * (coin) {
   // const bchRatesR = yield select(selectors2.data.bch.getRates)
   const btcRatesR = yield select(selectors2.data.btc.getRates)
   const ethRatesR = yield select(selectors2.data.eth.getRates)
@@ -41,7 +40,7 @@ export const selectRates = function* (coin) {
   }
 }
 
-export const selectShapeshiftPair = function* (pair) {
+export const selectShapeshiftPair = function * (pair) {
   const shapeshiftPairR = yield select(selectors2.data.shapeshift.getPair(pair))
   const shapeshiftPair = shapeshiftPairR.getOrElse({})
   return {
@@ -50,7 +49,7 @@ export const selectShapeshiftPair = function* (pair) {
   }
 }
 
-export const selectReceiveAddress = function* (source) {
+export const selectReceiveAddress = function * (source) {
   const address = prop('address', source)
   const index = prop('index', source)
   if (!isNil(address) && is(String, address)) {
@@ -63,7 +62,7 @@ export const selectReceiveAddress = function* (source) {
   throw new Error('Could not generate next BTC receive address')
 }
 
-export const selectChangeAddress = function* (source) {
+export const selectChangeAddress = function * (source) {
   const address = prop('address', source)
   const index = prop('index', source)
   if (!isNil(address) && is(String, index)) {
@@ -76,8 +75,7 @@ export const selectChangeAddress = function* (source) {
   throw new Error('Could not generate next BTC change address')
 }
 
-
-const buildTransaction = function* (values) {
+const buildTransaction = function * (values) {
   const source = prop('source', values)
   const sourceAmount = prop('sourceAmount', values)
   const sourceCoin = prop('coin', source)

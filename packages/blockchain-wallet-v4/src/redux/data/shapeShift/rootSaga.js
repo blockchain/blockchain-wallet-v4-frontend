@@ -40,7 +40,6 @@ export default ({ api } = {}) => {
       const { depositAmount, pair, returnAddress, withdrawal } = action.payload
       yield put(A.fetchOrderLoading())
       const data = yield call(api.createOrder, depositAmount, pair, returnAddress, withdrawal)
-      // yield call(delay, 30000)
       if (has('error', data)) {
         yield put(A.fetchOrderFailure(prop('error', data)))
       } else {
