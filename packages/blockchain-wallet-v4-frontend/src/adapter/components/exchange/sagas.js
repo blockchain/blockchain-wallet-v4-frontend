@@ -1,8 +1,9 @@
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import { call, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
+import { all, call, cancel, fork, select, take, takeEvery, takeLatest, put, race } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { compose, concat, equals, filter, has, head, map, merge, path, prop } from 'ramda'
+import { compose, concat, equals, filter, has, head, is, isNil, map, merge, path, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
+import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -10,10 +11,26 @@ import * as actionTypes from '../../actionTypes'
 import * as selectors2 from '../../selectors'
 import { selectors } from 'data'
 import { api } from 'services/ApiService'
-import { getPairFromCoin, lessThan, lessThanOrEqualTo, greaterThan, greaterThanOrEqualTo } from './services'
+import { getPairFromCoin, lessThan, greaterThan } from './services'
+import { selectAccounts, selectFee, selectRates, selectShapeshiftPair, selectReceiveAddress, selectChangeAddress } from '../utils/sagas'
+import settings from 'config'
 
-const initialized = function * (action) {
+let exchangeTask = null
+
+const exchange = function * () {
   try {
+    yield call(manageFirstStep)
+    yield call(manageSecondStep)
+    // yield call(manageThirdStep)
+    // yield put(A.thirdStepInitialized())
+  } catch (e) {
+
+  }
+}
+
+const manageFirstStep = function * () {
+  try {
+    yield put(A.firstStepInitialized())
     const { btcAccountsInfo, ethAccountsInfo } = yield call(selectAccounts)
     const initialValues = {
       source: head(btcAccountsInfo),
@@ -26,16 +43,73 @@ const initialized = function * (action) {
     // yield put(actions.data.bch.fetchRates())
     yield put(actions.data.btc.fetchRates())
     yield put(actions.data.eth.fetchRates())
-    yield put(actions.data.shapeshift.fetchShapeshiftPair('bch_btc'))
-    yield put(actions.data.shapeshift.fetchShapeshiftPair('bch_eth'))
-    yield put(actions.data.shapeshift.fetchShapeshiftPair('btc_bch'))
-    yield put(actions.data.shapeshift.fetchShapeshiftPair('btc_eth'))
-    yield put(actions.data.shapeshift.fetchShapeshiftPair('eth_bch'))
-    yield put(actions.data.shapeshift.fetchShapeshiftPair('eth_btc'))
+    yield put(actions.data.shapeshift.fetchPair('bch_btc'))
+    yield put(actions.data.shapeshift.fetchPair('bch_eth'))
+    yield put(actions.data.shapeshift.fetchPair('btc_bch'))
+    yield put(actions.data.shapeshift.fetchPair('btc_eth'))
+    yield put(actions.data.shapeshift.fetchPair('eth_bch'))
+    yield put(actions.data.shapeshift.fetchPair('eth_btc'))
+    yield take(AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED)
   } catch (e) {
-    // yield put(actions.alerts.displayError('Price index series chart could not be initialized.'))
-    console.log(e)
+    console.log('e', e)
   }
+}
+
+const manageSecondStep = function * () {
+  try {
+    yield put(A.secondStepInitialized())
+    const form = yield select(selectors2.modules.form.getFormValues('exchange'))
+    const source = prop('source', form)
+    const sourceCoin = prop('coin', source)
+    const sourceAmount = prop('sourceAmount', form)
+    const target = prop('target', form)
+    const targetCoin = prop('coin', target)
+    const pair = getPairFromCoin(sourceCoin, targetCoin)
+    const returnAddress = yield call(selectReceiveAddress, source)
+    const withdrawalAddress = yield call(selectReceiveAddress, target)
+
+    const orderData = yield call(api.createOrder, sourceAmount, pair, returnAddress, withdrawalAddress)
+    if (!has('success', orderData)) throw new Error('Shapeshift order could not be placed.')
+    const order = prop('success', orderData)
+    let fee
+    switch (sourceCoin) {
+      case 'BTC': fee = yield call(calculateBtcFee, source, sourceAmount, prop('deposit', order)); break
+      case 'ETH': fee = yield call(calculateEthFee); break
+    }
+    yield put(A.secondStepSuccess({ order, fee }))
+    yield take(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED)
+  } catch (e) {
+    yield put(A.secondStepFailure(e.message))
+  }
+}
+
+const calculateBtcFee = function * (source, amount, depositAddress) {
+  const feeR = yield select(selectors2.data.btc.getFee)
+  const fee = feeR.getOrElse({})
+  const feePerBytePriority = prop('priority', fee)
+  const address = prop('address', source) || prop('index', source)
+  const wrapper = yield select(selectors.core.wallet.getWrapper)
+  const coins = yield call(api.getWalletUnspents, wrapper, address)
+  const changeAddress = yield call(selectChangeAddress, source)
+  const selection = utils.bitcoin.calculateSelection(amount, coins, feePerBytePriority, depositAddress, changeAddress)
+  return utils.bitcoin.calculateFee(selection).fee
+}
+
+const calculateEthFee = function * () {
+  const feeR = yield select(selectors2.data.eth.getFee)
+  const fee = feeR.getOrElse({})
+  const gasPrice = prop('priority', fee)
+  const gasLimit = prop('gasLimit', fee)
+  return utils.ethereum.calculateFee(gasPrice, gasLimit).fee
+}
+
+const initialized = function * (action) {
+  exchangeTask = yield fork(exchange)
+}
+
+const destroyed = function * (action) {
+  yield put(actions.modules.form.destroy('exchange'))
+  yield cancel(exchangeTask)
 }
 
 const swapClicked = function * () {
@@ -52,13 +126,13 @@ const swapClicked = function * () {
 
 const minimumClicked = function * () {
   try {
-    const values = yield select(selectors2.modules.form.getFormValues('exchange'))
-    const source = prop('source', values)
+    const form = yield select(selectors2.modules.form.getFormValues('exchange'))
+    const source = prop('source', form)
     const sourceCoin = prop('coin', source)
-    const target = prop('target', values)
+    const target = prop('target', form)
     const targetCoin = prop('coin', target)
     const pair = getPairFromCoin(sourceCoin, targetCoin)
-    const { minimum, maximum } = yield call(selectShapeshiftPair, pair)
+    const { minimum } = yield call(selectShapeshiftPair, pair)
     yield put(actions.modules.form.change('exchange', 'sourceAmount', minimum))
   } catch (e) {
     console.log(e)
@@ -67,14 +141,14 @@ const minimumClicked = function * () {
 
 const maximumClicked = function * () {
   try {
-    const values = yield select(selectors2.modules.form.getFormValues('exchange'))
-    const source = prop('source', values)
+    const form = yield select(selectors2.modules.form.getFormValues('exchange'))
+    const source = prop('source', form)
     const sourceCoin = prop('coin', source)
-    const target = prop('target', values)
+    const target = prop('target', form)
     const targetCoin = prop('coin', target)
     const pair = getPairFromCoin(sourceCoin, targetCoin)
-    const { minimum, maximum } = yield call(selectShapeshiftPair, pair)
-    const effectiveBalance = yield call(calculateEffectiveBalance, values)
+    const { maximum } = yield call(selectShapeshiftPair, pair)
+    const effectiveBalance = yield call(calculateEffectiveBalance, source)
     const finalMaximum = lessThan(maximum, effectiveBalance) ? maximum : effectiveBalance
     yield put(actions.modules.form.change('exchange', 'sourceAmount', finalMaximum))
   } catch (e) {
@@ -109,7 +183,9 @@ const changeSource = function * (value) {
   const target = compose(head, filter(x => !equals(prop('coin', x), prop('coin', source))))(accounts)
   const formValues = yield select(selectors2.modules.form.getFormValues('exchange'))
   const values = merge(formValues, { source, target })
+  yield put(A.firstStepLoading())
   const newValues = yield call(convertValues, values)
+  yield put(A.firstStepLoaded())
   yield put(actions.modules.form.initialize('exchange', newValues))
   yield call(validateForm, newValues)
 }
@@ -121,33 +197,38 @@ const changeTarget = function * (value) {
   const source = compose(head, filter(x => !equals(prop('coin', x), prop('coin', target))))(accounts)
   const formValues = yield select(selectors2.modules.form.getFormValues('exchange'))
   const values = merge(formValues, { source, target })
+  yield put(A.firstStepLoading())
   const newValues = yield call(convertValues, values)
+  yield put(A.firstStepLoaded())
   yield put(actions.modules.form.initialize('exchange', newValues))
   yield call(validateForm, newValues)
 }
 
 const changeAmount = function * (value, type) {
   const formValues = yield select(selectors2.modules.form.getFormValues('exchange'))
+  yield put(A.firstStepLoading())
   const newValues = yield call(convertValues, formValues, type)
+  yield put(A.firstStepLoaded())
   yield put(actions.modules.form.initialize('exchange', newValues))
   yield call(validateForm, newValues)
 }
 
 const validateForm = function * (values) {
+  console.log('validateForm', values)
   const source = prop('source', values)
   const sourceCoin = prop('coin', source)
   const target = prop('target', values)
   const targetCoin = prop('coin', target)
   const amount = prop('sourceAmount', values)
   const pair = getPairFromCoin(sourceCoin, targetCoin)
-  const effectiveBalance = yield call(calculateEffectiveBalance, values)
+  const effectiveBalance = yield call(calculateEffectiveBalance, source)
   const { minimum, maximum } = yield call(selectShapeshiftPair, pair)
   switch (true) {
-    case greaterThan(amount, effectiveBalance): return yield put(actions.components.exchange.error('effective_balance', effectiveBalance))
-    case lessThan(amount, minimum): return yield put(actions.components.exchange.error('shapeshift_minimum', minimum))
-    case greaterThan(amount, maximum): return yield put(actions.components.exchange.error('shapeshift_maximum', maximum))
+    case greaterThan(amount, effectiveBalance): return yield put(A.firstStepError('effective_balance', effectiveBalance))
+    case lessThan(amount, minimum): return yield put(A.firstStepError('shapeshift_minimum', minimum))
+    case greaterThan(amount, maximum): return yield put(A.firstStepError('shapeshift_maximum', maximum))
   }
-  return yield put(actions.components.exchange.error(''))
+  return yield put(A.firstStepError(''))
 }
 
 const convertValues = function * (values, type) {
@@ -160,31 +241,17 @@ const convertValues = function * (values, type) {
   const pair = getPairFromCoin(sourceCoin, targetCoin)
 
   switch (type) {
-    case 'sourceAmount': {
-      const sourceAmount = prop('sourceAmount', values)
-      yield put(actions.components.exchange.statusLoading())
-      const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-      yield put(actions.components.exchange.statusLoaded())
-      const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
-      const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
-      const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
-      return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
-    }
     case 'sourceFiat': {
       const sourceFiat = prop('sourceFiat', values)
       const sourceAmount = Exchange.convertFiatToCoin(sourceFiat, 'USD', sourceCoin, sourceCoin, sourceRates).value
-      yield put(actions.components.exchange.statusLoading())
       const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-      yield put(actions.components.exchange.statusLoaded())
       const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
       const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
       return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
     }
     case 'targetAmount': {
       const targetAmount = prop('targetAmount', values)
-      yield put(actions.components.exchange.statusLoading())
       const quotation = yield call(api.createQuote, targetAmount, pair, false)
-      yield put(actions.components.exchange.statusLoaded())
       const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
       const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
       const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
@@ -193,18 +260,15 @@ const convertValues = function * (values, type) {
     case 'targetFiat': {
       const targetFiat = prop('targetFiat', values)
       const targetAmount = Exchange.convertFiatToCoin(targetFiat, 'USD', targetCoin, targetCoin, targetRates).value
-      yield put(actions.components.exchange.statusLoading())
       const quotation = yield call(api.createQuote, targetAmount, pair, false)
-      yield put(actions.components.exchange.statusLoaded())
       const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
       const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
       return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
     }
+    case 'sourceAmount':
     default: {
       const sourceAmount = prop('sourceAmount', values)
-      yield put(actions.components.exchange.statusLoading())
       const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-      yield put(actions.components.exchange.statusLoaded())
       const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
       const sourceFiat = Exchange.convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
       const targetFiat = Exchange.convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
@@ -213,20 +277,16 @@ const convertValues = function * (values, type) {
   }
 }
 
-const calculateEffectiveBalance = function * (values) {
-  const source = prop('source', values)
-  const sourceAmount = prop('sourceAmount', values)
+const calculateEffectiveBalance = function * (source) {
   const sourceCoin = prop('coin', source)
   const fee = yield call(selectFee, sourceCoin)
-
   switch (sourceCoin) {
-    // case 'BCH'
     case 'BTC': {
       const feePerBytePriority = prop('priority', fee)
       const address = prop('address', source) || prop('index', source)
       const wrapper = yield select(selectors.core.wallet.getWrapper)
-      const data = yield call(api.getWalletUnspents, wrapper, address)
-      return utils.bitcoin.calculateEffectiveBalanceBitcoin(data, feePerBytePriority)
+      const coins = yield call(api.getWalletUnspents, wrapper, address)
+      return utils.bitcoin.calculateEffectiveBalanceBitcoin(coins, feePerBytePriority)
     }
     case 'ETH': {
       const gasPrice = prop('priority', fee)
@@ -239,53 +299,14 @@ const calculateEffectiveBalance = function * (values) {
   }
 }
 
-const selectAccounts = function* () {
-  const btcHDAccountsInfo = yield select(selectors.core.common.bitcoin.getAccountsInfo)
-  const btcAddressesInfo = yield select(selectors.core.common.bitcoin.getAddressesInfo)
-  const btcAccountsInfo = concat(btcHDAccountsInfo, btcAddressesInfo)
-  const ethAccountsInfoR = yield select(selectors.core.common.ethereum.getAccountsInfo)
-  const ethAccountsInfo = ethAccountsInfoR.getOrElse([])
-  return {
-    btcAccountsInfo,
-    ethAccountsInfo
-  }
-}
-
-const selectFee = function * (coin) {
-  // const bchRatesR = yield select(selectors2.data.bch.getFee)
-  const btcRatesR = yield select(selectors2.data.btc.getFee)
-  const ethRatesR = yield select(selectors2.data.eth.getFee)
-  switch (coin) {
-    // case 'BCH': return prop('priority', bchRatesR.getOrElse({ regular: 2, priority: 10 }))
-    case 'BTC': return btcRatesR.getOrElse({ regular: 10, priority: 25 })
-    case 'ETH': return ethRatesR.getOrElse({ regular: 21, priority: 21, gasLimit: 23000 })
-  }
-}
-
-const selectRates = function * (coin) {
-  // const bchRatesR = yield select(selectors2.data.bch.getRates)
-  const btcRatesR = yield select(selectors2.data.btc.getRates)
-  const ethRatesR = yield select(selectors2.data.eth.getRates)
-  switch (coin) {
-    // case 'BCH': return bchRatesR.getOrElse({})
-    case 'BTC': return btcRatesR.getOrElse({})
-    case 'ETH': return ethRatesR.getOrElse({})
-  }
-}
-
-const selectShapeshiftPair = function * (pair) {
-  const shapeshiftPairR = yield select(selectors2.data.shapeshift.getPair(pair))
-  const shapeshiftPair = shapeshiftPairR.getOrElse({})
-  return {
-    minimum: prop('minimum', shapeshiftPair),
-    maximum: prop('limit', shapeshiftPair)
-  }
-}
-
 export default function * () {
   yield takeEvery(AT.EXCHANGE_INITIALIZED, initialized)
-  yield takeEvery(AT.EXCHANGE_SWAP_CLICKED, swapClicked)
-  yield takeEvery(AT.EXCHANGE_MINIMUM_CLICKED, minimumClicked)
-  yield takeEvery(AT.EXCHANGE_MAXIMUM_CLICKED, maximumClicked)
+  yield takeEvery(AT.EXCHANGE_DESTROYED, destroyed)
+  yield takeEvery(AT.EXCHANGE_FIRST_STEP_SWAP_CLICKED, swapClicked)
+  yield takeEvery(AT.EXCHANGE_FIRST_STEP_MINIMUM_CLICKED, minimumClicked)
+  yield takeEvery(AT.EXCHANGE_FIRST_STEP_MAXIMUM_CLICKED, maximumClicked)
+  yield takeEvery(AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED, destroyed)
+  yield takeEvery(AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED, destroyed)
+  yield takeEvery(AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED, destroyed)
   yield takeLatest(actionTypes.modules.form.CHANGE, change)
 }

@@ -11,15 +11,14 @@ import Success from './template.success'
 class FirstStepContainer extends React.Component {
   render () {
     return this.props.data.cata({
-      Success: (value) => <Success 
+      Success: (value) => <Success
         elements={value.elements}
-        effectiveBalance={value.effectiveBalance}
-        loading={value.loading}
-        validationError={value.error}
-        handleMaximum={() => this.props.actions.maximumClicked()}
-        handleMinimum={() => this.props.actions.minimumClicked()}
-        handleSubmit={() => this.props.actions.submitClicked()}
-        handleSwap={() => this.props.actions.swapClicked()}
+        quotationLoading={value.quotationLoading}
+        quotationError={value.quotationError}
+        handleMaximum={() => this.props.actions.firstStepMaximumClicked()}
+        handleMinimum={() => this.props.actions.firstStepMinimumClicked()}
+        handleSubmit={() => this.props.actions.firstStepSubmitClicked()}
+        handleSwap={() => this.props.actions.firstStepSwapClicked()}
       />,
       Failure: (message) => <Error />,
       Loading: () => <Loading />,

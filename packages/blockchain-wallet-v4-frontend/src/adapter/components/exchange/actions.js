@@ -2,16 +2,36 @@ import * as AT from './actionTypes'
 
 export const initialized = () => ({ type: AT.EXCHANGE_INITIALIZED })
 
-export const swapClicked = () => ({ type: AT.EXCHANGE_SWAP_CLICKED })
+export const destroyed = () => ({ type: AT.EXCHANGE_DESTROYED })
 
-export const submitClicked = (step) => ({ type: AT.EXCHANGE_SUBMIT_CLICKED, payload: { step } })
+export const firstStepInitialized = () => ({ type: AT.EXCHANGE_FIRST_STEP_INITIALIZED })
 
-export const minimumClicked = () => ({ type: AT.EXCHANGE_MINIMUM_CLICKED })
+export const firstStepLoading = () => ({ type: AT.EXCHANGE_FIRST_STEP_LOADING })
 
-export const maximumClicked = () => ({ type: AT.EXCHANGE_MAXIMUM_CLICKED })
+export const firstStepLoaded = () => ({ type: AT.EXCHANGE_FIRST_STEP_LOADED })
 
-export const statusLoading = () => ({ type: AT.EXCHANGE_STATUS_LOADING })
+export const firstStepError = (message, data) => ({ type: AT.EXCHANGE_FIRST_STEP_ERROR, payload: { message, data } })
 
-export const statusLoaded = () => ({ type: AT.EXCHANGE_STATUS_LOADED })
+export const firstStepSubmitClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED })
 
-export const error = (message, data = '') => ({ type: AT.EXCHANGE_ERROR, payload: { message, data } })
+export const firstStepSwapClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_SWAP_CLICKED })
+
+export const firstStepMinimumClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_MINIMUM_CLICKED })
+
+export const firstStepMaximumClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_MAXIMUM_CLICKED })
+
+export const secondStepInitialized = (depositFee, depositTotal) => ({ type: AT.EXCHANGE_SECOND_STEP_INITIALIZED, payload: { depositFee, depositTotal } })
+
+export const secondStepSuccess = (data) => ({ type: AT.EXCHANGE_SECOND_STEP_SUCCESS, payload: data })
+
+export const secondStepFailure = (error) => ({ type: AT.EXCHANGE_SECOND_STEP_FAILURE, payload: error })
+
+export const secondStepSubmitClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED })
+
+export const secondStepCancelClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED })
+
+export const secondStepOrderExpired = () => ({ type: AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED })
+
+export const thirdStepInitialized = () => ({ type: AT.EXCHANGE_THIRD_STEP_INITIALIZED })
+
+export const thirdStepCloseClicked = () => ({ type: AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED })

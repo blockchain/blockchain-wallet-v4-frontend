@@ -1,13 +1,16 @@
-import { selectAll } from '../coinSelection'
+import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound, selectAll } from '../coinSelection'
 import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { decode, fromWords } from 'bech32'
-import { equals, head, or, prop, compose } from 'ramda'
+import { compose, equals, head, map, or, path, prop, sum } from 'ramda'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
+import * as Coin from '../coinSelection/coin'
+import * as crypto from 'crypto'
+import { BigNumber } from 'bignumber.js';
 
 export const isValidBitcoinAddress = value => {
   try {
@@ -157,4 +160,26 @@ export const calculateEffectiveBalanceSatoshis = (coins, feePerByte) => {
 export const calculateEffectiveBalanceBitcoin = (coins, feePerByte) => {
   const effectiveBalanceSatoshis = calculateEffectiveBalanceSatoshis(coins, feePerByte)
   return Exchange.convertBitcoinToBitcoin({ value: effectiveBalanceSatoshis, fromUnit: 'SAT', toUnit: 'BTC' }).value
+}
+
+export const calculateSelection = (amount, coins, feePerByte, receiveAddress, changeAddress, algorithm = 'singleRandomDraw') => {
+  const seed = crypto.randomBytes(16).toString('hex')
+  const target = Coin.fromJS({ address: receiveAddress, value: amount })
+  switch (algorithm) {
+    case 'ascentDraw': return ascentDraw([target], feePerByte, coins, changeAddress); break
+    case 'descentDraw': return descentDraw([target], feePerByte, coins, changeAddress); break
+    case 'singleRandomDraw': return singleRandomDraw([target], feePerByte, coins, changeAddress, seed); break
+    case 'branchAndBound': return branchAndBound([target], feePerByte, coins, changeAddress, seed); break
+  }
+}
+
+export const calculateFee = selection => {
+  const balance = new BigNumber(sum(map(prop('value'), prop('outputs', selection))))
+  const fee = new BigNumber(prop('fee', selection))
+  const total = balance.plus(fee)
+  return {
+    balance: balance.toString(),
+    fee: fee.toString(),
+    total: total.toString()
+  }
 }

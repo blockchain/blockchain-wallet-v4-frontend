@@ -1,49 +1,39 @@
-import { selectors } from 'data'
-import { has, is, lift, prop } from 'ramda'
-import settings from 'config'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { selectors } from 'adapter'
+import BigNumber from 'bignumber.js'
+import { lift, path, prop } from 'ramda'
 
-// extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
-const extractAddress = (selector, value) => {
-  if (value == null) return undefined
-  if (is(String, value)) return value
-  if (has('address', value)) return prop('address', value)
-  if (has('index', value)) return selector(prop('index', value)).getOrElse(undefined)
-  return undefined
-}
+export const getData = state => {
+  const secondStepR = selectors.components.exchange.getSecondStep(state)
+  const form = selectors.modules.form.getFormValues('exchange')(state)
+  const sourceCoin = path(['source', 'coin'], form)
+  const targetCoin = path(['target', 'coin'], form)
+  console.log('form', form, sourceCoin)
 
-export const getAddresses = (state, source, target) => {
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
-  const sourceAddress = extractAddress(getReceive, source)
-  const targetAddress = extractAddress(getReceive, target)
-
-  return {
-    sourceAddress,
-    targetAddress
-  }
-}
-
-export const getData = (state, sourceCoin, targetCoin) => {
-  const orderR = selectors.core.data.shapeShift.getOrder(state)
-
-  const transform = (order) => {
-    const sendAmount = prop('depositAmount', order)
-    const sendFee = 0
-    const sendTotal = 0
+  const transform = (secondStep) => {
+    console.log('secondStep', secondStep)
+    const { order, fee } = secondStep
+    const sourceAmount = Exchange.convertCoinToCoin({ value: prop('depositAmount', order), coin: sourceCoin, baseToStandard: false }).value
+    const sourceFee = fee
+    console.log('sourceAmount', sourceAmount, sourceFee)
+    const sourceTotal = new BigNumber(sourceAmount).plus(new BigNumber(sourceFee)).toString()
     const exchangeRate = `1 ${sourceCoin} = ${prop('quotedRate', order)} ${targetCoin}`
-    const receiveAmount = prop('withdrawalAmount', order)
-    const receiveFee = prop('minerFee', order)
+    const targetAmount = prop('withdrawalAmount', order)
+    const targetFee = prop('minerFee', order)
     const expiration = prop('expiration', order)
 
     return {
-      sendAmount,
-      sendFee,
-      sendTotal,
+      sourceCoin,
+      sourceAmount,
+      sourceFee,
+      sourceTotal,
       exchangeRate,
-      receiveAmount,
-      receiveFee,
+      targetCoin,
+      targetAmount,
+      targetFee,
       expiration
     }
   }
 
-  return lift(transform)(orderR)
+  return lift(transform)(secondStepR)
 }

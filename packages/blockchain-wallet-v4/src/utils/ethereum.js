@@ -31,7 +31,19 @@ export const privateKeyToAddress = pk =>
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())
 
-export const calculateFee = (gasPrice, gasLimit) => `${(gasPrice * gasLimit)}000000000` // Convert gwei => wei
+// export const calculateFee = (gasPrice, gasLimit) => `${(gasPrice * gasLimit)}000000000` // Convert gwei => wei
+
+export const calculateFee = (gasPrice, gasLimit, balanceAmount) => {
+  const balance = new BigNumber(balanceAmount)
+  const fee = new BigNumber(Exchange.convertCoinToCoin({ value: new BigNumber(gasPrice * gasLimit).toString(), coin: 'WEI', baseToStandard: true }).value)
+  const total = balance.plus(fee)
+  return {
+    balance: balance.toString(),
+    fee: fee.toString(),
+    total: total.toString()
+  }
+}
+
 
 export const calculateEffectiveBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   const transactionFee = calculateFee(gasPrice, gasLimit)

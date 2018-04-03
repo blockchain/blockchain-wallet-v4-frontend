@@ -1,5 +1,4 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { BigNumber } from 'bignumber.js';
+import { BigNumber } from 'bignumber.js'
 
 export const getPairFromCoin = (coinSource, coinTarget) => {
   switch (coinSource) {

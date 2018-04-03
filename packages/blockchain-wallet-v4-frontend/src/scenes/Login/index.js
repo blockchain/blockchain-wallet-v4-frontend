@@ -9,12 +9,11 @@ import { actions, selectors } from 'data'
 class LoginContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
   }
 
-  onSubmit (event) {
-    event.preventDefault()
+  handleSubmit () {
     const { guid, password, code } = this.props
     this.props.authActions.login(guid, password, code)
   }
@@ -25,7 +24,7 @@ class LoginContainer extends React.Component {
 
   render () {
     const { authType } = this.props
-    return <Login authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} />
+    return <Login authType={authType} handleSubmit={this.handleSubmit} handleMobile={this.handleMobile} />
   }
 }
 

@@ -50,7 +50,7 @@ const LoginTextGroup = styled(TextGroup)`
 
 const Login = (props) => {
   const { submitting, invalid, ...rest } = props
-  const { onSubmit, handleMobile, authType } = rest
+  const { handleSubmit, handleMobile, authType } = rest
 
   return (
     <Wrapper>
@@ -76,7 +76,7 @@ const Login = (props) => {
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
-      <LoginForm override onSubmit={onSubmit}>
+      <LoginForm onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>

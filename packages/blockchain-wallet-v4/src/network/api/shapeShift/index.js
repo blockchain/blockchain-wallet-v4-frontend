@@ -50,7 +50,7 @@ export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
   const createQuote = (amount, pair, isDeposit) => isDeposit
     ? post({ endPoint: 'sendamount', apiKey: shapeShiftApiKey, depositAmount: amount, pair })
     : post({ endPoint: 'sendamount', apiKey: shapeShiftApiKey, withdrawalAmount: amount, pair })
-  
+
   const createOrder = (depositAmount, pair, returnAddress, withdrawal) => post({
     endPoint: 'sendamount', apiKey: shapeShiftApiKey, depositAmount, pair, returnAddress, withdrawal
   })

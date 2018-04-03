@@ -8,13 +8,23 @@ const INITIAL_STATE = {
   btc_bch: Remote.NotAsked,
   btc_eth: Remote.NotAsked,
   eth_bch: Remote.NotAsked,
-  eth_btc: Remote.NotAsked
+  eth_btc: Remote.NotAsked,
+  order: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
+    case AT.FETCH_SHAPESHIFT_ORDER_LOADING: {
+      return assoc('order', Remote.Loading, state)
+    }
+    case AT.FETCH_SHAPESHIFT_ORDER_SUCCESS: {
+      return assoc('order', Remote.Success(payload), state)
+    }
+    case AT.FETCH_SHAPESHIFT_ORDER_FAILURE: {
+      return assoc('order', Remote.Failure(payload), state)
+    }
     case AT.FETCH_SHAPESHIFT_PAIR_LOADING: {
       const { pair } = payload
       return assoc(pair, Remote.Loading, state)

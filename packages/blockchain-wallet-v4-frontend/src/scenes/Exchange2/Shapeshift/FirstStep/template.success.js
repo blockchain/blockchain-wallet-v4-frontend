@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required } from 'services/FormHelper'
+// import { required } from 'services/FormHelper'
 import { Button, HeartbeatLoader, Icon, Text, TextInput } from 'blockchain-info-components'
-import { Form, TextBox, SelectBox } from 'components/Form'
+import { Form, SelectBox } from 'components/Form'
 import MinimumMaximum from './MinimumMaximum'
 
 const Wrapper = styled.div`
@@ -37,8 +37,8 @@ const Cell = styled.div`
 `
 
 const Success = props => {
-  const { elements, loading, validationError, handleMinimum, handleMaximum, handleSubmit, handleSwap, invalid, submitting } = props
-
+  const { elements, quotationLoading, quotationError, handleMinimum, handleMaximum, handleSwap, handleSubmit, invalid, submitting } = props
+  console.log('success', quotationLoading, quotationError)
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>
@@ -75,11 +75,11 @@ const Success = props => {
           <Text size='14px' weight={400}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          {validationError &&
+          {quotationError &&
             <Text size='12px' weight={300} color='error'>
-            {validationError && validationError.message === 'effective_balance' && <FormattedMessage id='scenes.exchange.shapeshift.firststep.balance' defaultMessage='Amount is above effective balance ({effectiveBalance})' values={{ effectiveBalance: validationError.data }} />}
-            {validationError && validationError.message === 'shapeshift_minimum' && <FormattedMessage id='scenes.exchange.shapeshift.firststep.minimum' defaultMessage='Amount is below Shapeshift minimum ({minimum})' values={{ minimum: validationError.data }} />}
-            {validationError && validationError.message === 'shapeshift_maximum' && <FormattedMessage id='scenes.exchange.shapeshift.firststep.maximum' defaultMessage='Amount is above Shapeshift maximum ({maximum})' values={{ maximum: validationError.data }} />}
+              {quotationError && quotationError.message === 'effective_balance' && <FormattedMessage id='scenes.exchange.shapeshift.firststep.balance' defaultMessage='Amount is above effective balance ({effectiveBalance})' values={{ effectiveBalance: quotationError.data }} />}
+              {quotationError && quotationError.message === 'shapeshift_minimum' && <FormattedMessage id='scenes.exchange.shapeshift.firststep.minimum' defaultMessage='Amount is below Shapeshift minimum ({minimum})' values={{ minimum: quotationError.data }} />}
+              {quotationError && quotationError.message === 'shapeshift_maximum' && <FormattedMessage id='scenes.exchange.shapeshift.firststep.maximum' defaultMessage='Amount is above Shapeshift maximum ({maximum})' values={{ maximum: quotationError.data }} />}
             </Text>
           }
         </Row>
@@ -89,7 +89,7 @@ const Success = props => {
             <Field name='sourceFiat' component={TextInput} />
           </Cell>
           <Cell size='small'>
-            {loading
+            {quotationLoading
               ? <HeartbeatLoader width='20px' height='20px' />
               : <Icon name='right-arrow' size='24px' weight={500} cursor />
             }
@@ -103,7 +103,7 @@ const Success = props => {
           <MinimumMaximum handleMinimum={handleMinimum} handleMaximum={handleMaximum} />
         </Row>
         <Row>
-          <Button type='submit' nature='primary' fullwidth disabled={validationError.message || loading || invalid || submitting}>
+          <Button type='submit' nature='primary' fullwidth disabled={quotationError.message || quotationLoading || invalid || submitting}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>

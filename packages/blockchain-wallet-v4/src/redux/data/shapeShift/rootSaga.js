@@ -51,13 +51,6 @@ export default ({ api } = {}) => {
     }
   }
 
-  // const watchShapeshiftQuotation = function * (action) {
-  //   while (true) {
-  //     const action = yield take(AT.FETCH_SHAPESHIFT_QUOTATION)
-  //     yield call(fetchQuotation, action)
-  //   }
-  // }
-
   const fetchQuotation = function * (action) {
     try {
       const { amount, pair, isDeposit } = action.payload
@@ -79,6 +72,5 @@ export default ({ api } = {}) => {
     yield takeLatest(AT.FETCH_TRADE_STATUS, fetchTradeStatus)
     yield takeLatest(AT.FETCH_SHAPESHIFT_ORDER, fetchOrder)
     yield takeLatest(AT.FETCH_SHAPESHIFT_QUOTATION, fetchQuotation)
-    // yield fork(watchShapeshiftQuotation)
   }
 }

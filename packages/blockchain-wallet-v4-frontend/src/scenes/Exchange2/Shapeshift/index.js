@@ -1,17 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'adapter'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
 class ShapeshiftContainer extends React.Component {
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.initialized()
   }
 
-  render() {
+  componentWillUnmount () {
+    this.props.actions.destroyed()
+  }
+
+  render () {
     switch (this.props.step) {
       case 1: return <FirstStep actions={actions} />
       case 2: return <SecondStep actions={actions} />
