@@ -27,9 +27,6 @@ const CancelText = styled.p`
 `
 
 class VerifyEmail extends Component {
-  static getDerivedStateFromProps (nextProps, prevState) {
-    if (nextProps.emailVerified && nextProps.ui.uniqueEmail) nextProps.updateUI({ create: 'change_mobile' })
-  }
   constructor (props) {
     super(props)
     this.state = {}
@@ -42,8 +39,12 @@ class VerifyEmail extends Component {
     if (this.props.ui.create === 'enter_email_code') {
       this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
     }
-
     this.props.formActions.change('sfoxCreate', 'emailAddress', this.props.oldEmail)
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.emailVerified && this.props.ui.uniqueEmail && !this.props.editVerified) this.props.updateUI({ create: 'change_mobile' })
+    if (this.props.emailVerified && !prevProps.emailVerified) this.props.updateUI({ create: 'change_mobile' })
   }
 
   resendCode () {

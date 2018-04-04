@@ -42,10 +42,9 @@ class VerifyMobile extends Component {
     this.updateMobileNumber = this.updateMobileNumber.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.smsVerified) {
-      this.props.updateUI({ create: 'create_account' })
-    }
+  componentDidUpdate (prevProps) {
+    if (this.props.smsVerified && !this.props.editVerified) this.props.updateUI({ create: 'create_account' })
+    if (this.props.smsVerified && !prevProps.smsVerified) this.props.updateUI({ create: 'create_account' })
   }
 
   updateMobileNumber () {
