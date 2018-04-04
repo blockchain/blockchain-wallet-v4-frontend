@@ -14,6 +14,7 @@ import FAQ1 from './faq.js'
 
 import { required } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
+import { spacing } from 'services/StyleService'
 
 const EmailInput = styled.div`
   display: flex;
@@ -64,7 +65,7 @@ class VerifyEmail extends Component {
   }
 
   render () {
-    const { ui, invalid, emailVerifiedError } = this.props
+    const { ui, invalid, emailVerifiedError, emailAddress, emailCode } = this.props
 
     let emailHelper = () => {
       switch (true) {
@@ -88,7 +89,7 @@ class VerifyEmail extends Component {
               ui.create === 'enter_email_code'
                 ? <EmailInput>
                   <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                    <FormattedHTMLMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='We emailed a verification code to {email}' values={{email: this.props.emailAddress}} />
+                    <FormattedHTMLMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='We emailed a verification code to {email}' values={{email: emailAddress}} />
                   </Text>
                   <Field name='emailCode' onChange={() => this.props.updateUI({ uniqueEmail: true })} component={TextBox} validate={[required]} />
                   <EmailHelper error={emailVerifiedError}>
@@ -100,26 +101,21 @@ class VerifyEmail extends Component {
                     <FormattedMessage id='sfoxexchangedata.create.verifyemail.confirm' defaultMessage='Confirm Email:' />
                   </Text>
                   <Field name='emailAddress' component={TextBox} validate={[required]} />
+                  <Button nature='primary' type='submit' disabled={!emailAddress} style={spacing('mt-15')}>
+                    <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Send Email Verification Code' />
+                  </Button>
                 </EmailInput>
             }
           </InputWrapper>
         </ColLeft>
         <ColRight>
           <ColRightInner>
-            {
-              ui.create === 'enter_email_code'
-                ? <ButtonWrapper>
-                  <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
-                    <FormattedMessage id='sfoxexchangedata.create.verifyemail.continue' defaultMessage='Continue' />
-                  </Button>
-                </ButtonWrapper>
-                : <ButtonWrapper>
-                  <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-                    <FormattedMessage id='sfoxexchangedata.create.verifyemail.sendverificationemail' defaultMessage='Send Verification Code Email' />
-                  </Button>
-                  <CancelText onClick={() => this.props.updateUI({create: 'create_account'})}>Cancel</CancelText>
-                </ButtonWrapper>
-            }
+            <ButtonWrapper>
+              <Button type='submit' nature='primary' fullwidth uppercase disabled={invalid || ui.create !== 'enter_email_code' || !emailCode}>
+                <FormattedMessage id='sfoxexchangedata.create.verifyemail.continue' defaultMessage='Continue' />
+              </Button>
+              <CancelText onClick={() => this.props.updateUI({create: 'create_account'})}>Cancel</CancelText>
+            </ButtonWrapper>
             <FAQ1 />
           </ColRightInner>
         </ColRight>
