@@ -30,7 +30,7 @@ export const Info = styled.div`
 `
 
 export const InputWrapper = styled.div`
-  width: 80%;
+  width: 90%;
 `
 
 export const PartnerHeader = styled.div`
@@ -70,5 +70,16 @@ export const ErrorWrapper = styled.div`
 export const ColRightInner = styled.div`
   display: flex;
   flex-direction: column;
+  width: 80%;
   padding-left: 20%;
+`
+
+export const EmailHelper = styled.span`
+  margin-top: 5px;
+  font-size: 12px;
+  color: ${props => props.error ? props.theme['error'] : props.theme['gray-3']};
+  a {
+    cursor: pointer;
+    color: ${props => props.theme['brand-secondary']};
+  }
 `
