@@ -21,7 +21,8 @@ class SmsAuthContainer extends React.Component {
     if (this.props.data.data.authType === 5 && prevProps.data.data.authType !== 5) {
       this.props.updateUI({ showSuccess: true })
       setTimeout(function () {
-        prevProps.goBack()
+        this.props.reset()
+        this.props.goBackOnSuccess()
       }, 1500)
     }
   }

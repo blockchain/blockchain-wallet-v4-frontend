@@ -68,7 +68,7 @@ const SecurityCenter = (props) => {
     return (
       <BodyContainer>
         <EmailAddress handleEnable={() => props.handleEnable('email')} alone={0} goBackOnSuccess={props.onClose} />
-        <TwoStepVerification handleEnable={() => props.handleEnable('2fa')} alone={0} />
+        <TwoStepVerification handleEnable={() => props.handleEnable('2fa')} alone={0} goBackOnSuccess={props.onClose} />
         <WalletRecoveryPhrase handleEnable={() => props.handleEnable('recovery')} alone={0} goBackOnSuccess={props.onClose} />
         {
           !tabs && <ButtonContainer>
