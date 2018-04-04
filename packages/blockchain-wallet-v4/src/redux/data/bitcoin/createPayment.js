@@ -73,7 +73,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
     throw new Error('no_destination_set')
   }
 
-  const calculateAmount = function * (amounts) {
+  const calculateAmount = function (amounts) {
     if (isPositiveNumber(amounts)) {
       return [amounts]
     }
@@ -168,7 +168,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
     throw new Error('no_origin_set')
   }
 
-  const calculateFee = function * (fee, fees) {
+  const calculateFee = function (fee, fees) {
     if (isPositiveNumber(fee)) {
       return fee
     }
@@ -180,7 +180,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
     throw new Error('no_fee_set')
   }
 
-  const calculateSelection = function * ({ to, amount, fee, coins, change }) {
+  const calculateSelection = function ({ to, amount, fee, coins, change }) {
     if (!to) {
       throw new Error('missing_to')
     }
@@ -205,7 +205,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
 
-  const calculateSweepSelection = function * ({ to, fee, coins }) {
+  const calculateSweepSelection = function ({ to, fee, coins }) {
     if (!to) {
       throw new Error('missing_to')
     }
@@ -311,7 +311,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
         })
 
         return makeChain(function * () {
-          return makePayment(p)
+          return yield call(makePayment, p)
         })
       }
     })
