@@ -93,16 +93,6 @@ export default ({ api, coinifyService } = {}) => {
     }
   }
 
-  const getBankAccounts = function * (data) {
-    const token = data.payload
-    try {
-      const bankAccounts = yield apply(coinify.bankLink, coinify.bankLink.getAccounts, [token])
-      yield put(A.getBankAccountsSuccess(bankAccounts))
-    } catch (e) {
-      yield put(A.getBankAccountsFailure(e))
-    }
-  }
-
   const resetProfile = function * () {
     yield put(A.resetProfile())
   }
@@ -135,7 +125,6 @@ export default ({ api, coinifyService } = {}) => {
     yield takeLatest(AT.COINIFY_FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.COINIFY_FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.COINIFY_FETCH_RATE_QUOTE, fetchRateQuote)
-    yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
     yield takeLatest(AT.GET_PAYMENT_MEDIUMS, getPaymentMediums)
     yield takeLatest(AT.COINIFY_GET_MEDIUM_ACCOUNTS, getMediumAccounts)
