@@ -49,9 +49,9 @@ const requiredDOB = value => isDOB(value) ? undefined : 'Must be valid date'
 
 const requiredUsZipcode = value => isUsZipcode(value) ? undefined : 'Must be valid zipcode'
 
-const onSfoxWhitelist = value => isOnSfoxWhitelist(value) ? undefined : 'Feature is not available in your state.'
+const onSfoxWhitelist = value => isOnSfoxWhitelist(value) ? undefined : 'Not available in your state.'
 
-const onPartnerCountryWhitelist = value => isOnPartnerCountryWhitelist(value) ? undefined : 'Feature is not available in your country.'
+const onPartnerCountryWhitelist = value => isOnPartnerCountryWhitelist(value) ? undefined : 'Not available in your country.'
 
 export {
   required,
