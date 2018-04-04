@@ -19,7 +19,7 @@ This repo contains the three codebases/packages listed below that are combined i
 1. Ensure Node version >= 8.0 is installed
 2. Ensure `lerna` and `yarn` are installed globally: `npm install -g lerna yarn babel-cli`
 3. Install and link packages: `yarn bootstrap`
-4. Start application in dev mode: `yarn start`
+4. Start application in development mode: `yarn start`
 5. The frontend will now be accessible via browser at `localhost:8080`
 
 ### Important Notes
@@ -36,8 +36,18 @@ This repo contains the three codebases/packages listed below that are combined i
  * [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) View/debug Redux state changes
 
 
-## Production Builds
-To build the frontend application for production: `yarn build:prod`
+## Environment Specific Builds
+The frontend application can easily be built for different environments and networks.  The following commands are available:
+ * `yarn build` Builds the application with the development configuration file
+ * `yarn build:dev` Builds the application with the development configuration file
+ * `yarn build:staging` Builds the application with the staging configuration file
+ * `yarn build:testnet` Builds the application with the testnet configuration file
+ * `yarn build:prod` Builds the application with the production configuration file
+
+Notes:
+ * All common build configurations are contained in the `config/env` folder
+ * After compilation is completed, the built artifacts will be put into the `build` folder
+ * Custom application builds are possible by modifying the corresponding environment files found in the `config/env` folder
 
 
 ## Code Quality

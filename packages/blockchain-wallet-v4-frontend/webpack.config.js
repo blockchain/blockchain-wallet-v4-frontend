@@ -9,13 +9,12 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
-const buildEnvString = isProdBuild ? 'production' : 'development'
 const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`,
-  envConfig: `${__dirname}/../../config/env/.env.development`
+  envConfig: `${__dirname}/../../config/env/.env.${process.env.NODE_ENV}`
 }
 
 // load, parse and log application configuration
@@ -29,7 +28,7 @@ console.log(`WEB_SOCKET_URL: ${envConfig.WEB_SOCKET_URL}`)
 console.log('**************')
 
 module.exports = {
-  mode: buildEnvString,
+  mode: isProdBuild ? 'production' : 'development',
   entry: {
     app: [
       'babel-polyfill',
