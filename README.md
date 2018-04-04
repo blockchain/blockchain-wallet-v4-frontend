@@ -17,19 +17,26 @@ This repo contains the three codebases/packages listed below that are combined i
 
 ## Local Development
 1. Ensure Node version >= 8.0 is installed
-2. Ensure `lerna` and `yarn` are installed globally: `npm install -g lerna yarn babel-cli`
+2. Run the following command to install necessary global packages: `npm install -g lerna yarn babel-cli`
 3. Install and link packages: `yarn bootstrap`
-4. Start application in development mode: `yarn start`
-5. The frontend will now be accessible via browser at `localhost:8080`
-
+4. Start the application in development mode: `yarn start`
+5. The frontend application will now be accessible via browser at `localhost:8080`
+ 
 ### Important Notes
 1. After installing or uninstalling a NPM package, run the following node command at the root of the project:
    * `lerna bootstrap`
 2. All developer specific dependencies should be installed in the top level `package.json`. This helps reduce duplicate
     packages as well as speed up build times.
    * `yarn i --save-dev [package-name]`
-3. To test bitcoin handling in dev mode: run this javascript command in the browser console:
-   * `window.navigator.registerProtocolHandler('bitcoin', http://localhost:8080/a/%s, 'Blockchain')`
+
+### Running Environments Locally
+The frontend application can be ran locally for the different build configurations.  The following commands are available:
+ * `yarn start` Builds and runs the application with the `env.development` configuration file
+ * `yarn start:dev` Builds and runs the application with the `.env.development` configuration file
+ * `yarn start:staging` Builds and runs the application with the `.env.staging` configuration file
+ * `yarn start:testnet` Builds and runs the application with the `.env.testnet` configuration file
+ * `yarn start:prod` Builds and runs the application with the `.env.production` configuration file
+ 
 
 ### Useful Chrome Extensions
  * [React Developer Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) Inspect the React component tree
@@ -38,11 +45,11 @@ This repo contains the three codebases/packages listed below that are combined i
 
 ## Environment Specific Builds
 The frontend application can easily be built for different environments and networks.  The following commands are available:
- * `yarn build` Builds the application with the development configuration file
- * `yarn build:dev` Builds the application with the development configuration file
- * `yarn build:staging` Builds the application with the staging configuration file
- * `yarn build:testnet` Builds the application with the testnet configuration file
- * `yarn build:prod` Builds the application with the production configuration file
+ * `yarn build` Builds the application with the `.env.development` configuration file
+ * `yarn build:dev` Builds the application with the `.env.development` configuration file
+ * `yarn build:staging` Builds the application with the `.env.staging` configuration file
+ * `yarn build:testnet` Builds the application with the `.env.testnet` configuration file
+ * `yarn build:prod` Builds the application with the `.env.production` configuration file
 
 Notes:
  * All common build configurations are contained in the `config/env` folder
