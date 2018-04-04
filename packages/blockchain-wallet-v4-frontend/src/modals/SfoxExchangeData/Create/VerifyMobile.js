@@ -22,15 +22,6 @@ const MobileInput = styled.div`
 const MobileCodeContainer = MobileInput.extend`
   margin-top: 25px;
 `
-const MixedText = styled.span`
-  margin-top: 10px;
-  font-size: 12px;
-  color: ${props => props.theme['gray-3']};
-  a {
-    cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
-  }
-`
 const CancelText = styled.p`
   text-align: center;
   cursor: pointer;
