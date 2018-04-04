@@ -2,7 +2,6 @@ import Remote from './index'
 import { map, compose, identity, add, multiply, toUpper, lift } from 'ramda'
 
 describe('Remote', () => {
-
   describe('Constructors', () => {
     it('should construct a Remote.Success', () => {
       let r = Remote.Success('value')
@@ -45,7 +44,6 @@ describe('Remote', () => {
       let right = map(compose(f, g))
       expect(map(left, options)).toEqual(map(right, options))
     })
-
   })
 
   describe('Applicative Functor laws', () => {
@@ -64,7 +62,7 @@ describe('Remote', () => {
     })
 
     it('iii) interchange: r.ap(A.of(x)) = A.of(f => f(x)).ap(r)', () => {
-      let opt = [Remote.Success(x => x*x), Remote.Failure('OMG'), Remote.Loading, Remote.NotAsked]
+      let opt = [Remote.Success(x => x * x), Remote.Failure('OMG'), Remote.Loading, Remote.NotAsked]
       let x = 3
       let left = r => r.ap(Remote.of(x))
       let right = r => Remote.of(f => f(x)).ap(r)
@@ -72,8 +70,8 @@ describe('Remote', () => {
     })
 
     it('iv) composotion: A.of(compose).ap(r).ap(s).ap(t) = r.ap(s.ap(t))', () => {
-      let opt1 = [Remote.Success(x => x+5), Remote.Failure('OMG'), Remote.Loading, Remote.NotAsked]
-      let opt2 = [Remote.Success(x => x*5), Remote.Failure('OMG'), Remote.Loading, Remote.NotAsked]
+      let opt1 = [Remote.Success(x => x + 5), Remote.Failure('OMG'), Remote.Loading, Remote.NotAsked]
+      let opt2 = [Remote.Success(x => x * 5), Remote.Failure('OMG'), Remote.Loading, Remote.NotAsked]
       let opt3 = [Remote.Success(3), Remote.Failure('OMG'), Remote.Loading, Remote.NotAsked]
       let composition = f => g => x => f(g(x))
       let checkComposition = r => s => t => expect(Remote.of(composition).ap(r).ap(s).ap(t)).toEqual(r.ap(s.ap(t)))
