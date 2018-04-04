@@ -20,7 +20,7 @@ This repo contains the three codebases/packages listed below that are combined i
 2. Run the following command to install necessary global packages: `npm install -g lerna yarn babel-cli`
 3. Install and link packages: `yarn bootstrap`
 4. Start the application in development mode: `yarn start`
-5. The frontend application will now be accessible via browser at `localhost:8080`
+5. The frontend application will now be accessible at `localhost:8080`
  
 ### Important Notes
 1. After installing or uninstalling a NPM package, run the following node command at the root of the project:
