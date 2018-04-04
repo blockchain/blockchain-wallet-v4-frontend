@@ -55,6 +55,31 @@ const OrText = styled.p`
   }
 `
 
+const selectBankFaqs = [
+  {
+    question: <FormattedMessage id='sfoxsignup.link.helper3.question' defaultMessage='How will this account be used?' />,
+    answer: <FormattedMessage id='sfoxsignup.link.helper3.answer' defaultMessage='Answer3 placeholder' />
+  },
+  {
+    question: <FormattedMessage id='sfoxsignup.link.helper4.question' defaultMessage='Can I change this later?' />,
+    answer: <FormattedMessage id='sfoxsignup.link.helper4.answer' defaultMessage='Answer4 placeholder' />
+  }
+]
+
+const faqList = [
+  {
+    question: <FormattedMessage id='sfoxsignup.link.helper1.question' defaultMessage='How is my payment method used?' />,
+    answer: <FormattedMessage id='sfoxsignup.link.helper1.answer' defaultMessage='Answer1 placeholder' />
+  },
+  {
+    question: <FormattedMessage id='sfoxsignup.link.helper2.question' defaultMessage='Are there transaction fees?' />,
+    answer: <FormattedMessage id='sfoxsignup.link.helper2.answer' defaultMessage='Answer2 placeholder' />
+  }
+]
+
+const selectBankFaqHelper = () => selectBankFaqs.map(el => <Helper question={el.question} answer={el.answer} />)
+const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
+
 const BankLink = (props) => {
   const {
     plaidUrl,
@@ -119,31 +144,6 @@ const BankLink = (props) => {
       )
     }
   }
-
-  const selectBankFaqs = [
-    {
-      question: <FormattedMessage id='sfoxsignup.link.helper3.question' defaultMessage='How will this account be used?' />,
-      answer: <FormattedMessage id='sfoxsignup.link.helper3.answer' defaultMessage='Answer3 placeholder' />
-    },
-    {
-      question: <FormattedMessage id='sfoxsignup.link.helper4.question' defaultMessage='Can I change this later?' />,
-      answer: <FormattedMessage id='sfoxsignup.link.helper4.answer' defaultMessage='Answer4 placeholder' />
-    }
-  ]
-
-  const faqList = [
-    {
-      question: <FormattedMessage id='sfoxsignup.link.helper1.question' defaultMessage='How is my payment method used?' />,
-      answer: <FormattedMessage id='sfoxsignup.link.helper1.answer' defaultMessage='Answer1 placeholder' />
-    },
-    {
-      question: <FormattedMessage id='sfoxsignup.link.helper2.question' defaultMessage='Are there transaction fees?' />,
-      answer: <FormattedMessage id='sfoxsignup.link.helper2.answer' defaultMessage='Answer2 placeholder' />
-    }
-  ]
-
-  const selectBankFaqHelper = () => selectBankFaqs.map(el => <Helper question={el.question} answer={el.answer} />)
-  const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
   const helpersHelper = () => {
     if (ui.selectBank) {
