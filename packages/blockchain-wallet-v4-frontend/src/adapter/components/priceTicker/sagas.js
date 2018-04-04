@@ -1,16 +1,14 @@
-import { select, takeEvery, put } from 'redux-saga/effects'
+import { takeEvery, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import * as S from './selectors'
 import * as actions from '../../actions.js'
 
-const initialized = function* (action) {
+const initialized = function * (action) {
   try {
     const { coin } = action.payload
-    const currency = 'USD'
     switch (coin) {
-      case 'BCH': yield put(actions.data.bch.fetchRates)
-      case 'BCH': yield put(actions.data.btc.fetchRates)
-      case 'BCH': yield put(actions.data.eth.fetchRates)
+      case 'BCH': return yield put(actions.data.bch.fetchRates())
+      case 'BTC': return yield put(actions.data.btc.fetchRates())
+      case 'ETH': return yield put(actions.data.eth.fetchRates())
       default: throw new Error(`Could not fetch rates for coin ${coin}.`)
     }
   } catch (e) {
@@ -18,6 +16,6 @@ const initialized = function* (action) {
   }
 }
 
-export default function* () {
+export default function * () {
   yield takeEvery(AT.PRICE_TICKER_INITIALIZED, initialized)
 }

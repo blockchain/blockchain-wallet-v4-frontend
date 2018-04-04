@@ -16,9 +16,20 @@ let exchangeTask = null
 
 const exchange = function * () {
   yield call(manageFirstStep)
-  yield call(manageSecondStep)
-  yield call(manageThirdStep)
+  const order = yield call(manageSecondStep)
+  yield call(manageThirdStep, order)
 }
+
+// api.getFee :: () => Promise(fee)
+
+// const getBtcFee = function * () {
+//   const fee = yield select(selectFee)
+//   if (fee == null) {
+//     const result = yield call(api.getFee)
+//     yield put(actions.put(result))
+//   }
+//   return result
+// }
 
 const manageFirstStep = function * () {
   try {
@@ -29,10 +40,11 @@ const manageFirstStep = function * () {
       target: head(ethAccountsInfo)
     }
     yield put(actions.modules.form.initialize('exchange', initialValues))
-    // yield put(actions.data.bch.fetchFee())
+
+    yield put(actions.data.bch.fetchFee())
     yield put(actions.data.btc.fetchFee())
     yield put(actions.data.eth.fetchFee())
-    // yield put(actions.data.bch.fetchRates())
+    yield put(actions.data.bch.fetchRates())
     yield put(actions.data.btc.fetchRates())
     yield put(actions.data.eth.fetchRates())
     yield put(actions.data.shapeshift.fetchPair('bch_btc'))
@@ -41,6 +53,7 @@ const manageFirstStep = function * () {
     yield put(actions.data.shapeshift.fetchPair('btc_eth'))
     yield put(actions.data.shapeshift.fetchPair('eth_bch'))
     yield put(actions.data.shapeshift.fetchPair('eth_btc'))
+
     yield take(AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED)
   } catch (e) {
     console.log('e', e)
@@ -67,17 +80,40 @@ const manageSecondStep = function * () {
       case 'BTC': fee = yield call(calculateBtcFee, source, sourceAmount, prop('deposit', order)); break
       case 'ETH': fee = yield call(calculateEthFee); break
     }
+    
+    const data = yield selectRemote(selectors.remote)
+
+
     yield put(A.secondStepSuccess({ order, fee }))
     yield take(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED)
+    return order
   } catch (e) {
     yield put(A.secondStepFailure(e.message))
   }
 }
 
-const manageThirdStep = function * () {
+let tradeStatusTask = null
+
+const tradeStatus = function * (address) {
+  while (true) {
+    const tradeStatusData = yield call(api.getTradeStatus, address)
+    const tradeStatus = yield select(selectors.core.kvStore.shapeShift.getTrade, address)
+    console.log('tradeStatusData', tradeStatusData)
+    console.log('tradeStatus', tradeStatus)
+    yield call(delay, 10000)
+  }
+}
+
+const manageThirdStep = function * (order) {
   try {
     yield put(A.thirdStepInitialized())
+    // Push transaction
 
+    // Write transaction in metadata
+
+    // Start polling trade status
+    console.log('order', order)
+    tradeStatusTask = yield fork(tradeStatus, prop('deposit', order))
   } catch (e) {
     console.log(e)
   }
@@ -87,6 +123,8 @@ const calculateBtcFee = function * (source, amount, depositAddress) {
   const feeR = yield select(selectors2.data.btc.getFee)
   const fee = feeR.getOrElse({})
   const feePerBytePriority = prop('priority', fee)
+
+
   const address = prop('address', source) || prop('index', source)
   const wrapper = yield select(selectors.core.wallet.getWrapper)
   const coins = yield call(api.getWalletUnspents, wrapper, address)

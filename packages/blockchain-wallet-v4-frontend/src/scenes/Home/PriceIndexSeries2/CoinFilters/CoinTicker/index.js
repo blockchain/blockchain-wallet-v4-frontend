@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -11,7 +10,7 @@ import Success from './template.success'
 
 class CoinTickerContainer extends React.Component {
   componentDidMount () {
-    this.props.actions.initialized()
+    this.props.actions.initialized(this.props.coin)
   }
 
   render () {
@@ -35,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 CoinTickerContainer.propTypes = {
-  coin: PropTypes.oneOf(['BCH','BTC','ETH']).isRequired,
+  coin: PropTypes.oneOf(['BCH', 'BTC', 'ETH']).isRequired,
   handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool
 }

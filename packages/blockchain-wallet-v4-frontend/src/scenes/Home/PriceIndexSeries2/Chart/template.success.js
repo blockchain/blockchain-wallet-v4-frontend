@@ -11,11 +11,11 @@ const Wrapper = styled.div`
 
 class Chart extends React.Component {
   constructor (props) {
-    super (props)
+    super(props)
     const { start, interval, currency, data } = props
     this.state = { config: getConfig(start, interval, currency, data) }
   }
-  
+
   componentWillReceiveProps (nextProps) {
     if (!equals(this.props.data, nextProps.data) && !equals(this.props.currency, nextProps.currency)) {
       this.setState({ config: getConfig(nextProps.start, nextProps.interval, nextProps.currency, nextProps.data) })
@@ -29,7 +29,7 @@ class Chart extends React.Component {
       </Wrapper>
     )
   }
-} 
+}
 
 Chart.propTypes = {
   currency: PropTypes.string.isRequired,

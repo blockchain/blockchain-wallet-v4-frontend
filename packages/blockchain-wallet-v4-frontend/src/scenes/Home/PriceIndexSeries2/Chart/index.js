@@ -3,17 +3,16 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'adapter'
-import { getConfig } from './services'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class ChartContainer extends React.Component {
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.initialized('BTC', 'all')
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: (value) => <Success
         currency={value.currency}

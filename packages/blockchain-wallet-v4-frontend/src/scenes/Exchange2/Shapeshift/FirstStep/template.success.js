@@ -38,7 +38,7 @@ const Cell = styled.div`
 
 const Success = props => {
   const { elements, quotationLoading, quotationError, handleMinimum, handleMaximum, handleSwap, handleSubmit, invalid, submitting } = props
-  console.log('success', quotationLoading, quotationError)
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>

@@ -8,8 +8,7 @@ const INITIAL_STATE = {
     loading: false,
     error: {}
   },
-  secondStep: Remote.NotAsked,
-  thirdStep: {}
+  secondStep: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {

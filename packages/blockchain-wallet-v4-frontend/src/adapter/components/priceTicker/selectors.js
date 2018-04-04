@@ -1,5 +1,5 @@
 import { lift } from 'ramda'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import * as selectors from '../../selectors'
 
 const selectRates = (coin, state) => {
@@ -22,7 +22,6 @@ const convertCoinToFiat = (coin, rates) => {
 }
 
 export const getData = (coin, state) => {
-
   const ratesR = selectRates(coin, state)
 
   const transform = (rates) => ({

@@ -1,7 +1,7 @@
 import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound, selectAll } from '../coinSelection'
 import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { decode, fromWords } from 'bech32'
-import { compose, equals, head, map, or, path, prop, sum } from 'ramda'
+import { compose, equals, head, map, or, prop, sum } from 'ramda'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
 import Base58 from 'bs58'
@@ -10,7 +10,7 @@ import * as Exchange from '../exchange'
 import Either from 'data.either'
 import * as Coin from '../coinSelection/coin'
 import * as crypto from 'crypto'
-import { BigNumber } from 'bignumber.js';
+import { BigNumber } from 'bignumber.js'
 
 export const isValidBitcoinAddress = value => {
   try {
@@ -166,10 +166,10 @@ export const calculateSelection = (amount, coins, feePerByte, receiveAddress, ch
   const seed = crypto.randomBytes(16).toString('hex')
   const target = Coin.fromJS({ address: receiveAddress, value: amount })
   switch (algorithm) {
-    case 'ascentDraw': return ascentDraw([target], feePerByte, coins, changeAddress); break
-    case 'descentDraw': return descentDraw([target], feePerByte, coins, changeAddress); break
-    case 'singleRandomDraw': return singleRandomDraw([target], feePerByte, coins, changeAddress, seed); break
-    case 'branchAndBound': return branchAndBound([target], feePerByte, coins, changeAddress, seed); break
+    case 'ascentDraw': return ascentDraw([target], feePerByte, coins, changeAddress)
+    case 'descentDraw': return descentDraw([target], feePerByte, coins, changeAddress)
+    case 'singleRandomDraw': return singleRandomDraw([target], feePerByte, coins, changeAddress, seed)
+    case 'branchAndBound': return branchAndBound([target], feePerByte, coins, changeAddress, seed)
   }
 }
 

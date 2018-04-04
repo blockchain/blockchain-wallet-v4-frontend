@@ -2,14 +2,14 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { actions, selectors } from 'adapter'
+import { actions } from 'adapter'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class ThirdStepContainer extends React.Component {
-  render() {
+  render () {
     return this.props.data.cata({
       Success: (value) => <Success
         sourceCoin={value.sourceCoin}
@@ -19,7 +19,7 @@ class ThirdStepContainer extends React.Component {
         transactionFee={value.transactionFee}
         orderId={value.orderId}
         depositAmount={value.depositAmount}
-        withdrawalAmount={value.withdrawalAmount} 
+        withdrawalAmount={value.withdrawalAmount}
         handleClose={() => this.props.actions.thirdStepCloseClicked()}
       />,
       Failure: (message) => <Error />,
