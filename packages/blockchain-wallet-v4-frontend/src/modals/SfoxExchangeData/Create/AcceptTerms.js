@@ -20,6 +20,7 @@ const AcceptTermsContainer = styled.div`
   flex-direction: row;
   margin-top: 25px;
   font-size: 12px;
+  font-weight: 400;
   a {
     color: ${props => props.theme['brand-secondary']}
   }
@@ -134,7 +135,7 @@ class AcceptTerms extends Component {
             </FieldsContainer>
             <AcceptTermsContainer>
               <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>." />
+                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="The legal stuff: Accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>." />
               </Field>
             </AcceptTermsContainer>
           </InputWrapper>

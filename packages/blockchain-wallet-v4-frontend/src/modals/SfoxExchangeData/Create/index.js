@@ -38,7 +38,8 @@ CreateContainer.propTypes = {
 const mapStateToProps = (state) => ({
   smsVerified: selectors.core.settings.getSmsVerified(state).data,
   emailVerified: selectors.core.settings.getEmailVerified(state).data,
-  emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state)
+  emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state),
+  mobileVerifiedError: path(['securityCenter', 'mobileVerifiedError'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
