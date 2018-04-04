@@ -1,21 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text, Link, Icon } from 'blockchain-info-components'
+import { Button, Text, Icon } from 'blockchain-info-components'
 import styled from 'styled-components'
 import QRCodeReact from 'qrcode.react'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox } from 'components/Form'
 
-import { SecurityDescription, SecurityHeader, SuccessOverlay } from 'components/Security'
+import { SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
   width: 90%;
   padding: 0px 20px;
   opacity: ${props => props.success ? 0.3 : 1};
-`
-const Header = SecurityHeader.extend`
-  justify-content: flex-start;
 `
 const QRCode = styled.div`
   display: flex;
@@ -53,15 +50,6 @@ const Google = props => {
         </Text>
       </SuccessOverlay>
       <AuthenticatorSummary success={props.ui.successToggled}>
-        <Header>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Authenticator App' />
-          <Link size='14px' onClick={props.goBack}>Change</Link>
-        </Header>
-        <SecurityDescription>
-          <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-step Verification helps prevent unauthorized access to your wallet by requiring a one-time password after every login attempt. Enabling this option helps keep unauthorized users from being able to access your wallet.' />
-          </Text>
-        </SecurityDescription>
         <QRCodeContainer>
           {
             googleSecret
