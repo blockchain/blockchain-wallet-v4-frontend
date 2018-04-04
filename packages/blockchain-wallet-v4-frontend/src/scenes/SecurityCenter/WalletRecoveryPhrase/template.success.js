@@ -3,17 +3,12 @@ import { FormattedMessage } from 'react-intl'
 import { Text, Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SecurityTip } from 'components/Security'
+import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SecurityTip, IconContainer } from 'components/Security'
 import RecordBackupPhrase from './RecordBackupPhrase'
 
 const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
-`
-const IconContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 25px;
 `
 
 const WalletRecoveryPhrase = (props) => {

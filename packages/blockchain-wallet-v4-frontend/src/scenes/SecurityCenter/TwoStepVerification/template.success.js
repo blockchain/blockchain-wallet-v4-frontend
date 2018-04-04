@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Text, Button, Link, ButtonGroup } from 'blockchain-info-components'
 import styled, { keyframes } from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SecurityTip } from 'components/Security'
+import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SecurityTip, IconContainer } from 'components/Security'
 import { PhoneNumberBox } from 'components/Form'
 import GoogleAuth from './GoogleAuth'
 import Yubikey from './Yubikey'
@@ -21,11 +21,6 @@ const SecuritySummaryChoice = styled(SecuritySummary)`
 const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
-`
-const IconContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 25px;
 `
 const DisableContainer = styled.div`
   width: 100%;
