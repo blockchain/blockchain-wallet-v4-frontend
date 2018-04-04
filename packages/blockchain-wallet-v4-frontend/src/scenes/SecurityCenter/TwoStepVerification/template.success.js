@@ -164,11 +164,7 @@ const TwoStepVerification = (props) => {
         <IconContainer>
           <SecurityIcon name='lock' enabled={twoFAEnabled} />
         </IconContainer>
-        {
-          !ui.verifyToggled && !props.alone
-            ? renderInitial()
-            : renderVerificationChoice()
-        }
+        { !ui.verifyToggled && !props.alone ? renderInitial() : renderVerificationChoice() }
         {
           !ui.verifyToggled && !props.alone
             ? <SecurityComponent>
@@ -192,11 +188,7 @@ const TwoStepVerification = (props) => {
               <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />
             </Text>
             <TipText weight={200} size='12px'>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for' />
-              <Link weight={200} size='12px' href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8' _target='blank' rel='noopener noreferrer'>&nbsp;iOS&nbsp;</Link>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.and' defaultMessage='and' />
-              <Link weight={200} size='12px' href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en' _target='blank' rel='noopener noreferrer'>&nbsp;Android</Link>
-              <FormattedMessage id='none' defaultMessage=').' />
+              <FormattedMessage id='scenes.securitycenter.2fa.tip' defaultMessage="You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for {iosLink} and {androidLink})" values={{ iosLink: <a href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8' _target='blank' rel='noopener noreferrer'>iOS</a>, androidLink: <a href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en' _target='blank' rel='noopener noreferrer'>Android</a> }}/>
             </TipText>
           </SecurityTip>
           : null
