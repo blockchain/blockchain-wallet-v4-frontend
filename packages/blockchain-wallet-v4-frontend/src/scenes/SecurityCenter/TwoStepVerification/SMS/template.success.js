@@ -10,7 +10,7 @@ import { required } from 'services/FormHelper'
 import { SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
-  width: 90%;
+  width: 110%;
   padding: 0px 20px;
   opacity: ${props => props.verified ? 0.3 : 1};
 `
