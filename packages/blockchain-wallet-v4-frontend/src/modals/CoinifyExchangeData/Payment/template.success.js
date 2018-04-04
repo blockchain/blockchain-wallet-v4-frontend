@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
-import { FAQ1, FAQ2 } from './faq.js'
+import Helper from 'components/BuySell/FAQ'
 
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner } from 'components/BuySell/Signup'
@@ -15,6 +15,19 @@ const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `
+
+const helpers = [
+  {
+    question: <FormattedMessage id='coinify.payment.helper1.question' defaultMessage='Payment Medium placeholder 1?' />,
+    answer: <FormattedMessage id='coinify.payment.helper1.answer' defaultMessage='Answer1 placeholder' />
+  },
+  {
+    question: <FormattedMessage id='coinify.payment.helper2.question' defaultMessage='Payment Medium placeholder 2?' />,
+    answer: <FormattedMessage id='coinify.payment.helper2.answer' defaultMessage='Answer2 placeholder' />
+  }
+]
+
+const faqHelper = () => helpers.map(el => <Helper question={el.question} answer={el.answer} />)
 
 const Payment = (props) => {
   const { value, busy, onSubmit, handlePaymentClick, medium } = props
@@ -47,8 +60,7 @@ const Payment = (props) => {
                 : <HeartbeatLoader height='20px' width='20px' color='white' />
             }
           </Button>
-          {/* <FAQ1 />
-          <FAQ2 /> */}
+          { faqHelper() }
         </ColRightInner>
       </ColRight>
     </Form>
