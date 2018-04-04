@@ -31,6 +31,11 @@ const MixedText = styled.span`
     color: ${props => props.theme['brand-secondary']};
   }
 `
+const CancelText = styled.p`
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+`
 
 class VerifyMobile extends Component {
   constructor (props) {
@@ -124,6 +129,7 @@ class VerifyMobile extends Component {
                 <Button type='submit' nature='primary' fullwidth disabled={invalid || !mobileCode}>
                   <FormattedMessage id='sfoxexchangedata.create.mobile.continue' defaultMessage='Continue' />
                 </Button>
+                <CancelText onClick={() => this.props.updateUI({create: 'create_account'})}>Cancel</CancelText>
               </ButtonWrapper>
             }
             <FAQ1 />
