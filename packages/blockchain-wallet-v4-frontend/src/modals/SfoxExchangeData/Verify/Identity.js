@@ -74,8 +74,8 @@ const Identity = (props) => {
               </Text>
             }
           </ErrorWrapper>
-          <FAQ1 />
-          <FAQ2 />
+          {/* <FAQ1 />
+          <FAQ2 /> */}
         </ColRightInner>
       </ColRight>
     </Form>
