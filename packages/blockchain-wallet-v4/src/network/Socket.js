@@ -1,8 +1,8 @@
-
 import { compose, concat, prop, propEq, identity } from 'ramda'
+
 const WebSocket = global.WebSocket || global.MozWebSocket
 
-function WS (uri, protocols, opts) {
+function WS (uri, protocols) {
   return protocols ? new WebSocket(uri, protocols) : new WebSocket(uri)
 }
 
@@ -30,10 +30,10 @@ let toArrayFormat = (a) => Array.isArray(a) ? a : [a]
 class Socket {
   constructor (options = {}) {
     let {
-      wsUrl = 'wss://ws.blockchain.info/inv'
+      wsUrl = process.env.WEB_SOCKET_URL
     } = options
     this.wsUrl = wsUrl
-    this.headers = { 'Origin': 'https://blockchain.info' }
+    this.headers = { 'Origin': process.env.BLOCKCHAIN_INFO }
     this.pingInterval = 30000
     this.pingIntervalPID = null
     this.pingTimeout = 5000

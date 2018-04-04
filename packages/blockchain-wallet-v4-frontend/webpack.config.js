@@ -20,8 +20,8 @@ const PATHS = {
 
 // load, parse and log application configuration
 const envConfig = dotenv.parse(fs.readFileSync(PATHS.envConfig))
+console.log('APP CONFIGURATION')
 console.log('**************')
-console.log('APP CONFIGURATION:')
 console.log(`ENVIRONMENT: ${envConfig.ENV}`)
 console.log(`BLOCKCHAIN_INFO: ${envConfig.BLOCKCHAIN_INFO}`)
 console.log(`API_BLOCKCHAIN_INFO: ${envConfig.API_BLOCKCHAIN_INFO}`)

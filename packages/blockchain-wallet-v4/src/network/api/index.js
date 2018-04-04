@@ -11,8 +11,9 @@ import sfox from './sfox'
 import wallet from './wallet'
 import fetchService from './fetch'
 
-export const BLOCKCHAIN_INFO = 'https://blockchain.info/'
-export const API_BLOCKCHAIN_INFO = 'https://api.blockchain.info/'
+// URIs injected during Webpack compilation process
+export const BLOCKCHAIN_INFO = process.env.BLOCKCHAIN_INFO
+export const API_BLOCKCHAIN_INFO = process.env.API_BLOCKCHAIN_INFO
 export const API_CODE = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
 export const SHAPESHIFT_IO = 'https://shapeshift.io/'
