@@ -47,8 +47,8 @@ const Payment = (props) => {
                 : <HeartbeatLoader height='20px' width='20px' color='white' />
             }
           </Button>
-          <FAQ1 />
-          <FAQ2 />
+          {/* <FAQ1 />
+          <FAQ2 /> */}
         </ColRightInner>
       </ColRight>
     </Form>

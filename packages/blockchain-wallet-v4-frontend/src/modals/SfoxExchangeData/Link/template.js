@@ -8,7 +8,7 @@ import AddManually from './AddManually'
 import MicroDeposits from './MicroDeposits'
 import PlaidFrame from './iframe.js'
 
-import { FAQ1, FAQ2, FAQ3, FAQ4 } from './faq.js'
+import Helper from 'components/BuySell/FAQ'
 import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
 
 const Form = styled.form`
@@ -120,20 +120,43 @@ const BankLink = (props) => {
     }
   }
 
+  const selectBankFaqs = [
+    {
+      question: <FormattedMessage id='sfoxsignup.link.helper3.question' defaultMessage='How will this account be used?' />,
+      answer: <FormattedMessage id='sfoxsignup.link.helper3.answer' defaultMessage='Answer3 placeholder' />
+    },
+    {
+      question: <FormattedMessage id='sfoxsignup.link.helper4.question' defaultMessage='Can I change this later?' />,
+      answer: <FormattedMessage id='sfoxsignup.link.helper4.answer' defaultMessage='Answer4 placeholder' />
+    }
+  ]
+
+  const faqList = [
+    {
+      question: <FormattedMessage id='sfoxsignup.link.helper1.question' defaultMessage='How is my payment method used?' />,
+      answer: <FormattedMessage id='sfoxsignup.link.helper1.answer' defaultMessage='Answer1 placeholder' />
+    },
+    {
+      question: <FormattedMessage id='sfoxsignup.link.helper2.question' defaultMessage='Are there transaction fees?' />,
+      answer: <FormattedMessage id='sfoxsignup.link.helper2.answer' defaultMessage='Answer2 placeholder' />
+    }
+  ]
+
+  const selectBankFaqHelper = () => selectBankFaqs.map(el => <Helper question={el.question} answer={el.answer} />)
+  const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
+
   const helpersHelper = () => {
     if (ui.selectBank) {
       return (
-        <span>
-          <FAQ3 />
-          <FAQ4 />
-        </span>
+        <React.Fragment>
+          { selectBankFaqHelper() }
+        </React.Fragment>
       )
     }
     return (
-      <span>
-        <FAQ1 />
-        <FAQ2 />
-      </span>
+      <React.Fragment>
+        { faqListHelper() }
+      </React.Fragment>
     )
   }
 

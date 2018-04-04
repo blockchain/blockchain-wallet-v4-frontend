@@ -9,11 +9,18 @@ import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text, Link, Icon } from 'blockchain-info-components'
-import FAQ1 from './faq.js'
+import Helper from 'components/BuySell/FAQ'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
+
+const helpers = [
+  {
+    question: <FormattedMessage id='sfoxsignup.create.helper1.question' defaultMessage='What is SFOX?' />,
+    answer: <FormattedMessage id='sfoxsignup.create.helper1.answer' defaultMessage='Answer placeholder' />
+  }
+]
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -81,6 +88,8 @@ class AcceptTerms extends Component {
   render () {
     const { busy } = this.state
     const { invalid, email, smsNumber, signupError, editEmail, editMobile } = this.props
+
+    const faqHelper = () => helpers.map(el => <Helper question={el.question} answer={el.answer} />)
 
     return (
       <Form onSubmit={this.handleSignup}>
@@ -158,7 +167,7 @@ class AcceptTerms extends Component {
                 </Text>
               }
             </ErrorWrapper>
-            <FAQ1 />
+            { faqHelper() }
           </ColRightInner>
         </ColRight>
       </Form>
