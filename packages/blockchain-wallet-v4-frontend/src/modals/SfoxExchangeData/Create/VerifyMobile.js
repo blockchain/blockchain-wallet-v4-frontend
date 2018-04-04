@@ -11,7 +11,7 @@ import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
 import FAQ1 from './faq.js'
 import { required } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner } from 'components/BuySell/Signup'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
 
 const MobileInput = styled.div`
@@ -65,6 +65,7 @@ class VerifyMobile extends Component {
   onSubmit (e) {
     e.preventDefault()
     if (this.props.ui.create !== 'enter_mobile_code') {
+      this.props.settingsActions.clearMobileFailure()
       this.updateMobileNumber()
     } else {
       this.props.settingsActions.verifyMobile(this.props.mobileCode)
@@ -72,10 +73,11 @@ class VerifyMobile extends Component {
   }
 
   render () {
-    const { ui, invalid, mobileCode, mobileNumber } = this.props
+    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError } = this.props
 
     let smsHelper = () => {
       switch (true) {
+        case mobileVerifiedError: return <FormattedMessage id='coinifyexchangedata.create.mobile.helper.error' defaultMessage="That code doesn't match. {resend} or {changeNumber}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeNumber: <a onClick={() => this.props.updateUI({ create: 'change_mobile' })}>change number</a> }} />
         case ui.smsCodeResent: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.sentanothercode' defaultMessage='Another code has been sent!' />
         case !ui.smsCodeResent: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.didntreceive' defaultMessage="Didn't get our text? {resend}." values={{ resend: <a onClick={this.resendCode}>Resend</a> }} />
       }
@@ -108,9 +110,9 @@ class VerifyMobile extends Component {
                   <FormattedMessage id='sfoxexchangedata.create.mobile.entercode' defaultMessage='Enter the code we just sent to your phone:' />
                 </Text>
                 <Field name='mobileCode' component={TextBox} validate={[required]} />
-                <MixedText>
+                <EmailHelper error={mobileVerifiedError}>
                   { smsHelper() }
-                </MixedText>
+                </EmailHelper>
               </MobileCodeContainer>
             }
           </InputWrapper>
