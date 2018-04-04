@@ -1,5 +1,5 @@
 import { assoc, assocPath, compose } from 'ramda'
-import { dissocPath, mapped, over } from 'ramda-lens'
+import { mapped, over } from 'ramda-lens'
 import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
@@ -38,19 +38,6 @@ export default (state = INITIAL_STATE, action) => {
       const valueLens = compose(mapped, KVStoreEntry.value)
       const setAccountArchived = assoc('default_account_idx', index)
       return over(valueLens, setAccountArchived, state)
-    }
-    case AT.SET_BCH_HD_ADDRESS_LABEL: {
-      const { accountIdx, addressIdx, label } = action.payload
-      const valueLens = compose(mapped, KVStoreEntry.value)
-      const setAccountArchived = assocPath(['accounts', accountIdx, 'address_labels', addressIdx], { index: addressIdx, label })
-      return over(valueLens, setAccountArchived, state)
-    }
-    case AT.DELETE_BCH_HD_ADDRESS_LABEL: {
-      const { accountIdx, addressIdx } = action.payload
-      const valueLens = compose(mapped, KVStoreEntry.value)
-      const deleteLabel = dissocPath(['accounts', accountIdx, 'addressLabels', addressIdx])
-
-      return over(valueLens, deleteLabel)
     }
     default:
       return state
