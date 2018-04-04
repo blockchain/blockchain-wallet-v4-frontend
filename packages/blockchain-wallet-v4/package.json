@@ -10,9 +10,8 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
-    "compile": "babel lib/ --ignore spec.js src/ --copy-files",
+    "compile": "babel --presets es2015,stage-2 -d lib/ --ignore spec.js src/ --copy-files",
     "coverage": "./../../node_modules/.bin/jest --coverage",
-    "lint": "./node_modules/.bin/standard",
     "prepublish": "npm run compile",
     "start": "babel-node src/index.js",
     "test": "./../../node_modules/.bin/jest",

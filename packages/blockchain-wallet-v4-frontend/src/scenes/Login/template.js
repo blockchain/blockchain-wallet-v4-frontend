@@ -103,12 +103,16 @@ const Login = (props) => {
             </FormLabel>
             <Field name='password' validate={[required]} component={PasswordBox} />
           </FormItem>
+        </FormGroup>
+        <FormGroup>
           { authType > 0 &&
-            <Text size='14px' weight={500}>
-              { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
-              { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
-              { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
-            </Text>
+            <FormItem>
+              <FormLabel for='code'>
+                { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
+                { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
+                { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
+              </FormLabel>
+            </FormItem>
           }
           { authType > 0 &&
             <Field name='code' validate={[required]} component={TextBox} />
