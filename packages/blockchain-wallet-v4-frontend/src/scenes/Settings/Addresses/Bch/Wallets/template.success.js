@@ -18,12 +18,12 @@ const ClickableText = styled(Text)`
   cursor: pointer;
 `
 
-const DefaultLabel = styled(Text)`
+const InfoLabel = styled(Text)`
   display: block;
   padding: 1px 5px;
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: ${props => props.theme['brand-primary']};
+  background-color: ${props => props.theme[props.bgcolor]};
   color: ${props => props.theme['white']};
   font-size: 12px;
   font-weight: 400;
@@ -31,7 +31,7 @@ const DefaultLabel = styled(Text)`
 
 const Manage = () => (
   <Link weight={200} size='small'>
-    <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage' />
+    <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage Wallet' />
   </Link>
 )
 
@@ -42,17 +42,19 @@ const OptionItem = ({ id, text, onClick }) => (
 )
 
 const Success = (props) => {
-  const { wallets, defaultId } = props.data
+  const { bchAccounts, wallets, defaultId } = props.data
   const { oneditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub } = props
 
   const walletTableRows = wallets.map((wallet, i) => {
     const isDefault = i === defaultId
+    const isArchived = bchAccounts[i].archived
 
     return (
       <TableRow key={i}>
         <TableCell width='50%'>
           <Text size='13px'>{wallet.label}</Text>
-          {isDefault && <DefaultLabel>Default</DefaultLabel>}
+          {isDefault && <InfoLabel bgcolor='brand-primary'>Default</InfoLabel>}
+          {isArchived && <InfoLabel bgcolor='gray-3'>Archived</InfoLabel>}
         </TableCell>
         <TableCell width='30%'>
           <Text size='13px'><SwitchableDisplay coin='BCH'>{wallet.value.balance}</SwitchableDisplay></Text>
@@ -64,10 +66,13 @@ const Success = (props) => {
             color={'gray-5'}
             selectedComponent={<Manage />}
             components={[
-              <OptionItem id='scenes.settings.addresses.bch.edit_name' text='Edit Name' onClick={() => oneditBchAccountLabel(wallet.value)} />,
-              (!isDefault && <OptionItem id='scenes.settings.addresses.bch.make_default' text='Make Default' onClick={() => onMakeDefault(wallet.value)} />),
-              (!isDefault && <OptionItem id='scenes.settings.addresses.bch.archive' text='Archive' onClick={() => onSetArchived(wallet.value)} />),
-              <OptionItem id='scenes.settings.addresses.bch.show_xpub' text='Show xPub' onClick={() => onShowXPub(wallet.value)} />
+              <OptionItem id='scenes.settings.addresses.bch.edit_name' text='Edit Wallet Name' onClick={() => oneditBchAccountLabel(wallet.value)} />,
+              (!isDefault && !isArchived && <OptionItem id='scenes.settings.addresses.bch.make_default' text='Make Default' onClick={() => onMakeDefault(wallet.value)} />),
+              (!isDefault &&
+                (isArchived
+                  ? <OptionItem id='scenes.settings.addresses.bch.unarchive' text='Unarchive' onClick={() => onSetArchived(wallet.value, false)} />
+                  : <OptionItem id='scenes.settings.addresses.bch.archive' text='Archive' onClick={() => onSetArchived(wallet.value, true)} />)),
+              (!isArchived && <OptionItem id='scenes.settings.addresses.bch.show_xpub' text='Show xPub' onClick={() => onShowXPub(wallet.value)} />)
             ].filter(x => x)} />
         </TableCell>
       </TableRow>
