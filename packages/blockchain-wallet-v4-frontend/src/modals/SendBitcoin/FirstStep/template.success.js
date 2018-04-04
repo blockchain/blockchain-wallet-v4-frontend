@@ -6,8 +6,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validBitcoinAddress } from 'services/FormHelper'
-import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
-import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBoxFee, TextBox, TextArea } from 'components/Form'
+import { Button, Icon, Link, NativeSelect, Text, Tooltip } from 'blockchain-info-components'
+import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
 
@@ -20,12 +20,7 @@ const Row = styled.div`
 `
 const ColLeft = styled.div`
   width: 50%;
-  div:first-child {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-contenet: space-between;
-  }
+  position: relative;
 `
 const ColRight = ColLeft.extend`
   display: flex;
@@ -45,12 +40,11 @@ const AddressButton = styled.div`
 
   &:hover { background-color: ${props => props.theme['gray-1']}; }
 `
-const Unit = styled.span`
-  position: absolute;
-  padding: 0 15px;
-  color: ${props => props.theme['gray-4']};
-  bottom: 95px;
-  left: 240px;
+const FeeFormContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `
 const FeeContainer = styled.div`
   display: flex;  
@@ -63,12 +57,28 @@ const RowFlexEnd = Row.extend`
     padding-right: 8px;
   }
 `
-const SelectFeeContainer = styled.div`
-  width: 150px;
-`
 const CustomizeFeeLink = styled(Link)`
-  margin-top: 10px;
+  margin-top: 5px;
   font-size: 12px;
+`
+const FeeFormLabel = styled(FormLabel)`
+  width: 100%;
+  display: flex;
+  white-space: nowrap;
+  > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: ${props => props.flexEnd ? 'flex-end' : 'center'};
+  }
+`
+const FeeField = styled(Field)`
+  margin-top: 5px;
+`
+const FeeError = styled(Text)`
+  bottom: -18px;
+  cursor: pointer;
+  position: absolute;
 `
 
 const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
@@ -83,11 +93,12 @@ const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefin
 const FirstStep = props => {
   const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, selection, fee, totalFee, ...rest } = props
   const { handleSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest
-  const priority = props.fees.priority.data
+  const limits = props.fees.limits.data
   const regular = props.fees.regular.data
+  const priority = props.fees.priority.data
 
   const renderFeeConfirmationTime = () => {
-    if (fee === regular) {
+    if (parseInt(fee) === parseInt(regular)) {
       return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
     } else return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />)
   }
@@ -148,33 +159,42 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup inline margin={'30px'}>
         <ColLeft>
-          <div>
-            <Text size='14px' weight={500}>
+          <FeeFormContainer>
+            <FeeFormLabel flexEnd={feeEditToggled}>
               <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
-            </Text>
-            {feeEditToggled
-              ? <FeeContainer>
-                <RowFlexEnd>
-                  <Link weight={300} size={'12px'} onClick={() => props.customFeeHandler(regular)}>Reg: {regular}</Link>
-                  <Link weight={300} size={'12px'} onClick={() => props.customFeeHandler(priority)}>Priority: {priority}</Link>
-                </RowFlexEnd>
-                {/* TODO: high and low limits for fee input */}
-                <Field name='fee' component={TextBox} validate={[required]} />
-                <Unit>sat/b</Unit>
-              </FeeContainer>
-              : <SelectFeeContainer>
-                <Field name='fee' component={SelectBoxFee} validate={[required]} />
-              </SelectFeeContainer>
-            }
-          </div>
-          {feeEditToggled
-            ? ''
-            : <Text size={'12px'} weight={300}>
-              {renderFeeConfirmationTime()}
-            </Text>}
+              {feeEditToggled
+                ? <FeeContainer>
+                  <RowFlexEnd>
+                    <Link weight={300} size='12px' onClick={() => props.customFeeHandler(regular)}>Reg: {regular}</Link>
+                    <Link weight={300} size='12px' onClick={() => props.customFeeHandler(priority)}>Priority: {priority}</Link>
+                  </RowFlexEnd>
+                </FeeContainer>
+                : <Field name='fee' inline component={NativeSelect} validate={[required]}>
+                  <option value={regular}>Regular</option>
+                  <option value={priority}>Priority</option>
+                </Field>
+              }
+            </FeeFormLabel>
+          </FeeFormContainer>
+          {
+            feeEditToggled && <FeeField name='fee' component={NumberBox} validate={[required]} />
+          }
+          {
+            !feeEditToggled && <Text size='12px' weight={300}>{renderFeeConfirmationTime()}</Text>
+          }
+          {
+            feeEditToggled && fee < limits.min && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.min)}>
+              <FormattedMessage id='modals.sendbitcoin.firststep.feebelowmin' defaultMessage='{min} sat/b or more is recommended' values={{min: limits.min}} />
+            </FeeError>
+          }
+          {
+            feeEditToggled && fee > limits.max && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.max)}>
+              <FormattedMessage id='modals.sendbitcoin.firststep.feeabovemax' defaultMessage='{max} sat/b or less is recommended' values={{max: limits.max}} />
+            </FeeError>
+          }
         </ColLeft>
         <ColRight>
-          <ComboDisplay coin='BTC'>{totalFee}</ComboDisplay>
+          <ComboDisplay size='14px' coin='BTC'>{totalFee}</ComboDisplay>
           <CustomizeFeeLink onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
             {feeEditToggled
               ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
