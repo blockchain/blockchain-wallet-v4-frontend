@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { ComponentDropdown, Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -15,8 +14,11 @@ const BchWalletsAddressesSettingHeader = SettingHeader.extend`
 const AddressesSettingDescription = SettingDescription.extend`
   margin-bottom: 10px;
 `
+const ClickableText = styled(Text)`
+  cursor: pointer;
+`
 
-const DefaultLabel = styled.div`
+const DefaultLabel = styled(Text)`
   display: block;
   padding: 1px 5px;
   box-sizing: border-box;
@@ -27,24 +29,46 @@ const DefaultLabel = styled.div`
   font-weight: 400;
 `
 
+const Manage = () => (
+  <Link weight={200} size='small'>
+    <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage' />
+  </Link>
+)
+
+const OptionItem = ({ id, text, onClick }) => (
+  <ClickableText size='small' onClick={onClick}>
+    <FormattedMessage id={id} defaultMessage={text} />
+  </ClickableText>
+)
+
 const Success = (props) => {
   const { wallets, defaultId } = props.data
+  const { oneditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub } = props
 
   const walletTableRows = wallets.map((wallet, i) => {
+    const isDefault = i === defaultId
+
     return (
       <TableRow key={i}>
         <TableCell width='50%'>
-          <Text size='13px'>{wallet.label} {i === defaultId && <DefaultLabel>Default</DefaultLabel>}</Text>
+          <Text size='13px'>{wallet.label}</Text>
+          {isDefault && <DefaultLabel>Default</DefaultLabel>}
         </TableCell>
         <TableCell width='30%'>
           <Text size='13px'><SwitchableDisplay coin='BCH'>{wallet.value.balance}</SwitchableDisplay></Text>
         </TableCell>
         <TableCell width='20%'>
-          <LinkContainer to={`/settings/addresses/bch/${wallet.value.index}`}>
-            <Link weight={200} size='small'>
-              <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage' />
-            </Link>
-          </LinkContainer>
+          <ComponentDropdown
+            down
+            forceSelected
+            color={'gray-5'}
+            selectedComponent={<Manage />}
+            components={[
+              <OptionItem id='scenes.settings.addresses.bch.edit_name' text='Edit Name' onClick={() => oneditBchAccountLabel(wallet.value)} />,
+              (!isDefault && <OptionItem id='scenes.settings.addresses.bch.make_default' text='Make Default' onClick={() => onMakeDefault(wallet.value)} />),
+              (!isDefault && <OptionItem id='scenes.settings.addresses.bch.archive' text='Archive' onClick={() => onSetArchived(wallet.value)} />),
+              <OptionItem id='scenes.settings.addresses.bch.show_xpub' text='Show xPub' onClick={() => onShowXPub(wallet.value)} />
+            ].filter(x => x)} />
         </TableCell>
       </TableRow>
     )

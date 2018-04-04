@@ -21,7 +21,6 @@ import Register from './Register'
 import SecurityCenter from './SecurityCenter'
 import Addresses from './Settings/Addresses'
 import BtcManageAddresses from './Settings/Addresses/Bitcoin/ManageAddresses'
-import BchManageAddresses from './Settings/Addresses/Bch/ManageAddresses'
 import Info from './Settings/Info'
 import Preferences from './Settings/Preferences'
 import Security from './Settings/Security'
@@ -57,7 +56,6 @@ class App extends React.Component {
                 <WalletLayout path='/settings/preferences' component={Preferences} />
                 <WalletLayout path='/settings/security' component={Security} />
                 <WalletLayout path='/settings/addresses/btc/:index' component={BtcManageAddresses} />
-                <WalletLayout path='/settings/addresses/bch/:index' component={BchManageAddresses} />
                 <WalletLayout path='/settings/addresses' component={Addresses} />
                 <WalletLayout path='/settings/info' component={Info} />
                 {/* <Redirect from='/settings' to='/settings/info' /> */}
