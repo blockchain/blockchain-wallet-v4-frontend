@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Text, Button, Link, ButtonGroup } from 'blockchain-info-components'
 import styled, { keyframes } from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
@@ -11,7 +11,6 @@ import Yubikey from './Yubikey'
 import SmsAuth from './SMS'
 import { pulse } from 'react-animations'
 import Choices from '../Components/Choices/index'
-import { spacing } from 'services/StyleService'
 
 const pulseAnimation = keyframes`${pulse}`
 
@@ -182,9 +181,6 @@ const TwoStepVerification = (props) => {
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
-    }
-    if (!ui.verifyToggled && !props.alone) {
-      return <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification' />
     }
     return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Two-Step Verification' />
   }
