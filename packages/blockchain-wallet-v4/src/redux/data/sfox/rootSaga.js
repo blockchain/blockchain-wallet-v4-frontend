@@ -1,6 +1,7 @@
 import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
+import * as optionsSelectors from '../../walletOptions/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import * as buySellA from '../../kvStore/buySell/actions'
 import * as AT from './actionTypes'
@@ -13,7 +14,8 @@ export default ({ api, sfoxService } = {}) => {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    sfox = sfoxService.refresh(value, delegate)
+    const options = yield select(optionsSelectors.getOptions)
+    sfox = sfoxService.refresh(value, options, delegate)
   }
 
   const init = function * () {

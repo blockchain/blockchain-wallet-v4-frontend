@@ -12,9 +12,11 @@ const walletOptionsReducer = (state = INITIAL_STATE, action) => {
       return Remote.Loading
     }
     case AT.FETCH_OPTIONS_SUCCESS: {
+      global.domains = payload.domains
       return Remote.Success(payload)
     }
     case AT.FETCH_OPTIONS_FAILURE: {
+      global.domains = payload.domains
       return Remote.Failure(payload)
     }
     default:
