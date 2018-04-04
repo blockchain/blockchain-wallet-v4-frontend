@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
@@ -31,14 +31,14 @@ class MicroDeposits extends Component {
         </PartnerHeader>
         {
           onStep === 'welcome'
-            ? <div>
+            ? <Fragment>
               <Text size='13px' weight={300}>
                 <FormattedMessage id='sfoxexchangedata.link.micro.description' defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.' />
               </Text>
               <Text size='13px' weight={300} style={spacing('mt-10')}>
                 <FormattedHTMLMessage id='sfoxexchangedata.link.micro.description' defaultMessage='<strong>Bear with us:</strong> receiving these deposits can take up to 5 business days.' />
               </Text>
-            </div>
+            </Fragment>
             : <Form>
               <Container>
                 <InputContainer>
