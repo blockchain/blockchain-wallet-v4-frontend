@@ -28,8 +28,9 @@ class GoogleAuthContainer extends React.Component {
         this.props.updateUI({ successToggled: true })
       }, 250)
       setTimeout(function () {
-        nextProps.goBack()
-      }, 2000)
+        nextProps.reset()
+        nextProps.goBackOnSuccess()
+      }, 1500)
     }
   }
 
@@ -50,7 +51,6 @@ class GoogleAuthContainer extends React.Component {
         data={value}
         handleClick={this.handleClick}
         handleSubmit={this.handleSubmit}
-        goBack={this.props.goBack}
         ui={ui}
       />,
       Failure: (message) => <Error {...rest}

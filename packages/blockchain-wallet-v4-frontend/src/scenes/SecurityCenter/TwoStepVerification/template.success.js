@@ -11,6 +11,7 @@ import Yubikey from './Yubikey'
 import SmsAuth from './SMS'
 import { pulse } from 'react-animations'
 import Choices from '../Components/Choices/index'
+import { spacing } from 'services/StyleService'
 
 const pulseAnimation = keyframes`${pulse}`
 
@@ -92,13 +93,13 @@ const TwoStepVerification = (props) => {
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
-      return <GoogleAuth goBack={props.handleGoBack} {...rest} />
+      return <GoogleAuth reset={props.reset} {...rest} />
     }
     if (twoStepChoice === 'yubikey') {
-      return <Yubikey goBack={props.handleGoBack} {...rest} />
+      return <Yubikey reset={props.reset} {...rest} />
     }
     if (twoStepChoice === 'sms') {
-      return <SmsAuth goBack={props.handleGoBack} {...rest} />
+      return <SmsAuth reset={props.reset} {...rest} />
     }
     return (
       <SecuritySummaryChoice>
@@ -111,32 +112,38 @@ const TwoStepVerification = (props) => {
     if (ui.verifyToggled) {
       if (authType > 0 && authType !== 5) {
         return (
-          <DisableLinkContainer>
-            <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
-              <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
-            </DisableLinkText>
-          </DisableLinkContainer>
+          <React.Fragment>
+            <div />
+            <DisableLinkContainer style={spacing('pl-25')}>
+              <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
+                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
+              </DisableLinkText>
+            </DisableLinkContainer>
+          </React.Fragment>
         )
       }
       if (authType === 5 && smsVerified) {
         return (
-          <DisableContainer>
-            <Text weight={200} size='14px'>
-              <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with {authName} for number {number}. {changeNumber}' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span>, changeNumber: <a className='link' onClick={props.handleChangeNumber}>Change Mobile Number</a> }} />
-              {
-                ui.changeNumberToggled && <ChangeMobileContainer>
-                  <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder='212-555-5555' />
-                  <Buttons>
-                    <Text cursor='pointer' weight={200} size='12px' onClick={props.cancelMobileChange} height='25px'>Cancel</Text>
-                    <Button nature='primary' onClick={props.submitMobileChange} height='25px'>Change</Button>
-                  </Buttons>
-                </ChangeMobileContainer>
-              }
-            </Text>
-            <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
-              <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
-            </DisableLinkText>
-          </DisableContainer>
+          <React.Fragment>
+            <div />
+            <DisableContainer style={spacing('pl-25')}>
+              <Text weight={200} size='14px'>
+                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with {authName} for number {number}. {changeNumber}' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span>, changeNumber: <a className='link' onClick={props.handleChangeNumber}>Change Mobile Number</a> }} />
+                {
+                  ui.changeNumberToggled && <ChangeMobileContainer>
+                    <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder='212-555-5555' />
+                    <Buttons>
+                      <Text cursor='pointer' weight={200} size='12px' onClick={props.cancelMobileChange} height='25px'>Cancel</Text>
+                      <Button nature='primary' onClick={props.submitMobileChange} height='25px'>Change</Button>
+                    </Buttons>
+                  </ChangeMobileContainer>
+                }
+              </Text>
+              <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
+                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
+              </DisableLinkText>
+            </DisableContainer>
+          </React.Fragment>
         )
       }
     }
@@ -201,8 +208,8 @@ const TwoStepVerification = (props) => {
             <SecurityDescription>
               { renderDescription() }
             </SecurityDescription>
-            { renderDisable() }
           </SecuritySummary>
+          { renderDisable() }
         </IconAndHeaderContainer>
         {
           !ui.verifyToggled && !props.alone
