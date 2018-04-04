@@ -14,9 +14,15 @@ import wallet from './wallet/sagas'
 export const sagas = { core: coreSagasFactory({ api, socket, sfoxService, coinifyService }) }
 const coreRootSaga = rootSaga({ api, socket, sfoxService, coinifyService })
 
+const envConfigSaga = function * () {
+  if (console && process.env) {
+    yield console.log(`${ENV}`)
+  }
+}
+
 const welcomeSaga = function * () {
   if (console) {
-    const version = '4.0.0.0'
+    const version = '4.0'
     const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
     const style2 = 'font-size: 18px;'
     console.log('=======================================================')
@@ -32,6 +38,7 @@ const welcomeSaga = function * () {
 
 export default function * () {
   yield all([
+    call(envConfigSaga),
     call(welcomeSaga),
     fork(alerts),
     fork(auth),

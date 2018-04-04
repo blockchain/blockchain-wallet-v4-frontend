@@ -1,9 +1,12 @@
-const Webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const dotenv = require('dotenv')
+const fs = require('fs')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const DotEnv = require('dotenv-webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const Webpack = require('webpack')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
 const buildEnvString = isProdBuild ? 'production' : 'development'
@@ -11,8 +14,19 @@ const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
-  src: `${__dirname}/src`
+  src: `${__dirname}/src`,
+  envConfig: `${__dirname}/../../config/env/.env.development`
 }
+
+// load, parse and log application configuration
+const envConfig = dotenv.parse(fs.readFileSync(PATHS.envConfig))
+console.log('**************')
+console.log('APP CONFIGURATION:')
+console.log(`ENVIRONMENT: ${envConfig.ENV}`)
+console.log(`BLOCKCHAIN_INFO: ${envConfig.BLOCKCHAIN_INFO}`)
+console.log(`API_BLOCKCHAIN_INFO: ${envConfig.API_BLOCKCHAIN_INFO}`)
+console.log(`WEB_SOCKET_URL: ${envConfig.WEB_SOCKET_URL}`)
+console.log('**************')
 
 module.exports = {
   mode: buildEnvString,
@@ -104,15 +118,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.dist, PATHS.build], {allowExternal: true}),
+    new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
-    new HtmlWebpackPlugin({
-      template: PATHS.src + '/index.html',
-      filename: 'index.html'
-    }),
-    new Webpack.DefinePlugin({
-      'process.env': { 'NODE_ENV': JSON.stringify(buildEnvString) }
-    }),
+    new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
+    new DotEnv({ path: PATHS.envConfig }),
     ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],

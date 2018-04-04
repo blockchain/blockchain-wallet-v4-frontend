@@ -17,6 +17,11 @@ import * as paths from './redux/paths'
 import * as utils from './utils'
 import Remote from './remote'
 
+console.log('********')
+console.log(process.env.ENV)
+console.info(process.env)
+console.log('********')
+
 export {
   coreActions,
   coreActionsTypes,
