@@ -69,6 +69,7 @@ export const verifyMobile = function * (action) {
     yield put(actions.alerts.displaySuccess('Mobile number has been verified!'))
   } catch (e) {
     yield put(actions.alerts.displayError('Could not verify mobile number.'))
+    yield put(actions.modules.settings.verifyMobileFailure())
   }
 }
 

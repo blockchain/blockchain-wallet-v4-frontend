@@ -5,12 +5,14 @@ import { actions } from 'data'
 import { connect } from 'react-redux'
 import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
+import Loading from './template.loading'
 import * as buySell from 'services/BuySellService'
+import ui from 'redux-ui'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,9 +33,10 @@ class BuySellContainer extends React.Component {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
     this.renderPartner = this.renderPartner.bind(this)
+    this.submitEmail = this.submitEmail.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
   }
@@ -54,7 +57,12 @@ class BuySellContainer extends React.Component {
     if (kvStoreValue.coinify.offline_token) {
       return <CoinifyCheckout type={type} value={kvStoreValue} />
     }
-    return <SelectPartner type={type} value={kvStoreValue} onSubmit={this.onSubmit} {...this.props} />
+    return <SelectPartner type={type} value={kvStoreValue} onSubmit={this.onSubmit} submitEmail={this.submitEmail} {...this.props} />
+  }
+
+  submitEmail () {
+    // TODO: submit the email address somewhere
+    this.props.updateUI({ submittedEmail: true })
   }
 
   onSubmit (e) {
@@ -76,7 +84,7 @@ class BuySellContainer extends React.Component {
     let view = data.cata({
       Success: (value) => this.renderPartner(value.value, type),
       Failure: (message) => <div>failure: {message}</div>,
-      Loading: () => <div>Loading...</div>,
+      Loading: () => <Loading />,
       NotAsked: () => <div>not asked...</div>
     })
 
@@ -97,7 +105,8 @@ const mapStateToProps = state => ({
   data: getData(state),
   type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status,
   country: formValueSelector('selectPartner')(state, 'country'),
-  stateSelection: formValueSelector('selectPartner')(state, 'state')
+  stateSelection: formValueSelector('selectPartner')(state, 'state'),
+  email: formValueSelector('selectPartner')(state, 'email')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -106,4 +115,9 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BuySellContainer)
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: { submittedEmail: false } })
+)
+
+export default enhance(BuySellContainer)

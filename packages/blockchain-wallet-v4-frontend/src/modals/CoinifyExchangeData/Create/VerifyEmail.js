@@ -12,21 +12,12 @@ import { TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
 
 import { required } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper } from 'components/BuySell/Signup'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, EmailHelper } from 'components/BuySell/Signup'
 
 const EmailInput = styled.div`
   display: flex;
   margin-top: 25px;
   flex-direction: column;
-`
-const EmailHelper = styled.span`
-  margin-top: 5px;
-  font-size: 12px;
-  color: ${props => props.error ? props.theme['error'] : props.theme['gray-3']};
-  a {
-    cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
-  }
 `
 const CancelText = styled.p`
   text-align: center;
