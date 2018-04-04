@@ -29,15 +29,17 @@ const WhatsNewLink = styled(Link)`
 `
 
 const WhatsNew = (props) => {
+  const { trayRightOpen, handleTrayRightToggle } = props
+
   return (
-    <WhatsNewLink {...props} size='16px' weight={300} color='white'>
+    <WhatsNewLink trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('whats-new')} size='16px' weight={300} color='white'>
       <Icon name='bell-filled' size='18px' color='white'/>
     </WhatsNewLink>
   )
 }
 
 WhatsNew.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  handleTrayRightToggle: PropTypes.func.isRequired,
   trayRightOpen: PropTypes.bool.isRequired
 }
 

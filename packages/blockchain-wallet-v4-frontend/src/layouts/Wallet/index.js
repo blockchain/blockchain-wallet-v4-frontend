@@ -26,7 +26,7 @@ class WalletLayout extends React.Component {
   render () {
     const { data, isAuthenticated, location } = this.props
     return isAuthenticated ? data.cata({
-      Success: (value) => renderLayout(this.props),
+      Success: () => renderLayout(this.props),
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -41,7 +41,12 @@ const renderLayout = ({ ui, updateUI, component: Component, ...rest }) => (
       menuLeftToggled={ui.menuLeftToggled}
       trayRightOpen={ui.trayRightOpen}
       trayRightContent={ui.trayRightContent}
-      handleTrayRightToggle={() => updateUI({ trayRightOpen: !ui.trayRightOpen })}
+      handleTrayRightToggle={(content) => {
+        updateUI({
+          trayRightOpen: !ui.trayRightOpen,
+          trayRightContent: content
+        })
+      }}
       handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
       handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
       <Component {...rest} />
@@ -70,7 +75,7 @@ const enhance = compose(
     state: {
       menuLeftToggled: false,
       trayRightOpen: false,
-      trayRightContent: 'whats-new'
+      trayRightContent: ''
     }
   })
 )

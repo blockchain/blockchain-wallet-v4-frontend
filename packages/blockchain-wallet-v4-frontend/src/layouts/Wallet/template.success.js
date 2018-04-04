@@ -77,7 +77,7 @@ const WalletLayout = (props) => {
         <Left toggled={menuLeftToggled}>
           <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
         </Left>
-        <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} trayRightContent={trayRightContent}  />
+        <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} trayRightContent={trayRightContent} />
         <Content>
           <Top>
             <MenuTop />

@@ -64,19 +64,18 @@ const TrayModal = styled(Modal)`
 `
 class TrayRight extends React.Component {
   render () {
-    const { isOpen, handleTrayRightToggle, trayRightContent, ...rest  } = this.props
+    const { isOpen, handleTrayRightToggle, trayRightContent, ...rest } = this.props
 
     return (
       <AnimationWrapper className={isOpen ? 'open' : ''}>
         <TrayModal {...rest} type={'tray'}>
           {(() => {
             switch (trayRightContent) {
-              case "faq":       return <Faq handleTrayRightToggle={handleTrayRightToggle} />;
-              case "whats-new": return <WhatsNewLeora handleTrayRightToggle={handleTrayRightToggle} />;
-              default:          return null;
-              }
-            })()
-          }
+              case 'faq': return <Faq handleTrayRightToggle={handleTrayRightToggle} />
+              case 'whats-new': return <WhatsNewLeora handleTrayRightToggle={handleTrayRightToggle} />
+              default: return null
+            }
+          })()}
         </TrayModal>
       </AnimationWrapper>
     )
