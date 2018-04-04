@@ -109,6 +109,6 @@ export default function * () {
   yield takeLatest(AT.VERIFY_GOOGLE_AUTHENTICATOR, verifyGoogleAuthenticator)
   yield takeLatest(AT.SET_YUBIKEY, setYubikey)
   yield takeLatest(AT.SEND_MOBILE_VERIFICATION_CODE, sendMobileVerificationCode)
-  yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
+  yield takeLatest(AT.VERIFY_MOBILE_CODE, verifyMobile)
   yield takeLatest(AT.DISABLE_TWO_STEP, disableTwoStep)
 }

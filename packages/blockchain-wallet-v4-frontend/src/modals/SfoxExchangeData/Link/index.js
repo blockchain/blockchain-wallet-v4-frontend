@@ -56,13 +56,13 @@ class LinkContainer extends Component {
   onSubmit (e) {
     e.preventDefault()
     if (this.props.ui.toggleManual && this.state.routingNumber && this.state.accountNumber) {
+      this.props.updateUI({ busy: true })
       const { fullName, routingNumber, accountNumber, accountType } = this.state
       this.props.sfoxFrontendActions.setBankManually(routingNumber, accountNumber, fullName, accountType)
-      this.props.updateUI({ busy: true })
     } else {
+      this.props.updateUI({ busy: true })
       const bankChoice = merge({ id: this.state.id, name: this.state.holderName }, {token: this.state.token})
       this.props.sfoxFrontendActions.setBankAccount(bankChoice)
-      this.props.updateUI({ busy: true })
     }
   }
 
