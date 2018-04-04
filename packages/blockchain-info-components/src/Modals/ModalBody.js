@@ -6,7 +6,7 @@ import { BlockchainLoader } from '../Loaders'
 const BaseModalBody = styled.div`
   position: relative;
   width: 100%;
-  padding: 25px 30px;
+  padding: ${props => props.tray ? '60px 15%' : '25px 30px'};
   box-sizing: border-box;
 `
 const SplashScreen = styled.div`
