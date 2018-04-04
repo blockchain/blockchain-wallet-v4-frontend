@@ -4,6 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const walletOptions = require('../Resources/wallet-options.json')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
 const buildEnvString = isProdBuild ? 'production' : 'development'
@@ -168,6 +169,11 @@ module.exports = {
     port: 8080,
     hot: !isProdBuild,
     historyApiFallback: true,
+    before (app) {
+      app.get('/Resources/wallet-options.json', function (req, res) {
+        res.json(walletOptions)
+      })
+    },
     proxy: [
       {
         path: /\/a\/.*/,

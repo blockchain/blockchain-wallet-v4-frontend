@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { required } from 'services/FormHelper'
 import { Text, Button } from 'blockchain-info-components'
-import { required, onSfoxWhitelist, onPartnerCountryWhitelist } from 'services/FormHelper'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry } from 'components/Form'
 
 const Row = styled.div`
@@ -39,7 +39,28 @@ const FieldWrapper = Intro.extend`
 `
 
 const SelectPartner = (props) => {
-  const { onSubmit, invalid, pristine, country } = props
+  const { invalid, options, pristine, country } = props
+  const sfoxStates = options.platforms.web.sfox.states
+  const sfoxCountries = options.platforms.web.sfox.countries
+  const unocoinCountries = options.platforms.web.unocoin.countries
+  const coinifyCountries = options.platforms.web.coinify.countries
+  const countries = [sfoxCountries, coinifyCountries, unocoinCountries].join().split(',')
+
+  const onSfoxWhitelist = val => val && sfoxStates.indexOf(val) >= 0 ? undefined : 'Feature is not available in your state.'
+  const onPartnerCountryWhitelist = val => val && countries.indexOf(val) >= 0 ? undefined : 'Feature is not available in your country.'
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    if (sfoxCountries.indexOf(this.props.country) >= 0) {
+      this.props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
+    }
+    if (unocoinCountries.indexOf(this.props.country) >= 0) {
+      console.log('start unocoin')
+    }
+    if (coinifyCountries.indexOf(this.props.country) >= 0) {
+      this.props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
+    }
+  }
 
   return (
     <Row>

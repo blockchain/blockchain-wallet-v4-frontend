@@ -1,14 +1,14 @@
 import { toUpper } from 'ramda'
 
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ get, post }) => {
   const getBitcoinTicker = () => get({
-    url: apiUrl,
+    url: global.domains.api,
     endPoint: 'ticker',
     data: { base: 'BTC' }
   })
 
   const getBitcoinUnspents = (fromAddresses, confirmations = 0) => get({
-    url: rootUrl,
+    url: global.domains.root,
     endPoint: 'unspent',
     data: {
       active: fromAddresses.join('|'),
@@ -18,34 +18,34 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   const getBitcoinFee = () => get({
-    url: apiUrl,
+    url: global.domains.api,
     endPoint: 'mempool/fees'
   })
 
   const pushBitcoinTx = (txHex) => post({
-    url: rootUrl,
+    url: global.domains.root,
     endPoint: 'pushtx',
     data: { tx: txHex, format: 'plain' }
   })
 
   const getBitcoinFiatAtTime = (amount, currency, time) => get({
-    url: apiUrl,
+    url: global.domains.api,
     endPoint: 'frombtc',
     data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
   })
 
   const getLatestBlock = () => get({
-    url: rootUrl,
+    url: global.domains.root,
     endPoint: 'latestblock'
   })
 
   const getRawTx = (txHex) => get({
-    url: rootUrl,
+    url: global.domains.root,
     endPoint: 'rawtx/' + txHex
   })
 
   const getBalances = (addresses) => post({
-    url: rootUrl,
+    url: global.domains.root,
     endPoint: 'balance',
     data: {
       active: addresses.join('|'),

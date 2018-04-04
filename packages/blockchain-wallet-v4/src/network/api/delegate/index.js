@@ -1,6 +1,6 @@
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ get, post }) => {
   const getTokenForDelegate = (data) => get({
-    url: rootUrl,
+    url: global.domains.root,
     endPoint: 'wallet/signed-token',
     data: data
   })
