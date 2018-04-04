@@ -29,15 +29,17 @@ const FaqLink = styled(Link)`
 `
 
 const Faq = (props) => {
+  const { trayRightOpen, handleTrayRightToggle } = props
+
   return (
-    <FaqLink {...props} size='16px' weight={300} color='white'>
+    <FaqLink trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('faq')} size='16px' weight={300} color='white'>
       <Icon name='question-in-circle-filled' size='18px' color='white'/>
     </FaqLink>
   )
 }
 
 Faq.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  handleTrayRightToggle: PropTypes.func.isRequired,
   trayRightOpen: PropTypes.bool.isRequired
 }
 

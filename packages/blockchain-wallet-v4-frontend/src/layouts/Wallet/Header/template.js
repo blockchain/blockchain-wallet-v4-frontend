@@ -32,10 +32,10 @@ const Header = (props) => {
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <Faq onClick={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+            <Faq handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
           </NavbarNavItem>
           <NavbarNavItem>
-            <WhatsNew onClick={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+            <WhatsNew handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
           </NavbarNavItem>
           <NavbarNavItem>
             <Refresh />
