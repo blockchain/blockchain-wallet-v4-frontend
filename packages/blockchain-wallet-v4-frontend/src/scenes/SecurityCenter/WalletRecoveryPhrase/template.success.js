@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Text, Button } from 'blockchain-info-components'
-import styled from 'styled-components'
 
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SecurityTip, IconContainer } from 'components/Security'
 import RecordBackupPhrase from './RecordBackupPhrase'
