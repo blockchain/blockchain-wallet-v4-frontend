@@ -19,6 +19,6 @@ export const getData = (state, coin) => {
 
   const addressesData = getAddressesData(coin)
   formatAddressesData(addressesData)
-  
+
   return addressesData
 }

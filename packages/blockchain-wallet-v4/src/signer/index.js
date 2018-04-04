@@ -36,7 +36,7 @@ export const signBchSelection = curry((network, selection) => {
   const tx = new BitcoinCash.TransactionBuilder(network)
   tx.enableBitcoinCash(true)
 
-  const addInput = coin => tx.addInput(coin.txHash, coin.index, BitcoinCash.Transaction.DEFAULT_SEQUENCE, new Buffer(coin.script, 'hex'))
+  const addInput = coin => tx.addInput(coin.txHash, coin.index, BitcoinCash.Transaction.DEFAULT_SEQUENCE)
   const addOutput = coin => tx.addOutput(isCashAddr(coin.address) ? fromCashAddr(coin.address) : coin.address, coin.value)
   const sign = (coin, i) => tx.sign(i, coin.priv, null, hashType, coin.value)
 
