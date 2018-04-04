@@ -8,7 +8,7 @@ import { reduxForm } from 'redux-form'
 import { SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
-  width: 90%;
+  width: 110%;
   padding: 0px 20px;
   opacity: ${props => props.success ? 0.3 : 1};
 `
