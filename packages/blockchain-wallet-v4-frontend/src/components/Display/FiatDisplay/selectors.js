@@ -9,7 +9,8 @@ export const getData = (state, coin, amount) => {
     switch (coin) {
       case 'BTC': return selectors.core.data.bitcoin.getRates(state)
       case 'ETH': return selectors.core.data.ethereum.getRates(state)
-      default: return selectors.core.data.bch.getRates(state)
+      case 'BCH': return selectors.core.data.bch.getRates(state)
+      default: return Remote.Failure('Coin code incorrect')
     }
   }
 
@@ -19,7 +20,8 @@ export const getData = (state, coin, amount) => {
     switch (c) {
       case 'BTC': return Exchange.displayBitcoinToFiat({ value: a, fromUnit: 'SAT', toCurrency: s.currency, rates: r })
       case 'ETH': return Exchange.displayEtherToFiat({ value: a, fromUnit: 'WEI', toCurrency: s.currency, rates: r })
-      default: return Exchange.displayBchToFiat({ value: a, fromUnit: 'SAT', toCurrency: s.currency, rates: r })
+      case 'BCH': return Exchange.displayBchToFiat({ value: a, fromUnit: 'SAT', toCurrency: s.currency, rates: r })
+      default: return 'N/A'
     }
   }
   return lift(convert)(settings, rates, Remote.of(coin), Remote.of(amount))
