@@ -45,7 +45,7 @@ function ChangeEmailSteps (props) {
         </Button>
       </ChangeEmailWrapper>
       <CustomBannerWrapper>
-        <Banner type='caution' size='12px' weight={200}>
+        <Banner type='caution' size='20px' weight={200}>
           <FormattedMessage id='scenes.security.email.changeemail' defaultMessage='This will change your wallets email address, but the email address you signed up to Buy Bitcoin with will remain the same.' />
         </Banner>
       </CustomBannerWrapper>
