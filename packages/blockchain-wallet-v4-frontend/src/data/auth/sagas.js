@@ -53,11 +53,8 @@ const loginRoutineSaga = function * (mobileLogin) {
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
     yield put(actions.auth.startLogoutTimer())
-<<<<<<< HEAD
     yield fork(reportStats, mobileLogin)
-=======
     yield fork(logoutRoutine, yield call(setLogoutEventListener))
->>>>>>> master
     // ETHER - Fix derivation
     // yield call(transferEtherSaga)
   } catch (e) {
