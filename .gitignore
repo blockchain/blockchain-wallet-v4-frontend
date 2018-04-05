@@ -32,3 +32,7 @@ packages/blockchain-wallet-v4/node_modules
 packages/blockchain-wallet-v4-frontend/build
 packages/blockchain-wallet-v4-frontend/dist
 packages/blockchain-wallet-v4-frontend/node_modules
+
+# Config Files
+config/env/.env.dev
+config/env/.env.staging
