@@ -14,6 +14,8 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  width: 75%;
+  margin: 0 auto;
 `
 const Buttons = styled.div`
   display: flex;
