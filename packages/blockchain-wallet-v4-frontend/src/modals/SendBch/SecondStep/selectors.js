@@ -16,6 +16,8 @@ export const getData = state => {
   const satoshis = prop('value', head(filter(x => !x.change, prop('outputs', selection))))
   const total = satoshis + fee
 
+  console.log(selection)
+
   return {
     fee,
     message,

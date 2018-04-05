@@ -35,6 +35,7 @@ const bchReducer = (state = INITIAL_STATE, action) => {
     case AT.REFRESH_BCH_EFFECTIVE_BALANCE: {
       const { coins, feePerByte } = payload
       const { outputs } = selectAll(feePerByte, coins)
+      console.log('Outputs', head(outputs))
       const effectiveBalance = prop('value', head(outputs)) || 0
       return assocPath(['payment', 'effectiveBalance'], effectiveBalance, state)
     }

@@ -15,8 +15,8 @@ import { fromCashAddr, isCashAddr } from '../utils/bch'
 // import { List } from 'immutable-ext'
 // import seedrandom from 'seedrandom'
 
-export const isFromAccount = selection => selection.inputs[0] ? selection.inputs[0].isFromAccount : false
-export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[0].isFromLegacy : false
+export const isFromAccount = selection => selection.inputs[0] ? selection.inputs[0].isFromAccount() : false
+export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[0].isFromLegacy() : false
 export const hasPrivateKey = selection => selection.inputs[0] ? btc.isValidBitcoinPrivateKey(selection.inputs[0].priv) : false
 
 export const signBtcSelection = curry((network, selection) => {
@@ -35,7 +35,6 @@ export const signBchSelection = curry((network, selection) => {
 
   const tx = new BitcoinCash.TransactionBuilder(network)
   tx.enableBitcoinCash(true)
-
   const addInput = coin => tx.addInput(coin.txHash, coin.index, BitcoinCash.Transaction.DEFAULT_SEQUENCE)
   const addOutput = coin => tx.addOutput(isCashAddr(coin.address) ? fromCashAddr(coin.address) : coin.address, coin.value)
   const sign = (coin, i) => tx.sign(i, coin.priv, null, hashType, coin.value)
@@ -49,6 +48,8 @@ export const signBchSelection = curry((network, selection) => {
 
 // returns a task
 export const sign = curry((coin, network, secondPassword, wrapper, selection) => {
+  console.log('SIGNING')
+
   const BitcoinLib = coin === 'BTC' ? Bitcoin : BitcoinCash
   const wallet = Wrapper.selectWallet(wrapper)
   const pathToKey = keypath => Wallet.getHDPrivateKey(BitcoinLib, keypath, secondPassword, network, wallet)
