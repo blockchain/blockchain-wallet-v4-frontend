@@ -42,18 +42,19 @@ const renderLayout = ({ ui, updateUI, component: Component, ...rest }) => (
       trayRightOpen={ui.trayRightOpen}
       trayRightContent={ui.trayRightContent}
       handleTrayRightToggle={(content) => {
-        if(ui.trayRightOpen && ui.trayRightContent!==content) {
+        if (ui.trayRightOpen && ui.trayRightContent !== content) {
           updateUI({
             trayRightContent: content
-          })} else if(ui.trayRightOpen && typeof content === object) {
-              trayRightOpen: !ui.trayRightOpen
-          } else {
-            updateUI({
-              trayRightOpen: !ui.trayRightOpen,
-              trayRightContent: content,
-            })
-          }
+          })
+        } else if (ui.trayRightOpen && typeof content === object) {
+          trayRightOpen: !ui.trayRightOpen
+        } else {
+          updateUI({
+            trayRightOpen: !ui.trayRightOpen,
+            trayRightContent: content
+          })
         }
+      }
       }
       handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
       handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>

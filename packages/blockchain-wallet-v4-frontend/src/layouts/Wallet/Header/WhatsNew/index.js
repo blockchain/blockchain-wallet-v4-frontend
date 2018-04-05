@@ -12,7 +12,7 @@ const WhatsNewLink = styled(Link)`
   }
 
   ::after {
-    opacity: ${props => props.trayRightOpen && props.trayRightContent==='whats-new' ? '1' : '0'};
+    opacity: ${props => props.trayRightOpen && props.trayRightContent === 'whats-new' ? '1' : '0'};
     content: "";
     position: absolute;
     top: 24px;
@@ -29,7 +29,7 @@ const WhatsNewLink = styled(Link)`
 `
 
 const WhatsNew = (props) => {
-  const { trayRightOpen, handleTrayRightToggle, trayRightContent} = props
+  const { trayRightOpen, handleTrayRightToggle, trayRightContent } = props
 
   return (
     <WhatsNewLink trayRightContent={trayRightContent} trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('whats-new')} size='16px' weight={300} color='white'>

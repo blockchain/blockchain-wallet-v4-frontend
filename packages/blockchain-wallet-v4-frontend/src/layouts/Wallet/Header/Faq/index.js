@@ -12,7 +12,7 @@ const FaqLink = styled(Link)`
   }
 
   ::after {
-    opacity: ${props => props.trayRightOpen && props.trayRightContent==='faq' ? '1' : '0'};
+    opacity: ${props => props.trayRightOpen && props.trayRightContent === 'faq' ? '1' : '0'};
     /*and trayRightContent is FAQ*/
     content: "";
     position: absolute;

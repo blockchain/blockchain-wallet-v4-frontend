@@ -10,9 +10,8 @@ class WhatsNewLeoraContainer extends React.Component {
     super(props)
   }
 
-
   render () {
-    const { WhatsNewContent, handleTrayRightToggle } = this.props;
+    const { WhatsNewContent, handleTrayRightToggle } = this.props
     return (
       <WhatsNewLeora handleTrayRightToggle={handleTrayRightToggle}/>
     )
@@ -20,7 +19,7 @@ class WhatsNewLeoraContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  countryCode: selectors.core.settings.getCountryCode(state),
+  countryCode: selectors.core.settings.getCountryCode(state)
 })
 
 export default connect(mapStateToProps, undefined)(WhatsNewLeoraContainer)
