@@ -1,4 +1,4 @@
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ rootUrl, get, post }) => {
   const getSettings = (guid, sharedKey) => post({
     url: rootUrl,
     endPoint: 'wallet',

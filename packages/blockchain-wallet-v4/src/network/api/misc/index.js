@@ -1,6 +1,6 @@
 import { toUpper } from 'ramda'
 
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ apiUrl, rootUrl, get, post }) => {
   const getCaptchaImage = (timestamp, sessionToken) => get({
     url: rootUrl,
     endPoint: 'kaptcha.jpg',

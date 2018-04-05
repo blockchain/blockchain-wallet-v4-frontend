@@ -1,6 +1,6 @@
 import { toUpper } from 'ramda'
 
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ apiUrl, rootUrl, get, post }) => {
   const fetchBchData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
     url: apiUrl,
     endPoint: 'bch/multiaddr',
