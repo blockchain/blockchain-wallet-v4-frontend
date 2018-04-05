@@ -130,12 +130,7 @@ export class RemoteNotAsked<T> {
   }
 
   ap<F> (that: RemoteI<F>): RemoteI<any> {
-    return that.cata({
-      Success: (f) => this,
-      Failure: () => that,
-      Loading: () => that,
-      NotAsked: () => that
-    })
+    return this
   }
 
   chain<F> (fn: T => RemoteI<F>): RemoteI<F> {
