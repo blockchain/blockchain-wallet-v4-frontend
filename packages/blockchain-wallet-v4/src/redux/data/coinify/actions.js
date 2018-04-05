@@ -36,10 +36,6 @@ export const setProfile = (data) => ({ type: AT.SET_PROFILE, payload: data })
 export const setProfileSuccess = (data) => ({ type: AT.SET_PROFILE_SUCCESS, payload: data })
 export const setProfileFailure = (error) => ({ type: AT.SET_PROFILE_FAILURE, payload: error })
 
-export const getBankAccounts = (token) => ({ type: AT.GET_BANK_ACCOUNTS, payload: token })
-export const getBankAccountsSuccess = (accounts) => ({ type: AT.GET_BANK_ACCOUNTS_SUCCESS, payload: accounts })
-export const getBankAccountsFailure = (error) => ({ type: AT.GET_BANK_ACCOUNTS_FAILURE, payload: error })
-
 export const setBankAccount = (data) => ({ type: AT.SET_BANK_ACCOUNT, payload: data })
 export const setBankAccountSuccess = () => ({ type: AT.SET_BANK_ACCOUNT_SUCCESS })
 export const setBankAccountFailure = (error) => ({ type: AT.SET_BANK_ACCOUNT_FAILURE, payload: error })
