@@ -137,12 +137,8 @@
         }
       }
     },
-    "ios": {
-
-    },
-    "android": {
-
-    }
+    "ios": {},
+    "android": {}
   },
   "domains": {
     "root": "https://blockchain.info/",
