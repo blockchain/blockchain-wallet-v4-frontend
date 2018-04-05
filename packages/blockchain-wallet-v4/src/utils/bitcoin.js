@@ -1,12 +1,10 @@
-import { selectAll } from '../coinSelection'
 import { address, networks, ECPair } from 'bitcoinjs-lib'
 import { decode, fromWords } from 'bech32'
-import { equals, head, or, prop, compose } from 'ramda'
+import { equals, or, compose } from 'ramda'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
-import * as Exchange from '../exchange'
 import Either from 'data.either'
 
 export const isValidBitcoinAddress = value => {
@@ -147,14 +145,4 @@ export const isValidBitcoinPrivateKey = value => {
 
 export const isKey = function (bitcoinKey) {
   return bitcoinKey instanceof ECPair
-}
-
-export const calculateEffectiveBalanceSatoshis = (coins, feePerByte) => {
-  const { outputs } = selectAll(feePerByte, coins)
-  return prop('value', head(outputs)) || 0
-}
-
-export const calculateEffectiveBalanceBitcoin = (coins, feePerByte) => {
-  const effectiveBalanceSatoshis = calculateEffectiveBalanceSatoshis(coins, feePerByte)
-  return Exchange.convertBitcoinToBitcoin({ value: effectiveBalanceSatoshis, fromUnit: 'SAT', toUnit: 'BTC' }).value
 }

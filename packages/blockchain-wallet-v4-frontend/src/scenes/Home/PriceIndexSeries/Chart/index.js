@@ -15,7 +15,7 @@ import Success from './template.success'
 
 class Chart extends React.Component {
   componentWillMount () {
-    if (Remote.NotAsked.is(this.props.data)) {
+    if (Remote.NotAskedIs(this.props.data)) {
       const { coin, currency, timeframe } = this.props
       const { start, scale } = selectPriceIndexSeriesOptions(coin, timeframe)
       this.props.dataMiscActions.fetchPriceIndexSeries(coin, currency, start, scale)

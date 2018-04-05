@@ -12,7 +12,7 @@ import Success from './template.success'
 class CoinTicker extends React.Component {
   componentWillMount () {
     const { coin, data } = this.props
-    if (Remote.NotAsked.is(data)) {
+    if (Remote.NotAskedIs(data)) {
       switch (coin) {
         case 'BTC':
           this.props.bitcoinActions.fetchRates()

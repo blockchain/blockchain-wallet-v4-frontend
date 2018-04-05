@@ -13,7 +13,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 class FiatAtTime extends React.Component {
   componentWillMount () {
     const { currency, amount, time, hash } = this.props
-    if (Remote.NotAsked.is(this.props.data)) {
+    if (Remote.NotAskedIs(this.props.data)) {
       this.props.btcActions.fetchFiatAtTime(hash, amount, time * 1000, currency)
     }
   }

@@ -1,61 +1,160 @@
-import { taggedSum } from 'daggy'
+// @flow
 
-const Remote = taggedSum('Remote', {
-  NotAsked: [],
-  Loading: [],
-  Failure: ['error'],
-  Success: ['data']
-})
-Remote.of = Remote.Success
+type State = 'success' | 'failure' | 'loading' | 'notasked'
 
-Remote.prototype.map = function (f) {
-  return this.cata({
-    Success: (x) => Remote.Success(f(x)),
-    Failure: () => this,
-    Loading: () => this,
-    NotAsked: () => this
-  })
+export type RemoteCataFn<T> = {
+  Success: T => Object,
+  Failure: Object => Object,
+  Loading: () => Object,
+  NotAsked: () => Object
 }
 
-Remote.prototype.ap = function (that) {
-  return this.cata({
-    Success: (f) => that.map(f),
-    Failure: () => that.cata({
+export interface RemoteI<T> {
+  state: State,
+  map<F>(fn: T => F): RemoteI<F>,
+
+  ap<F>(r: RemoteI<F>): RemoteI<any>,
+  chain<F>(fn: T => RemoteI<F>): RemoteI<F>,
+
+  getOrElse(def: T): T,
+
+  cata(fn: RemoteCataFn<T>): Object
+}
+
+class RemoteSuccess<T> {
+  data: T
+  state: State = 'success'
+
+  constructor (data: T) {
+    this.data = data
+  }
+
+  map<F> (f: T => F): RemoteI<F> {
+    return new RemoteSuccess(f(this.data))
+  }
+
+  getOrElse (def: T): T {
+    return this.data
+  }
+
+  cata (fn: RemoteCataFn<T>): Object {
+    return fn.Success(this.data)
+  }
+
+  ap<F> (r: RemoteI<F>): RemoteI<any> {
+    const t: any = this.data // TODO implement type checking for T
+    return r.map(t)
+  }
+
+  chain<F> (fn: T => RemoteI<F>): RemoteI<F> {
+    return fn(this.data)
+  }
+}
+
+export class RemoteFailure<T> {
+  error: Object
+  state: State = 'failure'
+
+  constructor (error: Object) {
+    this.error = error
+  }
+
+  map<F> (f: T => F): RemoteI<F> {
+    return new RemoteFailure(this.error)
+  }
+
+  getOrElse (def: T): T {
+    return def
+  }
+
+  cata (fn: RemoteCataFn<T>): Object {
+    return fn.Failure(this.error)
+  }
+
+  ap<F> (that: RemoteI<F>): RemoteI<any> {
+    return that.cata({
       Success: (f) => this,
       Failure: () => this,
       Loading: () => this,
       NotAsked: () => that
-    }),
-    Loading: () => that.cata({
+    })
+  }
+
+  chain<F> (fn: T => RemoteI<F>): RemoteI<F> {
+    return new RemoteFailure(this.error)
+  }
+}
+
+export class RemoteLoading<T> {
+  state: State = 'loading'
+
+  map<F> (f: T => F): RemoteI<F> {
+    return new RemoteLoading()
+  }
+
+  getOrElse (def: T): T {
+    return def
+  }
+
+  cata (fn: RemoteCataFn<T>): Object {
+    return fn.Loading()
+  }
+
+  ap<F> (that: RemoteI<F>): RemoteI<any> {
+    return that.cata({
       Success: (f) => this,
       Failure: () => that,
       Loading: () => that,
       NotAsked: () => that
-    }),
-    NotAsked: () => this
-  })
+    })
+  }
+
+  chain<F> (fn: T => RemoteI<F>): RemoteI<F> {
+    return new RemoteLoading()
+  }
 }
 
-Remote.prototype.toJSON = function () {
-  return { data: this['@@values'][0] || [], __serializedType__: this['@@tag'] }
+export class RemoteNotAsked<T> {
+  state: State = 'notasked'
+
+  map<F> (f: T => F): RemoteI<F> {
+    return new RemoteNotAsked()
+  }
+
+  getOrElse (def: T): T {
+    return def
+  }
+
+  cata (fn: RemoteCataFn<T>): Object {
+    return fn.NotAsked()
+  }
+
+  ap<F> (that: RemoteI<F>): RemoteI<any> {
+    return this
+  }
+
+  chain<F> (fn: T => RemoteI<F>): RemoteI<F> {
+    return new RemoteNotAsked()
+  }
 }
 
-Remote.prototype.chain = function (f) {
-  return this.cata({
-    Success: (x) => f(x),
-    Failure: () => this,
-    Loading: () => this,
-    NotAsked: () => this
-  })
+type RemoteW = {
+  Success: (data: *) => RemoteSuccess<*>,
+  Failure: (error: *) => RemoteFailure<*>,
+  Loading: RemoteLoading<*>,
+  NotAsked: RemoteNotAsked<*>
 }
 
-Remote.prototype.getOrElse = function (defaultValue) {
-  return this.cata({
-    Success: (value) => value,
-    Failure: () => defaultValue,
-    Loading: () => defaultValue,
-    NotAsked: () => defaultValue
-  })
+const Remote: RemoteW = {
+  Success: (data: *): * => new RemoteSuccess(data),
+  of: (data: *): * => new RemoteSuccess(data),
+  Failure: (error: *): * => new RemoteFailure(error),
+  Loading: new RemoteLoading(),
+  NotAsked: new RemoteNotAsked(),
+  SuccessIs: (remote: RemoteI<*>): boolean => remote.state === 'success',
+  FailureIs: (remote: RemoteI<*>): boolean => remote.state === 'failure',
+  LoadingIs: (remote: RemoteI<*>): boolean => remote.state === 'loading',
+  NotAskedIs: (remote: RemoteI<*>): boolean => remote.state === 'notasked'
 }
 
 export default Remote

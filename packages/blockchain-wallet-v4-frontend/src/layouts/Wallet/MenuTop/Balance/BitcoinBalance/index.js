@@ -12,7 +12,7 @@ import Success from './template.success'
 
 class BitcoinBalance extends React.Component {
   componentWillMount () {
-    if (Remote.NotAsked.is(this.props.data)) {
+    if (Remote.NotAskedIs(this.props.data)) {
       this.props.actions.fetchData(this.props.context)
     }
   }

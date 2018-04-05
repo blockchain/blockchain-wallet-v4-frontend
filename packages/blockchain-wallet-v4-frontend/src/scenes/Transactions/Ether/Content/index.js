@@ -13,7 +13,7 @@ import Success from './template.success'
 class ContentContainer extends React.Component {
   componentWillMount () {
     const { context, data } = this.props
-    if (Remote.Success.is(context) && Remote.NotAsked.is(data)) {
+    if (Remote.SuccessIs(context) && Remote.NotAskedIs(data)) {
       context.map(x => this.props.dataEthereumActions.fetchData(x))
     }
   }

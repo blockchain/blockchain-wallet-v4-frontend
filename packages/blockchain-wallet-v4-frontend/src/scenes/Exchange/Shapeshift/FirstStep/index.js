@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals, isNil, path, prop } from 'ramda'
 // import * as crypto from 'crypto'
-import { utils } from 'blockchain-wallet-v4/src'
+import { utils, CoinSelection } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors'
 import { actions, selectors } from 'data'
 // import { calculateEffectiveBalance } from './services'
@@ -58,7 +58,7 @@ class FirstStepContainer extends React.Component {
     // BTC Calculate effectiveBalance
     if (!equals(this.props.coins, nextProps.coins)) {
       const { btcFee } = nextProps.data.getOrElse({ btcFee: { priority: 0 } })
-      const effectiveBalance = utils.bitcoin.calculateEffectiveBalanceBitcoin(nextProps.coins, btcFee.priority)
+      const effectiveBalance = CoinSelection.calculateEffectiveBalanceBitcoin(nextProps.coins, btcFee.priority)
       this.setState({ effectiveBalance })
     }
   }

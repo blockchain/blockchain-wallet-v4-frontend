@@ -13,7 +13,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 class WalletLayout extends React.Component {
   componentWillMount () {
-    if (!Remote.Success.is(this.props.data)) {
+    if (!Remote.SuccessIs(this.props.data)) {
       // this is needed because otherwise sign up calls two times component will mount (investigate why)
       this.props.kvStoreBchActions.fetchMetadataBch()
       this.props.kvStoreEthereumActions.fetchMetadataEthereum()

@@ -1,15 +1,26 @@
 import { curry, unfold, last, filter, is,
-  head, map, isNil, isEmpty, tail,
+  head, map, isNil, isEmpty, tail, prop,
   clamp, sort, length } from 'ramda'
 import memoize from 'fast-memoize'
 import shuffle from 'fisher-yates'
 import { List } from 'immutable-ext'
 import seedrandom from 'seedrandom'
 import * as Coin from './coin.js'
+import * as Exchange from '../exchange'
 
 export const dustThreshold = (feeRate) => (Coin.inputBytes({}) + Coin.outputBytes({})) * feeRate
 export const transactionBytes = (inputs, outputs) =>
   Coin.TX_EMPTY_SIZE + inputs.reduce((a, c) => a + Coin.inputBytes(c), 0) + outputs.reduce((a, c) => a + Coin.outputBytes(c), 0)
+
+export const calculateEffectiveBalanceSatoshis = (coins, feePerByte) => {
+  const { outputs } = selectAll(feePerByte, coins)
+  return prop('value', head(outputs)) || 0
+}
+
+export const calculateEffectiveBalanceBitcoin = (coins, feePerByte) => {
+  const effectiveBalanceSatoshis = calculateEffectiveBalanceSatoshis(coins, feePerByte)
+  return Exchange.convertBitcoinToBitcoin({ value: effectiveBalanceSatoshis, fromUnit: 'SAT', toUnit: 'BTC' }).value
+}
 
 export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
   List(inputs).fold(Coin.empty)

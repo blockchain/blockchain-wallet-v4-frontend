@@ -1,6 +1,6 @@
 import { equals, path, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
-import { Remote, utils } from 'blockchain-wallet-v4/src'
+import { Remote, utils, CoinSelection } from 'blockchain-wallet-v4/src'
 
 export const isAboveShapeshiftMinimum = (value, allValues, props) => {
   // console.log('isAboveShapeshitMimimum', value, allValues, props)
@@ -42,13 +42,13 @@ export const isBelowEffectiveBalance = (value, allValues, props) => {
 }
 
 export const calculateEffectiveBalance = (props) => {
-  if (!Remote.Success.is(props.data)) return 0
+  if (!Remote.SuccessIs(props.data)) return 0
 
   const { sourceCoin, accounts, coins, ethAddresses, data } = props
   switch (sourceCoin) {
     case 'BTC':
       const { btcFee } = data.getOrElse({ btcFee: { priority: 0 } })
-      return utils.bitcoin.calculateEffectiveBalanceBitcoin(coins, btcFee.priority)
+      return CoinSelection.calculateEffectiveBalanceBitcoin(coins, btcFee.priority)
     case 'ETH':
       const ethAccount = path(['source', 'address'], accounts)
       const { ethFee } = data.getOrElse({ ethFee: { priority: 0, gasLimit: 21000 } })

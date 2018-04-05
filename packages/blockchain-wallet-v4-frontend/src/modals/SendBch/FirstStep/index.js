@@ -26,7 +26,7 @@ class FirstStep extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (Remote.Success.is(nextProps.data)) {
+    if (Remote.SuccessIs(nextProps.data)) {
       // We initialize the form if form is not initialized yet
       initializeForm(this.props, nextProps)
       // We open the RequestEther modal if coin equals 'ETH'

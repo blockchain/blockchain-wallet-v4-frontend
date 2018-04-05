@@ -5,21 +5,21 @@ describe('Remote', () => {
   describe('Constructors', () => {
     it('should construct a Remote.Success', () => {
       let r = Remote.Success('value')
-      expect(Remote.Success.is(r)).toEqual(true)
+      expect(Remote.SuccessIs(r)).toEqual(true)
       expect(r.data).toEqual('value')
     })
     it('should construct a Remote.Failure', () => {
       let r = Remote.Failure('error')
       expect(r.error).toEqual('error')
-      expect(Remote.Failure.is(r)).toEqual(true)
+      expect(Remote.FailureIs(r)).toEqual(true)
     })
     it('should construct a Remote.Loading', () => {
       let r = Remote.Loading
-      expect(Remote.Loading.is(r)).toEqual(true)
+      expect(Remote.LoadingIs(r)).toEqual(true)
     })
     it('should construct a Remote.NotAsked', () => {
       let r = Remote.NotAsked
-      expect(Remote.NotAsked.is(r)).toEqual(true)
+      expect(Remote.NotAskedIs(r)).toEqual(true)
     })
   })
 
@@ -82,19 +82,19 @@ describe('Remote', () => {
   describe('Monoid', () => {
     it('combination table', () => {
       let addR = Remote.of(x => y => x + y)
-      expect(Remote.Success.is(addR.ap(Remote.Success(1)).ap(Remote.Success(2)))).toEqual(true)
+      expect(Remote.SuccessIs(addR.ap(Remote.Success(1)).ap(Remote.Success(2)))).toEqual(true)
 
-      expect(Remote.Failure.is(addR.ap(Remote.Success(1)).ap(Remote.Failure(2)))).toEqual(true)
-      expect(Remote.Failure.is(addR.ap(Remote.Failure(1)).ap(Remote.Failure(2)))).toEqual(true)
+      expect(Remote.FailureIs(addR.ap(Remote.Success(1)).ap(Remote.Failure(2)))).toEqual(true)
+      expect(Remote.FailureIs(addR.ap(Remote.Failure(1)).ap(Remote.Failure(2)))).toEqual(true)
 
-      expect(Remote.Loading.is(addR.ap(Remote.Loading).ap(Remote.Success(2)))).toEqual(true)
-      expect(Remote.Failure.is(addR.ap(Remote.Loading).ap(Remote.Failure(2)))).toEqual(true)
-      expect(Remote.Loading.is(addR.ap(Remote.Loading).ap(Remote.Loading))).toEqual(true)
+      expect(Remote.LoadingIs(addR.ap(Remote.Loading).ap(Remote.Success(2)))).toEqual(true)
+      expect(Remote.FailureIs(addR.ap(Remote.Loading).ap(Remote.Failure(2)))).toEqual(true)
+      expect(Remote.LoadingIs(addR.ap(Remote.Loading).ap(Remote.Loading))).toEqual(true)
 
-      expect(Remote.NotAsked.is(addR.ap(Remote.NotAsked).ap(Remote.Success(2)))).toEqual(true)
-      expect(Remote.NotAsked.is(addR.ap(Remote.NotAsked).ap(Remote.Failure(2)))).toEqual(true)
-      expect(Remote.NotAsked.is(addR.ap(Remote.NotAsked).ap(Remote.Loading))).toEqual(true)
-      expect(Remote.NotAsked.is(addR.ap(Remote.NotAsked).ap(Remote.NotAsked))).toEqual(true)
+      expect(Remote.NotAskedIs(addR.ap(Remote.NotAsked).ap(Remote.Success(2)))).toEqual(true)
+      expect(Remote.NotAskedIs(addR.ap(Remote.NotAsked).ap(Remote.Failure(2)))).toEqual(true)
+      expect(Remote.NotAskedIs(addR.ap(Remote.NotAsked).ap(Remote.Loading))).toEqual(true)
+      expect(Remote.NotAskedIs(addR.ap(Remote.NotAsked).ap(Remote.NotAsked))).toEqual(true)
     })
   })
 })

@@ -22,7 +22,7 @@ class CoinConvertorContainer extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     // Update value if quotation is successful
-    if (Remote.Success.is(nextProps.data) && !equals(this.props.data, nextProps.data)) {
+    if (Remote.SuccessIs(nextProps.data) && !equals(this.props.data, nextProps.data)) {
       const data = nextProps.data.getOrElse({ source: undefined, target: undefined })
       this.setState(data)
       this.props.input.onChange(data)

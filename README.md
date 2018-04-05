@@ -56,6 +56,29 @@ These IDE plugins/packages assist with complying with these lint rules while dev
  * [VS Code](https://marketplace.visualstudio.com/items?itemName=chenxsan.vscode-standardjs)
  * [WebStorm](https://blog.jetbrains.com/webstorm/2017/04/using-javascript-standard-style/)
 
+ ### Typing
+ We use [Flow](https://github.com/facebook/flow) to provide a framework for static typing. Please read the [docs](https://flow.org/en/docs/types/) to get started. By default, all types default to `any`. 
+
+ Currently Flow is only setup for `blockchain-wallet-v4`, using
+ * `yarn flow` Tests types for [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
+
+ There are great [integrations](https://flow.org/en/docs/editors/) available for most IDEs, which will display types and errors when hovering over variables/functions. 
+
+#### Redux
+##### State
+
+ Please create a specific definition for the state in the [reducer](./packages/blockchain-wallet-v4/redux/data/bitcoin/reducers.js#L25). You can then combine the states using a similar hierachy as for the reducers to a global state. 
+
+#### Actions
+
+ All [action types](./packages/blockchain-wallet-v4/redux/data/bitcoin/actionTypes.js) must be typed using the same string they represent. This is considered a _literal type_ in Flow, which allows it to infer the specific action after comparing it's `type` field. 
+
+ Afterwards, the types of all actions can be unified into a [union type](https://flow.org/en/docs/types/unions/) with some [magic](./packages/blockchain-wallet-v4/redux/data/bitcoin/reducers.js#L11).
+
+#### Sagas
+
+ Generator functions are a little bit special. Their return type has to be wrapped in a `Saga<>` (see [example](./packages/blockchain-wallet-v4/src/redux/data/bitcoin/sagas.js#L22)). Furthermore, I had to introduce wrappers for the effects, `callP` and `callG`, which preserve the type of `Promise` and `Generator` function calls respectively. In the future it should be trivial to add `callT` to resolve a `Task`.
+
 ### Unit Tests
 Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/).
 

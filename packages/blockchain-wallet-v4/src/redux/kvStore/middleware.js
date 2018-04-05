@@ -16,8 +16,8 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
   const isAuth = isAuthenticated(store.getState())
   const hasChanged = (value, key) =>
     prevKVStore[key] !== nextKVStore[key] &&
-    // Remote.Success.is(prevKVStore[key]) &&
-    Remote.Success.is(nextKVStore[key]) // this is to avoid detecting loading/notasked to success changes
+    // Remote.SuccessIs(prevKVStore[key]) &&
+    Remote.SuccessIs(nextKVStore[key]) // this is to avoid detecting loading/notasked to success changes
   const changes = mapObjIndexed(hasChanged, nextKVStore)
 
   switch (true) {

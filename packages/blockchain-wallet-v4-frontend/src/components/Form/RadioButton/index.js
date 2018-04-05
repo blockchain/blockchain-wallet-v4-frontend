@@ -29,7 +29,7 @@ const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
-const RadioButton = ({ ...field, children }) => {
+const RadioButton = ({ children, ...field }) => {
   const errorState = getErrorState(field.meta)
 
   return (
