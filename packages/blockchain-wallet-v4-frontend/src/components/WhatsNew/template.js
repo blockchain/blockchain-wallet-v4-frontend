@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Text, TextGroup , ModalHeader, ModalBody } from 'blockchain-info-components'
+import { Text, TextGroup, ModalHeader, ModalBody } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 
 const Fragment = React.Fragment
@@ -76,10 +76,10 @@ const WhatsNewLeora = (props) => {
       <ModalBody>
         <Wrapper>
           <ContentWrapper>
-            {announcements.map((item) => {
+            {announcements.map((item, i) => {
               const { title, desc, date } = item
               return (
-                <Fragment>
+                <Fragment key={i}>
                   <div>
                     <Text size='14px' weight={400}>{title}</Text>
                     <Text color='gray-3' weight={400} size='12px'>{new Date(date).toLocaleDateString()}</Text>

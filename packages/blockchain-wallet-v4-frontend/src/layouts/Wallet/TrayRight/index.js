@@ -68,7 +68,7 @@ class TrayRight extends React.Component {
 
     return (
       <AnimationWrapper className={isOpen ? 'open' : ''}>
-        <TrayModal {...rest} type={'tray'}>
+        <TrayModal {...rest} type={'tray'} position={1} total={1}>
           {(() => {
             switch (trayRightContent) {
               case 'faq': return <Faq handleTrayRightToggle={handleTrayRightToggle} />
