@@ -88,7 +88,7 @@ export const submitMicroDeposits = function * (payload) {
 export default function * () {
   yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
   yield takeLatest(AT.SET_BANK, setBank)
-  yield takeLatest(AT.SIGNUP, sfoxSignup)
+  yield takeLatest(AT.SFOX_SIGNUP, sfoxSignup)
   yield takeLatest(AT.SET_PROFILE, setProfile)
   yield takeLatest(AT.UPLOAD, upload)
   yield takeLatest(AT.SUBMIT_MICRO_DEPOSITS, submitMicroDeposits)
