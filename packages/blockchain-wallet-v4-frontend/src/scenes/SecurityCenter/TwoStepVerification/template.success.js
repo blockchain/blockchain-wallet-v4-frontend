@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Text, Button, Link, ButtonGroup } from 'blockchain-info-components'
@@ -166,7 +166,7 @@ const TwoStepVerification = (props) => {
   }
 
   return (
-    <div>
+    <Fragment>
       <SecurityTwoStepContainer>
         <IconContainer>
           <SecurityIcon name='lock' enabled={twoFAEnabled} />
@@ -208,7 +208,7 @@ const TwoStepVerification = (props) => {
           </SecurityTip>
           : null
       }
-    </div>
+    </Fragment>
   )
 }
 
