@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { Route, Redirect } from 'react-router-dom'
 import ui from 'redux-ui'
+import { is } from 'ramda'
 
 import { actions, selectors } from 'data'
 import { getData } from './selectors'
@@ -43,19 +44,13 @@ const renderLayout = ({ ui, updateUI, component: Component, ...rest }) => (
       trayRightContent={ui.trayRightContent}
       handleTrayRightToggle={(content) => {
         if (ui.trayRightOpen && ui.trayRightContent !== content) {
-          updateUI({
-            trayRightContent: content
-          })
-        } else if (ui.trayRightOpen && typeof content === object) {
-          trayRightOpen: !ui.trayRightOpen
+          updateUI({trayRightContent: content})
+        } else if (ui.trayRightOpen && is(Object, content)) {
+          updateUI({ trayRightOpen: !ui.trayRightOpen })
         } else {
-          updateUI({
-            trayRightOpen: !ui.trayRightOpen,
-            trayRightContent: content
-          })
+          updateUI({ trayRightOpen: !ui.trayRightOpen, trayRightContent: content })
         }
-      }
-      }
+      }}
       handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
       handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
       <Component {...rest} />

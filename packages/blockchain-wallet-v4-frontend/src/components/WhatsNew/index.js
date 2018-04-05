@@ -2,17 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { selectors } from 'data'
 
-import WhatsNewLeora from './template.js'
+import WhatsNew from './template.js'
 
-class WhatsNewLeoraContainer extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
+class WhatsNewContainer extends React.Component {
   render () {
     const { handleTrayRightToggle } = this.props
     return (
-      <WhatsNewLeora handleTrayRightToggle={handleTrayRightToggle}/>
+      <WhatsNew handleTrayRightToggle={handleTrayRightToggle}/>
     )
   }
 }
@@ -21,4 +17,4 @@ const mapStateToProps = (state) => ({
   countryCode: selectors.core.settings.getCountryCode(state)
 })
 
-export default connect(mapStateToProps, undefined)(WhatsNewLeoraContainer)
+export default connect(mapStateToProps, undefined)(WhatsNewContainer)
