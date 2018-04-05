@@ -13,6 +13,7 @@ export const sendBch = function * (action) {
     yield put(actions.router.push('/bch/transactions'))
     yield put(actions.alerts.displaySuccess('Your transaction is being confirmed'))
   } catch (e) {
+    console.log(e)
     yield put(actions.alerts.displayError('Your transaction could not be sent.'))
   }
 }
