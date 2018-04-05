@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { SecuritySummary } from 'components/Security'
 import { Field } from 'redux-form'
 import { TextBox } from 'components/Form'
-import { spacing } from 'services/StyleService'
 
 import { validEmail } from 'services/FormHelper'
 
