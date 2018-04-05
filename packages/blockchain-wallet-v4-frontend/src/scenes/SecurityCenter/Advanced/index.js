@@ -15,7 +15,7 @@ import { IconButton, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 const AdvancedContainer = styled.div`
-  margin-top: 0px;
+  margin-top: 0px !important;
 `
 
 const Advanced = ({ tabs, setView }) => (
