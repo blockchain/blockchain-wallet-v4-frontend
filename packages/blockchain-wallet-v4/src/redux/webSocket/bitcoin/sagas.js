@@ -7,15 +7,18 @@ import { Wrapper } from '../../../types/index'
 import * as walletSelectors from '../../wallet/selectors'
 import { Socket } from '../../../network/index'
 import * as btcActions from '../../data/bitcoin/actions'
-import { actions } from 'data'
 
 export const bitcoinWebSocketSaga = ({ api, socket } = {}) => {
   const send = socket.send.bind(socket)
   let lastPongTimestamp = 0
 
-  const onOpen = function * (action) {
+  const onOpen = function * () {
     const subscribeInfo = yield select(walletSelectors.getInitialSocketContext)
     yield call(compose(send, Socket.onOpenMessage), subscribeInfo)
+  }
+
+  const dispatchLogoutEvent = function * () {
+    yield window.dispatchEvent(new window.Event('wallet.core.logout'))
   }
 
   const onMessage = function * (action) {
@@ -46,19 +49,19 @@ export const bitcoinWebSocketSaga = ({ api, socket } = {}) => {
         lastPongTimestamp = Date.now()
         yield call(delay, 120000)
         if (lastPongTimestamp < Date.now() - 120000) {
-          yield put(A.webSocket.stopSocket())
-          yield put(A.webSocket.startSocket())
+          yield put(A.webSocket.bitcoin.stopSocket())
+          yield put(A.webSocket.bitcoin.startSocket())
         }
         break
       case 'email_verified':
         yield put(A.settings.setEmailVerified())
         break
       case 'wallet_logout':
-        yield put(actions.auth.logout())
+        yield call(dispatchLogoutEvent)
         break
 
       default:
-        console.log('unknows type for ', message)
+        console.log('unknown type for ', message)
         break
     }
   }

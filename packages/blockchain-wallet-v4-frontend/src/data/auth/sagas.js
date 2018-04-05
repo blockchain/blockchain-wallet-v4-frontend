@@ -1,5 +1,5 @@
-import { delay } from 'redux-saga'
 import { takeLatest, call, put, select, take, fork } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import { prop, assoc } from 'ramda'
 import Either from 'data.either'
 
@@ -53,7 +53,11 @@ const loginRoutineSaga = function * (mobileLogin) {
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
     yield put(actions.auth.startLogoutTimer())
+<<<<<<< HEAD
     yield fork(reportStats, mobileLogin)
+=======
+    yield fork(logoutRoutine, yield call(setLogoutEventListener))
+>>>>>>> master
     // ETHER - Fix derivation
     // yield call(transferEtherSaga)
   } catch (e) {
@@ -200,9 +204,19 @@ const reset2fa = function * (action) {
 // =============================================================================
 // ================================== Logout ===================================
 
+const setLogoutEventListener = function () {
+  return new Promise(resolve => {
+    window.addEventListener('wallet.core.logout', resolve)
+  })
+}
+
+const logoutRoutine = function * () {
+  yield call(logout)
+}
+
 export const logout = function * () {
   yield put(actions.core.webSocket.bitcoin.stopSocket())
-  window.location.reload(true)
+  yield window.location.reload(true)
 }
 
 export default function * () {

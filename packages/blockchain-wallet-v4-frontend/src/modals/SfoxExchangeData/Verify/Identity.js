@@ -10,11 +10,17 @@ import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader,
 import { FAQ1, FAQ2 } from './faq.js'
 
 const LockIcon = styled(Icon)`
+  display: flex;
+  align-items: center;
   font-size: 24px;
   margin-left: 7px;
 `
 const FormContainer = styled.div`
   margin-top: 25px;
+`
+const IconHeader = styled(PartnerHeader)`
+  display: flex;
+  flex-direction: row;
 `
 
 const Identity = (props) => {
@@ -25,10 +31,10 @@ const Identity = (props) => {
     <Form onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
-          <PartnerHeader>
+          <IconHeader>
             <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage='The Hidden Details' />
             <LockIcon name='lock-filled' />
-          </PartnerHeader>
+          </IconHeader>
           <PartnerSubHeader>
             <FormattedMessage id='sfoxexchangedata.verify.partner.subheader' defaultMessage="We know this information is personal, but we need to make sure you're you. As always, this will be sent directly to SFOX and will not be saved in your Blockchain wallet." />
           </PartnerSubHeader>

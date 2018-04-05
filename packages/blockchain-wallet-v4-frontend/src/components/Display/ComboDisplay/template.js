@@ -17,7 +17,7 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 10px;
+  padding-left: 5px;
 `
 
 const ComboDisplay = props => {
