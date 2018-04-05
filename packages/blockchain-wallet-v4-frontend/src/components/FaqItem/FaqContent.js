@@ -4,11 +4,11 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: ${props => props.toggled ? 'flex' : 'none'};
-  width: 75%;
+  width: 100%;
   font-family: 'Montserrat', Helvetica, sans-serif;
-  font-weight: 300;
-  font-size: 14px;
-  margin-bottom: 0;
+  font-weight: 200;
+  font-size: 12px;
+  padding: 5px 0;
   color: ${props => props.theme['gray-5']};
 `
 

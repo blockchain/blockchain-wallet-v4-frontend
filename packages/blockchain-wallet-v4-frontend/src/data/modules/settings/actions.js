@@ -7,8 +7,12 @@ export const showBackupRecovery = () => ({ type: AT.SHOW_BACKUP_RECOVERY })
 export const updateEmail = (email) => ({ type: AT.UPDATE_EMAIL, payload: { email } })
 
 export const verifyEmail = (code) => ({ type: AT.VERIFY_EMAIL, payload: { code } })
+export const verifyEmailCodeFailure = () => ({ type: AT.VERIFY_EMAIL_CODE_FAILURE })
+export const clearEmailCodeFailure = () => ({ type: AT.CLEAR_EMAIL_CODE_FAILURE })
 
 export const updateMobile = (mobile) => ({ type: AT.UPDATE_MOBILE, payload: { mobile } })
+export const verifyMobileFailure = () => ({ type: AT.VERIFY_MOBILE_FAILURE })
+export const clearMobileFailure = () => ({ type: AT.CLEAR_MOBILE_FAILURE })
 
 export const verifyMobile = (code) => ({ type: AT.VERIFY_MOBILE, payload: { code } })
 

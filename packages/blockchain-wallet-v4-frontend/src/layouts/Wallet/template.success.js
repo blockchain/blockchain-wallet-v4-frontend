@@ -7,7 +7,7 @@ import Alerts from 'components/Alerts'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
-
+import TrayRight from './TrayRight'
 import Page from './Page'
 
 const Wrapper = styled.div`
@@ -27,7 +27,7 @@ const Nav = styled.div`
 const Left = styled.div`
   display: flex;
   position: absolute;
-  top: 60px;
+
   left: ${props => props.toggled ? '0' : '-270px'};
   width: 270px;
   height: 100%;
@@ -64,19 +64,20 @@ const Top = styled.div`
 `
 
 const WalletLayout = (props) => {
-  const { location, menuLeftToggled, handleToggleMenuLeft, handleCloseMenuLeft, children } = props
+  const { location, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children } = props
 
   return (
     <Wrapper>
       <Alerts />
       <Modals />
       <Nav>
-        <Header handleToggleMenuLeft={handleToggleMenuLeft} />
+        <Header handleToggleMenuLeft={handleToggleMenuLeft} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
       </Nav>
       <Container>
         <Left toggled={menuLeftToggled}>
           <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
         </Left>
+        <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} />
         <Content>
           <Top>
             <MenuTop />
@@ -91,7 +92,12 @@ const WalletLayout = (props) => {
 }
 
 WalletLayout.propTypes = {
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  menuLeftToggled: PropTypes.bool.isRequired,
+  trayRightOpen: PropTypes.bool.isRequired,
+  handleTrayRightToggle: PropTypes.func.isRequired,
+  handleToggleMenuLeft: PropTypes.func.isRequired,
+  handleCloseMenuLeft: PropTypes.func.isRequired
 }
 
 export default WalletLayout

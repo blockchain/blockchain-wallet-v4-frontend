@@ -2,53 +2,81 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Link } from 'blockchain-info-components'
-import FaqRow from './FaqRow'
-// import Questions from './Questions'
+import { Icon, ModalHeader, ModalBody } from 'blockchain-info-components'
+import FaqGroup from './FaqGroup'
+import PropTypes from 'prop-types'
 
-const Wrapper = styled.section`
-  width: 100%;
-  padding: 30px;
+const Fragment = React.Fragment
+
+const Wrapper = styled.div`
   box-sizing: border-box;
+  overflow: none;
 `
-const Header = styled.div`
+
+const ContentWrapper = styled.div`
+  overflow-x: hidden;
+  overflow-y: auto;
+`
+
+const SearchInputContainer = styled.div`
   width: 100%;
-  padding: 10px 0;
-  font-family: 'Montserrat', Helvetica, sans-serif;
-  font-size: 20px;
-  font-weight: 300;
-  text-transform: capitalize;
-  line-height: 1.1;
-`
-const Footer = styled.div`
+  height: 35px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
-
-  & > * { margin-bottom: 10px; }
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px 0;
+  border: 1px solid ${props => props.theme['gray-1']};
 `
 
-const Faq = props => (
-  <Wrapper>
-    <Header>
-      <FormattedMessage id='scenes.faq.title' defaultMessage='Frequently asked questions' />
-    </Header>
-    {
-      props.questions.map((q, i) => {
-        return <FaqRow title={q.title} description={q.description} key={i} />
-      })
-    }
-    <Footer>
-      <FormattedMessage id='scenes.faq.needmorehelp' defaultMessage="Can't find what you're looking for?" />
-      <Link href='https://blockchain.zendesk.com' target='_blank'>
-        <Button nature='primary'>
-          <FormattedMessage id='scenes.faq.supportcenter' defaultMessage='Support center' />
-        </Button>
-      </Link>
-    </Footer>
-  </Wrapper>
-)
+const SearchInputArea = styled.textarea`
+  width: 100%;
+  resize: none;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  padding: 8px 0 0 16px;
+  font-size: 14px;
+  ::placeholder { 
+    font-weight: 100; 
+    color: ${props => props.theme['gray-3']}; 
+  }
+`
+const SearchIcon = styled(Icon)`
+  padding: 8px 16px 0 0;
+`
+
+const Faq = (props) => {
+  const {onFilter, filterText, filteredContent, handleTrayRightToggle} = props
+
+  return (
+    <Fragment>
+      <ModalHeader onClose={handleTrayRightToggle}>
+        <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions'/>
+      </ModalHeader>
+      <ModalBody>
+        <Wrapper>
+          <SearchInputContainer>
+            <SearchInputArea value={filterText} onChange={onFilter} placeholder={'Search'}/>
+            <SearchIcon name='search' size='18px' weight={200} color='gray-3'/>
+          </SearchInputContainer>
+          <ContentWrapper>
+            {
+              filteredContent.length > 0 && filteredContent.map((group, i) => {
+                return group.groupQuestions.length > 0 && <FaqGroup groupTitleId={group.groupTitleId} groupTitleMsg={group.groupTitleMsg} groupQuestions={group.groupQuestions} key={i} />
+              })
+            }
+          </ContentWrapper>
+        </Wrapper>
+      </ModalBody>
+    </Fragment>
+  )
+}
+
+Faq.propTypes = {
+  filteredContent: PropTypes.array.isRequired,
+  onFilter: PropTypes.func.isRequired,
+  filterText: PropTypes.string.isRequired,
+  handleTrayRightToggle: PropTypes.func.isRequired
+}
 
 export default Faq

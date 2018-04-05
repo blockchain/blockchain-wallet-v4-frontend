@@ -52,12 +52,11 @@
     ]
   },
   "dependencies": {
-    "babel-plugin-react-html-attrs": "^2.1.0",
-    "babel-polyfill": "^6.23.0",
     "base-64": "^0.1.0",
     "bignumber.js": "^5.0.0",
     "bip21": "^2.0.1",
     "bip39": "^2.3.1",
+    "bitcoin-coinify-client": "^0.7.6",
     "bitcoin-sfox-client": "^0.2.6",
     "bitcoinjs-lib": "^3.1.1",
     "blockchain-info-components": "^0.0.1",
@@ -69,15 +68,15 @@
     "fast-memoize": "^2.2.8",
     "libphonenumber-js": "^0.4.40",
     "moment": "^2.19.2",
-    "prop-types": "^15.6.0",
+    "prop-types": "^15.6.1",
     "qrcode.react": "^0.7.2",
     "ramda": "^0.25.0",
-    "react": "^16.1.1",
+    "react": "^16.3.0",
     "react-animations": "^1.0.0",
     "react-browser-detection": "^1.0.4",
     "react-copy-to-clipboard": "^5.0.1",
     "react-csv-2": "^1.0.9",
-    "react-dom": "^16.1.1",
+    "react-dom": "^16.3.0",
     "react-dropzone": "^4.2.8",
     "react-highcharts": "^13.0.0",
     "react-intl": "^2.3.0",
@@ -95,7 +94,7 @@
     "redux-persist": "^4.8.3",
     "redux-saga": "^0.16.0",
     "redux-ui": "^0.1.1",
-    "styled-components": "^2.2.3",
+    "styled-components": "^3.2.4",
     "zxcvbn": "^4.4.2"
   }
 }

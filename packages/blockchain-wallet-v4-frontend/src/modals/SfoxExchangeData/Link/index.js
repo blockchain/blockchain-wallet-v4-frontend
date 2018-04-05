@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
 import Link from './template'
 import { actions, selectors } from 'data'
+import { formValueSelector } from 'redux-form'
 
 import { merge } from 'ramda'
 
@@ -11,8 +12,8 @@ class LinkContainer extends Component {
   constructor (props) {
     super(props)
     this.onSetBankAccount = this.onSetBankAccount.bind(this)
-    this.setBankManually = this.setBankManually.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.submitMicroDeposits = this.submitMicroDeposits.bind(this)
 
     this.state = { enablePlaid: false, id: '' }
   }
@@ -35,6 +36,10 @@ class LinkContainer extends Component {
       }
     }
     window.addEventListener('message', receiveMessage, false)
+
+    if (this.props.accounts.length) {
+      if (this.props.accounts[0].status === 'pending') this.props.updateUI({ microDeposits: true })
+    }
   }
 
   onSetBankAccount (data) {
@@ -42,38 +47,56 @@ class LinkContainer extends Component {
     this.props.sfoxFrontendActions.setBankAccount(bankChoice)
   }
 
-  setBankManually () {
-    this.props.modalActions.showModal('SfoxAddBankManually')
+  submitMicroDeposits () {
+    const amount1 = parseFloat(this.props.deposit1)
+    const amount2 = parseFloat(this.props.deposit2)
+    this.props.sfoxFrontendActions.submitMicroDeposits({ amount1, amount2 })
   }
 
   onSubmit (e) {
     e.preventDefault()
-    const bankChoice = merge({ id: this.state.id, name: this.state.holderName }, {token: this.state.token})
-    this.props.sfoxFrontendActions.setBankAccount(bankChoice)
-    this.setState({ busy: true })
+    if (this.props.ui.toggleManual && this.state.routingNumber && this.state.accountNumber) {
+      this.props.updateUI({ busy: true })
+      const { fullName, routingNumber, accountNumber, accountType } = this.state
+      this.props.sfoxFrontendActions.setBankManually(routingNumber, accountNumber, fullName, accountType)
+    } else {
+      this.props.updateUI({ busy: true })
+      const bankChoice = merge({ id: this.state.id, name: this.state.holderName }, {token: this.state.token})
+      this.props.sfoxFrontendActions.setBankAccount(bankChoice)
+    }
   }
 
   render () {
-    const { plaidUrl, bankAccounts, ui } = this.props
+    const { plaidUrl, bankAccounts, accounts, ui } = this.props
 
     return <Link
       onSubmit={this.onSubmit}
       plaidUrl={plaidUrl}
       enablePlaid={this.state.enablePlaid}
       bankAccounts={bankAccounts}
+      accounts={accounts}
       onSetBankAccount={this.onSetBankAccount}
-      toggleManual={this.setBankManually}
+      toggleManual={() => this.props.updateUI({ toggleManual: true })}
       ui={ui}
-      busy={this.state.busy}
       handleBankSelection={(id) => this.setState({ id })}
       onNameChange={(name) => this.setState({ holderName: name })}
+      handleFullName={(e) => this.setState({ fullName: e.target.value })}
+      handleRoutingNumber={(e) => this.setState({ routingNumber: e.target.value })}
+      handleAccountNumber={(e) => this.setState({ accountNumber: e.target.value })}
+      handleAccountType={(e, val) => this.setState({ accountType: val })}
+      microStep={ui.microStep}
+      goToMicroDepositStep={(step) => this.props.updateUI({ microStep: step })}
+      submitMicroDeposits={this.submitMicroDeposits}
     />
   }
 }
 
 const mapStateToProps = (state) => ({
   plaidUrl: 'http://localhost:8081/wallet-helper/plaid/#/key/0b041cd9e9fbf1e7d93a0d5a39f5b9/env/production', // TODO: get from wallet options
-  bankAccounts: selectors.core.data.sfox.getBankAccounts(state)
+  bankAccounts: selectors.core.data.sfox.getBankAccounts(state),
+  accounts: selectors.core.data.sfox.getAccounts(state).data,
+  deposit1: formValueSelector('sfoxLink')(state, 'deposit1'),
+  deposit2: formValueSelector('sfoxLink')(state, 'deposit2')
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -85,7 +108,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { toggleManual: false, selectBank: false } })
+  ui({ state: { toggleManual: false, selectBank: false, microDeposits: false, microStep: 'welcome', busy: false } })
 )
 
 export default enhance(LinkContainer)
