@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-import Faq from 'scenes/Faq'
+import Faq from 'components/Faq'
 import WhatsNewLeora from 'layouts/Wallet/Header/WhatsNewLeora'
 import { Modal } from 'blockchain-info-components'
 
