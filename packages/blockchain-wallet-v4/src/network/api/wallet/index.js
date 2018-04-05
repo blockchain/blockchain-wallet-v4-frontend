@@ -1,22 +1,22 @@
 
 import { merge } from 'ramda'
 
-export default ({ get, post }) => {
+export default ({ rootUrl, get, post }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet',
     data: { guid, sharedKey, method: 'wallet.aes.json', format: 'json' }
   })
 
   const fetchPayloadWithSession = (guid, sessionToken) => get({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: `wallet/${guid}`,
     data: { format: 'json', resend_code: null },
     sessionToken
   })
 
   const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet',
     data: {
       guid,
@@ -29,19 +29,19 @@ export default ({ get, post }) => {
   })
 
   const savePayload = data => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet',
     data: merge({ method: 'update', format: 'plain' }, data)
   }).then(() => data.checksum)
 
   const createPayload = (email, data) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet',
     data: merge({ method: 'insert', format: 'plain', email }, data)
   }).then(() => data.checksum)
 
   const fetchBlockchainData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'multiaddr',
     data: {
       active: (Array.isArray(context) ? context : [context]).join('|'),
@@ -57,7 +57,7 @@ export default ({ get, post }) => {
   })
 
   const obtainSessionToken = () => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet/sessions'
   }).then((data) => (!data.token || !data.token.length)
     ? Promise.reject(new Error('INVALID_SESSION_TOKEN'))
@@ -65,14 +65,14 @@ export default ({ get, post }) => {
   )
 
   const pollForSessionGUID = sessionToken => get({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet/poll-for-session-guid',
     data: { format: 'json' },
     sessionToken
   })
 
   const generateUUIDs = (count) => get({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'uuid-generator',
     data: { format: 'json', n: count }
   }).then((data) => (!data.uuids || data.uuids.length !== count)
@@ -82,27 +82,27 @@ export default ({ get, post }) => {
 
   // createPinEntry :: HEXString(32Bytes) -> HEXString(32Bytes) -> String -> Promise Response
   const createPinEntry = (key, value, pin) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'pin-store',
     data: { format: 'json', method: 'put', value, pin, key }
   })
 
   // getPinValue :: HEXString(32Bytes) -> String -> Promise Response
   const getPinValue = (key, pin) => get({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'pin-store',
     data: { format: 'json', method: 'get', pin, key }
   })
 
   const remindGuid = (email, captcha, sessionToken) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet',
     data: { method: 'recover-wallet', email, captcha },
     sessionToken
   })
 
   const reset2fa = (guid, email, newEmail, secretPhrase, message, code, sessionToken) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet',
     data: {
       method: 'reset-two-factor-form',
@@ -117,7 +117,7 @@ export default ({ get, post }) => {
   })
 
   const getPairingPassword = (guid) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet',
     data: { method: 'pairing-encryption-password', guid }
   })

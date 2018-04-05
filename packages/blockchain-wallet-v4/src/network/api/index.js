@@ -15,16 +15,16 @@ export default ({ rootUrl, apiUrl, apiCode, shapeShiftRootUrl, shapeShiftApiKey 
   const { get, post } = fetchService({ apiCode })
 
   return {
-    ...bitcoin({ get, post }),
-    ...delegate({ get, post }),
-    ...ethereum({ get, post }),
-    ...bch({ get, post }),
-    ...kvStore({ }),
-    ...misc({ get, post }),
-    ...options({ get, post }),
+    ...bitcoin({ apiUrl, rootUrl, get, post }),
+    ...delegate({ rootUrl, get, post }),
+    ...ethereum({ apiUrl, get, post }),
+    ...bch({ apiUrl, rootUrl, get, post }),
+    ...kvStore({ apiUrl }),
+    ...misc({ apiUrl, rootUrl, get, post }),
+    ...options({ rootUrl, get, post }),
     ...sfox({ }),
-    ...settings({ get, post }),
+    ...settings({ rootUrl, get, post }),
     ...shapeShift({ shapeShiftRootUrl, shapeShiftApiKey }),
-    ...wallet({ get, post })
+    ...wallet({ rootUrl, get, post })
   }
 }

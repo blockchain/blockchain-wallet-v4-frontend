@@ -1,8 +1,8 @@
 import { toUpper } from 'ramda'
 
-export default ({ get, post }) => {
+export default ({ apiUrl, rootUrl, get, post }) => {
   const fetchBchData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: 'bch/multiaddr',
     data: {
       active: (Array.isArray(context) ? context : [context]).join('|'),
@@ -18,13 +18,13 @@ export default ({ get, post }) => {
   })
 
   const getBchTicker = () => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: 'ticker',
     data: { base: 'BCH' }
   })
 
   const getBchUnspents = (fromAddresses, confirmations = 0) => get({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'bch/unspent',
     data: {
       active: fromAddresses.join('|'),
@@ -34,24 +34,24 @@ export default ({ get, post }) => {
   })
 
   const pushBchTx = (txHex) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'bch/pushtx',
     data: { tx: txHex, format: 'plain' }
   })
 
   const getBchFiatAtTime = (amount, currency, time) => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: 'frombch',
     data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
   })
 
   const getLatestBlock = () => get({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'bch/latestblock'
   })
 
   const getRawTx = (txHex) => get({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'bch/rawtx/' + txHex
   })
 

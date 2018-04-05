@@ -1,12 +1,12 @@
-export default ({ get, post }) => {
+export default ({ rootUrl, get, post }) => {
   const getSettings = (guid, sharedKey) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet',
     data: { guid, sharedKey, method: 'get-info', format: 'json' }
   })
 
   const updateSettings = (guid, sharedKey, method, payload, querystring = '') => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: querystring ? `wallet?${querystring}` : 'wallet',
     data: { guid, sharedKey, method, payload, length: payload.length }
   })

@@ -1,33 +1,33 @@
 import { toUpper } from 'ramda'
 
-export default ({ get, post }) => {
+export default ({ apiUrl, rootUrl, get, post }) => {
   const getCaptchaImage = (timestamp, sessionToken) => get({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'kaptcha.jpg',
     data: { timestamp },
     sessionToken
   })
 
   const getTransactionHistory = (active, currency, start, end) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'v2/export-history',
     data: { active, currency: toUpper(currency), start, end }
   })
 
   const getAdverts = number => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: 'bci-ads/get',
     data: { wallet: true, n: number }
   })
 
   const getLogs = (guid, sharedKey) => post({
-    url: global.domains.root,
+    url: rootUrl,
     endPoint: 'wallet',
     data: { guid, sharedKey, method: 'list-logs', format: 'json' }
   })
 
   const getPriceIndexSeries = (coin, currency, start, scale) => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: 'price/index-series',
     data: { base: coin, quote: currency, start: start, scale: scale }
   })

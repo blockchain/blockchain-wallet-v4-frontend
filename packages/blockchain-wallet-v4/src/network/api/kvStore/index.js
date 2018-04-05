@@ -4,7 +4,7 @@ import * as KV from '../../../types/KVStoreEntry'
 
 const eitherToTask = (e) => e.fold(Task.rejected, Task.of)
 
-export default () => {
+export default ({ apiUrl }) => {
   const request = (method, endpoint, data) => {
     const checkStatus = (response) => {
       if (response.status >= 200 && response.status < 300) {
@@ -16,7 +16,7 @@ export default () => {
       }
     }
 
-    let url = global.domains.api + 'metadata/' + endpoint
+    let url = apiUrl + 'metadata/' + endpoint
     let options = {
       method,
       headers: { 'Content-Type': 'application/json' },

@@ -1,43 +1,43 @@
 
-export default ({ get, post }) => {
+export default ({ apiUrl, get, post }) => {
   const checkContract = (address) => ({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: `eth/account/${address}/isContract`
   })
 
   const getEthereumBalances = (context) => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: `eth/account/${Array.isArray(context) ? context.join() : context}/balance`
   })
 
   const getEthereumData = (context) => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: `eth/account/${Array.isArray(context) ? context.join() : context}`
   })
 
   const getEthereumFee = () => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: 'eth/fees'
   })
 
   const getEthereumLatestBlock = () => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: 'eth/latestblock'
   })
 
   const getEthereumTicker = () => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: 'ticker',
     data: { base: 'ETH' }
   })
 
   const getEthereumTransaction = (hash) => get({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: `eth/tx/${hash}`
   })
 
   const pushEthereumTx = (rawTx) => post({
-    url: global.domains.api,
+    url: apiUrl,
     endPoint: 'eth/pushtx',
     contentType: 'application/json',
     data: { rawTx }
