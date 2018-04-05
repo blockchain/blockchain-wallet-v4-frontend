@@ -14,10 +14,12 @@ import SecondPasswordWallet from './SecondPasswordWallet'
 import { IconButton, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
-const Wrapper = styled.div``
+const AdvancedContainer = styled.div`
+  margin-top: 0px;
+`
 
 const Advanced = ({ tabs, setView }) => (
-  <Wrapper>
+  <AdvancedContainer>
     {!tabs && <IconButton name='left-arrow' onClick={() => setView('security')}>
       <Text size='14px' weight={300}>
         <FormattedMessage id='scenes.securitycenter.advanced.goback' defaultMessage='Go Back' />
@@ -32,7 +34,7 @@ const Advanced = ({ tabs, setView }) => (
     <WalletAccessTor />
     <PasswordStretching />
     <APIAccess />
-  </Wrapper>
+  </AdvancedContainer>
 )
 
 export default Advanced
