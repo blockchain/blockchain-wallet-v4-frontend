@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Text, Icon } from 'blockchain-info-components'
 
 import { reduxForm } from 'redux-form'
-import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary } from 'components/Security'
+import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SuccessOverlay } from 'components/Security'
 
 import ChangeEmailSteps from '../Components/ChangeEmailSteps'
 import EmailVerificationSteps from '../Components/EmailVerificationSteps'
@@ -66,6 +66,12 @@ const EmailAddress = (props) => {
 
   return (
     <SecurityContainer>
+      <SuccessOverlay success={ui.successToggled}>
+        <Icon name='checkmark-in-circle' size='150px' color='success' />
+        <Text size='14px' weight={300} color='success'>
+          <FormattedMessage id='scenes.security.email.success' defaultMessage="Congrats! You've successfully verified your email!" />
+        </Text>
+      </SuccessOverlay>
       <IconContainer>
         <SecurityIcon name='email' enabled={isVerified} />
       </IconContainer>
@@ -74,20 +80,20 @@ const EmailAddress = (props) => {
           ? renderInitial()
           : ui.changeEmailToggled
             ? <ChangeEmailSteps handleEmailChangeCancel={props.handleEmailChangeCancel} handleEmailChangeSubmit={props.handleEmailChangeSubmit} invalid={invalid} email={email} />
-            : <EmailVerificationSteps failed={failed} email={email} handleSubmitVerification={handleSubmitVerification} handleResend={handleResend} />
+            : <EmailVerificationSteps failed={failed} email={email} handleSubmitVerification={handleSubmitVerification} handleResend={handleResend} success={ui.successToggled} />
       }
       <EmailSecurityComponent>
         {
           !verified && !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
             ? <Button nature='primary' onClick={props.handleVerifyClick}>
-              <FormattedMessage id='scenes.preferences.email.settings.updateform.change' defaultMessage='Enter Code' />
+              <FormattedMessage id='scenes.security.email.settings.updateform.change' defaultMessage='Enter Code' />
             </Button>
             : null
         }
         {
           !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
             ? <ChangeEmailText color='brand-secondary' size='12px' weight={300} onClick={props.handleChangeEmailView}>
-              <FormattedMessage id='scenes.securitycenter.email.upateform.changetext' defaultMessage='Change Your Email' />
+              <FormattedMessage id='scenes.security.email.upateform.changetext' defaultMessage='Change Your Email' />
             </ChangeEmailText>
             : null
         }

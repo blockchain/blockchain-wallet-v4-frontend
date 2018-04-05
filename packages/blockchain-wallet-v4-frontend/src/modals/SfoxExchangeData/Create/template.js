@@ -5,29 +5,28 @@ import { reduxForm } from 'redux-form'
 import AcceptTerms from './AcceptTerms'
 import VerifyEmail from './VerifyEmail'
 import VerifyMobile from './VerifyMobile'
-import { Row } from '../styled'
+import { Row } from 'components/BuySell/Signup'
 
 const Create = (props) => {
   const { ui } = props
+  const { create } = ui
   const { handleSignup, signupError } = props
 
   const determineStep = () => {
-    switch (ui.create) {
-      case 'create_account': return 'terms'
+    switch (create) {
+      case 'create_account': return <AcceptTerms handleSignup={handleSignup} signupError={signupError} {...props} />
 
       case 'change_email':
-      case 'enter_email_code': return 'email'
+      case 'enter_email_code': return <VerifyEmail {...props} />
 
       case 'change_mobile':
-      case 'enter_mobile_code': return 'mobile'
+      case 'enter_mobile_code': return <VerifyMobile {...props} />
     }
   }
 
   return (
     <Row>
-      { determineStep() === 'email' && <VerifyEmail {...props} /> }
-      { determineStep() === 'mobile' && <VerifyMobile {...props} /> }
-      { determineStep() === 'terms' && <AcceptTerms handleSignup={handleSignup} signupError={signupError} {...props} /> }
+      { determineStep() }
     </Row>
   )
 }

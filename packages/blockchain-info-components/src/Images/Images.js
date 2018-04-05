@@ -3,6 +3,7 @@ import bitcoinNetwork from './img/bitcoin-network.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
 import blockchainVector from './img/blockchain-vector.svg'
 import blueLogo from './img/blue-logo.svg'
+import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.png'
@@ -11,6 +12,7 @@ import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
 import qrCode from './img/qr-code.png'
 import rocket from './img/rocket.gif'
+import selectArrow from './img/select-arrow.png'
 import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
@@ -26,6 +28,7 @@ export default {
   'blockchain-blue': blockchainBlue,
   'blockchain-vector': blockchainVector,
   'blue-logo': blueLogo,
+  'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
@@ -34,6 +37,7 @@ export default {
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
   'qr-code': qrCode,
   'rocket': rocket,
+  'select-arrow': selectArrow,
   'shapeshiftLogo': shapeshiftLogo,
   'smartphone': smartphone,
   'sophisticated': sophisticated,

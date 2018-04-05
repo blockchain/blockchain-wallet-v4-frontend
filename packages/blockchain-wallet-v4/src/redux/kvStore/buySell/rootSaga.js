@@ -9,7 +9,7 @@ import { derivationMap, BUYSELL } from '../config'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api, sfoxService } = {}) => {
+export default ({ api, sfoxService, coinifyService } = {}) => {
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }

@@ -2,9 +2,9 @@ import React from 'react'
 import { Icon } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Container, Question, Answer } from '../styled'
+import { Container, Question, Answer } from 'components/BuySell/FAQ'
 
-class Helper1 extends React.Component {
+class FAQ1 extends React.Component {
   constructor (props) {
     super(props)
     this.state = {open: false}
@@ -23,7 +23,7 @@ class Helper1 extends React.Component {
   }
 }
 
-class Helper2 extends React.Component {
+class FAQ2 extends React.Component {
   constructor (props) {
     super(props)
     this.state = {open: false}
@@ -42,4 +42,4 @@ class Helper2 extends React.Component {
   }
 }
 
-export { Helper1, Helper2 }
+export { FAQ1, FAQ2 }

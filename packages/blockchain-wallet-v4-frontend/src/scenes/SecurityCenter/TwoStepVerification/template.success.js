@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Text, Button, Link, ButtonGroup } from 'blockchain-info-components'
 import styled, { keyframes } from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary } from 'components/Security'
+import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SecurityTip } from 'components/Security'
 import { PhoneNumberBox } from 'components/Form'
 import GoogleAuth from './GoogleAuth'
 import Yubikey from './Yubikey'
@@ -16,13 +16,6 @@ const pulseAnimation = keyframes`${pulse}`
 
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 120%;
-`
-const SecurityTip = styled.div`
-  border-left: 1px solid #CCCCCC;
-  border-right: 1px solid #CCCCCC;
-  border-bottom: 1px solid #CCCCCC;
-  padding: 20px;
-  width: 95%;
 `
 const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
@@ -173,7 +166,7 @@ const TwoStepVerification = (props) => {
   }
 
   return (
-    <div>
+    <Fragment>
       <SecurityTwoStepContainer>
         <IconContainer>
           <SecurityIcon name='lock' enabled={twoFAEnabled} />
@@ -215,7 +208,7 @@ const TwoStepVerification = (props) => {
           </SecurityTip>
           : null
       }
-    </div>
+    </Fragment>
   )
 }
 
