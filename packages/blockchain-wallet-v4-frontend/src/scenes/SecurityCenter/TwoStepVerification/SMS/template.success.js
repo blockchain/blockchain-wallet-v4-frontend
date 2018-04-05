@@ -37,7 +37,7 @@ const QRInputWrapper = styled.div`
 `
 
 const SmsAuth = props => {
-  const { data, ui, onSubmit, goBack, changeMobileNumber, invalid, code } = props
+  const { data, ui, onSubmit, changeMobileNumber, invalid, code } = props
   const { smsVerified, smsNumber } = data
 
   return (

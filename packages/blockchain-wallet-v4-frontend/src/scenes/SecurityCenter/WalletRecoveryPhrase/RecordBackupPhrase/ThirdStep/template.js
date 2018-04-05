@@ -29,6 +29,7 @@ const Buttons = styled.div`
   }
 `
 const VerificationContainer = styled.div`
+  width: 118%;
   opacity: ${props => props.authType ? 0.3 : 1};
 `
 
