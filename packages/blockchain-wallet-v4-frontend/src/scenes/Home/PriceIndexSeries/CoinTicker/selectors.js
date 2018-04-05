@@ -1,4 +1,4 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 import { lift } from 'ramda'
 
@@ -8,7 +8,8 @@ export const getData = (state, coin) => {
     switch (coin) {
       case 'BTC': return selectors.core.data.bitcoin.getRates(state)
       case 'ETH': return selectors.core.data.ethereum.getRates(state)
-      default: return selectors.core.data.bch.getRates(state)
+      case 'BCH': return selectors.core.data.bch.getRates(state)
+      default: return Remote.Failure('Coin code incorrect')
     }
   }
 
