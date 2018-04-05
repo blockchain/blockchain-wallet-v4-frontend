@@ -1,6 +1,7 @@
 export { default as PlaceHolder } from './PlaceHolder'
 export { default as CheckBoxInput } from './CheckBoxInput'
 export { default as DateInput } from './DateInput'
+export { default as NativeSelect } from './NativeSelect'
 export { default as NumberInput } from './NumberInput'
 export { default as PasswordInput } from './PasswordInput'
 export { default as RadioButtonInput } from './RadioButtonInput'
