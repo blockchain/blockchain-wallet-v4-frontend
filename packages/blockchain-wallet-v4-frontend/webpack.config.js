@@ -1,22 +1,44 @@
-const Webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const dotenv = require('dotenv')
+const fs = require('fs')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const DotEnv = require('dotenv-webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const walletOptions = require('../Resources/wallet-options.json')
+const Webpack = require('webpack')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
-const buildEnvString = isProdBuild ? 'production' : 'development'
 const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
-  src: `${__dirname}/src`
+  src: `${__dirname}/src`,
+  envConfig: `${__dirname}/../../config/env/.env.`
 }
 
+// load, parse and log application configuration
+let envConfig = {}
+
+try {
+  envConfig.path = PATHS.envConfig + process.env.NODE_ENV
+  envConfig.parsed = dotenv.parse(fs.readFileSync(envConfig.path))
+} catch (e) {
+  console.log(`WARNING: Failed to load .env.${process.env.NODE_ENV} file! Using .env.production file instead!`)
+  envConfig.path = PATHS.envConfig + 'production'
+  envConfig.parsed = dotenv.parse(fs.readFileSync(envConfig.path))
+}
+
+console.log('APP CONFIGURATION')
+console.log('**************')
+console.log(`ENVIRONMENT: ${envConfig.parsed.ENV}`)
+console.log(`BLOCKCHAIN_INFO: ${envConfig.parsed.BLOCKCHAIN_INFO}`)
+console.log(`API_BLOCKCHAIN_INFO: ${envConfig.parsed.API_BLOCKCHAIN_INFO}`)
+console.log(`WEB_SOCKET_URL: ${envConfig.parsed.WEB_SOCKET_URL}`)
+console.log('**************')
+
 module.exports = {
-  mode: buildEnvString,
+  mode: isProdBuild ? 'production' : 'development',
   entry: {
     app: [
       'babel-polyfill',
@@ -105,15 +127,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.dist, PATHS.build], {allowExternal: true}),
+    new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
-    new HtmlWebpackPlugin({
-      template: PATHS.src + '/index.html',
-      filename: 'index.html'
-    }),
-    new Webpack.DefinePlugin({
-      'process.env': { 'NODE_ENV': JSON.stringify(buildEnvString) }
-    }),
+    new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
+    new DotEnv({ path: envConfig.path }),
     ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
@@ -169,11 +186,6 @@ module.exports = {
     port: 8080,
     hot: !isProdBuild,
     historyApiFallback: true,
-    before (app) {
-      app.get('/Resources/wallet-options.json', function (req, res) {
-        res.json(walletOptions)
-      })
-    },
     proxy: [
       {
         path: /\/a\/.*/,

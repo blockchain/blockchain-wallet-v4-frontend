@@ -14,14 +14,26 @@ import wallet from './wallet/sagas'
 export const sagas = { core: coreSagasFactory({ api, socket, sfoxService, coinifyService }) }
 const coreRootSaga = rootSaga({ api, socket, sfoxService, coinifyService })
 
-const welcomeSaga = function * () {
+const logAppConfigSaga = function * () {
+  if (console && process.env.ENV) {
+    console.log('=======================================================')
+    console.log('APP CONFIGURATION')
+    console.log('VERSION: 4.0')
+    console.log(`ENVIRONMENT: ${process.env.ENV}`)
+    console.log(`BLOCKCHAIN_INFO: ${process.env.BLOCKCHAIN_INFO}`)
+    console.log(`API_BLOCKCHAIN_INFO: ${process.env.API_BLOCKCHAIN_INFO}`)
+    console.log(`WEB_SOCKET_URL: ${process.env.WEB_SOCKET_URL}`)
+    console.log('=======================================================')
+  } else {
+    console.error('WARNING: Application was potentially loaded without environment configurations!')
+  }
+  yield
+}
+
+const userWarningSaga = function * () {
   if (console) {
-    const version = '4.0.0.0'
     const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
     const style2 = 'font-size: 18px;'
-    console.log('=======================================================')
-    console.log(`%c Wallet version ${version}`, style2)
-    console.log('=======================================================')
     console.log('%c STOP!!', style1)
     console.log('%c This browser feature is intended for developers.', style2)
     console.log('%c If someone told you to copy-paste something here,', style2)
@@ -32,7 +44,8 @@ const welcomeSaga = function * () {
 
 export default function * () {
   yield all([
-    call(welcomeSaga),
+    call(logAppConfigSaga),
+    call(userWarningSaga),
     fork(alerts),
     fork(auth),
     fork(modules),
