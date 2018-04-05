@@ -1,6 +1,6 @@
 export default ({ rootUrl, get }) => {
   const getWalletOptions = () => get({
-    url: rootUrl,
+    url: '/',
     endPoint: 'Resources/wallet-options.json'
   })
 
