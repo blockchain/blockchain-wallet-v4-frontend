@@ -12,7 +12,7 @@ const WhatsNewLink = styled(Link)`
   }
 
   ::after {
-    opacity: ${props => props.trayRightOpen ? '1' : '0'};
+    opacity: ${props => props.trayRightOpen && props.trayRightContent==='whats-new' ? '1' : '0'};
     content: "";
     position: absolute;
     top: 24px;
@@ -29,16 +29,17 @@ const WhatsNewLink = styled(Link)`
 `
 
 const WhatsNew = (props) => {
-  const { trayRightOpen, handleTrayRightToggle } = props
+  const { trayRightOpen, handleTrayRightToggle, trayRightContent} = props
 
   return (
-    <WhatsNewLink trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('whats-new')} size='16px' weight={300} color='white'>
+    <WhatsNewLink trayRightContent={trayRightContent} trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('whats-new')} size='16px' weight={300} color='white'>
       <Icon name='bell-filled' size='18px' color='white'/>
     </WhatsNewLink>
   )
 }
 
 WhatsNew.propTypes = {
+  trayRightContent: PropTypes.string.isRequired,
   handleTrayRightToggle: PropTypes.func.isRequired,
   trayRightOpen: PropTypes.bool.isRequired
 }
