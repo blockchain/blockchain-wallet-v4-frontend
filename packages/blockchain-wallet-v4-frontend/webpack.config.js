@@ -18,21 +18,23 @@ const PATHS = {
 }
 
 // load, parse and log application configuration
-let envConfig
+let envConfig = {}
 
 try {
-  envConfig = dotenv.parse(fs.readFileSync(PATHS.envConfig + process.env.NODE_ENV))
+  envConfig.path = PATHS.envConfig + process.env.NODE_ENV
+  envConfig.parsed = dotenv.parse(fs.readFileSync(envConfig.path))
 } catch (e) {
   console.log(`WARNING: Failed to load .env.${process.env.NODE_ENV} file! Using .env.production file instead!`)
-  envConfig = dotenv.parse(fs.readFileSync(PATHS.envConfig + 'production'))
+  envConfig.path = PATHS.envConfig + 'production'
+  envConfig.parsed = dotenv.parse(fs.readFileSync(envConfig.path))
 }
 
 console.log('APP CONFIGURATION')
 console.log('**************')
-console.log(`ENVIRONMENT: ${envConfig.ENV}`)
-console.log(`BLOCKCHAIN_INFO: ${envConfig.BLOCKCHAIN_INFO}`)
-console.log(`API_BLOCKCHAIN_INFO: ${envConfig.API_BLOCKCHAIN_INFO}`)
-console.log(`WEB_SOCKET_URL: ${envConfig.WEB_SOCKET_URL}`)
+console.log(`ENVIRONMENT: ${envConfig.parsed.ENV}`)
+console.log(`BLOCKCHAIN_INFO: ${envConfig.parsed.BLOCKCHAIN_INFO}`)
+console.log(`API_BLOCKCHAIN_INFO: ${envConfig.parsed.API_BLOCKCHAIN_INFO}`)
+console.log(`WEB_SOCKET_URL: ${envConfig.parsed.WEB_SOCKET_URL}`)
 console.log('**************')
 
 module.exports = {
@@ -128,7 +130,7 @@ module.exports = {
     new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
     new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
-    new DotEnv({ path: PATHS.envConfig }),
+    new DotEnv({ path: envConfig.path }),
     ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
