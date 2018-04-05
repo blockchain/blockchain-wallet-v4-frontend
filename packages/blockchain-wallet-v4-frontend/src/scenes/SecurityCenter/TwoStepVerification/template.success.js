@@ -61,6 +61,7 @@ const DisableLinkText = styled(Text)`
 `
 const Header = SecurityHeader.extend`
   justify-content: flex-start;
+  align-items: center;
 `
 const ChangeMobileContainer = styled.form`
   display: flex;
