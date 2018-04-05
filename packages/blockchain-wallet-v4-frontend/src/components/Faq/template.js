@@ -49,7 +49,7 @@ const Faq = (props) => {
 
   return (
     <Fragment>
-      <ModalHeader onClose={handleTrayRightToggle}>
+      <ModalHeader onClose={() => handleTrayRightToggle()}>
         <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions'/>
       </ModalHeader>
       <ModalBody>

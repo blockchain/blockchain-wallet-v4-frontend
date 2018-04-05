@@ -16,7 +16,7 @@ const ContentWrapper = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
 `
-const WhatsNewLeora = (props) => {
+const WhatsNew = (props) => {
   const { handleTrayRightToggle } = props
 
   const announcements = [
@@ -70,7 +70,7 @@ const WhatsNewLeora = (props) => {
 
   return (
     <Fragment>
-      <ModalHeader onClose={handleTrayRightToggle}>
+      <ModalHeader onClose={() => handleTrayRightToggle()}>
         <FormattedMessage id='layouts.wallet.trayright.whatsnew' defaultMessage='Whats New'/>
       </ModalHeader>
       <ModalBody>
@@ -97,8 +97,8 @@ const WhatsNewLeora = (props) => {
   )
 }
 
-WhatsNewLeora.propTypes = {
+WhatsNew.propTypes = {
   handleTrayRightToggle: PropTypes.func.isRequired
 }
 
-export default WhatsNewLeora
+export default WhatsNew
