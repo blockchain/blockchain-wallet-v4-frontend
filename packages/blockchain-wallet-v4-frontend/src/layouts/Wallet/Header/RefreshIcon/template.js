@@ -10,7 +10,7 @@ const RefreshLink = styled(Link)`
   }
 `
 
-const Refresh = (props) => {
+const RefreshIcon = (props) => {
   const { handleRefresh } = props
 
   return (
@@ -20,8 +20,8 @@ const Refresh = (props) => {
   )
 }
 
-Refresh.propTypes = {
+RefreshIcon.propTypes = {
   handleRefresh: PropTypes.func.isRequired
 }
 
-export default Refresh
+export default RefreshIcon

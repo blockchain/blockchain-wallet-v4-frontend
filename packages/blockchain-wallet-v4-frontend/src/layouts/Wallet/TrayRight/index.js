@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import Faq from 'components/Faq'
-import WhatsNewLeora from 'layouts/Wallet/Header/WhatsNewLeora'
+import WhatsNew from 'components/WhatsNew'
 import { Modal } from 'blockchain-info-components'
 
 const AnimationWrapper = styled.div`
@@ -72,7 +72,7 @@ class TrayRight extends React.Component {
           {(() => {
             switch (trayRightContent) {
               case 'faq': return <Faq handleTrayRightToggle={handleTrayRightToggle} />
-              case 'whats-new': return <WhatsNewLeora handleTrayRightToggle={handleTrayRightToggle} />
+              case 'whats-new': return <WhatsNew handleTrayRightToggle={handleTrayRightToggle} />
               default: return null
             }
           })()}

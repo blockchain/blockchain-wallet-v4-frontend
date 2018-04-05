@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link, Icon } from 'blockchain-info-components'
 
-const FaqLink = styled(Link)`
+const WhatsNewLink = styled(Link)`
   position: relative;
   margin-top: 4px;
 
@@ -12,8 +12,7 @@ const FaqLink = styled(Link)`
   }
 
   ::after {
-    opacity: ${props => props.trayRightOpen && props.trayRightContent === 'faq' ? '1' : '0'};
-    /*and trayRightContent is FAQ*/
+    opacity: ${props => props.trayRightOpen && props.trayRightContent === 'whats-new' ? '1' : '0'};
     content: "";
     position: absolute;
     top: 24px;
@@ -29,20 +28,20 @@ const FaqLink = styled(Link)`
   }
 `
 
-const Faq = (props) => {
+const WhatsNewIcon = (props) => {
   const { trayRightOpen, handleTrayRightToggle, trayRightContent } = props
 
   return (
-    <FaqLink trayRightContent={trayRightContent} trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('faq')} size='16px' weight={300} color='white'>
-      <Icon name='question-in-circle-filled' size='18px' color='white'/>
-    </FaqLink>
+    <WhatsNewLink trayRightContent={trayRightContent} trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('whats-new')} size='16px' weight={300} color='white'>
+      <Icon name='bell-filled' size='18px' color='white'/>
+    </WhatsNewLink>
   )
 }
 
-Faq.propTypes = {
+WhatsNewIcon.propTypes = {
   trayRightContent: PropTypes.string.isRequired,
   handleTrayRightToggle: PropTypes.func.isRequired,
   trayRightOpen: PropTypes.bool.isRequired
 }
 
-export default Faq
+export default WhatsNewIcon
