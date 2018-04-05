@@ -14,11 +14,19 @@ const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`,
-  envConfig: `${__dirname}/../../config/env/.env.${process.env.NODE_ENV}`
+  envConfig: `${__dirname}/../../config/env/.env.`
 }
 
 // load, parse and log application configuration
-const envConfig = dotenv.parse(fs.readFileSync(PATHS.envConfig))
+let envConfig
+
+try {
+  envConfig = dotenv.parse(fs.readFileSync(PATHS.envConfig + process.env.NODE_ENV))
+} catch (e) {
+  console.log(`WARNING: Failed to load .env.${process.env.NODE_ENV} file! Using .env.production file instead!`)
+  envConfig = dotenv.parse(fs.readFileSync(PATHS.envConfig + 'production'))
+}
+
 console.log('APP CONFIGURATION')
 console.log('**************')
 console.log(`ENVIRONMENT: ${envConfig.ENV}`)

@@ -23,7 +23,7 @@
   },
   "scripts": {
     "analyze": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run analyze",
-    "build": "npm run build:dev",
+    "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:dev",
     "build:dev": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:dev",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
     "build:staging": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:staging",
@@ -42,7 +42,7 @@
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
-    "start": "npm run start:dev",
+    "start": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:dev",
     "start:dev": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:dev",
     "start:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:prod",
     "start:staging": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:staging",
