@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { SecuritySummary } from 'components/Security'
 import { Field } from 'redux-form'
 import { TextBox } from 'components/Form'
+import { spacing } from 'services/StyleService'
 
 import { validEmail } from 'services/FormHelper'
 
@@ -20,14 +21,18 @@ const ChangeEmailWrapper = styled.div`
     margin-left: 0px;
   }
   justify-content: space-between;
-  margin-bottom: 15px;
-  margin-top: 20px;
+  margin: 20px 0px;
 `
 const CancelText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
 `
-const PaddingBottom = styled.div` margin-bottom: 10px; `
+const CustomBannerWrapper = styled.div`
+  div > div > span {
+    color: ${props => props.theme['gray-4']};
+  }
+  margin: 10px 0px;
+`
 
 function ChangeEmailSteps (props) {
   return (
@@ -39,10 +44,11 @@ function ChangeEmailSteps (props) {
           <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Change' />
         </Button>
       </ChangeEmailWrapper>
-      <Banner type='caution' size='12px' weight={200} width='130%'>
-        <FormattedMessage id='scenes.security.email.changeemail' defaultMessage='This will change your wallets email address, but the email address you signed up to Buy Bitcoin with will remain the same.' />
-      </Banner>
-      <PaddingBottom />
+      <CustomBannerWrapper>
+        <Banner type='caution' size='12px' weight={200}>
+          <FormattedMessage id='scenes.security.email.changeemail' defaultMessage='This will change your wallets email address, but the email address you signed up to Buy Bitcoin with will remain the same.' />
+        </Banner>
+      </CustomBannerWrapper>
     </SecuritySummary>
   )
 }
