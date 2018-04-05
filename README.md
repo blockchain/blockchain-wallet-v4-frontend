@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend.svg?branch=master)](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend) 
+[![Build Status](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend.svg?branch=master)](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend)
 [![Coverage Status](https://coveralls.io/repos/github/blockchain/blockchain-wallet-v4-frontend/badge.svg)](https://coveralls.io/github/blockchain/blockchain-wallet-v4-frontend)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
 # Blockchain Wallet v4
-Be Your Own Bank at [blockchain.info/wallet](https://blockchain.info/wallet). 
+Be Your Own Bank at [blockchain.info/wallet](https://blockchain.info/wallet).
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
 ## About
@@ -17,7 +17,7 @@ This repo contains the three codebases/packages listed below that are combined i
 
 ## Local Development
 1. Ensure Node version >= 8.0 is installed
-2. Ensure `lerna` and `yarn` are installed globally: `npm install -g lerna yarn`
+2. Ensure `lerna` and `yarn` are installed globally: `npm install -g lerna yarn babel-cli`
 3. Install and link packages: `yarn bootstrap`
 4. Start application in dev mode: `yarn start`
 5. The frontend will now be accessible via browser at `localhost:8080`
@@ -25,7 +25,7 @@ This repo contains the three codebases/packages listed below that are combined i
 ### Important Notes
 1. After installing or uninstalling a NPM package, run the following node command at the root of the project:
    * `lerna bootstrap`
-2. All developer specific dependencies should be installed in the top level `package.json`. This helps reduce duplicate 
+2. All developer specific dependencies should be installed in the top level `package.json`. This helps reduce duplicate
     packages as well as speed up build times.
    * `yarn i --save-dev [package-name]`
 3. To test bitcoin handling in dev mode: run this javascript command in the browser console:
@@ -43,7 +43,7 @@ To build the frontend application for production: `yarn build:prod`
 ## Code Quality
 ### Linting
 We follow the rules outlined by the [Javascript Standard Style](https://standardjs.com/rules.html) as well as a few React specfic rules.
- 
+
 Code linting is handled by [ESLint](https://eslint.org/). The following commands are available:
  * `yarn lint` Lints all packages
  * `yarn lint:components` Lints only [blockchain-info-components](./packages/blockchain-info-components)
@@ -64,7 +64,7 @@ Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http:/
  * `yarn test:components` Runs unit tests for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:core` Runs unit tests for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn test:frontend` Runs unit tests for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
- 
+
 #### Running Tests via Watch
  * `yarn test:watch` Watches and then runs desired tests
  * `yarn test:components:watch` Watches and then runs desired tests for only [blockchain-info-components](./packages/blockchain-info-components)
@@ -78,8 +78,8 @@ To enable debugging for unit tests via the Chrome browser, run the following com
  * `yarn test:frontend:debug` Debugs unit tests for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
 
 After running one of the above commands, Node will wait for a debugger to attach before starting the tests.
-To attach, simply open your browser and go to `chrome://inspect` and click on "Open Dedicated DevTools for Node", 
-which will give you a list of available node instances you can connect to. Click on the address displayed in the terminal 
+To attach, simply open your browser and go to `chrome://inspect` and click on "Open Dedicated DevTools for Node",
+which will give you a list of available node instances you can connect to. Click on the address displayed in the terminal
 (usually localhost:9229) and you will be able to debug tests using Chrome's DevTools.
 
 #### Updating Snapshot Tests
@@ -108,14 +108,14 @@ To run both unit tests and linting, the following commands are available:
  * `yarn vet:components` Lints and unit tests only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn vet:core` Lints and unit tests only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn vet:frontend` Lints and unit tests only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
- 
+
 ### Bundle Reports
 To visualize and interact with the treemap of the production code bundles files:
  * `yarn analyze`
 Once completed, a browser will automatically open with the results.
- 
+
 ## Storybook
-[Storybook](https://github.com/storybooks/storybook) is used by the [blockchain-info-components](./packages/blockchain-info-components) package to interactively view, develop and test components.  
+[Storybook](https://github.com/storybooks/storybook) is used by the [blockchain-info-components](./packages/blockchain-info-components) package to interactively view, develop and test components.
 The following commands are available:
  * `storybook:build`: Builds the static storybook assets
  * `storybook:serve` Builds storybook assets and then serves them locally at `localhost:6006`

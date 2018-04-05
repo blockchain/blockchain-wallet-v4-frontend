@@ -1,4 +1,4 @@
-import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop, tap } from 'ramda'
+import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from 'ramda'
 import { traverseOf, view, over, set } from 'ramda-lens'
 import Either from 'data.either'
 

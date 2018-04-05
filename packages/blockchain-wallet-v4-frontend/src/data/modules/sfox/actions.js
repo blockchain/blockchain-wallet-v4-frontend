@@ -4,8 +4,8 @@ export const setBankManually = (routing, account, name, type) => ({ type: AT.SET
 
 export const setBankAccount = (bank) => ({ type: AT.SET_BANK, payload: bank })
 
-export const sfoxSignup = () => ({ type: AT.SIGNUP })
-export const signupFailure = (error) => ({ type: AT.SIGNUP_FAILURE, payload: error })
+export const sfoxSignup = () => ({ type: AT.SFOX_SIGNUP })
+export const signupFailure = (error) => ({ type: AT.SFOX_SIGNUP_FAILURE, payload: error })
 
 export const nextStep = (step) => ({ type: AT.NEXT_STEP, payload: step })
 

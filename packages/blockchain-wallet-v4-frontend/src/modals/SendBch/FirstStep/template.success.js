@@ -106,7 +106,7 @@ const FirstStep = props => {
               <FormattedMessage id='modals.sendbch.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
             </Tooltip>
           </FormLabel>
-          <ComboDisplay coin='BCH'>{fee}</ComboDisplay>
+          <ComboDisplay size={'14px'} coin='BCH'>{fee}</ComboDisplay>
         </FormItem>
       </FormGroup>
       <FormGroup>

@@ -10,7 +10,7 @@ const sfoxSignup = (state = INITIAL_STATE, action) => {
     case AT.NEXT_STEP: {
       return assoc('signupStep', payload, state)
     }
-    case AT.SIGNUP_FAILURE: {
+    case AT.SFOX_SIGNUP_FAILURE: {
       return assoc('signupError', payload, state)
     }
     case AT.CLEAR_SIGNUP_ERROR: {

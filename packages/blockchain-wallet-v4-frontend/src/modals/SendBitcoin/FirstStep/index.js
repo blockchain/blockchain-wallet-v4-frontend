@@ -54,6 +54,7 @@ class FirstStep extends React.Component {
   }
 
   handleClickFeeToggler () {
+    this.props.formActions.change('sendBitcoin', 'fee', this.props.data.data.initialValues.fee)
     this.props.updateUI({ feeEditToggled: !this.props.ui.feeEditToggled })
   }
 
