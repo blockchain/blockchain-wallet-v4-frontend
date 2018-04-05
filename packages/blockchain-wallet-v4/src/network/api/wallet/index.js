@@ -133,7 +133,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'event',
     data: {name: `wallet_login_second_password_${secondPassActive ? 1 : 0}`}
   })
-  
+
   const incrementLoginViaQrStats = () => get({
     url: rootUrl,
     endPoint: 'event',
