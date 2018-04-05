@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
-import Faq from './Faq'
-import WhatsNew from './WhatsNew'
-import Refresh from './Refresh'
+import FaqIcon from './FaqIcon'
+import WhatsNewIcon from './WhatsNewIcon'
+import RefreshIcon from './RefreshIcon'
 import Logout from './Logout'
 
 import { Image } from 'blockchain-info-components'
@@ -32,13 +32,13 @@ const Header = (props) => {
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <Faq trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+            <FaqIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
           </NavbarNavItem>
           <NavbarNavItem>
-            <WhatsNew trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+            <WhatsNewIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
           </NavbarNavItem>
           <NavbarNavItem>
-            <Refresh />
+            <RefreshIcon />
           </NavbarNavItem>
           <NavbarNavItem>
             <Logout />
