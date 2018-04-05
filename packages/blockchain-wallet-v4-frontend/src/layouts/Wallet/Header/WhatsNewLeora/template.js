@@ -22,7 +22,7 @@ const WhatsNewLeora = (props) => {
   return (
     <Fragment>
       <ModalHeader onClose={handleTrayRightToggle}>
-        <FormattedMessage id='layouts.wallet.trayright.whatsNew' defaultMessage='Whats New'/>
+        <FormattedMessage id='layouts.wallet.trayright.whatsnew' defaultMessage='Whats New'/>
       </ModalHeader>
       <ModalBody>
         <Wrapper>

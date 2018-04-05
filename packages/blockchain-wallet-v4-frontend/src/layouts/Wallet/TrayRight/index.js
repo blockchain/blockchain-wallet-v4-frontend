@@ -11,7 +11,7 @@ const AnimationWrapper = styled.div`
   right: calc(-50%);
   height: calc(100vh - 60px);
   position: absolute;
-  transition: right 0.7s ease-out;
+  transition: right 0.4s linear;
 
   &.open {
     right: 0;
