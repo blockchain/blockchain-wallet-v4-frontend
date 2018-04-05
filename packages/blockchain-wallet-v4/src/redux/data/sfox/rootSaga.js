@@ -1,14 +1,23 @@
 import ExchangeDelegate from '../../../exchange/delegate'
+import { delay } from 'redux-saga'
 import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
+import { assoc, compose, where, equals, or, is, converge, merge } from 'ramda'
+import { HDAccount } from '../../../types'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import * as buySellA from '../../kvStore/buySell/actions'
+import { bitcoin as createBitcoinSagas } from '../bitcoin/sagas'
+import { descentDraw } from '../../../coinSelection'
+import * as bitcoinSelectors from '../bitcoin/selectors'
+import * as walletSelectors from '../../wallet/selectors'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as A from './actions'
 let sfox
 
 export default ({ api, sfoxService } = {}) => {
+  const bitcoinSagas = createBitcoinSagas({ api })
+
   const refreshSFOX = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
@@ -46,6 +55,61 @@ export default ({ api, sfoxService } = {}) => {
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
     }
+  }
+
+  const fetchBareQuote = function * (data) {
+    try {
+      let { action, amount, amountCurrency, baseCurrency, quoteCurrency } = data.payload
+
+      yield put(A.fetchBareQuoteLoading())
+      yield call(refreshSFOX)
+
+      let getQuote = () => sfox._api.POST(
+        'quote/',
+        {
+          action: action,
+          base_currency: baseCurrency,
+          quote_currency: quoteCurrency,
+          amount: Math.abs(amount).toString(),
+          amount_currency: amountCurrency.toLowerCase()
+        },
+        'v1',
+        'quotes'
+      ).then(compose(
+        assoc('input', action === 'buy' ? quoteCurrency : baseCurrency),
+        assoc('output', action === 'buy' ? baseCurrency : quoteCurrency)
+      ))
+
+      let quote = yield call(getQuote)
+
+      yield put(A.fetchBareQuoteSuccess(quote))
+    } catch (e) {
+      yield put(A.fetchBareQuoteFailure(e))
+    }
+  }
+
+  const buyShape = where({
+    quote_id: is(String),
+    destination: where({
+      type: equals('address'),
+      address: is(String)
+    }),
+    payment_method_id: is(String)
+  })
+
+  const sellShape = where({
+    quote_id: is(String),
+    destination: where({
+      type: equals('payment_method'),
+      payment_method_id: is(String)
+    })
+  })
+
+  const tradeShape = converge(or, [buyShape, sellShape])
+
+  const submitTrade = function * (trade) {
+    if (!tradeShape(trade)) throw new Error('invalid_trade_shape')
+    return yield call(() => sfox._api.authPOST('transaction', trade))
   }
 
   const fetchTrades = function * () {
@@ -99,7 +163,113 @@ export default ({ api, sfoxService } = {}) => {
     yield put(A.resetProfile())
   }
 
+  const signup = function * () {
+    try {
+      const sfox = yield call(refreshSFOX)
+      const signupResponse = yield apply(sfox, sfox.signup)
+
+      yield put(buySellA.setProfileBuySell(signupResponse))
+      yield put(A.signupSuccess(signupResponse))
+    } catch (e) {
+      yield put(A.signupFailure(e))
+    }
+  }
+
+  const generateBtcDestination = function * () {
+    let defaultAccount = yield select(walletSelectors.getDefaultAccount)
+    let receiveIndexR = yield select(bitcoinSelectors.getReceiveIndex(defaultAccount.xpub))
+
+    let address = receiveIndexR
+      .map((index) => HDAccount.getReceiveAddress(defaultAccount, index))
+      .getOrFail(new Error('receive_index_not_found'))
+
+    return { type: 'address', address }
+  }
+
+  const generatePaymentMethodDestination = function * () {
+    let accountsR = yield select(S.getAccounts)
+
+    let id = accountsR
+      .map((accounts) => accounts[0].id)
+      .getOrFail(new Error('sfox_accounts_missing'))
+
+    return { type: 'payment_method', payment_method_id: id }
+  }
+
+  const publishPayment = function * (from, to, amount, { password, network } = {}) {
+    throw new Error('publishPayment_UNIMPLEMENTED')
+    // let defaultAccount = yield select(walletSelectors.getDefaultAccount)
+    // let changeIndexR = yield select(bitcoinSelectors.getChangeIndex(defaultAccount.xpub))
+    //
+    // let changeAddress = changeIndexR
+    //   .map((index) => HDAccount.getChangeAddress(defaultAccount, index, network))
+    //   .getOrFail(new Error('change_index_not_found'))
+    //
+    // let feePerByte = 5
+    // let coins = yield call(bitcoinSagas.fetchUnspent, [from])
+    // let selection = descentDraw([to], feePerByte, coins, changeAddress)
+    //
+    // return yield call(bitcoinSagas.signAndPublish, { selection, password })
+  }
+
+  // Entry point
+  const sfoxSubmitQuote = function * (action) {
+    let quote = action.payload
+    yield put(A.handleTradeLoading())
+    yield put(A.relayToTradeOutput(quote, quote.output))
+  }
+
+  // Handle trade output kind
+  const sfoxTradeOutputUsd = function * (action) {
+    let destination = yield call(generatePaymentMethodDestination)
+    let tradeReq = { quote_id: action.payload.quote_id, destination }
+    let tradeResult = yield call(submitTrade, tradeReq)
+    yield put(A.relayToTradeInput(tradeResult, action.payload.input))
+  }
+
+  const sfoxTradeOutputBtc = function * (action) {
+    let destination = yield call(generateBtcDestination)
+    let trade = { quote_id: action.payload.quote_id, destination }
+    yield put(A.relayToTradeInput(trade, action.payload.input))
+  }
+
+  // Handle trade input kind
+  const sfoxTradeInputUsd = function * (action) {
+    let { payment_method_id } = yield call(generatePaymentMethodDestination)
+    let tradeReq = merge(action.payload, { payment_method_id })
+    let tradeResult = yield submitTrade(tradeReq)
+    yield put(A.submitTrade(tradeResult))
+  }
+
+  const sfoxTradeInputBtc = function * (action) {
+    yield call(publishPayment, action.payload.address)
+    yield put(A.submitTrade(action.payload))
+  }
+
+  // Exit point
+  const sfoxSubmitTrade = function * (action) {
+    yield put(A.handleTradeSuccess(action.payload))
+  }
+
+  const wrapWithTradeErrorHandler = (saga) => {
+    return function * (...args) {
+      try {
+        yield call(saga, ...args)
+      } catch (e) {
+        let error = is(String, e) ? new Error(e) : e
+        yield put(A.handleTradeFailure(error))
+      }
+    }
+  }
+
   return function * () {
+    yield takeLatest(AT.SUBMIT_QUOTE, sfoxSubmitQuote)
+    yield takeLatest(AT.createTradeOutputAction('USD'), wrapWithTradeErrorHandler(sfoxTradeOutputUsd))
+    yield takeLatest(AT.createTradeOutputAction('BTC'), wrapWithTradeErrorHandler(sfoxTradeOutputBtc))
+    yield takeLatest(AT.createTradeInputAction('USD'), wrapWithTradeErrorHandler(sfoxTradeInputUsd))
+    yield takeLatest(AT.createTradeInputAction('BTC'), wrapWithTradeErrorHandler(sfoxTradeInputBtc))
+    yield takeLatest(AT.SUBMIT_TRADE, sfoxSubmitTrade)
+    yield takeLatest(AT.FETCH_BARE_QUOTE, fetchBareQuote)
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.SFOX_FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)

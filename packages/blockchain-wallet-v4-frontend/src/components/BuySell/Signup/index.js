@@ -13,7 +13,7 @@ export const Row = styled.div`
 `
 
 export const ColLeft = styled.div`
-  width: 50%;
+  width: 60%;
 `
 
 export const ColLeftInner = styled.div`
@@ -21,7 +21,7 @@ export const ColLeftInner = styled.div`
 `
 
 export const ColRight = styled.div`
-  width: 50%;
+  width: 40%;
 `
 
 export const Info = styled.div`

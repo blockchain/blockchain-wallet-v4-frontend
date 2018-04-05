@@ -7,8 +7,8 @@ let types = {
 
 let templates = {
   a: (type, size) => ({ [type]: size }),
-  h: (type, size) => ({ [type]: `0px ${size}px` }),
-  v: (type, size) => ({ [type]: `${size}px 0px` }),
+  v: (type, size) => ({ [`${type}Top`]: size, [`${type}Bottom`]: size }),
+  h: (type, size) => ({ [`${type}Right`]: size, [`${type}Left`]: size }),
   t: (type, size) => ({ [`${type}Top`]: size }),
   r: (type, size) => ({ [`${type}Right`]: size }),
   b: (type, size) => ({ [`${type}Bottom`]: size }),

@@ -56,3 +56,32 @@ export const resetProfile = () => ({ type: AT.RESET_PROFILE })
 export const getDelegateTokenSuccess = (token) => ({ type: AT.GET_DELEGATE_TOKEN_SUCCESS, token })
 
 export const setToken = (token) => ({ type: AT.SET_TOKEN, payload: token })
+
+export const fetchBareQuote = ({ action, amount, amountCurrency, baseCurrency, quoteCurrency }) => ({
+  type: AT.FETCH_BARE_QUOTE,
+  payload: { action, amount, amountCurrency, baseCurrency, quoteCurrency }
+})
+
+export const fetchBareQuoteLoading = () => ({ type: AT.FETCH_BARE_QUOTE_LOADING })
+export const fetchBareQuoteSuccess = (quote) => ({ type: AT.FETCH_BARE_QUOTE_SUCCESS, payload: quote })
+export const fetchBareQuoteFailure = (error) => ({ type: AT.FETCH_BARE_QUOTE_FAILURE, payload: error })
+
+export const submitQuote = (quote) => ({
+  type: AT.SUBMIT_QUOTE,
+  payload: quote
+})
+
+export const submitTrade = (trade) => ({
+  type: AT.SUBMIT_TRADE,
+  payload: trade
+})
+
+export const relayToTradeOutput = (payload, outputCode) => ({
+  type: AT.createTradeOutputAction(outputCode),
+  payload
+})
+
+export const relayToTradeInput = (payload, inputCode) => ({
+  type: AT.createTradeInputAction(inputCode),
+  payload
+})

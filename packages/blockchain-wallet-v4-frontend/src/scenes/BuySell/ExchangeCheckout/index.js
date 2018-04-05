@@ -2,6 +2,7 @@ import React from 'react'
 import { equals } from 'ramda'
 import styled from 'styled-components'
 import { required } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { change, Field, reduxForm, focus } from 'redux-form'
 import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
@@ -158,7 +159,7 @@ class ExchangeCheckout extends React.Component {
           {
             accounts && accounts.length > 0
               ? <AccountsContainer>
-                <Text size='14px' weight={300} style={{'margin-bottom': '5px'}}>
+                <Text size='14px' weight={300} style={spacing('mb-5')}>
                   <FormattedMessage id='scenes.buysell.exchangecheckout.synced' defaultMessage='Synced Bank Account:' />
                 </Text>
                 { accounts.map((account) => {

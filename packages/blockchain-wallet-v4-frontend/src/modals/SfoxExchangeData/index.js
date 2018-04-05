@@ -8,6 +8,8 @@ import Tray from 'components/Tray'
 import Create from './Create'
 import Verify from './Verify'
 import Link from './Link'
+import Order from './Order'
+import Submit from './Submit'
 import Upload from './Upload'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
@@ -22,7 +24,9 @@ class SfoxExchangeData extends React.Component {
     this.stepMap = {
       account: <FormattedMessage id='modals.sfoxexchangedata.steps.account' defaultMessage='Account' />,
       verify: <FormattedMessage id='modals.sfoxexchangedata.steps.verify' defaultMessage='Verify' />,
+      upload: <FormattedMessage id='modals.sfoxexchangedata.steps.upload' defaultMessage='Upload' />,
       funding: <FormattedMessage id='modals.sfoxexchangedata.steps.funding' defaultMessage='Funding' />,
+      order: <FormattedMessage id='modals.sfoxexchangedata.steps.order' defaultMessage='Order' />,
       submit: <FormattedMessage id='modals.sfoxexchangedata.steps.submit' defaultMessage='Submit' />
     }
   }
@@ -43,11 +47,13 @@ class SfoxExchangeData extends React.Component {
       case 'account': return <Create />
       case 'verify': return <Verify />
       case 'funding': return <Link />
+      case 'order': return <Order />
+      case 'submit': return <Submit />
       case 'upload': return <Upload />
-      case 'verified': {
-        this.handleClose()
-        break
-      }
+      // case 'verified': {
+      //   this.handleClose()
+      //   break
+      // }
     }
   }
 
@@ -69,7 +75,7 @@ class SfoxExchangeData extends React.Component {
 }
 
 SfoxExchangeData.propTypes = {
-  step: PropTypes.oneOf(['account', 'verify', 'upload', 'funding']),
+  step: PropTypes.oneOf(['account', 'verify', 'upload', 'funding', 'order', 'submit']),
   close: PropTypes.function
 }
 
