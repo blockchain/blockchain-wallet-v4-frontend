@@ -1,4 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
+import { takeEvery, takeLatest, call, put, spawn } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as sagas from '../sagas.js'
@@ -95,6 +95,32 @@ export const editAccountLabel = function * (action) {
   }
 }
 
+function * payment1 () {
+  let payment = sagas.core.data.bitcoin.createPayment()
+  payment = yield payment.init()
+  payment = yield payment.to('14sWEbHKo6dd8enrovqm9ggLSd4wSVy9zc')
+  payment = yield payment.amount(10000)
+  payment = yield payment.from(0)
+  payment = yield payment.fee('regular')
+  payment = yield payment.build()
+  payment = yield payment.sign()
+  console.log(1, payment.value())
+}
+
+function * payment2 () {
+  let payment = yield sagas.core.data.bitcoin.createPayment()
+    .chain()
+    .init()
+    .to('14sWEbHKo6dd8enrovqm9ggLSd4wSVy9zc')
+    .amount(10000)
+    .from(0)
+    .fee('regular')
+    .build()
+    .sign()
+    .done()
+  console.log(2, payment.value())
+}
+
 export default function * () {
   yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
   yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
@@ -102,4 +128,8 @@ export default function * () {
   yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
   yield takeEvery(AT.EDIT_HD_LABEL, editHdLabel)
   yield takeEvery(AT.EDIT_ACCOUNT_LABEL, editAccountLabel)
+  yield takeLatest('P', function * () {
+    yield spawn(payment1)
+    yield spawn(payment2)
+  })
 }

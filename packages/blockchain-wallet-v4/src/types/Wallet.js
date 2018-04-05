@@ -109,6 +109,11 @@ export const reviver = (jsObject) => {
   return new Wallet(jsObject)
 }
 
+export const spendableActiveAddresses = (wallet) => {
+  let isSpendableActive = (a) => !Address.isWatchOnly(a) && !Address.isArchived(a)
+  return selectAddresses(wallet).filter(isSpendableActive).map(a => a.addr)
+}
+
 // fromEncryptedPayload :: String -> String -> Either Error Wallet
 export const fromEncryptedPayload = curry((password, payload) => {
   let decryptWallet = compose(map(fromJS), crypto.decryptWallet(password))
@@ -141,10 +146,10 @@ export const isValidSecondPwd = curry((password, wallet) => {
 })
 
 // getAddress :: String -> Wallet -> Maybe Address
-export const getAddress = (addr, wallet) => {
+export const getAddress = curry((addr, wallet) => {
   let address = AddressMap.selectAddress(addr, wallet.addresses)
   return Maybe.fromNullable(address)
-}
+})
 
 // applyCipher :: Wallet -> String -> Cipher -> a -> Either Error a
 const applyCipher = curry((wallet, password, f, value) => {
