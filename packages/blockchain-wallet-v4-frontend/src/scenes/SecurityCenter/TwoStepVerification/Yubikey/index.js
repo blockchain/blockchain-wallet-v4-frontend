@@ -27,6 +27,7 @@ class YubikeyContainer extends React.Component {
       setTimeout(function () {
         nextProps.reset()
         nextProps.goBackOnSuccess()
+        nextProps.handleGoBack()
       }, 1500)
     }
   }

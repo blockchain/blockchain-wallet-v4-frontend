@@ -88,19 +88,19 @@ const TipText = styled(Text)`
 `
 
 const TwoStepVerification = (props) => {
-  const { ui, twoStepChoice, data, editing, ...rest } = props
+  const { ui, twoStepChoice, data, editing, handleReset, ...rest } = props
   const { smsVerified, authType, smsNumber } = data
   const twoFAEnabled = authType > 0
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
-      return <GoogleAuth reset={props.reset} {...rest} />
+      return <GoogleAuth reset={handleReset} {...rest} />
     }
     if (twoStepChoice === 'yubikey') {
-      return <Yubikey reset={props.reset} {...rest} />
+      return <Yubikey reset={handleReset} {...rest} />
     }
     if (twoStepChoice === 'sms') {
-      return <SmsAuth reset={props.reset} {...rest} />
+      return <SmsAuth reset={handleReset} {...rest} />
     }
     return (
       <SecuritySummaryChoice>
@@ -203,7 +203,7 @@ const TwoStepVerification = (props) => {
             <SecurityIcon name='lock' enabled={twoFAEnabled} />
           </IconContainer>
           <SecuritySummary>
-            <Header>
+            <Header onClick={handleReset}>
               { renderHeader() }
             </Header>
             <SecurityDescription>

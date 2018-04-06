@@ -23,6 +23,7 @@ class SmsAuthContainer extends React.Component {
       setTimeout(function () {
         this.props.reset()
         this.props.goBackOnSuccess()
+        this.props.handleGoBack()
       }, 1500)
     }
   }

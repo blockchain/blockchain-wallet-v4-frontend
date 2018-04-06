@@ -30,9 +30,9 @@ class TwoStepVerificationContainer extends React.Component {
     this.handleDisableClick = this.handleDisableClick.bind(this)
     this.handleTwoFactorChange = this.handleTwoFactorChange.bind(this)
     this.pulseText = this.pulseText.bind(this)
-    this.reset = this.reset.bind(this)
+    this.handleReset = this.handleReset.bind(this)
 
-    this.state = { authMethod: '', authName: '', pulse: false }
+    this.state = { authName: '', pulse: false }
   }
 
   componentDidUpdate (prevProps) {
@@ -45,21 +45,19 @@ class TwoStepVerificationContainer extends React.Component {
   }
 
   handleDisableClick () {
-    this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled })
-    this.props.updateUI({ editing: true })
+    this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled, editing: true })
   }
 
   chooseMethod (method) {
-    this.setState({ authMethod: method })
+    this.props.updateUI({ authMethod: method })
   }
 
   handleGoBack () {
-    this.setState({ authMethod: '' })
+    this.props.updateUI({ authMethod: '' })
   }
 
-  reset () {
-    this.setState({ authMethod: '' })
-    this.props.updateUI({ verifyToggled: false })
+  handleReset () {
+    this.props.updateUI({ verifyToggled: false, authMethod: '' })
   }
 
   handleChangeNumber () {
@@ -72,7 +70,7 @@ class TwoStepVerificationContainer extends React.Component {
 
   submitMobileChange () {
     this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
-    this.setState({ authMethod: 'sms' })
+    this.props.updateUI({ authMethod: 'sms' })
   }
 
   handleDisableTwoStep () {
@@ -104,12 +102,12 @@ class TwoStepVerificationContainer extends React.Component {
         cancelMobileChange={this.cancelMobileChange}
         submitMobileChange={this.submitMobileChange}
         handleTwoFactorChange={this.handleTwoFactorChange}
-        twoStepChoice={this.state.authMethod}
+        twoStepChoice={this.props.ui.authMethod}
         authName={this.state.authName}
         editing={this.props.ui.editing}
         pulseText={this.pulseText}
         pulse={this.state.pulse}
-        reset={this.reset}
+        handleReset={this.handleReset}
       />,
       Failure: (message) => <Error {...rest}
         message={message} />,
@@ -133,7 +131,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoStep', state: { verifyToggled: false, changeNumberToggled: false, editing: false } })
+  ui({ key: 'Security_TwoStep', state: { verifyToggled: false, changeNumberToggled: false, editing: false, authMethod: '' } })
 )
 
 export default enhance(TwoStepVerificationContainer)
