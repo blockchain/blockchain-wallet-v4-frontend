@@ -31,6 +31,8 @@ const validEtherAddress = value => utils.ethereum.isValidAddress(value) ? undefi
 
 const validBitcoinAddress = value => utils.bitcoin.isValidBitcoinAddress(value) ? undefined : 'Invalid Bitcoin Address'
 
+const validBitcoinCashAddress = value => (utils.bitcoin.isValidBitcoinAddress(value) || utils.bch.isCashAddr(value)) ? undefined : 'Invalid Bitcoin Cash Address'
+
 const validEmailCode = value => isAlphaNumeric(value) ? undefined : 'Invalid Email Code'
 
 const validBitcoinPrivateKey = value => utils.bitcoin.isValidBitcoinPrivateKey(value) ? undefined : 'Invalid Bitcoin Private Key'
@@ -72,6 +74,7 @@ export {
   validIpList,
   validPasswordStretchingNumber,
   validBitcoinAddress,
+  validBitcoinCashAddress,
   validBitcoinPrivateKey,
   validEtherAddress,
   normalizeSocialSecurity,

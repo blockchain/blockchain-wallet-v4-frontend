@@ -36,7 +36,7 @@ const ButtonContainer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { position, total, close, closeAll, ...rest } = props
+  const { coin, position, total, close, closeAll, ...rest } = props
   const { onSubmit } = rest
 
   return (
@@ -44,7 +44,7 @@ const FirstStep = (props) => {
       <ModalBody>
         <Container>
           <Addresses>
-            <Field name='from' component={SelectBoxBitcoinAddresses} />
+            <Field name='from' component={SelectBoxBitcoinAddresses} props={{coin}} />
           </Addresses>
           <Dates>
             <Field name='start' component={DateBox} />
