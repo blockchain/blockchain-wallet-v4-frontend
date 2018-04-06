@@ -29,7 +29,9 @@ const devToolsConfig = {
   ]
 }
 
-const configureStore = () => {
+const configureStore = (opts) => {
+  settings.API_URL = opts.domains.api
+  settings.ROOT_URL = opts.domains.root
   const history = createBrowserHistory()
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig) : compose
