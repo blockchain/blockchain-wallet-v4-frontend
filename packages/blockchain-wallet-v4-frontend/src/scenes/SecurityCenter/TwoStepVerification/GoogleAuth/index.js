@@ -20,16 +20,15 @@ class GoogleAuthContainer extends React.Component {
     this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
   }
 
-  componentWillReceiveProps (nextProps) {
-    const next = nextProps.data.data
-    const prev = this.props.data.data
+  componentDidUpdate (prevProps) {
+    const next = this.props.data.data
+    const prev = prevProps.data.data
     if (next.authType !== prev.authType) {
+      this.props.updateUI({ successToggled: true })
       setTimeout(() => {
-        this.props.updateUI({ successToggled: true })
-      }, 250)
-      setTimeout(function () {
-        nextProps.reset()
-        nextProps.goBackOnSuccess()
+        this.props.reset()
+        this.props.goBackOnSuccess()
+        this.props.handleGoBack()
       }, 1500)
     }
   }
