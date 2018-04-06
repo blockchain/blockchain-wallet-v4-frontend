@@ -3,15 +3,16 @@ import { futurizeP } from 'futurize'
 import Task from 'data.task'
 
 import * as wS from '../../wallet/selectors'
-import { sign } from '../../../signer'
+import * as signer from '../../../signer'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export const bch = ({ api } = {}) => {
+  const pushBchTx = futurizeP(Task)(api.pushBchTx)
   const signAndPublish = function * ({ network, selection, password }) {
     const wrapper = yield select(wS.getWrapper)
-    const signAndPublish = (sel, pass) => taskToPromise(sign('BCH', network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushBchTx)))
-    return yield call(signAndPublish, selection, password)
+    let signAndPublish = signer.bch.sign(network, password, wrapper, selection).chain(pushBchTx)
+    return yield call(() => taskToPromise(signAndPublish))
   }
 
   return {
