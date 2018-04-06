@@ -38,11 +38,11 @@ export const bitcoin = ({ api } = {}) => {
 
   const signAndPublish = function * ({ network, selection, password }) {
     const wrapper = yield select(wS.getWrapper)
-    const signAndPublish = (sel, pass) => taskToPromise(sign(network, pass, wrapper, sel))
+    const signAndPublish = (sel, pass) => taskToPromise(sign('BTC', network, pass, wrapper, sel))
       .then(txHex => api.pushBitcoinTx(txHex)
         .then(() => txHexToHashHex(txHex)))
 
-    return yield signAndPublish(selection, password)
+    return yield call(signAndPublish, selection, password)
   }
 
   return {

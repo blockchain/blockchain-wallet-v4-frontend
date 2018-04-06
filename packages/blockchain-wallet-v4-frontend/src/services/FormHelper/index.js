@@ -31,6 +31,8 @@ const validEtherAddress = value => utils.ethereum.isValidAddress(value) ? undefi
 
 const validBitcoinAddress = value => utils.bitcoin.isValidBitcoinAddress(value) ? undefined : 'Invalid Bitcoin Address'
 
+const validBitcoinCashAddress = value => (utils.bitcoin.isValidBitcoinAddress(value) || utils.bch.isCashAddr(value)) ? undefined : 'Invalid Bitcoin Cash Address'
+
 const validEmailCode = value => isAlphaNumeric(value) ? undefined : 'Invalid Email Code'
 
 const validBitcoinPrivateKey = value => utils.bitcoin.isValidBitcoinPrivateKey(value) ? undefined : 'Invalid Bitcoin Private Key'
@@ -49,9 +51,9 @@ const requiredDOB = value => isDOB(value) ? undefined : 'Must be valid date'
 
 const requiredUsZipcode = value => isUsZipcode(value) ? undefined : 'Must be valid zipcode'
 
-const onSfoxWhitelist = value => isOnSfoxWhitelist(value) ? undefined : 'Feature is not available in your state.'
+const onSfoxWhitelist = value => isOnSfoxWhitelist(value) ? undefined : 'Not available in your state.'
 
-const onPartnerCountryWhitelist = value => isOnPartnerCountryWhitelist(value) ? undefined : 'Feature is not available in your country.'
+const onPartnerCountryWhitelist = value => isOnPartnerCountryWhitelist(value) ? undefined : 'Not available in your country.'
 
 export {
   required,
@@ -72,6 +74,7 @@ export {
   validIpList,
   validPasswordStretchingNumber,
   validBitcoinAddress,
+  validBitcoinCashAddress,
   validBitcoinPrivateKey,
   validEtherAddress,
   normalizeSocialSecurity,

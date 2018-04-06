@@ -16,8 +16,8 @@ export const getData = state => {
   switch (sourceCoin) {
     case 'BCH':
       switch (targetCoin) {
-        case 'BTC': return lift((bchBtc, bchRates, btcRates) => ({ bchBtc, bchRates, btcRates }))(pairR, btcRatesR, ethRatesR)
-        case 'ETH': return lift((bchEth, bchRates, ethRates) => ({ bchEth, bchRates, ethRates }))(pairR, btcRatesR, ethRatesR)
+        case 'BTC': return lift((bchBtc, bchRates, btcRates) => ({ bchBtc, bchRates, btcRates }))(pairR, bchRatesR, btcRatesR)
+        case 'ETH': return lift((bchEth, bchRates, ethRates) => ({ bchEth, bchRates, ethRates }))(pairR, bchRatesR, ethRatesR)
         default: return Remote.Failure(`Could not find pair [${sourceCoin}_${targetCoin}].`)
       }
     case 'BTC':

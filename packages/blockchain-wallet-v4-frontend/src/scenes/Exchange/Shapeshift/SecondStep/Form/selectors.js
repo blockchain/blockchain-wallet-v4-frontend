@@ -12,7 +12,7 @@ export const getData = (state, sourceCoin, source, ethFee, depositAmount) => {
   const gasLimit = prop('gasLimit', ethFee)
 
   const calculateBchFee = selection => {
-    const feeBch = Exchange.convertBchToBch({ value: prop('fee', selection), fromUnit: 'SAT', toUnit: 'BTC' }).value
+    const feeBch = Exchange.convertBchToBch({ value: prop('fee', selection), fromUnit: 'SAT', toUnit: 'BCH' }).value
     return Remote.of(feeBch)
   }
 

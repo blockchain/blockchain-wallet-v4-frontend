@@ -10,7 +10,6 @@ import WalletLayout from 'layouts/Wallet'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
-import Faq from './Faq'
 import Goals from './Goals'
 import Help from './Help'
 import Home from './Home'
@@ -21,7 +20,7 @@ import Reset2FA from './Reset2FA'
 import Register from './Register'
 import SecurityCenter from './SecurityCenter'
 import Addresses from './Settings/Addresses'
-import ManageAddresses from './Settings/ManageAddresses'
+import BtcManageAddresses from './Settings/Addresses/Bitcoin/ManageAddresses'
 import Info from './Settings/Info'
 import Preferences from './Settings/Preferences'
 import Security from './Settings/Security'
@@ -56,10 +55,9 @@ class App extends React.Component {
                 <WalletLayout path='/security-center' component={SecurityCenter} />
                 <WalletLayout path='/settings/preferences' component={Preferences} />
                 <WalletLayout path='/settings/security' component={Security} />
-                <WalletLayout path='/settings/addresses/:index' component={ManageAddresses} />
+                <WalletLayout path='/settings/addresses/btc/:index' component={BtcManageAddresses} />
                 <WalletLayout path='/settings/addresses' component={Addresses} />
                 <WalletLayout path='/settings/info' component={Info} />
-                <WalletLayout path='/faq' component={Faq} />
                 {/* <Redirect from='/settings' to='/settings/info' /> */}
                 <Redirect from='/' to='/login' />
               </Switch>

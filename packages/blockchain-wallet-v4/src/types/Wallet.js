@@ -111,20 +111,15 @@ export const reviver = (jsObject) => {
 
 // fromEncryptedPayload :: String -> String -> Either Error Wallet
 export const fromEncryptedPayload = curry((password, payload) => {
-  let decryptWallet = compose(
-    map(fromJS),
-    crypto.decryptWallet(password),
-    JSON.parse
-  )
+  let decryptWallet = compose(map(fromJS), crypto.decryptWallet(password))
   return Either.of(payload).chain(decryptWallet)
 })
 
 // toEncryptedPayload :: String -> Wallet -> Either Error String
-export const toEncryptedPayload = curry((password, wallet) => {
+export const toEncryptedPayload = curry((password, pbkdf2Iterations, wallet) => {
   Wallet.guard(wallet)
-  let iters = selectIterations(wallet)
   let encryptWallet = compose(
-    Either.try(crypto.encryptWallet(__, password, iters, 3.0)),
+    Either.try(crypto.encryptWallet(__, password, pbkdf2Iterations, 3.0)),
     JSON.stringify,
     toJS
   )
@@ -182,6 +177,24 @@ export const importLegacyAddress = curry((wallet, key, createdTime, password, bi
     .map(aE => aE.chain(applyCipher(wallet, password, Address.encryptSync)))
     .map(aE => aE.map(appendAddress))
     .chain(eitherToTask)
+})
+
+// upgradeToHd :: String -> String -> String? -> Either Error Wallet
+export const upgradeToHd = curry((mnemonic, firstLabel, password, wallet) => {
+  return Either.of(wallet)
+    .chain(newHDWallet(mnemonic, password))
+    .chain(newHDAccount(firstLabel, password))
+})
+
+// newHDWallet :: String -> String? -> Wallet -> Either Error Wallet
+export const newHDWallet = curry((mnemonic, password, wallet) => {
+  let hdWallet = HDWallet.createNew(mnemonic)
+
+  let appendHdWallet = curry((w, hd) => over(hdWallets, list => list.push(hd), w))
+
+  return Either.of(hdWallet)
+    .chain(applyCipher(wallet, password, HDWallet.encryptSync))
+    .map(appendHdWallet(wallet))
 })
 
 // newHDAccount :: String -> String? -> Wallet -> Either Error Wallet
@@ -336,21 +349,21 @@ export const decryptSync = decryptMonadic(
   validateSecondPwd(Either.of, Either.Left)
 )
 
-const _derivePrivateKey = (network, xpriv, chain, index) => {
-  return Bitcoin.HDNode.fromBase58(xpriv, network).derive(chain).derive(index)
+const _derivePrivateKey = (BitcoinLib, network, xpriv, chain, index) => {
+  return BitcoinLib.HDNode.fromBase58(xpriv, network).derive(chain).derive(index)
 }
 export const derivePrivateKey = memoize(_derivePrivateKey)
 
-export const getHDPrivateKey = curry((keypath, secondPassword, network, wallet) => {
+export const getHDPrivateKey = curry((BitcoinLib, keypath, secondPassword, network, wallet) => {
   let [accId, chain, index] = map(parseInt, split('/', keypath))
   if (isNil(accId) || isNil(chain) || isNil(index)) { return Task.rejected('WRONG_PATH_KEY') }
   let xpriv = compose(HDAccount.selectXpriv, HDWallet.selectAccount(accId), HDWalletList.selectHDWallet, selectHdWallets)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
       .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, xpriv))
-      .map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
+      .map(xp => derivePrivateKey(BitcoinLib, network, xp, chain, index).keyPair)
   } else {
-    return Task.of(xpriv).map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
+    return Task.of(xpriv).map(xp => derivePrivateKey(BitcoinLib, network, xp, chain, index).keyPair)
   }
 })
 

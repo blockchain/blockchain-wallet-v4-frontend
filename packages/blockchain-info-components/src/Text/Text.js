@@ -20,7 +20,7 @@ const BaseText = styled.div`
   & > :first-child { margin-right: 5px; }
 `
 
-const Text = ({ ...props, children }) => {
+const Text = ({ children, ...props }) => {
   return (
     <BaseText {...props}>
       {children}

@@ -33,7 +33,7 @@ class FormContainer extends React.Component {
       const feePerByte = bchFee.priority
       const amount = Exchange.convertBitcoinToBitcoin({ value: sourceAmount, fromUnit: 'BTC', toUnit: 'SAT' }).value
       console.log('refreshSelection', feePerByte, bchCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
-      this.props.dataBitcoinActions.refreshSelection(feePerByte, bchCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
+      this.props.dataBchActions.refreshSelection(feePerByte, bchCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
     }
   }
 
@@ -42,12 +42,12 @@ class FormContainer extends React.Component {
     // Submit exchange
     switch (this.props.sourceCoin) {
       case 'BCH': {
-        const payment = { selection: value.selection }
+        const payment = { selection: value.bchSelection }
         this.props.sendShapeshiftActions.sendShapeshiftDeposit('BCH', payment, this.props.order)
         break
       }
       case 'BTC': {
-        const payment = { selection: value.selection }
+        const payment = { selection: value.btcSelection }
         this.props.sendShapeshiftActions.sendShapeshiftDeposit('BTC', payment, this.props.order)
         break
       }

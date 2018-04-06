@@ -57,18 +57,15 @@ export const sendShapeshiftDeposit = function * (action) {
 
     switch (coin) {
       case 'BCH': {
-        // const network = settings.NETWORK_BITCOIN
-        // const { selection } = payment
-        // console.log('Saga BCH', network, selection)
-        // const saga = askSecondPasswordEnhancer(sagas.core.data.bch.signAndPublish)
-        // hashIn = yield call(saga, { network, selection })
-        // break
-        throw new Error('Not implemented exception')
+        const network = settings.NETWORK_BCH
+        const { selection } = payment
+        const saga = askSecondPasswordEnhancer(sagas.core.data.bch.signAndPublish)
+        hashIn = yield call(saga, { network, selection })
+        break
       }
       case 'BTC': {
         const network = settings.NETWORK_BITCOIN
         const { selection } = payment
-        console.log('Saga BTC', network, selection)
         const saga = askSecondPasswordEnhancer(sagas.core.data.bitcoin.signAndPublish)
         hashIn = yield call(saga, { network, selection })
         break
@@ -76,7 +73,6 @@ export const sendShapeshiftDeposit = function * (action) {
       case 'ETH': {
         const network = settings.NETWORK_ETHEREUM
         const { fromIndex, to, message, amount, gasPrice, gasLimit, nonce } = payment
-        console.log('Saga ETH', network, fromIndex, to, message, amount, gasPrice, gasLimit, nonce)
         const saga = askSecondPasswordEnhancer(sagas.core.data.ethereum.signAndPublish)
         hashIn = yield call(saga, { network, data: { fromIndex, to, message, amount, gasPrice, gasLimit, nonce } })
         break
