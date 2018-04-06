@@ -106,7 +106,7 @@ export default ({ api } = {}) => {
       const { source } = action.payload
       yield put(A.fetchUnspentLoading())
       const wrapper = yield select(selectors.wallet.getWrapper)
-      const data = yield call(api.getWalletUnspents, 'BTC', wrapper, source)
+      const data = yield call(api.getBTCWalletUnspents, wrapper, source)
       yield put(A.fetchUnspentSuccess(data))
     } catch (e) {
       yield put(A.fetchUnspentSuccess([]))

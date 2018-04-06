@@ -73,10 +73,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   const createWallet = (email, wrapper) => compose(taskToPromise, createWalletTask(email))(wrapper)
 
   // source is an account index or a legacy address
-  const getWalletUnspentsTask = (coin, wrapper, source, confirmations = -1) => {
-    const getCoinUnspents = coin === 'BTC'
-      ? ApiPromise.getBitcoinUnspents
-      : ApiPromise.getBchUnspents
+  const getWalletUnspentsTask = getCoinUnspents => (wrapper, source, confirmations = -1) => {
     if (is(Number, source)) {
       const selectXpub = Either.try(
         compose(HDAccount.selectXpub, HDWallet.selectAccount(source),
@@ -93,7 +90,8 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
         .map(map(Coin.fromJS))
     }
   }
-  const getWalletUnspents = compose(taskToPromise, getWalletUnspentsTask)
+  const getBTCWalletUnspents = compose(taskToPromise, getWalletUnspentsTask(ApiPromise.getBitcoinUnspents))
+  const getBCHWalletUnspents = compose(taskToPromise, getWalletUnspentsTask(ApiPromise.getBchUnspents))
 
   // ////////////////////////////////////////////////////////////////
   const Api = map(future, ApiPromise)
@@ -106,7 +104,9 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
     fetchWallet: future(fetchWallet),
     saveWallet: future(saveWallet),
     createWallet: future(createWallet),
-    getWalletUnspents: future(getWalletUnspents)
+    // getWalletUnspents: future(getWalletUnspents)
+    getBTCWalletUnspents: future(getBTCWalletUnspents),
+    getBCHWalletUnspents: future(getBCHWalletUnspents)
   }
 }
 export default createWalletApi
