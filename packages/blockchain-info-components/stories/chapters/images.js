@@ -68,14 +68,14 @@ const ImageLayout = props => {
 const imageKeys = keysIn(Images)
 
 storiesOf('Images', module)
-    .addDecorator(story => (<Layout>{story()}</Layout>))
-    .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-    .add('All images', () =>
-      <ImageLayout>
-        { imageKeys.map((value, index) => {
-          return <ImageComponent key={index} name={value} />
-        })}
-      </ImageLayout>)
-    .add('Image', () => <Image name='blockchain-blue' />)
-    .add('Image width width', () => <Image name='blockchain-blue' width='750px' />)
-    .add('Image width height', () => <Image name='blockchain-blue' height='50px' />)
+  .addDecorator(story => (<Layout>{story()}</Layout>))
+  .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
+  .add('All images', () =>
+    <ImageLayout>
+      { imageKeys.map((value, index) => {
+        return <ImageComponent key={index} name={value} />
+      })}
+    </ImageLayout>)
+  .add('Image', () => <Image name='blockchain-blue' />)
+  .add('Image width width', () => <Image name='blockchain-blue' width='750px' />)
+  .add('Image width height', () => <Image name='blockchain-blue' height='50px' />)

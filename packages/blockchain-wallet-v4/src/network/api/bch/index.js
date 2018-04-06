@@ -1,5 +1,3 @@
-import { toUpper } from 'ramda'
-
 export default ({ rootUrl, apiUrl, get, post }) => {
   const fetchBchData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
     url: apiUrl,
@@ -43,30 +41,11 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { tx: txHex, format: 'plain' }
   })
 
-  const getBchFiatAtTime = (amount, currency, time) => get({
-    url: apiUrl,
-    endPoint: 'frombch',
-    data: { value: amount, currency: toUpper(currency), time, textual: false, nosavecurrency: true }
-  })
-
-  const getLatestBlock = () => get({
-    url: rootUrl,
-    endPoint: 'bch/latestblock'
-  })
-
-  const getRawTx = (txHex) => get({
-    url: rootUrl,
-    endPoint: 'bch/rawtx/' + txHex
-  })
-
   return {
     fetchBchData,
     getBchFee,
     getBchTicker,
     getBchUnspents,
-    pushBchTx,
-    getBchFiatAtTime,
-    getLatestBlock,
-    getRawTx
+    pushBchTx
   }
 }

@@ -1,4 +1,4 @@
-import { has, is, concat, head, prop } from 'ramda'
+import { has, is, concat, head, keys, map, prop } from 'ramda'
 import { selectors } from 'data'
 import { formValueSelector } from 'redux-form'
 import { getPairFromCoin } from 'services/ShapeshiftService'
@@ -22,8 +22,9 @@ export const getData = state => {
   const btcAccountsInfo = concat(btcHDAccountsInfo, btcAddressesInfo)
   const ethAccountsInfo = selectors.core.common.ethereum.getAccountsInfo(state).getOrElse([])
   const bchHDAccountsInfo = selectors.core.common.bch.getAccountsInfo(state).getOrElse([])
+  const bchHDAccountsInfoList = map(key => bchHDAccountsInfo[key], keys(bchHDAccountsInfo))
   const bchAddressesInfo = selectors.core.common.bch.getAddressesInfo(state)
-  const bchAccountsInfo = concat(bchHDAccountsInfo, bchAddressesInfo)
+  const bchAccountsInfo = concat(bchHDAccountsInfoList, bchAddressesInfo)
 
   const defaultBchAccount = head(bchAccountsInfo)
   const defaultBtcAccount = head(btcAccountsInfo)

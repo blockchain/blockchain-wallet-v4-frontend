@@ -11,7 +11,8 @@ import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
 import FAQ1 from './faq.js'
 import { required } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner } from 'components/BuySell/Signup'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
+import { spacing } from 'services/StyleService'
 
 const MobileInput = styled.div`
   display: flex;
@@ -21,14 +22,10 @@ const MobileInput = styled.div`
 const MobileCodeContainer = MobileInput.extend`
   margin-top: 25px;
 `
-const MixedText = styled.span`
-  margin-top: 10px;
-  font-size: 12px;
-  color: ${props => props.theme['gray-3']};
-  a {
-    cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
-  }
+const CancelText = styled.p`
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
 `
 
 class VerifyMobile extends Component {
@@ -41,10 +38,9 @@ class VerifyMobile extends Component {
     this.updateMobileNumber = this.updateMobileNumber.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.smsVerified) {
-      this.props.updateUI({ create: 'create_account' })
-    }
+  componentDidUpdate (prevProps) {
+    if (this.props.smsVerified && !this.props.editVerified) this.props.updateUI({ create: 'create_account' })
+    if (this.props.smsVerified && !prevProps.smsVerified) this.props.updateUI({ create: 'create_account' })
   }
 
   updateMobileNumber () {
@@ -60,6 +56,7 @@ class VerifyMobile extends Component {
   onSubmit (e) {
     e.preventDefault()
     if (this.props.ui.create !== 'enter_mobile_code') {
+      this.props.settingsActions.clearMobileFailure()
       this.updateMobileNumber()
     } else {
       this.props.settingsActions.verifyMobile(this.props.mobileCode)
@@ -67,12 +64,13 @@ class VerifyMobile extends Component {
   }
 
   render () {
-    const { ui, invalid } = this.props
+    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError } = this.props
 
     let smsHelper = () => {
       switch (true) {
+        case mobileVerifiedError: return <FormattedMessage id='coinifyexchangedata.create.mobile.helper.error' defaultMessage="That code doesn't match. {resend} or {changeNumber}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeNumber: <a onClick={() => this.props.updateUI({ create: 'change_mobile' })}>change number</a> }} />
         case ui.smsCodeResent: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.sentanothercode' defaultMessage='Another code has been sent!' />
-        case !ui.smsCodeResent: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.didntreceive' defaultMessage="Didn't receive your code? {resend}." values={{ resend: <a onClick={this.resendCode}>Resend</a> }} />
+        case !ui.smsCodeResent: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.didntreceive' defaultMessage="Didn't get our text? {resend}." values={{ resend: <a onClick={this.resendCode}>Resend</a> }} />
       }
     }
 
@@ -81,26 +79,31 @@ class VerifyMobile extends Component {
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
-              <FormattedMessage id='sfoxexchangedata.create.verifymobile.partner.header.mobile' defaultMessage='Confirm Phone Number' />
+              <FormattedMessage id='sfoxexchangedata.create.verifymobile.partner.header.mobile' defaultMessage="What's Your Number?" />
             </PartnerHeader>
             <PartnerSubHeader>
-              <FormattedMessage id='sfoxexchangedata.create.verifymobile.partner.subheader.mobile' defaultMessage='Please take a moment to verify your phone number. This helps us confirm your identity and secure your account.' />
+              <FormattedMessage id='sfoxexchangedata.create.verifymobile.partner.subheader.mobile' defaultMessage="Confirming your phone number allows SFOX to secure your account. Don't worry, we won't use your number for anything other than sending your code." />
             </PartnerSubHeader>
             <MobileInput>
               <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Add Phone Number:' />
+                <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Enter your digits here:' />
               </Text>
               <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required]} />
+              {
+                ui.create === 'change_mobile' && <Button nature='primary' type='submit' disabled={!mobileNumber} style={spacing('mt-15')}>
+                  <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Send My Code' />
+                </Button>
+              }
             </MobileInput>
             {
               ui.create === 'enter_mobile_code' && <MobileCodeContainer>
                 <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                  <FormattedMessage id='sfoxexchangedata.create.mobile.entercode' defaultMessage='Enter Verification Code:' />
+                  <FormattedMessage id='sfoxexchangedata.create.mobile.entercode' defaultMessage='Enter the code we just sent to your phone:' />
                 </Text>
                 <Field name='mobileCode' component={TextBox} validate={[required]} />
-                <MixedText>
+                <EmailHelper error={mobileVerifiedError}>
                   { smsHelper() }
-                </MixedText>
+                </EmailHelper>
               </MobileCodeContainer>
             }
           </InputWrapper>
@@ -116,9 +119,10 @@ class VerifyMobile extends Component {
             }
             {
               ui.create !== 'enter_mobile_code' && <ButtonWrapper>
-                <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-                  <FormattedMessage id='sfoxexchangedata.create.mobile.textcode' defaultMessage='Text Verification Code' />
+                <Button type='submit' nature='primary' fullwidth disabled={invalid || !mobileCode}>
+                  <FormattedMessage id='sfoxexchangedata.create.mobile.continue' defaultMessage='Continue' />
                 </Button>
+                <CancelText onClick={() => this.props.updateUI({create: 'create_account'})}>Cancel</CancelText>
               </ButtonWrapper>
             }
             <FAQ1 />

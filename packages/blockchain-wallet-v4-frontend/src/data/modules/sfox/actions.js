@@ -4,8 +4,8 @@ export const setBankManually = (routing, account, name, type) => ({ type: AT.SET
 
 export const setBankAccount = (bank) => ({ type: AT.SET_BANK, payload: bank })
 
-export const sfoxSignup = () => ({ type: AT.SIGNUP })
-export const signupFailure = (error) => ({ type: AT.SIGNUP_FAILURE, payload: error })
+export const sfoxSignup = () => ({ type: AT.SFOX_SIGNUP })
+export const signupFailure = (error) => ({ type: AT.SFOX_SIGNUP_FAILURE, payload: error })
 
 export const nextStep = (step) => ({ type: AT.NEXT_STEP, payload: step })
 
@@ -16,3 +16,5 @@ export const upload = (uploadData) => ({ type: AT.UPLOAD, payload: uploadData })
 export const clearSignupError = () => ({ type: AT.CLEAR_SIGNUP_ERROR })
 
 export const setVerifyError = (error) => ({ type: AT.SET_VERIFY_ERROR, payload: error })
+
+export const submitMicroDeposits = (data) => ({ type: AT.SUBMIT_MICRO_DEPOSITS, payload: data })

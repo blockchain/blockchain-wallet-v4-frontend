@@ -69,7 +69,6 @@ export const toggleSecondPassword = function * (action) {
 
 export const verifyMmenonic = function * (action) {
   yield put(actions.core.wallet.verifyMnemonic())
-  console.log('frontend saga')
   yield put(actions.alerts.displaySuccess('Your mnemonic has been verified !'))
 }
 
@@ -84,14 +83,14 @@ export const editHdLabel = function * (action) {
   }
 }
 
-export const editAccountLabel = function * (action) {
+export const editBtcAccountLabel = function * (action) {
   try {
     let { index, label } = action.payload
-    let newLabel = yield call(promptForInput, { title: 'Rename Wallet', initial: label })
+    let newLabel = yield call(promptForInput, { title: 'Rename Bitcoin Wallet', initial: label })
     yield put(actions.core.wallet.setAccountLabel(index, newLabel))
-    yield put(actions.alerts.displaySuccess('Wallet name updated.'))
+    yield put(actions.alerts.displaySuccess('BTC wallet name updated.'))
   } catch (e) {
-    console.log('error in editAccountLabel generator')
+    console.log('error in editBtcAccountLabel generator')
   }
 }
 
@@ -101,5 +100,5 @@ export default function * () {
   yield takeEvery(AT.IMPORT_LEGACY_ADDRESS, importLegacyAddress)
   yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
   yield takeEvery(AT.EDIT_HD_LABEL, editHdLabel)
-  yield takeEvery(AT.EDIT_ACCOUNT_LABEL, editAccountLabel)
+  yield takeEvery(AT.EDIT_BTC_ACCOUNT_LABEL, editBtcAccountLabel)
 }

@@ -54,7 +54,7 @@ class SfoxExchangeData extends React.Component {
 
     return (
       <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
-        <ModalHeader onClose={this.handleClose.bind(this)}>
+        <ModalHeader tray center onClose={this.handleClose.bind(this)}>
           <StepIndicator step={step} stepMap={this.stepMap} />
         </ModalHeader>
         <ModalBody>

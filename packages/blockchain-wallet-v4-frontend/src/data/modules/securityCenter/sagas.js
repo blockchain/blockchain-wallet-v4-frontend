@@ -5,6 +5,7 @@ import * as sagas from '../../sagas.js'
 
 export const updateEmail = function * (action) {
   try {
+    yield put(actions.modules.settings.clearEmailCodeFailure())
     yield call(sagas.core.settings.setEmail, action.payload)
     yield put(actions.alerts.displaySuccess('Your email has been updated. An email with your confirmation code has been sent.'))
     yield call(sagas.core.settings.sendConfirmationCodeEmail, action.payload)
@@ -24,6 +25,7 @@ const getGoogleAuthenticatorSecretUrl = function * (action) {
 
 export const verifyEmail = function * (action) {
   try {
+    yield put(actions.modules.settings.clearEmailCodeFailure())
     yield call(sagas.core.settings.setEmailVerified, action.payload)
     yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
   } catch (e) {
@@ -33,6 +35,7 @@ export const verifyEmail = function * (action) {
 
 export const sendConfirmationCodeEmail = function * (action) {
   try {
+    yield put(actions.modules.settings.clearEmailCodeFailure())
     yield call(sagas.core.settings.sendConfirmationCodeEmail, action.payload)
     yield put(actions.alerts.displaySuccess('Sent Confirmation Code Successfully.'))
   } catch (e) {
@@ -45,7 +48,8 @@ export const verifyEmailCode = function * (action) {
     yield call(sagas.core.settings.verifyEmailCode, action.payload)
     yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
   } catch (e) {
-    yield put(actions.alerts.displayError('Could not verify email address.'))
+    yield put(actions.modules.settings.verifyEmailCodeFailure())
+    yield put(actions.alerts.displayError('Could not verify code.'))
   }
 }
 
@@ -105,6 +109,6 @@ export default function * () {
   yield takeLatest(AT.VERIFY_GOOGLE_AUTHENTICATOR, verifyGoogleAuthenticator)
   yield takeLatest(AT.SET_YUBIKEY, setYubikey)
   yield takeLatest(AT.SEND_MOBILE_VERIFICATION_CODE, sendMobileVerificationCode)
-  yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
+  yield takeLatest(AT.VERIFY_MOBILE_CODE, verifyMobile)
   yield takeLatest(AT.DISABLE_TWO_STEP, disableTwoStep)
 }

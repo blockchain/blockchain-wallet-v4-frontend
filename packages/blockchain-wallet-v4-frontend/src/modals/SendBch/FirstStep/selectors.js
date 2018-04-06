@@ -15,8 +15,8 @@ const extractAddress = (selector, value) => {
 
 export const getData = state => {
   // TODO: Use BCH instead of BITCOIN network
-  const getReceive = index => selectors.core.common.bch.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
-  const getChange = index => selectors.core.common.bch.getNextAvailableChangeAddress(settings.NETWORK_BITCOIN, index, state)
+  const getReceive = index => selectors.core.common.bch.getNextAvailableReceiveAddress(settings.NETWORK_BCH, index, state)
+  const getChange = index => selectors.core.common.bch.getNextAvailableChangeAddress(settings.NETWORK_BCH, index, state)
 
   const toDropdown = map(x => ({ text: x.label, value: x }))
   const balancesR = selectors.core.common.bch.getAccountsBalances(state).map(toDropdown)
