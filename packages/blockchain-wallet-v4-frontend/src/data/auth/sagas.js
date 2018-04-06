@@ -10,6 +10,7 @@ import * as selectors from '../selectors.js'
 import * as sagas from '../sagas.js'
 import { api } from 'services/ApiService'
 import { askSecondPasswordEnhancer, promptForSecondPassword, forceSyncWallet } from 'services/SagaService'
+import {Types} from 'blockchain-wallet-v4'
 
 // =============================================================================
 // ================================== Addons ===================================
@@ -38,7 +39,7 @@ const upgradeWalletSaga = function * () {
 //   }
 // }
 
-const loginRoutineSaga = function * () {
+const loginRoutineSaga = function * (mobileLogin) {
   try {
     // If needed, the user should upgrade its wallet before being able to open the wallet
     let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -52,12 +53,23 @@ const loginRoutineSaga = function * () {
     yield put(actions.router.push('/wallet'))
     yield put(actions.goals.runGoals())
     yield put(actions.auth.startLogoutTimer())
+    yield fork(reportStats, mobileLogin)
     yield fork(logoutRoutine, yield call(setLogoutEventListener))
     // ETHER - Fix derivation
     // yield call(transferEtherSaga)
   } catch (e) {
     // Redirect to error page instead of notification
     yield put(actions.alerts.displayError('Critical error while fetching essential data !' + e.message))
+  }
+}
+
+const reportStats = function * (mobileLogin) {
+  console.log(mobileLogin)
+  if (mobileLogin) {
+    yield call(api.incrementLoginViaQrStats)
+  } else {
+    const wallet = yield select(selectors.core.wallet.getWallet)
+    yield call(api.incrementSecPasswordStats, Types.Wallet.isDoubleEncrypted(wallet))
   }
 }
 
@@ -78,7 +90,7 @@ const pollingSession = function * (session, n = 50) {
 }
 
 export const login = function * (action) {
-  const { guid, sharedKey, password, code } = action.payload
+  const { guid, sharedKey, password, code, mobileLogin } = action.payload
   const safeParse = Either.try(JSON.parse)
   let session = yield select(selectors.session.getSession(guid))
 
@@ -86,7 +98,7 @@ export const login = function * (action) {
     if (!session) { session = yield call(api.obtainSessionToken) }
     yield put(actions.session.saveSession(assoc(guid, session, {})))
     yield call(sagas.core.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
-    yield call(loginRoutineSaga)
+    yield call(loginRoutineSaga, mobileLogin)
   } catch (error) {
     const initialError = safeParse(error).map(prop('initial_error'))
     const authRequired = safeParse(error).map(prop('authorization_required'))
@@ -97,7 +109,7 @@ export const login = function * (action) {
       const authorized = yield call(pollingSession, session)
       if (authorized) {
         yield call(sagas.core.wallet.fetchWalletSaga, { guid, session, password })
-        yield call(loginRoutineSaga)
+        yield call(loginRoutineSaga, mobileLogin)
       } else {
         yield put(actions.alerts.displayError('Error establishing the session'))
       }
@@ -122,7 +134,7 @@ export const login = function * (action) {
 export const mobileLogin = function * (action) {
   try {
     const { guid, sharedKey, password } = yield call(sagas.core.settings.decodePairingCode, action.payload)
-    const loginAction = actions.auth.login(guid, password, undefined, sharedKey)
+    const loginAction = actions.auth.login(guid, password, undefined, sharedKey, true)
     yield call(login, loginAction)
   } catch (error) {
     yield put(actions.alerts.displayError('Error logging into your wallet'))
