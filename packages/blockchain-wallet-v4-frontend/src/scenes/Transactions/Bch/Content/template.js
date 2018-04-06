@@ -20,8 +20,8 @@ const Success = props => {
   return (
     <Wrapper>
       { !hasNoTransactions
-          ? props.pages.map((value, index) => <Pages key={index} data={value} />)
-          : <Empty />
+        ? props.pages.map((value, index) => <Pages key={index} data={value} />)
+        : <Empty />
       }
     </Wrapper>
   )

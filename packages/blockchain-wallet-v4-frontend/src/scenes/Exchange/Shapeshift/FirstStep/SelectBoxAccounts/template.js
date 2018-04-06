@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { path, prop } from 'ramda'
+import { prop } from 'ramda'
 
 import { HeartbeatLoader, Icon, Separator, SelectInput, Text } from 'blockchain-info-components'
 
