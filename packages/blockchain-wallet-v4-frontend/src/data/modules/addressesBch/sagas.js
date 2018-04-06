@@ -10,7 +10,7 @@ export const editBchAccountLabel = function * (action) {
     yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))
     yield put(actions.alerts.displaySuccess('BCH wallet name updated.'))
   } catch (e) {
-    console.log('error in editBchAccountLabel generator')
+    yield put(actions.alerts.displayError('The Bitcoin Cash account label could not be updated.'))
   }
 }
 
@@ -21,7 +21,7 @@ export const editBchHdLabel = function * (action) {
     yield put(actions.core.kvStore.bch.setHdAddressLabel(accountIdx, addressIdx, newLabel))
     yield put(actions.alerts.displaySuccess('Address label updated.'))
   } catch (e) {
-    console.log('error in editBchHdLabel generator')
+    yield put(actions.alerts.displayError('The Bitcoin Cash address label could not be updated.'))
   }
 }
 

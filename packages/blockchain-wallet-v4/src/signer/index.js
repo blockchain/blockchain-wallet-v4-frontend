@@ -10,10 +10,6 @@ import * as Coin from '../coinSelection/coin.js'
 import * as btc from '../utils/bitcoin'
 import * as eth from '../utils/ethereum'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
-// import memoize from 'fast-memoize'
-// import shuffle from 'fisher-yates'
-// import { List } from 'immutable-ext'
-// import seedrandom from 'seedrandom'
 
 export const isFromAccount = selection => selection.inputs[0] ? selection.inputs[0].isFromAccount : false
 export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[0].isFromLegacy : false
