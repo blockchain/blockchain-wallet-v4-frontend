@@ -1,9 +1,8 @@
 import Bitcoin from 'bitcoinjs-lib'
-console.log(Bitcoin.networks.bitcoin)
 
 export default {
   ROOT_URL: process.env.BLOCKCHAIN_INFO,
-  API_BLOCKCHAIN_INFO: process.env.API_BLOCKCHAIN_INFO,
+  API_URL: process.env.API_BLOCKCHAIN_INFO,
   API_CODE: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
   WEB_SOCKET_URL: process.env.WEB_SOCKET_URL,
   WALLET_PAYLOAD_PATH: 'wallet.payload',
