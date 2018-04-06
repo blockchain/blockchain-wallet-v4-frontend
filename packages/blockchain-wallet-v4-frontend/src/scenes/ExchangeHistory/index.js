@@ -17,10 +17,6 @@ class ExchangeHistoryContainer extends React.Component {
     this.props.dataShapeshiftActions.refreshShapeshiftTrades()
   }
 
-  componentWillUnmount () {
-    this.props.dataShapeshiftActions.cancelRefreshShapeshiftTrades()
-  }
-
   componentWillReceiveProps (nextProps) {
     // Appends more transactions depending on the scroll position
     if (!equals(this.props.scroll.yOffset, nextProps.scroll.yOffset)) {
@@ -28,6 +24,10 @@ class ExchangeHistoryContainer extends React.Component {
         this.props.updateUI({ total: this.ui.total + 10 })
       }
     }
+  }
+
+  componentWillUnmount () {
+    this.props.dataShapeshiftActions.cancelRefreshShapeshiftTrades()
   }
 
   render () {

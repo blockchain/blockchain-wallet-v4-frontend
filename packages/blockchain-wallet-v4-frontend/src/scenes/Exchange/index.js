@@ -41,7 +41,7 @@ class ExchangeContainer extends React.Component {
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
-  } 
+  }
 }
 
 const mapStateToProps = state => ({

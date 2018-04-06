@@ -31,7 +31,7 @@ class FormContainer extends React.Component {
     if (this.props.sourceCoin === 'BCH') {
       const { sourceAmount, sourceChangeAddress, bchFee, bchCoins, depositAddress } = this.props
       const feePerByte = bchFee.priority
-      const amount = Exchange.convertBitcoinToBitcoin({ value: sourceAmount, fromUnit: 'BTC', toUnit: 'SAT' }).value
+      const amount = Exchange.convertBchToBch({ value: sourceAmount, fromUnit: 'BCH', toUnit: 'SAT' }).value
       console.log('refreshSelection', feePerByte, bchCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
       this.props.dataBchActions.refreshSelection(feePerByte, bchCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
     }
@@ -101,6 +101,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   sendShapeshiftActions: bindActionCreators(actions.modules.sendShapeshift, dispatch),
+  dataBchActions: bindActionCreators(actions.core.data.bch, dispatch),
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch)
 })
 

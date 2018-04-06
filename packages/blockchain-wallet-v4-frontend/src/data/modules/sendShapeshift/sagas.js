@@ -102,7 +102,6 @@ export const sendShapeshiftDeposit = function * (action) {
     // Display notification
     yield put(actions.alerts.displaySuccess('Your deposit has been sent to ShapeShift.'))
   } catch (e) {
-    console.log(e)
     yield put(actions.alerts.displayError('Your deposit could not be sent.'))
   }
 }
