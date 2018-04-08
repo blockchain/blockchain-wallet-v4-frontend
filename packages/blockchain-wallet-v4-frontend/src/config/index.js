@@ -1,5 +1,4 @@
 import Bitcoin from 'bitcoinjs-lib'
-console.log(Bitcoin.networks.bitcoin)
 
 export default {
   ROOT_URL: process.env.BLOCKCHAIN_INFO,
