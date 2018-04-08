@@ -5,11 +5,17 @@ import { actions } from 'data'
 import { connect } from 'react-redux'
 import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
+<<<<<<< HEAD
+=======
+import Loading from './template.loading'
+import * as buySell from 'services/BuySellService'
+import ui from 'redux-ui'
+>>>>>>> master
 
 const Wrapper = styled.div`
   width: 100%;
@@ -29,9 +35,10 @@ class BuySellContainer extends React.Component {
   constructor (props) {
     super(props)
     this.renderPartner = this.renderPartner.bind(this)
+    this.submitEmail = this.submitEmail.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
   }
@@ -44,13 +51,13 @@ class BuySellContainer extends React.Component {
 
   renderPartner (buySell, options, type) {
     if (buySell.sfox.account_token) {
-      return <SfoxCheckout type={type} value={buySell} />
+      return <SfoxCheckout type={type} options={options} value={buySell} />
     }
     if (buySell.unocoin.token) { // TODO replace token
       return <span>Unocoin</span>
     }
     if (buySell.coinify.offline_token) {
-      return <CoinifyCheckout type={type} value={buySell} />
+      return <CoinifyCheckout type={type} options={options} value={buySell} />
     }
     return <SelectPartner type={type} value={buySell} options={options} {...this.props} />
   }
@@ -61,7 +68,7 @@ class BuySellContainer extends React.Component {
     let view = data.cata({
       Success: (value) => this.renderPartner(value.buySell.value, value.options, type),
       Failure: (message) => <div>failure: {message}</div>,
-      Loading: () => <div>Loading...</div>,
+      Loading: () => <Loading />,
       NotAsked: () => <div>not asked...</div>
     })
 
@@ -82,7 +89,8 @@ const mapStateToProps = state => ({
   data: getData(state),
   type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status,
   country: formValueSelector('selectPartner')(state, 'country'),
-  stateSelection: formValueSelector('selectPartner')(state, 'state')
+  stateSelection: formValueSelector('selectPartner')(state, 'state'),
+  email: formValueSelector('selectPartner')(state, 'email')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -91,4 +99,9 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BuySellContainer)
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: { submittedEmail: false } })
+)
+
+export default enhance(BuySellContainer)

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 // import { contains, equals, isEmpty, isNil, map } from 'ramda'
 
-// import { Exchange } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors'
 import SelectBox from '../SelectBox'
 

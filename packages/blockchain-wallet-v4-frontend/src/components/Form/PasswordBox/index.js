@@ -37,7 +37,7 @@ const PasswordBox = (field) => {
   )
 }
 
-PasswordBox.PropTypes = {
+PasswordBox.propTypes = {
   score: PropTypes.number
 }
 

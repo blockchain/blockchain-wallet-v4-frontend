@@ -8,8 +8,8 @@ export const sendBch = function * (action) {
   try {
     const saga = askSecondPasswordEnhancer(sagas.core.data.bch.signAndPublish)
     yield call(saga, action.payload)
-    yield put(actions.form.destroy('sendBch'))
     yield put(actions.modals.closeModal())
+    yield put(actions.form.destroy('sendBch'))
     yield put(actions.router.push('/bch/transactions'))
     yield put(actions.alerts.displaySuccess('Your transaction is being confirmed'))
   } catch (e) {

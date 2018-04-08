@@ -12,6 +12,9 @@ const XPubTextBox = styled.p`
   color: #4B4D4E;
   word-break: break-all;
 `
+const ClickableText = styled(Text)`
+  cursor: pointer;
+`
 
 const FirstStep = () => (
   <div>
@@ -43,9 +46,9 @@ const ShowXPubTemplate = ({ position, total, close, step, xpub, onContinue }) =>
       {step === 0 ? <FirstStep /> : <SecondStep xpub={xpub} />}
     </ModalBody>
     <ModalFooter align='right'>
-      <Text size='small' weight={300} style={{ marginRight: 15 }} onClick={close}>
+      <ClickableText size='small' weight={300} style={{ marginRight: 15 }} onClick={close}>
         <FormattedMessage id='modals.xpub.close' defaultMessage='Close' />
-      </Text>
+      </ClickableText>
       {step === 0 && (
         <Button nature='primary' onClick={onContinue}>
           <FormattedMessage id='modals.xpub.continue' defaultMessage='Continue' />
