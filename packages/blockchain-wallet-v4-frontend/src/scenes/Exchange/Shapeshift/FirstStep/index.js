@@ -64,8 +64,6 @@ class FirstStepContainer extends React.Component {
   }
 
   handleSubmit () {
-    console.log('handleSubmit')
-    console.log(this.props)
     this.props.nextStep()
   }
 
