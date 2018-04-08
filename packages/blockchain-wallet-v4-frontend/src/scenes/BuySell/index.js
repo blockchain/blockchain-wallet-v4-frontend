@@ -10,12 +10,8 @@ import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
-<<<<<<< HEAD
-=======
 import Loading from './template.loading'
-import * as buySell from 'services/BuySellService'
 import ui from 'redux-ui'
->>>>>>> master
 
 const Wrapper = styled.div`
   width: 100%;
