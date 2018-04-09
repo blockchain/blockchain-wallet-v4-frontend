@@ -49,7 +49,7 @@ const configureStore = () => {
         )
       )
       persistStore(store, { whitelist: ['session', 'preferences'] })
-      sagaMiddleware.run(rootSaga, api, options)
+      sagaMiddleware.run(rootSaga, { api, socket, options })
 
       return {
         store,
