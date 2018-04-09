@@ -8,6 +8,7 @@ import HorizontalMenu from 'components/HorizontalMenu'
 import { actions } from 'data'
 
 import Bitcoin from './Bitcoin'
+import Bch from './Bch'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -21,12 +22,16 @@ class AddressesContainer extends React.Component {
   }
 
   render () {
+    const { status } = this.props
     return (
       <Wrapper>
         <Menu>
           <Field name='status' component={TabMenuAddressesStatus} />
         </Menu>
-        <Bitcoin />
+        {status === 'bitcoin'
+          ? <Bitcoin />
+          : <Bch />
+        }
       </Wrapper>
     )
   }

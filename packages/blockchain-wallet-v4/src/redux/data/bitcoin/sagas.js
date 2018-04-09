@@ -39,7 +39,7 @@ export const bitcoin = ({ api } = {}) => {
 
   const signAndPublish = function * ({ network, selection, password }) {
     let wrapper = yield select(S.wallet.getWrapper)
-    let signAndPublish = sign(network, password, wrapper, selection).chain(pushBitcoinTx)
+    let signAndPublish = sign('BTC', network, password, wrapper, selection).chain(pushBitcoinTx)
     return yield call(() => taskToPromise(signAndPublish))
   }
 

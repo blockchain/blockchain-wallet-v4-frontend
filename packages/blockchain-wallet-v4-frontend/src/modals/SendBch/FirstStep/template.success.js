@@ -5,7 +5,7 @@ import { isEmpty } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required } from 'services/FormHelper'
+import { required, validBitcoinCashAddress } from 'services/FormHelper'
 import { Button, Icon, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -57,7 +57,7 @@ const FirstStep = props => {
           <FormLabel for='from'>
             <FormattedMessage id='modals.sendbch.firststep.from' defaultMessage='From:' />
           </FormLabel>
-          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
+          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false, coin: 'BCH' }} />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -67,8 +67,8 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {addressSelectToggled
-              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
-              : <Field name='to2' component={TextBox} validate={[required]} />
+              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false, coin: 'BCH' }} />
+              : <Field name='to2' component={TextBox} validate={[required, validBitcoinCashAddress]} />
             }
             <QRCodeCapture coin='BCH' />
             {addressSelectToggled

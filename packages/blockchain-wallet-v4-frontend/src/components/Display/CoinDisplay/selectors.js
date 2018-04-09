@@ -10,6 +10,7 @@ export const getData = (state, coin, amount) => {
       case 'ETH': return displayEtherFixed({ value: a, fromUnit: 'WEI', toUnit: 'ETH' })
       case 'BCH': return Exchange.displayBchToBch({ value: a, fromUnit: 'SAT', toUnit: 'BCH' })
       case 'BTC': return Exchange.displayBitcoinToBitcoin({ value: a, fromUnit: 'SAT', toUnit: s.btc_currency })
+      default: return 'N/A'
     }
   }
   return lift(convert)(settings, Remote.of(coin), Remote.of(amount))

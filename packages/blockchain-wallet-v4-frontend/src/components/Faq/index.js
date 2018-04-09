@@ -17,7 +17,6 @@ class FaqContainer extends React.Component {
   }
 
   onFilter ({target: {value: filterText}}) {
-    console.log('')
     this.setState({filterText})
   }
 

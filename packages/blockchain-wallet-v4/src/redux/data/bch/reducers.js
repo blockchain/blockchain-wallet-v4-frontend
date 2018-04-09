@@ -22,7 +22,6 @@ const INITIAL_STATE = {
   },
   rates: Remote.NotAsked,
   transactions: [],
-  transactions_fiat: {},
   transaction_history: Remote.NotAsked
 }
 

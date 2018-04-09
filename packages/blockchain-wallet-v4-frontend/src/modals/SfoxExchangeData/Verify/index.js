@@ -1,13 +1,29 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { path, equals } from 'ramda'
 import { actions } from 'data'
 import ui from 'redux-ui'
 
+import Helper from 'components/BuySell/FAQ'
+
 import Address from './Address'
 import Identity from './Identity'
+
+const faqCopy = [
+  {
+    question: <FormattedMessage id='sfoxsignup.verify.address.helper1.question' defaultMessage='Why do you need this information?' />,
+    answer: <FormattedMessage id='sfoxsignup.verify.address.helper1.answer' defaultMessage='Answer1 placeholder' />
+  },
+  {
+    question: <FormattedMessage id='sfoxsignup.verify.address.helper2.question' defaultMessage='Where is my information stored?' />,
+    answer: <FormattedMessage id='sfoxsignup.verify.address.helper2.answer' defaultMessage='Answer2 placeholder' />
+  }
+]
+
+const faqHelper = () => faqCopy.map(el => <Helper question={el.question} answer={el.answer} />)
 
 class VerifyContainer extends Component {
   constructor (props) {
@@ -36,8 +52,8 @@ class VerifyContainer extends Component {
 
   render () {
     return this.props.ui.verify === 'address'
-      ? <Address {...this.props} />
-      : <Identity {...this.props} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
+      ? <Address {...this.props} faqs={faqHelper} />
+      : <Identity {...this.props} faqs={faqHelper} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
   }
 }
 
