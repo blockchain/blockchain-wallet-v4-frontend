@@ -61,14 +61,14 @@ const SelectPartner = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    if (sfoxCountries.indexOf(this.props.country) >= 0) {
-      this.props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
+    if (sfoxCountries.indexOf(props.country) >= 0) {
+      props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
-    if (unocoinCountries.indexOf(this.props.country) >= 0) {
+    if (unocoinCountries.indexOf(props.country) >= 0) {
       console.log('start unocoin')
     }
-    if (coinifyCountries.indexOf(this.props.country) >= 0) {
-      this.props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
+    if (coinifyCountries.indexOf(props.country) >= 0) {
+      props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
     }
   }
 
