@@ -44,8 +44,8 @@ const configureStore = () => {
     .then(res => JSON.parse(res))
     .then(options => {
       const rootUrl = path(['domains', 'root'], options)
-      const apiUrl = path(['domains', 'api', options])
-      const wsUrl = path(['domains', 'webSocket', options])
+      const apiUrl = path(['domains', 'api'], options)
+      const wsUrl = path(['domains', 'webSocket'], options)
       const apiCode = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
       const api = createWalletApi({ rootUrl, apiUrl, apiCode })
@@ -56,9 +56,9 @@ const configureStore = () => {
         composeEnhancers(
           applyMiddleware(
             routerMiddleware(history),
-            // coreMiddleware.kvStore({isAuthenticated, api, kvStorePath}),
-            // coreMiddleware.socket.bitcoin(socket, walletPath, isAuthenticated),
-            // coreMiddleware.walletSync({isAuthenticated, api, walletPath}),
+            coreMiddleware.kvStore({isAuthenticated, api, kvStorePath}),
+            coreMiddleware.socket.bitcoin(socket, walletPath, isAuthenticated),
+            coreMiddleware.walletSync({isAuthenticated, api, walletPath}),
             autoDisconnection(),
             sagaMiddleware
           ),
