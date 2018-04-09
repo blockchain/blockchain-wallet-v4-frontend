@@ -16,8 +16,6 @@
     "fetch": true,
     "Headers": true
   },
-  // 0 = off, 1 = warn, 2 = error
-  // these rules get extended in each packages own .eslintrc
   "rules": {
     "camelcase": 0,
     "no-case-declarations": 0,

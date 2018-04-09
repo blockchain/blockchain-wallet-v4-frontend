@@ -11,7 +11,8 @@ const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
-  src: `${__dirname}/src`
+  src: `${__dirname}/src`,
+  tests: `${__dirname}/tests`
 }
 
 module.exports = {
@@ -34,9 +35,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'img': PATHS.src + '/assets/img',
       'locales': PATHS.src + '/assets/locales',
-      'sass': PATHS.src + '/assets/sass',
       'components': PATHS.src + '/components',
       'config': PATHS.src + '/config',
       'data': PATHS.src + '/data',
@@ -47,7 +46,7 @@ module.exports = {
       'scenes': PATHS.src + '/scenes',
       'services': PATHS.src + '/services',
       'store': PATHS.src + '/store',
-      'themes': PATHS.src + '/themes'
+      'test': PATHS.tests
     },
     symlinks: false
   },

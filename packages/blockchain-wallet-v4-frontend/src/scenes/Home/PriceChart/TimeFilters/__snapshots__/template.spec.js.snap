@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimeFilters component renders correctly 1`] = `
+<styled.div>
+  <styled.text
+    onClick={[Function]}
+    selected={true}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="All"
+      id="scenes.priceindexseries.timefilters.all"
+      values={Object {}}
+    />
+  </styled.text>
+  <styled.text
+    onClick={[Function]}
+    selected={false}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="Year"
+      id="scenes.priceindexseries.timefilters.year"
+      values={Object {}}
+    />
+  </styled.text>
+  <styled.text
+    onClick={[Function]}
+    selected={false}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="Month"
+      id="scenes.priceindexseries.timefilters.month"
+      values={Object {}}
+    />
+  </styled.text>
+  <styled.text
+    onClick={[Function]}
+    selected={false}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="Week"
+      id="scenes.priceindexseries.timefilters.week"
+      values={Object {}}
+    />
+  </styled.text>
+  <styled.text
+    onClick={[Function]}
+    selected={false}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="Day"
+      id="scenes.priceindexseries.timefilters.day"
+      values={Object {}}
+    />
+  </styled.text>
+</styled.div>
+`;

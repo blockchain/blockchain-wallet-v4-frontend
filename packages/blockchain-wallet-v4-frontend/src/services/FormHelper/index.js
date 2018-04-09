@@ -1,6 +1,6 @@
 import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
-import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN, isOnSfoxWhitelist, isOnPartnerCountryWhitelist } from './../ValidationHelper'
+import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN, isOnSfoxWhitelist, isOnPartnerCountryWhitelist } from '../ValidationHelper'
 import { parse } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'

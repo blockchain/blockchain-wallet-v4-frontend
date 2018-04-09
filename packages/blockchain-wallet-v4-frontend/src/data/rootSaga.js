@@ -7,6 +7,7 @@ import { coinifyService } from 'services/CoinifyService'
 import { coreSagasFactory, rootSaga } from 'blockchain-wallet-v4/src'
 import alerts from './alerts/sagas'
 import auth from './auth/sagas'
+import components from './components/sagas'
 import modules from './modules/sagas'
 import goals from './goals/sagas'
 import wallet from './wallet/sagas'
@@ -35,6 +36,7 @@ export default function * () {
     call(welcomeSaga),
     fork(alerts),
     fork(auth),
+    fork(components),
     fork(modules),
     fork(goals),
     fork(wallet),
