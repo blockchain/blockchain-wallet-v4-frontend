@@ -3,7 +3,6 @@ import createSagaMiddleware from 'redux-saga'
 import { persistStore, autoRehydrate } from 'redux-persist'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
-import { path } from 'ramda'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import { createWalletApi, Socket } from 'blockchain-wallet-v4/src/network'
 import { rootSaga, rootReducer, selectors } from 'data'
@@ -40,13 +39,10 @@ const configureStore = () => {
   return fetch('/Resources/wallet-options.json')
     .then(res => res.json())
     .then(options => {
-      const rootUrl = path(['domains', 'root'], options)
-      const apiUrl = path(['domains', 'api'], options)
-      const wsUrl = path(['domains', 'webSocket'], options)
       const apiCode = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
-      const api = createWalletApi({ rootUrl, apiUrl, apiCode })
-      const socket = new Socket({ rootUrl, wsUrl })
+      const socket = new Socket({ options })
+      const api = createWalletApi({ options, apiCode })
 
       const store = createStore(
         connectRouter(history)(rootReducer),

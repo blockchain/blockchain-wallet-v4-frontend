@@ -26,8 +26,8 @@ const renderApp = (Component, store, history) => {
   }
 }
 
-const renderError = () => {
-  console.log('renderError')
+const renderError = (e) => {
+  console.log('renderError', e)
   ReactDOM.render(
     <Error />,
     document.getElementById('app')
@@ -40,5 +40,5 @@ const renderError = () => {
 configureStore().then(x => {
   renderApp(App, x.store, x.history)
 }).catch(e => {
-  renderError()
+  renderError(e)
 })
