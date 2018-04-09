@@ -64,20 +64,20 @@ const Top = styled.div`
 `
 
 const WalletLayout = (props) => {
-  const { location, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children } = props
+  const { location, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children, trayRightContent } = props
 
   return (
     <Wrapper>
       <Alerts />
       <Modals />
       <Nav>
-        <Header handleToggleMenuLeft={handleToggleMenuLeft} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+        <Header trayRightContent={trayRightContent} handleToggleMenuLeft={handleToggleMenuLeft} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
       </Nav>
       <Container>
         <Left toggled={menuLeftToggled}>
           <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
         </Left>
-        <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} />
+        <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} trayRightContent={trayRightContent} />
         <Content>
           <Top>
             <MenuTop />
@@ -95,6 +95,7 @@ WalletLayout.propTypes = {
   location: PropTypes.object.isRequired,
   menuLeftToggled: PropTypes.bool.isRequired,
   trayRightOpen: PropTypes.bool.isRequired,
+  trayRightContent: PropTypes.string.isRequired,
   handleTrayRightToggle: PropTypes.func.isRequired,
   handleToggleMenuLeft: PropTypes.func.isRequired,
   handleCloseMenuLeft: PropTypes.func.isRequired
