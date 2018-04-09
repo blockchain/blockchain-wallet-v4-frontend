@@ -4,8 +4,9 @@ import * as S from './selectors'
 import * as A from './actions'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
+import { sfoxService } from '../../../exchange/service'
 
-export default ({ api, sfoxService = {} }) => {
+export default ({ api }) => {
   const getSfox = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
