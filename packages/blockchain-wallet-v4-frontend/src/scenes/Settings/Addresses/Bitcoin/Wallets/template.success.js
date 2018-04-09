@@ -35,7 +35,7 @@ const Success = ({ wallets, handleClick, onUnarchive }) => {
               <FormattedMessage id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' />
             </Link>
           ) : (
-            <LinkContainer to={`/settings/addresses/${wallet.value.index}`}>
+            <LinkContainer to={`/settings/addresses/btc/${wallet.value.index}`}>
               <Link weight={200} size='small'>
                 <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage' />
               </Link>

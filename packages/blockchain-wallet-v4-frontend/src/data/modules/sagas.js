@@ -1,5 +1,6 @@
 import { all, call } from 'redux-saga/effects'
 
+import addressesBch from './addressesBch/sagas'
 import coinify from './coinify/sagas'
 import sendBitcoin from './sendBitcoin/sagas'
 import sendEther from './sendEther/sagas'
@@ -11,6 +12,7 @@ import sfox from './sfox/sagas'
 
 export default function * () {
   yield all([
+    call(addressesBch),
     call(coinify),
     call(sendBitcoin),
     call(sendEther),
