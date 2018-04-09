@@ -4,8 +4,8 @@ import COINIFY from 'bitcoin-coinify-client'
 export const sfoxService = {
   refresh: (value, delegate, options) => {
     let sfox = new SFOX(value.data.value.sfox, delegate)
-    sfox.api.production = true
-    sfox.api.apiKey = 'f31614a7-5074-49f2-8c2a-bfb8e55de2bd'
+    sfox.api.apiKey = options.platforms.web.sfox.config.apiKey
+    sfox.api.production = options.platforms.web.sfox.config.production
     return sfox
   }
 }
@@ -13,7 +13,7 @@ export const sfoxService = {
 export const coinifyService = {
   refresh: (value, delegate, options) => {
     let coinify = new COINIFY(value.data.value.coinify, delegate)
-    coinify.partnerId = 1
+    coinify.partnerId = options.platforms.web.coinify.config.partnerId
     return coinify
   }
 }
