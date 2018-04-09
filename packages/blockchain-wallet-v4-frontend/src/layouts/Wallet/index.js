@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { Route, Redirect } from 'react-router-dom'
 import ui from 'redux-ui'
-import { is } from 'ramda'
 
 import { actions, selectors } from 'data'
 import { getData } from './selectors'
