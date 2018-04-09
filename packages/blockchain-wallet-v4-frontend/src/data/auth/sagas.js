@@ -62,7 +62,6 @@ export default ({ api, coreSagas }) => {
   }
 
   const reportStats = function * (mobileLogin) {
-    console.log(mobileLogin)
     if (mobileLogin) {
       yield call(api.incrementLoginViaQrStats)
     } else {

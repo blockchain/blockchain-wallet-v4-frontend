@@ -41,7 +41,6 @@ export default ({ coreSagas }) => {
           yield importLegacyAddress(action, password)
           break
         default:
-          console.log(error)
           yield put(actions.alerts.displayError('Error adding address.'))
       }
     }

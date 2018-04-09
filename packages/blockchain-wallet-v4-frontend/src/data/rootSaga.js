@@ -27,7 +27,6 @@ const welcomeSaga = function * () {
 
 export default function * ({ api, socket, options }) {
   const coreSagas = coreSagasFactory({ api, socket })
-  console.log('coreSagas', coreSagas)
 
   yield all([
     call(welcomeSaga),

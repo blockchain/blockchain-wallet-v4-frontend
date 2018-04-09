@@ -11,7 +11,6 @@ import { derivationMap, BCH } from '../config'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  console.log('rootSaga BCH', api)
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }
