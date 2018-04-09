@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import onClickOutside from 'react-onclickoutside'
 
 import Faq from 'components/Faq'
 import WhatsNew from 'components/WhatsNew'
@@ -63,6 +64,17 @@ const TrayModal = styled(Modal)`
   }
 `
 class TrayRight extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.handleTrayRightToggle = props.handleTrayRightToggle
+    this.handleClickOutside = this.handleClickOutside.bind(this)
+  }
+
+  handleClickOutside () {
+    this.handleTrayRightToggle('', true)
+  }
+
   render () {
     const { isOpen, handleTrayRightToggle, trayRightContent, ...rest } = this.props
 
@@ -88,4 +100,4 @@ TrayRight.propTypes = {
   trayRightContent: PropTypes.string.isRequired
 }
 
-export default TrayRight
+export default onClickOutside(TrayRight)

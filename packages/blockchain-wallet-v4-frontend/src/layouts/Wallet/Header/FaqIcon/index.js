@@ -33,7 +33,7 @@ const FaqIcon = (props) => {
   const { trayRightOpen, handleTrayRightToggle, trayRightContent } = props
 
   return (
-    <FaqLink trayRightContent={trayRightContent} trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('faq')} size='16px' weight={300} color='white'>
+    <FaqLink className={'ignore-react-onclickoutside'} trayRightContent={trayRightContent} trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('faq')} size='16px' weight={300} color='white'>
       <Icon name='question-in-circle-filled' size='18px' color='white'/>
     </FaqLink>
   )
