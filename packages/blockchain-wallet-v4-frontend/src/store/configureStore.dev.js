@@ -10,7 +10,6 @@ import { rootSaga, rootReducer, selectors } from 'data'
 import settings from 'config'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { autoDisconnection } from '../middleware'
-import walletOptions from './wallet-options.json'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -39,8 +38,7 @@ const configureStore = () => {
   const isAuthenticated = selectors.auth.isAuthenticated
 
   return fetch('/Resources/wallet-options.json')
-    .then(res => JSON.stringify(walletOptions))
-    .then(res => JSON.parse(res))
+    .then(res => res.json())
     .then(options => {
       const rootUrl = path(['domains', 'root'], options)
       const apiUrl = path(['domains', 'api'], options)
@@ -48,6 +46,7 @@ const configureStore = () => {
       const apiCode = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
       const api = createWalletApi({ rootUrl, apiUrl, apiCode })
+      console.log(rootUrl)
       const socket = new Socket({ wsUrl })
 
       const store = createStore(
