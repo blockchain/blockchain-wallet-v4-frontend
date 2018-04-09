@@ -4,7 +4,7 @@ import * as A from './actions'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 
-export const coinifySaga = ({ api, coinifyService } = {}) => {
+export default ({ api, coinifyService = {} }) => {
   const getCoinify = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)

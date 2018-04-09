@@ -5,7 +5,7 @@ import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import * as AT from './actionTypes'
 import * as A from './actions'
 
-export default ({ api, coinifyService } = {}) => {
+export default ({ api, coinifyService = {} }) => {
   let coinify
 
   const refreshCoinify = function * () {
