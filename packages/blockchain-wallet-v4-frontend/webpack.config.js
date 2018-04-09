@@ -1,21 +1,38 @@
-const Webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const Webpack = require('webpack')
+const mockWalletOptions = require('./../../config/wallet-options.json')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
-const buildEnvString = isProdBuild ? 'production' : 'development'
 const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
-  src: `${__dirname}/src`
+  src: `${__dirname}/src`,
+  envConfig: `${__dirname}/../../config/env/`
+}
+
+// load, parse and log application configuration
+let envConfig = {}
+try {
+  envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
+} catch (e) {
+  console.log(`WARNING: Failed to load ${process.env.NODE_ENV}.js config file! Falling back to the production setup instead!`)
+  envConfig = require(PATHS.envConfig + 'production.js')
+} finally {
+  console.log('APP CONFIGURATION')
+  console.log('**************')
+  console.log(`BLOCKCHAIN_INFO: ${envConfig.BLOCKCHAIN_INFO}`)
+  console.log(`API_BLOCKCHAIN_INFO: ${envConfig.API_BLOCKCHAIN_INFO}`)
+  console.log(`WEB_SOCKET_URL: ${envConfig.WEB_SOCKET_URL}`)
+  console.log('**************')
 }
 
 module.exports = {
-  mode: buildEnvString,
+  mode: isProdBuild ? 'production' : 'development',
   entry: {
     app: [
       'babel-polyfill',
@@ -104,15 +121,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.dist, PATHS.build], {allowExternal: true}),
+    new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
-    new HtmlWebpackPlugin({
-      template: PATHS.src + '/index.html',
-      filename: 'index.html'
-    }),
-    new Webpack.DefinePlugin({
-      'process.env': { 'NODE_ENV': JSON.stringify(buildEnvString) }
-    }),
+    new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
     ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
@@ -168,14 +179,25 @@ module.exports = {
     port: 8080,
     hot: !isProdBuild,
     historyApiFallback: true,
-    proxy: [
-      {
-        path: /\/a\/.*/,
-        bypass: function (req, res, proxyOptions) {
-          return '/index.html'
+    before (app) {
+      app.get('/Resources/wallet-options.json', function (req, res) {
+        // combine wallet options base with custom environment config
+        mockWalletOptions.domains = {
+          'root': envConfig.BLOCKCHAIN_INFO,
+          'api': envConfig.API_BLOCKCHAIN_INFO,
+          'webSocket': envConfig.WEB_SOCKET_URL,
+          'walletHelper': 'REPLACED_BY_DEV_SERVER'
         }
+
+        res.json(mockWalletOptions)
+      })
+    },
+    proxy: [{
+      path: /\/a\/.*/,
+      bypass: function (req, res, proxyOptions) {
+        return '/index.html'
       }
-    ],
+    }],
     overlay: !isProdBuild && {
       warnings: true,
       errors: true
