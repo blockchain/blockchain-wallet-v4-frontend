@@ -9,10 +9,19 @@ import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import FAQ1 from './faq.js'
+import Helper from 'components/BuySell/FAQ'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
+
+const helpers = [
+  {
+    question: <FormattedMessage id='coinifysignup.create.helper1.question' defaultMessage='What is Coinify?' />,
+    answer: <FormattedMessage id='coinifysignup.create.helper1.answer' defaultMessage='Answer placeholder' />
+  }
+]
+
+const faqHelper = () => helpers.map(el => <Helper question={el.question} answer={el.answer} />)
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -87,7 +96,7 @@ class AcceptTerms extends Component {
                 </Text>
               }
             </ErrorWrapper>
-            <FAQ1 />
+            { faqHelper() }
           </ColRightInner>
         </ColRight>
       </Form>
