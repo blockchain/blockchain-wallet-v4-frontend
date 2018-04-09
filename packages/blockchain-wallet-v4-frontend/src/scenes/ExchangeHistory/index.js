@@ -21,7 +21,7 @@ class ExchangeHistoryContainer extends React.Component {
     // Appends more transactions depending on the scroll position
     if (!equals(this.props.scroll.yOffset, nextProps.scroll.yOffset)) {
       if (nextProps.scroll.yMax - nextProps.scroll.yOffset < threshold) {
-        this.props.updateUI({ total: this.ui.total + 10 })
+        this.props.updateUI({ total: this.props.ui.total + 10 })
       }
     }
   }
