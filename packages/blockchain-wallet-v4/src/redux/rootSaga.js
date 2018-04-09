@@ -18,11 +18,11 @@ import settings from './settings/rootSaga'
 export default ({ api, socket, options }) => function * () {
   yield all([
     fork(dataBitcoin({ api })),
-    fork(dataCoinify({ api })),
+    fork(dataCoinify({ api, options })),
     fork(dataEthereum({ api })),
     fork(dataBch({ api })),
     fork(dataMisc({ api })),
-    fork(dataSfox({ api })),
+    fork(dataSfox({ api, options })),
     fork(dataShapeShift({ api })),
     fork(kvStoreBch({ api })),
     fork(kvStoreBuysell({ api })),

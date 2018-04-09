@@ -9,12 +9,12 @@ import * as S from './selectors'
 import * as A from './actions'
 let sfox
 
-export default ({ api }) => {
+export default ({ api, options }) => {
   const refreshSFOX = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    sfox = sfoxService.refresh(value, delegate)
+    sfox = sfoxService.refresh(value, delegate, options)
   }
 
   const init = function * () {
