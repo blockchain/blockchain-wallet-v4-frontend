@@ -73,5 +73,6 @@ export const getCoinFromPair = pair => {
     case 'bch_eth': return { sourceCoin: 'BCH', targetCoin: 'ETH' }
     case 'eth_btc': return { sourceCoin: 'ETH', targetCoin: 'BTC' }
     case 'eth_bch': return { sourceCoin: 'ETH', targetCoin: 'BCH' }
+    default: return { sourceCoin: '', targetCoin: '' }
   }
 }
