@@ -19,20 +19,11 @@
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.js"],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4",
-    "coverageReporters": [
-      "json",
-      "html"
-    ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/lib"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/lib"
-    ]
+    "coverageReporters": ["json", "html"],
+    "modulePathIgnorePatterns": ["<rootDir>/lib"],
+    "testPathIgnorePatterns": ["<rootDir>/lib"]
   },
   "dependencies": {
     "bech32": "^1.1.3",

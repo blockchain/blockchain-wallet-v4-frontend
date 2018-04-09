@@ -1,5 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
+import { actions } from 'data'
+import { bindActionCreators } from 'redux'
 
 import Header from './Header'
 import Footer from './Footer'
@@ -52,9 +55,16 @@ const FooterContainer = styled.div`
   }
 `
 
-const PublicLayout = ({component: Component, ...rest}) => {
-  return (
-    <Route {...rest} render={matchProps => (
+class PublicLayout extends React.Component {
+  componentDidMount () {
+    this.props.optionsActions.fetchOptions()
+  }
+
+  render () {
+    const { component, ...rest } = this.props
+    const Component = component
+
+    return <Route {...rest} render={matchProps => (
       <Wrapper>
         <Alerts />
         <HeaderContainer>
@@ -70,7 +80,11 @@ const PublicLayout = ({component: Component, ...rest}) => {
         </FooterContainer>
       </Wrapper>
     )} />
-  )
+  }
 }
 
-export default PublicLayout
+const mapDispatchToProps = (dispatch) => ({
+  optionsActions: bindActionCreators(actions.core.walletOptions, dispatch)
+})
+
+export default connect(undefined, mapDispatchToProps)(PublicLayout)

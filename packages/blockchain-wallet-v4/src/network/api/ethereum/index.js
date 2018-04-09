@@ -1,5 +1,5 @@
 
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ apiUrl, get, post }) => {
   const checkContract = (address) => ({
     url: apiUrl,
     endPoint: `eth/account/${address}/isContract`
