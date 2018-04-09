@@ -7,8 +7,6 @@ import configureLocales from 'services/LocalesService'
 
 const storeConfig = configureStore()
 
-console.log('storeConfig', storeConfig)
-
 storeConfig.then(x => {
   renderApp(App, x.store, x.history)
 }).catch(e => {

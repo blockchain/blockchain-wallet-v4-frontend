@@ -5,10 +5,9 @@ import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { path } from 'ramda'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import { createWalletApi } from 'blockchain-wallet-v4/src/network'
+import { createWalletApi, Socket } from 'blockchain-wallet-v4/src/network'
 import { rootSaga, rootReducer, selectors } from 'data'
 import settings from 'config'
-import { socket } from 'services/Socket'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { autoDisconnection } from '../middleware'
 
@@ -32,6 +31,7 @@ const configureStore = () => {
       const apiUrl = path(['domains', 'api', options])
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
       const api = createWalletApi(rootUrl, apiUrl, apiKey)
+      const socket = new Socket({ wsUrl })
 
       const store = createStore(
         connectRouter(history)(rootReducer),
