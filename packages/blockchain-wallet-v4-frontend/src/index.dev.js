@@ -1,18 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
-import App from 'scenes/app.js'
+
 import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
-
-const storeConfig = configureStore()
-
-storeConfig.then(x => {
-  renderApp(App, x.store, x.history)
-}).catch(e => {
-  console.debug('Error', e)
-  throw new Error('Could not fetch wallet-options.json')
-})
+import App from 'scenes/app.js'
+import Error from './index.error'
 
 const renderApp = (Component, store, history) => {
   const { messages } = configureLocales(store)
@@ -29,6 +22,23 @@ const renderApp = (Component, store, history) => {
   render(App, store, history, messages)
 
   if (module.hot) {
-    module.hot.accept('scenes/app.js', () => render(require('scenes/app.js').default))
+    module.hot.accept('scenes/app.js', () => render(require('scenes/app.js').default, store, history, messages))
   }
 }
+
+const renderError = () => {
+  console.log('renderError')
+  ReactDOM.render(
+    <Error />,
+    document.getElementById('app')
+  )
+}
+
+// =============================================================================
+// ================================= APP =======================================
+// =============================================================================
+configureStore().then(x => {
+  renderApp(App, x.store, x.history)
+}).catch(e => {
+  renderError()
+})
