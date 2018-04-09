@@ -4,7 +4,6 @@ import ethereum from './ethereum'
 import bch from './bch'
 import kvStore from './kvStore'
 import misc from './misc'
-import options from './options'
 import settings from './settings'
 import shapeShift from './shapeShift'
 import sfox from './sfox'
@@ -24,7 +23,6 @@ export default ({ rootUrl, apiUrl, apiCode, shapeShiftRootUrl = SHAPESHIFT_IO, s
     ...bch({ rootUrl, apiUrl, get, post }),
     ...kvStore({ apiUrl }),
     ...misc({ rootUrl, apiUrl, get, post }),
-    ...options({ rootUrl, apiUrl, get, post }),
     ...sfox({ rootUrl }),
     ...settings({ rootUrl, apiUrl, get, post }),
     ...shapeShift({ shapeShiftRootUrl, shapeShiftApiKey }),
