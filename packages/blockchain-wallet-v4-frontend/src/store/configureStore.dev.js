@@ -46,8 +46,7 @@ const configureStore = () => {
       const apiCode = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
       const api = createWalletApi({ rootUrl, apiUrl, apiCode })
-      console.log(rootUrl)
-      const socket = new Socket({ wsUrl })
+      const socket = new Socket({ rootUrl, wsUrl })
 
       const store = createStore(
         connectRouter(history)(rootReducer),

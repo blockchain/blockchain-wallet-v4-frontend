@@ -29,11 +29,9 @@ let toArrayFormat = (a) => Array.isArray(a) ? a : [a]
 
 class Socket {
   constructor (options = {}) {
-    let {
-      wsUrl = 'wss://ws.blockchain.info/inv'
-    } = options
+    let { wsUrl, rootUrl } = options
     this.wsUrl = wsUrl
-    this.headers = { 'Origin': 'https://blockchain.info' }
+    this.headers = { 'Origin': rootUrl }
     this.pingInterval = 30000
     this.pingIntervalPID = null
     this.pingTimeout = 5000
