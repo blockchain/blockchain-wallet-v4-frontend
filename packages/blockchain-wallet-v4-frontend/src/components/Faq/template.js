@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
 
 import { Icon, ModalHeader, ModalBody } from 'blockchain-info-components'
 import FaqGroup from './FaqGroup'
-import PropTypes from 'prop-types'
 
 const Fragment = React.Fragment
-
 const Wrapper = styled.div`
   box-sizing: border-box;
   overflow: none;
@@ -50,7 +49,7 @@ const Faq = (props) => {
 
   return (
     <Fragment>
-      <ModalHeader onClose={handleTrayRightToggle}>
+      <ModalHeader onClose={() => handleTrayRightToggle()}>
         <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions'/>
       </ModalHeader>
       <ModalBody>
