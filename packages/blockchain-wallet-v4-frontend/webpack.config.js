@@ -1,9 +1,6 @@
-const dotenv = require('dotenv')
-const fs = require('fs')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
-const DotEnv = require('dotenv-webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
@@ -15,28 +12,24 @@ const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`,
-  envConfig: `${__dirname}/../../config/env/.env.`
+  envConfig: `${__dirname}/../../config/env/`
 }
 
 // load, parse and log application configuration
 let envConfig = {}
-
 try {
-  envConfig.path = PATHS.envConfig + process.env.NODE_ENV
-  envConfig.parsed = dotenv.parse(fs.readFileSync(envConfig.path))
+  envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
 } catch (e) {
-  console.log(`WARNING: Failed to load .env.${process.env.NODE_ENV} file! Using .env.production file instead!`)
-  envConfig.path = PATHS.envConfig + 'production'
-  envConfig.parsed = dotenv.parse(fs.readFileSync(envConfig.path))
+  console.log(`WARNING: Failed to load ${process.env.NODE_ENV}.js config file! Falling back to the production setup instead!`)
+  envConfig = require(PATHS.envConfig + 'production.js')
+} finally {
+  console.log('APP CONFIGURATION')
+  console.log('**************')
+  console.log(`BLOCKCHAIN_INFO: ${envConfig.BLOCKCHAIN_INFO}`)
+  console.log(`API_BLOCKCHAIN_INFO: ${envConfig.API_BLOCKCHAIN_INFO}`)
+  console.log(`WEB_SOCKET_URL: ${envConfig.WEB_SOCKET_URL}`)
+  console.log('**************')
 }
-
-console.log('APP CONFIGURATION')
-console.log('**************')
-console.log(`ENVIRONMENT: ${envConfig.parsed.ENV}`)
-console.log(`BLOCKCHAIN_INFO: ${envConfig.parsed.BLOCKCHAIN_INFO}`)
-console.log(`API_BLOCKCHAIN_INFO: ${envConfig.parsed.API_BLOCKCHAIN_INFO}`)
-console.log(`WEB_SOCKET_URL: ${envConfig.parsed.WEB_SOCKET_URL}`)
-console.log('**************')
 
 module.exports = {
   mode: isProdBuild ? 'production' : 'development',
@@ -131,7 +124,6 @@ module.exports = {
     new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
     new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
-    new DotEnv({ path: envConfig.path }),
     ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
@@ -189,17 +181,23 @@ module.exports = {
     historyApiFallback: true,
     before (app) {
       app.get('/Resources/wallet-options.json', function (req, res) {
+        // combine wallet options base with custom environment config
+        mockWalletOptions.domains = {
+          'root': envConfig.BLOCKCHAIN_INFO,
+          'api': envConfig.API_BLOCKCHAIN_INFO,
+          'webSocket': envConfig.WEB_SOCKET_URL,
+          'walletHelper': 'REPLACED_BY_DEV_SERVER'
+        }
+
         res.json(mockWalletOptions)
       })
     },
-    proxy: [
-      {
-        path: /\/a\/.*/,
-        bypass: function (req, res, proxyOptions) {
-          return '/index.html'
-        }
+    proxy: [{
+      path: /\/a\/.*/,
+      bypass: function (req, res, proxyOptions) {
+        return '/index.html'
       }
-    ],
+    }],
     overlay: !isProdBuild && {
       warnings: true,
       errors: true
