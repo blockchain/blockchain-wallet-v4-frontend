@@ -30,6 +30,7 @@ const configureStore = () => {
       const rootUrl = path(['domains', 'root'], options)
       const apiUrl = path(['domains', 'api', options])
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
+      const wsUrl = path(['domains', 'webSocket'], options)
       const api = createWalletApi(rootUrl, apiUrl, apiKey)
       const socket = new Socket({ wsUrl })
 
