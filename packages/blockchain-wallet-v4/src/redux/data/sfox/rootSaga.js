@@ -8,7 +8,7 @@ import * as S from './selectors'
 import * as A from './actions'
 let sfox
 
-export default ({ api, sfoxService } = {}) => {
+export default ({ api, sfoxService = {} }) => {
   const refreshSFOX = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)

@@ -6,7 +6,7 @@
 // import readBlob from 'read-blob'
 // import * as A from './actions'
 
-export const misc = ({ api } = {}) => {
+export default ({ api }) => {
   // const fetchAdverts = function * ({ number }) {
   //   const response = yield call(api.getAdverts, number)
   //   yield put(A.setAdverts(response))
