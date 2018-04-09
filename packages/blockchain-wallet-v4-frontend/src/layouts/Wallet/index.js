@@ -42,8 +42,10 @@ const renderLayout = ({ ui, updateUI, component: Component, ...rest }) => (
       menuLeftToggled={ui.menuLeftToggled}
       trayRightOpen={ui.trayRightOpen}
       trayRightContent={ui.trayRightContent}
-      handleTrayRightToggle={(content) => {
-        if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
+      handleTrayRightToggle={(content, fromClickOutside) => {
+        if (fromClickOutside) {
+          updateUI({ trayRightOpen: false })
+        } else if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
           updateUI({ trayRightContent: content })
         } else if (ui.trayRightOpen && !content) {
           updateUI({ trayRightOpen: false })
