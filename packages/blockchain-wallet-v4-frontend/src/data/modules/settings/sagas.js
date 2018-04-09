@@ -23,13 +23,13 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const initSettingsSecurity = function * () {
-    try {
-      yield call(coreSagas.settings.fetchSettings)
-    } catch (e) {
-      yield put(actions.alerts.displayError('Could not init settings security.'))
-    }
-  }
+  // const initSettingsSecurity = function * () {
+  //   try {
+  //     yield call(coreSagas.settings.fetchSettings)
+  //   } catch (e) {
+  //     yield put(actions.alerts.displayError('Could not init settings security.'))
+  //   }
+  // }
 
   const showBackupRecovery = function * (action) {
     const recoverySaga = function * ({ password }) {
