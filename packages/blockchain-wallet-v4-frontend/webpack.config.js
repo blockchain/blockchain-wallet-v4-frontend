@@ -1,3 +1,4 @@
+const chalk = require('chalk')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
@@ -20,15 +21,13 @@ let envConfig = {}
 try {
   envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
 } catch (e) {
-  console.log(`WARNING: Failed to load ${process.env.NODE_ENV}.js config file! Falling back to the production setup instead!`)
+  console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
   envConfig = require(PATHS.envConfig + 'production.js')
 } finally {
-  console.log('APP CONFIGURATION')
-  console.log('**************')
-  console.log(`BLOCKCHAIN_INFO: ${envConfig.BLOCKCHAIN_INFO}`)
-  console.log(`API_BLOCKCHAIN_INFO: ${envConfig.API_BLOCKCHAIN_INFO}`)
-  console.log(`WEB_SOCKET_URL: ${envConfig.WEB_SOCKET_URL}`)
-  console.log('**************')
+  console.log(chalk.blue('\u{1F6A7} DEV CONFIGURATION \u{1F6A7}'))
+  console.log(chalk.cyan('BLOCKCHAIN_INFO') + `: ${envConfig.BLOCKCHAIN_INFO}`)
+  console.log(chalk.cyan('API_BLOCKCHAIN_INFO') + `: ${envConfig.API_BLOCKCHAIN_INFO}`)
+  console.log(chalk.cyan('WEB_SOCKET_URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
 }
 
 module.exports = {
