@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
-import PriceIndexSeries from './PriceIndexSeries'
+// import PriceIndexSeries from './PriceIndexSeries'
+import PriceChart from './PriceChart'
 import BalancesChartContainer from './BalancesChart'
 
 const Wrapper = styled.section`
@@ -38,7 +39,8 @@ const Home = (props) => {
         <ActivityList />
       </ColumnLeft>
       <ColumnRight>
-        <PriceIndexSeries />
+        {/* <PriceIndexSeries /> */}
+        <PriceChart />
         <DidYouKnow />
       </ColumnRight>
     </Wrapper>

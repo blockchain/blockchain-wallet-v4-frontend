@@ -1,4 +1,5 @@
 import { isNumeric } from './index.js'
+jest.mock('../BuySellService', () => {})
 
 var testCases = [
   { input: '', output: false },

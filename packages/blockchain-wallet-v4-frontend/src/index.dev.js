@@ -23,3 +23,5 @@ render(App)
 if (module.hot) {
   module.hot.accept('scenes/app.js', () => render(require('scenes/app.js').default))
 }
+
+
