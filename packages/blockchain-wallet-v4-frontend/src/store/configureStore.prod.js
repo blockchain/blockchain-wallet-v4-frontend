@@ -27,12 +27,10 @@ const configureStore = () => {
   return fetch('/Resources/wallet-options.json')
     .then(res => JSON.parse(res))
     .then(options => {
-      const rootUrl = path(['domains', 'root'], options)
-      const apiUrl = path(['domains', 'api', options])
-      const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-      const wsUrl = path(['domains', 'webSocket'], options)
-      const api = createWalletApi(rootUrl, apiUrl, apiKey)
-      const socket = new Socket({ wsUrl })
+      const apiCode = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
+
+      const socket = new Socket({ options })
+      const api = createWalletApi({ options, apiCode })
 
       const store = createStore(
         connectRouter(history)(rootReducer),
