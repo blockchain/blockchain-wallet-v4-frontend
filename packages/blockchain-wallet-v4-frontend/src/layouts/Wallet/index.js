@@ -18,7 +18,6 @@ class WalletLayout extends React.Component {
       this.props.kvStoreBchActions.fetchMetadataBch()
       this.props.kvStoreEthereumActions.fetchMetadataEthereum()
       this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
-      this.props.optionsActions.fetchOptions()
       this.props.settingsActions.fetchSettings()
     }
   }

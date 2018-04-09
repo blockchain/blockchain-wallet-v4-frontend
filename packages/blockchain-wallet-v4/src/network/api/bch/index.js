@@ -1,6 +1,6 @@
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ get, post }) => {
   const fetchBchData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
-    url: apiUrl,
+    url: global.domains.api,
     endPoint: 'bch/multiaddr',
     data: {
       active: (Array.isArray(context) ? context : [context]).join('|'),
@@ -16,13 +16,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   const getBchTicker = () => get({
-    url: apiUrl,
+    url: global.domains.api,
     endPoint: 'ticker',
     data: { base: 'BCH' }
   })
 
   const getBchUnspents = (fromAddresses, confirmations = 0) => get({
-    url: apiUrl,
+    url: global.domains.api,
     endPoint: 'bch/unspent',
     data: {
       active: fromAddresses.join('|'),
@@ -32,7 +32,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   const pushBchTx = (txHex) => post({
-    url: apiUrl,
+    url: global.domains.api,
     endPoint: 'bch/pushtx',
     data: { tx: txHex, format: 'plain' }
   })

@@ -1,10 +1,10 @@
 import SFOX from 'bitcoin-sfox-client'
 
 export const sfoxService = {
-  refresh: (value, delegate) => {
+  refresh: (value, options, delegate) => {
     let sfox = new SFOX(value.data.value.sfox, delegate)
-    sfox.api.production = true
-    sfox.api.apiKey = 'f31614a7-5074-49f2-8c2a-bfb8e55de2bd'
+    sfox.api.apiKey = options.data.platforms.web.sfox.config.apiKey
+    sfox.api.production = options.data.platforms.web.sfox.config.production
     return sfox
   }
 }
