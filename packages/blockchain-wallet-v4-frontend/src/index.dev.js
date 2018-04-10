@@ -23,8 +23,3 @@ render(App)
 if (module.hot) {
   module.hot.accept('./scenes/app.js', () => render(require('./scenes/app.js').default))
 }
-
-// ReactDOM.render(
-//   <App store={store} history={history} messages={messages} />,
-//   document.getElementById('app')
-// )
