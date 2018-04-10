@@ -7,7 +7,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 
-export default ({ api } = {}) => {
+export default ({ api }) => {
   const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())

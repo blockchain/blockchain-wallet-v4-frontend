@@ -1,4 +1,4 @@
-export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
+export default ({ shapeShiftApiKey }) => {
   // checkStatus :: Response -> Promise Response
   const checkStatus = (r) => r.ok ? Promise.resolve(r) : r.text().then(j => Promise.reject(j))
 
@@ -13,7 +13,7 @@ export default ({ shapeShiftRootUrl, shapeShiftApiKey }) => {
   }
 
   const request = (method, endpoint, data) => {
-    let url = shapeShiftRootUrl + endpoint
+    let url = 'https://shapeshift.io/' + endpoint
     let options = {
       method,
       headers: { 'Content-Type': 'application/json' },
