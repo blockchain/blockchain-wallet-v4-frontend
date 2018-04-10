@@ -2,7 +2,7 @@
 // import { map } from 'ramda'
 // import * as A from './actions'
 
-export const shapeShift = ({ api } = {}) => {
+export default ({ api }) => {
   // const fetchBtcEth = function * () {
   //   const response = yield call(api.getBtcEth)
   //   yield put(A.setBtcEth(response))

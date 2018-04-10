@@ -10,22 +10,24 @@
   "main": "index.js",
   "scripts": {
     "analyze": "ANALYZE=true NODE_ENV=production webpack-cli --config webpack.config.js",
-    "build": "webpack-cli --config webpack.config.js --progress --colors",
+    "build:dev": "NODE_ENV=development webpack-cli --config webpack.config.js --progress --colors",
     "build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
+    "build:staging": "NODE_ENV=staging webpack-cli --config webpack.config.js --progress --colors",
+    "build:testnet": "NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
     "ci:build": "webpack-cli --config webpack.config.js --display-error-details",
     "ci:build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "./../../node_modules/.bin/jest --coverage",
     "generate": "babel-node ./tools/generateDefaultLocale.js",
-    "start": "webpack-dev-server --config webpack.config.js --progress --colors --watch",
+    "start:dev": "NODE_ENV=development webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:prod": "NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch",
+    "start:staging": "NODE_ENV=staging webpack-dev-server --config webpack.config.js --progress --colors --watch",
+    "start:testnet": "NODE_ENV=testnet webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "test": "./../../node_modules/.bin/jest",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.js"],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
     "coverageReporters": [
       "json",
@@ -42,9 +44,7 @@
       "^.+\\.jsx$": "<rootDir>/../../node_modules/babel-jest",
       "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
     },
-    "transformIgnorePatterns": [
-      "node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"
-    ]
+    "transformIgnorePatterns": ["node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"]
   },
   "dependencies": {
     "base-64": "^0.1.0",
