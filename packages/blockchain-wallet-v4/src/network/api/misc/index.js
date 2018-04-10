@@ -39,11 +39,18 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { base: coin, quote: currency, start: start, scale: scale }
   })
 
+  const getRandomBytes = (bytes, format) => get({
+    url: apiUrl,
+    endPoint: 'v2/randombytes',
+    data: { bytes, format }
+  })
+
   return {
     getCaptchaImage,
     getTransactionHistory,
     getAdverts,
     getLogs,
-    getPriceIndexSeries
+    getPriceIndexSeries,
+    getRandomBytes
   }
 }
