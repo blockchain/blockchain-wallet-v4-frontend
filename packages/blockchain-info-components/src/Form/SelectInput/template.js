@@ -114,9 +114,9 @@ const SelectInput = (props) => {
   const display = selected || { text: defaultDisplay, value: undefined }
 
   return (
-    <SelectBoxInput>
+    <SelectBoxInput onFocus={handleFocus}>
       {!expanded || !searchEnabled
-        ? <Display onBlur={handleBlur} onFocus={handleFocus} disabled={disabled} errorState={errorState}>
+        ? <Display onBlur={handleBlur} disabled={disabled} errorState={errorState}>
           {templateDisplay ? templateDisplay(display) : <DefaultDisplay>{display.text}</DefaultDisplay>}
         </Display>
         : <Search autoFocus={expanded} onChange={handleChange} />
