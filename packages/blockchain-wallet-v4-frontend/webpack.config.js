@@ -53,7 +53,17 @@ module.exports = {
     rules: [
       (isProdBuild ? {
         test: /\.js$/,
-        use: ['babel-loader']
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: [
+                'babel-plugin-styled-components',
+                ['module-resolver', { 'root': ['./src'] }]
+              ]
+            }
+          }
+        ]
       } : {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
@@ -61,7 +71,11 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              plugins: ['react-hot-loader/babel']
+              plugins: [
+                'babel-plugin-styled-components',
+                ['module-resolver', { 'root': ['./src'] }],
+                'react-hot-loader/babel'
+              ]
             }
           }
         ]
@@ -112,7 +126,7 @@ module.exports = {
       'process.env': { 'NODE_ENV': JSON.stringify(buildEnvString) }
     }),
     ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
-    ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : []),
+    ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
     namedModules: true,
