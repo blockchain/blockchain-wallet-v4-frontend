@@ -3,7 +3,7 @@ import { has, prop } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'
 
-export default ({ api } = {}) => {
+export default ({ api }) => {
   const fetchBtcEth = function * () {
     try {
       yield put(A.fetchBtcEthLoading())

@@ -28,12 +28,9 @@ if (WebSocket) {
 let toArrayFormat = (a) => Array.isArray(a) ? a : [a]
 
 class Socket {
-  constructor (options = {}) {
-    let {
-      wsUrl = 'wss://ws.blockchain.info/inv'
-    } = options
-    this.wsUrl = wsUrl
-    this.headers = { 'Origin': 'https://blockchain.info' }
+  constructor ({ options = {} }) {
+    this.wsUrl = options.domains.webSocket
+    this.headers = { 'Origin': options.domains.root }
     this.pingInterval = 30000
     this.pingIntervalPID = null
     this.pingTimeout = 5000
