@@ -18,15 +18,15 @@ This repo contains the three codebases/packages listed below that are combined i
 ## Local Development
 1. Ensure Node version >= 8.0 is installed
 2. Run the following command to install necessary global packages: `npm install -g lerna yarn babel-cli`
-3. Install and link packages: `yarn bootstrap`
+3. Install, link and hoist packages: `yarn bootstrap`
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
 
-### Important Notes
-1. After installing or uninstalling a NPM package, run the following node command at the root of the project:
-   * `lerna bootstrap`
-2. All developer specific dependencies should be installed in the top level `package.json`. This helps reduce duplicate packages as well as speed up build times.
-   * `yarn i --save-dev [package-name]`
+### Tips & Useful Commands
+1. To completely remove all dependencies and artifacts run `yarn clean`
+2. After installing or uninstalling a NPM package, run `yarn bootstrap` to re-init the project
+3. All development specific dependencies should be installed as a `dev-dependency` in the top level `package.json` via `yarn i --save-dev [package-name]`
+4. All application specific dependencies should be installed in the specific packages `package.json` via `yarn i --save [package-name]`
 
 ### Running Environments Locally
 The frontend application can be ran locally with different build configurations found in `config/env`.  The following commands are available:
