@@ -87,14 +87,14 @@ const TransactionListItem = (props) => {
           <Description value={transaction.description} handleConfirm={handleEditDescription} />
         </DetailsColumn>
         <ConfirmationColumn>
-          <Confirmations confirmations={transaction.confirmations} minConfirmations={minConfirmations} hash={transaction.hash} />
+          <Confirmations coin={coin} confirmations={transaction.confirmations} minConfirmations={minConfirmations} hash={transaction.hash} />
         </ConfirmationColumn>
         <AmountColumn>
           <ToggleButton nature={transaction.type} onClick={handleClick}>
             <SwitchableDisplay coin={coin} size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
           </ToggleButton>
           <TransactionValues>
-            { coin === 'BTC' && <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} type={transaction.type}/> }
+            { coin === 'BTC' && <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} type={transaction.type} /> }
             { transaction.type !== 'received' && <Fee fee={transaction.fee} coin={coin} /> }
           </TransactionValues>
         </AmountColumn>
