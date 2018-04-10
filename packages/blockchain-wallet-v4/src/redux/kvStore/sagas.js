@@ -1,12 +1,12 @@
-// import { whatsNew } from './whatsNew/sagas.js'
-// import { ethereum } from './ethereum/sagas.js'
-// import { bch } from './bch/sagas.js'
-import { shapeShift } from './shapeShift/sagas.js'
-import { buySell } from './buySell/sagas.js'
-import { contacts } from './contacts/sagas.js'
-import { root } from './root/sagas.js'
+// import whatsNew from './whatsNew/sagas'
+// import ethereum from './ethereum/sagas'
+// import bch from './bch/sagas'
+import shapeShift from './shapeShift/sagas'
+import buySell from './buySell/sagas'
+import contacts from './contacts/sagas'
+import root from './root/sagas'
 
-export const kvStoreSagasFactory = ({ api } = {}) => ({
+export default ({ api }) => ({
   root: root({ api }),
   // whatsNew: whatsNew({ api }),
   // ethereum: ethereum({ api }),

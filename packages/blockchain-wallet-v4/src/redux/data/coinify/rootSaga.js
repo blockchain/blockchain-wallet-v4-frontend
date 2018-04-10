@@ -2,10 +2,11 @@ import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
+import { coinifyService } from '../../../exchange/service'
 import * as AT from './actionTypes'
 import * as A from './actions'
 
-export default ({ api, coinifyService } = {}) => {
+export default ({ api, options }) => {
   let coinify
 
   const refreshCoinify = function * () {
@@ -13,7 +14,7 @@ export default ({ api, coinifyService } = {}) => {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate])
+    coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, options])
     yield apply(coinify, coinify.profile.fetch)
     yield put(A.fetchProfileSuccess(coinify))
   }

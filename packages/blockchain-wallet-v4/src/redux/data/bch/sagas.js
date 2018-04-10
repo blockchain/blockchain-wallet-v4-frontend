@@ -7,7 +7,7 @@ import { sign } from '../../../signer'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const bch = ({ api } = {}) => {
+export default ({ api }) => {
   const signAndPublish = function * ({ network, selection, password }) {
     const wrapper = yield select(wS.getWrapper)
     const signAndPublish = (sel, pass) => taskToPromise(sign('BCH', network, pass, wrapper, sel).chain(futurizeP(Task)(api.pushBchTx)))

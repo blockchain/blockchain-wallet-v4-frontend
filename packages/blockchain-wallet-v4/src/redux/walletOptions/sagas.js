@@ -1,13 +1,18 @@
 import { call, put } from 'redux-saga/effects'
-import * as actions from './actions'
+import * as A from './actions'
 
-export const walletOptionsSaga = ({ api } = {}) => {
-  const fetchWalletOptions = function * (action) {
-    const response = yield call(api.getWalletOptions)
-    yield put(actions.setWalletOptions(response))
+export default ({ api, options }) => {
+  const fetchOptions = function * () {
+    try {
+      yield put(A.fetchOptionsLoading())
+      const data = yield call(api.getWalletOptions)
+      yield put(A.fetchOptionsSuccess(data))
+    } catch (e) {
+      yield put(A.fetchOptionsFailure(e.message))
+    }
   }
 
   return {
-    fetchWalletOptions
+    fetchOptions
   }
 }

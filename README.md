@@ -17,27 +17,32 @@ This repo contains the three codebases/packages listed below that are combined i
 
 ## Local Development
 1. Ensure Node version >= 8.0 is installed
-2. Ensure `lerna` and `yarn` are installed globally: `npm install -g lerna yarn babel-cli`
+2. Run the following command to install necessary global packages: `npm install -g lerna yarn babel-cli`
 3. Install and link packages: `yarn bootstrap`
-4. Start application in dev mode: `yarn start`
-5. The frontend will now be accessible via browser at `localhost:8080`
+4. Start the application in development mode: `yarn start`
+5. The frontend application will now be accessible via browser at `localhost:8080`
 
 ### Important Notes
 1. After installing or uninstalling a NPM package, run the following node command at the root of the project:
    * `lerna bootstrap`
-2. All developer specific dependencies should be installed in the top level `package.json`. This helps reduce duplicate
-    packages as well as speed up build times.
+2. All developer specific dependencies should be installed in the top level `package.json`. This helps reduce duplicate packages as well as speed up build times.
    * `yarn i --save-dev [package-name]`
-3. To test bitcoin handling in dev mode: run this javascript command in the browser console:
-   * `window.navigator.registerProtocolHandler('bitcoin', http://localhost:8080/a/%s, 'Blockchain')`
 
+### Running Environments Locally
+The frontend application can be ran locally with different build configurations found in `config/env`.  The following commands are available:
+ * `yarn start` Builds and runs the application with the `development.js` configuration file
+ * `yarn start:dev` Builds and runs the application with the `development.js` configuration file
+ * `yarn start:staging` Builds and runs the application with the `staging.js` configuration file
+ * `yarn start:testnet` Builds and runs the application with the `testnet.js` configuration file
+ * `yarn start:prod` Builds and runs the application with the `production.js` configuration file
+
+Notes:
+ * Developers will need to manually create the `development.js` and `staging.js` files
+ * Custom application runtimes are possible by modifying the corresponding environment files found in the `config/env` folder
+ 
 ### Useful Chrome Extensions
  * [React Developer Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) Inspect the React component tree
  * [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) View/debug Redux state changes
-
-
-## Production Builds
-To build the frontend application for production: `yarn build:prod`
 
 
 ## Code Quality
