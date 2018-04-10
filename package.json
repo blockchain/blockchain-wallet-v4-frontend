@@ -61,7 +61,8 @@
     "vet": "npm run lint && npm run test",
     "vet:components": "npm run lint:components && npm run test:components",
     "vet:core": "npm run lint:core && npm run test:core",
-    "vet:frontend": "npm run lint:frontend && npm run test:frontend"
+    "vet:frontend": "npm run lint:frontend && npm run test:frontend",
+    "xxx": "node server.js"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^4.0.0-alpha.1",
