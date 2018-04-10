@@ -29,17 +29,9 @@
   "jest": {
     "collectCoverageFrom": ["src/**/*.js"],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
-    "coverageReporters": [
-      "json",
-      "html"
-    ],
-    "setupFiles": [
-      "<rootDir>/../../jest.shim.js",
-      "<rootDir>/../../jest.config.js"
-    ],
-    "snapshotSerializers": [
-      "<rootDir>/../../node_modules/enzyme-to-json/serializer"
-    ],
+    "coverageReporters": ["json", "html"],
+    "setupFiles": ["<rootDir>/../../config/jest/jest.shim.js", "<rootDir>/../../config/jest/jest.config.js"],
+    "snapshotSerializers": ["<rootDir>/../../node_modules/enzyme-to-json/serializer"],
     "transform": {
       "^.+\\.jsx$": "<rootDir>/../../node_modules/babel-jest",
       "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
