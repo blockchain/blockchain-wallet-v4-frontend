@@ -23,7 +23,7 @@ const Success = props => {
   const amount = <span>{props.symbol + props.totalFiatBalance.toFixed(2)}</span>
   if (!props.large) {
     return (
-      <LinkContainer to='/wallet'>
+      <LinkContainer to='/home'>
         <Wrapper>
           <FormattedMessage id='scenes.wallet.menutop.balance.totalbalance' defaultMessage='Total Balance' />
           { amount }
