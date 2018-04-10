@@ -31,11 +31,6 @@
       "json",
       "html"
     ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy",
-      "^locales(.*)$": "<rootDir>/src/assets/locales/$1"
-    },
     "setupFiles": [
       "<rootDir>/../../jest.shim.js",
       "<rootDir>/../../jest.config.js"
