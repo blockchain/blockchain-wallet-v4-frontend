@@ -23,7 +23,7 @@
   },
   "scripts": {
     "analyze": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run analyze",
-    "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build",
+    "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:dev",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
     "bootstrap": "npm i && lerna bootstrap --hoist --ignore-scripts",
     "ci:build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run ci:build",
