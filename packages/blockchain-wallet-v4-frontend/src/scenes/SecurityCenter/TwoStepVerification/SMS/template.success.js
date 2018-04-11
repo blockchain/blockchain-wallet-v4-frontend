@@ -42,13 +42,13 @@ const SmsAuth = props => {
 
   return (
     <Form onSubmit={onSubmit}>
-      <SuccessOverlay success={ui.showSuccess}>
+      <SuccessOverlay success={ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
           <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up SMS Codes." />
         </Text>
       </SuccessOverlay>
-      <AuthenticatorSummary verified={ui.showSuccess}>
+      <AuthenticatorSummary verified={ui.successToggled}>
         <SmsAuthContainer>
           {
             (!smsNumber && !smsVerified) || ui.changeNumberToggled
