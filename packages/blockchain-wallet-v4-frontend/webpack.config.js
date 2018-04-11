@@ -1,21 +1,37 @@
-const Webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const chalk = require('chalk')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const Webpack = require('webpack')
+const mockWalletOptions = require('./../../config/wallet-options.json')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
-const buildEnvString = isProdBuild ? 'production' : 'development'
 const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
-  src: `${__dirname}/src`
+  src: `${__dirname}/src`,
+  envConfig: `${__dirname}/../../config/env/`
+}
+
+// load, parse and log application configuration
+let envConfig = {}
+try {
+  envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
+} catch (e) {
+  console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
+  envConfig = require(PATHS.envConfig + 'production.js')
+} finally {
+  console.log(chalk.blue('\u{1F6A7} DEV CONFIGURATION \u{1F6A7}'))
+  console.log(chalk.cyan('BLOCKCHAIN_INFO') + `: ${envConfig.BLOCKCHAIN_INFO}`)
+  console.log(chalk.cyan('API_BLOCKCHAIN_INFO') + `: ${envConfig.API_BLOCKCHAIN_INFO}`)
+  console.log(chalk.cyan('WEB_SOCKET_URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
 }
 
 module.exports = {
-  mode: buildEnvString,
+  mode: isProdBuild ? 'production' : 'development',
   entry: {
     app: [
       'babel-polyfill',
@@ -32,38 +48,35 @@ module.exports = {
     chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/'
   },
-  resolve: {
-    alias: {
-      'img': PATHS.src + '/assets/img',
-      'locales': PATHS.src + '/assets/locales',
-      'sass': PATHS.src + '/assets/sass',
-      'components': PATHS.src + '/components',
-      'config': PATHS.src + '/config',
-      'data': PATHS.src + '/data',
-      'layouts': PATHS.src + '/layouts',
-      'middleware': PATHS.src + '/middleware',
-      'modals': PATHS.src + '/modals',
-      'providers': PATHS.src + '/providers',
-      'scenes': PATHS.src + '/scenes',
-      'services': PATHS.src + '/services',
-      'store': PATHS.src + '/store',
-      'themes': PATHS.src + '/themes'
-    },
-    symlinks: false
-  },
   module: {
     rules: [
       (isProdBuild ? {
         test: /\.js$/,
-        use: ['babel-loader']
+        use: [
+          'thread-loader',
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: [
+                'babel-plugin-styled-components',
+                ['module-resolver', { 'root': ['./src'] }]
+              ]
+            }
+          }
+        ]
       } : {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
         use: [
+          'thread-loader',
           {
             loader: 'babel-loader',
             options: {
-              plugins: ['react-hot-loader/babel']
+              plugins: [
+                'babel-plugin-styled-components',
+                ['module-resolver', { 'root': ['./src'] }],
+                'react-hot-loader/babel'
+              ]
             }
           }
         ]
@@ -104,15 +117,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.dist, PATHS.build], {allowExternal: true}),
+    new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
-    new HtmlWebpackPlugin({
-      template: PATHS.src + '/index.html',
-      filename: 'index.html'
-    }),
-    new Webpack.DefinePlugin({
-      'process.env': { 'NODE_ENV': JSON.stringify(buildEnvString) }
-    }),
+    new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
     ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
@@ -132,7 +139,9 @@ module.exports = {
           nameCache: null,
           toplevel: false,
           ie8: false
-        }
+        },
+        parallel: true,
+        cache: true
       })
     ],
     concatenateModules: isProdBuild,
@@ -168,14 +177,25 @@ module.exports = {
     port: 8080,
     hot: !isProdBuild,
     historyApiFallback: true,
-    proxy: [
-      {
-        path: /\/a\/.*/,
-        bypass: function (req, res, proxyOptions) {
-          return '/index.html'
+    before (app) {
+      app.get('/Resources/wallet-options.json', function (req, res) {
+        // combine wallet options base with custom environment config
+        mockWalletOptions.domains = {
+          'root': envConfig.BLOCKCHAIN_INFO,
+          'api': envConfig.API_BLOCKCHAIN_INFO,
+          'webSocket': envConfig.WEB_SOCKET_URL,
+          'walletHelper': 'REPLACED_BY_DEV_SERVER'
         }
+
+        res.json(mockWalletOptions)
+      })
+    },
+    proxy: [{
+      path: /\/a\/.*/,
+      bypass: function (req, res, proxyOptions) {
+        return '/index.html'
       }
-    ],
+    }],
     overlay: !isProdBuild && {
       warnings: true,
       errors: true
@@ -196,13 +216,9 @@ module.exports = {
           'connect-src',
           "'self'",
           'ws://localhost:8080',
-          'https://blockchain.info',
-          'wss://ws.blockchain.info',
-          'https://api.blockchain.info',
-          'https://explorer.staging.blockchain.info',
-          'https://api.staging.blockchain.info',
-          'https://explorer.dev.blockchain.info',
-          'https://api.dev.blockchain.info',
+          envConfig.WEB_SOCKET_URL,
+          envConfig.BLOCKCHAIN_INFO,
+          envConfig.API_BLOCKCHAIN_INFO,
           'https://app-api.coinify.com',
           'https://api.sfox.com',
           'https://api.staging.sfox.com',

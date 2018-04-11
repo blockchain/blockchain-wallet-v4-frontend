@@ -1,18 +1,13 @@
 import { all, call, fork } from 'redux-saga/effects'
 
-import { api } from 'services/ApiService'
-import { socket } from 'services/Socket'
-import { sfoxService } from 'services/SfoxService'
-import { coinifyService } from 'services/CoinifyService'
-import { coreSagasFactory, rootSaga } from 'blockchain-wallet-v4/src'
+import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
+import websocketBitcoinFactory from 'blockchain-wallet-v4/src/redux/webSocket/bitcoin/sagas'
+import refreshFactory from 'blockchain-wallet-v4/src/redux/refresh/sagas'
 import alerts from './alerts/sagas'
 import auth from './auth/sagas'
 import modules from './modules/sagas'
 import goals from './goals/sagas'
 import wallet from './wallet/sagas'
-
-export const sagas = { core: coreSagasFactory({ api, socket, sfoxService, coinifyService }) }
-const coreRootSaga = rootSaga({ api, socket, sfoxService, coinifyService })
 
 const welcomeSaga = function * () {
   if (console) {
@@ -30,16 +25,18 @@ const welcomeSaga = function * () {
   yield
 }
 
-export default function * () {
+export default function * ({ api, socket, options }) {
+  const coreSagas = coreSagasFactory({ api, socket })
+
   yield all([
     call(welcomeSaga),
     fork(alerts),
-    fork(auth),
-    fork(modules),
-    fork(goals),
-    fork(wallet),
-    fork(sagas.core.webSocket.bitcoin),
-    fork(sagas.core.refresh),
-    fork(coreRootSaga)
+    fork(auth({ api, coreSagas })),
+    fork(modules({ coreSagas })),
+    fork(goals({ coreSagas })),
+    fork(wallet({ coreSagas })),
+    fork(websocketBitcoinFactory({ api, socket })),
+    fork(refreshFactory()),
+    fork(coreRootSagaFactory({ api, socket, options }))
   ])
 }
