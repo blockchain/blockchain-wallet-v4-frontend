@@ -22,7 +22,7 @@ const renderApp = (Component, store, history) => {
   render(App, store, history, messages)
 
   if (module.hot) {
-    module.hot.accept('scenes/app.js', () => render(require('scenes/app.js').default, store, history, messages))
+    module.hot.accept('./scenes/app.js', () => render(require('./scenes/app.js').default, store, history, messages))
   }
 }
 
