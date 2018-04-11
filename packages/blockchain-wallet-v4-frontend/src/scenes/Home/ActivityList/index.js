@@ -33,7 +33,7 @@ class ActivityListContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   data: getData(state, 8),
-  ethContex: getEthereumContext(state)
+  ethContext: getEthereumContext(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

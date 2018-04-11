@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { FlatLoader } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,10 +12,10 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-export default (props) => {
-  return (
-    <Wrapper>
-      <FlatLoader width='50px' height='14px' />
-    </Wrapper>
-  )
-}
+export default (props) => (
+  <Wrapper>
+    <Text size='12px' weight={300} color='red'>
+      {props.children}
+    </Text>
+  </Wrapper>
+)

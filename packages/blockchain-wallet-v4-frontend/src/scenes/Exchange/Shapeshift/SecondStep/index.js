@@ -2,60 +2,40 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { getData, getAddresses } from './selectors'
-import { actions } from 'data'
+import { getData } from './selectors'
+import { actions, selectors } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
-import Success from './template.success'
+import Form from './Form'
 
-class SecondStepContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleCancel = this.handleCancel.bind(this)
-  }
-
+class SecondContainer extends React.Component {
   componentWillMount () {
     // Make request to shapeShift to create order
-    const { pair, sourceAddress, sourceAmount, targetAddress } = this.props
-    this.props.dataShapeshiftActions.fetchOrder(sourceAmount, pair, sourceAddress, targetAddress)
-  }
-
-  handleSubmit () {
-    // Submit exchange
-  }
-
-  handleCancel () {
-    // Reset form and go back to first step
-    this.props.formActions.reset('exchange')
-    this.props.previousStep()
+    const { pair, sourceReceiveAddress, sourceAmount, targetReceiveAddress } = this.props
+    this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
+    this.props.dataShapeshiftActions.fetchOrder(sourceAmount, pair, sourceReceiveAddress, targetReceiveAddress)
   }
 
   render () {
-    return this.props.data.cata({
-      Success: (value) => <Success
-        {...this.props}
-        {...value}
-        handleSubmit={this.handleSubmit}
-        handleCancel={this.handleCancel}
-        handleExpiry={this.handleCancel}
-      />,
+    const { data, ...rest } = this.props
+
+    return data.cata({
+      Success: (value) => <Form {...rest} {...value} />,
       Failure: (message) => <Error />,
       Loading: () => <Loading />,
-      NotAsked: () => <Success />
+      NotAsked: () => <Loading />
     })
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  ...getAddresses(state, ownProps.source, ownProps.target),
-  data: getData(state, ownProps.sourceCoin, ownProps.targetCoin)
+  data: getData(state, ownProps.source, ownProps.target),
+  coins: selectors.core.data.bitcoin.getCoins(state).getOrElse([])
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch)
+  dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
+  kvStoreShapeshiftActions: bindActionCreators(actions.core.kvStore.shapeShift, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SecondContainer)
