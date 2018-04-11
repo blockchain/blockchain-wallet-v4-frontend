@@ -10,6 +10,10 @@ import { Button, Icon, Link, NativeSelect, Text, Tooltip } from 'blockchain-info
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
+import { Exchange } from 'blockchain-wallet-v4/src'
+
+const DUST = 546
+const btcMinRequired = Exchange.convertBitcoinToBitcoin({ value: DUST, fromUnit: 'SAT', toUnit: 'BTC' })
 
 const Row = styled.div`
   display: flex;
@@ -86,8 +90,8 @@ const shouldValidate = ({ values, nextProps, props, initialRender, structure }) 
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
 }
 
-const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
-
+const minRequired = (value, allValues, props) => parseFloat(props.values.amount) >= btcMinRequired.value ? undefined : `The minimum amount required to send is ${btcMinRequired.value} ${btcMinRequired.unit.symbol}.`
+const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance} BTC.`
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = props => {
@@ -142,7 +146,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' maxAvailable={props.effectiveBalance} />
+          <Field name='amount' component={FiatConvertor} validate={[required, minRequired, validAmount, emptyAmount]} coin='BTC' minRequired={btcMinRequired.value} maxAvailable={props.effectiveBalance} />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
