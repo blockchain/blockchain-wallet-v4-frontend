@@ -39,7 +39,6 @@ packages/blockchain-info-components/package-lock.json
 packages/blockchain-wallet-v4/package-lock.json
 packages/blockchain-wallet-v4-frontend/package-lock.json
 
-
 # Config Files
 config/env/development.js
 config/env/staging.js
