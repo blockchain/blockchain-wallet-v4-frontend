@@ -71,11 +71,15 @@ module.exports = {
     rules: [
       (isProdBuild ? {
         test: /\.js$/,
-        use: ['babel-loader']
+        use: [
+          'thread-loader',
+          'babel-loader'
+        ]
       } : {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
         use: [
+          'thread-loader',
           {
             loader: 'babel-loader',
             options: {
@@ -142,7 +146,9 @@ module.exports = {
           nameCache: null,
           toplevel: false,
           ie8: false
-        }
+        },
+        parallel: true,
+        cache: true
       })
     ],
     concatenateModules: isProdBuild,
