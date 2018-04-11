@@ -1,7 +1,5 @@
 import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import { indexBy, length, path, prop, last } from 'ramda'
-import { delayAjax } from '../../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
@@ -18,7 +16,6 @@ export default ({ api }) => {
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)
       }
-      yield call(delay, delayAjax)
       yield put(A.fetchDataSuccess(bchData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
@@ -28,8 +25,7 @@ export default ({ api }) => {
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
-      const data = 2 // yield call(api.getBitcoinFee)
-      yield call(delay, delayAjax)
+      const data = yield call(api.getBchFee)
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
       yield put(A.fetchFeeFailure(e.message))
@@ -40,7 +36,6 @@ export default ({ api }) => {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBchTicker)
-      yield call(delay, delayAjax)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))

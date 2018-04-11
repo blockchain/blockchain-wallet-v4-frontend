@@ -55,12 +55,6 @@ const ContainerMiddle = styled.div`
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
 `
 
-// const shouldFail = (value, allValues, props) => {
-//   // console.log('shouldFail', value)
-//   return 'An error has occured'
-//   // return undefined
-// }
-
 const Loading = props => {
   const { handleSubmit, invalid, submitting, ...rest } = props
 
