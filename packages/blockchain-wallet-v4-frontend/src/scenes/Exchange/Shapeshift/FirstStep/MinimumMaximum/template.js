@@ -16,22 +16,37 @@ const Wrapper = styled.div`
 `
 
 const MinimumMaximum = props => {
-  return (
-    <Wrapper>
-      <Text weight={300} size='12px'>
-        <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
-      </Text>
-      <Link size='12px' weight={300} onClick={props.handleClickMinimum}>
-        <FormattedMessage id='scenes.exchangebox.firststep.min' defaultMessage='minimum' />
-      </Link>
-      <Text weight={300} size='12px'>
-        <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
-      </Text>
-      <Link size='12px' weight={300} onClick={props.handleClickMaximum}>
-        <FormattedMessage id='scenes.exchangebox.firststep.max' defaultMessage='maximum' />
-      </Link>
-    </Wrapper>
-  )
+  const { isBalanceBelowMin, minimum, sourceCoin } = props
+  return isBalanceBelowMin
+    ? (
+      <Wrapper>
+        <Text weight={300} size='12px'>
+          <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='😢 ' />
+        </Text>
+        <Text weight={300} size='12px'>
+          {minimum} {sourceCoin}
+        </Text>
+        <Text weight={300} size='12px'>
+          <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage=' required to exchange' />
+        </Text>
+      </Wrapper>
+    )
+    : (
+      <Wrapper>
+        <Text weight={300} size='12px'>
+          <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
+        </Text>
+        <Link size='12px' weight={300} onClick={props.handleClickMinimum}>
+          <FormattedMessage id='scenes.exchangebox.firststep.min' defaultMessage='minimum' />
+        </Link>
+        <Text weight={300} size='12px'>
+          <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
+        </Text>
+        <Link size='12px' weight={300} onClick={props.handleClickMaximum}>
+          <FormattedMessage id='scenes.exchangebox.firststep.max' defaultMessage='maximum' />
+        </Link>
+      </Wrapper>
+    )
 }
 
 MinimumMaximum.propTypes = {
