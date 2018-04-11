@@ -1,17 +1,17 @@
-import { dataSagasFactory } from './data/sagas.js'
-import { settingsSaga } from './settings/sagas.js'
-import { walletSaga } from './wallet/sagas.js'
-import { webSocketSaga } from './webSocket/sagas.js'
-import { walletOptionsSaga } from './walletOptions/sagas.js'
-import { kvStoreSagasFactory } from './kvStore/sagas.js'
-import { refreshSaga } from './refresh/sagas.js'
+import data from './data/sagas'
+import settings from './settings/sagas'
+import wallet from './wallet/sagas'
+import webSocket from './webSocket/sagas'
+import walletOptions from './walletOptions/sagas'
+import kvStore from './kvStore/sagas'
+import refresh from './refresh/sagas'
 
-export const coreSagasFactory = ({ api, socket, sfoxService, coinifyService } = {}) => ({
-  data: dataSagasFactory({ api, socket, sfoxService, coinifyService }),
-  settings: settingsSaga({ api, socket }),
-  wallet: walletSaga({ api, socket }),
-  walletOptions: walletOptionsSaga({ api, socket }),
-  webSocket: webSocketSaga({ api, socket }),
-  kvStore: kvStoreSagasFactory({ api }),
-  refresh: refreshSaga({api})
+export default ({ api, socket }) => ({
+  data: data({ api }),
+  settings: settings({ api }),
+  wallet: wallet({ api }),
+  walletOptions: walletOptions({ api }),
+  webSocket: webSocket({ api, socket }),
+  kvStore: kvStore({ api }),
+  refresh: refresh({ api })
 })

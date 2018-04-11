@@ -7,7 +7,6 @@ import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 
 import { requiredSSN, requiredDOB, normalizeSocialSecurity, normalizeDateOfBirth, ageOverEighteen } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
-import { FAQ1, FAQ2 } from './faq.js'
 
 const LockIcon = styled(Icon)`
   display: flex;
@@ -74,8 +73,7 @@ const Identity = (props) => {
               </Text>
             }
           </ErrorWrapper>
-          <FAQ1 />
-          <FAQ2 />
+          { props.faqs() }
         </ColRightInner>
       </ColRight>
     </Form>

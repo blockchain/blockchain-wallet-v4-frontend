@@ -6,13 +6,14 @@ import { Link, Icon } from 'blockchain-info-components'
 const FaqLink = styled(Link)`
   position: relative;
   margin-top: 4px;
-  
-  & > :first-child:hover { 
+
+  & > :first-child:hover {
     cursor: pointer;
   }
-  
+
   ::after {
-    opacity: ${props => props.trayRightOpen ? '1' : '0'};
+    opacity: ${props => props.trayRightOpen && props.trayRightContent === 'faq' ? '1' : '0'};
+    /*and trayRightContent is FAQ*/
     content: "";
     position: absolute;
     top: 24px;
@@ -28,17 +29,20 @@ const FaqLink = styled(Link)`
   }
 `
 
-const Faq = (props) => {
+const FaqIcon = (props) => {
+  const { trayRightOpen, handleTrayRightToggle, trayRightContent } = props
+
   return (
-    <FaqLink {...props} size='16px' weight={300} color='white'>
+    <FaqLink className={'ignore-react-onclickoutside'} trayRightContent={trayRightContent} trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('faq')} size='16px' weight={300} color='white'>
       <Icon name='question-in-circle-filled' size='18px' color='white'/>
     </FaqLink>
   )
 }
 
-Faq.propTypes = {
-  onClick: PropTypes.func.isRequired,
+FaqIcon.propTypes = {
+  trayRightContent: PropTypes.string.isRequired,
+  handleTrayRightToggle: PropTypes.func.isRequired,
   trayRightOpen: PropTypes.bool.isRequired
 }
 
-export default Faq
+export default FaqIcon

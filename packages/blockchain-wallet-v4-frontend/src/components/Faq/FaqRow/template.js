@@ -1,5 +1,5 @@
 import React from 'react'
-import { Faq, FaqContent, FaqHeader } from 'components/FaqItem'
+import { Faq, FaqContent, FaqHeader } from './../FaqItem'
 
 const FaqRow = props => {
   const { toggled, handleToggle } = props
