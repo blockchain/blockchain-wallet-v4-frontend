@@ -2,14 +2,8 @@ const express = require('express')
 const compression = require('compression')
 const path = require('path')
 
-// validate env configs are given
-if (!process.env.PORT || !process.env.ROOT_URL || !process.env.WEB_SOCKET_URL ||
-  !process.env.API_DOMAIN || !process.env.I_SIGN_THIS_DOMAIN) {
-  throw new Error('One or more required environment variables are undefined!')
-}
-
 // store env configs
-const port = process.env.PORT
+const port = process.env.PORT || 8080
 const rootURL = process.env.ROOT_URL
 const webSocketURL = process.env.WEB_SOCKET_URL
 const apiDomain = process.env.API_DOMAIN
@@ -24,10 +18,16 @@ console.log(`Web Socket URL: ${webSocketURL}`)
 console.log(`API Domain: ${apiDomain}`)
 console.log(`iSignThisDomain: ${iSignThisDomain}\n`)
 
+// validate env configs are given
+if (!port || !rootURL || !webSocketURL || !apiDomain || !iSignThisDomain) {
+  throw new Error('One or more required environment variables are undefined!')
+}
+
+// configure server
 let app = express()
 app.disable('x-powered-by')
 
-// middleware
+// register middleware
 app.use(compression())
 app.use(function (req, res, next) {
   let cspHeader = ([
@@ -75,7 +75,7 @@ app.get('/healthz', function (req, res) {
 })
 
 // static content
-app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.static(path.join(__dirname, 'build')))
 
 console.log(`Server started and listening on port ${port}.`)
 
