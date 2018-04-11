@@ -49,18 +49,17 @@ const configureStore = () => {
         composeEnhancers(
           applyMiddleware(
             routerMiddleware(history),
-            coreMiddleware.kvStore({isAuthenticated, api, kvStorePath}),
+            coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
             coreMiddleware.socket.bitcoin(socket, walletPath, isAuthenticated),
-            coreMiddleware.walletSync({isAuthenticated, api, walletPath}),
+            coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection(),
             sagaMiddleware
           ),
           autoRehydrate()
         )
       )
-
-      sagaMiddleware.run(rootSaga, { api, socket, options })
       persistStore(store, { whitelist: ['session', 'preferences'] })
+      sagaMiddleware.run(rootSaga, { api, socket, options })
 
       return {
         store,
