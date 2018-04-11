@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { BigNumber } from 'bignumber.js'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { equals, isNil, path } from 'ramda'
 
 import { actions, selectors } from 'data'
 import { getData } from './selectors'
-import { getPairFromCoin } from '../../services'
+import { getPairFromCoin } from 'services/ShapeshiftService'
 import Success from './template.success'
 
 class CoinConvertorContainer extends React.Component {
@@ -18,6 +19,8 @@ class CoinConvertorContainer extends React.Component {
     this.state = { source, target }
     this.handleChangeSource = this.handleChangeSource.bind(this)
     this.handleChangeTarget = this.handleChangeTarget.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -32,7 +35,6 @@ class CoinConvertorContainer extends React.Component {
     const prevSource = path(['input', 'value', 'source'], this.props)
     const nextSource = path(['input', 'value', 'source'], nextProps)
     if (!isNil(nextSource) && !equals(prevSource, nextSource) && !equals(nextSource, this.state.source)) {
-      console.log('nextSource', nextSource)
       this.fetchQuotation(nextSource, true)
     }
     // Update state if target has changed
@@ -53,8 +55,16 @@ class CoinConvertorContainer extends React.Component {
     this.props.input.onChange(data)
   }
 
+  handleFocus () {
+    this.props.input.onFocus(this.state)
+  }
+
+  handleBlur () {
+    this.props.input.onBlur(this.state)
+  }
+
   fetchQuotation (value, isDeposit) {
-    if (!isNil(value)) {
+    if (!isNil(value) && !new BigNumber(value).equals(0)) {
       if (this.timeout) clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
         this.props.dataShapeshiftActions.fetchQuotation(value, this.props.pair, isDeposit)
@@ -66,10 +76,10 @@ class CoinConvertorContainer extends React.Component {
     const { source, target } = this.state
 
     return this.props.data.cata({
-      Success: (value) => <Success {...value} {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} loading={false} />,
-      Failure: (message) => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} loading={false} />,
+      Success: (value) => <Success {...value} {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false} />,
+      Failure: (message) => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false} />,
       Loading: () => <Success {...this.props} source={source} target={target} loading />,
-      NotAsked: () => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} loading={false} />
+      NotAsked: () => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false} />
     })
   }
 }
@@ -95,6 +105,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  dataBchActions: bindActionCreators(actions.core.data.bch, dispatch),
   dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
   dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch)

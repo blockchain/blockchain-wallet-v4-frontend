@@ -4,7 +4,7 @@ import * as A from './actions'
 import * as T from './actionTypes'
 import * as walletTypes from '../../wallet/actionTypes'
 
-const socket = ({ socket }) => (store) => {
+const socket = (socket) => (store) => {
   const send = socket.send.bind(socket)
   return (next) => (action) => {
     const { type } = action

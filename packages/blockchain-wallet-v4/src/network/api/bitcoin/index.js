@@ -27,6 +27,10 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: 'pushtx',
     data: { tx: txHex, format: 'plain' }
   })
+  // const pushBitcoinTx = (txHex) => {
+  //   console.log(txHex)
+  //   return Promise.resolve(txHex)
+  // }
 
   const getBitcoinFiatAtTime = (amount, currency, time) => get({
     url: apiUrl,

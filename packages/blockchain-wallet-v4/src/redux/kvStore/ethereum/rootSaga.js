@@ -12,7 +12,7 @@ import { getMnemonic } from '../../wallet/selectors'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api } = {}) => {
+export default ({ api }) => {
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }

@@ -1,14 +1,31 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from 'scenes/app.js'
+
 import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
+import App from 'scenes/app.js'
+import Error from './index.error'
 
-const { store, history } = configureStore()
+const renderApp = (Component, store, history) => {
+  const { messages } = configureLocales(store)
+  ReactDOM.render(
+    <Component store={store} history={history} messages={messages} />,
+    document.getElementById('app')
+  )
+}
 
-const { messages } = configureLocales(store)
+const renderError = () => {
+  ReactDOM.render(
+    <Error />,
+    document.getElementById('app')
+  )
+}
 
-ReactDOM.render(
-  <App store={store} history={history} messages={messages} />,
-  document.getElementById('app')
-)
+// =============================================================================
+// ================================= APP =======================================
+// =============================================================================
+configureStore().then(x => {
+  renderApp(App, x.store, x.history)
+}).catch(e => {
+  renderError()
+})

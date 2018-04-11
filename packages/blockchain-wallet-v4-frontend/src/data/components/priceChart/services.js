@@ -29,16 +29,16 @@ const start = {
 export const calculateStart = (coin, time) => {
   const coinStart = prop(coin, start)
   const now = moment()
-  const dayStart = now.subtract(1, 'day')
-  const weekStart = now.subtract(7, 'day')
-  const monthStart = now.subtract(1, 'month')
-  const yearStart = now.subtract(1, 'year')
+  const dayStart = now.subtract(1, 'day').format('X')
+  const weekStart = now.subtract(7, 'day').format('X')
+  const monthStart = now.subtract(1, 'month').format('X')
+  const yearStart = now.subtract(1, 'year').format('X')
 
   switch (time) {
-    case 'year': return yearStart > coinStart ? yearStart.format('X') : coinStart
-    case 'month': return monthStart > coinStart ? monthStart.format('X') : coinStart
-    case 'week': return weekStart > coinStart ? weekStart.format('X') : coinStart
-    case 'day': return dayStart > coinStart ? dayStart.format('X') : coinStart
+    case 'year': return yearStart > coinStart ? yearStart : coinStart
+    case 'month': return monthStart > coinStart ? monthStart : coinStart
+    case 'week': return weekStart > coinStart ? weekStart : coinStart
+    case 'day': return dayStart > coinStart ? dayStart : coinStart
     default: return coinStart
   }
 }

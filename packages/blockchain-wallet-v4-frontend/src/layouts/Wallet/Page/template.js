@@ -17,7 +17,6 @@ const Page = (props) => {
 
   return (
     <PageContainer onScroll={handleScroll}>
-      {/* <PageContainer> */}
       {children}
     </PageContainer>
   )

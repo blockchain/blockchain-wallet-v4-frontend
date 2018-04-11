@@ -48,8 +48,10 @@ const mapStateToProps = (state) => ({
   end: formValueSelector('transactionReport')(state, 'end')
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  transactionHistoryActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  transactionHistoryActions: ownProps.coin === 'BTC'
+    ? bindActionCreators(actions.core.data.bitcoin, dispatch)
+    : bindActionCreators(actions.core.data.bch, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
