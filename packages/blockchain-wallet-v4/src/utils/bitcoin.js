@@ -61,6 +61,9 @@ export const addressToScript = value => {
   }
 }
 
+export const scriptToAddress = network => script =>
+  address.fromOutputScript(Buffer.from(script, 'hex'), network).toString()
+
 export const detectPrivateKeyFormat = key => {
   let isTestnet = false
   // 51 characters base58, always starts with 5 (or 9, for testnet)
