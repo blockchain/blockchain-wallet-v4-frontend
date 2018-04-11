@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { isAboveShapeshiftMinimum, isBelowShapeshiftMaximum, isBelowEffectiveBalance } from './services'
+import { isRequired, isAboveZero, isAboveShapeshiftMinimum, isBelowShapeshiftMaximum, isBelowEffectiveBalance, shouldValidate } from './services'
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
@@ -56,16 +56,8 @@ const ContainerMiddle = styled.div`
 
   & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
 `
-const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
-  if (initialRender) { return true }
-  return initialRender ||
-    !structure.deepEqual(values, nextProps.values) ||
-    props.effectiveBalance !== nextProps.effectiveBalance ||
-    props.coins !== nextProps.coins
-}
-
-const ExchangeForm = props => {
-  const { handleSubmit, invalid, submitting, ...rest } = props
+const Success = props => {
+  const { handleSubmit, pristine, invalid, submitting, ...rest } = props
 
   return (
     <Wrapper>
@@ -89,7 +81,7 @@ const ExchangeForm = props => {
           </Container>
         </Row>
         <Row>
-          <Field name='accounts' component={SelectBoxAccounts} {...rest} />
+          <Field name='accounts' component={SelectBoxAccounts} validate={[required]} {...rest} />
         </Row>
         <Row>
           <Text size='14px' weight={400}>
@@ -97,13 +89,13 @@ const ExchangeForm = props => {
           </Text>
         </Row>
         <Row>
-          <Field name='amount' component={CoinConvertor} validate={[required, isAboveShapeshiftMinimum, isBelowShapeshiftMaximum, isBelowEffectiveBalance]} {...rest} />
+          <Field name='amount' component={CoinConvertor} validate={[isRequired, isAboveZero, isAboveShapeshiftMinimum, isBelowShapeshiftMaximum, isBelowEffectiveBalance]} {...rest} />
         </Row>
         <Row>
           <MinimumMaximum {...rest} />
         </Row>
         <Row>
-          <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>
+          <Button type='submit' nature='primary' fullwidth disabled={pristine || invalid || submitting}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.next' defaultMessage='Next' />
           </Button>
         </Row>
@@ -112,4 +104,4 @@ const ExchangeForm = props => {
   )
 }
 
-export default reduxForm({ form: 'exchange', destroyOnUnmount: false, shouldValidate })(ExchangeForm)
+export default reduxForm({ form: 'exchange', destroyOnUnmount: false, shouldValidate })(Success)

@@ -8,7 +8,8 @@ import * as walletSelectors from '../../wallet/selectors'
 import { Socket } from '../../../network/index'
 import * as btcActions from '../../data/bitcoin/actions'
 
-export const bitcoinWebSocketSaga = ({ api, socket } = {}) => {
+// TO REVIEW
+export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
   let lastPongTimestamp = 0
 
@@ -49,8 +50,8 @@ export const bitcoinWebSocketSaga = ({ api, socket } = {}) => {
         lastPongTimestamp = Date.now()
         yield call(delay, 120000)
         if (lastPongTimestamp < Date.now() - 120000) {
-          yield put(A.webSocket.stopSocket())
-          yield put(A.webSocket.startSocket())
+          yield put(A.webSocket.bitcoin.stopSocket())
+          yield put(A.webSocket.bitcoin.startSocket())
         }
         break
       case 'email_verified':

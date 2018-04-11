@@ -5,7 +5,7 @@ import * as walletActions from '../wallet/actions'
 import * as wS from '../wallet/selectors'
 import * as pairing from '../../pairing'
 
-export const settingsSaga = ({ api } = {}) => {
+export default ({ api }) => {
   // Utilities
   const decodePairingCode = function * ({ data }) {
     const parsedDataE = pairing.parseQRcode(data)

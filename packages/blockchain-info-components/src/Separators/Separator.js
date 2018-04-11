@@ -4,12 +4,16 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
-  fle-direction: row;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 `
 const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   white-space: nowrap;
   padding-left: ${props => props.align === 'left' || props.align === 'center' ? '10px' : '0'};
   padding-right: ${props => props.align === 'right' || props.align === 'center' ? '10px' : '0'}; 

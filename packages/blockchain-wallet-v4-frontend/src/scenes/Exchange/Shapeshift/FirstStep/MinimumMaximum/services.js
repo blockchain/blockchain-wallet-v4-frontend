@@ -1,16 +1,14 @@
-import { equals, prop } from 'ramda'
+import { path } from 'ramda'
+import { getPairFromCoinCamel } from 'services/ShapeshiftService'
 import BigNumber from 'bignumber.js'
 
 export const calculateMinimum = props => {
-  const { sourceCoin, targetCoin, btcEth, ethBtc } = props
-  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) return prop('minimum', btcEth)
-  if (equals('ETH', sourceCoin) && equals('BTC', targetCoin)) return prop('minimum', ethBtc)
+  const pair = getPairFromCoinCamel(props.sourceCoin, props.targetCoin)
+  return path([pair, 'minimum'], props)
 }
 
 export const calculateMaximum = props => {
-  const { sourceCoin, targetCoin, effectiveBalance, btcEth, ethBtc } = props
-  const btcEthMaximum = prop('limit', btcEth)
-  const ethBtcMaximum = prop('limit', ethBtc)
-  if (equals('BTC', sourceCoin) && equals('ETH', targetCoin)) return new BigNumber(btcEthMaximum).greaterThan(new BigNumber(effectiveBalance)) ? effectiveBalance : btcEthMaximum
-  if (equals('ETH', sourceCoin) && equals('BTC', targetCoin)) return new BigNumber(ethBtcMaximum).greaterThan(new BigNumber(effectiveBalance)) ? effectiveBalance : ethBtcMaximum
+  const pair = getPairFromCoinCamel(props.sourceCoin, props.targetCoin)
+  const maximum = path([pair, 'limit'], props)
+  return new BigNumber(maximum).greaterThan(new BigNumber(props.effectiveBalance)) ? props.effectiveBalance : maximum
 }

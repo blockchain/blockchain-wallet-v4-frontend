@@ -17,6 +17,7 @@ const renderStatus = status => {
   switch (status) {
     case 'complete': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.complete' defaultMessage='Complete' />
     case 'failed': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.failed' defaultMessage='Failed' />
+    case 'error': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.error' defaultMessage='Error' />
     case 'no_deposits': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.inprogress' defaultMessage='In progress' />
     case 'received': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.pending' defaultMessage='Pending' />
     case 'resolved': return <FormattedMessage id='scenes.exchangehistory.list.orderstatus.refunded' defaultMessage='Refunded' />

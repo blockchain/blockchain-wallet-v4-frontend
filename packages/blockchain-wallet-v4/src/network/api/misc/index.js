@@ -8,11 +8,18 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     sessionToken
   })
 
-  const getTransactionHistory = (active, currency, start, end) => post({
-    url: rootUrl,
-    endPoint: 'v2/export-history',
-    data: { active, currency: toUpper(currency), start, end }
-  })
+  const getTransactionHistory = (coin, active, currency, start, end) => {
+    return coin === 'BCH'
+      ? get({
+        url: apiUrl,
+        endPoint: 'bch/v2/export-history',
+        data: { active, currency: toUpper(currency), start, end }
+      }) : post({
+        url: rootUrl,
+        endPoint: 'v2/export-history',
+        data: { active, currency: toUpper(currency), start, end }
+      })
+  }
 
   const getAdverts = number => get({
     url: apiUrl,
