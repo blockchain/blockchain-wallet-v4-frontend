@@ -37,8 +37,8 @@ const PasswordBox = (field) => {
   )
 }
 
-PasswordBox.PropTypes = {
-  score: PropTypes.number
+PasswordBox.propTypes = {
+  score: PropTypes.bool
 }
 
 PasswordBox.defaultProps = {

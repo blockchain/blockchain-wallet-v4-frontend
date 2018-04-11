@@ -11,7 +11,6 @@ import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
 import Loading from './template.loading'
-import * as buySell from 'services/BuySellService'
 import ui from 'redux-ui'
 
 const Wrapper = styled.div`
@@ -31,7 +30,6 @@ const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 class BuySellContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.onSubmit = this.onSubmit.bind(this)
     this.renderPartner = this.renderPartner.bind(this)
     this.submitEmail = this.submitEmail.bind(this)
   }
@@ -47,17 +45,17 @@ class BuySellContainer extends React.Component {
    * If not, open the tray and send user through the signup flow.
    */
 
-  renderPartner (kvStoreValue, type) {
-    if (kvStoreValue.sfox.account_token) {
-      return <SfoxCheckout type={type} value={kvStoreValue} />
+  renderPartner (buySell, options, type) {
+    if (buySell.sfox.account_token) {
+      return <SfoxCheckout type={type} options={options} value={buySell} />
     }
-    if (kvStoreValue.unocoin.token) { // TODO replace token
+    if (buySell.unocoin.token) { // TODO replace token
       return <span>Unocoin</span>
     }
-    if (kvStoreValue.coinify.offline_token) {
-      return <CoinifyCheckout type={type} value={kvStoreValue} />
+    if (buySell.coinify.offline_token) {
+      return <CoinifyCheckout type={type} options={options} value={buySell} />
     }
-    return <SelectPartner type={type} value={kvStoreValue} onSubmit={this.onSubmit} submitEmail={this.submitEmail} {...this.props} />
+    return <SelectPartner type={type} options={options} value={buySell} onSubmit={this.onSubmit} submitEmail={this.submitEmail} {...this.props} />
   }
 
   submitEmail () {
@@ -65,24 +63,11 @@ class BuySellContainer extends React.Component {
     this.props.updateUI({ submittedEmail: true })
   }
 
-  onSubmit (e) {
-    e.preventDefault()
-    if (buySell.sfoxCountries.indexOf(this.props.country) >= 0) {
-      this.props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
-    }
-    if (buySell.unocoinCountries.indexOf(this.props.country) >= 0) {
-      console.log('start unocoin')
-    }
-    if (buySell.coinifyCountries.indexOf(this.props.country) >= 0) {
-      this.props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
-    }
-  }
-
   render () {
     const { data, type } = this.props
 
     let view = data.cata({
-      Success: (value) => this.renderPartner(value.value, type),
+      Success: (value) => this.renderPartner(value.buySell.value, value.options, type),
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <div>not asked...</div>

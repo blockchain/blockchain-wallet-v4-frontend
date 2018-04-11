@@ -33,14 +33,18 @@ class SecondStepContainer extends React.Component {
   }
 
   transformToCsvData (data) {
-    const headers = [['date', 'time', 'status', 'amount_btc', 'value_then', 'value_now', 'exchange_rate_then', 'tx']]
-    const records = map((record) => [record.date, record.time, record.type, record.amount_btc, record.value_then, record.value_now, record.exchange_rate_then, record.tx], data)
-    return headers.concat(records)
+    switch (this.props.coin) {
+      case 'BCH':
+        return [['date', 'time', 'status', 'amount_bch', 'value_then', 'value_now', 'exchange_rate_then', 'tx']]
+          .concat(map((record) => [record.date, record.time, record.type, record.amount_bch, record.value_then, record.value_now, record.exchange_rate_then, record.tx], data))
+      default:
+        return [['date', 'time', 'status', 'amount_btc', 'value_then', 'value_now', 'exchange_rate_then', 'tx']]
+          .concat(map((record) => [record.date, record.time, record.type, record.amount_btc, record.value_then, record.value_now, record.exchange_rate_then, record.tx], data))
+    }
   }
 
   render () {
     const { data, ...rest } = this.props
-
     return data.cata({
       Success: (value) => <Success {...rest} data={this.transformToCsvData(value)} filename={this.state.filename} />,
       Failure: (message) => <Error {...rest} message={message} />,
@@ -50,10 +54,10 @@ class SecondStepContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   start: formValueSelector('transactionReport')(state, 'start'),
   end: formValueSelector('transactionReport')(state, 'end'),
-  data: getData(state)
+  data: getData(state, ownProps.coin)
 })
 
 const mapDispatchToProps = (dispatch) => ({

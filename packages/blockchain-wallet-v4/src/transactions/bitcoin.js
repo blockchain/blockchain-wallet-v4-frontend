@@ -200,6 +200,7 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
     toWatchOnly: outputData.isWatchOnly,
     from: from, // based on inputs
     to: to, // based on outputs
+
     // properties that frontend should compute
     status: null, // based on confirmations
     initial_value: null // when the user opens the modal

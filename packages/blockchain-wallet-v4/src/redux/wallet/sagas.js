@@ -15,7 +15,7 @@ import { Wrapper, Wallet } from '../../types'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
-export const walletSaga = ({ api } = {}) => {
+export default ({ api }) => {
   const runTask = function * (task, setActionCreator) {
     let result = yield call(compose(taskToPromise, () => task))
     yield put(setActionCreator(result))

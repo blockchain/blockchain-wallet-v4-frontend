@@ -6,7 +6,7 @@ import * as ethActions from '../data/ethereum/actions'
 import * as S from '../wallet/selectors'
 import * as ethSelectors from '../kvStore/ethereum/selectors'
 
-export const refreshSaga = ({ api } = {}) => {
+export default () => {
   const refresh = function * () {
     const walletContext = yield select(S.getWalletContext)
     yield put(btcActions.fetchData(walletContext))

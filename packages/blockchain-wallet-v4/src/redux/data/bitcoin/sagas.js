@@ -10,7 +10,7 @@ import * as Coin from '../../../coinSelection/coin'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const bitcoin = ({ api } = {}) => {
+export default ({ api }) => {
   const pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
   const addPrivToCoins = (priv, coins) => map(set(Coin.priv, priv), coins)
 
@@ -39,7 +39,7 @@ export const bitcoin = ({ api } = {}) => {
 
   const signAndPublish = function * ({ network, selection, password }) {
     let wrapper = yield select(S.wallet.getWrapper)
-    let signAndPublish = sign(network, password, wrapper, selection).chain(pushBitcoinTx)
+    let signAndPublish = sign('BTC', network, password, wrapper, selection).chain(pushBitcoinTx)
     return yield call(() => taskToPromise(signAndPublish))
   }
 
