@@ -32,12 +32,14 @@ app.use(compression())
 app.use(function (req, res, next) {
   let cspHeader = ([
     "img-src 'self' " + rootURL + ' data: blob: android-webview-video-poster:',
-    "style-src 'self'",
-    `child-src ${iSignThisDomain}`,
-    `frame-src ${iSignThisDomain}`,
-    "script-src 'self'",
+    "style-src 'self' 'unsafe-inline'",
+    `child-src ${iSignThisDomain} https://wallet-helper.blockchain.info http://localhost:8081`,
+    `frame-src ${iSignThisDomain} https://wallet-helper.blockchain.info http://localhost:8081`,
+    "worker-src 'self' 'unsafe-eval' blob:",
+    "script-src 'self' 'unsafe-eval'",
     'connect-src ' + [
       "'self'",
+      'ws://localhost:8080',
       rootURL,
       apiDomain,
       webSocketURL,
