@@ -15,6 +15,10 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     }
   })
 
+  const getBchFee = () => {
+    return Promise.resolve({ priority: 2, regular: 2 })
+  }
+
   const getBchTicker = () => get({
     url: apiUrl,
     endPoint: 'ticker',
@@ -39,6 +43,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   return {
     fetchBchData,
+    getBchFee,
     getBchTicker,
     getBchUnspents,
     pushBchTx

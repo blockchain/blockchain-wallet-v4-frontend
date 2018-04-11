@@ -18,7 +18,7 @@ class WalletLayout extends React.Component {
       this.props.kvStoreBchActions.fetchMetadataBch()
       this.props.kvStoreEthereumActions.fetchMetadataEthereum()
       this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
-      this.props.optionsActions.fetchOptions()
+      this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
       this.props.settingsActions.fetchSettings()
     }
   }
@@ -26,7 +26,7 @@ class WalletLayout extends React.Component {
   render () {
     const { data, isAuthenticated, location } = this.props
     return isAuthenticated ? data.cata({
-      Success: (value) => renderLayout(this.props),
+      Success: () => renderLayout(this.props),
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -40,7 +40,18 @@ const renderLayout = ({ ui, updateUI, component: Component, ...rest }) => (
       location={props.location}
       menuLeftToggled={ui.menuLeftToggled}
       trayRightOpen={ui.trayRightOpen}
-      handleTrayRightToggle={() => updateUI({ trayRightOpen: !ui.trayRightOpen })}
+      trayRightContent={ui.trayRightContent}
+      handleTrayRightToggle={(content, fromClickOutside) => {
+        if (fromClickOutside) {
+          updateUI({ trayRightOpen: false })
+        } else if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
+          updateUI({ trayRightContent: content })
+        } else if (ui.trayRightOpen && !content) {
+          updateUI({ trayRightOpen: false })
+        } else {
+          updateUI({ trayRightOpen: !ui.trayRightOpen, trayRightContent: content })
+        }
+      }}
       handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
       handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
       <Component {...rest} />
@@ -56,6 +67,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   kvStoreBchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   kvStoreEthereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
+  kvStoreShapeshiftActions: bindActionCreators(actions.core.kvStore.shapeShift, dispatch),
   kvStoreWhatsnewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch),
   optionsActions: bindActionCreators(actions.core.walletOptions, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch)
@@ -68,7 +80,8 @@ const enhance = compose(
     persist: true,
     state: {
       menuLeftToggled: false,
-      trayRightOpen: false
+      trayRightOpen: false,
+      trayRightContent: ''
     }
   })
 )

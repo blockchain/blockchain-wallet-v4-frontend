@@ -14,7 +14,10 @@ npm-shrinkwrap.json
 # Yarn
 .yarnclean
 yarn-error.log
+
+# Lock Files
 yarn.lock
+package-lock.json
 
 # Generated Files
 *.log
@@ -32,7 +35,10 @@ packages/blockchain-wallet-v4/node_modules
 packages/blockchain-wallet-v4-frontend/build
 packages/blockchain-wallet-v4-frontend/dist
 packages/blockchain-wallet-v4-frontend/node_modules
-package-lock.json
 packages/blockchain-info-components/package-lock.json
 packages/blockchain-wallet-v4/package-lock.json
 packages/blockchain-wallet-v4-frontend/package-lock.json
+
+# Config Files
+config/env/development.js
+config/env/staging.js

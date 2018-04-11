@@ -8,9 +8,9 @@ import { futurizeP } from 'futurize'
 import createApi from './api'
 import * as Coin from '../coinSelection/coin.js'
 
-const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
+const createWalletApi = ({ options, apiKey } = {}, returnType) => {
   // ////////////////////////////////////////////////////////////////
-  const ApiPromise = createApi({rootUrl, apiUrl, apiCode})
+  const ApiPromise = createApi({ options, apiKey })
   const eitherToTask = e => e.fold(Task.rejected, Task.of)
   const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
   const promiseToTask = futurizeP(Task)
@@ -93,6 +93,7 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
   const getBTCWalletUnspents = compose(taskToPromise, getWalletUnspentsTask(ApiPromise.getBitcoinUnspents))
   const getBCHWalletUnspents = compose(taskToPromise, getWalletUnspentsTask(ApiPromise.getBchUnspents))
 
+
   // ////////////////////////////////////////////////////////////////
   const Api = map(future, ApiPromise)
 
@@ -104,7 +105,6 @@ const createWalletApi = ({rootUrl, apiUrl, apiCode} = {}, returnType) => {
     fetchWallet: future(fetchWallet),
     saveWallet: future(saveWallet),
     createWallet: future(createWallet),
-    // getWalletUnspents: future(getWalletUnspents)
     getBTCWalletUnspents: future(getBTCWalletUnspents),
     getBCHWalletUnspents: future(getBCHWalletUnspents)
   }
