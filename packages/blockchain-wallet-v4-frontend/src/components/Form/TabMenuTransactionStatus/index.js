@@ -13,7 +13,7 @@ class TabMenuTransactionStatusContainer extends React.Component {
   }
 
   render () {
-    return <TabMenuTransactionStatus value={this.props.input.value} handleClick={this.handleClick} />
+    return <TabMenuTransactionStatus value={this.props.input.value} handleClick={this.handleClick} statuses={this.props.statuses} />
   }
 }
 
