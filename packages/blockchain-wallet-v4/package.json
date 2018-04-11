@@ -34,15 +34,6 @@
       "<rootDir>/lib"
     ]
   },
-  "standard": {
-    "globals": [
-      "jest",
-      "describe",
-      "it",
-      "expect",
-      "beforeEach"
-    ]
-  },
   "dependencies": {
     "bech32": "^1.1.3",
     "big-rational": "^0.10.7",
