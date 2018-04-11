@@ -23,7 +23,6 @@ class SecondStepContainer extends React.Component {
 
   handleSubmit () {
     // Submit exchange
-    console.log('Submit to exchange')
   }
 
   handleCancel () {

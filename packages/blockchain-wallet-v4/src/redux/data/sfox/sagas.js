@@ -4,13 +4,14 @@ import * as S from './selectors'
 import * as A from './actions'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
+import { sfoxService } from '../../../exchange/service'
 
-export const sfoxSaga = ({ api, sfoxService } = {}) => {
+export default ({ api, options }) => {
   const getSfox = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    const sfox = sfoxService.refresh(value, delegate)
+    const sfox = sfoxService.refresh(value, delegate, options)
     return sfox
   }
 

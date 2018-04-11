@@ -10,7 +10,7 @@ import * as Coin from '../../../coinSelection/coin'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const bitcoin = ({ api } = {}) => {
+export default ({ api }) => {
   const pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
   const addPrivToCoins = (priv, coins) => map(set(Coin.priv, priv), coins)
 
