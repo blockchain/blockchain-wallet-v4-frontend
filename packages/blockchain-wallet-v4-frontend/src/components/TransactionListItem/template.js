@@ -87,7 +87,7 @@ const TransactionListItem = (props) => {
           <Description value={transaction.description} handleConfirm={handleEditDescription} />
         </DetailsColumn>
         <ConfirmationColumn>
-          <Confirmations confirmations={transaction.confirmations} minConfirmations={minConfirmations} hash={transaction.hash} />
+          <Confirmations coin={coin} confirmations={transaction.confirmations} minConfirmations={minConfirmations} hash={transaction.hash} />
         </ConfirmationColumn>
         <AmountColumn>
           <ToggleButton nature={transaction.type} onClick={handleClick}>
