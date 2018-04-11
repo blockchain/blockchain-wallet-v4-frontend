@@ -2,7 +2,7 @@ import { formValueSelector } from 'redux-form'
 import { equals, head, filter, map, prop } from 'ramda'
 import settings from 'config'
 import { selectors } from 'data'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote, utils } from 'blockchain-wallet-v4/src'
 
 // extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
 const extractAddress = (selectorFunction, value) =>
@@ -14,10 +14,10 @@ const extractAddress = (selectorFunction, value) =>
 
 export const getData = state => {
   // TODO: USE BCH network
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
+  const getReceive = index => selectors.core.common.bch.getNextAvailableReceiveAddress(settings.NETWORK_BCH, index, state)
   const coin = formValueSelector('requestBch')(state, 'coin')
   const to = formValueSelector('requestBch')(state, 'to')
-  const receiveAddressR = extractAddress(getReceive, to)
+  const receiveAddressR = extractAddress(getReceive, to).map(addr => addr && utils.bch.toCashAddr(addr, true))
   return receiveAddressR.map(receiveAddress => ({ coin, receiveAddress }))
 }
 

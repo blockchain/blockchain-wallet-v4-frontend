@@ -349,21 +349,21 @@ export const decryptSync = decryptMonadic(
   validateSecondPwd(Either.of, Either.Left)
 )
 
-const _derivePrivateKey = (network, xpriv, chain, index) => {
-  return Bitcoin.HDNode.fromBase58(xpriv, network).derive(chain).derive(index)
+const _derivePrivateKey = (BitcoinLib, network, xpriv, chain, index) => {
+  return BitcoinLib.HDNode.fromBase58(xpriv, network).derive(chain).derive(index)
 }
 export const derivePrivateKey = memoize(_derivePrivateKey)
 
-export const getHDPrivateKey = curry((keypath, secondPassword, network, wallet) => {
+export const getHDPrivateKey = curry((BitcoinLib, keypath, secondPassword, network, wallet) => {
   let [accId, chain, index] = map(parseInt, split('/', keypath))
   if (isNil(accId) || isNil(chain) || isNil(index)) { return Task.rejected('WRONG_PATH_KEY') }
   let xpriv = compose(HDAccount.selectXpriv, HDWallet.selectAccount(accId), HDWalletList.selectHDWallet, selectHdWallets)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
       .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, xpriv))
-      .map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
+      .map(xp => derivePrivateKey(BitcoinLib, network, xp, chain, index).keyPair)
   } else {
-    return Task.of(xpriv).map(xp => derivePrivateKey(network, xp, chain, index).keyPair)
+    return Task.of(xpriv).map(xp => derivePrivateKey(BitcoinLib, network, xp, chain, index).keyPair)
   }
 })
 
