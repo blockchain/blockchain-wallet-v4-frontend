@@ -1,11 +1,10 @@
 import { curry, compose, lensProp,
-  map, forEach, addIndex, defaultTo } from 'ramda'
-import { traversed, traverseOf } from 'ramda-lens'
+  map, forEach, addIndex, defaultTo, set, over } from 'ramda'
+import { traversed, traverseOf, mapped } from 'ramda-lens'
 import Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 import { Wrapper, Wallet } from '../types'
 import * as Coin from '../coinSelection/coin.js'
-import { isFromAccount } from '../coinSelection'
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
@@ -19,27 +18,35 @@ export const signSelection = curry((network, selection) => {
   return tx.build().toHex()
 })
 
-// returns a task
-export const sign = curry((network, secondPassword, wrapper, selection) => {
+// signHDWallet :: network -> password -> wrapper -> selection -> Task selection
+export const signHDWallet = curry((network, secondPassword, wrapper, selection) => {
   const wallet = Wrapper.selectWallet(wrapper)
-  const pathToKey = keypath =>
-    Wallet.getHDPrivateKeyWIF(keypath, secondPassword, network, wallet)
+  const deriveKey = coin =>
+    Wallet.getHDPrivateKeyWIF(coin.path, secondPassword, network, wallet)
       .map(wif => Bitcoin.ECPair.fromWIF(wif, network))
-  const getPriv = address =>
-    Wallet.getLegacyPrivateKey(address, secondPassword, network, wallet)
-  const getKeys = isFromAccount(selection) ? pathToKey : getPriv
+      .map(k => set(Coin.priv, k, coin))
   const selectionWithKeys = traverseOf(
-    compose(lensProp('inputs'), traversed, Coin.priv),
-    Task.of,
-    getKeys,
-    selection)
+    compose(lensProp('inputs'), traversed), Task.of, deriveKey, selection)
   return map(signSelection(network), selectionWithKeys)
 })
 
-// export const signFromWatchOnly = curry((network, keyString, selection) => {
-//   // TODO :: convert from string to ECKey
-//   const mykey = ''
-//   const selectionWithKeys = Task.of(set(compose(lensProp('inputs'), mapped, Coin.priv), mykey, selection))
-//   return map(signSelection(network), selectionWithKeys)
-// })
-// //////////////////////////////////////////////////////////////////////////////
+// signLegacy :: network -> password -> wrapper -> selection -> Task selection
+export const signLegacy = curry((network, secondPassword, wrapper, selection) => {
+  const wallet = Wrapper.selectWallet(wrapper)
+  const getPriv = coin =>
+    Wallet.getLegacyPrivateKey(coin.address, secondPassword, network, wallet)
+      .map(k => set(Coin.priv, k, coin))
+  const selectionWithKeys = traverseOf(
+    compose(lensProp('inputs'), traversed), Task.of, getPriv, selection)
+  return map(signSelection(network), selectionWithKeys)
+})
+
+// signWithWIF :: network -> selection -> selection
+export const signWithWIF = curry((network, selection) => {
+  const selectionWithKeys = over(
+    compose(lensProp('inputs'), mapped, Coin.priv),
+    wif => Bitcoin.ECPair.fromWIF(wif, network),
+    selection
+  )
+  return signSelection(network, selectionWithKeys)
+})

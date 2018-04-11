@@ -1,14 +1,16 @@
 import { call, select } from 'redux-saga/effects'
-import { merge, is, converge, or, zip } from 'ramda'
+import { merge, is, converge, or, zip, prop, compose, map, assoc, drop } from 'ramda'
+// import { mapped } from 'ramda-lens'
+
 import Task from 'data.task'
 
 import * as S from '../../selectors'
-import { sign } from '../../../signer'
+import { btc } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
-import { Wallet, HDAccount } from '../../../types'
-import { isValidBitcoinAddress, privateKeyStringToKey, detectPrivateKeyFormat } from '../../../utils/bitcoin'
-
+import { Wallet, HDAccount, Address } from '../../../types'
+import { scriptToAddress, isValidBitcoinAddress, privateKeyStringToKey, detectPrivateKeyFormat } from '../../../utils/bitcoin'
+import { futurizeP } from 'futurize'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
@@ -23,9 +25,38 @@ const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resol
       .chain().fee(myFee).amount(myAmount).done()
 */
 
+const FROM = {
+  ACCOUNT: 'FROM.ACCOUNT',
+  LEGACY: 'FROM.LEGACY',
+  LEGACY_ARRAY: 'FROM.LEGACY_ARRAY',
+  WATCH_ONLY: 'FROM.WATCH_ONLY',
+  EXTERNAL: 'FROM.EXTERNAL'
+}
+
 const isNumber = is(Number)
 const isPositiveNumber = (x) => isNumber(x) && x >= 0
 const isPositiveInteger = (x) => isPositiveNumber(x) && Math.round(x) === x
+
+const toHDInputs = (sToA, fromData) => input => {
+  const path = input.xpub ? `${fromData.fromAccountIdx}${drop(1, input.xpub.path)}` : undefined
+  return compose(
+    assoc('path', path),
+    assoc('address', sToA(input.script))
+  )(input)
+}
+
+const toWOInputs = (sToA, fromData) => input => {
+  return compose(
+    assoc('priv', fromData.wifKeys[0]),
+    assoc('address', sToA(input.script))
+  )(input)
+}
+
+const toExInputs = (sToA, fromData) => input => {
+  const i = assoc('address', sToA(input.script), input)
+  const priv = fromData.wifKeys[i.address]
+  return assoc('priv', priv, i)
+}
 
 const mapGen = function * (f, xs) {
   let result = []
@@ -35,7 +66,40 @@ const mapGen = function * (f, xs) {
   return result
 }
 
-export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx }) {
+export default function createPaymentFactory ({ api }) {
+  const pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
+
+  // getWalletUnspent
+  const getWalletUnspent = (network, fromData) => {
+    const confirmations = -1
+    const sToA = scriptToAddress(network)
+    switch (fromData.fromType) {
+      case FROM.ACCOUNT:
+        return api.getBitcoinUnspents(fromData.from, confirmations)
+          .then(prop('unspent_outputs'))
+          .then(map(toHDInputs(sToA, fromData)))
+          .then(map(Coin.fromJS))
+      case FROM.LEGACY:
+      case FROM.LEGACY_ARRAY:
+        return api.getBitcoinUnspents(fromData.from, confirmations)
+          .then(prop('unspent_outputs'))
+          .then(map(i => assoc('address', sToA(i.script), i)))
+          .then(map(Coin.fromJS))
+      case FROM.WATCH_ONLY:
+        return api.getBitcoinUnspents(fromData.from, confirmations)
+          .then(prop('unspent_outputs'))
+          .then(map(toWOInputs(sToA, fromData)))
+          .then(map(Coin.fromJS))
+      case FROM.EXTERNAL:
+        return api.getBitcoinUnspents(fromData.from, confirmations)
+          .then(prop('unspent_outputs'))
+          .then(map(toExInputs(sToA, fromData)))
+          .then(map(Coin.fromJS))
+      default:
+        return Promise.reject(new Error('fromType_not_recognized'))
+    }
+  }
+
   const calculateTo = function * (destinations) {
     let isUpgradedToHD = yield select(S.wallet.isHdWallet)
     let accountsCount = Wallet.selectHDAccounts(yield select(S.wallet.getWallet)).size
@@ -93,22 +157,25 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
     if (origin === null || origin === undefined || origin === '') {
       let spendableActiveAddresses = yield select(S.wallet.getSpendableActiveAddresses)
       return {
+        fromType: FROM.LEGACY_ARRAY,
         from: spendableActiveAddresses,
         change: spendableActiveAddresses[0]
       }
     }
 
-    // Single bitcoin address
+    // Single bitcoin address (they must be legacy addresses)
     if (isValidBitcoinAddress(origin)) {
       return {
+        fromType: FROM.LEGACY,
         from: [origin],
         change: origin
       }
     }
 
-    // Multiple legacy addresses
+    // Multiple legacy addresses (they must be legacy addresses)
     if (Array.isArray(origin) && origin.length > 0 && origin.every(isValidBitcoinAddress)) {
       return {
+        fromType: FROM.LEGACY_ARRAY,
         from: origin,
         change: origin[0]
       }
@@ -121,6 +188,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
         .map((index) => HDAccount.getChangeAddress(account, index))
         .getOrFail(new Error('missing_change_address'))
       return {
+        fromType: FROM.ACCOUNT,
         from: [account.xpub],
         change: changeAddress,
         fromAccountIdx: origin
@@ -136,32 +204,37 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
       key.compressed = true
       let addrComp = key.getAddress()
       let cWIF = key.toWIF()
+      let ukeyM = yield select(S.wallet.getAddress(addrUncomp))
+      let ckeyM = yield select(S.wallet.getAddress(addrComp))
+      let ukey = ukeyM.getOrElse(false)
+      let ckey = ckeyM.getOrElse(false)
 
-      let ukey = yield select(S.wallet.getAddress(addrUncomp))
-      let ckey = yield select(S.wallet.getAddress(addrComp))
-
-      if (ukey && ukey.isWatchOnly) {
+      if (ukey && Address.isWatchOnly(ukey)) {
         return {
+          fromType: FROM.WATCH_ONLY,
           from: [addrUncomp],
           change: addrUncomp,
-          wifKeys: [uWIF],
-          fromWatchOnly: true
+          wifKeys: [uWIF]
         }
       }
 
-      if (ckey && ckey.isWatchOnly) {
+      if (ckey && Address.isWatchOnly(ckey)) {
         return {
+          fromType: FROM.WATCH_ONLY,
           from: [addrComp],
           change: addrComp,
-          wifKeys: [cWIF],
-          fromWatchOnly: true
+          wifKeys: [cWIF]
         }
       }
 
+      let wifKeys = {}
+      wifKeys[addrComp] = cWIF
+      wifKeys[addrUncomp] = uWIF
       return {
+        fromType: FROM.EXTERNAL,
         from: [addrComp, addrUncomp],
         change: addrComp,
-        wifKeys: [cWIF, uWIF]
+        wifKeys
       }
     }
 
@@ -189,7 +262,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
       throw new Error('missing_amount')
     }
 
-    if (!fee) {
+    if (!isPositiveInteger(fee)) {
       throw new Error('missing_fee_per_byte')
     }
 
@@ -214,7 +287,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
       throw new Error('can_only_sweep_to_one_target')
     }
 
-    if (!fee) {
+    if (!isPositiveInteger(fee)) {
       throw new Error('missing_fee_per_byte')
     }
 
@@ -247,9 +320,10 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
       },
 
       * from (origins) {
-        let { from, change, wifKeys, fromAccountIdx, fromWatchOnly } = yield call(calculateFrom, origins)
-        let coins = yield call(fetchUnspent, from)
-        return makePayment(merge(p, { from, change, wifKeys, fromAccountIdx, fromWatchOnly, coins }))
+        let fromData = yield call(calculateFrom, origins)
+        let coins = yield call(getWalletUnspent, network, fromData)
+        console.log(coins)
+        return makePayment(merge(p, { ...fromData, coins }))
       },
 
       * fee (value) {
@@ -259,6 +333,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
 
       * build () {
         let selection = yield call(calculateSelection, p)
+        console.log(selection)
         return makePayment(merge(p, { selection }))
       },
 
@@ -271,19 +346,33 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
         if (!p.selection) {
           throw new Error('missing_selection')
         }
-
-        let wrapper = yield select(S.wallet.getWrapper)
-        let signedT = sign(network, password, wrapper, p.selection)
-        let signed = yield call(() => taskToPromise(signedT))
-
-        return makePayment(merge(p, { signed }))
+        let wrapper, signed, signedT
+        console.log(p.fromType)
+        switch (p.fromType) {
+          case FROM.ACCOUNT:
+            wrapper = yield select(S.wallet.getWrapper)
+            signedT = btc.signHDWallet(network, password, wrapper, p.selection)
+            signed = yield call(() => taskToPromise(signedT))
+            return makePayment(merge(p, { signed }))
+          case FROM.LEGACY:
+          case FROM.LEGACY_ARRAY:
+            wrapper = yield select(S.wallet.getWrapper)
+            signedT = btc.signLegacy(network, password, wrapper, p.selection)
+            signed = yield call(() => taskToPromise(signedT))
+            return makePayment(merge(p, { signed }))
+          case FROM.WATCH_ONLY:
+          case FROM.EXTERNAL:
+            signed = btc.signWithWIF(network, p.selection)
+            return makePayment(merge(p, { signed }))
+          default:
+            break
+        }
       },
 
       * publish () {
         if (!p.signed) {
           throw new Error('missing_signed_tx')
         }
-
         let publishT = Task.of(p.signed).chain(pushBitcoinTx)
         let publishResult = yield call(() => taskToPromise(publishT))
 
@@ -303,7 +392,7 @@ export default function createPaymentFactory ({ api, fetchUnspent, pushBitcoinTx
           fee: (value) => chain(gen, payment => payment.fee(value)),
           build: () => chain(gen, payment => payment.build()),
           buildSweep: () => chain(gen, payment => payment.buildSweep()),
-          sign: () => chain(gen, payment => payment.sign()),
+          sign: (password) => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),
           * done () {
             return yield gen()

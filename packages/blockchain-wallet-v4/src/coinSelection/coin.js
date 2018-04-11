@@ -2,7 +2,7 @@ import {curry, is, drop, clamp, split, length, add, compose,
   isNil, ifElse, always, complement, either, tryCatch} from 'ramda'
 import { over, view } from 'ramda-lens'
 import Type from '../types/Type'
-import {addressToScript} from '../utils/bitcoin'
+import { addressToScript } from '../utils/bitcoin'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -45,6 +45,7 @@ export const index = Coin.define('index')
 export const address = Coin.define('address')
 export const priv = Coin.define('priv')
 export const change = Coin.define('change')
+export const path = Coin.define('path')
 
 export const selectValue = view(value)
 export const selectScript = view(script)
@@ -53,6 +54,7 @@ export const selectIndex = view(index)
 export const selectAddress = view(address)
 export const selectPriv = view(priv)
 export const selectChange = view(change)
+export const selectPath = view(path)
 
 export const fromJS = (o) => {
   return new Coin({
@@ -61,7 +63,9 @@ export const fromJS = (o) => {
     txHash: o.tx_hash_big_endian,
     index: o.tx_output_n,
     change: o.change || false,
-    priv: o.priv || (o.xpub ? `${o.xpub.index}${drop(1, o.xpub.path)}` : undefined),
+    priv: o.priv,
+    path: o.path,
+    xpub: o.xpub,
     address: o.address
   })
 }

@@ -1,4 +1,3 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
 import { takeEvery, takeLatest, call, put, spawn } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import * as AT from './actionTypes'
@@ -105,11 +104,11 @@ function * payment1 () {
   let payment = sagas.core.data.bitcoin.createPayment()
   payment = yield payment.init()
   payment = yield payment.to('14sWEbHKo6dd8enrovqm9ggLSd4wSVy9zc')
-  payment = yield payment.amount(10000)
-  payment = yield payment.from(0)
-  payment = yield payment.fee('regular')
+  payment = yield payment.amount(300)
+  payment = yield payment.from(1)
+  payment = yield payment.fee(0)
   payment = yield payment.build()
-  payment = yield payment.sign()
+  payment = yield payment.sign('hola')
   console.log(1, payment.value())
 }
 
@@ -118,11 +117,11 @@ function * payment2 () {
     .chain()
     .init()
     .to('14sWEbHKo6dd8enrovqm9ggLSd4wSVy9zc')
-    .amount(10000)
-    .from(0)
-    .fee('regular')
+    .amount(600)
+    .from('15RqhGzyEUyUcCm12942Qu3qfpshzagTbk')
+    .fee(0)
     .build()
-    .sign()
+    .sign('hola')
     .done()
   console.log(2, payment.value())
 }
