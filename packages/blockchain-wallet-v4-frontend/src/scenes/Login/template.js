@@ -65,7 +65,7 @@ const Login = (props) => {
           <Text size='13px' weight={300}>
             <FormattedMessage id='scenes.login.or' defaultMessage='or' />
           </Text>
-          <LinkContainer to='/register'>
+          <LinkContainer to='/signup'>
             <Link size='13px' weight={300}>
               <FormattedMessage id='scenes.login.register' defaultMessage='Sign up' />
             </Link>
