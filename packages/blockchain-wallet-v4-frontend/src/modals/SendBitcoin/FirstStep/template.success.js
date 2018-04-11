@@ -177,7 +177,7 @@ const FirstStep = props => {
             </FeeFormLabel>
           </FeeFormContainer>
           {
-            feeEditToggled && <FeeField name='fee' component={NumberBox} validate={[required]} />
+            feeEditToggled && <FeeField name='fee' component={NumberBox} validate={[required]} hideErrors />
           }
           {
             !feeEditToggled && <Text size='12px' weight={300}>{renderFeeConfirmationTime()}</Text>
