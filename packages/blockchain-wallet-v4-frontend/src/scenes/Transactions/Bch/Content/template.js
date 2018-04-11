@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { isEmpty } from 'ramda'
+import { equals, isEmpty, length } from 'ramda'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import Empty from './Empty'
 import Pages from './Pages'
 
@@ -13,14 +14,17 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const Success = props => (
-  <Wrapper>
-    {
-      !isEmpty(props.pages)
+const Success = props => {
+  const hasNoTransactions = equals(length(props.pages), 1) && Remote.Success.is(props.pages[0]) && isEmpty(props.pages[0].getOrElse([]))
+
+  return (
+    <Wrapper>
+      { !hasNoTransactions
         ? props.pages.map((value, index) => <Pages key={index} data={value} />)
         : <Empty />
-    }
-  </Wrapper>
-)
+      }
+    </Wrapper>
+  )
+}
 
 export default Success

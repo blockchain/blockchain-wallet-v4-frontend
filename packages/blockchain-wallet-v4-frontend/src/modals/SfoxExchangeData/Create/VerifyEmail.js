@@ -10,7 +10,6 @@ import { formValueSelector, Field } from 'redux-form'
 
 import { TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
-import FAQ1 from './faq.js'
 
 import { required } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
@@ -116,7 +115,6 @@ class VerifyEmail extends Component {
               </Button>
               <CancelText onClick={() => this.props.updateUI({create: 'create_account'})}>Cancel</CancelText>
             </ButtonWrapper>
-            <FAQ1 />
           </ColRightInner>
         </ColRight>
       </Form>

@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const login = (guid, password, code, sharedKey) => ({ type: AT.LOGIN, payload: { guid, password, code, sharedKey } })
+export const login = (guid, password, code, sharedKey, mobileLogin) => ({ type: AT.LOGIN, payload: { guid, password, code, sharedKey, mobileLogin } })
 
 export const mobileLogin = (data) => ({ type: AT.MOBILE_LOGIN, payload: { data } })
 

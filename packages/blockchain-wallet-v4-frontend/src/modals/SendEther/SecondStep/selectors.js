@@ -1,6 +1,9 @@
 import { formValueSelector } from 'redux-form'
+import { multiply } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
+
+const gweiToWei = multiply(1000000000)
 
 export const getData = state => {
   const from = {
@@ -12,12 +15,9 @@ export const getData = state => {
   const amount = formValueSelector('sendEther')(state, 'amount')
   const fee = formValueSelector('sendEther')(state, 'fee')
   const nonce = selectors.core.data.ethereum.getNonce(state, from.address).getOrElse(undefined)
-  const gasPrice = selectors.core.data.ethereum.getFeeRegular(state).getOrElse(undefined)
+  const gasPrice = gweiToWei(selectors.core.data.ethereum.getFeeRegular(state).getOrElse(undefined))
   const gasLimit = selectors.core.data.ethereum.getGasLimit(state).getOrElse(undefined)
   const amountWei = Exchange.convertEtherToEther({ value: amount, fromUnit: 'ETH', toUnit: 'WEI' }).value
-  console.log('fee', fee)
-  console.log('amount', amount)
-  console.log('amountWei', amountWei)
   const total = Number(amountWei) + Number(fee)
 
   return {
