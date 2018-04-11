@@ -4,7 +4,7 @@ import * as AT from './actionTypes'
 import * as A from './actions'
 import * as selectors from '../selectors'
 
-export default ({ api } = {}) => {
+export default ({ api }) => {
   const fetchSettings = function * () {
     try {
       const guid = yield select(selectors.wallet.getGuid)

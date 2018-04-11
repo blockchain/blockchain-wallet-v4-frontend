@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
-import Faq from './Faq'
-import WhatsNew from './WhatsNew'
-import Refresh from './Refresh'
+import FaqIcon from './FaqIcon'
+import WhatsNewIcon from './WhatsNewIcon'
+import RefreshIcon from './RefreshIcon'
 import Logout from './Logout'
 
 import { Image } from 'blockchain-info-components'
@@ -16,7 +16,7 @@ const MenuLeftToggler = styled(NavbarToggler)`
 `
 
 const Header = (props) => {
-  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft, trayRightOpen } = props
+  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft, trayRightOpen, trayRightContent } = props
 
   return (
     <Navbar height='60px'>
@@ -32,13 +32,13 @@ const Header = (props) => {
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <Faq onClick={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+            <FaqIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
           </NavbarNavItem>
           <NavbarNavItem>
-            <WhatsNew />
+            <WhatsNewIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
           </NavbarNavItem>
           <NavbarNavItem>
-            <Refresh />
+            <RefreshIcon />
           </NavbarNavItem>
           <NavbarNavItem>
             <Logout />
@@ -51,6 +51,7 @@ const Header = (props) => {
 }
 
 Header.propTypes = {
+  trayRightContent: PropTypes.string.isRequired,
   handleToggleNavigation: PropTypes.func.isRequired,
   handleToggleMenuLeft: PropTypes.func.isRequired,
   handleTrayRightToggle: PropTypes.func.isRequired,

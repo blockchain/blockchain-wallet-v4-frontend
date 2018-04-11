@@ -3,7 +3,7 @@ import { actions, actionTypes, selectors } from 'data'
 
 let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
-let blackListedActivityTypes = []
+let blackListedActivityTypes = [actionTypes.core.webSocket.bitcoin.MESSAGE_SOCKET]
 
 const AutoDisconnectionMiddleware = () => (store) => (next) => (action) => {
   // We start the timer

@@ -1,31 +1,25 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Text, TextGroup } from 'blockchain-info-components'
-import { NavLink } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 
-import { MenuTooltip } from 'components/Tooltip'
+import { Text, TextGroup, ModalHeader, ModalBody } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
 
-const Container = styled.div`
-  z-index: 9999;
-`
-const NewsItemWrapper = styled.div`
-  padding-top: 5px;
-`
-const Headline = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: baseline;
-`
-const LearnMoreLink = styled(NavLink)`
-  text-decoration: none;
+const Fragment = React.Fragment
+
+const Wrapper = styled.div`
+  box-sizing: border-box;
+  overflow: none;
 `
 
+const ContentWrapper = styled.div`
+  overflow-x: hidden;
+  overflow-y: auto;
+`
 const WhatsNew = (props) => {
-  const { lastViewed } = props
-  const infos = [
+  const { handleTrayRightToggle } = props
+
+  const announcements = [
     {
       title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title10' defaultMessage={'Bitcoin Cash'} />,
       desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc10' defaultMessage={'If you had bitcoin in your wallet before August 1, 2017, you can now access Bitcoin Cash via Settings > General.'} />,
@@ -74,42 +68,37 @@ const WhatsNew = (props) => {
     }
   ]
 
-  var news = infos.filter(info => new Date(info.date) >= lastViewed)
-  const newsLength = news.length
-  const hasNews = newsLength !== 0
-
-  if (!hasNews) {
-    // Show at least two news
-    news = infos.slice(1, 3)
-  }
-
   return (
-    <Container>
-      <MenuTooltip title='What&apos;s new?' hasNews={hasNews} newsLength={newsLength}>
-        {news.map((item, index) => {
-          const { title, desc, date, link } = item
-          return (
-            <NewsItemWrapper key={index}>
-              <Headline>
-                <Text size='14px' weight={400}>{title}</Text>
-                <Text color='gray-3' weight={400} size='12px'>{new Date(date).toLocaleDateString()}</Text>
-              </Headline>
-              <TextGroup inline>
-                <Text size='12px' weight={300}>{desc}</Text>
-                <LearnMoreLink to='/settings/info'>
-                  <Text size='12px' weight={300} color='brand-primary'>
-                    {link &&
-                      <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.learnmore' defaultMessage='Learn More.' />
-                    }
-                  </Text>
-                </LearnMoreLink>
-              </TextGroup>
-            </NewsItemWrapper>
-          )
-        })}
-      </MenuTooltip>
-    </Container>
+    <Fragment>
+      <ModalHeader onClose={() => handleTrayRightToggle()}>
+        <FormattedMessage id='layouts.wallet.trayright.whatsnew' defaultMessage='Whats New'/>
+      </ModalHeader>
+      <ModalBody>
+        <Wrapper>
+          <ContentWrapper>
+            {announcements.map((item, i) => {
+              const { title, desc, date } = item
+              return (
+                <Fragment key={i}>
+                  <div>
+                    <Text size='14px' weight={400}>{title}</Text>
+                    <Text color='gray-3' weight={400} size='12px'>{new Date(date).toLocaleDateString()}</Text>
+                  </div>
+                  <TextGroup inline>
+                    <Text size='12px' weight={300}>{desc}</Text>
+                  </TextGroup>
+                </Fragment>
+              )
+            })}
+          </ContentWrapper>
+        </Wrapper>
+      </ModalBody>
+    </Fragment>
   )
+}
+
+WhatsNew.propTypes = {
+  handleTrayRightToggle: PropTypes.func.isRequired
 }
 
 export default WhatsNew

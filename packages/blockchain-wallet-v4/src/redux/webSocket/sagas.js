@@ -1,5 +1,5 @@
-import { bitcoinWebSocketSaga } from './bitcoin/sagas.js'
+import bitcoin from './bitcoin/sagas'
 
-export const webSocketSaga = ({ api, socket } = {}) => ({
-  bitcoin: bitcoinWebSocketSaga({ api, socket })
+export default ({ api, socket }) => ({
+  bitcoin: bitcoin({ api, socket })
 })

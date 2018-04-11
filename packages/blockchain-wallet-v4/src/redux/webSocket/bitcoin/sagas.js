@@ -8,7 +8,8 @@ import * as walletSelectors from '../../wallet/selectors'
 import { Socket } from '../../../network/index'
 import * as btcActions from '../../data/bitcoin/actions'
 
-export const bitcoinWebSocketSaga = ({ api, socket } = {}) => {
+// TO REVIEW
+export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
   let lastPongTimestamp = 0
 

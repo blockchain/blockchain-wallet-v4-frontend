@@ -4,7 +4,7 @@ import { convertFeeToWei } from '../../../utils/ethereum'
 import * as AT from './actionTypes'
 import * as A from './actions'
 
-export default ({ api } = {}) => {
+export default ({ api }) => {
   const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())
