@@ -1,11 +1,12 @@
 import { selectAll } from '../coinSelection'
-import { address, networks, ECPair } from 'bitcoinjs-lib'
-import { decode, fromWords } from 'bech32'
+import { address, networks, ECPair, Transaction } from 'bitcoinjs-lib'
 import { equals, head, or, prop, compose } from 'ramda'
+import { decode, fromWords } from 'bech32'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
+import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
 
@@ -145,16 +146,24 @@ export const isValidBitcoinPrivateKey = value => {
   }
 }
 
+export const calculateBalanceSatoshi = (coins, feePerByte) => {
+  const { outputs, fee } = selectAll(feePerByte, coins)
+  const effectiveBalance = prop('value', head(outputs)) || 0
+  const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
+  return { balance, fee, effectiveBalance }
+}
+
 export const isKey = function (bitcoinKey) {
   return bitcoinKey instanceof ECPair
 }
 
-export const calculateEffectiveBalanceSatoshis = (coins, feePerByte) => {
-  const { outputs } = selectAll(feePerByte, coins)
-  return prop('value', head(outputs)) || 0
+export const calculateBalanceBitcoin = (coins, feePerByte) => {
+  const data = calculateBalanceSatoshi(coins, feePerByte)
+  return {
+    balance: Exchange.convertBitcoinToBitcoin({ value: data.balance, fromUnit: 'SAT', toUnit: 'BTC' }).value,
+    fee: Exchange.convertBitcoinToBitcoin({ value: data.fee, fromUnit: 'SAT', toUnit: 'BTC' }).value,
+    effectiveBalance: Exchange.convertBitcoinToBitcoin({ value: data.effectiveBalance, fromUnit: 'SAT', toUnit: 'BTC' }).value
+  }
 }
 
-export const calculateEffectiveBalanceBitcoin = (coins, feePerByte) => {
-  const effectiveBalanceSatoshis = calculateEffectiveBalanceSatoshis(coins, feePerByte)
-  return Exchange.convertBitcoinToBitcoin({ value: effectiveBalanceSatoshis, fromUnit: 'SAT', toUnit: 'BTC' }).value
-}
+export const txHexToHashHex = txHex => Transaction.fromHex(txHex).getId()

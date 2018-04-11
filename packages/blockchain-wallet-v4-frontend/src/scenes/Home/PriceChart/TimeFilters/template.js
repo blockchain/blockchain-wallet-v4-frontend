@@ -14,8 +14,9 @@ const Wrapper = styled.div`
 `
 
 const FilterContainer = styled(Text)`
-  background-color: ${props => props.selected ? 'grand-primary' : 'gray-3'};
-  border-bottom: ${props => props.selected ? `2px solid ${props.theme['brand-primary']}` : 'none'}; 
+  color: ${props => props.selected ? props.theme['brand-primary'] : props.theme['gray-3']};
+  border-bottom: ${props => props.selected ? `2px solid ${props.theme['brand-primary']}` : 'none'};
+  cursor: pointer;
 `
 
 const TimeFilters = props => {

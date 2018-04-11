@@ -1,13 +1,11 @@
 import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import { indexBy, length, path, prop, last } from 'ramda'
-import { delayAjax } from '../../paths'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 
-export default ({ api } = {}) => {
+export default ({ api }) => {
   const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())
@@ -18,7 +16,6 @@ export default ({ api } = {}) => {
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)
       }
-      yield call(delay, delayAjax)
       yield put(A.fetchDataSuccess(bchData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
@@ -28,8 +25,7 @@ export default ({ api } = {}) => {
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
-      const data = 2 // yield call(api.getBitcoinFee)
-      yield call(delay, delayAjax)
+      const data = yield call(api.getBchFee)
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
       yield put(A.fetchFeeFailure(e.message))
@@ -40,7 +36,6 @@ export default ({ api } = {}) => {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBchTicker)
-      yield call(delay, delayAjax)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
@@ -78,12 +73,12 @@ export default ({ api } = {}) => {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
-        const data = yield call(api.getTransactionHistory, address, currency.getOrElse('USD'), start, end)
+        const data = yield call(api.getTransactionHistory, 'BCH', address, currency.getOrElse('USD'), start, end)
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
         const context = yield select(selectors.wallet.getWalletContext)
         const active = context.join('|')
-        const data = yield call(api.getTransactionHistory, active, currency, start, end)
+        const data = yield call(api.getTransactionHistory, 'BCH', active, currency, start, end)
         yield put(A.fetchTransactionHistorySuccess(data))
       }
     } catch (e) {
@@ -97,7 +92,7 @@ export default ({ api } = {}) => {
       const { source } = action.payload
       yield put(A.fetchUnspentLoading())
       const wrapper = yield select(selectors.wallet.getWrapper)
-      const data = yield call(api.getWalletUnspents, wrapper, source)
+      const data = yield call(api.getWalletUnspents, 'BCH', wrapper, source)
       yield put(A.fetchUnspentSuccess(data))
     } catch (e) {
       yield put(A.fetchUnspentSuccess([]))
