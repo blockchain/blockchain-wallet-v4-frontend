@@ -15,7 +15,7 @@ before_install:
   - npm install -g lerna yarn babel-cli
 
 install:
-  - yarn && lerna bootstrap
+  - yarn bootstrap
 
 stages:
   - name: branch-commit-build

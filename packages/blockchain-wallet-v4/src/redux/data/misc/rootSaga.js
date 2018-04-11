@@ -9,7 +9,7 @@ import * as selectors from '../../selectors'
 import * as wS from '../../wallet/selectors'
 import * as pairing from '../../../pairing'
 
-export default ({ api } = {}) => {
+export default ({ api }) => {
   const fetchAdverts = function * (action) {
     try {
       const { number } = action.payload

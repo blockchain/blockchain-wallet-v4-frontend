@@ -6,7 +6,7 @@ import { signETH } from '../../../signer'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const ethereum = ({ api } = {}) => {
+export default ({ api }) => {
   const signAndPublish = function * ({ network, data, password }) {
     const getMnemonic = state => wS.getMnemonic(state, password)
     const eitherMnemonic = yield select(getMnemonic)

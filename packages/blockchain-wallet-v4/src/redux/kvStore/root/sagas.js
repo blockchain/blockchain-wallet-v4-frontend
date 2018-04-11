@@ -6,7 +6,7 @@ import { KVStoreEntry } from '../../../types'
 import { getMnemonic, getGuid, getMainPassword, getSharedKey } from '../../wallet/selectors'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const root = ({ api } = {}) => {
+export default ({ api }) => {
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }

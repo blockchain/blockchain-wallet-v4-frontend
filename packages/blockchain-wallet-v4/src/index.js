@@ -3,8 +3,8 @@ import * as coreActionsTypes from './redux/actionTypes'
 import * as coreMiddleware from './redux/middleware'
 import * as coreReducers from './redux/reducers'
 import * as coreSelectors from './redux/selectors'
-import { coreSagasFactory } from './redux/sagas'
-import { rootSaga } from './redux/rootSaga'
+import coreSagasFactory from './redux/sagas'
+import coreRootSagaFactory from './redux/rootSaga'
 import * as Network from './network'
 import * as Coin from './coinSelection/coin.js'
 import * as CoinSelection from './coinSelection'
@@ -24,8 +24,8 @@ export {
   coreReducers,
   coreSelectors,
   coreSagasFactory,
+  coreRootSagaFactory,
   paths,
-  rootSaga,
   Network,
   Coin,
   CoinSelection,
