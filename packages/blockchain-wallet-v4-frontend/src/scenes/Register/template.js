@@ -30,6 +30,15 @@ const Register = (props) => {
   const { onSubmit, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
+  const passwordsMatch = (t) => {
+    console.info(t)
+    // if (!password.length || !confirmationPassword.length) {
+    //   return undefined
+    // } else {
+    //   return password === confirmationPassword ? undefined : 'Passwords must match'
+    // }
+  }
+
   return (
     <Wrapper>
       <Header>
@@ -65,7 +74,7 @@ const Register = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} score />
+            <Field name='password' validate={[required, passwordsMatch]} component={PasswordBox} score />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -73,7 +82,7 @@ const Register = (props) => {
             <FormLabel for='confirmationPassword'>
               <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
             </FormLabel>
-            <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
+            <Field name='confirmationPassword' validate={[required, passwordsMatch]} component={PasswordBox} />
           </FormItem>
         </FormGroup>
         <FormGroup>
