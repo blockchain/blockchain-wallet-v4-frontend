@@ -3,7 +3,7 @@ import settings from 'config'
 import { Icon, Text, TableCell, TableRow, Link } from 'blockchain-info-components'
 
 const AddressesTableEntry = ({ entry, deriveAddress, onEditLabel, onDeleteLabel }) => (
-  <TableRow key={entry.index}>
+  <TableRow>
     <TableCell width='40%'>
       <Link href={`${settings.ROOT_URL}address/${deriveAddress(entry.index)}`} size='small' weight={300} target='_blank'>
         {deriveAddress(entry.index)}
