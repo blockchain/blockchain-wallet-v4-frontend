@@ -30,7 +30,6 @@ class TwoStepVerificationContainer extends React.Component {
     this.handleDisableClick = this.handleDisableClick.bind(this)
     this.handleTwoFactorChange = this.handleTwoFactorChange.bind(this)
     this.pulseText = this.pulseText.bind(this)
-    this.handleReset = this.handleReset.bind(this)
 
     this.state = { authName: '', pulse: false }
   }
@@ -53,11 +52,7 @@ class TwoStepVerificationContainer extends React.Component {
   }
 
   handleGoBack () {
-    this.props.updateUI({ authMethod: '' })
-  }
-
-  handleReset () {
-    this.props.updateUI({ verifyToggled: false, authMethod: '' })
+    this.props.updateUI({ authMethod: '', verifyToggled: false })
   }
 
   handleChangeNumber () {
@@ -107,7 +102,6 @@ class TwoStepVerificationContainer extends React.Component {
         editing={this.props.ui.editing}
         pulseText={this.pulseText}
         pulse={this.state.pulse}
-        handleReset={this.handleReset}
       />,
       Failure: (message) => <Error {...rest}
         message={message} />,
