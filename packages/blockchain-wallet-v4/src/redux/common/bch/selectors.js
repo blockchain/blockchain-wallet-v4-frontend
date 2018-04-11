@@ -1,5 +1,5 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
-import { prop, compose, assoc, map, path, curry, split, values, sequence, lift } from 'ramda'
+import { prop, compose, assoc, map, path, curry, split, take, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bch/selectors.js'
 import * as transactions from '../../../transactions'
@@ -59,7 +59,7 @@ export const getAddressesBalances = state => map(map(digestAddress), getActiveAd
 
 const addFromToBch = (wallet, bchAccounts, txList) => {
   const hdWallets = wallet.hd_wallets
-  map(tx => hdWallets.map(hdWallet => hdWallet.accounts.map((account, index) => {
+  map(tx => hdWallets.map(hdWallet => take(bchAccounts.length, hdWallet.accounts).map((account, index) => {
     if (account) {
       if (account.label === tx.from) {
         tx.from = bchAccounts[index].label

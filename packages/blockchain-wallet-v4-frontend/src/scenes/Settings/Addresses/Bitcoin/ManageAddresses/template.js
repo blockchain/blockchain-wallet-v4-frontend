@@ -68,7 +68,7 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
       {labels.length === 0 ? null : (
         <AddressesTable>
           {labels.map(entry => (
-            <AddressesTableEntry {...{ entry, deriveAddress, onEditLabel, onDeleteLabel }} />
+            <AddressesTableEntry key={entry.index} {...{ entry, deriveAddress, onEditLabel, onDeleteLabel }} />
           ))}
         </AddressesTable>
       )}
