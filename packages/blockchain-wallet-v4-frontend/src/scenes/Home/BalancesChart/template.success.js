@@ -61,7 +61,7 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.btc' defaultMessage='Bitcoin' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='BTC' size='14px' weight={200}>{bitcoinBalance}</SwitchableDisplay>
+            <SwitchableDisplay coin='BTC' cursor='pointer' size='14px' weight={200}>{bitcoinBalance}</SwitchableDisplay>
           </CoinBalance>
           {btcAccountsLength > 1 &&
             <NavLink to='/settings/addresses'>
@@ -77,7 +77,7 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.eth' defaultMessage='Ether' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='ETH' size='14px' weight={200}>{etherBalance}</SwitchableDisplay>
+            <SwitchableDisplay coin='ETH' cursor='pointer' size='14px' weight={200}>{etherBalance}</SwitchableDisplay>
           </CoinBalance>
         </Column>
         <Column>
@@ -86,7 +86,7 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.bch' defaultMessage='Bitcoin Cash' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='BCH' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
+            <SwitchableDisplay coin='BCH' cursor='pointer' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
           </CoinBalance>
           {bchAccountsLength > 1 &&
             <NavLink to='/settings/addresses/bch'>
