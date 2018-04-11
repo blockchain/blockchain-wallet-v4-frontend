@@ -26,7 +26,7 @@ const Summary = styled.div`
   padding: 10px 0;
   margin: 5px 0;
   margin-bottom: 25px;
-  
+
   & > * { padding: 10px 0; }
 `
 const Footer = styled.div`
@@ -56,8 +56,8 @@ const SendConfirm = props => {
   return (
     <div>
       <div icon='send' onClose={props.closeAll}>
-        {coin === 'BTC' && <FormattedMessage id='modals.sendconfirm.title' defaultMessage='Send Bitcoin' />}
-        {coin === 'ETH' && <FormattedMessage id='modals.sendconfirm.title' defaultMessage='Send Ether' />}
+        {coin === 'BTC' }
+        {coin === 'ETH' }
       </div>
       <div>
         <Row>
