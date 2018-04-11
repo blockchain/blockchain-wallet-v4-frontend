@@ -89,7 +89,7 @@ const BalancesChart = (props) => {
             <SwitchableDisplay coin='BCH' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
           </CoinBalance>
           {bchAccountsLength > 1 &&
-            <NavLink to='/settings/addresses'>
+            <NavLink to='/settings/addresses/bch'>
               <ViewAllText weight={300} size='10px'>
                 <FormattedMessage id='scenes.home.balanceschart.bch.viewall' defaultMessage='View All Balances' />
               </ViewAllText>
