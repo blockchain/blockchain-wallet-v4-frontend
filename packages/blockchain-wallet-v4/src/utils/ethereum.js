@@ -1,8 +1,12 @@
 import * as Exchange from '../exchange'
+import { prop, path } from 'ramda'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import EthHd from 'ethereumjs-wallet/hdkey'
+import EthTx from 'ethereumjs-tx'
 import EthUtil from 'ethereumjs-util'
+
+const convertFromGweiToWei = value => Exchange.convertEtherToEther({ value, fromUnit: 'GWEI', toUnit: 'WEI' }).value
 
 /**
  * @param {string} address - The ethereum address
@@ -31,14 +35,34 @@ export const privateKeyToAddress = pk =>
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())
 
-export const calculateFee = (gasPrice, gasLimit) => `${(gasPrice * gasLimit)}000000000` // Convert gwei => wei
+export const calculateFeeWei = (gasPrice, gasLimit) => gasPrice * gasLimit
 
-export const calculateEffectiveBalanceWei = (gasPrice, gasLimit, balanceWei) => {
-  const transactionFee = calculateFee(gasPrice, gasLimit)
-  return balanceWei - transactionFee
+export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
+  const transactionFee = calculateFeeWei(gasPrice, gasLimit)
+  return {
+    balance: balanceWei,
+    fee: transactionFee,
+    effectiveBalance: balanceWei - transactionFee
+  }
 }
 
-export const calculateEffectiveBalanceEther = (gasPrice, gasLimit, balanceWei) => {
-  const effectiveBalanceWei = calculateEffectiveBalanceWei(gasPrice, gasLimit, balanceWei)
-  return Exchange.convertEtherToEther({ value: effectiveBalanceWei, fromUnit: 'WEI', toUnit: 'ETH' }).value
+export const convertFeeToWei = fees => ({
+  gasLimit: prop('gasLimit', fees),
+  priority: convertFromGweiToWei(prop('priority', fees)),
+  regular: convertFromGweiToWei(prop('regular', fees)),
+  limits: {
+    min: convertFromGweiToWei(path(['limits', 'min'], fees)),
+    max: convertFromGweiToWei(path(['limits', 'max'], fees))
+  }
+})
+
+export const calculateBalanceEther = (gasPrice, gasLimit, balanceWei) => {
+  const data = calculateBalanceWei(gasPrice, gasLimit, balanceWei)
+  return {
+    balance: Exchange.convertEtherToEther({ value: data.balance, fromUnit: 'WEI', toUnit: 'ETH' }).value,
+    fee: Exchange.convertEtherToEther({ value: data.fee, fromUnit: 'WEI', toUnit: 'ETH' }).value,
+    effectiveBalance: Exchange.convertEtherToEther({ value: data.effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
+  }
 }
+
+export const txHexToHashHex = txHex => new EthTx(txHex).hash().toString('hex')

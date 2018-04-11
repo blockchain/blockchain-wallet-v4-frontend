@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { equals, filter, head, lift, map, prop, is, has } from 'ramda'
+import { equals, filter, head, lift, map, path, prop, is, has } from 'ramda'
 import settings from 'config'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -23,6 +23,7 @@ export const getData = state => {
   const xpub = selectors.core.wallet.getDefaultAccountXpub(state)
   const defaultFromR = balancesR.map(x => prop('value', head(filter(y => equals(y.value.xpub, xpub), x))))
   const feeR = selectors.core.data.bch.getFee(state)
+  const defaultFeeR = feeR.map(path(['regular']))
   const coinsR = selectors.core.data.bch.getCoins(state)
   const coin = formValueSelector('sendBch')(state, 'coin')
   const from = formValueSelector('sendBch')(state, 'from')
@@ -32,14 +33,14 @@ export const getData = state => {
   const receiveAddressR = extractAddress(getReceive, to)
   const changeAddressR = extractAddress(getChange, from)
 
-  const transform = (defaultFrom, fee, coins, receiveAddress, changeAddress) => ({
+  const transform = (defaultFrom, defaultFee, coins, receiveAddress, changeAddress) => ({
     initialValues: {
       from: defaultFrom,
       coin: 'BCH'
     },
     coin,
     from,
-    fee,
+    fee: defaultFee,
     to,
     amount,
     effectiveBalance,
@@ -50,5 +51,5 @@ export const getData = state => {
     unit: 'BCH'
   })
 
-  return lift(transform)(defaultFromR, feeR, coinsR, receiveAddressR, changeAddressR)
+  return lift(transform)(defaultFromR, defaultFeeR, coinsR, receiveAddressR, changeAddressR)
 }

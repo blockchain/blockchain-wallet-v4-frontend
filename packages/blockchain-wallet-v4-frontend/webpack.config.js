@@ -48,38 +48,35 @@ module.exports = {
     chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/'
   },
-  resolve: {
-    alias: {
-      'img': PATHS.src + '/assets/img',
-      'locales': PATHS.src + '/assets/locales',
-      'sass': PATHS.src + '/assets/sass',
-      'components': PATHS.src + '/components',
-      'config': PATHS.src + '/config',
-      'data': PATHS.src + '/data',
-      'layouts': PATHS.src + '/layouts',
-      'middleware': PATHS.src + '/middleware',
-      'modals': PATHS.src + '/modals',
-      'providers': PATHS.src + '/providers',
-      'scenes': PATHS.src + '/scenes',
-      'services': PATHS.src + '/services',
-      'store': PATHS.src + '/store',
-      'themes': PATHS.src + '/themes'
-    },
-    symlinks: false
-  },
   module: {
     rules: [
       (isProdBuild ? {
         test: /\.js$/,
-        use: ['babel-loader']
+        use: [
+          'thread-loader',
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: [
+                'babel-plugin-styled-components',
+                ['module-resolver', { 'root': ['./src'] }]
+              ]
+            }
+          }
+        ]
       } : {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
         use: [
+          'thread-loader',
           {
             loader: 'babel-loader',
             options: {
-              plugins: ['react-hot-loader/babel']
+              plugins: [
+                'babel-plugin-styled-components',
+                ['module-resolver', { 'root': ['./src'] }],
+                'react-hot-loader/babel'
+              ]
             }
           }
         ]
@@ -142,7 +139,9 @@ module.exports = {
           nameCache: null,
           toplevel: false,
           ie8: false
-        }
+        },
+        parallel: true,
+        cache: true
       })
     ],
     concatenateModules: isProdBuild,
