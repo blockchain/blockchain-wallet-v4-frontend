@@ -82,7 +82,7 @@ export default ({ coreSagas }) => {
 
   const verifyMobile = function * (action) {
     try {
-      yield call(coreSagas.core.settings.setMobileVerifiedAs2FA, action.payload)
+      yield call(coreSagas.settings.setMobileVerifiedAs2FA, action.payload)
       yield put(actions.alerts.displaySuccess('SMS has been successfully verified as two factor auth method.'))
     } catch (e) {
       yield put(actions.alerts.displayError('Could not verify mobile number.'))
