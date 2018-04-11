@@ -1,11 +1,11 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
-import { prop, compose, assoc, map, path, curry, split, take, values, sequence, lift } from 'ramda'
+import { prop, compose, assoc, map, path, curry, split, take, values, sequence, lift, indexOf } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bch/selectors.js'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-import { getAccounts } from '../../kvStore/bch/selectors.js'
+import { getAccountsList } from '../../kvStore/bch/selectors.js'
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/bitcoin'
 
@@ -14,7 +14,7 @@ const mTransformTx = memoize(transactions.bitcoin.transformTx)
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
   const balancesRD = getAddresses(state)
-  const bchAccounts = getAccounts(state).getOrElse([])
+  const bchAccounts = getAccountsList(state).getOrElse([])
   const addInfo = account => balancesRD.map(prop(prop('xpub', account)))
     .map(x => assoc('info', x, account))
   const addBchLabel = account => account.map(a => assoc('label', prop('label', bchAccounts[prop('index', a)]), a))
@@ -57,6 +57,32 @@ export const getAccountsBalances = state => map(map(digestAccount), getActiveHDA
 
 export const getAddressesBalances = state => map(map(digestAddress), getActiveAddresses(state))
 
+export const getAccountsInfo = state => {
+  const hdAccounts = compose(HDAccountList.toJSwithIndex, HDAccountList.selectActive, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
+  const accountsR = getAccountsList(state)
+  const digest = x => {
+    const index = indexOf(x, accountsR.getOrElse([]))
+    const hdAccount = hdAccounts[index]
+    return {
+      coin: 'BCH',
+      label: prop('label', x) ? prop('label', x) : prop('xpub', hdAccount),
+      xpub: prop('xpub', hdAccount),
+      index: prop('index', hdAccount)
+    }
+  }
+  return accountsR.map(map(digest))
+}
+
+export const getAddressesInfo = state => {
+  const legacyAddresses = compose(values, walletSelectors.getActiveAddresses)(state)
+  const digest = x => ({
+    coin: 'BCH',
+    label: prop('addr', x),
+    address: prop('addr', x)
+  })
+  return map(digest, legacyAddresses)
+}
+
 const addFromToBch = (wallet, bchAccounts, txList) => {
   const hdWallets = wallet.hd_wallets
   map(tx => hdWallets.map(hdWallet => take(bchAccounts.length, hdWallet.accounts).map((account, index) => {
@@ -93,7 +119,7 @@ export const getWalletTransactions = memoize(state => {
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   const txs = map(ProcessPage, pages)
-  return map(txListR => lift(addFromToBch)(walletR, getAccounts(state), txListR), txs)
+  return map(txListR => lift(addFromToBch)(walletR, getAccountsList(state), txListR), txs)
 })
 
 // path is: accountIndex/chainIndex/addressIndex

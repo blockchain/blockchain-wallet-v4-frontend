@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import { selectors } from 'data'
-import { Exchange, transactions } from 'blockchain-wallet-v4/src'
+import { utils } from 'blockchain-wallet-v4/src'
 
 export const getData = state => {
   const defaultAccountAddressR = selectors.core.kvStore.ethereum.getContext(state)
@@ -12,16 +12,14 @@ export const getData = state => {
   const fee = formValueSelector('sendEther')(state, 'fee')
 
   const transform = (defaultAccountAddress, balance, feeRegular, gasLimit) => {
-    const transactionFee = transactions.ethereum.calculateFee(feeRegular, gasLimit)
-    const effectiveBalanceWei = balance - transactionFee
-    const effectiveBalance = Exchange.convertEtherToEther({ value: effectiveBalanceWei, fromUnit: 'WEI', toUnit: 'ETH' }).value
+    const dataFeeEther = utils.ethereum.calculateBalanceEther(feeRegular, gasLimit, balance)
+    const dataFeeWei = utils.ethereum.calculateBalanceWei(feeRegular, gasLimit, balance)
 
     return {
-      initialValues: { coin: 'ETH', fee: transactionFee, from: defaultAccountAddress },
+      initialValues: { coin: 'ETH', fee: dataFeeWei.fee, from: defaultAccountAddress },
       coin,
       fee,
-      effectiveBalanceWei,
-      effectiveBalance
+      effectiveBalance: dataFeeEther.effectiveBalance
     }
   }
 

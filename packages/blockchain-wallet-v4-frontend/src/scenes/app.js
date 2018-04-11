@@ -45,8 +45,8 @@ class App extends React.Component {
                 <PublicLayout path='/recover' component={Recover} />
                 <PublicLayout path='/reminder' component={Reminder} />
                 <PublicLayout path='/reset2fa' component={Reset2FA} />
-                <PublicLayout path='/register' component={Register} />
-                <WalletLayout path='/wallet' component={Home} />
+                <PublicLayout path='/signup' component={Register} />
+                <WalletLayout path='/home' component={Home} />
                 <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
                 <WalletLayout path='/eth/transactions' component={EtherTransactions} />
                 <WalletLayout path='/buy-sell' component={BuySell} />

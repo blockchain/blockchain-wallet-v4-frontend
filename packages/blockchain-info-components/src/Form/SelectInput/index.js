@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import onClickOutside from 'react-onclickoutside'
 import { equals, head, isEmpty, isNil, contains, toUpper, filter } from 'ramda'
 
 import SelectInput from './template.js'
@@ -42,6 +43,10 @@ class SelectInputContainer extends React.Component {
   handleFocus () {
     this.setState({ expanded: true })
     if (this.props.onFocus) { this.props.onFocus() }
+  }
+
+  handleClickOutside () {
+    this.setState({ expanded: false })
   }
 
   transform (elements, search) {
@@ -114,4 +119,4 @@ SelectInputContainer.defaultProps = {
   disabled: false
 }
 
-export default SelectInputContainer
+export default onClickOutside(SelectInputContainer)

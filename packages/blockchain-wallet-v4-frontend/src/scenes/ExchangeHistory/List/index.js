@@ -20,6 +20,32 @@ const Wrapper = styled.div`
 
 const List = props => (
   <Wrapper>
+    <Table>
+      <TableHeader>
+        <TableCell width='15%'>
+          <Text size='13px' weight={500} capitalize>
+            <FormattedMessage id='scenes.exchangehistory.list.status' defaultMessage='Status' />
+          </Text>
+        </TableCell>
+        <TableCell width='15%' />
+        <TableCell width='30%'>
+          <Text size='13px' weight={500} capitalize>
+            <FormattedMessage id='scenes.exchangehistory.list.date' defaultMessage='Date' />
+          </Text>
+        </TableCell>
+        <TableCell width='20%'>
+          <Text size='13px' weight={500} capitalize>
+            <FormattedMessage id='scenes.exchangehistory.list.exchanged' defaultMessage='Exchanged' />
+          </Text>
+        </TableCell>
+        <TableCell width='20%'>
+          <Text size='13px' weight={500} capitalize>
+            <FormattedMessage id='scenes.exchangehistory.list.received' defaultMessage='To Be Received' />
+          </Text>
+        </TableCell>
+      </TableHeader>
+      {props.trades.incomplete.map((trade, index) => <TradeItem key={index} trade={trade} />)}
+    </Table>
     <Text size='16px' weight={500} capitalize>
       <FormattedMessage id='scenes.exchangehistory.list.exchanges' defaultMessage='Completed exchanges' />
     </Text>
@@ -47,7 +73,7 @@ const List = props => (
           </Text>
         </TableCell>
       </TableHeader>
-      {props.trades.map((trade, index) => <TradeItem key={index} trade={trade} />)}
+      {props.trades.complete.map((trade, index) => <TradeItem key={index} trade={trade} />)}
     </Table>
   </Wrapper>
 )
