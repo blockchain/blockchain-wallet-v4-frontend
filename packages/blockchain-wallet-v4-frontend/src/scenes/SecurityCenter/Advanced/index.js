@@ -17,10 +17,9 @@ import { FormattedMessage } from 'react-intl'
 const AdvancedContainer = styled.div`
   margin-top: 0px !important;
 `
-
 const Advanced = ({ tabs, setView }) => (
   <AdvancedContainer>
-    {!tabs && <IconButton name='left-arrow' onClick={() => setView('security')}>
+    {!tabs && <IconButton name='left-arrow' onClick={() => setView('security')} id='advanced-button'>
       <Text size='14px' weight={300}>
         <FormattedMessage id='scenes.securitycenter.advanced.goback' defaultMessage='Go Back' />
       </Text>

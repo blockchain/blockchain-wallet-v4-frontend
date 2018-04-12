@@ -100,6 +100,15 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const setVerifiedMobileAsTwoFactor = function * () {
+    try {
+      yield call(coreSagas.settings.setAuthType, { authType: '5' })
+      yield put(actions.alerts.displaySuccess('Your verified mobile number is now your 2FA method.'))
+    } catch (e) {
+      yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+    }
+  }
+
   return function * () {
     yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
     yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
@@ -111,5 +120,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.SEND_MOBILE_VERIFICATION_CODE, sendMobileVerificationCode)
     yield takeLatest(AT.VERIFY_MOBILE_SECURITY_CENTER, verifyMobile)
     yield takeLatest(AT.DISABLE_TWO_STEP, disableTwoStep)
+    yield takeLatest(AT.SET_VERIFIED_MOBILE_AS_TWO_FACTOR, setVerifiedMobileAsTwoFactor)
   }
 }
