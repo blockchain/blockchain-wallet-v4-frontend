@@ -87,11 +87,12 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
         .map(over(compose(mapped, lensProp('xpub')), assoc('index', source)))
         .map(map(Coin.fromJS))
     } else { // legacy address
-      const { address, priv } = source
-      return promiseToTask(getCoinUnspents)([address], confirmations)
+      //const { address, priv } = source
+      //console.log(address, priv, source)
+      return promiseToTask(getCoinUnspents)([source], confirmations)
         .map(prop('unspent_outputs'))
-        .map(over(mapped, assoc('priv', priv)))
-        .map(over(mapped, assoc('address', address)))
+        //.map(over(mapped, assoc('priv', '')))
+        .map(over(mapped, assoc('address', source)))
         .map(map(Coin.fromJS))
     }
   }
