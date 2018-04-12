@@ -1,7 +1,7 @@
 {
   "extends": ["standard"],
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 8,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -9,15 +9,11 @@
   },
   "plugins": ["babel", "react"],
   "env": {
-    "es6": true,
-    "jest": true
+    "browser": true,
+    "jest": true,
+    "node": true
   },
-  "globals": {
-    "fetch": true,
-    "Headers": true
-  },
-  // 0 = off, 1 = warn, 2 = error
-  // these rules get extended in each packages own .eslintrc
+  "globals": {},
   "rules": {
     "camelcase": 0,
     "no-case-declarations": 0,
