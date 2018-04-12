@@ -6,7 +6,8 @@ const Announcements = [
     title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title12' defaultMessage={'Import Funds from MyEtherWallet'} />,
     desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc12' defaultMessage={'You can now import your ether from your MyEtherWallet backup directky into your Blockchain wallet.'}/>,
     date: 'February 10, 2018',
-    link: '/settings/info'
+    // link: <a href="blockchain.info/settings/info">Learn More</a>
+    //if i have a link, follow link. Otherwise, set an onClick
   }, {
       title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title11' defaultMessage={'New Bitcoin Cash Address Format'} />,
       desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc11' defaultMessage={'Bitcoin Cash addresses now follow the CashAddr format.'} />,
