@@ -40,7 +40,7 @@ const SecondStep = (props) => {
         </Text>
       </Header>
       <Text size='13px' weight={300}>
-        <FormattedMessage id='scenes.recover.secondstep.explain' defaultMessage='Recover bitcoins from your lost wallet' />
+        <FormattedMessage id='scenes.recover.secondstep.explain' defaultMessage='Recover funds from your lost wallet' />
       </Text>
       <Separator />
       <Form onSubmit={onSubmit}>
