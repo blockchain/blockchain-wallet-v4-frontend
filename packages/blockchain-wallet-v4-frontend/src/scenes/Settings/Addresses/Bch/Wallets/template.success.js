@@ -57,7 +57,7 @@ const Success = (props) => {
           {isArchived && <InfoLabel bgcolor='gray-3'>Archived</InfoLabel>}
         </TableCell>
         <TableCell width='30%'>
-          <Text size='13px'><SwitchableDisplay coin='BCH'>{wallet.value.balance}</SwitchableDisplay></Text>
+          <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>
         </TableCell>
         <TableCell width='20%'>
           <ComponentDropdown
