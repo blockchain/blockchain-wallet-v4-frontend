@@ -192,7 +192,7 @@ const ExchangeDetails = (props) => {
               </Tooltip>
             </Text>
             <Text size='13px' weight={300} uppercase>
-              {minerFee}
+              {`${minerFee} ${sourceCoin}`}
             </Text>
           </InfoRow>
           <InfoRow>
