@@ -72,7 +72,7 @@ const Login = (props) => {
           </LinkContainer>
         </TextGroup>
       </Header>
-      <Text size='16px' weight={300} altFont>
+      <Text size='14px' weight={300} altFont>
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
@@ -85,13 +85,13 @@ const Login = (props) => {
             <Field name='guid' validate={[required]} component={TextBox} />
           </FormItem>
           <LoginTextGroup inline>
-            <Text size='13px' color={'gray-3'} weight={300} altFont>
+            <Text size='12px' color={'gray-3'} weight={300} altFont>
               <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
             </Text>
-            <Text size='13px' color={'gray-3'} weight={300} altFont>
+            <Text size='12px' color={'gray-3'} weight={300} altFont>
               <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
             </Text>
-            <Text size='13px' color={'gray-3'} weight={300} altFont>
+            <Text size='12px' color={'gray-3'} weight={300} altFont>
               <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
             </Text>
           </LoginTextGroup>
