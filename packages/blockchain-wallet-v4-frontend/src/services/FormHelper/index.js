@@ -1,4 +1,3 @@
-import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
 import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN } from './../ValidationHelper'
 import { isValidNumber } from 'libphonenumber-js'
