@@ -1,4 +1,5 @@
 import React from 'react'
+import { prop, map } from 'ramda'
 import styled from 'styled-components'
 import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
@@ -18,8 +19,10 @@ const Label = styled.label`
 `
 
 const AddBitcoinWallet = (props) => {
-  const { position, close, submitting, invalid, ...rest } = props
+  const { position, close, submitting, invalid, wallets, ...rest } = props
   const { onSubmit } = rest
+
+  const unique = (props) => map(prop('label'), wallets).indexOf(props) > -1 ? 'Wallet name is already taken.' : undefined
 
   return (
     <Modal size='large' position={position}>
@@ -34,7 +37,7 @@ const AddBitcoinWallet = (props) => {
                 <Label for='wallet'>
                   <FormattedMessage id='modals.addbitcoinwallet.wallet' defaultMessage='Wallet Name' />
                 </Label>
-                <Field name='wallet' validate={[required]} component={TextBox} />
+                <Field name='wallet' validate={[required, unique]} component={TextBox} />
               </FormItem>
             </FormGroup>
           </ModalBody>
