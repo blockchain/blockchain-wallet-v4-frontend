@@ -35,7 +35,7 @@ class Checkout extends React.Component {
 const mapStateToProps = state => ({
   base: getBase(state),
   data: getData(state),
-  quote: getQuote(state),
+  quoteR: getQuote(state),
   trades: getTrades(state),
   errors: getErrors(state)
 })
