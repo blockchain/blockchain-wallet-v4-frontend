@@ -36,13 +36,15 @@ color: ${props => props.theme['brand-secondary']};
 text-decoration: underline;
 text-decoration-color: ${props => props.theme['brand-secondary']};
 cursor: pointer;
+font-size: 12px;
+font-weight: 300;
 `
 const ContentWrapper = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
 `
 const WhatsNew = (props) => {
-  const { handleTrayRightToggle } = props
+  const { handleTrayRightToggle, whatsNewClick} = props
 
   return (
     <Fragment>
@@ -62,7 +64,13 @@ const WhatsNew = (props) => {
                   </div>
                   <TextGroup inline>
                     <WhatsNewContent size='12px' weight={300}>{desc}</WhatsNewContent>
-                    <WhatsNewLink onClick={()=> handleTrayRightToggle('', false)} size='12px' weight={300}>{link}</WhatsNewLink>
+                    <WhatsNewLink onClick={()=>handleTrayRightToggle('', false)}>{link}</WhatsNewLink>
+                    {/* {(() => {
+                      if(link.NavLink) {
+                        return <WhatsNewLink onClick={()=>handleTrayRightToggle('', false)}>{link}</WhatsNewLink>
+                      } else {
+                        return <WhatsNewLink onClick={()=>handleTrayRightToggle('faq', false)}>{link}</WhatsNewLink>
+                      }})} */}
                   </TextGroup>
                 </Fragment>
               )

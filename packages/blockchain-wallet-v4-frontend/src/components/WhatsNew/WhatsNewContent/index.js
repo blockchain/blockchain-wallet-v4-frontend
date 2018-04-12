@@ -2,10 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Text } from 'blockchain-info-components'
-
-
-
-
+import PropTypes from 'prop-types'
 
 const Announcements = [
   {
@@ -27,7 +24,7 @@ const Announcements = [
       desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc10' defaultMessage={'If you had bitcoin in your wallet before August 1, 2017, you can now access Bitcoin Cash via Settings > General.'} />,
       date: 'October 3, 2017',
       link: <NavLink to='/bch/transactions'>
-            <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.link.10' defaultMessage={'Learn More'}/>
+            <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.link.12' defaultMessage={'Learn More'}/>
             </NavLink>
     }, {
     title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title9' defaultMessage={'Exchange Assets'} />,
