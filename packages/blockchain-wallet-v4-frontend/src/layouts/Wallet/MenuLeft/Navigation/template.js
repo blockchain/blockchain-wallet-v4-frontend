@@ -68,7 +68,7 @@ const Navigation = (props) => {
   return (
     <Wrapper {...rest}>
       <Menu>
-        <LinkContainer to='/wallet' activeClassName='active' onClick={handleCloseSettings}>
+        <LinkContainer to='/home' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='home' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.dashboard' defaultMessage='Dashboard' />

@@ -15,9 +15,12 @@ const Wrapper = styled.div`
   padding: 15px;
   height: 370px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-1']};
-
   & > * { margin-bottom: 10px; }
+  border: 1px solid ${props => props.theme['gray-1']};
+  svg {
+    font-weight: 300;
+    font-family: 'Montserrat' !important;
+  }
 `
 const Row = styled.div`
   display: flex;

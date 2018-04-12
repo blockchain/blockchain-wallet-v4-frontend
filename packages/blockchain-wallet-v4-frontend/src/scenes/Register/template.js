@@ -54,7 +54,7 @@ let Register = (props) => {
           </LinkContainer>
         </TextGroup>
       </Header>
-      <Text size='16px' weight={300} altFont>
+      <Text size='14px' weight={300} altFont>
         <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
       </Text>
       <Separator />
