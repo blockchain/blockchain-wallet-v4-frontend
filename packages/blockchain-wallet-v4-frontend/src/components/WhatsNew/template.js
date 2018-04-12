@@ -62,7 +62,7 @@ const WhatsNew = (props) => {
                   </div>
                   <TextGroup inline>
                     <WhatsNewContent size='12px' weight={300}>{desc}</WhatsNewContent>
-                    <WhatsNewLink size='12px' weight={300}>{link}</WhatsNewLink>
+                    <WhatsNewLink onClick={()=> handleTrayRightToggle('', false)} size='12px' weight={300}>{link}</WhatsNewLink>
                   </TextGroup>
                 </Fragment>
               )
