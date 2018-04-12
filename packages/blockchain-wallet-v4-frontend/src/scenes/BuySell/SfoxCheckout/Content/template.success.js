@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { filter } from 'ramda'
 import styled from 'styled-components'
 import OrderHistory from '../../OrderHistory'
@@ -121,7 +121,17 @@ const Success = props => {
             <Icon name='bitcoin-in-circle-filled' size='26px' />
             <div style={{ ...flex('col'), ...spacing('ml-20') }}>
               <Text size='14px' weight={300} uppercase>Bitcoin</Text>
-              <Text size='12px' weight={300}>@ $6,850.11</Text>
+              <Text size='12px' weight={300}>
+                {'@ '}
+                {quoteR
+                  .map((quote) => '$' + quote.rate)
+                  .getOrElse(
+                    <Fragment>
+                      <FormattedMessage id='loading' defaultMessage='Loading' />
+                      {'...'}
+                    </Fragment>
+                  )}
+              </Text>
             </div>
           </MethodContainer>
           <Text style={spacing('ml-10')} size='16px' weight={600}>
