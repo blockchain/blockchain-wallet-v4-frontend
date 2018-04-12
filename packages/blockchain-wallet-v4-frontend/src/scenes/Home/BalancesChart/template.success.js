@@ -16,6 +16,10 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   justify-content: space-between;
   border: 1px solid ${props => props.theme['gray-1']};
+  svg {
+    font-weight: 300;
+    font-family: 'Montserrat' !important;
+  }
 `
 const ChartInfo = styled.div`
   display: flex;
