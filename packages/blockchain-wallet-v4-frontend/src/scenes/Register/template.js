@@ -33,7 +33,7 @@ let Register = (props) => {
   const passwordsMatch = () => {
     console.log(password)
     console.log(confirmationPassword)
-    console.log(password === confirmationPassword ? undefined : 'Passwords must match')
+    console.log('match>' + password === confirmationPassword)
     return password === confirmationPassword ? undefined : 'Passwords must match'
   }
 
@@ -64,7 +64,7 @@ let Register = (props) => {
             <FormLabel for='email'>
               <FormattedMessage id='scenes.register.email' defaultMessage='Email' />
             </FormLabel>
-            <Field name='email' validate={[required]} component={TextBox} />
+            <Field name='email' autocomplete='email' validate={[required]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -72,7 +72,7 @@ let Register = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} score />
+            <Field name='password' validate={[required]} component={TextBox} score />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -80,7 +80,7 @@ let Register = (props) => {
             <FormLabel for='confirmationPassword'>
               <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
             </FormLabel>
-            <Field name='confirmationPassword' validate={[passwordsMatch]} component={PasswordBox} />
+            <Field name='confirmationPassword' validate={[passwordsMatch]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <FormGroup>
