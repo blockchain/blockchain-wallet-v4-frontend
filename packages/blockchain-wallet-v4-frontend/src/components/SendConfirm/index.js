@@ -55,10 +55,6 @@ const SendConfirm = props => {
 
   return (
     <div>
-      <div icon='send' onClose={props.closeAll}>
-        {coin === 'BTC' && <FormattedMessage id='modals.sendconfirm.title' defaultMessage='Send Bitcoin' />}
-        {coin === 'ETH' && <FormattedMessage id='modals.sendconfirm.title' defaultMessage='Send Ether' />}
-      </div>
       <div>
         <Row>
           <Text size='16px' weight={500}>
