@@ -1,5 +1,5 @@
 export default (chartData, symbol, history) => {
-  const total = chartData.reduce((acc, item) => (acc + Number(item.y)), 0).toFixed(2)
+  const total = chartData.reduce((acc, item) => (acc + Number(item.fiat)), 0).toFixed(2)
 
   return (
     {

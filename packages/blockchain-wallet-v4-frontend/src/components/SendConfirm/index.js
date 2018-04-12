@@ -55,10 +55,6 @@ const SendConfirm = props => {
 
   return (
     <div>
-      <div icon='send' onClose={props.closeAll}>
-        {coin === 'BTC' }
-        {coin === 'ETH' }
-      </div>
       <div>
         <Row>
           <Text size='16px' weight={500}>

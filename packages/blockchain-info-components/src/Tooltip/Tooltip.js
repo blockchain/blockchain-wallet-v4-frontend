@@ -7,6 +7,7 @@ const TooltipWrapper = styled.div`
   display: inline-flex;
   position: relative;
   width: 22px;
+  margin: 2px;
 `
 const TooltipIcon = styled.div`
   display: inline-flex;
@@ -36,9 +37,9 @@ const TooltipBox = styled(TextGroup)`
   box-sizing: border-box;
   box-shadow: ${props => transparentize(0.65, props.theme['gray-6'])} 0px 3px 8px 0px;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 325;
-  font-family: "GillSans", sans serif;
+  font-size: 11px;
+  font-weight: 300;
+  font-family: "Montserrat", sans serif;
 
   &:before {
     content: '';

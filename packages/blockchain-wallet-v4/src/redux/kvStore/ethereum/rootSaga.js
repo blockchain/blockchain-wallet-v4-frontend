@@ -12,7 +12,7 @@ import { getMnemonic } from '../../wallet/selectors'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api } = {}) => {
+export default ({ api }) => {
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }
@@ -34,8 +34,8 @@ export default ({ api } = {}) => {
           correct: true,
           addr
         }],
-        legacy_account: {},
         tx_notes: {},
+        legacy_account: null,
         last_tx: undefined
       }
       const newkv = set(KVStoreEntry.value, {ethereum}, kv)

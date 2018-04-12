@@ -15,12 +15,12 @@ class MinimumMaximumContainer extends React.Component {
 
   handleClickMinimum () {
     const minimum = calculateMinimum(this.props)
-    this.props.formActions.change('exchange', 'amount', { source: `${minimum}`, target: undefined })
+    this.props.formActions.change('exchange', 'amount', { source: `${minimum}`, target: 0 })
   }
 
   handleClickMaximum () {
     const maximum = calculateMaximum(this.props)
-    this.props.formActions.change('exchange', 'amount', { source: `${maximum}`, target: undefined })
+    this.props.formActions.change('exchange', 'amount', { source: `${maximum}`, target: 0 })
   }
 
   render () {

@@ -1,49 +1,22 @@
 import { selectors } from 'data'
-import { has, is, lift, prop } from 'ramda'
-import settings from 'config'
+import { prop } from 'ramda'
 
-// extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
-const extractAddress = (selector, value) => {
-  if (value == null) return undefined
-  if (is(String, value)) return value
-  if (has('address', value)) return prop('address', value)
-  if (has('index', value)) return selector(prop('index', value)).getOrElse(undefined)
-  return undefined
-}
-
-export const getAddresses = (state, source, target) => {
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
-  const sourceAddress = extractAddress(getReceive, source)
-  const targetAddress = extractAddress(getReceive, target)
-
-  return {
-    sourceAddress,
-    targetAddress
-  }
-}
-
-export const getData = (state, sourceCoin, targetCoin) => {
+export const getData = (state, source, target, fee) => {
   const orderR = selectors.core.data.shapeShift.getOrder(state)
 
   const transform = (order) => {
-    const sendAmount = prop('depositAmount', order)
-    const sendFee = 0
-    const sendTotal = 0
-    const exchangeRate = `1 ${sourceCoin} = ${prop('quotedRate', order)} ${targetCoin}`
-    const receiveAmount = prop('withdrawalAmount', order)
-    const receiveFee = prop('minerFee', order)
-    const expiration = prop('expiration', order)
+    const depositAmount = prop('depositAmount', order)
 
     return {
-      sendAmount,
-      sendFee,
-      sendTotal,
-      exchangeRate,
-      receiveAmount,
-      receiveFee,
-      expiration
+      order,
+      depositAddress: prop('deposit', order),
+      depositAmount,
+      exchangeRate: `1 ${prop('coin', source)} = ${prop('quotedRate', order)} ${prop('coin', target)}`,
+      withdrawalAmount: prop('withdrawalAmount', order),
+      withdrawalFee: prop('minerFee', order),
+      expiration: prop('expiration', order)
     }
   }
 
-  return lift(transform)(orderR)
+  return orderR.map(transform)
 }

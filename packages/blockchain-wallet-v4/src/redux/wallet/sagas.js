@@ -11,11 +11,12 @@ import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
 
 import { Wrapper, Wallet } from '../../types'
+import { generateMnemonic } from '../../walletCrypto'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
-export const walletSaga = ({ api } = {}) => {
+export default ({ api }) => {
   const runTask = function * (task, setActionCreator) {
     let result = yield call(compose(taskToPromise, () => task))
     yield put(setActionCreator(result))
@@ -49,7 +50,7 @@ export const walletSaga = ({ api } = {}) => {
   }
 
   const createWalletSaga = function * ({ password, email }) {
-    const mnemonic = BIP39.generateMnemonic()
+    const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic)
     yield call(api.createWallet, email, wrapper)
@@ -66,7 +67,7 @@ export const walletSaga = ({ api } = {}) => {
     let hdwallets = compose(i => i.toJS(), Wallet.selectHdWallets, Wrapper.selectWallet)(wrapper)
 
     if (isEmpty(hdwallets)) {
-      let mnemonic = BIP39.generateMnemonic()
+      let mnemonic = yield call(generateMnemonic, api)
       let upgradeWallet = Wallet.upgradeToHd(mnemonic, 'My Bitcoin Wallet', password)
       let nextWrapper = Wrapper.traverseWallet(Either.of, upgradeWallet, wrapper)
       yield call(runTask, eitherToTask(nextWrapper), A.setWrapper)
