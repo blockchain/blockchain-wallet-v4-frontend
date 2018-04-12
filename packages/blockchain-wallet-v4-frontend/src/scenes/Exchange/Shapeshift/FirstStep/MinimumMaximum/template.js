@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { NavLink } from 'react-router-dom'
 
 import { Link, Text } from 'blockchain-info-components'
 
@@ -13,6 +14,13 @@ const Wrapper = styled.div`
   width: 100%;
 
   & > * { margin-left: 5px; }
+`
+
+const BuyText = styled(Text)`
+  color: ${props => props.theme['brand-secondary']};
+  text-decoration: underline;
+  text-decoration-color: ${props => props.theme['brand-secondary']};
+  cursor: pointer;
 `
 
 const MinimumMaximum = props => {
@@ -29,6 +37,13 @@ const MinimumMaximum = props => {
         <Text weight={300} size='12px'>
           <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage=' required to exchange' />
         </Text>
+        {sourceCoin === 'BTC' &&
+          <NavLink to='/buy-sell'>
+            <BuyText weight={300} size='12px'>
+              <FormattedMessage id='scenes.exchangebox.firststep.buybtc' defaultMessage='Buy Bitcoin' />
+            </BuyText>
+          </NavLink>
+        }
       </Wrapper>
     )
     : (
