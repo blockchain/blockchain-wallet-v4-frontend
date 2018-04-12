@@ -17,8 +17,6 @@ const PATHS = {
   envConfig: `${__dirname}/../../config/env/`
 }
 
-console.log(JSON.stringify(require(PATHS.pkgJson).version))
-
 // load, parse and log application configuration
 let envConfig = {}
 try {
