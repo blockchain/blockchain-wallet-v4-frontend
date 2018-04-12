@@ -1,8 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
@@ -27,15 +26,13 @@ const RegisterForm = styled(Form)`
   margin: 20px 0;
 `
 
-let Register = (props) => {
-  const { onSubmit, submitting, invalid, password, confirmationPassword } = props
+const validatePasswordsMatch = values => {
+  return values.password === values.confirmationPassword ? {} : { confirmationPassword: 'Passwords must match' }
+}
+
+const Register = (props) => {
+  const { onSubmit, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
-  const passwordsMatch = () => {
-    console.log(password)
-    console.log(confirmationPassword)
-    console.log('match>' + password === confirmationPassword)
-    return password === confirmationPassword ? undefined : 'Passwords must match'
-  }
 
   return (
     <Wrapper>
@@ -64,7 +61,7 @@ let Register = (props) => {
             <FormLabel for='email'>
               <FormattedMessage id='scenes.register.email' defaultMessage='Email' />
             </FormLabel>
-            <Field name='email' autocomplete='email' validate={[required]} component={TextBox} />
+            <Field name='email' autocomplete='email' validate={[required, validEmail]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -72,7 +69,7 @@ let Register = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={TextBox} score />
+            <Field name='password' validate={[required]} component={PasswordBox} score />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -80,7 +77,7 @@ let Register = (props) => {
             <FormLabel for='confirmationPassword'>
               <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
             </FormLabel>
-            <Field name='confirmationPassword' validate={[passwordsMatch]} component={TextBox} />
+            <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -100,18 +97,4 @@ let Register = (props) => {
   )
 }
 
-Register = reduxForm({
-  form: 'register'
-})(Register)
-
-const selector = formValueSelector('register')
-Register = connect(
-  state => {
-    const password = selector(state, 'password')
-    const confirmationPassword = selector(state, 'confirmationPassword')
-
-    return { password, confirmationPassword }
-  }
-)(Register)
-
-export default Register
+export default reduxForm({form: 'register', validate: validatePasswordsMatch})(Register)
