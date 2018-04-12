@@ -8,8 +8,13 @@ import { determineStep, determineReason } from 'services/SfoxService'
 import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
+import QuoteInput from './QuoteInput'
 
-import Fields from 'components/Form/FiatConvertor/template.success'
+const quoteInputSpec = {
+  method: 'buy',
+  input: 'usd',
+  output: 'btc'
+}
 
 const CheckoutWrapper = styled.div`
   width: 50%;
@@ -78,7 +83,8 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { fetchQuote, handleTrade, quote, base, errors, showModal, ...rest } = props
+  const { fetchQuote, handleTrade, quoteR, base, errors, showModal, ...rest } = props
+  const quote = quoteR.getOrElse(null)
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
@@ -138,26 +144,15 @@ const Success = props => {
             <FormattedMessage id='amount' defaultMessage='Amount' />
           </Text>
           <div style={spacing('mt-15')}>
-            <Fields
-              value={'0.1'}
-              fiat={'0.2'}
-              data={{
-                data: {
-                  unit: 'USD',
-                  currency: 'BTC'
-                }
-              }}
-              unit='__required__'
-              currency='__required__'
-              meta={{}}
-              handleBlur={() => {}}
-              handleCoinChange={() => {}}
-              handleFiatChange={() => {}}
-              handleFocus={() => {}}
-              handleErrorClick={() => {}}
+            <QuoteInput
+              quoteR={quoteR}
+              initialAmount='250.00'
+              debounce={500}
+              spec={quoteInputSpec}
+              onFetchQuote={fetchQuote}
             />
           </div>
-          <Button style={spacing('mt-45')} nature='primary' fullwidth>
+          <Button style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR)}>
             <FormattedMessage id='review_order' defaultMessage='Review Order' />
           </Button>
         </ExchangeCheckoutWrapper>
