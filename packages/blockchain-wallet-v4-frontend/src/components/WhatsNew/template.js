@@ -32,10 +32,11 @@ box-sizing: border-box;
 overflow: none;
 `
 const WhatsNewLink = styled(Text)`
-box-sizing: border-box;
-overflow: none;
+color: ${props => props.theme['brand-secondary']};
+text-decoration: underline;
+text-decoration-color: ${props => props.theme['brand-secondary']};
+cursor: pointer;
 `
-
 const ContentWrapper = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
@@ -61,7 +62,7 @@ const WhatsNew = (props) => {
                   </div>
                   <TextGroup inline>
                     <WhatsNewContent size='12px' weight={300}>{desc}</WhatsNewContent>
-                    <WhatsNewLink>{link}</WhatsNewLink>
+                    <WhatsNewLink size='12px' weight={300}>{link}</WhatsNewLink>
                   </TextGroup>
                 </Fragment>
               )
