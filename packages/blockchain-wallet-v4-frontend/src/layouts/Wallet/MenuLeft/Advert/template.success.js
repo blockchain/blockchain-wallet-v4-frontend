@@ -36,7 +36,7 @@ const Advert = props => {
       {adverts.map(function (advert, index) {
         return (
           <Container key={index}>
-            <Link src={advert.url}>
+            <Link href={advert.url} target='_blank'>
               <Image src={advert.data} />
             </Link>
             {advert.name && <Text size='14px' weight={400} uppercase>{advert.name}</Text>}
