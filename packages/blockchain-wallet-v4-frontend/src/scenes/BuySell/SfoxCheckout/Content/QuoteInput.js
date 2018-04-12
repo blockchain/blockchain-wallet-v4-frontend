@@ -98,7 +98,7 @@ class QuoteInput extends Component {
   }
 
   render () {
-    let { quoteR, spec } = this.props
+    let { spec } = this.props
     let { input, output } = this.state
     return (
       <WrappedFiatConverter
