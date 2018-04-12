@@ -61,7 +61,7 @@ const Register = (props) => {
             <FormLabel for='email'>
               <FormattedMessage id='scenes.register.email' defaultMessage='Email' />
             </FormLabel>
-            <Field name='email' autocomplete='email' validate={[required, validEmail]} component={TextBox} />
+            <Field name='email' validate={[required, validEmail]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <FormGroup>
