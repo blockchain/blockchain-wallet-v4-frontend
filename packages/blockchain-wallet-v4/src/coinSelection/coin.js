@@ -1,8 +1,8 @@
-import {curry, is, drop, clamp, split, length, add, compose,
+import {curry, is, clamp, split, length, add, compose,
   isNil, ifElse, always, complement, either, tryCatch} from 'ramda'
 import { over, view } from 'ramda-lens'
 import Type from '../types/Type'
-import { addressToScript } from '../utils/bitcoin'
+import { addressToScript, scriptToAddress } from '../utils/bitcoin'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -56,17 +56,17 @@ export const selectPriv = view(priv)
 export const selectChange = view(change)
 export const selectPath = view(path)
 
-export const fromJS = (o) => {
+export const fromJS = (o, network) => {
   return new Coin({
     value: parseInt(o.value),
-    script: o.script ? o.script : addressToScript(o.address),
+    script: o.script ? o.script : addressToScript(o.address, network),
     txHash: o.tx_hash_big_endian,
     index: o.tx_output_n,
     change: o.change || false,
     priv: o.priv,
     path: o.path,
     xpub: o.xpub,
-    address: o.address
+    address: o.address ? o.address : scriptToAddress(o.script, network)
   })
 }
 
