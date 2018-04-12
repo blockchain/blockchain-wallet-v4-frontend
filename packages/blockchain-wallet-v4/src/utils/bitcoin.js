@@ -39,10 +39,8 @@ export const isValidBitcoinAddress = value => {
   }
 }
 
-export const addressToScript = value => {
-  // TODO do we need to check for cash address here too?
-  // TODO which network?
-  const n = networks.bitcoin
+export const addressToScript = (value, network) => {
+  const n = network || networks.bitcoin
 
   try {
     if (value.toLowerCase().startsWith('bc')) {
@@ -62,8 +60,13 @@ export const addressToScript = value => {
   }
 }
 
-export const scriptToAddress = network => script =>
-  address.fromOutputScript(Buffer.from(script, 'hex'), network).toString()
+export const scriptToAddress = (script, network) => {
+  try {
+    return address.fromOutputScript(Buffer.from(script, 'hex'), network).toString()
+  } catch (e) {
+    return undefined
+  }
+}
 
 export const detectPrivateKeyFormat = key => {
   let isTestnet = false

@@ -1,7 +1,5 @@
 import { call, select } from 'redux-saga/effects'
-import { merge, is, converge, or, zip, prop, compose, map, assoc, drop } from 'ramda'
-// import { mapped } from 'ramda-lens'
-
+import { merge, is, converge, or, zip, prop, map, assoc, drop, curry, set } from 'ramda'
 import Task from 'data.task'
 
 import * as S from '../../selectors'
@@ -9,7 +7,7 @@ import { btc } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
 import { Wallet, HDAccount, Address } from '../../../types'
-import { scriptToAddress, isValidBitcoinAddress, privateKeyStringToKey, detectPrivateKeyFormat } from '../../../utils/bitcoin'
+import { isValidBitcoinAddress, privateKeyStringToKey, detectPrivateKeyFormat } from '../../../utils/bitcoin'
 import { futurizeP } from 'futurize'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -28,7 +26,6 @@ const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resol
 const FROM = {
   ACCOUNT: 'FROM.ACCOUNT',
   LEGACY: 'FROM.LEGACY',
-  LEGACY_ARRAY: 'FROM.LEGACY_ARRAY',
   WATCH_ONLY: 'FROM.WATCH_ONLY',
   EXTERNAL: 'FROM.EXTERNAL'
 }
@@ -37,26 +34,23 @@ const isNumber = is(Number)
 const isPositiveNumber = (x) => isNumber(x) && x >= 0
 const isPositiveInteger = (x) => isPositiveNumber(x) && Math.round(x) === x
 
-const toHDInputs = (sToA, fromData) => input => {
-  const path = input.xpub ? `${fromData.fromAccountIdx}${drop(1, input.xpub.path)}` : undefined
-  return compose(
-    assoc('path', path),
-    assoc('address', sToA(input.script))
-  )(input)
-}
-
-const toWOInputs = (sToA, fromData) => input => {
-  return compose(
-    assoc('priv', fromData.wifKeys[0]),
-    assoc('address', sToA(input.script))
-  )(input)
-}
-
-const toExInputs = (sToA, fromData) => input => {
-  const i = assoc('address', sToA(input.script), input)
-  const priv = fromData.wifKeys[i.address]
-  return assoc('priv', priv, i)
-}
+const toCoin = curry((network, fromData, input) => {
+  switch (fromData.fromType) {
+    case FROM.ACCOUNT:
+      let path = input.xpub ? `${fromData.fromAccountIdx}${drop(1, input.xpub.path)}` : undefined
+      return Coin.fromJS(assoc('path', path, input), network)
+    case FROM.LEGACY:
+      return Coin.fromJS(input, network)
+    case FROM.WATCH_ONLY:
+      return Coin.fromJS(assoc('priv', fromData.wifKeys[0], input), network)
+    case FROM.EXTERNAL:
+      let coin = Coin.fromJS(input, network)
+      let address = Coin.selectAddress(coin)
+      return set(Coin.priv, fromData.wifKeys[address], coin)
+    default:
+      throw new Error('fromType_not_recognized')
+  }
+})
 
 const mapGen = function * (f, xs) {
   let result = []
@@ -67,39 +61,14 @@ const mapGen = function * (f, xs) {
 }
 
 export default function createPaymentFactory ({ api }) {
+  // ///////////////////////////////////////////////////////////////////////////
   const pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
+  const getWalletUnspent = (network, fromData) =>
+    api.getBitcoinUnspents(fromData.from, -1)
+      .then(prop('unspent_outputs'))
+      .then(map(toCoin(network, fromData)))
 
-  // getWalletUnspent
-  const getWalletUnspent = (network, fromData) => {
-    const confirmations = -1
-    const sToA = scriptToAddress(network)
-    switch (fromData.fromType) {
-      case FROM.ACCOUNT:
-        return api.getBitcoinUnspents(fromData.from, confirmations)
-          .then(prop('unspent_outputs'))
-          .then(map(toHDInputs(sToA, fromData)))
-          .then(map(Coin.fromJS))
-      case FROM.LEGACY:
-      case FROM.LEGACY_ARRAY:
-        return api.getBitcoinUnspents(fromData.from, confirmations)
-          .then(prop('unspent_outputs'))
-          .then(map(i => assoc('address', sToA(i.script), i)))
-          .then(map(Coin.fromJS))
-      case FROM.WATCH_ONLY:
-        return api.getBitcoinUnspents(fromData.from, confirmations)
-          .then(prop('unspent_outputs'))
-          .then(map(toWOInputs(sToA, fromData)))
-          .then(map(Coin.fromJS))
-      case FROM.EXTERNAL:
-        return api.getBitcoinUnspents(fromData.from, confirmations)
-          .then(prop('unspent_outputs'))
-          .then(map(toExInputs(sToA, fromData)))
-          .then(map(Coin.fromJS))
-      default:
-        return Promise.reject(new Error('fromType_not_recognized'))
-    }
-  }
-
+  // ///////////////////////////////////////////////////////////////////////////
   const calculateTo = function * (destinations) {
     let isUpgradedToHD = yield select(S.wallet.isHdWallet)
     let accountsCount = Wallet.selectHDAccounts(yield select(S.wallet.getWallet)).size
@@ -137,6 +106,7 @@ export default function createPaymentFactory ({ api }) {
     throw new Error('no_destination_set')
   }
 
+  // ///////////////////////////////////////////////////////////////////////////
   const calculateAmount = function (amounts) {
     if (isPositiveNumber(amounts)) {
       return [amounts]
@@ -149,6 +119,7 @@ export default function createPaymentFactory ({ api }) {
     throw new Error('no_amount_set')
   }
 
+  // ///////////////////////////////////////////////////////////////////////////
   const calculateFrom = function * (origin) {
     let pkFormat = detectPrivateKeyFormat(origin)
     let accountsCount = Wallet.selectHDAccounts(yield select(S.wallet.getWallet)).size
@@ -157,7 +128,7 @@ export default function createPaymentFactory ({ api }) {
     if (origin === null || origin === undefined || origin === '') {
       let spendableActiveAddresses = yield select(S.wallet.getSpendableActiveAddresses)
       return {
-        fromType: FROM.LEGACY_ARRAY,
+        fromType: FROM.LEGACY,
         from: spendableActiveAddresses,
         change: spendableActiveAddresses[0]
       }
@@ -175,7 +146,7 @@ export default function createPaymentFactory ({ api }) {
     // Multiple legacy addresses (they must be legacy addresses)
     if (Array.isArray(origin) && origin.length > 0 && origin.every(isValidBitcoinAddress)) {
       return {
-        fromType: FROM.LEGACY_ARRAY,
+        fromType: FROM.LEGACY,
         from: origin,
         change: origin[0]
       }
@@ -241,6 +212,7 @@ export default function createPaymentFactory ({ api }) {
     throw new Error('no_origin_set')
   }
 
+  // ///////////////////////////////////////////////////////////////////////////
   const calculateFee = function (fee, fees) {
     if (isPositiveNumber(fee)) {
       return fee
@@ -253,6 +225,7 @@ export default function createPaymentFactory ({ api }) {
     throw new Error('no_fee_set')
   }
 
+  // ///////////////////////////////////////////////////////////////////////////
   const calculateSelection = function ({ to, amount, fee, coins, change }) {
     if (!to) {
       throw new Error('missing_to')
@@ -278,6 +251,7 @@ export default function createPaymentFactory ({ api }) {
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
 
+  // ///////////////////////////////////////////////////////////////////////////
   const calculateSweepSelection = function ({ to, fee, coins }) {
     if (!to) {
       throw new Error('missing_to')
@@ -298,6 +272,7 @@ export default function createPaymentFactory ({ api }) {
     return CoinSelection.selectAll(fee, coins, to[0])
   }
 
+  // ///////////////////////////////////////////////////////////////////////////
   return function createPayment ({ network } = {}) {
     const makePayment = (p) => ({
       value () {
@@ -322,7 +297,6 @@ export default function createPaymentFactory ({ api }) {
       * from (origins) {
         let fromData = yield call(calculateFrom, origins)
         let coins = yield call(getWalletUnspent, network, fromData)
-        console.log(coins)
         return makePayment(merge(p, { ...fromData, coins }))
       },
 
@@ -333,7 +307,6 @@ export default function createPaymentFactory ({ api }) {
 
       * build () {
         let selection = yield call(calculateSelection, p)
-        console.log(selection)
         return makePayment(merge(p, { selection }))
       },
 
@@ -347,7 +320,6 @@ export default function createPaymentFactory ({ api }) {
           throw new Error('missing_selection')
         }
         let wrapper, signed, signedT
-        console.log(p.fromType)
         switch (p.fromType) {
           case FROM.ACCOUNT:
             wrapper = yield select(S.wallet.getWrapper)
@@ -355,7 +327,6 @@ export default function createPaymentFactory ({ api }) {
             signed = yield call(() => taskToPromise(signedT))
             return makePayment(merge(p, { signed }))
           case FROM.LEGACY:
-          case FROM.LEGACY_ARRAY:
             wrapper = yield select(S.wallet.getWrapper)
             signedT = btc.signLegacy(network, password, wrapper, p.selection)
             signed = yield call(() => taskToPromise(signedT))
@@ -375,7 +346,6 @@ export default function createPaymentFactory ({ api }) {
         }
         let publishT = Task.of(p.signed).chain(pushBitcoinTx)
         let publishResult = yield call(() => taskToPromise(publishT))
-
         return makePayment(merge(p, { result: publishResult }))
       },
 
