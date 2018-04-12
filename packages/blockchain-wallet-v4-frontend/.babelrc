@@ -1,3 +1,27 @@
 {
-  "presets": [["es2015"], "react", "stage-0"]
+  "ignore": [],
+  "env": {
+    "testing": {
+      "presets": ["es2015", "stage-0", "react"],
+      "plugins": [
+        "babel-plugin-styled-components",
+        ["module-resolver", { "root": ["./src"] }]
+      ]
+    },
+    "production": {
+      "presets": [["es2015", { "modules": false }], "stage-0", "react"],
+      "plugins": [
+        "babel-plugin-styled-components",
+        ["module-resolver", { "root": ["./src"], "alias": { "data": "./src/data" } }]
+      ]
+    },
+    "development": {
+      "presets": [["es2015", { "modules": false }], "stage-0", "react"],
+      "plugins": [
+        "babel-plugin-styled-components",
+        ["module-resolver", { "root": ["./src"], "alias": { "data": "./src/data" } }],
+        "react-hot-loader/babel"
+      ]
+    }
+  }
 }

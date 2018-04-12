@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TimeFilters component renders correctly 1`] = `
-<styled.div>
-  <styled.text
+<template__Wrapper>
+  <template__FilterContainer
     onClick={[Function]}
     selected={true}
     size="14px"
@@ -13,8 +13,8 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.all"
       values={Object {}}
     />
-  </styled.text>
-  <styled.text
+  </template__FilterContainer>
+  <template__FilterContainer
     onClick={[Function]}
     selected={false}
     size="14px"
@@ -25,8 +25,8 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.year"
       values={Object {}}
     />
-  </styled.text>
-  <styled.text
+  </template__FilterContainer>
+  <template__FilterContainer
     onClick={[Function]}
     selected={false}
     size="14px"
@@ -37,8 +37,8 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.month"
       values={Object {}}
     />
-  </styled.text>
-  <styled.text
+  </template__FilterContainer>
+  <template__FilterContainer
     onClick={[Function]}
     selected={false}
     size="14px"
@@ -49,8 +49,8 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.week"
       values={Object {}}
     />
-  </styled.text>
-  <styled.text
+  </template__FilterContainer>
+  <template__FilterContainer
     onClick={[Function]}
     selected={false}
     size="14px"
@@ -61,6 +61,6 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.day"
       values={Object {}}
     />
-  </styled.text>
-</styled.div>
+  </template__FilterContainer>
+</template__Wrapper>
 `;

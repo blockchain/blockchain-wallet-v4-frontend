@@ -1,5 +1,4 @@
 import { all, call, fork } from 'redux-saga/effects'
-
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
 import websocketBitcoinFactory from 'blockchain-wallet-v4/src/redux/webSocket/bitcoin/sagas'
 import refreshFactory from 'blockchain-wallet-v4/src/redux/refresh/sagas'
@@ -33,6 +32,7 @@ export default function * ({ api, socket, options }) {
     call(welcomeSaga),
     fork(alerts),
     fork(auth({ api, coreSagas })),
+    fork(components({ api, coreSagas })),
     fork(modules({ coreSagas })),
     fork(goals({ coreSagas })),
     fork(wallet({ coreSagas })),

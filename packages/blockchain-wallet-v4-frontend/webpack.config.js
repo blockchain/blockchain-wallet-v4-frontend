@@ -54,31 +54,14 @@ module.exports = {
         test: /\.js$/,
         use: [
           'thread-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                'babel-plugin-styled-components',
-                ['module-resolver', { 'root': ['./src'] }]
-              ]
-            }
-          }
+          'babel-loader'
         ]
       } : {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
         use: [
           'thread-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                'babel-plugin-styled-components',
-                ['module-resolver', { 'root': ['./src'] }],
-                'react-hot-loader/babel'
-              ]
-            }
-          }
+          'babel-loader'
         ]
       }),
       {
