@@ -1,7 +1,6 @@
-import { isEmpty } from 'ramda'
 import bip39 from 'bip39'
 import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN } from './../ValidationHelper'
-import { parse } from 'libphonenumber-js'
+import { isValidNumber } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 
@@ -19,7 +18,7 @@ const validMnemonic = value => bip39.validateMnemonic(value) ? undefined : 'Inva
 
 const validWalletId = value => isGuid(value) ? undefined : 'Invalid wallet identifier'
 
-const validMobileNumber = value => !isEmpty(parse(value)) ? undefined : 'Invalid mobile number'
+const validMobileNumber = value => isValidNumber(value) ? undefined : 'Invalid mobile number'
 
 const validStrongPassword = value => (value !== undefined && zxcvbn(value).score > 1) ? undefined : 'Your password is not strong enough'
 
