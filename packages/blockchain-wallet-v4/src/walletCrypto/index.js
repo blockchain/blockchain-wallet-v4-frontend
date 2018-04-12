@@ -2,13 +2,19 @@ import * as crypto from 'crypto'
 import { pbkdf2, pbkdf2Sync } from 'pbkdf2'
 import assert from 'assert'
 import Task from 'data.task'
+import BIP39 from 'bip39'
 import * as U from './utils'
 import { curry } from 'ramda'
 import Either from 'data.either'
+import createRng from './rng'
 
 const SUPPORTED_ENCRYPTION_VERSION = 3
 
 export const sha256 = (data) => crypto.createHash('sha256').update(data).digest()
+
+export const generateMnemonic = (api) => {
+  return createRng(16, api).then(rng => BIP39.generateMnemonic(null, rng))
+}
 
 // decryptWallet :: Password -> PayloadJSON -> Either Error JSON
 export const decryptWallet = curry((password, data) => Either.try(decryptWalletSync)(password, data))

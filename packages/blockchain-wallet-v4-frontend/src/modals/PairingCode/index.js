@@ -40,10 +40,9 @@ class PairingCodeContainer extends React.Component {
     return (
       <Modal size='large' position={position} total={total}>
         <ModalHeader icon='request' onClose={closeAll}>
-          <FormattedMessage id='modals.pairingcode.title' defaultMessage='Pairing code' />
+          <FormattedMessage id='modals.pairingcode.title' defaultMessage='Scan Pairing Code' />
         </ModalHeader>
         <ModalBody>
-          <FormattedMessage id='modals.pairingcode.scan' defaultMessage='Scan Pairing Code' />
           <QRCodeContainer>
             {PairingCode}
           </QRCodeContainer>

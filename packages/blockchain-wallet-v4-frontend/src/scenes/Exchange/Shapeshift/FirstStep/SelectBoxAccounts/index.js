@@ -70,7 +70,8 @@ SelectBoxAccountsContainer.propTypes = {
   elements: PropTypes.array.isRequired,
   defaultAccounts: PropTypes.shape({
     BTC: PropTypes.object.isRequired,
-    ETH: PropTypes.object.isRequired
+    ETH: PropTypes.object.isRequired,
+    BCH: PropTypes.object.isRequired
   }).isRequired
 }
 
