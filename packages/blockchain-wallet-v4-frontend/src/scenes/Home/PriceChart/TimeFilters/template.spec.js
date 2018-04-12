@@ -1,20 +1,12 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import { testPropTypes } from 'tests/utils'
+import { testPropTypes } from 'utils/tests'
 import TimeFilters from './template'
+jest.mock('react-intl')
+jest.mock('blockchain-info-components', () => ({ Text: 'text' }))
 
 describe('TimeFilters component', () => {
-  beforeEach(() => {
-    jest.mock('react-intl')
-    jest.mock('blockchain-info-components', () => ({ Text: 'text' }))
-  })
-
-  afterEach(() => {
-    jest.unmock('react-intl')
-    jest.unmock('blockchain-info-components', () => ({ Text: 'text' }))
-  })
-
   it('renders correctly', () => {
     const baseProps = { time: 'all', handleClick: jest.fn() }
     const component = shallow(<TimeFilters {...baseProps} />)

@@ -1,13 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PriceChart component renders correctly 1`] = `
-<styled.div>
-  <styled.div>
-    <Text
-      altFont={false}
-      capitalize={false}
+<PriceChart__Wrapper>
+  <PriceChart__Row>
+    <text
       color="brand-primary"
-      italic={false}
       size="24px"
       uppercase={true}
       weight={300}
@@ -17,14 +14,14 @@ exports[`PriceChart component renders correctly 1`] = `
         id="scenes.home.pricechart"
         values={Object {}}
       />
-    </Text>
+    </text>
     <timeFilters />
-  </styled.div>
-  <styled.div>
+  </PriceChart__Row>
+  <PriceChart__Row>
     <chart />
-  </styled.div>
-  <styled.div>
+  </PriceChart__Row>
+  <PriceChart__Row>
     <coinFilters />
-  </styled.div>
-</styled.div>
+  </PriceChart__Row>
+</PriceChart__Wrapper>
 `;

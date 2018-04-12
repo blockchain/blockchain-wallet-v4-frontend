@@ -2,20 +2,12 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import { testPropTypes } from 'tests/utils'
+import { testPropTypes } from 'utils/tests'
 import { TimeFiltersContainer } from './index'
+jest.mock('./template', () => 'template')
+jest.mock('data', () => ({ }))
 
 describe('TimeFilters container', () => {
-  beforeEach(() => {
-    jest.mock('./template', () => 'template')
-    jest.mock('data', () => { })
-  })
-
-  afterEach(() => {
-    jest.unmock('./template', () => 'template')
-    jest.unmock('data', () => { })
-  })
-
   it('renders correctly', () => {
     const baseProps = { time: 'all' }
     const component = shallow(<TimeFiltersContainer {...baseProps} />)
