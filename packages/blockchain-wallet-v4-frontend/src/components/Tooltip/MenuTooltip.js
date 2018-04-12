@@ -35,7 +35,7 @@ const MenuTooltipBox = styled(TextGroup)`
   box-sizing: border-box;
   font-size: 13px;
   font-weight: 300;
-  font-family: "GillSans", sans serif;
+  font-family: "Montserrat", sans serif;
 
   &:before {
     content: '';

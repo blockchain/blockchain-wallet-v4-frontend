@@ -39,7 +39,7 @@ const TooltipBox = styled(TextGroup)`
   cursor: pointer;
   font-size: 13px;
   font-weight: 325;
-  font-family: "GillSans", sans serif;
+  font-family: "Montserrat", sans serif;
 
   &:before {
     content: '';
