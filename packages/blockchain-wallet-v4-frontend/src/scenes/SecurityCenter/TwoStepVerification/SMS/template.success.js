@@ -82,11 +82,9 @@ SmsAuth.propTypes = {
   data: PropTypes.shape({
     smsVerified: PropTypes.number,
     authType: PropTypes.number,
-    smsNumber: PropTypes.number
+    smsNumber: PropTypes.string
   }),
   onSubmit: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired,
-  handleGetCode: PropTypes.func.isRequired,
   changeMobileNumber: PropTypes.func.isRequired
 }
 

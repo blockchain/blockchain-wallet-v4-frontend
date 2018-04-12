@@ -75,7 +75,6 @@ const Google = props => {
 }
 
 Google.propTypes = {
-  authType: PropTypes.number.isRequired,
   handleSubmit: PropTypes.func.isRequired
 }
 
