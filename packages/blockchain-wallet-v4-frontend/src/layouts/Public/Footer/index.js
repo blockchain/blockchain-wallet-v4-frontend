@@ -36,7 +36,13 @@ const LinkContainer = styled.div`
 
 const RightContainer = styled.div`
   margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
+  & > :last-child {
+    padding: 2px;
+  }
   @media(min-width: 768px) {
     margin: 0;
   }
@@ -62,7 +68,9 @@ const Footer = () => {
       </LinkContainer>
       <RightContainer>
         <DropdownLanguage color='white' />
-        <p>Version: {APP_VERSION}</p>
+        <Link href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases' target="_blank" size='12px' weight={100} color='white'>
+          v{APP_VERSION}
+        </Link>
       </RightContainer>
     </Wrapper>
   )
