@@ -19,7 +19,7 @@ const AddressRow = ({ address, renderOptions }) => (
       )}
     </TableCell>
     <TableCell width='40%'>
-      <Text size='13px'><SwitchableDisplay coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay></Text>
+      <SwitchableDisplay size='13px' coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay>
     </TableCell>
     <TableCell width='20%'>
       <ComponentDropdown down forceSelected color={'gray-5'} selectedComponent={<MoreOptions />} components={renderOptions()} />

@@ -16,6 +16,10 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   justify-content: space-between;
   border: 1px solid ${props => props.theme['gray-1']};
+  svg {
+    font-weight: 300;
+    font-family: 'Montserrat' !important;
+  }
 `
 const ChartInfo = styled.div`
   display: flex;
@@ -46,7 +50,7 @@ const ViewAllText = styled(Text)`
 
 const BalancesChart = (props) => {
   const { balances, handleCoinDisplay, history } = props
-  const { bitcoinBalance, etherBalance, bchBalance, chartData, symbol, btcAccountsLength, bchAccountsLength } = balances
+  const { btcBalance, ethBalance, bchBalance, chartData, symbol, btcAccountsLength, bchAccountsLength } = balances
 
   return (
     <Wrapper>
@@ -61,7 +65,7 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.btc' defaultMessage='Bitcoin' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='BTC' size='14px' weight={200}>{bitcoinBalance}</SwitchableDisplay>
+            <SwitchableDisplay coin='BTC' size='14px' weight={200}>{btcBalance}</SwitchableDisplay>
           </CoinBalance>
           {btcAccountsLength > 1 &&
             <NavLink to='/settings/addresses'>
@@ -77,7 +81,7 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.eth' defaultMessage='Ether' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='ETH' size='14px' weight={200}>{etherBalance}</SwitchableDisplay>
+            <SwitchableDisplay coin='ETH' size='14px' weight={200}>{ethBalance}</SwitchableDisplay>
           </CoinBalance>
         </Column>
         <Column>
