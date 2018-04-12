@@ -14,7 +14,14 @@ class SmsAuthContainer extends React.Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.showChangeMobileNumber = this.showChangeMobileNumber.bind(this)
+  }
+
+  componentDidMount () {
+    const { smsVerified, smsNumber } = this.props.data.data
+    if ((smsNumber && smsNumber.length) && !smsVerified) {
+      this.props.securityCenterActions.sendMobileVerificationCode(smsNumber)
+      this.props.updateUI({ changeNumberToggled: false })
+    }
   }
 
   componentDidUpdate (prevProps) {
@@ -43,10 +50,6 @@ class SmsAuthContainer extends React.Component {
     }
   }
 
-  showChangeMobileNumber () {
-    this.props.updateUI({ changeNumberToggled: !this.props.changeNumberToggled })
-  }
-
   render () {
     const { data, ui, verificationCode, goBack, ...rest } = this.props
 
@@ -56,7 +59,7 @@ class SmsAuthContainer extends React.Component {
         handleClick={this.handleClick}
         onSubmit={this.onSubmit}
         goBack={goBack}
-        changeMobileNumber={this.showChangeMobileNumber}
+        changeMobileNumber={() => this.props.updateUI({ changeNumberToggled: !this.props.changeNumberToggled })}
         ui={ui}
         code={verificationCode}
       />,

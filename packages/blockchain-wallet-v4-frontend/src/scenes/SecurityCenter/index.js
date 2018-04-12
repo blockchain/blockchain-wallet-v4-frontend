@@ -15,6 +15,13 @@ class SecurityCenterContainer extends React.Component {
     this.state = { enabling: false, editing: false, viewing: 'security' }
   }
 
+  componentDidUpdate () {
+    if (this.state.viewing === 'advanced') {
+      const button = document.getElementById('advanced-button')
+      button.scrollIntoView({behavior: 'instant'})
+    }
+  }
+
   handleEnable (step) {
     this.setState({ enabling: step })
   }
