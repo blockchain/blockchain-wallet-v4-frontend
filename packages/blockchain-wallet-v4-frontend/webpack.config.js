@@ -13,8 +13,11 @@ const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`,
+  pkgJson: `${__dirname}/../../package.json`,
   envConfig: `${__dirname}/../../config/env/`
 }
+
+console.log(JSON.stringify(require(PATHS.pkgJson).version))
 
 // load, parse and log application configuration
 let envConfig = {}
@@ -119,6 +122,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
+    new Webpack.DefinePlugin({ APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version) }),
     new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
     ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
