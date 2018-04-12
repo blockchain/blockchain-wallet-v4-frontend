@@ -2,11 +2,14 @@ import React from 'react'
 import { filter } from 'ramda'
 import styled from 'styled-components'
 import OrderHistory from '../../OrderHistory'
-import { Text } from 'blockchain-info-components'
-import ExchangeCheckout from '../../ExchangeCheckout'
+import { Text, Icon, Button } from 'blockchain-info-components'
+import ExchangeCheckout, { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
+import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
+
+import Fields from 'components/Form/FiatConvertor/template.success'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
@@ -24,6 +27,18 @@ const OrderHistoryContent = styled.div`
   > div:last-child {
     margin-bottom: 20px;
   }
+`
+
+const MethodContainer = styled.div`
+  height: 65px;
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  border: 1px solid ${props => props.theme['gray-1']};
+  border-radius: 3px;
+  background-color: ${props => props.theme['white-blue']};
 `
 
 const isPending = (t) => t.state === 'processing'
@@ -92,22 +107,60 @@ const Success = props => {
   if (type === 'buy' || !type) {
     return (
       <CheckoutWrapper>
-        <ExchangeCheckout
-          fiatLimits
-          base={base}
-          quote={quote}
-          errors={errors}
-          fiat={'USD'}
-          crypto={'BTC'}
-          accounts={accounts}
-          onSubmit={onSubmit}
-          fetchQuote={fetchQuote}
-          limits={limits[type]}
-          showRequiredMsg={step !== 'verified'}
-          requiredMsg={<RequiredMsg step={step} type={type} />}
-          continueButton={<ContinueButton step={step} type={type} />}
-          reasonMsg={<ReasonMsg reason={reason} limit={limits[type]} />}
-        />
+        <ExchangeCheckoutWrapper>
+          <Text style={spacing('ml-10')} size='16px' weight={600}>
+            <FormattedMessage id='buy.output_method.title' defaultMessage='I want to buy' />
+          </Text>
+          <MethodContainer>
+            <Icon name='bitcoin-in-circle-filled' size='26px' />
+            <div style={{ ...flex('col'), ...spacing('ml-20') }}>
+              <Text size='14px' weight={300} uppercase>Bitcoin</Text>
+              <Text size='12px' weight={300}>@ $6,850.11</Text>
+            </div>
+          </MethodContainer>
+          <Text style={spacing('ml-10')} size='16px' weight={600}>
+            <FormattedMessage id='buy.input_method.title' defaultMessage='I will pay with' />
+          </Text>
+          <MethodContainer>
+            <Icon name='bank-filled' size='26px' />
+            <div style={{ ...flex('col'), ...spacing('ml-20') }}>
+              <Text size='14px' weight={300}>
+                {'Plaid Savings '}
+                <FormattedMessage id='buy.account_ending_with' defaultMessage='ending with' />
+                {' ' + '9806'}
+              </Text>
+              <Text size='12px' weight={300}>
+                {'CitiBank'}
+              </Text>
+            </div>
+          </MethodContainer>
+          <Text style={spacing('ml-10')} size='16px' weight={600}>
+            <FormattedMessage id='amount' defaultMessage='Amount' />
+          </Text>
+          <div style={spacing('mt-15')}>
+            <Fields
+              value={'0.1'}
+              fiat={'0.2'}
+              data={{
+                data: {
+                  unit: 'USD',
+                  currency: 'BTC'
+                }
+              }}
+              unit='__required__'
+              currency='__required__'
+              meta={{}}
+              handleBlur={() => {}}
+              handleCoinChange={() => {}}
+              handleFiatChange={() => {}}
+              handleFocus={() => {}}
+              handleErrorClick={() => {}}
+            />
+          </div>
+          <Button style={spacing('mt-45')} nature='primary' fullwidth>
+            <FormattedMessage id='review_order' defaultMessage='Review Order' />
+          </Button>
+        </ExchangeCheckoutWrapper>
       </CheckoutWrapper>
     )
   } else if (type === 'sell') {
