@@ -7,7 +7,7 @@ import { change, Field, reduxForm, focus } from 'redux-form'
 import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 90%;
   padding: 30px;
   border: 1px solid ${props => props.theme['gray-1']};
