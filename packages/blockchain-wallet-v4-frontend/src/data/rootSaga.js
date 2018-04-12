@@ -11,7 +11,7 @@ import wallet from './wallet/sagas'
 
 const welcomeSaga = function * () {
   if (console) {
-    const version = '4.0.0.0'
+    const version = APP_VERSION
     const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
     const style2 = 'font-size: 18px;'
     console.log('=======================================================')

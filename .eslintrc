@@ -13,7 +13,9 @@
     "jest": true,
     "node": true
   },
-  "globals": {},
+  "globals": {
+    "APP_VERSION": true
+  },
   "rules": {
     "camelcase": 0,
     "no-case-declarations": 0,
