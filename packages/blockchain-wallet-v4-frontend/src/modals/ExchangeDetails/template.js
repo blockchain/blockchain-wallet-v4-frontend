@@ -109,7 +109,7 @@ const ExchangeDetails = (props) => {
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
         {status === 'complete'
-          ? <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success ! Your exchange is complete' />
+          ? <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success! Your exchange is complete' />
           : status === 'resolved'
             ? <FormattedMessage id='modals.exchangedetails.title_resolved' defaultMessage='Your exchange has been resolved' />
             : <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />
