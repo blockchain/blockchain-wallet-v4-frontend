@@ -24,7 +24,7 @@ const configureStore = () => {
   const isAuthenticated = selectors.auth.isAuthenticated
 
   return fetch('/Resources/wallet-options.json')
-    .then(res => JSON.parse(res))
+    .then(res => res.json())
     .then(options => {
       const apiCode = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
@@ -37,7 +37,7 @@ const configureStore = () => {
           applyMiddleware(
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
-            coreMiddleware.socket.bitcoin({ socket, walletPath, isAuthenticated }),
+            coreMiddleware.socket.bitcoin(socket, walletPath, isAuthenticated),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection(),
             sagaMiddleware
