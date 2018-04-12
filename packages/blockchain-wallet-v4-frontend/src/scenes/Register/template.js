@@ -26,6 +26,10 @@ const RegisterForm = styled(Form)`
   margin: 20px 0;
 `
 
+const validatePasswordsMatch = values => {
+  return values.password === values.confirmationPassword ? {} : { confirmationPassword: 'Passwords must match' }
+}
+
 const Register = (props) => {
   const { onSubmit, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
@@ -93,4 +97,4 @@ const Register = (props) => {
   )
 }
 
-export default reduxForm({ form: 'register' })(Register)
+export default reduxForm({form: 'register', validate: validatePasswordsMatch})(Register)
