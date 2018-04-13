@@ -19,7 +19,18 @@ export default ({ api }) => {
     yield put(A.setShapeShift(newkv))
   }
 
+  const fetchShapeshiftTrade = function * (address) {
+    try {
+      yield put(A.fetchShapeshiftTradeLoading)
+      const tradeDetails = yield call(api.getTradeStatus, address)
+      yield put(A.fetchShapeshiftTradeSuccess(tradeDetails))
+    } catch (e) {
+      yield put(A.fetchShapeshiftTradeFailure)
+    }
+  }
+
   return {
-    fetchShapeShift
+    fetchShapeShift,
+    fetchShapeshiftTrade
   }
 }

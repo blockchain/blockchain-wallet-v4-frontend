@@ -1,5 +1,5 @@
 import { over, mapped, set, view } from 'ramda-lens'
-import { append, compose, findIndex, path, equals, lensIndex } from 'ramda'
+import { append, assocPath, compose, findIndex, path, equals, lensIndex, toLower } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
@@ -11,6 +11,7 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
+    case AT.FETCH_SHAPESHIFT_TRADE_LOADING:
     case AT.FETCH_METADATA_SHAPESHIFT_LOADING: {
       return Remote.Loading
     }
@@ -18,6 +19,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_METADATA_SHAPESHIFT_SUCCESS: {
       return Remote.Success(payload)
     }
+    case AT.FETCH_SHAPESHIFT_TRADE_FAILURE:
     case AT.FETCH_METADATA_SHAPESHIFT_FAILURE: {
       return Remote.Failure(payload)
     }
@@ -43,6 +45,31 @@ export default (state = INITIAL_STATE, action) => {
             lensIndex(i),
             lensProp('status')),
           status, trades)
+      })
+    }
+    case AT.FETCH_SHAPESHIFT_TRADE_SUCCESS: {
+      const { address, incomingCoin, outgoingCoin, incomingType, outgoingType } = payload
+      return state.map(trades => {
+        const lensTrades = compose(lensProp('value'), lensProp('trades'))
+
+        const i = findIndex(
+          compose(
+            equals(address),
+            path(['quote', 'deposit'])
+          ))(view(lensTrades, trades))
+
+        const setPropValue = (prop, value) => set(
+          compose(
+            lensTrades,
+            lensIndex(i),
+            lensProp('quote'),
+            lensProp(prop)),
+          value)
+
+        return compose(
+          setPropValue('depositAmount', incomingCoin),
+          setPropValue('withdrawalAmount', outgoingCoin),
+          setPropValue('pair', `${toLower(incomingType)}_${toLower(outgoingType)}`))(trades)
       })
     }
     default:
