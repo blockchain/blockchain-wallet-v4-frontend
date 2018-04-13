@@ -66,7 +66,7 @@ const selectColor = action => {
   switch (action) {
     case 'received': return 'received'
     case 'sent': return 'sent'
-    default: return ''
+    default: return 'gray-5'
   }
 }
 

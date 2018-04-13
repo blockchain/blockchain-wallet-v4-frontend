@@ -44,7 +44,7 @@ const Menu = (props) => {
     <Wrapper>
       <Container>
         <Status>
-          <Field name='status' component={TabMenuTransactionStatus} />
+          <Field name='status' statuses={['', 'sent', 'received']} component={TabMenuTransactionStatus} />
         </Status>
         <Search>
           <Field name='search' component={TextBox} />

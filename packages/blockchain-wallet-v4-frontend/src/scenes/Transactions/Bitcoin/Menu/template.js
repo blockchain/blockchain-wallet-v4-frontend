@@ -81,7 +81,7 @@ const Menu = (props) => {
             <Field name='source' component={SelectBoxBitcoinAddresses} />
           </Addresses>
           <Status>
-            <Field name='status' component={TabMenuTransactionStatus} />
+            <Field name='status' statuses={['', 'sent', 'received', 'transferred']} component={TabMenuTransactionStatus} />
           </Status>
         </Controls>
         <Controls>

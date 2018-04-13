@@ -18,8 +18,8 @@ class BitcoinWalletsContainer extends React.Component {
         Success: (value) => (
           <Success
             wallets={value}
-            handleClick={() => this.props.actions.showModal('AddBitcoinWallet')}
             onUnarchive={(i) => this.props.coreActions.setAccountArchived(i, false)}
+            handleClick={() => this.props.actions.showModal('AddBitcoinWallet', { wallets: value })}
             {...rest}
           />
         ),

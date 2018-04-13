@@ -26,7 +26,7 @@ const Success = (props) => {
           <Text size='13px'>{address.addr}</Text>
         </TableCell>
         <TableCell width='30%'>
-          <Text size='13px'><SwitchableDisplay coin='BCH'>{address.info && address.info.final_balance}</SwitchableDisplay></Text>
+          <SwitchableDisplay size='13px' coin='BCH'>{address.info && address.info.final_balance}</SwitchableDisplay>
         </TableCell>
       </TableRow>
     )

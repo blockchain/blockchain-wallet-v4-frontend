@@ -44,9 +44,6 @@ export const fetchUnspentLoading = () => ({ type: AT.FETCH_BITCOIN_UNSPENT_LOADI
 export const fetchUnspentSuccess = (data) => ({ type: AT.FETCH_BITCOIN_UNSPENT_SUCCESS, payload: data })
 export const fetchUnspentFailure = (error) => ({ type: AT.FETCH_BITCOIN_UNSPENT_FAILURE, payload: error })
 
-// PUBLISH_BITCOIN_TRANSACTION
-export const publishTransaction = () => ({ type: AT.PUBLISH_BITCOIN_TRANSACTION })
-
 // REFRESH_BITCOIN_EFFECTIVE_BALANCE
 export const refreshEffectiveBalance = (coins, feePerByte) => ({ type: AT.REFRESH_BITCOIN_EFFECTIVE_BALANCE, payload: { coins, feePerByte } })
 
