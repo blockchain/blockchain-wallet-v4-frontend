@@ -77,8 +77,8 @@ export const getAddressesInfo = state => {
   const legacyAddresses = compose(values, walletSelectors.getActiveAddresses)(state)
   const digest = x => ({
     coin: 'BCH',
-    label: prop('addr', x),
-    address: prop('addr', x)
+    label: toCashAddr(prop('addr', x), true),
+    address: toCashAddr(prop('addr', x), true)
   })
   return map(digest, legacyAddresses)
 }
