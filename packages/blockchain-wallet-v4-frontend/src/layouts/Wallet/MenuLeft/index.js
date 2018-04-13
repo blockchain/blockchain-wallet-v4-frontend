@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Advert from './Advert'
 import Footer from './Footer'
 import Navigation from './Navigation'
 
@@ -16,7 +15,6 @@ const MenuLeft = (props) => {
   return (
     <Wrapper>
       <Navigation {...props} />
-      <Advert location={props.location} />
       <Footer />
     </Wrapper>
   )
