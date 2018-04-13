@@ -17,7 +17,7 @@ describe('TimeFilters component', () => {
   it('should accept a mandatory string for prop time', () => {
     const testValues = [
       ['all', 'day', 'week', 'month', 'year'],
-      [0]
+      [0, '', undefined, null, {}]
     ]
     testPropTypes(TimeFilters, 'time', testValues, { handleClick: jest.fn() })
   })
