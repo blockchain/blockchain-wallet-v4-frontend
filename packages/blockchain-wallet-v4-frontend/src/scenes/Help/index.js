@@ -110,7 +110,7 @@ const Help = (props) => {
             <FormattedMessage id='scenes.help.back' defaultMessage='Go back' />
           </Link>
         </LinkContainer>
-        <Link href='https://blockchain.zendesk.com/' target='_blank' size='13px' weight={300}>
+        <Link href='https://support.blockchain.com/' target='_blank' size='13px' weight={300}>
           <FormattedMessage id='scenes.help.contact' defaultMessage='Contact support' />
         </Link>
       </Footer>
