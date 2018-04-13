@@ -32,7 +32,7 @@ const FirstStep = (props) => {
     <Wrapper>
       <Header>
         <Text size='30px' weight={300}>
-          <FormattedMessage id='scenes.recover.firststep.funds' defaultMessage='Recover funds' />
+          <FormattedMessage id='scenes.recover.firststep.funds' defaultMessage='Recover Funds' />
         </Text>
         <Text size='10px'>
           <FormattedMessage id='scenes.recover.firststep.step1' defaultMessage='Step 1 of 2: Enter 12 word passphrase' />
@@ -65,7 +65,7 @@ const FirstStep = (props) => {
       <Footer>
         <LinkContainer to='/help'>
           <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go back' />
+            <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go Back' />
           </Link>
         </LinkContainer>
       </Footer>
