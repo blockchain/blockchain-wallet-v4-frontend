@@ -1,11 +1,5 @@
 import * as AT from './actionTypes'
 
-// FETCH_ADVERTS
-export const fetchAdverts = (number) => ({ type: AT.FETCH_ADVERTS, payload: { number } })
-export const fetchAdvertsLoading = () => ({ type: AT.FETCH_ADVERTS_LOADING })
-export const fetchAdvertsSuccess = (data) => ({ type: AT.FETCH_ADVERTS_SUCCESS, payload: data })
-export const fetchAdvertsFailure = (error) => ({ type: AT.FETCH_ADVERTS_FAILURE, payload: error })
-
 // FETCH_CAPTCHA
 export const fetchCaptcha = () => ({ type: AT.FETCH_CAPTCHA })
 export const fetchCaptchaLoading = () => ({ type: AT.FETCH_CAPTCHA_LOADING })
