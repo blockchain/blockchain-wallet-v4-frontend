@@ -11,6 +11,7 @@ const port = process.env.PORT || 8080
 const rootURL = process.env.ROOT_URL
 const webSocketURL = process.env.WEB_SOCKET_URL
 const apiDomain = process.env.API_DOMAIN
+const walletHelperDomdain = process.env.WALLET_HELPER_DOMAIN
 const isProduction = process.env.ENVIRONMENT = 'production'
 const iSignThisDomain = isProduction ? 'https://verify.isignthis.com/' : 'https://stage-verify.isignthis.com/'
 
@@ -23,7 +24,7 @@ console.log(`API Domain: ${apiDomain}`)
 console.log(`iSignThisDomain: ${iSignThisDomain}\n`)
 
 // validate env configs are given
-if (!port || !rootURL || !webSocketURL || !apiDomain) {
+if (!port || !rootURL || !webSocketURL || !apiDomain || !walletHelperDomdain) {
   throw new Error('One or more required environment variables are undefined!')
 }
 
@@ -37,8 +38,8 @@ app.use(function (req, res, next) {
   let cspHeader = ([
     "img-src 'self' " + rootURL + ' data: blob: android-webview-video-poster:',
     "style-src 'self' 'unsafe-inline'",
-    `child-src ${iSignThisDomain} https://wallet-helper.blockchain.info http://localhost:8081`,
-    `frame-src ${iSignThisDomain} https://wallet-helper.blockchain.info http://localhost:8081`,
+    `child-src ${iSignThisDomain} ${walletHelperDomdain} http://localhost:8081`,
+    `frame-src ${iSignThisDomain} ${walletHelperDomdain} http://localhost:8081`,
     "worker-src 'self' 'unsafe-eval' blob:",
     "script-src 'self' 'unsafe-eval'",
     'connect-src ' + [
