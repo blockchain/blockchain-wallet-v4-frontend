@@ -7,16 +7,10 @@ import { spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from './OrderDetails'
 
-const FaqWrapper = styled.div`
+const StyledFaqRow = styled(FaqRow)`
   padding: 20px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
-
-const StyledFaqRow = (props) => (
-  <FaqWrapper>
-    <FaqRow {...props} />
-  </FaqWrapper>
-)
 
 const renderDetailsRow = (id, message, value, color) => (
   <OrderDetailsRow>
