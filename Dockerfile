@@ -1,6 +1,8 @@
 FROM docker-registry.service.consul:5000/blockchain_javascript@sha256:9ae5d67167dc8d9ccc0bae57b3ba7a07f241ad59fa91a85d3eec9d2594b1c471
 #FROM node:9.11.1
 
+RUN echo 'fresh docker kicks'
+
 # environment config fallbacks that can be overriden on startup
 # e.g. docker run -it -p 8080:8080 -e ROOT_URL="whatever"[image-name]
 ENV ENVIRONMENT = 'production'
