@@ -15,7 +15,7 @@ class Checkout extends React.Component {
 
   render () {
     const { data, modalActions, sfoxDataActions } = this.props
-    const { handleTrade, fetchQuote } = sfoxDataActions
+    const { handleTrade, fetchQuote, refreshQuote } = sfoxDataActions
     const { showModal } = modalActions
 
     return data.cata({
@@ -24,6 +24,7 @@ class Checkout extends React.Component {
         handleTrade={handleTrade}
         showModal={showModal}
         fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
+        refreshQuote={() => refreshQuote()}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <div>Loading...</div>,

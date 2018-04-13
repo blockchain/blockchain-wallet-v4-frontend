@@ -67,7 +67,7 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { fetchQuote, handleTrade, quoteR, base, errors, showModal, ...rest } = props
+  const { fetchQuote, refreshQuote, handleTrade, quoteR, base, errors, showModal, ...rest } = props
   const quote = quoteR.getOrElse(null)
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
@@ -109,7 +109,12 @@ const Success = props => {
         <StepView step={1}>
           <div style={flex('row')}>
             <CheckoutWrapper>
-              <BuyOrderDetails quoteR={quoteR} />
+              {quoteR.map((quote) => (
+                <BuyOrderDetails
+                  quote={quote}
+                  onRefreshQuote={refreshQuote}
+                />
+              )).getOrElse(null)}
             </CheckoutWrapper>
             <CheckoutWrapper style={{ ...flex('col'), ...spacing('pa-30') }}>
               <BuyOrderSubmit />
