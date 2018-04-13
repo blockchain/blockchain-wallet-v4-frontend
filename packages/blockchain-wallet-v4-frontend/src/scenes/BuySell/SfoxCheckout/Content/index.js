@@ -14,7 +14,7 @@ class Checkout extends React.Component {
   }
 
   render () {
-    const { data, modalActions, sfoxDataActions } = this.props
+    const { data, formActions, modalActions, sfoxDataActions } = this.props
     const { handleTrade, fetchQuote, refreshQuote } = sfoxDataActions
     const { showModal } = modalActions
 
@@ -23,6 +23,7 @@ class Checkout extends React.Component {
         value={value}
         handleTrade={handleTrade}
         showModal={showModal}
+        changeBuySellTabStatus={(tab) => formActions.change('buySellTabStatus', 'status', tab)}
         fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         refreshQuote={() => refreshQuote()}
       />,
@@ -42,6 +43,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })

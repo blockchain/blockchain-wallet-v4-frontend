@@ -56,9 +56,9 @@ export const BuyOrderDetails = ({ quoteR, onRefreshQuote }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const BuyOrderSubmit = () => (
+export const BuyOrderSubmit = ({ onSubmit }) => (
   <Fragment>
-    <Button nature='primary'>
+    <Button nature='primary' onClick={onSubmit}>
       <FormattedMessage id='submit' defaultMessage='Submit' />
     </Button>
     <StyledFaqRow
