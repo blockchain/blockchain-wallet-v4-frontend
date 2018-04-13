@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const { Provider, Consumer } = React.createContext()
 
 class Stepper extends React.Component {
   state = {
-    step: 0
+    step: this.props.initialStep
   }
 
   stepTo = (step) => {
@@ -33,6 +34,14 @@ class Stepper extends React.Component {
       </Provider>
     )
   }
+}
+
+Stepper.propTypes = {
+  initialStep: PropTypes.number
+}
+
+Stepper.defaultProps = {
+  initialStep: 0
 }
 
 export const StepView = ({ children, step }) => (
