@@ -1,28 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ui from 'redux-ui'
 
 const { Provider, Consumer } = React.createContext()
 
-class Stepper extends React.Component {
-  state = {
-    step: this.props.initialStep
-  }
-
+class Stepper extends React.PureComponent {
   stepTo = (step) => {
-    this.setState({ step })
+    this.props.updateUI({ step })
   }
 
   nextStep = () => {
-    this.stepTo(this.state.step + 1)
+    this.stepTo(this.props.ui.step + 1)
   }
 
   prevStep = () => {
-    this.stepTo(this.state.step - 1)
+    this.stepTo(this.props.ui.step - 1)
   }
 
   render () {
     let value = {
-      currentStep: this.state.step,
+      currentStep: this.props.ui.step,
       stepTo: this.stepTo,
       nextStep: this.nextStep,
       prevStep: this.prevStep
@@ -61,4 +58,10 @@ export const StepTransition = ({ Component, next, prev, to = 0, ...rest }) => (
   </Consumer>
 )
 
-export default Stepper
+const uiEnhancer = ui({
+  state: {
+    step: (props) => props.initialStep
+  }
+})
+
+export default uiEnhancer(Stepper)
