@@ -109,12 +109,10 @@ const Success = props => {
         <StepView step={1}>
           <div style={flex('row')}>
             <CheckoutWrapper>
-              {quoteR.map((quote) => (
-                <BuyOrderDetails
-                  quote={quote}
-                  onRefreshQuote={refreshQuote}
-                />
-              )).getOrElse(null)}
+              <BuyOrderDetails
+                quoteR={quoteR}
+                onRefreshQuote={refreshQuote}
+              />
             </CheckoutWrapper>
             <CheckoutWrapper style={{ ...flex('col'), ...spacing('pa-30') }}>
               <BuyOrderSubmit />

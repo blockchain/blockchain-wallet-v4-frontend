@@ -20,7 +20,7 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-export const BuyOrderDetails = ({ quote, onRefreshQuote }) => (
+export const BuyOrderDetails = ({ quoteR, onRefreshQuote }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
@@ -29,15 +29,30 @@ export const BuyOrderDetails = ({ quote, onRefreshQuote }) => (
       <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
     <OrderDetailsTable style={spacing('mt-20')}>
-      {renderDetailsRow('order_details.amount_to_purchase', 'BTC Amount to Purchase', `${quote.baseAmount} BTC`)}
-      {renderDetailsRow('order_details.trading_fee', 'Trading Fee', `- $${quote.feeAmount}`)}
-      {renderDetailsRow('order_details.amount_to_receive', 'BTC Amount to be Received', `${quote.quoteAmount} BTC`, 'success')}
+      {renderDetailsRow(
+        'order_details.amount_to_purchase',
+        'BTC Amount to Purchase',
+        quoteR.map(quote => `${quote.baseAmount} BTC`).getOrElse('~')
+      )}
+      {renderDetailsRow(
+        'order_details.trading_fee',
+        'Trading Fee',
+        quoteR.map(quote => `- $${quote.feeAmount}`).getOrElse('~')
+      )}
+      {renderDetailsRow(
+        'order_details.amount_to_receive',
+        'BTC Amount to be Received',
+        quoteR.map(quote => `${quote.quoteAmount} BTC`).getOrElse('~'),
+        'success'
+      )}
     </OrderDetailsTable>
-    <CountdownTimer
-      style={spacing('mt-20')}
-      expiryDate={quote.expiresAt.getTime()}
-      handleExpiry={onRefreshQuote}
-    />
+    {quoteR.map((quote) => (
+      <CountdownTimer
+        style={spacing('mt-20')}
+        expiryDate={quote.expiresAt.getTime()}
+        handleExpiry={onRefreshQuote}
+      />
+    )).getOrElse(null)}
   </ExchangeCheckoutWrapper>
 )
 
