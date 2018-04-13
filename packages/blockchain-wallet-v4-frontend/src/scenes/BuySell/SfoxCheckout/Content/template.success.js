@@ -119,7 +119,7 @@ const Success = props => {
             <FormattedMessage id='buy.output_method.title' defaultMessage='I want to buy' />
           </Text>
           <MethodContainer>
-            <Icon name='bitcoin-in-circle-filled' size='26px' />
+            <Icon name='bitcoin-in-circle-filled' color='bitcoin-orange' size='30px' />
             <div style={{ ...flex('col'), ...spacing('ml-20') }}>
               <Text size='14px' weight={300} uppercase>Bitcoin</Text>
               <Text size='12px' weight={300}>
@@ -139,7 +139,7 @@ const Success = props => {
             <FormattedMessage id='buy.input_method.title' defaultMessage='I will pay with' />
           </Text>
           <MethodContainer>
-            <Icon name='bank-filled' size='26px' />
+            <Icon name='bank-filled' size='30px' />
             <div style={{ ...flex('col'), ...spacing('ml-20') }}>
               <Text size='14px' weight={300}>
                 {`Plaid ${capitalize(accounts[0].accountType)} `}
