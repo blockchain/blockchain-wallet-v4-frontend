@@ -78,7 +78,7 @@ const FirstStep = (props) => {
       <Footer>
         <LinkContainer to='/help'>
           <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.reset2fa.firststep.back' defaultMessage='Go back' />
+            <FormattedMessage id='scenes.reset2fa.firststep.back' defaultMessage='Go Back' />
           </Link>
         </LinkContainer>
       </Footer>
