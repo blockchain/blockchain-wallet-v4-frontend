@@ -21,7 +21,8 @@ console.log(`Port: ${port}`)
 console.log(`Root URL: ${rootURL}`)
 console.log(`Web Socket URL: ${webSocketURL}`)
 console.log(`API Domain: ${apiDomain}`)
-console.log(`iSignThisDomain: ${iSignThisDomain}\n`)
+console.log(`Wallet Helper Domain: ${walletHelperDomdain}`)
+console.log(`iSignThis Domain: ${iSignThisDomain}\n`)
 
 // validate env configs are given
 if (!port || !rootURL || !webSocketURL || !apiDomain || !walletHelperDomdain) {
