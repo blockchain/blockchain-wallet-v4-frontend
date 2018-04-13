@@ -48,8 +48,4 @@ TimeFilters.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-TimeFilters.defaultProps = {
-  time: 'all'
-}
-
 export default TimeFilters

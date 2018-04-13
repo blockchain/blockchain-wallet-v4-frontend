@@ -1,29 +1,19 @@
 import React from 'react'
-import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import CoinFilters from './template'
 import { actions, selectors } from 'data'
-import CoinTicker from './CoinTicker'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`
-
-const CoinFilters = props => {
+export const CoinFiltersContainer = props => {
   const { coin, actions } = props
 
-  return (
-    <Wrapper>
-      <CoinTicker coin='BTC' selected={coin === 'BTC'} handleClick={() => actions.coinClicked('BTC')} />
-      <CoinTicker coin='ETH' selected={coin === 'ETH'} handleClick={() => actions.coinClicked('ETH')} />
-      <CoinTicker coin='BCH' selected={coin === 'BCH'} handleClick={() => actions.coinClicked('BCH')} />
-    </Wrapper>
-  )
+  return <CoinFilters coin={coin} handleClick={(coin) => actions.coinClicked(coin)} />
+}
+
+CoinFiltersContainer.propTypes = {
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
 }
 
 const mapStateToProps = state => ({
@@ -34,4 +24,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinFilters)
+export default connect(mapStateToProps, mapDispatchToProps)(CoinFiltersContainer)
