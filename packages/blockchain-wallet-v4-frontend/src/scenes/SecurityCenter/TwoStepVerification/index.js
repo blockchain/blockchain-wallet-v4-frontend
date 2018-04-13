@@ -48,7 +48,7 @@ class TwoStepVerificationContainer extends React.Component {
   }
 
   chooseMethod (method) {
-    if (this.props.data.data.smsVerified) {
+    if (this.props.data.data.smsVerified && method === 'sms') {
       this.props.securityCenterActions.setVerifiedMobileAsTwoFactor()
       this.props.updateUI({ verifyToggled: true })
     } else {
