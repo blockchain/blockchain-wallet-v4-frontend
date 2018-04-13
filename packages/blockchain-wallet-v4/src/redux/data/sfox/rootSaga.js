@@ -1,5 +1,5 @@
 import ExchangeDelegate from '../../../exchange/delegate'
-import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
+import { apply, call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
 import * as buySellA from '../../kvStore/buySell/actions'
@@ -44,9 +44,15 @@ export default ({ api, options }) => {
       const { amt, baseCurr, quoteCurr } = data.payload.quote
       const quote = yield apply(sfox, sfox.getBuyQuote, [amt, baseCurr, quoteCurr])
       yield put(A.fetchQuoteSuccess(quote))
+      yield fork(waitForRefreshQuote, data.payload)
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
     }
+  }
+
+  const waitForRefreshQuote = function * (quotePayload) {
+    yield take(AT.REFRESH_QUOTE)
+    yield put(A.fetchQuote(quotePayload))
   }
 
   const fetchTrades = function * () {

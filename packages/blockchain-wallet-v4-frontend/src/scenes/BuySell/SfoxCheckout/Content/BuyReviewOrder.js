@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { Text, Button } from 'blockchain-info-components'
 import FaqRow from 'components/Faq/FaqRow'
+import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
@@ -19,15 +20,7 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-const renderDetailsTable = (quote) => (
-  <OrderDetailsTable style={spacing('mt-20')}>
-    {renderDetailsRow('order_details.amount_to_purchase', 'BTC Amount to Purchase', `${quote.baseAmount} BTC`)}
-    {renderDetailsRow('order_details.trading_fee', 'Trading Fee', `- $${quote.feeAmount}`)}
-    {renderDetailsRow('order_details.amount_to_receive', 'BTC Amount to be Received', `${quote.quoteAmount} BTC`, 'success')}
-  </OrderDetailsTable>
-)
-
-export const BuyOrderDetails = ({ quoteR }) => (
+export const BuyOrderDetails = ({ quote, onRefreshQuote }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
@@ -35,7 +28,16 @@ export const BuyOrderDetails = ({ quoteR }) => (
     <Text size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
-    {quoteR.map(renderDetailsTable).getOrElse(null)}
+    <OrderDetailsTable style={spacing('mt-20')}>
+      {renderDetailsRow('order_details.amount_to_purchase', 'BTC Amount to Purchase', `${quote.baseAmount} BTC`)}
+      {renderDetailsRow('order_details.trading_fee', 'Trading Fee', `- $${quote.feeAmount}`)}
+      {renderDetailsRow('order_details.amount_to_receive', 'BTC Amount to be Received', `${quote.quoteAmount} BTC`, 'success')}
+    </OrderDetailsTable>
+    <CountdownTimer
+      style={spacing('mt-20')}
+      expiryDate={quote.expiresAt.getTime()}
+      handleExpiry={onRefreshQuote}
+    />
   </ExchangeCheckoutWrapper>
 )
 
