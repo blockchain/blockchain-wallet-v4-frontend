@@ -12,14 +12,14 @@ const Wrapper = styled.div`
   @media(min-width: 992px) {
     align-items: flex-end;
   }
-  
+
   & > * { padding: 10px 0; }
 `
 const Setting = (props) => {
   return (
     <Wrapper>
       <Text>
-        <FormattedMessage id='scenes.preferences.notifications.settings.receive' defaultMessage='Receive by:' />
+        <FormattedMessage id='scenes.preferences.notifications.settings.receive' defaultMessage='Receive By:' />
       </Text>
       <CheckBoxInput name='Email'>
         <Text size='14' weight={300}><FormattedMessage id='scenes.preferences.notifications.settings.email' defaultMessage='Email' /></Text>

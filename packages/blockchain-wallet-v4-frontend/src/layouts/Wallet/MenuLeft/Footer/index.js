@@ -25,7 +25,7 @@ const Footer = () => {
       </Link>
       <Circle />
       <Link href='https://www.blockchain.com/assets/pdf/Blockchain_PrivacyPolicy.pdf' target='_blank' size='13px' weight={300} color='gray-5'>
-        <FormattedMessage id='layouts.wallet.menuleft.footer.privacypolicy' defaultMessage='Privacy policy' />
+        <FormattedMessage id='layouts.wallet.menuleft.footer.privacypolicy' defaultMessage='Privacy Policy' />
       </Link>
       <Circle />
       <Link href='https://www.blockchain.com/about' target='_blank' size='13px' weight={300} color='gray-5'>

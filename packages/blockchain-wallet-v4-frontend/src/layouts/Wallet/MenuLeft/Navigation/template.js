@@ -35,7 +35,7 @@ const MenuItem = styled.li`
   cursor: pointer;
   width: 100%;
 
-  & > span:first-child { 
+  & > span:first-child {
     width: 30px;
     font-size: 20px;
   }
@@ -131,7 +131,7 @@ const Navigation = (props) => {
           <SubMenu>
             <LinkContainer to='/settings/info' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubMenuItem>
-                <FormattedMessage id='layouts.wallet.menuleft.navigation.walletinfo' defaultMessage='Wallet information' smaller />
+                <FormattedMessage id='layouts.wallet.menuleft.navigation.walletinfo' defaultMessage='Wallet Information' smaller />
               </SubMenuItem>
             </LinkContainer>
             <LinkContainer to='/settings/preferences' activeClassName='active' onClick={handleCloseMenuLeft}>
