@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { filter } from 'ramda'
 import styled from 'styled-components'
 import OrderHistory from '../../OrderHistory'
-import { Text } from 'blockchain-info-components'
+import { Text, Button } from 'blockchain-info-components'
 import ExchangeCheckout from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
+import Stepper, { StepView, StepTransition } from './Stepper'
 import BuyCheckout from './BuyCheckout'
 
 const CheckoutWrapper = styled.div`
@@ -93,13 +94,20 @@ const Success = props => {
 
   if (type === 'buy' || !type) {
     return (
-      <CheckoutWrapper>
-        <BuyCheckout
-          quoteR={quoteR}
-          account={accounts[0]}
-          onFetchQuote={fetchQuote}
-        />
-      </CheckoutWrapper>
+      <Stepper>
+        <StepView step={0}>
+          <CheckoutWrapper>
+            <BuyCheckout
+              quoteR={quoteR}
+              account={accounts[0]}
+              onFetchQuote={fetchQuote}
+            />
+          </CheckoutWrapper>
+        </StepView>
+        <StepView step={1}>
+          <p>Complete Order</p>
+        </StepView>
+      </Stepper>
     )
   } else if (type === 'sell') {
     return (

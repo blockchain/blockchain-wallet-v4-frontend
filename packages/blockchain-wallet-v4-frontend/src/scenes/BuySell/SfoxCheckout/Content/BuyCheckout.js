@@ -5,6 +5,7 @@ import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { StepTransition } from './Stepper'
 import QuoteInput from './QuoteInput'
 
 const quoteInputSpec = {
@@ -77,9 +78,9 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote }) => (
         onFetchQuote={onFetchQuote}
       />
     </div>
-    <Button style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR)}>
+    <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR)}>
       <FormattedMessage id='review_order' defaultMessage='Review Order' />
-    </Button>
+    </StepTransition>
   </ExchangeCheckoutWrapper>
 )
 
