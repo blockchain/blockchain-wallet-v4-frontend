@@ -84,7 +84,7 @@ const TransactionListItem = (props) => {
         </StatusColumn>
         <DetailsColumn>
           <Addresses to={transaction.to} from={transaction.from} />
-          <Description value={transaction.description} handleConfirm={handleEditDescription} />
+          <Description value={transaction.description} handleEditDescription={handleEditDescription} />
         </DetailsColumn>
         <ConfirmationColumn>
           <Confirmations coin={coin} confirmations={transaction.confirmations} minConfirmations={minConfirmations} hash={transaction.hash} />

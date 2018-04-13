@@ -1,49 +1,33 @@
 import React from 'react'
+import { actions } from 'data'
 import PropTypes from 'prop-types'
-
-import EditableDescription from './template'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import EditDescription from './template'
 
 class EditDescriptionContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { value: props.value, editValue: props.value, toggled: false }
-    this.dispatchConfirm = props.handleConfirm
-    this.handleCancel = this.handleCancel.bind(this)
+    this.state = { value: props.value }
     this.handleChange = this.handleChange.bind(this)
     this.handleConfirm = this.handleConfirm.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
   }
 
-  handleCancel () {
-    this.setState({ toggled: false })
+  handleConfirm (desc) {
+    const { handleEditDescription } = this.props
+    this.setState({ value: desc })
+    handleEditDescription(desc)
   }
 
   handleChange (e) {
-    this.setState({ editValue: e.target.value })
-  }
-
-  handleConfirm () {
-    const val = this.state.editValue
-    this.setState({ value: val, toggled: false })
-    this.dispatchConfirm(this.state.editValue)
-  }
-
-  handleToggle () {
-    this.setState({ toggled: true })
+    const { value } = this.props
+    this.props.modalActions.showModal('EditTxDescription', { handleConfirm: this.handleConfirm, value })
   }
 
   render () {
-    const { value, editValue, toggled } = this.state
+    const { value } = this.state
 
-    return <EditableDescription
-      value={value}
-      editValue={editValue}
-      toggled={toggled}
-      handleCancel={this.handleCancel}
-      handleChange={this.handleChange}
-      handleConfirm={this.handleConfirm}
-      handleToggle={this.handleToggle}
-    />
+    return <EditDescription value={value} handleChange={this.handleChange} />
   }
 }
 
@@ -51,4 +35,8 @@ EditDescriptionContainer.propTypes = {
   value: PropTypes.string
 }
 
-export default EditDescriptionContainer
+const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+export default connect(undefined, mapDispatchToProps)(EditDescriptionContainer)
