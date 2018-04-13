@@ -1,4 +1,5 @@
-FROM node:9.11.1-alpine
+FROM docker-registry.service.consul:5000/blockchain_javascript@sha256:9ae5d67167dc8d9ccc0bae57b3ba7a07f241ad59fa91a85d3eec9d2594b1c471
+#FROM node:9.11.1
 
 # environment config fallbacks that can be overriden on startup
 # e.g. docker run -it -p 8080:8080 -e ROOT_URL="whatever"[image-name]
@@ -9,13 +10,18 @@ ENV I_SIGN_THIS_DOMAIN='https://stage-verify.isignthis.com'
 
 WORKDIR /usr/src/app
 
-RUN mkdir build
+#RUN chown -R blockchain /home/blockchain
+#USER blockchain
 
-COPY ./dist ./build
-COPY package.json .
-COPY server.js .
+COPY . .
 
-RUN npm install express compression
+RUN npm -v
+RUN node -v
+
+RUN npm install lerna yarn babel-cli
+RUN yarn bootstrap
+#RUN yarn vet
+RUN yarn ci:build:prod
 
 EXPOSE 8080
 
