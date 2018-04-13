@@ -5,9 +5,9 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
-const mockWalletOptions = require('./../../config/wallet-options.json')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
+const isCiBuild = process.env.CI
 const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
   build: `${__dirname}/../../build`,
@@ -16,19 +16,24 @@ const PATHS = {
   pkgJson: `${__dirname}/../../package.json`,
   envConfig: `${__dirname}/../../config/env/`
 }
+let envConfig = {}
+let mockWalletOptions = {}
 
 // load, parse and log application configuration
-let envConfig = {}
-try {
-  envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
-} catch (e) {
-  console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
-  envConfig = require(PATHS.envConfig + 'production.js')
-} finally {
-  console.log(chalk.blue('\u{1F6A7} DEV CONFIGURATION \u{1F6A7}'))
-  console.log(chalk.cyan('BLOCKCHAIN_INFO') + `: ${envConfig.BLOCKCHAIN_INFO}`)
-  console.log(chalk.cyan('API_BLOCKCHAIN_INFO') + `: ${envConfig.API_BLOCKCHAIN_INFO}`)
-  console.log(chalk.cyan('WEB_SOCKET_URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
+// dont do any of this if building in CI since we wont be using devServer anyway
+if (!isCiBuild) {
+  mockWalletOptions = require('./../../config/wallet-options.json')
+  try {
+    envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
+  } catch (e) {
+    console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
+    envConfig = require(PATHS.envConfig + 'production.js')
+  } finally {
+    console.log(chalk.blue('\u{1F6A7} DEV CONFIGURATION \u{1F6A7}'))
+    console.log(chalk.cyan('BLOCKCHAIN_INFO') + `: ${envConfig.BLOCKCHAIN_INFO}`)
+    console.log(chalk.cyan('API_BLOCKCHAIN_INFO') + `: ${envConfig.API_BLOCKCHAIN_INFO}`)
+    console.log(chalk.cyan('WEB_SOCKET_URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
+  }
 }
 
 module.exports = {
@@ -118,7 +123,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
+    ...(!isCiBuild ? [new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true })] : []),
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({ APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version) }),
     new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
