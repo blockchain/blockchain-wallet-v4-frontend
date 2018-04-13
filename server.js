@@ -1,3 +1,7 @@
+//
+// This server is used only in docker images!
+// Dev server config is located in packages/blockchain-wallet-v4-frontend/webpack.config.js
+//
 const express = require('express')
 const compression = require('compression')
 const path = require('path')
@@ -75,7 +79,7 @@ app.get('/healthz', function (req, res) {
 })
 
 // static content
-app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 console.log(`Server started and listening on port ${port}.`)
 
