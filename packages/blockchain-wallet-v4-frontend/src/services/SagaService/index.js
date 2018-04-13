@@ -3,6 +3,19 @@ import { assoc } from 'ramda'
 import { Types } from 'blockchain-wallet-v4'
 import { actions, actionTypes, selectors } from 'data'
 
+export const askSecondPasswordEnhancer = (coreSaga) =>
+  function * (args) {
+    let enhancedArgs = args
+    const wallet = yield select(selectors.core.wallet.getWallet)
+    if (Types.Wallet.isDoubleEncrypted(wallet)) {
+      yield put(actions.modals.showModal('SecondPassword'))
+      const secPassAct = yield take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD)
+      const secPass = secPassAct.payload.password
+      enhancedArgs = assoc('password', secPass, args)
+    }
+    return yield call(coreSaga, enhancedArgs)
+  }
+
 export const promptForSecondPassword = function * () {
   const wallet = yield select(selectors.core.wallet.getWallet)
   if (Types.Wallet.isDoubleEncrypted(wallet)) {
@@ -10,12 +23,6 @@ export const promptForSecondPassword = function * () {
     const secPassAct = yield take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD)
     return secPassAct.payload.password
   }
-}
-
-export const askSecondPasswordEnhancer = (coreSaga) => function * (args) {
-  let secPass = yield call(promptForSecondPassword)
-  let enhancedArgs = assoc('password', secPass, args)
-  yield call(coreSaga, enhancedArgs)
 }
 
 export const promptForInput = function * ({ title, secret, initial = '' }) {

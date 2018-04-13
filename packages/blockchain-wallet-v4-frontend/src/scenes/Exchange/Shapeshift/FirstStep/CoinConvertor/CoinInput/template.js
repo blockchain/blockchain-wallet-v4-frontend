@@ -70,17 +70,17 @@ const selectBorderColor = (state) => {
 }
 
 const CoinInput = props => {
-  const { coinValue, fiatValue, coinUnit, fiatUnit, handleChangeCoin, handleChangeFiat, disabled, errorState } = props
+  const { coinValue, fiatValue, coinUnit, fiatUnit, handleChangeCoin, handleChangeFiat, handleBlur, handleFocus, disabled, errorState } = props
   const borderColor = selectBorderColor(errorState)
 
   return (
     <Wrapper borderColor={borderColor}>
       <Container>
-        <TextInput onChange={handleChangeCoin} value={coinValue} disabled={disabled} />
+        <TextInput onChange={handleChangeCoin} onBlur={handleBlur} onFocus={handleFocus} value={coinValue} disabled={disabled} />
         <Unit>{coinUnit}</Unit>
       </Container>
       <Container>
-        <TextInput onChange={handleChangeFiat} value={fiatValue} disabled={disabled} />
+        <TextInput onChange={handleChangeFiat} onBlur={handleBlur} onFocus={handleFocus} value={fiatValue} disabled={disabled} />
         <Unit>{fiatUnit}</Unit>
       </Container>
     </Wrapper>

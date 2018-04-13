@@ -38,7 +38,7 @@ const selectMessage = (message, data = undefined) => {
     case 'authorization_required': return <FormattedMessage id='components.alerts.authorization_required' defaultMessage='Authorization required, check your inbox' />
     case 'login_failed': return <FormattedMessage id='components.alerts.login_failed' defaultMessage='Login failed !' />
     case 'login_successful': return <FormattedMessage id='components.alerts.login_successful' defaultMessage='Login successful !' />
-    default: return <span>{`RAW: ${message}`}</span>
+    default: return <span>{`${message}`}</span>
   }
 }
 

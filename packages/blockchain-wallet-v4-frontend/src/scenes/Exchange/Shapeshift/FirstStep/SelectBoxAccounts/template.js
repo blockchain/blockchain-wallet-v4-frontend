@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { path, prop } from 'ramda'
+import { prop } from 'ramda'
 
 import { HeartbeatLoader, Icon, Separator, SelectInput, Text } from 'blockchain-info-components'
 
@@ -56,6 +56,7 @@ const HeaderWrapper = styled.div`
   cursor: not-allowed;
 
   & > * { margin-left: 5px; }
+  & > :first-child { margin-right: 5px; }
 `
 const ItemWrapper = styled.div`
   display: flex;
@@ -84,17 +85,20 @@ const Error = styled(Text)`
 `
 const renderDisplay = item => (
   <DisplayWrapper>
-    {path(['value', 'coin'], item) === 'BTC' && <Icon name='bitcoin' size='14px' weight={300} />}
-    {path(['value', 'coin'], item) === 'ETH' && <Icon name='ethereum' size='14px' weight={300} />}
+    {prop('value', item) === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
+    {prop('value', item) === 'BTC' && <Icon name='bitcoin' size='14px' weight={300} />}
+    {prop('value', item) === 'ETH' && <Icon name='ethereum' size='14px' weight={300} />}
     <Text size='14px' weight={300}>{item.text}</Text>
   </DisplayWrapper>
 )
 const renderHeader = item => (
   <HeaderWrapper>
-    {prop('text', item) === 'Bitcoin' && <Icon name='bitcoin' size='14px' weight={300} />}
+    {prop('text', item) === 'Bitcoin' && <Icon name='bitcoin-in-circle' size='14px' weight={300} />}
+    {prop('text', item) === 'Bitcoin cash' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
     {prop('text', item) === 'Ethereum' && <Icon name='ethereum' size='14px' weight={300} />}
-    <Text size='14px' weight={300} uppercase>{item.text}</Text>
-    <Separator />
+    <Separator align='right'>
+      <Text size='14px' weight={300} uppercase>{item.text}</Text>
+    </Separator>
   </HeaderWrapper>
 )
 const renderItem = item => (

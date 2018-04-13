@@ -27,7 +27,7 @@ const Success = ({ wallets, handleClick, onUnarchive }) => {
           )}
         </TableCell>
         <TableCell width='40%'>
-          <Text size='13px'><SwitchableDisplay coin='BTC'>{wallet.value.balance}</SwitchableDisplay></Text>
+          <SwitchableDisplay size='13px' coin='BTC'>{wallet.value.balance}</SwitchableDisplay>
         </TableCell>
         <TableCell width='20%'>
           {wallet.value.archived ? (

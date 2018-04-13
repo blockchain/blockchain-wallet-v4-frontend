@@ -1,37 +1,38 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
-// import * as crypto from 'crypto'
 
 import wizardProvider from 'providers/WizardProvider'
 import { getData } from './selectors'
 import { actions } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
+import ThirdStep from './ThirdStep'
 
 class ShapeshiftContainer extends React.Component {
   componentWillMount () {
     this.props.resetStep()
   }
 
+  componentWillUnmount () {
+    this.props.formActions.destroy('exchange')
+  }
+
   render () {
     switch (this.props.step) {
       case 1: return <FirstStep {...this.props} />
       case 2: return <SecondStep {...this.props} />
+      case 3: return <ThirdStep {...this.props} />
       default: return <div />
     }
   }
 }
 
-const mapStateToProps = (state) => {
-  const data = getData(state)
-  return { ...data }
-}
+const mapStateToProps = state => ({
+  ...getData(state)
+})
 
-const mapDispatchToProps = (dispatch) => ({
-  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
-  dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
