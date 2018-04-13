@@ -8,8 +8,9 @@ import { Text } from 'blockchain-info-components'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  > *:first-child { margin-right: 3px; }
 `
 
 const Success = props => (
