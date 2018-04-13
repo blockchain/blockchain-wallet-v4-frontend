@@ -34,11 +34,11 @@ const Confirmations = (props) => {
     <Wrapper>
       {props.confirmations >= props.minConfirmations ? (
         <Text size='12px' weight={300} color='received'>
-          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.confirmed' defaultMessage='Transaction confirmed' />
+          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.confirmed' defaultMessage='Transaction Confirmed' />
         </Text>
       ) : (
         <Text size='12px' weight={300} color='gray-3'>
-          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed' defaultMessage={`Pending: ${props.confirmations}/${props.minConfirmations} confirmations`} />
+          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed' defaultMessage={`Pending: ${props.confirmations}/${props.minConfirmations} Confirmations`} />
         </Text>
       )}
       <IconWrapper>

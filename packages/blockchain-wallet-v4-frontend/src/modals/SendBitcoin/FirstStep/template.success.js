@@ -51,7 +51,7 @@ const FeeFormContainer = styled.div`
   justify-content: space-between;
 `
 const FeeContainer = styled.div`
-  display: flex;  
+  display: flex;
   flex-direction: column;
   width: 150px;
 `
@@ -165,7 +165,7 @@ const FirstStep = props => {
         <ColLeft>
           <FeeFormContainer>
             <FeeFormLabel flexEnd={feeEditToggled}>
-              <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
+              <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction Fee:' />
               {feeEditToggled
                 ? <FeeContainer>
                   <RowFlexEnd>
