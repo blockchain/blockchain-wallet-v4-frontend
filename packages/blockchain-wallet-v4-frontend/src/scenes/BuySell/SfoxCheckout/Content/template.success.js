@@ -48,6 +48,7 @@ const MethodContainer = styled.div`
 
 const isPending = (t) => t.state === 'processing'
 const isCompleted = (t) => t.state !== 'processing'
+const capitalize = (s) => s[0].toUpperCase() + s.slice(1)
 
 const ContinueButton = props => {
   const { step, type } = props
@@ -141,12 +142,12 @@ const Success = props => {
             <Icon name='bank-filled' size='26px' />
             <div style={{ ...flex('col'), ...spacing('ml-20') }}>
               <Text size='14px' weight={300}>
-                {'Plaid Savings '}
+                {`Plaid ${capitalize(accounts[0].accountType)} `}
                 <FormattedMessage id='buy.account_ending_with' defaultMessage='ending with' />
-                {' ' + '9806'}
+                {' ' + accounts[0].accountNumber}
               </Text>
               <Text size='12px' weight={300}>
-                {'CitiBank'}
+                {accounts[0].name}
               </Text>
             </div>
           </MethodContainer>
