@@ -21,11 +21,10 @@ export default ({ api }) => {
 
   const fetchShapeshiftTrade = function * (address) {
     try {
-      yield put(A.fetchShapeshiftTradeLoading)
       const tradeDetails = yield call(api.getTradeStatus, address)
       yield put(A.fetchShapeshiftTradeSuccess(tradeDetails))
     } catch (e) {
-      yield put(A.fetchShapeshiftTradeFailure)
+      yield put(A.fetchShapeshiftTradeFailure(e.message))
     }
   }
 

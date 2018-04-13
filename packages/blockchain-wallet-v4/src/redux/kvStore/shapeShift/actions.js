@@ -16,6 +16,5 @@ export const createMetadataShapeshift = (data) => ({ type: AT.CREATE_METADATA_SH
 
 // FETCH_METADATA_SHAPESHIFT
 export const fetchShapeshiftTrade = (address) => ({ type: AT.FETCH_SHAPESHIFT_TRADE, payload: { address } })
-export const fetchShapeshiftTradeLoading = () => ({ type: AT.FETCH_SHAPESHIFT_TRADE_LOADING })
 export const fetchShapeshiftTradeSuccess = (data) => ({ type: AT.FETCH_SHAPESHIFT_TRADE_SUCCESS, payload: data })
 export const fetchShapeshiftTradeFailure = (error) => ({ type: AT.FETCH_SHAPESHIFT_TRADE_FAILURE, payload: error })

@@ -1,5 +1,5 @@
 import { over, mapped, set, view } from 'ramda-lens'
-import { append, assocPath, compose, findIndex, path, equals, lensIndex, toLower } from 'ramda'
+import { append, compose, findIndex, path, equals, lensIndex, toLower } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
@@ -11,7 +11,6 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.FETCH_SHAPESHIFT_TRADE_LOADING:
     case AT.FETCH_METADATA_SHAPESHIFT_LOADING: {
       return Remote.Loading
     }
