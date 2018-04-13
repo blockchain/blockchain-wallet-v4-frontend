@@ -3,6 +3,7 @@ FROM docker-registry.service.consul:5000/blockchain_javascript@sha256:9ae5d67167
 
 # environment config fallbacks that can be overriden on startup
 # e.g. docker run -it -p 8080:8080 -e ROOT_URL="whatever"[image-name]
+ENV ENVIRONMENT = 'production'
 ENV ROOT_URL='https://blockchain.info'
 ENV WEB_SOCKET_URL='wss://ws.blockchain.info/inv'
 ENV API_DOMAIN='https://api.blockchain.info'

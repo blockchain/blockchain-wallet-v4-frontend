@@ -11,8 +11,8 @@ const port = process.env.PORT || 8080
 const rootURL = process.env.ROOT_URL
 const webSocketURL = process.env.WEB_SOCKET_URL
 const apiDomain = process.env.API_DOMAIN
-const iSignThisDomain = process.env.I_SIGN_THIS_DOMAIN
-const isProduction = rootURL === 'https://blockchain.info'
+const isProduction = process.env.ENVIRONMENT = 'production'
+const iSignThisDomain = isProduction ? 'https://verify.isignthis.com/' : 'https://stage-verify.isignthis.com/'
 
 // log server configuration
 console.log('\n** Configuration **')
@@ -23,7 +23,7 @@ console.log(`API Domain: ${apiDomain}`)
 console.log(`iSignThisDomain: ${iSignThisDomain}\n`)
 
 // validate env configs are given
-if (!port || !rootURL || !webSocketURL || !apiDomain || !iSignThisDomain) {
+if (!port || !rootURL || !webSocketURL || !apiDomain) {
   throw new Error('One or more required environment variables are undefined!')
 }
 
