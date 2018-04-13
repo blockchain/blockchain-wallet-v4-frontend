@@ -16,7 +16,7 @@ class ThirdStepContainer extends React.Component {
     event.preventDefault()
     this.setState({ timestamp: new Date().getTime() })
     const { guid, email, newEmail, secretPhrase, message, code, captcha } = this.props
-    const { sessionToken } = captcha
+    const { sessionToken } = captcha.getOrElse({})
 
     this.props.authActions.reset2fa(guid, email, newEmail, secretPhrase, message, code, sessionToken)
   }

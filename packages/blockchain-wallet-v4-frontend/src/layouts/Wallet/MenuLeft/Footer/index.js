@@ -20,11 +20,11 @@ const Circle = styled.div`
 const Footer = () => {
   return (
     <Wrapper>
-      <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank' size='13px' weight={300} color='gray-5'>
+      <Link href='https://www.blockchain.com/terms/index.html' target='_blank' size='13px' weight={300} color='gray-5'>
         <FormattedMessage id='layouts.wallet.menuleft.footer.termsofservice' defaultMessage='ToS' />
       </Link>
       <Circle />
-      <Link href='https://www.blockchain.com/assets/pdf/Blockchain_PrivacyPolicy.pdf' target='_blank' size='13px' weight={300} color='gray-5'>
+      <Link href='https://www.blockchain.com/privacy/index.html' target='_blank' size='13px' weight={300} color='gray-5'>
         <FormattedMessage id='layouts.wallet.menuleft.footer.privacypolicy' defaultMessage='Privacy policy' />
       </Link>
       <Circle />
