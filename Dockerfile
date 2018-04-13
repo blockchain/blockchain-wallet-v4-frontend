@@ -7,7 +7,7 @@ ENV ENVIRONMENT = 'production'
 ENV ROOT_URL='https://blockchain.info'
 ENV WEB_SOCKET_URL='wss://ws.blockchain.info/inv'
 ENV API_DOMAIN='https://api.blockchain.info'
-ENV I_SIGN_THIS_DOMAIN='https://stage-verify.isignthis.com'
+ENV WALLET_HELPER_DOMAIN='https://wallet-helper.blockchain.info'
 
 WORKDIR /usr/src/app
 
