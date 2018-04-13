@@ -27,7 +27,7 @@ const validIpList = value => isIpList(value) ? undefined : 'Invalid IP list'
 
 const validPasswordStretchingNumber = value => (value > 1 && value <= 20000) ? undefined : 'Please ensure 1 < PBKDF2 <= 20000'
 
-const validEtherAddress = value => utils.ethereum.isValidAddress(value) ? undefined : 'Invalid Ethereum Address'
+const validEtherAddress = value => utils.ethereum.isValidAddress(value) ? undefined : 'Invalid Ether Address'
 
 const validBitcoinAddress = value => utils.bitcoin.isValidBitcoinAddress(value) ? undefined : 'Invalid Bitcoin Address'
 
