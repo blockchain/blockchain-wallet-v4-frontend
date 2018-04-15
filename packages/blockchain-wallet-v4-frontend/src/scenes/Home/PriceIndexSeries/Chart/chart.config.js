@@ -13,7 +13,7 @@ export default (start, interval, currency, data) => ({
     },
     labels: {
       formatter: function () {
-        return (currency + this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+        return (currency + ' ' + this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
       },
       style: {
         color: Color('black')
@@ -44,7 +44,9 @@ export default (start, interval, currency, data) => ({
     }
   },
   tooltip: {
-    pointFormat: currency + ' {point.y}'
+    pointFormatter: function () {
+      return currency + ' ' + this.y.toLocaleString()
+    }
   },
   credits: {
     enabled: false
