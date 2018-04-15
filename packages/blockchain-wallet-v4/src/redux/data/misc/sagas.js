@@ -7,11 +7,6 @@
 // import * as A from './actions'
 
 export default ({ api }) => {
-  // const fetchAdverts = function * ({ number }) {
-  //   const response = yield call(api.getAdverts, number)
-  //   yield put(A.setAdverts(response))
-  // }
-
   // const fetchCaptcha = function * () {
   //   const timestamp = new Date().getTime()
   //   const sessionToken = yield call(api.obtainSessionToken)
@@ -46,7 +41,6 @@ export default ({ api }) => {
   // }
 
   return {
-    // fetchAdverts,
     // fetchCaptcha,
     // fetchPriceIndexSeries,
     // fetchLogs,

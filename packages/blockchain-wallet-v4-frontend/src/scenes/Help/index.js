@@ -74,7 +74,7 @@ const Help = (props) => {
             <FormattedMessage id='scenes.help.password' defaultMessage="I've lost my Wallet Password" />
           </Text>
           <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.help.password_explain' defaultMessage='Recover your funds with your 12 word recovery passphrase' />
+            <FormattedMessage id='scenes.help.password_explain' defaultMessage='Recover your funds with your 12 word backup phrase' />
           </Text>
         </Left>
         <Right>
@@ -110,7 +110,7 @@ const Help = (props) => {
             <FormattedMessage id='scenes.help.back' defaultMessage='Go Back' />
           </Link>
         </LinkContainer>
-        <Link href='https://blockchain.zendesk.com/' target='_blank' size='13px' weight={300}>
+        <Link href='https://support.blockchain.com/' target='_blank' size='13px' weight={300}>
           <FormattedMessage id='scenes.help.contact' defaultMessage='Contact Support' />
         </Link>
       </Footer>
