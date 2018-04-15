@@ -11,8 +11,8 @@ import * as btc from '../utils/bitcoin'
 import * as eth from '../utils/ethereum'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
 
-export const isFromAccount = selection => selection.inputs[0] ? selection.inputs[0].isFromAccount : false
-export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[0].isFromLegacy : false
+export const isFromAccount = selection => selection.inputs[0] ? selection.inputs[0].isFromAccount() : false
+export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[0].isFromLegacy() : false
 export const hasPrivateKey = selection => selection.inputs[0] ? btc.isValidBitcoinPrivateKey(selection.inputs[0].priv) : false
 
 export const signBtcSelection = curry((network, selection) => {

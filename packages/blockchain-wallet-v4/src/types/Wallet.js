@@ -22,6 +22,7 @@ import * as AddressBook from './AddressBook'
 import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import * as Options from './Options'
+import * as btc from '../utils/bitcoin'
 
 /* Wallet :: {
   guid :: String
@@ -378,7 +379,7 @@ export const getLegacyPrivateKey = curry((address, secondPassword, network, wall
       .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, priv))
       .map(pk => fromBase58toKey(pk, network))
   } else {
-    return Task.of(priv).map(pk => fromBase58toKey(pk, network))
+    return Task.of(priv).map(pk => btc.privateKeyStringToKey(pk, btc.detectPrivateKeyFormat(pk)))
   }
 })
 
