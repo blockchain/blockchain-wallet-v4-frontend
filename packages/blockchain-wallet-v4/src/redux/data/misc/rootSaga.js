@@ -8,17 +8,6 @@ import * as wS from '../../wallet/selectors'
 import * as pairing from '../../../pairing'
 
 export default ({ api }) => {
-  const fetchAdverts = function * (action) {
-    try {
-      const { number } = action.payload
-      yield put(A.fetchAdvertsLoading())
-      const data = yield call(api.getAdverts, number)
-      yield put(A.fetchAdvertsSuccess(data))
-    } catch (e) {
-      yield put(A.fetchAdvertsFailure(e.message))
-    }
-  }
-
   const fetchCaptcha = function * () {
     try {
       const timestamp = new Date().getTime()
@@ -70,7 +59,6 @@ export default ({ api }) => {
   }
 
   return function * () {
-    yield takeLatest(AT.FETCH_ADVERTS, fetchAdverts)
     yield takeLatest(AT.FETCH_CAPTCHA, fetchCaptcha)
     yield takeLatest(AT.FETCH_LOGS, fetchLogs)
     yield takeLatest(AT.FETCH_PRICE_INDEX_SERIES, fetchPriceIndexSeries)
