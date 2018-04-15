@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Banner, Button, Text } from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { FormattedMessage } from 'react-intl'
 import Addresses from './Addresses'
 import Description from './Description'
 import Confirmations from './Confirmations'
@@ -34,6 +35,9 @@ const StatusColumn = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 15%;
+`
+const BannerWrapper = styled.div`
+  margin-top: 5px;
 `
 const DetailsColumn = styled.div`
   display: none;
@@ -81,6 +85,13 @@ const TransactionListItem = (props) => {
         <StatusColumn>
           <Status type={transaction.type} />
           <Text size='13px' weight={300}>{transaction.timeFormatted}</Text>
+          { (transaction.fromWatchOnly || transaction.toWatchOnly) && (
+            <BannerWrapper>
+              <Banner type='informational' label>
+                <FormattedMessage id='components.txlistitem.watch_only' defaultMessage='Watch Only' />
+              </Banner>
+            </BannerWrapper>
+          )}
         </StatusColumn>
         <DetailsColumn>
           <Addresses to={transaction.to} from={transaction.from} />
