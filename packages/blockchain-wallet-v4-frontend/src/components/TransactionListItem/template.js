@@ -94,7 +94,7 @@ const TransactionListItem = (props) => {
           )}
         </StatusColumn>
         <DetailsColumn>
-          <Addresses to={transaction.to} from={transaction.from} />
+          <Addresses to={transaction.to} from={transaction.from} inputs={transaction.inputs} outputs={transaction.outputs} />
           <Description value={transaction.description} handleEditDescription={handleEditDescription} />
         </DetailsColumn>
         <ConfirmationColumn>
