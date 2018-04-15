@@ -20,13 +20,14 @@ class BalancesChartContainer extends React.Component {
   }
 
   render () {
-    const { data, history } = this.props
+    const { data, history, modalsActions } = this.props
 
     return data.cata({
       Success: (value) => <Success
         balances={value}
         handleCoinDisplay={this.handleCoinDisplay}
         history={history}
+        modalsActions={modalsActions}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -41,7 +42,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dataMiscActions: bindActionCreators(actions.core.data.misc, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+  preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  modalsActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BalancesChartContainer))

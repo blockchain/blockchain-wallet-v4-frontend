@@ -4,6 +4,7 @@ import { compose, bindActionCreators } from 'redux'
 import ui from 'redux-ui'
 
 import * as languageService from 'services/LanguageService'
+import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 import { actions, selectors } from 'data'
 
 class DropdownLanguageContainer extends React.Component {
@@ -12,21 +13,29 @@ class DropdownLanguageContainer extends React.Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick (item) {
-    this.props.preferencesActions.setCulture(item.value)
-    this.props.preferencesActions.setLanguage(item.language)
+  handleClick (selectedLanguage) {
+    this.props.preferencesActions.setCulture(selectedLanguage.value)
+    this.props.preferencesActions.setLanguage(selectedLanguage.language)
   }
 
   render () {
-    // const { culture, ...rest } = this.props
-    // const items = [...map(renameKeys({name: 'text', cultureCode: 'value'}))(this.props.languages)]
+    const { currentCulture, languages } = this.props
+    const languageList = languages.map((lang) => {
+      return {
+        text: lang.name,
+        value: lang.cultureCode,
+        language: lang.language
+      }
+    })
 
-    return null
+    return (
+      <SimpleDropdown color='white' items={languageList} selectedValue={currentCulture} callback={(selectedLanguage) => this.handleClick(selectedLanguage)} />
+    )
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  culture: selectors.preferences.getCulture(state),
+const mapStateToProps = (state) => ({
+  currentCulture: selectors.preferences.getCulture(state),
   languages: languageService.languagesSortedByName
 })
 
@@ -40,4 +49,3 @@ const enhance = compose(
 )
 
 export default enhance(DropdownLanguageContainer)
-/**/

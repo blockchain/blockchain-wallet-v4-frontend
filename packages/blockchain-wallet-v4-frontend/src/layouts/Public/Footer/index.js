@@ -33,9 +33,16 @@ const LinkContainer = styled.div`
     align-items: center;
   }
 `
-const DropdownContainer = styled.div`
-  margin: 20px 0;
 
+const RightContainer = styled.div`
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  & > :last-child {
+    padding: 2px;
+  }
   @media(min-width: 768px) {
     margin: 0;
   }
@@ -46,22 +53,25 @@ const Footer = () => {
     <Wrapper>
       <LinkContainer>
         <Image name='blue-logo' height='40px' width='40px' />
-        <Link href='https://blockchain.info' size='14px' color='white' uppercase>
+        <Link href='https://blockchain.info' size='12px' weight={300} color='white' uppercase>
           <FormattedMessage id='layouts.public.footer.explorer' defaultMessage='Data' />
         </Link>
-        <Link href='https://blockchain.com/about' size='14px' color='white' uppercase>
+        <Link href='https://blockchain.com/about' size='12px' weight={300} color='white' uppercase>
           <FormattedMessage id='layouts.public.footer.about' defaultMessage='About' />
         </Link>
-        <Link href='https://blog.blockchain.com' size='14px' color='white' uppercase>
+        <Link href='https://blog.blockchain.com' size='12px' weight={300} color='white' uppercase>
           <FormattedMessage id='layouts.public.footer.blog' defaultMessage='Blog' />
         </Link>
-        <Link href='https://support.blockchain.com' size='14px' color='white' uppercase>
+        <Link href='https://support.blockchain.com' size='12px' weight={300} color='white' uppercase>
           <FormattedMessage id='layouts.public.footer.support' defaultMessage='Support' />
         </Link>
       </LinkContainer>
-      <DropdownContainer>
+      <RightContainer>
         <DropdownLanguage color='white' />
-      </DropdownContainer>
+        <Link href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases' target="_blank" size='12px' weight={100} color='white'>
+          v{APP_VERSION}
+        </Link>
+      </RightContainer>
     </Wrapper>
   )
 }

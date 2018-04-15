@@ -15,7 +15,7 @@ export default props => {
   return (
     <Wrapper selected={selected}>
       <Link size='14px' weight={400} color='brand-secondary' {...rest}>
-        {`${coin} = ${children}`}
+        {`1 ${coin} = ${children}`}
       </Link>
     </Wrapper>
   )

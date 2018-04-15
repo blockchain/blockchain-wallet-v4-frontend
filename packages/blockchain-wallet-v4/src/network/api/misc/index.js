@@ -21,12 +21,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       })
   }
 
-  const getAdverts = number => get({
-    url: apiUrl,
-    endPoint: 'bci-ads/get',
-    data: { wallet: true, n: number }
-  })
-
   const getLogs = (guid, sharedKey) => post({
     url: rootUrl,
     endPoint: 'wallet',
@@ -48,7 +42,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   return {
     getCaptchaImage,
     getTransactionHistory,
-    getAdverts,
     getLogs,
     getPriceIndexSeries,
     getRandomBytes
