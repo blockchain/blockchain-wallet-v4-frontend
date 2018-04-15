@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import { FormattedMessage } from 'react-intl'
-import { Color, Text } from 'blockchain-info-components'
+import { Color, Text, Link } from 'blockchain-info-components'
 import configure from './chart.config.js'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
@@ -47,9 +47,17 @@ const ViewAllText = styled(Text)`
   text-decoration-color: ${props => props.theme['brand-secondary']};
   cursor: pointer;
 `
+const WalletLink = styled(NavLink)`
+  cursor: pointer;
+  color: ${props => props.theme['brand-secondary']};
+  font-size: 10px;
+  font-weight: 300;
+  font-family: 'Montserrat',sans-serif;
+  text-decoration: none;
+`
 
 const BalancesChart = (props) => {
-  const { balances, handleCoinDisplay, history } = props
+  const { balances, handleCoinDisplay, history, modalsActions } = props
   const { btcBalance, ethBalance, bchBalance, chartData, symbol, btcAccountsLength, bchAccountsLength } = balances
 
   return (
@@ -67,6 +75,9 @@ const BalancesChart = (props) => {
           <CoinBalance onClick={handleCoinDisplay}>
             <SwitchableDisplay coin='BTC' size='14px' weight={200}>{btcBalance}</SwitchableDisplay>
           </CoinBalance>
+          { btcBalance <= 0 && <WalletLink to="/buy-sell" size='10px' weight={300}>
+            <FormattedMessage id='scenes.home.balanceschart.buybtc' defaultMessage='Buy Bitcoin' />
+          </WalletLink> }
           {btcAccountsLength > 1 &&
             <NavLink to='/settings/addresses'>
               <ViewAllText weight={300} size='10px'>
@@ -83,6 +94,9 @@ const BalancesChart = (props) => {
           <CoinBalance onClick={handleCoinDisplay}>
             <SwitchableDisplay coin='ETH' size='14px' weight={200}>{ethBalance}</SwitchableDisplay>
           </CoinBalance>
+          { ethBalance <= 0 && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestEther')}>
+            <FormattedMessage id='scenes.home.balanceschart.requesteth' defaultMessage='Request Ether' />
+          </Link> }
         </Column>
         <Column>
           <ColourBar color={Color('brand-tertiary')} />
@@ -92,6 +106,9 @@ const BalancesChart = (props) => {
           <CoinBalance onClick={handleCoinDisplay}>
             <SwitchableDisplay coin='BCH' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
           </CoinBalance>
+          { bchBalance <= 0 && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestBch')}>
+            <FormattedMessage id='scenes.home.balanceschart.requestbch' defaultMessage='Request Bitcoin Cash' />
+          </Link> }
           {bchAccountsLength > 1 &&
             <NavLink to='/settings/addresses'>
               <ViewAllText weight={300} size='10px'>

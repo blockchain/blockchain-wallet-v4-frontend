@@ -31,7 +31,7 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
     <HorizontalMenu>
       <TabMenu>
         <LinkContainer to='/settings/addresses'>
-          <TabMenuItem>
+          <TabMenuItem selected={0}>
             <Icon name='left-arrow' />
           </TabMenuItem>
         </LinkContainer>
