@@ -68,13 +68,13 @@ const FiatConvertor = (props) => {
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <TextInput onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={value} errorState={errorState} />
+          <TextInput placeholder="0" onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={value} errorState={errorState} />
           <Unit>{unit}</Unit>
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
         <ArrowRight size='16px' name='right-arrow' />
         <Container>
-          <TextInput onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiat} errorState={errorState} />
+          <TextInput placeholder="0" onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiat} errorState={errorState} />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
