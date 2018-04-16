@@ -15,7 +15,7 @@ class ReminderContainer extends React.Component {
   onSubmit (e) {
     e.preventDefault()
     const { email, code, captcha, authActions } = this.props
-    const { sessionToken } = captcha
+    const { sessionToken } = captcha.getOrElse({})
 
     authActions.remindGuid(email, code, sessionToken)
   }

@@ -6,6 +6,6 @@ const getTradesWithStatus = (trades, status1, status2) => filter(trade => or(equ
 export const getData = (state) => {
   const trades = selectors.core.kvStore.shapeShift.getTrades(state)
   const completedTrades = trades.map(t => getTradesWithStatus(t, 'complete', 'resolved'))
-  const incompleteTrades = trades.map(t => difference(t, completedTrades.getOrElse([])))
+  const incompleteTrades = lift((t, completed) => difference(t, completed))(trades, completedTrades)
   return lift((c, i) => ({ complete: c, incomplete: i }))(completedTrades, incompleteTrades)
 }

@@ -24,7 +24,7 @@ const TwoStepChoicesWapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-top: 30px;
   margin-bottom: 30px;
 `
