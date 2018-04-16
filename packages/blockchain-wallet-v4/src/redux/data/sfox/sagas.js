@@ -87,9 +87,9 @@ export default ({ api, options }) => {
 
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const accounts = yield apply(sfox, methods.ach.getAccounts)
-      yield put(A.fetchAccountsSuccess(accounts))
+      yield put(A.sfoxFetchAccountsSuccess(accounts))
     } catch (e) {
-      yield put(A.setBankAccountFailure(e))
+      yield put(A.sfoxFetchAccountsFailure(e))
     }
   }
 
