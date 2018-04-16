@@ -58,7 +58,22 @@ export default ({ api }) => {
     }
   }
 
+  const authorizeLogin = function * ({ token }) {
+    try {
+      yield put(A.authorizeLoginLoading())
+      const data = yield call(api.authorizeLogin, token)
+      if (data.success) {
+        yield put(A.authorizeLoginSuccess(data))
+      } else {
+        yield put(A.authorizeLoginFailure(data.error))
+      }
+    } catch (e) {
+      yield put(A.authorizeLoginFailure(e.message || e.error))
+    }
+  }
+
   return function * () {
+    yield takeLatest(AT.AUTHORIZE_LOGIN, authorizeLogin)
     yield takeLatest(AT.FETCH_CAPTCHA, fetchCaptcha)
     yield takeLatest(AT.FETCH_LOGS, fetchLogs)
     yield takeLatest(AT.FETCH_PRICE_INDEX_SERIES, fetchPriceIndexSeries)
