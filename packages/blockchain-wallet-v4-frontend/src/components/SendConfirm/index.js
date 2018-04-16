@@ -105,7 +105,7 @@ const SendConfirm = props => {
             {coin === 'ETH' && <FormattedMessage id='modals.sendconfirm.send' defaultMessage='Send Ether' />}
           </Button>
           <Link onClick={previousStep} size='13px' weight={300}>
-            <FormattedMessage id='scenes.sendconfirm.back' defaultMessage='Go back' />
+            <FormattedMessage id='scenes.sendconfirm.back' defaultMessage='Go Back' />
           </Link>
         </Footer>
       </div>

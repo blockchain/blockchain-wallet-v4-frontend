@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 const Fee = props => (
   <Wrapper>
     <Text size='12px' weight={300}>
-      <FormattedMessage id='scenes.transactions.bitcoin.content.pages.listitem.fee.label' defaultMessage='Transaction fee: {value}' values={{ value: props.amount }} />
+      <FormattedMessage id='scenes.transactions.bitcoin.content.pages.listitem.fee.label' defaultMessage='Transaction Fee: {value}' values={{ value: props.amount }} />
     </Text>
     <CoinDisplay coin={props.coin} size='12px' weight={200}>{props.fee}</CoinDisplay>
   </Wrapper>

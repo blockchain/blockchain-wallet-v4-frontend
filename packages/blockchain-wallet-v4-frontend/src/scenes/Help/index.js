@@ -44,7 +44,7 @@ const Help = (props) => {
   return (
     <Wrapper>
       <Text size='30px' weight={300}>
-        <FormattedMessage id='scenes.help.login' defaultMessage='Login help' />
+        <FormattedMessage id='scenes.help.login' defaultMessage='Login Help' />
       </Text>
       <Text size='13px' weight={300}>
         <FormattedMessage id='scenes.help.wallet' defaultMessage='Need help accessing your wallet?' />
@@ -62,7 +62,7 @@ const Help = (props) => {
         <Right>
           <LinkContainer to='/reminder'>
             <Button>
-              <FormattedMessage id='scenes.help.remind' defaultMessage='Remind me' />
+              <FormattedMessage id='scenes.help.remind' defaultMessage='Remind Me' />
             </Button>
           </LinkContainer>
         </Right>
@@ -80,7 +80,7 @@ const Help = (props) => {
         <Right>
           <LinkContainer to='/recover'>
             <Button>
-              <FormattedMessage id='scenes.help.recover' defaultMessage='Recover funds' />
+              <FormattedMessage id='scenes.help.recover' defaultMessage='Recover Funds' />
             </Button>
           </LinkContainer>
         </Right>
@@ -107,11 +107,11 @@ const Help = (props) => {
       <Footer>
         <LinkContainer to='/login'>
           <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.help.back' defaultMessage='Go back' />
+            <FormattedMessage id='scenes.help.back' defaultMessage='Go Back' />
           </Link>
         </LinkContainer>
         <Link href='https://support.blockchain.com/' target='_blank' size='13px' weight={300}>
-          <FormattedMessage id='scenes.help.contact' defaultMessage='Contact support' />
+          <FormattedMessage id='scenes.help.contact' defaultMessage='Contact Support' />
         </Link>
       </Footer>
     </Wrapper>
