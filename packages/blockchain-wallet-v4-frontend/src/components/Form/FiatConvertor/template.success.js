@@ -60,7 +60,7 @@ const getErrorState = (meta) => {
 }
 
 const FiatConvertor = (props) => {
-  const { value, fiat, disabled, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta } = props
+  const { value, fiat, disabled, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta, limits } = props
   const { currency, unit } = props.data.data
   const errorState = getErrorState(meta)
 
@@ -79,6 +79,17 @@ const FiatConvertor = (props) => {
         </Container>
       </FiatConvertorInput>
       {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>}
+      {
+        limits && <Error size='13px' weight={300} color='error'>
+          {
+            value > limits.buy.max
+              ? `Enter an amount under your $${limits.buy.max.toLocaleString()} limit`
+              : value < limits.buy.min
+                ? `Enter an amount above the $${limits.buy.min.toLocaleString()} minimum`
+                : null
+          }
+        </Error>
+      }
     </Wrapper>
   )
 }

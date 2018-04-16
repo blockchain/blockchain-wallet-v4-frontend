@@ -27,7 +27,7 @@ const MethodContainer = styled.div`
   background-color: ${props => props.theme['white-blue']};
 `
 
-const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup }) => {
+const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits }) => {
   const submitButtonHelper = () => (
     reason === 'has_remaining_buy_limit'
       ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR)}>
@@ -83,6 +83,7 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup
           spec={quoteInputSpec}
           onFetchQuote={onFetchQuote}
           disabled={reason}
+          limits={limits}
         />
       </div>
       { submitButtonHelper() }
