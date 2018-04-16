@@ -7,11 +7,12 @@ const compression = require('compression')
 const path = require('path')
 
 // store env configs
-const port = process.env.PORT || 8080
 const rootURL = process.env.ROOT_URL
 const webSocketURL = process.env.WEB_SOCKET_URL
 const apiDomain = process.env.API_DOMAIN
 const walletHelperDomdain = process.env.WALLET_HELPER_DOMAIN
+
+const port = 8080
 const isProduction = process.env.ENVIRONMENT = 'production'
 const iSignThisDomain = isProduction ? 'https://verify.isignthis.com/' : 'https://stage-verify.isignthis.com/'
 
