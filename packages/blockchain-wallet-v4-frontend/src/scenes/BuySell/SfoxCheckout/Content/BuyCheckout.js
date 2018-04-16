@@ -5,9 +5,9 @@ import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { StepTransition } from './Stepper'
+import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
-import FundingSource from './FundingSource'
+import FundingSource from 'components/BuySell/FundingSource'
 
 const quoteInputSpec = {
   method: 'buy',

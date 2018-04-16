@@ -7,8 +7,8 @@ import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
-import { OrderDetailsTable, OrderDetailsRow } from './OrderDetails'
-import FundingSource from './FundingSource'
+import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
+import FundingSource from 'components/BuySell/FundingSource'
 
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px;
