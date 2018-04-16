@@ -11,20 +11,24 @@ export const determineStep = (profile, verificationStatus, accounts) => {
   if (!profile) {
     return 'account'
   } else {
-    if (!isVerified(verificationStatus)) {
-      return 'verify'
-    } else if (!accounts.length || !isActiveAccount(accounts)) {
-      return 'funding'
-    } else {
-      return 'verified'
-    }
+    if (verificationStatus.level === 'unverified') return 'verify'
+    else if (!accounts.length) return 'funding'
+    else return 'verified'
+    // if (!isVerified(verificationStatus)) {
+    //   return 'verify'
+    // } else if (!accounts.length || !isActiveAccount(accounts)) {
+    //   return 'funding'
+    // } else {
+    //   return 'verified'
+    // }
   }
 }
 
 export const determineReason = (type, profile, verificationStatus, accounts) => {
   let reason
   if (!profile) reason = 'needs_account'
-  else if (!isVerified(verificationStatus)) reason = 'needs_id'
+  // else if (!isVerified(verificationStatus)) reason = 'needs_id'
+  else if (verificationStatus.level === 'unverified') reason = 'needs_id'
   else if (!accounts.length) reason = 'needs_bank'
   else if (!isActiveAccount(accounts)) reason = 'needs_bank_active'
   else if (type === 'buy') reason = 'has_remaining_buy_limit'
