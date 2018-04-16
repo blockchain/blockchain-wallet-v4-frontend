@@ -73,7 +73,7 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.btc' defaultMessage='Bitcoin' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='BTC' size='14px' weight={200}>{btcBalance}</SwitchableDisplay>
+            <SwitchableDisplay coin='BTC' cursor='pointer' size='14px' weight={200}>{btcBalance}</SwitchableDisplay>
           </CoinBalance>
           { btcBalance <= 0 && <WalletLink to="/buy-sell" size='10px' weight={300}>
             <FormattedMessage id='scenes.home.balanceschart.buybtc' defaultMessage='Buy Bitcoin' />
@@ -92,7 +92,7 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.eth' defaultMessage='Ether' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='ETH' size='14px' weight={200}>{ethBalance}</SwitchableDisplay>
+            <SwitchableDisplay coin='ETH' cursor='pointer' size='14px' weight={200}>{ethBalance}</SwitchableDisplay>
           </CoinBalance>
           { ethBalance <= 0 && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestEther')}>
             <FormattedMessage id='scenes.home.balanceschart.requesteth' defaultMessage='Request Ether' />
@@ -104,13 +104,13 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.bch' defaultMessage='Bitcoin Cash' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='BCH' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
+            <SwitchableDisplay coin='BCH' cursor='pointer' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
           </CoinBalance>
           { bchBalance <= 0 && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestBch')}>
             <FormattedMessage id='scenes.home.balanceschart.requestbch' defaultMessage='Request Bitcoin Cash' />
           </Link> }
           {bchAccountsLength > 1 &&
-            <NavLink to='/settings/addresses'>
+            <NavLink to='/settings/addresses/bch'>
               <ViewAllText weight={300} size='10px'>
                 <FormattedMessage id='scenes.home.balanceschart.bch.viewall' defaultMessage='View All Balances' />
               </ViewAllText>
