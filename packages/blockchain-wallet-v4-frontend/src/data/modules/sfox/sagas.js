@@ -1,3 +1,4 @@
+import { delay } from 'redux-saga'
 import { takeLatest, put, call, select } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as A from './actions'
@@ -85,6 +86,12 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const submitQuote = function * (action) {
+    console.log('submitting quote:', action.payload)
+    yield call(delay, 1500)
+    yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+  }
+
   return function * () {
     yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
     yield takeLatest(AT.SET_BANK, setBank)
@@ -92,5 +99,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.SET_PROFILE, setProfile)
     yield takeLatest(AT.UPLOAD, upload)
     yield takeLatest(AT.SUBMIT_MICRO_DEPOSITS, submitMicroDeposits)
+    yield takeLatest(AT.SUBMIT_QUOTE, submitQuote)
   }
 }

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { Text, Button, Icon } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
@@ -80,9 +81,12 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const BuyOrderSubmit = ({ onSubmit }) => (
+export const BuyOrderSubmit = ({ quoteR, onSubmit }) => (
   <Fragment>
-    <Button nature='primary' onClick={onSubmit}>
+    <Button
+      nature='primary'
+      disabled={!Remote.Success.is(quoteR)}
+      onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
       <FormattedMessage id='submit' defaultMessage='Submit' />
     </Button>
     <StyledFaqRow
