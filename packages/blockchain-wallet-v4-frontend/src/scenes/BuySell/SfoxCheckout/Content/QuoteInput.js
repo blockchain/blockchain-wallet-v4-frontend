@@ -41,12 +41,14 @@ const otherSide = (side) => {
 }
 
 class QuoteInput extends Component {
+  /* eslint-disable */
   state = {
     side: 'input',
     input: this.props.initialAmount,
     output: '0',
     lastQuoteId: null
   }
+  /* eslint-enable */
 
   static getDerivedStateFromProps (nextProps, lastState) {
     let { quoteR, spec } = nextProps
