@@ -30,7 +30,7 @@ const Info = () => {
         <Text size='13px' weight={300}>
           <FormattedMessage id='scenes.exchange.summary3' defaultMessage='Note: exchanges usually take between twenty minutes and two hours.' />
         </Text>
-      </TextGroup> 
+      </TextGroup>
     </Wrapper>
   )
 }
