@@ -199,8 +199,8 @@ const ExchangeDetails = (props) => {
             <Text size='13px' weight={400} capitalize>
               <FormattedMessage id='modals.exchangedetails.orderid' defaultMessage='Order ID:' />
             </Text>
-            <Text size='13px' weight={300} uppercase>
-              {orderId}
+            <Text size='13px' weight={300}>
+              SFT-{orderId}
             </Text>
           </InfoRow>
         </Info>
