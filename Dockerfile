@@ -2,20 +2,20 @@ FROM docker-registry.service.consul:5000/blockchain_javascript@sha256:9ae5d67167
 
 RUN chown -R blockchain /home/blockchain
 
-# configure image build
+# pull build arguments from pipeline
 ARG environment
 ARG root_url
 ARG web_socket_url
 ARG api_domain
 
-# ensure required build arguments are known
+# ensure required arguments are set
 RUN \
   : "${environment:? build argument is not set!}" \
   : "${root_url:? build argument is not set!}" \
   : "${web_socket_url:? build argument is not set!}" \
   : "${api_domain:? build argument is not set!}" \
 
-# set build args as environments vars for Express server
+# set build args as environments variables for Node to consume
 ENV ENVIRONMENT=$environment
 ENV ROOT_URL=$root_url
 ENV WEB_SOCKET_URL=$web_socket_url
@@ -24,8 +24,10 @@ ENV WALLET_HELPER_DOMAIN='https://wallet-helper.blockchain.info'
 
 WORKDIR /home/blockchain
 
+# copy code
 COPY . .
 
+# build assets
 RUN npm install lerna yarn babel-cli
 RUN yarn bootstrap
 RUN yarn ci:build:prod
@@ -34,4 +36,5 @@ USER blockchain
 
 EXPOSE 8080
 
+# start server
 CMD ["node", "server.js"]
