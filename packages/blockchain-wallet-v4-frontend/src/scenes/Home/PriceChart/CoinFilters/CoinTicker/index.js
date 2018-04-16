@@ -8,15 +8,15 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class CoinTickerContainer extends React.Component {
+export class CoinTickerContainer extends React.Component {
   componentDidMount () {
     this.props.actions.initialized(this.props.coin)
   }
 
   render () {
-    const { selected, handleClick } = this.props
+    const { data, selected, handleClick } = this.props
 
-    return this.props.data.cata({
+    return data.cata({
       Success: value => <Success {...value} selected={selected} handleClick={handleClick} />,
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -36,11 +36,7 @@ const mapDispatchToProps = dispatch => ({
 CoinTickerContainer.propTypes = {
   coin: PropTypes.oneOf(['BCH', 'BTC', 'ETH']).isRequired,
   handleClick: PropTypes.func.isRequired,
-  selected: PropTypes.bool
-}
-
-CoinTickerContainer.defaultProps = {
-  selected: false
+  selected: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinTickerContainer)
