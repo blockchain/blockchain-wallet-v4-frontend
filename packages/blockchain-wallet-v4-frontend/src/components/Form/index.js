@@ -24,7 +24,6 @@ import SelectBoxCurrency from './SelectBoxCurrency'
 import SelectBoxLanguages from './SelectBoxLanguages'
 import SelectBoxTheme from './SelectBoxTheme'
 import SelectBoxUSState from './SelectBoxUSState'
-import TabMenuAddressesStatus from './TabMenuAddressesStatus'
 import TabMenuBuySellStatus from './TabMenuBuySellStatus'
 import TabMenuTransactionStatus from './TabMenuTransactionStatus'
 import TextArea from './TextArea'
@@ -56,7 +55,6 @@ export {
   SelectBoxLanguages,
   SelectBoxTheme,
   SelectBoxUSState,
-  TabMenuAddressesStatus,
   TabMenuBuySellStatus,
   TabMenuTransactionStatus,
   TextArea,
