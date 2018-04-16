@@ -42,8 +42,8 @@ jobs:
 
     - stage: pull-request-build
       script:
-        - yarn lint && yarn ci:test && yarn ci:build:prod
+        - yarn lint && yarn ci:test && yarn ci:compile
 
     - stage: master-commit-build
       script:
-        - yarn lint && yarn ci:test && yarn ci:build:prod
+        - yarn lint && yarn ci:test && yarn ci:compile
