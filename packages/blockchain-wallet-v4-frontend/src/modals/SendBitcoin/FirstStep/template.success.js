@@ -51,7 +51,7 @@ const FeeFormContainer = styled.div`
   justify-content: space-between;
 `
 const FeeContainer = styled.div`
-  display: flex;  
+  display: flex;
   flex-direction: column;
   width: 150px;
 `
@@ -130,8 +130,8 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {addressSelectToggled
-              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
-              : <Field name='to2' component={TextBox} validate={[required, validBitcoinAddress]} />
+              ? <Field name='to' placeholder="Paste or scan an address, or select a destination" component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
+              : <Field name='to2' placeholder="Paste or scan an address, or select a destination" component={TextBox} validate={[required, validBitcoinAddress]} />
             }
             <QRCodeCapture coin='BTC' />
             {addressSelectToggled
@@ -165,7 +165,7 @@ const FirstStep = props => {
         <ColLeft>
           <FeeFormContainer>
             <FeeFormLabel flexEnd={feeEditToggled}>
-              <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
+              <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction Fee:' />
               {feeEditToggled
                 ? <FeeContainer>
                   <RowFlexEnd>

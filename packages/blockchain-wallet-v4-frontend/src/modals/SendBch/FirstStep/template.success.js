@@ -71,8 +71,8 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {addressSelectToggled
-              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false, coin: 'BCH' }} />
-              : <Field name='to2' component={TextBox} validate={[required, validBitcoinCashAddress]} />
+              ? <Field name='to' placeholder="Paste or scan an address, or select a destination" component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false, coin: 'BCH' }} />
+              : <Field name='to2' placeholder="Paste or scan an address, or select a destination" component={TextBox} validate={[required, validBitcoinCashAddress]} />
             }
             <QRCodeCapture coin='BCH' />
             {addressSelectToggled
@@ -105,7 +105,7 @@ const FirstStep = props => {
       <FormGroup margin={'30px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.sendbch.firststep.fee' defaultMessage='Transaction fee (sat/b):&nbsp;' />
+            <FormattedMessage id='modals.sendbch.firststep.fee' defaultMessage='Transaction Fee (sat/b):&nbsp;' />
             <Tooltip>
               <FormattedMessage id='modals.sendbch.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
             </Tooltip>

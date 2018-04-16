@@ -13,7 +13,7 @@ const MobileNumber = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.preferences.mobile.title' defaultMessage='Mobile number' />
+          <FormattedMessage id='scenes.preferences.mobile.title' defaultMessage='Mobile Number' />
           <SettingStatus active={isVerified}>
             {isVerified
               ? <FormattedMessage id='scenes.preferences.mobile.verified' defaultMessage='Verified' />

@@ -21,7 +21,7 @@ const Container = styled.div`
 
 const PhoneNumberBox = (field) => {
   const handler = (status, value, countryData, number, id) => {
-    field.input.onChange(value)
+    field.input.onChange(number)
   }
 
   return (

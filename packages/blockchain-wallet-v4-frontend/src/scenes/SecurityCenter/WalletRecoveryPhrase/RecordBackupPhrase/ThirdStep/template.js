@@ -14,6 +14,8 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  width: 75%;
+  margin: 0 auto;
 `
 const Buttons = styled.div`
   display: flex;
@@ -29,6 +31,7 @@ const Buttons = styled.div`
   }
 `
 const VerificationContainer = styled.div`
+  width: 118%;
   opacity: ${props => props.authType ? 0.3 : 1};
 `
 
@@ -37,7 +40,7 @@ const ThirdStep = (props) => {
   const { indexes, onSubmit, isMnemonicVerified } = rest
   return (
     <Form onSubmit={onSubmit}>
-      <SuccessOverlay authType={showSuccess && isMnemonicVerified}>
+      <SuccessOverlay success={showSuccess && isMnemonicVerified}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
           <FormattedMessage id='scenes.security.backupphrase.verified' defaultMessage="Congrats! You've successfully verified your Backup Phrase!" />

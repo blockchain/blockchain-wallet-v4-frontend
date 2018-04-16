@@ -38,7 +38,7 @@ const TwoStepYubico = (props) => {
         </ModalBody>
         <ModalFooter align='spaced'>
           <Link size='13px' weight={300} onClick={close} capitalize>
-            <FormattedMessage id='modals.twostepyubico.back' defaultMessage='Go back' />
+            <FormattedMessage id='modals.twostepyubico.back' defaultMessage='Go Back' />
           </Link>
           <Button type='submit' nature='primary' disabled={submitting || invalid}>
             <FormattedMessage id='modals.twostepyubico.enable' defaultMessage='Enable 2FA' />

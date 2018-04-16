@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { lift } from 'ramda'
+import { length, lift } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { Color } from 'blockchain-info-components'
 
@@ -16,8 +16,8 @@ export const getData = (state) => {
   const settings = selectors.core.settings.getSettings(state)
   const coinDisplayed = selectors.preferences.getCoinDisplayed(state)
 
-  const btcAccountsLength = selectors.core.common.bitcoin.getActiveHDAccounts(state).getOrElse([]).length
-  const bchAccountsLength = selectors.core.kvStore.bch.getAccounts(state).getOrElse([]).length
+  const btcAccountsLength = length(selectors.core.common.bitcoin.getActiveHDAccounts(state).getOrElse([]))
+  const bchAccountsLength = length(selectors.core.kvStore.bch.getAccounts(state).getOrElse([]))
 
   const transform = (btcRates, ethRates, bchRates, settings) => {
     const btcFiatBalance = Exchange.convertBitcoinToFiat({ value: btcBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: btcRates })

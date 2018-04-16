@@ -11,7 +11,7 @@ import Success from './template.success'
 class PriceIndexSeries extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { coin: 'BTC', timeframe: 'all' }
+    this.state = { coin: 'BTC', timeframe: 'month' }
     this.selectCoin = this.selectCoin.bind(this)
     this.selectTimeframe = this.selectTimeframe.bind(this)
   }
