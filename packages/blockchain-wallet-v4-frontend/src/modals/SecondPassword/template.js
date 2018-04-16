@@ -20,7 +20,7 @@ const SecondPassword = (props) => {
         <PasswordInput value={value} onChange={handleChange} />
       </ModalBody>
       <ModalFooter align='spaced'>
-        <Link size='13px' weight={300}>
+        <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage id='modals.secondpassword.cancel' defaultMessage='Cancel' />
         </Link>
         <Button nature='primary' onClick={handleClick}>
