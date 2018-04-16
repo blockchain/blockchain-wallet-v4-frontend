@@ -26,7 +26,7 @@ const Reminder = (props) => {
   return (
     <Wrapper>
       <Text size='30px' weight={300}>
-        <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind me' />
+        <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind Me' />
       </Text>
       <Text size='13px' weight={300}>
         <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your Wallet Identifier? We'll send it to you via your email." />
@@ -51,7 +51,7 @@ const Reminder = (props) => {
       <Footer>
         <LinkContainer to='/help'>
           <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.reminder.back' defaultMessage='Go back' />
+            <FormattedMessage id='scenes.reminder.back' defaultMessage='Go Back' />
           </Link>
         </LinkContainer>
       </Footer>

@@ -78,7 +78,7 @@ const FirstStep = props => {
       <FormGroup margin={'30px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.sendether.firststep.fee' defaultMessage='Transaction fee :' />
+            <FormattedMessage id='modals.sendether.firststep.fee' defaultMessage='Transaction Fee :' />
           </FormLabel>
           <ComboDisplay size='14px' coin='ETH'>{fee}</ComboDisplay>
         </FormItem>

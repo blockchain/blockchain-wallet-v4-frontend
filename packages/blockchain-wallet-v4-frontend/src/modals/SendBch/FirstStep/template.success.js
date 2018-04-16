@@ -105,7 +105,7 @@ const FirstStep = props => {
       <FormGroup margin={'30px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.sendbch.firststep.fee' defaultMessage='Transaction fee (sat/b):&nbsp;' />
+            <FormattedMessage id='modals.sendbch.firststep.fee' defaultMessage='Transaction Fee (sat/b):&nbsp;' />
             <Tooltip>
               <FormattedMessage id='modals.sendbch.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
             </Tooltip>

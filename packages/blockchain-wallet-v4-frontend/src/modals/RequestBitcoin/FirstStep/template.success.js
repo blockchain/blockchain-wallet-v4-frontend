@@ -50,7 +50,7 @@ const FirstStep = props => {
       <FormGroup margin={'5px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & share address:&nbsp;' />
+            <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & Share Address:&nbsp;' />
             <Tooltip>
               <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip' defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.' />
             </Tooltip>

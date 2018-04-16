@@ -13,7 +13,7 @@ const Wrapper = styled.footer`
   width: 100%;
   min-height: 60px;
 
-  @media(min-width: 768px) { 
+  @media(min-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -27,7 +27,7 @@ const LinkContainer = styled.div`
 
   & > a { padding: 10px; }
 
-  @media(min-width: 768px) { 
+  @media(min-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -54,7 +54,7 @@ const Footer = () => {
       <LinkContainer>
         <Image name='blue-logo' height='40px' width='40px' />
         <Link href='https://blockchain.info' size='12px' weight={300} color='white' uppercase>
-          <FormattedMessage id='layouts.public.footer.explorer' defaultMessage='.Info Explorer' />
+          <FormattedMessage id='layouts.public.footer.explorer' defaultMessage='Data' />
         </Link>
         <Link href='https://blockchain.com/about' size='12px' weight={300} color='white' uppercase>
           <FormattedMessage id='layouts.public.footer.about' defaultMessage='About' />

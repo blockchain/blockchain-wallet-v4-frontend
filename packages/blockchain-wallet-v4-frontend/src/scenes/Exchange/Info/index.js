@@ -22,7 +22,7 @@ const Info = () => {
       </Text>
       <TextGroup inline>
         <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.exchange.summary' defaultMessage='You can now exchange your bitcoin for ether and vice versa directly from your Blockchain wallet.' />
+          <FormattedMessage id='scenes.exchange.summary' defaultMessage='You can exchange between bitcoin, ether, and bitcoin cash directly from your Blockchain wallet.' />
         </Text>
         <Text size='13px' weight={300}>
           <FormattedMessage id='scenes.exchange.summary2' defaultMessage='In a few simple steps, your exchange will be in progress.' />

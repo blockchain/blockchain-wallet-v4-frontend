@@ -99,7 +99,7 @@ describe('validPasswordStretchingNumber()', () => {
 
 describe('validEtherAddress()', () => {
   it('returns correct string if invalid ether addr passed', () => {
-    expect(FormHelper.validEtherAddress('notanaddress')).toEqual('Invalid Ethereum Address')
+    expect(FormHelper.validEtherAddress('notanaddress')).toEqual('Invalid Ether Address')
   })
 
   it('returns undefined if valid ether addr is given', () => {
