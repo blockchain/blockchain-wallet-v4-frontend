@@ -79,11 +79,17 @@ const List = props => (
 )
 
 List.propTypes = {
-  trades: PropTypes.array
+  trades: PropTypes.shape({
+    complete: PropTypes.array,
+    incomplete: PropTypes.array
+  })
 }
 
 List.defaultProps = {
-  trades: []
+  trades: {
+    complete: [],
+    incomplete: []
+  }
 }
 
 export default List
