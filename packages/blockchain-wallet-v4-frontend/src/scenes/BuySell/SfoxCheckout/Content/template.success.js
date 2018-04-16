@@ -77,7 +77,6 @@ const Success = props => {
   const { trades, type } = rest
   const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
-  console.log('sfox success template', props, step, reason)
   const onSubmit = (e) => {
     e.preventDefault()
     step === 'verified' ? handleTrade(quote) : showModal('SfoxExchangeData', { step })
@@ -106,6 +105,7 @@ const Success = props => {
               onFetchQuote={fetchQuote}
               reason={reason}
               finishAccountSetup={finishAccountSetup}
+              limits={limits}
             />
           </CheckoutWrapper>
         </StepView>
