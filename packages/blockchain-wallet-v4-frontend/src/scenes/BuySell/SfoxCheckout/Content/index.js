@@ -14,7 +14,7 @@ class Checkout extends React.Component {
   }
 
   render () {
-    const { data, formActions, modalActions, sfoxDataActions } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions } = this.props
     const { handleTrade, fetchQuote, refreshQuote } = sfoxDataActions
     const { showModal } = modalActions
 
@@ -23,9 +23,9 @@ class Checkout extends React.Component {
         value={value}
         handleTrade={handleTrade}
         showModal={showModal}
-        changeBuySellTabStatus={(tab) => formActions.change('buySellTabStatus', 'status', tab)}
         fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         refreshQuote={() => refreshQuote()}
+        submitQuote={sfoxActions.submitQuote}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <div>Loading...</div>,
@@ -43,8 +43,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
+  sfoxActions: bindActionCreators(actions.modules.sfox, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 

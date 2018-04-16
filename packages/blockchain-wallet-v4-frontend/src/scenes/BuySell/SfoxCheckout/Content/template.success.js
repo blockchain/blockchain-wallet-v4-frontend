@@ -67,7 +67,7 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { changeBuySellTabStatus, fetchQuote, refreshQuote, handleTrade, quoteR, base, errors, showModal, ...rest } = props
+  const { changeBuySellTabStatus, fetchQuote, refreshQuote, submitQuote, handleTrade, quoteR, base, errors, showModal, ...rest } = props
   const quote = quoteR.getOrElse(null)
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
@@ -117,7 +117,8 @@ const Success = props => {
             </CheckoutWrapper>
             <CheckoutWrapper style={{ ...flex('col'), ...spacing('pa-30') }}>
               <BuyOrderSubmit
-                onSubmit={() => changeBuySellTabStatus('order_history')}
+                quoteR={quoteR}
+                onSubmit={submitQuote}
               />
             </CheckoutWrapper>
           </div>
