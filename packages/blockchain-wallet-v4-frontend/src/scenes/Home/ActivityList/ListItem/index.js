@@ -82,7 +82,7 @@ const ActivityListItem = (props) => {
         <Icon name={iconName} color='brand-primary' />
       </Circle>
       <Info>
-        <Text size='14px' weight={300} capitalize color={selectColor(action)}>{action}</Text>
+        <Text size='14px' weight={300} capitalize color={selectColor(action)}>{action} {coin}</Text>
         <Text size='14px' weight={300}>{timeFormatted}</Text>
         <Text style={{visibility: visibility}} ><SwitchableDisplay size='14px' weight={300} visibility={'hidden'} coin={coin}>{amount}</SwitchableDisplay></Text>
       </Info>

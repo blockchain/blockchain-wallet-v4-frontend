@@ -9,14 +9,11 @@ import { Text } from 'blockchain-info-components'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
-  // padding: 5px 0;
-
-  // @media(min-width: 1200px) {
-  //   justify-content: flex-end;
-  //   padding: 0;
-  // }
+  > *:first-child {
+    margin-right: 3px;
+  }
 `
 
 const Fee = props => (

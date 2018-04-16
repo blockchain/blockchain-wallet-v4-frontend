@@ -16,6 +16,7 @@ const Display = styled.button.attrs({ type: 'button' })`
   white-space: nowrap;
   user-select: none;
   cursor: pointer;
+  padding: 0;
   border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
   border-radius: 0;
   background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
@@ -25,12 +26,14 @@ const Display = styled.button.attrs({ type: 'button' })`
 `
 const DefaultDisplay = styled.div`
   width: 100%;
-  padding: 0.5rem 1rem;
   box-sizing: border-box;
+  padding: 5px 20px 5px 10px;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 300;
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: ${props => props.theme['gray-5']};
 
 `
