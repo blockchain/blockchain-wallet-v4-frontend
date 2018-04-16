@@ -4,7 +4,7 @@ import { Text, Button, Icon } from 'blockchain-info-components'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
-import { spacing } from 'services/StyleService'
+import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from './OrderDetails'
 import FundingSource from './FundingSource'
@@ -38,13 +38,21 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
       <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
     <Text size='14px' weight='normal' style={spacing('mt-20')}>
-      <FormattedMessage id='placeholder' defaultMessage='Your Connected Account' />:
+      <FormattedMessage id='buy.connected_account' defaultMessage='Your Connected Account' />:
     </Text>
     <MethodContainer style={spacing('mt-10')}>
       <Icon style={spacing('ml-15')} name='bank-filled' size='26px' />
       <FundingSource account={account} />
     </MethodContainer>
-    <OrderDetailsTable style={spacing('mt-20')}>
+    <div style={{ ...flex('row align/center justify/end'), ...spacing('mt-20') }}>
+      <Text size='12px' weight={500} style={spacing('mr-10')}>
+        <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
+      </Text>
+      <Text size='12px' weight={300}>
+        1 BTC = {quoteR.map((quote) => `$${quote.rate}`).getOrElse('~')}
+      </Text>
+    </div>
+    <OrderDetailsTable style={spacing('mt-10')}>
       {renderDetailsRow(
         'order_details.amount_to_purchase',
         'BTC Amount to Purchase',
