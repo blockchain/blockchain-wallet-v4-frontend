@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { take } from 'ramda'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { ComponentDropdown, Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
@@ -45,7 +46,7 @@ const Success = (props) => {
   const { bchAccounts, wallets, defaultId } = props.data
   const { oneditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub } = props
 
-  const walletTableRows = wallets.map((wallet, i) => {
+  const walletTableRows = take(bchAccounts.length, wallets).map((wallet, i) => {
     const isDefault = i === defaultId
     const isArchived = bchAccounts[i].archived
 

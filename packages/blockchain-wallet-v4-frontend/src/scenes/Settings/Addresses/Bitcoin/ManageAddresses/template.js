@@ -6,6 +6,7 @@ import { Icon, TabMenu, TabMenuItem, Text, IconButton, Link, ComponentDropdown }
 import HorizontalMenu from 'components/HorizontalMenu'
 import AddressesTable from './AddressesTable'
 import AddressesTableEntry from './AddressesTableEntry'
+import OptionItem from '../OptionItem'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -18,12 +19,6 @@ const MoreOptions = () => (
   <Link weight={200} size='small'>
     <FormattedMessage id='scenes.settings.manage_addresses.more_options' defaultMessage='More Options' />
   </Link>
-)
-
-const OptionItem = ({ id, text, onClick }) => (
-  <Text size='small' onClick={onClick}>
-    <FormattedMessage id={id} defaultMessage={text} />
-  </Text>
 )
 
 const ManageAddressesTemplate = ({ account, labels, receiveIndex, isDefault, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, oneditBtcAccountLabel, onShowXPub, onMakeDefault, onSetArchived }) => (
@@ -53,10 +48,10 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
           color={'gray-5'}
           selectedComponent={<MoreOptions />}
           components={[
-            <OptionItem id='scenes.settings.manage_addresses.edit_name' text='Edit Name' onClick={oneditBtcAccountLabel} />,
-            (!isDefault && <OptionItem id='scenes.settings.manage_addresses.make_default' text='Make Default' onClick={onMakeDefault} />),
-            (!isDefault && <OptionItem id='scenes.settings.manage_addresses.archive' text='Archive' onClick={onSetArchived} />),
-            <OptionItem id='scenes.settings.manage_addresses.show_xpub' text='Show xPub' onClick={onShowXPub} />
+            <OptionItem id='scenes.settings.manage_addresses.edit_name' defaultMessage='Edit Name' onClick={oneditBtcAccountLabel} />,
+            (!isDefault && <OptionItem id='scenes.settings.manage_addresses.make_default' defaultMessage='Make Default' onClick={onMakeDefault} />),
+            (!isDefault && <OptionItem id='scenes.settings.manage_addresses.archive' defaultMessage='Archive' onClick={onSetArchived} />),
+            <OptionItem id='scenes.settings.manage_addresses.show_xpub' defaultMessage='Show xPub' onClick={onShowXPub} />
           ].filter(x => x)} />
       </div>
       <Text weight={400} size='small' style={{ marginTop: 25 }}>
@@ -68,7 +63,7 @@ const ManageAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
       {labels.length === 0 ? null : (
         <AddressesTable>
           {labels.map(entry => (
-            <AddressesTableEntry {...{ entry, deriveAddress, onEditLabel, onDeleteLabel }} />
+            <AddressesTableEntry key={entry.index} {...{ entry, deriveAddress, onEditLabel, onDeleteLabel }} />
           ))}
         </AddressesTable>
       )}

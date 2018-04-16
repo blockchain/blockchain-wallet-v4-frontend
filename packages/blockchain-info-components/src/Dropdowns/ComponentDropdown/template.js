@@ -27,6 +27,7 @@ const Button = styled.div`
   display: inline;
 `
 const DropdownIcon = styled(Icon)`
+  cursor: pointer;
   padding-left: 2px;
 `
 const DropdownList = styled.ul`

@@ -24,8 +24,8 @@ const Success = props => {
   return (
     <LinkContainer to='/bch/transactions'>
       <Wrapper large={large}>
-        <CoinDisplay coin='BCH' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</CoinDisplay>
-        <FiatDisplay coin='BCH' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</FiatDisplay>
+        <CoinDisplay coin='BCH' cursor='pointer' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</CoinDisplay>
+        <FiatDisplay coin='BCH' cursor='pointer' size={large ? '20px' : '12px'} weight={large ? 200 : 300}>{balance}</FiatDisplay>
       </Wrapper>
     </LinkContainer>
   )

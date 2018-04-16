@@ -54,8 +54,8 @@ const SecondStep = (props) => {
         </Text>
         <Field name='secretPhrase' component={TextBox} />
         <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain' defaultMessage='Enter your wallet Secret Phrase here if you have one set.' />
-          <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain2' defaultMessage='If the Secret Phrase is correct, your request will be approved much quicker.' />
+          <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain' defaultMessage='Enter your wallet Secret Phrase here if you have one set. ' />
+          <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain2' defaultMessage='If the Secret Phrase is correct, your request will be approved much quicker. ' />
           <FormattedMessage id='scenes.reset2fa.secondstep.secretPhrase_explain3' defaultMessage="If you don't know what this is, leave it blank." />
         </Text>
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} >
