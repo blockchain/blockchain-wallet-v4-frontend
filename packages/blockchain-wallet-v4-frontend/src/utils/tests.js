@@ -5,6 +5,7 @@ export const testPropTypes = (component, propName, arraysOfTestValues, otherProp
   const _test = (testValues, expectError) => {
     for (let propValue of testValues) {
       console.error.mockClear()
+      // console.debug('TEST', { ...otherProps, [propName]: propValue })
       React.createElement(component, { ...otherProps, [propName]: propValue })
       expect(console.error).toHaveBeenCalledTimes(expectError ? 1 : 0)
     }

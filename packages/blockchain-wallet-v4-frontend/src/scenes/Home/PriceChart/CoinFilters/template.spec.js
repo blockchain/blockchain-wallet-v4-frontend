@@ -18,7 +18,7 @@ describe('CoinFilters component', () => {
       ['BTC', 'BCH', 'ETH'],
       [0, '', undefined, null, {}]
     ]
-    testPropTypes(CoinFilters, 'time', testValues, { handleClick: jest.fn() })
+    testPropTypes(CoinFilters, 'coin', testValues, { handleClick: jest.fn() })
   })
 
   it('should accept a mandatory function for prop handleClick', () => {
@@ -26,6 +26,6 @@ describe('CoinFilters component', () => {
       [jest.fn()],
       [0, '', undefined, null, {}]
     ]
-    testPropTypes(CoinFilters, 'handleClick', testValues, { time: 'all' })
+    testPropTypes(CoinFilters, 'handleClick', testValues, { coin: 'BTC' })
   })
 })
