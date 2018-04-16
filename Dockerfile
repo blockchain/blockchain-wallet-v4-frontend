@@ -14,13 +14,6 @@ RUN : "${environment:? build argument is not set!}" \
   : "${web_socket_url:? build argument is not set!}" \
   : "${api_domain:? build argument is not set!}"
 
-# log build arguments
-RUN echo "** docker build config **"
-RUN echo "env: $environment"
-RUN echo "root_url: $root_url"
-RUN echo "web_socket_url: $web_socket_url"
-RUN echo "api_domain: $api_domain"
-
 # set build args as environment variables for Node to consume
 ENV ENVIRONMENT=$environment
 ENV ROOT_URL=$root_url
