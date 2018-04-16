@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from './Stepper'
 import QuoteInput from './QuoteInput'
+import FundingSource from './FundingSource'
 
 const quoteInputSpec = {
   method: 'buy',
@@ -25,8 +26,6 @@ const MethodContainer = styled.div`
   border-radius: 3px;
   background-color: ${props => props.theme['white-blue']};
 `
-
-const capitalize = (s) => s[0].toUpperCase() + s.slice(1)
 
 const BuyCheckout = ({ quoteR, account, onFetchQuote }) => (
   <ExchangeCheckoutWrapper>
@@ -55,16 +54,7 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote }) => (
     </Text>
     <MethodContainer>
       <Icon name='bank-filled' size='30px' />
-      <div style={{ ...flex('col'), ...spacing('ml-20') }}>
-        <Text size='14px' weight={300}>
-          {`Plaid ${capitalize(account.accountType)} `}
-          <FormattedMessage id='buy.account_ending_with' defaultMessage='ending with' />
-          {' ' + account.accountNumber}
-        </Text>
-        <Text size='12px' weight={300}>
-          {account.name}
-        </Text>
-      </div>
+      <FundingSource account={account} />
     </MethodContainer>
     <Text style={spacing('ml-10')} size='16px' weight={600}>
       <FormattedMessage id='amount' defaultMessage='Amount' />
