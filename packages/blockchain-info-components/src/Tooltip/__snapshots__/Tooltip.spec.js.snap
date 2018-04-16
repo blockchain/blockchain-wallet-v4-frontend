@@ -12,6 +12,8 @@ exports[`Tooltip component renders correctly 1`] = `
     }
     displayed={false}
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     ?
   </styled.div>

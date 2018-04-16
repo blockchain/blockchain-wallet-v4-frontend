@@ -4,6 +4,9 @@ import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceIndexSeries from './PriceIndexSeries'
 import BalancesChartContainer from './BalancesChart'
+import ReactHighcharts from 'react-highcharts'
+
+ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
 const Wrapper = styled.section`
   display: flex;

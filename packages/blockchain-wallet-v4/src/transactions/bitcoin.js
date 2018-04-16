@@ -196,7 +196,7 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
     confirmations: confirmations,
     inputs: inputs,
     outputs: outputs,
-    formWatchOnly: inputData.isWatchOnly,
+    fromWatchOnly: inputData.isWatchOnly,
     toWatchOnly: outputData.isWatchOnly,
     from: from, // based on inputs
     to: to, // based on outputs
