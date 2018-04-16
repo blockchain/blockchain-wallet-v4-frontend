@@ -1,5 +1,6 @@
 module.exports = {
-  BLOCKCHAIN_INFO: 'https://blockchain.info/',
-  API_BLOCKCHAIN_INFO: 'https://api.blockchain.info/',
-  WEB_SOCKET_URL: 'wss://ws.blockchain.info/inv'
+  ROOT_URL: 'https://blockchain.info/',
+  API_DOMAIN: 'https://api.blockchain.info/',
+  WEB_SOCKET_URL: 'wss://ws.blockchain.info/inv',
+  WALLET_HELPER_DOMAIN: 'https://wallet-helper.blockchain.info/'
 }
