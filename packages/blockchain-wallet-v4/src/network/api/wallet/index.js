@@ -122,12 +122,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { method: 'pairing-encryption-password', guid }
   })
 
-  const authorizeLogin = (token) => post({
+  const authorizeLogin = (token, confirm) => post({
     url: rootUrl,
     endPoint: 'wallet',
     data: {
-      method: 'authorize-approve',
-      token: token
+      token: token,
+      confirm_approval: confirm,
+      method: 'authorize-approve'
     }
   })
 

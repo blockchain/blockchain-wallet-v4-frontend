@@ -25,7 +25,7 @@ export const encodePairingCodeSuccess = (data) => ({ type: AT.ENCODE_PAIRING_COD
 export const encodePairingCodeFailure = (error) => ({ type: AT.ENCODE_PAIRING_CODE_FAILURE, payload: error })
 
 // AUTHORIZE_LOGIN
-export const authorizeLogin = (token) => ({ type: AT.AUTHORIZE_LOGIN, token })
+export const authorizeLogin = (token, confirm) => ({ type: AT.AUTHORIZE_LOGIN, payload: { token, confirm } })
 export const authorizeLoginLoading = () => ({ type: AT.AUTHORIZE_LOGIN_LOADING })
 export const authorizeLoginSuccess = (data) => ({ type: AT.AUTHORIZE_LOGIN_SUCCESS, payload: data })
 export const authorizeLoginFailure = (data) => ({ type: AT.AUTHORIZE_LOGIN_FAILURE, payload: data })

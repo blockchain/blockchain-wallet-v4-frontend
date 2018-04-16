@@ -23,6 +23,11 @@ class AuthorizeLogin extends React.Component {
     this.props.miscActions.authorizeLogin(token)
   }
 
+  onSubmit (e) {
+    // e.preventDefault()
+    // this.props.miscActions.authorizeLogin(token, true)
+  }
+
   render () {
     const { data } = this.props
 
