@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 
-const isProdBuild = process.env.NODE_ENV === 'production'
+const isCiBuild = process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
   build: `${__dirname}/../../build`,
@@ -34,11 +34,11 @@ try {
 }
 
 module.exports = {
-  mode: isProdBuild ? 'production' : 'development',
+  mode: isCiBuild ? 'production' : 'development',
   entry: {
     app: [
       'babel-polyfill',
-      ...(isProdBuild ? [] : [
+      ...(isCiBuild ? [] : [
         'react-hot-loader/patch',
         'webpack-dev-server/client?http://localhost:8080',
         'webpack/hot/only-dev-server'
@@ -47,13 +47,13 @@ module.exports = {
     ]
   },
   output: {
-    path: isProdBuild ? (PATHS.dist) : (PATHS.build),
+    path: isCiBuild ? (PATHS.dist) : (PATHS.build),
     chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/'
   },
   module: {
     rules: [
-      (isProdBuild ? {
+      (isCiBuild ? {
         test: /\.js$/,
         use: [
           'thread-loader',
@@ -124,7 +124,7 @@ module.exports = {
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({ APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version) }),
     new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
-    ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
+    ...(!isCiBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
@@ -148,7 +148,7 @@ module.exports = {
         cache: true
       })
     ],
-    concatenateModules: isProdBuild,
+    concatenateModules: isCiBuild,
     runtimeChunk: {
       name: 'manifest'
     },
@@ -179,7 +179,7 @@ module.exports = {
     contentBase: PATHS.src,
     host: 'localhost',
     port: 8080,
-    hot: !isProdBuild,
+    hot: !isCiBuild,
     historyApiFallback: true,
     before (app) {
       app.get('/Resources/wallet-options.json', function (req, res) {
@@ -200,7 +200,7 @@ module.exports = {
         return '/index.html'
       }
     }],
-    overlay: !isProdBuild && {
+    overlay: !isCiBuild && {
       warnings: true,
       errors: true
     },
