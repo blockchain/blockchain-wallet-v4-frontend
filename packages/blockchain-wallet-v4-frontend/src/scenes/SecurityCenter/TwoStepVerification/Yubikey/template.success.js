@@ -1,19 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Text, Link, Icon, Button } from 'blockchain-info-components'
+import { Text, Icon, Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
 
-import { SecurityDescription, SecurityHeader, SuccessOverlay } from 'components/Security'
+import { SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
-  width: 90%;
+  width: 110%;
   padding: 0px 20px;
   opacity: ${props => props.success ? 0.3 : 1};
-`
-const Header = SecurityHeader.extend`
-  justify-content: flex-start;
 `
 const YubikeyContainer = styled.div`
   margin-top: 25px;
@@ -64,15 +61,6 @@ const Yubikey = props => {
         </Text>
       </SuccessOverlay>
       <AuthenticatorSummary success={props.ui.successToggled}>
-        <Header>
-          <FormattedMessage id='scenes.security.twostepverification.yubi.title' defaultMessage='Two-Step Verification - Yubikey' />
-          <Link size='14px' onClick={props.goBack}>Change</Link>
-        </Header>
-        <SecurityDescription>
-          <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.yubi.description' defaultMessage='Two-step Verification helps prevent unauthorized access to your wallet by requiring a one-time password after every login attempt. Enabling this option helps keep unauthorized users from being able to access your wallet.' />
-          </Text>
-        </SecurityDescription>
         <YubikeyContainer>
           <Text size='14px' weight={200}>
             <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage='1. Insert the Yubikey into an available USB port.' />

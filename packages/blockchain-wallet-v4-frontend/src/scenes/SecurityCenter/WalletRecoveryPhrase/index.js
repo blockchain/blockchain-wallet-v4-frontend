@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
-import { path } from 'ramda'
 import { getData } from './selectors'
 import Success from './template.success'
 
@@ -17,10 +16,6 @@ class WalletRecoveryPhraseContainer extends React.Component {
     this.closeSteps = this.closeSteps.bind(this)
     this.changeDescription = this.changeDescription.bind(this)
     this.state = {}
-  }
-
-  componentDidMount () {
-    this.props.settingsActions.showBackupRecovery()
   }
 
   toggleNextStep () {
@@ -48,15 +43,13 @@ class WalletRecoveryPhraseContainer extends React.Component {
       toggleNextStep={this.toggleNextStep}
       handleClose={this.closeSteps}
       changeDescription={this.changeDescription}
-      recoveryPhrase={this.props.recoveryPhrase}
       toggleBackupAgain={this.toggleBackupAgain}
     />
   }
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state),
-  recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
