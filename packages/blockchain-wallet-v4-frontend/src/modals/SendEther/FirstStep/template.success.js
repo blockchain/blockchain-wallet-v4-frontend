@@ -50,7 +50,7 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendether.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            <Field name='to' component={TextBox} validate={[required, validEtherAddress]} />
+            <Field name='to' placeholder="Paste or scan an address" component={TextBox} validate={[required, validEtherAddress]} />
             <QRCodeCapture coin='ETH' />
           </Row>
         </FormItem>
@@ -78,7 +78,7 @@ const FirstStep = props => {
       <FormGroup margin={'30px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.sendether.firststep.fee' defaultMessage='Transaction fee :' />
+            <FormattedMessage id='modals.sendether.firststep.fee' defaultMessage='Transaction Fee :' />
           </FormLabel>
           <ComboDisplay size='14px' coin='ETH'>{fee}</ComboDisplay>
         </FormItem>

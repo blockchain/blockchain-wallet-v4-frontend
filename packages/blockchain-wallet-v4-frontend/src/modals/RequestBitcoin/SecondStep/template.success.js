@@ -70,7 +70,7 @@ const SecondStep = (props) => {
       </ModalBody>
       <ModalFooter>
         <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.requestbitcoin.secondstep.back' defaultMessage='Go back' />
+          <FormattedMessage id='scenes.requestbitcoin.secondstep.back' defaultMessage='Go Back' />
         </Link>
       </ModalFooter>
     </Modal>

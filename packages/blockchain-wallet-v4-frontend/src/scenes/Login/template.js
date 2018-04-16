@@ -67,7 +67,7 @@ const Login = (props) => {
           </Text>
           <LinkContainer to='/signup'>
             <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.login.register' defaultMessage='Sign up' />
+              <FormattedMessage id='scenes.login.register' defaultMessage='Sign Up' />
             </Link>
           </LinkContainer>
         </TextGroup>
@@ -109,7 +109,7 @@ const Login = (props) => {
             <FormItem>
               <FormLabel for='code'>
                 { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
-                { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
+                { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' /> }
                 { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
               </FormLabel>
             </FormItem>
@@ -126,7 +126,7 @@ const Login = (props) => {
       </LoginForm>
       <Footer>
         <Link size='13px' weight={300} onClick={handleMobile}>
-          <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via mobile' />
+          <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via Mobile' />
         </Link>
         <TextGroup inline>
           <Text size='13px' weight={300}>
@@ -134,7 +134,7 @@ const Login = (props) => {
           </Text>
           <LinkContainer to='/help'>
             <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.login.options' defaultMessage='View options' />
+              <FormattedMessage id='scenes.login.options' defaultMessage='View Options' />
             </Link>
           </LinkContainer>
         </TextGroup>

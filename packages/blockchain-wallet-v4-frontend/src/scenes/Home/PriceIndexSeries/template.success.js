@@ -61,7 +61,7 @@ export default props => {
   return (
     <Wrapper>
       <TitleFiltersRow>
-        <Text uppercase color='brand-primary' weight={300} size='24px'><FormattedMessage id='scenes.home.chart.pricechart' defaultMessage='Price chart' /></Text>
+        <Text uppercase color='brand-primary' weight={300} size='24px'><FormattedMessage id='scenes.home.chart.pricechart' defaultMessage='Price Charts' /></Text>
         <TimeFilters>
           <FilterText size='14px' weight={300} underline={allSelected} color={allSelected ? 'brand-primary' : 'gray-3'} onClick={() => selectTimeframe('all')}>
             <FormattedMessage id='scenes.home.chart.all' defaultMessage='All' />

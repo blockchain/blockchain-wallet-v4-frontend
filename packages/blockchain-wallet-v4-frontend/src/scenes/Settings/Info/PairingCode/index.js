@@ -17,7 +17,7 @@ const PairingCode = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.info.pairingcode.title' defaultMessage='Mobile app pairing code' />
+          <FormattedMessage id='scenes.info.pairingcode.title' defaultMessage='Mobile App Pairing Code' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage id='scenes.info.pairingcode.description' defaultMessage="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet." altFont light />

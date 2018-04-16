@@ -40,6 +40,7 @@ const RightContainer = styled(Container)`
 `
 const TextContainer = styled.div`
   display: none;
+  margin-left: -2px;
   @media(min-width: 850px) { display: flex; }
 `
 
@@ -49,6 +50,7 @@ const MenuTop = (props) => (
       <TextContainer>
         <Text size='28px' weight={200} uppercase>
           <FormattedMessage id='layouts.wallet.menutop.bank' defaultMessage='Be your own bank.' />
+          <sup>®</sup>
         </Text>
       </TextContainer>
       <Actions />

@@ -1,5 +1,5 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
-import { prop, compose, assoc, map, path, curry, split, values, sequence, lift, indexOf } from 'ramda'
+import { prop, compose, assoc, length, map, path, curry, split, take, values, sequence, lift, indexOf } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bch/selectors.js'
 import * as transactions from '../../../transactions'
@@ -17,7 +17,7 @@ export const getActiveHDAccounts = state => {
   const bchAccounts = getAccountsList(state).getOrElse([])
   const addInfo = account => balancesRD.map(prop(prop('xpub', account)))
     .map(x => assoc('info', x, account))
-  const addBchLabel = account => account.map(a => assoc('label', prop('label', bchAccounts[prop('index', a)]), a))
+  const addBchLabel = account => account.map(a => assoc('label', path([prop('index', a), 'label'], bchAccounts), a))
 
   const objectOfRemotes = compose(map(addBchLabel), map(addInfo),
     HDAccountList.toJSwithIndex, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
@@ -77,15 +77,15 @@ export const getAddressesInfo = state => {
   const legacyAddresses = compose(values, walletSelectors.getActiveAddresses)(state)
   const digest = x => ({
     coin: 'BCH',
-    label: prop('addr', x),
-    address: prop('addr', x)
+    label: toCashAddr(prop('addr', x), true),
+    address: toCashAddr(prop('addr', x), true)
   })
   return map(digest, legacyAddresses)
 }
 
 const addFromToBch = (wallet, bchAccounts, txList) => {
   const hdWallets = wallet.hd_wallets
-  map(tx => hdWallets.map(hdWallet => hdWallet.accounts.map((account, index) => {
+  map(tx => hdWallets.map(hdWallet => take(length(bchAccounts), hdWallet.accounts).map((account, index) => {
     if (account) {
       if (account.label === tx.from) {
         tx.from = bchAccounts[index].label
