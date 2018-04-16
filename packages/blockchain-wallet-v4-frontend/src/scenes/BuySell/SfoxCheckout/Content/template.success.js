@@ -111,6 +111,7 @@ const Success = props => {
             <CheckoutWrapper>
               <BuyOrderDetails
                 quoteR={quoteR}
+                account={accounts[0]}
                 onRefreshQuote={refreshQuote}
               />
             </CheckoutWrapper>

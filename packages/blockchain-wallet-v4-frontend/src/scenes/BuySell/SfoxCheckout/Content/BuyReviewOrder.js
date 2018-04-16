@@ -1,16 +1,25 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Button } from 'blockchain-info-components'
+import { Text, Button, Icon } from 'blockchain-info-components'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from './OrderDetails'
+import FundingSource from './FundingSource'
 
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
+`
+
+const MethodContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 42px;
+  border: 1px solid ${props => props.theme['gray-2']}
 `
 
 const renderDetailsRow = (id, message, value, color) => (
@@ -20,7 +29,7 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-export const BuyOrderDetails = ({ quoteR, onRefreshQuote }) => (
+export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
@@ -28,6 +37,13 @@ export const BuyOrderDetails = ({ quoteR, onRefreshQuote }) => (
     <Text size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
+    <Text size='14px' weight='normal' style={spacing('mt-20')}>
+      <FormattedMessage id='placeholder' defaultMessage='Your Connected Account' />:
+    </Text>
+    <MethodContainer style={spacing('mt-10')}>
+      <Icon style={spacing('ml-15')} name='bank-filled' size='26px' />
+      <FundingSource account={account} />
+    </MethodContainer>
     <OrderDetailsTable style={spacing('mt-20')}>
       {renderDetailsRow(
         'order_details.amount_to_purchase',
