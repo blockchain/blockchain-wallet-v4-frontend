@@ -8,7 +8,7 @@ import { determineStep, determineReason } from 'services/SfoxService'
 import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
-import Stepper, { StepView } from './Stepper'
+import Stepper, { StepView } from 'components/Utilities/Stepper'
 import BuyCheckout from './BuyCheckout'
 import { BuyOrderDetails, BuyOrderSubmit } from './BuyReviewOrder'
 
