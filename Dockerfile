@@ -29,7 +29,7 @@ COPY . .
 # build assets
 RUN npm install lerna yarn babel-cli
 RUN yarn bootstrap
-RUN yarn ci:build:prod
+RUN yarn ci:compile
 
 USER blockchain
 
