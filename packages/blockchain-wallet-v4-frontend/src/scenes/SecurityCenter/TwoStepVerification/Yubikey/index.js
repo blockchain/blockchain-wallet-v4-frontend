@@ -24,8 +24,9 @@ class YubikeyContainer extends React.Component {
     const prev = this.props.data.data
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
-      setTimeout(function () {
-        nextProps.goBack()
+      setTimeout(() => {
+        nextProps.handleGoBack()
+        nextProps.goBackOnSuccess()
       }, 1500)
     }
   }
