@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import styled from 'styled-components'
 import { Text, Icon, Button } from 'blockchain-info-components'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
@@ -8,24 +7,13 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import FundingSource from 'components/BuySell/FundingSource'
+import { MethodContainer } from 'components/BuySell/styled.js'
 
 const quoteInputSpec = {
   method: 'buy',
   input: 'usd',
   output: 'btc'
 }
-
-const MethodContainer = styled.div`
-  height: 65px;
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  margin-bottom: 30px;
-  padding-left: 20px;
-  border: 1px solid ${props => props.theme['gray-1']};
-  border-radius: 3px;
-  background-color: ${props => props.theme['white-blue']};
-`
 
 const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits }) => {
   const submitButtonHelper = () => (
