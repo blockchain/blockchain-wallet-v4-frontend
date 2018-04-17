@@ -30,6 +30,13 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
+const renderFirstRow = q => (
+  q.baseCurrency === 'BTC'
+    ? `${q.baseAmount / 100000000} BTC ($${(+q.quoteAmount - +q.feeAmount).toFixed(2)})`
+    : `${q.quoteAmount / 100000000} BTC ($${(+q.baseAmount - +q.feeAmount).toFixed(2)})`
+)
+const renderTotal = q => q.baseCurrency === 'BTC' ? `$${q.quoteAmount}` : `$${q.baseAmount}`
+
 export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
@@ -38,7 +45,7 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
     <Text size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
-    <Text size='14px' weight='normal' style={spacing('mt-20')}>
+    <Text size='14px' weight={300} style={spacing('mt-20')}>
       <FormattedMessage id='buy.connected_account' defaultMessage='Your Connected Account' />:
     </Text>
     <MethodContainer style={spacing('mt-10')}>
@@ -57,17 +64,17 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
       {renderDetailsRow(
         'order_details.amount_to_purchase',
         'BTC Amount to Purchase',
-        quoteR.map(quote => `${quote.baseAmount} BTC`).getOrElse('~')
+        quoteR.map(quote => renderFirstRow(quote)).getOrElse('~')
       )}
       {renderDetailsRow(
         'order_details.trading_fee',
         'Trading Fee',
-        quoteR.map(quote => `- $${quote.feeAmount}`).getOrElse('~')
+        quoteR.map(quote => `$${(+quote.feeAmount).toFixed(2)}`).getOrElse('~')
       )}
       {renderDetailsRow(
-        'order_details.amount_to_receive',
-        'BTC Amount to be Received',
-        quoteR.map(quote => `${quote.quoteAmount} BTC`).getOrElse('~'),
+        'order_details.total_cost',
+        'Total Cost',
+        quoteR.map(quote => renderTotal(quote)).getOrElse('~'),
         'success'
       )}
     </OrderDetailsTable>
