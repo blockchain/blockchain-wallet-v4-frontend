@@ -87,9 +87,15 @@ export default ({ coreSagas }) => {
   }
 
   const submitQuote = function * (action) {
-    console.log('submitting quote:', action.payload)
-    yield call(delay, 1500)
-    yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+    try {
+      console.log('submitting quote:', action.payload)
+      yield call(coreSagas.data.sfox.handleTrade, action.payload)
+      let state = yield select()
+      console.log('state', state)
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+    } catch (e) {
+      console.warn('FE submitQuote failed', e)
+    }
   }
 
   return function * () {
