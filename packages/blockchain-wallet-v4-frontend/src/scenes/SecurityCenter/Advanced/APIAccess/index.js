@@ -8,7 +8,7 @@ const APIAccess = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.securitysettings.apiaccess.title' defaultMessage='API access' />
+          <FormattedMessage id='scenes.securitysettings.apiaccess.title' defaultMessage='API Access' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage id='scenes.securitysettings.apiaccess.description' defaultMessage='Use our API to interact with your wallet programmatically.' />

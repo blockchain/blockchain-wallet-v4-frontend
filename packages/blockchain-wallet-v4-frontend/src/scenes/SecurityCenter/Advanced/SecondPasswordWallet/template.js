@@ -9,7 +9,7 @@ const SecondPasswordWallet = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.security.secondpassword.title' defaultMessage='Second wallet password' />
+          <FormattedMessage id='scenes.security.secondpassword.title' defaultMessage='Second Wallet Password' />
           <SettingStatus active={secondPasswordEnabled}>
             {secondPasswordEnabled
               ? <FormattedMessage id='scenes.security.secondpassword.enabled' defaultMessage='Enabled' />
