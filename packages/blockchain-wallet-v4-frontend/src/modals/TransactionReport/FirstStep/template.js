@@ -6,6 +6,7 @@ import { reduxForm, Field } from 'redux-form'
 
 import { Button, Link, ModalBody, ModalFooter } from 'blockchain-info-components'
 import { DateBox, SelectBoxBitcoinAddresses, Form } from 'components/Form'
+import { required } from 'services/FormHelper'
 
 const Container = styled.div`
   display: flex;
@@ -36,30 +37,28 @@ const ButtonContainer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { coin, position, total, close, closeAll, ...rest } = props
-  const { onSubmit } = rest
+  const { coin, close, submitting, invalid, onSubmit } = props
 
   return (
     <Form onSubmit={onSubmit}>
       <ModalBody>
         <Container>
           <Addresses>
-            <Field name='from' component={SelectBoxBitcoinAddresses} props={{coin}} />
+            <Field name='from' placeholder="TEST" validate={[required]} component={SelectBoxBitcoinAddresses} props={{coin}} />
           </Addresses>
           <Dates>
-            <Field name='start' component={DateBox} />
-            <Field name='end' component={DateBox} />
+            <Field name='start' validate={[required]} component={DateBox} />
+            <Field name='end' validate={[required]} component={DateBox} />
           </Dates>
         </Container>
-
       </ModalBody>
-      <ModalFooter align='spaced'>
+      <ModalFooter align='right'>
         <Link size='13px' weight={300} fullwidth onClick={close}>
           <FormattedMessage id='modals.firststep.transactionreport.close' defaultMessage='Close' />
         </Link>
         <ButtonContainer>
-          <Button type='submit' nature='primary'>
-            <FormattedMessage id='modals.firststep.transactionreport.generate' defaultMessage='Generate' />
+          <Button type='submit' nature='primary' disabled={submitting || invalid}>
+            <FormattedMessage id='modals.firststep.transactionreport.generate' defaultMessage='Export' />
           </Button>
         </ButtonContainer>
       </ModalFooter>
