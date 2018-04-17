@@ -38,7 +38,6 @@ class SfoxTradeDetails extends React.Component {
   render () {
     const headerStatus = statusHelper(this.props._state)
     const { account } = this.props
-    console.log('trade details modal', this.props)
 
     return (
       <Modal size='large' position={this.props.position} total={this.props.total}>
