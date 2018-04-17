@@ -28,7 +28,7 @@ import BitcoinTransactions from './Transactions/Bitcoin'
 import EtherTransactions from './Transactions/Ether'
 import BchTransactions from './Transactions/Bch'
 
-class App extends React.Component {
+class App extends React.PureComponent {
   render () {
     const { store, history, messages } = this.props
 

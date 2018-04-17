@@ -2,8 +2,7 @@ import { select, takeEvery, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as actions from '../../actions'
-// import * as sagas from '../../sagas.js'
-import { calculateStart, calculateScale } from './services'
+import { calculateStart, calculateScale } from 'services/ChartService'
 
 export default ({ coreSagas }) => {
   const initialized = function * (action) {
