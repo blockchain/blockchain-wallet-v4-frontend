@@ -5,62 +5,49 @@ import { Route, Redirect } from 'react-router-dom'
 import ui from 'redux-ui'
 
 import { actions, selectors } from 'data'
-import { getData } from './selectors'
-import Error from './template.error'
-import Loading from './template.loading'
-import Success from './template.success'
-import { Remote } from 'blockchain-wallet-v4/src'
+import WalletLayout from './template'
 
-class WalletLayout extends React.Component {
+class WalletLayoutContainer extends React.PureComponent {
   componentWillMount () {
-    if (!Remote.Success.is(this.props.data)) {
-      // this is needed because otherwise sign up calls two times component will mount (investigate why)
-      this.props.kvStoreBchActions.fetchMetadataBch()
-      this.props.kvStoreEthereumActions.fetchMetadataEthereum()
-      this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
-      this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
-      this.props.settingsActions.fetchSettings()
-    }
+    // this is needed because otherwise sign up calls two times component will mount (investigate why)
+    this.props.kvStoreBchActions.fetchMetadataBch()
+    this.props.kvStoreEthereumActions.fetchMetadataEthereum()
+    this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
+    this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
+    this.props.settingsActions.fetchSettings()
   }
 
   render () {
-    const { data, isAuthenticated, location } = this.props
-    return isAuthenticated ? data.cata({
-      Success: () => renderLayout(this.props),
-      Failure: (message) => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    }) : <Redirect to={{ pathname: '/login', state: { from: location } }} />
+    const { updateUI, isAuthenticated, path, component: Component } = this.props
+
+    return isAuthenticated
+      ? <Route path={path} render={props => (
+        <WalletLayout
+          location={props.location}
+          menuLeftToggled={ui.menuLeftToggled}
+          trayRightOpen={ui.trayRightOpen}
+          trayRightContent={ui.trayRightContent}
+          handleTrayRightToggle={(content, fromClickOutside) => {
+            if (fromClickOutside) {
+              updateUI({ trayRightOpen: false })
+            } else if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
+              updateUI({ trayRightContent: content })
+            } else if (ui.trayRightOpen && !content) {
+              updateUI({ trayRightOpen: false })
+            } else {
+              updateUI({ trayRightOpen: !ui.trayRightOpen, trayRightContent: content })
+            }
+          }}
+          handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
+          handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
+          <Component />
+        </WalletLayout>
+      )} />
+      : <Redirect to={{ pathname: '/login', state: { from: '' } }} />
   }
 }
 
-const renderLayout = ({ ui, updateUI, component: Component, ...rest }) => (
-  <Route {...rest} render={props => (
-    <Success
-      location={props.location}
-      menuLeftToggled={ui.menuLeftToggled}
-      trayRightOpen={ui.trayRightOpen}
-      trayRightContent={ui.trayRightContent}
-      handleTrayRightToggle={(content, fromClickOutside) => {
-        if (fromClickOutside) {
-          updateUI({ trayRightOpen: false })
-        } else if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
-          updateUI({ trayRightContent: content })
-        } else if (ui.trayRightOpen && !content) {
-          updateUI({ trayRightOpen: false })
-        } else {
-          updateUI({ trayRightOpen: !ui.trayRightOpen, trayRightContent: content })
-        }
-      }}
-      handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
-      handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
-      <Component {...rest} />
-    </Success>
-  )} />
-)
-
 const mapStateToProps = (state) => ({
-  data: getData(state),
   isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
@@ -86,4 +73,4 @@ const enhance = compose(
   })
 )
 
-export default enhance(WalletLayout)
+export default enhance(WalletLayoutContainer)

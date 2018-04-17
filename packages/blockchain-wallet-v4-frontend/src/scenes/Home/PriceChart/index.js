@@ -26,8 +26,7 @@ const Row = styled.div`
   align-items: center;
   width: 100%;
 `
-
-const PriceChart = props => (
+const PriceChart = () => (
   <Wrapper>
     <Row>
       <Text size='24px' weight={300} color='brand-primary' uppercase>

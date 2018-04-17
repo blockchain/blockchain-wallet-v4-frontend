@@ -25,6 +25,7 @@ const Success = props => {
 Success.propTypes = {
   coin: PropTypes.string.isRequired,
   fiat: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool
 }
 

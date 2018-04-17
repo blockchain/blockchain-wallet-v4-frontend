@@ -2,24 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
-import { equals } from 'ramda'
+import { calculateStart, calculateInterval } from 'services/ChartService'
 import { getConfig } from './services'
 
 const Wrapper = styled.div`
   width: 100%;
 `
 
-class Chart extends React.Component {
+class Chart extends React.PureComponent {
   constructor (props) {
     super(props)
-    const { start, interval, currency, data } = props
-    this.state = { config: getConfig(start, interval, currency, data) }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.data, nextProps.data) && !equals(this.props.currency, nextProps.currency)) {
-      this.setState({ config: getConfig(nextProps.start, nextProps.interval, nextProps.currency, nextProps.data) })
-    }
+    const { coin, time, data, currency } = this.props
+    const start = calculateStart(coin, time)
+    const interval = calculateInterval(coin, time)
+    const config = getConfig(start, interval, currency, data)
+    this.state = { start, interval, config }
   }
 
   render () {

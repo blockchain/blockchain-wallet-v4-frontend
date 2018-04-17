@@ -31,7 +31,8 @@ const ColumnRight = styled(Column)`
   @media(min-width: 992px) { padding: 30px 30px 30px 15px; }
 `
 
-const Home = (props) => {
+const Home = () => {
+  console.log('render Home')
   return (
     <Wrapper>
       <ColumnLeft>

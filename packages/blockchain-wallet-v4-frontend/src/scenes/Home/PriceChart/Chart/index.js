@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { actions } from 'data'
+import { getData } from './selectors'
 
-import { actions, selectors } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class ChartContainer extends React.Component {
+class ChartContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.initialized('BTC', 'all')
   }
@@ -18,8 +19,6 @@ class ChartContainer extends React.Component {
         currency={value.currency}
         coin={value.coin}
         time={value.time}
-        start={value.start}
-        interval={value.interval}
         data={value.data}
       />,
       Failure: (message) => <Error>{message}</Error>,
@@ -30,7 +29,7 @@ class ChartContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  data: selectors.components.priceChart.getData(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = dispatch => ({
