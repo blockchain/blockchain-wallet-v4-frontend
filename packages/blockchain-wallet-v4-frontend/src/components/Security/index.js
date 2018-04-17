@@ -26,6 +26,12 @@ export const SecurityTip = styled.div`
   border-bottom: 1px solid #CCCCCC;
   padding: 20px;
   width: 95%;
+  margin-top: 0px !important;
+`
+const IconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
-export { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySection, SecuritySummary, SecurityWrapper }
+export { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySection, SecuritySummary, SecurityWrapper, IconContainer }

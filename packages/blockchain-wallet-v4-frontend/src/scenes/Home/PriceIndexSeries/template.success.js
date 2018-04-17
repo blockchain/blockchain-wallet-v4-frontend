@@ -15,9 +15,12 @@ const Wrapper = styled.div`
   padding: 15px;
   height: 370px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-1']};
-
   & > * { margin-bottom: 10px; }
+  border: 1px solid ${props => props.theme['gray-1']};
+  svg {
+    font-weight: 300;
+    font-family: 'Montserrat' !important;
+  }
 `
 const Row = styled.div`
   display: flex;
@@ -58,7 +61,7 @@ export default props => {
   return (
     <Wrapper>
       <TitleFiltersRow>
-        <Text uppercase color='brand-primary' weight={300} size='24px'><FormattedMessage id='scenes.home.chart.pricechart' defaultMessage='Price chart' /></Text>
+        <Text uppercase color='brand-primary' weight={300} size='24px'><FormattedMessage id='scenes.home.chart.pricechart' defaultMessage='Price Charts' /></Text>
         <TimeFilters>
           <FilterText size='14px' weight={300} underline={allSelected} color={allSelected ? 'brand-primary' : 'gray-3'} onClick={() => selectTimeframe('all')}>
             <FormattedMessage id='scenes.home.chart.all' defaultMessage='All' />

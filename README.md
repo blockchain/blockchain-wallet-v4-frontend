@@ -34,7 +34,7 @@ The frontend application can be ran locally with different build configurations 
  * `yarn start:dev` Builds and runs the application with the `development.js` configuration file
  * `yarn start:staging` Builds and runs the application with the `staging.js` configuration file
  * `yarn start:testnet` Builds and runs the application with the `testnet.js` configuration file
- * `yarn start:prod` Builds and runs the application with the `production.js` configuration file
+ * `yarn start:prod` Builds and runs the application mimicking the production environment. Uses the Express server (`./server.js`) and the `production.js` config
 
 Notes:
  * Developers will need to manually create the `development.js` and `staging.js` files

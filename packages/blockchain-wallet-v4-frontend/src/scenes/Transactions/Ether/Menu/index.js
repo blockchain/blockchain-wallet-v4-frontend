@@ -26,6 +26,9 @@ const Container = styled.div`
 `
 const Status = styled.div`
   width: 100%;
+  > div > span:first-child {
+    padding-left: 0px;
+  }
   @media(min-width: 1200px) { width: 360px; }
 `
 const Search = styled.div`

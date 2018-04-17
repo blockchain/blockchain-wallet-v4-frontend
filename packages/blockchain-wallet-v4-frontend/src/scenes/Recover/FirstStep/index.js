@@ -32,14 +32,14 @@ const FirstStep = (props) => {
     <Wrapper>
       <Header>
         <Text size='30px' weight={300}>
-          <FormattedMessage id='scenes.recover.firststep.funds' defaultMessage='Recover funds' />
+          <FormattedMessage id='scenes.recover.firststep.funds' defaultMessage='Recover Funds' />
         </Text>
         <Text size='10px'>
           <FormattedMessage id='scenes.recover.firststep.step1' defaultMessage='Step 1 of 2: Enter 12 word passphrase' />
         </Text>
       </Header>
       <Text size='13px' weight={300}>
-        <FormattedMessage id='scenes.recover.firststep.explain' defaultMessage='Recover bitcoins from your lost wallet' />
+        <FormattedMessage id='scenes.recover.firststep.explain' defaultMessage='Recover funds from your lost wallet' />
       </Text>
       <Separator />
       <Form onSubmit={nextStep}>
@@ -52,10 +52,10 @@ const FirstStep = (props) => {
           </Text>
         </TextGroup>
         <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.recover.firststep.mnemonic' defaultMessage='Your recovery phrase' />
+          <FormattedMessage id='scenes.recover.firststep.mnemonic' defaultMessage='Your backup phrase' />
         </Text>
         <Text size='12px' weight={300}>
-          <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 recovery words with spaces to recover your funds & transactions' />
+          <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 word phrase, with spaces between each, to recover your funds & transactions.' />
         </Text>
         <Field name='mnemonic' validate={[required, validMnemonic]} component={TextBox} />
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
@@ -65,7 +65,7 @@ const FirstStep = (props) => {
       <Footer>
         <LinkContainer to='/help'>
           <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go back' />
+            <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go Back' />
           </Link>
         </LinkContainer>
       </Footer>

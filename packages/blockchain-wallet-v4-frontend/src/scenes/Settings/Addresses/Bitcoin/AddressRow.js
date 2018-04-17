@@ -1,8 +1,12 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { TableCell, TableRow, Text, Link, ComponentDropdown } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { Banner, TableCell, TableRow, Text, Link, ComponentDropdown } from 'blockchain-info-components'
+
+const AddressTableCell = styled(TableCell)`
+  align-items: center;
+`
 
 const MoreOptions = () => (
   <Link weight={200} size='small'>
@@ -12,14 +16,16 @@ const MoreOptions = () => (
 
 const AddressRow = ({ address, renderOptions }) => (
   <TableRow>
-    <TableCell width='40%' style={{ display: 'flex' }}>
+    <AddressTableCell width='40%' style={{ display: 'flex' }}>
       <Text size='13px'>{address.addr}</Text>
       {address.priv == null && (
-        <Text size='13px' weight={300} style={spacing('ml-10')}>Watch Only</Text>
+        <Banner type='informational' inline>
+          <FormattedMessage id='scenes.settings.manage_addresses.watch_only' defaultMessage='Watch Only' />
+        </Banner>
       )}
-    </TableCell>
+    </AddressTableCell>
     <TableCell width='40%'>
-      <Text size='13px'><SwitchableDisplay coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay></Text>
+      <SwitchableDisplay size='13px' coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay>
     </TableCell>
     <TableCell width='20%'>
       <ComponentDropdown down forceSelected color={'gray-5'} selectedComponent={<MoreOptions />} components={renderOptions()} />

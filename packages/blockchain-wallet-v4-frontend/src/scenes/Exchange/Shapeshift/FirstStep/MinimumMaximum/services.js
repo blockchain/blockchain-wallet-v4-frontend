@@ -12,3 +12,5 @@ export const calculateMaximum = props => {
   const maximum = path([pair, 'limit'], props)
   return new BigNumber(maximum).greaterThan(new BigNumber(props.effectiveBalance)) ? props.effectiveBalance : maximum
 }
+
+export const isBalanceBelowMin = props => props.effectiveBalance && new BigNumber(calculateMinimum(props)).greaterThan(new BigNumber(props.effectiveBalance))
