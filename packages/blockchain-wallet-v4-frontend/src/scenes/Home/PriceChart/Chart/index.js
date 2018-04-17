@@ -8,7 +8,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class ChartContainer extends React.PureComponent {
+export class ChartContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.initialized('BTC', 'all')
   }
