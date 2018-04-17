@@ -118,6 +118,15 @@ app.get('/healthz', function (req, res) {
 // static content
 app.use(express.static(path.join(__dirname, 'dist')))
 
+// fallback to index.html file
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'dist/index.html'), function (err) {
+    if (err) {
+      res.sendStatus(404)
+    }
+  })
+})
+
 console.log(`Express server listening on port ${port}...`)
 
 // start server
