@@ -8,7 +8,7 @@ export const getData = (state, ownProps) => {
   const bitcoinRates = selectors.core.data.bitcoin.getRates(state)
   const ethereumRates = selectors.core.data.ethereum.getRates(state)
   const bchRates = selectors.core.data.bch.getRates(state)
-  const unit = ownProps.coin === 'BTC' ? selectors.core.settings.getBtcUnit(state) : Remote.of(ownProps.coin)
+  const unit = Remote.of(ownProps.coin)
 
   return lift((unit, currency, bitcoinRates, ethereumRates, bchRates, country) =>
     ({ unit, currency, bitcoinRates, ethereumRates, bchRates, country }))(unit, currency, bitcoinRates, ethereumRates, bchRates, country)
