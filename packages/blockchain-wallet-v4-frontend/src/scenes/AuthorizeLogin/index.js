@@ -18,21 +18,32 @@ const Wrapper = styled.div`
 `
 
 class AuthorizeLogin extends React.Component {
-  componentDidMount () {
-    const token = decodeURIComponent(this.props.location.pathname.split('/authorize-approve/')[1])
-    this.props.miscActions.authorizeLogin(token)
+  constructor (props) {
+    super(props)
+    this.onAccept = this.onAccept.bind(this)
+    this.onReject = this.onReject.bind(this)
+    this.state = { token: decodeURIComponent(props.location.pathname.split('/authorize-approve/')[1]) }
   }
 
-  onSubmit (e) {
-    // e.preventDefault()
-    // this.props.miscActions.authorizeLogin(token, true)
+  componentDidMount () {
+    this.props.miscActions.authorizeLogin(this.state.token)
+  }
+
+  onAccept (e) {
+    e.preventDefault()
+    this.props.miscActions.authorizeLogin(this.state.token, true)
+  }
+
+  onReject (e) {
+    e.preventDefault()
+    this.props.miscActions.authorizeLogin(this.state.token, false)
   }
 
   render () {
     const { data } = this.props
 
     let AuthorizeLoginStatus = data.cata({
-      Success: (value) => <Success value={value} />,
+      Success: (value) => <Success value={value} onAccept={this.onAccept} onReject={this.onReject} />,
       Failure: (value) => <Error value={value} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
