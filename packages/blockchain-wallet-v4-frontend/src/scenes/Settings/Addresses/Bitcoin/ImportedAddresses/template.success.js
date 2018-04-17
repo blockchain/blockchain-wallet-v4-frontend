@@ -14,6 +14,9 @@ const ImportedAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
 `
+const WarningSign = styled.span`
+  font-size: 18px;
+`
 
 const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv }) => {
   const importedAddressesTableRows = importedAddresses.map((address) => (
@@ -33,7 +36,8 @@ const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPri
         <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs' defaultMessage='Imported Bitcoin Addresses' />
       </ImportedAddressesSettingHeader>
       <SettingDescription style={spacing('mb-10')}>
-        <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs_desc' defaultMessage='⚠️ Not backed up by your Recovery Phrase. Transfer into a wallet to secure funds.' />
+        <WarningSign>⚠️</WarningSign>
+        <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
       </SettingDescription>
       <Table>
         <TableHeader>
