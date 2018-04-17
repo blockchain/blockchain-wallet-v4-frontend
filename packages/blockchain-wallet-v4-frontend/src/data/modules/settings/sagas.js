@@ -4,7 +4,7 @@ import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
 
 import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/SagaService'
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types, utils } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
   const initSettingsInfo = function * () {
@@ -208,14 +208,34 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const showPrivateKey = function * (action) {
+  const showBtcPrivateKey = function * (action) {
     let { addr } = action.payload
     let password = yield call(promptForSecondPassword)
     let wallet = yield select(selectors.core.wallet.getWallet)
     let priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
 
     if (priv != null) {
-      yield put(actions.modules.settings.addShownPrivateKey(priv))
+      yield put(actions.modules.settings.addShownBtcPrivateKey(priv))
+    } else {
+      yield put(actions.alerts.displayError('Could not show private key for address.'))
+    }
+  }
+
+  const showEthPrivateKey = function * (action) {
+    const { archived } = action.payload
+    let password = yield call(promptForSecondPassword)
+    const getMnemonic = state => selectors.core.wallet.getMnemonic(state, password)
+    const eitherMnemonic = yield select(getMnemonic)
+    if (eitherMnemonic.isRight) {
+      const mnemonic = eitherMnemonic.value
+      const priv = archived
+        ? utils.ethereum.getLegacyPrivateKey(mnemonic)
+        : utils.ethereum.getPrivateKey(mnemonic, 0).getWallet().getPrivateKey().toString('hex')
+      if (priv != null) {
+        yield put(actions.modules.settings.addShownEthPrivateKey(priv))
+      } else {
+        yield put(actions.alerts.displayError('Could not derive private key for address.'))
+      }
     } else {
       yield put(actions.alerts.displayError('Could not show private key for address.'))
     }
@@ -242,6 +262,7 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, enableTwoStepGoogleAuthenticator)
     yield takeLatest(AT.ENABLE_TWO_STEP_YUBIKEY, enableTwoStepYubikey)
     yield takeLatest(AT.NEW_HD_ACCOUNT, newHDAccount)
-    yield takeLatest(AT.SHOW_PRIV_KEY, showPrivateKey)
+    yield takeLatest(AT.SHOW_BTC_PRIV_KEY, showBtcPrivateKey)
+    yield takeLatest(AT.SHOW_ETH_PRIV_KEY, showEthPrivateKey)
   }
 }

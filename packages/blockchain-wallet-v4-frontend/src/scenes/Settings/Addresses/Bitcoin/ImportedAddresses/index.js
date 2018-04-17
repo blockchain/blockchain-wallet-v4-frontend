@@ -22,7 +22,7 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   handleShowPriv (address) {
-    this.props.modalsActions.showModal('ShowPrivateKey', { addr: address.addr })
+    this.props.modalsActions.showModal('ShowBtcPrivateKey', { addr: address.addr })
   }
 
   handleToggleArchived (address) {
