@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Button, Icon } from 'blockchain-info-components'
+import { Text, Button, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
@@ -88,13 +88,17 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const BuyOrderSubmit = ({ quoteR, onSubmit }) => (
+export const BuyOrderSubmit = ({ quoteR, onSubmit, busy }) => (
   <Fragment>
     <Button
       nature='primary'
       disabled={!Remote.Success.is(quoteR)}
       onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
-      <FormattedMessage id='submit' defaultMessage='Submit' />
+      {
+        busy
+          ? <HeartbeatLoader height='20px' width='20px' color='white' />
+          : <FormattedMessage id='submit' defaultMessage='Submit' />
+      }
     </Button>
     <StyledFaqRow
       title={<FormattedMessage id='faq.how_long_to_receive_q' defaultMessage='How long does it take to get my funds?' />}

@@ -42,7 +42,6 @@ export const determineReason = (type, profile, verificationStatus, accounts) => 
 }
 
 export const statusHelper = status => {
-  console.log('status helper', status)
   switch (status) {
     case 'processing': return { color: 'marketing-secondary', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.processing' defaultMessage='Processing' /> }
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.completed' defaultMessage='Completed' /> }
