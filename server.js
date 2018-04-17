@@ -106,7 +106,7 @@ app.get('/Resources/wallet-options.json', function (req, res) {
   if (isLocal) {
     res.json(localWalletOptions)
   } else {
-    res.redirect(rootURL + req.url.substr(1))
+    res.redirect(rootURL + req.url)
   }
 })
 
