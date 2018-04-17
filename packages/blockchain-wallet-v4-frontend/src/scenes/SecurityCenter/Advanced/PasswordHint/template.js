@@ -10,7 +10,7 @@ const PasswordHint = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.settings.passwordhint.title' defaultMessage='Password hint' />
+          <FormattedMessage id='scenes.settings.passwordhint.title' defaultMessage='Password Hint' />
           <SettingStatus active={passwordHintStored}>
             {passwordHintStored
               ? <FormattedMessage id='scenes.security.passwordhint.stored' defaultMessage='Hint Stored' />

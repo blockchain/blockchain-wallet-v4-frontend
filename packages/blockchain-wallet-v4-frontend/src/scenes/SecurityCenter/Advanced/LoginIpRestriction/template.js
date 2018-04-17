@@ -10,7 +10,7 @@ const LoginIpRestriction = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.securitysettings.advancedsettings.loginiprestriction.title' defaultMessage='Login IP restriction' />
+          <FormattedMessage id='scenes.securitysettings.advancedsettings.loginiprestriction.title' defaultMessage='Login IP Restriction' />
           <SettingStatus active={ipLockOn}>
             {ipLockOn
               ? <FormattedMessage id='scenes.securitysettings.advancedsettings.loginiprestriction.enabled' defaultMessage='Enabled' />
