@@ -119,7 +119,7 @@ class AcceptTerms extends Component {
                     </Link>
                   </FieldBox>
                   <IconContainer>
-                    <Icon name='checkmark-in-circle-filled' color='success' size='20px' />
+                    { email && <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> }
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
@@ -137,7 +137,7 @@ class AcceptTerms extends Component {
                     </Link>
                   </FieldBox>
                   <IconContainer>
-                    <Icon name='checkmark-in-circle-filled' color='success' size='20px' />
+                    { smsNumber && <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> }
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
@@ -152,7 +152,7 @@ class AcceptTerms extends Component {
         <ColRight>
           <ColRightInner>
             <ButtonWrapper>
-              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError}>
+              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError || !smsNumber || !email}>
                 {
                   !busy
                     ? <span>Continue</span>

@@ -110,9 +110,9 @@ export default ({ api, options }) => {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.SFOX_FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)
-    yield takeLatest(AT.HANDLE_TRADE, handleTrade)
+    yield takeLatest(AT.SFOX_HANDLE_TRADE, handleTrade)
     yield takeLatest(AT.FETCH_TRADES, fetchTrades)
-    yield takeLatest(AT.FETCH_QUOTE, fetchQuote)
+    yield takeLatest(AT.SFOX_FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
   }
