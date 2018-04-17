@@ -11,7 +11,7 @@ jest.mock('./template.loading', () => 'template.loading')
 jest.mock('data', () => ({}))
 
 describe('Chart container', () => {
-  const props = { data: Remote.Success('') }
+  const props = { data: Remote.Success(''), actions: { initialized: jest.fn() } }
 
   it('renders correctly (Success)', () => {
     const component = shallow(<ChartContainer {...props} />)
