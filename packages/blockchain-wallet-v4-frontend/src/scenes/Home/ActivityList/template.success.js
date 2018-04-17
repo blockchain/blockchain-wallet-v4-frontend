@@ -27,6 +27,18 @@ const Content = styled.div`
   height: 100%;
   margin-top: 10px;
   overflow: scroll;
+  > div:first-child {
+    border-left: none;
+    position: relative;
+  }
+  > div:first-child:after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    height: 50%;
+    border-left: 1px solid ${props => props.theme['gray-2']};
+  }
 `
 
 const Success = props => (
