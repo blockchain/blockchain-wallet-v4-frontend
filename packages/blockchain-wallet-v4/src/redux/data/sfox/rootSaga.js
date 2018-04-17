@@ -76,22 +76,6 @@ export default ({ api, options }) => {
     }
   }
 
-  const handleTrade = function * (data) {
-    try {
-      yield put(A.handleTradeLoading())
-      const quote = data.payload
-      const accounts = yield select(S.getAccounts)
-      const methods = yield apply(quote, quote.getPaymentMediums)
-      const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
-      yield put(A.handleTradeSuccess(trade))
-      yield call(fetchTrades)
-      const trades = yield select(S.getTrades)
-      yield put(buySellA.setTradesBuySell(trades.data))
-    } catch (e) {
-      yield put(A.handleTradeFailure(e))
-    }
-  }
-
   const getBankAccounts = function * (data) {
     const token = data.payload
     try {
@@ -110,7 +94,6 @@ export default ({ api, options }) => {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.SFOX_FETCH_ACCOUNTS, fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)
-    yield takeLatest(AT.SFOX_HANDLE_TRADE, handleTrade)
     yield takeLatest(AT.FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.SFOX_FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)

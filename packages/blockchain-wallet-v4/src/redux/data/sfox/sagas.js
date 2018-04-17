@@ -111,12 +111,29 @@ export default ({ api, options }) => {
     }
   }
 
+  const handleTrade = function * (quote) {
+    try {
+      yield put(A.handleTradeLoading())
+      const accounts = yield select(S.getAccounts)
+      const methods = yield apply(quote, quote.getPaymentMediums)
+      const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
+      yield put(A.handleTradeSuccess(trade))
+      yield put(A.fetchTrades())
+      const trades = yield select(S.getTrades)
+      yield put(buySellA.setTradesBuySell(trades.data))
+    } catch (e) {
+      console.warn(e)
+      yield put(A.handleTradeFailure(e))
+    }
+  }
+
   return {
     setBankManually,
     signup,
     setProfile,
     uploadDoc,
     setBankAccount,
-    verifyMicroDeposits
+    verifyMicroDeposits,
+    handleTrade
   }
 }

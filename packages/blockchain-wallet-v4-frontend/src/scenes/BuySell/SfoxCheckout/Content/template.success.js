@@ -67,7 +67,7 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { changeBuySellTabStatus, fetchQuote, refreshQuote, submitQuote, handleTrade, quoteR, base, errors, showModal, ...rest } = props
+  const { changeBuySellTabStatus, fetchQuote, refreshQuote, submitQuote, handleTrade, quoteR, base, errors, showModal, handleTradeDetailsClick, ...rest } = props
   const quote = quoteR.getOrElse(null)
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
@@ -156,13 +156,13 @@ const Success = props => {
           <Text size='16px' weight={500}>
             <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Trades' />
           </Text>
-          <OrderHistory trades={filter(isPending, trades)} conversion={1e8} />
+          <OrderHistory trades={filter(isPending, trades)} conversion={1e8} handleDetailsClick={trade => showModal('TradeDetails', trade)} />
         </OrderHistoryContent>
         <OrderHistoryContent>
           <Text size='16px' weight={500}>
             <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Trades' />
           </Text>
-          <OrderHistory trades={filter(isCompleted, trades)} conversion={1e8} />
+          <OrderHistory trades={filter(isCompleted, trades)} conversion={1e8} handleDetailsClick={trade => showModal('TradeDetails', trade)} />
         </OrderHistoryContent>
       </OrderHistoryWrapper>
     )
