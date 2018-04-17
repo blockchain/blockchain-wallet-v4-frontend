@@ -58,7 +58,7 @@ const SecondStep = ({ addr, priv, format, formats, onChangeFormat }) => (
   </div>
 )
 
-const ShowPrivateKeyTemplate = ({ position, total, close, step, onContinue, ...rest }) => (
+const ShowBtcPrivateKeyTemplate = ({ position, total, close, step, onContinue, ...rest }) => (
   <Modal size='large' position={position} total={total}>
     <ModalHeader icon='lock' closeButton={false}>
       <FormattedMessage id='modals.show_priv.title' defaultMessage='Private Key' />
@@ -67,7 +67,7 @@ const ShowPrivateKeyTemplate = ({ position, total, close, step, onContinue, ...r
       {step === 0 ? <FirstStep /> : <SecondStep {...rest} />}
     </ModalBody>
     <ModalFooter align='right'>
-      <Text size='small' weight={300} style={spacing('mr-15')} onClick={close}>
+      <Text cursor='pointer' size='small' weight={300} style={spacing('mr-15')} onClick={close}>
         <FormattedMessage id='modals.show_priv.close' defaultMessage='Close' />
       </Text>
       {step === 0 && (
@@ -79,4 +79,4 @@ const ShowPrivateKeyTemplate = ({ position, total, close, step, onContinue, ...r
   </Modal>
 )
 
-export default ShowPrivateKeyTemplate
+export default ShowBtcPrivateKeyTemplate

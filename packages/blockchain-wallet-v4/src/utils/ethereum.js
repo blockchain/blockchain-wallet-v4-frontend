@@ -26,7 +26,7 @@ export const getPrivateKey = (mnemonic, index) => {
 }
 
 export const getLegacyPrivateKey = mnemonic => {
-  // find the legacy private
+  // TODO: Implement this
 }
 
 export const privateKeyToAddress = pk =>
