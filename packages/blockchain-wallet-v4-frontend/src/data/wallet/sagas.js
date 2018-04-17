@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest, call, put, spawn } from 'redux-saga/effects'
+import { takeEvery, call, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import { askSecondPasswordEnhancer, promptForSecondPassword, promptForInput } from 'services/SagaService'
@@ -93,32 +93,6 @@ export default ({ coreSagas }) => {
     }
   }
 
-  function * payment1 () {
-    let payment = coreSagas.data.bitcoin.createPayment()
-    payment = yield payment.init()
-    payment = yield payment.to('14sWEbHKo6dd8enrovqm9ggLSd4wSVy9zc')
-    payment = yield payment.amount(300)
-    payment = yield payment.from(1)
-    payment = yield payment.fee(0)
-    payment = yield payment.build()
-    payment = yield payment.sign('hola')
-    console.log(1, payment.value())
-  }
-
-  function * payment2 () {
-    let payment = yield coreSagas.data.bitcoin.createPayment()
-      .chain()
-      .init()
-      .to('14sWEbHKo6dd8enrovqm9ggLSd4wSVy9zc')
-      .amount(600)
-      .from('15RqhGzyEUyUcCm12942Qu3qfpshzagTbk')
-      .fee(0)
-      .build()
-      .sign('hola')
-      .done()
-    console.log(2, payment.value())
-  }
-
   return function * () {
     yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
     yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
@@ -126,9 +100,5 @@ export default ({ coreSagas }) => {
     yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
     yield takeEvery(AT.EDIT_HD_LABEL, editHdLabel)
     yield takeEvery(AT.EDIT_BTC_ACCOUNT_LABEL, editBtcAccountLabel)
-    yield takeLatest('P', function * () {
-      yield spawn(payment1)
-      yield spawn(payment2)
-    })
   }
 }

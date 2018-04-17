@@ -1,19 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { isEmpty } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validBitcoinAddress } from 'services/FormHelper'
-import { Button, Icon, Link, NativeSelect, Text, Tooltip } from 'blockchain-info-components'
-import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
-import ComboDisplay from 'components/Display/ComboDisplay'
+import { Button, Icon, Link, Tooltip } from 'blockchain-info-components'
+import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextArea } from 'components/Form'
+import { minimumAmount, maximumAmount, emptyAmount } from './services'
 import QRCodeCapture from 'components/QRCodeCapture'
-import { Exchange } from 'blockchain-wallet-v4/src'
-
-const DUST = 546
-const btcMinRequired = Exchange.convertBitcoinToBitcoin({ value: DUST, fromUnit: 'SAT', toUnit: 'BTC' })
 
 const Row = styled.div`
   display: flex;
@@ -50,17 +45,6 @@ const FeeFormContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 `
-const FeeContainer = styled.div`
-  display: flex;  
-  flex-direction: column;
-  width: 150px;
-`
-const RowFlexEnd = Row.extend`
-  justify-content: flex-end;
-  a:first-child {
-    padding-right: 8px;
-  }
-`
 const CustomizeFeeLink = styled(Link)`
   margin-top: 5px;
   font-size: 12px;
@@ -76,39 +60,24 @@ const FeeFormLabel = styled(FormLabel)`
     align-items: ${props => props.flexEnd ? 'flex-end' : 'center'};
   }
 `
-const FeeField = styled(Field)`
-  margin-top: 5px;
-`
-const FeeError = styled(Text)`
-  bottom: -18px;
-  cursor: pointer;
-  position: absolute;
-`
 
-const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
-  if (initialRender) { return true }
-  return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
-}
-
-const minRequired = (value, allValues, props) => parseFloat(props.values.amount) >= btcMinRequired.value ? undefined : `The minimum amount required to send is ${btcMinRequired.value} ${btcMinRequired.unit.symbol}.`
-const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance} BTC.`
-const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
+// const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+//   if (initialRender) { return true }
+//   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
+// }
 
 const FirstStep = props => {
-  const { invalid, submitting, addressSelectToggled, addressSelectOpened, feeEditToggled, selection, fee, totalFee, ...rest } = props
-  const { handleSubmit, handleClickAddressToggler, handleClickFeeToggler } = rest
-  const limits = props.fees.limits.data
-  const regular = props.fees.regular.data
-  const priority = props.fees.priority.data
+  const { invalid, submitting, ...rest } = props
+  const { toToggled, feePerByteToggled, feePerByteElements, handleFeePerByteToggle, handleToToggle, handleSubmit } = rest
 
-  const renderFeeConfirmationTime = () => {
-    if (parseInt(fee) === parseInt(regular)) {
-      return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
-    } else return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />)
-  }
+  // const renderFeeConfirmationTime = () => {
+  //   if (parseInt(fee) === parseInt(regular)) {
+  //     return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
+  //   } else return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated2' defaultMessage='Estimated confirmation time 0-60 minutes' />)
+  // }
 
   return (
-    <Form override onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
         <FormItem width={'40%'}>
           <FormLabel for='coin'>
@@ -129,14 +98,14 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            {addressSelectToggled
-              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
-              : <Field name='to2' component={TextBox} validate={[required, validBitcoinAddress]} />
+            {toToggled
+              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} />
+              : <Field name='to' component={TextBox} validate={[required, validBitcoinAddress]} />
             }
             <QRCodeCapture coin='BTC' />
-            {addressSelectToggled
-              ? <AddressButton onClick={handleClickAddressToggler}><Icon name='pencil' size='16px' cursor /></AddressButton>
-              : <AddressButton onClick={handleClickAddressToggler}><Icon name='down-arrow' size='10px' cursor /></AddressButton>
+            {toToggled
+              ? <AddressButton onClick={handleToToggle}><Icon name='pencil' size='16px' cursor /></AddressButton>
+              : <AddressButton onClick={handleToToggle}><Icon name='down-arrow' size='10px' cursor /></AddressButton>
             }
           </Row>
         </FormItem>
@@ -146,7 +115,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, minRequired, validAmount, emptyAmount]} coin='BTC' minRequired={btcMinRequired.value} maxAvailable={props.effectiveBalance} />
+          <Field name='amount' component={FiatConvertor} validate={[required, minimumAmount, maximumAmount, emptyAmount]} coin='BTC' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -164,9 +133,13 @@ const FirstStep = props => {
       <FormGroup inline margin={'30px'}>
         <ColLeft>
           <FeeFormContainer>
-            <FeeFormLabel flexEnd={feeEditToggled}>
+            <FeeFormLabel flexEnd={feePerByteToggled}>
               <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
-              {feeEditToggled
+              { feePerByteToggled
+                ? <Field name='feePerByte' component={NumberBox} validate={[required]} />
+                : <Field name='feePerByte' component={SelectBox} elements={feePerByteElements} />
+              }
+              {/* {feeToggled
                 ? <FeeContainer>
                   <RowFlexEnd>
                     <Link weight={300} size='12px' onClick={() => props.customFeeHandler(regular)}>Reg: {regular}</Link>
@@ -174,33 +147,32 @@ const FirstStep = props => {
                   </RowFlexEnd>
                 </FeeContainer>
                 : <Field name='fee' inline component={NativeSelect} validate={[required]}>
-                  <option value={regular}>Regular</option>
-                  <option value={priority}>Priority</option>
+                   <option value={regular}>Regular</option>
+                   <option value={priority}>Priority</option>
                 </Field>
-              }
+              } */}
             </FeeFormLabel>
           </FeeFormContainer>
-          {
-            feeEditToggled && <FeeField name='fee' component={NumberBox} validate={[required]} hideErrors />
+          {/* {
+            feeToggled && <FeeField name='fee' component={NumberBox} validate={[required]} hideErrors />
           }
           {
-            !feeEditToggled && <Text size='12px' weight={300}>{renderFeeConfirmationTime()}</Text>
+            !feeToggled && <Text size='12px' weight={300}>{renderFeeConfirmationTime()}</Text>
           }
           {
-            feeEditToggled && fee < limits.min && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.min)}>
+            feeToggled && fee < limits.min && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.min)}>
               <FormattedMessage id='modals.sendbitcoin.firststep.feebelowmin' defaultMessage='{min} sat/b or more is recommended' values={{min: limits.min}} />
             </FeeError>
           }
           {
-            feeEditToggled && fee > limits.max && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.max)}>
+            feeToggled && fee > limits.max && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.max)}>
               <FormattedMessage id='modals.sendbitcoin.firststep.feeabovemax' defaultMessage='{max} sat/b or less is recommended' values={{max: limits.max}} />
             </FeeError>
-          }
+          } */}
         </ColLeft>
         <ColRight>
-          <ComboDisplay size='14px' coin='BTC'>{totalFee}</ComboDisplay>
-          <CustomizeFeeLink onClick={handleClickFeeToggler} size='13px' weight={300} uppercase>
-            {feeEditToggled
+          <CustomizeFeeLink onClick={handleFeePerByteToggle} size='13px' weight={300} uppercase>
+            {feePerByteToggled
               ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
               : <FormattedMessage id='modals.sendbitcoin.firststep.edit' defaultMessage='Customize fee' />
             }
@@ -217,16 +189,16 @@ const FirstStep = props => {
 }
 
 FirstStep.propTypes = {
-  invalid: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  addressSelectToggled: PropTypes.bool.isRequired,
-  addressSelectOpened: PropTypes.bool.isRequired,
-  feeEditToggled: PropTypes.bool.isRequired,
-  totalFee: PropTypes.number,
-  fee: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  handleClickAddressToggler: PropTypes.func.isRequired,
-  handleClickFeeToggler: PropTypes.func.isRequired
+  // invalid: PropTypes.bool.isRequired,
+  // submitting: PropTypes.bool.isRequired,
+  // addressSelectToggled: PropTypes.bool.isRequired,
+  // addressSelectOpened: PropTypes.bool.isRequired,
+  // feeEditToggled: PropTypes.bool.isRequired,
+  // totalFee: PropTypes.number,
+  // fee: PropTypes.string.isRequired,
+  // handleSubmit: PropTypes.func.isRequired,
+  // handleClickAddressToggler: PropTypes.func.isRequired,
+  // handleClickFeeToggler: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendBitcoin', shouldValidate, destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'sendBtc', destroyOnUnmount: false })(FirstStep)

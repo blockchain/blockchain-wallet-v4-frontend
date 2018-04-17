@@ -48,34 +48,8 @@ SelectBoxBitcoinAddresses.defaultProps = {
   includeAll: true
 }
 
-const mapStateToProps = (state, ownProps) => {
-  // const coinDisplayed = selectors.preferences.getCoinDisplayed(state)
-  // const unit = selectors.core.settings.getBtcUnit(state)
-  // const currency = selectors.core.settings.getCurrency(state)
-  // const rates = selectors.core.data.bitcoin.getRates(state)
-
-  // const transformAddresses = items => map(item => {
-  //   const { title, amount, ...rest } = item
-  //   const display = coinDisplayed
-  //     ? Exchange.displayBitcoinToBitcoin({ value: amount, fromUnit: 'SAT', toUnit: unit })
-  //     : Exchange.displayBitcoinToFiat({ value: amount, fromUnit: 'SAT', toCurrency: currency, rates })
-
-  //   return { text: `${title} (${display})`, value: rest }
-  // }, items)
-
-  // const accounts = transformAddresses(selectors.core.common.bitcoin.getAccountsBalances(state))
-  // const legacyAddresses = transformAddresses(selectors.core.common.bitcoin.getAddressesBalances(state))
-
-  // return {
-  //   accounts,
-  //   legacyAddresses,
-  //   unit,
-  //   currency,
-  //   coinDisplayed
-  // }
-  return {
-    data: getData(state, ownProps.coin)
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps.coin)
+})
 
 export default connect(mapStateToProps)(SelectBoxBitcoinAddresses)
