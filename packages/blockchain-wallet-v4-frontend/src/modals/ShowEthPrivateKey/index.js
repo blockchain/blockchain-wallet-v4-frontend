@@ -13,7 +13,6 @@ class ShowEthPrivateKeyContainer extends Component {
   render () {
     let step = this.props.priv == null ? 0 : 1
     let nextStep = () => this.props.actions.showEthPrivateKey(this.props.archived)
-    console.log(this.props.priv)
     return (
       <ShowEthPrivateKeyTemplate
         {...this.props}

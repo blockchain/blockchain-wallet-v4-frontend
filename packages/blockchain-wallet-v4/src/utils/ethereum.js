@@ -22,18 +22,27 @@ export const getPrivateKey = (mnemonic, index) => {
   const account = Bitcoin.HDNode.fromSeedBuffer(seed)
     .deriveHardened(44).deriveHardened(60).deriveHardened(0)
     .derive(0).derive(index).toBase58()
-  return EthHd.fromExtendedKey(account)
+  return EthHd.fromExtendedKey(account).getWallet().getPrivateKey()
 }
 
 export const getLegacyPrivateKey = mnemonic => {
-  // TODO: Implement this
+  return deriveChildLegacy(0, mnemonic).getWallet().getPrivateKey()
+}
+
+const deriveChildLegacy = (index, mnemonic) => {
+  const derivationPath = "m/44'/60'/0'/0"
+  // TODO: Obtain seed like
+  // let getSeedHex = w.isDoubleEncrypted ? w.createCipher(secPass, 'dec') : x => x;
+  // let seed = getSeedHex(w.hdwallet.seedHex);
+  const seed = BIP39.mnemonicToSeed(mnemonic)
+  return EthHd.fromMasterSeed(seed).derivePath(derivationPath).deriveChild(index)
 }
 
 export const privateKeyToAddress = pk =>
   EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex')).toLowerCase()
 
 export const deriveAddress = (mnemonic, index) =>
-  privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())
+  privateKeyToAddress(getPrivateKey(mnemonic, index))
 
 export const calculateFeeWei = (gasPrice, gasLimit) => gasPrice * gasLimit
 
