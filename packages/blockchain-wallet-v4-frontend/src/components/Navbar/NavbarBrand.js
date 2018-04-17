@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const BaseBrand = styled.div`
-  padding: 0 20px;
+  padding-left: 40px;
 `
 
 const NavbarBrand = props => {

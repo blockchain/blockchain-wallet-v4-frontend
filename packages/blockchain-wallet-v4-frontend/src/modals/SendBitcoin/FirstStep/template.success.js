@@ -99,8 +99,8 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {toToggled
-              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} />
-              : <Field name='to' component={TextBox} validate={[required, validBitcoinAddress]} />
+              ? <Field name='to' placeholder="Paste or scan an address, or select a destination" component={SelectBoxBitcoinAddresses} validate={[required]} />
+              : <Field name='to' placeholder="Paste or scan an address, or select a destination" component={TextBox} validate={[required, validBitcoinAddress]} />
             }
             <QRCodeCapture coin='BTC' />
             {toToggled
@@ -139,36 +139,8 @@ const FirstStep = props => {
                 ? <Field name='feePerByte' component={NumberBox} validate={[required]} />
                 : <Field name='feePerByte' component={SelectBox} elements={feePerByteElements} />
               }
-              {/* {feeToggled
-                ? <FeeContainer>
-                  <RowFlexEnd>
-                    <Link weight={300} size='12px' onClick={() => props.customFeeHandler(regular)}>Reg: {regular}</Link>
-                    <Link weight={300} size='12px' onClick={() => props.customFeeHandler(priority)}>Priority: {priority}</Link>
-                  </RowFlexEnd>
-                </FeeContainer>
-                : <Field name='fee' inline component={NativeSelect} validate={[required]}>
-                   <option value={regular}>Regular</option>
-                   <option value={priority}>Priority</option>
-                </Field>
-              } */}
             </FeeFormLabel>
           </FeeFormContainer>
-          {/* {
-            feeToggled && <FeeField name='fee' component={NumberBox} validate={[required]} hideErrors />
-          }
-          {
-            !feeToggled && <Text size='12px' weight={300}>{renderFeeConfirmationTime()}</Text>
-          }
-          {
-            feeToggled && fee < limits.min && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.min)}>
-              <FormattedMessage id='modals.sendbitcoin.firststep.feebelowmin' defaultMessage='{min} sat/b or more is recommended' values={{min: limits.min}} />
-            </FeeError>
-          }
-          {
-            feeToggled && fee > limits.max && <FeeError size='12px' weight={300} color={'error'} onClick={() => props.customFeeHandler(limits.max)}>
-              <FormattedMessage id='modals.sendbitcoin.firststep.feeabovemax' defaultMessage='{max} sat/b or less is recommended' values={{max: limits.max}} />
-            </FeeError>
-          } */}
         </ColLeft>
         <ColRight>
           <CustomizeFeeLink onClick={handleFeePerByteToggle} size='13px' weight={300} uppercase>

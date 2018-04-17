@@ -59,7 +59,7 @@ export const getData = state => {
     elements: [
       { group: 'Bitcoin', items: btcAccountsInfo.map(x => ({ text: x.label, value: x })) },
       { group: 'Bitcoin cash', items: bchAccountsInfo.map(x => ({ text: x.label, value: x })) },
-      { group: 'Ethereum', items: ethAccountsInfo.map(x => ({ text: x.label, value: x })) }
+      { group: 'Ether', items: ethAccountsInfo.map(x => ({ text: x.label, value: x })) }
     ],
     currency,
     source,

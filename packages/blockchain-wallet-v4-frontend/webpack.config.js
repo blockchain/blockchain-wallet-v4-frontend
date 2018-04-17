@@ -5,37 +5,42 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
-const mockWalletOptions = require('./../../config/wallet-options.json')
 
-const isProdBuild = process.env.NODE_ENV === 'production'
+const isCiBuild = !!process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
   build: `${__dirname}/../../build`,
   dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`,
+  pkgJson: `${__dirname}/../../package.json`,
   envConfig: `${__dirname}/../../config/env/`
 }
-
-// load, parse and log application configuration
 let envConfig = {}
-try {
-  envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
-} catch (e) {
-  console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
-  envConfig = require(PATHS.envConfig + 'production.js')
-} finally {
-  console.log(chalk.blue('\u{1F6A7} DEV CONFIGURATION \u{1F6A7}'))
-  console.log(chalk.cyan('BLOCKCHAIN_INFO') + `: ${envConfig.BLOCKCHAIN_INFO}`)
-  console.log(chalk.cyan('API_BLOCKCHAIN_INFO') + `: ${envConfig.API_BLOCKCHAIN_INFO}`)
-  console.log(chalk.cyan('WEB_SOCKET_URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
+let mockWalletOptions
+
+// load, parse and log application configuration if not a CI build
+if (!isCiBuild) {
+  mockWalletOptions = require('./../../config/wallet-options.json')
+  try {
+    envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
+  } catch (e) {
+    console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
+    envConfig = require(PATHS.envConfig + 'production.js')
+  } finally {
+    console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
+    console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
+    console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
+    console.log(chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN))
+    console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
+  }
 }
 
 module.exports = {
-  mode: isProdBuild ? 'production' : 'development',
+  mode: isCiBuild ? 'production' : 'development',
   entry: {
     app: [
       'babel-polyfill',
-      ...(isProdBuild ? [] : [
+      ...(isCiBuild ? [] : [
         'react-hot-loader/patch',
         'webpack-dev-server/client?http://localhost:8080',
         'webpack/hot/only-dev-server'
@@ -44,13 +49,13 @@ module.exports = {
     ]
   },
   output: {
-    path: isProdBuild ? (PATHS.dist) : (PATHS.build),
+    path: isCiBuild ? (PATHS.dist) : (PATHS.build),
     chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/'
   },
   module: {
     rules: [
-      (isProdBuild ? {
+      (isCiBuild ? {
         test: /\.js$/,
         use: [
           'thread-loader',
@@ -119,8 +124,9 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
+    new Webpack.DefinePlugin({ APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version) }),
     new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),
-    ...(!isProdBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
+    ...(!isCiBuild ? [ new Webpack.HotModuleReplacementPlugin() ] : []),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
@@ -144,7 +150,7 @@ module.exports = {
         cache: true
       })
     ],
-    concatenateModules: isProdBuild,
+    concatenateModules: isCiBuild,
     runtimeChunk: {
       name: 'manifest'
     },
@@ -175,16 +181,16 @@ module.exports = {
     contentBase: PATHS.src,
     host: 'localhost',
     port: 8080,
-    hot: !isProdBuild,
+    hot: !isCiBuild,
     historyApiFallback: true,
     before (app) {
       app.get('/Resources/wallet-options.json', function (req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
-          'root': envConfig.BLOCKCHAIN_INFO,
-          'api': envConfig.API_BLOCKCHAIN_INFO,
+          'root': envConfig.ROOT_URL,
+          'api': envConfig.API_DOMAIN,
           'webSocket': envConfig.WEB_SOCKET_URL,
-          'walletHelper': 'REPLACED_BY_DEV_SERVER'
+          'walletHelper': envConfig.WALLET_HELPER_DOMAIN
         }
 
         res.json(mockWalletOptions)
@@ -196,7 +202,7 @@ module.exports = {
         return '/index.html'
       }
     }],
-    overlay: !isProdBuild && {
+    overlay: !isCiBuild && {
       warnings: true,
       errors: true
     },
@@ -217,8 +223,9 @@ module.exports = {
           "'self'",
           'ws://localhost:8080',
           envConfig.WEB_SOCKET_URL,
-          envConfig.BLOCKCHAIN_INFO,
-          envConfig.API_BLOCKCHAIN_INFO,
+          envConfig.ROOT_URL,
+          envConfig.API_DOMAIN,
+          envConfig.WALLET_HELPER_DOMAIN,
           'https://app-api.coinify.com',
           'https://api.sfox.com',
           'https://api.staging.sfox.com',

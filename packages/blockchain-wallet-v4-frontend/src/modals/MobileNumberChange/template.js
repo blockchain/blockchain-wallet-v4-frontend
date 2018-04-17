@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 import { Form, PhoneNumberBox } from 'components/Form'
-import { validMobileNumber } from 'services/FormHelper'
+import { validMobileNumber, required } from 'services/FormHelper'
 
 const MobileNumber = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const MobileNumber = styled.div`
 `
 
 const MobileNumberChange = (props) => {
-  const { position, total, close, closeAll, submitting, invalid, ...rest } = props
+  const { position, total, close, closeAll, submitting, invalid, pristine, ...rest } = props
   const { onSubmit } = rest
 
   return (
@@ -35,14 +35,14 @@ const MobileNumberChange = (props) => {
             <Text size='14px' weight={300}>
               <FormattedMessage id='modals.mobilenumberchange.mobile' defaultMessage='Mobile number : ' />
             </Text>
-            <Field name='mobileNumber' validate={[validMobileNumber]} component={PhoneNumberBox} placeholder='+XX XXX XXX...' />
+            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} placeholder='+XX XXX XXX...' />
           </MobileNumber>
         </ModalBody>
         <ModalFooter align='spaced'>
           <Link size='13px' weight={300} onClick={close}>
             <FormattedMessage id='modals.mobilenumberchange.cancel' defaultMessage='Cancel' />
           </Link>
-          <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
+          <Button type='submit' nature='primary' capitalize disabled={submitting || invalid || pristine}>
             <FormattedMessage id='modals.mobilenumberchange.update' defaultMessage='Update' />
           </Button>
         </ModalFooter>

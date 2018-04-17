@@ -7,7 +7,7 @@ export const getData = state => {
   const to2 = formValueSelector('sendBch')(state, 'to2')
   const from = formValueSelector('sendBch')(state, 'from')
   const message = formValueSelector('sendBch')(state, 'message')
-  const f = selectors.core.wallet.getAccountLabel(state)
+  const f = index => selectors.core.kvStore.bch.getAccountLabel(state, index).getOrElse(undefined)
   const g = selectors.core.wallet.getLegacyAddressLabel(state)
   const toAddress = !isNil(to2) ? to2 : (to.address || g(to.address) || f(to.index))
   const fromAddress = from.address || g(from.address) || f(from.index)

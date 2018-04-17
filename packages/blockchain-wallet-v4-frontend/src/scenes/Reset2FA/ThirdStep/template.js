@@ -59,7 +59,7 @@ const ThirdStep = (props) => {
       </Form>
       <Footer>
         <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.thirdstep.back' defaultMessage='Go back' />
+          <FormattedMessage id='scenes.reset2fa.thirdstep.back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </Wrapper>

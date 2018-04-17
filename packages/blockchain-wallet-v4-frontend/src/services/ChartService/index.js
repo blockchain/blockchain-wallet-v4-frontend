@@ -22,34 +22,34 @@ const selectPriceIndexSeriesOptions = (coin, timeframe) => {
     case 'year':
       const yearStart = moment().subtract(1, 'year')
       return {
-        start: yearStart > start.coin ? yearStart.format('X') : start.coin,
+        start: yearStart.format('X'),
         scale: SCALES.DAY,
         interval: INTERVALS.DAY
       }
     case 'month':
       const monthStart = moment().subtract(1, 'month')
       return {
-        start: monthStart > start.coin ? monthStart.format('X') : start.coin,
+        start: monthStart.format('X'),
         scale: SCALES.TWOHOUR,
         interval: INTERVALS.DAY
       }
     case 'week':
       const weekStart = moment().subtract(7, 'day')
       return {
-        start: weekStart > start.coin ? weekStart.format('X') : start.coin,
+        start: weekStart.format('X'),
         scale: SCALES.HOUR,
         interval: INTERVALS.HOUR
       }
     case 'day':
       const dayStart = moment().subtract(1, 'day')
       return {
-        start: dayStart > start.coin ? dayStart.format('X') : start.coin,
+        start: dayStart.format('X'),
         scale: SCALES.FIFTEENMIN,
         interval: INTERVALS.HOUR
       }
     default:
       return {
-        start: start.coin,
+        start: start[coin],
         scale: SCALES.FIVEDAY,
         interval: INTERVALS.DAY
       }

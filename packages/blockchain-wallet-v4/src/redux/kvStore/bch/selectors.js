@@ -14,3 +14,5 @@ export const getAccountsList = state => {
 }
 
 export const getDefaultAccountId = state => getMetadata(state).map(path(['value', 'default_account_idx']))
+
+export const getAccountLabel = (state, index) => getAccounts(state).map(path([index, 'label']))

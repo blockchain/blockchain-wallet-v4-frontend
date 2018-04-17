@@ -13,3 +13,8 @@ export const fetchMetadataShapeshiftSuccess = (data) => ({ type: AT.FETCH_METADA
 export const fetchMetadataShapeshiftFailure = (error) => ({ type: AT.FETCH_METADATA_SHAPESHIFT_FAILURE, payload: error })
 
 export const createMetadataShapeshift = (data) => ({ type: AT.CREATE_METADATA_SHAPESHIFT, payload: data })
+
+// FETCH_METADATA_SHAPESHIFT
+export const fetchShapeshiftTrade = (address) => ({ type: AT.FETCH_SHAPESHIFT_TRADE, payload: { address } })
+export const fetchShapeshiftTradeSuccess = (data) => ({ type: AT.FETCH_SHAPESHIFT_TRADE_SUCCESS, payload: data })
+export const fetchShapeshiftTradeFailure = (error) => ({ type: AT.FETCH_SHAPESHIFT_TRADE_FAILURE, payload: error })

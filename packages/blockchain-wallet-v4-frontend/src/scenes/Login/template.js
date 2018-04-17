@@ -67,12 +67,12 @@ const Login = (props) => {
           </Text>
           <LinkContainer to='/signup'>
             <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.login.register' defaultMessage='Sign up' />
+              <FormattedMessage id='scenes.login.register' defaultMessage='Sign Up' />
             </Link>
           </LinkContainer>
         </TextGroup>
       </Header>
-      <Text size='16px' weight={300} altFont>
+      <Text size='14px' weight={300} altFont>
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
@@ -85,13 +85,13 @@ const Login = (props) => {
             <Field name='guid' validate={[required]} component={TextBox} />
           </FormItem>
           <LoginTextGroup inline>
-            <Text size='13px' color={'gray-3'} weight={300} altFont>
+            <Text size='12px' color={'gray-3'} weight={300} altFont>
               <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
             </Text>
-            <Text size='13px' color={'gray-3'} weight={300} altFont>
+            <Text size='12px' color={'gray-3'} weight={300} altFont>
               <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
             </Text>
-            <Text size='13px' color={'gray-3'} weight={300} altFont>
+            <Text size='12px' color={'gray-3'} weight={300} altFont>
               <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
             </Text>
           </LoginTextGroup>
@@ -109,7 +109,7 @@ const Login = (props) => {
             <FormItem>
               <FormLabel for='code'>
                 { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
-                { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Google Authenticator Code' /> }
+                { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' /> }
                 { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
               </FormLabel>
             </FormItem>
@@ -126,7 +126,7 @@ const Login = (props) => {
       </LoginForm>
       <Footer>
         <Link size='13px' weight={300} onClick={handleMobile}>
-          <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via mobile' />
+          <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via Mobile' />
         </Link>
         <TextGroup inline>
           <Text size='13px' weight={300}>
@@ -134,7 +134,7 @@ const Login = (props) => {
           </Text>
           <LinkContainer to='/help'>
             <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.login.options' defaultMessage='View options' />
+              <FormattedMessage id='scenes.login.options' defaultMessage='View Options' />
             </Link>
           </LinkContainer>
         </TextGroup>

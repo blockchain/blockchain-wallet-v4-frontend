@@ -10,11 +10,15 @@ const Setting = (props) => {
 
   return (
     <SettingWrapper>
-      <Text>{smsNumber || 'N/A'}</Text>
+      {
+        smsNumber && <Text>{smsNumber}</Text>
+      }
       <Button nature='primary' onClick={handleClick}>
         { smsVerified === 1
           ? <FormattedMessage id='scenes.preferences.mobile.settings.change' defaultMessage='Change' />
-          : <FormattedMessage id='scenes.preferences.mobile.settings.verify' defaultMessage='Verify' />
+          : smsNumber
+            ? <FormattedMessage id='scenes.preferences.mobile.settings.verify' defaultMessage='Verify' />
+            : <FormattedMessage id='scenes.preferences.mobile.settings.verify' defaultMessage='Add Mobile Number' />
         }
       </Button>
     </SettingWrapper>
