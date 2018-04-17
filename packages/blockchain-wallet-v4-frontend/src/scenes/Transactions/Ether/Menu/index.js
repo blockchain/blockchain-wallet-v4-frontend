@@ -11,7 +11,6 @@ class MenuContainer extends React.Component {
   }
 
   onShowPrivateKey (archived) {
-    console.log('Showing eth priv')
     this.props.modalActions.showModal('ShowEthPrivateKey', { archived: archived })
   }
 

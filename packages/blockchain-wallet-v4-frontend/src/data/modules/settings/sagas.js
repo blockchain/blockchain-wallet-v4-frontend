@@ -229,8 +229,8 @@ export default ({ coreSagas }) => {
     if (eitherMnemonic.isRight) {
       const mnemonic = eitherMnemonic.value
       const priv = archived
-        ? utils.ethereum.getLegacyPrivateKey(mnemonic)
-        : utils.ethereum.getPrivateKey(mnemonic, 0).getWallet().getPrivateKey().toString('hex')
+        ? utils.ethereum.getLegacyPrivateKey(mnemonic).toString('hex')
+        : utils.ethereum.getPrivateKey(mnemonic, 0).toString('hex')
       if (priv != null) {
         yield put(actions.modules.settings.addShownEthPrivateKey(priv))
       } else {
