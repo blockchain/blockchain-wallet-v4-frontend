@@ -43,7 +43,7 @@ export const getData = (state, coin) => {
         ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
       default: return sequence(Remote.of,
         [
-          selectors.core.common.bitcoin.getAccountsBalances(state).map(toDropdown),
+          selectors.core.common.bitcoin.getActiveAccountsBalances(state).map(toDropdown),
           selectors.core.common.bitcoin.getAddressesBalances(state).map(toDropdown)
         ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
     }

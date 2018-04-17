@@ -15,7 +15,8 @@ export const signSelection = curry((network, selection) => {
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)
   addIndex(forEach)(sign, selection.inputs)
-  return tx.build().toHex()
+  const signedTx = tx.build()
+  return { txHex: signedTx.toHex(), txId: signedTx.getId() }
 })
 
 // signHDWallet :: network -> password -> wrapper -> selection -> Task selection

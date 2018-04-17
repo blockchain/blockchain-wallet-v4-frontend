@@ -30,6 +30,12 @@ const FROM = {
   EXTERNAL: 'FROM.EXTERNAL'
 }
 
+const TO = {
+  ACCOUNT: 'TO.ACCOUNT',
+  ADDRESS: 'TO.ADDRESS'
+}
+
+const isString = is(String)
 const isNumber = is(Number)
 const isPositiveNumber = (x) => isNumber(x) && x >= 0
 const isPositiveInteger = (x) => isPositiveNumber(x) && Math.round(x) === x
@@ -69,7 +75,7 @@ export default function createPaymentFactory ({ api }) {
       .then(map(toCoin(network, fromData)))
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateTo = function * (destinations) {
+  const calculateTo = function * (destinations, network) {
     let isUpgradedToHD = yield select(S.wallet.isHdWallet)
     let accountsCount = Wallet.selectHDAccounts(yield select(S.wallet.getWallet)).size
 
@@ -84,14 +90,22 @@ export default function createPaymentFactory ({ api }) {
         let account = yield select(S.wallet.getAccount(i))
         let receiveIndex = (yield select(S.data.bitcoin.getReceiveIndex(account.xpub)))
           .getOrFail(new Error('missing_receive_address'))
-        return HDAccount.getReceiveAddress(account, receiveIndex)
+        return {
+          type: TO.ACCOUNT,
+          accountIndex: i,
+          addressIndex: receiveIndex,
+          address: HDAccount.getReceiveAddress(account, receiveIndex, network)
+        }
       } else {
-        return i
+        return {
+          type: TO.ADDRESS,
+          address: i
+        }
       }
     }
 
     if (isValidBitcoinAddress(destinations)) {
-      return [destinations]
+      return [{ type: TO.ADDRESS, address: destinations }]
     }
 
     if (isValidIndex(destinations)) {
@@ -247,7 +261,7 @@ export default function createPaymentFactory ({ api }) {
       throw new Error('missing_change_address')
     }
 
-    let targets = zip(to, amount).map(([address, value]) => Coin.fromJS({ address, value }))
+    let targets = zip(to, amount).map(([target, value]) => Coin.fromJS({ address: target.address, value }))
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
 
@@ -269,11 +283,20 @@ export default function createPaymentFactory ({ api }) {
       throw new Error('missing_coins')
     }
 
-    return CoinSelection.selectAll(fee, coins, to[0])
+    return CoinSelection.selectAll(fee, coins, to[0].address)
+  }
+
+  const calculateEffectiveBalance = function ({ fee, coins }) {
+    if (isPositiveInteger(fee) && coins) {
+      const { outputs } = CoinSelection.selectAll(fee, coins, 'fake-target-address')
+      return outputs[0].value
+    } else {
+      return undefined
+    }
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  return function createPayment ({ network } = {}) {
+  return function createPayment ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = (p) => ({
       value () {
         return p
@@ -285,7 +308,7 @@ export default function createPaymentFactory ({ api }) {
       },
 
       * to (destinations) {
-        let to = yield call(calculateTo, destinations)
+        let to = yield call(calculateTo, destinations, network)
         return makePayment(merge(p, { to }))
       },
 
@@ -297,12 +320,14 @@ export default function createPaymentFactory ({ api }) {
       * from (origins) {
         let fromData = yield call(calculateFrom, origins)
         let coins = yield call(getWalletUnspent, network, fromData)
-        return makePayment(merge(p, { ...fromData, coins }))
+        let effectiveBalance = yield call(calculateEffectiveBalance, {coins, fee: p.fee})
+        return makePayment(merge(p, { ...fromData, coins, effectiveBalance }))
       },
 
       * fee (value) {
         let fee = yield call(calculateFee, value, p.fees)
-        return makePayment(merge(p, { fee }))
+        let effectiveBalance = yield call(calculateEffectiveBalance, {coins: p.coins, fee})
+        return makePayment(merge(p, { fee, effectiveBalance }))
       },
 
       * build () {
@@ -325,28 +350,37 @@ export default function createPaymentFactory ({ api }) {
             wrapper = yield select(S.wallet.getWrapper)
             signedT = btc.signHDWallet(network, password, wrapper, p.selection)
             signed = yield call(() => taskToPromise(signedT))
-            return makePayment(merge(p, { signed }))
+            return makePayment(merge(p, { ...signed }))
           case FROM.LEGACY:
             wrapper = yield select(S.wallet.getWrapper)
             signedT = btc.signLegacy(network, password, wrapper, p.selection)
             signed = yield call(() => taskToPromise(signedT))
-            return makePayment(merge(p, { signed }))
+            return makePayment(merge(p, { ...signed }))
           case FROM.WATCH_ONLY:
           case FROM.EXTERNAL:
             signed = btc.signWithWIF(network, p.selection)
-            return makePayment(merge(p, { signed }))
+            return makePayment(merge(p, { ...signed }))
           default:
             break
         }
       },
 
       * publish () {
-        if (!p.signed) {
+        if (!p.txHex) {
           throw new Error('missing_signed_tx')
         }
-        let publishT = Task.of(p.signed).chain(pushBitcoinTx)
+        let publishT = pushBitcoinTx(p.txHex)
         let publishResult = yield call(() => taskToPromise(publishT))
+        // if (description) {
+        //   dispatch save description action (modify payload)
+        // }
         return makePayment(merge(p, { result: publishResult }))
+      },
+
+      description (message) {
+        return isString(message)
+          ? makePayment(merge(p, { description: message }))
+          : makePayment(p)
       },
 
       chain () {
@@ -375,6 +409,6 @@ export default function createPaymentFactory ({ api }) {
       }
     })
 
-    return makePayment({})
+    return makePayment(payment)
   }
 }

@@ -20,7 +20,6 @@ const Row = styled.div`
 `
 
 const validAmount = (value, allValues, props) => {
-  console.log('validAmount', props.effectiveBalance)
   return parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
 }
 
