@@ -1,4 +1,4 @@
-import { map, prop } from 'ramda'
+import { prop } from 'ramda'
 import moment from 'moment'
 
 const INTERVALS = {
@@ -27,8 +27,8 @@ const start = {
 }
 
 export const calculateStart = (coin, time) => {
-  const coinStart = prop(coin, start)
   const now = moment()
+  const coinStart = prop(coin, start)
   const dayStart = now.subtract(1, 'day').format('X')
   const weekStart = now.subtract(7, 'day').format('X')
   const monthStart = now.subtract(1, 'month').format('X')
