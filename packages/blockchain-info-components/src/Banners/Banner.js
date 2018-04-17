@@ -18,7 +18,7 @@ const Container = styled.div`
   width: ${props => props.width ? props.width : `initial`};
   margin-left: ${props => props.inline && !props.label ? '5px' : '0px'};
   padding: ${props => props.inline || props.label ? '3px 5px' : '5px 10px'};
-  & > :first-child { margin-right: ${props => props.icon ? '8px' : '0px'}; }
+  & > span:first-child { margin-right: ${props => props.inline ? '3px' : '5px'} };
 `
 
 const BannerContent = styled(Text)`
