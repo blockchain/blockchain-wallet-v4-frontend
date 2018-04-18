@@ -7,6 +7,7 @@ import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
+import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
@@ -46,6 +47,7 @@ class App extends React.Component {
                 <PublicLayout path='/reminder' component={Reminder} />
                 <PublicLayout path='/reset2fa' component={Reset2FA} />
                 <PublicLayout path='/signup' component={Register} />
+                <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
                 <WalletLayout path='/home' component={Home} />
                 <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
                 <WalletLayout path='/eth/transactions' component={EtherTransactions} />
