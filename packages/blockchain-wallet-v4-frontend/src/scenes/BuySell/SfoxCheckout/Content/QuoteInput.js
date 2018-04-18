@@ -101,7 +101,7 @@ class QuoteInput extends Component {
   }
 
   render () {
-    let { spec } = this.props
+    let { spec, disabled } = this.props
     let { input, output } = this.state
 
     return (
@@ -113,6 +113,7 @@ class QuoteInput extends Component {
         rightUnit={toUpper(spec.output)}
         onChangeRight={this.handleChangeRight}
         limits={this.props.limits}
+        disabled={disabled}
       />
     )
   }
