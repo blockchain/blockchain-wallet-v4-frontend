@@ -18,7 +18,10 @@ const quoteInputSpec = {
 const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits }) => {
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true
-    return quoteR.map(q => +q.baseAmount > limits.buy.max || +q.baseAmount < limits.buy.min).data
+    return quoteR.map(q => {
+      if (q.baseCurrency === 'USD') return +q.baseAmount > limits.buy.max || +q.baseAmount < limits.buy.min
+      if (q.baseCurrency === 'BTC') return +q.quoteAmount > limits.buy.max || q.quoteAmount < limits.buy.min
+    }).data
   }
 
   const submitButtonHelper = () => (
