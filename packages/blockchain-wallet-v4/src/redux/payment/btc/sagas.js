@@ -1,72 +1,33 @@
 import { call, select } from 'redux-saga/effects'
-import { merge, is, converge, or, zip, prop, map, assoc, drop, curry, set } from 'ramda'
+import { merge, zip, prop, map, identity } from 'ramda'
 import Task from 'data.task'
 
 import * as S from '../../selectors'
 import { btc } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
-import { Wallet, HDAccount, Address } from '../../../types'
 import { isValidBitcoinAddress, privateKeyStringToKey, detectPrivateKeyFormat } from '../../../utils/bitcoin'
 import { futurizeP } from 'futurize'
+import { isString, isPositiveNumber, isPositiveInteger } from '../../../utils/checks'
+import { FROM, toCoin, isValidAddressOrIndex, toOutput, fromLegacy, fromLegacyList, fromAccount, fromPrivateKey } from './utils'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
   Usage:
     // sequential
-    let payment = createPayment({ network })
+    let payment = create({ network })
     payment = yield payment.fee(myFee)
     payment = yield payment.amount(myAmount)
 
     // chained
-    let payment = yield createPayment({ network })
+    let payment = yield create({ network })
       .chain().fee(myFee).amount(myAmount).done()
 */
 
-const FROM = {
-  ACCOUNT: 'FROM.ACCOUNT',
-  LEGACY: 'FROM.LEGACY',
-  WATCH_ONLY: 'FROM.WATCH_ONLY',
-  EXTERNAL: 'FROM.EXTERNAL'
-}
+// TODO :: SHOULD WE HAVE A METHOD TO SAVE THE DESCRIPTION RELATED TO A PUBLISHED TX?
+//  -- just dispatch the actions that will change the wallet payload (after publish)
 
-const TO = {
-  ACCOUNT: 'TO.ACCOUNT',
-  ADDRESS: 'TO.ADDRESS'
-}
-
-const isString = is(String)
-const isNumber = is(Number)
-const isPositiveNumber = (x) => isNumber(x) && x >= 0
-const isPositiveInteger = (x) => isPositiveNumber(x) && Math.round(x) === x
-
-const toCoin = curry((network, fromData, input) => {
-  switch (fromData.fromType) {
-    case FROM.ACCOUNT:
-      let path = input.xpub ? `${fromData.fromAccountIdx}${drop(1, input.xpub.path)}` : undefined
-      return Coin.fromJS(assoc('path', path, input), network)
-    case FROM.LEGACY:
-      return Coin.fromJS(input, network)
-    case FROM.WATCH_ONLY:
-      return Coin.fromJS(assoc('priv', fromData.wifKeys[0], input), network)
-    case FROM.EXTERNAL:
-      let coin = Coin.fromJS(input, network)
-      let address = Coin.selectAddress(coin)
-      return set(Coin.priv, fromData.wifKeys[address], coin)
-    default:
-      throw new Error('fromType_not_recognized')
-  }
-})
-
-const mapGen = function * (f, xs) {
-  let result = []
-  for (let i = 0; i < xs.length; i++) {
-    result.push(yield f(xs[i]))
-  }
-  return result
-}
-
-export default function createPaymentFactory ({ api }) {
+export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
   const pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
   const getWalletUnspent = (network, fromData) =>
@@ -76,45 +37,19 @@ export default function createPaymentFactory ({ api }) {
 
   // ///////////////////////////////////////////////////////////////////////////
   const calculateTo = function * (destinations, network) {
-    let isUpgradedToHD = yield select(S.wallet.isHdWallet)
-    let accountsCount = Wallet.selectHDAccounts(yield select(S.wallet.getWallet)).size
+    const appState = yield select(identity)
+    const wallet = S.wallet.getWallet(appState)
 
-    let isValidIndex = (i) => (
-      isPositiveInteger(i) &&
-      isUpgradedToHD &&
-      (i < accountsCount)
-    )
-
-    let accountToAddress = function * (i) {
-      if (isPositiveInteger(i)) {
-        let account = yield select(S.wallet.getAccount(i))
-        let receiveIndex = (yield select(S.data.bitcoin.getReceiveIndex(account.xpub)))
-          .getOrFail(new Error('missing_receive_address'))
-        return {
-          type: TO.ACCOUNT,
-          accountIndex: i,
-          addressIndex: receiveIndex,
-          address: HDAccount.getReceiveAddress(account, receiveIndex, network)
-        }
-      } else {
-        return {
-          type: TO.ADDRESS,
-          address: i
-        }
-      }
+    // if address or account index
+    if (isValidAddressOrIndex(destinations)) {
+      return [toOutput(network, appState, destinations)]
     }
 
-    if (isValidBitcoinAddress(destinations)) {
-      return [{ type: TO.ADDRESS, address: destinations }]
-    }
-
-    if (isValidIndex(destinations)) {
-      return [yield call(accountToAddress, destinations)]
-    }
-
-    let validAddressOrIndex = converge(or, [isValidBitcoinAddress, isValidIndex])
-    if (Array.isArray(destinations) && destinations.length > 0 && destinations.every(validAddressOrIndex)) {
-      return yield call(mapGen, accountToAddress, destinations)
+    // if non-empty array of addresses or account indexes
+    if (Array.isArray(destinations) &&
+        destinations.length > 0 &&
+        destinations.every(isValidAddressOrIndex(wallet))) {
+      return map(toOutput(network, appState), destinations)
     }
 
     throw new Error('no_destination_set')
@@ -134,93 +69,37 @@ export default function createPaymentFactory ({ api }) {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateFrom = function * (origin) {
-    let pkFormat = detectPrivateKeyFormat(origin)
-    let accountsCount = Wallet.selectHDAccounts(yield select(S.wallet.getWallet)).size
+  const calculateFrom = function * (origin, network) {
+    const appState = yield select(identity)
+    const wallet = S.wallet.getWallet(appState)
 
     // No origin => assume origin = all the legacy addresses (non - watchOnly)
     if (origin === null || origin === undefined || origin === '') {
       let spendableActiveAddresses = yield select(S.wallet.getSpendableActiveAddresses)
-      return {
-        fromType: FROM.LEGACY,
-        from: spendableActiveAddresses,
-        change: spendableActiveAddresses[0]
-      }
+      return fromLegacyList(spendableActiveAddresses)
     }
 
     // Single bitcoin address (they must be legacy addresses)
     if (isValidBitcoinAddress(origin)) {
-      return {
-        fromType: FROM.LEGACY,
-        from: [origin],
-        change: origin
-      }
+      return fromLegacy(origin)
     }
 
     // Multiple legacy addresses (they must be legacy addresses)
     if (Array.isArray(origin) && origin.length > 0 && origin.every(isValidBitcoinAddress)) {
-      return {
-        fromType: FROM.LEGACY,
-        from: origin,
-        change: origin[0]
-      }
+      return fromLegacyList(origin)
     }
 
     // Single account index
-    if (isPositiveInteger(origin) && (origin < accountsCount)) {
-      let account = yield select(S.wallet.getAccount(origin))
-      let changeAddress = (yield select(S.data.bitcoin.getChangeIndex(account.xpub)))
-        .map((index) => HDAccount.getChangeAddress(account, index))
-        .getOrFail(new Error('missing_change_address'))
-      return {
-        fromType: FROM.ACCOUNT,
-        from: [account.xpub],
-        change: changeAddress,
-        fromAccountIdx: origin
-      }
+    if (isPositiveInteger(origin)) {
+      return fromAccount(network, appState, origin)
     }
 
-    // From private key
-    if (pkFormat !== null) {
-      let key = privateKeyStringToKey(origin, pkFormat)
-      key.compressed = false
-      let addrUncomp = key.getAddress()
-      let uWIF = key.toWIF()
-      key.compressed = true
-      let addrComp = key.getAddress()
-      let cWIF = key.toWIF()
-      let ukeyM = yield select(S.wallet.getAddress(addrUncomp))
-      let ckeyM = yield select(S.wallet.getAddress(addrComp))
-      let ukey = ukeyM.getOrElse(false)
-      let ckey = ckeyM.getOrElse(false)
-
-      if (ukey && Address.isWatchOnly(ukey)) {
-        return {
-          fromType: FROM.WATCH_ONLY,
-          from: [addrUncomp],
-          change: addrUncomp,
-          wifKeys: [uWIF]
-        }
-      }
-
-      if (ckey && Address.isWatchOnly(ckey)) {
-        return {
-          fromType: FROM.WATCH_ONLY,
-          from: [addrComp],
-          change: addrComp,
-          wifKeys: [cWIF]
-        }
-      }
-
-      let wifKeys = {}
-      wifKeys[addrComp] = cWIF
-      wifKeys[addrUncomp] = uWIF
-      return {
-        fromType: FROM.EXTERNAL,
-        from: [addrComp, addrUncomp],
-        change: addrComp,
-        wifKeys
-      }
+    // From private key (watch only: compressed / uncompressed, external)
+    const pkformat = detectPrivateKeyFormat(origin)
+    if (pkformat != null) {
+      let pkFormat = detectPrivateKeyFormat(origin)
+      let key = privateKeyStringToKey(origin, pkFormat, network)
+      return fromPrivateKey(network, wallet, key)
     }
 
     throw new Error('no_origin_set')
@@ -296,7 +175,38 @@ export default function createPaymentFactory ({ api }) {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  return function createPayment ({ network, payment } = { network: undefined, payment: {} }) {
+  const calculateSignature = function * (network, password, fromType, selection) {
+    if (selection) {
+      throw new Error('missing_selection')
+    }
+    const wrapper = yield select(S.wallet.getWrapper)
+    switch (fromType) {
+      case FROM.ACCOUNT:
+        return yield call(
+          () => taskToPromise(
+            btc.signHDWallet(network, password, wrapper, selection)))
+      case FROM.LEGACY:
+        return yield call(
+          () => taskToPromise(
+            btc.signLegacy(network, password, wrapper, selection)))
+      case FROM.WATCH_ONLY:
+      case FROM.EXTERNAL:
+        return btc.signWithWIF(network, selection)
+      default:
+        throw new Error('unknown_from')
+    }
+  }
+
+  // ///////////////////////////////////////////////////////////////////////////
+  const calculatePublish = function * (txHex) {
+    if (txHex) {
+      throw new Error('missing_signed_tx')
+    }
+    return yield call(() => taskToPromise(pushBitcoinTx(txHex)))
+  }
+
+  // ///////////////////////////////////////////////////////////////////////////
+  function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = (p) => ({
       value () {
         return p
@@ -318,7 +228,7 @@ export default function createPaymentFactory ({ api }) {
       },
 
       * from (origins) {
-        let fromData = yield call(calculateFrom, origins)
+        let fromData = yield call(calculateFrom, origins, network)
         let coins = yield call(getWalletUnspent, network, fromData)
         let effectiveBalance = yield call(calculateEffectiveBalance, {coins, fee: p.fee})
         return makePayment(merge(p, { ...fromData, coins, effectiveBalance }))
@@ -341,40 +251,13 @@ export default function createPaymentFactory ({ api }) {
       },
 
       * sign (password) {
-        if (!p.selection) {
-          throw new Error('missing_selection')
-        }
-        let wrapper, signed, signedT
-        switch (p.fromType) {
-          case FROM.ACCOUNT:
-            wrapper = yield select(S.wallet.getWrapper)
-            signedT = btc.signHDWallet(network, password, wrapper, p.selection)
-            signed = yield call(() => taskToPromise(signedT))
-            return makePayment(merge(p, { ...signed }))
-          case FROM.LEGACY:
-            wrapper = yield select(S.wallet.getWrapper)
-            signedT = btc.signLegacy(network, password, wrapper, p.selection)
-            signed = yield call(() => taskToPromise(signedT))
-            return makePayment(merge(p, { ...signed }))
-          case FROM.WATCH_ONLY:
-          case FROM.EXTERNAL:
-            signed = btc.signWithWIF(network, p.selection)
-            return makePayment(merge(p, { ...signed }))
-          default:
-            break
-        }
+        let signed = yield call(calculateSignature, network, password, p.fromType, p.selection)
+        return makePayment(merge(p, { ...signed }))
       },
 
       * publish () {
-        if (!p.txHex) {
-          throw new Error('missing_signed_tx')
-        }
-        let publishT = pushBitcoinTx(p.txHex)
-        let publishResult = yield call(() => taskToPromise(publishT))
-        // if (description) {
-        //   dispatch save description action (modify payload)
-        // }
-        return makePayment(merge(p, { result: publishResult }))
+        let result = yield call(calculatePublish, p.txHex)
+        return makePayment(merge(p, { result }))
       },
 
       description (message) {
@@ -398,6 +281,7 @@ export default function createPaymentFactory ({ api }) {
           buildSweep: () => chain(gen, payment => payment.buildSweep()),
           sign: (password) => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),
+          description: (message) => chain(gen, payment => payment.description(message)),
           * done () {
             return yield gen()
           }
@@ -410,5 +294,9 @@ export default function createPaymentFactory ({ api }) {
     })
 
     return makePayment(payment)
+  }
+
+  return {
+    create: create
   }
 }

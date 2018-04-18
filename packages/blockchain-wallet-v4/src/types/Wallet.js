@@ -151,6 +151,13 @@ export const getAddress = curry((addr, wallet) => {
   return Maybe.fromNullable(address)
 })
 
+// getAccount :: Integer -> Wallet -> Maybe HDAccount
+export const getAccount = curry((index, wallet) =>
+  compose(Maybe.fromNullable, selectHdWallets)(wallet)
+    .chain(compose(Maybe.fromNullable, HDWalletList.selectHDWallet))
+    .chain(compose(Maybe.fromNullable, HDWallet.selectAccount(index)))
+)
+
 // applyCipher :: Wallet -> String -> Cipher -> a -> Either Error a
 const applyCipher = curry((wallet, password, f, value) => {
   let it = selectIterations(wallet)
