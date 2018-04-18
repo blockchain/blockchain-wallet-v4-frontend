@@ -9,7 +9,7 @@ const Webpack = require('webpack')
 const isCiBuild = !!process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
-  build: `${__dirname}/../../build`,
+  build: `${__dirname}/../../lib`,
   dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`,
   pkgJson: `${__dirname}/../../package.json`,
