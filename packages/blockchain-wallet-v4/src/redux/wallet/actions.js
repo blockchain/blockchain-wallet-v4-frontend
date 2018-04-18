@@ -40,5 +40,3 @@ export const setAutoLogout = (time) => ({ type: T.SET_AUTOLOGOUT, payload: { tim
 
 // mnemonic verified
 export const verifyMnemonic = () => ({ type: T.VERIFY_MNEMONIC })
-
-// reset 2fa

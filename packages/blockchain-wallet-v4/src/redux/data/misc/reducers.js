@@ -3,10 +3,11 @@ import * as AT from './actionTypes.js'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = {
-  captcha: Remote.NotAsked,
   logs: Remote.NotAsked,
+  captcha: Remote.NotAsked,
+  pairing_code: Remote.NotAsked,
   price_index_series: Remote.NotAsked,
-  pairing_code: Remote.NotAsked
+  authorize_login: Remote.NotAsked
 }
 
 const miscReducer = (state = INITIAL_STATE, action) => {
@@ -48,6 +49,15 @@ const miscReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.ENCODE_PAIRING_CODE_FAILURE: {
       return assoc('pairing_code', Remote.Failure(payload), state)
+    }
+    case AT.AUTHORIZE_LOGIN_LOADING: {
+      return assoc('authorize_login', Remote.Loading, state)
+    }
+    case AT.AUTHORIZE_LOGIN_SUCCESS: {
+      return assoc('authorize_login', Remote.Success(payload), state)
+    }
+    case AT.AUTHORIZE_LOGIN_FAILURE: {
+      return assoc('authorize_login', Remote.Failure(payload), state)
     }
     default:
       return state

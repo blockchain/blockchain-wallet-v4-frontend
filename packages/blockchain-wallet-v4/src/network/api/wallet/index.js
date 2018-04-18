@@ -122,6 +122,16 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { method: 'pairing-encryption-password', guid }
   })
 
+  const authorizeLogin = (token, confirm) => post({
+    url: rootUrl,
+    endPoint: 'wallet',
+    data: {
+      token: token,
+      confirm_approval: confirm,
+      method: 'authorize-approve'
+    }
+  })
+
   const incrementStat = (eventName) => get({
     url: rootUrl,
     endPoint: 'event',
@@ -147,6 +157,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   return {
+    authorizeLogin,
     createPayload,
     createPinEntry,
     fetchBlockchainData,
