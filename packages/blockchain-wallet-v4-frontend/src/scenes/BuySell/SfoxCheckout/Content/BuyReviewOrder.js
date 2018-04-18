@@ -11,7 +11,7 @@ import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDeta
 import FundingSource from 'components/BuySell/FundingSource'
 
 const StyledFaqRow = styled(FaqRow)`
-  padding: 20px;
+  padding: 20px 0px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 
