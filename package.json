@@ -70,6 +70,7 @@
     "@storybook/react": "^4.0.0-alpha.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
+    "babel-eslint": "^8.2.3",
     "babel-istanbul": "~0.12.2",
     "babel-jest": "^22.4.1",
     "babel-loader": "^7.0.0",
@@ -127,5 +128,6 @@
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.13",
     "webpack-dev-server": "^3.1.1"
-  }
+  },
+  "dependencies": {}
 }
