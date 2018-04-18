@@ -5,7 +5,7 @@ import OrderHistory from '../../OrderHistory'
 import { Text } from 'blockchain-info-components'
 import ExchangeCheckout from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
-import { flex, spacing } from 'services/StyleService'
+import { flex } from 'services/StyleService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
@@ -14,6 +14,11 @@ import { BuyOrderDetails, BuyOrderSubmit } from './BuyReviewOrder'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
+`
+const BuyOrderSubmitWrapper = CheckoutWrapper.extend`
+  width: 35%;
+  padding: 30px 30px 30px 10%;
+
 `
 const OrderHistoryWrapper = styled.div`
   width: 100%;
@@ -67,21 +72,21 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { changeBuySellTabStatus, fetchQuote, refreshQuote, submitQuote, handleTrade, quoteR, base, errors, showModal, ...rest } = props
+  const { changeBuySellTabStatus, fetchQuote, refreshQuote, submitQuote, handleTrade, quoteR, base, errors, showModal, handleTradeDetailsClick, ...rest } = props
   const quote = quoteR.getOrElse(null)
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
   const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
 
-  const { trades, type } = rest
+  const { trades, type, busy } = rest
   const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
-
   const onSubmit = (e) => {
     e.preventDefault()
     step === 'verified' ? handleTrade(quote) : showModal('SfoxExchangeData', { step })
   }
+  const finishAccountSetup = () => showModal('SfoxExchangeData', { step })
 
   const limits = {
     buy: {
@@ -103,6 +108,9 @@ const Success = props => {
               quoteR={quoteR}
               account={accounts[0]}
               onFetchQuote={fetchQuote}
+              reason={reason}
+              finishAccountSetup={finishAccountSetup}
+              limits={limits}
             />
           </CheckoutWrapper>
         </StepView>
@@ -115,12 +123,13 @@ const Success = props => {
                 onRefreshQuote={refreshQuote}
               />
             </CheckoutWrapper>
-            <CheckoutWrapper style={{ ...flex('col'), ...spacing('pa-30') }}>
+            <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
               <BuyOrderSubmit
                 quoteR={quoteR}
                 onSubmit={submitQuote}
+                busy={busy}
               />
-            </CheckoutWrapper>
+            </BuyOrderSubmitWrapper>
           </div>
         </StepView>
       </Stepper>
@@ -150,16 +159,16 @@ const Success = props => {
     return (
       <OrderHistoryWrapper>
         <OrderHistoryContent>
-          <Text size='16px' weight={500}>
-            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Trades' />
+          <Text size='15px' weight={400}>
+            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Orders' />
           </Text>
-          <OrderHistory trades={filter(isPending, trades)} conversion={1e8} />
+          <OrderHistory trades={filter(isPending, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
         </OrderHistoryContent>
         <OrderHistoryContent>
-          <Text size='16px' weight={500}>
-            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Trades' />
+          <Text size='15px' weight={400}>
+            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Orders' />
           </Text>
-          <OrderHistory trades={filter(isCompleted, trades)} conversion={1e8} />
+          <OrderHistory trades={filter(isCompleted, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
         </OrderHistoryContent>
       </OrderHistoryWrapper>
     )

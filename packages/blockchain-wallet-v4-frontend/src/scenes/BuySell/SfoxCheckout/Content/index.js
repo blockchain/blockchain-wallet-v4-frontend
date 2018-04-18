@@ -6,6 +6,11 @@ import { getBase, getData, getErrors, getQuote, getTrades } from './selectors'
 import Success from './template.success'
 
 class Checkout extends React.Component {
+  /* eslint-disable */
+  state = {
+    busy: false
+  }
+  /* eslint-enable */
   componentWillMount () {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
@@ -25,7 +30,8 @@ class Checkout extends React.Component {
         showModal={showModal}
         fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         refreshQuote={() => refreshQuote()}
-        submitQuote={sfoxActions.submitQuote}
+        submitQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
+        busy={this.state.busy}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <div>Loading...</div>,

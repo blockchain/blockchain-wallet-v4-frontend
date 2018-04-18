@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Button, Icon } from 'blockchain-info-components'
+import { Text, Button, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
@@ -11,7 +11,7 @@ import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDeta
 import FundingSource from 'components/BuySell/FundingSource'
 
 const StyledFaqRow = styled(FaqRow)`
-  padding: 20px;
+  padding: 20px 0px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 
@@ -25,10 +25,17 @@ const MethodContainer = styled.div`
 
 const renderDetailsRow = (id, message, value, color) => (
   <OrderDetailsRow>
-    <Text size='13px' weight={400}><FormattedMessage id={id} defaultMessage={message} /></Text>
+    <Text size='13px' weight={300}><FormattedMessage id={id} defaultMessage={message} /></Text>
     <Text size='13px' weight={300} color={color}>{value}</Text>
   </OrderDetailsRow>
 )
+
+const renderFirstRow = q => (
+  q.baseCurrency === 'BTC'
+    ? `${q.baseAmount / 100000000} BTC ($${(+q.quoteAmount - +q.feeAmount).toFixed(2)})`
+    : `${q.quoteAmount / 100000000} BTC ($${(+q.baseAmount - +q.feeAmount).toFixed(2)})`
+)
+const renderTotal = q => q.baseCurrency === 'BTC' ? `$${q.quoteAmount}` : `$${q.baseAmount}`
 
 export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
   <ExchangeCheckoutWrapper>
@@ -38,7 +45,7 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
     <Text size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
-    <Text size='14px' weight='normal' style={spacing('mt-20')}>
+    <Text size='14px' weight={300} style={spacing('mt-20')}>
       <FormattedMessage id='buy.connected_account' defaultMessage='Your Connected Account' />:
     </Text>
     <MethodContainer style={spacing('mt-10')}>
@@ -57,17 +64,17 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
       {renderDetailsRow(
         'order_details.amount_to_purchase',
         'BTC Amount to Purchase',
-        quoteR.map(quote => `${quote.baseAmount} BTC`).getOrElse('~')
+        quoteR.map(quote => renderFirstRow(quote)).getOrElse('~')
       )}
       {renderDetailsRow(
         'order_details.trading_fee',
         'Trading Fee',
-        quoteR.map(quote => `- $${quote.feeAmount}`).getOrElse('~')
+        quoteR.map(quote => `$${(+quote.feeAmount).toFixed(2)}`).getOrElse('~')
       )}
       {renderDetailsRow(
-        'order_details.amount_to_receive',
-        'BTC Amount to be Received',
-        quoteR.map(quote => `${quote.quoteAmount} BTC`).getOrElse('~'),
+        'order_details.total_cost',
+        'Total Cost',
+        quoteR.map(quote => renderTotal(quote)).getOrElse('~'),
         'success'
       )}
     </OrderDetailsTable>
@@ -81,13 +88,17 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const BuyOrderSubmit = ({ quoteR, onSubmit }) => (
+export const BuyOrderSubmit = ({ quoteR, onSubmit, busy }) => (
   <Fragment>
     <Button
       nature='primary'
       disabled={!Remote.Success.is(quoteR)}
       onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
-      <FormattedMessage id='submit' defaultMessage='Submit' />
+      {
+        busy
+          ? <HeartbeatLoader height='20px' width='20px' color='white' />
+          : <FormattedMessage id='submit' defaultMessage='Submit' />
+      }
     </Button>
     <StyledFaqRow
       title={<FormattedMessage id='faq.how_long_to_receive_q' defaultMessage='How long does it take to get my funds?' />}

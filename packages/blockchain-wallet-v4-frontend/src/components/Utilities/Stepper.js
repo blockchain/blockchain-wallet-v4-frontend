@@ -5,6 +5,7 @@ import ui from 'redux-ui'
 const { Provider, Consumer } = React.createContext()
 
 class Stepper extends React.PureComponent {
+  // eslint-disable-next-line
   stepTo = (step) => {
     this.props.updateUI({ step })
   }

@@ -17,10 +17,10 @@ export const fetchTradesLoading = () => ({ type: AT.COINIFY_FETCH_TRADES_LOADING
 export const fetchTradesSuccess = (data) => ({ type: AT.COINIFY_FETCH_TRADES_SUCCESS, payload: data })
 export const fetchTradesFailure = (error) => ({ type: AT.COINIFY_FETCH_TRADES_FAILURE, payload: error })
 
-export const fetchProfile = () => ({ type: AT.COINIFY_FETCH_PROFILE })
-export const fetchProfileLoading = () => ({ type: AT.COINIFY_FETCH_PROFILE_LOADING })
-export const fetchProfileSuccess = (data) => ({ type: AT.COINIFY_FETCH_PROFILE_SUCCESS, payload: data })
-export const fetchProfileFailure = (error) => ({ type: AT.COINIFY_FETCH_PROFILE_FAILURE, payload: error })
+export const coinifyFetchProfile = () => ({ type: AT.COINIFY_FETCH_PROFILE })
+export const coinifyFetchProfileLoading = () => ({ type: AT.COINIFY_FETCH_PROFILE_LOADING })
+export const coinifyFetchProfileSuccess = (data) => ({ type: AT.COINIFY_FETCH_PROFILE_SUCCESS, payload: data })
+export const coinifyFetchProfileFailure = (error) => ({ type: AT.COINIFY_FETCH_PROFILE_FAILURE, payload: error })
 
 export const fetchAccounts = () => ({ type: AT.FETCH_ACCOUNTS, payload: {} })
 export const fetchAccountsLoading = () => ({ type: AT.FETCH_ACCOUNTS_LOADING })
@@ -54,10 +54,10 @@ export const getDelegateTokenSuccess = (token) => ({ type: AT.GET_DELEGATE_TOKEN
 
 export const coinifySetToken = (token) => ({ type: AT.COINIFY_SET_TOKEN, payload: token })
 
-export const getPaymentMediums = (quote) => ({ type: AT.GET_PAYMENT_MEDIUMS, payload: quote })
-export const getPaymentMediumsLoading = () => ({ type: AT.GET_PAYMENT_MEDIUMS_LOADING })
-export const getPaymentMediumsSuccess = (mediums) => ({ type: AT.GET_PAYMENT_MEDIUMS_SUCCESS, payload: mediums })
-export const getPaymentMediumsFailure = (error) => ({ type: AT.GET_PAYMENT_MEDIUMS_FAILURE, payload: error })
+export const getPaymentMediums = (quote) => ({ type: AT.COINIFY_GET_PAYMENT_MEDIUMS, payload: quote })
+export const getPaymentMediumsLoading = () => ({ type: AT.COINIFY_GET_PAYMENT_MEDIUMS_LOADING })
+export const getPaymentMediumsSuccess = (mediums) => ({ type: AT.COINIFY_GET_PAYMENT_MEDIUMS_SUCCESS, payload: mediums })
+export const getPaymentMediumsFailure = (error) => ({ type: AT.COINIFY_GET_PAYMENT_MEDIUMS_FAILURE, payload: error })
 
 export const getMediumAccounts = (medium) => ({ type: AT.COINIFY_GET_MEDIUM_ACCOUNTS, payload: medium })
 export const getMediumAccountsSuccess = (accounts) => ({ type: AT.COINIFY_GET_MEDIUM_ACCOUNTS_SUCCESS, payload: accounts })
