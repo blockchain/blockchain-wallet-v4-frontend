@@ -2,7 +2,7 @@
   "presets": ["es2015", "stage-0", "react"],
   "plugins": [
     "babel-plugin-styled-components",
-    ["module-resolver", { "root": ["./src"] }]
+    ["module-resolver", { "root": ["./src"], "alias": { "data": "./src/data" } }]
   ],
   "ignore": [],
   "env": {
