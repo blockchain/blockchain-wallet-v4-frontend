@@ -7,8 +7,8 @@ import { Icon } from '../Icons'
 
 const BaseIconButton = styled(Button)`
   width: auto;
-  min-width: 0;
-
+  min-width: ${props => props.min};
+  max-width: ${props => props.max};
   & > :first-child { margin: 0 5px; }
 `
 
@@ -42,7 +42,9 @@ const IconButton = props => {
 }
 
 PropTypes.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  min: PropTypes.string,
+  max: PropTypes.string
 }
 
 export default IconButton

@@ -23,12 +23,3 @@ storiesOf('Fonts', module)
       <Text size='20px' weight={900}>{sample}</Text>
     </div>
   )
-  .add('Gillsans', () =>
-    <div>
-      <Text size='20px' weight={200} altFont>{sample}</Text>
-      <Text size='20px' weight={400} altFont>{sample}</Text>
-      <Text size='20px' weight={500} altFont>{sample}</Text>
-      <Text size='20px' weight={700} altFont>{sample}</Text>
-      <Text size='20px' weight={800} altFont>{sample}</Text>
-    </div>
-  )

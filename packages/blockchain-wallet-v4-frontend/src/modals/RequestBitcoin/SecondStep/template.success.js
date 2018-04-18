@@ -30,12 +30,12 @@ const LinkContainer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { previousStep, position, total, closeAll, ...rest } = props
+  const { previousStep, position, total, modalActions, ...rest } = props
   const { handleSubmit, satoshis, message, link, active } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='request' onClose={closeAll}>
+      <ModalHeader icon='request' onClose={modalActions.closeAllModals}>
         <FormattedMessage id='modals.requestbitcoin.secondstep.title' defaultMessage='Request' />
       </ModalHeader>
       <ModalBody>
@@ -70,7 +70,7 @@ const SecondStep = (props) => {
       </ModalBody>
       <ModalFooter>
         <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.requestbitcoin.secondstep.back' defaultMessage='Go back' />
+          <FormattedMessage id='scenes.requestbitcoin.secondstep.back' defaultMessage='Go Back' />
         </Link>
       </ModalFooter>
     </Modal>

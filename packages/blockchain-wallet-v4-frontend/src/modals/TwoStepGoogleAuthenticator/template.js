@@ -54,7 +54,7 @@ const TwoStepGoogleAuthenticator = (props) => {
         </ModalBody>
         <ModalFooter align='spaced'>
           <Link size='13px' weight={300} onClick={close} capitalize>
-            <FormattedMessage id='modals.twostepgoogleauthenticator.back' defaultMessage='Go back' />
+            <FormattedMessage id='modals.twostepgoogleauthenticator.back' defaultMessage='Go Back' />
           </Link>
           <Button type='submit' nature='primary' disabled={submitting || invalid}>
             <FormattedMessage id='modals.twostepgoogleauthenticator.enable' defaultMessage='Enable 2FA' />

@@ -14,13 +14,14 @@ const PrintContainer = styled.div`
   div:first-of-type {
     padding-right: 30px;
   }
+  width: 65%;
 `
 const FirstStepContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 118%;
 `
 const Buttons = styled.div`
   display: flex;

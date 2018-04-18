@@ -9,10 +9,6 @@ const SecuritySummary = styled.div`
   height: 100%;
   padding: 15px 25px 0px 25px;
   box-sizing: border-box;
-
-  @media (min-width: 992px) {
-    width: 95%;
-  }
 `
 
 export default SecuritySummary

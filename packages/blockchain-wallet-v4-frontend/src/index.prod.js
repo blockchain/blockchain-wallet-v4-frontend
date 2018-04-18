@@ -28,4 +28,5 @@ configureStore().then(x => {
   renderApp(App, x.store, x.history)
 }).catch(e => {
   renderError()
+  console.log(e)
 })

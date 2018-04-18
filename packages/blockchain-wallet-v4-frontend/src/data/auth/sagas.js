@@ -48,7 +48,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.core.webSocket.bitcoin.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       yield put(actions.alerts.displaySuccess('Login successful'))
-      yield put(actions.router.push('/wallet'))
+      yield put(actions.router.push('/home'))
       yield put(actions.goals.runGoals())
       yield put(actions.auth.startLogoutTimer())
       yield fork(reportStats, mobileLogin)
@@ -186,7 +186,7 @@ export default ({ api, coreSagas }) => {
     try {
       const response = yield call(coreSagas.wallet.resetWallet2fa, action.payload)
       if (response.success) {
-        yield put(actions.alerts.displayInfo('Reset 2-step Authentication has been successfully submitted. You will reset an email shortly when the authentication is successfully reset.'))
+        yield put(actions.alerts.displayInfo('Reset 2-step Authentication has been successfully submitted. You will be sent an email shortly when the authentication is successfully reset.'))
       } else {
         yield put(actions.alerts.displayError(response.message))
       }

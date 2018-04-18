@@ -22,6 +22,7 @@ class FiatConvertorContainer extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
     this.handleErrorClick = this.handleErrorClick.bind(this)
     this.useMaxAvailable = this.useMaxAvailable.bind(this)
+    this.useMinRequired = this.useMinRequired.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -68,12 +69,19 @@ class FiatConvertorContainer extends React.Component {
   handleErrorClick () {
     const err = this.props.meta.error
     if (test(/Use total available/, err)) this.useMaxAvailable()
+    if (test(/The minimum amount required to send/, err)) this.useMinRequired()
   }
 
   useMaxAvailable () {
     const maxAvail = this.props.maxAvailable
     const conversion = convertCoinToFiat(maxAvail, this.props.data, this.props.coin)
     this.update({ value: maxAvail, fiat: conversion.fiat })
+  }
+
+  useMinRequired () {
+    const minRequired = this.props.minRequired
+    const conversion = convertCoinToFiat(minRequired, this.props.data, this.props.coin)
+    this.update({ value: minRequired, fiat: conversion.fiat })
   }
 
   render () {

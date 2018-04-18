@@ -26,6 +26,10 @@ const RegisterForm = styled(Form)`
   margin: 20px 0;
 `
 
+const validatePasswordsMatch = values => {
+  return values.password === values.confirmationPassword ? {} : { confirmationPassword: 'Passwords must match' }
+}
+
 const Register = (props) => {
   const { onSubmit, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
@@ -47,7 +51,7 @@ const Register = (props) => {
           </LinkContainer>
         </TextGroup>
       </Header>
-      <Text size='16px' weight={300} altFont>
+      <Text size='14px' weight={300} altFont>
         <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
       </Text>
       <Separator />
@@ -93,4 +97,4 @@ const Register = (props) => {
   )
 }
 
-export default reduxForm({ form: 'register' })(Register)
+export default reduxForm({form: 'register', validate: validatePasswordsMatch})(Register)
