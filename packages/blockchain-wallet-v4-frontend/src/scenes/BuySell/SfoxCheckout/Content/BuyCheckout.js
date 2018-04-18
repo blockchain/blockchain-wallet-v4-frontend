@@ -85,6 +85,7 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup
           onFetchQuote={onFetchQuote}
           disabled={disableInputs}
           limits={limits}
+          type={type}
         />
       </div>
       { submitButtonHelper() }

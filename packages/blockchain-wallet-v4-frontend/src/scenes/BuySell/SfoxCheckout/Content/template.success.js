@@ -72,7 +72,7 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { changeBuySellTabStatus, fetchQuote, refreshQuote, submitQuote, handleTrade, quoteR, base, errors, showModal, handleTradeDetailsClick, ...rest } = props
+  const { changeBuySellTabStatus, fetchQuote, fetchSellQuote, refreshQuote, submitQuote, handleTrade, quoteR, sellQuoteR, base, errors, showModal, handleTradeDetailsClick, ...rest } = props
   const quote = quoteR.getOrElse(null)
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
@@ -98,7 +98,7 @@ const Success = props => {
       max: profile.limits.sell
     }
   }
-  console.log('render success', reason, limits, accounts)
+
   if (type === 'buy' || !type) {
     return (
       <Stepper initialStep={0}>
@@ -141,9 +141,9 @@ const Success = props => {
         <StepView step={0}>
           <CheckoutWrapper>
             <BuyCheckout
-              quoteR={quoteR}
+              quoteR={sellQuoteR}
               account={accounts[0]}
-              onFetchQuote={fetchQuote}
+              onFetchQuote={fetchSellQuote}
               reason={reason}
               finishAccountSetup={finishAccountSetup}
               limits={limits}
@@ -155,14 +155,14 @@ const Success = props => {
           <div style={flex('row')}>
             <CheckoutWrapper>
               <BuyOrderDetails
-                quoteR={quoteR}
+                quoteR={sellQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshQuote}
               />
             </CheckoutWrapper>
             <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
               <BuyOrderSubmit
-                quoteR={quoteR}
+                quoteR={sellQuoteR}
                 onSubmit={submitQuote}
                 busy={busy}
               />

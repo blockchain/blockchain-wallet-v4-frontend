@@ -70,6 +70,10 @@ class QuoteInput extends Component {
     this.fetchQuoteDebounced()
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.type !== this.props.type) this.fetchQuoteDebounced()
+  }
+
   getQuoteValues = () => {
     let { spec } = this.props
     let { side } = this.state
