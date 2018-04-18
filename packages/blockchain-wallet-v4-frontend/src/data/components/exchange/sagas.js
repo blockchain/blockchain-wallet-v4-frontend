@@ -82,8 +82,6 @@ export default ({ api, coreSagas }) => {
     while (true) {
       const tradeStatusData = yield call(api.getTradeStatus, address)
       const tradeStatus = yield select(selectors.core.kvStore.shapeShift.getTrade, address)
-      console.log('tradeStatusData', tradeStatusData)
-      console.log('tradeStatus', tradeStatus)
       yield call(delay, 10000)
     }
   }
