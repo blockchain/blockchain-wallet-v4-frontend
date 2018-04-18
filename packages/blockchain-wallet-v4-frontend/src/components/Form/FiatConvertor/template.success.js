@@ -69,6 +69,7 @@ const FiatConvertor = (props) => {
   const { value, fiat, disabled, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta, limits } = props
   const { currency, unit } = props.data.data
   const errorState = getErrorState(meta)
+  console.log('fiat convertor', props)
 
   return (
     <Wrapper>

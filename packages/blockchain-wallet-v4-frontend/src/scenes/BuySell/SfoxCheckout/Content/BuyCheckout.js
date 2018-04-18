@@ -16,7 +16,7 @@ const quoteInputSpec = {
 }
 
 const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits }) => {
-  const disableInputs = limits.buy.max < limits.buy.min || reason
+  const disableInputs = limits.buy.max < limits.buy.min || (reason !== 'has_remaining_buy_limit' && reason)
 
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true
