@@ -14,7 +14,7 @@
     "npm:publish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
-    "test": "./../../node_modules/.bin/jest",
+    "test": "NODE_ENV=testing ./../../node_modules/.bin/jest",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
