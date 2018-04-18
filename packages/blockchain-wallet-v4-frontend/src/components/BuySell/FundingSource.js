@@ -12,7 +12,7 @@ const FundingSource = ({ account }) => (
         ? <Text size='12px' weight={300}>Account Needed</Text>
         : <Fragment>
           <Text size='14px' weight={300}>
-            {`Plaid ${capitalize(account.accountType)} `}
+            {`${capitalize(account.accountType)} `}
             <FormattedMessage id='buy.account_ending_with' defaultMessage='ending with' />
             {' ' + account.accountNumber}
           </Text>
