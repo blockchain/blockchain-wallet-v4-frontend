@@ -33,6 +33,15 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.SFOX_FETCH_QUOTE_FAILURE: {
       return assoc('quote', Remote.Failure(payload), state)
     }
+    case AT.SFOX_FETCH_SELL_QUOTE_LOADING: {
+      return assoc('sellQuote', Remote.Loading, state)
+    }
+    case AT.SFOX_FETCH_SELL_QUOTE_SUCCESS: {
+      return assoc('sellQuote', Remote.Success(payload), state)
+    }
+    case AT.SFOX_FETCH_SELL_QUOTE_FAILURE: {
+      return assoc('sellQuote', Remote.Failure(payload), state)
+    }
     case AT.FETCH_TRADES_LOADING: {
       return assoc('trades', Remote.Loading, state)
     }

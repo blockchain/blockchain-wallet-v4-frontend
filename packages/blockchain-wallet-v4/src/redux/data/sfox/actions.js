@@ -6,6 +6,11 @@ export const fetchQuoteSuccess = (data) => ({ type: AT.SFOX_FETCH_QUOTE_SUCCESS,
 export const fetchQuoteFailure = (error) => ({ type: AT.SFOX_FETCH_QUOTE_FAILURE, payload: error })
 export const refreshQuote = () => ({ type: AT.REFRESH_QUOTE })
 
+export const fetchSellQuote = (data) => ({ type: AT.SFOX_FETCH_SELL_QUOTE, payload: data })
+export const fetchSellQuoteLoading = () => ({ type: AT.SFOX_FETCH_SELL_QUOTE_LOADING })
+export const fetchSellQuoteSuccess = (data) => ({ type: AT.SFOX_FETCH_SELL_QUOTE_SUCCESS, payload: data })
+export const fetchSellQuoteFailure = (error) => ({ type: AT.SFOX_FETCH_SELL_QUOTE_FAILURE, payload: error })
+
 export const fetchTrades = (data) => ({ type: AT.FETCH_TRADES, payload: data })
 export const fetchTradesLoading = () => ({ type: AT.FETCH_TRADES_LOADING })
 export const fetchTradesSuccess = (data) => ({ type: AT.FETCH_TRADES_SUCCESS, payload: data })

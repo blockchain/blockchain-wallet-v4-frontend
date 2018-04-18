@@ -14,6 +14,10 @@ export const getQuote = (state) => {
   return selectors.core.data.sfox.getQuote(state)
 }
 
+export const getSellQuote = (state) => {
+  return selectors.core.data.sfox.getSellQuote(state)
+}
+
 export const getTrades = (state) => {
   try {
     return selectors.core.data.sfox.getTrades(state).data

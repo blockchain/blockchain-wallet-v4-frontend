@@ -48,6 +48,21 @@ export default ({ api, options }) => {
     }
   }
 
+  const fetchSellQuote = function * (data) {
+    try {
+      yield put(A.fetchSellQuoteLoading())
+      // const nextAddress = data.payload.nextAddress
+      // yield put(A.setNextAddress(nextAddress))
+      yield call(refreshSFOX)
+      const { amt, baseCurr, quoteCurr } = data.payload.quote
+      const quote = yield apply(sfox, sfox.getSellQuote, [amt, baseCurr, quoteCurr])
+      yield put(A.fetchSellQuoteSuccess(quote))
+      // yield fork(waitForRefreshQuote, data.payload)
+    } catch (e) {
+      yield put(A.fetchSellQuoteFailure(e))
+    }
+  }
+
   const waitForRefreshQuote = function * (quotePayload) {
     yield take(AT.REFRESH_QUOTE)
     yield put(A.fetchQuote(quotePayload))
@@ -94,6 +109,7 @@ export default ({ api, options }) => {
     yield takeLatest(AT.FETCH_PROFILE, fetchProfile)
     yield takeLatest(AT.FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.SFOX_FETCH_QUOTE, fetchQuote)
+    yield takeLatest(AT.SFOX_FETCH_SELL_QUOTE, fetchSellQuote)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, getBankAccounts)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
   }
