@@ -16,6 +16,8 @@ const quoteInputSpec = {
 }
 
 const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits }) => {
+  const disableInputs = limits.buy.max < limits.buy.min || reason
+
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true
     return quoteR.map(q => {
@@ -78,7 +80,7 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup
           debounce={500}
           spec={quoteInputSpec}
           onFetchQuote={onFetchQuote}
-          disabled={reason}
+          disabled={disableInputs}
           limits={limits}
         />
       </div>

@@ -59,13 +59,11 @@ const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
-const getLimitsError = (val, limits) => (
-  val > limits.buy.max
-    ? `Enter an amount under your $${limits.buy.max.toLocaleString()} limit`
-    : val < limits.buy.min
-      ? `Enter an amount above the $${limits.buy.min.toLocaleString()} minimum`
-      : null
-)
+const getLimitsError = (val, limits, disabled) => {
+  if ((limits.buy.max < limits.buy.min) && disabled) return `Your limit of $${limits.buy.max} is below the minimum allowed amount.`
+  if (val > limits.buy.max) return `Enter an amount under your $${limits.buy.max.toLocaleString()} limit`
+  if (val < limits.buy.min) return `Enter an amount above the $${limits.buy.min.toLocaleString()} minimum`
+}
 
 const FiatConvertor = (props) => {
   const { value, fiat, disabled, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta, limits } = props
@@ -89,7 +87,7 @@ const FiatConvertor = (props) => {
       {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>}
       {
         limits && <Error size='13px' weight={300} color='error'>
-          { getLimitsError(value, limits) }
+          { getLimitsError(value, limits, disabled) }
         </Error>
       }
     </Wrapper>
