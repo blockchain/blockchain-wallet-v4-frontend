@@ -15,7 +15,7 @@ export default ({ coreSagas }) => {
   const sendBtcInitialized = function * (action, password) {
     try {
       yield put(A.sendBtcFirstStepPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.data.bitcoin.createPayment({network: settings.NETWORK_BITCOIN})
+      let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
       payment = yield payment.init()
       const accountsR = yield select(selectors.core.common.bitcoin.getAccountsBalances)
       const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
@@ -40,7 +40,7 @@ export default ({ coreSagas }) => {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendBtcFirstStepPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.data.bitcoin.createPayment({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
       payment = yield payment.build()
       yield put(A.sendBtcFirstStepPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
@@ -56,7 +56,7 @@ export default ({ coreSagas }) => {
       if (!equals('sendBtc', form)) return
 
       let p = yield select(S.getPayment)
-      let payment = coreSagas.data.bitcoin.createPayment({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
       switch (field) {
         case 'from':
@@ -97,7 +97,7 @@ export default ({ coreSagas }) => {
   const secondStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
-      let payment = coreSagas.data.bitcoin.createPayment({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
