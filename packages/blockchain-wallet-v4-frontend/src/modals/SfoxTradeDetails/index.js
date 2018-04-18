@@ -45,7 +45,10 @@ class SfoxTradeDetails extends React.Component {
           <Text style={spacing('pt-5')} size='13px' weight={300}>
             <FormattedMessage id='order_details.trade_id' defaultMessage={`Your order ID is: SFX-{id}`} values={{ id: this.props.trade.id }} />
           </Text>
-          <MethodContainer>
+          <Text style={spacing('mt-20')} size='14px' weight={400}>
+            <FormattedMessage id='order_details.method' defaultMessage='Payment Method' />
+          </Text>
+          <MethodContainer borderDark style={spacing('mt-5')}>
             <Icon name='bank-filled' size='30px' />
             <FundingSource account={account[0]} />
           </MethodContainer>
