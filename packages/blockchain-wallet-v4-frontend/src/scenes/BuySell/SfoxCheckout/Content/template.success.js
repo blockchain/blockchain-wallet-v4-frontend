@@ -5,7 +5,7 @@ import OrderHistory from '../../OrderHistory'
 import { Text } from 'blockchain-info-components'
 import ExchangeCheckout from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
-import { flex, spacing } from 'services/StyleService'
+import { flex } from 'services/StyleService'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
@@ -159,14 +159,14 @@ const Success = props => {
     return (
       <OrderHistoryWrapper>
         <OrderHistoryContent>
-          <Text size='16px' weight={500}>
-            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Trades' />
+          <Text size='15px' weight={400}>
+            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Orders' />
           </Text>
           <OrderHistory trades={filter(isPending, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
         </OrderHistoryContent>
         <OrderHistoryContent>
-          <Text size='16px' weight={500}>
-            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Trades' />
+          <Text size='15px' weight={400}>
+            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Orders' />
           </Text>
           <OrderHistory trades={filter(isCompleted, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
         </OrderHistoryContent>
