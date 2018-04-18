@@ -16,6 +16,7 @@ class Checkout extends React.Component {
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
     // this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
+    this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
   }
 
   render () {

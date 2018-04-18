@@ -60,9 +60,9 @@ const getErrorState = (meta) => {
 }
 
 const getLimitsError = (val, limits, disabled) => {
-  if ((limits.buy.max < limits.buy.min) && disabled) return `Your limit of $${limits.buy.max} is below the minimum allowed amount.`
-  if (val > limits.buy.max) return `Enter an amount under your $${limits.buy.max.toLocaleString()} limit`
-  if (val < limits.buy.min) return `Enter an amount above the $${limits.buy.min.toLocaleString()} minimum`
+  if ((limits.max < limits.min) && disabled) return `Your limit of $${limits.max} is below the minimum allowed amount.`
+  if (val > limits.max) return `Enter an amount under your $${limits.max.toLocaleString()} limit`
+  if (val < limits.min) return `Enter an amount above the $${limits.min.toLocaleString()} minimum`
 }
 
 const FiatConvertor = (props) => {
