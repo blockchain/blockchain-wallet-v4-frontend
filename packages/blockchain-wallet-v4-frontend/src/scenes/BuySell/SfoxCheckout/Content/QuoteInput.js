@@ -4,7 +4,7 @@ import { toUpper } from 'ramda'
 import FiatConvertor from 'components/Form/FiatConvertor/template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled, onChangeLeft, onChangeRight }) => (
+const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled, onChangeLeft, onChangeRight, limits }) => (
   <FiatConvertor
     value={leftVal}
     fiat={rightVal}
@@ -21,6 +21,7 @@ const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled
     handleFocus={() => {}}
     handleErrorClick={() => {}}
     meta={{}}
+    limits={limits}
   />
 )
 
@@ -40,12 +41,14 @@ const otherSide = (side) => {
 }
 
 class QuoteInput extends Component {
+  /* eslint-disable */
   state = {
     side: 'input',
     input: this.props.initialAmount,
     output: '0',
     lastQuoteId: null
   }
+  /* eslint-enable */
 
   static getDerivedStateFromProps (nextProps, lastState) {
     let { quoteR, spec } = nextProps
@@ -98,8 +101,9 @@ class QuoteInput extends Component {
   }
 
   render () {
-    let { spec } = this.props
+    let { spec, disabled } = this.props
     let { input, output } = this.state
+
     return (
       <WrappedFiatConverter
         leftVal={input}
@@ -108,6 +112,8 @@ class QuoteInput extends Component {
         rightVal={output}
         rightUnit={toUpper(spec.output)}
         onChangeRight={this.handleChangeRight}
+        limits={this.props.limits}
+        disabled={disabled}
       />
     )
   }
