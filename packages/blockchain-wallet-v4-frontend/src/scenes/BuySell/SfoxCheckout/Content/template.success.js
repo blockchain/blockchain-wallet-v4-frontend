@@ -15,6 +15,11 @@ import { BuyOrderDetails, BuyOrderSubmit } from './BuyReviewOrder'
 const CheckoutWrapper = styled.div`
   width: 50%;
 `
+const BuyOrderSubmitWrapper = CheckoutWrapper.extend`
+  width: 35%;
+  padding: 30px 30px 30px 10%;
+
+`
 const OrderHistoryWrapper = styled.div`
   width: 100%;
   > div:last-child > div:last-child {
@@ -118,13 +123,13 @@ const Success = props => {
                 onRefreshQuote={refreshQuote}
               />
             </CheckoutWrapper>
-            <CheckoutWrapper style={{ ...flex('col'), ...spacing('pa-30') }}>
+            <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
               <BuyOrderSubmit
                 quoteR={quoteR}
                 onSubmit={submitQuote}
                 busy={busy}
               />
-            </CheckoutWrapper>
+            </BuyOrderSubmitWrapper>
           </div>
         </StepView>
       </Stepper>

@@ -1,4 +1,3 @@
-import { delay } from 'redux-saga'
 import { takeLatest, put, call, select } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as A from './actions'

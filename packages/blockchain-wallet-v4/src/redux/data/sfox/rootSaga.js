@@ -2,10 +2,8 @@ import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select, take, takeLatest, fork } from 'redux-saga/effects'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellAT from '../../kvStore/buySell/actionTypes'
-import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
 import * as AT from './actionTypes'
-import * as S from './selectors'
 import * as A from './actions'
 let sfox
 
