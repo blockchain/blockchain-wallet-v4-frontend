@@ -18,9 +18,6 @@ const Settings = (props) => {
       </Button>
       { updateToggled &&
         <SettingForm>
-          <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.label' defaultMessage='Password Hint' />
-          </Text>
           <Field name='passwordHint' component={TextBox} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>

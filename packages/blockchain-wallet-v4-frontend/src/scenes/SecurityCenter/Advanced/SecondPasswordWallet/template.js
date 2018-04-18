@@ -18,7 +18,7 @@ const SecondPasswordWallet = (props) => {
           </SettingStatus>
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.security.secondpassword.description' defaultMessage='For additional security, you can choose a second password that is asked whenever you want to spend bitcoins.' />
+          <FormattedMessage id='scenes.security.secondpassword.description' defaultMessage='For additional security, you can choose a second password that is asked whenever you want to spend funds.' />
           <FormattedMessage id='scenes.security.secondpassword.description2' defaultMessage='Beware that there is no password reset functionality.' />
         </SettingDescription>
       </SettingSummary>
