@@ -110,7 +110,7 @@ const Success = props => {
               onFetchQuote={fetchQuote}
               reason={reason}
               finishAccountSetup={finishAccountSetup}
-              limits={limits}
+              limits={limits.buy}
               type={type}
             />
           </CheckoutWrapper>
@@ -146,7 +146,7 @@ const Success = props => {
               onFetchQuote={fetchSellQuote}
               reason={reason}
               finishAccountSetup={finishAccountSetup}
-              limits={limits}
+              limits={limits.sell}
               type={type}
             />
           </CheckoutWrapper>
