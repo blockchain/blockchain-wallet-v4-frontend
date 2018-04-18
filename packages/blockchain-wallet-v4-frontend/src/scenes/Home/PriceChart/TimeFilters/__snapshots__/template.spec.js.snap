@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimeFilters component renders correctly 1`] = `
+<template__Wrapper>
+  <template__FilterContainer
+    onClick={[Function]}
+    selected={true}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="All"
+      id="scenes.priceindexseries.timefilters.all"
+      values={Object {}}
+    />
+  </template__FilterContainer>
+  <template__FilterContainer
+    onClick={[Function]}
+    selected={false}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="Year"
+      id="scenes.priceindexseries.timefilters.year"
+      values={Object {}}
+    />
+  </template__FilterContainer>
+  <template__FilterContainer
+    onClick={[Function]}
+    selected={false}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="Month"
+      id="scenes.priceindexseries.timefilters.month"
+      values={Object {}}
+    />
+  </template__FilterContainer>
+  <template__FilterContainer
+    onClick={[Function]}
+    selected={false}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="Week"
+      id="scenes.priceindexseries.timefilters.week"
+      values={Object {}}
+    />
+  </template__FilterContainer>
+  <template__FilterContainer
+    onClick={[Function]}
+    selected={false}
+    size="14px"
+    weight={300}
+  >
+    <FormattedMessage
+      defaultMessage="Day"
+      id="scenes.priceindexseries.timefilters.day"
+      values={Object {}}
+    />
+  </template__FilterContainer>
+</template__Wrapper>
+`;
