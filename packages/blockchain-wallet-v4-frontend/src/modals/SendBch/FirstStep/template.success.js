@@ -10,6 +10,10 @@ import { Button, Icon, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
+import { Exchange } from 'blockchain-wallet-v4/src'
+
+const DUST = 546
+const bchMinRequired = Exchange.convertBchToBch({ value: DUST, fromUnit: 'SAT', toUnit: 'BCH' })
 
 const Row = styled.div`
   display: flex;
@@ -36,8 +40,8 @@ const shouldValidate = ({ values, nextProps, props, initialRender, structure }) 
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
 }
 
-const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
-
+const minRequired = (value, allValues, props) => parseFloat(props.values.amount) >= bchMinRequired.value ? undefined : `The minimum amount required to send is ${bchMinRequired.value} ${bchMinRequired.unit.symbol}.`
+const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance} BCH.`
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = props => {
@@ -67,8 +71,8 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {addressSelectToggled
-              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false, coin: 'BCH' }} />
-              : <Field name='to2' component={TextBox} validate={[required, validBitcoinCashAddress]} />
+              ? <Field name='to' placeholder="Paste or scan an address, or select a destination" component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false, coin: 'BCH' }} />
+              : <Field name='to2' placeholder="Paste or scan an address, or select a destination" component={TextBox} validate={[required, validBitcoinCashAddress]} />
             }
             <QRCodeCapture coin='BCH' />
             {addressSelectToggled
@@ -84,7 +88,7 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendbch.firststep.amount' defaultMessage='Enter amount:' />
           </FormLabel>
         </FormItem>
-        <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BCH' maxAvailable={props.effectiveBalance} />
+        <Field name='amount' component={FiatConvertor} validate={[required, minRequired, validAmount, emptyAmount]} coin='BCH' minRequired={bchMinRequired.value} maxAvailable={props.effectiveBalance} />
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
@@ -101,7 +105,7 @@ const FirstStep = props => {
       <FormGroup margin={'30px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.sendbch.firststep.fee' defaultMessage='Transaction fee (sat/b):&nbsp;' />
+            <FormattedMessage id='modals.sendbch.firststep.fee' defaultMessage='Transaction Fee (sat/b):&nbsp;' />
             <Tooltip>
               <FormattedMessage id='modals.sendbch.firststep.fee_tooltip' defaultMessage='Estimated confirmation time 1+ hour.' />
             </Tooltip>

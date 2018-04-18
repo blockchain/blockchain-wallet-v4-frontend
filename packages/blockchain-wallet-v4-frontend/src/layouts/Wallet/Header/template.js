@@ -23,7 +23,7 @@ const Header = (props) => {
       <MenuLeftToggler onToggle={handleToggleMenuLeft} />
       <NavbarHeader>
         <NavbarBrand>
-          <NavLink to='/'>
+          <NavLink to='/home'>
             <Image name='blockchain-vector' height='20px' />
           </NavLink>
         </NavbarBrand>
@@ -32,10 +32,10 @@ const Header = (props) => {
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <FaqIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+            <FaqIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen} />
           </NavbarNavItem>
           <NavbarNavItem>
-            <WhatsNewIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+            <WhatsNewIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen} />
           </NavbarNavItem>
           <NavbarNavItem>
             <RefreshIcon />

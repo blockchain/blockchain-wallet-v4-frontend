@@ -33,9 +33,9 @@ const MenuTooltipBox = styled(TextGroup)`
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 5px;
   box-sizing: border-box;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 300;
-  font-family: "GillSans", sans serif;
+  font-family: "Montserrat", sans serif;
 
   &:before {
     content: '';

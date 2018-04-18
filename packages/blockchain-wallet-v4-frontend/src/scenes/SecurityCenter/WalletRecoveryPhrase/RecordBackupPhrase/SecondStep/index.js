@@ -15,9 +15,9 @@ const SecondStepContainer = props => {
   const getWordsAtStep = (step) => {
     const pickIndexes = compose(values, pickAll)
     switch (step) {
-      case 1: return pickIndexes([0, 1, 2, 3], props.phrase)
-      case 2: return pickIndexes([4, 5, 6, 7], props.phrase)
-      case 3: return pickIndexes([8, 9, 10, 11], props.phrase)
+      case 1: return pickIndexes([0, 1, 2, 3], props.recoveryPhrase)
+      case 2: return pickIndexes([4, 5, 6, 7], props.recoveryPhrase)
+      case 3: return pickIndexes([8, 9, 10, 11], props.recoveryPhrase)
     }
   }
 

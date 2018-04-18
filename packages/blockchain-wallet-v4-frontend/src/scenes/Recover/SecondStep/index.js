@@ -21,8 +21,10 @@ class RecoverContainer extends React.Component {
   }
 
   render () {
+    const { previousStep } = this.props
+
     return (
-      <Recover onSubmit={this.onSubmit} />
+      <Recover previousStep={previousStep} onSubmit={this.onSubmit} />
     )
   }
 }

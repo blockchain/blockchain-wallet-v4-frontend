@@ -1,7 +1,7 @@
 {
   "extends": ["standard"],
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 8,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -9,12 +9,12 @@
   },
   "plugins": ["babel", "react"],
   "env": {
-    "es6": true,
-    "jest": true
+    "browser": true,
+    "jest": true,
+    "node": true
   },
   "globals": {
-    "fetch": true,
-    "Headers": true
+    "APP_VERSION": true
   },
   "rules": {
     "camelcase": 0,

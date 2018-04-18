@@ -33,14 +33,14 @@ const SecondStep = (props) => {
     <Wrapper>
       <Header>
         <Text size='30px' weight={300}>
-          <FormattedMessage id='scenes.recover.secondstep.funds' defaultMessage='Recover funds' />
+          <FormattedMessage id='scenes.recover.secondstep.funds' defaultMessage='Recover Funds' />
         </Text>
         <Text size='10px'>
           <FormattedMessage id='scenes.recover.secondstep.step2' defaultMessage='Step 2 of 2: Create a new wallet' />
         </Text>
       </Header>
       <Text size='13px' weight={300}>
-        <FormattedMessage id='scenes.recover.secondstep.explain' defaultMessage='Recover bitcoins from your lost wallet' />
+        <FormattedMessage id='scenes.recover.secondstep.explain' defaultMessage='Recover funds from your lost wallet' />
       </Text>
       <Separator />
       <Form onSubmit={onSubmit}>
@@ -60,12 +60,12 @@ const SecondStep = (props) => {
           <Terms />
         </Field>
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover funds' />
+          <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover Funds' />
         </Button>
       </Form>
       <Footer>
         <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.recover.secondstep.back' defaultMessage='Go back' />
+          <FormattedMessage id='scenes.recover.secondstep.back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </Wrapper>
