@@ -14,17 +14,15 @@ const extractAddress = (selectorFunction, value) =>
 
 export const getData = state => {
   const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
-  const unitR = selectors.core.settings.getBtcUnit(state)
   const amount = formValueSelector('requestBitcoin')(state, 'amount')
   const to = formValueSelector('requestBitcoin')(state, 'to')
   const message = formValueSelector('requestBitcoin')(state, 'message')
   const receiveAddressR = extractAddress(getReceive, to)
-  const transform = lift((unit, receiveAddress) => {
-    const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'SAT' }).value
-    const btc = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: unit, toUnit: 'BTC' }).value
-    const link = `https://blockchain.info/payment_request?address=${receiveAddress}&amount=${btc}&message=${message}`
+  const transform = lift((receiveAddress) => {
+    const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: 'BTC', toUnit: 'SAT' }).value
+    const link = `https://blockchain.info/payment_request?address=${receiveAddress}&amount=${amount}&message=${message}`
     return { satoshis, link, amount, message, receiveAddress }
   })
 
-  return transform(unitR, receiveAddressR)
+  return transform(receiveAddressR)
 }
