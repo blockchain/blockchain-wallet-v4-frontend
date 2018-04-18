@@ -15,6 +15,9 @@ const ImportedAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
 `
+const WarningSign = styled.span`
+  font-size: 18px;
+`
 
 const Success = (props) => {
   const { importedAddresses } = props
@@ -38,7 +41,8 @@ const Success = (props) => {
         <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs' defaultMessage='Imported Bitcoin Cash Addresses' />
       </ImportedAddressesSettingHeader>
       <AddressesSettingDescription>
-        <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs_desc' defaultMessage='⚠️ Not backed up by your Recovery Phrase. Transfer into a wallet to secure funds.' />
+        <WarningSign>⚠️</WarningSign>
+        <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
       </AddressesSettingDescription>
       <Table>
         <TableHeader>

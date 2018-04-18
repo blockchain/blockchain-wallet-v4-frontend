@@ -19,7 +19,7 @@ const Container = styled.div`
 `
 const Circle = styled.div`
   position: absolute;
-  left: -15px;
+  left: -16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,6 +29,7 @@ const Circle = styled.div`
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 100%;
   text-align: center;
+  z-index: 10;
 `
 const Info = styled.div`
   display: flex;

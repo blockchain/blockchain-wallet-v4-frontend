@@ -45,7 +45,7 @@ const validAmount = (value, allValues, props) => parseFloat(value) <= props.effe
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = props => {
-  const { invalid, submitting, addressSelectToggled, addressSelectOpened, selection, fee, ...rest } = props
+  const { invalid, submitting, addressSelectToggled, addressSelectOpened, fee, ...rest } = props
   const { handleSubmit, handleClickAddressToggler } = rest
 
   return (
@@ -95,8 +95,7 @@ const FirstStep = props => {
           <FormLabel for='message'>
             <FormattedMessage id='modals.sendbch.firststep.description' defaultMessage='Description:&nbsp;' />
             <Tooltip>
-              <FormattedMessage id='modals.sendbch.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-              <FormattedMessage id='modals.sendbch.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
+              <FormattedMessage id='modals.sendbch.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
           <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
@@ -127,7 +126,6 @@ FirstStep.propTypes = {
   submitting: PropTypes.bool.isRequired,
   addressSelectToggled: PropTypes.bool.isRequired,
   addressSelectOpened: PropTypes.bool.isRequired,
-  // selection: PropTypes.object.isRequired,
   fee: PropTypes.number.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleClickAddressToggler: PropTypes.func.isRequired
