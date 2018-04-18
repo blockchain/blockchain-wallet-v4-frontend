@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CoinFilters component renders correctly 1`] = `
+<template__Wrapper>
+  <CoinTicker
+    coin="BTC"
+    handleClick={[Function]}
+    selected={true}
+  />
+  <CoinTicker
+    coin="ETH"
+    handleClick={[Function]}
+    selected={false}
+  />
+  <CoinTicker
+    coin="BCH"
+    handleClick={[Function]}
+    selected={false}
+  />
+</template__Wrapper>
+`;

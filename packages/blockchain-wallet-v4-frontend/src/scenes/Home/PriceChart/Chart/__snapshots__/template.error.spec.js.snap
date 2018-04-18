@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chart template error renders correctly 1`] = `
+<templateerror__Wrapper>
+  <text
+    color="red"
+    size="12px"
+    weight={300}
+  >
+    Error message
+  </text>
+</templateerror__Wrapper>
+`;

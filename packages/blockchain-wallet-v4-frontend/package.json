@@ -22,6 +22,7 @@
     "start:staging": "NODE_ENV=staging webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:testnet": "NODE_ENV=testnet webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "test": "./../../node_modules/.bin/jest",
+    "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
