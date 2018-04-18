@@ -27,8 +27,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   const updateCurrency = (guid, sharedKey, currency) => updateSettings(guid, sharedKey, 'update-currency', currency)
 
-  const updateBitcoinUnit = (guid, sharedKey, unit) => updateSettings(guid, sharedKey, 'update-btc-currency', unit)
-
   const updateLoggingLevel = (guid, sharedKey, loggingLevel) => updateSettings(guid, sharedKey, 'update-logging-level', loggingLevel)
 
   const updateIpLock = (guid, sharedKey, ipLock) => updateSettings(guid, sharedKey, 'update-ip-lock', ipLock)
@@ -58,7 +56,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     verifyMobile,
     updateLanguage,
     updateCurrency,
-    updateBitcoinUnit,
     updateLoggingLevel,
     updateIpLock,
     updateIpLockOn,

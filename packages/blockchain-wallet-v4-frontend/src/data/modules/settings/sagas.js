@@ -91,15 +91,6 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const updateBitcoinUnit = function * (action) {
-    try {
-      yield call(coreSagas.settings.setBitcoinUnit, action.payload)
-      yield put(actions.alerts.displaySuccess('Bitcoin unit has been successfully updated.'))
-    } catch (e) {
-      yield put(actions.alerts.displayError('Could not update bitcoin unit.'))
-    }
-  }
-
   const updateAutoLogout = function * (action) {
     try {
       yield call(coreSagas.settings.setAutoLogout, action.payload)
@@ -230,7 +221,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
     yield takeLatest(AT.UPDATE_LANGUAGE, updateLanguage)
     yield takeLatest(AT.UPDATE_CURRENCY, updateCurrency)
-    yield takeLatest(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
     yield takeLatest(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
     yield takeLatest(AT.UPDATE_LOGGING_LEVEL, updateLoggingLevel)
     yield takeLatest(AT.UPDATE_IP_LOCK, updateIpLock)
