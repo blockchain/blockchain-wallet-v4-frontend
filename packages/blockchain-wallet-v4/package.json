@@ -14,7 +14,7 @@
     "coverage": "./../../node_modules/.bin/jest --coverage",
     "prepublish": "npm run compile",
     "start": "babel-node src/index.js",
-    "test": "NODE_ENV=testing ./../../node_modules/.bin/jest",
+    "test": "./../../node_modules/.bin/jest",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
