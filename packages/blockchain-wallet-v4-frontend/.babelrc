@@ -1,13 +1,11 @@
 {
+  "presets": ["es2015", "stage-0", "react"],
+  "plugins": [
+    "babel-plugin-styled-components",
+    ["module-resolver", { "root": ["./src"] }]
+  ],
   "ignore": [],
   "env": {
-    "testing": {
-      "presets": ["es2015", "stage-0", "react"],
-      "plugins": [
-        "babel-plugin-styled-components",
-        ["module-resolver", { "root": ["./src"] }]
-      ]
-    },
     "production": {
       "presets": [["es2015", { "modules": false }], "stage-0", "react"],
       "plugins": [

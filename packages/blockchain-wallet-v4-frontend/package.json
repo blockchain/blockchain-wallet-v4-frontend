@@ -21,7 +21,7 @@
     "start:prod": "npm run ci:compile && LOCAL_PROD=true node ./../../server.js",
     "start:staging": "NODE_ENV=staging webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:testnet": "NODE_ENV=testnet webpack-dev-server --config webpack.config.js --progress --colors --watch",
-    "test": "NODE_ENV=testing ./../../node_modules/.bin/jest",
+    "test": "./../../node_modules/.bin/jest",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
