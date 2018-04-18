@@ -16,6 +16,7 @@ class LoginContainer extends React.Component {
   onSubmit (event) {
     event.preventDefault()
     const { guid, password, code } = this.props
+    localStorage.setItem('ls.guid', JSON.stringify(guid))
     this.props.authActions.login(guid, password, code)
   }
 
@@ -24,8 +25,10 @@ class LoginContainer extends React.Component {
   }
 
   render () {
+    const guid = JSON.parse(localStorage.getItem('ls.guid'))
+
     const { authType } = this.props
-    return <Login authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} />
+    return <Login initialValues={{ guid }} authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} />
   }
 }
 
