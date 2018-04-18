@@ -19,7 +19,7 @@ const ActivityLogging = (props) => {
           </SettingStatus>
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.securitysettings.advancedsecurity.activitylogging.description' defaultMessage='Record wallet activity and display it in your activity feed.' />
+          <FormattedMessage id='scenes.securitysettings.advancedsecurity.activitylogging.description' defaultMessage='Enable for all your wallet activity' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

@@ -37,7 +37,7 @@ function EmailVerificationSteps (props) {
         failed
           ? <Banner type='warning' size='12px' weight={200} width='130%' row>
             <FormattedMessage id='scenes.security.email.verificationwrong' defaultMessage='Your verification code is incorrect. Please double check your email and try again.' />
-            <Link size='12px' onClick={handleResend}>Get a new verification code</Link>
+            <Link size='12px' onClick={handleResend}>Get a new verification code.</Link>
           </Banner>
           : null
       }

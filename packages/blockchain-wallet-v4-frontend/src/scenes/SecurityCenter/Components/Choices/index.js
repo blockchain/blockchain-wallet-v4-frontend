@@ -37,7 +37,7 @@ function Choices (props) {
       <Choice editing={editing} selected={authType === 4} onClick={editing && authType > 0 ? () => props.pulseText() : () => props.chooseMethod('google')}>
         <Icon name='lock' size='18px' weight={400} />
         <ChoiceDescription>
-          <Text weight={300} size='16px'>
+          <Text weight={300} size='14px'>
             <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Authenticator App' />
           </Text>
           <Text weight={200} size='12px'>
@@ -48,7 +48,7 @@ function Choices (props) {
       <Choice editing={editing} selected={authType === 1 || authType === 2} onClick={editing && authType > 0 ? () => props.pulseText() : () => props.chooseMethod('yubikey')}>
         <Icon name='yubikey' />
         <ChoiceDescription>
-          <Text weight={300} size='16px'>
+          <Text weight={300} size='14px'>
             <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Yubikey' />
           </Text>
           <Text weight={200} size='12px'>
@@ -59,7 +59,7 @@ function Choices (props) {
       <Choice editing={editing} selected={authType === 5} onClick={editing && authType > 0 ? () => props.pulseText() : () => props.chooseMethod('sms')}>
         <Icon name='mobile' size='18px' weight={400} />
         <ChoiceDescription>
-          <Text weight={300} size='16px'>
+          <Text weight={300} size='14px'>
             <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Mobile Phone Number' />
           </Text>
           <Text weight={200} size='12px'>
