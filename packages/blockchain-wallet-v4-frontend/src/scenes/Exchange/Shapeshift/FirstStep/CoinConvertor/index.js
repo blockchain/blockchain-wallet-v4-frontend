@@ -9,6 +9,7 @@ import { equals, isNil, path } from 'ramda'
 import { actions, selectors } from 'data'
 import { getData } from './selectors'
 import { getPairFromCoin } from 'services/ShapeshiftService'
+import { isBalanceBelowMin } from '../MinimumMaximum/services'
 import Success from './template.success'
 
 class CoinConvertorContainer extends React.Component {
@@ -76,10 +77,23 @@ class CoinConvertorContainer extends React.Component {
     const { source, target } = this.state
 
     return this.props.data.cata({
-      Success: (value) => <Success {...value} {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false} />,
-      Failure: (message) => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false} />,
-      Loading: () => <Success {...this.props} source={source} target={target} loading />,
-      NotAsked: () => <Success {...this.props} source={source} target={target} handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget} handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false} />
+      Success: (value) =>
+        <Success {...value} {...this.props} source={source} target={target}
+          handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget}
+          handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false}
+          isBalanceBelowMin={isBalanceBelowMin(this.props)} />,
+      Failure: (message) =>
+        <Success {...this.props} source={source} target={target}
+          handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget}
+          handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false}
+          isBalanceBelowMin={isBalanceBelowMin(this.props)} />,
+      Loading: () =>
+        <Success {...this.props} source={source} target={target} loading />,
+      NotAsked: () =>
+        <Success {...this.props} source={source} target={target}
+          handleChangeSource={this.handleChangeSource} handleChangeTarget={this.handleChangeTarget}
+          handleBlur={this.handleBlur} handleFocus={this.handleFocus} loading={false}
+          isBalanceBelowMin={isBalanceBelowMin(this.props)} />
     })
   }
 }
