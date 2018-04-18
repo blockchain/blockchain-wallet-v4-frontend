@@ -15,13 +15,8 @@ const Success = props => {
 
   return (
     <Wrapper selected={selected}>
-<<<<<<< HEAD:packages/blockchain-wallet-v4-frontend/src/scenes/Home/PriceChart/CoinFilters/CoinTicker/template.success.js
       <Link size='14px' weight={400} color='brand-secondary' onClick={handleClick}>
         {`${coin} = ${fiat}`}
-=======
-      <Link size='14px' weight={400} color='brand-secondary' {...rest}>
-        {`1 ${coin} = ${children}`}
->>>>>>> master:packages/blockchain-wallet-v4-frontend/src/scenes/Home/PriceIndexSeries/CoinTicker/template.success.js
       </Link>
     </Wrapper>
   )
