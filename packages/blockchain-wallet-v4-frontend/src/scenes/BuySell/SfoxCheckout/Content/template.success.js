@@ -98,7 +98,7 @@ const Success = props => {
       max: profile.limits.sell
     }
   }
-
+  console.log('render success', reason, limits, accounts)
   if (type === 'buy' || !type) {
     return (
       <Stepper initialStep={0}>
@@ -111,6 +111,7 @@ const Success = props => {
               reason={reason}
               finishAccountSetup={finishAccountSetup}
               limits={limits}
+              type={type}
             />
           </CheckoutWrapper>
         </StepView>
@@ -136,25 +137,60 @@ const Success = props => {
     )
   } else if (type === 'sell') {
     return (
-      <CheckoutWrapper>
-        <ExchangeCheckout
-          fiatLimits
-          base={base}
-          quote={quote}
-          errors={errors}
-          fiat={'USD'}
-          crypto={'BTC'}
-          accounts={accounts}
-          onSubmit={onSubmit}
-          fetchQuote={fetchQuote}
-          limits={limits[type]}
-          showRequiredMsg={step !== 'verified'}
-          requiredMsg={<RequiredMsg step={step} type={type} />}
-          continueButton={<ContinueButton step={step} type={type} />}
-          reasonMsg={<ReasonMsg reason={reason} limit={profile.limits[type]} />}
-        />
-      </CheckoutWrapper>
+      <Stepper initialStep={0}>
+        <StepView step={0}>
+          <CheckoutWrapper>
+            <BuyCheckout
+              quoteR={quoteR}
+              account={accounts[0]}
+              onFetchQuote={fetchQuote}
+              reason={reason}
+              finishAccountSetup={finishAccountSetup}
+              limits={limits}
+              type={type}
+            />
+          </CheckoutWrapper>
+        </StepView>
+        <StepView step={1}>
+          <div style={flex('row')}>
+            <CheckoutWrapper>
+              <BuyOrderDetails
+                quoteR={quoteR}
+                account={accounts[0]}
+                onRefreshQuote={refreshQuote}
+              />
+            </CheckoutWrapper>
+            <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
+              <BuyOrderSubmit
+                quoteR={quoteR}
+                onSubmit={submitQuote}
+                busy={busy}
+              />
+            </BuyOrderSubmitWrapper>
+          </div>
+        </StepView>
+      </Stepper>
     )
+    // return (
+    //   <CheckoutWrapper>
+    //     <ExchangeCheckout
+    //       fiatLimits
+    //       base={base}
+    //       quote={quote}
+    //       errors={errors}
+    //       fiat={'USD'}
+    //       crypto={'BTC'}
+    //       accounts={accounts}
+    //       onSubmit={onSubmit}
+    //       fetchQuote={fetchQuote}
+    //       limits={limits[type]}
+    //       showRequiredMsg={step !== 'verified'}
+    //       requiredMsg={<RequiredMsg step={step} type={type} />}
+    //       continueButton={<ContinueButton step={step} type={type} />}
+    //       reasonMsg={<ReasonMsg reason={reason} limit={profile.limits[type]} />}
+    //     />
+    //   </CheckoutWrapper>
+    // )
   } else if (trades) {
     return (
       <OrderHistoryWrapper>
