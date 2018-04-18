@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { equals } from 'ramda'
+import { equals, isNil } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import { selectPriceIndexSeriesOptions } from 'services/ChartService'
@@ -41,14 +41,28 @@ class Chart extends React.Component {
     const { start, interval } = selectPriceIndexSeriesOptions(coin, timeframe)
 
     return data.cata({
-      Success: (value) => <Success
-        coin={coin}
-        timeframe={timeframe}
-        config={configure(start, interval, currency, value)}
-        selectCoin={this.selectCoin}
-        selectTimeframe={this.selectTimeframe}
-      />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: (value) => {
+        window.localStorage.setItem('ls.chart-data', JSON.stringify(value))
+        return (<Success
+          coin={coin}
+          timeframe={timeframe}
+          config={configure(start, interval, currency, value)}
+          selectCoin={this.selectCoin}
+          selectTimeframe={this.selectTimeframe}
+        />)
+      },
+      Failure: (message) => {
+        const value = JSON.parse(window.localStorage.getItem('ls.chart-data'))
+        return isNil(value)
+          ? (<Error>{message}</Error>)
+          : (<Success
+            coin={coin}
+            timeframe={timeframe}
+            config={configure(start, interval, currency, value)}
+            selectCoin={this.selectCoin}
+            selectTimeframe={this.selectTimeframe}
+          />)
+      },
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
