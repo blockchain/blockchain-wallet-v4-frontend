@@ -76,15 +76,15 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  let tradeStatusTask = null
+  // let tradeStatusTask = null
 
-  const tradeStatus = function * (address) {
-    while (true) {
-      const tradeStatusData = yield call(api.getTradeStatus, address)
-      const tradeStatus = yield select(selectors.core.kvStore.shapeShift.getTrade, address)
-      yield call(delay, 10000)
-    }
-  }
+  // const tradeStatus = function * (address) {
+  // while (true) {
+  // const tradeStatusData = yield call(api.getTradeStatus, address)
+  // const tradeStatus = yield select(selectors.core.kvStore.shapeShift.getTrade, address)
+  // yield call(delay, 10000)
+  // }
+  // }
 
   const manageThirdStep = function * (order) {
     try {
@@ -95,7 +95,7 @@ export default ({ api, coreSagas }) => {
 
       // Start polling trade status
       console.log('order', order)
-      tradeStatusTask = yield fork(tradeStatus, prop('deposit', order))
+      // tradeStatusTask = yield fork(tradeStatus, prop('deposit', order))
     } catch (e) {
       console.log(e)
     }
