@@ -7,7 +7,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { Icon, Modal, ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { MethodContainer } from 'components/BuySell/styled.js'
-import { statusHelper } from 'services/SfoxService'
+import { statusHelper, bodyStatusHelper } from 'services/SfoxService'
 import { spacing } from 'services/StyleService'
 import FundingSource from 'components/BuySell/FundingSource'
 
@@ -17,26 +17,18 @@ const renderDetailsRow = (id, message, value, color) => (
     <Text size='13px' weight={300} color={color}>{value}</Text>
   </OrderDetailsRow>
 )
-const renderFirstRow = props => (
-  props._outCurrency === 'BTC'
-    ? `${props._receiveAmount} BTC ($${((+props._sendAmount / 1e8) - props._feeAmount).toFixed(2)})`
+const renderFirstRow = trade => (
+  trade.outCurrency === 'BTC'
+    ? `${trade.receiveAmount} BTC ($${((+trade.sendAmount / 1e8) - trade.feeAmount).toFixed(2)})`
     // : `${q.quoteAmount / 100000000} BTC ($${(+q.baseAmount - +q.feeAmount).toFixed(2)})`
     : null
 )
-const renderTotal = props => props._outCurrency === 'BTC' ? `$${(+props._inAmount / 1e8).toFixed(2)}` : `$${props._baseAmount}`
+const renderTotal = trade => trade.outCurrency === 'BTC' ? `$${(+trade.inAmount / 1e8).toFixed(2)}` : `$${trade.baseAmount}`
 
 class SfoxTradeDetails extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleContinue = this.handleContinue.bind(this)
-  }
-
-  handleContinue () {
-    this.props.modalActions.clickWelcomeContinue()
-  }
-
   render () {
-    const headerStatus = statusHelper(this.props._state)
+    const headerStatus = statusHelper(this.props.trade.state)
+    const bodyStatus = bodyStatusHelper(this.props.trade.state)
     const { account } = this.props
 
     return (
@@ -47,7 +39,12 @@ class SfoxTradeDetails extends React.Component {
           </Text>
         </ModalHeader>
         <ModalBody>
-          <div>Trade details modal</div>
+          <Text size='13px' weight={300}>
+            { bodyStatus.text }
+          </Text>
+          <Text style={spacing('pt-5')} size='13px' weight={300}>
+            <FormattedMessage id='order_details.trade_id' defaultMessage={`Your order ID is: SFX-{id}`} values={{ id: this.props.trade.id }} />
+          </Text>
           <MethodContainer>
             <Icon name='bank-filled' size='30px' />
             <FundingSource account={account[0]} />
@@ -56,17 +53,17 @@ class SfoxTradeDetails extends React.Component {
             {renderDetailsRow(
               'order_details.amount_to_purchase',
               'BTC Amount to Purchase',
-              renderFirstRow(this.props))
+              renderFirstRow(this.props.trade))
             }
             {renderDetailsRow(
               'order_details.trading_fee',
               'Trading Fee',
-              `$${(+this.props._feeAmount).toFixed(2)}`
+              `$${(+this.props.trade.feeAmount).toFixed(2)}`
             )}
             {renderDetailsRow(
               'order_details.total_cost',
               'Total Cost',
-              renderTotal(this.props),
+              renderTotal(this.props.trade),
               'success'
             )}
           </OrderDetailsTable>

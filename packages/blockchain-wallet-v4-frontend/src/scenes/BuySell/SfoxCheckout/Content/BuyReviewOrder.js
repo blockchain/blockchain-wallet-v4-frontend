@@ -25,7 +25,7 @@ const MethodContainer = styled.div`
 
 const renderDetailsRow = (id, message, value, color) => (
   <OrderDetailsRow>
-    <Text size='13px' weight={400}><FormattedMessage id={id} defaultMessage={message} /></Text>
+    <Text size='13px' weight={300}><FormattedMessage id={id} defaultMessage={message} /></Text>
     <Text size='13px' weight={300} color={color}>{value}</Text>
   </OrderDetailsRow>
 )

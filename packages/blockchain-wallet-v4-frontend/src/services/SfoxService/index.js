@@ -50,3 +50,13 @@ export const statusHelper = status => {
     default: return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.unknown' defaultMessage='Unknown' />
   }
 }
+
+export const bodyStatusHelper = status => {
+  switch (status) {
+    case 'processing': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.processing' defaultMessage='Your buy trade has been initiated. You will receive your bitcoin in 3-5 business days.' /> }
+    case 'completed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.completed' defaultMessage='Your buy trade is complete!' /> }
+    case 'rejected': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.rejected' defaultMessage='Your buy trade has been rejected. Please contact support.' /> }
+    case 'failed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.failed' defaultMessage='Your buy trade failed. Please contact support.' /> }
+    default: return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.unknown' defaultMessage='There are issues with this trade. Please contact support.' />
+  }
+}
