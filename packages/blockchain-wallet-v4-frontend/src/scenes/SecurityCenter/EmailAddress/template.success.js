@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Button, Text, Icon } from 'blockchain-info-components'
 
+
 import { reduxForm } from 'redux-form'
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SuccessOverlay, IconContainer } from 'components/Security'
 
@@ -14,9 +15,10 @@ const EmailExplanation = styled.div`
 const ChangeEmailText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
-`
+  margin-right: 12px;
+
+  `
 const EmailSecurityComponent = styled(SecurityComponent)`
-  align-items: center;
   button:first-of-type {
     margin-bottom: 5px;
   }
