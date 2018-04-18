@@ -16,9 +16,14 @@ const quoteInputSpec = {
 }
 
 const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits }) => {
+  const limitsHelper = (quoteR, limits) => {
+    if (quoteR.error) return true
+    return quoteR.map(q => +q.baseAmount > limits.buy.max || +q.baseAmount < limits.buy.min).data
+  }
+
   const submitButtonHelper = () => (
     reason === 'has_remaining_buy_limit'
-      ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR)}>
+      ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR) || limitsHelper(quoteR, limits)}>
         <FormattedMessage id='review_order' defaultMessage='Review Order' />
       </StepTransition>
       : <div style={{ ...flex('col'), ...spacing('mt-15') }}>
