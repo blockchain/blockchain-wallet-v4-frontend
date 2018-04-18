@@ -96,11 +96,11 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
         use: {
           loader: 'file-loader',
           options: {
-            name: 'img/[name]-[hash].[ext]'
+            name: 'img/[name].[ext]'
           }
         }
       },
