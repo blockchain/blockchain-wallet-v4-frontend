@@ -118,6 +118,7 @@ export default ({ api, options }) => {
       const methods = yield apply(quote, quote.getPaymentMediums)
       const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
       yield put(A.handleTradeSuccess(trade))
+      yield put(A.fetchProfile())
       yield put(A.fetchTrades())
       const trades = yield select(S.getTrades)
       yield put(buySellA.setTradesBuySell(trades.data))
