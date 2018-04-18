@@ -18,6 +18,8 @@ class LoginContainer extends React.Component {
     const { guid, password, code } = this.props
     localStorage.setItem('ls.guid', JSON.stringify(guid))
     this.props.authActions.login(guid, password, code)
+    const upperCode = code && code.toUpperCase()
+    this.props.authActions.login(guid, password, upperCode)
   }
 
   handleMobile () {
