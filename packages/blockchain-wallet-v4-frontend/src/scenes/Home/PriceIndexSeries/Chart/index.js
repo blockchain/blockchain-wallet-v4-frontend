@@ -42,7 +42,7 @@ class Chart extends React.Component {
 
     return data.cata({
       Success: (value) => {
-        window.localStorage.setItem('ls.chart-data', JSON.stringify(value))
+        localStorage.setItem('ls.chart-data', JSON.stringify(value))
         return (<Success
           coin={coin}
           timeframe={timeframe}
@@ -52,7 +52,7 @@ class Chart extends React.Component {
         />)
       },
       Failure: (message) => {
-        const value = JSON.parse(window.localStorage.getItem('ls.chart-data'))
+        const value = JSON.parse(localStorage.getItem('ls.chart-data'))
         return isNil(value)
           ? (<Error>{message}</Error>)
           : (<Success
