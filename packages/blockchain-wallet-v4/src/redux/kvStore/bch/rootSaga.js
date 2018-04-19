@@ -1,6 +1,6 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { compose, isNil, map, path, range } from 'ramda'
+import { compose, concat, gt, isNil, length, map, path, prop, range } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -16,9 +16,7 @@ export default ({ api }) => {
     return yield call(compose(taskToPromise, () => task))
   }
 
-  const createBch = function * (kv) {
-    const hdAccounts = yield select(getHDAccounts)
-
+  const createBch = function * (kv, hdAccounts, bchAccounts) {
     const createAccountEntry = x => ({
       label: `My Bitcoin Cash Wallet${x > 0 ? ` ${x + 1}` : ''}`,
       archived: path([x, 'archived'], hdAccounts) || false
@@ -26,7 +24,7 @@ export default ({ api }) => {
 
     const newBchEntry = {
       default_account_idx: 0,
-      accounts: map(createAccountEntry, range(0, hdAccounts.length))
+      accounts: concat(bchAccounts, map(createAccountEntry, range(length(bchAccounts), hdAccounts.length)))
     }
 
     const newkv = set(KVStoreEntry.value, newBchEntry, kv)
@@ -40,8 +38,10 @@ export default ({ api }) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataBchLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      if (isNil(newkv.value)) {
-        yield call(createBch, newkv)
+      const hdAccounts = yield select(getHDAccounts)
+      const bchAccounts = prop('accounts', newkv.value) || []
+      if (isNil(newkv.value) || gt(length(hdAccounts), length(bchAccounts))) {
+        yield call(createBch, newkv, hdAccounts, bchAccounts)
       } else {
         yield put(A.fetchMetadataBchSuccess(newkv))
       }

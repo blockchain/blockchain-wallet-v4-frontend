@@ -53,10 +53,6 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       const { currency } = payload
       return state.map(assoc('currency', currency))
     }
-    case AT.SET_BITCOIN_UNIT: {
-      const { unit } = payload
-      return state.map(assoc('btc_currency', unit))
-    }
     case AT.SET_AUTO_LOGOUT: {
       const { autoLogout } = payload
       return state.map(assoc('auto_logout', autoLogout))

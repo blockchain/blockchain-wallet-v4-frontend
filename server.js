@@ -106,7 +106,7 @@ app.get('/Resources/wallet-options.json', function (req, res) {
   if (isLocal) {
     res.json(localWalletOptions)
   } else {
-    res.redirect(rootURL + req.url.substr(1))
+    res.redirect(rootURL + req.url)
   }
 })
 
@@ -117,6 +117,15 @@ app.get('/healthz', function (req, res) {
 
 // static content
 app.use(express.static(path.join(__dirname, 'dist')))
+
+// fallback to index.html file
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'dist/index.html'), function (err) {
+    if (err) {
+      res.sendStatus(404)
+    }
+  })
+})
 
 console.log(`Express server listening on port ${port}...`)
 

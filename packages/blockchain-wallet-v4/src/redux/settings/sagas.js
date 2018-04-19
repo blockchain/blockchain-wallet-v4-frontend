@@ -107,14 +107,6 @@ export default ({ api }) => {
     yield put(actions.setCurrency(currency))
   }
 
-  const setBitcoinUnit = function * ({ unit }) {
-    const guid = yield select(wS.getGuid)
-    const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateBitcoinUnit, guid, sharedKey, unit)
-    if (!contains('successfully', toLower(response))) { throw new Error(response) }
-    yield put(actions.setBitcoinUnit(unit))
-  }
-
   const setAutoLogout = function * ({ autoLogout }) {
     yield put(walletActions.setAutoLogout(autoLogout))
   }
@@ -202,7 +194,6 @@ export default ({ api }) => {
     setMobileVerifiedAs2FA,
     setLanguage,
     setCurrency,
-    setBitcoinUnit,
     setAutoLogout,
     setLoggingLevel,
     setIpLock,

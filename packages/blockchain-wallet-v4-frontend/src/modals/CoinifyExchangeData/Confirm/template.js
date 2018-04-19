@@ -11,7 +11,7 @@ const SummaryWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: #F5F7F9;
+  background-color: ${props => props.theme['white-blue']};
   border: 0.5px solid #DDDDDD;
 `
 const SummaryRow = styled.div`

@@ -37,10 +37,9 @@ export const getData = state => {
   const effectiveBalance = selectors.core.data.bitcoin.getEffectiveBalance(state)
   const receiveAddressR = extractAddress(getReceive, to)
   const changeAddressR = extractAddress(getChange, from)
-  const unitR = selectors.core.settings.getBtcUnit(state)
   const selection = selectors.core.data.bitcoin.getSelection(state)
 
-  const transform = (defaultFrom, defaultFee, coins, receiveAddress, changeAddress, unit) => ({
+  const transform = (defaultFrom, defaultFee, coins, receiveAddress, changeAddress) => ({
     initialValues: {
       from: defaultFrom,
       fee: defaultFee,
@@ -53,13 +52,12 @@ export const getData = state => {
     to,
     amount,
     effectiveBalance,
-    effectiveBalanceScaled: Exchange.convertBitcoinToBitcoin({ value: effectiveBalance, fromUnit: 'SAT', toUnit: unit }).value,
+    effectiveBalanceScaled: Exchange.convertBitcoinToBitcoin({ value: effectiveBalance, fromUnit: 'SAT', toUnit: 'BTC' }).value,
     coins,
     receiveAddress,
     changeAddress,
-    unit,
     selection
   })
 
-  return lift(transform)(defaultFromR, defaultFeeR, coinsR, receiveAddressR, changeAddressR, unitR)
+  return lift(transform)(defaultFromR, defaultFeeR, coinsR, receiveAddressR, changeAddressR)
 }

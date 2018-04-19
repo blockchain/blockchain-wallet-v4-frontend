@@ -9,7 +9,7 @@ const WalletAccessTor = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.settings.tor.title' defaultMessage='Wallet access via Tor' />
+          <FormattedMessage id='scenes.settings.tor.title' defaultMessage='Wallet Access via Tor' />
           <SettingStatus active={blockingTor}>
             {blockingTor
               ? <FormattedMessage id='scenes.security.tor.blocked' defaultMessage='Blocked' />

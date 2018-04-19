@@ -2,9 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { isNil, equals } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import Page from './template.js'
 
 class WalletLayoutContainer extends React.Component {
@@ -13,17 +12,6 @@ class WalletLayoutContainer extends React.Component {
     this.timeout = undefined
     this.scrollUpdateDelay = 200
     this.handleScroll = this.handleScroll.bind(this)
-  }
-
-  componentWillMount () {
-    if (!isNil(this.props.scroll)) { this.props.scrollActions.resetScroll() }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    const yOffset = this.props.scroll.yOffset
-    const newYOffset = nextProps.scroll.yOffset
-    const element = ReactDOM.findDOMNode(this)
-    if (element && !equals(yOffset, newYOffset)) { element.scrollTop = newYOffset }
   }
 
   componentWillUnmount () {
@@ -43,16 +31,12 @@ class WalletLayoutContainer extends React.Component {
   }
 
   render () {
-    return <Page {...this.props} handleScroll={this.handleScroll} />
+    return <Page handleScroll={this.handleScroll} children={this.props.children} />
   }
 }
-
-const mapStateToProps = (state) => ({
-  scroll: selectors.scroll.selectScroll(state)
-})
 
 const mapDispatchToProps = (dispatch) => ({
   scrollActions: bindActionCreators(actions.scroll, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletLayoutContainer)
+export default connect(undefined, mapDispatchToProps)(WalletLayoutContainer)
