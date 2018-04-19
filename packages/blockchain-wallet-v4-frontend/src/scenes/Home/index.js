@@ -33,21 +33,17 @@ const ColumnRight = styled(Column)`
   @media(min-width: 992px) { padding: 30px 30px 30px 15px; }
 `
 
-const Home = () => {
-  console.log('Home')
-
-  return (
-    <Wrapper>
-      <ColumnLeft>
-        <BalancesChartContainer />
-        <ActivityList />
-      </ColumnLeft>
-      <ColumnRight>
-        <PriceChart />
-        <DidYouKnow />
-      </ColumnRight>
-    </Wrapper>
-  )
-}
+const Home = () => (
+  <Wrapper>
+    <ColumnLeft>
+      <BalancesChartContainer />
+      <ActivityList />
+    </ColumnLeft>
+    <ColumnRight>
+      <PriceChart />
+      <DidYouKnow />
+    </ColumnRight>
+  </Wrapper>
+)
 
 export default Home
