@@ -3,6 +3,6 @@
 exports[`TimeFilters container renders correctly 1`] = `
 <template
   handleClick={[Function]}
-  time="all"
+  time="1month"
 />
 `;
