@@ -11,11 +11,11 @@ const BaseButtonGroup = styled.div`
   & > * {
     display: inline-flex!important;
   }
-  & :first-child { 
+  & :first-child {
     border-top-right-radius: 0!important;
     border-bottom-right-radius: 0!important;
   }
-  & :last-child { 
+  & :last-child {
     border-top-left-radius: 0!important;
     border-bottom-left-radius: 0!important;
   }

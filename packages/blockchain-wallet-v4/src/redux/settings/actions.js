@@ -14,7 +14,6 @@ export const setMobile = (mobile) => ({ type: AT.SET_MOBILE, payload: { mobile }
 export const setMobileVerified = () => ({ type: AT.SET_MOBILE_VERIFIED })
 export const setLanguage = (language) => ({ type: AT.SET_LANGUAGE, payload: { language } })
 export const setCurrency = (currency) => ({ type: AT.SET_CURRENCY, payload: { currency } })
-export const setBitcoinUnit = (unit) => ({ type: AT.SET_BITCOIN_UNIT, payload: { unit } })
 export const setAutoLogout = (autoLogout) => ({ type: AT.SET_AUTO_LOGOUT, payload: { autoLogout } })
 export const setLoggingLevel = (loggingLevel) => ({ type: AT.SET_LOGGING_LEVEL, payload: { loggingLevel } })
 export const setIpLock = (ipLock) => ({ type: AT.SET_IP_LOCK, payload: { ipLock } })

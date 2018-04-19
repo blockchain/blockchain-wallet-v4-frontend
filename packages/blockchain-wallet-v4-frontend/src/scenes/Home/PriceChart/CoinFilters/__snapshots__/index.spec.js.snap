@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CoinFilters renders correctly 1`] = `
+<template
+  coin="BTC"
+  handleClick={[Function]}
+/>
+`;
