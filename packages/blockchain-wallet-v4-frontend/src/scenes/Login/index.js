@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
+import ui from 'redux-ui'
 
 import Login from './template.js'
 import { actions, selectors } from 'data'
@@ -13,7 +14,12 @@ class LoginContainer extends React.Component {
     this.handleMobile = this.handleMobile.bind(this)
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.authType !== this.props.authType) this.props.updateUI({ busy: false })
+  }
+
   onSubmit (event) {
+    this.props.updateUI({ busy: true })
     event.preventDefault()
     const { guid, password, code } = this.props
     const upperCode = code && code.toUpperCase()
@@ -26,7 +32,7 @@ class LoginContainer extends React.Component {
 
   render () {
     const { authType } = this.props
-    return <Login authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} />
+    return <Login authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} busy={this.props.ui.busy} />
   }
 }
 
@@ -44,6 +50,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: { busy: false } })
 )
 export default enhance(LoginContainer)

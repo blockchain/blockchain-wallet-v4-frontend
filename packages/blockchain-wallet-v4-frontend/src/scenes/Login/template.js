@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required } from 'services/FormHelper'
-import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
@@ -49,7 +49,7 @@ const LoginTextGroup = styled(TextGroup)`
 `
 
 const Login = (props) => {
-  const { submitting, invalid, ...rest } = props
+  const { submitting, invalid, busy, ...rest } = props
   const { onSubmit, handleMobile, authType } = rest
 
   return (
@@ -120,7 +120,11 @@ const Login = (props) => {
         </FormGroup>
         <FormGroup>
           <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
-            <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
+            {
+              busy
+                ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                : <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
+            }
           </LoginButton>
         </FormGroup>
       </LoginForm>
