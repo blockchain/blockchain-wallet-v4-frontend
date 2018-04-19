@@ -20,3 +20,4 @@ export const setVerifyError = (error) => ({ type: AT.SET_VERIFY_ERROR, payload: 
 export const submitMicroDeposits = (data) => ({ type: AT.SUBMIT_MICRO_DEPOSITS, payload: data })
 
 export const submitQuote = (quote) => ({ type: AT.SUBMIT_QUOTE, payload: quote })
+export const submitSellQuote = (quote) => ({ type: AT.SUBMIT_SELL_QUOTE, payload: quote })

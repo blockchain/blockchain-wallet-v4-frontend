@@ -72,7 +72,7 @@ const ReasonMsg = props => {
 }
 
 const Success = props => {
-  const { changeBuySellTabStatus, fetchQuote, fetchSellQuote, refreshQuote, submitQuote, handleTrade, quoteR, sellQuoteR, base, errors, showModal, handleTradeDetailsClick, ...rest } = props
+  const { changeBuySellTabStatus, fetchQuote, fetchSellQuote, refreshQuote, submitQuote, submitSellQuote, handleTrade, quoteR, sellQuoteR, base, errors, showModal, handleTradeDetailsClick, ...rest } = props
   const quote = quoteR.getOrElse(null)
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
@@ -164,7 +164,7 @@ const Success = props => {
             <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
               <BuyOrderSubmit
                 quoteR={sellQuoteR}
-                onSubmit={submitQuote}
+                onSubmit={submitSellQuote}
                 busy={busy}
               />
             </BuyOrderSubmitWrapper>
