@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { Icon, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -15,8 +15,12 @@ const ImportedAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
 `
-const WarningSign = styled.span`
-  font-size: 18px;
+const WarningWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  .warning-icon {
+    margin-right: 4px;
+  }
 `
 
 const Success = (props) => {
@@ -41,8 +45,10 @@ const Success = (props) => {
         <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs' defaultMessage='Imported Bitcoin Cash Addresses' />
       </ImportedAddressesSettingHeader>
       <AddressesSettingDescription>
-        <WarningSign>⚠️</WarningSign>
-        <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
+        <WarningWrapper>
+          <Icon name='alert-filled' size='22px' className={'warning-icon'}/>
+          <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
+        </WarningWrapper>
       </AddressesSettingDescription>
       <Table>
         <TableHeader>
