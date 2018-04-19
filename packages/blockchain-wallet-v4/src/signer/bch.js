@@ -1,11 +1,10 @@
-import { curry, compose, lensProp, map, forEach, addIndex } from 'ramda'
-import { traversed, traverseOf } from 'ramda-lens'
+import { curry, compose, lensProp, forEach, addIndex, over } from 'ramda'
+import { mapped } from 'ramda-lens'
 import BitcoinCash from 'bitcoinforksjs-lib'
-import Task from 'data.task'
-import { Wrapper, Wallet } from '../types'
 import * as Coin from '../coinSelection/coin.js'
-import { isFromAccount } from '../coinSelection'
+// import { isFromAccount } from '../coinSelection'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 
 export const signSelection = curry((network, selection) => {
   const hashType =
@@ -23,22 +22,30 @@ export const signSelection = curry((network, selection) => {
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)
   addIndex(forEach)(sign, selection.inputs)
-  return tx.build().toHex()
+  const signedTx = tx.build()
+  return { txHex: signedTx.toHex(), txId: signedTx.getId() }
 })
 
-// returns a task
-export const sign = curry((network, secondPassword, wrapper, selection) => {
-  const wallet = Wrapper.selectWallet(wrapper)
-  const pathToKey = keypath =>
-    Wallet.getHDPrivateKeyWIF(keypath, secondPassword, network, wallet)
-      .map(wif => BitcoinCash.ECPair.fromWIF(wif, network))
-  const getPriv = address =>
-    Wallet.getLegacyPrivateKey(address, secondPassword, network, wallet)
-  const getKeys = isFromAccount(selection) ? pathToKey : getPriv
-  const selectionWithKeys = traverseOf(
-    compose(lensProp('inputs'), traversed, Coin.priv),
-    Task.of,
-    getKeys,
+// signHDWallet :: network -> password -> wrapper -> selection -> Task selection
+export const signHDWallet = curry((network, secondPassword, wrapper, selection) =>
+  addHDWalletWIFS(network, secondPassword, wrapper, selection)
+    .map(signWithWIF(network))
+)
+
+// signLegacy :: network -> password -> wrapper -> selection -> Task selection
+export const signLegacy = curry((network, secondPassword, wrapper, selection) =>
+  addLegacyWIFS(network, secondPassword, wrapper, selection)
+    .map(signWithWIF(network))
+)
+
+export const wifToKeys = curry((network, selection) =>
+  over(
+    compose(lensProp('inputs'), mapped, Coin.priv),
+    wif => BitcoinCash.ECPair.fromWIF(wif, network),
     selection)
-  return map(signSelection(network), selectionWithKeys)
-})
+)
+
+// signWithWIF :: network -> selection -> selection
+export const signWithWIF = curry((network, selection) =>
+  compose(signSelection(network), wifToKeys(network))(selection)
+)

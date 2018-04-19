@@ -394,6 +394,11 @@ export const getLegacyPrivateKey = curry((address, secondPassword, network, wall
   }
 })
 
+export const getLegacyPrivateKeyWIF = curry((address, secondPassword, network, wallet) => {
+  return getLegacyPrivateKey(address, secondPassword, network, wallet)
+    .map(ecpair => ecpair.toWIF())
+})
+
 export const getMnemonic = curry((secondPassword, wallet) => {
   const entropyToMnemonic = Either.try(BIP39.entropyToMnemonic)
   let seedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, selectHdWallets)(wallet)

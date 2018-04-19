@@ -19,7 +19,6 @@ class WalletLayoutContainer extends React.PureComponent {
 
   render () {
     const { updateUI, isAuthenticated, path, component: Component } = this.props
-
     return isAuthenticated
       ? <Route path={path} render={props => (
         <WalletLayout
