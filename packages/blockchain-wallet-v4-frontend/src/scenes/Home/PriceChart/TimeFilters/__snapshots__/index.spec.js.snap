@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimeFilters container renders correctly 1`] = `
+<template
+  handleClick={[Function]}
+  time="all"
+/>
+`;

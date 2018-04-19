@@ -1,8 +1,9 @@
 
 import { combineReducers } from 'redux'
 import { reducer as reduxUiReducer } from 'redux-ui'
-import { reducer as formReducer } from 'redux-form'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
+import componentsReducer from './components/reducers'
+import { formReducer } from './form/reducers'
 import alertsReducer from './alerts/reducers.js'
 import authReducer from './auth/reducers.js'
 import coinifyReducer from './modules/coinify/reducers.js'
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   alerts: alertsReducer,
   auth: authReducer,
   coinify: coinifyReducer,
+  components: componentsReducer,
   form: formReducer,
   goals: goalsReducer,
   modals: modalsReducer,
