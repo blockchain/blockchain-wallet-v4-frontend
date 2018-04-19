@@ -29,16 +29,14 @@ export const getData = state => {
   const to = formValueSelector('importBtcAddress')(state, 'to')
   const receiveAddressR = extractAddress(getReceive, to)
   const changeAddressR = extractAddress(getChange, from)
-  const unitR = selectors.core.settings.getBtcUnit(state)
 
-  const transform = (defaultFee, coins, receiveAddress, changeAddress, unit) => ({
+  const transform = (defaultFee, coins, receiveAddress, changeAddress) => ({
     from,
     to,
     coins,
     receiveAddress,
-    changeAddress,
-    unit
+    changeAddress
   })
 
-  return lift(transform)(defaultFeeR, coinsR, receiveAddressR, changeAddressR, unitR)
+  return lift(transform)(defaultFeeR, coinsR, receiveAddressR, changeAddressR)
 }

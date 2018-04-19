@@ -3,7 +3,6 @@ import { settingsPath } from '../paths'
 
 export const getSettings = prop(settingsPath)
 
-export const getBtcUnit = state => getSettings(state).map(prop('btc_currency'))
 export const getLanguage = state => getSettings(state).map(prop('language'))
 export const getCountryCode = state => getSettings(state).map(prop('country_code'))
 export const getCurrency = state => getSettings(state).map(prop('currency'))

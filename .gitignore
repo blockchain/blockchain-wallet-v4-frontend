@@ -24,7 +24,7 @@ package-lock.json
 *.lerna_backup
 coverage/
 dist/
-build/
+lib/
 
 # Package Files
 packages/blockchain-info-components/lib
