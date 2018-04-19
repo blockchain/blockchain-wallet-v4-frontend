@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CoinTicker container renders correctly (Failure) 1`] = `<template.error />`;
+
+exports[`CoinTicker container renders correctly (Loading) 1`] = `<template.loading />`;
+
+exports[`CoinTicker container renders correctly (NotAsked) 1`] = `<template.loading />`;
+
+exports[`CoinTicker container renders correctly (Success) 1`] = `
+<template.success
+  handleClick={[MockFunction]}
+/>
+`;
