@@ -51,7 +51,7 @@ const Settings = (props) => {
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.warning' defaultMessage="We highly recommend you backup your wallet's recovery phrase before setting a second password." />
               </Text>
               <Text size='14px' weight={300} color='error'>
-                <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.warning2' defaultMessage='Backing up your wallet will ensure your bitcoins are safe in case you lose your password.' />
+                <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.warning2' defaultMessage='Backing up your wallet will ensure your funds are safe in case you lose your password.' />
               </Text>
               <Text size='14px' weight={300} color='error'>
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.warning3' defaultMessage='For your security, we do not keep any passwords on file.' />

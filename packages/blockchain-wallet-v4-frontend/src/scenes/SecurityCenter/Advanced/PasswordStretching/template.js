@@ -9,7 +9,7 @@ const PasswordStretching = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.title' defaultMessage='Password stretching (PBKDF2)' />
+          <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.title' defaultMessage='Password Stretching (PBKDF2)' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.description' defaultMessage='This increases the difficulty of discovering your password using a brute-force attack but slows down loading and saving your wallet.' />
