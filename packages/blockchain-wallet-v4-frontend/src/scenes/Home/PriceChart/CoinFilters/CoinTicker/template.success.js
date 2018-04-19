@@ -1,12 +1,13 @@
 import React from 'react'
+import { lighten } from 'polished'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  padding: 0px 5px;
-  background-color: ${props => props.selected && props.theme['brand-quaternary']};
-  border: ${props => props.selected && `1px solid ${props.theme['brand-secondary']}`};
+  padding: 2px 5px;
+  background-color: ${props => props.selected && lighten(0.47, props.theme['brand-secondary'])};
+  border: ${props => props.selected && `1px solid ${lighten(0.3, props.theme['brand-secondary'])}`};
   border-radius: ${props => props.selected && '2px'};
 `
 
