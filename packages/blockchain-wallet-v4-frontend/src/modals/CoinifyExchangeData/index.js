@@ -15,7 +15,7 @@ import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { path } from 'ramda'
 
-class SfoxExchangeData extends React.Component {
+class SfoxExchangeData extends React.PureComponent {
   constructor () {
     super()
     this.state = { show: false }

@@ -8,7 +8,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import TransferEther from './template.js'
 import { transactions } from 'blockchain-wallet-v4/src'
 
-class TransferEtherContainer extends React.Component {
+class TransferEtherContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)

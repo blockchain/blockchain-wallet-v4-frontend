@@ -9,7 +9,7 @@ const Wrapper = styled.section`
   box-sizing: border-box;
 `
 
-export default class BchAddressesContainer extends React.Component {
+export default class BchAddressesContainer extends React.PureComponent {
   render () {
     return (
       <AddressesLayout>

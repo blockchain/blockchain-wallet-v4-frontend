@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import SelectBoxAccounts from './template'
 import { changeSource, changeTarget } from './services'
 
-class SelectBoxAccountsContainer extends React.Component {
+class SelectBoxAccountsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     const { source, target } = this.props.input.value

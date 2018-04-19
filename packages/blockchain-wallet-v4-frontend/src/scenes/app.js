@@ -33,7 +33,7 @@ import BchTransactions from './Transactions/Bch'
 class App extends React.PureComponent {
   render () {
     const { store, history, messages } = this.props
-
+    console.log('render App')
     return (
       <Provider store={store}>
         <ConnectedIntlProvider messages={messages}>

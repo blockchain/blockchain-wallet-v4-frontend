@@ -10,7 +10,7 @@ import FirstStep from './template'
 
 const dateFormatUS = 'YYYY-MM-DD'
 
-class FirstStepContainer extends React.Component {
+class FirstStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { filename: '' }

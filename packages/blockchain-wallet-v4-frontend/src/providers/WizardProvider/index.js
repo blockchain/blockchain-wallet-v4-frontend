@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 
 const wizard = (name, totalSteps) => Component => {
-  class WizardProvider extends React.Component {
+  class WizardProvider extends React.PureComponent {
     constructor (props) {
       super(props)
       this.handleNextStep = this.handleNextStep.bind(this)

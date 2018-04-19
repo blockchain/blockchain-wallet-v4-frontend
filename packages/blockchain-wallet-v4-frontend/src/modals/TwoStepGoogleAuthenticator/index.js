@@ -7,7 +7,7 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import TwoStepGoogleAuthenticator from './template.js'
 
-class TwoStepGoogleAuthenticatorContainer extends React.Component {
+class TwoStepGoogleAuthenticatorContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
