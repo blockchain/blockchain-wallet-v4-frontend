@@ -20,7 +20,7 @@ let mockWalletOptions
 
 // load, parse and log application configuration if not a CI build
 if (!isCiBuild) {
-  mockWalletOptions = require('./../../config/wallet-options.json')
+  mockWalletOptions = require('./../../config/wallet-options-v4.json')
   try {
     envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
   } catch (e) {
