@@ -10,30 +10,31 @@ export default ({ api, options }) => {
   let coinify
 
   const refreshCoinify = function * () {
-    yield put(A.fetchProfileLoading())
+    yield put(A.coinifyFetchProfileLoading())
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
     coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, options])
     yield apply(coinify, coinify.profile.fetch)
-    yield put(A.fetchProfileSuccess(coinify))
+    yield put(A.coinifyFetchProfileSuccess(coinify))
   }
 
   const init = function * () {
     try {
       yield call(refreshCoinify)
     } catch (e) {
-      throw new Error(e)
+      console.warn(e)
+      // throw new Error(e)
     }
   }
 
-  const fetchProfile = function * () {
+  const coinifyFetchProfile = function * () {
     try {
-      yield put(A.fetchProfileLoading())
+      yield put(A.coinifyFetchProfileLoading())
       yield apply(coinify, coinify.profile.fetch)
-      yield put(A.fetchProfileSuccess(coinify.profile))
+      yield put(A.coinifyFetchProfileSuccess(coinify.profile))
     } catch (e) {
-      yield put(A.fetchProfileFailure(e))
+      yield put(A.coinifyFetchProfileFailure(e))
     }
   }
 
@@ -122,12 +123,12 @@ export default ({ api, options }) => {
   return function * () {
     yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
     yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
-    yield takeLatest(AT.COINIFY_FETCH_PROFILE, fetchProfile)
+    yield takeLatest(AT.COINIFY_FETCH_PROFILE, coinifyFetchProfile)
     yield takeLatest(AT.COINIFY_FETCH_TRADES, fetchTrades)
     yield takeLatest(AT.COINIFY_FETCH_QUOTE, fetchQuote)
     yield takeLatest(AT.COINIFY_FETCH_RATE_QUOTE, fetchRateQuote)
     yield takeLatest(AT.RESET_PROFILE, resetProfile)
-    yield takeLatest(AT.GET_PAYMENT_MEDIUMS, getPaymentMediums)
+    yield takeLatest(AT.COINIFY_GET_PAYMENT_MEDIUMS, getPaymentMediums)
     yield takeLatest(AT.COINIFY_GET_MEDIUM_ACCOUNTS, getMediumAccounts)
     yield takeLatest(AT.COINIFY_FETCH_QUOTE_AND_MEDIUMS, fetchQuoteAndMediums)
   }

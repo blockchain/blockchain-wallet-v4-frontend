@@ -24,13 +24,13 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_PROFILE_FAILURE: {
       return assoc('profile', Remote.Failure(payload), state)
     }
-    case AT.FETCH_QUOTE_LOADING: {
+    case AT.SFOX_FETCH_QUOTE_LOADING: {
       return assoc('quote', Remote.Loading, state)
     }
-    case AT.FETCH_QUOTE_SUCCESS: {
+    case AT.SFOX_FETCH_QUOTE_SUCCESS: {
       return assoc('quote', Remote.Success(payload), state)
     }
-    case AT.FETCH_QUOTE_FAILURE: {
+    case AT.SFOX_FETCH_QUOTE_FAILURE: {
       return assoc('quote', Remote.Failure(payload), state)
     }
     case AT.FETCH_TRADES_LOADING: {
@@ -51,13 +51,13 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.SFOX_FETCH_ACCOUNTS_FAILURE: {
       return assoc('accounts', Remote.Failure(payload), state)
     }
-    case AT.HANDLE_TRADE_LOADING: {
+    case AT.SFOX_HANDLE_TRADE_LOADING: {
       return assoc('trade', Remote.Loading, state)
     }
-    case AT.HANDLE_TRADE_SUCCESS: {
+    case AT.SFOX_HANDLE_TRADE_SUCCESS: {
       return assoc('trade', Remote.Success(payload), state)
     }
-    case AT.HANDLE_TRADE_FAILURE: {
+    case AT.SFOX_HANDLE_TRADE_FAILURE: {
       return assoc('trade', Remote.Failure(payload), state)
     }
     case AT.SET_PROFILE_SUCCESS: {

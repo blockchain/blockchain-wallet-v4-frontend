@@ -75,12 +75,7 @@ const Modal = props => {
 Modal.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
-  size: PropTypes.oneOf(['small', 'medium', 'large', 'xlarge', '']),
-  closeButton: PropTypes.bool
-}
-
-Modal.defaultProps = {
-  closeButton: true
+  size: PropTypes.oneOf(['small', 'medium', 'large', 'xlarge', ''])
 }
 
 export default Modal

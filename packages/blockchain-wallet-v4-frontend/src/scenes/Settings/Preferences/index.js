@@ -6,7 +6,6 @@ import InfoWell from 'components/InfoWell'
 import MobileNumber from './MobileNumber'
 import WalletLanguage from './WalletLanguage'
 import LocalCurrency from './LocalCurrency'
-import BitcoinUnit from './BitcoinUnit'
 import Notifications from './Notifications'
 import BitcoinLinkHandling from './BitcoinLinkHandling'
 import AutoLogout from './AutoLogout'
@@ -27,7 +26,6 @@ const Preferences = () => {
       <MobileNumber />
       <WalletLanguage />
       <LocalCurrency />
-      <BitcoinUnit />
       <Notifications />
       <BitcoinLinkHandling />
       <AutoLogout />

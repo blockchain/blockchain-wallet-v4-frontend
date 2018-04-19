@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { Button, ButtonGroup, Text } from 'blockchain-info-components'
+import { Button, ButtonGroup } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import Hint from './Hint'
