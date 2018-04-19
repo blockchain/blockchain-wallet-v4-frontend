@@ -59,6 +59,13 @@ export default ({ coreSagas }) => {
       let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
       switch (field) {
+        case 'coin':
+          yield put(actions.modals.closeAllModals())
+          switch (payload) {
+            case 'ETH': yield put(actions.modals.showModal('SendEther')); break
+            case 'BCH': yield put(actions.modals.showModal('SendBch')); break
+          }
+          break
         case 'from':
           const source = prop('address', payload) || prop('index', payload)
           payment = yield payment.from(source)

@@ -10,6 +10,8 @@ export const getContext = state => getAccounts(state).map(compose(prop('addr'), 
 
 export const getDefaultAccount = state => getAccounts(state).map(head)
 
+export const getDefaultAddress = state => getDefaultAccount(state).map(prop('addr'))
+
 export const getAccountIndex = (state, address) => getAccounts(state).map(findIndex(propEq('addr', address)))
 
 export const getLegacyAccount = state => getMetadata(state).map(path(['value', 'ethereum', 'legacy_account']))

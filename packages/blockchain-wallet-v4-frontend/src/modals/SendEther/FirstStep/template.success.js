@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { isEmpty } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validEtherAddress } from 'services/FormHelper'
 import { Button, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
+import { maximumAmount } from './services'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 
@@ -18,17 +18,6 @@ const Row = styled.div`
   align-items: center;
   width: 100%;
 `
-
-const validAmount = (value, allValues, props) => {
-  return parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
-}
-
-const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
-
-const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
-  if (initialRender) { return true }
-  return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
-}
 
 const FirstStep = props => {
   const { pristine, invalid, submitting, fee, handleSubmit } = props
@@ -59,7 +48,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='ETH' maxAvailable={props.effectiveBalance} />
+          <Field name='amount' component={FiatConvertor} coin='ETH' validate={[maximumAmount]} />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -97,4 +86,4 @@ FirstStep.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendEther', destroyOnUnmount: false, shouldValidate })(FirstStep)
+export default reduxForm({ form: 'sendEther', destroyOnUnmount: false })(FirstStep)
