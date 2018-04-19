@@ -27,6 +27,10 @@ const Content = styled.div`
   height: 100%;
   margin-top: 10px;
   overflow: scroll;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0 !important;
+  }
   > div:first-child {
     border-left: none;
     position: relative;

@@ -21,8 +21,11 @@ const AddressBox = styled.span`
   height: 36px;
   font-size: 16px;
   font-weight: 300;
+  overflow: hidden;
   padding-left: 10px;
   align-items: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-family: 'Montserrat', Helvetica, sans-serif;
   background-color: ${props => props.theme['gray-1']};
 
