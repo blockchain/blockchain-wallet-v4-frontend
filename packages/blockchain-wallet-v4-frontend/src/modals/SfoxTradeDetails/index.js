@@ -17,25 +17,31 @@ const renderDetailsRow = (id, message, value, color) => (
     <Text size='13px' weight={300} color={color}>{value}</Text>
   </OrderDetailsRow>
 )
-const renderFirstRow = trade => (
-  trade.outCurrency === 'BTC'
-    ? `${trade.receiveAmount} BTC ($${((+trade.sendAmount / 1e8) - trade.feeAmount).toFixed(2)})`
-    // : `${q.quoteAmount / 100000000} BTC ($${(+q.baseAmount - +q.feeAmount).toFixed(2)})`
-    : null
-)
-const renderTotal = trade => trade.outCurrency === 'BTC' ? `$${(+trade.inAmount / 1e8).toFixed(2)}` : `$${trade.baseAmount}`
+const renderFirstRow = trade => {
+  if (trade.isBuy) {
+    if (trade.outCurrency === 'BTC') return `${trade.receiveAmount} BTC ($${((+trade.sendAmount / 1e8) - trade.feeAmount).toFixed(2)})`
+    else return `${trade.quoteAmount / 1e8} BTC ($${(+trade.baseAmount - +trade.feeAmount).toFixed(2)})`
+  } else {
+    if (trade.outCurrency === 'USD') return `${trade.sendAmount / 1e8} BTC ($${(+trade.receiveAmount + +trade.feeAmount).toFixed(2)})`
+    else return ``
+  }
+}
+const renderTotal = trade => {
+  if (trade.isBuy) return trade.outCurrency === 'BTC' ? `$${(+trade.inAmount / 1e8).toFixed(2)}` : `$${trade.baseAmount}`
+  else return `$${trade.receiveAmount.toFixed(2)}`
+}
 
 class SfoxTradeDetails extends React.Component {
   render () {
     const headerStatus = statusHelper(this.props.trade.state)
     const bodyStatus = bodyStatusHelper(this.props.trade.state)
-    const { account } = this.props
-
+    const { account, trade } = this.props
+    console.log('trade details render', this.props, this.props.trade.isBuy)
     return (
       <Modal size='large' position={this.props.position} total={this.props.total}>
         <ModalHeader onClose={this.props.close}>
           <Text color={headerStatus.color}>
-            Buy Order {headerStatus.text}
+            { trade.isBuy ? `Buy Order` : 'Sell Order' } {headerStatus.text}
           </Text>
         </ModalHeader>
         <ModalBody>
@@ -43,10 +49,10 @@ class SfoxTradeDetails extends React.Component {
             { bodyStatus.text }
           </Text>
           <Text style={spacing('pt-5')} size='13px' weight={300}>
-            <FormattedMessage id='order_details.trade_id' defaultMessage={`Your order ID is: SFX-{id}`} values={{ id: this.props.trade.id }} />
+            <FormattedMessage id='order_details.trade_id' defaultMessage={`Your order ID is: SFX-{id}`} values={{ id: trade.id }} />
           </Text>
           <Text style={spacing('mt-20')} size='14px' weight={400}>
-            <FormattedMessage id='order_details.method' defaultMessage='Payment Method' />
+            { trade.isBuy ? <FormattedMessage id='order_details.method' defaultMessage='Payment Method' /> : <FormattedMessage id='order_details.receiving_funds_into' defaultMessage='Receiving Funds Into' /> }
           </Text>
           <MethodContainer borderDark style={spacing('mt-5')}>
             <Icon name='bank-filled' size='30px' />
@@ -55,18 +61,18 @@ class SfoxTradeDetails extends React.Component {
           <OrderDetailsTable style={spacing('mt-10')}>
             {renderDetailsRow(
               'order_details.amount_to_purchase',
-              'BTC Amount to Purchase',
-              renderFirstRow(this.props.trade))
+              trade.isBuy ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
+              renderFirstRow(trade))
             }
             {renderDetailsRow(
               'order_details.trading_fee',
               'Trading Fee',
-              `$${(+this.props.trade.feeAmount).toFixed(2)}`
+              `$${(+trade.feeAmount).toFixed(2)}`
             )}
             {renderDetailsRow(
               'order_details.total_cost',
-              'Total Cost',
-              renderTotal(this.props.trade),
+              trade.isBuy ? 'Total Cost' : 'Total To Be Received',
+              renderTotal(trade),
               'success'
             )}
           </OrderDetailsTable>
