@@ -18,7 +18,7 @@ let walletHelperDomain
 if (process.env.LOCAL_PROD) {
   // local production config
   const prodConfig = require('./config/env/production.js')
-  localWalletOptions = require('./config/wallet-options.json')
+  localWalletOptions = require('./config/wallet-options-v4.json')
   isLocal = true
   environment = 'local prod'
   rootURL = prodConfig.ROOT_URL
