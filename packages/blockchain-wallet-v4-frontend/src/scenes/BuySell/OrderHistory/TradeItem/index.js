@@ -14,21 +14,21 @@ const TradeItem = props => {
   return (
     <TableRow>
       <TableCell width='15%'>
-        <OrderStatus status={trade.state} />
+        <OrderStatus status={trade.state} isBuy={trade.isBuy} />
       </TableCell>
       <TableCell width='15%'>
-        <Link size='14px' weight={300} capitalize onClick={() => handleClick(trade)}>
+        <Link size='13px' weight={300} capitalize onClick={() => handleClick(trade)}>
           <FormattedMessage id='scenes.exchangehistory.list.details' defaultMessage='View details' />
         </Link>
       </TableCell>
       <TableCell width='30%'>
-        <Text size='14px' weight={300}>{trade.createdAt.toLocaleString()}</Text>
+        <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{trade.createdAt.toLocaleString()}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size='14px' weight={300}>{`${exchangeAmount} ${trade.inCurrency}`}</Text>
+        <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${exchangeAmount} ${trade.inCurrency}`}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size='14px' weight={300}>{`${receiveAmount} ${trade.outCurrency}`}</Text>
+        <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${receiveAmount} ${trade.outCurrency}`}</Text>
       </TableCell>
     </TableRow>
   )

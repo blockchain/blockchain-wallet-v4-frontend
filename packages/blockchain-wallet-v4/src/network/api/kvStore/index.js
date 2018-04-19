@@ -16,7 +16,7 @@ export default ({ apiUrl }) => {
       }
     }
 
-    let url = apiUrl + 'metadata/' + endpoint
+    let url = apiUrl + '/metadata/' + endpoint
     let options = {
       method,
       headers: { 'Content-Type': 'application/json' },

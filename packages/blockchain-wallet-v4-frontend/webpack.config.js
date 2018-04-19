@@ -9,28 +9,30 @@ const Webpack = require('webpack')
 const isCiBuild = !!process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
 const PATHS = {
-  build: `${__dirname}/../../build`,
+  lib: `${__dirname}/../../lib`,
   dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`,
   pkgJson: `${__dirname}/../../package.json`,
   envConfig: `${__dirname}/../../config/env/`
 }
-let envConfig
+let envConfig = {}
 let mockWalletOptions
 
-// load, parse and log application configuration
-mockWalletOptions = require('./../../config/wallet-options.json')
-try {
-  envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
-} catch (e) {
-  console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
-  envConfig = require(PATHS.envConfig + 'production.js')
-} finally {
-  console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
-  console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
-  console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
-  console.log(chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN))
-  console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
+// load, parse and log application configuration if not a CI build
+if (!isCiBuild) {
+  mockWalletOptions = require('./../../config/wallet-options.json')
+  try {
+    envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
+  } catch (e) {
+    console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
+    envConfig = require(PATHS.envConfig + 'production.js')
+  } finally {
+    console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
+    console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
+    console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
+    console.log(chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN))
+    console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
+  }
 }
 
 module.exports = {
@@ -47,7 +49,7 @@ module.exports = {
     ]
   },
   output: {
-    path: isCiBuild ? (PATHS.dist) : (PATHS.build),
+    path: isCiBuild ? (PATHS.dist) : (PATHS.lib),
     chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/'
   },
@@ -57,31 +59,14 @@ module.exports = {
         test: /\.js$/,
         use: [
           'thread-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                'babel-plugin-styled-components',
-                ['module-resolver', { 'root': ['./src'] }]
-              ]
-            }
-          }
+          'babel-loader'
         ]
       } : {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
         use: [
           'thread-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                'babel-plugin-styled-components',
-                ['module-resolver', { 'root': ['./src'] }],
-                'react-hot-loader/babel'
-              ]
-            }
-          }
+          'babel-loader'
         ]
       }),
       {
@@ -94,11 +79,11 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
         use: {
           loader: 'file-loader',
           options: {
-            name: 'img/[name]-[hash].[ext]'
+            name: 'img/[name].[ext]'
           }
         }
       },
@@ -120,7 +105,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.dist, PATHS.build], { allowExternal: true }),
+    new CleanWebpackPlugin([PATHS.dist, PATHS.lib], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({ APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version) }),
     new HtmlWebpackPlugin({ template: PATHS.src + '/index.html', filename: 'index.html' }),

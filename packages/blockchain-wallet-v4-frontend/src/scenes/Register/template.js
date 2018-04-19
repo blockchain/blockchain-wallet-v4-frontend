@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { required, validEmail } from 'services/FormHelper'
+import { validStrongPassword, required, validEmail } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { CheckBox, Form, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
@@ -69,7 +69,7 @@ const Register = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} score />
+            <Field name='password' validate={[required, validStrongPassword]} component={PasswordBox} score />
           </FormItem>
         </FormGroup>
         <FormGroup>

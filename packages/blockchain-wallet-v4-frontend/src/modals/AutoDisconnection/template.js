@@ -11,9 +11,9 @@ const AutoDisconnection = (props) => {
   const { onSubmit, handleCancel } = rest
 
   return (
-    <Modal size='large' position={position} total={total} closeButton={false}>
+    <Modal size='large' position={position} total={total}>
       <Form onSubmit={onSubmit}>
-        <ModalHeader>
+        <ModalHeader onClose={handleCancel}>
           <FormattedMessage id='modals.autodisconnection.title' defaultMessage='Are you still there?' />
         </ModalHeader>
         <ModalBody>
