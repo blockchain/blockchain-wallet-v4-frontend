@@ -9,7 +9,7 @@ export default ({ api, coreSagas }) => function * () {
   yield all([
     yield fork(exchange({ api, coreSagas })),
     yield fork(priceChart({ coreSagas })),
-    yield fork(priceTicker({ coreSagas }))
+    yield fork(priceTicker({ coreSagas })),
     yield fork(sendBtc({ api, coreSagas }))
   ])
 }

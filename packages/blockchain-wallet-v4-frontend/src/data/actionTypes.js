@@ -17,7 +17,6 @@ export {
   form,
   alerts,
   auth,
-  components,
   goals,
   modals,
   modules,

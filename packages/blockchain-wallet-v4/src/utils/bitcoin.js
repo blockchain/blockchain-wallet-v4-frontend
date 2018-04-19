@@ -38,7 +38,7 @@ export const isValidBitcoinAddress = value => {
     }
   }
 }
- 
+
 export const addressToScript = (value, network) => {
   const n = network || networks.bitcoin
 

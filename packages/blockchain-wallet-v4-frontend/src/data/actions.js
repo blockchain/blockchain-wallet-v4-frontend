@@ -18,7 +18,6 @@ export {
   components,
   alerts,
   auth,
-  components,
   goals,
   form,
   modals,
