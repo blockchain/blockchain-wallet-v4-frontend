@@ -69,3 +69,25 @@ export const bodyStatusHelper = (status, isBuy) => {
   }
   return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.unknown' defaultMessage='There are issues with this trade. Please contact support.' />
 }
+
+export const reviewOrder = {
+  baseBtc: (q) => q.baseCurrency === 'BTC',
+  renderFirstRow (q, type) {
+    if (type === 'buy') {
+      if (this.baseBtc(q)) return `${q.baseAmount / 1e8} BTC ($${(+q.quoteAmount - +q.feeAmount).toFixed(2)})`
+      else return `${q.quoteAmount / 1e8} BTC ($${(+q.baseAmount - +q.feeAmount).toFixed(2)})`
+    } else {
+      if (this.baseBtc(q)) return `${q.baseAmount / 1e8} BTC ($${(+q.quoteAmount).toFixed(2)})`
+      else return `${q.quoteAmount / 1e8} BTC ($${(+q.baseAmount).toFixed(2)})`
+    }
+  },
+  renderTotal (q, type) {
+    if (type === 'buy') {
+      if (this.baseBtc(q)) return `$${q.quoteAmount}`
+      else return `$${q.baseAmount}`
+    } else {
+      if (this.baseBtc(q)) return `$${(+q.quoteAmount - +q.feeAmount).toFixed(2)}`
+      else return `$${(+q.baseAmount - +q.feeAmount).toFixed(2)}`
+    }
+  }
+}

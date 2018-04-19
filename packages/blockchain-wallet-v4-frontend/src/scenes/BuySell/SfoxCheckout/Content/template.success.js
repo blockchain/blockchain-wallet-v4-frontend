@@ -111,7 +111,7 @@ const Success = props => {
               reason={reason}
               finishAccountSetup={finishAccountSetup}
               limits={limits.buy}
-              type={type}
+              type={'buy'}
             />
           </CheckoutWrapper>
         </StepView>
@@ -122,6 +122,7 @@ const Success = props => {
                 quoteR={quoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshQuote}
+                type={'buy'}
               />
             </CheckoutWrapper>
             <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
@@ -147,7 +148,7 @@ const Success = props => {
               reason={reason}
               finishAccountSetup={finishAccountSetup}
               limits={limits.sell}
-              type={type}
+              type={'sell'}
             />
           </CheckoutWrapper>
         </StepView>
@@ -158,7 +159,7 @@ const Success = props => {
                 quoteR={sellQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshQuote}
-                type={type}
+                type={'sell'}
               />
             </CheckoutWrapper>
             <BuyOrderSubmitWrapper style={{ ...flex('col') }}>

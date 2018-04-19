@@ -6,6 +6,7 @@ import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
+import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
@@ -38,13 +39,6 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-const renderFirstRow = q => (
-  q.baseCurrency === 'BTC'
-    ? `${q.baseAmount / 100000000} BTC ($${(+q.quoteAmount - +q.feeAmount).toFixed(2)})`
-    : `${q.quoteAmount / 100000000} BTC ($${(+q.baseAmount - +q.feeAmount).toFixed(2)})`
-)
-const renderTotal = q => q.baseCurrency === 'BTC' ? `$${q.quoteAmount}` : `$${q.baseAmount}`
-
 export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
@@ -72,7 +66,7 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       {renderDetailsRow(
         'order_details.amount_to_transact',
         type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-        quoteR.map(quote => renderFirstRow(quote)).getOrElse('~')
+        quoteR.map(quote => reviewOrder.renderFirstRow(quote, type)).getOrElse('~')
       )}
       {renderDetailsRow(
         'order_details.trading_fee',
@@ -82,7 +76,7 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       {renderDetailsRow(
         'order_details.total_transacted',
         type === 'buy' ? 'Total Cost' : 'Total to be Received',
-        quoteR.map(quote => renderTotal(quote)).getOrElse('~'),
+        quoteR.map(quote => reviewOrder.renderTotal(quote, type)).getOrElse('~'),
         'success'
       )}
     </OrderDetailsTable>
