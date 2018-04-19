@@ -76,11 +76,6 @@ Modal.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   size: PropTypes.oneOf(['small', 'medium', 'large', 'xlarge', '']),
-  closeButton: PropTypes.bool
-}
-
-Modal.defaultProps = {
-  closeButton: true
 }
 
 export default Modal
