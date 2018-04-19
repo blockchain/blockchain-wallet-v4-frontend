@@ -43,7 +43,6 @@ const CoinBalance = styled.div`
 `
 const ViewAllText = styled(Text)`
   color: ${props => props.theme['brand-secondary']};
-  text-decoration: underline;
   text-decoration-color: ${props => props.theme['brand-secondary']};
   cursor: pointer;
 `
@@ -79,7 +78,7 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.buybtc' defaultMessage='Buy Bitcoin' />
           </WalletLink> }
           {btcAccountsLength > 1 &&
-            <NavLink to='/settings/addresses'>
+            <NavLink to='/settings/addresses' style={{ textDecoration: 'none' }}>
               <ViewAllText weight={300} size='10px'>
                 <FormattedMessage id='scenes.home.balanceschart.btc.viewall' defaultMessage='View All Balances' />
               </ViewAllText>
@@ -110,7 +109,7 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.requestbch' defaultMessage='Request Bitcoin Cash' />
           </Link> }
           {bchAccountsLength > 1 &&
-            <NavLink to='/settings/addresses/bch'>
+            <NavLink to='/settings/addresses/bch' style={{ textDecoration: 'none' }}>
               <ViewAllText weight={300} size='10px'>
                 <FormattedMessage id='scenes.home.balanceschart.bch.viewall' defaultMessage='View All Balances' />
               </ViewAllText>
