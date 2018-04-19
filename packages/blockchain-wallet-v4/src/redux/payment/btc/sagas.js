@@ -176,7 +176,7 @@ export default ({ api }) => {
 
   // ///////////////////////////////////////////////////////////////////////////
   const calculateSignature = function * (network, password, fromType, selection) {
-    if (selection) {
+    if (!selection) {
       throw new Error('missing_selection')
     }
     const wrapper = yield select(S.wallet.getWrapper)
@@ -199,7 +199,7 @@ export default ({ api }) => {
 
   // ///////////////////////////////////////////////////////////////////////////
   const calculatePublish = function * (txHex) {
-    if (txHex) {
+    if (!txHex) {
       throw new Error('missing_signed_tx')
     }
     return yield call(() => taskToPromise(pushBitcoinTx(txHex)))
