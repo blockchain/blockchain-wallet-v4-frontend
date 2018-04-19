@@ -50,21 +50,24 @@ const Success = (props) => {
           <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
         </WarningWrapper>
       </AddressesSettingDescription>
-      <Table>
-        <TableHeader>
-          <TableCell width='50%'>
-            <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
-            </Text>
-          </TableCell>
-          <TableCell width='30%'>
-            <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
-            </Text>
-          </TableCell>
-        </TableHeader>
-        {importedAddressesTableRows}
-      </Table>
+      {
+        importedAddressesTableRows.length > 0 &&
+        <Table>
+          <TableHeader>
+            <TableCell width='50%'>
+              <Text size='13px' weight={500} capitalize>
+                <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
+              </Text>
+            </TableCell>
+            <TableCell width='30%'>
+              <Text size='13px' weight={500} capitalize>
+                <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
+              </Text>
+            </TableCell>
+          </TableHeader>
+          {importedAddressesTableRows}
+        </Table>
+      }
     </Wrapper>
   )
 }
