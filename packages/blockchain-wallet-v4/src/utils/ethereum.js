@@ -5,6 +5,7 @@ import Bitcoin from 'bitcoinjs-lib'
 import EthHd from 'ethereumjs-wallet/hdkey'
 import EthTx from 'ethereumjs-tx'
 import EthUtil from 'ethereumjs-util'
+import BigNumber from 'bignumber.js'
 
 const convertFromGweiToWei = value => Exchange.convertEtherToEther({ value, fromUnit: 'GWEI', toUnit: 'WEI' }).value
 
@@ -35,8 +36,20 @@ export const privateKeyToAddress = pk =>
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())
 
+export const calculateFee = (gasPrice, gasLimit) => {
+  const feeGWei = new BigNumber(gasPrice).mul(new BigNumber(gasLimit)).toString() 
+  return Exchange.convertEtherToEther({ value: feeGWei, fromUnit: 'GWEI', toUnit: 'WEI' }).value
+}
+
+export const calculateEffectiveBalance = (balance, fee) => {
+  console.log(balance, fee)
+  return new BigNumber(balance).sub(new BigNumber(fee)).toString()
+}
+
+//TODO :: to remove...
 export const calculateFeeWei = (gasPrice, gasLimit) => gasPrice * gasLimit
 
+//TODO :: to remove...
 export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   const transactionFee = calculateFeeWei(gasPrice, gasLimit)
   return {
@@ -46,6 +59,7 @@ export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   }
 }
 
+//TODO :: to remove...
 export const convertFeeToWei = fees => ({
   gasLimit: prop('gasLimit', fees),
   priority: convertFromGweiToWei(prop('priority', fees)),
@@ -56,6 +70,7 @@ export const convertFeeToWei = fees => ({
   }
 })
 
+//TODO :: to remove...
 export const calculateBalanceEther = (gasPrice, gasLimit, balanceWei) => {
   const data = calculateBalanceWei(gasPrice, gasLimit, balanceWei)
   return {

@@ -2,6 +2,7 @@ import { takeEvery, call, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import { askSecondPasswordEnhancer, promptForSecondPassword, promptForInput } from 'services/SagaService'
+import settings from 'config'
 
 export default ({ coreSagas }) => {
   const importLegacyAddress = function * (action, password) {
@@ -93,6 +94,37 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const eth = function * () {
+    console.log('MY PAYMENT: ')
+    let payment = yield coreSagas.payment.eth.create(({network: settings.NETWORK_ETHEREUM}))
+      .chain()
+      .init()
+      // .from(1)
+      // .to(1)
+      // .amount(10000)
+      // .fee('regular')
+      // .build()
+      // .sign('hola')
+      // .publish()
+      .done()
+    console.log(2, payment.value())
+  }
+  // const bch = function * () {
+  //   console.log('MY PAYMENT: ')
+  //   let payment = yield coreSagas.payment.bch.create(({network: settings.NETWORK_BCH}))
+  //     .chain()
+  //     .init()
+  //     .from(1)
+  //     .to(1)
+  //     .amount(10000)
+  //     .fee('regular')
+  //     .build()
+  //     .sign('hola')
+  //     .publish()
+  //     .done()
+  //   console.log(2, payment.value())
+  // }
+
   return function * () {
     yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
     yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
@@ -100,5 +132,7 @@ export default ({ coreSagas }) => {
     yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
     yield takeEvery(AT.EDIT_HD_LABEL, editHdLabel)
     yield takeEvery(AT.EDIT_BTC_ACCOUNT_LABEL, editBtcAccountLabel)
+    yield takeEvery('E', eth)
+    // yield takeEvery('C', bch)
   }
 }

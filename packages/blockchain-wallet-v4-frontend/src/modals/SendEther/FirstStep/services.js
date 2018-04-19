@@ -1,22 +1,8 @@
-import { equals, isNil, prop } from 'ramda'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import BigNumber from 'bignumber.js'
 
-export const initializeForm = (prevProps, nextProps) => {
-  const prevData = prevProps.data.getOrElse({})
-  const prevInitialValues = prop('initialValues', prevData)
-  const prevCoin = prop('coin', prevData)
-  if (!isNil(prevInitialValues) && isNil(prevCoin)) {
-    nextProps.formActions.initialize('sendEther', prevInitialValues)
-  }
-}
-
-export const switchToBitcoinOrBchModal = nextProps => {
-  const data = nextProps.data.getOrElse({})
-  const coin = prop('coin', data)
-  if (equals(coin, 'BTC')) {
-    nextProps.modalActions.closeAllModals()
-    nextProps.modalActions.showModal('SendBitcoin')
-  } else if (equals(coin, 'BCH')) {
-    nextProps.modalActions.closeAllModals()
-    nextProps.modalActions.showModal('SendBch')
-  }
+export const maximumAmount = (value, allValues, props) => {
+  const valueWei = Exchange.convertEtherToEther({ value, fromUnit: 'ETH', toUnit: 'WEI' }).value
+  const effectiveBalanceEth = Exchange.convertEtherToEther({ value: props.effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
+  return new BigNumber(valueWei).lessThanOrEqualTo(props.effectiveBalance) ? undefined : `Use total available minus fee: ${effectiveBalanceEth} ETH.`
 }

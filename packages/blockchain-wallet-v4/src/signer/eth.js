@@ -30,4 +30,3 @@ export const sign = curry((network, mnemonic, data) => {
   const rawTx = '0x' + tx.serialize().toString('hex')
   return Task.of(rawTx)
 })
-
