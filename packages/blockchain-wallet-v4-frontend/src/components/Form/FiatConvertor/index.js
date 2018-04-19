@@ -9,7 +9,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class FiatConvertorContainer extends React.Component {
+class FiatConvertorContainer extends React.PureComponent {
   constructor (props) {
     super(props)
 

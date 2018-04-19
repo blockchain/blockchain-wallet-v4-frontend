@@ -3,7 +3,7 @@ import ui from 'redux-ui'
 
 import Navigation from './template.js'
 
-class NavigationContainer extends React.Component {
+class NavigationContainer extends React.PureComponent {
   render () {
     const { ui, updateUI, handleCloseMenuLeft } = this.props
     return (

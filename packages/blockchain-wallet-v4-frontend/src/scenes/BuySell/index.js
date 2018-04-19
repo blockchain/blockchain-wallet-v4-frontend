@@ -27,7 +27,7 @@ const CheckoutWrapper = styled.div`
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
-class BuySellContainer extends React.Component {
+class BuySellContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.renderPartner = this.renderPartner.bind(this)

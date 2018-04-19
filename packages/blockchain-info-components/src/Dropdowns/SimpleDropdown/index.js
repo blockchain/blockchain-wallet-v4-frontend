@@ -6,7 +6,7 @@ import Dropdown from './template.js'
 import { Palette } from '../../'
 import { keysIn } from 'ramda'
 
-class SimpleDropdown extends React.Component {
+class SimpleDropdown extends React.PureComponent {
   constructor (props) {
     super(props)
 

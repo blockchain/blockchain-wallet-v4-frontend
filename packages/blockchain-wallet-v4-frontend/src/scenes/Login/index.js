@@ -6,7 +6,7 @@ import { formValueSelector } from 'redux-form'
 import Login from './template.js'
 import { actions, selectors } from 'data'
 
-class LoginContainer extends React.Component {
+class LoginContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

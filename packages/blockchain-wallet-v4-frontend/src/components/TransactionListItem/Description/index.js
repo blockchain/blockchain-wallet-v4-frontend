@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import EditDescription from './template'
 
-class EditDescriptionContainer extends React.Component {
+class EditDescriptionContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { value: props.value }

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getRateQuote, getTrades } from './selectors'
 import Success from './template.success'
 
-class Checkout extends React.Component {
+class Checkout extends React.PureComponent {
   componentWillMount () {
     this.props.coinifyDataActions.fetchRateQuote('EUR') // only pass quoteCurr as amt and base will always ben 1e8 and "BTC"
     this.props.coinifyDataActions.fetchTrades()

@@ -8,7 +8,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class SecondStepContainer extends React.Component {
+class SecondStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.timeout = undefined
