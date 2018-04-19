@@ -158,6 +158,7 @@ const Success = props => {
                 quoteR={sellQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshQuote}
+                type={type}
               />
             </CheckoutWrapper>
             <BuyOrderSubmitWrapper style={{ ...flex('col') }}>

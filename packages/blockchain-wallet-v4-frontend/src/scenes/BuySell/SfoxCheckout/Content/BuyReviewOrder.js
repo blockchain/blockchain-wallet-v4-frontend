@@ -37,7 +37,7 @@ const renderFirstRow = q => (
 )
 const renderTotal = q => q.baseCurrency === 'BTC' ? `$${q.quoteAmount}` : `$${q.baseAmount}`
 
-export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
+export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
@@ -62,8 +62,8 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
       {renderDetailsRow(
-        'order_details.amount_to_purchase',
-        'BTC Amount to Purchase',
+        'order_details.amount_to_transact',
+        type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
         quoteR.map(quote => renderFirstRow(quote)).getOrElse('~')
       )}
       {renderDetailsRow(
@@ -72,8 +72,8 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
         quoteR.map(quote => `$${(+quote.feeAmount).toFixed(2)}`).getOrElse('~')
       )}
       {renderDetailsRow(
-        'order_details.total_cost',
-        'Total Cost',
+        'order_details.total_transacted',
+        type === 'buy' ? 'Total Cost' : 'Total to be Received',
         quoteR.map(quote => renderTotal(quote)).getOrElse('~'),
         'success'
       )}
