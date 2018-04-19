@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Button, Text, Icon } from 'blockchain-info-components'
 
-
 import { reduxForm } from 'redux-form'
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SuccessOverlay, IconContainer } from 'components/Security'
 
