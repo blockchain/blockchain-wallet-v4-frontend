@@ -49,7 +49,7 @@ const selectColor = (nature, disabled) => {
   if (disabled) { return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' } }
 
   switch (nature) {
-    case 'empty': return { color: 'gray-6', backgroundColor: 'white', borderColor: 'white' }
+    case 'empty': return { color: 'gray-6', backgroundColor: 'white', borderColor: 'gray-2' }
     case 'primary': return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' }
     case 'secondary': return { color: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
     case 'copy': return { color: 'white', backgroundColor: 'success', borderColor: 'success' }

@@ -33,6 +33,7 @@ class Checkout extends React.Component {
         fetchSellQuote={(quote) => fetchSellQuote({ quote })}
         refreshQuote={() => refreshQuote()}
         submitQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
+        submitSellQuote={(quote) => { sfoxActions.submitSellQuote(quote); this.setState({ busy: true }) }}
         busy={this.state.busy}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
