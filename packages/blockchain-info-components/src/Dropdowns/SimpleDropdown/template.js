@@ -25,6 +25,8 @@ const ButtonContainer = styled.div`
 `
 const Button = styled.div`
   display: inline;
+  font-family: 'Montserrat', Helvetica, sans-serif;
+
 `
 const DropdownIcon = styled(Icon)`
   padding-left: 2px;
