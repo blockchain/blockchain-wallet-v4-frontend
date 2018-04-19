@@ -43,8 +43,8 @@ class VerifyEmail extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.emailVerified && this.props.ui.uniqueEmail && !this.props.editVerified) this.props.updateUI({ create: 'change_mobile' })
     if (this.props.emailVerified && !prevProps.emailVerified) this.props.updateUI({ create: 'change_mobile' })
+    if (this.props.emailVerified && this.props.ui.uniqueEmail && !this.props.editVerifiedEmail) this.props.updateUI({ create: 'change_mobile' })
   }
 
   resendCode () {
