@@ -9,7 +9,6 @@ import WalletLayout from './template'
 
 class WalletLayoutContainer extends React.PureComponent {
   componentWillMount () {
-    // this is needed because otherwise sign up calls two times component will mount (investigate why)
     this.props.kvStoreBchActions.fetchMetadataBch()
     this.props.kvStoreEthereumActions.fetchMetadataEthereum()
     this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
@@ -18,8 +17,7 @@ class WalletLayoutContainer extends React.PureComponent {
   }
 
   render () {
-    const { updateUI, isAuthenticated, path, component: Component } = this.props
-    console.log('render Layout')
+    const { ui, updateUI, isAuthenticated, path, component: Component } = this.props
 
     return isAuthenticated
       ? <Route path={path} render={props => (
@@ -29,15 +27,15 @@ class WalletLayoutContainer extends React.PureComponent {
           trayRightOpen={ui.trayRightOpen}
           trayRightContent={ui.trayRightContent}
           handleTrayRightToggle={(content, fromClickOutside) => {
-            // if (fromClickOutside) {
-            //   updateUI({ trayRightOpen: false })
-            // } else if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
-            //   updateUI({ trayRightContent: content })
-            // } else if (ui.trayRightOpen && !content) {
-            //   updateUI({ trayRightOpen: false })
-            // } else {
-            //   updateUI({ trayRightOpen: !ui.trayRightOpen, trayRightContent: content })
-            // }
+            if (fromClickOutside) {
+              updateUI({ trayRightOpen: false })
+            } else if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
+              updateUI({ trayRightContent: content })
+            } else if (ui.trayRightOpen && !content) {
+              updateUI({ trayRightOpen: false })
+            } else {
+              updateUI({ trayRightOpen: !ui.trayRightOpen, trayRightContent: content })
+            }
           }}
           handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
           handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
