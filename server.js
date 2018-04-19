@@ -101,7 +101,7 @@ app.use(function (req, res, next) {
   next()
 })
 
-// wallet options call
+// wallet options call for local servers only
 if (isLocal) {
   app.get('/Resources/wallet-options-v4.json', function (req, res) {
     res.json(localWalletOptions)
