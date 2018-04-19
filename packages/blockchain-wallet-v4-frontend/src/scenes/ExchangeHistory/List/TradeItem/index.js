@@ -7,7 +7,7 @@ import { actions } from 'data'
 import { formatTrade } from 'services/ShapeshiftService'
 import TradeItem from './template'
 
-class PagesContainer extends React.Component {
+class PagesContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

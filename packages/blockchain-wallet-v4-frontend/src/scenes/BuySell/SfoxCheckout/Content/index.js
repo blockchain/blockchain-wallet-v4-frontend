@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getTrades } from './selectors'
 import Success from './template.success'
 
-class Checkout extends React.Component {
+class Checkout extends React.PureComponent {
   /* eslint-disable */
   state = {
     busy: false

@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class EmailAddressContainer extends React.Component {
+class EmailAddressContainer extends React.PureComponent {
   constructor (props) {
     super(props)
 

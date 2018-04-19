@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class ContentContainer extends React.Component {
+class ContentContainer extends React.PureComponent {
   componentWillMount () {
     const { context, data } = this.props
     if (Remote.Success.is(context) && Remote.NotAsked.is(data)) {

@@ -8,7 +8,7 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import MobileNumberVerify from './template.js'
 
-class MobileNumberVerifyContainer extends React.Component {
+class MobileNumberVerifyContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

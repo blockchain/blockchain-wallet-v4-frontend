@@ -7,7 +7,7 @@ import SelectBox from '../SelectBox'
 import { renameKeys } from 'services/RamdaCookingBook'
 import * as languageService from 'services/LanguageService'
 
-class SelectBoxLanguages extends React.Component {
+class SelectBoxLanguages extends React.PureComponent {
   render () {
     const { languages, ...rest } = this.props
     const items = [...map(renameKeys({ name: 'text', language: 'value' }))(languages)]

@@ -1,7 +1,7 @@
 import React from 'react'
 import PlaceHolder from 'blockchain-info-components'
 
-class PlaceHolderContainer extends React.Component {
+class PlaceHolderContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { displayed: true }

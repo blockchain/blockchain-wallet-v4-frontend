@@ -5,7 +5,7 @@ import FaqContent from './FaqContent'
 
 import Faq from './template.js'
 
-class FaqContainer extends React.Component {
+class FaqContainer extends React.PureComponent {
   constructor (props) {
     super(props)
 

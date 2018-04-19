@@ -5,7 +5,7 @@ import { equals } from 'ramda'
 import { convertCoinToFiat, convertFiatToCoin } from './services'
 import CoinInput from './template'
 
-class CoinInputContainer extends React.Component {
+class CoinInputContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     const { coinName, coin, currency, bchRates, btcRates, ethRates } = this.props

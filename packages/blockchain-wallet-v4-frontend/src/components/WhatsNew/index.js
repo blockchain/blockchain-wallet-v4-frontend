@@ -4,7 +4,7 @@ import { selectors } from 'data'
 
 import WhatsNew from './template.js'
 
-class WhatsNewContainer extends React.Component {
+class WhatsNewContainer extends React.PureComponent {
   render () {
     const { handleTrayRightToggle } = this.props
     return (

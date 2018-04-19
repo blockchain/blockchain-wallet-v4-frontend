@@ -25,7 +25,7 @@ const renderFirstRow = trade => (
 )
 const renderTotal = trade => trade.outCurrency === 'BTC' ? `$${(+trade.inAmount / 1e8).toFixed(2)}` : `$${trade.baseAmount}`
 
-class SfoxTradeDetails extends React.Component {
+class SfoxTradeDetails extends React.PureComponent {
   render () {
     const headerStatus = statusHelper(this.props.trade.state)
     const bodyStatus = bodyStatusHelper(this.props.trade.state)

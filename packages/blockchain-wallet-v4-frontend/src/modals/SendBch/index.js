@@ -10,7 +10,7 @@ import SendBch from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendBchContainer extends React.Component {
+class SendBchContainer extends React.PureComponent {
   componentWillMount () {
     this.props.resetStep()
   }

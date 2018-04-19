@@ -7,7 +7,7 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import MobileLogin from './template.js'
 
-class MobileLoginContainer extends React.Component {
+class MobileLoginContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleScan = this.handleScan.bind(this)

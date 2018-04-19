@@ -4,7 +4,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class Pages extends React.Component {
+class Pages extends React.PureComponent {
   render () {
     const { data } = this.props
 
