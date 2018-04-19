@@ -17,7 +17,7 @@ class WalletLayoutContainer extends React.PureComponent {
   }
 
   render () {
-    const { ui, updateUI, isAuthenticated, path, component: Component } = this.props
+    const { ui, updateUI, isAuthenticated, path, computedMatch, component: Component } = this.props
 
     return isAuthenticated
       ? <Route path={path} render={props => (
@@ -39,7 +39,7 @@ class WalletLayoutContainer extends React.PureComponent {
           }}
           handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
           handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
-          <Component />
+          <Component computedMatch={computedMatch} />
         </WalletLayout>
       )} />
       : <Redirect to={{ pathname: '/login', state: { from: '' } }} />
