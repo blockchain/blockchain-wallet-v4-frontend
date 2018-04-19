@@ -46,21 +46,24 @@ const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPri
           <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
         </WarningWrapper>
       </SettingDescription>
-      <Table>
-        <TableHeader>
-          <TableCell width='40%'>
-            <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
-            </Text>
-          </TableCell>
-          <TableCell width='40%'>
-            <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
-            </Text>
-          </TableCell>
-        </TableHeader>
-        { importedAddressesTableRows }
-      </Table>
+      {
+        importedAddressesTableRows.length > 0 &&
+        <Table>
+          <TableHeader>
+            <TableCell width='40%'>
+              <Text size='13px' weight={500} capitalize>
+                <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
+              </Text>
+            </TableCell>
+            <TableCell width='40%'>
+              <Text size='13px' weight={500} capitalize>
+                <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
+              </Text>
+            </TableCell>
+          </TableHeader>
+          { importedAddressesTableRows }
+        </Table>
+      }
       <div style={spacing('mt-10')}>
         <IconButton name='up-arrow-in-circle' onClick={onClickImport}>
           <FormattedMessage id='scenes.settings.imported_addresses.import_bitcoin_addr' defaultMessage='Import Bitcoin Address' />
