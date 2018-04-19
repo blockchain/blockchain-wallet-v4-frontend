@@ -101,12 +101,14 @@ app.use(function (req, res, next) {
   next()
 })
 
-// wallet options call for local env only
-if (isLocal) {
-  app.get('/Resources/wallet-options.json', function (req, res) {
+// wallet options call
+app.get('/Resources/wallet-options.json', function (req, res) {
+  if (isLocal) {
     res.json(localWalletOptions)
-  })
-}
+  } else {
+    res.redirect(rootURL + req.url)
+  }
+})
 
 // healthcheck
 app.get('/healthz', function (req, res) {
