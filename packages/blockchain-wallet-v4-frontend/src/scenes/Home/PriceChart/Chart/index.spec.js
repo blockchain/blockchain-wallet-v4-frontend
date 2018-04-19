@@ -14,9 +14,9 @@ const localStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   clear: jest.fn()
-};
+}
 
-global.localStorage = localStorageMock;
+global.localStorage = localStorageMock
 
 describe('Chart container', () => {
   const props = { data: Remote.Success(''), actions: { initialized: jest.fn() } }
