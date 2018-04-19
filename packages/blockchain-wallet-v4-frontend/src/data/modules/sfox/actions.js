@@ -18,3 +18,5 @@ export const clearSignupError = () => ({ type: AT.CLEAR_SIGNUP_ERROR })
 export const setVerifyError = (error) => ({ type: AT.SET_VERIFY_ERROR, payload: error })
 
 export const submitMicroDeposits = (data) => ({ type: AT.SUBMIT_MICRO_DEPOSITS, payload: data })
+
+export const submitQuote = (quote) => ({ type: AT.SUBMIT_QUOTE, payload: quote })

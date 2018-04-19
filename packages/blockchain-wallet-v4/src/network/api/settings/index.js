@@ -1,13 +1,13 @@
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getSettings = (guid, sharedKey) => post({
     url: rootUrl,
-    endPoint: 'wallet',
+    endPoint: '/wallet',
     data: { guid, sharedKey, method: 'get-info', format: 'json' }
   })
 
   const updateSettings = (guid, sharedKey, method, payload, querystring = '') => post({
     url: rootUrl,
-    endPoint: querystring ? `wallet?${querystring}` : 'wallet',
+    endPoint: querystring ? `/wallet?${querystring}` : '/wallet',
     data: { guid, sharedKey, method, payload, length: payload.length }
   })
 
@@ -26,8 +26,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const updateLanguage = (guid, sharedKey, language) => updateSettings(guid, sharedKey, 'update-language', language)
 
   const updateCurrency = (guid, sharedKey, currency) => updateSettings(guid, sharedKey, 'update-currency', currency)
-
-  const updateBitcoinUnit = (guid, sharedKey, unit) => updateSettings(guid, sharedKey, 'update-btc-currency', unit)
 
   const updateLoggingLevel = (guid, sharedKey, loggingLevel) => updateSettings(guid, sharedKey, 'update-logging-level', loggingLevel)
 
@@ -58,7 +56,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     verifyMobile,
     updateLanguage,
     updateCurrency,
-    updateBitcoinUnit,
     updateLoggingLevel,
     updateIpLock,
     updateIpLockOn,

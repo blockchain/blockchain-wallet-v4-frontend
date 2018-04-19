@@ -15,6 +15,7 @@ import * as wallet from './wallet/actions'
 
 export {
   core,
+  components,
   alerts,
   auth,
   components,

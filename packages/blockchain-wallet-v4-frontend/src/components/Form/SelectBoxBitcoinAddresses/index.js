@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-// import { contains, equals, isEmpty, isNil, map } from 'ramda'
+import { concat } from 'ramda'
 
 import { getData } from './selectors'
 import SelectBox from '../SelectBox'
@@ -23,15 +23,21 @@ class SelectBoxBitcoinAddresses extends React.Component {
 
   }
 
+  concatAll (coin) {
+    return concat([{ group: '', items: [{ value: 'all', text: `My Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets` }] }])
+  }
+
   render () {
     const { data, coin, ...rest } = this.props
+
     return data.cata({
       Success: (value) => {
         const elements = [{
           group: '',
           items: value.data
         }]
-        return <SelectBox elements={elements} {...rest} />
+
+        return <SelectBox elements={this.concatAll(coin)(elements)} {...rest} />
       },
       Failure: (message) => <div>{message}</div>,
       Loading: () => <div />,

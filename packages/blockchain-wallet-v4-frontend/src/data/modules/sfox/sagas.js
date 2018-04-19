@@ -85,6 +85,18 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const submitQuote = function * (action) {
+    try {
+      console.log('submitting quote:', action.payload)
+      yield call(coreSagas.data.sfox.handleTrade, action.payload)
+      let state = yield select()
+      console.log('state', state)
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+    } catch (e) {
+      console.warn('FE submitQuote failed', e)
+    }
+  }
+
   return function * () {
     yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
     yield takeLatest(AT.SET_BANK, setBank)
@@ -92,5 +104,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.SET_PROFILE, setProfile)
     yield takeLatest(AT.UPLOAD, upload)
     yield takeLatest(AT.SUBMIT_MICRO_DEPOSITS, submitMicroDeposits)
+    yield takeLatest(AT.SUBMIT_QUOTE, submitQuote)
   }
 }

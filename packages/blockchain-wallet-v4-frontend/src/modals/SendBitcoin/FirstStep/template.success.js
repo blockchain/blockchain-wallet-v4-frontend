@@ -123,8 +123,7 @@ const FirstStep = props => {
           <FormLabel>
             <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:&nbsp;' />
             <Tooltip>
-              <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-              <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
+              <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
           <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
