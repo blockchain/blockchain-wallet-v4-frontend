@@ -11,7 +11,8 @@ import Success from './template.success'
 
 export class ChartContainer extends React.PureComponent {
   componentDidMount () {
-    const config = JSON.parse(window.localStorage.getItem('ls.chart'))
+    const cache = window.localStorage.getItem('ls.chart')
+    const config = cache && JSON.parse(cache)
     const coin = config ? config.base.toUpperCase() : 'BTC'
     const time = config ? config.time : '1month'
     this.props.actions.initialized(coin, time)
@@ -30,7 +31,8 @@ export class ChartContainer extends React.PureComponent {
         />)
       },
       Failure: (message) => {
-        const value = JSON.parse(window.localStorage.getItem('ls.chart-data'))
+        const cache = window.localStorage.getItem('ls.chart-data')
+        const value = cache && JSON.parse(cache)
         return isNil(value)
           ? (<Error>{message}</Error>)
           : (<Success
