@@ -11,11 +11,7 @@ export const getData = (state) => {
 }
 
 export const getQuote = (state) => {
-  try {
-    return selectors.core.data.sfox.getQuote(state).data
-  } catch (e) {
-    return null
-  }
+  return selectors.core.data.sfox.getQuote(state)
 }
 
 export const getTrades = (state) => {

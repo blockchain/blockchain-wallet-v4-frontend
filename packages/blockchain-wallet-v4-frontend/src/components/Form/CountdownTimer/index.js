@@ -34,7 +34,9 @@ class CountdownTimerContainer extends React.Component {
   render () {
     const timeLeft = moment.utc(this.state.elapsed.as('milliseconds')).format('mm:ss')
 
-    return <CountdownTimer timeLeft={timeLeft} />
+    return (
+      <CountdownTimer {...this.props} timeLeft={timeLeft} />
+    )
   }
 }
 CountdownTimerContainer.propTypes = {

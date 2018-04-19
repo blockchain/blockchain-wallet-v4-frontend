@@ -29,7 +29,7 @@ class ListItemContainer extends React.Component {
       coin={this.props.coin}
       minConfirmations={this.props.minConfirmations}
       transaction={this.props.transaction}
-      handleClick={this.handleCoinToggle}
+      handleCoinToggle={this.handleCoinToggle}
       handleEditDescription={this.handleEditDescription}
     />
   }

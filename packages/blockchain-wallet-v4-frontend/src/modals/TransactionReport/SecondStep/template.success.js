@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { CSVLink } from 'react-csv-2'
+import { CSVLink } from 'react-csv'
 
 const DownloadContainer = styled.div`
   display: flex;
@@ -20,12 +20,12 @@ const DownloadLink = styled(CSVLink)`
 `
 
 const TransactionReport = (props) => {
-  const { position, total, close, closeAll, ...rest } = props
+  const { ...rest } = props
   const { data, filename } = rest
 
   return (
     <DownloadContainer>
-      <DownloadLink data={data} filename={filename} target='_blank'>
+      <DownloadLink data={data} filename={filename} target=''>
         <FormattedMessage id='modals.secondstep.transactionreport.download' defaultMessage='Download' />
       </DownloadLink>
     </DownloadContainer>

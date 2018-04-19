@@ -11,10 +11,11 @@
   "module": "src/index.js",
   "scripts": {
     "coverage": "./../../node_modules/.bin/jest --coverage",
-    "npm:publish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
+    "publish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
     "test": "./../../node_modules/.bin/jest",
+    "test:build": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
@@ -37,10 +38,10 @@
   },
   "dependencies": {
     "polished": "^1.9.0",
-    "ramda": "^0.25.0",
     "react-onclickoutside": "^6.7.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
-    "styled-components": "^3.2.4"
+    "styled-components": "^3.2.4",
+    "ramda": "^0.25.0"
   }
 }

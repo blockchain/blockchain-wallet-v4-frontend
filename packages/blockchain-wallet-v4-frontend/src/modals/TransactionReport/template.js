@@ -7,7 +7,7 @@ import { Modal, ModalHeader, ModalBody, Tooltip } from 'blockchain-info-componen
 const TransactionReport = props => (
   <Modal size='xlarge' position={props.position} total={props.total}>
     <ModalHeader icon='bitcoin-receipt' onClose={props.closeAll}>
-      <FormattedMessage id='modals.transactionreport.title' defaultMessage='Export history' />
+      <FormattedMessage id='modals.transactionreport.title' defaultMessage='Export History' />
       <Tooltip>
         <FormattedMessage id='modals.firststep.transactionreport.help' defaultMessage='Export the transaction history of your addresses in CSV format' />
       </Tooltip>

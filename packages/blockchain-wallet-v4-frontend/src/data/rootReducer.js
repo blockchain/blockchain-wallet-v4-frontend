@@ -1,8 +1,9 @@
 
 import { combineReducers } from 'redux'
 import { reducer as reduxUiReducer } from 'redux-ui'
-import { reducer as formReducer } from 'redux-form'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
+import componentsReducer from './components/reducers'
+import { formReducer } from './form/reducers'
 import alertsReducer from './alerts/reducers.js'
 import authReducer from './auth/reducers.js'
 import componentsReducer from './components/reducers.js'
