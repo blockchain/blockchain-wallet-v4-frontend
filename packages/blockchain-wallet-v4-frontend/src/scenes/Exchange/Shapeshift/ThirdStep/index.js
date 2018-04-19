@@ -6,7 +6,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class ThirdStep extends React.Component {
+class ThirdStep extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
 

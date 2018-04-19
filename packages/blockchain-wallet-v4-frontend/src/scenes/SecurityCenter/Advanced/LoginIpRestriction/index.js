@@ -5,7 +5,7 @@ import { actions, selectors } from 'data'
 
 import LoginIpRestriction from './template.js'
 
-class LoginIpRestrictionContainer extends React.Component {
+class LoginIpRestrictionContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

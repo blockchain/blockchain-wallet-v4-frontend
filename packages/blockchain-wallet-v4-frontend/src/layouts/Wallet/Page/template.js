@@ -12,14 +12,10 @@ const PageContainer = styled.div`
   overflow-y: auto;
 `
 
-const Page = (props) => {
-  const { handleScroll, children } = props
-
-  return (
-    <PageContainer onScroll={handleScroll}>
-      {children}
-    </PageContainer>
-  )
-}
+const Page = (props) => (
+  <PageContainer>
+    {props.children}
+  </PageContainer>
+)
 
 export default Page

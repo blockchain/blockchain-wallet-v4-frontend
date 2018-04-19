@@ -19,6 +19,7 @@ class WalletLayoutContainer extends React.PureComponent {
 
   render () {
     const { updateUI, isAuthenticated, path, component: Component } = this.props
+    console.log('render Layout')
 
     return isAuthenticated
       ? <Route path={path} render={props => (
@@ -28,15 +29,15 @@ class WalletLayoutContainer extends React.PureComponent {
           trayRightOpen={ui.trayRightOpen}
           trayRightContent={ui.trayRightContent}
           handleTrayRightToggle={(content, fromClickOutside) => {
-            if (fromClickOutside) {
-              updateUI({ trayRightOpen: false })
-            } else if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
-              updateUI({ trayRightContent: content })
-            } else if (ui.trayRightOpen && !content) {
-              updateUI({ trayRightOpen: false })
-            } else {
-              updateUI({ trayRightOpen: !ui.trayRightOpen, trayRightContent: content })
-            }
+            // if (fromClickOutside) {
+            //   updateUI({ trayRightOpen: false })
+            // } else if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
+            //   updateUI({ trayRightContent: content })
+            // } else if (ui.trayRightOpen && !content) {
+            //   updateUI({ trayRightOpen: false })
+            // } else {
+            //   updateUI({ trayRightOpen: !ui.trayRightOpen, trayRightContent: content })
+            // }
           }}
           handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
           handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>

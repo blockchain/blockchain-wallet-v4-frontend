@@ -7,7 +7,7 @@ import { actions } from 'data'
 
 import { contains } from 'ramda'
 
-class StateSelectContainer extends React.Component {
+class StateSelectContainer extends React.PureComponent {
   constructor (props) {
     super()
     this.state = {}
