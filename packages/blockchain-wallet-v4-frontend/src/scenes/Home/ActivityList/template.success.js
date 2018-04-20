@@ -12,12 +12,23 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  flex: 1;
   width: 100%;
-  height: 300px;
   padding: 15px;
   margin-top: 15px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
+  @media (max-height: 800px), (max-width: 992px) {
+    height: 300px;
+    display: block;
+    overflow: hidden;
+  }
+  @media (max-height: 800px) {
+    margin-bottom: 30px;
+  }
+  @media (max-width: 992px) {
+    margin-bottom: 0px;
+  }
 `
 const Header = styled.div`
   width: 100%;
