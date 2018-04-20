@@ -114,7 +114,7 @@ const isUsZipcode = val => {
   return val
 }
 
-const formatPhone = (val, prevVal) => val.replace(/[^\d]/g, '')
+const formatPhone = val => val.replace(/[^\d]/g, '')
 
 export {
   isNumeric,
