@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class FirstStepContainer extends React.Component {
+class FirstStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClickQRCode = this.handleClickQRCode.bind(this)

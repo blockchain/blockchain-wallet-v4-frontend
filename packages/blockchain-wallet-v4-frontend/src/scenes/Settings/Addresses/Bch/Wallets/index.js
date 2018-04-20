@@ -14,7 +14,7 @@ class BchWalletsContainer extends React.Component {
   render () {
     const { data, addressesBchActions, kvStoreBchActions, modalsActions, ...rest } = this.props
 
-    const oneditBchAccountLabel = (account) => addressesBchActions.editBchAccountLabel(account.index, account.label)
+    const onEditBchAccountLabel = (account) => addressesBchActions.editBchAccountLabel(account.index, account.label)
     const onShowXPub = (account) => modalsActions.showModal('ShowXPub', { xpub: account.xpub })
     const onMakeDefault = (account) => kvStoreBchActions.setDefaultAccountIdx(account.index)
 
@@ -22,7 +22,7 @@ class BchWalletsContainer extends React.Component {
       kvStoreBchActions.setAccountArchived(account.index, archived)
     }
 
-    const props = { oneditBchAccountLabel, onShowXPub, onMakeDefault, onSetArchived }
+    const props = { onEditBchAccountLabel, onShowXPub, onMakeDefault, onSetArchived }
 
     return (
       data.cata({

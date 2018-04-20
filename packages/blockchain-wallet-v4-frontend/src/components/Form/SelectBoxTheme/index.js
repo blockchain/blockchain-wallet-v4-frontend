@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { selectors } from 'data'
 import SelectBox from '../SelectBox'
 
-class SelectBoxTheme extends React.Component {
+class SelectBoxTheme extends React.PureComponent {
   render () {
     const { themes, ...rest } = this.props
     const elements = [{ group: '', items: themes }]

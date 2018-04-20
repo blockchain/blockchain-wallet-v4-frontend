@@ -7,7 +7,7 @@ import ui from 'redux-ui'
 import Login from './template.js'
 import { actions, selectors } from 'data'
 
-class LoginContainer extends React.Component {
+class LoginContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
@@ -22,6 +22,7 @@ class LoginContainer extends React.Component {
     this.props.updateUI({ busy: true })
     event.preventDefault()
     const { guid, password, code } = this.props
+    this.props.authActions.login(guid, password, code)
     const upperCode = code && code.toUpperCase()
     this.props.authActions.login(guid, password, upperCode)
   }
@@ -31,8 +32,11 @@ class LoginContainer extends React.Component {
   }
 
   render () {
+    const guid = JSON.parse(localStorage.getItem('ls.guid'))
+
     const { authType } = this.props
-    return <Login authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} busy={this.props.ui.busy} />
+
+    return <Login initialValues={{ guid }} authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} busy={this.props.ui.busy} />
   }
 }
 

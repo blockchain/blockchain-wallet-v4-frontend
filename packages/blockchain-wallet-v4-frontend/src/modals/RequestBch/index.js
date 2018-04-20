@@ -11,7 +11,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class RequestBchContainer extends React.Component {
+class RequestBchContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)

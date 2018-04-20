@@ -6,7 +6,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
 import { Types } from 'blockchain-wallet-v4'
 
-class SecondPasswordContainer extends React.Component {
+class SecondPasswordContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { secondPassword: '' }

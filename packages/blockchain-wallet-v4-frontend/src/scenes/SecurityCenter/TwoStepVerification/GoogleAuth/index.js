@@ -9,7 +9,7 @@ import Loading from './template.loading'
 import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
 
-class GoogleAuthContainer extends React.Component {
+class GoogleAuthContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

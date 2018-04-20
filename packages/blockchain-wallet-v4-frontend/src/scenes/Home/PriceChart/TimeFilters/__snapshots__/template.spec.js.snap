@@ -4,7 +4,7 @@ exports[`TimeFilters component renders correctly 1`] = `
 <template__Wrapper>
   <template__FilterContainer
     onClick={[Function]}
-    selected={true}
+    selected={false}
     size="14px"
     weight={300}
   >
@@ -28,7 +28,7 @@ exports[`TimeFilters component renders correctly 1`] = `
   </template__FilterContainer>
   <template__FilterContainer
     onClick={[Function]}
-    selected={false}
+    selected={true}
     size="14px"
     weight={300}
   >
