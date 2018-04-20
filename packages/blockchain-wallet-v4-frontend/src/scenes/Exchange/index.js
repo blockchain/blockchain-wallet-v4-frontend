@@ -10,7 +10,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 import StateSelect from './StateSelect'
 
-class ExchangeContainer extends React.Component {
+class ExchangeContainer extends React.PureComponent {
   constructor (props) {
     super()
     this.state = { storedState: false } // TODO for V3, this is kept in metadata, should come from shapeshift KV

@@ -8,7 +8,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Form from './Form'
 
-class SecondContainer extends React.Component {
+class SecondContainer extends React.PureComponent {
   componentWillMount () {
     // Make request to shapeShift to create order
     const { pair, sourceReceiveAddress, sourceAmount, targetReceiveAddress } = this.props

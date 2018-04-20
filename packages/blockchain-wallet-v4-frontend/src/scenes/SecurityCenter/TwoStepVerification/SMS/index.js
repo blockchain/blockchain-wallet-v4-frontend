@@ -9,7 +9,7 @@ import Loading from './template.loading'
 import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
 
-class SmsAuthContainer extends React.Component {
+class SmsAuthContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

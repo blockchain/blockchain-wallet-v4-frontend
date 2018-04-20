@@ -26,21 +26,24 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete }) => {
   return (
     <Wrapper>
       <ArchivedAddressesContainer>
-        <FormattedMessage id='scenes.settings.addresses.archived_addrs' defaultMessage='Archived Bitcoin Addresses' />
+        <FormattedMessage id='scenes.settings.addresses.archived_addrs' defaultMessage='Archived Bitcoin Addresses'/>
       </ArchivedAddressesContainer>
       <SettingDescription style={spacing('mb-10')}>
-        <FormattedMessage id='scenes.settings.addresses.archived_addrs_desc' defaultMessage='Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.' />
+        <FormattedMessage id='scenes.settings.addresses.archived_addrs_desc' defaultMessage='Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.'/>
       </SettingDescription>
-      <Table>
-        <TableHeader>
-          <TableCell width='80%'>
-            <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.settings.archived_addrs.address' defaultMessage='Address' />
-            </Text>
-          </TableCell>
-        </TableHeader>
-        {archivedAddressesTableRows}
-      </Table>
+      {
+        archivedAddressesTableRows.length > 0 &&
+        <Table>
+          <TableHeader>
+            <TableCell width='80%'>
+              <Text size='13px' weight={500} capitalize>
+                <FormattedMessage id='scenes.settings.archived_addrs.address' defaultMessage='Address'/>
+              </Text>
+            </TableCell>
+          </TableHeader>
+          {archivedAddressesTableRows}
+        </Table>
+      }
     </Wrapper>
   )
 }

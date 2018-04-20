@@ -9,7 +9,6 @@ import WalletLayout from './template'
 
 class WalletLayoutContainer extends React.PureComponent {
   componentWillMount () {
-    // this is needed because otherwise sign up calls two times component will mount (investigate why)
     this.props.kvStoreBchActions.fetchMetadataBch()
     this.props.kvStoreEthereumActions.fetchMetadataEthereum()
     this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
@@ -18,7 +17,8 @@ class WalletLayoutContainer extends React.PureComponent {
   }
 
   render () {
-    const { updateUI, isAuthenticated, path, component: Component } = this.props
+    const { ui, updateUI, isAuthenticated, path, computedMatch, component: Component } = this.props
+
     return isAuthenticated
       ? <Route path={path} render={props => (
         <WalletLayout
@@ -39,7 +39,7 @@ class WalletLayoutContainer extends React.PureComponent {
           }}
           handleToggleMenuLeft={() => updateUI({ menuLeftToggled: !ui.menuLeftToggled })}
           handleCloseMenuLeft={() => updateUI({ menuLeftToggled: false })}>
-          <Component />
+          <Component computedMatch={computedMatch} />
         </WalletLayout>
       )} />
       : <Redirect to={{ pathname: '/login', state: { from: '' } }} />
