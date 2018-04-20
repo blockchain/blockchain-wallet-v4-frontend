@@ -36,7 +36,6 @@ const configureStore = () => {
   const kvStorePath = settings.WALLET_KVSTORE_PATH
   const isAuthenticated = selectors.auth.isAuthenticated
 
-  return fetch('/Resources/wallet-options.json')
   return fetch('/Resources/wallet-options-v4.json')
     .then(res => res.json())
     .then(options => {
