@@ -19,14 +19,14 @@ const EmailCodeWrapper = styled.form`
 `
 
 const Wrapper = styled(SecuritySummary)`
-  opacity: ${props => props.verified ? 0.3 : 1};
+  opacity: ${props => props.success ? 0.3 : 1};
 `
 
 function EmailVerificationSteps (props) {
   const { failed, handleSubmitVerification, handleResend, success, emailCode } = props
 
   return (
-    <Wrapper verified={success}>
+    <Wrapper success={success}>
       <EmailCodeWrapper onSubmit={handleSubmitVerification}>
         <Field name='emailCode' validate={[validEmailCode, required]} component={TextBox} placeholder='123AB' />
         <Button nature='primary' type='submit' disabled={!emailCode}>
