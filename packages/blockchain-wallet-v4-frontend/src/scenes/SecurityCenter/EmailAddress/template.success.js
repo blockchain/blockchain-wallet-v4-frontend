@@ -15,7 +15,6 @@ const ChangeEmailText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
   margin-right: 12px;
-
   `
 const EmailSecurityComponent = styled(SecurityComponent)`
   button:first-of-type {
