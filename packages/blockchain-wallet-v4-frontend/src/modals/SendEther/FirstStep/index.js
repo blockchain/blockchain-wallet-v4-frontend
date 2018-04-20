@@ -8,7 +8,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class FirstStep extends React.Component {
+class FirstStep extends React.PureComponent {
   componentDidMount () {
     this.props.actions.sendEthFirstStepInitialized()
   }

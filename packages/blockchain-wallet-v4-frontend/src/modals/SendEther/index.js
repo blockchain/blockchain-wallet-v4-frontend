@@ -9,7 +9,7 @@ import SendBitcoin from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendEtherContainer extends React.Component {
+class SendEtherContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.sendEthInitialized()
   }

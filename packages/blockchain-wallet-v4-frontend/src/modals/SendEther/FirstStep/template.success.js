@@ -20,6 +20,7 @@ const Row = styled.div`
 `
 
 const FirstStep = props => {
+  console.log('FirstStep', props)
   const { pristine, invalid, submitting, fee, handleSubmit } = props
 
   return (
@@ -82,8 +83,9 @@ const FirstStep = props => {
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  fee: PropTypes.object.isRequired,
+  fee: PropTypes.string.isRequired,
+  effectiveBalance: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sendEther', destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: 'sendEth', destroyOnUnmount: false })(FirstStep)

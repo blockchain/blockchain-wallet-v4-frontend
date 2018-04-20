@@ -1,14 +1,16 @@
 import { call, select } from 'redux-saga/effects'
-import { merge, prop, path, map, identity } from 'ramda'
+import { isNil, merge, prop, path, identity } from 'ramda'
 import Task from 'data.task'
 import EthUtil from 'ethereumjs-util'
 
 import * as S from '../../selectors'
-// import { eth } from '../../../signer'
+import { isValidIndex } from './utils'
+import { eth } from '../../../signer'
 import { futurizeP } from 'futurize'
-import { isString, isPositiveNumber, isPositiveInteger } from '../../../utils/checks'
-import { calculateFee, calculateEffectiveBalance } from '../../../utils/ethereum'
-// const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
+import { isString, isPositiveNumber, isPositiveInteger, isPositiveBigInteger } from '../../../utils/checks'
+import { calculateFee, calculateEffectiveBalance, txHexToHashHex, isValidAddress, convertGweiToWei } from '../../../utils/ethereum'
+
+const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
   Usage:
@@ -27,7 +29,15 @@ export default ({ api }) => {
   //   api.getBitcoinUnspents(fromData.from, -1)
   //     .then(prop('unspent_outputs'))
   //     .then(map(toCoin(network, fromData)))
-  
+  const selectIndex = function * (from) {
+    const appState = yield select(identity)
+    switch (prop('type', from)) {
+      case 'ACCOUNT':
+        return S.kvStore.ethereum.getAccountIndex(appState, prop('address', from)).getOrFail('Could not find ether account index')
+      case 'LEGACY':
+        return 0
+    }
+  }
   // ///////////////////////////////////////////////////////////////////////////
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = (p) => ({
@@ -50,26 +60,23 @@ export default ({ api }) => {
         return makePayment(merge(p, { to: destination }))
       },
 
-      // * amount (amounts) {
-      //   let amount = yield call(calculateAmount, amounts)
-      //   return makePayment(merge(p, { amount }))
-      // },
+      amount (amount) {
+        return makePayment(merge(p, { amount }))
+      },
 
       * from (origin) {
-        console.log('from', origin)
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
           const accountR = (yield select(S.kvStore.ethereum.getDefaultAddress))
           account = accountR.getOrFail('missing_default_from')
         }
-        console.log('account', account)
         // TODO :: check if origin is an account in your wallet
         const data = yield call(api.getEthereumBalances, account)
         const balance = path([account, 'balance'], data)
         const nonce = path([account, 'nonce'], data)
-        console.log(balance)
-        let effectiveBalance = calculateEffectiveBalance(balance, prop('fee', p))
-        let from = {
+
+        const effectiveBalance = calculateEffectiveBalance(balance, prop('fee', p))
+        const from = {
           type: 'ACCOUNT',
           address: account,
           nonce
@@ -78,31 +85,47 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance }))
       },
 
-      // * fee (value) {
-      //   let fee = yield call(calculateFee, value, p.fees)
-      //   let effectiveBalance = yield call(calculateEffectiveBalance, {coins: p.coins, fee})
-      //   return makePayment(merge(p, { fee, effectiveBalance }))
-      // },
+      * build () {
+        const from = prop('from', p)
+        const index = yield call(selectIndex, from)
+        const to = prop('to', p)
+        const amount = prop('amount', p)
+        const gasPrice = convertGweiToWei(path(['fees', 'regular'], p))
+        const gasLimit = path(['fees', 'gasLimit'], p)
+        const nonce = prop('nonce', from)
+        if (isNil(from)) throw new Error('missing_from')
+        if (!isValidIndex(index)) throw new Error('invalid_index')
+        if (isNil(to)) throw new Error('missing_to')
+        if (!isValidAddress(to)) throw new Error('invalid_to')
+        if (isNil(amount)) throw new Error('missing_amount')
+        if (isNil(gasPrice)) throw new Error('missing_gasprice')
+        // if (!isPositiveInteger(gasPrice)) throw new Error('invalid_gasprice')
+        if (isNil(gasLimit)) throw new Error('missing_gaslimit')
+        // if (!isPositiveInteger(gasLimit)) throw new Error('invalid_gaslimit')
+        if (isNil(nonce)) throw new Error('missing_nonce')
+        if (!isPositiveInteger(nonce)) throw new Error('invalid_nonce')
+        const raw = { index, to, amount, gasPrice, gasLimit, nonce }
+        return makePayment(merge(p, { raw }))
+      },
 
-      // * build () {
-      //   let selection = yield call(calculateSelection, p)
-      //   return makePayment(merge(p, { selection }))
-      // },
+      * sign (password) {
+        const appState = yield select(identity)
+        const eitherMnemonic = S.wallet.getMnemonic(appState, password)
+        if (eitherMnemonic.isLeft) throw new Error('missing_mnemonic')
+        const mnemonic = eitherMnemonic.value
+        const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
+        const signed = yield call(sign, p.raw)
 
-      // * buildSweep () {
-      //   let selection = yield call(calculateSweepSelection, p)
-      //   return makePayment(merge(p, { selection }))
-      // },
+        return makePayment(merge(p, { signed }))
+      },
 
-      // * sign (password) {
-      //   let signed = yield call(calculateSignature, network, password, p.fromType, p.selection)
-      //   return makePayment(merge(p, { ...signed }))
-      // },
-
-      // * publish () {
-      //   let result = yield call(calculatePublish, p.txHex)
-      //   return makePayment(merge(p, { result }))
-      // },
+      * publish () {
+        const signed = prop('signed', p)
+        if (isNil(signed)) throw new Error('missing_signed_tx')
+        const publish = txHex => api.pushEthereumTx(signed).then(() => txHexToHashHex(txHex))
+        const hash = yield call(publish)
+        return makePayment(merge(p, { hash }))
+      },
 
       description (message) {
         return isString(message)
@@ -118,13 +141,11 @@ export default ({ api }) => {
         const makeChain = (gen) => ({
           init: () => chain(gen, payment => payment.init()),
           to: (address) => chain(gen, payment => payment.to(address)),
-          // amount: (amounts) => chain(gen, payment => payment.amount(amounts)),
-          from: (origins) => chain(gen, payment => payment.from(origins)),
-          // fee: (value) => chain(gen, payment => payment.fee(value)),
-          // build: () => chain(gen, payment => payment.build()),
-          // buildSweep: () => chain(gen, payment => payment.buildSweep()),
-          // sign: (password) => chain(gen, payment => payment.sign(password)),
-          // publish: () => chain(gen, payment => payment.publish()),
+          amount: (amount) => chain(gen, payment => payment.amount(amount)),
+          from: (origin) => chain(gen, payment => payment.from(origin)),
+          build: () => chain(gen, payment => payment.build()),
+          sign: (password) => chain(gen, payment => payment.sign(password)),
+          publish: () => chain(gen, payment => payment.publish()),
           description: (message) => chain(gen, payment => payment.description(message)),
           * done () {
             return yield gen()

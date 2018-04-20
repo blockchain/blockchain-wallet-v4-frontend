@@ -9,13 +9,14 @@ import SendBitcoin from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendBitcoinContainer extends React.Component {
+class SendBitcoinContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.sendBtcInitialized()
   }
 
   render () {
     const { step, position, total, closeAll } = this.props
+    console.log('render SendBitcoin')
     return (
       <SendBitcoin position={position} total={total} closeAll={closeAll}>
         {step === 1 && <FirstStep />}

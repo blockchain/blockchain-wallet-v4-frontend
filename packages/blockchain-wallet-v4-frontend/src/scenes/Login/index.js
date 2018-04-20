@@ -26,10 +26,15 @@ class LoginContainer extends React.PureComponent {
   }
 
   render () {
-    const guid = JSON.parse(localStorage.getItem('ls.guid'))
+    // const guid = localStorage.getItem('ls.guid') ? JSON.parse(localStorage.getItem('ls.guid')) : ''
 
     const { authType } = this.props
-    return <Login initialValues={{ guid }} authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} />
+    return <Login
+      // initialValues={{ guid }}
+      authType={authType}
+      onSubmit={this.onSubmit}
+      handleMobile={this.handleMobile}
+    />
   }
 }
 
