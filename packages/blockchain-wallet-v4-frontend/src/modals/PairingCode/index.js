@@ -22,7 +22,7 @@ const QRCodeContainer = styled.div`
   padding: 30px 0;
 `
 
-class PairingCodeContainer extends React.Component {
+class PairingCodeContainer extends React.PureComponent {
   componentWillMount () {
     this.props.actions.encodePairingCode()
   }

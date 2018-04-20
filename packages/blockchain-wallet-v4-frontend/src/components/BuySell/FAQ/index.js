@@ -21,7 +21,7 @@ const Answer = styled.div`
   padding: 0px 10px;
 `
 
-export default class Helper extends React.Component {
+export default class Helper extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {open: false}

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { selectors } from 'data'
 import SecondPassword from './template.js'
 
-class PasswordHintContainer extends React.Component {
+class PasswordHintContainer extends React.PureComponent {
   render () {
     return <SecondPassword {...this.props} />
   }

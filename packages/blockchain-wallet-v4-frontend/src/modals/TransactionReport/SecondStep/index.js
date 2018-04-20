@@ -15,7 +15,7 @@ import Error from './template.error'
 
 const dateFormatUS = 'YYYY-MM-DD'
 
-class SecondStepContainer extends React.Component {
+class SecondStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { filename: '' }

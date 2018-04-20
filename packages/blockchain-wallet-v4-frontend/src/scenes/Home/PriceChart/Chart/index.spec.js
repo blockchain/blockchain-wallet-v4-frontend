@@ -10,6 +10,14 @@ jest.mock('./template.error', () => 'template.error')
 jest.mock('./template.loading', () => 'template.loading')
 jest.mock('data', () => ({}))
 
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  clear: jest.fn()
+}
+
+global.localStorage = localStorageMock
+
 describe('Chart container', () => {
   const props = { data: Remote.Success(''), actions: { initialized: jest.fn() } }
 

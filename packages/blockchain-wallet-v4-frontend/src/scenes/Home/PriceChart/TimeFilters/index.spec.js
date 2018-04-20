@@ -9,7 +9,7 @@ jest.mock('data', () => ({ }))
 
 describe('TimeFilters container', () => {
   it('renders correctly', () => {
-    const baseProps = { time: 'all' }
+    const baseProps = { time: '1month' }
     const component = shallow(<TimeFiltersContainer {...baseProps} />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
@@ -17,7 +17,7 @@ describe('TimeFilters container', () => {
 
   it('should accept a mandatory string for prop time', () => {
     const testValues = [
-      ['all', 'day', 'week', 'month', 'year'],
+      ['all', '1day', '1week', '1month', '1year'],
       [0, undefined, null, {}]
     ]
     testPropTypes(TimeFiltersContainer, 'time', testValues)
