@@ -9,7 +9,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-class ActivityListContainer extends React.Component {
+class ActivityListContainer extends React.PureComponent {
   componentWillMount () {
     this.props.miscActions.fetchLogs()
     this.props.btcActions.fetchTransactions('', true)

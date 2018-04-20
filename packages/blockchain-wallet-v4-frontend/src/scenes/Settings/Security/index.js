@@ -3,7 +3,7 @@ import ui from 'redux-ui'
 
 import SecuritySettings from './template.js'
 
-class SecurityContainer extends React.Component {
+class SecurityContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleToggle = this.handleToggle.bind(this)

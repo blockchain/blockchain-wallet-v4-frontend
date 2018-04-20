@@ -4,7 +4,7 @@ import wizardProvider from 'providers/WizardProvider'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class ReminderContainer extends React.Component {
+class ReminderContainer extends React.PureComponent {
   componentWillMount () {
     this.props.resetStep()
   }

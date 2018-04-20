@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   @media(min-width: 768px) { width: 550px; }
 `
 
-class AuthorizeLogin extends React.Component {
+class AuthorizeLogin extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onAccept = this.onAccept.bind(this)

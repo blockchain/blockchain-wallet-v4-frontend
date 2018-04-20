@@ -6,8 +6,8 @@ import { concat, identity } from 'ramda'
 import { getData } from './selectors'
 import SelectBox from '../SelectBox'
 
-class SelectBoxBitcoinAddresses extends React.Component {
-  getElements(coin, includeAll) {
+class SelectBoxBitcoinAddresses extends React.PureComponent {
+  getElements (coin, includeAll) {
     return includeAll
       ? concat([{ group: '', items: [{ value: 'all', text: `My Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets` }] }])
       : identity

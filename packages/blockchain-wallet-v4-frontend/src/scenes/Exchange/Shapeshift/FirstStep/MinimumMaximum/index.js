@@ -6,7 +6,7 @@ import { actions } from 'data'
 import { calculateMinimum, calculateMaximum, isBalanceBelowMin } from './services'
 import MinimumMaximum from './template'
 
-class MinimumMaximumContainer extends React.Component {
+class MinimumMaximumContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClickMinimum = this.handleClickMinimum.bind(this)
