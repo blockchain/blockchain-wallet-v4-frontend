@@ -4,9 +4,9 @@ export const sendEthInitialized = () => ({ type: AT.SEND_ETH_INITIALIZED })
 
 export const sendEthDestroyed = () => ({ type: AT.SEND_ETH_DESTROYED })
 
-export const sendEthFirstStepInitialized = () => ({ type: AT.SEND_ETH_FIRST_STEP_INITIALIZED })
+export const sendEthPaymentUpdated = payment => ({ type: AT.SEND_ETH_PAYMENT_UPDATED, payload: payment })
 
-export const sendEthFirstStepPaymentUpdated = (payment) => ({ type: AT.SEND_ETH_FIRST_STEP_PAYMENT_UPDATED, payload: payment })
+export const sendEthFirstStepInitialized = () => ({ type: AT.SEND_ETH_FIRST_STEP_INITIALIZED })
 
 export const sendEthFirstStepSubmitClicked = () => ({ type: AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED })
 

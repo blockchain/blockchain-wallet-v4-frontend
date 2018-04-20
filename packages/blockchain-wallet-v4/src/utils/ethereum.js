@@ -7,8 +7,6 @@ import EthTx from 'ethereumjs-tx'
 import EthUtil from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
 
-const convertFromGweiToWei = value => Exchange.convertEtherToEther({ value, fromUnit: 'GWEI', toUnit: 'WEI' }).value
-
 /**
  * @param {string} address - The ethereum address
  */
@@ -26,8 +24,9 @@ export const getPrivateKey = (mnemonic, index) => {
   return EthHd.fromExtendedKey(account)
 }
 
+// TODO :: implement same logic: https://github.com/blockchain/My-Wallet-V3/blob/master/src/eth/eth-wallet.js#L322
 export const getLegacyPrivateKey = mnemonic => {
-  // find the legacy private
+  throw new Error('Not implemented getLegacyPrivateKey()')
 }
 
 export const privateKeyToAddress = pk =>
@@ -37,19 +36,26 @@ export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())
 
 export const calculateFee = (gasPrice, gasLimit) => {
-  const feeGWei = new BigNumber(gasPrice).mul(new BigNumber(gasLimit)).toString() 
+  const feeGWei = new BigNumber(gasPrice).mul(new BigNumber(gasLimit)).toString()
   return Exchange.convertEtherToEther({ value: feeGWei, fromUnit: 'GWEI', toUnit: 'WEI' }).value
 }
 
 export const calculateEffectiveBalance = (balance, fee) => {
-  console.log(balance, fee)
   return new BigNumber(balance).sub(new BigNumber(fee)).toString()
 }
 
-//TODO :: to remove...
+export const calculateTransactionAmount = (amount, fee) => {
+  return new BigNumber(amount).add(new BigNumber(fee)).toString()
+}
+
+export const convertGweiToWei = (amount) => {
+  return new BigNumber(amount).mul('1000000000').toString()
+}
+
+// TODO :: to remove...
 export const calculateFeeWei = (gasPrice, gasLimit) => gasPrice * gasLimit
 
-//TODO :: to remove...
+// TODO :: to remove...
 export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   const transactionFee = calculateFeeWei(gasPrice, gasLimit)
   return {
@@ -59,18 +65,18 @@ export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   }
 }
 
-//TODO :: to remove...
+// TODO :: to remove...
 export const convertFeeToWei = fees => ({
   gasLimit: prop('gasLimit', fees),
-  priority: convertFromGweiToWei(prop('priority', fees)),
-  regular: convertFromGweiToWei(prop('regular', fees)),
+  priority: convertGweiToWei(prop('priority', fees)),
+  regular: convertGweiToWei(prop('regular', fees)),
   limits: {
-    min: convertFromGweiToWei(path(['limits', 'min'], fees)),
-    max: convertFromGweiToWei(path(['limits', 'max'], fees))
+    min: convertGweiToWei(path(['limits', 'min'], fees)),
+    max: convertGweiToWei(path(['limits', 'max'], fees))
   }
 })
 
-//TODO :: to remove...
+// TODO :: to remove...
 export const calculateBalanceEther = (gasPrice, gasLimit, balanceWei) => {
   const data = calculateBalanceWei(gasPrice, gasLimit, balanceWei)
   return {

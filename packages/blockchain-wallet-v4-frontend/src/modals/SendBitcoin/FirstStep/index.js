@@ -15,6 +15,7 @@ class FirstStep extends React.Component {
 
   render () {
     const { data, actions } = this.props
+    console.log('render', this.props.data)
 
     return data.cata({
       Success: value => <Success

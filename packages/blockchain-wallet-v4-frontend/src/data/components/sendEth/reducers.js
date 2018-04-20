@@ -14,7 +14,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SEND_ETH_INITIALIZED: {
       return INITIAL_STATE
     }
-    case AT.SEND_ETH_FIRST_STEP_PAYMENT_UPDATED: {
+    case AT.SEND_ETH_PAYMENT_UPDATED: {
       return assoc('payment', payload, state)
     }
     case AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED: {
