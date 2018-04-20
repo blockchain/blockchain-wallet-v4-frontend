@@ -79,7 +79,7 @@ const selectColors = displayed => displayed
   ? { foreColor: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
   : { foreColor: 'gray-5', backgroundColor: 'white', borderColor: 'gray-2' }
 
-class Tooltip extends React.Component {
+class Tooltip extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { displayed: false }

@@ -14,9 +14,10 @@ const EmailExplanation = styled.div`
 const ChangeEmailText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
-`
+  margin-right: 12px;
+
+  `
 const EmailSecurityComponent = styled(SecurityComponent)`
-  align-items: center;
   button:first-of-type {
     margin-bottom: 5px;
   }
@@ -40,11 +41,11 @@ const EmailAddress = (props) => {
 
   const securityHeaderHelper = () => {
     if ((!ui.verifyToggled && !ui.changeEmailToggled) && !props.alone) {
-      if (isVerified) return <FormattedMessage id='scenes.security.email.verifiedtitle' defaultMessage='Email address' />
-      return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Verify email address' />
+      if (isVerified) return <FormattedMessage id='scenes.security.email.verifiedtitle' defaultMessage='Email Address' />
+      return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Verify Email Address' />
     }
     if (ui.changeEmailToggled) return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Change Email Address' />
-    return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Verify email address' />
+    return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Verify Email Address' />
   }
 
   const securityDescriptionHelper = () => {

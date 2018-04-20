@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 import TradeItem from './TradeItem'
 
 const Wrapper = styled.div`
@@ -15,13 +16,13 @@ const Wrapper = styled.div`
   padding: 30px;
   box-sizing: border-box;
 
-  & > :first-child { margin-bottom: 10px; }
+  & > :first-child { margin-bottom: 20px; }
 `
 
 const List = props => (
   <Wrapper>
     <Table>
-      <TableHeader>
+      <TableHeader >
         <TableCell width='15%'>
           <Text size='13px' weight={500} capitalize>
             <FormattedMessage id='scenes.exchangehistory.list.status' defaultMessage='Status' />
@@ -46,8 +47,8 @@ const List = props => (
       </TableHeader>
       {props.trades.incomplete.map((trade, index) => <TradeItem key={index} trade={trade} />)}
     </Table>
-    <Text size='16px' weight={500} capitalize>
-      <FormattedMessage id='scenes.exchangehistory.list.exchanges' defaultMessage='Completed exchanges' />
+    <Text style={spacing('mb-15')} size='16px' weight={500} capitalize>
+      <FormattedMessage padding-bottom='10px' id='scenes.exchangehistory.list.exchanges' defaultMessage='Completed Exchanges' />
     </Text>
     <Table>
       <TableHeader>

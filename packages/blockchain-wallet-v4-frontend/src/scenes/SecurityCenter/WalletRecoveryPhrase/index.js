@@ -7,7 +7,7 @@ import Success from './template.success'
 
 import { actions } from 'data'
 
-class WalletRecoveryPhraseContainer extends React.Component {
+class WalletRecoveryPhraseContainer extends React.PureComponent {
   constructor (props) {
     super(props)
 

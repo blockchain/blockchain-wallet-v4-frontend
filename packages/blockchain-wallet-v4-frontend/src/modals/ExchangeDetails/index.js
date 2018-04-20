@@ -5,7 +5,7 @@ import { formatTrade } from 'services/ShapeshiftService'
 import modalEnhancer from 'providers/ModalEnhancer'
 import ExchangeDetails from './template'
 
-class ExchangeDetailsContainer extends React.Component {
+class ExchangeDetailsContainer extends React.PureComponent {
   render () {
     const { trade, ...rest } = this.props
     return <ExchangeDetails trade={formatTrade(this.props.trade)} {...rest} />

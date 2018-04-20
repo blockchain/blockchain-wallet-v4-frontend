@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import ComboDisplay from './template.js'
 
-class ComboDisplayContainer extends React.Component {
+class ComboDisplayContainer extends React.PureComponent {
   render () {
     return <ComboDisplay {...this.props} />
   }

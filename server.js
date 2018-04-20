@@ -18,7 +18,7 @@ let walletHelperDomain
 if (process.env.LOCAL_PROD) {
   // local production config
   const prodConfig = require('./config/env/production.js')
-  localWalletOptions = require('./config/wallet-options.json')
+  localWalletOptions = require('./config/wallet-options-v4.json')
   isLocal = true
   environment = 'local prod'
   rootURL = prodConfig.ROOT_URL
@@ -101,14 +101,12 @@ app.use(function (req, res, next) {
   next()
 })
 
-// wallet options call
-app.get('/Resources/wallet-options.json', function (req, res) {
-  if (isLocal) {
+// wallet options call for local servers only
+if (isLocal) {
+  app.get('/Resources/wallet-options-v4.json', function (req, res) {
     res.json(localWalletOptions)
-  } else {
-    res.redirect(rootURL + req.url)
-  }
-})
+  })
+}
 
 // healthcheck
 app.get('/healthz', function (req, res) {

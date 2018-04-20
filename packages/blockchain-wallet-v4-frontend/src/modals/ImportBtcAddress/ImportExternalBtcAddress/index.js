@@ -13,7 +13,7 @@ const Label = styled.label`
   margin-bottom: 5px;
 `
 
-class ImportExternalBitcoinAddress extends React.Component {
+class ImportExternalBitcoinAddress extends React.PureComponent {
   render () {
     return (
       <div style={spacing('mt-15')}>

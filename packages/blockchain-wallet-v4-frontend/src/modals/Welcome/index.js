@@ -6,7 +6,7 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import Welcome from './template.js'
 
-class WelcomeContainer extends React.Component {
+class WelcomeContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleContinue = this.handleContinue.bind(this)
