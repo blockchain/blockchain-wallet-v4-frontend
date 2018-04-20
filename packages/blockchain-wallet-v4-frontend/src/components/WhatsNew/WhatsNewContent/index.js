@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 
 
-
 const Announcements = [
   {
     title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title12' defaultMessage={'Import Funds from MyEtherWallet'} />,
