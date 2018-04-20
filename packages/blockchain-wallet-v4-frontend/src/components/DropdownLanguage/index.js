@@ -7,7 +7,7 @@ import * as languageService from 'services/LanguageService'
 import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 import { actions, selectors } from 'data'
 
-class DropdownLanguageContainer extends React.Component {
+class DropdownLanguageContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

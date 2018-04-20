@@ -11,7 +11,7 @@ const Info = styled.div`
   font-size: 12px;
 `
 
-class ImportInternalBitcoinAddress extends React.Component {
+class ImportInternalBitcoinAddress extends React.PureComponent {
   render () {
     return (
       <Wrapper>

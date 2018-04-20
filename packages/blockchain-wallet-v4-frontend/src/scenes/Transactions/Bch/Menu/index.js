@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import Menu from './template.js'
 
-class MenuContainer extends React.Component {
+class MenuContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClickReporting = this.handleClickReporting.bind(this)

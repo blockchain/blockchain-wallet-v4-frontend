@@ -11,7 +11,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class FirstStep extends React.Component {
+class FirstStep extends React.PureComponent {
   constructor (props) {
     super(props)
     this.seed = generateSeed()

@@ -7,7 +7,7 @@ import TransactionReport from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class TransactionReportContainer extends React.Component {
+class TransactionReportContainer extends React.PureComponent {
   componentWillMount () {
     this.props.resetStep()
   }

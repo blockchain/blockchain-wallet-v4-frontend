@@ -66,7 +66,7 @@ const Amount = styled.span`
 const belowMaxAmount = (value, allValues, props) => value > props.limits.max ? 'max' : undefined
 const aboveMinAmount = (value, allValues, props) => value < props.limits.min ? 'min' : undefined
 
-class ExchangeCheckout extends React.Component {
+class ExchangeCheckout extends React.PureComponent {
   constructor () {
     super()
     this.state = {}

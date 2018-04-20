@@ -6,7 +6,7 @@ import { formValueSelector } from 'redux-form'
 import Register from './template.js'
 import { actions } from 'data'
 
-class RegisterContainer extends React.Component {
+class RegisterContainer extends React.PureComponent {
   constructor () {
     super()
     this.onSubmit = this.onSubmit.bind(this)

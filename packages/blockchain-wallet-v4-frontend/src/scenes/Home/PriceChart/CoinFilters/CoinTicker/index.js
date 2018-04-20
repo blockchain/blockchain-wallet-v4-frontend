@@ -8,7 +8,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-export class CoinTickerContainer extends React.Component {
+export class CoinTickerContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.initialized(this.props.coin)
   }
