@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import Success from './template.success'
 
-class TotalBalance extends React.Component {
+class TotalBalance extends React.PureComponent {
   render () {
     const { data, large } = this.props
     return (

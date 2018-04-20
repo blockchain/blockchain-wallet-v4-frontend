@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { selectors } from 'data'
 import SelectBox from '../SelectBox'
 
-class SelectBoxCurrency extends React.Component {
+class SelectBoxCurrency extends React.PureComponent {
   render () {
     const { currencies, ...rest } = this.props
     const elements = [{ group: '', items: currencies }]

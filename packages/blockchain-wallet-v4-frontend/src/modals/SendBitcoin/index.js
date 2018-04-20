@@ -10,7 +10,7 @@ import SendBitcoin from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendBitcoinContainer extends React.Component {
+class SendBitcoinContainer extends React.PureComponent {
   componentWillMount () {
     this.props.resetStep()
   }

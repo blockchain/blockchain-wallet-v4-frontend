@@ -9,7 +9,7 @@ import Content from './template'
 
 const threshold = 250
 
-class ContentContainer extends React.Component {
+class ContentContainer extends React.PureComponent {
   componentWillMount () {
     this.props.dataBitcoinActions.fetchTransactions('', true)
   }

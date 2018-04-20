@@ -35,30 +35,30 @@ export const calculateStart = (coin, time) => {
   const yearStart = now.subtract(1, 'year').format('X')
 
   switch (time) {
-    case 'year': return yearStart > coinStart ? yearStart : coinStart
-    case 'month': return monthStart > coinStart ? monthStart : coinStart
-    case 'week': return weekStart > coinStart ? weekStart : coinStart
-    case 'day': return dayStart > coinStart ? dayStart : coinStart
+    case '1year': return yearStart > coinStart ? yearStart : coinStart
+    case '1month': return monthStart > coinStart ? monthStart : coinStart
+    case '1week': return weekStart > coinStart ? weekStart : coinStart
+    case '1day': return dayStart > coinStart ? dayStart : coinStart
     default: return coinStart
   }
 }
 
 export const calculateScale = (coin, time) => {
   switch (time) {
-    case 'year': return SCALES.DAY
-    case 'month': return SCALES.TWOHOUR
-    case 'week': return SCALES.HOUR
-    case 'day': return SCALES.FIFTEENMIN
+    case '1year': return SCALES.DAY
+    case '1month': return SCALES.TWOHOUR
+    case '1week': return SCALES.HOUR
+    case '1day': return SCALES.FIFTEENMIN
     default: return SCALES.FIVEDAY
   }
 }
 
 export const calculateInterval = (coin, time) => {
   switch (time) {
-    case 'year': return INTERVALS.DAY
-    case 'month': return INTERVALS.DAY
-    case 'week': return INTERVALS.HOUR
-    case 'day': return INTERVALS.HOUR
+    case '1year': return INTERVALS.DAY
+    case '1month': return INTERVALS.DAY
+    case '1week': return INTERVALS.HOUR
+    case '1day': return INTERVALS.HOUR
     default: return INTERVALS.DAY
   }
 }

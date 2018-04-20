@@ -5,7 +5,7 @@ import { actions, selectors } from 'data'
 import Success from './template.success'
 import { Types } from 'blockchain-wallet-v4/src'
 
-class ArchivedAddressesContainer extends React.Component {
+class ArchivedAddressesContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleToggleArchived = this.handleToggleArchived.bind(this)

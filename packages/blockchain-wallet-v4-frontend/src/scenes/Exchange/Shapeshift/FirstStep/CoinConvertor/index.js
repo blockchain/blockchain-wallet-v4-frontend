@@ -12,7 +12,7 @@ import { getPairFromCoin } from 'services/ShapeshiftService'
 import { isBalanceBelowMin } from '../MinimumMaximum/services'
 import Success from './template.success'
 
-class CoinConvertorContainer extends React.Component {
+class CoinConvertorContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.timeout = undefined

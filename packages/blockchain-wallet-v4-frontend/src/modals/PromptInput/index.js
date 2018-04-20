@@ -6,7 +6,7 @@ import { formValueSelector } from 'redux-form'
 import modalEnhancer from 'providers/ModalEnhancer'
 import PromptTemplate from './template.js'
 
-class PromptContainer extends React.Component {
+class PromptContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
