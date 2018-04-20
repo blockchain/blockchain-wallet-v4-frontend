@@ -8,7 +8,7 @@ jest.mock('blockchain-info-components', () => ({ Text: 'text' }))
 
 describe('TimeFilters component', () => {
   it('renders correctly', () => {
-    const baseProps = { time: 'all', handleClick: jest.fn() }
+    const baseProps = { time: '1month', handleClick: jest.fn() }
     const component = shallow(<TimeFilters {...baseProps} />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
@@ -16,7 +16,7 @@ describe('TimeFilters component', () => {
 
   it('should accept a mandatory string for prop time', () => {
     const testValues = [
-      ['all', 'day', 'week', 'month', 'year'],
+      ['all', '1day', '1week', '1month', '1year'],
       [0, '', undefined, null, {}]
     ]
     testPropTypes(TimeFilters, 'time', testValues, { handleClick: jest.fn() })
@@ -27,13 +27,13 @@ describe('TimeFilters component', () => {
       [jest.fn()],
       [0, '', undefined, null, {}]
     ]
-    testPropTypes(TimeFilters, 'handleClick', testValues, { time: 'all' })
+    testPropTypes(TimeFilters, 'handleClick', testValues, { time: '1month' })
   })
 
   it('executes handleClick props on click with correct time value', () => {
-    const baseProps = { time: 'all', handleClick: jest.fn() }
+    const baseProps = { time: '1month', handleClick: jest.fn() }
     const component = shallow(<TimeFilters {...baseProps} />)
-    const element = component.childAt(0)
+    const element = component.childAt(2)
     element.simulate('click')
     expect(baseProps.handleClick).toHaveBeenCalledTimes(1)
     expect(baseProps.handleClick).toHaveBeenCalledWith(baseProps.time)

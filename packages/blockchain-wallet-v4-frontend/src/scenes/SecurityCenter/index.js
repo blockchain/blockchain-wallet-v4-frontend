@@ -4,7 +4,7 @@ import { selectors } from 'data'
 
 import SecurityCenter from './template.js'
 
-class SecurityCenterContainer extends React.Component {
+class SecurityCenterContainer extends React.PureComponent {
   constructor (props) {
     super(props)
 

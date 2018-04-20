@@ -73,10 +73,8 @@ class AcceptTerms extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.signupError) {
-      this.setState({ busy: false })
-      this.props.updateUI({ uniqueEmail: false })
-    }
+    nextProps.signupError && this.setState({ busy: false })
+    nextProps.signupError === 'user is already registered' && this.props.updateUI({ uniqueEmail: false })
   }
 
   handleSignup (e) {
@@ -162,7 +160,7 @@ class AcceptTerms extends Component {
             </ButtonWrapper>
             <ErrorWrapper>
               {
-                signupError && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
+                signupError === 'user is already registered' && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
                   <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
                 </Text>
               }

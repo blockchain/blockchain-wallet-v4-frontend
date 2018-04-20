@@ -6,7 +6,7 @@ import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import TwoStepSetup from './template.js'
 
-class TwoStepSetupContainer extends React.Component {
+class TwoStepSetupContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleGoogleAuthenticator = this.handleGoogleAuthenticator.bind(this)

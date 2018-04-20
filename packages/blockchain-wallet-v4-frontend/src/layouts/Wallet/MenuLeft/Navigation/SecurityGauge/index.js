@@ -7,7 +7,7 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import { SecurityGauge } from 'blockchain-info-components'
 
-class SecurityGaugeContainer extends React.Component {
+class SecurityGaugeContainer extends React.PureComponent {
   render () {
     const { data } = this.props
 

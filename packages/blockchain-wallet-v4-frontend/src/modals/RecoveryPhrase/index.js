@@ -7,7 +7,7 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
 
-class RecoveryPhraseContainer extends React.Component {
+class RecoveryPhraseContainer extends React.PureComponent {
   componentWillMount () {
     this.props.resetStep()
   }

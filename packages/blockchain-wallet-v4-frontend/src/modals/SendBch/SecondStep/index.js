@@ -6,7 +6,7 @@ import { getData } from './selectors'
 import { actions } from 'data'
 import SecondStep from './template.js'
 
-class SecondStepContainer extends React.Component {
+class SecondStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)

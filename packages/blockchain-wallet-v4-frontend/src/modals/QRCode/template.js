@@ -17,8 +17,13 @@ const QRCodeContainer = styled.div`
 
 const QRCode = (props) => {
   const { position, total, close, closeAll, ...rest } = props
-  const { address } = rest
-  const bitcoinAddress = `bitcoin:${address}`
+  const { receiveAddress, amount, message } = rest.value
+  let bitcoinAddress = `bitcoin:${receiveAddress}`
+  let amt = amount > 0 ? amount : null
+  if (amt || message) bitcoinAddress += '?'
+  if (amt && !message) bitcoinAddress += `amount=${amt}`
+  if (!amt && message) bitcoinAddress += `message=${message}`
+  if (amt && message) bitcoinAddress += `amount=${amt}&message=${message}`
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -47,7 +52,7 @@ const QRCode = (props) => {
 }
 
 QRCode.propTypes = {
-  address: PropTypes.string.isRequired
+  value: PropTypes.object.isRequired
 }
 
 export default QRCode
