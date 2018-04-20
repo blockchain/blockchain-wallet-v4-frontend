@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { formValueSelector } from 'redux-form'
 
 class BitcoinWalletsContainer extends React.Component {
   shouldComponentUpdate (nextProps) {
@@ -12,12 +13,13 @@ class BitcoinWalletsContainer extends React.Component {
   }
 
   render () {
-    const { data, ...rest } = this.props
+    const { data, search, ...rest } = this.props
     return (
       data.cata({
         Success: (value) => (
           <Success
             wallets={value}
+            search={search && search.toLowerCase()}
             onUnarchive={(i) => this.props.coreActions.setAccountArchived(i, false)}
             handleClick={() => this.props.actions.showModal('AddBitcoinWallet', { wallets: value })}
             {...rest}
@@ -37,7 +39,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BitcoinWalletsContainer)

@@ -6,6 +6,7 @@ import { Icon, IconButton, Table, TableHeader, TableCell, Text } from 'blockchai
 import { spacing } from 'services/StyleService'
 import OptionItem from '../OptionItem'
 import AddressRow from '../AddressRow'
+import { filter } from 'ramda'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -23,8 +24,9 @@ const WarningWrapper = styled.div`
   }
 `
 
-const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv }) => {
-  const importedAddressesTableRows = importedAddresses.map((address) => (
+const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv, search }) => {
+  const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
+  const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address) => (
     <AddressRow key={address.addr} address={address} renderOptions={() => [
       <OptionItem id='scens.settings.addresses.archive' defaultMessage='Archive' onClick={() => onToggleArchived(address)} />
     ].concat(
