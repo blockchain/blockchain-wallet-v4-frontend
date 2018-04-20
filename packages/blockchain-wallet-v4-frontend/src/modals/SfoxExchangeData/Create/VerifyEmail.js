@@ -90,7 +90,7 @@ class VerifyEmail extends Component {
                   <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
                     <FormattedHTMLMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='We emailed a verification code to {email}' values={{email: emailAddress}} />
                   </Text>
-                  <Field name='emailCode' onChange={() => this.props.updateUI({ uniqueEmail: true })} component={TextBox} validate={[required]} />
+                  <Field name='emailCode' onChange={() => this.props.updateUI({ uniqueEmail: true })} component={TextBox} errorBottom validate={[required]} />
                   <EmailHelper error={emailVerifiedError}>
                     { emailHelper() }
                   </EmailHelper>
