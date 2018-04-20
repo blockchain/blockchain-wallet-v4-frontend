@@ -75,7 +75,7 @@ const SecuritySteps = (props) => {
           {twoFactorSuccess && <Icon name='checkmark' color='success' size='30px' />}
         </Circle>
         <StepText success={twoFactorSuccess} size='12px' weight={300}>
-          <FormattedMessage id='scenes.securitycenter.step2' defaultMessage='2FA' />
+          <FormattedMessage id='scenes.securitycenter.step2' defaultMessage='Two-factor Authentication' />
         </StepText>
       </TwoStepSection>
       <BackupSection success={isMnemonicVerified} radius={isMnemonicVerified && twoFactorSuccess}>
