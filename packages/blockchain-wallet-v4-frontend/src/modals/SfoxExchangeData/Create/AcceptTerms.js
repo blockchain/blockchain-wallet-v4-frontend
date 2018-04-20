@@ -85,7 +85,7 @@ class AcceptTerms extends Component {
 
   render () {
     const { busy } = this.state
-    const { invalid, email, smsNumber, signupError, editEmail, editMobile } = this.props
+    const { invalid, email, smsNumber, signupError, editEmail, editMobile, emailVerified, smsVerified } = this.props
 
     const faqHelper = () => helpers.map(el => <Helper question={el.question} answer={el.answer} />)
 
@@ -105,7 +105,11 @@ class AcceptTerms extends Component {
             <FieldsContainer>
               <FieldContainer>
                 <Text size='14px' style={spacing('mb-10')}>
-                  <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
+                  {
+                    emailVerified
+                      ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
+                      : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.needsverifiedemail' defaultMessage='Email Address Needs Verification' />
+                  }
                 </Text>
                 <VerifiedContainer>
                   <FieldBox>
@@ -113,17 +117,25 @@ class AcceptTerms extends Component {
                       { email }
                     </Text>
                     <Link onClick={editEmail} size='14px' weight={300}>
-                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                      {
+                        emailVerified
+                          ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                          : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verify' defaultMessage='verify' />
+                      }
                     </Link>
                   </FieldBox>
                   <IconContainer>
-                    { email && <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> }
+                    { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
               <FieldContainer>
                 <Text size='14px' style={spacing('mb-10')}>
-                  <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedmobile' defaultMessage='Verified Phone Number' />
+                  {
+                    smsVerified
+                      ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedmobile' defaultMessage='Verified Phone Number' />
+                      : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.needsverifiedmobile' defaultMessage='Phone Number Needs Verification' />
+                  }
                 </Text>
                 <VerifiedContainer>
                   <FieldBox>
@@ -131,11 +143,15 @@ class AcceptTerms extends Component {
                       { smsNumber }
                     </Text>
                     <Link onClick={editMobile} size='14px' weight={300}>
-                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                      {
+                        smsVerified
+                          ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                          : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verify' defaultMessage='verify' />
+                      }
                     </Link>
                   </FieldBox>
                   <IconContainer>
-                    { smsNumber && <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> }
+                    { smsVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
