@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class BitcoinBalance extends React.Component {
+class BitcoinBalance extends React.PureComponent {
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       this.props.actions.fetchData(this.props.context)

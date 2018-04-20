@@ -9,22 +9,30 @@ import Loading from './template.loading'
 import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
 
-class SmsAuthContainer extends React.Component {
+class SmsAuthContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.handleGetCode = this.handleGetCode.bind(this)
-    this.showChangeMobileNumber = this.showChangeMobileNumber.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    const next = nextProps.data.data
-    const prev = this.props.data.data
+  componentDidMount () {
+    const { smsVerified, smsNumber } = this.props.data.data
+    if ((smsNumber && smsNumber.length) && !smsVerified) {
+      this.props.securityCenterActions.sendMobileVerificationCode(smsNumber)
+      this.props.updateUI({ changeNumberToggled: false })
+    }
+  }
+
+  componentDidUpdate (prevProps) {
+    const next = this.props.data.data
+    const prev = prevProps.data.data
     if (next.authType !== prev.authType) {
-      setTimeout(function () {
-        nextProps.goBack()
-      }, 2000)
+      this.props.updateUI({ successToggled: true })
+      setTimeout(() => {
+        this.props.handleGoBack()
+        this.props.goBackOnSuccess()
+      }, 1500)
     }
   }
 
@@ -34,16 +42,12 @@ class SmsAuthContainer extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.securityCenterActions.verifyMobileCode(this.props.verificationCode)
-  }
-
-  handleGetCode () {
-    this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
-    this.props.updateUI({ changeNumberToggled: false })
-  }
-
-  showChangeMobileNumber () {
-    this.props.updateUI({ changeNumberToggled: !this.props.changeNumberToggled })
+    if (this.props.ui.changeNumberToggled || (!this.props.data.data.smsNumber && !this.props.data.data.smsVerified)) {
+      this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
+      this.props.updateUI({ changeNumberToggled: false })
+    } else {
+      this.props.securityCenterActions.verifyMobile(this.props.verificationCode)
+    }
   }
 
   render () {
@@ -55,8 +59,7 @@ class SmsAuthContainer extends React.Component {
         handleClick={this.handleClick}
         onSubmit={this.onSubmit}
         goBack={goBack}
-        handleGetCode={this.handleGetCode}
-        changeMobileNumber={this.showChangeMobileNumber}
+        changeMobileNumber={() => this.props.updateUI({ changeNumberToggled: !this.props.changeNumberToggled })}
         ui={ui}
         code={verificationCode}
       />,
@@ -82,7 +85,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoFactor', state: { changeNumberToggled: false, verifyMobileNumberStep: false } })
+  ui({ key: 'Security_TwoFactor', state: { changeNumberToggled: false, verifyMobileNumberStep: false, successToggled: false } })
 )
 
 export default enhance(SmsAuthContainer)

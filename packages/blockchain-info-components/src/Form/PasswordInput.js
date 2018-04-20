@@ -12,12 +12,12 @@ const BasePasswordInput = styled.input.attrs({
   box-sizing: border-box;
   font-size: 14px;
   font-weight: 300;
-  line-height: 1.42;
   color: ${props => props.theme['gray-5']};
   background-color:  ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
   user-select: text;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   border: 1px solid ${props => props.theme[props.borderColor]};
 
   &::-webkit-input-placeholder {

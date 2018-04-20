@@ -20,9 +20,6 @@ const Settings = (props) => {
       </Button>
       {updateToggled &&
         <SettingForm>
-          <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.label' defaultMessage='Password Stretching (PBKDF2)' />
-          </Text>
           <Field name='passwordStretching' component={NumberBox} validate={validPasswordStretchingNumber} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>

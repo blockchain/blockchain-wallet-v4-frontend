@@ -2,7 +2,7 @@ import React from 'react'
 
 import SecurityTabs from './template.js'
 
-class SecurityTabsContainer extends React.Component {
+class SecurityTabsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
 

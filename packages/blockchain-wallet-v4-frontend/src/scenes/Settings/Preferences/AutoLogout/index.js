@@ -9,7 +9,7 @@ const AutoLogout = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.preferences.autologout.title' defaultMessage='Auto logout' />
+          <FormattedMessage id='scenes.preferences.autologout.title' defaultMessage='Auto Logout' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage id='scenes.preferences.autologout.description' defaultMessage='After a certain period of inactivity, you will be automatically logged out of your wallet.' />

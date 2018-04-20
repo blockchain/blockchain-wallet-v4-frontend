@@ -7,7 +7,7 @@ import settings from 'config'
 import { getData } from './selectors'
 import SendConfirm from 'components/SendConfirm'
 
-class SecondStepContainer extends React.Component {
+class SecondStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)

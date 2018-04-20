@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 8px 30px;
+  padding: 5px 30px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
@@ -19,6 +19,7 @@ const Wrapper = styled.div`
 const Shapeshift = styled(TextGroup)`
   display: flex;
   flex-direction: row;
+  padding-top: 11px;
   align-self: flex-end;
   align-items: center;
   width: 170px;

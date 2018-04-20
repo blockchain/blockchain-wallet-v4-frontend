@@ -6,7 +6,7 @@ import { formValueSelector } from 'redux-form'
 import modalEnhancer from 'providers/ModalEnhancer'
 import AddBitcoinWallet from './template.js'
 
-class AddBitcoinWalletContainer extends React.Component {
+class AddBitcoinWalletContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

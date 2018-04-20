@@ -7,7 +7,7 @@ import settings from 'config'
 import Recover from './template.js'
 import { actions } from 'data'
 
-class RecoverContainer extends React.Component {
+class RecoverContainer extends React.PureComponent {
   constructor () {
     super()
     this.onSubmit = this.onSubmit.bind(this)
@@ -21,8 +21,10 @@ class RecoverContainer extends React.Component {
   }
 
   render () {
+    const { previousStep } = this.props
+
     return (
-      <Recover onSubmit={this.onSubmit} />
+      <Recover previousStep={previousStep} onSubmit={this.onSubmit} />
     )
   }
 }

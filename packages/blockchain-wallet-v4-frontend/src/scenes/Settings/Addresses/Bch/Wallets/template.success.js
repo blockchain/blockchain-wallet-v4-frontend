@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { take } from 'ramda'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { ComponentDropdown, Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
@@ -20,6 +21,7 @@ const ClickableText = styled(Text)`
 
 const InfoLabel = styled(Text)`
   display: block;
+  margin-left: 10px;
   padding: 1px 5px;
   box-sizing: border-box;
   border-radius: 3px;
@@ -43,9 +45,9 @@ const OptionItem = ({ id, text, onClick }) => (
 
 const Success = (props) => {
   const { bchAccounts, wallets, defaultId } = props.data
-  const { oneditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub } = props
+  const { onEditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub } = props
 
-  const walletTableRows = wallets.map((wallet, i) => {
+  const walletTableRows = take(bchAccounts.length, wallets).map((wallet, i) => {
     const isDefault = i === defaultId
     const isArchived = bchAccounts[i].archived
 
@@ -57,7 +59,7 @@ const Success = (props) => {
           {isArchived && <InfoLabel bgcolor='gray-3'>Archived</InfoLabel>}
         </TableCell>
         <TableCell width='30%'>
-          <Text size='13px'><SwitchableDisplay coin='BCH'>{wallet.value.balance}</SwitchableDisplay></Text>
+          <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>
         </TableCell>
         <TableCell width='20%'>
           <ComponentDropdown
@@ -66,7 +68,7 @@ const Success = (props) => {
             color={'gray-5'}
             selectedComponent={<Manage />}
             components={[
-              <OptionItem id='scenes.settings.addresses.bch.edit_name' text='Edit Wallet Name' onClick={() => oneditBchAccountLabel(wallet.value)} />,
+              <OptionItem id='scenes.settings.addresses.bch.edit_name' text='Edit Wallet Name' onClick={() => onEditBchAccountLabel(wallet.value)} />,
               (!isDefault && !isArchived && <OptionItem id='scenes.settings.addresses.bch.make_default' text='Make Default' onClick={() => onMakeDefault(wallet.value)} />),
               (!isDefault &&
                 (isArchived

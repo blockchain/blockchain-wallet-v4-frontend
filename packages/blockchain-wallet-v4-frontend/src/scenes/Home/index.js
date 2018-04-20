@@ -2,8 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
-import PriceIndexSeries from './PriceIndexSeries'
+import PriceChart from './PriceChart'
 import BalancesChartContainer from './BalancesChart'
+import ReactHighcharts from 'react-highcharts'
+
+ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
 const Wrapper = styled.section`
   display: flex;
@@ -30,19 +33,17 @@ const ColumnRight = styled(Column)`
   @media(min-width: 992px) { padding: 30px 30px 30px 15px; }
 `
 
-const Home = (props) => {
-  return (
-    <Wrapper>
-      <ColumnLeft>
-        <BalancesChartContainer />
-        <ActivityList />
-      </ColumnLeft>
-      <ColumnRight>
-        <PriceIndexSeries />
-        <DidYouKnow />
-      </ColumnRight>
-    </Wrapper>
-  )
-}
+const Home = () => (
+  <Wrapper>
+    <ColumnLeft>
+      <BalancesChartContainer />
+      <ActivityList />
+    </ColumnLeft>
+    <ColumnRight>
+      <PriceChart />
+      <DidYouKnow />
+    </ColumnRight>
+  </Wrapper>
+)
 
 export default Home

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { Button, ButtonGroup, Text } from 'blockchain-info-components'
+import { Button, ButtonGroup } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import Hint from './Hint'
@@ -18,9 +18,6 @@ const Settings = (props) => {
       </Button>
       { updateToggled &&
         <SettingForm>
-          <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.label' defaultMessage='Password Hint' />
-          </Text>
           <Field name='passwordHint' component={TextBox} />
           <ButtonGroup>
             <Button nature='empty' capitalize onClick={handleToggle}>

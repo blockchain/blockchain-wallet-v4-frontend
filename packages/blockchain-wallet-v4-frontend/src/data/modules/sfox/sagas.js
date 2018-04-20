@@ -26,7 +26,9 @@ export default ({ coreSagas }) => {
         yield put(A.nextStep('verify'))
         yield put(actions.alerts.displaySuccess('Account successfully created!'))
       } else {
-        yield put(A.signupFailure(profile.error))
+        const error = JSON.parse(profile.error).error
+        yield put(A.signupFailure(error))
+        if (error === 'user_data is not verified') { yield put(actions.alerts.displayError('Something went wrong. Please contact our support team (or your local developer).')) }
       }
     } catch (e) {
       yield put(actions.alerts.displayError('Error creating account'))
@@ -85,6 +87,18 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const submitQuote = function * (action) {
+    try {
+      console.log('submitting quote:', action.payload)
+      yield call(coreSagas.data.sfox.handleTrade, action.payload)
+      let state = yield select()
+      console.log('state', state)
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+    } catch (e) {
+      console.warn('FE submitQuote failed', e)
+    }
+  }
+
   return function * () {
     yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
     yield takeLatest(AT.SET_BANK, setBank)
@@ -92,5 +106,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.SET_PROFILE, setProfile)
     yield takeLatest(AT.UPLOAD, upload)
     yield takeLatest(AT.SUBMIT_MICRO_DEPOSITS, submitMicroDeposits)
+    yield takeLatest(AT.SUBMIT_QUOTE, submitQuote)
   }
 }

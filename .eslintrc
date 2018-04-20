@@ -1,7 +1,8 @@
 {
   "extends": ["standard"],
+  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 8,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -9,15 +10,13 @@
   },
   "plugins": ["babel", "react"],
   "env": {
-    "es6": true,
-    "jest": true
+    "browser": true,
+    "jest": true,
+    "node": true
   },
   "globals": {
-    "fetch": true,
-    "Headers": true
+    "APP_VERSION": true
   },
-  // 0 = off, 1 = warn, 2 = error
-  // these rules get extended in each packages own .eslintrc
   "rules": {
     "camelcase": 0,
     "no-case-declarations": 0,
@@ -26,7 +25,7 @@
     "no-alert": 2,
     "require-yield": 2,
     "react/display-name": 0,
-    "react/forbid-prop-types": [1, { "forbid": ["any"] }],
+    "react/forbid-prop-types": 0,
     "react/jsx-boolean-value": 1,
     "react/jsx-closing-bracket-location": 0,
     "react/jsx-curly-spacing": 1,
@@ -53,6 +52,7 @@
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 1,
     "react/self-closing-comp": 1,
-    "react/sort-comp": 1
+    "react/sort-comp": 1,
+    "strict": 0
   }
 }

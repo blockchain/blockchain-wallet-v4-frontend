@@ -6,7 +6,7 @@ import { Types } from 'blockchain-wallet-v4'
 import settings from 'config'
 import ManageAddressesTemplate from './template'
 
-class ManageAddressesContainer extends React.Component {
+class ManageAddressesContainer extends React.PureComponent {
   render () {
     const { account, labels, receiveIndex, isDefault, coreActions, walletActions, modalsActions, routerActions } = this.props
 

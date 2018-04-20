@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 20px;
   padding: 5px 0;
   box-sizing: border-box;
 `

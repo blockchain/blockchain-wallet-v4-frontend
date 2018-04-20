@@ -7,7 +7,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 import { getData } from './selectors'
 
-class HintContainer extends React.Component {
+class HintContainer extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
 

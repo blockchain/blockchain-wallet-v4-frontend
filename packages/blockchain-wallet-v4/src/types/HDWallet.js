@@ -66,7 +66,7 @@ export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
 
 export const generateAccount = curry((index, label, seedHex) => {
   let node = deriveAccountNodeAtIndex(seedHex, index, Bitcoin.networks.bitcoin)
-  return HDAccount.fromJS(HDAccount.js(`${label} ${index + 1}`, node))
+  return HDAccount.fromJS(HDAccount.js(label, node))
 })
 
 // encryptSync :: Number -> String -> String -> HDWallet -> Either Error HDWallet

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { required, validEmail } from 'services/FormHelper'
+import { validStrongPassword, required, validEmail } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { CheckBox, Form, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
@@ -25,6 +25,10 @@ const Header = styled.div`
 const RegisterForm = styled(Form)`
   margin: 20px 0;
 `
+
+const validatePasswordsMatch = values => {
+  return values.password === values.confirmationPassword ? {} : { confirmationPassword: 'Passwords must match' }
+}
 
 const Register = (props) => {
   const { onSubmit, submitting, invalid } = props
@@ -47,7 +51,7 @@ const Register = (props) => {
           </LinkContainer>
         </TextGroup>
       </Header>
-      <Text size='16px' weight={300} altFont>
+      <Text size='14px' weight={300} altFont>
         <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
       </Text>
       <Separator />
@@ -65,7 +69,7 @@ const Register = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.register.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} score />
+            <Field name='password' validate={[required, validStrongPassword]} component={PasswordBox} score />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -93,4 +97,4 @@ const Register = (props) => {
   )
 }
 
-export default reduxForm({ form: 'register' })(Register)
+export default reduxForm({form: 'register', validate: validatePasswordsMatch})(Register)

@@ -17,14 +17,12 @@ import RadioButton from './RadioButton'
 import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBox from './SelectBox'
 import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
-import SelectBoxBitcoinUnit from './SelectBoxBitcoinUnit'
 import SelectBoxCoin from './SelectBoxCoin'
 import SelectBoxCountry from './SelectBoxCountry'
 import SelectBoxCurrency from './SelectBoxCurrency'
 import SelectBoxLanguages from './SelectBoxLanguages'
 import SelectBoxTheme from './SelectBoxTheme'
 import SelectBoxUSState from './SelectBoxUSState'
-import TabMenuAddressesStatus from './TabMenuAddressesStatus'
 import TabMenuBuySellStatus from './TabMenuBuySellStatus'
 import TabMenuTransactionStatus from './TabMenuTransactionStatus'
 import TextArea from './TextArea'
@@ -49,14 +47,12 @@ export {
   SelectBoxBankAccountType,
   SelectBox,
   SelectBoxBitcoinAddresses,
-  SelectBoxBitcoinUnit,
   SelectBoxCoin,
   SelectBoxCountry,
   SelectBoxCurrency,
   SelectBoxLanguages,
   SelectBoxTheme,
   SelectBoxUSState,
-  TabMenuAddressesStatus,
   TabMenuBuySellStatus,
   TabMenuTransactionStatus,
   TextArea,

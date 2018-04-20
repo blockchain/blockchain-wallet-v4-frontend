@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class EmailAddressContainer extends React.Component {
+class EmailAddressContainer extends React.PureComponent {
   constructor (props) {
     super(props)
 
@@ -22,12 +22,12 @@ class EmailAddressContainer extends React.Component {
     this.handleEmailChangeSubmit = this.handleEmailChangeSubmit.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.data.data.verified && !this.props.data.data.verified) {
+  componentDidUpdate (prevProps) {
+    if (this.props.data.data.verified && !prevProps.data.data.verified) {
       this.props.updateUI({ successToggled: true })
       setTimeout(function () {
-        nextProps.updateUI({ successToggled: false })
-        nextProps.goBackOnSuccess ? nextProps.goBackOnSuccess() : nextProps.updateUI({ verifyToggled: false })
+        prevProps.updateUI({ successToggled: false, verifyToggled: false })
+        prevProps.goBackOnSuccess()
       }, 1500)
     }
   }

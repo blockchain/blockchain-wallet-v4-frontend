@@ -40,7 +40,7 @@ const Content = styled.div`
   height: ${props => props.height};
 `
 
-class Layout extends React.Component {
+class Layout extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { theme: 'defaut' }

@@ -5,7 +5,12 @@ import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getTrades } from './selectors'
 import Success from './template.success'
 
-class Checkout extends React.Component {
+class Checkout extends React.PureComponent {
+  /* eslint-disable */
+  state = {
+    busy: false
+  }
+  /* eslint-enable */
   componentWillMount () {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
@@ -14,8 +19,8 @@ class Checkout extends React.Component {
   }
 
   render () {
-    const { data, modalActions, sfoxDataActions } = this.props
-    const { handleTrade, fetchQuote } = sfoxDataActions
+    const { data, modalActions, sfoxActions, sfoxDataActions } = this.props
+    const { handleTrade, fetchQuote, refreshQuote } = sfoxDataActions
     const { showModal } = modalActions
 
     return data.cata({
@@ -24,6 +29,9 @@ class Checkout extends React.Component {
         handleTrade={handleTrade}
         showModal={showModal}
         fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
+        refreshQuote={() => refreshQuote()}
+        submitQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
+        busy={this.state.busy}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <div>Loading...</div>,
@@ -35,13 +43,14 @@ class Checkout extends React.Component {
 const mapStateToProps = state => ({
   base: getBase(state),
   data: getData(state),
-  quote: getQuote(state),
+  quoteR: getQuote(state),
   trades: getTrades(state),
   errors: getErrors(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
+  sfoxActions: bindActionCreators(actions.modules.sfox, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 

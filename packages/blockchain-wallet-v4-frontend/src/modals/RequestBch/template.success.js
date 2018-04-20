@@ -56,11 +56,9 @@ const RequestBch = props => {
           <FormGroup>
             <FormItem>
               <FormLabel>
-                <FormattedMessage id='modals.requestbch.share' defaultMessage='Copy & share address:&nbsp;' />
+                <FormattedMessage id='modals.requestbch.share' defaultMessage='Copy & Share Address:&nbsp;' />
                 <Tooltip>
-                  <FormattedMessage id='modals.requestbch.share_tooltip1' defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet.' />
-                  <FormattedMessage id='modals.requestbch.share_tooltip2' defaultMessage='Your address changes with every payment.' />
-                  <FormattedMessage id='modals.requestbch.share_tooltip3' defaultMessage='You can also create a request by attaching an amount below.' />
+                  <FormattedMessage id='modals.requestbch.share_tooltip' defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.' />
                 </Tooltip>
               </FormLabel>
               <AddressContainer>

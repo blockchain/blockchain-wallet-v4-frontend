@@ -6,16 +6,18 @@ const BaseSelectInput = styled.select`
   height: 30px;
   width: 160px;
   font-size: 13px;
+  font-weight: 300;
   padding: 2px 6px;
   outline: none;
   appearance: none;
   border-radius: 3px;
-  background: ${props => props.theme['white']};
   background-image: url(${selectArrow});
   background-size: 12px;
   background-repeat: no-repeat;
   background-position: center right 10px;
   color: ${props => props.theme['gray-5']};
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
   margin-left: ${props => props.inline ? '5px' : '0px'};
   &:active,
