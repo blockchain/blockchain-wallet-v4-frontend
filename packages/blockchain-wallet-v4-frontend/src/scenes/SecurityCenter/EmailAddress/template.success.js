@@ -39,6 +39,8 @@ const EmailAddress = (props) => {
   const { email, verified, failed } = data
   const isVerified = verified === 1
 
+  const uiHelper = () => !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
+
   const securityHeaderHelper = () => {
     if ((!ui.verifyToggled && !ui.changeEmailToggled) && !props.alone) {
       if (isVerified) return <FormattedMessage id='scenes.security.email.verifiedtitle' defaultMessage='Email Address' />
@@ -110,17 +112,22 @@ const EmailAddress = (props) => {
       </IconAndHeaderContainer>
       <EmailSecurityComponent>
         {
-          !verified && !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
-            ? <Button nature='primary' onClick={props.handleVerifyClick}>
-              <FormattedMessage id='scenes.security.email.settings.updateform.change' defaultMessage='Enter Code' />
-            </Button>
+          uiHelper() && !verified
+            ? <React.Fragment>
+              <Button nature='primary' onClick={props.handleVerifyClick}>
+                <FormattedMessage id='scenes.security.email.settings.updateform.change' defaultMessage='Enter Code' />
+              </Button>
+              <ChangeEmailText color='brand-secondary' size='12px' weight={300} onClick={props.handleChangeEmailView}>
+                <FormattedMessage id='scenes.security.email.upateform.changetext' defaultMessage='Change Your Email' />
+              </ChangeEmailText>
+            </React.Fragment>
             : null
         }
         {
-          !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
-            ? <ChangeEmailText color='brand-secondary' size='12px' weight={300} onClick={props.handleChangeEmailView}>
-              <FormattedMessage id='scenes.security.email.upateform.changetext' defaultMessage='Change Your Email' />
-            </ChangeEmailText>
+          uiHelper() && verified
+            ? <Button nature='primary' onClick={props.handleChangeEmailView}>
+              <FormattedMessage id='scenes.security.email.settings.updateform.change' defaultMessage='Change Email' />
+            </Button>
             : null
         }
       </EmailSecurityComponent>
