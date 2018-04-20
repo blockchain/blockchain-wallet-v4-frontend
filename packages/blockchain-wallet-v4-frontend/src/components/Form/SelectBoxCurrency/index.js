@@ -32,7 +32,7 @@ const mapStateToProps = (state, ownProps) => ({
     { text: 'South Korean Won', value: 'KRW' },
     { text: 'Singapore Dollar', value: 'SGD' },
     { text: 'Japanese Yen', value: 'JPY' },
-    { text: 'Polish Zloty', value: 'PNL' },
+    { text: 'Polish Zloty', value: 'PLN' },
     { text: 'Great British Pound', value: 'GBP' },
     { text: 'Swedish Krona', value: 'SEK' },
     { text: 'New Zealand Dollar', value: 'NZD' },
