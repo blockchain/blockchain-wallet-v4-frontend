@@ -20,7 +20,7 @@ let mockWalletOptions
 
 // load, parse and log application configuration if not a CI build
 if (!isCiBuild) {
-  mockWalletOptions = require('./../../config/wallet-options.json')
+  mockWalletOptions = require('./../../config/wallet-options-v4.json')
   try {
     envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
   } catch (e) {
@@ -167,7 +167,7 @@ module.exports = {
     hot: !isCiBuild,
     historyApiFallback: true,
     before (app) {
-      app.get('/Resources/wallet-options.json', function (req, res) {
+      app.get('/Resources/wallet-options-v4.json', function (req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
           'root': envConfig.ROOT_URL,
