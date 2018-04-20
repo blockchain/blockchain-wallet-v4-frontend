@@ -35,7 +35,7 @@ const FieldsContainer = styled.div`
 `
 
 const EmailAddress = (props) => {
-  const { data, ui, handleSubmitVerification, handleResend, invalid } = props
+  const { data, ui, handleSubmitVerification, handleResend, invalid, code } = props
   const { email, verified, failed } = data
   const isVerified = verified === 1
 
@@ -84,7 +84,7 @@ const EmailAddress = (props) => {
   const renderFields = () => {
     if ((!ui.verifyToggled && !ui.changeEmailToggled) && !props.alone) return null
     else if (ui.changeEmailToggled) return <ChangeEmailSteps handleEmailChangeCancel={props.handleEmailChangeCancel} handleEmailChangeSubmit={props.handleEmailChangeSubmit} invalid={invalid} />
-    else return <EmailVerificationSteps failed={failed} handleSubmitVerification={handleSubmitVerification} handleResend={handleResend} success={ui.successToggled} />
+    else return <EmailVerificationSteps failed={failed} handleSubmitVerification={handleSubmitVerification} handleResend={handleResend} success={ui.successToggled} emailCode={code} />
   }
 
   return (
