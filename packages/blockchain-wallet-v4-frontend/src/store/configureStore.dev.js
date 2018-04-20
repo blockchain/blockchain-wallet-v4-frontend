@@ -37,6 +37,7 @@ const configureStore = () => {
   const isAuthenticated = selectors.auth.isAuthenticated
 
   return fetch('/Resources/wallet-options.json')
+  return fetch('/Resources/wallet-options-v4.json')
     .then(res => res.json())
     .then(options => {
       const apiCode = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
