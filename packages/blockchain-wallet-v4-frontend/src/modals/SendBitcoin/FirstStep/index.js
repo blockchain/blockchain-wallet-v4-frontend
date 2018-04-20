@@ -15,13 +15,11 @@ class FirstStep extends React.Component {
 
   render () {
     const { data, actions } = this.props
-    console.log('render', this.props.data)
 
     return data.cata({
       Success: value => <Success
         toToggled={value.toToggled}
         feePerByteToggled={value.feePerByteToggled}
-        captureToggled={value.captureToggled}
         feePerByteElements={value.feePerByteElements}
         effectiveBalance={value.effectiveBalance}
         handleSubmit={() => actions.sendBtcFirstStepSubmitClicked()}

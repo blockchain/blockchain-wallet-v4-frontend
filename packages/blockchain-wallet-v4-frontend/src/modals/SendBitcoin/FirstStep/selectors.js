@@ -4,7 +4,6 @@ import { selectors } from 'data'
 export const getData = state => {
   const toToggled = selectors.components.sendBtc.getToToggled(state)
   const feePerByteToggled = selectors.components.sendBtc.getFeePerByteToggled(state)
-  const captureToggled = selectors.components.sendBtc.getCaptureToggled(state)
   const paymentR = selectors.components.sendBtc.getPayment(state)
 
   const transform = payment => {
@@ -18,7 +17,6 @@ export const getData = state => {
     return {
       toToggled,
       feePerByteToggled,
-      captureToggled,
       feePerByteElements,
       effectiveBalance,
       minFeePerByte,

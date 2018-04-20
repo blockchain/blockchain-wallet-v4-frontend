@@ -4,7 +4,6 @@ import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
-import * as selectors from '../../selectors'
 import settings from 'config'
 
 import { actionTypes, initialize } from 'redux-form'
@@ -49,6 +48,13 @@ export default ({ coreSagas }) => {
       let payment = coreSagas.payment.eth.create({ payment: p.getOrElse({}), network: settings.NETWORK_ETHEREUM })
 
       switch (field) {
+        case 'coin':
+          yield put(actions.modals.closeAllModals())
+          switch (payload) {
+            case 'BTC': yield put(actions.modals.showModal('SendBitcoin')); break
+            case 'BCH': yield put(actions.modals.showModal('SendBch')); break
+          }
+          break
         case 'to':
           payment = yield payment.to(payload)
           break

@@ -61,19 +61,14 @@ const FeeFormLabel = styled(FormLabel)`
   }
 `
 
-// const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
-//   if (initialRender) { return true }
-//   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
-// }
-
 const FirstStep = props => {
   const { invalid, submitting, ...rest } = props
   const { toToggled, feePerByteToggled, feePerByteElements, handleFeePerByteToggle, handleToToggle, handleSubmit } = rest
 
   // const renderFeeConfirmationTime = () => {
   //   if (parseInt(fee) === parseInt(regular)) {
-  //     return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
-  //   } else return (<FormattedMessage id='modals.sendbitcoin.firststep.estimated2' defaultMessage='Estimated confirmation time 0-60 minutes' />)
+  //     return (<FormattedMessage id='modals.sendBtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
+  //   } else return (<FormattedMessage id='modals.sendBtc.firststep.estimated2' defaultMessage='Estimated confirmation time 0-60 minutes' />)
   // }
 
   return (
@@ -81,13 +76,13 @@ const FirstStep = props => {
       <FormGroup inline margin={'15px'}>
         <FormItem width={'40%'}>
           <FormLabel for='coin'>
-            <FormattedMessage id='modals.sendbitcoin.firststep.coin' defaultMessage='Currency:' />
+            <FormattedMessage id='modals.sendBtc.firststep.coin' defaultMessage='Currency:' />
           </FormLabel>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
         <FormItem width={'60%'}>
           <FormLabel for='from'>
-            <FormattedMessage id='modals.sendbitcoin.firststep.from' defaultMessage='From:' />
+            <FormattedMessage id='modals.sendBtc.firststep.from' defaultMessage='From:' />
           </FormLabel>
           <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
         </FormItem>
@@ -95,7 +90,7 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
-            <FormattedMessage id='modals.sendbitcoin.firststep.to' defaultMessage='To:' />
+            <FormattedMessage id='modals.sendBtc.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
             {toToggled
@@ -121,9 +116,9 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:&nbsp;' />
+            <FormattedMessage id='modals.sendBtc.firststep.description' defaultMessage='Description:&nbsp;' />
             <Tooltip>
-              <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
+              <FormattedMessage id='modals.sendBtc.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
           <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
@@ -133,7 +128,7 @@ const FirstStep = props => {
         <ColLeft>
           <FeeFormContainer>
             <FeeFormLabel flexEnd={feePerByteToggled}>
-              <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
+              <FormattedMessage id='modals.sendBtc.firststep.fee' defaultMessage='Transaction fee:' />
               { feePerByteToggled
                 ? <Field name='feePerByte' component={NumberBox} validate={[required]} />
                 : <Field name='feePerByte' component={SelectBox} elements={feePerByteElements} />
@@ -144,15 +139,15 @@ const FirstStep = props => {
         <ColRight>
           <CustomizeFeeLink onClick={handleFeePerByteToggle} size='13px' weight={300} uppercase>
             {feePerByteToggled
-              ? <FormattedMessage id='modals.sendbitcoin.firststep.cancel' defaultMessage='Cancel' />
-              : <FormattedMessage id='modals.sendbitcoin.firststep.edit' defaultMessage='Customize fee' />
+              ? <FormattedMessage id='modals.sendBtc.firststep.cancel' defaultMessage='Cancel' />
+              : <FormattedMessage id='modals.sendBtc.firststep.edit' defaultMessage='Customize fee' />
             }
           </CustomizeFeeLink>
         </ColRight>
       </FormGroup>
       <FormGroup>
         <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='modals.sendbitcoin.firststep.continue' defaultMessage='Continue' />
+          <FormattedMessage id='modals.sendBtc.firststep.continue' defaultMessage='Continue' />
         </Button>
       </FormGroup>
     </Form>
