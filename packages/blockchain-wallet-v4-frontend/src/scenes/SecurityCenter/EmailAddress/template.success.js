@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Button, Text, Icon } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 
 import { reduxForm } from 'redux-form'
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SuccessOverlay, IconContainer } from 'components/Security'
@@ -24,6 +25,7 @@ const EmailSecurityComponent = styled(SecurityComponent)`
 const IconAndHeaderContainer = styled.div`
   display: grid;
   grid-template-columns: 15% 85%;
+  opacity: ${props => props.success ? 0.3 : 1};
 `
 const GridContainer = styled(SecurityContainer)`
   grid-template-columns: 85% 15%;
@@ -90,13 +92,13 @@ const EmailAddress = (props) => {
 
   return (
     <GridContainer>
-      <IconAndHeaderContainer>
-        <SuccessOverlay success={ui.successToggled}>
-          <Icon name='checkmark-in-circle' size='150px' color='success' />
-          <Text size='14px' weight={300} color='success'>
-            <FormattedMessage id='scenes.security.email.success' defaultMessage="Congrats! You've successfully verified your email!" />
-          </Text>
-        </SuccessOverlay>
+      <SuccessOverlay success={ui.successToggled} style={spacing('pt-30')}>
+        <Icon name='checkmark-in-circle' size='150px' color='success' />
+        <Text size='14px' weight={300} color='success'>
+          <FormattedMessage id='scenes.security.email.success' defaultMessage="Congrats! You've successfully verified your email!" />
+        </Text>
+      </SuccessOverlay>
+      <IconAndHeaderContainer success={ui.successToggled}>
         <IconContainer>
           <SecurityIcon name='email' enabled={isVerified} />
         </IconContainer>

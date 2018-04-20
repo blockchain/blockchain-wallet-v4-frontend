@@ -26,6 +26,7 @@ const SecurityTwoStepContainer = SecurityContainer.extend`
 const IconAndHeaderContainer = styled.div`
   display: grid;
   grid-template-columns: 15% 85%;
+  opacity: ${props => props.success ? 0.3 : 1};
 `
 const DisableContainer = styled.div`
   width: 100%;
@@ -57,7 +58,7 @@ const DisableLinkText = styled(Text)`
     cursor: pointer;
     padding-left: 3px;
   }
-  animation: 0.5s ${props => props.pulse ? `${pulseAnimation}` : null};
+  animation: 0.5s ${props => props.pulse ? pulseAnimation : null};
 `
 const Header = SecurityHeader.extend`
   justify-content: flex-start;
@@ -88,7 +89,7 @@ const TipText = styled(Text)`
 `
 
 const TwoStepVerification = (props) => {
-  const { ui, twoStepChoice, data, editing, ...rest } = props
+  const { ui, twoStepChoice, data, editing, success, ...rest } = props
   const { smsVerified, authType, smsNumber } = data
   const twoFAEnabled = authType > 0
 
@@ -198,7 +199,7 @@ const TwoStepVerification = (props) => {
   return (
     <Fragment>
       <SecurityTwoStepContainer>
-        <IconAndHeaderContainer>
+        <IconAndHeaderContainer success={ui.success}>
           <IconContainer>
             <SecurityIcon name='lock' enabled={twoFAEnabled} />
           </IconContainer>
@@ -236,7 +237,7 @@ const TwoStepVerification = (props) => {
               <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />
             </Text>
             <TipText weight={200} size='12px'>
-              <FormattedMessage id='scenes.securitycenter.2fa.tip' defaultMessage="You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for {iosLink} and {androidLink})" values={{ iosLink: <a href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8' _target='blank' rel='noopener noreferrer'>iOS</a>, androidLink: <a href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en' _target='blank' rel='noopener noreferrer'>Android</a> }}/>
+              <FormattedMessage id='scenes.securitycenter.2fa.tip' defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for {iosLink} and {androidLink})' values={{ iosLink: <a href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8' _target='blank' rel='noopener noreferrer'>iOS</a>, androidLink: <a href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en' _target='blank' rel='noopener noreferrer'>Android</a> }} />
             </TipText>
           </SecurityTip>
           : null
