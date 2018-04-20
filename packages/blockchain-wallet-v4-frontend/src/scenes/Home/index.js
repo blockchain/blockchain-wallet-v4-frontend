@@ -37,7 +37,7 @@ const Home = () => (
   <Wrapper>
     <ColumnLeft>
       <BalancesChartContainer />
-      <ActivityList />
+      {/* <ActivityList /> */}
     </ColumnLeft>
     <ColumnRight>
       <PriceChart />

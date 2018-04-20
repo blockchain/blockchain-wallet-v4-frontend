@@ -12,25 +12,23 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
-  const sendBtcInitialized = function * (action, password) {
+  const sendBchInitialized = function * (action, password) {
     try {
-      yield put(A.sendBtcPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
+      yield put(A.sendBchPaymentUpdated(Remote.Loading))
+      let payment = coreSagas.payment.bch.create(({ network: settings.NETWORK_BCH }))
       payment = yield payment.init()
-      const accountsR = yield select(selectors.core.common.bitcoin.getAccountsBalances)
+      const accountsR = yield select(selectors.core.common.bch.getAccountsBalances)
       const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
-      const defaultFeePerByte = path(['fees', 'regular'], payment.value())
       payment = yield payment.from(defaultIndex)
-      payment = yield payment.fee(defaultFeePerByte)
-      // TODO :: Redesign account dropdown
+      // TODO: Check how to retrieve Bitcoin cash default fee
+      payment = yield payment.fee(2)
       const initialValues = {
-        coin: 'BTC',
-        from: defaultAccountR.getOrElse(),
-        feePerByte: defaultFeePerByte
+        coin: 'BCH',
+        from: defaultAccountR.getOrElse()
       }
-      yield put(initialize('sendBtc', initialValues))
-      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(initialize('sendBch', initialValues))
+      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       console.log('error: ', e)
     }
@@ -39,10 +37,10 @@ export default ({ coreSagas }) => {
   const firstStepSubmitClicked = function * (action) {
     try {
       let p = yield select(S.getPayment)
-      yield put(A.sendBtcPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      yield put(A.sendBchPaymentUpdated(Remote.Loading))
+      let payment = coreSagas.payment.bch.create({ payment: p.getOrElse({}), network: settings.NETWORK_BCH })
       payment = yield payment.build()
-      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       console.log(e)
     }
@@ -53,10 +51,10 @@ export default ({ coreSagas }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('sendBtc', form)) return
+      if (!equals('sendBch', form)) return
 
       let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      let payment = coreSagas.payment.bch.create({ payment: p.getOrElse({}), network: settings.NETWORK_BCH })
 
       switch (field) {
         case 'coin':
@@ -83,11 +81,8 @@ export default ({ coreSagas }) => {
         case 'message':
           payment = yield payment.description(payload)
           break
-        case 'feePerByte':
-          payment = yield payment.fee(parseInt(payload))
-          break
       }
-      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       console.log(e)
     }
@@ -95,7 +90,7 @@ export default ({ coreSagas }) => {
 
   const toToggled = function * () {
     try {
-      yield put(change('sendBtc', 'to', ''))
+      yield put(change('sendBch', 'to', ''))
     } catch (e) {
       console.log(e)
     }
@@ -104,25 +99,25 @@ export default ({ coreSagas }) => {
   const secondStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      let payment = coreSagas.payment.bch.create({ payment: p.getOrElse({}), network: settings.NETWORK_BCH })
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
-      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
       yield put(actions.modals.closeAllModals())
-      yield put(actions.router.push('/btc/transactions'))
-      yield put(actions.alerts.displaySuccess('Bitcoin transaction has been successfully published!'))
+      yield put(actions.router.push('/bch/transactions'))
+      yield put(actions.alerts.displaySuccess('Bitcoin cash transaction has been successfully published!'))
     } catch (e) {
       console.log(e)
-      yield put(actions.alerts.displayError('Bitcoin transaction could not be published.'))
+      yield put(actions.alerts.displayError('Bitcoin cash transaction could not be published.'))
     }
   }
 
   return function * () {
-    yield takeLatest(AT.SEND_BTC_INITIALIZED, sendBtcInitialized)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_TO_TOGGLED, toToggled)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
-    yield takeLatest(AT.SEND_BTC_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
+    yield takeLatest(AT.SEND_BCH_INITIALIZED, sendBchInitialized)
+    yield takeLatest(AT.SEND_BCH_FIRST_STEP_TO_TOGGLED, toToggled)
+    yield takeLatest(AT.SEND_BCH_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
+    yield takeLatest(AT.SEND_BCH_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
     yield takeLatest(actionTypes.CHANGE, formChanged)
   }
 }

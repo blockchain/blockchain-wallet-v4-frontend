@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Link, Text } from 'blockchain-info-components'
-import { Form } from 'components/Form'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -14,7 +12,7 @@ const Row = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 5px 0;
+  padding: 10px 0;
 
   & > * { width: 150px; }
   & > :last-child { width: 100%; }
@@ -25,8 +23,10 @@ const Summary = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${props => props.theme['gray-1']};
+  padding: 10px 0;
   margin: 5px 0;
-
+  margin-bottom: 25px;
+  
   & > * { padding: 10px 0; }
 `
 const Footer = styled.div`
@@ -39,11 +39,12 @@ const Footer = styled.div`
   & > :first-child { margin-bottom: 5px; }
 `
 
-const SecondStep = props => {
-  const { previousStep, handleSubmit, fromAddress, toAddress, message, fee, satoshis, total } = props
+const Success = props => {
+  console.log('SUCCESS', props)
+  const { message, fromAddress, toAddress, amount, fee, total, coin, handleSubmit, handleBack } = props
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <div>
       <Row>
         <Text size='16px' weight={500}>
           <FormattedMessage id='modals.sendbch.secondstep.from' defaultMessage='From:' />
@@ -56,10 +57,10 @@ const SecondStep = props => {
         </Text>
         <Text size='16px' weight={300}>{toAddress}</Text>
       </Row>
-      { message &&
+      {message &&
         <Row>
           <Text size='16px' weight={500}>
-            <FormattedMessage id='modals.sendbch.secondstep.for' defaultMessage='For:' />
+            <FormattedMessage id='modals.sendbch.secondstep.note' defaultMessage='Note:' />
           </Text>
           <Text size='16px' weight={300}>{message}</Text>
         </Row>
@@ -69,7 +70,7 @@ const SecondStep = props => {
           <FormattedMessage id='modals.sendbch.secondstep.payment' defaultMessage='Payment:' />
         </Text>
         <Text size='16px' weight={300}>
-          <ComboDisplay coin='BCH'>{satoshis}</ComboDisplay>
+          <ComboDisplay coin={coin}>{amount}</ComboDisplay>
         </Text>
       </Row>
       <Row>
@@ -77,26 +78,26 @@ const SecondStep = props => {
           <FormattedMessage id='modals.sendbch.secondstep.fee' defaultMessage='Fee:' />
         </Text>
         <Text size='16px' weight={300}>
-          <ComboDisplay coin='BCH'>{fee}</ComboDisplay>
+          <ComboDisplay coin={coin}>{fee}</ComboDisplay>
         </Text>
       </Row>
       <Summary>
-        <Text size='16px' weight={300} color='transferred'>
+        <Text size='16px' weight={300} color='sent'>
           <FormattedMessage id='modals.sendbch.secondstep.total' defaultMessage='Total' />
         </Text>
-        <CoinDisplay coin='BCH' size='30px' weight={600} color='transferred'>{total}</CoinDisplay>
-        <FiatDisplay coin='BCH' size='20px' weight={300} color='transferred'>{total}</FiatDisplay>
+        <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>{total}</CoinDisplay>
+        <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>{total}</FiatDisplay>
       </Summary>
       <Footer>
-        <Button type='submit' nature='primary' fullwidth uppercase>
+        <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
           <FormattedMessage id='modals.sendbch.secondstep.send' defaultMessage='Send Bitcoin Cash' />
         </Button>
-        <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.sendbch.secondstep.back' defaultMessage='Go Back' />
+        <Link onClick={handleBack} size='13px' weight={300}>
+          <FormattedMessage id='scenes.sendconfirm.back' defaultMessage='Go back' />
         </Link>
       </Footer>
-    </Form>
+    </div>
   )
 }
 
-export default reduxForm({ form: 'sendBch', destroyOnUnmount: false })(SecondStep)
+export default Success
