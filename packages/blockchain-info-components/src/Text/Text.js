@@ -18,7 +18,7 @@ const BaseText = styled.div`
   flex-direction: ${props => props.flexRow ? 'row' : null};
   opacity: ${props => props.opacity ? 0.5 : 1};
 
-  & > :first-child { margin-right: 5px; }
+  & > :after { content: &nbsp; }
 `
 
 const Text = ({ children, ...props }) => {

@@ -17,9 +17,9 @@ const BaseLink = styled.a`
   text-decoration: none;
   cursor : pointer;
 
-  & > * { margin-right: 5px; }
+  ${'' /* & > * { margin-right: 1px; } */}
 
-  &:hover { 
+  &:hover {
     color: ${props => props.theme[props.color]};
   }
 
