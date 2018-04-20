@@ -118,7 +118,7 @@ const TwoStepVerification = (props) => {
             <div />
             <DisableLinkContainer style={spacing('pl-25')}>
               <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
-                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
+                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-factor authentication method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
               </DisableLinkText>
             </DisableLinkContainer>
           </React.Fragment>
@@ -130,7 +130,7 @@ const TwoStepVerification = (props) => {
             <div />
             <DisableContainer style={spacing('pl-25')}>
               <Text weight={200} size='14px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-step Verification is set up with {authName} for number {number}. {changeNumber}' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span>, changeNumber: <a className='link' onClick={props.handleChangeNumber}>Change Mobile Number</a> }} />
+                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-factor authentication is set up with {authName} for number {number}. {changeNumber}' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span>, changeNumber: <a className='link' onClick={props.handleChangeNumber}>Change Mobile Number</a> }} />
                 {
                   ui.changeNumberToggled && <ChangeMobileContainer>
                     <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder='212-555-5555' />
@@ -142,7 +142,7 @@ const TwoStepVerification = (props) => {
                 }
               </Text>
               <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
-                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your Two-Step verification method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
+                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-factor authentication method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
               </DisableLinkText>
             </DisableContainer>
           </React.Fragment>
@@ -159,18 +159,18 @@ const TwoStepVerification = (props) => {
             <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Use Google Authenticator, Yubikey, or SMS Codes' />
           </Text>
           <br />
-          <FormattedMessage id='scenes.security.twostepverification.description2' defaultMessage='Two-Step Verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you’d like to change your phone number or switch the type of Two-Step Verification you’re using.' />
+          <FormattedMessage id='scenes.security.twostepverification.description2' defaultMessage='Two-factor authentication helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you’d like to change your phone number or switch the type of Two-factor authentication you’re using.' />
         </React.Fragment>
       )
     }
-    return <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-step Verification helps prevent unauthorized access to your wallet by requiring a one-time password after every login attempt. Enabling this option helps keep unauthorized users from being able to access your wallet.' />
+    return <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-factor authentication helps prevent unauthorized access to your wallet by requiring a one-time password after every login attempt. Enabling this option helps keep unauthorized users from being able to access your wallet.' />
   }
 
   const renderHeader = () => {
     if (twoStepChoice === 'google') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Authenticator App' />
+          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-factor Authentication - Authenticator App' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
@@ -178,7 +178,7 @@ const TwoStepVerification = (props) => {
     if (twoStepChoice === 'yubikey') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.yubi.title' defaultMessage='Two-Step Verification - Yubikey' />
+          <FormattedMessage id='scenes.security.twostepverification.yubi.title' defaultMessage='Two-factor Authentication - Yubikey' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
@@ -186,12 +186,12 @@ const TwoStepVerification = (props) => {
     if (twoStepChoice === 'sms') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Mobile Phone Number' />
+          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-factor Authentication - Mobile Phone Number' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
     }
-    return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Two-Step Verification' />
+    return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Two-factor Authentication' />
   }
 
   const renderChoices = () => !ui.verifyToggled && !props.alone ? null : renderVerificationChoice()

@@ -12,7 +12,7 @@ const TwoStepVerificationRemember = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.title' defaultMessage='Remember 2-step verification' />
+          <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.title' defaultMessage='Remember Two-factor Authentication' />
           <SettingStatus active={authTypeNeverSave === 0}>
             { authTypeNeverSave === 0
               ? <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.enabled' defaultMessage='Enabled' />
