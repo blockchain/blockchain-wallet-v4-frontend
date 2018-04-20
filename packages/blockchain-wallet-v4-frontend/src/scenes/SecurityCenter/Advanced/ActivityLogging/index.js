@@ -5,7 +5,7 @@ import { actions, selectors } from 'data'
 
 import ActivityLogging from './template.js'
 
-class ActivityLoggingContainer extends React.Component {
+class ActivityLoggingContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

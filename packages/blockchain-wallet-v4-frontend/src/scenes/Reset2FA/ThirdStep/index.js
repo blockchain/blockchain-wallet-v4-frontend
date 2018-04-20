@@ -6,7 +6,7 @@ import { formValueSelector } from 'redux-form'
 import ThirdStep from './template'
 import { actions, selectors } from 'data'
 
-class ThirdStepContainer extends React.Component {
+class ThirdStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

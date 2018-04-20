@@ -7,7 +7,7 @@ import RequestBitcoin from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class RequestBitcoinContainer extends React.Component {
+class RequestBitcoinContainer extends React.PureComponent {
   componentWillMount () {
     this.props.resetStep()
   }

@@ -6,7 +6,7 @@ import { concat } from 'ramda'
 import { getData } from './selectors'
 import SelectBox from '../SelectBox'
 
-class SelectBoxBitcoinAddresses extends React.Component {
+class SelectBoxBitcoinAddresses extends React.PureComponent {
   // isFiatAvailable () {
   //   const { coin, country, currency, rates, bitcoinOptions } = this.props
   //   if (isNil(coin)) return false

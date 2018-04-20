@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import Settings from './template.js'
 
-class SettingContainer extends React.Component {
+class SettingContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
