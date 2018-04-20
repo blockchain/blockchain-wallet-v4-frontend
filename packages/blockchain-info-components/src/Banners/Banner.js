@@ -45,7 +45,7 @@ const Banner = props => {
 
   return (
     <Container color={color} width={width} inline={inline} label={label}>
-      { icon && <Icon name={icon} size='12px' weight={700} color={color} /> }
+      { icon && <Icon name={icon} size='18px' weight={700} color={color} /> }
       <BannerContent size='12px' weight={400} color={color} uppercase={uppercase}>
         { children }
       </BannerContent>
