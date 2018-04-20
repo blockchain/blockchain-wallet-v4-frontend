@@ -8,7 +8,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class CaptchaBoxContainer extends React.Component {
+class CaptchaBoxContainer extends React.PureComponent {
   componentWillMount () {
     this.props.actions.fetchCaptcha()
   }

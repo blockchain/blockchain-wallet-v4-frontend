@@ -63,7 +63,7 @@ const TrayModal = styled(Modal)`
     height: 100%;
   }
 `
-class TrayRight extends React.Component {
+class TrayRight extends React.PureComponent {
   constructor (props) {
     super(props)
 

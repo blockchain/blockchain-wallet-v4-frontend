@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class FormContainer extends React.Component {
+class FormContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.seed = crypto.randomBytes(16).toString('hex')

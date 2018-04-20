@@ -6,7 +6,7 @@ import { formValueSelector } from 'redux-form'
 import modalEnhancer from 'providers/ModalEnhancer'
 import ImportBtcAddress from './template.js'
 
-class ImportBtcAddressContainer extends React.Component {
+class ImportBtcAddressContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

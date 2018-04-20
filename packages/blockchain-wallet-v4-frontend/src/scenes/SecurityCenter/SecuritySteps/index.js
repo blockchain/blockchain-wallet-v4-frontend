@@ -2,7 +2,7 @@ import React from 'react'
 
 import SecuritySteps from './template.js'
 
-class SecurityStepsContainer extends React.Component {
+class SecurityStepsContainer extends React.PureComponent {
   render () {
     const { data } = this.props
     return (

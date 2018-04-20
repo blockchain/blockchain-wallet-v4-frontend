@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import CopyClipboard from './template.js'
 
-class CopyClipboardContainer extends React.Component {
+class CopyClipboardContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.timeout = undefined

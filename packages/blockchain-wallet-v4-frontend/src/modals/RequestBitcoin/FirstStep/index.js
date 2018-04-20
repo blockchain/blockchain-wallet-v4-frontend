@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class FirstStepContainer extends React.Component {
+class FirstStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClickQRCode = this.handleClickQRCode.bind(this)
@@ -39,8 +39,8 @@ class FirstStepContainer extends React.Component {
     })
   }
 
-  handleClickQRCode (address) {
-    this.props.modalActions.showModal('QRCode', { address })
+  handleClickQRCode (value) {
+    this.props.modalActions.showModal('QRCode', { value })
   }
 
   handleSubmit (e) {
@@ -54,7 +54,7 @@ class FirstStepContainer extends React.Component {
     return data.cata({
       Success: (value) => <Success
         receiveAddress={value.receiveAddress}
-        handleClickQRCode={() => this.handleClickQRCode(value.receiveAddress)}
+        handleClickQRCode={() => this.handleClickQRCode(value)}
         handleSubmit={this.handleSubmit}
       />,
       Failure: (message) => <Error>{message}</Error>,

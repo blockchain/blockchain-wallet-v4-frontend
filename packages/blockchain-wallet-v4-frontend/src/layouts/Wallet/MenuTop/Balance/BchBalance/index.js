@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class BchBalance extends React.Component {
+class BchBalance extends React.PureComponent {
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       this.props.actions.fetchData(this.props.context)
