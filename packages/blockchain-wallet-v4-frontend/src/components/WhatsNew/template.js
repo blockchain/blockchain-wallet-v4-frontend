@@ -64,10 +64,10 @@ const WhatsNew = (props) => {
                   <TextGroup inline>
                     <WhatsNewContent size='12px' weight={300}>{desc}</WhatsNewContent>
                     {link.type.displayName === 'NavLink'
-                    ? <React.Fragment>
+                      ? <React.Fragment>
                         <WhatsNewLink onClick={() => handleTrayRightToggle('', false)}>{link}</WhatsNewLink>
                       </React.Fragment>
-                    : <React.Fragment>
+                      : <React.Fragment>
                         <WhatsNewLink onClick={() => handleTrayRightToggle('faq')}>{link}</WhatsNewLink>
                       </React.Fragment>
                     }
