@@ -5,13 +5,13 @@ import styled from 'styled-components'
 const BaseTextGroup = styled.div`
   text-align: justify;
   ${props => props.nowrap ? '& > * { white-space: nowrap }' : '& > * { white-space: normal }'};
-  ${props => props.inline ? '& > * { display: inline; margin-right: 5px!important; }' : '& > * { display: block; margin-bottom: 10px; }'};
+  ${props => props.inline ? '& > * { display: inline; }' : '& > * { display: block; margin-bottom: 10px; }'};
 `
 const TextGroup = props => {
   const { children, ...rest } = props
 
   return (
-    <BaseTextGroup {...rest}>{children}</BaseTextGroup>
+    <BaseTextGroup {...rest}>{children}{' '}</BaseTextGroup>
   )
 }
 

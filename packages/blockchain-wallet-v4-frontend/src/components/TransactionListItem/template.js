@@ -43,6 +43,8 @@ const DetailsColumn = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
   width: 35%;
 
   @media(min-width: 992px) { display: flex; }
@@ -52,9 +54,10 @@ const ConfirmationColumn = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
+  width: 20%;
 
-  @media(min-width: 1200px) { width: 20%; }
+  * { white-space: nowrap; }
+  @media(min-width: 1200px) { width: 15%; }
 `
 const AmountColumn = styled.div`
   display: flex;
