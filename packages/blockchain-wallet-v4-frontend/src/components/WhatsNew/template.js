@@ -44,7 +44,7 @@ const ContentWrapper = styled.div`
   overflow-y: auto;
 `
 const WhatsNew = (props) => {
-  const { handleTrayRightToggle} = props
+  const { handleTrayRightToggle } = props
   return (
     <Fragment>
       <ModalHeader onClose={() => handleTrayRightToggle()}>
@@ -63,14 +63,13 @@ const WhatsNew = (props) => {
                   </div>
                   <TextGroup inline>
                     <WhatsNewContent size='12px' weight={300}>{desc}</WhatsNewContent>
-                    {
-                      link.type.displayName === 'NavLink'
-                        ? <React.Fragment>
-                             <WhatsNewLink onClick={()=>handleTrayRightToggle('', false)}>{link}</WhatsNewLink>
-                          </React.Fragment>
-                        :  <React.Fragment>
-                             <WhatsNewLink onClick={()=>handleTrayRightToggle('faq')}>{link}</WhatsNewLink>
-                          </React.Fragment>
+                    {link.type.displayName === 'NavLink'
+                      ? <React.Fragment>
+                        <WhatsNewLink onClick={() => handleTrayRightToggle('', false)}>{link}</WhatsNewLink>
+                        </React.Fragment>
+                      : <React.Fragment>
+                          <WhatsNewLink onClick={() => handleTrayRightToggle('faq')}>{link}</WhatsNewLink>
+                        </React.Fragment>
                     }
                   </TextGroup>
                 </Fragment>
