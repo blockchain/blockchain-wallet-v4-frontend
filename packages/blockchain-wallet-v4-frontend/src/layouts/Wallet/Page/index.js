@@ -1,12 +1,23 @@
 import React from 'react'
+import styled from 'styled-components'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import Page from './template.js'
 
-class PageContainer extends React.PureComponent {
+const Wrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: calc(100% - 115px);
+  width: 100%;
+  overflow-y: auto;
+`
+
+class PageContainer extends React.Component {
   componentDidMount () {
     ReactDOM.findDOMNode(this.refs.page).addEventListener('scroll', this.debounce(this.updateScroll.bind(this), 1000))
   }
@@ -37,7 +48,7 @@ class PageContainer extends React.PureComponent {
   }
 
   render () {
-    return <Page ref='page' children={this.props.children} />
+    return <Wrapper ref='page' children={this.props.children} />
   }
 }
 
