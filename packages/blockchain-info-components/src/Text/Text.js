@@ -5,7 +5,7 @@ import { Palette } from '../Colors'
 import { keysIn } from 'ramda'
 
 const BaseText = styled.div`
-  font-family: ${props => props.altFont ? "'GillSans', sans-serif" : "'Montserrat', sans-serif"};
+  font-family: ${props => props.altFont ? "'Montserrat', sans-serif" : "'Montserrat', sans-serif"};
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
   text-transform: ${props =>
@@ -14,8 +14,9 @@ const BaseText = styled.div`
   font-style: ${props => props.italic ? 'italic' : 'normal'};
   color: ${props => props.theme[props.color]};
   cursor: ${props => props.cursor};
-  display: ${props => props.flexRow ? 'flex' : 'initial'}
-  flex-direction: ${props => props.flexRow ? 'row' : null}
+  flex-direction: ${props => props.flexRow ? 'row' : null};
+  display: ${props => props.flexRow ? 'flex' : 'block'};
+  opacity: ${props => props.opacity ? 0.5 : 1};
 
   & > :first-child { margin-right: 5px; }
 `

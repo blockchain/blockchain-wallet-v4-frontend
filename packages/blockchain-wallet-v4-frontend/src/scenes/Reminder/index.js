@@ -6,7 +6,7 @@ import { formValueSelector } from 'redux-form'
 import { actions, selectors } from 'data'
 import Reminder from './template.js'
 
-class ReminderContainer extends React.Component {
+class ReminderContainer extends React.PureComponent {
   constructor () {
     super()
     this.onSubmit = this.onSubmit.bind(this)
@@ -15,7 +15,7 @@ class ReminderContainer extends React.Component {
   onSubmit (e) {
     e.preventDefault()
     const { email, code, captcha, authActions } = this.props
-    const { sessionToken } = captcha
+    const { sessionToken } = captcha.getOrElse({})
 
     authActions.remindGuid(email, code, sessionToken)
   }

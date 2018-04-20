@@ -14,38 +14,54 @@
     "build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
     "build:staging": "NODE_ENV=staging webpack-cli --config webpack.config.js --progress --colors",
     "build:testnet": "NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
-    "ci:build": "webpack-cli --config webpack.config.js --display-error-details",
-    "ci:build:prod": "NODE_ENV=production webpack-cli --config webpack.config.js --display-error-details",
+    "ci:compile": "NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "./../../node_modules/.bin/jest --coverage",
     "generate": "babel-node ./tools/generateDefaultLocale.js",
     "start:dev": "NODE_ENV=development webpack-dev-server --config webpack.config.js --progress --colors --watch",
-    "start:prod": "NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch",
+    "start:prod": "npm run ci:compile && LOCAL_PROD=true node ./../../server.js",
     "start:staging": "NODE_ENV=staging webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:testnet": "NODE_ENV=testnet webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "test": "./../../node_modules/.bin/jest",
+    "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
+  "standard": {
+    "parser": "babel-eslint"
+  },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
-    "coverageReporters": ["json", "html"],
-    "setupFiles": ["<rootDir>/../../config/jest/jest.shim.js", "<rootDir>/../../config/jest/jest.config.js"],
-    "snapshotSerializers": ["<rootDir>/../../node_modules/enzyme-to-json/serializer"],
+    "coverageReporters": [
+      "json",
+      "html"
+    ],
+    "setupFiles": [
+      "<rootDir>/../../config/jest/jest.shim.js",
+      "<rootDir>/../../config/jest/jest.config.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/../../node_modules/enzyme-to-json/serializer"
+    ],
     "transform": {
       "^.+\\.jsx$": "<rootDir>/../../node_modules/babel-jest",
       "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
     },
-    "transformIgnorePatterns": ["node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"]
+    "transformIgnorePatterns": [
+      "node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"
+    ]
   },
   "dependencies": {
+    "babel-eslint": "~8.2.2",
     "base-64": "^0.1.0",
     "bignumber.js": "^5.0.0",
     "bip21": "^2.0.1",
     "bip39": "^2.3.1",
-    "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoin-coinify-client": "^0.7.6",
     "bitcoin-sfox-client": "^0.2.6",
+    "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "^3.1.1",
     "blockchain-info-components": "^0.0.1",
     "blockchain-wallet-v4": "^1.0.1",
@@ -63,7 +79,7 @@
     "react-animations": "^1.0.0",
     "react-browser-detection": "^1.0.4",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-csv-2": "^1.0.9",
+    "react-csv": "^1.0.14",
     "react-dom": "^16.3.0",
     "react-dropzone": "^4.2.8",
     "react-highcharts": "^13.0.0",

@@ -45,6 +45,7 @@ const Controls = styled.div`
 `
 const Addresses = styled.div`
   width: 100%;
+  margin-left: 0px;
   @media(min-width: 1200px) { width: 360px; }
 `
 const Status = styled.div`
@@ -81,7 +82,7 @@ const Menu = (props) => {
             <Field name='source' component={SelectBoxBitcoinAddresses} />
           </Addresses>
           <Status>
-            <Field name='status' component={TabMenuTransactionStatus} />
+            <Field name='status' statuses={['', 'sent', 'received', 'transferred']} component={TabMenuTransactionStatus} />
           </Status>
         </Controls>
         <Controls>

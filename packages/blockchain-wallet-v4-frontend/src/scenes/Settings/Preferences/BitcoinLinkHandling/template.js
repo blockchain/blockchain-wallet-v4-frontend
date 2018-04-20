@@ -10,7 +10,7 @@ const BitcoinLinkHandling = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.preferences.link.title' defaultMessage='Bitcoin link handling' />
+          <FormattedMessage id='scenes.preferences.link.title' defaultMessage='Bitcoin Link Handling' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage id='scenes.preferences.link.description' defaultMessage='Enable this to allow your Blockchain Wallet to handle bitcoin payment links in the web browser.' />

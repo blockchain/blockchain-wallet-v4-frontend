@@ -34,8 +34,8 @@ export default ({ api }) => {
           correct: true,
           addr
         }],
-        legacy_account: {},
         tx_notes: {},
+        legacy_account: null,
         last_tx: undefined
       }
       const newkv = set(KVStoreEntry.value, {ethereum}, kv)

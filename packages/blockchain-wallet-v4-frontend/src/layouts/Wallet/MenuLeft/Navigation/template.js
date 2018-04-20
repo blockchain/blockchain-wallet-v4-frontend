@@ -35,7 +35,7 @@ const MenuItem = styled.li`
   cursor: pointer;
   width: 100%;
 
-  & > span:first-child { 
+  & > span:first-child {
     width: 30px;
     font-size: 20px;
   }
@@ -68,7 +68,7 @@ const Navigation = (props) => {
   return (
     <Wrapper {...rest}>
       <Menu>
-        <LinkContainer to='/wallet' activeClassName='active' onClick={handleCloseSettings}>
+        <LinkContainer to='/home' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='home' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.dashboard' defaultMessage='Dashboard' />
@@ -131,7 +131,7 @@ const Navigation = (props) => {
           <SubMenu>
             <LinkContainer to='/settings/info' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubMenuItem>
-                <FormattedMessage id='layouts.wallet.menuleft.navigation.walletinfo' defaultMessage='Wallet information' smaller />
+                <FormattedMessage id='layouts.wallet.menuleft.navigation.walletinfo' defaultMessage='Wallet Information' smaller />
               </SubMenuItem>
             </LinkContainer>
             <LinkContainer to='/settings/preferences' activeClassName='active' onClick={handleCloseMenuLeft}>
@@ -141,7 +141,7 @@ const Navigation = (props) => {
             </LinkContainer>
             <LinkContainer to='/settings/addresses' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubMenuItem>
-                <FormattedMessage id='layouts.wallet.menuleft.navigation.addresses' defaultMessage='Addresses' smaller />
+                <FormattedMessage id='layouts.wallet.menuleft.navigation.addresses' defaultMessage='Wallets & Addresses' smaller />
               </SubMenuItem>
             </LinkContainer>
           </SubMenu>

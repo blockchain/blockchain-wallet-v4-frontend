@@ -47,12 +47,6 @@ const Empty = props => {
             <FormattedMessage id='scenes.transactions.ether.content.empty.getether' defaultMessage='Get ether' />
           </IconButton>
         </LinkContainer>
-        <Text size='12px' weight={300}>
-          <FormattedMessage id='scenes.transactions.ether.content.empty.note' defaultMessage='Note: Ether is currently only available in your web wallet.' />
-        </Text>
-        <Text size='12px' weight={300}>
-          <FormattedMessage id='scenes.transactions.ether.content.empty.note2' defaultMessage="Your transactions won't be visible in your mobile wallet" />
-        </Text>
       </Ether>
     </Wrapper>
   )

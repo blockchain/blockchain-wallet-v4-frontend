@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import TransactionListItem from './template.js'
 
-class ListItemContainer extends React.Component {
+class ListItemContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleCoinToggle = this.handleCoinToggle.bind(this)
@@ -15,6 +15,7 @@ class ListItemContainer extends React.Component {
   handleCoinToggle () {
     this.props.preferencesActions.toggleCoinDisplayed()
   }
+
   handleEditDescription (value) {
     if (this.props.coin === 'ETH') {
       this.props.ethereumActions.setTxNotesEthereum(this.props.transaction.hash, value)
@@ -28,7 +29,7 @@ class ListItemContainer extends React.Component {
       coin={this.props.coin}
       minConfirmations={this.props.minConfirmations}
       transaction={this.props.transaction}
-      handleClick={this.handleCoinToggle}
+      handleCoinToggle={this.handleCoinToggle}
       handleEditDescription={this.handleEditDescription}
     />
   }

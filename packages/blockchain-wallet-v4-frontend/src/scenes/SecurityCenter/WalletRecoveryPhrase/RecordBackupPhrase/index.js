@@ -1,15 +1,20 @@
 import React from 'react'
-import { compose } from 'redux'
-
+import { compose, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import wizardProvider from 'providers/WizardProvider'
-// import modalEnhancer from 'providers/ModalEnhancer'
+import { actions } from 'data'
+import { path } from 'ramda'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
 
-class RecoveryPhraseContainer extends React.Component {
+class RecoveryPhraseContainer extends React.PureComponent {
   componentWillMount () {
     this.props.resetStep()
+  }
+
+  componentDidMount () {
+    this.props.settingsActions.showBackupRecovery()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -30,7 +35,16 @@ class RecoveryPhraseContainer extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
+})
+
 const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
   wizardProvider('recoveryPhrase', 3)
 )
 

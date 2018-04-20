@@ -8,7 +8,7 @@ const WalletPassword = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.title' defaultMessage='Wallet password' />
+          <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.title' defaultMessage='Wallet Password' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.description' defaultMessage='Your password is never shared with our servers, which means we cannot help reset your password if you forget it.' />

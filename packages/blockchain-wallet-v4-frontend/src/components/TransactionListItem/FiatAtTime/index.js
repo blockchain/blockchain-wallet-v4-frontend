@@ -10,7 +10,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-class FiatAtTime extends React.Component {
+class FiatAtTime extends React.PureComponent {
   componentWillMount () {
     const { currency, amount, time, hash } = this.props
     if (Remote.NotAsked.is(this.props.data)) {

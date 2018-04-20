@@ -27,13 +27,29 @@ const Content = styled.div`
   height: 100%;
   margin-top: 10px;
   overflow: scroll;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  > div:first-child {
+    border-left: none;
+    position: relative;
+  }
+  > div:first-child:after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    height: 50%;
+    border-left: 1px solid ${props => props.theme['gray-2']};
+  }
 `
 
 const Success = props => (
   <Wrapper>
     <Header>
       <Text uppercase size='24px' weight={300} color='brand-primary'>
-        <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Most recent activities' />
+        <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Recent Activity' />
       </Text>
     </Header>
     <Content>

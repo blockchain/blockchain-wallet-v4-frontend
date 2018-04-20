@@ -7,6 +7,7 @@ import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
+import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
@@ -19,7 +20,8 @@ import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
 import Register from './Register'
 import SecurityCenter from './SecurityCenter'
-import Addresses from './Settings/Addresses'
+import Addresses from './Settings/Addresses/Bitcoin'
+import BchAddresses from './Settings/Addresses/Bch'
 import BtcManageAddresses from './Settings/Addresses/Bitcoin/ManageAddresses'
 import Info from './Settings/Info'
 import Preferences from './Settings/Preferences'
@@ -28,7 +30,7 @@ import BitcoinTransactions from './Transactions/Bitcoin'
 import EtherTransactions from './Transactions/Ether'
 import BchTransactions from './Transactions/Bch'
 
-class App extends React.Component {
+class App extends React.PureComponent {
   render () {
     const { store, history, messages } = this.props
 
@@ -44,8 +46,9 @@ class App extends React.Component {
                 <PublicLayout path='/recover' component={Recover} />
                 <PublicLayout path='/reminder' component={Reminder} />
                 <PublicLayout path='/reset2fa' component={Reset2FA} />
-                <PublicLayout path='/register' component={Register} />
-                <WalletLayout path='/wallet' component={Home} />
+                <PublicLayout path='/signup' component={Register} />
+                <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
+                <WalletLayout path='/home' component={Home} />
                 <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
                 <WalletLayout path='/eth/transactions' component={EtherTransactions} />
                 <WalletLayout path='/buy-sell' component={BuySell} />
@@ -56,7 +59,8 @@ class App extends React.Component {
                 <WalletLayout path='/settings/preferences' component={Preferences} />
                 <WalletLayout path='/settings/security' component={Security} />
                 <WalletLayout path='/settings/addresses/btc/:index' component={BtcManageAddresses} />
-                <WalletLayout path='/settings/addresses' component={Addresses} />
+                <WalletLayout path='/settings/addresses' component={Addresses} exact />
+                <WalletLayout path='/settings/addresses/bch' component={BchAddresses} />
                 <WalletLayout path='/settings/info' component={Info} />
                 {/* <Redirect from='/settings' to='/settings/info' /> */}
                 <Redirect from='/' to='/login' />

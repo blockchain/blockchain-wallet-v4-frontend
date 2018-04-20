@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import ListItem from './template.js'
 
-class ListItemContainer extends React.Component {
+class ListItemContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { toggled: false }

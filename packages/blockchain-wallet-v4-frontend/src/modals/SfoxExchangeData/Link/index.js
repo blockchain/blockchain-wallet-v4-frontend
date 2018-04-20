@@ -5,8 +5,7 @@ import ui from 'redux-ui'
 import Link from './template'
 import { actions, selectors } from 'data'
 import { formValueSelector } from 'redux-form'
-
-import { merge } from 'ramda'
+import { merge, path, append } from 'ramda'
 
 class LinkContainer extends Component {
   constructor (props) {
@@ -67,7 +66,8 @@ class LinkContainer extends Component {
   }
 
   render () {
-    const { plaidUrl, bankAccounts, accounts, ui } = this.props
+    const { bankAccounts, accounts, ui } = this.props
+    const plaidUrl = `http://localhost:8081/wallet-helper/plaid/#/key/${this.props.plaidPath}/env/${this.props.plaidEnv}`
 
     return <Link
       onSubmit={this.onSubmit}
@@ -91,8 +91,13 @@ class LinkContainer extends Component {
   }
 }
 
+const basePath = ['walletOptionsPath', 'data', 'platforms', 'web', 'sfox', 'config']
+const plaidPath = append('plaid', basePath)
+const plaidEnvPath = append('plaidEnv', basePath)
+
 const mapStateToProps = (state) => ({
-  plaidUrl: 'http://localhost:8081/wallet-helper/plaid/#/key/0b041cd9e9fbf1e7d93a0d5a39f5b9/env/production', // TODO: get from wallet options
+  plaidPath: path(plaidPath, state),
+  plaidEnv: path(plaidEnvPath, state),
   bankAccounts: selectors.core.data.sfox.getBankAccounts(state),
   accounts: selectors.core.data.sfox.getAccounts(state).data,
   deposit1: formValueSelector('sfoxLink')(state, 'deposit1'),

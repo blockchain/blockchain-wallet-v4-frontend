@@ -6,7 +6,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 import { getData } from './selectors'
 
-class LocalCurrencyContainer extends React.Component {
+class LocalCurrencyContainer extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
 

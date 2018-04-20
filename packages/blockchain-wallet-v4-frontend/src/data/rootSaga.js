@@ -1,17 +1,17 @@
 import { all, call, fork } from 'redux-saga/effects'
-
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
 import websocketBitcoinFactory from 'blockchain-wallet-v4/src/redux/webSocket/bitcoin/sagas'
 import refreshFactory from 'blockchain-wallet-v4/src/redux/refresh/sagas'
 import alerts from './alerts/sagas'
 import auth from './auth/sagas'
+import components from './components/sagas'
 import modules from './modules/sagas'
 import goals from './goals/sagas'
 import wallet from './wallet/sagas'
 
 const welcomeSaga = function * () {
   if (console) {
-    const version = '4.0.0.0'
+    const version = APP_VERSION
     const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
     const style2 = 'font-size: 18px;'
     console.log('=======================================================')
@@ -32,6 +32,7 @@ export default function * ({ api, socket, options }) {
     call(welcomeSaga),
     fork(alerts),
     fork(auth({ api, coreSagas })),
+    fork(components({ api, coreSagas })),
     fork(modules({ coreSagas })),
     fork(goals({ coreSagas })),
     fork(wallet({ coreSagas })),

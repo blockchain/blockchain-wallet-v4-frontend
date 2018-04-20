@@ -18,15 +18,12 @@ const ButtonContainer = styled.div`
   align-items: center;
   cursor: pointer;
   width: inherit;
-
-  & > * {
-    color: ${props => props.theme[props.color]}!important;
-  }
 `
 const Button = styled.div`
   display: inline;
 `
 const DropdownIcon = styled(Icon)`
+  cursor: pointer;
   padding-left: 2px;
 `
 const DropdownList = styled.ul`
@@ -35,7 +32,7 @@ const DropdownList = styled.ul`
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
   bottom: 0px;
-  #box-sizing: border-box;
+  box-sizing: border-box;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   display: ${props => props.toggled ? 'block' : 'none'};
   float: none;

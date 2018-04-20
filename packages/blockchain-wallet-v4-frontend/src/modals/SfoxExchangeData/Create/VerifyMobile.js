@@ -38,8 +38,8 @@ class VerifyMobile extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.smsVerified && !this.props.editVerified) this.props.updateUI({ create: 'create_account' })
     if (this.props.smsVerified && !prevProps.smsVerified) this.props.updateUI({ create: 'create_account' })
+    if (this.props.smsVerified && !this.props.editVerifiedMobile) this.props.updateUI({ create: 'create_account' })
   }
 
   updateMobileNumber () {

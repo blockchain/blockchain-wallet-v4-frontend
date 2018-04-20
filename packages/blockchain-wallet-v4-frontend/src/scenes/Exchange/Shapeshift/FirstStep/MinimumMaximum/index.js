@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import { calculateMinimum, calculateMaximum } from './services'
+import { calculateMinimum, calculateMaximum, isBalanceBelowMin } from './services'
 import MinimumMaximum from './template'
 
-class MinimumMaximumContainer extends React.Component {
+class MinimumMaximumContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClickMinimum = this.handleClickMinimum.bind(this)
@@ -24,7 +24,13 @@ class MinimumMaximumContainer extends React.Component {
   }
 
   render () {
-    return <MinimumMaximum handleClickMinimum={this.handleClickMinimum} handleClickMaximum={this.handleClickMaximum} />
+    const { sourceCoin } = this.props
+    return <MinimumMaximum
+      handleClickMinimum={this.handleClickMinimum}
+      handleClickMaximum={this.handleClickMaximum}
+      isBalanceBelowMin={isBalanceBelowMin(this.props)}
+      minimum={calculateMinimum(this.props)}
+      sourceCoin={sourceCoin} />
   }
 }
 

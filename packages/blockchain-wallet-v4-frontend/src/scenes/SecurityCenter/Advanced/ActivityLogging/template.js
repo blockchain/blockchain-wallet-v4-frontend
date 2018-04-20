@@ -10,7 +10,7 @@ const ActivityLogging = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.securitysettings.advancedsecurity.activitylogging.title' defaultMessage='Activity logging' />
+          <FormattedMessage id='scenes.securitysettings.advancedsecurity.activitylogging.title' defaultMessage='Activity Logging' />
           <SettingStatus active={logging}>
             {logging
               ? <FormattedMessage id='scenes.securitysettings.advancedsecurity.activitylogging.enabled' defaultMessage='Enabled' />

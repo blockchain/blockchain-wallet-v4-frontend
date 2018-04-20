@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import AddressesLayout from 'layouts/Addresses'
 import Wallets from './Wallets'
 import ImportedAddresses from './ImportedAddresses'
 
@@ -8,13 +9,15 @@ const Wrapper = styled.section`
   box-sizing: border-box;
 `
 
-export default class BchAddressesContainer extends React.Component {
+export default class BchAddressesContainer extends React.PureComponent {
   render () {
     return (
-      <Wrapper>
-        <Wallets />
-        <ImportedAddresses />
-      </Wrapper>
+      <AddressesLayout>
+        <Wrapper>
+          <Wallets />
+          <ImportedAddresses />
+        </Wrapper>
+      </AddressesLayout>
     )
   }
 }

@@ -10,6 +10,10 @@ import { Button, Icon, Link, NativeSelect, Text, Tooltip } from 'blockchain-info
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
+import { Exchange } from 'blockchain-wallet-v4/src'
+
+const DUST = 546
+const btcMinRequired = Exchange.convertBitcoinToBitcoin({ value: DUST, fromUnit: 'SAT', toUnit: 'BTC' })
 
 const Row = styled.div`
   display: flex;
@@ -47,7 +51,7 @@ const FeeFormContainer = styled.div`
   justify-content: space-between;
 `
 const FeeContainer = styled.div`
-  display: flex;  
+  display: flex;
   flex-direction: column;
   width: 150px;
 `
@@ -86,8 +90,8 @@ const shouldValidate = ({ values, nextProps, props, initialRender, structure }) 
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
 }
 
-const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance}`
-
+const minRequired = (value, allValues, props) => parseFloat(props.values.amount) >= btcMinRequired.value ? undefined : `The minimum amount required to send is ${btcMinRequired.value} ${btcMinRequired.unit.symbol}.`
+const validAmount = (value, allValues, props) => parseFloat(value) <= props.effectiveBalance ? undefined : `Use total available minus fee: ${props.effectiveBalance} BTC.`
 const emptyAmount = (value, allValues, props) => !isEmpty(props.coins) ? undefined : 'Invalid amount. Account is empty.'
 
 const FirstStep = props => {
@@ -126,8 +130,8 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {addressSelectToggled
-              ? <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
-              : <Field name='to2' component={TextBox} validate={[required, validBitcoinAddress]} />
+              ? <Field name='to' placeholder="Paste or scan an address, or select a destination" component={SelectBoxBitcoinAddresses} validate={[required]} props={{ opened: addressSelectOpened, includeAll: false }} />
+              : <Field name='to2' placeholder="Paste or scan an address, or select a destination" component={TextBox} validate={[required, validBitcoinAddress]} />
             }
             <QRCodeCapture coin='BTC' />
             {addressSelectToggled
@@ -142,7 +146,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, validAmount, emptyAmount]} coin='BTC' maxAvailable={props.effectiveBalance} />
+          <Field name='amount' component={FiatConvertor} validate={[required, minRequired, validAmount, emptyAmount]} coin='BTC' minRequired={btcMinRequired.value} maxAvailable={props.effectiveBalance} />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -150,8 +154,7 @@ const FirstStep = props => {
           <FormLabel>
             <FormattedMessage id='modals.sendbitcoin.firststep.description' defaultMessage='Description:&nbsp;' />
             <Tooltip>
-              <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip1' defaultMessage='Add a note to remind yourself what this transaction relates to.' />
-              <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip2' defaultMessage='This note will be private and only seen by you.' />
+              <FormattedMessage id='modals.sendbitcoin.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
           <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
@@ -161,7 +164,7 @@ const FirstStep = props => {
         <ColLeft>
           <FeeFormContainer>
             <FeeFormLabel flexEnd={feeEditToggled}>
-              <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction fee:' />
+              <FormattedMessage id='modals.sendbitcoin.firststep.fee' defaultMessage='Transaction Fee:' />
               {feeEditToggled
                 ? <FeeContainer>
                   <RowFlexEnd>
@@ -177,7 +180,7 @@ const FirstStep = props => {
             </FeeFormLabel>
           </FeeFormContainer>
           {
-            feeEditToggled && <FeeField name='fee' component={NumberBox} validate={[required]} />
+            feeEditToggled && <FeeField name='fee' component={NumberBox} validate={[required]} hideErrors />
           }
           {
             !feeEditToggled && <Text size='12px' weight={300}>{renderFeeConfirmationTime()}</Text>

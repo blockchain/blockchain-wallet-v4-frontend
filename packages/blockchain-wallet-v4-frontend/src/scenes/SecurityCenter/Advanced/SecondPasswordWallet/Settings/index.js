@@ -8,7 +8,7 @@ import ui from 'redux-ui'
 import { actions, selectors } from 'data'
 import Settings from './template.js'
 
-class SettingsContainer extends React.Component {
+class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -39,6 +39,7 @@ class SettingsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  mainPassword: selectors.core.wallet.getMainPassword(state),
   secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
   secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword')
 })

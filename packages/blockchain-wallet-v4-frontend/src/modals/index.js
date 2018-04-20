@@ -4,6 +4,7 @@ import AddBitcoinWallet from './AddBitcoinWallet'
 import AutoDisconnection from './AutoDisconnection'
 import CoinifyExchangeData from './CoinifyExchangeData'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
+import EditTxDescription from './EditTxDescription'
 import ExchangeDetails from './ExchangeDetails'
 import ImportBtcAddress from './ImportBtcAddress'
 import MobileNumberChange from './MobileNumberChange'
@@ -23,6 +24,7 @@ import SendEther from './SendEther'
 import SfoxExchangeData from './SfoxExchangeData'
 import ShowPrivateKey from './ShowPrivateKey'
 import ShowXPub from './ShowXPub'
+import SfoxTradeDetails from './SfoxTradeDetails'
 import TransactionReport from './TransactionReport'
 import TransferEther from './TransferEther'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
@@ -37,6 +39,7 @@ const Modals = props => (
     <AutoDisconnection />
     <CoinifyExchangeData />
     <ConfirmDisable2FA />
+    <EditTxDescription />
     <ExchangeDetails />
     <ImportBtcAddress />
     <MobileNumberChange />
@@ -56,6 +59,7 @@ const Modals = props => (
     <SfoxExchangeData />
     <ShowPrivateKey />
     <ShowXPub />
+    <SfoxTradeDetails />
     <TransactionReport />
     <TransferEther />
     <TwoStepGoogleAuthenticator />

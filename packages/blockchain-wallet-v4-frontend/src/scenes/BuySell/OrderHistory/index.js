@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { filter, prop, reverse, sortBy } from 'ramda'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
-class OrderHistory extends React.Component {
+class OrderHistory extends React.PureComponent {
   constructor () {
     super()
     this.state = {}
@@ -43,7 +43,7 @@ class OrderHistory extends React.Component {
             </Text>
           </TableCell>
         </TableHeader>
-        {sortedTrades.map((trade, index) => <TradeItem key={index} trade={trade} conversion={conversion} />)}
+        {sortedTrades.map((trade, index) => <TradeItem key={index} trade={trade} conversion={conversion} handleClick={this.props.handleDetailsClick}/>)}
       </Table>
     )
   }
