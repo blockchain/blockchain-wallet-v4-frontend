@@ -10,6 +10,8 @@ export const sendBchFirstStepInitialized = () => ({ type: AT.SEND_BCH_FIRST_STEP
 
 export const sendBchFirstStepToToggled = () => ({ type: AT.SEND_BCH_FIRST_STEP_TO_TOGGLED })
 
+export const sendBchFirstStepMaximumAmountClicked = () => ({ type: AT.SEND_BCH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED })
+
 export const sendBchFirstStepSubmitClicked = () => ({ type: AT.SEND_BCH_FIRST_STEP_SUBMIT_CLICKED })
 
 export const sendBchSecondStepInitialized = () => ({ type: AT.SEND_BCH_SECOND_STEP_INITIALIZED })

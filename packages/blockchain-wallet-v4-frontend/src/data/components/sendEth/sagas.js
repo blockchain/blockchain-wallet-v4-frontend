@@ -1,12 +1,13 @@
 import { call, select, takeLatest, put } from 'redux-saga/effects'
-import { equals, path, prop } from 'ramda'
+import { equals, identity, path, prop } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 import settings from 'config'
 
-import { actionTypes, initialize } from 'redux-form'
+import { actionTypes, initialize, change } from 'redux-form'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -59,14 +60,31 @@ export default ({ coreSagas }) => {
           payment = yield payment.to(payload)
           break
         case 'amount':
-          const wei = Exchange.convertEtherToEther({ value: payload, fromUnit: 'ETH', toUnit: 'WEI' }).value
-          payment = yield payment.amount(wei)
+          const ethAmount = prop('coin', payload)
+          const weiAmount = Exchange.convertEtherToEther({ value: ethAmount, fromUnit: 'ETH', toUnit: 'WEI' }).value
+          payment = yield payment.amount(weiAmount)
           break
         case 'message':
           payment = yield payment.description(payload)
           break
       }
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const maximumAmountClicked = function * () {
+    try {
+      const appState = yield select(identity)
+      const currency = selectors.core.settings.getCurrency(appState).getOrFail('Can not retrieve currency.')
+      const ethRates = selectors.core.data.ethereum.getRates(appState).getOrFail('Can not retrieve ethereum rates.')
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const effectiveBalance = prop('effectiveBalance', payment)
+      const coin = Exchange.convertEtherToEther({ value: effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
+      const fiat = Exchange.convertEtherToFiat({ value: effectiveBalance, fromUnit: 'WEI', toCurrency: currency, rates: ethRates }).value
+      yield put(change('sendEth', 'amount', { coin, fiat }))
     } catch (e) {
       console.log(e)
     }
@@ -85,13 +103,14 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('Ether transaction has been successfully published!'))
     } catch (e) {
       console.log(e)
-      yield put(actions.alerts.displayError('Bitcoin transaction could not be published.'))
+      yield put(actions.alerts.displayError('Ether transaction could not be published.'))
     }
   }
 
   return function * () {
     yield takeLatest(AT.SEND_ETH_INITIALIZED, sendEthInitialized)
     yield takeLatest(AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
+    yield takeLatest(AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED, maximumAmountClicked)
     yield takeLatest(AT.SEND_ETH_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
     yield takeLatest(actionTypes.CHANGE, formChanged)
   }

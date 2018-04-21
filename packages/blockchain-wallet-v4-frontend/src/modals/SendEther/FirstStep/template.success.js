@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import { required, validEtherAddress } from 'services/FormHelper'
 import { Button, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
-import { maximumAmount } from './services'
+import { maximumAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 
@@ -20,7 +20,6 @@ const Row = styled.div`
 `
 
 const FirstStep = props => {
-  console.log('FirstStep', props)
   const { pristine, invalid, submitting, fee, handleSubmit } = props
 
   return (

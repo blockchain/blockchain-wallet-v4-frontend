@@ -1,5 +1,5 @@
 import { call, select, takeLatest, put } from 'redux-saga/effects'
-import { equals, path, prop, nth, is } from 'ramda'
+import { equals, path, prop, nth, is, identity } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
@@ -75,8 +75,9 @@ export default ({ coreSagas }) => {
           payment = yield payment.to(target)
           break
         case 'amount':
-          const satoshis = Exchange.convertBitcoinToBitcoin({ value: payload, fromUnit: 'BTC', toUnit: 'SAT' }).value
-          payment = yield payment.amount(parseInt(satoshis))
+          const bchAmount = prop('coin', payload)
+          const satAmount = Exchange.convertBchToBch({ value: bchAmount, fromUnit: 'BCH', toUnit: 'SAT' }).value
+          payment = yield payment.amount(parseInt(satAmount))
           break
         case 'message':
           payment = yield payment.description(payload)
@@ -91,6 +92,22 @@ export default ({ coreSagas }) => {
   const toToggled = function * () {
     try {
       yield put(change('sendBch', 'to', ''))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const maximumAmountClicked = function * () {
+    try {
+      const appState = yield select(identity)
+      const currency = selectors.core.settings.getCurrency(appState).getOrFail('Can not retrieve currency.')
+      const bchRates = selectors.core.data.bch.getRates(appState).getOrFail('Can not retrieve bitcoin cash rates.')
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const effectiveBalance = prop('effectiveBalance', payment)
+      const coin = Exchange.convertBchToBch({ value: effectiveBalance, fromUnit: 'SAT', toUnit: 'BCH' }).value
+      const fiat = Exchange.convertBchToFiat({ value: effectiveBalance, fromUnit: 'SAT', toCurrency: currency, rates: bchRates }).value
+      yield put(change('sendBch', 'amount', { coin, fiat }))
     } catch (e) {
       console.log(e)
     }
@@ -116,6 +133,7 @@ export default ({ coreSagas }) => {
   return function * () {
     yield takeLatest(AT.SEND_BCH_INITIALIZED, sendBchInitialized)
     yield takeLatest(AT.SEND_BCH_FIRST_STEP_TO_TOGGLED, toToggled)
+    yield takeLatest(AT.SEND_BCH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED, maximumAmountClicked)
     yield takeLatest(AT.SEND_BCH_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
     yield takeLatest(AT.SEND_BCH_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
     yield takeLatest(actionTypes.CHANGE, formChanged)
