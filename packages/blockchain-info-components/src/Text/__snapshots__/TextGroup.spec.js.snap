@@ -8,5 +8,6 @@ exports[`TextGroup component default renders correctly 1`] = `
   <span>
     Hello World
   </span>
+   
 </styled.div>
 `;
