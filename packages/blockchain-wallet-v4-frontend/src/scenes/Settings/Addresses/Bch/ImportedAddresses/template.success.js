@@ -48,12 +48,12 @@ const Success = (props) => {
         importedAddressesTableRows.length > 0 &&
         <Table>
           <TableHeader>
-            <TableCell width='50%'>
+            <TableCell width='40%'>
               <Text size='13px' weight={500} capitalize>
                 <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
               </Text>
             </TableCell>
-            <TableCell width='30%'>
+            <TableCell width='40%'>
               <Text size='13px' weight={500} capitalize>
                 <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
               </Text>
