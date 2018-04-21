@@ -14,23 +14,26 @@ const MoreOptions = () => (
   </Link>
 )
 
-const AddressRow = ({ address, renderOptions }) => (
-  <TableRow>
-    <AddressTableCell width='40%' style={{ display: 'flex' }}>
-      <Text size='13px'>{address.addr}</Text>
-      {address.priv == null && (
-        <Banner type='informational' inline>
-          <FormattedMessage id='scenes.settings.manage_addresses.watch_only' defaultMessage='Watch Only' />
-        </Banner>
-      )}
-    </AddressTableCell>
-    <TableCell width='40%'>
-      <SwitchableDisplay size='13px' coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay>
-    </TableCell>
-    <TableCell width='20%'>
-      <ComponentDropdown down forceSelected color={'gray-5'} selectedComponent={<MoreOptions />} components={renderOptions()} />
-    </TableCell>
-  </TableRow>
-)
+const AddressRow = ({ address, renderOptions, search }) => {
+  console.log(search)
+  return (
+    <TableRow>
+      <AddressTableCell width='40%' style={{ display: 'flex' }}>
+        <Text size='13px'>{address.addr}</Text>
+        {address.priv == null && (
+          <Banner type='informational' inline>
+            <FormattedMessage id='scenes.settings.manage_addresses.watch_only' defaultMessage='Watch Only' />
+          </Banner>
+        )}
+      </AddressTableCell>
+      <TableCell width='40%'>
+        <SwitchableDisplay size='13px' coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay>
+      </TableCell>
+      <TableCell width='20%'>
+        <ComponentDropdown down forceSelected color={'gray-5'} selectedComponent={<MoreOptions />} components={renderOptions()} />
+      </TableCell>
+    </TableRow>
+  )
+}
 
 export default AddressRow

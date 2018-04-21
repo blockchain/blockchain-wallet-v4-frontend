@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { take } from 'ramda'
+import { filter, take } from 'ramda'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { ComponentDropdown, Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
@@ -45,9 +45,11 @@ const OptionItem = ({ id, text, onClick }) => (
 
 const Success = (props) => {
   const { bchAccounts, wallets, defaultId } = props.data
-  const { onEditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub } = props
+  const { onEditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub, search } = props
 
-  const walletTableRows = take(bchAccounts.length, wallets).map((wallet, i) => {
+  const isMatch = (wallet) => !search || wallet.label.toLowerCase().indexOf(search) > -1
+
+  const walletTableRows = filter(isMatch, take(bchAccounts.length, wallets)).map((wallet, i) => {
     const isDefault = i === defaultId
     const isArchived = bchAccounts[i].archived
 
