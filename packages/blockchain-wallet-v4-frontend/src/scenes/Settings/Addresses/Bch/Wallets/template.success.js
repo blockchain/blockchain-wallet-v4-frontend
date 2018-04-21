@@ -15,6 +15,10 @@ const BchWalletsAddressesSettingHeader = SettingHeader.extend`
 const AddressesSettingDescription = SettingDescription.extend`
   margin-bottom: 10px;
 `
+const WalletTableCell = styled(TableCell)`
+  align-items: center;
+  min-height: 23px;
+`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
@@ -55,11 +59,11 @@ const Success = (props) => {
 
     return (
       <TableRow key={i}>
-        <TableCell width='50%'>
+        <WalletTableCell width='50%'>
           <Text size='13px'>{wallet.label}</Text>
           {isDefault && <InfoLabel bgcolor='brand-primary'>Default</InfoLabel>}
           {isArchived && <InfoLabel bgcolor='gray-3'>Archived</InfoLabel>}
-        </TableCell>
+        </WalletTableCell>
         <TableCell width='30%'>
           <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>
         </TableCell>

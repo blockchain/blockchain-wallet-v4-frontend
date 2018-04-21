@@ -13,6 +13,10 @@ const Wrapper = styled.section`
 const BitcoinWalletsAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
 `
+const WalletTableCell = styled(TableCell)`
+  align-items: center;
+  min-height: 23px;
+`
 
 const Success = ({ wallets, handleClick, onUnarchive, search }) => {
   const isMatch = (wallet) => !search || wallet.label.toLowerCase().indexOf(search) > -1
@@ -20,12 +24,12 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
   const walletTableRows = filter(isMatch, wallets).map((wallet) => {
     return (
       <TableRow key={wallet.value.index}>
-        <TableCell width='40%' style={{ display: 'flex' }}>
+        <WalletTableCell width='40%' style={{ display: 'flex' }}>
           <Text size='13px'>{wallet.label}</Text>
           {wallet.value.archived && (
             <Text size='13px' weight={300} style={{ marginLeft: 10 }}>Archived</Text>
           )}
-        </TableCell>
+        </WalletTableCell>
         <TableCell width='40%'>
           <SwitchableDisplay size='13px' coin='BTC'>{wallet.value.balance}</SwitchableDisplay>
         </TableCell>
