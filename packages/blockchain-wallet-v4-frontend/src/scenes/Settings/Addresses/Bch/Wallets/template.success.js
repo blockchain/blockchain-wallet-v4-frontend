@@ -59,12 +59,12 @@ const Success = (props) => {
 
     return (
       <TableRow key={i}>
-        <WalletTableCell width='50%'>
+        <WalletTableCell width='40%'>
           <Text size='13px'>{wallet.label}</Text>
           {isDefault && <InfoLabel bgcolor='brand-primary'>Default</InfoLabel>}
           {isArchived && <InfoLabel bgcolor='gray-3'>Archived</InfoLabel>}
         </WalletTableCell>
-        <TableCell width='30%'>
+        <TableCell width='40%'>
           <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>
         </TableCell>
         <TableCell width='20%'>

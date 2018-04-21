@@ -29,11 +29,9 @@ const AddressRow = ({ address, coin, renderOptions, search }) => {
       <TableCell width='40%'>
         <SwitchableDisplay size='13px' coin={coin || 'BTC'}>{address.info && address.info.final_balance}</SwitchableDisplay>
       </TableCell>
-      {
-        renderOptions && <TableCell width='20%'>
-          <ComponentDropdown down forceSelected color={'gray-5'} selectedComponent={<MoreOptions />} components={renderOptions()} />
-        </TableCell>
-      }
+      <TableCell width='20%'>
+        { renderOptions && <ComponentDropdown down forceSelected color={'gray-5'} selectedComponent={<MoreOptions />} components={renderOptions()} /> }
+      </TableCell>
     </TableRow>
   )
 }
