@@ -6,6 +6,7 @@ import { Banner, TableCell, TableRow, Text, Link, ComponentDropdown } from 'bloc
 
 const AddressTableCell = styled(TableCell)`
   align-items: center;
+  min-height: 23px;
 `
 
 const MoreOptions = () => (
@@ -14,8 +15,7 @@ const MoreOptions = () => (
   </Link>
 )
 
-const AddressRow = ({ address, renderOptions, search }) => {
-  console.log(search)
+const AddressRow = ({ address, coin, renderOptions, search }) => {
   return (
     <TableRow>
       <AddressTableCell width='40%' style={{ display: 'flex' }}>
@@ -27,11 +27,13 @@ const AddressRow = ({ address, renderOptions, search }) => {
         )}
       </AddressTableCell>
       <TableCell width='40%'>
-        <SwitchableDisplay size='13px' coin='BTC'>{address.info && address.info.final_balance}</SwitchableDisplay>
+        <SwitchableDisplay size='13px' coin={coin || 'BTC'}>{address.info && address.info.final_balance}</SwitchableDisplay>
       </TableCell>
-      <TableCell width='20%'>
-        <ComponentDropdown down forceSelected color={'gray-5'} selectedComponent={<MoreOptions />} components={renderOptions()} />
-      </TableCell>
+      {
+        renderOptions && <TableCell width='20%'>
+          <ComponentDropdown down forceSelected color={'gray-5'} selectedComponent={<MoreOptions />} components={renderOptions()} />
+        </TableCell>
+      }
     </TableRow>
   )
 }
