@@ -1,7 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { NavLink } from 'react-router-dom'
 
-import { Link } from 'blockchain-info-components'
+import { Text, TextGroup, Link } from 'blockchain-info-components'
+
 
 const FaqContent = [
   {
@@ -36,12 +38,7 @@ const FaqContent = [
       questionId: 'scenes.faq.group.walletfunctionality.question6',
       answerId: 'scenes.faq.group.walletfunctionality.answer6',
       question: 'Can an address still receive funds even though it’s no longer displayed under ‘Request’?',
-      answer: `Yes. All public addresses generated from your wallet can still receive funds, even if they no longer appear under ‘Request’. As explained
-      ${
-      <Link href='https://www.blockchain.com/terms/index.html'>
-          <FormattedMessage id='layouts.wallet.menuleft.footer.termsofservice' defaultMessage='here' />
-        </Link>
-      }, a new address will automatically display under ‘Request’ once the previously displayed address receives a payment. \n \n In Settings > Addresses, you can click on ‘Manage’ to the right of each wallet to view all of the labeled addresses that have been generated for that specific wallet. Clicking ‘Used Addresses’ allows you to see every receiving addressed ever generated within the wallet, as well as the current balance of each of these used addresses. Please note that when you send funds, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.`
+      answer: `Yes. All public addresses generated from your wallet can still receive funds, even if they no longer appear under ‘Request’. As explained a new address will automatically display under ‘Request’ once the previously displayed address receives a payment. \n \n In Settings > Addresses, you can click on ‘Manage’ to the right of each wallet to view all of the labeled addresses that have been generated for that specific wallet. Clicking ‘Used Addresses’ allows you to see every receiving addressed ever generated within the wallet, as well as the current balance of each of these used addresses. Please note that when you send funds, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.`
     }, {
       questionId: 'scenes.faq.group.walletfunctionality.question7',
       answerId: 'scenes.faq.group.walletfunctionality.answer7',
