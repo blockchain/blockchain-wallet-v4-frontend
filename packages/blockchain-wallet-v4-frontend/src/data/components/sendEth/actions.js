@@ -8,6 +8,8 @@ export const sendEthPaymentUpdated = payment => ({ type: AT.SEND_ETH_PAYMENT_UPD
 
 export const sendEthFirstStepInitialized = () => ({ type: AT.SEND_ETH_FIRST_STEP_INITIALIZED })
 
+export const sendEthFirstStepMaximumAmountClicked = () => ({ type: AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED })
+
 export const sendEthFirstStepSubmitClicked = () => ({ type: AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED })
 
 export const sendEthSecondStepInitialized = () => ({ type: AT.SEND_ETH_SECOND_STEP_INITIALIZED })

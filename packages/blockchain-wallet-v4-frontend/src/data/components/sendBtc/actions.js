@@ -12,6 +12,18 @@ export const sendBtcFirstStepToToggled = () => ({ type: AT.SEND_BTC_FIRST_STEP_T
 
 export const sendBtcFirstStepFeePerByteToggled = () => ({ type: AT.SEND_BTC_FIRST_STEP_FEEPERBYTE_TOGGLED })
 
+export const sendBtcFirstStepMinimumAmountClicked = () => ({ type: AT.SEND_BTC_FIRST_STEP_MINIMUM_AMOUNT_CLICKED })
+
+export const sendBtcFirstStepMaximumAmountClicked = () => ({ type: AT.SEND_BTC_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED })
+
+export const sendBtcFirstStepMinimumFeeClicked = () => ({ type: AT.SEND_BTC_FIRST_STEP_MINIMUM_FEE_CLICKED })
+
+export const sendBtcFirstStepMaximumFeeClicked = () => ({ type: AT.SEND_BTC_FIRST_STEP_MAXIMUM_FEE_CLICKED })
+
+export const sendBtcFirstStepRegularFeeClicked = () => ({ type: AT.SEND_BTC_FIRST_STEP_REGULAR_FEE_CLICKED })
+
+export const sendBtcFirstStepPriorityFeeClicked = () => ({ type: AT.SEND_BTC_FIRST_STEP_PRIORITY_FEE_CLICKED })
+
 export const sendBtcFirstStepSubmitClicked = () => ({ type: AT.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED })
 
 export const sendBtcSecondStepInitialized = () => ({ type: AT.SEND_BTC_SECOND_STEP_INITIALIZED })

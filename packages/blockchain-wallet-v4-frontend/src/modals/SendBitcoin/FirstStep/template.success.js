@@ -5,10 +5,12 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validBitcoinAddress } from 'services/FormHelper'
-import { Button, Icon, Link, Tooltip } from 'blockchain-info-components'
+import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextArea } from 'components/Form'
-import { minimumAmount, maximumAmount, emptyAmount } from './services'
+import { minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
+import RegularFeeLink from './RegularFeeLink'
+import PriorityFeeLink from './PriorityFeeLink'
 
 const Row = styled.div`
   display: flex;
@@ -18,14 +20,18 @@ const Row = styled.div`
   width: 100%;
 `
 const ColLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   width: 50%;
-  position: relative;
 `
 const ColRight = ColLeft.extend`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+  width: 50%;
 `
 const AddressButton = styled.div`
   display: flex;
@@ -41,13 +47,10 @@ const AddressButton = styled.div`
 `
 const FeeFormContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${props => props.toggled ? 'column' : 'row'};
   align-items: center;
   justify-content: space-between;
-`
-const CustomizeFeeLink = styled(Link)`
-  margin-top: 5px;
-  font-size: 12px;
+  width: 100%;
 `
 const FeeFormLabel = styled(FormLabel)`
   width: 100%;
@@ -57,32 +60,38 @@ const FeeFormLabel = styled(FormLabel)`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: ${props => props.flexEnd ? 'flex-end' : 'center'};
+    align-items: center;
   }
+`
+const FeeOptionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`
+const FeePerByteContainer = styled.div`
+  margin-top: 10px;
+  width: 100%;
 `
 
 const FirstStep = props => {
   const { invalid, submitting, ...rest } = props
-  const { toToggled, feePerByteToggled, feePerByteElements, handleFeePerByteToggle, handleToToggle, handleSubmit } = rest
+  const { toToggled, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, ...rest2 } = rest
+  const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
 
-  // const renderFeeConfirmationTime = () => {
-  //   if (parseInt(fee) === parseInt(regular)) {
-  //     return (<FormattedMessage id='modals.sendBtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />)
-  //   } else return (<FormattedMessage id='modals.sendBtc.firststep.estimated2' defaultMessage='Estimated confirmation time 0-60 minutes' />)
-  // }
 
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
         <FormItem width={'40%'}>
           <FormLabel for='coin'>
-            <FormattedMessage id='modals.sendBtc.firststep.coin' defaultMessage='Currency:' />
+            <FormattedMessage id='modals.sendbtc.firststep.coin' defaultMessage='Currency:' />
           </FormLabel>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
         <FormItem width={'60%'}>
           <FormLabel for='from'>
-            <FormattedMessage id='modals.sendBtc.firststep.from' defaultMessage='From:' />
+            <FormattedMessage id='modals.sendbtc.firststep.from' defaultMessage='From:' />
           </FormLabel>
           <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
         </FormItem>
@@ -90,7 +99,7 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
-            <FormattedMessage id='modals.sendBtc.firststep.to' defaultMessage='To:' />
+            <FormattedMessage id='modals.sendbtc.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
             {toToggled
@@ -108,46 +117,60 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='amount'>
-            <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter Amount:' />
+            <FormattedMessage id='modals.sendbtc.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, minimumAmount, maximumAmount, emptyAmount]} coin='BTC' />
+          <Field name='amount' component={FiatConvertor} validate={[required, minimumAmount, maximumAmount]} coin='BTC' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.sendBtc.firststep.description' defaultMessage='Description:&nbsp;' />
+            <FormattedMessage id='modals.sendbtc.firststep.description' defaultMessage='Description:&nbsp;' />
             <Tooltip>
-              <FormattedMessage id='modals.sendBtc.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
+              <FormattedMessage id='modals.sendbtc.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
           <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
         </FormItem>
       </FormGroup>
-      <FormGroup inline margin={'30px'}>
+      <FormGroup inline margin={'15px'}>
         <ColLeft>
-          <FeeFormContainer>
-            <FeeFormLabel flexEnd={feePerByteToggled}>
-              <FormattedMessage id='modals.sendBtc.firststep.fee' defaultMessage='Transaction fee:' />
-              { feePerByteToggled
-                ? <Field name='feePerByte' component={NumberBox} validate={[required]} />
-                : <Field name='feePerByte' component={SelectBox} elements={feePerByteElements} />
+          <FeeFormContainer toggled={feePerByteToggled}>
+            <FeeFormLabel>
+              <FormattedMessage id='modals.sendbtc.firststep.fee' defaultMessage='Transaction fee:' />
+              {!feePerByteToggled && <Field name='feePerByte' component={SelectBox} elements={feePerByteElements} />}
+              {feePerByteToggled && 
+                <FeeOptionsContainer>
+                  <RegularFeeLink fee={regularFeePerByte} />
+                  <PriorityFeeLink fee={priorityFeePerByte} />
+                </FeeOptionsContainer>
               }
             </FeeFormLabel>
+            {feePerByteToggled && 
+              <FeePerByteContainer>
+                <Field name='feePerByte' component={NumberBox} validate={[required, minimumFeePerByte, maximumFeePerByte]} />
+              </FeePerByteContainer>    
+            }
           </FeeFormContainer>
         </ColLeft>
         <ColRight>
-          <CustomizeFeeLink onClick={handleFeePerByteToggle} size='13px' weight={300} uppercase>
+          <Link size='13px' weight={300} capitalize onClick={handleFeePerByteToggle} >
             {feePerByteToggled
-              ? <FormattedMessage id='modals.sendBtc.firststep.cancel' defaultMessage='Cancel' />
-              : <FormattedMessage id='modals.sendBtc.firststep.edit' defaultMessage='Customize fee' />
+              ? <FormattedMessage id='modals.sendbtc.firststep.cancel' defaultMessage='Cancel' />
+              : <FormattedMessage id='modals.sendbtc.firststep.edit' defaultMessage='Customize fee' />
             }
-          </CustomizeFeeLink>
+          </Link>
         </ColRight>
       </FormGroup>
       <FormGroup>
+        <Text size='13px' weight={300}>
+          {!isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />}
+          {isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />}
+        </Text>
+      </FormGroup>
+      <FormGroup>
         <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='modals.sendBtc.firststep.continue' defaultMessage='Continue' />
+          <FormattedMessage id='modals.sendbtc.firststep.continue' defaultMessage='Continue' />
         </Button>
       </FormGroup>
     </Form>
@@ -155,16 +178,17 @@ const FirstStep = props => {
 }
 
 FirstStep.propTypes = {
-  // invalid: PropTypes.bool.isRequired,
-  // submitting: PropTypes.bool.isRequired,
-  // addressSelectToggled: PropTypes.bool.isRequired,
-  // addressSelectOpened: PropTypes.bool.isRequired,
-  // feeEditToggled: PropTypes.bool.isRequired,
-  // totalFee: PropTypes.number,
-  // fee: PropTypes.string.isRequired,
-  // handleSubmit: PropTypes.func.isRequired,
-  // handleClickAddressToggler: PropTypes.func.isRequired,
-  // handleClickFeeToggler: PropTypes.func.isRequired
+  invalid: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  toToggled: PropTypes.bool.isRequired,
+  feePerByteToggled: PropTypes.bool.isRequired,
+  feePerByteElements: PropTypes.array.isRequired,
+  regularFeePerByte: PropTypes.number.isRequired,
+  priorityFeePerByte: PropTypes.number.isRequired,
+  isPriorityFeePerByte: PropTypes.bool.isRequired,
+  handleFeePerByteToggle: PropTypes.func.isRequired,
+  handleToToggle: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'sendBtc', destroyOnUnmount: false })(FirstStep)

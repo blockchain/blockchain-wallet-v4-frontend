@@ -15,7 +15,7 @@ class FirstStep extends React.PureComponent {
 
   render () {
     const { data, actions } = this.props
-    console.log('render', data)
+
     return data.cata({
       Success: value => <Success
         effectiveBalance={value.effectiveBalance}

@@ -1,5 +1,5 @@
 import { call, select, takeLatest, put } from 'redux-saga/effects'
-import { equals, path, prop, nth, is } from 'ramda'
+import { equals, path, prop, nth, is, identity } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
@@ -10,6 +10,10 @@ import settings from 'config'
 import { actionTypes, initialize, change } from 'redux-form'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+
+const DUST = 546
+
+const DUST_BTC = '0.00000546'
 
 export default ({ coreSagas }) => {
   const sendBtcInitialized = function * (action, password) {
@@ -77,8 +81,9 @@ export default ({ coreSagas }) => {
           payment = yield payment.to(target)
           break
         case 'amount':
-          const satoshis = Exchange.convertBitcoinToBitcoin({ value: payload, fromUnit: 'BTC', toUnit: 'SAT' }).value
-          payment = yield payment.amount(parseInt(satoshis))
+          const btcAmount = prop('coin', payload)
+          const satAmount = Exchange.convertBitcoinToBitcoin({ value: btcAmount, fromUnit: 'BTC', toUnit: 'SAT' }).value
+          payment = yield payment.amount(parseInt(satAmount))
           break
         case 'message':
           payment = yield payment.description(payload)
@@ -95,7 +100,80 @@ export default ({ coreSagas }) => {
 
   const toToggled = function * () {
     try {
-      yield put(change('sendBtc', 'to', ''))
+      yield put(change('sendBtc', 'to', ))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const minimumAmountClicked = function * () {
+    try {
+      const appState = yield select(identity)
+      const currency = selectors.core.settings.getCurrency(appState).getOrFail('Can not retrieve currency.')
+      const btcRates = selectors.core.data.bitcoin.getRates(appState).getOrFail('Can not retrive bitcoin rates.')
+      const coin = DUST_BTC
+      const fiat = Exchange.convertBitcoinToFiat({ value: DUST, fromUnit: 'SAT', toCurrency: currency, rates: btcRates }).value
+      yield put(change('sendBtc', 'amount', { coin, fiat }))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const maximumAmountClicked = function * () {
+    try {
+      const appState = yield select(identity)
+      const currency = selectors.core.settings.getCurrency(appState).getOrFail('Can not retrieve currency.')
+      const btcRates = selectors.core.data.bitcoin.getRates(appState).getOrFail('Can not retrieve bitcoin rates.')
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const effectiveBalance = prop('effectiveBalance', payment)
+      const coin = Exchange.convertBitcoinToBitcoin({ value: effectiveBalance, fromUnit: 'SAT', toUnit: 'BTC' }).value
+      const fiat = Exchange.convertBitcoinToFiat({ value: effectiveBalance, fromUnit: 'SAT', toCurrency: currency, rates: btcRates }).value
+      yield put(change('sendBtc', 'amount', { coin, fiat }))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const minimumFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const minFeePerByte = path(['fees', 'limits', 'min'], payment)
+      yield put(change('sendBtc', 'feePerByte', minFeePerByte))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const maximumFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const maxFeePerByte = path(['fees', 'limits', 'max'], payment)
+      yield put(change('sendBtc', 'feePerByte', maxFeePerByte))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const regularFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const regularFeePerByte = path(['fees', 'regular'], payment)
+      yield put(change('sendBtc', 'feePerByte', regularFeePerByte))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const priorityFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const priorityFeePerByte = path(['fees', 'priority'], payment)
+      yield put(change('sendBtc', 'feePerByte', priorityFeePerByte))
     } catch (e) {
       console.log(e)
     }
@@ -121,6 +199,12 @@ export default ({ coreSagas }) => {
   return function * () {
     yield takeLatest(AT.SEND_BTC_INITIALIZED, sendBtcInitialized)
     yield takeLatest(AT.SEND_BTC_FIRST_STEP_TO_TOGGLED, toToggled)
+    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MINIMUM_AMOUNT_CLICKED, minimumAmountClicked)
+    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED, maximumAmountClicked)
+    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MINIMUM_FEE_CLICKED, minimumFeeClicked)
+    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MAXIMUM_FEE_CLICKED, maximumFeeClicked)
+    yield takeLatest(AT.SEND_BTC_FIRST_STEP_REGULAR_FEE_CLICKED, regularFeeClicked)
+    yield takeLatest(AT.SEND_BTC_FIRST_STEP_PRIORITY_FEE_CLICKED, priorityFeeClicked)
     yield takeLatest(AT.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
     yield takeLatest(AT.SEND_BTC_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
     yield takeLatest(actionTypes.CHANGE, formChanged)

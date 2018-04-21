@@ -59,52 +59,39 @@ const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
-const getLimitsError = (val, limits, disabled) => {
-  if ((limits.buy.max < limits.buy.min) && disabled) return `Your limit of $${limits.buy.max} is below the minimum allowed amount.`
-  if (val > limits.buy.max) return `Enter an amount under your $${limits.buy.max.toLocaleString()} limit`
-  if (val < limits.buy.min) return `Enter an amount above the $${limits.buy.min.toLocaleString()} minimum`
-}
-
-const FiatConvertor = (props) => {
-  const { value, fiat, disabled, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta, limits } = props
-  const { currency, unit } = props.data.data
+const Convertor = props => {
+  const { coin, fiat, unit, currency, meta, ...rest } = props
+  const { handleCoinChange, handleFiatChange, handleBlur, handleFocus } = rest
   const errorState = getErrorState(meta)
 
   return (
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <TextInput placeholder='0' onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={value} errorState={errorState} disabled={disabled} />
+          <TextInput value={coin} placeholder='0' onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} errorState={errorState} />
           <Unit>{unit}</Unit>
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
         <ArrowRight size='16px' name='right-arrow' />
         <Container>
-          <TextInput placeholder='0' onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiat} errorState={errorState} disabled={disabled} />
+          <TextInput value={fiat} placeholder='0' onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} errorState={errorState} />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
-      {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>}
-      {
-        limits && <Error size='13px' weight={300} color='error'>
-          { getLimitsError(value, limits, disabled) }
-        </Error>
-      }
+      {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
     </Wrapper>
   )
 }
 
-FiatConvertor.propTypes = {
+Convertor.propTypes = {
   coin: PropTypes.string,
   fiat: PropTypes.string,
   unit: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  disabled: PropTypes.bool,
   handleBlur: PropTypes.func.isRequired,
   handleCoinChange: PropTypes.func.isRequired,
   handleFiatChange: PropTypes.func.isRequired,
-  handleFocus: PropTypes.func.isRequired,
-  handleErrorClick: PropTypes.func
+  handleFocus: PropTypes.func.isRequired
 }
 
-export default FiatConvertor
+export default Convertor

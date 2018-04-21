@@ -1,5 +1,6 @@
-import { prop, path } from 'ramda'
+import { equals, prop, path } from 'ramda'
 import { selectors } from 'data'
+import { formValueSelector } from 'redux-form'
 
 export const getData = state => {
   const toToggled = selectors.components.sendBtc.getToToggled(state)
@@ -7,12 +8,14 @@ export const getData = state => {
   const paymentR = selectors.components.sendBtc.getPayment(state)
 
   const transform = payment => {
-    const regular = path(['fees', 'regular'], payment)
-    const priority = path(['fees', 'priority'], payment)
-    const minFeePerByte = path(['fees', 'limit', 'min'], payment)
-    const maxFeePerByte = path(['fees', 'limit', 'max'], payment)
+    const regularFeePerByte = path(['fees', 'regular'], payment)
+    const priorityFeePerByte = path(['fees', 'priority'], payment)
+    const minFeePerByte = path(['fees', 'limits', 'min'], payment)
+    const maxFeePerByte = path(['fees', 'limits', 'max'], payment)
     const effectiveBalance = prop('effectiveBalance', payment)
-    const feePerByteElements = [{ group: '', items: [{ text: 'Regular', value: regular }, { text: 'Priority', value: priority }] }]
+    const feePerByteElements = [{ group: '', items: [{ text: 'Regular', value: regularFeePerByte }, { text: 'Priority', value: priorityFeePerByte }] }]
+    const feePerByte = formValueSelector('sendBtc')(state, 'feePerByte')
+    const isPriorityFeePerByte = equals(parseInt(feePerByte), priorityFeePerByte)
 
     return {
       toToggled,
@@ -20,7 +23,10 @@ export const getData = state => {
       feePerByteElements,
       effectiveBalance,
       minFeePerByte,
-      maxFeePerByte
+      maxFeePerByte,
+      regularFeePerByte,
+      priorityFeePerByte,
+      isPriorityFeePerByte
     }
   }
 

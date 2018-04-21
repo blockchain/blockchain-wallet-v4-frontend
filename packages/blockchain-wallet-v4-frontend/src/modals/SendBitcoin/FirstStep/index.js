@@ -22,6 +22,11 @@ class FirstStep extends React.Component {
         feePerByteToggled={value.feePerByteToggled}
         feePerByteElements={value.feePerByteElements}
         effectiveBalance={value.effectiveBalance}
+        minFeePerByte={value.minFeePerByte}
+        maxFeePerByte={value.maxFeePerByte}
+        regularFeePerByte={value.regularFeePerByte}
+        priorityFeePerByte={value.priorityFeePerByte}
+        isPriorityFeePerByte={value.isPriorityFeePerByte}
         handleSubmit={() => actions.sendBtcFirstStepSubmitClicked()}
         handleFeePerByteToggle={() => actions.sendBtcFirstStepFeePerByteToggled()}
         handleToToggle={() => actions.sendBtcFirstStepToToggled()}
