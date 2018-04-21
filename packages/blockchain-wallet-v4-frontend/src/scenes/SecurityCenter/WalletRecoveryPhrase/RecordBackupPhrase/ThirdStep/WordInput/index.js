@@ -20,7 +20,7 @@ const Container = styled.div`
   }
 `
 const validateWord = index => (value, allValues, props) => {
-  return equals(toLower(value), toLower(props.phrase[index])) ? undefined : 'Invalid'
+  return equals(toLower(value), toLower(props.recoveryPhrase[index])) ? undefined : 'Invalid'
 }
 
 const languageHelper = (num) => {
@@ -34,7 +34,6 @@ const languageHelper = (num) => {
 
 const WordInput = props => {
   const { index } = props
-
   return (
     <Container>
       <Text size='13px' weight={300}>
