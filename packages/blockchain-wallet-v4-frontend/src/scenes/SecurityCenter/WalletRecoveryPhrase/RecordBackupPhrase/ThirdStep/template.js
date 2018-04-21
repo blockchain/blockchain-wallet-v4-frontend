@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
+import { contains, range } from 'ramda'
 
 import { Button, Link, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
@@ -36,8 +37,9 @@ const VerificationContainer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, position, showSuccess, close, submitting, invalid, phrase, goBackOnSuccess, inline, handleClose, ...rest } = props
+  const { previousStep, position, showSuccess, close, submitting, invalid, recoveryPhrase, goBackOnSuccess, inline, handleClose, ...rest } = props
   const { indexes, onSubmit, isMnemonicVerified } = rest
+
   return (
     <Form onSubmit={onSubmit}>
       <SuccessOverlay success={showSuccess && isMnemonicVerified}>
@@ -48,18 +50,9 @@ const ThirdStep = (props) => {
       </SuccessOverlay>
       <VerificationContainer authType={showSuccess && isMnemonicVerified}>
         <Container>
-          {indexes.indexOf(0) > -1 && <WordInput index={0} phrase={phrase} />}
-          {indexes.indexOf(1) > -1 && <WordInput index={1} phrase={phrase} />}
-          {indexes.indexOf(2) > -1 && <WordInput index={2} phrase={phrase} />}
-          {indexes.indexOf(3) > -1 && <WordInput index={3} phrase={phrase} />}
-          {indexes.indexOf(4) > -1 && <WordInput index={4} phrase={phrase} />}
-          {indexes.indexOf(5) > -1 && <WordInput index={5} phrase={phrase} />}
-          {indexes.indexOf(6) > -1 && <WordInput index={6} phrase={phrase} />}
-          {indexes.indexOf(7) > -1 && <WordInput index={7} phrase={phrase} />}
-          {indexes.indexOf(8) > -1 && <WordInput index={8} phrase={phrase} />}
-          {indexes.indexOf(9) > -1 && <WordInput index={9} phrase={phrase} />}
-          {indexes.indexOf(10) > -1 && <WordInput index={10} phrase={phrase} />}
-          {indexes.indexOf(11) > -1 && <WordInput index={11} phrase={phrase} />}
+          {range(0, 11).map(
+            index => contains(index, indexes) && <WordInput index={index} />
+          )}
         </Container>
         <Buttons>
           <Button type='submit' nature='primary' disabled={submitting || invalid}>
@@ -83,7 +76,7 @@ const ThirdStep = (props) => {
 
 ThirdStep.propTypes = {
   indexes: PropTypes.array.isRequired,
-  phrase: PropTypes.array.isRequired,
+  recoveryPhrase: PropTypes.array.isRequired,
   previousStep: PropTypes.func.isRequired,
   goBackOnSuccess: PropTypes.func,
   invalid: PropTypes.bool.isRequired,
