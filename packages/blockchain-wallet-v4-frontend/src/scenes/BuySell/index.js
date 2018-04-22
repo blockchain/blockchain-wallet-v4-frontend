@@ -15,15 +15,19 @@ import ui from 'redux-ui'
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 100%;
 `
 const CheckoutWrapper = styled.div`
   width: 100%;
-  padding: 30px;
   font-size: 13px;
   font-weight: 300;
+  padding: 0px 30px;
   box-sizing: border-box;
+  height: calc(100% - 56px);
   color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
+  flex-direction: row;
+  display: flex;
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
