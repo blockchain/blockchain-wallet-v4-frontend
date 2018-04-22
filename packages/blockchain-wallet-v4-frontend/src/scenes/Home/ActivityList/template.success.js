@@ -54,6 +54,18 @@ const Content = styled.div`
     height: 50%;
     border-left: 1px solid ${props => props.theme['gray-2']};
   }
+  > div:last-child {
+    border-bottom: none;
+    border-left: none;
+  }
+  > div:last-child:after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 50%;
+    border-left: 1px solid ${props => props.theme['gray-2']};
+  }
 `
 
 const Success = props => (
