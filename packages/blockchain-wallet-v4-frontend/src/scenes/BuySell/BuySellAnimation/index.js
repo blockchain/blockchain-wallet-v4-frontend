@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Image } from 'blockchain-info-components'
-import { balloon, balloonDelay1, balloonDelay2, flight, flightDelay1, flightDelay2 } from './keyframes'
+import { balloon, balloonDelay1, balloonDelay2, drone, droneDelay1, droneDelay2, flight, flightDelay1, flightDelay2 } from './keyframes'
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -43,6 +43,22 @@ const Bch = styled.div`
   &.buy.sell {
     .buy { animation: ${balloonDelay1} 20s infinite linear; }
     .sell { animation: ${balloonDelay2} 20s infinite linear; }
+  }
+`
+const Eth = styled.div`
+  img {
+    bottom: 0;
+    opacity: 0;
+    left: 40px;
+    height: 60px;
+    position: absolute;
+    animation: ${drone} 3s infinite linear;
+  }
+  &.buy { .buy { opacity: 1; } }
+  &.sell { .sell { opacity: 1; } }
+  &.buy.sell {
+    .buy { animation: ${droneDelay1} 6s infinite linear; }
+    .sell { animation: ${droneDelay2} 6s infinite linear; }
   }
 `
 
@@ -99,7 +115,7 @@ class BuySellAnimation extends React.PureComponent {
   }
 
   render () {
-    const { base, btc, bch } = this.state
+    const { base, btc, bch, eth } = this.state
 
     return (
       <Wrapper>
@@ -113,6 +129,10 @@ class BuySellAnimation extends React.PureComponent {
           <Image name='buy-sell-buy-bch' className='buy' />
           <Image name='buy-sell-sell-bch' className='sell' />
         </Bch>
+        <Eth className={eth}>
+          <Image name='buy-sell-buy-eth' className='buy' />
+          <Image name='buy-sell-sell-eth' className='sell' />
+        </Eth>
       </Wrapper>
     )
   }
