@@ -6,17 +6,26 @@ import { Text, Button } from 'blockchain-info-components'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from 'components/Form'
 import { spacing } from 'services/StyleService'
 import { required } from 'services/FormHelper'
+import BuySellAnimation from './BuySellAnimation'
 
 const Row = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: row;
   width: 100%;
 `
 const ColLeft = styled.div`
-  width: 55%;
+  width: 50%;
+  margin-right: 5%;
+  @media (max-width: 993px) {
+    display: none;
+  }
 `
 const ColRight = styled.div`
   width: 40%;
+  @media (max-width: 993px) {
+    width: 100%;
+  }
 `
 const PartnerHeader = styled.div`
   font-size: 30px;
@@ -61,18 +70,18 @@ const SelectPartner = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    if (sfoxCountries.indexOf(props.country) >= 0) {
+    if (sfoxCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
-    if (unocoinCountries.indexOf(props.country) >= 0) {
+    if (unocoinCountries.indexOf(country) >= 0) {
       console.log('start unocoin')
     }
-    if (coinifyCountries.indexOf(props.country) >= 0) {
+    if (coinifyCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
     }
   }
 
-  const renderUnavailable = () => {
+  const renderColLeft = () => {
     if (!pristine && ((country && onPartnerCountryWhitelist(country)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
       return (
         <UnavailableContainer>
@@ -102,14 +111,17 @@ const SelectPartner = (props) => {
           }
         </UnavailableContainer>
       )
+    } else {
+      return (
+        <BuySellAnimation country={country} options={options} />
+      )
     }
   }
 
   return (
     <Row>
       <ColLeft>
-        placeholder
-        { renderUnavailable() }
+        { renderColLeft() }
       </ColLeft>
       <ColRight>
         <Intro>
