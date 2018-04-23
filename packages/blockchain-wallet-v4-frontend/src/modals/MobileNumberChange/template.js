@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 import { Form, PhoneNumberBox } from 'components/Form'
 import { validMobileNumber, required } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
 
 const MobileNumber = styled.div`
   display: flex;
@@ -32,8 +33,8 @@ const MobileNumberChange = (props) => {
             <FormattedMessage id='modals.mobilenumberchange.explain' defaultMessage='Use your mobile phone to receive a one-time-password after a login attempt.' />
           </Text>
           <MobileNumber>
-            <Text size='14px' weight={300}>
-              <FormattedMessage id='modals.mobilenumberchange.mobile' defaultMessage='Mobile number : ' />
+            <Text style={spacing('mr-10')} size='14px' weight={300}>
+              <FormattedMessage id='modals.mobilenumberchange.mobile' defaultMessage='Mobile number:' />
             </Text>
             <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} placeholder='+XX XXX XXX...' />
           </MobileNumber>
