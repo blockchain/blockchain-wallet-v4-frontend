@@ -11,7 +11,7 @@ const TextGroup = props => {
   const { children, ...rest } = props
 
   return (
-    <BaseTextGroup {...rest}>{children}{' '}</BaseTextGroup>
+    <BaseTextGroup {...rest}>{children}</BaseTextGroup>
   )
 }
 
