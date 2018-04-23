@@ -5,7 +5,7 @@ export const isNumber = is(Number)
 
 export const isInteger = (x) => isNumber(x) && x % 1 === 0
 
-export const isPositiveInteger = (x) => isInteger(x) && x > 0
+export const isPositiveInteger = (x) => isInteger(x) && x >= 0
 
 export const isPositiveNumber = (x) => isNumber(x) && x >= 0
 
