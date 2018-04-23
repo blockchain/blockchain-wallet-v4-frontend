@@ -6,6 +6,7 @@ import { balloon, balloonDelay1, balloonDelay2, drone, droneDelay1, droneDelay2,
 const Wrapper = styled.div`
   overflow: hidden;
   position: relative;
+  margin-top: -56px;
 `
 const BaseColor = styled(Image)`
   left: 0;

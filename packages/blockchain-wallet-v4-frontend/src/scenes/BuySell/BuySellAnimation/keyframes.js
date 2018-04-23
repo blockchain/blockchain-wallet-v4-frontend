@@ -33,6 +33,7 @@ export const droneDelay1 = keyframes`
   0% { bottom: calc(0% - 100px); }
   30% { bottom: 30%; }
   40% { bottom: 30%; }
+  50% { bottom: calc(-100px); }
   100% { bottom: calc(-200%); }
 `
 export const droneDelay2 = keyframes`
@@ -41,5 +42,6 @@ export const droneDelay2 = keyframes`
   40% { bottom: calc(-0% - 100px); }
   80% { bottom: 30%; }
   90% { bottom: 30%; }
-  100% { bottom: calc(-100%); }
+  95% { bottom: 0%; }
+  100% { bottom: -100px; }
 `
