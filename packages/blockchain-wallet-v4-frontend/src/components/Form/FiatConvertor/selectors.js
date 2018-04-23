@@ -7,7 +7,7 @@ export const getData = (state, ownProps) => {
   const ethRatesR = selectors.core.data.ethereum.getRates(state)
   const bchRatesR = selectors.core.data.bch.getRates(state)
 
-  const transform = (currency, btcRates, ethRates, bchRates) => ({ 
+  const transform = (currency, btcRates, ethRates, bchRates) => ({
     unit: ownProps.coin,
     currency,
     btcRates,

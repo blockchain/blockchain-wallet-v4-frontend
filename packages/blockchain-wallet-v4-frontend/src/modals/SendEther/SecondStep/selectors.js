@@ -4,18 +4,19 @@ import { utils } from 'blockchain-wallet-v4/src'
 export const getData = state => {
   const paymentR = selectors.components.sendEth.getPayment(state)
 
-  const from = payment => {
-    switch (payment.fromType) {
-      case 'FROM.ACCOUNT':
-        return selectors.core.kvStore.getAccountLabel(state, payment.address).getOrElse(payment.address)
+  const from = from => {
+    console.log('from', from)
+    switch (from.type) {
+      case 'ACCOUNT':
+        return selectors.core.kvStore.ethereum.getAccountLabel(state, from.address).getOrElse(from.address)
       default:
-        return payment.address
+        return from.address
     }
   }
 
   const transform = payment => ({
     message: payment.description,
-    fromAddress: from(payment),
+    fromAddress: from(payment.from),
     toAddress: payment.to,
     amount: payment.amount,
     fee: payment.fee,

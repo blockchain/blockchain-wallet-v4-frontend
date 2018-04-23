@@ -18,7 +18,7 @@ export const getLegacyAccountAddress = state => getLegacyAccount(state).map(prop
 
 export const getAccount = (state, address) => getAccounts(state).map(head, filter(propEq('addr', address)))
 
-export const getAccountLabel = (state, address) => getAccount(state, address).map(prop('addr'))
+export const getAccountLabel = (state, address) => getAccount(state, address).map(prop('label'))
 
 export const getAccountIndex = (state, address) => getAccounts(state).map(findIndex(propEq('addr', address)))
 
