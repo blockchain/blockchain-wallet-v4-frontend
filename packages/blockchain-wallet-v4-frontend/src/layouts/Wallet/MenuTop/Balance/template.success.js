@@ -36,7 +36,7 @@ const BalanceDropdown = styled.div`
       &:first-child {
         margin-bottom: 3px;
         padding-right: 12px;
-        background: transparent;
+        background: white;
         > div > span:first-child {
           color: ${props => `${props.theme['gray-5']}`};
         }

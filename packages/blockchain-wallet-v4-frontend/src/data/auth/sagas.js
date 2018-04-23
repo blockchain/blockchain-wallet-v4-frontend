@@ -107,8 +107,12 @@ export default ({ api, coreSagas }) => {
         yield put(actions.alerts.displayInfo('Authorization required. Please check your mailbox.'))
         const authorized = yield call(pollingSession, session)
         if (authorized) {
-          yield call(coreSagas.wallet.fetchWalletSaga, { guid, session, password })
-          yield call(loginRoutineSaga, mobileLogin)
+          try {
+            yield call(coreSagas.wallet.fetchWalletSaga, { guid, session, password })
+            yield call(loginRoutineSaga, mobileLogin)
+          } catch (e) {
+            yield put(actions.alerts.displayError(error || 'Error logging into your wallet'))
+          }
         } else {
           yield put(actions.alerts.displayError('Error establishing the session'))
         }
