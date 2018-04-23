@@ -105,11 +105,7 @@ class AcceptTerms extends Component {
             <FieldsContainer>
               <FieldContainer>
                 <Text size='14px' style={spacing('mb-10')}>
-                  {
-                    emailVerified
-                      ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
-                      : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.needsverifiedemail' defaultMessage='Email Address Needs Verification' />
-                  }
+                  <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
                 </Text>
                 <VerifiedContainer>
                   <FieldBox>
@@ -117,11 +113,7 @@ class AcceptTerms extends Component {
                       { email }
                     </Text>
                     <Link onClick={editEmail} size='14px' weight={300}>
-                      {
-                        emailVerified
-                          ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
-                          : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verify' defaultMessage='verify' />
-                      }
+                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
                     </Link>
                   </FieldBox>
                   <IconContainer>
@@ -131,11 +123,7 @@ class AcceptTerms extends Component {
               </FieldContainer>
               <FieldContainer>
                 <Text size='14px' style={spacing('mb-10')}>
-                  {
-                    smsVerified
-                      ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedmobile' defaultMessage='Verified Phone Number' />
-                      : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.needsverifiedmobile' defaultMessage='Phone Number Needs Verification' />
-                  }
+                  <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedmobile' defaultMessage='Verified Phone Number' />
                 </Text>
                 <VerifiedContainer>
                   <FieldBox>
@@ -143,11 +131,7 @@ class AcceptTerms extends Component {
                       { smsNumber }
                     </Text>
                     <Link onClick={editMobile} size='14px' weight={300}>
-                      {
-                        smsVerified
-                          ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
-                          : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verify' defaultMessage='verify' />
-                      }
+                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
                     </Link>
                   </FieldBox>
                   <IconContainer>
