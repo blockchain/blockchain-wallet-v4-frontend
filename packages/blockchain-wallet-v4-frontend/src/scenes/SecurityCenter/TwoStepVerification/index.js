@@ -107,6 +107,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
         editing={this.props.ui.editing}
         pulseText={this.pulseText}
         pulse={this.state.pulse}
+        triggerSuccess={() => { this.props.updateUI({ success: true }); setTimeout(() => { this.props.updateUI({ success: false }) }, 1500) }}
       />,
       Failure: (message) => <Error {...rest}
         message={message} />,
@@ -130,7 +131,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoStep', state: { verifyToggled: false, changeNumberToggled: false, editing: false, authMethod: '' } })
+  ui({ key: 'Security_TwoStep', state: { verifyToggled: false, changeNumberToggled: false, editing: false, authMethod: '', success: false } })
 )
 
 export default enhance(TwoStepVerificationContainer)

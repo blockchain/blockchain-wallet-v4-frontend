@@ -92,7 +92,7 @@ const Help = (props) => {
             <FormattedMessage id='scenes.help.2fa' defaultMessage="I've lost my 2FA Device" />
           </Text>
           <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.help.2fa_explain' defaultMessage='Reset two step verification to regain access to your wallet' />
+            <FormattedMessage id='scenes.help.2fa_explain' defaultMessage='Reset two factor authentication to regain access to your wallet' />
           </Text>
         </Left>
         <Right>

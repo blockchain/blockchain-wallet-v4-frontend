@@ -25,6 +25,7 @@ class GoogleAuthContainer extends React.PureComponent {
     const prev = prevProps.data.data
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
+      this.props.triggerSuccess()
       setTimeout(() => {
         this.props.goBackOnSuccess()
         this.props.handleGoBack()
