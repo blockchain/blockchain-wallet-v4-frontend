@@ -1,11 +1,9 @@
 import React from 'react'
-import { isEmpty, prop } from 'ramda'
+import { prop } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { MaximumAmountMessage, MaximumFeeMessage, MinimumAmountMessage, MinimumFeeMessage, EmptyAccount } from './validationMessages'
 
 const DUST = 546
-
-const DUST_BTC = '0.00000546'
 
 export const minimumAmount = (value, allValues, props) => {
   const valueBtc = prop('coin', value)
