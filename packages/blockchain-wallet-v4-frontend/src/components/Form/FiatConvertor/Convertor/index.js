@@ -1,12 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { equals, isNil, isEmpty } from 'ramda'
+import { equals } from 'ramda'
 
 import { convertFiatToCoin, convertCoinToFiat } from './services'
 import Convertor from './template'
 
 class ConvertorContainer extends React.PureComponent {
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (!equals(nextProps.value, prevState)) {
+      return nextProps.value
+    }
+    return undefined
+  }
+
   constructor (props) {
     super(props)
     this.state = { coin: '', fiat: '' }
@@ -16,21 +22,14 @@ class ConvertorContainer extends React.PureComponent {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
-    if (!equals(nextProps.value, prevState)) {
-      return nextProps.value
-    }
-    return undefined
-  }
-
   handleCoinChange (e) {
-    const { value, unit, currency, btcRates, bchRates, ethRates } = this.props
+    const { unit, currency, btcRates, bchRates, ethRates } = this.props
     const nextProps = convertCoinToFiat(e.target.value, unit, currency, bchRates, btcRates, ethRates)
     this.props.onChange(nextProps)
   }
 
   handleFiatChange (e) {
-    const { value, unit, currency, btcRates, bchRates, ethRates } = this.props
+    const { unit, currency, btcRates, bchRates, ethRates } = this.props
     const nextProps = convertFiatToCoin(e.target.value, unit, currency, bchRates, btcRates, ethRates)
     this.props.onChange(nextProps)
   }

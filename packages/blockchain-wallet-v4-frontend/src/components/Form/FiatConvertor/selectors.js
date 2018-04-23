@@ -1,6 +1,5 @@
 import { selectors } from 'data'
 import { lift } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = (state, ownProps) => {
   const currencyR = selectors.core.settings.getCurrency(state)
@@ -10,9 +9,9 @@ export const getData = (state, ownProps) => {
 
   const transform = (currency, btcRates, ethRates, bchRates) => ({ 
     unit: ownProps.coin,
-    currency, 
-    btcRates, 
-    ethRates, 
+    currency,
+    btcRates,
+    ethRates,
     bchRates
   })
 

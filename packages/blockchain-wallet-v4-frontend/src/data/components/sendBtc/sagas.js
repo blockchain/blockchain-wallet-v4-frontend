@@ -100,7 +100,7 @@ export default ({ coreSagas }) => {
 
   const toToggled = function * () {
     try {
-      yield put(change('sendBtc', 'to', ))
+      yield put(change('sendBtc', 'to', ''))
     } catch (e) {
       console.log(e)
     }
