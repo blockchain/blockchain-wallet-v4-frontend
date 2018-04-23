@@ -11,6 +11,7 @@ class ImportedAddressesContainer extends React.Component {
     this.handleClickImport = this.handleClickImport.bind(this)
     this.handleToggleArchived = this.handleToggleArchived.bind(this)
     this.handleShowPriv = this.handleShowPriv.bind(this)
+    this.handleSignMessage = this.handleSignMessage.bind(this)
   }
 
   shouldComponentUpdate (nextProps) {
@@ -23,6 +24,10 @@ class ImportedAddressesContainer extends React.Component {
 
   handleShowPriv (address) {
     this.props.modalsActions.showModal('ShowPrivateKey', { addr: address.addr })
+  }
+
+  handleSignMessage (address) {
+    this.props.modalsActions.showModal('SignMessage', { address: address.addr })
   }
 
   handleToggleArchived (address) {
@@ -39,6 +44,7 @@ class ImportedAddressesContainer extends React.Component {
             onClickImport={this.handleClickImport}
             onToggleArchived={this.handleToggleArchived}
             onShowPriv={this.handleShowPriv}
+            onShowSignMessage={this.handleSignMessage}
           />
         ),
         Failure: (message) => <div>{message}</div>,
