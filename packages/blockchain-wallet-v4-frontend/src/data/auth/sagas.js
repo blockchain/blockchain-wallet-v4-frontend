@@ -111,7 +111,7 @@ export default ({ api, coreSagas }) => {
             yield call(coreSagas.wallet.fetchWalletSaga, { guid, session, password })
             yield call(loginRoutineSaga, mobileLogin)
           } catch (e) {
-            yield put(actions.alerts.displayError(error || 'Error logging into your wallet'))
+            yield put(actions.alerts.displayError('Error logging into your wallet'))
           }
         } else {
           yield put(actions.alerts.displayError('Error establishing the session'))
