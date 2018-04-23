@@ -52,7 +52,7 @@ const MenuTop = (props) => (
           <FormattedMessage id='layouts.wallet.menutop.bank' defaultMessage='Be your own bank.' />
         </Text>
         <Text size='20px' weight={200}>
-        <sup>®</sup>
+          <sup>®</sup>
         </Text>
       </TextContainer>
       <Actions />
