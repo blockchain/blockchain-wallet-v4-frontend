@@ -17,6 +17,11 @@ const Container = styled.div`
     height: 40px;
     font-size: 14px;
   }
+  * {
+    color: ${props => props.theme['gray-5']};
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+  }
 `
 
 const PhoneNumberBox = (field) => {

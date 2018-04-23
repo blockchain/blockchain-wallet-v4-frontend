@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { take } from 'ramda'
+import { filter, take } from 'ramda'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { ComponentDropdown, Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
@@ -14,6 +14,10 @@ const BchWalletsAddressesSettingHeader = SettingHeader.extend`
 `
 const AddressesSettingDescription = SettingDescription.extend`
   margin-bottom: 10px;
+`
+const WalletTableCell = styled(TableCell)`
+  align-items: center;
+  min-height: 23px;
 `
 const ClickableText = styled(Text)`
   cursor: pointer;
@@ -45,20 +49,22 @@ const OptionItem = ({ id, text, onClick }) => (
 
 const Success = (props) => {
   const { bchAccounts, wallets, defaultId } = props.data
-  const { onEditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub } = props
+  const { onEditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub, search } = props
 
-  const walletTableRows = take(bchAccounts.length, wallets).map((wallet, i) => {
+  const isMatch = (wallet) => !search || wallet.label.toLowerCase().indexOf(search) > -1
+
+  const walletTableRows = filter(isMatch, take(bchAccounts.length, wallets)).map((wallet, i) => {
     const isDefault = i === defaultId
     const isArchived = bchAccounts[i].archived
 
     return (
       <TableRow key={i}>
-        <TableCell width='50%'>
+        <WalletTableCell width='40%'>
           <Text size='13px'>{wallet.label}</Text>
           {isDefault && <InfoLabel bgcolor='brand-primary'>Default</InfoLabel>}
           {isArchived && <InfoLabel bgcolor='gray-3'>Archived</InfoLabel>}
-        </TableCell>
-        <TableCell width='30%'>
+        </WalletTableCell>
+        <TableCell width='40%'>
           <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>
         </TableCell>
         <TableCell width='20%'>

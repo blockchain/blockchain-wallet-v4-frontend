@@ -34,6 +34,7 @@ class EmailAddressContainer extends React.PureComponent {
 
   handleVerifyClick () {
     this.props.handleEnable()
+    this.handleResend()
   }
 
   handleResend () {

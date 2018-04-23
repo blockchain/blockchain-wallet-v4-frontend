@@ -20,10 +20,11 @@ const BaseTextInput = styled.input.attrs({
   outline-width: 0;
   user-select: text;
   border: 1px solid  ${props => props.theme[props.borderColor]};
-  cursor: ${props => props.disabled ? 'pointer' : 'not-allowed'}
+  cursor: ${props => props.disabled ? 'not-allowed' : 'initial'};
 
-  &::-webkit-input-placeholder {
-    color: ${props => props.theme['gray-2']};
+  &::placeholder {
+    color: ${props => props.theme['gray-3']};
+    opacity: 0.4;
   }
 `
 
@@ -51,7 +52,7 @@ TextInput.defaultProps = {
   disabled: false
 }
 
-Text.defaultProps = {
+TextInput.defaultProps = {
   height: '40px',
   minHeight: '40px'
 }

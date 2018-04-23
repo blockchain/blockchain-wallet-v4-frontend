@@ -17,14 +17,12 @@ const BaseText = styled.div`
   flex-direction: ${props => props.flexRow ? 'row' : null};
   display: ${props => props.flexRow ? 'flex' : 'block'};
   opacity: ${props => props.opacity ? 0.5 : 1};
-
-  & > :after { content: &nbsp; }
 `
 
 const Text = ({ children, ...props }) => {
   return (
     <BaseText {...props}>
-      {children}
+      {children}{' '}
     </BaseText>
   )
 }
