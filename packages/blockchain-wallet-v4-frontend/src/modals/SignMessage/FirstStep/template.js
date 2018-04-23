@@ -26,7 +26,7 @@ const ClickableText = styled(Text)`
 `
 
 const FirstStep = props => {
-  const { address, closeAll, disabled, handleSubmit, invalid, submitting } = props
+  const { address, closeAll, disabled, handleSubmit } = props
 
   return (
     <Form override onSubmit={handleSubmit}>
