@@ -27,7 +27,7 @@ class BchWalletsContainer extends React.Component {
 
     return (
       data.cata({
-        Success: (value) => <Success search={search} data={value} {...props} {...rest} />,
+        Success: (value) => <Success search={search && search.toLowerCase()} data={value} {...props} {...rest} />,
         Failure: (message) => <div>{message}</div>,
         Loading: () => <div />,
         NotAsked: () => <div />
