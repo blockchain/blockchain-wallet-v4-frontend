@@ -13,18 +13,24 @@ const Row = styled.div`
   align-items: center;
   flex-direction: row;
   width: 100%;
+  @media (max-width: 993px) {
+    align-items: flex-start;
+  }
 `
 const ColLeft = styled.div`
   width: 50%;
   margin-right: 5%;
+  margin-top: -28px;
   @media (max-width: 993px) {
     display: none;
   }
 `
 const ColRight = styled.div`
   width: 40%;
+  margin-top: -56px;
   @media (max-width: 993px) {
     width: 100%;
+    margin-top: 30px;
   }
 `
 const PartnerHeader = styled.div`
@@ -41,10 +47,10 @@ const Intro = styled.div`
   width: 100%;
 `
 const SelectionContainer = Intro.extend`
-  margin-top: 40px;
+  margin-top: 15px;
 `
 const FieldWrapper = Intro.extend`
-  margin-top: 20px;
+  margin-top: 5px;
   width: 50%;
 `
 const UnavailableContainer = styled.div`
@@ -148,14 +154,14 @@ const SelectPartner = (props) => {
               </FormGroup>
               {
                 country === 'US'
-                  ? <FormGroup style={spacing('mt-20')}>
+                  ? <FormGroup style={spacing('mt-5')}>
                     <FormItem>
                       <Field name='state' validate={[required, onSfoxWhitelist]} component={SelectBoxUSState} />
                     </FormItem>
                   </FormGroup>
                   : null
               }
-              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-20')}>
+              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-15')}>
                 <FormattedMessage id='selectpartner.getstarted' defaultMessage='get started' />
               </Button>
             </form>
