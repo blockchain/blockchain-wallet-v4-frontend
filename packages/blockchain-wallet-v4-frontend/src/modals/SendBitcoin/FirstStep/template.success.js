@@ -79,7 +79,6 @@ const FirstStep = props => {
   const { toToggled, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, ...rest2 } = rest
   const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
 
-
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
@@ -93,7 +92,7 @@ const FirstStep = props => {
           <FormLabel for='from'>
             <FormattedMessage id='modals.sendbtc.firststep.from' defaultMessage='From:' />
           </FormLabel>
-          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
+          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -139,17 +138,17 @@ const FirstStep = props => {
             <FeeFormLabel>
               <FormattedMessage id='modals.sendbtc.firststep.fee' defaultMessage='Transaction fee:' />
               {!feePerByteToggled && <Field name='feePerByte' component={SelectBox} elements={feePerByteElements} />}
-              {feePerByteToggled && 
+              {feePerByteToggled &&
                 <FeeOptionsContainer>
                   <RegularFeeLink fee={regularFeePerByte} />
                   <PriorityFeeLink fee={priorityFeePerByte} />
                 </FeeOptionsContainer>
               }
             </FeeFormLabel>
-            {feePerByteToggled && 
+            {feePerByteToggled &&
               <FeePerByteContainer>
                 <Field name='feePerByte' component={NumberBox} validate={[required, minimumFeePerByte, maximumFeePerByte]} />
-              </FeePerByteContainer>    
+              </FeePerByteContainer>
             }
           </FeeFormContainer>
         </ColLeft>
