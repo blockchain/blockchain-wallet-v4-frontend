@@ -28,16 +28,17 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
   }
 
   render () {
-    const { data, coin, ...rest } = this.props
+    const { data, coin, includeAll, ...rest } = this.props
 
     return data.cata({
       Success: (value) => {
-        const elements = [{
+        const wallets = [{
           group: '',
           items: value.data
         }]
+        const elements = includeAll ? this.concatAll(coin)(wallets) : wallets
 
-        return <SelectBox elements={this.concatAll(coin)(elements)} {...rest} />
+        return <SelectBox elements={elements} {...rest} />
       },
       Failure: (message) => <div>{message}</div>,
       Loading: () => <div />,
