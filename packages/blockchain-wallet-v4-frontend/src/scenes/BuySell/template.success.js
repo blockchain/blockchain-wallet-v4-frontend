@@ -56,8 +56,8 @@ const SelectPartner = (props) => {
   const coinifyCountries = options.platforms.web.coinify.countries
   const countries = [sfoxCountries, coinifyCountries, unocoinCountries].join().split(',')
 
-  const onSfoxWhitelist = val => val && sfoxStates.indexOf(val) >= 0 ? undefined : 'Feature is not available in your state.'
-  const onPartnerCountryWhitelist = val => val && countries.indexOf(val) >= 0 ? undefined : 'Feature is not available in your country.'
+  const onSfoxWhitelist = val => val && sfoxStates.indexOf(val) >= 0 ? undefined : 'state not supported'
+  const onPartnerCountryWhitelist = val => val && countries.indexOf(val) >= 0 ? undefined : 'country not supported'
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -131,14 +131,14 @@ const SelectPartner = (props) => {
             <form onSubmit={onSubmit}>
               <FormGroup>
                 <FormItem>
-                  <Field name='country' validate={[required, onPartnerCountryWhitelist]} component={SelectBoxCountry} />
+                  <Field name='country' validate={[required, onPartnerCountryWhitelist]} component={SelectBoxCountry} errorBottom />
                 </FormItem>
               </FormGroup>
               {
                 country === 'US'
                   ? <FormGroup style={spacing('mt-20')}>
                     <FormItem>
-                      <Field name='state' validate={[required, onSfoxWhitelist]} component={SelectBoxUSState} />
+                      <Field name='state' validate={[required, onSfoxWhitelist]} component={SelectBoxUSState} errorBottom />
                     </FormItem>
                   </FormGroup>
                   : null
