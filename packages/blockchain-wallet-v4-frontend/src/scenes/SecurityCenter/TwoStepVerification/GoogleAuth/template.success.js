@@ -60,10 +60,10 @@ const Google = props => {
               : null
           }
           <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Scan this QR code with your Authenticator app' />
+            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Scan this QR code with your Authenticator app.' />
           </Text>
           <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Enter the random number presented below' />
+            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Enter the random number presented below.' />
           </Text>
           <QRInputWrapper>
             <Field name='authCode' component={TextBox} validate={[required]} placeholder='111 222' />
