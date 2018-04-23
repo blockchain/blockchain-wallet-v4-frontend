@@ -20,11 +20,6 @@ const EmailInput = styled.div`
   margin-top: 25px;
   flex-direction: column;
 `
-const CancelText = styled.p`
-  text-align: center;
-  cursor: pointer;
-  font-size: 14px;
-`
 
 class VerifyEmail extends Component {
   constructor (props) {
@@ -113,7 +108,6 @@ class VerifyEmail extends Component {
               <Button type='submit' nature='primary' fullwidth uppercase disabled={invalid || ui.create !== 'enter_email_code' || !emailCode}>
                 <FormattedMessage id='sfoxexchangedata.create.verifyemail.continue' defaultMessage='Continue' />
               </Button>
-              <CancelText onClick={() => this.props.updateUI({create: 'create_account'})}>Cancel</CancelText>
             </ButtonWrapper>
           </ColRightInner>
         </ColRight>
