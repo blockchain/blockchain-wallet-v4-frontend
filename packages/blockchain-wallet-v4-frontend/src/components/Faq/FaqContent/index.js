@@ -1,10 +1,9 @@
 import React from 'react'
-import { Color } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 
 import styled from 'styled-components'
-import { Link } from 'blockchain-info-components'
+import { Link, Color } from 'blockchain-info-components'
 
 const FaqDescription = styled.div`
   text-align: justify;
@@ -49,19 +48,19 @@ const FaqContent = [
       question: 'Can an address still receive funds even though it’s no longer displayed under ‘Request’?',
       answer: <FaqDescription>
                 <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.one' defaultMessage={'Yes. All public addresses generated from your wallet can still receive funds, even if they no longer appear under ‘Request’. As explained'}/>
-                  <Link href='https://support.blockchain.com/hc/en-us/articles/210353663-Why-is-my-bitcoin-address-changing-' target='_blank' size='12px' weight='200px'>here,</Link>
-                <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.two' defaultMessage={'a new address will automatically display under ‘Request’ once the previously displayed address receives a payment.'} />
-                  <br/>
-                  <br/>
-                <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.three' defaultMessage={'In Settings > Addresses, you can click on ‘Manage’ to the right of each wallet to view all of the labeled addresses that have been generated for that specific wallet. Clicking ‘Used Addresses’ allows you to see every receiving addressed ever generated within the wallet, as well as the current balance of each of these used addresses. Please note that when you send funds, your Blockchain wallet automatically selects addresses to spend from. That\'s why the current balance of an address can be different from the total received value'}/>
-              </FaqDescription>
+        <Link href='https://support.blockchain.com/hc/en-us/articles/210353663-Why-is-my-bitcoin-address-changing-' target='_blank' size='12px' weight='200px'>here,</Link>
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.two' defaultMessage={'a new address will automatically display under ‘Request’ once the previously displayed address receives a payment.'} />
+        <br/>
+        <br/>
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.three' defaultMessage={'In Settings > Addresses, you can click on ‘Manage’ to the right of each wallet to view all of the labeled addresses that have been generated for that specific wallet. Clicking ‘Used Addresses’ allows you to see every receiving addressed ever generated within the wallet, as well as the current balance of each of these used addresses. Please note that when you send funds, your Blockchain wallet automatically selects addresses to spend from. That\'s why the current balance of an address can be different from the total received value'}/>
+          </FaqDescription>
     }, {
       questionId: 'scenes.faq.group.walletfunctionality.question7',
       answerId: 'scenes.faq.group.walletfunctionality.answer7',
       question: 'How do I know if a transaction has been successfully received/sent?',
-      answer: 'Transactions will appear almost instantly in your transaction feed. Each currency has its own feed, which you can find by clicking on the corresponding currency in the left navigation of your wallet. While your bitcoin and bitcoin cash transactions are considered complete once they have 3 network confirmations, your ether transactions will be considered complete after 12 confirmations. This typically takes about 30 minutes for bitcoin and bitcoin cash and 5 minutes for ether, but can vary. Until then, your transaction will show up as pending.',
+      answer: 'Transactions will appear almost instantly in your transaction feed. Each currency has its own feed, which you can find by clicking on the corresponding currency in the left navigation of your wallet. While your bitcoin and bitcoin cash transactions are considered complete once they have 3 network confirmations, your ether transactions will be considered complete after 12 confirmations. This typically takes about 30 minutes for bitcoin and bitcoin cash and 5 minutes for ether, but can vary. Until then, your transaction will show up as pending.'
     }, {
-       questionId: 'scenes.faq.group.walletfunctionality.question8',
+      questionId: 'scenes.faq.group.walletfunctionality.question8',
       answerId: 'scenes.faq.group.walletfunctionality.answer8',
       question: 'Can my transaction be canceled or reversed?',
       answer:  <FaqDescription>
@@ -226,5 +225,4 @@ const FaqContent = [
         answer: 'We refer to “mining nodes” as miners. Mining nodes group pending transactions into blocks and add them to the block chain. They do this by solving complex mathematical puzzles that come with the software, and include the answer into each block before adding it to the chain of other blocks. When funds are sent, every computer running a mining node receives the same transaction, and multiple people go to approve or deny it. If miners disagree on a transaction, the network automatically rejects the transaction that doesn’t match the rest: preventing fraud. It’s impossible for scammers to manipulate the system this way, since their copy of the block chain wouldn’t match the others, and each transaction has to be agreed upon.'
       }]
     }]
-
 export default FaqContent
