@@ -1,14 +1,12 @@
 import { call, select } from 'redux-saga/effects'
 import { isNil, merge, prop, path, identity } from 'ramda'
-import Task from 'data.task'
 import EthUtil from 'ethereumjs-util'
 
 import * as S from '../../selectors'
 import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
-import { futurizeP } from 'futurize'
-import { isString, isPositiveNumber, isPositiveInteger, isPositiveBigInteger } from '../../../utils/checks'
-import { calculateFee, calculateEffectiveBalance, txHexToHashHex, isValidAddress, convertGweiToWei } from '../../../utils/ethereum'
+import { isString, isPositiveInteger } from '../../../utils/checks'
+import { calculateFee, calculateEffectiveBalance, isValidAddress, convertGweiToWei } from '../../../utils/ethereum'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -24,11 +22,6 @@ const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resol
 
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
-  // const pushEthereumTx = futurizeP(Task)(api.pushEthereumTx)
-  // const getWalletUnspent = (network, fromData) =>
-  //   api.getBitcoinUnspents(fromData.from, -1)
-  //     .then(prop('unspent_outputs'))
-  //     .then(map(toCoin(network, fromData)))
   const selectIndex = function * (from) {
     const appState = yield select(identity)
     switch (prop('type', from)) {
