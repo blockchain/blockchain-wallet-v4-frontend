@@ -124,7 +124,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   const authorizeLogin = (token, confirm) => post({
     url: rootUrl,
-    endPoint: 'wallet',
+    endPoint: '/wallet',
     data: {
       token: token,
       confirm_approval: confirm,
