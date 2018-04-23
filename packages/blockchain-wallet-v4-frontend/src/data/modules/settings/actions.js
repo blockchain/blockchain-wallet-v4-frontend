@@ -49,3 +49,5 @@ export const showPrivateKey = (addr) => ({ type: AT.SHOW_PRIV_KEY, payload: { ad
 export const addShownPrivateKey = (priv) => ({ type: AT.ADD_SHOWN_PRIV_KEY, payload: { priv } })
 
 export const clearShownPrivateKey = (priv) => ({ type: AT.CLEAR_SHOWN_PRIV_KEY, payload: {} })
+
+export const signMessage = (addr) => ({ type: AT.SIGN_MESSAGE, payload: { addr } })

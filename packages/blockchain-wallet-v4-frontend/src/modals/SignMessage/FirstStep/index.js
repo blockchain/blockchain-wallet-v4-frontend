@@ -15,6 +15,7 @@ class FirstStepContainer extends React.PureComponent {
 
   handleSubmit (e) {
     e.preventDefault()
+    this.props.settingsActions.signMessage(this.props.address)
     this.props.nextStep()
   }
 
@@ -35,7 +36,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
