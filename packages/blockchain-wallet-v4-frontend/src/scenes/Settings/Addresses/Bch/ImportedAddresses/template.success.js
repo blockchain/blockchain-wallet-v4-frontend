@@ -1,9 +1,10 @@
 import React from 'react'
+import { filter } from 'ramda'
 import styled from 'styled-components'
+import AddressRow from '../../Btc/AddressRow'
 import { FormattedMessage } from 'react-intl'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Icon, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { Icon, Table, TableHeader, TableCell, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -24,19 +25,12 @@ const WarningWrapper = styled.div`
 `
 
 const Success = (props) => {
-  const { importedAddresses } = props
+  const { importedAddresses, search } = props
 
-  const importedAddressesTableRows = importedAddresses.map((address, i) => {
-    return (
-      <TableRow key={i}>
-        <TableCell width='50%'>
-          <Text size='13px'>{address.addr}</Text>
-        </TableCell>
-        <TableCell width='30%'>
-          <SwitchableDisplay size='13px' coin='BCH'>{address.info && address.info.final_balance}</SwitchableDisplay>
-        </TableCell>
-      </TableRow>
-    )
+  const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
+
+  const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address, i) => {
+    return (<AddressRow key={address.addr} address={address} coin='BCH' />)
   })
 
   return (
@@ -46,7 +40,7 @@ const Success = (props) => {
       </ImportedAddressesSettingHeader>
       <AddressesSettingDescription>
         <WarningWrapper>
-          <Icon name='alert-filled' size='22px' className={'warning-icon'}/>
+          <Icon name='alert-filled' size='22px' className={'warning-icon'} />
           <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
         </WarningWrapper>
       </AddressesSettingDescription>
@@ -54,12 +48,12 @@ const Success = (props) => {
         importedAddressesTableRows.length > 0 &&
         <Table>
           <TableHeader>
-            <TableCell width='50%'>
+            <TableCell width='40%'>
               <Text size='13px' weight={500} capitalize>
                 <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
               </Text>
             </TableCell>
-            <TableCell width='30%'>
+            <TableCell width='40%'>
               <Text size='13px' weight={500} capitalize>
                 <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
               </Text>
