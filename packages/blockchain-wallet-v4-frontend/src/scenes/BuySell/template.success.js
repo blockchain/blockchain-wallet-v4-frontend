@@ -114,10 +114,10 @@ const SelectPartner = (props) => {
       <ColRight>
         <Intro>
           <PartnerHeader>
-            <FormattedMessage id='selectpartner.header' defaultMessage='A Better Buy & Sell' />
+            <FormattedMessage id='selectpartner.header' defaultMessage='Introducing Buy & Sell' />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='selectpartner.subheader' defaultMessage="We're excited to introduce an all-in-one experience. Whether you want to buy or sell using your local currency or exchange between your digital assets, you'll find everything you need right here." />
+            <FormattedMessage id='selectpartner.subheader' defaultMessage='You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account.' />
           </PartnerSubHeader>
           <PartnerSubHeader style={spacing('mt-15')}>
             <FormattedMessage id='selectpartner.subheader2' defaultMessage="Select your location below, verify your identity, and before you know it, you'll be on your way to making your crypto dreams a reality!" />

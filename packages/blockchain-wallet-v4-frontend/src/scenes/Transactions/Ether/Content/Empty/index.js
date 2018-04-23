@@ -37,7 +37,7 @@ const Empty = props => {
           <FormattedMessage id='scenes.transactions.ether.content.empty.transactions' defaultMessage='Your transactions' />
         </Text>
         <Text size='14px' weight={300}>
-          <FormattedMessage id='scenes.transactions.ether.content.empty.explain' defaultMessage='Transactions occur when your receive and send ether.' />
+          <FormattedMessage id='scenes.transactions.ether.content.empty.explain' defaultMessage='Transactions occur when you receive and send ether.' />
         </Text>
         <Separator />
       </Transactions>
