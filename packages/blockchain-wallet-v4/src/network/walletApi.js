@@ -93,7 +93,6 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
   const getBTCWalletUnspents = compose(taskToPromise, getWalletUnspentsTask(ApiPromise.getBitcoinUnspents))
   const getBCHWalletUnspents = compose(taskToPromise, getWalletUnspentsTask(ApiPromise.getBchUnspents))
 
-
   // ////////////////////////////////////////////////////////////////
   const Api = map(future, ApiPromise)
 

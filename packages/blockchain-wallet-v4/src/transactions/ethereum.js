@@ -2,7 +2,7 @@ import { contains, equals, map, toLower } from 'ramda'
 import moment from 'moment'
 import BigNumber from 'bignumber.js'
 
-import EthereumTx from 'ethereumjs-tx'
+// import EthereumTx from 'ethereumjs-tx'
 import { getEthereumTxNote } from '../redux/kvStore/ethereum/selectors.js'
 
 // getType :: TX -> [String] -> String
