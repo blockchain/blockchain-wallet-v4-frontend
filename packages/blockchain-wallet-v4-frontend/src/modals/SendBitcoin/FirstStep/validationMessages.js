@@ -1,8 +1,6 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
 
 import MaximumAmountLink from './MaximumAmountLink'
@@ -45,4 +43,8 @@ export const MinimumFeeMessage = () => (
     <FormattedMessage id='modals.sencbtc.minimumfeemessage' defaultMessage='Below minimum fee. Use' />
     <MinimumFeeLink />
   </Wrapper>
+)
+
+export const EmptyAccount = () => (
+  <FormattedMessage id='modals.sencbtc.nomoney' defaultMessage='No money to spend on this account' />
 )

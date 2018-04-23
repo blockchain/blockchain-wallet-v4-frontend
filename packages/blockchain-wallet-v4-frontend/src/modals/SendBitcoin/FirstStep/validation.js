@@ -22,3 +22,10 @@ export const maximumAmount = (value, allValues, props) => {
 export const minimumFeePerByte = (value, allValues, props) => value >= props.minFeePerByte ? undefined : <MinimumFeeMessage />
 
 export const maximumFeePerByte = (value, allValues, props) => value <= props.maxFeePerByte ? undefined : <MaximumFeeMessage />
+
+export const emptyAccount = (value, allValues, props) => props.effectiveBalance > 0 ? undefined : <EmptyAccount />
+
+export const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+  if (initialRender) { return true }
+  return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
+}

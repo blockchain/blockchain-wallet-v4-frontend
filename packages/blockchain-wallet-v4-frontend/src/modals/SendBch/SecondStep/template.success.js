@@ -40,7 +40,6 @@ const Footer = styled.div`
 `
 
 const Success = props => {
-  console.log('SUCCESS', props)
   const { message, fromAddress, toAddress, amount, fee, total, coin, handleSubmit, handleBack } = props
 
   return (

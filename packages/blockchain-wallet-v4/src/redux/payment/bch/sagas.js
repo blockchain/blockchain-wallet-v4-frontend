@@ -227,9 +227,13 @@ export default ({ api }) => {
 
       * from (origins) {
         let fromData = yield call(calculateFrom, origins, network)
-        let coins = yield call(getWalletUnspent, network, fromData)
-        let effectiveBalance = yield call(calculateEffectiveBalance, {coins, fee: p.fee})
-        return makePayment(merge(p, { ...fromData, coins, effectiveBalance }))
+        try {
+          let coins = yield call(getWalletUnspent, network, fromData)
+          let effectiveBalance = yield call(calculateEffectiveBalance, {coins, fee: p.fee})
+          return makePayment(merge(p, { ...fromData, coins, effectiveBalance }))
+        } catch (e) {
+          return makePayment(merge(p, { ...fromData, coins: [], effectiveBalance: 0 }))
+        }
       },
 
       * fee (value) {

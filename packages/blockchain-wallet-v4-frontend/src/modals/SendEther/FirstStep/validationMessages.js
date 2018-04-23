@@ -1,8 +1,6 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
 
 import MaximumAmountLink from './MaximumAmountLink'
