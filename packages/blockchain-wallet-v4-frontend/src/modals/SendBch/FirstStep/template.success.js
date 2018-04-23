@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
@@ -47,7 +46,7 @@ const FirstStep = props => {
           <FormLabel for='from'>
             <FormattedMessage id='modals.sendBch.firststep.from' defaultMessage='From:' />
           </FormLabel>
-          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} coin='BCH' props={{ includeAll: false }} />
+          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} coin='BCH' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
