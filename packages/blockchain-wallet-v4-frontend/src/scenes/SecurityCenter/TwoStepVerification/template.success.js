@@ -222,7 +222,7 @@ const TwoStepVerification = (props) => {
                     <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Enable' />
                   </Button>
                   : <Button nature='primary' onClick={props.handleDisableClick} >
-                    <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Edit' />
+                    <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Disable' />
                   </Button>
               }
             </SecurityComponent>
