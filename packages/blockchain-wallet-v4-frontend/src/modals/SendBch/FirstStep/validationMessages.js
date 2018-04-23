@@ -1,8 +1,6 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
 
 import MaximumAmountLink from './MaximumAmountLink'
@@ -21,4 +19,8 @@ export const MaximumAmountMessage = () => (
     <FormattedMessage id='modals.sendeth.maximumamountmessage' defaultMessage='Maximum amount exceeded. Use' />
     <MaximumAmountLink />
   </Wrapper>
+)
+
+export const EmptyAccount = () => (
+  <FormattedMessage id='modals.sencbch.nomoney' defaultMessage='No money to spend on this account' />
 )

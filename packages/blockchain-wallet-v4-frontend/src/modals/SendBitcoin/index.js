@@ -16,7 +16,6 @@ class SendBitcoinContainer extends React.PureComponent {
 
   render () {
     const { step, position, total, closeAll } = this.props
-    console.log('render SendBitcoin')
     return (
       <SendBitcoin position={position} total={total} closeAll={closeAll}>
         {step === 1 && <FirstStep />}
