@@ -14,7 +14,6 @@ export const getData = (state) => {
   const ethRates = selectors.core.data.ethereum.getRates(state)
   const bchRates = selectors.core.data.bch.getRates(state)
   const settings = selectors.core.settings.getSettings(state)
-  const coinDisplayed = selectors.preferences.getCoinDisplayed(state)
 
   const btcAccountsLength = length(selectors.core.common.bitcoin.getActiveHDAccounts(state).getOrElse([]))
   const bchAccountsLength = length(selectors.core.kvStore.bch.getAccounts(state).getOrElse([]))
@@ -24,24 +23,20 @@ export const getData = (state) => {
     const ethFiatBalance = Exchange.convertEtherToFiat({ value: ethBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethRates })
     const bchFiatBalance = Exchange.convertBchToFiat({ value: bchBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bchRates })
 
-    const btcTotalBalance = Exchange.convertBitcoinToBitcoin({ value: btcBalance, fromUnit: 'SAT', toUnit: 'BTC' })
-    const ethTotalBalance = Exchange.convertEtherToEther({ value: ethBalance, fromUnit: 'WEI', toUnit: 'ETH' })
-    const bchTotalBalance = Exchange.convertBchToBch({ value: bchBalance, fromUnit: 'SAT', toUnit: 'BCH' })
-
     const chartData = [{
-      y: coinDisplayed ? Number(btcTotalBalance.value) : Number(btcFiatBalance.value),
+      y: Number(btcFiatBalance.value),
       color: Color('brand-primary'),
       fiat: btcFiatBalance.value,
       name: 'Bitcoin',
       id: 'btc'
     }, {
-      y: coinDisplayed ? Number(ethTotalBalance.value) : Number(ethFiatBalance.value),
+      y: Number(ethFiatBalance.value),
       color: Color('brand-secondary'),
       fiat: ethFiatBalance.value,
       name: 'Ether',
       id: 'eth'
     }, {
-      y: coinDisplayed ? Number(bchTotalBalance.value) : Number(bchFiatBalance.value),
+      y: Number(bchFiatBalance.value),
       color: Color('brand-tertiary'),
       fiat: bchFiatBalance.value,
       name: 'Bitcoin Cash',

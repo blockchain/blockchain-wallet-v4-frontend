@@ -131,7 +131,7 @@ const Navigation = (props) => {
           <SubMenu>
             <LinkContainer to='/settings/info' activeClassName='active' onClick={handleCloseMenuLeft}>
               <SubMenuItem>
-                <FormattedMessage id='layouts.wallet.menuleft.navigation.walletinfo' defaultMessage='Wallet Information' smaller />
+                <FormattedMessage id='layouts.wallet.menuleft.navigation.general' defaultMessage='General' smaller />
               </SubMenuItem>
             </LinkContainer>
             <LinkContainer to='/settings/preferences' activeClassName='active' onClick={handleCloseMenuLeft}>

@@ -15,6 +15,10 @@ const Wrapper = styled.div`
   height: calc(100% - 115px);
   width: 100%;
   overflow-y: auto;
+  // ff ignores padding when overflow: auto
+  @-moz-document url-prefix() {
+    height: calc(100% - 175px);
+  }
 `
 
 class PageContainer extends React.Component {

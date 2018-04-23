@@ -41,7 +41,7 @@ function Choices (props) {
             <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Authenticator App' />
           </Text>
           <Text weight={200} size='12px'>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Use App generated codes' />
+            <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Use app-generated codes' />
           </Text>
         </ChoiceDescription>
       </Choice>

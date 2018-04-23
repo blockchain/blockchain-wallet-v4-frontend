@@ -19,12 +19,15 @@ const Transactions = styled.div`
   align-items : center;
   margin-top: 100px;
 `
+const ExchangeIcon = styled(Icon)`
+  justify-content: center;
+`
 
 const Empty = () => (
   <Wrapper>
     <Transactions>
       <Text size='24px' weight={200} capitalize>
-        <Icon name='exchange' size='24px' />
+        <ExchangeIcon name='exchange' size='24px' />
         <FormattedMessage id='scenes.exchangehistory.empty.history' defaultMessage='Your order history' />
       </Text>
       <TextGroup inline>
