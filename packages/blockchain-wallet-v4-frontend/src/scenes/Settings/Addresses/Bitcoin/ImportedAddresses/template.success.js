@@ -23,14 +23,14 @@ const WarningWrapper = styled.div`
   }
 `
 
-const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv }) => {
+const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv, onShowSignMessage }) => {
   const importedAddressesTableRows = importedAddresses.map((address) => (
     <AddressRow key={address.addr} address={address} renderOptions={() => [
       <OptionItem id='scens.settings.addresses.archive' defaultMessage='Archive' onClick={() => onToggleArchived(address)} />
     ].concat(
       !address.priv ? [] : [
         <OptionItem id='scens.settings.addresses.show_priv' defaultMessage='Private Key' onClick={() => onShowPriv(address)} />,
-        <OptionItem id='scens.settings.addresses.sign_message' defaultMessage='Sign Message' onClick={() => console.log('sign_message')} />
+        <OptionItem id='scens.settings.addresses.sign_message' defaultMessage='Sign Message' onClick={() => onShowSignMessage(address)} />
       ]
     )} />
   ))
