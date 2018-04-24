@@ -2,42 +2,27 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { isNil } from 'ramda'
 
 import { actions } from 'data'
 import FirstStep from './template'
 
 class FirstStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleSubmit (e) {
-    e.preventDefault()
-    this.props.settingsActions.signMessage(this.props.address)
-    this.props.nextStep()
-  }
-
   render () {
-    const { address, closeAll, disabled } = this.props
+    const { address, closeAll, message, signMessageActions } = this.props
 
     return <FirstStep
       address={address}
-      disabled={disabled}
       closeAll={closeAll}
-      handleSubmit={this.handleSubmit} />
+      handleSubmit={() => signMessageActions.signMessageSubmitted(address, message)} />
   }
 }
 
 const mapStateToProps = (state) => ({
-  disabled: isNil(formValueSelector('signMessage')(state, 'message'))
+  message: formValueSelector('signMessage')(state, 'message')
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
+  signMessageActions: bindActionCreators(actions.components.signMessage, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)

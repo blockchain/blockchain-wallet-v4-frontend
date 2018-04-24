@@ -2,10 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
 
 import { Button, Separator, Text } from 'blockchain-info-components'
-import { TextArea } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
 const Wrapper = styled.div`
@@ -31,12 +29,15 @@ const SubmitRow = styled.div`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
+const MessageText = styled(Text)`
+  background-color: ${props => props.theme['gray-1']};
+`
 
 const SecondStep = props => {
-  const { address, closeAll, handleSubmit, invalid, resetForm, submitting } = props
+  const { address, closeAll, message, resetForm, signedMessage } = props
 
   return (
-    <Wrapper override onSubmit={handleSubmit}>
+    <Wrapper>
       <Row>
         <Text weight={300}>
           <FormattedMessage id='modals.signmessage.secondstep.address' defaultMessage='Address:' />
@@ -47,17 +48,19 @@ const SecondStep = props => {
         <Text weight={300}>
           <FormattedMessage id='modals.signmessage.secondstep.message' defaultMessage='Message:' />
         </Text>
-        <Field name='message' component={TextArea} disabled placeholder='Thanks for accepting bitcoin!' />
+        <MessageText>
+          {message}
+        </MessageText>
       </Row>
       <Row>
-        <CopyClipboard address={address} />
+        <CopyClipboard address={signedMessage} />
       </Row>
       <Separator />
       <SubmitRow>
         <ClickableText weight={300} onClick={resetForm}>
           <FormattedMessage id='modals.signmessage.reset' defaultMessage='Reset Form' />
         </ClickableText>
-        <Button onClick={closeAll} nature='primary' uppercase disabled={submitting || invalid}>
+        <Button onClick={closeAll} nature='primary' uppercase>
           <FormattedMessage id='modals.signmessage.secondstep.done' defaultMessage='Done' />
         </Button>
       </SubmitRow>
@@ -71,4 +74,4 @@ SecondStep.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'signMessage', destroyOnUnmount: false })(SecondStep)
+export default SecondStep
