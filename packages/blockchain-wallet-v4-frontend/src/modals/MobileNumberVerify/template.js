@@ -22,7 +22,7 @@ const Options = styled.div`
 
 const MobileNumberVerify = (props) => {
   const { position, total, close, closeAll, submitting, invalid, ...rest } = props
-  const { mobileNumber, onSubmit, handleChange, handleResend } = rest
+  const { onSubmit, handleChange, handleResend } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -32,7 +32,7 @@ const MobileNumberVerify = (props) => {
         </ModalHeader>
         <ModalBody>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.mobilenumberverify.explain' defaultMessage='We have sent an SMS message with a verification code to {number}.' values={{ number: mobileNumber }} />
+            <FormattedMessage id='modals.mobilenumberverify.explain' defaultMessage='We have sent an SMS message with a verification code to {number}.' values={{ number: props.mobileNumber }} />
           </Text>
           <Text size='14px' weight={500} style={spacing('mt-10 mb-5')}>
             <FormattedMessage id='modals.mobilenumberverify.explain2' defaultMessage='Enter code:' />
