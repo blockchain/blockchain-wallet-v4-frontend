@@ -60,7 +60,7 @@ const TwoStepSetup = (props) => {
   ) : (
     <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={closeAll} >
-        <FormattedMessage id='modals.twostepsetup.title2' defaultMessage='Enable Two-factor Authentication' />
+        <FormattedMessage id='modals.twostepsetup.title2' defaultMessage='Enable Two-Step Verification' />
       </ModalHeader>
       <ModalBody>
         <TextGroup>

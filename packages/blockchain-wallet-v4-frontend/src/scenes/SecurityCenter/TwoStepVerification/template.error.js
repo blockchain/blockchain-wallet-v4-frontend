@@ -12,7 +12,7 @@ const TwoStepVerification = (props) => {
       <SecurityIcon name='lock' enabled={false} />
       <SecuritySummary>
         <SecurityHeader>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-factor Authentication' />
+          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification' />
         </SecurityHeader>
         <SecurityDescription>
           <Text>

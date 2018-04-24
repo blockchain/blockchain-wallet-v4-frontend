@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, IconButton, Icon, Link, Modal, ModalHeader, ModalBody, ModalFooter, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Icon, Image, Link, Modal, ModalHeader, ModalBody, ModalFooter, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 import recoveryPdf from './recovery.pdf'
 
 const PrintContainer = styled.div`
@@ -50,9 +51,10 @@ const FirstStep = (props) => {
         </TextGroup>
         <PrintContainer>
           <Link href={recoveryPdf} download='recovery.pdf'>
-            <IconButton name='paper-airplane-outlined' nature='dark'>
+            <Button nature='empty'>
+              <Image name='printer' height='20px' width='20px' style={spacing('mr-5')} />
               <FormattedMessage id='modals.recoveryphrase.firststep.print' defaultMessage='Print Recovery Sheet' />
-            </IconButton>
+            </Button>
           </Link>
         </PrintContainer>
       </ModalBody>

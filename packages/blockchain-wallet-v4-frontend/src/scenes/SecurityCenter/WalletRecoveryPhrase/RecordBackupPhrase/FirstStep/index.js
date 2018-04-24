@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, IconButton, Link, Text } from 'blockchain-info-components'
+import { Button, Image, Link, Text } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 import recoveryPdf from './recovery.pdf'
 
 const PrintContainer = styled.div`
@@ -44,9 +45,10 @@ const FirstStep = (props) => {
           <FormattedMessage id='modals.recoveryphrase.firststep.explain4' defaultMessage='We have created a printable Backup Sheet to give you a place to write down your Backup Phrase and keep it safe. Please print the blank sheet (or grab a piece of paper) and move on to the next step.' />
         </Text>
         <Link href={recoveryPdf} download='recovery.pdf'>
-          <IconButton name='paper-airplane-outlined' nature='empty'>
+          <Button nature='empty'>
+            <Image name='printer' height='20px' width='20px' style={spacing('mr-5')} />
             <FormattedMessage id='modals.recoveryphrase.firststep.print' defaultMessage='Print Recovery Sheet' />
-          </IconButton>
+          </Button>
         </Link>
       </PrintContainer>
       <Buttons>
@@ -57,6 +59,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='modals.recoveryphrase.firststep.cancel' defaultMessage="Skip for now, I'll do this later" />
         </Link>
       </Buttons>
+
     </FirstStepContainer>
   )
 }
