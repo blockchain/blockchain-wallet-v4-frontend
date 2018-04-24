@@ -18,6 +18,7 @@ import Login from './Login'
 import Recover from './Recover'
 import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
+import Reset2FAToken from './Reset2FAToken'
 import Register from './Register'
 import SecurityCenter from './SecurityCenter'
 import Addresses from './Settings/Addresses/Btc'
@@ -46,6 +47,7 @@ class App extends React.PureComponent {
                 <PublicLayout path='/recover' component={Recover} />
                 <PublicLayout path='/reminder' component={Reminder} />
                 <PublicLayout path='/reset2fa' component={Reset2FA} />
+                <PublicLayout path='/reset2fa-token' component={Reset2FAToken} />
                 <PublicLayout path='/signup' component={Register} />
                 <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
                 <WalletLayout path='/home' component={Home} />
