@@ -1,6 +1,7 @@
 import { call, select } from 'redux-saga/effects'
-import { filter, identity, prop, propEq } from 'ramda'
+import { equals, filter, identity, is, isEmpty, isNil, prop, propEq } from 'ramda'
 import { selectors } from 'data'
+import settings from 'config'
 
 export const selectRates = function * (coin) {
   const bchRatesR = yield select(selectors.core.data.bch.getRates)
@@ -11,6 +12,31 @@ export const selectRates = function * (coin) {
     case 'BTC': return btcRatesR.getOrFail('Could not find bitcoin rates.')
     case 'ETH': return ethRatesR.getOrFail('Could not find ethereum rates.')
   }
+}
+
+export const selectReceiveAddress = function * (source) {
+  const appState = yield select(identity)
+  if (isNil(source)) throw new Error('Could not generate return address')
+  if (is(String, source)) return source
+  if (is(Number, source)) {
+    const receiveAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWROK_B, source, appState).getOrElse('')
+    if (isEmpty(receiveAddress)) throw new Error('Could not generate return address')
+    return receiveAddress
+  }
+  throw new Error('Could not generate return address')
+}
+
+export const selectChangeAddress = function * (source) {
+  const address = prop('address', source)
+  const index = prop('index', source)
+  if (!isNil(address) && is(String, index)) {
+    return address
+  }
+  if (!isNil(index) && is(Number, index)) {
+    const addressR = yield select(selectors.core.common.bitcoin.getNextAvailableChangeAddress(settings.NETWORK_BITCOIN, index))
+    return addressR.getOrElse('')
+  }
+  throw new Error('Could not generate next BTC change address')
 }
 
 export const getBchAccounts = function * () {
@@ -27,7 +53,7 @@ export const getBchAccounts = function * () {
       archived: prop('archived', metadata),
       coin: 'BCH',
       text: prop('label', metadata) || prop('xpub', acc),
-      value: index,
+      address: index,
       balance: prop('final_balance', data)
     }
   }
@@ -49,7 +75,7 @@ export const getBtcAccounts = function * () {
     archived: prop('archived', acc),
     coin: 'BTC',
     text: prop('label', acc) || prop('xpub', acc),
-    value: prop('index', acc),
+    address: prop('index', acc),
     balance: prop('final_balance', prop(prop('xpub', acc), btcData))
   })
 
@@ -72,7 +98,7 @@ export const getEthAccounts = function * () {
       archived: prop('archived', acc),
       coin: 'ETH',
       text: prop('label', acc) || prop('addr', acc),
-      value: prop('addr', acc),
+      address: prop('addr', acc),
       balance: prop('balance', data)
     }
   }

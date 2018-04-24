@@ -26,7 +26,7 @@ class FirstStepContainer extends React.Component {
         targetCoin={value.targetCoin}
         handleMaximum={() => this.props.actions.firstStepMaximumClicked()}
         handleMinimum={() => this.props.actions.firstStepMinimumClicked()}
-        handleSubmit={() => this.props.actions.firstStepSubmitClicked()}
+        handleSubmit={(e) => { e.preventDefault(); this.props.actions.firstStepSubmitClicked() }}
         handleSwap={() => this.props.actions.firstStepSwapClicked()}
       />,
       Failure: (message) => <Error />,
