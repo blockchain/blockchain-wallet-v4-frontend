@@ -1,22 +1,36 @@
+import BigNumber from 'bignumber.js'
+import { lift, path, prop } from 'ramda'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { prop } from 'ramda'
 
-export const getData = (state, source, target, fee) => {
-  const orderR = selectors.core.data.shapeShift.getOrder(state)
+export const getData = state => {
+  const secondStepR = selectors.components.exchange.getSecondStep(state)
+  const form = selectors.modules.form.getFormValues('exchange')(state)
+  const sourceCoin = path(['source', 'coin'], form)
+  const targetCoin = path(['target', 'coin'], form)
 
-  const transform = (order) => {
-    const depositAmount = prop('depositAmount', order)
+  const transform = (secondStep) => {
+    const { order, fee } = secondStep
+    const sourceAmount = Exchange.convertCoinToCoin({ value: prop('depositAmount', order), coin: sourceCoin, baseToStandard: false }).value
+    const sourceFee = fee
+    const sourceTotal = new BigNumber(sourceAmount).plus(new BigNumber(sourceFee)).toString()
+    const exchangeRate = `1 ${sourceCoin} = ${prop('quotedRate', order)} ${targetCoin}`
+    const targetAmount = prop('withdrawalAmount', order)
+    const targetFee = prop('minerFee', order)
+    const expiration = prop('expiration', order)
 
     return {
-      order,
-      depositAddress: prop('deposit', order),
-      depositAmount,
-      exchangeRate: `1 ${prop('coin', source)} = ${prop('quotedRate', order)} ${prop('coin', target)}`,
-      withdrawalAmount: prop('withdrawalAmount', order),
-      withdrawalFee: prop('minerFee', order),
-      expiration: prop('expiration', order)
+      sourceCoin,
+      sourceAmount,
+      sourceFee,
+      sourceTotal,
+      exchangeRate,
+      targetCoin,
+      targetAmount,
+      targetFee,
+      expiration
     }
   }
 
-  return orderR.map(transform)
+  return lift(transform)(secondStepR)
 }

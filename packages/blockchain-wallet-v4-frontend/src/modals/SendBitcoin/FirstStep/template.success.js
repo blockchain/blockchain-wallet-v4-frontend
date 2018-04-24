@@ -166,7 +166,7 @@ const FirstStep = props => {
       <FormGroup>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />}
-          {isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />}
+          {isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated2' defaultMessage='Estimated confirmation time 0-60 minutes' />}
         </Text>
       </FormGroup>
       <FormGroup>

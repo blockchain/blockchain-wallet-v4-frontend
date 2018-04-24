@@ -1,32 +1,9 @@
 
 import { BigNumber } from 'bignumber.js'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { toLower } from 'ramda'
 
-export const getPairFromCoin = (coinSource, coinTarget) => {
-  switch (coinSource) {
-    case 'BTC': {
-      switch (coinTarget) {
-        case 'ETH': return 'btc_eth'
-        case 'BCH': return 'btc_bch'
-        default: return ''
-      }
-    }
-    case 'BCH': {
-      switch (coinTarget) {
-        case 'BTC': return 'bch_btc'
-        case 'ETH': return 'bch_eth'
-        default: return ''
-      }
-    }
-    case 'ETH': {
-      switch (coinTarget) {
-        case 'BTC': return 'eth_btc'
-        case 'BCH': return 'eth_bch'
-        default: return ''
-      }
-    }
-    default: return ''
-  }
-}
+export const getPairFromCoin = (coinSource, coinTarget) => `${toLower(coinSource)}_${toLower(coinTarget)}`
 
 export const getCoinFromPair = pair => {
   switch (pair) {
@@ -39,18 +16,19 @@ export const getCoinFromPair = pair => {
   }
 }
 
-export const selectUnit = coin => {
+export const convertBaseToStandard = (coin, value) => {
   switch (coin) {
-    case 'BCH': return 'BCH'
-    case 'BTC': return 'BTC'
-    case 'ETH': return 'ETH'
+    case 'BCH': return Exchange.convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' }).value
+    case 'BTC': return Exchange.convertBitcoinToBitcoin({ value, fromUnit: 'SAT', toUnit: 'BTC' }).value
+    case 'ETH': return Exchange.convertEtherToEther({ value, fromUnit: 'WEI', toUnit: 'ETH' }).value
   }
 }
 
-export const greaterThan = (a, b) => new BigNumber(a).greaterThan(new BigNumber(b))
+export const getMinimum = (coin, minimum) => new BigNumber(minimum).toString()
 
-export const greaterThanOrEqualTo = (a, b) => new BigNumber(a).greaterThanOrEqualTo(new BigNumber(b))
-
-export const lessThan = (a, b) => new BigNumber(a).lessThan(new BigNumber(b))
-
-export const lessThanOrEqualTo = (a, b) => new BigNumber(a).lessThanOrEqualTo(new BigNumber(b))
+export const getMaximum = (coin, maximum, effectiveBalance) => {
+  const effectiveBalanceStandard = convertBaseToStandard(coin, effectiveBalance)
+  const maximumBig = new BigNumber(maximum)
+  const effectiveBalanceBig = new BigNumber(effectiveBalanceStandard)
+  return maximumBig.lessThanOrEqualTo(effectiveBalanceBig) ? maximumBig.toString() : effectiveBalanceBig.toString()
+}
