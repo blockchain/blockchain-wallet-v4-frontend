@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Text, Icon, Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
+import { spacing } from 'services/StyleService'
 
 import { SuccessOverlay } from 'components/Security'
 
@@ -65,7 +66,7 @@ const Yubikey = props => {
           <Text size='14px' weight={200}>
             <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage='1. Insert the Yubikey into an available USB port.' />
           </Text>
-          <Text size='14px' weight={200}>
+          <Text size='14px' weight={200} style={spacing('mt-5')}>
             <FormattedMessage id='scenes.security.twostepverification.yubi.step2' defaultMessage='2. Pair your Yubikey.' />
           </Text>
           <YubikeyInputWrapper>

@@ -7,6 +7,7 @@ import QRCodeReact from 'qrcode.react'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
 
 import { SuccessOverlay } from 'components/Security'
 
@@ -62,7 +63,7 @@ const Google = props => {
           <Text size='14px' weight={200}>
             <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Scan this QR code with your Authenticator app.' />
           </Text>
-          <Text size='14px' weight={200}>
+          <Text size='14px' weight={200} style={spacing('mt-5')}>
             <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Enter the random number presented below.' />
           </Text>
           <QRInputWrapper>
