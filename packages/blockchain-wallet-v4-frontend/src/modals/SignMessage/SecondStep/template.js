@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
 `
@@ -69,9 +69,11 @@ const SecondStep = props => {
 }
 
 SecondStep.propTypes = {
-  invalid: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  address: PropTypes.string.isRequired,
+  closeAll: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired,
+  resetForm: PropTypes.func.isRequired,
+  signedMessage: PropTypes.string.isRequired
 }
 
 export default SecondStep
