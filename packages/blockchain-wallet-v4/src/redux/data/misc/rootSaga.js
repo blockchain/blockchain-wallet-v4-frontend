@@ -73,11 +73,27 @@ export default ({ api }) => {
     }
   }
 
+  const handle2FAReset = function * (action) {
+    const { token } = action.payload
+    try {
+      yield put(A.handle2FAResetLoading())
+      const data = yield call(api.handle2faReset, token)
+      if (data.success) {
+        yield put(A.handle2FAResetSuccess(data))
+      } else {
+        yield put(A.handle2FAResetFailure(data.error))
+      }
+    } catch (e) {
+      yield put(A.handle2FAResetFailure(e.message || e.error))
+    }
+  }
+
   return function * () {
     yield takeLatest(AT.AUTHORIZE_LOGIN, authorizeLogin)
     yield takeLatest(AT.FETCH_CAPTCHA, fetchCaptcha)
     yield takeLatest(AT.FETCH_LOGS, fetchLogs)
     yield takeLatest(AT.FETCH_PRICE_INDEX_SERIES, fetchPriceIndexSeries)
     yield takeLatest(AT.ENCODE_PAIRING_CODE, encodePairingCode)
+    yield takeLatest(AT.HANDLE_2FA_RESET, handle2FAReset)
   }
 }
