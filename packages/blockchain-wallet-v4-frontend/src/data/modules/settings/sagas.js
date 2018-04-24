@@ -199,29 +199,15 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const getPrivateKey = function * (action) {
+  const showPrivateKey = function * (action) {
     const { addr } = action.payload
     const password = yield call(promptForSecondPassword)
     const wallet = yield select(selectors.core.wallet.getWallet)
     const priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
-    return priv
-  }
-
-  const showPrivateKey = function * (action) {
-    const priv = yield call(getPrivateKey, action)
     if (priv != null) {
       yield put(actions.modules.settings.addShownPrivateKey(priv))
     } else {
       yield put(actions.alerts.displayError('Could not show private key for address.'))
-    }
-  }
-
-  const signMessage = function * (action) {
-    const priv = yield call(getPrivateKey, action)
-    if (priv != null) {
-      // sign message using priv
-    } else {
-      yield put(actions.alerts.displayError('Could sign message: private key error.'))
     }
   }
 
@@ -246,6 +232,5 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.ENABLE_TWO_STEP_YUBIKEY, enableTwoStepYubikey)
     yield takeLatest(AT.NEW_HD_ACCOUNT, newHDAccount)
     yield takeLatest(AT.SHOW_PRIV_KEY, showPrivateKey)
-    yield takeLatest(AT.SIGN_MESSAGE, signMessage)
   }
 }

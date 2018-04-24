@@ -1,7 +1,9 @@
 import Bitcoin from 'bitcoinjs-lib'
+import BitcoinMessage from 'bitcoinjs-message'
 import { mapped } from 'ramda-lens'
 import { curry, forEach, addIndex, defaultTo, over, compose, lensProp } from 'ramda'
 
+import { privateKeyStringToKey } from '../utils/bitcoin'
 import * as Coin from '../coinSelection/coin.js'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 
@@ -41,3 +43,9 @@ export const wifToKeys = curry((network, selection) =>
 export const signWithWIF = curry((network, selection) =>
   compose(signSelection(network), wifToKeys(network))(selection)
 )
+
+export const signMessage = (priv, message) => {
+  const keyPair = privateKeyStringToKey(priv, 'base58')
+  const privateKey = keyPair.d.toBuffer(32)
+  return BitcoinMessage.sign(message, privateKey, keyPair.compressed).toString('base64')
+}

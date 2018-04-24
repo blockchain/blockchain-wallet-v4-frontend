@@ -3,16 +3,15 @@ import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import wizardProvider from 'providers/WizardProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import SignMessage from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
 class SignMessageContainer extends React.PureComponent {
-  componentWillMount () {
-    this.props.resetStep()
+  componentDidMount () {
+    this.props.signMessageActions.signMessageInitialized()
   }
 
   componentWillUnmount () {
@@ -37,14 +36,18 @@ SignMessageContainer.propTypes = {
   closeAll: PropTypes.func.isRequired
 }
 
+const mapStateToProps = (state) => ({
+  step: selectors.components.signMessage.getStep(state)
+})
+
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  signMessageActions: bindActionCreators(actions.components.signMessage, dispatch)
 })
 
 const enhance = compose(
-  connect(undefined, mapDispatchToProps),
-  modalEnhancer('SignMessage'),
-  wizardProvider('signMessage', 2)
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('SignMessage')
 )
 
 export default enhance(SignMessageContainer)

@@ -1,33 +1,31 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-// import { getData } from './selectors'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import SecondStep from './template'
 
 class SecondStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.resetForm = this.resetForm.bind(this)
-  }
-
-  resetForm (e) {
-    this.props.previousStep()
-  }
-
   render () {
-    const { data, ...rest } = this.props
-    return <SecondStep {...rest} {...data} resetForm={this.resetForm} />
+    const { address, signedMessage, closeAll, message, signMessageActions } = this.props
+
+    return <SecondStep
+      address={address}
+      message={message}
+      signedMessage={signedMessage}
+      closeAll={closeAll}
+      resetForm={() => signMessageActions.resetFormClicked()} />
   }
 }
 
-// const mapStateToProps = state => ({
-//   data: getData(state)
-// })
-
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+const mapStateToProps = (state) => ({
+  message: formValueSelector('signMessage')(state, 'message'),
+  signedMessage: selectors.components.signMessage.getSignedMessage(state)
 })
 
-export default connect(undefined, mapDispatchToProps)(SecondStepContainer)
+const mapDispatchToProps = (dispatch) => ({
+  signMessageActions: bindActionCreators(actions.components.signMessage, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)
