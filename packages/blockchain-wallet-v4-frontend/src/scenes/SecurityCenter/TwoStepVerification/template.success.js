@@ -133,13 +133,14 @@ const TwoStepVerification = (props) => {
             <div />
             <DisableContainer style={spacing('pl-25')}>
               <Text weight={200} size='14px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-Step Verification is set up with {authName} for number {number}. {changeNumber}' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span>, changeNumber: <a className='link' onClick={props.handleChangeNumber}>Change Mobile Number</a> }} />
+                <FormattedMessage id='scenes.security.sms.twostepsetup' defaultMessage='Two-Step Verification is set up with {authName} for {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
+                <FormattedMessage id='scenes.security.sms.twostepsetup.change' defaultMessage=' {changeNumber}' values={{ changeNumber: <a className='link' onClick={props.handleChangeNumber}>Change Mobile Number</a> }} style={spacing('ml-5')} />
                 {
                   ui.changeNumberToggled && <ChangeMobileContainer>
-                    <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder='212-555-5555' />
-                    <Buttons>
+                    <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder={smsNumber} />
+                    <Buttons style={spacing('mt-5')}>
                       <Text cursor='pointer' weight={200} size='12px' onClick={props.cancelMobileChange} height='25px'>Cancel</Text>
-                      <Button nature='primary' onClick={props.submitMobileChange} height='25px'>Change</Button>
+                      <Button nature='primary' onClick={props.submitMobileChange} height='25px' width='90px'>Change</Button>
                     </Buttons>
                   </ChangeMobileContainer>
                 }
