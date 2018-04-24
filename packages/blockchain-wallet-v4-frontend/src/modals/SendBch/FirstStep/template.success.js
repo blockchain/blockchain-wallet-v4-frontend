@@ -31,7 +31,7 @@ const AddressButton = styled.div`
 `
 
 const FirstStep = props => {
-  const { invalid, submitting, fee, toToggled, handleToToggle, handleSubmit } = props
+  const { invalid, submitting, toToggled, handleToToggle, handleSubmit, totalFee } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -91,7 +91,7 @@ const FirstStep = props => {
           <FormLabel>
             <FormattedMessage id='modals.sendBch.firststep.fee' defaultMessage='Transaction fee:' />
           </FormLabel>
-          <ComboDisplay coin='BCH'>{fee}</ComboDisplay>
+          <ComboDisplay coin='BCH'>{totalFee}</ComboDisplay>
         </FormItem>
       </FormGroup>
       <FormGroup>
