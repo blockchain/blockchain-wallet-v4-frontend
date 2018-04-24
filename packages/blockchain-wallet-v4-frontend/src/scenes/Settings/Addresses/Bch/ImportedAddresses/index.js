@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import Success from './template.success'
+import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 class ImportedAddressesContainer extends React.Component {
@@ -29,7 +30,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportedAddressesContainer)

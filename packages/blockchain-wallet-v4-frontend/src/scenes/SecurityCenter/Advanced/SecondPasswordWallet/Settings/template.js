@@ -13,7 +13,7 @@ const SecondPasswordWrapper = styled(SettingWrapper)`
 `
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, mainPassword, submitting, invalid, secondPasswordEnabled } = props
+  const { updateToggled, handleToggle, handleClick, mainPassword, submitting, invalid, secondPasswordEnabled, handleCancel } = props
   const isMainPassword = (props) => mainPassword !== props ? null : "You can't use your main password as your second password."
   if (secondPasswordEnabled) {
     return (
@@ -28,7 +28,7 @@ const Settings = (props) => {
             </Text>
             <Field name='secondPassword' component={PasswordBox} />
             <ButtonGroup>
-              <Button nature='empty' capitalize onClick={handleToggle}>
+              <Button nature='empty' capitalize onClick={handleCancel}>
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.cancel' defaultMessage='Cancel' />
               </Button>
               <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
@@ -73,7 +73,7 @@ const Settings = (props) => {
               </FormItem>
             </FormGroup>
             <ButtonGroup>
-              <Button nature='empty' capitalize onClick={handleToggle}>
+              <Button nature='empty' capitalize onClick={handleCancel}>
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.cancel2' defaultMessage='Cancel' />
               </Button>
               <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>

@@ -3,6 +3,14 @@ import bitcoinNetwork from './img/bitcoin-network.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
 import blockchainVector from './img/blockchain-vector.svg'
 import blueLogo from './img/blue-logo.svg'
+import buySellColor from './img/buy-sell-color.svg'
+import buySellGrey from './img/buy-sell-grey.svg'
+import buySellBuyBch from './img/buy-sell-buy-bch.svg'
+import buySellBuyBtc from './img/buy-sell-buy-btc.svg'
+import buySellBuyEth from './img/buy-sell-buy-eth.svg'
+import buySellSellBch from './img/buy-sell-sell-bch.svg'
+import buySellSellBtc from './img/buy-sell-sell-btc.svg'
+import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
 import googleAuthenticator from './img/google-authenticator.png'
@@ -28,6 +36,14 @@ export default {
   'blockchain-blue': blockchainBlue,
   'blockchain-vector': blockchainVector,
   'blue-logo': blueLogo,
+  'buy-sell-color': buySellColor,
+  'buy-sell-grey': buySellGrey,
+  'buy-sell-buy-bch': buySellBuyBch,
+  'buy-sell-buy-btc': buySellBuyBtc,
+  'buy-sell-buy-eth': buySellBuyEth,
+  'buy-sell-sell-bch': buySellSellBch,
+  'buy-sell-sell-btc': buySellSellBtc,
+  'buy-sell-sell-eth': buySellSellEth,
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
   'google-authenticator': googleAuthenticator,

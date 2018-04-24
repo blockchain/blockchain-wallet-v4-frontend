@@ -32,20 +32,28 @@ const CustomBannerWrapper = styled.div`
   }
   margin: 10px 0px;
 `
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  div:first-of-type { margin-right: 20px;}
+`
 
 function ChangeEmailSteps (props) {
   return (
     <SecuritySummary>
       <ChangeEmailWrapper>
         <Field name='changeEmail' validate={[validEmail]} component={TextBox} placeholder='email@email.com' />
-        <CancelText weight={300} size='12px' onClick={props.handleEmailChangeCancel}>Cancel</CancelText>
-        <Button nature='primary' onClick={props.handleEmailChangeSubmit} disabled={props.invalid}>
-          <FormattedMessage id='scenes.preferences.email.settings.updateform.verify' defaultMessage='Change' />
-        </Button>
+        <ButtonContainer>
+          <CancelText weight={300} size='12px' onClick={props.handleEmailChangeCancel}>Cancel</CancelText>
+          <Button nature='primary' onClick={props.handleEmailChangeSubmit} disabled={props.invalid}>
+            <FormattedMessage id='scenes.preferences.email.settings.updateform.change' defaultMessage='Change' />
+          </Button>
+        </ButtonContainer>
       </ChangeEmailWrapper>
       <CustomBannerWrapper>
         <Banner type='caution' size='20px' weight={200}>
-          <FormattedMessage id='scenes.security.email.changeemail' defaultMessage='This will change your wallets email address, but the email address you signed up to Buy Bitcoin with will remain the same.' />
+          <FormattedMessage id='scenes.security.email.changeemail' defaultMessage="This will change your wallet's email address. The email address you use to buy or sell with will remain the same." />
         </Banner>
       </CustomBannerWrapper>
     </SecuritySummary>

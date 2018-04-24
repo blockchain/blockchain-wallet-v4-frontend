@@ -45,6 +45,7 @@ class SettingsContainer extends React.PureComponent {
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
       handleClick={this.handleClick}
+      handleCancel={() => { this.props.formActions.reset('settingIPWhitelist'); this.handleToggle() }}
     />
   }
 }

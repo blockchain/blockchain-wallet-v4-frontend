@@ -6,6 +6,7 @@ import { Icon, IconButton, Table, TableHeader, TableCell, Text } from 'blockchai
 import { spacing } from 'services/StyleService'
 import OptionItem from '../OptionItem'
 import AddressRow from '../AddressRow'
+import { filter } from 'ramda'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -23,8 +24,9 @@ const WarningWrapper = styled.div`
   }
 `
 
-const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv, onShowSignMessage }) => {
-  const importedAddressesTableRows = importedAddresses.map((address) => (
+const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv, onShowSignMessage, search }) => {
+  const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
+  const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address) => (
     <AddressRow key={address.addr} address={address} renderOptions={() => [
       <OptionItem id='scens.settings.addresses.archive' defaultMessage='Archive' onClick={() => onToggleArchived(address)} />
     ].concat(
@@ -42,7 +44,7 @@ const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPri
       </ImportedAddressesSettingHeader>
       <SettingDescription style={spacing('mb-10')}>
         <WarningWrapper>
-          <Icon name='alert-filled' size='22px' className={'warning-icon'}/>
+          <Icon name='alert-filled' size='22px' className={'warning-icon'} />
           <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
         </WarningWrapper>
       </SettingDescription>

@@ -17,6 +17,7 @@ class SettingsContainer extends React.PureComponent {
 
   handleClick () {
     this.props.walletActions.setMainPassword(this.props.newWalletPasswordValue)
+    this.props.formActions.reset('settingWalletPassword')
     this.handleToggle()
   }
 
@@ -32,6 +33,7 @@ class SettingsContainer extends React.PureComponent {
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
       handleClick={this.handleClick}
+      handleCancel={() => { this.props.formActions.reset('settingWalletPassword'); this.handleToggle() }}
     />
   }
 }
