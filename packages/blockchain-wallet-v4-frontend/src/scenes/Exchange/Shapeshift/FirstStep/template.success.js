@@ -3,10 +3,13 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { Button, HeartbeatLoader, Icon, Text, TextInput } from 'blockchain-info-components'
+import { isEmpty } from 'ramda'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { Form, SelectBox } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
+import TextBox from './TextBox'
+import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage } from './validationMessages'
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,12 +44,32 @@ const OptionsContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  & > * { margin-right: 0; }
+  & > * { margin-right: 2px; }
+`
+const AmountContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+`
+const CurrencyBox = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  font-size: 13px;
+  font-weight: 500;
+  transform: uppercase;
+  background-color: ${props => props.theme['gray-1']};
 `
 
 const Success = props => {
-  const { accounts, enabled, handleSwap, handleSubmit, invalid, submitting } = props
+  const { accounts, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit } = props
   console.log('props', props)
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>
@@ -83,18 +106,24 @@ const Success = props => {
           <Text size='14px' weight={400}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
-          {/* {quotationError &&
-            <Text size='12px' weight={300} color='error'>
-              {quotationError && quotationError.message === 'effective_balance' && <FormattedMessage id='scenes.exchange.shapeshift.firststep.balance' defaultMessage='Amount is above effective balance ({effectiveBalance})' values={{ effectiveBalance: quotationError.data }} />}
-              {quotationError && quotationError.message === 'shapeshift_minimum' && <FormattedMessage id='scenes.exchange.shapeshift.firststep.minimum' defaultMessage='Amount is below Shapeshift minimum ({minimum})' values={{ minimum: quotationError.data }} />}
-              {quotationError && quotationError.message === 'shapeshift_maximum' && <FormattedMessage id='scenes.exchange.shapeshift.firststep.maximum' defaultMessage='Amount is above Shapeshift maximum ({maximum})' values={{ maximum: quotationError.data }} />}
-            </Text>
-          } */}
+        </Row>
+        <Row>
+          <Text size='12px' weight={300} color='error'>
+            {formError && formError === 'minimum' && <MinimumAmountMessage />}
+            {formError && formError === 'maximum' && <MaximumAmountMessage />}
+            {formError && formError === 'insufficient' && <InsufficientAmountMessage />}
+          </Text>
         </Row>
         <Row height='80px'>
           <Cell>
-            <Field name='sourceAmount' component={TextInput} />
-            <Field name='sourceFiat' component={TextInput} />
+            <AmountContainer>
+              <Field name='sourceAmount' component={TextBox} />
+              <CurrencyBox>{sourceCoin}</CurrencyBox>
+            </AmountContainer>
+            <AmountContainer>
+              <Field name='sourceFiat' component={TextBox} />
+              <CurrencyBox>{currency}</CurrencyBox>
+            </AmountContainer>
           </Cell>
           <Cell size='small'>
             {enabled
@@ -103,8 +132,14 @@ const Success = props => {
             }
           </Cell>
           <Cell>
-            <Field name='targetAmount' component={TextInput} />
-            <Field name='targetFiat' component={TextInput} />
+            <AmountContainer>
+              <Field name='targetAmount' component={TextBox} />
+              <CurrencyBox>{targetCoin}</CurrencyBox>
+            </AmountContainer>
+            <AmountContainer>
+              <Field name='targetFiat' component={TextBox} />
+              <CurrencyBox>{currency}</CurrencyBox>
+            </AmountContainer>
           </Cell>
         </Row>
         <Row>
@@ -120,7 +155,7 @@ const Success = props => {
           </OptionsContainer>
         </Row>
         <Row>
-          <Button type='submit' nature='primary' fullwidth disabled={invalid || submitting}>
+          <Button type='submit' nature='primary' fullwidth disabled={!isEmpty(formError)}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>
