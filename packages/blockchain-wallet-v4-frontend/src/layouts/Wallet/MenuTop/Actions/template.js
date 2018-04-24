@@ -20,10 +20,10 @@ const Actions = props => {
 
   return (
     <Wrapper>
-      <IconButton name='send' onClick={handleSend} min='100px' max='100px'>
+      <IconButton name='send' onClick={handleSend} min='100px'>
         <FormattedMessage id='layouts.wallet.menutop.send' defaultMessage='Send' />
       </IconButton>
-      <IconButton style={spacing('ml-15')} name='request' onClick={handleRequest} min='100px' max='100px'>
+      <IconButton style={spacing('ml-15')} name='request' onClick={handleRequest} min='100px'>
         <FormattedMessage id='layouts.wallet.menutop.request' defaultMessage='Request' />
       </IconButton>
     </Wrapper>

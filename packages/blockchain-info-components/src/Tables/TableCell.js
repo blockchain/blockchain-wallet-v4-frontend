@@ -6,7 +6,6 @@ const Wrapper = styled.div`
   flex-basis: ${props => props.width};
   display: flex;
   flex-direction: row;
-  padding: 8px 30px;
   box-sizing: border-box;
 `
 

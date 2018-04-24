@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
+import ui from 'redux-ui'
 
 import Login from './template.js'
 import { actions, selectors } from 'data'
@@ -13,7 +14,12 @@ class LoginContainer extends React.PureComponent {
     this.handleMobile = this.handleMobile.bind(this)
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.authType !== this.props.authType) this.props.updateUI({ busy: false })
+  }
+
   onSubmit (event) {
+    this.props.updateUI({ busy: true })
     event.preventDefault()
     const { guid, password, code } = this.props
     this.props.authActions.login(guid, password, code)
@@ -26,15 +32,12 @@ class LoginContainer extends React.PureComponent {
   }
 
   render () {
-    // const guid = localStorage.getItem('ls.guid') ? JSON.parse(localStorage.getItem('ls.guid')) : ''
+    let valid = localStorage.getItem('ls.guid') !== 'undefined'
+    const guid = valid && JSON.parse(localStorage.getItem('ls.guid'))
 
     const { authType } = this.props
-    return <Login
-      // initialValues={{ guid }}
-      authType={authType}
-      onSubmit={this.onSubmit}
-      handleMobile={this.handleMobile}
-    />
+
+    return <Login initialValues={{ guid }} authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} busy={this.props.ui.busy} />
   }
 }
 
@@ -52,6 +55,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  ui({ state: { busy: false } })
 )
 export default enhance(LoginContainer)

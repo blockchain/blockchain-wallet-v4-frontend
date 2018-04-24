@@ -4,10 +4,9 @@ import { transparentize } from 'polished'
 import { TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
-  width: ${props => props.width === 'auto' || '22px'};
+  width: ${props => props.width === 'auto' ? 'auto' : '22px'};
   display: inline-flex;
   position: relative;
-  margin: 2px;
 `
 const TooltipIcon = styled.div`
   display: inline-flex;

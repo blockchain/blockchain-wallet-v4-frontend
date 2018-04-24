@@ -9,7 +9,7 @@ import { formValueSelector, Field } from 'redux-form'
 
 import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
-import { required } from 'services/FormHelper'
+import { required, normalizePhone, validMobileNumber } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
 
@@ -20,11 +20,6 @@ const MobileInput = styled.div`
 `
 const MobileCodeContainer = MobileInput.extend`
   margin-top: 25px;
-`
-const CancelText = styled.p`
-  text-align: center;
-  cursor: pointer;
-  font-size: 14px;
 `
 
 class VerifyMobile extends Component {
@@ -87,7 +82,7 @@ class VerifyMobile extends Component {
               <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
                 <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Enter your digits here:' />
               </Text>
-              <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required]} />
+              <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required, validMobileNumber]} normalize={normalizePhone} />
               {
                 ui.create === 'change_mobile' && <Button nature='primary' type='submit' disabled={!mobileNumber} style={spacing('mt-15')}>
                   <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Send My Code' />
@@ -111,7 +106,7 @@ class VerifyMobile extends Component {
           <ColRightInner>
             {
               ui.create === 'enter_mobile_code' && <ButtonWrapper>
-                <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
+                <Button uppercase type='submit' nature='primary' fullwidth disabled={!mobileCode}>
                   Continue
                 </Button>
               </ButtonWrapper>
@@ -121,7 +116,6 @@ class VerifyMobile extends Component {
                 <Button type='submit' nature='primary' fullwidth disabled={invalid || !mobileCode}>
                   <FormattedMessage id='sfoxexchangedata.create.mobile.continue' defaultMessage='Continue' />
                 </Button>
-                <CancelText onClick={() => this.props.updateUI({create: 'create_account'})}>Cancel</CancelText>
               </ButtonWrapper>
             }
           </ColRightInner>
