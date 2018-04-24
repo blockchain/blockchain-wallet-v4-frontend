@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { spacing } from 'services/StyleService'
 
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
@@ -49,7 +50,7 @@ const LoginTextGroup = styled(TextGroup)`
 `
 
 const Login = (props) => {
-  const { submitting, invalid, busy, ...rest } = props
+  const { submitting, invalid, busy, loginError, password, ...rest } = props
   const { onSubmit, handleMobile, authType } = rest
 
   return (
@@ -101,7 +102,12 @@ const Login = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} />
+            <Field name='password' validate={[required]} component={PasswordBox} errorBottom borderColor={loginError ? 'invalid' : undefined} />
+            {
+              loginError && <Text style={spacing('mt-5')} weight={300} size='12px' color='error'>
+                {loginError}
+              </Text>
+            }
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -119,9 +125,9 @@ const Login = (props) => {
           }
         </FormGroup>
         <FormGroup>
-          <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
+          <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid || busy || !password}>
             {
-              busy
+              busy && !loginError
                 ? <HeartbeatLoader height='20px' width='20px' color='white' />
                 : <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
             }
