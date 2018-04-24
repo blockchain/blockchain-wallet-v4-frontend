@@ -20,6 +20,9 @@ const YubikeyContainer = styled.div`
   justify-content: center;
   align-items: center;
 `
+const YubikeyCopy = styled.div`
+  display: block;
+`
 const YubikeyInputWrapper = styled.div`
   width: 30%;
   display: flex;
@@ -63,12 +66,14 @@ const Yubikey = props => {
       </SuccessOverlay>
       <AuthenticatorSummary success={props.ui.successToggled}>
         <YubikeyContainer>
-          <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage='1. Insert the Yubikey into an available USB port.' />
-          </Text>
-          <Text size='14px' weight={200} style={spacing('mt-5')}>
-            <FormattedMessage id='scenes.security.twostepverification.yubi.step2' defaultMessage='2. Pair your Yubikey.' />
-          </Text>
+          <YubikeyCopy>
+            <Text size='14px' weight={200}>
+              <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage='1. Insert the Yubikey into an available USB port.' />
+            </Text>
+            <Text size='14px' weight={200} style={spacing('mt-5')}>
+              <FormattedMessage id='scenes.security.twostepverification.yubi.step2' defaultMessage='2. Pair your Yubikey.' />
+            </Text>
+          </YubikeyCopy>
           <YubikeyInputWrapper>
             <YubikeyInput type='password' name='yubikeyCode' value={props.value} onChange={props.handleInput} />
           </YubikeyInputWrapper>

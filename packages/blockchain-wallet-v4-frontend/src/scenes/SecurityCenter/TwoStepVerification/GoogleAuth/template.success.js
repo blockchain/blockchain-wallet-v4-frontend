@@ -23,6 +23,9 @@ const QRCode = styled.div`
   width: 100%;
   padding: 30px 0;
 `
+const QRCodeCopy = styled.div`
+  display: block;
+`
 const QRCodeContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -60,12 +63,14 @@ const Google = props => {
               </QRCode>
               : null
           }
-          <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Scan this QR code with your Authenticator app.' />
-          </Text>
-          <Text size='14px' weight={200} style={spacing('mt-5')}>
-            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Enter the random number presented below.' />
-          </Text>
+          <QRCodeCopy>
+            <Text size='14px' weight={200}>
+              <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Scan this QR code with your Authenticator app.' />
+            </Text>
+            <Text size='14px' weight={200} style={spacing('mt-5')}>
+              <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Enter the random number presented below.' />
+            </Text>
+          </QRCodeCopy>
           <QRInputWrapper>
             <Field name='authCode' component={TextBox} validate={[required]} placeholder='111 222' />
             <Button nature='primary' onClick={props.handleSubmit} disabled={invalid}>Verify Code</Button>
