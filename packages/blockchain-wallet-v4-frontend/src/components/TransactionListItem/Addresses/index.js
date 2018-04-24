@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { equals } from 'ramda'
+import { any, equals, filter } from 'ramda'
 
 import { Text, TextGroup, Tooltip } from 'blockchain-info-components'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -15,19 +15,21 @@ const Wrapper = styled.div`
 `
 
 const hasLabel = (io) => io.label
+const notChange = (io) => !io.change
 
 const Addresses = props => {
   const { from, to, outputs, inputs, coin } = props
   const labelTo = <Text size='13px' weight={300} id='scenes.transactions.content.list.listitem.to'>{to}</Text>
   const labelFrom = <Text size='13px' weight={300} id='scenes.transactions.content.list.listitem.from'>{from}</Text>
+
   return (
     <Wrapper>
       <TextGroup inline>
         <Text size='13px' weight={500}>
           <FormattedMessage id='scenes.transactions.content.list.listitem.to' defaultMessage='To: ' />
         </Text>
-        <Tooltip width='auto' label={labelTo} hover={outputs && outputs.some(hasLabel)}>
-          { outputs && outputs.map((output) => output.label &&
+        <Tooltip width='auto' label={labelTo} hover={outputs && any(hasLabel, filter(notChange, outputs))}>
+          { outputs && filter(hasLabel, filter(notChange, outputs)).map((output) =>
             <Text size='12px' weight={300}>
               {equals(coin, 'BCH') ? utils.bch.toCashAddr(output.address, true) : output.address}
             </Text>)

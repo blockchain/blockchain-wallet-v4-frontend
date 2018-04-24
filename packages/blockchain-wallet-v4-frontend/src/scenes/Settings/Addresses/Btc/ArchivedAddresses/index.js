@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
 import Success from './template.success'
 import { Types } from 'blockchain-wallet-v4/src'
+import { formValueSelector } from 'redux-form'
 
 class ArchivedAddressesContainer extends React.PureComponent {
   constructor (props) {
@@ -22,8 +23,14 @@ class ArchivedAddressesContainer extends React.PureComponent {
   }
 
   render () {
+    const { archivedAddresses, search } = this.props
     return (
-      <Success archivedAddresses={this.props.archivedAddresses} onToggleArchived={this.handleToggleArchived} onDelete={this.handleDelete} />
+      <Success
+        search={search && search.toLowerCase()}
+        onToggleArchived={this.handleToggleArchived}
+        archivedAddresses={archivedAddresses}
+        onDelete={this.handleDelete}
+      />
     )
   }
 }
@@ -31,7 +38,8 @@ class ArchivedAddressesContainer extends React.PureComponent {
 const selectArchived = compose(Types.AddressMap.selectArchived, Types.Wallet.selectAddresses, selectors.core.wallet.getWallet)
 
 const mapStateToProps = (state) => ({
-  archivedAddresses: selectArchived(state).toArray()
+  archivedAddresses: selectArchived(state).toArray(),
+  search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
 const mapDispatchToProps = (dispatch) => ({

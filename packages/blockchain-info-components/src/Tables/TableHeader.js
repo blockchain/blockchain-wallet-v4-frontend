@@ -7,6 +7,8 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  padding: 8px 15px;
+  box-sizing: border-box;
   background-color: ${props => props.theme['brand-quaternary']};
   border-left: 1px solid ${props => props.theme['gray-2']};
   border-top: 1px solid ${props => props.theme['gray-2']};

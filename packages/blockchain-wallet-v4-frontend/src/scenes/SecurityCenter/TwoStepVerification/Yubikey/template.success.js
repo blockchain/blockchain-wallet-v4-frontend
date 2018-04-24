@@ -66,7 +66,7 @@ const Yubikey = props => {
             <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage='1. Insert the Yubikey into an available USB port.' />
           </Text>
           <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.yubi.step2' defaultMessage='2. Click Submit' />
+            <FormattedMessage id='scenes.security.twostepverification.yubi.step2' defaultMessage='2. Pair your Yubikey.' />
           </Text>
           <YubikeyInputWrapper>
             <YubikeyInput type='password' name='yubikeyCode' value={props.value} onChange={props.handleInput} />

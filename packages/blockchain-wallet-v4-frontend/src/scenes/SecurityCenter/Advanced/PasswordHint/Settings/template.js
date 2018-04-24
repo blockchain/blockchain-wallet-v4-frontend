@@ -9,7 +9,7 @@ import { SettingForm, SettingWrapper } from 'components/Setting'
 import Hint from './Hint'
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, submitting, invalid } = props
+  const { updateToggled, handleToggle, handleClick, submitting, invalid, handleCancel } = props
   return (
     <SettingWrapper>
       <Hint />
@@ -20,7 +20,7 @@ const Settings = (props) => {
         <SettingForm>
           <Field name='passwordHint' component={TextBox} />
           <ButtonGroup>
-            <Button nature='empty' capitalize onClick={handleToggle}>
+            <Button nature='empty' capitalize onClick={handleCancel}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>

@@ -92,10 +92,10 @@ export default ({ coreSagas }) => {
   const disableTwoStep = function * (action) {
     try {
       yield call(coreSagas.settings.setAuthType, action.payload)
-      yield put(actions.alerts.displaySuccess('2-step verification has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess('2FA has been successfully updated.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+      yield put(actions.alerts.displayError('Could not update 2FA.'))
       yield put(actions.modals.closeModal())
     }
   }
@@ -105,7 +105,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setAuthType, { authType: '5' })
       yield put(actions.alerts.displaySuccess('Your verified mobile number is now your 2FA method.'))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+      yield put(actions.alerts.displayError('Could not update 2FA.'))
     }
   }
 

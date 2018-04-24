@@ -192,7 +192,7 @@ export default ({ api, coreSagas }) => {
     try {
       const response = yield call(coreSagas.wallet.resetWallet2fa, action.payload)
       if (response.success) {
-        yield put(actions.alerts.displayInfo('Reset 2-step Authentication has been successfully submitted. You will be sent an email shortly when the authentication is successfully reset.'))
+        yield put(actions.alerts.displayInfo('Reset 2-step Authentication has been successfully submitted. Please check your email for more information..'))
       } else {
         yield put(actions.alerts.displayError(response.message))
       }
