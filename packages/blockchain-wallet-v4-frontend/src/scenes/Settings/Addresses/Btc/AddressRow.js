@@ -15,7 +15,7 @@ const MoreOptions = () => (
   </Link>
 )
 
-const AddressRow = ({ address, coin, renderOptions, search }) => {
+const AddressRow = ({ address, coin, renderOptions }) => {
   return (
     <TableRow>
       <AddressTableCell width='40%' style={{ display: 'flex' }}>

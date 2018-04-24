@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Text, Table, TableHeader, TableCell } from 'blockchain-info-components'
 
-const AddressesTable = ({ children }) => (
+const UnusedAddressesTable = ({ children }) => (
   <Table>
     <TableHeader>
       <TableCell width='40%'>
@@ -20,4 +20,4 @@ const AddressesTable = ({ children }) => (
   </Table>
 )
 
-export default AddressesTable
+export default UnusedAddressesTable
