@@ -39,10 +39,8 @@ export const isValidBitcoinAddress = value => {
   }
 }
 
-export const addressToScript = value => {
-  // TODO do we need to check for cash address here too?
-  // TODO which network?
-  const n = networks.bitcoin
+export const addressToScript = (value, network) => {
+  const n = network || networks.bitcoin
 
   try {
     if (value.toLowerCase().startsWith('bc')) {
@@ -57,6 +55,14 @@ export const addressToScript = value => {
     } else {
       return address.toOutputScript(value, n)
     }
+  } catch (e) {
+    return undefined
+  }
+}
+
+export const scriptToAddress = (script, network) => {
+  try {
+    return address.fromOutputScript(Buffer.from(script, 'hex'), network).toString()
   } catch (e) {
     return undefined
   }
@@ -101,7 +107,7 @@ export const detectPrivateKeyFormat = key => {
   return null
 }
 
-export const privateKeyStringToKey = function (value, format) {
+export const privateKeyStringToKey = function (value, format, network = networks.bitcoin) {
   if (format === 'sipa' || format === 'compsipa') {
     return ECPair.fromWIF(value, networks.bitcoin)
   } else {
@@ -122,7 +128,7 @@ export const privateKeyStringToKey = function (value, format) {
     }
 
     var d = BigInteger.fromBuffer(keyBuffer)
-    return new ECPair(d, null, { network: networks.bitcoin })
+    return new ECPair(d, null, { network: network })
   }
 }
 
@@ -164,6 +170,14 @@ export const calculateBalanceBitcoin = (coins, feePerByte) => {
     fee: Exchange.convertBitcoinToBitcoin({ value: data.fee, fromUnit: 'SAT', toUnit: 'BTC' }).value,
     effectiveBalance: Exchange.convertBitcoinToBitcoin({ value: data.effectiveBalance, fromUnit: 'SAT', toUnit: 'BTC' }).value
   }
+}
+
+export const getWifAddress = (key, compressed = true) => {
+  let oldFlag = key.compressed // avoid input mutation
+  key.compressed = compressed
+  let result = { address: key.toWIF(), wif: key.toWIF() }
+  key.compressed = oldFlag
+  return result
 }
 
 export const txHexToHashHex = txHex => Transaction.fromHex(txHex).getId()

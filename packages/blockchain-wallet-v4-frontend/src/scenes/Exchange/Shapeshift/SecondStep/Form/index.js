@@ -24,7 +24,6 @@ class FormContainer extends React.PureComponent {
       const { sourceAmount, sourceChangeAddress, btcFee, btcCoins, depositAddress } = this.props
       const feePerByte = btcFee.priority
       const amount = Exchange.convertBitcoinToBitcoin({ value: sourceAmount, fromUnit: 'BTC', toUnit: 'SAT' }).value
-      console.log('refreshSelection', feePerByte, btcCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
       this.props.dataBitcoinActions.refreshSelection(feePerByte, btcCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
     }
     // If sourceCoin is BTC, refreshSelection to get final fee
@@ -32,7 +31,6 @@ class FormContainer extends React.PureComponent {
       const { sourceAmount, sourceChangeAddress, bchFee, bchCoins, depositAddress } = this.props
       const feePerByte = bchFee.priority
       const amount = Exchange.convertBchToBch({ value: sourceAmount, fromUnit: 'BCH', toUnit: 'SAT' }).value
-      console.log('refreshSelection', feePerByte, bchCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
       this.props.dataBchActions.refreshSelection(feePerByte, bchCoins, amount, depositAddress, sourceChangeAddress, 'singleRandomDraw', this.seed)
     }
   }
