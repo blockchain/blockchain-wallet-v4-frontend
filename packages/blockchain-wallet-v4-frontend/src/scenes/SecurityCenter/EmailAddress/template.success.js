@@ -77,7 +77,7 @@ const EmailAddress = (props) => {
     if (ui.changeEmailToggled) return <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.' />
     return (
       <React.Fragment>
-        <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='We have sent a verification code to ' />
+        <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='We have sent a verification code to' />
         {email}
         <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='. Please open the email and enter the code below to complete the verification process.' />
       </React.Fragment>
