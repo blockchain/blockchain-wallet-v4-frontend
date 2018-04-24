@@ -7,13 +7,13 @@ import { Button, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Text, ButtonG
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: ${props => props.extraCopy ? null : 'center'};
 `
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: ${props => props.extraCopy ? null : 'center'};
+  align-items: ${props => props.extraCopy ? null : 'center'};
   height: 100%;
   padding: 0;
   box-sizing: border-box;
@@ -29,7 +29,7 @@ const Buttons = styled(ButtonGroup)`
 `
 
 const ConfirmDisable2FA = (props) => {
-  const { position, total, close, handleContinue, ...rest } = props
+  const { position, total, close, handleContinue, extraCopy, authName, ...rest } = props
   const { closeAll } = rest
 
   return (
@@ -38,13 +38,17 @@ const ConfirmDisable2FA = (props) => {
         <FormattedMessage id='modals.disable2fa.title' defaultMessage='Disable Two Factor' />
       </ModalHeader>
       <ModalBody>
-        <Wrapper>
-          <Container>
+        <Wrapper extraCopy={extraCopy}>
+          <Container extraCopy={extraCopy}>
             <Text size='14px' weight={300}>
               <FormattedMessage id='modals.disable2fa.sure' defaultMessage='Are you sure you wish to disable the' />
-              {` ${props.authName}?`}
+              {` ${authName}?`}
             </Text>
-            { <Text style={spacing('mt-10')} size='14px' weight={300}>{props.extraCopy}</Text> || <Icon name='alert' size='40px' color='error' /> }
+            {
+              extraCopy
+                ? <Text style={spacing('mt-10')} size='14px' weight={300}>{extraCopy}</Text>
+                : <Icon name='alert' size='40px' color='error' />
+            }
           </Container>
         </Wrapper>
       </ModalBody>
