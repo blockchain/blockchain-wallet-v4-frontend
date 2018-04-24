@@ -36,7 +36,7 @@ const selectBorderColor = (state) => {
 
 const PasswordInput = props => {
   const { errorState, ...rest } = props
-  const borderColor = selectBorderColor(errorState)
+  const borderColor = selectBorderColor(props.controlledBorderColor || errorState)
 
   return <BasePasswordInput borderColor={borderColor} {...rest} />
 }

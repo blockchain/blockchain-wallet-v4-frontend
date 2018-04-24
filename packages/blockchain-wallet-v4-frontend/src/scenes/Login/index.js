@@ -16,13 +16,14 @@ class LoginContainer extends React.PureComponent {
 
   componentDidUpdate (prevProps) {
     if (prevProps.authType !== this.props.authType) this.props.updateUI({ busy: false })
+    if (prevProps.error !== this.props.error) this.props.updateUI({ busy: false })
   }
 
   onSubmit (event) {
+    this.props.authActions.clearError()
     this.props.updateUI({ busy: true })
     event.preventDefault()
     const { guid, password, code } = this.props
-    this.props.authActions.login(guid, password, code)
     const upperCode = code && code.toUpperCase()
     this.props.authActions.login(guid, password, upperCode)
   }
@@ -36,8 +37,14 @@ class LoginContainer extends React.PureComponent {
     const guid = valid && JSON.parse(localStorage.getItem('ls.guid'))
 
     const { authType } = this.props
-
-    return <Login initialValues={{ guid }} authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} busy={this.props.ui.busy} />
+    return <Login {...this.props}
+      initialValues={{ guid }}
+      authType={authType}
+      onSubmit={this.onSubmit}
+      handleMobile={this.handleMobile}
+      busy={this.props.ui.busy}
+      loginError={this.props.error}
+    />
   }
 }
 
@@ -45,7 +52,8 @@ const mapStateToProps = (state) => ({
   guid: formValueSelector('login')(state, 'guid'),
   password: formValueSelector('login')(state, 'password'),
   code: formValueSelector('login')(state, 'code'),
-  authType: selectors.auth.getAuthType(state)
+  authType: selectors.auth.getAuthType(state),
+  error: selectors.auth.getError(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

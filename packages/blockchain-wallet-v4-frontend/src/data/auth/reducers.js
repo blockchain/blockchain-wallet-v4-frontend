@@ -22,6 +22,13 @@ const auth = (state = INITIAL_STATE, action) => {
       const { authType } = payload
       return assoc('auth_type', authType, state)
     }
+    case AT.SET_AUTH_ERROR: {
+      const { message } = payload
+      return assoc('error', message, state)
+    }
+    case AT.CLEAR_ERROR: {
+      return assoc('error', null, state)
+    }
     default:
       return state
   }

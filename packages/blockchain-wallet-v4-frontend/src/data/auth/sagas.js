@@ -118,7 +118,7 @@ export default ({ api, coreSagas }) => {
         }
       } else if (initialError.isRight && initialError.value) {
         // general error
-        yield put(actions.alerts.displayError(initialError.value))
+        yield put(actions.auth.setError(initialError.value))
       } else {
         // 2FA errors
         if (error.auth_type > 0) { // 2fa required
@@ -126,9 +126,9 @@ export default ({ api, coreSagas }) => {
           yield put(actions.auth.setAuthType(error.auth_type))
           yield put(actions.alerts.displayInfo('2FA required'))
         } else if (error.message) {
-          yield put(actions.alerts.displayError(error.message))
+          yield put(actions.auth.setError(error.message))
         } else {
-          yield put(actions.alerts.displayError(error || 'Error logging into your wallet'))
+          yield put(actions.auth.setError(error || 'Error logging into your wallet'))
         }
       }
     }
