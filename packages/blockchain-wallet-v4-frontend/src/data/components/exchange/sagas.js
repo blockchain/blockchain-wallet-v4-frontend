@@ -1,5 +1,5 @@
 import { call, fork, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
-import { compose, equals, head, merge, nth, path, prop } from 'ramda'
+import { compose, equals, has, head, merge, nth, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -8,12 +8,14 @@ import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import settings from 'config'
 import { getPairFromCoin, getMinimum, getMaximum, convertFiatToCoin, convertCoinToFiat, isAmountAboveMinimum, isAmountBelowMaximum } from './services'
-import { getActiveBchAccounts, getActiveBtcAccounts, getActiveEthAccounts, getBtcAccounts, selectRates } from '../utils/sagas'
+import { getActiveBchAccounts, getActiveBtcAccounts, getActiveEthAccounts, getBtcAccounts, selectRates, selectReceiveAddress } from '../utils/sagas'
 
 export default ({ api, coreSagas }) => {
   // ===========================================================================
   // ================================= UTILS ===================================
   // ===========================================================================
+  let payment
+
   const shape = acc => ({
     text: acc.text,
     value: acc
@@ -120,15 +122,14 @@ export default ({ api, coreSagas }) => {
       const activeBtcAccounts = yield call(getActiveBtcAccounts)
       const activeEthAccounts = yield call(getActiveEthAccounts)
       const elements = [
-        { group: 'Bitcoin', items: activeBchAccounts.map(shape) },
-        { group: 'Bitcoin cash', items: activeBtcAccounts.map(shape) },
+        { group: 'Bitcoin', items: activeBtcAccounts.map(shape) },
+        { group: 'Bitcoin cash', items: activeBchAccounts.map(shape) },
         { group: 'Ethereum', items: activeEthAccounts.map(shape) }
       ]
       yield put(A.accountsUpdated(elements))
       // Initialize payment with default values
       const defaultBtcAccountIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
-      const payment = yield createBtcPayment(defaultBtcAccountIndex)
-      yield put(A.paymentUpdated(payment.value()))
+      payment = yield createBtcPayment(defaultBtcAccountIndex)
       // Initialize form with default values
       const defaultBtcAccount = compose(shape, nth(defaultBtcAccountIndex))(btcAccounts)
       const defaultEthAccount = head(activeEthAccounts.map(shape))
@@ -151,7 +152,6 @@ export default ({ api, coreSagas }) => {
       const target = prop('target', form)
       const values = merge(form, { source: target, target: source })
       const newValues = yield call(convertValues, values)
-      console.log('newValue', newValues)
       yield put(actions.form.initialize('exchange', newValues))
       yield put(actions.form.change('exchange', 'target', source))
       yield put(actions.form.change('exchange', 'source', target))
@@ -213,13 +213,11 @@ export default ({ api, coreSagas }) => {
   const changeSource = function * (source) {
     yield put(A.firstStepDisabled())
     // We create the payment
-    let payment
     switch (source.coin) {
       case 'BCH': payment = yield call(createBchPayment, source.value); break
       case 'BTC': payment = yield call(createBtcPayment, source.value); break
       case 'ETH': payment = yield call(createEthPayment, source.value); break
     }
-    yield put(A.paymentUpdated(payment.value()))
     yield put(A.firstStepEnabled())
   }
 
@@ -232,24 +230,14 @@ export default ({ api, coreSagas }) => {
   }
 
   const validateForm = function * () {
-    console.log('validateForm')
-    const payment = yield select(S.getPayment)
-    console.log('payment', payment)
-    const effectiveBalance = prop('effectiveBalance', payment)
-    console.log('effectiveBalance', effectiveBalance)
+    const effectiveBalance = prop('effectiveBalance', payment.value())
     const form = yield select(selectors.form.getFormValues('exchange'))
     const source = prop('source', form)
-    console.log('source', source)
     const target = prop('target', form)
-    console.log('target', target)
     const sourceAmount = prop('sourceAmount', form)
-    console.log('sourceAmount', sourceAmount)
     const pair = yield call(getPair, source, target)
-    console.log('pair', pair)
     const minimum = getMinimum(source.coin, pair.minimum)
-    console.log('minimum', minimum)
     const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
-    console.log('maximum', maximum)
     if (!isAmountAboveMinimum(sourceAmount, minimum) && !isAmountBelowMaximum(sourceAmount, maximum)) {
       return yield put(A.firstStepFormUnvalidated('insufficient'))
     }
@@ -264,15 +252,45 @@ export default ({ api, coreSagas }) => {
 
   const firstStepSubmitClicked = function * () {
     try {
-      const p = yield select(S.getPayment)
-      let payment = coreSagas.payment.bch.create({ payment: p.getOrElse({}), network: settings.NETWORK_BCH })
       const form = yield select(selectors.form.getFormValues('exchange'))
-      console.log('form', form)
-      console.log('payment', payment)
-      // payment = yield payment.to()
-      // payment = yield payment.amount(prop('sourceAmount', form))
-      // payment = yield payment.build()
-      // yield put(A.paymentUpdated(payment))
+      const sourceCoin = path(['source', 'coin'], form)
+      const targetCoin = path(['target', 'coin'], form)
+      const sourceAmount = prop('sourceAmount', form)
+      const sourceAddress = path(['source', 'address'], form)
+      const targetAddress = path(['target', 'address'], form)
+      const returnAddress = yield call(selectReceiveAddress, sourceAddress)
+      const withdrawalAddress = yield call(selectReceiveAddress, targetAddress)
+      console.log('returnAddress', returnAddress)
+      console.log('withdrawalAddress', withdrawalAddress)
+      // Shapeshift order
+      const pair = getPairFromCoin(sourceCoin, targetCoin)
+      const orderData = yield call(api.createOrder, sourceAmount, pair, returnAddress, withdrawalAddress)
+      if (!has('success', orderData)) throw new Error('Shapeshift order could not be placed.')
+      const order = prop('success', orderData)
+      console.log('order', order)
+      // Prepare payment
+      // let finalPayment
+      // switch (sourceCoin) {
+      //   case 'BCH':
+      //     finalPayment = coreSagas.payment.bch.create({ payment: payment.value(), network: settings.NETWORK_BCH })
+      //     finalPayment = yield finalPayment.to()
+      //     finalPayment = yield finalPayment.amount(parseInt(sourceAmount))
+      //     break
+      //   case 'BTC':
+      //     finalPayment = coreSagas.payment.btc.create({ payment: payment.value(), network: settings.NETWORK_BITCOIN })
+      //     finalPayment = yield finalPayment.to()
+      //     finalPayment = yield finalPayment.amount(parseInt(sourceAmount))
+      //     break
+      //   case 'ETH':
+      //     finalPayment = coreSagas.payment.eth.create({ payment: payment.value(), network: settings.NETWORK_ETHEREUM })
+      //     finalPayment = yield finalPayment.to()
+      //     finalPayment = yield finalPayment.amount(sourceAmount)
+      //     break
+      // }
+      // finalPayment = yield finalPayment.build()
+
+      console.log('withdrawalAddress', withdrawalAddress)
+      // yield put(A.paymentUpdated(finalPayment))
     } catch (e) {
       console.log(e)
     }
@@ -280,25 +298,6 @@ export default ({ api, coreSagas }) => {
 
   const secondStepInitialized = function * () {
     try {
-      // const form = yield select(selectors.form.getFormValues('exchange'))
-      // const source = prop('source', form)
-      // const sourceCoin = prop('coin', source)
-      // const sourceAmount = prop('sourceAmount', form)
-      // const target = prop('target', form)
-      // const targetCoin = prop('coin', target)
-      // const pair = getPairFromCoin(sourceCoin, targetCoin)
-      // const returnAddress = yield call(selectReceiveAddress, source)
-      // const withdrawalAddress = yield call(selectReceiveAddress, target)
-      // const orderData = yield call(api.createOrder, sourceAmount, pair, returnAddress, withdrawalAddress)
-      // if (!has('success', orderData)) throw new Error('Shapeshift order could not be placed.')
-      // const order = prop('success', orderData)
-      // let fee
-      // switch (sourceCoin) {
-      // case 'BTC': fee = yield call(calculateBtcFee, source, sourceAmount, prop('deposit', order)); break
-      // case 'ETH': fee = yield call(calculateEthFee); break
-      // }
-      // yield put(A.secondStepSuccess({ order, fee }))
-      // return order
       yield
     } catch (e) {
       console.log(e)

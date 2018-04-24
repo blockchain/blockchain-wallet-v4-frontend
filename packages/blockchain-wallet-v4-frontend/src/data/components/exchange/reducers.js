@@ -7,8 +7,9 @@ const INITIAL_STATE = {
   accounts: [],
   minimum: 0,
   maximum: 0,
-  error: '',
+  error: 'insufficient',
   payment: {},
+  order: Remote.NotAsked,
   firstStepEnabled: true
 }
 
@@ -52,14 +53,14 @@ export default (state = INITIAL_STATE, action) => {
     // case AT.EXCHANGE_SECOND_STEP_INITIALIZED: {
     //   return merge(state, {
     //     step: 2,
-    //     secondStep: Remote.Loading
+    //     order: Remote.Loading
     //   })
     // }
     // case AT.EXCHANGE_SECOND_STEP_SUCCESS: {
-    //   return assoc('secondStep', Remote.Success(payload), state)
+    //   return assoc('order', Remote.Success(payload), state)
     // }
     // case AT.EXCHANGE_SECOND_STEP_FAILURE: {
-    //   return assoc('secondStep', Remote.Failure(payload), state)
+    //   return assoc('order', Remote.Failure(payload), state)
     // }
     // case AT.EXCHANGE_THIRD_STEP_INITIALIZED: {
     //   return assoc('step', 3, state)

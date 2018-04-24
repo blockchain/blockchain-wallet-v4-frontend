@@ -29,7 +29,7 @@ export const firstStepMinimumClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_MIN
 
 export const firstStepMaximumClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_MAXIMUM_CLICKED })
 
-export const secondStepInitialized = (depositFee, depositTotal) => ({ type: AT.EXCHANGE_SECOND_STEP_INITIALIZED, payload: { depositFee, depositTotal } })
+export const secondStepInitialized = () => ({ type: AT.EXCHANGE_SECOND_STEP_INITIALIZED })
 
 export const secondStepSuccess = (data) => ({ type: AT.EXCHANGE_SECOND_STEP_SUCCESS, payload: data })
 
