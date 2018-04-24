@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { merge } from 'ramda'
 
 import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
+import { selectStyle } from './services'
 
 const Wrapper = styled.div`
   display: flex;
@@ -123,29 +123,16 @@ const InfoRow = styled.div`
   box-sizing: border-box;
 `
 
-const selectStyle = status => {
-  const initial = { color1: 'gray-4', animation1: false, color2: 'gray-4', animation2: false, color3: 'gray-4', animation3: false, icon3: 'checkmark' }
-  switch (status) {
-    case 'no_deposits': return merge(initial, { color1: 'brand-primary', animation1: true })
-    case 'received': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', animation2: true })
-    case 'failed': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', color3: 'error', animation3: true, icon3: 'close' })
-    case 'complete': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', color3: 'success', animation3: true })
-    // case 'resolved': return merge(initial, { color1: 'brand-primary', color2: 'brand-primary', color3: 'brand-secondary', animation3: true, icon3: 'build' })
-    default: return initial
-  }
-}
-
 const Success = props => {
-  const { close, trade, sourceCoin, targetCoin } = props
-  const { status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount } = trade
+  const { close, sourceCoin, targetCoin, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount } = trade
   const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
 
   return (
     <Wrapper>
       <Header>
         <Text size='13px' weight={500} capitalize>
-          {status === 'complete' && <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success! Your exchange is complete' />}
-          {status !== 'complete' && <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />}
+          {status === 'complete' && <FormattedMessage id='modals.exchange.shapeshift.title_success' defaultMessage='Success ! Your exchange is complete' />}
+          {status !== 'complete' && <FormattedMessage id='modals.exchange.shapeshift.title_inprogress' defaultMessage='Your exchange is in progress' />}
         </Text>
       </Header>
       <Body>
@@ -157,7 +144,7 @@ const Success = props => {
                   <Icon name='paper-airplane' size='28px' color={color1} />
                 </Circle>
                 <Text size='13px' weight={500} capitalize>
-                  <FormattedMessage id='modals.exchangedetails.send' defaultMessage='Funds sent' />
+                  <FormattedMessage id='modals.exchange.shapeshift.send' defaultMessage='Funds sent' />
                 </Text>
               </TimelineItem>
               <TimelineItem>
@@ -165,7 +152,7 @@ const Success = props => {
                   <Icon name='exchange' size='28px' color={color2} />
                 </Circle>
                 <Text size='13px' weight={500} capitalize>
-                  <FormattedMessage id='modals.exchangedetails.inprogress' defaultMessage='Exchange In Progress' />
+                  <FormattedMessage id='modals.exchange.shapeshift.inprogress' defaultMessage='Exchange In Progress' />
                 </Text>
               </TimelineItem>
               <TimelineItem>
@@ -173,7 +160,7 @@ const Success = props => {
                   <Icon name={icon3} size='28px' color={color3} />
                 </Circle>
                 <Text size='13px' weight={500} capitalize>
-                  <FormattedMessage id='modals.exchangedetails.complete' defaultMessage='Trade Complete' />
+                  <FormattedMessage id='modals.exchange.shapeshift.complete' defaultMessage='Trade Complete' />
                 </Text>
               </TimelineItem>
             </TimelineItems>
@@ -187,8 +174,8 @@ const Success = props => {
           {status === 'complete' &&
             <Notice>
               <Text size='13px' weight={300}>
-                <FormattedMessage id='modals.exchangedetails.explain' defaultMessage='Your exchange is complete.' />
-                <FormattedMessage id='modals.exchangedetails.explain2' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
+                <FormattedMessage id='modals.exchange.shapeshift.explain' defaultMessage='Your exchange is complete.' />
+                <FormattedMessage id='modals.exchange.shapeshift.explain2' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
               </Text>
             </Notice>
           }
@@ -197,7 +184,7 @@ const Success = props => {
           <Info>
             <InfoRow>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: sourceCoin }} />
+                <FormattedMessage id='modals.exchange.shapeshift.deposited' defaultMessage='{coin} deposited:' values={{ coin: sourceCoin }} />
               </Text>
               <Text size='13px' weight={300} uppercase>
                 {`${depositAmount} ${sourceCoin}`}
@@ -205,7 +192,7 @@ const Success = props => {
             </InfoRow>
             <InfoRow>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: targetCoin }} />
+                <FormattedMessage id='modals.exchange.shapeshift.received' defaultMessage='{coin} received:' values={{ coin: targetCoin }} />
               </Text>
               <Text size='13px' weight={300} uppercase>
                 {`${withdrawalAmount} ${targetCoin}`}
@@ -213,9 +200,9 @@ const Success = props => {
             </InfoRow>
             <InfoRow>
               <Text size='13px' weight={400}>
-                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='Exchange rate:' />
+                <FormattedMessage id='modals.exchange.shapeshift.received' defaultMessage='Exchange rate:' />
                 <Tooltip>
-                  <FormattedMessage id='modals.exchangedetails.exchangetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
+                  <FormattedMessage id='modals.exchange.shapeshift.exchangetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
                 </Tooltip>
               </Text>
               <Text size='13px' weight={300} uppercase>
@@ -224,9 +211,9 @@ const Success = props => {
             </InfoRow>
             <InfoRow>
               <Text size='13px' weight={400}>
-                <FormattedMessage id='modals.exchangedetails.fee' defaultMessage='Transaction fee:' />
+                <FormattedMessage id='modals.exchange.shapeshift.fee' defaultMessage='Transaction fee:' />
                 <Tooltip>
-                  <FormattedMessage id='modals.exchangedetails.feetooltip' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
+                  <FormattedMessage id='modals.exchange.shapeshift.feetooltip' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
                 </Tooltip>
               </Text>
               <Text size='13px' weight={300} uppercase>
@@ -235,17 +222,17 @@ const Success = props => {
             </InfoRow>
             <InfoRow>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.orderid' defaultMessage='Order ID:' />
+                <FormattedMessage id='modals.exchange.shapeshift.orderid' defaultMessage='Order ID:' />
               </Text>
-              <Text size='13px' weight={300}>
-                SFT-{orderId}
+              <Text size='13px' weight={300} uppercase>
+                {orderId}
               </Text>
             </InfoRow>
           </Info>
         </Row>
         <Row align='right'>
           <Button nature='primary' size='13px' weight={300} onClick={close}>
-            <FormattedMessage id='modals.exchangedetails.close' defaultMessage='Close' />
+            <FormattedMessage id='modals.exchange.shapeshift.close' defaultMessage='Close' />
           </Button>
         </Row>
       </Body>
