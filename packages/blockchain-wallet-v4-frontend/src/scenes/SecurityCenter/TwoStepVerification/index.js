@@ -44,7 +44,8 @@ class TwoStepVerificationContainer extends React.PureComponent {
   }
 
   handleDisableClick () {
-    this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled, editing: true })
+    if (this.props.data.data.authType > 0) this.props.modalActions.showModal('ConfirmDisable2FA', { authName: this.state.authName })
+    else this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled, editing: true })
   }
 
   chooseMethod (method) {
