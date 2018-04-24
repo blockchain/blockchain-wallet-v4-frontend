@@ -28,10 +28,11 @@ const PhoneNumberBox = (field) => {
   const handler = (status, value, countryData, number, id) => {
     field.input.onChange(number)
   }
+  const countryCode = field.countryCode && field.countryCode.data.toLowerCase()
 
   return (
     <Container>
-      <IntlTelInput defaultValue={field.defaultValue || ''} onPhoneNumberChange={handler} format preferredCountries={['us', 'gb']} css={['intl-tel-input', 'form-control']} utilsScript={'libphonenumber.js'} />
+      <IntlTelInput defaultValue={field.defaultValue || ''} onPhoneNumberChange={handler} format defaultCountry={countryCode} preferredCountries={['us', 'gb']} css={['intl-tel-input', 'form-control']} utilsScript={'libphonenumber.js'} />
     </Container>
   )
 }
