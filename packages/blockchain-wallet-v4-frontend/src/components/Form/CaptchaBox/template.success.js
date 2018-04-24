@@ -14,7 +14,6 @@ const Wrapper = styled.div`
 `
 const Image = styled.img`
   height: 60px;
-  margin: 5px 0;
 `
 const Container = styled.div`
   position: relative;
