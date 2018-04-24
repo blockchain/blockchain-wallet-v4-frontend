@@ -9,6 +9,7 @@ export const paymentUpdated = payment => ({ type: AT.EXCHANGE_PAYMENT_UPDATED, p
 
 export const accountsUpdated = accounts => ({ type: AT.EXCHANGE_ACCOUNTS_UPDATED, payload: accounts })
 
+export const limitsUpdated = (minimum, maximum) => ({ type: AT.EXCHANGE_LIMITS_UPDATED, payload: { minimum, maximum } })
 
 export const firstStepInitialized = () => ({ type: AT.EXCHANGE_FIRST_STEP_INITIALIZED })
 
@@ -16,6 +17,9 @@ export const firstStepEnabled = () => ({ type: AT.EXCHANGE_FIRST_STEP_ENABLED })
 
 export const firstStepDisabled = () => ({ type: AT.EXCHANGE_FIRST_STEP_DISABLED })
 
+export const firstStepFormValidated = () => ({ type: AT.EXCHANGE_FIRST_STEP_FORM_VALIDATED })
+
+export const firstStepFormUnvalidated = (error) => ({ type: AT.EXCHANGE_FIRST_STEP_FORM_UNVALIDATED, payload: error })
 
 export const firstStepSubmitClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED })
 

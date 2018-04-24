@@ -14,13 +14,16 @@ class FirstStepContainer extends React.Component {
   }
 
   render () {
-    console.log('render', this.props.data)
-
     return this.props.data.cata({
       Success: (value) => <Success
         accounts={value.accounts}
-        effectiveBalance={value.effectiveBalance}
         enabled={value.enabled}
+        minimum={value.minimum}
+        maximum={value.maximum}
+        formError={value.formError}
+        currency={value.currency}
+        sourceCoin={value.sourceCoin}
+        targetCoin={value.targetCoin}
         handleMaximum={() => this.props.actions.firstStepMaximumClicked()}
         handleMinimum={() => this.props.actions.firstStepMinimumClicked()}
         handleSubmit={() => this.props.actions.firstStepSubmitClicked()}

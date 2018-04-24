@@ -1,15 +1,29 @@
 import { selectors } from 'data'
 import { prop } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
-
+import { formValueSelector } from 'redux-form'
+console.log('selectors', selectors)
 export const getData = state => {
   const accounts = selectors.components.exchange.getAccounts(state)
-  const payment = selectors.components.exchange.getPayment(state)
-  const firstStepEnabled = selectors.components.exchange.getFirstStepEnabled(state)
+  const enabled = selectors.components.exchange.getFirstStepEnabled(state)
+  const minimum = selectors.components.exchange.getMinimum(state)
+  const maximum = selectors.components.exchange.getMaximum(state)
+  const formError = selectors.components.exchange.getError(state)
+  const source = formValueSelector('exchange')(state, 'source')
+  const target = formValueSelector('exchange')(state, 'target')
+  const sourceCoin = prop('coin', source)
+  const targetCoin = prop('coin', target)
+  const currencyR = selectors.core.settings.getCurrency(state)
 
-  return Remote.of({
-    effectiveBalance: prop('effectiveBalance', payment),
+  const transform = (currency) => ({
     accounts,
-    enabled: firstStepEnabled
+    enabled,
+    minimum,
+    maximum,
+    formError,
+    currency,
+    sourceCoin,
+    targetCoin
   })
+
+  return currencyR.map(transform)
 }
