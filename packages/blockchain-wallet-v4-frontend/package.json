@@ -51,7 +51,6 @@
     ]
   },
   "dependencies": {
-    "babel-eslint": "~8.2.2",
     "base-64": "^0.1.0",
     "bignumber.js": "^5.0.0",
     "bip21": "^2.0.1",
