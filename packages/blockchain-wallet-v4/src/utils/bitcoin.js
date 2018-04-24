@@ -175,7 +175,7 @@ export const calculateBalanceBitcoin = (coins, feePerByte) => {
 export const getWifAddress = (key, compressed = true) => {
   let oldFlag = key.compressed // avoid input mutation
   key.compressed = compressed
-  let result = { address: key.toWIF(), wif: key.toWIF() }
+  let result = { address: key.getAddress(), wif: key.toWIF() }
   key.compressed = oldFlag
   return result
 }

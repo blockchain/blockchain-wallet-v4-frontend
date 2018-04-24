@@ -51,7 +51,7 @@ export const getReceiveAddress = (account, receiveIndex, network) => {
 
 export const getChangeAddress = (account, changeIndex, network) => {
   HDAccount.guard(account)
-  return Cache.getAddress(selectCache(account), 0, changeIndex, network)
+  return Cache.getAddress(selectCache(account), 1, changeIndex, network)
 }
 
 export const fromJS = (x, i) => {
