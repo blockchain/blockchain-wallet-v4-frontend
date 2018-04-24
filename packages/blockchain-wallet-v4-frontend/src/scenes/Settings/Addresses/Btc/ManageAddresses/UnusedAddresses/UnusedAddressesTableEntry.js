@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon, Text, TableCell, TableRow, Link } from 'blockchain-info-components'
 
-const AddressesTableEntry = ({ entry, deriveAddress, onEditLabel, onDeleteLabel }) => (
+const UnusedAddressesTableEntry = ({ entry, deriveAddress, onEditLabel, onDeleteLabel }) => (
   <TableRow>
     <TableCell width='40%'>
       <Link href={`https://blockchain.info/address/${deriveAddress(entry.index)}`} size='small' weight={300} target='_blank'>
@@ -18,4 +18,4 @@ const AddressesTableEntry = ({ entry, deriveAddress, onEditLabel, onDeleteLabel 
   </TableRow>
 )
 
-export default AddressesTableEntry
+export default UnusedAddressesTableEntry
