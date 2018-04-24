@@ -1,4 +1,4 @@
-import { converge, or, assoc, drop, curry, set, always } from 'ramda'
+import { converge, or, assoc, drop, curry, set, always, compose } from 'ramda'
 import * as Coin from '../../../coinSelection/coin'
 import { Wallet, HDAccount, Address } from '../../../types'
 import { isPositiveInteger } from '../../../utils/checks'
@@ -43,9 +43,10 @@ export const fromWatchOnly = (address, wif) => ({
 
 // fromExternal :: String -> String -> String -> String -> Object
 export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
+  fromType: FROM.EXTERNAL,
   from: [addrComp, addrUncomp],
   change: addrComp,
-  wifKeys: [wifComp, wifUncomp]
+  wifKeys: compose(assoc(addrComp, wifComp), assoc(addrUncomp, wifUncomp))({})
 })
 
 // fromAccount :: Network -> ReduxState -> Object

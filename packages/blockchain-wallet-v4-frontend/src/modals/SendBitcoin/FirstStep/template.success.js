@@ -11,6 +11,7 @@ import { shouldValidate, emptyAccount, minimumAmount, maximumAmount, minimumFeeP
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
+import ComboDisplay from 'components/Display/ComboDisplay'
 
 const Row = styled.div`
   display: flex;
@@ -76,7 +77,7 @@ const FeePerByteContainer = styled.div`
 
 const FirstStep = props => {
   const { invalid, submitting, ...rest } = props
-  const { toToggled, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, ...rest2 } = rest
+  const { toToggled, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, totalFee, ...rest2 } = rest
   const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
 
   return (
@@ -153,6 +154,7 @@ const FirstStep = props => {
           </FeeFormContainer>
         </ColLeft>
         <ColRight>
+          <ComboDisplay size='14px' coin='BTC'>{totalFee}</ComboDisplay>
           <Link size='13px' weight={300} capitalize onClick={handleFeePerByteToggle} >
             {feePerByteToggled
               ? <FormattedMessage id='modals.sendbtc.firststep.cancel' defaultMessage='Cancel' />
@@ -164,7 +166,7 @@ const FirstStep = props => {
       <FormGroup>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />}
-          {isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 0-60 minutes' />}
+          {isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated2' defaultMessage='Estimated confirmation time 0-60 minutes' />}
         </Text>
       </FormGroup>
       <FormGroup>
@@ -187,7 +189,8 @@ FirstStep.propTypes = {
   isPriorityFeePerByte: PropTypes.bool.isRequired,
   handleFeePerByteToggle: PropTypes.func.isRequired,
   handleToToggle: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  totalFee: PropTypes.number
 }
 
 export default reduxForm({ form: 'sendBtc', destroyOnUnmount: false, shouldValidate })(FirstStep)

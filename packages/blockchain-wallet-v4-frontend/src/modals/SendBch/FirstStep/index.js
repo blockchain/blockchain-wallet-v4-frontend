@@ -20,6 +20,7 @@ class FirstStep extends React.Component {
       Success: value => <Success
         toToggled={value.toToggled}
         effectiveBalance={value.effectiveBalance}
+        totalFee={value.totalFee}
         handleSubmit={() => actions.sendBchFirstStepSubmitClicked()}
         handleToToggle={() => actions.sendBchFirstStepToToggled()}
       />,

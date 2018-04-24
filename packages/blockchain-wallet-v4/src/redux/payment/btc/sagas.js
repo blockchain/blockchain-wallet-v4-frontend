@@ -1,5 +1,5 @@
 import { call, select } from 'redux-saga/effects'
-import { merge, zip, prop, map, identity } from 'ramda'
+import { merge, zip, prop, map, identity, isNil, isEmpty } from 'ramda'
 import Task from 'data.task'
 
 import * as S from '../../selectors'
@@ -119,7 +119,7 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateSelection = function ({ to, amount, fee, coins, change }) {
+  const calculateSelection = function ({ to, amount, fee, coins, change, effectiveBalance }) {
     if (!to) {
       throw new Error('missing_to')
     }
@@ -132,8 +132,12 @@ export default ({ api }) => {
       throw new Error('missing_fee_per_byte')
     }
 
-    if (!coins) {
+    if (isNil(coins)) {
       throw new Error('missing_coins')
+    }
+
+    if (isEmpty(coins) || effectiveBalance <= 0) {
+      throw new Error('empty_addresses')
     }
 
     if (!change) {
@@ -145,7 +149,7 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateSweepSelection = function ({ to, fee, coins }) {
+  const calculateSweepSelection = function ({ to, fee, coins, effectiveBalance }) {
     if (!to) {
       throw new Error('missing_to')
     }
@@ -158,8 +162,12 @@ export default ({ api }) => {
       throw new Error('missing_fee_per_byte')
     }
 
-    if (!coins) {
+    if (isNil(coins)) {
       throw new Error('missing_coins')
+    }
+
+    if (isEmpty(coins) || effectiveBalance <= 0) {
+      throw new Error('empty_addresses')
     }
 
     return CoinSelection.selectAll(fee, coins, to[0].address)
