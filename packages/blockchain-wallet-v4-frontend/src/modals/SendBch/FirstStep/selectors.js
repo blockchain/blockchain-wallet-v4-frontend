@@ -8,13 +8,15 @@ export const getData = state => {
   const transform = payment => {
     const minFeePerByte = path(['fees', 'limit', 'min'], payment)
     const maxFeePerByte = path(['fees', 'limit', 'max'], payment)
+    const totalFee = path(['selection', 'fee'], payment)
     const effectiveBalance = prop('effectiveBalance', payment)
 
     return {
       toToggled,
       effectiveBalance,
       minFeePerByte,
-      maxFeePerByte
+      maxFeePerByte,
+      totalFee
     }
   }
 
