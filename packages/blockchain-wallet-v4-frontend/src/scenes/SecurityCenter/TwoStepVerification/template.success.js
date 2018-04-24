@@ -84,8 +84,11 @@ const Buttons = styled(ButtonGroup)`
   }
 `
 const TipText = styled(Text)`
-  display: flex;
-  flex-direction: row;
+text-align: justify;
+display: inline;
+font-size: 12px;
+
+& > * { display: inline; }
 `
 
 const TwoStepVerification = (props) => {
@@ -130,7 +133,7 @@ const TwoStepVerification = (props) => {
             <div />
             <DisableContainer style={spacing('pl-25')}>
               <Text weight={200} size='14px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-factor authentication is set up with {authName} for number {number}. {changeNumber}' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span>, changeNumber: <a className='link' onClick={props.handleChangeNumber}>Change Mobile Number</a> }} />
+                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-Step Verification is set up with {authName} for number {number}. {changeNumber}' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span>, changeNumber: <a className='link' onClick={props.handleChangeNumber}>Change Mobile Number</a> }} />
                 {
                   ui.changeNumberToggled && <ChangeMobileContainer>
                     <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder='212-555-5555' />
@@ -170,7 +173,7 @@ const TwoStepVerification = (props) => {
     if (twoStepChoice === 'google') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-factor Authentication - Authenticator App' />
+          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Authenticator App' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
@@ -178,7 +181,7 @@ const TwoStepVerification = (props) => {
     if (twoStepChoice === 'yubikey') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.yubi.title' defaultMessage='Two-factor Authentication - Yubikey' />
+          <FormattedMessage id='scenes.security.twostepverification.yubi.title' defaultMessage='Two-Step Verification - Yubikey' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
@@ -186,12 +189,12 @@ const TwoStepVerification = (props) => {
     if (twoStepChoice === 'sms') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-factor Authentication - Mobile Phone Number' />
+          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Mobile Phone Number' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
     }
-    return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Two-factor Authentication' />
+    return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Two-Step Verification' />
   }
 
   const renderChoices = () => !ui.verifyToggled && !props.alone ? null : renderVerificationChoice()
@@ -237,7 +240,11 @@ const TwoStepVerification = (props) => {
               <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />
             </Text>
             <TipText weight={200} size='12px'>
-              <FormattedMessage id='scenes.securitycenter.2fa.tip' defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for {iosLink} and {androidLink})' values={{ iosLink: <a href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8' _target='blank' rel='noopener noreferrer'>iOS</a>, androidLink: <a href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en' _target='blank' rel='noopener noreferrer'>Android</a> }} />
+              <FormattedMessage id='scenes.securitycenter.2fa.tip' defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for ' />
+              <Link href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8' _target='blank' rel='noopener noreferrer' size='12px'>iOS</Link>
+              <FormattedMessage id='scenes.securitycenter.2fa.tip.two' defaultMessage=' and ' />
+              <Link href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en' _target='blank' rel='noopener noreferrer' size='12px'>Android</Link>
+              <FormattedMessage id='scenes.securitycenter.2fa.tip.three' defaultMessage=').' />
             </TipText>
           </SecurityTip>
           : null

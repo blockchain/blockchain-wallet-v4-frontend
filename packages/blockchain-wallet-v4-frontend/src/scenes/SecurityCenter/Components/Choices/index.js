@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text, Icon } from 'blockchain-info-components'
+import { Text, Icon, Image } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 const Choice = styled.div`
@@ -46,7 +46,7 @@ function Choices (props) {
         </ChoiceDescription>
       </Choice>
       <Choice editing={editing} selected={authType === 1 || authType === 2} onClick={editing && authType > 0 ? () => props.pulseText() : () => props.chooseMethod('yubikey')}>
-        <Icon name='yubikey' />
+        <Image name='yubikey' height='18px' width='18px' />
         <ChoiceDescription>
           <Text weight={300} size='14px'>
             <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Yubikey' />
