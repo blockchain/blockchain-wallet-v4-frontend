@@ -111,7 +111,12 @@ export default ({ api, coreSagas }) => {
             yield call(coreSagas.wallet.fetchWalletSaga, { guid, session, password })
             yield call(loginRoutineSaga, mobileLogin)
           } catch (e) {
-            yield put(actions.alerts.displayError(error || 'Error logging into your wallet'))
+            if (e.auth_type > 0) {
+              yield put(actions.auth.setAuthType(e.auth_type))
+              yield put(actions.alerts.displayInfo('2FA required'))
+            } else {
+              yield put(actions.alerts.displayError(error || 'Error logging into your wallet'))
+            }
           }
         } else {
           yield put(actions.alerts.displayError('Error establishing the session'))

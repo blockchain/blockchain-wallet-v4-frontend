@@ -53,6 +53,8 @@ const Login = (props) => {
   const { submitting, invalid, busy, loginError, password, ...rest } = props
   const { onSubmit, handleMobile, authType } = rest
 
+  const twoFactorError = () => loginError && loginError.toLowerCase().includes('authentication code')
+
   return (
     <Wrapper>
       <Modals>
@@ -104,7 +106,7 @@ const Login = (props) => {
             </FormLabel>
             <Field name='password' validate={[required]} component={PasswordBox} errorBottom borderColor={loginError ? 'invalid' : undefined} />
             {
-              loginError && <Text style={spacing('mt-5')} weight={300} size='12px' color='error'>
+              !twoFactorError() && <Text style={spacing('mt-5')} weight={300} size='12px' color='error'>
                 {loginError}
               </Text>
             }
@@ -121,7 +123,12 @@ const Login = (props) => {
             </FormItem>
           }
           { authType > 0 &&
-            <Field name='code' validate={[required]} component={TextBox} />
+            <Field name='code' validate={[required]} component={TextBox} borderColor={twoFactorError() ? 'invalid' : undefined} />
+          }
+          {
+            twoFactorError() && <Text style={spacing('mt-5')} weight={300} size='12px' color='error'>
+              {loginError}
+            </Text>
           }
         </FormGroup>
         <FormGroup>
