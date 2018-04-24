@@ -25,12 +25,12 @@ const encodeData = (contentType, data) => {
   }
 }
 
-export default ({ apiCode }) => {
+export default ({ apiKey }) => {
   // Generic request object
   const request = ({ method, url, endPoint, data, sessionToken, contentType = 'application/x-www-form-urlencoded' }) => {
     const defaultHeaders = { 'Content-Type': contentType }
 
-    const formEncodedData = encodeData(contentType, { ...data })
+    const formEncodedData = encodeData(contentType, { ...data, 'api_code': apiKey, ct: Date.now() })
 
     const finalHeaders = isNil(sessionToken)
       ? defaultHeaders

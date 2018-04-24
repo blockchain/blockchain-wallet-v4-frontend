@@ -60,8 +60,8 @@ export default ({ coreSagas }) => {
         case 'coin':
           yield put(actions.modals.closeAllModals())
           switch (payload) {
+            case 'BTC': yield put(actions.modals.showModal('SendBitcoin')); break
             case 'ETH': yield put(actions.modals.showModal('SendEther')); break
-            case 'BCH': yield put(actions.modals.showModal('SendBch')); break
           }
           break
         case 'from':
@@ -83,6 +83,7 @@ export default ({ coreSagas }) => {
           payment = yield payment.description(payload)
           break
       }
+      try { payment = yield payment.build() } catch (e) {}
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       console.log(e)

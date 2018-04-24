@@ -1,4 +1,5 @@
 import * as exchange from './exchange/actionTypes'
+import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
 import * as sendBch from './sendBch/actionTypes'
@@ -8,6 +9,7 @@ import * as signMessage from './signMessage/actionTypes'
 
 export {
   exchange,
+  importBtcAddress,
   priceChart,
   priceTicker,
   sendBch,

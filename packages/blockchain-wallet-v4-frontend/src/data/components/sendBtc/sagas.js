@@ -92,6 +92,7 @@ export default ({ coreSagas }) => {
           payment = yield payment.fee(parseInt(payload))
           break
       }
+      try { payment = yield payment.build() } catch (e) {}
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       console.log(e)

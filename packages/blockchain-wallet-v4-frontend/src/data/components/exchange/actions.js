@@ -5,13 +5,17 @@ export const initialized = () => ({ type: AT.EXCHANGE_INITIALIZED })
 
 export const destroyed = () => ({ type: AT.EXCHANGE_DESTROYED })
 
+export const paymentUpdated = payment => ({ type: AT.EXCHANGE_PAYMENT_UPDATED, payload: payment })
+
+export const accountsUpdated = accounts => ({ type: AT.EXCHANGE_ACCOUNTS_UPDATED, payload: accounts })
+
+
 export const firstStepInitialized = () => ({ type: AT.EXCHANGE_FIRST_STEP_INITIALIZED })
 
-export const firstStepLoading = () => ({ type: AT.EXCHANGE_FIRST_STEP_LOADING })
+export const firstStepEnabled = () => ({ type: AT.EXCHANGE_FIRST_STEP_ENABLED })
 
-export const firstStepLoaded = () => ({ type: AT.EXCHANGE_FIRST_STEP_LOADED })
+export const firstStepDisabled = () => ({ type: AT.EXCHANGE_FIRST_STEP_DISABLED })
 
-export const firstStepError = (message, data) => ({ type: AT.EXCHANGE_FIRST_STEP_ERROR, payload: { message, data } })
 
 export const firstStepSubmitClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED })
 

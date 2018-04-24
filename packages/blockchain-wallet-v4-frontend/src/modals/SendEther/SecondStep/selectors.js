@@ -5,7 +5,6 @@ export const getData = state => {
   const paymentR = selectors.components.sendEth.getPayment(state)
 
   const from = from => {
-    console.log('from', from)
     switch (from.type) {
       case 'ACCOUNT':
         return selectors.core.kvStore.ethereum.getAccountLabel(state, from.address).getOrElse(from.address)
