@@ -1,6 +1,5 @@
 import * as addressesBch from './addressesBch/actions'
 import * as coinify from './coinify/actions'
-import * as sendBitcoin from './sendBitcoin/actions'
 import * as sendEther from './sendEther/actions'
 import * as sendBch from './sendBch/actions'
 import * as sendShapeshift from './sendShapeshift/actions'
@@ -13,7 +12,6 @@ import * as shapeshiftHistory from './shapeshiftHistory/actions'
 export {
   addressesBch,
   coinify,
-  sendBitcoin,
   sendEther,
   sendBch,
   sendShapeshift,
