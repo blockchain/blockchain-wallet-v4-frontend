@@ -5,6 +5,7 @@ import * as priceTicker from './priceTicker/actions'
 import * as sendBch from './sendBch/actions'
 import * as sendBtc from './sendBtc/actions'
 import * as sendEth from './sendEth/actions'
+import * as signMessage from './signMessage/actions'
 
 export {
   exchange,
@@ -13,5 +14,6 @@ export {
   priceTicker,
   sendBch,
   sendBtc,
-  sendEth
+  sendEth,
+  signMessage
 }

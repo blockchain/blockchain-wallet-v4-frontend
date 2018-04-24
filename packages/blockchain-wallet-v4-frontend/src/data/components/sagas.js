@@ -7,6 +7,7 @@ import priceTicker from './priceTicker/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
 import sendEth from './sendEth/sagas'
+import signMessage from './signMessage/sagas'
 
 export default ({ api, coreSagas }) => function * () {
   yield all([
@@ -16,6 +17,7 @@ export default ({ api, coreSagas }) => function * () {
     yield fork(priceTicker({ coreSagas })),
     yield fork(sendBch({ api, coreSagas })),
     yield fork(sendBtc({ api, coreSagas })),
-    yield fork(sendEth({ api, coreSagas }))
+    yield fork(sendEth({ api, coreSagas })),
+    yield fork(signMessage({ coreSagas }))
   ])
 }
