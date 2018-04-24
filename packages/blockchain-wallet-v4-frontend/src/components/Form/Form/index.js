@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Form as ReduxForm } from 'redux-form'
 
@@ -19,6 +20,14 @@ const Form = props => {
       {children}
     </BaseForm>
   )
+}
+
+Form.propTypes = {
+  override: PropTypes.bool.isRequired
+}
+
+Form.defaultProps = {
+  bool: false
 }
 
 export default Form
