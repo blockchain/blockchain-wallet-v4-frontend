@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { spacing } from 'services/StyleService'
+import { spacing, flex } from 'services/StyleService'
 
 import { Button, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Text, ButtonGroup } from 'blockchain-info-components'
 
@@ -35,7 +35,10 @@ const ConfirmDisable2FA = (props) => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={close}>
-        <FormattedMessage id='modals.disable2fa.title' defaultMessage='Disable Two Factor' />
+        <div style={flex('row align/center')}>
+          <Icon name='lock' size='20px' style={spacing('pr-5')} />
+          <FormattedMessage id='modals.disable2fa.title' defaultMessage='Disable Two Factor' />
+        </div>
       </ModalHeader>
       <ModalBody>
         <Wrapper extraCopy={extraCopy}>
