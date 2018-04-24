@@ -32,7 +32,6 @@ box-sizing: border-box;
 overflow: none;
 `
 const WhatsNewLink = styled(Text)`
-color: ${props => props.theme['brand-secondary']};
 text-decoration: underline;
 text-decoration-color: ${props => props.theme['brand-secondary']};
 cursor: pointer;

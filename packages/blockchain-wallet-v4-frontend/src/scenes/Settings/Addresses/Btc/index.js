@@ -10,7 +10,7 @@ const Wrapper = styled.section`
   box-sizing: border-box;
 `
 
-export default class BitcoinAddressesContainer extends React.PureComponent {
+export default class BtcAddressesContainer extends React.PureComponent {
   render () {
     return (
       <AddressesLayout>

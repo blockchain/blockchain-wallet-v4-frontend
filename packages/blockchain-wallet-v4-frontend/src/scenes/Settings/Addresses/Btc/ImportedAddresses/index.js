@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { formValueSelector } from 'redux-form'
 
 class ImportedAddressesContainer extends React.Component {
   constructor (props) {
@@ -31,12 +32,14 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   render () {
+    const { search } = this.props
     return (
       this.props.activeAddresses.cata({
         Success: (value) => (
           <Success
             importedAddresses={value}
             onClickImport={this.handleClickImport}
+            search={search && search.toLowerCase()}
             onToggleArchived={this.handleToggleArchived}
             onShowPriv={this.handleShowPriv}
           />
@@ -50,7 +53,8 @@ class ImportedAddressesContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  activeAddresses: selectors.core.common.bitcoin.getActiveAddresses(state)
+  activeAddresses: selectors.core.common.bitcoin.getActiveAddresses(state),
+  search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -13,7 +13,7 @@ const Container = styled.div`
 
   @media(min-width: 768px) {
     flex-direction: row;
-    justify-content: space-between; 
+    justify-content: space-between;
   }
 `
 const QRCodeContainer = styled.div`

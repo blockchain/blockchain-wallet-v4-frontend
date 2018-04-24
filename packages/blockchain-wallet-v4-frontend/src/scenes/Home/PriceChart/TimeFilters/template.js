@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
 const FilterContainer = styled(Text)`
   color: ${props => props.selected ? props.theme['brand-primary'] : props.theme['gray-3']};
-  border-bottom: ${props => props.selected ? `2px solid ${props.theme['brand-primary']}` : 'none'};
+  border-bottom: ${props => props.selected ? `2px solid ${props.theme['brand-primary']}` : '2px solid transparent'};
   cursor: pointer;
 `
 
