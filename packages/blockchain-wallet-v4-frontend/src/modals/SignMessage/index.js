@@ -33,7 +33,8 @@ class SignMessageContainer extends React.PureComponent {
 SignMessageContainer.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
+  closeAll: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => ({

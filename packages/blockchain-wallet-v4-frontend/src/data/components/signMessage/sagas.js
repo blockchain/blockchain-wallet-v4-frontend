@@ -22,7 +22,6 @@ export default ({ coreSagas }) => {
         yield put(actions.alerts.displayError('Could sign message: private key error.'))
       }
     } catch (e) {
-      console.log(e)
       yield put(actions.alerts.displayError('Could sign message.'))
     }
   }

@@ -13,7 +13,10 @@ class FirstStepContainer extends React.PureComponent {
     return <FirstStep
       address={address}
       closeAll={closeAll}
-      handleSubmit={() => signMessageActions.signMessageSubmitted(address, message)} />
+      handleSubmit={(e) => {
+        e.preventDefault()
+        signMessageActions.signMessageSubmitted(address, message)
+      }} />
   }
 }
 
