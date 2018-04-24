@@ -8,6 +8,7 @@ import FaqRow from './../FaqRow'
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
+  white-space: pre-line;
 `
 
 const GroupTitle = styled(Text)`

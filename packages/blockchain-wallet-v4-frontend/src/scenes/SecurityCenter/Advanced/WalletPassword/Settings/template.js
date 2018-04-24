@@ -9,7 +9,7 @@ import { SettingForm, SettingWrapper } from 'components/Setting'
 import { validStrongPassword } from 'services/FormHelper'
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, submitting, invalid, currentWalletPassword } = props
+  const { updateToggled, handleToggle, handleClick, submitting, invalid, currentWalletPassword, handleCancel } = props
   return (
     <SettingWrapper>
       <Button nature='primary' onClick={handleToggle}>
@@ -30,7 +30,7 @@ const Settings = (props) => {
           </Text>
           <Field name='walletPasswordConfirmation' validate={(value, allValues) => (value === allValues['newPassword']) ? undefined : 'Passwords do not match'} component={PasswordBox} />
           <ButtonGroup>
-            <Button nature='empty' capitalize onClick={handleToggle}>
+            <Button nature='empty' capitalize onClick={handleCancel}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.settings.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>

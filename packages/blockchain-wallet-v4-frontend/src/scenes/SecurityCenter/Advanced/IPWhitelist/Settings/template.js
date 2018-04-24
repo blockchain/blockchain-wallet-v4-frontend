@@ -9,7 +9,7 @@ import { validIpList } from 'services/FormHelper'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, currentWhitelist, submitting, invalid } = props
+  const { updateToggled, handleToggle, handleClick, currentWhitelist, submitting, invalid, handleCancel } = props
 
   return (
     <SettingWrapper>
@@ -21,7 +21,7 @@ const Settings = (props) => {
         <SettingForm>
           <Field name='IPWhitelist' validate={[validIpList]} component={TextBox} />
           <ButtonGroup>
-            <Button nature='empty' capitalize onClick={handleToggle}>
+            <Button nature='empty' capitalize onClick={handleCancel}>
               <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>

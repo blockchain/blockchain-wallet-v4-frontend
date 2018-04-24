@@ -6,6 +6,7 @@ import { Table, TableHeader, TableCell, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import OptionItem from '../OptionItem'
 import AddressRow from '../AddressRow'
+import { filter } from 'ramda'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -15,8 +16,9 @@ const ArchivedAddressesContainer = SettingHeader.extend`
   margin-top: 30px;
 `
 
-const Success = ({ archivedAddresses, onToggleArchived, onDelete }) => {
-  const archivedAddressesTableRows = archivedAddresses.map((address) => (
+const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
+  const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
+  const archivedAddressesTableRows = filter(isMatch, archivedAddresses).map((address) => (
     <AddressRow key={address.addr} address={address} renderOptions={() => [
       <OptionItem id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' onClick={() => onToggleArchived(address)} />,
       <OptionItem id='scenes.settings.addresses.delete_address' defaultMessage='Delete' onClick={() => onDelete(address)} />
@@ -26,10 +28,10 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete }) => {
   return (
     <Wrapper>
       <ArchivedAddressesContainer>
-        <FormattedMessage id='scenes.settings.addresses.archived_addrs' defaultMessage='Archived Bitcoin Addresses'/>
+        <FormattedMessage id='scenes.settings.addresses.archived_addrs' defaultMessage='Archived Bitcoin Addresses' />
       </ArchivedAddressesContainer>
       <SettingDescription style={spacing('mb-10')}>
-        <FormattedMessage id='scenes.settings.addresses.archived_addrs_desc' defaultMessage='Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.'/>
+        <FormattedMessage id='scenes.settings.addresses.archived_addrs_desc' defaultMessage='Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.' />
       </SettingDescription>
       {
         archivedAddressesTableRows.length > 0 &&
@@ -37,7 +39,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete }) => {
           <TableHeader>
             <TableCell width='80%'>
               <Text size='13px' weight={500} capitalize>
-                <FormattedMessage id='scenes.settings.archived_addrs.address' defaultMessage='Address'/>
+                <FormattedMessage id='scenes.settings.archived_addrs.address' defaultMessage='Address' />
               </Text>
             </TableCell>
           </TableHeader>

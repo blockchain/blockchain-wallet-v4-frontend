@@ -34,7 +34,7 @@ const ConfirmDisable2FA = (props) => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={close}>
-        <FormattedMessage id='modals.disable2fa.title' defaultMessage='Disable Two Step' />
+        <FormattedMessage id='modals.disable2fa.title' defaultMessage='Disable Two Factor' />
       </ModalHeader>
       <ModalBody>
         <Wrapper>
