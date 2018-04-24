@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import MobileNumberChange from './template.js'
 
@@ -27,7 +27,8 @@ class MobileNumberChangeContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  mobileNumber: formValueSelector('mobileNumberChange')(state, 'mobileNumber')
+  mobileNumber: formValueSelector('mobileNumberChange')(state, 'mobileNumber'),
+  countryCode: selectors.core.settings.getCountryCode(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
