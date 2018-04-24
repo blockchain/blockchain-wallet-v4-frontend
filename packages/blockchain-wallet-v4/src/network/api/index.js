@@ -10,8 +10,8 @@ import sfox from './sfox'
 import wallet from './wallet'
 import fetchService from './fetch'
 
-export default ({ options, apiCode } = {}) => {
-  const { get, post } = fetchService({ apiCode })
+export default ({ options, apiKey } = {}) => {
+  const { get, post } = fetchService({ apiKey })
   const apiUrl = options.domains.api
   const rootUrl = options.domains.root
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
