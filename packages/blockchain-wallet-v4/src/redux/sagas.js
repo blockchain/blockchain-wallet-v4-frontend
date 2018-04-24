@@ -5,6 +5,7 @@ import webSocket from './webSocket/sagas'
 import walletOptions from './walletOptions/sagas'
 import kvStore from './kvStore/sagas'
 import refresh from './refresh/sagas'
+import payment from './payment/sagas'
 
 export default ({ api, socket }) => ({
   data: data({ api }),
@@ -13,5 +14,6 @@ export default ({ api, socket }) => ({
   walletOptions: walletOptions({ api }),
   webSocket: webSocket({ api, socket }),
   kvStore: kvStore({ api }),
-  refresh: refresh({ api })
+  refresh: refresh({ api }),
+  payment: payment({ api })
 })

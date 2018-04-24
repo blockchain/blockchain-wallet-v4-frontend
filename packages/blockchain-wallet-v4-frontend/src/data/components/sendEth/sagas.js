@@ -1,0 +1,117 @@
+import { call, select, takeLatest, put } from 'redux-saga/effects'
+import { equals, identity, path, prop } from 'ramda'
+import * as AT from './actionTypes'
+import * as A from './actions'
+import * as S from './selectors'
+import * as actions from '../../actions'
+import * as selectors from '../../selectors'
+import settings from 'config'
+
+import { actionTypes, initialize, change } from 'redux-form'
+import { promptForSecondPassword } from 'services/SagaService'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+
+export default ({ coreSagas }) => {
+  const sendEthInitialized = function * (action, password) {
+    try {
+      yield put(A.sendEthPaymentUpdated(Remote.Loading))
+      let payment = coreSagas.payment.eth.create(({ network: settings.NETWORK_ETHEREUM }))
+      payment = yield payment.init()
+      payment = yield payment.from()
+      const initialValues = { coin: 'ETH' }
+      yield put(initialize('sendEth', initialValues))
+      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield
+    } catch (e) {
+      console.log('error: ', e)
+    }
+  }
+
+  const firstStepSubmitClicked = function * (action) {
+    try {
+      let p = yield select(S.getPayment)
+      yield put(A.sendEthPaymentUpdated(Remote.Loading))
+      let payment = coreSagas.payment.eth.create({ payment: p.getOrElse({}), network: settings.NETWORK_ETHEREUM })
+      payment = yield payment.build()
+      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const formChanged = function * (action) {
+    try {
+      const form = path(['meta', 'form'], action)
+      const field = path(['meta', 'field'], action)
+      const payload = prop('payload', action)
+      if (!equals('sendEth', form)) return
+      let p = yield select(S.getPayment)
+      let payment = coreSagas.payment.eth.create({ payment: p.getOrElse({}), network: settings.NETWORK_ETHEREUM })
+
+      switch (field) {
+        case 'coin':
+          yield put(actions.modals.closeAllModals())
+          switch (payload) {
+            case 'BTC': yield put(actions.modals.showModal('SendBitcoin')); break
+            case 'BCH': yield put(actions.modals.showModal('SendBch')); break
+          }
+          break
+        case 'to':
+          payment = yield payment.to(payload)
+          break
+        case 'amount':
+          const ethAmount = prop('coin', payload)
+          const weiAmount = Exchange.convertEtherToEther({ value: ethAmount, fromUnit: 'ETH', toUnit: 'WEI' }).value
+          payment = yield payment.amount(weiAmount)
+          break
+        case 'message':
+          payment = yield payment.description(payload)
+          break
+      }
+      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const maximumAmountClicked = function * () {
+    try {
+      const appState = yield select(identity)
+      const currency = selectors.core.settings.getCurrency(appState).getOrFail('Can not retrieve currency.')
+      const ethRates = selectors.core.data.ethereum.getRates(appState).getOrFail('Can not retrieve ethereum rates.')
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const effectiveBalance = prop('effectiveBalance', payment)
+      const coin = Exchange.convertEtherToEther({ value: effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
+      const fiat = Exchange.convertEtherToFiat({ value: effectiveBalance, fromUnit: 'WEI', toCurrency: currency, rates: ethRates }).value
+      yield put(change('sendEth', 'amount', { coin, fiat }))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const secondStepSubmitClicked = function * () {
+    try {
+      let p = yield select(S.getPayment)
+      let payment = coreSagas.payment.eth.create({ payment: p.getOrElse({}), network: settings.NETWORK_ETHEREUM })
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+      payment = yield payment.publish()
+      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.router.push('/eth/transactions'))
+      yield put(actions.alerts.displaySuccess('Ether transaction has been successfully published!'))
+    } catch (e) {
+      console.log(e)
+      yield put(actions.alerts.displayError('Ether transaction could not be published.'))
+    }
+  }
+
+  return function * () {
+    yield takeLatest(AT.SEND_ETH_INITIALIZED, sendEthInitialized)
+    yield takeLatest(AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
+    yield takeLatest(AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED, maximumAmountClicked)
+    yield takeLatest(AT.SEND_ETH_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
+    yield takeLatest(actionTypes.CHANGE, formChanged)
+  }
+}
