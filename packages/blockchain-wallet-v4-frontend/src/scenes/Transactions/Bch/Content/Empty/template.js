@@ -38,7 +38,7 @@ const Empty = props => {
           <FormattedMessage id='scenes.transactions.bch.content.empty.transactions' defaultMessage='Your transactions' />
         </Text>
         <Text size='14px' weight={300}>
-          <FormattedMessage id='scenes.transactions.bch.content.empty.explain' defaultMessage='Transactions occur when your receive and send bitcoin cash.' />
+          <FormattedMessage id='scenes.transactions.bch.content.empty.explain' defaultMessage='Transactions occur when you receive and send bitcoin cash.' />
         </Text>
         <Separator />
       </Transactions>

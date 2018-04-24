@@ -19,7 +19,7 @@ const TextInput = styled.input.attrs({ type: 'text' })`
   box-sizing: border-box;
   font-size: 14px;
   font-weight: 300;
-  line-height: 1.42;
+  font-family: 'Montserrat', sans-serif;
   color: ${props => props.theme['gray-5']};
   background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
   background-image: none;

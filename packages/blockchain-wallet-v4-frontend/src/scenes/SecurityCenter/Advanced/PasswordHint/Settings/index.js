@@ -31,7 +31,9 @@ class SettingsContainer extends React.PureComponent {
     return <Settings {...rest}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
-      handleClick={this.handleClick} />
+      handleClick={this.handleClick}
+      handleCancel={() => { this.props.formActions.reset('settingPasswordHint'); this.handleToggle() }}
+    />
   }
 }
 

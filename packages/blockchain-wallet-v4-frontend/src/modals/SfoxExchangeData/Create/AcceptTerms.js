@@ -85,7 +85,7 @@ class AcceptTerms extends Component {
 
   render () {
     const { busy } = this.state
-    const { invalid, email, smsNumber, signupError, editEmail, editMobile } = this.props
+    const { invalid, email, smsNumber, signupError, editEmail, editMobile, emailVerified, smsVerified } = this.props
 
     const faqHelper = () => helpers.map(el => <Helper question={el.question} answer={el.answer} />)
 
@@ -117,7 +117,7 @@ class AcceptTerms extends Component {
                     </Link>
                   </FieldBox>
                   <IconContainer>
-                    { email && <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> }
+                    { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
@@ -135,14 +135,14 @@ class AcceptTerms extends Component {
                     </Link>
                   </FieldBox>
                   <IconContainer>
-                    { smsNumber && <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> }
+                    { smsVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
             </FieldsContainer>
             <AcceptTermsContainer>
               <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="The legal stuff: Accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>." />
+                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="The legal stuff: Accept Blockchain's <a href='https://www.blockchain.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, SFOX's <a href='https://www.sfox.com/terms.html' target='_blank' rel='noopener noreferrer'>Terms of Service</a> and SFOX's <a href='https://www.sfox.com/privacy.html' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>." />
               </Field>
             </AcceptTermsContainer>
           </InputWrapper>

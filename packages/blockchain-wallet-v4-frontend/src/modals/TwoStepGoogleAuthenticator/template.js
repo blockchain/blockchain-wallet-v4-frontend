@@ -33,7 +33,7 @@ const TwoStepGoogleAuthenticator = (props) => {
     <Modal size='large' position={position} total={total}>
       <Form onSubmit={onSubmit}>
         <ModalHeader onClose={closeAll}>
-          <FormattedMessage id='modals.twostepgoogleauthenticator.title' defaultMessage='Enable 2-Step Verification' />
+          <FormattedMessage id='modals.twostepgoogleauthenticator.title' defaultMessage='Enable Two-factor Authentication' />
         </ModalHeader>
         <ModalBody>
           <QRCode>
