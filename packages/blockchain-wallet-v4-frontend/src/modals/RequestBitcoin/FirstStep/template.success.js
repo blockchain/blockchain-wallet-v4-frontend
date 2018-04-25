@@ -81,7 +81,7 @@ const FirstStep = props => {
           <FormLabel for='to'>
             <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive To:' />
           </FormLabel>
-          <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} props={{ includeAll: false }} />
+          <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'20px'}>

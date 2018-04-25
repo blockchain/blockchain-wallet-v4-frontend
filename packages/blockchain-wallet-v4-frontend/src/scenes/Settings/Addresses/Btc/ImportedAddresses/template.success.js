@@ -24,7 +24,7 @@ const WarningWrapper = styled.div`
   }
 `
 
-const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv, search }) => {
+const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv, onShowSignMessage, search }) => {
   const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address) => (
     <AddressRow key={address.addr} address={address} renderOptions={() => [
@@ -32,7 +32,7 @@ const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPri
     ].concat(
       !address.priv ? [] : [
         <OptionItem id='scens.settings.addresses.show_priv' defaultMessage='Private Key' onClick={() => onShowPriv(address)} />,
-        <OptionItem id='scens.settings.addresses.sign_message' defaultMessage='Sign Message' onClick={() => console.log('sign_message')} />
+        <OptionItem id='scens.settings.addresses.sign_message' defaultMessage='Sign Message' onClick={() => onShowSignMessage(address)} />
       ]
     )} />
   ))

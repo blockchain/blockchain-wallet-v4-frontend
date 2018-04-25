@@ -11,7 +11,7 @@ import PasswordHint from './PasswordHint'
 import WalletPassword from './WalletPassword'
 import SecondPasswordWallet from './SecondPasswordWallet'
 
-import { IconButton, Text } from 'blockchain-info-components'
+import { Link } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 const AdvancedContainer = styled.div`
@@ -20,17 +20,15 @@ const AdvancedContainer = styled.div`
 export default class Advanced extends PureComponent {
   componentDidMount () {
     const button = document.getElementById('advanced-button')
-    button.scrollIntoView({behavior: 'instant'})
+    button.scrollIntoView()
   }
 
   render () {
     return (
       <AdvancedContainer>
-        {!this.props.tabs && <IconButton name='left-arrow' onClick={() => this.props.setView('security')} id='advanced-button'>
-          <Text size='14px' weight={300}>
-            <FormattedMessage id='scenes.securitycenter.advanced.goback' defaultMessage='Go Back' />
-          </Text>
-        </IconButton>}
+        {!this.props.tabs && <Link size='14px' weight={300} onClick={() => this.props.setView('security')} id='advanced-button'>
+          <FormattedMessage id='scenes.securitycenter.advanced.goback' defaultMessage='< Back' />
+        </Link>}
         <WalletPassword />
         <PasswordHint />
         <SecondPasswordWallet />
