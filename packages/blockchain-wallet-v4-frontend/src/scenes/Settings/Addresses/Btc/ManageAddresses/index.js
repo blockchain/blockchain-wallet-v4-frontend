@@ -17,6 +17,7 @@ const InnerWrapper = styled.div`
 class ManageAddressesContainer extends React.PureComponent {
   render () {
     const walletIndex = this.props.computedMatch.params.index
+
     return (
       <Wrapper>
         <HorizontalMenu>

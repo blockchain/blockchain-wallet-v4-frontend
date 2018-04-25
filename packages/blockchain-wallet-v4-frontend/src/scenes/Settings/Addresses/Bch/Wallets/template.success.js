@@ -26,13 +26,14 @@ const ClickableText = styled(Text)`
 const InfoLabel = styled(Text)`
   display: block;
   margin-left: 10px;
-  padding: 1px 5px;
+  padding: 4px;
   box-sizing: border-box;
   border-radius: 3px;
   background-color: ${props => props.theme[props.bgcolor]};
   color: ${props => props.theme['white']};
   font-size: 12px;
   font-weight: 400;
+  height: 22px;
 `
 
 const Manage = () => (

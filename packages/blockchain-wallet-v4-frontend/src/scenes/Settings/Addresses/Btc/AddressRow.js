@@ -8,6 +8,9 @@ const AddressTableCell = styled(TableCell)`
   align-items: center;
   min-height: 23px;
 `
+const AddressCell = styled(Text)`
+  margin-right: 6px;
+`
 
 const MoreOptions = () => (
   <Link weight={200} size='small'>
@@ -19,9 +22,9 @@ const AddressRow = ({ address, coin, renderOptions }) => {
   return (
     <TableRow>
       <AddressTableCell width='40%' style={{ display: 'flex' }}>
-        <Text size='13px'>{address.addr}</Text>
+        <AddressCell size='13px'>{address.addr}</AddressCell>
         {address.priv == null && (
-          <Banner type='informational' inline>
+          <Banner type='informational' inline label>
             <FormattedMessage id='scenes.settings.manage_addresses.watch_only' defaultMessage='Watch Only' />
           </Banner>
         )}
