@@ -1,10 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Table, TableHeader, TableCell, TableRow, Text, IconButton, Link } from 'blockchain-info-components'
+import { Banner, Table, TableHeader, TableCell, TableRow, Text, IconButton, Link } from 'blockchain-info-components'
 import { filter } from 'ramda'
 
 const Wrapper = styled.section`
@@ -17,17 +17,8 @@ const WalletTableCell = styled(TableCell)`
   align-items: center;
   min-height: 23px;
 `
-const InfoLabel = styled(Text)`
-  display: block;
-  margin-left: 10px;
-  padding: 4px;
-  box-sizing: border-box;
-  border-radius: 3px;
-  background-color: ${props => props.theme[props.bgcolor]};
-  color: ${props => props.theme['white']};
-  font-size: 12px;
-  font-weight: 400;
-  height: 22px;
+const LabelCell = styled(Text)`
+  margin-right: 6px;
 `
 
 const Success = ({ wallets, handleClick, onUnarchive, search }) => {
@@ -37,9 +28,9 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
     return (
       <TableRow key={wallet.index}>
         <WalletTableCell width='40%' style={{ display: 'flex' }}>
-          <Text size='13px'>{wallet.label}</Text>
-          {wallet.default && <InfoLabel bgcolor='brand-primary'>Default</InfoLabel>}
-          {wallet.archived && <InfoLabel bgcolor='gray-3'>Archived</InfoLabel>}
+          <LabelCell size='13px'>{wallet.label}</LabelCell>
+          {wallet.default && <Banner label><FormattedMessage id='scenes.settings.addresses.default_label' defaultMessage='Default' /></Banner>}
+          {wallet.archived && <Banner label type='informational'><FormattedMessage id='scenes.settings.addresses.archived_label' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
         <TableCell width='40%'>
           <SwitchableDisplay size='13px' coin='BTC'>{wallet.balance}</SwitchableDisplay>
