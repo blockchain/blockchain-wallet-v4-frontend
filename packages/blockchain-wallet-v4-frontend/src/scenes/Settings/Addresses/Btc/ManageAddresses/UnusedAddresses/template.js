@@ -1,7 +1,8 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Text, IconButton, Link, ComponentDropdown } from 'blockchain-info-components'
+import { Banner, Text, IconButton, Link, ComponentDropdown } from 'blockchain-info-components'
 import UnusedAddressesTable from './UnusedAddressesTable'
 import UnusedAddressesTableEntry from './UnusedAddressesTableEntry'
 import OptionItem from '../../OptionItem'
@@ -14,17 +15,24 @@ const MoreOptions = () => (
   </Link>
 )
 
+const WalletLabelCell = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const UnusedAddressesTemplate = ({ account, labels, receiveIndex, isDefault, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditBtcAccountLabel, onShowXPub, onMakeDefault, onSetArchived }) => (
   <Fragment>
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Text style={{ display: 'flex' }} weight={400}>
-        {account.label}
+      <WalletLabelCell>
+        <Text weight={400} style={{ marginRight: 10 }}>
+          {account.label}
+        </Text>
         {isDefault && (
-          <Text size='small' weight={300} style={{ marginLeft: 15 }}>
+          <Banner label>
             <FormattedMessage id='scene.settings.manage_addresses.is_default' defaultMessage='Default' />
-          </Text>
+          </Banner>
         )}
-      </Text>
+      </WalletLabelCell>
       <ComponentDropdown
         down
         forceSelected

@@ -13,15 +13,16 @@ class BitcoinWalletsContainer extends React.Component {
   }
 
   render () {
-    const { data, search, ...rest } = this.props
+    const { search, wallets, ...rest } = this.props
+
     return (
-      data.cata({
-        Success: (value) => (
+      wallets.cata({
+        Success: (wallets) => (
           <Success
-            wallets={value}
+            wallets={wallets}
             search={search && search.toLowerCase()}
             onUnarchive={(i) => this.props.coreActions.setAccountArchived(i, false)}
-            handleClick={() => this.props.actions.showModal('AddBitcoinWallet', { wallets: value })}
+            handleClick={() => this.props.actions.showModal('AddBitcoinWallet', { wallets: wallets })}
             {...rest}
           />
         ),
@@ -39,7 +40,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  data: getData(state),
+  wallets: getData(state),
   search: formValueSelector('settingsAddresses')(state, 'search')
 })
 

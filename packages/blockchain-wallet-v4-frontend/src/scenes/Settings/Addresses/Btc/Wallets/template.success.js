@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Table, TableHeader, TableCell, TableRow, Text, IconButton, Link } from 'blockchain-info-components'
-import { filter } from 'ramda'
+import { filter, take } from 'ramda'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -17,29 +17,40 @@ const WalletTableCell = styled(TableCell)`
   align-items: center;
   min-height: 23px;
 `
+const InfoLabel = styled(Text)`
+  display: block;
+  margin-left: 10px;
+  padding: 4px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background-color: ${props => props.theme[props.bgcolor]};
+  color: ${props => props.theme['white']};
+  font-size: 12px;
+  font-weight: 400;
+  height: 22px;
+`
 
 const Success = ({ wallets, handleClick, onUnarchive, search }) => {
   const isMatch = (wallet) => !search || wallet.label.toLowerCase().indexOf(search) > -1
 
   const walletTableRows = filter(isMatch, wallets).map((wallet) => {
     return (
-      <TableRow key={wallet.value.index}>
+      <TableRow key={wallet.index}>
         <WalletTableCell width='40%' style={{ display: 'flex' }}>
           <Text size='13px'>{wallet.label}</Text>
-          {wallet.value.archived && (
-            <Text size='13px' weight={300} style={{ marginLeft: 10 }}>Archived</Text>
-          )}
+          {wallet.default && <InfoLabel bgcolor='brand-primary'>Default</InfoLabel>}
+          {wallet.archived && <InfoLabel bgcolor='gray-3'>Archived</InfoLabel>}
         </WalletTableCell>
         <TableCell width='40%'>
-          <SwitchableDisplay size='13px' coin='BTC'>{wallet.value.balance}</SwitchableDisplay>
+          <SwitchableDisplay size='13px' coin='BTC'>{wallet.balance}</SwitchableDisplay>
         </TableCell>
         <TableCell width='20%'>
-          {wallet.value.archived ? (
-            <Link weight={200} size='small' onClick={() => onUnarchive(wallet.value.index)}>
+          {wallet.archived ? (
+            <Link weight={200} size='small' onClick={() => onUnarchive(wallet.index)}>
               <FormattedMessage id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' />
             </Link>
           ) : (
-            <LinkContainer to={`/settings/addresses/btc/${wallet.value.index}`}>
+            <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
               <Link weight={200} size='small'>
                 <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage' />
               </Link>
