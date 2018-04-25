@@ -10,7 +10,7 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
     return concat([{ group: '', items: [{ value: 'all', text: `My Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets` }] }])
   }
   render () {
-    const { data, coin, ...rest } = this.props
+    const { data, coin, includeAll, ...rest } = this.props
 
     return data.cata({
       Success: (value) => {
@@ -27,6 +27,14 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
       NotAsked: () => <div />
     })
   }
+}
+
+SelectBoxBitcoinAddresses.propTypes = {
+  includeAll: PropTypes.bool
+}
+
+SelectBoxBitcoinAddresses.defaultProps = {
+  includeAll: true
 }
 
 const mapStateToProps = (state, ownProps) => ({
