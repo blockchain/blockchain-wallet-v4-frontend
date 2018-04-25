@@ -29,7 +29,7 @@ const Success = (props) => {
 
   const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
 
-  const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address, i) => {
+  const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address) => {
     return (<AddressRow key={address.addr} address={address} coin='BCH' />)
   })
 

@@ -1,8 +1,11 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
+import { actions } from 'data'
 import UsedAddressesTemplate from './template'
 
-export default class UsedAddressesContainer extends React.PureComponent {
+class UsedAddressesContainer extends React.PureComponent {
   constructor (props) {
     super(props)
 
@@ -11,6 +14,7 @@ export default class UsedAddressesContainer extends React.PureComponent {
   }
 
   onShowUsedAddresses () {
+    this.props.modalsActions.showModal('ShowUsedAddresses')
     this.setState({ usedAddressesVisible: !this.state.usedAddressesVisible })
   }
 
@@ -18,3 +22,9 @@ export default class UsedAddressesContainer extends React.PureComponent {
     return <UsedAddressesTemplate usedAddressesVisible={this.state.usedAddressesVisible} onShowUsedAddresses={this.onShowUsedAddresses} />
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  modalsActions: bindActionCreators(actions.modals, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(UsedAddressesContainer)
