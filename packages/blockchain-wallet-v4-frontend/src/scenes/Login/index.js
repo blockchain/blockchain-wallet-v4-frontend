@@ -23,8 +23,6 @@ class LoginContainer extends React.PureComponent {
     event.preventDefault()
     const { guid, password, code } = this.props
     this.props.authActions.login(guid, password, code)
-    const upperCode = code && code.toUpperCase()
-    this.props.authActions.login(guid, password, upperCode)
   }
 
   handleMobile () {

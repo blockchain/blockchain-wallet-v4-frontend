@@ -1,7 +1,7 @@
-import { path } from 'ramda'
+import { curry, path } from 'ramda'
 import { dataPath } from '../../paths'
 
-export const getPair = (pair, state) => path([dataPath, 'shapeShift', pair], state)
+export const getPair = curry((pair, state) => path([dataPath, 'shapeShift', pair], state))
 
 export const getOrder = path([dataPath, 'shapeShift', 'order'])
 

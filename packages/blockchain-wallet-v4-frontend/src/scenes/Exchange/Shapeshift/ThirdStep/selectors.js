@@ -1,18 +1,18 @@
-import { prop, path } from 'ramda'
-import { selectors } from 'data'
+// import { selectors } from 'data'
 
-export const getData = (state) => {
-  const depositAddress = selectors.core.data.shapeShift.getOrder(state).map(x => prop('deposit', x)).getOrElse('')
-  const tradeR = selectors.core.kvStore.shapeShift.getTrade(depositAddress, state)
+export const getData = state => {
+  // const order = selectors.components.getOrder(state)
+  // const { coinSource, coinTarget } =
 
-  const transform = (trade) => ({
-    status: prop('status', trade),
-    exchangeRate: path(['quote', 'quotedRate'], trade),
-    transactionFee: path(['quote', 'minerFee'], trade),
-    orderId: path(['quote', 'orderId'], trade),
-    depositAmount: path(['quote', 'depositAmount'], trade),
-    withdrawalAmount: path(['quote', 'withdrawalAmount'], trade)
-  })
-
-  return tradeR.map(transform)
+  return {
+    sourceCoin: 'BTC',
+    targetCoin: 'ETH',
+    sourceAmount: '0.00001',
+    status: 'completed',
+    exchangeRate: '0.04406172',
+    transactionFee: '0.0002',
+    orderId: 'ce86e3e0-42b6-42df-ac17-59add4b013d9',
+    depositAmount: '0.00002',
+    withdrawalAmount: '0.0006'
+  }
 }

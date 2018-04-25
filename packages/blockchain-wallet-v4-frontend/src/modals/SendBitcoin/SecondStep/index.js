@@ -4,23 +4,25 @@ import { bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
 import { actions } from 'data'
-import SendConfirm from 'components/SendConfirm'
+
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleSubmit (e) {
-    e.preventDefault()
-    const { selection } = this.props.data
-    this.props.sendBitcoinActions.sendBitcoin(selection)
-  }
-
   render () {
-    const { data, modalActions, ...rest } = this.props
-    return <SendConfirm {...rest} {...data} handleSubmit={this.handleSubmit} coin='BTC' closeAll={modalActions.closeAllModals} />
+    const { data, actions } = this.props
+    return data.cata({
+      Success: (value) => <Success
+        {...value}
+        coin='BTC'
+        handleSubmit={() => actions.sendBtcSecondStepSubmitClicked()}
+        handleBack={() => actions.sendBtcSecondStepCancelClicked()}
+      />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
@@ -29,8 +31,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  sendBitcoinActions: bindActionCreators(actions.modules.sendBitcoin, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)
