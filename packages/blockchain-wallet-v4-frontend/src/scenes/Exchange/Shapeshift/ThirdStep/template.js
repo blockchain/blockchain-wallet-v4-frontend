@@ -124,7 +124,7 @@ const InfoRow = styled.div`
 `
 
 const Success = props => {
-  const { close, sourceCoin, targetCoin, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount } = trade
+  const { close, sourceCoin, targetCoin, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount } = props
   const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
 
   return (

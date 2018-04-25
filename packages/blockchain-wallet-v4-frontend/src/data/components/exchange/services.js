@@ -13,6 +13,7 @@ export const getCoinFromPair = pair => {
     case 'bch_eth': return { coinSource: 'BCH', targetCoin: 'ETH' }
     case 'eth_btc': return { coinSource: 'ETH', targetCoin: 'BTC' }
     case 'eth_bch': return { coinSource: 'ETH', targetCoin: 'BCH' }
+    default: throw new Error('Could not retrieve coins from pair.')
   }
 }
 
@@ -21,6 +22,7 @@ export const convertCoinToFiat = (value, fromCoin, fromUnit, toCurrency, rates) 
     case 'BCH': return Exchange.convertBchToFiat({ value, fromUnit, toCurrency, rates })
     case 'BTC': return Exchange.convertBitcoinToFiat({ value, fromUnit, toCurrency, rates })
     case 'ETH': return Exchange.convertEtherToFiat({ value, fromUnit, toCurrency, rates })
+    default: throw new Error('Could not convert coin to fiat.')
   }
 }
 
@@ -29,6 +31,7 @@ export const convertFiatToCoin = (value, fromCurrency, toCoin, toUnit, rates) =>
     case 'BCH': return Exchange.convertFiatToBch({ value, fromCurrency, toUnit, rates })
     case 'BTC': return Exchange.convertFiatToBitcoin({ value, fromCurrency, toUnit, rates })
     case 'ETH': return Exchange.convertFiatToEther({ value, fromCurrency, toUnit, rates })
+    default: throw new Error('Could not convert fiat to coin.')
   }
 }
 
@@ -37,6 +40,7 @@ export const convertBaseToStandard = (coin, value) => {
     case 'BCH': return Exchange.convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' }).value
     case 'BTC': return Exchange.convertBitcoinToBitcoin({ value, fromUnit: 'SAT', toUnit: 'BTC' }).value
     case 'ETH': return Exchange.convertEtherToEther({ value, fromUnit: 'WEI', toUnit: 'ETH' }).value
+    default: throw new Error('Could not convert coin to base.')
   }
 }
 
@@ -45,6 +49,7 @@ export const convertStandardToBase = (coin, value) => {
     case 'BCH': return Exchange.convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' }).value
     case 'BTC': return Exchange.convertBitcoinToBitcoin({ value, fromUnit: 'BTC', toUnit: 'SAT' }).value
     case 'ETH': return Exchange.convertEtherToEther({ value, fromUnit: 'ETH', toUnit: 'WEI' }).value
+    default: throw new Error('Could not convert base to coin.')
   }
 }
 

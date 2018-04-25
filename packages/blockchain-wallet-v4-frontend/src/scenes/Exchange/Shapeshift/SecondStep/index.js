@@ -31,7 +31,7 @@ class SecondStepContainer extends React.Component {
       />,
       Failure: (message) => <Error />,
       Loading: () => <Loading />,
-      NotAsked: () => <Success />
+      NotAsked: () => <Loading />
     })
   }
 }
