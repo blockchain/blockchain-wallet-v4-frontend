@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Field, reduxForm } from 'redux-form'
 
 import { TextBox } from 'components/Form'
-import { Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
 import UnusedAddresses from './UnusedAddresses'
 import UsedAddresses from './UsedAddresses'
 
