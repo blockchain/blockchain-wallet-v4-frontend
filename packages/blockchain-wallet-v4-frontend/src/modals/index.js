@@ -23,6 +23,7 @@ import SendBitcoin from './SendBitcoin'
 import SendEther from './SendEther'
 import SfoxExchangeData from './SfoxExchangeData'
 import ShowPrivateKey from './ShowPrivateKey'
+import ShowUsedAddresses from './ShowUsedAddresses'
 import ShowXPub from './ShowXPub'
 import SfoxTradeDetails from './SfoxTradeDetails'
 import TransactionReport from './TransactionReport'
@@ -58,6 +59,7 @@ const Modals = props => (
     <SendEther />
     <SfoxExchangeData />
     <ShowPrivateKey />
+    <ShowUsedAddresses />
     <ShowXPub />
     <SfoxTradeDetails />
     <TransactionReport />
