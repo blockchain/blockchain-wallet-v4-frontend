@@ -5,7 +5,8 @@ import { lift } from 'ramda'
 export const getData = state => {
   const smsNumber = selectors.core.settings.getSmsNumber(state)
   const smsVerified = selectors.core.settings.getSmsVerified(state)
-  const f = (s, v) => ({ smsNumber: s, smsVerified: v })
+  const authType = selectors.core.settings.getAuthType(state)
+  const f = (s, v, a) => ({ smsNumber: s, smsVerified: v, authType: a })
 
-  return lift(f)(smsNumber, smsVerified)
+  return lift(f)(smsNumber, smsVerified, authType)
 }

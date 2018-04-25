@@ -2,11 +2,15 @@ import { path } from 'ramda'
 
 export const getStep = path(['components', 'exchange', 'step'])
 
+export const getPayment = path(['components', 'exchange', 'payment'])
+
+export const getOrder = path(['components', 'exchange', 'order'])
+
 export const getFirstStep = path(['components', 'exchange', 'firstStep'])
 
-export const getFirstStepLoading = path(['components', 'exchange', 'firstStep', 'loading'])
+export const getError = path(['components', 'exchange', 'error'])
 
-export const getFirstStepError = path(['components', 'exchange', 'firstStep', 'error'])
+export const getFirstStepEnabled = path(['components', 'exchange', 'firstStepEnabled'])
 
 export const getSecondStep = path(['components', 'exchange', 'secondStep'])
 
