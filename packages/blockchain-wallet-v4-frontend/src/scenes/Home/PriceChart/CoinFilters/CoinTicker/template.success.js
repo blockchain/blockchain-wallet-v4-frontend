@@ -13,6 +13,7 @@ const Wrapper = styled.div`
 
 const Success = props => {
   const { coin, fiat, selected, handleClick } = props
+  console.log(props)
 
   return (
     <Wrapper selected={selected}>
